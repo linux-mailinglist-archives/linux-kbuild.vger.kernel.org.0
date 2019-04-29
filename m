@@ -2,243 +2,210 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F3E3DAB0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Apr 2019 05:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC5BEDACE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Apr 2019 05:29:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbfD2DQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Apr 2019 23:16:28 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:38156 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726819AbfD2DQ2 (ORCPT
+        id S1727112AbfD2D3g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Apr 2019 23:29:36 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:25544 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726819AbfD2D3g (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Apr 2019 23:16:28 -0400
-Received: from grover.flets-west.jp (softbank126125154137.bbtec.net [126.125.154.137]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x3T3FcVU011166;
-        Mon, 29 Apr 2019 12:15:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x3T3FcVU011166
+        Sun, 28 Apr 2019 23:29:36 -0400
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x3T3TIZJ024297;
+        Mon, 29 Apr 2019 12:29:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x3T3TIZJ024297
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1556507738;
-        bh=16jxTJlqvgdtc0bmtHW26mp1fSFaCwPHhBiW8YOQYHQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=SXaiy2bz37BrBxiz7TFTYS5t5vhN3JA7tjv4a+WVBigceHeCEde/RgD8N0DlyfmPk
-         h6I8LVmQ3OXIwlb6XDD+ATEi2JyfisChSuPQy6t0nZCvV7oeFEqmS2uBTjjd7XptMT
-         VeZ63rTEDBkhnBuOuySOrWaDylpR3t4qFmhaQAnbvB+B/+NV+GSj8rCuLYqsVWj9Nx
-         4HkAvSn6rzt0KW5dCDSdawv4KQ43G6/GciM0RAn3S/fo59ouoo3exwmD2QecV/i+RH
-         7TAaDsffT+QHhTqnnhEsyfzFlWwFrSBRfhO7gISnzGz2FJvPP/WMVto4Y0liaC7oUx
-         5AMZSkItixgaA==
-X-Nifty-SrcIP: [126.125.154.137]
+        s=dec2015msa; t=1556508559;
+        bh=lJOip6NKVEZdJ+GyHV9kcB5DAPubvtdaStJ5AiM5BVQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=YOQFQ1Tw6JjzWFA5wIBYhhndgizsppkfEzPYKQzbbz2bq5kBsjeR9WYHChbj6D52Q
+         +zfc9/IaVIhLfOs94V9r/535f68O5ctgNbS05zqlj4FJeWHH8mO2E0Q5valWxs9RAI
+         7EU93UmaazPQYWs4gkAsnEKpbyFR6FQR36fZnnYeOqiFjujbhnDTapW8zXKMBf6Zq8
+         VYhsEVFO/AXpWzWbrpFAbBcKLpoVvgvulg2URqiYRMnG9p4SpQsKn0BjyA+k0ZB6cv
+         eNBSMe7VaL3xVTxVai7KhoY3zCM7ElHemLqA2yQOVV6QCqgKlpzTAQkix45Woh/eZS
+         KzdLUbpY9OvoA==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id b74so1954879vsd.9;
+        Sun, 28 Apr 2019 20:29:18 -0700 (PDT)
+X-Gm-Message-State: APjAAAX15Fcq8eRTU3dk8jIuG4ntjcojPLQKnbeWBUCjb4NYXDnz3w3g
+        G1x16N2uARjjEhLEWL1lYpz3551x2NwhQv/bgOY=
+X-Google-Smtp-Source: APXvYqzd63fRw57OTiwZ3jLHJmUKgfTQq7GcJY+Flzz9JB8ZRn1YdcwKtC8fJrY9yoTkjUUtwxIp2gfMX3kRfsjGYbc=
+X-Received: by 2002:a67:f105:: with SMTP id n5mr31518823vsk.181.1556508557655;
+ Sun, 28 Apr 2019 20:29:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190406121447.GB4047@localhost.localdomain> <CAK7LNATfo0K6kzwobkAZ_u2KnWL3XycJzbr3KPtPF=ePziCuDg@mail.gmail.com>
+ <20190418135238.GA5626@linux-8ccs> <CAK7LNARKHXLgniczKXY01JhxhBpL2p-X_hWg70AcsrXRaLyDSg@mail.gmail.com>
+ <20190418153611.GB5626@linux-8ccs> <CAK7LNARxT7a5-C4-ZuKYWOWyuDdMVzkd-n8C8vdO1MEw10TsJA@mail.gmail.com>
+ <20190426152904.GO9023@dhcp129-178.brq.redhat.com>
+In-Reply-To: <20190426152904.GO9023@dhcp129-178.brq.redhat.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Olaf Weber <olaf@sgi.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.co.uk>,
-        "Theodore Ts'o" <tytso@mit.edu>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+Date:   Mon, 29 Apr 2019 12:28:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASzvNf+RwXtdHAcmWXQx9QniLiiJVxe08jHh51KsahOcA@mail.gmail.com>
+Message-ID: <CAK7LNASzvNf+RwXtdHAcmWXQx9QniLiiJVxe08jHh51KsahOcA@mail.gmail.com>
+Subject: Re: [PATCH v2] moduleparam: Save information about built-in modules
+ in separate file
+To:     Alexey Gladkov <gladkov.alexey@gmail.com>
+Cc:     Jessica Yu <jeyu@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-api@vger.kernel.org, linux-modules@vger.kernel.org,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        "Dmitry V. Levin" <ldv@altlinux.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH v2] unicode: refactor the rule for regenerating utf8data.h
-Date:   Mon, 29 Apr 2019 12:15:31 +0900
-Message-Id: <1556507731-830-1-git-send-email-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.7.4
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-scripts/mkutf8data is used only when regenerating utf8data.h,
-which never happens in the normal kernel build. However, it is
-irrespectively built if CONFIG_UNICODE is enabled.
+On Sat, Apr 27, 2019 at 12:29 AM Alexey Gladkov
+<gladkov.alexey@gmail.com> wrote:
+>
+> On Fri, Apr 19, 2019 at 12:03:50PM +0900, Masahiro Yamada wrote:
+> > On Fri, Apr 19, 2019 at 12:36 AM Jessica Yu <jeyu@kernel.org> wrote:
+> > >
+> > > +++ Masahiro Yamada [19/04/19 00:26 +0900]:
+> > > >On Thu, Apr 18, 2019 at 10:52 PM Jessica Yu <jeyu@kernel.org> wrote:
+> > > >>
+> > > >> +++ Masahiro Yamada [18/04/19 20:10 +0900]:
+> > > >> >On Sat, Apr 6, 2019 at 9:15 PM Alexey Gladkov <gladkov.alexey@gmail.com> wrote:
+> > > >> >>
+> > > >> >> Problem:
+> > > >> >>
+> > > >> >> When a kernel module is compiled as a separate module, some important
+> > > >> >> information about the kernel module is available via .modinfo section of
+> > > >> >> the module.  In contrast, when the kernel module is compiled into the
+> > > >> >> kernel, that information is not available.
+> > > >> >>
+> > > >> >> Information about built-in modules is necessary in the following cases:
+> > > >> >>
+> > > >> >> 1. When it is necessary to find out what additional parameters can be
+> > > >> >> passed to the kernel at boot time.
+> > > >> >>
+> > > >> >> 2. When you need to know which module names and their aliases are in
+> > > >> >> the kernel. This is very useful for creating an initrd image.
+> > > >> >>
+> > > >> >> Proposal:
+> > > >> >>
+> > > >> >> The proposed patch does not remove .modinfo section with module
+> > > >> >> information from the vmlinux at the build time and saves it into a
+> > > >> >> separate file after kernel linking. So, the kernel does not increase in
+> > > >> >> size and no additional information remains in it. Information is stored
+> > > >> >> in the same format as in the separate modules (null-terminated string
+> > > >> >> array). Because the .modinfo section is already exported with a separate
+> > > >> >> modules, we are not creating a new API.
+> > > >> >>
+> > > >> >> It can be easily read in the userspace:
+> > > >> >>
+> > > >> >> $ tr '\0' '\n' < kernel.builtin
+> > > >> >> ext4.softdep=pre: crc32c
+> > > >> >> ext4.license=GPL
+> > > >> >> ext4.description=Fourth Extended Filesystem
+> > > >> >> ext4.author=Remy Card, Stephen Tweedie, Andrew Morton, Andreas Dilger, Theodore Ts'o and others
+> > > >> >> ext4.alias=fs-ext4
+> > > >> >> ext4.alias=ext3
+> > > >> >> ext4.alias=fs-ext3
+> > > >> >> ext4.alias=ext2
+> > > >> >> ext4.alias=fs-ext2
+> > > >> >> md_mod.alias=block-major-9-*
+> > > >> >> md_mod.alias=md
+> > > >> >> md_mod.description=MD RAID framework
+> > > >> >> md_mod.license=GPL
+> > > >> >> md_mod.parmtype=create_on_open:bool
+> > > >> >> md_mod.parmtype=start_dirty_degraded:int
+> > > >> >> ...
+> > > >> >>
+> > > >> >> v2:
+> > > >> >>  * Extract modinfo from vmlinux.o as suggested by Masahiro Yamada;
+> > > >> >>  * Rename output file to kernel.builtin;
+> > > >> >
+> > > >> >Sorry, I do not get why you renamed
+> > > >> >"kernel.builtin.modinfo" to "kernel.builtin".
+> > > >> >
+> > > >> >If you drop "modinfo", we do not understand
+> > > >> >what kind information is contained in it.
+> > > >> >
+> > > >> >I think "kernel" and "builtin" have
+> > > >> >a quite similar meaning here.
+> > > >> >
+> > > >> >How about "builtin.modinfo" for example?
+> > > >> >
+> > > >> >
+> > > >> >It is shorter, and it is clear enough
+> > > >> >that it contains module_info.
+> > > >>
+> > > >> I agree that the name kernel.builtin is unclear in what kind of
+> > > >> information it contains. Apologies for not having clarified this in
+> > > >> the previous review.
+> > > >>
+> > > >> Since kbuild already produces "modules.order" and "modules.builtin"
+> > > >> files, why not just name it "modules.builtin.modinfo" to keep the
+> > > >> names consistent with what is already there?
+> > > >
+> > > >
+> > > >Is it consistent?
+> > > >
+> > > >If we had "modules.order" and "modules.builtin.order" there,
+> > > >I would agree with "modules.builtin.modinfo",
+> > > >and also "modules.alias" vs "modules.builtin.alias".
+> > > >
+> > > >
+> > > >We already have "modules.builtin", and probably impossible
+> > > >to rename it, so we cannot keep consistency in any way.
+> > > >
+> > > >
+> > > >"modules.builtin" is a weird name since
+> > > >it actually contains "order", but its extension
+> > > >does not express what kind of information is in it.
+> > > >Hence, I doubt "modules.builtin" is a good precedent.
+> > > >
+> > > >IMHO, "modules" and "builtin" are opposite
+> > > >to each other. "modules.builtin" sounds iffy to me.
+> > >
+> > > I've always interpreted "modules.builtin" to mean "this is a list of
+> > > modules that have been built-in into the kernel", no? So I thought the
+> > > name made sense.
+> >
+> > OK, I see.
+> >
+> > > But you are the maintainer, so I do not have a strong
+> > > opinion on this either way :-)
+> >
+> > My idea was to use
+> > 'modules.<file-type>'  vs  'builtin.<file-type>'
+> > instead of
+> > 'modules.<file-type>'  vs  'modules.builtin.<file-type>'
+> >
+> > I am slightly in favor of the former
+> > since it is shorter and
+> > (I hope) still clear enough.
+> >
+> > If this naming is not nice for external projects such as kmod,
+> > please speak up.
+> >
+> >
+> > (BTW, I am thinking of renaming 'modules.builtin' into 'builtin.order'
+> > for kbuild internal. We cannot change that for the installation area, though.)
+>
+> Since there were no other suggestions, how can I better name the file ?
+> modules.builtin.modinfo or just builtin.modinfo ? I personally like the
+> first one more.
 
-Moreover, there is no good reason for it to reside in the scripts/
-directory since it is only used in fs/unicode/.
 
-Hence, move it from scripts/ to fs/unicode/.
+Either is fine.
 
-In some cases, we bypass build artifacts in the normal build. The
-conventional way to do so is to surround the code with ifdef REGENERATE_*.
+Please put it in Documentation/dontdiff too.
 
-For example,
+Thanks.
 
- - 7373f4f83c71 ("kbuild: add implicit rules for parser generation")
- - 6aaf49b495b4 ("crypto: arm,arm64 - Fix random regeneration of S_shipped")
 
-I rewrote the rule in a more kbuild'ish style.
 
-In the normal build, utf8data.h is just shipped from the check-in file.
-
-$ make
-  [ snip ]
-  SHIPPED fs/unicode/utf8data.h
-  CC      fs/unicode/utf8-norm.o
-  CC      fs/unicode/utf8-core.o
-  CC      fs/unicode/utf8-selftest.o
-  AR      fs/unicode/built-in.a
-
-If you want to generate utf8data.h based on UCD, put *.txt files into
-fs/unicode/, then pass REGENERATE_UTF8DATA=1 from the command line.
-The mkutf8data tool will be automatically compiled to generate the
-utf8data.h from the *.txt files.
-
-$ make REGENERATE_UTF8DATA=1
-  [ snip ]
-  HOSTCC  fs/unicode/mkutf8data
-  GEN     fs/unicode/utf8data.h
-  CC      fs/unicode/utf8-norm.o
-  CC      fs/unicode/utf8-core.o
-  CC      fs/unicode/utf8-selftest.o
-  AR      fs/unicode/built-in.a
-
-I renamed the check-in utf8data.h to utf8data.h_shipped so that this
-will work for the out-of-tree build.
-
-You can update it based on the latest UCD like this:
-
-$ make REGENERATE_UTF8DATA=1 fs/unicode/
-$ cp fs/unicode/utf8data.h fs/unicode/utf8data.h_shipped
-
-Also, I added entries to .gitignore and dontdiff.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
-Changes in v2:
- - Make this work correctly with O= option
-
- Documentation/dontdiff                        |  2 ++
- fs/unicode/.gitignore                         |  2 ++
- fs/unicode/Makefile                           | 41 ++++++++++++++++++++-------
- fs/unicode/README.utf8data                    |  9 +++---
- {scripts => fs/unicode}/mkutf8data.c          |  0
- fs/unicode/{utf8data.h => utf8data.h_shipped} |  0
- scripts/Makefile                              |  1 -
- 7 files changed, 38 insertions(+), 17 deletions(-)
- create mode 100644 fs/unicode/.gitignore
- rename {scripts => fs/unicode}/mkutf8data.c (100%)
- rename fs/unicode/{utf8data.h => utf8data.h_shipped} (100%)
-
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index ef25a06..9369377 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -176,6 +176,7 @@ mkprep
- mkregtable
- mktables
- mktree
-+mkutf8data
- modpost
- modules.builtin
- modules.order
-@@ -254,6 +255,7 @@ vsyscall_32.lds
- wanxlfw.inc
- uImage
- unifdef
-+utf8data.h
- wakeup.bin
- wakeup.elf
- wakeup.lds
-diff --git a/fs/unicode/.gitignore b/fs/unicode/.gitignore
-new file mode 100644
-index 0000000..0381e22
---- /dev/null
-+++ b/fs/unicode/.gitignore
-@@ -0,0 +1,2 @@
-+mkutf8data
-+utf8data.h
-diff --git a/fs/unicode/Makefile b/fs/unicode/Makefile
-index 671d31f..d46e9ba 100644
---- a/fs/unicode/Makefile
-+++ b/fs/unicode/Makefile
-@@ -5,15 +5,34 @@ obj-$(CONFIG_UNICODE_NORMALIZATION_SELFTEST) += utf8-selftest.o
- 
- unicode-y := utf8-norm.o utf8-core.o
- 
--# This rule is not invoked during the kernel compilation.  It is used to
--# regenerate the utf8data.h header file.
--utf8data.h.new: *.txt $(objdir)/scripts/mkutf8data
--	$(objdir)/scripts/mkutf8data \
--		-a DerivedAge.txt \
--		-c DerivedCombiningClass.txt \
--		-p DerivedCoreProperties.txt \
--		-d UnicodeData.txt \
--		-f CaseFolding.txt \
--		-n NormalizationCorrections.txt \
--		-t NormalizationTest.txt \
-+$(obj)/utf8-norm.o: $(obj)/utf8data.h
-+
-+# In the normal build, the checked-in utf8data.h is just shipped.
-+#
-+# To generate utf8data.h from UCD, put *.txt files in this directory
-+# and pass REGENERATE_UTF8DATA=1 from the command line.
-+ifdef REGENERATE_UTF8DATA
-+
-+quiet_cmd_utf8data = GEN     $@
-+      cmd_utf8data = $< \
-+		-a $(srctree)/$(src)/DerivedAge.txt \
-+		-c $(srctree)/$(src)/DerivedCombiningClass.txt \
-+		-p $(srctree)/$(src)/DerivedCoreProperties.txt \
-+		-d $(srctree)/$(src)/UnicodeData.txt \
-+		-f $(srctree)/$(src)/CaseFolding.txt \
-+		-n $(srctree)/$(src)/NormalizationCorrections.txt \
-+		-t $(srctree)/$(src)/NormalizationTest.txt \
- 		-o $@
-+
-+$(obj)/utf8data.h: $(obj)/mkutf8data $(filter %.txt, $(cmd_utf8data)) FORCE
-+	$(call if_changed,utf8data)
-+
-+else
-+
-+$(obj)/utf8data.h: $(src)/utf8data.h_shipped FORCE
-+	$(call if_changed,shipped)
-+
-+endif
-+
-+targets += utf8data.h
-+hostprogs-y += mkutf8data
-diff --git a/fs/unicode/README.utf8data b/fs/unicode/README.utf8data
-index eeb7561..459eebf 100644
---- a/fs/unicode/README.utf8data
-+++ b/fs/unicode/README.utf8data
-@@ -41,15 +41,14 @@ released version of the UCD can be found here:
- 
-   http://www.unicode.org/Public/UCD/latest/
- 
--To build the utf8data.h file, from a kernel tree that has been built,
--cd to this directory (fs/unicode) and run this command:
-+Then, build under fs/unicode/ with REGENERATE_UTF8DATA=1:
- 
--	make C=../.. objdir=../.. utf8data.h.new
-+	make REGENERATE_UTF8DATA=1 fs/unicode/
- 
--After sanity checking the newly generated utf8data.h.new file (the
-+After sanity checking the newly generated utf8data.h file (the
- version generated from the 12.1.0 UCD should be 4,109 lines long, and
- have a total size of 324k) and/or comparing it with the older version
--of utf8data.h, rename it to utf8data.h.
-+of utf8data.h_shipped, rename it to utf8data.h_shipped.
- 
- If you are a kernel developer updating to a newer version of the
- Unicode Character Database, please update this README.utf8data file
-diff --git a/scripts/mkutf8data.c b/fs/unicode/mkutf8data.c
-similarity index 100%
-rename from scripts/mkutf8data.c
-rename to fs/unicode/mkutf8data.c
-diff --git a/fs/unicode/utf8data.h b/fs/unicode/utf8data.h_shipped
-similarity index 100%
-rename from fs/unicode/utf8data.h
-rename to fs/unicode/utf8data.h_shipped
-diff --git a/scripts/Makefile b/scripts/Makefile
-index b87e3e0..9d442ee 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -20,7 +20,6 @@ hostprogs-$(CONFIG_ASN1)	 += asn1_compiler
- hostprogs-$(CONFIG_MODULE_SIG)	 += sign-file
- hostprogs-$(CONFIG_SYSTEM_TRUSTED_KEYRING) += extract-cert
- hostprogs-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE) += insert-sys-cert
--hostprogs-$(CONFIG_UNICODE) += mkutf8data
- 
- HOSTCFLAGS_sortextable.o = -I$(srctree)/tools/include
- HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
 -- 
-2.7.4
-
+Best Regards
+Masahiro Yamada
