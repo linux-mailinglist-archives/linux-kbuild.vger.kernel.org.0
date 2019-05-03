@@ -2,199 +2,179 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06C7812DAC
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 May 2019 14:33:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B373613035
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 May 2019 16:29:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbfECMdx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 May 2019 08:33:53 -0400
-Received: from ale.deltatee.com ([207.54.116.67]:45436 "EHLO ale.deltatee.com"
+        id S1727485AbfECO3F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 May 2019 10:29:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37518 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726047AbfECMdx (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 May 2019 08:33:53 -0400
-Received: from adsl-173-228-226-134.prtc.net ([173.228.226.134] helo=[172.20.29.49])
-        by ale.deltatee.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <logang@deltatee.com>)
-        id 1hMXNQ-0007dH-Hy; Fri, 03 May 2019 06:33:22 -0600
-To:     Brendan Higgins <brendanhiggins@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah@kernel.org, devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
+        id S1725283AbfECO3F (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 3 May 2019 10:29:05 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 5063258599;
+        Fri,  3 May 2019 14:29:04 +0000 (UTC)
+Received: from redhat.com (dhcp-17-208.bos.redhat.com [10.18.17.208])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 80E697BA09;
+        Fri,  3 May 2019 14:29:02 +0000 (UTC)
+Date:   Fri, 3 May 2019 10:29:00 -0400
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+To:     Miroslav Benes <mbenes@suse.cz>
+Cc:     linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Jessica Yu <jeyu@kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Joao Moreira <jmoreira@suse.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michael Matz <matz@suse.de>, Nicolai Stange <nstange@suse.de>,
         Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-9-brendanhiggins@google.com>
- <0a605543-477a-1854-eb35-6e586606889b@deltatee.com>
- <CAFd5g47hxAd=+72xbPJbWPdZCXRXmtLpsGhUh=zc7MSwfcaGJQ@mail.gmail.com>
-From:   Logan Gunthorpe <logang@deltatee.com>
-Message-ID: <b2379db6-634a-001e-6f67-37427d8a2666@deltatee.com>
-Date:   Fri, 3 May 2019 06:33:02 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Jason Baron <jbaron@akamai.com>,
+        Evgenii Shatokhin <eshatokhin@virtuozzo.com>
+Subject: Re: [PATCH v3 0/9] klp-convert livepatch build tooling
+Message-ID: <20190503142900.GB24094@redhat.com>
+References: <20190412212654.GA21627@redhat.com>
+ <alpine.LSU.2.21.1904161323230.17836@pobox.suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <CAFd5g47hxAd=+72xbPJbWPdZCXRXmtLpsGhUh=zc7MSwfcaGJQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 173.228.226.134
-X-SA-Exim-Rcpt-To: wfg@linux.intel.com, rostedt@goodmis.org, rientjes@google.com, richard@nod.at, pmladek@suse.com, mpe@ellerman.id.au, knut.omang@oracle.com, khilman@baylibre.com, julia.lawall@lip6.fr, joel@jms.id.au, jdike@addtoit.com, daniel@ffwll.ch, dan.j.williams@intel.com, dan.carpenter@oracle.com, amir73il@gmail.com, Tim.Bird@sony.com, Alexander.Levin@microsoft.com, linux-um@lists.infradead.org, linux-nvdimm@lists.01.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, shuah@kernel.org, sboyd@kernel.org, robh@kernel.org, mcgrof@kernel.org, kieran.bingham@ideasonboard.com, keescook@google.com, gregkh@linuxfoundation.org, frowand.list@gmail.com, brendanhiggins@google.com
-X-SA-Exim-Mail-From: logang@deltatee.com
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on ale.deltatee.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        GREYLIST_ISWHITE autolearn=ham autolearn_force=no version=3.4.2
-Subject: Re: [PATCH v2 08/17] kunit: test: add support for test abort
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LSU.2.21.1904161323230.17836@pobox.suse.cz>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.39]); Fri, 03 May 2019 14:29:04 +0000 (UTC)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Tue, Apr 16, 2019 at 01:37:13PM +0200, Miroslav Benes wrote:
+>
+> [ ... snip ... ]
+>
+> Quick look, but it seems quite similar to the problem we had with
+> apply_alternatives(). See arch/x86/kernel/livepatch.c and the commit which
+> introduced it.
 
+That was an interesting diversion :)  I think I grok the idea as:
 
-On 2019-05-03 12:48 a.m., Brendan Higgins wrote:
-> On Thu, May 2, 2019 at 8:15 PM Logan Gunthorpe <logang@deltatee.com> wrote:
->> On 2019-05-01 5:01 p.m., Brendan Higgins wrote:
->>> +/*
->>> + * struct kunit_try_catch - provides a generic way to run code which might fail.
->>> + * @context: used to pass user data to the try and catch functions.
->>> + *
->>> + * kunit_try_catch provides a generic, architecture independent way to execute
->>> + * an arbitrary function of type kunit_try_catch_func_t which may bail out by
->>> + * calling kunit_try_catch_throw(). If kunit_try_catch_throw() is called, @try
->>> + * is stopped at the site of invocation and @catch is catch is called.
->>
->> I found some of the C++ comparisons in this series a bit distasteful but
->> wasn't going to say anything until I saw the try catch.... But looking
->> into the implementation it's just a thread that can exit early which
->> seems fine to me. Just a poor choice of name I guess...
-> 
-> Guilty as charged (I have a long history with C++, sorry). Would you
-> prefer I changed the name? I just figured that try-catch is a commonly
-> understood pattern that describes exactly what I am doing.
+The kernel supports a few different code-patching methods:
 
-It is a commonly understood pattern, but I don't think it's what the
-code is doing. Try-catch cleans up an entire stack and allows each level
-of the stack to apply local cleanup. This implementation simply exits a
-thread and has none of that complexity. To me, it seems like an odd
-abstraction here as it's really just a test runner that can exit early
-(though I haven't seen the follow-up UML implementation).
+  - SMP locks
+  - alternatives
+  - paravirt
+  - jump labels
 
-I would prefer to see this cleaned up such that the abstraction matches
-more what's going on but I don't feel that strongly about it so I'll
-leave it up to you to figure out what's best unless other reviewers have
-stronger opinions.
+and we need to ensure that they do not prematurely operate on unresolved
+klp-relocations.  The solution that led to arch/x86/kernel/livepatch.c
+introduces "klp.arch" sections that rename such klp-relocations *and*
+their associated special section data structures.  Processing is then
+deferred until after a relevant klp_object is loaded.
 
->>
->> [snip]
->>
->>> +static void __noreturn kunit_abort(struct kunit *test)
->>> +{
->>> +     kunit_set_death_test(test, true);
->>> +
->>> +     kunit_try_catch_throw(&test->try_catch);
->>> +
->>> +     /*
->>> +      * Throw could not abort from test.
->>> +      *
->>> +      * XXX: we should never reach this line! As kunit_try_catch_throw is
->>> +      * marked __noreturn.
->>> +      */
->>> +     WARN_ONCE(true, "Throw could not abort from test!\n");
->>> +}
->>> +
->>>  int kunit_init_test(struct kunit *test, const char *name)
->>>  {
->>>       spin_lock_init(&test->lock);
->>> @@ -77,6 +103,7 @@ int kunit_init_test(struct kunit *test, const char *name)
->>>       test->name = name;
->>>       test->vprintk = kunit_vprintk;
->>>       test->fail = kunit_fail;
->>> +     test->abort = kunit_abort;
->>
->> There are a number of these function pointers which seem to be pointless
->> to me as you only ever set them to one function. Just call the function
->> directly. As it is, it is an unnecessary indirection for someone reading
->> the code. If and when you have multiple implementations of the function
->> then add the pointer. Don't assume you're going to need it later on and
->> add all this maintenance burden if you never use it..
-> 
-> Ah, yes, Frank (and probably others) previously asked me to remove
-> unnecessary method pointers; I removed all the totally unused ones. As
-> for these, I don't use them in this patchset, but I use them in my
-> patchsets that will follow up this one. These in particular are
-> present so that they can be mocked out for testing.
+> I think, we should do the same for jump labels. Add
+> jump_label_apply_nops() from module_finalize() to
+> arch_klp_init_object_loaded() and convert jump_table ELF section so its
+> processing is delayed.
 
-Adding indirection and function pointers solely for the purpose of
-mocking out while testing doesn't sit well with me and I don't think it
-should be a pattern that's encouraged. Adding extra complexity like this
-to a design to make it unit-testable doesn't seem like something that
-makes sense in kernel code. Especially given that indirect calls are
-more expensive in the age of spectre.
+Nod.  Tthat sounds about right.  There may be some more work yet in the
+static keys API as well, but I'm not 100%.
 
-Also, mocking these particular functions seems like it's an artifact of
-how you've designed the try/catch abstraction. If the abstraction was
-more around an abort-able test runner then it doesn't make sense to need
-to mock out the abort/fail functions as you will be testing overly
-generic features of something that don't seem necessary to the
-implementation.
+> Which leads me another TODO... klp-convert does not convert even
+> .altinstructions and .parainstructions sections, so it has that problem as
+> well. If I remember, it was on Josh's TODO list when he first introduced
+> klp-convert. See cover.1477578530.git.jpoimboe@redhat.com.
 
->>
->> [snip]
->>
->>> +void kunit_generic_try_catch_init(struct kunit_try_catch *try_catch)
->>> +{
->>> +     try_catch->run = kunit_generic_run_try_catch;
->>> +     try_catch->throw = kunit_generic_throw;
->>> +}
->>
->> Same here. There's only one implementation of try_catch and I can't
->> really see any sensible justification for another implementation. Even
->> if there is, add the indirection when the second implementation is
->> added. This isn't C++ and we don't need to make everything a "method".
-> 
-> These methods are for a UML specific implementation in a follow up
-> patchset, which is needed for some features like crash recovery, death
-> tests, and removes dependence on kthreads.
-> 
-> I know this probably sounds like premature complexity. Arguably it is
-> in hindsight, but I wrote those features before I pulled out these
-> interfaces (they were actually both originally in this patchset, but I
-> dropped them to make this patchset easier to review). I can remove
-> these methods and add them back in when I actually use them in the
-> follow up patchsets if you prefer.
+In the RFC, Josh highlights a somewhat difficult problem regarding these
+special sections -- how to associate these special section data
+structures and their relocations to a specific klp_object.
 
-Yes, remove them now and add them back when you use them in follow-up
-patches. If reviewers find problems with the follow-up patches or have a
-better suggestion on how to do what ever it is you are doing, then you
-just have this unnecessary code and there's wasted developer time and
-review bandwidth that will need to be spent cleaning it up.
+If I understand his suggestion, he proposed annotating livepatch module
+replacement functions as to stuff them into specially named ELF sections
+(which would include the klp_object name) and then bypass the existing
+livepatch registration API.  No minor change.
 
-Thanks,
+With that in mind, I'm starting to think of a game plan for klp-convert
+like:
 
-Logan
+  - phase 1: detect /abort unsupported sections
+
+  - phase 2: manual annotations in livepatch modules (like
+             KLP_MODULE_RELOC / SYMPOS, but for special sections) so
+             that klp-convert can start building "klp.arch" sections
+
+  - phase 3: livepatch API change above to support somewhat more
+             automatic generation of phase 2 annotations
+
+> The selftest for the alternatives would be appreciated too. One day.
+
+In the course of understanding the background behind
+arch/x86/kernel/livepatch.c, I wrote a bunch of livepatch selftests that
+try out simple examples of those special sections.
+
+For alternatives, I did something like:
+
+  /* TODO: find reliably true/false features */
+  #define TRUE_FEATURE	(X86_FEATURE_FPU)
+  #define FALSE_FEATURE	(X86_FEATURE_VME)
+
+  ...
+
+  klp_function1()
+  klp_function2()
+  klp_new_function()
+
+  	asm (ALTERNATIVE("call klp_function1", "call klp_function2", TRUE_FEATURE));
+  	asm (ALTERNATIVE("call klp_function1", "call klp_function2", FALSE_FEATURE));
+
+  	asm (ALTERNATIVE("call mod_function1", "call mod_function2", TRUE_FEATURE));
+  	asm (ALTERNATIVE("call mod_function1", "call mod_function2", FALSE_FEATURE));
+  	asm (ALTERNATIVE("call mod_function2", "call mod_function1", TRUE_FEATURE));
+  	asm (ALTERNATIVE("call mod_function2", "call mod_function1", FALSE_FEATURE));
+
+so that I could see what kind of relocations were generated for default
+and non-default instructions as well as module-local and then
+unexported-extern functions.
+
+Once we have klp-convert supporting these conversions, I think something
+like that would suffice.  In the meantime, I'm not sure how to create
+"klp.arch" sectioned ELFs without something like kpatch-build.
+
+> And of course we should look at the other supported architectures and
+> their module_finalize() functions. I have it on my TODO list somewhere,
+> but you know how it works with those :/. I am sure there are more hidden
+> surprises there.
+
+Hmm, well powerpc and s390 do appear to have processing for special
+sections as well ... but for the moment, I'm going to focus on x86 as
+that seems like enough work for now :)
+
+> > Detection
+> > ---------
+> >
+> > I can post ("livepatch/klp-convert: abort on static key conversion")
+> > here as a follow commit if it looks reasonable and folks wish to review
+> > it... or we can try and tackle static keys before merging klp-convert.
+>
+> Good idea. I'd rather fix it, but I think it could be a lot of work, so
+> something like this patch seems to be a good idea.
+
+I'm thinking of adding this in a commit so klp-convert can intercept
+these sections:
+
+  static bool is_section_supported(char *sname)
+  {
+          if (strcmp(sname, ".rela.altinstructions") == 0)
+                  return false;
+          if (strcmp(sname, ".rela.parainstructions") == 0)
+                  return false;
+          if (strcmp(sname, ".rela__jump_table") == 0)
+                  return false;
+          return true;
+  }
+
+Right now my v4 collection has a bunch of small fixups and nitpick
+corrections.  It feels like a good resting place for now before
+embarking on special section support, what do you think?
+
+-- Joe
