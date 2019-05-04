@@ -2,56 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D31B13640
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2019 01:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10D2D13944
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 May 2019 12:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfECXlX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 May 2019 19:41:23 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43261 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726220AbfECXlX (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 May 2019 19:41:23 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e108so6778753ote.10
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 May 2019 16:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mKALN1OkcwtQhcysb+FWH3t2vFKNjrdMKVQt2ijO0Po=;
-        b=uHwVMflHMaQY3whJ1EE4nVizGRxOy/tr5WOjeZAzMUNneEi1VOxLR7ILboGXaDspKX
-         EZdcTnWDLsjH5Xuv6Dpbla+mLd+ZOej6UTDsdicbg1f2NGRfNWvT53QLlViJ91MtO47Y
-         +NMNZSv0/KOCCjGp/8Z6JcV8oAgctk1uHe5BjikYU+meECnNZzF0Xtb+m6Lql1RyQZ+f
-         6pOCAlUul4FDKtOsuwcFiCf6Z4SU4Q97jpl1Ljx2pJqKs6Ok7cLSU5UcjCBf989disYo
-         L1k/caWEqmSpv8hm8mIrQVDY6SOrZ43BcimXmBjT67ScyO4HOEunsbiGdbsaE+Lu0zj7
-         pGEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mKALN1OkcwtQhcysb+FWH3t2vFKNjrdMKVQt2ijO0Po=;
-        b=kUYVCMmZ+pCLTXcbJkbZ23sjGA+k7IP2njwciM+LH7MMXBiybERItIDTXBqiaRQW9A
-         AmRD0EhzPKCMe0469K6R9RUSledmGQrki4IvtWXIZN9tBle2XfdHruTohYDpr/aCPkXU
-         4mBrYvXZDp0yKRs2sciryUefvurNVS/f7UYWR3XDba9Au6SQ9wxYlx0xc+BNBpzhSfT2
-         SkQh6bhatcumicH/vCeLkkYVcMrXBZdEkGoRUntgome10VbKzVjli55NUbO+FwkZEjyv
-         4JNatOSeKN/XS21zYgXOuwbcLR3X5kwECnygwX620uPBaENECjyJ0xqYm18DEcsG/cbu
-         yWeQ==
-X-Gm-Message-State: APjAAAXS61i5Bz9ZzLg7Y15ysaeZy9M2dVzNDN/sybxD6bvKbwU8Cr4m
-        rLKdd1HClTBMubdl56hL9+mQ4VdaetWTJS2+uHXqyA==
-X-Google-Smtp-Source: APXvYqzBloPRnX50VrJGlf0zwqZMx4kE8jlcjkF1A4MmAb/1CmwV6C22Krcs7y2A5uFCH7cqu5h7HYnPPCqLvVBMptw=
-X-Received: by 2002:a9d:5cc3:: with SMTP id r3mr8335667oti.338.1556926881968;
- Fri, 03 May 2019 16:41:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-17-brendanhiggins@google.com> <20190502110347.GE12416@kroah.com>
- <ECADFF3FD767C149AD96A924E7EA6EAF9770A3A0@USCULXMSG01.am.sony.com>
- <CAFd5g471Wawu6g14p0AO3aY8VPBKLA0mjHSdfR1qStFGzp3iGQ@mail.gmail.com> <20190503064241.GC20723@kroah.com>
-In-Reply-To: <20190503064241.GC20723@kroah.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 3 May 2019 16:41:10 -0700
-Message-ID: <CAFd5g44NrKM9WQCF1xW-BWpFNsC05UAS9jt1-S+vNRuBDZVsHQ@mail.gmail.com>
-Subject: Re: [PATCH v2 16/17] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Greg KH <gregkh@linuxfoundation.org>
+        id S1726558AbfEDKkQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 May 2019 06:40:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44018 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725981AbfEDKkP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 4 May 2019 06:40:15 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 21B9B206DF;
+        Sat,  4 May 2019 10:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556966414;
+        bh=ZtaXllWS1pW5iu83jiogyXoGhA2z0cHfZWqL2iOl0tk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RMn5lzZLL3HFn059n+mYYbCZCfCFSbJL0BubXf+7IIzwGpN3fTwhTfeyIKdjim/HM
+         zSpglcbIOjRyWHBccdUctPLb1/x4vk8bwpbvSIIaVSe3FuovZlhDX5c5EOmjT62X7z
+         PNcd1lmo3U/hgtHtLZnjopNCJ8osmB6ssQVrxqhc=
+Date:   Sat, 4 May 2019 12:40:12 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Brendan Higgins <brendanhiggins@google.com>
 Cc:     "Bird, Timothy" <Tim.Bird@sony.com>,
         Frank Rowand <frowand.list@gmail.com>,
         Kees Cook <keescook@google.com>,
@@ -83,79 +57,100 @@ Cc:     "Bird, Timothy" <Tim.Bird@sony.com>,
         David Rientjes <rientjes@google.com>,
         Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
         Iurii Zaikin <yzaikin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 16/17] kernel/sysctl-test: Add null pointer test for
+ sysctl.c:proc_dointvec()
+Message-ID: <20190504104012.GA1478@kroah.com>
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <20190501230126.229218-17-brendanhiggins@google.com>
+ <20190502110347.GE12416@kroah.com>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770A3A0@USCULXMSG01.am.sony.com>
+ <CAFd5g471Wawu6g14p0AO3aY8VPBKLA0mjHSdfR1qStFGzp3iGQ@mail.gmail.com>
+ <20190503064241.GC20723@kroah.com>
+ <CAFd5g44NrKM9WQCF1xW-BWpFNsC05UAS9jt1-S+vNRuBDZVsHQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFd5g44NrKM9WQCF1xW-BWpFNsC05UAS9jt1-S+vNRuBDZVsHQ@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> On Thu, May 02, 2019 at 11:45:43AM -0700, Brendan Higgins wrote:
-> > On Thu, May 2, 2019 at 11:15 AM <Tim.Bird@sony.com> wrote:
-> > >
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Greg KH
+On Fri, May 03, 2019 at 04:41:10PM -0700, Brendan Higgins wrote:
+> > On Thu, May 02, 2019 at 11:45:43AM -0700, Brendan Higgins wrote:
+> > > On Thu, May 2, 2019 at 11:15 AM <Tim.Bird@sony.com> wrote:
 > > > >
-> > > > On Wed, May 01, 2019 at 04:01:25PM -0700, Brendan Higgins wrote:
-> > > > > From: Iurii Zaikin <yzaikin@google.com>
-> > > > >
-> > > > > KUnit tests for initialized data behavior of proc_dointvec that is
-> > > > > explicitly checked in the code. Includes basic parsing tests including
-> > > > > int min/max overflow.
-> > > > >
-> > > > > Signed-off-by: Iurii Zaikin <yzaikin@google.com>
-> > > > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > > > > ---
-> > > > >  kernel/Makefile      |   2 +
-> > > > >  kernel/sysctl-test.c | 292
-> > > > +++++++++++++++++++++++++++++++++++++++++++
-> > > > >  lib/Kconfig.debug    |   6 +
-> > > > >  3 files changed, 300 insertions(+)
-> > > > >  create mode 100644 kernel/sysctl-test.c
-> > > > >
-> > > > > diff --git a/kernel/Makefile b/kernel/Makefile
-> > > > > index 6c57e78817dad..c81a8976b6a4b 100644
-> > > > > --- a/kernel/Makefile
-> > > > > +++ b/kernel/Makefile
-> > > > > @@ -112,6 +112,8 @@ obj-$(CONFIG_HAS_IOMEM) += iomem.o
-> > > > >  obj-$(CONFIG_ZONE_DEVICE) += memremap.o
-> > > > >  obj-$(CONFIG_RSEQ) += rseq.o
-> > > > >
-> > > > > +obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
 > > > >
-> > > > You are going to have to have a "standard" naming scheme for test
-> > > > modules, are you going to recommend "foo-test" over "test-foo"?  If so,
-> > > > that's fine, we should just be consistant and document it somewhere.
 > > > >
-> > > > Personally, I'd prefer "test-foo", but that's just me, naming is hard...
+> > > > > -----Original Message-----
+> > > > > From: Greg KH
+> > > > >
+> > > > > On Wed, May 01, 2019 at 04:01:25PM -0700, Brendan Higgins wrote:
+> > > > > > From: Iurii Zaikin <yzaikin@google.com>
+> > > > > >
+> > > > > > KUnit tests for initialized data behavior of proc_dointvec that is
+> > > > > > explicitly checked in the code. Includes basic parsing tests including
+> > > > > > int min/max overflow.
+> > > > > >
+> > > > > > Signed-off-by: Iurii Zaikin <yzaikin@google.com>
+> > > > > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > > > > > ---
+> > > > > >  kernel/Makefile      |   2 +
+> > > > > >  kernel/sysctl-test.c | 292
+> > > > > +++++++++++++++++++++++++++++++++++++++++++
+> > > > > >  lib/Kconfig.debug    |   6 +
+> > > > > >  3 files changed, 300 insertions(+)
+> > > > > >  create mode 100644 kernel/sysctl-test.c
+> > > > > >
+> > > > > > diff --git a/kernel/Makefile b/kernel/Makefile
+> > > > > > index 6c57e78817dad..c81a8976b6a4b 100644
+> > > > > > --- a/kernel/Makefile
+> > > > > > +++ b/kernel/Makefile
+> > > > > > @@ -112,6 +112,8 @@ obj-$(CONFIG_HAS_IOMEM) += iomem.o
+> > > > > >  obj-$(CONFIG_ZONE_DEVICE) += memremap.o
+> > > > > >  obj-$(CONFIG_RSEQ) += rseq.o
+> > > > > >
+> > > > > > +obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
+> > > > >
+> > > > > You are going to have to have a "standard" naming scheme for test
+> > > > > modules, are you going to recommend "foo-test" over "test-foo"?  If so,
+> > > > > that's fine, we should just be consistant and document it somewhere.
+> > > > >
+> > > > > Personally, I'd prefer "test-foo", but that's just me, naming is hard...
+> > > >
+> > > > My preference would be "test-foo" as well.  Just my 2 cents.
 > > >
-> > > My preference would be "test-foo" as well.  Just my 2 cents.
+> > > I definitely agree we should be consistent. My personal bias
+> > > (unsurprisingly) is "foo-test," but this is just because that is the
+> > > convention I am used to in other projects I have worked on.
+> > >
+> > > On an unbiased note, we are currently almost evenly split between the
+> > > two conventions with *slight* preference for "foo-test": I ran the two
+> > > following grep commands on v5.1-rc7:
+> > >
+> > > grep -Hrn --exclude-dir="build" -e "config [a-zA-Z_0-9]\+_TEST$" | wc -l
+> > > grep -Hrn --exclude-dir="build" -e "config TEST_[a-zA-Z_0-9]\+" | wc -l
+> > >
+> > > "foo-test" has 36 occurrences.
+> > > "test-foo" has 33 occurrences.
+> > >
+> > > The things I am more concerned about is how this would affect file
+> > > naming. If we have a unit test for foo.c, I think foo_test.c is more
+> > > consistent with our namespacing conventions. The other thing, is if we
+> > > already have a Kconfig symbol called FOO_TEST (or TEST_FOO) what
+> > > should we name the KUnit test in this case? FOO_UNIT_TEST?
+> > > FOO_KUNIT_TEST, like I did above?
 > >
-> > I definitely agree we should be consistent. My personal bias
-> > (unsurprisingly) is "foo-test," but this is just because that is the
-> > convention I am used to in other projects I have worked on.
-> >
-> > On an unbiased note, we are currently almost evenly split between the
-> > two conventions with *slight* preference for "foo-test": I ran the two
-> > following grep commands on v5.1-rc7:
-> >
-> > grep -Hrn --exclude-dir="build" -e "config [a-zA-Z_0-9]\+_TEST$" | wc -l
-> > grep -Hrn --exclude-dir="build" -e "config TEST_[a-zA-Z_0-9]\+" | wc -l
-> >
-> > "foo-test" has 36 occurrences.
-> > "test-foo" has 33 occurrences.
-> >
-> > The things I am more concerned about is how this would affect file
-> > naming. If we have a unit test for foo.c, I think foo_test.c is more
-> > consistent with our namespacing conventions. The other thing, is if we
-> > already have a Kconfig symbol called FOO_TEST (or TEST_FOO) what
-> > should we name the KUnit test in this case? FOO_UNIT_TEST?
-> > FOO_KUNIT_TEST, like I did above?
->
-> Ok, I can live with "foo-test", as you are right, in a directory listing
-> and config option, it makes more sense to add it as a suffix.
+> > Ok, I can live with "foo-test", as you are right, in a directory listing
+> > and config option, it makes more sense to add it as a suffix.
+> 
+> Cool, so just for future reference, if we already have a Kconfig
+> symbol called FOO_TEST (or TEST_FOO) what should we name the KUnit
+> test in this case? FOO_UNIT_TEST? FOO_KUNIT_TEST, like I did above?
 
-Cool, so just for future reference, if we already have a Kconfig
-symbol called FOO_TEST (or TEST_FOO) what should we name the KUnit
-test in this case? FOO_UNIT_TEST? FOO_KUNIT_TEST, like I did above?
+FOO_KUNIT_TEST is fine, I doubt that's going to come up very often.
+
+thanks,
+
+greg k-h
