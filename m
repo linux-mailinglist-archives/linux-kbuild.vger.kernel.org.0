@@ -2,62 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9DF2146B9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 May 2019 10:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDD3B14710
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 May 2019 11:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbfEFIs2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 May 2019 04:48:28 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33166 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726016AbfEFIsX (ORCPT
+        id S1726455AbfEFJEC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 May 2019 05:04:02 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39039 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726451AbfEFJEC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 May 2019 04:48:23 -0400
-Received: by mail-oi1-f194.google.com with SMTP id m204so3294622oib.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 May 2019 01:48:22 -0700 (PDT)
+        Mon, 6 May 2019 05:04:02 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x16so3095856oic.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 May 2019 02:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MeIMthOxRJANSArvv5AObvGzpm/HBsUqmQ+gWt5K6h4=;
-        b=EnO7STvybywxQ2wAHAyVtfRt84WqWHo207o6kKVYZqrOG/ThSPPoSiv9GKUUU6krNY
-         ZPKR5EsUOem3trEr0yMncM+DcCpGDrZ0FDCeazMNQyv2Pd5e5dQ6QhqISngWLdNZe7mc
-         eawHIqLnKoEL5GaC7a/wL78gStXrV93eaNw5LiiwdvjwLuumdactPs7Xo+O1nOLBrCoI
-         q7RNn20cdCpK2RkkKmjieZ4bqnI6tlUECZmK1Q2Q7GxKkiiHbNI+h1D6YkpszJ0eKle6
-         VcM9pzRThTNiXpbPMDpK9Er1S78DZpzSLNHj1u5T0r9XUmsbM0Jw6UaKS//SSn1+WQji
-         72ig==
+        bh=w3CwerUbOgOXXiCSnS9RlnGeZVnQdj5otMQLyftCR5U=;
+        b=e+nL3WusVlSphHxBUuOnwpeLcTbcxkM3d0tJwFVnHeQxPP67ruHIlvq20gXdKZhu2H
+         bB9lDEUqhP1wiSu91mOioGKtT4ycBoUxoh4FC+hVoBp2F1BbODAaUF2mKyUrYhOAKqit
+         T2YBO051njEtXYukqn8B+THQu9IDpG8A3FVKKTOi4pDJ7oz0d7KTjVHPE8z2o4ACwsE9
+         ykptic7rc2BJziW9//fZQROuPUNapGoh5nZURetTsM9RFF/vX1CnGbAUdl8YpJIBiHYh
+         HGrZrCbs8q8pyJ0vRF0MLBvicTMU2fCeAXdJWGTYB+VAAWlNl7nlXw7CpLz/tNO1+YWN
+         PWrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MeIMthOxRJANSArvv5AObvGzpm/HBsUqmQ+gWt5K6h4=;
-        b=nniULeo23Y9aSDOsi50qR5Z1Hah+uPnYyl0rWWMIu97FNREVBoYnj39SZatQXF71/8
-         WcPhq1OVOJe2vFqMdypAmY3KHWgYXG+5DwblhCHf9QX9BzfpIPmGRG4Mz1kh4Eg2bVs8
-         w2KUAe1awBoUiFGrLUzy7nPVuOS5eWz2BjNIO+vqwOAGNOK9oFg7EuKTUtHDXFdC6Z7k
-         AnqYXWEcBhWSkH+HHj1ASxnnFsyXkjMcdLXCbDSoVPStTNUy6NNAxMtvRum0qbjqF8ME
-         sbu7Tm7aa2UMtsUZtSWt0cjNAWZGLtVsnu5BtBKYQDtLMUMrJe21ZMuGOfPEeBshXPiq
-         5vAw==
-X-Gm-Message-State: APjAAAV2jDC8IeU+M7ZY00x2tiXU8lE+2+mnZgc9dT8E1sWdyo/bNhZR
-        NDA+eOVcXQbyNrxjIuepYl3SyDLAdr/Gsd2vRTRKAg==
-X-Google-Smtp-Source: APXvYqwzZvfW7/3beZRJaVyn8GceHPah5zWKYDYxiPS3rsvYlVs7eDDRovZxwZa4HjwEUc1S/sOaEWJ7E7OBNja8JRU=
-X-Received: by 2002:aca:a84d:: with SMTP id r74mr402573oie.44.1557132501212;
- Mon, 06 May 2019 01:48:21 -0700 (PDT)
+        bh=w3CwerUbOgOXXiCSnS9RlnGeZVnQdj5otMQLyftCR5U=;
+        b=Z8aN1mmWOkfx0xYK6mZxjSFsScLhIWpy+ybRhZG6WIMDBN3CHMSRAPa6fSUm2L7hrd
+         40pkOeRTi9NRXsQTNdJU+vLR66NGzfo7fJJd7k91go7NysbI501cv/sobHoQ7o85AZOg
+         awrHhXGWvX3JwQiJILVBOgQu51YfoBsa0fwLasc+kDNBKwE3yj3gfocA1Bq7tf9CWZqk
+         ZZgG0JSyYhWyC8orwis39uQrLIaKCfjk1wW2VOW2HCbJ4WqMuoRcldwENHHW/Jn99MTQ
+         DDUdCSfYInRWUfUJMiLPWrJrgjpSZRTwhS1+umYtIVUFwWjicCVPfcl+lu9shSF6DVwm
+         sdpg==
+X-Gm-Message-State: APjAAAWSsmImxzigzsaweKXLI4ju2fQTzENokpOSx2DE0RmkdXUII7q4
+        dx23u1No4oyxQY0YshMdZTYNDi8WtgO3Er4rJQEX3Q==
+X-Google-Smtp-Source: APXvYqwEoyQ/+gdbpiq96mf1vlv5hUoY2bhtp6ecuZwu3ufRDNiX4lPMqoN7zAZpCfyk7yZAb5CAmenmXz4Vrtgwk5I=
+X-Received: by 2002:aca:d4cf:: with SMTP id l198mr457112oig.137.1557133441163;
+ Mon, 06 May 2019 02:04:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190501230126.229218-1-brendanhiggins@google.com>
- <20190501230126.229218-9-brendanhiggins@google.com> <0a605543-477a-1854-eb35-6e586606889b@deltatee.com>
- <CAFd5g47hxAd=+72xbPJbWPdZCXRXmtLpsGhUh=zc7MSwfcaGJQ@mail.gmail.com> <b2379db6-634a-001e-6f67-37427d8a2666@deltatee.com>
-In-Reply-To: <b2379db6-634a-001e-6f67-37427d8a2666@deltatee.com>
+ <20190501230126.229218-12-brendanhiggins@google.com> <8c37fd20-859c-9c34-4465-8adfcfdaab09@kernel.org>
+In-Reply-To: <8c37fd20-859c-9c34-4465-8adfcfdaab09@kernel.org>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 6 May 2019 01:48:09 -0700
-Message-ID: <CAFd5g47LzBfE8J-rCgd4TU_P_=iwbctgeOMM9JZFDN8ZK6R7iw@mail.gmail.com>
-Subject: Re: [PATCH v2 08/17] kunit: test: add support for test abort
-To:     Logan Gunthorpe <logang@deltatee.com>
+Date:   Mon, 6 May 2019 02:03:49 -0700
+Message-ID: <CAFd5g44q3qyahykujDzOoO01DwGMUm+Kce-tOAzSW90U4mQM7w@mail.gmail.com>
+Subject: Re: [PATCH v2 11/17] kunit: test: add test managed resource tests
+To:     shuah <shuah@kernel.org>
 Cc:     Frank Rowand <frowand.list@gmail.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         Kees Cook <keescook@google.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Luis Chamberlain <mcgrof@kernel.org>,
         Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        shuah <shuah@kernel.org>,
         devicetree <devicetree@vger.kernel.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
         kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
@@ -76,152 +74,31 @@ Cc:     Frank Rowand <frowand.list@gmail.com>,
         Julia Lawall <julia.lawall@lip6.fr>,
         Kevin Hilman <khilman@baylibre.com>,
         Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Petr Mladek <pmladek@suse.com>,
         Richard Weinberger <richard@nod.at>,
         David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Avinash Kondareddy <akndr41@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 3, 2019 at 5:33 AM Logan Gunthorpe <logang@deltatee.com> wrote:
+On Fri, May 3, 2019 at 7:34 AM shuah <shuah@kernel.org> wrote:
 >
->
->
-> On 2019-05-03 12:48 a.m., Brendan Higgins wrote:
-> > On Thu, May 2, 2019 at 8:15 PM Logan Gunthorpe <logang@deltatee.com> wrote:
-> >> On 2019-05-01 5:01 p.m., Brendan Higgins wrote:
-> >>> +/*
-> >>> + * struct kunit_try_catch - provides a generic way to run code which might fail.
-> >>> + * @context: used to pass user data to the try and catch functions.
-> >>> + *
-> >>> + * kunit_try_catch provides a generic, architecture independent way to execute
-> >>> + * an arbitrary function of type kunit_try_catch_func_t which may bail out by
-> >>> + * calling kunit_try_catch_throw(). If kunit_try_catch_throw() is called, @try
-> >>> + * is stopped at the site of invocation and @catch is catch is called.
-> >>
-> >> I found some of the C++ comparisons in this series a bit distasteful but
-> >> wasn't going to say anything until I saw the try catch.... But looking
-> >> into the implementation it's just a thread that can exit early which
-> >> seems fine to me. Just a poor choice of name I guess...
+> On 5/1/19 5:01 PM, Brendan Higgins wrote:
+> > From: Avinash Kondareddy <akndr41@gmail.com>
 > >
-> > Guilty as charged (I have a long history with C++, sorry). Would you
-> > prefer I changed the name? I just figured that try-catch is a commonly
-> > understood pattern that describes exactly what I am doing.
->
-> It is a commonly understood pattern, but I don't think it's what the
-> code is doing. Try-catch cleans up an entire stack and allows each level
-> of the stack to apply local cleanup. This implementation simply exits a
-> thread and has none of that complexity. To me, it seems like an odd
-> abstraction here as it's really just a test runner that can exit early
-> (though I haven't seen the follow-up UML implementation).
-
-Yeah, that is closer to what the UML specific version does, but that's
-a conversation for another time.
-
->
-> I would prefer to see this cleaned up such that the abstraction matches
-> more what's going on but I don't feel that strongly about it so I'll
-> leave it up to you to figure out what's best unless other reviewers have
-> stronger opinions.
-
-Cool. Let's revisit this with the follow-up patchset.
-
->
-> >>
-> >> [snip]
-> >>
-> >>> +static void __noreturn kunit_abort(struct kunit *test)
-> >>> +{
-> >>> +     kunit_set_death_test(test, true);
-> >>> +
-> >>> +     kunit_try_catch_throw(&test->try_catch);
-> >>> +
-> >>> +     /*
-> >>> +      * Throw could not abort from test.
-> >>> +      *
-> >>> +      * XXX: we should never reach this line! As kunit_try_catch_throw is
-> >>> +      * marked __noreturn.
-> >>> +      */
-> >>> +     WARN_ONCE(true, "Throw could not abort from test!\n");
-> >>> +}
-> >>> +
-> >>>  int kunit_init_test(struct kunit *test, const char *name)
-> >>>  {
-> >>>       spin_lock_init(&test->lock);
-> >>> @@ -77,6 +103,7 @@ int kunit_init_test(struct kunit *test, const char *name)
-> >>>       test->name = name;
-> >>>       test->vprintk = kunit_vprintk;
-> >>>       test->fail = kunit_fail;
-> >>> +     test->abort = kunit_abort;
-> >>
-> >> There are a number of these function pointers which seem to be pointless
-> >> to me as you only ever set them to one function. Just call the function
-> >> directly. As it is, it is an unnecessary indirection for someone reading
-> >> the code. If and when you have multiple implementations of the function
-> >> then add the pointer. Don't assume you're going to need it later on and
-> >> add all this maintenance burden if you never use it..
+> > Tests how tests interact with test managed resources in their lifetime.
 > >
-> > Ah, yes, Frank (and probably others) previously asked me to remove
-> > unnecessary method pointers; I removed all the totally unused ones. As
-> > for these, I don't use them in this patchset, but I use them in my
-> > patchsets that will follow up this one. These in particular are
-> > present so that they can be mocked out for testing.
+> > Signed-off-by: Avinash Kondareddy <akndr41@gmail.com>
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > ---
 >
-> Adding indirection and function pointers solely for the purpose of
-> mocking out while testing doesn't sit well with me and I don't think it
-> should be a pattern that's encouraged. Adding extra complexity like this
-> to a design to make it unit-testable doesn't seem like something that
-> makes sense in kernel code. Especially given that indirect calls are
-> more expensive in the age of spectre.
+> I think this change log could use more details. It is vague on what it
+> does.
 
-Indirection is a pretty common method to make something mockable or
-fakeable. Nevertheless, probably an easier discussion to have once we
-have some examples to discuss.
-
->
-> Also, mocking these particular functions seems like it's an artifact of
-> how you've designed the try/catch abstraction. If the abstraction was
-> more around an abort-able test runner then it doesn't make sense to need
-> to mock out the abort/fail functions as you will be testing overly
-> generic features of something that don't seem necessary to the
-> implementation.
->
-> >>
-> >> [snip]
-> >>
-> >>> +void kunit_generic_try_catch_init(struct kunit_try_catch *try_catch)
-> >>> +{
-> >>> +     try_catch->run = kunit_generic_run_try_catch;
-> >>> +     try_catch->throw = kunit_generic_throw;
-> >>> +}
-> >>
-> >> Same here. There's only one implementation of try_catch and I can't
-> >> really see any sensible justification for another implementation. Even
-> >> if there is, add the indirection when the second implementation is
-> >> added. This isn't C++ and we don't need to make everything a "method".
-> >
-> > These methods are for a UML specific implementation in a follow up
-> > patchset, which is needed for some features like crash recovery, death
-> > tests, and removes dependence on kthreads.
-> >
-> > I know this probably sounds like premature complexity. Arguably it is
-> > in hindsight, but I wrote those features before I pulled out these
-> > interfaces (they were actually both originally in this patchset, but I
-> > dropped them to make this patchset easier to review). I can remove
-> > these methods and add them back in when I actually use them in the
-> > follow up patchsets if you prefer.
->
-> Yes, remove them now and add them back when you use them in follow-up
-> patches. If reviewers find problems with the follow-up patches or have a
-> better suggestion on how to do what ever it is you are doing, then you
-> just have this unnecessary code and there's wasted developer time and
-> review bandwidth that will need to be spent cleaning it up.
-
-Fair enough. Next patchset will have the remaining unused indirection
-you pointed out removed.
-
-Thanks!
+Agreed. Will fix in next revision.
