@@ -2,108 +2,144 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B604515B9D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 May 2019 07:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E50C115EBC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 May 2019 10:01:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbfEGF4J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 May 2019 01:56:09 -0400
-Received: from mail-qt1-f171.google.com ([209.85.160.171]:46431 "EHLO
-        mail-qt1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727845AbfEGF4I (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 May 2019 01:56:08 -0400
-Received: by mail-qt1-f171.google.com with SMTP id i31so17650777qti.13
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 May 2019 22:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=jms.id.au; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=yKhhcLJ3T7kVOpa8s21MURvzs27DTYas4h49s84mXqE=;
-        b=m55Ban2MbLRlcogeHAgKHxTbo/pUTk7X4yRT/leyFstTLQOo2KNEsBu9ydOBtifEv5
-         NlL4ydH6YeYjMg1oYRrAkuQJEi3oIRwaqmH88Zf8M/x1nb2uOWx+fdZcni/bLA41UY0G
-         iQah3sQTwaaRPFYSZdONwsMCXZw7qarLlFPr0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=yKhhcLJ3T7kVOpa8s21MURvzs27DTYas4h49s84mXqE=;
-        b=o3L2+xbSnTh98h2X4nuxjRHcTZn6XOqTOeLVjqdp+r2DtHSIovZWIAOxfll+wDV6N/
-         C0hDttid2rvrplPY7CZ55cYwn+6YCpTHXdlFoSx8yITRw9Q5pzY0aL+Duz9/gs+jY0W8
-         d6+U1MHcNNQlATWIsX+pCvDpgTGOQpKuATB4IOHZ4vDFi0eaT32utGTYaQVX/F4VaS2J
-         mcsivwQHj81BoccKW2pgfP0l6IZMZKHx5PJJ/E+figrvd3lekODDlUhjXHt2B/xTNlzr
-         dXExPlz9+XaXdmeBRLj/dmkc1xsZdBjPuuYniyofhXfKiFC1fpwVAc5V1YgnhJ9vGPvE
-         YSAA==
-X-Gm-Message-State: APjAAAUvxI9fi4SoKxcL6ugT/qG4WAD3BO1a8hpVBr01cfWTS71+KRCl
-        i9+S7q26ksR+dil3TPbUFFzXRR49tUIP8i3ULP8PFeN1brc=
-X-Google-Smtp-Source: APXvYqw+RL5odwfeyYuZ0pkkhik9A1G/pWF8qcg4Upvoriba4uCisv4Eh0oK1ERo3uwk8GkVZ1uI4zlkain82ONBLas=
-X-Received: by 2002:ac8:2d48:: with SMTP id o8mr24769882qta.136.1557208566157;
- Mon, 06 May 2019 22:56:06 -0700 (PDT)
+        id S1726492AbfEGIBX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 May 2019 04:01:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41564 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726085AbfEGIBX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 7 May 2019 04:01:23 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6057820B7C;
+        Tue,  7 May 2019 08:01:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557216081;
+        bh=QzyiMEIgGcOHF7/0RhAcYYAteXaKFmx6V5mlxAloU/E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JYZnGuH3Pbk4yrhdCzdKoMJOLOSIlgRBPlakGO9b31IdpbGDZVFQSkxHJZke5YiqF
+         kLlxf+8LdYwPSAUw422OvFILYSfk5W9idQInw+r9Pj1esrAbnpH/5dYqp76eoeqJjE
+         y7EgY8L7QWLFChBoIcI/eDpJ/HS6IYXXX+xBrQeg=
+Date:   Tue, 7 May 2019 10:01:19 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190507080119.GB28121@kroah.com>
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+ <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
 MIME-Version: 1.0
-From:   Joel Stanley <joel@jms.id.au>
-Date:   Tue, 7 May 2019 05:55:55 +0000
-Message-ID: <CACPK8XemTPvV9KTuMDXew3vxzOw=A2Cj-ToVpe=ZSjrrYC-XRQ@mail.gmail.com>
-Subject: Error message when compiler not present
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     Christophe LEROY <christophe.leroy@c-s.fr>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+On Mon, May 06, 2019 at 08:14:12PM -0700, Frank Rowand wrote:
+> On 5/1/19 4:01 PM, Brendan Higgins wrote:
+> > ## TLDR
+> > 
+> > I rebased the last patchset on 5.1-rc7 in hopes that we can get this in
+> > 5.2.
+> > 
+> > Shuah, I think you, Greg KH, and myself talked off thread, and we agreed
+> > we would merge through your tree when the time came? Am I remembering
+> > correctly?
+> > 
+> > ## Background
+> > 
+> > This patch set proposes KUnit, a lightweight unit testing and mocking
+> > framework for the Linux kernel.
+> > 
+> > Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+> > it does not require installing the kernel on a test machine or in a VM
+> > and does not require tests to be written in userspace running on a host
+> > kernel. Additionally, KUnit is fast: From invocation to completion KUnit
+> > can run several dozen tests in under a second. Currently, the entire
+> > KUnit test suite for KUnit runs in under a second from the initial
+> > invocation (build time excluded).
+> > 
+> > KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+> > Googletest/Googlemock for C++. KUnit provides facilities for defining
+> > unit test cases, grouping related test cases into test suites, providing
+> > common infrastructure for running tests, mocking, spying, and much more.
+> 
+> As a result of the emails replying to this patch thread, I am now
+> starting to look at kselftest.  My level of understanding is based
+> on some slide presentations, an LWN article, https://kselftest.wiki.kernel.org/
+> and a _tiny_ bit of looking at kselftest code.
+> 
+> tl;dr; I don't really understand kselftest yet.
+> 
+> 
+> (1) why KUnit exists
+> 
+> > ## What's so special about unit testing?
+> > 
+> > A unit test is supposed to test a single unit of code in isolation,
+> > hence the name. There should be no dependencies outside the control of
+> > the test; this means no external dependencies, which makes tests orders
+> > of magnitudes faster. Likewise, since there are no external dependencies,
+> > there are no hoops to jump through to run the tests. Additionally, this
+> > makes unit tests deterministic: a failing unit test always indicates a
+> > problem. Finally, because unit tests necessarily have finer granularity,
+> > they are able to test all code paths easily solving the classic problem
+> > of difficulty in exercising error handling code.
+> 
+> (2) KUnit is not meant to replace kselftest
+> 
+> > ## Is KUnit trying to replace other testing frameworks for the kernel?
+> > 
+> > No. Most existing tests for the Linux kernel are end-to-end tests, which
+> > have their place. A well tested system has lots of unit tests, a
+> > reasonable number of integration tests, and some end-to-end tests. KUnit
+> > is just trying to address the unit test space which is currently not
+> > being addressed.
+> 
+> My understanding is that the intent of KUnit is to avoid booting a kernel on
+> real hardware or in a virtual machine.  That seems to be a matter of semantics
+> to me because isn't invoking a UML Linux just running the Linux kernel in
+> a different form of virtualization?
+> 
+> So I do not understand why KUnit is an improvement over kselftest.
+> 
+> It seems to me that KUnit is just another piece of infrastructure that I
+> am going to have to be familiar with as a kernel developer.  More overhead,
+> more information to stuff into my tiny little brain.
+> 
+> I would guess that some developers will focus on just one of the two test
+> environments (and some will focus on both), splitting the development
+> resources instead of pooling them on a common infrastructure.
+> 
+> What am I missing?
 
-The other day I was attempting a kernel build and stumbled across this:
+kselftest provides no in-kernel framework for testing kernel code
+specifically.  That should be what kunit provides, an "easy" way to
+write in-kernel tests for things.
 
-$ CROSS_COMPILE=foo make
-/bin/sh: 1: foogcc: not found
-make: foogcc: Command not found
-/bin/sh: 1: foogcc: not found
-/bin/sh: 1: foogcc: not found
-scripts/kconfig/conf  --syncconfig Kconfig
-./scripts/gcc-version.sh: 17: ./scripts/gcc-version.sh: foogcc: not found
-./scripts/gcc-version.sh: 18: ./scripts/gcc-version.sh: foogcc: not found
-./scripts/gcc-version.sh: 19: ./scripts/gcc-version.sh: foogcc: not found
-./scripts/gcc-version.sh: 17: ./scripts/gcc-version.sh: foogcc: not found
-./scripts/gcc-version.sh: 18: ./scripts/gcc-version.sh: foogcc: not found
-./scripts/gcc-version.sh: 19: ./scripts/gcc-version.sh: foogcc: not found
-./scripts/clang-version.sh: 11: ./scripts/clang-version.sh: foogcc: not found
-./scripts/gcc-plugin.sh: 11: ./scripts/gcc-plugin.sh: foogcc: not found
-init/Kconfig:16:warning: 'GCC_VERSION': number is invalid
-/bin/sh: 1: foogcc: not found
-make: foogcc: Command not found
-Compiler lacks asm-goto support.
-make: *** [arch/x86/Makefile:302: checkbin] Error 1
+Brendan, did I get it right?
 
-I had something more sensible for CROSS_COMPILE, but the point is it
-did not exist in my $PATH.
+thanks,
 
-I tried the patch below but there's still something calling the
-$(CROSS_COMPILE)gcc before gcc-version:
-
-$ CROSS_COMPILE=foo  make
-/bin/sh: 1: foogcc: not found
-make: foogcc: Command not found
-Compiler lacks asm-goto support.
-
-This isn't a big deal but if there's a simple fix it would be nice to clean up.
-
-Cheers,
-
-Joel
-
---- a/scripts/gcc-version.sh
-+++ b/scripts/gcc-version.sh
-@@ -8,6 +8,11 @@
-
- compiler="$*"
-
-+if [ -x "command -v ${#compiler}" ]; then
-+       echo "Error: Compiler not found." >&2
-+       exit 1
-+fi
-+
- if [ ${#compiler} -eq 0 ]; then
-        echo "Error: No compiler specified." >&2
-        printf "Usage:\n\t$0 <gcc-command>\n" >&2
+greg k-h
