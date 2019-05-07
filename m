@@ -2,103 +2,179 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1D04157D9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 May 2019 05:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFB49157F3
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 May 2019 05:14:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbfEGDCk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 May 2019 23:02:40 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:58979 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726346AbfEGDCk (ORCPT
+        id S1726896AbfEGDOR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 May 2019 23:14:17 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46486 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726557AbfEGDOR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 May 2019 23:02:40 -0400
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x4732XTi030985;
-        Tue, 7 May 2019 12:02:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x4732XTi030985
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557198154;
-        bh=UOVlLy/wVLqCQ3IZ+Xag1tGC9ICcteYP+5Dq8Jc65YI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qnU27xfl2yzx44U8NaR8OU7ABPcGyNqa7uFJGGZjX9cXCokLckUcXX9ZuDz//UxXN
-         GOE+EqtXEFxSinlaoVXqcYz3BxOzUAVwRjFqi+71qtK1ykNrrU2/2px/kd7rAQZk5a
-         cGVPc4u5sQn97E4BHufZBrNvAvMHoN/aTEd2RP8iT7qGrLY3GOalcyX5+Q+5+m7I4i
-         Ciqcg93DefrJEPE+kqoOatuYoxYfOqa3dl0Bfa+EQXj8uH9fAsOkDjJZBmS3nNUSDq
-         thuQiTpbPA3RTc1Mw3Lurq09bPBvSTWKLc4HAGtWAC391uBYOZJ5pdEvOSntRCuch6
-         VnKPqTXdVqTqQ==
-X-Nifty-SrcIP: [209.85.221.172]
-Received: by mail-vk1-f172.google.com with SMTP id s80so3686018vke.6;
-        Mon, 06 May 2019 20:02:33 -0700 (PDT)
-X-Gm-Message-State: APjAAAXEN7lThhOqdEBEK60RCocds4BkqIZKURmp88mUaleCPmLzsTmg
-        jrwVMMW9RQtE6mhDddHi4LCbgRRqj31MYWENHSA=
-X-Google-Smtp-Source: APXvYqwZFmp6rx95CPF6ap2Yd8GVckWMHJtSP4IT1kInt+74f9qNDrEMuC5mHVSMzYfllgArBDaTWG+xaTomfNEtkuA=
-X-Received: by 2002:a1f:b297:: with SMTP id b145mr15295623vkf.74.1557198152590;
- Mon, 06 May 2019 20:02:32 -0700 (PDT)
+        Mon, 6 May 2019 23:14:17 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j11so7822249pff.13;
+        Mon, 06 May 2019 20:14:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=XPy6o0NjYz38vWpV6pc1h2A6N4smSYs4Cq49Ux9zwV8=;
+        b=uTQNGYZ1XWIvXYHBEeJQovmqhK2Jtpq+d64Qro6G5OKceot5sQNTlLbfduNr0K3PGx
+         CsKeB5E/nKLx2mO5rHvB5C3cSTlrSg27HAg1bLnsc6sS6Ob71hOBqLsY7CZ9Kc78pahW
+         2bjV9Jxur71IdhgsqsXU4h/nzLhauMpdelIF+i15235Qca74Y0OgvP33q3BLK9LqDfFd
+         Xr/fhjikEY63MLGvaPSmYU14OjokXybBFpWj/AGZsAXkXpEZkB0f6qswg2ygyAISGWpA
+         7eDh4rZZ2yShjUppASxA0qxx7J3s6zLlj/zKwFDiXJf9dX+MaLJqGhuEngD27vSXcDZx
+         mNcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XPy6o0NjYz38vWpV6pc1h2A6N4smSYs4Cq49Ux9zwV8=;
+        b=bpGmhPA4nLB6Twbk5csOyQsxQkRfpaM0M3+zBCdYF2ditokfKtQja54RhMiUuc8VKm
+         99wUhRwxzKKuwyDDRdKqc6806OVTvYJavNSiJdHNcBvgtC7UWcOTyRAUDT0EEbaN1iDK
+         +RVrbZ901k3ouQgWRIsfQp0kmUNLbEGByWkcmXyT3JEvzPSjDv/lPCMVi7oNFshfQhZV
+         DQViNHZ5miie3fHmUTwEvaSjQ13KFLJ1W3FHorGtDGD0t85LWDeqsujQJ57zffUlBUWq
+         qmAY4eJOXIAnz2b787wqSKwdvk1M4M4d3RaXVzdp3qBJC96szIC6dw2ggUlAs/J5IJVe
+         /PYA==
+X-Gm-Message-State: APjAAAU5SaVa7bH19Pdkzl0Pf2PmKJ6V6i2/NLXVqmpEE+nCc7gnNWnF
+        MWEiMzXZNqRh8l8aS+kWvo5YXwxZ0NA=
+X-Google-Smtp-Source: APXvYqwISNSy9xefPMYRgOslBbKIROeiQ4y33+rxQnv0dnHw2MR5wA3FiL1meR7p3JPjBqzEw/Pz1Q==
+X-Received: by 2002:a65:4802:: with SMTP id h2mr34368073pgs.98.1557198856091;
+        Mon, 06 May 2019 20:14:16 -0700 (PDT)
+Received: from [192.168.1.70] (c-24-6-192-50.hsd1.ca.comcast.net. [24.6.192.50])
+        by smtp.gmail.com with ESMTPSA id m11sm17053726pgd.12.2019.05.06.20.14.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 May 2019 20:14:15 -0700 (PDT)
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        gregkh@linuxfoundation.org, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, richard@nod.at, rientjes@google.com,
+        rostedt@goodmis.org, wfg@linux.intel.com
+References: <20190501230126.229218-1-brendanhiggins@google.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <54940124-50df-16ec-1a32-ad794ee05da7@gmail.com>
+Date:   Mon, 6 May 2019 20:14:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1552234395-7699-1-git-send-email-yamada.masahiro@socionext.com> <84db9131-5498-d2d5-a984-11079e3c2a6e@gmail.com>
-In-Reply-To: <84db9131-5498-d2d5-a984-11079e3c2a6e@gmail.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 7 May 2019 12:01:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARLOvginNm-YCUtqju4J=oqU5TTjt0GxPh+Y-KV-jV-PA@mail.gmail.com>
-Message-ID: <CAK7LNARLOvginNm-YCUtqju4J=oqU5TTjt0GxPh+Y-KV-jV-PA@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: fix 'Save As' menu of xconfig
-To:     Robert Gadsdon <rhgadsdon@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190501230126.229218-1-brendanhiggins@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 7, 2019 at 4:10 AM Robert Gadsdon <rhgadsdon@gmail.com> wrote:
->
-> On 03/10/2019 09:13 AM, Masahiro Yamada wrote:
-> > The 'Save As' menu of xconfig is not working; it always saves the
-> > kernel configuration into the default file irrespective of the file
-> > chosen in the dialog box.
-> >
-> > The 'Save' menu always writes into the default file, but it would
-> > make more sense to write into the file previously chosen by 'Load'
-> > or 'Save As'.
-> >
-> > Signed-off-by: Masahiro Yamada<yamada.masahiro@socionext.com>
-> > ---
->
-> The 'save as' may be used for out-of-tree kernel config saves, but the
-> default 'save' should always save to the in-tree .config file, as before
-> (and for the past 10+ years..)  If the kernel config was loaded from an
-> out-of-tree location, it now saves back to that out-of-tree location,
-> which is useless for the kernel compile..
+On 5/1/19 4:01 PM, Brendan Higgins wrote:
+> ## TLDR
+> 
+> I rebased the last patchset on 5.1-rc7 in hopes that we can get this in
+> 5.2.
+> 
+> Shuah, I think you, Greg KH, and myself talked off thread, and we agreed
+> we would merge through your tree when the time came? Am I remembering
+> correctly?
+> 
+> ## Background
+> 
+> This patch set proposes KUnit, a lightweight unit testing and mocking
+> framework for the Linux kernel.
+> 
+> Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+> it does not require installing the kernel on a test machine or in a VM
+> and does not require tests to be written in userspace running on a host
+> kernel. Additionally, KUnit is fast: From invocation to completion KUnit
+> can run several dozen tests in under a second. Currently, the entire
+> KUnit test suite for KUnit runs in under a second from the initial
+> invocation (build time excluded).
+> 
+> KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+> Googletest/Googlemock for C++. KUnit provides facilities for defining
+> unit test cases, grouping related test cases into test suites, providing
+> common infrastructure for running tests, mocking, spying, and much more.
+
+As a result of the emails replying to this patch thread, I am now
+starting to look at kselftest.  My level of understanding is based
+on some slide presentations, an LWN article, https://kselftest.wiki.kernel.org/
+and a _tiny_ bit of looking at kselftest code.
+
+tl;dr; I don't really understand kselftest yet.
 
 
-I think it is quite natural that
-"save" overwrites the file being edited.
+(1) why KUnit exists
 
-And, that is how the 'save' of menuconfig/nconfig works.
+> ## What's so special about unit testing?
+> 
+> A unit test is supposed to test a single unit of code in isolation,
+> hence the name. There should be no dependencies outside the control of
+> the test; this means no external dependencies, which makes tests orders
+> of magnitudes faster. Likewise, since there are no external dependencies,
+> there are no hoops to jump through to run the tests. Additionally, this
+> makes unit tests deterministic: a failing unit test always indicates a
+> problem. Finally, because unit tests necessarily have finer granularity,
+> they are able to test all code paths easily solving the classic problem
+> of difficulty in exercising error handling code.
+
+(2) KUnit is not meant to replace kselftest
+
+> ## Is KUnit trying to replace other testing frameworks for the kernel?
+> 
+> No. Most existing tests for the Linux kernel are end-to-end tests, which
+> have their place. A well tested system has lots of unit tests, a
+> reasonable number of integration tests, and some end-to-end tests. KUnit
+> is just trying to address the unit test space which is currently not
+> being addressed.
+
+My understanding is that the intent of KUnit is to avoid booting a kernel on
+real hardware or in a virtual machine.  That seems to be a matter of semantics
+to me because isn't invoking a UML Linux just running the Linux kernel in
+a different form of virtualization?
+
+So I do not understand why KUnit is an improvement over kselftest.
+
+It seems to me that KUnit is just another piece of infrastructure that I
+am going to have to be familiar with as a kernel developer.  More overhead,
+more information to stuff into my tiny little brain.
+
+I would guess that some developers will focus on just one of the two test
+environments (and some will focus on both), splitting the development
+resources instead of pooling them on a common infrastructure.
+
+What am I missing?
+
+-Frank
 
 
-> I have always kept my hardware/system-specific kernel configs
-> out-of-tree, and then applied them in-tree before compiling.
->
-> Now, I have to use 'save as' and type in the entire in-tree path
-> (/usr/src/linux-5.1/.config) each time, in order to apply the specific
-> config to the kernel, ready for compilation.
+> 
+> ## More information on KUnit
+> 
+> There is a bunch of documentation near the end of this patch set that
+> describes how to use KUnit and best practices for writing unit tests.
+> For convenience I am hosting the compiled docs here:
+> https://google.github.io/kunit-docs/third_party/kernel/docs/
+> Additionally for convenience, I have applied these patches to a branch:
+> https://kunit.googlesource.com/linux/+/kunit/rfc/v5.1-rc7/v1
+> The repo may be cloned with:
+> git clone https://kunit.googlesource.com/linux
+> This patchset is on the kunit/rfc/v5.1-rc7/v1 branch.
+> 
+> ## Changes Since Last Version
+> 
+> None. I just rebased the last patchset on v5.1-rc7.
+> 
 
-
-It is easy to do it without using xconfig.
-
-cp /your/custom/config .config
-
-
-
-
-> Robert Gadsdon.
-> rglinuxtech.com
-
-
-
--- 
-Best Regards
-Masahiro Yamada
