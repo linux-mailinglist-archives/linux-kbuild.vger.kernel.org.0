@@ -2,60 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A39C18074
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 May 2019 21:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15F73180C8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 May 2019 22:00:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfEHTa1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 May 2019 15:30:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48252 "EHLO mx1.redhat.com"
+        id S1728305AbfEHUAP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 May 2019 16:00:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727400AbfEHTa0 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 May 2019 15:30:26 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 79EFBC05E757;
-        Wed,  8 May 2019 19:30:26 +0000 (UTC)
-Received: from redhat.com (dhcp-17-208.bos.redhat.com [10.18.17.208])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id D3D5060C9A;
-        Wed,  8 May 2019 19:30:23 +0000 (UTC)
-Date:   Wed, 8 May 2019 15:30:22 -0400
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-To:     linux-kselftest@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Build-time tests?
-Message-ID: <20190508191341.GA17963@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Wed, 08 May 2019 19:30:26 +0000 (UTC)
+        id S1728184AbfEHUAP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 8 May 2019 16:00:15 -0400
+Subject: Re: [GIT PULL] Kbuild updates for v5.2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557345614;
+        bh=jU00zmojyJrH3PQ4UK53p79SwLBRlj9HrE1gGey9lX0=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=mH8oAV4QF7JmSp8gPUP+pSwVJwCG+0HtCb+P9zFUESZoiLLCqx1K/yGeWblqQ7oNa
+         wFdgAP6PdH5NKkZwhS71IWTHC9CJaIijXT7CZhssPA2i/lsiejbzpERrw55PXwp2y7
+         paQSfKG+zrx4DbCTy3mzE1xQvpyhhk2QgRybiS3w=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNARG6if48VWsFTYmKstm+2jPSbrZRimVbD2W4a4AmBqmOA@mail.gmail.com>
+References: <CAK7LNARG6if48VWsFTYmKstm+2jPSbrZRimVbD2W4a4AmBqmOA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNARG6if48VWsFTYmKstm+2jPSbrZRimVbD2W4a4AmBqmOA@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ tags/kbuild-v5.2
+X-PR-Tracked-Commit-Id: 7fb1fc420f3b1cb27cce5aa1050eb5d9161d0944
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 2646719a48c21ba0cae82a3f57382a9573fd8400
+Message-Id: <155734561473.27473.17805337229531164111.pr-tracker-bot@kernel.org>
+Date:   Wed, 08 May 2019 20:00:14 +0000
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        masahiroy@kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello kbuild, kselftest,
+The pull request you sent on Wed, 8 May 2019 23:47:39 +0900:
 
-I've been working on a patchset which adds an additional build script to
-the toolchain when compiling livepatches.  There are a few kernel
-section features in which this script does not yet support, but can
-detect and abort when it encounters.  To test this detection, I've
-written a small set of kernel modules that require such sections.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.2
 
-A few questions: 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/2646719a48c21ba0cae82a3f57382a9573fd8400
 
-Is build-testing out of scope for kernel selftests?  For expediency,
-it was really easy to spin out new lib/livepatch kernel modules.
+Thank you!
 
-Does kbuild support the notion of expected failure?  In this case, the
-build script returns a non-zero error and the build stops.
-
-Am I trying to fit a square peg in a round hole?  I could easily keep
-these build tests in a private branch, but could they exist in a
-different format somewhere else in the tree?
-
-Suggestions welcome,
-
--- Joe
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
