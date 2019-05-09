@@ -2,134 +2,171 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98C3718647
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 09:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A765B18679
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 10:01:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726631AbfEIHlP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 May 2019 03:41:15 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:56261 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfEIHlP (ORCPT
+        id S1726650AbfEIIBS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 May 2019 04:01:18 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:20772 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725963AbfEIIBS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 May 2019 03:41:15 -0400
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x497f2Vm021745
-        for <linux-kbuild@vger.kernel.org>; Thu, 9 May 2019 16:41:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x497f2Vm021745
+        Thu, 9 May 2019 04:01:18 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x497xj2q012573;
+        Thu, 9 May 2019 16:59:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x497xj2q012573
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557387663;
-        bh=hi4FDtBaCYI3a3PQRCp4FTA1I639YkOtbdbEmzVpHXw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=llmg0PRJHfsOSUHoJelB5C9d1vIW3DYIlDDJdXqDCBc46iV5JbijYzKV1B1ihH5fh
-         IvhlykpI2Et5y79Os8p1UbglnZpIGzPAS6Rzx16+g63+h2+MSv1tAvUYmGDLsnPUJn
-         kxKop0kO+v16UbTewqdFDNMuXhLK0c1RqpUYe3odCwUmNPv86znRmz1L4ty1ZW0a/T
-         gwv0hGuYlGHAKHCU53miWY1X0Rto2gkzAsCmwZnqwJbRVT7R6yykbK9bNXtq48Jp51
-         VBi04EC5V/z8sj3rKG0AmfYK5EQ3dj3u9LGr7tfjDhazyMN+2/u3jQa4j5OjEWmaZq
-         oeiiUUe51zdTg==
-X-Nifty-SrcIP: [209.85.221.176]
-Received: by mail-vk1-f176.google.com with SMTP id h127so346552vkd.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 09 May 2019 00:41:02 -0700 (PDT)
-X-Gm-Message-State: APjAAAUz5a1k0/AL3ZG2a5ECEca0gW+REwBmc13USrBlJ4Jd6ZnB74a6
-        1a97GQTVglfSQh7BT/GdyqSeMWB+YPLp0UQVIVI=
-X-Google-Smtp-Source: APXvYqyOJ9LlOXckc2YAzU4ei88xRT4AH/5UYgTJXLYHQlA1Ojn9FxI9nna8M6u6XZJJmdEClwZ+y9878brD7XWYtuk=
-X-Received: by 2002:a1f:8581:: with SMTP id h123mr843919vkd.64.1557387661810;
- Thu, 09 May 2019 00:41:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <CACPK8XemTPvV9KTuMDXew3vxzOw=A2Cj-ToVpe=ZSjrrYC-XRQ@mail.gmail.com>
-In-Reply-To: <CACPK8XemTPvV9KTuMDXew3vxzOw=A2Cj-ToVpe=ZSjrrYC-XRQ@mail.gmail.com>
+        s=dec2015msa; t=1557388786;
+        bh=jub7bB0RFseuMn3f9vTFge0BDW0edV2DzaD6c3dAiQA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gZou6hCj3tbogxwjicKwMCixLy35m9sNFb8Dmpz2aK4xYQrkVyYiZo/DkZgQkNEpz
+         zcem2So5e6G5IrKS+bzKlVHtzPP1kHIPA5S5WSPdkFNlUuT5PvQyA/rd9YIpxq50UT
+         SqbrvmSvrvooJKtMuNSq1l1hVHstwznIQHQdbzGEZ7I6gn9sKP3f0SP4gjxAqJNmb7
+         wu03p5mEpDt/pZPyWzv7rudw7YIx3uyiNX/Scy3stjMSLIXlHl1MzfhMBbvnfHzNhR
+         n/uZdlXeIjx5vwCuBbrhoBgtAWNhqj0KuPLMH6PqiGLEb2I09Nrblyqwko1WiV28fl
+         /3zJI3cVHzCGA==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 9 May 2019 16:40:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASWoyCeAJg-b7vL4qMDKq-x6RdT5_sBcmtHKknNjuCJrQ@mail.gmail.com>
-Message-ID: <CAK7LNASWoyCeAJg-b7vL4qMDKq-x6RdT5_sBcmtHKknNjuCJrQ@mail.gmail.com>
-Subject: Re: Error message when compiler not present
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Christophe LEROY <christophe.leroy@c-s.fr>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-arch <linux-arch@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        linux-xtensa@linux-xtensa.org, Greentime Hu <green.hu@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Chris Zankel <chris@zankel.net>, linux-kernel@vger.kernel.org,
+        Guo Ren <guoren@kernel.org>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        linux-riscv@lists.infradead.org, Max Filippov <jcmvbkbc@gmail.com>,
+        Albert Ou <aou@eecs.berkeley.edu>
+Subject: [PATCH] arch: remove dangling asm-generic wrappers
+Date:   Thu,  9 May 2019 16:59:34 +0900
+Message-Id: <20190509075934.12185-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Joel,
+These generic-y defines do not have the corresponding generic header
+in include/asm-generic/, so they are definitely invalid.
 
-On Tue, May 7, 2019 at 2:56 PM Joel Stanley <joel@jms.id.au> wrote:
->
-> Hello,
->
-> The other day I was attempting a kernel build and stumbled across this:
->
-> $ CROSS_COMPILE=foo make
-> /bin/sh: 1: foogcc: not found
-> make: foogcc: Command not found
-> /bin/sh: 1: foogcc: not found
-> /bin/sh: 1: foogcc: not found
-> scripts/kconfig/conf  --syncconfig Kconfig
-> ./scripts/gcc-version.sh: 17: ./scripts/gcc-version.sh: foogcc: not found
-> ./scripts/gcc-version.sh: 18: ./scripts/gcc-version.sh: foogcc: not found
-> ./scripts/gcc-version.sh: 19: ./scripts/gcc-version.sh: foogcc: not found
-> ./scripts/gcc-version.sh: 17: ./scripts/gcc-version.sh: foogcc: not found
-> ./scripts/gcc-version.sh: 18: ./scripts/gcc-version.sh: foogcc: not found
-> ./scripts/gcc-version.sh: 19: ./scripts/gcc-version.sh: foogcc: not found
-> ./scripts/clang-version.sh: 11: ./scripts/clang-version.sh: foogcc: not found
-> ./scripts/gcc-plugin.sh: 11: ./scripts/gcc-plugin.sh: foogcc: not found
-> init/Kconfig:16:warning: 'GCC_VERSION': number is invalid
-> /bin/sh: 1: foogcc: not found
-> make: foogcc: Command not found
-> Compiler lacks asm-goto support.
-> make: *** [arch/x86/Makefile:302: checkbin] Error 1
->
-> I had something more sensible for CROSS_COMPILE, but the point is it
-> did not exist in my $PATH.
->
-> I tried the patch below but there's still something calling the
-> $(CROSS_COMPILE)gcc before gcc-version:
->
-> $ CROSS_COMPILE=foo  make
-> /bin/sh: 1: foogcc: not found
-> make: foogcc: Command not found
-> Compiler lacks asm-goto support.
->
-> This isn't a big deal but if there's a simple fix it would be nice to clean up.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Yeah, I had noticed this, and it is somewhat ugly.
+ arch/csky/include/asm/Kbuild   | 4 ----
+ arch/h8300/include/asm/Kbuild  | 1 -
+ arch/nds32/include/asm/Kbuild  | 3 ---
+ arch/riscv/include/asm/Kbuild  | 4 ----
+ arch/xtensa/include/asm/Kbuild | 1 -
+ 5 files changed, 13 deletions(-)
 
-Instead of fixing every script,
-I want to terminate Kconfig in the very beginning of the parse stage.
-
-https://patchwork.kernel.org/patch/10936811/
-
-
-I still see some "/bin/sh: 1: foogcc: not found" in the build stage,
-but not fixing up every $(shell ...) calls
-since displaying some warnings is not a big deal.
-
-Thanks.
-
->
-> Cheers,
->
-> Joel
->
-> --- a/scripts/gcc-version.sh
-> +++ b/scripts/gcc-version.sh
-> @@ -8,6 +8,11 @@
->
->  compiler="$*"
->
-> +if [ -x "command -v ${#compiler}" ]; then
-> +       echo "Error: Compiler not found." >&2
-> +       exit 1
-> +fi
-> +
->  if [ ${#compiler} -eq 0 ]; then
->         echo "Error: No compiler specified." >&2
->         printf "Usage:\n\t$0 <gcc-command>\n" >&2
-
-
-
+diff --git a/arch/csky/include/asm/Kbuild b/arch/csky/include/asm/Kbuild
+index a9b63efef416..c1a6c0f31150 100644
+--- a/arch/csky/include/asm/Kbuild
++++ b/arch/csky/include/asm/Kbuild
+@@ -1,6 +1,5 @@
+ generic-y += asm-offsets.h
+ generic-y += bugs.h
+-generic-y += clkdev.h
+ generic-y += compat.h
+ generic-y += current.h
+ generic-y += delay.h
+@@ -29,15 +28,12 @@ generic-y += local64.h
+ generic-y += mm-arch-hooks.h
+ generic-y += mmiowb.h
+ generic-y += module.h
+-generic-y += mutex.h
+ generic-y += pci.h
+ generic-y += percpu.h
+ generic-y += preempt.h
+ generic-y += qrwlock.h
+-generic-y += scatterlist.h
+ generic-y += sections.h
+ generic-y += serial.h
+-generic-y += shm.h
+ generic-y += timex.h
+ generic-y += topology.h
+ generic-y += trace_clock.h
+diff --git a/arch/h8300/include/asm/Kbuild b/arch/h8300/include/asm/Kbuild
+index 123d8f54be4a..63e5ab115e3c 100644
+--- a/arch/h8300/include/asm/Kbuild
++++ b/arch/h8300/include/asm/Kbuild
+@@ -38,7 +38,6 @@ generic-y += pci.h
+ generic-y += percpu.h
+ generic-y += pgalloc.h
+ generic-y += preempt.h
+-generic-y += scatterlist.h
+ generic-y += sections.h
+ generic-y += serial.h
+ generic-y += shmparam.h
+diff --git a/arch/nds32/include/asm/Kbuild b/arch/nds32/include/asm/Kbuild
+index 5bd2b4ee951f..6897045e7be5 100644
+--- a/arch/nds32/include/asm/Kbuild
++++ b/arch/nds32/include/asm/Kbuild
+@@ -4,10 +4,8 @@ generic-y += bitops.h
+ generic-y += bug.h
+ generic-y += bugs.h
+ generic-y += checksum.h
+-generic-y += clkdev.h
+ generic-y += cmpxchg.h
+ generic-y += compat.h
+-generic-y += cputime.h
+ generic-y += device.h
+ generic-y += div64.h
+ generic-y += dma.h
+@@ -26,7 +24,6 @@ generic-y += kdebug.h
+ generic-y += kmap_types.h
+ generic-y += kprobes.h
+ generic-y += kvm_para.h
+-generic-y += limits.h
+ generic-y += local.h
+ generic-y += local64.h
+ generic-y += mm-arch-hooks.h
+diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
+index cccd12cf27d4..f86d68dabaf0 100644
+--- a/arch/riscv/include/asm/Kbuild
++++ b/arch/riscv/include/asm/Kbuild
+@@ -1,7 +1,6 @@
+ generic-y += bugs.h
+ generic-y += checksum.h
+ generic-y += compat.h
+-generic-y += cputime.h
+ generic-y += device.h
+ generic-y += div64.h
+ generic-y += dma.h
+@@ -11,7 +10,6 @@ generic-y += emergency-restart.h
+ generic-y += exec.h
+ generic-y += fb.h
+ generic-y += hardirq.h
+-generic-y += hash.h
+ generic-y += hw_irq.h
+ generic-y += irq_regs.h
+ generic-y += irq_work.h
+@@ -21,10 +19,8 @@ generic-y += kvm_para.h
+ generic-y += local.h
+ generic-y += local64.h
+ generic-y += mm-arch-hooks.h
+-generic-y += mutex.h
+ generic-y += percpu.h
+ generic-y += preempt.h
+-generic-y += scatterlist.h
+ generic-y += sections.h
+ generic-y += serial.h
+ generic-y += shmparam.h
+diff --git a/arch/xtensa/include/asm/Kbuild b/arch/xtensa/include/asm/Kbuild
+index 35f83c4bf239..f1686d919178 100644
+--- a/arch/xtensa/include/asm/Kbuild
++++ b/arch/xtensa/include/asm/Kbuild
+@@ -27,7 +27,6 @@ generic-y += preempt.h
+ generic-y += qrwlock.h
+ generic-y += qspinlock.h
+ generic-y += sections.h
+-generic-y += socket.h
+ generic-y += topology.h
+ generic-y += trace_clock.h
+ generic-y += vga.h
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
