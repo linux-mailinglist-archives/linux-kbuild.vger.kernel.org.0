@@ -2,146 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88AC418625
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 09:25:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B03A1863D
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 09:36:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbfEIHZ4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 May 2019 03:25:56 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:54534 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726549AbfEIHZ4 (ORCPT
+        id S1725961AbfEIHg3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 May 2019 03:36:29 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:29879 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbfEIHg3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 May 2019 03:25:56 -0400
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x497PmY2018718;
-        Thu, 9 May 2019 16:25:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x497PmY2018718
+        Thu, 9 May 2019 03:36:29 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x497a876027332;
+        Thu, 9 May 2019 16:36:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x497a876027332
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557386749;
-        bh=U2anJwPobpZqhjkwXn9/pVPlRyECkiV0exOnjsPnOa0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=p5mZZXrmsUhjqumjrrqfyHbndzLSA8hnkYnm7zn/kvwnflc4oxdQ6apcS+OM5O2xI
-         afqBcbjAXsYobAyCoLw7fhPzX1OWyETRmI9VmFjzv0UKP4MderOu29lPF9+XuP9wYB
-         gsjbYNDLRX/7DUq7kgxP1wZBmH/StcpJ5HDdUvZYNF5zxKjf2kJTPIYqTvGHzb+DH3
-         anBv0U/g8y/axGtk5oCFF7lk5aFnGmDpVNvmp+MRBvX8tl99XXafbSdfOh3Bo5HWel
-         0YhhrwxTSN1bCGE8gvxHBGpf5v+evNyqLp3paaXZB7oFeaHo5+cPfKGKjMn/hQ3qvd
-         8SqhAiqhYZBoA==
-X-Nifty-SrcIP: [209.85.221.176]
-Received: by mail-vk1-f176.google.com with SMTP id d77so335437vke.13;
-        Thu, 09 May 2019 00:25:49 -0700 (PDT)
-X-Gm-Message-State: APjAAAX9/9rp6wBMEnoNrjA41gsPYRLxmAIsmOqMuBCC3NuE+50fKBlp
-        PF6+NzT6Mck4WmhnBwynOXd4I4+Vcl0dA9kVBgs=
-X-Google-Smtp-Source: APXvYqw1qCogWjqOu46H9RSkdMIWwMnnDoQ8OTyb6OBjTLfU5O4awe2tNwpJXBF5ys2TdOn5uolJ45I4c6/aLHz9hHE=
-X-Received: by 2002:a1f:d585:: with SMTP id m127mr829804vkg.34.1557386747887;
- Thu, 09 May 2019 00:25:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190509064635.1445-1-yamada.masahiro@socionext.com> <CA+icZUV03ZF_FWMMyY=36-zQZPWO0YUBuSs9bjQqpmXJzVYYRA@mail.gmail.com>
-In-Reply-To: <CA+icZUV03ZF_FWMMyY=36-zQZPWO0YUBuSs9bjQqpmXJzVYYRA@mail.gmail.com>
+        s=dec2015msa; t=1557387369;
+        bh=WvsKxYjmrZ0o9zogyEYzJJvBoltHq2gquWxe1gHwrUc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cpV4dHleODex4lgIfIxVwNfYJJEtBo43pLaA/Q9t8GWvQgeRihIoS6kAxsi11IX2V
+         aBvELu+ReG0iOkTZ/PORlvSmyGKDkn+B6HUbcLUl9Iui6BHLKeY1KnyFHDXprvEbmC
+         tDh1MGztCrDKncS4JnDqhaO3jP9G1s4A0n0VobzIR0CKa9AT+QT9WoNvUmN+S68yu4
+         /ap3fmIkrs4oioU2uRgpfGnhLdmw578XbsNwY2ZJFYDkCsXgr2dWizSIsz9z1Oy0GM
+         A6BGU2TiCQ3IDcZ7I+E5y6U8w1HL7SD9JZmDjwI4VDhLNPPKkvKm92a7P1jVDdJ7f1
+         7+0fsu/TDbLIA==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 9 May 2019 16:25:11 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATgQaHU+6WiMvx0AAf=9AJ5nrL8f8=SJMOCJNQNb_=X1w@mail.gmail.com>
-Message-ID: <CAK7LNATgQaHU+6WiMvx0AAf=9AJ5nrL8f8=SJMOCJNQNb_=X1w@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add some extra warning flags unconditionally
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Joel Stanley <joel@jms.id.au>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: terminate Kconfig when $(CC) or $(LD) is missing
+Date:   Thu,  9 May 2019 16:35:55 +0900
+Message-Id: <20190509073555.15545-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 9, 2019 at 4:11 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Thu, May 9, 2019 at 8:47 AM Masahiro Yamada
-> <yamada.masahiro@socionext.com> wrote:
-> >
-> > These flags are documented in the GCC 4.6 manual, and recognized by
-> > Clang as well. Let's rip off the cc-option / cc-disable-warning switches.
-> >
->
-> BTW, is this a speedup when doing CC/LD FLAGS etc checks unconditionally?
+If the compiler specified by $(CC) is not present, the Kconfig stage
+sprinkles 'not found' messages, then succeeds.
 
-Yes.
-cc-option is somewhat costly because it invoked the compiler to
-check if the given flag is supported.
+  $ make CROSS_COMPILE=foo defconfig
+  /bin/sh: 1: foogcc: not found
+  /bin/sh: 1: foogcc: not found
+  *** Default configuration is based on 'x86_64_defconfig'
+  ./scripts/gcc-version.sh: 17: ./scripts/gcc-version.sh: foogcc: not found
+  ./scripts/gcc-version.sh: 18: ./scripts/gcc-version.sh: foogcc: not found
+  ./scripts/gcc-version.sh: 19: ./scripts/gcc-version.sh: foogcc: not found
+  ./scripts/gcc-version.sh: 17: ./scripts/gcc-version.sh: foogcc: not found
+  ./scripts/gcc-version.sh: 18: ./scripts/gcc-version.sh: foogcc: not found
+  ./scripts/gcc-version.sh: 19: ./scripts/gcc-version.sh: foogcc: not found
+  ./scripts/clang-version.sh: 11: ./scripts/clang-version.sh: foogcc: not found
+  ./scripts/gcc-plugin.sh: 11: ./scripts/gcc-plugin.sh: foogcc: not found
+  init/Kconfig:16:warning: 'GCC_VERSION': number is invalid
+  #
+  # configuration written to .config
+  #
 
-So, I want to get rid of as many cc-option calls as possible.
+Terminate parsing files immediately if $(CC) or $(LD) is not found.
+"make *config" will fail more nicely.
 
+  $ make CROSS_COMPILE=foo defconfig
+  *** Default configuration is based on 'x86_64_defconfig'
+  scripts/Kconfig.include:34: compiler 'foogcc' not found
+  make[1]: *** [scripts/kconfig/Makefile;82: defconfig] Error 1
+  make: *** [Makefile;557: defconfig] Error 2
 
-> Asking in general - do you have any numbers :-)?
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Removing a couple of cc-options does not make
-a measurable difference in general use-cases.
+ Makefile                | 2 +-
+ scripts/Kconfig.include | 8 ++++++++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-But, this might be more beneficial for chrome OS
-because $(CC) is a wrapper and invoking it is much more expensive.
-
-
-
-
->
-> - Sedat -
->
-> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > ---
-> >
-> >  scripts/Makefile.extrawarn | 13 +++++++------
-> >  1 file changed, 7 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> > index 523c4cafe2dc..3ab8d1a303cd 100644
-> > --- a/scripts/Makefile.extrawarn
-> > +++ b/scripts/Makefile.extrawarn
-> > @@ -23,15 +23,16 @@ warning-  := $(empty)
-> >  warning-1 := -Wextra -Wunused -Wno-unused-parameter
-> >  warning-1 += -Wmissing-declarations
-> >  warning-1 += -Wmissing-format-attribute
-> > -warning-1 += $(call cc-option, -Wmissing-prototypes)
-> > +warning-1 += -Wmissing-prototypes
-> >  warning-1 += -Wold-style-definition
-> > -warning-1 += $(call cc-option, -Wmissing-include-dirs)
-> > +warning-1 += -Wmissing-include-dirs
-> >  warning-1 += $(call cc-option, -Wunused-but-set-variable)
-> >  warning-1 += $(call cc-option, -Wunused-const-variable)
-> >  warning-1 += $(call cc-option, -Wpacked-not-aligned)
-> >  warning-1 += $(call cc-option, -Wstringop-truncation)
-> > -warning-1 += $(call cc-disable-warning, missing-field-initializers)
-> > -warning-1 += $(call cc-disable-warning, sign-compare)
-> > +# The following turn off the warnings enabled by -Wextra
-> > +warning-1 += -Wno-missing-field-initializers
-> > +warning-1 += -Wno-sign-compare
-> >
-> >  warning-2 := -Waggregate-return
-> >  warning-2 += -Wcast-align
-> > @@ -39,8 +40,8 @@ warning-2 += -Wdisabled-optimization
-> >  warning-2 += -Wnested-externs
-> >  warning-2 += -Wshadow
-> >  warning-2 += $(call cc-option, -Wlogical-op)
-> > -warning-2 += $(call cc-option, -Wmissing-field-initializers)
-> > -warning-2 += $(call cc-option, -Wsign-compare)
-> > +warning-2 += -Wmissing-field-initializers
-> > +warning-2 += -Wsign-compare
-> >  warning-2 += $(call cc-option, -Wmaybe-uninitialized)
-> >  warning-2 += $(call cc-option, -Wunused-macros)
-> >
-> > --
-> > 2.17.1
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> > To post to this group, send email to clang-built-linux@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20190509064635.1445-1-yamada.masahiro%40socionext.com.
-> > For more options, visit https://groups.google.com/d/optout.
-
-
-
+diff --git a/Makefile b/Makefile
+index 28965187c528..bd7ae11947cb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -537,7 +537,7 @@ endif
+ # Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
+ # CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
+ # and from include/config/auto.conf.cmd to detect the compiler upgrade.
+-CC_VERSION_TEXT = $(shell $(CC) --version | head -n 1)
++CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1)
+ 
+ ifeq ($(config-targets),1)
+ # ===========================================================================
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 87ff1dcc6bd5..0b267fb27f07 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -18,6 +18,10 @@ if-success = $(shell,{ $(1); } >/dev/null 2>&1 && echo "$(2)" || echo "$(3)")
+ # Return y if <command> exits with 0, n otherwise
+ success = $(if-success,$(1),y,n)
+ 
++# $(failure,<command>)
++# Return n if <command> exits with 0, y otherwise
++failure = $(if-success,$(1),n,y)
++
+ # $(cc-option,<flag>)
+ # Return y if the compiler supports <flag>, n otherwise
+ cc-option = $(success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null)
+@@ -26,5 +30,9 @@ cc-option = $(success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null)
+ # Return y if the linker supports <flag>, n otherwise
+ ld-option = $(success,$(LD) -v $(1))
+ 
++# check if $(CC) and $(LD) exist
++$(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
++$(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
++
+ # gcc version including patch level
+ gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
