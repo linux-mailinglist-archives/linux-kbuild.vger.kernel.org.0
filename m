@@ -2,116 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FF318AFB
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 15:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FAA118B3C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 16:09:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbfEINtq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 May 2019 09:49:46 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:44658 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726195AbfEINtq (ORCPT
+        id S1726554AbfEIOJC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 May 2019 10:09:02 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:26127 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726411AbfEIOJC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 May 2019 09:49:46 -0400
-Received: by mail-wr1-f67.google.com with SMTP id c5so3136630wrs.11;
-        Thu, 09 May 2019 06:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=8aNzdQydgV0JN9gnkWZdb88bayQRUcesogfi+tTCa+o=;
-        b=h2IuBIh9sVN4Qk734XE4pCs2s3fXTu5EznMO8OeK4fp5LkdDiCrCob9MVlz03u/5eR
-         ns7aUv+WMwGkYI2Nby9sxPR9hTElKEbxCGT/yrmMdU+TkHYD+FJTfEtDFAn2lEfySWUl
-         t635ENJ0TIf8eCvMr/26VMKjEdwCLXUEkiPS9mFRx0nP5n9oFDy9cyjJ6MZqyj6TWoib
-         tvUJZbiqzAdDfMJcrUD4uadVIOCEk8BFByad2aYuGtDY1WeIqI3a66+TwJa7QVXZQPfn
-         2CsGadYT2FOBf/Y692nKkz0T9IVQV7dxYGcBHhEx2Fm8KWn0yda7TYKIdtyTwh9lU7xl
-         siMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=8aNzdQydgV0JN9gnkWZdb88bayQRUcesogfi+tTCa+o=;
-        b=plL/KpBhctD/Dkf5g48i4scWjtOt+r4+p97692urZWGgJBdBK06tpaMOBKxDkHWVed
-         GYlvnDg89LCv4lnHC1woYsYj+2/bP/VW/l2CeRFVFTVSfe8utAggE0AcLFxNHfWUvbUO
-         3ZIEkoMReywj5GPI6NujTQln2Tc/edXSItoT8h9KawdL79owkAnZTpJv6KiYsuVuV1Ce
-         TPino3u5YnU2tIyLEK+RCvuIWWoAGc84PCQ0w5P7GBqGEk+E2bp6vrnxE1EpzCudWABl
-         ETiA32G+7+DhG1+ONYmgz5/1pFLh43AkZKIrDjrJ4x+PcBVdpV9jsK4mHNy4DT90ps2b
-         n2AA==
-X-Gm-Message-State: APjAAAXewaF9OfUdT4TI2RBe6tXLi9ADJecre4/ef3QUBFbUMv7iWV69
-        ZtRo3ES4GsPp3c5MnQZ4csOkIeYXY8341ph+LoU=
-X-Google-Smtp-Source: APXvYqxMO6zIdBnRmjRHXwSKDiGcHF9gWqucB+hpEEiKv/rwzlDTHfCZ0iKt4ucN2JYEyfTifAX//A/v4syk8eV/6+g=
-X-Received: by 2002:adf:dc4b:: with SMTP id m11mr3361338wrj.66.1557409784452;
- Thu, 09 May 2019 06:49:44 -0700 (PDT)
+        Thu, 9 May 2019 10:09:02 -0400
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x49E8mVK014119;
+        Thu, 9 May 2019 23:08:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x49E8mVK014119
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1557410929;
+        bh=EZMLary+S+9G6cLchLp//JUrbW4OA+W27VKESK3gpQQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mOhCkhFl5O8yiIT+wwl0Y92WkVEr496DrkVp96FpOjHU+bVqIEhGzEBJAKz477626
+         REEq0wRshE0LNDOq+e40XhyHP5Uxu9TUZT2fDHSawEHhyh9F6yKNe1QsEMZg8se4Fg
+         8hq+gaxSNRblDwzAzbLI6rCfFaWB+0kxbOrahHkKkz3TF8WAVO6YlyYCigEfD/rtXU
+         dRLfwPj80JvcmojwnWptihjUPX3e6p8LuQ08PHBV4IZSktNPShrJ6PSqvSsjjHcWrh
+         QNmGn6WJh/SNI3JByG7726vOALdFvnWosyvoaZVl/cmZoWyeeEXA0SqltXLocLdD5y
+         Ey2mL/VmTjJQA==
+X-Nifty-SrcIP: [209.85.217.54]
+Received: by mail-vs1-f54.google.com with SMTP id o10so1467280vsp.12;
+        Thu, 09 May 2019 07:08:48 -0700 (PDT)
+X-Gm-Message-State: APjAAAVHDx3AEvOARZwSKvJ9KmQN5iX0YgnWn93ah/3RCY0b9BCK0xmE
+        MCYJNR+mURXSaGJDC5O6HPUFCxJ3SkhEX75MmHw=
+X-Google-Smtp-Source: APXvYqyXqKJ3SsM3Ps8XtfCp7GyYivlSpdHI1xek9RndBNDO1WT3kBOSIoE8oM8e7mGqFya2uRNXk1RdUg629T6kvyw=
+X-Received: by 2002:a67:f109:: with SMTP id n9mr2198293vsk.181.1557410927513;
+ Thu, 09 May 2019 07:08:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNASpsid7_sh4rdRNSTwZ1YtW_+uH2eoarJNNUttntQZ-kg@mail.gmail.com>
- <20190509114824.25866-1-natechancellor@gmail.com>
-In-Reply-To: <20190509114824.25866-1-natechancellor@gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 9 May 2019 15:49:32 +0200
-Message-ID: <CA+icZUUN7cVXnkUv9DzYC7voys_CS=DJDm19EeYSWPyQwVdXVw@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Don't try to add '-fcatch-undefined-behavior' flag
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>
+References: <1557146820-13059-1-git-send-email-krzk@kernel.org>
+In-Reply-To: <1557146820-13059-1-git-send-email-krzk@kernel.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 9 May 2019 23:08:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATFKHmgi+7LktGJg9FRJr3BoZb=r+OdPE4rf=q1WE0j3g@mail.gmail.com>
+Message-ID: <CAK7LNATFKHmgi+7LktGJg9FRJr3BoZb=r+OdPE4rf=q1WE0j3g@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: kbuild: Add pattern for scripts/*vmlinux*
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 9, 2019 at 1:49 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Mon, May 6, 2019 at 9:47 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
-> This is no longer a valid option in clang, it was removed in 3.5, which
-> we don't support.
+> scripts/link-vmlinux.sh is part of kbuild so extend the pattern to match
+> any vmlinux related scripts.
 >
-> https://github.com/llvm/llvm-project/commit/cb3f812b6b9fab8f3b41414f24e90222170417b4
->
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Cool.
-
-Can you test with -mglobal-merge (inverted -mno-global-merge) which is
-default for Clang?
-I could build, link and boot with my llvm-toolchain (incl. lld-9) on x86-64.
-
-Maybe this is also no more needed?
+Applied to linux-kbuild.
 
 Thanks.
 
-- Sedat -
 
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 > ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> Let me know if you want this incremental to your patch. I figured it
-> made more sense to remove this then do the cc-option/cc-disable-warning
-> removal because it will simplify the commit message.
->
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index d24f5a8009ee..e4788eb2c9b9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -740,7 +740,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
->  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
->  # See modpost pattern 2
->  KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
-> -KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
->  else
->
->  # These warnings generated too much noise in a regular build.
-> --
-> 2.21.0
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c61c49dd3643..aa0a61c7736b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8523,6 +8523,7 @@ F:        scripts/Kbuild*
+>  F:     scripts/Makefile*
+>  F:     scripts/basic/
+>  F:     scripts/mk*
+> +F:     scripts/*vmlinux*
+>  F:     scripts/mod/
+>  F:     scripts/package/
 >
 > --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To post to this group, send email to clang-built-linux@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20190509114824.25866-1-natechancellor%40gmail.com.
-> For more options, visit https://groups.google.com/d/optout.
+> 2.7.4
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
