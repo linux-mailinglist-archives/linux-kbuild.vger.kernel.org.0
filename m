@@ -2,94 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2346A18584
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 08:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C412185C0
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 09:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbfEIGrY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 May 2019 02:47:24 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:21626 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726099AbfEIGrY (ORCPT
+        id S1726415AbfEIHGm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 May 2019 03:06:42 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:35865 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726192AbfEIHGl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 May 2019 02:47:24 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x496kbIt007196;
-        Thu, 9 May 2019 15:46:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x496kbIt007196
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557384398;
-        bh=HgsrgIqjVdLF7UB2xpTSRSKdtXu7HsAgcng7Ba+OpTA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PO3TjmdBxpjxqRVYjOTtcotfTke1egGnqQSICQ1xOKcFhMZl7V9h4LnT6P4aACZuz
-         jgDx1drcBH0hGoY2n6qd5Iu3HQ9xZ6uZoPTEWregf7vvtGfPmVdhRK6yTrvihvsM76
-         6NNkt994VYhdlsEUeSgliaewR8jBa56YR1FyZQaSGOG38JWIkA/FM85u2+zaxSVFzp
-         zmgvoWlBdhbv/3+fy1WQq5LuoP8fTqkqqna2lPsssk9bmYRNN0f5Va+E8JW82Zh8g1
-         BS2GuX9uatxnhEds55n/Xc2med5nGKIjytqgsHlNdoO6XAvsrkMs/8YPL2bp4MceJP
-         VxrtGpHOsyPEg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Thu, 9 May 2019 03:06:41 -0400
+Received: by mail-wm1-f68.google.com with SMTP id j187so1690536wmj.1;
+        Thu, 09 May 2019 00:06:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=QxjxCtAGC9sgwBVP0aujIL+nj1BEgOsSRfVwObMvkJw=;
+        b=hMNmTM3Fa4JTw2IDJeS+emhELf+P3C9s3RfCoMpeL0GM15rxVFVRG0CFfxB4hE3QCu
+         cZlYTWpl96SUlYt+Rn8Gl03IQMhr4MaFNVeY20kQTP9tCYM3CN4lF6SePXptshRO3PYd
+         IMEr4/wAsirOUjRScpOicNL3c37QQRVXFwx7mbHU+phdHdenH5H0eQQz7moktMDrnnE2
+         v1gvMvigCBo+Tbw5kKXo1NaG8aV9g2AArXNITCElVMdG6l9fxJynCeBDCdEURabuqAVT
+         IAmM1rSnMbFXwjwRsk6jVojnGFsmKusq89hNa6Q/UIR+VbCH+mRGaS+73Vp+NIdHQ+DF
+         RBHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=QxjxCtAGC9sgwBVP0aujIL+nj1BEgOsSRfVwObMvkJw=;
+        b=mX8LI/gjYG46MjqA60guZizQTJmBTlCGPtZ30Fd9uXAUp8yNUl5MZ+l2UDPwe6h+OL
+         IVdo9if88BElVr5XkcweSoDaQDDojNOmlSvLVwIDj4QbOjR69FhB+tb8xaEEAnFVgCSS
+         eynDHCFHs1WRiOQ1pVGzmUr/ezyspCoo5CdE3XGzLRg7ZyoPxMfIVSP3kuBwrGFrr/NQ
+         0DeSftj/QMWVsVtnSj62HnJzsnAMtB6wqCoYUzQybOZfuTyBUbDpBfcsOvQNjzJn53uc
+         +DbTyjhrEdsM0pPTOptXMNmWqz++oVXImf2uAPeDUCwSxvm7S7aX2MZdNr/yOAEGyRb0
+         OMIg==
+X-Gm-Message-State: APjAAAX8zjAMeo0ZypE5oHgvHYHXUmJ6IenVPGIDttedS+JhA3hKvZ+z
+        3otA9Q1/grEMbaPz2NpSLcMh9hZWsnGd7KLvGpg=
+X-Google-Smtp-Source: APXvYqzH6foRLsHJ29fBZzdGGPQUH8sMhpgz0hNztNX2aeCfOQEtixxoWrrihN1sdE3rlgkVECQmfNxJSeXS35A9LNI=
+X-Received: by 2002:a1c:cc15:: with SMTP id h21mr1521987wmb.85.1557385599242;
+ Thu, 09 May 2019 00:06:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190509064455.1173-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190509064455.1173-1-yamada.masahiro@socionext.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 9 May 2019 09:06:27 +0200
+Message-ID: <CA+icZUX_AgZdH5Z+1+k+oVdYSo7vqzeJsGPndb_Sa8VOSk_yOg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add most of Clang-specific flags unconditionally
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        clang-built-linux@googlegroups.com,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: add some extra warning flags unconditionally
-Date:   Thu,  9 May 2019 15:46:35 +0900
-Message-Id: <20190509064635.1445-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-These flags are documented in the GCC 4.6 manual, and recognized by
-Clang as well. Let's rip off the cc-option / cc-disable-warning switches.
+On Thu, May 9, 2019 at 8:45 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> We do not support old Clang versions. Upgrade your clang version
+> if any of these flags is unsupported.
+>
+> Let's add flags within ifdef CONFIG_CC_IS_CLANG unconditionally,
+> except -fcatch-undefined-behavior.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+Looks good to me.
 
- scripts/Makefile.extrawarn | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 523c4cafe2dc..3ab8d1a303cd 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -23,15 +23,16 @@ warning-  := $(empty)
- warning-1 := -Wextra -Wunused -Wno-unused-parameter
- warning-1 += -Wmissing-declarations
- warning-1 += -Wmissing-format-attribute
--warning-1 += $(call cc-option, -Wmissing-prototypes)
-+warning-1 += -Wmissing-prototypes
- warning-1 += -Wold-style-definition
--warning-1 += $(call cc-option, -Wmissing-include-dirs)
-+warning-1 += -Wmissing-include-dirs
- warning-1 += $(call cc-option, -Wunused-but-set-variable)
- warning-1 += $(call cc-option, -Wunused-const-variable)
- warning-1 += $(call cc-option, -Wpacked-not-aligned)
- warning-1 += $(call cc-option, -Wstringop-truncation)
--warning-1 += $(call cc-disable-warning, missing-field-initializers)
--warning-1 += $(call cc-disable-warning, sign-compare)
-+# The following turn off the warnings enabled by -Wextra
-+warning-1 += -Wno-missing-field-initializers
-+warning-1 += -Wno-sign-compare
- 
- warning-2 := -Waggregate-return
- warning-2 += -Wcast-align
-@@ -39,8 +40,8 @@ warning-2 += -Wdisabled-optimization
- warning-2 += -Wnested-externs
- warning-2 += -Wshadow
- warning-2 += $(call cc-option, -Wlogical-op)
--warning-2 += $(call cc-option, -Wmissing-field-initializers)
--warning-2 += $(call cc-option, -Wsign-compare)
-+warning-2 += -Wmissing-field-initializers
-+warning-2 += -Wsign-compare
- warning-2 += $(call cc-option, -Wmaybe-uninitialized)
- warning-2 += $(call cc-option, -Wunused-macros)
- 
--- 
-2.17.1
+Just as sidenote:
+I experimented with a snapshot version of clang-9 and lld-9 and could
+build, link and boot on bare-metal with '-mglobal-merge' on
+Debian/buster AMD64.
+But forgot to document in [1].
 
+[1] https://github.com/ClangBuiltLinux/linux/issues/431
+
+> ---
+>
+>  Makefile                   | 10 +++++-----
+>  scripts/Makefile.extrawarn | 12 ++++++------
+>  2 files changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index bd7ae11947cb..c71ffb6f55b5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -731,15 +731,15 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
+>  KBUILD_CFLAGS += $(stackp-flags-y)
+>
+>  ifdef CONFIG_CC_IS_CLANG
+> -KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
+> +KBUILD_CPPFLAGS += -Qunused-arguments
+> +KBUILD_CFLAGS += -Wno-format-invalid-specifier
+> +KBUILD_CFLAGS += -Wno-gnu
+>  # Quiet clang warning: comparison of unsigned expression < 0 is always false
+> -KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
+> +KBUILD_CFLAGS += -Wno-tautological-compare
+>  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
+>  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
+>  # See modpost pattern 2
+> -KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
+> +KBUILD_CFLAGS += -mno-global-merge
+>  KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
+>  else
+>
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 768306add591..523c4cafe2dc 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -66,11 +66,11 @@ KBUILD_CFLAGS += $(warning)
+>  else
+>
+>  ifdef CONFIG_CC_IS_CLANG
+> -KBUILD_CFLAGS += $(call cc-disable-warning, initializer-overrides)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, unused-value)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, format)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, sign-compare)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, format-zero-length)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, uninitialized)
+> +KBUILD_CFLAGS += -Wno-initializer-overrides
+> +KBUILD_CFLAGS += -Wno-unused-value
+> +KBUILD_CFLAGS += -Wno-format
+> +KBUILD_CFLAGS += -Wno-sign-compare
+> +KBUILD_CFLAGS += -Wno-format-zero-length
+> +KBUILD_CFLAGS += -Wno-uninitialized
+>  endif
+>  endif
+> --
+> 2.17.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To post to this group, send email to clang-built-linux@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20190509064455.1173-1-yamada.masahiro%40socionext.com.
+> For more options, visit https://groups.google.com/d/optout.
