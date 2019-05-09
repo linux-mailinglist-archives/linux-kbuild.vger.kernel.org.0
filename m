@@ -2,171 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A765B18679
-	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 10:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 905A1188CA
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 May 2019 13:15:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbfEIIBS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 9 May 2019 04:01:18 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:20772 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725963AbfEIIBS (ORCPT
+        id S1725943AbfEILPj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 May 2019 07:15:39 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43187 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbfEILPi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 9 May 2019 04:01:18 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x497xj2q012573;
-        Thu, 9 May 2019 16:59:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x497xj2q012573
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557388786;
-        bh=jub7bB0RFseuMn3f9vTFge0BDW0edV2DzaD6c3dAiQA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gZou6hCj3tbogxwjicKwMCixLy35m9sNFb8Dmpz2aK4xYQrkVyYiZo/DkZgQkNEpz
-         zcem2So5e6G5IrKS+bzKlVHtzPP1kHIPA5S5WSPdkFNlUuT5PvQyA/rd9YIpxq50UT
-         SqbrvmSvrvooJKtMuNSq1l1hVHstwznIQHQdbzGEZ7I6gn9sKP3f0SP4gjxAqJNmb7
-         wu03p5mEpDt/pZPyWzv7rudw7YIx3uyiNX/Scy3stjMSLIXlHl1MzfhMBbvnfHzNhR
-         n/uZdlXeIjx5vwCuBbrhoBgtAWNhqj0KuPLMH6PqiGLEb2I09Nrblyqwko1WiV28fl
-         /3zJI3cVHzCGA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-arch <linux-arch@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        uclinux-h8-devel@lists.sourceforge.jp,
-        linux-xtensa@linux-xtensa.org, Greentime Hu <green.hu@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Chris Zankel <chris@zankel.net>, linux-kernel@vger.kernel.org,
-        Guo Ren <guoren@kernel.org>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        linux-riscv@lists.infradead.org, Max Filippov <jcmvbkbc@gmail.com>,
-        Albert Ou <aou@eecs.berkeley.edu>
-Subject: [PATCH] arch: remove dangling asm-generic wrappers
-Date:   Thu,  9 May 2019 16:59:34 +0900
-Message-Id: <20190509075934.12185-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 9 May 2019 07:15:38 -0400
+Received: by mail-ed1-f66.google.com with SMTP id w33so1651675edb.10;
+        Thu, 09 May 2019 04:15:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1mAgKXKVH6WJBmD9lEy5Hj69s/z+i3XAtMbYTQrm+2w=;
+        b=QA6Edfawa1zT9m9B+S/BkNfQazS4cCMndYNMA/og+NYbvmgkqAHNTdVXuXKfTLh+wR
+         qCdI9Lr1K2gbRYi4Y10nT9fCJREhMYQ2E0ajnPNtTlJqcFfhMA2JhUYzbMIWpHsGdrsE
+         KyPA0TRbfcqpNAXvBP1+E7rXrYeC7A7pSmkS2DMnckMjdJaBUq4+qfsnoXWIv6TPUvKw
+         CmrEa1Ih0GZ6yr0fqPikN9tqoHUzVoPtRGhdwLEwWb+MN5f7KEAGS5QtaRH2qPZtNTwO
+         FEwdwSrrABkEzg5YFC1zvw6p+NKgR6U8cb4QxkK8TuHx5Prz8yLZ9XW3GKI5Use4UaRE
+         A4Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1mAgKXKVH6WJBmD9lEy5Hj69s/z+i3XAtMbYTQrm+2w=;
+        b=gCsE+H0IbzOkaDUBSiEB7VLTnJfp7s1spkR/v2PfTR8ITB4zX7yBjnKvvwLr2AxPOu
+         razytLTF4vyHH7iBfXF61AVQA0Y+UeWTtd/iOUA/+Jc1Wldu/bITBFb/QSmZO6AnKR3t
+         ufBJYkeYj574rKYP1M9+ZzJXGSZ9M3mpYUw7cfn9I1Ebd4kULmgl1su57VE08JgvcYr7
+         Zkhj/7WRKgC2KnTeTzUNgPtnBh10pYy8RcUi5Hk77jHII3iNC1WPTkJbeQzk97CVya9w
+         S/6+58Xv9Tvh/Dz7hMnrYlghu9Cl6LUMSG/LnEuJTBY2jMyPFXvyvSlPFoi3ufCgJpl2
+         sadw==
+X-Gm-Message-State: APjAAAV+lITzRopj/sSwGgdaIcQ5vZQg9aA/aEe2mTuQn/CDGeMV6mfQ
+        3reciEtbLURO7rYUk7R/pK8=
+X-Google-Smtp-Source: APXvYqwGMCpOdLTxnht++5+hKtWPAl5Aps+XOP+DAJpiCjVanBHLY7ecFbvwxGHXC43savWrLIKOdg==
+X-Received: by 2002:a17:906:65b:: with SMTP id t27mr2744512ejb.49.1557400536609;
+        Thu, 09 May 2019 04:15:36 -0700 (PDT)
+Received: from archlinux-i9 ([2a01:4f9:2b:2b84::2])
+        by smtp.gmail.com with ESMTPSA id v15sm276581ejh.6.2019.05.09.04.15.35
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 09 May 2019 04:15:35 -0700 (PDT)
+Date:   Thu, 9 May 2019 04:15:34 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        clang-built-linux@googlegroups.com,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: add most of Clang-specific flags unconditionally
+Message-ID: <20190509111534.GA32696@archlinux-i9>
+References: <20190509064455.1173-1-yamada.masahiro@socionext.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190509064455.1173-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-These generic-y defines do not have the corresponding generic header
-in include/asm-generic/, so they are definitely invalid.
+On Thu, May 09, 2019 at 03:44:55PM +0900, Masahiro Yamada wrote:
+> We do not support old Clang versions. Upgrade your clang version
+> if any of these flags is unsupported.
+> 
+> Let's add flags within ifdef CONFIG_CC_IS_CLANG unconditionally,
+> except -fcatch-undefined-behavior.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+> 
+>  Makefile                   | 10 +++++-----
+>  scripts/Makefile.extrawarn | 12 ++++++------
+>  2 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index bd7ae11947cb..c71ffb6f55b5 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -731,15 +731,15 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
+>  KBUILD_CFLAGS += $(stackp-flags-y)
+>  
+>  ifdef CONFIG_CC_IS_CLANG
+> -KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
+> +KBUILD_CPPFLAGS += -Qunused-arguments
+> +KBUILD_CFLAGS += -Wno-format-invalid-specifier
+> +KBUILD_CFLAGS += -Wno-gnu
+>  # Quiet clang warning: comparison of unsigned expression < 0 is always false
+> -KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
+> +KBUILD_CFLAGS += -Wno-tautological-compare
+>  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
+>  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
+>  # See modpost pattern 2
+> -KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
+> +KBUILD_CFLAGS += -mno-global-merge
+>  KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+I think we should just remove this, I'm fairly confident the kernel
+can't be reliably compiled with anything earlier than Clang 4 (Pixel 2
+was shipped with it but had some hacks, this commit is from Clang 3.5):
 
- arch/csky/include/asm/Kbuild   | 4 ----
- arch/h8300/include/asm/Kbuild  | 1 -
- arch/nds32/include/asm/Kbuild  | 3 ---
- arch/riscv/include/asm/Kbuild  | 4 ----
- arch/xtensa/include/asm/Kbuild | 1 -
- 5 files changed, 13 deletions(-)
+https://github.com/llvm/llvm-project/commit/cb3f812b6b9fab8f3b41414f24e90222170417b4
 
-diff --git a/arch/csky/include/asm/Kbuild b/arch/csky/include/asm/Kbuild
-index a9b63efef416..c1a6c0f31150 100644
---- a/arch/csky/include/asm/Kbuild
-+++ b/arch/csky/include/asm/Kbuild
-@@ -1,6 +1,5 @@
- generic-y += asm-offsets.h
- generic-y += bugs.h
--generic-y += clkdev.h
- generic-y += compat.h
- generic-y += current.h
- generic-y += delay.h
-@@ -29,15 +28,12 @@ generic-y += local64.h
- generic-y += mm-arch-hooks.h
- generic-y += mmiowb.h
- generic-y += module.h
--generic-y += mutex.h
- generic-y += pci.h
- generic-y += percpu.h
- generic-y += preempt.h
- generic-y += qrwlock.h
--generic-y += scatterlist.h
- generic-y += sections.h
- generic-y += serial.h
--generic-y += shm.h
- generic-y += timex.h
- generic-y += topology.h
- generic-y += trace_clock.h
-diff --git a/arch/h8300/include/asm/Kbuild b/arch/h8300/include/asm/Kbuild
-index 123d8f54be4a..63e5ab115e3c 100644
---- a/arch/h8300/include/asm/Kbuild
-+++ b/arch/h8300/include/asm/Kbuild
-@@ -38,7 +38,6 @@ generic-y += pci.h
- generic-y += percpu.h
- generic-y += pgalloc.h
- generic-y += preempt.h
--generic-y += scatterlist.h
- generic-y += sections.h
- generic-y += serial.h
- generic-y += shmparam.h
-diff --git a/arch/nds32/include/asm/Kbuild b/arch/nds32/include/asm/Kbuild
-index 5bd2b4ee951f..6897045e7be5 100644
---- a/arch/nds32/include/asm/Kbuild
-+++ b/arch/nds32/include/asm/Kbuild
-@@ -4,10 +4,8 @@ generic-y += bitops.h
- generic-y += bug.h
- generic-y += bugs.h
- generic-y += checksum.h
--generic-y += clkdev.h
- generic-y += cmpxchg.h
- generic-y += compat.h
--generic-y += cputime.h
- generic-y += device.h
- generic-y += div64.h
- generic-y += dma.h
-@@ -26,7 +24,6 @@ generic-y += kdebug.h
- generic-y += kmap_types.h
- generic-y += kprobes.h
- generic-y += kvm_para.h
--generic-y += limits.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mm-arch-hooks.h
-diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
-index cccd12cf27d4..f86d68dabaf0 100644
---- a/arch/riscv/include/asm/Kbuild
-+++ b/arch/riscv/include/asm/Kbuild
-@@ -1,7 +1,6 @@
- generic-y += bugs.h
- generic-y += checksum.h
- generic-y += compat.h
--generic-y += cputime.h
- generic-y += device.h
- generic-y += div64.h
- generic-y += dma.h
-@@ -11,7 +10,6 @@ generic-y += emergency-restart.h
- generic-y += exec.h
- generic-y += fb.h
- generic-y += hardirq.h
--generic-y += hash.h
- generic-y += hw_irq.h
- generic-y += irq_regs.h
- generic-y += irq_work.h
-@@ -21,10 +19,8 @@ generic-y += kvm_para.h
- generic-y += local.h
- generic-y += local64.h
- generic-y += mm-arch-hooks.h
--generic-y += mutex.h
- generic-y += percpu.h
- generic-y += preempt.h
--generic-y += scatterlist.h
- generic-y += sections.h
- generic-y += serial.h
- generic-y += shmparam.h
-diff --git a/arch/xtensa/include/asm/Kbuild b/arch/xtensa/include/asm/Kbuild
-index 35f83c4bf239..f1686d919178 100644
---- a/arch/xtensa/include/asm/Kbuild
-+++ b/arch/xtensa/include/asm/Kbuild
-@@ -27,7 +27,6 @@ generic-y += preempt.h
- generic-y += qrwlock.h
- generic-y += qspinlock.h
- generic-y += sections.h
--generic-y += socket.h
- generic-y += topology.h
- generic-y += trace_clock.h
- generic-y += vga.h
--- 
-2.17.1
+Otherwise:
 
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+
+>  else
+>  
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 768306add591..523c4cafe2dc 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -66,11 +66,11 @@ KBUILD_CFLAGS += $(warning)
+>  else
+>  
+>  ifdef CONFIG_CC_IS_CLANG
+> -KBUILD_CFLAGS += $(call cc-disable-warning, initializer-overrides)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, unused-value)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, format)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, sign-compare)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, format-zero-length)
+> -KBUILD_CFLAGS += $(call cc-disable-warning, uninitialized)
+> +KBUILD_CFLAGS += -Wno-initializer-overrides
+> +KBUILD_CFLAGS += -Wno-unused-value
+> +KBUILD_CFLAGS += -Wno-format
+> +KBUILD_CFLAGS += -Wno-sign-compare
+> +KBUILD_CFLAGS += -Wno-format-zero-length
+> +KBUILD_CFLAGS += -Wno-uninitialized
+>  endif
+>  endif
+> -- 
+> 2.17.1
+> 
