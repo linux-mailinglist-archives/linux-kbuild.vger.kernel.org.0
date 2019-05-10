@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00F4419845
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 08:13:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E08B19842
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 08:13:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbfEJGNP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1726966AbfEJGNP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Fri, 10 May 2019 02:13:15 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:49769 "EHLO
+Received: from conuserg-08.nifty.com ([210.131.2.75]:49735 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbfEJGNP (ORCPT
+        with ESMTP id S1726923AbfEJGNP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Fri, 10 May 2019 02:13:15 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x4A6C8eT029885;
-        Fri, 10 May 2019 15:12:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x4A6C8eT029885
+        by conuserg-08.nifty.com with ESMTP id x4A6C8eU029885;
+        Fri, 10 May 2019 15:12:09 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x4A6C8eU029885
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557468729;
-        bh=sNTgF7wioKY7uXMPCcWRJTAZz6AxXXLPrOF4RQ9AV0A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=VOoTHFEM/7QzPfn7u5aEBn8U6OEZs2aC+E3Vw6Zcz1AImB1T5umuxJusgoj1l2jkJ
-         uYFHv9sQnqKwJNnBDRYajp+ELUeSyjN1sejUq3cDdFT6J4C1uEPI8o3/PiXKC/65t2
-         kaUpNSA3QL2ZynIob3L1sdBqKTYRVAq5kBVLd3Z4kAX4Vxf5qDhK4vhlf0JqSgsaHD
-         qaYRhGsN6SYWgSMIM1C9lbAYdJL0c2T6rxsBFnb+fbNxEymNFuts6nxILm5qOWz/EZ
-         wp5TM4ia0GQOHmtGCKTEwpdRifDUoVhkNdDt3HLhs0hCSHPXBF9jy/i9inrtzNkSSh
-         KDrtDZVWECf5Q==
+        s=dec2015msa; t=1557468730;
+        bh=Zz5IFdzVMzJDlwRPqiFlRYTAt3VGP5hkTJyDL3fFG1U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=taCcs/K6j9GCIzR4TXiWlEwzuDBA7PJsUpoHNoSZW7DhpqNQ03j1oSrzmV3M10s8X
+         Nn1f4EOsAI2/fFcX0yQruU5wcVLkIZ9Fc1Zn3Wl2icRv4QikUNAmLgdQNOpIHPTCnB
+         pgIa8h7I3qOWU6zt9Trg3RktjLu7F2CSPsHUK1i4hZOPoy/GGh7bEJG9KgWa4eECRt
+         RRonuBVrsJTx5yiRMNKawa8U2DsYVT6UD0EmpisLLr/ckaC3wP5Bmi5CEJC8v9BXgI
+         b1+JFDEA8C0c8OlOBG21n8E8Ktty3799t1V+1S7mlYoTIXWf2V10Yr0LrMtvfSfKmD
+         vI/fBduZV8A6A==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -35,123 +35,127 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Nicolas Porcel <nicolasporcel06@gmail.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] kconfig: do not accept a directory for configuration output
-Date:   Fri, 10 May 2019 15:12:04 +0900
-Message-Id: <20190510061205.28753-1-yamada.masahiro@socionext.com>
+Subject: [PATCH 2/2] kconfig: do not write .config if the content is the same
+Date:   Fri, 10 May 2019 15:12:05 +0900
+Message-Id: <20190510061205.28753-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190510061205.28753-1-yamada.masahiro@socionext.com>
+References: <20190510061205.28753-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, conf_write() can be called with a directory name instead
-of a file name. As far as I see, this can happen for menuconfig,
-nconfig, gconfig.
+Kconfig updates the .config when it exits even if its content is
+exactly the same as before. Since its timestamp becomes newer than
+that of other build artifacts, additional processing is invoked,
+which is annoying.
 
-If it is given with a directory path, conf_write() kindly appends
-getenv("KCONFIG_CONFIG"), but this ends up with hacky dir/basename
-handling, and screwed up with a corner-case like "what if
-KCONFIG_CONFIG is an absolute path?" as discussed before:
+- syncconfig is invoked to update include/config/auto.conf, etc.
 
-  https://patchwork.kernel.org/patch/9910037/
+- kernel/config.o is recompiled if CONFIG_IKCONFIG is enabled,
+  then vmlinux is relinked as well.
 
-Since conf_write() is already messed up, I'd say "do not do it".
-Please pass a file path all the time. If a directory path is specified
-for the configuration output, conf_write() will simply error out.
+If the .config is not changed at all, we do not have to even
+touch it. Just bail out showing "No change to .config".
+
+  $ make allmodconfig
+  scripts/kconfig/conf  --allmodconfig Kconfig
+  #
+  # configuration written to .config
+  #
+  $ make allmodconfig
+  scripts/kconfig/conf  --allmodconfig Kconfig
+  #
+  # No change to .config
+  #
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Nicolas Porcel <nicolasporcel06@gmail.com>
 ---
 
- scripts/kconfig/confdata.c | 58 ++++++++++++++++----------------------
- 1 file changed, 24 insertions(+), 34 deletions(-)
+ scripts/kconfig/confdata.c | 54 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
 diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 08ba146a83c5..9fd6430c93d2 100644
+index 9fd6430c93d2..399973e35533 100644
 --- a/scripts/kconfig/confdata.c
 +++ b/scripts/kconfig/confdata.c
-@@ -817,40 +817,31 @@ int conf_write(const char *name)
- 	FILE *out;
- 	struct symbol *sym;
- 	struct menu *menu;
--	const char *basename;
- 	const char *str;
--	char dirname[PATH_MAX+1], tmpname[PATH_MAX+22], newname[PATH_MAX+8];
-+	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
- 	char *env;
+@@ -3,6 +3,7 @@
+  * Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>
+  */
  
--	dirname[0] = 0;
--	if (name && name[0]) {
--		char *slash;
--
--		if (is_dir(name)) {
--			strcpy(dirname, name);
--			strcat(dirname, "/");
--			basename = conf_get_configname();
--		} else if ((slash = strrchr(name, '/'))) {
--			int size = slash - name + 1;
--			memcpy(dirname, name, size);
--			dirname[size] = 0;
--			if (slash[1])
--				basename = slash + 1;
--			else
--				basename = conf_get_configname();
--		} else
--			basename = name;
--	} else
--		basename = conf_get_configname();
--
--	sprintf(newname, "%s%s", dirname, basename);
-+	if (!name)
-+		name = conf_get_configname();
++#include <sys/mman.h>
+ #include <sys/stat.h>
+ #include <ctype.h>
+ #include <errno.h>
+@@ -36,6 +37,52 @@ static bool is_dir(const char *path)
+ 	return S_ISDIR(st.st_mode);
+ }
+ 
++/* return true if the given two files are the same, false otherwise */
++static bool is_same(const char *file1, const char *file2)
++{
++	int fd1, fd2;
++	struct stat st1, st2;
++	void *map1, *map2;
++	bool ret = false;
 +
-+	if (!*name) {
-+		fprintf(stderr, "config name is empty\n");
-+		return -1;
-+	}
++	fd1 = open(file1, O_RDONLY);
++	if (fd1 < 0)
++		return ret;
 +
-+	if (is_dir(name)) {
-+		fprintf(stderr, "%s: Is a directory\n", name);
-+		return -1;
-+	}
++	fd2 = open(file2, O_RDONLY);
++	if (fd2 < 0)
++		goto close1;
 +
- 	env = getenv("KCONFIG_OVERWRITECONFIG");
--	if (!env || !*env) {
--		sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
--		out = fopen(tmpname, "w");
--	} else {
-+	if (env && *env) {
- 		*tmpname = 0;
--		out = fopen(newname, "w");
-+		out = fopen(name, "w");
-+	} else {
-+		snprintf(tmpname, sizeof(tmpname), "%s.%d.tmp",
-+			 name, (int)getpid());
-+		out = fopen(tmpname, "w");
- 	}
- 	if (!out)
- 		return 1;
-@@ -897,14 +888,13 @@ int conf_write(const char *name)
++	ret = fstat(fd1, &st1);
++	if (ret)
++		goto close2;
++	ret = fstat(fd2, &st2);
++	if (ret)
++		goto close2;
++
++	if (st1.st_size != st2.st_size)
++		goto close2;
++
++	map1 = mmap(NULL, st1.st_size, PROT_READ, MAP_PRIVATE, fd1, 0);
++	if (map1 == MAP_FAILED)
++		goto close2;
++
++	map2 = mmap(NULL, st2.st_size, PROT_READ, MAP_PRIVATE, fd2, 0);
++	if (map2 == MAP_FAILED)
++		goto close2;
++
++	if (bcmp(map1, map2, st1.st_size))
++		goto close2;
++
++	ret = true;
++close2:
++	close(fd2);
++close1:
++	close(fd1);
++
++	return ret;
++}
++
+ /*
+  * Create the parent directory of the given path.
+  *
+@@ -888,6 +935,13 @@ int conf_write(const char *name)
  	fclose(out);
  
  	if (*tmpname) {
--		strcat(dirname, basename);
--		strcat(dirname, ".old");
--		rename(newname, dirname);
--		if (rename(tmpname, newname))
-+		snprintf(oldname, sizeof(oldname), "%s.old", name);
-+		rename(name, oldname);
-+		if (rename(tmpname, name))
- 			return 1;
- 	}
- 
--	conf_message("configuration written to %s", newname);
-+	conf_message("configuration written to %s", name);
- 
- 	sym_set_change_count(0);
- 
++		if (is_same(name, tmpname)) {
++			conf_message("No change to %s", name);
++			unlink(tmpname);
++			sym_set_change_count(0);
++			return 0;
++		}
++
+ 		snprintf(oldname, sizeof(oldname), "%s.old", name);
+ 		rename(name, oldname);
+ 		if (rename(tmpname, name))
 -- 
 2.17.1
 
