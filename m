@@ -2,274 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 301771A41E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 22:54:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 354421A43F
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 23:03:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728032AbfEJUya (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 May 2019 16:54:30 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37765 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727980AbfEJUya (ORCPT
+        id S1728027AbfEJVDQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 May 2019 17:03:16 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:37947 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727917AbfEJVDQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 May 2019 16:54:30 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 143so5516667oii.4
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 May 2019 13:54:29 -0700 (PDT)
+        Fri, 10 May 2019 17:03:16 -0400
+Received: by mail-ot1-f67.google.com with SMTP id s19so6805309otq.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 May 2019 14:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wT/cEmU9OzhSA7tBC6sHp/9lnFjqpmjhDQ7p3B9EpFU=;
-        b=evlcGdIsJdYGFkgmf7g49h2klNY0YDgLam0NSxBlsjnIvCyifza0rgc7Kq0J5qmAdA
-         hd0xvzMMOFTjDkUqtbp9Csqd/JIB4Q/9pyDFXYsatysjFYSayOB6R/17rqPL3dsDFKbu
-         CpB1t/Y5N1NsJdrqQqSqw8dZUeUluYMIMdDGCs+6m3ley31zma2gSaxhU1ecliKiQuHb
-         STHQGjDC5w8qxg8OQKDXhctVTJVc43Ml5hH1/yZ8PBYWnwVLGMbfwFwUGqvcrrN1U/Nb
-         /FIgrQ/F3IDvmmebdaC68E2dZKT6zjcG9rqNRGXkw9XZeR6dne5aQ/sOdhecRUXr+TGP
-         otBQ==
+        bh=5IJEIyLyCSAJksvWWMcYhkq2fPhEi0HHhzWa0B9yD5w=;
+        b=poun959UTyB2W/CVfyfAUY2zT22NKhHXlfHj38mwp7XxmCfRoPVdR5wjjCYhZyGXFl
+         6iMhNKPDXrRtESvzEmuijfXZIIpOLgbfylKNWuQ5VCTx12Rh523TaZcavsH6wPO/NVc4
+         OByrPtnNgluFN9yp5gsZZs20Y3SXIaO0Jibiq61KqajYeLZuB7cZSUON0ouWFOYxfzH7
+         gPddygKGscyZCDiy4c5H1gmy79Ei4Az20O8Zy7HPvI5EUhhsPLNO4rF+K370on6+Jrsi
+         ZGUnFljJ/6zUTzUoXTT1DbcVGD28QPxZPIKGKIhuCRf3Aq8tEL1da08UR733OTBmQ/A0
+         aSBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wT/cEmU9OzhSA7tBC6sHp/9lnFjqpmjhDQ7p3B9EpFU=;
-        b=V4XSW/6eLY4D6i34w0TKuRim9FteJqrDFEJlYRpRfJk8kVfwiORP/1SO6gs/ZX7+q5
-         7sNLQz9+ZDNIj+WSXObXxQodRt8G0aEQUhTdDDNMWYq5Gvpb6nQnEkHyIiK9XhzXessH
-         1yynIolUSrZgV/DQMqhvnYvR/ILsxdPFBPovxDw29D9rBHOVw8G4ndeaZo0RCqRW3741
-         B2ogJS3BW3kKAWg9D3c5xTEEqHvKlnOnjMuivXuVJtLXfFtSzPKPL7R3ZZ0eSfC4GFH+
-         iTwrs+CLoJiu1IUpINdo7p2g8H4dgNtwxcmMOoImOiB8KWOfNL5wYAfVr4xBx+RwXWvk
-         dP+Q==
-X-Gm-Message-State: APjAAAWnSU7WcpjwppYMwRLrUSsMdh8Xtdg74O0T83ZDevm4uQiiED+T
-        eURRARSK7VTp476uD+KN6GWQHM/cX5T712nxDDd2WA==
-X-Google-Smtp-Source: APXvYqxNRJu9bl2nkU6ZH1vsxWTQf0PljIkMEjB45yiEnJh9bpnswNueDFN5FM9uV7Z740rv+OdGOJvcAow2vcCRmeo=
-X-Received: by 2002:aca:4586:: with SMTP id s128mr6126273oia.148.1557521668652;
- Fri, 10 May 2019 13:54:28 -0700 (PDT)
+        bh=5IJEIyLyCSAJksvWWMcYhkq2fPhEi0HHhzWa0B9yD5w=;
+        b=bVhNpz4MCvUoewNiI+q6m86NatGRTSgafWmEMBssK+q9Et9/92hJzWN2HoPCcOgVxC
+         HxAjVEJcM5P4QRjr2uVIAjerhvD/7xYGNnnf6U93oKzUMoeAkNmChrnETxqkP8aunN1X
+         3MQEaQMrvwa3GmOJGvr5x98mGaHey8LRyDjEdc+T4dbzgbTAGcHhUrDqCGxM+GaSDGJX
+         4Q8SZX6T5vLo7VuuK6b6HajDB8AGbkNvdDfJuD7fngjJ/Het0kCtqutfmcEyz3ekKojI
+         uUUssrYNwEFnni0fE1p9ZjuNda5w9IQCxlgGZ2vsISzTHhbgrAjqSLlTMx5s8A0mpHHY
+         lHbQ==
+X-Gm-Message-State: APjAAAU6dy7fUV4ZkGbf1D8/yGD16QGEJ6aEN/L9vu5QCCng/wBpRWov
+        ykO3YAYayFAO+jg93QbryVXhaSpnK5IHfff7YmS18qJggCqzUw==
+X-Google-Smtp-Source: APXvYqwgcA6yncVAS9pQ5IEZn53EEFXVUcxBBNBAR44tBwIj1WK4b9ljKCumgFlc+R4555z8y1WohhyMOHMlcr8L7/w=
+X-Received: by 2002:a05:6830:14cd:: with SMTP id t13mr8084222otq.25.1557522195256;
+ Fri, 10 May 2019 14:03:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
- <20190509015856.GB7031@mit.edu> <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
- <20190509032017.GA29703@mit.edu> <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
- <20190509133551.GD29703@mit.edu> <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
- <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com> <20190509214233.GA20877@mit.edu>
- <b09ba170-229b-fde4-3e9a-e50d6ab4c1b5@deltatee.com> <20190509233043.GC20877@mit.edu>
- <8914afef-1e66-e6e3-f891-5855768d3018@deltatee.com> <6d6e91ec-33d3-830b-4895-4d7a20ba7d45@gmail.com>
- <a1b88d5add15d43de0468c32d9a2427629337abb.camel@oracle.com>
- <CAKMK7uFd1xUx8u3xWLwifVSq4OEnMO4S-m0hESe68UzONXnMFg@mail.gmail.com>
- <CAFd5g47Fvafwgh15JNfxSBRf5qqG2z+V+XGAB2cJtNnHFTiFfQ@mail.gmail.com> <1781164863be8d21a7e1890ae6dfee9be101d0a0.camel@oracle.com>
-In-Reply-To: <1781164863be8d21a7e1890ae6dfee9be101d0a0.camel@oracle.com>
+References: <201905100945.V7PLp0za%lkp@intel.com>
+In-Reply-To: <201905100945.V7PLp0za%lkp@intel.com>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 10 May 2019 13:54:16 -0700
-Message-ID: <CAFd5g46fn4nB-nd27-qj8BoC2h-dTCa=WMGoFNhgXDXY0xOdeg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-To:     Knut Omang <knut.omang@oracle.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Jeff Dike <jdike@addtoit.com>, Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Date:   Fri, 10 May 2019 14:03:04 -0700
+Message-ID: <CAFd5g46nZ0=Djo6d6iqdSQLaLP0Qq5bC+uzyjpqp5fXnty7YOg@mail.gmail.com>
+Subject: Re: [kbuild:kunit 14/17] htmldocs: include/kunit/kunit-stream.h:58:
+ warning: Function parameter or member '2' not described in '__printf'
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@01.org, linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Felix Guo <felixguoxiuping@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 10, 2019 at 5:13 AM Knut Omang <knut.omang@oracle.com> wrote:
-> On Fri, 2019-05-10 at 03:23 -0700, Brendan Higgins wrote:
-> > > On Fri, May 10, 2019 at 7:49 AM Knut Omang <knut.omang@oracle.com> wrote:
-> > > >
-> > > > On Thu, 2019-05-09 at 22:18 -0700, Frank Rowand wrote:
-> > > > > On 5/9/19 4:40 PM, Logan Gunthorpe wrote:
-> > > > > >
-> > > > > >
-> > > > > > On 2019-05-09 5:30 p.m., Theodore Ts'o wrote:
-> > > > > >> On Thu, May 09, 2019 at 04:20:05PM -0600, Logan Gunthorpe wrote:
-> > > > > >>>
-> > > > > >>> The second item, arguably, does have significant overlap with kselftest.
-> > > > > >>> Whether you are running short tests in a light weight UML environment or
-> > > > > >>> higher level tests in an heavier VM the two could be using the same
-> > > > > >>> framework for writing or defining in-kernel tests. It *may* also be valuable
-> > > > > >>> for some people to be able to run all the UML tests in the heavy VM
-> > > > > >>> environment along side other higher level tests.
-> > > > > >>>
-> > > > > >>> Looking at the selftests tree in the repo, we already have similar items to
-> > > > > >>> what Kunit is adding as I described in point (2) above. kselftest_harness.h
-> > > > > >>> contains macros like EXPECT_* and ASSERT_* with very similar intentions to
-> > > > > >>> the new KUNIT_EXECPT_* and KUNIT_ASSERT_* macros.
-> > > > > >>>
-> > > > > >>> However, the number of users of this harness appears to be quite small. Most
-> > > > > >>> of the code in the selftests tree seems to be a random mismash of scripts
-> > > > > >>> and userspace code so it's not hard to see it as something completely
-> > > > > >>> different from the new Kunit:
-> > > > > >>>
-> > > > > >>> $ git grep --files-with-matches kselftest_harness.h *
-> > > > > >>
-> > > > > >> To the extent that we can unify how tests are written, I agree that
-> > > > > >> this would be a good thing.  However, you should note that
-> > > > > >> kselftest_harness.h is currently assums that it will be included in
-> > > > > >> userspace programs.  This is most obviously seen if you look closely
-> > > > > >> at the functions defined in the header files which makes calls to
-> > > > > >> fork(), abort() and fprintf().
-> > > > > >
-> > > > > > Ah, yes. I obviously did not dig deep enough. Using kunit for
-> > > > > > in-kernel tests and kselftest_harness for userspace tests seems like
-> > > > > > a sensible line to draw to me. Trying to unify kernel and userspace
-> > > > > > here sounds like it could be difficult so it's probably not worth
-> > > > > > forcing the issue unless someone wants to do some really fancy work
-> > > > > > to get it done.
-> > > > > >
-> > > > > > Based on some of the other commenters, I was under the impression
-> > > > > > that kselftests had in-kernel tests but I'm not sure where or if they
-> > > > > > exist.
-> > > > >
-> > > > > YES, kselftest has in-kernel tests.  (Excuse the shouting...)
-> > > > >
-> > > > > Here is a likely list of them in the kernel source tree:
-> > > > >
-> > > > > $ grep module_init lib/test_*.c
-> > > > > lib/test_bitfield.c:module_init(test_bitfields)
-> > > > > lib/test_bitmap.c:module_init(test_bitmap_init);
-> > > > > lib/test_bpf.c:module_init(test_bpf_init);
-> > > > > lib/test_debug_virtual.c:module_init(test_debug_virtual_init);
-> > > > > lib/test_firmware.c:module_init(test_firmware_init);
-> > > > > lib/test_hash.c:module_init(test_hash_init);  /* Does everything */
-> > > > > lib/test_hexdump.c:module_init(test_hexdump_init);
-> > > > > lib/test_ida.c:module_init(ida_checks);
-> > > > > lib/test_kasan.c:module_init(kmalloc_tests_init);
-> > > > > lib/test_list_sort.c:module_init(list_sort_test);
-> > > > > lib/test_memcat_p.c:module_init(test_memcat_p_init);
-> > > > > lib/test_module.c:static int __init test_module_init(void)
-> > > > > lib/test_module.c:module_init(test_module_init);
-> > > > > lib/test_objagg.c:module_init(test_objagg_init);
-> > > > > lib/test_overflow.c:static int __init test_module_init(void)
-> > > > > lib/test_overflow.c:module_init(test_module_init);
-> > > > > lib/test_parman.c:module_init(test_parman_init);
-> > > > > lib/test_printf.c:module_init(test_printf_init);
-> > > > > lib/test_rhashtable.c:module_init(test_rht_init);
-> > > > > lib/test_siphash.c:module_init(siphash_test_init);
-> > > > > lib/test_sort.c:module_init(test_sort_init);
-> > > > > lib/test_stackinit.c:module_init(test_stackinit_init);
-> > > > > lib/test_static_key_base.c:module_init(test_static_key_base_init);
-> > > > > lib/test_static_keys.c:module_init(test_static_key_init);
-> > > > > lib/test_string.c:module_init(string_selftest_init);
-> > > > > lib/test_ubsan.c:module_init(test_ubsan_init);
-> > > > > lib/test_user_copy.c:module_init(test_user_copy_init);
-> > > > > lib/test_uuid.c:module_init(test_uuid_init);
-> > > > > lib/test_vmalloc.c:module_init(vmalloc_test_init)
-> > > > > lib/test_xarray.c:module_init(xarray_checks);
-> > > > >
-> > > > >
-> > > > > > If they do exists, it seems like it would make sense to
-> > > > > > convert those to kunit and have Kunit tests run-able in a VM or
-> > > > > > baremetal instance.
-> > > > >
-> > > > > They already run in a VM.
-> > > > >
-> > > > > They already run on bare metal.
-> > > > >
-> > > > > They already run in UML.
-> > > > >
-> > > > > This is not to say that KUnit does not make sense.  But I'm still trying
-> > > > > to get a better description of the KUnit features (and there are
-> > > > > some).
-> > > >
-> > > > FYI, I have a master student who looks at converting some of these to KTF, such as
-> > for
-> > > > instance the XArray tests, which lended themselves quite good to a semi-automated
-> > > > conversion.
-> > > >
-> > > > The result is also a somewhat more compact code as well as the flexibility
-> > > > provided by the Googletest executor and the KTF frameworks, such as running selected
-> > > > tests, output formatting, debugging features etc.
-> > >
-> > > So is KTF already in upstream? Or is the plan to unify the KTF and
-> >
-> > I am not certain about KTF's upstream plans, but I assume that Knut
-> > would have CC'ed me on the thread if he had started working on it.
+On Thu, May 9, 2019 at 6:23 PM kbuild test robot <lkp@intel.com> wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kunit
+> head:   c505c0b2e6237c729634327c178f5b0094f1c958
+> commit: c69e87665049970d1c2d6fe2fa1ae7a7c8655420 [14/17] Documentation: kunit: add documentation for KUnit
+> reproduce: make htmldocs
 >
-> You are on the Github watcher list for KTF?
-
-Yep! I have been since LPC in 2017.
-
-> Quite a few of the commits there are preparatory for a forthcoming kernel patch set.
-> I'll of course CC: you on the patch set when we send it to the list.
-
-Awesome! I appreciate it.
-
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
 >
-> > > Kunit in-kernel test harnesses? Because there's tons of these
-> >
-> > No, no plan. Knut and I talked about this a good while ago and it
-> > seemed that we had pretty fundamentally different approaches both in
-> > terms of implementation and end goal. Combining them seemed pretty
-> > infeasible, at least from a technical perspective. Anyway, I am sure
-> > Knut would like to give him perspective on the matter and I don't want
-> > to say too much without first giving him a chance to chime in on the
-> > matter.
+> All warnings (new ones prefixed by >>):
+< snip >
+>    drivers/gpu/drm/i915/i915_vma.h:50: warning: cannot understand function prototype: 'struct i915_vma '
+>    drivers/gpu/drm/i915/i915_vma.h:1: warning: no structured comments found
+>    drivers/gpu/drm/i915/intel_guc_fwif.h:536: warning: cannot understand function prototype: 'struct guc_log_buffer_state '
+>    drivers/gpu/drm/i915/i915_trace.h:1: warning: no structured comments found
+>    drivers/gpu/drm/i915/i915_reg.h:156: warning: bad line:
+>    include/linux/interconnect.h:1: warning: no structured comments found
+> >> include/kunit/kunit-stream.h:58: warning: Function parameter or member '2' not described in '__printf'
+
+This looks like a bug in the kernel-doc parser: __printf in this context is:
+
+> 8dcda743 Brendan Higgins 2019-05-01  56  void __printf(2, 3) kunit_stream_add(struct kunit_stream *this,
+> 8dcda743 Brendan Higgins 2019-05-01  57                                      const char *fmt, ...);
+
+which is an attribute to tell the compiler that this is a printf style
+function with a printf style format string; it doesn't make sense to
+describe it's parameters.
+
+>    include/kunit/kunit-stream.h:58: warning: Function parameter or member '3' not described in '__printf'
+>    include/kunit/kunit-stream.h:58: warning: Excess function parameter 'this' description in '__printf'
+>    include/kunit/kunit-stream.h:58: warning: Excess function parameter 'fmt' description in '__printf'
+>    include/linux/skbuff.h:897: warning: Function parameter or member 'dev_scratch' not described in 'sk_buff'
+< snip >
+>    fs/debugfs/file.c:439: WARNING: Inline literal start-string without end-string.
 >
-> I need more time to study KUnit details to say, but from a 10k feet perspective:
-> I think at least there's a potential for some API unification, in using the same macro
-> names. How about removing the KUNIT_ prefix to the test macros ;-) ?
-
-Heh, heh. That's actually the way I had it in the earliest versions of
-KUnit! But that was pretty much the very first thing everyone
-complained about. I think I went from no prefix (like you are
-suggesting) to TEST_* before the first version of the RFC at the
-request of several people I was kicking the idea around with, and then
-I think I was asked to go from TEST_* to KUNIT_* in the very first
-revision of the RFC.
-
-In short, I am sympathetic to your suggestion, but I think that is
-non-negotiable at this point. The community has a clear policy in
-place on the matter, and at this point I would really prefer not to
-change all the symbol names again.
-
-> That would make the names shorter, saving typing when writing tests, and storage ;-)
-> and also make the names more similar to KTF's, and those of user land unit test
-
-You mean the Googletest/Googlemock expectations/assertions?
-
-It's a great library (with not so great a name), but unfortunately it
-is written in C++, which I think pretty much counts it out here.
-
-> frameworks? Also it will make it possible to have functions compiling both with KTF and
-> KUnit, facilitating moving code between the two.
-
-I think that would be cool, but again, I don't think this will be
-possible with Googletest/Googlemock.
-
+> vim +58 include/kunit/kunit-stream.h
 >
-> Also the string stream facilities of KUnit looks interesting to share.
+> 8dcda743 Brendan Higgins 2019-05-01  48
+> 8dcda743 Brendan Higgins 2019-05-01  49  /**
+> 8dcda743 Brendan Higgins 2019-05-01  50   * kunit_stream_add(): adds the formatted input to the internal buffer.
+> 8dcda743 Brendan Higgins 2019-05-01  51   * @this: the stream being operated on.
+> 8dcda743 Brendan Higgins 2019-05-01  52   * @fmt: printf style format string to append to stream.
+> 8dcda743 Brendan Higgins 2019-05-01  53   *
+> 8dcda743 Brendan Higgins 2019-05-01  54   * Appends the formatted string, @fmt, to the internal buffer.
+> 8dcda743 Brendan Higgins 2019-05-01  55   */
+> 8dcda743 Brendan Higgins 2019-05-01  56  void __printf(2, 3) kunit_stream_add(struct kunit_stream *this,
+> 8dcda743 Brendan Higgins 2019-05-01  57                                      const char *fmt, ...);
+> 8dcda743 Brendan Higgins 2019-05-01 @58
+>
+> :::::: The code at line 58 was first introduced by commit
+> :::::: 8dcda743c31c1ffc0ac13f3d23f3dd1b85b545f8 kunit: test: add kunit_stream a std::stream like logger
 
-I am glad you think so!
-
-If your biggest concern on my side is test macro names (which I think
-is a no-go as I mentioned above), I think we should be in pretty good
-shape once you are ready to move forward. Besides, I have a lot more
-KUnit patches coming after this: landing this patchset is just the
-beginning. So how about we keep moving forward on this patchset?
+Thanks!
