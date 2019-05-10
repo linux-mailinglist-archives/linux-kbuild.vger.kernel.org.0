@@ -2,117 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0111C1A2BB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 19:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46D281A365
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 21:28:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbfEJR5P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 May 2019 13:57:15 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:46555 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727562AbfEJR5O (ORCPT
+        id S1727828AbfEJT24 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 May 2019 15:28:56 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44275 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727779AbfEJT24 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 May 2019 13:57:14 -0400
-Received: by mail-pg1-f196.google.com with SMTP id t187so3347411pgb.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 May 2019 10:57:13 -0700 (PDT)
+        Fri, 10 May 2019 15:28:56 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z16so3456189pgv.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 May 2019 12:28:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VOuGPhrIxeDuwlb+V+gF2cUy7+yMjgBS0voa81cD1ZE=;
-        b=mOIsiXuywCZPv+ClDKwfdEW39vo0ZZd0SW0CFsbw9vWXRfIgsEre0tfwCx6q00cfbf
-         +htAr/aGnXv9TdCRqWrnxf58uI/XK+KsCn6N8zScRzbFLv7PxzYIyB7AL8F4pRmJFCkT
-         vmCsDq+1moLfAjUsPghhqStkiut/s8e9HK7BkK7CNGSl/J+3RbX8EJY/oRq6eIxK2WSt
-         3XAWBRR2AM+EF2ULw47RFP4NcjF/nE8Ig6oqFAmYMUoFbdlI/vrNly6VbBN2VoB0OPx0
-         HqBQF5hNGtzRHrXXIRquQUcBeYzrr3uKSPPI/OL6U9tRnWli26oH4+RPQ9bdfKxI5ei7
-         4Hmg==
+        d=ualberta-ca.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=qMnUdYLZmFExJ+hHXsoAzxxjCVfYuwBhrdITveBsfzY=;
+        b=gsn7BZr8oUYYfJiiMC0a1WV7LZPlxlE3om8MZdzzPecbHDog+2ke60hXNHFDFaso1y
+         i7NdlhWyJN0vwBtd51lEzr6RRw5aO2BjX9my1gWYUdLTLXNgEHhEOtj+Ozk0xsaPo8cQ
+         CbLfn6eYXHnNlwb8ix+/jMEPsH2MzlGbFEEsV5KA7M92OtKzErVDzgsUyqosoXv7XHmI
+         x8gC1QUutkrHPp11/0hhAGG/i3zGMVEGZNY9eFsIfIIIkLs5MoX5r6/tcigJGfuTeeqm
+         7jjL7XWXJs1ff45HEzt5XhuiT+ycvVjwM9srHcedL5ctdABBeA+hpoUIH/xS5lDalE2S
+         EpAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VOuGPhrIxeDuwlb+V+gF2cUy7+yMjgBS0voa81cD1ZE=;
-        b=nXqLB/Gfw3egMPPCVpGqiOrKTnmtv/7LR3nIxJ7LvaaEHoAMpiSfKj/Hvt0gaoljnh
-         D6kHOGooxCIL77UQ6f8UR/QSWsvd2S2ATwnNwRPv37BC8AkISx9v6NcQseq8Y5ncmoCq
-         wi1GABHVKjQwUHgc1ya5AzIvH0IXCyfFhNhh+q8/354og++EkVUCMJFMyfjXmc5Cc977
-         KCSeIZVnroyWaS0AJeJcs8aTH0OJo0j2rFyOVYDpa8rE41LnZb+FrPlkWOAqyuZbqiz/
-         WREmcX8ELPSc8X3zz/q7CSZh5FdzyiXH9KvLc08mwxisPVwqJv830I2m4KaEicnLslo5
-         pF4Q==
-X-Gm-Message-State: APjAAAU0OFSw0QjuxJZc28YcTH1xXCrDrhlWkbKPywpFPAkHJdPRoIqc
-        bq9IBTEj069aK8UBePuMvR+Nt1BQsW1X26JO7lU12g==
-X-Google-Smtp-Source: APXvYqwOIiIqqwM2z/zA32ar7A1PUfGt4O/YdBnrJgzPsi6hlqYGyzRgcZVHZmsFzYgounGLJwoG1/3yVF1RnyN7MHA=
-X-Received: by 2002:a63:f44b:: with SMTP id p11mr14838157pgk.225.1557511033089;
- Fri, 10 May 2019 10:57:13 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=qMnUdYLZmFExJ+hHXsoAzxxjCVfYuwBhrdITveBsfzY=;
+        b=ZCSP7/LF0dCp0GwTx9fAyxz6Tdg0iVrUXCJ0OQ7RN85a1JyMnx6HjZDSbvrs7z4mQX
+         +//XFhrQTuqCZGKEPTTwYK15ffOvgowsRbweL32ALqwj/tHzaXOoWQdaR+YJA1CU1Jbh
+         RGmagcaKClR8Zn57SitzTmcO732jMauNwmcA/qXK2DVVc1QmQTQA3RL9sR9vsrggFrsH
+         Sd1KnNRuhjzXgZohvuH5zzHq5pOOq6N3u/4xAWxju/X4zp55OMHsT98W04QuA7U3ZRG5
+         gotm+lR2RoqxKTVWg8iJe64jPaLrF2sFkaGHmX0fC1kkxhsKHbh4qlRTmCpFlLdIg+MU
+         d0cg==
+X-Gm-Message-State: APjAAAUDVHVQSp0mPt3tFJJuM+mt1XEizeYJu7dcPWBMkUjZZ6ANKaGn
+        HlVnzPOHJ7Yvj/jyJKs0HClcHniZdcVnKgvd
+X-Google-Smtp-Source: APXvYqxZCZSi9VasWx0yzJyq9eqbQo7dKjq0T3RikLOG5bE3RiAOz6BLsv/REyr45uafgS4v6PP3Dg==
+X-Received: by 2002:aa7:8052:: with SMTP id y18mr16700919pfm.36.1557516535007;
+        Fri, 10 May 2019 12:28:55 -0700 (PDT)
+Received: from localhost ([157.230.165.46])
+        by smtp.gmail.com with ESMTPSA id p12sm6923648pgg.26.2019.05.10.12.28.53
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 10 May 2019 12:28:54 -0700 (PDT)
+Date:   Fri, 10 May 2019 13:28:52 -0600
+From:   Jacob Garber <jgarber1@ualberta.ca>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jacob Garber <jgarber1@ualberta.ca>
+Subject: [PATCH] kconfig: use snprintf for formatting pathnames
+Message-ID: <20190510192852.4dwfeicp3ebv3epm@ualberta.ca>
 MIME-Version: 1.0
-References: <20190509064455.1173-1-yamada.masahiro@socionext.com>
- <CA+icZUX_AgZdH5Z+1+k+oVdYSo7vqzeJsGPndb_Sa8VOSk_yOg@mail.gmail.com> <CAK7LNAS+FQqQZ0RfW8e6mxabUOq9YVk=eEEztmN-+BHnTmDa_w@mail.gmail.com>
-In-Reply-To: <CAK7LNAS+FQqQZ0RfW8e6mxabUOq9YVk=eEEztmN-+BHnTmDa_w@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 10 May 2019 10:57:01 -0700
-Message-ID: <CAKwvOdkt9eCFdy7pNer7+6ZNz4vFVX_55Fe_98W1RFFzwz3U5Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add most of Clang-specific flags unconditionally
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Behan Webster <behanw@converseincode.com>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Matthias Kaehlcke <mka@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 10, 2019 at 6:54 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> On Thu, May 9, 2019 at 4:06 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Thu, May 9, 2019 at 8:45 AM Masahiro Yamada
-> > <yamada.masahiro@socionext.com> wrote:
-> > >
-> > > We do not support old Clang versions. Upgrade your clang version
-> > > if any of these flags is unsupported.
-> > >
-> > > Let's add flags within ifdef CONFIG_CC_IS_CLANG unconditionally,
-> > > except -fcatch-undefined-behavior.
-> > >
-> > > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> >
-> > Looks good to me.
-> >
-> > Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-> >
-> > Just as sidenote:
-> > I experimented with a snapshot version of clang-9 and lld-9 and could
-> > build, link and boot on bare-metal with '-mglobal-merge' on
-> > Debian/buster AMD64.
->
->
-> The comment says
->  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
->  # source of a reference will be _MergedGlobals and not on of the
-> whitelisted names.
->  # See modpost pattern 2
->
-> So, it seems it is just a matter of modpost,
-> but I am not sure enough.
->
-> This flag has been here since the initial support.
-> (61163efae02040f66a95c8ed17f4407951ba58fa)
->
->
-> Perhaps, we should review clang flags one by one again?
+Valid pathnames will never exceed PATH_MAX, but these file names
+are unsanitized and can cause buffer overflow if set incorrectly.
+Use snprintf to avoid this. This was flagged during a Coverity scan
+of the coreboot project, which also uses kconfig for its build system.
 
-Yes, it's always good to re-evaluate if something is just cruft and
-can be removed.
+Signed-off-by: Jacob Garber <jgarber1@ualberta.ca>
+---
+ scripts/kconfig/confdata.c | 7 ++++---
+ scripts/kconfig/lexer.l    | 3 ++-
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-+Behan
-
-I don't quite understand the comment about _MergedGlobals, Behan, do
-happen to have more context?
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 08ba146a8..847fe428a 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -194,7 +194,7 @@ char *conf_get_default_confname(void)
+ 	name = expand_string(conf_defname);
+ 	env = getenv(SRCTREE);
+ 	if (env) {
+-		sprintf(fullname, "%s/%s", env, name);
++		snprintf(fullname, sizeof(fullname), "%s/%s", env, name);
+ 		if (is_present(fullname))
+ 			return fullname;
+ 	}
+@@ -843,10 +843,11 @@ int conf_write(const char *name)
+ 	} else
+ 		basename = conf_get_configname();
+ 
+-	sprintf(newname, "%s%s", dirname, basename);
++	snprintf(newname, sizeof(newname), "%s%s", dirname, basename);
+ 	env = getenv("KCONFIG_OVERWRITECONFIG");
+ 	if (!env || !*env) {
+-		sprintf(tmpname, "%s.tmpconfig.%d", dirname, (int)getpid());
++		snprintf(tmpname, sizeof(tmpname),
++			 "%s.tmpconfig.%d", dirname, (int)getpid());
+ 		out = fopen(tmpname, "w");
+ 	} else {
+ 		*tmpname = 0;
+diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+index c9df1c8b9..6354c905b 100644
+--- a/scripts/kconfig/lexer.l
++++ b/scripts/kconfig/lexer.l
+@@ -378,7 +378,8 @@ FILE *zconf_fopen(const char *name)
+ 	if (!f && name != NULL && name[0] != '/') {
+ 		env = getenv(SRCTREE);
+ 		if (env) {
+-			sprintf(fullname, "%s/%s", env, name);
++			snprintf(fullname, sizeof(fullname),
++				 "%s/%s", env, name);
+ 			f = fopen(fullname, "r");
+ 		}
+ 	}
 -- 
-Thanks,
-~Nick Desaulniers
+2.21.0
+
