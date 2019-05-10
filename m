@@ -2,141 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2A571A2B2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 19:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0111C1A2BB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 19:57:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbfEJRyZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 May 2019 13:54:25 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41815 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727823AbfEJRyY (ORCPT
+        id S1727814AbfEJR5P (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 May 2019 13:57:15 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46555 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727562AbfEJR5O (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 May 2019 13:54:24 -0400
-Received: by mail-pf1-f195.google.com with SMTP id l132so3604576pfc.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 May 2019 10:54:23 -0700 (PDT)
+        Fri, 10 May 2019 13:57:14 -0400
+Received: by mail-pg1-f196.google.com with SMTP id t187so3347411pgb.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 May 2019 10:57:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=I1itVqm/8wQC9SNWjeDa4dzSfWDqGRFaqod6eNBqWDE=;
-        b=vpi+7QDuHFbrhBBUyCBfSRPp4e/b18thnFfQ8bcFdB7+QYft6hvk/wzwmMbGMpNFAu
-         GodCgjxLULgCoExsd5PcNVG2XmpdO7y7RawmiDS2wwQLIyHAdVMvyLNvAEsl7rmZrne0
-         An8KJ8pFXq6AL9lBK2f996oSXS6Xtq0n7sBdak8TFvfS1fnLLeEopXok2YbfF+F3qbPF
-         i0HfP7omSqy2J2dzOFYpktJe1eppSYU4mLHoVldyHBicYpGZWAtaAWCK9NgM6Syc4BiA
-         PPCgbPV+ewXX4uCbfDhmIml5lZk8dQO4djXjpd/cHh0McCqcAU4Jy0PtE+qAa+IUybZJ
-         VMKg==
+        bh=VOuGPhrIxeDuwlb+V+gF2cUy7+yMjgBS0voa81cD1ZE=;
+        b=mOIsiXuywCZPv+ClDKwfdEW39vo0ZZd0SW0CFsbw9vWXRfIgsEre0tfwCx6q00cfbf
+         +htAr/aGnXv9TdCRqWrnxf58uI/XK+KsCn6N8zScRzbFLv7PxzYIyB7AL8F4pRmJFCkT
+         vmCsDq+1moLfAjUsPghhqStkiut/s8e9HK7BkK7CNGSl/J+3RbX8EJY/oRq6eIxK2WSt
+         3XAWBRR2AM+EF2ULw47RFP4NcjF/nE8Ig6oqFAmYMUoFbdlI/vrNly6VbBN2VoB0OPx0
+         HqBQF5hNGtzRHrXXIRquQUcBeYzrr3uKSPPI/OL6U9tRnWli26oH4+RPQ9bdfKxI5ei7
+         4Hmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=I1itVqm/8wQC9SNWjeDa4dzSfWDqGRFaqod6eNBqWDE=;
-        b=AISS5FX7x2K0ZOON8WsHGJrIste0dt34ysY2bo/R99gLTd0An9qSViwtERUse1jcRN
-         7TT4QQ4Zxb1tRca4V1rvh3vz7gZZqud5jVZxs28lzyE10Wbk3DKZEilRqQHx+OE+j6mD
-         PfQYHvEQGDozbO8jNOUqSNWiNU5qiJ5EowQ9hjiq2S9EHJD6UQZD0U4xP7DP/dmNxLKB
-         e83gTkcRG8c3mmkCCSlbwpG5MZC5ULCIPoYEHE8QkuuHYvjaCsRyUWwEaf8DL4/LTE3X
-         Q24t6d707/oYcEhytn47hBFhdosqHWihucXhI2MYJyo90chgMEalj44XpCzIWaJSRo9o
-         NHGQ==
-X-Gm-Message-State: APjAAAV3bT5MxKVpjz21dsHqwbyP60RceKt7E332b23RxylZTGZvCTNk
-        9vj/Uo+/TxqyEXVazB0pWCb94Hg7XnuRltL8Co1n1Q==
-X-Google-Smtp-Source: APXvYqzP8m3pUBu8UMfj1TGUem0MHgkYl98JB8CBT7FbIBwDvJmFqEL/4/iSOqEP7vpWgLOmbZ7LAxZ9mHAlN3Sy0r4=
-X-Received: by 2002:aa7:8096:: with SMTP id v22mr16300080pff.94.1557510862969;
- Fri, 10 May 2019 10:54:22 -0700 (PDT)
+        bh=VOuGPhrIxeDuwlb+V+gF2cUy7+yMjgBS0voa81cD1ZE=;
+        b=nXqLB/Gfw3egMPPCVpGqiOrKTnmtv/7LR3nIxJ7LvaaEHoAMpiSfKj/Hvt0gaoljnh
+         D6kHOGooxCIL77UQ6f8UR/QSWsvd2S2ATwnNwRPv37BC8AkISx9v6NcQseq8Y5ncmoCq
+         wi1GABHVKjQwUHgc1ya5AzIvH0IXCyfFhNhh+q8/354og++EkVUCMJFMyfjXmc5Cc977
+         KCSeIZVnroyWaS0AJeJcs8aTH0OJo0j2rFyOVYDpa8rE41LnZb+FrPlkWOAqyuZbqiz/
+         WREmcX8ELPSc8X3zz/q7CSZh5FdzyiXH9KvLc08mwxisPVwqJv830I2m4KaEicnLslo5
+         pF4Q==
+X-Gm-Message-State: APjAAAU0OFSw0QjuxJZc28YcTH1xXCrDrhlWkbKPywpFPAkHJdPRoIqc
+        bq9IBTEj069aK8UBePuMvR+Nt1BQsW1X26JO7lU12g==
+X-Google-Smtp-Source: APXvYqwOIiIqqwM2z/zA32ar7A1PUfGt4O/YdBnrJgzPsi6hlqYGyzRgcZVHZmsFzYgounGLJwoG1/3yVF1RnyN7MHA=
+X-Received: by 2002:a63:f44b:: with SMTP id p11mr14838157pgk.225.1557511033089;
+ Fri, 10 May 2019 10:57:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <1557497409-18037-1-git-send-email-yamada.masahiro@socionext.com>
-In-Reply-To: <1557497409-18037-1-git-send-email-yamada.masahiro@socionext.com>
+References: <20190509064455.1173-1-yamada.masahiro@socionext.com>
+ <CA+icZUX_AgZdH5Z+1+k+oVdYSo7vqzeJsGPndb_Sa8VOSk_yOg@mail.gmail.com> <CAK7LNAS+FQqQZ0RfW8e6mxabUOq9YVk=eEEztmN-+BHnTmDa_w@mail.gmail.com>
+In-Reply-To: <CAK7LNAS+FQqQZ0RfW8e6mxabUOq9YVk=eEEztmN-+BHnTmDa_w@mail.gmail.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 10 May 2019 10:54:11 -0700
-Message-ID: <CAKwvOdmaBopTduxoicj204pkr=+Xbapcqx2JMctNxd0MeHonog@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: add all Clang-specific flags unconditionally
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Fri, 10 May 2019 10:57:01 -0700
+Message-ID: <CAKwvOdkt9eCFdy7pNer7+6ZNz4vFVX_55Fe_98W1RFFzwz3U5Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add most of Clang-specific flags unconditionally
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Behan Webster <behanw@converseincode.com>
+Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        LKML <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Matthias Kaehlcke <mka@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 10, 2019 at 7:10 AM Masahiro Yamada
+On Fri, May 10, 2019 at 6:54 AM Masahiro Yamada
 <yamada.masahiro@socionext.com> wrote:
 >
-> We do not support old Clang versions. Upgrade your clang version
-> if any of these flags is unsupported.
+> On Thu, May 9, 2019 at 4:06 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >
+> > On Thu, May 9, 2019 at 8:45 AM Masahiro Yamada
+> > <yamada.masahiro@socionext.com> wrote:
+> > >
+> > > We do not support old Clang versions. Upgrade your clang version
+> > > if any of these flags is unsupported.
+> > >
+> > > Let's add flags within ifdef CONFIG_CC_IS_CLANG unconditionally,
+> > > except -fcatch-undefined-behavior.
+> > >
+> > > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> >
+> > Looks good to me.
+> >
+> > Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+> >
+> > Just as sidenote:
+> > I experimented with a snapshot version of clang-9 and lld-9 and could
+> > build, link and boot on bare-metal with '-mglobal-merge' on
+> > Debian/buster AMD64.
 >
-> Let's add all flags within ifdef CONFIG_CC_IS_CLANG unconditionally.
 >
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
-Ack
-
-> ---
->
-> Changes in v2:
->   - Rebase on top of Nathan's patch
->      https://patchwork.kernel.org/patch/10937055/
->
->  Makefile                   | 10 +++++-----
->  scripts/Makefile.extrawarn | 12 ++++++------
->  2 files changed, 11 insertions(+), 11 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 914a3ad..1152fc4 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -731,15 +731,15 @@ stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong
->  KBUILD_CFLAGS += $(stackp-flags-y)
->
->  ifdef CONFIG_CC_IS_CLANG
-> -KBUILD_CPPFLAGS += $(call cc-option,-Qunused-arguments,)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, format-invalid-specifier)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
-> +KBUILD_CPPFLAGS += -Qunused-arguments
-> +KBUILD_CFLAGS += -Wno-format-invalid-specifier
-> +KBUILD_CFLAGS += -Wno-gnu
->  # Quiet clang warning: comparison of unsigned expression < 0 is always false
-> -KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
-> +KBUILD_CFLAGS += -Wno-tautological-compare
+> The comment says
 >  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
->  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
+>  # source of a reference will be _MergedGlobals and not on of the
+> whitelisted names.
 >  # See modpost pattern 2
-> -KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
-> +KBUILD_CFLAGS += -mno-global-merge
->  else
 >
->  # These warnings generated too much noise in a regular build.
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 768306a..523c4ca 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -66,11 +66,11 @@ KBUILD_CFLAGS += $(warning)
->  else
+> So, it seems it is just a matter of modpost,
+> but I am not sure enough.
 >
->  ifdef CONFIG_CC_IS_CLANG
-> -KBUILD_CFLAGS += $(call cc-disable-warning, initializer-overrides)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, unused-value)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, format)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, sign-compare)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, format-zero-length)
-> -KBUILD_CFLAGS += $(call cc-disable-warning, uninitialized)
-> +KBUILD_CFLAGS += -Wno-initializer-overrides
-> +KBUILD_CFLAGS += -Wno-unused-value
-> +KBUILD_CFLAGS += -Wno-format
-> +KBUILD_CFLAGS += -Wno-sign-compare
-> +KBUILD_CFLAGS += -Wno-format-zero-length
-> +KBUILD_CFLAGS += -Wno-uninitialized
->  endif
->  endif
-> --
-> 2.7.4
+> This flag has been here since the initial support.
+> (61163efae02040f66a95c8ed17f4407951ba58fa)
 >
+>
+> Perhaps, we should review clang flags one by one again?
 
+Yes, it's always good to re-evaluate if something is just cruft and
+can be removed.
 
++Behan
+
+I don't quite understand the comment about _MergedGlobals, Behan, do
+happen to have more context?
 -- 
 Thanks,
 ~Nick Desaulniers
