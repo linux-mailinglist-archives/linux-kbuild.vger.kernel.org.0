@@ -2,47 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9C171A1F4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 May 2019 18:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82AAC1A8CC
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 May 2019 19:35:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbfEJQwV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 May 2019 12:52:21 -0400
-Received: from imcorp.com.vn ([118.69.230.116]:33701 "EHLO imc2.imcorp.com.vn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727650AbfEJQwV (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 May 2019 12:52:21 -0400
-X-Greylist: delayed 353 seconds by postgrey-1.27 at vger.kernel.org; Fri, 10 May 2019 12:52:20 EDT
-Received: from User (103.207.39.104) by MBX1.imcorp.com.vn (192.168.109.34)
- with Microsoft SMTP Server (TLS) id 15.0.1320.4; Fri, 10 May 2019 23:45:16
- +0700
-Reply-To: <gordon992277@outlook.com>
-From:   Gordon Chang <chlee@myamts.net>
-Subject: 8/05/2019
-Date:   Sat, 11 May 2019 01:35:00 -0700
+        id S1726210AbfEKRfp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 11 May 2019 13:35:45 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:50198 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725879AbfEKRfp (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 11 May 2019 13:35:45 -0400
+Received: from callcc.thunk.org (rrcs-67-53-55-100.west.biz.rr.com [67.53.55.100])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x4BHXkiw001051
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sat, 11 May 2019 13:33:50 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id DFD64420024; Sat, 11 May 2019 13:33:44 -0400 (EDT)
+Date:   Sat, 11 May 2019 13:33:44 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Tim.Bird@sony.com, knut.omang@oracle.com,
+        gregkh@linuxfoundation.org, brendanhiggins@google.com,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190511173344.GA8507@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+References: <a09a7e0e-9894-8c1a-34eb-fc482b1759d0@gmail.com>
+ <20190509015856.GB7031@mit.edu>
+ <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+ <20190509032017.GA29703@mit.edu>
+ <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+ <20190509133551.GD29703@mit.edu>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <417375f6518845fa95266fca11769bad@MBX1.imcorp.com.vn>
-To:     Undisclosed recipients:;
-X-ClientProxiedBy: CAS2.imcorp.com.vn (192.168.108.77) To MBX1.imcorp.com.vn
- (192.168.109.34)
-X-KSE-ServerInfo: MBX1.imcorp.com.vn, 9
-X-KSE-AntiSpam-Interceptor-Info: license violation
-X-KSE-Antivirus-Attachment-Filter-Interceptor-Info: license violation
-X-KSE-Antivirus-Attachment-Filter-Interceptor-Info: license violation
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+On Fri, May 10, 2019 at 02:12:40PM -0700, Frank Rowand wrote:
+> However, the reply is incorrect.  Kselftest in-kernel tests (which
+> is the context here) can be configured as built in instead of as
+> a module, and built in a UML kernel.  The UML kernel can boot,
+> running the in-kernel tests before UML attempts to invoke the
+> init process.
 
-I apologize if this email comes as a surprise to you. I have a business proposal that will be of great benefit to both of us.
-If you are willing to discuss further on this matter, I expect you reply promptly so that I will give you further details.
-Best Regards,
+Um, Citation needed?
 
-Gordon
+I don't see any evidence for this in the kselftest documentation, nor
+do I see any evidence of this in the kselftest Makefiles.
+
+There exists test modules in the kernel that run before the init
+scripts run --- but that's not strictly speaking part of kselftests,
+and do not have any kind of infrastructure.  As noted, the
+kselftests_harness header file fundamentally assumes that you are
+running test code in userspace.
+
+				- Ted
