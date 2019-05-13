@@ -2,40 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A821B041
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2019 08:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEFB11B039
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2019 08:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727704AbfEMGWq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 May 2019 02:22:46 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:39929 "EHLO
+        id S1727351AbfEMGWj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 May 2019 02:22:39 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:39927 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727576AbfEMGWl (ORCPT
+        with ESMTP id S1727341AbfEMGWj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 May 2019 02:22:41 -0400
+        Mon, 13 May 2019 02:22:39 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x4D6MKMF031944;
+        by conuserg-10.nifty.com with ESMTP id x4D6MKMG031944;
         Mon, 13 May 2019 15:22:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMF031944
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMG031944
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557728543;
-        bh=jvoRnzIDdEDpuQmBiuTjNfVjFZapxMt/oTKP86lGw50=;
+        s=dec2015msa; t=1557728544;
+        bh=d8gbEARL3UEIkmRM3efisa39Z3caCnTyjI4aXWlpqto=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fgNYRpp4OOa+lJiN62Lh3fnrLWHVKWEQqtJ0i1fKqNjuLEuPvyXxwCCFHbsH31f1D
-         SBIAzAFPQoEBA23qfGUUAWd36KskuLVNoN98kKkXbfluHWyOiwMGfZK9lBWmFWy+1K
-         2E3EZKHO2Jra8AGWQjlaGLo9wQchuvkcaVwbpPWwKPLEUp5Rd+R3UZovfdCWm6ohSW
-         ky12NncxtatvKJNBzN/vPxJ/IHRRxWF/fAlD1dIEykJskyUlhza2ZmIx1GNMrtkNIY
-         gDaVPK0SR5UV2FNx/XxAb7Y2VPst+D9A7TAr5Us/qgyE0chcIdaRfIApG/z9vihAp5
-         68kdQV5f6wQlg==
+        b=I5SBMawRToWN8wXGdhy3zro5xY47D7sCmKP5XsuainrhzTWMQ6wYv49fVxLJTgggU
+         fkamefo4i1gUpwYmRNgGYS+lSXdVa8RLYxFtG/8lVDQcXVbNZM0QoTLmJi8mXRjJcw
+         tcKGm6P30sZEWp1PGwoZdZ331QFjfMdrDwtVoJ94zCZNouSpiURUWpXVYGYwT2AXWm
+         VXiwCe/25fR2S29w9qlOrPy2H3r5mb1PS+6a59VpoAYf4OiNGIwviu9W6kJ3HPuXPk
+         FjLmGBGvqKoVU8A4SK18OLAIDgCErvnF6U5tRAOMKoPtFlw6OB4v54TxMYTAkWK9zQ
+         LHIVXfsL/WspQ==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 2/4] media: prefix header search paths with $(srctree)/
-Date:   Mon, 13 May 2019 15:22:15 +0900
-Message-Id: <20190513062217.20750-3-yamada.masahiro@socionext.com>
+        netdev@vger.kernel.org, x86@kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH 3/4] treewide: prefix header search paths with $(srctree)/
+Date:   Mon, 13 May 2019 15:22:16 +0900
+Message-Id: <20190513062217.20750-4-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190513062217.20750-1-yamada.masahiro@socionext.com>
 References: <20190513062217.20750-1-yamada.masahiro@socionext.com>
@@ -58,392 +58,258 @@ Having whitespaces after -I does not matter since commit 48f6e3cf5bc6
 [1]: https://patchwork.kernel.org/patch/9632347/
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
 
-I split this kind of changes per-subsystem,
-and all of them were merged, except the media subsystem.
+ arch/mips/pnx833x/Platform                    | 2 +-
+ arch/powerpc/Makefile                         | 2 +-
+ arch/sh/Makefile                              | 4 ++--
+ arch/x86/kernel/Makefile                      | 2 +-
+ arch/x86/mm/Makefile                          | 2 +-
+ arch/xtensa/boot/lib/Makefile                 | 2 +-
+ drivers/hid/intel-ish-hid/Makefile            | 2 +-
+ drivers/net/ethernet/chelsio/libcxgb/Makefile | 2 +-
+ drivers/target/iscsi/cxgbit/Makefile          | 6 +++---
+ drivers/usb/storage/Makefile                  | 2 +-
+ fs/ocfs2/dlm/Makefile                         | 3 +--
+ fs/ocfs2/dlmfs/Makefile                       | 2 +-
+ fs/xfs/Makefile                               | 4 ++--
+ net/bpfilter/Makefile                         | 2 +-
+ scripts/dtc/Makefile                          | 6 +++---
+ scripts/genksyms/Makefile                     | 4 ++--
+ scripts/kconfig/Makefile                      | 4 ++--
+ 17 files changed, 25 insertions(+), 26 deletions(-)
 
-I sent ping several times to the media subsystem
-but I could not get response at all.
-https://lkml.org/lkml/2019/4/11/1040
-
-It is almost 4 months since the submission.
-Meanwhile, I asked 0day bot to test this, and I did not
-get any problem report.
-I am going to apply this to kbuild tree
-since this is a prerequisite for the Kbuild core change.
-
-
- drivers/media/common/b2c2/Makefile            | 4 ++--
- drivers/media/i2c/smiapp/Makefile             | 2 +-
- drivers/media/mmc/siano/Makefile              | 3 +--
- drivers/media/pci/b2c2/Makefile               | 2 +-
- drivers/media/pci/bt8xx/Makefile              | 4 ++--
- drivers/media/pci/cx18/Makefile               | 4 ++--
- drivers/media/pci/cx23885/Makefile            | 4 ++--
- drivers/media/pci/cx88/Makefile               | 4 ++--
- drivers/media/pci/ddbridge/Makefile           | 4 ++--
- drivers/media/pci/dm1105/Makefile             | 2 +-
- drivers/media/pci/mantis/Makefile             | 2 +-
- drivers/media/pci/netup_unidvb/Makefile       | 2 +-
- drivers/media/pci/ngene/Makefile              | 4 ++--
- drivers/media/pci/pluto2/Makefile             | 2 +-
- drivers/media/pci/pt1/Makefile                | 4 ++--
- drivers/media/pci/pt3/Makefile                | 4 ++--
- drivers/media/pci/smipcie/Makefile            | 5 ++---
- drivers/media/pci/ttpci/Makefile              | 4 ++--
- drivers/media/platform/sti/c8sectpfe/Makefile | 4 ++--
- drivers/media/spi/Makefile                    | 2 +-
- drivers/media/usb/as102/Makefile              | 2 +-
- drivers/media/usb/au0828/Makefile             | 4 ++--
- drivers/media/usb/b2c2/Makefile               | 2 +-
- drivers/media/usb/cx231xx/Makefile            | 4 ++--
- drivers/media/usb/em28xx/Makefile             | 4 ++--
- drivers/media/usb/go7007/Makefile             | 2 +-
- drivers/media/usb/pvrusb2/Makefile            | 4 ++--
- drivers/media/usb/siano/Makefile              | 2 +-
- drivers/media/usb/tm6000/Makefile             | 4 ++--
- drivers/media/usb/ttusb-budget/Makefile       | 2 +-
- 30 files changed, 47 insertions(+), 49 deletions(-)
-
-diff --git a/drivers/media/common/b2c2/Makefile b/drivers/media/common/b2c2/Makefile
-index aa2dc2434ee5..0e32b77f349b 100644
---- a/drivers/media/common/b2c2/Makefile
-+++ b/drivers/media/common/b2c2/Makefile
-@@ -4,5 +4,5 @@ b2c2-flexcop-objs += flexcop-sram.o flexcop-eeprom.o flexcop-misc.o
- b2c2-flexcop-objs += flexcop-hw-filter.o
- obj-$(CONFIG_DVB_B2C2_FLEXCOP) += b2c2-flexcop.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
--ccflags-y += -Idrivers/media/tuners/
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/tuners/
-diff --git a/drivers/media/i2c/smiapp/Makefile b/drivers/media/i2c/smiapp/Makefile
-index f45a003cbe7e..9f03aefd4fd7 100644
---- a/drivers/media/i2c/smiapp/Makefile
-+++ b/drivers/media/i2c/smiapp/Makefile
-@@ -2,4 +2,4 @@ smiapp-objs			+= smiapp-core.o smiapp-regs.o \
- 				   smiapp-quirk.o smiapp-limits.o
- obj-$(CONFIG_VIDEO_SMIAPP)	+= smiapp.o
- 
--ccflags-y += -Idrivers/media/i2c
-+ccflags-y += -I $(srctree)/drivers/media/i2c
-diff --git a/drivers/media/mmc/siano/Makefile b/drivers/media/mmc/siano/Makefile
-index 5fc345645a80..848548feeb19 100644
---- a/drivers/media/mmc/siano/Makefile
-+++ b/drivers/media/mmc/siano/Makefile
-@@ -1,4 +1,3 @@
- obj-$(CONFIG_SMS_SDIO_DRV) += smssdio.o
- 
--ccflags-y += -Idrivers/media/common/siano
--
-+ccflags-y += -I $(srctree)/drivers/media/common/siano
-diff --git a/drivers/media/pci/b2c2/Makefile b/drivers/media/pci/b2c2/Makefile
-index b43b9167db5a..14ed6e441738 100644
---- a/drivers/media/pci/b2c2/Makefile
-+++ b/drivers/media/pci/b2c2/Makefile
-@@ -6,4 +6,4 @@ endif
- b2c2-flexcop-pci-objs += flexcop-pci.o
- obj-$(CONFIG_DVB_B2C2_FLEXCOP_PCI) += b2c2-flexcop-pci.o
- 
--ccflags-y += -Idrivers/media/common/b2c2/
-+ccflags-y += -I $(srctree)/drivers/media/common/b2c2/
-diff --git a/drivers/media/pci/bt8xx/Makefile b/drivers/media/pci/bt8xx/Makefile
-index 0b5032c8a9c0..69bc0d9c478e 100644
---- a/drivers/media/pci/bt8xx/Makefile
-+++ b/drivers/media/pci/bt8xx/Makefile
-@@ -6,5 +6,5 @@ bttv-objs      :=      bttv-driver.o bttv-cards.o bttv-if.o \
- obj-$(CONFIG_VIDEO_BT848) += bttv.o
- obj-$(CONFIG_DVB_BT8XX) += bt878.o dvb-bt8xx.o dst.o dst_ca.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
--ccflags-y += -Idrivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-diff --git a/drivers/media/pci/cx18/Makefile b/drivers/media/pci/cx18/Makefile
-index 9c82c2df05e1..df00ef8b4521 100644
---- a/drivers/media/pci/cx18/Makefile
-+++ b/drivers/media/pci/cx18/Makefile
-@@ -9,5 +9,5 @@ cx18-alsa-objs := cx18-alsa-main.o cx18-alsa-pcm.o
- obj-$(CONFIG_VIDEO_CX18) += cx18.o
- obj-$(CONFIG_VIDEO_CX18_ALSA) += cx18-alsa.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
--ccflags-y += -Idrivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-diff --git a/drivers/media/pci/cx23885/Makefile b/drivers/media/pci/cx23885/Makefile
-index 130f0aa29ac6..a785169ec368 100644
---- a/drivers/media/pci/cx23885/Makefile
-+++ b/drivers/media/pci/cx23885/Makefile
-@@ -8,7 +8,7 @@ cx23885-objs	:= cx23885-cards.o cx23885-video.o cx23885-vbi.o \
- obj-$(CONFIG_VIDEO_CX23885) += cx23885.o
- obj-$(CONFIG_MEDIA_ALTERA_CI) += altera-ci.o
- 
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
- 
- ccflags-y += $(extra-cflags-y) $(extra-cflags-m)
-diff --git a/drivers/media/pci/cx88/Makefile b/drivers/media/pci/cx88/Makefile
-index d0f45d652d6e..c2a015869760 100644
---- a/drivers/media/pci/cx88/Makefile
-+++ b/drivers/media/pci/cx88/Makefile
-@@ -10,5 +10,5 @@ obj-$(CONFIG_VIDEO_CX88_ALSA) += cx88-alsa.o
- obj-$(CONFIG_VIDEO_CX88_BLACKBIRD) += cx88-blackbird.o
- obj-$(CONFIG_VIDEO_CX88_DVB) += cx88-dvb.o
- obj-$(CONFIG_VIDEO_CX88_VP3054) += cx88-vp3054-i2c.o
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/pci/ddbridge/Makefile b/drivers/media/pci/ddbridge/Makefile
-index 5b6d5bbc38af..2b77c8d0eb2e 100644
---- a/drivers/media/pci/ddbridge/Makefile
-+++ b/drivers/media/pci/ddbridge/Makefile
-@@ -9,5 +9,5 @@ ddbridge-objs := ddbridge-main.o ddbridge-core.o ddbridge-ci.o \
- 
- obj-$(CONFIG_DVB_DDBRIDGE) += ddbridge.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
--ccflags-y += -Idrivers/media/tuners/
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/tuners/
-diff --git a/drivers/media/pci/dm1105/Makefile b/drivers/media/pci/dm1105/Makefile
-index d22c2547ee86..87e8e8052cdd 100644
---- a/drivers/media/pci/dm1105/Makefile
-+++ b/drivers/media/pci/dm1105/Makefile
-@@ -1,3 +1,3 @@
- obj-$(CONFIG_DVB_DM1105) += dm1105.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/pci/mantis/Makefile b/drivers/media/pci/mantis/Makefile
-index b5ef39692cb0..49e82247b618 100644
---- a/drivers/media/pci/mantis/Makefile
-+++ b/drivers/media/pci/mantis/Makefile
-@@ -26,4 +26,4 @@ obj-$(CONFIG_MANTIS_CORE)	+= mantis_core.o
- obj-$(CONFIG_DVB_MANTIS)	+= mantis.o
- obj-$(CONFIG_DVB_HOPPER)	+= hopper.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-diff --git a/drivers/media/pci/netup_unidvb/Makefile b/drivers/media/pci/netup_unidvb/Makefile
-index 944c3e164157..215bdafcc279 100644
---- a/drivers/media/pci/netup_unidvb/Makefile
-+++ b/drivers/media/pci/netup_unidvb/Makefile
-@@ -6,4 +6,4 @@ netup-unidvb-objs += netup_unidvb_spi.o
- 
- obj-$(CONFIG_DVB_NETUP_UNIDVB) += netup-unidvb.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/pci/ngene/Makefile b/drivers/media/pci/ngene/Makefile
-index ec450ad19281..5d16090e0677 100644
---- a/drivers/media/pci/ngene/Makefile
-+++ b/drivers/media/pci/ngene/Makefile
-@@ -7,5 +7,5 @@ ngene-objs := ngene-core.o ngene-i2c.o ngene-cards.o ngene-dvb.o
- 
- obj-$(CONFIG_DVB_NGENE) += ngene.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
--ccflags-y += -Idrivers/media/tuners/
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/tuners/
-diff --git a/drivers/media/pci/pluto2/Makefile b/drivers/media/pci/pluto2/Makefile
-index 3c2aea1ac752..4d21a2c1544d 100644
---- a/drivers/media/pci/pluto2/Makefile
-+++ b/drivers/media/pci/pluto2/Makefile
-@@ -1,3 +1,3 @@
- obj-$(CONFIG_DVB_PLUTO2) += pluto2.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-diff --git a/drivers/media/pci/pt1/Makefile b/drivers/media/pci/pt1/Makefile
-index bc491e08dd63..f80a1cd4c0f5 100644
---- a/drivers/media/pci/pt1/Makefile
-+++ b/drivers/media/pci/pt1/Makefile
-@@ -2,5 +2,5 @@ earth-pt1-objs := pt1.o
- 
- obj-$(CONFIG_DVB_PT1) += earth-pt1.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
--ccflags-y += -Idrivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-diff --git a/drivers/media/pci/pt3/Makefile b/drivers/media/pci/pt3/Makefile
-index 8698d5dfaf52..da6b265f4b39 100644
---- a/drivers/media/pci/pt3/Makefile
-+++ b/drivers/media/pci/pt3/Makefile
-@@ -4,5 +4,5 @@ earth-pt3-objs += pt3.o pt3_i2c.o pt3_dma.o
- 
- obj-$(CONFIG_DVB_PT3) += earth-pt3.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
--ccflags-y += -Idrivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-diff --git a/drivers/media/pci/smipcie/Makefile b/drivers/media/pci/smipcie/Makefile
-index 214ebfe12cf7..2426b7566553 100644
---- a/drivers/media/pci/smipcie/Makefile
-+++ b/drivers/media/pci/smipcie/Makefile
-@@ -4,6 +4,5 @@ smipcie-objs	:= smipcie-main.o smipcie-ir.o
- 
- obj-$(CONFIG_DVB_SMIPCIE) += smipcie.o
- 
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
--
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/pci/ttpci/Makefile b/drivers/media/pci/ttpci/Makefile
-index 58ca12732aad..9b44c479fcdd 100644
---- a/drivers/media/pci/ttpci/Makefile
-+++ b/drivers/media/pci/ttpci/Makefile
-@@ -18,5 +18,5 @@ obj-$(CONFIG_DVB_BUDGET_CI) += budget-ci.o
- obj-$(CONFIG_DVB_BUDGET_PATCH) += budget-patch.o
- obj-$(CONFIG_DVB_AV7110) += dvb-ttpci.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
--ccflags-y += -Idrivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-diff --git a/drivers/media/platform/sti/c8sectpfe/Makefile b/drivers/media/platform/sti/c8sectpfe/Makefile
-index 4bf0c6bf20e1..aedfc725cc19 100644
---- a/drivers/media/platform/sti/c8sectpfe/Makefile
-+++ b/drivers/media/platform/sti/c8sectpfe/Makefile
-@@ -4,5 +4,5 @@ c8sectpfe-y += c8sectpfe-core.o c8sectpfe-common.o c8sectpfe-dvb.o \
- 
- obj-$(CONFIG_DVB_C8SECTPFE) += c8sectpfe.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/
--ccflags-y += -Idrivers/media/tuners/
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
-+ccflags-y += -I $(srctree)/drivers/media/tuners/
-diff --git a/drivers/media/spi/Makefile b/drivers/media/spi/Makefile
-index c254e2a70ec5..446e6c567e94 100644
---- a/drivers/media/spi/Makefile
-+++ b/drivers/media/spi/Makefile
-@@ -1,4 +1,4 @@
- obj-$(CONFIG_VIDEO_GS1662) += gs1662.o
- obj-$(CONFIG_CXD2880_SPI_DRV) += cxd2880-spi.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends/cxd2880
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/cxd2880
-diff --git a/drivers/media/usb/as102/Makefile b/drivers/media/usb/as102/Makefile
-index b0b319622edb..de671aed5dfc 100644
---- a/drivers/media/usb/as102/Makefile
-+++ b/drivers/media/usb/as102/Makefile
-@@ -4,4 +4,4 @@ dvb-as102-objs := as102_drv.o as102_fw.o as10x_cmd.o as10x_cmd_stream.o \
- 
- obj-$(CONFIG_DVB_AS102) += dvb-as102.o
- 
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/usb/au0828/Makefile b/drivers/media/usb/au0828/Makefile
-index 5691881c56c0..4347812d101a 100644
---- a/drivers/media/usb/au0828/Makefile
-+++ b/drivers/media/usb/au0828/Makefile
-@@ -11,7 +11,7 @@ endif
- 
- obj-$(CONFIG_VIDEO_AU0828) += au0828.o
- 
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
- 
- ccflags-y += $(extra-cflags-y) $(extra-cflags-m)
-diff --git a/drivers/media/usb/b2c2/Makefile b/drivers/media/usb/b2c2/Makefile
-index f3cef05f37b6..e7f949d18fbf 100644
---- a/drivers/media/usb/b2c2/Makefile
-+++ b/drivers/media/usb/b2c2/Makefile
-@@ -1,4 +1,4 @@
- b2c2-flexcop-usb-objs := flexcop-usb.o
- obj-$(CONFIG_DVB_B2C2_FLEXCOP_USB) += b2c2-flexcop-usb.o
- 
--ccflags-y += -Idrivers/media/common/b2c2/
-+ccflags-y += -I $(srctree)/drivers/media/common/b2c2/
-diff --git a/drivers/media/usb/cx231xx/Makefile b/drivers/media/usb/cx231xx/Makefile
-index af824fd80366..8acbbcba7d0c 100644
---- a/drivers/media/usb/cx231xx/Makefile
-+++ b/drivers/media/usb/cx231xx/Makefile
-@@ -9,5 +9,5 @@ obj-$(CONFIG_VIDEO_CX231XX) += cx231xx.o
- obj-$(CONFIG_VIDEO_CX231XX_ALSA) += cx231xx-alsa.o
- obj-$(CONFIG_VIDEO_CX231XX_DVB) += cx231xx-dvb.o
- 
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/usb/em28xx/Makefile b/drivers/media/usb/em28xx/Makefile
-index 8a224007d755..8c2fc3104561 100644
---- a/drivers/media/usb/em28xx/Makefile
-+++ b/drivers/media/usb/em28xx/Makefile
-@@ -11,5 +11,5 @@ obj-$(CONFIG_VIDEO_EM28XX_ALSA) += em28xx-alsa.o
- obj-$(CONFIG_VIDEO_EM28XX_DVB) += em28xx-dvb.o
- obj-$(CONFIG_VIDEO_EM28XX_RC) += em28xx-rc.o
- 
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/usb/go7007/Makefile b/drivers/media/usb/go7007/Makefile
-index 3d95bbc4192c..712a3507f195 100644
---- a/drivers/media/usb/go7007/Makefile
-+++ b/drivers/media/usb/go7007/Makefile
-@@ -9,4 +9,4 @@ go7007-y := go7007-v4l2.o go7007-driver.o go7007-i2c.o go7007-fw.o \
- 
- s2250-y := s2250-board.o
- 
--ccflags-$(CONFIG_VIDEO_GO7007_LOADER:m=y) += -Idrivers/media/common
-+ccflags-$(CONFIG_VIDEO_GO7007_LOADER:m=y) += -I $(srctree)/drivers/media/common
-diff --git a/drivers/media/usb/pvrusb2/Makefile b/drivers/media/usb/pvrusb2/Makefile
-index 9facf6873404..2e71afc4f6de 100644
---- a/drivers/media/usb/pvrusb2/Makefile
-+++ b/drivers/media/usb/pvrusb2/Makefile
-@@ -17,5 +17,5 @@ pvrusb2-objs	:= pvrusb2-i2c-core.o \
- 
- obj-$(CONFIG_VIDEO_PVRUSB2) += pvrusb2.o
- 
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/usb/siano/Makefile b/drivers/media/usb/siano/Makefile
-index 7d48864e2782..ba56e9818489 100644
---- a/drivers/media/usb/siano/Makefile
-+++ b/drivers/media/usb/siano/Makefile
+diff --git a/arch/mips/pnx833x/Platform b/arch/mips/pnx833x/Platform
+index 794526caab12..6b1a847d593f 100644
+--- a/arch/mips/pnx833x/Platform
++++ b/arch/mips/pnx833x/Platform
 @@ -1,5 +1,5 @@
- obj-$(CONFIG_SMS_USB_DRV) += smsusb.o
+ # NXP STB225
+ platform-$(CONFIG_SOC_PNX833X)	+= pnx833x/
+-cflags-$(CONFIG_SOC_PNX833X)	+= -Iarch/mips/include/asm/mach-pnx833x
++cflags-$(CONFIG_SOC_PNX833X)	+= -I $(srctree)/arch/mips/include/asm/mach-pnx833x
+ load-$(CONFIG_NXP_STB220)	+= 0xffffffff80001000
+ load-$(CONFIG_NXP_STB225)	+= 0xffffffff80001000
+diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+index 258ea6b2f2e7..c345b79414a9 100644
+--- a/arch/powerpc/Makefile
++++ b/arch/powerpc/Makefile
+@@ -211,7 +211,7 @@ endif
  
--ccflags-y += -Idrivers/media/common/siano
-+ccflags-y += -I $(srctree)/drivers/media/common/siano
- ccflags-y += $(extra-cflags-y) $(extra-cflags-m)
+ asinstr := $(call as-instr,lis 9$(comma)foo@high,-DHAVE_AS_ATHIGH=1)
  
-diff --git a/drivers/media/usb/tm6000/Makefile b/drivers/media/usb/tm6000/Makefile
-index 744c039e621a..75247a02a485 100644
---- a/drivers/media/usb/tm6000/Makefile
-+++ b/drivers/media/usb/tm6000/Makefile
-@@ -10,5 +10,5 @@ obj-$(CONFIG_VIDEO_TM6000) += tm6000.o
- obj-$(CONFIG_VIDEO_TM6000_ALSA) += tm6000-alsa.o
- obj-$(CONFIG_VIDEO_TM6000_DVB) += tm6000-dvb.o
+-KBUILD_CPPFLAGS	+= -Iarch/$(ARCH) $(asinstr)
++KBUILD_CPPFLAGS	+= -I $(srctree)/arch/$(ARCH) $(asinstr)
+ KBUILD_AFLAGS	+= $(AFLAGS-y)
+ KBUILD_CFLAGS	+= $(call cc-option,-msoft-float)
+ KBUILD_CFLAGS	+= -pipe $(CFLAGS-y)
+diff --git a/arch/sh/Makefile b/arch/sh/Makefile
+index 4009bef62fe9..b4a86f27e048 100644
+--- a/arch/sh/Makefile
++++ b/arch/sh/Makefile
+@@ -191,8 +191,8 @@ cpuincdir-y			+= cpu-common	# Must be last
+ drivers-y			+= arch/sh/drivers/
+ drivers-$(CONFIG_OPROFILE)	+= arch/sh/oprofile/
  
--ccflags-y += -Idrivers/media/tuners
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/tuners
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
-diff --git a/drivers/media/usb/ttusb-budget/Makefile b/drivers/media/usb/ttusb-budget/Makefile
-index fe4372dddd0e..37847d773921 100644
---- a/drivers/media/usb/ttusb-budget/Makefile
-+++ b/drivers/media/usb/ttusb-budget/Makefile
-@@ -1,3 +1,3 @@
- obj-$(CONFIG_DVB_TTUSB_BUDGET) += dvb-ttusb-budget.o
+-cflags-y	+= $(foreach d, $(cpuincdir-y), -Iarch/sh/include/$(d)) \
+-		   $(foreach d, $(machdir-y), -Iarch/sh/include/$(d))
++cflags-y	+= $(foreach d, $(cpuincdir-y), -I $(srctree)/arch/sh/include/$(d)) \
++		   $(foreach d, $(machdir-y), -I $(srctree)/arch/sh/include/$(d))
  
--ccflags-y += -Idrivers/media/dvb-frontends
-+ccflags-y += -I $(srctree)/drivers/media/dvb-frontends
+ KBUILD_CFLAGS		+= -pipe $(cflags-y)
+ KBUILD_CPPFLAGS		+= $(cflags-y)
+diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+index 00b7e27bc2b7..ce1b5cc360a2 100644
+--- a/arch/x86/kernel/Makefile
++++ b/arch/x86/kernel/Makefile
+@@ -42,7 +42,7 @@ endif
+ # non-deterministic coverage.
+ KCOV_INSTRUMENT		:= n
+ 
+-CFLAGS_irq.o := -I$(src)/../include/asm/trace
++CFLAGS_irq.o := -I $(srctree)/$(src)/../include/asm/trace
+ 
+ obj-y			:= process_$(BITS).o signal.o
+ obj-$(CONFIG_COMPAT)	+= signal_compat.o
+diff --git a/arch/x86/mm/Makefile b/arch/x86/mm/Makefile
+index 4b101dd6e52f..84373dc9b341 100644
+--- a/arch/x86/mm/Makefile
++++ b/arch/x86/mm/Makefile
+@@ -21,7 +21,7 @@ CFLAGS_physaddr.o		:= $(nostackp)
+ CFLAGS_setup_nx.o		:= $(nostackp)
+ CFLAGS_mem_encrypt_identity.o	:= $(nostackp)
+ 
+-CFLAGS_fault.o := -I$(src)/../include/asm/trace
++CFLAGS_fault.o := -I $(srctree)/$(src)/../include/asm/trace
+ 
+ obj-$(CONFIG_X86_PAT)		+= pat_rbtree.o
+ 
+diff --git a/arch/xtensa/boot/lib/Makefile b/arch/xtensa/boot/lib/Makefile
+index 355127faade1..e3d717c7bfa1 100644
+--- a/arch/xtensa/boot/lib/Makefile
++++ b/arch/xtensa/boot/lib/Makefile
+@@ -7,7 +7,7 @@ zlib	:= inffast.c inflate.c inftrees.c
+ 
+ lib-y	+= $(zlib:.c=.o) zmem.o
+ 
+-ccflags-y	:= -Ilib/zlib_inflate
++ccflags-y	:= -I $(srctree)/lib/zlib_inflate
+ ifdef CONFIG_FUNCTION_TRACER
+ CFLAGS_REMOVE_inflate.o = -pg
+ CFLAGS_REMOVE_zmem.o = -pg
+diff --git a/drivers/hid/intel-ish-hid/Makefile b/drivers/hid/intel-ish-hid/Makefile
+index 2de97e4b7740..f0a82b1c7cb9 100644
+--- a/drivers/hid/intel-ish-hid/Makefile
++++ b/drivers/hid/intel-ish-hid/Makefile
+@@ -23,4 +23,4 @@ intel-ishtp-hid-objs += ishtp-hid-client.o
+ obj-$(CONFIG_INTEL_ISH_FIRMWARE_DOWNLOADER) += intel-ishtp-loader.o
+ intel-ishtp-loader-objs += ishtp-fw-loader.o
+ 
+-ccflags-y += -Idrivers/hid/intel-ish-hid/ishtp
++ccflags-y += -I $(srctree)/$(src)/ishtp
+diff --git a/drivers/net/ethernet/chelsio/libcxgb/Makefile b/drivers/net/ethernet/chelsio/libcxgb/Makefile
+index 2534e30a1560..441913b5221e 100644
+--- a/drivers/net/ethernet/chelsio/libcxgb/Makefile
++++ b/drivers/net/ethernet/chelsio/libcxgb/Makefile
+@@ -1,4 +1,4 @@
+-ccflags-y := -Idrivers/net/ethernet/chelsio/cxgb4
++ccflags-y := -I $(srctree)/$(src)/../cxgb4
+ 
+ obj-$(CONFIG_CHELSIO_LIB) += libcxgb.o
+ 
+diff --git a/drivers/target/iscsi/cxgbit/Makefile b/drivers/target/iscsi/cxgbit/Makefile
+index d16aaae7ba2a..0dcaf2006f78 100644
+--- a/drivers/target/iscsi/cxgbit/Makefile
++++ b/drivers/target/iscsi/cxgbit/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+-ccflags-y := -Idrivers/net/ethernet/chelsio/cxgb4
+-ccflags-y += -Idrivers/net/ethernet/chelsio/libcxgb
+-ccflags-y += -Idrivers/target/iscsi
++ccflags-y := -I $(srctree)/drivers/net/ethernet/chelsio/cxgb4
++ccflags-y += -I $(srctree)/drivers/net/ethernet/chelsio/libcxgb
++ccflags-y += -I $(srctree)/drivers/target/iscsi
+ 
+ obj-$(CONFIG_ISCSI_TARGET_CXGB4)  += cxgbit.o
+ 
+diff --git a/drivers/usb/storage/Makefile b/drivers/usb/storage/Makefile
+index c5126a4cd954..a67ddcbb4e24 100644
+--- a/drivers/usb/storage/Makefile
++++ b/drivers/usb/storage/Makefile
+@@ -6,7 +6,7 @@
+ # Rewritten to use lists instead of if-statements.
+ #
+ 
+-ccflags-y := -Idrivers/scsi
++ccflags-y := -I $(srctree)/drivers/scsi
+ 
+ obj-$(CONFIG_USB_UAS)		+= uas.o
+ obj-$(CONFIG_USB_STORAGE)	+= usb-storage.o
+diff --git a/fs/ocfs2/dlm/Makefile b/fs/ocfs2/dlm/Makefile
+index ef2854422a6e..3d4041f0431e 100644
+--- a/fs/ocfs2/dlm/Makefile
++++ b/fs/ocfs2/dlm/Makefile
+@@ -1,7 +1,6 @@
+-ccflags-y := -I$(src)/..
++ccflags-y := -I $(srctree)/$(src)/..
+ 
+ obj-$(CONFIG_OCFS2_FS_O2CB) += ocfs2_dlm.o
+ 
+ ocfs2_dlm-objs := dlmdomain.o dlmdebug.o dlmthread.o dlmrecovery.o \
+ 	dlmmaster.o dlmast.o dlmconvert.o dlmlock.o dlmunlock.o
+-
+diff --git a/fs/ocfs2/dlmfs/Makefile b/fs/ocfs2/dlmfs/Makefile
+index 33431a0296a3..0a0b93d940fe 100644
+--- a/fs/ocfs2/dlmfs/Makefile
++++ b/fs/ocfs2/dlmfs/Makefile
+@@ -1,4 +1,4 @@
+-ccflags-y := -I$(src)/..
++ccflags-y := -I $(srctree)/$(src)/..
+ 
+ obj-$(CONFIG_OCFS2_FS) += ocfs2_dlmfs.o
+ 
+diff --git a/fs/xfs/Makefile b/fs/xfs/Makefile
+index 1dfc6df2e2bd..91831975363b 100644
+--- a/fs/xfs/Makefile
++++ b/fs/xfs/Makefile
+@@ -4,8 +4,8 @@
+ # All Rights Reserved.
+ #
+ 
+-ccflags-y += -I$(src)			# needed for trace events
+-ccflags-y += -I$(src)/libxfs
++ccflags-y += -I $(srctree)/$(src)		# needed for trace events
++ccflags-y += -I $(srctree)/$(src)/libxfs
+ 
+ ccflags-$(CONFIG_XFS_DEBUG) += -g
+ 
+diff --git a/net/bpfilter/Makefile b/net/bpfilter/Makefile
+index 854395fb98cd..aa945ab5b655 100644
+--- a/net/bpfilter/Makefile
++++ b/net/bpfilter/Makefile
+@@ -5,7 +5,7 @@
+ 
+ hostprogs-y := bpfilter_umh
+ bpfilter_umh-objs := main.o
+-KBUILD_HOSTCFLAGS += -Itools/include/ -Itools/include/uapi
++KBUILD_HOSTCFLAGS += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
+ HOSTCC := $(CC)
+ 
+ ifeq ($(CONFIG_BPFILTER_UMH), y)
+diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
+index 5f227d8d39d8..82160808765c 100644
+--- a/scripts/dtc/Makefile
++++ b/scripts/dtc/Makefile
+@@ -9,7 +9,7 @@ dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
+ dtc-objs	+= dtc-lexer.lex.o dtc-parser.tab.o
+ 
+ # Source files need to get at the userspace version of libfdt_env.h to compile
+-HOST_EXTRACFLAGS := -I$(src)/libfdt
++HOST_EXTRACFLAGS := -I $(srctree)/$(src)/libfdt
+ 
+ ifeq ($(wildcard /usr/include/yaml.h),)
+ ifneq ($(CHECK_DTBS),)
+@@ -23,8 +23,8 @@ HOSTLDLIBS_dtc	:= -lyaml
+ endif
+ 
+ # Generated files need one more search path to include headers in source tree
+-HOSTCFLAGS_dtc-lexer.lex.o := -I$(src)
+-HOSTCFLAGS_dtc-parser.tab.o := -I$(src)
++HOSTCFLAGS_dtc-lexer.lex.o := -I $(srctree)/$(src)
++HOSTCFLAGS_dtc-parser.tab.o := -I $(srctree)/$(src)
+ 
+ # dependencies on generated files need to be listed explicitly
+ $(obj)/dtc-lexer.lex.o: $(obj)/dtc-parser.tab.h
+diff --git a/scripts/genksyms/Makefile b/scripts/genksyms/Makefile
+index 03b7ce97de14..66c314bc5933 100644
+--- a/scripts/genksyms/Makefile
++++ b/scripts/genksyms/Makefile
+@@ -31,8 +31,8 @@ $(obj)/parse.tab.h: $(src)/parse.y FORCE
+ endif
+ 
+ # -I needed for generated C source (shipped source)
+-HOSTCFLAGS_parse.tab.o := -I$(src)
+-HOSTCFLAGS_lex.lex.o := -I$(src)
++HOSTCFLAGS_parse.tab.o := -I $(srctree)/$(src)
++HOSTCFLAGS_lex.lex.o := -I $(srctree)/$(src)
+ 
+ # dependencies on generated files need to be listed explicitly
+ $(obj)/lex.lex.o: $(obj)/parse.tab.h
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index 7c5dc31c1d95..5e0cd86cb4a7 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -147,8 +147,8 @@ common-objs	:= confdata.o expr.o lexer.lex.o parser.tab.o preprocess.o \
+ 		   symbol.o
+ 
+ $(obj)/lexer.lex.o: $(obj)/parser.tab.h
+-HOSTCFLAGS_lexer.lex.o	:= -I$(src)
+-HOSTCFLAGS_parser.tab.o	:= -I$(src)
++HOSTCFLAGS_lexer.lex.o	:= -I $(srctree)/$(src)
++HOSTCFLAGS_parser.tab.o	:= -I $(srctree)/$(src)
+ 
+ # conf: Used for defconfig, oldconfig and related targets
+ hostprogs-y	+= conf
 -- 
 2.17.1
 
