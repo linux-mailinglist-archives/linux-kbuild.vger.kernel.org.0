@@ -2,178 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60E1E1B03F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2019 08:23:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A82561B8E6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2019 16:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727673AbfEMGWl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 May 2019 02:22:41 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:39928 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727582AbfEMGWk (ORCPT
+        id S1730129AbfEMOo7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 May 2019 10:44:59 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42264 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728301AbfEMOo6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 May 2019 02:22:40 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x4D6MKMH031944;
-        Mon, 13 May 2019 15:22:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMH031944
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557728546;
-        bh=OfIIhemlSrlQXaNMkfHqX67qd7jBRMPIHtESheuz9Xg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MGuNVM4HIJn3sGkIzCx0NaTE96qTKfhXUc4a/D58K2M1iRkcFfX8P2tF8AE2NGZJD
-         D1PPv7MLc7uTQo3h9ng9GAWKckObeJnnAPN+WGFJitVDzWkSRysrBoEYGdk1wYvmRM
-         s+c8yRHquRkzlJyY2Q8AsnOGT4QmMNN5w7lGIZxrOpE9wzZjEsHc2L6bHsceL2e8fs
-         v6DK5RAoFJy+JbCP/d0RwDMMph4APDu82HpeTu5xqXz39PlzCgg0FEmID4TWt4M8+4
-         K78FqMrTdboC53WryiUe08oETiyFMjLTjiEQzHDUYJscz5eI8NbjZl7ETLQjC04Ubo
-         NF2HmL3+14c4g==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, x86@kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 4/4] kbuild: remove 'addtree' and 'flags' magic for header search paths
-Date:   Mon, 13 May 2019 15:22:17 +0900
-Message-Id: <20190513062217.20750-5-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190513062217.20750-1-yamada.masahiro@socionext.com>
-References: <20190513062217.20750-1-yamada.masahiro@socionext.com>
+        Mon, 13 May 2019 10:44:58 -0400
+Received: by mail-ed1-f66.google.com with SMTP id l25so17936391eda.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 May 2019 07:44:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oa11tgFM6isQYlc2/lSr8+dtL7dz0FGS2ImXszdei94=;
+        b=lkK1jfdXRSWG4EOPXpNEsgoMZb8lUzm2FfYavTsrFBTY7w3Z4FVJ9cp/fBcnbUD9bK
+         Frxw45KRQigXleUJaVccMl3gMpsrT0DKhj92T3OICo7PFH1ZWYiDKuhrJn4Bo6DXp0gB
+         BN+9OOpk6LCzBYskBvabimkY7bAvWM5tFDS84=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=oa11tgFM6isQYlc2/lSr8+dtL7dz0FGS2ImXszdei94=;
+        b=s6UiXGGQ/vtRS93SIASwvM+E0S7bqYCveE1Jo742shplvW4Q/kAqEG4M7egvoMKVPW
+         dPvuOe+bc2HGWhT5M/thgFgVoNOOEiLmi0R2g/PqUf7ZLDcx2QDohwFu/OzxGakN9P0J
+         wS3Mkh1uG2NrqqXnWNp5l4RTibirleuqLiWAy2Owv8B4EBhUGqCuQ8ilWrHfzHO7q5In
+         KGWVMo1V2o31II+yHLkJrA1eBsrn27rz0oGe0cOweWhJ82mSSmRNJGnScsxr4LKRwIf0
+         PeaUA9mZwE8HsoZFrMtYhdNCzadES64w/nUpWZdXeR9PUhqQ+FP5n79HvwcVc3gqDurX
+         mUDQ==
+X-Gm-Message-State: APjAAAV3nrOB0RorJ11r2fPHI0YuWY0DNRGznwMU5FonmePgOfXviJkH
+        yI+aYPRpjiislQeMh8CI1g4pYQ==
+X-Google-Smtp-Source: APXvYqzazE/ARkr3DfLFYQv2UcXLE6AXccxEO07VmSzGlXapLczjo2jaDfA5V6TtDA06sVwBcw/rGw==
+X-Received: by 2002:a17:906:18b1:: with SMTP id c17mr22862891ejf.196.1557758696660;
+        Mon, 13 May 2019 07:44:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
+        by smtp.gmail.com with ESMTPSA id ox15sm1844293ejb.52.2019.05.13.07.44.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 13 May 2019 07:44:55 -0700 (PDT)
+Date:   Mon, 13 May 2019 16:44:51 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        robh@kernel.org, sboyd@kernel.org, shuah@kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, amir73il@gmail.com,
+        dan.carpenter@oracle.com, dan.j.williams@intel.com,
+        daniel@ffwll.ch, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com
+Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190513144451.GQ17751@phenom.ffwll.local>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
+        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
+        knut.omang@oracle.com, gregkh@linuxfoundation.org,
+        brendanhiggins@google.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
+        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
+        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, jdike@addtoit.com, joel@jms.id.au,
+        julia.lawall@lip6.fr, khilman@baylibre.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com
+References: <20190509015856.GB7031@mit.edu>
+ <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
+ <20190509032017.GA29703@mit.edu>
+ <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
+ <20190509133551.GD29703@mit.edu>
+ <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
+ <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
+ <20190509214233.GA20877@mit.edu>
+ <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
+ <20190511173344.GA8507@mit.edu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190511173344.GA8507@mit.edu>
+X-Operating-System: Linux phenom 4.14.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The 'addtree' and 'flags' in scripts/Kbuild.include are so compilecated
-and ugly.
+On Sat, May 11, 2019 at 01:33:44PM -0400, Theodore Ts'o wrote:
+> On Fri, May 10, 2019 at 02:12:40PM -0700, Frank Rowand wrote:
+> > However, the reply is incorrect.  Kselftest in-kernel tests (which
+> > is the context here) can be configured as built in instead of as
+> > a module, and built in a UML kernel.  The UML kernel can boot,
+> > running the in-kernel tests before UML attempts to invoke the
+> > init process.
+> 
+> Um, Citation needed?
+> 
+> I don't see any evidence for this in the kselftest documentation, nor
+> do I see any evidence of this in the kselftest Makefiles.
+> 
+> There exists test modules in the kernel that run before the init
+> scripts run --- but that's not strictly speaking part of kselftests,
+> and do not have any kind of infrastructure.  As noted, the
+> kselftests_harness header file fundamentally assumes that you are
+> running test code in userspace.
 
-As I mentioned in [1], Kbuild should stop automatic prefixing of header
-search path options.
+Yeah I really like the "no userspace required at all" design of kunit,
+while still collecting results in a well-defined way (unless the current
+self-test that just run when you load the module, with maybe some
+kselftest ad-hoc wrapper around to collect the results).
 
-Instead, in-kernel Makefiles should explicitly add $(srctree)/ to
-the search paths in the srctree.
-
-Kbuild still caters to add $(srctree)/$(src) and $(objtree)/$(obj)
-to the header search path for O= building, but never touches extra
-compiler options from ccflags-y etc.
-
-Going forward, in-kernel Makefiles should explicitly specify
-$(srctree)/ if extra search paths are needed.
-
- Example)    ccflags-y += -I $(srctree)/foo/bar
-
-You do not have to change external module Makefiles because $(src)
-is already an absolute path for external modules.
-
- Example)    ccflags-y += -I $(src)/foo/bar
-
-[1]: https://patchwork.kernel.org/patch/9632347/
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- scripts/Kbuild.include |  8 --------
- scripts/Makefile.host  | 12 +++++-------
- scripts/Makefile.lib   | 26 ++++++++------------------
- 3 files changed, 13 insertions(+), 33 deletions(-)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 7484b9d8272f..a675ce11a573 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -192,14 +192,6 @@ clean := -f $(srctree)/scripts/Makefile.clean obj
- # $(Q)$(MAKE) $(hdr-inst)=dir
- hdr-inst := -f $(srctree)/scripts/Makefile.headersinst obj
- 
--# Prefix -I with $(srctree) if it is not an absolute path.
--# skip if -I has no parameter
--addtree = $(if $(patsubst -I%,%,$(1)), \
--$(if $(filter-out -I/% -I./% -I../%,$(1)),$(patsubst -I%,-I$(srctree)/%,$(1)),$(1)),$(1))
--
--# Find all -I options and call addtree
--flags = $(foreach o,$($(1)),$(if $(filter -I%,$(o)),$(call addtree,$(o)),$(o)))
--
- # echo command.
- # Short version is used, if $(quiet) equals `quiet_', otherwise full one.
- echo-cmd = $(if $($(quiet)cmd_$(1)),\
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 73b804197fca..b6a54bdf0965 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -67,18 +67,16 @@ _hostc_flags   = $(KBUILD_HOSTCFLAGS)   $(HOST_EXTRACFLAGS)   \
- _hostcxx_flags = $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
-                  $(HOSTCXXFLAGS_$(basetarget).o)
- 
--__hostc_flags	= $(_hostc_flags)
--__hostcxx_flags	= $(_hostcxx_flags)
--
-+# $(objtree)/$(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
- ifneq ($(srctree),.)
--__hostc_flags	= -I$(obj) $(call flags,_hostc_flags)
--__hostcxx_flags	= -I$(obj) $(call flags,_hostcxx_flags)
-+_hostc_flags   += -I $(objtree)/$(obj)
-+_hostcxx_flags += -I $(objtree)/$(obj)
- endif
- endif
- 
--hostc_flags    = -Wp,-MD,$(depfile) $(__hostc_flags)
--hostcxx_flags  = -Wp,-MD,$(depfile) $(__hostcxx_flags)
-+hostc_flags    = -Wp,-MD,$(depfile) $(_hostc_flags)
-+hostcxx_flags  = -Wp,-MD,$(depfile) $(_hostcxx_flags)
- 
- #####
- # Compile programs on the host
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 41e98fa66b91..1b412d4394ae 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -137,36 +137,26 @@ _c_flags += $(if $(patsubst n%,, \
- 	$(CFLAGS_KCOV))
- endif
- 
--__c_flags	= $(_c_flags)
--__a_flags	= $(_a_flags)
--__cpp_flags     = $(_cpp_flags)
--
--# If building the kernel in a separate objtree expand all occurrences
--# of -Idir to -I$(srctree)/dir except for absolute paths (starting with '/').
-+# $(srctree)/$(src) for including checkin headers from generated source files
-+# $(objtree)/$(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
- ifneq ($(srctree),.)
--
--# -I$(obj) locates generated .h files
--# $(call addtree,-I$(obj)) locates .h files in srctree, from generated .c files
--#   and locates generated .h files
--# FIXME: Replace both with specific CFLAGS* statements in the makefiles
--__c_flags	= $(if $(obj),$(call addtree,-I$(src)) -I$(obj)) \
--		  $(call flags,_c_flags)
--__a_flags	= $(call flags,_a_flags)
--__cpp_flags     = $(call flags,_cpp_flags)
-+_c_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-+_a_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-+_cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
- endif
- endif
- 
- c_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 -include $(srctree)/include/linux/compiler_types.h       \
--		 $(__c_flags) $(modkern_cflags)                           \
-+		 $(_c_flags) $(modkern_cflags)                           \
- 		 $(basename_flags) $(modname_flags)
- 
- a_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
--		 $(__a_flags) $(modkern_aflags)
-+		 $(_a_flags) $(modkern_aflags)
- 
- cpp_flags      = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
--		 $(__cpp_flags)
-+		 $(_cpp_flags)
- 
- ld_flags       = $(KBUILD_LDFLAGS) $(ldflags-y) $(LDFLAGS_$(@F))
- 
+What I want to do long-term is to run these kernel unit tests as part of
+the build-testing, most likely in gitlab (sooner or later, for drm.git
+only ofc). So that people get their pull requests (and patch series, we
+have some ideas to tie this into patchwork) automatically tested for this
+super basic stuff.
+-Daniel
 -- 
-2.17.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
