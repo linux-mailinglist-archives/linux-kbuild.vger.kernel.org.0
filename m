@@ -2,97 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9E501AEDA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2019 04:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D441AEDC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 May 2019 04:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727331AbfEMCYD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 May 2019 22:24:03 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:28939 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727054AbfEMCYC (ORCPT
+        id S1727370AbfEMCYM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 May 2019 22:24:12 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:25654 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727054AbfEMCYM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 May 2019 22:24:02 -0400
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x4D2NlT6026177;
-        Mon, 13 May 2019 11:23:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x4D2NlT6026177
+        Sun, 12 May 2019 22:24:12 -0400
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x4D2O7T4006509;
+        Mon, 13 May 2019 11:24:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x4D2O7T4006509
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557714227;
-        bh=enLjO+YNO2YxhL0dGODfJWJqJYXkX6sundGe2vyhCvc=;
+        s=dec2015msa; t=1557714248;
+        bh=oLrUhw/m2FjJ5SEaguXhOl7W6A825StNmdgmwN/GKCQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J61WW24qmGW6ATE7tysBB8QHUX2CZBQ65niuwyWeK067unerdnAFM6guNwtK+4zzv
-         8uPiFBLlGYUGAPjVbcdvYqK5ME6ek+/LfHM9QIF7T6/8Wctwjj2giUWkuI8bCuOc2D
-         VOXZsW0wEwO1dB2dxc2RvVukJdFBf3HdGIij0XkgilbJ0VvZfuIBHWfL189Cn3QXq0
-         +dAor1dw2oVprMmTkCRHyIjHWpsBwcmM7As6RQtGnACrr599OizjaBKuZjsaxXRMIb
-         dJ7d6tYFaJkTPx/3VtAwNyjqOQAwGkgVCbDAahl/G1iJ0oC/A3k2P6oPdDphrqWHp+
-         sxDOunOg/nVYA==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id c24so7025138vsp.7;
-        Sun, 12 May 2019 19:23:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAXS2ZwIkcnk5d+u67blCLlTzIfvfZY6fsa/N2Ao7Br6g/LUFtzd
-        QtOxlEZ2MdQTiSaVqZzEtqK4bDPK1G6hXD4v91Y=
-X-Google-Smtp-Source: APXvYqydlJVG6ACos6uVytV0lJXuVROwKaUlSpHGHtzzMIoKqcKIU0UDNiaw7iG1LNnBDzVg8n/EJPq1U72CdV5V7YY=
-X-Received: by 2002:a67:fd89:: with SMTP id k9mr12709180vsq.54.1557714226559;
- Sun, 12 May 2019 19:23:46 -0700 (PDT)
+        b=dgafQMTRQMSEWc6opJhRFd/Wawdv46y3/g04X07nL88cyyvGqwQPUWQuo/VkSO/CB
+         443TKx2YSd5dh6E46ptEHly4eE2OhALx6VRxbJgvO2xRmM1esbwoDOi802UyAbYdF2
+         WNs4axwja9SUQbvnZBqgZ/ain2EyuH95/dgXX85GYo94MM2Xf8hl7Q9aC1mYvXvRwI
+         22/5QutktaD6u4rquMCzUoWZ1/oMZu3P24hroO8w3eMnt4qcoqRE1c7v7jExdoi4u/
+         iu7AC448HOEltPWDD+LkLlDkPKNerW/gpmaVeu+1avD0sut467y75PvUhSQRVlT+4F
+         a1XSOTzKyirHg==
+X-Nifty-SrcIP: [209.85.217.46]
+Received: by mail-vs1-f46.google.com with SMTP id v9so7042590vse.5;
+        Sun, 12 May 2019 19:24:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAVVzkG/q+mIDj3QodMGxDV2a7asIUoiZlXt1YK+zzQkEXHM08/n
+        0EA0PcuZtDqnwcT/W+BAdYoQwHxmR6DDGBw2hqg=
+X-Google-Smtp-Source: APXvYqySA1kfFQutkmbnJQ+8v+Jv8NY3r2M0ECF0QR6x9NXM/y8mlGm9SqhQLeVCYtOudP71YnLTKmuCkWAg+Qc04HU=
+X-Received: by 2002:a67:fc4:: with SMTP id 187mr12251355vsp.215.1557714247412;
+ Sun, 12 May 2019 19:24:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNASpsid7_sh4rdRNSTwZ1YtW_+uH2eoarJNNUttntQZ-kg@mail.gmail.com>
- <20190509114824.25866-1-natechancellor@gmail.com>
-In-Reply-To: <20190509114824.25866-1-natechancellor@gmail.com>
+References: <20190509064549.1302-1-yamada.masahiro@socionext.com>
+ <CAGXu5jKDELCthqEcnL3TvC8DtMnfoWnOd14wrKpcReUxubdMCg@mail.gmail.com> <CAKwvOd=cbvYyVPcGYweMbPDM5WpBtZr8tOQgHu9BJiGqoq4RDg@mail.gmail.com>
+In-Reply-To: <CAKwvOd=cbvYyVPcGYweMbPDM5WpBtZr8tOQgHu9BJiGqoq4RDg@mail.gmail.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 13 May 2019 11:23:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASsm9wrL5JkpVpp0qm5jBd22sHukqYe_iJGJXe0RO8ECg@mail.gmail.com>
-Message-ID: <CAK7LNASsm9wrL5JkpVpp0qm5jBd22sHukqYe_iJGJXe0RO8ECg@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Don't try to add '-fcatch-undefined-behavior' flag
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Mon, 13 May 2019 11:23:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATJWiMsH0pVXcURxYndiqydrMuQiz=XXoANsE-vAAmL4A@mail.gmail.com>
+Message-ID: <CAK7LNATJWiMsH0pVXcURxYndiqydrMuQiz=XXoANsE-vAAmL4A@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add -Wvla flag unconditionally
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arnd Bergmann <arnd@arndb.de>
+        Michal Marek <michal.lkml@markovi.net>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 9, 2019 at 8:49 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Fri, May 10, 2019 at 1:52 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> This is no longer a valid option in clang, it was removed in 3.5, which
-> we don't support.
+> > On Wed, May 8, 2019 at 11:46 PM Masahiro Yamada
+> > <yamada.masahiro@socionext.com> wrote:
+> > > This flag is documented in the GCC 4.6 manual, and recognized by
+> > > Clang as well. Let's rip off the cc-option switch.
 >
-> https://github.com/llvm/llvm-project/commit/cb3f812b6b9fab8f3b41414f24e90222170417b4
+> Checked w/ godbolt w/ Clang 4 and GCC 4.6.4.
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
 >
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> ---
->
-> Let me know if you want this incremental to your patch. I figured it
-> made more sense to remove this then do the cc-option/cc-disable-warning
-> removal because it will simplify the commit message.
+> --
+> Thanks,
+> ~Nick Desaulniers
 
 Applied to linux-kbuild.
-Thanks.
-
-
->  Makefile | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index d24f5a8009ee..e4788eb2c9b9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -740,7 +740,6 @@ KBUILD_CFLAGS += $(call cc-disable-warning, tautological-compare)
->  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
->  # See modpost pattern 2
->  KBUILD_CFLAGS += $(call cc-option, -mno-global-merge,)
-> -KBUILD_CFLAGS += $(call cc-option, -fcatch-undefined-behavior)
->  else
->
->  # These warnings generated too much noise in a regular build.
-> --
-> 2.21.0
->
 
 
 -- 
