@@ -2,98 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D91421E4E5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 00:20:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AA301E548
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 00:46:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727085AbfENWTt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 May 2019 18:19:49 -0400
-Received: from mail-pl1-f201.google.com ([209.85.214.201]:43887 "EHLO
-        mail-pl1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727078AbfENWTt (ORCPT
+        id S1726201AbfENWqx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 May 2019 18:46:53 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:36879 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726174AbfENWqx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 May 2019 18:19:49 -0400
-Received: by mail-pl1-f201.google.com with SMTP id m12so430109pls.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 May 2019 15:19:48 -0700 (PDT)
+        Tue, 14 May 2019 18:46:53 -0400
+Received: by mail-pg1-f196.google.com with SMTP id e6so289203pgc.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 14 May 2019 15:46:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NNCnVCTAATMxlDMarLLJ67yqDDVFt+vwrBh9wh5mNVQ=;
-        b=quTKkalkkcdvAmo8Q5W/BySUzf8yCwwTH5YR563mPWxNUSE5MultuJds8qTnGLUd9G
-         GJOMcET4Wz5Z093noXRAIdno9qE82hEKyL9OWEEEeZgvMsgKsoo6ySFkGuc/6WqHcU0M
-         Hpl+SDxyqgLaiTUqKbcRAQtyOX/1f7cvhIRr9mCHA88MjEoBBMBrKFxLj+V+PJU2icQz
-         YZVy0jog5dz9kph3TsyRuJuDu4mNIMZwKmuJy8P56loFGJEgPnUHKRTVucDlKHqh0GsE
-         xE/dwKEOx3hf4rdD0KCrCmTo1nwHhw2rMCTcX3tA2M9n443niRuAWkZ8t1kGad/emCxN
-         xZ2A==
+        bh=SB/GaKUPZ9drIILKtfO141NqoI9UYS/XADh4R9X0GN8=;
+        b=rbhoLPTDosnfXVYvhUia77mlOfX6WMwhmLfj6XzcWyIJTjPmzHi/avLOHKstrb0dtF
+         ckwrB2CelU+kS5urLSixvlsHBZfsygzddMrSvq+bpW3Z9rJXly92YepoIrt0acZGGGPc
+         hL4qxLvVlXzu08OsDwz3b1WDgm+ZvWxcy06DE+I+xSyzrXdwY675mP8sCr4UZFap1Oo9
+         /xK9pN1p6ZLGc1jUjnINb4CyXkHLoi9vC5viVuYqndygFUUscdfF0a75aJVm0Q2qXxvR
+         pl8wFdcfK66G/BlMq8KMFNZ/U/6RT0JZyhgyKfVtlLS50B46MZdvyYONHZQujdgPBOsN
+         RJmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=NNCnVCTAATMxlDMarLLJ67yqDDVFt+vwrBh9wh5mNVQ=;
-        b=XF4vyYGuh+muNMbWYWH08aWEwCjdLSykaHtVY+cYzepqXcEZBOKGP69g/wHcPUK7jL
-         WKZRGqfEhEemg4Oo0elL0UBEGxEurG/6dxpPilwIFvna4LB1l+F1bSw9zAEtrjcWUW9x
-         dpXdkog/9DT6vrApH+lntgLzitY8Fdnfr5uyiVLHNlcWV5/JTukNzXuP1FAE7R2nS+G9
-         4bz9S+tyf6VMqAW7d9izzuY9CYqOgq6rqwPg7q96mCiev/URzXBYhVfKGTo1GebXCPB6
-         +LvO0qlH5URvgSbvwMKjdm1+wa5/fBPoUBy4YHF+8cL+foKDKHe2b177o56DvY3Atkqt
-         yKzA==
-X-Gm-Message-State: APjAAAWNoUibrqM78GuQvH8UTovu5mDRR1DjACGsegT7mMkDZOpHHLkL
-        0af2wgp8w3RH0aDrGfeiblO44+Ua5BNlgFWz9cTWyQ==
-X-Google-Smtp-Source: APXvYqxo6OjC5cnI7G46g6hiP/P8iTXGx7hD0/zp0LMpsykXkRPUvVhudAT1yu9PqFgJEj2J/jGAQAQ3/X7UkXFAG8BMDA==
-X-Received: by 2002:a63:6988:: with SMTP id e130mr40887298pgc.150.1557872385659;
- Tue, 14 May 2019 15:19:45 -0700 (PDT)
-Date:   Tue, 14 May 2019 15:17:11 -0700
-In-Reply-To: <20190514221711.248228-1-brendanhiggins@google.com>
-Message-Id: <20190514221711.248228-19-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
-Subject: [PATCH v4 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SB/GaKUPZ9drIILKtfO141NqoI9UYS/XADh4R9X0GN8=;
+        b=VG4U8R8uannpgBf771RtzlN0hl8nFFfnJlmRSMMrj0aL5rJZGFl5P8BskF5TL4L1j8
+         14Y754qx6tHjo//xfK8gc8sB+4WfjN5s9a/uSPq7oB1NFZyF89Ism0MEDlpna2y+vDBF
+         ddjzqsb6GFpWIIQ5rz2ERT3vwYNOEiYLsRiDWBTGT6FL/DeYw5s7wIT5Kzs+nDeKK+SO
+         msXQDfz1sNdbZW0vW280GQYkKnTIHv7648DXg28THm+UdT9Qt2cT8DITVUi9IxWT/Ps4
+         Twsd/94mnpfGRecbLN2FGu5JuPBoS234tnpjnKw9MAb37E/9/avkx4cSBHxTlwvUDQ2K
+         JyeA==
+X-Gm-Message-State: APjAAAWGkajU4saD2en42+ionuP9Lv+SJd+8F9ix7iT5ixJQnuadvHj/
+        qwLRn9H962JJQaRUtVFmRE1KjgaCASUr/+llzALcysL42q8=
+X-Google-Smtp-Source: APXvYqxHAUMyM5v7d4gVftLvNhzAZuJAWiQJ/8g/8Kha/jDtvYekW4ICYKoKEhK3RpCEdj5oXiWKIedno4VZm0D3ZpM=
+X-Received: by 2002:a63:441c:: with SMTP id r28mr40571374pga.255.1557874012465;
+ Tue, 14 May 2019 15:46:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190514224047.28505-1-natechancellor@gmail.com>
+In-Reply-To: <20190514224047.28505-1-natechancellor@gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 14 May 2019 15:46:40 -0700
+Message-ID: <CAKwvOdk1Zr+YJc8Q5YNi+48K_ib9qJ1WPww8QWir=EWhqBaNvw@mail.gmail.com>
+Subject: Re: [PATCH] objtool: Allow AR to be overridden with HOSTAR
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
+.On Tue, May 14, 2019 at 3:41 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> Currently, this Makefile hardcodes GNU ar, meaning that if it is not
+> available, there is no way to supply a different one and the build will
+> fail.
+>
+> $ make AR=llvm-ar CC=clang LD=ld.lld HOSTAR=llvm-ar HOSTCC=clang \
+>        HOSTLD=ld.lld HOSTLDFLAGS=-fuse-ld=lld defconfig modules_prepare
+> ...
+>   AR       /out/tools/objtool/libsubcmd.a
+> /bin/sh: 1: ar: not found
+> ...
+>
+> Follow the logic of HOST{CC,LD} and allow the user to specify a
+> different ar tool via HOSTAR (which is used elsewhere in other
+> tools/ Makefiles).
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/481
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
+>  tools/objtool/Makefile | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
+> index 53f8be0f4a1f..88158239622b 100644
+> --- a/tools/objtool/Makefile
+> +++ b/tools/objtool/Makefile
+> @@ -7,11 +7,12 @@ ARCH := x86
+>  endif
+>
+>  # always use the host compiler
+> +HOSTAR ?= ar
+>  HOSTCC ?= gcc
+>  HOSTLD ?= ld
+> +AR      = $(HOSTAR)
+>  CC      = $(HOSTCC)
+>  LD      = $(HOSTLD)
+> -AR      = ar
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
++ Kbuild
+Seems to match what's going on in tools/perf/Makefile.perf and
+tools/build/Makefile. Thanks for the patch!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8a91887c8d541..2e539647589fd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12526,6 +12526,7 @@ S:	Maintained
- F:	fs/proc/proc_sysctl.c
- F:	include/linux/sysctl.h
- F:	kernel/sysctl.c
-+F:	kernel/sysctl-test.c
- F:	tools/testing/selftests/sysctl/
- 
- PS3 NETWORK SUPPORT
 -- 
-2.21.0.1020.gf2820cf01a-goog
-
+Thanks,
+~Nick Desaulniers
