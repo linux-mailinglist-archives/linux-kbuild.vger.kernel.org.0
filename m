@@ -2,57 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 025411CEC3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2019 20:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0A561CEDA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 May 2019 20:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727561AbfENSMk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 May 2019 14:12:40 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:41369 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726201AbfENSMk (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 May 2019 14:12:40 -0400
-Received: by mail-pg1-f195.google.com with SMTP id z3so9019213pgp.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 May 2019 11:12:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=N4UQ8E37RD8PM/SrG8N/O0bEDGjz00r1+gSc2WyT1f4=;
-        b=Do+8Q+pHF8OB+tlzSEbCAlPOY5hObzGGmcvPm0YH3pOm8OWb+2EG6k/+3FX9ODnKET
-         HeeejJJzGaiMQRAOmVbGKQQo9GMUp77yZaFJ+oq5A5++UZ2bqGz1eozejMrClIviWLaH
-         6NqHaVQChwYnFjxvjCGyJrQCTbtCzP1YDVjWmeDvwiekfu/CIsr1rAo7eeV2cOghCM3s
-         jg1XfDoXavpa+8h5sP6zhUgTkyTdA3gv3smrtEjkWIEZtUEMHzNqwHjzR4ACtYGyLA5t
-         PjdZhQFtOg524SURCKg00duz4q2SfEaie9Z/aI0bjh6oNPjygJN8c7oYJhw88kmkUhL7
-         hq9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=N4UQ8E37RD8PM/SrG8N/O0bEDGjz00r1+gSc2WyT1f4=;
-        b=J8M0OGQEmom1JY3AZrnrULb2FFMbo4AqG+d1fvHl8wj9peJnkLZugjZn18WJ9ylDGp
-         iGtU/5byjMwOQUjunlOToXXxnq/AFAmPKGRzt/BnUwitidetk1uxbPjYPgI9AbAMwWka
-         ISmClbjRuqr6lAfXcYyTEjaV77mYeDcDaM4A5/k2dhaEVLsNVF/8DEEb13imwfg4V45B
-         A7de8XPu0FV6VLyKmLiMSV5yXExR5ECBCKfQilmWqxZYYZhmcAtO39Mw7mgxh5F8MxhD
-         YzD6wXsLyNgJVrlEFCTlPV2liFEE0t4jF6ejUSQ3YQBN/fzEUR1ALtfXqHsfkaB+GWYQ
-         FG0w==
-X-Gm-Message-State: APjAAAVp5LGWRRbdVKUDPggYgKkGRuDogTxHW9uGB0/cnYjrUsOAeBh8
-        pWREnCxKRcYkFK0e2hGn34BEfh6a6WNBmBlg
-X-Google-Smtp-Source: APXvYqzF1W3MvAqglRw1f3U3GzCogO4oDzfR+rvBgcAvxH3aiWBoZY2un6t4j9IVvIzAxmzzun0V4w==
-X-Received: by 2002:a62:d244:: with SMTP id c65mr3681839pfg.173.1557857559066;
-        Tue, 14 May 2019 11:12:39 -0700 (PDT)
-Received: from google.com ([2620:15c:2cd:2:d714:29b4:a56b:b23b])
-        by smtp.gmail.com with ESMTPSA id w189sm22611956pfw.147.2019.05.14.11.12.37
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 14 May 2019 11:12:38 -0700 (PDT)
-Date:   Tue, 14 May 2019 11:12:33 -0700
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S1727258AbfENSQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 May 2019 14:16:28 -0400
+Received: from ms.lwn.net ([45.79.88.28]:45440 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726348AbfENSQ1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 14 May 2019 14:16:27 -0400
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id CC621308;
+        Tue, 14 May 2019 18:16:24 +0000 (UTC)
+Date:   Tue, 14 May 2019 12:16:23 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Brendan Higgins <brendanhiggins@google.com>
 Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         keescook@google.com, kieran.bingham@ideasonboard.com,
         mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
         shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
         devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
         kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
@@ -65,47 +35,37 @@ Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
         knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
         pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
         rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
-        kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 08/18] objtool: add kunit_try_catch_throw to the
- noreturn list
-Message-ID: <20190514181233.GB109557@google.com>
+        Felix Guo <felixguoxiuping@gmail.com>
+Subject: Re: [PATCH v3 15/18] Documentation: kunit: add documentation for
+ KUnit
+Message-ID: <20190514121623.0314bf07@lwn.net>
+In-Reply-To: <20190514180810.GA109557@google.com>
 References: <20190514054251.186196-1-brendanhiggins@google.com>
- <20190514054251.186196-9-brendanhiggins@google.com>
- <20190514065643.GC2589@hirez.programming.kicks-ass.net>
- <20190514081223.GA230665@google.com>
- <20190514084655.GK2589@hirez.programming.kicks-ass.net>
+        <20190514054251.186196-16-brendanhiggins@google.com>
+        <20190514073422.4287267c@lwn.net>
+        <20190514180810.GA109557@google.com>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514084655.GK2589@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 14, 2019 at 10:46:55AM +0200, Peter Zijlstra wrote:
-> On Tue, May 14, 2019 at 01:12:23AM -0700, Brendan Higgins wrote:
-> > On Tue, May 14, 2019 at 08:56:43AM +0200, Peter Zijlstra wrote:
-> > > On Mon, May 13, 2019 at 10:42:42PM -0700, Brendan Higgins wrote:
-> > > > This fixes the following warning seen on GCC 7.3:
-> > > >   kunit/test-test.o: warning: objtool: kunit_test_unsuccessful_try() falls through to next function kunit_test_catch()
-> > > > 
-> > > 
-> > > What is that file and function; no kernel tree near me seems to have
-> > > that.
-> > 
-> > Oh, sorry about that. The function is added in the following patch,
-> > "[PATCH v3 09/18] kunit: test: add support for test abort"[1].
-> > 
-> > My apologies if this patch is supposed to come after it in sequence, but
-> > I assumed it should come before otherwise objtool would complain about
-> > the symbol when it is introduced.
+On Tue, 14 May 2019 11:08:10 -0700
+Brendan Higgins <brendanhiggins@google.com> wrote:
+
+> > Naturally, though, I have one request: I'd rather not see this at the top
+> > level, which is more than crowded enough as it is.  Can this material
+> > please go into the development tools book, alongside the kselftest
+> > documentation?  
 > 
-> Or send me all patches such that I have context, or have a sane
-> Changelog that gives me context. Just don't give me one patch with a
-> crappy changelog.
+> Oh yeah, that seems like the obvious home for this in hindsight. Sorry
+> about that. Will fix in next revision!
 
-I will provide more context in the next revision.
+No need to apologize - I have to say the same thing to everybody :)
 
-Sorry about that!
+Thanks,
+
+jon
