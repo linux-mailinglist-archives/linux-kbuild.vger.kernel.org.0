@@ -2,110 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AA301E548
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 00:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A931E583
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 01:19:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbfENWqx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 May 2019 18:46:53 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36879 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726174AbfENWqx (ORCPT
+        id S1726465AbfENXTJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 May 2019 19:19:09 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:37244 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726454AbfENXTJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 May 2019 18:46:53 -0400
-Received: by mail-pg1-f196.google.com with SMTP id e6so289203pgc.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 14 May 2019 15:46:53 -0700 (PDT)
+        Tue, 14 May 2019 19:19:09 -0400
+Received: by mail-pl1-f194.google.com with SMTP id p15so345128pll.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 14 May 2019 16:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SB/GaKUPZ9drIILKtfO141NqoI9UYS/XADh4R9X0GN8=;
-        b=rbhoLPTDosnfXVYvhUia77mlOfX6WMwhmLfj6XzcWyIJTjPmzHi/avLOHKstrb0dtF
-         ckwrB2CelU+kS5urLSixvlsHBZfsygzddMrSvq+bpW3Z9rJXly92YepoIrt0acZGGGPc
-         hL4qxLvVlXzu08OsDwz3b1WDgm+ZvWxcy06DE+I+xSyzrXdwY675mP8sCr4UZFap1Oo9
-         /xK9pN1p6ZLGc1jUjnINb4CyXkHLoi9vC5viVuYqndygFUUscdfF0a75aJVm0Q2qXxvR
-         pl8wFdcfK66G/BlMq8KMFNZ/U/6RT0JZyhgyKfVtlLS50B46MZdvyYONHZQujdgPBOsN
-         RJmg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=65cWsglVoepzFlykZ42+abk0YI6VmpB8isURvrndfio=;
+        b=Bg39hYCrdxq9ZvR+2i/HlXSRaq6orpc1oOB8WF33oCVFV3rNh0CexWyS1Z8QPqlm8F
+         634lbyY40ksqDjssWKmNVtGI+1F3APRXwSAL0XqoS1nJrYkqeYOkCUNp8JWFWm6ZNg2N
+         3YnG2RckdXyh7Hd/JvDkJlfyEQP3VpBJF0SPvweC+YvdIQjG/OVFu00sC5S5PmUtedb0
+         57OXt1xXLQFMEhV58WldO2KsTL77idwyKmIM1odUUjPKE4+37YyS67kBXQTSZPy0lER0
+         iehTg4wcOiUIvCRTLfByhOie4AbWZpgc/tuXOmP4dOA/iaDvGuiNcBG7UtbS06g67YaV
+         pQVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SB/GaKUPZ9drIILKtfO141NqoI9UYS/XADh4R9X0GN8=;
-        b=VG4U8R8uannpgBf771RtzlN0hl8nFFfnJlmRSMMrj0aL5rJZGFl5P8BskF5TL4L1j8
-         14Y754qx6tHjo//xfK8gc8sB+4WfjN5s9a/uSPq7oB1NFZyF89Ism0MEDlpna2y+vDBF
-         ddjzqsb6GFpWIIQ5rz2ERT3vwYNOEiYLsRiDWBTGT6FL/DeYw5s7wIT5Kzs+nDeKK+SO
-         msXQDfz1sNdbZW0vW280GQYkKnTIHv7648DXg28THm+UdT9Qt2cT8DITVUi9IxWT/Ps4
-         Twsd/94mnpfGRecbLN2FGu5JuPBoS234tnpjnKw9MAb37E/9/avkx4cSBHxTlwvUDQ2K
-         JyeA==
-X-Gm-Message-State: APjAAAWGkajU4saD2en42+ionuP9Lv+SJd+8F9ix7iT5ixJQnuadvHj/
-        qwLRn9H962JJQaRUtVFmRE1KjgaCASUr/+llzALcysL42q8=
-X-Google-Smtp-Source: APXvYqxHAUMyM5v7d4gVftLvNhzAZuJAWiQJ/8g/8Kha/jDtvYekW4ICYKoKEhK3RpCEdj5oXiWKIedno4VZm0D3ZpM=
-X-Received: by 2002:a63:441c:: with SMTP id r28mr40571374pga.255.1557874012465;
- Tue, 14 May 2019 15:46:52 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=65cWsglVoepzFlykZ42+abk0YI6VmpB8isURvrndfio=;
+        b=IfDru8HckAtVyALY429Q+s9rW9Dvzvq3vJoVLibzAS/SLR98cie0OF1SP+uZpT1RnO
+         L0veSTSAAIrKQDo6ESwgLsU/Eda0ZLTt9hSfPFXXzaA4+CnXGeX+BqPAYWk2XQExbQQ+
+         NwHFvYlYWuIyPICqn659WQmbLWA4QqpPQMr7iKtOuHYlstBDfo2ojw+wNcqUS2Gtp68E
+         kXNH9F48bpsSOUtGd6c2SuvM/0xuORV49RXpV/aXzp21EV/dgNQ9icEYEdvblB9rmS9O
+         101+AcqDMCdEkGlXDJtOpi3Npary7CgzuVqg54rSKir/d8rH50q7Ddi3oxPEEbsUcN8G
+         t4Lg==
+X-Gm-Message-State: APjAAAXufV7FU2Oes4wsqzkc1uCJDKOxlYh715/xWNBKOqBdbfrDcKuf
+        TgCUox618VtsZr1JRZpJjznv8Q==
+X-Google-Smtp-Source: APXvYqwRc6VN5ebH7uglXTpSRZvZHWA1IEE/QiHsPmobJB2SKK6EBwf8uUbYe/O8Vc0yLOYiPNp2/w==
+X-Received: by 2002:a17:902:5998:: with SMTP id p24mr23416476pli.9.1557875948193;
+        Tue, 14 May 2019 16:19:08 -0700 (PDT)
+Received: from google.com ([2620:15c:2cd:2:d714:29b4:a56b:b23b])
+        by smtp.gmail.com with ESMTPSA id p64sm253565pfp.72.2019.05.14.16.19.06
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 14 May 2019 16:19:07 -0700 (PDT)
+Date:   Tue, 14 May 2019 16:19:02 -0700
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com,
+        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
+        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
+        knut.omang@oracle.com, logang@deltatee.com, mpe@ellerman.id.au,
+        pmladek@suse.com, rdunlap@infradead.org, richard@nod.at,
+        rientjes@google.com, rostedt@goodmis.org, wfg@linux.intel.com,
+        Felix Guo <felixguoxiuping@gmail.com>
+Subject: Re: [PATCH v3 15/18] Documentation: kunit: add documentation for
+ KUnit
+Message-ID: <20190514231902.GA12893@google.com>
+References: <20190514054251.186196-1-brendanhiggins@google.com>
+ <20190514054251.186196-16-brendanhiggins@google.com>
+ <20190514073422.4287267c@lwn.net>
+ <20190514180810.GA109557@google.com>
+ <20190514121623.0314bf07@lwn.net>
 MIME-Version: 1.0
-References: <20190514224047.28505-1-natechancellor@gmail.com>
-In-Reply-To: <20190514224047.28505-1-natechancellor@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 14 May 2019 15:46:40 -0700
-Message-ID: <CAKwvOdk1Zr+YJc8Q5YNi+48K_ib9qJ1WPww8QWir=EWhqBaNvw@mail.gmail.com>
-Subject: Re: [PATCH] objtool: Allow AR to be overridden with HOSTAR
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190514121623.0314bf07@lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-.On Tue, May 14, 2019 at 3:41 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> Currently, this Makefile hardcodes GNU ar, meaning that if it is not
-> available, there is no way to supply a different one and the build will
-> fail.
->
-> $ make AR=llvm-ar CC=clang LD=ld.lld HOSTAR=llvm-ar HOSTCC=clang \
->        HOSTLD=ld.lld HOSTLDFLAGS=-fuse-ld=lld defconfig modules_prepare
-> ...
->   AR       /out/tools/objtool/libsubcmd.a
-> /bin/sh: 1: ar: not found
-> ...
->
-> Follow the logic of HOST{CC,LD} and allow the user to specify a
-> different ar tool via HOSTAR (which is used elsewhere in other
-> tools/ Makefiles).
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/481
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> ---
->  tools/objtool/Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/tools/objtool/Makefile b/tools/objtool/Makefile
-> index 53f8be0f4a1f..88158239622b 100644
-> --- a/tools/objtool/Makefile
-> +++ b/tools/objtool/Makefile
-> @@ -7,11 +7,12 @@ ARCH := x86
->  endif
->
->  # always use the host compiler
-> +HOSTAR ?= ar
->  HOSTCC ?= gcc
->  HOSTLD ?= ld
-> +AR      = $(HOSTAR)
->  CC      = $(HOSTCC)
->  LD      = $(HOSTLD)
-> -AR      = ar
+On Tue, May 14, 2019 at 12:16:23PM -0600, Jonathan Corbet wrote:
+> On Tue, 14 May 2019 11:08:10 -0700
+> Brendan Higgins <brendanhiggins@google.com> wrote:
+> 
+> > > Naturally, though, I have one request: I'd rather not see this at the top
+> > > level, which is more than crowded enough as it is.  Can this material
+> > > please go into the development tools book, alongside the kselftest
+> > > documentation?
 
-+ Kbuild
-Seems to match what's going on in tools/perf/Makefile.perf and
-tools/build/Makefile. Thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Hmmm...probably premature to bring this up, but Documentation/dev-tools/
+is kind of thrown together.
 
--- 
-Thanks,
-~Nick Desaulniers
+It would be nice to provide a coherent overview, maybe provide some
+basic grouping as well.
+
+It would be nice if there was kind of a gentle introduction to the
+tools, which ones you should be looking at, when, why, etc.
+
+> > Oh yeah, that seems like the obvious home for this in hindsight. Sorry
+> > about that. Will fix in next revision!
+> 
+> No need to apologize - I have to say the same thing to everybody :)
