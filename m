@@ -2,133 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6181FA18
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 20:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B143A1FA41
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 20:55:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727604AbfEOSi3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 May 2019 14:38:29 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:37491 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726794AbfEOSi3 (ORCPT
+        id S1726486AbfEOSzK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 May 2019 14:55:10 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:34879 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726168AbfEOSzJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 May 2019 14:38:29 -0400
-Received: by mail-pf1-f194.google.com with SMTP id g3so415494pfi.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 15 May 2019 11:38:29 -0700 (PDT)
+        Wed, 15 May 2019 14:55:09 -0400
+Received: by mail-qk1-f196.google.com with SMTP id c15so696149qkl.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 15 May 2019 11:55:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=EjtI0jB6q0on8T68O7ooSG3HJ/G6aXVuh7Fa8bUtB3c=;
-        b=ddtr6DU1QjLaiimdHvjnm5OyLPSkWpepiD03f53/1yEoCpWWVeGz/iO+mseYcXP/0O
-         3rvOy0GL8UzZ93ASbLEqgNb0DgWjjJCKufFzgqhqDCCnw59UFOltLi7VTMwa0aCCWQIq
-         cX43LNEflo4mYTocYshtFVRRly1IwJ4xLGuMU=
+        d=cloudflare.com; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=F5f0jdD+RR9T1CwHPhrtmL6nHZr8J4S+eN2O4/8OKC4=;
+        b=ZCwIKargplAQENz+EORz8P68NBMdXVYFWpfBRo/cEUOzEus3iToO4XzJk03IO39GSd
+         3ezUsvl7qb4HryGNXrfBIxmnkccLxbs/mRXxowrK+5eN9+1uJnOB0QyvWc+uUomH8m+/
+         M75yGkwFG7JACyMnBxRq437b/pL8tbI1tWu4o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EjtI0jB6q0on8T68O7ooSG3HJ/G6aXVuh7Fa8bUtB3c=;
-        b=j+NoAHXyhh3CGrBFOgLrHIiHL6wmM07c1mEkXVVyCT125cBJhT6mF38zOc+JGTNje4
-         QmwKh4TEKrlNbwpL1FXnfseGUsCfDiI2be+ilagdSMzBsgOf6RoTNiSUd+ew4s4N7FId
-         ZugTb03pOp0AP7QTmmjeC/uQMRH0yF4sWUqJJstZdySwQvxGHfVelfTG6v8iQVhwFgUw
-         2s0249uEiFOCNT1lmYzeSoPKVQfXu7Z0DoXowWn0dYQYRk1YjIW+Evr+HtG+cOMY15+Z
-         owO6eTod1jpNeIAYw6aj30ri82hZkl9ARp42ptK56gxT+5ongrpJCgVHHtXNTP1U/1K0
-         kazw==
-X-Gm-Message-State: APjAAAVrgxELB3v+jlrzq2ricT4341wus3935WXgyX80PIEwhZ1vuUcZ
-        MxxYLuMpxnpVqCfvfk85OOHjAg==
-X-Google-Smtp-Source: APXvYqyfZajspCc+MoqfqS4jkc9YOLiR0rXd0nQy8a8u/vchdAbnxT1lHXCHdIq1M/MzfUHuvHElrw==
-X-Received: by 2002:a62:4c5:: with SMTP id 188mr49579806pfe.29.1557945508686;
-        Wed, 15 May 2019 11:38:28 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c127sm5764398pfb.107.2019.05.15.11.38.27
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 May 2019 11:38:27 -0700 (PDT)
-Date:   Wed, 15 May 2019 11:38:26 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH] kbuild: check uniqueness of basename of modules
-Message-ID: <201905151131.EBB45E5@keescook>
-References: <20190515073818.22486-1-yamada.masahiro@socionext.com>
- <CAK7LNAQgBKq9JDGtQUD1kgKrfLZ4jOjuLJi7_tpSPLJZsWtmag@mail.gmail.com>
- <201905150913.C23BD99AD@keescook>
- <CAK7LNARezpQgcK9O9K3ZFeebMVNroWStno_brvSLadsKXVfm-Q@mail.gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=F5f0jdD+RR9T1CwHPhrtmL6nHZr8J4S+eN2O4/8OKC4=;
+        b=JEt/niUkBAIb33IbZ/cQU1jpeqa8zVXqmfyLNk0aJI4kFzrL9LVILe3ngar4qjzU1H
+         ZtlNrqDTpatGLFFBTLhX5CHuAR9zk8bu6vWLB27PeJvxqrM/IZScXnTRvQTSNI6MXVtb
+         uYo3O67ELa07ykCNZFUdYZgT61JfLIAKzsOkmxg6HVYlxBXyiamBAeSVJBJZRqDONzNf
+         F0FIigNWcuuhygIfHdlzqJrryaq+IGx9Y2aF4suaTfNxAE9JEEIvgX2AfjjDNdrw7TFe
+         CWrtPfyrnd3r1QOJGNYSVp8JuC0RewBq938WnZlo0Si4oNGNmjsqCochHlocYsDwLsiw
+         zFaQ==
+X-Gm-Message-State: APjAAAWB/IRngeV96LRMasMOp06XHDIU8ljHV2LAGHWBj6ewN6UstjjX
+        6D16JQgw69kw1mcMpqRWpQ9PZ6N582ExAYKOIp99uV/tL8HMnw==
+X-Google-Smtp-Source: APXvYqyQgPG2i9G9Y5pvAdivqUrDU4uVkIDoiaIzzaePK4bbmnnM1s3rta2YGfTDdr0HkAbk7wmxTrW+c6Uy75gDoYE=
+X-Received: by 2002:a37:e402:: with SMTP id y2mr29654025qkf.200.1557946508530;
+ Wed, 15 May 2019 11:55:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARezpQgcK9O9K3ZFeebMVNroWStno_brvSLadsKXVfm-Q@mail.gmail.com>
+From:   Ivan Babrou <ivan@cloudflare.com>
+Date:   Wed, 15 May 2019 11:54:54 -0700
+Message-ID: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
+Subject: Linux 4.19 and GCC 9
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     kernel-team <kernel-team@cloudflare.com>,
+        miguel.ojeda.sandonis@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 16, 2019 at 02:55:02AM +0900, Masahiro Yamada wrote:
-> 
-> On Thu, May 16, 2019 at 1:20 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Wed, May 15, 2019 at 04:53:15PM +0900, Masahiro Yamada wrote:
-> > > On Wed, May 15, 2019 at 4:40 PM Masahiro Yamada
-> > > <yamada.masahiro@socionext.com> wrote:
-> > > >
-> > > > [...]
-> > > > diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
-> > > > new file mode 100755
-> > > > index 000000000000..944e68bd22b0
-> > > > --- /dev/null
-> > > > +++ b/scripts/modules-check.sh
-> > > > @@ -0,0 +1,18 @@
-> > > > +#!/bin/sh
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +# Warn if two or more modules have the same basename
-> > > > +check_same_name_modules()
-> > > > +{
-> > > > +       same_name_modules=$(cat modules.order modules.builtin | \
-> > > > +                               xargs basename -a | sort | uniq -d)
-> >
-> > While probably it'll never be a problem, just for robustness, I'd add "--"
-> > to the end basename to terminate argument interpretation:
-> >
-> >     xargs basename -a -- | sort | ...
-> 
-> 
-> Sorry for my ignorance, but could you
-> teach me the effect of "--" ?
-> 
-> 
-> I sometimes use "--" as a separator
-> when there is ambiguity in arguments
-> for example, "git log <revision> -- <path>"
-> 
-> 
-> In this case, what is intended by "--"?
+Hey,
 
-It means "end of arguments" so that whatever xargs passes into the
-program aren't interpretted as an argument. In this case, if there was
-a module path somehow ever named --weird/build/path/foo.o, xargs would
-launch basename as:
+It looks like it's not possible to build Linux 4.19.43 (latest LTS as
+of today) with GCC 9.1 (latest stable GCC). From what I see, some
+support for GCC 9 was added by Miguel (cc'd) in 4.20, but it was never
+backported into 4.19.
 
-	basename -a --weird/build/path/foo.o
+Should this happen or is 4.19 stuck on GCC 8?
 
-and basename would fail since it didn't recognize the argument. Having
-"--" will stop argument parsing:
+I've tried doing this manually first, but it seems beyond a quick fix
+with a few backports for me:
 
-	basename -a -- --weird/build/path/foo.o
-
-This is just a robustness suggestion that I always recommend for xargs
-piping, since this can turn into a security flaw (though not here) when
-an argument may have behavioral side-effects. So, it's just a thing that
-always jumps out at me, though in this particular case I don't think
-we could ever see it cause a problem, but better to always write these
-xargs patterns as safely as possible.
-
--- 
-Kees Cook
+1. Disable perf (breaks on -Werror=stringop-truncation)
+2. Apply https://lore.kernel.org/patchwork/patch/1005478/
+3. Try applying https://lore.kernel.org/patchwork/cover/1040185/ and
+discover a missing file
+4. Discover that more things changed:
+https://github.com/torvalds/linux/commits/master/include/linux/compiler_attributes.h
