@@ -2,132 +2,174 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1997A1E7B3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 06:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BCE61E93B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 09:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbfEOEaq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 May 2019 00:30:46 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:47192 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725941AbfEOEaq (ORCPT
+        id S1725953AbfEOHkZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 May 2019 03:40:25 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:57545 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725902AbfEOHkZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 May 2019 00:30:46 -0400
-Received: from callcc.thunk.org (168-215-239-3.static.ctl.one [168.215.239.3] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x4F4SdqA023241
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 15 May 2019 00:28:43 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 8480F420024; Wed, 15 May 2019 00:28:38 -0400 (EDT)
-Date:   Wed, 15 May 2019 00:28:38 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Tim.Bird@sony.com, knut.omang@oracle.com,
-        gregkh@linuxfoundation.org, brendanhiggins@google.com,
-        keescook@google.com, kieran.bingham@ideasonboard.com,
-        mcgrof@kernel.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-Subject: Re: [PATCH v2 00/17] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-Message-ID: <20190515042838.GA26954@mit.edu>
-Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>,
-        Frank Rowand <frowand.list@gmail.com>, Tim.Bird@sony.com,
-        knut.omang@oracle.com, gregkh@linuxfoundation.org,
-        brendanhiggins@google.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org, robh@kernel.org,
-        sboyd@kernel.org, shuah@kernel.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-nvdimm@lists.01.org,
-        linux-um@lists.infradead.org, Alexander.Levin@microsoft.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com,
-        dan.j.williams@intel.com, daniel@ffwll.ch, jdike@addtoit.com,
-        joel@jms.id.au, julia.lawall@lip6.fr, khilman@baylibre.com,
-        logang@deltatee.com, mpe@ellerman.id.au, pmladek@suse.com,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com
-References: <580e092f-fa4e-eedc-9e9a-a57dd085f0a6@gmail.com>
- <20190509032017.GA29703@mit.edu>
- <7fd35df81c06f6eb319223a22e7b93f29926edb9.camel@oracle.com>
- <20190509133551.GD29703@mit.edu>
- <ECADFF3FD767C149AD96A924E7EA6EAF9770D591@USCULXMSG01.am.sony.com>
- <875c546d-9713-bb59-47e4-77a1d2c69a6d@gmail.com>
- <20190509214233.GA20877@mit.edu>
- <80c72e64-2665-bd51-f78c-97f50f9a53ba@gmail.com>
- <20190511173344.GA8507@mit.edu>
- <a305c732-9953-8724-b4a4-25aa50c89365@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a305c732-9953-8724-b4a4-25aa50c89365@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Wed, 15 May 2019 03:40:25 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x4F7cPhj006122;
+        Wed, 15 May 2019 16:38:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x4F7cPhj006122
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1557905906;
+        bh=RLKnrKzGrRB49svSrfY0cT9mgY0RbRrACb/5P+nxe8M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=AFNVX2AvlJlAcegLAGSPBR5Feh2MQuXfziB1wTqwDhHqFwG8oFpg+FcnY5MdUrmoq
+         AfZj/Wpuok8UJXgKJKHunV+5JevVnmKRFGttazUUfqtCgG2kwZk8eK6BZboj+USmB8
+         f5Hqn2BbHgCIge34oOLLClfNyr/ptj7FJ2g++VnI1hcfYDNESbUDooE0VQCTLxQ2fg
+         S9RI596ONnx2ut2tH7+7SYNOSjZTY9plbRHiNnhBNzMgBq5eOpDIsm0V1zmqPV+ZF7
+         S5NoGaRn/IvFJ9klTZ6CLvgOP5REzmEOjGlMMotzJmKxGCHnbKYdJMwwmUHBEQmku8
+         WCuNW2UNimnrw==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] kbuild: check uniqueness of basename of modules
+Date:   Wed, 15 May 2019 16:38:18 +0900
+Message-Id: <20190515073818.22486-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 14, 2019 at 05:26:47PM -0700, Frank Rowand wrote:
-> On 5/11/19 10:33 AM, Theodore Ts'o wrote:
-> > On Fri, May 10, 2019 at 02:12:40PM -0700, Frank Rowand wrote:
-> >> However, the reply is incorrect.  Kselftest in-kernel tests (which
-> >> is the context here) can be configured as built in instead of as
-> >> a module, and built in a UML kernel.  The UML kernel can boot,
-> >> running the in-kernel tests before UML attempts to invoke the
-> >> init process.
-> > 
-> > Um, Citation needed?
-> 
-> The paragraph that you quoted tells you exactly how to run a kselftest
-> in-kernel test in a UML kernel.  Just to what that paragraph says.
+In the recent build test of linux-next, Stephen saw a build error
+caused by a broken .tmp_versions/*.mod file:
 
-I didn't quote a paragraph.  But I'll quote from it now:
+  https://lkml.org/lkml/2019/5/13/991
 
-  $ make -C tools/testing/selftests run_tests
+drivers/net/phy/asix.ko and drivers/net/usb/asix.ko have the same
+basename, and there is a race in generating .tmp_versions/asix.mod
 
-This runs the kselftest harness, *in userspace*.  That means you have
-to have a root file system, and it's run after init has started, by
-default.  You asserted that kselftests allows you to run modules
-before init has started.  There is absolutely zero, cero, nada, zilch
-mentions of any of anything like that in Documentation/dev-tools/kselftests.rst
+Kbuild has not checked this before, and it occasionally shows up with
+obscure error message when this kind of race occurs.
 
-> > There exists test modules in the kernel that run before the init
-> > scripts run --- but that's not strictly speaking part of kselftests,
-> > and do not have any kind of infrastructure.  As noted, the
-> > kselftests_harness header file fundamentally assumes that you are
-> > running test code in userspace.
-> 
-> You are ignoring the kselftest in-kernel tests.
+It is not trivial to catch this potential issue by eyes.
 
-I'm talking specifically about what you have been *claiming* to be
-kselftest in-kernel tests above.  And I'm asserting they are really
-not kselftests.  They are just ad hoc tests that are run in kernel
-space, which, when compiled as modules, can be loaded by a kselftest
-shell script.  You can certainly hook in these ad hoc in-kernel tests
-via kselftests --- but then they aren't run before init starts,
-because kselftests is inherently a userspace-driven system.
+Hence, this script.
 
-If you build these tests (many of which existed before kselftests was
-merged) into the kernel such that they are run before init starts,
-without the kselftest harness, then they are not kselftests, by
-definition.  Both in how they are run, and since many of these
-in-kernel tests predate the introduction of kselftests --- in some
-cases, by many years.
+I compile-tested allmodconfig for the latest kernel as of writing,
+it detected the following:
 
-> We are talking in circles.  I'm done with this thread.
+warning: same basename '88pm800.ko' if the following are built as modules:
+  drivers/regulator/88pm800.ko
+  drivers/mfd/88pm800.ko
+warning: same basename 'adv7511.ko' if the following are built as modules:
+  drivers/gpu/drm/bridge/adv7511/adv7511.ko
+  drivers/media/i2c/adv7511.ko
+warning: same basename 'asix.ko' if the following are built as modules:
+  drivers/net/phy/asix.ko
+  drivers/net/usb/asix.ko
+warning: same basename 'coda.ko' if the following are built as modules:
+  fs/coda/coda.ko
+  drivers/media/platform/coda/coda.ko
+warning: same basename 'realtek.ko' if the following are built as modules:
+  drivers/net/phy/realtek.ko
+  drivers/net/dsa/realtek.ko
 
-Yes, that sounds like it would be best.
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-						- Ted
+ [Alternative fix ? ]
+
+I do not know about the user experience of modprobe etc.
+when two different modules have the same name.
+It does not matter if this is correctly handled by modules.order?
+
+If this is just a problem of the build system, it is pretty easy to fix.
+For example, if we prepend the directory path, parallel build will
+never write to the same file simultanously.
+
+  asix.mod -> drivers/net/phy/asix.mod
+  asix.mod -> drivers/net/usb/asix.mod
+
+ [Futher discussion]
+
+Linus Torvalds pointed out that it is silly to add the same prefix to
+each file since the sub-system is already represented by the directory
+path.
+
+See this:
+https://lkml.org/lkml/2017/7/12/430
+
+We can keep the basename short enough to distinguish in the subsytem
+in theory.
+
+So, I am not surprised to see the same file name in different
+directory locations.
+
+On the other hand, a module is named after the file name when
+it consists of a single C source file.
+
+Of course, you can always give a different module name.
+
+For example, see
+ drivers/nvmem/Makefile
+
+I am not a big fan of it since it looks ugly.
+
+I think we can play it by ear, but I just wanted to point out this
+related to the module name uniqueness.
+
+
+ Makefile                 |  1 +
+ scripts/modules-check.sh | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100755 scripts/modules-check.sh
+
+diff --git a/Makefile b/Makefile
+index a61a95b6b38f..30792fec7a12 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1290,6 +1290,7 @@ modules: $(vmlinux-dirs) $(if $(KBUILD_BUILTIN),vmlinux) modules.builtin
+ 	$(Q)$(AWK) '!x[$$0]++' $(vmlinux-dirs:%=$(objtree)/%/modules.order) > $(objtree)/modules.order
+ 	@$(kecho) '  Building modules, stage 2.';
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
++	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
+ 
+ modules.builtin: $(vmlinux-dirs:%=%/modules.builtin)
+ 	$(Q)$(AWK) '!x[$$0]++' $^ > $(objtree)/modules.builtin
+diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
+new file mode 100755
+index 000000000000..944e68bd22b0
+--- /dev/null
++++ b/scripts/modules-check.sh
+@@ -0,0 +1,18 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++# Warn if two or more modules have the same basename
++check_same_name_modules()
++{
++	same_name_modules=$(cat modules.order modules.builtin | \
++				xargs basename -a | sort | uniq -d)
++
++	for m in $same_name_modules
++	do
++		echo "warning: same basename '$m' if the following are built as modules:"
++		grep --no-filename -e /$m modules.order modules.builtin | \
++							sed 's:^kernel/:  :'
++	done
++}
++
++check_same_name_modules
+-- 
+2.17.1
+
