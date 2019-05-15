@@ -2,49 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D51F1E977
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 09:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12BFE1E9D8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 May 2019 10:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725941AbfEOHyA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 May 2019 03:54:00 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:59053 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbfEOHyA (ORCPT
+        id S1725902AbfEOIIa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 May 2019 04:08:30 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:37806 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfEOIIa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 May 2019 03:54:00 -0400
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x4F7rpK8004335;
-        Wed, 15 May 2019 16:53:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x4F7rpK8004335
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557906832;
-        bh=h8aUMqSjFhFTzxGtS0eQk15Ap/Kh5ZwDzppa2eG7Jz4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=phkhaaNiL4RSl0dwv6qsOlLxFd6FhymD8fs4j7KQFbN431WA7K//nUf3dnBEEbWfj
-         yfuhnUQ/ONC2k7DJcy3PYKovKOkR0yJXk0X4DAOwnsFGaduMF+AeI00lTK26KB+Kdr
-         qsGfJqHnbiOxkljUtkqVl4rnN/LakI1d7bQeFrQeFsk6TYLFRnNBb7wKksWKVRYeE5
-         XcbTEyPDlChR+LLJNOL33rLtdzvzO+qcoI+qLo90n3xEKaJtY49elsQJkfd+UxmFmT
-         vNY3qEX7R7DamkT2rEzusFyZBRu9Ly8l5HQ0Fkkxz4m4K9IzbmZ78u85Y13HpI9Hz7
-         AYmGuMOzNjC7Q==
-X-Nifty-SrcIP: [209.85.222.53]
-Received: by mail-ua1-f53.google.com with SMTP id e9so661231uar.9;
-        Wed, 15 May 2019 00:53:51 -0700 (PDT)
-X-Gm-Message-State: APjAAAV9nWRiJFHFY5gGP0TSjWHlHTcy0oT5X/0qnkOAiaUlSdjNkU2w
-        pXmDDIBxxl6iGLDTXwAEVYqbXBVeK+A8Qe0VnDc=
-X-Google-Smtp-Source: APXvYqxmvII94whKLCXDmQ+neOgMzj0hp1Ty2I7Wuinbpwm3/DrSgP+yEtioF73Sy4Ya9UwTBmSP1VMGn2/FLKHBsQk=
-X-Received: by 2002:a9f:3381:: with SMTP id p1mr12017844uab.40.1557906830783;
- Wed, 15 May 2019 00:53:50 -0700 (PDT)
+        Wed, 15 May 2019 04:08:30 -0400
+Received: by mail-qk1-f195.google.com with SMTP id d10so943904qko.4;
+        Wed, 15 May 2019 01:08:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3bhA0LuqCZqJEF4lMtM5YHyohAQSEwU+dsHyXICITMo=;
+        b=V/SI276YrBv2WQkqCULdWbG0BicaTvfBdJ9UatW3ikaBDCmFA7wjEAxwWB+4A90ldV
+         b9bjbl3fEqKhZM63YMmzf9vGoHXmTRYKQ+hD5EordOtaqb9uUdDOuRYIbXeriTX2NO/5
+         9ldkyBDz9TAZroKvu4RJr42nRWHPAHs+km8k6exZXzI45eCUwGC9NSXJci5UUg0q0OPm
+         ADMmBpLyZ5Qj9b5IT5CeVJJxmeIbivY1+XvsGpkBcNGlNu1Vw2HBIl92QRHDG3tLhHw6
+         I3rvLNkBLELNITJVcX4+OOXjor8IT75GIpB4oDJqZtc4MIHJBusFU8FJY1ViYGnIWfVA
+         Rcsw==
+X-Gm-Message-State: APjAAAVpEdmQHE2Au4aPVmZ86g9dRSonlmFiCWNaeB76zCgS1Nz48/Ec
+        JAs4PVc8nbw+5M9NTp8RyN0qGKNZiEdIFCqCERI=
+X-Google-Smtp-Source: APXvYqzfIi2FhNg1egOmEg3VQsWKGHCmPVFnWQVdUzhkPmjpjhHSeOHYpd46nlWOcVoGo9Hggvyr5BSZr4K26uOQoy4=
+X-Received: by 2002:a37:c441:: with SMTP id h1mr5286138qkm.291.1557907709049;
+ Wed, 15 May 2019 01:08:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190515073818.22486-1-yamada.masahiro@socionext.com>
 In-Reply-To: <20190515073818.22486-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 15 May 2019 16:53:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQgBKq9JDGtQUD1kgKrfLZ4jOjuLJi7_tpSPLJZsWtmag@mail.gmail.com>
-Message-ID: <CAK7LNAQgBKq9JDGtQUD1kgKrfLZ4jOjuLJi7_tpSPLJZsWtmag@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 15 May 2019 10:08:12 +0200
+Message-ID: <CAK8P3a1y7hxME0me_Zu-F8a8jU6n=T+c32mv83utOtsL-+gc0A@mail.gmail.com>
 Subject: Re: [RFC PATCH] kbuild: check uniqueness of basename of modules
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
         Greg KH <gregkh@linuxfoundation.org>,
         Jessica Yu <jeyu@kernel.org>,
         Lucas De Marchi <lucas.de.marchi@gmail.com>,
@@ -59,7 +55,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, May 15, 2019 at 4:40 PM Masahiro Yamada
+On Wed, May 15, 2019 at 9:39 AM Masahiro Yamada
 <yamada.masahiro@socionext.com> wrote:
 >
 > In the recent build test of linux-next, Stephen saw a build error
@@ -98,37 +94,27 @@ On Wed, May 15, 2019 at 4:40 PM Masahiro Yamada
 >
 > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+That looks great!
+
 > ---
 >
+>  [Alternative fix ? ]
+>
+> I do not know about the user experience of modprobe etc.
+> when two different modules have the same name.
+> It does not matter if this is correctly handled by modules.order?
+>
+> If this is just a problem of the build system, it is pretty easy to fix.
+> For example, if we prepend the directory path, parallel build will
+> never write to the same file simultanously.
+>
+>   asix.mod -> drivers/net/phy/asix.mod
+>   asix.mod -> drivers/net/usb/asix.mod
 
-> diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
-> new file mode 100755
-> index 000000000000..944e68bd22b0
-> --- /dev/null
-> +++ b/scripts/modules-check.sh
-> @@ -0,0 +1,18 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +# Warn if two or more modules have the same basename
-> +check_same_name_modules()
-> +{
-> +       same_name_modules=$(cat modules.order modules.builtin | \
-> +                               xargs basename -a | sort | uniq -d)
-> +
-> +       for m in $same_name_modules
-> +       do
-> +               echo "warning: same basename '$m' if the following are built as modules:"
-> +               grep --no-filename -e /$m modules.order modules.builtin | \
-> +                                                       sed 's:^kernel/:  :'
+non-unique module names cause all kinds of problems, and
+modprobe can certainly not handle them correctly, and there
+are issues with symbols exported from a module when another
+one has the same name.
 
-
-Self nit-picking:
-It might be better to send these messages to stderr instead of stdout.
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+     Arnd
