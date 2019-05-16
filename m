@@ -2,115 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4847D202B1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2019 11:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 080FA20F2E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2019 21:24:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726707AbfEPJjc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 May 2019 05:39:32 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:52210 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726374AbfEPJjc (ORCPT
+        id S1726792AbfEPTYs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 May 2019 15:24:48 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:40435 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726586AbfEPTYs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 May 2019 05:39:32 -0400
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x4G9dDcO030758;
-        Thu, 16 May 2019 18:39:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x4G9dDcO030758
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557999553;
-        bh=ItLMaSNmBZIJXqfk6ZYo/ABq2muq0aQgTGE1TDAZluI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GD3HsR78UCna+gSw5HCykseeD6debzsHpA71mVspp2in1ReVMEMxQBqe703Ue/fjp
-         utphWWctY851H1dys2a/kQYRn7i+IfDBFk+RiS4a74OWtwea+9nhdKHY0SciahRXpF
-         7Kbe6Uy8rfC5kSLGClZKKVv37p8X+xG8kieVgkXp4vIdeHzJd3+gQ0FubxON1xhnrB
-         B96Yur0UrPpBUstPDXZ9hxGzbvfmDHXNsfg7YdhFUx/uTjhdvIIkFDzfRh+zguwt4X
-         nVeYhHKpmKX9qrvoSXH2nmTfwcZOAlWGLv3gJS/d7iqaSfZDXDiIOehR+8zd2DHKzl
-         WE9CPdtYf5eFg==
-X-Nifty-SrcIP: [209.85.222.53]
-Received: by mail-ua1-f53.google.com with SMTP id r19so428506uap.5;
-        Thu, 16 May 2019 02:39:13 -0700 (PDT)
-X-Gm-Message-State: APjAAAX9CyBBb4Qit0OO2KUpst9OHq2dgg3NjF233uPI1Vko+Fxc9v8O
-        D3kkTfm2BCCzcRx70Mex6qjK0c6HrPb/QV1Jquc=
-X-Google-Smtp-Source: APXvYqwNo/oJRSKfwe0wmnho9as9QLLtnjg88c0HIcR9+AvwzmThx+PSLc05Hb8dCyppmmhNiycTMtE0k5OTdld/FRc=
-X-Received: by 2002:a9f:24a3:: with SMTP id 32mr607007uar.109.1557999552098;
- Thu, 16 May 2019 02:39:12 -0700 (PDT)
+        Thu, 16 May 2019 15:24:48 -0400
+Received: by mail-lf1-f67.google.com with SMTP id h13so3519864lfc.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 16 May 2019 12:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iLTn+QvfYrIHezT5N6xFxmxlFlQhvc8iiUJMiD7mN8c=;
+        b=M7LEefcZ+K0Q9FEwRe9DRbHecU1l0hRfuyiAiZxZ8fodqIB3Wjf9CTW1g493djxaL0
+         Xx2Sdwfp3A3A963CQcYZTMWUTAQvgl1j+ah+Y70kkDZ6/qh5evZ61ixtcPfA1xWJknUK
+         WTQLlAK5WdB8BH0wO8BMC59EIqlKiatRteL4TC+j0XPqjmpBB06yDTuwVTvYRnj9gMS2
+         oASTe2qdFuOMaEknb1kHl3lnUXd7ab9rHjElz0fRf5rmELfW0JtHqNJRhmhiTPa8kEYd
+         WOmFQ7aLUGcAGbUWnOcnJOtuMjcmPa9k4rOHF4pFAO4j69ELG0w1t1SwuDek8uJ8+vfb
+         NuBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iLTn+QvfYrIHezT5N6xFxmxlFlQhvc8iiUJMiD7mN8c=;
+        b=nmYeMAOltuM3FtWcY3qSO9pHlHDIMiFJ1CjNs1sD0kSEtUc/+k1F7p2BxHpiAlBsGa
+         lfOMKR/h9vbKJPApuJgV/Bzn5Ipit09OdoRKqJqlLa6JRragIj68tMYAN8VfYf5kk/Ne
+         QJTyldqXM9q/LQLar+LPMCBVrPZB5gYoNS940ngMAzNpoTVKG8Ulk6L14CMVzU/L2Poc
+         vdbGwbxtZhuhvYqQWJQLop/RmDV72eCMbFQ3yotR0dEofHz9nUfo/dKgMJqhfS5/m3IN
+         ecqFmai/kTL1x8ZVfLaAYFN13+uhDQ62NCPsYmnhU2f9boHspa4Qc1xFKRtW82d9G6Hf
+         jUdQ==
+X-Gm-Message-State: APjAAAXG3G3RDllPo8L6boY6gt9bHJuNDI1HDrasvsqbrhyqZ3pIzOvd
+        HEd8kHaYOnq1wI/tC5aRKe9VU+J//K33fVV5cPUU88/y
+X-Google-Smtp-Source: APXvYqy0yuaLYBlkJ+/H3AKWHA8RV/i+y9pFD7dJoXgkOy394qTdKjwf8pFakyxJj3RJmEhsvMihECjdxj4QxPXXWwY=
+X-Received: by 2002:ac2:518b:: with SMTP id u11mr24535904lfi.30.1558034686718;
+ Thu, 16 May 2019 12:24:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190515073818.22486-1-yamada.masahiro@socionext.com>
- <CAK7LNAQgBKq9JDGtQUD1kgKrfLZ4jOjuLJi7_tpSPLJZsWtmag@mail.gmail.com>
- <201905150913.C23BD99AD@keescook> <CAK7LNARezpQgcK9O9K3ZFeebMVNroWStno_brvSLadsKXVfm-Q@mail.gmail.com>
- <5e6999f3d0b349bd86a32a612cff7b4b@AcuMS.aculab.com>
-In-Reply-To: <5e6999f3d0b349bd86a32a612cff7b4b@AcuMS.aculab.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 16 May 2019 18:38:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQbtxRxg=1_ZDMmX=q8AGYQescqXZ1TqAjDufMFww6pyQ@mail.gmail.com>
-Message-ID: <CAK7LNAQbtxRxg=1_ZDMmX=q8AGYQescqXZ1TqAjDufMFww6pyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] kbuild: check uniqueness of basename of modules
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
+In-Reply-To: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 16 May 2019 21:24:35 +0200
+Message-ID: <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
+Subject: Re: Linux 4.19 and GCC 9
+To:     Ivan Babrou <ivan@cloudflare.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kernel-team <kernel-team@cloudflare.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi David,
+Hi Ivan,
 
-On Thu, May 16, 2019 at 6:00 PM David Laight <David.Laight@aculab.com> wrote:
+On Wed, May 15, 2019 at 8:55 PM Ivan Babrou <ivan@cloudflare.com> wrote:
 >
-> From: Masahiro Yamada
-> > Sent: 15 May 2019 18:55
-> ...
-> > >     xargs basename -a -- | sort | ...
-> >
-> > Sorry for my ignorance, but could you
-> > teach me the effect of "--" ?
-> >
-> > I sometimes use "--" as a separator
-> > when there is ambiguity in arguments
-> > for example, "git log <revision> -- <path>"
-> >
-> > In this case, what is intended by "--"?
+> Hey,
 >
-> The '--' stops getopt() from parsing any more parameters.
-> Useful things like 'grep -- -q' which will search for the
-> string '-q' rather than treating it as a command line option.
->
-> This is all made more horrid by a decision by the writers
-> of glibc getopt() to 'permute' argv[] so that 'options'
-> can follow 'nonoptions' ie it converts:
->         prog file -arg
-> to
->         prog -arg file
-> The only program the historically allowed 'late' options
-> was 'rlogin hostname -l username'.
-> This is just broken.....
+> It looks like it's not possible to build Linux 4.19.43 (latest LTS as
+> of today) with GCC 9.1 (latest stable GCC). From what I see, some
+> support for GCC 9 was added by Miguel (cc'd) in 4.20, but it was never
+> backported into 4.19.
 
+I just compiled 4.19.43 allmodconfig with GCC 9.1.1 and it succeeded
+(even if it gives a lot of warnings from objtool and
+-Wmissing-attributes).
 
-Ah, I see.  This does not happen for
-modules.order or modules.builtin,
-but I will use '--' just in case.
+Which errors are you seeing? On which config?
 
-Thanks.
-
-
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Cheers,
+Miguel
