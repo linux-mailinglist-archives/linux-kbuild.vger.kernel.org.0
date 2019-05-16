@@ -2,77 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 080FA20F2E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2019 21:24:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 912C620F51
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2019 21:48:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbfEPTYs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 May 2019 15:24:48 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40435 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbfEPTYs (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 May 2019 15:24:48 -0400
-Received: by mail-lf1-f67.google.com with SMTP id h13so3519864lfc.7
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 May 2019 12:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iLTn+QvfYrIHezT5N6xFxmxlFlQhvc8iiUJMiD7mN8c=;
-        b=M7LEefcZ+K0Q9FEwRe9DRbHecU1l0hRfuyiAiZxZ8fodqIB3Wjf9CTW1g493djxaL0
-         Xx2Sdwfp3A3A963CQcYZTMWUTAQvgl1j+ah+Y70kkDZ6/qh5evZ61ixtcPfA1xWJknUK
-         WTQLlAK5WdB8BH0wO8BMC59EIqlKiatRteL4TC+j0XPqjmpBB06yDTuwVTvYRnj9gMS2
-         oASTe2qdFuOMaEknb1kHl3lnUXd7ab9rHjElz0fRf5rmELfW0JtHqNJRhmhiTPa8kEYd
-         WOmFQ7aLUGcAGbUWnOcnJOtuMjcmPa9k4rOHF4pFAO4j69ELG0w1t1SwuDek8uJ8+vfb
-         NuBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iLTn+QvfYrIHezT5N6xFxmxlFlQhvc8iiUJMiD7mN8c=;
-        b=nmYeMAOltuM3FtWcY3qSO9pHlHDIMiFJ1CjNs1sD0kSEtUc/+k1F7p2BxHpiAlBsGa
-         lfOMKR/h9vbKJPApuJgV/Bzn5Ipit09OdoRKqJqlLa6JRragIj68tMYAN8VfYf5kk/Ne
-         QJTyldqXM9q/LQLar+LPMCBVrPZB5gYoNS940ngMAzNpoTVKG8Ulk6L14CMVzU/L2Poc
-         vdbGwbxtZhuhvYqQWJQLop/RmDV72eCMbFQ3yotR0dEofHz9nUfo/dKgMJqhfS5/m3IN
-         ecqFmai/kTL1x8ZVfLaAYFN13+uhDQ62NCPsYmnhU2f9boHspa4Qc1xFKRtW82d9G6Hf
-         jUdQ==
-X-Gm-Message-State: APjAAAXG3G3RDllPo8L6boY6gt9bHJuNDI1HDrasvsqbrhyqZ3pIzOvd
-        HEd8kHaYOnq1wI/tC5aRKe9VU+J//K33fVV5cPUU88/y
-X-Google-Smtp-Source: APXvYqy0yuaLYBlkJ+/H3AKWHA8RV/i+y9pFD7dJoXgkOy394qTdKjwf8pFakyxJj3RJmEhsvMihECjdxj4QxPXXWwY=
-X-Received: by 2002:ac2:518b:: with SMTP id u11mr24535904lfi.30.1558034686718;
- Thu, 16 May 2019 12:24:46 -0700 (PDT)
+        id S1726995AbfEPTse (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 May 2019 15:48:34 -0400
+Received: from mga03.intel.com ([134.134.136.65]:2837 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726948AbfEPTse (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 16 May 2019 15:48:34 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 May 2019 12:48:33 -0700
+X-ExtLoop1: 1
+Received: from denismar-mobl.ger.corp.intel.com (HELO localhost) ([10.252.49.12])
+  by fmsmga001.fm.intel.com with ESMTP; 16 May 2019 12:48:29 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        jani.nikula@intel.com, Chris Wilson <chris@chris-wilson.co.uk>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [RFC 1/3] kbuild: add support for ensuring headers are self-contained
+Date:   Thu, 16 May 2019 22:48:16 +0300
+Message-Id: <20190516194818.29230-1-jani.nikula@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
-In-Reply-To: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 16 May 2019 21:24:35 +0200
-Message-ID: <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
-Subject: Re: Linux 4.19 and GCC 9
-To:     Ivan Babrou <ivan@cloudflare.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel-team <kernel-team@cloudflare.com>
-Content-Type: text/plain; charset="UTF-8"
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Ivan,
+Sometimes it's useful to be able to explicitly ensure certain headers
+remain self-contained, i.e. that they are compilable as standalone
+units, by including and/or forward declaring everything they depend on.
 
-On Wed, May 15, 2019 at 8:55 PM Ivan Babrou <ivan@cloudflare.com> wrote:
->
-> Hey,
->
-> It looks like it's not possible to build Linux 4.19.43 (latest LTS as
-> of today) with GCC 9.1 (latest stable GCC). From what I see, some
-> support for GCC 9 was added by Miguel (cc'd) in 4.20, but it was never
-> backported into 4.19.
+Add special target header-test-y where individual Makefiles can add
+headers to be tested if CONFIG_HEADER_TEST is enabled. This will
+generate a dummy C file per header that gets built as part of extra-y.
 
-I just compiled 4.19.43 allmodconfig with GCC 9.1.1 and it succeeded
-(even if it gives a lot of warnings from objtool and
--Wmissing-attributes).
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: Michal Marek <michal.lkml@markovi.net>
+Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+---
+ Documentation/kbuild/makefiles.txt |  7 +++++++
+ init/Kconfig                       |  9 +++++++++
+ scripts/Makefile.build             | 10 ++++++++++
+ scripts/Makefile.lib               |  3 +++
+ 4 files changed, 29 insertions(+)
 
-Which errors are you seeing? On which config?
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index 03c065855eaf..73df58e5ea0c 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -1036,6 +1036,13 @@ When kbuild executes, the following steps are followed (roughly):
+ 	In this example, extra-y is used to list object files that
+ 	shall be built, but shall not be linked as part of built-in.a.
+ 
++    header-test-y
++
++	header-test-y specifies headers (*.h) in the current directory that
++	should be compile tested to ensure they are self-contained,
++	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
++	this autogenerates dummy sources to include the headers, and builds them
++	as part of extra-y.
+ 
+ --- 6.7 Commands useful for building a boot image
+ 
+diff --git a/init/Kconfig b/init/Kconfig
+index 4592bf7997c0..d91b157201b1 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -95,6 +95,15 @@ config COMPILE_TEST
+ 	  here. If you are a user/distributor, say N here to exclude useless
+ 	  drivers to be distributed.
+ 
++config HEADER_TEST
++	bool "Compile test headers that should be standalone compilable"
++	help
++	  Compile test headers listed in header-test-y target to ensure they are
++	  self-contained, i.e. compilable as standalone units.
++
++	  If you are a developer or tester and want to ensure the requested
++	  headers are self-contained, say Y here. Otherwise, choose N.
++
+ config LOCALVERSION
+ 	string "Local version - append to kernel release"
+ 	help
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 76ca30cc4791..4d4bf698467a 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -291,6 +291,16 @@ quiet_cmd_cc_lst_c = MKLST   $@
+ $(obj)/%.lst: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_lst_c)
+ 
++# Dummy C sources for header test (header-test-y target)
++# ---------------------------------------------------------------------------
++
++quiet_cmd_header_test = HDRTEST $@
++      cmd_header_test = echo "\#include \"$(<F)\"" > $@
++
++# FIXME: would be nice to be able to limit this implicit rule to header-test-y
++$(obj)/%.header_test.c: $(src)/%.h FORCE
++	$(call if_changed,header_test)
++
+ # Compile assembler sources (.S)
+ # ---------------------------------------------------------------------------
+ 
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 8a1f64f17740..c2839de06485 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -66,6 +66,9 @@ extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
+ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+ endif
+ 
++# Test self-contained headers
++extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.header_test.o,$(header-test-y))
++
+ # Add subdir path
+ 
+ extra-y		:= $(addprefix $(obj)/,$(extra-y))
+-- 
+2.20.1
 
-Cheers,
-Miguel
