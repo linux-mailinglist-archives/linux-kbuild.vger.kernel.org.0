@@ -2,111 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A11E21160
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 02:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA10C211E8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 04:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbfEQAis (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 May 2019 20:38:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48370 "EHLO mail.kernel.org"
+        id S1726855AbfEQCEZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 May 2019 22:04:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59826 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726510AbfEQAir (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 May 2019 20:38:47 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1725933AbfEQCEZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 16 May 2019 22:04:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0962F2082E;
-        Fri, 17 May 2019 00:38:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558053527;
-        bh=h7x4s8lT+SFQAKT2oROUOwG99nmbA/iuhNAdlGK/1zk=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=pwJefM32rVyc17BV4NKTMNz9bAtRXF3fs8QXDQmfCoQ8dGWwvrJtKIhWefJVALK8E
-         uExHbjAOgbiFZVFaM8n4hSxNXniqu1kMlprj5ffN87QHOgHX7iyfmP5RLT5V0AIfD4
-         Pob5g1PWM6wWtC9518tZ1d/0IihjJAgMh1BsvFf4=
-Content-Type: text/plain; charset="utf-8"
+        by mx1.redhat.com (Postfix) with ESMTPS id CBD83C049E24;
+        Fri, 17 May 2019 02:04:23 +0000 (UTC)
+Received: from treble (ovpn-120-13.rdu2.redhat.com [10.10.120.13])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 99CB12706D;
+        Fri, 17 May 2019 02:03:57 +0000 (UTC)
+Date:   Thu, 16 May 2019 21:03:39 -0500
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Ivan Babrou <ivan@cloudflare.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kernel-team <kernel-team@cloudflare.com>
+Subject: Re: Linux 4.19 and GCC 9
+Message-ID: <20190516225013.nvhwqi5tfwtby6qb@treble>
+References: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
+ <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
+ <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com>
+ <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190514221711.248228-3-brendanhiggins@google.com>
-References: <20190514221711.248228-1-brendanhiggins@google.com> <20190514221711.248228-3-brendanhiggins@google.com>
-Subject: Re: [PATCH v4 02/18] kunit: test: add test resource management API
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com
-User-Agent: alot/0.8.1
-Date:   Thu, 16 May 2019 17:38:46 -0700
-Message-Id: <20190517003847.0962F2082E@mail.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Fri, 17 May 2019 02:04:24 +0000 (UTC)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Quoting Brendan Higgins (2019-05-14 15:16:55)
-> diff --git a/kunit/test.c b/kunit/test.c
-> index 86f65ba2bcf92..a15e6f8c41582 100644
-> --- a/kunit/test.c
-> +++ b/kunit/test.c
-[..]
-> +
-> +void *kunit_kmalloc(struct kunit *test, size_t size, gfp_t gfp)
-> +{
-> +       struct kunit_kmalloc_params params;
-> +       struct kunit_resource *res;
-> +
-> +       params.size =3D size;
-> +       params.gfp =3D gfp;
-> +
-> +       res =3D kunit_alloc_resource(test,
-> +                                  kunit_kmalloc_init,
-> +                                  kunit_kmalloc_free,
-> +                                  &params);
-> +
-> +       if (res)
-> +               return res->allocation;
-> +       else
-> +               return NULL;
+On Thu, May 16, 2019 at 11:20:54PM +0200, Miguel Ojeda wrote:
+> > mm/slub.o: warning: objtool: init_cache_random_seq()+0x36: sibling
+> > call from callable instruction with modified stack frame
+> > mm/slub.o: warning: objtool: slab_out_of_memory()+0x3b: sibling call
+> > from callable instruction with modified stack frame
+> > mm/slub.o: warning: objtool: slab_pad_check.part.0()+0x7c: sibling
+> > call from callable instruction with modified stack frame
+> > mm/slub.o: warning: objtool: check_slab()+0x1c: sibling call from
+> > callable instruction with modified stack frame
+> 
+> AFAIK those are non-critical, i.e. stack traces may be wrong (or not),
+> but it does not mean the generated kernel itself is wrong. CC'ing the
+> objtool maintainers too.
 
-Can be written as
+I don't think I recognize those warnings.  Do you also see them in the
+upstream kernel?
 
-	if (res)
-		return ....
-	return=20
-
-and some static analysis tools prefer this.
-
-> +}
-> +
-> +void kunit_cleanup(struct kunit *test)
-> +{
-> +       struct kunit_resource *resource, *resource_safe;
-> +       unsigned long flags;
-> +
-> +       spin_lock_irqsave(&test->lock, flags);
-
-Ah ok, test->lock is protecting everything now? Does it need to be a
-spinlock, or can it be a mutex?
-
-> +       list_for_each_entry_safe(resource,
-> +                                resource_safe,
-> +                                &test->resources,
-> +                                node) {
-> +               kunit_free_resource(test, resource);
-> +       }
-> +       spin_unlock_irqrestore(&test->lock, flags);
-> +}
-> +
+-- 
+Josh
