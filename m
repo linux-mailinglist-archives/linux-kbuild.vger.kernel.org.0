@@ -2,144 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB49221385
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 07:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0EB8214A6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 09:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727175AbfEQFqF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 May 2019 01:46:05 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:38016 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726772AbfEQFqE (ORCPT
+        id S1728626AbfEQHib (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 May 2019 03:38:31 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:54156 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727727AbfEQHib (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 May 2019 01:46:04 -0400
-Received: by mail-wm1-f68.google.com with SMTP id t5so4121598wmh.3;
-        Thu, 16 May 2019 22:46:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g/qml3iUa9qZ8cs6AO/of4k3pVB/993rajYIEGU/bj8=;
-        b=t87LvPnA5Bzggr787T5L0uzD6WpsbgmNyN2dWEfew35gx8D2yJLlSviz35gFQIdq8g
-         FAwIZO6LP6fsUURfuPvyU5KK5Y6Q9kDxJMqvYh2w/3d/abvqRqgRL1ElLuv5avtsikyV
-         MccWgNl8Y9q3OQOeSAFZs79yVCd+NyyhgHUZX7s9ra7lQrJzJoaycsvuEHpQE7yztw5G
-         6uJIOlJPpz7xWETN2x0yPW/+rUBkgof+FNk6WfV2+4Q4Obcs12+QLO2MBI0DRVyARm4F
-         57HvnKlHzy0HWO2ad4CcYSXcv7bYqmfsCpmfne7zGwpE1q941yfmUsExqWUX3z8FdCP+
-         Sswg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g/qml3iUa9qZ8cs6AO/of4k3pVB/993rajYIEGU/bj8=;
-        b=mRNnF1uq0mwklPdmBVKmv+NsjNAI5c5Rjz5YlGuz+WnUP0o8BdXtsh4T6EVH6kz7uA
-         A7hIeMG6aq4Ff0Fh3iqwPGDy+k4OF4GB95iMfXzR9ux9L6Ah84Dm/QVv+YtrxYTlBZqQ
-         Mvx7ylWEDxZEKRRfXii34DlGdsOa93JR70XPiPqDZqKq4hgJL/dG/pGIcKOs8B5cIWra
-         IvD3Nck7WmlUxZvjxfBgq72feH1bcEZn7ye7a1/9X2n07aXiAdUwxNn0Y+7akbv2fbJQ
-         9JOQDVnBETmQgsfFCswPvRrMdNKq5z37smgI2ynPmERUkoY5M3BrBzBgqCjTFKL8DoDO
-         /B/g==
-X-Gm-Message-State: APjAAAXAaCw47LxBPy31G/jFgZT2/eAR8mVGWJ2nUnRf47DQxIQnDx7M
-        IrRkkU7uPpXVcJaasgnR0CMalB3Hu/ruZ17w3Tw=
-X-Google-Smtp-Source: APXvYqzNjH9+Ruuo2i8yW1BSgnXwAJkQ6DXwnpBNjovwkn8TDqra5j5vcTdLGxcI0rRey0qwE56zMA28tx8f/+tlLlU=
-X-Received: by 2002:a1c:7e10:: with SMTP id z16mr772378wmc.98.1558071962277;
- Thu, 16 May 2019 22:46:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190517042753.25857-1-yamada.masahiro@socionext.com>
- <CAK7LNARvQUPPBzdq7ac67h-xhB6tHZ4WPzBHZy+c3iHE_bi_Fg@mail.gmail.com> <20190517053658.GA3464@kroah.com>
-In-Reply-To: <20190517053658.GA3464@kroah.com>
-From:   Lucas De Marchi <lucas.de.marchi@gmail.com>
-Date:   Thu, 16 May 2019 22:45:50 -0700
-Message-ID: <CAKi4VAJQtPvPUKUpYgJdr1o3KHF47QyHw8jSxkO+1qz1Em57JQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: check uniqueness of module names
+        Fri, 17 May 2019 03:38:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=4y+BMtQWomyB2L1H+6GtRYBBGAXJShvCIuwb2gYi3eg=; b=Z97MoOwIvXidOqh4GUdK7xv98
+        pqxc9+84nplfhaZHP4QkD8vU6ITCgHnOq4B/1WMnA0aHigKsIhTJjbYJcZlmtKnPxfXlwMwgYTsOg
+        LJp2pdjWTyPO1DnTtS4nzdJ2HBc5wC2o07EZItlgTcwr1jf86Ge8ZscBvvUfUN9jlEMGcF96bo7Cf
+        kELfUxwLhNEj7yh4jxWs5XpJ5ngAKmFAoc3s1pB59L/UXU1748TncDr2S7zjMprPl+H6BKmdw60BK
+        ffV050abCdOJx530zSF4wIXYMyAUrK+K7hNUa2rIjofxaJissXVOeQcMUpzYOU7qLLFz2zCLHHZWU
+        pMOE/CbuQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hRXRX-00058s-2j; Fri, 17 May 2019 07:38:15 +0000
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 64D192027C9FD; Fri, 17 May 2019 09:38:13 +0200 (CEST)
+Date:   Fri, 17 May 2019 09:38:13 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+Cc:     Ivan Babrou <ivan@cloudflare.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
-        Jessica Yu <jeyu@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        kernel-team <kernel-team@cloudflare.com>
+Subject: Re: Linux 4.19 and GCC 9
+Message-ID: <20190517073813.GB2589@hirez.programming.kicks-ass.net>
+References: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
+ <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
+ <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com>
+ <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
+ <20190516225013.nvhwqi5tfwtby6qb@treble>
+ <CABWYdi29E++jBw8boFZAiDZA7iT5NiJhnNmiHb-Rvd9+97hSVA@mail.gmail.com>
+ <20190517050931.GB32367@kroah.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190517050931.GB32367@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 16, 2019 at 10:37 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Fri, May 17, 2019 at 01:45:11PM +0900, Masahiro Yamada wrote:
-> > On Fri, May 17, 2019 at 1:29 PM Masahiro Yamada
-> > <yamada.masahiro@socionext.com> wrote:
-> > >
-> > > In the recent build test of linux-next, Stephen saw a build error
-> > > caused by a broken .tmp_versions/*.mod file:
-> > >
-> > >   https://lkml.org/lkml/2019/5/13/991
-> > >
-> > > drivers/net/phy/asix.ko and drivers/net/usb/asix.ko have the same
-> > > basename, and there is a race in generating .tmp_versions/asix.mod
-> > >
-> > > Kbuild has not checked this before, and it suddenly shows up with
-> > > obscure error message when this kind of race occurs.
-> > >
-> > > Non-unique module names cause various sort of problems, but it is
-> > > not trivial to catch them by eyes.
-> > >
-> > > Hence, this script.
-> > >
-> > > It checks not only real modules, but also built-in modules (i.e.
-> > > controlled by tristate CONFIG option, but currently compiled with =y).
-> > > Non-unique names for built-in modules also cause problems because
-> > > /sys/modules/ would fall over.
-> > >
-> > > I tested allmodconfig on the latest kernel, and it detected the
-> > > following:
-> > >
-> > > warning: same basename if the following are built as modules:
-> > >   drivers/regulator/88pm800.ko
-> > >   drivers/mfd/88pm800.ko
-> > > warning: same basename if the following are built as modules:
-> > >   drivers/gpu/drm/bridge/adv7511/adv7511.ko
-> > >   drivers/media/i2c/adv7511.ko
-> > > warning: same basename if the following are built as modules:
-> > >   drivers/net/phy/asix.ko
-> > >   drivers/net/usb/asix.ko
-> > > warning: same basename if the following are built as modules:
-> > >   fs/coda/coda.ko
-> > >   drivers/media/platform/coda/coda.ko
-> > > warning: same basename if the following are built as modules:
-> > >   drivers/net/phy/realtek.ko
-> > >   drivers/net/dsa/realtek.ko
-> > >
-> > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> >
-> >
-> > One more question popped up.
-> >
-> > External modules are out of scope of the community,
-> > but it is possible that people create an external module
-> > that happens to have the same name as an upstream driver.
->
-> That is their bug, nothing we can do about that :)
+On Fri, May 17, 2019 at 07:09:31AM +0200, Greg KH wrote:
+> On Thu, May 16, 2019 at 08:14:25PM -0700, Ivan Babrou wrote:
+> > We are building the upstream kernel. There are a few patches, but
+> > nothing related to objtool.
+> > 
+> > Unless you mean mainline/stable by upstream, I haven't tried that. We
+> > stick to LTS.
+> 
+> Please work and all of these issues fixed up in Linus's tree and then I
+> will be glad to take the fixed into the stable releases.
 
-It's actually not a bug. For external modules it works pretty much as
-intended. See DEPMOD.D(5): the search directive tells what's the
-preference among the directories for modules with the same name.
-depmod respects that order and put the right one into your
-modules.dep.
-
-This allows to put external modules in a different dir and also to
-make backports of modules from recent to ancient kernels.  These
-modules with the same name are usually the same module, with a
-different version. Of course what we have here and you are fixing is a
-different story.
-
-Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-
-
-Lucas De Marchi
+Right; if there is anything you can reproduce on linus.git I'll happily
+have a look. If it doesn't reproduce all you have to do is find the
+patches that make it work and ask Greg.
