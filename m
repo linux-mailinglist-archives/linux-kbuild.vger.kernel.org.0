@@ -2,97 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72AAB2162E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 11:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA22C2163A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 11:26:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728104AbfEQJXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 May 2019 05:23:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54340 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727309AbfEQJXF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 May 2019 05:23:05 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3D3682082E;
-        Fri, 17 May 2019 09:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558084984;
-        bh=UTPAiUc7RB9d6C7WvsNp1t7GDTwQE3Pq88e0AI+EJlY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gpmZlShoSsvaRn/C56aOalS+uP5WW9A0IJ/TATsZj+oa/qfXC2fApISgSrL+AQ8CQ
-         /qmJzkJyOjpgyc9vkYDcgu5PGBT9bchvandSTP9nP4QkgN/BpRQYvGmYqfivSrsuZH
-         2moZumkTdzySO7ClSa5nqjlarwaLCGe3YCsaJZxA=
-Date:   Fri, 17 May 2019 11:23:02 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ivan Babrou <ivan@cloudflare.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel-team <kernel-team@cloudflare.com>
-Subject: Re: Linux 4.19 and GCC 9
-Message-ID: <20190517092302.GA5235@kroah.com>
-References: <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
- <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com>
- <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
- <20190516225013.nvhwqi5tfwtby6qb@treble>
- <CABWYdi29E++jBw8boFZAiDZA7iT5NiJhnNmiHb-Rvd9+97hSVA@mail.gmail.com>
- <20190517050931.GB32367@kroah.com>
- <20190517073813.GB2589@hirez.programming.kicks-ass.net>
- <CANiq72nUPoNHWM-dJuFc3=4D2=8XMuvO0PgGPjviOv+EhrAWUw@mail.gmail.com>
- <20190517085126.GA3249@kroah.com>
- <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
+        id S1728841AbfEQJZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 May 2019 05:25:48 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:39827 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728372AbfEQJZs (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 17 May 2019 05:25:48 -0400
+Received: by mail-io1-f65.google.com with SMTP id m7so4937768ioa.6;
+        Fri, 17 May 2019 02:25:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bKzWWnOH9ydjE40E51J019WWbkt1Rysxj2Dtj7CPBxw=;
+        b=hwL0cUFxucCOmv0o3XAkQAKca82DGUJVm1ca/Dbp2gWH7WmayUc1iz4KQeAX1cg5am
+         mWz53Cr0ZUz5Fd7CnD3Xzj99EMSA5ej7m+1b1xv5iCqwvqvzgO8oqwAiuuTG/ISlPZae
+         WduTyb5EDzypBr//Vi3LxBBwbDIBu+4MV5TJgGXnLUh2U6hTyTF9Iic8CofvMlRK1mLu
+         MSYKK486pvy8OUIW8CY02gGCGmlWfQBgaYpb//oWtCdhviFlLKVWBlfr6d09A7XuhohB
+         wB+jfzWuVHh4w9NUythOejL07BsUwYWQyHDeCZf8MB7aCbv23QAcTP4szJKRyd/1blWm
+         ZBMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bKzWWnOH9ydjE40E51J019WWbkt1Rysxj2Dtj7CPBxw=;
+        b=pSYyBDU9HBzXqowk1UxznFZcdbCOT2CNOc6dHLizwFQy5RpQyDACvlwJOANI8aPxbw
+         u0lkU5Eul5cbw25ae7IzUIdPqE6Riu/4PODdY2gtS8IwiK6jxYOfIVL5a/eZVWVajOuf
+         C9I2DQONGO/d7qs8b8tENhOYdC1UE4JNlnU3TrGL9/BBUrVBr9TNHEDALlhkdxJz6Tix
+         vLyGFfJRJPTMCyagkPG1EP3mZxenxuGMDDD3JV15Ia7wT+duUt5nH2HmuT73/hEYrVcJ
+         /Ycl5Tr5LBfFmVK1MPrhBs4FHFb4qSF0CXHpp7yvXfyATXNLouVKpRjNCJ8UQwnJY/I9
+         2hPg==
+X-Gm-Message-State: APjAAAUSjiHj5dh7bEhwed/jb/0cy5KpnMgr8JITpXRscleW0BdJrakm
+        U8p+Nk0mfaJSnR8oJTG/FiWUiBHA/K+3O9ltvo8=
+X-Google-Smtp-Source: APXvYqw2PPNT7HlBk7nzmtIlDhS2mkjhDCAmXJhgUZaR1EUfi+er+VoWuqo3lY7upavsMf0+Lqqg1yUF/OS9vQFU+Ro=
+X-Received: by 2002:a6b:8e84:: with SMTP id q126mr12832502iod.118.1558085147348;
+ Fri, 17 May 2019 02:25:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190517042753.25857-1-yamada.masahiro@socionext.com>
+ <CAJ1xhMUxsFR6yLeV1rG1FRZzqwyMGF5PURk6F5_6kN3v2dGN1A@mail.gmail.com> <68270a84-966b-05e3-c82e-893c320febfd@petrovitsch.priv.at>
+In-Reply-To: <68270a84-966b-05e3-c82e-893c320febfd@petrovitsch.priv.at>
+From:   Alexander Kapshuk <alexander.kapshuk@gmail.com>
+Date:   Fri, 17 May 2019 12:25:10 +0300
+Message-ID: <CAJ1xhMVaeQPoW1v91bcNOkw1FJOr7ddhDc-ir=3AiKRCSzCj=g@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: check uniqueness of module names
+To:     Bernd Petrovitsch <bernd@petrovitsch.priv.at>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 17, 2019 at 11:01:45AM +0200, Miguel Ojeda wrote:
-> On Fri, May 17, 2019 at 10:51 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Fri, May 17, 2019 at 10:35:29AM +0200, Miguel Ojeda wrote:
-> > > On Fri, May 17, 2019 at 9:38 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > > >
-> > > > Right; if there is anything you can reproduce on linus.git I'll happily
-> > > > have a look. If it doesn't reproduce all you have to do is find the
-> > > > patches that make it work and ask Greg.
-> > >
-> > > Just to clarify: Linus' master is clean of these issues with GCC 9.1.1.
-> >
-> > Great!  Care to find the patches that did that work and send me the git
-> > commit ids so that I can queue them up?  I don't have gcc9 here yet on
-> > my systems, so I can not test for this.
-> 
-> I am unsure about the perf and the objtools parts (Peter/Josh?), but
-> about the -Wmissing-attributes I cleaned, they were these:
-> 
-> a6e60d84989f ("include/linux/module.h: copy __init/__exit attrs to
-> init/cleanup_module")
+On Fri, May 17, 2019 at 11:58 AM Bernd Petrovitsch
+<bernd@petrovitsch.priv.at> wrote:
+>
+> On 17/05/2019 10:16, Alexander Kapshuk wrote:
+> [...]
+> > The 'xargs' '-r' flag is a GNU extension.
+> > If POSIX compliance is important here, the use of 'cat', 'xargs' and
+> > 'basename' may be substituted with that of 'sed' to initialise
+> > same_name_modules:
+> > sed 's!.*/!!' modules.order modules.builtin | sort | uniq -d
+>
+> 's!' is TTBOMK also a GNU-extension:
+> sed 's/.*\///' modules.order modules.builtin | sort | uniq -d
 
-That patch I applied now.
+It isn't.
+Here's an excerpt from the POSIX manpage for 'sed',
+http://pubs.opengroup.org/onlinepubs/009695399/utilities/sed.html:
+[2addr]s/BRE/replacement/flags
+...  Any character other than backslash or <newline> can be used
+instead of a slash to delimit the BRE and the replacement....
 
-> c0d9782f5b6d ("Compiler Attributes: add support for __copy (gcc >= 9)")
+>
+> > 'Sed' may also be used on its own in the 'for' loop instead of as part
+> > of a pipeline along with 'grep' to generate the desired output:
+> > sed '/\/'$m'/!d;s:^kernel/:  :' modules.order modules.builtin
+>
+> sed "/\/${m}/!d;s/^kernel\//  /" modules.order modules.builtin
 
-This one will take some work to backport, let me see what is needed
-here...
+The parameter expansion syntax is redundant here.
+See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02:
+The parameter name or symbol can be enclosed in braces, which are
+optional except for positional parameters with more than one digit or
+when parameter is a name and is followed by a character that could be
+interpreted as part of the name.
 
-> ff98e20ef208 ("lib/crc32.c: mark crc32_le_base/__crc32c_le_base
-> aliases as __pure")
+Here's an alternative version using double quotes.
+sed "/\/$m/!d;s:^kernel/:  :" modules.order modules.builtin
 
-I'll get to this as well.
-
-thanks,
-
-greg k-h
+>
+> MfG,
+>         Bernd
+> --
+> Bernd Petrovitsch                  Email : bernd@petrovitsch.priv.at
+>                      LUGA : http://www.luga.at
