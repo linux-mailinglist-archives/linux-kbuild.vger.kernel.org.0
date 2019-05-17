@@ -2,157 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E01EF20FF7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 May 2019 23:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC0821155
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 02:35:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbfEPVZA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 May 2019 17:25:00 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:35418 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727077AbfEPVZA (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 May 2019 17:25:00 -0400
-Received: by mail-qk1-f195.google.com with SMTP id c15so3266050qkl.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 May 2019 14:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mlYpzDmtlsvC1/mmC4ysTMSsHaOni64XRA7rkjJcGEI=;
-        b=bIdTWxV9bgtKvw0UhjzPSojWTBxxQMcW6TdA2vwpQAMXlUs/xTgK1R111IzVxs/XTC
-         hj8HjQnL/ks5LMuZClq4g+ezQO6+jZM/pqmcxID7fKKX0snOVzCxnZsUTvOFdv4gIRTY
-         aKWojmxmHiX8whwe6evh5HGOek2jta92VrwHs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mlYpzDmtlsvC1/mmC4ysTMSsHaOni64XRA7rkjJcGEI=;
-        b=TQNczh/Nwu5P6NZzzinH40ZgruUidN7M6QmARCjG4g+d/TWvdZ778rEI9omr2OXZmW
-         1yeir78exNZPHG0GPsgC5GSVxBAV6cHmau9Tjh9FSw5iyz8en9F1jKLUx9aeWHRFnnda
-         oRKcF0blun8aNhfZwSCbiC1+8NunKHWjO0rHGSfd371W9jkyupudpxNq+Q2SG9c1nf4f
-         75944uw9ivIT4neQwN6p1jvH/s7iNMOyLR3mrfIHC8ECVeju4V9/j007qlmI5bPslIFF
-         Dso6qHZ3YaFcYpRmrKnRRqfBWtNQYsUDuTjfOMlT/vWqSkAZTxno9LONmqOJUOsjrgKP
-         GH9w==
-X-Gm-Message-State: APjAAAVsCl1mceuLls7kCA2L9BPFbxVE9NtS4KMnBE7Ow3qLmkQaOelK
-        wn4DK+Pz/qkM/uSDFtH+ToaNr3n3e504QXS4vKUx+g==
-X-Google-Smtp-Source: APXvYqxOktug4IxjC7Dq+Bhrld0Om9NPYohQRA5pumFfH1kxMvTE9740E7df1S5lNz8bEDwhZ9gxydj5YC+XbC7vzIU=
-X-Received: by 2002:a05:620a:408:: with SMTP id 8mr27848609qkp.239.1558041899186;
- Thu, 16 May 2019 14:24:59 -0700 (PDT)
+        id S1726985AbfEQAfY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 May 2019 20:35:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47334 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726241AbfEQAfX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 16 May 2019 20:35:23 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A48A7206BF;
+        Fri, 17 May 2019 00:35:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558053322;
+        bh=7TW9YRtA+zrn9bZVhm3pRMCNMOGMBXRGC3+aYbhED+Q=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=2IVzgl9AIPO++Ch2lD+HPwvhsbPyCjqMp1srxLDmXKAwP6rd65u7Wus1PDx6ERIac
+         JgIJlEX6orOSTCbWhyMS/r6KVO9ATGZRYWIsOwLBH7NuKkS7fRkhmj+govo4YPjBBW
+         njgrIlohapBLa9e+A8WE0GpgY53wrangCoB5QG44=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
- <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
- <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com> <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
-In-Reply-To: <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
-From:   Ivan Babrou <ivan@cloudflare.com>
-Date:   Thu, 16 May 2019 14:24:48 -0700
-Message-ID: <CABWYdi1cPLUGws9bxk3FxVKO1v0i-GrKaov0kAJFuLBf8AS25w@mail.gmail.com>
-Subject: Re: Linux 4.19 and GCC 9
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel-team <kernel-team@cloudflare.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190514221711.248228-2-brendanhiggins@google.com>
+References: <20190514221711.248228-1-brendanhiggins@google.com> <20190514221711.248228-2-brendanhiggins@google.com>
+Subject: Re: [PATCH v4 01/18] kunit: test: add KUnit test runner core
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com
+User-Agent: alot/0.8.1
+Date:   Thu, 16 May 2019 17:35:21 -0700
+Message-Id: <20190517003522.A48A7206BF@mail.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 16, 2019 at 2:21 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Hi,
->
-> On Thu, May 16, 2019 at 10:11 PM Ivan Babrou <ivan@cloudflare.com> wrote:
-> >
-> > Hey Miguel,
-> >
-> > The first error is during perf build process (make -C tools/perf install):
-> >
-> > [17:38:21] In file included from /usr/include/string.h:635,
-> > [17:38:21]                  from ui/tui/helpline.c:4:
-> > [17:38:21] In function 'strncpy',
-> > [17:38:21]     inlined from 'tui_helpline__push' at ui/tui/helpline.c:27:2:
-> > [17:38:21] /usr/include/x86_64-linux-gnu/bits/string3.h:126:10: error:
-> > '__builtin_strncpy' specified bound 512 equals destination size
-> > [-Werror=stringop-truncation]
-> > [17:38:21]   126 |   return __builtin___strncpy_chk (__dest, __src,
-> > __len, __bos (__dest));
-> > [17:38:21]       |
-> > ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > [17:38:21] cc1: all warnings being treated as errors
-> > [17:38:21] /cfsetup_build/build/linux-4.19.43/tools/build/Makefile.build:96:
-> > recipe for target '/cfsetup_build/build/amd64/perf/ui/tui/helpline.o'
-> > failed
-> > [17:38:21] mv: cannot stat
-> > '/cfsetup_build/build/amd64/perf/ui/tui/.helpline.o.tmp': No such file
-> > or directory
-> > [17:38:21] make[6]: ***
-> > [/cfsetup_build/build/amd64/perf/ui/tui/helpline.o] Error 1
-> > [17:38:21] make[5]: *** [tui] Error 2
-> > [17:38:21] make[4]: *** [ui] Error 2
-> >
-> > I see that stringop-truncation is disabled in toplevel Makefile, but
-> > not sure if perf is using it.
->
-> Ah, alright -- CC'ing the perf maintainers then in case they want to chime in.
->
-> > If I disable perf build, the next thing is warnings like these:
-> >
-> > mm/slub.o: warning: objtool: init_cache_random_seq()+0x36: sibling
-> > call from callable instruction with modified stack frame
-> > mm/slub.o: warning: objtool: slab_out_of_memory()+0x3b: sibling call
-> > from callable instruction with modified stack frame
-> > mm/slub.o: warning: objtool: slab_pad_check.part.0()+0x7c: sibling
-> > call from callable instruction with modified stack frame
-> > mm/slub.o: warning: objtool: check_slab()+0x1c: sibling call from
-> > callable instruction with modified stack frame
->
-> AFAIK those are non-critical, i.e. stack traces may be wrong (or not),
-> but it does not mean the generated kernel itself is wrong. CC'ing the
-> objtool maintainers too.
+Quoting Brendan Higgins (2019-05-14 15:16:54)
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> new file mode 100644
+> index 0000000000000..e682ea0e1f9a5
+> --- /dev/null
+> +++ b/include/kunit/test.h
+> @@ -0,0 +1,162 @@
+[..]
+> +/**
+> + * struct kunit - represents a running instance of a test.
+> + * @priv: for user to store arbitrary data. Commonly used to pass data c=
+reated
+> + * in the init function (see &struct kunit_module).
+> + *
+> + * Used to store information about the current context under which the t=
+est is
+> + * running. Most of this data is private and should only be accessed ind=
+irectly
+> + * via public functions; the one exception is @priv which can be used by=
+ the
+> + * test writer to store arbitrary data.
+> + */
+> +struct kunit {
+> +       void *priv;
+> +
+> +       /* private: internal use only. */
+> +       const char *name; /* Read only after initialization! */
+> +       spinlock_t lock; /* Gaurds all mutable test state. */
+> +       bool success; /* Protected by lock. */
 
-I really like my stack traces definitely correct :)
+Is this all the spinlock protects? Doesn't seem useful if it's just
+protecting access to the variable being set or not because code that
+reads it will have a stale view of the value.
 
-Thanks for looping in the right people.
+> diff --git a/kunit/test.c b/kunit/test.c
+> new file mode 100644
+> index 0000000000000..86f65ba2bcf92
+> --- /dev/null
+> +++ b/kunit/test.c
+> @@ -0,0 +1,229 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Base unit test (KUnit) API.
+> + *
+> + * Copyright (C) 2019, Google LLC.
+> + * Author: Brendan Higgins <brendanhiggins@google.com>
+> + */
+> +
+> +#include <linux/sched.h>
+> +#include <linux/sched/debug.h>
+> +#include <kunit/test.h>
+> +
+[...]
+> +
+> +size_t kunit_module_counter =3D 1;
 
-> > After patching that I see:
-> >
-> > In file included from /tmp/build/linux-4.19.43/arch/x86/crypto/aes_glue.c:6:
-> > /tmp/build/linux-4.19.43/include/linux/module.h:133:6: warning:
-> > 'init_module' specifies less restrictive attribute than its target
-> > 'aes_init': 'cold' [-Wmissing-attributes]
-> >   133 |  int init_module(void) __attribute__((alias(#initfn)));
-> >       |      ^~~~~~~~~~~
-> > /tmp/build/linux-4.19.43/arch/x86/crypto/aes_glue.c:64:1: note: in
-> > expansion of macro 'module_init'
-> >    64 | module_init(aes_init);
-> >       | ^~~~~~~~~~~
-> > /tmp/build/linux-4.19.43/arch/x86/crypto/aes_glue.c:54:19: note:
-> > 'init_module' target declared here
-> >    54 | static int __init aes_init(void)
-> >       |                   ^~~~~~~~
->
-> Ditto here, those can be ignored too (unless something has changed in
-> GCC that I am not aware of).
->
-> > I'm not really comfortable with all the warnings, so I stopped the
-> > build, maybe it indeed compiles through the end.
->
-> It does (on my GCC 9.1.1 compiled from source).
->
-> I am not sure what is the policy on backporting (someone from the
-> stable team can probably answer that; Greg?), but note that this
-> kernel (and 4.20 and 5.0) was released before GCC 9 did -- and some
-> (all?) of this was cleaned up before GCC 9 itself released, so we were
-> ahead of it :-)
->
-> Cheers,
-> Miguel
+static?
+
