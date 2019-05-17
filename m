@@ -2,117 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC73421B0F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 17:57:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8030F21B2A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 18:10:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729259AbfEQP51 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 May 2019 11:57:27 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:32540 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728664AbfEQP50 (ORCPT
+        id S1729130AbfEQQKE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 May 2019 12:10:04 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:58837 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728482AbfEQQKE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 May 2019 11:57:26 -0400
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x4HFvL9n027883;
-        Sat, 18 May 2019 00:57:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x4HFvL9n027883
+        Fri, 17 May 2019 12:10:04 -0400
+Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x4HG7US3006312;
+        Sat, 18 May 2019 01:07:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x4HG7US3006312
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1558108642;
-        bh=201g0kbs2uB+GwEUpx//GJ+uGiu2C1BbNfc9wcMx28M=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=daO9zMPtTO1SudT852qzfFXT3zN1kX0AnlrMUt9bNXWbBbYbkGr6Bp6NDxrbHuIHx
-         X/4J1e8+cQATiUnou+PuZ4jmwSMIP5OJFnGVnlrD6kOn3Ctt2fo22qEPJYYwKOe35o
-         DxubPrHMzEI//dZzILv91GxM8H/Jzat7AGctFvqFDUgUou/UAUiqgMl07KWX6bk+zr
-         dqVjgNTW05XspY4Q7YtIYAVKNb3Ubb8A6nwh8VeOSeSGXLwmgNI0598VHRNTGfLHIm
-         WOJEJxBrissBxUkwhDbDtPSnYqTZSrnif84FOELRbi006LEtydsZhJ4nNmmcWUyPmC
-         ebwprQ1qvJN3A==
-X-Nifty-SrcIP: [209.85.222.51]
-Received: by mail-ua1-f51.google.com with SMTP id n7so2856030uap.12;
-        Fri, 17 May 2019 08:57:21 -0700 (PDT)
-X-Gm-Message-State: APjAAAVujX9Un6Cmn8ItI0jnfhOKzZwjn8S4lQ7Abj+gN01VJUZqthnJ
-        1h2xieeq/U1B/94/2QTZ0Ssng575JtMd/P7+FCk=
-X-Google-Smtp-Source: APXvYqxKCJU7FYDbi2z/Ynz5+ClThgGVIlGk5c+MP7LYq+ng9LP99MBRt97KIy7ayu2FnqEy1VXipCTrUsF0p0Cuy3M=
-X-Received: by 2002:ab0:3058:: with SMTP id x24mr24619043ual.95.1558108640471;
- Fri, 17 May 2019 08:57:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190517042753.25857-1-yamada.masahiro@socionext.com>
- <CAJ1xhMUxsFR6yLeV1rG1FRZzqwyMGF5PURk6F5_6kN3v2dGN1A@mail.gmail.com>
- <68270a84-966b-05e3-c82e-893c320febfd@petrovitsch.priv.at> <CAJ1xhMVaeQPoW1v91bcNOkw1FJOr7ddhDc-ir=3AiKRCSzCj=g@mail.gmail.com>
-In-Reply-To: <CAJ1xhMVaeQPoW1v91bcNOkw1FJOr7ddhDc-ir=3AiKRCSzCj=g@mail.gmail.com>
+        s=dec2015msa; t=1558109251;
+        bh=KvvGD13sSEkabVZlqCDEfHGHyy3N71YktjZRCjCmt8c=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EdtEN/ASXyFVDslvp+QeBtvFo3NtuxHuv/qoNBnA1EJArY9I8QHWn4EQDLd+2rv8H
+         DdvLOX56xvQxEm+jseJ8UR+7GEkunJtGPMFYzODjXkem0o+UAJRgv78/2+5MPVYjjP
+         DHR/0WdWHnYq2v4uWvlibI1251Z6SQ5ddARPSuI3WnPXHEw4MfdljtpFJkObcu/5F/
+         VLUVJ6JSiEsNSqMN5KZf+FWKFlprwwVF9OUb8TaOWZQuQYJiSIv3RwD6eu9N1gDElm
+         M4zJBB3uEjUldAsVLGPD9dQOyJ2IlBBiFI9SIvKg+CRdf0LRYKBD0VdCp2+C0lQhek
+         sSI4eQaer0xxw==
+X-Nifty-SrcIP: [126.125.154.139]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 18 May 2019 00:56:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATm5OS8wUh8boZJ9x65SUxajtDZV9bNdAvXcRgHC2NQdA@mail.gmail.com>
-Message-ID: <CAK7LNATm5OS8wUh8boZJ9x65SUxajtDZV9bNdAvXcRgHC2NQdA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: check uniqueness of module names
-To:     Alexander Kapshuk <alexander.kapshuk@gmail.com>
-Cc:     Bernd Petrovitsch <bernd@petrovitsch.priv.at>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, Jessica Yu <jeyu@kernel.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Michael Schmitz <schmitzmic@gmail.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Rusty Russell <rusty@rustcorp.com.au>,
         Kees Cook <keescook@chromium.org>,
+        Bernd Petrovitsch <bernd@petrovitsch.priv.at>,
+        Alexander Kapshuk <alexander.kapshuk@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] kbuild: check uniqueness of module names
+Date:   Sat, 18 May 2019 01:07:15 +0900
+Message-Id: <1558109235-23042-1-git-send-email-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 17, 2019 at 6:25 PM Alexander Kapshuk
-<alexander.kapshuk@gmail.com> wrote:
->
-> On Fri, May 17, 2019 at 11:58 AM Bernd Petrovitsch
-> <bernd@petrovitsch.priv.at> wrote:
-> >
-> > On 17/05/2019 10:16, Alexander Kapshuk wrote:
-> > [...]
-> > > The 'xargs' '-r' flag is a GNU extension.
-> > > If POSIX compliance is important here, the use of 'cat', 'xargs' and
-> > > 'basename' may be substituted with that of 'sed' to initialise
-> > > same_name_modules:
-> > > sed 's!.*/!!' modules.order modules.builtin | sort | uniq -d
-> >
-> > 's!' is TTBOMK also a GNU-extension:
-> > sed 's/.*\///' modules.order modules.builtin | sort | uniq -d
->
-> It isn't.
-> Here's an excerpt from the POSIX manpage for 'sed',
-> http://pubs.opengroup.org/onlinepubs/009695399/utilities/sed.html:
-> [2addr]s/BRE/replacement/flags
-> ...  Any character other than backslash or <newline> can be used
-> instead of a slash to delimit the BRE and the replacement....
->
-> >
-> > > 'Sed' may also be used on its own in the 'for' loop instead of as part
-> > > of a pipeline along with 'grep' to generate the desired output:
-> > > sed '/\/'$m'/!d;s:^kernel/:  :' modules.order modules.builtin
-> >
-> > sed "/\/${m}/!d;s/^kernel\//  /" modules.order modules.builtin
->
-> The parameter expansion syntax is redundant here.
-> See https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02:
-> The parameter name or symbol can be enclosed in braces, which are
-> optional except for positional parameters with more than one digit or
-> when parameter is a name and is followed by a character that could be
-> interpreted as part of the name.
->
-> Here's an alternative version using double quotes.
-> sed "/\/$m/!d;s:^kernel/:  :" modules.order modules.builtin
+In the recent build test of linux-next, Stephen saw a build error
+caused by a broken .tmp_versions/*.mod file:
 
+  https://lkml.org/lkml/2019/5/13/991
 
-Awesome!
-This is much shorter.
-I will use it in v3.
+drivers/net/phy/asix.ko and drivers/net/usb/asix.ko have the same
+basename, and there is a race in generating .tmp_versions/asix.mod
 
-Thanks.
+Kbuild has not checked this before, and it suddenly shows up with
+obscure error message when this kind of race occurs.
 
+Non-unique module names cause various sort of problems, but it is
+not trivial to catch them by eyes.
 
+Hence, this script.
+
+It checks not only real modules, but also built-in modules (i.e.
+controlled by tristate CONFIG option, but currently compiled with =y).
+Non-unique names for built-in modules also cause problems because
+/sys/modules/ would fall over.
+
+I tested allmodconfig on the latest kernel, and it detected the
+following:
+
+warning: same basename if the following are built as modules:
+  drivers/regulator/88pm800.ko
+  drivers/mfd/88pm800.ko
+warning: same basename if the following are built as modules:
+  drivers/gpu/drm/bridge/adv7511/adv7511.ko
+  drivers/media/i2c/adv7511.ko
+warning: same basename if the following are built as modules:
+  drivers/net/phy/asix.ko
+  drivers/net/usb/asix.ko
+warning: same basename if the following are built as modules:
+  fs/coda/coda.ko
+  drivers/media/platform/coda/coda.ko
+warning: same basename if the following are built as modules:
+  drivers/net/phy/realtek.ko
+  drivers/net/dsa/realtek.ko
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+
+Changes in v3:
+ - Simplied sed code (Alexander Kapshuk)
+
+Changes in v2:
+ - redirect messages to stderr
+ - use '--' after 'basename -a'
+ - use '-r' for xargs to cope with empty modules.order/modules.builtin
+
+ Makefile                 |  1 +
+ scripts/modules-check.sh | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100755 scripts/modules-check.sh
+
+diff --git a/Makefile b/Makefile
+index a61a95b..30792fe 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1290,6 +1290,7 @@ modules: $(vmlinux-dirs) $(if $(KBUILD_BUILTIN),vmlinux) modules.builtin
+ 	$(Q)$(AWK) '!x[$$0]++' $(vmlinux-dirs:%=$(objtree)/%/modules.order) > $(objtree)/modules.order
+ 	@$(kecho) '  Building modules, stage 2.';
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
++	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
+ 
+ modules.builtin: $(vmlinux-dirs:%=%/modules.builtin)
+ 	$(Q)$(AWK) '!x[$$0]++' $^ > $(objtree)/modules.builtin
+diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
+new file mode 100755
+index 0000000..2f65953
+--- /dev/null
++++ b/scripts/modules-check.sh
+@@ -0,0 +1,16 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++
++set -e
++
++# Check uniqueness of module names
++check_same_name_modules()
++{
++	for m in $(sed 's:.*/::' modules.order modules.builtin | sort | uniq -d)
++	do
++		echo "warning: same basename if the following are built as modules:" >&2
++		sed "/\/$m/!d;s:^kernel/:  :" modules.order modules.builtin >&2
++	done
++}
++
++check_same_name_modules
 -- 
-Best Regards
-Masahiro Yamada
+2.7.4
+
