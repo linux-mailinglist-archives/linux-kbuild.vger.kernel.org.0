@@ -2,184 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9024F21C0B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 18:55:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 681D621C64
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 19:25:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbfEQQzP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 May 2019 12:55:15 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:24288 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727380AbfEQQzP (ORCPT
+        id S1728296AbfEQRXY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 May 2019 13:23:24 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:43370 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727838AbfEQRXX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 May 2019 12:55:15 -0400
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x4HGsqSM021729;
-        Sat, 18 May 2019 01:54:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x4HGsqSM021729
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1558112093;
-        bh=5EgqDA3uYtlz+L9+XdyrzLf9fP9Nb7aFHjFy8jmb9xk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=klfFRY+V0IcR/WURZ8TUavi5XlMp+z3AAFdWp4hexArEt+1hST4bqXlIR4a9qvopF
-         2cChKs91z2RU14NwGmJe3w/ulbAXctG0MmRjYWVYGPwmrqbSXfHChUNOAuXcDeBBCt
-         ZbPTTx2NRW7QCfIIl85MdiIlqPeogigmlSA1vNnK3uhr/ksbRxnXbIYOXO32bqF0iw
-         8L93IFPZPYsQw6C+xtArZlqhUvymbJpHo47CABsMpF3CF3i2VdaIo4JD16kXo5sbAk
-         0ZzJsFU2YUJ2EZTZ9Co61rcTQn7GCTiudH8miA9548lgCPGiuF7yDzDMn45XwRJ4j3
-         NWP3Fuu6z5CsA==
-X-Nifty-SrcIP: [209.85.217.44]
-Received: by mail-vs1-f44.google.com with SMTP id l20so5072600vsp.3;
-        Fri, 17 May 2019 09:54:53 -0700 (PDT)
-X-Gm-Message-State: APjAAAWPV34yWT++zpwniSuJ4ROafhiKNhCy5M5Wmb5gcEqpfw6zwkqH
-        L5nXKVMJw/kRLKGValOLz/+3wwXNUvNbYhCDxkA=
-X-Google-Smtp-Source: APXvYqzINtt+UP6QYttfJWgL84DbhH2Bi2LMAL/PldGGKhnRzaS4ndVK1dAtfX05W0f3e5v5KRkvEG5WAjb2idT60D4=
-X-Received: by 2002:a67:ad0f:: with SMTP id t15mr9584081vsl.179.1558112092216;
- Fri, 17 May 2019 09:54:52 -0700 (PDT)
+        Fri, 17 May 2019 13:23:23 -0400
+Received: by mail-qt1-f196.google.com with SMTP id i26so8827655qtr.10
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 May 2019 10:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WEZ7AiajoAMSBYXOBuJNhhjKANkhKtoMOAplcmbEPfs=;
+        b=K4m9yztG8Wq/hQHBRz2dza3n6qfE9FDCnzo0GZZYZ1kHQWaOcPYvgP2WNyuDf3dN4N
+         9lr6CYXGHGCHFbPQfHTCJwM82G5zl917lxxTFq5mOjP0k0ICpxm3RYCEZF2kA4iK6ASe
+         ypKJoT5bOd14UPcY0euHX+lddCo7MYZkTxXDE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WEZ7AiajoAMSBYXOBuJNhhjKANkhKtoMOAplcmbEPfs=;
+        b=s4WTOvFfnPSpRfPtIvvEu0XQb5eS0qXMWUu7ppFaS2S4uopMnCq2rSJin7JIjZUwmo
+         Mf85KHTSdDCqLr/RjWvlVxJ4X489pvpjWWwO/rShhh4wNQPDSxM6nxYtwkKUS/YpBxYA
+         +PjfnFzkBx/53TjqXHuQ1R2zmUVXGhfPiOnlRpiPy65Vw0XlvOv/1to4kJnlcBIoCKmm
+         JAl14PzOug23bInx3GD6LsIzwtk4hNTqzPB6+bpXyY1hhUoYsCNFf1sCNJBxZLTbeVot
+         wX0N+rFo7sUuzwqSfKIfrn91PPGJ8SN4ezwhR4dG2bVDSEVNWrB13UWoibgijGZNnj9Q
+         Metg==
+X-Gm-Message-State: APjAAAUejrVYkcQ/O+uVVjXeYs53wIanPIZO5j/TKQbsHIzH5b282M2P
+        pfy6Upa84eEH86o+SRFpD8VVQeAFEsxT9MfmaY/ufA==
+X-Google-Smtp-Source: APXvYqyr9QnyTM8BEaMPnV2eB92VgCk/mI9dzB9/xVz8fcWRZK0RY9dzJsypig9ucdPf1oKbLlluFRgd0bIemntKoqM=
+X-Received: by 2002:ac8:27fb:: with SMTP id x56mr16696632qtx.14.1558113802118;
+ Fri, 17 May 2019 10:23:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <1558109235-23042-1-git-send-email-yamada.masahiro@socionext.com>
-In-Reply-To: <1558109235-23042-1-git-send-email-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 18 May 2019 01:54:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARDT7MaD1Kw8w0JgLYYXvLntb+tsNo+D9LJ2PmzNQNKdg@mail.gmail.com>
-Message-ID: <CAK7LNARDT7MaD1Kw8w0JgLYYXvLntb+tsNo+D9LJ2PmzNQNKdg@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: check uniqueness of module names
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, Jessica Yu <jeyu@kernel.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Kees Cook <keescook@chromium.org>,
-        Bernd Petrovitsch <bernd@petrovitsch.priv.at>,
-        Alexander Kapshuk <alexander.kapshuk@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
+ <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com>
+ <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
+ <20190516225013.nvhwqi5tfwtby6qb@treble> <CABWYdi29E++jBw8boFZAiDZA7iT5NiJhnNmiHb-Rvd9+97hSVA@mail.gmail.com>
+ <20190517050931.GB32367@kroah.com> <20190517073813.GB2589@hirez.programming.kicks-ass.net>
+ <CANiq72nUPoNHWM-dJuFc3=4D2=8XMuvO0PgGPjviOv+EhrAWUw@mail.gmail.com>
+ <20190517085126.GA3249@kroah.com> <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
+ <20190517152200.GI8945@kernel.org>
+In-Reply-To: <20190517152200.GI8945@kernel.org>
+From:   Ivan Babrou <ivan@cloudflare.com>
+Date:   Fri, 17 May 2019 10:23:10 -0700
+Message-ID: <CABWYdi2Xsp4AUhV1GwphTd4-nN2zCZMmg5y7WheNc67KrdVBfw@mail.gmail.com>
+Subject: Re: Linux 4.19 and GCC 9
+To:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kernel-team <kernel-team@cloudflare.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, May 18, 2019 at 1:10 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+On Fri, May 17, 2019 at 8:22 AM Arnaldo Carvalho de Melo
+<arnaldo.melo@gmail.com> wrote:
 >
-> In the recent build test of linux-next, Stephen saw a build error
-> caused by a broken .tmp_versions/*.mod file:
+> Em Fri, May 17, 2019 at 11:01:45AM +0200, Miguel Ojeda escreveu:
+> > On Fri, May 17, 2019 at 10:51 AM Greg KH <gregkh@linuxfoundation.org> w=
+rote:
+> > >
+> > > On Fri, May 17, 2019 at 10:35:29AM +0200, Miguel Ojeda wrote:
+> > > > On Fri, May 17, 2019 at 9:38 AM Peter Zijlstra <peterz@infradead.or=
+g> wrote:
+> > > > >
+> > > > > Right; if there is anything you can reproduce on linus.git I'll h=
+appily
+> > > > > have a look. If it doesn't reproduce all you have to do is find t=
+he
+> > > > > patches that make it work and ask Greg.
+> > > >
+> > > > Just to clarify: Linus' master is clean of these issues with GCC 9.=
+1.1.
+> > >
+> > > Great!  Care to find the patches that did that work and send me the g=
+it
+> > > commit ids so that I can queue them up?  I don't have gcc9 here yet o=
+n
+> > > my systems, so I can not test for this.
+> >
+> > I am unsure about the perf and the objtools parts (Peter/Josh?), but
 >
->   https://lkml.org/lkml/2019/5/13/991
+> I'm not noticing these while building upstream perf with gcc 9.1.1 on at
+> least fedora:30.
 >
-> drivers/net/phy/asix.ko and drivers/net/usb/asix.ko have the same
-> basename, and there is a race in generating .tmp_versions/asix.mod
->
-> Kbuild has not checked this before, and it suddenly shows up with
-> obscure error message when this kind of race occurs.
->
-> Non-unique module names cause various sort of problems, but it is
-> not trivial to catch them by eyes.
->
-> Hence, this script.
->
-> It checks not only real modules, but also built-in modules (i.e.
-> controlled by tristate CONFIG option, but currently compiled with =y).
-> Non-unique names for built-in modules also cause problems because
-> /sys/modules/ would fall over.
->
-> I tested allmodconfig on the latest kernel, and it detected the
-> following:
+>     33  fedora:30                     : Ok   gcc (GCC) 9.1.1 20190503 (Re=
+d Hat 9.1.1-1)
 
+I've tried to replicate this in fedora:30 docker container and it's there:
 
-FYI.
+[root@linuxkit-025000000001 perf]# gcc --version
+gcc (GCC) 9.1.1 20190503 (Red Hat 9.1.1-1)
 
-"make -j8 allmodconfig all"
-takes long time to compile
-(my machine is cheap...)
+[root@linuxkit-025000000001 perf]# pwd
+/tmp/linux-4.19.44/tools/perf
 
+[root@linuxkit-025000000001 perf]# make -j1
+...
+trace/beauty/ioctl.c: In function =E2=80=98ioctl__scnprintf_kvm_cmd=E2=80=
+=99:
+trace/beauty/ioctl.c:85:82: error: array subscript [-2147483648, -1]
+is outside array bounds of =E2=80=98const char *[0]=E2=80=99 [-Werror=3Darr=
+ay-bounds]
+   85 |  if (nr < strarray__kvm_ioctl_cmds.nr_entries &&
+strarray__kvm_ioctl_cmds.entries[nr] !=3D NULL)
+      |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+In file included from trace/beauty/ioctl.c:82:
+/tmp/linux-4.19.44/tools/perf/trace/beauty/generated/ioctl/kvm_ioctl_array.=
+c:1:20:
+note: while referencing =E2=80=98kvm_ioctl_cmds=E2=80=99
+    1 | static const char *kvm_ioctl_cmds[] =3D {
+      |                    ^~~~~~~~~~~~~~
+In file included from /usr/include/string.h:494,
+                 from util/debug.h:7,
+                 from builtin-help.c:15:
+In function =E2=80=98strncpy=E2=80=99,
+    inlined from =E2=80=98add_man_viewer=E2=80=99 at builtin-help.c:192:2,
+    inlined from =E2=80=98perf_help_config=E2=80=99 at builtin-help.c:284:3=
+:
+/usr/include/bits/string_fortified.h:106:10: error:
+=E2=80=98__builtin_strncpy=E2=80=99 output truncated before terminating nul=
+ copying as
+many bytes from a string as its length [-Werror=3Dstringop-truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__de=
+st));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+builtin-help.c: In function =E2=80=98perf_help_config=E2=80=99:
+builtin-help.c:187:15: note: length computed here
+  187 |  size_t len =3D strlen(name);
+      |               ^~~~~~~~~~~~
+trace/beauty/ioctl.c: In function =E2=80=98ioctl__scnprintf_perf_cmd=E2=80=
+=99:
+trace/beauty/ioctl.c:109:84: error: array subscript [-2147483648, -1]
+is outside array bounds of =E2=80=98const char *[0]=E2=80=99 [-Werror=3Darr=
+ay-bounds]
+  109 |  if (nr < strarray__perf_ioctl_cmds.nr_entries &&
+strarray__perf_ioctl_cmds.entries[nr] !=3D NULL)
+      |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+In file included from trace/beauty/ioctl.c:106:
+/tmp/linux-4.19.44/tools/perf/trace/beauty/generated/ioctl/perf_ioctl_array=
+.c:1:20:
+note: while referencing =E2=80=98perf_ioctl_cmds=E2=80=99
+    1 | static const char *perf_ioctl_cmds[] =3D {
+      |                    ^~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
-If you want to detect modules with non-unique name quickly,
-"make -j8 allyesconfig modules" is much faster.
-
-
-
-
-
-
-> warning: same basename if the following are built as modules:
->   drivers/regulator/88pm800.ko
->   drivers/mfd/88pm800.ko
-> warning: same basename if the following are built as modules:
->   drivers/gpu/drm/bridge/adv7511/adv7511.ko
->   drivers/media/i2c/adv7511.ko
-> warning: same basename if the following are built as modules:
->   drivers/net/phy/asix.ko
->   drivers/net/usb/asix.ko
-> warning: same basename if the following are built as modules:
->   fs/coda/coda.ko
->   drivers/media/platform/coda/coda.ko
-> warning: same basename if the following are built as modules:
->   drivers/net/phy/realtek.ko
->   drivers/net/dsa/realtek.ko
+> > about the -Wmissing-attributes I cleaned, they were these:
 >
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
+> > a6e60d84989f ("include/linux/module.h: copy __init/__exit attrs to
+> > init/cleanup_module")
+> > c0d9782f5b6d ("Compiler Attributes: add support for __copy (gcc >=3D 9)=
+")
+> > ff98e20ef208 ("lib/crc32.c: mark crc32_le_base/__crc32c_le_base
+> > aliases as __pure")
+> >
+> > Cheers,
+> > Miguel
 >
-> Changes in v3:
->  - Simplied sed code (Alexander Kapshuk)
->
-> Changes in v2:
->  - redirect messages to stderr
->  - use '--' after 'basename -a'
->  - use '-r' for xargs to cope with empty modules.order/modules.builtin
->
->  Makefile                 |  1 +
->  scripts/modules-check.sh | 16 ++++++++++++++++
->  2 files changed, 17 insertions(+)
->  create mode 100755 scripts/modules-check.sh
->
-> diff --git a/Makefile b/Makefile
-> index a61a95b..30792fe 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1290,6 +1290,7 @@ modules: $(vmlinux-dirs) $(if $(KBUILD_BUILTIN),vmlinux) modules.builtin
->         $(Q)$(AWK) '!x[$$0]++' $(vmlinux-dirs:%=$(objtree)/%/modules.order) > $(objtree)/modules.order
->         @$(kecho) '  Building modules, stage 2.';
->         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
-> +       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
->
->  modules.builtin: $(vmlinux-dirs:%=%/modules.builtin)
->         $(Q)$(AWK) '!x[$$0]++' $^ > $(objtree)/modules.builtin
-> diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
-> new file mode 100755
-> index 0000000..2f65953
-> --- /dev/null
-> +++ b/scripts/modules-check.sh
-> @@ -0,0 +1,16 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +set -e
-> +
-> +# Check uniqueness of module names
-> +check_same_name_modules()
-> +{
-> +       for m in $(sed 's:.*/::' modules.order modules.builtin | sort | uniq -d)
-> +       do
-> +               echo "warning: same basename if the following are built as modules:" >&2
-> +               sed "/\/$m/!d;s:^kernel/:  :" modules.order modules.builtin >&2
-> +       done
-> +}
-> +
-> +check_same_name_modules
 > --
-> 2.7.4
 >
-
-
---
-Best Regards
-Masahiro Yamada
+> - Arnaldo
