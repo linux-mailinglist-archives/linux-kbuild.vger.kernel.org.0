@@ -2,94 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2DB22126D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 05:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 531BF21292
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 May 2019 05:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726498AbfEQDOi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 May 2019 23:14:38 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:35243 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726447AbfEQDOh (ORCPT
+        id S1727337AbfEQDip (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 May 2019 23:38:45 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:22897 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726783AbfEQDip (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 May 2019 23:14:37 -0400
-Received: by mail-qt1-f193.google.com with SMTP id a39so6502634qtk.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 16 May 2019 20:14:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rKxEaaNHIV6JsHY3ht5oSGzbtWVjHarjvsskL7zAQu8=;
-        b=Hcu0KCKbzK/sRRVVgD1EfbjOj2ONoQFhG9B5LizhK6UNMJfPder82blvHI36tqvXmQ
-         DdkLTu9uydvQoChzn7CCe+9usejYltN71BWqI/5m+MJFPtI3X5BTtAIdln5pwcnU+MtS
-         +pqTTP0wFeyVkMwZ0A0z4vZ3LXuF72HznwsP8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rKxEaaNHIV6JsHY3ht5oSGzbtWVjHarjvsskL7zAQu8=;
-        b=ekk2zzHastISnfWB00q+M22frsP1CFZ8vCJBli4iLBI1Sj5XuNexFVtWXkoW5VHdI2
-         5giSF8EET3FpIwbOtzBdPMgCpeoqzgqSxgilJ3EDku/zBsc8lTIJQHX0cYhVacgJ6ShV
-         ZHFwxYjeO58UMtjJMKsdnv8+GbniLDQjr/E3cEG+SeT8ZURIq3zeAMQTVRSWocs4YGAX
-         QnwU4EN0Peq+enqzSgrLGKf5Hic95j7d7gAmye+mTBMYi9d5hPiUOvbeA+Y6u1rJFAoK
-         OHNBXAhHyRxL9ndTSVGzKXlvJ1E6QokasX9KUe70HACtuqyLOqlYDycHmNp2sJBvEr1D
-         xZfg==
-X-Gm-Message-State: APjAAAWYC/ntNfSemGKYDdlKzBsNkeELv/FSnSJ7gYm5jeWj+6Y58GKw
-        O7PPzhIDfwmQHLC4khMW3GgIA5fxIpsufvwiSM/9dA==
-X-Google-Smtp-Source: APXvYqzOWz36fTK06wwiFIuYg95qsggEx19E8Ej8Lf5TmxRHoryNz2jZfMMn0QfC2FD3F02pGeeMwYRv6eOSw0T1lTA=
-X-Received: by 2002:ac8:875:: with SMTP id x50mr44529748qth.345.1558062876675;
- Thu, 16 May 2019 20:14:36 -0700 (PDT)
+        Thu, 16 May 2019 23:38:45 -0400
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x4H3cN1D032721;
+        Fri, 17 May 2019 12:38:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x4H3cN1D032721
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1558064304;
+        bh=srN3/L+Kx9Et/22233UjKG5aslu8L3GpgixAoCxQ5yM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=2J8eWrbpwFM7LwNHSWsazJJFrN5fl01HfReLlbmiilaQfPechGIKeZlsWTeya4CFM
+         MZEanIsQXaJaHoOfn5k7faFhGNhcoR/l+dEB3Qw8+Bm1ZJO4QbL9ceOX+tLCqy90I9
+         Qmu+a8rVPNplx2tOmLANdrfvcWqigsbyZwkrWAFij3uGe4Vjpr8ZrFX+XxancqmhR2
+         +39LaUHIK3my8MBHGe+1J9aftycL/czcjV5Qa+aPIOJZZvm1s5DLzi2feDq3lx/Fmd
+         u4W9VtunapeEo7/SD1blIryCl5O/O6shSzBgayIf4i9moqu20qBBUlptVvUMhYwC3z
+         uf5iZ+0pVWFDw==
+X-Nifty-SrcIP: [209.85.222.51]
+Received: by mail-ua1-f51.google.com with SMTP id n7so2140654uap.12;
+        Thu, 16 May 2019 20:38:23 -0700 (PDT)
+X-Gm-Message-State: APjAAAUkqtag2YS5RKdEfhMfOWWbZ6Z5o2cn+3hy1cFRWYn8J8EhHSec
+        Rygm+h7KCxG5EdcjicbB8JBfvvIl4K2iU9BmxWQ=
+X-Google-Smtp-Source: APXvYqy+E3KgmeybTo+0K8ZSAolNzMC/m2XGEox38LXflIwOHcq9J7NMqQNWklD80zDReYHBoxwzEJczldJfvWFYxXw=
+X-Received: by 2002:ab0:3058:: with SMTP id x24mr23025836ual.95.1558064302467;
+ Thu, 16 May 2019 20:38:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <CABWYdi06NUOWRLingNuybgZZsTZPjhmsOx-9oCGK94qZGYbzcw@mail.gmail.com>
- <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
- <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com>
- <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com> <20190516225013.nvhwqi5tfwtby6qb@treble>
-In-Reply-To: <20190516225013.nvhwqi5tfwtby6qb@treble>
-From:   Ivan Babrou <ivan@cloudflare.com>
-Date:   Thu, 16 May 2019 20:14:25 -0700
-Message-ID: <CABWYdi29E++jBw8boFZAiDZA7iT5NiJhnNmiHb-Rvd9+97hSVA@mail.gmail.com>
-Subject: Re: Linux 4.19 and GCC 9
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        Namhyung Kim <namhyung@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
+References: <20190515073818.22486-1-yamada.masahiro@socionext.com>
+ <CAK7LNATUvPMqt93iwzNud0mxk99Si=CEBDyjA8BLEXM_tcTBfQ@mail.gmail.com> <201905151130.87CDB73C0@keescook>
+In-Reply-To: <201905151130.87CDB73C0@keescook>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 17 May 2019 12:37:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASKnWkJhw3Hn1vKK=dB_vHOo0MtMd9duTpHoQSdgYoZLA@mail.gmail.com>
+Message-ID: <CAK7LNASKnWkJhw3Hn1vKK=dB_vHOo0MtMd9duTpHoQSdgYoZLA@mail.gmail.com>
+Subject: Re: [RFC PATCH] kbuild: check uniqueness of basename of modules
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sam Ravnborg <sam@ravnborg.org>, Arnd Bergmann <arnd@arndb.de>,
         Greg KH <gregkh@linuxfoundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel-team <kernel-team@cloudflare.com>
+        Jessica Yu <jeyu@kernel.org>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We are building the upstream kernel. There are a few patches, but
-nothing related to objtool.
+Hi Kees,
 
-Unless you mean mainline/stable by upstream, I haven't tried that. We
-stick to LTS.
-
-On Thu, May 16, 2019 at 7:04 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+On Thu, May 16, 2019 at 3:31 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Thu, May 16, 2019 at 11:20:54PM +0200, Miguel Ojeda wrote:
-> > > mm/slub.o: warning: objtool: init_cache_random_seq()+0x36: sibling
-> > > call from callable instruction with modified stack frame
-> > > mm/slub.o: warning: objtool: slab_out_of_memory()+0x3b: sibling call
-> > > from callable instruction with modified stack frame
-> > > mm/slub.o: warning: objtool: slab_pad_check.part.0()+0x7c: sibling
-> > > call from callable instruction with modified stack frame
-> > > mm/slub.o: warning: objtool: check_slab()+0x1c: sibling call from
-> > > callable instruction with modified stack frame
+> On Thu, May 16, 2019 at 03:07:54AM +0900, Masahiro Yamada wrote:
+> > On Wed, May 15, 2019 at 4:40 PM Masahiro Yamada
+> > <yamada.masahiro@socionext.com> wrote:
 > >
-> > AFAIK those are non-critical, i.e. stack traces may be wrong (or not),
-> > but it does not mean the generated kernel itself is wrong. CC'ing the
-> > objtool maintainers too.
+> > >         $(Q)$(AWK) '!x[$$0]++' $^ > $(objtree)/modules.builtin
+> > > diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
+> > > new file mode 100755
+> > > index 000000000000..944e68bd22b0
+> > > --- /dev/null
+> > > +++ b/scripts/modules-check.sh
+> > > @@ -0,0 +1,18 @@
+> > > +#!/bin/sh
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +# Warn if two or more modules have the same basename
+> > > +check_same_name_modules()
+> > > +{
+> > > +       same_name_modules=$(cat modules.order modules.builtin | \
+> > > +                               xargs basename -a | sort | uniq -d)
+> >
+> >
+> > I noticed a bug here.
+> >
+> >
+> > allnoconfig + CONFIG_MODULES=y
+> > will create empty modules.order and modules.builtin.
+> >
+> > Then, 'basename -a' will emit the error messages
+> > since it receives zero arguments.
 >
-> I don't think I recognize those warnings.  Do you also see them in the
-> upstream kernel?
+> You can skip running it by adding "-r" to xargs:
 >
-> --
-> Josh
+>        -r, --no-run-if-empty
+>               If the standard input does not contain any nonblanks, do not run
+>               the command.  Normally, the command is run once even if there is
+>               no input.  This option is a GNU extension.
+
+Good idea!
+
+I will use this in v2.
+
+Thanks.
+
+
+-- 
+Best Regards
+Masahiro Yamada
