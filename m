@@ -2,62 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13F1123DCA
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2019 18:47:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 374A923FA9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2019 19:57:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389873AbfETQry (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 May 2019 12:47:54 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:40658 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389843AbfETQry (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 May 2019 12:47:54 -0400
-Received: by mail-io1-f67.google.com with SMTP id s20so11571241ioj.7
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 May 2019 09:47:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=wOXeW+HnO5nyQgm9WgujjlGetYVi+1DbQgdR85mJqyE=;
-        b=AZ0MsQSPy9ksfAaDDzhrFiXqqIj+HGznKBKMCJUJvDKRNQ5UZfZzPXSI2A7EkAQJtD
-         KG6Ms3nPEfcN5SD1sP7nPUkbe28Qn8mRMZPZuPS9WrwmUNksxYDhEvp8TajO681dBDBu
-         8xVchSlgMMrBJJJ3qBxIXrFsbOFAv5ChRI4Vmczy6tO50Xz7UuUq/iG5bH1zmYXzvybt
-         pW8YU2+k5Cod3fp7CnpdWhJYrXgUP15MHC3qH4TFrrEUWmqAIJAyUEU/g9fnDyjsqcbd
-         ayeHW5/BVu/8x6VQZm7xNhs+sEKp8bgzo6kPMNS4eDbavdouwUgTKB9WZE/70SIdcriI
-         piwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=wOXeW+HnO5nyQgm9WgujjlGetYVi+1DbQgdR85mJqyE=;
-        b=pjrD+0Tv7HJi5V2DKmbi+vXn9jYmGEAVp/q4lgW8m5IpX/952FVrXobfusfVLQPti3
-         pKFH7ZUuT5HgyymMpcktDYOo6P5i6r+m+gNdpSlMStI9TqE2MVNrYQS/i88ZTiB8VeVJ
-         YaAlPy6QfyZrJpoTGWtQ+v3b4CRgsCNW+4pgcLY6JF7HPXFNVVb1yRGf1by1DPF4Wioy
-         z7t3RRG3OpEElvJkxiVRhnaC3VTT778TpRtT/IVN3h3YThLNk4qSyqbMSmpJnm3aKvZX
-         W3iO/TfgMb5WnumG9YQUCq8ewY0YZm1t1jg14l4/6biGXYcMkRNxLhbKuB1gqyxCcZtJ
-         Ws9g==
-X-Gm-Message-State: APjAAAW9ZKpv9ONu9K35DkzhZ7OC5DyLbzQuUZQF1nsdpzhzat0EFxtu
-        p5oRd6XADaT1S1VmGK2mlrsEVY3wq5Po/DVyTXo=
-X-Google-Smtp-Source: APXvYqzTov8yw1iAhwcPoQMdUzUrsIxPkENxMLdM3RyLLGCcOvpedicRm7EX7d2T2pe48dUrMNzKlMWKfZ4w3ETntjw=
-X-Received: by 2002:a6b:3ac3:: with SMTP id h186mr41613104ioa.63.1558370873256;
- Mon, 20 May 2019 09:47:53 -0700 (PDT)
+        id S1726975AbfETR4q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 May 2019 13:56:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52098 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726820AbfETR4p (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 20 May 2019 13:56:45 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2C16F206B6;
+        Mon, 20 May 2019 17:56:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558375004;
+        bh=vcJUwKueu3F2uwVm18g8UcTZp0tXVBXVM4e5zvCz3Dc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pLnYbJ/k9saVg+oNGkcODh4Aicjj8nC9e8UFtYjKy5RJlYtIHZ7VzozwEMhcQ9WOR
+         OHffZAJ5XVEYyChLiCCFBddKrw7q9vBYGYnKZzQEjTnhw1OoBCCXY/nsLTo0G/UdH8
+         9NBihMUROvwJP0JSi0ZueO7/fuL//+L582whwNII=
+Date:   Mon, 20 May 2019 19:56:41 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Dan Rue <dan.rue@linaro.org>
+Cc:     linux-kselftest@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: teach kselftest-merge to find nested config files
+Message-ID: <20190520175641.GA14339@kroah.com>
+References: <20190520151614.19188-1-dan.rue@linaro.org>
 MIME-Version: 1.0
-Reply-To: balla250abc@gmail.com
-Received: by 2002:a6b:a16:0:0:0:0:0 with HTTP; Mon, 20 May 2019 09:47:52 -0700 (PDT)
-From:   AH ZAMA <zaaama250@gmail.com>
-Date:   Mon, 20 May 2019 18:47:52 +0200
-X-Google-Sender-Auth: q1l06yoA7goYdvv_tV4lgYLZFGs
-Message-ID: <CADwpPn9_RO6kFAU2rtVKogNBtEUA4Ja=C2PVmkvNcvycHbeXGg@mail.gmail.com>
-Subject: OK
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190520151614.19188-1-dan.rue@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Greetings,
-I have access to very vital information that can be used to move a
-huge amount of money out of my Country to your personal account.
-Contact me for more explanation
-Regards,
-Ahmed Zama
+On Mon, May 20, 2019 at 10:16:14AM -0500, Dan Rue wrote:
+> Current implementation of kselftest-merge only finds config files that
+> are one level deep using `$(srctree)/tools/testing/selftests/*/config`.
+> 
+> Often, config files are added in nested directories, and do not get
+> picked up by kselftest-merge.
+> 
+> Use `find` to catch all config files under
+> `$(srctree)/tools/testing/selftests` instead.
+> 
+> Signed-off-by: Dan Rue <dan.rue@linaro.org>
+> ---
+>  Makefile | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+
+To be more specific here, the binderfs test is not catching the config
+entry, so it would be nice to get this into the stable trees as well :)
+
+> diff --git a/Makefile b/Makefile
+> index a45f84a7e811..e99e7f9484af 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1228,9 +1228,8 @@ kselftest-clean:
+>  PHONY += kselftest-merge
+>  kselftest-merge:
+>  	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+> -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
+> -		-m $(objtree)/.config \
+> -		$(srctree)/tools/testing/selftests/*/config
+> +	$(Q)find $(srctree)/tools/testing/selftests -name config | \
+> +		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+>  	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>  
+>  # ---------------------------------------------------------------------------
+
+is find run with $(Q)?  It isn't with other instances in the Makefile.
+
+thanks,
+
+greg k-h
