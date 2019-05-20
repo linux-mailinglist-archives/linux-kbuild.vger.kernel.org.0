@@ -2,132 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D10A23BB7
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2019 17:09:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 614A323BDC
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2019 17:19:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388388AbfETPJE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 May 2019 11:09:04 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:49774 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733027AbfETPJE (ORCPT
+        id S2387864AbfETPTA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 May 2019 11:19:00 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:35310 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388752AbfETPTA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 May 2019 11:09:04 -0400
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x4KF8umi027391;
-        Tue, 21 May 2019 00:08:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x4KF8umi027391
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1558364937;
-        bh=95HwtbpMEdAllrN7F4zNPVZ+pNQZoCbwUigUV2ddKeY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=18QrCSk8G+t+XAukQYfqtvqpNID+j398DC9uzCU6kAmT0bQ4JmxnX9Zw2aDtN8EUw
-         z/xBYfXyn+DZRmfB9j8Rzt9oNI0n4SBX1RJVrseq41aTfL/VzMGIKZTrwQkcuVweX3
-         f+aKAbitf/1HlUptdjYiCwbmJo0Ur/UNZ+BsLo2VL0vnQ+P7Tc56sWOLrVkBVHfAad
-         W43Utwl8zrUrFRr9/ouHnfrsh+mjWH7KWVgPWSzeMjgKncJeTsS2bmax9vx9ZfYi5h
-         Fos+RhgWy+AkC3tu7oAzk+y+ULC4lajYp6t/kXwvu2e2Cktlj7BFoiAvt6EPjbW236
-         4EyoKuP2aMROA==
-X-Nifty-SrcIP: [209.85.217.52]
-Received: by mail-vs1-f52.google.com with SMTP id x184so8089811vsb.5;
-        Mon, 20 May 2019 08:08:57 -0700 (PDT)
-X-Gm-Message-State: APjAAAWdN0sWKe6PwZXvsfUFwCAKfFVtgX1Uo/9mV3TMK/b9geOeUnC2
-        FcfnA8YVz+JoUoBY0MJkS1VX82PwAW+kHIv9zA8=
-X-Google-Smtp-Source: APXvYqzxDQvhelDYO1GqpUaZUlQvPgAMk4p/UNpmJQRQFDak7rLxLzf7T+QCeN0IC4L32Vrt8CzBRFBSIQ6QIJk+n+o=
-X-Received: by 2002:a67:d382:: with SMTP id b2mr19939121vsj.155.1558364935894;
- Mon, 20 May 2019 08:08:55 -0700 (PDT)
+        Mon, 20 May 2019 11:19:00 -0400
+Received: by mail-it1-f195.google.com with SMTP id u186so23732696ith.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 May 2019 08:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8bDPOW4T9PERtlCKjJ2lAbrC2Btl/gUnBtJeF4+SdEo=;
+        b=M2FGtec4qwOQA9nWt3yNJamKQbZ6wWHEdQ7BldBsOi2SLF2pp3o3HgjfWthzjXcrkt
+         1Hs+/DfFdQxqw0ItBC68YwvtUHfxSDPNMNLezriKfz417YqyxPA0xE315PCzAR3zfJwq
+         sD4QG6ggCau9zHe06mjOfQ/XeYTExSpjEdqb9EfyT8q9xhCfiXdOI7D/5lD6jYqoWhyC
+         KCI0lBwpSXxLHBGlYkTxZ182lmZPVwPKZjKhBCHRAF5RLHL/2mIcGf0eGvTbEPMZTbFy
+         lRnLGTe/ufItgUvJSnsswcjufkJZChaO2cCIaWAhfiTpiBkCBx5/xWGe0JLXpAVpwW/L
+         XZBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8bDPOW4T9PERtlCKjJ2lAbrC2Btl/gUnBtJeF4+SdEo=;
+        b=rLEDFBEJl4OafjR+0g11CapbehC6DOW/zLxG4gsp+tCl2wFq/4WHwYpyxjUMjNV/iz
+         lXQB716DZxkPNFt6LYF6GoX7MO99MOeLZ9xGja4LlhSmAKWm4eue2GgU1AVmXJ30Vf1Y
+         O4AjaHy/T7Wpm1tLpaey7yrBeEj8YcBaae7z/ENvuZCCXyVsTD5c6rgY0awEz9ynuFst
+         7qCU5gOBjGCye2XPoXxk2BtoVCctDl6MOvKz7bDpC1JX9TptaqK3rxekklMJSRuZtAPj
+         sYF/i5q1jb1LHibLiE8fdoxMeF4vgHR6ADCNS1sNe2PoR39SNAQen05XhzhltnsYstwC
+         2b9A==
+X-Gm-Message-State: APjAAAULi0wY7RMnfy8/mMX+Vb9YEetSS/Ye8LS/dH0gB+jeYgHzhmJY
+        wppZ36JQy1JCkhlRKHD9EzgNgg==
+X-Google-Smtp-Source: APXvYqxPeWPsR3qi08xbeYLoNXEOxhRXLPb6AbDnMWGKPpAWkaPEec6V+TrN28W/Fq0LTraaojid4w==
+X-Received: by 2002:a05:660c:107:: with SMTP id w7mr11276557itj.59.1558365539219;
+        Mon, 20 May 2019 08:18:59 -0700 (PDT)
+Received: from localhost (c-75-72-120-115.hsd1.mn.comcast.net. [75.72.120.115])
+        by smtp.gmail.com with ESMTPSA id s8sm5513436iot.55.2019.05.20.08.18.58
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 20 May 2019 08:18:58 -0700 (PDT)
+From:   Dan Rue <dan.rue@linaro.org>
+To:     dan.rue@linaro.org
+Cc:     linux-kselftest@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: teach kselftest-merge to find nested config files
+Date:   Mon, 20 May 2019 10:16:14 -0500
+Message-Id: <20190520151614.19188-1-dan.rue@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190423212741.12219-1-ndesaulniers@google.com>
-In-Reply-To: <20190423212741.12219-1-ndesaulniers@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 21 May 2019 00:08:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARdZa16J56AxhM5bcr9oHdAw+zpa4EDjPpF8YO77==Etw@mail.gmail.com>
-Message-ID: <CAK7LNARdZa16J56AxhM5bcr9oHdAw+zpa4EDjPpF8YO77==Etw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: drop support for cc-ldoption
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 24, 2019 at 6:27 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> If you want to see if your linker supports a certain flag, then ask the
-> linker directly with ld-option (not the compiler with cc-ldoption).
-> Checking for linker flag support is an antipattern that complicates the
-> usage of various linkers other than bfd via -fuse-ld={bfd|gold|lld}.
->
-> Cc: clang-built-linux@googlegroups.com
-> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
+Current implementation of kselftest-merge only finds config files that
+are one level deep using `$(srctree)/tools/testing/selftests/*/config`.
 
-Applied to linux-kbuild. Thanks.
+Often, config files are added in nested directories, and do not get
+picked up by kselftest-merge.
 
+Use `find` to catch all config files under
+`$(srctree)/tools/testing/selftests` instead.
 
+Signed-off-by: Dan Rue <dan.rue@linaro.org>
+---
+ Makefile | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-
-> This should probably wait until all of the call sites have been cleaned
-> up. Masahiro sent them for arm and arm64, while I sent cleanups for all
-> the rest.
->
->
->  Documentation/kbuild/makefiles.txt | 14 --------------
->  scripts/Kbuild.include             |  5 -----
->  2 files changed, 19 deletions(-)
->
-> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index 03c065855eaf..d65ad5746f94 100644
-> --- a/Documentation/kbuild/makefiles.txt
-> +++ b/Documentation/kbuild/makefiles.txt
-> @@ -437,20 +437,6 @@ more details, with real examples.
->         The second argument is optional, and if supplied will be used
->         if first argument is not supported.
->
-> -    cc-ldoption
-> -       cc-ldoption is used to check if $(CC) when used to link object files
-> -       supports the given option.  An optional second option may be
-> -       specified if first option are not supported.
-> -
-> -       Example:
-> -               #arch/x86/kernel/Makefile
-> -               vsyscall-flags += $(call cc-ldoption, -Wl$(comma)--hash-style=sysv)
-> -
-> -       In the above example, vsyscall-flags will be assigned the option
-> -       -Wl$(comma)--hash-style=sysv if it is supported by $(CC).
-> -       The second argument is optional, and if supplied will be used
-> -       if first argument is not supported.
-> -
->      as-instr
->         as-instr checks if the assembler reports a specific instruction
->         and then outputs either option1 or option2
-> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-> index 7484b9d8272f..fbfb37d1bcc8 100644
-> --- a/scripts/Kbuild.include
-> +++ b/scripts/Kbuild.include
-> @@ -138,11 +138,6 @@ cc-disable-warning = $(call try-run,\
->  # Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
->  cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
->
-> -# cc-ldoption
-> -# Usage: ldflags += $(call cc-ldoption, -Wl$(comma)--hash-style=both)
-> -cc-ldoption = $(call try-run,\
-> -       $(CC) $(1) $(KBUILD_CPPFLAGS) $(CC_OPTION_CFLAGS) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
-> -
->  # ld-option
->  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
->  ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
-> --
-> 2.21.0.593.g511ec345e18-goog
->
-
-
+diff --git a/Makefile b/Makefile
+index a45f84a7e811..e99e7f9484af 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1228,9 +1228,8 @@ kselftest-clean:
+ PHONY += kselftest-merge
+ kselftest-merge:
+ 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+-	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
+-		-m $(objtree)/.config \
+-		$(srctree)/tools/testing/selftests/*/config
++	$(Q)find $(srctree)/tools/testing/selftests -name config | \
++		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+ 	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+ 
+ # ---------------------------------------------------------------------------
 -- 
-Best Regards
-Masahiro Yamada
+2.21.0
+
