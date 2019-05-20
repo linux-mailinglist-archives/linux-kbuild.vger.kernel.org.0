@@ -2,35 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A8ED22978
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2019 02:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9D26229DE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 May 2019 04:14:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728016AbfETAEl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 May 2019 20:04:41 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43469 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727720AbfETAEl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 May 2019 20:04:41 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 456fK20cjwz9s3l;
-        Mon, 20 May 2019 10:04:38 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1558310678;
-        bh=pZcgB5aQrClEmkJbHCnZA6xWxdkeqKTCyUtTxpH7sYo=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=iB3S1IwJZiOzvGM5FdZcY27eyAoaF+65n6TlJ9euu6Of0clySD0G5GeGZiKE5MO6F
-         UQfUFzXDeuXwYsiQiyqrMTyA0VCFuDSvvqvMaxitNuH2RXnRw8QAWVCr4xw/DbBwy9
-         e5HAgj4xLTwORdq7uoJrFsQToiVc6qDVVbBBcvYIYrrISDVm/Vli3Y4SgMmOuK0d39
-         QSeqHHgN7e+BuCXLsDlkiTDFhGmmWBryXldImwetipuacYwbj2G9CVdUujkNsiZecc
-         /nW83IIFnhInicDqmKjVeZcUJ9Gsb0wBOY+yDHoDTLSRyjrNC+bFuwxGz+teBnPe7b
-         frLaXys4o9xxQ==
-Date:   Mon, 20 May 2019 10:04:37 +1000
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org,
+        id S1726946AbfETCOf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 May 2019 22:14:35 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20958 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726062AbfETCOe (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 19 May 2019 22:14:34 -0400
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x4K2EPZf010599;
+        Mon, 20 May 2019 11:14:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x4K2EPZf010599
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1558318466;
+        bh=VZT+dBEuTUp2nvsq0QEUtjKPQOjNBhC01YI0fClrYlk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DyU8Fm6xABp6oXu+Q6UXe5wuciIdp7MayAmm9B87C794CycMFkF9q+TUHpVH8PqHu
+         6pBOsE/pKyYiEgm9Q07SHIjkujg6YksS4PLjvg836RPFkNQHgpz8CDR8ZQ24YQ4zPQ
+         VHAgidzdnOKzeZSpLVcYRbYCkDAniNaSdxbE62v+nOSYUAbwMY7YsrFFoAT8YUL1zZ
+         pZbG+ZnzlW1us3cgSPNokqf2DGokdGSvCeHuo+b56vy7QOr3iwwjwRms4vU//XrXpC
+         ubH0SYMfA278Q1IOME4KCR+iVVljVmzPuA8Jf1HaDYLIaZ777mBR0Q8/A66GR4a+zG
+         1HcQGRcuSP3zQ==
+X-Nifty-SrcIP: [209.85.217.50]
+Received: by mail-vs1-f50.google.com with SMTP id m1so7973537vsr.6;
+        Sun, 19 May 2019 19:14:26 -0700 (PDT)
+X-Gm-Message-State: APjAAAWB+NaLLNYFeF35evqKqd3O3tCtVjzFYZXr+0/g4/vdNhuS+10M
+        uUDlwMyNE6M06L1BdJdpLwJ420ZozGtLth6Rdvs=
+X-Google-Smtp-Source: APXvYqwkqsmntlg/Va89Mxc0iu7T5p37ceRTEIAyBXMJbw5KLG1VQoHw0HcvFyL4sBSZv9FYEfrG6TiIqLiVLPo96qA=
+X-Received: by 2002:a67:ad0f:: with SMTP id t15mr15737470vsl.179.1558318465161;
+ Sun, 19 May 2019 19:14:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <1558109235-23042-1-git-send-email-yamada.masahiro@socionext.com> <20190520095147.2021c218@canb.auug.org.au>
+In-Reply-To: <20190520095147.2021c218@canb.auug.org.au>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Mon, 20 May 2019 11:13:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQc1XjTCo0FdYMxCrGP-iqNj1s464WepCVcxUun3=OvMg@mail.gmail.com>
+Message-ID: <CAK7LNAQc1XjTCo0FdYMxCrGP-iqNj1s464WepCVcxUun3=OvMg@mail.gmail.com>
+Subject: Re: [PATCH v3] kbuild: check uniqueness of module names
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>, Jessica Yu <jeyu@kernel.org>,
         Lucas De Marchi <lucas.demarchi@intel.com>,
@@ -42,66 +55,89 @@ Cc:     linux-kbuild@vger.kernel.org,
         Alexander Kapshuk <alexander.kapshuk@gmail.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] kbuild: check uniqueness of module names
-Message-ID: <20190520100437.54142214@canb.auug.org.au>
-In-Reply-To: <1558109235-23042-1-git-send-email-yamada.masahiro@socionext.com>
-References: <1558109235-23042-1-git-send-email-yamada.masahiro@socionext.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/3dAX7L8JPnsN0p+_o1m6Pq5"; protocol="application/pgp-signature"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---Sig_/3dAX7L8JPnsN0p+_o1m6Pq5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Stephen,
 
-Hi Masahiro,
+On Mon, May 20, 2019 at 8:52 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
+>
+> Hi Masahiro,
+>
+> On Sat, 18 May 2019 01:07:15 +0900 Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
+> >
+> > It checks not only real modules, but also built-in modules (i.e.
+> > controlled by tristate CONFIG option, but currently compiled with =y).
+> > Non-unique names for built-in modules also cause problems because
+> > /sys/modules/ would fall over.
+> >
+> > I tested allmodconfig on the latest kernel, and it detected the
+> > following:
+>
+> A powerpc ppc64_defconfig produces:
+>
+> warning: same basename if the following are built as modules:
+>   arch/powerpc/platforms/powermac/nvram.ko
+>   drivers/char/nvram.ko
+>
+> Which is a false positive since
+> arch/powerpc/platforms/powermac/Makefile has
+>
+> # CONFIG_NVRAM is an arch. independent tristate symbol, for pmac32 we really
+> # need this to be a bool.  Cheat here and pretend CONFIG_NVRAM=m is really
+> # CONFIG_NVRAM=y
+> obj-$(CONFIG_NVRAM:m=y)         += nvram.o
+>
+> Which means that this nvram.o will never be built as a module.
 
-On Sat, 18 May 2019 01:07:15 +0900 Masahiro Yamada <yamada.masahiro@socione=
-xt.com> wrote:
->=20
-> +++ b/scripts/modules-check.sh
-> @@ -0,0 +1,16 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +set -e
-> +
-> +# Check uniqueness of module names
-> +check_same_name_modules()
-> +{
-> +	for m in $(sed 's:.*/::' modules.order modules.builtin | sort | uniq -d)
-> +	do
-> +		echo "warning: same basename if the following are built as modules:" >=
-&2
-> +		sed "/\/$m/!d;s:^kernel/:  :" modules.order modules.builtin >&2
+Indeed.
 
-(bringing out my bike shed paint brush :-))
-this could be
-	sed -n "/\/$m/s:^kernel/:  :p" ...
+I thought it was a good idea to check built-in modules,
+but I do not have a good way to avoid false positives.
 
---=20
-Cheers,
-Stephen Rothwell
+I think we should not check modules.builtin.
+Anyway, allmodconfig has a good test coverage.
 
---Sig_/3dAX7L8JPnsN0p+_o1m6Pq5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+The following is the planned fix.
+(I folded your sed code.)
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAlzh7xUACgkQAVBC80lX
-0GxtuQf/XV73OxF/ig8/6h1gF16geBlX31hBIHbQ/lqzfZ02xQ98N6dzkDP72cvK
-HAblUyWj3ZeGB6x4OASl1wCNHdRTFr5ex/422Si65InuHCelpVBYRqq6PfMljCKg
-pAaDVJ5+IUmlkMN/gSsvhJCdEaZ+5IS/C3k7TH2P1XNLaTe9C+LHpWNQfKeypmIZ
-MuFd9ufZ2bdSRUhmmoctBfDv35ErEJu9I4+bup2/E4K/AkTvv6Ux0s7EAPJYnP3Z
-c97dMHwaMUQoHlgmTHTVTCWP7ckpc/jPleu8Yyr7SQlzOPt+UIqsqKnDcb5ioAGZ
-YbrwTkP7ORCZv2fSxLpA/1V9/e1MKQ==
-=ycTi
------END PGP SIGNATURE-----
 
---Sig_/3dAX7L8JPnsN0p+_o1m6Pq5--
+
+diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
+index 2f659530e1ec..39e8cb36ba19 100755
+--- a/scripts/modules-check.sh
++++ b/scripts/modules-check.sh
+@@ -6,10 +6,10 @@ set -e
+ # Check uniqueness of module names
+ check_same_name_modules()
+ {
+-       for m in $(sed 's:.*/::' modules.order modules.builtin | sort | uniq -d)
++       for m in $(sed 's:.*/::' modules.order | sort | uniq -d)
+        do
+-               echo "warning: same basename if the following are
+built as modules:" >&2
+-               sed "/\/$m/!d;s:^kernel/:  :" modules.order modules.builtin >&2
++               echo "warning: same module names found:" >&2
++               sed -n "/\/$m/s:^kernel/:  :p" modules.order >&2
+        done
+ }
+
+
+
+
+
+
+> --
+> Cheers,
+> Stephen Rothwell
+
+
+
+--
+Best Regards
+Masahiro Yamada
