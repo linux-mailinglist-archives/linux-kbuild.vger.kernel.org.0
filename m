@@ -2,80 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4352A43A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 May 2019 13:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 725C32AB22
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 May 2019 18:26:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbfEYLtk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 25 May 2019 07:49:40 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:19685 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbfEYLtk (ORCPT
+        id S1727912AbfEZQ0h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 26 May 2019 12:26:37 -0400
+Received: from sonic309-54.consmr.mail.ne1.yahoo.com ([66.163.184.180]:33915
+        "EHLO sonic309-54.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727906AbfEZQ0h (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 25 May 2019 07:49:40 -0400
-Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x4PBnLmr006832;
-        Sat, 25 May 2019 20:49:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x4PBnLmr006832
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1558784962;
-        bh=GcQ0/FUcETTNQeH6qzQKxM8A8Qu2qmHKXiYNQ7p/tn0=;
-        h=From:To:Cc:Subject:Date:From;
-        b=CdYjXNohyx7syAc6Z486jL4ktqGmdHFwPBG20R/Sk6klfweBdmLxmZOwLjGGiW56y
-         /3Q7Hiz3cdDUnBlyGx+kOeW1e3jtr8fTfsD9YamQNastvfc0efpTvmxWsfIs/Z/fzT
-         uwF8NRs0sCOUnceAYciwtwLAG3kPu/ciwqHRS6AfuDxg8j9/cifs9EkO7EJm2b/vx8
-         DwyUf8XNjhMp8CQj9rkmio7asncHBE3f4wg+ZflbXiFgDUm8AtpubgqAC0RaCyAh8j
-         0jMB8m4iqLHfKTnCj0rXdBh0D3PyJTrjs6W5iw0UFb6lrzvM31lOk0Ru5SciX0AIzR
-         6u6F1ILeUp/vw==
-X-Nifty-SrcIP: [126.125.154.139]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: tests: fix recursive inclusion unit test
-Date:   Sat, 25 May 2019 20:49:19 +0900
-Message-Id: <20190525114919.26188-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Sun, 26 May 2019 12:26:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1558887996; bh=QFQXNGn0FJohU3l97Cng3z90qjIEAqAKmbCVyMu/adQ=; h=Date:From:Reply-To:Subject:References:From:Subject; b=dPxX9K6wyusdiZ8b2EHYQcw9LTS5EbOoGKrleTUVn6wIYIssoDK1CPoo5SMRY95KjPTftpMPZFQtjktOcUpX1Dq87UpyE8L9HuXFYa7imHNDp9Pqbahus7jFFqiI4DiKNb8se8u6nx70t7KfUHUiB8qkdb0ecscuOOndLuLamfizBlsWTbcEzyWHmbrBlCULogrfx8F3AbvCZ7L6Jryw/3sJA7rI7ur6RNIxUXjzYiNLnxFGs+CuTI6wMRVnBZpZ0DWOrUX5pyMYl7HTagQpNGW2G9D97DB3eKKLhwVqHnvEiFEwK3pF45u/dd6UdNbZBFe60L0KyRCS32dOC6lUyA==
+X-YMail-OSG: _tFzpswVM1kH2pRlNm2GGCXuZ6Zt_16HE8WgSYbuF7er4CQdmxFy6VQHfSbKaWR
+ ZGVyTxWcPHk.pKuzfz39mFeVXfkj6WzojFmF0Pmo9vmH9c_oqtXbzt8B5L8w5LqlgSQRIr0FhP1f
+ uCDUB252pzehnSHNYQd3_HFt3vaRWO8Iz5P0Bl6Lkkqts4tyH13ldHqEelaMsMK6gsOwq9t7vpVH
+ QZlwJ_SHqsbDlGq6rC8jJxdRjC1sK6_e_xu715Fcyk0dQv_scyKRpyliMvbZdd_Oyw5roM9QJbHd
+ rBmYwF54IUCr2jRYVxMeA5ERj71edEbIhkiIhQDh1OxKFHm6Pp478L9qHaE45PqASKptdp0k7s3p
+ z.xnLlXRWNTTWRRs73r2PXygoQ4vZtrEOZQ7pAY.yUjeFOidfZaHAeTAJFs8Z8EdmTk3qMRhm_Be
+ EPWgtf3of4VDXQh3yQm3Aqc8uR33WSWRGPmz8_DFWoievhoQi_m6NFQkA9lHmh5wLSu26lpyVYEz
+ BL_pnjBvF__CGXBP3ZBAtD.dGE5zy22px54ZrbYP5q.DO0cNfwVGvMsfcPZoxm1_nN7d9rA95kDB
+ NNV2LkfwKl3EuhTBrLdz40zNpBX_pbNELQu2YT0wQOErvsp8yoehD5U3tGkzoFgkC2UWDzAUeRmR
+ QkAU4taDfV8YJSFZpnC3aJGUCJ6nDuG9.seMS7.ww22fuO_n0JXY4uuqcnJOnryyL3kK_F0n2vV1
+ kOb6AFMm5s5tCkJNKxl3Bo3xsdYgOhmr62OsjcbiCvgqct5XMWFU7NheHx1I1XS9R4UyLk5qPO5v
+ UN2fRFgsMdb.BUlb3eo2qyEIFmfmNzy9eg86je2rqmiZijgPLDjvHE4KRac4cgRR1sfcOKYUkYyx
+ YedDv_qMmk1Wok2avqJWUFvCKpEyg08QW1LJ8pz5iuWWSm_cXX2PpgslJF1licBgbD9aPsrbWoVU
+ xjib53SAXGVVhxdMc6kq19Ni24g9kU.VjWTcHbLJh1DkM80dr.mbk4KrP81o6c._NyF8cUBiR6qe
+ kv_oiOpbggT98SI_UegzUPf6LGtdaNBrkcgbjkape4h_O8vMx4Ry6VzaxegPfTHHIq9PXQv12w1X
+ 9MUxnDvJPe2X3u65RZWMUJ4HtHESTX2mXhQNpBKrNF6PinOP.twh9JT1sEe5C412pW7gjA.VWGxk
+ 7SXQJ9tsPRVyvxafwZKEposar6jn7bbbO9LkSN5cC_H90yewCB1b1gXDBXlcRWM8a3S1AV28-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Sun, 26 May 2019 16:26:36 +0000
+Date:   Sun, 26 May 2019 16:24:34 +0000 (UTC)
+From:   Major Dennis Hornbeck <cd68@labourza.online>
+Reply-To: Major Dennis Hornbeck <hornbeckmajordennis637@gmail.com>
+Message-ID: <1055307886.7818108.1558887874541@mail.yahoo.com>
+Subject: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1055307886.7818108.1558887874541.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.13634 YahooMailBasic Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Adding SPDX license identifier is pretty safe; however, here is one
-exception.
+I am in the military unit here in Afghanistan, we have some amount of funds that we want to move out of the country. My partners and I need a good partner someone we can trust. It is risk free and legal. Reply to this email: hornbeckmajordennis637@gmail.com
 
-Since commit ec8f24b7faaf ("treewide: Add SPDX license identifier -
-Makefile/Kconfig"), "make testconfig" would not pass.
-
-When Kconfig detects a circular file inclusion, it displays error
-messages with a file name and a line number prefixed to each line.
-
-The unit test checks if Kconfig emits the error messages correctly
-(this also checks the line number correctness).
-
-Now that the test input has the SPDX license identifier at the very top,
-the line numbers in the expected stderr should be incremented by 1.
-
-Fixes: ec8f24b7faaf ("treewide: Add SPDX license identifier - Makefile/Kconfig")
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- scripts/kconfig/tests/err_recursive_inc/expected_stderr | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/kconfig/tests/err_recursive_inc/expected_stderr b/scripts/kconfig/tests/err_recursive_inc/expected_stderr
-index 6b582eee2176..b070a31fdfeb 100644
---- a/scripts/kconfig/tests/err_recursive_inc/expected_stderr
-+++ b/scripts/kconfig/tests/err_recursive_inc/expected_stderr
-@@ -1,6 +1,6 @@
- Recursive inclusion detected.
- Inclusion path:
-   current file : Kconfig.inc1
--  included from: Kconfig.inc3:1
--  included from: Kconfig.inc2:3
--  included from: Kconfig.inc1:4
-+  included from: Kconfig.inc3:2
-+  included from: Kconfig.inc2:4
-+  included from: Kconfig.inc1:5
--- 
-2.17.1
-
+Regards,
+Major Dennis Hornbeck.
