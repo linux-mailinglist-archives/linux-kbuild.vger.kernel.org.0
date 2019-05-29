@@ -2,96 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A639C2D77E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2019 10:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E360C2DEF6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2019 15:55:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726205AbfE2IQU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 May 2019 04:16:20 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36774 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbfE2IQU (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 May 2019 04:16:20 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v22so889203wml.1;
-        Wed, 29 May 2019 01:16:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=JAIjeJA5pieWYxedW2lPGCUTsVd6pWQMhlBtAouoTmQ=;
-        b=GOOYO5uxivJVRh/xk/zr0iCasF7ir02JitV4OIzRYgS2Mvgz4coRAmdpVbInb20CRf
-         43Sj5TCBKfQh9HR2oZYLwvJCkYIacSXUXi5vnr/SpyXHAVfG2ybeO0cCe5army09C4lw
-         d38abLP1xrz04F2l0qoNPbRJaAsQdMgEDZZGlK4Mc1nFYT76y6ZAgIdhXztHzKxzL5xe
-         D73qocAYJYNAGTxRMjTQJb49EfiHPCGJX+NyJJ9OWfkubEpP6s5AaDRJ9oljYeujvBEn
-         mg7VD+bz9flVOTlK7amOgK0czkoqp43b475SEw17dZ8zvicKUVM+azDVdeIAkalYA4nC
-         CmLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=JAIjeJA5pieWYxedW2lPGCUTsVd6pWQMhlBtAouoTmQ=;
-        b=noNs/ViL3I9gMqmuir42sidDL2joAoSLD9oMO9jbeba3NqXG+0uzpV5H/W21DnnC6/
-         ELHQp5EQ7UmoauSkAeEABOi3qRAeMWFmuot9gqjj3027HYc51YOdlW2yJ1dbT2RNGRI4
-         Z+uL2cUvsNawPKbCN6cDySzypNOIa0kahA/JyEYOTdCXyXB4KDVuQEW7A0O9UUtrEiSP
-         g2Q6GaRwly35lvtE8UpGxtJCa1XtChEQxHhvOmaeiWVC0hjOapI6c3IJ4GZhB72tWPkX
-         3blnupyIlwORNdzJ03BIuufX8xpKOyf0N3nw0uSR0ycTJiTW3DozEroGr8XxSoSF4hwc
-         yd5g==
-X-Gm-Message-State: APjAAAW4+XKMAonhqBPTzbIpjIzkjETEPyLDMgQpJ0GZE4+xlhP6y3zo
-        jgf4rLaV1TeFfRdi7vEHyE4=
-X-Google-Smtp-Source: APXvYqyGSyvhN3/M/wGK1MB8/Loq9okLbB2YGmJmemOMF44S8TGMYvvgIgxWRGkea3U9lPFoDBk+Qg==
-X-Received: by 2002:a7b:c8c1:: with SMTP id f1mr5472410wml.159.1559117773340;
-        Wed, 29 May 2019 01:16:13 -0700 (PDT)
-Received: from macbookpro.malat.net (bru31-1-78-225-224-134.fbx.proxad.net. [78.225.224.134])
-        by smtp.gmail.com with ESMTPSA id k13sm3308997wmj.10.2019.05.29.01.16.11
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 29 May 2019 01:16:11 -0700 (PDT)
-Received: by macbookpro.malat.net (Postfix, from userid 1000)
-        id 7776211402E3; Wed, 29 May 2019 10:04:40 +0200 (CEST)
-From:   Mathieu Malaterre <malat@debian.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Mathieu Malaterre <malat@debian.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: Remove -Waggregate-return from scripts/Makefile.extrawarn
-Date:   Wed, 29 May 2019 10:04:34 +0200
-Message-Id: <20190529080434.1409-1-malat@debian.org>
-X-Mailer: git-send-email 2.20.1
+        id S1727160AbfE2NzV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 May 2019 09:55:21 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44019 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727056AbfE2NzV (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 29 May 2019 09:55:21 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 45DXKL1HWpz9s3Z;
+        Wed, 29 May 2019 23:55:17 +1000 (AEST)
+From:   Michael Ellerman <mpe@ellerman.id.au>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Christoph Hellwig <hch@infradead.org>
+Cc:     linuxppc-dev@ozlabs.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH] powerpc/configs: Rename foo_basic_defconfig to foo_base.config
+In-Reply-To: <CAK7LNAS3iTOeX5b2F7E9PeWqma1_hx7Tbrt2V=3fvrqhSk5Zug@mail.gmail.com>
+References: <20190528081614.26096-1-mpe@ellerman.id.au> <20190528121009.GA11901@infradead.org> <CAK7LNAS3iTOeX5b2F7E9PeWqma1_hx7Tbrt2V=3fvrqhSk5Zug@mail.gmail.com>
+Date:   Wed, 29 May 2019 23:55:16 +1000
+Message-ID: <87zhn5nz5n.fsf@concordia.ellerman.id.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It makes little sense to pass -Waggregate-return these days since large
-part of the linux kernel rely on returning struct(s). For instance:
+Masahiro Yamada <yamada.masahiro@socionext.com> writes:
+> On Tue, May 28, 2019 at 9:10 PM Christoph Hellwig <hch@infradead.org> wrote:
+>>
+>> On Tue, May 28, 2019 at 06:16:14PM +1000, Michael Ellerman wrote:
+>> > We have several "defconfigs" that are not actually full defconfigs
+>> > they are just a base set of options which are then merged with other
+>> > fragments to produce a working defconfig.
+>
+> The default values from Kconfig files are used
+> where CONFIG options are not specified by the defconfig.
+>
+> So, I think corenet_basic_defconfig is a full defconfig
+> even if it contains a single CONFIG option.
 
-  ../include/linux/timekeeping.h: In function 'show_uptime':
-  ../include/linux/ktime.h:91:34: error: function call has aggregate value [-Werror=aggregate-return]
-   #define ktime_to_timespec64(kt)  ns_to_timespec64((kt))
-                                    ^~~~~~~~~~~~~~~~~~~~~~
-  ../include/linux/timekeeping.h:166:8: note: in expansion of macro 'ktime_to_timespec64'
-    *ts = ktime_to_timespec64(ktime_get_coarse_boottime());
+That's technically true, but it's not a full defconfig in the sense that
+it doesn't define a meaningful set of options for building for a
+specific machine. In fact if you build it you get a .config that doesn't
+include the one option it defines, CONFIG_CORENET_GENERIC=y.
 
-Remove this warning from W=2 completely.
+> Since the difference between "*_defconfig" and "*.config"
+> is ambiguous in some cases, it depends on the intended usage.
 
-Signed-off-by: Mathieu Malaterre <malat@debian.org>
----
- scripts/Makefile.extrawarn | 1 -
- 1 file changed, 1 deletion(-)
+I'm pretty sure all the existing foo.config files are fragments that are
+intended to be merged with an existing .config or other fragments.
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 3ab8d1a303cd..98081ab300e5 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -34,7 +34,6 @@ warning-1 += $(call cc-option, -Wstringop-truncation)
- warning-1 += -Wno-missing-field-initializers
- warning-1 += -Wno-sign-compare
- 
--warning-2 := -Waggregate-return
- warning-2 += -Wcast-align
- warning-2 += -Wdisabled-optimization
- warning-2 += -Wnested-externs
--- 
-2.20.1
+ie:
 
+These are fragments:
+  arch/arm/configs/dram_0x00000000.config
+  arch/arm/configs/dram_0xc0000000.config
+  arch/arm/configs/dram_0xd0000000.config
+
+These are all fragments:
+  arch/powerpc/configs/be.config
+  arch/powerpc/configs/book3s_32.config
+  arch/powerpc/configs/altivec.config
+  arch/powerpc/configs/85xx-hw.config
+  arch/powerpc/configs/guest.config
+  arch/powerpc/configs/85xx-smp.config
+  arch/powerpc/configs/85xx-64bit.config
+  arch/powerpc/configs/dpaa.config
+  arch/powerpc/configs/85xx-32bit.config
+  arch/powerpc/configs/fsl-emb-nonhw.config
+  arch/powerpc/configs/86xx-smp.config
+  arch/powerpc/configs/le.config
+  arch/powerpc/configs/86xx-hw.config
+
+Pretty sure these all are, they're used in gen_generic_defconfigs in arch/mips/Makefile:
+  arch/mips/configs/generic/board-xilfpga.config
+  arch/mips/configs/generic/board-ocelot.config
+  arch/mips/configs/generic/board-ni169445.config
+  arch/mips/configs/generic/32r6.config
+  arch/mips/configs/generic/64r1.config
+  arch/mips/configs/generic/32r1.config
+  arch/mips/configs/generic/64r6.config
+  arch/mips/configs/generic/eb.config
+  arch/mips/configs/generic/micro32r2.config
+  arch/mips/configs/generic/32r2.config
+  arch/mips/configs/generic/board-boston.config
+  arch/mips/configs/generic/el.config
+  arch/mips/configs/generic/board-ranchu.config
+  arch/mips/configs/generic/64r2.config
+  arch/mips/configs/generic/board-sead-3.config
+
+These are also both fragments:
+  arch/x86/configs/tiny.config
+  arch/x86/configs/xen.config
+
+
+>> > The most obvious example is corenet_basic_defconfig which only
+>> > contains one symbol CONFIG_CORENET_GENERIC=y. But there is also
+>> > mpc85xx_base_defconfig which doesn't actually enable CONFIG_PPC_85xx.
+>> >
+>> > To avoid confusion, rename these config fragments to "foo_base.config"
+>> > to make it clearer that they are not full defconfigs.
+>>
+>> Adding linux-kbuild, maybe we can make the handling of these fragments
+>> generic and actually document it..
+>
+> I do not know how it should be documented.
+
+Me either.
+
+cheers
