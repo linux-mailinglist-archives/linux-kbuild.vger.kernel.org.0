@@ -2,87 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61FAF2D31B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2019 03:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A639C2D77E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2019 10:16:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725860AbfE2BN0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 May 2019 21:13:26 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:62786 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbfE2BNZ (ORCPT
+        id S1726205AbfE2IQU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 May 2019 04:16:20 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36774 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbfE2IQU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 May 2019 21:13:25 -0400
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x4T1DEj4010106
-        for <linux-kbuild@vger.kernel.org>; Wed, 29 May 2019 10:13:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x4T1DEj4010106
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559092394;
-        bh=JVo7Gu4s6uCXMWUmPFWX1Tl9nkw2D7/1iYwZy2KQgjM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hbwihhhKTN7JqmNYetwOOt8tfjxiVPwZYZsVeIzRlkua8E7iMLPI1Is81PFnqhIT/
-         aFiHk0TyTK5bhr40XQcMlTZyJ7l4YKSXlVqIeuWXSm1anIxMZE8eHY3i56gKqHUj7L
-         X6AQZf/aqAL53/lX53DlhP/TO/jGdn6EHNrt/YkYDM7O9xBW3IgJUKAFWY23ahMVIG
-         cun+poPXMLZPp4lTSTJHq/JVfh3294yGV7zoT60StFErl1LvWwLG9ignqNhnq8zHAb
-         4JkiXYCWDFOtcxn7izZly36k45pqo9RstgBfke1t+6GkTVQOUVt1d9lrlGGrNRaMBW
-         T0bEOSL4mFK3w==
-X-Nifty-SrcIP: [209.85.222.51]
-Received: by mail-ua1-f51.google.com with SMTP id 7so230785uah.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 May 2019 18:13:14 -0700 (PDT)
-X-Gm-Message-State: APjAAAVW1LLYbYGK33CZKO66q8i6r2uj++0Er7h1vkoPYd9sft4BY1YP
-        02T5+Lzj1Njy7i7NO/VWkal188C9374czSB3CE8=
-X-Google-Smtp-Source: APXvYqyazbtH+h+SfG6ruKEJWYuaebYqZTHWAQ5FaWtp3DXwAp71P1lMSbJrD22GtDkGIDBa1hgrFfv1gFsnOfMQ8yE=
-X-Received: by 2002:a9f:366b:: with SMTP id s40mr29423810uad.121.1559092393373;
- Tue, 28 May 2019 18:13:13 -0700 (PDT)
+        Wed, 29 May 2019 04:16:20 -0400
+Received: by mail-wm1-f68.google.com with SMTP id v22so889203wml.1;
+        Wed, 29 May 2019 01:16:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JAIjeJA5pieWYxedW2lPGCUTsVd6pWQMhlBtAouoTmQ=;
+        b=GOOYO5uxivJVRh/xk/zr0iCasF7ir02JitV4OIzRYgS2Mvgz4coRAmdpVbInb20CRf
+         43Sj5TCBKfQh9HR2oZYLwvJCkYIacSXUXi5vnr/SpyXHAVfG2ybeO0cCe5army09C4lw
+         d38abLP1xrz04F2l0qoNPbRJaAsQdMgEDZZGlK4Mc1nFYT76y6ZAgIdhXztHzKxzL5xe
+         D73qocAYJYNAGTxRMjTQJb49EfiHPCGJX+NyJJ9OWfkubEpP6s5AaDRJ9oljYeujvBEn
+         mg7VD+bz9flVOTlK7amOgK0czkoqp43b475SEw17dZ8zvicKUVM+azDVdeIAkalYA4nC
+         CmLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=JAIjeJA5pieWYxedW2lPGCUTsVd6pWQMhlBtAouoTmQ=;
+        b=noNs/ViL3I9gMqmuir42sidDL2joAoSLD9oMO9jbeba3NqXG+0uzpV5H/W21DnnC6/
+         ELHQp5EQ7UmoauSkAeEABOi3qRAeMWFmuot9gqjj3027HYc51YOdlW2yJ1dbT2RNGRI4
+         Z+uL2cUvsNawPKbCN6cDySzypNOIa0kahA/JyEYOTdCXyXB4KDVuQEW7A0O9UUtrEiSP
+         g2Q6GaRwly35lvtE8UpGxtJCa1XtChEQxHhvOmaeiWVC0hjOapI6c3IJ4GZhB72tWPkX
+         3blnupyIlwORNdzJ03BIuufX8xpKOyf0N3nw0uSR0ycTJiTW3DozEroGr8XxSoSF4hwc
+         yd5g==
+X-Gm-Message-State: APjAAAW4+XKMAonhqBPTzbIpjIzkjETEPyLDMgQpJ0GZE4+xlhP6y3zo
+        jgf4rLaV1TeFfRdi7vEHyE4=
+X-Google-Smtp-Source: APXvYqyGSyvhN3/M/wGK1MB8/Loq9okLbB2YGmJmemOMF44S8TGMYvvgIgxWRGkea3U9lPFoDBk+Qg==
+X-Received: by 2002:a7b:c8c1:: with SMTP id f1mr5472410wml.159.1559117773340;
+        Wed, 29 May 2019 01:16:13 -0700 (PDT)
+Received: from macbookpro.malat.net (bru31-1-78-225-224-134.fbx.proxad.net. [78.225.224.134])
+        by smtp.gmail.com with ESMTPSA id k13sm3308997wmj.10.2019.05.29.01.16.11
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 29 May 2019 01:16:11 -0700 (PDT)
+Received: by macbookpro.malat.net (Postfix, from userid 1000)
+        id 7776211402E3; Wed, 29 May 2019 10:04:40 +0200 (CEST)
+From:   Mathieu Malaterre <malat@debian.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Mathieu Malaterre <malat@debian.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: Remove -Waggregate-return from scripts/Makefile.extrawarn
+Date:   Wed, 29 May 2019 10:04:34 +0200
+Message-Id: <20190529080434.1409-1-malat@debian.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190528121148.GA18162@lst.de>
-In-Reply-To: <20190528121148.GA18162@lst.de>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 29 May 2019 10:12:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQRW+phJrdR-5NfUE9L09O-nRiimfW5rB8Y8S9POtkxCA@mail.gmail.com>
-Message-ID: <CAK7LNAQRW+phJrdR-5NfUE9L09O-nRiimfW5rB8Y8S9POtkxCA@mail.gmail.com>
-Subject: Re: building individual files in subdirectories
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 28, 2019 at 9:12 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> A few kernel modules have source files in multiple subdirectories.
-> Trying to build just a single object of a source file in such a
-> subdirectory currently doesn't work.
->
-> For example:
->
-> hch@brick:~/work/xfs$ make fs/xfs/libxfs/xfs_alloc.o
->   CALL    scripts/checksyscalls.sh
->   CALL    scripts/atomic/check-atomics.sh
->   DESCEND  objtool
-> scripts/Makefile.build:42: fs/xfs/libxfs/Makefile: No such file or directory
-> make[1]: *** No rule to make target 'fs/xfs/libxfs/Makefile'.  Stop.
-> make: *** [Makefile:1747: fs/xfs/libxfs/xfs_alloc.o] Error 2
->
-> Is there any reasonably easy way to get this to work?
+It makes little sense to pass -Waggregate-return these days since large
+part of the linux kernel rely on returning struct(s). For instance:
 
+  ../include/linux/timekeeping.h: In function 'show_uptime':
+  ../include/linux/ktime.h:91:34: error: function call has aggregate value [-Werror=aggregate-return]
+   #define ktime_to_timespec64(kt)  ns_to_timespec64((kt))
+                                    ^~~~~~~~~~~~~~~~~~~~~~
+  ../include/linux/timekeeping.h:166:8: note: in expansion of macro 'ktime_to_timespec64'
+    *ts = ktime_to_timespec64(ktime_get_coarse_boottime());
 
-While single targets are useful,
-they never work correctly.
-subdir-ccflags-y from upper Makefiles
-are not inherited.
+Remove this warning from W=2 completely.
 
-I want to implement single targets correctly, but
-I have never got around to it.
+Signed-off-by: Mathieu Malaterre <malat@debian.org>
+---
+ scripts/Makefile.extrawarn | 1 -
+ 1 file changed, 1 deletion(-)
 
-"make fs/xfs/" is an alternative solution
-although it will compile much more than you want.
-
-Another solution is to put a dummy
-fs/xfs/libxfs/Makefile
-
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 3ab8d1a303cd..98081ab300e5 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -34,7 +34,6 @@ warning-1 += $(call cc-option, -Wstringop-truncation)
+ warning-1 += -Wno-missing-field-initializers
+ warning-1 += -Wno-sign-compare
+ 
+-warning-2 := -Waggregate-return
+ warning-2 += -Wcast-align
+ warning-2 += -Wdisabled-optimization
+ warning-2 += -Wnested-externs
 -- 
-Best Regards
-Masahiro Yamada
+2.20.1
+
