@@ -2,119 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E360C2DEF6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 May 2019 15:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E27430284
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 May 2019 21:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727160AbfE2NzV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 May 2019 09:55:21 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:44019 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727056AbfE2NzV (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 May 2019 09:55:21 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 45DXKL1HWpz9s3Z;
-        Wed, 29 May 2019 23:55:17 +1000 (AEST)
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Christoph Hellwig <hch@infradead.org>
-Cc:     linuxppc-dev@ozlabs.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] powerpc/configs: Rename foo_basic_defconfig to foo_base.config
-In-Reply-To: <CAK7LNAS3iTOeX5b2F7E9PeWqma1_hx7Tbrt2V=3fvrqhSk5Zug@mail.gmail.com>
-References: <20190528081614.26096-1-mpe@ellerman.id.au> <20190528121009.GA11901@infradead.org> <CAK7LNAS3iTOeX5b2F7E9PeWqma1_hx7Tbrt2V=3fvrqhSk5Zug@mail.gmail.com>
-Date:   Wed, 29 May 2019 23:55:16 +1000
-Message-ID: <87zhn5nz5n.fsf@concordia.ellerman.id.au>
+        id S1726376AbfE3TAo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 May 2019 15:00:44 -0400
+Received: from mail-it1-f193.google.com ([209.85.166.193]:53685 "EHLO
+        mail-it1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726031AbfE3TAo (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 30 May 2019 15:00:44 -0400
+Received: by mail-it1-f193.google.com with SMTP id m141so11713622ita.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 May 2019 12:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=g0Bpz5g3wFYP+gFqu/rKlcFZijNC01hWKfryp13lVZg=;
+        b=Ky6dub8QT52Rk0/nNqKV5C0hm/w/refBURtacKKAHngq2xoZ7WwVxHRdeC64kDIFdZ
+         iquNVWvagd8VLvpGxnwIuugblubUXipLgChUYQn06i62bdbrWXM7Jq3kDNBMVE5qJvNP
+         dF/U/SUceJpCYhXyAejmqRczACmE6f+Wx5S15Jl30pJUkLqFuh9iYUMLMDOeohZCw5kX
+         e0ugIo2TT2lql+JHsJ/9c9WFHic9OcpLCqLjt2cAW7KAEaYXgBKnpxCCCSXJeivoE7g9
+         +6LLI7mRZF7WLo3E5q5xz3XHZEo63zFta0tlRxmuiGhEjd5YiJ7T1TyzrwReBAOyLCsV
+         VRpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=g0Bpz5g3wFYP+gFqu/rKlcFZijNC01hWKfryp13lVZg=;
+        b=ntLnap6fUhPxnouwk4wkjukoBpDrMVCDBRygyg4RxYXsrOxhL0Ui0Excm3wSeurwpH
+         0M2dFFm7Ub1mIMcgfZR801Pn9upRfkhEhVixygSlWxeFmXd85/hx9ii772UmoyVqj3mI
+         9mDVTYDYWZ7Lnb4useqZcDJbdofhEVAyxMI1PxbZ262K84UzOKxaYOwZp35i9AHpw2BQ
+         QFaUBt7nTt82Nk6FOuLp2Mp7rKo68/bkiLYG7CCVC9IA872HXLYboB9Jr9eZU2bwbsMB
+         kUeQZ+BomDrc1g8GHGzZqG7aRsTrwUbVkWs1QLNWbDnBlyZ5H17UD0ueKQMFtHo3s0W3
+         ti/Q==
+X-Gm-Message-State: APjAAAWF2bHtLLsvFoWdX+7YyTPxs78Cuqc5IDGcPuRAQSLiY1eAg6BF
+        IDCLG1A84yYD6VWWNrvN75r4qg==
+X-Google-Smtp-Source: APXvYqyKXl2q2RSNBQnP6EwLTaHXV0/ufh3qXiNoV187B71OoVq7DmrXop5Gem4wTHVd/C4cxsGYMw==
+X-Received: by 2002:a24:c8c2:: with SMTP id w185mr3850842itf.149.1559242843573;
+        Thu, 30 May 2019 12:00:43 -0700 (PDT)
+Received: from localhost (c-75-72-120-115.hsd1.mn.comcast.net. [75.72.120.115])
+        by smtp.gmail.com with ESMTPSA id x20sm1146240ioa.40.2019.05.30.12.00.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 30 May 2019 12:00:42 -0700 (PDT)
+Date:   Thu, 30 May 2019 14:00:41 -0500
+From:   Dan Rue <dan.rue@linaro.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kselftest@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: teach kselftest-merge to find nested config files
+Message-ID: <20190530190041.m6535ihflbgr2q3m@xps.therub.org>
+References: <20190520151614.19188-1-dan.rue@linaro.org>
+ <20190520175641.GA14339@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190520175641.GA14339@kroah.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <yamada.masahiro@socionext.com> writes:
-> On Tue, May 28, 2019 at 9:10 PM Christoph Hellwig <hch@infradead.org> wrote:
->>
->> On Tue, May 28, 2019 at 06:16:14PM +1000, Michael Ellerman wrote:
->> > We have several "defconfigs" that are not actually full defconfigs
->> > they are just a base set of options which are then merged with other
->> > fragments to produce a working defconfig.
->
-> The default values from Kconfig files are used
-> where CONFIG options are not specified by the defconfig.
->
-> So, I think corenet_basic_defconfig is a full defconfig
-> even if it contains a single CONFIG option.
+On Mon, May 20, 2019 at 07:56:41PM +0200, Greg KH wrote:
+> On Mon, May 20, 2019 at 10:16:14AM -0500, Dan Rue wrote:
+> > Current implementation of kselftest-merge only finds config files that
+> > are one level deep using `$(srctree)/tools/testing/selftests/*/config`.
+> > 
+> > Often, config files are added in nested directories, and do not get
+> > picked up by kselftest-merge.
+> > 
+> > Use `find` to catch all config files under
+> > `$(srctree)/tools/testing/selftests` instead.
+> > 
+> > Signed-off-by: Dan Rue <dan.rue@linaro.org>
+> > ---
+> >  Makefile | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> To be more specific here, the binderfs test is not catching the config
+> entry, so it would be nice to get this into the stable trees as well :)
+> 
+> > diff --git a/Makefile b/Makefile
+> > index a45f84a7e811..e99e7f9484af 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1228,9 +1228,8 @@ kselftest-clean:
+> >  PHONY += kselftest-merge
+> >  kselftest-merge:
+> >  	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+> > -	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
+> > -		-m $(objtree)/.config \
+> > -		$(srctree)/tools/testing/selftests/*/config
+> > +	$(Q)find $(srctree)/tools/testing/selftests -name config | \
+> > +		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+> >  	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+> >  
+> >  # ---------------------------------------------------------------------------
+> 
+> is find run with $(Q)?  It isn't with other instances in the Makefile.
 
-That's technically true, but it's not a full defconfig in the sense that
-it doesn't define a meaningful set of options for building for a
-specific machine. In fact if you build it you get a .config that doesn't
-include the one option it defines, CONFIG_CORENET_GENERIC=y.
+I'm not entirely sure all the ways that $(Q) is used (it looks like it
+just gets set to @), but if i run 'KBUILD_VERBOSE=1 make
+kselftest-merge' I do see the find command printed before running:
 
-> Since the difference between "*_defconfig" and "*.config"
-> is ambiguous in some cases, it depends on the intended usage.
+    find ./tools/testing/selftests -name config | \
+          xargs ./scripts/kconfig/merge_config.sh -m ./.config
 
-I'm pretty sure all the existing foo.config files are fragments that are
-intended to be merged with an existing .config or other fragments.
+I noticed find used inconsistently (sometimes with @, sometimes with
+$(Q), sometimes with neither), so I picked the usage that seemed most
+correct to me.
 
-ie:
+Dan
 
-These are fragments:
-  arch/arm/configs/dram_0x00000000.config
-  arch/arm/configs/dram_0xc0000000.config
-  arch/arm/configs/dram_0xd0000000.config
+> 
+> thanks,
+> 
+> greg k-h
 
-These are all fragments:
-  arch/powerpc/configs/be.config
-  arch/powerpc/configs/book3s_32.config
-  arch/powerpc/configs/altivec.config
-  arch/powerpc/configs/85xx-hw.config
-  arch/powerpc/configs/guest.config
-  arch/powerpc/configs/85xx-smp.config
-  arch/powerpc/configs/85xx-64bit.config
-  arch/powerpc/configs/dpaa.config
-  arch/powerpc/configs/85xx-32bit.config
-  arch/powerpc/configs/fsl-emb-nonhw.config
-  arch/powerpc/configs/86xx-smp.config
-  arch/powerpc/configs/le.config
-  arch/powerpc/configs/86xx-hw.config
-
-Pretty sure these all are, they're used in gen_generic_defconfigs in arch/mips/Makefile:
-  arch/mips/configs/generic/board-xilfpga.config
-  arch/mips/configs/generic/board-ocelot.config
-  arch/mips/configs/generic/board-ni169445.config
-  arch/mips/configs/generic/32r6.config
-  arch/mips/configs/generic/64r1.config
-  arch/mips/configs/generic/32r1.config
-  arch/mips/configs/generic/64r6.config
-  arch/mips/configs/generic/eb.config
-  arch/mips/configs/generic/micro32r2.config
-  arch/mips/configs/generic/32r2.config
-  arch/mips/configs/generic/board-boston.config
-  arch/mips/configs/generic/el.config
-  arch/mips/configs/generic/board-ranchu.config
-  arch/mips/configs/generic/64r2.config
-  arch/mips/configs/generic/board-sead-3.config
-
-These are also both fragments:
-  arch/x86/configs/tiny.config
-  arch/x86/configs/xen.config
-
-
->> > The most obvious example is corenet_basic_defconfig which only
->> > contains one symbol CONFIG_CORENET_GENERIC=y. But there is also
->> > mpc85xx_base_defconfig which doesn't actually enable CONFIG_PPC_85xx.
->> >
->> > To avoid confusion, rename these config fragments to "foo_base.config"
->> > to make it clearer that they are not full defconfigs.
->>
->> Adding linux-kbuild, maybe we can make the handling of these fragments
->> generic and actually document it..
->
-> I do not know how it should be documented.
-
-Me either.
-
-cheers
+-- 
+Linaro - Kernel Validation
