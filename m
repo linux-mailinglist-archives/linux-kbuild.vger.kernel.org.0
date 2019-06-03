@@ -2,112 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07CBB32EE9
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2019 13:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E630D32FE9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Jun 2019 14:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbfFCLqE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Jun 2019 07:46:04 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:43326 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726336AbfFCLqE (ORCPT
+        id S1727141AbfFCMnP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Jun 2019 08:43:15 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:25128 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726379AbfFCMnP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Jun 2019 07:46:04 -0400
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x53BjrOD005594;
-        Mon, 3 Jun 2019 20:45:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x53BjrOD005594
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559562354;
-        bh=xcdVS2lZM1a48jGewJjV7DieZdVaVvo2sv103QVTF4A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vD2ZSXItTjKjdiNBHbKw3ZwxymGkS+mFzGNJdILthjozmnTu79/V5i1V8R22/nnLr
-         3Bw8q1gvPjzDonVsJOuFRSuMKPvOQAUdQaZmuCbo0GRiGSBfxaddMQx1ahOH8UJqTx
-         YfHiSmxDHnUIL+meK6FxxCOVklZh415UQpOq1Dp0zXb3EiK/jpR2st9Kjvipf0isXu
-         A5q5swRbapK7hp912uNtA2dqkyZEP2HMa1B5c0V0HrNiot0WqaCOeKEbm0bkGoddoU
-         csou2T6LFFYdEKH87VrsG7p35LArxmFUjTiFl5fSqOU9j7jWNvgLKYgGp4n52MswfN
-         ml+ums0o22Y+Q==
-X-Nifty-SrcIP: [209.85.221.180]
-Received: by mail-vk1-f180.google.com with SMTP id k1so2803503vkb.2;
-        Mon, 03 Jun 2019 04:45:53 -0700 (PDT)
-X-Gm-Message-State: APjAAAW2o2ixN0XDlOCxvgENyQLU56pos+NFFWK8eeRKkM8sW1+L1gAb
-        Dla9sbdsjNZeex+fZGoENQmmtTBpcODboDmwks8=
-X-Google-Smtp-Source: APXvYqxzUHPoQIku6KGXaYa9Qp+9KgMH/y/NROsn43MQouSz1p//qa19a5lw5lYTcOIKJq2hnfSJHM9bQSGQoQwpkgs=
-X-Received: by 2002:ac5:c215:: with SMTP id m21mr8858804vkk.84.1559562352459;
- Mon, 03 Jun 2019 04:45:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190603104902.23799-1-yamada.masahiro@socionext.com> <3dcacca3f71c46cc98fa64b13a405b59@AcuMS.aculab.com>
-In-Reply-To: <3dcacca3f71c46cc98fa64b13a405b59@AcuMS.aculab.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 3 Jun 2019 20:45:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATt=P5rHrnK_8PTmjMb+tdtPg2qBgopRUDBFw_fkP2SsQ@mail.gmail.com>
-Message-ID: <CAK7LNATt=P5rHrnK_8PTmjMb+tdtPg2qBgopRUDBFw_fkP2SsQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use more portable 'command -v' for cc-cross-prefix
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Vineet Gupta <vgupta@synopsys.com>,
+        Mon, 3 Jun 2019 08:43:15 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id uk-mta-6-SDVVZ0DCOw-CfAQMUB-rxA-1;
+ Mon, 03 Jun 2019 13:43:09 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Mon, 3 Jun 2019 13:43:08 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Mon, 3 Jun 2019 13:43:08 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Masahiro Yamada' <yamada.masahiro@socionext.com>
+CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "Vineet Gupta" <vgupta@synopsys.com>,
         Alexey Brodkin <abrodkin@synopsys.com>,
         "linux-snps-arc@lists.infradead.org" 
         <linux-snps-arc@lists.infradead.org>,
         linux-stable <stable@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: RE: [PATCH] kbuild: use more portable 'command -v' for
+ cc-cross-prefix
+Thread-Topic: [PATCH] kbuild: use more portable 'command -v' for
+ cc-cross-prefix
+Thread-Index: AQHVGfoc7Nk6FX5Ty02s910sxgLWxaaJxwdw///34ACAAB3mMA==
+Date:   Mon, 3 Jun 2019 12:43:08 +0000
+Message-ID: <1ca8a995328f449fa58f732ebe70e378@AcuMS.aculab.com>
+References: <20190603104902.23799-1-yamada.masahiro@socionext.com>
+ <3dcacca3f71c46cc98fa64b13a405b59@AcuMS.aculab.com>
+ <CAK7LNATt=P5rHrnK_8PTmjMb+tdtPg2qBgopRUDBFw_fkP2SsQ@mail.gmail.com>
+In-Reply-To: <CAK7LNATt=P5rHrnK_8PTmjMb+tdtPg2qBgopRUDBFw_fkP2SsQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-MC-Unique: SDVVZ0DCOw-CfAQMUB-rxA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 3, 2019 at 8:16 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Masahiro Yamada
-> > Sent: 03 June 2019 11:49
-> >
-> > To print the pathname that will be used by shell in the current
-> > environment, 'command -v' is a standardized way. [1]
-> >
-> > 'which' is also often used in scripting, but it is not portable.
->
-> All uses of 'which' should be expunged.
-> It is a bourne shell script that is trying to emulate a csh builtin.
-> It is doomed to fail in corner cases.
-> ISTR it has serious problems with shell functions and aliases.
+RnJvbTogTWFzYWhpcm8gWWFtYWRhDQo+IFNlbnQ6IDAzIEp1bmUgMjAxOSAxMjo0NQ0KPiBPbiBN
+b24sIEp1biAzLCAyMDE5IGF0IDg6MTYgUE0gRGF2aWQgTGFpZ2h0IDxEYXZpZC5MYWlnaHRAYWN1
+bGFiLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBGcm9tOiBNYXNhaGlybyBZYW1hZGENCj4gPiA+IFNl
+bnQ6IDAzIEp1bmUgMjAxOSAxMTo0OQ0KPiA+ID4NCj4gPiA+IFRvIHByaW50IHRoZSBwYXRobmFt
+ZSB0aGF0IHdpbGwgYmUgdXNlZCBieSBzaGVsbCBpbiB0aGUgY3VycmVudA0KPiA+ID4gZW52aXJv
+bm1lbnQsICdjb21tYW5kIC12JyBpcyBhIHN0YW5kYXJkaXplZCB3YXkuIFsxXQ0KPiA+ID4NCj4g
+PiA+ICd3aGljaCcgaXMgYWxzbyBvZnRlbiB1c2VkIGluIHNjcmlwdGluZywgYnV0IGl0IGlzIG5v
+dCBwb3J0YWJsZS4NCj4gPg0KPiA+IEFsbCB1c2VzIG9mICd3aGljaCcgc2hvdWxkIGJlIGV4cHVu
+Z2VkLg0KPiA+IEl0IGlzIGEgYm91cm5lIHNoZWxsIHNjcmlwdCB0aGF0IGlzIHRyeWluZyB0byBl
+bXVsYXRlIGEgY3NoIGJ1aWx0aW4uDQo+ID4gSXQgaXMgZG9vbWVkIHRvIGZhaWwgaW4gY29ybmVy
+IGNhc2VzLg0KPiA+IElTVFIgaXQgaGFzIHNlcmlvdXMgcHJvYmxlbXMgd2l0aCBzaGVsbCBmdW5j
+dGlvbnMgYW5kIGFsaWFzZXMuDQo+IA0KPiBPSywgSSBkbyBub3QgaGF2ZSB0aW1lIHRvIGNoZWNr
+IGl0IHRyZWV3aWRlLg0KPiBJIGV4cGVjdCBzb21lYm9keSB3aWxsIGNvbnRyaWJ1dGUgdG8gaXQu
+DQo+IA0KPiANCj4gDQo+IEJUVywgSSBzZWUgeWV0IGFub3RoZXIgd2F5IHRvIGdldCB0aGUgY29t
+bWFuZCBwYXRoLg0KPiANCj4gJ3R5cGUgLXBhdGgnIGlzIGJhc2gtc3BlY2lmaWMuDQoNCid0eXBl
+JyBpdHNlbGYgc2hvdWxkIGJlIHN1cHBvcnRlZCBieSBhbGwgc2hlbGxzLCBidXQgdGhlIG91dHB1
+dA0KZm9ybWF0IChlc3AgZm9yIGVycm9ycykgcHJvYmFibHkgdmFyaWVzLg0KDQo+IE1heWJlLCB3
+ZSBzaG91bGQgZG8gdGhpcyB0b286DQo+IA0KPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9ta3Vib290
+LnNoIGIvc2NyaXB0cy9ta3Vib290LnNoDQo+IGluZGV4IDRiMWZlMDllOTA0Mi4uNzc4MjllZTQy
+NjhlIDEwMDc1NQ0KPiAtLS0gYS9zY3JpcHRzL21rdWJvb3Quc2gNCj4gKysrIGIvc2NyaXB0cy9t
+a3Vib290LnNoDQo+IEBAIC0xLDE0ICsxLDE0IEBADQo+IC0jIS9iaW4vYmFzaA0KPiArIyEvYmlu
+L3NoDQoNCi9iaW4vc2ggbWlnaHQgYmUgJ2Rhc2gnIC0gd2hpY2ggaXMganVzdCBwbGFpbiBicm9r
+ZW4gaW4gc28gbWFueSB3YXlzLg0KVHJ5IChJSVJDKSAke2ZvbyUke2ZvbyNiYXJ9fQ0KSXQgbWln
+aHQgZXZlbiBiZSB0aGUgb3JpZ2luYWwgU1lTViAvYmluL3NoIHdoaWNoIGRvZXNuJ3Qgc3VwcG9y
+dCAkKChleHByKSkNCm9yICR7Zm9vI2Jhcn0gLSBidXQgdGhhdCBtYXkgYnJlYWsgdG9vIG11Y2gs
+IGJ1dCAkU0hFTEwgbWlnaHQgZml4IGl0Lg0KDQpkYXNoIHByb2JhYmx5IGhhcyB0aGUgcmF0aGVy
+IG9ic2N1cmUgYnVnIGluIHN0cmlwcGluZyAnXG4nIGZyb20gJCguLi4pDQpvdXRwdXQgdGhhdCBJ
+IGZvdW5kIGFuZCBmaXhlZCBpbiBOZXRCU0QncyBhc2ggbWF5IHllYXJzIGFnby4NClRyeTogZm9v
+PSIkKGpvdCAtYiAiIiAxMzApIg0KQWxsIDEzMCAnXG4nIHNob3VsZCBiZSBkZWxldGVkLg0KTW9z
+dGx5IGl0IGZhaWxzIHRvIGRlbGV0ZSBhbGwgdGhlICdcbicsIGJ1dCBpdCBjYW4gcmVtb3ZlIGV4
+dHJhIG9uZXMhDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJy
+YW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lz
+dHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-OK, I do not have time to check it treewide.
-I expect somebody will contribute to it.
-
-
-
-BTW, I see yet another way to get the command path.
-
-'type -path' is bash-specific.
-
-Maybe, we should do this too:
-
-diff --git a/scripts/mkuboot.sh b/scripts/mkuboot.sh
-index 4b1fe09e9042..77829ee4268e 100755
---- a/scripts/mkuboot.sh
-+++ b/scripts/mkuboot.sh
-@@ -1,14 +1,14 @@
--#!/bin/bash
-+#!/bin/sh
- # SPDX-License-Identifier: GPL-2.0
-
- #
- # Build U-Boot image when `mkimage' tool is available.
- #
-
--MKIMAGE=$(type -path "${CROSS_COMPILE}mkimage")
-+MKIMAGE=$(command -v "${CROSS_COMPILE}mkimage")
-
- if [ -z "${MKIMAGE}" ]; then
--       MKIMAGE=$(type -path mkimage)
-+       MKIMAGE=$(command -v mkimage)
-        if [ -z "${MKIMAGE}" ]; then
-                # Doesn't exist
-                echo '"mkimage" command not found - U-Boot images will
-not be built' >&2
-
-
--- 
-Best Regards
-Masahiro Yamada
