@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E2234426
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 12:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7016A34432
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 12:17:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbfFDKPp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jun 2019 06:15:45 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:39357 "EHLO
+        id S1727452AbfFDKQD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jun 2019 06:16:03 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:39599 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727336AbfFDKPo (ORCPT
+        with ESMTP id S1726982AbfFDKPw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jun 2019 06:15:44 -0400
+        Tue, 4 Jun 2019 06:15:52 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x54AEC7E032511;
-        Tue, 4 Jun 2019 19:14:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC7E032511
+        by conuserg-08.nifty.com with ESMTP id x54AEC7F032511;
+        Tue, 4 Jun 2019 19:14:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC7F032511
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1559643262;
-        bh=1qYLsdaaOh9lptJBCcPQlsjlAs8CxWYpA4nc6lxZdy0=;
+        bh=a2r32HBmfOPNhRHR6NEw2nxMZDcJlmjbZJmpiqemrdE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WP+kL1o6KLR6eFETe6PdkdPiV8pb5yhoTnWyaXk0PG71b5hzFI/EJF8zRif191GPG
-         YnvOUXoxeVtCG9lJtDG75C7S7UWPU0lA799/Qrp2oXCaXsXxE5KeK3/0Ge2gnWgnjL
-         nFFscaV4e3hh79nk7MaOpF7MW5LbeSmRghBEvE/ByZNcgasshq4gY3B5/z3VQTfsW5
-         7oYMOf3cEpnjidMf2MMoIywJMzFVjEacDXtq+lJren65TP+CydBcUlMy5zY4G7slgU
-         xWkVcNaXEotke21XuCGzhwp//cssCgyH8X8z1BwELwsKzOnVwjE2bczSkm0Rrc39Q5
-         OHMx6t5Rs+LDQ==
+        b=QdVNDT7nNkg19+Wlfu/K+AI0Yx1lbQ5iZqx1EHQH9hhnpPYpyNa0thqDI9gC9lpOq
+         dQfvsxeZM1ek9Gx2oA+FOAPwvMdu3RaM6Yrndu6jjuaaHxYFb9YOT1TzP2wpTixDkI
+         j4NQHwarh3frbWvnQnze1UHuAngkxC/x5W31OxJhoMPaLiV5YUEjH/EEh/gSBFmHqQ
+         gubwXc2sYP4EytQTMgQ+OtENpBNetfhNJzrYvXxyD8I0n2clhgtoym8n+U2iy18R9n
+         m1nvMFbzERoKuPAeTdDKpCbAE3c+hHMJ8Ir25WfjtUq5aN4Pd48GsCTvAWueXfcUnc
+         1s+tEih4LeIsQ==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -37,9 +37,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 08/15] kbuild: add 'headers' target to build up ready-to-install uapi headers
-Date:   Tue,  4 Jun 2019 19:14:02 +0900
-Message-Id: <20190604101409.2078-9-yamada.masahiro@socionext.com>
+Subject: [PATCH 09/15] kbuild: re-implement Makefile.headersinst without directory descending
+Date:   Tue,  4 Jun 2019 19:14:03 +0900
+Message-Id: <20190604101409.2078-10-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604101409.2078-1-yamada.masahiro@socionext.com>
 References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
@@ -48,165 +48,244 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-In Linux build system, build targets and installation targets are
-separated.
+Since commit fcc8487d477a ("uapi: export all headers under uapi
+directories"), the headers in uapi directories are all exported by
+default although exceptional cases are still allowed by the syntax
+'no-export-headers'.
 
-Examples are:
+The traditional directory descending has been still kept (in a
+somewhat hacky way), but it is no longer needed.
 
- - 'make vmlinux' -> 'make install'
- - 'make modules' -> 'make modules_install'
- - 'make dtbs'    -> 'make dtbs_install'
- - 'make vdso'    -> 'make vdso_install'
+Get rid of it to simplify the code.
 
-The intention is to run the build targets under the normal privilege,
-then the installation targets under the root privilege since we need
-the write permission to the system directories.
-
-We have 'make headers_install" but the corresponding 'make headers'
-stage does not exist. The purpose of headers_install is to provide
-the kernel interface to C library. So, nobody would try to install
-headers to /usr/include directly.
-
-If 'sudo make INSTALL_HDR_PATH=/usr/include headers_install' were run,
-some build artifacts in the kernel tree would be owned by root because
-some of uapi headers are generated by 'uapi-asm-generic', 'archheaders'
-targets.
-
-Anyway, I believe it makes sense to split the header installation into
-two stages.
-
- [1] 'make headers'
-    Process headers in uapi directories by scripts/headers_install.sh
-    and copy them to usr/include
-
- [2] 'make headers_install'
-    Copy '*.h' verbatim from usr/include to $(INSTALL_HDR_PATH)/include
-
-For the backward compatibility, 'headers_install' depends on 'headers'.
-
-Some samples expect uapi headers in usr/include. So, the 'headers'
-target is useful to build up them in the fixed location usr/include
-irrespective of INSTALL_HDR_PATH.
-
-Another benefit is to stop polluting the final destination with the
-time-stamp files '.install' and '.check'. Maybe you can see them in
-your toolchains.
-
-Lastly, my main motivation is to prepare for compile-testing uapi
-headers. To build something, we have to creating an object and .*.cmd
-somewhere. The usr/include/ will be the work directory for that.
+Also, handle files one by one instead of the previous per-directory
+processing. This will emit much more log, but I like it.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- Makefile                     | 23 +++++++++++++++--------
- lib/Kconfig.debug            |  4 +---
- scripts/Makefile.headersinst |  8 ++++----
- 3 files changed, 20 insertions(+), 15 deletions(-)
+ Makefile                        |   8 +-
+ include/uapi/{linux => }/Kbuild |   6 +-
+ scripts/Makefile.headersinst    | 132 +++++++++++++-------------------
+ 3 files changed, 62 insertions(+), 84 deletions(-)
+ rename include/uapi/{linux => }/Kbuild (77%)
 
 diff --git a/Makefile b/Makefile
-index f9c206eb3583..3c172dd516ff 100644
+index 3c172dd516ff..608af32cc758 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -262,7 +262,7 @@ old_version_h := include/linux/version.h
- clean-targets := %clean mrproper cleandocs
- no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
--			 $(version_h) headers_% archheaders archscripts \
-+			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg
- no-sync-config-targets := $(no-dot-config-targets) install %install \
- 			   kernelrelease
-@@ -1178,25 +1178,32 @@ headerdep:
- #Default location for installed headers
- export INSTALL_HDR_PATH = $(objtree)/usr
- 
--PHONY += archheaders archscripts
--
--PHONY += __headers
--__headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archscripts
-+quiet_cmd_headers_install = INSTALL $(INSTALL_HDR_PATH)/include
-+      cmd_headers_install = \
-+	mkdir -p $(INSTALL_HDR_PATH); \
-+	rsync -mrl --include='*/' --include='*\.h' --exclude='*' \
-+	usr/include $(INSTALL_HDR_PATH)
- 
- PHONY += headers_install
--headers_install: __headers
-+headers_install: headers
-+	$(call cmd,headers_install)
-+
-+PHONY += archheaders archscripts
-+
-+PHONY += headers
-+headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archscripts
+@@ -1194,13 +1194,13 @@ PHONY += headers
+ headers: $(version_h) scripts_unifdef uapi-asm-generic archheaders archscripts
  	$(if $(wildcard $(srctree)/arch/$(SRCARCH)/include/uapi/asm/Kbuild),, \
  	  $(error Headers not exportable for the $(SRCARCH) architecture))
- 	$(Q)$(MAKE) $(hdr-inst)=include/uapi dst=include
- 	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi dst=include
+-	$(Q)$(MAKE) $(hdr-inst)=include/uapi dst=include
+-	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi dst=include
++	$(Q)$(MAKE) $(hdr-inst)=include/uapi
++	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi
  
  PHONY += headers_check
--headers_check: headers_install
-+headers_check: headers
- 	$(Q)$(MAKE) $(hdr-inst)=include/uapi dst=include HDRCHECK=1
- 	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi dst=include HDRCHECK=1
+ headers_check: headers
+-	$(Q)$(MAKE) $(hdr-inst)=include/uapi dst=include HDRCHECK=1
+-	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi dst=include HDRCHECK=1
++	$(Q)$(MAKE) $(hdr-inst)=include/uapi HDRCHECK=1
++	$(Q)$(MAKE) $(hdr-inst)=arch/$(SRCARCH)/include/uapi HDRCHECK=1
  
  ifdef CONFIG_HEADERS_INSTALL
--prepare: headers_install
-+prepare: headers
+ prepare: headers
+diff --git a/include/uapi/linux/Kbuild b/include/uapi/Kbuild
+similarity index 77%
+rename from include/uapi/linux/Kbuild
+rename to include/uapi/Kbuild
+index 34711c5d6968..61ee6e59c930 100644
+--- a/include/uapi/linux/Kbuild
++++ b/include/uapi/Kbuild
+@@ -1,14 +1,14 @@
+ # SPDX-License-Identifier: GPL-2.0
+ ifeq ($(wildcard $(srctree)/arch/$(SRCARCH)/include/uapi/asm/a.out.h),)
+-no-export-headers += a.out.h
++no-export-headers += linux/a.out.h
  endif
  
- ifdef CONFIG_HEADERS_CHECK
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 6a6ea4219d1e..0031a31d98c2 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -324,9 +324,7 @@ config HEADERS_CHECK
- 	  attempt to include files which were not exported, etc.
+ ifeq ($(wildcard $(srctree)/arch/$(SRCARCH)/include/uapi/asm/kvm.h),)
+-no-export-headers += kvm.h
++no-export-headers += linux/kvm.h
+ endif
  
- 	  If you're making modifications to header files which are
--	  relevant for userspace, say 'Y', and check the headers
--	  exported to $(INSTALL_HDR_PATH) (usually 'usr/include' in
--	  your build tree), to make sure they're suitable.
-+	  relevant for userspace, say 'Y'.
- 
- config OPTIMIZE_INLINING
- 	bool "Allow compiler to uninline functions marked 'inline'"
+ ifeq ($(wildcard $(srctree)/arch/$(SRCARCH)/include/uapi/asm/kvm_para.h),)
+ ifeq ($(wildcard $(objtree)/arch/$(SRCARCH)/include/generated/uapi/asm/kvm_para.h),)
+-no-export-headers += kvm_para.h
++no-export-headers += linux/kvm_para.h
+ endif
+ endif
 diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
-index 3d1ebaabd1b6..1af6d0b06585 100644
+index 1af6d0b06585..c96c4c26e240 100644
 --- a/scripts/Makefile.headersinst
 +++ b/scripts/Makefile.headersinst
-@@ -41,7 +41,7 @@ ifeq ($(skip-inst),)
- kbuild-file := $(srctree)/$(obj)/Kbuild
- -include $(kbuild-file)
+@@ -14,109 +14,87 @@ __headers:
  
--installdir    := $(INSTALL_HDR_PATH)/$(dst)
-+installdir    := usr/$(dst)
- gendir        := $(objtree)/$(subst include/,include/generated/,$(obj))
- header-files  := $(notdir $(wildcard $(srcdir)/*.h))
- header-files  := $(filter-out $(no-export-headers), $(header-files))
-@@ -60,10 +60,10 @@ output-files  := $(addprefix $(installdir)/, $(all-files))
- oldheaders    := $(patsubst $(installdir)/%,%,$(wildcard $(installdir)/*.h))
- unwanted      := $(filter-out $(all-files),$(oldheaders))
+ include scripts/Kbuild.include
  
--# Prefix unwanted with full paths to $(INSTALL_HDR_PATH)
-+# Prefix unwanted with full paths to objtree
- unwanted-file := $(addprefix $(installdir)/, $(unwanted))
+-srcdir        := $(srctree)/$(obj)
++src := $(srctree)/$(obj)
++gen := $(objtree)/$(subst include/,include/generated/,$(obj))
++dst := usr/include
  
--printdir = $(patsubst $(INSTALL_HDR_PATH)/%/,%,$(dir $@))
-+printdir = $(patsubst %/,%,$(dir $@))
+-# When make is run under a fakechroot environment, the function
+-# $(wildcard $(srcdir)/*/.) doesn't only return directories, but also regular
+-# files. So, we are using a combination of sort/dir/wildcard which works
+-# with fakechroot.
+-subdirs       := $(patsubst $(srcdir)/%/,%,\
+-		 $(filter-out $(srcdir)/,\
+-		 $(sort $(dir $(wildcard $(srcdir)/*/)))))
++-include $(src)/Kbuild
  
- quiet_cmd_install = INSTALL $(printdir) ($(words $(all-files))\
-                             file$(if $(word 2, $(all-files)),s))
-@@ -81,7 +81,7 @@ quiet_cmd_check = CHECK   $(printdir) ($(words $(all-files)) files)
-       cmd_check = for f in $(all-files); do                          \
-                   echo "$(installdir)/$${f}"; done                      \
-                   | xargs                                            \
--                  $(PERL) $< $(INSTALL_HDR_PATH)/include $(SRCARCH); \
-+                  $(PERL) $< usr/include $(SRCARCH); \
- 	          touch $@
+-# Recursion
+-__headers: $(subdirs)
++src-subdirs := $(patsubst $(src)/%/,%,$(wildcard $(src)/*/))
++gen-subdirs := $(patsubst $(gen)/%/,%,$(wildcard $(gen)/*/))
++all-subdirs := $(sort $(src-subdirs) $(gen-subdirs))
  
- ifndef HDRCHECK
+-PHONY += $(subdirs)
+-$(subdirs):
+-	$(Q)$(MAKE) $(hdr-inst)=$(obj)/$@ dst=$(dst)/$@
++src-headers := $(if $(src-subdirs), $(shell cd $(src) && find $(src-subdirs) -name '*.h'))
++src-headers := $(filter-out $(no-export-headers), $(src-headers))
++gen-headers := $(if $(gen-subdirs), $(shell cd $(gen) && find $(gen-subdirs) -name '*.h'))
++gen-headers := $(filter-out $(no-export-headers), $(gen-headers))
+ 
+-# Skip header install/check for include/uapi and arch/$(SRCARCH)/include/uapi.
+-# We have only sub-directories there.
+-skip-inst := $(if $(filter %/uapi,$(obj)),1)
++# If the same header is exported from source and generated directories,
++# the former takes precedence, but this should be warned.
++duplicated := $(filter $(gen-headers), $(src-headers))
++$(if $(duplicated), $(warning duplicated header export: $(duplicated)))
+ 
+-ifeq ($(skip-inst),)
++gen-headers := $(filter-out $(duplicated), $(gen-headers))
+ 
+-# Kbuild file is optional
+-kbuild-file := $(srctree)/$(obj)/Kbuild
+--include $(kbuild-file)
++# Add dst path prefix
++all-subdirs := $(addprefix $(dst)/, $(all-subdirs))
++src-headers := $(addprefix $(dst)/, $(src-headers))
++gen-headers := $(addprefix $(dst)/, $(gen-headers))
++all-headers := $(src-headers) $(gen-headers)
+ 
+-installdir    := usr/$(dst)
+-gendir        := $(objtree)/$(subst include/,include/generated/,$(obj))
+-header-files  := $(notdir $(wildcard $(srcdir)/*.h))
+-header-files  := $(filter-out $(no-export-headers), $(header-files))
+-genhdr-files  := $(notdir $(wildcard $(gendir)/*.h))
+-genhdr-files  := $(filter-out $(header-files), $(genhdr-files))
++# Work out what needs to be removed
++old-subdirs := $(wildcard $(all-subdirs))
++old-headers := $(if $(old-subdirs),$(shell find $(old-subdirs) -name '*.h'))
++unwanted    := $(filter-out $(all-headers), $(old-headers))
+ 
+-# files used to track state of install/check
+-install-file  := $(installdir)/.install
+-check-file    := $(installdir)/.check
++# Create directories
++existing-dirs := $(sort $(dir $(old-headers)))
++wanted-dirs   := $(sort $(dir $(all-headers)))
++new-dirs      := $(filter-out $(existing-dirs), $(wanted-dirs))
++$(if $(new-dirs), $(shell mkdir -p $(new-dirs)))
+ 
+-# all headers files for this dir
+-all-files     := $(header-files) $(genhdr-files)
+-output-files  := $(addprefix $(installdir)/, $(all-files))
++# Rules
+ 
+-# Work out what needs to be removed
+-oldheaders    := $(patsubst $(installdir)/%,%,$(wildcard $(installdir)/*.h))
+-unwanted      := $(filter-out $(all-files),$(oldheaders))
++ifndef HDRCHECK
+ 
+-# Prefix unwanted with full paths to objtree
+-unwanted-file := $(addprefix $(installdir)/, $(unwanted))
++quiet_cmd_install = HDRINST $@
++      cmd_install = $(CONFIG_SHELL) $(srctree)/scripts/headers_install.sh $(@D) $(<D) $(@F)
+ 
+-printdir = $(patsubst %/,%,$(dir $@))
++$(src-headers): $(dst)/%.h: $(src)/%.h $(srctree)/scripts/headers_install.sh FORCE
++	$(call if_changed,install)
+ 
+-quiet_cmd_install = INSTALL $(printdir) ($(words $(all-files))\
+-                            file$(if $(word 2, $(all-files)),s))
+-      cmd_install = \
+-        $(CONFIG_SHELL) $< $(installdir) $(srcdir) $(header-files); \
+-        $(CONFIG_SHELL) $< $(installdir) $(gendir) $(genhdr-files); \
+-        touch $@
++$(gen-headers): $(dst)/%.h: $(gen)/%.h $(srctree)/scripts/headers_install.sh FORCE
++	$(call if_changed,install)
+ 
+ quiet_cmd_remove = REMOVE  $(unwanted)
+-      cmd_remove = rm -f $(unwanted-file)
+-
+-quiet_cmd_check = CHECK   $(printdir) ($(words $(all-files)) files)
+-# Headers list can be pretty long, xargs helps to avoid
+-# the "Argument list too long" error.
+-      cmd_check = for f in $(all-files); do                          \
+-                  echo "$(installdir)/$${f}"; done                      \
+-                  | xargs                                            \
+-                  $(PERL) $< usr/include $(SRCARCH); \
+-	          touch $@
++      cmd_remove = rm -f $(unwanted)
+ 
+-ifndef HDRCHECK
+-# Rules for installing headers
+-__headers: $(install-file)
++__headers: $(all-headers)
++ifneq ($(unwanted),)
++	$(call cmd,remove)
++endif
+ 	@:
+ 
+-targets += $(install-file)
+-$(install-file): scripts/headers_install.sh \
+-		 $(addprefix $(srcdir)/,$(header-files)) \
+-		 $(addprefix $(gendir)/,$(genhdr-files)) FORCE
+-	$(if $(unwanted),$(call cmd,remove),)
+-	$(if $(wildcard $(dir $@)),,$(shell mkdir -p $(dir $@)))
+-	$(call if_changed,install)
++existing-headers := $(filter $(old-headers), $(all-headers))
++
++-include $(foreach f,$(existing-headers),$(dir $(f)).$(notdir $(f)).cmd)
+ 
+ else
+-__headers: $(check-file)
+-	@:
+ 
+-targets += $(check-file)
+-$(check-file): scripts/headers_check.pl $(output-files) FORCE
+-	$(call if_changed,check)
++quiet_cmd_check = HDRCHK  $<
++      cmd_check = $(PERL) $(srctree)/scripts/headers_check.pl $(dst) $(SRCARCH) $<; touch $@
+ 
+-endif
++check-files := $(addsuffix .chk, $(all-headers))
+ 
+-cmd_files := $(wildcard \
+-             $(foreach f,$(sort $(targets)),$(dir $(f)).$(notdir $(f)).cmd))
++$(check-files): $(dst)/%.chk : $(dst)/% $(srctree)/scripts/headers_check.pl
++	$(call cmd,check)
+ 
+-ifneq ($(cmd_files),)
+-	include $(cmd_files)
+-endif
++__headers: $(check-files)
++	@:
+ 
+-endif # skip-inst
++endif
+ 
+ PHONY += FORCE
+-FORCE: ;
++FORCE:
+ 
+ .PHONY: $(PHONY)
 -- 
 2.17.1
 
