@@ -2,100 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 000D334ED2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 19:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E43A34F65
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 19:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbfFDRaz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jun 2019 13:30:55 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:42678 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726092AbfFDRaz (ORCPT
+        id S1726301AbfFDR5L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jun 2019 13:57:11 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:35511 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbfFDR5L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jun 2019 13:30:55 -0400
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x54HUnnO031843;
-        Wed, 5 Jun 2019 02:30:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x54HUnnO031843
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559669449;
-        bh=Ke3jFtfR0IupnNpNkmhdXNiTmzoHjUV+JOucXec4i/o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gouvuNPsRL1KPQx3usdUnyGSAtghsqRSSL1X5706V2o1jpuvlLrCB14TFpPlkGpTa
-         2H/XOz+b7Ij7fRWgufOm6duIIdd4ySwdZ9KlRgzKg1NhTELMbyTy8WrL/bsOi+QaVp
-         M3jTeS8HWd0hYM/ZaLT4suZERvpzgtshXAQB1gq+Fmj43UduIGiCKgFeDfcH3HFk0h
-         1AFkdDBtTCMuFvNzl7GBL88TnY24CCMuyNo+dsJ350CevRFPQ5mllP8Z6GpDlYZB4L
-         ejFSJTRraxGDULAoU8MoTB6GOhirynJe46vUqrrTSXSGJWrn6G/E9NPsXcE9P92hRI
-         Wx0rOeGwZAbow==
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id q64so4361681vsd.1;
-        Tue, 04 Jun 2019 10:30:49 -0700 (PDT)
-X-Gm-Message-State: APjAAAUS1agjubygkoR54QcHdWL+al8py5iDTNHpj8r0+YmnKfPKD+YI
-        sduniP9kmOGB3YzYyrWeUcFPTACIqFkORCeeVw8=
-X-Google-Smtp-Source: APXvYqz3/kHIsgtyIFnnNahMh+SN4Xp6WTSHW5hu+Dg4XzzBTK/seNpmLpSrwi/yKzKncJCj/FybysBaeNlwQd7QEtw=
-X-Received: by 2002:a67:f495:: with SMTP id o21mr1245218vsn.54.1559669448381;
- Tue, 04 Jun 2019 10:30:48 -0700 (PDT)
+        Tue, 4 Jun 2019 13:57:11 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 187922004D;
+        Tue,  4 Jun 2019 19:57:08 +0200 (CEST)
+Date:   Tue, 4 Jun 2019 19:57:06 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH 01/15] kbuild: remove headers_{install,check}_all
+Message-ID: <20190604175706.GA4093@ravnborg.org>
+References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
+ <20190604101409.2078-2-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-References: <20190520151614.19188-1-dan.rue@linaro.org>
-In-Reply-To: <20190520151614.19188-1-dan.rue@linaro.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 5 Jun 2019 02:30:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARonAGTShZTyiDL02qtP3PUg7jyYZRHG9C-MUY+zKY22g@mail.gmail.com>
-Message-ID: <CAK7LNARonAGTShZTyiDL02qtP3PUg7jyYZRHG9C-MUY+zKY22g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: teach kselftest-merge to find nested config files
-To:     Dan Rue <dan.rue@linaro.org>
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604101409.2078-2-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=A-kqMh_e01oG-bl_YbUA:9 a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 21, 2019 at 12:19 AM Dan Rue <dan.rue@linaro.org> wrote:
->
-> Current implementation of kselftest-merge only finds config files that
-> are one level deep using `$(srctree)/tools/testing/selftests/*/config`.
->
-> Often, config files are added in nested directories, and do not get
-> picked up by kselftest-merge.
->
-> Use `find` to catch all config files under
-> `$(srctree)/tools/testing/selftests` instead.
->
-> Signed-off-by: Dan Rue <dan.rue@linaro.org>
-> ---
->  Makefile | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index a45f84a7e811..e99e7f9484af 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1228,9 +1228,8 @@ kselftest-clean:
->  PHONY += kselftest-merge
->  kselftest-merge:
->         $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
-> -       $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh \
-> -               -m $(objtree)/.config \
-> -               $(srctree)/tools/testing/selftests/*/config
-> +       $(Q)find $(srctree)/tools/testing/selftests -name config | \
-> +               xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
->         +$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
->
->  # ---------------------------------------------------------------------------
-> --
-> 2.21.0
->
-
-
-Applied to linux-kbuild/fixes. Thanks.
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+On Tue, Jun 04, 2019 at 07:13:55PM +0900, Masahiro Yamada wrote:
+> headers_install_all does not make much sense any more because different
+> architectures export different set of uapi/linux/ headers. As you see
+> in include/uapi/linux/Kbuild, the installation of a.out.h, kvm.h, and
+> kvm_para.h is arch-dependent. So, headers_install_all repeats the
+> installation/removal of them.
+> 
+> If somebody really thinks it is useful to do headers_install for all
+> architectures, it would be possible by small shell-scripting, but the
+> top Makefile do not have to provide entry targets just for that purpose.
+Agreed, good to see this be dropped.
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
