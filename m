@@ -2,88 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1527934285
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 11:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D18DD34448
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 12:18:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726925AbfFDJBf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jun 2019 05:01:35 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151]:47765 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727133AbfFDJBe (ORCPT
+        id S1727230AbfFDKSj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jun 2019 06:18:39 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:44024 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727139AbfFDKSj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jun 2019 05:01:34 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id uk-mta-5-JkTxSXOoNISA2RzXYu7j5g-1;
- Tue, 04 Jun 2019 10:01:32 +0100
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Tue, 4 Jun 2019 10:01:32 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Tue, 4 Jun 2019 10:01:32 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Masahiro Yamada' <yamada.masahiro@socionext.com>
-CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "Vineet Gupta" <vgupta@synopsys.com>,
-        Alexey Brodkin <abrodkin@synopsys.com>,
-        "linux-snps-arc@lists.infradead.org" 
-        <linux-snps-arc@lists.infradead.org>,
-        linux-stable <stable@vger.kernel.org>,
+        Tue, 4 Jun 2019 06:18:39 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id x54AEC76032511;
+        Tue, 4 Jun 2019 19:14:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x54AEC76032511
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1559643254;
+        bh=2Cnt75TjD0TucqN65Zm4F4aK2FsJEMupPn4+qQfaomQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T4jvQ0G6x7AI4kdGX5qwlpK7HOvTaBPAv/cRO5t4X32Dcs0uPZAvSErXh4DSjGB31
+         HcpKj3d7GK+dEJgeRDnlb3IgG5M1SUitGYK8fWYBHTStYwEem3M/mbalLmPcf7FXff
+         2NyynthHyJ0CxXthF++gCaIlODh+BwsYOnM6Vm7DKEJGoJYT3haZXkmHOejQU4htdI
+         qbLlQa5xUwjLEMB8M7yoUoLHvQw77TZmiZ2m1IsbGjpX7v+Ox9dBMBaEmddSnnMqUe
+         FudqJKtGFxDLUHkFG12GbiN4Ma4TLji3PyPSof/DKDCjFWY8qenZH14JVAqU6EKQqf
+         rZdDvtK1Yi38A==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Howells <dhowells@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-riscv@lists.infradead.org,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        linux-s390@vger.kernel.org, Greentime Hu <green.hu@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-snps-arc@lists.infradead.org,
+        Song Liu <songliubraving@fb.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Yonghong Song <yhs@fb.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] kbuild: use more portable 'command -v' for
- cc-cross-prefix
-Thread-Topic: [PATCH] kbuild: use more portable 'command -v' for
- cc-cross-prefix
-Thread-Index: AQHVGfoc7Nk6FX5Ty02s910sxgLWxaaJxI+g///4bICAACdTsIAA4rqAgABrGkA=
-Date:   Tue, 4 Jun 2019 09:01:31 +0000
-Message-ID: <96b710063de5464ea347bfa1e03308b5@AcuMS.aculab.com>
-References: <20190603104902.23799-1-yamada.masahiro@socionext.com>
- <863c29c5f0214c008fbcbb2aac517a5c@AcuMS.aculab.com>
- <CAK7LNARHR=xv_YxQCkCM7PtW3vpNfXOgZrez0c4HbMX6C-8-uA@mail.gmail.com>
- <810dd6ae018b4a31b70d26fb6b29e48d@AcuMS.aculab.com>
- <CAK7LNAR_A1d5keiCRthNioW3nqkNadJkaCyMR3a5S8WS0jhgNQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAR_A1d5keiCRthNioW3nqkNadJkaCyMR3a5S8WS0jhgNQ@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
-MIME-Version: 1.0
-X-MC-Unique: JkTxSXOoNISA2RzXYu7j5g-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+        Paul Mackerras <paulus@samba.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        linux-parisc@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        linux-kernel@vger.kernel.org, Vincent Chen <deanbo422@gmail.com>,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH 00/15] kbuild: refactor headers_install and support compile-test of UAPI headers
+Date:   Tue,  4 Jun 2019 19:13:54 +0900
+Message-Id: <20190604101409.2078-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-RnJvbTogTWFzYWhpcm8gWWFtYWRhDQo+IFNlbnQ6IDA0IEp1bmUgMjAxOSAwNDozMQ0KLi4uDQo+
-ID4gPiA+IFlvdSBjb3VsZCB1c2U6DQo+ID4gPiA+ICAgICAgICAgJChzaGVsbCBzaCAtYyAiY29t
-bWFuZCAtdiAkKGMpZ2NjIikNCj4gPiA+ID4gb3IgbWF5YmU6DQo+ID4gPiA+ICAgICAgICAgJChz
-aGVsbCBjb21tYW5kJCR7eDorfSAtdiAkKGMpZ2NjKQ0KPiA+ID4NCj4gPiA+DQo+ID4gPiBIb3cg
-YWJvdXQgdGhpcz8NCj4gPiA+DQo+ID4gPiAgICAgICAgICAgJChzaGVsbCA6IH47IGNvbW1hbmQg
-LXYgJChjKWdjYykNCj4gPg0KPiA+IE92ZXJjb21wbGljYXRlZCAuLi4uDQo+ID4NCj4gPiBJJ3Zl
-IG5vdCBsb29rZWQgYXQgdGhlIGxpc3Qgb2YgJ3NwZWNpYWwgY2hhcmFjdGVycycgaW4gbWFrZSwN
-Cj4gPiBidXQgSSBzdXNwZWN0IGFueSB2YXJpYWJsZSBleHBhbnNpb24gaXMgZW5vdWdoLg0KPiA+
-IFNpbmNlICR7eDorfSBhbHdheXMgZXhwYW5kcyB0byB0aGUgZW1wdHkgc3RyaW5nICh3aGV0aGVy
-IG9yDQo+ID4gbm90ICd4JyBpcyBkZWZpbmVkKSBpdCBjYW4ndCBoYXZlIGFueSB1bmZvcnR1bmF0
-ZSBzaWRlIGVmZmVjdHMuDQo+IA0KPiANCj4gUHJvYmFibHksIG15IGV5ZXMgYXJlIHVzZWQgdG8g
-TWFrZWZpbGUuDQo+ICI6IiBpcyBhIG5vLW9wIGNvbW1hbmQsIGFuZCBpdCBpcyB1c2VkIGV2ZXJ5
-d2hlcmUgaW4ga2VybmVsIE1ha2VmaWxlcw0KPiBpbiB0aGUgZm9ybSBvZiAiQDonDQo+IA0KPiBJ
-dCBkZXBlbmRzIG9uIHBlb3BsZSB3aGljaCBzb2x1dGlvbiBzZWVtcyBzaW1wbGVyLg0KPiBTbywg
-dGhpcyBhcmd1bWVudCB0ZW5kcyB0byBlbmQgdXAgd2l0aCBiaWtlc2hlZGluZy4NCg0KSSBhbSBm
-dWxseSBhd2FyZSBvZiAnOicsIGl0IGlzIGEgc2hlbGwgYnVpbHRpbiB0aGF0IGFsd2F5cyByZXR1
-cm4gc3VjY2Vzcy4NClVzdWFsbHkgdXNlZCB3aGVuIHlvdSB3YW50IHRoZSBzaWRlLWVmZmVjdHMg
-b2Ygc3Vic3RpdHV0aW9ucyB3aXRob3V0DQpleGVjdXRpbmcgYW55dGhpbmcgKGVnIDogJHtmb286
-PWJhcn0gKSwgdG8gY2hhbmdlIHRoZSByZXN1bHQgb2YgYQ0Kc2VxdWVuY2Ugb2Ygc2hlbGwgY29t
-bWFuZHMgb3IgYXMgYSBkdW1teSAoZWcgd2hpbGUgOjsgZG8gOjsgZG9uZTsgKQ0KVmVyeSBhbm5v
-eWluZ2x5IGJhc2ggcGFyc2VzICE6IGFzIHNvbWV0aGluZyBvdGhlciB0aGFuICdub3QgdHJ1ZScu
-DQoNCiQoc2hlbGwgY29tbWFuZCQke3g6K30gLXYgJChjKWdjYykgd2lsbCBiZSBtYXJnaW5hbGx5
-IGZhc3Rlcg0KYmVjYXVzZSBpdCBpcyBsZXNzIHBhcnNpbmcuDQoNCglEYXZpZA0KIA0KDQotDQpS
-ZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWls
-dG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMp
-DQo=
+
+Multiple people have suggested to compile-test UAPI headers.
+
+Currently, Kbuild provides simple sanity checks by headers_check
+but they are not enough to catch bugs.
+
+The most recent patch I know is David Howells' work:
+https://patchwork.kernel.org/patch/10590203/
+
+I agree that we need better tests for UAPI headers,
+but I want to integrate it in a clean way.
+
+The idea that has been in my mind is to compile each header
+to make sure the selfcontainedness.
+
+Recently, Jani Nikula proposed a new syntax 'header-test-y'.
+https://patchwork.kernel.org/patch/10947005/
+
+So, I implemented UAPI compile-testing on top of that.
+
+When adding a new feature, cleaning the code first is a
+good practice.
+
+[1] Remove headers_install_all
+
+This target installs UAPI headers of all architectures
+in a single tree.
+It does not make sense to compile test of headers from
+multiple arches at the same time. Hence, removed.
+
+[2] Split header installation into 'make headers' and 'make headers_install'
+
+To compile-test UAPI headers, we need a work-directory somewhere
+to save objects and .*.cmd files.
+
+usr/include/ will be the work-directory.
+
+Since we cannot pollute the final destination of headers_install,
+
+I split the header installation into two stages.
+
+'make headers' will build up
+the ready-to-install headers in usr/include,
+which will be also used as a work-directory for the compile-test.
+
+'make headers_install' will copy headers
+from usr/include to $(INSTALL_HDR_PATH)/include.
+
+[3] Support compile-test of UAPI headers
+
+This is implemented in usr/include/Makefile
+
+
+Jani Nikula (1):
+  kbuild: add support for ensuring headers are self-contained
+
+Masahiro Yamada (14):
+  kbuild: remove headers_{install,check}_all
+  kbuild: remove stale dependency between Documentation/ and
+    headers_install
+  kbuild: make gdb_script depend on prepare0 instead of prepare
+  kbuild: fix Kconfig prompt of CONFIG_HEADERS_CHECK
+  kbuild: add CONFIG_HEADERS_INSTALL and loosen the dependency of
+    samples
+  kbuild: remove build_unifdef target in scripts/Makefile
+  kbuild: build all prerequisite of headers_install simultaneously
+  kbuild: add 'headers' target to build up ready-to-install uapi headers
+  kbuild: re-implement Makefile.headersinst without directory descending
+  kbuild: move hdr-inst shorthand to top Makefile
+  kbuild: simplify scripts/headers_install.sh
+  kbuild: deb-pkg: do not run headers_check
+  fixup: kbuild: add support for ensuring headers are self-contained
+  kbuild: compile test UAPI headers to ensure they are self-contained
+
+ Documentation/kbuild/headers_install.txt |   7 --
+ Documentation/kbuild/makefiles.txt       |  13 ++-
+ Makefile                                 |  56 +++++-----
+ arch/arc/configs/tb10x_defconfig         |   1 +
+ arch/nds32/configs/defconfig             |   1 +
+ arch/parisc/configs/a500_defconfig       |   1 +
+ arch/parisc/configs/b180_defconfig       |   1 +
+ arch/parisc/configs/c3000_defconfig      |   1 +
+ arch/parisc/configs/default_defconfig    |   1 +
+ arch/powerpc/configs/ppc6xx_defconfig    |   1 +
+ arch/s390/configs/debug_defconfig        |   1 +
+ include/uapi/{linux => }/Kbuild          |   6 +-
+ init/Kconfig                             |  20 ++++
+ lib/Kconfig.debug                        |  25 +++--
+ samples/Kconfig                          |  14 ++-
+ samples/Makefile                         |   4 +-
+ scripts/Kbuild.include                   |   6 --
+ scripts/Makefile                         |   5 -
+ scripts/Makefile.build                   |   9 ++
+ scripts/Makefile.headersinst             | 132 ++++++++++-------------
+ scripts/Makefile.lib                     |   3 +
+ scripts/cc-system-headers.sh             |   8 ++
+ scripts/headers.sh                       |  29 -----
+ scripts/headers_install.sh               |  48 ++++-----
+ scripts/package/builddeb                 |   2 +-
+ usr/.gitignore                           |   1 -
+ usr/Makefile                             |   2 +
+ usr/include/.gitignore                   |   3 +
+ usr/include/Makefile                     | 132 +++++++++++++++++++++++
+ 29 files changed, 329 insertions(+), 204 deletions(-)
+ rename include/uapi/{linux => }/Kbuild (77%)
+ create mode 100755 scripts/cc-system-headers.sh
+ delete mode 100755 scripts/headers.sh
+ create mode 100644 usr/include/.gitignore
+ create mode 100644 usr/include/Makefile
+
+-- 
+2.17.1
 
