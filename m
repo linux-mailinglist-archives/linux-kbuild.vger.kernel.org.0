@@ -2,141 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BDFF33D96
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 05:45:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1527934285
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Jun 2019 11:01:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726327AbfFDDpQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Jun 2019 23:45:16 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:61764 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbfFDDpQ (ORCPT
+        id S1726925AbfFDJBf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jun 2019 05:01:35 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151]:47765 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727133AbfFDJBe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Jun 2019 23:45:16 -0400
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x543j1JO005406;
-        Tue, 4 Jun 2019 12:45:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x543j1JO005406
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559619902;
-        bh=R4DTbEc9ajd/+gLs4R0E3A2qZCd8mpp6nT3mLt/MWL4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sSBx0AvDkKyPdfmLobt1FwXeI8jVeiK59RkpnvzCgW1NxC772shGT0Sxc6PAO3Ks8
-         PDpJD75pBEKoT6FtjYqkPmeN7nHHdv/MoXFZ+KkARrl7JX7aMkTjv66C+gvwBFrf1k
-         B8WFehagQofx/8TM/rEZq5ZQsCBBOmcPxP90UVmxzfiuyDbP2A1GnZ1/QcxY8pzP35
-         peOxnzSOfUkm2Oyv22A6p/BEmKU4ophBttj/ymoil1dI3SwP/qqDWA9vS74RKRv/jT
-         /r3Ba2dTESj1A1/ZKgvGfqHlnmrjZUEmgp2ARlAXb79sSmfu3ocxF13RuVLBIBPzcu
-         YPiPeujYRKBIg==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id a95so7261755uaa.13;
-        Mon, 03 Jun 2019 20:45:01 -0700 (PDT)
-X-Gm-Message-State: APjAAAUDLD4J7SDn84VESpww0jFOtVdyaxzxZkz3jlvcuRBawx9H1ufg
-        Wa6JAZalYrKRQzhmYB2rT60+g0H5PRFCXvJxdsU=
-X-Google-Smtp-Source: APXvYqzVUiWM/RaTvJFgDXA6xyHBfBmK48S0H0UYyNEUSUfOWS5M4whPygR0UYBlA4pDOL7pjG5Ty1EEttHRqBCTSd8=
-X-Received: by 2002:a9f:24a3:: with SMTP id 32mr13276265uar.109.1559619900888;
- Mon, 03 Jun 2019 20:45:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190603104902.23799-1-yamada.masahiro@socionext.com>
- <3dcacca3f71c46cc98fa64b13a405b59@AcuMS.aculab.com> <CAK7LNATt=P5rHrnK_8PTmjMb+tdtPg2qBgopRUDBFw_fkP2SsQ@mail.gmail.com>
- <1ca8a995328f449fa58f732ebe70e378@AcuMS.aculab.com>
-In-Reply-To: <1ca8a995328f449fa58f732ebe70e378@AcuMS.aculab.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 4 Jun 2019 12:44:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASwTS+rfZuFFcR7cz2HaOZWMjxhZUToV=74g09J72=osg@mail.gmail.com>
-Message-ID: <CAK7LNASwTS+rfZuFFcR7cz2HaOZWMjxhZUToV=74g09J72=osg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: use more portable 'command -v' for cc-cross-prefix
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Vineet Gupta <vgupta@synopsys.com>,
+        Tue, 4 Jun 2019 05:01:34 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id uk-mta-5-JkTxSXOoNISA2RzXYu7j5g-1;
+ Tue, 04 Jun 2019 10:01:32 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 4 Jun 2019 10:01:32 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 4 Jun 2019 10:01:32 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Masahiro Yamada' <yamada.masahiro@socionext.com>
+CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "Vineet Gupta" <vgupta@synopsys.com>,
         Alexey Brodkin <abrodkin@synopsys.com>,
         "linux-snps-arc@lists.infradead.org" 
         <linux-snps-arc@lists.infradead.org>,
         linux-stable <stable@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: RE: [PATCH] kbuild: use more portable 'command -v' for
+ cc-cross-prefix
+Thread-Topic: [PATCH] kbuild: use more portable 'command -v' for
+ cc-cross-prefix
+Thread-Index: AQHVGfoc7Nk6FX5Ty02s910sxgLWxaaJxI+g///4bICAACdTsIAA4rqAgABrGkA=
+Date:   Tue, 4 Jun 2019 09:01:31 +0000
+Message-ID: <96b710063de5464ea347bfa1e03308b5@AcuMS.aculab.com>
+References: <20190603104902.23799-1-yamada.masahiro@socionext.com>
+ <863c29c5f0214c008fbcbb2aac517a5c@AcuMS.aculab.com>
+ <CAK7LNARHR=xv_YxQCkCM7PtW3vpNfXOgZrez0c4HbMX6C-8-uA@mail.gmail.com>
+ <810dd6ae018b4a31b70d26fb6b29e48d@AcuMS.aculab.com>
+ <CAK7LNAR_A1d5keiCRthNioW3nqkNadJkaCyMR3a5S8WS0jhgNQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAR_A1d5keiCRthNioW3nqkNadJkaCyMR3a5S8WS0jhgNQ@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-MC-Unique: JkTxSXOoNISA2RzXYu7j5g-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 3, 2019 at 9:43 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Masahiro Yamada
-> > Sent: 03 June 2019 12:45
-> > On Mon, Jun 3, 2019 at 8:16 PM David Laight <David.Laight@aculab.com> wrote:
-> > >
-> > > From: Masahiro Yamada
-> > > > Sent: 03 June 2019 11:49
-> > > >
-> > > > To print the pathname that will be used by shell in the current
-> > > > environment, 'command -v' is a standardized way. [1]
-> > > >
-> > > > 'which' is also often used in scripting, but it is not portable.
-> > >
-> > > All uses of 'which' should be expunged.
-> > > It is a bourne shell script that is trying to emulate a csh builtin.
-> > > It is doomed to fail in corner cases.
-> > > ISTR it has serious problems with shell functions and aliases.
-> >
-> > OK, I do not have time to check it treewide.
-> > I expect somebody will contribute to it.
-> >
-> >
-> >
-> > BTW, I see yet another way to get the command path.
-> >
-> > 'type -path' is bash-specific.
->
-> 'type' itself should be supported by all shells, but the output
-> format (esp for errors) probably varies.
->
-> > Maybe, we should do this too:
-> >
-> > diff --git a/scripts/mkuboot.sh b/scripts/mkuboot.sh
-> > index 4b1fe09e9042..77829ee4268e 100755
-> > --- a/scripts/mkuboot.sh
-> > +++ b/scripts/mkuboot.sh
-> > @@ -1,14 +1,14 @@
-> > -#!/bin/bash
-> > +#!/bin/sh
->
-> /bin/sh might be 'dash' - which is just plain broken in so many ways.
-> Try (IIRC) ${foo%${foo#bar}}
-> It might even be the original SYSV /bin/sh which doesn't support $((expr))
-> or ${foo#bar} - but that may break too much, but $SHELL might fix it.
+RnJvbTogTWFzYWhpcm8gWWFtYWRhDQo+IFNlbnQ6IDA0IEp1bmUgMjAxOSAwNDozMQ0KLi4uDQo+
+ID4gPiA+IFlvdSBjb3VsZCB1c2U6DQo+ID4gPiA+ICAgICAgICAgJChzaGVsbCBzaCAtYyAiY29t
+bWFuZCAtdiAkKGMpZ2NjIikNCj4gPiA+ID4gb3IgbWF5YmU6DQo+ID4gPiA+ICAgICAgICAgJChz
+aGVsbCBjb21tYW5kJCR7eDorfSAtdiAkKGMpZ2NjKQ0KPiA+ID4NCj4gPiA+DQo+ID4gPiBIb3cg
+YWJvdXQgdGhpcz8NCj4gPiA+DQo+ID4gPiAgICAgICAgICAgJChzaGVsbCA6IH47IGNvbW1hbmQg
+LXYgJChjKWdjYykNCj4gPg0KPiA+IE92ZXJjb21wbGljYXRlZCAuLi4uDQo+ID4NCj4gPiBJJ3Zl
+IG5vdCBsb29rZWQgYXQgdGhlIGxpc3Qgb2YgJ3NwZWNpYWwgY2hhcmFjdGVycycgaW4gbWFrZSwN
+Cj4gPiBidXQgSSBzdXNwZWN0IGFueSB2YXJpYWJsZSBleHBhbnNpb24gaXMgZW5vdWdoLg0KPiA+
+IFNpbmNlICR7eDorfSBhbHdheXMgZXhwYW5kcyB0byB0aGUgZW1wdHkgc3RyaW5nICh3aGV0aGVy
+IG9yDQo+ID4gbm90ICd4JyBpcyBkZWZpbmVkKSBpdCBjYW4ndCBoYXZlIGFueSB1bmZvcnR1bmF0
+ZSBzaWRlIGVmZmVjdHMuDQo+IA0KPiANCj4gUHJvYmFibHksIG15IGV5ZXMgYXJlIHVzZWQgdG8g
+TWFrZWZpbGUuDQo+ICI6IiBpcyBhIG5vLW9wIGNvbW1hbmQsIGFuZCBpdCBpcyB1c2VkIGV2ZXJ5
+d2hlcmUgaW4ga2VybmVsIE1ha2VmaWxlcw0KPiBpbiB0aGUgZm9ybSBvZiAiQDonDQo+IA0KPiBJ
+dCBkZXBlbmRzIG9uIHBlb3BsZSB3aGljaCBzb2x1dGlvbiBzZWVtcyBzaW1wbGVyLg0KPiBTbywg
+dGhpcyBhcmd1bWVudCB0ZW5kcyB0byBlbmQgdXAgd2l0aCBiaWtlc2hlZGluZy4NCg0KSSBhbSBm
+dWxseSBhd2FyZSBvZiAnOicsIGl0IGlzIGEgc2hlbGwgYnVpbHRpbiB0aGF0IGFsd2F5cyByZXR1
+cm4gc3VjY2Vzcy4NClVzdWFsbHkgdXNlZCB3aGVuIHlvdSB3YW50IHRoZSBzaWRlLWVmZmVjdHMg
+b2Ygc3Vic3RpdHV0aW9ucyB3aXRob3V0DQpleGVjdXRpbmcgYW55dGhpbmcgKGVnIDogJHtmb286
+PWJhcn0gKSwgdG8gY2hhbmdlIHRoZSByZXN1bHQgb2YgYQ0Kc2VxdWVuY2Ugb2Ygc2hlbGwgY29t
+bWFuZHMgb3IgYXMgYSBkdW1teSAoZWcgd2hpbGUgOjsgZG8gOjsgZG9uZTsgKQ0KVmVyeSBhbm5v
+eWluZ2x5IGJhc2ggcGFyc2VzICE6IGFzIHNvbWV0aGluZyBvdGhlciB0aGFuICdub3QgdHJ1ZScu
+DQoNCiQoc2hlbGwgY29tbWFuZCQke3g6K30gLXYgJChjKWdjYykgd2lsbCBiZSBtYXJnaW5hbGx5
+IGZhc3Rlcg0KYmVjYXVzZSBpdCBpcyBsZXNzIHBhcnNpbmcuDQoNCglEYXZpZA0KIA0KDQotDQpS
+ZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUsIEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWls
+dG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJlZ2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMp
+DQo=
 
-
-We cannot use any tool
-if you start to argue like
-"Hey, I know ancient implementation that did not work as expected".
-
-Nobody can cover all corner-cases.
-That's why we have standard.
-
-I think the reliable source is the
-Open Group Specification.
-
-The behavior of /bin/sh is defined here:
-http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_01
-
-${parameter%[word]} and ${parameter#[word]} are defined,
-so we can use them in /bin/sh scripts.
-
-
-> dash probably has the rather obscure bug in stripping '\n' from $(...)
-> output that I found and fixed in NetBSD's ash may years ago.
-> Try: foo="$(jot -b "" 130)"
-> All 130 '\n' should be deleted.
-> Mostly it fails to delete all the '\n', but it can remove extra ones!
->
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-
-
-
--- 
-Best Regards
-Masahiro Yamada
