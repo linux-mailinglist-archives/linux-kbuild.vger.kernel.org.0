@@ -2,332 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E603354CA
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jun 2019 02:48:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C992E35552
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Jun 2019 04:38:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbfFEAsD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Jun 2019 20:48:03 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38267 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbfFEAsD (ORCPT
+        id S1726501AbfFECiF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Jun 2019 22:38:05 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:23777 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbfFECiF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Jun 2019 20:48:03 -0400
-Received: by mail-lj1-f196.google.com with SMTP id o13so21504687lji.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 04 Jun 2019 17:48:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pv23Ci9XYYXbAvdmjUDu6QVKJnotvin7bH7iuxivMig=;
-        b=bCfiN04tgowJLuApBvXwZWyNMtGb9FgYGJp5LkSEcg4PdHWnZmIBeM/cM9k5AbYodp
-         rettTdhr1CO5CzRe80O5GNP151HRdnuXMuXParmN+k4ysLrvJ8T4FJPz5UBNGPIWWhDv
-         jLzSs2o7zt6OpGXykmBbYrEGKSLH0DyvmhFwA2O4C1gJAlb4gCQQYVi8jqNR76aV2CAE
-         B26xYkubYvYF6WWvFMWbUtKHUYW3SWHpux/uSw6Ty7qvZxcnWDlOTriysJ/qSBj39HJL
-         iN8/XK32e67VWiHpnny1O7oiB03Lzd4/CGvnWXT8rNKGMQku64Dn87Rnbdfu/kl1KQN3
-         xajg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pv23Ci9XYYXbAvdmjUDu6QVKJnotvin7bH7iuxivMig=;
-        b=cyJ3g0iVT83k1zkz/BUGTy+T7n3x3fio8fE4nDKoDP12POajeURxL/zhMbQvVo4xup
-         pw1h15evY8MC6qzZOFUXjn61NlBbdx/jZ4JwuTN+f/JPv1kimopjpWSwi4FK8PAhApcH
-         cL5Kti+1MaI8poLpSYOXuugMzTlHbKNRHKuQZxt1wEozRwDEgAlEIOnIkxcQwEp+zTtK
-         Y0ZuHWAz7QXYKpp+EJby1veABNeE2PjOM4A+xY8Q5TfjCPAxe8ypK3CTKklMupQehI/R
-         W2daeBBOOWAiGT28CMP5nk2FfrB6IeEWUlMq6UV6YlHjIRykrDTBlzWzBrtQ0dNETm3w
-         hKUA==
-X-Gm-Message-State: APjAAAUIGOvQtMg5roDxyGf90xTXHGNn/rEVYg67z30Q8+rrFDpHOGgd
-        fKN+tLNN7sZO8uLCEOPa1y2KmbuMrnLkbXpWTrcOsw==
-X-Google-Smtp-Source: APXvYqxvjJ99N3aai52FzW/2dSKhKjlCCwgFuNgdJiXvkROkaHK9M4UqMQad+SFwjoWlFMwgkqQd/uzHdaUnjHCnq4g=
-X-Received: by 2002:a2e:a318:: with SMTP id l24mr6685023lje.36.1559695679940;
- Tue, 04 Jun 2019 17:47:59 -0700 (PDT)
+        Tue, 4 Jun 2019 22:38:05 -0400
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x552bwqj023011;
+        Wed, 5 Jun 2019 11:37:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x552bwqj023011
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1559702279;
+        bh=rlXG4KafJ48SszDXPb9veQ1mChqnZopGbbSbM2AtzLc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=reRoC3LCODW2GBXW/hPCv4S/B7CVl9c+nRtJ4VY8VY6hzI24tWZrUHkGNWz420Nxm
+         kA5XCPbqM+OcfHVU2VJwzQuuBHYJqAn1wVeQ72k4q/3g1jhzo46RQXCg/ukFh2Dox7
+         LR1uj6rky7CyY6u4WR0us9bTjJZgclXEUPQxSVVG70hHPG2k8nOGylY2MysCZiL0iG
+         YqMskldpLSmjYFpHCr5Tkh2Ifh48QY8xmg7TBMBkEF8jxDxwwerKaY9jc0GYh1EpfR
+         eGmZCZ4253i7cIrBZj1Z1utua3uwfrvPlahSg5FCD/jXViNq2pL+e8DeNYjaabxd3l
+         fbTOkdui/IHVw==
+X-Nifty-SrcIP: [209.85.217.48]
+Received: by mail-vs1-f48.google.com with SMTP id n21so9083325vsp.12;
+        Tue, 04 Jun 2019 19:37:59 -0700 (PDT)
+X-Gm-Message-State: APjAAAUJSf6uv3e8xz/lSHIFnG7yWBQ4EMyfIbvLeziXJe+cZWKe2PaA
+        BHwSO3AdTPTTF1TIyYuLO8jAgWtqFiGJcWbl6Kk=
+X-Google-Smtp-Source: APXvYqzyi/PN7usug5PnObKBoqJxKJtYCUFINZdd71aBKnjEu2CMU8+EOU/sdcKVYceeBvsBUi01Xqmwcp/M7j6Sefg=
+X-Received: by 2002:a67:f495:: with SMTP id o21mr3047792vsn.54.1559702278042;
+ Tue, 04 Jun 2019 19:37:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-5-brendanhiggins@google.com> <20190517175841.F3396216FD@mail.kernel.org>
-In-Reply-To: <20190517175841.F3396216FD@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 4 Jun 2019 17:47:48 -0700
-Message-ID: <CAFd5g456V4aQUSxxTAizun8ak4zogcAt4-YGgebX2L55Kb-xEg@mail.gmail.com>
-Subject: Re: [PATCH v4 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
+References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190604101409.2078-1-yamada.masahiro@socionext.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 5 Jun 2019 11:37:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ50Lnz+1hjHg2PK_h7DyfNkY7D1XGL5_VPDe5xLgx2Kw@mail.gmail.com>
+Message-ID: <CAK7LNAQ50Lnz+1hjHg2PK_h7DyfNkY7D1XGL5_VPDe5xLgx2Kw@mail.gmail.com>
+Subject: Re: [PATCH 00/15] kbuild: refactor headers_install and support
+ compile-test of UAPI headers
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Song Liu <songliubraving@fb.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-riscv@lists.infradead.org,
+        Vincent Chen <deanbo422@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
+        Helge Deller <deller@gmx.de>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Yonghong Song <yhs@fb.com>,
+        arcml <linux-snps-arc@lists.infradead.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-parisc@vger.kernel.org, Vineet Gupta <vgupta@synopsys.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf@vger.kernel.org,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Martin KaFai Lau <kafai@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 17, 2019 at 10:58 AM Stephen Boyd <sboyd@kernel.org> wrote:
+On Tue, Jun 4, 2019 at 7:15 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> Quoting Brendan Higgins (2019-05-14 15:16:57)
-> > diff --git a/kunit/kunit-stream.c b/kunit/kunit-stream.c
-> > new file mode 100644
-> > index 0000000000000..1884f1b550888
-> > --- /dev/null
-> > +++ b/kunit/kunit-stream.c
-> > @@ -0,0 +1,152 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * C++ stream style string formatter and printer used in KUnit for outputting
-> > + * KUnit messages.
-> > + *
-> > + * Copyright (C) 2019, Google LLC.
-> > + * Author: Brendan Higgins <brendanhiggins@google.com>
-> > + */
-> > +
-> > +#include <kunit/test.h>
-> > +#include <kunit/kunit-stream.h>
-> > +#include <kunit/string-stream.h>
-> > +
-> > +static const char *kunit_stream_get_level(struct kunit_stream *this)
-> > +{
-> > +       unsigned long flags;
-> > +       const char *level;
-> > +
-> > +       spin_lock_irqsave(&this->lock, flags);
-> > +       level = this->level;
-> > +       spin_unlock_irqrestore(&this->lock, flags);
-> > +
-> > +       return level;
 >
-> Please remove this whole function and inline it to the one call-site.
+> Multiple people have suggested to compile-test UAPI headers.
 >
-> > +}
-> > +
-> > +void kunit_stream_set_level(struct kunit_stream *this, const char *level)
-> > +{
-> > +       unsigned long flags;
-> > +
-> > +       spin_lock_irqsave(&this->lock, flags);
-> > +       this->level = level;
-> > +       spin_unlock_irqrestore(&this->lock, flags);
+> Currently, Kbuild provides simple sanity checks by headers_check
+> but they are not enough to catch bugs.
 >
-> I don't get the locking here. What are we protecting against? Are tests
-> running in parallel using the same kunit_stream? If so, why is the level
-> changeable in one call and then adding strings is done in a different
-> function call? It would make sense to combine the level setting and
-> string adding so that it's one atomic operation if it's truly a parallel
-> operation, or remove the locking entirely.
-
-I think you are right. I am not sure it makes sense for two separate
-threads to share a kunit_stream; even if locked properly, it would end
-up printing out corrupted text.
-
-In anycase, I think it makes sense to decide the level when the stream
-is allocated which would sidestep this issue entirely.
-
-> > +}
-> > +
-> > +void kunit_stream_add(struct kunit_stream *this, const char *fmt, ...)
-> > +{
-> > +       va_list args;
-> > +       struct string_stream *stream = this->internal_stream;
-> > +
-> > +       va_start(args, fmt);
-> > +
-> > +       if (string_stream_vadd(stream, fmt, args) < 0)
-> > +               kunit_err(this->test, "Failed to allocate fragment: %s\n", fmt);
-> > +
-> > +       va_end(args);
-> > +}
-> > +
-> > +void kunit_stream_append(struct kunit_stream *this,
-> > +                               struct kunit_stream *other)
-> > +{
-> > +       struct string_stream *other_stream = other->internal_stream;
-> > +       const char *other_content;
-> > +
-> > +       other_content = string_stream_get_string(other_stream);
-> > +
-> > +       if (!other_content) {
-> > +               kunit_err(this->test,
-> > +                         "Failed to get string from second argument for appending.\n");
-> > +               return;
-> > +       }
-> > +
-> > +       kunit_stream_add(this, other_content);
-> > +}
-> > +
-> > +void kunit_stream_clear(struct kunit_stream *this)
-> > +{
-> > +       string_stream_clear(this->internal_stream);
-> > +}
-> > +
-> > +void kunit_stream_commit(struct kunit_stream *this)
+> The most recent patch I know is David Howells' work:
+> https://patchwork.kernel.org/patch/10590203/
 >
-> Should this be rather called kunit_stream_flush()?
-
-So the intention is that the string in the buffer will not get printed
-out until commit is called. In this way, you can build up a message
-and then decide not to print it. This is useful when you are parsing
-through a lot of data that would be useful in debugging a failing or
-broken test, but are not yet sure if it is going to pass or not.
-
-I think flush has the connotation, that you are just forcing the
-buffer to get written out now, but that it will happen regardless
-eventually, where commit has the correct connotation that you *must*
-call it in order to write out the data stored in the buffer.
-
-Seems as though I should probably add this distinction to the
-kernel-doc comment.
-
-> > +{
-> > +       struct string_stream *stream = this->internal_stream;
-> > +       struct string_stream_fragment *fragment;
-> > +       const char *level;
-> > +       char *buf;
-> > +
-> > +       level = kunit_stream_get_level(this);
-> > +       if (!level) {
-> > +               kunit_err(this->test,
-> > +                         "Stream was committed without a specified log level.\n");
+> I agree that we need better tests for UAPI headers,
+> but I want to integrate it in a clean way.
 >
-> Drop the full-stop?
+> The idea that has been in my mind is to compile each header
+> to make sure the selfcontainedness.
 
-Whoops, nice catch. Will fix in next revision.
 
-> > +               level = KERN_ERR;
-> > +               kunit_stream_set_level(this, level);
-> > +       }
-> > +
-> > +       buf = string_stream_get_string(stream);
-> > +       if (!buf) {
-> > +               kunit_err(this->test,
->
-> Can you grow a local variable for 'this->test'? It's used many times.
+For convenience, I pushed this series at
 
-Sure, will fix in next revision.
+git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+uapi-header-test-v1
 
-> Also, 'this' is not very kernel idiomatic. We usually name variables by
-> their type instead of 'this' which is a keyword in other languages.
-> Perhaps it could be named 'kstream'?
+(13/15 was replaced with v2)
 
-Seems reasonable. Will fix in next revision.
 
-> > +                        "Could not allocate buffer, dumping stream:\n");
-> > +               list_for_each_entry(fragment, &stream->fragments, node) {
-> > +                       kunit_err(this->test, fragment->fragment);
-> > +               }
-> > +               kunit_err(this->test, "\n");
-> > +               goto cleanup;
-> > +       }
-> > +
-> > +       kunit_printk(level, this->test, buf);
-> > +       kfree(buf);
-> > +
-> > +cleanup:
-> > +       kunit_stream_clear(this);
-> > +}
-> > +
-> > +static int kunit_stream_init(struct kunit_resource *res, void *context)
-> > +{
-> > +       struct kunit *test = context;
-> > +       struct kunit_stream *stream;
-> > +
-> > +       stream = kzalloc(sizeof(*stream), GFP_KERNEL);
->
-> Of course, here it's called 'stream', so maybe it should be 'kstream'
-> here too.
+If you want to test it quickly, please check-out it, then
 
-Will do.
+  $ make -j8 allmodconfig usr/
 
->
-> > +       if (!stream)
-> > +               return -ENOMEM;
-> > +
-> > +       res->allocation = stream;
-> > +       stream->test = test;
-> > +       spin_lock_init(&stream->lock);
-> > +       stream->internal_stream = new_string_stream();
->
-> Can new_string_stream() be renamed to alloc_string_stream()? Sorry, I
-> just see so much C++ isms in here it's hard to read from the kernel
-> developer perspective.
+(As I noted in the commit log, you need to use
+a compiler that provides <stdlib.h>, <sys/time.h>, etc.)
 
-No problem. WIll fix in next revision.
 
-> > +
-> > +       if (!stream->internal_stream) {
->
-> Nitpick: Please join this to the "allocation" event above instead of
-> keeping it separated.
-
-Yeah, that's a lot cleaner. Will do.
-
-> > +               kfree(stream);
-> > +               return -ENOMEM;
-> > +       }
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static void kunit_stream_free(struct kunit_resource *res)
-> > +{
-> > +       struct kunit_stream *stream = res->allocation;
-> > +
-> > +       if (!string_stream_is_empty(stream->internal_stream)) {
-> > +               kunit_err(stream->test,
-> > +                        "End of test case reached with uncommitted stream entries.\n");
-> > +               kunit_stream_commit(stream);
-> > +       }
-> > +
-> > +       destroy_string_stream(stream->internal_stream);
-> > +       kfree(stream);
-> > +}
-> > +
-> > +struct kunit_stream *kunit_new_stream(struct kunit *test)
-> > +{
-> > +       struct kunit_resource *res;
-> > +
-> > +       res = kunit_alloc_resource(test,
-> > +                                  kunit_stream_init,
-> > +                                  kunit_stream_free,
-> > +                                  test);
-> > +
-> > +       if (res)
-> > +               return res->allocation;
-> > +       else
-> > +               return NULL;
->
-> Don't have if (...) return ...; else return ..., just return instead of
-> else.
-
-Sorry. Will fix.
-
-Thanks!
+-- 
+Best Regards
+Masahiro Yamada
