@@ -2,58 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0445E37EFF
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2019 22:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5A3B381DE
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 01:40:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbfFFUyL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Jun 2019 16:54:11 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39446 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726305AbfFFUyL (ORCPT
+        id S1727505AbfFFXkM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Jun 2019 19:40:12 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:37174 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726305AbfFFXkM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Jun 2019 16:54:11 -0400
-Received: by mail-pl1-f196.google.com with SMTP id g9so1394113plm.6
-        for <linux-kbuild@vger.kernel.org>; Thu, 06 Jun 2019 13:54:11 -0700 (PDT)
+        Thu, 6 Jun 2019 19:40:12 -0400
+Received: by mail-pl1-f193.google.com with SMTP id bh12so68608plb.4
+        for <linux-kbuild@vger.kernel.org>; Thu, 06 Jun 2019 16:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YoJ3njYYHju4gWF0UDBaqx7cQlwNKwpKTA90sZyzSuQ=;
-        b=Nu7nnn9vfPpPz7sJxzqHoDx7JUBZai+/vvUUZYEVShpjf+/WoIFd69vDm490dRtAIC
-         3/H83DydzDP+pAjIcUz9k3WNrfVW0HsVmlqELKBg8gnj0bRoyZo8MVo1UcJiTEVY2SI+
-         pnj0Drye6jfQILs7l22P2xML1Elc79OSNTLn4hgwyOo/QokPL2q6Bmp14mQsmpbNN7Rk
-         iksow+4qEgKgcWET9s4ApvtocM1MVqaHqiuwD9GJmJEWAY6uTTDP42BEuTOpf9/+GPfL
-         WWTAxu5+ByvouWksg97xH8Dg414XiC58pgwqSdUEyZHtgoUsqO/HF76Hq1EUCG95Cvh5
-         cbzw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zupcycHQhyZT5TPbzZH69TXNfK4PGS1TsnXYmh2heXA=;
+        b=OK7y4D8OareDzwfMyIRJGXrsJrkBCTjHx+5e2R1/XnVCdlMIeUq2ylw1JdESiMjw4U
+         vQuzE8d1AM5MapxQeB4XiUvJKPY9nfGTyJlfyEYbAf0cX6CGSM1fTIOoHvwvr8N89Fwz
+         oKuJdZJ1czJp/0Awj+h8sAVxQNfO0Iyaa+Nu8ToGeJcB6izf81oFHFtnMGT2gOAc+zLf
+         YhEPKHZQLHD8ZPVr6sOBalOoiKDdbP2er0moAg9N8sP/yQTvr/fJRlLyZxbUTLfxT+Nd
+         SMQAWURCIlVmkk6htR9ZFo+Zq8eXp8j1EypQH3Tr8EqXWAx/dtpgQkohFh5HoSD/8mmt
+         3vlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YoJ3njYYHju4gWF0UDBaqx7cQlwNKwpKTA90sZyzSuQ=;
-        b=AdLM2Qb+yQg1+5V4aeXxRg1b0iNsp8wyeev9D+0bWFqZUtHzAaTYNjD8NcokMXmrDT
-         fFzF8pKrSjTo6Z4iMcOi3BqXfmkp6PPSY5sXV69hYpenIg9P9/sdMxZ4pQtNAO/vYR00
-         xu+8Yj0ncddoGtrQydEpMNklxskRlbsovoWpoJkg/Br/10T2R4tYIqCNRuaq9dQk2tVw
-         T55tbScKUQPDILpSvedaj3PR1b/qNCeLp9yeEEoXCg47YyyMtFajZz++J4n9bVU7+AOk
-         dDTQ46jT3SrabZ38cFI2NHlRv0QXE7j06a8KgqBRTLCq9TQLKe0fepsBamnyiwbdetMs
-         GisQ==
-X-Gm-Message-State: APjAAAW37zWih8+RVb36jReQEvEitCpC6LZVAn0TOBTmUtc2WgNTO75E
-        C2sNaIIJHg4GdimlqA8LRfgu/Q==
-X-Google-Smtp-Source: APXvYqzzAMglGevfusW7tK60HbnxOfGl1ecbxmkWIc836qB8QYHrsxg3mMGRvfA5XFepfVeRePnaHA==
-X-Received: by 2002:a17:902:2ba9:: with SMTP id l38mr45854802plb.300.1559854450219;
-        Thu, 06 Jun 2019 13:54:10 -0700 (PDT)
-Received: from google.com ([2620:0:1008:1100:dac3:f780:2846:b802])
-        by smtp.gmail.com with ESMTPSA id m5sm60680pgc.84.2019.06.06.13.54.09
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 06 Jun 2019 13:54:09 -0700 (PDT)
-Date:   Thu, 6 Jun 2019 13:54:06 -0700
-From:   Tom Roeder <tmroeder@google.com>
-To:     Raul E Rangel <rrangel@chromium.org>
-Cc:     yamada.masahiro@socionext.com, mka@chromium.org,
-        ndesaulniers@google.com, zwisler@chromium.org,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zupcycHQhyZT5TPbzZH69TXNfK4PGS1TsnXYmh2heXA=;
+        b=XLy5qWBi2mZCY887m1WtmGAfBCpmgI29H56DTwXq23zoQgLNy+0rzU3niWykRASoTP
+         Lnd7KS2tUl0nxOlBHXTtmSNBsQreiOoT0eh1HZ6uZcaiM/G/o8HMrbmy1x/L82F36DfC
+         3JEGq5J+vCFd5v1GKK0MIWKvvq5fcRfZZK7TTSBAj//41ha747xg5ufCmcFgHBztJoNE
+         NRvpaulUe3demVA35LmIVtOivuO5+2KmkB0JmQOCEMAcqckE2f9/j4wnt1Fm4p8TYREL
+         UCH6nZOoRCOKlOcjHYtHT5OpQe2blm6f9z2xfw6sONX0OMbChXyVTIjf0DBD8gzis9UB
+         qN0g==
+X-Gm-Message-State: APjAAAWkJMpe+8/KX9txQ9IW8GDfaXYNUk8mcW87QI7ZoylL7ktmyBmX
+        B/vlWLAU26sxkUkdpHnt9mPtbxCAm5I/1uXtUjrl6w==
+X-Google-Smtp-Source: APXvYqyX9NzgOKOBEhL3bfMOXwnl+YK9bQ96sRpsB/N0jk6CGTHPGokJOh/8Hytm71BtKVBSpMQIrhxbRxSBg/ZYe+8=
+X-Received: by 2002:a17:902:b944:: with SMTP id h4mr50886675pls.179.1559864411389;
+ Thu, 06 Jun 2019 16:40:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190606203003.112040-1-rrangel@chromium.org> <20190606205406.GA120512@google.com>
+In-Reply-To: <20190606205406.GA120512@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 6 Jun 2019 16:40:00 -0700
+Message-ID: <CAKwvOd=RCL3hpHBVukomrRiXKhvJHMxe3HSrtd0MRcCe1B3ZGw@mail.gmail.com>
+Subject: Re: [RFC PATCH] kbuild: Add option to generate a Compilation Database
+To:     Tom Roeder <tmroeder@google.com>
+Cc:     Raul E Rangel <rrangel@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Matthias Kaehlcke <mka@chromium.org>, zwisler@chromium.org,
         Joe Lawrence <joe.lawrence@redhat.com>,
         Kees Cook <keescook@chromium.org>,
-        linux-kbuild@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        linux-kernel@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Changbin Du <changbin.du@intel.com>,
@@ -62,53 +65,56 @@ Cc:     yamada.masahiro@socionext.com, mka@chromium.org,
         Matthew Wilcox <willy@infradead.org>,
         Mikulas Patocka <mpatocka@redhat.com>,
         Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [RFC PATCH] kbuild: Add option to generate a Compilation Database
-Message-ID: <20190606205406.GA120512@google.com>
-References: <20190606203003.112040-1-rrangel@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606203003.112040-1-rrangel@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 02:30:03PM -0600, Raul E Rangel wrote:
-> Clang tooling requires a compilation database to figure out the build
-> options for each file. This enables tools like clang-tidy and
-> clang-check.
-> 
-> See https://clang.llvm.org/docs/HowToSetupToolingForLLVM.html for more
-> information.
+On Thu, Jun 6, 2019 at 1:54 PM Tom Roeder <tmroeder@google.com> wrote:
+>
+> On Thu, Jun 06, 2019 at 02:30:03PM -0600, Raul E Rangel wrote:
+> > Clang tooling requires a compilation database to figure out the build
+> > options for each file. This enables tools like clang-tidy and
+> > clang-check.
+> >
+> > See https://clang.llvm.org/docs/HowToSetupToolingForLLVM.html for more
+> > information.
 
-I'm glad to see someone adding this to the Makefile directly. I added
-scripts/gen_compile_commands.py in b302046 (in Dec 2018) when I was
-working on using clang-check to look for bugs in KVM. That script
-sidesteps the -MJ option because I found that trying to add it as an
-extra option ended up adding entries to the database that didn't work
-properly in some cases. This patch adds -MJ in a different way than I
-was trying, so I hope it doesn't have the same problems.
+I'm also super happy to see this!
+https://nickdesaulniers.github.io/blog/2017/05/31/running-clang-tidy-on-the-linux-kernel/
+I don't know enough about GNU Make/Kbuild to answer the questions, but
+hopefully Masahiro can help there.
 
-I would much prefer to have this functionality integrated into the
-Makefile system directly, so if this works with clang-check over all
-files and doesn't lead to spurious entries in the database, I'm all for
-it.
+> I'm glad to see someone adding this to the Makefile directly. I added
+> scripts/gen_compile_commands.py in b302046 (in Dec 2018) when I was
 
-> 
-> Normally cmake is used to generate the compilation database, but the
-> linux kernel uses make. Another option is using
-> [BEAR](https://github.com/rizsotto/Bear) which instruments
-> exec to find clang invocations and generate the database that way.
-> 
-> Clang 4.0.0 added the -MJ option to generate the json for each
-> compilation unit. https://reviews.llvm.org/D27140
-> 
-> This patch takes advantage of the -MJ option. So it only works for
-> Clang.
-> 
-Can you please add details about how this was tested and compare
-coverage with the existing script?
+Heh, cool.  I had a script that basically did this; we recently
+dropped it from the Android trees when doing an audit of out of tree
+patches.
 
-Tom
+> working on using clang-check to look for bugs in KVM. That script
+
+I'm very interested in this work; my summer intern is looking into
+static analyses of the Linux kernel.  Can you maybe reach out to me
+off thread to tell me more about what you found (or didn't)?
+
+> > Normally cmake is used to generate the compilation database, but the
+> > linux kernel uses make. Another option is using
+> > [BEAR](https://github.com/rizsotto/Bear) which instruments
+> > exec to find clang invocations and generate the database that way.
+
+It's probably possible to get this to work w/ GCC if the additional
+dependency of bear exists on the host's system (and may reduce the
+number of implementations).  Downside is the additional host
+dependency.
+
+Sounds like it may also be possible to just run
+scripts/gen_compile_commands.py at build time if this config is
+enabled?
+
+Maybe a comparison of the output of Tom's script and your patch might
+reveal if one approach is incomplete?
+-- 
+Thanks,
+~Nick Desaulniers
