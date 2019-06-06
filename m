@@ -2,101 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AC37371E1
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2019 12:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0072C37ED4
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Jun 2019 22:30:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfFFKlc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Jun 2019 06:41:32 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:44795 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbfFFKlb (ORCPT
+        id S1725784AbfFFUaN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Jun 2019 16:30:13 -0400
+Received: from mail-it1-f195.google.com ([209.85.166.195]:51069 "EHLO
+        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727017AbfFFUaN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Jun 2019 06:41:31 -0400
-Received: by mail-io1-f67.google.com with SMTP id s7so1380946iob.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 06 Jun 2019 03:41:31 -0700 (PDT)
+        Thu, 6 Jun 2019 16:30:13 -0400
+Received: by mail-it1-f195.google.com with SMTP id a186so2135656itg.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 06 Jun 2019 13:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YZz9VH+++n/ml8QwihoeTjKhf7ccky00th8eHkY3Vfc=;
-        b=oot9uwD2GIpRoIuiprplBae2RMkW7KHHuPXHbgBj1Zt1IPLHAzmAkeTV2A8L3H6kbE
-         VMITsJ3j1aP5tPlEBV5gwgwKMPxdeZziwToVkctXyoxGl+yY0AkPbnIWvUYup80/H0NX
-         HFoxUK484DU5KeF4HHdJL4D9xn0wDWMZaZ67j3I91i/b5sOYSmRAxdvpR7Be07dZftDk
-         IahAOMUqupe11t5rWpUgRweVeJ2OZQAzrW1KnW7Nk/R4ZcGRq9MY3VbhmMg1r82MfFHZ
-         9rCjSz5txBMtwphptFvApsmk9GG73EU0SgZk56kRNPbypGjefr5xI3xEwJwvhjetPsUx
-         Uamw==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CMffxpzzNeHPnyHxq1DkhRwOhkIOW8SKyDW+whl/MBM=;
+        b=LNCjE7ZroqyYbWBkBxyLftTFqv8ooPNexUhuVqcbnGoXeZEiuGJCy2CHT+FaQUdCC0
+         dguO9W4gajtKWHjb+/8VUG+FCuzfUNrp9Tui6irD9ewHiMbldRFGJ6YhQESbPw1ioV0P
+         2iecLE6raDsvrflU0W8WA1tJ+W1+nokkS0N4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YZz9VH+++n/ml8QwihoeTjKhf7ccky00th8eHkY3Vfc=;
-        b=ZXPrYaLyLFCt/hsTpeMyv+syzEORHdvgqAGksagNM1o3RobS6w99mzG/Rcd1MzirjM
-         4/Gz1VbVcUHcar+ZMoeySUG9ztC9MqZEJAcmsMGGwtq7FMOzkdomYn2z4RrO0D/u9eWe
-         9K2kDpEyrivn4UiyojmXL9hVbgmzC3jDQWZZR0HsT9CWJ8ughzbYhYytSwgA3SdXqi2f
-         lcrgA+hUC4PPcRGbvNBi2jdQElKArWiBHqk0UpIl8O9lyFLXBPzwIDbT2OQnzeveeh1f
-         BJzy49MA06yXA85T51sLAdFph/0D5WCv2tDzp8SRcBmZTVYdrU5VEfubV6NkRKlvdK9U
-         Qqdg==
-X-Gm-Message-State: APjAAAUil4pTFCozCJuT5g40Ff9FRge75enm5uQw8Rxyr+yVh9bxeYA9
-        Pjnf16X7gsTWhUBRErNGC5C7ICMcuncIZGuurK+eiQ==
-X-Google-Smtp-Source: APXvYqwaJmD1w0iqf+JJabWNMhpH1dQz4fhXhzeUXTh/S05TOrPkTAmbtOEly66HV1vfKvkRhB1R5D3CqSbES520EyU=
-X-Received: by 2002:a5d:9d83:: with SMTP id 3mr25670814ion.65.1559817690897;
- Thu, 06 Jun 2019 03:41:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CMffxpzzNeHPnyHxq1DkhRwOhkIOW8SKyDW+whl/MBM=;
+        b=fpZ6A1BqXhDUPPBbfVQwKNlwpZR7LxpL950RoH+479lO5H/zl78RpkM+++8XD0Be0p
+         hLwpl16zB+K0LrN+YGdCy4icHFhl76MbOhkQF9S2KokTbn1nkpLbZfvbVqmq3YKAd8J3
+         Mb/g2ncfyCPAwVmk2k8Z3X1UZOdOIzaoJFfjqXBoOn36Beh2hbho6Mxbx8GJ5PunkdTZ
+         D0p0x6HLlvsyLyRunrfYF8UYDtMKhbOCOI1ntqbZPDxaqDTDqSGG2Rv5kIUTNSFYMHYk
+         tOBFWCkH4BWHewqmRYXaXuCpxCMjIGx/FOVpTJRtcKMsobA4Q3rR4chyL2fTAJHjtYcR
+         5k5g==
+X-Gm-Message-State: APjAAAURj1QMr/MlE3b6hv+bzfoLaUxub686klF5/Hb7/TKB6GzAYWDX
+        //ZWWnQHMYR9MPYb4Xzn/CsH6Q==
+X-Google-Smtp-Source: APXvYqwLM54vHHQKeM7hNiAZxdj6iSn3l/ZcdXxvNkqtY7eYrBYhgAUkxItdVGznXuRPoCHUUgeEVA==
+X-Received: by 2002:a24:5710:: with SMTP id u16mr1536035ita.67.1559853012190;
+        Thu, 06 Jun 2019 13:30:12 -0700 (PDT)
+Received: from localhost ([2620:15c:183:0:20b8:dee7:5447:d05])
+        by smtp.gmail.com with ESMTPSA id j23sm1039331ioo.6.2019.06.06.13.30.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 06 Jun 2019 13:30:11 -0700 (PDT)
+From:   Raul E Rangel <rrangel@chromium.org>
+To:     yamada.masahiro@socionext.com
+Cc:     mka@chromium.org, ndesaulniers@google.com, zwisler@chromium.org,
+        Raul E Rangel <rrangel@chromium.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Changbin Du <changbin.du@intel.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Sri Krishna chowdary <schowdary@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: [RFC PATCH] kbuild: Add option to generate a Compilation Database
+Date:   Thu,  6 Jun 2019 14:30:03 -0600
+Message-Id: <20190606203003.112040-1-rrangel@chromium.org>
+X-Mailer: git-send-email 2.22.0.rc1.311.g5d7573a151-goog
 MIME-Version: 1.0
-References: <20190604233434.nx5tXmlsH%akpm@linux-foundation.org> <a4bfdf4c-de88-31a2-8f8d-f32c1ebdbd02@infradead.org>
-In-Reply-To: <a4bfdf4c-de88-31a2-8f8d-f32c1ebdbd02@infradead.org>
-From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date:   Thu, 6 Jun 2019 12:41:17 +0200
-Message-ID: <CAKv+Gu9=b1ewM8p9y8T7zCiQi=qYEA-webkFns-hg5rhu6=26g@mail.gmail.com>
-Subject: Re: mmotm 2019-06-04-16-33 uploaded (drivers/crypto/atmel)
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Mark Brown <broonie@kernel.org>, linux-fsdevel@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linux-Next Mailing List <linux-next@vger.kernel.org>,
-        mhocko@suse.cz, mm-commits@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 5 Jun 2019 at 20:56, Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 6/4/19 4:34 PM, akpm@linux-foundation.org wrote:
-> > The mm-of-the-moment snapshot 2019-06-04-16-33 has been uploaded to
-> >
-> >    http://www.ozlabs.org/~akpm/mmotm/
-> >
-> > mmotm-readme.txt says
-> >
-> > README for mm-of-the-moment:
-> >
-> > http://www.ozlabs.org/~akpm/mmotm/
-> >
-> > This is a snapshot of my -mm patch queue.  Uploaded at random hopefully
-> > more than once a week.
-> >
->
-> (problem seen in mmotm, but this is not an mmotm patch; it's from linux-next)
->
-> on x86_64:
->
-> ld: drivers/crypto/atmel-i2c.o: in function `atmel_i2c_checksum':
-> atmel-i2c.c:(.text+0x1b): undefined reference to `crc16'
->
-> because CONFIG_CRC16=m and CONFIG_CRYPTO_DEV_ATMEL_I2C=y.
-> The latter selects the former.
-> I don't know how to make CRC16 be builtin in this case. ???
-> I changed the 'select' to 'imply' but that didn't make any difference.
->
-> Full randconfig file is attached.
->
+Clang tooling requires a compilation database to figure out the build
+options for each file. This enables tools like clang-tidy and
+clang-check.
 
-CONFIG_CRYPTO_DEV_ATMEL_I2C was lacking the 'select' entirely, but it
-has now been added (as a fix to the crypto tree)
+See https://clang.llvm.org/docs/HowToSetupToolingForLLVM.html for more
+information.
+
+Normally cmake is used to generate the compilation database, but the
+linux kernel uses make. Another option is using
+[BEAR](https://github.com/rizsotto/Bear) which instruments
+exec to find clang invocations and generate the database that way.
+
+Clang 4.0.0 added the -MJ option to generate the json for each
+compilation unit. https://reviews.llvm.org/D27140
+
+This patch takes advantage of the -MJ option. So it only works for
+Clang.
+
+Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+---
+I have a couple TODOs in the code that I would like some feedback on.
+Specifically why extra-y doesn't seem to work in the root Makefile.
+Also, is there a way to add the correct list of prerequisites to the
+compile_commands.json target?
+
+Thanks,
+Raul
+
+
+ Makefile               | 20 ++++++++++++++++++++
+ lib/Kconfig.debug      |  7 +++++++
+ scripts/Makefile.build |  9 ++++++++-
+ 3 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index a61a95b6b38f7..06067ee18ff64 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1663,6 +1663,26 @@ quiet_cmd_tags = GEN     $@
+ tags TAGS cscope gtags: FORCE
+ 	$(call cmd,tags)
+ 
++# Compilation Database
++# ---------------------------------------------------------------------------
++# Generates a compilation database that can be used with the LLVM tools
++ifdef CONFIG_COMPILATION_DATABASE
++
++quiet_cmd_compilation_db = GEN   $@
++cmd_compilation_db = (echo '['; \
++	find "$(@D)" -mindepth 2 -iname '*.json' -print0 | xargs -0 cat; \
++	echo ']') > "$(@D)/$(@F)"
++
++# Make sure the database is built when calling `make` without a target.
++# TODO: Using extra-y doesn't seem to work.
++_all: $(obj)/compile_commands.json
++
++# TODO: Is there a variable that contains all the object files created by
++# cmd_cc_o_c? Depending on `all` is kind of a hack
++$(obj)/compile_commands.json: all FORCE
++	$(call if_changed,compilation_db)
++endif
++
+ # Scripts to check various things for consistency
+ # ---------------------------------------------------------------------------
+ 
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index eae43952902eb..46fceb1fff3d9 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -238,6 +238,13 @@ config GDB_SCRIPTS
+ 	  instance. See Documentation/dev-tools/gdb-kernel-debugging.rst
+ 	  for further details.
+ 
++config COMPILATION_DATABASE
++	bool "Generate a compilation database"
++	depends on CLANG_VERSION >= 40000
++	help
++	  This creates a JSON Compilation Database (compile_commands.json)
++	  that is used by the clang tooling (clang-tidy, clang-check, etc).
++
+ config ENABLE_MUST_CHECK
+ 	bool "Enable __must_check logic"
+ 	default y
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index ae9cf740633e1..0017bf397292d 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -145,8 +145,15 @@ $(obj)/%.ll: $(src)/%.c FORCE
+ # The C file is compiled and updated dependency information is generated.
+ # (See cmd_cc_o_c + relevant part of rule_cc_o_c)
+ 
++ifdef CONFIG_COMPILATION_DATABASE
++# TODO: Should we store the json in a temp variable and only copy it to the
++# final name when the content is different? In theory we could avoid having to
++# generate the compilation db if the json did not change.
++compdb_flags = -MJ $(@D)/.$(@F).json
++endif
++
+ quiet_cmd_cc_o_c = CC $(quiet_modtag)  $@
+-      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $<
++      cmd_cc_o_c = $(CC) $(c_flags) $(compdb_flags) -c -o $@ $<
+ 
+ ifdef CONFIG_MODVERSIONS
+ # When module versioning is enabled the following steps are executed:
+-- 
+2.22.0.rc1.311.g5d7573a151-goog
+
