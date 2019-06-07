@@ -2,92 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F05738505
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 09:28:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88CAF38F23
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 17:32:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726956AbfFGH26 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Jun 2019 03:28:58 -0400
-Received: from smtp1.iitb.ac.in ([103.21.127.13]:60544 "EHLO smtp1.iitb.ac.in"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727036AbfFGH25 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:28:57 -0400
-X-Greylist: delayed 3062 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 03:28:55 EDT
-Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
-        by smtp1.iitb.ac.in (Postfix) with SMTP id 199B0105C477
-        for <linux-kbuild@vger.kernel.org>; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: (qmail 29995 invoked by uid 510); 7 Jun 2019 12:01:34 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
- Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.224183 secs; 07 Jun 2019 12:01:34 +0530
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
-        MISSING_HEADERS,PROPER_IITB_MSGID autolearn=disabled version=3.4.1
-X-Spam-Pyzor: Reported 1 times.
-X-Envelope-From: rws@aero.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
-  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:01:31 +0530
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by ldns2.iitb.ac.in (Postfix) with ESMTP id CB958341965;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 9509A8902E52F;
-        Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 3VnK-_U7b-vs; Fri,  7 Jun 2019 12:01:17 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 5DAB88902E54D;
-        Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id TgJiwoMo_EHZ; Fri,  7 Jun 2019 12:01:14 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 0EEE684310111;
-        Fri,  7 Jun 2019 12:01:10 +0530 (IST)
-Date:   Fri, 7 Jun 2019 12:01:09 +0530 (IST)
-From:   Martins Henry <rws@aero.iitb.ac.in>
-Message-ID: <412557711.60336.1559889069980.JavaMail.zimbra@aero.iitb.ac.in>
-Subject: Thanks and I wait for your answer
+        id S1729786AbfFGPcw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Jun 2019 11:32:52 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34072 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728797AbfFGPcv (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 7 Jun 2019 11:32:51 -0400
+Received: by mail-pg1-f194.google.com with SMTP id h2so1366576pgg.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Jun 2019 08:32:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=I7ozsQLaOgj0MR9jFDS0vY/ACLnRjUvlCOsI+qsnQSE=;
+        b=PMb1KwUOxWy7M5vtJkbvKRrSeqFBXw5wn46RTCMPfk7VWqJr1DXAQEbeX8GP72niYE
+         BNlslRoKbVLV5qwrRTf85CnT3M8NmPmSXpjujnimL4GmQrn0m1xaVXFBTTHKCAv0oGqe
+         vbBCVaXK88Pepnh49gjS5NITkVkx8XKSOmaATWZIo/j4eI4sI0L7jWEam+302Vjpt3Eo
+         z46upIm7QkeU7Y6YbxlnA6vrrSD9mpgcLQEpPfBrBCGDrFLR1GNxj83pVvFlbud/+TS0
+         G75AdhHeb1ZimhF9U9rAVvQpR/+OpyCz1eZRSaNuVx6YG0qM67yIkaCO7JYgzahAYbZI
+         4k9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=I7ozsQLaOgj0MR9jFDS0vY/ACLnRjUvlCOsI+qsnQSE=;
+        b=tuWI/lShtJ1fXO4bScwRNUGuh0/L028ihNOhNS6rHw3UJPuvKDRhvKzUngM5PR1l5B
+         Jd5JI+FAlSUbhzhBSBlH0+XX9VuxZ4PJrpTAHGmb+s02VIoe6wXy2OwCthnzZN4deyCa
+         7xECAdFyjMQAMgdiZIWro/qXAeKnJBsH4XRbKNT7dO8t6xHThOM4NKSIK8FKBsLdL7/B
+         BLpDtrbSIxFFcbBJSw8Np8PxcwiSnxSjTuhFm7bzZ2GEjiQCVY88Hvc0Alf4vqxClSsX
+         q7skwSpUxBaR+l8yhkRYBAgr9wTuqzOF2MLEE8Pn9ZjTS8z2RMXroKJcedAv6Q+h1JDq
+         YcWA==
+X-Gm-Message-State: APjAAAWk75VgY6pB2a7nb/zXD/d4mESEA5zyOJXKazFUN2hMrGDrL+y7
+        iF3cdKt4ROVaWjmXRuN745VL4g==
+X-Google-Smtp-Source: APXvYqw3v5+4N7H7TwAQ9NFuBhK+UkEA5KDHUocteGCJxUh3oXsf8cdtMrws3lGImj9jRjFZGfz6Uw==
+X-Received: by 2002:aa7:8ecb:: with SMTP id b11mr19920591pfr.220.1559921570760;
+        Fri, 07 Jun 2019 08:32:50 -0700 (PDT)
+Received: from google.com ([2620:0:1008:1100:dac3:f780:2846:b802])
+        by smtp.gmail.com with ESMTPSA id b7sm2432205pgq.71.2019.06.07.08.32.50
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 07 Jun 2019 08:32:50 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 08:32:46 -0700
+From:   Tom Roeder <tmroeder@google.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Raul E Rangel <rrangel@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Matthias Kaehlcke <mka@chromium.org>, zwisler@chromium.org,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Petr Mladek <pmladek@suse.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Changbin Du <changbin.du@intel.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+        Sri Krishna chowdary <schowdary@nvidia.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mikulas Patocka <mpatocka@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [RFC PATCH] kbuild: Add option to generate a Compilation Database
+Message-ID: <20190607153246.GB101503@google.com>
+References: <20190606203003.112040-1-rrangel@chromium.org>
+ <20190606205406.GA120512@google.com>
+ <CAKwvOd=RCL3hpHBVukomrRiXKhvJHMxe3HSrtd0MRcCe1B3ZGw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.101.1.5]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
-Thread-Index: SsslhYkcLNFU69da/wYft5cO9/ZYnA==
-Thread-Topic: Thanks and I wait for your answer
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=RCL3hpHBVukomrRiXKhvJHMxe3HSrtd0MRcCe1B3ZGw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello,
+On Thu, Jun 06, 2019 at 04:40:00PM -0700, Nick Desaulniers wrote:
+> On Thu, Jun 6, 2019 at 1:54 PM Tom Roeder <tmroeder@google.com> wrote:
+> >
+> > On Thu, Jun 06, 2019 at 02:30:03PM -0600, Raul E Rangel wrote:
+> > > Clang tooling requires a compilation database to figure out the build
+> > > options for each file. This enables tools like clang-tidy and
+> > > clang-check.
+> > >
+> > > See https://clang.llvm.org/docs/HowToSetupToolingForLLVM.html for more
+> > > information.
+> 
+> I'm also super happy to see this!
+> https://nickdesaulniers.github.io/blog/2017/05/31/running-clang-tidy-on-the-linux-kernel/
+> I don't know enough about GNU Make/Kbuild to answer the questions, but
+> hopefully Masahiro can help there.
+> 
+> > I'm glad to see someone adding this to the Makefile directly. I added
+> > scripts/gen_compile_commands.py in b302046 (in Dec 2018) when I was
+> 
+> Heh, cool.  I had a script that basically did this; we recently
+> dropped it from the Android trees when doing an audit of out of tree
+> patches.
+> 
+> > working on using clang-check to look for bugs in KVM. That script
+> 
+> I'm very interested in this work; my summer intern is looking into
+> static analyses of the Linux kernel.  Can you maybe reach out to me
+> off thread to tell me more about what you found (or didn't)?
+> 
+> > > Normally cmake is used to generate the compilation database, but the
+> > > linux kernel uses make. Another option is using
+> > > [BEAR](https://github.com/rizsotto/Bear) which instruments
+> > > exec to find clang invocations and generate the database that way.
+> 
+> It's probably possible to get this to work w/ GCC if the additional
+> dependency of bear exists on the host's system (and may reduce the
+> number of implementations).  Downside is the additional host
+> dependency.
+> 
+> Sounds like it may also be possible to just run
+> scripts/gen_compile_commands.py at build time if this config is
+> enabled?
 
-I am Martin Henry, An American Citizen; I am the personal secretary to
-Mr. Donald Railton, the controller of a Lottery Company. Please I am
-having big problem now, I have a 6yrs old daughter who has leukemia, a
-disease of the blood, and she needs a bone marrow transplant or she
-will die.
-
-Please I am only asking for your help and you will benefit from it
-also. As an insider with Lottery Firm, working as the personal
-secretary to the controller, I want you to send me your name to play,
-I have some numbers that are going to win, stored in his secret data
-system in the office. The Lottery is an online entry with credit card
-anywhere with a name and address. All I want you to do is to send your
-name to play it and I will send confirmation to you.
-
-I will play with my card on your name and the Prize will be shared
-equally between us. Immediately the results are released they will
-contact you for payment as the oversea winner. The lotto can be played
-with 9.00 dollars, or 50 dollars but the prize will be Millions.
-Remember that I am playing on your name with my card; I just want to
-front you for this, because I need this money to save the life of my
-little daughter.
-
-Thanks and I wait for your answer
-Martin Henry.
+Yes, for scripts/gen_compile_commands.py, you run a build first with
+whatever configuration you want, then call the script to produce the
+compile_commands.json file.
