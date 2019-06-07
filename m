@@ -2,110 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A04F390B1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 17:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 790F23929F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 18:58:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731637AbfFGPxp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Jun 2019 11:53:45 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:60736 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731635AbfFGPxo (ORCPT
+        id S1730935AbfFGQ6q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Jun 2019 12:58:46 -0400
+Received: from mail-qk1-f181.google.com ([209.85.222.181]:42840 "EHLO
+        mail-qk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729241AbfFGQ6q (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Jun 2019 11:53:44 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x57FrX3q006174;
-        Sat, 8 Jun 2019 00:53:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x57FrX3q006174
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559922813;
-        bh=dRixWfLZ7SzgcepcHFcC37ckogGIK76yARpWp2NLO9o=;
-        h=From:Date:Subject:To:Cc:From;
-        b=fjJ0UvNMrIc0crb412Fdm6ENuLvowMAwXj/pRw6DhDw0p6JbYZXnHG6MLsI4sTWmj
-         FlxaWCsUhv8QzmbpCdS3BkEjq+xHDPS0lvH5VLcTmRiuKTkK7/ktSD+eIWAjarQmvY
-         OO6DKtoEpv+tyE5TURRv26M7HYnDCYE2UeGOvWC52QKWTgJIy9Av6+PbNXwde1TRyl
-         xMGbjWJgznSAAsTrIIbeoUK2g4Eu7NUxACRV1gzwmfBAEVAUNmhTSzTvi4UjhAxWz8
-         QZ/qfGMLNb3J91GR0cmPKrcJ8dsUzo8BtRDvGuZM0/Z4zGKqCfrf+LOMnAQjbFlyks
-         DFP2jDcD8yuug==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id c24so1431486vsp.7;
-        Fri, 07 Jun 2019 08:53:33 -0700 (PDT)
-X-Gm-Message-State: APjAAAV+9Uw76SB1ZQAUVg6dRjfqGJEL3Nz4V9jDvnrCDFmaXBF+VHrj
-        B2itRNBhUBmf6pVS0UpnDSv7Hd/PW0jOEKvaC/c=
-X-Google-Smtp-Source: APXvYqy59eu7M81YqfHo3Tzr2QVpEsq2twQ88Qqs3e3wKUfg6+Eny6o+8BA34I/XUFvrWrqsI4PuLMTJ8Cih8y6PzKI=
-X-Received: by 2002:a67:ed04:: with SMTP id l4mr10531967vsp.179.1559922812584;
- Fri, 07 Jun 2019 08:53:32 -0700 (PDT)
+        Fri, 7 Jun 2019 12:58:46 -0400
+Received: by mail-qk1-f181.google.com with SMTP id b18so1670899qkc.9
+        for <linux-kbuild@vger.kernel.org>; Fri, 07 Jun 2019 09:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=QHKISAQKQV4lsrISY+PtbOEajyfUZ1KupWxaMOs3Ok8=;
+        b=ks0sk5S8s3YFnI3lYEoqMQSlgmP3PQXaGpO+L7MbjwThFo6D5WUTGDNezkamYpf1hx
+         H1gJDPvgZGNEH53FclJ06+XCvjZt5w2bRVnKZArGefPoaFlSxYxBNOmvimfNBxi9JE3f
+         SifcPzFUIMsuW+q065nM5jkQ67et9RcRDfiaxvgFxMwFcOM3ZAjF1Rm1QApx5vEXeeBt
+         mf94DIEcMUtlosQ7AV/TNNR8SbGy0jxvznOqikSCCKAofeAVkSPit/f+PvvWtGi0I43G
+         LFq/XEQRCMY/R/M5ltiiX7DwLq3h8mlWqc8cUDBuZjOb2KwqaKJ9typIpqVMrvM8gFDu
+         5M/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=QHKISAQKQV4lsrISY+PtbOEajyfUZ1KupWxaMOs3Ok8=;
+        b=Bwpg9dzt8J3z3dAm4aD5vLucCQe3Y4HXmjzGZxuseXfqozPnTcDbkFiWtEjYRIsbb/
+         6neuwcQfrfzv9tgYl+3/SYkzdDSMMv/zHK/AUcNZsu9EjA+8wigyQe4MPSSWejk700tf
+         ZiOSIrzy6qraUgXdYmVS/6F1LWscEBroAn+wKfzXOS/mmrt4gtPUAI3ekV7TXREJXRvN
+         eAUPwqdehcMVTD9M15ny16GX/fI3uJj+ANZ5vCwgfebm7CgnHgSAbgwleBYug0kbymln
+         4ZlRiQTmKCd+hBdalJfgOq5/8LbrOG9b0L5ycI4/0zN2j7qCxEvQaArLax/zyvFzqF/H
+         nJ6g==
+X-Gm-Message-State: APjAAAUjAW3wu0VeKW6EeBzUVewSMsrgMZlhXaEv+1ILrSZSjQG245Ah
+        CLgwyVmS2cUbvRTKW9r6kZCx7pK5mNKONIX7qfq8W2pE
+X-Google-Smtp-Source: APXvYqz+t405n4gUtFF2986Kz5P7vGENQHnQh6vNEo1Lb5aDPUVcMqdgQRp4fWh/Xm4QEdK49r64sfCWyMJSWQ48BB0=
+X-Received: by 2002:ae9:e608:: with SMTP id z8mr36190793qkf.182.1559926725036;
+ Fri, 07 Jun 2019 09:58:45 -0700 (PDT)
 MIME-Version: 1.0
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 8 Jun 2019 00:52:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZ2FAZcc367eCPqhwYRVvP+65hDa5hx6qfTwh2qVGL=w@mail.gmail.com>
-Message-ID: <CAK7LNAQZ2FAZcc367eCPqhwYRVvP+65hDa5hx6qfTwh2qVGL=w@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.2-rc4
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        masahiroy@kernel.org
+From:   Derrick McKee <derrick.mckee@gmail.com>
+Date:   Fri, 7 Jun 2019 12:58:33 -0400
+Message-ID: <CAJoBWHw2yPgT_25UVF_3tTx6_FfZMBbDqVW5TASb4aPu2JKHZg@mail.gmail.com>
+Subject: Adding new build target
+To:     linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+Hi all,
 
-Please pull some Kbuild fixes.
-Thanks.
+Now that the kernel can be built with clang, I'd like to implement a
+new build target to generate LLVM bytecode for all C source files
+involved for a specific build configuration.  I am thinking that this
+should be very simple if I know the make variables that captures the
+needed information.  Specifically, I think I just need to perform the
+following command for all C files:
 
+clang -emit-llvm -c <appropriate CFLAGS and include paths> <source
+file> -o <corresponding object file location>.bc
 
+My problem is that I don't know how to get the info in the brackets,
+but I am thinking that I should make a new build target `bytecode`.
+Any help would be appreciated.  Thanks.
 
-The following changes since commit f2c7c76c5d0a443053e94adb9f0918fa2fb85c3a:
-
-  Linux 5.2-rc3 (2019-06-02 13:55:33 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.2-2
-
-for you to fetch changes up to 913ab9780fc021298949cc5514d6255a008e69f9:
-
-  kbuild: use more portable 'command -v' for cc-cross-prefix
-(2019-06-08 00:38:47 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.2 (2nd)
-
- - fix kselftest-merge to find config fragments in deeper directories
-
- - fix kconfig unit test, which was broken by SPDX tag addition
-
- - add + prefix to buildtar to suppress jobserver unavailable warning
-
- - fix checkstack.pl to recognize arch=arm64
-
- - suppress noisy warning from cc-cross-prefix
-
-----------------------------------------------------------------
-Dan Rue (1):
-      kbuild: teach kselftest-merge to find nested config files
-
-George G. Davis (1):
-      scripts/checkstack.pl: Fix arm64 wrong or unknown architecture
-
-Masahiro Yamada (2):
-      kconfig: tests: fix recursive inclusion unit test
-      kbuild: use more portable 'command -v' for cc-cross-prefix
-
-Trevor Bourget (1):
-      kbuild: tar-pkg: enable communication with jobserver
-
- Makefile                                                | 5 ++---
- scripts/Kbuild.include                                  | 7 ++++++-
- scripts/checkstack.pl                                   | 2 +-
- scripts/kconfig/tests/err_recursive_inc/expected_stderr | 6 +++---
- scripts/package/Makefile                                | 2 +-
- 5 files changed, 13 insertions(+), 9 deletions(-)
-
-
--- 
-Best Regards
-Masahiro Yamada
+Derrick McKee
