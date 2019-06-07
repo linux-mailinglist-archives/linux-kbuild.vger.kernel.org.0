@@ -2,96 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA3E3392EE
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 19:20:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF8139523
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Jun 2019 21:00:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729931AbfFGRUX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Jun 2019 13:20:23 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:34554 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729829AbfFGRUW (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:20:22 -0400
-Received: by mail-pg1-f196.google.com with SMTP id h2so1504668pgg.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Jun 2019 10:20:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=4r6GwxGvl0zgmYTsnJpnkTK37LmB3ZK1B52Nf1m2Xtc=;
-        b=Iji4lWYdr90JGsl7uzcN2zrOi8Z37hhEGqTARRcIdegyMU9aUSbbKAWJ/JD+B9AHu5
-         dyJmOSRtJBs9JYjA0TOFc/+Ph98KEoeaY0QKw0QeMu/SfNt+ohq5YGaATktXppZXVXQ+
-         yuFz9qCNn4hxVZWGFubN54MIRfP+jCXFPm2uOnM9SYvx+BQLM0C7TG1ftBjc1VHHOF7j
-         X8/q9KqC8p7wEDmVnYNJ5QUuYQalNXTDlLbf2b5NiDdtNa+YI982pN10wL3h3os5FVkv
-         sZr2GR6HgQ7jjW8SgeAnWJPNh9uvPBWw/PRTaAYMdG/XeGyOeqHkbRWmDUdEJYU+3Sn2
-         Z4JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4r6GwxGvl0zgmYTsnJpnkTK37LmB3ZK1B52Nf1m2Xtc=;
-        b=SfT6NTyowPrCXtn3RLnbVYlD2U4RkoVxg7nHCED/uZstxfzC5a2cLEqx+Qa/67bEsM
-         fHFFIUakH32xLJR5pAv2RjZ/1pOYvNx0AuFadY2o4FYHU1FW1H/D60QptOkIyNZD63d2
-         z6E8mB/q1t1QSwFuh46+gTDFd6lg/dEnsvWqUibg0ZKcjCYOfG0VAgFzmVvrMxA69gkc
-         cPrqKAt49k8gH15DYKm587AOjxsDGmRaf8NVDafJKeHX+ia2X5RK8iIHQV/RbnkUn/vY
-         EoVSvC1XXYqZa6UtudDE52SOQcgKIthvm0+z2n3sIg1e3aGBRzXJCHeWj06BDijHCOaW
-         azHQ==
-X-Gm-Message-State: APjAAAV0Mq4sSYBcEdYNxkBQ6X2nZ5VIXHhjjSTn+X/Krew1sa2N0H7/
-        t1mabzia8HaRFDZxvWqMcLqEFoFBuLLOlw==
-X-Google-Smtp-Source: APXvYqx7n4L85nJ/b/yAbxgf2eN9wdrvqxhhzcwX6swNcdMstn4xqcPB18jDJfoa9YbDIHsxDFcFEw==
-X-Received: by 2002:a17:90a:195e:: with SMTP id 30mr7069639pjh.116.1559928021274;
-        Fri, 07 Jun 2019 10:20:21 -0700 (PDT)
-Received: from google.com ([2620:0:1008:1100:dac3:f780:2846:b802])
-        by smtp.gmail.com with ESMTPSA id c12sm2724358pfn.104.2019.06.07.10.20.20
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 07 Jun 2019 10:20:20 -0700 (PDT)
-Date:   Fri, 7 Jun 2019 10:20:15 -0700
-From:   Tom Roeder <tmroeder@google.com>
-To:     Derrick McKee <derrick.mckee@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org
-Subject: Re: Adding new build target
-Message-ID: <20190607172015.GA165542@google.com>
-References: <CAJoBWHw2yPgT_25UVF_3tTx6_FfZMBbDqVW5TASb4aPu2JKHZg@mail.gmail.com>
+        id S1729815AbfFGTAt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Jun 2019 15:00:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59054 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728595AbfFGTAs (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 7 Jun 2019 15:00:48 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C3E7A20868;
+        Fri,  7 Jun 2019 19:00:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559934047;
+        bh=SaF9wNj2glMXJrUlhGfPV51XspfvGCl4GV+n5wOltIk=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=pOa773KinCbWZNwUdN0H2jdZol+fGp2XY6GywMUyTl3QZS5pW9hFAAcg/RQpuePFb
+         6lPWUUf3AvmyqHdMay0eDupbNJ7WbuBfNXwJ4jnDfqEl3Pw+6YKFdZVlrZIY2LFVvc
+         bfbI2V1LcTAYX/HU3jn8XFwP21qj/1NllQ+0AO60=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJoBWHw2yPgT_25UVF_3tTx6_FfZMBbDqVW5TASb4aPu2JKHZg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
+References: <20190514221711.248228-1-brendanhiggins@google.com> <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org> <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
+To:     Iurii Zaikin <yzaikin@google.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+User-Agent: alot/0.8.1
+Date:   Fri, 07 Jun 2019 12:00:47 -0700
+Message-Id: <20190607190047.C3E7A20868@mail.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 12:58:33PM -0400, Derrick McKee wrote:
-> Hi all,
-> 
-> Now that the kernel can be built with clang, I'd like to implement a
-> new build target to generate LLVM bytecode for all C source files
-> involved for a specific build configuration.  I am thinking that this
-> should be very simple if I know the make variables that captures the
-> needed information.  Specifically, I think I just need to perform the
-> following command for all C files:
-> 
-> clang -emit-llvm -c <appropriate CFLAGS and include paths> <source
-> file> -o <corresponding object file location>.bc
-> 
-> My problem is that I don't know how to get the info in the brackets,
-> but I am thinking that I should make a new build target `bytecode`.
-> Any help would be appreciated.  Thanks.
+Quoting Iurii Zaikin (2019-06-05 18:29:42)
+> On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> >
+> > Quoting Brendan Higgins (2019-05-14 15:17:10)
+> > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
+> > > new file mode 100644
+> > > index 0000000000000..fe0f2bae66085
+> > > --- /dev/null
+> > > +++ b/kernel/sysctl-test.c
+> > > +
+> > > +
+> > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit =
+*test)
+> > > +{
+> > > +       struct ctl_table table =3D {
+> > > +               .procname =3D "foo",
+> > > +               .data           =3D &test_data.int_0001,
+> > > +               .maxlen         =3D sizeof(int),
+> > > +               .mode           =3D 0644,
+> > > +               .proc_handler   =3D proc_dointvec,
+> > > +               .extra1         =3D &i_zero,
+> > > +               .extra2         =3D &i_one_hundred,
+> > > +       };
+> > > +       char input[] =3D "-9";
+> > > +       size_t len =3D sizeof(input) - 1;
+> > > +       loff_t pos =3D 0;
+> > > +
+> > > +       table.data =3D kunit_kzalloc(test, sizeof(int), GFP_USER);
+> > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len=
+, &pos));
+> > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
+> > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
+> > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
+> >
+> > Is the casting necessary? Or can the macro do a type coercion of the
+> > second parameter based on the first type?
+>  Data field is defined as void* so I believe casting is necessary to
+> dereference it as a pointer to an array of ints. I don't think the
+> macro should do any type coercion that =3D=3D operator wouldn't do.
+>  I did change the cast to make it more clear that it's a pointer to an
+> array of ints being dereferenced.
 
-I know this isn't exactly what you're asking for, but one way to get
-kernel object files as bitcode is to add -save-temps=obj to KCFLAGS.
-That gives you bitcode for each object file, and you can pull them
-together into a single object using llvm-link.
+Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
+both sides and cause a build warning/error if the types aren't the same.
+This would be similar to our min/max macros that complain about
+mismatched types in the comparisons. Then if a test developer needs to
+convert one type or the other they could do so with a
+KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
+explicitly.
 
-Note that at least when I was experimenting with this, I also needed to
-turn off some warnings, because setting -save-temps=obj changes the way
-that clang builds the objects. In particular, I needed to set
-
-	-Wno-constant-logical-operand
-	-Wno-parentheses-equality
-	-Wno-pointer-bool-conversion
-	-Wno-self-assign
-
-> 
-> Derrick McKee
