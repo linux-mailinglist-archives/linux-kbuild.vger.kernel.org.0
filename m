@@ -2,154 +2,229 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEA643988B
-	for <lists+linux-kbuild@lfdr.de>; Sat,  8 Jun 2019 00:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED4E23AF8E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Jun 2019 09:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729796AbfFGWXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Jun 2019 18:23:06 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43109 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730786AbfFGWXF (ORCPT
+        id S2387893AbfFJHWE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Jun 2019 03:22:04 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:41520 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387541AbfFJHWE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Jun 2019 18:23:05 -0400
-Received: by mail-pl1-f195.google.com with SMTP id cl9so1318452plb.10
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Jun 2019 15:23:05 -0700 (PDT)
+        Mon, 10 Jun 2019 03:22:04 -0400
+Received: by mail-qt1-f194.google.com with SMTP id 33so1291009qtr.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Jun 2019 00:22:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=cloudflare.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OscIWC1H8BYVUTSTRMLtHcpa3RbQBWs93JhulNsk+jk=;
-        b=kdR49OFNsFx7GSx/8YCa4OAXnuGm9wR3mA3FGM2j9z9kYOvNzqrt6gDMUmNTCF4V83
-         UuY0GuaC7cU7suXulXpVOn5N4HicehNGLM2Gv1N1iXUCkOIxaL4tP0q7CFg3Zr0ELRoH
-         c1K2fAfx/OZnoqY6EocLtP4K2Gyk7fJHcbAd5+nbSwsumoNC9uZdy1ZbqRPl2ZGb2KR0
-         5790YANxN6yo4XDpToutn8HtDWJ9qc4x2RtxrkIe4yf2ys4A7CKPGFlNlR6vaeXcDbDI
-         eCRkI67w15jEuFPGTFzQI8EIXARxKyvN1+GR9F9Qoev+vDDjbBqEj+ZoKNPmKxLF0J5U
-         DgLQ==
+         :cc:content-transfer-encoding;
+        bh=jOb1/PeO4O22cDS+f1+KzAenv4SW8wAwRqXfShAnI7g=;
+        b=C14HhIy4+nv7vGwB1d7eXQh1P3dxxSgC1C0/QkzLk6xwBBa3MFQyunU2HRulQcUi1h
+         ed6iKHyVlysuLJlZL7IxTXbOq8AdPW3q9g84yga2KtQPqXaUh5wMrB6D2aOdZ50hdaEm
+         tlLnq0nfv8U3VSVj35o+hdm/zr0ZUdu/8+vuY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OscIWC1H8BYVUTSTRMLtHcpa3RbQBWs93JhulNsk+jk=;
-        b=dGoVSMiJJZOEEZ9wX13XpjJKvNHoP+OQO7THNgIFMSfNf60+Yj+tr+hFMgjsn+sy2u
-         MNHIPf15iHU0UUnGRMz2s5QsH/23p0ToqW5C1554+ix0Q2Ts5Uii+F6HLlwBuQN1OJra
-         Q9OtQWvxv1m/MPZqArcjBxV3XTRSN8Psfo9YgZSwBUc6L9BzNbA0A9R2zHjEmieCu9Z/
-         LnceLYIWDPZbJIyfYO7ymmpPVjRFeGXW4QexcjFZnqN42XNGkFrNoautx4JQ1mJWuemq
-         x+fA8z2Futf/jz96qxmZCsD1ns59wgZY8UB89wKSY2bBDxspCW8pUE9WonsyI3Yf2zhP
-         1iNA==
-X-Gm-Message-State: APjAAAXeQ+902yVaGs6piszjby5F+XuLdX22fEI5rJkQORtNkEMfvAM8
-        nsmxjJu1VjkJwMeZtCUFFbgQU9bsELqjUkXP4BzqZw==
-X-Google-Smtp-Source: APXvYqxqRVfuyQEdyfJNNkPVX/y1rXYgnEMZVKj/CtJa0Fm8bihW1BebEYmymKIH0C8/tAoxb6DpKUorgA1wvW4QAXM=
-X-Received: by 2002:a17:902:624:: with SMTP id 33mr59045206plg.325.1559946184199;
- Fri, 07 Jun 2019 15:23:04 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=jOb1/PeO4O22cDS+f1+KzAenv4SW8wAwRqXfShAnI7g=;
+        b=aE+ytKN+Cr9Py7yFgaZxa2AaxYibzJql23GhB4O2gVAzEyld37g2bufelwTsKby83s
+         IXBpG5zFLzj7MXKdRhwuoAgeost1x3VcYDUa1fSbw3faPfmFjIHYP/FXMWa1jd+1+2Se
+         myQY5LBwR8yPSchrZVjTEo+NsxRQW8KrzIfQzBIHT+3vCwHQydbMd3/4/j/m0nCa1UbT
+         D68FFGSieAHMHa1l6UyvR/mw1yb+vYy0DI4p8+lOxD7/dtEIsqcgEuSJ04I/f8Sfdabl
+         bHVjiBRLgtPtuwNoJB1dklN8dsd1tiVxksKGrkl9CJGHlp5gUDAnXchMFMOcagsLivnC
+         A/Vw==
+X-Gm-Message-State: APjAAAWUZvzmqQ3IFz5Lr6oax3TZeKS4T4ObyXvLyueKFKXJHrxyJDtK
+        PdcCWA7Gfn4xm97te8ihVagQgKA55uwRgDYnCDoDHg==
+X-Google-Smtp-Source: APXvYqzgEDs1TPrm3u0LT3bO8rpmrECSsRdRu2VSuVZ1VQcZCpASdtmc3R4b5d75HOg4TUeyfGHKygAfVUSbENIcXrY=
+X-Received: by 2002:ac8:3613:: with SMTP id m19mr57391438qtb.193.1560151322703;
+ Mon, 10 Jun 2019 00:22:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org>
- <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com> <20190607190047.C3E7A20868@mail.kernel.org>
-In-Reply-To: <20190607190047.C3E7A20868@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 7 Jun 2019 15:22:53 -0700
-Message-ID: <CAFd5g475eUKnpNM3kDe_9PboCyZ=aanPeV2gTuzuJXRp-xbsWg@mail.gmail.com>
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
+References: <CANiq72kvpiC-i53AXM-YsCUvWroHQemmqxsXjnB330ZEeHahUg@mail.gmail.com>
+ <CABWYdi1zhTTaN-GSgH0DnPfz7p=SRw0wts5QVYYVtfvoiS0qnQ@mail.gmail.com>
+ <CANiq72=fsL5m2_e+bNovFCHy3=YVf53EKGtGE_sWvsAD=ONHuQ@mail.gmail.com>
+ <20190516225013.nvhwqi5tfwtby6qb@treble> <CABWYdi29E++jBw8boFZAiDZA7iT5NiJhnNmiHb-Rvd9+97hSVA@mail.gmail.com>
+ <20190517050931.GB32367@kroah.com> <20190517073813.GB2589@hirez.programming.kicks-ass.net>
+ <CANiq72nUPoNHWM-dJuFc3=4D2=8XMuvO0PgGPjviOv+EhrAWUw@mail.gmail.com>
+ <20190517085126.GA3249@kroah.com> <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
+ <20190517152200.GI8945@kernel.org> <CABWYdi2Xsp4AUhV1GwphTd4-nN2zCZMmg5y7WheNc67KrdVBfw@mail.gmail.com>
+ <4FE2D490-F379-4CAE-9784-9BF81B7FE258@kernel.org>
+In-Reply-To: <4FE2D490-F379-4CAE-9784-9BF81B7FE258@kernel.org>
+From:   Ivan Babrou <ivan@cloudflare.com>
+Date:   Mon, 10 Jun 2019 00:21:51 -0700
+Message-ID: <CABWYdi2XXPYuavF0p=JOEY999M4z3_rk-8xsi3N=do=d7k09ig@mail.gmail.com>
+Subject: Re: Linux 4.19 and GCC 9
+To:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kernel-team <kernel-team@cloudflare.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 7, 2019 at 12:00 PM Stephen Boyd <sboyd@kernel.org> wrote:
+Looks like 4.19.49 received some patches for GCC 9+, but unfortunately
+perf still doesn't want to compile:
+
+[07:15:32]In file included from /usr/include/string.h:635,
+[07:15:32] from util/debug.h:7,
+[07:15:32] from builtin-help.c:15:
+[07:15:32]In function 'strncpy',
+[07:15:32] inlined from 'add_man_viewer' at builtin-help.c:192:2,
+[07:15:32] inlined from 'perf_help_config' at builtin-help.c:284:3:
+[07:15:32]/usr/include/x86_64-linux-gnu/bits/string3.h:126:10: error:
+'__builtin_strncpy' output truncated before terminating nul copying as
+many bytes from a string as its length [-Werror=3Dstringop-truncation]
+[07:15:32] 126 | return __builtin___strncpy_chk (__dest, __src, __len,
+__bos (__dest));
+[07:15:32] | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[07:15:32]builtin-help.c: In function 'perf_help_config':
+[07:15:32]builtin-help.c:187:15: note: length computed here
+[07:15:32] 187 | size_t len =3D strlen(name);
+[07:15:32] | ^~~~~~~~~~~~
+[07:15:32]cc1: all warnings being treated as errors
+
+
+
+On Fri, May 17, 2019 at 11:27 AM Arnaldo Carvalho de Melo
+<arnaldo.melo@gmail.com> wrote:
 >
-> Quoting Iurii Zaikin (2019-06-05 18:29:42)
-> > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > >
-> > > Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > > > new file mode 100644
-> > > > index 0000000000000..fe0f2bae66085
-> > > > --- /dev/null
-> > > > +++ b/kernel/sysctl-test.c
-> > > > +
-> > > > +
-> > > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-> > > > +{
-> > > > +       struct ctl_table table = {
-> > > > +               .procname = "foo",
-> > > > +               .data           = &test_data.int_0001,
-> > > > +               .maxlen         = sizeof(int),
-> > > > +               .mode           = 0644,
-> > > > +               .proc_handler   = proc_dointvec,
-> > > > +               .extra1         = &i_zero,
-> > > > +               .extra2         = &i_one_hundred,
-> > > > +       };
-> > > > +       char input[] = "-9";
-> > > > +       size_t len = sizeof(input) - 1;
-> > > > +       loff_t pos = 0;
-> > > > +
-> > > > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
-> > >
-> > > Is the casting necessary? Or can the macro do a type coercion of the
-> > > second parameter based on the first type?
-> >  Data field is defined as void* so I believe casting is necessary to
-> > dereference it as a pointer to an array of ints. I don't think the
-> > macro should do any type coercion that == operator wouldn't do.
-> >  I did change the cast to make it more clear that it's a pointer to an
-> > array of ints being dereferenced.
+> On May 17, 2019 2:23:10 PM GMT-03:00, Ivan Babrou <ivan@cloudflare.com> w=
+rote:
+> >On Fri, May 17, 2019 at 8:22 AM Arnaldo Carvalho de Melo
+> ><arnaldo.melo@gmail.com> wrote:
+> >>
+> >> Em Fri, May 17, 2019 at 11:01:45AM +0200, Miguel Ojeda escreveu:
+> >> > On Fri, May 17, 2019 at 10:51 AM Greg KH
+> ><gregkh@linuxfoundation.org> wrote:
+> >> > >
+> >> > > On Fri, May 17, 2019 at 10:35:29AM +0200, Miguel Ojeda wrote:
+> >> > > > On Fri, May 17, 2019 at 9:38 AM Peter Zijlstra
+> ><peterz@infradead.org> wrote:
+> >> > > > >
+> >> > > > > Right; if there is anything you can reproduce on linus.git
+> >I'll happily
+> >> > > > > have a look. If it doesn't reproduce all you have to do is
+> >find the
+> >> > > > > patches that make it work and ask Greg.
+> >> > > >
+> >> > > > Just to clarify: Linus' master is clean of these issues with
+> >GCC 9.1.1.
+> >> > >
+> >> > > Great!  Care to find the patches that did that work and send me
+> >the git
+> >> > > commit ids so that I can queue them up?  I don't have gcc9 here
+> >yet on
+> >> > > my systems, so I can not test for this.
+> >> >
+> >> > I am unsure about the perf and the objtools parts (Peter/Josh?),
+> >but
+> >>
+> >> I'm not noticing these while building upstream perf with gcc 9.1.1 on
+>                                                                        ^^=
+^^^^^^^^^^^^^
 >
-> Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
-> both sides and cause a build warning/error if the types aren't the same.
-> This would be similar to our min/max macros that complain about
-> mismatched types in the comparisons. Then if a test developer needs to
-> convert one type or the other they could do so with a
-> KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
-> explicitly.
-
-Good point. I would definitely like to do this, for me it is only a
-question of how difficult it would be to make all that happen.
-
-We will investigate and report back on it.
-
-Thanks for the suggestion! It's a really good idea!
-
-Cheers
+> >at
+> >> least fedora:30.
+> >>
+> >>     33  fedora:30                     : Ok   gcc (GCC) 9.1.1 20190503
+> >(Red Hat 9.1.1-1)
+> >
+> >I've tried to replicate this in fedora:30 docker container and it's
+> >there:
+> >
+> >[root@linuxkit-025000000001 perf]# gcc --version
+> >gcc (GCC) 9.1.1 20190503 (Red Hat 9.1.1-1)
+> >
+> >[root@linuxkit-025000000001 perf]# pwd
+> >/tmp/linux-4.19.44/tools/perf
+>              ^^^^^^^^^^^^^^
+>
+> That is not upstream perf, please look for patches from 4.19 to Linus' ma=
+ster Branch for fixes.
+>
+> I'll triple check here in a f30 container just in case meanwhile.
+>
+> Thanks,
+>
+> - Arnaldo
+> >
+> >[root@linuxkit-025000000001 perf]# make -j1
+> >...
+> >trace/beauty/ioctl.c: In function =E2=80=98ioctl__scnprintf_kvm_cmd=E2=
+=80=99:
+> >trace/beauty/ioctl.c:85:82: error: array subscript [-2147483648, -1]
+> >is outside array bounds of =E2=80=98const char *[0]=E2=80=99 [-Werror=3D=
+array-bounds]
+> >   85 |  if (nr < strarray__kvm_ioctl_cmds.nr_entries &&
+> >strarray__kvm_ioctl_cmds.entries[nr] !=3D NULL)
+> >      |
+> >~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+> >In file included from trace/beauty/ioctl.c:82:
+> >/tmp/linux-4.19.44/tools/perf/trace/beauty/generated/ioctl/kvm_ioctl_arr=
+ay.c:1:20:
+> >note: while referencing =E2=80=98kvm_ioctl_cmds=E2=80=99
+> >    1 | static const char *kvm_ioctl_cmds[] =3D {
+> >      |                    ^~~~~~~~~~~~~~
+> >In file included from /usr/include/string.h:494,
+> >                 from util/debug.h:7,
+> >                 from builtin-help.c:15:
+> >In function =E2=80=98strncpy=E2=80=99,
+> >    inlined from =E2=80=98add_man_viewer=E2=80=99 at builtin-help.c:192:=
+2,
+> >    inlined from =E2=80=98perf_help_config=E2=80=99 at builtin-help.c:28=
+4:3:
+> >/usr/include/bits/string_fortified.h:106:10: error:
+> >=E2=80=98__builtin_strncpy=E2=80=99 output truncated before terminating =
+nul copying as
+> >many bytes from a string as its length [-Werror=3Dstringop-truncation]
+> >106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos
+> >(__dest));
+> >|
+> >^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >builtin-help.c: In function =E2=80=98perf_help_config=E2=80=99:
+> >builtin-help.c:187:15: note: length computed here
+> >  187 |  size_t len =3D strlen(name);
+> >      |               ^~~~~~~~~~~~
+> >trace/beauty/ioctl.c: In function =E2=80=98ioctl__scnprintf_perf_cmd=E2=
+=80=99:
+> >trace/beauty/ioctl.c:109:84: error: array subscript [-2147483648, -1]
+> >is outside array bounds of =E2=80=98const char *[0]=E2=80=99 [-Werror=3D=
+array-bounds]
+> >  109 |  if (nr < strarray__perf_ioctl_cmds.nr_entries &&
+> >strarray__perf_ioctl_cmds.entries[nr] !=3D NULL)
+> >      |
+> >~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+> >In file included from trace/beauty/ioctl.c:106:
+> >/tmp/linux-4.19.44/tools/perf/trace/beauty/generated/ioctl/perf_ioctl_ar=
+ray.c:1:20:
+> >note: while referencing =E2=80=98perf_ioctl_cmds=E2=80=99
+> >    1 | static const char *perf_ioctl_cmds[] =3D {
+> >      |                    ^~~~~~~~~~~~~~~
+> >cc1: all warnings being treated as errors
+> >
+> >> > about the -Wmissing-attributes I cleaned, they were these:
+> >>
+> >> > a6e60d84989f ("include/linux/module.h: copy __init/__exit attrs to
+> >> > init/cleanup_module")
+> >> > c0d9782f5b6d ("Compiler Attributes: add support for __copy (gcc >=3D
+> >9)")
+> >> > ff98e20ef208 ("lib/crc32.c: mark crc32_le_base/__crc32c_le_base
+> >> > aliases as __pure")
+> >> >
+> >> > Cheers,
+> >> > Miguel
+> >>
+> >> --
+> >>
+> >> - Arnaldo
+>
