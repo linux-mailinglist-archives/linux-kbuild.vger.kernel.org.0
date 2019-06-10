@@ -2,31 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B6B73B7B9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Jun 2019 16:49:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC353B7EE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Jun 2019 17:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390203AbfFJOtB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 10 Jun 2019 10:49:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47704 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389123AbfFJOtB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 10 Jun 2019 10:49:01 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B288206C3;
-        Mon, 10 Jun 2019 14:49:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560178141;
-        bh=I+e7n+zRrwqkSFla0H7u1byAB3q/aXz/uGnCzjZUm9o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1lOcQ2ZxO/EjTztxyWqMUwKiYkUKjOYTeIBzY2mEwNEG9wSl6sHygFL8vzOcR8KCA
-         160JRfcijNrTlT+ktqnO0eNoZc2d8yxbQW0c4LYt5DtcvWXqXkNcUmx1zNnF0J0pIk
-         6BRleEvnh1R9EMjRIM0WArr+gk0mYg73z1KRfyto=
-Date:   Mon, 10 Jun 2019 16:48:58 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Ignat Korchagin <ignat@cloudflare.com>,
+        id S2390064AbfFJPCK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Jun 2019 11:02:10 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:33416 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbfFJPCK (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 10 Jun 2019 11:02:10 -0400
+Received: by mail-wm1-f68.google.com with SMTP id h19so128688wme.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Jun 2019 08:02:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YwmVmh7jPztWy0GKEZAfyi5TFykIAsZvgNG89Rfbe68=;
+        b=Etd7t68xizBkpcZqSEMOmT0qrNwSLIudbv4IWKJ031r71BYQHQW6GeZWqtnrRNkBZL
+         GGSEUKkBMrK2JbSv1ypdS0uQSs1noO9Wpm5ttLet+CLfEVtWpciTFTcZ/+SdCc67u3hi
+         p6GYFZ/nRGVtcfl/ebubZVit/0qIbmPGcWIp0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YwmVmh7jPztWy0GKEZAfyi5TFykIAsZvgNG89Rfbe68=;
+        b=Jwwp42CNf/z1PTZITPWegPBL7iDc6R7ZqWSUaABkHiWtJHnNgXKpuUS2K6/AEkDwWO
+         6dBxPBdLkfo1YUy/UhZTp3ycdRWQDDNGUYkb6BWrj99T7fU4C6/5x8M/huRVDTXYL9tE
+         r3UdX5SFZ/dsBUFCZFcCSlsmKr+dHMl4dmiQ9DNC2ydjNZ7nMAviSTve+fbKNvNO8/hT
+         5BlpHF1V4BCZcrhbtKbOOg5ZS1/XRZnrVzyY7PhbNhmDRb2omdq5I7o2paU3HPusobfj
+         Rf4QDA85/pROtuXtkcvYNf1eMwitLMUGoB5L5RvJVFjnEpYEV8Jg3DANyEP36XjsmKgB
+         G5Mw==
+X-Gm-Message-State: APjAAAXCZ6LqrMK91lUq/9TNd3aaMi2q/2mtd5MBb7yYkSjb+fBaMLlW
+        vQfRp+IpeDVRvLSBUOiAO4FLcR4t7KBmCjyaYiEh8g==
+X-Google-Smtp-Source: APXvYqyUnswYvTUuGMMtOK9bu7oqC784gfSHEX0M9FO0bt97fGjX8Vj4FWw5jHQNwREhJM0zSozaNqEaFpxhzAu80zA=
+X-Received: by 2002:a1c:23c4:: with SMTP id j187mr14196914wmj.176.1560178927858;
+ Mon, 10 Jun 2019 08:02:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190517085126.GA3249@kroah.com> <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
+ <20190517152200.GI8945@kernel.org> <CABWYdi2Xsp4AUhV1GwphTd4-nN2zCZMmg5y7WheNc67KrdVBfw@mail.gmail.com>
+ <4FE2D490-F379-4CAE-9784-9BF81B7FE258@kernel.org> <CABWYdi2XXPYuavF0p=JOEY999M4z3_rk-8xsi3N=do=d7k09ig@mail.gmail.com>
+ <20190610074510.GA24746@kroah.com> <CALrw=nEp=hUUaKtuU3Q1c_zKO3zYC3uP_s_Dyz_zhkxW7K+4mQ@mail.gmail.com>
+ <20190610142145.GC5937@kroah.com> <CANiq72kxyKV1z+dGmMtuq=gUWOYS=Y0EsNFqLKoFXWx6+n=J1g@mail.gmail.com>
+ <20190610144858.GA1481@kroah.com>
+In-Reply-To: <20190610144858.GA1481@kroah.com>
+From:   Ignat Korchagin <ignat@cloudflare.com>
+Date:   Mon, 10 Jun 2019 16:01:56 +0100
+Message-ID: <CALrw=nEFtg47p0WZrDVWGcRZDqgA-x_ADXe5-TA92hB6W8zYtQ@mail.gmail.com>
+Subject: Re: Linux 4.19 and GCC 9
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Ivan Babrou <ivan@cloudflare.com>,
         Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -38,51 +63,39 @@ Cc:     Ignat Korchagin <ignat@cloudflare.com>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         kernel-team <kernel-team@cloudflare.com>
-Subject: Re: Linux 4.19 and GCC 9
-Message-ID: <20190610144858.GA1481@kroah.com>
-References: <20190517085126.GA3249@kroah.com>
- <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
- <20190517152200.GI8945@kernel.org>
- <CABWYdi2Xsp4AUhV1GwphTd4-nN2zCZMmg5y7WheNc67KrdVBfw@mail.gmail.com>
- <4FE2D490-F379-4CAE-9784-9BF81B7FE258@kernel.org>
- <CABWYdi2XXPYuavF0p=JOEY999M4z3_rk-8xsi3N=do=d7k09ig@mail.gmail.com>
- <20190610074510.GA24746@kroah.com>
- <CALrw=nEp=hUUaKtuU3Q1c_zKO3zYC3uP_s_Dyz_zhkxW7K+4mQ@mail.gmail.com>
- <20190610142145.GC5937@kroah.com>
- <CANiq72kxyKV1z+dGmMtuq=gUWOYS=Y0EsNFqLKoFXWx6+n=J1g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72kxyKV1z+dGmMtuq=gUWOYS=Y0EsNFqLKoFXWx6+n=J1g@mail.gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 10, 2019 at 04:42:27PM +0200, Miguel Ojeda wrote:
-> On Mon, Jun 10, 2019 at 4:21 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+On Mon, Jun 10, 2019 at 3:49 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
 > >
-> > > I also checked that 4.19.49 compiles fine with GCC 9, although with a
-> > > lot of warnings, mostly from objtool, like "warning: objtool:
-> > > sock_register()+0xd: sibling call from callable instruction with
-> > > modified stack frame". But it's a start.
-> 
-> I think Josh Poimboeuf added support for a few related things in GCC 8
-> (e.g. 13810435b9a7 ("objtool: Support GCC 8's cold subfunctions")).
+> > I typically compile a bare-bones GCC for those things, it is quite quick.
+>
+> Pointers to how to do that is appreciated.  It's been years since I had
+> to build gcc "from scratch".
 
-That commit is already in all stable releases, so does there need to be
-a gcc 9 specific one?
+This is how we do it, but we use it for some other projects as well,
+so need ligcc and c++ support. I suspect for kernel-only there may be
+a more lightweight approach (for example, by dropping c++):
 
-> > I'll look into these after the next round of kernels are released.  I
-> > guess I'll go find a distro that has gcc9 on it to actually test
-> > things...
-> 
-> I typically compile a bare-bones GCC for those things, it is quite quick.
+Env: Debian Stretch (we run in a simple official docker container with
+build-essential and make installed) - but probably should work on any
+distro
+Assuming the sources are extracted into $(BUILDDIR)/gcc-$(VERSION)
 
-Pointers to how to do that is appreciated.  It's been years since I had
-to build gcc "from scratch".
+cd $(BUILDDIR)/gcc-$(VERSION)
+./contrib/download_prerequisites
+cd ..
+mkdir gcc-build
+cd gcc-build
+../gcc-$(VERSION)/configure --enable-languages=c,c++
+--build=x86_64-linux-gnu --disable-multilib
+make -j<something>
+sudo make install (or install into alternative dir and point Linux
+build system there)
 
-thanks,
-
-greg k-h
+Regards,
+Ignat
