@@ -2,194 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DCA03DBD3
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Jun 2019 22:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92CB743A31
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Jun 2019 17:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406489AbfFKU3N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Jun 2019 16:29:13 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:38860 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405607AbfFKU3N (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Jun 2019 16:29:13 -0400
-Received: by mail-pg1-f194.google.com with SMTP id v11so7583681pgl.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 11 Jun 2019 13:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dhnwSrdCPnvzoEVfuuVGqE83p7TnkQ5Modn2BNCoQD0=;
-        b=Pp0Hq+hd8QA6syECahlCWtYv82jhOxBm0sr+fZ9Dkk8nXtHe7nrSiSj+V8u0FaITQ7
-         84fXuzNXkrhzDQgkHPp26EjnsIzrDKXg48+xvOTrPv1gFdJxgRLOvcs0dwgoU2BGvzqE
-         Liz3+gL3rcT7wqBUJosubNY4aHZAru2eeUFG6CtPZ2mbKIzTjquHFKUIQcWXvVk4hMLI
-         7UB1amIr3aRGarnBUHse/35CwxBlRRF3qifo7BnhaOJV61RWbVqr0wA4GIowlDaA6gfT
-         pWINRb5VwbD/mtNfms9GrZfwha/4G8tSCCTtYnHFhjTrLaOGAdTroClIT1QeFCWuqloy
-         NJbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dhnwSrdCPnvzoEVfuuVGqE83p7TnkQ5Modn2BNCoQD0=;
-        b=MbKi9nOdO2RO8ti5vHQqxWCrqjERALWDCpW12zjOJK2/KUoZD2JfpaAA03dPXMyWq6
-         NLy7uivou6yHd+bIFezD1P+zVGoQDFc1+fsUC1tSNmjTo5QJT5/C7N2l0z18BojG+tTE
-         OkPiWg9xTGjjbaNCRBUqi5rLpiDBdaWEJGQ02NciJnHNpfxJy/nyAkjz59v6vdRtT174
-         ueg9crIKneUl4uFew0o9H7GDWrii9UkK9dm3RewdZ0z9zkpliwjgmDMvaJ1GVUqINi7X
-         WILoU/P/VhI+sYpjcQJqqg82rbv3XEakgVzZ/JcMC/XsDXUWFV0EDRUZTfQb2OVFlx2v
-         dj7w==
-X-Gm-Message-State: APjAAAWaXpds2RhECiK/HSLWkNKKGj8gU6O/CSj1goqf/ZRGM88YaE72
-        +VUq6G0X+K6V7HcefdJLZY5sZjlYl0LcTLAo/bmOUA==
-X-Google-Smtp-Source: APXvYqycBtJ32qbIn8pTyxMIAID5Xv7JTruAR7oTyIED4r622bu9rIlLgVdk0eekxjLa2OE4wVYL1Pw8y64Cqw0kRwU=
-X-Received: by 2002:a17:90a:2e89:: with SMTP id r9mr28553830pjd.117.1560284952085;
- Tue, 11 Jun 2019 13:29:12 -0700 (PDT)
+        id S2388163AbfFMPTV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Jun 2019 11:19:21 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40570 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732135AbfFMNAV (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 13 Jun 2019 09:00:21 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 572DAAE24;
+        Thu, 13 Jun 2019 13:00:20 +0000 (UTC)
+Date:   Thu, 13 Jun 2019 15:00:19 +0200 (CEST)
+From:   Miroslav Benes <mbenes@suse.cz>
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+cc:     linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v4 00/10] klp-convert livepatch build tooling
+In-Reply-To: <20190509143859.9050-1-joe.lawrence@redhat.com>
+Message-ID: <alpine.LSU.2.21.1906131451560.22698@pobox.suse.cz>
+References: <20190509143859.9050-1-joe.lawrence@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20190514221711.248228-1-brendanhiggins@google.com>
- <20190514221711.248228-18-brendanhiggins@google.com> <20190517182254.548EA20815@mail.kernel.org>
- <CAAXuY3p4qhKVsSpQ44_kQeGDMfg7OuFLgFyxhcFWS3yf-5A_7g@mail.gmail.com>
- <20190607190047.C3E7A20868@mail.kernel.org> <20190611175830.GA236872@google.com>
- <20190611185018.2E1C021744@mail.kernel.org>
-In-Reply-To: <20190611185018.2E1C021744@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 11 Jun 2019 13:29:01 -0700
-Message-ID: <CAFd5g47dmcHOCX41cr2v9Kaj3xa_5-PoqUPX_1=AoQLUG90NkQ@mail.gmail.com>
-Subject: Re: [PATCH v4 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Iurii Zaikin <yzaikin@google.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 11:50 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-06-11 10:58:30)
-> > On Fri, Jun 07, 2019 at 12:00:47PM -0700, Stephen Boyd wrote:
-> > > Quoting Iurii Zaikin (2019-06-05 18:29:42)
-> > > > On Fri, May 17, 2019 at 11:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > >
-> > > > > Quoting Brendan Higgins (2019-05-14 15:17:10)
-> > > > > > diff --git a/kernel/sysctl-test.c b/kernel/sysctl-test.c
-> > > > > > new file mode 100644
-> > > > > > index 0000000000000..fe0f2bae66085
-> > > > > > --- /dev/null
-> > > > > > +++ b/kernel/sysctl-test.c
-> > > > > > +
-> > > > > > +
-> > > > > > +static void sysctl_test_dointvec_happy_single_negative(struct kunit *test)
-> > > > > > +{
-> > > > > > +       struct ctl_table table = {
-> > > > > > +               .procname = "foo",
-> > > > > > +               .data           = &test_data.int_0001,
-> > > > > > +               .maxlen         = sizeof(int),
-> > > > > > +               .mode           = 0644,
-> > > > > > +               .proc_handler   = proc_dointvec,
-> > > > > > +               .extra1         = &i_zero,
-> > > > > > +               .extra2         = &i_one_hundred,
-> > > > > > +       };
-> > > > > > +       char input[] = "-9";
-> > > > > > +       size_t len = sizeof(input) - 1;
-> > > > > > +       loff_t pos = 0;
-> > > > > > +
-> > > > > > +       table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
-> > > > > > +       KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, input, &len, &pos));
-> > > > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
-> > > > > > +       KUNIT_EXPECT_EQ(test, sizeof(input) - 1, pos);
-> > > > > > +       KUNIT_EXPECT_EQ(test, -9, *(int *)table.data);
-> > > > >
-> > > > > Is the casting necessary? Or can the macro do a type coercion of the
-> > > > > second parameter based on the first type?
-> > > >  Data field is defined as void* so I believe casting is necessary to
-> > > > dereference it as a pointer to an array of ints. I don't think the
-> > > > macro should do any type coercion that == operator wouldn't do.
-> > > >  I did change the cast to make it more clear that it's a pointer to an
-> > > > array of ints being dereferenced.
-> > >
-> > > Ok, I still wonder if we should make KUNIT_EXPECT_EQ check the types on
-> > > both sides and cause a build warning/error if the types aren't the same.
-> > > This would be similar to our min/max macros that complain about
-> > > mismatched types in the comparisons. Then if a test developer needs to
-> > > convert one type or the other they could do so with a
-> > > KUNIT_EXPECT_EQ_T() macro that lists the types to coerce both sides to
-> > > explicitly.
-> >
-> > Do you think it would be better to do a phony compare similar to how
-> > min/max used to work prior to 4.17, or to use the new __typecheck(...)
-> > macro? This might seem like a dumb question (and maybe it is), but Iurii
-> > and I thought the former created an error message that was a bit easier
-> > to understand, whereas __typecheck is obviously superior in terms of
-> > code reuse.
-> >
-> > This is what we are thinking right now; if you don't have any complaints
-> > I will squash it into the relevant commits on the next revision:
->
-> Can you provide the difference in error messages and describe that in
-> the commit text? The commit message is where you "sell" the patch, so
-> being able to compare the tradeoff of having another macro to do type
-> comparisons vs. reusing the one that's there in kernel.h would be useful
-> to allay concerns that we're duplicating logic for better error
-> messages.
+Hi Joe,
 
-Oh sorry, I didn't think too hard about the commit message since I
-figured it would get split up and squashed into the existing commits.
-I just wanted to get it out sooner to discuss this before I post the
-next revision (probably later this week).
+first, I'm sorry for the lack of response so far.
 
-> Honestly, I'd prefer we just use the macros that we've developed in
-> kernel.h to do comparisons here so that we can get code reuse, but more
-> importantly so that we don't trip over problems that caused those macros
-> to be created in the first place. If the error message is bad, perhaps
-> that can be fixed with some sort of compiler directive to make the error
-> message a little more useful, i.e. compiletime_warning() thrown into
-> __typecheck() or something.
+Maybe you've already noticed but the selftests fail. Well, at least in 
+my VM. When test_klp_convert1.ko is loaded, the process is killed with
 
-That's a good point. I have no qualms sticking with __typecheck(...)
-for now; if we later feel that it is causing problems, we can always
-fix it later by supplying our own warning in the manner you suggest.
+[  518.041826] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[  518.042816] #PF: supervisor read access in kernel mode
+[  518.043393] #PF: error_code(0x0000) - not-present page
+[  518.043981] PGD 0 P4D 0 
+[  518.044185] Oops: 0000 [#1] SMP PTI
+[  518.044518] CPU: 2 PID: 2255 Comm: insmod Tainted: G           O  K   5.1.0-klp_convert_v4-193435-g67748576637e #2
+[  518.045784] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.1-0-ga5cab58-prebuilt.qemu.org 04/01/2014
+[  518.046940] RIP: 0010:test_klp_convert_init+0x1c/0x40 [test_klp_convert1]
+[  518.047611] Code: 1b a0 48 89 c6 e9 a8 c0 f4 e0 0f 1f 40 00 0f 1f 44 00 00 53 48 c7 c7 00 30 1b a0 e8 5e 33 f6 e0 85 c0 89 c3 74 04 89 d8 5b c3 <48> 8b 35 5d ef e4 5f 48 c7 c7 28 20 1b a0 e8 75 c0 f4 e0 e8 6c ff
+[  518.049779] RSP: 0018:ffffc90000f37cc8 EFLAGS: 00010246
+[  518.050243] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000027de0
+[  518.050922] RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffff88807ab54f40
+[  518.051619] RBP: ffffffffa01b1080 R08: 0000000096efde7a R09: 0000000000000001
+[  518.052332] R10: 0000000000000000 R11: 0000000000000000 R12: 00000000ffffffff
+[  518.053012] R13: 0000000000000000 R14: ffff888078b55000 R15: ffffc90000f37ea0
+[  518.053714] FS:  00007febece1fb80(0000) GS:ffff88807d400000(0000) knlGS:0000000000000000
+[  518.054514] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  518.055078] CR2: 0000000000000000 CR3: 000000007a56a000 CR4: 00000000000006e0
+[  518.055818] Call Trace:
+[  518.056007]  do_one_initcall+0x6a/0x2da
+[  518.056340]  ? do_init_module+0x22/0x230
+[  518.056702]  ? rcu_read_lock_sched_held+0x96/0xa0
+[  518.057125]  ? kmem_cache_alloc_trace+0x284/0x2e0
+[  518.057493]  do_init_module+0x5a/0x230
+[  518.057900]  load_module+0x17bc/0x1f50
+[  518.058214]  ? __symbol_put+0x40/0x40
+[  518.058499]  ? vfs_read+0x12d/0x160
+[  518.058766]  __do_sys_finit_module+0x83/0xc0
+[  518.059122]  do_syscall_64+0x57/0x190
+[  518.059407]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+...
 
-Iurii, do you have any additional thoughts on this?
+It crashes right in test_klp_convert_init() when print_*() using 
+supposed-to-be-converted symbols are called. I'll debug it next week. Can 
+you reproduce it too?
 
->
-> > ---
-> > From: Iurii Zaikin <yzaikin@google.com>
-> >
-> > Adds a warning message when comparing values of different types similar
-> > to what min() / max() macros do.
-> >
-> > Signed-off-by: Iurii Zaikin <yzaikin@google.com>
+Regards,
+Miroslav
+
+PS: it is probably not a coincidence that I come across selftests failures 
+right before I leave for a holiday...
