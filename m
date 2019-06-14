@@ -2,104 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A08B46464
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2019 18:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 871EA46506
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Jun 2019 18:53:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726207AbfFNQg5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Jun 2019 12:36:57 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38268 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726063AbfFNQg5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Jun 2019 12:36:57 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id E210FAF58;
-        Fri, 14 Jun 2019 16:36:55 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 18:36:55 +0200
-From:   Libor Pechacek <lpechacek@suse.cz>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-Cc:     Petr Mladek <pmladek@suse.com>, Miroslav Benes <mbenes@suse.cz>,
-        linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v4 00/10] klp-convert livepatch build tooling
-Message-ID: <20190614163655.GC15002@fm.suse.cz>
-References: <20190509143859.9050-1-joe.lawrence@redhat.com>
- <alpine.LSU.2.21.1906131451560.22698@pobox.suse.cz>
- <b1a627a4-3702-9689-6c03-0c2123c06a2d@redhat.com>
- <c9021573-11c6-b576-0aa6-97754c98a06e@redhat.com>
- <20190614083435.uq3mk6mprbatysol@pathway.suse.cz>
- <a0db1cee-8bba-4093-c3ca-4c2fe61b15ba@redhat.com>
+        id S1725802AbfFNQxG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Jun 2019 12:53:06 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:37114 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725808AbfFNQxG (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 14 Jun 2019 12:53:06 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w13so4414041eds.4;
+        Fri, 14 Jun 2019 09:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iHZ93hSaXvBIUfC/oiibZgsNE+onQZFaMpofrsm5QRs=;
+        b=RGCqVCEVOvGtqgZ5Mzpy8QvghnSvBK3Xo/Xlu0LwJ1giRoV8vEHQE6hIGpFP3n24FZ
+         DBrzdlbIWh0oktuDVCAL7aJivgeMO2KmgDcC9bX5YOIBK6UsrrXhrksAJBjWBUgoRj+2
+         p9SoQuvBGcHkAAVVmiLP30UGUpfLooiTGUU2VEW0MUND2MVMFb4H0wOI0XHMYd/96ac1
+         7g7nvL/Y5f1zI2/FK0maKe0m6Kz0BvtoJKo5BO2uZu0wqY6PaLlus1qmcVy54zKU3NEr
+         EH054TIlIUnXYlrvmrsTWW77NySubaRRTWhydGJClHBtqe5kMmL3W1jXy8cwjNfXQT17
+         gfzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iHZ93hSaXvBIUfC/oiibZgsNE+onQZFaMpofrsm5QRs=;
+        b=C10oqerllFSskpbKHk8T/1tHAYGxRQ6rS258EF+J5pAEhYaz7eoW9kSnDeXGRTnDXB
+         gd0+OWoJojZUK5fnjwz+Jy6OMkK+iOixAtiXQ7kIb9HbwY53wn43TzSEjSQxSoDFk/jK
+         YjSxmiFm0ULeNDSfPNQR6+Mu9nLkdSf8ECP2rVPSWyr5PB1SkDZ/Zc+j9KNWQC+q4a3B
+         /ky9AQRgMgDo7snXxt42PfSzOBthjXPmum7xZN1/vFfxh6u1fqIjzrbZV99s354rSX/n
+         /vVwdQoCG/TKMN05BAYWLBCmJl4zOVVx6NwmhCsE+A3MV3RBfAz65gPeu2Nrdh1dC7Es
+         FuFA==
+X-Gm-Message-State: APjAAAV1AU19MKIpwSJx6tze5Gu+PZnPvPJ+jlf87nmIVZOB4gId81zx
+        QbbUItFfjjwyLpnsWQlLpME=
+X-Google-Smtp-Source: APXvYqx6ZDojnqhlSd2k7ozAEmSGDkG898ANZmRrlZFUE1pa9P1mZv8eNHb1xEH1hsrhXRInburn2A==
+X-Received: by 2002:a17:906:fae0:: with SMTP id lu32mr60547284ejb.283.1560531184674;
+        Fri, 14 Jun 2019 09:53:04 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:2b:2b15::2])
+        by smtp.gmail.com with ESMTPSA id z24sm691944ejn.40.2019.06.14.09.53.03
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 14 Jun 2019 09:53:04 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        clang-built-linux@googlegroups.com,
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH] kbuild: Enable -Wuninitialized
+Date:   Fri, 14 Jun 2019 09:52:42 -0700
+Message-Id: <20190614165242.79257-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0db1cee-8bba-4093-c3ca-4c2fe61b15ba@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri 14-06-19 10:20:09, Joe Lawrence wrote:
-> On 6/14/19 4:34 AM, Petr Mladek wrote:
-[...]
-> > Anyway, I am curious about one thing. I saw:
-> > 
-> > function __load_mod() {
-> > 	local mod="$1"; shift
-> > 
-> > 	local msg="% modprobe $mod $*"
-> > 	log "${msg%% }"
-> > 	ret=$(modprobe "$mod" "$@" 2>&1)
-> > 	if [[ "$ret" != "" ]]; then
-> > 		die "$ret"
-> > 	fi
-> > 
-> > 	# Wait for module in sysfs ...
-> > 	loop_until '[[ -e "/sys/module/$mod" ]]' ||
-> > 		die "failed to load module $mod"
-> > }
-> > 
-> > Is the waiting for sysfs really necessary here?
-> > 
-> > Note that it is /sys/module and not /sys/kernel/livepatch/.
-> 
-> I can't remember if that was just paranoid-protective-bash coding or
-> actually required.  Libor provided great feedback on the initial patch
-> series that introduced the self-tests, perhaps he remembers.
+This helps fine very dodgy behavior through both -Wuninitialized
+(warning that a variable is always uninitialized) and
+-Wsometimes-uninitialized (warning that a variable is sometimes
+uninitialized, like GCC's -Wmaybe-uninitialized). These warnings
+catch things that GCC doesn't such as:
 
-I don't recall analyzing this spot in detail but looking at it now I don't see
-anything wrong with it. While the check is likely superfluous, I'm not against
-keeping it in place.
+https://lore.kernel.org/lkml/86649ee4-9794-77a3-502c-f4cd10019c36@lca.pw/
 
-> > My understanding is that modprobe waits until the module succesfully
-> > loaded. mod_sysfs_setup() is called before the module init callback.
-> > Therefore the sysfs interface should be read before modprobe returns.
-> > Do I miss something?
-> >
-> > If it works different way then there might be some races because
-> > mod_sysfs_setup() is called before the module is alive.
-> 
-> All of this is called from a single bash script function, so in a call stack
-> fashion, something like this would occur when loading a livepatch module:
-> 
->   [ mod_sysfs_setup() ]
->   modprobe waits for:         .init complete, MODULE_STATE_LIVE
->   __load_mod() waits for:     /sys/module/$mod
->   load_lp_nowait() waits for: /sys/kernel/livepatch/$mod
->   load_lp() waits for:        /sys/kernel/livepatch/$mod/transition = 0
->   test-script.sh
-> 
-> So I would think that by calling modprobe, we ensure that the module code is
-> ready to go.  The /sys/module/$mod check might be redundant as you say, but
-> because modprobe completed, we should be safe, no?
-> 
-> The only "nowait" function we have is load_lp_nowait(), which would let us
-> march onward before the livepatch transition may have completed.
+We very much want to catch these so turn this warning on so that CI is
+aware of it.
 
-And even that one is waiting for the live patch module name appear under
-/sys/kernel/livepatch/. This is IMHO acceptable level of paranoia.
+Link: https://github.com/ClangBuiltLinux/linux/issues/381
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ scripts/Makefile.extrawarn | 1 -
+ 1 file changed, 1 deletion(-)
 
-Libor
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index 98081ab300e5..699683a7c116 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -71,6 +71,5 @@ KBUILD_CFLAGS += -Wno-unused-value
+ KBUILD_CFLAGS += -Wno-format
+ KBUILD_CFLAGS += -Wno-sign-compare
+ KBUILD_CFLAGS += -Wno-format-zero-length
+-KBUILD_CFLAGS += -Wno-uninitialized
+ endif
+ endif
 -- 
-Libor Pechacek
-SUSE Labs
+2.22.0
+
