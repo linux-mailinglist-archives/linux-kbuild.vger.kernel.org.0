@@ -2,90 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0C0546FB2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Jun 2019 12:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 406F947633
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Jun 2019 19:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726754AbfFOK4r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 15 Jun 2019 06:56:47 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:17668 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726490AbfFOK4q (ORCPT
+        id S1726683AbfFPRuB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Jun 2019 13:50:01 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:52511 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbfFPRuB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 15 Jun 2019 06:56:46 -0400
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x5FAuZgF025740;
-        Sat, 15 Jun 2019 19:56:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x5FAuZgF025740
+        Sun, 16 Jun 2019 13:50:01 -0400
+Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x5GHmCb3032735;
+        Mon, 17 Jun 2019 02:48:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x5GHmCb3032735
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1560596196;
-        bh=ALZKjiw1db82ayQOVyaN/WsAOdhwxBOjFeoTxjhDDtk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ByHI2S9JcVxHe5YqlkYdLGfDFAip/4jf0Sw80BIlbgHif4D8XpeeRpC5ETzDf6yc7
-         2o24Xx7rtT8hfkbwWvz43cPzoSTsQ1oUBNNnwi6bN4cW1U7H5RpyQuz23ou5J2TQdK
-         aq5BXT+bYujyU/he/yHUaQeEh8hnnf5l0oTxRxVfdaWtUQq7sWz5QG9EtLlb0ivw0z
-         mprwtSYdzEpNb9cHntRAyCuYEkO5w4Tazk3EnRoDQTjw0+tCdqcL4q+ru+6Rz0rIIJ
-         5lYvDiPqDK10F+z1R0Bm4wgfL7rFCqt24ZkXpx/B3cBpnzX5BRwDHSPG1vTo4xOGh3
-         Rtxnk2cwFtDIQ==
-X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id n2so3361819vso.6;
-        Sat, 15 Jun 2019 03:56:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAUvFzxnlwTLhT3JYDh6Lgc8gsa9z3kN4LIM5HxZWMp1rzAoesjl
-        GLYJNBtM41xKN/3sU4xlb/hDxLAnnGpZaHjrCr0=
-X-Google-Smtp-Source: APXvYqzOezD0lM4US0HI7NC4PON5mpqLsHSxh80mL9prAiOxdJDJdhoaL4lsbdfXW/4h9YbfWghpnRvDD1FJPBXFlmA=
-X-Received: by 2002:a67:cd1a:: with SMTP id u26mr15919118vsl.155.1560596194791;
- Sat, 15 Jun 2019 03:56:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190604181453.30422-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190604181453.30422-1-yamada.masahiro@socionext.com>
+        s=dec2015msa; t=1560707293;
+        bh=Te693hygqCk6T69KjghvaUj9Rx8zaxGUTGHMI/OphOA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JTjezIzOW7STPIX7uzZ/YRLpPKesR4u7WdeD2VTiUifcJfYIklwCHHte5/8XmYhUw
+         b/A+3Fh4o8in3SEUdbrr6cy2EheRPJZeoArTjyU+B7iTUPt6egppuZQlS2BNic1HJ7
+         tDVg9OGLnL5GAF3627aTM06Nh4LETvKqfU2aMivm+pxJlVitS3yNL2PZH/NrEAzH92
+         4BB5yRA25f0ERq92WeQ+iGnJRLNPnDMGAxf+B4HWGrU1EYGRQj59EiKzqMGaDrnA00
+         OXRWMXevCHvrx/pZ+ZQ032xkvar2tYJ9M8cze6vwgl6O2p1eSVNTOh1Y3EAN3W2tHH
+         o13UcG2csZAaQ==
+X-Nifty-SrcIP: [126.125.154.139]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 15 Jun 2019 19:55:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARpRQo1o65EGm2kzDfhGy-C0u=AJ0K1q+HR4uwJ_aNT1A@mail.gmail.com>
-Message-ID: <CAK7LNARpRQo1o65EGm2kzDfhGy-C0u=AJ0K1q+HR4uwJ_aNT1A@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: run olddefconfig instead of oldconfig after
- merging fragments
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-kernel@vger.kernel.org,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Stefan Agner <stefan@agner.ch>, Joel Stanley <joel@jms.id.au>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH 1/2] lib/raid6: remove duplicated CFLAGS_REMOVE_altivec8.o
+Date:   Mon, 17 Jun 2019 02:48:04 +0900
+Message-Id: <20190616174805.3069-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 5, 2019 at 3:15 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> 'make olddefconfig' is non-interactive, so we can drop 'yes'.
-> The behavior is equivalent.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
+No intended change in behavior.
 
-Applied to linux-kbuild/kconfig.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
+ lib/raid6/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
 
-
->
->  scripts/kconfig/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index ab30fe724c43..7656e1137b6b 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -94,7 +94,7 @@ configfiles=$(wildcard $(srctree)/kernel/configs/$@ $(srctree)/arch/$(SRCARCH)/c
->  %.config: $(obj)/conf
->         $(if $(call configfiles),, $(error No configuration exists for this target on this architecture))
->         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m .config $(configfiles)
-> -       +$(Q)yes "" | $(MAKE) -f $(srctree)/Makefile oldconfig
-> +       $(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
->
->  PHONY += kvmconfig
->  kvmconfig: kvm_guest.config
-> --
-> 2.17.1
->
-
-
+diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
+index e723eacf7868..74004037033f 100644
+--- a/lib/raid6/Makefile
++++ b/lib/raid6/Makefile
+@@ -26,7 +26,6 @@ CFLAGS_REMOVE_altivec1.o  += -msoft-float
+ CFLAGS_REMOVE_altivec2.o  += -msoft-float
+ CFLAGS_REMOVE_altivec4.o  += -msoft-float
+ CFLAGS_REMOVE_altivec8.o  += -msoft-float
+-CFLAGS_REMOVE_altivec8.o  += -msoft-float
+ CFLAGS_REMOVE_vpermxor1.o += -msoft-float
+ CFLAGS_REMOVE_vpermxor2.o += -msoft-float
+ CFLAGS_REMOVE_vpermxor4.o += -msoft-float
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
