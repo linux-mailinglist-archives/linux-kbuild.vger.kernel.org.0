@@ -2,58 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1694A4783D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jun 2019 04:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4D1F479EB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Jun 2019 08:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727551AbfFQCqB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Jun 2019 22:46:01 -0400
-Received: from qf-corp.com ([43.252.215.172]:36428 "EHLO server1.qf-corp.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727441AbfFQCqB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Jun 2019 22:46:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=qf-corp.com
-        ; s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=x+wk2oDUMoo/hQHPqS9UCKstzOaLw+EthDvW07j7+BE=; b=geKtEcrIF9S7TIsRB3QrVoBDE6
-        1Vq4HL9EwNX8DIjud1Idm7IKvF1s/2ehB7oRY5GomSZ6TVdpfDfRN0xAgXXFCDPfOkz0Dd4zVOuZd
-        gSz+nTnbLfe4LfJCx8AHNAGRqIPrtHEirSh5HXEZz47wSHV+4KhlK8Z+/aAP/QvyG8jFP2z3nJUG5
-        oBW7qMa09eIJOPumeH1Uv1V/2l5RBK1841gdyVA6kRRRGe2VJMZGZUyN3gy0LZ79ELxeYOr1RLp0r
-        fZIuJTgzWfVpLmV2rCGkOgH1BINNB3D388N0Px56pFcLENHJqdscyVNEbnBh8jfeWe1/XNGB/iUm5
-        Pzk+EvzA==;
-Received: from [::1] (port=49322 helo=server1.qf-corp.com)
-        by server1.qf-corp.com with esmtpa (Exim 4.92)
-        (envelope-from <admin@qf-corp.com>)
-        id 1hchcR-00017o-IB; Mon, 17 Jun 2019 10:43:39 +0800
+        id S1725776AbfFQGPt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Jun 2019 02:15:49 -0400
+Received: from relay1.mentorg.com ([192.94.38.131]:34555 "EHLO
+        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725280AbfFQGPs (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 17 Jun 2019 02:15:48 -0400
+Received: from nat-ies.mentorg.com ([192.94.31.2] helo=svr-ies-mbx-02.mgc.mentorg.com)
+        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+        id 1hckvh-00071l-Df from Cedric_Hombourger@mentor.com ; Sun, 16 Jun 2019 23:15:45 -0700
+Received: from FRG-W10-HOMBOUR.world.mentorg.com (137.202.0.90) by
+ svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP Server
+ (TLS) id 15.0.1320.4; Mon, 17 Jun 2019 07:15:41 +0100
+From:   Cedric Hombourger <Cedric_Hombourger@mentor.com>
+CC:     <isar-users@googlegroups.com>,
+        Cedric Hombourger <Cedric_Hombourger@mentor.com>,
+        <yamada.masahiro@socionext.com>, <michal.lkml@markovi.net>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] builddeb: generate multi-arch friendly linux-libc-dev package
+Date:   Mon, 17 Jun 2019 08:14:56 +0200
+Message-ID: <1560752096-1323-1-git-send-email-Cedric_Hombourger@mentor.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-Date:   Mon, 17 Jun 2019 10:43:39 +0800
-From:   Herr David Williams <admin@qf-corp.com>
-To:     undisclosed-recipients:;
-Subject: dringender Kredit
-Reply-To: davidloaninvestment12@gmail.com
-Mail-Reply-To: davidloaninvestment12@gmail.com
-Message-ID: <2e8bf747b82b066c0c8169fee7a4f066@qf-corp.com>
-X-Sender: admin@qf-corp.com
-User-Agent: Roundcube Webmail/1.3.8
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - server1.qf-corp.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - qf-corp.com
-X-Get-Message-Sender-Via: server1.qf-corp.com: authenticated_id: admin@qf-corp.com
-X-Authenticated-Sender: server1.qf-corp.com: admin@qf-corp.com
+Content-Type: text/plain
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
+ svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Debian-based distributions place libc header files in a machine
+specific directory (/usr/include/<libc-machine>) instead of
+/usr/include/asm to support installation of the linux-libc-dev
+package from multiple architectures. Move headers installed by
+"make headers_install" accordingly.
 
+Signed-off-by: Cedric Hombourger <Cedric_Hombourger@mentor.com>
+Reviewed-by: Henning Schild <henning.schild@siemens.com>
+---
+ scripts/package/builddeb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index b03dd56a4782..8f7afb3a84e9 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -132,6 +132,11 @@ fi
+ if [ "$ARCH" != "um" ]; then
+ 	$MAKE -f $srctree/Makefile headers_check
+ 	$MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH="$libc_headers_dir/usr"
++	# move asm headers to /usr/include/<libc-machine>/asm to match the structure
++	# used by Debian-based distros (to support multi-arch)
++	libc_mach=$($CC -dumpmachine)
++	mkdir $libc_headers_dir/usr/include/$libc_mach
++	mv $libc_headers_dir/usr/include/asm $libc_headers_dir/usr/include/$libc_mach/
+ fi
+ 
+ # Install the maintainer scripts
 -- 
-Benötigen Sie dringend einen Kredit? Wenn ja, antworten Sie für weitere 
-Details
+2.11.0
+
