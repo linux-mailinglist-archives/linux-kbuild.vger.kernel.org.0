@@ -2,100 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACEAD4D04C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jun 2019 16:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9131F4D265
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Jun 2019 17:46:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbfFTOY4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Jun 2019 10:24:56 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:38607 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbfFTOY4 (ORCPT
+        id S1726620AbfFTPqg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Jun 2019 11:46:36 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:37742 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726649AbfFTPqg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Jun 2019 10:24:56 -0400
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x5KEOTdL028578;
-        Thu, 20 Jun 2019 23:24:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x5KEOTdL028578
+        Thu, 20 Jun 2019 11:46:36 -0400
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x5KFk5jJ029576;
+        Fri, 21 Jun 2019 00:46:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x5KFk5jJ029576
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561040670;
-        bh=2X76LTHUosgor/jhs63Qb8iV44kkpWwl3bN30s3Us5A=;
+        s=dec2015msa; t=1561045566;
+        bh=9i03caR2ECEq/q+aW869XY+C+VxbqwsnsWklWv7B9eo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GkqwTM2pya27J3ydebgJOg2PTC8Nxtt8u6JTkAaBg8NUAh4NJVEoiLVU32mk/EZXe
-         k1DhuPK/btNWgTh1F7xaoAwH04HYmt+kkaw1oUXniWKywrVD3ODa9oyJRaW4rOwwb+
-         oXxlXyoKgmJM40jqMxSUO0gxD8LqHFShmQjtHhGrf472IngCl0iEQb6+LKdFCDHTYy
-         EHxSdJK3IpALceB8qQC0PUuX8djXw99z4TyAB28ntYUIpd+mePHySPUstwiI5wykTy
-         OnQfOeZ3nmkrCEODpm24MtpoJ6aKqL2JecOlACajJEKOmjgV4rITZyTumq1l6pHYtH
-         M1KidI5YB9cxQ==
-X-Nifty-SrcIP: [209.85.217.51]
-Received: by mail-vs1-f51.google.com with SMTP id v129so1646147vsb.11;
-        Thu, 20 Jun 2019 07:24:29 -0700 (PDT)
-X-Gm-Message-State: APjAAAUEAcOW2kc0egVmjsnYNhIVU0k/80Za2H8j6jrN35MFwTC0i8Fu
-        /o3ksltVgv7ajIQ0kj7wu9aDepWBz3OnvYRvORc=
-X-Google-Smtp-Source: APXvYqy4x++JonE0M0zu4KyZ1yBsgDjAXdOABpmeCACgrH1RAF0HwwGicJx8Jh1Nb9lgjuZE07v+l+FywkVJd8TRDSI=
-X-Received: by 2002:a67:7fcc:: with SMTP id a195mr51898717vsd.181.1561040668318;
- Thu, 20 Jun 2019 07:24:28 -0700 (PDT)
+        b=1x6JgFvrFwRMDNMIdloEL1OqqdCZS0776tvyreeTG1e6g9KehasjfbXl4tEcaaro9
+         9ZiOpVfsBb/9JafQTLMTm+avbhqUWDRY9CJSHHvEgBFXD+gR9MTS1H+DA93mceIEGU
+         a1ZJ70Up8y3+7+BPKLiHJFX++M2QRp0vSelz97/XTWmFAdEZ7RdxqOrKcGZD17/2s2
+         1YCPEMLBOod3erep0LIW5WYXFYQRfgOqHV7Elh2j7Rh0Myl2HqecuNU4Y+iToj2Kd/
+         BuOyKpTsHupFLIXe78Gd0NRbOEQyxWxBRYFiQVVXW3B6XXHOqwin9kcvK0KTHwUVGH
+         62kbyVfoemB4w==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id k1so666380vkb.2;
+        Thu, 20 Jun 2019 08:46:06 -0700 (PDT)
+X-Gm-Message-State: APjAAAX0kjmf9eV0giGwxN4NazSI8ty9XD5ShoZeQG6uXTshIZbIcBCv
+        10bB+4a/ZAd3wNCrvzVvXn8/wE5Lts9SnyIJrZc=
+X-Google-Smtp-Source: APXvYqyp1S2LP2eYsGfXBtTBzMi1H805FURj8jPyinxB7XMBDVa3H8a/TkxCh192R+l3WO5nO6TBP6dtRro99IRiNK8=
+X-Received: by 2002:a1f:6347:: with SMTP id x68mr7258691vkb.64.1561045565131;
+ Thu, 20 Jun 2019 08:46:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190611184331.44242-1-natechancellor@gmail.com>
-In-Reply-To: <20190611184331.44242-1-natechancellor@gmail.com>
+References: <20190614165242.79257-1-natechancellor@gmail.com>
+In-Reply-To: <20190614165242.79257-1-natechancellor@gmail.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 20 Jun 2019 23:23:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARM510X5JL9T6J7Mc3ZG_TnGxpxaLndR044f6nFFgY3VA@mail.gmail.com>
-Message-ID: <CAK7LNARM510X5JL9T6J7Mc3ZG_TnGxpxaLndR044f6nFFgY3VA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add -Werror=unknown-warning-option to CLANG_FLAGS
+Date:   Fri, 21 Jun 2019 00:45:29 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASn9wDnhbP=FAg8tvXyXSQTUqQu_JY-+HqCds5c8Tor8g@mail.gmail.com>
+Message-ID: <CAK7LNASn9wDnhbP=FAg8tvXyXSQTUqQu_JY-+HqCds5c8Tor8g@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Enable -Wuninitialized
 To:     Nathan Chancellor <natechancellor@gmail.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Peter Smith <peter.smith@linaro.org>
+        Arnd Bergmann <arnd@arndb.de>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 3:43 AM Nathan Chancellor
+On Sat, Jun 15, 2019 at 1:53 AM Nathan Chancellor
 <natechancellor@gmail.com> wrote:
 >
-> In commit ebcc5928c5d9 ("arm64: Silence gcc warnings about arch ABI
-> drift"), the arm64 Makefile added -Wno-psabi to KBUILD_CFLAGS, which is
-> a GCC only option so clang rightfully complains:
+> This helps fine very dodgy behavior through both -Wuninitialized
+> (warning that a variable is always uninitialized) and
+> -Wsometimes-uninitialized (warning that a variable is sometimes
+> uninitialized, like GCC's -Wmaybe-uninitialized). These warnings
+> catch things that GCC doesn't such as:
 >
-> warning: unknown warning option '-Wno-psabi' [-Wunknown-warning-option]
+> https://lore.kernel.org/lkml/86649ee4-9794-77a3-502c-f4cd10019c36@lca.pw/
 >
-> https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option
+> We very much want to catch these so turn this warning on so that CI is
+> aware of it.
 >
-> However, by default, this is merely a warning so the build happily goes
-> on with a slew of these warnings in the process.
->
-> Commit c3f0d0bc5b01 ("kbuild, LLVMLinux: Add -Werror to cc-option to
-> support clang") worked around this behavior in cc-option by adding
-> -Werror so that unknown flags cause an error. However, this all happens
-> silently and when an unknown flag is added to the build unconditionally
-> like -Wno-psabi, cc-option will always fail because there is always an
-> unknown flag in the list of flags. This manifested as link time failures
-> in the arm64 libstub because -fno-stack-protector didn't get added to
-> KBUILD_CFLAGS.
->
-> To avoid these weird cryptic failures in the future, make clang behave
-> like gcc and immediately error when it encounters an unknown flag by
-> adding -Werror=unknown-warning-option to CLANG_FLAGS. This can be added
-> unconditionally for clang because it is supported by at least 3.0.0,
-> according to godbolt [1] and 4.0.0, according to its documentation [2],
-> which is far earlier than we typically support.
->
-> [1]: https://godbolt.org/z/7F7rm3
-> [2]: https://releases.llvm.org/4.0.0/tools/clang/docs/DiagnosticsReference.html#wunknown-warning-option
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/511
-> Link: https://github.com/ClangBuiltLinux/linux/issues/517
-> Suggested-by: Peter Smith <peter.smith@linaro.org>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/381
 > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 > ---
 
 Applied to linux-kbuild.
 Thanks!
+
 
 -- 
 Best Regards
