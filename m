@@ -2,64 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 579634EE2B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jun 2019 19:51:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD3AA4EEB2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Jun 2019 20:16:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726293AbfFURvk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Jun 2019 13:51:40 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:35140 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726017AbfFURvj (ORCPT
+        id S1726125AbfFUSQV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Jun 2019 14:16:21 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:47269 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726032AbfFUSQU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Jun 2019 13:51:39 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 203FC80436;
-        Fri, 21 Jun 2019 19:51:35 +0200 (CEST)
-Date:   Fri, 21 Jun 2019 19:51:34 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] kbuild: compile-test global headers to ensure they are
- self-contained
-Message-ID: <20190621175134.GB16409@ravnborg.org>
-References: <20190621163931.19397-1-yamada.masahiro@socionext.com>
+        Fri, 21 Jun 2019 14:16:20 -0400
+Received: from callcc.thunk.org (guestnat-104-133-0-109.corp.google.com [104.133.0.109] (may be forged))
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x5LIDgGF021070
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Jun 2019 14:13:44 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id 441B9420484; Fri, 21 Jun 2019 14:13:42 -0400 (EDT)
+Date:   Fri, 21 Jun 2019 14:13:42 -0400
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     shuah <shuah@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
+        sboyd@kernel.org, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+Subject: Re: [PATCH v5 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20190621181342.GA17166@mit.edu>
+Mail-Followup-To: Theodore Ts'o <tytso@mit.edu>, shuah <shuah@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        gregkh@linuxfoundation.org, jpoimboe@redhat.com,
+        keescook@google.com, kieran.bingham@ideasonboard.com,
+        mcgrof@kernel.org, peterz@infradead.org, robh@kernel.org,
+        sboyd@kernel.org, yamada.masahiro@socionext.com,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <10feac3e-7621-65e5-fbf0-9c63fcbe09c9@gmail.com>
+ <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190621163931.19397-1-yamada.masahiro@socionext.com>
+In-Reply-To: <69809117-dcda-160a-ee0a-d1d3b4c5cd8a@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=HbLmmMm3CJfoB4MaM3cA:9 a=CjuIK1q_8ugA:10
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro.
+On Fri, Jun 21, 2019 at 08:59:48AM -0600, shuah wrote:
+> > > ### But wait! Doesn't kselftest support in kernel testing?!
+> > >
+> > > ....
+> 
+> I think I commented on this before. I agree with the statement that
+> there is no overlap between Kselftest and KUnit. I would like see this
+> removed. Kselftest module support supports use-cases KUnit won't be able
+> to. I can build an kernel with Kselftest test modules and use it in the
+> filed to load and run tests if I need to debug a problem and get data
+> from a system. I can't do that with KUnit.
+> 
+> In my mind, I am not viewing this as which is better. Kselftest and
+> KUnit both have their place in the kernel development process. It isn't
+> productive and/or necessary to comparing Kselftest and KUnit without a
+> good understanding of the problem spaces for each of these.
+>
+> I would strongly recommend not making reference to Kselftest and talk
+> about what KUnit offers.
 
-On Sat, Jun 22, 2019 at 01:39:31AM +0900, Masahiro Yamada wrote:
-> Make as many headers self-contained as possible so that they can be
-> included without relying on a specific include order.
-It is very nice finally to get some infrastructure to validate header
-files.
+Shuah,
 
-But to avoid too many conflicts while including more and more headers
-that are selfcontained we really need something that is more
-distributed.
-So for example all header files in include/drm/* could be in one
-Makefile, incl. sub-directories, but the same Makefile would not include
-the files in include/soc/
+Just to recall the history, this section of the FAQ was added to rebut
+the ***very*** strong statements that Frank made that there was
+overlap between Kselftest and Kunit, and that having too many ways for
+kernel developers to do the identical thing was harmful (he said it
+was too much of a burden on a kernel developer) --- and this was an
+argument for not including Kunit in the upstream kernel.
 
-If you just show how ot do it, others can follow-up with the
-relevant directories.
+If we're past that objection, then perhaps this section can be
+dropped, but there's a very good reason why it was there.  I wouldn't
+Brendan to be accused of ignoring feedback from those who reviewed his
+patches.   :-)
 
-	Sam
+						- Ted
