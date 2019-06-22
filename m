@@ -2,97 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 861A34F6BE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jun 2019 18:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 537974F6E7
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jun 2019 18:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbfFVQHS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Jun 2019 12:07:18 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:55074 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726296AbfFVQHN (ORCPT
+        id S1726357AbfFVQ2z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Jun 2019 12:28:55 -0400
+Received: from sonic301-3.consmr.mail.bf2.yahoo.com ([74.6.129.42]:38272 "EHLO
+        sonic301-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726383AbfFVQ2u (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Jun 2019 12:07:13 -0400
-Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x5MG77nf010140;
-        Sun, 23 Jun 2019 01:07:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x5MG77nf010140
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561219628;
-        bh=sM12Se/SNC24WmIARzc8cjfzxyRxgACkEt3Rjwy8CAA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MQFyp7kM/uCIWxVtksPsDHogRtBwRhlUQf7UGljyZwGVgmafs/+xcTz4BxUdhFaS4
-         lnTJ0+zp/8V7mxTM/pKnO05fj8E3313PJy21JRF4mWDGD5ODn5txEvazwCtFwNedSY
-         ozrTpWAl3w7WfduUAYhLfRiCCnphyM5+DePkdtX1dLHgZefLIAR+PyI+LbBb+KnJZM
-         IMKOju1UEzs4ydG7kb3vLSgSu0NIqcLzyaMElDaA9qJXE6Mtd8iYXu2JJkc36997FF
-         NWMKe3c6LAOz5lOVH5II92lAaQx23B42XhuZUxo5m9q7ubrs56EejhPvMUAiMV1t9j
-         8Op0M/EF7934w==
-X-Nifty-SrcIP: [126.125.154.139]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] kbuild: save $(strip ...) for calling if_changed and friends
-Date:   Sun, 23 Jun 2019 01:07:05 +0900
-Message-Id: <20190622160705.17071-3-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190622160705.17071-1-yamada.masahiro@socionext.com>
-References: <20190622160705.17071-1-yamada.masahiro@socionext.com>
+        Sat, 22 Jun 2019 12:28:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220929; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=FwrBLUl7u665XwQeVPTq5hUQ4Ptv5qPcwgE0MfCyAxPjQW66W+sBKlTITy95Xiak8M/9mL3k87XvuhuNYmdzjOXFqAsXXJ7ZeR0tr0xQhaR4qpp9+I79zHB4JVXDeOtUnrv/ni1DEn3m49tSMIml9+1SbDvUcui/xLYzcB7mOtvlwJJC6bBkcbOwJW8drH7WnSKYQVlUvO9PRg8+IWYABo4m/HoTrmg3JSd7+tfq1bmdsTjreC9G6uwJClVG1p8XyGEOijmNqXv9Ivunj8UzUvxVldTIg/taTAKdSlSG3i+xbnz28LKLpxSK2+M63p52Vf+hNJ0OycyVj1TkO+H8OQ==
+X-YMail-OSG: BClZlNgVM1mJa1pSUAMlnjmDwJQUKDn0osVKNVIeZ6AC0JZQ8NzrV_.P2vPToBw
+ lk4l1yMYy0P1wu9iKWHPF1vwWtED.NCcY6jE.jXdELnZdUngnDzcX.f1Ik7TcPjN._6dUftCNvSG
+ 0ilPDIIh6JKut3rld3EDzfXqVTEprJFL10dLfXEmdNXy8_9HzWnLN9Uxxh6FWr8nj4DbExyF48M8
+ b8CzHn8AtWzh0fDjJqMRXb5UR1L1fHF.mq4wk_41bl8VHLLREhO8D9AiMB_Iou.TvP.xektI4Uzf
+ lBotEg54S8nbe5a5a2eamKaLSiD6XaCIzSQkrGwkgk9qzk7J4361PG1C2lAWhSULJjGYH.uKi9SH
+ 8omXh8MvwuZmVU7umqXbA4eIFWV8ruRR3qRFWtA.2B0Eer.D49EbNovsAu.wRPm8yYyL6YMdaoys
+ 3vYAkjype1yPgR0gHAH3zObnNPMrtMzQfsTzcaha59dNYsVWPRo5EvcFgAIKXVIUqnKnooWuODru
+ O4SgrdrM8PGEZGs5dJS.h.dJB3gwQ.0I1wf1Q_CLgJhbPMrumaMiWl3ifhN9G_CCxrGhRPRltqdB
+ RyAvAXGENXKEJswzM.sYWHkLQyblOWaGX5TLKzeDGaJCZVu7CtZvQ0aNcyWtqrf4SAtE7MK9SqUH
+ 7phABBxeBrGdyDkvdUQOX_EPh25.Hb3SncDKllMEIHjvEdwbQcMGmqMEDVCI8Jh0nfgpjh259ODl
+ q.bGW_sz63_QvjPWXygjUQ4RzfXiei1bHIkvbkPAHc04dS.Qr8LP1Jyxp2QD0wtNtJgo5RScK99X
+ P5NPqcNAR8eez8YgXpk3cKLQCR9JSylhL6QyUVACODhQSLMO_l73eEDpWzNQUeEQLrEwA53TFUO9
+ BXx4lR26gADp4OeWMANR3pTNDn8J7Oc5G1l.tF8AqVFtdsoB5vgCdw0tzoX9_22cJzNNteihaN9H
+ ktOSXaCeUY26x9DWNkYi7HTOCc9F4vHnioRwelB9Lv.KGDeGPUJBBPmfcn0xXC8MB2YTlUFeVHzN
+ FJsHhvFz9eJx.VwEAdhJs3DHW6xmbj9a_RSOf.BoLPiAvMAdoBe_1sVY8nFOqhuBwpkbj17TOzIW
+ ts0JEWafkyantIFw8kEnIr0AHDEAK4aB1fgOVS8TQpbEaj2tB4pKHPa4OOjXszQAPBozr7PYVj2f
+ 6AcwHFYhcmsrFfliX20p43dgFMRY8GMXgvUWeegBAeAuOTxCoUC9WvAdL
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:28:49 +0000
+Date:   Sat, 22 Jun 2019 16:28:46 +0000 (UTC)
+From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
+Reply-To: miss.fmayusuf11@gmail.com
+Message-ID: <270302503.296556.1561220926635@mail.yahoo.com>
+Subject: From:Miss: Fatima Yusuf.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The string returned by $(filter-out ...) does not contain any leading
-or trailing spaces.
 
-With the previous commit, 'any-prereq' no longer contains any
-excessive spaces.
 
-Nor does 'cmd-check' since it expands to a $(filter-out ...) call.
+From:Miss: Fatima Yusuf.
 
-So, only the space that matters is the one between 'any-prereq'
-and 'cmd-check'.
+For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
 
-By removing it from the code, we can save $(strip ...) evaluation.
-This refactoring is possible because $(any-prereq)$(cmd-check) is only
-passed to the first argument of $(if ...), so we are only interested
-in whether it is empty or not.
+I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
 
- scripts/Kbuild.include | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 0fa93f6de0b0..0e57a9524003 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -234,12 +234,12 @@ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1))))
- any-prereq = $(filter-out $(PHONY),$?)$(filter-out $(PHONY) $(wildcard $^),$^)
- 
- # Execute command if command has changed or prerequisite(s) are updated.
--if_changed = $(if $(strip $(any-prereq) $(cmd-check)),                       \
-+if_changed = $(if $(any-prereq)$(cmd-check),                                 \
- 	$(cmd);                                                              \
- 	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
- 
- # Execute the command and also postprocess generated .d dependencies file.
--if_changed_dep = $(if $(strip $(any-prereq) $(cmd-check)),$(cmd_and_fixdep),@:)
-+if_changed_dep = $(if $(any-prereq)$(cmd-check),$(cmd_and_fixdep),@:)
- 
- cmd_and_fixdep =                                                             \
- 	$(cmd);                                                              \
-@@ -249,7 +249,7 @@ cmd_and_fixdep =                                                             \
- # Usage: $(call if_changed_rule,foo)
- # Will check if $(cmd_foo) or any of the prerequisites changed,
- # and if so will execute $(rule_foo).
--if_changed_rule = $(if $(strip $(any-prereq) $(cmd-check)),$(rule_$(1)),@:)
-+if_changed_rule = $(if $(any-prereq)$(cmd-check),$(rule_$(1)),@:)
- 
- ###
- # why - tell why a target got built
--- 
-2.17.1
+I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
 
+My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+
+I am waiting to hear from you.
+Yours Sincerely,
+Miss.Fatima Yusuf.
