@@ -2,117 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 419954F3E5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jun 2019 07:40:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C73F24F41C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jun 2019 08:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726052AbfFVFkc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Jun 2019 01:40:32 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:55098 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726049AbfFVFkc (ORCPT
+        id S1726078AbfFVGzw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Jun 2019 02:55:52 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:43322 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfFVGzv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Jun 2019 01:40:32 -0400
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x5M5eC9L014968;
-        Sat, 22 Jun 2019 14:40:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x5M5eC9L014968
+        Sat, 22 Jun 2019 02:55:51 -0400
+Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id x5M6tNs8002066;
+        Sat, 22 Jun 2019 15:55:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x5M6tNs8002066
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561182013;
-        bh=JxBG390b3AdnCwZiQOKsk1HAVj5lXZJFRQcpOMWwHbY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=vfztd4BrukAdjcSvvO2e/ZaIiyZ9mx12XbkLTV+W2nuoyC48frSlNAvAwwbP73Vyr
-         Tn+tVvlKIzCwwccAQjVD1cg72WyVKXSwN1+zOr7lOr0xep66UxomKkozXKaAAqJ+CV
-         SfVa4bLXejWLmgX1RRFqEBQRb5vCW/M+iBtN1UirSWuQ9L3Xh33Fs3k5t2oCFMw6Ld
-         Z7kiY+Xf7S5QA3YRLzTg1M2Ye9HAaaVOTunAB6PxPorlGZDFETkls1kQhr8wgHXtMf
-         YjfN2RgtEjH09lnD0+PgldC7gF8hrf52UOZ7yY1R/DkdUlmXGwi5iBOm4amb4+aKnQ
-         LTT74SXqb15DQ==
-X-Nifty-SrcIP: [209.85.222.54]
-Received: by mail-ua1-f54.google.com with SMTP id v18so3739081uad.12;
-        Fri, 21 Jun 2019 22:40:13 -0700 (PDT)
-X-Gm-Message-State: APjAAAUuZhCGgH9XL0FGqr+jjF6Fh1RUhfsTRGXzsgdXdgTZS4cMprPS
-        afVQByBwbpOU9AaM+w1rJfdhJIl9V7gAVvOKBM4=
-X-Google-Smtp-Source: APXvYqzlKgWISF72/2l3BCTzXtxOrbxlLww7I4OL4+Gvksq0C26omqpvWWFe0eb5vghy8UgM0iBbJXyRxsNhrZQR8a0=
-X-Received: by 2002:ab0:5ea6:: with SMTP id y38mr48367542uag.40.1561182012133;
- Fri, 21 Jun 2019 22:40:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190604101409.2078-1-yamada.masahiro@socionext.com>
- <20190604101409.2078-16-yamada.masahiro@socionext.com> <CAK8P3a08f25WYP5r57JHPcZWieS2+07=_qTphLosS4M2w8F0Zw@mail.gmail.com>
- <CAK7LNATt8BSrMfrOVjZ_SbA0awsh4CvRhu6TF3gYYynirpviWw@mail.gmail.com>
-In-Reply-To: <CAK7LNATt8BSrMfrOVjZ_SbA0awsh4CvRhu6TF3gYYynirpviWw@mail.gmail.com>
+        s=dec2015msa; t=1561186524;
+        bh=ej0oqJGYt9D+7866FK2QypG91Du8BcfoF4GP+1Lu2f8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ed0GSQ1ajETv90PtATAcD51BdVO9aSXQc1H6/9wu/f/hfcVb2icE5VILoK+4zfzYe
+         0p3qkeR5cWojNmr8U0jR6obyBpi4AJPVs3isfSV+akH7jTxcHYtuz9pmXc80GQt5kt
+         xrloY44/mhGA6PlReCqX/RgG8PmEWFaLFiJfIZDQiqzxWomcsC2TkQDiyDepmrF6uS
+         TX2YVIzSimnSv2b9HEbwHoKdQL92uTds3l3q+6O5ZOYfitBPYQdA7QCJ3/ltfcoKhM
+         r4IHzh21xaEumlWxy08GAyadGNu9OMz4MTsq7QivpcUQ752hEc0wSJzMXbJrCN7pal
+         9JQ4GLszpMlTQ==
+X-Nifty-SrcIP: [126.125.154.139]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 22 Jun 2019 14:39:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATi1kX_j9-7CoT24hohgTCQB1dSc9j8DNdmjnmEg1-kRg@mail.gmail.com>
-Message-ID: <CAK7LNATi1kX_j9-7CoT24hohgTCQB1dSc9j8DNdmjnmEg1-kRg@mail.gmail.com>
-Subject: Re: [PATCH 15/15] kbuild: compile test UAPI headers to ensure they
- are self-contained
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        David Howells <dhowells@redhat.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        Song Liu <songliubraving@fb.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Networking <netdev@vger.kernel.org>, Yonghong Song <yhs@fb.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Palmer Dabbelt <palmer@sifive.com>, bpf@vger.kernel.org,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Albert Ou <aou@eecs.berkeley.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: fix 'No such file or directory' warning for headers_install
+Date:   Sat, 22 Jun 2019 15:55:20 +0900
+Message-Id: <20190622065520.10105-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 22, 2019 at 2:12 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> On Sat, Jun 22, 2019 at 4:05 AM Arnd Bergmann <arnd@arndb.de> wrote:
-> >
-> > On Tue, Jun 4, 2019 at 12:16 PM Masahiro Yamada
-> > <yamada.masahiro@socionext.com> wrote:
-> >
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -1363,7 +1363,7 @@ CLEAN_DIRS  +=3D $(MODVERDIR) include/ksym
-> > >  CLEAN_FILES +=3D modules.builtin.modinfo
-> > >
-> > >  # Directories & files removed with 'make mrproper'
-> > > -MRPROPER_DIRS  +=3D include/config usr/include include/generated    =
-      \
-> > > +MRPROPER_DIRS  +=3D include/config include/generated          \
-> > >                   arch/$(SRCARCH)/include/generated .tmp_objdiff
-> > >  MRPROPER_FILES +=3D .config .config.old .version \
-> > >                   Module.symvers tags TAGS cscope* GPATH GTAGS GRTAGS=
- GSYMS \
-> >
-> > This change seems to have caused a minor regression:
-> >
-> > $ make clean ; make clean
-> > find: =E2=80=98*=E2=80=99: No such file or directory
->
-> Hmm, I cannot reproduce this.
->
-> I checked the latest linux-next.
->
->
-> masahiro@grover:~/ref/linux-next$ git describe
-> next-20190621
-> masahiro@grover:~/ref/linux-next$ make clean; make clean
-> masahiro@grover:~/ref/linux-next$
->
->
+Since commit d5470d14431e ("kbuild: re-implement Makefile.headersinst
+without recursion"), headers_install emits an ugly warning.
 
-Ah, now I was able to reproduce it.
+$ make headers_install
+  [ snip ]
+  UPD     include/generated/uapi/linux/version.h
+find: ‘./include/uapi/Kbuild’: No such file or directory
+  HDRINST usr/include/video/uvesafb.h
+    ...
 
-Will fix it soon. Thanks.
+This happens for GNU Make <= 4.2.1
 
+When I wrote that commit, I missed this warning because I was using the
+state-of-the-art Make version compiled from the git tree.
 
+$(wildcard $(src)/*/) is intended to match to only existing directories
+since it has a trailing slash, but actually matches to regular files too.
+(include/uapi/Kbuild in this case)
 
---=20
-Best Regards
-Masahiro Yamada
+This is a bug of GNU Make, and was fixed by:
+
+| commit b7acb10e86dc8f5fdf2a2bbd87e1059c315e31d6
+| Author: spagoveanu@gmail.com <spagoveanu@gmail.com>
+| Date:   Wed Jun 20 02:03:48 2018 +0300
+|
+|    * src/dir.c: Preserve glob d_type field
+
+We need to cater to old Make versions. Add '$(filter %/,...) to filter
+out the regular files.
+
+Fixes: d5470d14431e ("kbuild: re-implement Makefile.headersinst without recursion")
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ scripts/Makefile.headersinst | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
+index d2b572a7a628..ddc764838df2 100644
+--- a/scripts/Makefile.headersinst
++++ b/scripts/Makefile.headersinst
+@@ -20,8 +20,10 @@ dst := usr/include
+ 
+ -include $(src)/Kbuild
+ 
+-src-subdirs := $(patsubst $(src)/%/,%,$(wildcard $(src)/*/))
+-gen-subdirs := $(patsubst $(gen)/%/,%,$(wildcard $(gen)/*/))
++# $(filter %/, ...) is needed to workaround the bug for GNU Make <= 4.2.1
++# $(wildcard $(src)/*/) contains not only directories but also regular files.
++src-subdirs := $(patsubst $(src)/%/,%,$(filter %/, $(wildcard $(src)/*/)))
++gen-subdirs := $(patsubst $(gen)/%/,%,$(filter %/, $(wildcard $(gen)/*/)))
+ all-subdirs := $(sort $(src-subdirs) $(gen-subdirs))
+ 
+ src-headers := $(if $(src-subdirs), $(shell cd $(src) && find $(src-subdirs) -name '*.h'))
+-- 
+2.17.1
+
