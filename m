@@ -2,47 +2,24 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD6B44F5BD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jun 2019 14:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D62A4F5D0
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Jun 2019 15:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbfFVMbR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Jun 2019 08:31:17 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:30710 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbfFVMbR (ORCPT
+        id S1726290AbfFVNGk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Jun 2019 09:06:40 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:44203 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726287AbfFVNGk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Jun 2019 08:31:17 -0400
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x5MCV1Q7016356;
-        Sat, 22 Jun 2019 21:31:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x5MCV1Q7016356
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561206662;
-        bh=m54BvUSyNYNL33mmnHMDkq+76aAFKf+BJdGvxLc/WI4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DLHR74rkAqZP3/MBBqZOM/tf+80ugRExZHoXIcUs8aFU5MwfvTFb9w+LUXwbrjihB
-         q/xpGGtf6lpk+A2VoHUdvR8SLJDP5/DPGXuLVriD94CBDCH8218GW06mg40rByqkRn
-         T33cCAiX23UXjydM3flMYDV2+gMZde4kPAQUXmRUgdJvrkOuPXWeDWCaRx7LkdpvU6
-         D1jENLTUNzdTwqT8YpVRWTNl5RwCNzZoezg5CHvf3XZFt/NeVu/MvSPZ5Ax+f5W+f+
-         Pq4BQCfOL0IddvlfurF/4Hea9T+jVbfKRjPSFju1HON8ah4S0DXMr8ZDq5CLKxVTUD
-         ZakkBFHU9jL8g==
-X-Nifty-SrcIP: [209.85.221.173]
-Received: by mail-vk1-f173.google.com with SMTP id k1so1874647vkb.2;
-        Sat, 22 Jun 2019 05:31:01 -0700 (PDT)
-X-Gm-Message-State: APjAAAXEd20zln68DmBpScqaVZWu7hbClEFng2Luv4Dnv5ElP9qeJE7S
-        XdxvvQc5DEX5htyhSFQA+mUtetlQiHOgmByUxUU=
-X-Google-Smtp-Source: APXvYqyBMcX4VGPYKX3tfLIsaz7wkVCv1WB8vYa4Pvt6tJ+QqY3hMQYIWuARG2vUmbyjhfd7TSYdbMhHiQvJhvZdy/E=
-X-Received: by 2002:a1f:728b:: with SMTP id n133mr15338535vkc.84.1561206660594;
- Sat, 22 Jun 2019 05:31:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190621163931.19397-1-yamada.masahiro@socionext.com> <20190621175134.GB16409@ravnborg.org>
-In-Reply-To: <20190621175134.GB16409@ravnborg.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 22 Jun 2019 21:30:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATz1iuG0Moab60gMSbVU8PJAmrLn27K8HK_1zQ0qeh26w@mail.gmail.com>
-Message-ID: <CAK7LNATz1iuG0Moab60gMSbVU8PJAmrLn27K8HK_1zQ0qeh26w@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: compile-test global headers to ensure they are self-contained
-To:     Sam Ravnborg <sam@ravnborg.org>
+        Sat, 22 Jun 2019 09:06:40 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 555F220020;
+        Sat, 22 Jun 2019 15:06:37 +0200 (CEST)
+Date:   Sat, 22 Jun 2019 15:06:36 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -50,97 +27,77 @@ Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         <linux-mediatek@lists.infradead.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] kbuild: compile-test global headers to ensure they are
+ self-contained
+Message-ID: <20190622130635.GA24262@ravnborg.org>
+References: <20190621163931.19397-1-yamada.masahiro@socionext.com>
+ <20190621175134.GB16409@ravnborg.org>
+ <CAK7LNATz1iuG0Moab60gMSbVU8PJAmrLn27K8HK_1zQ0qeh26w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNATz1iuG0Moab60gMSbVU8PJAmrLn27K8HK_1zQ0qeh26w@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+        a=_h6k6vx1-o-evQNg5jYA:9 a=CjuIK1q_8ugA:10
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Sam,
+Hi Masahiro
 
-On Sat, Jun 22, 2019 at 2:51 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Masahiro.
->
-> On Sat, Jun 22, 2019 at 01:39:31AM +0900, Masahiro Yamada wrote:
-> > Make as many headers self-contained as possible so that they can be
-> > included without relying on a specific include order.
-> It is very nice finally to get some infrastructure to validate header
-> files.
->
-> But to avoid too many conflicts while including more and more headers
-> that are selfcontained we really need something that is more
-> distributed.
-> So for example all header files in include/drm/* could be in one
-> Makefile, incl. sub-directories, but the same Makefile would not include
-> the files in include/soc/
->
-> If you just show how ot do it, others can follow-up with the
-> relevant directories.
+> At first, I tried to split Makefile per directory,
+> and add header-test-y one by one.
+> 
+> I think you expect they look like this:
+> 
+> 
+> include/Makefile:
+> 
+> subdir-y += drm
+> subdir-y += linux
+> subdir-y += media
 
+So far we agree.
 
-At first, I tried to split Makefile per directory,
-and add header-test-y one by one.
+> include/drm/Makefile:
+> 
+> header-test-y += drm_cache.h
+> header-test-y += drm_file.h
+> header-test-y += drm_util.h
+> ...
+On this level it would be better to do:
+header-test-y += $(call find_all_header_files)
 
-I think you expect they look like this:
+# drm files that are not self-contained
+header-test-n += drm_legacy.h
 
+Likewise for all subdirs below include/
+and include/linux should maybe be split up a little too.
+Maybe include/uapi/ would need to be slipt a little.
 
-include/Makefile:
+Then we have a manageable number of Makefiles.
+New header files are automatically checked and
+we have a list of files to fix.
+If for example drm/ have too much failures to a start
+then we can add that directory to the higler level Makefile later.
 
-subdir-y += drm
-subdir-y += linux
-subdir-y += media
+The above is more or less what you already started,
+but the difference is that we have it pushed down one or two
+directories.
 
+The header-test-n logic could be moved to the generic part,
+and a helper could be made to find all header files.
+Then the Makefiles would be more or less trival, with all the
+Kbuild magic hidden away.
 
-include/drm/Makefile:
+> In my analysis, 70% of headers are already conf-contained.
+> After some fixups, 95% of headers can become self-contained.
 
-header-test-y += drm_cache.h
-header-test-y += drm_file.h
-header-test-y += drm_util.h
-...
+Sounds good. And we do not want 100%, but close...
 
-
-include/linux/Makefile:
-
-header-test-y += io.h
-header-test-y += list.h
-header-test-y += kernel.h
-header-test-y += types.h
-...
-
-
-
-This is a straightforward way,
-but I see some disadvantages.
-
-Currently, there are more than 4000 headers
-under include/.
-
-So, to cover (almost) all of them, we must
-list out 4000 entries.
-
-When somebody adds a new header,
-he will be very likely to forget to add
-header-test-y for it.
-So, newly added headers will always
-fall off the coverage.
-
-
-So, I am trying to take an opposite approach.
-
-Add all headers in include/ by wildcard, then
-filter-out one that cannot be self-contained.
-
-In my analysis, 70% of headers are already conf-contained.
-After some fixups, 95% of headers can become self-contained.
-
-At this moment, the wildcard only covers some directories
-or patterns, but my plan is to extend the wildcard gradually.
-
-
-Please feel free to suggest alternative ideas.
-
-
--- 
-Best Regards
-Masahiro Yamada
+	Sam
