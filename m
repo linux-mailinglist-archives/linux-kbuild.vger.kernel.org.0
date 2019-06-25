@@ -2,72 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8455755034
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jun 2019 15:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE2D755542
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jun 2019 18:57:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729435AbfFYNYa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Jun 2019 09:24:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32906 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726707AbfFYNYa (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Jun 2019 09:24:30 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 6E21A3092669;
-        Tue, 25 Jun 2019 13:24:22 +0000 (UTC)
-Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 92ABC5C238;
-        Tue, 25 Jun 2019 13:24:21 +0000 (UTC)
-Subject: Re: [PATCH v4 00/10] klp-convert livepatch build tooling
-To:     Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>
-Cc:     linux-kernel@vger.kernel.org, live-patching@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
-References: <20190509143859.9050-1-joe.lawrence@redhat.com>
- <alpine.LSU.2.21.1906131451560.22698@pobox.suse.cz>
- <b1a627a4-3702-9689-6c03-0c2123c06a2d@redhat.com>
- <c9021573-11c6-b576-0aa6-97754c98a06e@redhat.com>
- <20190614083435.uq3mk6mprbatysol@pathway.suse.cz>
- <alpine.LSU.2.21.1906251324450.12085@pobox.suse.cz>
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-Message-ID: <76da6ab0-5540-d9ff-c5ea-6dc31a39c744@redhat.com>
-Date:   Tue, 25 Jun 2019 09:24:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1728743AbfFYQ5o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Jun 2019 12:57:44 -0400
+Received: from smtprelay0038.hostedemail.com ([216.40.44.38]:36730 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728506AbfFYQ5o (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 25 Jun 2019 12:57:44 -0400
+X-Greylist: delayed 316 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Jun 2019 12:57:43 EDT
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave04.hostedemail.com (Postfix) with ESMTP id 185CE18020B0B
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Jun 2019 16:52:28 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay02.hostedemail.com (Postfix) with ESMTP id 4C3435000;
+        Tue, 25 Jun 2019 16:52:26 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::,RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2693:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3872:3873:4321:5007:8527:8545:8660:8879:10004:10400:10848:11232:11658:11914:12043:12297:12555:12679:12740:12760:12895:13069:13148:13230:13311:13357:13439:14096:14097:14659:14721:21080:21627:30054:30091,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.14.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:25,LUA_SUMMARY:none
+X-HE-Tag: tramp21_4f3996ed0ab50
+X-Filterd-Recvd-Size: 2131
+Received: from XPS-9350.home (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf07.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 25 Jun 2019 16:52:24 +0000 (UTC)
+Message-ID: <2bdbbd7909c5c4ad96d32c0c5be4690292132a34.camel@perches.com>
+Subject: Re: [PATCH] video: fbdev: s3c-fb: Mark expected switch fall-throughs
+From:   Joe Perches <joe@perches.com>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Cc:     linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Date:   Tue, 25 Jun 2019 09:52:23 -0700
+In-Reply-To: <20190625160103.GA13133@embeddedor>
+References: <20190625160103.GA13133@embeddedor>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-In-Reply-To: <alpine.LSU.2.21.1906251324450.12085@pobox.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 25 Jun 2019 13:24:30 +0000 (UTC)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 6/25/19 7:36 AM, Miroslav Benes wrote:
-> 
- > [ ... snip ... ]
- >
-> So I made a couple of experiments and found that GCC is somehow involved.
-> If klp-convert (from scripts/livepatch/) is compiled with our GCC 4.8.5
-> from SLE12, the output is incorrect. If I compile it with GCC 7.4.0 from
-> openSUSE Leap 15.1, the output is correct.
-> 
-> If I revert commit d59cadc0a8f8 ("[squash] klp-convert: make
-> convert_rela() list-safe") (from Joe's expanded github tree), the problem
-> disappears.
-> 
-> I haven't spotted any problem in the code and I cannot explain a
-> dependency on GCC version. Any ideas?
-> 
+On Tue, 2019-06-25 at 11:01 -0500, Gustavo A. R. Silva wrote:
+> In preparation to enabling -Wimplicit-fallthrough, mark switch
+> cases where we are expecting to fall through.
+[]
+> This patch is part of the ongoing efforts to enable
+> -Wimplicit-fallthrough.
 
-Thanks for revisiting and debugging this.  Narrowing it down to my "fix" 
-to convert_rela() should be helpful.
+Just enable the thing already.
 
-In my case, I was probably testing with RHEL-8, which has gcc 8.2 vs 
-RHEL-7 which has gcc 4.8.  I'll have to make sure to try with a few 
-different versions for the next round.
+If you stopped trying to do it all yourself, others
+will help resolve any new build warnings.
 
--- Joe
+For instance: a build of -next x86/64 defconfig has 2.  nbd.
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index 5102b2bbd224..df909ffdfcdb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -690,6 +690,7 @@ endif # may-sync-config
+ endif # $(dot-config)
+ 
+ KBUILD_CFLAGS	+= $(call cc-option,-fno-delete-null-pointer-checks,)
++KBUILD_CFLAGS	+= $(call cc-option, -Wimplicit-fallthrough)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning,frame-address,)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-truncation)
+ KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
+
+
