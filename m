@@ -2,223 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76E85523CC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jun 2019 08:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C38EA52552
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Jun 2019 09:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727625AbfFYGy4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Jun 2019 02:54:56 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:38726 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726551AbfFYGyz (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Jun 2019 02:54:55 -0400
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x5P6sbLb032133;
-        Tue, 25 Jun 2019 15:54:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x5P6sbLb032133
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561445678;
-        bh=TNZgQbXRguicaXB5bK2OEDuofgSIJ5TA0+AwdgEkL6g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=TjjEtn2y1PhsEii0RP4Ve84DpJCRGnRxyRSMcnnQ7hQ0FaLCZcrG8fFKDbp3HpNqn
-         qYaAtd9kBBcicrfVztRJLaZja3rNYSiZ5tGePV8kKtkseRaI2N/VZkU4QSW7wJYyen
-         xskbrArpZToD/W6mPosxq9zwweCDMXfCSsHtjNF91l9TjjcFbJ8YGdPXxtAcuPLYGf
-         zjuW8AnamobAPG1Ea6fr3z7kQxrsgQ4R36w36tZyX4TtvIDZOzGNtdEl7LL4STp/5L
-         twJmrUXfg5VN8xvW2KhCqLZQSSheY9qh0OpJCcgrR27HRKsQCzWAwR/Ik7cNpmrTGJ
-         DAUwTPdzwcn3w==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] fixdep: check return value of printf() and putchar()
-Date:   Tue, 25 Jun 2019 15:54:19 +0900
-Message-Id: <20190625065419.26324-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726422AbfFYHwY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Jun 2019 03:52:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38988 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726419AbfFYHwX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 25 Jun 2019 03:52:23 -0400
+Received: from localhost (f4.8f.5177.ip4.static.sl-reverse.com [119.81.143.244])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3FBBB20665;
+        Tue, 25 Jun 2019 07:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561449142;
+        bh=nyNszpfiaOPivEGutVbzOgMkeimehfcQz+veqfeZZXM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=c9oPEbSzQ71W7SK0QFmDGaV4vKsZ5g1p5Rrlx4ckF6BKBk+fJboJ12Oix62mFkuB/
+         kO+XQvmLKZ/OwST/4/K8CO3i4EwWfan/EiYiAz35jHfsy+FPkstK+q4PgpwlgVS4fb
+         O7JvbaDaBRxhKRfU4nrucorZ4sn4kdVUi8Oo/Za4=
+Date:   Tue, 25 Jun 2019 15:50:29 +0800
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Ignat Korchagin <ignat@cloudflare.com>
+Cc:     Arnaldo Carvalho de Melo <arnaldo.melo@gmail.com>,
+        Ivan Babrou <ivan@cloudflare.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kernel-team <kernel-team@cloudflare.com>
+Subject: Re: Linux 4.19 and GCC 9
+Message-ID: <20190625075029.GC19452@kroah.com>
+References: <20190517085126.GA3249@kroah.com>
+ <CANiq72muyjE3XPjmtQgJpGaqWR=YBi6KVNT3qe-EMXP7x+q_rQ@mail.gmail.com>
+ <20190517152200.GI8945@kernel.org>
+ <CABWYdi2Xsp4AUhV1GwphTd4-nN2zCZMmg5y7WheNc67KrdVBfw@mail.gmail.com>
+ <4FE2D490-F379-4CAE-9784-9BF81B7FE258@kernel.org>
+ <CABWYdi2XXPYuavF0p=JOEY999M4z3_rk-8xsi3N=do=d7k09ig@mail.gmail.com>
+ <20190610151407.GS21245@kernel.org>
+ <20190610152542.GA4132@kroah.com>
+ <20190610191417.GW21245@kernel.org>
+ <CALrw=nFcp-+C7ceTFj=R=aG0Z5OpRRVXFoUxUoh=CjcfW79-+g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALrw=nFcp-+C7ceTFj=R=aG0Z5OpRRVXFoUxUoh=CjcfW79-+g@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When there is not enough space on your storage device, the build will
-fail with 'No space left on device' error message.
+On Mon, Jun 24, 2019 at 11:42:34AM +0100, Ignat Korchagin wrote:
+> Hi Greg,
+> 
+> > > For us it seems applying the following 4 mainline patches makes 4.19.x
+> > > branch perf compile with GCC-9:
+> > >
+> > > 4d0f16d059ddb91424480d88473f7392f24aebdc: perf ui helpline: Use
+> > > strlcpy() as a shorter form of strncpy() + explicit set nul
+> > > b6313899f4ed2e76b8375cf8069556f5b94fbff0: perf help: Remove needless
+> > > use of strncpy()
+> > > 5192bde7d98c99f2cd80225649e3c2e7493722f7: perf header: Fix unchecked
+> > > usage of strncpy()
+> > > 97acec7df172cd1e450f81f5e293c0aa145a2797: perf data: Fix 'strncat may
+> > > truncate' build failure with recent gcc
+> > >
+> > > I also checked that 4.19.49 compiles fine with GCC 9, although with a
+> > > lot of warnings, mostly from objtool, like "warning: objtool:
+> > > sock_register()+0xd: sibling call from callable instruction with
+> > > modified stack frame". But it's a start.
+> > >
+> > > Can we apply the above-mentioned patches, please?
+> 
+> > I'll look into these after the next round of kernels are released.  I
+> 
+> Did you by any chance forget to queue these patches? :) (the build is
+> still broken for GCC 9.1)
 
-The reason is obvious from the message, so you will free up some disk
-space, then you will resume the build.
+I am on the road and getting to backports for this stuff is on the
+bottom of my list until next week at the earliest, sorry.
 
-However, sometimes you may still see a mysterious error message:
+> > guess I'll go find a distro that has gcc9 on it to actually test
+> > things...
+> 
+> BTW, Arch already has GCC 9.1 package, so no need to compile your own
+> anymore for testing:
+> https://www.archlinux.org/packages/core/x86_64/gcc/
 
-  unterminated call to function 'wildcard': missing ')'.
+Yes, my laptop just updated, so I'm building here.  Some gcc9 patches
+did just get backported, but not for perf.
 
-If you run out of the disk space, fixdep may end up with generating
-incomplete .*.cmd files.
+thanks,
 
-For example, if the disk shortage occurs while fixdep is running
-print_dep(), the .*.cmd might be truncated like this:
-
-   $(wildcard include/config/
-
-When you run 'make' next time, this broken .*.cmd will be included,
-then GNU Make will terminate parsing since it is a wrong syntax.
-
-Once this happens, you need to run 'make clean' or delete the broken
-.*.cmd file manually.
-
-Even if you do not see any error message, the .*.cmd files after any
-error could be potentially incomplete, and unreliable. You may miss
-the re-compilation due to missing header dependency.
-
-If printf() cannot output the string for disk shortage or whatever
-reason, it returns a negative value, but currently fixdep does not
-check it at all. Consequently, fixdep *successfully* generates a
-broken .*.cmd file. Make never notices that since fixdep exits with 0,
-which means success.
-
-Given the intended usage of fixdep, it must respect the return value
-of not only malloc(), but also printf() and putchar().
-
-This seems a long-standing issue since the introduction of fixdep.
-
-In old days, Kbuild tried to provide an extra safety by letting fixdep
-output to a temporary file and renaming it after everything is done:
-
-  scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' > $(dot-target).tmp;\
-  rm -f $(depfile);                                                    \
-  mv -f $(dot-target).tmp $(dot-target).cmd)
-
-It did not avoid the current issue; fixdep created a truncated tmp file
-reporting success, so the broken tmp would be renamed to a .*.cmd file.
-
-By propagating the error code to the build system, this problem should
-be solved because:
-
-[1] Since commit 9c2af1c7377a ("kbuild: add .DELETE_ON_ERROR special
-    target"), Make will delete the target automatically on any failure
-    in the recipe.
-
-[2] Since commit 392885ee82d3 ("kbuild: let fixdep directly write to
-    .*.cmd files"), .*.cmd file is included only when the corresponding
-    target already exists.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
-Changes in v2:
- - Add prror()
-
- scripts/basic/fixdep.c | 51 +++++++++++++++++++++++++++++++++---------
- 1 file changed, 41 insertions(+), 10 deletions(-)
-
-diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
-index facbd603adf6..4ac973f2dc8c 100644
---- a/scripts/basic/fixdep.c
-+++ b/scripts/basic/fixdep.c
-@@ -99,6 +99,7 @@
- #include <unistd.h>
- #include <fcntl.h>
- #include <string.h>
-+#include <stdarg.h>
- #include <stdlib.h>
- #include <stdio.h>
- #include <ctype.h>
-@@ -109,6 +110,36 @@ static void usage(void)
- 	exit(1);
- }
- 
-+/*
-+ * In the intended usage of this program, the stdout is redirected to .*.cmd
-+ * The return value of printf() and putchar() must be checked to catch any
-+ * error like "No space left on device".
-+ */
-+static void xprintf(const char *format, ...)
-+{
-+	va_list ap;
-+	int ret;
-+
-+	va_start(ap, format);
-+	ret = vprintf(format, ap);
-+	if (ret < 0) {
-+		perror("fixdep");
-+		exit(1);
-+	}
-+	va_end(ap);
-+}
-+
-+static void xputchar(int c)
-+{
-+	int ret;
-+
-+	ret = putchar(c);
-+	if (ret == EOF) {
-+		perror("fixdep");
-+		exit(1);
-+	}
-+}
-+
- /*
-  * Print out a dependency path from a symbol name
-  */
-@@ -116,7 +147,7 @@ static void print_dep(const char *m, int slen, const char *dir)
- {
- 	int c, prev_c = '/', i;
- 
--	printf("    $(wildcard %s/", dir);
-+	xprintf("    $(wildcard %s/", dir);
- 	for (i = 0; i < slen; i++) {
- 		c = m[i];
- 		if (c == '_')
-@@ -124,10 +155,10 @@ static void print_dep(const char *m, int slen, const char *dir)
- 		else
- 			c = tolower(c);
- 		if (c != '/' || prev_c != '/')
--			putchar(c);
-+			xputchar(c);
- 		prev_c = c;
- 	}
--	printf(".h) \\\n");
-+	xprintf(".h) \\\n");
- }
- 
- struct item {
-@@ -324,13 +355,13 @@ static void parse_dep_file(char *m, const char *target)
- 				 */
- 				if (!saw_any_target) {
- 					saw_any_target = 1;
--					printf("source_%s := %s\n\n",
--					       target, m);
--					printf("deps_%s := \\\n", target);
-+					xprintf("source_%s := %s\n\n",
-+						target, m);
-+					xprintf("deps_%s := \\\n", target);
- 				}
- 				is_first_dep = 0;
- 			} else {
--				printf("  %s \\\n", m);
-+				xprintf("  %s \\\n", m);
- 			}
- 
- 			buf = read_file(m);
-@@ -353,8 +384,8 @@ static void parse_dep_file(char *m, const char *target)
- 		exit(1);
- 	}
- 
--	printf("\n%s: $(deps_%s)\n\n", target, target);
--	printf("$(deps_%s):\n", target);
-+	xprintf("\n%s: $(deps_%s)\n\n", target, target);
-+	xprintf("$(deps_%s):\n", target);
- }
- 
- int main(int argc, char *argv[])
-@@ -369,7 +400,7 @@ int main(int argc, char *argv[])
- 	target = argv[2];
- 	cmdline = argv[3];
- 
--	printf("cmd_%s := %s\n\n", target, cmdline);
-+	xprintf("cmd_%s := %s\n\n", target, cmdline);
- 
- 	buf = read_file(depfile);
- 	parse_dep_file(buf, target);
--- 
-2.17.1
-
+greg k-h
