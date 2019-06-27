@@ -2,123 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05CD158776
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 18:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB85589A9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 20:16:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbfF0Qm5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jun 2019 12:42:57 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:22715 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726426AbfF0Qm5 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jun 2019 12:42:57 -0400
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x5RGgbVV015516;
-        Fri, 28 Jun 2019 01:42:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x5RGgbVV015516
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561653758;
-        bh=mjVQLrBPdJBnHT5c+yqrverpI3gXoSHt0lyoRtZKVh8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dU1nFyA1fynQp/3U5moyqMQV/A7qLmnLn78IwC6bs1pv3NYCOBnLiToM2i3E4j+V8
-         vrk+Xjx3DzUhFkEwHXcC6GiVm9hCJStRKLHxkjBzDQmVEb9uQXEN/ncTJ9V6pUZPw6
-         3ubPfZbez1soyDBNDKR91eWJthjgpc7pQHh3Um8QLOSgoGnzXKnqPgyWIc5YMuZvXB
-         rn03StveKb6E/gGxsFLm8yx7QFZxnK88LbQhzBbImcRYvDg1KBc48CNAs5wL++68Mp
-         kEI7zA4yATsg3/EgC45/kLNt8Ekam+oP7rAdU0kEJZKd+sNt8fsqqaMxq3TNQ3nFxg
-         /tHV6xY+4sU2g==
-X-Nifty-SrcIP: [209.85.221.174]
-Received: by mail-vk1-f174.google.com with SMTP id o19so632593vkb.6;
-        Thu, 27 Jun 2019 09:42:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAVjzDaZP2cWvNeN5Q9RlT0R18/2NLNmHXlF2Ln+/GIrEeTSCzUT
-        08UR4eqJZIb/HUGYVVQbpvxs442ZmZyduXmcQRo=
-X-Google-Smtp-Source: APXvYqzEikgizt6Sw+DCd4k5FOnO+SppEPTSGT3JzOTu5C6ZNp4faFBLQFiM9RKT4r3KAmi9gcOpHh0nyzlDZNjlMnQ=
-X-Received: by 2002:a1f:ac1:: with SMTP id 184mr1898318vkk.0.1561653756253;
- Thu, 27 Jun 2019 09:42:36 -0700 (PDT)
+        id S1726543AbfF0SQi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jun 2019 14:16:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47568 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726508AbfF0SQi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 27 Jun 2019 14:16:38 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5EA752064A;
+        Thu, 27 Jun 2019 18:16:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561659396;
+        bh=2oWUiLUFI+CqOolaOKVa4jJ21rR9UR/fuLhE4nLYjdw=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=zM1PuCQOlI4msEkFixz730kc8/zFbvwJnRkqkjMyx+3IZ/8lQrJkX5bjK8+tcjTpD
+         9YTsqw4mLY9MvEtPAy8WslYPIgMqfSsLuNDFSuTYyeTtiNsbbEN2c2e7JVMq1S+AoJ
+         JJirWvQWTUXBy4OsdUUrOSg+eULRykDPesnCIHuI=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20190627014617.600-1-yamada.masahiro@socionext.com> <87y31np89f.fsf@intel.com>
-In-Reply-To: <87y31np89f.fsf@intel.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 28 Jun 2019 01:42:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS=Uhyq9AitSqRR2aKOg18aae8Ce9FXTufgJq3KNhmsUg@mail.gmail.com>
-Message-ID: <CAK7LNAS=Uhyq9AitSqRR2aKOg18aae8Ce9FXTufgJq3KNhmsUg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Compile-test UAPI and kernel headers
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Tony Luck <tony.luck@intel.com>,
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAFd5g46zHAupdUh3wDuqPJti2M+_=oje_5weFe7AVLQfkDDM6A@mail.gmail.com>
+References: <20190617082613.109131-1-brendanhiggins@google.com> <20190617082613.109131-2-brendanhiggins@google.com> <20190620001526.93426218BE@mail.kernel.org> <CAFd5g46Jhxsz6_VXHEVYvTeDRwwzgKpr=aUWLL5b3S4kUukb8g@mail.gmail.com> <20190626034100.B238520883@mail.kernel.org> <CAFd5g46zHAupdUh3wDuqPJti2M+_=oje_5weFe7AVLQfkDDM6A@mail.gmail.com>
+To:     Brendan Higgins <brendanhiggins@google.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        linux-riscv@lists.infradead.org,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        xdp-newbies@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Colin Cross <ccross@android.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Networking <netdev@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        bpf@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+User-Agent: alot/0.8.1
+Date:   Thu, 27 Jun 2019 11:16:35 -0700
+Message-Id: <20190627181636.5EA752064A@mail.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 8:36 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
->
-> On Thu, 27 Jun 2019, Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
-> > 1/4: reworked v2.
+Quoting Brendan Higgins (2019-06-26 16:00:40)
+> On Tue, Jun 25, 2019 at 8:41 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>=20
+> > scenario like below, but where it is a problem. There could be three
+> > CPUs, or even one CPU and three threads if you want to describe the
+> > extra thread scenario.
 > >
-> > 2/4: fix a flaw I noticed when I was working on this series
+> > Here's my scenario where it isn't needed:
 > >
-> > 3/4: maybe useful for 4/4 and in some other places
+> >     CPU0                                      CPU1
+> >     ----                                      ----
+> >     kunit_run_test(&test)
+> >                                               test_case_func()
+> >                                                 ....
+> >                                               [mock hardirq]
+> >                                                 kunit_set_success(&test)
+> >                                               [hardirq ends]
+> >                                                 ...
+> >                                                 complete(&test_done)
+> >       wait_for_completion(&test_done)
+> >       kunit_get_success(&test)
 > >
-> > 4/4: v2. compile as many headers as possible.
-> >
-> >
-> > Changes in v2:
-> >  - Add CONFIG_CPU_{BIG,LITTLE}_ENDIAN guard to avoid build error
-> >  - Use 'header-test-' instead of 'no-header-test'
-> >  - Avoid weird 'find' warning when cleaning
-> >   - New patch
-> >   - New patch
-> >   - Add everything to test coverage, and exclude broken ones
-> >   - Rename 'Makefile' to 'Kbuild'
-> >   - Add CONFIG_KERNEL_HEADER_TEST option
-> >
-> > Masahiro Yamada (4):
-> >   kbuild: compile-test UAPI headers to ensure they are self-contained
-> >   kbuild: do not create wrappers for header-test-y
-> >   kbuild: support header-test-pattern-y
-> >   kbuild: compile-test kernel headers to ensure they are self-contained
->
-> [responding here because I didn't receive the actual patch]
->
-> This looks like it's doing what it's supposed to, but I ran into a bunch
-> of build fails with CONFIG_OF=n. Sent a fix to one [1], but stopped at
-> the next. Looks like you'll have to exclude more. And I'm pretty sure
-> we'll uncover more configurations where this will fail.
+> > We don't need to care about having locking here because success or
+> > failure only happens in one place and it's synchronized with the
+> > completion.
+>=20
+> Here is the scenario I am concerned about:
+>=20
+> CPU0                      CPU1                       CPU2
+> ----                      ----                       ----
+> kunit_run_test(&test)
+>                           test_case_func()
+>                             ....
+>                             schedule_work(foo_func)
+>                           [mock hardirq]             foo_func()
+>                             ...                        ...
+>                             kunit_set_success(false)   kunit_set_success(=
+false)
+>                           [hardirq ends]               ...
+>                             ...
+>                             complete(&test_done)
+>   wait_for_completion(...)
+>   kunit_get_success(&test)
+>=20
+> In my scenario, since both CPU1 and CPU2 update the success status of
+> the test simultaneously, even though they are setting it to the same
+> value. If my understanding is correct, this could result in a
+> write-tear on some architectures in some circumstances. I suppose we
+> could just make it an atomic boolean, but I figured locking is also
+> fine, and generally preferred.
 
-Thanks for testing.
+This is what we have WRITE_ONCE() and READ_ONCE() for. Maybe you could
+just use that in the getter and setters and remove the lock if it isn't
+used for anything else.
 
-I did more compile-tests, and excluded more headers in v3.
+It may also be a good idea to have a kunit_fail_test() API that fails
+the test passed in with a WRITE_ONCE(false). Otherwise, the test is
+assumed successful and it isn't even possible for a test to change the
+state from failure to success due to a logical error because the API
+isn't available. Then we don't really need to have a generic
+kunit_set_success() function at all. We could have a kunit_test_failed()
+function too that replaces the kunit_get_success() function. That would
+read better in an if condition.
 
-Thanks.
+>=20
+> Also, to be clear, I am onboard with dropping then IRQ stuff for now.
+> I am fine moving to a mutex for the time being.
+>=20
 
+Ok.
 
-
--- 
-Best Regards
-Masahiro Yamada
