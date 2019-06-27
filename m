@@ -2,38 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DF8758170
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 13:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02483581AF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 13:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726431AbfF0LZn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jun 2019 07:25:43 -0400
-Received: from mga01.intel.com ([192.55.52.88]:50450 "EHLO mga01.intel.com"
+        id S1726443AbfF0Lgp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jun 2019 07:36:45 -0400
+Received: from mga04.intel.com ([192.55.52.120]:32844 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726375AbfF0LZn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jun 2019 07:25:43 -0400
+        id S1726429AbfF0Lgp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 27 Jun 2019 07:36:45 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 04:25:42 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 04:36:45 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.63,423,1557212400"; 
-   d="scan'208";a="183428308"
+   d="scan'208";a="183430789"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2019 04:25:40 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2019 04:36:37 -0700
 From:   Jani Nikula <jani.nikula@linux.intel.com>
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         linux-kbuild@vger.kernel.org
 Cc:     Sam Ravnborg <sam@ravnborg.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tony Luck <tony.luck@intel.com>, linux-doc@vger.kernel.org,
+        John Fastabend <john.fastabend@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH v2 3/4] kbuild: support header-test-pattern-y
-In-Reply-To: <20190627014617.600-4-yamada.masahiro@socionext.com>
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        linux-riscv@lists.infradead.org,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        xdp-newbies@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Colin Cross <ccross@android.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] Compile-test UAPI and kernel headers
+In-Reply-To: <20190627014617.600-1-yamada.masahiro@socionext.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190627014617.600-1-yamada.masahiro@socionext.com> <20190627014617.600-4-yamada.masahiro@socionext.com>
-Date:   Thu, 27 Jun 2019 14:28:26 +0300
-Message-ID: <871rzfqnc5.fsf@intel.com>
+References: <20190627014617.600-1-yamada.masahiro@socionext.com>
+Date:   Thu, 27 Jun 2019 14:39:24 +0300
+Message-ID: <87y31np89f.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -42,120 +60,70 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Thu, 27 Jun 2019, Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
-> In my view, most of headers can be self-contained. So, it would be
-> tedious to add every header to header-test-y explicitly. We usually
-> end up with "all headers with some exceptions".
+> 1/4: reworked v2.
 >
-> There are two types in exceptions:
+> 2/4: fix a flaw I noticed when I was working on this series
 >
-> [1] headers that are never compiled as standalone units
+> 3/4: maybe useful for 4/4 and in some other places
 >
->   For examples, include/linux/compiler-gcc.h is not intended to be
->   included directly. We should always exclude such ones.
+> 4/4: v2. compile as many headers as possible.
 >
-> [2] headers that are conditionally compiled as standalone units
 >
->   Some headers can be compiled only for particular architectures.
->   For example, include/linux/arm-cci.h can be compiled only for
->   arm/arm64 because it requires <asm/arm-cci.h> to exist.
->   Clang can compile include/soc/nps/mtm.h only for arc because
->   it contains an arch-specific register in inline assembler.
+> Changes in v2:
+>  - Add CONFIG_CPU_{BIG,LITTLE}_ENDIAN guard to avoid build error
+>  - Use 'header-test-' instead of 'no-header-test'
+>  - Avoid weird 'find' warning when cleaning
+>   - New patch
+>   - New patch
+>   - Add everything to test coverage, and exclude broken ones
+>   - Rename 'Makefile' to 'Kbuild'
+>   - Add CONFIG_KERNEL_HEADER_TEST option
 >
-> For [2], we can write Makefile like this:
->
->   header-test-$(CONFIG_ARM) += linux/arm-cci.h
->
-> The new syntax header-test-pattern-y will be useful to specify
-> "the rest".
->
-> The typical usage is like this:
->
->   header-test-pattern-y += */*.h
->
-> This adds all the headers in sub-directories to the test coverage,
-> but headers added to header-test- are excluded. In this regards,
-> header-test-pattern-y behaves like a weaker variant of header-test-y.
->
-> Caveat:
-> The patterns in header-test-pattern-y are prefixed with $(srctree)/$(src)/
-> but not $(objtree)/$(obj)/. Stale generated patterns are often left over.
-> For example, you will have ones when you traverse the git history for
-> 'git bisect' without cleaning. If a wildcard is used for generated
-> headers, it may match to stale headers.
->
-> If you really want to compile-test generated headers, I recommend to
-> add them to header-test-y explicitly. One pitfall is $(srctree)/$(src)/
-> and $(objtree)/$(obj)/ point to the same directory for in-tree building.
-> So, header-test-pattern-y should be used with care. It can potentially
-> match to generated headers, which may be stale and fail to compile.
->
-> Caveat2:
-> You could use wildcard for header-test-. For example,
->
->   header-test- += asm-generic/%
->
-> ... will exclude headers in asm-generic directory. Unfortunately, the
-> wildcard character is '%' instead of '*' because this is evaluated by
-> $(filter-out ...) whereas header-test-pattern-y is evaluated by
-> $(wildcard ...). This is a kludge, but seems useful in some places...
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Masahiro Yamada (4):
+>   kbuild: compile-test UAPI headers to ensure they are self-contained
+>   kbuild: do not create wrappers for header-test-y
+>   kbuild: support header-test-pattern-y
+>   kbuild: compile-test kernel headers to ensure they are self-contained
 
-Awesome! This will let us get rid of our local $(wildcard) hacks.
+[responding here because I didn't receive the actual patch]
+
+This looks like it's doing what it's supposed to, but I ran into a bunch
+of build fails with CONFIG_OF=n. Sent a fix to one [1], but stopped at
+the next. Looks like you'll have to exclude more. And I'm pretty sure
+we'll uncover more configurations where this will fail.
+
+But I do applaud the goal, and I'm committed to making all include/drm
+headers self-contained. I wouldn't block this based on the issues, it's
+pretty much the only way to expose them and get them fixed/excluded, and
+it's behind a config knob after all.
+
+With the caveat that I didn't finish the build, but OTOH tested the
+rainy day scenario and had the patch find issues it's meant to find:
 
 Tested-by: Jani Nikula <jani.nikula@intel.com>
 
-> ---
+
+[1] http://patchwork.freedesktop.org/patch/msgid/20190627110103.7539-1-jani.nikula@intel.com
+
 >
-> Changes in v2:
->   - New patch
->
->  Documentation/kbuild/makefiles.txt | 10 ++++++++++
->  scripts/Makefile.lib               | 10 ++++++++++
->  2 files changed, 20 insertions(+)
->
-> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index 5080fec34609..b817e6cefb77 100644
-> --- a/Documentation/kbuild/makefiles.txt
-> +++ b/Documentation/kbuild/makefiles.txt
-> @@ -1025,6 +1025,16 @@ When kbuild executes, the following steps are followed (roughly):
->  	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
->  	this builds them as part of extra-y.
->  
-> +    header-test-pattern-y
-> +
-> +	This works as a weaker version of header-test-y, and accepts wildcard
-> +	patterns. The typical usage is:
-> +
-> +		  header-test-pattern-y += *.h
-> +
-> +	This specifies all the files that matches to '*.h' in the current
-> +	directory, but the files in 'header-test-' are excluded.
-> +
->  --- 6.7 Commands useful for building a boot image
->  
->  	Kbuild provides a few macros that are useful when building a
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 55ae1ec65342..54444933bbab 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -67,6 +67,16 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
->  endif
->  
->  # Test self-contained headers
-> +
-> +# Wildcard searches in $(srctree)/$(src)/, but not in $(objtree)/$(obj)/.
-> +# Stale generated headers are often left over, so wildcard matching should
-> +# be avoided. Please notice $(srctree)/$(src)/ and $(objtree)/$(obj) point
-> +# to the same location for in-tree building.
-> +header-test-y	+= $(filter-out $(header-test-), \
-> +		$(patsubst $(srctree)/$(src)/%, %, \
-> +		$(wildcard $(addprefix $(srctree)/$(src)/, \
-> +		$(header-test-pattern-y)))))
-> +
->  extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
->  
->  # Add subdir path
+>  .gitignore                         |    1 -
+>  Documentation/dontdiff             |    1 -
+>  Documentation/kbuild/makefiles.txt |   13 +-
+>  Makefile                           |    4 +-
+>  include/Kbuild                     | 1134 ++++++++++++++++++++++++++++
+>  init/Kconfig                       |   22 +
+>  scripts/Makefile.build             |   10 +-
+>  scripts/Makefile.lib               |   12 +-
+>  scripts/cc-system-headers.sh       |    8 +
+>  usr/.gitignore                     |    1 -
+>  usr/Makefile                       |    2 +
+>  usr/include/.gitignore             |    3 +
+>  usr/include/Makefile               |  133 ++++
+>  13 files changed, 1331 insertions(+), 13 deletions(-)
+>  create mode 100644 include/Kbuild
+>  create mode 100755 scripts/cc-system-headers.sh
+>  create mode 100644 usr/include/.gitignore
+>  create mode 100644 usr/include/Makefile
 
 -- 
 Jani Nikula, Intel Open Source Graphics Center
