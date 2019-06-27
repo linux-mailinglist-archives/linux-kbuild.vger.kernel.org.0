@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D09885815A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 13:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DF8758170
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 13:25:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbfF0LWn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jun 2019 07:22:43 -0400
-Received: from mga05.intel.com ([192.55.52.43]:55508 "EHLO mga05.intel.com"
+        id S1726431AbfF0LZn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jun 2019 07:25:43 -0400
+Received: from mga01.intel.com ([192.55.52.88]:50450 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726308AbfF0LWn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jun 2019 07:22:43 -0400
+        id S1726375AbfF0LZn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 27 Jun 2019 07:25:43 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 04:22:42 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Jun 2019 04:25:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.63,423,1557212400"; 
-   d="scan'208";a="183427733"
+   d="scan'208";a="183428308"
 Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2019 04:22:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2019 04:25:40 -0700
 From:   Jani Nikula <jani.nikula@linux.intel.com>
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         linux-kbuild@vger.kernel.org
 Cc:     Sam Ravnborg <sam@ravnborg.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH v2 2/4] kbuild: do not create wrappers for header-test-y
-In-Reply-To: <20190627014617.600-3-yamada.masahiro@socionext.com>
+Subject: Re: [PATCH v2 3/4] kbuild: support header-test-pattern-y
+In-Reply-To: <20190627014617.600-4-yamada.masahiro@socionext.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20190627014617.600-1-yamada.masahiro@socionext.com> <20190627014617.600-3-yamada.masahiro@socionext.com>
-Date:   Thu, 27 Jun 2019 14:25:25 +0300
-Message-ID: <875zorqnh6.fsf@intel.com>
+References: <20190627014617.600-1-yamada.masahiro@socionext.com> <20190627014617.600-4-yamada.masahiro@socionext.com>
+Date:   Thu, 27 Jun 2019 14:28:26 +0300
+Message-ID: <871rzfqnc5.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -42,168 +42,118 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Thu, 27 Jun 2019, Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
-> header-test-y does not work with headers in sub-directories.
+> In my view, most of headers can be self-contained. So, it would be
+> tedious to add every header to header-test-y explicitly. We usually
+> end up with "all headers with some exceptions".
 >
-> For example, you can write a Makefile, like this:
+> There are two types in exceptions:
 >
-> include/linux/Kbuild:
+> [1] headers that are never compiled as standalone units
 >
->   header-test-y += mtd/nand.h
+>   For examples, include/linux/compiler-gcc.h is not intended to be
+>   included directly. We should always exclude such ones.
 >
-> This entry creates a wrapper include/linux/mtd/nand.hdrtest.c with
-> the following content:
+> [2] headers that are conditionally compiled as standalone units
 >
->   #include "mtd/nand.h"
+>   Some headers can be compiled only for particular architectures.
+>   For example, include/linux/arm-cci.h can be compiled only for
+>   arm/arm64 because it requires <asm/arm-cci.h> to exist.
+>   Clang can compile include/soc/nps/mtm.h only for arc because
+>   it contains an arch-specific register in inline assembler.
 >
-> To make this work, we need to add $(srctree)/include/linux to the
-> header search path. It would be tedious to add ccflags-y.
+> For [2], we can write Makefile like this:
 >
-> We could change the *.hdrtest.c rule to wrap:
+>   header-test-$(CONFIG_ARM) += linux/arm-cci.h
 >
->   #include "nand.h"
+> The new syntax header-test-pattern-y will be useful to specify
+> "the rest".
 >
-> This works for in-tree build since #include "..." searches in the
-> relative path from the header with this directive. For O=... build,
-> we need to add $(srctree)/include/linux/mtd to the header search path,
-> which will be even more tedious.
+> The typical usage is like this:
 >
-> After all, I thought it would be handier to compile headers directly
-> without creating wrappers.
+>   header-test-pattern-y += */*.h
 >
-> I added a new build rule to compile %.h into %.h.s
+> This adds all the headers in sub-directories to the test coverage,
+> but headers added to header-test- are excluded. In this regards,
+> header-test-pattern-y behaves like a weaker variant of header-test-y.
 >
-> I chose %.h.s instead of %.h.o because it was a little bit faster.
-> Also, for GCC, an empty assembly is smaller than an empty object.
+> Caveat:
+> The patterns in header-test-pattern-y are prefixed with $(srctree)/$(src)/
+> but not $(objtree)/$(obj)/. Stale generated patterns are often left over.
+> For example, you will have ones when you traverse the git history for
+> 'git bisect' without cleaning. If a wildcard is used for generated
+> headers, it may match to stale headers.
 >
-> I wrote the build rule:
+> If you really want to compile-test generated headers, I recommend to
+> add them to header-test-y explicitly. One pitfall is $(srctree)/$(src)/
+> and $(objtree)/$(obj)/ point to the same directory for in-tree building.
+> So, header-test-pattern-y should be used with care. It can potentially
+> match to generated headers, which may be stale and fail to compile.
 >
->   $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
+> Caveat2:
+> You could use wildcard for header-test-. For example,
 >
-> instead of:
+>   header-test- += asm-generic/%
 >
->   $(CC) $(c_flags) -S -o $@ -x c $<
->
-> Both work fine with GCC, but the latter is not good for Clang.
->
-> This comes down to the difference in the -Wunused-function policy.
-> GCC does not warn about unused 'static inline' functions at all.
-> Clang does not warn about the ones in included headers, but does
-> about the ones in the source. So, we should handle headers as
-> headers, not as source files.
->
-> In fact, this has been hidden since commit abb2ea7dfd82 ("compiler,
-> clang: suppress warning for unused static inline functions"), but we
-> should not rely on that.
+> ... will exclude headers in asm-generic directory. Unfortunately, the
+> wildcard character is '%' instead of '*' because this is evaluated by
+> $(filter-out ...) whereas header-test-pattern-y is evaluated by
+> $(wildcard ...). This is a kludge, but seems useful in some places...
 >
 > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+Awesome! This will let us get rid of our local $(wildcard) hacks.
+
+Tested-by: Jani Nikula <jani.nikula@intel.com>
+
 > ---
 >
 > Changes in v2:
 >   - New patch
 >
->  .gitignore                         |  1 -
->  Documentation/dontdiff             |  1 -
->  Documentation/kbuild/makefiles.txt |  3 +--
->  Makefile                           |  1 -
->  scripts/Makefile.build             | 10 +++++-----
->  scripts/Makefile.lib               |  2 +-
->  6 files changed, 7 insertions(+), 11 deletions(-)
+>  Documentation/kbuild/makefiles.txt | 10 ++++++++++
+>  scripts/Makefile.lib               | 10 ++++++++++
+>  2 files changed, 20 insertions(+)
 >
-> diff --git a/.gitignore b/.gitignore
-> index 4bb60f0fa23b..7587ef56b92d 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -22,7 +22,6 @@
->  *.elf
->  *.gcno
->  *.gz
-> -*.hdrtest.c
->  *.i
->  *.ko
->  *.lex.c
-> diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-> index 554dfe4883d2..5eba889ea84d 100644
-> --- a/Documentation/dontdiff
-> +++ b/Documentation/dontdiff
-> @@ -19,7 +19,6 @@
->  *.grep
->  *.grp
->  *.gz
-> -*.hdrtest.c
->  *.html
->  *.i
->  *.jpeg
 > diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index ca4b24ec0399..5080fec34609 100644
+> index 5080fec34609..b817e6cefb77 100644
 > --- a/Documentation/kbuild/makefiles.txt
 > +++ b/Documentation/kbuild/makefiles.txt
-> @@ -1023,8 +1023,7 @@ When kbuild executes, the following steps are followed (roughly):
->  	header-test-y specifies headers (*.h) in the current directory that
->  	should be compile tested to ensure they are self-contained,
+> @@ -1025,6 +1025,16 @@ When kbuild executes, the following steps are followed (roughly):
 >  	i.e. compilable as standalone units. If CONFIG_HEADER_TEST is enabled,
-> -	this autogenerates dummy sources to include the headers, and builds them
-> -	as part of extra-y.
-> +	this builds them as part of extra-y.
+>  	this builds them as part of extra-y.
 >  
+> +    header-test-pattern-y
+> +
+> +	This works as a weaker version of header-test-y, and accepts wildcard
+> +	patterns. The typical usage is:
+> +
+> +		  header-test-pattern-y += *.h
+> +
+> +	This specifies all the files that matches to '*.h' in the current
+> +	directory, but the files in 'header-test-' are excluded.
+> +
 >  --- 6.7 Commands useful for building a boot image
 >  
-> diff --git a/Makefile b/Makefile
-> index f23516980796..7f293b0431fe 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1648,7 +1648,6 @@ clean: $(clean-dirs)
->  		-o -name '*.dwo' -o -name '*.lst' \
->  		-o -name '*.su'  \
->  		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
-> -		-o -name '*.hdrtest.c' \
->  		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
->  		-o -name '*.asn1.[ch]' \
->  		-o -name '*.symtypes' -o -name 'modules.order' \
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index ee0319560513..776842b7e6a3 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -294,14 +294,14 @@ quiet_cmd_cc_lst_c = MKLST   $@
->  $(obj)/%.lst: $(src)/%.c FORCE
->  	$(call if_changed_dep,cc_lst_c)
->  
-> -# Dummy C sources for header test (header-test-y target)
-> +# header test (header-test-y target)
->  # ---------------------------------------------------------------------------
->  
-> -quiet_cmd_header_test = HDRTEST $@
-> -      cmd_header_test = echo "\#include \"$*.h\"" > $@
-> +quiet_cmd_cc_s_h = CC      $@
-> +      cmd_cc_s_h = $(CC) $(c_flags) -S -o $@ -x c /dev/null -include $<
-
-I think I'd prefer HDRTEST or something more informative than just CC in
-the quiet cmd to distinguish this from the usual build lines. Especially
-now that the file name is also just .h.s.
-
-Other than that, good job getting rid of the intermediate file. I
-couldn't figure it out when I did the original.
-
-Acked-by: Jani Nikula <jani.nikula@intel.com>
-Tested-by: Jani Nikula <jani.nikula@intel.com>
-
->  
-> -$(obj)/%.hdrtest.c:
-> -	$(call cmd,header_test)
-> +$(obj)/%.h.s: $(src)/%.h FORCE
-> +	$(call if_changed_dep,cc_s_h)
->  
->  # Compile assembler sources (.S)
->  # ---------------------------------------------------------------------------
+>  	Kbuild provides a few macros that are useful when building a
 > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 3e630fcaffd1..55ae1ec65342 100644
+> index 55ae1ec65342..54444933bbab 100644
 > --- a/scripts/Makefile.lib
 > +++ b/scripts/Makefile.lib
-> @@ -67,7 +67,7 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+> @@ -67,6 +67,16 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
 >  endif
 >  
 >  # Test self-contained headers
-> -extra-$(CONFIG_HEADER_TEST) += $(patsubst %.h,%.hdrtest.o,$(header-test-y))
-> +extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
+> +
+> +# Wildcard searches in $(srctree)/$(src)/, but not in $(objtree)/$(obj)/.
+> +# Stale generated headers are often left over, so wildcard matching should
+> +# be avoided. Please notice $(srctree)/$(src)/ and $(objtree)/$(obj) point
+> +# to the same location for in-tree building.
+> +header-test-y	+= $(filter-out $(header-test-), \
+> +		$(patsubst $(srctree)/$(src)/%, %, \
+> +		$(wildcard $(addprefix $(srctree)/$(src)/, \
+> +		$(header-test-pattern-y)))))
+> +
+>  extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
 >  
 >  # Add subdir path
 
