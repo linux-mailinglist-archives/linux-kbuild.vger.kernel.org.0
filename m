@@ -2,138 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3C0B579DC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 05:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD08057A1A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 05:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbfF0DNQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Jun 2019 23:13:16 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:45788 "EHLO
+        id S1726942AbfF0Dhs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Jun 2019 23:37:48 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:30194 "EHLO
         conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726658AbfF0DNP (ORCPT
+        with ESMTP id S1726462AbfF0Dhr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Jun 2019 23:13:15 -0400
-X-Greylist: delayed 5032 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Jun 2019 23:13:13 EDT
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x5R3D6gv018380;
-        Thu, 27 Jun 2019 12:13:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x5R3D6gv018380
+        Wed, 26 Jun 2019 23:37:47 -0400
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x5R3ba8H028567;
+        Thu, 27 Jun 2019 12:37:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x5R3ba8H028567
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561605187;
-        bh=hUceC5AeeaszlwO9PeBwDuTy7hRVRhzHLJ1xX0slEKk=;
+        s=dec2015msa; t=1561606657;
+        bh=cHU/2P+9AoyIrIzIGKHe8ERCeZ+lRTgiCzEUTACqf6Y=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=2Cyt6p7moE3aTxtO9LVZTLf8Js+TX6msHAzEQc2U3RWhpCafH3zcwX7L6dncx8NZj
-         ockSog0czJt3lhCqCbLzNffVlAwojPSytljO9BO73VA05KUuFrmauuPIzOxtzCJyCS
-         I5epEv29rqm491WP8MAtiIhEnlmhgxnbyjF+1EaPXAMrOVW0Tp8sy5BrWQ7xi5cIMS
-         +la8c2fFA7Qz6Gsxgjb0dJKJI56ggjDPZDYsmLm17g/FfJteYLT0I79YEcy9pHsNwi
-         0ZC+277O1XILPZP/vHnTygUbl9mom+Th9NKjBPsENXkyrtFEoxj3NwJvDj2HSBB8DY
-         94rFlEoEYBGdQ==
-X-Nifty-SrcIP: [209.85.221.176]
-Received: by mail-vk1-f176.google.com with SMTP id b69so201659vkb.3;
-        Wed, 26 Jun 2019 20:13:07 -0700 (PDT)
-X-Gm-Message-State: APjAAAWehBNpZZcasJLpNHxpeuu1T3jlBEFOJDkkJYnr7g20LQEMniEj
-        sUmMF15RVz2uhGhAm0IpgSInchZE5juKTN3JMY0=
-X-Google-Smtp-Source: APXvYqyrO6AGMiLTE/NsWodSgUDnExRC/7L2ZBLMise97w6CNCIJwXhqUDD88sfQ76DyLQRs9XeF+xyViB4ZUlsc7PQ=
-X-Received: by 2002:a1f:4107:: with SMTP id o7mr526475vka.34.1561605185809;
- Wed, 26 Jun 2019 20:13:05 -0700 (PDT)
+        b=jVMFTq54d6d2hfPxEsCFhJq0pGa1yE9ekpJ5aU6xIPvBurX0hYTIM2VOwo1MvyWDZ
+         4czCSoGV/B16FwvkDfQzn7mbCcLh/bfwv6hzQTRur9ujBbn56q0ndbrV2FGAhpHByK
+         yTHGNTpdny4Kj2io3mJIFaJxTjoanGRe/aHWYmUEGIg11nbMqYcsmrEcOBRr9KzcrJ
+         lGgr0mwR/HWoNMIxi9fdnHybUFtsKw7SZHbT6vukxWn7UbnTPBsujOBI4CUjTSgt+a
+         24MP32KJBfj2gtizZrXUGeI/Ie8YU0tunbHpdR6pOV8dfOuSB1v8XoD/gl52piRAfZ
+         Q0vnuNZ3YlUAw==
+X-Nifty-SrcIP: [209.85.222.45]
+Received: by mail-ua1-f45.google.com with SMTP id 34so297023uar.8;
+        Wed, 26 Jun 2019 20:37:37 -0700 (PDT)
+X-Gm-Message-State: APjAAAWZk2OHVJ/ayli/NveT2n/9k6Avu+zc0HjZoprwcxfojfIf9KN3
+        MJp0L77cuAC0tMIM7MGN6rfpCab8kPxcya6EZWg=
+X-Google-Smtp-Source: APXvYqxnTaJrFrMjuBoXEoiAN+DrkrbXhQiwMUAtqVh/FSoRuIgZnVV8242KrVAiYzqrGsKWX8k8KZMQVT7KGH9LF+4=
+X-Received: by 2002:ab0:234e:: with SMTP id h14mr991265uao.25.1561606656202;
+ Wed, 26 Jun 2019 20:37:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190627014617.600-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190627014617.600-1-yamada.masahiro@socionext.com>
+References: <20190621163931.19397-1-yamada.masahiro@socionext.com>
+ <20190621175134.GB16409@ravnborg.org> <CAK7LNATz1iuG0Moab60gMSbVU8PJAmrLn27K8HK_1zQ0qeh26w@mail.gmail.com>
+ <20190622130635.GA24262@ravnborg.org> <20190624214027.GA14740@ravnborg.org> <20190625061120.GA7561@ravnborg.org>
+In-Reply-To: <20190625061120.GA7561@ravnborg.org>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 27 Jun 2019 12:12:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARr7mDaDdh0NxUjYHJCz7Gd9-gFdryWtT224U8KpJ9p3w@mail.gmail.com>
-Message-ID: <CAK7LNARr7mDaDdh0NxUjYHJCz7Gd9-gFdryWtT224U8KpJ9p3w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] Compile-test UAPI and kernel headers
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>, Tony Luck <tony.luck@intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        linux-riscv@lists.infradead.org,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        xdp-newbies@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+Date:   Thu, 27 Jun 2019 12:36:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARMnsC+tm13VRV3kvRQNUWOrH1NxEwvFHwVJbFav50idg@mail.gmail.com>
+Message-ID: <CAK7LNARMnsC+tm13VRV3kvRQNUWOrH1NxEwvFHwVJbFav50idg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: compile-test global headers to ensure they are self-contained
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
         "moderated list:ARM/Mediatek SoC support" 
         <linux-mediatek@lists.infradead.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Colin Cross <ccross@android.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        bpf@vger.kernel.org
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 10:49 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+Hi Sam,
+
+On Tue, Jun 25, 2019 at 3:11 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 >
+> >
+> > When all header files below include/drm are self-contained it will be a
+> > single line:
+> >
+> >     header-test-y += $(all_headers_with_subdir)
+> In reality it will likely be the above, and then a list of
 >
-> 1/4: reworked v2.
+> header-test-n += foo.h
 >
-> 2/4: fix a flaw I noticed when I was working on this series
+> For the header files that we for one or the other reason do not want to
+> make self-contained.
+> It would be nice to have the list of ignored files close to their home
+> and not a full list in one Makefile in include/
 >
-> 3/4: maybe useful for 4/4 and in some other places
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index 3e630fcaffd1..e2f765e9d1e1 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -67,6 +67,7 @@ extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
+> >  endif
+> >
+> >  # Test self-contained headers
+> > +header-test-y := $(filter-out $(header-test-n), $(header-test-y))
+> This part should include the logic to filter out duplicates too.
+> I think we may do something wrong if the same header is listed twice.
 >
-> 4/4: v2. compile as many headers as possible.
+> We could also extend this with a check that all files in header-test-n
+> exits.
 >
+>         Sam
+
+Thanks for your comments.
+
+Some followups:
+
+[1] I prefer 'header-test-' to 'header-test-n'
+for excluding headers.
+In some places, it will be useful to
+be able to write like this:
+header-test-$(CONFIG_FOO) += foo.h
 
 
-If you want to test this series,
-please check:
+[2] I proposed somewhat generalized header-test-pattern-y instead of
+providing both of 'all_headers' and 'all_headers_with_subdir'
 
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- header-test-v2
+BTW, "all headers" should be added with care.
+scripts/Makefile.asm-generic and scripts/Makefile.headersinst
+cater to removing stale headers.
+But, we do not explicitly clean other headers.
+We always be careful about potential matching to stale headers.
 
 
-> Changes in v2:
->  - Add CONFIG_CPU_{BIG,LITTLE}_ENDIAN guard to avoid build error
->  - Use 'header-test-' instead of 'no-header-test'
->  - Avoid weird 'find' warning when cleaning
->   - New patch
->   - New patch
->   - Add everything to test coverage, and exclude broken ones
->   - Rename 'Makefile' to 'Kbuild'
->   - Add CONFIG_KERNEL_HEADER_TEST option
->
-> Masahiro Yamada (4):
->   kbuild: compile-test UAPI headers to ensure they are self-contained
->   kbuild: do not create wrappers for header-test-y
->   kbuild: support header-test-pattern-y
->   kbuild: compile-test kernel headers to ensure they are self-contained
->
->  .gitignore                         |    1 -
->  Documentation/dontdiff             |    1 -
->  Documentation/kbuild/makefiles.txt |   13 +-
->  Makefile                           |    4 +-
->  include/Kbuild                     | 1134 ++++++++++++++++++++++++++++
->  init/Kconfig                       |   22 +
->  scripts/Makefile.build             |   10 +-
->  scripts/Makefile.lib               |   12 +-
->  scripts/cc-system-headers.sh       |    8 +
->  usr/.gitignore                     |    1 -
->  usr/Makefile                       |    2 +
->  usr/include/.gitignore             |    3 +
->  usr/include/Makefile               |  133 ++++
->  13 files changed, 1331 insertions(+), 13 deletions(-)
->  create mode 100644 include/Kbuild
->  create mode 100755 scripts/cc-system-headers.sh
->  create mode 100644 usr/include/.gitignore
->  create mode 100644 usr/include/Makefile
->
-> --
-> 2.17.1
->
+[3] I tried both 'one big single Makefile' and
+    'each Makefile in sub-directories'
+
+I am slightly in favor of the former. Maybe I could be wrong,
+and we may switch to the other approach.
+But, I'd like to start with a single Makefile, and see how bad it is.
+
+
+I sent v2:
+https://patchwork.kernel.org/project/linux-kbuild/list/?series=138507
 
 
 -- 
