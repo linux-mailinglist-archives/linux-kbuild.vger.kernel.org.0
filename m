@@ -2,148 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AB85589A9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 20:16:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 224B358AD1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 21:15:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726543AbfF0SQi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jun 2019 14:16:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47568 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726508AbfF0SQi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jun 2019 14:16:38 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5EA752064A;
-        Thu, 27 Jun 2019 18:16:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561659396;
-        bh=2oWUiLUFI+CqOolaOKVa4jJ21rR9UR/fuLhE4nLYjdw=;
-        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
-        b=zM1PuCQOlI4msEkFixz730kc8/zFbvwJnRkqkjMyx+3IZ/8lQrJkX5bjK8+tcjTpD
-         9YTsqw4mLY9MvEtPAy8WslYPIgMqfSsLuNDFSuTYyeTtiNsbbEN2c2e7JVMq1S+AoJ
-         JJirWvQWTUXBy4OsdUUrOSg+eULRykDPesnCIHuI=
-Content-Type: text/plain; charset="utf-8"
+        id S1726384AbfF0TPR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jun 2019 15:15:17 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:46957 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbfF0TPQ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 27 Jun 2019 15:15:16 -0400
+Received: by mail-ed1-f65.google.com with SMTP id d4so8100091edr.13;
+        Thu, 27 Jun 2019 12:15:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ObWs36Suz0E8Ix9gwTSGcoL3+1AmZfjVOms9VIy/5H0=;
+        b=MGBEXLhzBbtlTYNwX3jL9AXvyDdoSqDyjjZR9ilE9khwGdl9Crs6BKzB/1waq623S3
+         28IpBlBKXDcui043CGeLn548r6S4EwKWgatzFj0muaSpcTzoGYdZt4on0PPtMxgJ/AKe
+         GN7lbVz8QxpgV7p4d+QTFTZXjVyCv0+V5SfmF4C/dvg55acN5Geh216WIoVseLusG3J4
+         wCtKHNIYhzGoR8v+n2TuPvcPaVKeoO0+S1DmJRh51LPK2swij9jR/nQZeFnJ6FECcOq3
+         reaPq/WtH0lzJOlp6sBlPns+e3sr/oRo08s5qq9kcLIl20V6tb6R0NAAiabaqRmSQKxy
+         p+Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ObWs36Suz0E8Ix9gwTSGcoL3+1AmZfjVOms9VIy/5H0=;
+        b=q6FDFqvI/OxyGhqC9Lr0/PXs4cluIoiHdP3rxz2iKSvE6Zh48fd8/c1VC9V7NZwybh
+         jG6thrSudETHoM9QPsjhJTBJ4iUqvau6frJZg9IpPuHCUkw5G+35usCf8JZGt0d6mCGu
+         d+wJvju+Gg72EsFiNw/nrQbd/gXJQRxqLhEtB5AeuZXCfFRaTjQ2UR8Q3faY8ZZa/aE8
+         H9zK5m9it38rBH5+EGmJJXGLFHxPDbMVYm1POt4Q4cMceCSVNs2lCSOis8ebn2cZpZhJ
+         KcS/A68dQ26nWP8x/YSi3vyF06YQJoIKfp/Jv8t64Ak9eDqijqT7R4B+zE2VYSLRebel
+         xwIg==
+X-Gm-Message-State: APjAAAWMMEFQwLtmMQUfrWBySoBAfX822U8N3fpHxTIqn5c5V7dLq2pO
+        AFpOizj5gP/sOtrOwARC8qI=
+X-Google-Smtp-Source: APXvYqxItNgNCiAXitQwi+XxmI7WT9h2Qcgl5SWvDXHUkF6e/ZY01uP4hogbklEeukntbKmxkAYn1A==
+X-Received: by 2002:a50:ac12:: with SMTP id v18mr6422438edc.232.1561662914242;
+        Thu, 27 Jun 2019 12:15:14 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:2b:2b15::2])
+        by smtp.gmail.com with ESMTPSA id si13sm589836ejb.82.2019.06.27.12.15.13
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 27 Jun 2019 12:15:13 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Dmitry Golovin <dima@golovin.in>
+Subject: [PATCH] kbuild: Add ability to test Clang's integrated assembler
+Date:   Thu, 27 Jun 2019 12:14:48 -0700
+Message-Id: <20190627191448.110756-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAFd5g46zHAupdUh3wDuqPJti2M+_=oje_5weFe7AVLQfkDDM6A@mail.gmail.com>
-References: <20190617082613.109131-1-brendanhiggins@google.com> <20190617082613.109131-2-brendanhiggins@google.com> <20190620001526.93426218BE@mail.kernel.org> <CAFd5g46Jhxsz6_VXHEVYvTeDRwwzgKpr=aUWLL5b3S4kUukb8g@mail.gmail.com> <20190626034100.B238520883@mail.kernel.org> <CAFd5g46zHAupdUh3wDuqPJti2M+_=oje_5weFe7AVLQfkDDM6A@mail.gmail.com>
-To:     Brendan Higgins <brendanhiggins@google.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        Theodore Ts'o <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-User-Agent: alot/0.8.1
-Date:   Thu, 27 Jun 2019 11:16:35 -0700
-Message-Id: <20190627181636.5EA752064A@mail.kernel.org>
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Quoting Brendan Higgins (2019-06-26 16:00:40)
-> On Tue, Jun 25, 2019 at 8:41 PM Stephen Boyd <sboyd@kernel.org> wrote:
->=20
-> > scenario like below, but where it is a problem. There could be three
-> > CPUs, or even one CPU and three threads if you want to describe the
-> > extra thread scenario.
-> >
-> > Here's my scenario where it isn't needed:
-> >
-> >     CPU0                                      CPU1
-> >     ----                                      ----
-> >     kunit_run_test(&test)
-> >                                               test_case_func()
-> >                                                 ....
-> >                                               [mock hardirq]
-> >                                                 kunit_set_success(&test)
-> >                                               [hardirq ends]
-> >                                                 ...
-> >                                                 complete(&test_done)
-> >       wait_for_completion(&test_done)
-> >       kunit_get_success(&test)
-> >
-> > We don't need to care about having locking here because success or
-> > failure only happens in one place and it's synchronized with the
-> > completion.
->=20
-> Here is the scenario I am concerned about:
->=20
-> CPU0                      CPU1                       CPU2
-> ----                      ----                       ----
-> kunit_run_test(&test)
->                           test_case_func()
->                             ....
->                             schedule_work(foo_func)
->                           [mock hardirq]             foo_func()
->                             ...                        ...
->                             kunit_set_success(false)   kunit_set_success(=
-false)
->                           [hardirq ends]               ...
->                             ...
->                             complete(&test_done)
->   wait_for_completion(...)
->   kunit_get_success(&test)
->=20
-> In my scenario, since both CPU1 and CPU2 update the success status of
-> the test simultaneously, even though they are setting it to the same
-> value. If my understanding is correct, this could result in a
-> write-tear on some architectures in some circumstances. I suppose we
-> could just make it an atomic boolean, but I figured locking is also
-> fine, and generally preferred.
+There are some people interested in experimenting with Clang's
+integrated assembler. To make it easy to do so without source
+modification, allow the user to specify 'AS=clang' as part of the
+make command to avoid adding '-no-integrated-as' to the {A,C}FLAGS.
 
-This is what we have WRITE_ONCE() and READ_ONCE() for. Maybe you could
-just use that in the getter and setters and remove the lock if it isn't
-used for anything else.
+Link: https://github.com/ClangBuiltLinux/linux/issues/577
+Suggested-by: Dmitry Golovin <dima@golovin.in>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-It may also be a good idea to have a kunit_fail_test() API that fails
-the test passed in with a WRITE_ONCE(false). Otherwise, the test is
-assumed successful and it isn't even possible for a test to change the
-state from failure to success due to a logical error because the API
-isn't available. Then we don't really need to have a generic
-kunit_set_success() function at all. We could have a kunit_test_failed()
-function too that replaces the kunit_get_success() function. That would
-read better in an if condition.
-
->=20
-> Also, to be clear, I am onboard with dropping then IRQ stuff for now.
-> I am fine moving to a mutex for the time being.
->=20
-
-Ok.
+diff --git a/Makefile b/Makefile
+index 5102b2bbd224..d77481129339 100644
+--- a/Makefile
++++ b/Makefile
+@@ -527,7 +527,9 @@ endif
+ ifneq ($(GCC_TOOLCHAIN),)
+ CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
+ endif
++ifeq ($(shell $(AS) --version 2>&1 | head -n 1 | grep clang),)
+ CLANG_FLAGS	+= -no-integrated-as
++endif
+ CLANG_FLAGS	+= -Werror=unknown-warning-option
+ KBUILD_CFLAGS	+= $(CLANG_FLAGS)
+ KBUILD_AFLAGS	+= $(CLANG_FLAGS)
+-- 
+2.22.0
 
