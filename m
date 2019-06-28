@@ -2,170 +2,308 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4289F593DD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 07:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1BA59576
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 10:02:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbfF1F5A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jun 2019 01:57:00 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:55457 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726574AbfF1F47 (ORCPT
+        id S1726605AbfF1ICH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jun 2019 04:02:07 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:41911 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726590AbfF1ICG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jun 2019 01:56:59 -0400
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x5S5upff021162;
-        Fri, 28 Jun 2019 14:56:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x5S5upff021162
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1561701412;
-        bh=HDd0Y/W4I7YBLvusFXFYTc0ARgjQwYghy/YqyHxcvog=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BroIC4TAaYJkZen5YPvPjEMTlqThXJ7kInKF40fn0WZ4HrFgZmOYrgBAKzB7M58hV
-         Cjrkkt+wECkEjAJLYFOH7jDqh/OD94Zq11DEe5Vsyzz5Ner8yO2GeT+Hg9p3OC3t+V
-         n4nFgFMgFmy8G1kWiBcIukiCEmoJ12JRql/MzkEt+/w6+scR8OalTimgeW9f/uaQcw
-         X01GJhPtMR/SAu06XpS6hi3qiUGkuNl3IBSk4FSFYlq07uu6v4SmxLIZrUPWJ4k4mt
-         l8l6PG6v8jOXahJzihhrU5nLKmyxeWSvUkbeKMdMCzsO9X1dD24mpwwGrYNAtZjMfn
-         xF5POVhbcPgJg==
-X-Nifty-SrcIP: [209.85.217.50]
-Received: by mail-vs1-f50.google.com with SMTP id k9so3277844vso.5;
-        Thu, 27 Jun 2019 22:56:51 -0700 (PDT)
-X-Gm-Message-State: APjAAAWMe0T2KhwboVaqpJYx2TekL68NAPLfn4z0ZJWLaUlqYUh8LJ9D
-        9bJxOWdhWnds+B+Mutdhy+D5woba7loahxdC7Bk=
-X-Google-Smtp-Source: APXvYqxptar0gO6vvgGTF1Kv1qpPUQqPJ04ZTUnl7CWPxKrhb5QhG3jUHPnDgYGABLMfecqNcgzfq74uIItQtHif5Vo=
-X-Received: by 2002:a67:fc45:: with SMTP id p5mr5249636vsq.179.1561701410958;
- Thu, 27 Jun 2019 22:56:50 -0700 (PDT)
+        Fri, 28 Jun 2019 04:02:06 -0400
+Received: by mail-pl1-f195.google.com with SMTP id m7so2783999pls.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jun 2019 01:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WZq6BCzx2oAYKBXZwpH6LRexuDJ0/444+0e0Mc/hDbY=;
+        b=Rd9lRP9zAd/kbl3ZE7qYqE71uAPpqI08y9O8Z8POPjewUXfV5BkcxB5GlkY7Lz2EvR
+         L0vi5OB036U4FKFCgIDZv8F3y6lztLOxmk0kwy/NUBPaZkq+ECaVF1Jt2lfubLgAj49H
+         Uk6C/xmHOoJyYfOl2AD99Cc4Ji0bJcI5iEK/IOzTvY7wn8alGsOUKlv4FIhRP3sRGF55
+         fIMKwrwTaQtuY+hOsydah24wbl/mQVSW6sltZZBybHwghcYUR14MnHCnTHXmgdqPSQtw
+         agAI8RdzSUB0Onytip3sOEuouLaTLd1x4D+UiNdsy+ktLsNeIwWlm9Q+91kPa3V5g02W
+         Z4fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WZq6BCzx2oAYKBXZwpH6LRexuDJ0/444+0e0Mc/hDbY=;
+        b=j5RDqeUSwyi7eLpn3v1hxqXH6WlzqJ410T0DqZMD4j4EU5LGLDvVc8ZCRwMcb3JCH/
+         Yoyackw+SPubyrHFQrD5rNHJI8W1XQkB8FLFkBqpRS0RYFdSRD2UvANuaQcUu/LhAEvE
+         CYtKGuSrroaPYjZQBW+kG+BSrAG2ftwvtecDsrYBw1tJu6bncpUy3DBYCl7IvzalUqsR
+         uO9MKcgQA3cLez3hXmC9FigDuhrIXFJ0N6bUhLeeokfVNolPvksarvM4BGRhYaJ5lM7s
+         171BF/WCpcJvmhDCHRB+0saCidBoPsj4iyMXq+pne0ittxa+SZ4T7MwoBwqcB4urQ/to
+         mWpQ==
+X-Gm-Message-State: APjAAAUYBhJEs2KRfgRkdg/i3jLPNGrcDvRB0WDz6FwFVPHKUp4bxYu3
+        evmtYnCA7H03UHP8fYwHAIEIcywVM25rREd5iXA9rQ==
+X-Google-Smtp-Source: APXvYqwmEZtlGKAjiLJWvizo9Zwmik6FWTQ62cPvtwGWDViEZL1wVsPAEfk8YLKeNB7mUaMkZVTde4hFd59dR/Vcw90=
+X-Received: by 2002:a17:902:2006:: with SMTP id n6mr10173684pla.232.1561708925220;
+ Fri, 28 Jun 2019 01:02:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190628020433.19156-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190628020433.19156-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 28 Jun 2019 14:56:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASnMwUNgHh38aGkuc8KdBG3TW02qZf1Kw_OYcTPYjWYOQ@mail.gmail.com>
-Message-ID: <CAK7LNASnMwUNgHh38aGkuc8KdBG3TW02qZf1Kw_OYcTPYjWYOQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: get rid of misleading $(AS) from documents
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <20190617082613.109131-18-brendanhiggins@google.com> <20190626021744.GU19023@42.do-not-panic.com>
+ <CAAXuY3p+kVhjQ4LYtzormqVcH2vKu1abc_K9Z0XY=JX=bp8NcQ@mail.gmail.com> <20190627061021.GE19023@42.do-not-panic.com>
+In-Reply-To: <20190627061021.GE19023@42.do-not-panic.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Fri, 28 Jun 2019 01:01:54 -0700
+Message-ID: <CAFd5g45VJ9yfuESUc=E0ydJyN+mk1b1kyHSCYvO2x9KPC7+3GQ@mail.gmail.com>
+Subject: Re: [PATCH v5 17/18] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Iurii Zaikin <yzaikin@google.com>, linux-api@vger.kernel.org,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 28, 2019 at 11:06 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+On Wed, Jun 26, 2019 at 11:10 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
 >
-> The assembler files in the kernel are *.S instead of *.s, so they must
-> be preprocessed. Hence, we always use $(CC) as an assembler driver.
+> On Wed, Jun 26, 2019 at 09:07:43PM -0700, Iurii Zaikin wrote:
+> > On Tue, Jun 25, 2019 at 7:17 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> > > > +static void sysctl_test_dointvec_table_maxlen_unset(struct kunit *test)
+> > > > +{
+> > > > +     struct ctl_table table = {
+> > > > +             .procname = "foo",
+> > > > +             .data           = &test_data.int_0001,
+> > > > +             .maxlen         = 0,
+> > > > +             .mode           = 0644,
+> > > > +             .proc_handler   = proc_dointvec,
+> > > > +             .extra1         = &i_zero,
+> > > > +             .extra2         = &i_one_hundred,
+> > > > +     };
+> > > > +     void  *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
+> > > > +     size_t len;
+> > > > +     loff_t pos;
+> > > > +
+> > > > +     len = 1234;
+> > > > +     KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 0, buffer, &len, &pos));
+> > > > +     KUNIT_EXPECT_EQ(test, (size_t)0, len);
+> > > > +     len = 1234;
+> > > > +     KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, 1, buffer, &len, &pos));
+> > > > +     KUNIT_EXPECT_EQ(test, (size_t)0, len);
+> > > > +}
+> > >
+> > > In a way this is also testing for general kernel API changes. This is and the
+> > > last one were good examples. So this is not just testing functionality
+> > > here. There is no wrong or write answer if 0 or -EINVAL was returned
+> > > other than the fact that we have been doing this for years.
+> > >
+> > > Its a perhaps small but important difference for some of these tests.  I
+> > > *do* think its worth clarifying through documentation which ones are
+> > > testing for API consistency Vs proper correctness.
+> >
+> > You make a good point that the test codifies the existing behavior of
+> > the function in lieu of formal documentation.  However, the test cases
+> > were derived from examining the source code of the function under test
+> > and attempting to cover all branches. The assertions were added only
+> > for the values that appeared to be set deliberately in the
+> > implementation. And it makes sense to me to test that the code does
+> > exactly what the implementation author intended.
 >
-> $(AS) is almost unused in Kbuild. As of writing, there is just one user.
->
->   $ git grep '$(AS)' -- :^Documentation
->   drivers/net/wan/Makefile:  AS68K = $(AS)
+> I'm not arguing against adding them. I'm suggesting that it is different
+> to test for API than for correctness of intended functionality, and
+> it would be wise to make it clear which test cases are for API and which
+> for correctness.
 
+I see later on that some of the API stuff you are talking about is
+public APIs from the standpoint of user (outside of LInux) visible. To
+be clear, is that what you mean by public APIs throughout, or would
+you distinguish between correctness tests, internal API tests, and
+external API tests?
 
-In Makefile, a variable is also referenced in a curly brace form like ${AS}.
-In shell scripts, it can be referenced in the form of $AR.
+> This will come up later for other kunit tests and it would be great
+> to set precendent so that other kunit tests can follow similar
+> practices to ensure its clear what is API realted Vs correctness of
+> intended functionality.
+>
+> In fact, I'm not yet sure if its possible to test public kernel API to
+> userspace with kunit, but if it is possible... well, that could make
+> linux-api folks happy as they could enable us to codify interpreation of
+> what is expected into kunit test cases, and we'd ensure that the
+> codified interpretation is not only documented in man pages but also
+> through formal kunit test cases.
+>
+> A regression in linux-api then could be formalized through a proper
+> kunit tests case. And if an API evolves, it would force developers to
+> update the respective kunit which codifies that contract.
 
-I grepped more patterns.
+Yep, I think that is long term hope. Some of the file system interface
+stuff that requires a filesystem to be mounted somewhere might get a
+little weird/difficult, but I suspect we should be able to do it
+eventually. I mean it's all just C code right? Should mostly boil down
+to someone figuring out how to do it the first time.
 
-$ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' --
-:^Documentation
-drivers/net/wan/Makefile:  AS68K = $(AS)
+> > > > +static void sysctl_test_dointvec_single_less_int_min(struct kunit *test)
+> > > > +{
+> > > > +     struct ctl_table table = {
+> > > > +             .procname = "foo",
+> > > > +             .data           = &test_data.int_0001,
+> > > > +             .maxlen         = sizeof(int),
+> > > > +             .mode           = 0644,
+> > > > +             .proc_handler   = proc_dointvec,
+> > > > +             .extra1         = &i_zero,
+> > > > +             .extra2         = &i_one_hundred,
+> > > > +     };
+> > > > +     char input[32];
+> > > > +     size_t len = sizeof(input) - 1;
+> > > > +     loff_t pos = 0;
+> > > > +     unsigned long abs_of_less_than_min = (unsigned long)INT_MAX
+> > > > +                                          - (INT_MAX + INT_MIN) + 1;
+> > > > +
+> > > > +     KUNIT_EXPECT_LT(test,
+> > > > +                     (size_t)snprintf(input, sizeof(input), "-%lu",
+> > > > +                                      abs_of_less_than_min),
+> > > > +                     sizeof(input));
+> > > > +
+> > > > +     table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
+> > > > +     KUNIT_EXPECT_EQ(test, -EINVAL,
+> > > > +                     proc_dointvec(&table, 1, input, &len, &pos));
+> > > > +     KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
+> > > > +     KUNIT_EXPECT_EQ(test, 0, ((int *)table.data)[0]);
+> > > > +}
+> > >
+> > > API test.
+> > >
+> > Not sure why.
+>
+> Because you are codifying that we *definitely* return -EINVAL on
+> overlow. Some parts of the kernel return -ERANGE for overflows for
+> instance.
+>
+> It would be a generic test for overflow if it would just test
+> for any error.
+>
+> It is a fine and good test to keep. All these tests are good to keep.
+>
+> > I believe there has been a real bug with int overflow in
+> > proc_dointvec.
+> > Covering it with test seems like a good idea.
+>
+> Oh definitely.
+>
+> > > > +static void sysctl_test_dointvec_single_greater_int_max(struct kunit *test)
+> > > > +{
+> > > > +     struct ctl_table table = {
+> > > > +             .procname = "foo",
+> > > > +             .data           = &test_data.int_0001,
+> > > > +             .maxlen         = sizeof(int),
+> > > > +             .mode           = 0644,
+> > > > +             .proc_handler   = proc_dointvec,
+> > > > +             .extra1         = &i_zero,
+> > > > +             .extra2         = &i_one_hundred,
+> > > > +     };
+> > > > +     char input[32];
+> > > > +     size_t len = sizeof(input) - 1;
+> > > > +     loff_t pos = 0;
+> > > > +     unsigned long greater_than_max = (unsigned long)INT_MAX + 1;
+> > > > +
+> > > > +     KUNIT_EXPECT_GT(test, greater_than_max, (unsigned long)INT_MAX);
+> > > > +     KUNIT_EXPECT_LT(test, (size_t)snprintf(input, sizeof(input), "%lu",
+> > > > +                                            greater_than_max),
+> > > > +                     sizeof(input));
+> > > > +     table.data = kunit_kzalloc(test, sizeof(int), GFP_USER);
+> > > > +     KUNIT_EXPECT_EQ(test, -EINVAL,
+> > > > +                     proc_dointvec(&table, 1, input, &len, &pos));
+> > > > +     KUNIT_EXPECT_EQ(test, sizeof(input) - 1, len);
+> > > > +     KUNIT_EXPECT_EQ(test, 0, ((int *)table.data)[0]);
+> > > > +}
+> > > > +
+> > >
+> > > API test.
+> > >
+> > > > +static struct kunit_case sysctl_test_cases[] = {
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_null_tbl_data),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_table_maxlen_unset),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_table_len_is_zero),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_table_read_but_position_set),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_happy_single_positive),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_happy_single_negative),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_single_less_int_min),
+> > > > +     KUNIT_CASE(sysctl_test_dointvec_single_greater_int_max),
+> > > > +     {}
+> > > > +};
+> > >
+> > > Oh all are API tests.. perhaps then just rename then
+> > > sysctl_test_cases to sysctl_api_test_cases.
+> > >
+> > > Would be good to add at least *two* other tests cases for this
+> > > example, one which does a valid read and one which does a valid write.
+> > Added valid reads. There already are 2 valid writes.
+>
+> Thanks.
+>
+> > > If that is done either we add another kunit test module for correctness
+> > > or just extend the above and use prefix / postfixes on the functions
+> > > to distinguish between API / correctness somehow.
+> > >
+> > > > +
+> > > > +static struct kunit_module sysctl_test_module = {
+> > > > +     .name = "sysctl_test",
+> > > > +     .test_cases = sysctl_test_cases,
+> > > > +};
+> > > > +
+> > > > +module_test(sysctl_test_module);
+> > > > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> > > > index cbdfae3798965..389b8986f5b77 100644
+> > > > --- a/lib/Kconfig.debug
+> > > > +++ b/lib/Kconfig.debug
+> > > > @@ -1939,6 +1939,16 @@ config TEST_SYSCTL
+> > > >
+> > > >         If unsure, say N.
+> > > >
+> > > > +config SYSCTL_KUNIT_TEST
+> > > > +     bool "KUnit test for sysctl"
+> > > > +     depends on KUNIT
+> > > > +     help
+> > > > +       This builds the proc sysctl unit test, which runs on boot. For more
+> > > > +       information on KUnit and unit tests in general please refer to the
+> > > > +       KUnit documentation in Documentation/dev-tools/kunit/.
+> > >
+> > > A little more description here would help. It is testing for API and
+> > > hopefully also correctness (if extended with those two examples I
+> > > mentioned).
+> > >
+> > Added "Tests the API contract and implementation correctness of sysctl."
+>
+> Yes, much clearer, thanks!
 
-I found only user still.
-
-
-
-> The documentation about *_AFLAGS* sounds like the flags were passed
-> to $(AS). This is somewhat misleading since we do not invoke $(AS)
-> directly.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->
->  Documentation/kbuild/kbuild.txt    |  5 ++---
->  Documentation/kbuild/makefiles.txt | 12 ++++++------
->  2 files changed, 8 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
-> index 9c230ea71963..7a7e2aa2fab5 100644
-> --- a/Documentation/kbuild/kbuild.txt
-> +++ b/Documentation/kbuild/kbuild.txt
-> @@ -31,12 +31,11 @@ Additional options to the assembler (for built-in and modules).
->
->  AFLAGS_MODULE
->  --------------------------------------------------
-> -Additional module specific options to use for $(AS).
-> +Additional module specific options to use for assembler.
->
->  AFLAGS_KERNEL
->  --------------------------------------------------
-> -Additional options for $(AS) when used for assembler
-> -code for code that is compiled as built-in.
-> +Additional options when used for assembling code that is compiled as built-in.
->
->  KCFLAGS
->  --------------------------------------------------
-> diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
-> index d65ad5746f94..f0b3a30b985d 100644
-> --- a/Documentation/kbuild/makefiles.txt
-> +++ b/Documentation/kbuild/makefiles.txt
-> @@ -306,7 +306,7 @@ more details, with real examples.
->         variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
->         entire tree.
->
-> -       asflags-y specifies options for assembling with $(AS).
-> +       asflags-y specifies options for assembling.
->
->         Example:
->                 #arch/sparc/kernel/Makefile
-> @@ -441,7 +441,7 @@ more details, with real examples.
->         as-instr checks if the assembler reports a specific instruction
->         and then outputs either option1 or option2
->         C escapes are supported in the test instruction
-> -       Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
-> +       Note: as-instr-option uses KBUILD_AFLAGS for assembler options
->
->      cc-option
->         cc-option is used to check if $(CC) supports a given option, and if
-> @@ -814,7 +814,7 @@ When kbuild executes, the following steps are followed (roughly):
->         In this example, the binary $(obj)/image is a binary version of
->         vmlinux. The usage of $(call if_changed,xxx) will be described later.
->
-> -    KBUILD_AFLAGS              $(AS) assembler flags
-> +    KBUILD_AFLAGS              assembler flags
->
->         Default value - see top level Makefile
->         Append or modify as required per architecture.
-> @@ -853,15 +853,15 @@ When kbuild executes, the following steps are followed (roughly):
->         The first example utilises the trick that a config option expands
->         to 'y' when selected.
->
-> -    KBUILD_AFLAGS_KERNEL       $(AS) options specific for built-in
-> +    KBUILD_AFLAGS_KERNEL       assembler options specific for built-in
->
->         $(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
->         resident kernel code.
->
-> -    KBUILD_AFLAGS_MODULE   Options for $(AS) when building modules
-> +    KBUILD_AFLAGS_MODULE   Options for assembler when building modules
->
->         $(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
-> -       are used for $(AS).
-> +       are used for assembler.
->         From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
->
->      KBUILD_CFLAGS_KERNEL       $(CC) options specific for built-in
-> --
-> 2.17.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Cheers!
