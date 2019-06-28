@@ -2,95 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3212258D0B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Jun 2019 23:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 169D159035
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 04:06:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726472AbfF0VaT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Jun 2019 17:30:19 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:43323 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726384AbfF0VaT (ORCPT
+        id S1726292AbfF1CGP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Jun 2019 22:06:15 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:58777 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725770AbfF1CGP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Jun 2019 17:30:19 -0400
-Received: by mail-pl1-f194.google.com with SMTP id cl9so1957631plb.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 27 Jun 2019 14:30:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l3YW+2jcLgYN4oaHRnnDv11W/CoBacLZ8zMmJkEioDc=;
-        b=HHIbNAl2DMs1IW6sciIhs6PFHnrTCBjgCkjuj06Oo0rz7KROq+01ZEgs3EYfCyWt9g
-         X/fOp37LHF3JlyHWre/fn05fWjbJ+DoE+W8AGoNZ/FLVyYFSwD3xRbSzphAvXyus91nC
-         ZAte9fqAIHU303twh6upCBqPVo0LL6sWpZklezw/L/+AysyP8a6XojjW6NPUBwIPDg2/
-         26cx/z1HcStpgO4xq2HuKcVsTmA/vrfVz4yHnaApiXWr8j6I0Ix9Z1yGXMiJT+yc14dN
-         SqAyl2meWSIQU1nFR2GIjLS0O8pnZFp+eKLZFRQvHd0PAL0Jk3BzNjBnKFADnOOatin4
-         kzrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l3YW+2jcLgYN4oaHRnnDv11W/CoBacLZ8zMmJkEioDc=;
-        b=jYbNeOpN5OWx5ecLzGEH+kvFq2u6KlPrpbqYvXL6EuOMeqm0es/qdzTKvLDnuZ27mf
-         g2GPHrU8T8Y2vORh+1zZzCEzuwOFDG2x4DDqzlKHGVxtXAxOe7tcUqFlnD4zltX0a+vt
-         pMvZkn1EGIASNcZ7G08zE7Wg0RM0hRS7wMEcjRuvLcEz+zGJUmXBkHTRPAXO44liaHSJ
-         UF8MeTAyqPCwRX88EI5YhLiDEWSi05mxNNMBUYBNuCq/hhexpeBBvmB8Xa0SSBAIluzp
-         uQB9b8HRb/nKdXpsy2uuQu4rvfpU2GR2XJiBoi+0gwnrXhFLH4DS53AZqLNdZrM2yuXT
-         CSag==
-X-Gm-Message-State: APjAAAVpn1FOFHqaEaCxcUJTtDtoh1Yua2aF9lxEzMrojXM+rANW+0y0
-        EyqThf0Xm9m1zt+z7jjv+ewLWdjb2ZFrV5vV3HkLHg==
-X-Google-Smtp-Source: APXvYqyUPXnMqtFiZgEBNqGmZ1gbO1OGNJO0ge+IQZz6/jmXf6xraTK3+4sqd1/0kiqwzcG31BNkPRvjuAuBYiOV/sg=
-X-Received: by 2002:a17:902:4aa3:: with SMTP id x32mr6831689pld.119.1561671017667;
- Thu, 27 Jun 2019 14:30:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190627191448.110756-1-natechancellor@gmail.com>
-In-Reply-To: <20190627191448.110756-1-natechancellor@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 27 Jun 2019 14:30:06 -0700
-Message-ID: <CAKwvOdkmacZ0Pu+KcmHb+-e4x0DZs1=FfAKHSo-2xf9LWtknAQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add ability to test Clang's integrated assembler
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Dmitry Golovin <dima@golovin.in>
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 27 Jun 2019 22:06:15 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x5S24bLt004905;
+        Fri, 28 Jun 2019 11:04:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x5S24bLt004905
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1561687479;
+        bh=yjzub9I4CsKXLSVnhexVECUsjlcS8Xskdwg+YsVHiTs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=f9i63ToXZF6WKlaT5nMAm7ALq+7kZeHOKPTmzXC1eWQPWP/qlEO1mYUJvoS5Z2H+F
+         YnPDFA4qjbN5T2kxl+BubSe5kaE9WiEL3xUbfQUdIeDHPL3a01IJm5gTpr9oj9vpnZ
+         81vKm+2TuMUy4OW1A9prEPWQXKqnh6ay8PxZE+/TrvhDZg2NUJJtf2aOw9UhYfTm1P
+         +zy+r3hGML1VjgbI2hShAuONiN39xZdHQBFzpQgcmDCdlet67xZ2aVNqkru8iXZgPn
+         bImL8vmbrj2lUUvlQDarblWlPXAW//lyDmfUvXCo6zRTQAOBGv/PP0Kc3LNYQsfLs2
+         RSIeAuWVo6W9A==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH] kbuild: get rid of misleading $(AS) from documents
+Date:   Fri, 28 Jun 2019 11:04:33 +0900
+Message-Id: <20190628020433.19156-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 12:15 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> There are some people interested in experimenting with Clang's
-> integrated assembler. To make it easy to do so without source
-> modification, allow the user to specify 'AS=clang' as part of the
-> make command to avoid adding '-no-integrated-as' to the {A,C}FLAGS.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/577
-> Suggested-by: Dmitry Golovin <dima@golovin.in>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> ---
->  Makefile | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index 5102b2bbd224..d77481129339 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -527,7 +527,9 @@ endif
->  ifneq ($(GCC_TOOLCHAIN),)
->  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
->  endif
-> +ifeq ($(shell $(AS) --version 2>&1 | head -n 1 | grep clang),)
->  CLANG_FLAGS    += -no-integrated-as
-> +endif
+The assembler files in the kernel are *.S instead of *.s, so they must
+be preprocessed. Hence, we always use $(CC) as an assembler driver.
 
-This is a nice suggestion and solution.  Thanks Dima and Nathan.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+$(AS) is almost unused in Kbuild. As of writing, there is just one user.
+
+  $ git grep '$(AS)' -- :^Documentation
+  drivers/net/wan/Makefile:  AS68K = $(AS)
+
+The documentation about *_AFLAGS* sounds like the flags were passed
+to $(AS). This is somewhat misleading since we do not invoke $(AS)
+directly.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ Documentation/kbuild/kbuild.txt    |  5 ++---
+ Documentation/kbuild/makefiles.txt | 12 ++++++------
+ 2 files changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/kbuild/kbuild.txt b/Documentation/kbuild/kbuild.txt
+index 9c230ea71963..7a7e2aa2fab5 100644
+--- a/Documentation/kbuild/kbuild.txt
++++ b/Documentation/kbuild/kbuild.txt
+@@ -31,12 +31,11 @@ Additional options to the assembler (for built-in and modules).
+ 
+ AFLAGS_MODULE
+ --------------------------------------------------
+-Additional module specific options to use for $(AS).
++Additional module specific options to use for assembler.
+ 
+ AFLAGS_KERNEL
+ --------------------------------------------------
+-Additional options for $(AS) when used for assembler
+-code for code that is compiled as built-in.
++Additional options when used for assembling code that is compiled as built-in.
+ 
+ KCFLAGS
+ --------------------------------------------------
+diff --git a/Documentation/kbuild/makefiles.txt b/Documentation/kbuild/makefiles.txt
+index d65ad5746f94..f0b3a30b985d 100644
+--- a/Documentation/kbuild/makefiles.txt
++++ b/Documentation/kbuild/makefiles.txt
+@@ -306,7 +306,7 @@ more details, with real examples.
+ 	variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
+ 	entire tree.
+ 
+-	asflags-y specifies options for assembling with $(AS).
++	asflags-y specifies options for assembling.
+ 
+ 	Example:
+ 		#arch/sparc/kernel/Makefile
+@@ -441,7 +441,7 @@ more details, with real examples.
+ 	as-instr checks if the assembler reports a specific instruction
+ 	and then outputs either option1 or option2
+ 	C escapes are supported in the test instruction
+-	Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
++	Note: as-instr-option uses KBUILD_AFLAGS for assembler options
+ 
+     cc-option
+ 	cc-option is used to check if $(CC) supports a given option, and if
+@@ -814,7 +814,7 @@ When kbuild executes, the following steps are followed (roughly):
+ 	In this example, the binary $(obj)/image is a binary version of
+ 	vmlinux. The usage of $(call if_changed,xxx) will be described later.
+ 
+-    KBUILD_AFLAGS		$(AS) assembler flags
++    KBUILD_AFLAGS		assembler flags
+ 
+ 	Default value - see top level Makefile
+ 	Append or modify as required per architecture.
+@@ -853,15 +853,15 @@ When kbuild executes, the following steps are followed (roughly):
+ 	The first example utilises the trick that a config option expands
+ 	to 'y' when selected.
+ 
+-    KBUILD_AFLAGS_KERNEL	$(AS) options specific for built-in
++    KBUILD_AFLAGS_KERNEL	assembler options specific for built-in
+ 
+ 	$(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
+ 	resident kernel code.
+ 
+-    KBUILD_AFLAGS_MODULE   Options for $(AS) when building modules
++    KBUILD_AFLAGS_MODULE   Options for assembler when building modules
+ 
+ 	$(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
+-	are used for $(AS).
++	are used for assembler.
+ 	From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
+ 
+     KBUILD_CFLAGS_KERNEL	$(CC) options specific for built-in
 -- 
-Thanks,
-~Nick Desaulniers
+2.17.1
+
