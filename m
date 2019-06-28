@@ -2,177 +2,288 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96503595C0
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 10:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9CCA59B2D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 14:31:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726723AbfF1IJ5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jun 2019 04:09:57 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41770 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfF1IJ4 (ORCPT
+        id S1726761AbfF1Mb3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jun 2019 08:31:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:39646 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727128AbfF1Maq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jun 2019 04:09:56 -0400
-Received: by mail-pf1-f195.google.com with SMTP id m30so2571542pff.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jun 2019 01:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yibP/Iv6ps2Lbs4MfioQUnaQ1X0MZgCBiZaerRAAUs0=;
-        b=e5kLlPi61UOlg3aWbm3hyHJ6zEvPrbJg4WaMTgr5J7N6beCFHbvMVMWvXm34zFIMK6
-         sy+TCthgNvl6QKdGAvF199JWgLSzY0riL7Qema9Z8eQSMrEVD7QmDgObmKA9VnGm6jQk
-         Qk9Vw4tG1NS/Rsaor+MwqJJtzbW9NLCCg64qdKIwo/lqdLjqjD0HoEJZR2UkGwIQNQU7
-         B8LVi8olEdiEG1gQQPAGB3QH7tntl/R65/A9R5rItsLpolqg+IRJEp1Du/WH5LqoOfL3
-         I3l8I0kuDspWHSG/V5vI+q5UJh9nND3VlxUlk753w0GhWsuvm1nMSIm2VqKl1wq8mbGo
-         9uhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yibP/Iv6ps2Lbs4MfioQUnaQ1X0MZgCBiZaerRAAUs0=;
-        b=NNNb9RZom0pbCLHjGFELU3FWmPXxglqbJ8R8B6hmlVMe+bjkSdokKfur7HvlTRzBbL
-         a6B42LJ3FqGQs0NdFYqUhLaocR/bTQBSMeoCgE2GZuuoPNtzB9LTUmM/Mx5iZgmbVO6j
-         JqtO1KzA+hOvBE2aQ+qQKW0OGVQQ3PdxjI5vV2QCmRalPoBIxXfI7TMDUyrCTzMmn+mD
-         JxeaLi5EjzhU/AOJhBBffpnEW0hi1BngxTRDfOBg6jjj1XOI02QExEFWibZr9HSfnvRe
-         kSojgmsnxMZimWzUVVD3I+Vxf2sNAc/CZv1ABme97Wh1n+/CJxUsK3GrsQR/E3hGGXTT
-         XKxg==
-X-Gm-Message-State: APjAAAXX8yMBsQd8mXT5NIctbauKJui9PIh8okNHglNk3aPXxN5CGUD3
-        v65k3XkNkPQrLIFzZp9ryKZEjVxkfGmm3YIg2RFOKA==
-X-Google-Smtp-Source: APXvYqwa5Gi43WdeQYYulM3cScojWTt0/MI+kDN9NbNdt1CeW4jxKTFR3Algm98Jmh+XvwAADJqdAi9a1c1dDVA05Ew=
-X-Received: by 2002:a17:90a:be0d:: with SMTP id a13mr11033056pjs.84.1561709395368;
- Fri, 28 Jun 2019 01:09:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190617082613.109131-1-brendanhiggins@google.com>
- <20190617082613.109131-2-brendanhiggins@google.com> <20190620001526.93426218BE@mail.kernel.org>
- <CAFd5g46Jhxsz6_VXHEVYvTeDRwwzgKpr=aUWLL5b3S4kUukb8g@mail.gmail.com>
- <20190626034100.B238520883@mail.kernel.org> <CAFd5g46zHAupdUh3wDuqPJti2M+_=oje_5weFe7AVLQfkDDM6A@mail.gmail.com>
- <20190627181636.5EA752064A@mail.kernel.org>
-In-Reply-To: <20190627181636.5EA752064A@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Fri, 28 Jun 2019 01:09:44 -0700
-Message-ID: <CAFd5g44V3ZLNazUOgOo2sFR3zzbNnTkH4e9uxGX4iHi7G73Mzw@mail.gmail.com>
-Subject: Re: [PATCH v5 01/18] kunit: test: add KUnit test runner core
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
+        Fri, 28 Jun 2019 08:30:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=V/HBcP10AaKg9f7QXCB/xlHhS75hL4oliVjFK2WwiWw=; b=DJ/WCxxkcrYW8G3KYkrHJnkf2P
+        jVRL0+UHsVSIf8VtGu+GJ+NK1gVs4f5L9BvDhdSkrkObRcuIcNwh2ckXwuFieia/rKgL36WvMuY9Z
+        nT6Huh3yl0ut6x0Rf6Y6sz2cdaYXiy4rO0wROl5LruZdy9aIj8Om8dOt6vWBqldhQ8ZRGOC88ma64
+        OFQp1WxYj3pk+dzTAvSUbFUgAbYZl7CWLsPeAzeYBMiW0VyvKiQQYnT4iHs9pYsGgFzLfwMG6XVwm
+        MePcBZkCo2f+oz0eiS7lY82L4KICcgRa9NnZD/K3rytV4FuomrWxv11teHb5arzgZjfDBfeN8hU6i
+        gjFHMc4Q==;
+Received: from [186.213.242.156] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hgq1W-00054w-6k; Fri, 28 Jun 2019 12:30:38 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hgq1S-0005Tu-Ta; Fri, 28 Jun 2019 09:30:34 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Akinobu Mita <akinobu.mita@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Moritz Fischer <mdf@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
         Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, live-patching@vger.kernel.org,
+        netdev@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-scsi@vger.kernel.org,
+        target-devel@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: [PATCH 37/39] docs: adds some directories to the main documentation index
+Date:   Fri, 28 Jun 2019 09:30:30 -0300
+Message-Id: <b26fc645cb2c81fe88ab13616c65664d2c3cead5.1561724493.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1561724493.git.mchehab+samsung@kernel.org>
+References: <cover.1561724493.git.mchehab+samsung@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 27, 2019 at 11:16 AM Stephen Boyd <sboyd@kernel.org> wrote:
->
-> Quoting Brendan Higgins (2019-06-26 16:00:40)
-> > On Tue, Jun 25, 2019 at 8:41 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> >
-> > > scenario like below, but where it is a problem. There could be three
-> > > CPUs, or even one CPU and three threads if you want to describe the
-> > > extra thread scenario.
-> > >
-> > > Here's my scenario where it isn't needed:
-> > >
-> > >     CPU0                                      CPU1
-> > >     ----                                      ----
-> > >     kunit_run_test(&test)
-> > >                                               test_case_func()
-> > >                                                 ....
-> > >                                               [mock hardirq]
-> > >                                                 kunit_set_success(&test)
-> > >                                               [hardirq ends]
-> > >                                                 ...
-> > >                                                 complete(&test_done)
-> > >       wait_for_completion(&test_done)
-> > >       kunit_get_success(&test)
-> > >
-> > > We don't need to care about having locking here because success or
-> > > failure only happens in one place and it's synchronized with the
-> > > completion.
-> >
-> > Here is the scenario I am concerned about:
-> >
-> > CPU0                      CPU1                       CPU2
-> > ----                      ----                       ----
-> > kunit_run_test(&test)
-> >                           test_case_func()
-> >                             ....
-> >                             schedule_work(foo_func)
-> >                           [mock hardirq]             foo_func()
-> >                             ...                        ...
-> >                             kunit_set_success(false)   kunit_set_success(false)
-> >                           [hardirq ends]               ...
-> >                             ...
-> >                             complete(&test_done)
-> >   wait_for_completion(...)
-> >   kunit_get_success(&test)
-> >
-> > In my scenario, since both CPU1 and CPU2 update the success status of
-> > the test simultaneously, even though they are setting it to the same
-> > value. If my understanding is correct, this could result in a
-> > write-tear on some architectures in some circumstances. I suppose we
-> > could just make it an atomic boolean, but I figured locking is also
-> > fine, and generally preferred.
->
-> This is what we have WRITE_ONCE() and READ_ONCE() for. Maybe you could
-> just use that in the getter and setters and remove the lock if it isn't
-> used for anything else.
->
-> It may also be a good idea to have a kunit_fail_test() API that fails
-> the test passed in with a WRITE_ONCE(false). Otherwise, the test is
-> assumed successful and it isn't even possible for a test to change the
-> state from failure to success due to a logical error because the API
-> isn't available. Then we don't really need to have a generic
-> kunit_set_success() function at all. We could have a kunit_test_failed()
-> function too that replaces the kunit_get_success() function. That would
-> read better in an if condition.
+The contents of those directories were orphaned at the documentation
+body.
 
-You know what, I think you are right.
+While those directories could likely be moved to be inside some guide,
+I'm opting to just adding their indexes to the main one, removing the
+:orphan: and adding the SPDX header.
 
-Sorry, for not realizing this earlier, I think you mentioned something
-along these lines a long time ago.
+For the drivers, the rationale is that the documentation contains
+a mix of Kernelspace, uAPI and admin-guide. So, better to keep them on
+separate directories, as we've be doing with similar subsystem-specific
+docs that were not split yet.
 
-Thanks for your patience!
+For the others, well... I'm too lazy to do the move. Also, it
+seems to make sense to keep at least some of those at the main
+dir (like kbuild, for example). In any case, a latter patch
+could do the move.
 
-> >
-> > Also, to be clear, I am onboard with dropping then IRQ stuff for now.
-> > I am fine moving to a mutex for the time being.
-> >
->
-> Ok.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ Documentation/cdrom/index.rst           |  2 +-
+ Documentation/fault-injection/index.rst |  2 +-
+ Documentation/fb/index.rst              |  2 +-
+ Documentation/fpga/index.rst            |  2 +-
+ Documentation/ide/index.rst             |  2 +-
+ Documentation/index.rst                 | 14 ++++++++++++++
+ Documentation/kbuild/index.rst          |  2 +-
+ Documentation/livepatch/index.rst       |  2 +-
+ Documentation/netlabel/index.rst        |  2 +-
+ Documentation/pcmcia/index.rst          |  2 +-
+ Documentation/power/index.rst           |  2 +-
+ Documentation/target/index.rst          |  2 +-
+ Documentation/timers/index.rst          |  2 +-
+ Documentation/watchdog/index.rst        |  2 +-
+ 14 files changed, 27 insertions(+), 13 deletions(-)
 
-Thanks!
+diff --git a/Documentation/cdrom/index.rst b/Documentation/cdrom/index.rst
+index efbd5d111825..338ad5f94e7c 100644
+--- a/Documentation/cdrom/index.rst
++++ b/Documentation/cdrom/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ =====
+ cdrom
+diff --git a/Documentation/fault-injection/index.rst b/Documentation/fault-injection/index.rst
+index 92b5639ed07a..8408a8a91b34 100644
+--- a/Documentation/fault-injection/index.rst
++++ b/Documentation/fault-injection/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ===============
+ fault-injection
+diff --git a/Documentation/fb/index.rst b/Documentation/fb/index.rst
+index d47313714635..baf02393d8ee 100644
+--- a/Documentation/fb/index.rst
++++ b/Documentation/fb/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ============
+ Frame Buffer
+diff --git a/Documentation/fpga/index.rst b/Documentation/fpga/index.rst
+index 2c87d1ea084f..f80f95667ca2 100644
+--- a/Documentation/fpga/index.rst
++++ b/Documentation/fpga/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ====
+ fpga
+diff --git a/Documentation/ide/index.rst b/Documentation/ide/index.rst
+index 45bc12d3957f..813dfe611a31 100644
+--- a/Documentation/ide/index.rst
++++ b/Documentation/ide/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ==================================
+ Integrated Drive Electronics (IDE)
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index e69d2fde7735..075c732501a2 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -35,6 +35,7 @@ trying to get it to work optimally on a given system.
+    :maxdepth: 2
+ 
+    admin-guide/index
++   kbuild/index
+ 
+ Firmware-related documentation
+ ------------------------------
+@@ -77,6 +78,9 @@ merged much easier.
+    kernel-hacking/index
+    trace/index
+    maintainer/index
++   fault-injection/index
++   livepatch/index
++
+ 
+ Kernel API documentation
+ ------------------------
+@@ -94,12 +98,22 @@ needed).
+    core-api/index
+    accounting/index
+    block/index
++   cdrom/index
++   ide/index
++   fb/index
++   fpga/index
+    hid/index
+    iio/index
+    infiniband/index
+    leds/index
+    media/index
++   netlabel/index
+    networking/index
++   pcmcia/index
++   power/index
++   target/index
++   timers/index
++   watchdog/index
+    input/index
+    hwmon/index
+    gpu/index
+diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
+index 42d4cbe4460c..e323a3f2cc81 100644
+--- a/Documentation/kbuild/index.rst
++++ b/Documentation/kbuild/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ===================
+ Kernel Build System
+diff --git a/Documentation/livepatch/index.rst b/Documentation/livepatch/index.rst
+index edd291d51847..17674a9e21b2 100644
+--- a/Documentation/livepatch/index.rst
++++ b/Documentation/livepatch/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ===================
+ Kernel Livepatching
+diff --git a/Documentation/netlabel/index.rst b/Documentation/netlabel/index.rst
+index 47f1e0e5acd1..984e1b191b12 100644
+--- a/Documentation/netlabel/index.rst
++++ b/Documentation/netlabel/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ========
+ NetLabel
+diff --git a/Documentation/pcmcia/index.rst b/Documentation/pcmcia/index.rst
+index 779c8527109e..7ae1f62fca14 100644
+--- a/Documentation/pcmcia/index.rst
++++ b/Documentation/pcmcia/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ======
+ pcmcia
+diff --git a/Documentation/power/index.rst b/Documentation/power/index.rst
+index 20415f21e48a..002e42745263 100644
+--- a/Documentation/power/index.rst
++++ b/Documentation/power/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ================
+ Power Management
+diff --git a/Documentation/target/index.rst b/Documentation/target/index.rst
+index b68f48982392..4b24f81f747e 100644
+--- a/Documentation/target/index.rst
++++ b/Documentation/target/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ==================
+ TCM Virtual Device
+diff --git a/Documentation/timers/index.rst b/Documentation/timers/index.rst
+index 91f6f8263c48..df510ad0c989 100644
+--- a/Documentation/timers/index.rst
++++ b/Documentation/timers/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ======
+ timers
+diff --git a/Documentation/watchdog/index.rst b/Documentation/watchdog/index.rst
+index 33a0de631e84..c177645081d8 100644
+--- a/Documentation/watchdog/index.rst
++++ b/Documentation/watchdog/index.rst
+@@ -1,4 +1,4 @@
+-:orphan:
++.. SPDX-License-Identifier: GPL-2.0
+ 
+ ======================
+ Linux Watchdog Support
+-- 
+2.21.0
+
