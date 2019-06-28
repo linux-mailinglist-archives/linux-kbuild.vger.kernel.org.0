@@ -2,128 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 794805A22F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 19:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4DBD5A303
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Jun 2019 20:01:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbfF1RW7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Jun 2019 13:22:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7880 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725783AbfF1RW6 (ORCPT
+        id S1726708AbfF1SBF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Jun 2019 14:01:05 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:45884 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726667AbfF1SBF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Jun 2019 13:22:58 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5SHHGuj085313
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jun 2019 13:22:55 -0400
-Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2tdn7yvx58-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Jun 2019 13:22:55 -0400
-Received: from localhost
-        by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-kbuild@vger.kernel.org> from <gor@linux.ibm.com>;
-        Fri, 28 Jun 2019 18:22:52 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-        by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 28 Jun 2019 18:22:49 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5SHMmP718743318
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 28 Jun 2019 17:22:48 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 95E794C04A;
-        Fri, 28 Jun 2019 17:22:48 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 55EB84C040;
-        Fri, 28 Jun 2019 17:22:48 +0000 (GMT)
-Received: from localhost (unknown [9.152.212.21])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri, 28 Jun 2019 17:22:48 +0000 (GMT)
-Date:   Fri, 28 Jun 2019 19:22:47 +0200
-From:   Vasily Gorbik <gor@linux.ibm.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>
-Subject: [PATCH] kallsyms: exclude kasan local symbols on s390
+        Fri, 28 Jun 2019 14:01:05 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id 8DED880348;
+        Fri, 28 Jun 2019 20:00:58 +0200 (CEST)
+Date:   Fri, 28 Jun 2019 20:00:57 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Jani Nikula <jani.nikula@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        xdp-newbies@vger.kernel.org, Anton Vorontsov <anton@enomsg.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        Colin Cross <ccross@android.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] kbuild: compile-test kernel headers to ensure
+ they are self-contained
+Message-ID: <20190628180057.GA22758@ravnborg.org>
+References: <20190627163903.28398-1-yamada.masahiro@socionext.com>
+ <20190627163903.28398-5-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Patchwork-Bot: notify
-X-TM-AS-GCONF: 00
-x-cbid: 19062817-0012-0000-0000-0000032D7595
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062817-0013-0000-0000-00002166B910
-Message-Id: <patch.git-3ffb613bd7b2.your-ad-here.call-01561742434-ext-8011@work.hours>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-28_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906280198
+In-Reply-To: <20190627163903.28398-5-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+        a=yXOKcWPwKYVsdpAgASMA:9 a=CjuIK1q_8ugA:10
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-gcc asan instrumentation emits the following sequence to store frame pc
-when the kernel is built with CONFIG_RELOCATABLE:
-debug/vsprintf.s:
-        .section        .data.rel.ro.local,"aw"
-        .align  8
-.LC3:
-        .quad   .LASANPC4826@GOTOFF
-.text
-        .align  8
-        .type   number, @function
-number:
-.LASANPC4826:
+Hi Masahiro.
 
-and in case reloc is issued for LASANPC label it also gets into .symtab
-with the same address as actual function symbol:
-$ nm -n vmlinux | grep 0000000001397150
-0000000001397150 t .LASANPC4826
-0000000001397150 t number
+On Fri, Jun 28, 2019 at 01:39:02AM +0900, Masahiro Yamada wrote:
+> The headers in include/ are globally used in the kernel source tree
+> to provide common APIs. They are included from external modules, too.
+> 
+> It will be useful to make as many headers self-contained as possible
+> so that we do not have to rely on a specific include order.
+> 
+> There are more than 4000 headers in include/. In my rough analysis,
+> 70% of them are already self-contained. With efforts, most of them
+> can be self-contained.
+> 
+> For now, we must exclude more than 1000 headers just because they
+> cannot be compiled as standalone units. I added them to header-test-.
+> The black list was mostly generated by a script, so should be checked
+> later.
+The list is smaller than I had expected.
+And I see why you insisted on avoiding a maze ok Kbuild files.
+It looks good, except there is a few issues..
 
-In the end kernel backtraces are almost unreadable:
-[  143.748476] Call Trace:
-[  143.748484] ([<000000002da3e62c>] .LASANPC2671+0x114/0x190)
-[  143.748492]  [<000000002eca1a58>] .LASANPC2612+0x110/0x160
-[  143.748502]  [<000000002de9d830>] print_address_description+0x80/0x3b0
-[  143.748511]  [<000000002de9dd64>] __kasan_report+0x15c/0x1c8
-[  143.748521]  [<000000002ecb56d4>] strrchr+0x34/0x60
-[  143.748534]  [<000003ff800a9a40>] kasan_strings+0xb0/0x148 [test_kasan]
-[  143.748547]  [<000003ff800a9bba>] kmalloc_tests_init+0xe2/0x528 [test_kasan]
-[  143.748555]  [<000000002da2117c>] .LASANPC4069+0x354/0x748
-[  143.748563]  [<000000002dbfbb16>] do_init_module+0x136/0x3b0
-[  143.748571]  [<000000002dbff3f4>] .LASANPC3191+0x2164/0x25d0
-[  143.748580]  [<000000002dbffc4c>] .LASANPC3196+0x184/0x1b8
-[  143.748587]  [<000000002ecdf2ec>] system_call+0xd8/0x2d8
 
-Since LASANPC labels are not even unique and get into .symtab only due
-to relocs filter them out in kallsyms.
+The file kernel/kheaders_data.tar.xz includes all the .s files.
+Something needs to be done to exclude the .s files...
 
-Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
----
- scripts/kallsyms.c | 3 +++
- 1 file changed, 3 insertions(+)
+When building a full kernel the build fails like this:
+  LD      vmlinux.o
+aarch64-linux-gnu-ld: cannot find include/lib.a: No such file or directory
+make[1]: *** [/home/sam/kernel/linux-kbuild.git/Makefile:1054: vmlinux] Error 1
+make[1]: Leaving directory '/home/sam/kernel/linux-kbuild.git/.build/arm64-allyesconfig'
+make: *** [Makefile:179: sub-make] Error 2
 
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index e17837f1d3f2..ae6504d07fd6 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -150,6 +150,9 @@ static int read_symbol(FILE *in, struct sym_entry *s)
- 	/* exclude debugging symbols */
- 	else if (stype == 'N' || stype == 'n')
- 		return -1;
-+	/* exclude s390 kasan local symbols */
-+	else if (!strncmp(sym, ".LASANPC", 8))
-+		return -1;
- 
- 	/* include the type field in the symbol name, so that it gets
- 	 * compressed together */
--- 
-2.21.0
 
+include/uapi/linux/mman.h fails when building sparc64 allmodconfig.
+There is likely more header files that will fail when we start to
+throw this after diverse randconfigs.
+I have no good idea how to catch this.
+Unless your scripts could automate this across several architectures.
+
+I did not continue my testing futher.
+
+> +header-test-			+= uapi/drm/vmwgfx_drm.h
+> +header-test-			+= uapi/linux/a.out.h
+> +header-test-			+= uapi/linux/coda.h
+...
+> +header-test-			+= uapi/xen/evtchn.h
+> +header-test-			+= uapi/xen/gntdev.h
+> +header-test-			+= uapi/xen/privcmd.h
+
+I though uapi files were covered by another Makefile?
+If they are added because we pull them in using a pattern, maybe they
+should be removed using a specific filer-out?
+
+	Sam
