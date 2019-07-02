@@ -2,77 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25DFF5D4D7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2019 18:54:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE7C85D5AA
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jul 2019 19:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbfGBQyL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 2 Jul 2019 12:54:11 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:37862 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbfGBQyJ (ORCPT
+        id S1726652AbfGBRxD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 2 Jul 2019 13:53:03 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:45173 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbfGBRxD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 2 Jul 2019 12:54:09 -0400
-Received: by mail-pl1-f194.google.com with SMTP id bh12so683875plb.4
-        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jul 2019 09:54:08 -0700 (PDT)
+        Tue, 2 Jul 2019 13:53:03 -0400
+Received: by mail-pf1-f194.google.com with SMTP id r1so8616999pfq.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 02 Jul 2019 10:53:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YOrD3L7+D3RpXOEWEmqtGQ4AmNUEkApY6aCdIXrEgrQ=;
-        b=BFv71SBeG8l6/HWnTjNskf1n1SP8LlSsXw2u6O+8x6/9pd3cuE7Y1G5j29ueHBNhy8
-         tm8Q20zcODk4NTg/feMq5Wvi17m41FI/dmfEqVHu9czAp1QyyG43DjRHN5sq0/DkUBQK
-         Bnw2rITr1+Q/yJai9kbAe6wGlHWl2jlbV8UUY=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cUzLBUlR97uqGXzOFylb6nkkxBtyYZ1OhN+qvdTrCD0=;
+        b=roBJOIwXGuFOf1wltfxmsClcFxlkrjzp9+21T7P87pZ44BH/GjP/X/NuZ8mK2FoMzO
+         XotmCr6d6KsdJATAIIUbq5Oy4zR4Azgkp4HhOE4XiupuZAs2/ZBggUQTxGqGQNrNXKUR
+         RK1F2iELvIHqPezIMEexxn9HQjKb0Q7OjYsSgJwmHDUbD4xwBf6WQFlfeS4XFqE89Pff
+         n78AWxKci0ljIJl3H7X5khQxePoPu8jM9jZ95VMb0Zsz46NlIICQ2qPhYIcCIBC8U20Z
+         P1PLSOLwoWTdUhh3getWGZNkHFehqyZ7w/vmIfDcbd6OQGJv5O6KIgY9x4cjlJKaYt87
+         yyiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YOrD3L7+D3RpXOEWEmqtGQ4AmNUEkApY6aCdIXrEgrQ=;
-        b=tYhBAFFtLAqnel/ztk8LVvglM9FLBjCLa3st5V+i+QeoDY6BLT0oPyjJALa6P6umio
-         fX+jCoRL3odSfXssPt/jsaJoTWYUU0HgNegj8r9UyLGl11OKJ0vIwm8wu4PnJLJRzinC
-         ygdV+WlqfS7Ih0GfKJScg9ZwiR/V6xTnCugjBnHKjYM80Hukh0I1plT3aw5SbfUvt7N8
-         wKkHFvj2MA8xvaTKDhNK3ZsTZMEiaidkyWton/0C/zgYjoatX0e9o13Hdr7dS/y6WbT3
-         Bjutyvj3LREm7bQUxMZkGb5ait0aMySk+Df605TeaROOQ7OLGLVBGntnS3A5EevMqTy0
-         PW0g==
-X-Gm-Message-State: APjAAAX55n1nEBv+ll/xUMXb0ahAx04zpFFSpxNgM4TIxhQw99HBTHu4
-        0KtPMwqBsD3n0UnMqnMV8qjBDdqvyK4=
-X-Google-Smtp-Source: APXvYqwOnSn4p4gc9nADX6fU8aROdR2ltn7O8xpjV3aZn4Lmnr47mVQ9H0Ozs1WomAeLwHs/wgs3wQ==
-X-Received: by 2002:a17:902:f082:: with SMTP id go2mr38110074plb.25.1562086448544;
-        Tue, 02 Jul 2019 09:54:08 -0700 (PDT)
-Received: from localhost ([2620:15c:6:12:9c46:e0da:efbf:69cc])
-        by smtp.gmail.com with ESMTPSA id s16sm14039729pfm.26.2019.07.02.09.54.07
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 02 Jul 2019 09:54:07 -0700 (PDT)
-Date:   Tue, 2 Jul 2019 12:54:06 -0400
-From:   Joel Fernandes <joel@joelfernandes.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] kheaders: remove meaningless -R option of 'ls'
-Message-ID: <20190702165406.GD98338@google.com>
-References: <20190701005845.12475-1-yamada.masahiro@socionext.com>
- <20190701005845.12475-6-yamada.masahiro@socionext.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cUzLBUlR97uqGXzOFylb6nkkxBtyYZ1OhN+qvdTrCD0=;
+        b=NQ0fh9Y9XQ1Rw9Qbx0WnjPD5vr5AFn0z80KDTlugiHhbKWjCwvMm5r4AVUi/P/9SLm
+         WJF3K3mlcjx9a6k6iSxHHmzfSvJXobhsqgw6CPNDeAJQ3pHP9uq5hEprba1QKMvWm6p2
+         moBIYipgRaIkHL8r4zT9Uf3GfvXBHIagrsSg2ZgzhB2hMKef6f1UIJC/2ouNUBz2gFtp
+         B5c6/FNCICCGCkFeLtYpN3m/d4KydWxOYCJFXg2NxU352EXV0wLZpas/qZTELvF4Jhcz
+         0Uu9KZy++0Rcv4Iuz/Taozf7gs9te/TXAOs8p5rL1OSRuv1UzskbF39Nf+5+u2zBx0Wu
+         4XDg==
+X-Gm-Message-State: APjAAAUZj+ysNUqNhBtdy2ih0mhIkhU5LYjrm+pE0E6NyORnLanvYEAw
+        ZpybzaLzMv1sylR0afHFImPByAYmdn+qCMvJ0/XISw==
+X-Google-Smtp-Source: APXvYqw1QIOarVsPwN3Ymzn8KxtORstMAVkiFcCA6YNhVqWiDT/WJraRMIndv08KnJT+5qaDY4tAvp9OnwXy65WsZqM=
+X-Received: by 2002:a63:205f:: with SMTP id r31mr23471478pgm.159.1562089981635;
+ Tue, 02 Jul 2019 10:53:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190701005845.12475-6-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190617082613.109131-1-brendanhiggins@google.com>
+ <20190617082613.109131-8-brendanhiggins@google.com> <20190625232249.GS19023@42.do-not-panic.com>
+ <CAFd5g46mnd=a0OqFCx0hOHX+DxW+5yA2LXH5Q0gEg8yUZK=4FA@mail.gmail.com>
+In-Reply-To: <CAFd5g46mnd=a0OqFCx0hOHX+DxW+5yA2LXH5Q0gEg8yUZK=4FA@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 2 Jul 2019 10:52:50 -0700
+Message-ID: <CAFd5g46=7OQDREdLDTiMgVWq-Xj2zfOw8cRhPJEihSbO89MDyA@mail.gmail.com>
+Subject: Re: [PATCH v5 07/18] kunit: test: add initial tests
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>, "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 01, 2019 at 09:58:43AM +0900, Masahiro Yamada wrote:
-> The -R option of 'ls' is supposed to be used for directories.
-> 
->        -R, --recursive
->               list subdirectories recursively
-> 
-> Since 'find ... -type f' only matches to regular files, we do not
-> expect directories passed to the 'ls' command here.
-> 
-> Giving -R is harmless at least, but unneeded.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+On Wed, Jun 26, 2019 at 12:53 AM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> On Tue, Jun 25, 2019 at 4:22 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+> >
+> > On Mon, Jun 17, 2019 at 01:26:02AM -0700, Brendan Higgins wrote:
+> > > diff --git a/kunit/example-test.c b/kunit/example-test.c
+> > > new file mode 100644
+> > > index 0000000000000..f44b8ece488bb
+> > > --- /dev/null
+> > > +++ b/kunit/example-test.c
+> >
+> > <-- snip -->
+> >
+> > > +/*
+> > > + * This defines a suite or grouping of tests.
+> > > + *
+> > > + * Test cases are defined as belonging to the suite by adding them to
+> > > + * `kunit_cases`.
+> > > + *
+> > > + * Often it is desirable to run some function which will set up things which
+> > > + * will be used by every test; this is accomplished with an `init` function
+> > > + * which runs before each test case is invoked. Similarly, an `exit` function
+> > > + * may be specified which runs after every test case and can be used to for
+> > > + * cleanup. For clarity, running tests in a test module would behave as follows:
+> > > + *
+> >
+> > To be clear this is not the kernel module init, but rather the kunit
+> > module init. I think using kmodule would make this clearer to a reader.
+>
+> Seems reasonable. Will fix in next revision.
+>
+> > > + * module.init(test);
+> > > + * module.test_case[0](test);
+> > > + * module.exit(test);
+> > > + * module.init(test);
+> > > + * module.test_case[1](test);
+> > > + * module.exit(test);
+> > > + * ...;
+> > > + */
 
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-
+Do you think it might be clearer yet to rename `struct kunit_module
+*module;` to `struct kunit_suite *suite;`?
