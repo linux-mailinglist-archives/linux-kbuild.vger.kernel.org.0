@@ -2,104 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC505EDF5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2019 22:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BEE65EE86
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jul 2019 23:29:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbfGCU43 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Jul 2019 16:56:29 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:44615 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726678AbfGCU41 (ORCPT
+        id S1727278AbfGCV3m convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 3 Jul 2019 17:29:42 -0400
+Received: from s10zimbra02.vinaros.es ([195.235.122.195]:11393 "EHLO
+        s10zimbra02.vinaros.es" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726902AbfGCV3l (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Jul 2019 16:56:27 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MqbDs-1iMWxP2do8-00masw; Wed, 03 Jul 2019 22:56:03 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>
-Cc:     Abbott Liu <liuwenliang@huawei.com>,
-        linux-arm-kernel@lists.infradead.org, kasan-dev@googlegroups.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: [PATCH 2/3] kasan: disable CONFIG_KASAN_STACK with clang on arm32
-Date:   Wed,  3 Jul 2019 22:54:37 +0200
-Message-Id: <20190703205527.955320-2-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190703205527.955320-1-arnd@arndb.de>
-References: <20190703205527.955320-1-arnd@arndb.de>
+        Wed, 3 Jul 2019 17:29:41 -0400
+X-Greylist: delayed 496 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Jul 2019 17:29:40 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by s10zimbra02.vinaros.es (Postfix) with ESMTP id EADE2C14ED;
+        Wed,  3 Jul 2019 23:20:35 +0200 (CEST)
+Received: from s10zimbra02.vinaros.es ([127.0.0.1])
+        by localhost (s10zimbra02.vinaros.es [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 6lV8pJoQmlDB; Wed,  3 Jul 2019 23:20:31 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by s10zimbra02.vinaros.es (Postfix) with ESMTP id 5AAF5C154A;
+        Wed,  3 Jul 2019 23:20:27 +0200 (CEST)
+X-Amavis-Modified: Mail body modified (using disclaimer) -
+        s10zimbra02.vinaros.es
+X-Virus-Scanned: amavisd-new at s10zimbra02.vinaros.es
+Received: from s10zimbra02.vinaros.es ([127.0.0.1])
+        by localhost (s10zimbra02.vinaros.es [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id OB_4C2MndkMj; Wed,  3 Jul 2019 23:20:26 +0200 (CEST)
+Received: from [10.32.152.73] (unknown [105.4.1.18])
+        by s10zimbra02.vinaros.es (Postfix) with ESMTPSA id 5F069C1566;
+        Wed,  3 Jul 2019 23:20:14 +0200 (CEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dVu6TB6bK7PiXC0nWCBWTtH4+VmEpXav81wxunH7qxb9O8LK6xY
- 9t1OBqgcoNKISokDJOGEmpsK9Olw4WiYxv3R4Yk0VHCPHCwbE5CfGGDvCGKORzYaTcZzpMZ
- m0fJ4OWUu8fhsgmIFep0j6SXmG5L3NTwAgbpxGDx8Qj04BISYNu2I01zggQ4J9AyAUBAt5n
- camESeoPyJjNiAUdUlgtA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BtQ+/a+4hxk=:BXsO/jIoni0w1uZ5xMb/V6
- h3BmSvC14FIsrbv1u2lvwtgR132tDDF864k1Mm0/o1613vabZUA4IFS/P8E4jRRI6wzptV5lM
- jniEHTkB7qHeV/3lCntpeY7GYB4gr9Vvv+AKKRatXz3x21fZBGm2/fGSYXAXY+ZYcmSlQRb0Z
- 3uc+P/LLZG12LdSV4N+0Jdl/ijlnTXia0VndfpbgkK0UMbzs9GaMSjIuFE72esecJiyh9QXlC
- jNr2Bequ/b5BgqDk6YfU+QnZsfElwGyaURabVnt6B5C4Ohxqk07JXMFYf1RDOphcRy1RG3a7g
- cX1kSgnBkWa6c7lXaA5Hp4HJ+c0RNNy3WS5G15hdnR29brBeN7LGOMTBv+bUvZj2fKB9A8rcd
- xDU4aHuOfToN3Mi0jKRBJbkqfK4pL2GQiLvrctVa9OboD57iyUbUJJQxSc64DPWyyv/TwAWg+
- 4rlCQYskxhnYiA1upHe0T38dZpE4V+pDZ9UUdpPEEC+JaKy0Z7hPP3gDh8UQUk7wDeMlx43Ma
- Nj2f2RvuW0zBufN7CCC1gzXZZ7yj6LKcva/a4KeZ+T9LAHp/QTc4vBkJmaBeQePNHF7pDF9ty
- lgByqBiJ5vNeyY0IYOTYOX5SjHBdj73WL+AOjE6+yMAAfu05z4cLAPM2ewhkYRfsv/UNbfGFL
- 1jdoMMETbefmQEsOxl2/ok8E/gLyIPPUwGrnjqGFE8jZCT2/J0FOdGzP9k7kfPWx7NIPnmgMn
- vIN90lJ0ZDhmHtW8bJnYoKFXqd3tUJdj5FcRRA==
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
+To:     Recipients <mcelma@vinaros.es>
+From:   ''Michael Weirsky'' <mcelma@vinaros.es>
+Date:   Wed, 03 Jul 2019 23:20:06 +0200
+Reply-To: mikeweirskyspende@gmail.com
+Message-Id: <20190703212015.5F069C1566@s10zimbra02.vinaros.es>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The CONFIG_KASAN_STACK symbol tells us whether we should be using the
-asan-stack=1 parameter. On clang-8, this causes explosive kernel stack
-frame growth, so it is currently disabled, hopefully to be turned back
-on when a future clang version is fixed. Examples include
+Lieber Freund,
 
-drivers/media/dvb-frontends/mb86a20s.c:1942:12: error: stack frame size of 4128 bytes in function
-drivers/net/wireless/atmel/atmel.c:1307:5: error: stack frame size of 4928 bytes in function 'atmel_open'
-drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c:1521:1: error: stack frame size of 5440 bytes in function
-drivers/media/i2c/mt9t112.c:670:12: error: stack frame size of 9344 bytes in function 'mt9t112_init_camera'
-drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td028ttec1.c:185:12: error: stack frame size of 10048 bytes
+Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen.
+Das ist dein Spendencode: [MW530342019]
 
-For the 32-bit ARM build, the logic I introduced earlier does
-not work because $(CFLAGS_KASAN_SHADOW) is empty, and we don't add
-those flags.
+www.youtube.com/watch?v=un8yRTmrYMY
 
-Moving the asan-stack= parameter down fixes this. No idea of any
-of the other parameters should also be moved though.
+Antworten Sie mit dem SPENDE-CODE an diese E-Mail:mikeweirskyspende@gmail.com
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- scripts/Makefile.kasan | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
 
-diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-index 6410bd22fe38..fc57fcf49722 100644
---- a/scripts/Makefile.kasan
-+++ b/scripts/Makefile.kasan
-@@ -26,10 +26,11 @@ else
- 	CFLAGS_KASAN := $(CFLAGS_KASAN_SHADOW) \
- 	 $(call cc-param,asan-globals=1) \
- 	 $(call cc-param,asan-instrumentation-with-call-threshold=$(call_threshold)) \
--	 $(call cc-param,asan-stack=$(CONFIG_KASAN_STACK)) \
- 	 $(call cc-param,asan-instrument-allocas=1)
- endif
- 
-+CFLAGS_KASAN += $(call cc-param,asan-stack=$(CONFIG_KASAN_STACK))
-+
- endif # CONFIG_KASAN_GENERIC
- 
- ifdef CONFIG_KASAN_SW_TAGS
--- 
-2.20.0
+Grüße
+Herr Mike Weirsky
+Les dades de caracter personal que consten en la present comunicacio poden ser inclosos en un registre activitat de tractament per esta administracio dins de l'ambit de les seues competencies i per als fins establits en el dit registre. Aixi mateix, s'informa de la possibilitat d'exercir els drets d'acces, rectificacio, supressio, limitacio, portabilitat i a no ser objecte d'una decisio individual automatitzada, tot aixo de conformitat amb el que disposa l'art. 5 de la Llei Organica 15/1999, de Proteccio de Dades de Caracter Personal (BOE num. 296, de 16/12/99) i en el Reglament (UE) 2016/679 del Parlament Europeu i del Consell de 27 d'abril del 2016 relatiu a la proteccio de les persones fisiques pel que fa al tractament de dades personals i a la lliure circulacio d'estes dades. Si desitja exercitar estos drets pot dirigirse a Ajuntament de Vinaros, Pl. Parroquial 12, 12500 VINAROS; o be per mitja de la Seu Electronica Municipal: https://vinaros.sedelectronica.es/info.1. Per a posar
+ -se en contacte amb el Delegat de Proteccio de Dades dirigisca's a la Secretaria d'esta corporacio.
+
+
+Los datos de caracter personal que constan en la presente comunicacion pueden ser incluidos en un registro actividad de tratamiento por esta administracion dentro del ambito de sus competencias y para los fines establecidos en dicho registro. Asimismo, se informa de la posibilidad de ejercer los derechos de acceso, rectificacion, supresion, limitacion, portabilidad y a no ser objeto de una decision individual automatizada, todo ello de conformidad con lo dispuesto por el art. 5 de la Ley Organica 15/1999, de Proteccion de Datos de Caracter Personal (BOE num. 296, de 16/12/99) y en el Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo de 27 de abril del 2016 relativo a la proteccion de las personas fisicas en lo que respecta al tratamiento de datos personales y a la libre circulaci��n de estos datos. Si desea ejercitar estos derechos puede dirigirse a Ajuntament de Vinaros, Pl. Parroquial 12, 12500 VINAROS; o bien mediante la Sede Electronica Municipal: https://vinaros.
+ sedelectronica.es/info.1. Para ponerse en contacto con el Delegado de Proteccion de Datos dirijase a la Secretaria de esta corporacion.
+
 
