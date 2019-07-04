@@ -2,99 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 808E85F0AA
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2019 02:39:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FCB5F0C5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2019 02:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727452AbfGDAix (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Jul 2019 20:38:53 -0400
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:51085 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727310AbfGDAix (ORCPT
+        id S1726574AbfGDAn5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Jul 2019 20:43:57 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:30930 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbfGDAn5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Jul 2019 20:38:53 -0400
-Received: by mail-qk1-f201.google.com with SMTP id n77so5486234qke.17
-        for <linux-kbuild@vger.kernel.org>; Wed, 03 Jul 2019 17:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=oxYjFRyxX3NROXm+Ygmt9JHCAGAtVhFnOyo3OkZfbDU=;
-        b=pFv5mcrDyGgL+dq8XXN+UzV3D859ZKLMwvBZx8cL1G+iv8Gu3Bpp+0tDy7y+eqJdN+
-         Sys/jfOMPIa4Kk480wXC0YSxIJr4WY5NEmKFAbtIyqHPCEL2shC1RGkkrmviAIc9PnSu
-         TXCypRWrWJGDNfUhMWaPu525sXypB8WEC829GXbeLutNsc9f/WyFCZgbd+YcS+3Bt/27
-         ++SN32pVuSx2WX6MEAkXAXS9tJC649L452kf9cFUTF1O3tHvajHrkRSjikLGaYLmS0ab
-         9IJofwcEo1fJd6pCPer9SdnXJXIqGF+iHoAffclBGB8yGVB4sDN+f0jHKqqeZ/ia1nBq
-         8yIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=oxYjFRyxX3NROXm+Ygmt9JHCAGAtVhFnOyo3OkZfbDU=;
-        b=o2NpdkVqgBJhsvcGVXI9vbcb4mfQmN+dauYU8R41yt2NRrVpLCkKHkmF9A0PSbmLZk
-         11bxwgkaGO71xF1+k6iudwqokUfHAa2Vd5yBLUuZBxjZAN1bM2ADxgpPEwxTjiK7vG0E
-         u8DjVdwvdcfcK5mwDkPR7hdOikydqHrJHPhBHIhfDPOZNyrAg6PPgkF0zZqBJlak7KjH
-         CgqciaSRCSfD4l44sdD5ueEq6XbRm1W24XHPygalTWp5BPYAT6Qg7eiLPGzUIrDDnGLz
-         yXTJj4TtaGDcIgOm2RFUW4TyAB85mzk7RIhZo1+nuDe9nzbPHquzuQbwBbyG032DpGDu
-         JFpA==
-X-Gm-Message-State: APjAAAWXOf4sb7LUwZdqbzvLcRSw0nt04A4x75ZvtbWWzkelBvl8hpdE
-        HM8DUtBkOlwx9LS7yhXtSPKFcOu7ydGwUyNNWdCIcQ==
-X-Google-Smtp-Source: APXvYqzWy4FbKHHWYOuv608ZWRy81huPhVNFArtBSw25v8dz2nkh4QA//OrB7jPx5C158BeXlhqK6QKVWRPtFRELD79Swg==
-X-Received: by 2002:ac8:1a3c:: with SMTP id v57mr32832048qtj.339.1562200731869;
- Wed, 03 Jul 2019 17:38:51 -0700 (PDT)
-Date:   Wed,  3 Jul 2019 17:36:15 -0700
-In-Reply-To: <20190704003615.204860-1-brendanhiggins@google.com>
-Message-Id: <20190704003615.204860-19-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190704003615.204860-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-Subject: [PATCH v6 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+        Wed, 3 Jul 2019 20:43:57 -0400
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x640hfs5007948;
+        Thu, 4 Jul 2019 09:43:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x640hfs5007948
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1562201022;
+        bh=YEglfdV6gwtLpwefdXYa4i8HSGcTtqk+NU8k5bljqhg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Qw5x5vW+HodXAsAM9eWx3LsERWErLbDHquz+/fNNvOizzhYBpWG6Wcg7/DpeJQx94
+         ousyH9k2gTLYlzvRSsSFBjOBLNC8UA78HsYGaBP+YZgg/DdZQWZPixX6la/rEVtUJB
+         rRBlI4we8YDrikrXsG4S3EDpJieEMFpTMqZUtsYB9V1KY1yafQhZ9WgUY3Kt+w/tr2
+         TCFxYZzaTLr3G7upREzePgw9jNb2HTSBFFTabaz0mm48hK64k/QMPApQki6w88MaEl
+         t14mn3q/7pBm/7qd8xyFmeHhpJKjJ3M5Ym6XWod4QDobzripQuwCjCt7/sCMeFX698
+         FbzFHhib2sstQ==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id g124so301546vkd.1;
+        Wed, 03 Jul 2019 17:43:42 -0700 (PDT)
+X-Gm-Message-State: APjAAAUyTLLQOiFNMkHux7LMeJuPlZf9y2gLzwtZFZJOXM06FD/cwrhC
+        sb/0jEg9wXv5SGAIJkITS8RzeEKdzDq30ZAhgnE=
+X-Google-Smtp-Source: APXvYqwTIxDogC/SIRRHuAggdytqIbbtVGJ6ZbmryGi7Bqodet01ybGaLvoRyZFlQniP0SXM6NV/EYHc5F00hR1vxas=
+X-Received: by 2002:a1f:728b:: with SMTP id n133mr1331102vkc.84.1562201021033;
+ Wed, 03 Jul 2019 17:43:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <1560752096-1323-1-git-send-email-Cedric_Hombourger@mentor.com>
+In-Reply-To: <1560752096-1323-1-git-send-email-Cedric_Hombourger@mentor.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 4 Jul 2019 09:43:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASCmZyS11WkUWXLXVWgk-WU5JV=MMw=S6pXAzMhkVJ40Q@mail.gmail.com>
+Message-ID: <CAK7LNASCmZyS11WkUWXLXVWgk-WU5JV=MMw=S6pXAzMhkVJ40Q@mail.gmail.com>
+Subject: Re: [PATCH] builddeb: generate multi-arch friendly linux-libc-dev package
+To:     Cedric Hombourger <Cedric_Hombourger@mentor.com>
+Cc:     isar-users@googlegroups.com,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        Riku Voipio <riku.voipio@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
+CCed a couple of people.
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+On Mon, Jun 17, 2019 at 3:15 PM Cedric Hombourger
+<Cedric_Hombourger@mentor.com> wrote:
+>
+> Debian-based distributions place libc header files in a machine
+> specific directory (/usr/include/<libc-machine>) instead of
+> /usr/include/asm to support installation of the linux-libc-dev
+> package from multiple architectures. Move headers installed by
+> "make headers_install" accordingly.
+>
+> Signed-off-by: Cedric Hombourger <Cedric_Hombourger@mentor.com>
+> Reviewed-by: Henning Schild <henning.schild@siemens.com>
+> ---
+>  scripts/package/builddeb | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index b03dd56a4782..8f7afb3a84e9 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -132,6 +132,11 @@ fi
+>  if [ "$ARCH" != "um" ]; then
+>         $MAKE -f $srctree/Makefile headers_check
+>         $MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH="$libc_headers_dir/usr"
+> +       # move asm headers to /usr/include/<libc-machine>/asm to match the structure
+> +       # used by Debian-based distros (to support multi-arch)
+> +       libc_mach=$($CC -dumpmachine)
+> +       mkdir $libc_headers_dir/usr/include/$libc_mach
+> +       mv $libc_headers_dir/usr/include/asm $libc_headers_dir/usr/include/$libc_mach/
+>  fi
+>
+>  # Install the maintainer scripts
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 856a7c4f7dcf2..7b4dcae2526c6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12727,6 +12727,7 @@ S:	Maintained
- F:	fs/proc/proc_sysctl.c
- F:	include/linux/sysctl.h
- F:	kernel/sysctl.c
-+F:	kernel/sysctl-test.c
- F:	tools/testing/selftests/sysctl/
- 
- PS3 NETWORK SUPPORT
+
+I am not sure but,
+I just worried about the backward compatibility...
+Was this previously broken?
+
+I guess debian is using own control file
+instead of the one in upstream kernel.
+So, this is almost a matter for developers, I think.
+
+How did debian-base distros managed this before,
+and will this introduce no breakage?
+
+Ben,
+Could you comment on this?
+
+
 -- 
-2.22.0.410.gd8fdbe21b5-goog
-
+Best Regards
+Masahiro Yamada
