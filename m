@@ -2,97 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2852D5EFBB
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2019 01:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED415F019
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2019 02:37:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727168AbfGCXq2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Jul 2019 19:46:28 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:49771 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbfGCXq2 (ORCPT
+        id S1727326AbfGDAhD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 3 Jul 2019 20:37:03 -0400
+Received: from mail-vk1-f201.google.com ([209.85.221.201]:51147 "EHLO
+        mail-vk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727395AbfGDAhD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Jul 2019 19:46:28 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x63NkMsr028613;
-        Thu, 4 Jul 2019 08:46:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x63NkMsr028613
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562197583;
-        bh=rJ6iT0au4ngG40wf1ctFNsLJ/Vpo/OHLwWrHUVVL5n0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pBRcwDlq9QFS40kSn8o+W7JGHIB79v1LZjAh3vvRvVw8IrJ6O2xZ/cIv0hfHjJ3lu
-         BBcuNtOlojoeFW36HV75idpBRFfMseVcxkOKBmROLyZJ0pP482hPlEG4i8whHyNq6Z
-         6NuKc8rQbEAF5UNrDPSJhV7Sr0TzhZV7lRirDE1dIVIj9o3+6k2/PAiqFf6FQYVBwb
-         0o3oPO1SPmEtPo1/KCbwsWC9AynWROzjRkBj3g/yQUQtld2dX6rDtoczTStdnns+Ps
-         WFvU00oSs4KkBeHvTrTF6xHujq2xbZE/ER0eDlnfGb2bnMPYXVLyO45/utiBaHgyqc
-         5413gbq4asObg==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id r3so897047vsr.13;
-        Wed, 03 Jul 2019 16:46:23 -0700 (PDT)
-X-Gm-Message-State: APjAAAWOWXuuD0GcZyguIysmxKxgOi9g0nieHWJ616ZEnifL8dJYFHvo
-        hAiGNSAgQlxmFTKWYpvCs1zE7V2kBEitW1UD3lE=
-X-Google-Smtp-Source: APXvYqygjbgdBLzYA0azdr6k7nnoESGst/swxhWFdByz3nqGXi0UFBizFXN+MN+2HjMPTCzfmxg0UBCFEEo0oK19Z7I=
-X-Received: by 2002:a67:f495:: with SMTP id o21mr19975775vsn.54.1562197582238;
- Wed, 03 Jul 2019 16:46:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190627191448.110756-1-natechancellor@gmail.com>
-In-Reply-To: <20190627191448.110756-1-natechancellor@gmail.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 4 Jul 2019 08:45:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATekKUTPvx4ywj_8yDLR8=Awmo6JKj5b-FBBF=EE+S-nw@mail.gmail.com>
-Message-ID: <CAK7LNATekKUTPvx4ywj_8yDLR8=Awmo6JKj5b-FBBF=EE+S-nw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add ability to test Clang's integrated assembler
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Dmitry Golovin <dima@golovin.in>
+        Wed, 3 Jul 2019 20:37:03 -0400
+Received: by mail-vk1-f201.google.com with SMTP id p196so450908vke.17
+        for <linux-kbuild@vger.kernel.org>; Wed, 03 Jul 2019 17:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=3dkcwHp7UkbBjeC+jKJgdEez1r7JnE/QFVNxh/Av3lE=;
+        b=P/9Q0U57X0Mjr2pSdVR3fq5Q9Stk+yaqd+YUm9sq0ou6AVsZSt/1N/33ozuhbgY2vA
+         l95M1OTPG7AMpCdkXNxZwoF74wXCpWnPckCjmlCUOfpVWb6OUe1dqoKeBMLQ2rRoWAC+
+         fNHaGobDGBWH78hBlHjYyz8R5pV2r1lKhN6q853RMfM6pw8GA8VVYjvcvo3uf8gDuuir
+         ENB2mZWRXg62IrhKkC86LfkNF4vHPkE6nmhUv9Xome467fLx+E9J0pgZrqEdzyy++0mz
+         884zs7eBSkOyiHbrPJJuzc+Z2DaP9Fz7PcxSltbsQgqsrKy/bR2ai8bDNYsLrfqN7e+f
+         Qiwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=3dkcwHp7UkbBjeC+jKJgdEez1r7JnE/QFVNxh/Av3lE=;
+        b=QVezWAClj9C39KOgGsYKWpLzCgnKYkzk3lPfj54K+tcplfj/ru5HcdOQBup9KwZOJJ
+         jYEO4JTu3dMRYVu+ujYflppmd5ivP9L/SrJIeh83KJCjwAujaDm2KrhjWZmhrhaxR7h/
+         a44qfRpa3wJ03dkdZvJpkb+9roquVdhMlHaktw5IIKS0kk9KuxmgvukausxecBVcmfil
+         85BJuRr0CIIOyb2nKIMGMib7oaNujfqX26VZC727v7Bk7fx92Zq3KsO4BPJsIC3oTeJc
+         wKpxp8GQu8Q+oN7chVtFEstBIOuqMqpQfAU0DO/MmPsK3AhLihBpuPDtMO7/jvxG7z9H
+         YRMg==
+X-Gm-Message-State: APjAAAUl3pbJuJ5tt6oFb3JXbo//GalTDCu8IRiS3vQCoeSQUk2UeHBE
+        IrDFPecRSnMZlzLFd92mDd8iygDR/sc/UvnniyEaxQ==
+X-Google-Smtp-Source: APXvYqxifi+9P2uuB2xECPxDjII80enpIo8mSlNTAxiC8KmAvRxtyVWjtDGXaCnqTdPCo5Xn7dOc4Z0daGhonP28ve9Qzg==
+X-Received: by 2002:a1f:5945:: with SMTP id n66mr6468396vkb.58.1562200621022;
+ Wed, 03 Jul 2019 17:37:01 -0700 (PDT)
+Date:   Wed,  3 Jul 2019 17:35:57 -0700
+Message-Id: <20190704003615.204860-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v6 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 28, 2019 at 4:15 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> There are some people interested in experimenting with Clang's
-> integrated assembler. To make it easy to do so without source
-> modification, allow the user to specify 'AS=clang' as part of the
-> make command to avoid adding '-no-integrated-as' to the {A,C}FLAGS.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/577
-> Suggested-by: Dmitry Golovin <dima@golovin.in>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+## TL;DR
 
-Applied to linux-kbuild. Thanks.
+This is a pretty straightforward follow-up to Stephen and Luis' comments
+on PATCH v5: There is nothing that really changes any functionality or
+usage with the minor exception that I renamed `struct kunit_module` to
+`struct kunit_suite`. Nevertheless, a good deal of clean ups and fixes.
+See "Changes Since Last Version" section below.
 
+As for our current status, right now we got Reviewed-bys on all patches
+except:
 
+- [PATCH v6 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
 
-> ---
->  Makefile | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index 5102b2bbd224..d77481129339 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -527,7 +527,9 @@ endif
->  ifneq ($(GCC_TOOLCHAIN),)
->  CLANG_FLAGS    += --gcc-toolchain=$(GCC_TOOLCHAIN)
->  endif
-> +ifeq ($(shell $(AS) --version 2>&1 | head -n 1 | grep clang),)
->  CLANG_FLAGS    += -no-integrated-as
-> +endif
->  CLANG_FLAGS    += -Werror=unknown-warning-option
->  KBUILD_CFLAGS  += $(CLANG_FLAGS)
->  KBUILD_AFLAGS  += $(CLANG_FLAGS)
-> --
-> 2.22.0
->
+However, it would probably be good to get reviews/acks from the
+subsystem maintainers on:
 
+- [PATCH v6 06/18] kbuild: enable building KUnit
+- [PATCH v6 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
+- [PATCH v6 15/18] Documentation: kunit: add documentation for KUnit
+- [PATCH v6 17/18] kernel/sysctl-test: Add null pointer test for
+  sysctl.c:proc_dointvec()
 
---
-Best Regards
-Masahiro Yamada
+Other than that, I think we should be good to go.
+
+## Background
+
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
+
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
+
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+### What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+### Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
+
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2-rc7/v6 branch.
+
+## Changes Since Last Version
+
+Aside from renaming `struct kunit_module` to `struct kunit_suite`, there
+isn't really anything in here that changes any functionality:
+
+- Rebased on v5.2-rc7
+- Got rid of spinlocks.
+  - Now update success field using WRITE_ONCE. - Suggested by Stephen
+  - Other instances replaced by mutex. - Suggested by Stephen and Luis
+- Renamed `struct kunit_module` to `struct kunit_suite`. - Inspired by
+  Luis.
+- Fixed a broken example of how to use kunit_tool. - Pointed out by Ted
+- Added descriptions to unit tests. - Suggested by Luis
+- Labeled unit tests which tested the API. - Suggested by Luis
+- Made a number of minor cleanups. - Suggested by Luis and Stephen.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2-rc7/v6
+
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
