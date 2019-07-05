@@ -2,103 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1EAE5FDED
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jul 2019 22:50:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B66A5FF49
+	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2019 03:19:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbfGDUux (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Jul 2019 16:50:53 -0400
-Received: from relay1.mentorg.com ([192.94.38.131]:63211 "EHLO
-        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726903AbfGDUux (ORCPT
+        id S1726871AbfGEBTs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Jul 2019 21:19:48 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:57162 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbfGEBTs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Jul 2019 16:50:53 -0400
-Received: from nat-ies.mentorg.com ([192.94.31.2] helo=svr-ies-mbx-02.mgc.mentorg.com)
-        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-        id 1hj8gs-0006Im-Ui from Cedric_Hombourger@mentor.com ; Thu, 04 Jul 2019 13:50:50 -0700
-Received: from FRG-W10-HOMBOUR.world.mentorg.com (137.202.0.90) by
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP Server
- (TLS) id 15.0.1320.4; Thu, 4 Jul 2019 21:50:46 +0100
-From:   Cedric Hombourger <Cedric_Hombourger@mentor.com>
-To:     <ben@decadent.org.uk>
-CC:     <yamada.masahiro@socionext.com>, <isar-users@googlegroups.com>,
-        <michal.lkml@markovi.net>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <riku.voipio@linaro.org>,
-        Cedric Hombourger <Cedric_Hombourger@mentor.com>
-Subject: [PATCH v3 1/1] builddeb: generate multi-arch friendly linux-libc-dev package
-Date:   Thu, 4 Jul 2019 22:50:27 +0200
-Message-ID: <1562273427-204-2-git-send-email-Cedric_Hombourger@mentor.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1562273427-204-1-git-send-email-Cedric_Hombourger@mentor.com>
-References: <432e997617a0669886cd9ea5ceac7c1a2173044b.camel@decadent.org.uk>
- <1562273427-204-1-git-send-email-Cedric_Hombourger@mentor.com>
+        Thu, 4 Jul 2019 21:19:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=sMXRgiUX1St8pf2vFdCJ5XAY8S//wPffXNJgq0u7mgI=; b=sSzW9TRDObDlpQ3hPHMqVMDV+2
+        /BK4mqdFc1ao6uAafeVWe9hOq2z91t1CiGapZyghouo+T/GqDrY+pCPChC83Gfjpxp61ZjZmNjf+i
+        DcjwpwIVaEu9Kr2bYm1nlj8YW51ATZBnmaxDDz0uvSUkK0Cp7Tm3rxMGBCdB9EiFS6e8AhQrnKO8C
+        TdfYJmp9l8zSJsH8ySZAfI/6apbt9hE5Po/dbtwniqRUPLvcl8RW/P3ULS3Aq4kCUEALcBKK9tOdC
+        7m5eX4fuYHpLujfae/IYtEljs06/Vsz+S3erD3FPy1sO6fTv9r1SdSSEGmn36NzoLr9So15wVxnUu
+        keG/DMsw==;
+Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=midway.dunlab)
+        by merlin.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hjCt7-0006mu-N1; Fri, 05 Jul 2019 01:19:45 +0000
+Subject: Re: mmotm 2019-07-04-15-01 uploaded (gpu/drm/i915/oa/)
+To:     akpm@linux-foundation.org, broonie@kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-next@vger.kernel.org, mhocko@suse.cz,
+        mm-commits@vger.kernel.org, sfr@canb.auug.org.au,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+References: <20190704220152.1bF4q6uyw%akpm@linux-foundation.org>
+ <80bf2204-558a-6d3f-c493-bf17b891fc8a@infradead.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <63db23ac-c642-3e0c-58a4-81df991ad637@infradead.org>
+Date:   Thu, 4 Jul 2019 18:19:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+In-Reply-To: <80bf2204-558a-6d3f-c493-bf17b891fc8a@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Debian-based distributions place libc header files in a machine
-specific directory (/usr/include/<libc-machine>) instead of
-/usr/include/asm to support installation of the linux-libc-dev
-package from multiple architectures. Move headers installed by
-"make headers_install" accordingly using Debian's tuple from
-dpkg-architecture.
+On 7/4/19 6:09 PM, Randy Dunlap wrote:
+> On 7/4/19 3:01 PM, akpm@linux-foundation.org wrote:
+>> The mm-of-the-moment snapshot 2019-07-04-15-01 has been uploaded to
+>>
+>>    http://www.ozlabs.org/~akpm/mmotm/
+>>
+>> mmotm-readme.txt says
+>>
+>> README for mm-of-the-moment:
+>>
+>> http://www.ozlabs.org/~akpm/mmotm/
+> 
+> I get a lot of these but don't see/know what causes them:
+> 
+> ../scripts/Makefile.build:42: ../drivers/gpu/drm/i915/oa/Makefile: No such file or directory
+> make[6]: *** No rule to make target '../drivers/gpu/drm/i915/oa/Makefile'.  Stop.
+> ../scripts/Makefile.build:498: recipe for target 'drivers/gpu/drm/i915/oa' failed
+> make[5]: *** [drivers/gpu/drm/i915/oa] Error 2
+> ../scripts/Makefile.build:498: recipe for target 'drivers/gpu/drm/i915' failed
+> 
 
-Signed-off-by: Cedric Hombourger <Cedric_Hombourger@mentor.com>
----
- scripts/package/builddeb | 8 ++++++++
- scripts/package/mkdebian | 5 +++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+[+ linux-kbuild]
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index b03dd56a4782..15a034e18c37 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -132,6 +132,14 @@ fi
- if [ "$ARCH" != "um" ]; then
- 	$MAKE -f $srctree/Makefile headers_check
- 	$MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH="$libc_headers_dir/usr"
-+	if [ -n "$debarch" ]; then
-+		# move asm headers to /usr/include/<libc-machine>/asm to match the structure
-+		# used by Debian-based distros (to support multi-arch) but only if ARCH was
-+		# translated to Debian's (debarch) - this is done by mkdebian
-+		host_arch=$(dpkg-architecture -a$debarch -qDEB_HOST_MULTIARCH)
-+		mkdir $libc_headers_dir/usr/include/$host_arch
-+		mv $libc_headers_dir/usr/include/asm $libc_headers_dir/usr/include/$host_arch/
-+	fi
- fi
- 
- # Install the maintainer scripts
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 8351584cb24e..2d670ae2cabc 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -197,6 +197,7 @@ Architecture: $debarch
- Description: Linux support headers for userspace development
-  This package provides userspaces headers from the Linux kernel.  These headers
-  are used by the installed headers for GNU glibc and other system libraries.
-+Multi-Arch: same
- 
- Package: $dbg_packagename
- Section: debug
-@@ -212,11 +213,11 @@ cat <<EOF > debian/rules
- srctree ?= .
- 
- build:
--	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
-+	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} debarch=${debarch} \
- 	KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile
- 
- binary-arch:
--	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
-+	\$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} debarch=${debarch} \
- 	KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile intdeb-pkg
- 
- clean:
+It seems to have something to do with "modules.order".
+
+But!!!
+# CONFIG_DRM_I915 it not set
+
 -- 
-2.11.0
-
+~Randy
