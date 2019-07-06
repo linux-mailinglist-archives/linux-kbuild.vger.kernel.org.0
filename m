@@ -2,63 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F418360D7E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  5 Jul 2019 23:59:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E325960E95
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2019 05:08:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728070AbfGEV74 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Jul 2019 17:59:56 -0400
-Received: from out176.e-adjacentdigital.co.uk ([178.156.202.12]:41367 "EHLO
-        slot0.mathewsons.ga" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1727876AbfGEV74 (ORCPT
+        id S1725878AbfGFDIF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Jul 2019 23:08:05 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:48638 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbfGFDIF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Jul 2019 17:59:56 -0400
-X-Greylist: delayed 630 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Jul 2019 17:59:54 EDT
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=mathewsons.ga;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=purchase@mathewsons.ga;
- bh=onxYcir3NvpNjk2I/gjm/O+ljxo=;
- b=lP5COWGnWyMZS0OujJ9ZF3kVFgm2+/gdvMGcvoc8Fm20BdxlMItR+ftNfMjXIOYBZZKZxNL24j2T
-   zscj1ViVac3JB4dHHp8215VzmvAqwQwuz5A7U1XDsluy/hrBMHf8l0jQNYA1T8Y4tiELKXq5b7pE
-   INjz8eY/xgqXXbhL1EvTzv5SyBPmF6xYo2pp5doqMyFJEUNlNp5ZTSEB9lGTqbOwCyCJ+sfcsETs
-   yLJ9FepWw53NWFZeY2m74xFyucZ9il7UXxqUqzD/4EF7Rfg1Xw6YAftE2aFMqAmae/ccd4bVvPfL
-   PgMrGwAgKqZ2tCKkuVysrwoGo4W4LlrJA4QKAg==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=mathewsons.ga;
- b=g62mDm6/c8zavjiNV8M8T9eYTbyvwzorm2Z41YGo4Hq0uIKim0olskQyenXcR0eUKgMDTa+Yvjp1
-   PRKNz4jKjhUWfojqjYVjT3LJwGkkw7LcECmJxbu1l2+n1a6Gj6ekgGrjIzC5alVjioMARIxRTfXv
-   uNbX27quPDz2IC6bl+T+IEM23f3LYMohkZIGGPHeA3lmpmSe26gck6VXieCqvCVFJecEiOfN4Gsb
-   +Fuv/2c2CyVNmvEPyknJkUow4SoJXstoG8FRrsNiETLPQkff1zRXBwk6rKbXrUZA6mdNveGTgPiH
-   aDdCSo69Vbk/4mj5LYGmS/tIDONWaHBmQJa+MQ==;
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Quotes needed For July Shipments
-To:     Recipients <purchase@mathewsons.ga>
-From:   "Sales -Jpexcc." <purchase@mathewsons.ga>
-Date:   Sat, 06 Jul 2019 00:39:21 +0300
-Reply-To: jpexcc@aol.com
-Message-ID: <0.0.4D.150.1D53379E96EDDB4.0@slot0.mathewsons.ga>
+        Fri, 5 Jul 2019 23:08:05 -0400
+Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id x6637E3M030660;
+        Sat, 6 Jul 2019 12:07:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6637E3M030660
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1562382435;
+        bh=NVx1Ga77bNYYYlQkkNzV5nPWpsmBD+I7gojwThxsH2o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Xupetkh3p7qOZRG+fNWqqwNgT5BxHZxn+A6FsJIQgTBZgseca0NY4fomzPQrExsxv
+         TS31swD0wzKw3tmzyQIG8DQNKbOq5x3cVv0C1zDA7Vul4XJukIQuP8c2Wh576tJzV+
+         6Q3ULwK/o5XIE1rSZgnU70peMJrlfTKbYHpMSNXUFotPMlfObDO/I2t1HI3y59jH0k
+         lKfEY5AF+PsgXh1YnFSJ5yeAuXmnm6cscyjPUq75f6Fy/OoWPdqXF0xPIDblhKH7v4
+         P4WMITUr5HzEBd9VAXTZTDskdaYiKDTFvw5+OfGt5CE37024inINZzYOe7GoFF51jB
+         pzJ86LfoJybpg==
+X-Nifty-SrcIP: [126.26.94.249]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] kbuild: remove obj and src from the top Makefile
+Date:   Sat,  6 Jul 2019 12:07:11 +0900
+Message-Id: <20190706030713.6221-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello dear,
- =
+$(obj) is not used in the top Makefile at all. $(src) is used in
+3 sites, but they can be replaced with $(srctree).
 
-We are in the market for your products after meeting at your stand during l=
-ast expo.
- =
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Please kindly send us your latest catalog and price list so as to start a n=
-ew project/order as promised during the exhibition. =
+ Makefile | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
- =
+diff --git a/Makefile b/Makefile
+index 014390e32b0e..a5615edf2196 100644
+--- a/Makefile
++++ b/Makefile
+@@ -248,9 +248,6 @@ endif
+ export KBUILD_CHECKSRC KBUILD_EXTMOD KBUILD_SRC
+ 
+ objtree		:= .
+-src		:= $(srctree)
+-obj		:= $(objtree)
+-
+ VPATH		:= $(srctree)
+ 
+ export srctree objtree VPATH
+@@ -1705,7 +1702,7 @@ CHECKSTACK_ARCH := $(ARCH)
+ endif
+ checkstack:
+ 	$(OBJDUMP) -d vmlinux $$(find . -name '*.ko') | \
+-	$(PERL) $(src)/scripts/checkstack.pl $(CHECKSTACK_ARCH)
++	$(PERL) $(srctree)/scripts/checkstack.pl $(CHECKSTACK_ARCH)
+ 
+ kernelrelease:
+ 	@echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
+@@ -1724,11 +1721,11 @@ endif
+ 
+ tools/: FORCE
+ 	$(Q)mkdir -p $(objtree)/tools
+-	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(src)/tools/
++	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
+ 
+ tools/%: FORCE
+ 	$(Q)mkdir -p $(objtree)/tools
+-	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(src)/tools/ $*
++	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/ $*
+ 
+ # Single targets
+ # ---------------------------------------------------------------------------
+-- 
+2.17.1
 
-I would appreciate your response about the above details required so we can=
- revert back to you asap.
- =
-
-Kind regards
- =
-
-Rhema Zoeh
