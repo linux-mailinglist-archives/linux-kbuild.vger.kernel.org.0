@@ -2,93 +2,240 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E325960E95
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2019 05:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B69A60E90
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jul 2019 05:08:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725878AbfGFDIF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Jul 2019 23:08:05 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:48638 "EHLO
+        id S1725957AbfGFDIE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 5 Jul 2019 23:08:04 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:48579 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725887AbfGFDIF (ORCPT
+        with ESMTP id S1725878AbfGFDIE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Jul 2019 23:08:05 -0400
+        Fri, 5 Jul 2019 23:08:04 -0400
 Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x6637E3M030660;
+        by conuserg-09.nifty.com with ESMTP id x6637E3N030660;
         Sat, 6 Jul 2019 12:07:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6637E3M030660
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6637E3N030660
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562382435;
-        bh=NVx1Ga77bNYYYlQkkNzV5nPWpsmBD+I7gojwThxsH2o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Xupetkh3p7qOZRG+fNWqqwNgT5BxHZxn+A6FsJIQgTBZgseca0NY4fomzPQrExsxv
-         TS31swD0wzKw3tmzyQIG8DQNKbOq5x3cVv0C1zDA7Vul4XJukIQuP8c2Wh576tJzV+
-         6Q3ULwK/o5XIE1rSZgnU70peMJrlfTKbYHpMSNXUFotPMlfObDO/I2t1HI3y59jH0k
-         lKfEY5AF+PsgXh1YnFSJ5yeAuXmnm6cscyjPUq75f6Fy/OoWPdqXF0xPIDblhKH7v4
-         P4WMITUr5HzEBd9VAXTZTDskdaYiKDTFvw5+OfGt5CE37024inINZzYOe7GoFF51jB
-         pzJ86LfoJybpg==
+        s=dec2015msa; t=1562382436;
+        bh=DqMeEpsYLg2FNqTNDCaAigGm7/V+QKqBZZKT+giJbgg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kJnvv7BatHzNkfx4kfoKaFfSjB+Fu9Ax2s8IbKQtg2vu/HTFAzBzq8NGCBizAQJ/z
+         qSULExu8ajajVh3uqkJH/e2MgR80ZFwY8FtbWRO6nIHYgnsbXX9nY056Qhxohqd8Ix
+         7YynWU+HM9FZR3FiChRzDr8UcOQHBa7zwDxgPjmOhjXH+UCKLuAbtHeZYVSbodcg6r
+         VunG+Tu0+talczuN/CdDgDQoVvGX2Q+mfB6q1Gkk0yBrVjqbhHAD4XKZ19oZR7BryA
+         I/9zBwAKh2oIGP0XFetJew2+HOAkMHiLJdqLVzwMuvm4mZZDFl1ChDE1L/5h7GUJt7
+         fxHya3EpK3Tpg==
 X-Nifty-SrcIP: [126.26.94.249]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Sam Ravnborg <sam@ravnborg.org>,
         Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kbingham@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/3] kbuild: remove obj and src from the top Makefile
-Date:   Sat,  6 Jul 2019 12:07:11 +0900
-Message-Id: <20190706030713.6221-1-yamada.masahiro@socionext.com>
+        linux-kselftest@vger.kernel.org,
+        Jan Kiszka <jan.kiszka@siemens.com>
+Subject: [PATCH 2/3] kbuild: replace KBUILD_SRCTREE with boolean building_out_of_srctree
+Date:   Sat,  6 Jul 2019 12:07:12 +0900
+Message-Id: <20190706030713.6221-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190706030713.6221-1-yamada.masahiro@socionext.com>
+References: <20190706030713.6221-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-$(obj) is not used in the top Makefile at all. $(src) is used in
-3 sites, but they can be replaced with $(srctree).
+Commit 25b146c5b8ce ("kbuild: allow Kbuild to start from any directory")
+deprecated KBUILD_SRCTREE.
+
+It is only used in tools/testing/selftest/ to distinguish out-of-tree
+build. Replace it with a new boolean flag, building_out_of_srctree.
+
+I also replaced the conditional ($(srctree),.) because the next commit
+will allow an absolute path for $(srctree) even when building in the
+source tree.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- Makefile | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ Makefile                         | 19 ++++++++-----------
+ scripts/Makefile.build           |  2 +-
+ scripts/Makefile.host            |  2 +-
+ scripts/Makefile.lib             |  2 +-
+ scripts/Makefile.modbuiltin      |  2 +-
+ scripts/gdb/linux/Makefile       |  2 +-
+ tools/testing/selftests/Makefile |  2 +-
+ tools/testing/selftests/lib.mk   |  4 ++--
+ 8 files changed, 16 insertions(+), 19 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 014390e32b0e..a5615edf2196 100644
+index a5615edf2196..534a5dc796b1 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -248,9 +248,6 @@ endif
- export KBUILD_CHECKSRC KBUILD_EXTMOD KBUILD_SRC
+@@ -228,9 +228,12 @@ ifeq ("$(origin M)", "command line")
+   KBUILD_EXTMOD := $(M)
+ endif
  
- objtree		:= .
--src		:= $(srctree)
--obj		:= $(objtree)
++export KBUILD_CHECKSRC KBUILD_EXTMOD
++
+ ifeq ($(abs_srctree),$(abs_objtree))
+         # building in the source tree
+         srctree := .
++	building_out_of_srctree :=
+ else
+         ifeq ($(abs_srctree)/,$(dir $(abs_objtree)))
+                 # building in a subdirectory of the source tree
+@@ -238,19 +241,13 @@ else
+         else
+                 srctree := $(abs_srctree)
+         endif
 -
+-	# TODO:
+-	# KBUILD_SRC is only used to distinguish in-tree/out-of-tree build.
+-	# Replace it with $(srctree) or something.
+-	KBUILD_SRC := $(abs_srctree)
++	building_out_of_srctree := 1
+ endif
+ 
+-export KBUILD_CHECKSRC KBUILD_EXTMOD KBUILD_SRC
+-
+ objtree		:= .
  VPATH		:= $(srctree)
  
- export srctree objtree VPATH
-@@ -1705,7 +1702,7 @@ CHECKSTACK_ARCH := $(ARCH)
+-export srctree objtree VPATH
++export building_out_of_srctree srctree objtree VPATH
+ 
+ # To make sure we do not include .config for any of the *config targets
+ # catch them early, and hand them over to scripts/kconfig/Makefile
+@@ -453,7 +450,7 @@ USERINCLUDE    := \
+ LINUXINCLUDE    := \
+ 		-I$(srctree)/arch/$(SRCARCH)/include \
+ 		-I$(objtree)/arch/$(SRCARCH)/include/generated \
+-		$(if $(filter .,$(srctree)),,-I$(srctree)/include) \
++		$(if $(building_out_of_srctree),-I$(srctree)/include) \
+ 		-I$(objtree)/include \
+ 		$(USERINCLUDE)
+ 
+@@ -509,7 +506,7 @@ PHONY += outputmakefile
+ # At the same time when output Makefile generated, generate .gitignore to
+ # ignore whole output directory
+ outputmakefile:
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
+ 	$(Q)ln -fsn $(srctree) source
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkmakefile $(srctree)
+ 	$(Q)test -e .gitignore || \
+@@ -1093,7 +1090,7 @@ PHONY += prepare archprepare prepare1 prepare3
+ # and if so do:
+ # 1) Check that make has not been executed in the kernel src $(srctree)
+ prepare3: include/config/kernel.release
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
+ 	@$(kecho) '  Using $(srctree) as source for kernel'
+ 	$(Q)if [ -f $(srctree)/.config -o \
+ 		 -d $(srctree)/include/config -o \
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 341fca59d28f..1086caaac786 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -509,7 +509,7 @@ existing-targets := $(wildcard $(sort $(targets)))
+ 
+ -include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
+ 
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
+ # Create directories for object files if they do not exist
+ obj-dirs := $(sort $(obj) $(patsubst %/,%, $(dir $(targets))))
+ # If targets exist, their directories apparently exist. Skip mkdir.
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index b6a54bdf0965..fcf0213e6ac8 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -69,7 +69,7 @@ _hostcxx_flags = $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
+ 
+ # $(objtree)/$(obj) for including generated headers from checkin source files
+ ifeq ($(KBUILD_EXTMOD),)
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
+ _hostc_flags   += -I $(objtree)/$(obj)
+ _hostcxx_flags += -I $(objtree)/$(obj)
  endif
- checkstack:
- 	$(OBJDUMP) -d vmlinux $$(find . -name '*.ko') | \
--	$(PERL) $(src)/scripts/checkstack.pl $(CHECKSTACK_ARCH)
-+	$(PERL) $(srctree)/scripts/checkstack.pl $(CHECKSTACK_ARCH)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 4d006923763c..f835a40ebae5 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -148,7 +148,7 @@ endif
+ # $(srctree)/$(src) for including checkin headers from generated source files
+ # $(objtree)/$(obj) for including generated headers from checkin source files
+ ifeq ($(KBUILD_EXTMOD),)
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
+ _c_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+ _a_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+ _cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+diff --git a/scripts/Makefile.modbuiltin b/scripts/Makefile.modbuiltin
+index 12ac300fe51b..7d4711b88656 100644
+--- a/scripts/Makefile.modbuiltin
++++ b/scripts/Makefile.modbuiltin
+@@ -15,7 +15,7 @@ include include/config/tristate.conf
  
- kernelrelease:
- 	@echo "$(KERNELVERSION)$$($(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree))"
-@@ -1724,11 +1721,11 @@ endif
+ include scripts/Kbuild.include
  
- tools/: FORCE
- 	$(Q)mkdir -p $(objtree)/tools
--	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(src)/tools/
-+	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
+ # Create output directory if not already present
+ _dummy := $(shell [ -d $(obj) ] || mkdir -p $(obj))
+ endif
+diff --git a/scripts/gdb/linux/Makefile b/scripts/gdb/linux/Makefile
+index 9fd3d8ed731a..124755087510 100644
+--- a/scripts/gdb/linux/Makefile
++++ b/scripts/gdb/linux/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
  
- tools/%: FORCE
- 	$(Q)mkdir -p $(objtree)/tools
--	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(src)/tools/ $*
-+	$(Q)$(MAKE) LDFLAGS= MAKEFLAGS="$(tools_silent) $(filter --j% -j,$(MAKEFLAGS))" O=$(abspath $(objtree)) subdir=tools -C $(srctree)/tools/ $*
+-ifneq ($(srctree),.)
++ifdef building_out_of_srctree
  
- # Single targets
- # ---------------------------------------------------------------------------
+ symlinks := $(patsubst $(srctree)/$(src)/%,%,$(wildcard $(srctree)/$(src)/*.py))
+ 
+diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
+index 9781ca79794a..25b43a8c2b15 100644
+--- a/tools/testing/selftests/Makefile
++++ b/tools/testing/selftests/Makefile
+@@ -74,7 +74,7 @@ endif
+ # Append kselftest to KBUILD_OUTPUT to avoid cluttering
+ # KBUILD_OUTPUT with selftest objects and headers installed
+ # by selftests Makefile or lib.mk.
+-ifneq ($(KBUILD_SRC),)
++ifdef building_out_of_srctree
+ override LDFLAGS =
+ endif
+ 
+diff --git a/tools/testing/selftests/lib.mk b/tools/testing/selftests/lib.mk
+index 077337195783..1c8a1963d03f 100644
+--- a/tools/testing/selftests/lib.mk
++++ b/tools/testing/selftests/lib.mk
+@@ -70,7 +70,7 @@ define RUN_TESTS
+ endef
+ 
+ run_tests: all
+-ifneq ($(KBUILD_SRC),)
++ifdef building_out_of_srctree
+ 	@if [ "X$(TEST_PROGS) $(TEST_PROGS_EXTENDED) $(TEST_FILES)" != "X" ]; then
+ 		@rsync -aq $(TEST_PROGS) $(TEST_PROGS_EXTENDED) $(TEST_FILES) $(OUTPUT)
+ 	fi
+@@ -125,7 +125,7 @@ clean:
+ # When make O= with kselftest target from main level
+ # the following aren't defined.
+ #
+-ifneq ($(KBUILD_SRC),)
++ifdef building_out_of_srctree
+ LINK.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+ COMPILE.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+ LINK.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 -- 
 2.17.1
 
