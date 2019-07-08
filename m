@@ -2,57 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D66462C6F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 01:16:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F72662CB0
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 01:34:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbfGHXQC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Jul 2019 19:16:02 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:43946 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbfGHXQC (ORCPT
+        id S1726458AbfGHXe6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jul 2019 19:34:58 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36572 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbfGHXe6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Jul 2019 19:16:02 -0400
-Received: by mail-pl1-f196.google.com with SMTP id cl9so9014341plb.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 16:16:02 -0700 (PDT)
+        Mon, 8 Jul 2019 19:34:58 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n4so18956742wrs.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 16:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oGZm1g5vtwwYit0yoo3SBX6Ei/KDlijim8AwfezWq5Q=;
-        b=lFUSTt8nxcpQ1geusJZ3lspP7XQwyYNu3KMayNoosCV6UA30ZuMzOWUPZfCjTUzeKM
-         iYW2yITMtWXzol7/+legnfgPOBGwjXoEFw7yce+7btcdg0htf2Hg4YfxND5u9apalxJL
-         B3QYi+HDYUWlIIkNVozIYrBRfW/Zk/Qz4dosV0rI2mUxb16C62VVRSPlRILHQVx/6UE4
-         RshFiQlSNd9CkGW5eoiTTfauBDsWytWT+kOLzVSwNCWkeJDN/HkdAIqfFvOi2TKYEg+r
-         l8O7ss1ZZdrzfcN3z+0quxvvwbfum43KpVYwwtrEJTbglIXZty13qrEB3TCpWKeCVLSU
-         fZ/A==
+        bh=+0bgA4UqbyynY1WKuo34XLnfT2RL8oF6dGSsO++vmwI=;
+        b=Vvu+7XyZ+bf18JzhxWs9WUla5B97kN6JNUGK09wQnbC1To+ikzJLjWemzYQ4bSdXem
+         Lb4Ujrcwm/h5eSGI7UR+HmJu9labaWTTr2uGAMIQle4ZAoZT+/Rr04O/5fXMa+UDK/dI
+         PiWmvqDOuBeRwnaNj0eFrE7zYpPFf5ZW5v1/snESkLUrZhzUeLNH4C7U1TAT94jY3ioz
+         eEbjqFsIRgjTDidMp1LOdKzZIEzJRV4P4q40BE/P564YjPoiVk+St3f2/qGgJ0XbufeM
+         E4LGboUMF+nD44IlGbVNDieKQG3KCLdUF/egpt+dZ1xlDy4X/3SK1jXeVQiIZHm6dFjh
+         zhQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oGZm1g5vtwwYit0yoo3SBX6Ei/KDlijim8AwfezWq5Q=;
-        b=Io2lBa1CIXq16BB1pwVgs4pkYaO2sE2x2c8EPdCvpi/0qgOEg3Uro9Lr82keUzeLGr
-         nfnhERnALi6FKLlpZ/S1TPQCnAkh2t8Uj4qMnT7Z54mUX4ft1UQ+uXNBUxH9nefzRpU+
-         G/rW3Ct8s84Pbh69exPG4nNIKtgdSQITbDh2ZGhBTtF0ZhGzotZsodrkz5B91Neng+eH
-         Z3HBgooaSuRCw4eJHmz8O0g85VfnQj+3xnZKnpD9cbtfQG2SxpiC45Gh4V1ncQjTkKXz
-         c4g1ac2OeKexhV7Gl+u2Nqj+A4EVViby+qUYA7mGlEjXjSMshinSoXWJjUiivFhhj6m5
-         dWtg==
-X-Gm-Message-State: APjAAAUY/T6cVZ+Np67MlhzP+Pp8SIzNJ6pGL+Fz82wxOdHlgutUYAsI
-        LBbLqpvhgeYQ4VAnKfSHaMEzTUrro1d8U/NSxMNisg==
-X-Google-Smtp-Source: APXvYqxLj9lV04W3pazbpY/qgg7ti1gSJwsPPAdwKpyGKBI70/LFOjfevFPZPMucLfnGO+AW10E2yFZhfTdlozEZOjY=
-X-Received: by 2002:a17:902:29e6:: with SMTP id h93mr26754760plb.297.1562627761245;
- Mon, 08 Jul 2019 16:16:01 -0700 (PDT)
+        bh=+0bgA4UqbyynY1WKuo34XLnfT2RL8oF6dGSsO++vmwI=;
+        b=kqhjfaOSe3Lu1IQkVGFyv2xLjlLVfF061BAxH5rf/87ywKwCmtfubU08GWoY9pyV7U
+         UNAsqgl5oGzxl5v2Y72c+FDSu1SzAVN0qmpeiBK/tX+E4wp3YYdKOTV9n1fBW0gPIGjr
+         b2EabcWhU+RJGllbjEsNC1GsBCEvUkQKFAzaZZH5vkf7L6QaXN+jkqFWU1yyM/yuKam6
+         szTKRnTUJwT77JxLh1O4y14aqAgVN6noktH8kRK7QYHM6EyOGNk95CPtXC666rw3SKa1
+         xYH0uWdavgZV3zZhHDcn0SpQhEwdq4pnjIU/nMXfqJnKZNQZKBVSHeHCUgOZcjcbiQMp
+         dtbw==
+X-Gm-Message-State: APjAAAXs83cYYBxB9Nd2UG7sDxkM3QjIZwuVtE1ZCmx0a5PpiMU7SZVg
+        vcDSf7WoGZyeBfPKqtRApIZ/8nho1Tb+jqoVZjvn
+X-Google-Smtp-Source: APXvYqy2agX+h3NF02X+WujT1yk9yb+IABwJhy8IpnbR3/useLGvEwjfJj5ObeDsKZRewf4wva8AmF6fHX7xEyn/0ZQ=
+X-Received: by 2002:a5d:4ec1:: with SMTP id s1mr19532947wrv.19.1562628896307;
+ Mon, 08 Jul 2019 16:34:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190704003615.204860-1-brendanhiggins@google.com>
  <20190704003615.204860-19-brendanhiggins@google.com> <20190705204810.GE19023@42.do-not-panic.com>
-In-Reply-To: <20190705204810.GE19023@42.do-not-panic.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 8 Jul 2019 16:15:49 -0700
-Message-ID: <CAFd5g44j7ECQorYLnDQadAaj+yBki98kFjmjejn+3W4eHtqGDA@mail.gmail.com>
+ <CAFd5g44j7ECQorYLnDQadAaj+yBki98kFjmjejn+3W4eHtqGDA@mail.gmail.com> <CAAXuY3q1==RvAiw+gw5kfFJmjdR9JEUnnxou4Sv0POd88aD41w@mail.gmail.com>
+In-Reply-To: <CAAXuY3q1==RvAiw+gw5kfFJmjdR9JEUnnxou4Sv0POd88aD41w@mail.gmail.com>
+From:   Iurii Zaikin <yzaikin@google.com>
+Date:   Mon, 8 Jul 2019 16:34:20 -0700
+Message-ID: <CAAXuY3ov7s28BQ0VxzkfAHR6NZiBq-YfnJ_510VN22DMhEyCBg@mail.gmail.com>
 Subject: Re: [PATCH v6 18/18] MAINTAINERS: add proc sysctl KUnit test to PROC
  SYSCTL section
-To:     Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         Josh Poimboeuf <jpoimboe@redhat.com>,
         Kees Cook <keescook@google.com>,
@@ -94,21 +95,25 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-CC'ing Iurii Zaikin
+> On Mon, Jul 8, 2019 at 4:16 PM Brendan Higgins <brendanhiggins@google.com> wrote:
+>>
+>> CC'ing Iurii Zaikin
+>>
+>> On Fri, Jul 5, 2019 at 1:48 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>> >
+>> > On Wed, Jul 03, 2019 at 05:36:15PM -0700, Brendan Higgins wrote:
+>> > > Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
+>> > >
+>> > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+>> > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> > > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+>> > > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+>> >
+>> > Come to think of it, I'd welcome Iurii to be added as a maintainer,
+>> > with the hope Iurii would be up to review only the kunit changes. Of
+>> > course if Iurii would be up to also help review future proc changes,
+>> > even better. 3 pair of eyeballs is better than 2 pairs.
+>>
+>> What do you think, Iurii?
 
-On Fri, Jul 5, 2019 at 1:48 PM Luis Chamberlain <mcgrof@kernel.org> wrote:
->
-> On Wed, Jul 03, 2019 at 05:36:15PM -0700, Brendan Higgins wrote:
-> > Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
->
-> Come to think of it, I'd welcome Iurii to be added as a maintainer,
-> with the hope Iurii would be up to review only the kunit changes. Of
-> course if Iurii would be up to also help review future proc changes,
-> even better. 3 pair of eyeballs is better than 2 pairs.
-
-What do you think, Iurii?
+I'm in.
