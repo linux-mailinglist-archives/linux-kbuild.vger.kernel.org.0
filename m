@@ -2,122 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2ABE61DC6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2019 13:27:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71F2762080
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2019 16:32:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730476AbfGHL1G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Jul 2019 07:27:06 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41819 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730471AbfGHL1F (ORCPT
+        id S1729973AbfGHOck (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jul 2019 10:32:40 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:33110 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729936AbfGHOcj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Jul 2019 07:27:05 -0400
-Received: by mail-lf1-f68.google.com with SMTP id 62so10665712lfa.8
-        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 04:27:04 -0700 (PDT)
+        Mon, 8 Jul 2019 10:32:39 -0400
+Received: by mail-lj1-f193.google.com with SMTP id h10so16155908ljg.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 07:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Hf3qpWa9o4L5jAB6/mRGuaap2/x9yf4r/vYifeii2fo=;
-        b=wtAdV/r5ADnTNlCcb2H65bjv2Tsa00Kxo9Pak35xFfZqO4HQdn/Y83/YS7JLdXRSQL
-         KK7cd+RjG3owZ9Hkw1yPnC58MOuzGpkMKESDqmM6zVUMLrIei4nJlD75/c1vr8HTryRM
-         575lU4GslsVNElcIKu7WJ2+ZHLUg6qYpiL0IDok7DIBzLKPlz9GECIKcb5cJvTQhXaSU
-         b4aKu3jTmOW60Hvcck7u+o2jVjQ82hniSEE5EftujuFjdWGl6dzvrvEPWMGgfHtXxqL+
-         w4tCbLekz5jpXPA9bmsXrWRYKHi+lfrSkyNafswSxlz0JozmT2QkBp8Sr5dIx6TMcdN2
-         8aUw==
+        bh=WAw/aU6LZwIL6FVu56mHN3vVX8j9GNHFwvAGIAISsSo=;
+        b=yFqK2Fa5FNVeLOgjpxiFNic8jzO/GwJcdLUaJGStjJNMhZz60Qo9R01U6fDs8KmWG4
+         GplEP1TLR3Pfsfch/6zDCoois6dE+JkDPJCZxL53pMK4aVXM+32qSKQovQelrf7BMije
+         Wb34buu0hSbVOhACpS1mqqhzcrpPeHcfvY0UrPjnphdg+bYXKFoXA/5tEdcSyOk+4y8L
+         LH7xym5vOdPlASdtQEntkguxyuXCVlObt47p67yK8XYa/3FY5Z0oORjMBRGzmTEebBVZ
+         QI1RP6a6eCQoe1mahq5d2fxAQzp/5GciyTf9t845dUVI5n/dqxrMk62beqjm37oYGp1n
+         lpIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Hf3qpWa9o4L5jAB6/mRGuaap2/x9yf4r/vYifeii2fo=;
-        b=eOKs36Y+wCx53WJhne7cYsPIyuuDVie8EeRrA0hjgMz4+cscmiTIilp6iPnHMdBgho
-         dlK22yXlndEOYG+szPu/Z8uhqcjAA7tHy0MwVUImGJcsY6zb/k6v8XsS29H3Xc2pFqL9
-         yVr4XSzg0cTgZjIERzd5YYOwDbYZWjpyxxjyva51VEeUdXEN4C4zttj+whENsmJl/mZx
-         8Em9e//wk3pMZO+TarG3jVvh4Km39g9892oc9GHMMFRa85IjEiFEuLwQcctNPrRPNgxR
-         KETTu8lPBaFufmRWWfhTManJ2Hv8wdjEqMBJ78b9kB8dlQPNHIfJC/yKEO+QJiK4hE2c
-         m8JQ==
-X-Gm-Message-State: APjAAAWpiicZyWiXurFRxVL3dFhw1XmPhQmKkN9B/cQuqdDAgUNMJhvG
-        I0SguJ3JLR6obFvVmMoT6fpJQmUu4WtSftwgyem7ZQ==
-X-Google-Smtp-Source: APXvYqwC081d4fR8OLPtrXbCh+vYtmMk0Wru8dJUQmZZITm97zVIs/RPXdBvfUuHjytU0dkT/inqO7H2OXdKXuA7ADM=
-X-Received: by 2002:ac2:5c42:: with SMTP id s2mr8605091lfp.61.1562585223749;
- Mon, 08 Jul 2019 04:27:03 -0700 (PDT)
+        bh=WAw/aU6LZwIL6FVu56mHN3vVX8j9GNHFwvAGIAISsSo=;
+        b=digktoOelIUovNCLCV/XwcAD1jOsNkbKn2HhVSMkK1Ej+JwznGuAKkVnjvCLGV+lrq
+         1W/LFaujEFBseV4g9NPbHS3P25YBkOUc+ZjKzOLBeWuO1xFrJbixGEXokRWv/IRGeZrf
+         ITgybhdsGyyZuCF5WcDSJTmrSescDeQWpSKYSYrfL3s0IUFBd6bOwv3/lgdiEPlY8RmC
+         TL4EcRIJOrCH8Bc6LZJTYzhcCm3ivD1Qvtn6WVuwTVwA+OETilG6I3B1JLsQoOuJEAEh
+         I/QLmA6UqIILVVx5NJf09CurOvwkG0uG1Nxf7gAI55Qf5C2GBKMtkQ872xChvYdocQKj
+         TYTA==
+X-Gm-Message-State: APjAAAVVaSYilnAycDIRhN0xXysFwgS1Dp5iEaQw0/TRCh2zO/kbYDyZ
+        xLLpSeho/m681Ackq08mTrX0ptFmHl/5KVk0RS9NBdD4
+X-Google-Smtp-Source: APXvYqzA7Vn8bG35rz7cR5NV9vyloKLEVm/Czse88spJybT0Aob5DfBfCdBt1z7MfJ3MzJlZPvwkGqI5V1izfq1OR94=
+X-Received: by 2002:a2e:9593:: with SMTP id w19mr7413475ljh.69.1562596357740;
+ Mon, 08 Jul 2019 07:32:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <5d215f83.1c69fb81.3739c.06f8SMTPIN_ADDED_BROKEN@mx.google.com>
-In-Reply-To: <5d215f83.1c69fb81.3739c.06f8SMTPIN_ADDED_BROKEN@mx.google.com>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Mon, 8 Jul 2019 16:56:52 +0530
-Message-ID: <CAFA6WYPQWvVhjPjs9gueSvSn=EYcDBh7XGU+7te09-rmiWEvGw@mail.gmail.com>
-Subject: Re: uuid define issue build on macos
-To:     feng chen <puck.chen@foxmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+References: <20190703205527.955320-1-arnd@arndb.de> <20190703205527.955320-2-arnd@arndb.de>
+In-Reply-To: <20190703205527.955320-2-arnd@arndb.de>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 8 Jul 2019 16:32:26 +0200
+Message-ID: <CACRpkdYnuSqiYBPMe_+u6dx_X1zSYKCnCtFznWtxkMf-BGBwjA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kasan: disable CONFIG_KASAN_STACK with clang on arm32
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        kasan-dev@googlegroups.com,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Will Deacon <will@kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        clang-built-linux@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, 7 Jul 2019 at 08:27, feng chen <puck.chen@foxmail.com> wrote:
->
-> *** Default configuration is based on 'defconfig'
-> #
-> # No change to .config
-> #
-> arch/arm64/Makefile:40: LSE atomics not supported by binutils
-> arch/arm64/Makefile:48: Detected assembler with broken .inst;
-> disassembly will be unreliable
->    UPD     include/config/kernel.release
->    UPD     include/generated/utsrelease.h
->    HOSTCC  scripts/mod/file2alias.o
-> scripts/mod/file2alias.c:42:3: error: typedef redefinition with
-> different types ('struct uuid_t' vs '__darwin_uuid_t' (aka 'unsigned
-> char [16]'))
-> } uuid_t;
->    ^
+On Wed, Jul 3, 2019 at 10:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
 
-It looks like somehow Darwin OS specific header is included here for
-UUID definition. Please try to build with following change to include
-only standardized headers:
+> The CONFIG_KASAN_STACK symbol tells us whether we should be using the
+> asan-stack=1 parameter. On clang-8, this causes explosive kernel stack
+> frame growth, so it is currently disabled, hopefully to be turned back
+> on when a future clang version is fixed. Examples include
+>
+> drivers/media/dvb-frontends/mb86a20s.c:1942:12: error: stack frame size of 4128 bytes in function
+> drivers/net/wireless/atmel/atmel.c:1307:5: error: stack frame size of 4928 bytes in function 'atmel_open'
+> drivers/gpu/drm/nouveau/nvkm/subdev/fb/ramgk104.c:1521:1: error: stack frame size of 5440 bytes in function
+> drivers/media/i2c/mt9t112.c:670:12: error: stack frame size of 9344 bytes in function 'mt9t112_init_camera'
+> drivers/video/fbdev/omap2/omapfb/displays/panel-tpo-td028ttec1.c:185:12: error: stack frame size of 10048 bytes
+>
+> For the 32-bit ARM build, the logic I introduced earlier does
+> not work because $(CFLAGS_KASAN_SHADOW) is empty, and we don't add
+> those flags.
+>
+> Moving the asan-stack= parameter down fixes this. No idea of any
+> of the other parameters should also be moved though.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -10,6 +10,7 @@
-  * of the GNU General Public License, incorporated herein by reference.
-  */
+For some reason the RealView doesn't boot after this patch. Trying to figure
+out why.
 
-+#define _XOPEN_SOURCE
- #include "modpost.h"
- #include "devicetable-offsets.h"
-
--Sumit
-
->
-/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_uuid_t.h:31:25:
-> note: previous definition is here
-> typedef __darwin_uuid_t uuid_t;
->                          ^
-> scripts/mod/file2alias.c:1300:42: error: array initializer must be an
-> initializer list or string literal
->          DEF_FIELD(symval, tee_client_device_id, uuid);
->                                                  ^
-> 2 errors generated.
-> make[2]: *** [scripts/mod/file2alias.o] Error 1
-> make[1]: *** [prepare0] Error 2
-> make: *** [sub-make] Error 2
->
-> and:
->
-> _types.h:77:typedef unsigned char   __darwin_uuid_t[16];
->
->   28 #ifndef _UUID_T
->   29 #define _UUID_T
->   30 #include <sys/_types.h> /* __darwin_uuid_t */
->   31 typedef __darwin_uuid_t uuid_t;
->
->
->   32 #endif /* _UUID_T */
->
->
->
+Yours,
+Linus Walleij
