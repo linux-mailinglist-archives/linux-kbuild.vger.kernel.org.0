@@ -2,134 +2,71 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F416361483
-	for <lists+linux-kbuild@lfdr.de>; Sun,  7 Jul 2019 10:59:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A94361B5B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jul 2019 09:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727203AbfGGI7B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 7 Jul 2019 04:59:01 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:64159 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726325AbfGGI7B (ORCPT
+        id S1726082AbfGHHqN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jul 2019 03:46:13 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:41037 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726072AbfGHHqN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 7 Jul 2019 04:59:01 -0400
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x678wpu4028620;
-        Sun, 7 Jul 2019 17:58:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x678wpu4028620
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562489932;
-        bh=xk4LHRkB8ixAzgbpnPm6KlgGAQsfjqajmImCBvj8dwU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=owwxfN2pm96CrSazFBkehDrBycCUnIAoXNn5ewieSocEquAp8cm673ZPfeFndsJBN
-         wIFyAHemJ+2aXjrAIkhCk8axZ+xR9HjhCRCoxRsbCEJzAMnr3eXp50plhVyuwnNwn/
-         lW4rfjaq6VH10c4vwWloqIL3ILFI6JEeyJBrSdyh5ZieoRWXkaLGciQflzgdNGD7f7
-         OuJKv01NtDG66SC6ZPg7YrZsnlrfglnrUmtTAAscBeUiZtnwrDWaaDVWVxdUodTDZG
-         iMdzqL0E7lYB0noqmD/dAjumpSGonVvUTFnKSm+YfBSXO/PVoMIk2jk8je8BDnP1KK
-         pZPiU2pgFPqKA==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id k9so6329279vso.5;
-        Sun, 07 Jul 2019 01:58:52 -0700 (PDT)
-X-Gm-Message-State: APjAAAX6TMnad278fR83YXreac2jvqi33f1+jviREjvNogT10ctU695W
-        BTtXFiS85D2+jXA0mAmv9kD7VkvBWuhcGuAt1bA=
-X-Google-Smtp-Source: APXvYqzhjGkWPRGcOB3/SYAPlsFcpEdjd+ovGocyDw4MF7azpdjOQRTW2798cFrp/F6f0Y5GvwxGLzPQjR8nNSsTvpA=
-X-Received: by 2002:a67:cd1a:: with SMTP id u26mr6543185vsl.155.1562489931301;
- Sun, 07 Jul 2019 01:58:51 -0700 (PDT)
+        Mon, 8 Jul 2019 03:46:13 -0400
+Received: by mail-io1-f66.google.com with SMTP id j5so13671500ioj.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 00:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Uo0x+e3z/m32JBYiDwP/iUv121RIW5jM2O/+SCSBkQ8=;
+        b=IoQaByqZSTEv5r/MRvMnZWfmP1N8DyqpkssQYdn198F6nGmy9xYzpX53uM31RD37JQ
+         obYg7riur5dI/zUXXwh0SFrZ7S/3TAFbFUZof0e5l/BOLGZsGhXUyvf/URGnAOTbVXam
+         jgmWY0dAVgA++lXCADSGnqSOW8E9gHm7FS5SVU27UMPkFev3wkZ/KtxcjczpSNkIakY/
+         XAHlePt5ob1kPla5il+HF0yRKW6h4n8cDk3s6vdWQE5jhGlCsKrjngmx+R+H8vWNf4B7
+         0t/cyGaSfXMX2y7eoH5ssz/crp6hUVwBUictIkuC2IwcM9r9Y2WtTfi6Z3rKlpIo7DhS
+         dzGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Uo0x+e3z/m32JBYiDwP/iUv121RIW5jM2O/+SCSBkQ8=;
+        b=dCLWQW8Hb33ljaJZ/10ezCZ9h6TiIdugIsKFrwxJAK+C0eJEdbtS1s9uLEqa+CyTkH
+         MhlMdzNQhHBlSSW10PutNdoFWOt4zXokgagZgn7Jw0R0EvEhmZOlEVwpSw5t5vE1bxrj
+         JsqqSlT/XfsMaMtJ0hG9LweyoCGdxn1WOQFgerHV9agfe6rNDbsmV94HlIqUKM53KeeG
+         7jk4HhXhGqh5anT+6BqcRdLq+6DhLXe/FDVkCSEnM/xozv31UlSCProuh4Aa4f826o4M
+         6pwA3+BT6LxxGPcSc1Z7iZOndkVH76nhmZeAZ/26TjRxro+2AGsimOjkCFTOViHXpFVa
+         rv1g==
+X-Gm-Message-State: APjAAAXsBr2i81F6Ds3mvUZbSN7IO409c4bqbmBTtqVDc87N/qC8xHX0
+        EoHLG29COhqUYPMK55rZ4GgHy4MACQRtF0olER8=
+X-Google-Smtp-Source: APXvYqxF3aUjXrgi5TgxevtrmNAkH0k6elJa12r2Lqhnyr3XHR5XdCuokS9d/F6+CPD9ORAAGcU7pxPjqVWCiy9Qe68=
+X-Received: by 2002:a6b:7909:: with SMTP id i9mr17453024iop.8.1562571972820;
+ Mon, 08 Jul 2019 00:46:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <432e997617a0669886cd9ea5ceac7c1a2173044b.camel@decadent.org.uk>
- <1562273427-204-1-git-send-email-Cedric_Hombourger@mentor.com> <1562273427-204-2-git-send-email-Cedric_Hombourger@mentor.com>
-In-Reply-To: <1562273427-204-2-git-send-email-Cedric_Hombourger@mentor.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 7 Jul 2019 17:58:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARgFmSm+kCngidevQ3HnNjqKDKfGzYXrFPzhgBRHmccXw@mail.gmail.com>
-Message-ID: <CAK7LNARgFmSm+kCngidevQ3HnNjqKDKfGzYXrFPzhgBRHmccXw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] builddeb: generate multi-arch friendly
- linux-libc-dev package
-To:     Cedric Hombourger <Cedric_Hombourger@mentor.com>
-Cc:     Ben Hutchings <ben@decadent.org.uk>, isar-users@googlegroups.com,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Riku Voipio <riku.voipio@linaro.org>
+Received: by 2002:a92:1596:0:0:0:0:0 with HTTP; Mon, 8 Jul 2019 00:46:12 -0700 (PDT)
+Reply-To: ffredsylvester@gmail.com
+From:   Sylvester Fred <edemekoffi0@gmail.com>
+Date:   Mon, 8 Jul 2019 08:46:12 +0100
+Message-ID: <CAEE=VD6cugL0J2GfJ3sEbU5N=5O09uwM1jVYf2VA7Oxr1MoUHg@mail.gmail.com>
+Subject: Dear,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 5, 2019 at 5:50 AM Cedric Hombourger
-<Cedric_Hombourger@mentor.com> wrote:
->
-> Debian-based distributions place libc header files in a machine
-> specific directory (/usr/include/<libc-machine>) instead of
-> /usr/include/asm to support installation of the linux-libc-dev
-> package from multiple architectures. Move headers installed by
-> "make headers_install" accordingly using Debian's tuple from
-> dpkg-architecture.
->
-> Signed-off-by: Cedric Hombourger <Cedric_Hombourger@mentor.com>
-> ---
->  scripts/package/builddeb | 8 ++++++++
->  scripts/package/mkdebian | 5 +++--
->  2 files changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index b03dd56a4782..15a034e18c37 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -132,6 +132,14 @@ fi
->  if [ "$ARCH" != "um" ]; then
->         $MAKE -f $srctree/Makefile headers_check
->         $MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH="$libc_headers_dir/usr"
-> +       if [ -n "$debarch" ]; then
-> +               # move asm headers to /usr/include/<libc-machine>/asm to match the structure
-> +               # used by Debian-based distros (to support multi-arch) but only if ARCH was
-> +               # translated to Debian's (debarch) - this is done by mkdebian
-> +               host_arch=$(dpkg-architecture -a$debarch -qDEB_HOST_MULTIARCH)
-> +               mkdir $libc_headers_dir/usr/include/$host_arch
-> +               mv $libc_headers_dir/usr/include/asm $libc_headers_dir/usr/include/$host_arch/
-> +       fi
->  fi
->
->  # Install the maintainer scripts
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index 8351584cb24e..2d670ae2cabc 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -197,6 +197,7 @@ Architecture: $debarch
->  Description: Linux support headers for userspace development
->   This package provides userspaces headers from the Linux kernel.  These headers
->   are used by the installed headers for GNU glibc and other system libraries.
-> +Multi-Arch: same
->
->  Package: $dbg_packagename
->  Section: debug
-> @@ -212,11 +213,11 @@ cat <<EOF > debian/rules
->  srctree ?= .
->
->  build:
-> -       \$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
-> +       \$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} debarch=${debarch} \
->         KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile
->
->  binary-arch:
-> -       \$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
-> +       \$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} debarch=${debarch} \
->         KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile intdeb-pkg
+Dear,
 
+Please accept my apologies I do not intend to invade your privacy, I
+wrote to you earlier, but no answer, in my first post I told you about
+my late client  who bears the same surname with you, I received
+several letters from the bank, where he made a deposit of 10.4 million
+dollars  before his death, the bank asked me to provide his next of
+kin or any of his relatives, who  will stand for this claim, otherwise
+it will be confiscated by the bank due to lack of claims from his
+relatives hence I contacted you to present you as is beneficiary since
+you have the same last name with him. After your reply I shall give
+you the details and procedures of this transaction, waiting your
+reply.
 
-Is there any smarter way (any command) to get debarch
-from the builddeb script?
-
-scripts/package/Makefile passes -a flag, like follows:
-
-dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch)
-$(DPKG_FLAGS) -b -nc -uc
-
-So, debarch=${debarch} looks somewhat redundant to me.
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Regards,
+Sylvester Fred
