@@ -2,87 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 748C063A3A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 19:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D18E63A63
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 20:01:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbfGIRhy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 13:37:54 -0400
-Received: from pb-smtp1.pobox.com ([64.147.108.70]:60058 "EHLO
-        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726133AbfGIRhy (ORCPT
+        id S1726680AbfGISBs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jul 2019 14:01:48 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40828 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726492AbfGISBs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 13:37:54 -0400
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id C754C161342;
-        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=ZPzL96906deSPszntNDHK2QFX3M=; b=gufTxB
-        zNSe+0divwYcBXwLhl9W3sFW7BjvHwmRzFddQ05k36d7tv2a25UjIIOxanJXoOtD
-        ynWmKEeObbiHF4Wvmzj5VKMD2JqVBTuU5B/1bWCi1zttldwtRQOxwxGPf3VwFHae
-        ZTVdmAa/irDQ+ccsim1Jzz0QckHhqwsrggLFU=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id BE41C161341;
-        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=JUWCum9pcbTPQLn3Li5UWdFaYelziHmHH3PL7HgMqUA=; b=xks7+qKO5WD+kKbJjFOF8VQyA5IpsnEK4OFwGE8D3PZDdxs5jke6gTQYNTNVpTuw+9lZxor+rnj4Og4V3l/KkAFJFxOEdbqgqYP59TtxNtwcnTTVeAbnmcjK6S4EqKV6l5owBWQteKjscyC6KqLyM/GwiQFONIgs423mD66FaEE=
-Received: from yoda.home (unknown [70.82.130.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 43457161340;
-        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 5E86E2DA0192;
-        Tue,  9 Jul 2019 13:37:50 -0400 (EDT)
-Date:   Tue, 9 Jul 2019 13:37:50 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH 08/11] kbuild: create *.mod with full directory path and
- remove MODVERDIR
-In-Reply-To: <20190709042416.27554-9-yamada.masahiro@socionext.com>
-Message-ID: <nycvar.YSQ.7.76.1907091332150.4190@knanqh.ubzr>
-References: <20190709042416.27554-1-yamada.masahiro@socionext.com> <20190709042416.27554-9-yamada.masahiro@socionext.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+        Tue, 9 Jul 2019 14:01:48 -0400
+Received: by mail-pf1-f196.google.com with SMTP id p184so9661541pfp.7
+        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jul 2019 11:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
+        b=u9enlrUFhNo6CpHlrQV/HgMnM2prP/1x9AkLcEyZIZZ95VhPysZXNdVgTxFeHrQSyj
+         D854QOHx1OOVg+bK1q0GL9M26yGnhrklGjHFU0YlePfBqyn8fol1vLU/0tJs5NO+XWNV
+         6Qg4G47Yz8EAu+oXnFu1Mzex0KXUQSkc3dP89G7ycpwdK6vtjyVs4n/CA1F66BOgluWi
+         cGrmqcEgZcaKnQ36vda5DA3xHSSM91ST4LQMohLGersiVfBM4MAAfBua5GuHtjmb28bv
+         cNHp7EXFv/Be9TyDKlfByNT+SveMU7rOne9AoLQN+azT38ic+R4kxi1lUa+FZPUqI2ob
+         eorw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
+        b=ekJEnENcDApeHVUUCGonsblqZx+0YPhzK0FvLSe3nRE3q7JQNjhfcobyb93i1+3rpD
+         yzsfsrDNhvWooeXJs9ac5IG3GpHe5S0mnBlFJR8VoelZXZqgAOnPNXWjZ2N+AwULQPaQ
+         kiq24Xw4121FLjVqbf0ne1pyRpCWk/+STzOPOsD7s8fBlHmK+4VkNtUVjJ7t+W1YS5oR
+         b7sMPdaJyXmnJPagxmuOaclyztwC6Uy1VZSzJmhPurFSfXIKlagQ9XORng5ZjNxASoG6
+         GqAguWvXsC08AMbhUSsXpxzbLQc8SBdKRXfBl3os81pra1Q4rtqk1e2ouFhbFp8EbKNM
+         khyw==
+X-Gm-Message-State: APjAAAWbAwutoT1460uvo/sRM9jxAN3MA+0Z6j1kXy+rrOfvv3qCLFix
+        7xG0IZUHnSXyDxCQty+Vs/Hlen4ZC1ii5WRCN7H2OQ==
+X-Google-Smtp-Source: APXvYqw4HCjsVl+Amh2Teet2qtkXvGz99b/JiD+OyiCx/6U5M9oVU+FrejKuChE3TPRj4OZE1ZrjIBxXffNmybu5Pvg=
+X-Received: by 2002:a63:205f:: with SMTP id r31mr32165059pgm.159.1562695307162;
+ Tue, 09 Jul 2019 11:01:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 466A70CC-A270-11E9-96DF-46F8B7964D18-78420484!pb-smtp1.pobox.com
+References: <20190709063023.251446-1-brendanhiggins@google.com>
+ <20190709063023.251446-17-brendanhiggins@google.com> <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
+In-Reply-To: <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 9 Jul 2019 11:01:35 -0700
+Message-ID: <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
+Subject: Re: [PATCH v7 16/18] MAINTAINERS: add entry for KUnit the unit
+ testing framework
+To:     shuah <shuah@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 9 Jul 2019, Masahiro Yamada wrote:
+On Tue, Jul 9, 2019 at 7:53 AM shuah <shuah@kernel.org> wrote:
+>
+> On 7/9/19 12:30 AM, Brendan Higgins wrote:
+> > Add myself as maintainer of KUnit, the Linux kernel's unit testing
+> > framework.
+> >
+> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > ---
+> >   MAINTAINERS | 11 +++++++++++
+> >   1 file changed, 11 insertions(+)
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 677ef41cb012c..48d04d180a988 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -8599,6 +8599,17 @@ S:     Maintained
+> >   F:  tools/testing/selftests/
+> >   F:  Documentation/dev-tools/kselftest*
+> >
+> > +KERNEL UNIT TESTING FRAMEWORK (KUnit)
+> > +M:   Brendan Higgins <brendanhiggins@google.com>
+> > +L:   linux-kselftest@vger.kernel.org
+> > +L:   kunit-dev@googlegroups.com
+> > +W:   https://google.github.io/kunit-docs/third_party/kernel/docs/
+> > +S:   Maintained
+> > +F:   Documentation/dev-tools/kunit/
+> > +F:   include/kunit/
+> > +F:   kunit/
+> > +F:   tools/testing/kunit/
+> > +
+> >   KERNEL USERMODE HELPER
+> >   M:  Luis Chamberlain <mcgrof@kernel.org>
+> >   L:  linux-kernel@vger.kernel.org
+> >
+>
+> Thanks Brendan.
+>
+> I am good with this. I can take KUnit patches through kselftest
+> with your Ack.
 
-> --- a/scripts/adjust_autoksyms.sh
-> +++ b/scripts/adjust_autoksyms.sh
-> @@ -47,13 +47,10 @@ cat > "$new_ksyms_file" << EOT
->   */
->  
->  EOT
-> -[ "$(ls -A "$MODVERDIR")" ] &&
-> -for mod in "$MODVERDIR"/*.mod; do
-> -	sed -n -e '3{s/ /\n/g;/^$/!p;}' "$mod"
-> -done | sort -u |
-> -while read sym; do
-> -	echo "#define __KSYM_${sym} 1"
-> -done >> "$new_ksyms_file"
-> +sed 's/ko$/mod/' modules.order |
-> +xargs -r -n1 sed -n -e '3{s/ /\n/g;/^$/!p;}' |
-> +sort -u |
-> +sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
+My acknowledgement? Sure! I thought we already agreed to that.
 
-Did you consider the case when CONFIG_MODULES=y but no modules are 
-selected? Also -r to xargs is a GNU extension and there were some 
-efforts to remove theur use in the past (no idea if this is still a 
-concern).
+Also, do we need an ack from Masahiro or Michal for the Kbuild patch
+[PATCH v7 06/18]? And an ack from Josh or Peter for the objtool patch
+[PATCH v7 08/18]?
 
-Other than that, looks good to me.
+Greg and Logan gave me a Reviewed-by for the Kbuild patch, so maybe
+that's fine, but I don't have any reviews or acks for the objtool
+patch.
 
-Acked-by: Nicolas Pitre <nico@fluxnic.net>
-
-
-Nicolas
+Thanks!
