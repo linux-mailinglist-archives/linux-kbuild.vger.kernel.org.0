@@ -2,162 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDA0963022
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 07:46:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E06F963052
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 08:13:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725856AbfGIFqJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 01:46:09 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:36159 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725832AbfGIFqI (ORCPT
+        id S1726031AbfGIGNO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jul 2019 02:13:14 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:42787 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbfGIGNO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 01:46:08 -0400
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x695jvQt011679
-        for <linux-kbuild@vger.kernel.org>; Tue, 9 Jul 2019 14:45:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x695jvQt011679
+        Tue, 9 Jul 2019 02:13:14 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x696D2LL030773;
+        Tue, 9 Jul 2019 15:13:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x696D2LL030773
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562651158;
-        bh=fqzeZVI/AxotT4lFVIRE+geDp1Kvw9SHJjY9o7MO0mU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Q7a+umomRrBC971tgJ390Lni2d+1n9d2wd5dfVmy+8dPCEyot3pX/KV8v/pwIB9lE
-         oqufxopj9ErE2UOvnE8Ok6h/IzWUwjzqZlZRryWWpZaf60WLiZvbNkR2jeHsRbcRUO
-         xjFki7fwSPPjlkvOlIDB3XqqMn0CFUH73bnlquDmtznnkjPkBejqEu1AxFoqpWXDA8
-         VZZj+SPMofGRO8eq0ySbD6k3+pMrQ96bfoab2hKIm7BzF1LyTnKpNx7nkKNg4Jmmfb
-         trzoLJ48BzncEn/VGH89/a5dVsCoKaIN8rFaw0JMpsuCnhsMn+Vgjc5jQedFE1zZqX
-         33RgPqchtbi3w==
-X-Nifty-SrcIP: [209.85.221.180]
-Received: by mail-vk1-f180.google.com with SMTP id b200so2959080vkf.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 22:45:57 -0700 (PDT)
-X-Gm-Message-State: APjAAAUEdV2zx4Nq+bV07CIN2hOxxprp+PR0ej+0PzoGAjwa43BRWJtg
-        ORjMOjgssZ95M6gWKVoNqfJWqHj3QjC75D+RrRo=
-X-Google-Smtp-Source: APXvYqzaD1WsaNCn3S7BbJ4vdTKcglTSqEKPbth3nwAAahslKG3MYJ83S1saj+PqXPu3OXtUDis/43wZhKE0OrMs1bs=
-X-Received: by 2002:a1f:728b:: with SMTP id n133mr3751680vkc.84.1562651156255;
- Mon, 08 Jul 2019 22:45:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190708153436.19260-1-hws@denx.de>
-In-Reply-To: <20190708153436.19260-1-hws@denx.de>
+        s=dec2015msa; t=1562652783;
+        bh=lnTkZOWAozqElNoBWK0L63rALMGbDSyFD2Pe++T0T9Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MUCfYy4xiocaxazb9OPb1wu3bZjr11ZoUaQhOL2mzlVOn0YNgKj/kI74R5A84fuOg
+         OOPZHSMwYdcyJ1o7r+tvuqdoxwDB79XLIPFFB4emL6t4nawhBBRzedhxFKcbZrJsR0
+         Oz6jh9syQ0ix49Z/UynsefJtrajshefVhoUaoyALBvioOiG43iTZ+qVMhr48ZSl2kj
+         OU40LwLlWL+hOpLFjrjMKMGrEIoXtQ1tLEbKeK1MzVXJKcoTd4UFat8aHPbkoC4W/8
+         ENQ8o9Ma+QgGDraRjXKPQ04ViJPKYqh9O27E1REWlKMaHBTkZ4FhuygZI8H8qwTJhJ
+         wkwpZxXLXm8yA==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 9 Jul 2019 14:45:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR+9ze8UY1_Di9evYLy=ngiVSsr4eqLPMGz_6EoV-fR8A@mail.gmail.com>
-Message-ID: <CAK7LNAR+9ze8UY1_Di9evYLy=ngiVSsr4eqLPMGz_6EoV-fR8A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix compression errors getting ignored
-To:     Harald Seiler <hws@denx.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: use -- separater intead of $(filter-out ...) for cc-cross-prefix
+Date:   Tue,  9 Jul 2019 15:13:00 +0900
+Message-Id: <20190709061300.527-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 9, 2019 at 12:35 AM Harald Seiler <hws@denx.de> wrote:
->
-> A missing compression utility or other errors were not picked up by make
-> and an empty kernel image was produced.  With the added "|| exit $?",
-> the error is propagated outwards and will make the build fail.
->
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Signed-off-by: Harald Seiler <hws@denx.de>
-> ---
+arch/mips/Makefile passes prefixes that start with '-' to cc-cross-prefix
+when $(tool-archpref) evaluates to the empty string.
 
-Thanks for the report, but this patch is really ugly.
+They are filtered-out before the $(shell ...) invocation. Otherwise,
+'command -v' would be confused.
 
-The following is much better:
+  $ command -v -linux-gcc
+  bash: command: -l: invalid option
+  command: usage: command [-pVv] command [arg ...]
 
+Since commit 913ab9780fc0 ("kbuild: use more portable 'command -v' for
+cc-cross-prefix"), cc-cross-prefix throws away the stderr output, so
+the console is not polluted in any way.
 
+This is not a big deal in practice, but I see a slightly better taste
+in adding '--' to teach it that '-linux-gcc' is an argument instead of
+a command option.
 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index f1f38c8cdc74..768e697df304 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -331,19 +331,19 @@ printf "%08x\n" $$dec_size |
-                         \
- )
+This will cause extra forking of subshell, but it will not be noticeable
+performance regression.
 
- quiet_cmd_bzip2 = BZIP2   $@
--      cmd_bzip2 = { cat $(real-prereqs) | bzip2 -9 && $(size_append); } > $@
-+      cmd_bzip2 = { cat $(real-prereqs) | bzip2 -9; $(size_append); } > $@
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
- # Lzma
- # ---------------------------------------------------------------------------
+ scripts/Kbuild.include | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- quiet_cmd_lzma = LZMA    $@
--      cmd_lzma = { cat $(real-prereqs) | lzma -9 && $(size_append); } > $@
-+      cmd_lzma = { cat $(real-prereqs) | lzma -9; $(size_append); } > $@
-
- quiet_cmd_lzo = LZO     $@
--      cmd_lzo = { cat $(real-prereqs) | lzop -9 && $(size_append); } > $@
-+      cmd_lzo = { cat $(real-prereqs) | lzop -9; $(size_append); } > $@
-
- quiet_cmd_lz4 = LZ4     $@
--      cmd_lz4 = { cat $(real-prereqs) | lz4c -l -c1 stdin stdout && \
-+      cmd_lz4 = { cat $(real-prereqs) | lz4c -l -c1 stdin stdout; \
-                   $(size_append); } > $@
-
- # U-Boot mkimage
-@@ -386,7 +386,7 @@ quiet_cmd_uimage = UIMAGE  $@
- # big dictionary would increase the memory usage too much in the multi-call
- # decompression mode. A BCJ filter isn't used either.
- quiet_cmd_xzkern = XZKERN  $@
--      cmd_xzkern = { cat $(real-prereqs) | sh
-$(srctree)/scripts/xz_wrap.sh && \
-+      cmd_xzkern = { cat $(real-prereqs) | sh $(srctree)/scripts/xz_wrap.sh; \
-                      $(size_append); } > $@
-
- quiet_cmd_xzmisc = XZMISC  $@
-
-
-
-
->  scripts/Makefile.lib | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index f1f38c8cdc74..4b374da065a3 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -331,19 +331,19 @@ printf "%08x\n" $$dec_size |                                              \
->  )
->
->  quiet_cmd_bzip2 = BZIP2   $@
-> -      cmd_bzip2 = { cat $(real-prereqs) | bzip2 -9 && $(size_append); } > $@
-> +      cmd_bzip2 = { cat $(real-prereqs) | bzip2 -9 || exit $$? && $(size_append); } > $@
->
->  # Lzma
->  # ---------------------------------------------------------------------------
->
->  quiet_cmd_lzma = LZMA    $@
-> -      cmd_lzma = { cat $(real-prereqs) | lzma -9 && $(size_append); } > $@
-> +      cmd_lzma = { cat $(real-prereqs) | lzma -9 || exit $$? && $(size_append); } > $@
->
->  quiet_cmd_lzo = LZO     $@
-> -      cmd_lzo = { cat $(real-prereqs) | lzop -9 && $(size_append); } > $@
-> +      cmd_lzo = { cat $(real-prereqs) | lzop -9 || exit $$? && $(size_append); } > $@
->
->  quiet_cmd_lz4 = LZ4     $@
-> -      cmd_lz4 = { cat $(real-prereqs) | lz4c -l -c1 stdin stdout && \
-> +      cmd_lz4 = { cat $(real-prereqs) | lz4c -l -c1 stdin stdout || exit $$? && \
->                    $(size_append); } > $@
->
->  # U-Boot mkimage
-> @@ -386,8 +386,8 @@ quiet_cmd_uimage = UIMAGE  $@
->  # big dictionary would increase the memory usage too much in the multi-call
->  # decompression mode. A BCJ filter isn't used either.
->  quiet_cmd_xzkern = XZKERN  $@
-> -      cmd_xzkern = { cat $(real-prereqs) | sh $(srctree)/scripts/xz_wrap.sh && \
-> -                     $(size_append); } > $@
-> +      cmd_xzkern = { cat $(real-prereqs) | sh $(srctree)/scripts/xz_wrap.sh || \
-> +                     exit $$? && $(size_append); } > $@
->
->  quiet_cmd_xzmisc = XZMISC  $@
->        cmd_xzmisc = cat $(real-prereqs) | xz --check=crc32 --lzma2=dict=1MiB > $@
-> --
-> 2.20.1
->
-
-
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 222fd1d7d3ae..c62d690c7dcf 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -79,8 +79,8 @@ endef
+ # would try to directly execute the shell builtin 'command'. This workaround
+ # should be kept for a long time since this issue was fixed only after the
+ # GNU Make 4.2.1 release.
+-cc-cross-prefix = $(firstword $(foreach c, $(filter-out -%, $(1)), \
+-			$(if $(shell command -v $(c)gcc 2>/dev/null), $(c))))
++cc-cross-prefix = $(firstword $(foreach c, $(1), \
++			$(if $(shell command -v -- $(c)gcc 2>/dev/null), $(c))))
+ 
+ # output directory for tests below
+ TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
