@@ -2,148 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D18E63A63
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 20:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CF8563B2D
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 20:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbfGISBs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 14:01:48 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:40828 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfGISBs (ORCPT
+        id S1729352AbfGISde (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jul 2019 14:33:34 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57042 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729351AbfGISde (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 14:01:48 -0400
-Received: by mail-pf1-f196.google.com with SMTP id p184so9661541pfp.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jul 2019 11:01:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
-        b=u9enlrUFhNo6CpHlrQV/HgMnM2prP/1x9AkLcEyZIZZ95VhPysZXNdVgTxFeHrQSyj
-         D854QOHx1OOVg+bK1q0GL9M26yGnhrklGjHFU0YlePfBqyn8fol1vLU/0tJs5NO+XWNV
-         6Qg4G47Yz8EAu+oXnFu1Mzex0KXUQSkc3dP89G7ycpwdK6vtjyVs4n/CA1F66BOgluWi
-         cGrmqcEgZcaKnQ36vda5DA3xHSSM91ST4LQMohLGersiVfBM4MAAfBua5GuHtjmb28bv
-         cNHp7EXFv/Be9TyDKlfByNT+SveMU7rOne9AoLQN+azT38ic+R4kxi1lUa+FZPUqI2ob
-         eorw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OUg57n/8w7Mlx4FSaThva6QRBMRQrC57aji70HqhlTs=;
-        b=ekJEnENcDApeHVUUCGonsblqZx+0YPhzK0FvLSe3nRE3q7JQNjhfcobyb93i1+3rpD
-         yzsfsrDNhvWooeXJs9ac5IG3GpHe5S0mnBlFJR8VoelZXZqgAOnPNXWjZ2N+AwULQPaQ
-         kiq24Xw4121FLjVqbf0ne1pyRpCWk/+STzOPOsD7s8fBlHmK+4VkNtUVjJ7t+W1YS5oR
-         b7sMPdaJyXmnJPagxmuOaclyztwC6Uy1VZSzJmhPurFSfXIKlagQ9XORng5ZjNxASoG6
-         GqAguWvXsC08AMbhUSsXpxzbLQc8SBdKRXfBl3os81pra1Q4rtqk1e2ouFhbFp8EbKNM
-         khyw==
-X-Gm-Message-State: APjAAAWbAwutoT1460uvo/sRM9jxAN3MA+0Z6j1kXy+rrOfvv3qCLFix
-        7xG0IZUHnSXyDxCQty+Vs/Hlen4ZC1ii5WRCN7H2OQ==
-X-Google-Smtp-Source: APXvYqw4HCjsVl+Amh2Teet2qtkXvGz99b/JiD+OyiCx/6U5M9oVU+FrejKuChE3TPRj4OZE1ZrjIBxXffNmybu5Pvg=
-X-Received: by 2002:a63:205f:: with SMTP id r31mr32165059pgm.159.1562695307162;
- Tue, 09 Jul 2019 11:01:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190709063023.251446-1-brendanhiggins@google.com>
- <20190709063023.251446-17-brendanhiggins@google.com> <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
-In-Reply-To: <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 9 Jul 2019 11:01:35 -0700
-Message-ID: <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
-Subject: Re: [PATCH v7 16/18] MAINTAINERS: add entry for KUnit the unit
- testing framework
-To:     shuah <shuah@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
+        Tue, 9 Jul 2019 14:33:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=SZVKZKK6tPshpfq3Um1NOr/jf9FqB8MH+0dgJiqT38I=; b=NBzCxU6OvoAy19IonSrHrN7y6
+        RYI6Z1d2Ou4N33q2iWJp6YR6ajo5yNAKmZ2o48cq7IDGvDx6TMxzU5UfiDSUK+Bse0RDrmsZjGTnv
+        dKsKYE1/WTIFaeP2ap0YFLEWTv6gsWacHyCbhjD/SMhOelDBmt5FURTeMyW6rvGy3InzSmIIKAKlO
+        4sP81fyZYfYjLipyDT8Y41jxZpxXwDDb0hck768b2yVMsVOrOz4G1QMDY31E97LkfGzbK2hpsUM2o
+        Gf429dGzeG8mfD094XT39bw1TA466hXk6BSyb1t2xGJxqGVHe829ZEHXenH34nvhX5Le7Z17+j0GY
+        OpUqGLzDg==;
+Received: from 177.43.30.58.dynamic.adsl.gvt.net.br ([177.43.30.58] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hkuvf-0007Az-Bl; Tue, 09 Jul 2019 18:33:27 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hkuvd-0005Ph-2k; Tue, 09 Jul 2019 15:33:25 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Hannes Reinecke <hare@suse.com>, linux-kbuild@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
+        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+        linux-doc@vger.kernel.org, Omar Sandoval <osandov@fb.com>
+Subject: [PATCH 0/5] PDF output fixes
+Date:   Tue,  9 Jul 2019 15:33:18 -0300
+Message-Id: <cover.1562696797.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 9, 2019 at 7:53 AM shuah <shuah@kernel.org> wrote:
->
-> On 7/9/19 12:30 AM, Brendan Higgins wrote:
-> > Add myself as maintainer of KUnit, the Linux kernel's unit testing
-> > framework.
-> >
-> > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > ---
-> >   MAINTAINERS | 11 +++++++++++
-> >   1 file changed, 11 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 677ef41cb012c..48d04d180a988 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8599,6 +8599,17 @@ S:     Maintained
-> >   F:  tools/testing/selftests/
-> >   F:  Documentation/dev-tools/kselftest*
-> >
-> > +KERNEL UNIT TESTING FRAMEWORK (KUnit)
-> > +M:   Brendan Higgins <brendanhiggins@google.com>
-> > +L:   linux-kselftest@vger.kernel.org
-> > +L:   kunit-dev@googlegroups.com
-> > +W:   https://google.github.io/kunit-docs/third_party/kernel/docs/
-> > +S:   Maintained
-> > +F:   Documentation/dev-tools/kunit/
-> > +F:   include/kunit/
-> > +F:   kunit/
-> > +F:   tools/testing/kunit/
-> > +
-> >   KERNEL USERMODE HELPER
-> >   M:  Luis Chamberlain <mcgrof@kernel.org>
-> >   L:  linux-kernel@vger.kernel.org
-> >
->
-> Thanks Brendan.
->
-> I am good with this. I can take KUnit patches through kselftest
-> with your Ack.
+In order to be able to build all PDF books, besides the two patches I
+already sent:
 
-My acknowledgement? Sure! I thought we already agreed to that.
+    docs: pdf: add all Documentation/*/index.rst to PDF output
+    docs: automarkup.py: ignore exceptions when seeking for xrefs
 
-Also, do we need an ack from Masahiro or Michal for the Kbuild patch
-[PATCH v7 06/18]? And an ack from Josh or Peter for the objtool patch
-[PATCH v7 08/18]?
+A few others are needed:
 
-Greg and Logan gave me a Reviewed-by for the Kbuild patch, so maybe
-that's fine, but I don't have any reviews or acks for the objtool
-patch.
+- patch 1 removes nested tables for a few files I converted, as 
+  Sphinx LaTeX builder doesn't support it;
+- Patches 2 to 4 addresses some minor issues on some books,
+  usually requiring some blank lines, extra whitespaces or some
+  tag replacement;
+- Patch 5 is required in order to be able to build the translations
+  PDF book, as it adds Asian fonts support to XeLaTeX.
 
-Thanks!
+This patch series is at:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=extra_fixes_v1
+
+And it is on the top of the ReST conversions that IMO should be
+sent at the end of this merge window.
+
+Mauro Carvalho Chehab (5):
+  docs: don't use nested tables
+  docs: arm: fix a breakage with pdf output
+  docs: block: fix pdf output
+  docs: kbuild: fix build with pdf and fix some minor issues
+  docs: conf.py: add CJK package needed by translations
+
+ Documentation/admin-guide/laptops/sonypi.rst  | 26 +++++++++----------
+ .../admin-guide/laptops/toshiba_haps.rst      |  8 +++---
+ Documentation/arm/spear/overview.rst          |  1 +
+ Documentation/block/biodoc.rst                |  9 ++++---
+ Documentation/conf.py                         |  4 +++
+ Documentation/driver-api/nvdimm/btt.rst       |  2 +-
+ Documentation/kbuild/issues.rst               | 20 ++++++++------
+ Documentation/kbuild/kbuild.rst               |  3 ++-
+ Documentation/kbuild/kconfig-language.rst     | 12 +++++++++
+ Documentation/kbuild/kconfig.rst              |  8 ++++--
+ Documentation/kbuild/makefiles.rst            |  1 +
+ Documentation/s390/debugging390.rst           |  2 +-
+ 12 files changed, 61 insertions(+), 35 deletions(-)
+
+-- 
+2.21.0
+
+
