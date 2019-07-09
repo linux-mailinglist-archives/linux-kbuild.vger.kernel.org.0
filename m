@@ -2,87 +2,157 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E06F963052
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 08:13:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5F9A63076
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 08:32:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbfGIGNO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 02:13:14 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:42787 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726032AbfGIGNO (ORCPT
+        id S1726073AbfGIGcm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jul 2019 02:32:42 -0400
+Received: from mail-yb1-f201.google.com ([209.85.219.201]:41528 "EHLO
+        mail-yb1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726055AbfGIGcm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 02:13:14 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x696D2LL030773;
-        Tue, 9 Jul 2019 15:13:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x696D2LL030773
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562652783;
-        bh=lnTkZOWAozqElNoBWK0L63rALMGbDSyFD2Pe++T0T9Q=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MUCfYy4xiocaxazb9OPb1wu3bZjr11ZoUaQhOL2mzlVOn0YNgKj/kI74R5A84fuOg
-         OOPZHSMwYdcyJ1o7r+tvuqdoxwDB79XLIPFFB4emL6t4nawhBBRzedhxFKcbZrJsR0
-         Oz6jh9syQ0ix49Z/UynsefJtrajshefVhoUaoyALBvioOiG43iTZ+qVMhr48ZSl2kj
-         OU40LwLlWL+hOpLFjrjMKMGrEIoXtQ1tLEbKeK1MzVXJKcoTd4UFat8aHPbkoC4W/8
-         ENQ8o9Ma+QgGDraRjXKPQ04ViJPKYqh9O27E1REWlKMaHBTkZ4FhuygZI8H8qwTJhJ
-         wkwpZxXLXm8yA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Tue, 9 Jul 2019 02:32:42 -0400
+Received: by mail-yb1-f201.google.com with SMTP id q196so11500766ybg.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 08 Jul 2019 23:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=ccEO1tkkeH8HT1/mhIGVUKFl/9lAslI495fANVrqi9k=;
+        b=e2JKyD27N2epGYfKgaRHgJrtns9MYtHULutiWECP0zFRJv3jgMPgvU/mgzt7m2CruN
+         qyDh4tO7vEMXIwz5uC90ZiqlsOp6jxtaX8TLEstg/mB6t2n5nc3E1nANny//4ZuViIuT
+         Q3ccwNzcmvwEgQPy45ljMduIsRcMZ+yyArZsE7tNVMmyeTDybeKjOVOQs49sE+w8xRgU
+         l6IbFINnO1SRMJvZ1e6x0/QcQs5GYjWItk2Tf6QcJnNv92P+Yml808NgCvyRAieR+7tt
+         vVHGQ59GH0W9PqLAZQXcyb1ZKKpl+uFrILyK+81ZrKs3HHFsWjaaDhu+6fgoH9G5s9wC
+         jETQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=ccEO1tkkeH8HT1/mhIGVUKFl/9lAslI495fANVrqi9k=;
+        b=o8xru4fT8BFrUxIuimVcqJiQnCaztK6uZLlvKxAzLyXdfsq5AWEBeUP1y3SwplQG6B
+         /MXTzmHyoCIz/XpH06zmSixm/ml1xbOMun3rzi5lqBXEPU4le51YdRziqrxQ3ICpu9xr
+         rJbnIBnDAw1aMbECIxEy34qY7bNBjOQtxWG5Ill9NtcYSVLheDMyxqVBFhowA8HiDV4B
+         ZTGlDcPJTljGWAsukAycSQr9BOIG1A3EMs7sMfiTXPrbUVorkwtlkTGfKWLn9Go2VmkW
+         HaKmzyz78TlyujlAvnxEFFkR4hUIdXmgVwK3AYc82zfIdd3eZcbn6IDJ2nR63ATsG36y
+         G8Ug==
+X-Gm-Message-State: APjAAAXCNsOXugji+9obVr1+qVv/CLbod9KDay+8qqchTltcA6UhmLBL
+        8PKm+O1wCwD2dAADq0JHGdbb/2VuaASR98OGI9xMlA==
+X-Google-Smtp-Source: APXvYqxTCUgwXCc9biuo/mRL1pSgsNPvKrcZOBY5oaano9+5jCyWavrpS1UTvqWVKgVXm3lya3N2nYit0+zc7OI5xI8uZg==
+X-Received: by 2002:a81:710a:: with SMTP id m10mr13083743ywc.277.1562653960705;
+ Mon, 08 Jul 2019 23:32:40 -0700 (PDT)
+Date:   Mon,  8 Jul 2019 23:30:05 -0700
+Message-Id: <20190709063023.251446-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v7 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: use -- separater intead of $(filter-out ...) for cc-cross-prefix
-Date:   Tue,  9 Jul 2019 15:13:00 +0900
-Message-Id: <20190709061300.527-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Jonathan Corbet <corbet@lwn.net>,
+        Iurii Zaikin <yzaikin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-arch/mips/Makefile passes prefixes that start with '-' to cc-cross-prefix
-when $(tool-archpref) evaluates to the empty string.
+## TL;DR
 
-They are filtered-out before the $(shell ...) invocation. Otherwise,
-'command -v' would be confused.
+This is a pretty straightforward follow-up to Luis' comments on PATCH
+v6: There is nothing that changes any functionality or usage.
 
-  $ command -v -linux-gcc
-  bash: command: -l: invalid option
-  command: usage: command [-pVv] command [arg ...]
+As for our current status, we only need reviews/acks on the following
+patches:
 
-Since commit 913ab9780fc0 ("kbuild: use more portable 'command -v' for
-cc-cross-prefix"), cc-cross-prefix throws away the stderr output, so
-the console is not polluted in any way.
+- [PATCH v7 06/18] kbuild: enable building KUnit
+  - Need a review or ack from Masahiro Yamada or Michal Marek
+- [PATCH v7 08/18] objtool: add kunit_try_catch_throw to the noreturn
+  list
+  - Need a review or ack from Josh Poimboeuf or Peter Zijlstra
 
-This is not a big deal in practice, but I see a slightly better taste
-in adding '--' to teach it that '-linux-gcc' is an argument instead of
-a command option.
+Other than that, I think we should be good to go.
 
-This will cause extra forking of subshell, but it will not be noticeable
-performance regression.
+## Background
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
 
- scripts/Kbuild.include | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 222fd1d7d3ae..c62d690c7dcf 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -79,8 +79,8 @@ endef
- # would try to directly execute the shell builtin 'command'. This workaround
- # should be kept for a long time since this issue was fixed only after the
- # GNU Make 4.2.1 release.
--cc-cross-prefix = $(firstword $(foreach c, $(filter-out -%, $(1)), \
--			$(if $(shell command -v $(c)gcc 2>/dev/null), $(c))))
-+cc-cross-prefix = $(firstword $(foreach c, $(1), \
-+			$(if $(shell command -v -- $(c)gcc 2>/dev/null), $(c))))
- 
- # output directory for tests below
- TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
+
+### What's so special about unit testing?
+
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
+
+### Is KUnit trying to replace other testing frameworks for the kernel?
+
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
+
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
+
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2/v7 branch.
+
+## Changes Since Last Version
+
+Aside from renaming `struct kunit_module` to `struct kunit_suite`, there
+isn't really anything in here that changes any functionality:
+
+- Rebased on v5.2
+- Added Iurii as a maintainer for PROC SYSCTL, as suggested by Luis.
+- Removed some references to spinlock that I failed to remove in the
+  previous version, as pointed out by Luis.
+- Cleaned up some comments, as suggested by Luis.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2/v7
+
 -- 
-2.17.1
+2.22.0.410.gd8fdbe21b5-goog
 
