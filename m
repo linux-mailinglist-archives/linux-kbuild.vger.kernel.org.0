@@ -2,49 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E60BF63966
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 18:30:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 748C063A3A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 19:37:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726232AbfGIQaw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 12:30:52 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:52084 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726133AbfGIQaw (ORCPT
+        id S1726309AbfGIRhy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jul 2019 13:37:54 -0400
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:60058 "EHLO
+        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbfGIRhy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 12:30:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=ej1dfMmYgr1AeGBtidA9OPAlkakgtWyk3TTGIlbufEI=; b=uhffFkUxVvxFaB/v6QyUur77Q
-        olqgQsIPbIEejaz1ecbet0SKmytp9fST5h5LmNrUAm/YXR7n6AlURLiMJi2KmhDLcrvLBhKRS9dnn
-        phd/Z7e/kRIEB3DK+MqiY/P9xGwQQCCFjOAEOLL9ITH4GQl8a1xBYSXfKjmpLh6ctvgw/qub9TuR7
-        Pn4aUejvO7EXMICnKVC7dxfjXJXRFs7V2B43kp4BUqSz78dAWVPfaQHBpq5kn26IWfcEe5Siy1NCV
-        n/uq9NbhPhpb2eRfjQXattspJPi1zQLdRLwjppjITSJhwWSmmA8Pjj9UH/SjbJRM0AW1RRkNuE6q8
-        75/MpZVug==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hkt0s-0000bh-Mi; Tue, 09 Jul 2019 16:30:42 +0000
-Date:   Tue, 9 Jul 2019 09:30:42 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: Inform user to pass ARCH= for make mrproper
-Message-ID: <20190709163042.GA28716@infradead.org>
-References: <20190709132639.26802-1-geert@linux-m68k.org>
+        Tue, 9 Jul 2019 13:37:54 -0400
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id C754C161342;
+        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=ZPzL96906deSPszntNDHK2QFX3M=; b=gufTxB
+        zNSe+0divwYcBXwLhl9W3sFW7BjvHwmRzFddQ05k36d7tv2a25UjIIOxanJXoOtD
+        ynWmKEeObbiHF4Wvmzj5VKMD2JqVBTuU5B/1bWCi1zttldwtRQOxwxGPf3VwFHae
+        ZTVdmAa/irDQ+ccsim1Jzz0QckHhqwsrggLFU=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id BE41C161341;
+        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=JUWCum9pcbTPQLn3Li5UWdFaYelziHmHH3PL7HgMqUA=; b=xks7+qKO5WD+kKbJjFOF8VQyA5IpsnEK4OFwGE8D3PZDdxs5jke6gTQYNTNVpTuw+9lZxor+rnj4Og4V3l/KkAFJFxOEdbqgqYP59TtxNtwcnTTVeAbnmcjK6S4EqKV6l5owBWQteKjscyC6KqLyM/GwiQFONIgs423mD66FaEE=
+Received: from yoda.home (unknown [70.82.130.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 43457161340;
+        Tue,  9 Jul 2019 13:37:51 -0400 (EDT)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 5E86E2DA0192;
+        Tue,  9 Jul 2019 13:37:50 -0400 (EDT)
+Date:   Tue, 9 Jul 2019 13:37:50 -0400 (EDT)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: Re: [PATCH 08/11] kbuild: create *.mod with full directory path and
+ remove MODVERDIR
+In-Reply-To: <20190709042416.27554-9-yamada.masahiro@socionext.com>
+Message-ID: <nycvar.YSQ.7.76.1907091332150.4190@knanqh.ubzr>
+References: <20190709042416.27554-1-yamada.masahiro@socionext.com> <20190709042416.27554-9-yamada.masahiro@socionext.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190709132639.26802-1-geert@linux-m68k.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: 466A70CC-A270-11E9-96DF-46F8B7964D18-78420484!pb-smtp1.pobox.com
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Is there any chance we could save ARCH in .config?  That would make
-cross compile builds so much easier..  Same for CROSS_COMPILE.
+On Tue, 9 Jul 2019, Masahiro Yamada wrote:
+
+> --- a/scripts/adjust_autoksyms.sh
+> +++ b/scripts/adjust_autoksyms.sh
+> @@ -47,13 +47,10 @@ cat > "$new_ksyms_file" << EOT
+>   */
+>  
+>  EOT
+> -[ "$(ls -A "$MODVERDIR")" ] &&
+> -for mod in "$MODVERDIR"/*.mod; do
+> -	sed -n -e '3{s/ /\n/g;/^$/!p;}' "$mod"
+> -done | sort -u |
+> -while read sym; do
+> -	echo "#define __KSYM_${sym} 1"
+> -done >> "$new_ksyms_file"
+> +sed 's/ko$/mod/' modules.order |
+> +xargs -r -n1 sed -n -e '3{s/ /\n/g;/^$/!p;}' |
+> +sort -u |
+> +sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
+
+Did you consider the case when CONFIG_MODULES=y but no modules are 
+selected? Also -r to xargs is a GNU extension and there were some 
+efforts to remove theur use in the past (no idea if this is still a 
+concern).
+
+Other than that, looks good to me.
+
+Acked-by: Nicolas Pitre <nico@fluxnic.net>
+
+
+Nicolas
