@@ -2,188 +2,126 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A359E633C5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 11:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83FA463411
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jul 2019 12:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbfGIJ6G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 05:58:06 -0400
-Received: from mx1.riseup.net ([198.252.153.129]:46900 "EHLO mx1.riseup.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726679AbfGIJ6G (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 05:58:06 -0400
-Received: from capuchin.riseup.net (capuchin-pn.riseup.net [10.0.1.176])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "*.riseup.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (verified OK))
-        by mx1.riseup.net (Postfix) with ESMTPS id D92CF1A0249;
-        Tue,  9 Jul 2019 02:58:04 -0700 (PDT)
-X-Riseup-User-ID: 077506A9166EDD611D1BDA0D2B4B64163B74DD2F9F782D635CDA95E7F337946F
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by capuchin.riseup.net (Postfix) with ESMTPSA id 6B2681207E6;
-        Tue,  9 Jul 2019 02:58:00 -0700 (PDT)
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org,
-        Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
-From:   =?UTF-8?Q?Joonas_Kylm=c3=a4l=c3=a4?= <joonas.kylmala@iki.fi>
-Openpgp: preference=signencrypt
-Autocrypt: addr=joonas.kylmala@iki.fi; prefer-encrypt=mutual; keydata=
- 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
- gKPkEg==
-Subject: Issue/Bug report: auto.conf not generated correctly when
- CROSS_COMPILE environment var set
-Message-ID: <ed43c836-bbb2-9283-67ce-4b59563ac327@iki.fi>
-Date:   Tue, 9 Jul 2019 12:57:57 +0300
+        id S1726218AbfGIKQb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jul 2019 06:16:31 -0400
+Received: from smtprelay0048.hostedemail.com ([216.40.44.48]:55609 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726057AbfGIKQb (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 9 Jul 2019 06:16:31 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id A263718225E17;
+        Tue,  9 Jul 2019 10:16:29 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 64,4,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::,RULES_HIT:41:355:379:599:800:960:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1535:1544:1593:1594:1711:1730:1747:1777:1792:2197:2199:2332:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3653:3865:3866:3868:3872:3874:4250:4321:4605:5007:6117:6119:6238:10004:10848:11026:11232:11657:11658:11914:12043:12297:12438:12555:12740:12760:12895:12986:13161:13200:13225:13229:13255:13439:13972:14096:14097:14181:14659:14721:14913:21080:21221:21324:21451:21627:30054:30056:30091,0,RBL:23.242.196.136:@perches.com:.lbl8.mailshell.net-62.14.0.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:24,LUA_SUMMARY:none
+X-HE-Tag: hen97_38791bb4ff724
+X-Filterd-Recvd-Size: 5728
+Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
+        (Authenticated sender: joe@perches.com)
+        by omf18.hostedemail.com (Postfix) with ESMTPA;
+        Tue,  9 Jul 2019 10:16:27 +0000 (UTC)
+Message-ID: <691a85e0825376450b946effad13ffdeecde611d.camel@perches.com>
+Subject: Re: [PATCH 3/4] scripts: checkpatch.pl: don't complain that
+ debian/rules is executable
+From:   Joe Perches <joe@perches.com>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        linux-kernel@vger.kernel.org
+Cc:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        apw@canonical.com, linux-kbuild@vger.kernel.org,
+        linux-riscv@lists.infradead.org, clang-built-linux@googlegroups.com
+Date:   Tue, 09 Jul 2019 03:16:26 -0700
+In-Reply-To: <1562664759-16009-3-git-send-email-info@metux.net>
+References: <1562664759-16009-1-git-send-email-info@metux.net>
+         <1562664759-16009-3-git-send-email-info@metux.net>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro and Michal,
+On Tue, 2019-07-09 at 11:32 +0200, Enrico Weigelt, metux IT consult
+wrote:
+> checkpatch.pl complains when adding executable "debian/rules",
+> obviously a false alarm. Therefore add an exception for that.
+> 
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+> ---
+>  scripts/checkpatch.pl | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 342c7c7..caf0146 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -2587,6 +2587,7 @@ sub process {
+>  		if ($line =~ /^new (file )?mode.*[7531]\d{0,2}$/) {
+>  			my $permhere = $here . "FILE: $realfile\n";
+>  			if ($realfile !~ m@scripts/@ &&
+> +			    $realfile !~ "debian/rules" &&
+>  			    $realfile !~ /\.(py|pl|awk|sh)$/) {
+>  				ERROR("EXECUTE_PERMISSIONS",
+>  				      "do not set execute permissions for source files\n" . $permhere);
 
-I'm having a build issue regarding auto.conf generation with the the
-latest master (commit 5ad18b2e60b7) plus this patch to use
-CONFIG_USB_FUNCTIONFS as built-in module:
+There are several of these scripts that have
+no filename extension type and I suspect just
+adding debian/rules isn't all that valuable.
 
-diff --git a/arch/arm/configs/imx_v6_v7_defconfig
-b/arch/arm/configs/imx_v6_v7_defconfig
-index 8116648a8efd..228098c64c48 100644
---- a/arch/arm/configs/imx_v6_v7_defconfig
-+++ b/arch/arm/configs/imx_v6_v7_defconfig
-@@ -345,14 +345,7 @@ CONFIG_USB_CONFIGFS_F_MIDI=y
- CONFIG_USB_CONFIGFS_F_HID=y
- CONFIG_USB_CONFIGFS_F_UVC=y
- CONFIG_USB_CONFIGFS_F_PRINTER=y
--CONFIG_USB_ZERO=m
--CONFIG_USB_AUDIO=m
--CONFIG_USB_ETH=m
--CONFIG_USB_G_NCM=m
--CONFIG_USB_GADGETFS=m
--CONFIG_USB_FUNCTIONFS=m
--CONFIG_USB_MASS_STORAGE=m
--CONFIG_USB_G_SERIAL=m
-+CONFIG_USB_FUNCTIONFS=y
- CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
+$ git ls-files -s | grep '^100755' | grep -vP '\.(py|pl|awk|sh)$' | grep -v 'scripts/'
+100755 b803f4f886b5e5e4046daedbd516e894f0f7e897 0	Documentation/target/target-export-device
+100755 532d458333965b80f8f3ea149ad705208893b58f 0	arch/powerpc/boot/wrapper
+100755 fbac1732f874e8d117b9c4aaf0a66b203370b933 0	arch/s390/kernel/syscalls/syscalltbl
+100755 47c481239e986c35ba4818cb3e96f9ba7a813c2e 0	drivers/staging/greybus/tools/lbtest
+100755 d7fc32ea8ac224f0fb6f28c58b196c665e510992 0	lib/build_OID_registry
+100755 030a60b0404632ed598e5f5b56267e2a6af4b25f 0	samples/mic/mpssd/micctrl
+100755 248ac7313c714d7acb29ceaaadd8fc8ee484e85e 0	samples/mic/mpssd/mpss
+100755 2240cb56e6e5e6ed30a75913d4d5fecbb8f193c3 0	tools/debugging/kernel-chktaint
+100755 ad1b9e646c4913b31aab9696245bc94b661647ff 0	tools/kvm/kvm_stat/kvm_stat
+100755 49af9fe19f5b0533b64c117a363fc1c3785fa1da 0	tools/lib/lockdep/lockdep
+100755 459469b7222c1410f7a701561eec004d86568369 0	tools/perf/arch/arm64/entry/syscalls/mksyscalltbl
+100755 6c58060aa03beae7456e4f7cb0588e70207314be 0	tools/perf/arch/powerpc/entry/syscalls/mksyscalltbl
+100755 72ecbb67637079f709262298981162b6cbb12c9f 0	tools/perf/arch/s390/entry/syscalls/mksyscalltbl
+100755 fae26b1cf08f50a8c0caacf7bc0715e948ef0c03 0	tools/perf/tests/perf-targz-src-pkg
+100755 3802cee5e1887f5b406324484832305e4a1b29b6 0	tools/perf/util/PERF-VERSION-GEN
+100755 6d5e9e87c4b7f51f5904d17fa016a134563ba0d0 0	tools/testing/selftests/ftrace/ftracetest
+100755 ea5938ec009a5eb9e28cb1778e081a568e66fd65 0	tools/testing/selftests/net/run_afpackettests
+100755 14e41faf2c5740633f9dd30e500543647b736734 0	tools/testing/selftests/net/run_netsocktests
+100755 4509f0cc9c918d33c39caf3372f2bcdfc81bceff 0	tools/testing/selftests/pstore/common_tests
+100755 2a329bbb4aca3ad391a5aca9a67f554b060fdca2 0	tools/testing/selftests/pstore/pstore_crash_test
+100755 d6da5e86efbf89c7f4d7454d9a2c6a11ef2ea9e4 0	tools/testing/selftests/pstore/pstore_post_reboot_tests
+100755 1cef54458aff916b2f00af33deef703cb3101ab0 0	tools/testing/selftests/pstore/pstore_tests
+100755 951c507a27f7df05f82ce2de78abba2e0d9848f4 0	tools/testing/selftests/vm/run_vmtests
 
-Here is a excerpt from my terminal so you can understand and reproduce
-the bug/issue easily:
+Maybe setting an internal flag and looking at the file content
+for a shebang might be better.
 
-user@builder:~/linux$ export CROSS_COMPILE=arm-none-eabi-
-user@builder:~/linux$ export ARCH=arm
-user@builder:~/linux$ make mrproper && make clean && make
-imx_v6_v7_defconfig && rgrep USB_FUNCTIONFS | grep "auto.conf"
-  CLEAN   scripts/basic
-  CLEAN   scripts/kconfig
-  CLEAN   include/config include/generated
-  CLEAN   .config
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.h
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  YACC    scripts/kconfig/parser.tab.c
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTLD  scripts/kconfig/conf
-#
-# configuration written to .config
-#
-user@builder:~/linux$ make mrproper && make clean && make
-imx_v6_v7_defconfig && make syncconfig && rgrep USB_FUNCTIONFS | grep
-"auto.conf"
-  CLEAN   scripts/basic
-  CLEAN   scripts/kconfig
-  CLEAN   include/config include/generated
-  CLEAN   .config
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.h
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  YACC    scripts/kconfig/parser.tab.c
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTLD  scripts/kconfig/conf
-#
-# configuration written to .config
-#
-scripts/kconfig/conf  --syncconfig Kconfig
-include/config/auto.conf:CONFIG_USB_FUNCTIONFS=y
-include/config/auto.conf:CONFIG_USB_FUNCTIONFS_GENERIC=y
+$ git ls-files -s  | grep '^100755' | grep -vP '\.(py|pl|awk|sh)$'|grep -v 'scripts/'|awk '{print $4}'|while read file ; do echo "$file       $(head -2 $file | grep '#!')" ; done
+Documentation/target/target-export-device	#!/bin/sh
+arch/powerpc/boot/wrapper	#!/bin/sh
+arch/s390/kernel/syscalls/syscalltbl	#!/bin/sh
+drivers/staging/greybus/tools/lbtest	#!/usr/bin/env python
+lib/build_OID_registry	#!/usr/bin/perl -w
+samples/mic/mpssd/micctrl	#!/bin/bash
+samples/mic/mpssd/mpss	#!/bin/bash
+tools/debugging/kernel-chktaint	#! /bin/sh
+tools/kvm/kvm_stat/kvm_stat	#!/usr/bin/env python3
+tools/lib/lockdep/lockdep	#!/bin/bash
+tools/perf/arch/arm64/entry/syscalls/mksyscalltbl	#!/bin/sh
+tools/perf/arch/powerpc/entry/syscalls/mksyscalltbl	#!/bin/sh
+tools/perf/arch/s390/entry/syscalls/mksyscalltbl	#!/bin/sh
+tools/perf/tests/perf-targz-src-pkg	#!/bin/sh
+tools/perf/util/PERF-VERSION-GEN	#!/bin/sh
+tools/testing/selftests/ftrace/ftracetest	#!/bin/sh
+tools/testing/selftests/net/run_afpackettests	#!/bin/sh
+tools/testing/selftests/net/run_netsocktests	#!/bin/sh
+tools/testing/selftests/pstore/common_tests	#!/bin/sh
+tools/testing/selftests/pstore/pstore_crash_test	#!/bin/sh
+tools/testing/selftests/pstore/pstore_post_reboot_tests	#!/bin/sh
+tools/testing/selftests/pstore/pstore_tests	#!/bin/sh
+tools/testing/selftests/vm/run_vmtests	#!/bin/bash
 
-As we can see in the first build command run CONFIG_USB_FUNCTIONFS=y
-doesn't appear in the file include/config/auto.conf, it only appears
-after running "make syncconfig". Normally this is not a problem for me
-since for "make *_defconfig" I don't use CROSS_COMPILE in that step and
-I only use it in "make zImage". If I run "CROSS_COMPILE=xxxx make
-zImage" then I think syncconfig is triggered because in the "make
-*_defconfig" stage the compiler was different [1] and so I don't hit
-this issue with auto.conf not being generated correctly.
-
-Anyways, some projects like LineageOS set the CROSS_COMPILE variable
-even for "make *_defconfig" command (for reproducibility reasons I
-guess) so this issue exists there. And it is quite handy to just put to
-your shell profile "export CROSS_COMPILE=xxx" so one doesn't need to
-type it always.
-
-I'm using Debian 9 for compilation so I think the version of
-arm-none-eabi-gcc is 5.4.1 (debian package version
-15:5.4.1+svn241155-1). As I understood, Denis (in CC) was able to
-reproduce this in Trisquel 8 with similar commands but slightly older
-kernel version 5.2rc7 plus some additional patches.
-
-[1] https://patchwork.kernel.org/patch/10507817/
-
--Joonas
