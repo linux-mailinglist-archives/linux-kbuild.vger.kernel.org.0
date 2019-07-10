@@ -2,130 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D70463F91
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jul 2019 05:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8646E63FBD
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jul 2019 06:00:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbfGJDKX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jul 2019 23:10:23 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:47976 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725880AbfGJDKX (ORCPT
+        id S1726020AbfGJEAZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Jul 2019 00:00:25 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:63681 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725791AbfGJEAZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jul 2019 23:10:23 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x6A3935O010665;
-        Wed, 10 Jul 2019 12:09:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6A3935O010665
+        Wed, 10 Jul 2019 00:00:25 -0400
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id x6A407t3006697;
+        Wed, 10 Jul 2019 13:00:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x6A407t3006697
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562728145;
-        bh=yg87jS3mBO0kAMfLp5u/C6DBa8X2nswxL+kGhWPzUOg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=kpnGlFpcSMzIQYPbVT4k8yuJ0iK5u1Xg9yTm6oCbld3FupuP6S1wqN5m09yY16Vyb
-         p+EZEWObjcPRUcC8ZNRgb78GdWU5X66K931RHTcFRL16pdIqZ5Pjo/PKVFRvuB9fc2
-         efVrduI/879i8wwwbc+qLCRighS32P9dsqCdu4XldXOIR7VF+tbaOtFWEqn2YguYM/
-         Krf8Q+srAdM4lvqQdcnow7zRJag2Q2PU6Lg/VCGhKov4gLwlYZwdYPDmrAqkL7ywp9
-         sjC8PIcD/F1p72iaglATkm1moBq5mTFfN2Vak+n4h2JK0Ob0Di9NHMngtEtAg4d8ol
-         d7L24k4mo7GDQ==
-X-Nifty-SrcIP: [153.142.97.92]
+        s=dec2015msa; t=1562731208;
+        bh=KknRHaSkhBMpTs1BmzD59wJGTvSH88jZgscNwiE3MlQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Zcv8Y/m8P8X292YdVCGzvjt8eh3zKthkL/tKU8hgl0+kZFK/TCidt2YnUJeXwRY2C
+         53gnnvfR1V5a/tZ3oft3dU87Wv/na0I6Cs7CUbLYQQ/tTgfsks7h1YrnLQlPvFedYE
+         CUXVrkPfqD5VgYstJJ7CydXBopsxsIxYrwFsxgwx6d60uk5NaU0HmmUFrWcRa0Ma+X
+         JP4vrMHlCl+oWvWoNYTtWzS8BRJaI99Vvewq8PDOryzMVp2NXYrBOU+OgPSCXtaQVR
+         iBpoKf4mR5G2BIwMVbOsyg7IXjsTJdhgiZepcEUeuFghjpTnMBJ19Lf/0+rRb7AENC
+         me1vWrlscZvww==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id m8so625105vsj.0;
+        Tue, 09 Jul 2019 21:00:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAUOzUg7dewpDpaEaEwdms+J+YjUAAAn+8Q5wRx/H0vBF2T/33CF
+        O4/8l42f2KO7ypeZySrTpPfE7/o10ZbDtcOBLrA=
+X-Google-Smtp-Source: APXvYqzEJesQV2n3K1HZLU8Wx1IHWCC1QIw58D6BP7vlVU/X0PRT9+zSoni+Ubl8ut/dwkZUzYEjYnFrduUZ0sj9y38=
+X-Received: by 2002:a67:f495:: with SMTP id o21mr16708917vsn.54.1562731207027;
+ Tue, 09 Jul 2019 21:00:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190709063023.251446-1-brendanhiggins@google.com> <20190709063023.251446-7-brendanhiggins@google.com>
+In-Reply-To: <20190709063023.251446-7-brendanhiggins@google.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-parisc@vger.kernel.org,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Vineet Gupta <vgupta@synopsys.com>,
-        linux-um@lists.infradead.org, Richard Weinberger <richard@nod.at>,
-        linux-snps-arc@lists.infradead.org, Jeff Dike <jdike@addtoit.com>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Subject: [PATCH] fixup! kbuild: remove obj and src from the top Makefile
-Date:   Wed, 10 Jul 2019 12:09:01 +0900
-Message-Id: <20190710030901.1836-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+Date:   Wed, 10 Jul 2019 12:59:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATx30AhZ51xozde=nO06-8UzuC0M9nfZXrqkyfmEFdu5w@mail.gmail.com>
+Message-ID: <CAK7LNATx30AhZ51xozde=nO06-8UzuC0M9nfZXrqkyfmEFdu5w@mail.gmail.com>
+Subject: Re: [PATCH v7 06/18] kbuild: enable building KUnit
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Cc: Shuah Khan" <shuah@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, DTML <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        Tim Bird <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Merging today's kbuild tree would break arc, um, parisc.
-I just noticed it now. I will fix it soon for tomorrow's linux-next.
+On Tue, Jul 9, 2019 at 3:34 PM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> KUnit is a new unit testing framework for the kernel and when used is
+> built into the kernel as a part of it. Add KUnit to the root Kconfig and
+> Makefile to allow it to be actually built.
+>
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> ---
+>  Kconfig  | 2 ++
+>  Makefile | 2 +-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Kconfig b/Kconfig
+> index 48a80beab6853..10428501edb78 100644
+> --- a/Kconfig
+> +++ b/Kconfig
+> @@ -30,3 +30,5 @@ source "crypto/Kconfig"
+>  source "lib/Kconfig"
+>
+>  source "lib/Kconfig.debug"
+> +
+> +source "kunit/Kconfig"
+> diff --git a/Makefile b/Makefile
+> index 3e4868a6498b2..60cf4f0813e0d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -991,7 +991,7 @@ endif
+>  PHONY += prepare0
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+> -core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+> +core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/ kunit/
+>
+>  vmlinux-dirs   := $(patsubst %/,%,$(filter %/, $(init-y) $(init-m) \
+>                      $(core-y) $(core-m) $(drivers-y) $(drivers-m) \
+> --
+> 2.22.0.410.gd8fdbe21b5-goog
 
-If needed, this might be useful for today's linux-next.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+This is so trivial, and do not need to get ack from me.
 
- arch/arc/Makefile    |  2 +-
- arch/parisc/Makefile | 12 ++++++------
- arch/um/Makefile     |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
+Just a nit.
 
-diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-index 03a0b19c92cd..ee6d1184c2b1 100644
---- a/arch/arc/Makefile
-+++ b/arch/arc/Makefile
-@@ -19,7 +19,7 @@ ifdef CONFIG_ARC_CURR_IN_REG
- # any kernel headers, and missing the r25 global register
- # Can't do unconditionally because of recursive include issues
- # due to <linux/thread_info.h>
--LINUXINCLUDE	+=  -include ${src}/arch/arc/include/asm/current.h
-+LINUXINCLUDE	+=  -include $(srctree)/arch/arc/include/asm/current.h
- endif
- 
- cflags-y				+= -fsection-anchors
-diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-index 58d46665cad9..8acb8fa1f8d6 100644
---- a/arch/parisc/Makefile
-+++ b/arch/parisc/Makefile
-@@ -120,8 +120,8 @@ PALO := $(shell if (which palo 2>&1); then : ; \
- 	elif [ -x /sbin/palo ]; then echo /sbin/palo; \
- 	fi)
- 
--PALOCONF := $(shell if [ -f $(src)/palo.conf ]; then echo $(src)/palo.conf; \
--	else echo $(obj)/palo.conf; \
-+PALOCONF := $(shell if [ -f $(srctree)/palo.conf ]; then echo $(srctree)/palo.conf; \
-+	else echo $(objtree)/palo.conf; \
- 	fi)
- 
- palo lifimage: vmlinuz
-@@ -131,8 +131,8 @@ palo lifimage: vmlinuz
- 		false; \
- 	fi
- 	@if test ! -f "$(PALOCONF)"; then \
--		cp $(src)/arch/parisc/defpalo.conf $(obj)/palo.conf; \
--		echo 'A generic palo config file ($(obj)/palo.conf) has been created for you.'; \
-+		cp $(srctree)/arch/parisc/defpalo.conf $(objtree)/palo.conf; \
-+		echo 'A generic palo config file ($(objree)/palo.conf) has been created for you.'; \
- 		echo 'You should check it and re-run "make palo".'; \
- 		echo 'WARNING: the "lifimage" file is now placed in this directory by default!'; \
- 		false; \
-@@ -162,10 +162,10 @@ vmlinuz: vmlinux
- endif
- 
- install:
--	$(CONFIG_SHELL) $(src)/arch/parisc/install.sh \
-+	$(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
- 			$(KERNELRELEASE) vmlinux System.map "$(INSTALL_PATH)"
- zinstall:
--	$(CONFIG_SHELL) $(src)/arch/parisc/install.sh \
-+	$(CONFIG_SHELL) $(srctree)/arch/parisc/install.sh \
- 			$(KERNELRELEASE) vmlinuz System.map "$(INSTALL_PATH)"
- 
- CLEAN_FILES	+= lifimage
-diff --git a/arch/um/Makefile b/arch/um/Makefile
-index 273130cf91d1..d2daa206872d 100644
---- a/arch/um/Makefile
-+++ b/arch/um/Makefile
-@@ -73,7 +73,7 @@ KBUILD_AFLAGS += $(ARCH_INCLUDE)
- USER_CFLAGS = $(patsubst $(KERNEL_DEFINES),,$(patsubst -I%,,$(KBUILD_CFLAGS))) \
- 		$(ARCH_INCLUDE) $(MODE_INCLUDE) $(filter -I%,$(CFLAGS)) \
- 		-D_FILE_OFFSET_BITS=64 -idirafter $(srctree)/include \
--		-idirafter $(obj)/include -D__KERNEL__ -D__UM_HOST__
-+		-idirafter $(objtree)/include -D__KERNEL__ -D__UM_HOST__
- 
- #This will adjust *FLAGS accordingly to the platform.
- include $(ARCH_DIR)/Makefile-os-$(OS)
--- 
-2.17.1
 
+When CONFIG_KUNIT is disable, is there any point in descending into kunit/ ?
+
+core-$(CONFIG_KUNIT) += kunit/
+
+... might be useful to skip kunit/ entirely.
+
+If you look at the top-level Makefile, some entries are doing this:
+
+
+init-y          := init/
+drivers-y       := drivers/ sound/
+drivers-$(CONFIG_SAMPLES) += samples/
+drivers-$(CONFIG_KERNEL_HEADER_TEST) += include/
+net-y           := net/
+libs-y          := lib/
+core-y          := usr/
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
