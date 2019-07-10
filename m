@@ -2,158 +2,153 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B45264CE0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jul 2019 21:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2EE664D8B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jul 2019 22:28:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727644AbfGJTj3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Jul 2019 15:39:29 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37942 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727330AbfGJTj3 (ORCPT
+        id S1727721AbfGJU1z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Jul 2019 16:27:55 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:46196 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726033AbfGJU1y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Jul 2019 15:39:29 -0400
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADBCD31C;
-        Wed, 10 Jul 2019 21:39:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562787566;
-        bh=N3ZIgybu1x5UsQxQ0Z8T8jD7iZ87711YRfKM5+jtGkY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=cxBIEUrAeffKjKtsRidEyVKZ7dM5fFJEVsPlJpNqkftYlq+skGFd96aXmzOxpQuyd
-         xfHFFPqGY0jB5nuPDSHNcLDXiOTI7pX5rAyrJLkY98W474EabxeIcVCS+Ku0GrdwIY
-         D7EzuHpsfRUUgQ0C6qnYCQas8JwqvnNYRO6k2OeU=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Wolfram Sang <wsa@the-dreams.de>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org (open list)
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-Subject: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-Date:   Wed, 10 Jul 2019 20:39:06 +0100
-Message-Id: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
+        Wed, 10 Jul 2019 16:27:54 -0400
+Received: by mail-pf1-f194.google.com with SMTP id c73so1600710pfb.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jul 2019 13:27:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hO2jzOM05mxrz5IGdqgpee+axiQH+2OXPmqo+Ul0FcM=;
+        b=DXE2TyoaAsiT9dgVdMLJlwnFOJG+VPwltPNRpKt3x1FLvKASU/iQDS/su9pWcI6ZPd
+         MXkkWpKWuusX2P8emSJdJDlt30oE5SxYRezHyYxpjjVp3ZbcLi8A3iWXovzH83yYRc8k
+         fjxQns6K5/tsiMazqiGGWLPX8o1RPbeCk84rZYGhBrbKZfsdxcSVvoPDO0y7puTr2iGH
+         fQNI4xvqDUtOGBpEZRrc5xNRkpC2AFKD+tShr+e3Bwk8ghWvxHexXjknk4e4/Fuddr4K
+         h5eIBtrjZWB7rbYTWe1Z8/fz44NvT2DlWtjdcUYum8NYmtJkqcBIajW2gxCHzFBMqhlz
+         2q0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hO2jzOM05mxrz5IGdqgpee+axiQH+2OXPmqo+Ul0FcM=;
+        b=PHK/8H4N+uSIx5rghg2euoPQnFquSi2XOFMyuoIKK7+/2FLMY3KoLAP3XYkTP8C5aN
+         5AQOsSxX5rFXWuSFw9Pyxe4xQAvmzPeDNOBu1dCwi4FYsnVszlO6N8p5mtFFlgLu+Skq
+         VxDhn5GpQdX1BZJK2w+HyctZ/MwjicupUaIBFrJzT85bWbXyAyWdIaEEeECd/O/YvOa5
+         o13vGvJR4GE3hPTYA12E8MjLMTgendpTH+7bm4wq9VwyROJzrH8SvXxXcRqBJMEZUtK8
+         0eIWp/wJrkH0cC8YYM8CB3pUcRsxbr0OxsWT9ckk8Qk182nfFNQ0uc2lcwhQO4187cgm
+         isyg==
+X-Gm-Message-State: APjAAAUR7GC2PdXyip8+F3avxPaBFTePKQttg8ykhbWduqOPfT67sXX8
+        1oDjBvkY1WAhpt+dF/G/IYjMjBfZW7ReVsxfk1YjAw==
+X-Google-Smtp-Source: APXvYqzZdlWhCkBvFW8XUuT2KDhsG6TgutjUsDP74lsWb4XjESrHCjQll9Q/yu+3XrTs4ARL+yM6pPyLsGbtB4DuWT0=
+X-Received: by 2002:a63:205f:: with SMTP id r31mr109331pgm.159.1562790473396;
+ Wed, 10 Jul 2019 13:27:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190709063023.251446-1-brendanhiggins@google.com>
+ <20190709063023.251446-17-brendanhiggins@google.com> <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
+ <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
+In-Reply-To: <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 10 Jul 2019 13:27:42 -0700
+Message-ID: <CAFd5g45zFhBN-yrJbRt6KnFkYKxVqjs9qeQULCSD6z89vvG-Tg@mail.gmail.com>
+Subject: Re: [PATCH v7 16/18] MAINTAINERS: add entry for KUnit the unit
+ testing framework
+To:     shuah <shuah@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I2C drivers match against an I2C ID table, an OF table, and an ACPI
-table. It is now also possible to match against an OF table entry
-without the vendor prefix to support backwards compatibility, and allow
-simplification of the i2c probe functions.
+On Tue, Jul 9, 2019 at 11:01 AM Brendan Higgins
+<brendanhiggins@google.com> wrote:
+>
+> On Tue, Jul 9, 2019 at 7:53 AM shuah <shuah@kernel.org> wrote:
+> >
+> > On 7/9/19 12:30 AM, Brendan Higgins wrote:
+> > > Add myself as maintainer of KUnit, the Linux kernel's unit testing
+> > > framework.
+> > >
+> > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> > > ---
+> > >   MAINTAINERS | 11 +++++++++++
+> > >   1 file changed, 11 insertions(+)
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 677ef41cb012c..48d04d180a988 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -8599,6 +8599,17 @@ S:     Maintained
+> > >   F:  tools/testing/selftests/
+> > >   F:  Documentation/dev-tools/kselftest*
+> > >
+> > > +KERNEL UNIT TESTING FRAMEWORK (KUnit)
+> > > +M:   Brendan Higgins <brendanhiggins@google.com>
+> > > +L:   linux-kselftest@vger.kernel.org
+> > > +L:   kunit-dev@googlegroups.com
+> > > +W:   https://google.github.io/kunit-docs/third_party/kernel/docs/
+> > > +S:   Maintained
+> > > +F:   Documentation/dev-tools/kunit/
+> > > +F:   include/kunit/
+> > > +F:   kunit/
+> > > +F:   tools/testing/kunit/
+> > > +
+> > >   KERNEL USERMODE HELPER
+> > >   M:  Luis Chamberlain <mcgrof@kernel.org>
+> > >   L:  linux-kernel@vger.kernel.org
+> > >
+> >
+> > Thanks Brendan.
+> >
+> > I am good with this. I can take KUnit patches through kselftest
+> > with your Ack.
+>
+> My acknowledgement? Sure! I thought we already agreed to that.
+>
+> Also, do we need an ack from Masahiro or Michal for the Kbuild patch
+> [PATCH v7 06/18]? And an ack from Josh or Peter for the objtool patch
+> [PATCH v7 08/18]?
 
-As part of this matching, the probe function is being converted to
-remove the need to specify the i2c_device_id table, but to support
-module aliasing, we still require to have the MODULE_DEVICE_TABLE entry.
+By the way, I am guessing you have already seen it, but I uploaded a
+new version to incorporate a suggestion made by Masahiro on patch
+06/18. In addition, I have gotten acks on the two patches mentioned
+above. So I think we are good to go.
 
-Facilitate generating the I2C aliases directly from the of_device_id
-tables, by stripping the vendor prefix prefix from the compatible string
-and using that as an alias just as the i2c-core supports.
-
-Drivers which remove the i2c_device_id table can then register against
-the of_device_id table by adding an extra MODULE_DEVICE_TABLE
-registration as shown by the following example:
-
- /* si4713_i2c_driver - i2c driver interface */
--static const struct i2c_device_id si4713_id[] = {
--       { "si4713" , 0 },
--       { },
--};
--MODULE_DEVICE_TABLE(i2c, si4713_id);
-
- static const struct of_device_id si4713_of_match[] = {
-        { .compatible = "silabs,si4713" },
-        { },
- };
- MODULE_DEVICE_TABLE(of, si4713_of_match);
-+MODULE_DEVICE_TABLE(i2c_of, si4713_of_match);
-
-Several drivers have had their i2c_device_id tables removed entirely
-which will lead to their module aliases being limited, during the
-following patches:
-
-0f21700ac40c ("rtc: pcf85063: switch to probe_new")
-3a4f4f2963f4 ("ASoC: rt5677: Convert I2C driver to ->probe_new()")
-511cb17448d9 ("mfd: tps65217: Introduce dependency on CONFIG_OF")
-8597c0920d6f ("NFC: fdp: Convert I2C driver to ->probe_new()")
-b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")
-
-The following patches might require I2C aliases to be generated from
-their ACPI tables:
-
-e19c92059a70 ("media: staging: atomisp: Switch i2c drivers to use ->probe_new()")
-f758eb2363ec ("media: dw9714: Remove ACPI match tables, convert to use probe_new")
-
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Mark Brown <broonie@kernel.org>
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- scripts/mod/file2alias.c | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index e17a29ae2e97..16776f624d3a 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -379,6 +379,35 @@ static void do_of_table(void *symval, unsigned long size,
- 		do_of_entry_multi(symval + i, mod);
- }
- 
-+static int do_i2c_of_entry(void *symval, struct module *mod)
-+{
-+	const char *alias;
-+	DEF_FIELD_ADDR(symval, of_device_id, compatible);
-+
-+	alias = strrchr(*compatible, ',');
-+
-+	buf_printf(&mod->dev_table_buf, "MODULE_ALIAS(\"%s%s\");\n",
-+		   I2C_MODULE_PREFIX, alias ? alias + 1 : *compatible);
-+
-+	return 1;
-+}
-+
-+/* Reuse OF tables to generate I2C aliases */
-+static void do_i2c_of_table(void *symval, unsigned long size,
-+			    struct module *mod)
-+{
-+	unsigned int i;
-+	const unsigned long id_size = SIZE_of_device_id;
-+
-+	device_id_check(mod->name, "i2c_of", size, id_size, symval);
-+
-+	/* Leave last one: it's the terminator. */
-+	size -= id_size;
-+
-+	for (i = 0; i < size; i += id_size)
-+		do_i2c_of_entry(symval + i, mod);
-+}
-+
- /* Looks like: hid:bNvNpN */
- static int do_hid_entry(const char *filename,
- 			     void *symval, char *alias)
-@@ -1452,6 +1481,8 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
- 		do_usb_table(symval, sym->st_size, mod);
- 	if (sym_is(name, namelen, "of"))
- 		do_of_table(symval, sym->st_size, mod);
-+	else if (sym_is(name, namelen, "i2c_of"))
-+		do_i2c_of_table(symval, sym->st_size, mod);
- 	else if (sym_is(name, namelen, "pnp"))
- 		do_pnp_device_entry(symval, sym->st_size, mod);
- 	else if (sym_is(name, namelen, "pnp_card"))
--- 
-2.20.1
-
+Thanks!
