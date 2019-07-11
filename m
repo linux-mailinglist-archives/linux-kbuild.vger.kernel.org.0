@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B49B06519B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2019 07:46:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECCDF65183
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2019 07:45:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbfGKFpy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Jul 2019 01:45:54 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:59468 "EHLO
+        id S1727967AbfGKFpx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Jul 2019 01:45:53 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:59472 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727956AbfGKFpx (ORCPT
+        with ESMTP id S1727960AbfGKFpx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Thu, 11 Jul 2019 01:45:53 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x6B5ip8U031345;
+        by conuserg-08.nifty.com with ESMTP id x6B5ip8V031345;
         Thu, 11 Jul 2019 14:44:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x6B5ip8U031345
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x6B5ip8V031345
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562823899;
-        bh=Ns+sXHJZbzo/hYCT2LP+L4TcrC5zi8mC7e+kBaXavh4=;
+        s=dec2015msa; t=1562823900;
+        bh=iRp9Du8hIMlIwOLhJe7rDNMn7P7N/4zadqD4+iwRwl8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dl2hS4bC47jOuAJKxFYhxgx3/mkDJGp+FB6ejQdwkgRoovkUEhE77ghFexiCV2vT5
-         vBqiBj5ksQJ3d5oP8rj84I3y6UD90fpM+LXgCjiaHzzQ/cVpbULJdtRZ0rS4u9alla
-         Ss/kfRge6YJqs/ZHn2xR+FCDGxcotVTP4Ctu8lHLKgEG8XIZmZEr/hvg+pP078mSiY
-         Ecbpm6nCsIxKRRxzvQ1ZwBMoelhFBzyXAR+fxKxECBAl1roq8sYso2vcJoE3Khngvh
-         CMgCTAMLzMmw8VXUcPgApuV/V7kUFCU6/L/zQHFPpIEZB495HVHumyXjkRTbgYRgyh
-         O6NDviHp/qF6g==
+        b=kHHROSX5oyo66/pfhCsF+TrfXLXku+LACPJkW0iet8erC7xG/EvN4XWYSx5tsRd/W
+         lsFYztWkgGnh31I5CogAYVE1AD20ywUkiqdw7T2a/L9KKpjZ4e74xRXA4Peqey4nJ6
+         gowGCHXn/8v2uBm8G8bJdnfXKUn+mxBVNKfl4K7VKH6BOatc6BPFpwQWENIIJzddyh
+         ge9KxtwnrpMCyjXJRLm6OcUmdxeD2bEk99+ybLty2fZrElUbLtSesyNB+eHNlsaTnc
+         utDi+WeMxMGD4ZFlOGRLEAsSuC7BAGg7lUtPXje6fX8D/iDN7fK2xvGm5nMS3+DGR6
+         sQfWX0otXw6Jw==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Sam Ravnborg <sam@ravnborg.org>, Nicolas Pitre <nico@fluxnic.net>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 10/11] kbuild: remove 'prepare1' target
-Date:   Thu, 11 Jul 2019 14:44:33 +0900
-Message-Id: <20190711054434.1177-11-yamada.masahiro@socionext.com>
+Subject: [PATCH v2 11/11] kbuild: split out *.mod out of {single,multi}-used-m rules
+Date:   Thu, 11 Jul 2019 14:44:34 +0900
+Message-Id: <20190711054434.1177-12-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190711054434.1177-1-yamada.masahiro@socionext.com>
 References: <20190711054434.1177-1-yamada.masahiro@socionext.com>
@@ -44,42 +44,77 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now that there is no rule for 'prepare1', it can go away.
+Currently, *.mod is created as a side-effect of obj-m.
+
+Split out *.mod as a dedicated build rule, which allows to unify
+the %.c -> %.o rule, and remove the single-used-m rule.
+
+This also makes the incremental build of allmodconfig faster because
+it saves $(NM) invocation when there is no change in the module.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
 Changes in v2: None
 
- Makefile | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ scripts/Makefile.build | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4243b6daffcf..8de893e41149 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1093,7 +1093,7 @@ scripts: scripts_basic scripts_dtc
- # archprepare is used in arch Makefiles and when processed asm symlink,
- # version.h and scripts_basic is processed / created.
- 
--PHONY += prepare archprepare prepare1 prepare3
-+PHONY += prepare archprepare prepare3
- 
- # prepare3 is used to check if we are building in a separate output directory,
- # and if so do:
-@@ -1110,10 +1110,8 @@ ifneq ($(srctree),.)
- 	fi;
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 2709646b1a5d..63fc266b4985 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -67,8 +67,10 @@ ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
+ modorder-target := $(obj)/modules.order
  endif
  
--prepare1: prepare3 outputmakefile asm-generic $(version_h) $(autoksyms_h) \
--						include/generated/utsrelease.h
--
--archprepare: archheaders archscripts prepare1 scripts
-+archprepare: archheaders archscripts scripts prepare3 outputmakefile \
-+	asm-generic $(version_h) $(autoksyms_h) include/generated/utsrelease.h
++mod-targets := $(patsubst %.o, %.mod, $(obj-m))
++
+ __build: $(if $(KBUILD_BUILTIN),$(builtin-target) $(lib-target) $(extra-y)) \
+-	 $(if $(KBUILD_MODULES),$(obj-m) $(modorder-target)) \
++	 $(if $(KBUILD_MODULES),$(obj-m) $(mod-targets) $(modorder-target)) \
+ 	 $(subdir-ym) $(always)
+ 	@:
  
- prepare0: archprepare
- 	$(Q)$(MAKE) $(build)=scripts/mod
+@@ -266,7 +268,7 @@ endef
+ 
+ # List module undefined symbols (or empty line if not enabled)
+ ifdef CONFIG_TRIM_UNUSED_KSYMS
+-cmd_undef_syms = $(NM) $@ | sed -n 's/^  *U //p' | xargs echo
++cmd_undef_syms = $(NM) $< | sed -n 's/^  *U //p' | xargs echo
+ else
+ cmd_undef_syms = echo
+ endif
+@@ -276,11 +278,15 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+ 	$(call cmd,force_checksrc)
+ 	$(call if_changed_rule,cc_o_c)
+ 
+-$(single-used-m): $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+-	$(call cmd,force_checksrc)
+-	$(call if_changed_rule,cc_o_c)
+-	@{ echo $@; \
+-	   $(cmd_undef_syms); } > $(patsubst %.o,%.mod,$@)
++cmd_mod = { \
++	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
++	$(cmd_undef_syms); \
++	} > $@
++
++$(obj)/%.mod: $(obj)/%.o FORCE
++	$(call if_changed,mod)
++
++targets += $(mod-targets)
+ 
+ quiet_cmd_cc_lst_c = MKLST   $@
+       cmd_cc_lst_c = $(CC) $(c_flags) -g -c -o $*.o $< && \
+@@ -461,8 +467,6 @@ cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^) $(cmd_secanalysis
+ 
+ $(multi-used-m): FORCE
+ 	$(call if_changed,link_multi-m)
+-	@{ echo $(filter %.o,$^); \
+-	   $(cmd_undef_syms); } > $(patsubst %.o,%.mod,$@)
+ $(call multi_depend, $(multi-used-m), .o, -objs -y -m)
+ 
+ targets += $(multi-used-m)
 -- 
 2.17.1
 
