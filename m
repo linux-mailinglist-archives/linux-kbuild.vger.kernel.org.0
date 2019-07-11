@@ -2,153 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2EE664D8B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jul 2019 22:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5788D650C4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 11 Jul 2019 06:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727721AbfGJU1z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Jul 2019 16:27:55 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:46196 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726033AbfGJU1y (ORCPT
+        id S1727932AbfGKEOy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Jul 2019 00:14:54 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:53452 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726088AbfGKEOx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Jul 2019 16:27:54 -0400
-Received: by mail-pf1-f194.google.com with SMTP id c73so1600710pfb.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jul 2019 13:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hO2jzOM05mxrz5IGdqgpee+axiQH+2OXPmqo+Ul0FcM=;
-        b=DXE2TyoaAsiT9dgVdMLJlwnFOJG+VPwltPNRpKt3x1FLvKASU/iQDS/su9pWcI6ZPd
-         MXkkWpKWuusX2P8emSJdJDlt30oE5SxYRezHyYxpjjVp3ZbcLi8A3iWXovzH83yYRc8k
-         fjxQns6K5/tsiMazqiGGWLPX8o1RPbeCk84rZYGhBrbKZfsdxcSVvoPDO0y7puTr2iGH
-         fQNI4xvqDUtOGBpEZRrc5xNRkpC2AFKD+tShr+e3Bwk8ghWvxHexXjknk4e4/Fuddr4K
-         h5eIBtrjZWB7rbYTWe1Z8/fz44NvT2DlWtjdcUYum8NYmtJkqcBIajW2gxCHzFBMqhlz
-         2q0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hO2jzOM05mxrz5IGdqgpee+axiQH+2OXPmqo+Ul0FcM=;
-        b=PHK/8H4N+uSIx5rghg2euoPQnFquSi2XOFMyuoIKK7+/2FLMY3KoLAP3XYkTP8C5aN
-         5AQOsSxX5rFXWuSFw9Pyxe4xQAvmzPeDNOBu1dCwi4FYsnVszlO6N8p5mtFFlgLu+Skq
-         VxDhn5GpQdX1BZJK2w+HyctZ/MwjicupUaIBFrJzT85bWbXyAyWdIaEEeECd/O/YvOa5
-         o13vGvJR4GE3hPTYA12E8MjLMTgendpTH+7bm4wq9VwyROJzrH8SvXxXcRqBJMEZUtK8
-         0eIWp/wJrkH0cC8YYM8CB3pUcRsxbr0OxsWT9ckk8Qk182nfFNQ0uc2lcwhQO4187cgm
-         isyg==
-X-Gm-Message-State: APjAAAUR7GC2PdXyip8+F3avxPaBFTePKQttg8ykhbWduqOPfT67sXX8
-        1oDjBvkY1WAhpt+dF/G/IYjMjBfZW7ReVsxfk1YjAw==
-X-Google-Smtp-Source: APXvYqzZdlWhCkBvFW8XUuT2KDhsG6TgutjUsDP74lsWb4XjESrHCjQll9Q/yu+3XrTs4ARL+yM6pPyLsGbtB4DuWT0=
-X-Received: by 2002:a63:205f:: with SMTP id r31mr109331pgm.159.1562790473396;
- Wed, 10 Jul 2019 13:27:53 -0700 (PDT)
+        Thu, 11 Jul 2019 00:14:53 -0400
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x6B4EehG001381;
+        Thu, 11 Jul 2019 13:14:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x6B4EehG001381
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1562818481;
+        bh=LmHL0cs5B5tYwdkfq3PX+j/nTcIWEfzF4ptL7RyDxIU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=a4nbuK6BvKkbk78YwHLqcwgkysQazGuqJNdIxWSOMnEGf9s7xzI/eqyZ+LiA8xQao
+         dXyOB2sFPS63KxLAlzmDDu9MsvHclFPpSzj0W+phTxABydK5ZWEQ7G+tu/wiH6cRwY
+         mA0Y1e2/1GAIB0HlVbjhtJCIO1lbLOZM6pmwDzKQyZufRK624dOoKOwLLjvhMDclYc
+         x0D6Y078V4fNocFw+oo5nXC0HYna0f9Rv/qRIyWt626jhvsOuyb1rnmEGlsXI6fijs
+         ih/TXgs6pDt/UOr8FARqhimIa5919bmvIFTTPcnT3hwV42k7ueUbT3qmSvqFPp+Ki0
+         eRvpTmltCGIgA==
+X-Nifty-SrcIP: [209.85.222.52]
+Received: by mail-ua1-f52.google.com with SMTP id v20so1802645uao.3;
+        Wed, 10 Jul 2019 21:14:40 -0700 (PDT)
+X-Gm-Message-State: APjAAAVN3fwJnJiyxq0UNiVKdZfy6DibE8upfoYMVvkiIPbf9yQqksCl
+        LBfCNbd2wCtDBXlyotvNwWxGwe5I1UdzAKeUEZM=
+X-Google-Smtp-Source: APXvYqwLYHnnTrutXlEq6mzJZ1SJJYPspIP0lAuUV9jnep0jOCM2CDpI05wpTLdbcZ0mSHAMSblnRduIRxyVpIN4mMo=
+X-Received: by 2002:a9f:25e9:: with SMTP id 96mr904661uaf.95.1562818479734;
+ Wed, 10 Jul 2019 21:14:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190709063023.251446-1-brendanhiggins@google.com>
- <20190709063023.251446-17-brendanhiggins@google.com> <7cc417dd-036f-7dc1-6814-b1fdac810f03@kernel.org>
- <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
-In-Reply-To: <CAFd5g4595X8cM919mohQVaShs4dKWzZ_-2RVB=6SH3RdVMwuQw@mail.gmail.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Wed, 10 Jul 2019 13:27:42 -0700
-Message-ID: <CAFd5g45zFhBN-yrJbRt6KnFkYKxVqjs9qeQULCSD6z89vvG-Tg@mail.gmail.com>
-Subject: Re: [PATCH v7 16/18] MAINTAINERS: add entry for KUnit the unit
- testing framework
-To:     shuah <shuah@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+References: <20190709132639.26802-1-geert@linux-m68k.org> <20190709163042.GA28716@infradead.org>
+In-Reply-To: <20190709163042.GA28716@infradead.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 11 Jul 2019 13:14:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARKaj9Tw+Am0hvQOOW8ZTh_LvY-tSPoZjvJWez4RaOPQA@mail.gmail.com>
+Message-ID: <CAK7LNARKaj9Tw+Am0hvQOOW8ZTh_LvY-tSPoZjvJWez4RaOPQA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Inform user to pass ARCH= for make mrproper
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 9, 2019 at 11:01 AM Brendan Higgins
-<brendanhiggins@google.com> wrote:
+On Wed, Jul 10, 2019 at 1:30 AM Christoph Hellwig <hch@infradead.org> wrote:
 >
-> On Tue, Jul 9, 2019 at 7:53 AM shuah <shuah@kernel.org> wrote:
-> >
-> > On 7/9/19 12:30 AM, Brendan Higgins wrote:
-> > > Add myself as maintainer of KUnit, the Linux kernel's unit testing
-> > > framework.
-> > >
-> > > Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> > > ---
-> > >   MAINTAINERS | 11 +++++++++++
-> > >   1 file changed, 11 insertions(+)
-> > >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 677ef41cb012c..48d04d180a988 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -8599,6 +8599,17 @@ S:     Maintained
-> > >   F:  tools/testing/selftests/
-> > >   F:  Documentation/dev-tools/kselftest*
-> > >
-> > > +KERNEL UNIT TESTING FRAMEWORK (KUnit)
-> > > +M:   Brendan Higgins <brendanhiggins@google.com>
-> > > +L:   linux-kselftest@vger.kernel.org
-> > > +L:   kunit-dev@googlegroups.com
-> > > +W:   https://google.github.io/kunit-docs/third_party/kernel/docs/
-> > > +S:   Maintained
-> > > +F:   Documentation/dev-tools/kunit/
-> > > +F:   include/kunit/
-> > > +F:   kunit/
-> > > +F:   tools/testing/kunit/
-> > > +
-> > >   KERNEL USERMODE HELPER
-> > >   M:  Luis Chamberlain <mcgrof@kernel.org>
-> > >   L:  linux-kernel@vger.kernel.org
-> > >
-> >
-> > Thanks Brendan.
-> >
-> > I am good with this. I can take KUnit patches through kselftest
-> > with your Ack.
->
-> My acknowledgement? Sure! I thought we already agreed to that.
->
-> Also, do we need an ack from Masahiro or Michal for the Kbuild patch
-> [PATCH v7 06/18]? And an ack from Josh or Peter for the objtool patch
-> [PATCH v7 08/18]?
+> Is there any chance we could save ARCH in .config?  That would make
+> cross compile builds so much easier..  Same for CROSS_COMPILE.
 
-By the way, I am guessing you have already seen it, but I uploaded a
-new version to incorporate a suggestion made by Masahiro on patch
-06/18. In addition, I have gotten acks on the two patches mentioned
-above. So I think we are good to go.
 
-Thanks!
+Then, I have no idea how "make clean", "make help", etc. should work.
+
+If a user has configured the kernel, do they work for CONFIG_ARCH
+stored in the .config file or still for the host-arch?
+
+If not yet, do they fall-back to host-arch?
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
