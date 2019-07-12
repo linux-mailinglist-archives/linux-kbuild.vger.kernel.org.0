@@ -2,240 +2,337 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF3E66345
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2019 03:14:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE03A66352
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2019 03:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728886AbfGLBO1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Jul 2019 21:14:27 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:34843 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbfGLBO1 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Jul 2019 21:14:27 -0400
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x6C1E6m1029468;
-        Fri, 12 Jul 2019 10:14:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x6C1E6m1029468
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562894047;
-        bh=1XlKNIsRyo1l/cxW3VBAJovS/iXd6i68z26pLb22QEc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sqtGhTVlzop7FbaFI9lmnsAJ1i/aUrM1kGVxyYsm6zKXRfF1Fs2dlQilUwRrxPV8E
-         Yt95eZFEDvohY0mbcb0wK/2KdI4lPnAWQyKIG+5exZc344MoVQ06Co/rgV5vGOyZRp
-         RLdjYWUvsKMhfYVy8eBgZ3ds//fGO5+2Ed8bPFxnMO/438XJcLYykP0frwUBwrwTdV
-         jxA+Dfzzcln5KwUfw+x6+tnhHEdV7F2Bx0r0F1EcH2zVQJjM+E6YiG5z0WibyNrOf3
-         HCMoXgJy4INaWEjGmZP7NrJ2jIQhCVGcuDbhxX23vyn6Kge6sL7V9+FyrmZ3ApU4P0
-         0+R7f475jxn1g==
-X-Nifty-SrcIP: [209.85.222.49]
-Received: by mail-ua1-f49.google.com with SMTP id o2so3358533uae.10;
-        Thu, 11 Jul 2019 18:14:07 -0700 (PDT)
-X-Gm-Message-State: APjAAAXAYLd4Lu6xY5raQZi7aVpLMo11Ew3nfXPXpJ7grGmO0aajS/qP
-        EPPqHkGQiNjBRXCly+4RMxvISVFndf/zkLA8TN0=
-X-Google-Smtp-Source: APXvYqxcYiDYHQs17TJsCeED1Rf1S4KyBF4LSvM07qFUCehhjvIrwGH9whv3NcCrkQMgrbv0hNuOoy5oQDDQWdc6m9g=
-X-Received: by 2002:a9f:25e9:: with SMTP id 96mr7042711uaf.95.1562894046337;
- Thu, 11 Jul 2019 18:14:06 -0700 (PDT)
+        id S1728497AbfGLBU6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Jul 2019 21:20:58 -0400
+Received: from mga14.intel.com ([192.55.52.115]:31380 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726587AbfGLBU5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 11 Jul 2019 21:20:57 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jul 2019 18:20:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,480,1557212400"; 
+   d="scan'208";a="168801213"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 11 Jul 2019 18:20:54 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1hlkF4-0001WQ-E0; Fri, 12 Jul 2019 09:20:54 +0800
+Date:   Fri, 12 Jul 2019 09:20:04 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Iurii Zaikin <yzaikin@google.com>
+Cc:     kbuild-all@01.org, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Logan Gunthorpe <logang@deltatee.com>
+Subject: [kbuild:kunit-v7 66/67] kernel/sysctl-test.c:44:9: sparse: sparse:
+ incorrect type in argument 3 (different address spaces)
+Message-ID: <201907120915.9DmRjlV1%lkp@intel.com>
 MIME-Version: 1.0
-References: <20190712010556.248319-1-briannorris@chromium.org>
-In-Reply-To: <20190712010556.248319-1-briannorris@chromium.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 12 Jul 2019 10:13:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARGNVfxexE616cQDs1fK7SzToKwHxO_T69+RShL6QVTCQ@mail.gmail.com>
-Message-ID: <CAK7LNARGNVfxexE616cQDs1fK7SzToKwHxO_T69+RShL6QVTCQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] bug: always show source-tree-relative paths in WARN()/BUG()
-To:     Brian Norris <briannorris@chromium.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Jason Baron <jbaron@akamai.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Kees Cook <keescook@chromium.org>,
-        Borislav Petkov <bp@suse.de>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 12, 2019 at 10:06 AM Brian Norris <briannorris@chromium.org> wrote:
->
-> When building out-of-tree (e.g., 'make O=...'), __FILE__ ends up being
-> an absolute path, and so WARN() and BUG() end up putting path names from
-> the build system into the log text. For example:
->
->   # echo BUG > /sys/kernel/debug/provoke-crash/DIRECT
->   ...
->   kernel BUG at /mnt/host/source/[...]/drivers/misc/lkdtm/bugs.c:71!
->
-> Not only is this excessively verbose, it also adds extra noise into
-> tools that might parse this output. (For example, if builder paths
-> change across versions, we suddenly get a "new" crash signature.)
->
-> All in all, this looks much better as:
->
->   kernel BUG at drivers/misc/lkdtm/bugs.c:71!
->
-> It appears the Kbuild system is fairly entrenched in using
-> $(KBUILD_OUTPUT) for the ${CWD}, which necessarily means that the
-> preprocessor will get handed an absolute path. It seems the only
-> solution then, is to do some sort of post-processing on __FILE__.
->
-> It so happens that lib/dynamic_debug.c already solves this sort of
-> problem, so I steal its solution for use in panic/warn/bug code as well.
+tree:   https://kernel.googlesource.com/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kunit-v7
+head:   70b8b20a297281be3834f8aac6466ddef75ed8b7
+commit: 336af730109f4096b01e450378a64cd7c9fbd1ab [66/67] kernel/sysctl-test: Add null pointer test for sysctl.c:proc_dointvec()
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-rc1-7-g2b96cd8-dirty
+        git checkout 336af730109f4096b01e450378a64cd7c9fbd1ab
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
-BTW, did you see this?
+sparse warnings: (new ones prefixed by >>)
 
-commit a73619a845d5625079cc1b3b820f44c899618388
-Author: Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri Mar 30 13:15:26 2018 +0900
+>> kernel/sysctl-test.c:44:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+>> kernel/sysctl-test.c:44:9: sparse:    expected void [noderef] <asn:1> *
+>> kernel/sysctl-test.c:44:9: sparse:    got void *buffer
+>> kernel/sysctl-test.c:44:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+>> kernel/sysctl-test.c:44:9: sparse:    expected void [noderef] <asn:1> *
+>> kernel/sysctl-test.c:44:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:53:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:53:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:53:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:53:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:53:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:53:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:89:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:89:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:89:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:89:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:89:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:89:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:98:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:98:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:98:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:98:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:98:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:98:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:129:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:129:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:129:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:129:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:129:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:129:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:133:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:133:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:133:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:133:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:133:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:133:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:167:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:167:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:167:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:167:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:167:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:167:9: sparse:    got void *buffer
+   kernel/sysctl-test.c:196:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:196:9: sparse:    expected void [noderef] <asn:1> *
+>> kernel/sysctl-test.c:196:9: sparse:    got char *
+   kernel/sysctl-test.c:196:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:196:9: sparse:    expected void [noderef] <asn:1> *
+>> kernel/sysctl-test.c:196:9: sparse:    got char *
+   kernel/sysctl-test.c:225:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:225:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:225:9: sparse:    got char *
+   kernel/sysctl-test.c:225:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:225:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:225:9: sparse:    got char *
+   kernel/sysctl-test.c:252:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:252:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:252:9: sparse:    got char *
+   kernel/sysctl-test.c:252:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:252:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:252:9: sparse:    got char *
+   kernel/sysctl-test.c:278:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:278:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:278:9: sparse:    got char *
+   kernel/sysctl-test.c:278:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:278:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:278:9: sparse:    got char *
+   kernel/sysctl-test.c:317:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:317:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:317:9: sparse:    got char *
+   kernel/sysctl-test.c:317:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:317:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:317:9: sparse:    got char *
+   kernel/sysctl-test.c:349:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:349:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:349:9: sparse:    got char *
+   kernel/sysctl-test.c:349:9: sparse: sparse: incorrect type in argument 3 (different address spaces) @@    expected void [noderef] <asn:1> * @@    got n:1> * @@
+   kernel/sysctl-test.c:349:9: sparse:    expected void [noderef] <asn:1> *
+   kernel/sysctl-test.c:349:9: sparse:    got char *
 
-    kbuild: use -fmacro-prefix-map to make __FILE__ a relative path
+vim +44 kernel/sysctl-test.c
 
+    14	
+    15	/*
+    16	 * Test that proc_dointvec will not try to use a NULL .data field even when the
+    17	 * length is non-zero.
+    18	 */
+    19	static void sysctl_test_api_dointvec_null_tbl_data(struct kunit *test)
+    20	{
+    21		struct ctl_table null_data_table = {
+    22			.procname = "foo",
+    23			/*
+    24			 * Here we are testing that proc_dointvec behaves correctly when
+    25			 * we give it a NULL .data field. Normally this would point to a
+    26			 * piece of memory where the value would be stored.
+    27			 */
+    28			.data		= NULL,
+    29			.maxlen		= sizeof(int),
+    30			.mode		= 0644,
+    31			.proc_handler	= proc_dointvec,
+    32			.extra1		= &i_zero,
+    33			.extra2         = &i_one_hundred,
+    34		};
+    35		void *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
+    36		size_t len;
+    37		loff_t pos;
+    38	
+    39		/*
+    40		 * We don't care what the starting length is since proc_dointvec should
+    41		 * not try to read because .data is NULL.
+    42		 */
+    43		len = 1234;
+  > 44		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&null_data_table,
+    45						       KUNIT_PROC_READ, buffer, &len,
+    46						       &pos));
+    47		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+    48	
+    49		/*
+    50		 * See above.
+    51		 */
+    52		len = 1234;
+    53		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&null_data_table,
+    54						       KUNIT_PROC_WRITE, buffer, &len,
+    55						       &pos));
+    56		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+    57	}
+    58	
+    59	/*
+    60	 * Similar to the previous test, we create a struct ctrl_table that has a .data
+    61	 * field that proc_dointvec cannot do anything with; however, this time it is
+    62	 * because we tell proc_dointvec that the size is 0.
+    63	 */
+    64	static void sysctl_test_api_dointvec_table_maxlen_unset(struct kunit *test)
+    65	{
+    66		int data = 0;
+    67		struct ctl_table data_maxlen_unset_table = {
+    68			.procname = "foo",
+    69			.data		= &data,
+    70			/*
+    71			 * So .data is no longer NULL, but we tell proc_dointvec its
+    72			 * length is 0, so it still shouldn't try to use it.
+    73			 */
+    74			.maxlen		= 0,
+    75			.mode		= 0644,
+    76			.proc_handler	= proc_dointvec,
+    77			.extra1		= &i_zero,
+    78			.extra2         = &i_one_hundred,
+    79		};
+    80		void *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
+    81		size_t len;
+    82		loff_t pos;
+    83	
+    84		/*
+    85		 * As before, we don't care what buffer length is because proc_dointvec
+    86		 * cannot do anything because its internal .data buffer has zero length.
+    87		 */
+    88		len = 1234;
+    89		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&data_maxlen_unset_table,
+    90						       KUNIT_PROC_READ, buffer, &len,
+    91						       &pos));
+    92		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+    93	
+    94		/*
+    95		 * See previous comment.
+    96		 */
+    97		len = 1234;
+    98		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&data_maxlen_unset_table,
+    99						       KUNIT_PROC_WRITE, buffer, &len,
+   100						       &pos));
+   101		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+   102	}
+   103	
+   104	/*
+   105	 * Here we provide a valid struct ctl_table, but we try to read and write from
+   106	 * it using a buffer of zero length, so it should still fail in a similar way as
+   107	 * before.
+   108	 */
+   109	static void sysctl_test_api_dointvec_table_len_is_zero(struct kunit *test)
+   110	{
+   111		int data = 0;
+   112		/* Good table. */
+   113		struct ctl_table table = {
+   114			.procname = "foo",
+   115			.data		= &data,
+   116			.maxlen		= sizeof(int),
+   117			.mode		= 0644,
+   118			.proc_handler	= proc_dointvec,
+   119			.extra1		= &i_zero,
+   120			.extra2         = &i_one_hundred,
+   121		};
+   122		void *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
+   123		/*
+   124		 * However, now our read/write buffer has zero length.
+   125		 */
+   126		size_t len = 0;
+   127		loff_t pos;
+   128	
+   129		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_READ, buffer,
+   130						       &len, &pos));
+   131		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+   132	
+ > 133		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_WRITE, buffer,
+   134						       &len, &pos));
+   135		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+   136	}
+   137	
+   138	/*
+   139	 * Test that proc_dointvec refuses to read when the file position is non-zero.
+   140	 */
+   141	static void sysctl_test_api_dointvec_table_read_but_position_set(
+   142			struct kunit *test)
+   143	{
+   144		int data = 0;
+   145		/* Good table. */
+   146		struct ctl_table table = {
+   147			.procname = "foo",
+   148			.data		= &data,
+   149			.maxlen		= sizeof(int),
+   150			.mode		= 0644,
+   151			.proc_handler	= proc_dointvec,
+   152			.extra1		= &i_zero,
+   153			.extra2         = &i_one_hundred,
+   154		};
+   155		void *buffer = kunit_kzalloc(test, sizeof(int), GFP_USER);
+   156		/*
+   157		 * We don't care about our buffer length because we start off with a
+   158		 * non-zero file position.
+   159		 */
+   160		size_t len = 1234;
+   161		/*
+   162		 * proc_dointvec should refuse to read into the buffer since the file
+   163		 * pos is non-zero.
+   164		 */
+   165		loff_t pos = 1;
+   166	
+   167		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_READ, buffer,
+   168						       &len, &pos));
+   169		KUNIT_EXPECT_EQ(test, (size_t)0, len);
+   170	}
+   171	
+   172	/*
+   173	 * Test that we can read a two digit number in a sufficiently size buffer.
+   174	 * Nothing fancy.
+   175	 */
+   176	static void sysctl_test_dointvec_read_happy_single_positive(struct kunit *test)
+   177	{
+   178		int data = 0;
+   179		/* Good table. */
+   180		struct ctl_table table = {
+   181			.procname = "foo",
+   182			.data		= &data,
+   183			.maxlen		= sizeof(int),
+   184			.mode		= 0644,
+   185			.proc_handler	= proc_dointvec,
+   186			.extra1		= &i_zero,
+   187			.extra2         = &i_one_hundred,
+   188		};
+   189		/* Put something in the buffer for debugging purposes. */
+   190		char buf[] = "bogus";
+   191		size_t len = sizeof(buf) - 1;
+   192		loff_t pos = 0;
+   193		/* Store 13 in the data field. */
+   194		*((int *)table.data) = 13;
+   195	
+ > 196		KUNIT_EXPECT_EQ(test, 0, proc_dointvec(&table, KUNIT_PROC_READ, buf,
+   197						       &len, &pos));
+   198		KUNIT_ASSERT_EQ(test, (size_t)3, len);
+   199		buf[len] = '\0';
+   200		/* And we read 13 back out. */
+   201		KUNIT_EXPECT_STREQ(test, "13\n", (char *)buf);
+   202	}
+   203	
 
-
-
-
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
-> ---
-> I'd be happy to entertain better solutions to this problem, but so far,
-> I haven't been creative enough to come up with one.
->
-> I'm also unsure of who best to address this to. If anyone has better
-> pointers, I'm all ears.
->
->  include/linux/bug.h |  2 ++
->  kernel/panic.c      | 21 +++++++++++++++++++--
->  lib/bug.c           |  3 ++-
->  lib/dynamic_debug.c | 18 ++++--------------
->  4 files changed, 27 insertions(+), 17 deletions(-)
->
-> diff --git a/include/linux/bug.h b/include/linux/bug.h
-> index fe5916550da8..6ab59e53801d 100644
-> --- a/include/linux/bug.h
-> +++ b/include/linux/bug.h
-> @@ -76,4 +76,6 @@ static inline __must_check bool check_data_corruption(bool v) { return v; }
->                 corruption;                                              \
->         }))
->
-> +const char *trim_filepath_prefix(const char *path);
-> +
->  #endif /* _LINUX_BUG_H */
-> diff --git a/kernel/panic.c b/kernel/panic.c
-> index 4d9f55bf7d38..0bed3101f049 100644
-> --- a/kernel/panic.c
-> +++ b/kernel/panic.c
-> @@ -546,6 +546,23 @@ struct warn_args {
->         va_list args;
->  };
->
-> +/**
-> + * trim_filepath_prefix - retrieve source-root relative path from a __FILE__
-> + * @path: a __FILE__-like path argument.
-> + * Return: path relative to source root.
-> + */
-> +const char *trim_filepath_prefix(const char *path)
-> +{
-> +       int skip = strlen(__FILE__) - strlen("kernel/panic.c");
-> +
-> +       BUILD_BUG_ON(strlen(__FILE__) < strlen("kernel/panic.c"));
-> +
-> +       if (strncmp(path, __FILE__, skip))
-> +               skip = 0; /* prefix mismatch, don't skip */
-> +
-> +       return path + skip;
-> +}
-> +
->  void __warn(const char *file, int line, void *caller, unsigned taint,
->             struct pt_regs *regs, struct warn_args *args)
->  {
-> @@ -556,8 +573,8 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
->
->         if (file)
->                 pr_warn("WARNING: CPU: %d PID: %d at %s:%d %pS\n",
-> -                       raw_smp_processor_id(), current->pid, file, line,
-> -                       caller);
-> +                       raw_smp_processor_id(), current->pid,
-> +                       trim_filepath_prefix(file), line, caller);
->         else
->                 pr_warn("WARNING: CPU: %d PID: %d at %pS\n",
->                         raw_smp_processor_id(), current->pid, caller);
-> diff --git a/lib/bug.c b/lib/bug.c
-> index 1077366f496b..2aa91d330451 100644
-> --- a/lib/bug.c
-> +++ b/lib/bug.c
-> @@ -191,7 +191,8 @@ enum bug_trap_type report_bug(unsigned long bugaddr, struct pt_regs *regs)
->         printk(KERN_DEFAULT CUT_HERE);
->
->         if (file)
-> -               pr_crit("kernel BUG at %s:%u!\n", file, line);
-> +               pr_crit("kernel BUG at %s:%u!\n", trim_filepath_prefix(file),
-> +                       line);
->         else
->                 pr_crit("Kernel BUG at %pB [verbose debug info unavailable]\n",
->                         (void *)bugaddr);
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 8a16c2d498e9..0896f067ba17 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -13,6 +13,7 @@
->
->  #define pr_fmt(fmt) KBUILD_MODNAME ":%s: " fmt, __func__
->
-> +#include <linux/bug.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/moduleparam.h>
-> @@ -67,17 +68,6 @@ static LIST_HEAD(ddebug_tables);
->  static int verbose;
->  module_param(verbose, int, 0644);
->
-> -/* Return the path relative to source root */
-> -static inline const char *trim_prefix(const char *path)
-> -{
-> -       int skip = strlen(__FILE__) - strlen("lib/dynamic_debug.c");
-> -
-> -       if (strncmp(path, __FILE__, skip))
-> -               skip = 0; /* prefix mismatch, don't skip */
-> -
-> -       return path + skip;
-> -}
-> -
->  static struct { unsigned flag:8; char opt_char; } opt_array[] = {
->         { _DPRINTK_FLAGS_PRINT, 'p' },
->         { _DPRINTK_FLAGS_INCL_MODNAME, 'm' },
-> @@ -164,7 +154,7 @@ static int ddebug_change(const struct ddebug_query *query,
->                             !match_wildcard(query->filename,
->                                            kbasename(dp->filename)) &&
->                             !match_wildcard(query->filename,
-> -                                          trim_prefix(dp->filename)))
-> +                                          trim_filepath_prefix(dp->filename)))
->                                 continue;
->
->                         /* match against the function */
-> @@ -199,7 +189,7 @@ static int ddebug_change(const struct ddebug_query *query,
->  #endif
->                         dp->flags = newflags;
->                         vpr_info("changed %s:%d [%s]%s =%s\n",
-> -                                trim_prefix(dp->filename), dp->lineno,
-> +                                trim_filepath_prefix(dp->filename), dp->lineno,
->                                  dt->mod_name, dp->function,
->                                  ddebug_describe_flags(dp, flagbuf,
->                                                        sizeof(flagbuf)));
-> @@ -827,7 +817,7 @@ static int ddebug_proc_show(struct seq_file *m, void *p)
->         }
->
->         seq_printf(m, "%s:%u [%s]%s =%s \"",
-> -                  trim_prefix(dp->filename), dp->lineno,
-> +                  trim_filepath_prefix(dp->filename), dp->lineno,
->                    iter->table->mod_name, dp->function,
->                    ddebug_describe_flags(dp, flagsbuf, sizeof(flagsbuf)));
->         seq_escape(m, dp->format, "\t\r\n\"");
-> --
-> 2.22.0.410.gd8fdbe21b5-goog
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
