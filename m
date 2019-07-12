@@ -2,60 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8799066359
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2019 03:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 968C166379
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2019 03:50:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729191AbfGLBXg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 11 Jul 2019 21:23:36 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45766 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726587AbfGLBXg (ORCPT
+        id S1728853AbfGLBuC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 11 Jul 2019 21:50:02 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:64039 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbfGLBuC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 11 Jul 2019 21:23:36 -0400
-Received: by mail-lf1-f67.google.com with SMTP id u10so5294324lfm.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Jul 2019 18:23:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9NuXct5FW62NllFLkWHXtF54PXpuTDXCY6/8Ws75hAk=;
-        b=PTaFWFa9tsIcZKGH46sqa/kg0BqnZ09unrqjmMlbQrVI4BYj8E+xBy4K4ZDP4027CV
-         GOPy9CKjNtES2ZAgyq964LkeWqrrxHFUISbSTAXkwMQ5J92Kxk5amAw1WuicOlDER9y/
-         4exC+/nG5OMJbTivCpXXf2y8w/kgK+BV9Nv40=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9NuXct5FW62NllFLkWHXtF54PXpuTDXCY6/8Ws75hAk=;
-        b=q8AhW4ytrObMl0lWVfcufZ7rOrzC75bh8qGUeRHuSMttb1XEEWuKnAkRyHbo5fORif
-         5EdtKJRaGfGzU3apGLB5BNwrST+xo+44R3hqAl8FuhVXBulhucSVy22S0SoO7PbHQ/HY
-         Eg19gnv6zp33+Gw7sbUyscmPwTGlA7nl7+NzDUcUf2G0qD+h/0SpQsAY0fb2XlhuAzPR
-         vQomRwJKD48njEspFLxvKBIfC8CDXuYERsp/OKM5pibpVtf0Db7ur49SkDRaJOUfOdmW
-         20uxKuNimjR9mKpchqxMyKtNQk/Oid1Wn98daFD6K6Z3U2qgcQlirUfklk3gEzDj1RMY
-         8OWA==
-X-Gm-Message-State: APjAAAU07FGTrlncC4yQujFFQNAnzkUfb3uA3zX0hazY3j1KwPnuf/6Y
-        5lgRqzG5EdinljDrfRhY7roaVbgF2vw=
-X-Google-Smtp-Source: APXvYqwbyGsjH5zKa4Tj13cdhxUZ9KUgtFSbSnr+WHif98JwjraOaeUmrZvXOHfV9COUKL1x3rqOTg==
-X-Received: by 2002:ac2:43d0:: with SMTP id u16mr3338302lfl.38.1562894613445;
-        Thu, 11 Jul 2019 18:23:33 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id m9sm1024857lfo.45.2019.07.11.18.23.30
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Jul 2019 18:23:31 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id p197so5324955lfa.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Jul 2019 18:23:30 -0700 (PDT)
-X-Received: by 2002:a19:6a01:: with SMTP id u1mr3285742lfu.141.1562894610575;
- Thu, 11 Jul 2019 18:23:30 -0700 (PDT)
+        Thu, 11 Jul 2019 21:50:02 -0400
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x6C1ntc4011030;
+        Fri, 12 Jul 2019 10:49:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x6C1ntc4011030
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1562896196;
+        bh=UqIjBkSfDb7t0Pa41cTBLGihL/zO0QROm2fafaKHDNU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DDRFsUzW/FiD24HPs+jHu5Bi/EKdDsgZRtxiPrWYXTA/3mPJR02kR6Hy4rfZEHuk4
+         qvxNPWehXgIcjTVRXoXezGnP8oMNzcUtrK1R+L+NUle34E3/6PuAbQb0o8Sk+DfTtF
+         Ql7Zz0K3NyI31hFTXnQjNhBqcgpC0ygMQmMSgwyAw8Wu9QEF9W2D7YNuCjT8EXMWZY
+         /y2W/oMVyEeUnJJLoc6pB74gDeXr3xiuHnWJO/y7RUtsXyp6Ny6i3l8/5N5xwdqON0
+         rSjdfFQ0PpEuUrUwDHdYthh6CtNVnSZGqLxg29YwNSiuY2uYkpLvpNKNlG1SnusZSg
+         aALQBRtpaACTw==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id j8so3375398uan.6;
+        Thu, 11 Jul 2019 18:49:55 -0700 (PDT)
+X-Gm-Message-State: APjAAAUAH8hkNLa9lFkiOx+JMLdZ8oX0oyTxbMLS3p0HWhfhxNiCjnXs
+        LK5obM/dn5Dh2KMTU9P34mDF+Q4sX8yh08RH/uk=
+X-Google-Smtp-Source: APXvYqzlydwB3gvvdA2lFPvhYp8V78j/y+++pFKcTD76YsRnM+JZbqCkUMFDsfvqSxGFW/eSSrak/E0XHSk37MO7KZk=
+X-Received: by 2002:ab0:5ea6:: with SMTP id y38mr7296356uag.40.1562896194749;
+ Thu, 11 Jul 2019 18:49:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712010556.248319-1-briannorris@chromium.org> <CAK7LNARGNVfxexE616cQDs1fK7SzToKwHxO_T69+RShL6QVTCQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARGNVfxexE616cQDs1fK7SzToKwHxO_T69+RShL6QVTCQ@mail.gmail.com>
-From:   Brian Norris <briannorris@chromium.org>
-Date:   Thu, 11 Jul 2019 18:23:19 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXNGqYkBjMsjcRKAit+0cd0n7dwxKhezyYCXSh_HjucvQw@mail.gmail.com>
-Message-ID: <CA+ASDXNGqYkBjMsjcRKAit+0cd0n7dwxKhezyYCXSh_HjucvQw@mail.gmail.com>
+References: <20190712010556.248319-1-briannorris@chromium.org>
+ <CAK7LNARGNVfxexE616cQDs1fK7SzToKwHxO_T69+RShL6QVTCQ@mail.gmail.com> <CA+ASDXNGqYkBjMsjcRKAit+0cd0n7dwxKhezyYCXSh_HjucvQw@mail.gmail.com>
+In-Reply-To: <CA+ASDXNGqYkBjMsjcRKAit+0cd0n7dwxKhezyYCXSh_HjucvQw@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 12 Jul 2019 10:49:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARJ=aAf-iG7RVDp=bs7DTScJ1GBpEpkqtKDFDJYHEekUA@mail.gmail.com>
+Message-ID: <CAK7LNARJ=aAf-iG7RVDp=bs7DTScJ1GBpEpkqtKDFDJYHEekUA@mail.gmail.com>
 Subject: Re: [RFC PATCH] bug: always show source-tree-relative paths in WARN()/BUG()
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Brian Norris <briannorris@chromium.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Jason Baron <jbaron@akamai.com>,
@@ -70,26 +58,49 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 11, 2019 at 6:14 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
-> BTW, did you see this?
+On Fri, Jul 12, 2019 at 10:23 AM Brian Norris <briannorris@chromium.org> wrote:
 >
-> commit a73619a845d5625079cc1b3b820f44c899618388
-> Author: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Date:   Fri Mar 30 13:15:26 2018 +0900
+> On Thu, Jul 11, 2019 at 6:14 PM Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
+> > BTW, did you see this?
+> >
+> > commit a73619a845d5625079cc1b3b820f44c899618388
+> > Author: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > Date:   Fri Mar 30 13:15:26 2018 +0900
+> >
+> >     kbuild: use -fmacro-prefix-map to make __FILE__ a relative path
 >
->     kbuild: use -fmacro-prefix-map to make __FILE__ a relative path
+> Oh, wow, no I did not. If my reading is correct, that's GCC only? I've
+> been using various combinations of newer (5.2) and older (4.14.y --
+> didn't have that patch) kernels, older GCC (doesn't have that feature
+> AFAICT), and newer Clang (doesn't appear to have that feature). So I'm
+> not totally sure if I ever actually tried a combo that *could* make
+> use of that. But I may give it another shot.
+>
+> In the event that this is GCC-specific...I don't suppose I could
+> convince anybody to expend any effort (e.g., taking a patch like mine)
+> to solve it for the non-GCC world?
+>
+> Thanks for the tip,
+> Brian
 
-Oh, wow, no I did not. If my reading is correct, that's GCC only? I've
-been using various combinations of newer (5.2) and older (4.14.y --
-didn't have that patch) kernels, older GCC (doesn't have that feature
-AFAICT), and newer Clang (doesn't appear to have that feature). So I'm
-not totally sure if I ever actually tried a combo that *could* make
-use of that. But I may give it another shot.
 
-In the event that this is GCC-specific...I don't suppose I could
-convince anybody to expend any effort (e.g., taking a patch like mine)
-to solve it for the non-GCC world?
+GCC 8 added this flag.
+So, it will be eventually all solved in the GCC world.
 
-Thanks for the tip,
-Brian
+Clang has not supported it yet...
+
+
+Trimming absolute path at run-time
+is no help for reducing the kernel image.
+
+Turning __FILE__ into a relative path at compile-time is better.
+
+
+I hope Clang people will consider to support it.
+I guess implementing this feature should not be so hard.
+
+
+-- 
+Best Regards
+Masahiro Yamada
