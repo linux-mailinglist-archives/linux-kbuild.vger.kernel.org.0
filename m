@@ -2,169 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF44E66733
-	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2019 08:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2A4B66857
+	for <lists+linux-kbuild@lfdr.de>; Fri, 12 Jul 2019 10:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725784AbfGLGsJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Jul 2019 02:48:09 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:39571 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725562AbfGLGsJ (ORCPT
+        id S1726130AbfGLIRw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Jul 2019 04:17:52 -0400
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:32795 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725877AbfGLIRv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Jul 2019 02:48:09 -0400
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x6C6m24x022354
-        for <linux-kbuild@vger.kernel.org>; Fri, 12 Jul 2019 15:48:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x6C6m24x022354
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562914083;
-        bh=HPGQVG0B/cUxR9f9UR49WV5hqRMhzWYgWU3132MmhyQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RwW74FM49M+/xwz0XX8rJTltwkfLQCTeWGmqzojCYYe8rLYoUKchCcDeWn8c3uJi9
-         x+8b5o5G/mEKNdqABpHtYrSiWz2ShZQsn+LmZQWS3eum4dV4Sa8yZ/eJLfatM/YZDD
-         PT1474hiYu46GTAYcKDLm3LYim29Zc5Q1Z+iu37DhMEkjuum4SsU/0Kbsjtsnqmi4f
-         XFXdws2E5qS+9LA1Bu11bDFZnoJot2rlBr7lXtcwluorZR2vG3wSMhqMPaEodyrhbi
-         JwJzm50Arb82bKLglQ5NrOraUssuJBKlDrdxTZTZqH2RBEBqgB2hm5vP8y7tcITCls
-         a9KE/XBOgLw9g==
-X-Nifty-SrcIP: [209.85.222.46]
-Received: by mail-ua1-f46.google.com with SMTP id g11so3605461uak.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 11 Jul 2019 23:48:03 -0700 (PDT)
-X-Gm-Message-State: APjAAAXMaTnbyqLvetQ6pDkOijr5kh4IkMWuWgBko1PkswgiXvfd/lQh
-        xCjcA25ZMTfw3luSd5b0EdQR2LSOojPT0zkA7L4=
-X-Google-Smtp-Source: APXvYqzSUflCWdIH+PTbUfgEiJZivoUHEToAmD6Kv8c8jmD0kmDXDLtscfEsKEPGDobqJkuLRFt+0KyTOBnIl6zGSp4=
-X-Received: by 2002:a9f:25e9:: with SMTP id 96mr7668654uaf.95.1562914082099;
- Thu, 11 Jul 2019 23:48:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <ed43c836-bbb2-9283-67ce-4b59563ac327@iki.fi>
-In-Reply-To: <ed43c836-bbb2-9283-67ce-4b59563ac327@iki.fi>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 12 Jul 2019 15:47:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQeWuCb+vRghwtB9-5T_j95e6mk5QcRpBv6AhYbJycHTA@mail.gmail.com>
-Message-ID: <CAK7LNAQeWuCb+vRghwtB9-5T_j95e6mk5QcRpBv6AhYbJycHTA@mail.gmail.com>
-Subject: Re: Issue/Bug report: auto.conf not generated correctly when
- CROSS_COMPILE environment var set
-To:     =?UTF-8?B?Sm9vbmFzIEt5bG3DpGzDpA==?= <joonas.kylmala@iki.fi>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "Denis 'GNUtoo' Carikli" <GNUtoo@cyberdimension.org>
+        Fri, 12 Jul 2019 04:17:51 -0400
+Received: by mail-pg1-f202.google.com with SMTP id c5so5294700pgq.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 12 Jul 2019 01:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=UvKno1DQ1En2T0BAydqL8aKwWtOHxHpLOB0ZXuFETLs=;
+        b=JtlStr7snNzmz5ulMB5eP37s7rbgIx50z+AVGP2t2WlEdfRbEZO8W2XTT3bE3WZnLv
+         keBpChTguji20fGG9MZtiJLfIGuGAQMR0xBWsqfAPNv7xBwu2S4omSfLGIwdCobd9HG0
+         xEIx+MC/l52zarabPfgQ095HslgbhlLi4Z2VOa7yRbXGn1OMnhIjlbG9wufHRgT48Rw8
+         N31KLcKdJR3xIPKj8X7rcKFfr9bJzXFefGvAJSqFErU5ciZBVgJrNxh12tyuyphu+Fd0
+         ntbZjblO4lofJT/rrUQvPdmmolFfkVV45QPFi2V3CSuuX8nBjrc2V4ynCPPNIkIg5MTd
+         4B0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=UvKno1DQ1En2T0BAydqL8aKwWtOHxHpLOB0ZXuFETLs=;
+        b=qsGPLX4yd5XNV7mVAQHBJpqzmXh/vi2FkSSU8q5KHKnhHudW7h6j6WMl8XrCMM1TiZ
+         cmat+cT+FDQbGz+ZcbIP8vQHNo0OFOhaKxCXs5vZK/jc6PanPAJTthPPvgY6rhyR9FXt
+         B5rg2Pa/FqwJ9p2bs03e5H6fZXpfr5BLeQ2rY5+Mf0Br+yZM5SSfNEJ0aF7aEXDu4NCr
+         VqtazRSpJjcNRAh0RcmZPozqkkqcNdUdw9TPfy9tGwY4Ez/Ew8MszbC8ZBSyRyXDCVCW
+         qUV46RlUIAY985tOielMF1R5fIjobkYuGolppqA+SiG/H+XEre5YtLH0F1r7kg1UW3gL
+         joSg==
+X-Gm-Message-State: APjAAAUNwcFw4Yi8DYoaOrgev+PaxbY5D/1hV7hZY/GwZ+4omxb0L9HP
+        +6AAJrRaBjqn6QqxcQvJhT4mWDMprf5p5g2h6dqCJQ==
+X-Google-Smtp-Source: APXvYqwxVjSSyLsmH5X5K9D5aFhrhgELvG+6tDMdeYJeUGZ3SfBpCQBrCaJmP5g1KYNhq+xNRut9+ZtuWUgQ3Ro3jfxY+Q==
+X-Received: by 2002:a65:5348:: with SMTP id w8mr9232476pgr.176.1562919470178;
+ Fri, 12 Jul 2019 01:17:50 -0700 (PDT)
+Date:   Fri, 12 Jul 2019 01:17:26 -0700
+Message-Id: <20190712081744.87097-1-brendanhiggins@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
+Subject: [PATCH v9 00/18] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+From:   Brendan Higgins <brendanhiggins@google.com>
+To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
+        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Iurii Zaikin <yzaikin@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Joonas
+## TL;DR
 
-On Tue, Jul 9, 2019 at 6:58 PM Joonas Kylm=C3=A4l=C3=A4 <joonas.kylmala@iki=
-.fi> wrote:
->
-> Hi Masahiro and Michal,
->
-> I'm having a build issue regarding auto.conf generation with the the
-> latest master (commit 5ad18b2e60b7) plus this patch to use
-> CONFIG_USB_FUNCTIONFS as built-in module:
->
-> diff --git a/arch/arm/configs/imx_v6_v7_defconfig
-> b/arch/arm/configs/imx_v6_v7_defconfig
-> index 8116648a8efd..228098c64c48 100644
-> --- a/arch/arm/configs/imx_v6_v7_defconfig
-> +++ b/arch/arm/configs/imx_v6_v7_defconfig
-> @@ -345,14 +345,7 @@ CONFIG_USB_CONFIGFS_F_MIDI=3Dy
->  CONFIG_USB_CONFIGFS_F_HID=3Dy
->  CONFIG_USB_CONFIGFS_F_UVC=3Dy
->  CONFIG_USB_CONFIGFS_F_PRINTER=3Dy
-> -CONFIG_USB_ZERO=3Dm
-> -CONFIG_USB_AUDIO=3Dm
-> -CONFIG_USB_ETH=3Dm
-> -CONFIG_USB_G_NCM=3Dm
-> -CONFIG_USB_GADGETFS=3Dm
-> -CONFIG_USB_FUNCTIONFS=3Dm
-> -CONFIG_USB_MASS_STORAGE=3Dm
-> -CONFIG_USB_G_SERIAL=3Dm
-> +CONFIG_USB_FUNCTIONFS=3Dy
->  CONFIG_MMC=3Dy
->  CONFIG_MMC_SDHCI=3Dy
->  CONFIG_MMC_SDHCI_PLTFM=3Dy
->
-> Here is a excerpt from my terminal so you can understand and reproduce
-> the bug/issue easily:
->
-> user@builder:~/linux$ export CROSS_COMPILE=3Darm-none-eabi-
-> user@builder:~/linux$ export ARCH=3Darm
-> user@builder:~/linux$ make mrproper && make clean && make
-> imx_v6_v7_defconfig && rgrep USB_FUNCTIONFS | grep "auto.conf"
->   CLEAN   scripts/basic
->   CLEAN   scripts/kconfig
->   CLEAN   include/config include/generated
->   CLEAN   .config
->   HOSTCC  scripts/basic/fixdep
->   HOSTCC  scripts/kconfig/conf.o
->   HOSTCC  scripts/kconfig/confdata.o
->   HOSTCC  scripts/kconfig/expr.o
->   LEX     scripts/kconfig/lexer.lex.c
->   YACC    scripts/kconfig/parser.tab.h
->   HOSTCC  scripts/kconfig/lexer.lex.o
->   YACC    scripts/kconfig/parser.tab.c
->   HOSTCC  scripts/kconfig/parser.tab.o
->   HOSTCC  scripts/kconfig/preprocess.o
->   HOSTCC  scripts/kconfig/symbol.o
->   HOSTLD  scripts/kconfig/conf
-> #
-> # configuration written to .config
-> #
-> user@builder:~/linux$ make mrproper && make clean && make
-> imx_v6_v7_defconfig && make syncconfig && rgrep USB_FUNCTIONFS | grep
-> "auto.conf"
->   CLEAN   scripts/basic
->   CLEAN   scripts/kconfig
->   CLEAN   include/config include/generated
->   CLEAN   .config
->   HOSTCC  scripts/basic/fixdep
->   HOSTCC  scripts/kconfig/conf.o
->   HOSTCC  scripts/kconfig/confdata.o
->   HOSTCC  scripts/kconfig/expr.o
->   LEX     scripts/kconfig/lexer.lex.c
->   YACC    scripts/kconfig/parser.tab.h
->   HOSTCC  scripts/kconfig/lexer.lex.o
->   YACC    scripts/kconfig/parser.tab.c
->   HOSTCC  scripts/kconfig/parser.tab.o
->   HOSTCC  scripts/kconfig/preprocess.o
->   HOSTCC  scripts/kconfig/symbol.o
->   HOSTLD  scripts/kconfig/conf
-> #
-> # configuration written to .config
-> #
-> scripts/kconfig/conf  --syncconfig Kconfig
-> include/config/auto.conf:CONFIG_USB_FUNCTIONFS=3Dy
-> include/config/auto.conf:CONFIG_USB_FUNCTIONFS_GENERIC=3Dy
->
-> As we can see in the first build command run CONFIG_USB_FUNCTIONFS=3Dy
-> doesn't appear in the file include/config/auto.conf, it only appears
-> after running "make syncconfig". Normally this is not a problem for me
-> since for "make *_defconfig" I don't use CROSS_COMPILE in that step and
-> I only use it in "make zImage". If I run "CROSS_COMPILE=3Dxxxx make
-> zImage" then I think syncconfig is triggered because in the "make
-> *_defconfig" stage the compiler was different [1] and so I don't hit
-> this issue with auto.conf not being generated correctly.
+This new patch set only contains a very minor change to address a sparse
+warning in the PROC SYSCTL KUnit test. Otherwise this patchset is
+identical to the previous.
 
+As I mentioned in the previous patchset, all patches now have acks and
+reviews.
 
-This seems the (well-known?) "choice forgets user's input" issue.
+## Background
 
-This part is so complicated and badly-hacked.
-I do not have enough time to fix this cleanly now
-(if somebody sends a correct fix, that would be appreciated)
+This patch set proposes KUnit, a lightweight unit testing and mocking
+framework for the Linux kernel.
 
-I just sent out an easy workaround.
-https://patchwork.kernel.org/patch/11041571/
+Unlike Autotest and kselftest, KUnit is a true unit testing framework;
+it does not require installing the kernel on a test machine or in a VM
+(however, KUnit still allows you to run tests on test machines or in VMs
+if you want[1]) and does not require tests to be written in userspace
+running on a host kernel. Additionally, KUnit is fast: From invocation
+to completion KUnit can run several dozen tests in about a second.
+Currently, the entire KUnit test suite for KUnit runs in under a second
+from the initial invocation (build time excluded).
 
-Hope it will fix the issue.
+KUnit is heavily inspired by JUnit, Python's unittest.mock, and
+Googletest/Googlemock for C++. KUnit provides facilities for defining
+unit test cases, grouping related test cases into test suites, providing
+common infrastructure for running tests, mocking, spying, and much more.
 
+### What's so special about unit testing?
 
+A unit test is supposed to test a single unit of code in isolation,
+hence the name. There should be no dependencies outside the control of
+the test; this means no external dependencies, which makes tests orders
+of magnitudes faster. Likewise, since there are no external dependencies,
+there are no hoops to jump through to run the tests. Additionally, this
+makes unit tests deterministic: a failing unit test always indicates a
+problem. Finally, because unit tests necessarily have finer granularity,
+they are able to test all code paths easily solving the classic problem
+of difficulty in exercising error handling code.
 
-Joonas
+### Is KUnit trying to replace other testing frameworks for the kernel?
 
+No. Most existing tests for the Linux kernel are end-to-end tests, which
+have their place. A well tested system has lots of unit tests, a
+reasonable number of integration tests, and some end-to-end tests. KUnit
+is just trying to address the unit test space which is currently not
+being addressed.
 
---=20
-Best Regards
-Masahiro Yamada
+### More information on KUnit
+
+There is a bunch of documentation near the end of this patch set that
+describes how to use KUnit and best practices for writing unit tests.
+For convenience I am hosting the compiled docs here[2].
+
+Additionally for convenience, I have applied these patches to a
+branch[3]. The repo may be cloned with:
+git clone https://kunit.googlesource.com/linux
+This patchset is on the kunit/rfc/v5.2/v9 branch.
+
+## Changes Since Last Version
+
+Like I said in the TL;DR, there is only one minor change since the
+previous revision. That change only affects patch 17/18; it addresses a
+sparse warning in the PROC SYSCTL unit test.
+
+Thanks to Masahiro for applying previous patches to a branch in his
+kbuild tree and running sparse and other static analysis tools against
+my patches.
+
+[1] https://google.github.io/kunit-docs/third_party/kernel/docs/usage.html#kunit-on-non-uml-architectures
+[2] https://google.github.io/kunit-docs/third_party/kernel/docs/
+[3] https://kunit.googlesource.com/linux/+/kunit/rfc/v5.2/v9
+
+-- 
+2.22.0.410.gd8fdbe21b5-goog
+
