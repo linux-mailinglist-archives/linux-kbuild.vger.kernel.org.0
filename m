@@ -2,85 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B0D4678BA
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 08:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C010A67C0B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 23:13:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726419AbfGMGHq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 Jul 2019 02:07:46 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:41689 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfGMGHq (ORCPT
+        id S1727968AbfGMVNM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 13 Jul 2019 17:13:12 -0400
+Received: from mail.iara.government.bg ([95.43.208.99]:50530 "EHLO
+        iara.government.bg" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727553AbfGMVNM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Jul 2019 02:07:46 -0400
-Received: by mail-wr1-f66.google.com with SMTP id c2so8725605wrm.8;
-        Fri, 12 Jul 2019 23:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=On5iqD9AlcEVmas2/vt48n4oosNJbbs0cKQZBxzkZxY=;
-        b=Tm87kPHCKamfpAY6goULQAkKazqDEpnzeXlHR4JZBeJvv1GVGSAvFipNxGwE6bAEPk
-         r58xUmUnOTJR40dsa7Kl/laITKOpLUNFpHZdLjT+fRAQPGTUqKpEcw6PasDyvUd4c0bj
-         gY7QG99zvETFN1bxMACuiAGKCVkS9T8d1VpzqH3anIqZ8jErOwXL5DdIldckGfL12u8F
-         mkQXQpfAZFQMVVy8WlWfIPLIh6X7fq8x22ZYArtv64rpYTwQJ0jg39p7vjqfTW9x9hx6
-         S3rJyzld2Ajj+qg3gL7MI7r3HXxXa4yZbMk9QxZGNG9rJyXePvrv7j5KgwXK80I0iqEE
-         OdYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=On5iqD9AlcEVmas2/vt48n4oosNJbbs0cKQZBxzkZxY=;
-        b=k/xEIDSpKoYuhM41uHT5D0QMl5dl3aibj7GvaGrVHEEuvMZCxX/XbCNLZODNAuINQP
-         f/sUkouGVRXf6n7+l9vMno2GJqAlqGD5oLVT/KEYwtXfuZuEsX+oMKYlQDEph7L8Teff
-         VUI5xS0M0boO7H+RX063seheBTTJjkwkVo5LZ0n3FS240IoEo/LLAxXJKolQufKj+/0W
-         syuzXENMFE19HQDjUufInvf4Bc/1jFeu0/NWcJzsjUx/777B7djBkRlgh5MecGUkW1wm
-         /IExTZBLFuO3YGXwIU+YqSAA9fe9MNrhcAx0lF8a9cswShTiiomgOuYF9P2dXVTQSTF2
-         U+iA==
-X-Gm-Message-State: APjAAAXCXpJ5GWDI/aAxkC5DxWUDCyGPU63xUbsyJocIo8UGboaWkX9d
-        jJnEjc3C0BlYe50g3n4UR5A=
-X-Google-Smtp-Source: APXvYqwBRfMNXfHHzwLXmUW/368+gtKOyu7+kMHfTjBTiTaMHZ0RtPhgK75JRaQuQc6UvyRDl8Cy+A==
-X-Received: by 2002:a5d:4e08:: with SMTP id p8mr3281323wrt.20.1562998064324;
-        Fri, 12 Jul 2019 23:07:44 -0700 (PDT)
-Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
-        by smtp.gmail.com with ESMTPSA id g131sm6963201wmf.37.2019.07.12.23.07.42
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 12 Jul 2019 23:07:43 -0700 (PDT)
-Date:   Fri, 12 Jul 2019 23:07:41 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Andy Lutomirski <luto@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        sparclinux@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH] kbuild: add --hash-style= and --build-id unconditionally
-Message-ID: <20190713060741.GA76046@archlinux-threadripper>
-References: <20190713040110.18210-1-yamada.masahiro@socionext.com>
+        Sat, 13 Jul 2019 17:13:12 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by iara.government.bg (Postfix) with ESMTP id 98C402CE7F5;
+        Sat, 13 Jul 2019 14:54:33 +0300 (EEST)
+Received: from iara.government.bg ([127.0.0.1])
+        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id IV7iNhbUQBQu; Sat, 13 Jul 2019 14:54:33 +0300 (EEST)
+Received: from localhost (localhost [127.0.0.1])
+        by iara.government.bg (Postfix) with ESMTP id DBE6D24C944;
+        Sat, 13 Jul 2019 07:41:55 +0300 (EEST)
+X-Virus-Scanned: amavisd-new at iara.government.bg
+Received: from iara.government.bg ([127.0.0.1])
+        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id mGQ_VYERDNu6; Sat, 13 Jul 2019 07:41:55 +0300 (EEST)
+Received: from [10.108.11.57] (unknown [105.12.6.226])
+        by iara.government.bg (Postfix) with ESMTPSA id 4609A34FEC4;
+        Sat, 13 Jul 2019 03:20:20 +0300 (EEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190713040110.18210-1-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?b?RndkOiBSZTog4oKsIDIsMDAwLDAwMC4wMCBFdXJv?=
+To:     Recipients <silistra@iara.government.bg>
+From:   silistra@iara.government.bg
+Date:   Fri, 12 Jul 2019 17:20:04 -0700
+Reply-To: carfleon@gmail.com
+Message-Id: <20190713002020.4609A34FEC4@iara.government.bg>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 13, 2019 at 01:01:10PM +0900, Masahiro Yamada wrote:
-> As commit 1e0221374e30 ("mips: vdso: drop unnecessary cc-ldoption")
-> explained, these flags are supported by the minimal required version
-> of binutils.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Lieber Freund,
 
-Also supported by ld.lld; I tested both arm and x86, the build ID shows
-up fine.
+Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jackpot spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt. Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwillig dazu entschieden, Ihnen den Betrag von € 2.000.000,00 zu spenden eine der ausgewählten 5, um meine Gewinne zu überprüfen, finden Sie auf meiner You Tube Seite unten.
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+UHR MICH HIER: https://www.youtube.com/watch?v=tne02ExNDrw
+
+Das ist dein Spendencode: [DF00430342018]
+
+Antworten Sie mit dem Spendencode auf diese E-Mail: liezlnatashavanessa@gmail.com
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+
+Herr Richard Wahl
