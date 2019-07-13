@@ -2,32 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C010A67C0B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 23:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAA3A67C68
+	for <lists+linux-kbuild@lfdr.de>; Sun, 14 Jul 2019 01:12:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727968AbfGMVNM convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 13 Jul 2019 17:13:12 -0400
-Received: from mail.iara.government.bg ([95.43.208.99]:50530 "EHLO
+        id S1728605AbfGMXMI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 13 Jul 2019 19:12:08 -0400
+Received: from mail.iara.government.bg ([95.43.208.99]:38484 "EHLO
         iara.government.bg" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727553AbfGMVNM (ORCPT
+        with ESMTP id S1728599AbfGMXMI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Jul 2019 17:13:12 -0400
+        Sat, 13 Jul 2019 19:12:08 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by iara.government.bg (Postfix) with ESMTP id 98C402CE7F5;
-        Sat, 13 Jul 2019 14:54:33 +0300 (EEST)
+        by iara.government.bg (Postfix) with ESMTP id D122B252251;
+        Sat, 13 Jul 2019 17:48:36 +0300 (EEST)
 Received: from iara.government.bg ([127.0.0.1])
         by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id IV7iNhbUQBQu; Sat, 13 Jul 2019 14:54:33 +0300 (EEST)
+        with ESMTP id E09zTZmY0kaI; Sat, 13 Jul 2019 17:48:36 +0300 (EEST)
 Received: from localhost (localhost [127.0.0.1])
-        by iara.government.bg (Postfix) with ESMTP id DBE6D24C944;
-        Sat, 13 Jul 2019 07:41:55 +0300 (EEST)
+        by iara.government.bg (Postfix) with ESMTP id B3ECD2EC94D;
+        Sat, 13 Jul 2019 09:40:45 +0300 (EEST)
 X-Virus-Scanned: amavisd-new at iara.government.bg
 Received: from iara.government.bg ([127.0.0.1])
         by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id mGQ_VYERDNu6; Sat, 13 Jul 2019 07:41:55 +0300 (EEST)
+        with ESMTP id 8zHp_-b7o2t5; Sat, 13 Jul 2019 09:40:45 +0300 (EEST)
 Received: from [10.108.11.57] (unknown [105.12.6.226])
-        by iara.government.bg (Postfix) with ESMTPSA id 4609A34FEC4;
-        Sat, 13 Jul 2019 03:20:20 +0300 (EEST)
+        by iara.government.bg (Postfix) with ESMTPSA id DBBA324B7A1;
+        Sat, 13 Jul 2019 05:33:08 +0300 (EEST)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
@@ -35,9 +35,9 @@ Content-Description: Mail message body
 Subject: =?utf-8?b?RndkOiBSZTog4oKsIDIsMDAwLDAwMC4wMCBFdXJv?=
 To:     Recipients <silistra@iara.government.bg>
 From:   silistra@iara.government.bg
-Date:   Fri, 12 Jul 2019 17:20:04 -0700
+Date:   Fri, 12 Jul 2019 19:32:53 -0700
 Reply-To: carfleon@gmail.com
-Message-Id: <20190713002020.4609A34FEC4@iara.government.bg>
+Message-Id: <20190713023308.DBBA324B7A1@iara.government.bg>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
