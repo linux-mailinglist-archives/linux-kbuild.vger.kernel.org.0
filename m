@@ -2,143 +2,324 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3B79677AF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 04:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4C61677D1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 05:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbfGMCqX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 12 Jul 2019 22:46:23 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:42311 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727393AbfGMCqX (ORCPT
+        id S1727582AbfGMDlp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 12 Jul 2019 23:41:45 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45302 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727466AbfGMDlo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 12 Jul 2019 22:46:23 -0400
-Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x6D2k2fQ024877;
-        Sat, 13 Jul 2019 11:46:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6D2k2fQ024877
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562985962;
-        bh=1ltkFVFaR9C7ymTKN/tBQ9NH1ZD80tQaVTmMpR2IObA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Uoy5OCgubLkhqdKWlvjeTwR59Z+FgqEYQvR9vYET4KOh1yySyLdVHhDdNUSbfGwL8
-         G0xHndeCYpJC4ji0VgGBp768I8UjLny+69uccT2VQC+cjFfi1OdcXLvzLGVy4nb3uc
-         fBpJSiRQjZOo71NUXfFwywEFV6zto0GYP2799iIngCPw/qFiuB3hWpe5vhM+s3hqQ/
-         LQeb+6jX8sjxZMlLDvfALGu4XehBWToyUm8INKbK9qpM0/MAuLHaMtJLHqe9LnkV2d
-         PQLfShBqJ+aAA/wD5sx7XnL5SISsB5Gb5GQKXrfAdW14RHEgZyZOSix6xEew1VSVUQ
-         EwIrEibWdmXrg==
-X-Nifty-SrcIP: [126.26.94.249]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Fri, 12 Jul 2019 23:41:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wxkeRJfE2/hEEVu6X3mDVb6YMRNpiAfth1fv/A6zUCs=; b=jOC8kysK2wEM7eJbLkG9HNvWf
+        Baxo7CSk9wtm6NgTOst9HVa0TE48xFJQACXCBi4AzcVhVuwV0/jv8FvXKSunx9uTuUg2LM7RPkpQ3
+        anv2MKNDFRNl01ggJtGaClSlLgq7ZXLZVJlzjsCGUf7UiX7bNSCDaxDdewPFbY5RNyIs0kh7BE68X
+        nUWQjsYqNpImO/De83V+3IeF6i8JxTXnxhSa8QD0q+45sKsZuxZiwi+NQtafuKmRlW10fHKxuiShU
+        JL6V62xjEgrU49vwqyZ8muxiwIYI5vALyvcwtrtNUMQoLmDRDEevJeJEdKvSksMjhp+JJ5GmGlcBH
+        FR6MKhucA==;
+Received: from 201.86.163.160.dynamic.adsl.gvt.net.br ([201.86.163.160] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hm8ui-0007gK-2f; Sat, 13 Jul 2019 03:41:32 +0000
+Date:   Sat, 13 Jul 2019 00:41:25 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Hannes Reinecke <hare@suse.com>, linux-kbuild@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Dan Williams <dan.j.williams@intel.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] kbuild: get rid of misleading $(AS) from documents
-Date:   Sat, 13 Jul 2019 11:45:58 +0900
-Message-Id: <20190713024558.27214-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
+        linux-doc@vger.kernel.org, Omar Sandoval <osandov@fb.com>
+Subject: Re: [PATCH 0/5] PDF output fixes
+Message-ID: <20190713004125.6009b661@coco.lan>
+In-Reply-To: <20190712192705.71b97717@coco.lan>
+References: <cover.1562696797.git.mchehab+samsung@kernel.org>
+        <20190712141921.7f8a1d02@lwn.net>
+        <20190712192705.71b97717@coco.lan>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The assembler files in the kernel are *.S instead of *.s, so they must
-be preprocessed. Since 'as' of GNU binutils is not able to preprocess,
-we always use $(CC) as an assembler driver.
+Em Fri, 12 Jul 2019 19:27:05 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
 
-$(AS) is almost unused in Kbuild. As of v5.2, there is just one place
-that directly invokes $(AS).
+> Em Fri, 12 Jul 2019 14:19:21 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
+> 
+> > On Tue,  9 Jul 2019 15:33:18 -0300
+> > Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> >   
+> > > In order to be able to build all PDF books, besides the two patches I
+> > > already sent:
+> > > 
+> > >     docs: pdf: add all Documentation/*/index.rst to PDF output
+> > >     docs: automarkup.py: ignore exceptions when seeking for xrefs
+> > > 
+> > > A few others are needed:
+> > > 
+> > > - patch 1 removes nested tables for a few files I converted, as 
+> > >   Sphinx LaTeX builder doesn't support it;
+> > > - Patches 2 to 4 addresses some minor issues on some books,
+> > >   usually requiring some blank lines, extra whitespaces or some
+> > >   tag replacement;
+> > > - Patch 5 is required in order to be able to build the translations
+> > >   PDF book, as it adds Asian fonts support to XeLaTeX.    
+> > 
+> > So, modulo my one comment on the last patch the series seems OK, though I
+> > don't like having to work around limitations in PDF generation this way.  
+> 
+> Yeah, I feel the pain. I didn't like writing those patches either.
+> 
+> > Can't you just make rst2pdf work instead? :)  
+> 
+> Well, we can try. Last time we tried, there were lots of things missing
+> for it to work. 
+> 
+> Based on:
+> 
+> 	https://pypi.org/project/rst2pdf/
+> 
+> The project got stuck back on Dec, 2012, up to the beginning of this
+> year. Maybe the issues we had in the past got fixed.
+> 
+> Also, right now, rst2pdf only supports Python 2.7.
+> 
+> I would wait for it to support Python 3.x before doing the actual
+> migration.
+> 
+> -
+> 
+> I don't remember the exact details, but when rst2pdf were
+> used with some documents, it didn't produce a valid PDF file, but perhaps
+> someone fixed it.
+> 
+> Assuming that rst2pdf works now, there are still several LaTeX specific
+> hacks on some files:
+> 
+> 	$ git grep -l latex|grep rst|wc -l
+> 	     28  
+> 
+> I guess almost all of them are related to the lack of proper support
+> at ReST markup language that would allow adjusting the output to fit
+> within the page limits. 
+> 
+> On media, we need two types of additional features:
+> 
+> 1) Sphinx pdf builder uses two different LaTeX ways of producing a table.
+> (tabular x tabularx x longtable - don't remember anymore the exact
+> two dialects it uses).
+> 
+> One of the dialect allows a table to be on multiple pages; the other
+> one doesn't. The builder decides the dialect if a table has more than 30
+> columns, but there's a way to force longtable (by changing the css style).
+> 
+> Not sure if rst2pdf honors the same css style.
+> 
+> 2) Table scaling / font resize. The Sphinx PDF builder doesn't scale
+> the fonts inside a table, nor the ReST dialect allows changing the font
+> size. So, we had to use raw LaTeX dialects for it to work.
+> 
+> Anyway, I'm enclosing an experimental patch that would enable rst2pdf.
+> It is not at production level.
+> 
+> It also shows some crashes like this one:
+> 
+> [ERROR] pdfbuilder.py:133 format not resolved, probably missing URL scheme or undefined destination target for 'Callback%20Registry'
+> Traceback (most recent call last):
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/pdfbuilder.py", line 130, in write
+>     docwriter.write(doctree, destination)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/docutils/writers/__init__.py", line 80, in write
+>     self.translate()
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/pdfbuilder.py", line 633, in translate
+>     compressed=self.compressed)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/rst2pdf/createpdf.py", line 664, in createPdf
+>     pdfdoc.multiBuild(elements)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/platypus/doctemplate.py", line 1154, in multiBuild
+>     self.canv.save()
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfgen/canvas.py", line 1242, in save
+>     self._doc.SaveToFile(self._filename, self)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 215, in SaveToFile
+>     data = self.GetPDFData(canvas)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 241, in GetPDFData
+>     return self.format()
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 423, in format
+>     IOf = IO.format(self)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 871, in format
+>     fcontent = format(self.content, document, toplevel=1)   # yes this is at top level
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 80, in format
+>     f = element.format(document)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 1608, in format
+>     return D.format(document)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 679, in format
+>     L = [(format(PDFName(k),document)+b" "+format(dict[k],document)) for k in keys]
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 80, in format
+>     f = element.format(document)
+>   File "/devel/v4l/docs/sphinx_1.7.9/lib/python2.7/site-packages/reportlab/pdfbase/pdfdoc.py", line 1773, in format
+>     if f is None: raise ValueError("format not resolved, probably missing URL scheme or undefined destination target for '%s'" % self.name)
+> ValueError: format not resolved, probably missing URL scheme or undefined destination target for 'Callback%20Registry'
+> FAILED
+> 
+> 
+> > 
+> > I guess it makes sense for these to go with the big band-aid-removal patch
+> > set.  
+> 
+> OK, I'll send it together with the big patchset.
+> 
+> > 
+> > Thanks,
+> > 
+> > jon
+> > 
+> > P.S. it seems that rst2pdf is actually being developed again:
+> > https://akrabat.com/rst2pdf-back-from-the-dead/ .  I wonder how far
+> > they'll get with it.  
+> 
+> Thanks,
+> Mauro
+> 
+> [PATCH RFC] docs: experimental: build PDF with rst2pdf
 
-  $ git grep -e '$(AS)' -e '${AS}' -e '$AS' -e '$(AS:' -e '${AS:' -- :^Documentation
-  drivers/net/wan/Makefile:  AS68K = $(AS)
+There are a few issues with the quick hack to use rst2pdf. The
+enclosed one works better.
 
-The documentation about *_AFLAGS* sounds like the flags were passed
-to $(AS). This is somewhat misleading.
+Yet, from the existing 70 books (on my experimental tree), rst2pdf breaks 
+with 14 ones.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
----
+It seems that the problem is related to broken cross-references. The html
+builder handles it nicely, but rst2pdf seems to crash when it can't solve
+all references. That sounds somewhat similar to the bug we solved with the
+automarkup extension.
 
-Changes in v3:
-  - Rebase
 
-Changes in v2:
-  - Rephrase without using "assembling"
+Thanks,
+Mauro
 
- Documentation/kbuild/kbuild.rst    |  5 ++---
- Documentation/kbuild/makefiles.rst | 12 ++++++------
- 2 files changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index b25548963d70..727520b3d7b1 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -38,12 +38,11 @@ Additional options to the assembler (for built-in and modules).
+
+[PATCH] docs: experimental: build PDF with rst2pdf
+
+Change the logic to use rst2pdf instead of LaTeX.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index e145e4db508b..a298bbcf6fa7 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -89,18 +89,22 @@ latexdocs:
  
- AFLAGS_MODULE
- -------------
--Additional module specific options to use for $(AS).
-+Additional assembler options for modules.
+ ifeq ($(HAVE_PDFLATEX),0)
  
- AFLAGS_KERNEL
- -------------
--Additional options for $(AS) when used for assembler
--code for code that is compiled as built-in.
-+Additional assembler options for built-in.
+-pdfdocs:
++oldpdfdocs:
+ 	$(warning The '$(PDFLATEX)' command was not found. Make sure you have it installed and in PATH to produce PDF output.)
+ 	@echo "  SKIP    Sphinx $@ target."
  
- KCFLAGS
- -------
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 093f2d79ab95..67e47589d9d2 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -328,7 +328,7 @@ more details, with real examples.
- 	variable $(KBUILD_CFLAGS) and uses it for compilation flags for the
- 	entire tree.
+ else # HAVE_PDFLATEX
  
--	asflags-y specifies options for assembling with $(AS).
-+	asflags-y specifies assembler options.
+-pdfdocs: latexdocs
++oldpdfdocs: latexdocs
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	$(foreach var,$(SPHINXDIRS), $(MAKE) PDFLATEX="$(PDFLATEX)" LATEXOPTS="$(LATEXOPTS)" -C $(BUILDDIR)/$(var)/latex || exit;)
  
- 	Example::
+ endif # HAVE_PDFLATEX
  
-@@ -489,7 +489,7 @@ more details, with real examples.
- 	as-instr checks if the assembler reports a specific instruction
- 	and then outputs either option1 or option2
- 	C escapes are supported in the test instruction
--	Note: as-instr-option uses KBUILD_AFLAGS for $(AS) options
-+	Note: as-instr-option uses KBUILD_AFLAGS for assembler options
++pdfdocs:
++	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
++
+ epubdocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+@@ -126,6 +130,7 @@ dochelp:
+ 	@echo  '  htmldocs        - HTML'
+ 	@echo  '  latexdocs       - LaTeX'
+ 	@echo  '  oldpdfdocs      - PDF'
++	@echo  '  pdfdocs         - PDF, using experimental rst2pdf support'
+ 	@echo  '  epubdocs        - EPUB'
+ 	@echo  '  xmldocs         - XML'
+ 	@echo  '  linkcheckdocs   - check for broken external links (will connect to external hosts)'
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index fa0a42b47e62..f53ea57aebe3 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -43,6 +43,8 @@ if (major == 1 and minor > 3) or (major > 1):
+ else:
+     extensions.append("sphinx.ext.pngmath")
  
-     cc-option
- 	cc-option is used to check if $(CC) supports a given option, and if
-@@ -905,7 +905,7 @@ When kbuild executes, the following steps are followed (roughly):
- 	vmlinux. The usage of $(call if_changed,xxx) will be described later.
++extensions.append("rst2pdf.pdfbuilder")
++
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
  
-     KBUILD_AFLAGS
--	$(AS) assembler flags
-+	Assembler flags
+@@ -564,12 +566,15 @@ epub_exclude_files = ['search.html']
+ #
+ # See the Sphinx chapter of http://ralsina.me/static/manual.pdf
+ #
+-# FIXME: Do not add the index file here; the result will be too big. Adding
+-# multiple PDF files here actually tries to get the cross-referencing right
+-# *between* PDF files.
+-pdf_documents = [
+-    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+-]
++
++# Add all LaTeX files to PDF documents as well
++pdf_documents = []
++for l in latex_documents:
++    doc = l[0]
++    fn = l[1].replace(".tex", "")
++    name = l[2]
++    authors = l[3]
++    pdf_documents.append((doc, fn, name, authors))
  
- 	Default value - see top level Makefile
- 	Append or modify as required per architecture.
-@@ -948,16 +948,16 @@ When kbuild executes, the following steps are followed (roughly):
- 	to 'y' when selected.
+ # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+ # the Docs). In a normal build, these are supplied from the Makefile via command
+diff --git a/Documentation/media/Makefile b/Documentation/media/Makefile
+index d75d70f191bc..3050136ed489 100644
+--- a/Documentation/media/Makefile
++++ b/Documentation/media/Makefile
+@@ -53,12 +53,13 @@ $(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.exception
  
-     KBUILD_AFLAGS_KERNEL
--	$(AS) options specific for built-in
-+	Assembler options specific for built-in
+ # Media build rules
  
- 	$(KBUILD_AFLAGS_KERNEL) contains extra C compiler flags used to compile
- 	resident kernel code.
+-.PHONY: all html epub xml latex
++.PHONY: all html epub xml latex pdf
  
-     KBUILD_AFLAGS_MODULE
--	Options for $(AS) when building modules
-+	Assembler options specific for modules
+ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+ html: all
+ epub: all
+ xml: all
++pdf: all
+ latex: $(IMGPDF) all
+ linkcheck:
  
- 	$(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
--	are used for $(AS).
-+	are used for assembler.
- 
- 	From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
- 
--- 
-2.17.1
+diff --git a/Makefile b/Makefile
+index 5bbaf5ee6f5b..99ae519fccf9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1562,7 +1562,7 @@ $(help-board-dirs): help-%:
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+ DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+-	       linkcheckdocs dochelp refcheckdocs
++	       linkcheckdocs dochelp refcheckdocs oldpdfdocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS): scripts_basic FORCE
+ 	$(Q)$(MAKE) $(build)=Documentation $@
 
