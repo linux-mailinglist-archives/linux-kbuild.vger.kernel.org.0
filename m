@@ -2,35 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E97867815
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 06:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B0D4678BA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jul 2019 08:07:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725881AbfGMEDd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 Jul 2019 00:03:33 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:60348 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfGMEDd (ORCPT
+        id S1726419AbfGMGHq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 Jul 2019 02:07:46 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41689 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726393AbfGMGHq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Jul 2019 00:03:33 -0400
-Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x6D41CNu028128;
-        Sat, 13 Jul 2019 13:01:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6D41CNu028128
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562990474;
-        bh=z0USyPFcDe0lYTty79Xrc/2Svd1fu++aAKo3U0lUKss=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IYy1JIWKd+fTzAd16ANSIaN2inSmetCf+au6W58fIAwxgrLCuorS2sqQUY8oJR/uJ
-         sdazD0gimDgdL2i/WARX632fTm4ogpfeLMhM8XTlGtFwogw2OAsmI6G3qAmlrGgV6o
-         BNNobHLFyf8XUEGFN1bf99IItFD6a+xM4UkqxDRg5kwiyfHU0xiQ1yrjvNPm0sjFtP
-         zGmWjHB6gDBG6AenNGkJq0CRCjZ+vTuWp8AXk2bV4UzN6mbaojW/T7lIHYmWIyO6OJ
-         1HGEpxd5INn81rIDTg2tmRmdAEmTdnMu2aQLUuu2FDn3cSOC6uXAZe63F+s78ngaXL
-         j81nvnu7Hkhow==
-X-Nifty-SrcIP: [126.26.94.249]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Andy Lutomirski <luto@kernel.org>,
+        Sat, 13 Jul 2019 02:07:46 -0400
+Received: by mail-wr1-f66.google.com with SMTP id c2so8725605wrm.8;
+        Fri, 12 Jul 2019 23:07:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=On5iqD9AlcEVmas2/vt48n4oosNJbbs0cKQZBxzkZxY=;
+        b=Tm87kPHCKamfpAY6goULQAkKazqDEpnzeXlHR4JZBeJvv1GVGSAvFipNxGwE6bAEPk
+         r58xUmUnOTJR40dsa7Kl/laITKOpLUNFpHZdLjT+fRAQPGTUqKpEcw6PasDyvUd4c0bj
+         gY7QG99zvETFN1bxMACuiAGKCVkS9T8d1VpzqH3anIqZ8jErOwXL5DdIldckGfL12u8F
+         mkQXQpfAZFQMVVy8WlWfIPLIh6X7fq8x22ZYArtv64rpYTwQJ0jg39p7vjqfTW9x9hx6
+         S3rJyzld2Ajj+qg3gL7MI7r3HXxXa4yZbMk9QxZGNG9rJyXePvrv7j5KgwXK80I0iqEE
+         OdYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=On5iqD9AlcEVmas2/vt48n4oosNJbbs0cKQZBxzkZxY=;
+        b=k/xEIDSpKoYuhM41uHT5D0QMl5dl3aibj7GvaGrVHEEuvMZCxX/XbCNLZODNAuINQP
+         f/sUkouGVRXf6n7+l9vMno2GJqAlqGD5oLVT/KEYwtXfuZuEsX+oMKYlQDEph7L8Teff
+         VUI5xS0M0boO7H+RX063seheBTTJjkwkVo5LZ0n3FS240IoEo/LLAxXJKolQufKj+/0W
+         syuzXENMFE19HQDjUufInvf4Bc/1jFeu0/NWcJzsjUx/777B7djBkRlgh5MecGUkW1wm
+         /IExTZBLFuO3YGXwIU+YqSAA9fe9MNrhcAx0lF8a9cswShTiiomgOuYF9P2dXVTQSTF2
+         U+iA==
+X-Gm-Message-State: APjAAAXCXpJ5GWDI/aAxkC5DxWUDCyGPU63xUbsyJocIo8UGboaWkX9d
+        jJnEjc3C0BlYe50g3n4UR5A=
+X-Google-Smtp-Source: APXvYqwBRfMNXfHHzwLXmUW/368+gtKOyu7+kMHfTjBTiTaMHZ0RtPhgK75JRaQuQc6UvyRDl8Cy+A==
+X-Received: by 2002:a5d:4e08:: with SMTP id p8mr3281323wrt.20.1562998064324;
+        Fri, 12 Jul 2019 23:07:44 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id g131sm6963201wmf.37.2019.07.12.23.07.42
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 12 Jul 2019 23:07:43 -0700 (PDT)
+Date:   Fri, 12 Jul 2019 23:07:41 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Andy Lutomirski <luto@kernel.org>,
         Borislav Petkov <bp@alien8.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
         "David S. Miller" <davem@davemloft.net>,
@@ -41,105 +59,28 @@ Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Will Deacon <will@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         sparclinux@vger.kernel.org, x86@kernel.org
-Subject: [PATCH] kbuild: add --hash-style= and --build-id unconditionally
-Date:   Sat, 13 Jul 2019 13:01:10 +0900
-Message-Id: <20190713040110.18210-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+Subject: Re: [PATCH] kbuild: add --hash-style= and --build-id unconditionally
+Message-ID: <20190713060741.GA76046@archlinux-threadripper>
+References: <20190713040110.18210-1-yamada.masahiro@socionext.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190713040110.18210-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As commit 1e0221374e30 ("mips: vdso: drop unnecessary cc-ldoption")
-explained, these flags are supported by the minimal required version
-of binutils.
+On Sat, Jul 13, 2019 at 01:01:10PM +0900, Masahiro Yamada wrote:
+> As commit 1e0221374e30 ("mips: vdso: drop unnecessary cc-ldoption")
+> explained, these flags are supported by the minimal required version
+> of binutils.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+Also supported by ld.lld; I tested both arm and x86, the build ID shows
+up fine.
 
- Makefile                          | 6 ++----
- arch/arm/vdso/Makefile            | 3 +--
- arch/arm64/kernel/vdso32/Makefile | 4 ++--
- arch/sparc/vdso/Makefile          | 3 +--
- arch/x86/entry/vdso/Makefile      | 5 ++---
- 5 files changed, 8 insertions(+), 13 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 2c5d00ba537e..969182105dbd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -900,10 +900,8 @@ KBUILD_CPPFLAGS += $(ARCH_CPPFLAGS) $(KCPPFLAGS)
- KBUILD_AFLAGS   += $(ARCH_AFLAGS)   $(KAFLAGS)
- KBUILD_CFLAGS   += $(ARCH_CFLAGS)   $(KCFLAGS)
- 
--# Use --build-id when available.
--LDFLAGS_BUILD_ID := $(call ld-option, --build-id)
--KBUILD_LDFLAGS_MODULE += $(LDFLAGS_BUILD_ID)
--LDFLAGS_vmlinux += $(LDFLAGS_BUILD_ID)
-+KBUILD_LDFLAGS_MODULE += --build-id
-+LDFLAGS_vmlinux += --build-id
- 
- ifeq ($(CONFIG_STRIP_ASM_SYMS),y)
- LDFLAGS_vmlinux	+= $(call ld-option, -X,)
-diff --git a/arch/arm/vdso/Makefile b/arch/arm/vdso/Makefile
-index ca85df247775..87b7769214e0 100644
---- a/arch/arm/vdso/Makefile
-+++ b/arch/arm/vdso/Makefile
-@@ -13,8 +13,7 @@ ccflags-y += -DDISABLE_BRANCH_PROFILING
- ldflags-$(CONFIG_CPU_ENDIAN_BE8) := --be8
- ldflags-y := -Bsymbolic --no-undefined -soname=linux-vdso.so.1 \
- 	    -z max-page-size=4096 -nostdlib -shared $(ldflags-y) \
--	    $(call ld-option, --hash-style=sysv) \
--	    $(call ld-option, --build-id) \
-+	    --hash-style=sysv --build-id \
- 	    -T
- 
- obj-$(CONFIG_VDSO) += vdso.o
-diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-index 288c14d30b45..60a4c6239712 100644
---- a/arch/arm64/kernel/vdso32/Makefile
-+++ b/arch/arm64/kernel/vdso32/Makefile
-@@ -96,8 +96,8 @@ VDSO_LDFLAGS := $(VDSO_CPPFLAGS)
- VDSO_LDFLAGS += -Wl,-Bsymbolic -Wl,--no-undefined -Wl,-soname=linux-vdso.so.1
- VDSO_LDFLAGS += -Wl,-z,max-page-size=4096 -Wl,-z,common-page-size=4096
- VDSO_LDFLAGS += -nostdlib -shared -mfloat-abi=soft
--VDSO_LDFLAGS += $(call cc32-ldoption,-Wl$(comma)--hash-style=sysv)
--VDSO_LDFLAGS += $(call cc32-ldoption,-Wl$(comma)--build-id)
-+VDSO_LDFLAGS += -Wl,--hash-style=sysv
-+VDSO_LDFLAGS += -Wl,--build-id
- VDSO_LDFLAGS += $(call cc32-ldoption,-fuse-ld=bfd)
- 
- 
-diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
-index 5a9e4e1f9f81..324a23947585 100644
---- a/arch/sparc/vdso/Makefile
-+++ b/arch/sparc/vdso/Makefile
-@@ -115,8 +115,7 @@ quiet_cmd_vdso = VDSO    $@
- 		       -T $(filter %.lds,$^) $(filter %.o,$^) && \
- 		sh $(srctree)/$(src)/checkundef.sh '$(OBJDUMP)' '$@'
- 
--VDSO_LDFLAGS = -shared $(call ld-option, --hash-style=both) \
--	$(call ld-option, --build-id) -Bsymbolic
-+VDSO_LDFLAGS = -shared --hash-style=both --build-id -Bsymbolic
- GCOV_PROFILE := n
- 
- #
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 39106111be86..4c234a18638a 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -179,9 +179,8 @@ quiet_cmd_vdso = VDSO    $@
- 		       -T $(filter %.lds,$^) $(filter %.o,$^) && \
- 		 sh $(srctree)/$(src)/checkundef.sh '$(NM)' '$@'
- 
--VDSO_LDFLAGS = -shared $(call ld-option, --hash-style=both) \
--	$(call ld-option, --build-id) $(call ld-option, --eh-frame-hdr) \
--	-Bsymbolic
-+VDSO_LDFLAGS = -shared --hash-style=both --build-id \
-+	$(call ld-option, --eh-frame-hdr) -Bsymbolic
- GCOV_PROFILE := n
- 
- #
--- 
-2.17.1
-
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
