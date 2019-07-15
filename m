@@ -2,48 +2,44 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE74469A47
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2019 19:57:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1AE369A8B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2019 20:10:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731808AbfGOR4w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Jul 2019 13:56:52 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:49401 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731078AbfGOR4w (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Jul 2019 13:56:52 -0400
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x6FHuk49009352;
-        Tue, 16 Jul 2019 02:56:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x6FHuk49009352
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563213407;
-        bh=9DNdwAOMrDNMDhRKaR9DRzklJ+6WxesMxATv1pupRXY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EcNZEZAI9Rws1hjnvr2rW+x4gunjiHVPkw6eIpV1JeJv3/M1US0vh157JziyNrTdB
-         LRl4f8fObAyYijVUasxdWUPMMS3PiysrZw+oqbas4N09O9O53MYnFbAaTedAjOwIJ6
-         7ZntQU4UJMr4qyp/VYhIOlHoEJvbnCTSKQDB+ae2RWIfg3I25ixgFQTK0N6MO9lP9u
-         OyO45kbhpkUxozHktKYjzTFyIx3Whqpph5SGxB0GEJQNKV24Mf8JuAq/phkkx8u6xo
-         WL0mKiEitoUPdrqgSVNmwyMIogql3qw6DkzPE0LNSDsmz6AQLT5YH0lZIgmEpP0sR1
-         qxdLVmCC4v6Bg==
-X-Nifty-SrcIP: [209.85.217.51]
-Received: by mail-vs1-f51.google.com with SMTP id y16so11994093vsc.3;
-        Mon, 15 Jul 2019 10:56:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAXzGlfG6/dKR41YHZC9dYklF1ubuKwLnBPoAFk0U8tUR9bh5BNJ
-        g50otexA6is0IdWHimXPGgQZe23kRsjZelJAcF8=
-X-Google-Smtp-Source: APXvYqzjIu0ZLvWAf2ZU5pOylmcgyKILZfFZ//irLAErTz0kjJcm+rkHjWiOwvjlXfyDX9t3Pi5gvy0kXQ+8Zjk3Koc=
-X-Received: by 2002:a67:d46:: with SMTP id 67mr17319200vsn.181.1563213406027;
- Mon, 15 Jul 2019 10:56:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190715144848.4cc41e07@canb.auug.org.au> <ccb5b818-c191-2d9e-311f-b2c79b7f6823@infradead.org>
- <CAF90-WirEMg7arNOTmo+tyJ20rt_zeN=nr0OO6Qk0Ss8J4QrUA@mail.gmail.com> <20190715173341.zth4na7zekjsesaa@salvia>
-In-Reply-To: <20190715173341.zth4na7zekjsesaa@salvia>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 16 Jul 2019 02:56:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS0rX_SRXqb=N=Td-DFNWd=PytDFje12gYh2pYNRBVAJA@mail.gmail.com>
-Message-ID: <CAK7LNAS0rX_SRXqb=N=Td-DFNWd=PytDFje12gYh2pYNRBVAJA@mail.gmail.com>
-Subject: Re: linux-next: Tree for Jul 15 (HEADERS_TEST w/ netfilter tables offload)
-To:     Pablo Neira Ayuso <pablo@netfilter.org>
+        id S1730119AbfGOSJK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Jul 2019 14:09:10 -0400
+Received: from mail.us.es ([193.147.175.20]:41178 "EHLO mail.us.es"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729494AbfGOSJK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 15 Jul 2019 14:09:10 -0400
+Received: from antivirus1-rhel7.int (unknown [192.168.2.11])
+        by mail.us.es (Postfix) with ESMTP id 2CB54E2C44
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2019 20:09:08 +0200 (CEST)
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+        by antivirus1-rhel7.int (Postfix) with ESMTP id 1F0A31150D8
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Jul 2019 20:09:08 +0200 (CEST)
+Received: by antivirus1-rhel7.int (Postfix, from userid 99)
+        id 140314FA31; Mon, 15 Jul 2019 20:09:08 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on antivirus1-rhel7.int
+X-Spam-Level: 
+X-Spam-Status: No, score=-108.2 required=7.5 tests=ALL_TRUSTED,BAYES_50,
+        SMTPAUTH_US2,USER_IN_WHITELIST autolearn=disabled version=3.4.1
+Received: from antivirus1-rhel7.int (localhost [127.0.0.1])
+        by antivirus1-rhel7.int (Postfix) with ESMTP id 124E9DA4D1;
+        Mon, 15 Jul 2019 20:09:06 +0200 (CEST)
+Received: from 192.168.1.97 (192.168.1.97)
+ by antivirus1-rhel7.int (F-Secure/fsigk_smtp/550/antivirus1-rhel7.int);
+ Mon, 15 Jul 2019 20:09:06 +0200 (CEST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/antivirus1-rhel7.int)
+Received: from us.es (sys.soleta.eu [212.170.55.40])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: 1984lsi)
+        by entrada.int (Postfix) with ESMTPSA id D948C4265A32;
+        Mon, 15 Jul 2019 20:09:05 +0200 (CEST)
+Date:   Mon, 15 Jul 2019 20:09:05 +0200
+X-SMTPAUTHUS: auth mail.us.es
+From:   Pablo Neira Ayuso <pablo@netfilter.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Laura Garcia <nevola@gmail.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
@@ -53,63 +49,60 @@ Cc:     Laura Garcia <nevola@gmail.com>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         Netfilter Development Mailing list 
         <netfilter-devel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: linux-next: Tree for Jul 15 (HEADERS_TEST w/ netfilter tables
+ offload)
+Message-ID: <20190715180905.rytaht5kslpbatcy@salvia>
+References: <20190715144848.4cc41e07@canb.auug.org.au>
+ <ccb5b818-c191-2d9e-311f-b2c79b7f6823@infradead.org>
+ <CAF90-WirEMg7arNOTmo+tyJ20rt_zeN=nr0OO6Qk0Ss8J4QrUA@mail.gmail.com>
+ <20190715173341.zth4na7zekjsesaa@salvia>
+ <CAK7LNAS0rX_SRXqb=N=Td-DFNWd=PytDFje12gYh2pYNRBVAJA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAS0rX_SRXqb=N=Td-DFNWd=PytDFje12gYh2pYNRBVAJA@mail.gmail.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 2:33 AM Pablo Neira Ayuso <pablo@netfilter.org> wrote:
->
-> On Mon, Jul 15, 2019 at 07:28:04PM +0200, Laura Garcia wrote:
-> > CC'ing netfilter.
+On Tue, Jul 16, 2019 at 02:56:09AM +0900, Masahiro Yamada wrote:
+> On Tue, Jul 16, 2019 at 2:33 AM Pablo Neira Ayuso <pablo@netfilter.org> wrote:
 > >
-> > On Mon, Jul 15, 2019 at 6:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> > On Mon, Jul 15, 2019 at 07:28:04PM +0200, Laura Garcia wrote:
+> > > CC'ing netfilter.
 > > >
-> > > On 7/14/19 9:48 PM, Stephen Rothwell wrote:
-> > > > Hi all,
+> > > On Mon, Jul 15, 2019 at 6:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 > > > >
-> > > > Please do not add v5.4 material to your linux-next included branches
-> > > > until after v5.3-rc1 has been released.
+> > > > On 7/14/19 9:48 PM, Stephen Rothwell wrote:
+> > > > > Hi all,
+> > > > >
+> > > > > Please do not add v5.4 material to your linux-next included branches
+> > > > > until after v5.3-rc1 has been released.
+> > > > >
+> > > > > Changes since 20190712:
+> > > > >
 > > > >
-> > > > Changes since 20190712:
+> > > > Hi,
 > > > >
-> > >
-> > > Hi,
-> > >
-> > > I am seeing these build errors from HEADERS_TEST (or KERNEL_HEADERS_TEST)
-> > > for include/net/netfilter/nf_tables_offload.h.s:
-> > >
-> > >   CC      include/net/netfilter/nf_tables_offload.h.s
-> [...]
-> > > Should this header file not be tested?
+> > > > I am seeing these build errors from HEADERS_TEST (or KERNEL_HEADERS_TEST)
+> > > > for include/net/netfilter/nf_tables_offload.h.s:
+> > > >
+> > > >   CC      include/net/netfilter/nf_tables_offload.h.s
+> > [...]
+> > > > Should this header file not be tested?
+> 
+> This means you must endlessly exclude
+> headers that include nf_tables.h
+> 
+> 
+> > Yes, it should indeed be added.
+> 
+> Adding 'header-test-' is the last resort.
 
-This means you must endlessly exclude
-headers that include nf_tables.h
+OK, so policy now is that all internal headers should compile
+standalone, right?
 
-
-> Yes, it should indeed be added.
-
-Adding 'header-test-' is the last resort.
-
-
-I had already queued a patch:
-
-git clone -b build-test
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-
-commit 9dae5c5fc798e0e970cca4cd1b224dece3ad4766
-Author: Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon Jul 15 00:42:56 2019 +0900
-
-    netfilter: nf_tables: split local helpers out to nft_internals.h
-
-
-
-If it is OK, I will send it out.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+I can have a look and make it compile standalone.
