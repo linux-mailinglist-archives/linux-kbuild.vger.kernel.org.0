@@ -2,132 +2,174 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B272A69946
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2019 18:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E52A7699B0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jul 2019 19:28:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731381AbfGOQnn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Jul 2019 12:43:43 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39776 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730874AbfGOQnm (ORCPT
+        id S1731563AbfGOR2S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Jul 2019 13:28:18 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44353 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731244AbfGOR2S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Jul 2019 12:43:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=RSkHGbyKshnf7brwgRog4FDJoLltbAeNAqTZqLgrOwY=; b=XFtS7SqPr0O7CD4ceZo/N+zxa
-        Hp78Ke84ABnLHxgSSlz/cF6IDlSJ+dVng6vqz0iHJN2WXypfdOfQATpnB2Qngv2wROo6A9xTfv73y
-        MJmxV6xSY7elM3bt0d+cBRu1NU0Ej6musiTFiT2wIy/q9yuQIfXayyN1Fd/M8qVxNRxk/LCfkXXan
-        qookMFgHS40TQrNxj+eJ1k7jJNSzqOS2SU+ySJbRnBC2PLsio09Fgco20A17UENfISYGeK+LeQM2b
-        3gzqN2zhvwdewf8JZadvhnZqEDXkIYBIe69pdDn5dBZa4jO8e32l5FdLbl1nRPNmyMB059dVdF13L
-        AXNvXk2Jg==;
-Received: from static-50-53-52-16.bvtn.or.frontiernet.net ([50.53.52.16] helo=[192.168.1.17])
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hn44f-0006wc-9g; Mon, 15 Jul 2019 16:43:41 +0000
-Subject: Re: linux-next: Tree for Jul 15 (HEADERS_TEST w/ netfilter tables
- offload)
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mon, 15 Jul 2019 13:28:18 -0400
+Received: by mail-ot1-f65.google.com with SMTP id b7so17813593otl.11;
+        Mon, 15 Jul 2019 10:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HnnOnZBQP1Cav/Lz0tbA/DG3A9QQlkvslSRS75Fhsp8=;
+        b=OhdNkyY8F0PXWv8P8vpcWJ1/uZjniPOJJO12nWFstF1crz+Go6ZWpzhmhsqGqgMI7H
+         GBbRrLzsr1K6JootoUSnz9ALtYvHGWNc1uDqSbOxj+XzbsoSBaxRXnC7oohtIZ+eUMtL
+         sxTrX0lHSd1txyA4gVJe+lZs9Mbre+AfuUDBdxda7/DnqrYb/eFP8T33gVIlTVuC/g3D
+         r1MdgWrUJ0UB2HC3dCENzq+hBIzWWrmAIpAxbECVS7OVCMCbp4A/8SSSKy8xgd+UD7qH
+         5ygpFKVYzehTLvfJr5dxc8mEdmeuJy7eWQHqyPG+swLpm2FS9YyE2YXfpLgRmcD/cyYW
+         zkFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HnnOnZBQP1Cav/Lz0tbA/DG3A9QQlkvslSRS75Fhsp8=;
+        b=cjTS9V4HD+EscteRgcM9WkK7AQIfFNA38xgodD1vaJ149vS1BM3m7AxuLudKrFB5f7
+         OR71Il+ckHdzqPGi2vMWz3EdMYrIIkaXRiXOLGNWe2yNFfM4RWxrZNt8/mHvNQdcuxXG
+         PA1VIyMb2BpT8lRcSardRerycqyfWCQix7pBSheD+zi0HgSC2StQ2sLv66oXcIp9IByl
+         05N1woo/ziKqq5odH6akll501kNsWxyW7et3KHmHqxICNzFuYV85fgfGqrndZEw2+ktk
+         cnAP5ZdZEkwA1R5n5gtW7rhHc5SewB/+Lu+BMoWs1Z6t5Eti1E1cFLS9RHDK4Tarodxa
+         HHMA==
+X-Gm-Message-State: APjAAAX+7hoPo/1AGXHuKTmTFZulTu2Z0YBcbJ19xi+pZ+VKaKoEeKTz
+        p7qc45hpi6OsBoWtvwTuzewQNvOJcGI8XrYUW50kBA==
+X-Google-Smtp-Source: APXvYqw8ll09WKFXUcoLvj+kqijbMcBE40SbDOOHBrCFaNGDKzQpjnlCkR0xQKyZyyMOqdqLLBFmiPBnH4g0HsOcTa0=
+X-Received: by 2002:a9d:222c:: with SMTP id o41mr21287254ota.278.1563211695910;
+ Mon, 15 Jul 2019 10:28:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190715144848.4cc41e07@canb.auug.org.au> <ccb5b818-c191-2d9e-311f-b2c79b7f6823@infradead.org>
+In-Reply-To: <ccb5b818-c191-2d9e-311f-b2c79b7f6823@infradead.org>
+From:   Laura Garcia <nevola@gmail.com>
+Date:   Mon, 15 Jul 2019 19:28:04 +0200
+Message-ID: <CAF90-WirEMg7arNOTmo+tyJ20rt_zeN=nr0OO6Qk0Ss8J4QrUA@mail.gmail.com>
+Subject: Re: linux-next: Tree for Jul 15 (HEADERS_TEST w/ netfilter tables offload)
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-kbuild <linux-kbuild@vger.kernel.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <20190715144848.4cc41e07@canb.auug.org.au>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ccb5b818-c191-2d9e-311f-b2c79b7f6823@infradead.org>
-Date:   Mon, 15 Jul 2019 09:43:34 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190715144848.4cc41e07@canb.auug.org.au>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        Netfilter Development Mailing list 
+        <netfilter-devel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/14/19 9:48 PM, Stephen Rothwell wrote:
-> Hi all,
-> 
-> Please do not add v5.4 material to your linux-next included branches
-> until after v5.3-rc1 has been released.
-> 
-> Changes since 20190712:
-> 
+CC'ing netfilter.
 
-Hi,
-
-I am seeing these build errors from HEADERS_TEST (or KERNEL_HEADERS_TEST)
-for include/net/netfilter/nf_tables_offload.h.s:
-
-  CC      include/net/netfilter/nf_tables_offload.h.s
-In file included from ./../include/net/netfilter/nf_tables_offload.h:5:0,
-                 from <command-line>:0:
-../include/net/netfilter/nf_tables.h: In function ‘nft_gencursor_next’:
-../include/net/netfilter/nf_tables.h:1223:14: error: ‘const struct net’ has no member named ‘nft’; did you mean ‘nf’?
-  return net->nft.gencursor + 1 == 1 ? 1 : 0;
-              ^~~
-              nf
-In file included from ../include/linux/kernel.h:11:0,
-                 from ../include/net/flow_offload.h:4,
-                 from ./../include/net/netfilter/nf_tables_offload.h:4,
-                 from <command-line>:0:
-../include/net/netfilter/nf_tables.h: In function ‘nft_genmask_cur’:
-../include/net/netfilter/nf_tables.h:1234:29: error: ‘const struct net’ has no member named ‘nft’; did you mean ‘nf’?
-  return 1 << READ_ONCE(net->nft.gencursor);
-                             ^
-../include/linux/compiler.h:261:17: note: in definition of macro ‘__READ_ONCE’
-  union { typeof(x) __val; char __c[1]; } __u;   \
-                 ^
-../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro ‘READ_ONCE’
-  return 1 << READ_ONCE(net->nft.gencursor);
-              ^~~~~~~~~
-../include/net/netfilter/nf_tables.h:1234:29: error: ‘const struct net’ has no member named ‘nft’; did you mean ‘nf’?
-  return 1 << READ_ONCE(net->nft.gencursor);
-                             ^
-../include/linux/compiler.h:263:22: note: in definition of macro ‘__READ_ONCE’
-   __read_once_size(&(x), __u.__c, sizeof(x));  \
-                      ^
-../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro ‘READ_ONCE’
-  return 1 << READ_ONCE(net->nft.gencursor);
-              ^~~~~~~~~
-../include/net/netfilter/nf_tables.h:1234:29: error: ‘const struct net’ has no member named ‘nft’; did you mean ‘nf’?
-  return 1 << READ_ONCE(net->nft.gencursor);
-                             ^
-../include/linux/compiler.h:263:42: note: in definition of macro ‘__READ_ONCE’
-   __read_once_size(&(x), __u.__c, sizeof(x));  \
-                                          ^
-../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro ‘READ_ONCE’
-  return 1 << READ_ONCE(net->nft.gencursor);
-              ^~~~~~~~~
-../include/net/netfilter/nf_tables.h:1234:29: error: ‘const struct net’ has no member named ‘nft’; did you mean ‘nf’?
-  return 1 << READ_ONCE(net->nft.gencursor);
-                             ^
-../include/linux/compiler.h:265:30: note: in definition of macro ‘__READ_ONCE’
-   __read_once_size_nocheck(&(x), __u.__c, sizeof(x)); \
-                              ^
-../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro ‘READ_ONCE’
-  return 1 << READ_ONCE(net->nft.gencursor);
-              ^~~~~~~~~
-../include/net/netfilter/nf_tables.h:1234:29: error: ‘const struct net’ has no member named ‘nft’; did you mean ‘nf’?
-  return 1 << READ_ONCE(net->nft.gencursor);
-                             ^
-../include/linux/compiler.h:265:50: note: in definition of macro ‘__READ_ONCE’
-   __read_once_size_nocheck(&(x), __u.__c, sizeof(x)); \
-                                                  ^
-../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro ‘READ_ONCE’
-  return 1 << READ_ONCE(net->nft.gencursor);
-              ^~~~~~~~~
-make[2]: *** [../scripts/Makefile.build:304: include/net/netfilter/nf_tables_offload.h.s] Error 1
-
-
-Should this header file not be tested?
-
-thanks.
--- 
-~Randy
+On Mon, Jul 15, 2019 at 6:45 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 7/14/19 9:48 PM, Stephen Rothwell wrote:
+> > Hi all,
+> >
+> > Please do not add v5.4 material to your linux-next included branches
+> > until after v5.3-rc1 has been released.
+> >
+> > Changes since 20190712:
+> >
+>
+> Hi,
+>
+> I am seeing these build errors from HEADERS_TEST (or KERNEL_HEADERS_TEST)
+> for include/net/netfilter/nf_tables_offload.h.s:
+>
+>   CC      include/net/netfilter/nf_tables_offload.h.s
+> In file included from ./../include/net/netfilter/nf_tables_offload.h:5:0,
+>                  from <command-line>:0:
+> ../include/net/netfilter/nf_tables.h: In function =E2=80=98nft_gencursor_=
+next=E2=80=99:
+> ../include/net/netfilter/nf_tables.h:1223:14: error: =E2=80=98const struc=
+t net=E2=80=99 has no member named =E2=80=98nft=E2=80=99; did you mean =E2=
+=80=98nf=E2=80=99?
+>   return net->nft.gencursor + 1 =3D=3D 1 ? 1 : 0;
+>               ^~~
+>               nf
+> In file included from ../include/linux/kernel.h:11:0,
+>                  from ../include/net/flow_offload.h:4,
+>                  from ./../include/net/netfilter/nf_tables_offload.h:4,
+>                  from <command-line>:0:
+> ../include/net/netfilter/nf_tables.h: In function =E2=80=98nft_genmask_cu=
+r=E2=80=99:
+> ../include/net/netfilter/nf_tables.h:1234:29: error: =E2=80=98const struc=
+t net=E2=80=99 has no member named =E2=80=98nft=E2=80=99; did you mean =E2=
+=80=98nf=E2=80=99?
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>                              ^
+> ../include/linux/compiler.h:261:17: note: in definition of macro =E2=80=
+=98__READ_ONCE=E2=80=99
+>   union { typeof(x) __val; char __c[1]; } __u;   \
+>                  ^
+> ../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro=
+ =E2=80=98READ_ONCE=E2=80=99
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>               ^~~~~~~~~
+> ../include/net/netfilter/nf_tables.h:1234:29: error: =E2=80=98const struc=
+t net=E2=80=99 has no member named =E2=80=98nft=E2=80=99; did you mean =E2=
+=80=98nf=E2=80=99?
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>                              ^
+> ../include/linux/compiler.h:263:22: note: in definition of macro =E2=80=
+=98__READ_ONCE=E2=80=99
+>    __read_once_size(&(x), __u.__c, sizeof(x));  \
+>                       ^
+> ../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro=
+ =E2=80=98READ_ONCE=E2=80=99
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>               ^~~~~~~~~
+> ../include/net/netfilter/nf_tables.h:1234:29: error: =E2=80=98const struc=
+t net=E2=80=99 has no member named =E2=80=98nft=E2=80=99; did you mean =E2=
+=80=98nf=E2=80=99?
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>                              ^
+> ../include/linux/compiler.h:263:42: note: in definition of macro =E2=80=
+=98__READ_ONCE=E2=80=99
+>    __read_once_size(&(x), __u.__c, sizeof(x));  \
+>                                           ^
+> ../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro=
+ =E2=80=98READ_ONCE=E2=80=99
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>               ^~~~~~~~~
+> ../include/net/netfilter/nf_tables.h:1234:29: error: =E2=80=98const struc=
+t net=E2=80=99 has no member named =E2=80=98nft=E2=80=99; did you mean =E2=
+=80=98nf=E2=80=99?
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>                              ^
+> ../include/linux/compiler.h:265:30: note: in definition of macro =E2=80=
+=98__READ_ONCE=E2=80=99
+>    __read_once_size_nocheck(&(x), __u.__c, sizeof(x)); \
+>                               ^
+> ../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro=
+ =E2=80=98READ_ONCE=E2=80=99
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>               ^~~~~~~~~
+> ../include/net/netfilter/nf_tables.h:1234:29: error: =E2=80=98const struc=
+t net=E2=80=99 has no member named =E2=80=98nft=E2=80=99; did you mean =E2=
+=80=98nf=E2=80=99?
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>                              ^
+> ../include/linux/compiler.h:265:50: note: in definition of macro =E2=80=
+=98__READ_ONCE=E2=80=99
+>    __read_once_size_nocheck(&(x), __u.__c, sizeof(x)); \
+>                                                   ^
+> ../include/net/netfilter/nf_tables.h:1234:14: note: in expansion of macro=
+ =E2=80=98READ_ONCE=E2=80=99
+>   return 1 << READ_ONCE(net->nft.gencursor);
+>               ^~~~~~~~~
+> make[2]: *** [../scripts/Makefile.build:304: include/net/netfilter/nf_tab=
+les_offload.h.s] Error 1
+>
+>
+> Should this header file not be tested?
+>
+> thanks.
+> --
+> ~Randy
