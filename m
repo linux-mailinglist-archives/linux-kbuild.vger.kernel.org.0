@@ -2,95 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 147376A9FA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 16:00:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 301F16AAB6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 16:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728384AbfGPOAe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Jul 2019 10:00:34 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:25048 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726593AbfGPOAe (ORCPT
+        id S1728137AbfGPOkj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Jul 2019 10:40:39 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:34845 "EHLO
+        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728190AbfGPOkj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Jul 2019 10:00:34 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x6GE07F6004768;
-        Tue, 16 Jul 2019 23:00:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6GE07F6004768
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563285608;
-        bh=17EXgbDG+FKzhJ6mf7iS/6cZE4J0a/HBc40gJ8UDRJc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GvAs+RtgAEUCREMWDOUlA+oz2hXY9gVNv4s+5RK6aebOjta6duG3RlW8+KWFJIeed
-         Be/fmvnbjnqY0sQw14tuoMAdTOaK0NbrjQMTKT9+fQpDPDzjkGqOrC9cGqOv9QvIgo
-         6TuvblrO/Gw/DjKGmn5ioCw2erzV5Tg0XaNlGqY6/LLmU0wAiGNJck3u5JyPASUlqb
-         0ZviQks7w1ofPbLr2hYvrGoJz0Em2SSC/qSczLPudgEykXHnusQp+bmyUATGp7EoYl
-         iM9f3EYWzAZia5AKKh6Zsx2ytUcoQnSwmLm/JhfjQh3Dbfx2pzWH3skwgWw4vHCZif
-         0vzXxtJUq+aBw==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id v6so13987855vsq.4;
-        Tue, 16 Jul 2019 07:00:08 -0700 (PDT)
-X-Gm-Message-State: APjAAAUhH+HHh8TBPP3ElVkbuIksfnNlkOIFVarq+/JfhNBuG/S4U0eO
-        Euf9qmCPbmS95ReVBF0PN58/jLwDwjVeXS3c2zE=
-X-Google-Smtp-Source: APXvYqzvMEy8fZNv6UB2oKKUYxxkbEpHi5QKtGfbHhPeitQzInE0Pg9qezW5fEKvogiTzQiQ9hzkE61TlQi3ugWH0FA=
-X-Received: by 2002:a67:8e0a:: with SMTP id q10mr19966577vsd.215.1563285607104;
- Tue, 16 Jul 2019 07:00:07 -0700 (PDT)
+        Tue, 16 Jul 2019 10:40:39 -0400
+Received: by mail-wr1-f44.google.com with SMTP id y4so21267553wrm.2;
+        Tue, 16 Jul 2019 07:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dRTGM/3TsLLaMT/kkWfuAU6/FuLR8DlXkvNkWANUfp0=;
+        b=cpVhmiXpBLbQXzEBXErmPUcmKX/FEHkp24b8zIdoKDLTPWatJQkxnkRQIw8rsDxtOK
+         G3PsXiVuyNzQMZwA25oSu+41qhSIbt+GnbXU9fF0Rje8fskzVLOkeg73LHK1kVce1cNa
+         Ln5ikH1NL4Tt1mfM3t83E0mJoUZPG7XKYD7Ba/AlJgwtfw/RmjflU3mdsHMcu7R2yUiY
+         +AiGR309F9Wp4ndhhmtQ40ZpgoW99dsOKUOW1FBeJFXjB1KWmJnUGdJfbg7MK7Plx1kU
+         6P85/TTr93TYrZw/714ACH+kG4nbUYacob/zQh4gCOpzWs1PSRwlr1Ns3OEZ9DLABDSE
+         8Qvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dRTGM/3TsLLaMT/kkWfuAU6/FuLR8DlXkvNkWANUfp0=;
+        b=Q/TzmFmiNoedxascjjbwPhEjL/exzigiefB9hnCjORMZ1rrJca2GdofRydtaI+c1DT
+         lwf9YjIlppD39zY9aakEXvVCuxIGHxwTH9SDNqZPw2HcAxw2F2n7TpKjTOUzjIPQ2K2Q
+         GFb8s0EAh+IHblrbr62xQMeUAPBWb5RcgWFkO8wGlzhCpCzTIMKzMhe52dsrk8NGjgix
+         G4wByehIXIFjthzw1Lubq50tHwOd5kSzZgfhWCseNtnyxiX/Wsq2eH7WpV7ONvvFF4A/
+         AZwFxV5OWzFik532mlz0067ABZroqxN+6ACleqUfsUB0zbSOR6ecegwFB6gQQSrgDELJ
+         BjWA==
+X-Gm-Message-State: APjAAAVxbSBl0ekHrkFF362ChJVfykZLiLRq83C+G2yXbTJ5TiJJdtYC
+        8iTBIm6S/K6fP3LbYFSaxR0/VbNe
+X-Google-Smtp-Source: APXvYqwYrVeoLHI+ZhUBAEFqoIBYN16pQRhPsaikeBnrvmYoZlXI/lqIwDwPGeupq1aCCuPeXODFOg==
+X-Received: by 2002:a05:6000:12c8:: with SMTP id l8mr37775498wrx.72.1563288036993;
+        Tue, 16 Jul 2019 07:40:36 -0700 (PDT)
+Received: from gmail.com (2E8B0CD5.catv.pool.telekom.hu. [46.139.12.213])
+        by smtp.gmail.com with ESMTPSA id n14sm35148654wra.75.2019.07.16.07.40.35
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 16 Jul 2019 07:40:36 -0700 (PDT)
+Date:   Tue, 16 Jul 2019 16:40:34 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
+        "H.J. Lu" <hjl.tools@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: kbuild: Fail if gold linker is detected
+Message-ID: <20190716144034.GA36330@gmail.com>
+References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <201907160706.9xUSQ36X%lkp@intel.com> <CAK7LNATqxQnen2Tzcici8GnJuc-qNeCYcCYisKM2OkNow1FDnQ@mail.gmail.com>
- <20190716124249.GP5418@ubuntu-xps13>
-In-Reply-To: <20190716124249.GP5418@ubuntu-xps13>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 16 Jul 2019 22:59:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATJNC3xaBbZBROEgggop41fUFBMA56_+aX3Xt=g7FGd_A@mail.gmail.com>
-Message-ID: <CAK7LNATJNC3xaBbZBROEgggop41fUFBMA56_+aX3Xt=g7FGd_A@mail.gmail.com>
-Subject: Re: [kbuild:kbuild 5/19] drivers/atm/eni.o: warning: objtool:
- eni_init_one()+0xe42: indirect call found in RETPOLINE build
-To:     Seth Forshee <seth.forshee@canonical.com>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, kbuild-all@01.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kbuild test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 9:42 PM Seth Forshee <seth.forshee@canonical.com> wrote:
->
-> On Tue, Jul 16, 2019 at 03:57:24PM +0900, Masahiro Yamada wrote:
-> > (+ Josh Poimboeuf)
-> >
-> > On Tue, Jul 16, 2019 at 8:44 AM kbuild test robot <lkp@intel.com> wrote:
-> > >
-> > > tree:   https://kernel.googlesource.com/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-> > > head:   0ff0c3753e06c0420c80dac1b0187a442b372acb
-> > > commit: 2eaf4e87ba258cc3f27e486cdf32d5ba76303c6f [5/19] kbuild: add -fcf-protection=none to retpoline flags
-> > > config: x86_64-randconfig-s2-07160214 (attached as .config)
-> > > compiler: gcc-4.9 (Debian 4.9.4-2) 4.9.4
-> > > reproduce:
-> > >         git checkout 2eaf4e87ba258cc3f27e486cdf32d5ba76303c6f
-> > >         # save the attached .config to linux build tree
-> > >         make ARCH=x86_64
-> >
-> > 0-day bot reports objtool warnings with the following applied:
-> > https://patchwork.kernel.org/patch/11037379/
-> >
-> > I have no idea about objtool.
-> >
-> > Is it better to drop this patch for now?
->
-> I'm surprised that the change would have any impact on a build with
-> gcc-4.9, since -fcf-protection seems to have been introduced in gcc-8. I
-> guess there's no full build log that would let us see the actual flags
-> passed to the compiler.
->
-> I'll try to reproduce this result. If you think the patch should be
-> dropped in the meantime, that's fine.
 
-Dropped now.
+* Thomas Gleixner <tglx@linutronix.de> wrote:
 
-Thanks.
+> The gold linker has known issues of failing the build in random and
+> predictible ways. H.J. stated:
 
--- 
-Best Regards
-Masahiro Yamada
+s/predictable/unpredictable?
+
+Acked-by: Ingo Molnar <mingo@kernel.org>
+
+Thanks,
+
+	Ingo
