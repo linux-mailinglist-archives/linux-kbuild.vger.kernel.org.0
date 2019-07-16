@@ -2,490 +2,347 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A502C6A27F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 08:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBDC06A356
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 09:57:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbfGPG62 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Jul 2019 02:58:28 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:16696 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726385AbfGPG62 (ORCPT
+        id S1727922AbfGPH5T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Jul 2019 03:57:19 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44865 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727042AbfGPH5T (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Jul 2019 02:58:28 -0400
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x6G6w1ge025203;
-        Tue, 16 Jul 2019 15:58:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x6G6w1ge025203
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563260282;
-        bh=VpuCIQ6TiidZdCR31tdcZ8m7j5UvW4ZcpfBpEKHddtw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b1n/9A72X5+NMXsLXW9BgPJKDdtE/Tp8K8HYJLLh+36rx7nMSGF2R/X9Fr/j+r9QN
-         IE71XaCHLwmz7M4eIT301v1y00wDqBCNMIlD3eCj+NauF/HLjatzpgQb3afgPBc5uC
-         VVY+7E+OOVH9TPuBYPMin+qdWutXEu7ZKzFSIjEC4EOaNjunZ3sK0uUaDNSdNpA+Fx
-         bqERO6H12wWSS3CTRXvmDL51YQj6A7aFj1/EZTO+PO/A4QA2q3cGDdKhTri6quEKBF
-         eFedkgCkJTN7URRaDn2RuC7OcAz/0N5iTdKAKfqYQQMyBfYd02limgsy+/o+bv9C8G
-         JXFU+86ysQjUg==
-X-Nifty-SrcIP: [209.85.222.44]
-Received: by mail-ua1-f44.google.com with SMTP id v20so7766140uao.3;
-        Mon, 15 Jul 2019 23:58:01 -0700 (PDT)
-X-Gm-Message-State: APjAAAWptirU4EA3wsnIO1V+zv+ugOURZzAXOU56Y+7c0AHjgJ3lADiB
-        rCFi3UCj7hsixFAa2Vc2URcqsEMxSIAD6GtGMMQ=
-X-Google-Smtp-Source: APXvYqwvBt8PTQw5JzKhyOJ2vfsAhZlxoppedpimu4WYMnp3hl6WEcNKI35UuHj3A+dDTpKRYq26qynKqsJ7z4sAtmI=
-X-Received: by 2002:ab0:70d9:: with SMTP id r25mr2998280ual.109.1563260280476;
- Mon, 15 Jul 2019 23:58:00 -0700 (PDT)
+        Tue, 16 Jul 2019 03:57:19 -0400
+Received: by mail-pf1-f193.google.com with SMTP id t16so8689493pfe.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 16 Jul 2019 00:57:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Hj/eyxtCjevB1+PnZR+txqFBPeZmBpgwE/GtSSJfKak=;
+        b=C4HP24IR8lBSiExf/3eblNnl51w3i/GXv6g0d/Ej5rPsntQ1UQeR7zznUPtv769PDQ
+         2XbzVujWNejHQFDRm+ISE10iEvh4oahTqWvJvqDwJgUouIsH+npmqd/ytHwkc89ZlKlz
+         GZ8KAQLfSaOhylWQtFw5Qk5ORxuKjnto8l6AK0EoSTMhLJSgcAUsidGBSw3tIFAL7Nlu
+         Eq0EOGx4ArvrOKXmHmXkdsxURjUiyC7FqwB1cHlSJi7BonYJfZBHkWrKYRMOOX8Seysz
+         GxaRriJmb72xSK0w4Ta+k66Q5WGyM5EDDsfYjuU9UMlvilAzPNioXLTXa6bDoCBKjvlx
+         T3eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Hj/eyxtCjevB1+PnZR+txqFBPeZmBpgwE/GtSSJfKak=;
+        b=len2rJxblMCRgf7OA8QJf0EyWpu4sD/6zamg2aiHUuaY9olKlAeczloHaNF7dN31P+
+         eCcc+v8F7hBQ/xiF9pa/Jq7T5urfX5ehELD4UEO5JOy1pCKLiygP2ZQpe9L1DeuBAnW8
+         WFC5FwkzfeApKqHx0jaxDbNG35IXx59C36BWWr0dEmabmWS/q94LKKDAjyhHEQOXvJsD
+         Cc1o/iFowZr80trH3UfV9M+iXhN5vXBv/pclbINe++UX0FnGfFjQWc+THHgO+XUmbYMm
+         c6HIvyodPK7HlYL7ii1B5KzIxC6f/xSRy7aqWDeiKV94Afdvm7xox4u3XQgWDaNJu6ll
+         SpfA==
+X-Gm-Message-State: APjAAAXjzVPHiUzf/mxuBdJeZBy4OlfPhwMgZEAkHVw5FreTGZHKhJXR
+        i9NZ+yBd+sHiml2LJh4iS0r+AKCKWLlP2eRTw7iMmQ==
+X-Google-Smtp-Source: APXvYqxRN7k0ohWxf4YsbnJVRW8wqK5xEZVOZfCD9fKAsePqyFDzc1+rDjRXhAo3uNTbJkv3qcZDCMpUOUOZHkLrnvg=
+X-Received: by 2002:a17:90a:ab0d:: with SMTP id m13mr32936932pjq.84.1563263837424;
+ Tue, 16 Jul 2019 00:57:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <201907160706.9xUSQ36X%lkp@intel.com>
-In-Reply-To: <201907160706.9xUSQ36X%lkp@intel.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 16 Jul 2019 15:57:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATqxQnen2Tzcici8GnJuc-qNeCYcCYisKM2OkNow1FDnQ@mail.gmail.com>
-Message-ID: <CAK7LNATqxQnen2Tzcici8GnJuc-qNeCYcCYisKM2OkNow1FDnQ@mail.gmail.com>
-Subject: Re: [kbuild:kbuild 5/19] drivers/atm/eni.o: warning: objtool:
- eni_init_one()+0xe42: indirect call found in RETPOLINE build
-To:     Josh Poimboeuf <jpoimboe@redhat.com>,
-        Seth Forshee <seth.forshee@canonical.com>
-Cc:     kbuild-all@01.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+References: <20190712081744.87097-1-brendanhiggins@google.com>
+ <20190712081744.87097-5-brendanhiggins@google.com> <20190715221554.8417320665@mail.kernel.org>
+In-Reply-To: <20190715221554.8417320665@mail.kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Tue, 16 Jul 2019 00:57:06 -0700
+Message-ID: <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kbuild test robot <lkp@intel.com>
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(+ Josh Poimboeuf)
-
-On Tue, Jul 16, 2019 at 8:44 AM kbuild test robot <lkp@intel.com> wrote:
+On Mon, Jul 15, 2019 at 3:15 PM Stephen Boyd <sboyd@kernel.org> wrote:
 >
-> tree:   https://kernel.googlesource.com/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-> head:   0ff0c3753e06c0420c80dac1b0187a442b372acb
-> commit: 2eaf4e87ba258cc3f27e486cdf32d5ba76303c6f [5/19] kbuild: add -fcf-protection=none to retpoline flags
-> config: x86_64-randconfig-s2-07160214 (attached as .config)
-> compiler: gcc-4.9 (Debian 4.9.4-2) 4.9.4
-> reproduce:
->         git checkout 2eaf4e87ba258cc3f27e486cdf32d5ba76303c6f
->         # save the attached .config to linux build tree
->         make ARCH=x86_64
-
-0-day bot reports objtool warnings with the following applied:
-https://patchwork.kernel.org/patch/11037379/
-
-I have no idea about objtool.
-
-Is it better to drop this patch for now?
-
-Thanks.
-
-
-
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
+> Quoting Brendan Higgins (2019-07-12 01:17:30)
+> > diff --git a/include/kunit/kunit-stream.h b/include/kunit/kunit-stream.h
+> > new file mode 100644
+> > index 0000000000000..a7b53eabf6be4
+> > --- /dev/null
+> > +++ b/include/kunit/kunit-stream.h
+> > @@ -0,0 +1,81 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * C++ stream style string formatter and printer used in KUnit for outputting
+> > + * KUnit messages.
+> > + *
+> > + * Copyright (C) 2019, Google LLC.
+> > + * Author: Brendan Higgins <brendanhiggins@google.com>
+> > + */
+> > +
+> > +#ifndef _KUNIT_KUNIT_STREAM_H
+> > +#define _KUNIT_KUNIT_STREAM_H
+> > +
+> > +#include <linux/types.h>
+> > +#include <kunit/string-stream.h>
+> > +
+> > +struct kunit;
+> > +
+> > +/**
+> > + * struct kunit_stream - a std::stream style string builder.
+> > + *
+> > + * A std::stream style string builder. Allows messages to be built up and
+> > + * printed all at once.
+> > + */
+> > +struct kunit_stream {
+> > +       /* private: internal use only. */
+> > +       struct kunit *test;
+> > +       const char *level;
 >
-> All warnings (new ones prefixed by >>):
+> Is the level changed? See my comment below, but I wonder if this whole
+> struct can go away and the wrappers can just operate on 'struct
+> string_stream' instead.
+
+I was inclined to agree with you when I first read your comment, but
+then I thought about the case that someone wants to add in a debug
+message (of which I currently have none). I think under most
+circumstances a user of kunit_stream would likely want to pick a
+default verbosity that maybe I should provide, but may still want
+different verbosity levels.
+
+The main reason I want to keep the types separate, string_stream vs.
+kunit_stream, is that they are intended to be used differently.
+string_stream is just a generic string builder. If you are using that,
+you are expecting to see someone building the string at some point and
+then doing something interesting with it. kunit_stream really tells
+you specifically that KUnit is putting together a message to
+communicate something to a user of KUnit. It is really used in a very
+specific way, and I wouldn't want to generalize its usage beyond how
+it is currently used. I think in order to preserve the author's
+intention it adds clarity to keep the types separate regardless of how
+similar they might be in reality.
+
+> > +       struct string_stream *internal_stream;
+> > +};
+> > diff --git a/kunit/kunit-stream.c b/kunit/kunit-stream.c
+> > new file mode 100644
+> > index 0000000000000..8bea1f22eafb5
+> > --- /dev/null
+> > +++ b/kunit/kunit-stream.c
+> > @@ -0,0 +1,123 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * C++ stream style string formatter and printer used in KUnit for outputting
+> > + * KUnit messages.
+> > + *
+> > + * Copyright (C) 2019, Google LLC.
+> > + * Author: Brendan Higgins <brendanhiggins@google.com>
+> > + */
+> > +
+> > +#include <kunit/test.h>
+> > +#include <kunit/kunit-stream.h>
+> > +#include <kunit/string-stream.h>
+> > +
+> > +void kunit_stream_add(struct kunit_stream *kstream, const char *fmt, ...)
+> > +{
+> > +       va_list args;
+> > +       struct string_stream *stream = kstream->internal_stream;
+> > +
+> > +       va_start(args, fmt);
+> > +
+> > +       if (string_stream_vadd(stream, fmt, args) < 0)
+> > +               kunit_err(kstream->test,
+> > +                         "Failed to allocate fragment: %s\n",
+> > +                         fmt);
+> > +
+> > +       va_end(args);
+> > +}
+> > +
+> > +void kunit_stream_append(struct kunit_stream *kstream,
+> > +                               struct kunit_stream *other)
+> > +{
+> > +       struct string_stream *other_stream = other->internal_stream;
+> > +       const char *other_content;
+> > +
+> > +       other_content = string_stream_get_string(other_stream);
+> > +
+> > +       if (!other_content) {
+> > +               kunit_err(kstream->test,
+> > +                         "Failed to get string from second argument for appending\n");
+> > +               return;
+> > +       }
+> > +
+> > +       kunit_stream_add(kstream, other_content);
+> > +}
 >
->    drivers/atm/eni.o: warning: objtool: eni_do_release()+0x1a: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: do_tx()+0x1be: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_send()+0x15b: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_send()+0x1b4: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_send()+0x24d: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_int()+0xd1: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: poll_rx.isra.16()+0x99: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: poll_rx.isra.16()+0xf7: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: poll_rx.isra.16()+0x20c: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: poll_rx.isra.16()+0x266: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_ioctl()+0x54: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_tasklet()+0x3f7: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_tasklet()+0x420: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_tasklet()+0x62f: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: eni_tasklet()+0x673: indirect call found in RETPOLINE build
-> >> drivers/atm/eni.o: warning: objtool: eni_init_one()+0xe42: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: do_rx_dma.constprop.28()+0xaf: indirect call found in RETPOLINE build
->    drivers/atm/eni.o: warning: objtool: do_rx_dma.constprop.28()+0x49c: indirect call found in RETPOLINE build
-> --
->    net//batman-adv/sysfs.o: warning: objtool: batadv_show_gw_sel_class()+0x6c: indirect call found in RETPOLINE build
-> >> net//batman-adv/sysfs.o: warning: objtool: __batadv_store_uint_attr.isra.9.constprop.10()+0xb7: indirect call found in RETPOLINE build
->    net//batman-adv/sysfs.o: warning: objtool: batadv_store_gw_sel_class()+0x8b: indirect call found in RETPOLINE build
-> --
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpower()+0xd7: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpower()+0x257: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpower()+0x2f4: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwretry()+0xfb: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwretry()+0x219: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwretry()+0x2b1: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwfrag()+0xce: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwfrag()+0x1f6: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwfrag()+0x2c8: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwrts()+0xc8: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwrts()+0x1f0: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwrts()+0x2c2: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x177: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x288: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x3ce: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x4a5: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x53d: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x5d5: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x748: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x7b5: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwpmksa()+0x824: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwrate()+0x1e4: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwrate()+0x2eb: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwrate()+0x413: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wireless_stats()+0x12d: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wireless_stats()+0x2bb: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wireless_stats()+0x36f: indirect call found in RETPOLINE build
-> >> net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x254: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x4a4: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x5cb: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x67e: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x82f: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x9f8: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0xac3: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0xc2c: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0xe93: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0xfea: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x106e: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_set_encryption()+0x119a: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwencode()+0x237: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwencode()+0x398: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwencode()+0x43c: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwtxpower()+0xcd: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwtxpower()+0x1f2: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwtxpower()+0x309: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwtxpower()+0x113: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwtxpower()+0x268: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwtxpower()+0x34a: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwrate()+0x145: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwrate()+0x262: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwrate()+0x341: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwfreq()+0xd2: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwfreq()+0x242: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_giwfreq()+0x343: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwap()+0x134: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwap()+0x258: indirect call found in RETPOLINE build
->    net//wireless/wext-compat.o: warning: objtool: cfg80211_wext_siwap()+0x2f1: indirect call found in RETPOLINE build
-> --
->     ^
->    include/linux/mm.h:2098:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pagecache_init(void);
->     ^
->    include/linux/mm.h:2101:3: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->       unsigned long zone_start_pfn, unsigned long *zholes_size);
->       ^
->    include/linux/mm.h:2240:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init mmap_init(void);
->     ^
->    In file included from include/linux/scatterlist.h:8:0,
->                     from include/linux/dma-mapping.h:11,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/linux/etherdevice.h:20,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/mm.h:2892:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     void __init setup_nr_node_ids(void);
->     ^
->    In file included from arch/x86/include/asm/swiotlb.h:5:0,
->                     from arch/x86/include/asm/dma-mapping.h:13,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/linux/etherdevice.h:20,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/swiotlb.h:37:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init swiotlb_update_mem_attributes(void);
->     ^
->    include/linux/swiotlb.h:74:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     void __init swiotlb_exit(void);
->     ^
->    In file included from arch/x86/include/asm/dma-mapping.h:13:0,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/linux/etherdevice.h:20,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    arch/x86/include/asm/swiotlb.h:9:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern int __init pci_swiotlb_detect_override(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:10:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern int __init pci_swiotlb_detect_4gb(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:11:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pci_swiotlb_init(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:12:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pci_swiotlb_late_init(void);
->     ^
->    In file included from arch/x86/include/asm/dma-mapping.h:14:0,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/linux/etherdevice.h:20,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/dma-contiguous.h:84:12: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->                bool fixed);
->                ^
->    In file included from include/linux/skbuff.h:30:0,
->                     from include/linux/if_ether.h:19,
->                     from include/linux/etherdevice.h:20,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/dma-mapping.h:627:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init dma_atomic_pool_init(gfp_t gfp, pgprot_t prot);
->     ^
->    In file included from include/linux/seq_file.h:12:0,
->                     from include/linux/seq_file_net.h:5,
->                     from include/net/net_namespace.h:178,
->                     from include/linux/netdevice.h:38,
->                     from include/linux/etherdevice.h:21,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/cred.h:168:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init cred_init(void);
->     ^
->    In file included from include/net/net_namespace.h:192:0,
->                     from include/linux/netdevice.h:38,
->                     from include/linux/etherdevice.h:21,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/nsproxy.h:74:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init nsproxy_cache_init(void);
->     ^
->    In file included from include/linux/interrupt.h:19:0,
->                     from include/linux/kernel_stat.h:9,
->                     from include/linux/cgroup.h:26,
->                     from include/net/netprio_cgroup.h:11,
->                     from include/linux/netdevice.h:42,
->                     from include/linux/etherdevice.h:21,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    arch/x86/include/asm/irq.h:43:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init init_IRQ(void);
->     ^
->    In file included from include/linux/etherdevice.h:21:0,
->                     from drivers/net/usb/ax88179_178a.c:9:
->    include/linux/netdevice.h:300:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init netdev_boot_setup(char *str);
->     ^
->    include/linux/netdevice.h:4396:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init dev_proc_init(void);
->     ^
-> >> drivers/net/usb/ax88179_178a.c:1780:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     module_usb_driver(ax88179_178a_driver);
->     ^
-> --
->       ^
->    include/linux/mm.h:2240:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init mmap_init(void);
->     ^
->    In file included from include/linux/scatterlist.h:8:0,
->                     from include/linux/dma-mapping.h:11,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/cdc_ether.c:12:
->    include/linux/mm.h:2892:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     void __init setup_nr_node_ids(void);
->     ^
->    In file included from arch/x86/include/asm/swiotlb.h:5:0,
->                     from arch/x86/include/asm/dma-mapping.h:13,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/cdc_ether.c:12:
->    include/linux/swiotlb.h:37:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init swiotlb_update_mem_attributes(void);
->     ^
->    include/linux/swiotlb.h:74:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     void __init swiotlb_exit(void);
->     ^
->    In file included from arch/x86/include/asm/dma-mapping.h:13:0,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/cdc_ether.c:12:
->    arch/x86/include/asm/swiotlb.h:9:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern int __init pci_swiotlb_detect_override(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:10:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern int __init pci_swiotlb_detect_4gb(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:11:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pci_swiotlb_init(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:12:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pci_swiotlb_late_init(void);
->     ^
->    In file included from arch/x86/include/asm/dma-mapping.h:14:0,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/cdc_ether.c:12:
->    include/linux/dma-contiguous.h:84:12: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->                bool fixed);
->                ^
->    In file included from include/linux/skbuff.h:30:0,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/cdc_ether.c:12:
->    include/linux/dma-mapping.h:627:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init dma_atomic_pool_init(gfp_t gfp, pgprot_t prot);
->     ^
->    In file included from include/linux/seq_file.h:12:0,
->                     from include/linux/seq_file_net.h:5,
->                     from include/net/net_namespace.h:178,
->                     from include/linux/netdevice.h:38,
->                     from drivers/net/usb/cdc_ether.c:12:
->    include/linux/cred.h:168:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init cred_init(void);
->     ^
->    In file included from include/net/net_namespace.h:192:0,
->                     from include/linux/netdevice.h:38,
->                     from drivers/net/usb/cdc_ether.c:12:
->    include/linux/nsproxy.h:74:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init nsproxy_cache_init(void);
->     ^
->    In file included from include/linux/interrupt.h:19:0,
->                     from include/linux/kernel_stat.h:9,
->                     from include/linux/cgroup.h:26,
->                     from include/net/netprio_cgroup.h:11,
->                     from include/linux/netdevice.h:42,
->                     from drivers/net/usb/cdc_ether.c:12:
->    arch/x86/include/asm/irq.h:43:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init init_IRQ(void);
->     ^
->    In file included from drivers/net/usb/cdc_ether.c:12:0:
->    include/linux/netdevice.h:300:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init netdev_boot_setup(char *str);
->     ^
->    include/linux/netdevice.h:4396:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init dev_proc_init(void);
->     ^
-> >> drivers/net/usb/cdc_ether.c:967:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     module_usb_driver(cdc_driver);
->     ^
-> --
->       ^
->    include/linux/mm.h:2240:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init mmap_init(void);
->     ^
->    In file included from include/linux/scatterlist.h:8:0,
->                     from include/linux/dma-mapping.h:11,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/smsc75xx.c:10:
->    include/linux/mm.h:2892:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     void __init setup_nr_node_ids(void);
->     ^
->    In file included from arch/x86/include/asm/swiotlb.h:5:0,
->                     from arch/x86/include/asm/dma-mapping.h:13,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/smsc75xx.c:10:
->    include/linux/swiotlb.h:37:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init swiotlb_update_mem_attributes(void);
->     ^
->    include/linux/swiotlb.h:74:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     void __init swiotlb_exit(void);
->     ^
->    In file included from arch/x86/include/asm/dma-mapping.h:13:0,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/smsc75xx.c:10:
->    arch/x86/include/asm/swiotlb.h:9:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern int __init pci_swiotlb_detect_override(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:10:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern int __init pci_swiotlb_detect_4gb(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:11:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pci_swiotlb_init(void);
->     ^
->    arch/x86/include/asm/swiotlb.h:12:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init pci_swiotlb_late_init(void);
->     ^
->    In file included from arch/x86/include/asm/dma-mapping.h:14:0,
->                     from include/linux/dma-mapping.h:266,
->                     from include/linux/skbuff.h:30,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/smsc75xx.c:10:
->    include/linux/dma-contiguous.h:84:12: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->                bool fixed);
->                ^
->    In file included from include/linux/skbuff.h:30:0,
->                     from include/linux/if_ether.h:19,
->                     from include/uapi/linux/ethtool.h:19,
->                     from include/linux/ethtool.h:18,
->                     from include/linux/netdevice.h:37,
->                     from drivers/net/usb/smsc75xx.c:10:
->    include/linux/dma-mapping.h:627:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init dma_atomic_pool_init(gfp_t gfp, pgprot_t prot);
->     ^
->    In file included from include/linux/seq_file.h:12:0,
->                     from include/linux/seq_file_net.h:5,
->                     from include/net/net_namespace.h:178,
->                     from include/linux/netdevice.h:38,
->                     from drivers/net/usb/smsc75xx.c:10:
->    include/linux/cred.h:168:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init cred_init(void);
->     ^
->    In file included from include/net/net_namespace.h:192:0,
->                     from include/linux/netdevice.h:38,
->                     from drivers/net/usb/smsc75xx.c:10:
->    include/linux/nsproxy.h:74:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init nsproxy_cache_init(void);
->     ^
->    In file included from include/linux/interrupt.h:19:0,
->                     from include/linux/kernel_stat.h:9,
->                     from include/linux/cgroup.h:26,
->                     from include/net/netprio_cgroup.h:11,
->                     from include/linux/netdevice.h:42,
->                     from drivers/net/usb/smsc75xx.c:10:
->    arch/x86/include/asm/irq.h:43:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     extern void __init init_IRQ(void);
->     ^
->    In file included from drivers/net/usb/smsc75xx.c:10:0:
->    include/linux/netdevice.h:300:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init netdev_boot_setup(char *str);
->     ^
->    include/linux/netdevice.h:4396:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     int __init dev_proc_init(void);
->     ^
-> >> drivers/net/usb/smsc75xx.c:2338:1: warning: '__indirect_branch__' attribute directive ignored [-Wattributes]
->     module_usb_driver(smsc75xx_driver);
->     ^
-> ..
+> Why can't this function be implemented in the string_stream API? Seems
+> valid to want to append one stream to another and that isn't
+> kunit_stream specific.
+
+Fair point. Will do.
+
+> > +
+> > +void kunit_stream_clear(struct kunit_stream *kstream)
+> > +{
+> > +       string_stream_clear(kstream->internal_stream);
+> > +}
+> > +
+> > +void kunit_stream_commit(struct kunit_stream *kstream)
+> > +{
+> > +       struct string_stream *stream = kstream->internal_stream;
+> > +       struct string_stream_fragment *fragment;
+> > +       struct kunit *test = kstream->test;
+> > +       char *buf;
+> > +
+> > +       buf = string_stream_get_string(stream);
+> > +       if (!buf) {
+> > +               kunit_err(test,
+> > +                         "Could not allocate buffer, dumping stream:\n");
+> > +               list_for_each_entry(fragment, &stream->fragments, node) {
+> > +                       kunit_err(test, fragment->fragment);
+> > +               }
+> > +               kunit_err(test, "\n");
+> > +               goto cleanup;
+> > +       }
+> > +
+> > +       kunit_printk(kstream->level, test, buf);
+> > +       kfree(buf);
+> > +
+> > +cleanup:
 >
-> ---
-> 0-DAY kernel test infrastructure                Open Source Technology Center
-> https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+> Drop the goto and use an 'else' please.
 
+Will do.
 
+> > +       kunit_stream_clear(kstream);
+> > +}
+> > +
+> > +static int kunit_stream_init(struct kunit_resource *res, void *context)
+> > +{
+> > +       struct kunit *test = context;
+> > +       struct kunit_stream *stream;
+> > +
+> > +       stream = kzalloc(sizeof(*stream), GFP_KERNEL);
+> > +       if (!stream)
+> > +               return -ENOMEM;
+> > +
+> > +       res->allocation = stream;
+> > +       stream->test = test;
+> > +       stream->internal_stream = alloc_string_stream(test);
+> > +
+> > +       if (!stream->internal_stream)
+> > +               return -ENOMEM;
+> > +
+> > +       return 0;
+> > +}
+> > +
+> > +static void kunit_stream_free(struct kunit_resource *res)
+> > +{
+> > +       struct kunit_stream *stream = res->allocation;
+> > +
+> > +       if (!string_stream_is_empty(stream->internal_stream)) {
+> > +               kunit_err(stream->test,
+> > +                         "End of test case reached with uncommitted stream entries\n");
+> > +               kunit_stream_commit(stream);
+> > +       }
+> > +}
+> > +
+>
+> Nitpick: Drop this extra newline.
 
---
-Best Regards
+Oops, nice catch.
 
-Masahiro Yamada
+> > diff --git a/kunit/test.c b/kunit/test.c
+> > index f165c9d8e10b0..29edf34a89a37 100644
+> > --- a/kunit/test.c
+> > +++ b/kunit/test.c
+> > @@ -120,6 +120,12 @@ static void kunit_print_test_case_ok_not_ok(struct kunit_case *test_case,
+> >                               test_case->name);
+> >  }
+> >
+> > +void kunit_fail(struct kunit *test, struct kunit_stream *stream)
+>
+> Why doesn't 'struct kunit' have a 'struct kunit_stream' inside of it? It
+> seems that the two are highly related, to the point that it might just
+> make sense to have
+
+A `struct kunit_stream` is usually associated with a message that is
+being built up over time like maybe an expectation; it is meant to
+capture the idea that we might want to send some information out to
+the user pertaining to some thing 'X', but we aren't sure that we
+actually want to send it until 'X' is complete, but do to the nature
+of 'X' it is easier to start constructing the message before 'X' is
+complete.
+
+Consider a complicated expectation, there might be multiple conditions
+that satisfy it and multiple conditions which could make it fail. As
+we start exploring the input to the expectation we gain information
+that we might want to share back with the user if the expectation were
+to fail and we might get that information before we are actually sure
+that the expectation does indeed fail.
+
+When we first step into the expectation we immediately know the
+function name, file name, and line number where we are called and
+would want to put that information into any message we would send to
+the user about this expectation. Next, we might want to check a
+property of the input, it may or may not be enough information on its
+own for the expectation to fail, but we want to share the result of
+the property check with the user regardless, BUT only if the
+expectation as a whole fails.
+
+Hence, we can have multiple `struct kunit_stream`s associated with a
+`struct kunit` active at any given time.
+
+>         struct kunit {
+>                 struct kunit_stream stream;
+>                 ...
+>         };
+>
+> > +{
+> > +       kunit_set_failure(test);
+> > +       kunit_stream_commit(stream);
+>
+> And then this function can just take a test and the stream can be
+> associated with the test directly. Use container_of() to get to the test
+> when the only pointer in hand is for the stream too.
+
+Unfortunately that wouldn't work. See my above explanation.
+
+> > +}
+> > +
+> >  void kunit_init_test(struct kunit *test, const char *name)
+> >  {
+> >         mutex_init(&test->lock);
+
+Thanks!
