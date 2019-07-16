@@ -2,83 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 888676A8F4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 14:54:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07E416A9A5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 15:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbfGPMyw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Jul 2019 08:54:52 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:51426 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbfGPMyw (ORCPT
+        id S1726039AbfGPNaF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Jul 2019 09:30:05 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:44157 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725926AbfGPNaF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Jul 2019 08:54:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=xhpoIoqvW1VJHZbGo76qDnYFPD0KXuaoqgNk9c8CJVc=; b=AkELagJ1jf90vb6oxee/3qDgv
-        HgR1FVs3sShL5SAO0VNewuCryMUIh9Ym0pv6qYUqwgv0Z+1SQbbLwYD/jJ9SLwshhKUnZADyJqT7e
-        6lsZAX/IQCCrICvcQlgOfjCKgV6n8McEoZBQdoGMplfYX+crTN+Pq2hC1H/KbcujApeq2V3icbGA3
-        HoHI7AVFF8Q08wNKAkU577dEjUlTyQpILETb2dt6dOiKoP7kyYMb81rpuLJ/xk1nauLwTrYEWHBlR
-        JbiAUnmPY+1Pe9Qhsi12EU5DTsypRkGxtkQU0Waz9sOe09x2rhoM5F9o7rhbURBOcwuGJP1qvoc7M
-        24wR5XNOA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=hirez.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1hnMyn-0002rE-D7; Tue, 16 Jul 2019 12:54:49 +0000
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id CB3EE20B172C9; Tue, 16 Jul 2019 14:54:47 +0200 (CEST)
-Date:   Tue, 16 Jul 2019 14:54:47 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>, x86@kernel.org,
-        "H.J. Lu" <hjl.tools@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: kbuild: Fail if gold linker is detected
-Message-ID: <20190716125447.GZ3402@hirez.programming.kicks-ass.net>
-References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 16 Jul 2019 09:30:05 -0400
+Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x6GDTm1S024692;
+        Tue, 16 Jul 2019 22:29:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x6GDTm1S024692
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1563283788;
+        bh=+Ql6QmDvrdp+YPz0zfjsgOOrr7/q1x9+qidDN9hZVQE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Srs4r+fJGQh7PeYfaj5ic1TiOlqEUbckfjjvB0rzCoY2ZFvfDgTva5AYU5LSfPPCm
+         8o9mmtiNb1PPy3+xLdoaIA2b3ovB1wEF4J71GgHaJ35doG55+RE31z6Hn3JxVvZ60d
+         kEn+cc/+JQHNU5aHwqMJNNAfOjItW1M65E5G4jsKQwoncC+oocGF5cYZxYVbfRCRa1
+         gD3JdOiuuaxDLHBP3ezeNgmSE7PNZY8itrZgNdrQrtqA6fbvm/lPYk20HSoQnP70yA
+         I0uN4vi/n4k+//r5N46cv5w6ZyCeBGGqy/sP1lCeklTXvGwvGBAFll5OK0cqLwIr+g
+         EmEYXpCmm1qWA==
+X-Nifty-SrcIP: [126.26.94.249]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: test headers listed in header-test-m as well
+Date:   Tue, 16 Jul 2019 22:29:45 +0900
+Message-Id: <20190716132946.1057-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 16, 2019 at 02:47:56PM +0200, Thomas Gleixner wrote:
-> The gold linker has known issues of failing the build in random and
-> predictible ways. H.J. stated:
-> 
->   "Since building a workable kernel for different kernel configurations
->    isn't a requirement for gold, I don't recommend gold for kernel."
-> 
-> So instead of dealing with attempts to duct tape gold support without
-> understanding the root cause, fail the build when gold is detected.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+It will be useful to control the header-test by a tristate option.
 
-Right, life is too short to fight toolchains that aren't interested in
-working.
+If CONFIG_FOO is a tristate option, you can write like this:
 
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+  header-test-$(CONFIG_FOO) += foo.h
 
-> ---
->  scripts/Kconfig.include |    3 +++
->  1 file changed, 3 insertions(+)
-> 
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -35,5 +35,8 @@ ld-option = $(success,$(LD) -v $(1))
->  $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
->  $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
->  
-> +# Fail if the linker is gold as it's not capable of linking the kernel proper
-> +$(error-if,$(success, command -v $(LD) -v | grep -q gold), gold linker '$(LD)' not supported)
-> +
->  # gcc version including patch level
->  gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ scripts/Makefile.build | 2 +-
+ scripts/Makefile.lib   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 8c39dade265c..0d434d0afc0b 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -291,7 +291,7 @@ quiet_cmd_cc_lst_c = MKLST   $@
+ $(obj)/%.lst: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_lst_c)
+ 
+-# header test (header-test-y target)
++# header test (header-test-y, header-test-m target)
+ # ---------------------------------------------------------------------------
+ 
+ quiet_cmd_cc_s_h = CC      $@
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 6cb3aa5cbc79..5241d0751eb0 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -78,7 +78,7 @@ header-test-y	+= $(filter-out $(header-test-), \
+ 		$(wildcard $(addprefix $(srctree)/$(src)/, \
+ 		$(header-test-pattern-y)))))
+ 
+-extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y))
++extra-$(CONFIG_HEADER_TEST) += $(addsuffix .s, $(header-test-y) $(header-test-m))
+ 
+ # Add subdir path
+ 
+-- 
+2.17.1
+
