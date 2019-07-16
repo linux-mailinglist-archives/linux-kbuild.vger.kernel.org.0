@@ -2,149 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50CD66A9A7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 15:31:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 147376A9FA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jul 2019 16:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387445AbfGPNas (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 16 Jul 2019 09:30:48 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:45278 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728004AbfGPNas (ORCPT
+        id S1728384AbfGPOAe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Jul 2019 10:00:34 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:25048 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726593AbfGPOAe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 16 Jul 2019 09:30:48 -0400
-Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x6GDTm1T024692;
-        Tue, 16 Jul 2019 22:29:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x6GDTm1T024692
+        Tue, 16 Jul 2019 10:00:34 -0400
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x6GE07F6004768;
+        Tue, 16 Jul 2019 23:00:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6GE07F6004768
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563283797;
-        bh=zHgV4u7LzggfP9NW2eZEPpjwg78NW8hpybrVmWWB2N4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ATRKUMGl8fnjGL4qrSXkkXRV3FGRx/viUThasPrpFi7GywloEV6QuswGRt+aeQ3hN
-         dJXcbK6NFL0zSlNZmWRYe7Ap2FXPK/6it7SaLZ30aLIxqndWMO2PWXg0Liwn9QJq42
-         vyaHjO4ybYjJApzRtsNOAV5k/ZN9Q8ISVcNYsux8/4ewKYtqQl6AH+82lbmMtEfoBJ
-         zhw9qaskM1V6jSDA2x+pOT+FI5ORcE0ATFhbxRbqP1rVwK42ixPaGFNP+4qtnuOyFo
-         0X7nMUmHefmrK5shCcsd2OdGnqDgp+PXEjZmaDP+ugLpTCs/luwOIM9bquF6Q5LibM
-         pxxWmvmpT0cMQ==
-X-Nifty-SrcIP: [126.26.94.249]
+        s=dec2015msa; t=1563285608;
+        bh=17EXgbDG+FKzhJ6mf7iS/6cZE4J0a/HBc40gJ8UDRJc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=GvAs+RtgAEUCREMWDOUlA+oz2hXY9gVNv4s+5RK6aebOjta6duG3RlW8+KWFJIeed
+         Be/fmvnbjnqY0sQw14tuoMAdTOaK0NbrjQMTKT9+fQpDPDzjkGqOrC9cGqOv9QvIgo
+         6TuvblrO/Gw/DjKGmn5ioCw2erzV5Tg0XaNlGqY6/LLmU0wAiGNJck3u5JyPASUlqb
+         0ZviQks7w1ofPbLr2hYvrGoJz0Em2SSC/qSczLPudgEykXHnusQp+bmyUATGp7EoYl
+         iM9f3EYWzAZia5AKKh6Zsx2ytUcoQnSwmLm/JhfjQh3Dbfx2pzWH3skwgWw4vHCZif
+         0vzXxtJUq+aBw==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id v6so13987855vsq.4;
+        Tue, 16 Jul 2019 07:00:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAUhH+HHh8TBPP3ElVkbuIksfnNlkOIFVarq+/JfhNBuG/S4U0eO
+        Euf9qmCPbmS95ReVBF0PN58/jLwDwjVeXS3c2zE=
+X-Google-Smtp-Source: APXvYqzvMEy8fZNv6UB2oKKUYxxkbEpHi5QKtGfbHhPeitQzInE0Pg9qezW5fEKvogiTzQiQ9hzkE61TlQi3ugWH0FA=
+X-Received: by 2002:a67:8e0a:: with SMTP id q10mr19966577vsd.215.1563285607104;
+ Tue, 16 Jul 2019 07:00:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <201907160706.9xUSQ36X%lkp@intel.com> <CAK7LNATqxQnen2Tzcici8GnJuc-qNeCYcCYisKM2OkNow1FDnQ@mail.gmail.com>
+ <20190716124249.GP5418@ubuntu-xps13>
+In-Reply-To: <20190716124249.GP5418@ubuntu-xps13>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: update header compile-test list for v5.3-rc1
-Date:   Tue, 16 Jul 2019 22:29:46 +0900
-Message-Id: <20190716132946.1057-2-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190716132946.1057-1-yamada.masahiro@socionext.com>
-References: <20190716132946.1057-1-yamada.masahiro@socionext.com>
+Date:   Tue, 16 Jul 2019 22:59:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATJNC3xaBbZBROEgggop41fUFBMA56_+aX3Xt=g7FGd_A@mail.gmail.com>
+Message-ID: <CAK7LNATJNC3xaBbZBROEgggop41fUFBMA56_+aX3Xt=g7FGd_A@mail.gmail.com>
+Subject: Re: [kbuild:kbuild 5/19] drivers/atm/eni.o: warning: objtool:
+ eni_init_one()+0xe42: indirect call found in RETPOLINE build
+To:     Seth Forshee <seth.forshee@canonical.com>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, kbuild-all@01.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kbuild test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some headers graduated from the blacklist.
+On Tue, Jul 16, 2019 at 9:42 PM Seth Forshee <seth.forshee@canonical.com> wrote:
+>
+> On Tue, Jul 16, 2019 at 03:57:24PM +0900, Masahiro Yamada wrote:
+> > (+ Josh Poimboeuf)
+> >
+> > On Tue, Jul 16, 2019 at 8:44 AM kbuild test robot <lkp@intel.com> wrote:
+> > >
+> > > tree:   https://kernel.googlesource.com/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+> > > head:   0ff0c3753e06c0420c80dac1b0187a442b372acb
+> > > commit: 2eaf4e87ba258cc3f27e486cdf32d5ba76303c6f [5/19] kbuild: add -fcf-protection=none to retpoline flags
+> > > config: x86_64-randconfig-s2-07160214 (attached as .config)
+> > > compiler: gcc-4.9 (Debian 4.9.4-2) 4.9.4
+> > > reproduce:
+> > >         git checkout 2eaf4e87ba258cc3f27e486cdf32d5ba76303c6f
+> > >         # save the attached .config to linux build tree
+> > >         make ARCH=x86_64
+> >
+> > 0-day bot reports objtool warnings with the following applied:
+> > https://patchwork.kernel.org/patch/11037379/
+> >
+> > I have no idea about objtool.
+> >
+> > Is it better to drop this patch for now?
+>
+> I'm surprised that the change would have any impact on a build with
+> gcc-4.9, since -fcf-protection seems to have been introduced in gcc-8. I
+> guess there's no full build log that would let us see the actual flags
+> passed to the compiler.
+>
+> I'll try to reproduce this result. If you think the patch should be
+> dropped in the meantime, that's fine.
 
-Let hyperv_timer.h join the header-test when CONFIG_X86=y.
+Dropped now.
 
-Add CONFIG guards to nf_tables*.h because they can be compiled
-when CONFIG_NF_TABLES is enabled.
+Thanks.
 
-Add a new entry for nf_tables_offload.h to fix the build error for the
-combination of CONFIG_NF_TABLES=n and CONFIG_KERNEL_HEADER_TEST=y.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- include/Kbuild       | 12 +++++-------
- usr/include/Makefile |  8 --------
- 2 files changed, 5 insertions(+), 15 deletions(-)
-
-diff --git a/include/Kbuild b/include/Kbuild
-index 7e9f1acb9dd5..4aa62237897c 100644
---- a/include/Kbuild
-+++ b/include/Kbuild
-@@ -31,7 +31,7 @@ header-test-			+= acpi/platform/acintel.h
- header-test-			+= acpi/platform/aclinux.h
- header-test-			+= acpi/platform/aclinuxex.h
- header-test-			+= acpi/processor.h
--header-test-			+= clocksource/hyperv_timer.h
-+header-test-$(CONFIG_X86)	+= clocksource/hyperv_timer.h
- header-test-			+= clocksource/timer-sp804.h
- header-test-			+= crypto/cast_common.h
- header-test-			+= crypto/internal/cryptouser.h
-@@ -454,9 +454,6 @@ header-test-			+= linux/phy/omap_control_phy.h
- header-test-			+= linux/phy/tegra/xusb.h
- header-test-			+= linux/phy/ulpi_phy.h
- header-test-			+= linux/phy_fixed.h
--header-test-			+= linux/pinctrl/pinconf-generic.h
--header-test-			+= linux/pinctrl/pinconf.h
--header-test-			+= linux/pinctrl/pinctrl.h
- header-test-			+= linux/pipe_fs_i.h
- header-test-			+= linux/pktcdvd.h
- header-test-			+= linux/pl320-ipc.h
-@@ -905,10 +902,11 @@ header-test-			+= net/netfilter/nf_nat_redirect.h
- header-test-			+= net/netfilter/nf_queue.h
- header-test-			+= net/netfilter/nf_reject.h
- header-test-			+= net/netfilter/nf_synproxy.h
--header-test-			+= net/netfilter/nf_tables.h
--header-test-			+= net/netfilter/nf_tables_core.h
--header-test-			+= net/netfilter/nf_tables_ipv4.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables_core.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables_ipv4.h
- header-test-			+= net/netfilter/nf_tables_ipv6.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables_offload.h
- header-test-			+= net/netfilter/nft_fib.h
- header-test-			+= net/netfilter/nft_meta.h
- header-test-			+= net/netfilter/nft_reject.h
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index cd8daa20d487..aa316d99e035 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -30,8 +30,6 @@ header-test-$(CONFIG_CPU_BIG_ENDIAN) += linux/byteorder/big_endian.h
- header-test-$(CONFIG_CPU_LITTLE_ENDIAN) += linux/byteorder/little_endian.h
- header-test- += linux/coda.h
- header-test- += linux/coda_psdev.h
--header-test- += linux/dvb/audio.h
--header-test- += linux/dvb/osd.h
- header-test- += linux/elfcore.h
- header-test- += linux/errqueue.h
- header-test- += linux/fsmap.h
-@@ -44,7 +42,6 @@ header-test- += linux/netfilter_bridge/ebtables.h
- header-test- += linux/netfilter_ipv4/ipt_LOG.h
- header-test- += linux/netfilter_ipv6/ip6t_LOG.h
- header-test- += linux/nfc.h
--header-test- += linux/nilfs2_ondisk.h
- header-test- += linux/omap3isp.h
- header-test- += linux/omapfb.h
- header-test- += linux/patchkey.h
-@@ -59,9 +56,6 @@ header-test- += linux/v4l2-mediabus.h
- header-test- += linux/v4l2-subdev.h
- header-test- += linux/videodev2.h
- header-test- += linux/vm_sockets.h
--header-test- += misc/ocxl.h
--header-test- += mtd/mtd-abi.h
--header-test- += mtd/mtd-user.h
- header-test- += scsi/scsi_bsg_fc.h
- header-test- += scsi/scsi_netlink.h
- header-test- += scsi/scsi_netlink_fc.h
-@@ -108,7 +102,6 @@ header-test- += linux/bpf_perf_event.h
- endif
- 
- ifeq ($(SRCARCH),s390)
--header-test- += asm/runtime_instr.h
- header-test- += asm/zcrypt.h
- endif
- 
-@@ -116,7 +109,6 @@ ifeq ($(SRCARCH),sparc)
- header-test- += asm/stat.h
- header-test- += asm/uctx.h
- header-test- += asm/fbio.h
--header-test- += asm/openpromio.h
- endif
- 
- # asm-generic/*.h is used by asm/*.h, and should not be included directly
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
