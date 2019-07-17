@@ -2,158 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 832B36B6A0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2019 08:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37D176B703
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2019 08:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbfGQG3n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Jul 2019 02:29:43 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:32864 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbfGQG3n (ORCPT
+        id S1725992AbfGQGzf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Jul 2019 02:55:35 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20473 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725936AbfGQGzf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Jul 2019 02:29:43 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x6H6TEhF019338;
-        Wed, 17 Jul 2019 15:29:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6H6TEhF019338
+        Wed, 17 Jul 2019 02:55:35 -0400
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x6H6tO50030501;
+        Wed, 17 Jul 2019 15:55:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6H6tO50030501
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563344955;
-        bh=KcHQBUXdsKArHIJm3xcxgFJariXFB0ZgqeLvjtXjwps=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FRemP7Mf5jJVbRUlIyN9Sv5IOxqT7BOM2WGsoQ7QGl0JiBhti7F9vSC/ajjR3ozfH
-         FIofFSkkp5e3q91Mrkukv2c/FkM1at5YqLwhNd0XjB/Cpfn5p8rSgwT9bW5823hO8w
-         EnhQXegunluc+SZh1LvoD6oOef1RHgaGrHMCXNJ8x2T+j4XjyGfqYh6hWla/1ZO7xq
-         4oENZnhRy0dYVqumiHmNHf6Q2flA3ZLfpr12AV1NHienqpIolaX229VU39YTuD3U4t
-         sdQhDHsyKpk8nU/aI8DfSobdURI46ymYMnysA4Xy15ONDzZrGSm/hZxZtbcfhxE0g+
-         ue6ZZ60ajE+jw==
-X-Nifty-SrcIP: [153.142.97.92]
+        s=dec2015msa; t=1563346525;
+        bh=DgvFg/PvmkUqzBOA3LWysbbyKsyxr/rzbPQxUzumKDw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TEceMaLQ5cu0tGpqcOWAN+VpoUmoHF56DWywqHL4BqtRMRH8yZiDIcnW2aChUZtFk
+         FKmQFVpx5rtYHm8VH+hDO4m7ITgFw7GxEECodvMFGy2zflzyMpzJC/oXuy/H4nuWYc
+         LShHH3NSMfDlRWjtu1FFO6fsDSBBJlOCRO+c42nYqg+i8Hj3NncmHh2kgTtCaXAAFY
+         8u6oalskaRMYcDBKp9t0zkYO40o3PyCw7n069NxSXH48nyH3LbO/gBagF0Tbka2D5f
+         +Xz7ABcFzQgclalcPoRfu6VB5qAKWRRjKEMRC09nS4+FNRUXJSxWhpiWS37KXxEAE4
+         6Wpzz/dwC0DQw==
+X-Nifty-SrcIP: [209.85.217.46]
+Received: by mail-vs1-f46.google.com with SMTP id a186so14086876vsd.7;
+        Tue, 16 Jul 2019 23:55:25 -0700 (PDT)
+X-Gm-Message-State: APjAAAX/3/HOSWKlyyzaYY9Q/baGY+3Z4Wfp5MaixzxpGsg38hlxb68O
+        0rXWnyLBkcEl9TSh03PONWQotxeaey/TJ4wIvPg=
+X-Google-Smtp-Source: APXvYqyUI+81HuyA1Sg+kwLwpyTPzFweh3HUSTtZo2olVYVMKG4rx5J93T3cLKGpmXkX4ZQzCuZBNKZ8ypIyLzgXbB4=
+X-Received: by 2002:a67:fc45:: with SMTP id p5mr23322373vsq.179.1563346524244;
+ Tue, 16 Jul 2019 23:55:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
+ <20190716170606.GA38406@archlinux-threadripper> <alpine.DEB.2.21.1907162059200.1767@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1907162135590.1767@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1907162135590.1767@nanos.tec.linutronix.de>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] kbuild: update compile-test headers for v5.3-rc1
-Date:   Wed, 17 Jul 2019 15:29:13 +0900
-Message-Id: <20190717062913.11437-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+Date:   Wed, 17 Jul 2019 15:54:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASBiaMX8ihnmhLGmYfHX=ZHZmVN91nxmFZe-OCaw6Px2w@mail.gmail.com>
+Message-ID: <CAK7LNASBiaMX8ihnmhLGmYfHX=ZHZmVN91nxmFZe-OCaw6Px2w@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Fail if gold linker is detected
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        X86 ML <x86@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Mike Lothian <mike@fireburn.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-- Some headers graduated from the blacklist
+On Wed, Jul 17, 2019 at 4:47 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> The gold linker has known issues of failing the build both in random and in
+> predictible ways:
+>
+>  - The x86/X32 VDSO build fails with:
+>
+>    arch/x86/entry/vdso/vclock_gettime-x32.o:vclock_gettime.c:function do_hres:
+>    error: relocation overflow: reference to 'hvclock_page'
+>
+>    That's a known issue for years and the usual workaround is to disable
+>    CONFIG_X86_32
+>
+>  - A recent build failure is caused by turning a relocation into an
+>    absolute one for unknown reasons. See link below.
+>
+>  - There are a couple of gold workarounds applied already, but reports
+>    about broken builds with ld.gold keep coming in on a regular base and in
+>    most cases the root cause is unclear.
+>
+> In context of the most recent fail H.J. stated:
+>
+>   "Since building a workable kernel for different kernel configurations
+>    isn't a requirement for gold, I don't recommend gold for kernel."
+>
+> So instead of dealing with attempts to duct tape gold support without
+> understanding the root cause and without support from the gold folks, fail
+> the build when gold is detected.
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Link: https://lore.kernel.org/r/CAMe9rOqMqkQ0LNpm25yE_Yt0FKp05WmHOrwc0aRDb53miFKM+w@mail.gmail.com
+> ---
 
-- hyperv_timer.h joined the header-test when CONFIG_X86=y
+The code looks OK in the build system point of view.
 
-- nf_tables*.h joined the header-test when CONFIG_NF_TABLES is
-  enabled.
+Please let me confirm this, just in case:
+For now, we give up all architectures, not only x86, right?
 
-- The entry for nf_tables_offload.h was added to fix build error for
-  the combination of CONFIG_NF_TABLES=n and CONFIG_KERNEL_HEADER_TEST=y.
+I have not not heard much from other arch maintainers.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
 
-Changes in v2:
-  - Remove rdma_counter.h from the exclude list
-
- include/Kbuild       | 13 +++++--------
- usr/include/Makefile |  8 --------
- 2 files changed, 5 insertions(+), 16 deletions(-)
-
-diff --git a/include/Kbuild b/include/Kbuild
-index 7e9f1acb9dd5..8c71f906d322 100644
---- a/include/Kbuild
-+++ b/include/Kbuild
-@@ -31,7 +31,7 @@ header-test-			+= acpi/platform/acintel.h
- header-test-			+= acpi/platform/aclinux.h
- header-test-			+= acpi/platform/aclinuxex.h
- header-test-			+= acpi/processor.h
--header-test-			+= clocksource/hyperv_timer.h
-+header-test-$(CONFIG_X86)	+= clocksource/hyperv_timer.h
- header-test-			+= clocksource/timer-sp804.h
- header-test-			+= crypto/cast_common.h
- header-test-			+= crypto/internal/cryptouser.h
-@@ -454,9 +454,6 @@ header-test-			+= linux/phy/omap_control_phy.h
- header-test-			+= linux/phy/tegra/xusb.h
- header-test-			+= linux/phy/ulpi_phy.h
- header-test-			+= linux/phy_fixed.h
--header-test-			+= linux/pinctrl/pinconf-generic.h
--header-test-			+= linux/pinctrl/pinconf.h
--header-test-			+= linux/pinctrl/pinctrl.h
- header-test-			+= linux/pipe_fs_i.h
- header-test-			+= linux/pktcdvd.h
- header-test-			+= linux/pl320-ipc.h
-@@ -905,10 +902,11 @@ header-test-			+= net/netfilter/nf_nat_redirect.h
- header-test-			+= net/netfilter/nf_queue.h
- header-test-			+= net/netfilter/nf_reject.h
- header-test-			+= net/netfilter/nf_synproxy.h
--header-test-			+= net/netfilter/nf_tables.h
--header-test-			+= net/netfilter/nf_tables_core.h
--header-test-			+= net/netfilter/nf_tables_ipv4.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables_core.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables_ipv4.h
- header-test-			+= net/netfilter/nf_tables_ipv6.h
-+header-test-$(CONFIG_NF_TABLES)	+= net/netfilter/nf_tables_offload.h
- header-test-			+= net/netfilter/nft_fib.h
- header-test-			+= net/netfilter/nft_meta.h
- header-test-			+= net/netfilter/nft_reject.h
-@@ -949,7 +947,6 @@ header-test-			+= pcmcia/ds.h
- header-test-			+= rdma/ib.h
- header-test-			+= rdma/iw_portmap.h
- header-test-			+= rdma/opa_port_info.h
--header-test-			+= rdma/rdma_counter.h
- header-test-			+= rdma/rdmavt_cq.h
- header-test-			+= rdma/restrack.h
- header-test-			+= rdma/signature.h
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index cd8daa20d487..aa316d99e035 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -30,8 +30,6 @@ header-test-$(CONFIG_CPU_BIG_ENDIAN) += linux/byteorder/big_endian.h
- header-test-$(CONFIG_CPU_LITTLE_ENDIAN) += linux/byteorder/little_endian.h
- header-test- += linux/coda.h
- header-test- += linux/coda_psdev.h
--header-test- += linux/dvb/audio.h
--header-test- += linux/dvb/osd.h
- header-test- += linux/elfcore.h
- header-test- += linux/errqueue.h
- header-test- += linux/fsmap.h
-@@ -44,7 +42,6 @@ header-test- += linux/netfilter_bridge/ebtables.h
- header-test- += linux/netfilter_ipv4/ipt_LOG.h
- header-test- += linux/netfilter_ipv6/ip6t_LOG.h
- header-test- += linux/nfc.h
--header-test- += linux/nilfs2_ondisk.h
- header-test- += linux/omap3isp.h
- header-test- += linux/omapfb.h
- header-test- += linux/patchkey.h
-@@ -59,9 +56,6 @@ header-test- += linux/v4l2-mediabus.h
- header-test- += linux/v4l2-subdev.h
- header-test- += linux/videodev2.h
- header-test- += linux/vm_sockets.h
--header-test- += misc/ocxl.h
--header-test- += mtd/mtd-abi.h
--header-test- += mtd/mtd-user.h
- header-test- += scsi/scsi_bsg_fc.h
- header-test- += scsi/scsi_netlink.h
- header-test- += scsi/scsi_netlink_fc.h
-@@ -108,7 +102,6 @@ header-test- += linux/bpf_perf_event.h
- endif
- 
- ifeq ($(SRCARCH),s390)
--header-test- += asm/runtime_instr.h
- header-test- += asm/zcrypt.h
- endif
- 
-@@ -116,7 +109,6 @@ ifeq ($(SRCARCH),sparc)
- header-test- += asm/stat.h
- header-test- += asm/uctx.h
- header-test- += asm/fbio.h
--header-test- += asm/openpromio.h
- endif
- 
- # asm-generic/*.h is used by asm/*.h, and should not be included directly
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
