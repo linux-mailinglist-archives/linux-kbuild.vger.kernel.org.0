@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CBE96B67C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2019 08:20:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2E006B681
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2019 08:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726909AbfGQGS0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Jul 2019 02:18:26 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:62970 "EHLO
+        id S1727450AbfGQGSq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Jul 2019 02:18:46 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:62958 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbfGQGS0 (ORCPT
+        with ESMTP id S1725995AbfGQGS0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Wed, 17 Jul 2019 02:18:26 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x6H6I5Oi009435;
-        Wed, 17 Jul 2019 15:18:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6H6I5Oi009435
+        by conuserg-10.nifty.com with ESMTP id x6H6I5On009435;
+        Wed, 17 Jul 2019 15:18:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6H6I5On009435
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563344290;
-        bh=NThCfRRReemUKwHcPVaeEGel1SdY7KDk5R0W8YGBelE=;
+        s=dec2015msa; t=1563344294;
+        bh=JAReFU+lVkqbhjScMSMVCxd0MDAvCgo6xXsG/5QGEaA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Pv+5ZlUvWSf7GBEtyBfu9nBNVMty9Qf4wBQSYHkJE7ZwK3gcEYl7hjwG3KzuxNU2M
-         rzzw31wyA1wR97Ce+lley7A8pyU2m2TVFdX9WwLfWUjYTCanT4mlCcxkms8YS/j350
-         ZN9lVBjr0qG23nN6yiIkZstX7OAXLHcOrg9hXHhq6imK8EnxPEPpGfQtCkCaddaprm
-         XGPknsCX6GeMD/OHA2id8kOebLfi/wmdhtlRm4cKFxAlu1vLuw6NKRa7B5bwSVckoT
-         cs0Qp6+F9iKorbMg4rHBkAomHZLDMmTADN6FeUm7en4fdzxDIOhKc2foaB18VXwTrj
-         BDRGHBAvX6QNQ==
+        b=fiUZUEF5fl5qklYXBblKJnRbIXqghD8awTynEfSPiby8opkhdmR4tM2/Hafmep9ko
+         xuCHkXPFCVunevTa4NVxFr7rRAFT2k0jZnbEXQcARzs8wDQMazoLw0xhDmcWdrUcD1
+         rJuvVW3/o2m4t0wCZ2HRJsd4rjk/sqRZeXK6Sqqisv6TglRRJ4CdPGc66lZJtMiPIT
+         xKmwYmdHYaY53xAJfK+iYuFw2fD9V+OmbfcctUxqtGYgu3A0CeLO8DbSv997rLQB21
+         pZaYdN6jMso7Bv/V5GwM6VBYiasJBf9WoJOB6QwdoydAg10rK4JnyMPamAzUGbJsAJ
+         ZOlvPjIt+wymg==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 06/12] kbuild: modsign: read modules.order instead of $(MODVERDIR)/*.mod
-Date:   Wed, 17 Jul 2019 15:17:54 +0900
-Message-Id: <20190717061800.10018-7-yamada.masahiro@socionext.com>
+Subject: [PATCH v3 11/12] kbuild: remove 'prepare1' target
+Date:   Wed, 17 Jul 2019 15:17:59 +0900
+Message-Id: <20190717061800.10018-12-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190717061800.10018-1-yamada.masahiro@socionext.com>
 References: <20190717061800.10018-1-yamada.masahiro@socionext.com>
@@ -44,12 +44,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Towards the goal of removing MODVERDIR, read out modules.order to get
-the list of modules to be signed. This is simpler than parsing *.mod
-files in $(MODVERDIR).
-
-The modules_sign target is only supported for in-kernel modules.
-So, this commit does not take care of external modules.
+Now that there is no rule for 'prepare1', it can go away.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
@@ -57,23 +52,35 @@ Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 Changes in v3: None
 Changes in v2: None
 
- scripts/Makefile.modsign | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ Makefile | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/Makefile.modsign b/scripts/Makefile.modsign
-index da56aa78d245..d7325cefe709 100644
---- a/scripts/Makefile.modsign
-+++ b/scripts/Makefile.modsign
-@@ -8,8 +8,7 @@ __modsign:
+diff --git a/Makefile b/Makefile
+index 9ad9f8d1130d..14458ab3d6a8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1089,7 +1089,7 @@ scripts: scripts_basic scripts_dtc
+ # archprepare is used in arch Makefiles and when processed asm symlink,
+ # version.h and scripts_basic is processed / created.
  
- include scripts/Kbuild.include
+-PHONY += prepare archprepare prepare1 prepare3
++PHONY += prepare archprepare prepare3
  
--__modules := $(sort $(shell grep -h '\.ko$$' /dev/null $(wildcard $(MODVERDIR)/*.mod)))
--modules := $(patsubst %.o,%.ko,$(wildcard $(__modules:.ko=.o)))
-+modules := $(sort $(shell cat modules.order))
+ # prepare3 is used to check if we are building in a separate output directory,
+ # and if so do:
+@@ -1106,10 +1106,8 @@ ifdef building_out_of_srctree
+ 	fi;
+ endif
  
- PHONY += $(modules)
- __modsign: $(modules)
+-prepare1: prepare3 outputmakefile asm-generic $(version_h) $(autoksyms_h) \
+-						include/generated/utsrelease.h
+-
+-archprepare: archheaders archscripts prepare1 scripts
++archprepare: archheaders archscripts scripts prepare3 outputmakefile \
++	asm-generic $(version_h) $(autoksyms_h) include/generated/utsrelease.h
+ 
+ prepare0: archprepare
+ 	$(Q)$(MAKE) $(build)=scripts/mod
 -- 
 2.17.1
 
