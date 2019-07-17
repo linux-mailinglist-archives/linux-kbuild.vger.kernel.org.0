@@ -2,89 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E54B06BEF3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2019 17:24:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82C876BF2B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jul 2019 17:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726081AbfGQPYC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Jul 2019 11:24:02 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:55714 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725948AbfGQPYC (ORCPT
+        id S1726494AbfGQPbB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Jul 2019 11:31:01 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:45958 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725993AbfGQPbB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Jul 2019 11:24:02 -0400
-Received: from callcc.thunk.org (guestnat-104-133-0-99.corp.google.com [104.133.0.99] (may be forged))
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x6HFNQK1019058
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 17 Jul 2019 11:23:27 -0400
-Received: by callcc.thunk.org (Postfix, from userid 15806)
-        id 5AE86420054; Wed, 17 Jul 2019 11:23:26 -0400 (EDT)
-Date:   Wed, 17 Jul 2019 11:23:26 -0400
-From:   "Theodore Y. Ts'o" <tytso@mit.edu>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Robo Bot <apw@canonical.com>, Joe Perches <joe@perches.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH 4/4] debian: add generic rule file
-Message-ID: <20190717152326.GC31412@mit.edu>
-Mail-Followup-To: "Theodore Y. Ts'o" <tytso@mit.edu>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Robo Bot <apw@canonical.com>, Joe Perches <joe@perches.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-References: <1562664759-16009-1-git-send-email-info@metux.net>
- <1562664759-16009-4-git-send-email-info@metux.net>
- <CAK7LNAR1N-bwVWm0LXky2-d2GfvRuRrEWeo5CGm3Z2Lp_s0WEw@mail.gmail.com>
- <5af9db32-2cf5-10ba-261c-e08852d0814f@metux.net>
- <20190715191245.GD3068@mit.edu>
- <CAK7LNASps6JBAvtJshjMbqMk8QaSrMaH8pm-wHsEySTRJzu0Kw@mail.gmail.com>
- <20190716123431.GB2999@mit.edu>
- <77f82ca2-f89b-e8e2-507a-c37bce1343a5@metux.net>
+        Wed, 17 Jul 2019 11:31:01 -0400
+Received: by mail-wr1-f67.google.com with SMTP id f9so25278331wre.12;
+        Wed, 17 Jul 2019 08:30:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=lp9LaovzP897q8rJ2Yj+FnynKyErmgF+4dB6/5fv4Qc=;
+        b=cQBsCkXHEbz/p+7To9YvkAomNZXA+0rNFFlP1doS7rmcIw5JTbovEamNB84rUbwyeS
+         W05zL2tInijJOXZC+d3l5Bh/ih2vZWfz/xKsnTlqDahDzDoK10Us74oV71wrvkEF0zDW
+         336+9Tk7I3WqdQNqVAlwd57DLNpsGhqW7mcx375IKs6WeYDojUK0YHZitITwrC9tMqHw
+         c2ni9cBowAqaKArKkO8jcdwzkO0B1lOe7tWJLD463kyKM961HM/TcLMjDmPszRpBLbOi
+         S+jU3sXvL1qptIZ2GOKYhyuAu8JCAUm1Is/viML4UZ/+RcWGCL1dp/i7xXh5bcrcoAxr
+         k4nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=lp9LaovzP897q8rJ2Yj+FnynKyErmgF+4dB6/5fv4Qc=;
+        b=M8nC9g2XFIOom5/LQ1XsGHc0L70X4AY+vSjw72Dz7cTjjmNi+rWMTxGkiuOeJpHOkm
+         D7+fdrZws1H71NMUTMvG6Kw8TcHfPbd9nJyPLwh/JdJUmNTfVkpsgTXdSXhBefSyMjEo
+         c7AXJf0WIEnTvxHpygj3ZiKhLG3yh5ndqyDB+UjMDGvbNif3xnqkQlEdL5rz3SSFknxs
+         Bbb1SEkRvjAQCaCB73EzyrDxrc+9rqbZHQ0w9SqacCci8jb5cb75p4biWOocoT7IVXNF
+         9PkEokRN08QilzCh7/RpoqMkuLnhF/UfaTz02lJUmHplpDz2eDZbFkDFnj8uLl+R7MDc
+         dEiQ==
+X-Gm-Message-State: APjAAAXn58ywHHRB0r+nOUh9ZDupnn2HKna85rs3y7WD2Es9wmupvvw9
+        c88yT8GdqRJYfZRFRVnEvpUleDkSi2S+sm5oLXE=
+X-Google-Smtp-Source: APXvYqzYeK8zm6fB6RbtMRqyt4P012ELpdexhrmS+06mNC/hM+fmWO/+wj8CgMoax1sy0qPdnZacR0b4gMWxeqQ8Qlo=
+X-Received: by 2002:a5d:498f:: with SMTP id r15mr41131590wrq.353.1563377458447;
+ Wed, 17 Jul 2019 08:30:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77f82ca2-f89b-e8e2-507a-c37bce1343a5@metux.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190717142922.214d54ec@canb.auug.org.au>
+In-Reply-To: <20190717142922.214d54ec@canb.auug.org.au>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 17 Jul 2019 17:30:47 +0200
+Message-ID: <CA+icZUUhnSGkLQcCZBzYXCRxExiZ1F=KnzdeiNSbojHRfxRjOA@mail.gmail.com>
+Subject: Re: linux-next: Tree for Jul 17
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc:     Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 17, 2019 at 04:16:39PM +0200, Enrico Weigelt, metux IT consult wrote:
-> 
-> > In practice, that's not going to be a problem for most distributions.
-> > The traditional way Debian-derived systems have done builds is
-> > completely outside of git.  So there will be a linux_5.2.orig.tar.gz
-> > and a linux_5.2-1.debian.tar.xz.  dpkg_source -x will first unpackage
-> > the orig.tar.gz, and then the debian.tar.xz, and if the second
-> > overwrites the first, it's no big deal.
-> 
-> ACK. IIRC they already filter out debian/ directories when generating
-> upstream tarballs - other upstreams already provide their debian/
-> stuff, too.
+Hi Steven, Hi Darrick,
 
-Well, no, actually they don't.  That's because as much as possible
-they want the upstream tarball to be bit-for-bit identical to the one
-published on the official upstream distribution site.  That allows
-them to include the detached PGP signature from the upstream
-maintainer, if one is provided.
+Unfortunately, my build-script is not working anymore.
 
-If there are files in the upstream debian/ directory that they don't
-need, they can delete in the distro's debian/rules file.  Ideally, so
-we shouldn't include files in the Linux kernel's debian/ directory
-willy-nilly.  But the debian/rules file will *always* be present, and
-so it will be overwritten by the <package>_<ver>.debian.tar.xz file,
-and so it's no big deal.
+I am using builddeb/mkdebian scripts.
 
-					- Ted
+[ BUILD-LOG ]
+...
+set -e; mkdir -p include/config/; { echo "5.2.0$(/bin/bash
+./scripts/setlocalversion .)"; } > include/config/kernel.release.tmp;
+if [ -r include/config/kernel.release ] && cmp -s
+include/config/kernel.release include/config/kernel.release.tmp; then
+rm -f include/config/kernel.release.tmp; else : '  UPD
+include/config/kernel.release'; mv -f
+include/config/kernel.release.tmp include/config/kernel.release; fi
+make -f ./scripts/Makefile.build obj=3Dscripts/package bindeb-pkg
+/bin/bash ./scripts/package/mkdebian
+./scripts/package/mkdebian: line 149: cd: source/: No such file or director=
+y
+make[1]: *** [scripts/package/Makefile:79: bindeb-pkg] Error 1
+make: *** [Makefile:1442: bindeb-pkg] Error 2
+
+Investigations revealed hardcoded stuff from the ...
+
+Merge remote-tracking branch 'iomap/iomap-for-next'
+
+$ git blame scripts/package/mkdebian | grep 'cd source'
+87bdff62e470c (Darrick J. Wong    2019-06-27 17:30:15 -0700 149) (cd
+source/ ; stg ser | sed -e '/^-/d' -e 's/^. /  * /g') >>
+debian/changelog
+
+$ git log --oneline --author=3D"Darrick J. Wong" scripts/package/mkdebian
+87bdff62e470 mtr: Build script adjustments
+
+I do not think this was intended?
+
+Reverting seems to be easy and fix it for me.
+
+$ git revert --no-edit 87bdff62e470
+F=C3=BChre Erkennung f=C3=BCr ungenaue Umbenennung aus: 100% (2251440/22514=
+40), Fertig.
+[5.2.0-3-amd64-cbl-asmgoto db8ec1968620] Revert "mtr: Build script adjustme=
+nts"
+ Date: Wed Jul 17 17:27:26 2019 +0200
+ 3 files changed, 10 insertions(+), 17 deletions(-)
+
+Please make it work again for $WORLD.
+
+Thanks.
+
+Regards,
+- Sedat -
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log=
+/scripts/package/mkdebian?h=3Dnext-20190717
