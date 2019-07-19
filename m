@@ -2,225 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DFE3F6DEB1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 06:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE456E3FA
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 12:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731455AbfGSEFI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Jul 2019 00:05:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37350 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728562AbfGSEFI (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:05:08 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9EA5D21852;
-        Fri, 19 Jul 2019 04:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509107;
-        bh=gRwU8Ad+q7ah0c5cfg+KjB1NnhI4v/yX8xGvX/agMaM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xzwpWvCtqam/hd8n1aqOp1e5kI9d39rZGBFvpOQ08yLa/7oWl3obB0hxF/YLy0tah
-         rZtDdb9xHmD6NRKQ4AtR2n0HAB4caOdnTxHxbWxBnmKuK9b8UscOmE8HMfp8ky0hVf
-         XW0+ZVf9NhEsY2QwNqij8oLESC70zLceOr13hY38=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 072/141] fixdep: check return value of printf() and putchar()
-Date:   Fri, 19 Jul 2019 00:01:37 -0400
-Message-Id: <20190719040246.15945-72-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
-References: <20190719040246.15945-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        id S1726076AbfGSKKR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Jul 2019 06:10:17 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:29227 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725794AbfGSKKR (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 19 Jul 2019 06:10:17 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x6JA93Jd024206;
+        Fri, 19 Jul 2019 19:09:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6JA93Jd024206
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1563530944;
+        bh=a3YovZwajy5jGOBf14Q9c/0gf55f02Iub75GoLKtQIY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GSkUvEXip3o937QdMIXgFGg+VCWE+8VZWQ9b9Jj4gfiPnlc9JBOxOietRh9VOev2q
+         pYA5dVmLYxjDNcSndl+DG97sD6JyDgVfjVb04Y5mfdQJp93B7fO2AAB+qa1wauBFOk
+         slOTTL9ILJUpTvPn+4G0vA4lFeC4sgWSMoQTsXdYi1l/07pXU+PRxfckJKiXKdWtIg
+         YewTkXQILglKBCJmUsdkKS7sZ8BSN0xDNnyOelWNexBVpNbxvPBlCQhoHhiaGAWxNd
+         cXAAofc9duC1OcI7E6xI8whOg+AmAjmfSHYCoDvz/5ivt857R4LHfuRii3EXZeadt6
+         dr/J5lYKOa99w==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+        "Darrick J . Wong" <darrick.wong@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Jani Nikula <jani.nikula@intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: disable compile-test of kernel headers for now
+Date:   Fri, 19 Jul 2019 19:08:59 +0900
+Message-Id: <20190719100859.11227-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
+This compile-test started from the strong belief that (almost) all
+headers should be able to be compiled as a standalone unit, but this
+requirement seems to be just annoying.
 
-[ Upstream commit 6f9ac9f4427ec0470ccffbf852cfaf326677cc21 ]
+I believe compile-test of exported headers is good. On the other hand,
+in-kernel headers are not necessarily supposed to be always compilable.
+Actually, some headers are only included under a certain combination
+of CONFIG options, and that is definitely fine.
 
-When there is not enough space on your storage device, the build will
-fail with 'No space left on device' error message.
+This test is still causing false positive errors in randconfig.
+Moreover, newly added headers are compile-tested by default, sometimes
+they catch (not fatal) bugs, but often raise false positive errors to
+end up with making people upset.
 
-The reason is obvious from the message, so you will free up some disk
-space, then you will resume the build.
-
-However, sometimes you may still see a mysterious error message:
-
-  unterminated call to function 'wildcard': missing ')'.
-
-If you run out of the disk space, fixdep may end up with generating
-incomplete .*.cmd files.
-
-For example, if the disk-full error occurs while fixdep is running
-print_dep(), the .*.cmd might be truncated like this:
-
-   $(wildcard include/config/
-
-When you run 'make' next time, this broken .*.cmd will be included,
-then Make will terminate parsing since it is a wrong syntax.
-
-Once this happens, you need to run 'make clean' or delete the broken
-.*.cmd file manually.
-
-Even if you do not see any error message, the .*.cmd files after any
-error could be potentially incomplete, and unreliable. You may miss
-the re-compilation due to missing header dependency.
-
-If printf() cannot output the string for disk shortage or whatever
-reason, it returns a negative value, but currently fixdep does not
-check it at all. Consequently, fixdep *successfully* generates a
-broken .*.cmd file. Make never notices that since fixdep exits with 0,
-which means success.
-
-Given the intended usage of fixdep, it must respect the return value
-of not only malloc(), but also printf() and putchar().
-
-This seems a long-standing issue since the introduction of fixdep.
-
-In old days, Kbuild tried to provide an extra safety by letting fixdep
-output to a temporary file and renaming it after everything is done:
-
-  scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' > $(dot-target).tmp;\
-  rm -f $(depfile);                                                    \
-  mv -f $(dot-target).tmp $(dot-target).cmd)
-
-It was no help to avoid the current issue; fixdep successfully created
-a truncated tmp file, which would be renamed to a .*.cmd file.
-
-This problem should be fixed by propagating the error status to the
-build system because:
-
-[1] Since commit 9c2af1c7377a ("kbuild: add .DELETE_ON_ERROR special
-    target"), Make will delete the target automatically on any failure
-    in the recipe.
-
-[2] Since commit 392885ee82d3 ("kbuild: let fixdep directly write to
-    .*.cmd files"), .*.cmd file is included only when the corresponding
-    target already exists.
+The merge window is closing shortly, so there is not much I can do.
+Disable it for now, and take a pause to re-think whether we should
+continue this or change the course.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/basic/fixdep.c | 51 +++++++++++++++++++++++++++++++++---------
- 1 file changed, 41 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/basic/fixdep.c b/scripts/basic/fixdep.c
-index facbd603adf6..9ba47b0a47b9 100644
---- a/scripts/basic/fixdep.c
-+++ b/scripts/basic/fixdep.c
-@@ -99,6 +99,7 @@
- #include <unistd.h>
- #include <fcntl.h>
- #include <string.h>
-+#include <stdarg.h>
- #include <stdlib.h>
- #include <stdio.h>
- #include <ctype.h>
-@@ -109,6 +110,36 @@ static void usage(void)
- 	exit(1);
- }
- 
-+/*
-+ * In the intended usage of this program, the stdout is redirected to .*.cmd
-+ * files. The return value of printf() and putchar() must be checked to catch
-+ * any error, e.g. "No space left on device".
-+ */
-+static void xprintf(const char *format, ...)
-+{
-+	va_list ap;
-+	int ret;
-+
-+	va_start(ap, format);
-+	ret = vprintf(format, ap);
-+	if (ret < 0) {
-+		perror("fixdep");
-+		exit(1);
-+	}
-+	va_end(ap);
-+}
-+
-+static void xputchar(int c)
-+{
-+	int ret;
-+
-+	ret = putchar(c);
-+	if (ret == EOF) {
-+		perror("fixdep");
-+		exit(1);
-+	}
-+}
-+
- /*
-  * Print out a dependency path from a symbol name
-  */
-@@ -116,7 +147,7 @@ static void print_dep(const char *m, int slen, const char *dir)
- {
- 	int c, prev_c = '/', i;
- 
--	printf("    $(wildcard %s/", dir);
-+	xprintf("    $(wildcard %s/", dir);
- 	for (i = 0; i < slen; i++) {
- 		c = m[i];
- 		if (c == '_')
-@@ -124,10 +155,10 @@ static void print_dep(const char *m, int slen, const char *dir)
- 		else
- 			c = tolower(c);
- 		if (c != '/' || prev_c != '/')
--			putchar(c);
-+			xputchar(c);
- 		prev_c = c;
- 	}
--	printf(".h) \\\n");
-+	xprintf(".h) \\\n");
- }
- 
- struct item {
-@@ -324,13 +355,13 @@ static void parse_dep_file(char *m, const char *target)
- 				 */
- 				if (!saw_any_target) {
- 					saw_any_target = 1;
--					printf("source_%s := %s\n\n",
--					       target, m);
--					printf("deps_%s := \\\n", target);
-+					xprintf("source_%s := %s\n\n",
-+						target, m);
-+					xprintf("deps_%s := \\\n", target);
- 				}
- 				is_first_dep = 0;
- 			} else {
--				printf("  %s \\\n", m);
-+				xprintf("  %s \\\n", m);
- 			}
- 
- 			buf = read_file(m);
-@@ -353,8 +384,8 @@ static void parse_dep_file(char *m, const char *target)
- 		exit(1);
- 	}
- 
--	printf("\n%s: $(deps_%s)\n\n", target, target);
--	printf("$(deps_%s):\n", target);
-+	xprintf("\n%s: $(deps_%s)\n\n", target, target);
-+	xprintf("$(deps_%s):\n", target);
- }
- 
- int main(int argc, char *argv[])
-@@ -369,7 +400,7 @@ int main(int argc, char *argv[])
- 	target = argv[2];
- 	cmdline = argv[3];
- 
--	printf("cmd_%s := %s\n\n", target, cmdline);
-+	xprintf("cmd_%s := %s\n\n", target, cmdline);
- 
- 	buf = read_file(depfile);
- 	parse_dep_file(buf, target);
+ init/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 9697c6b5303c..778551a1a13c 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -111,6 +111,7 @@ config HEADER_TEST
+ config KERNEL_HEADER_TEST
+ 	bool "Compile test kernel headers"
+ 	depends on HEADER_TEST
++	depends on BROKEN	# disabled for now
+ 	help
+ 	  Headers in include/ are used to build external moduls.
+ 	  Compile test them to ensure they are self-contained, i.e.
 -- 
-2.20.1
+2.17.1
 
