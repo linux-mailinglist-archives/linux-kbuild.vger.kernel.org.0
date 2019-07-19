@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C07E96DBDF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 06:12:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A29556DCC3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 06:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388624AbfGSEMC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Jul 2019 00:12:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47176 "EHLO mail.kernel.org"
+        id S2388473AbfGSESa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Jul 2019 00:18:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731159AbfGSEMB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:12:01 -0400
+        id S2389233AbfGSENk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 19 Jul 2019 00:13:40 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBB7D2189E;
-        Fri, 19 Jul 2019 04:11:59 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 015C421872;
+        Fri, 19 Jul 2019 04:13:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509520;
-        bh=xfCU53WlHTAlJW2/uhkH1BKmeggsOheUfndwnFGFaQg=;
+        s=default; t=1563509619;
+        bh=fP4IzCslR1zeypehGIfOoj8lpAnEwhSQPZTzaGeEYBg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mPCY0YUcNo98A8ss2RK1IRm1HX8tu42yOITCjLF+aIs3NvBKeBEV8xwihrnBP2fGr
-         VnV6k9PHC3/KhiCa+meS2+IIpsElS1Li2wiqjgf76dIR6x2D4H+17ZxI+AuXxN7vxD
-         OAjsPDYnGvrqAi/+RMen37DVxt418bVeemtWdgSQ=
+        b=uIxEjyJSvXxJKQckel5kzXvO7SspGAaTLisj9mL0lE/so676Zfy6pjjvgMZlQ7RMb
+         15lWwV/ggUVsq06w86b8tu8mABa9IpvjyXN6q2K6QjeWiFI+Rte8u2SKMGGK5Na03Q
+         ioNfTniVunm0YizmMx6oFLpe37p8IkdfDUsoYU6Y=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nathan Chancellor <natechancellor@gmail.com>,
@@ -31,12 +31,12 @@ Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
         clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.14 28/60] kbuild: Add -Werror=unknown-warning-option to CLANG_FLAGS
-Date:   Fri, 19 Jul 2019 00:10:37 -0400
-Message-Id: <20190719041109.18262-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 21/45] kbuild: Add -Werror=unknown-warning-option to CLANG_FLAGS
+Date:   Fri, 19 Jul 2019 00:12:40 -0400
+Message-Id: <20190719041304.18849-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719041109.18262-1-sashal@kernel.org>
-References: <20190719041109.18262-1-sashal@kernel.org>
+In-Reply-To: <20190719041304.18849-1-sashal@kernel.org>
+References: <20190719041304.18849-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -92,17 +92,17 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/Makefile b/Makefile
-index c36e64bd9ae7..3d43f922953f 100644
+index c80dad45334e..60b562dbd97f 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -488,6 +488,7 @@ ifneq ($(GCC_TOOLCHAIN),)
+@@ -515,6 +515,7 @@ ifneq ($(GCC_TOOLCHAIN),)
  CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
  endif
  CLANG_FLAGS	+= -no-integrated-as
 +CLANG_FLAGS	+= -Werror=unknown-warning-option
  KBUILD_CFLAGS	+= $(CLANG_FLAGS)
  KBUILD_AFLAGS	+= $(CLANG_FLAGS)
- export CLANG_FLAGS
+ endif
 -- 
 2.20.1
 
