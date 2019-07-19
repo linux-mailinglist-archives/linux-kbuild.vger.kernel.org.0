@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 677A26DDED
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 06:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0813B6DFB7
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 06:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387448AbfGSEZQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Jul 2019 00:25:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43530 "EHLO mail.kernel.org"
+        id S1728832AbfGSD7k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Jul 2019 23:59:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59362 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730679AbfGSEJE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:09:04 -0400
+        id S1728825AbfGSD7k (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 18 Jul 2019 23:59:40 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7162C218BB;
-        Fri, 19 Jul 2019 04:09:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 13181218B8;
+        Fri, 19 Jul 2019 03:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509343;
-        bh=neUiaw9I+ayq8rHPA4uNM0yvFTPnN6ucjHMEctQ77LM=;
+        s=default; t=1563508780;
+        bh=vGc6FxhYPYV+Cpup7jSMVNC69MvH/z5xwnXfVdaz2QM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GZHi5dMTrEkYccA3V9EPk3edyxnVhcca8LBGXv8DTKf774kQkJuQFRtaJUrgB53lQ
-         lNQPZKJO4lcMxiJVmB+sEhohPhV0BXfveL6GWrROzzwKnXVdavT7uqGWy19XWVpuyw
-         7TMW2gXUPSt/vRCSRtTh7Ktj1k4k8bTJXvka/yCM=
+        b=lfzGVIiFdABokw3tatksEm6fBcIUwRNBs/o8pCeNvLIrINsJxXGB7vkduFkWq2ZBq
+         y/h7sJmdHPgqzjRMjewT3eEdG2DVKKJp7hoV30Q9inPWKUQ9reVWgeuwKAh9kGvTls
+         5GQloD75n/+Zuif5+f7AsFQTN+TZBskk7oYV33H8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Nathan Chancellor <natechancellor@gmail.com>,
@@ -31,12 +31,12 @@ Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
         clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.19 044/101] kbuild: Add -Werror=unknown-warning-option to CLANG_FLAGS
-Date:   Fri, 19 Jul 2019 00:06:35 -0400
-Message-Id: <20190719040732.17285-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 086/171] kbuild: Add -Werror=unknown-warning-option to CLANG_FLAGS
+Date:   Thu, 18 Jul 2019 23:55:17 -0400
+Message-Id: <20190719035643.14300-86-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719040732.17285-1-sashal@kernel.org>
-References: <20190719040732.17285-1-sashal@kernel.org>
+In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
+References: <20190719035643.14300-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -92,10 +92,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/Makefile b/Makefile
-index 38f2150457fd..d439ccd564ca 100644
+index d8f5dbfd6b76..f02079b98e7e 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -491,6 +491,7 @@ ifneq ($(GCC_TOOLCHAIN),)
+@@ -528,6 +528,7 @@ ifneq ($(GCC_TOOLCHAIN),)
  CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
  endif
  CLANG_FLAGS	+= -no-integrated-as
