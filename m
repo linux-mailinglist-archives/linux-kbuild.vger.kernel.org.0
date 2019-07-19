@@ -2,95 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65BDD6E5D9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 14:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B1CF6EB10
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 21:29:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727891AbfGSMkg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Jul 2019 08:40:36 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:46716 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727559AbfGSMkg (ORCPT
+        id S1732592AbfGST2a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Jul 2019 15:28:30 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:39142 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728092AbfGST2a (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Jul 2019 08:40:36 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Fri, 19 Jul 2019 15:28:30 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id B633620085;
-        Fri, 19 Jul 2019 14:40:31 +0200 (CEST)
-Date:   Fri, 19 Jul 2019 14:40:30 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Christoph Hellwig <hch@lst.de>,
-        "Darrick J . Wong" <darrick.wong@oracle.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jani Nikula <jani.nikula@intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: disable compile-test of kernel headers for now
-Message-ID: <20190719124030.GA5858@ravnborg.org>
-References: <20190719100859.11227-1-yamada.masahiro@socionext.com>
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 99EF0C0ABA;
+        Fri, 19 Jul 2019 19:28:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1563564510; bh=Hdp/JPcL7+oZycXcOcMtk5gY76vQ+jEs/4pUwlrEtss=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DFBj8XV0B/QuQE8aOgizpLS/br+cSX4K3124yNr6VkULKY9+CPMDapq+h3JPUpAOd
+         v48bGz7ugdpJgBV/C2r44iKci7U/4fC/VWapZWK151pqxzQpPK5wJQZTxnejEkkBxb
+         FgNFXRXjDOoIkfPIA2cxUcXdJmsgJgSGKRB2vjxeEfxTBnwpCtNEKxD0ZXcFnzsUOH
+         7rlCUyuxnPQJ5XOTQrZ8x1A49hZ0UoNpCTm44eahzbiOl4Bso1QDvP2mDr3GT/eepi
+         NXpCbmMpuMuVC/Ji29j5hCBD9XcOB0Y4+b0/Tp9pLJW7UlWBTnt/D6wkCyQwqRkAjg
+         8M9uUbI69imuw==
+Received: from paltsev-e7480.internal.synopsys.com (unknown [10.121.8.79])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 0E70FA0057;
+        Fri, 19 Jul 2019 19:28:27 +0000 (UTC)
+From:   Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+To:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        Vineet Gupta <Vineet.Gupta1@synopsys.com>,
+        Alexey Brodkin <Alexey.Brodkin@synopsys.com>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+Subject: [TRIVIAL PATCH] of: per-file dtc preprocessor flags
+Date:   Fri, 19 Jul 2019 22:28:24 +0300
+Message-Id: <20190719192824.24639-1-Eugeniy.Paltsev@synopsys.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190719100859.11227-1-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=VwQbUJbxAAAA:8
-        a=UFIcWzdN8eMNOij5XVIA:9 a=CjuIK1q_8ugA:10 a=AjGcO6oz07-iQ99wixmX:22
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro.
+As of today we are able to pass custom flags to dtc compiler but not
+to dtc preprocessor.
+This ability is required for including some board-specific header files.
+It allows us to pass defined constants to dts without their duplication
+in several places.
 
-On Fri, Jul 19, 2019 at 07:08:59PM +0900, Masahiro Yamada wrote:
-> This compile-test started from the strong belief that (almost) all
-> headers should be able to be compiled as a standalone unit, but this
-> requirement seems to be just annoying.
-> 
-> I believe compile-test of exported headers is good. On the other hand,
-> in-kernel headers are not necessarily supposed to be always compilable.
-> Actually, some headers are only included under a certain combination
-> of CONFIG options, and that is definitely fine.
-> 
-> This test is still causing false positive errors in randconfig.
-> Moreover, newly added headers are compile-tested by default, sometimes
-> they catch (not fatal) bugs, but often raise false positive errors to
-> end up with making people upset.
-> 
-> The merge window is closing shortly, so there is not much I can do.
-> Disable it for now, and take a pause to re-think whether we should
-> continue this or change the course.
+Signed-off-by: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+---
+ scripts/Makefile.lib | 2 ++
+ 1 file changed, 2 insertions(+)
 
-The present status is that iomap.h fails - and Arnd promptly
-made a fix for it:
-https://lore.kernel.org/lkml/20190719113139.4005262-1-arnd@arndb.de/T/#u
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index f1f38c8cdc74..f2595a608dce 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -166,6 +166,8 @@ dtc_cpp_flags  = -Wp,-MD,$(depfile).pre.tmp -nostdinc                    \
+ 		 $(addprefix -I,$(DTC_INCLUDE))                          \
+ 		 -undef -D__DTS__
+ 
++dtc_cpp_flags  += $(DTC_CPP_FLAGS_$(basetarget))
++
+ # Useful for describing the dependency of composite objects
+ # Usage:
+ #   $(call multi_depend, multi_used_targets, suffix_to_remove, suffix_to_add)
+-- 
+2.21.0
 
-You already fixed another issue.
-So the fall-out so far is miniaml and already fixed (pending Arnd's
-patch).
-
-If headers are not self-contained then one needs to include them in a
-specific order which can be quite hard to get right.
-Especially if the requirements differ across different architectures.
-So the whole concept seems sane.
-
-I have thrown it after may array of cross builds:
-=> alpha arm arm64 sparc64 i386 x86 powerpc s390 riscv sh
-
-For each arch I try:
-=> allmodconfig allyesconfig allnoconfig defconfig
-
-No errros.
-But that obviously only coveres a very minial set of configurations.
-Arnd's result from his randconfig are also very promising.
-
-I advise to keep it enabled and if there is a steady stream of
-new errors after -rc1 and -rc2 then to disable the testing.
-We will not get the coverage unless this is upstreamed.
-And the testing is relevant.
-
-	Sam
