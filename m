@@ -2,82 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31D546D5A9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jul 2019 22:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 543386D793
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jul 2019 02:06:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391446AbfGRUSg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 18 Jul 2019 16:18:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57394 "EHLO mx1.redhat.com"
+        id S1726066AbfGSAGA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 18 Jul 2019 20:06:00 -0400
+Received: from ozlabs.org ([203.11.71.1]:40671 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728022AbfGRUSg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 18 Jul 2019 16:18:36 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725992AbfGSAGA (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 18 Jul 2019 20:06:00 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A5DF68E22C;
-        Thu, 18 Jul 2019 20:18:35 +0000 (UTC)
-Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C787B19D7A;
-        Thu, 18 Jul 2019 20:18:34 +0000 (UTC)
-Subject: Re: [PATCH v2 08/11] kbuild: create *.mod with full directory path
- and remove MODVERDIR
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 45qWVt2D6pz9s3Z;
+        Fri, 19 Jul 2019 10:05:57 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1563494758;
+        bh=3W+rGCBlv9qH/WcczfGAgAysyijlmfF2crVhHqwraek=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tcKoBa8e0EAO+BSWJiiDEISQP8nqquUCBFaDc3/fi9Sqspt9Tnil3oCbD2Ws8l8sV
+         RBcRV9w1oDWYphT8Oz4qoaPNlX4x7UyCnxVH/oot+zsZAXa9IIBaP09QAa6NOCrAo1
+         7GniPU/dFONVT/r5tzZ7Y6pD9+F0Dr3BrlRlCJ5hXXNJ8RCkb+dLAqxpX+CLZocDhj
+         UJ7kVyz4nDJdphwc1Fjr2tlr+8F++fwGtxanRuz2MFbJFd0NbvXcimWZQEFEL0kXWS
+         KYhtJY1ygog30kTm1leiwS06tav+vBF28lC7d73uB5sdP5KcVR+HnCjT6hni2XGpTG
+         0zovX42Va5Jdw==
+Date:   Fri, 19 Jul 2019 10:05:57 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Linux Next Mailing List <linux-next@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-References: <20190711054434.1177-1-yamada.masahiro@socionext.com>
- <20190711054434.1177-9-yamada.masahiro@socionext.com>
- <20190716214023.GA15159@redhat.com>
- <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com>
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-Message-ID: <f1222c8a-9301-1e76-981d-a36e8687a29f@redhat.com>
-Date:   Thu, 18 Jul 2019 16:18:33 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        "Darrick J. Wong" <darrick.wong@oracle.com>
+Subject: Re: linux-next: Tree for Jul 18 (header build error)
+Message-ID: <20190719100557.3ead3285@canb.auug.org.au>
+In-Reply-To: <127d228c-322d-6349-382b-d304974df148@infradead.org>
+References: <20190718133751.3cf036be@canb.auug.org.au>
+        <127d228c-322d-6349-382b-d304974df148@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQ41NhPPO6xoVObgFctTO6WewSXPfZkE7_bZXsdAtKSpA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Thu, 18 Jul 2019 20:18:36 +0000 (UTC)
+Content-Type: multipart/signed; boundary="Sig_/z1=xYY.a9cTfhHO35FJ79pe";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 7/17/19 1:21 AM, Masahiro Yamada wrote:
->> Hi Masahiro,
->>
->> I'm following this patchset changes as they will affect the klp-convert
->> series [1] that the livepatching folks have been working on...
-> 
-> Empty files .tmp_versions/*.livepatch are touched
-> to keep track of 'LIVEPATCH_* := y', right?
-> 
+--Sig_/z1=xYY.a9cTfhHO35FJ79pe
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Pretty much.  From that patchset I think the rework would need to  modify..
+Hi all,
 
-- [PATCH v4 02/10] kbuild: Support for Symbols.list creation: creates a 
-Symbols.list file of kernel and module symbols, but *not* including any 
-from LIVEPATCH_* modules.
+On Thu, 18 Jul 2019 10:00:22 -0700 Randy Dunlap <rdunlap@infradead.org> wro=
+te:
+>
+> on x86_64, when CONFIG_BLOCK is not set:
+>=20
+>   CC      include/linux/iomap.h.s
+> In file included from <command-line>:0:0:
+> ./../include/linux/iomap.h: In function =E2=80=98iomap_sector=E2=80=99:
+> ./../include/linux/iomap.h:76:48: error: =E2=80=98SECTOR_SHIFT=E2=80=99 u=
+ndeclared (first use in this function); did you mean =E2=80=98SECTIONS_SHIF=
+T=E2=80=99?
+>   return (iomap->addr + pos - iomap->offset) >> SECTOR_SHIFT;
+>                                                 ^~~~~~~~~~~~
 
-- [PATCH v4 05/10] modpost: Integrate klp-convert: if a LIVEPATCH_* 
-module has changed, call a newly introduced klp-convert script on it.
+include/linux/iomap.h should only be used when CONFIG_BLOCK is set (if
+you follow the Kconfig trail).  So maybe this header should only be
+compile tested if CONFIG_BLOCK is set.
 
-- [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules: find 
-any LIVEPATCH_* mod, add it to a livepatchmods file, then pass that file 
-to modpost
+--=20
+Cheers,
+Stephen Rothwell
 
-> Perhaps, adding a new field
-> to *.mod files might be cleaner.
+--Sig_/z1=xYY.a9cTfhHO35FJ79pe
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-I can look into that.  By "field" you mean a new row in the file?
+-----BEGIN PGP SIGNATURE-----
 
-Regards,
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0xCWUACgkQAVBC80lX
+0GwSMAf/XraSYDqoBJY5K/r9UdR05YjdlfrPEbwsEwGFHCpL0u2m6jiwq9ciOo1R
+E9MgT5vqxAOBTcm8hc4XK0msKMDUWwYso0O6/1BGjRARdUz3c8QHYjIYZ4oHV1nG
+6R4vWHLBKs9YIusRCl7ZFYy364DGmvVAb9dwTc1L3ZF3Tu9vPlIn2ntsrc+Je/zA
+A3OoztV9DKmXWmzL+XZHScEx391GX3pGo3zSL26w4rDpSwSjfFctL5EWo2p9mH2Z
+KFkH0pYUxh2O50GS1XGWfVfmpo7mck6rfHRTuMyKkB2Oq67xFZg+Uh81axMR2hlZ
+M2SCpbYCyCvX+2ZB9uTWpdB31FaytA==
+=Zdp9
+-----END PGP SIGNATURE-----
 
--- Joe
+--Sig_/z1=xYY.a9cTfhHO35FJ79pe--
