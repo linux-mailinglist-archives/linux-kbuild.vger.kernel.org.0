@@ -2,104 +2,426 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E7E70B52
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jul 2019 23:28:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D67070C9E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 00:31:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729707AbfGVV2C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Jul 2019 17:28:02 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50662 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbfGVV2C (ORCPT
+        id S1729410AbfGVWbC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Jul 2019 18:31:02 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:47095 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729079AbfGVWbC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Jul 2019 17:28:02 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v15so36572377wml.0;
-        Mon, 22 Jul 2019 14:28:00 -0700 (PDT)
+        Mon, 22 Jul 2019 18:31:02 -0400
+Received: by mail-pg1-f196.google.com with SMTP id i8so18316694pgm.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 22 Jul 2019 15:31:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BXazYWDeTENq/iKxIaP3L6u+URhjPIAHJqyoF+TgtA8=;
-        b=U+4gi2ZCTUY1MCWT5zKODpDIfMSOphnaW0ox0qS3SYWklCcCoVAqqVs2tzb1NgxO+C
-         NIcmS9EYwq/MAX9zaswuyKyx3f5r6Yl+0Hn/OO0vODPbluNPU+bbwHSOM2rBhUE82OgN
-         dLyYDsK5/ZTYPUbEOVyV7MWt5ubTD5Q/14extJjmj23JCT9Yw/Xc23SHzml3nOQQkGJ+
-         W1UAmJ42Z6kLe5qcAzmVMrycqyxbV7UBZnidJ3l1SfujPQHpxSu8Nz5LpTe2y8Zpllpa
-         Fv1uZlK+YqxPZjQxCLmGevnbw0ZOISFT5jv2mdNR6VGpw0VM6R9TCGKZ2xY3tZ4pi6Xg
-         J7YQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6t6Z8yaBFYoLHYTxv5eDMWvXoAnvu95Bt2xJR7LIXPM=;
+        b=Pbqc45wUlOY+YQt8+tSNpR+Cy6b3vnFhYwUa9M0evgqUef7NsHugFBm+TCmFklkAQH
+         /1lrgZc1GAgvI4D0R8SZOkah3X6ZV5+9yK4hR1+P74j8LxSFoEWTibbwplmZTPC/CN6J
+         CYgHBM2VUAJ4iwonvfOrv7/nFN03R96MD9MhaJ7IY1fqBOMtGMDM4zDdufDEjOTvMaCY
+         7svj3GjmBdASH8FN7s+NOxJSOa/i5DqzWQUHmgUS274UJhAHDbRAGIXUC22gLI2OvU69
+         zPfYScJFPjUqVHvxdjR/3qAKP+Pi6GaNPjDX3yguwdNPbSjWNDcNmixX7XdD79jAV0Q0
+         oEUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BXazYWDeTENq/iKxIaP3L6u+URhjPIAHJqyoF+TgtA8=;
-        b=jC58qREEKVsplVMVA6/NncYukZDYrvhpfTw6HVpl5uD1vB+7xz320FylY7wZ8+a5y8
-         nbCWGKcOLs4f/4/me06fIrjF+LxoI4kF7EijUzmYh8ZjwuZVXPA5eNqKgAEcMSDb4/H7
-         W5Lwthry8bkYlHEMp29aA6MEXI0vfNEvI4qHX5Ifr1d2TmTo1tDtNYxT3Cw8bIaL4gle
-         qAoSP65j28br7OCJ7M7M+u3fVqGwr+mUqmK5EecRtdhw5QwY8EcPxvdDHKboKRY0XepY
-         qNooxCxyFIzsiLphhwJChbKIfbQpKgagSpOUJE2qi0ptXMbFUQVVp0XHwWa0n2wjSKTs
-         NVIA==
-X-Gm-Message-State: APjAAAXw1RQ1Vdqyd6akdMY2MNdrwQ5b2gpDyBwwTVofmziuO1xie6at
-        O3ijecmS/B7j2zzzwOJt3KxrhCU=
-X-Google-Smtp-Source: APXvYqwF611WDfYdYPe7+bHWdAGvYtg57KmpIAYQHYOFiEKOmtDhKF/zM528NEtNlwnxAMCiiFQb5w==
-X-Received: by 2002:a7b:c106:: with SMTP id w6mr68690065wmi.80.1563830880238;
-        Mon, 22 Jul 2019 14:28:00 -0700 (PDT)
-Received: from avx2 ([46.53.253.254])
-        by smtp.gmail.com with ESMTPSA id c1sm86246278wrh.1.2019.07.22.14.27.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jul 2019 14:27:59 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 00:27:57 +0300
-From:   Alexey Dobriyan <adobriyan@gmail.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-kbuild@vger.kernel.org, yamada.masahiro@socionext.com,
-        michal.lkml@markovi.net
-Subject: Re: [PATCH 2/5] x86_64, -march=native: POPCNT support
-Message-ID: <20190722212757.GA2525@avx2>
-References: <20190722202723.13408-1-adobriyan@gmail.com>
- <20190722202723.13408-2-adobriyan@gmail.com>
- <20190722211210.GN6698@worktop.programming.kicks-ass.net>
- <20190722211539.GA29979@avx2>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6t6Z8yaBFYoLHYTxv5eDMWvXoAnvu95Bt2xJR7LIXPM=;
+        b=qPCERjgEdENl6E+0RY2SisQdUfWiBFckXr/onfORlYmnYfzY1e+NBpg2JDdoXG2I2q
+         FXBtSxuVVZQI48WcaF8G79f+0LykfYoNT8WjgdsFqqrWAIdyKToQkEAKTtmaFzbtvsyL
+         F6/eg+CdnuBzyskJxOx9mnHOPXtVjzkXInHZyRq1sKLJAlwm7+/5Sdl99fyjHQvOrMXg
+         r1C69mkAiNkk3nlQoUfwIC2D7M+zugfmUwWAC0y5tT2+C6RfavUn1d3zT+ayJG+BLIfq
+         HrVPvFMossqEyrentIplQO3/BbFvJegYzYbg+GrQgNGeGO/Di2NlQBTl4v5XQeXXUoZi
+         O56g==
+X-Gm-Message-State: APjAAAX0W0jFf3+ElZNZdGcH0S9tQmMgz4NGgFQcSOiW2v30I/EHfp3Q
+        WGt9U29pZCNlIxDlQlRnupCwfEK91j1IgHaPD8ngBw==
+X-Google-Smtp-Source: APXvYqyO0RsU5hJiKN1UBBMLEqs8dzVSGIuLzMYi1uVToZEbJ6XuzYxALmxwq0bVMsvtqwjv25P0M3jBSrq2d1nPCNQ=
+X-Received: by 2002:aa7:81ca:: with SMTP id c10mr2499024pfn.185.1563834660552;
+ Mon, 22 Jul 2019 15:31:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190722211539.GA29979@avx2>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190712081744.87097-1-brendanhiggins@google.com>
+ <20190712081744.87097-5-brendanhiggins@google.com> <20190715221554.8417320665@mail.kernel.org>
+ <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
+ <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com>
+ <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
+ <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
+ <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
+In-Reply-To: <20190722200347.261D3218C9@mail.kernel.org>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Mon, 22 Jul 2019 15:30:49 -0700
+Message-ID: <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 12:15:39AM +0300, Alexey Dobriyan wrote:
-> On Mon, Jul 22, 2019 at 11:12:10PM +0200, Peter Zijlstra wrote:
-> > On Mon, Jul 22, 2019 at 11:27:20PM +0300, Alexey Dobriyan wrote:
-> > > Detect POPCNT instruction support and inline hweigth*() functions
-> > > if it is supported by CPU.
-> > > 
-> > > Detect POPCNT at boot time and conditionally refuse to boot.
-> > > 
-> > > Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
-> > > ---
-> > >  arch/x86/include/asm/arch_hweight.h           | 24 +++++++++++++++++++
-> > >  arch/x86/include/asm/segment.h                |  1 +
-> > >  arch/x86/kernel/verify_cpu.S                  |  8 +++++++
-> > >  arch/x86/lib/Makefile                         |  5 +++-
-> > >  .../drm/i915/display/intel_display_power.c    |  2 +-
-> > >  drivers/misc/sgi-gru/grumain.c                |  2 +-
-> > >  fs/btrfs/tree-checker.c                       |  4 ++--
-> > >  include/linux/bitops.h                        |  2 ++
-> > >  lib/Makefile                                  |  2 ++
-> > >  scripts/kconfig/cpuid.c                       |  7 ++++++
-> > >  scripts/march-native.sh                       |  2 ++
-> > >  11 files changed, 54 insertions(+), 5 deletions(-)
-> > 
-> > *WHY* ?
-> > 
-> > AFAICT this just adds lines and complexity and wins aboslutely nothing.
-> 
-> If CPU is know to have POPCNT, it doesn't make sense to go through RDI.
-> Additionally some CPUs (still?) have fake dependency on the destination,
-> so "popcnt rax, rdi" is suboptimal.
+On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
+>
+> Quoting Brendan Higgins (2019-07-18 17:08:34)
+> > On Thu, Jul 18, 2019 at 12:22:33PM -0700, Brendan Higgins wrote:
+> >
+> > I started poking around with your suggestion while we are waiting. A
+> > couple early observations:
+> >
+> > 1) It is actually easier to do than I previously thought and will probably
+> >    help with getting more of the planned TAP output stuff working.
+> >
+> >    That being said, this is still a pretty substantial undertaking and
+> >    will likely take *at least* a week to implement and properly review.
+> >    Assuming everything goes extremely well (no unexpected issues on my
+> >    end, very responsive reviewers, etc).
+> >
+> > 2) It *will* eliminate the need for kunit_stream.
+> >
+> > 3) ...but, it *will not* eliminate the need for string_stream.
+> >
+> > Based on my early observations, I do think it is worth doing, but I
+> > don't think it is worth trying to make it in this patchset (unless I
+> > have already missed the window, or it is going to be open for a while):
+>
+> The merge window is over. Typically code needs to be settled a few weeks
+> before it opens (i.e. around -rc4 or -rc5) for most maintainers to pick
+> up patches for the next merge window.
 
-More general argument is that if -march=native is accepted, compiler will
-generate new instructions which will throw #UD on CPUs which aren't
-capable, so it doesn't make sense to _not_ go deeper and use all the
-knowledge about current CPU.
+Yeah, it closed on Sunday, right?
+
+I thought we might be able to squeak in since it was *mostly* settled,
+and Shuah sent me an email two weeks ago which I interpreted to mean
+she was still willing to take it.
+
+In any case, it doesn't matter now.
+
+> > I do think it will make things much cleaner, but I don't think it will
+> > achieve your desired goal of getting rid of an unstructured
+> > {kunit|string}_stream style interface; it just adds a layer on top of it
+> > that makes it harder to misuse.
+>
+> Ok.
+>
+> >
+> > I attached a patch of what I have so far at the end of this email so you
+> > can see what I am talking about. And of course, if you agree with my
+> > assessment, so we can start working on it as a future patch.
+> >
+> > A couple things in regard to the patch I attached:
+> >
+> > 1) I wrote it pretty quickly so there are almost definitely mistakes.
+> >    You should consider it RFC. I did verify it compiles though.
+> >
+> > 2) Also, I did use kunit_stream in writing it: all occurences should be
+> >    pretty easy to replace with string_stream; nevertheless, the reason
+> >    for this is just to make it easier to play with the current APIs. I
+> >    wanted to have something working before I went through a big tedious
+> >    refactoring. So sorry if it causes any confusion.
+> >
+> > 3) I also based the patch on all the KUnit patches I have queued up
+> >    (includes things like mocking and such) since I want to see how this
+> >    serialization thing will work with mocks and matchers and things like
+> >    that.
+>
+> Great!
+>
+> >
+> > From 53d475d3d56afcf92b452c6d347dbedfa1a17d34 Mon Sep 17 00:00:00 2001
+> > From: Brendan Higgins <brendanhiggins@google.com>
+> > Date: Thu, 18 Jul 2019 16:08:52 -0700
+> > Subject: [PATCH v1] DO NOT MERGE: started playing around with the
+> >  serialization api
+> >
+> > ---
+> >  include/kunit/assert.h | 130 ++++++++++++++++++++++++++++++
+> >  include/kunit/mock.h   |   4 +
+> >  kunit/Makefile         |   3 +-
+> >  kunit/assert.c         | 179 +++++++++++++++++++++++++++++++++++++++++
+> >  kunit/mock.c           |   6 +-
+> >  5 files changed, 318 insertions(+), 4 deletions(-)
+> >  create mode 100644 include/kunit/assert.h
+> >  create mode 100644 kunit/assert.c
+> >
+> > diff --git a/include/kunit/assert.h b/include/kunit/assert.h
+> > new file mode 100644
+> > index 0000000000000..e054fdff4642f
+> > --- /dev/null
+> > +++ b/include/kunit/assert.h
+> > @@ -0,0 +1,130 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Assertion and expectation serialization API.
+> > + *
+> > + * Copyright (C) 2019, Google LLC.
+> > + * Author: Brendan Higgins <brendanhiggins@google.com>
+> > + */
+> > +
+> > +#ifndef _KUNIT_ASSERT_H
+> > +#define _KUNIT_ASSERT_H
+> > +
+> > +#include <kunit/test.h>
+> > +#include <kunit/mock.h>
+> > +
+> > +enum kunit_assert_type {
+> > +       KUNIT_ASSERTION,
+> > +       KUNIT_EXPECTATION,
+> > +};
+> > +
+> > +struct kunit_assert {
+> > +       enum kunit_assert_type type;
+> > +       const char *line;
+> > +       const char *file;
+> > +       struct va_format message;
+> > +       void (*format)(struct kunit_assert *assert,
+> > +                      struct kunit_stream *stream);
+>
+> Would passing in the test help too?
+
+Yeah, it would probably be good to put one in `struct kunit_assert`.
+
+> > +};
+> > +
+> > +void kunit_base_assert_format(struct kunit_assert *assert,
+> > +                             struct kunit_stream *stream);
+> > +
+> > +void kunit_assert_print_msg(struct kunit_assert *assert,
+> > +                           struct kunit_stream *stream);
+> > +
+> > +struct kunit_unary_assert {
+> > +       struct kunit_assert assert;
+> > +       const char *condition;
+> > +       bool expected_true;
+> > +};
+> > +
+> > +void kunit_unary_assert_format(struct kunit_assert *assert,
+> > +                              struct kunit_stream *stream);
+> > +
+> > +struct kunit_ptr_not_err_assert {
+> > +       struct kunit_assert assert;
+> > +       const char *text;
+> > +       void *value;
+> > +};
+> > +
+> > +void kunit_ptr_not_err_assert_format(struct kunit_assert *assert,
+> > +                                    struct kunit_stream *stream);
+> > +
+> > +struct kunit_binary_assert {
+> > +       struct kunit_assert assert;
+> > +       const char *operation;
+> > +       const char *left_text;
+> > +       long long left_value;
+> > +       const char *right_text;
+> > +       long long right_value;
+> > +};
+> > +
+> > +void kunit_binary_assert_format(struct kunit_assert *assert,
+> > +                               struct kunit_stream *stream);
+> > +
+> > +struct kunit_binary_ptr_assert {
+> > +       struct kunit_assert assert;
+> > +       const char *operation;
+> > +       const char *left_text;
+> > +       void *left_value;
+> > +       const char *right_text;
+> > +       void *right_value;
+> > +};
+> > +
+> > +void kunit_binary_ptr_assert_format(struct kunit_assert *assert,
+> > +                                   struct kunit_stream *stream);
+> > +
+> > +struct kunit_binary_str_assert {
+> > +       struct kunit_assert assert;
+> > +       const char *operation;
+> > +       const char *left_text;
+> > +       const char *left_value;
+> > +       const char *right_text;
+> > +       const char *right_value;
+> > +};
+> > +
+> > +void kunit_binary_str_assert_format(struct kunit_assert *assert,
+> > +                                   struct kunit_stream *stream);
+> > +
+> > +struct kunit_mock_assert {
+> > +       struct kunit_assert assert;
+> > +};
+> > +
+> > +struct kunit_mock_no_expectations {
+> > +       struct kunit_mock_assert assert;
+> > +};
+>
+> What's the purpose of making a wrapper struct with no other members?
+> Just to make a different struct for some sort of type checking? I guess
+> it's OK but I don't think it will be very useful in practice.
+
+Yeah, just for typing purposes. I don't mind integrating this into the
+current patchset and then deciding if we want it or not.
+
+> > +
+> > +struct kunit_mock_declaration {
+> > +       const char *function_name;
+> > +       const char **type_names;
+> > +       const void **params;
+> > +       int len;
+> > +};
+> > +
+> > +void kunit_mock_declaration_format(struct kunit_mock_declaration *declaration,
+> > +                                  struct kunit_stream *stream);
+> > +
+> > +struct kunit_matcher_result {
+> > +       struct kunit_assert assert;
+> > +};
+> > +
+> > +struct kunit_mock_failed_match {
+> > +       struct list_head node;
+> > +       const char *expectation_text;
+> > +       struct kunit_matcher_result *matcher_list;
+>
+> Minor nitpick: this code could use some const sprinkling.
+
+Will do.
+
+> > +       size_t matcher_list_len;
+> > +};
+> > +
+> > +void kunit_mock_failed_match_format(struct kunit_mock_failed_match *match,
+> > +                                   struct kunit_stream *stream);
+> > +
+> > +struct kunit_mock_no_match {
+> > +       struct kunit_mock_assert assert;
+> > +       struct kunit_mock_declaration declaration;
+> > +       struct list_head failed_match_list;
+> > +};
+> > +
+> > +void kunit_mock_no_match_format(struct kunit_assert *assert,
+> > +                               struct kunit_stream *stream);
+> > +
+> > +#endif /*  _KUNIT_ASSERT_H */
+> > diff --git a/kunit/assert.c b/kunit/assert.c
+> > new file mode 100644
+> > index 0000000000000..75bb6922a994e
+> > --- /dev/null
+> > +++ b/kunit/assert.c
+> > @@ -0,0 +1,179 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Assertion and expectation serialization API.
+> > + *
+> > + * Copyright (C) 2019, Google LLC.
+> > + * Author: Brendan Higgins <brendanhiggins@google.com>
+> > + */
+> > +#include <kunit/assert.h>
+> > +
+> > +void kunit_base_assert_format(struct kunit_assert *assert,
+> > +                             struct kunit_stream *stream)
+> > +{
+> > +       const char *expect_or_assert;
+> > +
+> > +       if (assert->type == KUNIT_EXPECTATION)
+> > +               expect_or_assert = "EXPECTATION";
+> > +       else
+> > +               expect_or_assert = "ASSERTION";
+>
+> Make this is a switch statement so we can have the compiler complain if
+> an enum is missing.
+
+Nice call! I didn't know the compiler warned about that. Will fix.
+
+> > +
+> > +       kunit_stream_add(stream, "%s FAILED at %s:%s\n",
+> > +                        expect_or_assert, assert->file, assert->line);
+> > +}
+> > +
+> > +void kunit_assert_print_msg(struct kunit_assert *assert,
+> > +                           struct kunit_stream *stream)
+> > +{
+> > +       if (assert->message.fmt)
+> > +               kunit_stream_add(stream, "\n%pV", &assert->message);
+> > +}
+> > +
+> [...]
+> > +
+> > +void kunit_mock_failed_match_format(struct kunit_mock_failed_match *match,
+> > +                                   struct kunit_stream *stream)
+> > +{
+> > +       struct kunit_matcher_result *result;
+> > +       size_t i;
+> > +
+> > +       kunit_stream_add(stream,
+> > +                        "Tried expectation: %s, but\n",
+> > +                        match->expectation_text);
+> > +       for (i = 0; i < match->matcher_list_len; i++) {
+> > +               result = &match->matcher_list[i];
+> > +               kunit_stream_add(stream, "\t");
+> > +               result->assert.format(&result->assert, stream);
+> > +               kunit_stream_add(stream, "\n");
+> > +       }
+>
+> What's the calling context of the assertions and expectations? I still
+> don't like the fact that string stream needs to allocate buffers and
+> throw them into a list somewhere because the calling context matters
+> there.
+
+The calling context is the same as before, which is anywhere.
+
+> I'd prefer we just wrote directly to the console/log via printk
+> instead. That way things are simple because we use the existing
+> buffering path of printk, but maybe there's some benefit to the string
+> stream that I don't see? Right now it looks like it builds a string and
+> then dumps it to printk so I'm sort of lost what the benefit is over
+> just writing directly with printk.
+
+It's just buffering it so the whole string gets printed uninterrupted.
+If we were to print out piecemeal to printk, couldn't we have another
+call to printk come in causing it to garble the KUnit message we are
+in the middle of printing?
+
+> Maybe it's this part that you wrote up above?
+>
+> > > Nevertheless, I think the debate over the usefulness of the
+> > > string_stream and kunit_stream are separate topics. Even if we made
+> > > kunit_stream more structured, I am pretty sure I would want to use
+> > > string_stream or some variation for constructing the message.
+>
+> Why do we need string_stream to construct the message? Can't we just
+> print it as we process it?
+
+See preceding comment.
