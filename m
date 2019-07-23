@@ -2,125 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 849D270EB1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 03:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0CDE71057
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 06:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729652AbfGWBbg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Jul 2019 21:31:36 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:22454 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728108AbfGWBbf (ORCPT
+        id S1727999AbfGWELk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Jul 2019 00:11:40 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:41241 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbfGWELk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Jul 2019 21:31:35 -0400
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x6N1VGIT023670;
-        Tue, 23 Jul 2019 10:31:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6N1VGIT023670
+        Tue, 23 Jul 2019 00:11:40 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id x6N4BSu3032209;
+        Tue, 23 Jul 2019 13:11:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6N4BSu3032209
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563845477;
-        bh=4FI5v7yChWDKy40TghmAxFQlb9RspR/YzR92MYe74dA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=firBOTyJ0pdoQGtFGnzZ6q4adxXd87IsePKVeEFn8ghWsWvxlrraAyE+U/2RTvo3F
-         D+HW8iJwj3RNY/UNdo88jhZ3HAvp9Y6Evsvr2fDBcqMSvcEf9kVq/aMAx3rIfMa1JT
-         grXHpOEFtx7LRjfEnNeP9cmaMux6A3Qdao8LAzt3oNuOxJJtNGKdlzqETe276gPEbA
-         AQcVdpU3wlhNdpZaEeOrgvPd+hOEFF+eKImq6kmDQpxxqN+EWIVTws9gRSRNEjDgR8
-         PBtR8RrxiLO9EQhbZp1XDR4KY83bWcSg0h4b+oOFXmS+SJWeSkN7FqKGbGVeWAJKrr
-         Duz71cJFbRrBA==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id h28so27713083vsl.12;
-        Mon, 22 Jul 2019 18:31:16 -0700 (PDT)
-X-Gm-Message-State: APjAAAWoSpgoZzRc6+KSGirlpg8/hhDmDsIAPOmO/nvMUCkl49pVxV6Q
-        DhGETZqAB7sC2H25KEC/T4rE1gLUzpvP24dCYD4=
-X-Google-Smtp-Source: APXvYqz7MjjaBBE2iAX4oDJ6Ko66XfysBBN8YWUa9IqFK09d14YsOVeWpMdByphk9B/+3vRqmd9GfoRG1icX7+vEmKY=
-X-Received: by 2002:a67:fc45:: with SMTP id p5mr45866193vsq.179.1563845475801;
- Mon, 22 Jul 2019 18:31:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
- <20190716170606.GA38406@archlinux-threadripper> <alpine.DEB.2.21.1907162059200.1767@nanos.tec.linutronix.de>
- <alpine.DEB.2.21.1907162135590.1767@nanos.tec.linutronix.de>
- <CAK7LNASBiaMX8ihnmhLGmYfHX=ZHZmVN91nxmFZe-OCaw6Px2w@mail.gmail.com>
- <alpine.DEB.2.21.1907170955250.1767@nanos.tec.linutronix.de> <CAHbf0-GyQzWcRg_BP2B5pVzEJoxSE_hX5xFypS--7Q5LSHxzWw@mail.gmail.com>
-In-Reply-To: <CAHbf0-GyQzWcRg_BP2B5pVzEJoxSE_hX5xFypS--7Q5LSHxzWw@mail.gmail.com>
+        s=dec2015msa; t=1563855089;
+        bh=3+u4FXDZ3UkH/UUQynLowqWR3N2MZywkaH4WgsUBsbI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=OW0O3Phg60HGiJcMcfKOl7Gb669EnyUE4xadbEYfTsTYVL080wgjIfhPej7u17Y+r
+         m7xDlptVLKSutk5A1pWppZ5zJ3vkhm8Ed6sk8wowPX8mO4Kx9lUXUM27dMLPrL6edT
+         1DkRwxPeKzNfwzw2iI8q4e7UEKh+amj7LJjzFu2tSmuByU4/k+VVKyX8HvTVUh8n7t
+         uhv4ujTE5K1AK4HL5Lojc//scllXxiBRcT14tG0u8qMxXPhRq7nta/noPjmPXb1o5y
+         ZWKvSwzR2OoAIQIYMVHokmN20CUdfM/wMDmNwZ98uAu2kQgdvTnEkmKU9ijwcvYhjJ
+         6PETXZakbRjZg==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 23 Jul 2019 10:30:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
-Message-ID: <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Fail if gold linker is detected
-To:     Mike Lothian <mike@fireburn.co.uk>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        X86 ML <x86@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>,
-        linux-arch <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove unused objectify macro
+Date:   Tue, 23 Jul 2019 13:11:26 +0900
+Message-Id: <20190723041126.19897-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 20, 2019 at 6:12 PM Mike Lothian <mike@fireburn.co.uk> wrote:
->
-> On Wed, 17 Jul 2019 at 08:57, Thomas Gleixner <tglx@linutronix.de> wrote:
-> >
-> > On Wed, 17 Jul 2019, Masahiro Yamada wrote:
-> > > On Wed, Jul 17, 2019 at 4:47 AM Thomas Gleixner <tglx@linutronix.de> wrote:
-> > > > So instead of dealing with attempts to duct tape gold support without
-> > > > understanding the root cause and without support from the gold folks, fail
-> > > > the build when gold is detected.
-> > > >
-> > >
-> > > The code looks OK in the build system point of view.
-> > >
-> > > Please let me confirm this, just in case:
-> > > For now, we give up all architectures, not only x86, right?
-> >
-> > Well, that's the logical consequence of a statement which says: don't use
-> > gold for the kernel.
-> >
-> > > I have not not heard much from other arch maintainers.
-> >
-> > Cc'ed linux-arch for that matter.
-> >
-> > Thanks,
-> >
-> >         tglx
->
-> Hi
->
-> I've done a bit more digging, I had a second machine that was building
-> Linus's tree just fine with ld.gold
->
-> I tried forcing ld.bfd on the problem machine and got this:
->
-> ld.bfd: arch/x86/boot/compressed/head_64.o: warning: relocation in
-> read-only section `.head.text'
-> ld.bfd: warning: creating a DT_TEXTREL in object
->
-> I had a look at the differences in the kernel configs and noticed this:
->
-> CONFIG_RANDOMIZE_BASE=y
-> CONFIG_X86_NEED_RELOCS=y
-> CONFIG_PHYSICAL_ALIGN=0x1000000
-> CONFIG_DYNAMIC_MEMORY_LAYOUT=y
-> CONFIG_RANDOMIZE_MEMORY=y
-> CONFIG_RANDOMIZE_MEMORY_PHYSICAL_PADDING=0x0
->
-> Unsetting CONFIG_RANDOMIZE_BASE=y gets things working for me with ld.gold again
+Commit 415008af3219 ("docs-rst: convert lsm from DocBook to ReST")
+removed the last users of this macro.
 
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Right.
-I was able to build with ld.gold
+ scripts/Kbuild.include | 3 ---
+ 1 file changed, 3 deletions(-)
 
-So, we can use gold, depending on the kernel configuration.
-
-
-> In light of this - can we drop this patch?
-
-
-
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 12666fc922ea..10ba926ae292 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -185,9 +185,6 @@ echo-cmd = $(if $($(quiet)cmd_$(1)),\
+ # printing commands
+ cmd = @set -e; $(echo-cmd) $(cmd_$(1))
+ 
+-# Add $(obj)/ for paths that are not absolute
+-objectify = $(foreach o,$(1),$(if $(filter /%,$(o)),$(o),$(obj)/$(o)))
+-
+ ###
+ # if_changed      - execute command if any prerequisite is newer than
+ #                   target, or command line has changed
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
