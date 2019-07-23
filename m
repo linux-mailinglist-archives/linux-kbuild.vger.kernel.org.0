@@ -2,200 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A42DD70E27
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 02:32:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 849D270EB1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 03:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728918AbfGWAcd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Jul 2019 20:32:33 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38007 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728943AbfGWAcc (ORCPT
+        id S1729652AbfGWBbg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Jul 2019 21:31:36 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:22454 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728108AbfGWBbf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Jul 2019 20:32:32 -0400
-Received: by mail-pf1-f194.google.com with SMTP id y15so18177714pfn.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 22 Jul 2019 17:32:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vuvO2vdByXr9tZ4gIUtMWHJb47SWaOs3dPS9JirOd8A=;
-        b=Zl9GjnPN0xA37eJPDX7MMY5U59qIMhaH0oHaFDaQC5kc56db6tSm1k92X8vD9olKQv
-         OxaZTUgiRL7QcEtCdRCTPLyfWDQhRyOXO/nSFoU6NA2mvCQcdvEZ0WClLYkrEms7tZo/
-         izrTbbctUhAN1VB9J0Q7y+pRVPXmJcR9HPRnbtizx6ihsgsakAq/rgha1JCGMsgY2RiH
-         PJ1yTUdO8H1C8vedwH16edJ6CisD7/Lc2QkWysnWnCsUClX9aMwTBEN+KsRdmKr24KRk
-         pqLlahy+9/ouBHzutT221O182aQu5jXOaH8IgOSQxKXVRStd+1V11liNjuOCoEoDcsOL
-         bt9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vuvO2vdByXr9tZ4gIUtMWHJb47SWaOs3dPS9JirOd8A=;
-        b=UgzLjC+7IXuLEoHUVbMKEeL2X3mCSUgd2f/f300yyc6vCDji8emvuOJLw0pbyXvs/B
-         nmIU7+SAszfoEg1D3zMqycNp9M3ylVGrnbo0pk9OJL53qiJUom19kJq9DgbswSaMcL8w
-         tn2NhysqizxOmZc9893+eKrti5plyo3tcZIfiPEzy1nrad7RMWrQflXqbCwFuo/Aengj
-         ld99Us/bdJtFyDVCCY9z2tF51fd8/N3toIkpnvgYQwnUJoWAtFYBmYmLaYzLqca6omEA
-         0WedszIj63s/nevmpi7lsgfH//BDiFAWh721JqpQ13kvE8mIz2Zw1hkBsYT0bcxhtM9h
-         mW2A==
-X-Gm-Message-State: APjAAAXNKcpW49VD33EZ+w2OMRLnDov6ZaVxNHMHMlCGa0GHpXAJkwpz
-        bGrqWMchVQwFMEyH92ybn8zyxtMZyptggWAdx9tCUQ==
-X-Google-Smtp-Source: APXvYqxh+VUvsGh5iLsrxoHbLc3jsob++DVglc3Oa483B1QKCacTy9ml6NDURiDh9l6nBgWwR+AIwjhgcbpU33mL7Pc=
-X-Received: by 2002:aa7:9191:: with SMTP id x17mr2893489pfa.23.1563841951086;
- Mon, 22 Jul 2019 17:32:31 -0700 (PDT)
+        Mon, 22 Jul 2019 21:31:35 -0400
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x6N1VGIT023670;
+        Tue, 23 Jul 2019 10:31:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6N1VGIT023670
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1563845477;
+        bh=4FI5v7yChWDKy40TghmAxFQlb9RspR/YzR92MYe74dA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=firBOTyJ0pdoQGtFGnzZ6q4adxXd87IsePKVeEFn8ghWsWvxlrraAyE+U/2RTvo3F
+         D+HW8iJwj3RNY/UNdo88jhZ3HAvp9Y6Evsvr2fDBcqMSvcEf9kVq/aMAx3rIfMa1JT
+         grXHpOEFtx7LRjfEnNeP9cmaMux6A3Qdao8LAzt3oNuOxJJtNGKdlzqETe276gPEbA
+         AQcVdpU3wlhNdpZaEeOrgvPd+hOEFF+eKImq6kmDQpxxqN+EWIVTws9gRSRNEjDgR8
+         PBtR8RrxiLO9EQhbZp1XDR4KY83bWcSg0h4b+oOFXmS+SJWeSkN7FqKGbGVeWAJKrr
+         Duz71cJFbRrBA==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id h28so27713083vsl.12;
+        Mon, 22 Jul 2019 18:31:16 -0700 (PDT)
+X-Gm-Message-State: APjAAAWoSpgoZzRc6+KSGirlpg8/hhDmDsIAPOmO/nvMUCkl49pVxV6Q
+        DhGETZqAB7sC2H25KEC/T4rE1gLUzpvP24dCYD4=
+X-Google-Smtp-Source: APXvYqz7MjjaBBE2iAX4oDJ6Ko66XfysBBN8YWUa9IqFK09d14YsOVeWpMdByphk9B/+3vRqmd9GfoRG1icX7+vEmKY=
+X-Received: by 2002:a67:fc45:: with SMTP id p5mr45866193vsq.179.1563845475801;
+ Mon, 22 Jul 2019 18:31:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712081744.87097-1-brendanhiggins@google.com>
- <CAFd5g47ikJmA0uGoavAFsh+hQvDmgsOi26tyii0612R=rt7iiw@mail.gmail.com>
- <CAFd5g44_axVHNMBzxSURQB_-R+Rif7cZcg7PyZ_SS+5hcy5jZA@mail.gmail.com>
- <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
- <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
- <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
- <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com> <20190722235411.06C1320840@mail.kernel.org>
-In-Reply-To: <20190722235411.06C1320840@mail.kernel.org>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Mon, 22 Jul 2019 17:32:19 -0700
-Message-ID: <CAFd5g46h9XSRfA1H4kZR7u0Eh_F-fgPjoLPzqzLgFTXxeb105g@mail.gmail.com>
-Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Kees Cook <keescook@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh@kernel.org>, shuah <shuah@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        devicetree <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        kunit-dev@googlegroups.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-um@lists.infradead.org,
-        Sasha Levin <Alexander.Levin@microsoft.com>,
-        "Bird, Timothy" <Tim.Bird@sony.com>,
-        Amir Goldstein <amir73il@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Julia Lawall <julia.lawall@lip6.fr>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Knut Omang <knut.omang@oracle.com>,
-        Logan Gunthorpe <logang@deltatee.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Petr Mladek <pmladek@suse.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Weinberger <richard@nod.at>,
-        David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
+ <20190716170606.GA38406@archlinux-threadripper> <alpine.DEB.2.21.1907162059200.1767@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1907162135590.1767@nanos.tec.linutronix.de>
+ <CAK7LNASBiaMX8ihnmhLGmYfHX=ZHZmVN91nxmFZe-OCaw6Px2w@mail.gmail.com>
+ <alpine.DEB.2.21.1907170955250.1767@nanos.tec.linutronix.de> <CAHbf0-GyQzWcRg_BP2B5pVzEJoxSE_hX5xFypS--7Q5LSHxzWw@mail.gmail.com>
+In-Reply-To: <CAHbf0-GyQzWcRg_BP2B5pVzEJoxSE_hX5xFypS--7Q5LSHxzWw@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 23 Jul 2019 10:30:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
+Message-ID: <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Fail if gold linker is detected
+To:     Mike Lothian <mike@fireburn.co.uk>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        X86 ML <x86@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 22, 2019 at 4:54 PM Stephen Boyd <sboyd@kernel.org> wrote:
+On Sat, Jul 20, 2019 at 6:12 PM Mike Lothian <mike@fireburn.co.uk> wrote:
 >
-> Quoting Brendan Higgins (2019-07-22 15:30:49)
-> > On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > >
-> > >
-> > > What's the calling context of the assertions and expectations? I still
-> > > don't like the fact that string stream needs to allocate buffers and
-> > > throw them into a list somewhere because the calling context matters
-> > > there.
+> On Wed, 17 Jul 2019 at 08:57, Thomas Gleixner <tglx@linutronix.de> wrote:
 > >
-> > The calling context is the same as before, which is anywhere.
->
-> Ok. That's concerning then.
-
-Yeah. Luis suggested just not supporting the IRQ context until later.
-See my later comment.
-
-> > > I'd prefer we just wrote directly to the console/log via printk
-> > > instead. That way things are simple because we use the existing
-> > > buffering path of printk, but maybe there's some benefit to the string
-> > > stream that I don't see? Right now it looks like it builds a string and
-> > > then dumps it to printk so I'm sort of lost what the benefit is over
-> > > just writing directly with printk.
+> > On Wed, 17 Jul 2019, Masahiro Yamada wrote:
+> > > On Wed, Jul 17, 2019 at 4:47 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > > > So instead of dealing with attempts to duct tape gold support without
+> > > > understanding the root cause and without support from the gold folks, fail
+> > > > the build when gold is detected.
+> > > >
+> > >
+> > > The code looks OK in the build system point of view.
+> > >
+> > > Please let me confirm this, just in case:
+> > > For now, we give up all architectures, not only x86, right?
 > >
-> > It's just buffering it so the whole string gets printed uninterrupted.
-> > If we were to print out piecemeal to printk, couldn't we have another
-> > call to printk come in causing it to garble the KUnit message we are
-> > in the middle of printing?
+> > Well, that's the logical consequence of a statement which says: don't use
+> > gold for the kernel.
+> >
+> > > I have not not heard much from other arch maintainers.
+> >
+> > Cc'ed linux-arch for that matter.
+> >
+> > Thanks,
+> >
+> >         tglx
 >
-> Yes, printing piecemeal by calling printk many times could lead to
-> interleaving of messages if something else comes in such as an interrupt
-> printing something. Printk has some support to hold "records" but I'm
-> not sure how that would work here because KERN_CONT talks about only
-> being used early on in boot code. I haven't looked at printk in detail
-> though so maybe I'm all wrong and KERN_CONT just works?
+> Hi
+>
+> I've done a bit more digging, I had a second machine that was building
+> Linus's tree just fine with ld.gold
+>
+> I tried forcing ld.bfd on the problem machine and got this:
+>
+> ld.bfd: arch/x86/boot/compressed/head_64.o: warning: relocation in
+> read-only section `.head.text'
+> ld.bfd: warning: creating a DT_TEXTREL in object
+>
+> I had a look at the differences in the kernel configs and noticed this:
+>
+> CONFIG_RANDOMIZE_BASE=y
+> CONFIG_X86_NEED_RELOCS=y
+> CONFIG_PHYSICAL_ALIGN=0x1000000
+> CONFIG_DYNAMIC_MEMORY_LAYOUT=y
+> CONFIG_RANDOMIZE_MEMORY=y
+> CONFIG_RANDOMIZE_MEMORY_PHYSICAL_PADDING=0x0
+>
+> Unsetting CONFIG_RANDOMIZE_BASE=y gets things working for me with ld.gold again
 
-It says KERN_CONT is not SMP safe, and it isn't supposed to contain
-newlines, so it doesn't sound like it does any buffering for you. I
-looked at it a while ago and those comments agreed with my
-understanding of the code, but I could be wrong.
 
-> Can printk be called once with whatever is in the struct?
+Right.
+I was able to build with ld.gold
 
-Unfortunately, no. That is part of what I was trying to illustrate
-with this patch. Most of the messages are deterministic, but
-hardcoding all the possible message types would lead to a massive
-number of hard coded strings. However, even this would break down for
-the mocking formatters. All the different ways a function can be
-called are just too complex to encode into a finite set of hard coded
-fmt strings.
+So, we can use gold, depending on the kernel configuration.
 
-> Otherwise if
-> this is about making printk into a structured log then maybe printk
-> isn't the proper solution anyway. Maybe a dev interface should be used
-> instead that can handle starting and stopping tests (via ioctl) in
-> addition to reading test results, records, etc. with read() and a
-> clearing of the records. Then the seqfile API works naturally. All of
 
-Ehhh...I wouldn't mind providing such an interface, but I would really
-like to be able to provide the results without having to depend on a
-userland doing something to get test results. That has always been a
-pretty important goal for me.
+> In light of this - can we drop this patch?
 
-> this is a bit premature, but it looks like you're going down the path of
-> making something akin to ftrace that stores binary formatted
-> assertion/expectation records in a lockless ring buffer that then
-> formats those records when the user asks for them.
 
-Like you said, I think it is a bit premature to go that far.
 
-In anycase, I don't see a way to get rid of string_stream, without
-significantly sacrificing usability.
-
-> I can imagine someone wanting to write unit tests that check conditions
-> from a simulated hardirq context via irq works (a driver mock
-> framework?), so this doesn't seem far off.
-
-Yep, I actually presented the first pieces of that in the RFC v1 that
-I linked to you earlier in this discussion. I have a more fleshed out
-example here:
-
-https://kunit.googlesource.com/linux/+/e10484ad2f9fc7926412ec84739fe105981b4771/drivers/i2c/busses/i2c-aspeed-test.c
-
-I actually already have some people at Google playing around with it.
-So yeah, not far off at all! However, in these cases we are not
-actually running in the IRQ context (despite the fact that we are
-testing IRQ code) because we provide a fake IRQ chip, or some other
-fake mechanism that triggers the IRQ. Still, I could see someone
-wanting to do it in a non-fake-IRQ context.
-
-Luis' suggestion was just to hold off on the IRQ safe stuff at the
-outset, since that is going to require a lot more effort to review. I
-know that's kind of the future coding argument again, but maybe the
-answer will be to just restrict what features an IRQ user has access
-to (maybe just really simple expectations, for example). I mean, we
-will probably have to restrict what they are allowed to use anyway.
-
-Luis, do you have any ideas?
-
-Cheers
+-- 
+Best Regards
+Masahiro Yamada
