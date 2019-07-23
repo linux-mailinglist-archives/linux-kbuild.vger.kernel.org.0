@@ -2,68 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0CDE71057
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 06:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7161F71205
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jul 2019 08:41:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727999AbfGWELk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Jul 2019 00:11:40 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:41241 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725865AbfGWELk (ORCPT
+        id S1730555AbfGWGle (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Jul 2019 02:41:34 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:39301 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727845AbfGWGld (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Jul 2019 00:11:40 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x6N4BSu3032209;
-        Tue, 23 Jul 2019 13:11:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x6N4BSu3032209
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1563855089;
-        bh=3+u4FXDZ3UkH/UUQynLowqWR3N2MZywkaH4WgsUBsbI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=OW0O3Phg60HGiJcMcfKOl7Gb669EnyUE4xadbEYfTsTYVL080wgjIfhPej7u17Y+r
-         m7xDlptVLKSutk5A1pWppZ5zJ3vkhm8Ed6sk8wowPX8mO4Kx9lUXUM27dMLPrL6edT
-         1DkRwxPeKzNfwzw2iI8q4e7UEKh+amj7LJjzFu2tSmuByU4/k+VVKyX8HvTVUh8n7t
-         uhv4ujTE5K1AK4HL5Lojc//scllXxiBRcT14tG0u8qMxXPhRq7nta/noPjmPXb1o5y
-         ZWKvSwzR2OoAIQIYMVHokmN20CUdfM/wMDmNwZ98uAu2kQgdvTnEkmKU9ijwcvYhjJ
-         6PETXZakbRjZg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: remove unused objectify macro
-Date:   Tue, 23 Jul 2019 13:11:26 +0900
-Message-Id: <20190723041126.19897-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 23 Jul 2019 02:41:33 -0400
+Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1hpoUH-0005X3-Oa; Tue, 23 Jul 2019 08:41:25 +0200
+Date:   Tue, 23 Jul 2019 08:41:24 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+cc:     Mike Lothian <mike@fireburn.co.uk>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        X86 ML <x86@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        linux-arch <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH v2] kbuild: Fail if gold linker is detected
+In-Reply-To: <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.1907230837400.1659@nanos.tec.linutronix.de>
+References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de> <20190716170606.GA38406@archlinux-threadripper> <alpine.DEB.2.21.1907162059200.1767@nanos.tec.linutronix.de> <alpine.DEB.2.21.1907162135590.1767@nanos.tec.linutronix.de>
+ <CAK7LNASBiaMX8ihnmhLGmYfHX=ZHZmVN91nxmFZe-OCaw6Px2w@mail.gmail.com> <alpine.DEB.2.21.1907170955250.1767@nanos.tec.linutronix.de> <CAHbf0-GyQzWcRg_BP2B5pVzEJoxSE_hX5xFypS--7Q5LSHxzWw@mail.gmail.com>
+ <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 415008af3219 ("docs-rst: convert lsm from DocBook to ReST")
-removed the last users of this macro.
+On Tue, 23 Jul 2019, Masahiro Yamada wrote:
+> Right.
+> I was able to build with ld.gold
+> 
+> So, we can use gold, depending on the kernel configuration.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+That's exactly the problem. It breaks with random kernel configurations
+which is not acceptable except for people who know what they are doing.
 
- scripts/Kbuild.include | 3 ---
- 1 file changed, 3 deletions(-)
+I'm tired of dealing with half baken fixes and 'regression' reports. Either
+there is an effort to fix the issues with gold like the clang people fix
+their issues or it needs to be disabled. We have a clear statement that
+gold developers have other priorities.
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 12666fc922ea..10ba926ae292 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -185,9 +185,6 @@ echo-cmd = $(if $($(quiet)cmd_$(1)),\
- # printing commands
- cmd = @set -e; $(echo-cmd) $(cmd_$(1))
- 
--# Add $(obj)/ for paths that are not absolute
--objectify = $(foreach o,$(1),$(if $(filter /%,$(o)),$(o),$(obj)/$(o)))
--
- ###
- # if_changed      - execute command if any prerequisite is newer than
- #                   target, or command line has changed
--- 
-2.17.1
+Thanks,
 
+	tglx
