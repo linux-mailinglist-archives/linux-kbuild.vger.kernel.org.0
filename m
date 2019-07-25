@@ -2,82 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 686377526A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 17:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F5B9752C6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 17:36:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388950AbfGYPTT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jul 2019 11:19:19 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:57000 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388736AbfGYPTT (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jul 2019 11:19:19 -0400
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x6PFJ2Cm028409;
-        Fri, 26 Jul 2019 00:19:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x6PFJ2Cm028409
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564067943;
-        bh=ybYKBy2jy2mNaj9dapjCxjrjOczwrfBem/VG0oV9nbc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RPWbux+yjMepS0eHBsNLg6KHVJNe8nyxRgAyeUBrPLRd3lkQ70KNqeCAl4/SFU1rA
-         KqBCIJnmWTt2dzLfUOdXeqg+NBM9I3lI8V+DKpydh+IeSPY5DNQ5WiA4bUBUSLIEkt
-         CwCTwUmJ/5Nte6KSXD0BHkytFeq93XGtPvEC8kcmddSm6NmhCaqhVNgH28OM66ukCr
-         lLHl4P5+M38HUeaBBTMOTcOcN9ExEtQDRXnM8pW4pA5bnQZzg00ryltINj4ovvWtKJ
-         oVvWb/xneF1qbgFz9QMY5BMTL9S8MZrPnS+NV0+3zfI6zHcHYFLOddfge1s6iJs6oe
-         p7abfWuOYSYfA==
-X-Nifty-SrcIP: [209.85.222.49]
-Received: by mail-ua1-f49.google.com with SMTP id j8so19975307uan.6;
-        Thu, 25 Jul 2019 08:19:02 -0700 (PDT)
-X-Gm-Message-State: APjAAAWG2hHadUBZSQoluo44Dern+wLF9J+iIOtiPh5fXNhrhPOBRKch
-        fia/qU5R4gKWuy7KXLSaniPkmUGLIChPUQFHcr0=
-X-Google-Smtp-Source: APXvYqzREwsVdqY9MpRLTcsyv3GQ7mTlG0gkpVTsr5J+UESJVcs/+a1yYujSjrS2p7W2Tw/dNRFWb+R1W2ZTVW6lnTQ=
-X-Received: by 2002:ab0:5ea6:: with SMTP id y38mr56716853uag.40.1564067941791;
- Thu, 25 Jul 2019 08:19:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190717061800.10018-1-yamada.masahiro@socionext.com>
- <20190717061800.10018-8-yamada.masahiro@socionext.com> <230d2ca1-19cd-b60e-1b1b-6d7413eea9e2@siemens.com>
-In-Reply-To: <230d2ca1-19cd-b60e-1b1b-6d7413eea9e2@siemens.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 26 Jul 2019 00:18:12 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARu--p-tiJA2RGM5_KSQPSeo6-pkp-4GRd2AwM_1dtD7Q@mail.gmail.com>
-Message-ID: <CAK7LNARu--p-tiJA2RGM5_KSQPSeo6-pkp-4GRd2AwM_1dtD7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 07/12] kbuild: modpost: read modules.order instead of $(MODVERDIR)/*.mod
-To:     Jan Kiszka <jan.kiszka@siemens.com>
+        id S1726430AbfGYPgK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jul 2019 11:36:10 -0400
+Received: from gecko.sbs.de ([194.138.37.40]:33261 "EHLO gecko.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725842AbfGYPgK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 25 Jul 2019 11:36:10 -0400
+X-Greylist: delayed 539 seconds by postgrey-1.27 at vger.kernel.org; Thu, 25 Jul 2019 11:36:09 EDT
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+        by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id x6PFR12c018059
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 25 Jul 2019 17:27:01 +0200
+Received: from [139.23.76.89] ([139.23.76.89])
+        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x6PFR1oM018756;
+        Thu, 25 Jul 2019 17:27:01 +0200
+Subject: Re: [PATCH v3 07/12] kbuild: modpost: read modules.order instead of
+ $(MODVERDIR)/*.mod
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Joe Lawrence <joe.lawrence@redhat.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20190717061800.10018-1-yamada.masahiro@socionext.com>
+ <20190717061800.10018-8-yamada.masahiro@socionext.com>
+ <230d2ca1-19cd-b60e-1b1b-6d7413eea9e2@siemens.com>
+ <CAK7LNARu--p-tiJA2RGM5_KSQPSeo6-pkp-4GRd2AwM_1dtD7Q@mail.gmail.com>
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <0ee802e1-5563-3615-d08f-c936d4e96ebc@siemens.com>
+Date:   Thu, 25 Jul 2019 17:27:00 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+ Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+MIME-Version: 1.0
+In-Reply-To: <CAK7LNARu--p-tiJA2RGM5_KSQPSeo6-pkp-4GRd2AwM_1dtD7Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Jan,
+On 25.07.19 17:18, Masahiro Yamada wrote:
+> Hi Jan,
+> 
+> On Thu, Jul 25, 2019 at 5:39 PM Jan Kiszka <jan.kiszka@siemens.com> wrote:
+>>>
+>>
+>> This affects also external modules builds: I have patterns here that do
+>>
+>> [Makefile]
+>> subdir-y := some-module
+>>
+>> [some-module/Makefile]
+>> obj-m := some-module.o
+>>
+>> and since this patch, the final some-module.ko is no longer built. Am I missing
+>> something in the kbuild makefiles, or is this a regression?
+> 
+> Thanks for the report.
+> Interesting. I have never imagined that Makefiles were written like that.
+> 
+> I just wrote a fix-up, but I have not determined to apply it.
+> https://patchwork.kernel.org/patch/11059033/
+> 
+> It is easy to fixup your Makefile, though.
 
-On Thu, Jul 25, 2019 at 5:39 PM Jan Kiszka <jan.kiszka@siemens.com> wrote:
-> >
->
-> This affects also external modules builds: I have patterns here that do
->
-> [Makefile]
-> subdir-y := some-module
->
-> [some-module/Makefile]
-> obj-m := some-module.o
->
-> and since this patch, the final some-module.ko is no longer built. Am I missing
-> something in the kbuild makefiles, or is this a regression?
+Thanks for addressing this quickly! I'm happy to adjust our code [1]. Is the
+suggested pattern usable with recent stable kernels as well, say down to 4.4 at
+least?
 
-Thanks for the report.
-Interesting. I have never imagined that Makefiles were written like that.
+Jan
 
-I just wrote a fix-up, but I have not determined to apply it.
-https://patchwork.kernel.org/patch/11059033/
+[1] https://github.com/siemens/jailhouse/blob/master/Kbuild#L54
 
-It is easy to fixup your Makefile, though.
-
---
-Best Regards
-Masahiro Yamada
+-- 
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
