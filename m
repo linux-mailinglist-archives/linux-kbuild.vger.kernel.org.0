@@ -2,117 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C754C7544B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 18:41:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54F6A754A1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 18:52:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388276AbfGYQlc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jul 2019 12:41:32 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:44703 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388799AbfGYQlc (ORCPT
+        id S2387552AbfGYQwJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jul 2019 12:52:09 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:33905 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729083AbfGYQwJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jul 2019 12:41:32 -0400
-Received: by mail-io1-f68.google.com with SMTP id s7so98493091iob.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2019 09:41:32 -0700 (PDT)
+        Thu, 25 Jul 2019 12:52:09 -0400
+Received: by mail-wm1-f65.google.com with SMTP id w9so36178260wmd.1;
+        Thu, 25 Jul 2019 09:52:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0jYRQRolIOxef42RRXDE4CTbs3UanGuMByQk3s/piz4=;
-        b=VDI0sPuHjqypYIl5HpM6h1kYUk4Y2RJh/dbG/X72EJCzxpHFYTRdSq2JDQ1ZmzMCES
-         k0DR4YyzNuL0LyG6w4UoWJpwI0UF9J3JBXondYEONoQVCATpfrL3LE3/bjUApHFzN2aJ
-         S8j+5OojYRrZvNr+sOQLnsh+rlj//v+jcRWNo=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=sWSygQdm+2XmycE+O6VucDWGigtecSiZnncaGKMjkHM=;
+        b=h0PmMI87pjPD6bIKYHl7XZq04v3y53ThQBkNPVZS32qSUr5Y533PVjoAooDS2AcKja
+         2J/G8auAeuajC+PGSnxj7b8JWGuPTWV9naLPfKNA4Pn2uUO5Di3v0sisILZhwnFlifsY
+         Lfbt9RDXVxOb8KjCq7QpGFla0w15030htNX5DCxU3U8RGLq1Dk5Hhp2iHSMy+WK5qzqJ
+         IPx5pExCWNJ0x7hYuEcbGjRJ76jirx9Gnin3ltAJTEV6Wb8Rf3NAEEkophry1Kyh5Lv5
+         VUtZgsY2KVrz9Z6qn6FbBTOypabZlRXHtTU1r7OUfD1R/QuekWwOAdMkQITLYviU1ksj
+         Z9mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0jYRQRolIOxef42RRXDE4CTbs3UanGuMByQk3s/piz4=;
-        b=eY9VIOxeM9BDCwyFxQ2ZCScfRXWPb0xgQVnNVs4XilaVtfzKpEb1DrQWoJ4J0rBqn7
-         1pJCdcaIbZ8X/Sv9MLkWYwLyiFdmjQIrCzauVfL6E0snEqqDD5ZPJBtqcRYca5TTR16a
-         WCuxSid9xM6EDjE/ipKy3MHFe52bCpAMH55/VCyPcwWHn8hMKrao3q6x2mO+m90XbnF/
-         e/Smo5t4R8Ycz75eetk3nQPaEHtwFV++S/CeWBHobMwybhQ0Tnc1o6kSRwf5M/nnJg+V
-         e3EdZb0mj4GaFQ8d9QrFovzxXpahf1HYl7mZFSjUtmJZoeLG2R4pUp9G8k/iQ4qY9G6L
-         5bog==
-X-Gm-Message-State: APjAAAXvs26gnDPejApnfEmbiGIs13X5jIpC4wTfzZSxe4I0VCeMBtJs
-        P/PuAPfEl1nqEGozt38LfJj6vCffjwo=
-X-Google-Smtp-Source: APXvYqy7siDnuNcXdm5hFGBrVVG86ytp2p13IWS1luEPoSxGS4iXl7E73tWF9Uzg4smfGLz8HwS1fw==
-X-Received: by 2002:a5d:9749:: with SMTP id c9mr17898839ioo.258.1564072891480;
-        Thu, 25 Jul 2019 09:41:31 -0700 (PDT)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com. [209.85.166.54])
-        by smtp.gmail.com with ESMTPSA id n22sm82734962iob.37.2019.07.25.09.41.30
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Jul 2019 09:41:30 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id q22so98580107iog.4
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jul 2019 09:41:30 -0700 (PDT)
-X-Received: by 2002:a5d:885a:: with SMTP id t26mr29560419ios.218.1564072889706;
- Thu, 25 Jul 2019 09:41:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190725154730.80169-1-swboyd@chromium.org>
-In-Reply-To: <20190725154730.80169-1-swboyd@chromium.org>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 25 Jul 2019 09:41:17 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UZQEqNyJ_3Corx0iro-OB5E==d8qZCxgrMvvKon4yAxw@mail.gmail.com>
-Message-ID: <CAD=FV=UZQEqNyJ_3Corx0iro-OB5E==d8qZCxgrMvvKon4yAxw@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Check for unknown options with cc-option usage
- in Kconfig and clang
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=sWSygQdm+2XmycE+O6VucDWGigtecSiZnncaGKMjkHM=;
+        b=sRfZyF2A71bwTxN9LIDz/AIRMLupc2/kHaq1XVM46tXmqkgR3wEtq6/2OTOQpIbr4j
+         0W6FMM1Gw3aeK9Bwl7Goze/k7dZcTgrX0NgYQkqx/plIz5KavfBJtymqOYhZaPTNxxz4
+         WR2OqczJIYYVolAQ6HLA/xr35W3dtt2INvAK8ALcFXozhg5B6CWcvOQ7zLla5sDeEN3D
+         NL3bP81mvne+zNFNNVkS7PM2ZrTowNo+WLBosxjG/GLGUArFZJJYzsN2l8f5H2jV5/06
+         gRhl6s3sLN4f6Yxak/oCuE6y5FHt6Lj3fKQPSm0KefpkCAPnUOWx+LqeGyhZN7VNQUi6
+         vKvA==
+X-Gm-Message-State: APjAAAUMlWqbq+Z4FsWvzaVStyYFhVWSF7STKCvQpRkIqsl7mhPTkGl0
+        MQgOTJZDTVI5e8rTHFtAz+4=
+X-Google-Smtp-Source: APXvYqxaycTYba1gOrWwz+loGROxW7Jq9KJDF1gL3kfJR64BIuHPgoCqnk0ZMxbkASgP703V1bB2yQ==
+X-Received: by 2002:a1c:a686:: with SMTP id p128mr17812705wme.130.1564073526252;
+        Thu, 25 Jul 2019 09:52:06 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id g131sm34894700wmf.37.2019.07.25.09.52.05
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 25 Jul 2019 09:52:05 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 09:52:04 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
 To:     Stephen Boyd <swboyd@chromium.org>
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         clang-built-linux@googlegroups.com,
         Peter Smith <peter.smith@linaro.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Douglas Anderson <dianders@chromium.org>
+Subject: Re: [PATCH] kbuild: Check for unknown options with cc-option and
+ clang in Kbuild
+Message-ID: <20190725165204.GA80773@archlinux-threadripper>
+References: <20190724235030.131144-1-swboyd@chromium.org>
+ <20190725051857.GA53904@archlinux-threadripper>
+ <5d39cda7.1c69fb81.6e01c.0e70@mx.google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5d39cda7.1c69fb81.6e01c.0e70@mx.google.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Thu, Jul 25, 2019 at 08:41:25AM -0700, Stephen Boyd wrote:
+> Quoting Nathan Chancellor (2019-07-24 22:18:57)
+> > Hi Stephen,
+> > 
+> > Was the second Kbuild in the subject line supposed to be Kconfig?
+> 
+> Sure. I'll change it to Kconfig.
+> 
+> > 
+> > On Wed, Jul 24, 2019 at 04:50:30PM -0700, Stephen Boyd wrote:
+> > > If the particular version of clang a user has doesn't enable
+> > > -Werror=unknown-warning-option by default, even though it is the
+> > > default[1], then make sure to pass the option to the Kconfig cc-option
+> > 
+> > Hmmm interesting, I did not even know that was possible... Is that a
+> > clang configuration option or an out of tree patch? Looks like it has
+> > been on by default since clang 3.2: https://godbolt.org/z/mOmusu
+> 
+> I asked and it turns out that we force this flag off in the ChromeOS
+> toolchain so that we can compile the multitude of packages in our system
+> that assume various GCC specific warning flags. I guess this is easier
+> than patching all the Makefiles out there.
 
-On Thu, Jul 25, 2019 at 8:47 AM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> If the particular version of clang a user has doesn't enable
-> -Werror=unknown-warning-option by default, even though it is the
-> default[1], then make sure to pass the option to the Kconfig cc-option
-> command so that testing options from Kconfig files works properly.
-> Otherwise, depending on the default values setup in the clang toolchain
-> we will silently assume options such as -Wmaybe-uninitialized are
-> supported by clang, when they really aren't.
->
-> A compilation issue only started happening for me once commit
-> 589834b3a009 ("kbuild: Add -Werror=unknown-warning-option to
-> CLANG_FLAGS") was applied on top of commit b303c6df80c9 ("kbuild:
-> compute false-positive -Wmaybe-uninitialized cases in Kconfig"). This
-> leads kbuild to try and test for the existence of the
-> -Wmaybe-uninitialized flag with the cc-option command in
-> scripts/Kconfig.include, and it doesn't see an error returned from the
-> option test so it sets the config value to Y. Then the Makefile tries to
-> pass the unknown option on the command line and
-> -Werror=unknown-warning-option catches the invalid option and breaks the
-> build. Before commit 589834b3a009 ("kbuild: Add
-> -Werror=unknown-warning-option to CLANG_FLAGS") the build works fine,
-> but any cc-option test of a warning option in Kconfig files silently
-> evaluates to true, even if the warning option flag isn't supported on
-> clang.
->
-> Note: This doesn't change cc-option usages in Makefiles because those
-> use a different rule that includes KBUILD_CFLAGS by default (see the
-> __cc-option command in scripts/Kbuild.incluide). The KBUILD_CFLAGS
-> variable already has the -Werror=unknown-warning-option flag set. Thanks
-> to Doug for pointing out the different rule.
->
-> [1] https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option
-> Cc: Peter Smith <peter.smith@linaro.org>
-> Cc: Nathan Chancellor <natechancellor@gmail.com>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Ah, that makes sense. I forget that most versions of clang have to
+compile thousands of packages and such.
 
-Fixes: 589834b3a009 ("kbuild: Add -Werror=unknown-warning-option to
-CLANG_FLAGS")
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> 
+> > 
+> > > command so that testing options from Kconfig files works properly.
+> > > Otherwise, depending on the default values setup in the clang toolchain
+> > > we will silently assume options such as -Wmaybe-uninitialized are
+> > > supported by clang, when they really aren't.
+> > > 
+> > > This issue only started happening for me once commit 589834b3a009
+> > > ("kbuild: Add -Werror=unknown-warning-option to CLANG_FLAGS") was
+> > > applied on top of commit b303c6df80c9 ("kbuild: compute false-positive
+> > > -Wmaybe-uninitialized cases in Kconfig"). This leads kbuild to try and
+> > 
+> > Prior to 589834b3a009, how did cc-option work at all if
+> > -Wunknown-warning-option wasn't enabled by default? I assume that clang
+> > would just eat any unknown flags while returning zero so it looked like
+> > the flag was supported?
+> 
+> Yes. But just warning options?
+> 
+> > 
+> > > test for the existence of the -Wmaybe-uninitialized flag with the
+> > > cc-option command in scripts/Kconfig.include, and it doesn't see an
+> > > error returned from the option test so it sets the config value to Y.
+> > 
+> > It might be worth explicitly saying somewhere in here that clang will
+> > not error on unknown flags without -Werror + -Wunknown-warning-option.
+> 
+> I think it warns on unknown flags, just not unknown warning options
+> (-Wfoo), so I didn't mention this.
+
+Ah right, duh (it's in the name of the option...), sorry wasn't
+thinking.
+
+> 
+> > 
+> > > Then the makefile tries to pass the unknown option on the command line
+> > > and -Werror=unknown-warning-option catches the invalid option and breaks
+> > > the build.
+> > > 
+> > > Note: this doesn't change the cc-option tests in Makefiles, because
+> > > those use a different rule that includes KBUILD_CFLAGS by default, and
+> > > the KBUILD_CFLAGS already has -Werror=unknown-warning-option. Thanks to
+> > > Doug for pointing out the different rule.
+> > > 
+> > > [1] https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option
+> > > Cc: Peter Smith <peter.smith@linaro.org>
+> > > Cc: Nathan Chancellor <natechancellor@gmail.com>
+> > > Cc: Nick Desaulniers <ndesaulniers@google.com>
+> > > Cc: Douglas Anderson <dianders@chromium.org>
+> > > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> > > 
+> > > Change-Id: I3bb69d45bb062d1306acbf19bc0adfb60f706442
+> > 
+> > I assume that shouldn't be there?
+> > 
+> > Overall, seems okay to me (took me a sec to understand the bug,
+> > certainly a very specific one). It might make sense to explicitly add
+> > somewhere in the commit message that this syncs cc-option behavior
+> > between Kconfig and Kbuild as a whole, as I didn't understand that at
+> > first. Thanks for the triage and sorry for the breakage!
+> > 
+> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> 
+> I reworded the commit text a bit now and I'll resend it soon. Thanks for
+> the review.
+> 
+
+Cheers,
+Nathan
