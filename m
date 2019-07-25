@@ -2,83 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8088748BD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 10:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0FC674990
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 11:08:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389007AbfGYIFm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jul 2019 04:05:42 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:60142 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387586AbfGYIFm (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jul 2019 04:05:42 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x6P85GFC002747;
-        Thu, 25 Jul 2019 17:05:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x6P85GFC002747
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564041917;
-        bh=7BLg13CdKPhyaQ1kBrxCgb7bB9yny46HPZX8sZdYLjk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=aYQecNMDwtqd1VXqs9tx5rDiHj/U+GzMdzLvjkHp09Lhyt+3+n1+Fzxnd8Osq2jo4
-         cjFq75wNGYB8ayoOUlyika0wM2n9P6Mwt8YIjTH3IT2dR8Do84sZUL+20kfBsKm+Sk
-         wFhjJNEMleOQdjBa01v0NZ3eLw1euN8X0kO99KRYPrz9nSGA36rAy5zC1i5xWCSZjN
-         knADuTqBCKWDl17DXbwrSj9sl7ah0A/2leFfJbxY22ZfLENtR8ZDZf/ZKUdpDm7mlk
-         Pech/BCJJ0AYnYS1bFiN1Lc8tFFgD58+Xaw12pCxzYmUiAzUSULWRU710My0n5+cFo
-         MQYGvJTlU6RWw==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        id S2389659AbfGYJIR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jul 2019 05:08:17 -0400
+Received: from david.siemens.de ([192.35.17.14]:59885 "EHLO david.siemens.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389193AbfGYJIR (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 25 Jul 2019 05:08:17 -0400
+X-Greylist: delayed 1733 seconds by postgrey-1.27 at vger.kernel.org; Thu, 25 Jul 2019 05:08:15 EDT
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+        by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x6P8dEDt000362
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 25 Jul 2019 10:39:15 +0200
+Received: from [139.25.68.37] (md1q0hnc.ad001.siemens.net [139.25.68.37] (may be forged))
+        by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x6P8dEl8022937;
+        Thu, 25 Jul 2019 10:39:14 +0200
+Subject: Re: [PATCH v3 07/12] kbuild: modpost: read modules.order instead of
+ $(MODVERDIR)/*.mod
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     Joe Lawrence <joe.lawrence@redhat.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: detect missing "WITH Linux-syscall-note" for uapi headers
-Date:   Thu, 25 Jul 2019 17:05:13 +0900
-Message-Id: <20190725080513.4071-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+References: <20190717061800.10018-1-yamada.masahiro@socionext.com>
+ <20190717061800.10018-8-yamada.masahiro@socionext.com>
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <230d2ca1-19cd-b60e-1b1b-6d7413eea9e2@siemens.com>
+Date:   Thu, 25 Jul 2019 10:39:13 +0200
+User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
+ Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
+MIME-Version: 1.0
+In-Reply-To: <20190717061800.10018-8-yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-UAPI headers licensed under GPL are supposed to have exception
-"WITH Linux-syscall-note" so that they can be included into non-GPL
-user space application code.
+On 17.07.19 08:17, Masahiro Yamada wrote:
+> Towards the goal of removing MODVERDIR, read out modules.order to get
+> the list of modules to be processed. This is simpler than parsing *.mod
+> files in $(MODVERDIR).
+> 
+> For external modules, $(KBUILD_EXTMOD)/modules.order should be read.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+> 
+> Changes in v3:
+>   - Add ifdef CONFIG_MODULES to avoid warning
+> 
+> Changes in v2: None
+> 
+>  scripts/Makefile.modpost | 15 +++++++++------
+>  1 file changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index fec6ec2ffa47..5841508ffca9 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -8,9 +8,10 @@
+>  # b) A <module>.o file which is the .o files above linked together
+>  # c) A <module>.mod file in $(MODVERDIR)/, listing the name of the
+>  #    the preliminary <module>.o file, plus all .o files
+> +# d) modules.order, which lists all the modules
+>  
+>  # Stage 2 is handled by this file and does the following
+> -# 1) Find all modules from the files listed in $(MODVERDIR)/
+> +# 1) Find all modules listed in modules.order
+>  # 2) modpost is then used to
+>  # 3)  create one <module>.mod.c file pr. module
+>  # 4)  create one Module.symvers file with CRC for all exported symbols
+> @@ -60,10 +61,12 @@ include scripts/Makefile.lib
+>  kernelsymfile := $(objtree)/Module.symvers
+>  modulesymfile := $(firstword $(KBUILD_EXTMOD))/Module.symvers
+>  
+> -# Step 1), find all modules listed in $(MODVERDIR)/
+> -MODLISTCMD := find $(MODVERDIR) -name '*.mod' | xargs -r grep -h '\.ko$$' | sort -u
+> -__modules := $(shell $(MODLISTCMD))
+> -modules   := $(patsubst %.o,%.ko, $(wildcard $(__modules:.ko=.o)))
+> +modorder := $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)modules.order
+> +
+> +# Step 1), find all modules listed in modules.order
+> +ifdef CONFIG_MODULES
+> +modules := $(sort $(shell cat $(modorder)))
+> +endif
+>  
+>  # Stop after building .o files if NOFINAL is set. Makes compile tests quicker
+>  _modpost: $(if $(KBUILD_MODPOST_NOFINAL), $(modules:.ko:.o),$(modules))
+> @@ -84,7 +87,7 @@ MODPOST_OPT=$(subst -i,-n,$(filter -i,$(MAKEFLAGS)))
+>  
+>  # We can go over command line length here, so be careful.
+>  quiet_cmd_modpost = MODPOST $(words $(filter-out vmlinux FORCE, $^)) modules
+> -      cmd_modpost = $(MODLISTCMD) | sed 's/\.ko$$/.o/' | $(modpost) $(MODPOST_OPT) -s -T -
+> +      cmd_modpost = sed 's/ko$$/o/' $(modorder) | $(modpost) $(MODPOST_OPT) -s -T -
+>  
+>  PHONY += __modpost
+>  __modpost: $(modules:.ko=.o) FORCE
+> 
 
-Unfortunately, people often miss to add it. Break 'make headers'
-when any of exported headers lacks the exception note so that the
-0-day bot can easily catch it.
+This affects also external modules builds: I have patterns here that do
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+[Makefile]
+subdir-y := some-module
 
-This patch depends on the following:
+[some-module/Makefile]
+obj-m := some-module.o
 
-https://lore.kernel.org/patchwork/patch/1105289/
+and since this patch, the final some-module.ko is no longer built. Am I missing
+something in the kbuild makefiles, or is this a regression?
 
-I will turn on the error after all headers are fixed.
+Jan
 
-
- scripts/headers_install.sh | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-index 47f6f3ea0771..bbaf29386995 100755
---- a/scripts/headers_install.sh
-+++ b/scripts/headers_install.sh
-@@ -23,6 +23,12 @@ TMPFILE=$OUTFILE.tmp
- 
- trap 'rm -f $OUTFILE $TMPFILE' EXIT
- 
-+# SPDX-License-Identifier with GPL variants must have "WITH Linux-syscall-note"
-+if [ -n "$(sed -n -e "/SPDX-License-Identifier:.*GPL-/{/WITH Linux-syscall-note/!p}" $INFILE)" ]; then
-+	echo "error: $INFILE: missing \"WITH Linux-syscall-note\" for SPDX-License-Identifier" >&2
-+	exit 1
-+fi
-+
- sed -E -e '
- 	s/([[:space:](])(__user|__force|__iomem)[[:space:]]/\1/g
- 	s/__attribute_const__([[:space:]]|$)/\1/g
 -- 
-2.17.1
-
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
