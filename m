@@ -2,89 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC73A74CCA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 13:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D1C7521F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 17:07:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403988AbfGYLSX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jul 2019 07:18:23 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:27299 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403940AbfGYLSX (ORCPT
+        id S2388872AbfGYPHl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jul 2019 11:07:41 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:29566 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388500AbfGYPHk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jul 2019 07:18:23 -0400
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x6PBHwWF009905;
-        Thu, 25 Jul 2019 20:17:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x6PBHwWF009905
+        Thu, 25 Jul 2019 11:07:40 -0400
+Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id x6PF652M009240;
+        Fri, 26 Jul 2019 00:06:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x6PF652M009240
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564053478;
-        bh=O99g3Q92gg15AVvJroWDS691IzdWx4FzeR+mRv04QGU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=k7AKJfvT1vp+mEb24/fVQdxbQh+Am+/duUmK4cEfMp/Wk5fD5S5JgFn1u6o+q2h7T
-         vgOWUxseNf9Xb4rK/VJrjj50hFFYi9ouQH04nKCgrZeZorbPMiFIacxufxDhw/7WSE
-         uy/9/aDfS4uO6j9APQObmH8Z5AnTluPcMGtN/tg1iDYTTlVLhQu8Gd1fT0pIovCzET
-         j5MPIsRiIzpXMOs8qJ9rOL7Na4wL+0913MwFK4344KdhrgO9o9XEuigK3e+4B3xxda
-         BydSudCMqbrsvDP0SGgAMyjGqo+Rj1qagmWWuh26dlXISawG2epuIUMmE7IeNwrcEd
-         xmjoSa4Hh13lg==
-X-Nifty-SrcIP: [209.85.217.47]
-Received: by mail-vs1-f47.google.com with SMTP id 2so33420957vso.8;
-        Thu, 25 Jul 2019 04:17:58 -0700 (PDT)
-X-Gm-Message-State: APjAAAWmI9wIzQHkkARTHvkPTaGm/2eWKigMarZKqAXmMjxe+XuxORmW
-        oTKSCKvWT4Kuk9mF3GYf4ZThjCoyEPsCLjk5OgE=
-X-Google-Smtp-Source: APXvYqx210g/x+mN1qIDcqKttYDPVJy8/xhLB8dcLLlGrZ0UyGcV7aFyeOxz1KL+5IklRsyYam3rr6gAuZ0GvNSVnr0=
-X-Received: by 2002:a67:d46:: with SMTP id 67mr55994217vsn.181.1564053477415;
- Thu, 25 Jul 2019 04:17:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190725080513.4071-1-yamada.masahiro@socionext.com> <20190725111256.GA30958@kroah.com>
-In-Reply-To: <20190725111256.GA30958@kroah.com>
+        s=dec2015msa; t=1564067166;
+        bh=XVd6xCB986FgI4lziNdiIUd8DbxIxrs0iKDny4AAdqY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T00V2Xsb5bCcGQQk5pgc3prcyt3Phib8cIT3GY0L92nITXEUXPTyTji6VjzVDkfYz
+         FPEFhJvH7K0DuDH2Hbnm8If4baIhQVrNiZ/EZ0aG4RjjVCyt+yPzIUJM4g031KWxK3
+         iolsRmwr+MHopRqQhX4QHOYE41HA09WAwfvjARZYz+aWW5S7Ycc1+/RHeOSU3xSdCM
+         dZiKxyhY5uQIUt4g0W7RvGT2VoO7ytHJcD7oTzMC0qwVmeAccSHLUYDH2pjN1r2r8l
+         k0yNdkD7/gEFRzkN7tpOzYbpdKP7MoL1JiMnxx2Mg3FwWF9zhIS2MMDxbqQsFb0Asm
+         VWkRCQVOxODGg==
+X-Nifty-SrcIP: [126.26.94.249]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 25 Jul 2019 20:17:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATcRXT8ptGpPhc4kods65AQsRbz2wmnq5=df35S2aWn7w@mail.gmail.com>
-Message-ID: <CAK7LNATcRXT8ptGpPhc4kods65AQsRbz2wmnq5=df35S2aWn7w@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: detect missing "WITH Linux-syscall-note" for uapi headers
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Jan Kiszka <jan.kiszka@siemens.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [FWIW PATCH] kbuild: create modules.order in sub-directories visited by subdir-y,m
+Date:   Fri, 26 Jul 2019 00:06:00 +0900
+Message-Id: <20190725150600.27007-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 25, 2019 at 8:13 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Thu, Jul 25, 2019 at 05:05:13PM +0900, Masahiro Yamada wrote:
-> > UAPI headers licensed under GPL are supposed to have exception
-> > "WITH Linux-syscall-note" so that they can be included into non-GPL
-> > user space application code.
-> >
-> > Unfortunately, people often miss to add it. Break 'make headers'
-> > when any of exported headers lacks the exception note so that the
-> > 0-day bot can easily catch it.
-> >
-> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > ---
-> >
-> > This patch depends on the following:
-> >
-> > https://lore.kernel.org/patchwork/patch/1105289/
-> >
-> > I will turn on the error after all headers are fixed.
->
-> I've taken the dependancy here in the spdx tree and will send it to
-> Linus for 5.3-rc2.
+Jan Kiszka reported a module build regression; since commit ff9b45c55b26
+("kbuild: modpost: read modules.order instead of $(MODVERDIR)/*.mod"),
+a module is no longer built in the following pattern:
 
-Thanks!
+  [Makefile]
+  subdir-y := some-module
 
->  I can also take this now through that tree, or you
-> can add it to yours afterward, which ever is easier for you.
+  [some-module/Makefile]
+  obj-m := some-module.o
 
-I will create a branch on top 5.3-rc2
-and queue this patch by myself.
+You can make it work by writing like this:
 
-Thank you.
+  [Makefile]
+  obj-m := some-module/
+
+  [some-module/Makefile]
+  obj-m := some-module.o
+
+None of upstream Makefiles is written like the former. In fact, the
+former is a bug in upstream since modules.order is not correctly
+generated.
+
+For external modules, it was at least known to work, and being used
+by some people.
+
+This commit gets it back working, but I do not to want to encourage it
+for the upstream code, so I surrounded it by ifeq ($(KBUILD_EXTMOD),).
+
+Reported-by: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+I just wrote a fix-up patch, but I am still wondering if it is correct
+to build modules under subdir-y.
 
 
+ scripts/Makefile.lib | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 5241d0751eb0..9568888c97ca 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -25,6 +25,11 @@ lib-y := $(filter-out $(obj-y), $(sort $(lib-y) $(lib-m)))
+ # and -m subdirs.  Just put -y's first.
+ modorder	:= $(patsubst %/,%/modules.order, $(filter %/, $(obj-y)) $(obj-m:.o=.ko))
+ 
++ifeq ($(KBUILD_EXTMOD),)
++# External modules may generate modules under subdir-y or subdir-m.
++modorder += $(addsuffix /modules.order, $(subdir-y) $(subdir-m))
++endif
++
+ # Handle objects in subdirs
+ # ---------------------------------------------------------------------------
+ # o if we encounter foo/ in $(obj-y), replace it by foo/built-in.a
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
