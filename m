@@ -2,63 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A950759B7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jul 2019 23:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1192F75CD5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2019 04:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbfGYVet (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jul 2019 17:34:49 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:37064 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725819AbfGYVes (ORCPT
+        id S1726129AbfGZCRo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jul 2019 22:17:44 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:25839 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726099AbfGZCRo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jul 2019 17:34:48 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id B223E80348;
-        Thu, 25 Jul 2019 23:34:45 +0200 (CEST)
-Date:   Thu, 25 Jul 2019 23:34:44 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Alexey Dobriyan <adobriyan@gmail.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: .h.s files spam
-Message-ID: <20190725213444.GA19265@ravnborg.org>
-References: <20190725195633.GA15202@avx2>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190725195633.GA15202@avx2>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=E8ANUszqdy4T9cFckbYA:9 a=CjuIK1q_8ugA:10
+        Thu, 25 Jul 2019 22:17:44 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x6Q2HevN004335;
+        Fri, 26 Jul 2019 11:17:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x6Q2HevN004335
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1564107460;
+        bh=6bHD7bwBuq14HT8OqTr/oNHl219WxknX0kwiJlKXRrI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aL3oLq/r/qsmtVGZHEyopbkIFALO7SHEZaBsJS7eAlWAAN22IKWlGbXh15qnA78cx
+         S9wqJotyerqLVFT1dWoSXdnzim452eVvvWOIjKID2aqwq9+N9Ssj8Nda83D4ZH/I3r
+         xWeN2bO0OLgeTXxUHLTpoVCjkBlNkCS+NMgRyWc6xNECIJ5qik6BNnzrbJlH+nnY9r
+         IX+oE1GGIh1yi67NHqc6D7wXeC5zrdwdrQuSnxJPTAEhT3xSVt6o1JdIXro51mkTke
+         BvfhqTIeXRjXqXscuNb6yVYS3obkaGlMy7jqnDdnMD7sWgg078ayeoRI7CMFCMDxCU
+         M5yTzMP8a6mzw==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove unused single-used-m
+Date:   Fri, 26 Jul 2019 11:17:38 +0900
+Message-Id: <20190726021738.4935-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Alexey
+This is unused since commit 9f69a496f100 ("kbuild: split out *.mod out
+of {single,multi}-used-m rules").
 
-On Thu, Jul 25, 2019 at 10:56:33PM +0300, Alexey Dobriyan wrote:
-> What are these files for?
-> 
-> 	$ cat ../obj/include/linux/kernel.h.s
->         .file   "null"
->         .text
->         .ident  "GCC: (Gentoo 9.1.0-r1 p1.1) 9.1.0"
->         .section        .note.GNU-stack,"",@progbits
-> 
-> 	$ find ../obj/ -type f -name '*.s' | wc -l
-> 	4047
-> 
-> It is "allyesconfig" in case someone is going to reproduce it.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-The files are created by the new headers-test-y stuff.
-We now verify that a big part of the header files in include/*
-are self-contained. (They include all their dependencies).
-The header-test-y support is also enabled for the rest of the kernel,
-but used only in very few places outside include/* as of today.
+ scripts/Makefile.lib | 2 --
+ 1 file changed, 2 deletions(-)
 
-	Sam
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 5241d0751eb0..41c50f9461e5 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -45,7 +45,6 @@ subdir-ym	:= $(sort $(subdir-y) $(subdir-m))
+ multi-used-y := $(sort $(foreach m,$(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))), $(m))))
+ multi-used-m := $(sort $(foreach m,$(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m))), $(m))))
+ multi-used   := $(multi-used-y) $(multi-used-m)
+-single-used-m := $(sort $(filter-out $(multi-used-m),$(obj-m)))
+ 
+ # $(subdir-obj-y) is the list of objects in $(obj-y) which uses dir/ to
+ # tell kbuild to descend
+@@ -91,7 +90,6 @@ lib-y		:= $(addprefix $(obj)/,$(lib-y))
+ subdir-obj-y	:= $(addprefix $(obj)/,$(subdir-obj-y))
+ real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
+ real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
+-single-used-m	:= $(addprefix $(obj)/,$(single-used-m))
+ multi-used-m	:= $(addprefix $(obj)/,$(multi-used-m))
+ subdir-ym	:= $(addprefix $(obj)/,$(subdir-ym))
+ 
+-- 
+2.17.1
+
