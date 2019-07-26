@@ -2,129 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F8F772FC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2019 22:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F288077380
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2019 23:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726184AbfGZUtD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Jul 2019 16:49:03 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:50368 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726522AbfGZUtD (ORCPT
+        id S2387576AbfGZVfp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Jul 2019 17:35:45 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:41121 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727670AbfGZVfp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Jul 2019 16:49:03 -0400
-Received: from pd9ef1cb8.dip0.t-ipconnect.de ([217.239.28.184] helo=nanos)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tglx@linutronix.de>)
-        id 1hr797-0002Lz-BO; Fri, 26 Jul 2019 22:48:57 +0200
-Date:   Fri, 26 Jul 2019 22:48:56 +0200 (CEST)
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     LKML <linux-kernel@vger.kernel.org>
-cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Sewior <bigeasy@linutronix.de>
-Subject: [PATCH] Kbuild: Handle PREEMPT_RT for version string and magic
-Message-ID: <alpine.DEB.2.21.1907262245320.1791@nanos.tec.linutronix.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        Fri, 26 Jul 2019 17:35:45 -0400
+Received: by mail-lf1-f66.google.com with SMTP id 62so33152983lfa.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jul 2019 14:35:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cVmcZwFhu0VmRu42g2oqdHVRFxqVWleFTBghf3PdU0s=;
+        b=auPaSao4Pu92MrHcL8ri0lwhHW+MxKtMjV1DpxAsA7pVZXiYOWxWxhMCN+yWqE/ApM
+         N1RAQkb6zmoRJMBukop8ckoCwrxu+fdsXpdHaXZqjEngnR6ahHT+uJi/+bo3yEWp6UbC
+         NE3E48fT2I4XCRhysWOc0g0KiUbHZXwqDqq8Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cVmcZwFhu0VmRu42g2oqdHVRFxqVWleFTBghf3PdU0s=;
+        b=HCXwpGA5eMwshT2aE2AhyXnokPRSIWGEoN0Ko8Yml7q9gUnUbsk3E7Ods0gqUnstLI
+         nbrrmf7hMp4QTio36IbNvyatRBWaH2RRqEyAbCXYxepBIdLiWCOojiCo2Ta8Ei9bvmFg
+         nMOj35rqqDsY/1BoCdEZ/6JcXAWbW2d06IVu/4IwzVLvZmnwhCd34PhJCbXmgoId4M9r
+         XViZufvCchrqOP3z9nraho0gjVSp3T6dPRc9QZ0gLXwXLLFQIclGWwMG56uzkvxBHZYn
+         trp+sgL2WfdGJlRUtnK/sqhnQnhnKOt0GbF/dzH6iZ9gKiq3v5kYSwbWpzgA1JBVCesd
+         C1fg==
+X-Gm-Message-State: APjAAAUxQsDERBul0EV9jgTazsuaDC+B7UagYeiVIpVAVEvbbx1nI5sZ
+        DEVzVOlOulKwTlTEDtEfZRdwMwqy5ZY=
+X-Google-Smtp-Source: APXvYqxdmUsAI1n0eD0iikrVUNnzln3b+F4wtxw6CQSrvReObBB4lXeyCfMkELx/1dPr4XaW0SNd5g==
+X-Received: by 2002:a05:6512:1d2:: with SMTP id f18mr5837609lfp.173.1564176942440;
+        Fri, 26 Jul 2019 14:35:42 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
+        by smtp.gmail.com with ESMTPSA id j7sm11551366lji.27.2019.07.26.14.35.41
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Jul 2019 14:35:41 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id r9so52802270ljg.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jul 2019 14:35:41 -0700 (PDT)
+X-Received: by 2002:a2e:b003:: with SMTP id y3mr51555432ljk.72.1564176941127;
+ Fri, 26 Jul 2019 14:35:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+References: <000000000000b4358f058e924c6d@google.com> <000000000000e87d14058e9728d7@google.com>
+In-Reply-To: <000000000000e87d14058e9728d7@google.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 26 Jul 2019 14:35:25 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whnM5+FBJuVoxXELvFgecuc0+vW7ibWy4Gc5qJbW8HL2Q@mail.gmail.com>
+Message-ID: <CAHk-=whnM5+FBJuVoxXELvFgecuc0+vW7ibWy4Gc5qJbW8HL2Q@mail.gmail.com>
+Subject: Re: INFO: rcu detected stall in vhost_worker
+To:     syzbot <syzbot+36e93b425cd6eb54fcc1@syzkaller.appspotmail.com>
+Cc:     Jason Wang <jasowang@redhat.com>, KVM list <kvm@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
+        michal.lkml@markovi.net, "Michael S. Tsirkin" <mst@redhat.com>,
+        Netdev <netdev@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        virtualization@lists.linux-foundation.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Update the build scripts and the version magic to reflect when
-CONFIG_PREEMPT_RT is enabled in the same way as CONFIG_PREEMPT is treated.
+On Fri, Jul 26, 2019 at 8:26 AM syzbot
+<syzbot+36e93b425cd6eb54fcc1@syzkaller.appspotmail.com> wrote:
+>
+> syzbot has bisected this bug to:
+>
+> commit 0ecfebd2b52404ae0c54a878c872bb93363ada36
+> Author: Linus Torvalds <torvalds@linux-foundation.org>
+> Date:   Sun Jul 7 22:41:56 2019 +0000
+>
+>      Linux 5.2
 
-The resulting version strings:
+That seems very unlikely. That commit literally just changes the
+EXTRAVERSION part of the version string.
 
-  Linux m 5.3.0-rc1+ #100 SMP Fri Jul 26 ...
-  Linux m 5.3.0-rc1+ #101 SMP PREEMPT Fri Jul 26 ...
-  Linux m 5.3.0-rc1+ #102 SMP PREEMPT_RT Fri Jul 26 ...
+So even if something actually depended on the version number, even
+that wouldn't have triggered any semantic change.
 
-The module vermagic:
-
-  5.3.0-rc1+ SMP mod_unload modversions 
-  5.3.0-rc1+ SMP preempt mod_unload modversions 
-  5.3.0-rc1+ SMP preempt_rt mod_unload modversions 
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Michal Marek <michal.lkml@markovi.net>
-Cc: linux-kbuild@vger.kernel.org
----
- include/linux/vermagic.h |   10 +++++++---
- init/Makefile            |    5 +++--
- scripts/Makefile.modpost |    2 +-
- scripts/mkcompile_h      |    4 +++-
- 4 files changed, 14 insertions(+), 7 deletions(-)
-
---- a/include/linux/vermagic.h
-+++ b/include/linux/vermagic.h
-@@ -7,10 +7,14 @@
- #else
- #define MODULE_VERMAGIC_SMP ""
- #endif
--#ifdef CONFIG_PREEMPT
--#define MODULE_VERMAGIC_PREEMPT "preempt "
-+#ifdef CONFIG_PREEMPTION
-+# ifdef CONFIG_PREEMPT
-+#  define MODULE_VERMAGIC_PREEMPT "preempt "
-+# else
-+#  define MODULE_VERMAGIC_PREEMPT "preempt_rt "
-+# endif
- #else
--#define MODULE_VERMAGIC_PREEMPT ""
-+# define MODULE_VERMAGIC_PREEMPT ""
- #endif
- #ifdef CONFIG_MODULE_UNLOAD
- #define MODULE_VERMAGIC_MODULE_UNLOAD "mod_unload "
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -33,5 +33,6 @@ mounts-$(CONFIG_BLK_DEV_MD)	+= do_mounts
- silent_chk_compile.h = :
- include/generated/compile.h: FORCE
- 	@$($(quiet)chk_compile.h)
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@ \
--	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)" "$(CC) $(KBUILD_CFLAGS)"
-+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
-+	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
-+	"$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -23,7 +23,7 @@
- #   Version magic (see include/linux/vermagic.h for full details)
- #     - Kernel release
- #     - SMP is CONFIG_SMP
--#     - PREEMPT is CONFIG_PREEMPT
-+#     - PREEMPT is CONFIG_PREEMPT[_RT]
- #     - GCC Version
- #   Module info
- #     - Module version (MODULE_VERSION)
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -5,7 +5,8 @@ TARGET=$1
- ARCH=$2
- SMP=$3
- PREEMPT=$4
--CC=$5
-+PREEMPT_RT=$5
-+CC=$6
- 
- vecho() { [ "${quiet}" = "silent_" ] || echo "$@" ; }
- 
-@@ -53,6 +54,7 @@ UTS_VERSION="#$VERSION"
- CONFIG_FLAGS=""
- if [ -n "$SMP" ] ; then CONFIG_FLAGS="SMP"; fi
- if [ -n "$PREEMPT" ] ; then CONFIG_FLAGS="$CONFIG_FLAGS PREEMPT"; fi
-+if [ -n "$PREEMPT_RT" ] ; then CONFIG_FLAGS="$CONFIG_FLAGS PREEMPT_RT"; fi
- UTS_VERSION="$UTS_VERSION $CONFIG_FLAGS $TIMESTAMP"
- 
- # Truncate to maximum length
+              Linus
