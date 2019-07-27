@@ -2,89 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F288077380
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jul 2019 23:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6700E77622
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jul 2019 05:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387576AbfGZVfp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Jul 2019 17:35:45 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:41121 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727670AbfGZVfp (ORCPT
+        id S1726366AbfG0DBg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Jul 2019 23:01:36 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:53478 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726184AbfG0DBg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Jul 2019 17:35:45 -0400
-Received: by mail-lf1-f66.google.com with SMTP id 62so33152983lfa.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jul 2019 14:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cVmcZwFhu0VmRu42g2oqdHVRFxqVWleFTBghf3PdU0s=;
-        b=auPaSao4Pu92MrHcL8ri0lwhHW+MxKtMjV1DpxAsA7pVZXiYOWxWxhMCN+yWqE/ApM
-         N1RAQkb6zmoRJMBukop8ckoCwrxu+fdsXpdHaXZqjEngnR6ahHT+uJi/+bo3yEWp6UbC
-         NE3E48fT2I4XCRhysWOc0g0KiUbHZXwqDqq8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cVmcZwFhu0VmRu42g2oqdHVRFxqVWleFTBghf3PdU0s=;
-        b=HCXwpGA5eMwshT2aE2AhyXnokPRSIWGEoN0Ko8Yml7q9gUnUbsk3E7Ods0gqUnstLI
-         nbrrmf7hMp4QTio36IbNvyatRBWaH2RRqEyAbCXYxepBIdLiWCOojiCo2Ta8Ei9bvmFg
-         nMOj35rqqDsY/1BoCdEZ/6JcXAWbW2d06IVu/4IwzVLvZmnwhCd34PhJCbXmgoId4M9r
-         XViZufvCchrqOP3z9nraho0gjVSp3T6dPRc9QZ0gLXwXLLFQIclGWwMG56uzkvxBHZYn
-         trp+sgL2WfdGJlRUtnK/sqhnQnhnKOt0GbF/dzH6iZ9gKiq3v5kYSwbWpzgA1JBVCesd
-         C1fg==
-X-Gm-Message-State: APjAAAUxQsDERBul0EV9jgTazsuaDC+B7UagYeiVIpVAVEvbbx1nI5sZ
-        DEVzVOlOulKwTlTEDtEfZRdwMwqy5ZY=
-X-Google-Smtp-Source: APXvYqxdmUsAI1n0eD0iikrVUNnzln3b+F4wtxw6CQSrvReObBB4lXeyCfMkELx/1dPr4XaW0SNd5g==
-X-Received: by 2002:a05:6512:1d2:: with SMTP id f18mr5837609lfp.173.1564176942440;
-        Fri, 26 Jul 2019 14:35:42 -0700 (PDT)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
-        by smtp.gmail.com with ESMTPSA id j7sm11551366lji.27.2019.07.26.14.35.41
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Jul 2019 14:35:41 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id r9so52802270ljg.5
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jul 2019 14:35:41 -0700 (PDT)
-X-Received: by 2002:a2e:b003:: with SMTP id y3mr51555432ljk.72.1564176941127;
- Fri, 26 Jul 2019 14:35:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <000000000000b4358f058e924c6d@google.com> <000000000000e87d14058e9728d7@google.com>
-In-Reply-To: <000000000000e87d14058e9728d7@google.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 26 Jul 2019 14:35:25 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whnM5+FBJuVoxXELvFgecuc0+vW7ibWy4Gc5qJbW8HL2Q@mail.gmail.com>
-Message-ID: <CAHk-=whnM5+FBJuVoxXELvFgecuc0+vW7ibWy4Gc5qJbW8HL2Q@mail.gmail.com>
-Subject: Re: INFO: rcu detected stall in vhost_worker
-To:     syzbot <syzbot+36e93b425cd6eb54fcc1@syzkaller.appspotmail.com>
-Cc:     Jason Wang <jasowang@redhat.com>, KVM list <kvm@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux List Kernel Mailing <linux-kernel@vger.kernel.org>,
-        michal.lkml@markovi.net, "Michael S. Tsirkin" <mst@redhat.com>,
-        Netdev <netdev@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        virtualization@lists.linux-foundation.org,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 26 Jul 2019 23:01:36 -0400
+Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x6R31DYB001215;
+        Sat, 27 Jul 2019 12:01:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x6R31DYB001215
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1564196474;
+        bh=UNyfgzuhf7SSHm0jA4hur0Fz0ys04Oa0KDkTYVtSEDc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WHk1dk/GTv4oJrrpZoJeX5dy1YFcWYpAJW1ulCm0lYFF8toiGwx+fPiC5jqVv834j
+         4GeuXH2BvQBaV1i0Xf9HWctpmJA+ZdHnJ5sNNQ+LgVXSEZ7jomflqtnLaBrvb2BOs9
+         iveJyyMnWFKSe8hrfLHQz0ifZ/OZZFFVF65J+pjzPIfNmDHCiBf4K0+oPX28iiGiNp
+         Z30nvzUK84jxzruInW/odLhB3q/axhMHBRD4OnKGSk/ZBbm+KHrkeWcFCEQhHJvHCy
+         8WjknL9NDZsW5qgaTrBsfWYBBbdKU3+1AwCxI+vdkjR2f1JdkYi0KZgEYZd5M55k9F
+         41s8UotmvEvPA==
+X-Nifty-SrcIP: [126.26.94.249]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Tom Roeder <tmroeder@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] gen_compile_commands: lower the entry count threshold
+Date:   Sat, 27 Jul 2019 12:01:10 +0900
+Message-Id: <20190727030110.17208-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 8:26 AM syzbot
-<syzbot+36e93b425cd6eb54fcc1@syzkaller.appspotmail.com> wrote:
->
-> syzbot has bisected this bug to:
->
-> commit 0ecfebd2b52404ae0c54a878c872bb93363ada36
-> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> Date:   Sun Jul 7 22:41:56 2019 +0000
->
->      Linux 5.2
+Running gen_compile_commands.py after building with allnoconfig
+gave this:
 
-That seems very unlikely. That commit literally just changes the
-EXTRAVERSION part of the version string.
+$ ./scripts/gen_compile_commands.py
+WARNING: Found 449 entries. Have you compiled the kernel?
 
-So even if something actually depended on the version number, even
-that wouldn't have triggered any semantic change.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-              Linus
+ scripts/gen_compile_commands.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
+index 7915823b92a5..c458696ef3a7 100755
+--- a/scripts/gen_compile_commands.py
++++ b/scripts/gen_compile_commands.py
+@@ -21,9 +21,9 @@ _LINE_PATTERN = r'^cmd_[^ ]*\.o := (.* )([^ ]*\.c)$'
+ _VALID_LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
+ 
+ # A kernel build generally has over 2000 entries in its compile_commands.json
+-# database. If this code finds 500 or fewer, then warn the user that they might
++# database. If this code finds 300 or fewer, then warn the user that they might
+ # not have all the .cmd files, and they might need to compile the kernel.
+-_LOW_COUNT_THRESHOLD = 500
++_LOW_COUNT_THRESHOLD = 300
+ 
+ 
+ def parse_arguments():
+-- 
+2.17.1
+
