@@ -2,128 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BFB077DA1
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2019 06:12:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BEF977E9B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2019 10:36:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725880AbfG1EMw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Jul 2019 00:12:52 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:65068 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbfG1EMw (ORCPT
+        id S1726008AbfG1Igs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Jul 2019 04:36:48 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:33392 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbfG1Igs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Jul 2019 00:12:52 -0400
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x6S4CdjR006104;
-        Sun, 28 Jul 2019 13:12:39 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6S4CdjR006104
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564287160;
-        bh=0MK1H0dhpv35mcDABUwmSGMHTifsb84AE0Njh7iGzXE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nhbJEE/hHAfIA+vkSa4MoRPBqWO0ptiRdrBGFP3fu2xciML7oh+CuBEDz03KLjiDE
-         VBQCXrh2oclERyWy3kxCUO+u4BAkxpTxjojoV3/ON4/LvtGwtMDG4kRmMtiF5KtqeS
-         FYd55oAJHXeaJVTFniX3d1h1KETkSrLy/HKgfph8J4BeBPz0/9whXqx6VxhEccCY7D
-         9jAYSg6MSeFDtr8/KZJ0ErTLRT70x5J2wldenkCAEQa5NQK2360GI93MRKz6MizIxo
-         k8i8tFA0Pi2G4Nz2ZDSQVx/ZnttTB9hXMzc5u4YRa8d9Uqbcp9blJtG/SZxjGR5AJK
-         8Kl5ToRL0Qe+g==
-X-Nifty-SrcIP: [209.85.222.46]
-Received: by mail-ua1-f46.google.com with SMTP id j21so22776471uap.2;
-        Sat, 27 Jul 2019 21:12:39 -0700 (PDT)
-X-Gm-Message-State: APjAAAU+UR1gjVTpTWUduzpBdpRQ34UdqZnaV8PLpSaRXka5CMnLLzh2
-        zk4tTiTkIagaqr5JCwCV8PCWPgwXFXkjoYgZSus=
-X-Google-Smtp-Source: APXvYqynCeMIrU1hpnz2EjUmT9rjD7rjM9SOJw8TsVxFfFXROiUct/H85ENu10DwH10fEYvmjy8r2z7ofw6snK7A1Eo=
-X-Received: by 2002:a9f:2265:: with SMTP id 92mr50705926uad.121.1564287158473;
- Sat, 27 Jul 2019 21:12:38 -0700 (PDT)
+        Sun, 28 Jul 2019 04:36:48 -0400
+Received: by mail-io1-f68.google.com with SMTP id z3so3887620iog.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 28 Jul 2019 01:36:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JmcimYJf+Bna2bF5oHtnyvYwQab4h3brdRl3y+Yku3w=;
+        b=E8WVYYYgXikL9dO405CsEtsfqSF7ReQ4v8o5MpG6bdfsAc4xMbrkc6RbFTFJZoCVRp
+         Evxph9uoSvODN+XGEUps2lOz+B8vWyZNwe6idG4dYgag2KD+WpvpX7QqGfKuPCPHqwqz
+         64unFcjqERqoapkJ+EeHG2NudgDEW/xuRpAXD3L/b0tl2cK2eUmNsRu8uGPdPUNOuSX8
+         y1VcXVEVtuN2DpMEQwTRS4OBjJxUODBKjmshiCTauEqhWW8AOUJFVcKAmUtg9OeZgY3D
+         ZpAglQ0Z3lXdC++ktsPEBuPZGbIWeHfoRIeWION0hxS4Wv5Vjt7X7wciwuGeF3V1aN+c
+         ezIw==
+X-Gm-Message-State: APjAAAVMO5nHuY+EFn5eTwKaO63XSBX4nbu2GVp5H2uaSRbUABhgANeR
+        m0Km2S/HbC0QmIluEelBoajXBg==
+X-Google-Smtp-Source: APXvYqyHU6qTV7uMr9tjpRxhhvTuO4lK+5tp+FQOjsGxN+s/1qcSKnN7S1nMevwymEewifIu5iF5Gg==
+X-Received: by 2002:a02:b883:: with SMTP id p3mr34245354jam.79.1564303007037;
+        Sun, 28 Jul 2019 01:36:47 -0700 (PDT)
+Received: from redhat.com (bzq-79-181-91-42.red.bezeqint.net. [79.181.91.42])
+        by smtp.gmail.com with ESMTPSA id o7sm48957845ioo.81.2019.07.28.01.36.42
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sun, 28 Jul 2019 01:36:45 -0700 (PDT)
+Date:   Sun, 28 Jul 2019 04:36:39 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     syzbot <syzbot+36e93b425cd6eb54fcc1@syzkaller.appspotmail.com>,
+        jasowang@redhat.com, kvm@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        michal.lkml@markovi.net, netdev@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org,
+        virtualization@lists.linux-foundation.org,
+        yamada.masahiro@socionext.com
+Subject: Re: INFO: rcu detected stall in vhost_worker
+Message-ID: <20190728043619-mutt-send-email-mst@kernel.org>
+References: <000000000000b4358f058e924c6d@google.com>
+ <000000000000e87d14058e9728d7@google.com>
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.1907262245320.1791@nanos.tec.linutronix.de>
-In-Reply-To: <alpine.DEB.2.21.1907262245320.1791@nanos.tec.linutronix.de>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 28 Jul 2019 13:12:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS1=+OccAd3asj9P9JMWnhimRWR+dPQREOyK3y=Dx2odg@mail.gmail.com>
-Message-ID: <CAK7LNAS1=+OccAd3asj9P9JMWnhimRWR+dPQREOyK3y=Dx2odg@mail.gmail.com>
-Subject: Re: [PATCH] Kbuild: Handle PREEMPT_RT for version string and magic
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Sewior <bigeasy@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <000000000000e87d14058e9728d7@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Thomas,
+On Sat, Jul 27, 2019 at 04:23:23PM +0800, Hillf Danton wrote:
+> 
+> Fri, 26 Jul 2019 08:26:01 -0700 (PDT)
+> > syzbot has bisected this bug to:
+> > 
+> > commit 0ecfebd2b52404ae0c54a878c872bb93363ada36
+> > Author: Linus Torvalds <torvalds@linux-foundation.org>
+> > Date:   Sun Jul 7 22:41:56 2019 +0000
+> > 
+> >      Linux 5.2
+> > 
+> > bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=118810bfa00000
+> > start commit:   13bf6d6a Add linux-next specific files for 20190725
+> > git tree:       linux-next
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=8ae987d803395886
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=36e93b425cd6eb54fcc1
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15112f3fa00000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=131ab578600000
+> > 
+> > Reported-by: syzbot+36e93b425cd6eb54fcc1@syzkaller.appspotmail.com
+> > Fixes: 0ecfebd2b524 ("Linux 5.2")
+> > 
+> > For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> 
+> --- a/drivers/vhost/vhost.c
+> +++ b/drivers/vhost/vhost.c
+> @@ -787,7 +787,6 @@ static void vhost_setup_uaddr(struct vho
+> 			      size_t size, bool write)
+> {
+> 	struct vhost_uaddr *addr = &vq->uaddrs[index];
+> -	spin_lock(&vq->mmu_lock);
+> 
+> 	addr->uaddr = uaddr;
+> 	addr->size = size;
+> @@ -797,7 +796,10 @@ static void vhost_setup_uaddr(struct vho
+> static void vhost_setup_vq_uaddr(struct vhost_virtqueue *vq)
+> {
+> 	spin_lock(&vq->mmu_lock);
+> -
+> +	/*
+> +	 * deadlock if managing to take mmu_lock again while
+> +	 * setting up uaddr
+> +	 */
+> 	vhost_setup_uaddr(vq, VHOST_ADDR_DESC,
+> 			  (unsigned long)vq->desc,
+> 			  vhost_get_desc_size(vq, vq->num),
+> --
 
-On Sat, Jul 27, 2019 at 5:49 AM Thomas Gleixner <tglx@linutronix.de> wrote:
->
-> Update the build scripts and the version magic to reflect when
-> CONFIG_PREEMPT_RT is enabled in the same way as CONFIG_PREEMPT is treated.
->
-> The resulting version strings:
->
->   Linux m 5.3.0-rc1+ #100 SMP Fri Jul 26 ...
->   Linux m 5.3.0-rc1+ #101 SMP PREEMPT Fri Jul 26 ...
->   Linux m 5.3.0-rc1+ #102 SMP PREEMPT_RT Fri Jul 26 ...
->
-> The module vermagic:
->
->   5.3.0-rc1+ SMP mod_unload modversions
->   5.3.0-rc1+ SMP preempt mod_unload modversions
->   5.3.0-rc1+ SMP preempt_rt mod_unload modversions
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: linux-kbuild@vger.kernel.org
-
-Since CONFIG_PREEMPTION was introduced after -rc1,
-I think this should be queued on top of -rc2.
-
-Just a nit below.
-
-
-> ---
->  include/linux/vermagic.h |   10 +++++++---
->  init/Makefile            |    5 +++--
->  scripts/Makefile.modpost |    2 +-
->  scripts/mkcompile_h      |    4 +++-
->  4 files changed, 14 insertions(+), 7 deletions(-)
->
-> --- a/include/linux/vermagic.h
-> +++ b/include/linux/vermagic.h
-> @@ -7,10 +7,14 @@
->  #else
->  #define MODULE_VERMAGIC_SMP ""
->  #endif
-> -#ifdef CONFIG_PREEMPT
-> -#define MODULE_VERMAGIC_PREEMPT "preempt "
-> +#ifdef CONFIG_PREEMPTION
-> +# ifdef CONFIG_PREEMPT
-> +#  define MODULE_VERMAGIC_PREEMPT "preempt "
-> +# else
-> +#  define MODULE_VERMAGIC_PREEMPT "preempt_rt "
-> +# endif
->  #else
-> -#define MODULE_VERMAGIC_PREEMPT ""
-> +# define MODULE_VERMAGIC_PREEMPT ""
-
-Maybe, is the following more readable?
-
-#if defined(CONFIG_PREEMPT_RT)
-#define MODULE_VERMAGIC_PREEMPT "preempt_rt "
-#elif defined(CONFIG_PREEMPT)
-#define MODULE_VERMAGIC_PREEMPT "preempt "
-#else
-#define MODULE_VERMAGIC_PREEMPT ""
-#endif
-
-
-Thanks.
+Thanks!
+I reverted this whole commit.
 
 -- 
-Best Regards
-Masahiro Yamada
+MST
