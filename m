@@ -2,167 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40F1477F02
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2019 12:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D19AF7800B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jul 2019 17:11:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbfG1KJu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Jul 2019 06:09:50 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54084 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbfG1KJu (ORCPT
+        id S1726043AbfG1PLt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Jul 2019 11:11:49 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:43521 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbfG1PLt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Jul 2019 06:09:50 -0400
-Received: by mail-wm1-f68.google.com with SMTP id x15so51344539wmj.3;
-        Sun, 28 Jul 2019 03:09:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UDJukCltcBoDIamYjAzjZ4beReUXQTV1IlWv2RKZBIo=;
-        b=PHWpmSHGn0qN1rLjzViuNkJnXzq1f2nCbIiQUoEWGWWkU4iuellFtBzdMZiyWoefzg
-         4TuZzXX6Q7uaBT9smt7ECPUF7e/m6qEbq1NXHxsWyIIGqEy5XjuC6RD3Lf38uXdA+P+r
-         fg9u8iLtg4aBOwifwonfyXY28Dn/qISObjF/mCThaeKc7jZ4i286Gsia+rbIZtOlqUJX
-         BNHcTP/cgzAspT8AaENX/8bZ431ci9ubnxXXdixSbfYHkQc/c3vJFM6ZI2uqxI9Oe+lh
-         cBks8/x1ztJJLwJEu4RQuJAzoJu910wtV9VzebG4/aHGuBpzaquuCNlW8BSTZzreAl0O
-         m/IQ==
-X-Gm-Message-State: APjAAAW1JPkyjTM4SWtLfQaaU+BpihT8qSqXE9nrRNQlgLCtCF0PjaNr
-        qc9A2UNhVJa5EoX6P36/fPw=
-X-Google-Smtp-Source: APXvYqwoz6Z+wgrSR4vFsGkD7BNjOhJJW1on8ALUEDE+NyuhaIUMaLGwF3tD4pd4jlaK7QTI3b9slw==
-X-Received: by 2002:a1c:cb43:: with SMTP id b64mr92535116wmg.135.1564308587840;
-        Sun, 28 Jul 2019 03:09:47 -0700 (PDT)
-Received: from localhost.localdomain (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
-        by smtp.googlemail.com with ESMTPSA id y16sm124811890wrg.85.2019.07.28.03.09.45
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 28 Jul 2019 03:09:46 -0700 (PDT)
-From:   Denis Efremov <efremov@linux.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Denis Efremov <efremov@linux.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] modpost: check for static EXPORT_SYMBOL* functions
-Date:   Sun, 28 Jul 2019 13:09:06 +0300
-Message-Id: <20190728100906.18847-1-efremov@linux.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190714152817.24693-1-efremov@linux.com>
-References: <20190714152817.24693-1-efremov@linux.com>
+        Sun, 28 Jul 2019 11:11:49 -0400
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x6SFBWNn028910;
+        Mon, 29 Jul 2019 00:11:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x6SFBWNn028910
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1564326693;
+        bh=ExnBxlNsdkdRsGIbbztzAA2NyB7gk0xKk0Ma9WF4zXw=;
+        h=From:Date:Subject:To:Cc:From;
+        b=BhyaFGH9oJWYGWpxj3Un72GmW9J2nunWDOSM0e0x9mYwYC5OfYKU08eOy3CzojGYI
+         DBKhwBSqLCUkVDFb8eQ2LOv8u7qhXEeIwScW5CimOXJURHvIwNERx7apC6IQpLQDRN
+         qew3lZtb0DZSArQNGlrhQhFyV2BEtbzJYcBtFOKWufmQIc5BwAA2YFqsIpOXu44ycN
+         CsGWioHf7HQiqmO1FxMfXxjmU2XqqTHZIWbM36OJjOlCE7pgxxBjc/xByaDh+gMmal
+         gWgbjwbI2Rpo5VBvzliB9pQF290KKd3YsL4EDFAnNS1wlyRlgA0TMfRyIJ8EZGRGDc
+         zX0yDq74Yi0IQ==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id u3so39121784vsh.6;
+        Sun, 28 Jul 2019 08:11:32 -0700 (PDT)
+X-Gm-Message-State: APjAAAWBBKLDPD39IHI9QoMuSfonpL75WK1xEvTdJTNPylhyHeT5W0JB
+        VgYZX6xpSwc7yLwfUyFjbOBFeBdY20fsl3Z6noY=
+X-Google-Smtp-Source: APXvYqweBwz+7NKA+W4uIIWC3GST2ggikIg5Xe4hc5QDD8r7Fsxcrk8Zt5mdqUdS+N3kEVa5fPrQSxm89k0hJrEgm8M=
+X-Received: by 2002:a67:d46:: with SMTP id 67mr65669174vsn.181.1564326691833;
+ Sun, 28 Jul 2019 08:11:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Mon, 29 Jul 2019 00:10:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATrjXdeMmptd0xRJwXexe_iJwJAUvEf0jQTaLkjWkaKfw@mail.gmail.com>
+Message-ID: <CAK7LNATrjXdeMmptd0xRJwXexe_iJwJAUvEf0jQTaLkjWkaKfw@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.3-rc2
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     masahiroy@kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This patch adds a check to warn about static EXPORT_SYMBOL* functions
-during the modpost. In most of the cases, a static symbol marked for
-exporting is an odd combination that should be fixed either by deleting
-the exporting mark or by removing the static attribute and adding the
-appropriate declaration to headers.
+Hi Linus,
 
-This check could help to detect the following problems:
-1. 550113d4e9f5 ("i2c: add newly exported functions to the header, too")
-2. 54638c6eaf44 ("net: phy: make exported variables non-static")
-3. 98ef2046f28b ("mm: remove the exporting of totalram_pages")
-4. 73df167c819e ("s390/zcrypt: remove the exporting of ap_query_configuration")
-5. a57caf8c527f ("sunrpc/cache: remove the exporting of cache_seq_next")
-6. e4e4730698c9 ("crypto: skcipher - remove the exporting of skcipher_walk_next")
-7. 14b4c48bb1ce ("gve: Remove the exporting of gve_probe")
-8. 9b79ee9773a8 ("scsi: libsas: remove the exporting of sas_wait_eh")
-9. ...
+Please pull some Kbuild fixes.
+Thanks!
 
-Build time impact, allmodconfig, Dell XPS 15 9570 (measurements 3x):
-$ make mrproper; make allmodconfig; time make -j12; \
-  git checkout HEAD~1; \
-  make mrproper; make allmodconfig; time make -j12
-1.
-   (with patch) 17635,94s user 1895,54s system 1085% cpu 29:59,22 total
-   (w/o  patch) 17275,42s user 1803,87s system 1112% cpu 28:35,66 total
-2.
-   (with patch) 17369,51s user 1763,28s system 1111% cpu 28:41,47 total
-   (w/o  patch) 16880,50s user 1670,93s system 1113% cpu 27:46,56 total
-3.
-   (with patch) 17937,88s user 1842,53s system 1109% cpu 29:42,26 total
-   (w/o  patch) 17267,55s user 1725,09s system 1111% cpu 28:28,17 total
 
-Thus, the current implementation adds approx. 1 min for allmodconfig.
+The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
 
-Acked-by: Emil Velikov <emil.l.velikov@gmail.com>
-Signed-off-by: Denis Efremov <efremov@linux.com>
----
- scripts/mod/modpost.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index f277e116e0eb..85e885235c96 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -169,6 +169,7 @@ struct symbol {
- 	unsigned int kernel:1;     /* 1 if symbol is from kernel
- 				    *  (only for external modules) **/
- 	unsigned int preloaded:1;  /* 1 if symbol from Module.symvers, or crc */
-+	unsigned int is_static:1;  /* 1 if symbol is not global */
- 	enum export  export;       /* Type of export */
- 	char name[0];
- };
-@@ -201,6 +202,7 @@ static struct symbol *alloc_symbol(const char *name, unsigned int weak,
- 	strcpy(s->name, name);
- 	s->weak = weak;
- 	s->next = next;
-+	s->is_static = 1;
- 	return s;
- }
- 
-@@ -1980,6 +1982,22 @@ static void read_symbols(const char *modname)
- 		handle_modversions(mod, &info, sym, symname);
- 		handle_moddevtable(mod, &info, sym, symname);
- 	}
-+
-+	// check for static EXPORT_SYMBOL_* functions && global vars
-+	for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
-+		unsigned char bind = ELF_ST_BIND(sym->st_info);
-+		unsigned char type = ELF_ST_TYPE(sym->st_info);
-+
-+		if (type == STT_OBJECT || type == STT_FUNC) {
-+			struct symbol *s =
-+				find_symbol(remove_dot(info.strtab +
-+						       sym->st_name));
-+
-+			if (s && (bind == STB_GLOBAL || bind == STB_WEAK))
-+				s->is_static = 0;
-+		}
-+	}
-+
- 	if (!is_vmlinux(modname) || vmlinux_section_warnings)
- 		check_sec_ref(mod, modname, &info);
- 
-@@ -2425,6 +2443,7 @@ int main(int argc, char **argv)
- 	char *dump_write = NULL, *files_source = NULL;
- 	int opt;
- 	int err;
-+	size_t n;
- 	struct ext_sym_list *extsym_iter;
- 	struct ext_sym_list *extsym_start = NULL;
- 
-@@ -2520,6 +2539,19 @@ int main(int argc, char **argv)
- 	if (sec_mismatch_count && sec_mismatch_fatal)
- 		fatal("modpost: Section mismatches detected.\n"
- 		      "Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.\n");
-+	for (n = 0; n < SYMBOL_HASH_SIZE; n++) {
-+		struct symbol *s = symbolhash[n];
-+
-+		while (s) {
-+			if (s->is_static)
-+				warn("\"%s\" [%s] is the static %s\n",
-+				     s->name, s->module->name,
-+				     export_str(s->export));
-+
-+			s = s->next;
-+		}
-+	}
-+
- 	free(buf.p);
- 
- 	return err;
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.3
+
+for you to fetch changes up to b25e8a23d4ea7e8ade2c349c22efe88da88c0988:
+
+  kbuild: remove unused single-used-m (2019-07-27 12:18:19 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v5.3
+
+ - add compile_commands.json to .gitignore
+
+ - fix false-positive warning from gen_compile_commands.py after
+   allnoconfig build
+
+ - remove unused code
+
+----------------------------------------------------------------
+Masahiro Yamada (3):
+      kbuild: remove unused objectify macro
+      gen_compile_commands: lower the entry count threshold
+      kbuild: remove unused single-used-m
+
+Toru Komatsu (1):
+      .gitignore: Add compilation database file
+
+ .gitignore                      | 3 +++
+ scripts/Kbuild.include          | 3 ---
+ scripts/Makefile.lib            | 2 --
+ scripts/gen_compile_commands.py | 4 ++--
+ 4 files changed, 5 insertions(+), 7 deletions(-)
+
+
 -- 
-2.21.0
-
+Best Regards
+Masahiro Yamada
