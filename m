@@ -2,89 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F37778350
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 04:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E62478356
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 04:28:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726257AbfG2CXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Jul 2019 22:23:06 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:38742 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726251AbfG2CXG (ORCPT
+        id S1726150AbfG2C2K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Jul 2019 22:28:10 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:46479 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbfG2C2K (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Jul 2019 22:23:06 -0400
+        Sun, 28 Jul 2019 22:28:10 -0400
 Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x6T2MvFL019173;
-        Mon, 29 Jul 2019 11:22:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6T2MvFL019173
+        by conssluserg-04.nifty.com with ESMTP id x6T2RvWA017712;
+        Mon, 29 Jul 2019 11:27:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6T2RvWA017712
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564366979;
-        bh=k2QLRiQDkuWaSKfcHfJ1y09U5DDhg6N4MqdklqLha/I=;
+        s=dec2015msa; t=1564367278;
+        bh=fuZnDsZpEjCp0F5PNZMcUKY5REV4m18B0lrZlOvAENw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ee8L3ueOLqVby60tIJw+TDcauMGJFvheuTaNbuXD9dRtTxAZaFgu6+Q/qgiJx/ZNc
-         x+JD2oNc6kLR0OWp3qNXxW3IXG5LobU5VZdhUmStKkpwMs3DyI5tr5JlkN11t886Yc
-         wOLWyVfFwO/emKp0h1deW4FcC+PxS2qdSXH7xeG12AwVFHBMBLvXCRF/sWmNxU8e7Q
-         nTw7/RfB5R92txlZcNNJzQBPxgdvlSljojahtCzHWDWEDyVd+r8r+X6VIU031cjQhA
-         EZ08CyrDp24x9T0kEaHM2cMttE20IVV/tb3dBjhjaBQvnqd0jf/KAvZOcIgyO8Pt7X
-         3O+HzaEeEzHSw==
+        b=vsUZVzRXAnGOJXyG6FvMBKTegKUZilyCP9sDOxJzbUlCUMKwl8aWmKG32OqWEHkWx
+         Hy4JlKv7FEfsnoB1xZiypCxZK9Ge38s2v74tDlkAJlIrpR7r7c1NIjZED3n8+4Uw4E
+         ipuRBmaQys67OgDpP7YipMVvktuSxdfIFrtVk/0ornkNux5le1yqbbSRQzyVy6LauS
+         T1sDhvTOi9oeLHwSsSnVxsOozf43oDqV2vb+ej9iWIuvhfb1WF3hDg/5qsAQjwxnXQ
+         4k504SAAFYq03KSVoBK/vIO9uPi41tCJDixaN8vv2DTkcPEGHqzN2JHgbYKceh3XZL
+         N9pRIBiBAJk6g==
 X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id j26so39775871vsn.10;
-        Sun, 28 Jul 2019 19:22:58 -0700 (PDT)
-X-Gm-Message-State: APjAAAV9tzxbIyAJEOMiO3DlK/2s8yCOjWT8HhSM/fZbyVELmYYCMZjH
-        8tnUHyCXTsJvFTx2E75kRnN5Cna+DaOgyIotwn4=
-X-Google-Smtp-Source: APXvYqyrZPLPyFW53wQOZQgQ0oT2otDrFG15Cv/CAdpu7iC9TYlGMBeCiJhYHC3Ji46UZTXdksVnhaNeNiAO3551DHI=
-X-Received: by 2002:a67:f495:: with SMTP id o21mr65883672vsn.54.1564366977087;
- Sun, 28 Jul 2019 19:22:57 -0700 (PDT)
+Received: by mail-vs1-f53.google.com with SMTP id a186so38168529vsd.7;
+        Sun, 28 Jul 2019 19:27:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAVxRRDhVu/ZFnm+xM6+FL9iwvoPVR/iWKN0V/ys5BizT6WZek7A
+        sA15JcPEWwflJkHuRFjcEf//1oaI9SqJQrgkTPY=
+X-Google-Smtp-Source: APXvYqzxpkojkQEpX7swU62BBxk4pqBB3bItrBsJECsncJjK9lP6nEWHSj07bRXwqpxupvKDkuycdvonNU518J3dcrU=
+X-Received: by 2002:a67:d46:: with SMTP id 67mr66750201vsn.181.1564367276406;
+ Sun, 28 Jul 2019 19:27:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <alpine.DEB.2.21.1907262245320.1791@nanos.tec.linutronix.de>
- <CAK7LNAS1=+OccAd3asj9P9JMWnhimRWR+dPQREOyK3y=Dx2odg@mail.gmail.com>
- <alpine.DEB.2.21.1907281111570.1791@nanos.tec.linutronix.de> <alpine.DEB.2.21.1907282026320.1791@nanos.tec.linutronix.de>
-In-Reply-To: <alpine.DEB.2.21.1907282026320.1791@nanos.tec.linutronix.de>
+References: <alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de>
+ <20190716170606.GA38406@archlinux-threadripper> <alpine.DEB.2.21.1907162059200.1767@nanos.tec.linutronix.de>
+ <alpine.DEB.2.21.1907162135590.1767@nanos.tec.linutronix.de>
+ <CAK7LNASBiaMX8ihnmhLGmYfHX=ZHZmVN91nxmFZe-OCaw6Px2w@mail.gmail.com>
+ <alpine.DEB.2.21.1907170955250.1767@nanos.tec.linutronix.de>
+ <CAHbf0-GyQzWcRg_BP2B5pVzEJoxSE_hX5xFypS--7Q5LSHxzWw@mail.gmail.com>
+ <CAK7LNATJGbSYyuxV7npC_bQiXQShb=7J7dcQcOaupnL5-GhADg@mail.gmail.com>
+ <alpine.DEB.2.21.1907230837400.1659@nanos.tec.linutronix.de> <alpine.DEB.2.21.1907231013340.1659@nanos.tec.linutronix.de>
+In-Reply-To: <alpine.DEB.2.21.1907231013340.1659@nanos.tec.linutronix.de>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 29 Jul 2019 11:22:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARTNzxHg4G0jxdNcNhwxtSbBRYNKgYSeFfR1edMw5DrwQ@mail.gmail.com>
-Message-ID: <CAK7LNARTNzxHg4G0jxdNcNhwxtSbBRYNKgYSeFfR1edMw5DrwQ@mail.gmail.com>
-Subject: Re: [PATCH V2] Kbuild: Handle PREEMPT_RT for version string and magic
+Date:   Mon, 29 Jul 2019 11:27:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATg38uFeY8JKnNPXudv8y4O1g=TPtvEbcBjrqFXSaKgdQ@mail.gmail.com>
+Message-ID: <CAK7LNATg38uFeY8JKnNPXudv8y4O1g=TPtvEbcBjrqFXSaKgdQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Fail if gold linker is detected
 To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+Cc:     Mike Lothian <mike@fireburn.co.uk>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        X86 ML <x86@kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sebastian Sewior <bigeasy@linutronix.de>
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        linux-arch <linux-arch@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 3:27 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+On Tue, Jul 23, 2019 at 5:17 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> Update the build scripts and the version magic to reflect when
-> CONFIG_PREEMPT_RT is enabled in the same way as CONFIG_PREEMPT is treated.
+> On Tue, 23 Jul 2019, Thomas Gleixner wrote:
+> > On Tue, 23 Jul 2019, Masahiro Yamada wrote:
+> > > Right.
+> > > I was able to build with ld.gold
+> > >
+> > > So, we can use gold, depending on the kernel configuration.
+> >
+> > That's exactly the problem. It breaks with random kernel configurations
+> > which is not acceptable except for people who know what they are doing.
+> >
+> > I'm tired of dealing with half baken fixes and 'regression' reports. Either
+> > there is an effort to fix the issues with gold like the clang people fix
+> > their issues or it needs to be disabled. We have a clear statement that
+> > gold developers have other priorities.
 >
-> The resulting version strings:
->
->   Linux m 5.3.0-rc1+ #100 SMP Fri Jul 26 ...
->   Linux m 5.3.0-rc1+ #101 SMP PREEMPT Fri Jul 26 ...
->   Linux m 5.3.0-rc1+ #102 SMP PREEMPT_RT Fri Jul 26 ...
->
-> The module vermagic:
->
->   5.3.0-rc1+ SMP mod_unload modversions
->   5.3.0-rc1+ SMP preempt mod_unload modversions
->   5.3.0-rc1+ SMP preempt_rt mod_unload modversions
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> Cc: linux-kbuild@vger.kernel.org
-> ---
-> V2: Simplify the ifdeffery as pointed out by Masahiro
+> That said, I'm perfectly happy to move this to x86 and leave it alone for
+> other architectures, but it does not make sense to me.
+
+
+I did not see opposition from other arch maintainers.
+
+
+> If the gold fans care enough, then we can add something like
+> CONFIG_I_WANT_TO_USE_GOLD_AND_DEAL_WITH_THE_FALLOUT_MYSELF.
+
+Let's apply this and see.
+
+If somebody really wants to use gold by his risk,
+I will consider such a config option.
 
 
 Applied to linux-kbuild.
 Thanks.
+
 
 -- 
 Best Regards
