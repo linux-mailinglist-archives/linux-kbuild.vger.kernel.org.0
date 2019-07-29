@@ -2,211 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F081A78912
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 12:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2788078BA6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 14:20:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726358AbfG2KD3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jul 2019 06:03:29 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:38228 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726281AbfG2KD3 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jul 2019 06:03:29 -0400
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x6TA3GJv016075;
-        Mon, 29 Jul 2019 19:03:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6TA3GJv016075
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564394599;
-        bh=PQ1lW8hCACRopxeIn1rb+/2MV5nijDnDrawKlmXu17I=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XzIN/vRMjOijsDNhisvnc4aUdwKr/dcy46qdcN2Xiyz+SvX72V01JLM2nDDYioti7
-         n9BvyWFahfhyoDgCpv3Xu7ODX91pQzULJb+isYtlqLfW/wdXWoMGXNvNyhBqEHW++e
-         2DaxgolkZRklDFiXQcM+G2hBkqmHdsh92g0AmBPBaaIwIm37wt7F/oU/mkfufVA44K
-         Co82KSVOCporsFryVQ0pO6nv6O8raiGEjGwkRMOFS8IzUceEDjveVUTXt2RhwKlY/v
-         TOGvEhnPwvEIDMnmT8GmDLRAgdD7VcnKsPBDhzCabtiDEyidHjktzQ6lVjhBNlAJCr
-         a1KGAmy1CbMUQ==
-X-Nifty-SrcIP: [209.85.222.46]
-Received: by mail-ua1-f46.google.com with SMTP id 34so23728578uar.8;
-        Mon, 29 Jul 2019 03:03:17 -0700 (PDT)
-X-Gm-Message-State: APjAAAVZEoLu9uAC8heDqEQreFNKNP22ks5xbDr2c0LqSTQ5eq6NHrDx
-        igZVXPe8RhvQA8av4MhrFFL0ybEPJzSOMs+SUjc=
-X-Google-Smtp-Source: APXvYqw4vC3/3fwo2wuS7rX2cAwonROKMI6xSAnOW2aAWfuyPqZyUqLIZcZCYKk3ctXgRTAxR7LyhJ/GR0sqCnexC7M=
-X-Received: by 2002:ab0:234e:: with SMTP id h14mr38875070uao.25.1564394595901;
- Mon, 29 Jul 2019 03:03:15 -0700 (PDT)
+        id S1727823AbfG2MUw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jul 2019 08:20:52 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40345 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725956AbfG2MUw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 29 Jul 2019 08:20:52 -0400
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 45xzL76qMgz9s7T;
+        Mon, 29 Jul 2019 22:20:47 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1564402848;
+        bh=3ZkE3Wh5jiD52ViBI3ydmbVsv7nbSViohUmvTLpbK70=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=KWfxRLwMNOziGpWS6BoNYIOFdG/0wx8TN+5p2DFAZJ0yBReJYDTgOYdDgW3P82Qcc
+         MC8cQo+h4DZJ/EsAc3f/6m39bl881hwKgkervD4W41jonANn+rQUaNKI2SuhCmHAWn
+         NqXGuM8tBdJntI3LQ+CSEYkpDQMTHXbLwT1Pusgs16ovgQ0iV/jOCNBQt/Gw7uzu05
+         kHvBIoRAs4E09TbJODyukwcBd3vXrgpP/5s8U0MbwWutQUj9zbTSU3RygqIeDtvlbd
+         JgQEZr1H3odoftAwmqgfw2unfVC5U59siY9i1uZ+mRT4uXX5hJ7nogLy7fI4Tz48R2
+         kySap4hjMXHnw==
+Date:   Mon, 29 Jul 2019 22:20:45 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Denis Efremov <efremov@linux.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] modpost: check for static EXPORT_SYMBOL* functions
+Message-ID: <20190729222045.4b491ffb@canb.auug.org.au>
+In-Reply-To: <20190729092250.32670-1-efremov@linux.com>
+References: <20190714152817.24693-1-efremov@linux.com>
+        <20190729092250.32670-1-efremov@linux.com>
 MIME-Version: 1.0
-References: <20190725154730.80169-1-swboyd@chromium.org>
-In-Reply-To: <20190725154730.80169-1-swboyd@chromium.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 29 Jul 2019 19:02:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZJgkx-yEwgHcTapKFayExgUCb3=zLBpJmVMJMeEA_WA@mail.gmail.com>
-Message-ID: <CAK7LNAQZJgkx-yEwgHcTapKFayExgUCb3=zLBpJmVMJMeEA_WA@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Check for unknown options with cc-option usage
- in Kconfig and clang
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Peter Smith <peter.smith@linaro.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Douglas Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/Ak=QLX=2NJUyzZgETBpXpbk";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi.
+--Sig_/Ak=QLX=2NJUyzZgETBpXpbk
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 26, 2019 at 12:47 AM Stephen Boyd <swboyd@chromium.org> wrote:
+Hi Denis,
+
+Just a small note (nit? :-)):
+
+On Mon, 29 Jul 2019 12:22:50 +0300 Denis Efremov <efremov@linux.com> wrote:
 >
-> If the particular version of clang a user has doesn't enable
-> -Werror=unknown-warning-option by default, even though it is the
-> default[1], then make sure to pass the option to the Kconfig cc-option
-> command so that testing options from Kconfig files works properly.
-> Otherwise, depending on the default values setup in the clang toolchain
-> we will silently assume options such as -Wmaybe-uninitialized are
-> supported by clang, when they really aren't.
->
-> A compilation issue only started happening for me once commit
-> 589834b3a009 ("kbuild: Add -Werror=unknown-warning-option to
-> CLANG_FLAGS") was applied on top of commit b303c6df80c9 ("kbuild:
-> compute false-positive -Wmaybe-uninitialized cases in Kconfig"). This
-> leads kbuild to try and test for the existence of the
-> -Wmaybe-uninitialized flag with the cc-option command in
-> scripts/Kconfig.include, and it doesn't see an error returned from the
-> option test so it sets the config value to Y. Then the Makefile tries to
-> pass the unknown option on the command line and
-> -Werror=unknown-warning-option catches the invalid option and breaks the
-> build. Before commit 589834b3a009 ("kbuild: Add
-> -Werror=unknown-warning-option to CLANG_FLAGS") the build works fine,
-> but any cc-option test of a warning option in Kconfig files silently
-> evaluates to true, even if the warning option flag isn't supported on
-> clang.
->
-> Note: This doesn't change cc-option usages in Makefiles because those
-> use a different rule that includes KBUILD_CFLAGS by default (see the
-> __cc-option command in scripts/Kbuild.incluide). The KBUILD_CFLAGS
-> variable already has the -Werror=unknown-warning-option flag set. Thanks
-> to Doug for pointing out the different rule.
->
-> [1] https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option
-> Cc: Peter Smith <peter.smith@linaro.org>
-> Cc: Nathan Chancellor <natechancellor@gmail.com>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
+> +			if (s->is_static)
+> +				warn("\"%s\" [%s] is the static %s\n",
 
-Thanks for catching this.
+This read a little wrong to me, maybe "is a static"?
 
-I wonder if we could fix this issue
-by one-liner, like this:
+--=20
+Cheers,
+Stephen Rothwell
 
+--Sig_/Ak=QLX=2NJUyzZgETBpXpbk
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index 8a5c4d645eb1..4bbf4fc163a2 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -25,7 +25,7 @@ failure = $(if-success,$(1),n,y)
+-----BEGIN PGP SIGNATURE-----
 
- # $(cc-option,<flag>)
- # Return y if the compiler supports <flag>, n otherwise
--cc-option = $(success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null)
-+cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c
-/dev/null -o /dev/null)
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0+5J0ACgkQAVBC80lX
+0GxG5wgApfJ4ZYIP4/nrvt1ZpHnsVu8rZOSuHQBxLepKCgo2wcYPrgDfSyyhrsYR
+qK3mVW9IjuHCqRbbjoPQMzrHREdO11fIOvrGQyDNHE2FkUdkd1tr2SnBQmNov6LO
+VtsyfEl6Iubq0Fv4RCALpas0lkdww7oz5fFIi10E51wX24p3q0OWLNJo3/6bsATi
+XRuaH5VJ94fbWODxfQQeLpab+20pQABFUZQPM81pWG1jDHhod4IkCz1sJM/TC4IP
+oOPhA9mBh/Pd8B9i88Mxcy1Jk62bkM7f1VG/lUHyY7hV8yTRHPlcGaHUgw2ye2XF
+GiYlOFlRCmQKIpL1dt1JBY5kC286rw==
+=Axup
+-----END PGP SIGNATURE-----
 
- # $(ld-option,<flag>)
- # Return y if the linker supports <flag>, n otherwise
-
-
-
-This propagates not only -Werror=unknown-warning-option
-but also other clang flags to Kconfig.
-
-
-Currently, we do not pass the target triplet to Kconfig.
-This means, cc-option in Kconfig evaluates the given flags
-against host-arch instead of target-arch.
-The compiler flags are mostly independent of the architecture,
-and this is not a big deal, I think.
-But, maybe, would it make more sense to pass the other
-basic clang flags as well?
-
-
-To do this, the following is necessary as a prerequisite:
-https://patchwork.kernel.org/patch/11063507/
-
-Anyway, uninitialized CLANG_FLAGS is a bug, which must be
-back-ported.
-
-
-Thanks.
-
-
-
-
-
-
-
-
-> Changes from v1:
->  * Reworded commit text a bit
->  * Added Reviewed-by tag
->
->  Makefile                | 5 +++++
->  scripts/Kconfig.include | 2 +-
->  2 files changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 9be5834073f8..28177674178a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -517,6 +517,8 @@ ifdef building_out_of_srctree
->         { echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
->  endif
->
-> +KCONFIG_CC_OPTION_FLAGS := -Werror
-> +
->  ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
->  ifneq ($(CROSS_COMPILE),)
->  CLANG_FLAGS    := --target=$(notdir $(CROSS_COMPILE:%-=%))
-> @@ -531,11 +533,14 @@ ifeq ($(shell $(AS) --version 2>&1 | head -n 1 | grep clang),)
->  CLANG_FLAGS    += -no-integrated-as
->  endif
->  CLANG_FLAGS    += -Werror=unknown-warning-option
-> +KCONFIG_CC_OPTION_FLAGS += -Werror=unknown-warning-option
->  KBUILD_CFLAGS  += $(CLANG_FLAGS)
->  KBUILD_AFLAGS  += $(CLANG_FLAGS)
->  export CLANG_FLAGS
->  endif
->
-> +export KCONFIG_CC_OPTION_FLAGS
-> +
->  # The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
->  # Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
->  # CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> index 8a5c4d645eb1..144e83e7cb81 100644
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -25,7 +25,7 @@ failure = $(if-success,$(1),n,y)
->
->  # $(cc-option,<flag>)
->  # Return y if the compiler supports <flag>, n otherwise
-> -cc-option = $(success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null)
-> +cc-option = $(success,$(CC) $(KCONFIG_CC_OPTION_FLAGS) $(1) -E -x c /dev/null -o /dev/null)
->
->  # $(ld-option,<flag>)
->  # Return y if the linker supports <flag>, n otherwise
-> --
-> Sent by a computer through tubes
->
-
-
---
-Best Regards
-Masahiro Yamada
+--Sig_/Ak=QLX=2NJUyzZgETBpXpbk--
