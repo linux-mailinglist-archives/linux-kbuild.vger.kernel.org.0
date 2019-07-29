@@ -2,82 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AA8F78455
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 07:13:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C22C78821
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 11:16:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbfG2FNz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jul 2019 01:13:55 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50349 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726012AbfG2FNz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jul 2019 01:13:55 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 45xnsW5fp6z9s00;
-        Mon, 29 Jul 2019 15:13:51 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1564377232;
-        bh=QuGOn8C+K50DWu78WniLWcdc+XreUwSiEy+j0lxYyH4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TauNOvaHLBKhXH22Z1Bd4I9/jUQc9B8XGXo6vAEG113TYbITuLz7Cfl0EQcIEFWch
-         ODUnPy6baL3dPdeynhiNkmRX69Ftm0XcaQPI///R9bpxB18mCo18qAH+SCzyutq9sY
-         x7LhcIiVri49TWKENRCUkdIVEg6g87yfbtrlgiQtA/r/oDOx0oXkjSe8MyDv8Mb1f3
-         LcjmAahidsZMMgrcWA6IY+tIcBzZmdMnSbKGdVlp+6UMgD1PyTzJhv9T0Vc9XzDiAV
-         O/MQ0wJIlqaBWF3OhHFpaXyx0RJr/MI6MoRZAUsM8COOFpQaNneNE78uWBRQfm42Mc
-         dZJHSVaw6at3g==
-Date:   Mon, 29 Jul 2019 15:13:51 +1000
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Denis Efremov <efremov@linux.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] modpost: check for static EXPORT_SYMBOL* functions
-Message-ID: <20190729151351.24f9eeb9@canb.auug.org.au>
-In-Reply-To: <20190728100906.18847-1-efremov@linux.com>
-References: <20190714152817.24693-1-efremov@linux.com>
-        <20190728100906.18847-1-efremov@linux.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/fSyd3K5KRCXREfTWGJHSsGT";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+        id S1726535AbfG2JQa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jul 2019 05:16:30 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:61233 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726496AbfG2JQ3 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 29 Jul 2019 05:16:29 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x6T9FQFU007006;
+        Mon, 29 Jul 2019 18:15:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6T9FQFU007006
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1564391727;
+        bh=16VOGPWZt50QIHw/yZwbKWLNAnF5eIhm7sbfTUqTMxA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=u/TOvPqsajpOhFpabeQCcu9qwyoIyMmujb5rMmt9gB0Wd+b+HQleb4MRmthDq5rGL
+         9MJfl3XWc796KP5LciGQTI0lDcDnuMBMCX0hsvK0G33oq5rGnxkOD7DAHhd9cWviI9
+         R9otBuj5iDdjHfKzzE/Ll53q0VQ01ujIpNhDDyiJWbd8s8go7BT3YWNKG4LITpsIJG
+         /y0WY7HleQol3+W8Zu8r85nJofkrjLEvbnTcF/AOyQj/4A+vRYHv+vkT/Xgql+b/ky
+         HfQSevJduCNBLGpsqSuKkt9pUACuU3kTG5QH9i1CZUjx3DuXo7onZNdSRE6GVSfoYT
+         zmkzFARkmZQkQ==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        stable@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: initialize CLANG_FLAGS correctly in the top Makefile
+Date:   Mon, 29 Jul 2019 18:15:17 +0900
+Message-Id: <20190729091517.5334-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---Sig_/fSyd3K5KRCXREfTWGJHSsGT
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+CLANG_FLAGS is initialized by the following line:
 
-Hi Denis,
+  CLANG_FLAGS     := --target=$(notdir $(CROSS_COMPILE:%-=%))
 
-On Sun, 28 Jul 2019 13:09:06 +0300 Denis Efremov <efremov@linux.com> wrote:
->
-> Thus, the current implementation adds approx. 1 min for allmodconfig.
+..., which is run only when CROSS_COMPILE is set.
 
-Just a reminder that some of us (just me?) do well over 100+ builds per
-day ...  if this can be optimised some what that would be good.
+Some build targets (bindeb-pkg etc.) recurse to the top Makefile.
 
---=20
-Cheers,
-Stephen Rothwell
+When you build the kernel with Clang but without CROSS_COMPILE,
+the same compiler flags such as -no-integrated-as are accumulated
+into CLANG_FLAGS.
 
---Sig_/fSyd3K5KRCXREfTWGJHSsGT
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+If you run 'make CC=clang' and then 'make CC=clang bindeb-pkg',
+Kbuild will recompile everything needlessly due to the build command
+change.
 
------BEGIN PGP SIGNATURE-----
+Fix this by correctly initializing CLANG_FLAGS.
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0+gI8ACgkQAVBC80lX
-0GzDlAgAj8tlMdZYaX6/zkzdTuPCBG03dlkV7SVXM1VvedIhPgKU9iA2oCFuUGKI
-g6gfwXKOXeInsNMJAcND2YQcsVuD83HOnwWCUXiWmKbLhwrauCj80x+F0LsVROan
-mSGjEEJOZuI8UAcb4ER998RELlcoD4W4IZB1LS/pjBkhLOyqyptAlfjecH0ZfQ23
-JWC0SsfpeGDNF4De4GBK9ozxuwx911ufpsHSO+0pVUMF48E5gXobj7l8ukApBJfH
-RJ1dwLP5+OMeA+mTWRxdaIlLrZNOwO/NloYjuVGn8ICZf4VawxYxD71COB7xXwgo
-dQdh9sT+0Yg9BkZIU3mR36GnbXPyqQ==
-=LHxE
------END PGP SIGNATURE-----
+Fixes: 238bcbc4e07f ("kbuild: consolidate Clang compiler flags")
+Cc: <stable@vger.kernel.org> # v4.20+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
---Sig_/fSyd3K5KRCXREfTWGJHSsGT--
+ Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index fa0fbe7851ea..5ee6f6889869 100644
+--- a/Makefile
++++ b/Makefile
+@@ -472,6 +472,7 @@ KBUILD_CFLAGS_MODULE  := -DMODULE
+ KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
+ KBUILD_LDFLAGS :=
+ GCC_PLUGINS_CFLAGS :=
++CLANG_FLAGS :=
+ 
+ export ARCH SRCARCH CONFIG_SHELL HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE AS LD CC
+ export CPP AR NM STRIP OBJCOPY OBJDUMP PAHOLE KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS
+@@ -519,7 +520,7 @@ endif
+ 
+ ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
+ ifneq ($(CROSS_COMPILE),)
+-CLANG_FLAGS	:= --target=$(notdir $(CROSS_COMPILE:%-=%))
++CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
+ GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+ CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)
+ GCC_TOOLCHAIN	:= $(realpath $(GCC_TOOLCHAIN_DIR)/..)
+-- 
+2.17.1
+
