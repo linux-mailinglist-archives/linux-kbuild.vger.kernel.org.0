@@ -2,91 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 952F67889C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 11:39:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03B2E788E3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 11:51:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbfG2Jjl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jul 2019 05:39:41 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:20905 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbfG2Jjl (ORCPT
+        id S1726358AbfG2Jvc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jul 2019 05:51:32 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35305 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726129AbfG2Jvc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:39:41 -0400
-X-Greylist: delayed 1392 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Jul 2019 05:39:40 EDT
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x6T9dZk6032431;
-        Mon, 29 Jul 2019 18:39:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x6T9dZk6032431
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564393176;
-        bh=OvGgGY+dgwLXgEKVa2h6PzusTMe05KI1PVF/woNjrhk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=A4v2BH/xAeLIhnO42BZ/x9uQ4+WEMdBV9dB+rYLnglOykUhWDFOFWVa73Emf8Gycm
-         rghWwoz3WN5dzBdIp+egO6z/MByjpw7VgupiEElTwzj4/5ERT1yacLPzSwCQ5xfjT7
-         26ZmIRLiXg+3kcrg+nLwRPYYRckZtTzmM6gL79HUOpF+MnmVdS3GsnxiCCd0wu1jgb
-         UrDFvjM67jKDTQul/vH5poRqoEa9PAUAKLrAVOcj+SDUHRLtP1KsBczN/VZnJTvNjO
-         fhb/VAXCWN/wJPbT2tYMXwlrGE7TNp0GeqJk7Qr5xZnIVkZpLYFAjIqczxgY5Afg2B
-         c4UVJAagV9O9g==
-X-Nifty-SrcIP: [209.85.221.176]
-Received: by mail-vk1-f176.google.com with SMTP id b69so11866731vkb.3;
-        Mon, 29 Jul 2019 02:39:36 -0700 (PDT)
-X-Gm-Message-State: APjAAAUt8NlOEj2859aPHppiGIZrFxsI0RJNJQgk4BJ0XRLSbM2km92j
-        4FYeZn77Kmw1Dws0XlDR87rR84F/CK4l9mbxcC0=
-X-Google-Smtp-Source: APXvYqwEX+Lp8XpvfBa4PcWqJpgOlLEg0Aba3p7+WL/zHArfuap+JR6G0C4CvAMZW3uB2c3HEIKDtFji+TvuRuE8UyM=
-X-Received: by 2002:a1f:a34c:: with SMTP id m73mr27418063vke.74.1564393175172;
- Mon, 29 Jul 2019 02:39:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190729091517.5334-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190729091517.5334-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 29 Jul 2019 18:38:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASjXdMJG5OVz4qhyGHHLGd0uZO9ifH_iqkUqYxKD+Xn2g@mail.gmail.com>
-Message-ID: <CAK7LNASjXdMJG5OVz4qhyGHHLGd0uZO9ifH_iqkUqYxKD+Xn2g@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: initialize CLANG_FLAGS correctly in the top Makefile
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Stephen Boyd <swboyd@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        stable <stable@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Mon, 29 Jul 2019 05:51:32 -0400
+Received: by mail-pg1-f193.google.com with SMTP id s1so21676611pgr.2;
+        Mon, 29 Jul 2019 02:51:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=99SJzMwxrwMnNx1bm3tOZBw23hbXmUU5QEMotAjzAQU=;
+        b=mxjSz2cr/XTBnsStpQdDFLT1n5z26yUA95VDktalQXWunR3mLrAZ7ccG79sHwjCzh9
+         eIDxeWlX83TIhRpB/zuvoUT3tU1E+6df+YbIT+TRfeFkGHQNhS2y4Xp6bt5E8A4IMxEQ
+         99aEIf26aUOQHkRlZOTg6ox/ZKy7SgIoBmVTUN7nhl4s1+29hgCeRiyKuQZdICCl1I29
+         Dqzxjol6U9K5KVUxwO26Kf5/kr8vkQEs6llQ54F/WKP3UEkHYGZNdgGzyYd82o23kK0f
+         3stF37VNA/Lf/77JexF1tyIo6WSaN3EUKVRS5YzHS6uww89GcTTVaMrxXKRUst3jVjMq
+         4jow==
+X-Gm-Message-State: APjAAAWkVjWyTNGys9xj/ckF6jv0oOZLADdmjj5PvM+kot6QWncTBhe6
+        TsVnvXPdzKAGIq7d7h/Y+G7G/330gbI=
+X-Google-Smtp-Source: APXvYqxW0gBaYbdNrJeg+Nj9EcKMx3/3WVdol/8RL+o0D4kiDd+ToB4XKdL8z/hpOlADft7c4138Kw==
+X-Received: by 2002:aa7:843c:: with SMTP id q28mr36252292pfn.152.1564393891184;
+        Mon, 29 Jul 2019 02:51:31 -0700 (PDT)
+Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
+        by smtp.gmail.com with ESMTPSA id e124sm98981280pfh.181.2019.07.29.02.51.26
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 02:51:30 -0700 (PDT)
+Subject: Re: [PATCH] modpost: check for static EXPORT_SYMBOL* functions
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20190714152817.24693-1-efremov@linux.com>
+ <20190728100906.18847-1-efremov@linux.com>
+ <CAK7LNAR9Gzeh6s2QGRF55ORCt1MMSit_cagx-+Ooor_sRC1U8w@mail.gmail.com>
+From:   Denis Efremov <efremov@linux.com>
+Message-ID: <21351100-46f2-1ce8-e5ed-722b0ca42801@linux.com>
+Date:   Mon, 29 Jul 2019 12:51:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <CAK7LNAR9Gzeh6s2QGRF55ORCt1MMSit_cagx-+Ooor_sRC1U8w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 6:16 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> CLANG_FLAGS is initialized by the following line:
->
->   CLANG_FLAGS     := --target=$(notdir $(CROSS_COMPILE:%-=%))
->
-> ..., which is run only when CROSS_COMPILE is set.
->
-> Some build targets (bindeb-pkg etc.) recurse to the top Makefile.
->
-> When you build the kernel with Clang but without CROSS_COMPILE,
-> the same compiler flags such as -no-integrated-as are accumulated
-> into CLANG_FLAGS.
->
-> If you run 'make CC=clang' and then 'make CC=clang bindeb-pkg',
-> Kbuild will recompile everything needlessly due to the build command
-> change.
->
-> Fix this by correctly initializing CLANG_FLAGS.
->
-> Fixes: 238bcbc4e07f ("kbuild: consolidate Clang compiler flags")
-> Cc: <stable@vger.kernel.org> # v4.20+
+On 29.07.2019 06:29, Masahiro Yamada wrote:
+> may I ask you to use 'int' instead of 'size_t' here?
 
-This should be v5.0+
+Fixed in v2.
 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
-
-
--- 
-Best Regards
-Masahiro Yamada
+Regards,
+Denis
