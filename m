@@ -2,103 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C23E791DC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 19:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4B67799FF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jul 2019 22:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727485AbfG2RRu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jul 2019 13:17:50 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:39495 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726940AbfG2RRt (ORCPT
+        id S1727964AbfG2Uap (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jul 2019 16:30:45 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:34985 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726713AbfG2Uap (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jul 2019 13:17:49 -0400
-Received: by mail-pl1-f195.google.com with SMTP id b7so27806050pls.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jul 2019 10:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XDpc8dttTfICfu+NA2rP7d7EK6Xfd1t48iUvlABkY5c=;
-        b=E6X9hG/qC+ZFNxAoh/s2Pax+XfWjHa0cGxosOaBllMvG1GoZ+bG7ht/P+SsHlvVM2i
-         iAKE8UKAG1/U41GXIS9cayYInLH7IhdLfc9d2fM77LE/9ZjF5EAp0NTs1Umd/hYBB8aK
-         ZPWUu/MSUNU+qmL7DyG4FegdgaQ4lSbnnfvmIHoynHJTgZfshP1otKFBvsI9Uw0nDVGF
-         u2gAJ5e8o+Q2z+6XMKTj0WNKR210qYVB2RM8HcZNBnh8Aci3EM3fKgJDZtv7nH7yjLdc
-         a5EsADvAaOmrrvElKx5wG0aHrb7xop8JK3ZevyugGcR3LOoQb7hb6N0oIP1G1cJjeoVZ
-         cQtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XDpc8dttTfICfu+NA2rP7d7EK6Xfd1t48iUvlABkY5c=;
-        b=pZJZGKJBeHynpE7IyeaKCLeyWCLBgJVajI8vyroETAf5sovbuXKIMoy4wEeLoTGria
-         IkOT27YQnjuIkLVcsrTjJtHvEG/p5TWdx+WgaoudG9Q6SNNmeXgY8faTiP91SCP3VzPb
-         Yr8X3EU5webo5WRp4a29bNDk5C8/4EAlioa4brRhnzKoKLT4d5jZmvfXBBV3CAcX5f4R
-         idhaojKL9deOUm3VBsJRIL+kFSNmHCUIdM1HORmmmQ3F9Ph2l2xjC7R9GxKEBWzCi6PC
-         FDfrV4+RL5AO2J18bNUNHtUG34RmxZIfoiJsePOHWY/Hr6IgKfuwN++g0olGvFCTihiN
-         Iygg==
-X-Gm-Message-State: APjAAAWJssb61w7jo2ccaVJ61sTYYT4OipSrdMEovZ04Nt/ictthJAb5
-        lB4uNUkcwcRcs0nLvvJyQSodeM/85IYzd3pq4KFUOw==
-X-Google-Smtp-Source: APXvYqxkT4VhjJ6KR1/tOHA5hLJ9UZagJd/hPjuYBLQaKT1Zd31YQEsLjxmsmeguf6m3YBH0px2RpYUr7v78Frn4l0M=
-X-Received: by 2002:a17:902:b944:: with SMTP id h4mr34783730pls.179.1564420668750;
- Mon, 29 Jul 2019 10:17:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190727030110.17208-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190727030110.17208-1-yamada.masahiro@socionext.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 29 Jul 2019 10:17:36 -0700
-Message-ID: <CAKwvOdmUUuFvdqD3X4SO7xPOpUevvc0iDpyUGC98KQH_AvvD=A@mail.gmail.com>
-Subject: Re: [PATCH] gen_compile_commands: lower the entry count threshold
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Tom Roeder <tmroeder@google.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 29 Jul 2019 16:30:45 -0400
+Received: from orion.localdomain ([77.7.124.62]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1Mt71D-1igayy3ePp-00tUcR; Mon, 29 Jul 2019 22:30:38 +0200
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [PATCH v2] Makefile: rules for printing kernel architecture and localversion
+Date:   Mon, 29 Jul 2019 22:30:35 +0200
+Message-Id: <1564432235-31100-1-git-send-email-info@metux.net>
+X-Mailer: git-send-email 1.9.1
+X-Provags-ID: V03:K1:nEEbsN3KiCGWuKFxKw2nas0RWAwU6e78j0xFPuvGglYNYOgz4Nz
+ qLOEqVCvsznuHHTpuR8RRqAgtq44XbtdftCDmfUJlUweNbQWLHI2vRQR3QeFqGCij+mV1EF
+ EPbRHIiSPRhVu0PmOefmKvtEQ90DIOiZeP7LCQUaeFYs0jyc3xKvRJ2qDndhRNwjfAWoa5i
+ bzBjW9Z38L9qaol8tKpQQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PLoMTIblG+Q=:frUn12OpaNUnF+pJ8jC51v
+ 80atrUoTk+0CYgAWXrmzZWmiEs6UzDOJ2RlIwcgygWDcod2wWvy1ppxK996AoxZWUiDuu45/3
+ vVPs0Xdf4JFUvBvJ9k4pq28zZvCnNAO15UJBA4QPKppguxxI1+Exe7C7/HIJtPzISaxRk4jeb
+ XHihFnLf5FwTYpCzTcelZ8plwoZYTb4dEg6er9Zs/7cf0m/f12+lcrLeba2v8SLvu1h61Gz7Q
+ WcSZEDcCwWOpABeL3YIj2mx6LLR8w8xR85QNfjj0XkILNvmXLjZBSAO6x9qL64xAgSbYJopAC
+ 1nYFsQvXzSV6A9GQQ5/5EwK78bmtL+Bc2oSHLFjS3+W2LCdrx521s2ABIFmVZoLJc1OfdMCxt
+ vHWgloKT8DefkihiQDrDXDhT1FTDSdby4++jAKjfEbsRftDlwVHo0UrY8dJlUBeVxGxMxQB6V
+ 7JQLJ3dOALVywSz+pLofdDvwXwSiMPd4BRcE+0ZaZGOcNh2DXksGVYnGE1/gws7OFBoZs05P5
+ KBkhO8ZSeAokVuI/Mc/bxMUOl7WcP0wjaQPy94aJSzA5giezD+/OoRKCdVlC22AK/mnaIDf0r
+ Jn+riBukpHNkZ7t+fQHLjQ7eyn2ISlIHh9eW7GM0ZuHCsDI1Pv9hgcH2UO6Gk+NPcZF3uIsYk
+ jBoSWciiVY+nKhFc9UtE2U+RhVjxL2KPGOk+toKdECeNGogBvluuveAV4UJUvoWhUBtyajA2b
+ i2NIiVTMgXjkAu+TrSXAtMaiBG021DgSXH3xWA==
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 8:01 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> Running gen_compile_commands.py after building with allnoconfig
-> gave this:
->
-> $ ./scripts/gen_compile_commands.py
-> WARNING: Found 449 entries. Have you compiled the kernel?
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+trivial rule to print out the kernel arch and localversion, so
+external tools, like distro packagers, can easily get it.
 
-This potentially may need to go lower for other arch's allnoconfig.
-I'm guessing you tested x86_64?
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+v2: add help text
 
-> ---
->
->  scripts/gen_compile_commands.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
-> index 7915823b92a5..c458696ef3a7 100755
-> --- a/scripts/gen_compile_commands.py
-> +++ b/scripts/gen_compile_commands.py
-> @@ -21,9 +21,9 @@ _LINE_PATTERN = r'^cmd_[^ ]*\.o := (.* )([^ ]*\.c)$'
->  _VALID_LOG_LEVELS = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
->
->  # A kernel build generally has over 2000 entries in its compile_commands.json
-> -# database. If this code finds 500 or fewer, then warn the user that they might
-> +# database. If this code finds 300 or fewer, then warn the user that they might
->  # not have all the .cmd files, and they might need to compile the kernel.
-> -_LOW_COUNT_THRESHOLD = 500
-> +_LOW_COUNT_THRESHOLD = 300
->
->
->  def parse_arguments():
-> --
-> 2.17.1
->
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+---
+ Makefile | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-
+diff --git a/Makefile b/Makefile
+index fa0fbe7..32c8f2a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1517,6 +1517,10 @@ help:
+ 	@echo  'Kernel packaging:'
+ 	@$(MAKE) $(build)=$(package-dir) help
+ 	@echo  ''
++	@echo  'Build configuration retrieval:'
++	@echo  '  kernellocalversion  - Print kernel local version (CONFIG_LOCALVERSION)'
++	@echo  '  kernelarch          - Print kernel architecture'
++	@echo  ''
+ 	@echo  'Documentation targets:'
+ 	@$(MAKE) -f $(srctree)/Documentation/Makefile dochelp
+ 	@echo  ''
+@@ -1728,6 +1732,12 @@ kernelrelease:
+ kernelversion:
+ 	@echo $(KERNELVERSION)
+ 
++kernellocalversion:
++	@$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion $(srctree) | sed -e 's~^\-~~'
++
++kernelarch:
++	@echo $(ARCH)
++
+ image_name:
+ 	@echo $(KBUILD_IMAGE)
+ 
 -- 
-Thanks,
-~Nick Desaulniers
+1.9.1
+
