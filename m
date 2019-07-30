@@ -2,109 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20C2D7A185
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 09:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CCE87AAF9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 16:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728123AbfG3HAB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jul 2019 03:00:01 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42428 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727453AbfG3HAB (ORCPT
+        id S1731323AbfG3O3J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jul 2019 10:29:09 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:61647 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727865AbfG3O3J (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jul 2019 03:00:01 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x1so14546445wrr.9;
-        Mon, 29 Jul 2019 23:59:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JE7kx2iX5slOmbDpS9tRcc6buuuGUkhZXzUOl8pd6t0=;
-        b=D5e3cRz+VK0ioIpA8syxWkRs/Q2i3rnwVd3i4x2WuA8t5oJV8DoFEVluUEs1SXm3mD
-         hEMEXN9Ko5GCu/8CheHW/rEeeH1voi0Wu6Qy2vRlGxjW43YKOWOtSf+v4MhN9KK1IS1F
-         9KFnIUbOOC7OIrKbm1WyMZGevsZrj9adxGDVlPdQLC97HDLbZg8RmMYYlPWmNM/K3QRS
-         iH+4vEPqKCWz3c1WfRej6MPqikBeJuek1DIJYpxRttqJBqwczJj6x1tnCHHbwM6NMQiU
-         VbziQ7VVbcaZmYcZfI4lrnkjnZDArspDmBkcZmB4jMStebNjaT9PjLQbqPi/Aj2xzTzp
-         q/FQ==
-X-Gm-Message-State: APjAAAUkgQye6eHS3gAQLc9ilKrnxXlMi3wfIDChNViRKTZYtn6TBVmW
-        9d7/upXD2CEAOcLkKLTFRZCj4vh4jWI=
-X-Google-Smtp-Source: APXvYqxPjH5qmMeDEp6RD1kqPY35v3O3HX+Qo+VfHllrE8p5WR101dWEEWtDfNXOkQ/YEN2e1CmqyQ==
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr96052874wrv.39.1564469998600;
-        Mon, 29 Jul 2019 23:59:58 -0700 (PDT)
-Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
-        by smtp.gmail.com with ESMTPSA id f204sm96203686wme.18.2019.07.29.23.59.57
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jul 2019 23:59:58 -0700 (PDT)
-Subject: Re: [PATCH v3] modpost: check for static EXPORT_SYMBOL* functions
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190714152817.24693-1-efremov@linux.com>
- <20190729141801.31333-1-efremov@linux.com>
- <20190730082618.5bb5edf3@canb.auug.org.au>
-From:   Denis Efremov <efremov@linux.com>
-Message-ID: <1b6f749c-2a25-219a-3eb3-0f2c7a542426@linux.com>
-Date:   Tue, 30 Jul 2019 09:59:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 30 Jul 2019 10:29:09 -0400
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x6UESv7a009658;
+        Tue, 30 Jul 2019 23:28:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6UESv7a009658
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1564496938;
+        bh=v84lwITMwCbRgHyGZMYws7mMj8il4DSwjrW7UNUSg5s=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RtdPT8ltnUvK47R3j68P8C1ZgZzYqVWotPMaw0LJAVvePrrX+Fl2GRu1+yayV2Nej
+         nNfIbaRCYKuyhQoJFWYR0M4UPhPlwTqm9WBgqtUfKh5MoapJ2kDfKMQniqIpqFmPZk
+         JsehKH42e+hVl8+kgz864YFu0qtgBVkyxQ0T4ijQQEB0TpJUwPNY4iGb1Amipx2ySq
+         BWtjM1G9j+kHvie/qINAqOViDgXoVyrWIiM8nKMB9FJ9EtbBWACYdZhH5y0lXX9zS7
+         uXOrnxe0cJFUBF56IrkgG54aFmpx4ToY+GCfdbRFYLK5wwjULseJm8pOIWP2pZM+cu
+         RHydlHo73dWOg==
+X-Nifty-SrcIP: [209.85.217.53]
+Received: by mail-vs1-f53.google.com with SMTP id a186so42001316vsd.7;
+        Tue, 30 Jul 2019 07:28:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAURssm5Fpnj99TI7Pv9RTKZuYk/rVnzynKjsXouHRQaMzTAS7vf
+        ltKVfsiQF2Fibfet4+FToA2OOzAZko0cYmrtSXw=
+X-Google-Smtp-Source: APXvYqw4h6Qez6BRRK5N+FsF/UXKydbLOoQOr33HDGNPcw0K68jyVimtbBSfZetRbfL80Q7Iojj0TJk60p/dT3uJL08=
+X-Received: by 2002:a67:cd1a:: with SMTP id u26mr72503702vsl.155.1564496936927;
+ Tue, 30 Jul 2019 07:28:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190730082618.5bb5edf3@canb.auug.org.au>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190725154730.80169-1-swboyd@chromium.org> <CAK7LNAQZJgkx-yEwgHcTapKFayExgUCb3=zLBpJmVMJMeEA_WA@mail.gmail.com>
+ <5d3f016c.1c69fb81.b4775.c7d0@mx.google.com>
+In-Reply-To: <5d3f016c.1c69fb81.b4775.c7d0@mx.google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 30 Jul 2019 23:28:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASoNRsMHHBW=d_Lkjo7eLpq5=gkU_g+k8NwEB0BwV37ZQ@mail.gmail.com>
+Message-ID: <CAK7LNASoNRsMHHBW=d_Lkjo7eLpq5=gkU_g+k8NwEB0BwV37ZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Check for unknown options with cc-option usage
+ in Kconfig and clang
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Peter Smith <peter.smith@linaro.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 30.07.2019 01:26, Stephen Rothwell wrote:
-> Hi Denis,
-> 
-> On Mon, 29 Jul 2019 17:18:01 +0300 Denis Efremov <efremov@linux.com> wrote:
->>
->> This patch adds a check to warn about static EXPORT_SYMBOL* functions
->> during the modpost. In most of the cases, a static symbol marked for
->> exporting is an odd combination that should be fixed either by deleting
->> the exporting mark or by removing the static attribute and adding the
->> appropriate declaration to headers.
-> 
-> OK, this is now in linux-next and I am getting what look like false
-> positives :-(
-> 
-> My powerpc builds produce these:
-> 
-> WARNING: "ahci_em_messages" [vmlinux] is the static EXPORT_SYMBOL_GPL
-> WARNING: "ftrace_set_clr_event" [vmlinux] is the static EXPORT_SYMBOL_GPL
-> WARNING: "empty_zero_page" [vmlinux] is the static EXPORT_SYMBOL
-> WARNING: "jiffies" [vmlinux] is the static EXPORT_SYMBOL
-> 
-> empty_zero_page (at least) is not static.  It is defined in assembler ...
+On Mon, Jul 29, 2019 at 11:23 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Masahiro Yamada (2019-07-29 03:02:40)
+> >
+> > Thanks for catching this.
+> >
+> > I wonder if we could fix this issue
+> > by one-liner, like this:
+> >
+> >
+> > diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> > index 8a5c4d645eb1..4bbf4fc163a2 100644
+> > --- a/scripts/Kconfig.include
+> > +++ b/scripts/Kconfig.include
+> > @@ -25,7 +25,7 @@ failure = $(if-success,$(1),n,y)
+> >
+> >  # $(cc-option,<flag>)
+> >  # Return y if the compiler supports <flag>, n otherwise
+> > -cc-option = $(success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null)
+> > +cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c
+> > /dev/null -o /dev/null)
+> >
+> >  # $(ld-option,<flag>)
+> >  # Return y if the linker supports <flag>, n otherwise
+> >
+> >
+> >
+> > This propagates not only -Werror=unknown-warning-option
+> > but also other clang flags to Kconfig.
+> >
+> >
+> > Currently, we do not pass the target triplet to Kconfig.
+> > This means, cc-option in Kconfig evaluates the given flags
+> > against host-arch instead of target-arch.
+> > The compiler flags are mostly independent of the architecture,
+> > and this is not a big deal, I think.
+> > But, maybe, would it make more sense to pass the other
+> > basic clang flags as well?
+> >
+>
+> Yes that also works and I had that earlier. I wanted to mirror what was
+> done in scripts/Kbuild.include where there's a CC_OPTION_CFLAGS
+> variable. I'm happy either way, so it's up to you.
+>
 
-This could be fixed either by adding the type, for example:
---- a/arch/x86/kernel/head_64.S
-+++ b/arch/x86/kernel/head_64.S
-@@ -478,6 +478,7 @@ EXPORT_SYMBOL(phys_base)
+Can you post v3 with $(CLANG_FLAGS) ?
 
-         __PAGE_ALIGNED_BSS
-  NEXT_PAGE(empty_zero_page)
-+.type empty_zero_page, STT_OBJECT
-         .skip PAGE_SIZE
-  EXPORT_SYMBOL(empty_zero_page)
+Thanks.
 
-Or by updating the check in the patch:
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -1988,7 +1988,9 @@ static void read_symbols(const char *modname)
-                 unsigned char bind = ELF_ST_BIND(sym->st_info);
-                 unsigned char type = ELF_ST_TYPE(sym->st_info);
-
--               if (type == STT_OBJECT || type == STT_FUNC) {
-+               if (type == STT_OBJECT ||
-+                   type == STT_FUNC ||
-+                   type == STT_NOTYPE) {
-
-Do I need to resend the whole patch or create new "patch-on-patch"?
-
-Denis
+-- 
+Best Regards
+Masahiro Yamada
