@@ -2,99 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 069B379C68
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 00:26:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20C2D7A185
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 09:00:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727486AbfG2W0Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jul 2019 18:26:25 -0400
-Received: from ozlabs.org ([203.11.71.1]:57563 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727215AbfG2W0Z (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jul 2019 18:26:25 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 45yDmr4ytPz9sBZ;
-        Tue, 30 Jul 2019 08:26:20 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
-        s=201702; t=1564439182;
-        bh=iCgND0Vug34KrKrT3B1sSvny/JOeVtmB130k4FViN/U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=uF2ol3aIldsyI+/paWOsSDejg1wfdazTCOdn50Wn92Tcxj1O9T9EPXozUbE1D3wTu
-         TyR8khBV8chWI4dBrhYGmnoLgOASpIYPLmdbA1AwZCoabKebQSrgeTBfWsEpS0ukwL
-         Z1SYxJ1bye3Jvyg6Nh0y18Jk5HwU73GCk2lu8lNTRSethtZj91Byp0l3GWIN+/oduN
-         czsp3wiB36R3IWFq+/MYoSv95Yset4exWtAl4+2TMtb3LGxV1Xn33SQIXx2o3UsWGo
-         kRGgwCyk4xMIfpuK8scPg6eSzkpgw34EaC8hunoJO0+pgLlgPN8zCyBVhimSllpPTG
-         qPrC3mSJFry0g==
-Date:   Tue, 30 Jul 2019 08:26:18 +1000
-From:   Stephen Rothwell <sfr@canb.auug.org.au>
-To:     Denis Efremov <efremov@linux.com>
+        id S1728123AbfG3HAB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jul 2019 03:00:01 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:42428 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727453AbfG3HAB (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 30 Jul 2019 03:00:01 -0400
+Received: by mail-wr1-f67.google.com with SMTP id x1so14546445wrr.9;
+        Mon, 29 Jul 2019 23:59:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=JE7kx2iX5slOmbDpS9tRcc6buuuGUkhZXzUOl8pd6t0=;
+        b=D5e3cRz+VK0ioIpA8syxWkRs/Q2i3rnwVd3i4x2WuA8t5oJV8DoFEVluUEs1SXm3mD
+         hEMEXN9Ko5GCu/8CheHW/rEeeH1voi0Wu6Qy2vRlGxjW43YKOWOtSf+v4MhN9KK1IS1F
+         9KFnIUbOOC7OIrKbm1WyMZGevsZrj9adxGDVlPdQLC97HDLbZg8RmMYYlPWmNM/K3QRS
+         iH+4vEPqKCWz3c1WfRej6MPqikBeJuek1DIJYpxRttqJBqwczJj6x1tnCHHbwM6NMQiU
+         VbziQ7VVbcaZmYcZfI4lrnkjnZDArspDmBkcZmB4jMStebNjaT9PjLQbqPi/Aj2xzTzp
+         q/FQ==
+X-Gm-Message-State: APjAAAUkgQye6eHS3gAQLc9ilKrnxXlMi3wfIDChNViRKTZYtn6TBVmW
+        9d7/upXD2CEAOcLkKLTFRZCj4vh4jWI=
+X-Google-Smtp-Source: APXvYqxPjH5qmMeDEp6RD1kqPY35v3O3HX+Qo+VfHllrE8p5WR101dWEEWtDfNXOkQ/YEN2e1CmqyQ==
+X-Received: by 2002:a5d:54c7:: with SMTP id x7mr96052874wrv.39.1564469998600;
+        Mon, 29 Jul 2019 23:59:58 -0700 (PDT)
+Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
+        by smtp.gmail.com with ESMTPSA id f204sm96203686wme.18.2019.07.29.23.59.57
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Jul 2019 23:59:58 -0700 (PDT)
+Subject: Re: [PATCH v3] modpost: check for static EXPORT_SYMBOL* functions
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Emil Velikov <emil.l.velikov@gmail.com>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] modpost: check for static EXPORT_SYMBOL* functions
-Message-ID: <20190730082618.5bb5edf3@canb.auug.org.au>
-In-Reply-To: <20190729141801.31333-1-efremov@linux.com>
 References: <20190714152817.24693-1-efremov@linux.com>
-        <20190729141801.31333-1-efremov@linux.com>
+ <20190729141801.31333-1-efremov@linux.com>
+ <20190730082618.5bb5edf3@canb.auug.org.au>
+From:   Denis Efremov <efremov@linux.com>
+Message-ID: <1b6f749c-2a25-219a-3eb3-0f2c7a542426@linux.com>
+Date:   Tue, 30 Jul 2019 09:59:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/W1FvA._R0XXtjhBVU9lsVnR";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20190730082618.5bb5edf3@canb.auug.org.au>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---Sig_/W1FvA._R0XXtjhBVU9lsVnR
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 30.07.2019 01:26, Stephen Rothwell wrote:
+> Hi Denis,
+> 
+> On Mon, 29 Jul 2019 17:18:01 +0300 Denis Efremov <efremov@linux.com> wrote:
+>>
+>> This patch adds a check to warn about static EXPORT_SYMBOL* functions
+>> during the modpost. In most of the cases, a static symbol marked for
+>> exporting is an odd combination that should be fixed either by deleting
+>> the exporting mark or by removing the static attribute and adding the
+>> appropriate declaration to headers.
+> 
+> OK, this is now in linux-next and I am getting what look like false
+> positives :-(
+> 
+> My powerpc builds produce these:
+> 
+> WARNING: "ahci_em_messages" [vmlinux] is the static EXPORT_SYMBOL_GPL
+> WARNING: "ftrace_set_clr_event" [vmlinux] is the static EXPORT_SYMBOL_GPL
+> WARNING: "empty_zero_page" [vmlinux] is the static EXPORT_SYMBOL
+> WARNING: "jiffies" [vmlinux] is the static EXPORT_SYMBOL
+> 
+> empty_zero_page (at least) is not static.  It is defined in assembler ...
 
-Hi Denis,
+This could be fixed either by adding the type, for example:
+--- a/arch/x86/kernel/head_64.S
++++ b/arch/x86/kernel/head_64.S
+@@ -478,6 +478,7 @@ EXPORT_SYMBOL(phys_base)
 
-On Mon, 29 Jul 2019 17:18:01 +0300 Denis Efremov <efremov@linux.com> wrote:
->
-> This patch adds a check to warn about static EXPORT_SYMBOL* functions
-> during the modpost. In most of the cases, a static symbol marked for
-> exporting is an odd combination that should be fixed either by deleting
-> the exporting mark or by removing the static attribute and adding the
-> appropriate declaration to headers.
+         __PAGE_ALIGNED_BSS
+  NEXT_PAGE(empty_zero_page)
++.type empty_zero_page, STT_OBJECT
+         .skip PAGE_SIZE
+  EXPORT_SYMBOL(empty_zero_page)
 
-OK, this is now in linux-next and I am getting what look like false
-positives :-(
+Or by updating the check in the patch:
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -1988,7 +1988,9 @@ static void read_symbols(const char *modname)
+                 unsigned char bind = ELF_ST_BIND(sym->st_info);
+                 unsigned char type = ELF_ST_TYPE(sym->st_info);
 
-My powerpc builds produce these:
+-               if (type == STT_OBJECT || type == STT_FUNC) {
++               if (type == STT_OBJECT ||
++                   type == STT_FUNC ||
++                   type == STT_NOTYPE) {
 
-WARNING: "ahci_em_messages" [vmlinux] is the static EXPORT_SYMBOL_GPL
-WARNING: "ftrace_set_clr_event" [vmlinux] is the static EXPORT_SYMBOL_GPL
-WARNING: "empty_zero_page" [vmlinux] is the static EXPORT_SYMBOL
-WARNING: "jiffies" [vmlinux] is the static EXPORT_SYMBOL
+Do I need to resend the whole patch or create new "patch-on-patch"?
 
-empty_zero_page (at least) is not static.  It is defined in assembler ...
-
-jiffies is defined in arch/powerpc/kernel/vmlinux.lds.S as an alias for
-(part of) jiffies_64 which is not static (defined in kernel/time/timer.c).
-
-The other 2 were OK.
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/W1FvA._R0XXtjhBVU9lsVnR
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl0/cosACgkQAVBC80lX
-0GzaKwf/eMecLr6q+Z8Lqr2neg+RXHvOu+Ph+Q3hgYr0RbcLyGZYcBtE33vMZgGR
-Ue3bKhTvx+0YJBg7z8uO3tP+n5BVvw/wo9Kn4s/ckWZA8eK2c3FJ2SMuT4dKir9X
-bdHg+T3OVJeHT/NkHGO6TrRb/7lL/xcEwifhbG6LNc0Fdc7UQ2LIZZFeVURIWSkv
-P/Q+OhS4pT1r8T7jfhVM2REMDKcl3j0/gmNjyXe4mTjaoh2rGSmfuKKnWCV0YlmT
-vwBYB7zI71zH7ndRoXYoBCRWiIi0Nphgjk0idKBI/5A3UU9YZOIr5/VKfWBM7zec
-SgcnFWXp+ixj6ZO2DJoWOaCq2E4b1g==
-=JP8H
------END PGP SIGNATURE-----
-
---Sig_/W1FvA._R0XXtjhBVU9lsVnR--
+Denis
