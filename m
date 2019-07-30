@@ -2,125 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD45A7AE69
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 18:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D0907AFB5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 19:22:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726225AbfG3Qwj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jul 2019 12:52:39 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:51079 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725889AbfG3Qwj (ORCPT
+        id S1728495AbfG3RWh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jul 2019 13:22:37 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:36781 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727532AbfG3RWh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jul 2019 12:52:39 -0400
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x6UGqRjc009430;
-        Wed, 31 Jul 2019 01:52:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x6UGqRjc009430
+        Tue, 30 Jul 2019 13:22:37 -0400
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x6UHMNKY020045;
+        Wed, 31 Jul 2019 02:22:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6UHMNKY020045
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564505548;
-        bh=PvSEBqZWfmwsN/sOjPp2xPA9GzkBwa9v1B0DUjIdaBk=;
+        s=dec2015msa; t=1564507344;
+        bh=Vqhm/EITINFOuWf1dLL2W5rIciZKR5IQ8djNbAIk8l8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FO4rYDDgNQdjdMPB1Kf1Co5ftlBbGAD7Q9jmf+xUEkyzn4kxR7HVkm8M/yXA1s9Nl
-         +HR+WrptzqSKwNIcYTxZBxu+4sqPP4lF1vMBwbrQKiWOj14iPih0YkkR7r1Zf8cpKG
-         rIncAbtkDs/bo/IVzJmKyyejNI/Wfs+HLhM5YEjkTDl2G7HgGvm8ZVVFcsV0WQJYyF
-         6vWxzAKIjDq4L9bq6UQ9syHugUypiMGFZ6Uj4VkOqL8ZEPubawgwB2xzqmqsjuC7Ap
-         cObi8YUSM4kcji0E0is94fmEwfzGBHI4XoHVlkChWXURb+Vw1dQGdAUbZYOvnXZAqC
-         ZYm+qP06FvwDg==
-X-Nifty-SrcIP: [209.85.221.178]
-Received: by mail-vk1-f178.google.com with SMTP id 130so12943280vkn.9;
-        Tue, 30 Jul 2019 09:52:27 -0700 (PDT)
-X-Gm-Message-State: APjAAAWzc90YQDZLIllhv6VNlvNvpAktP93DeBNQIZ4jeih4fhs/icnF
-        xoz2+zuaKq+kFsGoPtgWqvQPj6VtbTgeYyY2Yec=
-X-Google-Smtp-Source: APXvYqxKXL4lCm34XwhoiOA9tEsr2PPz0ouAza32ECX9cNfNWdNzuam/981BnQOJQn2NH1Lu/g4xi+CSshl0S2bSAQo=
-X-Received: by 2002:a1f:728b:: with SMTP id n133mr45007335vkc.84.1564505546515;
- Tue, 30 Jul 2019 09:52:26 -0700 (PDT)
+        b=Pl2jE7GBagAabKrLbkzMbY+ibYE8KzcXaQCbgrTVOGPadBcYxVRWeiIdEpNBqIZkY
+         ++JX/YvtutxD+ZajE6BFbS8+UQWPF3TGIOtXo06hJDAGtGKt4Hsm1stRmNFMeRMspt
+         V3vRpB+trdLqZuRh4ld+3BzztEFD+vWGFAEPx0zkm9c6vICZyx2JplO3zJ2v8o24Zj
+         D3ey0N+/nH9ddHSlOXNMcKTKYLhFVJvrVrkSrt/sjFFo26scD7tG8QaZboa88lR0X3
+         g2uskjOLXlkzzrA+Fkty0aITU5/0BIr1JbfYSx0Ko/g4xV1DqwQYEQmfnkh1cKILeJ
+         ETqVKnZnnMj/g==
+X-Nifty-SrcIP: [209.85.222.52]
+Received: by mail-ua1-f52.google.com with SMTP id 34so25763419uar.8;
+        Tue, 30 Jul 2019 10:22:24 -0700 (PDT)
+X-Gm-Message-State: APjAAAU/42OeKrPpC4Q4JmHGr+8KfE17eqJORwQyTYnDRbDLMUdCHkZI
+        E75Xzt+QmhSWFeb032VhEKv8AJgMMD5nHMW+wWQ=
+X-Google-Smtp-Source: APXvYqy3BGApNcu5ckFZltFKmZUze8O4volLhzlTwrlr0H/D33JjuC1fK2GvMgHbwxT15AYYt6MdKJvik497vfe6C0Y=
+X-Received: by 2002:a9f:2265:: with SMTP id 92mr59702366uad.121.1564507342867;
+ Tue, 30 Jul 2019 10:22:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190730164803.45080-1-swboyd@chromium.org> <20190730164959.GA129059@archlinux-threadripper>
-In-Reply-To: <20190730164959.GA129059@archlinux-threadripper>
+References: <20190714152817.24693-1-efremov@linux.com> <20190729141801.31333-1-efremov@linux.com>
+ <20190730082618.5bb5edf3@canb.auug.org.au> <1b6f749c-2a25-219a-3eb3-0f2c7a542426@linux.com>
+ <CAK7LNATnC6eVmahn=44F-j3Uf-x+cUWuP0q7QuP800biL9QJiA@mail.gmail.com> <d26ff0d1-fc45-d5b5-fe84-26fa9df09c3e@linux.com>
+In-Reply-To: <d26ff0d1-fc45-d5b5-fe84-26fa9df09c3e@linux.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 31 Jul 2019 01:51:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARvyxzJa9CG-4uSoE7asdHp=Cbeh71_13dmuP8zMJtqSA@mail.gmail.com>
-Message-ID: <CAK7LNARvyxzJa9CG-4uSoE7asdHp=Cbeh71_13dmuP8zMJtqSA@mail.gmail.com>
-Subject: Re: [PATCH v3] kbuild: Check for unknown options with cc-option usage
- in Kconfig and clang
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Stephen Boyd <swboyd@chromium.org>,
+Date:   Wed, 31 Jul 2019 02:21:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS8fkV5b+Sk+_W_C97xe3GCK-JysYSGuhB9t35yoAuCzg@mail.gmail.com>
+Message-ID: <CAK7LNAS8fkV5b+Sk+_W_C97xe3GCK-JysYSGuhB9t35yoAuCzg@mail.gmail.com>
+Subject: Re: [PATCH v3] modpost: check for static EXPORT_SYMBOL* functions
+To:     Denis Efremov <efremov@linux.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Peter Smith <peter.smith@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Douglas Anderson <dianders@chromium.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 1:50 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Wed, Jul 31, 2019 at 1:44 AM Denis Efremov <efremov@linux.com> wrote:
 >
-> On Tue, Jul 30, 2019 at 09:48:03AM -0700, Stephen Boyd wrote:
-> > If the particular version of clang a user has doesn't enable
-> > -Werror=unknown-warning-option by default, even though it is the
-> > default[1], then make sure to pass the option to the Kconfig cc-option
-> > command so that testing options from Kconfig files works properly.
-> > Otherwise, depending on the default values setup in the clang toolchain
-> > we will silently assume options such as -Wmaybe-uninitialized are
-> > supported by clang, when they really aren't.
+> On 30.07.2019 19:29, Masahiro Yamada wrote:
+> > I prefer this, but why do you need to check type?
 > >
-> > A compilation issue only started happening for me once commit
-> > 589834b3a009 ("kbuild: Add -Werror=unknown-warning-option to
-> > CLANG_FLAGS") was applied on top of commit b303c6df80c9 ("kbuild:
-> > compute false-positive -Wmaybe-uninitialized cases in Kconfig"). This
-> > leads kbuild to try and test for the existence of the
-> > -Wmaybe-uninitialized flag with the cc-option command in
-> > scripts/Kconfig.include, and it doesn't see an error returned from the
-> > option test so it sets the config value to Y. Then the Makefile tries to
-> > pass the unknown option on the command line and
-> > -Werror=unknown-warning-option catches the invalid option and breaks the
-> > build. Before commit 589834b3a009 ("kbuild: Add
-> > -Werror=unknown-warning-option to CLANG_FLAGS") the build works fine,
-> > but any cc-option test of a warning option in Kconfig files silently
-> > evaluates to true, even if the warning option flag isn't supported on
-> > clang.
+> > Doesn't this work?
 > >
-> > Note: This doesn't change cc-option usages in Makefiles because those
-> > use a different rule that includes KBUILD_CFLAGS by default (see the
-> > __cc-option command in scripts/Kbuild.incluide). The KBUILD_CFLAGS
-> > variable already has the -Werror=unknown-warning-option flag set. Thanks
-> > to Doug for pointing out the different rule.
+> > for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
+> >          unsigned char bind = ELF_ST_BIND(sym->st_info);
 > >
-> > [1] https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option
-> > Cc: Peter Smith <peter.smith@linaro.org>
-> > Cc: Nathan Chancellor <natechancellor@gmail.com>
-> > Cc: Nick Desaulniers <ndesaulniers@google.com>
-> > Cc: Douglas Anderson <dianders@chromium.org>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> >          struct symbol *s = find_symbol(remove_dot(info.strtab +
+> >                                                    sym->st_name));
+> >
+> >          if (s && (bind == STB_GLOBAL || bind == STB_WEAK))
+> >                  s->is_static = 0;
+> > }
 >
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> This works. However, I thought it will be too costly to call find_symbol
+> on each symbol. Hence, 'type == STT_OBJECT || type == STT_FUNC || type
+> == STT_NOTYPE' is a small performance optimization because we need to
+> check only variables and functions. Is it worth to remove it in v4?
 >
-> > ---
-> >  Makefile                | 1 +
-> >  scripts/Kconfig.include | 2 +-
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 9be5834073f8..517d0a3f6539 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -536,6 +536,7 @@ KBUILD_AFLAGS     += $(CLANG_FLAGS)
-> >  export CLANG_FLAGS
-> >  endif
-> >
-> > +
->
-> Not sure it's worth sending a v4 for but I don't think this should be
-> there.
+> Denis
 
 
-I will remove it when I apply this.
+I checked the symbol table for ppc64_defconfig.
+
+The following is the number of entries
+for each combination of type and bind.
+
+[1]  type: STT_NOTYPE,  bind: STB_LOCAL   -> 39502 entries
+[2]  type: STT_NOTYPE,  bind: STB_GLOBAL  -> 30161 entries
+[3]  type: STT_NOTYPE,  bind: STB_WEAK    -> 5 entries
+[4]  type: STT_OBJECT,  bind: STB_LOCAL   -> 60326 entries
+[5]  type: STT_OBJECT,  bind: STB_GLOBAL  -> 4126 entries
+[6]  type: STT_OBJECT,  bind: STB_WEAK    -> 11 entries
+[7]  type: STT_FUNC,    bind: STB_LOCAL   -> 38816 entries
+[8]  type: STT_FUNC,    bind: STB_GLOBAL  -> 56196 entries
+[9]  type: STT_FUNC,    bind: STB_WEAK    -> 350 entries
+[10] type: STT_SECTION, bind: STB_LOCAL   -> 9027 entries
+[11] type: STT_FILE,    bind: STB_LOCAL   -> 2918 entries
+
+Checking 'type' beforehand
+saves only 11945 look-ups ( [10] + [11]).
+
+You can check 'bind' before the look-up, not after.
+If bind == STB_LOCAL, you do not need to lookup the hash-table,
+since you do not do anything.
+This saves [1], [4], [7], [10], [11].
+
+
+I think the following is simpler, and works more efficiently.
+
+for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
+        unsigned char bind = ELF_ST_BIND(sym->st_info);
+
+        if (bind == STB_GLOBAL || bind == STB_WEAK) {
+                  struct symbol *s =
+                               find_symbol(remove_dot(info.strtab +
+                                                      sym->st_name));
+
+                  if (s)
+                            s->is_static = 0;
+         }
+}
 
 
 
