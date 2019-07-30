@@ -2,78 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F1B7AD0F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 17:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0202A7AD12
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 17:59:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730457AbfG3P7O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1729652AbfG3P7O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Tue, 30 Jul 2019 11:59:14 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:60066 "EHLO
+Received: from conuserg-11.nifty.com ([210.131.2.78]:60069 "EHLO
         conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729291AbfG3P7O (ORCPT
+        with ESMTP id S1728448AbfG3P7N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jul 2019 11:59:14 -0400
+        Tue, 30 Jul 2019 11:59:13 -0400
 Received: from grover.flets-west.jp (softbank126026094249.bbtec.net [126.26.94.249]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x6UFx3RY014915;
-        Wed, 31 Jul 2019 00:59:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x6UFx3RY014915
+        by conuserg-11.nifty.com with ESMTP id x6UFx3RZ014915;
+        Wed, 31 Jul 2019 00:59:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x6UFx3RZ014915
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1564502344;
-        bh=tmS7rnSw2i0wnICGgr8MtsDLTrDE/y5htkc0RewVGsQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=SeHvLBy8UxNSSmSxw57UopL/v+/sDXCLCt5mURKX9QxblCFwEtObGcYs6AqFyWRae
-         CQFOKPlz2LDf2LGVNZpY1vPVq5k5/r3rbWY6hR3+iVRPBJfn9lT+MV2AxbOo9L4+a6
-         TEOg6HC/Qqd/bh8PhpM7UbwTclEpieW4lRQn4KlckotzuDiqNStImwH4HrQIGSLxk1
-         58eIF1eqpAJ7qYM39BGpzRhVfkm75fltGTDCVc2fUIoZSs6EdFqDQK0KKlCcPpzM5w
-         Iz8KZjhg3iXh8CpNY6pED7y2ZtyyGwTgZh1o2qP9mFFMHXzP7JPDBZsnY+rpZmdBs3
-         CE7aY0cjYfpMA==
+        bh=uiroaNh4rM6/ZQ/tf4rAH6ElNB+2ooit+Zk/cSJmCvU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=vKOSn1C5rnpJBZOh6f5NCTL6evFD9dqrFRd2typ8BPWX34gSbSp3d5Nobzs3DLHNb
+         PiyvmsEd0iSBgezaxtqQJklpi02KoVu0LUFiMJjESfZUkDou0PG0GseUssMTc9rMx+
+         H2Ad8PZV/1WrNdpDoT07DQYRAzx6SsOUKU9WSOCLdM1b9OAkkzEwmY9l6168SpUHHQ
+         MPc8k/qb8IS2zTwiG00lh4DWZjj2U2NpS+opfv3wiLuL1/FKZp3jM3/dfvec5t2P7D
+         pE+FNuDz7ddo3Yw6xS2MFxqeJ2IE6jMhpHYhqd3Dx58DDWsUzZ63NxCeTunFg1Yhyw
+         iF0V/i7/Ovf3Q==
 X-Nifty-SrcIP: [126.26.94.249]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        stable@vger.kernel.org, Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH 1/4] kbuild: modpost: include .*.cmd files only when targets exist
-Date:   Wed, 31 Jul 2019 00:58:59 +0900
-Message-Id: <20190730155902.5557-1-yamada.masahiro@socionext.com>
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH 2/4] kbuild: modpost: handle KBUILD_EXTRA_SYMBOLS only for external modules
+Date:   Wed, 31 Jul 2019 00:59:00 +0900
+Message-Id: <20190730155902.5557-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190730155902.5557-1-yamada.masahiro@socionext.com>
+References: <20190730155902.5557-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-A build rule fails, the .DELETE_ON_ERROR special target removes the
-target, but does nothing for the .*.cmd file, which might be corrupted.
-So, .*.cmd files should be included only when the corresponding targets
-exist.
+KBUILD_EXTRA_SYMBOLS makes sense only when building external modules.
+Moreover, the modpost sets 'external_module' if the -e option is given.
 
-Commit 392885ee82d3 ("kbuild: let fixdep directly write to .*.cmd
-files") missed to fix up this file.
+I replaced $(patsubst %, -e %,...) with simpler $(addprefix -e,...)
+while I was here.
 
-Fixes: 392885ee82d3 ("kbuild: let fixdep directly write to .*.cmd")
-Cc: <stable@vger.kernel.org> # v5.0+
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- scripts/Makefile.modpost | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ scripts/Makefile.modpost | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 6b19c1a4eae5..ad4b9829a456 100644
+index ad4b9829a456..c856512349cd 100644
 --- a/scripts/Makefile.modpost
 +++ b/scripts/Makefile.modpost
-@@ -145,10 +145,8 @@ FORCE:
- # optimization, we don't need to read them if the target does not
- # exist, we will rebuild anyway in that case.
- 
--cmd_files := $(wildcard $(foreach f,$(sort $(targets)),$(dir $(f)).$(notdir $(f)).cmd))
-+existing-targets := $(wildcard $(sort $(targets)))
- 
--ifneq ($(cmd_files),)
--  include $(cmd_files)
--endif
-+-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
- 
- .PHONY: $(PHONY)
+@@ -78,7 +78,7 @@ modpost = scripts/mod/modpost                    \
+  $(if $(CONFIG_MODULE_SRCVERSION_ALL),-a,)       \
+  $(if $(KBUILD_EXTMOD),-i,-o) $(kernelsymfile)   \
+  $(if $(KBUILD_EXTMOD),-I $(modulesymfile))      \
+- $(if $(KBUILD_EXTRA_SYMBOLS), $(patsubst %, -e %,$(KBUILD_EXTRA_SYMBOLS))) \
++ $(if $(KBUILD_EXTMOD),$(addprefix -e ,$(KBUILD_EXTRA_SYMBOLS))) \
+  $(if $(KBUILD_EXTMOD),-o $(modulesymfile))      \
+  $(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)  \
+  $(if $(KBUILD_MODPOST_WARN),-w)
 -- 
 2.17.1
 
