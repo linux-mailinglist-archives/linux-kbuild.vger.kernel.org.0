@@ -2,128 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D0907AFB5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 19:22:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A887B152
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jul 2019 20:12:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728495AbfG3RWh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jul 2019 13:22:37 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:36781 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727532AbfG3RWh (ORCPT
+        id S1727858AbfG3SMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jul 2019 14:12:35 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37648 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbfG3SMf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jul 2019 13:22:37 -0400
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x6UHMNKY020045;
-        Wed, 31 Jul 2019 02:22:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x6UHMNKY020045
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564507344;
-        bh=Vqhm/EITINFOuWf1dLL2W5rIciZKR5IQ8djNbAIk8l8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Pl2jE7GBagAabKrLbkzMbY+ibYE8KzcXaQCbgrTVOGPadBcYxVRWeiIdEpNBqIZkY
-         ++JX/YvtutxD+ZajE6BFbS8+UQWPF3TGIOtXo06hJDAGtGKt4Hsm1stRmNFMeRMspt
-         V3vRpB+trdLqZuRh4ld+3BzztEFD+vWGFAEPx0zkm9c6vICZyx2JplO3zJ2v8o24Zj
-         D3ey0N+/nH9ddHSlOXNMcKTKYLhFVJvrVrkSrt/sjFFo26scD7tG8QaZboa88lR0X3
-         g2uskjOLXlkzzrA+Fkty0aITU5/0BIr1JbfYSx0Ko/g4xV1DqwQYEQmfnkh1cKILeJ
-         ETqVKnZnnMj/g==
-X-Nifty-SrcIP: [209.85.222.52]
-Received: by mail-ua1-f52.google.com with SMTP id 34so25763419uar.8;
-        Tue, 30 Jul 2019 10:22:24 -0700 (PDT)
-X-Gm-Message-State: APjAAAU/42OeKrPpC4Q4JmHGr+8KfE17eqJORwQyTYnDRbDLMUdCHkZI
-        E75Xzt+QmhSWFeb032VhEKv8AJgMMD5nHMW+wWQ=
-X-Google-Smtp-Source: APXvYqy3BGApNcu5ckFZltFKmZUze8O4volLhzlTwrlr0H/D33JjuC1fK2GvMgHbwxT15AYYt6MdKJvik497vfe6C0Y=
-X-Received: by 2002:a9f:2265:: with SMTP id 92mr59702366uad.121.1564507342867;
- Tue, 30 Jul 2019 10:22:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190714152817.24693-1-efremov@linux.com> <20190729141801.31333-1-efremov@linux.com>
- <20190730082618.5bb5edf3@canb.auug.org.au> <1b6f749c-2a25-219a-3eb3-0f2c7a542426@linux.com>
- <CAK7LNATnC6eVmahn=44F-j3Uf-x+cUWuP0q7QuP800biL9QJiA@mail.gmail.com> <d26ff0d1-fc45-d5b5-fe84-26fa9df09c3e@linux.com>
-In-Reply-To: <d26ff0d1-fc45-d5b5-fe84-26fa9df09c3e@linux.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 31 Jul 2019 02:21:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS8fkV5b+Sk+_W_C97xe3GCK-JysYSGuhB9t35yoAuCzg@mail.gmail.com>
-Message-ID: <CAK7LNAS8fkV5b+Sk+_W_C97xe3GCK-JysYSGuhB9t35yoAuCzg@mail.gmail.com>
-Subject: Re: [PATCH v3] modpost: check for static EXPORT_SYMBOL* functions
-To:     Denis Efremov <efremov@linux.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Tue, 30 Jul 2019 14:12:35 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n9so41714278wrr.4;
+        Tue, 30 Jul 2019 11:12:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FG50qMXYDzRXP74GhnEpD0QAPrVPYalzM9CFo1Wta4k=;
+        b=V9leKCBsCZDmfSheYE+IFpTBkj8qXlXD6SZvHaoDzFPFy1+iGnsBN29Nkb+Yvi5lZK
+         whfurwPQKyuN4rFOu2/B2OEg+iK9JeR+SF28DNNW1TTQ841BwEYwshaMvoSAHDyh+jzg
+         0cbLZfYJjBtpoL7XvhDP1Zy/S4d5r1gHWpJY7a7S6iWYqWs16BOImksoX1Rc6g+ErTHO
+         eN2emWNQmMLJK/6arPN4DJKDvmjAlVokXguBDlaystEYIPkU09F5rm0MhAomfFOM8sga
+         geGS4Dw0cv9HFhMxOfGiziTiNWL3uRSxWpY5vI4MtzW+wxTkLUQnZ+NaWpUEs1BNLefU
+         v/gw==
+X-Gm-Message-State: APjAAAWdqvqvZOJhhKEHJ7IoLsAYew9BPJUMzjbo1pyrXpjwKjc1yiGB
+        oeySYYth3uxi6dqtVieOMGQ=
+X-Google-Smtp-Source: APXvYqwxLD8Q/rNMwLytHuUf1tCTje3/ux9J6fmCYJ92X4681fJdAVEySTTL/Na6+UeO8GSqTJaZwA==
+X-Received: by 2002:adf:fb8e:: with SMTP id a14mr34074696wrr.263.1564510353042;
+        Tue, 30 Jul 2019 11:12:33 -0700 (PDT)
+Received: from localhost.localdomain ([194.135.60.194])
+        by smtp.googlemail.com with ESMTPSA id z25sm68350876wmf.38.2019.07.30.11.12.31
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Jul 2019 11:12:32 -0700 (PDT)
+From:   Denis Efremov <efremov@linux.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Denis Efremov <efremov@linux.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Emil Velikov <emil.l.velikov@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4] modpost: check for static EXPORT_SYMBOL* functions
+Date:   Tue, 30 Jul 2019 21:11:46 +0300
+Message-Id: <20190730181146.6507-1-efremov@linux.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190714152817.24693-1-efremov@linux.com>
+References: <20190714152817.24693-1-efremov@linux.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 1:44 AM Denis Efremov <efremov@linux.com> wrote:
->
-> On 30.07.2019 19:29, Masahiro Yamada wrote:
-> > I prefer this, but why do you need to check type?
-> >
-> > Doesn't this work?
-> >
-> > for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
-> >          unsigned char bind = ELF_ST_BIND(sym->st_info);
-> >
-> >          struct symbol *s = find_symbol(remove_dot(info.strtab +
-> >                                                    sym->st_name));
-> >
-> >          if (s && (bind == STB_GLOBAL || bind == STB_WEAK))
-> >                  s->is_static = 0;
-> > }
->
-> This works. However, I thought it will be too costly to call find_symbol
-> on each symbol. Hence, 'type == STT_OBJECT || type == STT_FUNC || type
-> == STT_NOTYPE' is a small performance optimization because we need to
-> check only variables and functions. Is it worth to remove it in v4?
->
-> Denis
+This patch adds a check to warn about static EXPORT_SYMBOL* functions
+during the modpost. In most of the cases, a static symbol marked for
+exporting is an odd combination that should be fixed either by deleting
+the exporting mark or by removing the static attribute and adding the
+appropriate declaration to headers.
 
+This check could help to detect the following problems:
+1. 550113d4e9f5 ("i2c: add newly exported functions to the header, too")
+2. 54638c6eaf44 ("net: phy: make exported variables non-static")
+3. 98ef2046f28b ("mm: remove the exporting of totalram_pages")
+4. 73df167c819e ("s390/zcrypt: remove the exporting of ap_query_configuration")
+5. a57caf8c527f ("sunrpc/cache: remove the exporting of cache_seq_next")
+6. e4e4730698c9 ("crypto: skcipher - remove the exporting of skcipher_walk_next")
+7. 14b4c48bb1ce ("gve: Remove the exporting of gve_probe")
+8. 9b79ee9773a8 ("scsi: libsas: remove the exporting of sas_wait_eh")
+9. ...
 
-I checked the symbol table for ppc64_defconfig.
+Build time impact, allmodconfig, Dell XPS 15 9570 (measurements 3x):
+$ make mrproper; make allmodconfig; time make -j12; \
+  git checkout HEAD~1; \
+  make mrproper; make allmodconfig; time make -j12
+1.
+   (with patch) 17635,94s user 1895,54s system 1085% cpu 29:59,22 total
+   (w/o  patch) 17275,42s user 1803,87s system 1112% cpu 28:35,66 total
+2.
+   (with patch) 17369,51s user 1763,28s system 1111% cpu 28:41,47 total
+   (w/o  patch) 16880,50s user 1670,93s system 1113% cpu 27:46,56 total
+3.
+   (with patch) 17937,88s user 1842,53s system 1109% cpu 29:42,26 total
+   (w/o  patch) 17267,55s user 1725,09s system 1111% cpu 28:28,17 total
 
-The following is the number of entries
-for each combination of type and bind.
+The check adds less than a minute to a usual build.
 
-[1]  type: STT_NOTYPE,  bind: STB_LOCAL   -> 39502 entries
-[2]  type: STT_NOTYPE,  bind: STB_GLOBAL  -> 30161 entries
-[3]  type: STT_NOTYPE,  bind: STB_WEAK    -> 5 entries
-[4]  type: STT_OBJECT,  bind: STB_LOCAL   -> 60326 entries
-[5]  type: STT_OBJECT,  bind: STB_GLOBAL  -> 4126 entries
-[6]  type: STT_OBJECT,  bind: STB_WEAK    -> 11 entries
-[7]  type: STT_FUNC,    bind: STB_LOCAL   -> 38816 entries
-[8]  type: STT_FUNC,    bind: STB_GLOBAL  -> 56196 entries
-[9]  type: STT_FUNC,    bind: STB_WEAK    -> 350 entries
-[10] type: STT_SECTION, bind: STB_LOCAL   -> 9027 entries
-[11] type: STT_FILE,    bind: STB_LOCAL   -> 2918 entries
+Acked-by: Emil Velikov <emil.l.velikov@gmail.com>
+Signed-off-by: Denis Efremov <efremov@linux.com>
+---
+ scripts/mod/modpost.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Checking 'type' beforehand
-saves only 11945 look-ups ( [10] + [11]).
-
-You can check 'bind' before the look-up, not after.
-If bind == STB_LOCAL, you do not need to lookup the hash-table,
-since you do not do anything.
-This saves [1], [4], [7], [10], [11].
-
-
-I think the following is simpler, and works more efficiently.
-
-for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
-        unsigned char bind = ELF_ST_BIND(sym->st_info);
-
-        if (bind == STB_GLOBAL || bind == STB_WEAK) {
-                  struct symbol *s =
-                               find_symbol(remove_dot(info.strtab +
-                                                      sym->st_name));
-
-                  if (s)
-                            s->is_static = 0;
-         }
-}
-
-
-
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index f277e116e0eb..3e6d36ddfcdf 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -169,6 +169,7 @@ struct symbol {
+ 	unsigned int kernel:1;     /* 1 if symbol is from kernel
+ 				    *  (only for external modules) **/
+ 	unsigned int preloaded:1;  /* 1 if symbol from Module.symvers, or crc */
++	unsigned int is_static:1;  /* 1 if symbol is not global */
+ 	enum export  export;       /* Type of export */
+ 	char name[0];
+ };
+@@ -201,6 +202,7 @@ static struct symbol *alloc_symbol(const char *name, unsigned int weak,
+ 	strcpy(s->name, name);
+ 	s->weak = weak;
+ 	s->next = next;
++	s->is_static = 1;
+ 	return s;
+ }
+ 
+@@ -1980,6 +1982,21 @@ static void read_symbols(const char *modname)
+ 		handle_modversions(mod, &info, sym, symname);
+ 		handle_moddevtable(mod, &info, sym, symname);
+ 	}
++
++	// check for static EXPORT_SYMBOL_* functions && global vars
++	for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
++		unsigned char bind = ELF_ST_BIND(sym->st_info);
++
++		if (bind == STB_GLOBAL || bind == STB_WEAK) {
++			struct symbol *s =
++				find_symbol(remove_dot(info.strtab +
++						       sym->st_name));
++
++			if (s)
++				s->is_static = 0;
++		}
++	}
++
+ 	if (!is_vmlinux(modname) || vmlinux_section_warnings)
+ 		check_sec_ref(mod, modname, &info);
+ 
+@@ -2425,6 +2442,7 @@ int main(int argc, char **argv)
+ 	char *dump_write = NULL, *files_source = NULL;
+ 	int opt;
+ 	int err;
++	int n;
+ 	struct ext_sym_list *extsym_iter;
+ 	struct ext_sym_list *extsym_start = NULL;
+ 
+@@ -2520,6 +2538,19 @@ int main(int argc, char **argv)
+ 	if (sec_mismatch_count && sec_mismatch_fatal)
+ 		fatal("modpost: Section mismatches detected.\n"
+ 		      "Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.\n");
++	for (n = 0; n < SYMBOL_HASH_SIZE; n++) {
++		struct symbol *s = symbolhash[n];
++
++		while (s) {
++			if (s->is_static)
++				warn("\"%s\" [%s] is a static %s\n",
++				     s->name, s->module->name,
++				     export_str(s->export));
++
++			s = s->next;
++		}
++	}
++
+ 	free(buf.p);
+ 
+ 	return err;
 -- 
-Best Regards
-Masahiro Yamada
+2.21.0
+
