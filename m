@@ -2,74 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8DFA7C3F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jul 2019 15:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9857CD0F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jul 2019 21:44:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726894AbfGaNrF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Jul 2019 09:47:05 -0400
-Received: from mga02.intel.com ([134.134.136.20]:1283 "EHLO mga02.intel.com"
+        id S1727833AbfGaToW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Jul 2019 15:44:22 -0400
+Received: from sauhun.de ([88.99.104.3]:44572 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726115AbfGaNrF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Jul 2019 09:47:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Jul 2019 06:47:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,330,1559545200"; 
-   d="scan'208";a="191245919"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.150])
-  by fmsmga001.fm.intel.com with ESMTP; 31 Jul 2019 06:47:03 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        id S1727482AbfGaToW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 31 Jul 2019 15:44:22 -0400
+Received: from localhost (p54B33080.dip0.t-ipconnect.de [84.179.48.128])
+        by pokefinder.org (Postfix) with ESMTPSA id 1F9E42C270A;
+        Wed, 31 Jul 2019 21:44:20 +0200 (CEST)
+Date:   Wed, 31 Jul 2019 21:44:19 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     intel-gfx@lists.freedesktop.org
-Subject: better kbuild support for drivers spanning multiple directories?
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-Date:   Wed, 31 Jul 2019 16:51:24 +0300
-Message-ID: <87pnlqmhwj.fsf@intel.com>
+        linux-kbuild@vger.kernel.org,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+Message-ID: <20190731194419.GB4084@kunai>
+References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+ <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="dTy3Mrz/UPE2dbVg"
+Content-Disposition: inline
+In-Reply-To: <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-Hi -
+--dTy3Mrz/UPE2dbVg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The drm/i915 [1][2] driver has grown quite big over the years: 400+
-files with a total sloccount of 175k lines. A flat directory structure
-just wasn't manageable anymore, and we opted to add subdirectories,
-despite the general recommendation [3] not to do this.
+Hi Javier,
 
-Mostly, it works all right, with some quirks. For example, things like
+thank you for providing the extra information.
 
-	$ make drivers/gpu/drm/i915/<subdir>/<file>.o
+(And Kieran, thanks for the patch!)
 
-do not work out of the box; we need to add subdir Makefiles to do things
-like:
+> The other option is to remove i2c_of_match_device() and don't make OF mat=
+ch
+> to fallback to i2c_of_match_device_sysfs(). This is what happens in the A=
+CPI
+> case, since i2c_device_match() just calls acpi_driver_match_device() dire=
+ctly
+> and doesn't have a wrapper function that fallbacks to sysfs matching.
+>=20
+> In this case an I2C device ID table would be required if the devices have=
+ to
+> be instantiated through sysfs. That way the I2C table would be used both =
+for
+> auto-loading and also to match the device when it doesn't have an of_node.
 
-	subdir-ccflags-y += -I$(srctree)/$(src)/..
+That would probably mean that only a minority of drivers will not add an I2C
+device ID table because it is easy to add an you get the sysfs feature?
 
-and include them using obj-y += <subdir>/ in the top level Makefile.
+Then we are back again with the situation that most drivers will have
+multiple tables. With the minor change that the I2C device id table is
+not required anymore by the core, but it will be just very useful to
+have? Or?
 
-But the main problem really is having to have a top level Makefile
-specifying everything, instead of being able to recurse into
-subdirectoris with, say, lib-y += <subdir>/, and having that build a lib
-within the subdirectory that gets linked into the parent level module.
+> If the former is the correct way to solve this then the patch looks good =
+to me.
+>=20
+> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
-Is there a better way? Could we have a better way?
+For this actual patch from Kieran, I'd like to hear an opinion from the
+people maintaining modpost. The aproach looks okay to me, yet I can't
+tell how "easy" we are with adding new types like 'i2c_of'.
 
-BR,
-Jani.
+Thanks everyone,
 
-
-[1] drivers/gpu/drm/i915
-[2] https://cgit.freedesktop.org/drm/drm-tip/tree/drivers/gpu/drm/i915
-[3] Documentation/kbuild/modules.rst section 4.3
+   Wolfram
 
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+--dTy3Mrz/UPE2dbVg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1B75MACgkQFA3kzBSg
+KbbU8w//dvqEPnqPyKnvyM5J6IbOToq7hML3V6OFjYE77Tq2I6WxoRI938OiLZQ8
+zDMkansmVtC33fuRDoQBNy1QXwT8RAggj9OJ6qLP3phJxI426Q3NAO4kyAgYbNfP
+59y+Ek7fbM5jrnUZgeAlskR09H6Ji+v6FRaiDAmWRAL1hwQM8/LZ6dB/JqizpA/Z
+jZgu4W9OY+sdGtO81seJp1DoAMgsf/bWm7qX9n1Dz0vOzH+GMzqGgO+rmb6u+8DQ
+YTfOrrNXeAvnU71ttt78YXHon/Y3mSMD5CfYoIY1cYjvLV/LZuXdeYU0tMWCk0dQ
+xO1debrcAM8yAAdITXoYPnXiPeUFq3i6/VnZUXVpx4cWIo+UAtYlGbbC9aUL0RWg
+Janfacmuql1pq8ozpkYMz3e2oJxoaqTSjFW1Arw1JSJSrvySp5WG9tik9qXPrMv4
+NS5HlNP+odj/3PzIqH27sBHgNPhns6oBmzeJDzRDSfhBx1/GogS2F/zxanRBscfL
+bjV7LqWBd3MTbJI7LvJoSEYnE77nZSzuuNu5VWQWEE0zioFc6N0TCqboo7XgLfLo
+AsYRT5LWZHZVDdxEqCfptSyB1boQCsdHJi8k4Dw6xRy7Txa+n4nFSr8sjc0IR0IQ
+B6AtHRIQqwJkKVKeUccKydMsQHtN40wUsIQu2EcPOBhiPkquAFk=
+=3ETA
+-----END PGP SIGNATURE-----
+
+--dTy3Mrz/UPE2dbVg--
