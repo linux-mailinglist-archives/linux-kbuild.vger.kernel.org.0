@@ -2,66 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7893D7B986
-	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jul 2019 08:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E18E97BC51
+	for <lists+linux-kbuild@lfdr.de>; Wed, 31 Jul 2019 10:55:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbfGaGOY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 31 Jul 2019 02:14:24 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:26868 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbfGaGOY (ORCPT
+        id S1726444AbfGaIzY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 31 Jul 2019 04:55:24 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:64931 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbfGaIzX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 31 Jul 2019 02:14:24 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x6V6Dxu9013384;
-        Wed, 31 Jul 2019 15:14:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x6V6Dxu9013384
+        Wed, 31 Jul 2019 04:55:23 -0400
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x6V8svpa012390;
+        Wed, 31 Jul 2019 17:54:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x6V8svpa012390
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564553642;
-        bh=sH+MOh98g+QOM+ma4Nt6m2kGY+caY9b/ArIx5nWicj4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=JknW6pMU374gaB26mJvjXH2rgUZMUq42WovhVMPPHqdNfCmWWaQgcUyGLnbjDmvcE
-         IgDg8mV4cvJWu9zD1Ex1dM/LFGvSEgb8LIacb1Emw/zjghU0QwJJLjSVm5eYDde8Ff
-         eFb6a9y1N0b6oF6PFaGNscffxvbhdppJSUP5fHoISREaXmM6c7TB61SXMaon+2RFXd
-         IuRtQdLL/Yo0dzQCTtl/XMlxGnlQZYB1x0MKs3QE4DwwEi59bx+XybU8bNKIDM7lXA
-         kdd9TJPKdNSZCDhfw60BocLGzus7k+11C8DhMOLXtrFjNfp4JqGrtz742RIsMVH3Cr
-         rjPPgcNjJUy8w==
-X-Nifty-SrcIP: [153.142.97.92]
+        s=dec2015msa; t=1564563299;
+        bh=+6VnkpjvIjwaRHB0EeFGcKCol1oBBgahP6+w4Ilp5Ew=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pgdq/SN9RbWGSQz3b8aGMAR8L2MbVAlrkSAAgdgTJa3jfQWnkDJwSrrLJYF8zpSCs
+         EmdSBg6XovFX19J8SuDfbc/mXjJ9DTPsw+qXzf2QNpvLishtsNZC3aUgfac9JrBo6b
+         uuV32vyCE0jJ0Ikqu95O/e1C4U8A06iPML4Z8Y7sMY8R3Pmv4CCTB523c9ZjmH043Y
+         Z+yVaEgpIHFoAPMVSlEOenQMhVmXpRhbvlA3zcZDWIiq1sDVlzWO1jgvhqU9XrrMIp
+         6e703X87sTezCQuKtNOOm7M1U3fmnNQg/B+WoZdwb3oE3WQfaxa2z1GYd30Egr2O+M
+         DaRYXo/+xHZ5A==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id v129so45633200vsb.11;
+        Wed, 31 Jul 2019 01:54:59 -0700 (PDT)
+X-Gm-Message-State: APjAAAUPliwwn6t0H1+Ugi0v1r0I0DBQA8jNx4zueVbn7PZe42XXN1mX
+        2gmot+pqpZRDjPmvPxoUm/3PLfq5r8jRfVXjWco=
+X-Google-Smtp-Source: APXvYqzNOUYxH3dkGmr5NVvz1LQM4uZuveEacwZhA0iB2msRv4KMUeu7A2oJHRpRDrWs9bSGwiKRG4QieuuK5VNqiPo=
+X-Received: by 2002:a67:fc45:: with SMTP id p5mr14825701vsq.179.1564563296511;
+ Wed, 31 Jul 2019 01:54:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190714152817.24693-1-efremov@linux.com> <20190730181146.6507-1-efremov@linux.com>
+In-Reply-To: <20190730181146.6507-1-efremov@linux.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: add [M] marker for build log of *.mod.o
-Date:   Wed, 31 Jul 2019 15:13:58 +0900
-Message-Id: <20190731061358.30117-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+Date:   Wed, 31 Jul 2019 17:54:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASW87=sWqEdPChiwxzS3Wwmtr7kO_=XLToLHYO6mDjotw@mail.gmail.com>
+Message-ID: <CAK7LNASW87=sWqEdPChiwxzS3Wwmtr7kO_=XLToLHYO6mDjotw@mail.gmail.com>
+Subject: Re: [PATCH v4] modpost: check for static EXPORT_SYMBOL* functions
+To:     Denis Efremov <efremov@linux.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This builds module objects, so [M] makes sense.
+Hi.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
 
- scripts/Makefile.modpost | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+
+On Wed, Jul 31, 2019 at 3:12 AM Denis Efremov <efremov@linux.com> wrote:
+>
+> This patch adds a check to warn about static EXPORT_SYMBOL* functions
+> during the modpost. In most of the cases, a static symbol marked for
+> exporting is an odd combination that should be fixed either by deleting
+> the exporting mark or by removing the static attribute and adding the
+> appropriate declaration to headers.
+>
+> This check could help to detect the following problems:
+> 1. 550113d4e9f5 ("i2c: add newly exported functions to the header, too")
+> 2. 54638c6eaf44 ("net: phy: make exported variables non-static")
+> 3. 98ef2046f28b ("mm: remove the exporting of totalram_pages")
+> 4. 73df167c819e ("s390/zcrypt: remove the exporting of ap_query_configuration")
+> 5. a57caf8c527f ("sunrpc/cache: remove the exporting of cache_seq_next")
+> 6. e4e4730698c9 ("crypto: skcipher - remove the exporting of skcipher_walk_next")
+> 7. 14b4c48bb1ce ("gve: Remove the exporting of gve_probe")
+> 8. 9b79ee9773a8 ("scsi: libsas: remove the exporting of sas_wait_eh")
+> 9. ...
+>
+> Build time impact, allmodconfig, Dell XPS 15 9570 (measurements 3x):
+> $ make mrproper; make allmodconfig; time make -j12; \
+>   git checkout HEAD~1; \
+>   make mrproper; make allmodconfig; time make -j12
+> 1.
+>    (with patch) 17635,94s user 1895,54s system 1085% cpu 29:59,22 total
+>    (w/o  patch) 17275,42s user 1803,87s system 1112% cpu 28:35,66 total
+> 2.
+>    (with patch) 17369,51s user 1763,28s system 1111% cpu 28:41,47 total
+>    (w/o  patch) 16880,50s user 1670,93s system 1113% cpu 27:46,56 total
+> 3.
+>    (with patch) 17937,88s user 1842,53s system 1109% cpu 29:42,26 total
+>    (w/o  patch) 17267,55s user 1725,09s system 1111% cpu 28:28,17 total
+>
+> The check adds less than a minute to a usual build.
+
+
+I am not convinced with this analysis.
+
+Since commit  b7dca6dd1e591ad19,
+scripts/mod/modpost is only invoked from scripts/Makefile.modpost.
+
+So, it is much easier to to measure the elapsed time
+of modpost directly.
+
+
+
+I applied your patch on top next-20190731,
+and the following:
+
 
 diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 6e328190d609..6c237af41417 100644
+index 92ed02d7cd5e..e0db1a626e50 100644
 --- a/scripts/Makefile.modpost
 +++ b/scripts/Makefile.modpost
-@@ -112,7 +112,7 @@ $(modules:.ko=.mod.c): modules-modpost ;
- # modname is set to make c_flags define KBUILD_MODNAME
- modname = $(notdir $(@:.mod.o=))
- 
--quiet_cmd_cc_o_c = CC      $@
-+quiet_cmd_cc_o_c = CC [M]  $@
-       cmd_cc_o_c = $(CC) $(c_flags) $(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE) \
- 		   -c -o $@ $<
- 
--- 
-2.17.1
+@@ -98,7 +98,7 @@ MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS)))
+-s -T - $(wildcard vmlinux)
 
+ # We can go over command line length here, so be careful.
+ quiet_cmd_modpost = MODPOST $(words $(modules)) modules
+-      cmd_modpost = sed 's/ko$$/o/' $(modorder) | $(MODPOST)
++      cmd_modpost = sed 's/ko$$/o/' $(modorder) | time -o
+modpost-time.txt $(MODPOST)
+
+ PHONY += modules-modpost
+ modules-modpost:
+
+
+
+
+
+The difference is less than 1 sec (not 1 min!) even for allmodconfig.
+So, the performance regression is almost unnoticeable level.
+
+
+-- 
+Best Regards
+Masahiro Yamada
