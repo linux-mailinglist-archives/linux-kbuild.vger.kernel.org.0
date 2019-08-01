@@ -2,75 +2,240 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E77397D55F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2019 08:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55F267E2C8
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Aug 2019 20:55:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729318AbfHAGR3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Aug 2019 02:17:29 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40217 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728884AbfHAGR3 (ORCPT
+        id S2387915AbfHASzm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Aug 2019 14:55:42 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35007 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387918AbfHASzd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Aug 2019 02:17:29 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r1so72174903wrl.7;
-        Wed, 31 Jul 2019 23:17:27 -0700 (PDT)
+        Thu, 1 Aug 2019 14:55:33 -0400
+Received: by mail-pg1-f194.google.com with SMTP id s1so28400846pgr.2
+        for <linux-kbuild@vger.kernel.org>; Thu, 01 Aug 2019 11:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yanPVyyCo7aV5PHJPTHnUF5WwSupWh42aAlO/2TU4qM=;
+        b=AXEJGSbzy2nisZCuQomwcAJjsmAS3tsN47D57OouJ7agEzm6inwYRVuQHNR+bPjtqR
+         9UzQ05+qRlUInKBsk4vQH8hvJVlwufmneBdZeObqoysE3ZQd/BS43SlI+a070qUA+GFP
+         zGdObxqzuaBUkQi+613lUJ+GcPdnTPQ8max5aW44qTMSrTr7ootlST/1JXY0DWLChkPU
+         ZltkXhvybDqjkXR6mrxErttgqxF4cTX9l2/i4pArlHsqyX8ykeUJsS6FZqsYTc1h6k5J
+         Bwnn1W+citAhlj45JYHcp8CJHpN/h+1KGAAyVB5oHCOQgrPo5/XgonZSlSrX+PfHOS4i
+         YaJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MqnGgjVQ38lM7U2cszPbg8rUFcVR6uGjnDxtuRKJL08=;
-        b=AohG6MDTwkXlE7ea/7G4qLTmlP0asrDbjhuQGmZqLE0MgRSWRw1XklMstv3waMF8Oa
-         7MgtOU1OSLhCY7SXgOaWWkn80UsdVylc7dUa0frFxcaWLzSGUfGRMc58g9AU7Eg+NLji
-         q9mSni4M5BXl18c6zg89ZbvOU2GYuLSd321azSiGDP7dmnIxspa0mfD5AmY91qPB9wLc
-         Hb8jLrhJ+i2BKKJXZcdgbi9x0c6gCfIGl1lG87KK0CDhbmLa/xFWyB0zjbNawasbOhtS
-         sQLwEJVdBYFqy0NlmS5NCIBd21hnIj14h3zY3yM/dVF2/otzYFCpwp6nywXZDJ2h+oBF
-         /KJQ==
-X-Gm-Message-State: APjAAAVb8Yu+y9Aae6/dWj9UQGh5V5Z1z2Izy4EtzCMHiyH+gotUulAz
-        P0Yc33UOw3NLtTXISprkg7GDvQRe09o=
-X-Google-Smtp-Source: APXvYqwis1vN1L96JjOt7SEvJZa8aeFnBWtqgg5RItTYIzUQRtJs3bIZ1EYjdaCgC50Wa3fc6hPq8Q==
-X-Received: by 2002:adf:e541:: with SMTP id z1mr46249972wrm.48.1564640247154;
-        Wed, 31 Jul 2019 23:17:27 -0700 (PDT)
-Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
-        by smtp.gmail.com with ESMTPSA id 15sm49480720wmk.34.2019.07.31.23.17.26
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Jul 2019 23:17:26 -0700 (PDT)
-Subject: Re: [PATCH v4] modpost: check for static EXPORT_SYMBOL* functions
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20190714152817.24693-1-efremov@linux.com>
- <20190730181146.6507-1-efremov@linux.com>
- <CAK7LNASW87=sWqEdPChiwxzS3Wwmtr7kO_=XLToLHYO6mDjotw@mail.gmail.com>
- <CAK7LNARrA7dKWaqqtbNUS2yOJfkign4CNvcn_bp2BLyvVAj2FQ@mail.gmail.com>
-From:   Denis Efremov <efremov@linux.com>
-Message-ID: <ad31b3a8-f662-ef14-148b-347f3671e7d3@linux.com>
-Date:   Thu, 1 Aug 2019 09:17:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yanPVyyCo7aV5PHJPTHnUF5WwSupWh42aAlO/2TU4qM=;
+        b=keMCqnDxTUr5RKfFGoT9VSUxi3VAVQzdnv0g7SgE8iT9Ev/D9Pc2JoE2Oa7FnQ8MqV
+         O3QXccYGUdxMZYfNdsvlI5u1FGSVPIvGIaUhIq/0cANEtbeCUBy3ZNhIf+TeQE1R1ECt
+         Z5y7bHjVzpMAZOHklz0dgi5Q51+9X0v6P7mFxJnRhPzEd5D5A/adWIkqE2bK3k1lIou6
+         cgQr8MNpF22jN5KAXjg2azsIFwxH9oooe8jlo9fE7XljH1aNuWxNrCI8S4EOlSD3E7Ex
+         21lG9CDNlEdWVDWrYqBBPR5KNlnWdZ2NY9kpSz1JfICaHE+/eR32DOWhypUXlqHH/ff5
+         uxkQ==
+X-Gm-Message-State: APjAAAU//8kQsJ+DAytAj756nZVok8qxWhQoWlKv9HWHjn5/N1jdtiyy
+        Syf9ZNNgWM+oB5WsVXltp1hn/iQOvWL5evYoyRxMEQ==
+X-Google-Smtp-Source: APXvYqzoFLt8JjfyNttcO+f/0oII0xixTgSXhZRfLC4Blo6PZ1XHxN/CDmHW1v1/KBomRNqbKOVo9+SEvV2fnQP9DnA=
+X-Received: by 2002:aa7:81ca:: with SMTP id c10mr55681458pfn.185.1564685731859;
+ Thu, 01 Aug 2019 11:55:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNARrA7dKWaqqtbNUS2yOJfkign4CNvcn_bp2BLyvVAj2FQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190716175021.9CA412173C@mail.kernel.org> <CAFd5g453vXeSUCZenCk_CzJ-8a1ym9RaPo0NVF=FujF9ac-5Ag@mail.gmail.com>
+ <20190718175024.C3EC421019@mail.kernel.org> <CAFd5g46a7C1+R6ZcE_SkqaYqgrH5Rx3M=X7orFyaMgFLDbeYYA@mail.gmail.com>
+ <20190719000834.GA3228@google.com> <20190722200347.261D3218C9@mail.kernel.org>
+ <CAFd5g45hdCxEavSxirr0un_uLzo5Z-J4gHRA06qjzcQrTzmjVg@mail.gmail.com>
+ <20190722235411.06C1320840@mail.kernel.org> <20190724073125.xyzfywctrcvg6fmh@pathway.suse.cz>
+ <CAFd5g47v3Mr4GEGOjqyYy9Jwwm+ow7ypbu9j88rxEN06QCzdxQ@mail.gmail.com> <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz>
+In-Reply-To: <20190726083148.d4gf57w2nt5k7t6n@pathway.suse.cz>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 1 Aug 2019 11:55:20 -0700
+Message-ID: <CAFd5g46iAhDZ5C_chi7oYLVOkwcoj6+0nw+kPWuXhqWwWKd9jA@mail.gmail.com>
+Subject: Re: [PATCH v9 04/18] kunit: test: add kunit_stream a std::stream like logger
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Jeff Dike <jdike@addtoit.com>, Kevin Hilman <khilman@baylibre.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Kees Cook <keescook@google.com>,
+        David Rientjes <rientjes@google.com>,
+        kunit-dev@googlegroups.com,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Joel Stanley <joel@jms.id.au>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        shuah <shuah@kernel.org>, wfg@linux.intel.com,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Theodore Ts'o" <tytso@mit.edu>,
+        Richard Weinberger <richard@nod.at>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        John Ogness <john.ogness@linutronix.de>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 01.08.2019 05:20, Masahiro Yamada wrote:
-> 
-> The build time impact is very limited.
-> I guess this measurement is unnecessary in the commit log.
-> 
+On Fri, Jul 26, 2019 at 1:31 AM Petr Mladek <pmladek@suse.com> wrote:
+>
+> On Thu 2019-07-25 13:21:12, Brendan Higgins wrote:
+> > On Wed, Jul 24, 2019 at 12:31 AM Petr Mladek <pmladek@suse.com> wrote:
+> > >
+> > > On Mon 2019-07-22 16:54:10, Stephen Boyd wrote:
+> > > > Quoting Brendan Higgins (2019-07-22 15:30:49)
+> > > > > On Mon, Jul 22, 2019 at 1:03 PM Stephen Boyd <sboyd@kernel.org> wrote:
+> > > > > >
+> > > > > >
+> > > > > > What's the calling context of the assertions and expectations? I still
+> > > > > > don't like the fact that string stream needs to allocate buffers and
+> > > > > > throw them into a list somewhere because the calling context matters
+> > > > > > there.
+> > > > >
+> > > > > The calling context is the same as before, which is anywhere.
+> > > >
+> > > > Ok. That's concerning then.
+> > > >
+> > > > >
+> > > > > > I'd prefer we just wrote directly to the console/log via printk
+> > > > > > instead. That way things are simple because we use the existing
+> > > > > > buffering path of printk, but maybe there's some benefit to the string
+> > > > > > stream that I don't see? Right now it looks like it builds a string and
+> > > > > > then dumps it to printk so I'm sort of lost what the benefit is over
+> > > > > > just writing directly with printk.
+> > > > >
+> > > > > It's just buffering it so the whole string gets printed uninterrupted.
+> > > > > If we were to print out piecemeal to printk, couldn't we have another
+> > > > > call to printk come in causing it to garble the KUnit message we are
+> > > > > in the middle of printing?
+> > > >
+> > > > Yes, printing piecemeal by calling printk many times could lead to
+> > > > interleaving of messages if something else comes in such as an interrupt
+> > > > printing something. Printk has some support to hold "records" but I'm
+> > > > not sure how that would work here because KERN_CONT talks about only
+> > > > being used early on in boot code. I haven't looked at printk in detail
+> > > > though so maybe I'm all wrong and KERN_CONT just works?
+> > >
+> > > KERN_CONT does not guarantee that the message will get printed
+> > > together. The pieces get interleaved with messages printed in
+> > > parallel.
+> > >
+> > > Note that KERN_CONT was originally really meant to be used only during
+> > > boot. It was later used more widely and ended in the best effort category.
+> > >
+> > > There were several attempts to make it more reliable. But it was
+> > > always either too complicated or error prone or both.
+> > >
+> > > You need to use your own buffering if you rely want perfect output.
+> > > The question is if it is really worth the complexity. Also note that
+> > > any buffering reduces the chance that the messages will reach
+> > > the console.
+> >
+> > Seems like that settles it then. Thanks!
+> >
+> > > BTW: There is a work in progress on a lockless printk ring buffer.
+> > > It will make printk() more secure regarding deadlocks. But it might
+> > > make transparent handling of continuous lines even more tricky.
+> > >
+> > > I guess that local buffering, before calling printk(), will be
+> > > even more important then. Well, it might really force us to create
+> > > an API for it.
+> >
+> > Cool! Can you CC me on that discussion?
+>
+> Adding John Oggness into CC.
+>
+> John, please CC Brendan Higgins on the patchsets eventually switching
+> printk() into the lockless buffer. The test framework is going to
+> do its own buffering to keep the related messages together.
+>
+> The lockless ringbuffer might make handling of related (partial)
+> lines worse or better. It might justify KUnit's extra buffering
+> or it might allow to get rid of it.
 
-Thank you for your observations! It was not easy for me to guess to do
-it this way because of my limited knowledge about kbuild && modpost
-work. In v5 I've only updated commit log: measurements removed, "The
-build time impact is very limited and is almost at the unnoticeable
-level (< 1 sec)" added instead. Fell free to edit it if you want.
+Thanks for CC'ing me on the printk ringbuffer thread. It looks like it
+actually probably won't affect my needs for KUnit logging. The biggest
+reason I need some sort of buffering system is to be able to compose
+messages piece meal into a single message that will be printed out to
+the user as a single message with no messages from other printk
+callers printed out in the middle of mine.
 
-Denis
+The prb does look interesting; however, it appears that to get the
+semantics that I need, I would have to put my entire message in a
+single data block and would consequently need to know the size of my
+message a priori, which is problematic. Consequently, it seems as
+though I will probably need to compose my entire message using my own
+buffering system.
+
+> > > Note that stroring the messages into the printk log is basically safe in any
+> > > context. It uses temporary per-CPU buffers for recursive messages and
+> > > in NMI. The only problem is panic() when some CPU gets stuck with the
+> > > lock taken. This will get solved by the lockless ringbuffer. Also
+> > > the temporary buffers will not be necessary any longer.
+> >
+> > Sure, I think Stephen's concern is all the supporting code that is
+> > involved. Not printk specifically. It just means a lot more of KUnit
+> > has to be IRQ safe.
+>
+> I see.
+>
+> BTW: I wonder if KUnit could reuse the existing seq_buf implementation
+> for buffering messages.
+>
+> I am sorry if it has already been proposed and rejected for some
+> reason. I might have missed it. Feel free to just point me to
+> same older mail.
+
+Yeah, we discussed it briefly here:
+
+https://lkml.org/lkml/2019/5/17/497
+
+Looks like I forgot to include my reasoning in the commit text, sorry
+about that.
+
+> > > Much bigger problems are with consoles. There are many of them. It
+> > > means a lot of code and more locks involved, including scheduler
+> > > locks. Note that console lock is a semaphore.
+> >
+> > That shouldn't affect us though, right? As long as we continue to use
+> > the printk interface?
+>
+> I guess that it should not affect KUnit.
+>
+> The only problem might be if the testing framework calls printk()
+> inside scheduler or console code. And only when the tested code
+> uses the same locks that will be used by the called printk().
+
+Yeah, well printk will not be our only problem in those instances.
+
+> To be honest I do not fully understand KUnit design. I am not
+> completely sure how the tested code is isolated from the running
+> system. Namely, I do not know if the tested code shares
+> the same locks with the system running the test.
+
+No worries, I don't expect printk to be the hang up in those cases. It
+sounds like KUnit has a long way to evolve before printk is going to
+be a limitation.
+
+Thanks!
