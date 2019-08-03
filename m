@@ -2,101 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF678059E
-	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2019 12:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F9D58073A
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Aug 2019 18:30:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388298AbfHCKCi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 3 Aug 2019 06:02:38 -0400
-Received: from aibo.runbox.com ([91.220.196.211]:53114 "EHLO aibo.runbox.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388294AbfHCKCi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 3 Aug 2019 06:02:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
-         s=rbselector1; h=Content-Transfer-Encoding:MIME-Version:References:
-        In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-        bh=h+gdKezhnZxQ2ykgMTawflCtKVKbt31AwdXjqem/yp4=; b=kXg+/nu/KXVcgabR+VYTZ+FOFH
-        B5CRSmbOda9oLmMjdFY1MNMZ11kdtIUJ/kPzxLxXdomCwbcIiaGYMXGUsaXesn9utWvJb8jvJ7+Vf
-        7lQSjRURki80BihrM2Lf2+vSDHGH0JAiTmFnIiS6ZOTlZcxmLZ4zb/ZvtOcc1Y08961aiCcGc/LVX
-        CKFIjG539a+5BPXBE15P6WZlLpvv4yw9kpGSHcEKJw6i9alPqchZRmDnmH8t9B9DEZIYlwYcURZDh
-        2T35Jk+MHD8KTqKDJy5mTrskGTb4KJzm+g/7xv4qGU8yElM0gn7yaUvgyVQ/+Q6MTJkY/80TBq4pa
-        8mgtGCZg==;
-Received: from [10.9.9.203] (helo=mailfront21.runbox)
-        by mailtransmit03.runbox with esmtp (Exim 4.86_2)
-        (envelope-from <m.v.b@runbox.com>)
-        id 1htqrv-0006ih-Ou; Sat, 03 Aug 2019 12:02:31 +0200
-Received: by mailfront21.runbox with esmtpsa  (uid:769847 )  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        id 1htqrj-0007Lk-4g; Sat, 03 Aug 2019 12:02:19 +0200
-From:   "M. Vefa Bicakci" <m.v.b@runbox.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     =?UTF-8?q?Joonas=20Kylm=C3=A4l=C3=A4?= <joonas.kylmala@iki.fi>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-stable <stable@vger.kernel.org>,
-        "M. Vefa Bicakci" <m.v.b@runbox.com>
-Subject: [PATCH v2] kconfig: Clear "written" flag to avoid data loss
-Date:   Sat,  3 Aug 2019 06:02:12 -0400
-Message-Id: <20190803100212.8227-1-m.v.b@runbox.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <CAK7LNASPib2GUgjUEwmNYcO9_NgvjyjKSpqwJVZSNhFOJ7Lkfw@mail.gmail.com>
-References: <CAK7LNASPib2GUgjUEwmNYcO9_NgvjyjKSpqwJVZSNhFOJ7Lkfw@mail.gmail.com>
+        id S2388255AbfHCQas (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 3 Aug 2019 12:30:48 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:43810 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387464AbfHCQas (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 3 Aug 2019 12:30:48 -0400
+Received: by mail-lf1-f67.google.com with SMTP id c19so55029285lfm.10
+        for <linux-kbuild@vger.kernel.org>; Sat, 03 Aug 2019 09:30:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+goFXgRydoF0Nytz+3tqWtRVYqT94UgPa9SdXNQXXHA=;
+        b=R+NCRIl6C+ncjPO9EMfPiMikwl/p5S995HfQIbfWkIwvEiBJ7MXQRyRGMLL5BmcE83
+         BBv8jFbetva7rJHAg5wIcP+AWuSFuJ7odWK6DguAd488exV31/+DfSMYWS8A5pCTCEnS
+         LQ3uJvm8daTkNvBLIRh/F0JRtJflS7Cdc5p41+CvGEjvwGXFv+6+uahHPVqvTIcN7IyV
+         EOl2Z8+OFczAIXwBHpTbPAe0CyWf/qTvXAzD0zXa/DBHUMzV/F44gtPdGoWsscL9i5o8
+         o7t771YNMVZy1d8kTDY/VIHxpYp8GxvPfYDqNMibMUCJHjs/If2fR+trCopecdzXAwid
+         mhWQ==
+X-Gm-Message-State: APjAAAVnKHfwY8p4fXMhtjgKCpiNF38JGckOLmZZhzjPHiWiOu4+OpgC
+        PEuuRcvnqlMAwdk83k/Ai3gri3iOPYli7eli3v2EaA==
+X-Google-Smtp-Source: APXvYqx+VB0QAC6kmWuKlAikeaFaQIk0KrPicf404ZLNQbGTLRUW9RHGytWfBeqwiBO9+gXWja+Z8GfOsiiGIi6mKgI=
+X-Received: by 2002:a19:48c5:: with SMTP id v188mr65928213lfa.69.1564849846235;
+ Sat, 03 Aug 2019 09:30:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190728182300.3169-1-mcroce@redhat.com>
+In-Reply-To: <20190728182300.3169-1-mcroce@redhat.com>
+From:   Matteo Croce <mcroce@redhat.com>
+Date:   Sat, 3 Aug 2019 18:30:10 +0200
+Message-ID: <CAGnkfhzyrNrAogARDu=-uV+UGXg5j8oksyt76HsScTUtSkmp0g@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: ignore auto-generated file
+To:     LKML <linux-kernel@vger.kernel.org>, linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Prior to this commit, starting nconfig, xconfig or gconfig, and saving
-the .config file more than once caused data loss, where a .config file
-that contained only comments would be written to disk starting from the
-second save operation.
+On Sun, Jul 28, 2019 at 8:23 PM Matteo Croce <mcroce@redhat.com> wrote:
+>
+> scripts/kconfig/zconf.hash.c is autogenerated during the build,
+> let's add it to the directory .gitignore.
+>
+> Signed-off-by: Matteo Croce <mcroce@redhat.com>
+>
 
-This bug manifests itself because the SYMBOL_WRITTEN flag is never
-cleared after the first call to conf_write, and subsequent calls to
-conf_write then skip all of the configuration symbols due to the
-SYMBOL_WRITTEN flag being set.
+Sorry, forgot to CC the maintainer and the relevant mailing list
 
-This commit resolves this issue by clearing the SYMBOL_WRITTEN flag
-from all symbols before conf_write returns.
-
-Fixes: 8e2442a5f86e ("kconfig: fix missing choice values in auto.conf")
-Cc: linux-stable <stable@vger.kernel.org> # 4.19+
-Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
-
----
-
-Changes since v1:
-* As suggested by Masahiro Yamada, instead of defining a new helper
-  function to traverse over all symbols in a pre-defined order, use
-  the for_all_symbols iterator.
----
- scripts/kconfig/confdata.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 1134892599da..3569d2dec37c 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -848,6 +848,7 @@ int conf_write(const char *name)
- 	const char *str;
- 	char tmpname[PATH_MAX + 1], oldname[PATH_MAX + 1];
- 	char *env;
-+	int i;
- 	bool need_newline = false;
- 
- 	if (!name)
-@@ -930,6 +931,9 @@ int conf_write(const char *name)
- 	}
- 	fclose(out);
- 
-+	for_all_symbols(i, sym)
-+		sym->flags &= ~SYMBOL_WRITTEN;
-+
- 	if (*tmpname) {
- 		if (is_same(name, tmpname)) {
- 			conf_message("No change to %s", name);
 -- 
-2.21.0
-
+Matteo Croce
+per aspera ad upstream
