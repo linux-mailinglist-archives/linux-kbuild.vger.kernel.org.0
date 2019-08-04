@@ -2,81 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17597808FE
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2019 05:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55AD480902
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2019 05:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725924AbfHDDu7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 3 Aug 2019 23:50:59 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:22281 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbfHDDu7 (ORCPT
+        id S1725886AbfHDD6l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 3 Aug 2019 23:58:41 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:31490 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbfHDD6l (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 3 Aug 2019 23:50:59 -0400
+        Sat, 3 Aug 2019 23:58:41 -0400
 Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x743olnN005896;
-        Sun, 4 Aug 2019 12:50:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x743olnN005896
+        by conssluserg-01.nifty.com with ESMTP id x743wOoY028580
+        for <linux-kbuild@vger.kernel.org>; Sun, 4 Aug 2019 12:58:25 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x743wOoY028580
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564890648;
-        bh=3vS3/5rDcS18Sb1Eug7YS5T01mgblSSYbNpIdtgur6c=;
+        s=dec2015msa; t=1564891105;
+        bh=bhJIDkg8SZF1qUGKx+Shp02/owXjZboLm+2ZC005ExA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iF72YwKqnOePS9nerjL2Gy4Q75/TdlZCEsCX9PhzH+f4DSy6R5khaPcRlv1M6vgPq
-         YucD7z2OkRDMMBPELtCRtALjV90LaGCsnmlwI8lh8aOdpWOfq9EfBUMYlNN1OCsYgK
-         DrGvMZcdgmJ9uhG4uR1ChOxhPuEtmyCfD+O265TPgOjhFVnEA9Nl+VTXhPGBWPFwFZ
-         AGfjQrBcBk/Ny2CVVWGCWZGawY3u7cBYqHM3JuRaSDpyD1bNPyLY+4cewRGui0Mpab
-         v7fTkJYZjN4YsAJjyNJfVd64nikNvK6MTapp3BYU8MJ70F4svsOUWBKE0VRj4MGmQc
-         fCJBgbJ+7M5qQ==
+        b=F9e6xBSA/AKEJ/xobwnNIqzfFBjt5Qjtfccexkn+qkv9cDjdvJOAkqnHeWkeZr9Z3
+         6Jmvm3QkEUDeDYvH9pi4og0rmtakLnq1gQTPvt1nB6Ci+Yzydi6mxbeGTJ8ChM7KaY
+         O7IHzAVJsgGiqcKU9amwNguJpivvPtZ08lQLYvD6ONyVZ/ln7xsq84j+KZz+2lAtFn
+         hBNedpOXHOf5yK0wZMIu4/blSUvVwUZZizD4uFpvB6JuAey6PwSKswofBvuAZGO69C
+         b2DN0g0mXiIUMgbjohSdpv88sII62AgEcZDqlzV+zs2C4N9uy59h3eNvq0ZCD9yx6B
+         GauQpmKRL3Nhw==
 X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id a97so31065898uaa.9;
-        Sat, 03 Aug 2019 20:50:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAVwnKXgbYDAMEOWCOquX6yZ6CxtpaCK44H0nT6MOMJcaD0qXwxS
-        uA3BICQCeiRO3osib/uJCBOEp0VrX7PAyFueYQU=
-X-Google-Smtp-Source: APXvYqx8onDg0qzMkVy3xckekMqtp+JwWYueQcaBxSbON6vDfFQxIN1skfZGQVCrNF4p5bz2ZX0sdr0MQKEG4jHmhWE=
-X-Received: by 2002:a9f:25e9:: with SMTP id 96mr74623588uaf.95.1564890646592;
- Sat, 03 Aug 2019 20:50:46 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id j8so31078801uan.6
+        for <linux-kbuild@vger.kernel.org>; Sat, 03 Aug 2019 20:58:25 -0700 (PDT)
+X-Gm-Message-State: APjAAAWj5Oeyla/ZBcNTm98puU7xjMcsmQOfih5ZU3V11yQGni3DSPyR
+        CA6Vfuq9pZdidcvtQHtlDkDb+a7+cOhNRUbR1dE=
+X-Google-Smtp-Source: APXvYqwq2JrJO+CBlMuI997BSXowy6HZD+kFP57tt1eETStYcurINHwWzi+Eqs+dV7oZL64pmUfDva30lcHdL6n0Td0=
+X-Received: by 2002:ab0:234e:: with SMTP id h14mr2865006uao.25.1564891104006;
+ Sat, 03 Aug 2019 20:58:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNASPib2GUgjUEwmNYcO9_NgvjyjKSpqwJVZSNhFOJ7Lkfw@mail.gmail.com>
- <20190803100212.8227-1-m.v.b@runbox.com>
-In-Reply-To: <20190803100212.8227-1-m.v.b@runbox.com>
+References: <CALYGOBV9FERiui6mJDmQyAjaNASAOQ5z1k-6nCHQVB+c4XxmSw@mail.gmail.com>
+In-Reply-To: <CALYGOBV9FERiui6mJDmQyAjaNASAOQ5z1k-6nCHQVB+c4XxmSw@mail.gmail.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 4 Aug 2019 12:50:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS3heQA-0FzANyqXGSOR+kZ6zLgoSWYEW_ngrEdH46QsQ@mail.gmail.com>
-Message-ID: <CAK7LNAS3heQA-0FzANyqXGSOR+kZ6zLgoSWYEW_ngrEdH46QsQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kconfig: Clear "written" flag to avoid data loss
-To:     "M. Vefa Bicakci" <m.v.b@runbox.com>
-Cc:     =?UTF-8?B?Sm9vbmFzIEt5bG3DpGzDpA==?= <joonas.kylmala@iki.fi>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-stable <stable@vger.kernel.org>
+Date:   Sun, 4 Aug 2019 12:57:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQSFdSZ5OctMkhXRmmXrq4S0cJ4Xy3MOd9iLF-Cs_VQMw@mail.gmail.com>
+Message-ID: <CAK7LNAQSFdSZ5OctMkhXRmmXrq4S0cJ4Xy3MOd9iLF-Cs_VQMw@mail.gmail.com>
+Subject: Re: make_kernelconfig fails in OpenWRT buildroot
+To:     Thomas Albers <thomas.gameiro@googlemail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 3, 2019 at 7:02 PM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
+On Sun, Aug 4, 2019 at 1:44 AM Thomas Albers
+<thomas.gameiro@googlemail.com> wrote:
 >
-> Prior to this commit, starting nconfig, xconfig or gconfig, and saving
-> the .config file more than once caused data loss, where a .config file
-> that contained only comments would be written to disk starting from the
-> second save operation.
+> Hello!
 >
-> This bug manifests itself because the SYMBOL_WRITTEN flag is never
-> cleared after the first call to conf_write, and subsequent calls to
-> conf_write then skip all of the configuration symbols due to the
-> SYMBOL_WRITTEN flag being set.
+> When you say "make kernel_menuconfig" in OpenWRT buildroot kernel
+> configuration fails, like so:
+> $ make kernel_menuconfig
+> make[3]: Entering directory
+> '/home/ta/openwrt/build_dir/target-arm_cortex-a15+neon-vfpv4_musl_eabi/linux-ipq806x/linux-4.14.134'
+>   HOSTCC  scripts/kconfig/mconf.o
+>   HOSTCC  scripts/kconfig/lxdialog/checklist.o
+>   HOSTCC  scripts/kconfig/lxdialog/util.o
+>   HOSTCC  scripts/kconfig/lxdialog/inputbox.o
+>   HOSTCC  scripts/kconfig/lxdialog/textbox.o
+>   HOSTCC  scripts/kconfig/lxdialog/yesno.o
+>   HOSTCC  scripts/kconfig/lxdialog/menubox.o
+>   HOSTLD  scripts/kconfig/mconf
+> /usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
+> scripts/kconfig/lxdialog/checklist.o: undefined reference to symbol
+> 'keypad'
+> /usr/lib/gcc/x86_64-pc-linux-gnu/8.3.0/../../../../x86_64-pc-linux-gnu/bin/ld:
+> /lib64/libtinfow.so.6: error adding symbols: DSO missing from command
+> line
+> collect2: error: ld returned 1 exit status
 >
-> This commit resolves this issue by clearing the SYMBOL_WRITTEN flag
-> from all symbols before conf_write returns.
+> Steps to reproduce (see
+> https://openwrt.org/docs/guide-developer/build-system/use-buildsystem)
+> $ git clone https://github.com/openwrt/openwrt.git
+> $ make menuconfig
+> $ make defconfig
+> $ make kernel_menuconfig
 >
-> Fixes: 8e2442a5f86e ("kconfig: fix missing choice values in auto.conf")
-> Cc: linux-stable <stable@vger.kernel.org> # 4.19+
-> Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
+> It seems that the bug was introduced here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fd65465b7016dc6d9fa5c2f39cc706c231c9a089
+> when menuconfig no longer used pkg-config to find the ncurses libraries.
+> Also see a related bug report from Gentoo: https://bugs.gentoo.org/457530
+> and the OpenWRT bug report:
+> https://bugs.openwrt.org/index.php?do=details&task_id=2423
+>
 
+See line 7-20 of scripts/kconfig/mconf-cfg.sh,
+it tries pkg-config first. If pkg-config cannot find ncurses,
+it falls back to some hard-coded install paths.
 
-Applied to linux-kbuild/fixes.
-Thanks.
+Am I misunderstanding the code?
 
 
 
