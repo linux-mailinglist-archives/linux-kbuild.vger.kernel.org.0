@@ -2,74 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9D6A808F1
-	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2019 05:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17597808FE
+	for <lists+linux-kbuild@lfdr.de>; Sun,  4 Aug 2019 05:51:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727848AbfHDDEt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 3 Aug 2019 23:04:49 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:64417 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726059AbfHDDEs (ORCPT
+        id S1725924AbfHDDu7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 3 Aug 2019 23:50:59 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:22281 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbfHDDu7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 3 Aug 2019 23:04:48 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x7434hJk005102;
-        Sun, 4 Aug 2019 12:04:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x7434hJk005102
+        Sat, 3 Aug 2019 23:50:59 -0400
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x743olnN005896;
+        Sun, 4 Aug 2019 12:50:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x743olnN005896
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564887884;
-        bh=ZiSeC41TRDofYxNwaHR3acHINeKpKGhNRxJyE0z5dv8=;
+        s=dec2015msa; t=1564890648;
+        bh=3vS3/5rDcS18Sb1Eug7YS5T01mgblSSYbNpIdtgur6c=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=XpKrbPt+gNAJBM68JsrBoXVlc5sTQAMcp6w7veF29a/ik027BcujQvrW1nsiuWU6D
-         ad4s607kVFmXMmCRS/eBcf8wl5FkoZ9mfcgccN5hmBHBS6u+5VDF8GUo43fcXUV/dK
-         nRA+/n7hB45/ozdWH0WCfB4pY3Ioh7amIyChBeHF2fVMfQbdTVu5603NHIqs9FLveD
-         Gui6lJ3Bz4o2DNvjoSEN+b12MyTOorc0X1avZQY83+ucouzb6FoNSC1TIu4HkdMjUm
-         LRur8vKcMO828mEsW0HCcQCJUfud6IBV3OytmHtGKPSwS1ZSkxycSOQrGeUA8/5RL4
-         kG0BB8DOrzDJA==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id h28so53811368vsl.12;
-        Sat, 03 Aug 2019 20:04:44 -0700 (PDT)
-X-Gm-Message-State: APjAAAXkgkR1/CmXpZzWURttg8fTKTChZZ+ISBE0mvrx5pSly0bhUr75
-        /+QS1HZ9LAdjxm/VIMdTr6c9G/9e2dexH0P3jDs=
-X-Google-Smtp-Source: APXvYqxShcNVk++sDWijNGR7vNOcJkpCNtdyAIn9Vx74T1KaR+zDiLzznae2CLFNJFNnZ/yMAJhEaQ3XAJrU6l8jCAA=
-X-Received: by 2002:a67:8e0a:: with SMTP id q10mr67208378vsd.215.1564887883157;
- Sat, 03 Aug 2019 20:04:43 -0700 (PDT)
+        b=iF72YwKqnOePS9nerjL2Gy4Q75/TdlZCEsCX9PhzH+f4DSy6R5khaPcRlv1M6vgPq
+         YucD7z2OkRDMMBPELtCRtALjV90LaGCsnmlwI8lh8aOdpWOfq9EfBUMYlNN1OCsYgK
+         DrGvMZcdgmJ9uhG4uR1ChOxhPuEtmyCfD+O265TPgOjhFVnEA9Nl+VTXhPGBWPFwFZ
+         AGfjQrBcBk/Ny2CVVWGCWZGawY3u7cBYqHM3JuRaSDpyD1bNPyLY+4cewRGui0Mpab
+         v7fTkJYZjN4YsAJjyNJfVd64nikNvK6MTapp3BYU8MJ70F4svsOUWBKE0VRj4MGmQc
+         fCJBgbJ+7M5qQ==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id a97so31065898uaa.9;
+        Sat, 03 Aug 2019 20:50:47 -0700 (PDT)
+X-Gm-Message-State: APjAAAVwnKXgbYDAMEOWCOquX6yZ6CxtpaCK44H0nT6MOMJcaD0qXwxS
+        uA3BICQCeiRO3osib/uJCBOEp0VrX7PAyFueYQU=
+X-Google-Smtp-Source: APXvYqx8onDg0qzMkVy3xckekMqtp+JwWYueQcaBxSbON6vDfFQxIN1skfZGQVCrNF4p5bz2ZX0sdr0MQKEG4jHmhWE=
+X-Received: by 2002:a9f:25e9:: with SMTP id 96mr74623588uaf.95.1564890646592;
+ Sat, 03 Aug 2019 20:50:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190728182300.3169-1-mcroce@redhat.com> <CAGnkfhzyrNrAogARDu=-uV+UGXg5j8oksyt76HsScTUtSkmp0g@mail.gmail.com>
-In-Reply-To: <CAGnkfhzyrNrAogARDu=-uV+UGXg5j8oksyt76HsScTUtSkmp0g@mail.gmail.com>
+References: <CAK7LNASPib2GUgjUEwmNYcO9_NgvjyjKSpqwJVZSNhFOJ7Lkfw@mail.gmail.com>
+ <20190803100212.8227-1-m.v.b@runbox.com>
+In-Reply-To: <20190803100212.8227-1-m.v.b@runbox.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 4 Aug 2019 12:04:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARVurz=y=+_TLUbGwKTkEC+Br9U-g3GQN9M-0cctoKc8A@mail.gmail.com>
-Message-ID: <CAK7LNARVurz=y=+_TLUbGwKTkEC+Br9U-g3GQN9M-0cctoKc8A@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: ignore auto-generated file
-To:     Matteo Croce <mcroce@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Sun, 4 Aug 2019 12:50:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS3heQA-0FzANyqXGSOR+kZ6zLgoSWYEW_ngrEdH46QsQ@mail.gmail.com>
+Message-ID: <CAK7LNAS3heQA-0FzANyqXGSOR+kZ6zLgoSWYEW_ngrEdH46QsQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kconfig: Clear "written" flag to avoid data loss
+To:     "M. Vefa Bicakci" <m.v.b@runbox.com>
+Cc:     =?UTF-8?B?Sm9vbmFzIEt5bG3DpGzDpA==?= <joonas.kylmala@iki.fi>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-stable <stable@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 4, 2019 at 1:30 AM Matteo Croce <mcroce@redhat.com> wrote:
+On Sat, Aug 3, 2019 at 7:02 PM M. Vefa Bicakci <m.v.b@runbox.com> wrote:
 >
-> On Sun, Jul 28, 2019 at 8:23 PM Matteo Croce <mcroce@redhat.com> wrote:
-> >
-> > scripts/kconfig/zconf.hash.c is autogenerated during the build,
-> > let's add it to the directory .gitignore.
-> >
-> > Signed-off-by: Matteo Croce <mcroce@redhat.com>
-> >
+> Prior to this commit, starting nconfig, xconfig or gconfig, and saving
+> the .config file more than once caused data loss, where a .config file
+> that contained only comments would be written to disk starting from the
+> second save operation.
 >
-> Sorry, forgot to CC the maintainer and the relevant mailing list
+> This bug manifests itself because the SYMBOL_WRITTEN flag is never
+> cleared after the first call to conf_write, and subsequent calls to
+> conf_write then skip all of the configuration symbols due to the
+> SYMBOL_WRITTEN flag being set.
+>
+> This commit resolves this issue by clearing the SYMBOL_WRITTEN flag
+> from all symbols before conf_write returns.
+>
+> Fixes: 8e2442a5f86e ("kconfig: fix missing choice values in auto.conf")
+> Cc: linux-stable <stable@vger.kernel.org> # 4.19+
+> Signed-off-by: M. Vefa Bicakci <m.v.b@runbox.com>
 
 
-Probably, you built old version kernel.
-
-The latest one does not generate kernel/config_data.h
-
-See bb3290d91695bb1ae78ab86f18fb4d7ad8e5ebcc
-
+Applied to linux-kbuild/fixes.
+Thanks.
 
 
 
