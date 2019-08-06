@@ -2,74 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E8182B90
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 08:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AF6482BB5
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 08:34:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726076AbfHFGXm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Aug 2019 02:23:42 -0400
-Received: from m12-13.163.com ([220.181.12.13]:56005 "EHLO m12-13.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731594AbfHFGXm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Aug 2019 02:23:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NKt2U
-        0XciXEyfQgGeM1oGcrEzerIfbKQX/kvjjpEBTc=; b=MAo4u0lrNnHuMVgRCv4z+
-        rQ3y25+7tH8zKB/iTPHr5E6cpVNNs+OZrl+ZH1aiBpGfl3DK4nRgyjwpY2B6u4F7
-        Fn1SXk1E/sKxtmdjXD+5wiWs/JzeWLoEzcixKOuORCHldGl7t3NBv4k4ecc07iHS
-        xIubMnGMNVxxRDkFos9dsQ=
-Received: from localhost.localdomain (unknown [112.25.212.39])
-        by smtp9 (Coremail) with SMTP id DcCowADH18faHEldtgTmEA--.42022S2;
-        Tue, 06 Aug 2019 14:23:23 +0800 (CST)
-From:   Xiao Yang <ice_yangxiao@163.com>
-To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        yangx.jy@cn.fujitsu.com, Xiao Yang <ice_yangxiao@163.com>
-Subject: [PATCH] kbuild: Remove unused variable TMPO of ld-option
-Date:   Tue,  6 Aug 2019 14:23:16 +0800
-Message-Id: <20190806062316.30784-1-ice_yangxiao@163.com>
-X-Mailer: git-send-email 2.21.0
+        id S1731712AbfHFGem (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Aug 2019 02:34:42 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:50060 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731594AbfHFGem (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 6 Aug 2019 02:34:42 -0400
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x766YJmN030634;
+        Tue, 6 Aug 2019 15:34:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x766YJmN030634
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565073260;
+        bh=UGokPoCuS8qN/fxPDNu2v8bVJCHaN/v0oNhnNc1cF7k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TRLgw0+7uw0zZ7PlR9yEqqXSDLPR4X3lErONbFPmFVT8vCTyfjojnAwpYhT+rQ4SR
+         pOS4G8ynR6eFeHzXQHOOa5XsG/lgtDvKrxRF/jw1Pi4Y22Fe6MhbEkqdkckNtWQMxB
+         Bb0+gE3dMrAff1SVqL9yXVAVNAlw3ueVW9MJA2zuNzKmr7SJ1Zkf/EwUaXK3rQks47
+         ZYAi9W56VP8K5K4YaiwpX4sDZ71iK8OtE9BSttuOzQ5F9GBmb6uuOFoPhOclVRXw1L
+         3mEWeW7Ma8L+reO2ZDv7Fq8V2Mt2HTLD0pSjYFggmtZqWXUdkGPptH334PgdD/oBdo
+         /CeT2EkBXnzKA==
+X-Nifty-SrcIP: [209.85.217.47]
+Received: by mail-vs1-f47.google.com with SMTP id v6so57659913vsq.4;
+        Mon, 05 Aug 2019 23:34:19 -0700 (PDT)
+X-Gm-Message-State: APjAAAUtSUpuG8HmxAX3ZP/4Abv6cx6/bV6puNblZBXYzGeCA/SrXYsO
+        RskNWcDBvoEb4jX1pOSoZnYDNvOgSgwCvhL9axQ=
+X-Google-Smtp-Source: APXvYqzT/sxk5Y/AIBMSRGngJRDWBnnGNlQatN1KHhWzxdTa81nmXb9Jwne9Ue7ooG/aVEBhyiiqF51LEeCk4sbzwzg=
+X-Received: by 2002:a67:fc45:: with SMTP id p5mr1262675vsq.179.1565073258567;
+ Mon, 05 Aug 2019 23:34:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DcCowADH18faHEldtgTmEA--.42022S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrtr13Gr1fJF17ZFykJw4kCrg_yoWfWwbE9F
-        yIqFy0qanxta1rAr1kAa1FgrWak34UGFsaqw1rKr47C3sFk395KanrJrZ7Ja429anrJFn3
-        WFWqqr98WryfWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbsYwUUUUUU==
-X-Originating-IP: [112.25.212.39]
-X-CM-SenderInfo: 5lfhs5xdqj5xldr6il2tof0z/1tbiEBsJXlWBncr0pQAAsO
+References: <20190806062316.30784-1-ice_yangxiao@163.com>
+In-Reply-To: <20190806062316.30784-1-ice_yangxiao@163.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 6 Aug 2019 15:33:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARVrBf2imEOdYv0zZxDZaQ2z83qKr=xSbrHHGEYHgRLuA@mail.gmail.com>
+Message-ID: <CAK7LNARVrBf2imEOdYv0zZxDZaQ2z83qKr=xSbrHHGEYHgRLuA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Remove unused variable TMPO of ld-option
+To:     Xiao Yang <ice_yangxiao@163.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        yangx.jy@cn.fujitsu.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-ld-option implementation has been simplified so variable TMPO
-is no longer needed.
+On Tue, Aug 6, 2019 at 3:23 PM Xiao Yang <ice_yangxiao@163.com> wrote:
+>
+> ld-option implementation has been simplified so variable TMPO
+> is no longer needed.
+>
+> Fixes: Commit 0294e6f4a000 ("kbuild: simplify ld-option implementation")
+> Signed-off-by: Xiao Yang <ice_yangxiao@163.com>
+> ---
+>  scripts/Kbuild.include | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+> index 4b0432e095ae..13a6f627351d 100644
+> --- a/scripts/Kbuild.include
+> +++ b/scripts/Kbuild.include
+> @@ -91,12 +91,11 @@ TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
+>  # automatically cleaned up.
+>  try-run = $(shell set -e;              \
+>         TMP="$(TMPOUT).$$$$.tmp";       \
+> -       TMPO="$(TMPOUT).$$$$.o";        \
+>         if ($(1)) >/dev/null 2>&1;      \
+>         then echo "$(2)";               \
+>         else echo "$(3)";               \
+>         fi;                             \
+> -       rm -f "$$TMP" "$$TMPO")
+> +       rm -f "$$TMP")
+>
+>  # as-option
+>  # Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+> --
+> 2.21.0
+>
+>
 
-Fixes: Commit 0294e6f4a000 ("kbuild: simplify ld-option implementation")
-Signed-off-by: Xiao Yang <ice_yangxiao@163.com>
----
- scripts/Kbuild.include | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Unfortunately, there is a user in arch/x86/Makefile.
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 4b0432e095ae..13a6f627351d 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -91,12 +91,11 @@ TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
- # automatically cleaned up.
- try-run = $(shell set -e;		\
- 	TMP="$(TMPOUT).$$$$.tmp";	\
--	TMPO="$(TMPOUT).$$$$.o";	\
- 	if ($(1)) >/dev/null 2>&1;	\
- 	then echo "$(2)";		\
- 	else echo "$(3)";		\
- 	fi;				\
--	rm -f "$$TMP" "$$TMPO")
-+	rm -f "$$TMP")
- 
- # as-option
- # Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+masahiro@pug:~/ref/linux$ git grep TMPO
+arch/x86/Makefile:                      $(OBJCOPY) -O elf32-x86-64
+"$$TMP" "$$TMPO" && \
+arch/x86/Makefile:                      $(LD) -m elf32_x86_64 "$$TMPO"
+-o "$$TMP",y,n)
+scripts/Kbuild.include:TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword
+$(KBUILD_EXTMOD))/)
+scripts/Kbuild.include: TMP="$(TMPOUT).$$$$.tmp";       \
+scripts/Kbuild.include: TMPO="$(TMPOUT).$$$$.o";        \
+scripts/Kbuild.include: rm -f "$$TMP" "$$TMPO")
+
+
+
+
 -- 
-2.21.0
-
-
+Best Regards
+Masahiro Yamada
