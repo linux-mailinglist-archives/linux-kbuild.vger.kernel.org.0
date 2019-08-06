@@ -2,49 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A3482C81
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 09:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A47DF82CCD
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 09:30:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731787AbfHFHWv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Aug 2019 03:22:51 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44668 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731735AbfHFHWv (ORCPT
+        id S1731807AbfHFHaW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Aug 2019 03:30:22 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:43136 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731735AbfHFHaW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Aug 2019 03:22:51 -0400
-Received: by mail-ot1-f65.google.com with SMTP id b7so39926692otl.11;
-        Tue, 06 Aug 2019 00:22:50 -0700 (PDT)
+        Tue, 6 Aug 2019 03:30:22 -0400
+Received: by mail-oi1-f194.google.com with SMTP id w79so65222950oif.10;
+        Tue, 06 Aug 2019 00:30:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=thaFZP7CFw87PdGBAS/x5P7euY9O7a6MADouBJzdobA=;
-        b=Fb+zwMYtYvsQMRaFQG2I9Nj3NTNqArMnK+39/JMMzxOnKoKWeQU/zqBwYQ6XjhWWzo
-         kAzmpClBPLzW/vfpUn1Bvjw9OG2uyeeOaxsvdbHfGotwphxYCjSdT9te+216Rt+CX/EW
-         h7yBEJ65QplQfT3eFDCR2lZJILlTImAE32xEuM/u4rgsqPcDfdWWnAypPyQ41MIne2f7
-         Vg9LAfegda8+VsyxSYiIYQIqXlXNqxpugG1bVhQ2twVjIq6/k6LUYVWjbFsQT/36GNYq
-         cJf6hnY/BHzO5Vab5dega+E9NdvZF8+ospRn4vNf3/GlCppIYuAL8RRPbkP9tSq3loHu
-         1ivg==
-X-Gm-Message-State: APjAAAUdM5BhoJ3d7FRCf4oWKcY3sMz8lsH2Kned0ZP816msxX9HXR1b
-        14wc3Au4HHzbC1qlbuH8nVzauTTXfq+APqcRL88=
-X-Google-Smtp-Source: APXvYqw0qhnYdCkCrJv4CVIkE6TUfK9Pkw2Y8ea4/DHFvGNdwc0gdv51OB9qMX+Fu5ypV74krTuV4kZlkx8+LHxm2Hc=
-X-Received: by 2002:a9d:5c11:: with SMTP id o17mr1687245otk.107.1565076170034;
- Tue, 06 Aug 2019 00:22:50 -0700 (PDT)
+        bh=Rt7p4w8GRASsTh4L8meL9OiYP/BUIZ+eM+Oj2ozLZX0=;
+        b=jNHIHAgNhRMrrc89l8FgqZBib4R88DxCJIa/S/gK0xb0C+QyYDxrNxsJ/aTo9zTQkX
+         FzQ9oXsxHVPjfNUQwrMDojCh7gIFqYh3V7XbmTExcVsERJHBGo2LeAscv6P1E8dgxaKo
+         DaXV3ImToOknn2cVFB09gANmXfL5s2ng69BNG0K40yD0K+z3xB7LrSPJvhxTXmWCfsg0
+         dkmc23aa1tOaaDY8AV2jTxral0OW/oeXVlMIEPHQ3vnNZeXUVF5RN57vrB0LBJ6NXIaK
+         dlUyIjHKnB1tMPlHPScrbFKqIWyRNFBc6k5WGrPaK19jTjYdXBP7ct+3YVMLCXgykZjf
+         stKg==
+X-Gm-Message-State: APjAAAXujK44SfLOxpJ4GLMS0OKls9Y+Xy8uCe4Ev61MQipwBfd6ZlYE
+        oCRIErLLB7IjbF/zbY9E43yvrJijXE+VN7himQg=
+X-Google-Smtp-Source: APXvYqxf2mIJF0r2WtOWgOXoNk4Ssm0txTKBpp4NeSTCt6wKFUnz/OViHpCBQnDGu1cEhPCsgOUabbz+AFvLaKfo1fs=
+X-Received: by 2002:aca:bd43:: with SMTP id n64mr1471003oif.148.1565076621538;
+ Tue, 06 Aug 2019 00:30:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
  <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com> <20190731194419.GB4084@kunai>
- <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
-In-Reply-To: <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
+ <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com> <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
+In-Reply-To: <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Aug 2019 09:22:39 +0200
-Message-ID: <CAMuHMdUA-hjVqSP_c0cB=76cfrucF6xxRi3ymVoEsJ2hbkfT=A@mail.gmail.com>
+Date:   Tue, 6 Aug 2019 09:30:10 +0200
+Message-ID: <CAMuHMdX3QqXGt4=31ECZ7vryjsSA7NufuvA_XVLjS91_1q=uqw@mail.gmail.com>
 Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
 To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Lee Jones <lee.jones@linaro.org>,
@@ -57,38 +57,33 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Javier,
-
-On Tue, Aug 6, 2019 at 12:25 AM Javier Martinez Canillas
+On Tue, Aug 6, 2019 at 12:48 AM Javier Martinez Canillas
 <javierm@redhat.com> wrote:
-> On 7/31/19 9:44 PM, Wolfram Sang wrote:
-> > Hi Javier,
-> >> The other option is to remove i2c_of_match_device() and don't make OF match
-> >> to fallback to i2c_of_match_device_sysfs(). This is what happens in the ACPI
-> >> case, since i2c_device_match() just calls acpi_driver_match_device() directly
-> >> and doesn't have a wrapper function that fallbacks to sysfs matching.
-> >>
-> >> In this case an I2C device ID table would be required if the devices have to
-> >> be instantiated through sysfs. That way the I2C table would be used both for
-> >> auto-loading and also to match the device when it doesn't have an of_node.
-> >
-> > That would probably mean that only a minority of drivers will not add an I2C
-> > device ID table because it is easy to add an you get the sysfs feature?
-> >
+> On 8/1/19 4:17 AM, Masahiro Yamada wrote:
+> So I think that we should either:
 >
-> I believe so yes.
+> a) take Kieran's patch or b) remove the i2c_of_match_device_sysfs() fallback
+> for OF and require an I2C device table for sysfs instantiation and matching.
+>
+> > If a driver supports DT and devices are instantiated via DT,
+> > in which situation is this useful?
+>
+> Is useful if you don't have all the I2C devices described in the DT. For example
+> a daughterboard with an I2C device is connected to a board through an expansion
+> slot or an I2C device connected directly to I2C pins exposed in a machine.
+>
+> In these cases your I2C devices won't be static so users might want to use the
+> sysfs user-space interface to instantiate the I2C devices, i.e:
+>
+>  # echo eeprom 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
+>
+> as explained in https://github.com/torvalds/linux/blob/master/Documentation/i2c/instantiating-devices#L207
 
-> As Masahiro-san mentioned, this approach will still require to add a new macro
-> MODULE_DEVICE_TABLE(i2c_of, bar_of_match) so the OF device table is used twice.
->
-> One to expose the "of:N*T*Cfoo,bar" and another one to expose it as "i2c:bar".
->
-> I expect that many developers would miss adding this macro for new drivers that
-> are DT-only and so sysfs instantiation would not work there. So whatever is the
-> approach taken we should clearly document all this so drivers authors are aware.
+Does this actually work with DT names, too? E.g.
 
-You could add a new I2C_MODULE_DEVICE_TABLE() that adds both, right?
-Makes it a little bit easier to check/enforce this.
+# echo atmel,24c02 > /sys/bus/i2c/devices/i2c-3/new_device
+
+Still leaves us with legacy names for backwards compatibility.
 
 Gr{oetje,eeting}s,
 
