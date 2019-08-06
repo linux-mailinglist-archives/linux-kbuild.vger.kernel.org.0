@@ -2,169 +2,197 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9153827B3
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 00:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A94DF82A70
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 06:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730147AbfHEWsd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 5 Aug 2019 18:48:33 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46291 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728922AbfHEWsc (ORCPT
+        id S1726373AbfHFEjG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Aug 2019 00:39:06 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:36604 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725997AbfHFEjG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 5 Aug 2019 18:48:32 -0400
-Received: by mail-wr1-f68.google.com with SMTP id z1so85940303wru.13
-        for <linux-kbuild@vger.kernel.org>; Mon, 05 Aug 2019 15:48:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hJENxI80wN/86YgQghn0VINHjK39PsuKHSLq53FzU0c=;
-        b=iiJ6SXNkIqrbYJTlDVDPuIjQ1y9hpBzA0nFInZkP9QKCgnARV1BMuSUUTsus0GzNiH
-         qAiXtgfxYOwfbClUunUtZjBa0pw7oQY1GeUgYq2FgfK8jOF+iSqAfFkDPVtX8H/EBQmQ
-         tBtbpNIUPNjnGF6QjRDcmX5NfWdIFZLVCounhNsW4Td9syMF0cL0aF/nxY7hX8/uJZI5
-         f1IoZTC2Mp6gINY0Z4DOqwebFAcTS0RQ+YMbw9EnT4t6LAvBr8BLZ21gxXtvHlyjC//X
-         dypfNcIw5yDzfu7TsLccwLFXXpAi0Yzxn4oc0k0kJc8RIj0afO9ldB2+wfN7H6tyhSL/
-         WeqQ==
-X-Gm-Message-State: APjAAAUsYOCJLUixqUn5DugOlDOpegfZqsf6YctvSji1KV+w08iVeUuh
-        AuanXdU6w4AnzRawHnpTOGfKGQ==
-X-Google-Smtp-Source: APXvYqySdg9YV4EiqlDPuqWbtbpBlPFVL1PtOB/3nLSu+w1Ygep569/JFe8N8aLYngb2EaWbgudBkw==
-X-Received: by 2002:a5d:63c8:: with SMTP id c8mr291879wrw.21.1565045310601;
-        Mon, 05 Aug 2019 15:48:30 -0700 (PDT)
-Received: from [192.168.0.24] ([181.120.177.224])
-        by smtp.gmail.com with ESMTPSA id b8sm115684209wmh.46.2019.08.05.15.48.25
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Aug 2019 15:48:29 -0700 (PDT)
-Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Wolfram Sang <wsa@the-dreams.de>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
- <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
- <20190731194419.GB4084@kunai>
- <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
-Date:   Tue, 6 Aug 2019 00:48:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Tue, 6 Aug 2019 00:39:06 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x764bcwx031340;
+        Tue, 6 Aug 2019 13:37:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x764bcwx031340
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565066259;
+        bh=DssnpgN3lxR1x9/Nc48fcCal/c42cAzZLORr8Jquom8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FBEhx0k1/VXFd+9Dyo7ZWsGCBPr/2mFs1YQm9vEP+No8jX4tLt36lr4TS2uWCgoPm
+         OZ71RUINKTQ5aCSfr0ZJ9dTWXzX+aWQ48+KmEhokWh497XyppQEVSzKET09f5uOVAa
+         viOcZmihxO0kvAq9FIE7k8n5umcrD0h+Zzec1uVpsrwd3mLytGMhErJZIfZakifOEZ
+         u5KVVJDq9bHWUEyLDNxUsQHQdGZ+m4xWWMnIJgOKXOBjOhbo5GWoB9pEnR7wE2ht2u
+         dfWSIuAmgqisoQMyCBEG02Bw9hJwlM0jjnf8iiFLOQYfLokQ2IfZ5SEy0aUEAQmQPE
+         /S8Hg7ZRjo33Q==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [RFC PATCH] kbuild: re-implement detection of CONFIG options leaked to user-space
+Date:   Tue,  6 Aug 2019 13:37:29 +0900
+Message-Id: <20190806043729.5562-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Masahiro-san,
+scripts/headers_check.pl can detect references to CONFIG options in
+exported headers, but it has been disabled for more than a decade.
 
-On 8/1/19 4:17 AM, Masahiro Yamada wrote:
-> Hi.
-> 
-> On Thu, Aug 1, 2019 at 4:44 AM Wolfram Sang <wsa@the-dreams.de> wrote:
->>
->> Hi Javier,
->>
->> thank you for providing the extra information.
->>
->> (And Kieran, thanks for the patch!)
->>
->>> The other option is to remove i2c_of_match_device() and don't make OF match
->>> to fallback to i2c_of_match_device_sysfs(). This is what happens in the ACPI
->>> case, since i2c_device_match() just calls acpi_driver_match_device() directly
->>> and doesn't have a wrapper function that fallbacks to sysfs matching.
->>>
->>> In this case an I2C device ID table would be required if the devices have to
->>> be instantiated through sysfs. That way the I2C table would be used both for
->>> auto-loading and also to match the device when it doesn't have an of_node.
->>
->> That would probably mean that only a minority of drivers will not add an I2C
->> device ID table because it is easy to add an you get the sysfs feature?
->>
->> Then we are back again with the situation that most drivers will have
->> multiple tables. With the minor change that the I2C device id table is
->> not required anymore by the core, but it will be just very useful to
->> have? Or?
->>
->>> If the former is the correct way to solve this then the patch looks good to me.
->>>
->>> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->>
->> For this actual patch from Kieran, I'd like to hear an opinion from the
->> people maintaining modpost.
-> 
-> 
-> As you see 'git log scripts/mod/file2alias.c',
-> this file is touched by every subsystem.
-> 
-> So, the decision is up to you, Wolfram.
-> And, you can pick this to your tree if you like.
-> 
-> 
-> The implementation is really trivial.
-> 
-> 
-> As Javier pointed out, this discussion comes down to
-> "do we want to fall back to i2c_of_match_device_sysfs()?"
-> 
+Reverting commit 7e3fa5614117 ("kbuild: drop check for CONFIG_ in
+headers_check") would emit the following warnings for headers_check
+on x86:
 
-Yes, I think that's the crux of the matter. Basically the matching logic
-should be consistent with the modalias uevent exposed to user-space to
-auto-load modules.
+usr/include/mtd/ubi-user.h:283: leaks CONFIG_MTD_UBI_BEB_LIMIT to userspace where it is not valid
+usr/include/linux/elfcore.h:62: leaks CONFIG_BINFMT_ELF_FDPIC to userspace where it is not valid
+usr/include/linux/atmdev.h:104: leaks CONFIG_COMPAT to userspace where it is not valid
+usr/include/linux/raw.h:17: leaks CONFIG_MAX_RAW_DEVS to userspace where it is not valid
+usr/include/linux/pktcdvd.h:37: leaks CONFIG_CDROM_PKTCDVD_WCACHE to userspace where it is not valid
+usr/include/linux/videodev2.h:2465: leaks CONFIG_VIDEO_ADV_DEBUG to userspace where it is not valid
+usr/include/linux/bpf.h:249: leaks CONFIG_EFFICIENT_UNALIGNED_ACCESS to userspace where it is not valid
+usr/include/linux/bpf.h:819: leaks CONFIG_CGROUP_NET_CLASSID to userspace where it is not valid
+usr/include/linux/bpf.h:1011: leaks CONFIG_IP_ROUTE_CLASSID to userspace where it is not valid
+usr/include/linux/bpf.h:1742: leaks CONFIG_BPF_KPROBE_OVERRIDE to userspace where it is not valid
+usr/include/linux/bpf.h:1747: leaks CONFIG_FUNCTION_ERROR_INJECTION to userspace where it is not valid
+usr/include/linux/bpf.h:1936: leaks CONFIG_XFRM to userspace where it is not valid
+usr/include/linux/bpf.h:2184: leaks CONFIG_BPF_LIRC_MODE2 to userspace where it is not valid
+usr/include/linux/bpf.h:2210: leaks CONFIG_BPF_LIRC_MODE2 to userspace where it is not valid
+usr/include/linux/bpf.h:2227: leaks CONFIG_SOCK_CGROUP_DATA to userspace where it is not valid
+usr/include/linux/bpf.h:2311: leaks CONFIG_NET to userspace where it is not valid
+usr/include/linux/bpf.h:2348: leaks CONFIG_NET to userspace where it is not valid
+usr/include/linux/bpf.h:2422: leaks CONFIG_BPF_LIRC_MODE2 to userspace where it is not valid
+usr/include/linux/bpf.h:2528: leaks CONFIG_NET to userspace where it is not valid
+usr/include/linux/eventpoll.h:82: leaks CONFIG_PM_SLEEP to userspace where it is not valid
+usr/include/linux/hw_breakpoint.h:27: leaks CONFIG_HAVE_MIXED_BREAKPOINTS_REGS to userspace where it is not valid
+usr/include/linux/cm4000_cs.h:26: leaks CONFIG_COMPAT to userspace where it is not valid
+usr/include/linux/pkt_cls.h:301: leaks CONFIG_NET_CLS_ACT to userspace where it is not valid
+usr/include/asm-generic/unistd.h:651: leaks CONFIG_MMU to userspace where it is not valid
+usr/include/asm-generic/fcntl.h:119: leaks CONFIG_64BIT to userspace where it is not valid
+usr/include/asm-generic/bitsperlong.h:9: leaks CONFIG_64BIT to userspace where it is not valid
+usr/include/asm/e820.h:14: leaks CONFIG_NODES_SHIFT to userspace where it is not valid
+usr/include/asm/e820.h:39: leaks CONFIG_X86_PMEM_LEGACY to userspace where it is not valid
+usr/include/asm/e820.h:49: leaks CONFIG_INTEL_TXT to userspace where it is not valid
+usr/include/asm/mman.h:7: leaks CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS to userspace where it is not valid
+usr/include/asm/auxvec.h:14: leaks CONFIG_IA32_EMULATION to userspace where it is not valid
 
-So I think that we should either:
+Most of these are false positives because scripts/headers_check.pl
+parses comment lines.
 
-a) take Kieran's patch or b) remove the i2c_of_match_device_sysfs() fallback
-for OF and require an I2C device table for sysfs instantiation and matching.
+It is also false negative. arch/x86/include/uapi/asm/auxvec.h contains
+CONFIG_IA32_EMULATION and CONFIG_X86_64, but the only former is reported.
 
-> If a driver supports DT and devices are instantiated via DT,
-> in which situation is this useful?
+It would be possible to fix scripts/headers_check.pl, of course.
+However, we already have some duplicated checks between headers_check
+and CONFIG_UAPI_HEADER_TEST. At this moment of time, there are still
+dozens of headers excluded from the header test (usr/include/Makefile),
+but we might be able to remove headers_check when the time comes.
 
-Is useful if you don't have all the I2C devices described in the DT. For example
-a daughterboard with an I2C device is connected to a board through an expansion
-slot or an I2C device connected directly to I2C pins exposed in a machine.
+I re-implemented it in scripts/headers_install.sh by using sed because
+the most of code in scripts/headers_install.sh is written is sed.
 
-In these cases your I2C devices won't be static so users might want to use the
-sysfs user-space interface to instantiate the I2C devices, i.e:
+This patch works like this:
 
- # echo eeprom 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
+[1] Run scripts/unifdef first because we need to drop the code
+    surrounded by #ifdef __KERNEL__ ... #endif
 
-as explained in https://github.com/torvalds/linux/blob/master/Documentation/i2c/instantiating-devices#L207
+[2] Remove all C style comments. The sed code is somewhat complicated
+    since we need to deal with both single and multi line comments.
 
-> Do legacy non-DT platforms need this?
+    Precisely speaking, a comment block is replaced with a space just
+    in case.
 
-Yes, can also be used by non-DT platforms. But in this case isn't a problem
-because drivers for these platform will already have an I2C device ID table.
+      CONFIG_FOO/* this is a comment */CONFIG_BAR
 
-> 
-> 
-> 
->> The aproach looks okay to me, yet I can't
->> tell how "easy" we are with adding new types like 'i2c_of'.
-> 
-> As far as I understood, this patch provides a shorthand.
-> You can save one table, but still get the
-> same MODULE_ALIAS in the *.mod.c file.
-> You need to add two MODULE_DEVICE_TABLE() though.
-> 
-> MODULE_DEVICE_TABLE(of, si4713_of_match);
-> MODULE_DEVICE_TABLE(i2c_of, si4713_of_match);
->
+    should be converted into:
 
-That's my understanding as well.
+      CONFIG_FOO CONFIG_BAR
 
-Best regards,
+    instead of:
+
+      CONFIG_FOOCONFIG_BAR
+
+[3] Match CONFIG_... pattern. It correctly matches to all CONFIG options
+    that appear in a single line.
+
+After this commit, you will see the following warnings, all of which
+are real ones.
+
+warning: include/uapi/linux/elfcore.h: leaks CONFIG_BINFMT_ELF_FDPIC to user-space
+warning: include/uapi/linux/atmdev.h: leaks CONFIG_COMPAT to user-space
+warning: include/uapi/linux/raw.h: leaks CONFIG_MAX_RAW_DEVS to user-space
+warning: include/uapi/linux/pktcdvd.h: leaks CONFIG_CDROM_PKTCDVD_WCACHE to user-space
+warning: include/uapi/linux/eventpoll.h: leaks CONFIG_PM_SLEEP to user-space
+warning: include/uapi/linux/hw_breakpoint.h: leaks CONFIG_HAVE_MIXED_BREAKPOINTS_REGS to user-space
+warning: include/uapi/asm-generic/fcntl.h: leaks CONFIG_64BIT to user-space
+warning: arch/x86/include/uapi/asm/mman.h: leaks CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS to user-space
+warning: arch/x86/include/uapi/asm/auxvec.h: leaks CONFIG_IA32_EMULATION to user-space
+warning: arch/x86/include/uapi/asm/auxvec.h: leaks CONFIG_X86_64 to user-space
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+I was playing with sed yesterday, but the resulted code might be unreadable.
+
+Sed scripts tend to be somewhat unreadable.
+I just wondered which language is appropriate for this?
+Maybe perl, or what else? I am not good at perl, though.
+
+Maybe, it will be better to fix existing warnings
+before enabling this check.
+If somebody takes a closer look at them, that would be great.
+
+ scripts/headers_install.sh | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+
+diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
+index bbaf29386995..73d95e457090 100755
+--- a/scripts/headers_install.sh
++++ b/scripts/headers_install.sh
+@@ -41,5 +41,34 @@ sed -E -e '
+ scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
+ [ $? -gt 1 ] && exit 1
+ 
++# Remove /* ... */ style comments, and find CONFIG_ references in code
++configs=$(sed -e '
++:comment
++	s:/\*[^*][^*]*:/*:
++	s:/\*\*\**\([^/]\):/*\1:
++	t comment
++	s:/\*\*/: :
++	t comment
++	/\/\*/! b check
++	N
++	b comment
++:print
++	P
++	D
++:check
++	s:^[^[:alnum:]_][^[:alnum:]_]*::
++	t check
++	s:^\(CONFIG_[[:alnum:]_]*\):\1\n:
++	t print
++	s:^[[:alnum:]_][[:alnum:]_]*::
++	t check
++	d
++' $OUTFILE)
++
++for c in $configs
++do
++	echo "warning: $INFILE: leaks $c to user-space" >&2
++done
++
+ rm -f $TMPFILE
+ trap - EXIT
 -- 
-Javier Martinez Canillas
-Software Engineer - Desktop Hardware Enablement
-Red Hat
+2.17.1
+
