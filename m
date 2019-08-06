@@ -2,96 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A47DF82CCD
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 09:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 206A282E42
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 11:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731807AbfHFHaW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Aug 2019 03:30:22 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:43136 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731735AbfHFHaW (ORCPT
+        id S1728991AbfHFJAi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Aug 2019 05:00:38 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:34182 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728056AbfHFJAi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Aug 2019 03:30:22 -0400
-Received: by mail-oi1-f194.google.com with SMTP id w79so65222950oif.10;
-        Tue, 06 Aug 2019 00:30:22 -0700 (PDT)
+        Tue, 6 Aug 2019 05:00:38 -0400
+Received: by mail-qt1-f193.google.com with SMTP id k10so14616046qtq.1;
+        Tue, 06 Aug 2019 02:00:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Rt7p4w8GRASsTh4L8meL9OiYP/BUIZ+eM+Oj2ozLZX0=;
-        b=jNHIHAgNhRMrrc89l8FgqZBib4R88DxCJIa/S/gK0xb0C+QyYDxrNxsJ/aTo9zTQkX
-         FzQ9oXsxHVPjfNUQwrMDojCh7gIFqYh3V7XbmTExcVsERJHBGo2LeAscv6P1E8dgxaKo
-         DaXV3ImToOknn2cVFB09gANmXfL5s2ng69BNG0K40yD0K+z3xB7LrSPJvhxTXmWCfsg0
-         dkmc23aa1tOaaDY8AV2jTxral0OW/oeXVlMIEPHQ3vnNZeXUVF5RN57vrB0LBJ6NXIaK
-         dlUyIjHKnB1tMPlHPScrbFKqIWyRNFBc6k5WGrPaK19jTjYdXBP7ct+3YVMLCXgykZjf
-         stKg==
-X-Gm-Message-State: APjAAAXujK44SfLOxpJ4GLMS0OKls9Y+Xy8uCe4Ev61MQipwBfd6ZlYE
-        oCRIErLLB7IjbF/zbY9E43yvrJijXE+VN7himQg=
-X-Google-Smtp-Source: APXvYqxf2mIJF0r2WtOWgOXoNk4Ssm0txTKBpp4NeSTCt6wKFUnz/OViHpCBQnDGu1cEhPCsgOUabbz+AFvLaKfo1fs=
-X-Received: by 2002:aca:bd43:: with SMTP id n64mr1471003oif.148.1565076621538;
- Tue, 06 Aug 2019 00:30:21 -0700 (PDT)
+        bh=GJI8Q958h48076lj7HHRUT6jGx524lciyFVkT7AnhmM=;
+        b=Ozubf8tdz/lc02BmyX+ghmtZysUvlHmCLbr7v2zhI46tMBEIhBvrAe6DYCRQXiFufu
+         pJvMotonslwTtTxm1i9MDjZAQ8Qi02vpEsQ7gZqolTlFl7y2gS7xtY6BGOK0+HyXzVpK
+         iBbVkvRbZNLJHKo5nsCxTOEWbujKWa6I4R7ssnr5lC7EbPeFD8xfOqpEb7u/1gv6ng90
+         gogmMLNeOjHj4UlTb1Drlj71g399wGDh+QXW3htrIilAcMtvz32taDsAgi73gk9aSdGU
+         GZiWkUHw5+WkY5NsAV0/7GnmIxbHVZlvLMJxPxQVxuMKKLlZuU85pi2og7+SJ21lh/9v
+         Q6Yw==
+X-Gm-Message-State: APjAAAUKQpCEtzo/xvVIooe6SRtOS4Sr/Naw03ex8dbfUEt2xC7lJORX
+        CWCHQo7pdfDXWV5hCzdpAEFMKtKZPlIkVQ4oRSg=
+X-Google-Smtp-Source: APXvYqy4PNWX5BTQ7QWu0URcWKn8nWqNLxwxK1RLYZMdN26VOViuvMztTtwIO8SzKaQh+zB7b2A0pIesdDnxXYb45To=
+X-Received: by 2002:a0c:b758:: with SMTP id q24mr1953315qve.45.1565082036702;
+ Tue, 06 Aug 2019 02:00:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
- <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com> <20190731194419.GB4084@kunai>
- <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com> <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
-In-Reply-To: <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Aug 2019 09:30:10 +0200
-Message-ID: <CAMuHMdX3QqXGt4=31ECZ7vryjsSA7NufuvA_XVLjS91_1q=uqw@mail.gmail.com>
-Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
+References: <20190806043729.5562-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190806043729.5562-1-yamada.masahiro@socionext.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 6 Aug 2019 11:00:19 +0200
+Message-ID: <CAK8P3a2POcb+AReLKib513i_RTN9kLM_Tun7+G5LOacDuy7gjQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] kbuild: re-implement detection of CONFIG options
+ leaked to user-space
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        Amit Pundir <amit.pundir@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 6, 2019 at 12:48 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> On 8/1/19 4:17 AM, Masahiro Yamada wrote:
-> So I think that we should either:
+On Tue, Aug 6, 2019 at 6:38 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> a) take Kieran's patch or b) remove the i2c_of_match_device_sysfs() fallback
-> for OF and require an I2C device table for sysfs instantiation and matching.
+> I was playing with sed yesterday, but the resulted code might be unreadable.
 >
-> > If a driver supports DT and devices are instantiated via DT,
-> > in which situation is this useful?
->
-> Is useful if you don't have all the I2C devices described in the DT. For example
-> a daughterboard with an I2C device is connected to a board through an expansion
-> slot or an I2C device connected directly to I2C pins exposed in a machine.
->
-> In these cases your I2C devices won't be static so users might want to use the
-> sysfs user-space interface to instantiate the I2C devices, i.e:
->
->  # echo eeprom 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
->
-> as explained in https://github.com/torvalds/linux/blob/master/Documentation/i2c/instantiating-devices#L207
+> Sed scripts tend to be somewhat unreadable.
+> I just wondered which language is appropriate for this?
+> Maybe perl, or what else? I am not good at perl, though.
 
-Does this actually work with DT names, too? E.g.
+I like the sed version, in particular as it seems to do the job and
+I'm not volunteering to write it in anything else.
 
-# echo atmel,24c02 > /sys/bus/i2c/devices/i2c-3/new_device
+> Maybe, it will be better to fix existing warnings
+> before enabling this check.
 
-Still leaves us with legacy names for backwards compatibility.
+Yes, absolutely.
 
-Gr{oetje,eeting}s,
+> If somebody takes a closer look at them, that would be great.
 
-                        Geert
+Let's see:
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> warning: include/uapi/linux/elfcore.h: leaks CONFIG_BINFMT_ELF_FDPIC to user-space
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+This one is nontrivial, since it defines two incompatible layouts for
+this structure,
+and the fdpic version is currently not usable at all from user space. Also,
+the definition breaks configurations that have both CONFIG_BINFMT_ELF
+and CONFIG_BINFMT_ELF_FDPIC enabled, which has become possible
+with commit 382e67aec6a7 ("ARM: enable elf_fdpic on systems with an MMU").
+
+The best way forward I see is to duplicate the structure definition, adding
+a new 'struct elf_fdpic_prstatus', and using that in fs/binfmt_elf_fdpic.c.
+The same change is required in include/linux/elfcore-compat.h.
+
+> warning: include/uapi/linux/atmdev.h: leaks CONFIG_COMPAT to user-space
+
+The "#define COMPAT_ATM_ADDPARTY" can be moved to include/linux/atmdev.h,
+it's not needed in the uapi header
+
+> warning: include/uapi/linux/raw.h: leaks CONFIG_MAX_RAW_DEVS to user-space
+
+This has never been usable, I'd just remove MAX_RAW_MINORS and change
+drivers/char/raw.c to use CONFIG_MAX_RAW_DEVS
+
+> warning: include/uapi/linux/pktcdvd.h: leaks CONFIG_CDROM_PKTCDVD_WCACHE to user-space
+
+USE_WCACHING can be moved to drivers/block/pktcdvd.c
+
+> warning: include/uapi/linux/eventpoll.h: leaks CONFIG_PM_SLEEP to user-space
+
+ep_take_care_of_epollwakeup() should not be in the header at all I think.
+Commit 95f19f658ce1 ("epoll: drop EPOLLWAKEUP if PM_SLEEP is disabled")
+was wrong to move it out of fs/eventpoll.c, and I'd just move it back
+as an inline function. (Added Amit to Cc for clarification).
+
+> warning: include/uapi/linux/hw_breakpoint.h: leaks CONFIG_HAVE_MIXED_BREAKPOINTS_REGS to user-space
+
+enum bp_type_idx started out in kernel/events/hw_breakpoint.c
+and was later moved to a header which then became public. I
+don't think it was ever meant to be public though. We either want
+to move it back, or change the CONFIG_HAVE_MIXED_BREAKPOINTS_REGS
+macro to an __ARCH_HAVE_MIXED_BREAKPOINTS_REGS that
+is explicitly set in a header file by x86 and superh.
+
+> warning: include/uapi/asm-generic/fcntl.h: leaks CONFIG_64BIT to user-space
+
+The #ifdef could just be changed to
+#if __BITS_PER_LONG == 32
+
+We could also do this differently, given that most 64-bit architectures define
+the same macros in their arch/*/include/asm/compat.h files (parisc and mips
+use different values).
+
+> warning: arch/x86/include/uapi/asm/mman.h: leaks CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS to user-space
+
+I think arch_vm_get_page_prot should not be in the uapi header,
+other architectures have it in arch/powerpc/include/asm/mman.h
+
+> warning: arch/x86/include/uapi/asm/auxvec.h: leaks CONFIG_IA32_EMULATION to user-space
+> warning: arch/x86/include/uapi/asm/auxvec.h: leaks CONFIG_X86_64 to user-space
+
+It looks like this definition has always been wrong, across several
+changes that made it wrong in different ways.
+
+AT_VECTOR_SIZE_ARCH is supposed to define the size of the extra
+aux vectors, which is meant to be '2' for i386 tasks, and '1' for
+x86_64 tasks, regardless of how the kernel is configured. I looked at
+this for a bit but it's hard to tell how to fix this without introducing
+possible regressions. Note how 'mm->saved_auxv' uses this
+size and gets copied between kernel and user space.
+
+       Arnd
