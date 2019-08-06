@@ -2,43 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CBC683C62
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 23:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D16B783C26
+	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 23:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728011AbfHFVlj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Aug 2019 17:41:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53750 "EHLO mail.kernel.org"
+        id S1728157AbfHFVkU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Aug 2019 17:40:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54688 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728764AbfHFVf6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Aug 2019 17:35:58 -0400
+        id S1729139AbfHFVgw (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 6 Aug 2019 17:36:52 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C97B221881;
-        Tue,  6 Aug 2019 21:35:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9D83921872;
+        Tue,  6 Aug 2019 21:36:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565127356;
-        bh=ICW1EZWYyolokCIk894k1nfiyeOYuE8gOC7+rgj4iQ0=;
+        s=default; t=1565127412;
+        bh=w3ngC3KJWZkUT1tEKcDAKTAJKNEh4FF8APwIg6eCV4M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XArS8nSq0SDOyQZ9bgSZtZbQfFbfn3VvAp1yeHjsjVvHPc76rVIN0LOokQHmVExbt
-         nC6tm+xCvMdTSqjpfBq4bfisEdngx9s5UyQ5f09Vblp4aAc93vbT5eROMIn8wNTQRn
-         LbniFUfaEcAeNiDUYRX7ax8CxPvJ0e2uG2d/NjLo=
+        b=n6iv/hdwyHPzG2ZUH49jjO6EbWMBge+BuSdvS8IHtrfiqcoKZlBqAgJ2xnSv0pQa8
+         jGMT96ffqj8AjT9+Vw9sunG9tArbaAsVjOJY7bRnIzGNI1UStQyNzgx4xuIeYFrggF
+         XSKt6H4n8zdyPEvxdPWQiGVawqsT9tsWqSAMU37M=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Stephen Boyd <swboyd@chromium.org>,
-        Peter Smith <peter.smith@linaro.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.19 19/32] kbuild: Check for unknown options with cc-option usage in Kconfig and clang
-Date:   Tue,  6 Aug 2019 17:35:07 -0400
-Message-Id: <20190806213522.19859-19-sashal@kernel.org>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 15/25] kbuild: modpost: handle KBUILD_EXTRA_SYMBOLS only for external modules
+Date:   Tue,  6 Aug 2019 17:36:12 -0400
+Message-Id: <20190806213624.20194-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190806213522.19859-1-sashal@kernel.org>
-References: <20190806213522.19859-1-sashal@kernel.org>
+In-Reply-To: <20190806213624.20194-1-sashal@kernel.org>
+References: <20190806213624.20194-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -48,65 +42,35 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Stephen Boyd <swboyd@chromium.org>
+From: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-[ Upstream commit e8de12fb7cde2c85bc31097cd098da79a4818305 ]
+[ Upstream commit cb4819934a7f9b87876f11ed05b8624c0114551b ]
 
-If the particular version of clang a user has doesn't enable
--Werror=unknown-warning-option by default, even though it is the
-default[1], then make sure to pass the option to the Kconfig cc-option
-command so that testing options from Kconfig files works properly.
-Otherwise, depending on the default values setup in the clang toolchain
-we will silently assume options such as -Wmaybe-uninitialized are
-supported by clang, when they really aren't.
+KBUILD_EXTRA_SYMBOLS makes sense only when building external modules.
+Moreover, the modpost sets 'external_module' if the -e option is given.
 
-A compilation issue only started happening for me once commit
-589834b3a009 ("kbuild: Add -Werror=unknown-warning-option to
-CLANG_FLAGS") was applied on top of commit b303c6df80c9 ("kbuild:
-compute false-positive -Wmaybe-uninitialized cases in Kconfig"). This
-leads kbuild to try and test for the existence of the
--Wmaybe-uninitialized flag with the cc-option command in
-scripts/Kconfig.include, and it doesn't see an error returned from the
-option test so it sets the config value to Y. Then the Makefile tries to
-pass the unknown option on the command line and
--Werror=unknown-warning-option catches the invalid option and breaks the
-build. Before commit 589834b3a009 ("kbuild: Add
--Werror=unknown-warning-option to CLANG_FLAGS") the build works fine,
-but any cc-option test of a warning option in Kconfig files silently
-evaluates to true, even if the warning option flag isn't supported on
-clang.
+I replaced $(patsubst %, -e %,...) with simpler $(addprefix -e,...)
+while I was here.
 
-Note: This doesn't change cc-option usages in Makefiles because those
-use a different rule that includes KBUILD_CFLAGS by default (see the
-__cc-option command in scripts/Kbuild.incluide). The KBUILD_CFLAGS
-variable already has the -Werror=unknown-warning-option flag set. Thanks
-to Doug for pointing out the different rule.
-
-[1] https://clang.llvm.org/docs/DiagnosticsReference.html#wunknown-warning-option
-Cc: Peter Smith <peter.smith@linaro.org>
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/Kconfig.include | 2 +-
+ scripts/Makefile.modpost | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index dad5583451afb..3b2861f47709b 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -20,7 +20,7 @@ success = $(if-success,$(1),y,n)
- 
- # $(cc-option,<flag>)
- # Return y if the compiler supports <flag>, n otherwise
--cc-option = $(success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null)
-+cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /dev/null)
- 
- # $(ld-option,<flag>)
- # Return y if the linker supports <flag>, n otherwise
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 991db7d6e4df8..cf6f33b2633d5 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -75,7 +75,7 @@ modpost = scripts/mod/modpost                    \
+  $(if $(CONFIG_MODULE_SRCVERSION_ALL),-a,)       \
+  $(if $(KBUILD_EXTMOD),-i,-o) $(kernelsymfile)   \
+  $(if $(KBUILD_EXTMOD),-I $(modulesymfile))      \
+- $(if $(KBUILD_EXTRA_SYMBOLS), $(patsubst %, -e %,$(KBUILD_EXTRA_SYMBOLS))) \
++ $(if $(KBUILD_EXTMOD),$(addprefix -e ,$(KBUILD_EXTRA_SYMBOLS))) \
+  $(if $(KBUILD_EXTMOD),-o $(modulesymfile))      \
+  $(if $(CONFIG_DEBUG_SECTION_MISMATCH),,-S)      \
+  $(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)  \
 -- 
 2.20.1
 
