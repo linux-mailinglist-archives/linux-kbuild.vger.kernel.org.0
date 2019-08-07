@@ -2,75 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DF8983BE2
-	for <lists+linux-kbuild@lfdr.de>; Tue,  6 Aug 2019 23:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51EE28427B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Aug 2019 04:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727651AbfHFVie (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 6 Aug 2019 17:38:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55806 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729636AbfHFViI (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 6 Aug 2019 17:38:08 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BE9CF2189D;
-        Tue,  6 Aug 2019 21:38:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565127487;
-        bh=kZNJw0eCXlGn7+HslIMV99ipbELnDDDiwrkO3ZxK5Aw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aFj+RKc5IA2jEbvGbxSpYBXVPKotqPrapTwQpDUz8vzWYgmb8euASD2v7pxSKWapr
-         0GNkES8BWowyASymDj4SS9+ziLMoDJHy3jRPFeP4dO+6yEVMa/90xnr38kihZFyfZv
-         cU36iNChqX/eWRFoOhWvuOvXAprVrJb5oYfNtKro=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 10/14] kbuild: modpost: handle KBUILD_EXTRA_SYMBOLS only for external modules
-Date:   Tue,  6 Aug 2019 17:37:44 -0400
-Message-Id: <20190806213749.20689-10-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190806213749.20689-1-sashal@kernel.org>
-References: <20190806213749.20689-1-sashal@kernel.org>
+        id S1727807AbfHGCdH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 6 Aug 2019 22:33:07 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:37472 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727653AbfHGCdH (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 6 Aug 2019 22:33:07 -0400
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x772WfV2001484;
+        Wed, 7 Aug 2019 11:32:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x772WfV2001484
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565145162;
+        bh=73kK1zWf1zgSwM0Qiy8U03aVhSxNqlnQVY5Ux1NQO3A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xsA3mEa4VKVjPFBbXOP85KOSrfs+Bwd2wmwDOml+JjQXbQsJhB/4gfZIebQt5HXH/
+         g0RKLJvLgNv76ZVCPkzUk0KZ5ZxAFR3HY1BXndORyxLdZ9LK0wWJlWZy/HKwkcv+e0
+         7g7I58QEg5f7BAktz8piEvE9f9KLO7VWn8vwFhQzKZVg38O+jnRdRbynI+Pb6Y39sH
+         OFIuTYFuFyMRW8EyXlwpGERtyzGPbBqFu+Y6liuSaIipKhdFD0Bc+t2JcoHi9yhW9m
+         Rl27ELwBUzSxtTzZi3sp+F9M7jFC7xglVsk8AD1IiD/8pAaV4lWe/+fgowDo0ajmVz
+         Uf3baqUm1y9tA==
+X-Nifty-SrcIP: [209.85.221.178]
+Received: by mail-vk1-f178.google.com with SMTP id w186so9337225vkd.11;
+        Tue, 06 Aug 2019 19:32:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAWv6ZGuNbakw17NyLZEw78644vtRzK3MdO7Md+W2fhdmvedvxjK
+        OzQQEkDmf6aiV85IJBk48CYq3FV8x0TXXJ/TO4Y=
+X-Google-Smtp-Source: APXvYqyGqId2Qj7KwwDJabGigaJ8qRGHoZt3xyNuEqSZQt8KtGUb4MqYlY+M0DddltyN4T2Qox3VF0ncm0dd4N4vlCc=
+X-Received: by 2002:a1f:4107:: with SMTP id o7mr2629240vka.34.1565145160504;
+ Tue, 06 Aug 2019 19:32:40 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <patch-1.thread-2257a1.git-188f5a3d81d5.your-ad-here.call-01565088755-ext-5120@work.hours>
+In-Reply-To: <patch-1.thread-2257a1.git-188f5a3d81d5.your-ad-here.call-01565088755-ext-5120@work.hours>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 7 Aug 2019 11:32:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATL8aGReDm+BYk74tH1EdK1NKVgaWF6sJ7m1NtBL1kqkw@mail.gmail.com>
+Message-ID: <CAK7LNATL8aGReDm+BYk74tH1EdK1NKVgaWF6sJ7m1NtBL1kqkw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: add OBJSIZE variable for the size tool
+To:     Vasily Gorbik <gor@linux.ibm.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
+Hi.
 
-[ Upstream commit cb4819934a7f9b87876f11ed05b8624c0114551b ]
+On Tue, Aug 6, 2019 at 7:56 PM Vasily Gorbik <gor@linux.ibm.com> wrote:
+>
+> Define and export OBJSIZE variable for "size" tool from binutils to be
+> used in architecture specific Makefiles (naming the variable just "SIZE"
+> would be too risky). In particular this tool is useful to perform checks
+> that early boot code is not using bss section (which might have not been
+> zeroed yet or intersects with initrd or other files boot loader might
+> have put right after the linux kernel).
+>
+> Signed-off-by: Vasily Gorbik <gor@linux.ibm.com>
 
-KBUILD_EXTRA_SYMBOLS makes sense only when building external modules.
-Moreover, the modpost sets 'external_module' if the -e option is given.
+I think you want to apply both to the s390 tree. If so,
 
-I replaced $(patsubst %, -e %,...) with simpler $(addprefix -e,...)
-while I was here.
+Acked-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/Makefile.modpost | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks.
 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 1366a94b6c395..7718a64b1cd15 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -74,7 +74,7 @@ modpost = scripts/mod/modpost                    \
-  $(if $(CONFIG_MODULE_SRCVERSION_ALL),-a,)       \
-  $(if $(KBUILD_EXTMOD),-i,-o) $(kernelsymfile)   \
-  $(if $(KBUILD_EXTMOD),-I $(modulesymfile))      \
-- $(if $(KBUILD_EXTRA_SYMBOLS), $(patsubst %, -e %,$(KBUILD_EXTRA_SYMBOLS))) \
-+ $(if $(KBUILD_EXTMOD),$(addprefix -e ,$(KBUILD_EXTRA_SYMBOLS))) \
-  $(if $(KBUILD_EXTMOD),-o $(modulesymfile))      \
-  $(if $(CONFIG_DEBUG_SECTION_MISMATCH),,-S)      \
-  $(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)  \
+> ---
+>  Makefile | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index fa0fbe7851ea..ff4cff29fe46 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -419,6 +419,7 @@ NM          = $(CROSS_COMPILE)nm
+>  STRIP          = $(CROSS_COMPILE)strip
+>  OBJCOPY                = $(CROSS_COMPILE)objcopy
+>  OBJDUMP                = $(CROSS_COMPILE)objdump
+> +OBJSIZE                = $(CROSS_COMPILE)size
+>  PAHOLE         = pahole
+>  LEX            = flex
+>  YACC           = bison
+> @@ -474,9 +475,9 @@ KBUILD_LDFLAGS :=
+>  GCC_PLUGINS_CFLAGS :=
+>
+>  export ARCH SRCARCH CONFIG_SHELL HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE AS LD CC
+> -export CPP AR NM STRIP OBJCOPY OBJDUMP PAHOLE KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS
+> -export MAKE LEX YACC AWK INSTALLKERNEL PERL PYTHON PYTHON2 PYTHON3 UTS_MACHINE
+> -export HOSTCXX KBUILD_HOSTCXXFLAGS LDFLAGS_MODULE CHECK CHECKFLAGS
+> +export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE PAHOLE LEX YACC AWK INSTALLKERNEL
+> +export PERL PYTHON PYTHON2 PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> +export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+>
+>  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+>  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
+> --
+> 2.21.0
+>
+
+
 -- 
-2.20.1
-
+Best Regards
+Masahiro Yamada
