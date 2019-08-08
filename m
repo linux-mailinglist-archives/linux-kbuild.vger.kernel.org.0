@@ -2,86 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BEB385BC6
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2019 09:45:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C271A860C3
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2019 13:22:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730887AbfHHHpJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Aug 2019 03:45:09 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:37744 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726721AbfHHHpJ (ORCPT
+        id S1731038AbfHHLVv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Aug 2019 07:21:51 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:37726 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730747AbfHHLVv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Aug 2019 03:45:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=33Ef3Sm7bpdfJwlyTclvqrfYhhmgGkQP65uyo6ml4Es=; b=ha5wQch0HRlEFijHatH94E6n+
-        M6IfVEh8p0GGxYincxjuS/UxV5rB1M3RR49E+HU/qbJsrW4PlEyeLjAKK6mP3Id6uAFlIqqOspQOu
-        RlqYAZpw8+GPi0BlsToQxbEm7nUF1waXZ2irBUVTUl0urWZkaSXoC+R3vcRS/h54ldRYTwhy3SRwm
-        CD0UmiJaGme30DAtNmj3uNTVWIEqLhAFQkpoTHTandVGpwK/cwWJhPaOZQXfKNGye2X9Wucbj4cQc
-        FboTbJrZJVVrsu9VVV4oA+S9Z7745mbFXF9T02fpDUDc/Vl3a7NgWGCVgNRKEp0WYJAFapaZriWlE
-        xtTqKlV+g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hvd6h-0000CR-CS; Thu, 08 Aug 2019 07:45:07 +0000
-Date:   Thu, 8 Aug 2019 00:45:07 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>,
-        Amit Pundir <amit.pundir@linaro.org>,
-        David Howells <dhowells@redhat.com>
-Subject: Re: [RFC PATCH] kbuild: re-implement detection of CONFIG options
- leaked to user-space
-Message-ID: <20190808074507.GA22720@infradead.org>
-References: <20190806043729.5562-1-yamada.masahiro@socionext.com>
- <CAK8P3a2POcb+AReLKib513i_RTN9kLM_Tun7+G5LOacDuy7gjQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK8P3a2POcb+AReLKib513i_RTN9kLM_Tun7+G5LOacDuy7gjQ@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+        Thu, 8 Aug 2019 07:21:51 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x78BLEkO027157;
+        Thu, 8 Aug 2019 20:21:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x78BLEkO027157
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565263275;
+        bh=Y3joUPUMYoBzCVDWCYCkXvHGxBHe0Rsmx3YuHH4+91M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iCGTFksi3llJddT4lN0m7yPIlNGjS7AghbijE+hez0ISz3b3PLhEoWhe8ZzA0AQD1
+         tmuGow482ok/3d9oy/0PYpn+1SAfMT+duWTPJQBgh55L34l4wnb740DftNfP72p4bK
+         aVKdwDsT6xKeiIXY6if/cQyMi6kDX7o+z1dasan/d74TyZq2vmZdgJeo71cIXEwTro
+         iqtvX0k17GTKR4xWb7K4k/D8ZMkBB3hhnVx+hj9cJtujetuLZmPO8IkT27p6dP6HMb
+         uwYk3S0pCSmHXXn7Ttt/VrmKEz0l3WNU0cenS5Khc2kLclUhn33SlMDoN2Vlg58Ik9
+         oGL/0vdUIw4fg==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Jan Kiszka <jan.kiszka@siemens.com>,
+        Tom Stonecypher <thomas.edwardx.stonecypher@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v2] kbuild: show hint if subdir-y/m is used to visit module Makefile
+Date:   Thu,  8 Aug 2019 20:21:11 +0900
+Message-Id: <20190808112111.16159-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 06, 2019 at 11:00:19AM +0200, Arnd Bergmann wrote:
-> > I was playing with sed yesterday, but the resulted code might be unreadable.
-> >
-> > Sed scripts tend to be somewhat unreadable.
-> > I just wondered which language is appropriate for this?
-> > Maybe perl, or what else? I am not good at perl, though.
-> 
-> I like the sed version, in particular as it seems to do the job and
-> I'm not volunteering to write it in anything else.
+Since commit ff9b45c55b26 ("kbuild: modpost: read modules.order instead
+of $(MODVERDIR)/*.mod"), a module is no longer built in the following
+pattern:
 
-Did anyone not like sed?  I have to say I do like scripts using sed and
-awk because they are fairly readable and avoid dependencies on "big"
-scripting language and their optional modules that sooner or later get
-pulled in.
+  [Makefile]
+  subdir-y := some-module
 
-> This one is nontrivial, since it defines two incompatible layouts for
-> this structure,
-> and the fdpic version is currently not usable at all from user space. Also,
-> the definition breaks configurations that have both CONFIG_BINFMT_ELF
-> and CONFIG_BINFMT_ELF_FDPIC enabled, which has become possible
-> with commit 382e67aec6a7 ("ARM: enable elf_fdpic on systems with an MMU").
-> 
-> The best way forward I see is to duplicate the structure definition, adding
-> a new 'struct elf_fdpic_prstatus', and using that in fs/binfmt_elf_fdpic.c.
-> The same change is required in include/linux/elfcore-compat.h.
+  [some-module/Makefile]
+  obj-m := some-module.o
 
-Yeah, this is a mess.  David Howells suggested something similar when
-I brought the issue to his attention last time.
+You cannot write Makefile this way in upstream because modules.order is
+not correctly generated. subdir-y is used to descend to a sub-directory
+that builds tools, device trees, etc.
+
+For external modules, the modules order does not matter. So, the
+Makefile above was known to work.
+
+I believe the Makefile should be re-written as follows:
+
+  [Makefile]
+  obj-m := some-module/
+
+  [some-module/Makefile]
+  obj-m := some-module.o
+
+However, people will have no idea if their Makefile suddenly stops
+working. In fact, I received questions from multiple people.
+
+Show a warning if obj-m is specified in a Makefile visited by subdir-y
+or subdir-m.
+
+I touched the %/ rule to avoid false-positive warnings for the single
+target.
+
+Cc: Jan Kiszka <jan.kiszka@siemens.com>
+Cc: Tom Stonecypher <thomas.edwardx.stonecypher@intel.com>
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+Changes in v2:
+ - fix false-positive warnings for single targets
+
+ Makefile               | 2 +-
+ scripts/Makefile.build | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index 0e37ad2f77bf..fac25e279da6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1783,7 +1783,7 @@ PHONY += /
+ /: ./
+ 
+ %/: prepare FORCE
+-	$(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir)
++	$(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir) need-modorder=1
+ 
+ # FIXME Should go into a make.lib or something
+ # ===========================================================================
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 37a1d2cd49d4..2f66ed388d1c 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -52,6 +52,13 @@ ifndef obj
+ $(warning kbuild: Makefile.build is included improperly)
+ endif
+ 
++ifeq ($(MAKECMDGOALS)$(need-modorder),)
++ifneq ($(obj-m),)
++$(warning $(patsubst %.o,'%.ko',$(obj-m)) will not be built even though obj-m is specified.)
++$(warning You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.)
++endif
++endif
++
+ # ===========================================================================
+ 
+ ifneq ($(strip $(lib-y) $(lib-m) $(lib-)),)
+-- 
+2.17.1
+
