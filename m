@@ -2,76 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DB18640F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2019 16:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 600AA865B5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2019 17:27:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733259AbfHHOMG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Aug 2019 10:12:06 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:46237 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730993AbfHHOMG (ORCPT
+        id S1732680AbfHHP1q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Aug 2019 11:27:46 -0400
+Received: from goliath.siemens.de ([192.35.17.28]:51700 "EHLO
+        goliath.siemens.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727096AbfHHP1p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Aug 2019 10:12:06 -0400
-Received: from [192.168.1.110] ([77.4.95.67]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MV5G4-1hmPUV0eeM-00S9Te; Thu, 08 Aug 2019 16:12:01 +0200
-Subject: Re: make_kernelconfig fails in OpenWRT buildroot
-To:     Thomas Albers <thomas.gameiro@googlemail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <CALYGOBV9FERiui6mJDmQyAjaNASAOQ5z1k-6nCHQVB+c4XxmSw@mail.gmail.com>
- <CAK7LNAQSFdSZ5OctMkhXRmmXrq4S0cJ4Xy3MOd9iLF-Cs_VQMw@mail.gmail.com>
- <CALYGOBVauUutGGc8HNvLwue58AJp5DxOuM8b30XDgfbqJkLo1w@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Organization: metux IT consult
-Message-ID: <50091cb8-37ee-4234-9fb8-47d148e36ed3@metux.net>
-Date:   Thu, 8 Aug 2019 16:11:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 8 Aug 2019 11:27:45 -0400
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x78FRVAq020810
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 8 Aug 2019 17:27:31 +0200
+Received: from [139.25.68.37] (md1q0hnc.ad001.siemens.net [139.25.68.37] (may be forged))
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id x78FRVDw010152;
+        Thu, 8 Aug 2019 17:27:31 +0200
+Subject: Re: [PATCH v2] kbuild: show hint if subdir-y/m is used to visit
+ module Makefile
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Cc:     Tom Stonecypher <thomas.edwardx.stonecypher@intel.com>,
+        linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+References: <20190808112111.16159-1-yamada.masahiro@socionext.com>
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <4377a933-1550-d95f-8a71-bb7f64756eb5@siemens.com>
+Date:   Thu, 8 Aug 2019 17:27:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CALYGOBVauUutGGc8HNvLwue58AJp5DxOuM8b30XDgfbqJkLo1w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190808112111.16159-1-yamada.masahiro@socionext.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:luCSRvk2U+YL05f7K92Gz3nCTaJOi8HamTPiLhxJ10ggDNOBTmo
- B/1fiR6OGHL6rVigMeP/OC1vc4qRpaZfwc+0+JvAFlWMu7OdGTMSYhWIbO4HtWWN2aAL/iO
- o+vYRTthKOTTcIn4k7T6lAUj5e4abqpFxpmRzXvxdtBl5fcnusxxiNKjuy1zmS/5BAnoMkg
- +7Inghm02v2s/a5x8Dqyg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:f7GjDlbjJbw=:ge+OxZmre5I3aPVCJu3gVy
- ppQGn0ucq3naLl08DPQEkl8TpvRhHuwczxT0JDoKaIymmN6H+o4ehYSpr+ZyX45bFoda/YHrO
- FXYoi0r6W8LziEB0EkkJl+pa5aWXjSyvAEVRK1lcrLo02zzH4zN+KHyXgwou6Hvf4ETRyu3YM
- F6S1PasIstf9pKMQJYXGEQP3+n1dG7RbnxFD3+NxIc+pFRmInU2K2byUYXm9cWJe/7zG8KUy/
- OziVWlw1x0xc3UUkQbqCpMpB8JhC/K+MHonSbiCGbm9aDc59a4/bfeQDLvOwnd3nimp3Aesqz
- bqw5lAtDgnNtiS8QGyzyLNxBDhPC8MckGk0d0uIKi52nPSDJH0f66RLjpNctuiKtS1bkBe5Ef
- 6pPcYoX6ZYS/gl8QEbLVvsq9D4XJFJyGTbnEKXFjNpveyj8MoTmiFxy5HmPnAEKpvu1FpCK5D
- sffqL1h/NJMNGFxX6w9wVGzk3os55AVSPWUIgm3DOTV7THy+Z92TM2y/1saNdNdbZ8y5CYIOF
- abHDx8VUE34rR8ghanFSm+ZvoJnyzgCmjdsNKdr0Sb7Fc117cYF0C9cvIuEbMjTXh4ogehExu
- WcIWV4/G3U5k9uneO5x58kq1aNZX66LaVvETLAqZ8DEva2gd1W18NIooMm7CdPGFJ+NnupsJI
- QDES3r8NeI1ws3M1xVfrgYCM7w3jFefd+vwPvXUxsDE4j8+apRe9fKXqBv6aRZ62uGNSnoRBi
- w4BQOOJse7uV+5X/SXskvHJ0Fe/ahpHXi2Nvi3UGr2egA6SrsNLb4hPaXlk=
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 04.08.19 19:08, Thomas Albers wrote:
+On 08.08.19 13:21, Masahiro Yamada wrote:
+> Since commit ff9b45c55b26 ("kbuild: modpost: read modules.order instead
+> of $(MODVERDIR)/*.mod"), a module is no longer built in the following
+> pattern:
+> 
+>   [Makefile]
+>   subdir-y := some-module
+> 
+>   [some-module/Makefile]
+>   obj-m := some-module.o
+> 
+> You cannot write Makefile this way in upstream because modules.order is
+> not correctly generated. subdir-y is used to descend to a sub-directory
+> that builds tools, device trees, etc.
+> 
+> For external modules, the modules order does not matter. So, the
+> Makefile above was known to work.
+> 
+> I believe the Makefile should be re-written as follows:
+> 
+>   [Makefile]
+>   obj-m := some-module/
+> 
+>   [some-module/Makefile]
+>   obj-m := some-module.o
+> 
+> However, people will have no idea if their Makefile suddenly stops
+> working. In fact, I received questions from multiple people.
+> 
+> Show a warning if obj-m is specified in a Makefile visited by subdir-y
+> or subdir-m.
+> 
+> I touched the %/ rule to avoid false-positive warnings for the single
+> target.
+> 
+> Cc: Jan Kiszka <jan.kiszka@siemens.com>
+> Cc: Tom Stonecypher <thomas.edwardx.stonecypher@intel.com>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+> 
+> Changes in v2:
+>  - fix false-positive warnings for single targets
+> 
+>  Makefile               | 2 +-
+>  scripts/Makefile.build | 7 +++++++
+>  2 files changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 0e37ad2f77bf..fac25e279da6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1783,7 +1783,7 @@ PHONY += /
+>  /: ./
+>  
+>  %/: prepare FORCE
+> -	$(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir)
+> +	$(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir) need-modorder=1
+>  
+>  # FIXME Should go into a make.lib or something
+>  # ===========================================================================
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 37a1d2cd49d4..2f66ed388d1c 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -52,6 +52,13 @@ ifndef obj
+>  $(warning kbuild: Makefile.build is included improperly)
+>  endif
+>  
+> +ifeq ($(MAKECMDGOALS)$(need-modorder),)
+> +ifneq ($(obj-m),)
+> +$(warning $(patsubst %.o,'%.ko',$(obj-m)) will not be built even though obj-m is specified.)
+> +$(warning You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.)
+> +endif
+> +endif
+> +
+>  # ===========================================================================
+>  
+>  ifneq ($(strip $(lib-y) $(lib-m) $(lib-)),)
+> 
 
-Hi,
+FWIW, I've thrown this patch (with the other 2) at our "special" out-of-tree
+modules repo, and it worked as expected: Warned when we were still using
+subdir-y, remained silent after the fix.
 
-> Somehow, kconfig is not linked against libtinfow. Please let me know
-> how I can be of assistance here, I'm still wrapping my head around the
-> code. This is a 4.14 kernel, but 4.19, which different architectures
-> use, fails in a similar manner.
+Tested-by: Jan Kiszka <jan.kiszka@siemens.com>
 
-can you make sure you don't have any ncurses pieces in your sysroot and
-retry ?
-
-
---mtx
-
+Jan
 
 -- 
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Siemens AG, Corporate Technology, CT RDA IOT SES-DE
+Corporate Competence Center Embedded Linux
