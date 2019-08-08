@@ -2,124 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C271A860C3
-	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2019 13:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26320862B0
+	for <lists+linux-kbuild@lfdr.de>; Thu,  8 Aug 2019 15:13:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731038AbfHHLVv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Aug 2019 07:21:51 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:37726 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730747AbfHHLVv (ORCPT
+        id S1732645AbfHHNNN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Aug 2019 09:13:13 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:59231 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732375AbfHHNNN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Aug 2019 07:21:51 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x78BLEkO027157;
-        Thu, 8 Aug 2019 20:21:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x78BLEkO027157
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565263275;
-        bh=Y3joUPUMYoBzCVDWCYCkXvHGxBHe0Rsmx3YuHH4+91M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=iCGTFksi3llJddT4lN0m7yPIlNGjS7AghbijE+hez0ISz3b3PLhEoWhe8ZzA0AQD1
-         tmuGow482ok/3d9oy/0PYpn+1SAfMT+duWTPJQBgh55L34l4wnb740DftNfP72p4bK
-         aVKdwDsT6xKeiIXY6if/cQyMi6kDX7o+z1dasan/d74TyZq2vmZdgJeo71cIXEwTro
-         iqtvX0k17GTKR4xWb7K4k/D8ZMkBB3hhnVx+hj9cJtujetuLZmPO8IkT27p6dP6HMb
-         uwYk3S0pCSmHXXn7Ttt/VrmKEz0l3WNU0cenS5Khc2kLclUhn33SlMDoN2Vlg58Ik9
-         oGL/0vdUIw4fg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Jan Kiszka <jan.kiszka@siemens.com>,
-        Tom Stonecypher <thomas.edwardx.stonecypher@intel.com>,
-        linux-kernel@vger.kernel.org,
+        Thu, 8 Aug 2019 09:13:13 -0400
+Received: from [192.168.1.110] ([77.4.95.67]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M3Upe-1hwGBc1pPm-000dS4; Thu, 08 Aug 2019 15:12:50 +0200
+Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+To:     Javier Martinez Canillas <javierm@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH v2] kbuild: show hint if subdir-y/m is used to visit module Makefile
-Date:   Thu,  8 Aug 2019 20:21:11 +0900
-Message-Id: <20190808112111.16159-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+ <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
+ <20190731194419.GB4084@kunai>
+ <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
+ <CAMuHMdUA-hjVqSP_c0cB=76cfrucF6xxRi3ymVoEsJ2hbkfT=A@mail.gmail.com>
+ <51451f89-9193-2be6-e724-e9ca44a25f52@redhat.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <620e0aec-e3d8-7289-6525-b720013e8dfa@metux.net>
+Date:   Thu, 8 Aug 2019 15:12:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <51451f89-9193-2be6-e724-e9ca44a25f52@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:IBK9Xm7wYE6zK76e7iHZaERZwlA5HaihmNgKog9rl292nI0WqjF
+ PtrGixDaNMcmx4CyY0g0HQuEYZ/9mduxkUv6RSCs3hYj5Z5Hh+F8N6xFGrfZaX2s3UPBmkJ
+ oB+kot/By4XS+pGXba4sdeE9LvdMWIijTMwfqdOmigf9tUAw1ch5C3kq14jlJjw2D+apDZq
+ CXntaM4+3eqXKMvkgxEyQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3M+d3uKvZSs=:yLNYLCiuD+SNXAdiAMehjW
+ GAhYqJo1pts5wjxmrfm3q9PHoTEl/auOnNIiUymU5nQ6kZegUv7OINe5y3jgIIwhyTtjgti63
+ 3KQVZlS74z2HWDIiqmNcTAe24n0/KKjZoNstcoB8fTvdXc2x1MVHU/ybm7Vmqv/JF0bnBASfe
+ A4q8igaAcDUoBlvUcu9F+Tma6qgYM+bz/iT2v6/0/Or/1/V8XyMnVEQFX6uiRBpQqDUSFZgui
+ AvAZF8Ei7ft8focNVRd0A5eBMpyr/SbXyHunKNEotLF9t5nHx9AiBcU1oNvsw5h6kza7PNNH6
+ pwTlUkq1ersEeabWvRtXk+CQqyrd+l3cdRJ7lSpEz/rs+NnrboMy0ccIzztuh0SAwdTwRAFLf
+ JfdpyVssc3vMTsKYG2NJahpvi+DYB0afEumw12ItulLNSsjrEptmqZgWoWgq2aFevhC3K2ZAR
+ XQJ9h2h6TIoS0Ax3y/WtBHDEXGoeoIOq43hBWPFz8XcKoU6pqoBhrY6U3VFaj1KXNwk6RfX4M
+ S1MSdRzWrdpkpjDn4vje7kK05V4sswjCc2Qrn178RpmxgY2Py7/yRzOmVaY1UkWPKAG+PcIy7
+ 4ahyHVKIev8jqVOgae1LucWtwwRnR5BbMGxw7B1nFEpHydFUjVFr5LVvwNQHYqnlXiAujVvGc
+ ii1W0Hes3Krb8L6pP/wMi9ghqVDzYYLjzgsaq9noAOCeuZuIkqm+wYV5DjdApJsv5vEIjUYn8
+ yQtdouzt0j2sv7nw1w76z98d5bIQSyrerypLiYTt4ERSWSCGggf846HsQPE=
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit ff9b45c55b26 ("kbuild: modpost: read modules.order instead
-of $(MODVERDIR)/*.mod"), a module is no longer built in the following
-pattern:
+On 06.08.19 19:12, Javier Martinez Canillas wrote:
 
-  [Makefile]
-  subdir-y := some-module
+> Right, we could add a macro for that. Although it should probably be called
+> I2C_OF_MODULE_DEVICE_TABLE() or something like that since is specific to OF.
 
-  [some-module/Makefile]
-  obj-m := some-module.o
+At that point it should be completely noop when OF is disabled, so we
+also can get rid of many ifdef's.
 
-You cannot write Makefile this way in upstream because modules.order is
-not correctly generated. subdir-y is used to descend to a sub-directory
-that builds tools, device trees, etc.
+I've got some patch somewhere for introducing a MODULE_OF_TABLE() macro
+as replacement for many MODULE_DEVICE_TABLE(of, ...) cases, which noops
+when CONFIG_OF is disabled. (and similar ones for other table types).
 
-For external modules, the modules order does not matter. So, the
-Makefile above was known to work.
+by the way: haven't followed whole discussion, just picked up some
+proposed table changes ... does that require userland upgrades ?
 
-I believe the Makefile should be re-written as follows:
 
-  [Makefile]
-  obj-m := some-module/
+--mtx
 
-  [some-module/Makefile]
-  obj-m := some-module.o
-
-However, people will have no idea if their Makefile suddenly stops
-working. In fact, I received questions from multiple people.
-
-Show a warning if obj-m is specified in a Makefile visited by subdir-y
-or subdir-m.
-
-I touched the %/ rule to avoid false-positive warnings for the single
-target.
-
-Cc: Jan Kiszka <jan.kiszka@siemens.com>
-Cc: Tom Stonecypher <thomas.edwardx.stonecypher@intel.com>
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
-Changes in v2:
- - fix false-positive warnings for single targets
-
- Makefile               | 2 +-
- scripts/Makefile.build | 7 +++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 0e37ad2f77bf..fac25e279da6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1783,7 +1783,7 @@ PHONY += /
- /: ./
- 
- %/: prepare FORCE
--	$(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir)
-+	$(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir) need-modorder=1
- 
- # FIXME Should go into a make.lib or something
- # ===========================================================================
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 37a1d2cd49d4..2f66ed388d1c 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -52,6 +52,13 @@ ifndef obj
- $(warning kbuild: Makefile.build is included improperly)
- endif
- 
-+ifeq ($(MAKECMDGOALS)$(need-modorder),)
-+ifneq ($(obj-m),)
-+$(warning $(patsubst %.o,'%.ko',$(obj-m)) will not be built even though obj-m is specified.)
-+$(warning You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.)
-+endif
-+endif
-+
- # ===========================================================================
- 
- ifneq ($(strip $(lib-y) $(lib-m) $(lib-)),)
 -- 
-2.17.1
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
