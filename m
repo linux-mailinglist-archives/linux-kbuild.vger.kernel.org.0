@@ -2,94 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 706C486D76
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Aug 2019 00:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6A0E86EC9
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Aug 2019 02:21:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732885AbfHHWyk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 8 Aug 2019 18:54:40 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:41622 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732796AbfHHWyj (ORCPT
+        id S1732375AbfHIAVw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 8 Aug 2019 20:21:52 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44675 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732796AbfHIAVw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 8 Aug 2019 18:54:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=L4WNmt411GvdUutKmuHQmM0ZMOqtTDC8LSkIqA9c1z0=; b=kBJlyOCk7zSvdCGjTTTWlrJgs
-        9pulFfEtxW/vDieNCkmAh6Go7c5yZdiew6XwkvacaqzujLGbZqmDcB5zh5lOylsndyOWhgs6mgNuN
-        u+ShQ23RZk3yDLOiqy2NQL6S6lnxEJD95aM7mqYbH2F5IwBu7cOz+AzgsCnJGEBC/dDXQ=;
-Received: from ypsilon.sirena.org.uk ([2001:470:1f1d:6b5::7])
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1hvrIj-0004Gu-El; Thu, 08 Aug 2019 22:54:29 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 1B6302742BDD; Thu,  8 Aug 2019 23:54:28 +0100 (BST)
-Date:   Thu, 8 Aug 2019 23:54:28 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thu, 8 Aug 2019 20:21:52 -0400
+Received: by mail-ot1-f67.google.com with SMTP id b7so75799596otl.11;
+        Thu, 08 Aug 2019 17:21:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qJ18L1wbrERX6F3k10BGEMdcTJ2aPiTL4BfastDFNCk=;
+        b=efR77BEuls51ClSBywaN/hcJ6AZ5kn0vIw/M0u8cgAabCxj3RPufdHV5E1zFLIPjh5
+         VLQe4lQ4mfafTAjeFWtrG/iApUet5NUBLELLd8cIU05T/6SJU+oQSWuZxnsck5H9e4+d
+         AVqYTen2tOawpHvT88kTFJ+rkFlUjutbPiH2qtNIfZXKzKb2j42mkPjoj2qoSlCjWzBa
+         03hQyHaULEXxY81DUZa6zdt1ZD9tYWybRTFng5/Vb13BSD5AZ7lVsIzyPuFFga6wyWNe
+         SK0zzHsRmbI+0uFe0MrUwL2xkALc+H6kLZFpFlq/a29ZzgjfRfLpiUXDJBDErrGk/KJS
+         vDuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=qJ18L1wbrERX6F3k10BGEMdcTJ2aPiTL4BfastDFNCk=;
+        b=JdGVI2THjL+GdCadLm7SoJu/YjaIbm0B4SUY0uJZtlDS1O+oOXBiO8AQX2x8glpLyX
+         rm9hwEN290nHVYf7m98Pxq4nizUiKR689A0O8aKxVKpMrjE7Jemjg6zkDomuDxsAQyMV
+         8QDwZoQSSBQ8VQbC1AZhxHtp2GoGoizB2uZ6QWKvdcaUEDBm7J47ARmMCGm4VHAzxMTm
+         1MA+oVAoujYia3lD1o8uEnLkgmOM1JDCRDAfRBdcro6PkEPLs57WbqjQpXNr0E6hfv1l
+         El2F+UsdPiyTOehV0IISL5tUPdjBdi5146AyFKitdnfeaGWrOZjgXVRQCPYDpMhl1cfs
+         7a8Q==
+X-Gm-Message-State: APjAAAXh7bxNVjlV0bW3xer9iYGZDIjllMhRpcv9LhC6wYT0nFbTAzra
+        /gZu+M6sY1faffNl2yW/YsE=
+X-Google-Smtp-Source: APXvYqz+CkU4806/CIx6WZm+rcWifVImcUB5taTQGzvDeO2HlNEropKLCzMbdOV3P7x3CatDHMWbTA==
+X-Received: by 2002:a5d:8451:: with SMTP id w17mr18797106ior.226.1565310111075;
+        Thu, 08 Aug 2019 17:21:51 -0700 (PDT)
+Received: from wandering.us.cray.com (msp-nat.cray.com. [136.162.2.1])
+        by smtp.gmail.com with ESMTPSA id l7sm8426377iof.81.2019.08.08.17.21.49
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 08 Aug 2019 17:21:50 -0700 (PDT)
+From:   Shaun Tancheff <shaun@tancheff.com>
+X-Google-Original-From: Shaun Tancheff <stancheff@cray.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Shaun Tancheff <stancheff@cray.com>, linux-kbuild@vger.kernel.org,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        "'James E . J . Bottomley'" <jejb@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "'Martin K . Petersen'" <martin.petersen@oracle.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel@collabora.com
-Subject: Re: [PATCH RFC 1/1] kbuild: enable overriding the compiler using the
- environment
-Message-ID: <20190808225428.GU3795@sirena.co.uk>
-References: <cover.1565297255.git.guillaume.tucker@collabora.com>
- <3885ccdcbdbe83eb367e8344584df944adc76e34.1565297255.git.guillaume.tucker@collabora.com>
- <CAKwvOdmOdJspcO8jqUhqR63-MOWkV3ZrVcCO6u=HG6peov8Htw@mail.gmail.com>
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Renninger <trenn@suse.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-scsi@vger.kernel.org
+Subject: [PATCH 0/1] kbuild: Support building a tree of modules with -M=<root>
+Date:   Thu,  8 Aug 2019 19:21:03 -0500
+Message-Id: <20190809002104.18599-1-stancheff@cray.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MjBORTcaENZKFEO1"
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmOdJspcO8jqUhqR63-MOWkV3ZrVcCO6u=HG6peov8Htw@mail.gmail.com>
-X-Cookie: I think we're in trouble.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Currently when building lustre against 5.3 kernel modules fail to
+generate <module>.ko files.
 
---MjBORTcaENZKFEO1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Lustre builds a tree of modules however the numerous modules.order files
+are created but only the modules.order file at the root appears to be 
+read.
 
-On Thu, Aug 08, 2019 at 03:42:32PM -0700, Nick Desaulniers wrote:
+This changes the the scheme for KBUILD_EXTMOD to write to and read from
+a single modules.order file at the root.
 
-> are you trying to fix the case where you do:
+Shaun Tancheff (1):
+  kbuild: recursive build of external kernel modules
 
-> $ make CC=clang ...
-> <no HOSTCC set>
-> when GCC is not installed?  Because if so, I think it would be easier
-> to just specify HOSTCC=clang, but maybe I'm misunderstanding the
-> issue?
+ Makefile               | 1 +
+ scripts/Makefile.build | 8 +++++++-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-It's that merge_config.sh calls make as part of its work.  When doing
-that you can't use command line overrides, merge_config.sh would need to
-pass them through explicitly which is probably more trouble than it's
-worth so it doesn't.  Instead you need to set environment variables but
-you then need to use ?= instead of = so make will use them.
+-- 
+2.20.1
 
---MjBORTcaENZKFEO1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1MqCMACgkQJNaLcl1U
-h9AQjQf/RK71sDtUw6GScX0kPV2hSgw+bgYGqrR4Gv6fjuYBknRDgj19MyqXVRln
-vYsIyGuZqOFNcm0ttCu7R/qgThY+X197H5wPdTjdLQFoUEWbwMwsGdIiWVYL3ixx
-zlLcGX0hMetO/iMAhf3AJNwJzzYoiVGQLe9IU5WN7qJF58lOO9gCdWbV1RLz9ibY
-h4hcp2Jdrp0dYsy+qlgHpbF+9wJLfX97CbtPbbt4PKCVK7CADpDMsVQOZ2BNEFZL
-8quIK4EkVu4TtsFwavuPE9TcYWnItauREhPAgOwm//zhaJ3Bs/CgTIT6/fXzSRHi
-vvEsiTOJAIGO4PmCVD2S9E2tRUpOeA==
-=h7Of
------END PGP SIGNATURE-----
-
---MjBORTcaENZKFEO1--
