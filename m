@@ -2,135 +2,252 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C9CA8714C
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Aug 2019 07:15:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68CA2882CD
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Aug 2019 20:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725989AbfHIFP6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Aug 2019 01:15:58 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53367 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405388AbfHIFP6 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Aug 2019 01:15:58 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 10so4382108wmp.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 08 Aug 2019 22:15:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=mo9jl2fTO7MrBL73jImyv4V27EVzM5w8yQ4jscK8cvY=;
-        b=K/DQWIcW+lp7tDWSdOBn+dI78lCIKTZDjOXiXcSBptb8DbfiakJqLfTOYm0Yybws5l
-         1yhmKRRcImh39VfWsbNu6fkB3RPzM8oDG+R1hDVuKzujFJ9Bx31JnLyXTKHeRJxoClyR
-         U7lUO/OxN+dqgRKrrbOumJGbmJjXgkfMINGZt5UpMJ/7qbJxlmjqb/ZQCTmQiQzyjhcn
-         Uj4GCR99quN7N7h5c6NfRWDS+oyMR+kPkYZ/tEqYEldd9N50f9BbDfVfChwSPBxkk/CB
-         gUP4CGgux9R5HxE2PoI/1TIiYn0osIfa+MkUUtEkBtB7H+Wc2/pUx5nqDO94hGHE/95x
-         MOJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=mo9jl2fTO7MrBL73jImyv4V27EVzM5w8yQ4jscK8cvY=;
-        b=M2uzDHI8xXrnJvvis5YfHI6oY2eAjK/fTEU3dvnreRS+PDB/K4hacOx/OYO/22NSf4
-         tFji2w0+SWD5ii0hI2lqMifLpOUmoZgsvyEaw4Cddojo0gdo8/NuMIka/yfYi7EKFCPq
-         TzPW/vK7ln8lZgFZAPyGVMNCYpUqKQbJdCCCW+kl/yUVgY4JtRGO1tt2kOll3Y/Yhi2w
-         G2Dyha06i4LwWPlP1C36H/vINNE8bkyfsF3k/PSp9I4LluCgEJu+7kt8bmQ31JbBUjyV
-         /t9GsLWBuZ5D2LaanGW5wLSD8/GbViBGcKXybmpJSLhaTa3nMsGP6HmSUW5zgb0HAYCq
-         Yp3Q==
-X-Gm-Message-State: APjAAAUX7YozzE4qSa3pl6NT2cuN+NKBhiaiqF8HQet5txfsORH3PNjE
-        8XPGUmDbcsTRsi1F7L2Zrws=
-X-Google-Smtp-Source: APXvYqwAtLRYb0yvOeM1HGaCgUg8wjZhfzAnHTDWQ/chznPkfeagR1/mENS9U30X1Lk0s+QWQp7anA==
-X-Received: by 2002:a7b:c155:: with SMTP id z21mr923969wmi.137.1565327755405;
-        Thu, 08 Aug 2019 22:15:55 -0700 (PDT)
-Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
-        by smtp.gmail.com with ESMTPSA id y16sm207953394wrg.85.2019.08.08.22.15.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 08 Aug 2019 22:15:54 -0700 (PDT)
-Date:   Thu, 8 Aug 2019 22:15:52 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Mark Brown <broonie@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel@collabora.com
-Subject: Re: [PATCH RFC 1/1] kbuild: enable overriding the compiler using the
- environment
-Message-ID: <20190809051552.GA44466@archlinux-threadripper>
-References: <cover.1565297255.git.guillaume.tucker@collabora.com>
- <3885ccdcbdbe83eb367e8344584df944adc76e34.1565297255.git.guillaume.tucker@collabora.com>
- <CAKwvOdmOdJspcO8jqUhqR63-MOWkV3ZrVcCO6u=HG6peov8Htw@mail.gmail.com>
+        id S1726421AbfHISm5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Aug 2019 14:42:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38748 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726168AbfHISm5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 9 Aug 2019 14:42:57 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 06A773069609;
+        Fri,  9 Aug 2019 18:42:56 +0000 (UTC)
+Received: from redhat.com (ovpn-125-104.rdu2.redhat.com [10.10.125.104])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 25B23F6E9;
+        Fri,  9 Aug 2019 18:42:55 +0000 (UTC)
+Date:   Fri, 9 Aug 2019 14:42:53 -0400
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v4 03/10] livepatch: Add klp-convert tool
+Message-ID: <20190809184253.GA31811@redhat.com>
+References: <20190509143859.9050-1-joe.lawrence@redhat.com>
+ <20190509143859.9050-4-joe.lawrence@redhat.com>
+ <CAK7LNAT3qZ8EESs0eEtaezjgjzRa1XqoAAxpKh_sLi_JPJie2A@mail.gmail.com>
+ <CAK7LNAToLyKSk9C0hwuMRxDK8yjJtghi_y6fH1p0+wK7N1wKow@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKwvOdmOdJspcO8jqUhqR63-MOWkV3ZrVcCO6u=HG6peov8Htw@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <CAK7LNAToLyKSk9C0hwuMRxDK8yjJtghi_y6fH1p0+wK7N1wKow@mail.gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.48]); Fri, 09 Aug 2019 18:42:56 +0000 (UTC)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 08, 2019 at 03:42:32PM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
-> On Thu, Aug 8, 2019 at 2:07 PM Guillaume Tucker
-> <guillaume.tucker@collabora.com> wrote:
+On Wed, Jul 31, 2019 at 12:36:05PM +0900, Masahiro Yamada wrote:
+> On Wed, Jul 31, 2019 at 11:50 AM Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
 > >
-> > Only use gcc/g++ for HOSTCC, HOSTCXX and CC by default if they are not
-> > already defined in the environment.  This fixes cases such as building
-> > host tools with clang without having gcc installed.
+> > On Thu, May 9, 2019 at 11:39 PM Joe Lawrence <joe.lawrence@redhat.com> wrote:
+> > >
+> > > From: Josh Poimboeuf <jpoimboe@redhat.com>
+> > >
+> > > Livepatches may use symbols which are not contained in its own scope,
+> > > and, because of that, may end up compiled with relocations that will
+> > > only be resolved during module load. Yet, when the referenced symbols
+> > > are not exported, solving this relocation requires information on the
+> > > object that holds the symbol (either vmlinux or modules) and its
+> > > position inside the object, as an object may contain multiple symbols
+> > > with the same name. Providing such information must be done
+> > > accordingly to what is specified in
+> > > Documentation/livepatch/module-elf-format.txt.
+> > >
+> > > Currently, there is no trivial way to embed the required information
+> > > as requested in the final livepatch elf object. klp-convert solves
+> > > this problem in two different forms: (i) by relying on Symbols.list,
+> > > which is built during kernel compilation, to automatically infer the
+> > > relocation targeted symbol, and, when such inference is not possible
+> > > (ii) by using annotations in the elf object to convert the relocation
+> > > accordingly to the specification, enabling it to be handled by the
+> > > livepatch loader.
+> > >
+> > > Given the above, create scripts/livepatch to hold tools developed for
+> > > livepatches and add source files for klp-convert there.
+> > >
+> > > The core file of klp-convert is scripts/livepatch/klp-convert.c, which
+> > > implements the heuristics used to solve the relocations and the
+> > > conversion of unresolved symbols into the expected format, as defined
+> > > in [1].
+> > >
+> > > klp-convert receives as arguments the Symbols.list file, an input
+> > > livepatch module to be converted and the output name for the converted
+> > > livepatch. When it starts running, klp-convert parses Symbols.list and
+> > > builds two internal lists of symbols, one containing the exported and
+> > > another containing the non-exported symbols. Then, by parsing the rela
+> > > sections in the elf object, klp-convert identifies which symbols must
+> > > be converted, which are those unresolved and that do not have a
+> > > corresponding exported symbol, and attempts to convert them
+> > > accordingly to the specification.
+> > >
+> > > By using Symbols.list, klp-convert identifies which symbols have names
+> > > that only appear in a single kernel object, thus being capable of
+> > > resolving these cases without the intervention of the developer. When
+> > > various homonymous symbols exist through kernel objects, it is not
+> > > possible to infer the right one, thus klp-convert falls back into
+> > > using developer annotations. If these were not provided, then the tool
+> > > will print a list with all acceptable targets for the symbol being
+> > > processed.
+> > >
+> > > Annotations in the context of klp-convert are accessible as struct
+> > > klp_module_reloc entries in sections named
+> > > .klp.module_relocs.<objname>. These entries are pairs of symbol
+> > > references and positions which are to be resolved against definitions
+> > > in <objname>.
+> > >
+> > > Define the structure klp_module_reloc in
+> > > include/linux/uapi/livepatch.h allowing developers to annotate the
+> > > livepatch source code with it.
+> > >
+> > > klp-convert relies on libelf and on a list implementation. Add files
+> > > scripts/livepatch/elf.c and scripts/livepatch/elf.h, which are a
+> > > libelf interfacing layer and scripts/livepatch/list.h, which is a
+> > > list implementation.
+> > >
+> > > Update Makefiles to correctly support the compilation of the new tool,
+> > > update MAINTAINERS file and add a .gitignore file.
+> > >
+> > > [1] - Documentation/livepatch/module-elf-format.txt
+> > >
+> > > Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
+> > > Signed-off-by: Konstantin Khlebnikov <khlebnikov@yandex-team.ru>
+> > > Signed-off-by: Joao Moreira <jmoreira@suse.de>
+> > > Signed-off-by: Joe Lawrence <joe.lawrence@redhat.com>
+> > > ---
+> > >  MAINTAINERS                     |   1 +
+> > >  include/uapi/linux/livepatch.h  |   5 +
+> > >  scripts/Makefile                |   1 +
+> > >  scripts/livepatch/.gitignore    |   1 +
+> > >  scripts/livepatch/Makefile      |   7 +
+> > >  scripts/livepatch/elf.c         | 753 ++++++++++++++++++++++++++++++++
+> > >  scripts/livepatch/elf.h         |  73 ++++
+> > >  scripts/livepatch/klp-convert.c | 713 ++++++++++++++++++++++++++++++
+> > >  scripts/livepatch/klp-convert.h |  39 ++
+> > >  scripts/livepatch/list.h        | 391 +++++++++++++++++
+> > >  10 files changed, 1984 insertions(+)
+> > >  create mode 100644 scripts/livepatch/.gitignore
+> > >  create mode 100644 scripts/livepatch/Makefile
+> > >  create mode 100644 scripts/livepatch/elf.c
+> > >  create mode 100644 scripts/livepatch/elf.h
+> > >  create mode 100644 scripts/livepatch/klp-convert.c
+> > >  create mode 100644 scripts/livepatch/klp-convert.h
+> > >  create mode 100644 scripts/livepatch/list.h
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 52842fa37261..c1587e1cc385 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -9022,6 +9022,7 @@ F:        arch/x86/kernel/livepatch.c
+> > >  F:     Documentation/livepatch/
+> > >  F:     Documentation/ABI/testing/sysfs-kernel-livepatch
+> > >  F:     samples/livepatch/
+> > > +F:     scripts/livepatch/
+> > >  F:     tools/testing/selftests/livepatch/
+> > >  L:     live-patching@vger.kernel.org
+> > >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/livepatching/livepatching.git
+> > > diff --git a/include/uapi/linux/livepatch.h b/include/uapi/linux/livepatch.h
+> > > index e19430918a07..1c364d42d38e 100644
+> > > --- a/include/uapi/linux/livepatch.h
+> > > +++ b/include/uapi/linux/livepatch.h
+> > > @@ -12,4 +12,9 @@
+> > >  #define KLP_RELA_PREFIX                ".klp.rela."
+> > >  #define KLP_SYM_PREFIX         ".klp.sym."
+> > >
+> > > +struct klp_module_reloc {
+> > > +       void *sym;
+> > > +       unsigned int sympos;
+> > > +} __attribute__((packed));
+> > > +
+> > >  #endif /* _UAPI_LIVEPATCH_H */
+> > > diff --git a/scripts/Makefile b/scripts/Makefile
+> > > index 9d442ee050bd..bf9ce74b70b0 100644
+> > > --- a/scripts/Makefile
+> > > +++ b/scripts/Makefile
+> > > @@ -39,6 +39,7 @@ build_unifdef: $(obj)/unifdef
+> > >  subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
+> > >  subdir-$(CONFIG_MODVERSIONS) += genksyms
+> > >  subdir-$(CONFIG_SECURITY_SELINUX) += selinux
+> > > +subdir-$(CONFIG_LIVEPATCH)   += livepatch
+> > >
+> > >  # Let clean descend into subdirs
+> > >  subdir-        += basic dtc gdb kconfig mod package
+> > > diff --git a/scripts/livepatch/.gitignore b/scripts/livepatch/.gitignore
+> > > new file mode 100644
+> > > index 000000000000..dc22fe4b6a5b
+> > > --- /dev/null
+> > > +++ b/scripts/livepatch/.gitignore
+> > > @@ -0,0 +1 @@
+> > > +klp-convert
+> > > diff --git a/scripts/livepatch/Makefile b/scripts/livepatch/Makefile
+> > > new file mode 100644
+> > > index 000000000000..2842ecdba3fd
+> > > --- /dev/null
+> > > +++ b/scripts/livepatch/Makefile
+> > > @@ -0,0 +1,7 @@
+> > > +hostprogs-y                    := klp-convert
+> > > +always                         := $(hostprogs-y)
+> > > +
+> > > +klp-convert-objs               := klp-convert.o elf.o
+> > > +
+> > > +HOST_EXTRACFLAGS               := -g -I$(INSTALL_HDR_PATH)/include -Wall
 > >
-> > The issue was initially hit when running merge_config.sh with clang
-> > only as it failed to build "HOSTCC scripts/basic/fixdep".
+> > This looks strange.
+> >
+> > Theoretically, you cannot include headers in $(INSTALL_HDR_PATH)/include
+> > from host programs.
+> >
+> > headers_install works for the target architecture, not host architecture.
+> > This may cause a strange result when you are cross-compiling the kernel.
+> >
+> > BTW, which header in $(INSTALL_HDR_PATH)/include do you need to include ?
+> >
+> >
+> > Also, -Wall is redundant because it is set by the top-level Makefile.
 > 
-> Thanks for the patch.  I don't quite follow the exact error.
 > 
-> When building with Clang, I usually do:
+> I deleted HOST_EXTRACFLAGS entirely,
+> and I was still able to build klp-convert.
 > 
-> $ make CC=clang HOSTCC=clang ...
 > 
-> are you trying to fix the case where you do:
+> What is the purpose of '-g' ?
+> If it is only needed for local debugging,
+> it should be removed from the upstream code, in my opinion.
 > 
-> $ make CC=clang ...
-> <no HOSTCC set>
-> when GCC is not installed?  Because if so, I think it would be easier
-> to just specify HOSTCC=clang, but maybe I'm misunderstanding the
-> issue?
 
-As I understand it,
+HOST_EXTRACFLAGS looks like it was present in the patchset from the
+early RFC days and inherited through each revision.
 
-$ make CC=clang HOSTCC=clang
+These are the files that the klp-convert code includes, mostly typical C
+usercode headers like stdio.h and a few local headers like elf.h:
 
-works fine. What doesn't currently work is:
+  % grep -h '^#include' scripts/livepatch/*.{c,h} | sort -u
+  #include "elf.h"
+  #include <fcntl.h>
+  #include <gelf.h>
+  #include "klp-convert.h"
+  #include "list.h"
+  #include <stdbool.h>
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  #include <sys/stat.h>
+  #include <sys/types.h>
+  #include <unistd.h>
 
-$ export CC=clang
-$ export HOSTCC=clang
-$ make
+If HOST_EXTRACFLAGS is really unneeded, we can easily drop it in the
+next patchset version.
 
-This is problematic because there is no way for CC, HOSTCC, and HOSTCXX
-to be passed to make within scripts/kconfig/merge_config.sh.
+I haven't tried cross-compiling yet, but that is a good thing to note
+for future testing.
 
-A quick test before and after the patch:
+Thanks,
 
-$ ( export HOSTCC=clang; make -j$(nproc) O=out defconfig V=1 )
-...
-  gcc -Wp,-MD,scripts/kconfig/.conf.o.d -Wall -Wmissing-prototypes...
-  gcc -Wp,-MD,scripts/kconfig/.confdata.o.d -Wall -Wmissing-prototypes...
-...
-$ ( export HOSTCC=clang; make -j$(nproc) O=out defconfig V=1 )
-...
-  clang -Wp,-MD,scripts/kconfig/.conf.o.d -Wall -Wmissing-prototypes -Wstrict-prototypes...
-  clang -Wp,-MD,scripts/kconfig/.confdata.o.d -Wall -Wmissing-prototypes -Wstrict-prototypes...
-...
-
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
-
-I wonder if all variable should be converted to that scheme or just the
-ones that are needed in this instance. I also wonder if this will cause
-any issues with people who define these variables in their environment
-already; if so, maybe merge_config.sh should be updated to support
-passing CC, HOSTCC, and HOSTCXX to make.
-
-Cheers,
-Nathan
+-- Joe
