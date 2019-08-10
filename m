@@ -2,114 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 149EF88C10
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2019 17:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 470BD88BFD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2019 17:54:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726464AbfHJPzY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Aug 2019 11:55:24 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:35281 "EHLO
+        id S1726199AbfHJPyV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Aug 2019 11:54:21 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:34083 "EHLO
         conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726382AbfHJPzY (ORCPT
+        with ESMTP id S1726116AbfHJPyV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Aug 2019 11:55:24 -0400
+        Sat, 10 Aug 2019 11:54:21 -0400
 Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x7AFrG8t009713;
-        Sun, 11 Aug 2019 00:53:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x7AFrG8t009713
+        by conuserg-11.nifty.com with ESMTP id x7AFrG8u009713;
+        Sun, 11 Aug 2019 00:53:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x7AFrG8u009713
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565452398;
-        bh=oC63xap+fxhG9bzK+JnNTDD45f6COtr1Al2zhD2RQ+A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QRz/HTl63qVrVTBqUg3+u+Dklu40WD9vhseAg4FJ5HltnTHBLjXl/xoo5p1cQaowl
-         2SbyyKz6G7ZsMJeOXEA1NevVxbw2p+BDy/WnSkiGXuEA8IgxM1gdqq6ice3Ocpq8eG
-         5wXh9rypOSc3FpReWjYOlzm3Km8ISSl797/j2PotFFDP+ITNphwWGF3gG228KXZvdG
-         +DVWRjSfCcxV3fRTy1RJ0wQdZscJUJ5+1TJZJaHNd8uMtPN+M3SdbsN1J4ccjmajk2
-         cIYJpMIbPJ+XhO4NJWNrvdbI0WoXHgjzeKYJeWuRXa6Z+LV1DjB1lJNEZuuv10GMZH
-         PfGev3kUnpmsw==
+        s=dec2015msa; t=1565452399;
+        bh=Gl/xBYgSeezXWNIArIxqmRVzBsQf63Pbcb4OsjGXeiQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=nwshnoz0X4Lf/tevGRCSEgQ6f5YV070QcFdc3CN1MeE4PWsepzIXzw6dKf1dvdSXp
+         AE+VdOpPkJ/dGaj3O6+Bm3VpfWMRP6LVwPhwtF6lPLbboDGxRBLCM+B8y8XR01W9z2
+         bICyQF2DlJ5E416wf4akNDfnfe6RghVjcJ33oVqLLBqCAjtfCO0O0H0KxoTn6TMKk7
+         0LCIduFSShQa767DD9hFDfu55zvG2iYridwbY1dXQyOw4JPPS1iGWyDWsIm+aCdooC
+         26J/lv5HETB9TB4OvOhUorkpCSiCPSjVqK7dEkuSwjgz80GxB4IwimvHzpvp8yZKV/
+         mC3AEkyaNhYJA==
 X-Nifty-SrcIP: [126.125.143.222]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Christoph Hellwig <hch@lst.de>, Sam Ravnborg <sam@ravnborg.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Boris Pismenny <borisp@mellanox.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Igor Russkikh <igor.russkikh@aquantia.com>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-        oss-drivers@netronome.com
-Subject: [PATCH 00/11] kbuild: clean-ups and improvement of single targets
-Date:   Sun, 11 Aug 2019 00:52:56 +0900
-Message-Id: <20190810155307.29322-1-yamada.masahiro@socionext.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 01/11] kbuild: move the Module.symvers check for external module build
+Date:   Sun, 11 Aug 2019 00:52:57 +0900
+Message-Id: <20190810155307.29322-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190810155307.29322-1-yamada.masahiro@socionext.com>
+References: <20190810155307.29322-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+$(objtree)/Module.symvers is not required for descending into
+sub-directories. It is needed for the modpost stage.
 
-01/11-09/11 are trivial clean-ups.
+Move the Module.symvers check to the right place.
 
-10/11 makes the single targets work more correctly.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-11/11 cleans up Makefiles that have been added
-to work aroud the single target issues.
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-
-Masahiro Yamada (11):
-  kbuild: move the Module.symvers check for external module build
-  kbuild: refactor part-of-module more
-  kbuild: fix modkern_aflags implementation
-  kbuild: remove 'make /' support
-  kbuild: remove meaningless 'targets' in ./Kbuild
-  kbuild: do not descend to ./Kbuild when cleaning
-  kbuild: unset variables in top Makefile instead of setting 0
-  kbuild: unify vmlinux-dirs and module-dirs rules
-  kbuild: unify clean-dirs rule for in-kernel and external module
-  kbuild: make single targets work more correctly
-  treewide: remove dummy Makefiles for single targets
-
- Kbuild                                        |   7 -
- Makefile                                      | 193 ++++++++++--------
- .../aquantia/atlantic/hw_atl/Makefile         |   2 -
- .../mellanox/mlx5/core/accel/Makefile         |   2 -
- .../ethernet/mellanox/mlx5/core/diag/Makefile |   2 -
- .../ethernet/mellanox/mlx5/core/en/Makefile   |   2 -
- .../mellanox/mlx5/core/en/xsk/Makefile        |   1 -
- .../mellanox/mlx5/core/en_accel/Makefile      |   2 -
- .../ethernet/mellanox/mlx5/core/fpga/Makefile |   2 -
- .../mellanox/mlx5/core/ipoib/Makefile         |   2 -
- .../ethernet/mellanox/mlx5/core/lib/Makefile  |   2 -
- .../net/ethernet/netronome/nfp/bpf/Makefile   |   2 -
- .../ethernet/netronome/nfp/flower/Makefile    |   2 -
- .../ethernet/netronome/nfp/nfpcore/Makefile   |   2 -
- .../netronome/nfp/nfpcore/nfp6000/Makefile    |   2 -
- .../net/ethernet/netronome/nfp/nic/Makefile   |   2 -
- scripts/Makefile.build                        |  55 +++--
- 17 files changed, 149 insertions(+), 133 deletions(-)
- delete mode 100644 drivers/net/ethernet/aquantia/atlantic/hw_atl/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/diag/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/xsk/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/fpga/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/ipoib/Makefile
- delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/lib/Makefile
- delete mode 100644 drivers/net/ethernet/netronome/nfp/bpf/Makefile
- delete mode 100644 drivers/net/ethernet/netronome/nfp/flower/Makefile
- delete mode 100644 drivers/net/ethernet/netronome/nfp/nfpcore/Makefile
- delete mode 100644 drivers/net/ethernet/netronome/nfp/nfpcore/nfp6000/Makefile
- delete mode 100644 drivers/net/ethernet/netronome/nfp/nic/Makefile
-
+diff --git a/Makefile b/Makefile
+index 02aff718a11d..24c9ed272b5f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1620,10 +1620,10 @@ $(objtree)/Module.symvers:
+ 
+ module-dirs := $(addprefix _module_,$(KBUILD_EXTMOD))
+ PHONY += $(module-dirs) modules
+-$(module-dirs): prepare $(objtree)/Module.symvers
++$(module-dirs): prepare
+ 	$(Q)$(MAKE) $(build)=$(patsubst _module_%,%,$@) need-modorder=1
+ 
+-modules: $(module-dirs)
++modules: $(module-dirs) $(objtree)/Module.symvers
+ 	@$(kecho) '  Building modules, stage 2.';
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+ 
 -- 
 2.17.1
 
