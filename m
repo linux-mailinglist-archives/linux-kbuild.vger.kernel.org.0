@@ -2,132 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4AE188A36
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2019 11:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3796A88BF5
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2019 17:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725845AbfHJJL7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Aug 2019 05:11:59 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:30967 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbfHJJL6 (ORCPT
+        id S1726116AbfHJPoo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Aug 2019 11:44:44 -0400
+Received: from mail-ua1-f54.google.com ([209.85.222.54]:39201 "EHLO
+        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726024AbfHJPoo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Aug 2019 05:11:58 -0400
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x7A9BlMf000506
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Aug 2019 18:11:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x7A9BlMf000506
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565428308;
-        bh=nrBKD+Eiou5+8YLKhf/aem+YiNflnyS08Pki1cL2t9U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ugXDW1XZv1rOH9ayOK9gucxnrU3EacB7FSb5EiGStvfM7lQkYlSot4VsMQxmJKCYs
-         cIkrdX17cQYBFAQtTJMKLgAYruhGrXsY5Sv1Dv47P90xCgvt6MlZuSJmvoOTDAnbkH
-         vIXwE/vyXzyeAj5XfY5ySQWP+XyGSqobbVyC0/Va1u8sUmyeHWywLgxdt3mx0jzvk6
-         0eSGpaEZi8lEyt7kIGbNGgi6HBevOnkAsOWYhc21qvi1TtTT8SjOnsISj70ihowYmU
-         dbC2n/9Z6j3jMFKco+NYuYhttXqPFl/YfF8kLiVTyYG07n76Ntka8jw3UJilVRui+E
-         CIVuJcWpaQTkA==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id a186so10007131vsd.7
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Aug 2019 02:11:47 -0700 (PDT)
-X-Gm-Message-State: APjAAAUAd19rQWbo7S9yazWuonetwQW9M0dxAnN9SisjGuCW80yEM+g8
-        oWzS54DJAOBot36cuu39thjDLImHx79TWt1eKAM=
-X-Google-Smtp-Source: APXvYqxzz/6Ya5ee4X1kXNHrVp+ZurGjJDIMMSBYN/bID4VNxpbxyrTv61w0QqyoPRgFZOMCS/+visLhnB6DdhairZI=
-X-Received: by 2002:a05:6102:20c3:: with SMTP id i3mr6949355vsr.155.1565428306538;
- Sat, 10 Aug 2019 02:11:46 -0700 (PDT)
+        Sat, 10 Aug 2019 11:44:44 -0400
+Received: by mail-ua1-f54.google.com with SMTP id j8so38805692uan.6
+        for <linux-kbuild@vger.kernel.org>; Sat, 10 Aug 2019 08:44:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hC5QZCKPCQqDBMRmNsWt8EuD5BPVmGXQoP/e800tTKI=;
+        b=CtEDL7Z6gHmBwt8TwKloXUMYjuisJII7UFOmilqyHa1dNYApODbW0etGxyVHdgcJbA
+         xTCjrkuqt+/eK37x8g9P0E3bJkN0D4BtHPUTlqIyoOTYmiZecVYWUB+oeSREZ+WZcz/8
+         N9Kloc1PNP18XkaLhiyAWalrFDYEF4LfB1WTB2FgKBqB9lcdLRuM97sK3jps8mLaME5m
+         vIoeZolcCirlpFj53xnHvfIOy/tZjI1PnNbpJu574HHhVpR+ccjFSuhisReHOMmqzRVC
+         bjTjl6zmVWRqvzbmnZ1frPYYUn9ZApoMw8nPVLDiGIj8oN4D9Jin/OH7lb7HcmLeHtW8
+         4aSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hC5QZCKPCQqDBMRmNsWt8EuD5BPVmGXQoP/e800tTKI=;
+        b=UgKLOGU+pZa5wlrk2Ohpr5QFpTlygPwBD5APUSI+EydvchIxB2UwstWroP4OgvNvIC
+         ySJKLjZwNVVPHo793I9G3gKfBJFR55DtQ50u5aqqhbZw5AV4QIyFe2u/gYEf0ISXQV8F
+         tSUFG79h1xd7p+YxDPhVjyzlSC7c7R9LyJsEV4Qb89XkWsX4VvyJ6lCr0xFZaqsk49JD
+         EZQ5afWrlvUCVE1eH5KAQXDpRh3jqBEHqiOsBkgfeZLCTCrkSYDW+1VWy5IJecFLHxp+
+         nzyjifr+yago7EwkIeV8B1NvIYz2C+r1I5VtMaXkvIApn3tYNIsiqvmpYytuMzA+7HFj
+         2Xgw==
+X-Gm-Message-State: APjAAAWSQZpJw3B/kOBE38mP7V9KOyjdwUvxGbIa5iTgmfi6/paozLw1
+        Cp8ePwxCzeB33t0VvAs4HC+WL4x0erv2ptfjN2/jwM7l
+X-Google-Smtp-Source: APXvYqzMNyqS4Kz8uG9OFgRbJxSPclCpl5XrHDLVnjCBqzqCjDud/r4PYbe6R8n1IwclwAwKIBQmwbN9xiU0Iw2DqHE=
+X-Received: by 2002:ab0:3391:: with SMTP id y17mr15801708uap.139.1565451883444;
+ Sat, 10 Aug 2019 08:44:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190808222705.35973-1-broonie@kernel.org>
-In-Reply-To: <20190808222705.35973-1-broonie@kernel.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 10 Aug 2019 18:11:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARkfLY94D=B_h_s7Cz_DAmMUYvoYq4-xB1bt-RRJZP77Q@mail.gmail.com>
-Message-ID: <CAK7LNARkfLY94D=B_h_s7Cz_DAmMUYvoYq4-xB1bt-RRJZP77Q@mail.gmail.com>
-Subject: Re: [PATCH] merge_config.sh: Check error codes from make
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>
+References: <CALYGOBV9FERiui6mJDmQyAjaNASAOQ5z1k-6nCHQVB+c4XxmSw@mail.gmail.com>
+ <CAK7LNAQSFdSZ5OctMkhXRmmXrq4S0cJ4Xy3MOd9iLF-Cs_VQMw@mail.gmail.com>
+ <CALYGOBVauUutGGc8HNvLwue58AJp5DxOuM8b30XDgfbqJkLo1w@mail.gmail.com> <50091cb8-37ee-4234-9fb8-47d148e36ed3@metux.net>
+In-Reply-To: <50091cb8-37ee-4234-9fb8-47d148e36ed3@metux.net>
+From:   Thomas Albers <thomas.gameiro@googlemail.com>
+Date:   Sat, 10 Aug 2019 10:44:32 -0500
+Message-ID: <CALYGOBXEZOk3k+tWCLjRhWmJ5e__ZwoAN2PvpOsFB0JYBox42w@mail.gmail.com>
+Subject: Re: make_kernelconfig fails in OpenWRT buildroot
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 9, 2019 at 7:27 AM Mark Brown <broonie@kernel.org> wrote:
+Hello!
+
+> > Somehow, kconfig is not linked against libtinfow.
 >
-> When we execute make after merging the configurations we ignore any
-> errors it produces causing whatever is running merge_config.sh to be
-> unaware of any failures.  This issue was noticed by Guillaume Tucker
-> while looking at problems with testing of clang only builds in KernelCI
-> which caused Kbuild to be unable to find a working host compiler.
->
-> Reported-by: Guillaume Tucker <guillaume.tucker@collabora.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
+> can you make sure you don't have any ncurses pieces in your sysroot and
+> retry ?
 
-I am not a big fan of this way of fixing.
+No ncurses in sysroot. The kconfig script worked when the sysroot's
+pkg-config was disabled. Right now I think there are issues with the
+way OpenWRT uses pkg-config.
 
-
-
-[1] 'set -e' is useful to catch any error in this script.
-
-[2] I think trapping only EXIT is smarter.
-    The clean() help will be invoked when this script exits
-    for whatever reason; the temporary files will be cleaned up
-    when the script is interrupted, errors-out, or finishes
-    successfully.
-
-
-I would change like follows:
-
-
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index d924c51d28b7..bec246719aea 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -13,12 +13,12 @@
- #  Copyright (c) 2009-2010 Wind River Systems, Inc.
- #  Copyright 2011 Linaro
-
-+set -e
-+
- clean_up() {
-        rm -f $TMP_FILE
-        rm -f $MERGE_FILE
--       exit
- }
--trap clean_up HUP INT TERM
-
- usage() {
-        echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
-@@ -110,6 +110,9 @@ TMP_FILE=$(mktemp ./.tmp.config.XXXXXXXXXX)
- MERGE_FILE=$(mktemp ./.merge_tmp.config.XXXXXXXXXX)
-
- echo "Using $INITFILE as base"
-+
-+trap clean_up EXIT
-+
- cat $INITFILE > $TMP_FILE
-
- # Merge files, printing warnings on overridden values
-@@ -155,7 +158,6 @@ if [ "$RUNMAKE" = "false" ]; then
-        echo "#"
-        echo "# merged configuration written to $KCONFIG_CONFIG (needs make)"
-        echo "#"
--       clean_up
-        exit
- fi
-
-@@ -185,5 +187,3 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e
-"$SED_CONFIG_EXP2" $TMP_FILE); do
-                echo ""
-        fi
- done
--
--clean_up
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
+Regards,
+Thomas
