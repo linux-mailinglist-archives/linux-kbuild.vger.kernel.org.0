@@ -2,73 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3796A88BF5
-	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2019 17:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 149EF88C10
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Aug 2019 17:55:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbfHJPoo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 10 Aug 2019 11:44:44 -0400
-Received: from mail-ua1-f54.google.com ([209.85.222.54]:39201 "EHLO
-        mail-ua1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbfHJPoo (ORCPT
+        id S1726464AbfHJPzY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 10 Aug 2019 11:55:24 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:35281 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726382AbfHJPzY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 10 Aug 2019 11:44:44 -0400
-Received: by mail-ua1-f54.google.com with SMTP id j8so38805692uan.6
-        for <linux-kbuild@vger.kernel.org>; Sat, 10 Aug 2019 08:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hC5QZCKPCQqDBMRmNsWt8EuD5BPVmGXQoP/e800tTKI=;
-        b=CtEDL7Z6gHmBwt8TwKloXUMYjuisJII7UFOmilqyHa1dNYApODbW0etGxyVHdgcJbA
-         xTCjrkuqt+/eK37x8g9P0E3bJkN0D4BtHPUTlqIyoOTYmiZecVYWUB+oeSREZ+WZcz/8
-         N9Kloc1PNP18XkaLhiyAWalrFDYEF4LfB1WTB2FgKBqB9lcdLRuM97sK3jps8mLaME5m
-         vIoeZolcCirlpFj53xnHvfIOy/tZjI1PnNbpJu574HHhVpR+ccjFSuhisReHOMmqzRVC
-         bjTjl6zmVWRqvzbmnZ1frPYYUn9ZApoMw8nPVLDiGIj8oN4D9Jin/OH7lb7HcmLeHtW8
-         4aSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hC5QZCKPCQqDBMRmNsWt8EuD5BPVmGXQoP/e800tTKI=;
-        b=UgKLOGU+pZa5wlrk2Ohpr5QFpTlygPwBD5APUSI+EydvchIxB2UwstWroP4OgvNvIC
-         ySJKLjZwNVVPHo793I9G3gKfBJFR55DtQ50u5aqqhbZw5AV4QIyFe2u/gYEf0ISXQV8F
-         tSUFG79h1xd7p+YxDPhVjyzlSC7c7R9LyJsEV4Qb89XkWsX4VvyJ6lCr0xFZaqsk49JD
-         EZQ5afWrlvUCVE1eH5KAQXDpRh3jqBEHqiOsBkgfeZLCTCrkSYDW+1VWy5IJecFLHxp+
-         nzyjifr+yago7EwkIeV8B1NvIYz2C+r1I5VtMaXkvIApn3tYNIsiqvmpYytuMzA+7HFj
-         2Xgw==
-X-Gm-Message-State: APjAAAWSQZpJw3B/kOBE38mP7V9KOyjdwUvxGbIa5iTgmfi6/paozLw1
-        Cp8ePwxCzeB33t0VvAs4HC+WL4x0erv2ptfjN2/jwM7l
-X-Google-Smtp-Source: APXvYqzMNyqS4Kz8uG9OFgRbJxSPclCpl5XrHDLVnjCBqzqCjDud/r4PYbe6R8n1IwclwAwKIBQmwbN9xiU0Iw2DqHE=
-X-Received: by 2002:ab0:3391:: with SMTP id y17mr15801708uap.139.1565451883444;
- Sat, 10 Aug 2019 08:44:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <CALYGOBV9FERiui6mJDmQyAjaNASAOQ5z1k-6nCHQVB+c4XxmSw@mail.gmail.com>
- <CAK7LNAQSFdSZ5OctMkhXRmmXrq4S0cJ4Xy3MOd9iLF-Cs_VQMw@mail.gmail.com>
- <CALYGOBVauUutGGc8HNvLwue58AJp5DxOuM8b30XDgfbqJkLo1w@mail.gmail.com> <50091cb8-37ee-4234-9fb8-47d148e36ed3@metux.net>
-In-Reply-To: <50091cb8-37ee-4234-9fb8-47d148e36ed3@metux.net>
-From:   Thomas Albers <thomas.gameiro@googlemail.com>
-Date:   Sat, 10 Aug 2019 10:44:32 -0500
-Message-ID: <CALYGOBXEZOk3k+tWCLjRhWmJ5e__ZwoAN2PvpOsFB0JYBox42w@mail.gmail.com>
-Subject: Re: make_kernelconfig fails in OpenWRT buildroot
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 10 Aug 2019 11:55:24 -0400
+Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x7AFrG8t009713;
+        Sun, 11 Aug 2019 00:53:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x7AFrG8t009713
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565452398;
+        bh=oC63xap+fxhG9bzK+JnNTDD45f6COtr1Al2zhD2RQ+A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QRz/HTl63qVrVTBqUg3+u+Dklu40WD9vhseAg4FJ5HltnTHBLjXl/xoo5p1cQaowl
+         2SbyyKz6G7ZsMJeOXEA1NevVxbw2p+BDy/WnSkiGXuEA8IgxM1gdqq6ice3Ocpq8eG
+         5wXh9rypOSc3FpReWjYOlzm3Km8ISSl797/j2PotFFDP+ITNphwWGF3gG228KXZvdG
+         +DVWRjSfCcxV3fRTy1RJ0wQdZscJUJ5+1TJZJaHNd8uMtPN+M3SdbsN1J4ccjmajk2
+         cIYJpMIbPJ+XhO4NJWNrvdbI0WoXHgjzeKYJeWuRXa6Z+LV1DjB1lJNEZuuv10GMZH
+         PfGev3kUnpmsw==
+X-Nifty-SrcIP: [126.125.143.222]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Christoph Hellwig <hch@lst.de>, Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Boris Pismenny <borisp@mellanox.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Igor Russkikh <igor.russkikh@aquantia.com>,
+        Jakub Kicinski <jakub.kicinski@netronome.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+        oss-drivers@netronome.com
+Subject: [PATCH 00/11] kbuild: clean-ups and improvement of single targets
+Date:   Sun, 11 Aug 2019 00:52:56 +0900
+Message-Id: <20190810155307.29322-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello!
 
-> > Somehow, kconfig is not linked against libtinfow.
->
-> can you make sure you don't have any ncurses pieces in your sysroot and
-> retry ?
+01/11-09/11 are trivial clean-ups.
 
-No ncurses in sysroot. The kconfig script worked when the sysroot's
-pkg-config was disabled. Right now I think there are issues with the
-way OpenWRT uses pkg-config.
+10/11 makes the single targets work more correctly.
 
-Regards,
-Thomas
+11/11 cleans up Makefiles that have been added
+to work aroud the single target issues.
+
+
+
+Masahiro Yamada (11):
+  kbuild: move the Module.symvers check for external module build
+  kbuild: refactor part-of-module more
+  kbuild: fix modkern_aflags implementation
+  kbuild: remove 'make /' support
+  kbuild: remove meaningless 'targets' in ./Kbuild
+  kbuild: do not descend to ./Kbuild when cleaning
+  kbuild: unset variables in top Makefile instead of setting 0
+  kbuild: unify vmlinux-dirs and module-dirs rules
+  kbuild: unify clean-dirs rule for in-kernel and external module
+  kbuild: make single targets work more correctly
+  treewide: remove dummy Makefiles for single targets
+
+ Kbuild                                        |   7 -
+ Makefile                                      | 193 ++++++++++--------
+ .../aquantia/atlantic/hw_atl/Makefile         |   2 -
+ .../mellanox/mlx5/core/accel/Makefile         |   2 -
+ .../ethernet/mellanox/mlx5/core/diag/Makefile |   2 -
+ .../ethernet/mellanox/mlx5/core/en/Makefile   |   2 -
+ .../mellanox/mlx5/core/en/xsk/Makefile        |   1 -
+ .../mellanox/mlx5/core/en_accel/Makefile      |   2 -
+ .../ethernet/mellanox/mlx5/core/fpga/Makefile |   2 -
+ .../mellanox/mlx5/core/ipoib/Makefile         |   2 -
+ .../ethernet/mellanox/mlx5/core/lib/Makefile  |   2 -
+ .../net/ethernet/netronome/nfp/bpf/Makefile   |   2 -
+ .../ethernet/netronome/nfp/flower/Makefile    |   2 -
+ .../ethernet/netronome/nfp/nfpcore/Makefile   |   2 -
+ .../netronome/nfp/nfpcore/nfp6000/Makefile    |   2 -
+ .../net/ethernet/netronome/nfp/nic/Makefile   |   2 -
+ scripts/Makefile.build                        |  55 +++--
+ 17 files changed, 149 insertions(+), 133 deletions(-)
+ delete mode 100644 drivers/net/ethernet/aquantia/atlantic/hw_atl/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/accel/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/diag/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en/xsk/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/en_accel/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/fpga/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/ipoib/Makefile
+ delete mode 100644 drivers/net/ethernet/mellanox/mlx5/core/lib/Makefile
+ delete mode 100644 drivers/net/ethernet/netronome/nfp/bpf/Makefile
+ delete mode 100644 drivers/net/ethernet/netronome/nfp/flower/Makefile
+ delete mode 100644 drivers/net/ethernet/netronome/nfp/nfpcore/Makefile
+ delete mode 100644 drivers/net/ethernet/netronome/nfp/nfpcore/nfp6000/Makefile
+ delete mode 100644 drivers/net/ethernet/netronome/nfp/nic/Makefile
+
+-- 
+2.17.1
+
