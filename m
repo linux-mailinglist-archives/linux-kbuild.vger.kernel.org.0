@@ -2,120 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0378189125
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Aug 2019 11:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA6A89BC8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 12:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726383AbfHKJ4F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Aug 2019 05:56:05 -0400
-Received: from mail-eopbgr140057.outbound.protection.outlook.com ([40.107.14.57]:50760
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725900AbfHKJ4F (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Aug 2019 05:56:05 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NQtZkbdYptQtCagSdMzg5d3sbrKrdL6yvWVN6o1yFDftUUpOIASdRWBqNisVpL6KSPhjBojvbvGtEZcTqZWlUi2/yVTrTvaPJuovXkhx+Eyq+hmG81zTFN5rxlFre7nrgdoRSNCjQVr5XtevdphIPtaI+OscB181YFT9PjThGmmSLVhXzwqWvyW2pK+MLamH0BQQMQKZNIe2FGV3+bKQRDY9pLZEXhtkNtP35jLXzDH509NvEDLv8SJO7rq2coN5rnKLXDav32KIbuBb8Sd6F5FvVFgq1JsuSw9QuPbNgljn1pc1JmRSjXpMlQ8J1PXfRkV+mX1GSSTZ6/7MOOBqqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LJtzcYhH8Dei1lvX5Lut2M+WOEfZoTyMfeC5WS3b/og=;
- b=EDtNbfuKl4qdHOdDg5Zhgujc3AZ0u31pXf9CUeHptsJrb9abZAmfHe6sMLcAiCcjqRguTPQUnAkP7dGlQO6zXS2Icx616nyBcEX9aEpFNVpkb93hvKs4mlTpXNWaYkjOVueqayYioG1kcMQQBAtHVEOuKFRZlZG37d5cU9KGg/eYDvKFEIpOKhyZXV9zf08BjAB+eBZlpCTwXsvqFEhBcQS4z7DeG5KaGgQNI05slgQE35DRf367738YFVkTwSBJz2GGOR1l1Y5KDGE+jS89JtLmPT7byNATA3Pb5sIt29Jk087OGuMTg47P2O0ax0MjvEme09RThjxC1z6Ss614BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LJtzcYhH8Dei1lvX5Lut2M+WOEfZoTyMfeC5WS3b/og=;
- b=Irf3nmJbp1R2uoOy+bKZC6gszk5O7YkJ8c5NFfYcA3K9n9GU8cqbAIunYGyULnuEa25vKiK4rR34HhA9wEI3ZFBYXHAimCn6Dr7oc92jQofiJMzsHNgSHA1xQ8rnUIUIcAyTU3QpM2JimwR5mHD6VWKMu2tfdanDpeTx25ZIK7c=
-Received: from AM4PR05MB3137.eurprd05.prod.outlook.com (10.171.188.155) by
- AM4PR05MB3458.eurprd05.prod.outlook.com (10.170.125.151) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.14; Sun, 11 Aug 2019 09:55:58 +0000
-Received: from AM4PR05MB3137.eurprd05.prod.outlook.com
- ([fe80::a1bc:70:4ca9:49f6]) by AM4PR05MB3137.eurprd05.prod.outlook.com
- ([fe80::a1bc:70:4ca9:49f6%7]) with mapi id 15.20.2157.022; Sun, 11 Aug 2019
- 09:55:58 +0000
-From:   Leon Romanovsky <leonro@mellanox.com>
+        id S1727847AbfHLKnh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Aug 2019 06:43:37 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:47776 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727846AbfHLKnh (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 12 Aug 2019 06:43:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=5f1LVO8QdFJyE68ZCC91n/Q5s1P2Ep2IZ7wHAqzVO+I=; b=W4efOoZCeQrUkgzP8LczH5zrO
+        yV0ofc5y4W1995dSPwKP624vkPjXbGdJjXVzAfUlqBYom5TMDTeF69662XO5WcWHmDAYh2GTCXtZI
+        a68ogHKNW+1Je7/8tywox78lsZM9kMslTTrd01GFPDYE16QU1Cn9UtrTx+mO4FH1ynmJ0=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1hx7na-0000s2-3J; Mon, 12 Aug 2019 10:43:34 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id 2FA3327430B7; Mon, 12 Aug 2019 11:43:33 +0100 (BST)
+Date:   Mon, 12 Aug 2019 11:43:33 +0100
+From:   Mark Brown <broonie@kernel.org>
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-CC:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Boris Pismenny <borisp@mellanox.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Igor Russkikh <igor.russkikh@aquantia.com>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Saeed Mahameed <saeedm@mellanox.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "oss-drivers@netronome.com" <oss-drivers@netronome.com>
-Subject: Re: [PATCH 11/11] treewide: remove dummy Makefiles for single targets
-Thread-Topic: [PATCH 11/11] treewide: remove dummy Makefiles for single
- targets
-Thread-Index: AQHVT5QeRE/eBhrx90G8ydJdkg0FfKb1tsaA
-Date:   Sun, 11 Aug 2019 09:55:58 +0000
-Message-ID: <20190811095555.GF28049@mtr-leonro.mtl.com>
-References: <20190810155307.29322-1-yamada.masahiro@socionext.com>
- <20190810155307.29322-12-yamada.masahiro@socionext.com>
-In-Reply-To: <20190810155307.29322-12-yamada.masahiro@socionext.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: PR2PR09CA0020.eurprd09.prod.outlook.com
- (2603:10a6:101:16::32) To AM4PR05MB3137.eurprd05.prod.outlook.com
- (2603:10a6:205:8::27)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=leonro@mellanox.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [193.47.165.251]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5a6960f3-1c5c-406b-f5ef-08d71e421c0e
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:AM4PR05MB3458;
-x-ms-traffictypediagnostic: AM4PR05MB3458:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM4PR05MB3458C667CF8B910D35D17B15B0D00@AM4PR05MB3458.eurprd05.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-forefront-prvs: 0126A32F74
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39850400004)(376002)(366004)(396003)(136003)(346002)(199004)(189003)(6246003)(4326008)(8676002)(11346002)(6486002)(478600001)(446003)(81156014)(81166006)(229853002)(5660300002)(66066001)(316002)(8936002)(4744005)(14454004)(2906002)(54906003)(486006)(6436002)(1076003)(66446008)(64756008)(66556008)(66476007)(66946007)(476003)(3846002)(6506007)(386003)(7416002)(52116002)(9686003)(6512007)(6116002)(102836004)(6916009)(25786009)(86362001)(186003)(53936002)(99286004)(71190400001)(71200400001)(305945005)(76176011)(33656002)(7736002)(26005)(256004);DIR:OUT;SFP:1101;SCL:1;SRVR:AM4PR05MB3458;H:AM4PR05MB3137.eurprd05.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: C1hooVLEz9S7qgTUPP8Zlpw5FQtCLRbfPMo7YyXFLvvb9F073Xk/btf9azTdxldc8ZlWSJ2SUjuLi5/cnHManxEwIdITcihL6aove01RaWwQvatTerBqbYQ9Hk+QmuWHsLw0XBnsTxmdl9WQQZDwx7hBUbCkKfUZsaOR9e6U5ITrBqxsgzBXEzksUxER1HbFjQsrHLbgknODGGJ8kApjvFtT4J6sjT0aivxkmqj2kYbXKxZgmRGgncne3Ubb2XOu2jasWESfT8NkaHhj0sb130Ylcfz62iVUoCNdeFV8oUwv+qK8Z9WtoPB6s2Uvclyv/zgHEhaCbnBIFrToCIL2a+NGbHWQSjbcEZpFv5s8MRvmxV6PP2pntXa3z834xZizLkBZ0i8cgLbeqTrxjbVQ6a1/Iqji4xIJWljsKbFIPlk=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D00E1D38B2CAF44D82BE59CBB71B2DAA@eurprd05.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>
+Subject: Re: [PATCH] merge_config.sh: Check error codes from make
+Message-ID: <20190812104333.GC4592@sirena.co.uk>
+References: <20190808222705.35973-1-broonie@kernel.org>
+ <CAK7LNARkfLY94D=B_h_s7Cz_DAmMUYvoYq4-xB1bt-RRJZP77Q@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a6960f3-1c5c-406b-f5ef-08d71e421c0e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Aug 2019 09:55:58.6030
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yes2R86qFUOXZKiZF1gnTM+fy5wNPsgym0WfQhcCmZeOuLNs2hUD2a4zvtZuE4yDFj8D2rpmIs9GKaNm+uhlew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR05MB3458
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="eRtJSFbw+EEWtPj3"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNARkfLY94D=B_h_s7Cz_DAmMUYvoYq4-xB1bt-RRJZP77Q@mail.gmail.com>
+X-Cookie: Decaffeinated coffee?  Just Say No.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 11, 2019 at 12:53:07AM +0900, Masahiro Yamada wrote:
-> Now that the single target build descends into sub-directories
-> in the same ways as the normal build, these dummy Makefiles
-> are not needed any more.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->
 
-It is hard to test/review/ack on this patch without seeing previous
-patches, especially patch #10 where you changed logic of single targets.
+--eRtJSFbw+EEWtPj3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
+On Sat, Aug 10, 2019 at 06:11:10PM +0900, Masahiro Yamada wrote:
+> On Fri, Aug 9, 2019 at 7:27 AM Mark Brown <broonie@kernel.org> wrote:
+
+> > When we execute make after merging the configurations we ignore any
+> > errors it produces causing whatever is running merge_config.sh to be
+> > unaware of any failures.  This issue was noticed by Guillaume Tucker
+
+> I am not a big fan of this way of fixing.
+
+> [1] 'set -e' is useful to catch any error in this script.
+
+Right, that was actually my first thought but since there was a handler
+and it was already being called directly this must be a deliberate style
+so I did things this way in order to fit in with the existing style :/
+
+> [2] I think trapping only EXIT is smarter.
+>     The clean() help will be invoked when this script exits
+>     for whatever reason; the temporary files will be cleaned up
+>     when the script is interrupted, errors-out, or finishes
+>     successfully.
+
+> I would change like follows:
+
+That works for me,=20
+
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Tested-by: Mark Brown <broonie@kernel.org>
+
+--eRtJSFbw+EEWtPj3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl1RQtQACgkQJNaLcl1U
+h9CP1gf/XX+eXOYHMI9aH70hZlG2FXdfrke5+ZDdtFbM7OI+pEBwVxe6gpnkeBYY
+0OVXegZeeeM+aLnb3zIXXkX88i0VFlwuEFGDEhyds5eHQOwXljK9JddMwaUKf2Qk
+47jRgLYyKmIukt9WV45V5fhcz4FxujzEH+gHTYFqKaDEk+WvvUKe0NvuicGCqEzA
+oqV9R4A9aYunhJdSkY9mIYSorP67Z9jBNeLYCYEbZx2Uj01kxCAh2rekAPUZOd4w
+yf1jXsuIO2Osz0f3ZmEpGpxyLQvBlpZeo92/K2dHovxz2LitGlnugQcDMth/8fS+
+hoHqfgbVF4iONB4gM4cNweJdpu7KZg==
+=kLUK
+-----END PGP SIGNATURE-----
+
+--eRtJSFbw+EEWtPj3--
