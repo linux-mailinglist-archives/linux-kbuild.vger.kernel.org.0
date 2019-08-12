@@ -2,128 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CEFEB8A237
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 17:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8399B8A284
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 17:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727159AbfHLPYk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Aug 2019 11:24:40 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:28767 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbfHLPYk (ORCPT
+        id S1726296AbfHLPmG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Aug 2019 11:42:06 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:55794 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726200AbfHLPmG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Aug 2019 11:24:40 -0400
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x7CFOFVG015133;
-        Tue, 13 Aug 2019 00:24:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x7CFOFVG015133
+        Mon, 12 Aug 2019 11:42:06 -0400
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id x7CFfuYK031604;
+        Tue, 13 Aug 2019 00:41:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x7CFfuYK031604
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565623456;
-        bh=/ZLs0+GV+nR6TLnoM6cTJUiEDAyiLErBYzFGbX3v72M=;
+        s=dec2015msa; t=1565624517;
+        bh=xqHdXxdJ6PpxUGE19Z5I8gZYC03sN81+SNVOX9WunLw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OJzpQWw2Fwn/3fQ8DT/dj2bh1YFydaCAq5v8YJE8AxCIe3WPS2T5YtkW77TWjg9Tz
-         NoPYiwNyTZ1D4o7k8CKS1haSTcSef3BiTAMomiGs87V+5ICLpWQfMf9oiUGg/NdJVa
-         XR/HQovpgZ5u/XigRZl1C435CMvqiCsSUiMIch+Wvjr3r+UX2mL8LAttxrl0kqyAOH
-         GanJ99UvCbY4bHWZ/zsww5K0gRvD2Ezm7Tx8AWjUNbXiMzoe7Saef+lIqw8OrswMSy
-         VLezLRZfFoAtfQ8/5mqinYzP2XYhoQ0knpYwMA0q5isCpqxmy4PKpUdZaJ2QyPTriE
-         7FK8Zf13mX2xQ==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id r13so292799vke.12;
-        Mon, 12 Aug 2019 08:24:16 -0700 (PDT)
-X-Gm-Message-State: APjAAAVMe2zbbQ5LGhS2eWq39HREyZFrilPa36wIzmT03ve3zkXzkpQM
-        WLG01bFqrJDQRsZ72sSK5Y+it/954scagU/RzWM=
-X-Google-Smtp-Source: APXvYqyf2GMOFUsRxNDu7JdMijybibC42MDZO/L+m1JKVxZCXdD83lEdp4K2xTiKxVjtWaNp/waolXng2NwGRKVWNbI=
-X-Received: by 2002:a1f:93cd:: with SMTP id v196mr5084585vkd.84.1565623454953;
- Mon, 12 Aug 2019 08:24:14 -0700 (PDT)
+        b=s2sbP698KVZjpkMdu+7kK70Sn1Rqv8epPpoFREIaRVFyqUe0c2NyKI70vDYQwO2us
+         bxjrjb9DLuljQgrP5YcLGnDmXkhHtixAARtyUiIWjMdflAPqKHMOUoa33lhnlw64Vo
+         ZBhFSH8/c+HANrbyu7xlabkn/mKYcV/7udrVGVllBXnTXYEr02JVlGUKWYwdHYkXFC
+         4XExguFbbjFT4uG4aJu0WqU/k4bH1Tf4XJj5GDtVXTg9tqWxSRhx8f+OajVBF8gwtd
+         yMcLO9UjDOPFeGe9D0O73gDi5VdsfH/AodMFiK7Xvyl/vaPmIpN5fG9CDgRJ2wLVIH
+         I43hO72t1RaJg==
+X-Nifty-SrcIP: [209.85.217.54]
+Received: by mail-vs1-f54.google.com with SMTP id c7so2426496vse.11;
+        Mon, 12 Aug 2019 08:41:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAUZelj76bPNthSi9BCgIToV5mOXuC8lknn+w8QQ8OSJovGB6pLZ
+        HAN7793gde0XmhhR3XvTEIwDPvIU6aNkHq52FXY=
+X-Google-Smtp-Source: APXvYqytSUiGQcS2gin7TbDYNo9UYz+qDVE/MiFNs/W15KPy8rSuXUdEXsLePT/n974yfEL4sAdwjb2qsj8wwf9nRUI=
+X-Received: by 2002:a67:8e0a:: with SMTP id q10mr21454837vsd.215.1565624516047;
+ Mon, 12 Aug 2019 08:41:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190809002104.18599-1-stancheff@cray.com> <20190809002104.18599-2-stancheff@cray.com>
-In-Reply-To: <20190809002104.18599-2-stancheff@cray.com>
+References: <20190810075226.GA24085@lst.de>
+In-Reply-To: <20190810075226.GA24085@lst.de>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 13 Aug 2019 00:23:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
-Message-ID: <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
-Subject: Re: [PATCH 1/1] kbuild: recursive build of external kernel modules
-To:     Shaun Tancheff <shaun@tancheff.com>
-Cc:     Shaun Tancheff <stancheff@cray.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        "James E . J . Bottomley" <jejb@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Shuah Khan <shuah@kernel.org>,
-        Thomas Renninger <trenn@suse.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM mailing list <linux-pm@vger.kernel.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>
+Date:   Tue, 13 Aug 2019 00:41:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQfQWNMMLS1-3mE41Ffy3MV9i3VpbWtmKQdUqZjyk8Yqg@mail.gmail.com>
+Message-ID: <CAK7LNAQfQWNMMLS1-3mE41Ffy3MV9i3VpbWtmKQdUqZjyk8Yqg@mail.gmail.com>
+Subject: Re: can we use mandatory-y for non-uapi headers?
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 9, 2019 at 9:21 AM Shaun Tancheff <shaun@tancheff.com> wrote:
->
-> When building a tree of external modules stage 2 fails
-> silently as the root modules.order is empty.
->
-> Modify the modules.order location to be fixed to the
-> root when KBUILD_EXTMOD is specified and write all
-> module paths to the single modules.order file.
-
-Could you try v5.3-rc4 please?
+Christoph,
 
 
+On Sat, Aug 10, 2019 at 4:52 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Hi Masahiro,
+>
+> what is the reason that the documentation says mandatory-y should only
+> be used for uapi headers?
+
+Where is it documented?
+
+Documentation/kbuild/makefiles.rst section 7.4 describes
+mandatory-y is essentially used by include/(uapi/)asm-generic/Kbuild
+
+include/(uapi/)asm-generic/Kbuild means:
+
+include/uapi/asm-generic/Kbuild
+include/asm-generic/Kbuild
 
 
-> Signed-off-by: Shaun Tancheff <stancheff@cray.com>
-> ---
->  Makefile               | 1 +
->  scripts/Makefile.build | 8 +++++++-
->  2 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/Makefile b/Makefile
-> index 23cdf1f41364..a9964492f47e 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1622,6 +1622,7 @@ $(module-dirs): prepare $(objtree)/Module.symvers
->
->  modules: $(module-dirs)
->         @$(kecho) '  Building modules, stage 2.';
-> +       $(Q)$rm -f $(KBUILD_EXTMOD)/modules.order
->         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
->
->  PHONY += modules_install
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 0d434d0afc0b..f9908b3d59e0 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -64,7 +64,13 @@ builtin-target := $(obj)/built-in.a
->  endif
->
->  ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
-> +ifneq ($(KBUILD_EXTMOD),)
-> +modorder-target := $(KBUILD_EXTMOD)/modules.order
-> +modorder-add := >>
-> +else
->  modorder-target := $(obj)/modules.order
-> +modorder-add := >
-> +endif
->  endif
->
->  mod-targets := $(patsubst %.o, %.mod, $(obj-m))
-> @@ -423,7 +429,7 @@ endif # builtin-target
->  $(modorder-target): $(subdir-ym) FORCE
->         $(Q){ $(foreach m, $(modorder), \
->         $(if $(filter %/modules.order, $m), cat $m, echo $m);) :; } \
-> -       | $(AWK) '!x[$$0]++' - > $@
-> +       | $(AWK) '!x[$$0]++' - $(modorder-add) $@
->
->  #
->  # Rule to compile a set of .o files into one .a file (with symbol table)
-> --
-> 2.20.1
->
 
 
 -- 
