@@ -2,97 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CF418A4A5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 19:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 619158A4BB
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 19:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbfHLRdj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Aug 2019 13:33:39 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:43448 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726267AbfHLRdj (ORCPT
+        id S1727165AbfHLReo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Aug 2019 13:34:44 -0400
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:41928 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbfHLReo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Aug 2019 13:33:39 -0400
-Received: by mail-pg1-f193.google.com with SMTP id r26so13887184pgl.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Aug 2019 10:33:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RWh4tuyPAGsFihNxn0HM6rLNPT2QFeOahruI7q1karY=;
-        b=px83n/ll4gi7A4LohcucE4f9BETb29n4N1Oa6Ae4fsaLJmpM3GWAo6sVFCg8Nfpw8V
-         HTtfZf8MHozb4mQp9Vi5NQYDtrDof8q6jMXrWaHv3gKzzzvfMRP/1iHifrVhDElDB12M
-         RB0T89WMKPfprB3oqt6KdyIp3q7HXz2J3X5R618WYB3QH6y+FtCCjhmx/oFQKZULH7AO
-         PkIXD3xr2H+BHH+XqQ/yUPjeplbrU+Xc5cY5CC9Hx3clTv8oYpp7cTW4lMZaWm8fNRME
-         uVbvgg57VcubLRr2APmpmWGI6O/4kDv9GXgPByAdibE3QHnPI9J09i2CuRBOFqCpXgR4
-         KjmA==
+        Mon, 12 Aug 2019 13:34:44 -0400
+Received: by mail-vk1-f194.google.com with SMTP id u64so20870530vku.8;
+        Mon, 12 Aug 2019 10:34:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RWh4tuyPAGsFihNxn0HM6rLNPT2QFeOahruI7q1karY=;
-        b=e5CwpJPGERdWUIBBHeIbpE/p7BxGQHav66NAB2df69LHHI1oKOm+4VfxzwijhhllwG
-         LBFv5sJmNmzeHjE5RQmrPKRvtOKH8dAQSr7+EliImYRS+Ff9Civ0KbIqLD7A0wms6MAI
-         KkboSd4+r293WowM4mFiBIXmizAch+E5jNTKhqJUIgU22XN4aOJ0KTA+BLSKoKTDM8UI
-         z8KauKmsxW1JP9u/0BujT4mQHvspt31sLVPQVPL8bZVok2WQHltDpmcNCUeybenV6Iw3
-         /x5/vEGR+57cL+sR2hSTcyHvDl7OPW+TsH2errr1Kt/YOv58PVCAUQOU50xGXHFZgcg7
-         WrUg==
-X-Gm-Message-State: APjAAAUPFhItmpSbWYR/rC7XiarQ870N3LdEFFt4g1sbEusXvLjwnnIT
-        a7z8OuDoU+Id/ZiNAr2SR1prgHPwRON8IYoOSxj3Hw==
-X-Google-Smtp-Source: APXvYqwQD1y90Hkai/z6J7JkHvQ9pWNYcGW8xdDndAWCUcrKKaamGDkGrZbIxzxM0p5C8vHGIzNLLX4QwvGTqeiGyEI=
-X-Received: by 2002:aa7:8085:: with SMTP id v5mr19508497pff.165.1565631218202;
- Mon, 12 Aug 2019 10:33:38 -0700 (PDT)
+        bh=XCsKdiFdCyUb9h1XpQVRtFcaXFlzTncnJBLcRKOgyMM=;
+        b=AnxMh+t8b0773ZzHDr31aS5lKDV9T9SzVCmQT/Sw3iVpt8oCqyN202akVsNfKec/4B
+         dep1gbQs/pKoJxl532mIRPpFyXSYpmNB+Lot3bcgzemFI4D5rIhrxkSNvCqyurS5nV79
+         ANj/uRGKGnw2Wv/3MDh82P52VMctHhOvyvjERGzOWPfrqwqHB4eEoHiYIhhm+waYyoIR
+         omYnxcomRI3zXRyWB+vMFC4c9HKDF9sqSAtf46SV/nnyQC+ep262OZzJQsX+YcrOtyR6
+         70wUaMV3/vKtHf7K8X860ADjdACgnZoWdMgxzxyTfpllnlMq0oL5fL1SQTllwijfxt0k
+         d9IA==
+X-Gm-Message-State: APjAAAVctJ51NxmI66r0mPP54LQ/en4JATnnaP+/KNYKBOF9FMOK0uwv
+        Moc5ohwGFZZ2fds4ElPcR54LFKuf2MkW6XUFIzs7KGxxXVMbUA==
+X-Google-Smtp-Source: APXvYqzcrQcBsk0/Yrys6c8GgXQrSpsNz4FqdTvJYCSbqFE1AU6tZPX+nx2Ca0ELNiwlAPTAwEcFEPS8L5YbFKICUH4=
+X-Received: by 2002:a1f:d687:: with SMTP id n129mr12600410vkg.71.1565631281261;
+ Mon, 12 Aug 2019 10:34:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1565297255.git.guillaume.tucker@collabora.com>
- <3885ccdcbdbe83eb367e8344584df944adc76e34.1565297255.git.guillaume.tucker@collabora.com>
- <CAKwvOdmOdJspcO8jqUhqR63-MOWkV3ZrVcCO6u=HG6peov8Htw@mail.gmail.com>
- <20190809051552.GA44466@archlinux-threadripper> <CAK7LNAT6Yp3oemUxSst+htnmM-St8WmSv+UZ2x2XF23cw-kU-Q@mail.gmail.com>
- <20190812171444.GL4592@sirena.co.uk>
-In-Reply-To: <20190812171444.GL4592@sirena.co.uk>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 12 Aug 2019 10:33:27 -0700
-Message-ID: <CAKwvOdmEe7gE7LUFRtqrUiHr3_Q2Ky4a-obUQWagbgdWZ33_ag@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/1] kbuild: enable overriding the compiler using the environment
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+References: <20190809002104.18599-1-stancheff@cray.com> <20190809002104.18599-2-stancheff@cray.com>
+ <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
+In-Reply-To: <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
+From:   Shaun Tancheff <shaun@tancheff.com>
+Date:   Mon, 12 Aug 2019 12:34:30 -0500
+Message-ID: <CAJ48U8Xp40is+R1dMW8sXq77ZS5D_h+hHte5Mq5eOrtpb41Qxw@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kbuild: recursive build of external kernel modules
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Shaun Tancheff <stancheff@cray.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kernel@collabora.com
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Renninger <trenn@suse.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM mailing list <linux-pm@vger.kernel.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 10:14 AM Mark Brown <broonie@kernel.org> wrote:
+On Mon, Aug 12, 2019 at 10:24 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> On Tue, Aug 13, 2019 at 01:37:14AM +0900, Masahiro Yamada wrote:
-> > Only the problem I see is the situation where
-> > a user directly runs scripts/kconfig/merge_config.sh
-> > without using make as a start-point.
-
-Further, if it's possible to detect if merge_config.sh was invoked
-from Make or not, it might be useful to warn or error when not invoked
-via Make.
-
+> On Fri, Aug 9, 2019 at 9:21 AM Shaun Tancheff <shaun@tancheff.com> wrote:
+> >
+> > When building a tree of external modules stage 2 fails
+> > silently as the root modules.order is empty.
+> >
+> > Modify the modules.order location to be fixed to the
+> > root when KBUILD_EXTMOD is specified and write all
+> > module paths to the single modules.order file.
 >
-> This is really a very common thing for testing infrastructure to do,
-> it'll combine a base defconfig with a fragment enabling extra stuff
-> either to directly cover that extra stuff or to ensure that
-> configuration options needed for testsuites get turned on.
+> Could you try v5.3-rc4 please?
+
+So it seems we are using 'subdir-m' but that is now gone?
+
+Is there a recommend pattern for backward compatibility?
+
+Thanks!
 >
-> > A user can wrap merge_config.sh with a simple Makefile
-> > if they want to override CC, HOSTCC, etc.
+> > Signed-off-by: Shaun Tancheff <stancheff@cray.com>
+> > ---
+> >  Makefile               | 1 +
+> >  scripts/Makefile.build | 8 +++++++-
+> >  2 files changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 23cdf1f41364..a9964492f47e 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1622,6 +1622,7 @@ $(module-dirs): prepare $(objtree)/Module.symvers
+> >
+> >  modules: $(module-dirs)
+> >         @$(kecho) '  Building modules, stage 2.';
+> > +       $(Q)$rm -f $(KBUILD_EXTMOD)/modules.order
+> >         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+> >
+> >  PHONY += modules_install
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index 0d434d0afc0b..f9908b3d59e0 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -64,7 +64,13 @@ builtin-target := $(obj)/built-in.a
+> >  endif
+> >
+> >  ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
+> > +ifneq ($(KBUILD_EXTMOD),)
+> > +modorder-target := $(KBUILD_EXTMOD)/modules.order
+> > +modorder-add := >>
+> > +else
+> >  modorder-target := $(obj)/modules.order
+> > +modorder-add := >
+> > +endif
+> >  endif
+> >
+> >  mod-targets := $(patsubst %.o, %.mod, $(obj-m))
+> > @@ -423,7 +429,7 @@ endif # builtin-target
+> >  $(modorder-target): $(subdir-ym) FORCE
+> >         $(Q){ $(foreach m, $(modorder), \
+> >         $(if $(filter %/modules.order, $m), cat $m, echo $m);) :; } \
+> > -       | $(AWK) '!x[$$0]++' - > $@
+> > +       | $(AWK) '!x[$$0]++' - $(modorder-add) $@
+> >
+> >  #
+> >  # Rule to compile a set of .o files into one .a file (with symbol table)
+> > --
+> > 2.20.1
+> >
 >
-> If we want to do that it seems sensible to provide that Makefile
-> upstream so there's a standard thing, it might also help people notice
-> that they need to do this and avoid getting surprised.
-
-
-
--- 
-Thanks,
-~Nick Desaulniers
+>
+> --
+> Best Regards
+> Masahiro Yamada
