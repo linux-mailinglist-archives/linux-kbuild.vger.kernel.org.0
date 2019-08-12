@@ -2,215 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA7EE8A2BD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 17:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1BEE8A37A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 18:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbfHLP43 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Aug 2019 11:56:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53306 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726219AbfHLP43 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Aug 2019 11:56:29 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B32A17BDA9;
-        Mon, 12 Aug 2019 15:56:28 +0000 (UTC)
-Received: from redhat.com (dhcp-17-153.bos.redhat.com [10.18.17.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 350F562671;
-        Mon, 12 Aug 2019 15:56:28 +0000 (UTC)
-Date:   Mon, 12 Aug 2019 11:56:26 -0400
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
-Message-ID: <20190812155626.GA19845@redhat.com>
-References: <20190509143859.9050-1-joe.lawrence@redhat.com>
- <20190509143859.9050-7-joe.lawrence@redhat.com>
- <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
+        id S1726548AbfHLQiI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Aug 2019 12:38:08 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:60473 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726263AbfHLQiI (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 12 Aug 2019 12:38:08 -0400
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x7CGbpM8017530
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 01:37:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x7CGbpM8017530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1565627872;
+        bh=fvuSQiMynEpBQ90fBHSj66RxevxrJhKC/yPpDYDYd38=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0qnP1zTMn32oU1UzgTCMsXUafdOmb29y2MqPzkkeqfP9LPiZZk4Ep9TXCtGPR0ZWz
+         MQenFnbStyDzQ77Xq3F81fXbZZEQ630cnVaD3qpMhTtACSVMGCgSEVvX2fjM7JGjJM
+         d79WZtu4YaCyrZpXGsB8U49O4t86lrZghYKFJYQ8QfjO/748uJhYkV5heT/07PxeWv
+         TzsDxhzh3pG1mZrVsSWAhweyTjP30MkXGkNUNUO0RxnpSzFIbvFa11QL4UWIAT+PRP
+         3N6EbT955s7TKkxUN+n0efzQOS94DsX2CuN13R+sLiZxB9J74+xW8t+RfCluR1ojwq
+         E14JtOeadYEAw==
+X-Nifty-SrcIP: [209.85.217.44]
+Received: by mail-vs1-f44.google.com with SMTP id 2so70186446vso.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Aug 2019 09:37:52 -0700 (PDT)
+X-Gm-Message-State: APjAAAXloVEAHfkTQdxsjog1+11UXrXj3YN937qAygPWq0pSowQQ0hMP
+        FB8Mh7TlIM5EJ0lH9iKb6GS+0df2tQARr1yexoA=
+X-Google-Smtp-Source: APXvYqz0Uw/arqzD80Nkqgs8fMuGr5JR0ZhGsWMSlh8YQpeY9wqs8UMhvHULuWlU9vvh7M9VYBdcljF+eKmPmrYA7Bw=
+X-Received: by 2002:a67:f495:: with SMTP id o21mr1335161vsn.54.1565627870861;
+ Mon, 12 Aug 2019 09:37:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Mon, 12 Aug 2019 15:56:28 +0000 (UTC)
+References: <cover.1565297255.git.guillaume.tucker@collabora.com>
+ <3885ccdcbdbe83eb367e8344584df944adc76e34.1565297255.git.guillaume.tucker@collabora.com>
+ <CAKwvOdmOdJspcO8jqUhqR63-MOWkV3ZrVcCO6u=HG6peov8Htw@mail.gmail.com> <20190809051552.GA44466@archlinux-threadripper>
+In-Reply-To: <20190809051552.GA44466@archlinux-threadripper>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 13 Aug 2019 01:37:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT6Yp3oemUxSst+htnmM-St8WmSv+UZ2x2XF23cw-kU-Q@mail.gmail.com>
+Message-ID: <CAK7LNAT6Yp3oemUxSst+htnmM-St8WmSv+UZ2x2XF23cw-kU-Q@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/1] kbuild: enable overriding the compiler using the environment
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Mark Brown <broonie@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 02:58:27PM +0900, Masahiro Yamada wrote:
-> Hi Joe,
-> 
-> 
-> On Thu, May 9, 2019 at 11:39 PM Joe Lawrence <joe.lawrence@redhat.com> wrote:
+On Fri, Aug 9, 2019 at 2:15 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> On Thu, Aug 08, 2019 at 03:42:32PM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
+> > On Thu, Aug 8, 2019 at 2:07 PM Guillaume Tucker
+> > <guillaume.tucker@collabora.com> wrote:
+> > >
+> > > Only use gcc/g++ for HOSTCC, HOSTCXX and CC by default if they are not
+> > > already defined in the environment.  This fixes cases such as building
+> > > host tools with clang without having gcc installed.
+> > >
+> > > The issue was initially hit when running merge_config.sh with clang
+> > > only as it failed to build "HOSTCC scripts/basic/fixdep".
 > >
-> > From: Miroslav Benes <mbenes@suse.cz>
+> > Thanks for the patch.  I don't quite follow the exact error.
 > >
-> > Currently, livepatch infrastructure in the kernel relies on
-> > MODULE_INFO(livepatch, "Y") statement in a livepatch module. Then the
-> > kernel module loader knows a module is indeed livepatch module and can
-> > behave accordingly.
+> > When building with Clang, I usually do:
 > >
-> > klp-convert, on the other hand relies on LIVEPATCH_* statement in the
-> > module's Makefile for exactly the same reason.
+> > $ make CC=clang HOSTCC=clang ...
 > >
-> > Remove dependency on modinfo and generate MODULE_INFO flag
-> > automatically in modpost when LIVEPATCH_* is defined in the module's
-> > Makefile. Generate a list of all built livepatch modules based on
-> > the .livepatch file and store it in (MODVERDIR)/livepatchmods. Give
-> > this list as an argument for modpost which will use it to identify
-> > livepatch modules.
+> > are you trying to fix the case where you do:
 > >
-> > As MODULE_INFO is no longer needed, remove it.
-> 
-> 
-> I do not understand this patch.
-> This makes the implementation so complicated.
-> 
-> I think MODULE_INFO(livepatch, "Y") is cleaner than
-> LIVEPATCH_* in Makefile.
-> 
-> 
-> How about this approach?
-> 
-> 
-> [1] Make modpost generate the list of livepatch modules.
->     (livepatch-modules)
-> 
-> [2] Generate Symbols.list in scripts/Makefile.modpost
->     (vmlinux + modules excluding livepatch-modules)
-> 
-> [3] Run klp-convert for modules in livepatch-modules.
-> 
-> 
-> If you do this, you can remove most of the build system hacks
-> can't you?
-> 
-> 
-> I attached an example implementation for [1].
-> 
-> Please check whether this works.
-> 
+> > $ make CC=clang ...
+> > <no HOSTCC set>
+> > when GCC is not installed?  Because if so, I think it would be easier
+> > to just specify HOSTCC=clang, but maybe I'm misunderstanding the
+> > issue?
+>
+> As I understand it,
+>
+> $ make CC=clang HOSTCC=clang
+>
+> works fine. What doesn't currently work is:
+>
+> $ export CC=clang
+> $ export HOSTCC=clang
+> $ make
+>
+> This is problematic because there is no way for CC, HOSTCC, and HOSTCXX
+> to be passed to make within scripts/kconfig/merge_config.sh.
 
-Hi Masahiro, 
+Is it so problematic?
 
-I tested and step [1] that you attached did create the livepatch-modules
-as expected.  Thanks for that example, it does look cleaner that what
-we had in the patchset.
+If you start from make, CC=clang and HOSTCC=clang are propagated to sub-make
+even via shell scripts such as merge_config.sh
 
-I'm admittedly out of my element with kbuild changes, but here are my
-naive attempts at steps [2] and [3]...
+Only the problem I see is the situation where
+a user directly runs scripts/kconfig/merge_config.sh
+without using make as a start-point.
+
+A user can wrap merge_config.sh with a simple Makefile
+if they want to override CC, HOSTCC, etc.
 
 
-[step 2] generate Symbols.list - I tacked this on as a dependency of the
-$(modules:.ko=.mod.o), but there is probably a better more logical place
-to put it.  Also used grep -Fxv to exclude the livepatch-modules list
-from the modules.order list of modules to process.
+"You can easily pass environment variables" means
+"the build system may accidentally pick up them
+when it is not desirable."
 
--->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 3eca7fccadd4..5409bbc212bb 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -111,7 +111,23 @@ quiet_cmd_cc_o_c = CC      $@
-       cmd_cc_o_c = $(CC) $(c_flags) $(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE) \
- 		   -c -o $@ $<
- 
--$(modules:.ko=.mod.o): %.mod.o: %.mod.c FORCE
-+quiet_cmd_klp_map = KLP     Symbols.list
-+SLIST = $(objtree)/Symbols.list
-+
-+define cmd_symbols_list
-+	$(shell echo "klp-convert-symbol-data.0.1" > $(objtree)/Symbols.list)			\
-+	$(shell echo "*vmlinux" >> $(objtree)/Symbols.list)					\
-+	$(shell nm -f posix $(objtree)/vmlinux | cut -d\  -f1 >> $(objtree)/Symbols.list)	\
-+	$(foreach ko, $(sort $(shell grep -Fxv -f livepatch-modules modules.order)),		\
-+		$(shell echo "*$(shell basename -s .ko $(ko))" >> $(objtree)/Symbols.list)	\
-+		$(shell nm -f posix $(patsubst %.ko,%.o,$(ko)) | cut -d\  -f1 >> $(objtree)/Symbols.list))
-+endef
-+
-+Symbols.list: __modpost
-+	$(if $(CONFIG_LIVEPATCH), $(call cmd,symbols_list))
-+
-+
-+$(modules:.ko=.mod.o): %.mod.o: %.mod.c Symbols.list FORCE
- 	$(call if_changed_dep,cc_o_c)
- 
- targets += $(modules:.ko=.mod.o)
+
+
+> A quick test before and after the patch:
+>
+> $ ( export HOSTCC=clang; make -j$(nproc) O=out defconfig V=1 )
+> ...
+>   gcc -Wp,-MD,scripts/kconfig/.conf.o.d -Wall -Wmissing-prototypes...
+>   gcc -Wp,-MD,scripts/kconfig/.confdata.o.d -Wall -Wmissing-prototypes...
+> ...
+> $ ( export HOSTCC=clang; make -j$(nproc) O=out defconfig V=1 )
+> ...
+>   clang -Wp,-MD,scripts/kconfig/.conf.o.d -Wall -Wmissing-prototypes -Wstrict-prototypes...
+>   clang -Wp,-MD,scripts/kconfig/.confdata.o.d -Wall -Wmissing-prototypes -Wstrict-prototypes...
+> ...
+>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+>
+> I wonder if all variable should be converted to that scheme or just the
+> ones that are needed in this instance. I also wonder if this will cause
+> any issues with people who define these variables in their environment
+> already; if so, maybe merge_config.sh should be updated to support
+> passing CC, HOSTCC, and HOSTCXX to make.
+
+This is not a problem for upstream code, at least.
+
+
+
 -- 
-2.18.1
-
--->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
-
-
-
-[step 3] klp-convert the livepatch-modules - more or less what existed
-in the patchset already, however used the grep -Fx trick to process only
-modules found in livepatch-modules file:
-
--->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 73e80b917f12..f085644c2b97 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -223,6 +223,8 @@ endif
- # (needed for the shell)
- make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1)))))
- 
-+save-cmd = printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd
-+
- # Find any prerequisites that is newer than target or that does not exist.
- # PHONY targets skipped in both cases.
- any-prereq = $(filter-out $(PHONY),$?)$(filter-out $(PHONY) $(wildcard $^),$^)
-@@ -230,7 +232,7 @@ any-prereq = $(filter-out $(PHONY),$?)$(filter-out $(PHONY) $(wildcard $^),$^)
- # Execute command if command has changed or prerequisite(s) are updated.
- if_changed = $(if $(any-prereq)$(cmd-check),                                 \
- 	$(cmd);                                                              \
--	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
-+	$(save-cmd), @:)
- 
- # Execute the command and also postprocess generated .d dependencies file.
- if_changed_dep = $(if $(any-prereq)$(cmd-check),$(cmd_and_fixdep),@:)
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 5409bbc212bb..bc3b7b9dd8fa 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -142,8 +142,22 @@ quiet_cmd_ld_ko_o = LD [M]  $@
-                  -o $@ $(real-prereqs) ;                                \
- 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
- 
-+SLIST = $(objtree)/Symbols.list
-+KLP_CONVERT = scripts/livepatch/klp-convert
-+quiet_cmd_klp_convert = KLP     $@
-+      cmd_klp_convert = mv $@ $(@:.ko=.klp.o);				\
-+			$(KLP_CONVERT) $(SLIST) $(@:.ko=.klp.o) $@
-+
-+define rule_ld_ko_o
-+	$(Q)$(call echo-cmd,ld_ko_o) $(cmd_ld_ko_o) ;				\
-+	$(call save-cmd,ld_ko_o) ;						\
-+	$(if $(CONFIG_LIVEPATCH),						\
-+		$(if $(shell grep -Fx "$@" livepatch-modules),			\
-+			$(call echo-cmd,klp_convert) $(cmd_klp_convert)))
-+endef
-+
- $(modules): %.ko :%.o %.mod.o FORCE
--	+$(call if_changed,ld_ko_o)
-+	+$(call if_changed_rule,ld_ko_o)
- 
- targets += $(modules)
- 
--- 
-2.18.1
-
--->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
-
-
-Thanks,
-
--- Joe
+Best Regards
+Masahiro Yamada
