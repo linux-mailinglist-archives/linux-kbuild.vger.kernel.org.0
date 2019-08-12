@@ -2,78 +2,215 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8399B8A284
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 17:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA7EE8A2BD
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 17:56:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbfHLPmG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Aug 2019 11:42:06 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:55794 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbfHLPmG (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Aug 2019 11:42:06 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x7CFfuYK031604;
-        Tue, 13 Aug 2019 00:41:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x7CFfuYK031604
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565624517;
-        bh=xqHdXxdJ6PpxUGE19Z5I8gZYC03sN81+SNVOX9WunLw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=s2sbP698KVZjpkMdu+7kK70Sn1Rqv8epPpoFREIaRVFyqUe0c2NyKI70vDYQwO2us
-         bxjrjb9DLuljQgrP5YcLGnDmXkhHtixAARtyUiIWjMdflAPqKHMOUoa33lhnlw64Vo
-         ZBhFSH8/c+HANrbyu7xlabkn/mKYcV/7udrVGVllBXnTXYEr02JVlGUKWYwdHYkXFC
-         4XExguFbbjFT4uG4aJu0WqU/k4bH1Tf4XJj5GDtVXTg9tqWxSRhx8f+OajVBF8gwtd
-         yMcLO9UjDOPFeGe9D0O73gDi5VdsfH/AodMFiK7Xvyl/vaPmIpN5fG9CDgRJ2wLVIH
-         I43hO72t1RaJg==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id c7so2426496vse.11;
-        Mon, 12 Aug 2019 08:41:57 -0700 (PDT)
-X-Gm-Message-State: APjAAAUZelj76bPNthSi9BCgIToV5mOXuC8lknn+w8QQ8OSJovGB6pLZ
-        HAN7793gde0XmhhR3XvTEIwDPvIU6aNkHq52FXY=
-X-Google-Smtp-Source: APXvYqytSUiGQcS2gin7TbDYNo9UYz+qDVE/MiFNs/W15KPy8rSuXUdEXsLePT/n974yfEL4sAdwjb2qsj8wwf9nRUI=
-X-Received: by 2002:a67:8e0a:: with SMTP id q10mr21454837vsd.215.1565624516047;
- Mon, 12 Aug 2019 08:41:56 -0700 (PDT)
+        id S1726263AbfHLP43 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Aug 2019 11:56:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53306 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726219AbfHLP43 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 12 Aug 2019 11:56:29 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B32A17BDA9;
+        Mon, 12 Aug 2019 15:56:28 +0000 (UTC)
+Received: from redhat.com (dhcp-17-153.bos.redhat.com [10.18.17.153])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 350F562671;
+        Mon, 12 Aug 2019 15:56:28 +0000 (UTC)
+Date:   Mon, 12 Aug 2019 11:56:26 -0400
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
+Message-ID: <20190812155626.GA19845@redhat.com>
+References: <20190509143859.9050-1-joe.lawrence@redhat.com>
+ <20190509143859.9050-7-joe.lawrence@redhat.com>
+ <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190810075226.GA24085@lst.de>
-In-Reply-To: <20190810075226.GA24085@lst.de>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 13 Aug 2019 00:41:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQfQWNMMLS1-3mE41Ffy3MV9i3VpbWtmKQdUqZjyk8Yqg@mail.gmail.com>
-Message-ID: <CAK7LNAQfQWNMMLS1-3mE41Ffy3MV9i3VpbWtmKQdUqZjyk8Yqg@mail.gmail.com>
-Subject: Re: can we use mandatory-y for non-uapi headers?
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Mon, 12 Aug 2019 15:56:28 +0000 (UTC)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Christoph,
+On Wed, Jul 31, 2019 at 02:58:27PM +0900, Masahiro Yamada wrote:
+> Hi Joe,
+> 
+> 
+> On Thu, May 9, 2019 at 11:39 PM Joe Lawrence <joe.lawrence@redhat.com> wrote:
+> >
+> > From: Miroslav Benes <mbenes@suse.cz>
+> >
+> > Currently, livepatch infrastructure in the kernel relies on
+> > MODULE_INFO(livepatch, "Y") statement in a livepatch module. Then the
+> > kernel module loader knows a module is indeed livepatch module and can
+> > behave accordingly.
+> >
+> > klp-convert, on the other hand relies on LIVEPATCH_* statement in the
+> > module's Makefile for exactly the same reason.
+> >
+> > Remove dependency on modinfo and generate MODULE_INFO flag
+> > automatically in modpost when LIVEPATCH_* is defined in the module's
+> > Makefile. Generate a list of all built livepatch modules based on
+> > the .livepatch file and store it in (MODVERDIR)/livepatchmods. Give
+> > this list as an argument for modpost which will use it to identify
+> > livepatch modules.
+> >
+> > As MODULE_INFO is no longer needed, remove it.
+> 
+> 
+> I do not understand this patch.
+> This makes the implementation so complicated.
+> 
+> I think MODULE_INFO(livepatch, "Y") is cleaner than
+> LIVEPATCH_* in Makefile.
+> 
+> 
+> How about this approach?
+> 
+> 
+> [1] Make modpost generate the list of livepatch modules.
+>     (livepatch-modules)
+> 
+> [2] Generate Symbols.list in scripts/Makefile.modpost
+>     (vmlinux + modules excluding livepatch-modules)
+> 
+> [3] Run klp-convert for modules in livepatch-modules.
+> 
+> 
+> If you do this, you can remove most of the build system hacks
+> can't you?
+> 
+> 
+> I attached an example implementation for [1].
+> 
+> Please check whether this works.
+> 
+
+Hi Masahiro, 
+
+I tested and step [1] that you attached did create the livepatch-modules
+as expected.  Thanks for that example, it does look cleaner that what
+we had in the patchset.
+
+I'm admittedly out of my element with kbuild changes, but here are my
+naive attempts at steps [2] and [3]...
 
 
-On Sat, Aug 10, 2019 at 4:52 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Hi Masahiro,
->
-> what is the reason that the documentation says mandatory-y should only
-> be used for uapi headers?
+[step 2] generate Symbols.list - I tacked this on as a dependency of the
+$(modules:.ko=.mod.o), but there is probably a better more logical place
+to put it.  Also used grep -Fxv to exclude the livepatch-modules list
+from the modules.order list of modules to process.
 
-Where is it documented?
+-->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
 
-Documentation/kbuild/makefiles.rst section 7.4 describes
-mandatory-y is essentially used by include/(uapi/)asm-generic/Kbuild
-
-include/(uapi/)asm-generic/Kbuild means:
-
-include/uapi/asm-generic/Kbuild
-include/asm-generic/Kbuild
-
-
-
-
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 3eca7fccadd4..5409bbc212bb 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -111,7 +111,23 @@ quiet_cmd_cc_o_c = CC      $@
+       cmd_cc_o_c = $(CC) $(c_flags) $(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE) \
+ 		   -c -o $@ $<
+ 
+-$(modules:.ko=.mod.o): %.mod.o: %.mod.c FORCE
++quiet_cmd_klp_map = KLP     Symbols.list
++SLIST = $(objtree)/Symbols.list
++
++define cmd_symbols_list
++	$(shell echo "klp-convert-symbol-data.0.1" > $(objtree)/Symbols.list)			\
++	$(shell echo "*vmlinux" >> $(objtree)/Symbols.list)					\
++	$(shell nm -f posix $(objtree)/vmlinux | cut -d\  -f1 >> $(objtree)/Symbols.list)	\
++	$(foreach ko, $(sort $(shell grep -Fxv -f livepatch-modules modules.order)),		\
++		$(shell echo "*$(shell basename -s .ko $(ko))" >> $(objtree)/Symbols.list)	\
++		$(shell nm -f posix $(patsubst %.ko,%.o,$(ko)) | cut -d\  -f1 >> $(objtree)/Symbols.list))
++endef
++
++Symbols.list: __modpost
++	$(if $(CONFIG_LIVEPATCH), $(call cmd,symbols_list))
++
++
++$(modules:.ko=.mod.o): %.mod.o: %.mod.c Symbols.list FORCE
+ 	$(call if_changed_dep,cc_o_c)
+ 
+ targets += $(modules:.ko=.mod.o)
 -- 
-Best Regards
-Masahiro Yamada
+2.18.1
+
+-->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
+
+
+
+[step 3] klp-convert the livepatch-modules - more or less what existed
+in the patchset already, however used the grep -Fx trick to process only
+modules found in livepatch-modules file:
+
+-->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
+
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 73e80b917f12..f085644c2b97 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -223,6 +223,8 @@ endif
+ # (needed for the shell)
+ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1)))))
+ 
++save-cmd = printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd
++
+ # Find any prerequisites that is newer than target or that does not exist.
+ # PHONY targets skipped in both cases.
+ any-prereq = $(filter-out $(PHONY),$?)$(filter-out $(PHONY) $(wildcard $^),$^)
+@@ -230,7 +232,7 @@ any-prereq = $(filter-out $(PHONY),$?)$(filter-out $(PHONY) $(wildcard $^),$^)
+ # Execute command if command has changed or prerequisite(s) are updated.
+ if_changed = $(if $(any-prereq)$(cmd-check),                                 \
+ 	$(cmd);                                                              \
+-	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
++	$(save-cmd), @:)
+ 
+ # Execute the command and also postprocess generated .d dependencies file.
+ if_changed_dep = $(if $(any-prereq)$(cmd-check),$(cmd_and_fixdep),@:)
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 5409bbc212bb..bc3b7b9dd8fa 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -142,8 +142,22 @@ quiet_cmd_ld_ko_o = LD [M]  $@
+                  -o $@ $(real-prereqs) ;                                \
+ 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+ 
++SLIST = $(objtree)/Symbols.list
++KLP_CONVERT = scripts/livepatch/klp-convert
++quiet_cmd_klp_convert = KLP     $@
++      cmd_klp_convert = mv $@ $(@:.ko=.klp.o);				\
++			$(KLP_CONVERT) $(SLIST) $(@:.ko=.klp.o) $@
++
++define rule_ld_ko_o
++	$(Q)$(call echo-cmd,ld_ko_o) $(cmd_ld_ko_o) ;				\
++	$(call save-cmd,ld_ko_o) ;						\
++	$(if $(CONFIG_LIVEPATCH),						\
++		$(if $(shell grep -Fx "$@" livepatch-modules),			\
++			$(call echo-cmd,klp_convert) $(cmd_klp_convert)))
++endef
++
+ $(modules): %.ko :%.o %.mod.o FORCE
+-	+$(call if_changed,ld_ko_o)
++	+$(call if_changed_rule,ld_ko_o)
+ 
+ targets += $(modules)
+ 
+-- 
+2.18.1
+
+-->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8-- -->8--
+
+
+Thanks,
+
+-- Joe
