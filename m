@@ -2,147 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D468A9A8
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Aug 2019 23:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB9628AA30
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 00:10:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727514AbfHLVtO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Aug 2019 17:49:14 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45155 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbfHLVtO (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Aug 2019 17:49:14 -0400
-Received: by mail-pg1-f195.google.com with SMTP id o13so50130054pgp.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Aug 2019 14:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=SxB55hS+dMxQE9HtSOzkt2R+4Ww8VTS/3uqSYLsuna8=;
-        b=lzYAmOqbwT9CeDgDl15mFv5TdBb1wbf3WeSr2Od/BcCxri4TcJpC4oGHXsxNo+nIm9
-         4UY8TGtG+c1GNcfBP3jlGRMkahWtZ8KjXFAcMh3FPNN2djLS0KjYin05hlqnu4Y5wal7
-         S1qgMuIvQsiN1lVji4aUaHXHcMySssMiixIkw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=SxB55hS+dMxQE9HtSOzkt2R+4Ww8VTS/3uqSYLsuna8=;
-        b=WND7BHxp17efch73+3ZnJCNsygKzFPxjDA1wl7ZQjEeRMFK4+gbsm9lptFdLTAYVtd
-         +wXa1+WZ8IabWpK5HdqSGwZoRFhDlbJoC+LUw4E37YR+HOukquWvsxKQcOut+94hEDUW
-         8SuLdoh8kFMPM8wky2r3kvP1eJdS2Tx3rnBKSAnLfObLB8uQZkrFF91yiRoC8GTy4k+f
-         GoHgPyEcVBBhh1/0S6pUsc9rLQYGuY1JsQF3ABnYt52njKOd/z2JgF9stBVqE6M5KAgG
-         sZ4cRmfYXxCgF/5DDdCJXaY1qFQo1QrgGz8BBbU3Xo6vMWwt5EIYG14GrdVxRbr9Eiga
-         bv5A==
-X-Gm-Message-State: APjAAAXASvLfahT/4958K3j40OsNHTkSowFMbdnETSgEHHLEC0aYNgpf
-        MMYjsx1MO72qjJTdYygJVwz8og==
-X-Google-Smtp-Source: APXvYqyLfuIW+ob8nSQJagwEjJ+GYX0/WNpe63lBYSawHUQh2XGtOWLZsLANqss4+EgGiW1AD5Ae9g==
-X-Received: by 2002:a17:90a:9903:: with SMTP id b3mr1250682pjp.80.1565646553526;
-        Mon, 12 Aug 2019 14:49:13 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c71sm3236846pfc.106.2019.08.12.14.49.12
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 12 Aug 2019 14:49:12 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 14:49:11 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH] kbuild: Parameterize kallsyms generation and correct
- reporting
-Message-ID: <201908121448.4D023D7@keescook>
+        id S1726488AbfHLWKc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Aug 2019 18:10:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49114 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726185AbfHLWKc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 12 Aug 2019 18:10:32 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99B31206C2;
+        Mon, 12 Aug 2019 22:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565647830;
+        bh=SPZRl5pSVopkTs0dY+BYgF4YdIC5weWXIEKe9ul/RDw=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=V3lZzoj5A/ZUJ82O/D6JOwCAESMHhjfhFsM/G+WlAQFOJn0eCYLeKxiUav3yhAWrc
+         3bLOfvUeJqm5cu0JRjxhkYqU/qNE2mLaefdclg0BgxHvmqSh/kXGRMQIhxkerIgm9f
+         dbMpOgSRN5v/bzLnxQ4pQx6d7nMjpT4h51jSvW3c=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190812182421.141150-3-brendanhiggins@google.com>
+References: <20190812182421.141150-1-brendanhiggins@google.com> <20190812182421.141150-3-brendanhiggins@google.com>
+Subject: Re: [PATCH v12 02/18] kunit: test: add test resource management API
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
+        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
+        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
+        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
+        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
+        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
+        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
+        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        frowand.list@gmail.com, gregkh@linuxfoundation.org,
+        jpoimboe@redhat.com, keescook@google.com,
+        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
+        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
+        tytso@mit.edu, yamada.masahiro@socionext.com
+User-Agent: alot/0.8.1
+Date:   Mon, 12 Aug 2019 15:10:29 -0700
+Message-Id: <20190812221030.99B31206C2@mail.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When kallsyms generation happens, temporary vmlinux outputs are linked
-but the quiet make output doesn't report it, giving the impression that
-the prior command is taking longer than expected.
+Quoting Brendan Higgins (2019-08-12 11:24:05)
+> Create a common API for test managed resources like memory and test
+> objects. A lot of times a test will want to set up infrastructure to be
+> used in test cases; this could be anything from just wanting to allocate
+> some memory to setting up a driver stack; this defines facilities for
+> creating "test resources" which are managed by the test infrastructure
+> and are automatically cleaned up at the conclusion of the test.
+>=20
+> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+> ---
 
-Instead, report the KSYM step before the temporary linking. While at it,
-this consolidates the repeated "kallsyms generation step" into a single
-function and removes the existing copy/pasting.
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
 
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- scripts/link-vmlinux.sh | 39 ++++++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 19 deletions(-)
-
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 96b6c0233a61..ed52be015523 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -170,7 +170,6 @@ gen_btf()
- # Create ${2} .o file with all symbols from the ${1} object file
- kallsyms()
- {
--	info KSYM ${2}
- 	local kallsymopt;
- 
- 	if [ -n "${CONFIG_KALLSYMS_ALL}" ]; then
-@@ -277,7 +276,22 @@ info MODINFO modules.builtin.modinfo
- ${OBJCOPY} -j .modinfo -O binary vmlinux.o modules.builtin.modinfo
- 
- kallsymso=""
-+kallsymso_previous=""
- kallsyms_vmlinux=""
-+
-+# Perform one step in kallsyms generation, including temporary linking of
-+# vmlinux.
-+kallsyms_step()
-+{
-+	kallsymso_previous=${kallsymso}
-+	kallsymso=.tmp_kallsyms${1}.o
-+	kallsyms_vmlinux=.tmp_vmlinux${1}
-+
-+	info KSYM ${kallsymso}
-+	vmlinux_link "${kallsymso_previous}" ${kallsyms_vmlinux}
-+	kallsyms ${kallsyms_vmlinux} ${kallsymso}
-+}
-+
- if [ -n "${CONFIG_KALLSYMS}" ]; then
- 
- 	# kallsyms support
-@@ -303,28 +317,15 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
- 	# a)  Verify that the System.map from vmlinux matches the map from
- 	#     ${kallsymso}.
- 
--	kallsymso=.tmp_kallsyms2.o
--	kallsyms_vmlinux=.tmp_vmlinux2
--
--	# step 1
--	vmlinux_link "" .tmp_vmlinux1
--	kallsyms .tmp_vmlinux1 .tmp_kallsyms1.o
--
--	# step 2
--	vmlinux_link .tmp_kallsyms1.o .tmp_vmlinux2
--	kallsyms .tmp_vmlinux2 .tmp_kallsyms2.o
-+	kallsyms_step 1
-+	kallsyms_step 2
- 
- 	# step 3
--	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" .tmp_kallsyms1.o)
--	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" .tmp_kallsyms2.o)
-+	size1=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso_previous})
-+	size2=$(${CONFIG_SHELL} "${srctree}/scripts/file-size.sh" ${kallsymso})
- 
- 	if [ $size1 -ne $size2 ] || [ -n "${KALLSYMS_EXTRA_PASS}" ]; then
--		kallsymso=.tmp_kallsyms3.o
--		kallsyms_vmlinux=.tmp_vmlinux3
--
--		vmlinux_link .tmp_kallsyms2.o .tmp_vmlinux3
--
--		kallsyms .tmp_vmlinux3 .tmp_kallsyms3.o
-+		kallsyms_step 3
- 	fi
- fi
- 
--- 
-2.17.1
-
-
--- 
-Kees Cook
