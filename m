@@ -2,96 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65DB18BB0C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 16:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2123F8BC4F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 17:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729471AbfHMOCq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 10:02:46 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:23032 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728095AbfHMOCp (ORCPT
+        id S1729658AbfHMPAs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 11:00:48 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:17930 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729424AbfHMPAs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 10:02:45 -0400
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x7DE2LBr008312;
-        Tue, 13 Aug 2019 23:02:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x7DE2LBr008312
+        Tue, 13 Aug 2019 11:00:48 -0400
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x7DF0gdk022551;
+        Wed, 14 Aug 2019 00:00:43 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x7DF0gdk022551
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1565704942;
-        bh=z65fPGDahcnryu8DhIatCdFIBN0i5WPEfMnwm+YXA4g=;
+        s=dec2015msa; t=1565708443;
+        bh=Mjjx4/8PAeEqcWQLzksopUXOip0aXuED9Rvck2ZOYcc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CI39gKp3izRC6qSGFBNX/kCIo5zgwhcHNjJ0klwyhnrPKDe70/O+hr0H0NAEI+kmH
-         I/BcqgEknJ5q3Iat9Pvs9Pz4WY1DCCUwuwQ5UYuJytIBBYuLLQ0cfgbj8UAk5h7Xua
-         OI6/a/EzUjQTx0TgtRh1KNgXwU1F8Mdsv4PldBFWjVswQZ0Ys80IGDGEBerwy+WrwN
-         Kq5Gc+2NDwqyWvUvsA6jp+kNhyGgryADdwCTTK0IFiuKJ45yRqkX6SZuMaZOxLwtQp
-         MhNVqr/ZygQcS/T+WCZMlPCxydJZinc5VDZsqeDIFPNr0RrbXksEFbMMvnPVscA24A
-         gQFUvg95pt//w==
-X-Nifty-SrcIP: [209.85.221.174]
-Received: by mail-vk1-f174.google.com with SMTP id b69so21478385vkb.3;
-        Tue, 13 Aug 2019 07:02:22 -0700 (PDT)
-X-Gm-Message-State: APjAAAVPobbB7OiPvcBIaUSZH0PVAPSnz7E7qNnDGRpBlFk3VXdXrj71
-        IzfNOXt5kbFRjUV6LZDzck7HIGqHqq9Y+JPRb/0=
-X-Google-Smtp-Source: APXvYqz3aFljvtlpAD72NHlQRrKDuY3wG9MXnKaFwqB+6BzT7mQJE2e654j7yBwvhbrjtVpBWbbnXPRoD2cX9MXmRDs=
-X-Received: by 2002:a1f:5dc2:: with SMTP id r185mr8458472vkb.64.1565704940854;
- Tue, 13 Aug 2019 07:02:20 -0700 (PDT)
+        b=h2JlWbMCrc2mnBoUEJ9aTL5DpH85i+UFoEkj99n8/DWA+BlL8ycTu4On5U/P1zk+3
+         LlJ0Wh+TY1gJmp2kZDIJmMmC+ZHJZavgJuRfiy2BJNOQTRo8R0cpYEKgIbTGBbaAv9
+         YHB4D8L/LySArKZVViQhpK4e+P40z18GQBRKN1RFQfXZaK5G3PDAQROz2KAQqvvRoN
+         y7LKJUoMAZalFPp9ch5sGbDkTDH1kZFdiGXHNGe3m+RFqLn0lmJxj19zRMnJYPe7b8
+         5/WKYPKOncUqPRpMD8vFB7L83H6vMvdgRIRvHkPsd1nF1dr/whwYwsDn4HF3bPBTk2
+         3ZPSAWstAiZcQ==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id b20so6915444vso.1;
+        Tue, 13 Aug 2019 08:00:42 -0700 (PDT)
+X-Gm-Message-State: APjAAAViFB+Zs3fkgE51iF4P83acbND2hplSjm1u2ADifg00McXGaGrC
+        0Fg0ONU5pUV4c0i/MuVYBVpoCLt6ULJhETRmvtw=
+X-Google-Smtp-Source: APXvYqxd8r6FpfTDkqIrnk2OegNcibojaLAPxSwEMZ3vJ1oiBbWEfCC3gexdIBCVaK9qhsFk3EIGmE/wLcpypvlrQwE=
+X-Received: by 2002:a05:6102:20c3:: with SMTP id i3mr17697475vsr.155.1565708441743;
+ Tue, 13 Aug 2019 08:00:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
- <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
-In-Reply-To: <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
+References: <201908121448.4D023D7@keescook>
+In-Reply-To: <201908121448.4D023D7@keescook>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 13 Aug 2019 23:01:44 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
-Message-ID: <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
-Subject: Re: [RFC 01/19] kbuild: Fixes to rules for host-cshlib and host-cxxshlib
-To:     Knut Omang <knut.omang@oracle.com>
-Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+Date:   Wed, 14 Aug 2019 00:00:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASSkD3SzS5do1REjTe8n7RqUKsLGc2XwWJ7PKJ-z18Oig@mail.gmail.com>
+Message-ID: <CAK7LNASSkD3SzS5do1REjTe8n7RqUKsLGc2XwWJ7PKJ-z18Oig@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Parameterize kallsyms generation and correct reporting
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
-        Alan Maguire <alan.maguire@oracle.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Hidenori Yamaji <hidenori.yamaji@sony.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Timothy Bird <Tim.Bird@sony.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
-        Stephen Boyd <sboyd@kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 3:13 PM Knut Omang <knut.omang@oracle.com> wrote:
+On Tue, Aug 13, 2019 at 6:49 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> C++ libraries interfacing to C APIs might sometimes need some glue
-> logic more easily written in C.
-> Allow a C++ library to also contain 0 or more C objects.
+> When kallsyms generation happens, temporary vmlinux outputs are linked
+> but the quiet make output doesn't report it, giving the impression that
+> the prior command is taking longer than expected.
 >
-> Also fix rules for both C and C++ shared libraries:
-> - C++ shared libraries depended on .c instead of .cc files
-> - Rules were referenced as -objs instead of the intended
->   -cobjs and -cxxobjs following the pattern from hostprogs*.
+> Instead, report the KSYM step before the temporary linking. While at it,
+> this consolidates the repeated "kallsyms generation step" into a single
+> function and removes the existing copy/pasting.
 >
-> Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+
+Hmm, I did not notice this.
+
+How about showing the link stage explicitly?
+(Is it too verbose?)
+
+  MODINFO modules.builtin.modinfo
+  LD      .tmp_vmlinux1
+  KSYMS   .tmp_kallsyms1.o
+  LD      .tmp_vmlinux2
+  KSYMS   .tmp_kallsyms2.o
+  LD      vmlinux
+  SORTEX  vmlinux
 
 
-How is this patch related to the rest of this series?
-
-
-This patch breaks GCC-plugins.
-Did you really compile-test this patch before the submission?
+If this verbosity is OK,
+you can move 'info LD  ${2}' into vmlinux_link()
 
 
 
---
+
+Anyway, I like the clean-ups in this patch.
+
+This is just my personal preference, but
+may I ask two cosmetic changes?
+
+[1] Could you move kallsyms_step()
+    between  kallsyms() and mksysmap() ?
+    I want to collect function definitions
+    to the top of the script.
+
+[2] Could you shorten 'kallsymso_previous'
+    to 'kallsymso_prev' ?
+
+
+
+
+-- 
 Best Regards
-
 Masahiro Yamada
