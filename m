@@ -2,128 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AF8C8C200
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 22:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 637A68C351
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 23:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbfHMUQV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 16:16:21 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40463 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726703AbfHMUQV (ORCPT
+        id S1726654AbfHMVLJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 17:11:09 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:37308 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726649AbfHMVLJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 16:16:21 -0400
-Received: by mail-ot1-f67.google.com with SMTP id c34so37045881otb.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 13:16:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UyUp+OqYNvHr6I8YI09IZ2rFvtcmnaGq+Mw13M6jPN8=;
-        b=u5tsb3tTi1RR6zNjTfgZWL+OogXrZrPnWysy+aD045WOTKrJEAOdQ+FoeVDVShnWk8
-         IUxR3CHP9QJCeKRIEu5zkDXbg533UBtKeFFvrT8aMs0H8udcayRxrdT1wNT0Q7DjM+sS
-         mL7ptgRQR3Kx12kZaazSW3SAHUtuo7vVw4TkoT1AK64nHSlBLuaf+7EcyAJ5T6S5QZmR
-         0bWGzUszfX/bI6keMRxfU+uUjHdXdUU/QzjKrIiA2xQ6qfej0kl/VN72xIxD8Mf/EjLz
-         uehsPbPSUzPQEmNN3NMCxmwK4vIeJV4HWNcOe7l2n4qpKPfucbJ/Yfslg6NugGmdwR+m
-         R1aw==
+        Tue, 13 Aug 2019 17:11:09 -0400
+Received: by mail-qt1-f196.google.com with SMTP id y26so107918873qto.4;
+        Tue, 13 Aug 2019 14:11:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UyUp+OqYNvHr6I8YI09IZ2rFvtcmnaGq+Mw13M6jPN8=;
-        b=JmuFtsrDBUoL8vCLoF4VeJ1g0yKWau5WjVke0UDd8o9796W08ZxsMhEy04yo9kYrbo
-         K7e3NoP749lwCrsQnCTmLbLqpcyeEXsjyoraaQmTXaGBPXtvlTRCOIyc09Z8fyiuqotR
-         6twuCUU5T2rWdWPAWbtcz+Jl+KN3/FTI+OV8DWLgQ9icO3sD6G3biUrue1Gq7E2p2t78
-         Bfxb55TnjhpGpxODG0KNSOWGonPRGwHz7c7lLM2KHz1KSQOru/IEc9+AKvkorox6mZ8T
-         PiuQtZaWL4hMB7V8GGu34RVxS6n835aWPTeIBlk9FVemmxsI5joNsnTXSUjhZTbg6yRZ
-         NDBw==
-X-Gm-Message-State: APjAAAV9HuAGNVnYeQoJZRDXQXmPNen93iNo5eFZXyF1NnWxMNonJb7j
-        kTF5lO0vcE6XLA9+gThWlBLvb2GYsZ7i1SZ6dug8zg==
-X-Google-Smtp-Source: APXvYqxxUtipoa1TnsBRCdHhtVbEni2JlDRwTgOYshKzIg8CEAX1O3Wj3b+RVL1fyBLVuGOUQHsFmCMdCl21V4krJY8=
-X-Received: by 2002:a9d:6d06:: with SMTP id o6mr33264410otp.225.1565727380422;
- Tue, 13 Aug 2019 13:16:20 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pp5eRf0N+uQmDSXZwy17OtD2z4+QtcsTwk0l8jXpzlE=;
+        b=LXl1lwQ6JaVOI+6IlYrNlT1R8NiTuLuolPv0Stlvbb/oFnKPf5hRCTgwOop3VpOY9e
+         HoI6Ia3XGIr/f3q/LBh4QQ2EuBTRwnJ9Wq1h4F+NXeMu/r7rS3qqpM48keZzeS6I/yD7
+         K8ieakJ0vn6OU2y6Eu32mCwLFL21DQ2EV5+dE8Mc2MIGe0WpI0Q7LBF1gS1hdWihfnOA
+         0J8Qi7rEWzXP7kQf0WZxtUJXqWajOFr/1+6C4WU1as9dzCcdtXZzBOTJUl/OirbyQQmQ
+         7lA+sAJ6Bzy64D92LPfGn+W4J8uOq2Mh+3vZh34PacjO4Pu/e7eeKNLRMVjm+8nMv+xt
+         h7cQ==
+X-Gm-Message-State: APjAAAWb/NwTX+AgHo9fDdknndRNeiIRcmHVn1hnK/86pH0a5UXrcz8Q
+        S1Q1x+860bh9U8mbZGC6qLwgFxvCya0=
+X-Google-Smtp-Source: APXvYqyY49VX1crEC35QrQwqIV5HCWNM6+CaBwgTvdTWc4SOk/E4KMpdaZ2sEyDMsrtNJFkTvZ26WQ==
+X-Received: by 2002:a0c:d1d3:: with SMTP id k19mr218548qvh.6.1565730668288;
+        Tue, 13 Aug 2019 14:11:08 -0700 (PDT)
+Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
+        by smtp.gmail.com with ESMTPSA id o43sm15220237qto.63.2019.08.13.14.11.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Aug 2019 14:11:07 -0700 (PDT)
+Subject: Re: [PATCH v5] modpost: check for static EXPORT_SYMBOL* functions
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20190714152817.24693-1-efremov@linux.com>
+ <20190801060657.5932-1-efremov@linux.com>
+ <CAK7LNASdhyhhqyf1wcga7UDYoo=2t-0ZaqTmQdcsFOfAR580sw@mail.gmail.com>
+ <CAK7LNAQG7DM_2+JJ+bJdre12HcbZY7zGfHk3AU66S0ESjxMbnA@mail.gmail.com>
+From:   Denis Efremov <efremov@linux.com>
+Message-ID: <4473cefb-9099-114c-2d7d-7714738b01a1@linux.com>
+Date:   Wed, 14 Aug 2019 00:11:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com>
- <20190813121733.52480-6-maennich@google.com>
-In-Reply-To: <20190813121733.52480-6-maennich@google.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 13 Aug 2019 13:15:44 -0700
-Message-ID: <CAGETcx_LQDdnaU+3JVGw+6=DJ8tRoQ00+3rD2gOiHHkWomt8jg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] module: add config option MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-To:     Matthias Maennich <maennich@google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, maco@android.com,
-        Android Kernel Team <kernel-team@android.com>, arnd@arndb.de,
-        geert@linux-m68k.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, hpa@zytor.com,
-        jeyu@kernel.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
-        maco@google.com, michal.lkml@markovi.net, mingo@redhat.com,
-        oneukum@suse.com, pombredanne@nexb.com, sam@ravnborg.org,
-        sboyd@codeaurora.org, Sandeep Patil <sspatil@google.com>,
-        stern@rowland.harvard.edu, tglx@linutronix.de,
-        usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
-        yamada.masahiro@socionext.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Richard Guy Briggs <rgb@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAK7LNAQG7DM_2+JJ+bJdre12HcbZY7zGfHk3AU66S0ESjxMbnA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 13, 2019 at 5:19 AM 'Matthias Maennich' via kernel-team
-<kernel-team@android.com> wrote:
+On 13.08.2019 19:07, Masahiro Yamada wrote:
+> Hi Denis,
 >
-> If MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is enabled (default=n), the
-> requirement for modules to import all namespaces that are used by
-> the module is relaxed.
->
-> Enabling this option effectively allows (invalid) modules to be loaded
-> while only a warning is emitted.
->
-> Disabling this option keeps the enforcement at module loading time and
-> loading is denied if the module's imports are not satisfactory.
->
-> Reviewed-by: Martijn Coenen <maco@android.com>
-> Signed-off-by: Matthias Maennich <maennich@google.com>
-> ---
->  init/Kconfig    | 14 ++++++++++++++
->  kernel/module.c | 11 +++++++++--
->  2 files changed, 23 insertions(+), 2 deletions(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index bd7d650d4a99..b3373334cdf1 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -2119,6 +2119,20 @@ config MODULE_COMPRESS_XZ
->
->  endchoice
->
-> +config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-> +       bool "Allow loading of modules with missing namespace imports"
-> +       default n
-> +       help
-> +         Symbols exported with EXPORT_SYMBOL_NS*() are considered exported in
-> +         a namespace. A module that makes use of a symbol exported with such a
-> +         namespace is required to import the namespace via MODULE_IMPORT_NS().
-> +         This option relaxes this requirement when loading a module.
+> I squashed the following fix-up.
+> 
+> 
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 3e6d36ddfcdf..2773f9f9bae2 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2386,6 +2386,7 @@ static void read_dump(const char *fname,
+> unsigned int kernel)
+>                 s = sym_add_exported(symname, mod, export_no(export));
+>                 s->kernel    = kernel;
+>                 s->preloaded = 1;
+> +               s->is_static = 0;
+>                 sym_update_crc(symname, mod, crc, export_no(export));
+>         }
+>         release_file(file, size);
 
-> While
-> +         technically there is no reason to enforce correct namespace imports,
-> +         it creates consistency between symbols defining namespaces and users
-> +         importing namespaces they make use of.
+Hi!
 
-I'm confused by this sentence. It sounds like it's the opposite of
-what the config is doing? Can you please reword it for clarify?
+Thank you very much indeed.
 
--Saravana
+Best regards,
+Denis
