@@ -2,88 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 637A68C351
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 23:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6161A8C420
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 00:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726654AbfHMVLJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 17:11:09 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:37308 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726649AbfHMVLJ (ORCPT
+        id S1727119AbfHMWKZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 18:10:25 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:45840 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726066AbfHMWKY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 17:11:09 -0400
-Received: by mail-qt1-f196.google.com with SMTP id y26so107918873qto.4;
-        Tue, 13 Aug 2019 14:11:08 -0700 (PDT)
+        Tue, 13 Aug 2019 18:10:24 -0400
+Received: by mail-vs1-f66.google.com with SMTP id h28so73240935vsl.12;
+        Tue, 13 Aug 2019 15:10:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pp5eRf0N+uQmDSXZwy17OtD2z4+QtcsTwk0l8jXpzlE=;
-        b=LXl1lwQ6JaVOI+6IlYrNlT1R8NiTuLuolPv0Stlvbb/oFnKPf5hRCTgwOop3VpOY9e
-         HoI6Ia3XGIr/f3q/LBh4QQ2EuBTRwnJ9Wq1h4F+NXeMu/r7rS3qqpM48keZzeS6I/yD7
-         K8ieakJ0vn6OU2y6Eu32mCwLFL21DQ2EV5+dE8Mc2MIGe0WpI0Q7LBF1gS1hdWihfnOA
-         0J8Qi7rEWzXP7kQf0WZxtUJXqWajOFr/1+6C4WU1as9dzCcdtXZzBOTJUl/OirbyQQmQ
-         7lA+sAJ6Bzy64D92LPfGn+W4J8uOq2Mh+3vZh34PacjO4Pu/e7eeKNLRMVjm+8nMv+xt
-         h7cQ==
-X-Gm-Message-State: APjAAAWb/NwTX+AgHo9fDdknndRNeiIRcmHVn1hnK/86pH0a5UXrcz8Q
-        S1Q1x+860bh9U8mbZGC6qLwgFxvCya0=
-X-Google-Smtp-Source: APXvYqyY49VX1crEC35QrQwqIV5HCWNM6+CaBwgTvdTWc4SOk/E4KMpdaZ2sEyDMsrtNJFkTvZ26WQ==
-X-Received: by 2002:a0c:d1d3:: with SMTP id k19mr218548qvh.6.1565730668288;
-        Tue, 13 Aug 2019 14:11:08 -0700 (PDT)
-Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
-        by smtp.gmail.com with ESMTPSA id o43sm15220237qto.63.2019.08.13.14.11.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Aug 2019 14:11:07 -0700 (PDT)
-Subject: Re: [PATCH v5] modpost: check for static EXPORT_SYMBOL* functions
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20190714152817.24693-1-efremov@linux.com>
- <20190801060657.5932-1-efremov@linux.com>
- <CAK7LNASdhyhhqyf1wcga7UDYoo=2t-0ZaqTmQdcsFOfAR580sw@mail.gmail.com>
- <CAK7LNAQG7DM_2+JJ+bJdre12HcbZY7zGfHk3AU66S0ESjxMbnA@mail.gmail.com>
-From:   Denis Efremov <efremov@linux.com>
-Message-ID: <4473cefb-9099-114c-2d7d-7714738b01a1@linux.com>
-Date:   Wed, 14 Aug 2019 00:11:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iTOCmMlUQI4Ou/DijdBIjbiZAWNFSaKrQKnKPO3XY8o=;
+        b=TUXM+SPFHY3k76fw8TXX2rhKycxcNktfOaZmgKU4b05jYMOsBfnQTSa6wAGSzcquwc
+         MvbBrJYiikbfk6Dc9dpqyEpUJFj5lG/DH3wT0dcXqDlKjhP2wLCdrS3sLblnypg1S1KW
+         n3wCmdf970WgN5xOMzjyoxG+7MDhsDFKt4MDdqPcEipKympffRDhsN2tYcWFtDqdlZKL
+         Bk+gEc+Ez6IUOcISTpI99hlEKKUpQCNErgLyh4+Qic3zFwvDzXiKc2YGF0iGL7hqjSHM
+         uJ1wk1qJLMr1fhR1VXlxpHjW5NpZiIsm93WCxN5G3zqbFllSpm7sYPIEA/PDZHWCFCLv
+         SWLw==
+X-Gm-Message-State: APjAAAXsbQjFexFM55EVRuyVPjWaKNGH+pM4JcZ1MwpmJKlxQywOcQa0
+        mST90q5rX68b1vg3L3etjS9HKzBUEDWCogrkif8=
+X-Google-Smtp-Source: APXvYqz0UYBfkcWb8zAzxB0wr6Gyxnzd4i5JutnFy3WCLJjC4APDP1rokNzg6YVyPjaXbINByjUSBwqnadpRO9ZhE9M=
+X-Received: by 2002:a67:cd09:: with SMTP id u9mr26551154vsl.222.1565734223495;
+ Tue, 13 Aug 2019 15:10:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQG7DM_2+JJ+bJdre12HcbZY7zGfHk3AU66S0ESjxMbnA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190809002104.18599-1-stancheff@cray.com> <20190809002104.18599-2-stancheff@cray.com>
+ <CAK7LNAScm9P+QMZiqqSQnOoPsN54OTcTGpaDgxTbjJ_knoeGhA@mail.gmail.com>
+ <CAJ48U8Xp40is+R1dMW8sXq77ZS5D_h+hHte5Mq5eOrtpb41Qxw@mail.gmail.com> <CAK7LNAT5OVcw9tJtaR8VE_JEemAzkqV6FeSHPEy38wotxjhkZg@mail.gmail.com>
+In-Reply-To: <CAK7LNAT5OVcw9tJtaR8VE_JEemAzkqV6FeSHPEy38wotxjhkZg@mail.gmail.com>
+From:   Shaun Tancheff <shaun@tancheff.com>
+Date:   Tue, 13 Aug 2019 17:10:12 -0500
+Message-ID: <CAJ48U8UKzGPj7JM2z2vnTDC4fT_7+X2NXVLf1T116-ym50i=xQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] kbuild: recursive build of external kernel modules
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Shaun Tancheff <stancheff@cray.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        "James E . J . Bottomley" <jejb@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Shuah Khan <shuah@kernel.org>,
+        Thomas Renninger <trenn@suse.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM mailing list <linux-pm@vger.kernel.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 13.08.2019 19:07, Masahiro Yamada wrote:
-> Hi Denis,
+On Mon, Aug 12, 2019 at 8:07 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> I squashed the following fix-up.
-> 
-> 
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 3e6d36ddfcdf..2773f9f9bae2 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2386,6 +2386,7 @@ static void read_dump(const char *fname,
-> unsigned int kernel)
->                 s = sym_add_exported(symname, mod, export_no(export));
->                 s->kernel    = kernel;
->                 s->preloaded = 1;
-> +               s->is_static = 0;
->                 sym_update_crc(symname, mod, crc, export_no(export));
->         }
->         release_file(file, size);
+> On Tue, Aug 13, 2019 at 2:34 AM Shaun Tancheff <shaun@tancheff.com> wrote:
+> >
+> > On Mon, Aug 12, 2019 at 10:24 AM Masahiro Yamada
+> > <yamada.masahiro@socionext.com> wrote:
+> > >
+> > > On Fri, Aug 9, 2019 at 9:21 AM Shaun Tancheff <shaun@tancheff.com> wrote:
+> > > >
+> > > > When building a tree of external modules stage 2 fails
+> > > > silently as the root modules.order is empty.
+> > > >
+> > > > Modify the modules.order location to be fixed to the
+> > > > root when KBUILD_EXTMOD is specified and write all
+> > > > module paths to the single modules.order file.
+> > >
+> > > Could you try v5.3-rc4 please?
+> >
+> > So it seems we are using 'subdir-m' but that is now gone?
+> >
+> > Is there a recommend pattern for backward compatibility?
+> >
+> > Thanks!
+>
+>
+> Please convert
+>
+> subdir-m += dir1
+> subdir-m += dir2
+>
+> into
+>
+> obj-m += dir1/
+> obj-m += dir2/
 
-Hi!
+After working through some local quirks everything is working now.
+Thanks!
 
-Thank you very much indeed.
-
-Best regards,
-Denis
+>
+>
+> Thanks.
+>
+> --
+> Best Regards
+> Masahiro Yamada
