@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 569C48B866
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 14:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23F58B86D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 14:20:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728177AbfHMMTy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 08:19:54 -0400
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:44039 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727684AbfHMMTJ (ORCPT
+        id S1728184AbfHMMUN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 08:20:13 -0400
+Received: from mail-qt1-f202.google.com ([209.85.160.202]:57094 "EHLO
+        mail-qt1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728182AbfHMMT6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:19:09 -0400
-Received: by mail-qk1-f202.google.com with SMTP id o4so7313791qkg.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 05:19:08 -0700 (PDT)
+        Tue, 13 Aug 2019 08:19:58 -0400
+Received: by mail-qt1-f202.google.com with SMTP id j10so17431248qtl.23
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 05:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=Ey51rOQs6pREeIh9cdmyj66W3XNY9zI3cHQpc2k+3HQ=;
-        b=Kj2QCgHK1EXGXCElMh+j+E+YRK/wfgittksUPJYKcCq2HTXcsAROuHGcD8lwzMPeKN
-         FRuEY4ZJ4B5K6zrA1HwL334EfWDTWdX3NtetiJHeWa9GorOQdftb7ZFl6EKSx4u3xZc/
-         7wihld+w2BBSts7l0IWFmsA8phk/UcL6zJVHc/saACvhutCrFbaf8mO23uze0QWnNBrq
-         vYTou4ilb8mGMgPL02Xng92+rEko2PdVT7rfXODuJ6MfFN3kroS9fkNmsFz5YKN59B1J
-         z/cX3txyE3JspEYroOPPq3rlFHs4ewel3KUPhHTQrUFBOOUrKm5bW9fgQpBKQKrxy7dA
-         pBzw==
+        bh=1sx6hDgzysYx+a29qVca5WMwZUe5jwQTperKXSLoylQ=;
+        b=Ev/tJDUdex0/lv/JEzhxy+49zAkreP6Jg29SndWS5FWZ830Oi1JZSSRe6lp9IrWOaH
+         6Y3lgB/2sWKhybFHj3qjhywMystAxoTkuz47QmpUTVjzEPHZ1B/W01+B0ocg5FEHcqhy
+         dqZgHcQ0db3rTby/urgNTYN2GhCDoaM3pbXCwRhT8ijr7jEhVYAnAX+PTXEd0AWwBUE4
+         gHqeqaiQuCjuP6So/ndbq6iDBndo4FGwp7iSG4AayhQaOObt1T+F3tLAdFEBSwAvCbk6
+         IV9N1j3fjk7oDLSc77o4LYwVb6/yy0myZelAKaLZ/iMGgbcy9AtCX+KchP5vb3ypKiyL
+         /fOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=Ey51rOQs6pREeIh9cdmyj66W3XNY9zI3cHQpc2k+3HQ=;
-        b=pjmm38wata1aWf9/CXynWXexiCO+EH//6oEChTJRxEHCWlZLz2MZ0Qub6M9HinCsqG
-         5vrDd7kNVTC5I6Uhoo5icNZo4O4/4eSt/56ZE+F+EMROBG664oW7D8CEamcFDJgfPMHh
-         D47nSiy3M9lCJaE5rrlHUU1rwv6Tsm0x33FqMHJLHSsWVqfKGivSHL10HVSV7C8Br6vq
-         SrBwpGL3Mp/jT2YJR9YLZcHX7EGowjdqW/xXDWgTTug9G1Qsgn2h7Xs3c8i4pS6fpWgR
-         7/TcTBCoU22CqzcqjH+ypA0javhfVpta3bdDSjzpRQyIheQS7FNBPN8bUBLC3gsgr1C2
-         g9AA==
-X-Gm-Message-State: APjAAAUQhcgNYGhnZ+Ow7IH4td3gWnv4iRyjAeBdH1yeKW6jJBuL3i+4
-        hwMHIEWPSiPpZ7UWBULQcuYn3gSuc4xkjQ==
-X-Google-Smtp-Source: APXvYqx8Z3ce2Fq34vvTXoHfRI3jPxZxSV8ZFlwOArOAxzvMMWLUaLTe8i8AZbmoFtb4lXGU8fZ6nZcq2n3UrA==
-X-Received: by 2002:a37:6844:: with SMTP id d65mr33008934qkc.398.1565698748030;
- Tue, 13 Aug 2019 05:19:08 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 13:16:58 +0100
+        bh=1sx6hDgzysYx+a29qVca5WMwZUe5jwQTperKXSLoylQ=;
+        b=BmjrO7q+Kgi2KkYNVaSVk9llOCNlH/UVr/HAwlsrDBRB19nIuxAnDTGH/jcZip5Q2I
+         JmVjD76fVMfehJuP44tudiAUrShFk383daquCivJfjx9NzZfwkTA8vhYIn7T/N5aoWSF
+         1cIKEzxiCubEQ/Nl6X1yuw21oGMyI32yOUBdJFWleF9MysxrzarPIAV9wp2TQx8JrPGJ
+         PJwqkBYt9J7p8rRWPzBgRTPFu2YlBSYtFsPjFIxw44ugsvq+kdvDB2tvYDI+2UP71q0K
+         sREZuU3/QPowtgRKWE2/L7vqNju1YgvmwY7xMWRfXkAq7/p6crVfJXwDGzzVKzRyw0cN
+         cZ5A==
+X-Gm-Message-State: APjAAAWeQfIQgAjXocit4nVxkwP8QJ9d4/z7X3TUgsXqoyYtauhifpjf
+        ADYGK5/xGt2hnBbH9uVQ55JC9KskcnfdMQ==
+X-Google-Smtp-Source: APXvYqy7XJLCyeK2FSU9zmscKN5oO6sUvybZKuEqJl11qIfRvRwWVPlen7osQbA/oOuqUN0PwQXDX7FNDxzX0g==
+X-Received: by 2002:ad4:5242:: with SMTP id s2mr3907894qvq.129.1565698796953;
+ Tue, 13 Aug 2019 05:19:56 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 13:17:06 +0100
 In-Reply-To: <20190813121733.52480-1-maennich@google.com>
-Message-Id: <20190813121733.52480-2-maennich@google.com>
+Message-Id: <20190813121733.52480-10-maennich@google.com>
 Mime-Version: 1.0
 References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v2 01/10] module: support reading multiple values per modinfo tag
+Subject: [PATCH v2 09/10] usb-storage: remove single-use define for debugging
 From:   Matthias Maennich <maennich@google.com>
 To:     linux-kernel@vger.kernel.org, maco@android.com
 Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
@@ -69,61 +69,43 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Similar to modpost's get_next_modinfo(), introduce get_next_modinfo() in
-kernel/module.c to acquire any further values associated with the same
-modinfo tag name. That is useful for any tags that have multiple
-occurrences (such as 'alias'), but is in particular introduced here as
-part of the symbol namespaces patch series to read the (potentially)
-multiple namespaces a module is importing.
+USB_STORAGE was defined as "usb-storage: " and used in a single location
+as argument to printk. In order to be able to use the name
+'USB_STORAGE', drop the definition and use the string directly for the
+printk call.
 
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Reviewed-by: Martijn Coenen <maco@android.com>
 Signed-off-by: Matthias Maennich <maennich@google.com>
 ---
- kernel/module.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/usb/storage/debug.h    | 2 --
+ drivers/usb/storage/scsiglue.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/kernel/module.c b/kernel/module.c
-index 5933395af9a0..a23067907169 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -2481,7 +2481,8 @@ static char *next_string(char *string, unsigned long *secsize)
- 	return string;
- }
+diff --git a/drivers/usb/storage/debug.h b/drivers/usb/storage/debug.h
+index 6d64f342f587..16ce06039a4d 100644
+--- a/drivers/usb/storage/debug.h
++++ b/drivers/usb/storage/debug.h
+@@ -29,8 +29,6 @@
  
--static char *get_modinfo(struct load_info *info, const char *tag)
-+static char *get_next_modinfo(const struct load_info *info, const char *tag,
-+			      char *prev)
- {
- 	char *p;
- 	unsigned int taglen = strlen(tag);
-@@ -2492,13 +2493,25 @@ static char *get_modinfo(struct load_info *info, const char *tag)
- 	 * get_modinfo() calls made before rewrite_section_headers()
- 	 * must use sh_offset, as sh_addr isn't set!
- 	 */
--	for (p = (char *)info->hdr + infosec->sh_offset; p; p = next_string(p, &size)) {
-+	char *modinfo = (char *)info->hdr + infosec->sh_offset;
-+
-+	if (prev) {
-+		size -= prev - modinfo;
-+		modinfo = next_string(prev, &size);
-+	}
-+
-+	for (p = modinfo; p; p = next_string(p, &size)) {
- 		if (strncmp(p, tag, taglen) == 0 && p[taglen] == '=')
- 			return p + taglen + 1;
+ #include <linux/kernel.h>
+ 
+-#define USB_STORAGE "usb-storage: "
+-
+ #ifdef CONFIG_USB_STORAGE_DEBUG
+ void usb_stor_show_command(const struct us_data *us, struct scsi_cmnd *srb);
+ void usb_stor_show_sense(const struct us_data *us, unsigned char key,
+diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
+index 05b80211290d..df4de8323eff 100644
+--- a/drivers/usb/storage/scsiglue.c
++++ b/drivers/usb/storage/scsiglue.c
+@@ -379,7 +379,7 @@ static int queuecommand_lck(struct scsi_cmnd *srb,
+ 
+ 	/* check for state-transition errors */
+ 	if (us->srb != NULL) {
+-		printk(KERN_ERR USB_STORAGE "Error in %s: us->srb = %p\n",
++		printk(KERN_ERR "usb-storage: Error in %s: us->srb = %p\n",
+ 			__func__, us->srb);
+ 		return SCSI_MLQUEUE_HOST_BUSY;
  	}
- 	return NULL;
- }
- 
-+static char *get_modinfo(const struct load_info *info, const char *tag)
-+{
-+	return get_next_modinfo(info, tag, NULL);
-+}
-+
- static void setup_modinfo(struct module *mod, struct load_info *info)
- {
- 	struct module_attribute *attr;
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
