@@ -2,297 +2,251 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7974E8B86B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 14:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7970C8B893
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 14:31:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbfHMMUL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 08:20:11 -0400
-Received: from mail-ua1-f74.google.com ([209.85.222.74]:36373 "EHLO
-        mail-ua1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728189AbfHMMUB (ORCPT
+        id S1727441AbfHMMbc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 08:31:32 -0400
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:64249
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726903AbfHMMbc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 08:20:01 -0400
-Received: by mail-ua1-f74.google.com with SMTP id r11so9641300uao.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 05:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=BVCscCghGr3RW4i2SIfebP2PoMpA3Kh9pJgULCxqlPQ=;
-        b=u2/pqsshhQnlXCPysffXEOpXSHiOYRisuXsp5awurzduyutvZibG6iupvJfZ36dW4O
-         B8ZCY65b0BwRxdtrl0BtmL0X6jGeHNRKdtQPO3cA8cU/5qLkMeqbp9XtNxx4BCtf9xid
-         7T5XjArfMsnwQJUkBxxPMFLQuSr4ixSuQdco24WpGOt4HnPHhQnblxUvW5Z+FyYqbvHf
-         2gdxaH+FSMoOtGHuoi+z8HwRrKyIosqYPuRWqYIhUWyG7yzlVDb9WCTJoxJXbbSEzMyP
-         IyMsNUoceVGVHF/6P+NiU7TV79UdRsIy5g8qnt6NBe3KgZZg/7TSjqTXBZ3N0xTvEVp8
-         icvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=BVCscCghGr3RW4i2SIfebP2PoMpA3Kh9pJgULCxqlPQ=;
-        b=UMWJP1pOwwwncOWIy0yYfPywiOfR6sXSon9pE+MeWz1vj0Bi+LLFMAHEImP8sQ0/L/
-         DTsP/c71ZiIpeWsP3mQNi2HwPvpF0i76qVF+p/LRMDUHHD6A8v+Dy7aq1QCAW/C7YbWo
-         TECibtBsb4x6doN/FCUXLoMl7oEi3C1JzTAJMT+Bsmdoe0mLmpqZjvdBKn1uw2/OOtF8
-         mYE6z9nFXDQ0PsYVnurmVwhot6KEbUun4HuNBQ0Iu/9Y4YJRX0hxzp1Rw20LdFzqIeN4
-         Nwh6+NgU80XkfqfiZAukivMDQp15bd0pM1StZjjU3nExcVi9PTv2gYHqsD1Mj0bSKcPc
-         799A==
-X-Gm-Message-State: APjAAAX0mVTyOXvjbrU6Y493YcgGugiHf14FJd+OIB1Ky3kL1StBfsOh
-        7jiXEa9lLxQcDzQvSij7HzJ5nkCHKXncXw==
-X-Google-Smtp-Source: APXvYqxu9ZboBauUgURGvwMlFpuvzXKtKNrSni4vknrSu8vLMAf7HLrp+1GWRNFhg6GB2Pf15cf4tJRLGP5l/w==
-X-Received: by 2002:a1f:5405:: with SMTP id i5mr4863634vkb.75.1565698800581;
- Tue, 13 Aug 2019 05:20:00 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 13:17:07 +0100
-In-Reply-To: <20190813121733.52480-1-maennich@google.com>
-Message-Id: <20190813121733.52480-11-maennich@google.com>
-Mime-Version: 1.0
-References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com>
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v2 10/10] RFC: usb-storage: export symbols in USB_STORAGE namespace
-From:   Matthias Maennich <maennich@google.com>
-To:     linux-kernel@vger.kernel.org, maco@android.com
-Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
-        geert@linux-m68k.org, gregkh@linuxfoundation.org, hpa@zytor.com,
-        jeyu@kernel.org, joel@joelfernandes.org,
-        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
-        maco@google.com, michal.lkml@markovi.net, mingo@redhat.com,
-        oneukum@suse.com, pombredanne@nexb.com, sam@ravnborg.org,
-        sboyd@codeaurora.org, sspatil@google.com,
-        stern@rowland.harvard.edu, tglx@linutronix.de,
+        Tue, 13 Aug 2019 08:31:32 -0400
+X-IronPort-AV: E=Sophos;i="5.64,381,1559512800"; 
+   d="scan'208";a="316282409"
+Received: from portablejulia.rsr.lip6.fr ([132.227.76.63])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Aug 2019 14:31:18 +0200
+Date:   Tue, 13 Aug 2019 14:31:18 +0200 (CEST)
+From:   Julia Lawall <julia.lawall@lip6.fr>
+X-X-Sender: julia@hadrien
+To:     Matthias Maennich <maennich@google.com>
+cc:     linux-kernel@vger.kernel.org, maco@android.com,
+        kernel-team@android.com, arnd@arndb.de, geert@linux-m68k.org,
+        gregkh@linuxfoundation.org, hpa@zytor.com, jeyu@kernel.org,
+        joel@joelfernandes.org, kstewart@linuxfoundation.org,
+        linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-m68k@vger.kernel.org, linux-modules@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+        lucas.de.marchi@gmail.com, maco@google.com,
+        michal.lkml@markovi.net, mingo@redhat.com, oneukum@suse.com,
+        pombredanne@nexb.com, sam@ravnborg.org, sboyd@codeaurora.org,
+        sspatil@google.com, stern@rowland.harvard.edu, tglx@linutronix.de,
         usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
-        yamada.masahiro@socionext.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        yamada.masahiro@socionext.com, Julia Lawall <Julia.Lawall@lip6.fr>,
+        Gilles Muller <Gilles.Muller@lip6.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        cocci@systeme.lip6.fr
+Subject: Re: [PATCH v2 08/10] scripts: Coccinelle script for namespace
+ dependencies.
+In-Reply-To: <20190813121733.52480-9-maennich@google.com>
+Message-ID: <alpine.DEB.2.21.1908131430530.4608@hadrien>
+References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com> <20190813121733.52480-9-maennich@google.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Modules using these symbols are required to explicitly import the
-namespace. This patch was generated with the following steps and serves
-as a reference to use the symbol namespace feature:
 
- 1) Define DDEFAULT_SYMBOL_NAMESPACE in the corresponding Makefile
- 2) make  (see warnings during modpost about missing imports)
- 3) make nsdeps
 
-Instead of a DEFAULT_SYMBOL_NAMESPACE definition, the EXPORT_SYMBOL_NS
-variants can be used to explicitly specify the namespace. The advantage
-of the method used here is that newly added symbols are automatically
-exported and existing ones are exported without touching their
-respective EXPORT_SYMBOL macro expansion.
+On Tue, 13 Aug 2019, Matthias Maennich wrote:
 
-Signed-off-by: Matthias Maennich <maennich@google.com>
----
- drivers/usb/storage/Makefile        | 2 ++
- drivers/usb/storage/alauda.c        | 1 +
- drivers/usb/storage/cypress_atacb.c | 1 +
- drivers/usb/storage/datafab.c       | 1 +
- drivers/usb/storage/ene_ub6250.c    | 1 +
- drivers/usb/storage/freecom.c       | 1 +
- drivers/usb/storage/isd200.c        | 1 +
- drivers/usb/storage/jumpshot.c      | 1 +
- drivers/usb/storage/karma.c         | 1 +
- drivers/usb/storage/onetouch.c      | 1 +
- drivers/usb/storage/realtek_cr.c    | 1 +
- drivers/usb/storage/sddr09.c        | 1 +
- drivers/usb/storage/sddr55.c        | 1 +
- drivers/usb/storage/shuttle_usbat.c | 1 +
- drivers/usb/storage/uas.c           | 1 +
- 15 files changed, 16 insertions(+)
+> A script that uses the '<module>.ns_deps' file generated by modpost to
+> automatically add the required symbol namespace dependencies to each
+> module.
+>
+> Usage:
+> 1) Move some symbols to a namespace with EXPORT_SYMBOL_NS() or define
+>    DEFAULT_SYMBOL_NAMESPACE
+> 2) Run 'make' (or 'make modules') and get warnings about modules not
+>    importing that namespace.
+> 3) Run 'make nsdeps' to automatically add required import statements
+>    to said modules.
+>
+> This makes it easer for subsystem maintainers to introduce and maintain
+> symbol namespaces into their codebase.
+>
+> Co-developed-by: Martijn Coenen <maco@android.com>
+> Signed-off-by: Martijn Coenen <maco@android.com>
+> Signed-off-by: Matthias Maennich <maennich@google.com>
 
-diff --git a/drivers/usb/storage/Makefile b/drivers/usb/storage/Makefile
-index a67ddcbb4e24..46635fa4a340 100644
---- a/drivers/usb/storage/Makefile
-+++ b/drivers/usb/storage/Makefile
-@@ -8,6 +8,8 @@
-=20
- ccflags-y :=3D -I $(srctree)/drivers/scsi
-=20
-+ccflags-y +=3D -DDEFAULT_SYMBOL_NAMESPACE=3DUSB_STORAGE
-+
- obj-$(CONFIG_USB_UAS)		+=3D uas.o
- obj-$(CONFIG_USB_STORAGE)	+=3D usb-storage.o
-=20
-diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
-index 6b8edf6178df..ddab2cd3d2e7 100644
---- a/drivers/usb/storage/alauda.c
-+++ b/drivers/usb/storage/alauda.c
-@@ -36,6 +36,7 @@
- MODULE_DESCRIPTION("Driver for Alauda-based card readers");
- MODULE_AUTHOR("Daniel Drake <dsd@gentoo.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * Status bytes
-diff --git a/drivers/usb/storage/cypress_atacb.c b/drivers/usb/storage/cypr=
-ess_atacb.c
-index 4825902377eb..a6f3267bbef6 100644
---- a/drivers/usb/storage/cypress_atacb.c
-+++ b/drivers/usb/storage/cypress_atacb.c
-@@ -22,6 +22,7 @@
- MODULE_DESCRIPTION("SAT support for Cypress USB/ATA bridges with ATACB");
- MODULE_AUTHOR("Matthieu Castet <castet.matthieu@free.fr>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * The table of devices
-diff --git a/drivers/usb/storage/datafab.c b/drivers/usb/storage/datafab.c
-index 09353be199be..588818483f4b 100644
---- a/drivers/usb/storage/datafab.c
-+++ b/drivers/usb/storage/datafab.c
-@@ -54,6 +54,7 @@
- MODULE_DESCRIPTION("Driver for Datafab USB Compact Flash reader");
- MODULE_AUTHOR("Jimmie Mayfield <mayfield+datafab@sackheads.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- struct datafab_info {
- 	unsigned long   sectors;	/* total sector count */
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6=
-250.c
-index c26129d5b943..8b1b73065421 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -26,6 +26,7 @@
-=20
- MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
- MODULE_FIRMWARE(SD_INIT1_FIRMWARE);
- MODULE_FIRMWARE(SD_INIT2_FIRMWARE);
- MODULE_FIRMWARE(SD_RW_FIRMWARE);
-diff --git a/drivers/usb/storage/freecom.c b/drivers/usb/storage/freecom.c
-index 4f542df37a44..34e7eaff1174 100644
---- a/drivers/usb/storage/freecom.c
-+++ b/drivers/usb/storage/freecom.c
-@@ -29,6 +29,7 @@
- MODULE_DESCRIPTION("Driver for Freecom USB/IDE adaptor");
- MODULE_AUTHOR("David Brown <usb-storage@davidb.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- #ifdef CONFIG_USB_STORAGE_DEBUG
- static void pdump(struct us_data *us, void *ibuffer, int length);
-diff --git a/drivers/usb/storage/isd200.c b/drivers/usb/storage/isd200.c
-index 2b474d60b4db..c4da3fd6eff9 100644
---- a/drivers/usb/storage/isd200.c
-+++ b/drivers/usb/storage/isd200.c
-@@ -53,6 +53,7 @@
- MODULE_DESCRIPTION("Driver for In-System Design, Inc. ISD200 ASIC");
- MODULE_AUTHOR("Bj=C3=B6rn Stenberg <bjorn@haxx.se>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- static int isd200_Initialization(struct us_data *us);
-=20
-diff --git a/drivers/usb/storage/jumpshot.c b/drivers/usb/storage/jumpshot.=
-c
-index 917f170c4124..229bf0c1afc9 100644
---- a/drivers/usb/storage/jumpshot.c
-+++ b/drivers/usb/storage/jumpshot.c
-@@ -51,6 +51,7 @@
- MODULE_DESCRIPTION("Driver for Lexar \"Jumpshot\" Compact Flash reader");
- MODULE_AUTHOR("Jimmie Mayfield <mayfield+usb@sackheads.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * The table of devices
-diff --git a/drivers/usb/storage/karma.c b/drivers/usb/storage/karma.c
-index 395cf8fb5870..05cec81dcd3f 100644
---- a/drivers/usb/storage/karma.c
-+++ b/drivers/usb/storage/karma.c
-@@ -23,6 +23,7 @@
- MODULE_DESCRIPTION("Driver for Rio Karma");
- MODULE_AUTHOR("Bob Copeland <me@bobcopeland.com>, Keith Bennett <keith@mcs=
-.st-and.ac.uk>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- #define RIO_PREFIX "RIOP\x00"
- #define RIO_PREFIX_LEN 5
-diff --git a/drivers/usb/storage/onetouch.c b/drivers/usb/storage/onetouch.=
-c
-index 39a5009a41a6..a989fe930e21 100644
---- a/drivers/usb/storage/onetouch.c
-+++ b/drivers/usb/storage/onetouch.c
-@@ -25,6 +25,7 @@
- MODULE_DESCRIPTION("Maxtor USB OneTouch hard drive button driver");
- MODULE_AUTHOR("Nick Sillik <n.sillik@temple.edu>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- #define ONETOUCH_PKT_LEN        0x02
- #define ONETOUCH_BUTTON         KEY_PROG1
-diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek=
-_cr.c
-index cc794e25a0b6..edbe419053d6 100644
---- a/drivers/usb/storage/realtek_cr.c
-+++ b/drivers/usb/storage/realtek_cr.c
-@@ -35,6 +35,7 @@
- MODULE_DESCRIPTION("Driver for Realtek USB Card Reader");
- MODULE_AUTHOR("wwang <wei_wang@realsil.com.cn>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- static int auto_delink_en =3D 1;
- module_param(auto_delink_en, int, S_IRUGO | S_IWUSR);
-diff --git a/drivers/usb/storage/sddr09.c b/drivers/usb/storage/sddr09.c
-index bc9da736bdfc..51bcd4a43690 100644
---- a/drivers/usb/storage/sddr09.c
-+++ b/drivers/usb/storage/sddr09.c
-@@ -47,6 +47,7 @@
- MODULE_DESCRIPTION("Driver for SanDisk SDDR-09 SmartMedia reader");
- MODULE_AUTHOR("Andries Brouwer <aeb@cwi.nl>, Robert Baruch <autophile@star=
-band.net>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- static int usb_stor_sddr09_dpcm_init(struct us_data *us);
- static int sddr09_transport(struct scsi_cmnd *srb, struct us_data *us);
-diff --git a/drivers/usb/storage/sddr55.c b/drivers/usb/storage/sddr55.c
-index b8527c55335b..ba955d65eb0e 100644
---- a/drivers/usb/storage/sddr55.c
-+++ b/drivers/usb/storage/sddr55.c
-@@ -29,6 +29,7 @@
- MODULE_DESCRIPTION("Driver for SanDisk SDDR-55 SmartMedia reader");
- MODULE_AUTHOR("Simon Munton");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * The table of devices
-diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shut=
-tle_usbat.c
-index 854498e1012c..54aa1392c9ca 100644
---- a/drivers/usb/storage/shuttle_usbat.c
-+++ b/drivers/usb/storage/shuttle_usbat.c
-@@ -48,6 +48,7 @@
- MODULE_DESCRIPTION("Driver for SCM Microsystems (a.k.a. Shuttle) USB-ATAPI=
- cable");
- MODULE_AUTHOR("Daniel Drake <dsd@gentoo.org>, Robert Baruch <autophile@sta=
-rband.net>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /* Supported device types */
- #define USBAT_DEV_HP8200	0x01
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 047c5922618f..bf80d6f81f58 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -1219,5 +1219,6 @@ static struct usb_driver uas_driver =3D {
- module_usb_driver(uas_driver);
-=20
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
- MODULE_AUTHOR(
- 	"Hans de Goede <hdegoede@redhat.com>, Matthew Wilcox and Sarah Sharp");
---=20
-2.23.0.rc1.153.gdeed80330f-goog
+Acked-by: Julia Lawall <julia.lawall@lip6.fr>
 
+
+> ---
+>  MAINTAINERS                                 |  5 ++
+>  Makefile                                    | 12 +++++
+>  scripts/Makefile.modpost                    |  4 +-
+>  scripts/coccinelle/misc/add_namespace.cocci | 23 +++++++++
+>  scripts/nsdeps                              | 54 +++++++++++++++++++++
+>  5 files changed, 97 insertions(+), 1 deletion(-)
+>  create mode 100644 scripts/coccinelle/misc/add_namespace.cocci
+>  create mode 100644 scripts/nsdeps
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e81e60bd7c26..aa169070a052 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11414,6 +11414,11 @@ S:	Maintained
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/nolibc.git
+>  F:	tools/include/nolibc/
+>
+> +NSDEPS
+> +M:	Matthias Maennich <maennich@google.com>
+> +S:	Maintained
+> +F:	scripts/nsdeps
+> +
+>  NTB AMD DRIVER
+>  M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+>  L:	linux-ntb@googlegroups.com
+> diff --git a/Makefile b/Makefile
+> index 1b23f95db176..c5c3356e133c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1500,6 +1500,9 @@ help:
+>  	@echo  '  headerdep       - Detect inclusion cycles in headers'
+>  	@echo  '  coccicheck      - Check with Coccinelle'
+>  	@echo  ''
+> +	@echo  'Tools:'
+> +	@echo  '  nsdeps          - Generate missing symbol namespace dependencies'
+> +	@echo  ''
+>  	@echo  'Kernel selftest:'
+>  	@echo  '  kselftest       - Build and run kernel selftest (run as root)'
+>  	@echo  '                    Build, install, and boot kernel before'
+> @@ -1687,6 +1690,15 @@ quiet_cmd_tags = GEN     $@
+>  tags TAGS cscope gtags: FORCE
+>  	$(call cmd,tags)
+>
+> +# Script to generate missing namespace dependencies
+> +# ---------------------------------------------------------------------------
+> +
+> +PHONY += nsdeps
+> +
+> +nsdeps:
+> +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost nsdeps
+> +	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/$@
+> +
+>  # Scripts to check various things for consistency
+>  # ---------------------------------------------------------------------------
+>
+> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> index 26e6574ecd08..743fe3a2e885 100644
+> --- a/scripts/Makefile.modpost
+> +++ b/scripts/Makefile.modpost
+> @@ -56,7 +56,8 @@ MODPOST = scripts/mod/modpost						\
+>  	$(if $(KBUILD_EXTMOD),$(addprefix -e ,$(KBUILD_EXTRA_SYMBOLS)))	\
+>  	$(if $(KBUILD_EXTMOD),-o $(modulesymfile))			\
+>  	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)			\
+> -	$(if $(KBUILD_MODPOST_WARN),-w)
+> +	$(if $(KBUILD_MODPOST_WARN),-w)					\
+> +	$(if $(filter nsdeps,$(MAKECMDGOALS)),-d)
+>
+>  ifdef MODPOST_VMLINUX
+>
+> @@ -134,6 +135,7 @@ $(modules): %.ko :%.o %.mod.o FORCE
+>
+>  targets += $(modules)
+>
+> +nsdeps: __modpost
+>
+>  # Add FORCE to the prequisites of a target to force it to be always rebuilt.
+>  # ---------------------------------------------------------------------------
+> diff --git a/scripts/coccinelle/misc/add_namespace.cocci b/scripts/coccinelle/misc/add_namespace.cocci
+> new file mode 100644
+> index 000000000000..c832bb6445a8
+> --- /dev/null
+> +++ b/scripts/coccinelle/misc/add_namespace.cocci
+> @@ -0,0 +1,23 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +//
+> +/// Adds missing MODULE_IMPORT_NS statements to source files
+> +///
+> +/// This script is usually called from scripts/nsdeps with -D ns=<namespace> to
+> +/// add a missing namespace tag to a module source file.
+> +///
+> +
+> +@has_ns_import@
+> +declarer name MODULE_IMPORT_NS;
+> +identifier virtual.ns;
+> +@@
+> +MODULE_IMPORT_NS(ns);
+> +
+> +// Add missing imports, but only adjacent to a MODULE_LICENSE statement.
+> +// That ensures we are adding it only to the main module source file.
+> +@do_import depends on !has_ns_import@
+> +declarer name MODULE_LICENSE;
+> +expression license;
+> +identifier virtual.ns;
+> +@@
+> +MODULE_LICENSE(license);
+> ++ MODULE_IMPORT_NS(ns);
+> diff --git a/scripts/nsdeps b/scripts/nsdeps
+> new file mode 100644
+> index 000000000000..148db65a830f
+> --- /dev/null
+> +++ b/scripts/nsdeps
+> @@ -0,0 +1,54 @@
+> +#!/bin/bash
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Linux kernel symbol namespace import generator
+> +#
+> +# This script requires at least spatch
+> +# version 1.0.4.
+> +SPATCH_REQ_VERSION="1.0.4"
+> +
+> +DIR="$(dirname $(readlink -f $0))/.."
+> +SPATCH="`which ${SPATCH:=spatch}`"
+> +if [ ! -x "$SPATCH" ]; then
+> +    echo 'spatch is part of the Coccinelle project and is available at http://coccinelle.lip6.fr/'
+> +    exit 1
+> +fi
+> +
+> +SPATCH_REQ_VERSION_NUM=$(echo $SPATCH_REQ_VERSION | ${DIR}/scripts/ld-version.sh)
+> +SPATCH_VERSION=$($SPATCH --version | head -1 | awk '{print $3}')
+> +SPATCH_VERSION_NUM=$(echo $SPATCH_VERSION | ${DIR}/scripts/ld-version.sh)
+> +
+> +if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
+> +    echo 'spatch needs to be version 1.06 or higher'
+> +    exit 1
+> +fi
+> +
+> +generate_deps_for_ns() {
+> +    $SPATCH --very-quiet --in-place --sp-file \
+> +	    $srctree/scripts/coccinelle/misc/add_namespace.cocci -D ns=$1 $2
+> +}
+> +
+> +generate_deps() {
+> +    local mod_file=`echo $@ | sed -e 's/\.ns_deps/\.mod/'`
+> +    local mod_name=`cat $mod_file | sed -n 1p | sed -e 's/\/[^.]*$//'`
+> +    local mod_source_files=`cat $mod_file | sed -n 2p | sed -e 's/\.o/\.c/g'`
+> +    for ns in `cat $@`; do
+> +	echo "Adding namespace $ns to module $mod_name (if needed)."
+> +        generate_deps_for_ns $ns $mod_source_files
+> +	# sort the imports
+> +        for source_file in $mod_source_files; do
+> +            sed '/MODULE_IMPORT_NS/Q' $source_file > ${source_file}.tmp
+> +            offset=$(wc -l ${source_file}.tmp | awk '{print $1;}')
+> +            cat $source_file | grep MODULE_IMPORT_NS | sort -u >> ${source_file}.tmp
+> +            tail -n +$((offset +1)) ${source_file} | grep -v MODULE_IMPORT_NS >> ${source_file}.tmp
+> +            if ! diff -q ${source_file} ${source_file}.tmp; then
+> +                mv ${source_file}.tmp ${source_file}
+> +            else
+> +                rm ${source_file}.tmp
+> +            fi
+> +        done
+> +    done
+> +}
+> +
+> +for f in `find $srctree/.tmp_versions/ -name *.ns_deps`; do
+> +    generate_deps $f
+> +done
+> --
+> 2.23.0.rc1.153.gdeed80330f-goog
+>
+>
