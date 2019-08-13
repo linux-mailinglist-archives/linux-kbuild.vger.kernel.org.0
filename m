@@ -2,117 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C9BA8BCDD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 17:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC0EA8BCFF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 17:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729903AbfHMPRN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 11:17:13 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:33834 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729580AbfHMPRJ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 11:17:09 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n9so45201004pgc.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 08:17:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=V7Vc4h0uj52QiwgSeM0HPukUmZe8eSiGizdlDL0MsZc=;
-        b=P58NEDX0lnVGsZU02FJGgu1WCftMbcsmAGAcXiE7Xb3cVlW6g9TV9PSHnrWt3vN+Dt
-         diFNATsZYO0/dQY4zcCvxfHVeAM1Dr+hofEa35Ujsw80oCfT7a2jVP1Snuvw0nnqduYi
-         w0ZT+GGbOKqN62X0k3yhwSn+srvND/prdhLP0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=V7Vc4h0uj52QiwgSeM0HPukUmZe8eSiGizdlDL0MsZc=;
-        b=FJywOOa4d6hSxvNwqdoUBprpSI7quE9s+2g266uXtc/wclf42Yr7WNiDjNEdtQHniD
-         ZsvIIHGlvzRK5Ze2G+3RLrZ/IGhIF/8hiuyCb3DMMFu2o1k711xMWz0hueqJY9QVjoRM
-         RGM+uT5nAb+uaYyMb4RyMHcm4ljZ19KOoaQnYSkUfv1bjjb3Wj8mCXpRVKmjSbDF5Z94
-         VnwFy5KgHNvQH9u4d9rTPR2jJg8kGcPb6Q33Atwd6hsMvqpB33tp6sdxS7ZRcUkdiRyl
-         CAQtcCwJlZb1UCvUCWCbtpEx7x0MgWXcGbBU5xfdoEkVt5t8Ev2MiuWJcS8jR7OL++2h
-         sxxg==
-X-Gm-Message-State: APjAAAXOAthOR9bhzuubEUDhMeT3J0jUHzWy67PbVfKjCYeNTNU+gurT
-        rlsbW6Yxcg/isl1YLfIZvg9SDA==
-X-Google-Smtp-Source: APXvYqzdtns2c4giPlmpu+B6bbvmjTOe7WdwtgrBU07H2NoFsZCpTEecyrlJ+ul2Mk/0Vd0UPiLCVg==
-X-Received: by 2002:a62:f24b:: with SMTP id y11mr15994459pfl.0.1565709428876;
-        Tue, 13 Aug 2019 08:17:08 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o32sm1850120pje.9.2019.08.13.08.17.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 13 Aug 2019 08:17:07 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 08:17:06 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: Parameterize kallsyms generation and correct
- reporting
-Message-ID: <201908130815.33BA0DE322@keescook>
-References: <201908121448.4D023D7@keescook>
- <CAK7LNASSkD3SzS5do1REjTe8n7RqUKsLGc2XwWJ7PKJ-z18Oig@mail.gmail.com>
+        id S1727144AbfHMP02 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 11:26:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38008 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726705AbfHMP01 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 13 Aug 2019 11:26:27 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D402420663;
+        Tue, 13 Aug 2019 15:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565709986;
+        bh=CrAz1yCfo6+iN/BmxOQbHCwrHnLhxx45xOC9Q0XW81k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gi/sr8eKHUIdY0KORo3OqENJ9nHWlSzy+hIt2NL7mc1mwejIYNU+9CxxhxGs3XzBy
+         zrLxEXbf1MLrCEinxCSs8WDmf42Dd0q2H5jvauxI+/7SCsVSCuEd9Pks3bBg4eg1Ji
+         lHSGNIcWrEoerh5cgMx/WeA5auWMaoaaYuuy9qR8=
+Date:   Tue, 13 Aug 2019 17:26:24 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Matthias Maennich <maennich@google.com>
+Cc:     linux-kernel@vger.kernel.org, maco@android.com,
+        kernel-team@android.com, arnd@arndb.de, geert@linux-m68k.org,
+        hpa@zytor.com, jeyu@kernel.org, joel@joelfernandes.org,
+        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
+        maco@google.com, michal.lkml@markovi.net, mingo@redhat.com,
+        oneukum@suse.com, pombredanne@nexb.com, sam@ravnborg.org,
+        sboyd@codeaurora.org, sspatil@google.com,
+        stern@rowland.harvard.edu, tglx@linutronix.de,
+        usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
+        yamada.masahiro@socionext.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Subject: Re: [PATCH v2 03/10] module: add support for symbol namespaces.
+Message-ID: <20190813152624.GB26138@kroah.com>
+References: <20180716122125.175792-1-maco@android.com>
+ <20190813121733.52480-1-maennich@google.com>
+ <20190813121733.52480-4-maennich@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNASSkD3SzS5do1REjTe8n7RqUKsLGc2XwWJ7PKJ-z18Oig@mail.gmail.com>
+In-Reply-To: <20190813121733.52480-4-maennich@google.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 12:00:05AM +0900, Masahiro Yamada wrote:
-> On Tue, Aug 13, 2019 at 6:49 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > When kallsyms generation happens, temporary vmlinux outputs are linked
-> > but the quiet make output doesn't report it, giving the impression that
-> > the prior command is taking longer than expected.
-> >
-> > Instead, report the KSYM step before the temporary linking. While at it,
-> > this consolidates the repeated "kallsyms generation step" into a single
-> > function and removes the existing copy/pasting.
-> >
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
+On Tue, Aug 13, 2019 at 01:17:00PM +0100, Matthias Maennich wrote:
+> The EXPORT_SYMBOL_NS() and EXPORT_SYMBOL_NS_GPL() macros can be used to
+> export a symbol to a specific namespace.  There are no _GPL_FUTURE and
+> _UNUSED variants because these are currently unused, and I'm not sure
+> they are necessary.
 > 
-> Hmm, I did not notice this.
-
-He either until I was getting link errors from MODINFO :)
-
-> How about showing the link stage explicitly?
-> (Is it too verbose?)
+> I didn't add EXPORT_SYMBOL_NS() for ASM exports; this patch sets the
+> namespace of ASM exports to NULL by default. In case of relative
+> references, it will be relocatable to NULL. If there's a need, this
+> should be pretty easy to add.
 > 
->   MODINFO modules.builtin.modinfo
->   LD      .tmp_vmlinux1
->   KSYMS   .tmp_kallsyms1.o
->   LD      .tmp_vmlinux2
->   KSYMS   .tmp_kallsyms2.o
->   LD      vmlinux
->   SORTEX  vmlinux
-
-I'm fine with this -- it's probably the right thing to do since getting
-vmlinux link errors fro KSYMS probably doesn't make sense either. ;)
-
-> If this verbosity is OK,
-> you can move 'info LD  ${2}' into vmlinux_link()
-
-Done.
-
-> Anyway, I like the clean-ups in this patch.
+> A module that wants to use a symbol exported to a namespace must add a
+> MODULE_IMPORT_NS() statement to their module code; otherwise, modpost
+> will complain when building the module, and the kernel module loader
+> will emit an error and fail when loading the module.
 > 
-> This is just my personal preference, but
-> may I ask two cosmetic changes?
+> MODULE_IMPORT_NS() adds a modinfo tag 'import_ns' to the module. That
+> tag can be observed by the modinfo command, modpost and kernel/module.c
+> at the time of loading the module.
 > 
-> [1] Could you move kallsyms_step()
->     between  kallsyms() and mksysmap() ?
->     I want to collect function definitions
->     to the top of the script.
+> The ELF symbols are renamed to include the namespace with an asm label;
+> for example, symbol 'usb_stor_suspend' in namespace USB_STORAGE becomes
+> 'usb_stor_suspend.USB_STORAGE'.  This allows modpost to do namespace
+> checking, without having to go through all the effort of parsing ELF and
+> relocation records just to get to the struct kernel_symbols.
 > 
-> [2] Could you shorten 'kallsymso_previous'
->     to 'kallsymso_prev' ?
+> On x86_64 I saw no difference in binary size (compression), but at
+> runtime this will require a word of memory per export to hold the
+> namespace. An alternative could be to store namespaced symbols in their
+> own section and use a separate 'struct namespaced_kernel_symbol' for
+> that section, at the cost of making the module loader more complex.
+> 
+> Co-developed-by: Martijn Coenen <maco@android.com>
+> Signed-off-by: Martijn Coenen <maco@android.com>
+> Signed-off-by: Matthias Maennich <maennich@google.com>
 
-Sounds good. v2 sent.
-
--- 
-Kees Cook
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
