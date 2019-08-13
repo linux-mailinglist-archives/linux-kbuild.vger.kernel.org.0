@@ -2,54 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BEC48B17A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 09:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E71D8B1C8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Aug 2019 09:57:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727326AbfHMHxm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Aug 2019 03:53:42 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:33756 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725981AbfHMHxl (ORCPT
+        id S1727955AbfHMH5q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Aug 2019 03:57:46 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46320 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727927AbfHMH5p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Aug 2019 03:53:41 -0400
-Received: by mail-pg1-f194.google.com with SMTP id n190so10018924pgn.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 00:53:41 -0700 (PDT)
+        Tue, 13 Aug 2019 03:57:45 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q139so2842965pfc.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Aug 2019 00:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=1w6tEv+UsY5F/hdJoPjOc+8EZA8fHnLVH5Ee68+K+14=;
-        b=nVz7SRzwhp+sIStWQOhdw7+eMounsWwWY4b9W+H2splMtvxXWG/v8uX0oyrPhi9Pc/
-         DbYNbNpkCoegNiTUpPMiXg34BXPrPJrAjoIA7DyPnMkZHZfSastxpDXvu6zpEH76cIXz
-         2ipKiw0wJIDxWMLZyrA5y40OVaB5InZkV31euGDTlfUD9NGVPd2AdaFiZI2HUpl+1Z71
-         eZE6OVlRYXpa7v0Ieb0+s2HPAU8hcA299XGRboiSsBb0Wz4QiBbaFXHTBKHp4dwxoDYm
-         Lyn/gNUB2QMFaYgVWF7lBw/U70QsznbaxSpwZOVQK35ds3v4ks7lmHH71KHdUCsOoz7q
-         RS4A==
+        bh=Qxe9OCB0IqyHnARJf+JfT+i9JEoP4MCbV860ULsGU5s=;
+        b=fWxvwQ8Jg+CWf05NnJCeSWeVicnOoXy6BXG5VhOfTHwJWFVTHFtRdcNqJwjLSDCsVu
+         jiiP3AZW2TJ9Y27gYXlQWYVFyW9cOeHAtkBDWUX3YWHKBu/HS+LKFfPpeMSX6W2l72tZ
+         BRhzYAO288V5DleisjNQBfRbcy/Mz40/cEOLiUMhsZ95Bxp04BvhX0q6796bywFqCBqp
+         NSnYasYkCLB4Txnd4bsLfaw/UOxBpmRM2L4ZKLjuNJtySeAykDmMbqKDwEkFdZmfV7CY
+         oOe6Xd9hvm7QvXiKG5lkjN3mPEgj0ajH3yxwTU51S77P9cnCG7u1CaWqpN7xPuHVgKBk
+         pF4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1w6tEv+UsY5F/hdJoPjOc+8EZA8fHnLVH5Ee68+K+14=;
-        b=uUt/6ekDenEt1syt5I+/AIfNyBeUN+KmZlzTVumLtVCxlClbATZ7oPexgeefBnXzuL
-         mghOKK85hVKErPJFs5XjIox+ZixYGREp10GTVoB88wv14kcDbJRgtbacxAGNdLtQyfeO
-         S8opjZRoU8wQTFgpCuDbEUA5bzknHAbjoB4EyVFK3TN+WK5OJNJAbu2zC5LLAcmFhU8k
-         jzMC8KKVZ7/kcDeqeqK51h11Q5D/3T445v6JXNMU/gqc0HbQkGTvO+8mD302sh1iZ/3l
-         lxtF+2629X8wr3Vtv5Tckkzd1Q625RBdmgXc+Tx+qe/CVbT3/o8hiVCyAOWWxd0fmbK1
-         pGAg==
-X-Gm-Message-State: APjAAAWRlIEd5Dk+xEegLmmTlw+cPz195OOPM2w3axRjBtyv0bFi4yTl
-        oGbGpp9HGmwjZ8oSyrBm2kcENWFpFYxhi+o7/mX9nw==
-X-Google-Smtp-Source: APXvYqwRt249N6Nnc3lDOtyH2RE286o2POCGTN4Y9Dd+KQhTUzxvnzvxmCpITQmOohY+Myh1tvYfqlbmJVebyc0CKlY=
-X-Received: by 2002:a63:b919:: with SMTP id z25mr33087981pge.201.1565682820534;
- Tue, 13 Aug 2019 00:53:40 -0700 (PDT)
+        bh=Qxe9OCB0IqyHnARJf+JfT+i9JEoP4MCbV860ULsGU5s=;
+        b=Vo03u8J7M3xQNmV/TE1jI5Vx015S0jWbFtGO7261kHE3VoStrPFUyctICOZnHH3iUq
+         ahT2UFxh1rML7FEodpK7FJ8Q/uKh6opZSEiYHPRI8ggy/9msC3gHC9l4RAsyGx/1tR9s
+         OBxDe3FPyTPkQ0gKVMieHXJeyWIkOIY8TBgY+OG3Cswc/ENVqrjUdp6fnvDa9J1ciI0y
+         wOlQzo5Jb+DvJaSbUo86/hmb8xOKo7ar6wExt32vUYsi8icIcyFEn38Jztcn6/LV2TUm
+         7oAP0bRy5rd2HMKVQyhSsTb4wIAUzTEhO3atXvT9HSagh7zwtT/NcTRMRT/pv6FQb0o0
+         f9Vg==
+X-Gm-Message-State: APjAAAVYZnTHj9tD0SqswFSPorMjGpRq5GaJMZvm7t92SRoorTpcndfF
+        CPee0RxY+bzO0SLgO6bBXyJl1Xt+oAfkgEgh4qVWiw==
+X-Google-Smtp-Source: APXvYqzWk2rxD82fR19g3JsVNBllToOJJzR2xQFo11AJZitYxxxUqNbN9+PHkwurw7oZzFeN69t+CYdvTXIlmBWBICY=
+X-Received: by 2002:a63:205f:: with SMTP id r31mr31222917pgm.159.1565683064346;
+ Tue, 13 Aug 2019 00:57:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190812182421.141150-1-brendanhiggins@google.com>
- <20190812182421.141150-11-brendanhiggins@google.com> <20190813042455.4A04320644@mail.kernel.org>
- <CAFd5g46LHq1sQaio2Vj5jt54YN-Y2HuCT8FbALQhJoekkYJ-uQ@mail.gmail.com> <20190813055707.8B2BB206C2@mail.kernel.org>
-In-Reply-To: <20190813055707.8B2BB206C2@mail.kernel.org>
+ <20190812182421.141150-13-brendanhiggins@google.com> <20190813043140.67FF320644@mail.kernel.org>
+In-Reply-To: <20190813043140.67FF320644@mail.kernel.org>
 From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Tue, 13 Aug 2019 00:53:28 -0700
-Message-ID: <CAFd5g45rLTB965BX24DKFauumbdbn=m4kxtzgwr_4uj66Vmzmw@mail.gmail.com>
-Subject: Re: [PATCH v12 10/18] kunit: test: add tests for kunit test abort
+Date:   Tue, 13 Aug 2019 00:57:33 -0700
+Message-ID: <CAFd5g44Es4emKyQSxUkqckGJ02_o3sAcDLwUCW8ZFGX14j5=xg@mail.gmail.com>
+Subject: Re: [PATCH v12 12/18] kunit: test: add tests for KUnit managed resources
 To:     Stephen Boyd <sboyd@kernel.org>
 Cc:     Frank Rowand <frowand.list@gmail.com>,
         Greg KH <gregkh@linuxfoundation.org>,
@@ -87,34 +86,46 @@ Cc:     Frank Rowand <frowand.list@gmail.com>,
         Randy Dunlap <rdunlap@infradead.org>,
         Richard Weinberger <richard@nod.at>,
         David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        Avinash Kondareddy <akndr41@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 12, 2019 at 10:57 PM Stephen Boyd <sboyd@kernel.org> wrote:
+On Mon, Aug 12, 2019 at 9:31 PM Stephen Boyd <sboyd@kernel.org> wrote:
 >
-> Quoting Brendan Higgins (2019-08-12 22:06:04)
-> > On Mon, Aug 12, 2019 at 9:24 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > >
-> > > Quoting Brendan Higgins (2019-08-12 11:24:13)
-> > > > +
-> > > > +static int kunit_try_catch_test_init(struct kunit *test)
-> > > > +{
-> > > > +       struct kunit_try_catch_test_context *ctx;
-> > > > +
-> > > > +       ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> > >
-> > > Can this fail? Should return -ENOMEM in that case?
-> >
-> > Yes, I should do that.
+> Quoting Brendan Higgins (2019-08-12 11:24:15)
+> > +
+> > +static int kunit_resource_test_init(struct kunit *test)
+> > +{
+> > +       struct kunit_test_resource_context *ctx =
+> > +                       kzalloc(sizeof(*ctx), GFP_KERNEL);
+> > +
+> > +       if (!ctx)
+> > +               return -ENOMEM;
 >
-> Looks like it's asserted to not be an error. If it's pushed into the API
-> then there's nothing to do here, and you can have my reviewed-by on this
-> patch.
->
-> Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+> Should this use the test assertion logic to make sure that it's not
+> failing allocations during init?
 
-Cool, thanks!
+Yep. Will fix.
+
+> BTW, maybe kunit allocation APIs should
+> fail the test if they fail to allocate in general. Unless we're unit
+> testing failure to allocate problems.
+
+Yeah, I thought about that. I wasn't sure how people would feel about
+it, and I thought it would be a pain to tease out all the issues
+arising from aborting in different contexts when someone might not
+expect it.
+
+I am thinking later we can have kunit_kmalloc_or_abort variants? And
+then we can punt this issue to a later time?
+
+> > +
+> > +       test->priv = ctx;
+> > +
+> > +       kunit_init_test(&ctx->test, "test_test_context");
+> > +
+> > +       return 0;
