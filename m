@@ -2,56 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF3D08D7B8
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 18:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E298D7A1
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 18:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726704AbfHNQJv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Aug 2019 12:09:51 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:34179 "EHLO
+        id S1726265AbfHNQGq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Aug 2019 12:06:46 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:30776 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbfHNQJv (ORCPT
+        with ESMTP id S1726047AbfHNQGq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Aug 2019 12:09:51 -0400
+        Wed, 14 Aug 2019 12:06:46 -0400
 Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x7EG6O96024737;
-        Thu, 15 Aug 2019 01:06:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x7EG6O96024737
+        by conuserg-12.nifty.com with ESMTP id x7EG6O97024737;
+        Thu, 15 Aug 2019 01:06:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x7EG6O97024737
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1565798787;
-        bh=yk1HWpNfTmkZbWBqsqVdh6AULBtm9wKk1Bz6SrKDiZw=;
+        bh=gRWmtsYFUwXEvYPaQ9AZkEAa91zIEUkH9nocubkMAYU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u9634RMJrxKOcAOzQILC4PnPqiwSFwuSmwZLaERdwD0CHqgtGiMzuAPYLbhWTT8T+
-         deh/fa9P9Exx+QEmRivbZdh8ux3rpxGT/oE1CxRLq+jFcHnqyCrPz3Tuoi90rN3xNb
-         GKUuZ+TBGLuKwqsBKdai55hSNdci+rvsMloApwCGxZFj3D60RAlUFDCAU9k17gJl7D
-         0E93hb+vURy1pJmAtKOfpaFWZsLqbaq5xRwo1ANP/JcuPmhZJqWyrVSZmUeKKCHUme
-         vpdaYtWYgHtittcwf+V0Bqb5Q5Ipr1dbaGJke0lmWgj3XJEaj4g10lXhRKBlcXvTGl
-         AZJzZX2MrQXwg==
+        b=nAJ9ybkgY+C3zCEzj6r2GGRwDO2LVm4pcNEx8uWfBtie9iRwptgDvbLn6WDk7MfOP
+         uBp89VLOTveKi0MZlr3K9ZFBYlJHlKSma/cX/u3pKqFHnyuS4FE/AHSyYURIesMizt
+         4Bbj+s9iuu0DN/0roA7X8UaaDW/l2wWRqpk/Wmb2QMjv3Ch+awyI78UzBMW0cQtpoO
+         FsxdHWRXYZOR/zJ/tV+SIiN+bb7kXhVQZfCj8nEkNUM0V4XSqXdcuqlTDe9JwiuKxF
+         YX+hqPcjUySmU3+cbw2jZSqQE+G9aa61rxF2reNil+lVvzw4VYvNyreeQYj+o0baHr
+         yFkgUb4OO6moA==
 X-Nifty-SrcIP: [126.125.143.222]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Helge Deller <deller@gmx.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Ellerman <mpe@ellerman.id.au>,
         Michal Marek <michal.lkml@markovi.net>,
-        Palmer Dabbelt <palmer@sifive.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Tony Luck <tony.luck@intel.com>, Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 2/3] kbuild: rebuild modules when module linker scripts are updated
-Date:   Thu, 15 Aug 2019 01:06:22 +0900
-Message-Id: <20190814160623.24802-2-yamada.masahiro@socionext.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 3/3] kbuild: split final module linking out into Makefile.modfinal
+Date:   Thu, 15 Aug 2019 01:06:23 +0900
+Message-Id: <20190814160623.24802-3-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190814160623.24802-1-yamada.masahiro@socionext.com>
 References: <20190814160623.24802-1-yamada.masahiro@socionext.com>
@@ -60,163 +43,221 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, the timestamp of module linker scripts are not checked.
-Add them to the dependency of modules so they are correctly rebuilt.
+I think splitting the modpost and linking modules into separate
+Makefiles will be useful especially when more complex build steps
+come in. The main motivation of this patch is to integrate the
+proposed klp-convert feature cleanly.
+
+I moved the logging 'Building modules, stage 2.' to Makefile.modpost
+to avoid the code duplication although I do not know whether or not
+this message is needed in the first place.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- Documentation/kbuild/makefiles.rst | 5 +++++
- Makefile                           | 3 ++-
- arch/arm/Makefile                  | 2 +-
- arch/arm64/Makefile                | 2 +-
- arch/ia64/Makefile                 | 2 +-
- arch/m68k/Makefile                 | 2 +-
- arch/parisc/Makefile               | 2 +-
- arch/powerpc/Makefile              | 2 +-
- arch/riscv/Makefile                | 2 +-
- scripts/Makefile.modpost           | 5 +++--
- 10 files changed, 17 insertions(+), 10 deletions(-)
+ Makefile                  |  2 --
+ scripts/Makefile.modfinal | 60 +++++++++++++++++++++++++++++++
+ scripts/Makefile.modpost  | 76 +++++----------------------------------
+ 3 files changed, 69 insertions(+), 69 deletions(-)
+ create mode 100644 scripts/Makefile.modfinal
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index d3448d2c8017..36ba92e199d2 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -999,6 +999,11 @@ When kbuild executes, the following steps are followed (roughly):
- 
- 	The linker script with full path. Assigned by the top-level Makefile.
- 
-+    KBUILD_LDS_MODULE
-+
-+	The module linker script with full path. Assigned by the top-level
-+	Makefile and additionally by the arch Makefile.
-+
-     KBUILD_VMLINUX_OBJS
- 
- 	All object files for vmlinux. They are linked to vmlinux in the same
 diff --git a/Makefile b/Makefile
-index 164ca615e2f6..af808837a1f2 100644
+index af808837a1f2..bc55f366677d 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -485,7 +485,8 @@ KBUILD_AFLAGS_KERNEL :=
- KBUILD_CFLAGS_KERNEL :=
- KBUILD_AFLAGS_MODULE  := -DMODULE
- KBUILD_CFLAGS_MODULE  := -DMODULE
--KBUILD_LDFLAGS_MODULE := -T $(srctree)/scripts/module-common.lds
-+KBUILD_LDFLAGS_MODULE :=
-+export KBUILD_LDS_MODULE := $(srctree)/scripts/module-common.lds
- KBUILD_LDFLAGS :=
- GCC_PLUGINS_CFLAGS :=
- CLANG_FLAGS :=
-diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-index c3624ca6c0bc..fbe50eec8f34 100644
---- a/arch/arm/Makefile
-+++ b/arch/arm/Makefile
-@@ -17,7 +17,7 @@ KBUILD_LDFLAGS_MODULE	+= --be8
- endif
+@@ -1307,7 +1307,6 @@ all: modules
  
- ifeq ($(CONFIG_ARM_MODULE_PLTS),y)
--KBUILD_LDFLAGS_MODULE	+= -T $(srctree)/arch/arm/kernel/module.lds
-+KBUILD_LDS_MODULE	+= $(srctree)/arch/arm/kernel/module.lds
- endif
+ PHONY += modules
+ modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order modules.builtin
+-	@$(kecho) '  Building modules, stage 2.';
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
  
- GZFLAGS		:=-9
-diff --git a/arch/arm64/Makefile b/arch/arm64/Makefile
-index 61de992bbea3..d4ed1869e536 100644
---- a/arch/arm64/Makefile
-+++ b/arch/arm64/Makefile
-@@ -101,7 +101,7 @@ endif
- CHECKFLAGS	+= -D__aarch64__
+@@ -1627,7 +1626,6 @@ $(objtree)/Module.symvers:
+ build-dirs := $(KBUILD_EXTMOD)
+ PHONY += modules
+ modules: descend $(objtree)/Module.symvers
+-	@$(kecho) '  Building modules, stage 2.';
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
  
- ifeq ($(CONFIG_ARM64_MODULE_PLTS),y)
--KBUILD_LDFLAGS_MODULE	+= -T $(srctree)/arch/arm64/kernel/module.lds
-+KBUILD_LDS_MODULE	+= $(srctree)/arch/arm64/kernel/module.lds
- endif
- 
- # Default value
-diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
-index 171290f9f1de..5c3bcaee5980 100644
---- a/arch/ia64/Makefile
-+++ b/arch/ia64/Makefile
-@@ -20,7 +20,7 @@ CHECKFLAGS	+= -D__ia64=1 -D__ia64__=1 -D_LP64 -D__LP64__
- 
- OBJCOPYFLAGS	:= --strip-all
- LDFLAGS_vmlinux	:= -static
--KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/ia64/module.lds
-+KBUILD_LDS_MODULE += $(srctree)/arch/ia64/module.lds
- KBUILD_AFLAGS_KERNEL := -mconstant-gp
- EXTRA		:=
- 
-diff --git a/arch/m68k/Makefile b/arch/m68k/Makefile
-index 482513b9af2c..5d9288384096 100644
---- a/arch/m68k/Makefile
-+++ b/arch/m68k/Makefile
-@@ -73,7 +73,7 @@ KBUILD_AFLAGS += -D__uClinux__
- endif
- 
- KBUILD_LDFLAGS := -m m68kelf
--KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/m68k/kernel/module.lds
-+KBUILD_LDS_MODULE += $(srctree)/arch/m68k/kernel/module.lds
- 
- ifdef CONFIG_SUN3
- LDFLAGS_vmlinux = -N
-diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-index 3b77d729057f..36b834f1c933 100644
---- a/arch/parisc/Makefile
-+++ b/arch/parisc/Makefile
-@@ -60,7 +60,7 @@ KBUILD_CFLAGS += -DCC_USING_PATCHABLE_FUNCTION_ENTRY=1 \
- 		 -DFTRACE_PATCHABLE_FUNCTION_SIZE=$(NOP_COUNT)
- 
- CC_FLAGS_FTRACE := -fpatchable-function-entry=$(NOP_COUNT),$(shell echo $$(($(NOP_COUNT)-1)))
--KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/parisc/kernel/module.lds
-+KBUILD_LDS_MODULE += $(srctree)/arch/parisc/kernel/module.lds
- endif
- 
- OBJCOPY_FLAGS =-O binary -R .note -R .comment -S
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index c345b79414a9..b2227855de20 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -67,7 +67,7 @@ UTS_MACHINE := $(subst $(space),,$(machine-y))
- ifdef CONFIG_PPC32
- KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
- else
--KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/powerpc/kernel/module.lds
-+KBUILD_LDS_MODULE += $(srctree)/arch/powerpc/kernel/module.lds
- ifeq ($(call ld-ifversion, -ge, 225000000, y),y)
- # Have the linker provide sfpr if possible.
- # There is a corresponding test in arch/powerpc/lib/Makefile
-diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-index 7a117be8297c..426d989125a8 100644
---- a/arch/riscv/Makefile
-+++ b/arch/riscv/Makefile
-@@ -52,7 +52,7 @@ ifeq ($(CONFIG_CMODEL_MEDANY),y)
- 	KBUILD_CFLAGS += -mcmodel=medany
- endif
- ifeq ($(CONFIG_MODULE_SECTIONS),y)
--	KBUILD_LDFLAGS_MODULE += -T $(srctree)/arch/riscv/kernel/module.lds
-+	KBUILD_LDS_MODULE += $(srctree)/arch/riscv/kernel/module.lds
- endif
- 
- KBUILD_CFLAGS_MODULE += $(call cc-option,-mno-relax)
+ PHONY += modules_install
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+new file mode 100644
+index 000000000000..2e49d536a9b3
+--- /dev/null
++++ b/scripts/Makefile.modfinal
+@@ -0,0 +1,60 @@
++# SPDX-License-Identifier: GPL-2.0-only
++# ===========================================================================
++# Module final link
++# ===========================================================================
++
++PHONY := __modfinal
++__modfinal:
++
++include scripts/Kbuild.include
++
++# for c_flags
++include scripts/Makefile.lib
++
++# find all modules listed in modules.order
++modules := $(sort $(shell cat $(MODORDER)))
++
++__modfinal: $(modules)
++	@:
++
++# modname is set to make c_flags define KBUILD_MODNAME
++modname = $(notdir $(@:.mod.o=))
++
++quiet_cmd_cc_o_c = CC [M]  $@
++      cmd_cc_o_c = $(CC) $(c_flags) $(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE) \
++		   -c -o $@ $<
++
++%.mod.o: %.mod.c FORCE
++	$(call if_changed_dep,cc_o_c)
++
++ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
++
++quiet_cmd_ld_ko_o = LD [M]  $@
++      cmd_ld_ko_o =                                                     \
++	$(LD) -r $(KBUILD_LDFLAGS)					\
++		$(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)		\
++		$(addprefix -T , $(KBUILD_LDS_MODULE))			\
++		-o $@ $(filter %.o, $^);				\
++	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
++
++$(modules): %.ko: %.o %.mod.o $(KBUILD_LDS_MODULE) FORCE
++	+$(call if_changed,ld_ko_o)
++
++targets += $(modules) $(modules:.ko=.mod.o)
++
++# Add FORCE to the prequisites of a target to force it to be always rebuilt.
++# ---------------------------------------------------------------------------
++
++PHONY += FORCE
++FORCE:
++
++# Read all saved command lines and dependencies for the $(targets) we
++# may be building above, using $(if_changed{,_dep}). As an
++# optimization, we don't need to read them if the target does not
++# exist, we will rebuild anyway in that case.
++
++existing-targets := $(wildcard $(sort $(targets)))
++
++-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
++
++.PHONY: $(PHONY)
 diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index bf15818f6947..905db30d6622 100644
+index 905db30d6622..673f68e5f15d 100644
 --- a/scripts/Makefile.modpost
 +++ b/scripts/Makefile.modpost
-@@ -126,10 +126,11 @@ quiet_cmd_ld_ko_o = LD [M]  $@
-       cmd_ld_ko_o =                                                     \
- 	$(LD) -r $(KBUILD_LDFLAGS)                                      \
-                  $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)             \
--                 -o $@ $(real-prereqs) ;                                \
-+                 $(addprefix -T , $(KBUILD_LDS_MODULE))                 \
-+                 -o $@ $(filter %.o, $^);                               \
- 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+@@ -15,8 +15,6 @@
+ # 2) modpost is then used to
+ # 3)  create one <module>.mod.c file pr. module
+ # 4)  create one Module.symvers file with CRC for all exported symbols
+-# 5) compile all <module>.mod.c files
+-# 6) final link of the module to a <module.ko> file
  
--$(modules): %.ko :%.o %.mod.o FORCE
-+$(modules): %.ko :%.o %.mod.o $(KBUILD_LDS_MODULE) FORCE
- 	+$(call if_changed,ld_ko_o)
+ # Step 3 is used to place certain information in the module's ELF
+ # section, including information such as:
+@@ -60,13 +58,10 @@ MODPOST = scripts/mod/modpost						\
  
- targets += $(modules)
+ ifdef MODPOST_VMLINUX
+ 
+-__modpost: vmlinux.o
++quiet_cmd_modpost = MODPOST vmlinux.o
++      cmd_modpost = $(MODPOST) vmlinux.o
+ 
+-quiet_cmd_modpost = MODPOST $@
+-      cmd_modpost = $(MODPOST) $@
+-
+-PHONY += vmlinux.o
+-vmlinux.o:
++__modpost:
+ 	$(call cmd,modpost)
+ 
+ else
+@@ -83,74 +78,21 @@ include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
+              $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
+ endif
+ 
+-include scripts/Makefile.lib
++MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - $(wildcard vmlinux)
+ 
+ # find all modules listed in modules.order
+ modules := $(sort $(shell cat $(MODORDER)))
+ 
+-# Stop after building .o files if NOFINAL is set. Makes compile tests quicker
+-__modpost: $(if $(KBUILD_MODPOST_NOFINAL), $(modules:.ko:.o),$(modules))
+-	@:
+-
+-MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - $(wildcard vmlinux)
+-
+ # We can go over command line length here, so be careful.
+ quiet_cmd_modpost = MODPOST $(words $(modules)) modules
+       cmd_modpost = sed 's/ko$$/o/' $(MODORDER) | $(MODPOST)
+ 
+-PHONY += modules-modpost
+-modules-modpost:
++__modpost:
++	@$(kecho) '  Building modules, stage 2.'
+ 	$(call cmd,modpost)
+-
+-# Declare generated files as targets for modpost
+-$(modules:.ko=.mod.c): modules-modpost
+-
+-# Step 5), compile all *.mod.c files
+-
+-# modname is set to make c_flags define KBUILD_MODNAME
+-modname = $(notdir $(@:.mod.o=))
+-
+-quiet_cmd_cc_o_c = CC [M]  $@
+-      cmd_cc_o_c = $(CC) $(c_flags) $(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE) \
+-		   -c -o $@ $<
+-
+-$(modules:.ko=.mod.o): %.mod.o: %.mod.c FORCE
+-	$(call if_changed_dep,cc_o_c)
+-
+-targets += $(modules:.ko=.mod.o)
+-
+-ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
+-
+-# Step 6), final link of the modules with optional arch pass after final link
+-quiet_cmd_ld_ko_o = LD [M]  $@
+-      cmd_ld_ko_o =                                                     \
+-	$(LD) -r $(KBUILD_LDFLAGS)                                      \
+-                 $(KBUILD_LDFLAGS_MODULE) $(LDFLAGS_MODULE)             \
+-                 $(addprefix -T , $(KBUILD_LDS_MODULE))                 \
+-                 -o $@ $(filter %.o, $^);                               \
+-	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+-
+-$(modules): %.ko :%.o %.mod.o $(KBUILD_LDS_MODULE) FORCE
+-	+$(call if_changed,ld_ko_o)
+-
+-targets += $(modules)
+-
+-
+-# Add FORCE to the prequisites of a target to force it to be always rebuilt.
+-# ---------------------------------------------------------------------------
+-
+-PHONY += FORCE
+-
+-FORCE:
+-
+-# Read all saved command lines and dependencies for the $(targets) we
+-# may be building above, using $(if_changed{,_dep}). As an
+-# optimization, we don't need to read them if the target does not
+-# exist, we will rebuild anyway in that case.
+-
+-existing-targets := $(wildcard $(sort $(targets)))
+-
+--include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
++ifneq ($(KBUILD_MODPOST_NOFINAL),1)
++	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
++endif
+ 
+ endif
+ 
 -- 
 2.17.1
 
