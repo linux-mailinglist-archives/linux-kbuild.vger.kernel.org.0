@@ -2,147 +2,233 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AA0E8D2A7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 14:02:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD8058D3DC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 14:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbfHNMC0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Aug 2019 08:02:26 -0400
-Received: from mout.web.de ([212.227.15.14]:51161 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725800AbfHNMCZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Aug 2019 08:02:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1565784037;
-        bh=t8u6NOCL16q9HtKndJQAxJduq4EJsS4RNVT1zyvjHSM=;
-        h=X-UI-Sender-Class:To:Cc:References:Subject:From:Date:In-Reply-To;
-        b=YCqaWZzAw0SUEZtvbhQsMvYA6mJNQtr5zIIHJTHy97KzsDJmdBIZ9JI4QBqEN0BuI
-         MtvWwMIXWs2bcn+VR8PcTpufbbJO0ZQhhhdcdlZ5uUGRIVK6slu3FlvG/3aTX9EaA9
-         f0p8dHGm1wTBPtgY8aq1OcI02VMOc6GR4U2NvwzU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.243.124.172]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LlJzS-1iXTM31mS6-00b6JK; Wed, 14
- Aug 2019 14:00:37 +0200
-To:     Matthias Maennich <maennich@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Martijn Coenen <maco@android.com>,
-        Himanshu Jha <himanshujha199640@gmail.com>,
-        cocci@systeme.lip6.fr, kernel-janitors@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        ",linux-kernel"@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, kernel-team@android.com,
-        usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Martijn Coenen <maco@google.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        id S1727831AbfHNMx6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Aug 2019 08:53:58 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:47328 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727850AbfHNMx6 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Aug 2019 08:53:58 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7ECnvwD007079;
+        Wed, 14 Aug 2019 12:53:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=corp-2019-08-05;
+ bh=UJ4xxL7YKF03XgJIhV7cmew+iA7ilSZmjlToLDjnJJM=;
+ b=eA9bXi3lc8YAYrhpC0mJi6Y2la++PG/pR9ghUffgZxOrdDva2i5DOF8x5HS9dxmW/6vF
+ LVvJS/jgzHpChCYxSQ1eIm8n/N8UOIVVgwOTDDQft2yBiRDXqQo+v1sxo5kqYQ1G3bwd
+ DBBdXX7GXwJEIRpVJcqwUkiGmSh+UC4bLcdvadArii09AmvsKPX0SiiMPb1iSWM2zs8W
+ sxb7bXeyvtVF0lUsMFc3NfSctU3F95/y6+BLOvLvK8dO9HaX8KUBE4FleShYkGAuHSd7
+ 0H7qapXonZAQ7ltA1PewZX/9tsCLRT2sl6yKwquvhOcDHqxOLn80agHThYs106e74ySH Mg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 2u9nbtmnfx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 12:53:18 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7ECrCGh041860;
+        Wed, 14 Aug 2019 12:53:18 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2ubwrh7eex-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 12:53:17 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7ECqlJ7027212;
+        Wed, 14 Aug 2019 12:52:47 GMT
+Received: from abi.no.oracle.com (/141.143.213.43)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 14 Aug 2019 05:52:46 -0700
+Message-ID: <1c4760f43313488786ca867acc2835f9c9acef1f.camel@oracle.com>
+Subject: Re: [RFC 01/19] kbuild: Fixes to rules for host-cshlib and
+ host-cxxshlib
+From:   Knut Omang <knut.omang@oracle.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Oliver Neukum <oneukum@suse.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sandeep Patil <sspatil@google.com>,
-        Stephen Boyd <sboyd@codeaurora.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <20190813121733.52480-9-maennich@google.com>
-Subject: Re: [v2 08/10] scripts: Coccinelle script for namespace dependencies
-From:   Markus Elfring <Markus.Elfring@web.de>
-Openpgp: preference=signencrypt
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <d3c852b2-0e41-1a7e-2f98-d8fd23cb8c1a@web.de>
-Date:   Wed, 14 Aug 2019 14:00:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Date:   Wed, 14 Aug 2019 14:52:42 +0200
+In-Reply-To: <167a0b0c90a1ecc65da7bfc109f6d8ff860b70da.camel@oracle.com>
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+         <be2c361eac49ded2848b2a555b75e30cc3c24e71.1565676440.git-series.knut.omang@oracle.com>
+         <CAK7LNASX4jPRxRxD+JafAfKqjck=x27HuHZgPV1VFfW8MzcwZA@mail.gmail.com>
+         <14b99d26a4cff1c813c92818dc1234007fa06fc9.camel@oracle.com>
+         <CAK7LNASgfd6KPRQ=hcqKkpZ6EVhFmbBjCXa30bvEqscu_5dwbQ@mail.gmail.com>
+         <167a0b0c90a1ecc65da7bfc109f6d8ff860b70da.camel@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-In-Reply-To: <20190813121733.52480-9-maennich@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Provags-ID: V03:K1:PV3q8JAG3J44L4VLLpcjx+LJA+d2Q/O26Z4wCk/v79pZUEG7nh9
- m1L6YVDyqKxcYsDEo1kdMI3MgbeX/V+P0Gqzee44AZfe4AL3apOsTv/Vg7xoV69ns+9oPNS
- 6nHNXYFSiW5jKwhQ+nlm5MSEFqWf6EALhLHVb8jUJ3nb2NbBpTqWiPRQyg4NQfk+sG9HksF
- PoUwjrb1WNlfH62NRqiKw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Afb82YE9Cjs=:aTmyYmgfN5b6+tl28ALxB2
- g/LjPRzs4TRfheufbLqQj/rntkKK77N+SvXrZJCE3QCV+/AH9UfldUS/5DhNK0RPccZOFywvU
- 3KhfUbCRjF4wGdWjCPJ9JIarEbeSQ+U0p73paUXJIovLf4FGNxVG/fu7UASFa3W3RuFOdLnJI
- 1DdDGr23zDK6XPsxyWhVWZwLx98xYlghohVnvOyhprghXD6IA9ZUJDvTR5s819OmT0zGY6HHJ
- Uj8BxBvBdvD72KcH0iru6y/nNWQZ8xBGkNvzemIwpp7mYD+nUgAYgsmILqOfpWiD2ZKaVlhAe
- yJ7JN+Gicmz0kVNrQlHMBKWo65W9beXwMzBFcPFLOg2oPrkIIXh6dcpAkLq3hz8EVVgTuN1dH
- GfpLpK+v+HwzD2SJAnhN8JecjcEQ/C9QuBRrByh+4f6lE3C0I256aZLdShAbhxIma6B5Yhxq6
- ZrMC2GmtBdDju5fnNoOJOdMNcXph7D/43eK7IOs8anLq4nE2LS/MJoEzDhcOoksQOt1CfMKDL
- KR5x0Y8vjWK+bZB9FzORrUc4r5bZ5Q1Y4njOPJC9OdLWcXLTt+vv1LsvhQhGArn1grSinl0xi
- wDUaOJDSO2mJjd5NXX0N/zRKYFyqNJd1EKEod/mOrAWGMpORjK3iN64taFoKE2JcBaIL76ev7
- GRQ/Pu8NfAtOBtPoMKKDcYIy/5H8CkvV4OVwZURmW/25BJns71iy17MNFCWm6UvF2L1FdxQZ5
- 1qsv2xxkgeWkMLWaBTlHdydOKHhL/H3CDwmQRKrF9Pxk/VxF6Lcc0ndjczIdZCgckvYgNHHax
- +jVNosPn9BioqwX5gtXfJJM6/V1FEVyIor9GnzxJwWBfk2NL4B2JSjun3gZnS9MKowG3B4I/K
- MgEtx4MxByRnJE8krxp8Xhfps00TdMelOsMidCmmrll1t6igulsyw981wkVBBx+lElpuz+DZo
- 4e2Ou5SILwFHnFVCu1nZZ8+CQaB+xV6tPgzKF3nW5GBCPjCfMyq/721rDCiicv+8mtgxtBqNW
- 4lJlGWmwaqRTQYJ0OyoddYMFIQsYJtAVF5leDof9DZkZuh8o/VabyEw4ZzPKZLpi+0ecrhdKI
- qiNnz2H6znKE/SU42ll39Ie9PDt5iaUxuGPiUXVwNwpE6yhvtcnwIHk3HfmILqDXtoU7jOP9h
- eJrQ8=
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908140132
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908140131
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+# This script requires at least spatch
-+# version 1.0.4.
+On Wed, 2019-08-14 at 07:52 +0200, Knut Omang wrote:
+> On Wed, 2019-08-14 at 11:02 +0900, Masahiro Yamada wrote:
+> > Hi Knut,
+> > 
+> > On Wed, Aug 14, 2019 at 1:19 AM Knut Omang <knut.omang@oracle.com> wrote:
+> > > On Tue, 2019-08-13 at 23:01 +0900, Masahiro Yamada wrote:
+> > > > On Tue, Aug 13, 2019 at 3:13 PM Knut Omang <knut.omang@oracle.com> wrote:
+> > > > > C++ libraries interfacing to C APIs might sometimes need some glue
+> > > > > logic more easily written in C.
+> > > > > Allow a C++ library to also contain 0 or more C objects.
+> > > > > 
+> > > > > Also fix rules for both C and C++ shared libraries:
+> > > > > - C++ shared libraries depended on .c instead of .cc files
+> > > > > - Rules were referenced as -objs instead of the intended
+> > > > >   -cobjs and -cxxobjs following the pattern from hostprogs*.
+> > > > > 
+> > > > > Signed-off-by: Knut Omang <knut.omang@oracle.com>
+> > > > 
+> > > > How is this patch related to the rest of this series?
+> > > 
+> > > This is just my (likely naive) way I to get what I had working
+> > > using autotools in the Github version of KTF) translated into something
+> > > comparable using kbuild only. We need to build a shared library consisting
+> > > of a few C++ files and a very simple C file, and a couple of simple binaries,
+> > > and the rule in there does seem to take .c files and subject them to the
+> > > C++ compiler, which makes this difficult to achieve?
+> > 
+> > Looking at the diff stat of the cover-letter,
+> > the rest of this patch series is touching only
+> > Documentation/ and tools/testing/kselftests/.
+> > 
+> > So, this one is unused by the rest of the changes, isn't it?
+> > Am I missing something?
+> > 
+> > 
+> > 
+> > > > This patch breaks GCC-plugins.
+> > > > Did you really compile-test this patch before the submission?
+> > > 
+> > > Sorry for my ignorance here:
+> > > I ran through the kernel build and installed the resulting kernel
+> > > on a VM that I used to test this, if that's what you are asking
+> > > about?
+> > > 
+> > > Do I need some unusual .config options or run a special make target
+> > > to trigger the problem you see?
+> > > 
+> > > I used a recent Fedora config with default values for new options,
+> > > and ran the normal default make target (also with O=) and make selftests
+> > > to test the patch itself.
+> > 
+> > I just built allmodconfig for arm.
+> > 
+> > (The 0-day bot tests allmodconfig for most of architectures,
+> > so you may receive error reports anyway.)
+> > 
+> > 
+> > With your patch, I got the following:
+> > 
+> > 
+> > masahiro@grover:~/ref/linux$ make  ARCH=arm
+> > CROSS_COMPILE=-  allmodconfig all
+> >   HOSTCC  scripts/basic/fixdep
+> >   HOSTCC  scripts/kconfig/conf.o
+> >   HOSTCC  scripts/kconfig/confdata.o
+> >   HOSTCC  scripts/kconfig/expr.o
+> >   LEX     scripts/kconfig/lexer.lex.c
+> >   YACC    scripts/kconfig/parser.tab.h
+> >   HOSTCC  scripts/kconfig/lexer.lex.o
+> >   YACC    scripts/kconfig/parser.tab.c
+> >   HOSTCC  scripts/kconfig/parser.tab.o
+> >   HOSTCC  scripts/kconfig/preprocess.o
+> >   HOSTCC  scripts/kconfig/symbol.o
+> >   HOSTLD  scripts/kconfig/conf
+> > scripts/kconfig/conf  --allmodconfig Kconfig
+> > #
+> > # configuration written to .config
+> > #
+> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-common.h
+> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-oabi.h
+> >   SYSHDR  arch/arm/include/generated/uapi/asm/unistd-eabi.h
+> >   HOSTCC  scripts/dtc/dtc.o
+> >   HOSTCC  scripts/dtc/flattree.o
+> >   HOSTCC  scripts/dtc/fstree.o
+> >   HOSTCC  scripts/dtc/data.o
+> >   HOSTCC  scripts/dtc/livetree.o
+> >   HOSTCC  scripts/dtc/treesource.o
+> >   HOSTCC  scripts/dtc/srcpos.o
+> >   HOSTCC  scripts/dtc/checks.o
+> >   HOSTCC  scripts/dtc/util.o
+> >   LEX     scripts/dtc/dtc-lexer.lex.c
+> >   YACC    scripts/dtc/dtc-parser.tab.h
+> >   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+> >   YACC    scripts/dtc/dtc-parser.tab.c
+> >   HOSTCC  scripts/dtc/dtc-parser.tab.o
+> >   HOSTCC  scripts/dtc/yamltree.o
+> >   HOSTLD  scripts/dtc/dtc
+> >   CC      scripts/gcc-plugins/latent_entropy_plugin.o
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so
+> >    ./scripts/gcc-plugins/arm_ssp_per_task_plugin.so: cannot open
+> > shared object file: No such file or directory
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/structleak_plugin.so
+> >    ./scripts/gcc-plugins/structleak_plugin.so: cannot open shared
+> > object file: No such file or directory
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/latent_entropy_plugin.so
+> >    ./scripts/gcc-plugins/latent_entropy_plugin.so: cannot open shared
+> > object file: No such file or directory
+> > cc1: error: cannot load plugin ./scripts/gcc-plugins/randomize_layout_plugin.so
+> >    ./scripts/gcc-plugins/randomize_layout_plugin.so: cannot open
+> > shared object file: No such file or directory
+> > make[3]: *** [scripts/Makefile.build;281:
+> > scripts/gcc-plugins/latent_entropy_plugin.o] Error 1
+> > make[2]: *** [scripts/Makefile.build;497: scripts/gcc-plugins] Error 2
+> > make[1]: *** [Makefile;1097: scripts] Error 2
+> > make: *** [Makefile;330: __build_one_by_one] Error 2
+> 
+> Ok, I see!
+> 
+> I'll recall this target and look into it!
 
-How do you think about to avoid the duplicate specification of this identification?
+Ok, so I have tried installing the arm-linux-gnueabihf cross compiler and compiled the kernel for arm,
+but allmodconfig does not seem to enable any GCC plugins per default even on ARM and I haven't been able
+to figure out how to enable any. 
 
-Regards,
-Markus
+A plain allmodconfig generated config compiles perfectly for me both native x86 and w/arm cross compile,
+but it doesn't seem to enable any gcc plugins.
+
+Anyway, maybe I am getting this wrong anyway: 
+Having played with cross compile, it starts to become clear to me that HOSTCC rules
+might not be the right rules to use, as it will generate host user land binaries as opposed to 
+target user land binaries (in a cross compile world obviously these differ)
+
+Now, I started off with using the rules in the selftests makefiles for this, but they do not play that well with 
+kernel module building. My goal is to be able to do both user land and kernel module **target** compiles 
+from the same subtree. Any hints on how to accomplish this appreciated :-)
+
+Thanks,
+Knut
+
