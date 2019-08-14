@@ -2,69 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC778CC87
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 09:19:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2EA08CD83
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 10:03:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbfHNHTB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Aug 2019 03:19:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51934 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727447AbfHNHTB (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Aug 2019 03:19:01 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB2312084F;
-        Wed, 14 Aug 2019 07:18:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565767140;
-        bh=CgAKQPDJ39jdFLM0nBvPd2yB9ynIfZDmD15ru0dJ7Os=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=xaHZ0IYch7m/jbb9TEOjTqeFLiP9rjxW2XvyKLTklDuQ9VCWvHmVQLVD1vQiu2rnn
-         cOw3uwlSbmBaV+/CauuBCa6G8Ycn0SjO7DHdkifs3BC5XJgnHS80jI2+9Un3NHt0B8
-         RdlAMWFb7XoCTlu2ZRn/MyMMRRqi3LC5q4DnDaVA=
-Content-Type: text/plain; charset="utf-8"
+        id S1726534AbfHNIDP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Aug 2019 04:03:15 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:56192 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726373AbfHNIDP (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 14 Aug 2019 04:03:15 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f72so3718201wmf.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Aug 2019 01:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=u1kTruUi3YdB800wT1pXkaOjMSivOUWKVyyY/Zt731g=;
+        b=aBPUev9Ze7ZpXmccQd1KFcRQ9+YZEvEIJ2mXE7D/eE4mW0NWELCy32Z9swdThfnFBF
+         uwtFZsx0n+nZPSfcdbUAoi2maYUPyAGE6VZvX1lxXucBNdBbPTrKrpL+APlXG6nq0usR
+         7T3hKQZ8OfkYXRqYiqYd86anCcfqziM9dMWWG97DVfu1X0mjwovdY+J6TV25XUuh6Vhq
+         Xi3Ng7NKhUr4M0lpXoNBdpFRyjhTf0YlPodDH3z4Nge4kVC3ptXr9zrGX9HD6K0+NbYi
+         EuCHR8LyYsg3WfxgBZyJ7LK6acjuYTK/s2Uy/3kWehj3pEeX80Z6NVS08CjMjM7+MPUt
+         6B4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=u1kTruUi3YdB800wT1pXkaOjMSivOUWKVyyY/Zt731g=;
+        b=GcXX6qyDO6CQR3hwQHh5pd6HZ3tbTiwF8um77XCcT4r6UBvQ2jVZn8QUqV17SRW8E6
+         q90giAxuL71JTHWYf8zzarRROgR6bDLD88EeJ9mI7m7vjYtZO0ossski4+HGaHMP6F9n
+         luqF4r+lNW7VFnF5yDWYl+CzudbAv255WUkLJrjw6Df+PrBgh1uEaY21aTQeDqvea26E
+         WpDSxPf3NaOrzf1CJlh3BIliZoOv3aLKHuGWoTDbu8YtTCHerZbW0ABvHUkHIaoaKW21
+         LWP4+eZHGTYjM/XoQkfjgRmgkfc5xMYTwRNm+aR3Y2m3bUuWC/CbZWTcOUl3QWs190xl
+         Vu4g==
+X-Gm-Message-State: APjAAAUKRW7f9pwvusw9ixfCuFtyGV+WrXVAqJSVRxg8Hw9qyEPq+CgZ
+        kNDuCYJT59oVBRlfAj5TAdsaSw==
+X-Google-Smtp-Source: APXvYqyO4XowUPOEjHkeHqWq8ZGkAY6pJn5+D2BnJD4VZsQpxWmvikwHKafPm0DLCyolBG2iDeLJ6w==
+X-Received: by 2002:a7b:ca5a:: with SMTP id m26mr6573824wml.134.1565769792542;
+        Wed, 14 Aug 2019 01:03:12 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
+        by smtp.gmail.com with ESMTPSA id 39sm28546562wrc.45.2019.08.14.01.03.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2019 01:03:11 -0700 (PDT)
+Date:   Wed, 14 Aug 2019 09:03:07 +0100
+From:   Matthias Maennich <maennich@google.com>
+To:     Himanshu Jha <himanshujha199640@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, maco@android.com,
+        kstewart@linuxfoundation.org, linux-m68k@vger.kernel.org,
+        oneukum@suse.com,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        usb-storage@lists.one-eyed-alien.net, hpa@zytor.com,
+        joel@joelfernandes.org, sam@ravnborg.org, cocci@systeme.lip6.fr,
+        linux-arch@vger.kernel.org, linux-scsi@vger.kernel.org,
+        x86@kernel.org, lucas.de.marchi@gmail.com, mingo@redhat.com,
+        geert@linux-m68k.org, stern@rowland.harvard.edu,
+        kernel-team@android.com, sspatil@google.com, arnd@arndb.de,
+        linux-kbuild@vger.kernel.org,
+        Nicolas Palix <nicolas.palix@imag.fr>, jeyu@kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        tglx@linutronix.de, michal.lkml@markovi.net,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        Nicolas Ferre <nicolas.ferre@microchip.com>, maco@google.com,
+        pombredanne@nexb.com, "David S. Miller" <davem@davemloft.net>,
+        linux-modules@vger.kernel.org
+Subject: Re: [Cocci] [PATCH v2 08/10] scripts: Coccinelle script for
+ namespace dependencies.
+Message-ID: <20190814080307.GA2911@google.com>
+References: <20180716122125.175792-1-maco@android.com>
+ <20190813121733.52480-1-maennich@google.com>
+ <20190813121733.52480-9-maennich@google.com>
+ <20190814063611.GA22387@himanshu-Vostro-3559>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190814055108.214253-15-brendanhiggins@google.com>
-References: <20190814055108.214253-1-brendanhiggins@google.com> <20190814055108.214253-15-brendanhiggins@google.com>
-Subject: Re: [PATCH v13 14/18] kunit: defconfig: add defconfigs for building KUnit tests
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, Brendan Higgins <brendanhiggins@google.com>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, shuah@kernel.org,
-        tytso@mit.edu, yamada.masahiro@socionext.com
-User-Agent: alot/0.8.1
-Date:   Wed, 14 Aug 2019 00:18:59 -0700
-Message-Id: <20190814071859.EB2312084F@mail.kernel.org>
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20190814063611.GA22387@himanshu-Vostro-3559>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Quoting Brendan Higgins (2019-08-13 22:51:04)
-> Add defconfig for UML and a fragment that can be used to configure other
-> architectures for building KUnit tests. Add option to kunit_tool to use
-> a defconfig to create the kunitconfig.
->=20
-> Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-> ---
+On Wed, Aug 14, 2019 at 12:06:11PM +0530, Himanshu Jha wrote:
+>On Tue, Aug 13, 2019 at 01:17:05PM +0100, Matthias Maennich wrote:
+>> A script that uses the '<module>.ns_deps' file generated by modpost to
+>> automatically add the required symbol namespace dependencies to each
+>> module.
+>>
+>> Usage:
+>> 1) Move some symbols to a namespace with EXPORT_SYMBOL_NS() or define
+>>    DEFAULT_SYMBOL_NAMESPACE
+>> 2) Run 'make' (or 'make modules') and get warnings about modules not
+>>    importing that namespace.
+>> 3) Run 'make nsdeps' to automatically add required import statements
+>>    to said modules.
+>>
+>> This makes it easer for subsystem maintainers to introduce and maintain
+>> symbol namespaces into their codebase.
+>>
+>> Co-developed-by: Martijn Coenen <maco@android.com>
+>> Signed-off-by: Martijn Coenen <maco@android.com>
+>> Signed-off-by: Matthias Maennich <maennich@google.com>
+>> ---
+>
+>[]
+>
+>>  MAINTAINERS                                 |  5 ++
+>>  Makefile                                    | 12 +++++
+>>  scripts/Makefile.modpost                    |  4 +-
+>>  scripts/coccinelle/misc/add_namespace.cocci | 23 +++++++++
+>>  scripts/nsdeps                              | 54 +++++++++++++++++++++
+>>  5 files changed, 97 insertions(+), 1 deletion(-)
+>>  create mode 100644 scripts/coccinelle/misc/add_namespace.cocci
+>>  create mode 100644 scripts/nsdeps
+>
+>[]
+>
+>> +if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
+>> +    echo 'spatch needs to be version 1.06 or higher'
+>
+>Nitpick: 1.0.6
+>
 
-Reviewed-by: Stephen Boyd <sboyd@kernel.org>
+Good catch! Thanks!
+Actually it needs to be even 1.0.4, so I will just use
+$SPATCH_REQ_VERSION from above.
 
+>> +    exit 1
+>> +fi
+>
+>
+>-- 
+>Himanshu Jha
+>Undergraduate Student
+>Department of Electronics & Communication
+>Guru Tegh Bahadur Institute of Technology
