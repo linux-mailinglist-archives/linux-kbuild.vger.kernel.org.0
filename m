@@ -2,146 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B91EC8DBF3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Aug 2019 19:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A558E75C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 15 Aug 2019 10:49:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727799AbfHNRfW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Aug 2019 13:35:22 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:46056 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728169AbfHNRfV (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Aug 2019 13:35:21 -0400
-Received: by mail-ot1-f68.google.com with SMTP id m24so31309320otp.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 14 Aug 2019 10:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fOFmALBZr12NwAFqPH4bz0Snzh0MYv/4Oy/ALTRaZDA=;
-        b=J/RX89SfeoHR3tNRvGakoeZptZJRFt1aGCoCGLanpgjt6kzr4VpQHXuOeq/XIub7h3
-         dtaz/Elri9LmCCrz1cJasmWNTs/t3B2DIMrEzFtcDd5S3T5Z7qW0x6VQtzyPUT8xX0Dr
-         tpBoGVGOFhjt5t/gsPYut79dUKJV/zOUYBE0KuVDsrJAB63xmL9rkN5sW1B/mX17RfT8
-         s7uhch2pStQ0Q6kOmXjpTKpW17nIDOPnBvNsIuNp6/qFxNyKoezYoApT9paR+P+AAJP+
-         1YlKwUJfVlXI0OJvPm/r92hOejmHZfRewJNJIhMYRbj46Pt2aVShyKZOOJ23qQt+gnU7
-         ycMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fOFmALBZr12NwAFqPH4bz0Snzh0MYv/4Oy/ALTRaZDA=;
-        b=bCUZqO+QxWw8G3mtuCC4PZ6EQue4k8DYFKzwtcDmnWmgi1DD3+D9ApABx5NU+PMGwe
-         OaXyWA2dKqvG5RJA4r+PVadJm7slpPb9s0ktjypWVrMd7JeJ6356sOeykd+fub1eUKL6
-         nfJVWEoO4HsxBs/zNnMUpFeGQJGvZ6uzp3Jk5JYG/ULkGxITyYEinW0MjEbJeWOJ6cOf
-         ODU1Q4VEfdKtg16Ig02PauUL7HHUKE5j4cvTZ7lx+Cc5SInEJHpYe3cY8FJniERPkZx9
-         0fsmy0vrxyZfJ5RgZMl+KgFIxvw4WGQpv7pmUN56BioEWS4m6m7yfXns5E2RHJ7rQ2vj
-         eDaQ==
-X-Gm-Message-State: APjAAAUUp41rk20qc946bGchgRUXmlRzScw40uRzcupQ0BxC3+YhlH6A
-        rU+DFsKMTOlVgfD4OFoHcu6fk/lYNuAVAKbr5tsEtg==
-X-Google-Smtp-Source: APXvYqyjolYUGNDko/RtbeKAldUB4mXc2vz0kBg/ilppWohKo/GY5H6usCosoBEpZ0JF43wMzvRMaDIYk6L2L/batEg=
-X-Received: by 2002:a05:6830:1e0f:: with SMTP id s15mr177324otr.231.1565804120275;
- Wed, 14 Aug 2019 10:35:20 -0700 (PDT)
+        id S1726366AbfHOItZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 15 Aug 2019 04:49:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35646 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726027AbfHOItZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 15 Aug 2019 04:49:25 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 78148218C9;
+        Thu, 15 Aug 2019 08:49:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565858964;
+        bh=hWTTTkR4rwS2l5FUJgldUqWsSPmx6Qek8c4m1QxhUZo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u8AWuu4fOejF2RYy+PawpZAqyzXp/u36EwXSoyuwIVTiJh3PmN8+cLh1CbYclj0zj
+         Yt9LP0sq+ypW5XMoQ0yddIDatDT7WgwIfvXdV79rAYO0C36sYi3mB8xmiYgX03juSl
+         yiMai7+diCiyTFHAtcgdnVT6IawYsx4mBjAvkpTc=
+Date:   Thu, 15 Aug 2019 10:49:21 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Knut Omang <knut.omang@oracle.com>
+Cc:     linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Shreyans Devendra Doshi <0xinfosect0r@gmail.com>,
+        Alan Maguire <alan.maguire@oracle.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Hidenori Yamaji <hidenori.yamaji@sony.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Timothy Bird <Tim.Bird@sony.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Theodore Ts'o <tytso@mit.edu>, Daniel Vetter <daniel@ffwll.ch>,
+        Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [RFC 06/19] ktf: A simple debugfs interface to test results
+Message-ID: <20190815084921.GE3512@kroah.com>
+References: <cover.92d76bb4f6dcedc971d0b72a49e8e459a98bca54.1565676440.git-series.knut.omang@oracle.com>
+ <ae6c38384e2338aa3cfb8a4e4dd1002833789253.1565676440.git-series.knut.omang@oracle.com>
+ <20190813082152.GA17627@kroah.com>
+ <a63bea757e02656a38463cc794da7da15273dd16.camel@oracle.com>
 MIME-Version: 1.0
-References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com>
- <20190813121733.52480-6-maennich@google.com> <CAGETcx_LQDdnaU+3JVGw+6=DJ8tRoQ00+3rD2gOiHHkWomt8jg@mail.gmail.com>
- <20190814125427.GA72826@google.com>
-In-Reply-To: <20190814125427.GA72826@google.com>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Wed, 14 Aug 2019 10:34:43 -0700
-Message-ID: <CAGETcx99Xx7aRPS-2Pw8h7O5D_+3T+1hbqja=p-gLN2wXApaEQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/10] module: add config option MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-To:     Matthias Maennich <maennich@google.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, maco@android.com,
-        Android Kernel Team <kernel-team@android.com>, arnd@arndb.de,
-        geert@linux-m68k.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, hpa@zytor.com,
-        jeyu@kernel.org,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-modules@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
-        lucas.de.marchi@gmail.com, Martijn Coenen <maco@google.com>,
-        michal.lkml@markovi.net, mingo@redhat.com, oneukum@suse.com,
-        Philippe Ombredanne <pombredanne@nexb.com>, sam@ravnborg.org,
-        Sandeep Patil <sspatil@google.com>, stern@rowland.harvard.edu,
-        tglx@linutronix.de, usb-storage@lists.one-eyed-alien.net,
-        x86@kernel.org, yamada.masahiro@socionext.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Richard Guy Briggs <rgb@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a63bea757e02656a38463cc794da7da15273dd16.camel@oracle.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 5:54 AM 'Matthias Maennich' via kernel-team
-<kernel-team@android.com> wrote:
->
-> On Tue, Aug 13, 2019 at 01:15:44PM -0700, Saravana Kannan wrote:
-> >On Tue, Aug 13, 2019 at 5:19 AM 'Matthias Maennich' via kernel-team
-> ><kernel-team@android.com> wrote:
-> >>
-> >> If MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is enabled (default=n), the
-> >> requirement for modules to import all namespaces that are used by
-> >> the module is relaxed.
-> >>
-> >> Enabling this option effectively allows (invalid) modules to be loaded
-> >> while only a warning is emitted.
-> >>
-> >> Disabling this option keeps the enforcement at module loading time and
-> >> loading is denied if the module's imports are not satisfactory.
-> >>
-> >> Reviewed-by: Martijn Coenen <maco@android.com>
-> >> Signed-off-by: Matthias Maennich <maennich@google.com>
-> >> ---
-> >>  init/Kconfig    | 14 ++++++++++++++
-> >>  kernel/module.c | 11 +++++++++--
-> >>  2 files changed, 23 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/init/Kconfig b/init/Kconfig
-> >> index bd7d650d4a99..b3373334cdf1 100644
-> >> --- a/init/Kconfig
-> >> +++ b/init/Kconfig
-> >> @@ -2119,6 +2119,20 @@ config MODULE_COMPRESS_XZ
-> >>
-> >>  endchoice
-> >>
-> >> +config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-> >> +       bool "Allow loading of modules with missing namespace imports"
-> >> +       default n
-> >> +       help
-> >> +         Symbols exported with EXPORT_SYMBOL_NS*() are considered exported in
-> >> +         a namespace. A module that makes use of a symbol exported with such a
-> >> +         namespace is required to import the namespace via MODULE_IMPORT_NS().
-> >> +         This option relaxes this requirement when loading a module.
-> >
-> >> While
-> >> +         technically there is no reason to enforce correct namespace imports,
-> >> +         it creates consistency between symbols defining namespaces and users
-> >> +         importing namespaces they make use of.
-> >
-> >I'm confused by this sentence. It sounds like it's the opposite of
-> >what the config is doing? Can you please reword it for clarify?
->
-> How about:
->
->   Symbols exported with EXPORT_SYMBOL_NS*() are considered exported in
->   a namespace. A module that makes use of a symbol exported with such a
->   namespace is required to import the namespace via MODULE_IMPORT_NS().
->   There is no technical reason to enforce correct namespace imports,
->   but it creates consistency between symbols defining namespaces and
->   users importing namespaces they make use of. This option relaxes this
->   requirement and lifts the enforcement when loading a module.
+On Wed, Aug 14, 2019 at 07:17:07PM +0200, Knut Omang wrote:
+> I notice the discussion and your response here: 
+> http://linux-kernel.2935.n7.nabble.com/debugfs-and-module-unloading-td865175.html
+> I assume that means that protection against module unload while a debugfs file
+> is open is now safe.
 
-That's a lot better. Especially moving the "This option relaxes..." to
-the bottom. Thanks.
+It should be, if you set the *owner field of your file_operations
+properly.  Try it and see!
 
--Saravana
+> On older kernels, having this code in place is far better than an unprotected 
+> debugfs entry/exit - I have tested it extensively in the past :-)
+
+Yes, it seems to work, but again, it really is racy and will fail.
+Please don't use it.
+
+> I perfectly agree with you that reducing the hole for a race condition 
+> is generally a bad idea, but from the above mail thread 
+> it seems that's the only available choice for older kernels?
+
+I have no idea, but please, do not use that pattern of code as it is
+racy in all kernels, from all of time.
+
+thanks,
+
+greg k-h
