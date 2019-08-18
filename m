@@ -2,97 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D584E90807
-	for <lists+linux-kbuild@lfdr.de>; Fri, 16 Aug 2019 21:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86903917E3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 18 Aug 2019 18:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727493AbfHPTBW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 16 Aug 2019 15:01:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45226 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727067AbfHPTBW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 16 Aug 2019 15:01:22 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 4F8DF30821A1;
-        Fri, 16 Aug 2019 19:01:22 +0000 (UTC)
-Received: from [10.10.123.64] (ovpn-123-64.rdu2.redhat.com [10.10.123.64])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 81D625C1D6;
-        Fri, 16 Aug 2019 19:01:21 +0000 (UTC)
-Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-To:     Miroslav Benes <mbenes@suse.cz>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <20190509143859.9050-1-joe.lawrence@redhat.com>
- <20190509143859.9050-7-joe.lawrence@redhat.com>
- <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
- <20190812155626.GA19845@redhat.com>
- <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
- <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz>
- <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
-Message-ID: <163ad1fb-ccbf-0a3e-d795-2bb748a0e88f@redhat.com>
-Date:   Fri, 16 Aug 2019 15:01:20 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726261AbfHRQoQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Aug 2019 12:44:16 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:32685 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726097AbfHRQoQ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 18 Aug 2019 12:44:16 -0400
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x7IGhjfu007380;
+        Mon, 19 Aug 2019 01:43:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x7IGhjfu007380
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566146626;
+        bh=H82x+pJ4cwL+9iVnpRB5WhemdiiFGuS6Cc01I6GkHDE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hBxM3asaObPlfY/zhH7FII1XWEmwOCZXkUuH7qAEzy3xvyZuvlFXc2eRnL0DF38nY
+         LCpZl3PlyETHZMb2COVJqbP1PUhnD219syO2KZKVP6m2FoUR9kocRcjUkPhinKnCfh
+         opDxfAiuaV0y33LAjSsGdEi7iBejHXATW5p2EEVZoWGruFw1lAnG2SmOMvYN0Rx2o7
+         ahuFSkmTi7Y1PP2qHxwR488xXI16F20aEa+QKhPSteJWFy8MHyFGwhn9zfwOiYToXa
+         xjNcmO78Dt32MJJ+PSIdKVXMFwY0qlgRYteZK6RZBgZGFogpdzib2/Ey2tFEzdXGgX
+         KygrNPWTKFfhQ==
+X-Nifty-SrcIP: [209.85.222.47]
+Received: by mail-ua1-f47.google.com with SMTP id a97so3750463uaa.9;
+        Sun, 18 Aug 2019 09:43:45 -0700 (PDT)
+X-Gm-Message-State: APjAAAWAiEcBZHiDj4kZBialv+dVTlFWL8P0O0Faxs/KGYeaQz7P7eGy
+        LxZbKSzNt2Bhlyxcy6b7X64zzy1pHrji3B1o1YM=
+X-Google-Smtp-Source: APXvYqwcqXGAgaY2foMsbq/Jaz9YwuRYAsLT0/SVZPiibzkeXrfGCTLZ7yzhIn8yAPNMgY4mtKOgGWZ+sVXgS7WHqK0=
+X-Received: by 2002:ab0:32d8:: with SMTP id f24mr5079883uao.121.1566146624431;
+ Sun, 18 Aug 2019 09:43:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Fri, 16 Aug 2019 19:01:22 +0000 (UTC)
+References: <CAKwvOdk+NQCKZ4EXAukaKYK4R9CDaNWVY_aDxXaeQrLfo_Z=nw@mail.gmail.com>
+ <20190815225844.145726-1-nhuck@google.com>
+In-Reply-To: <20190815225844.145726-1-nhuck@google.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Mon, 19 Aug 2019 01:43:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATsA0foyeaE2W3xe=_Hkf9S=q0eD5WHqwPXkMw8udkDPg@mail.gmail.com>
+Message-ID: <CAK7LNATsA0foyeaE2W3xe=_Hkf9S=q0eD5WHqwPXkMw8udkDPg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Require W=1 for -Wimplicit-fallthrough with clang
+To:     Nathan Huckleberry <nhuck@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Joe Perches <joe@perches.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/16/19 8:43 AM, Joe Lawrence wrote:
-> On 8/16/19 4:19 AM, Miroslav Benes wrote:
->> Hi,
->>
->>> I cleaned up the build system, and pushed it based on my
->>> kbuild tree.
->>>
->>> Please see:
->>>
->>> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
->>> klp-cleanup
->>
->> This indeed looks much simpler and cleaner (as far as I can judge with my
->> limited kbuild knowledge). We just need to remove MODULE_INFO(livepatch,
->> "Y") from lib/livepatch/test_klp_convert_mod_a.c to make it compile and
->> work (test_klp_convert_mod_a is not a livepatch module, it is just a dummy
->> module which is then livepatched by lib/livepatch/test_klp_convert1.c).
->>
-> 
-> Yeah, Masahiro this is great, thanks for reworking this!
-> 
-> I did tweak one module like Miroslav mentioned and I think a few of the
-> newly generated files need to be cleaned up as part of "make clean", but
-> all said, this is a nice improvement.
-> 
+Hi.
 
-Well actually, now I see this comment in the top-level Makefile:
+On Fri, Aug 16, 2019 at 7:59 AM Nathan Huckleberry <nhuck@google.com> wrote:
+>
+> Clang is updating to support -Wimplicit-fallthrough on C
+> https://reviews.llvm.org/D64838. Since clang does not
+> support the comment version of fallthrough annotations
+> this update causes an additional 50k warnings. Most
+> of these warnings (>49k) are duplicates from header files.
+>
+> This patch is intended to be reverted after the warnings
+> have been cleaned up.
+>
+> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
+> Changes v1->v2
+> * Move code to preexisting ifdef
+>  scripts/Makefile.extrawarn | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index a74ce2e3c33e..95973a1ee999 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -70,5 +70,6 @@ KBUILD_CFLAGS += -Wno-initializer-overrides
+>  KBUILD_CFLAGS += -Wno-format
+>  KBUILD_CFLAGS += -Wno-sign-compare
+>  KBUILD_CFLAGS += -Wno-format-zero-length
+> +KBUILD_CFLAGS += $(call cc-option,-Wno-implicit-fallthrough)
+>  endif
+>  endif
+> --
+> 2.23.0.rc1.153.gdeed80330f-goog
+>
 
-# Cleaning is done on three levels. 
 
-# make clean     Delete most generated files 
+Perhaps, is the following even cleaner?
 
-#                Leave enough to build external modules 
 
-# make mrproper  Delete the current configuration, and all generated 
-files
-# make distclean Remove editor backup files, patch leftover files and 
-the like
 
-I didn't realize that we're supposed to be able to still build external 
-modules after "make clean".  If that's the case, then one might want to 
-build an external klp-module after doing that.
+diff --git a/Makefile b/Makefile
+index 1b23f95db176..cebc6bf5372e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -751,6 +751,9 @@ else
+ # These warnings generated too much noise in a regular build.
+ # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
+ KBUILD_CFLAGS += -Wno-unused-but-set-variable
++
++# Warn about unmarked fall-throughs in switch statement.
++KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
+ endif
 
-With that in mind, shouldn't Symbols.list to persist until mrproper? 
-And I think modules-livepatch could go away during clean, what do you think?
+ KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+@@ -845,9 +848,6 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC)
+-print-file-name=include)
+ # warn about C99 declaration after statement
+ KBUILD_CFLAGS += -Wdeclaration-after-statement
 
--- Joe
+-# Warn about unmarked fall-throughs in switch statement.
+-KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
+-
+ # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+ KBUILD_CFLAGS += -Wvla
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
