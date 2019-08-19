@@ -2,251 +2,347 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0DCD927AD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 16:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CDE892812
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 17:11:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727172AbfHSOzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Aug 2019 10:55:46 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:33956 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbfHSOzq (ORCPT
+        id S1726627AbfHSPLg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Aug 2019 11:11:36 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:49145 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726373AbfHSPLg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Aug 2019 10:55:46 -0400
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x7JEtfPq000772;
-        Mon, 19 Aug 2019 23:55:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x7JEtfPq000772
+        Mon, 19 Aug 2019 11:11:36 -0400
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x7JFBGtA012361;
+        Tue, 20 Aug 2019 00:11:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x7JFBGtA012361
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566226542;
-        bh=Q/4yu2quhKpFiAtrUyID1ndn2O+ccw4Wwi6mVMB/jjo=;
+        s=dec2015msa; t=1566227477;
+        bh=h/gYp6z9vHElY/ysm1oNETCDq97Pb6kSM8SnC30SrZc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LbzKYxVxMq6Ap89f4+Ed7Q8LWOznLJHx/JFbltr+mEd7hSrgeZFQfdIjmX4YxdPFk
-         aGeFjoIvK07y6L2q7c9jf6ejopg/DE4YdSD8DpyK6tLa4EkQFCVcZYYZDoOpQRIGl1
-         GfmIWuZHcTo176OsKZfYKnKSoWtg75+ECUflECV7+a/RCAEmwHEHZbdeeuKEvGc5Vs
-         CsqO8FWEdaBAjgQcN8FFbQakRs8+4DnETE/er79AT0kuCdOV6LEoPU5+Iex17PYwmN
-         jugSIfquONwFX66vXZ0VpfDPT6m+jpypCBZSeVBMzLfjMCUCGqq/abxpPaUAp5CKlQ
-         GeJwAKIS8LYWQ==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id g13so751413uap.5;
-        Mon, 19 Aug 2019 07:55:41 -0700 (PDT)
-X-Gm-Message-State: APjAAAUPkghq/I5i58IVTP5UA4kBMpbgDoumT8id1Qwl4nGsILLQnRUw
-        +b3Ef5b+3/Xg1qAXUzASTxKbcGT9tV1PvW4OjCM=
-X-Google-Smtp-Source: APXvYqxD8by10RicZpTaoAg56x2if0yN69ea8rMSnyI9Y5de5n+UHSWosKcObR6X5U9kDtQdPA+jb2DVzJhLpBJDPXg=
-X-Received: by 2002:ab0:4261:: with SMTP id i88mr3720679uai.95.1566226540561;
- Mon, 19 Aug 2019 07:55:40 -0700 (PDT)
+        b=Gzf7HKVd8BquHU9WC9XvO/pO4AYOPyvHVgjee9uNncToq2MUG6n7cU4kS+oF6fAMe
+         t/fZ+7sQerhgrFBp+BMrzUaeCKqFSGLmfLtbdmbbaEXYHCIh7IpsPfNfr3cmqOJNpX
+         BFMEQbS5bbjyD5bD4WaM4wVRaHSZczIazr5mSquhN4l7mvbS+vRcfHCOgo/0ZWY3RJ
+         okLZsXo9HBmO/TqKEJC8FP5WSSBbm6hDrzNBCS0qdpqVKv9cHqYrVXkXBSKPr0VMp+
+         suzN9PQLAn3vZPjCkCJHv4VjfuyY7Z5XNTRffH3czkn5H0VLLLDdlwOkRxWFuvqnnr
+         VTq0N6tvcbIZw==
+X-Nifty-SrcIP: [209.85.217.48]
+Received: by mail-vs1-f48.google.com with SMTP id q188so1398192vsa.4;
+        Mon, 19 Aug 2019 08:11:17 -0700 (PDT)
+X-Gm-Message-State: APjAAAX6z2Zxc4VU095L9BpNRrTqaDM0qjIr74E559W5MbTFLLTPLB33
+        0CHyJrN+5oYQt/LpPTNPXisTXmwBc1Sznofojkk=
+X-Google-Smtp-Source: APXvYqwZURSuJY4CFy+oTgNhYJPZJF8pYegkGVSJF0jfwehnc5vxsjUSyxOIGHwPsLbn9Khrol78ytg7SCrJ9iCVjZg=
+X-Received: by 2002:a67:8a83:: with SMTP id m125mr14497318vsd.181.1566227475706;
+ Mon, 19 Aug 2019 08:11:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190810170135.31183-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190810170135.31183-1-yamada.masahiro@socionext.com>
+References: <20190814151919.16300-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190814151919.16300-1-yamada.masahiro@socionext.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 19 Aug 2019 23:55:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARemN8GC0t9yX2e1W_P=gvqODrf3cH4f1bEEtkTek8CCw@mail.gmail.com>
-Message-ID: <CAK7LNARemN8GC0t9yX2e1W_P=gvqODrf3cH4f1bEEtkTek8CCw@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: re-implement detection of CONFIG options
- leaked to user-space
+Date:   Tue, 20 Aug 2019 00:10:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATWuhXBG7hCg8nEJ+S5eRhcZqZ-qL2pW9NbJ2e_FNf+jw@mail.gmail.com>
+Message-ID: <CAK7LNATWuhXBG7hCg8nEJ+S5eRhcZqZ-qL2pW9NbJ2e_FNf+jw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: make single targets work more correctly
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Christoph Hellwig <hch@lst.de>, Arnd Bergmann <arnd@arndb.de>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        bpf@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Aug 11, 2019 at 2:03 AM Masahiro Yamada
+On Thu, Aug 15, 2019 at 12:19 AM Masahiro Yamada
 <yamada.masahiro@socionext.com> wrote:
 >
-> scripts/headers_check.pl can detect references to CONFIG options in
-> exported headers, but it has been disabled for more than a decade.
+> Currently, the single target build directly descends into the directory
+> of the target. For example,
 >
-> Reverting commit 7e3fa5614117 ("kbuild: drop check for CONFIG_ in
-> headers_check") would emit the following warnings for headers_check
-> on x86:
+>   $ make foo/bar/baz.o
 >
-> usr/include/mtd/ubi-user.h:283: leaks CONFIG_MTD_UBI_BEB_LIMIT to userspace where it is not valid
-> usr/include/linux/cm4000_cs.h:26: leaks CONFIG_COMPAT to userspace where it is not valid
-> usr/include/linux/pkt_cls.h:301: leaks CONFIG_NET_CLS_ACT to userspace where it is not valid
-> usr/include/linux/videodev2.h:2465: leaks CONFIG_VIDEO_ADV_DEBUG to userspace where it is not valid
-> usr/include/linux/bpf.h:249: leaks CONFIG_EFFICIENT_UNALIGNED_ACCESS to userspace where it is not valid
-> usr/include/linux/bpf.h:819: leaks CONFIG_CGROUP_NET_CLASSID to userspace where it is not valid
-> usr/include/linux/bpf.h:1011: leaks CONFIG_IP_ROUTE_CLASSID to userspace where it is not valid
-> usr/include/linux/bpf.h:1742: leaks CONFIG_BPF_KPROBE_OVERRIDE to userspace where it is not valid
-> usr/include/linux/bpf.h:1747: leaks CONFIG_FUNCTION_ERROR_INJECTION to userspace where it is not valid
-> usr/include/linux/bpf.h:1936: leaks CONFIG_XFRM to userspace where it is not valid
-> usr/include/linux/bpf.h:2184: leaks CONFIG_BPF_LIRC_MODE2 to userspace where it is not valid
-> usr/include/linux/bpf.h:2210: leaks CONFIG_BPF_LIRC_MODE2 to userspace where it is not valid
-> usr/include/linux/bpf.h:2227: leaks CONFIG_SOCK_CGROUP_DATA to userspace where it is not valid
-> usr/include/linux/bpf.h:2311: leaks CONFIG_NET to userspace where it is not valid
-> usr/include/linux/bpf.h:2348: leaks CONFIG_NET to userspace where it is not valid
-> usr/include/linux/bpf.h:2422: leaks CONFIG_BPF_LIRC_MODE2 to userspace where it is not valid
-> usr/include/linux/bpf.h:2528: leaks CONFIG_NET to userspace where it is not valid
-> usr/include/linux/pktcdvd.h:37: leaks CONFIG_CDROM_PKTCDVD_WCACHE to userspace where it is not valid
-> usr/include/linux/hw_breakpoint.h:27: leaks CONFIG_HAVE_MIXED_BREAKPOINTS_REGS to userspace where it is not valid
-> usr/include/linux/raw.h:17: leaks CONFIG_MAX_RAW_DEVS to userspace where it is not valid
-> usr/include/linux/elfcore.h:62: leaks CONFIG_BINFMT_ELF_FDPIC to userspace where it is not valid
-> usr/include/linux/eventpoll.h:82: leaks CONFIG_PM_SLEEP to userspace where it is not valid
-> usr/include/linux/atmdev.h:104: leaks CONFIG_COMPAT to userspace where it is not valid
-> usr/include/asm-generic/unistd.h:651: leaks CONFIG_MMU to userspace where it is not valid
-> usr/include/asm-generic/bitsperlong.h:9: leaks CONFIG_64BIT to userspace where it is not valid
-> usr/include/asm-generic/fcntl.h:119: leaks CONFIG_64BIT to userspace where it is not valid
-> usr/include/asm/auxvec.h:14: leaks CONFIG_IA32_EMULATION to userspace where it is not valid
-> usr/include/asm/e820.h:14: leaks CONFIG_NODES_SHIFT to userspace where it is not valid
-> usr/include/asm/e820.h:39: leaks CONFIG_X86_PMEM_LEGACY to userspace where it is not valid
-> usr/include/asm/e820.h:49: leaks CONFIG_INTEL_TXT to userspace where it is not valid
-> usr/include/asm/mman.h:7: leaks CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS to userspace where it is not valid
+> ... directly descends into foo/bar/.
 >
-> Most of these are false positives because scripts/headers_check.pl
-> parses comment lines.
+> On the other hand, the normal build usually descends one directory at
+> a time, i.e. descends into foo/, and then foo/bar/.
 >
-> It is also false negative. arch/x86/include/uapi/asm/auxvec.h contains
-> CONFIG_IA32_EMULATION and CONFIG_X86_64, but the only former is reported.
+> This difference causes some problems.
 >
-> It would be possible to fix scripts/headers_check.pl, of course.
-> However, we already have some duplicated checks between headers_check
-> and CONFIG_UAPI_HEADER_TEST. At this moment of time, there are still
-> dozens of headers excluded from the header test (usr/include/Makefile),
-> but we might be able to remove headers_check eventually.
+> [1] miss subdir-asflags-y, subdir-ccflags-y in upper Makefiles
 >
-> I re-implemented it in scripts/headers_install.sh by using sed because
-> the most of code in scripts/headers_install.sh is written in sed.
+>     The options in subdir-{as,cc}flags-y take effect in the current
+>     and its sub-directories. In other words, they are inherited
+>     downward. In the example above, the single target will miss
+>     subdir-{as,cc}flags-y if they are defined in foo/Makefile.
 >
-> This patch works like this:
+> [2] could be built in a different directory
 >
-> [1] Run scripts/unifdef first because we need to drop the code
->     surrounded by #ifdef __KERNEL__ ... #endif
+>     As Documentation/kbuild/modules.rst section 4.3 says, Kbuild can
+>     handle files that are spread over several sub-directories.
 >
-> [2] Remove all C style comments. The sed code is somewhat complicated
->     since we need to deal with both single and multi line comments.
+>     The build rule of foo/bar/baz.o may not necessarily be specified in
+>     foo/bar/Makefile. It might be specifies in foo/Makefile as follows:
 >
->     Precisely speaking, a comment block is replaced with a space just
->     in case.
+>     [foo/Makefile]
+>     obj-y := bar/baz.o
 >
->       CONFIG_FOO/* this is a comment */CONFIG_BAR
+>     This often happens when a module is so big that its source files
+>     are divided into sub-directories.
 >
->     should be converted into:
+>     In this case, there is no Makefile in the foo/bar/ directory, yet
+>     the single target descends into foo/bar/, then fails due to the
+>     missing Makefile. You can still do 'make foo/bar/' for partial
+>     building, but cannot do 'make foo/bar/baz.s'. I believe the single
+>     target '%.s' is a useful feature for inspecting the compiler output.
 >
->       CONFIG_FOO CONFIG_BAR
+>     Some modules work around this issue by putting an empty Makefile
+>     in every sub-directory.
 >
->     instead of:
+> This commit fixes those problems by making the single target build
+> descend in the same way as the normal build does.
 >
->       CONFIG_FOOCONFIG_BAR
+> Another change is the single target build will observe the CONFIG
+> options. Previously, it allowed users to build the foo.o even when
+> the corresponding CONFIG_FOO is disabled:
 >
-> [3] Match CONFIG_... pattern. It correctly matches to all CONFIG
->     options that appear in a single line.
+>    obj-$(CONFIG_FOO) += foo.o
 >
-> After this commit, this would detect the following warnings, all of
-> which are real ones.
+> In the new behavior, the single target build will just fail and show
+> "No rule to make target ..." (or "Nothing to be done for ..." if the
+> stale object already exists, but cannot be updated).
 >
-> warning: include/uapi/linux/pktcdvd.h: leak CONFIG_CDROM_PKTCDVD_WCACHE to user-space
-> warning: include/uapi/linux/hw_breakpoint.h: leak CONFIG_HAVE_MIXED_BREAKPOINTS_REGS to user-space
-> warning: include/uapi/linux/raw.h: leak CONFIG_MAX_RAW_DEVS to user-space
-> warning: include/uapi/linux/elfcore.h: leak CONFIG_BINFMT_ELF_FDPIC to user-space
-> warning: include/uapi/linux/eventpoll.h: leak CONFIG_PM_SLEEP to user-space
-> warning: include/uapi/linux/atmdev.h: leak CONFIG_COMPAT to user-space
-> warning: include/uapi/asm-generic/fcntl.h: leak CONFIG_64BIT to user-space
-> warning: arch/x86/include/uapi/asm/auxvec.h: leak CONFIG_IA32_EMULATION to user-space
-> warning: arch/x86/include/uapi/asm/auxvec.h: leak CONFIG_X86_64 to user-space
-> warning: arch/x86/include/uapi/asm/mman.h: leak CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS to user-space
->
-> However, it is not nice to show them right now. I created a list of
-> existing leakages. They are not warned, but a new leakage will be
-> blocked by the 0-day bot.
+> The disadvantage of this commit is the build speed. Now that the
+> single target build visits every directory and parses lots of
+> Makefiles, it is slower than before. (But, I hope it will not be
+> too slow.)
 >
 > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 > ---
 
-I slightly fixed up this to avoid warnings for O= building,
-and applied.
-
+Both applied.
 
 
 > Changes in v2:
->   - Add a whitelist. The CONFIG leakages in this list are not warned.
->     This patch can be applied now. A new leakage will be blocked.
->   - Shorten the sed code slightly
+>  - Fix single targets for external module build
 >
->  scripts/headers_install.sh | 63 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 63 insertions(+)
+>  Makefile               | 84 ++++++++++++++++++++++++++----------------
+>  scripts/Makefile.build | 45 +++++++++++++++++++---
+>  2 files changed, 92 insertions(+), 37 deletions(-)
 >
-> diff --git a/scripts/headers_install.sh b/scripts/headers_install.sh
-> index bbaf29386995..770d239cc11e 100755
-> --- a/scripts/headers_install.sh
-> +++ b/scripts/headers_install.sh
-> @@ -41,5 +41,68 @@ sed -E -e '
->  scripts/unifdef -U__KERNEL__ -D__EXPORTED_HEADERS__ $TMPFILE > $OUTFILE
->  [ $? -gt 1 ] && exit 1
+> diff --git a/Makefile b/Makefile
+> index 9661fa37158f..164ca615e2f6 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -230,6 +230,8 @@ endif
 >
-> +# Remove /* ... */ style comments, and find CONFIG_ references in code
-> +configs=$(sed -e '
-> +:comment
-> +       s:/\*[^*][^*]*:/*:
-> +       s:/\*\*\**\([^/]\):/*\1:
-> +       t comment
-> +       s:/\*\*/: :
-> +       t comment
-> +       /\/\*/! b check
-> +       N
-> +       b comment
-> +:print
-> +       P
-> +       D
-> +:check
-> +       s:^\(CONFIG_[[:alnum:]_]*\):\1\n:
-> +       t print
-> +       s:^[[:alnum:]_][[:alnum:]_]*::
-> +       s:^[^[:alnum:]_][^[:alnum:]_]*::
-> +       t check
-> +       d
-> +' $OUTFILE)
+>  export KBUILD_CHECKSRC KBUILD_EXTMOD
+>
+> +extmod-prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
 > +
-> +# The entries in the following list are not warned.
-> +# Please do not add a new entry. This list is only for existing ones.
-> +# The list will be reduced gradually, and deleted eventually. (hopefully)
+>  ifeq ($(abs_srctree),$(abs_objtree))
+>          # building in the source tree
+>          srctree := .
+> @@ -271,11 +273,16 @@ no-dot-config-targets := $(clean-targets) \
+>                          %asm-generic kernelversion %src-pkg
+>  no-sync-config-targets := $(no-dot-config-targets) install %install \
+>                            kernelrelease
+> +single-targets := %.a %.i %.ko %.lds %.lst %.mod %.o %.s %.symtypes %/
+> +ifdef CONFIG_CC_IS_CLANG
+> +single-targets += %.ll
+> +endif
+>
+>  config-build   :=
+>  mixed-build    :=
+>  need-config    := 1
+>  may-sync-config        := 1
+> +single-build   :=
+>
+>  ifneq ($(filter $(no-dot-config-targets), $(MAKECMDGOALS)),)
+>         ifeq ($(filter-out $(no-dot-config-targets), $(MAKECMDGOALS)),)
+> @@ -302,6 +309,14 @@ ifeq ($(KBUILD_EXTMOD),)
+>          endif
+>  endif
+>
+> +# We cannot build single targets and the others at the same time
+> +ifneq ($(filter $(single-targets), $(MAKECMDGOALS)),)
+> +       single-build := 1
+> +       ifneq ($(filter-out $(single-targets), $(MAKECMDGOALS)),)
+> +               mixed-build := 1
+> +       endif
+> +endif
+> +
+>  # For "make -j clean all", "make -j mrproper defconfig all", etc.
+>  ifneq ($(filter $(clean-targets),$(MAKECMDGOALS)),)
+>          ifneq ($(filter-out $(clean-targets),$(MAKECMDGOALS)),)
+> @@ -1003,7 +1018,7 @@ endif
+>
+>  PHONY += prepare0
+>
+> -export MODORDER := $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)modules.order
+> +export MODORDER := $(extmod-prefix)modules.order
+>
+>  ifeq ($(KBUILD_EXTMOD),)
+>  core-y         += kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+> @@ -1655,7 +1670,7 @@ endif # KBUILD_EXTMOD
+>  PHONY += descend $(build-dirs)
+>  descend: $(build-dirs)
+>  $(build-dirs): prepare
+> -       $(Q)$(MAKE) $(build)=$@ need-builtin=1 need-modorder=1
+> +       $(Q)$(MAKE) $(build)=$@ single-build=$(single-build) need-builtin=1 need-modorder=1
+>
+>  clean-dirs := $(addprefix _clean_, $(clean-dirs))
+>  PHONY += $(clean-dirs) clean
+> @@ -1752,40 +1767,47 @@ tools/%: FORCE
+>
+>  # Single targets
+>  # ---------------------------------------------------------------------------
+> -# Single targets are compatible with:
+> -# - build with mixed source and output
+> -# - build with separate output dir 'make O=...'
+> -# - external modules
+> +# To build individual files in subdirectories, you can do like this:
 > +#
-> +# The format is <file-name>:<CONFIG-option> in each line.
-> +config_leak_no_warn="
-> +arch/alpha/include/uapi/asm/setup.h:CONFIG_ALPHA_LEGACY_START_ADDRESS
-> +arch/arc/include/uapi/asm/page.h:CONFIG_ARC_PAGE_SIZE_16K
-> +arch/arc/include/uapi/asm/page.h:CONFIG_ARC_PAGE_SIZE_4K
-> +arch/arc/include/uapi/asm/swab.h:CONFIG_ARC_HAS_SWAPE
-> +arch/arm/include/uapi/asm/ptrace.h:CONFIG_CPU_ENDIAN_BE8
-> +arch/hexagon/include/uapi/asm/ptrace.h:CONFIG_HEXAGON_ARCH_VERSION
-> +arch/hexagon/include/uapi/asm/user.h:CONFIG_HEXAGON_ARCH_VERSION
-> +arch/ia64/include/uapi/asm/cmpxchg.h:CONFIG_IA64_DEBUG_CMPXCHG
-> +arch/m68k/include/uapi/asm/ptrace.h:CONFIG_COLDFIRE
-> +arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_NO
-> +arch/nios2/include/uapi/asm/swab.h:CONFIG_NIOS2_CI_SWAB_SUPPORT
-> +arch/sh/include/uapi/asm/ptrace.h:CONFIG_CPU_SH5
-> +arch/sh/include/uapi/asm/sigcontext.h:CONFIG_CPU_SH5
-> +arch/sh/include/uapi/asm/stat.h:CONFIG_CPU_SH5
-> +arch/x86/include/uapi/asm/auxvec.h:CONFIG_IA32_EMULATION
-> +arch/x86/include/uapi/asm/auxvec.h:CONFIG_X86_64
-> +arch/x86/include/uapi/asm/mman.h:CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
-> +include/uapi/asm-generic/fcntl.h:CONFIG_64BIT
-> +include/uapi/linux/atmdev.h:CONFIG_COMPAT
-> +include/uapi/linux/elfcore.h:CONFIG_BINFMT_ELF_FDPIC
-> +include/uapi/linux/eventpoll.h:CONFIG_PM_SLEEP
-> +include/uapi/linux/hw_breakpoint.h:CONFIG_HAVE_MIXED_BREAKPOINTS_REGS
-> +include/uapi/linux/pktcdvd.h:CONFIG_CDROM_PKTCDVD_WCACHE
-> +include/uapi/linux/raw.h:CONFIG_MAX_RAW_DEVS
-> +"
+> +#   make foo/bar/baz.s
+> +#
+> +# The supported suffixes for single-target are listed in 'single-targets'
+>  #
+> -#  target-dir => where to store outputfile
+> -#  build-dir  => directory in kernel source tree to use
+> -
+> -build-target = $(if $(KBUILD_EXTMOD), $(KBUILD_EXTMOD)/)$@
+> -build-dir = $(patsubst %/,%,$(dir $(build-target)))
+> -
+> -%.i: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target)
+> -%.ll: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target)
+> -%.lst: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target)
+> -%.o: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target)
+> -%.s: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target)
+> -%.symtypes: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target)
+> +# To build only under specific subdirectories, you can do like this:
+> +#
+> +#   make foo/bar/baz/
 > +
-> +for c in $configs
-> +do
-> +       if echo "$config_leak_no_warn" | grep -q "^$INFILE:$c$"; then
-> +               continue
-> +       fi
-> +       echo "warning: $INFILE: leak $c to user-space" >&2
-> +done
+> +ifdef single-build
 > +
->  rm -f $TMPFILE
->  trap - EXIT
+> +single-all := $(filter $(single-targets), $(MAKECMDGOALS))
+> +
+> +# .ko is special because modpost is needed
+> +single-ko := $(sort $(filter %.ko, $(single-all)))
+> +single-no-ko := $(sort $(patsubst %.ko,%.mod, $(single-all)))
+> +
+> +$(single-ko): single_modpost
+> +       @:
+> +$(single-no-ko): descend
+> +       @:
+> +
+>  ifeq ($(KBUILD_EXTMOD),)
+> -# For the single build of an in-tree module, use a temporary file to avoid
+> +# For the single build of in-tree modules, use a temporary file to avoid
+>  # the situation of modules_install installing an invalid modules.order.
+> -%.ko: MODORDER := .modules.tmp
+> +MODORDER := .modules.tmp
+>  endif
+> -%.ko: prepare FORCE
+> -       $(Q)$(MAKE) $(build)=$(build-dir) $(build-target:.ko=.mod)
+> -       $(Q)echo $(build-target) > $(MODORDER)
+> +
+> +PHONY += single_modpost
+> +single_modpost: $(single-no-ko)
+> +       $(Q){ $(foreach m, $(single-ko), echo $(extmod-prefix)$m;) } > $(MODORDER)
+>         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+> -%/: prepare FORCE
+> -       $(Q)$(MAKE) KBUILD_MODULES=1 $(build)=$(build-dir) need-modorder=1
+> +
+> +KBUILD_MODULES := 1
+> +
+> +export KBUILD_SINGLE_TARGETS := $(addprefix $(extmod-prefix), $(single-no-ko))
+> +
+> +single-build = $(if $(filter-out $@/, $(single-no-ko)),1)
+> +
+> +endif
+>
+>  # FIXME Should go into a make.lib or something
+>  # ===========================================================================
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index f84ccca8d74f..10adf3b558de 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -52,7 +52,7 @@ ifndef obj
+>  $(warning kbuild: Makefile.build is included improperly)
+>  endif
+>
+> -ifeq ($(MAKECMDGOALS)$(need-modorder),)
+> +ifeq ($(need-modorder),)
+>  ifneq ($(obj-m),)
+>  $(warning $(patsubst %.o,'%.ko',$(obj-m)) will not be built even though obj-m is specified.)
+>  $(warning You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.)
+> @@ -76,11 +76,6 @@ endif
+>
+>  mod-targets := $(patsubst %.o, %.mod, $(obj-m))
+>
+> -__build: $(if $(KBUILD_BUILTIN),$(builtin-target) $(lib-target) $(extra-y)) \
+> -        $(if $(KBUILD_MODULES),$(obj-m) $(mod-targets) $(modorder-target)) \
+> -        $(subdir-ym) $(always)
+> -       @:
+> -
+>  # Linus' kernel sanity checking tool
+>  ifeq ($(KBUILD_CHECKSRC),1)
+>    quiet_cmd_checksrc       = CHECK   $<
+> @@ -487,12 +482,50 @@ targets += $(call intermediate_targets, .asn1.o, .asn1.c .asn1.h) \
+>            $(call intermediate_targets, .lex.o, .lex.c) \
+>            $(call intermediate_targets, .tab.o, .tab.c .tab.h)
+>
+> +# Build
+> +# ---------------------------------------------------------------------------
+> +
+> +ifdef single-build
+> +
+> +curdir-single := $(sort $(foreach x, $(KBUILD_SINGLE_TARGETS), \
+> +                       $(if $(filter $(x) $(basename $(x)).o, $(targets)), $(x))))
+> +
+> +# Handle single targets without any rule: show "Nothing to be done for ..." or
+> +# "No rule to make target ..." depending on whether the target exists.
+> +unknown-single := $(filter-out $(addsuffix /%, $(subdir-ym)), \
+> +                       $(filter $(obj)/%, \
+> +                               $(filter-out $(curdir-single), \
+> +                                       $(KBUILD_SINGLE_TARGETS))))
+> +
+> +__build: $(curdir-single) $(subdir-ym)
+> +ifneq ($(unknown-single),)
+> +       $(Q)$(MAKE) -f /dev/null $(unknown-single)
+> +endif
+> +       @:
+> +
+> +ifeq ($(curdir-single),)
+> +# Nothing to do in this directory. Do not include any .*.cmd file for speed-up
+> +targets :=
+> +else
+> +targets += $(curdir-single)
+> +endif
+> +
+> +else
+> +
+> +__build: $(if $(KBUILD_BUILTIN),$(builtin-target) $(lib-target) $(extra-y)) \
+> +        $(if $(KBUILD_MODULES),$(obj-m) $(mod-targets) $(modorder-target)) \
+> +        $(subdir-ym) $(always)
+> +       @:
+> +
+> +endif
+> +
+>  # Descending
+>  # ---------------------------------------------------------------------------
+>
+>  PHONY += $(subdir-ym)
+>  $(subdir-ym):
+>         $(Q)$(MAKE) $(build)=$@ \
+> +       $(if $(filter $@/, $(KBUILD_SINGLE_TARGETS)),single-build=) \
+>         need-builtin=$(if $(filter $@/built-in.a, $(subdir-obj-y)),1) \
+>         need-modorder=$(if $(need-modorder),$(if $(filter $@/modules.order, $(modorder)),1))
+>
 > --
 > 2.17.1
 >
