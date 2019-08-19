@@ -2,98 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5842A91DDC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 09:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2100791F82
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 10:59:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbfHSHbv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Aug 2019 03:31:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55860 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726390AbfHSHbv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Aug 2019 03:31:51 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 483C0AF7C;
-        Mon, 19 Aug 2019 07:31:50 +0000 (UTC)
-Date:   Mon, 19 Aug 2019 09:31:43 +0200 (CEST)
-From:   Miroslav Benes <mbenes@suse.cz>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-cc:     Joe Lawrence <joe.lawrence@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch
- modules
-In-Reply-To: <CAK7LNAS0Z95VT2n1o3V09bKf-rkPBMNdRryF67gpLKtnjAVAiA@mail.gmail.com>
-Message-ID: <alpine.LSU.2.21.1908190928520.31051@pobox.suse.cz>
-References: <20190509143859.9050-1-joe.lawrence@redhat.com> <20190509143859.9050-7-joe.lawrence@redhat.com> <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com> <20190812155626.GA19845@redhat.com> <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
- <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz> <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com> <CAK7LNAS0Z95VT2n1o3V09bKf-rkPBMNdRryF67gpLKtnjAVAiA@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1726168AbfHSI7N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Aug 2019 04:59:13 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:32643 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbfHSI7N (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Aug 2019 04:59:13 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id x7J8wjPq004802;
+        Mon, 19 Aug 2019 17:58:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x7J8wjPq004802
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566205126;
+        bh=BK4+KA9hkQRX71ZtGsOvnvCQcvimAXHBuU8rnK3+StM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PleXQs0O1Mt9Xdzlh7kiBiycGUzQ8AEvOPuxGYR0wbBNkUI5VNjyc7dYcERAw0nf3
+         aMgkjbPFbN01NxuJ2HZSzu3CXRMv5VYK00zncP8mWw8ePoVlq2kPgz63qJyFnbMEzy
+         /gNhlFB6HrT2Um2Jg8E3t5wj87aRZ863EMEbGn+UR1ybFcCySesZU70yyMvhjjDDiw
+         m/YQrikyGo2bkUsIZXnb2+6+1c3Oq61731sh6usN5QB1M274ebWnN8TdW9gFGFogj+
+         qJmog4SIoXRROOVmci/gBxhfrD7s4P3liW+xaVGEYE0jReXrWkBGRFJwZF1dEo8zpJ
+         R5ND+o89KqcFQ==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: move modkern_{c,a}flags to Makefile.lib from Makefile.build
+Date:   Mon, 19 Aug 2019 17:58:43 +0900
+Message-Id: <20190819085843.3554-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 19 Aug 2019, Masahiro Yamada wrote:
+Makefile.lib is included by Makefile.modfinal as well as Makefile.build.
 
-> On Fri, Aug 16, 2019 at 9:43 PM Joe Lawrence <joe.lawrence@redhat.com> wrote:
-> >
-> > On 8/16/19 4:19 AM, Miroslav Benes wrote:
-> > > Hi,
-> > >
-> > >> I cleaned up the build system, and pushed it based on my
-> > >> kbuild tree.
-> > >>
-> > >> Please see:
-> > >>
-> > >> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-> > >> klp-cleanup
-> > >
-> > > This indeed looks much simpler and cleaner (as far as I can judge with my
-> > > limited kbuild knowledge). We just need to remove MODULE_INFO(livepatch,
-> > > "Y") from lib/livepatch/test_klp_convert_mod_a.c to make it compile and
-> > > work (test_klp_convert_mod_a is not a livepatch module, it is just a dummy
-> > > module which is then livepatched by lib/livepatch/test_klp_convert1.c).
-> > >
-> >
-> > Yeah, Masahiro this is great, thanks for reworking this!
-> >
-> > I did tweak one module like Miroslav mentioned and I think a few of the
-> > newly generated files need to be cleaned up as part of "make clean", but
-> > all said, this is a nice improvement.
-> >
-> > Are you targeting the next merge window for your kbuild branch?  (This
-> > appears to be what the klp-cleanup branch was based on.)
-> 
-> 
-> I can review this series from the build system point of view,
-> but I am not familiar enough with live-patching itself.
-> 
-> Some possibilities:
-> 
-> [1] Merge this series thru the live-patch tree after the
->     kbuild base patches land.
->     This requires one extra development cycle (targeting for 5.5-rc1)
->     but I think this is the official way if you do not rush into it.
+Move modkern_cflags to Makefile.lib in order to simplify cmd_cc_o_c
+in Makefile.modfinal. Move modkern_cflags as well for consistency.
 
-I'd prefer this option. There is no real rush and I think we can wait one 
-extra development cycle.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Joe, could you submit one more revision with all the recent changes (once 
-kbuild improvements settle down), please? We should take a look at the 
-whole thing one more time? What do you think?
+ scripts/Makefile.build    | 13 -------------
+ scripts/Makefile.lib      | 12 ++++++++++++
+ scripts/Makefile.modfinal |  6 +++---
+ 3 files changed, 15 insertions(+), 16 deletions(-)
+
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 10adf3b558de..b46e608f9931 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -92,15 +92,6 @@ endif
+ # Compile C sources (.c)
+ # ---------------------------------------------------------------------------
  
-> [2] Create an immutable branch in kbuild tree, and the live-patch
->     tree will use it as the basis for queuing this series.
->     We will have to coordinate the pull request order, but
->     we can merge this feature for 5.4-rc1
-> 
-> [3] Apply this series to my kbuild tree, with proper Acked-by
->     from the livepatch maintainers.
->     I am a little bit uncomfortable with applying patches I
->     do not understand, though...
+-# Default is built-in, unless we know otherwise
+-part-of-module = $(if $(filter $(basename $@).o, $(real-obj-m)),y)
+-
+-modkern_cflags =                                          \
+-	$(if $(part-of-module),                           \
+-		$(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE), \
+-		$(KBUILD_CFLAGS_KERNEL) $(CFLAGS_KERNEL))
+-quiet_modtag = $(if $(part-of-module),[M],   )
+-
+ quiet_cmd_cc_s_c = CC $(quiet_modtag)  $@
+       cmd_cc_s_c = $(CC) $(filter-out $(DEBUG_CFLAGS), $(c_flags)) $(DISABLE_LTO) -fverbose-asm -S -o $@ $<
+ 
+@@ -304,10 +295,6 @@ $(obj)/%.h.s: $(src)/%.h FORCE
+ # Compile assembler sources (.S)
+ # ---------------------------------------------------------------------------
+ 
+-modkern_aflags = $(if $(part-of-module),				\
+-			$(KBUILD_AFLAGS_MODULE) $(AFLAGS_MODULE),	\
+-			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL))
+-
+ # .S file exports must have their C prototypes defined in asm/asm-prototypes.h
+ # or a file that it includes, in order to get versioned symbols. We build a
+ # dummy C file that includes asm-prototypes and the EXPORT_SYMBOL lines from
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 264611972c4a..888e5c830646 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -159,6 +159,18 @@ _cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+ endif
+ endif
+ 
++part-of-module = $(if $(filter $(basename $@).o, $(real-obj-m)),y)
++quiet_modtag = $(if $(part-of-module),[M],   )
++
++modkern_cflags =                                          \
++	$(if $(part-of-module),                           \
++		$(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE), \
++		$(KBUILD_CFLAGS_KERNEL) $(CFLAGS_KERNEL))
++
++modkern_aflags = $(if $(part-of-module),				\
++			$(KBUILD_AFLAGS_MODULE) $(AFLAGS_MODULE),	\
++			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL))
++
+ c_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 -include $(srctree)/include/linux/compiler_types.h       \
+ 		 $(_c_flags) $(modkern_cflags)                           \
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 2e49d536a9b3..059dbcf5ae77 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -17,12 +17,12 @@ modules := $(sort $(shell cat $(MODORDER)))
+ __modfinal: $(modules)
+ 	@:
+ 
+-# modname is set to make c_flags define KBUILD_MODNAME
++# modname and part-of-module are set to make c_flags define proper module flags
+ modname = $(notdir $(@:.mod.o=))
++part-of-module = y
+ 
+ quiet_cmd_cc_o_c = CC [M]  $@
+-      cmd_cc_o_c = $(CC) $(c_flags) $(KBUILD_CFLAGS_MODULE) $(CFLAGS_MODULE) \
+-		   -c -o $@ $<
++      cmd_cc_o_c = $(CC) $(c_flags) -c -o $@ $<
+ 
+ %.mod.o: %.mod.c FORCE
+ 	$(call if_changed_dep,cc_o_c)
+-- 
+2.17.1
 
-Thanks
-Miroslav
