@@ -2,131 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 380CF92815
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 17:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 944AB94939
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 17:55:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfHSPMD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Aug 2019 11:12:03 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:38703 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbfHSPMC (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Aug 2019 11:12:02 -0400
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x7JFBfjG029268;
-        Tue, 20 Aug 2019 00:11:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x7JFBfjG029268
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566227502;
-        bh=vL3Z7j5SeJ0aDHILIlZfbZIFzUpyY8SuPcSJhgiwvOM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uRzTcPfrAk4VzJ5SbZGG0Kl2fAU2lBFnqrWuZGvKzDaQQgIWdLofdk3HF+oOPEBGN
-         bCLYwpAL+4O5s+6hCVO6CmyJlGp2YT6axmnqHaNsx/E685cFr5TLHK89JMKwDnnuti
-         hystVIWSRRzbncDqA9onrkea6rDUEuGru5BpCnbljexqAzaPy0o+6lzavt6/EOvy/M
-         5S7O2g6ZW4aTRu4Wx4IEoXG7it7PL+3PwPUNXwdeN30EpJoMBACDf9QHNSWNhJ8PPB
-         m/VvGv8odhe0uhUfHCS8fJLyQHHq2ixV6TKiR76xErLExgY2kMeOaBveSmf/NxWKNc
-         lJ/JkYTfBF1Jg==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id j21so772656uap.2;
-        Mon, 19 Aug 2019 08:11:42 -0700 (PDT)
-X-Gm-Message-State: APjAAAX1FmRgA8lZ/ZURSrOdIm9powQM/vahBJ3bRcrYWPYIzpgAegqc
-        F79iyx5K22oJN7j9EA/4ZVdKio5qmAtnEiVCPts=
-X-Google-Smtp-Source: APXvYqzPZQNuP/5kcGI1YxzfK+nM3S/m3vTXLeDQu6Si58yshTzDliAN4R6WeTf4PGDCnAQg3AssiAvHFTGLtqlWcPU=
-X-Received: by 2002:ab0:32d8:: with SMTP id f24mr7470615uao.121.1566227500514;
- Mon, 19 Aug 2019 08:11:40 -0700 (PDT)
+        id S1727698AbfHSPzV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Aug 2019 11:55:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45192 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726373AbfHSPzV (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Aug 2019 11:55:21 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 06BE2301D678;
+        Mon, 19 Aug 2019 15:55:21 +0000 (UTC)
+Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 76FE752CE;
+        Mon, 19 Aug 2019 15:55:20 +0000 (UTC)
+Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Miroslav Benes <mbenes@suse.cz>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20190509143859.9050-1-joe.lawrence@redhat.com>
+ <20190509143859.9050-7-joe.lawrence@redhat.com>
+ <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
+ <20190812155626.GA19845@redhat.com>
+ <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
+ <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz>
+ <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
+ <163ad1fb-ccbf-0a3e-d795-2bb748a0e88f@redhat.com>
+ <CAK7LNAR-1qXUhZ=cKUK2WEg5WeinXgFf1B2rq-=Oke4CUucp_g@mail.gmail.com>
+From:   Joe Lawrence <joe.lawrence@redhat.com>
+Message-ID: <9127bdf6-1daf-0387-88fb-6f1118dd6804@redhat.com>
+Date:   Mon, 19 Aug 2019 11:55:19 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190814160623.24802-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190814160623.24802-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 20 Aug 2019 00:11:04 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATrP29_WBCUqH1FddoO3j_FrbO=8obzEGj6FDn8ukUTgg@mail.gmail.com>
-Message-ID: <CAK7LNATrP29_WBCUqH1FddoO3j_FrbO=8obzEGj6FDn8ukUTgg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kbuild: move KBUILD_LDS, KBUILD_VMLINUX_{OBJS,LIBS}
- to makefiles.rst
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAK7LNAR-1qXUhZ=cKUK2WEg5WeinXgFf1B2rq-=Oke4CUucp_g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Mon, 19 Aug 2019 15:55:21 +0000 (UTC)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 1:06 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> These three variables are not intended to be tweaked by users.
-> Move them from kbuild.rst to makefiles.rst.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->
+On 8/18/19 11:50 PM, Masahiro Yamada wrote:
+> Hi Joe,
+> 
+> On Sat, Aug 17, 2019 at 4:01 AM Joe Lawrence <joe.lawrence@redhat.com> wrote:
+>>
+>>
+>> I didn't realize that we're supposed to be able to still build external
+>> modules after "make clean".  If that's the case, then one might want to
+>> build an external klp-module after doing that.
+> 
+> Yes. 'make clean' must keep all the build artifacts
+> needed for building external modules.
+> 
+> 
+>> With that in mind, shouldn't Symbols.list to persist until mrproper?
+>> And I think modules-livepatch could go away during clean, what do you think?
+>>
+>> -- Joe
+> 
+> 
+> Symbols.list should be kept by the time mrproper is run.
+> So, please add it to MRROPER_FILES instead of CLEAN_FILES.
+> 
+> modules.livepatch is a temporary file, so you can add it to
+> CLEAN_FILES.
+> 
 
-Applied to linux-kbuild.
+OK, I'll add those to their respective lists.
 
+> How is this feature supposed to work for external modules?
+> 
+> klp-convert receives:
+> "symbols from vmlinux" + "symbols from no-klp in-tree modules"
+> + "symbols from no-klp external modules" ??
+> 
 
-> I will apply to linux-kbuild this
-> to avoid conflicts.
->
->
->  Documentation/kbuild/kbuild.rst    | 14 --------------
->  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
->  2 files changed, 14 insertions(+), 14 deletions(-)
->
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index 61b2181ed3ea..62f9d86c082c 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -258,17 +258,3 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
->  These two variables allow to override the user@host string displayed during
->  boot and in /proc/version. The default value is the output of the commands
->  whoami and host, respectively.
-> -
-> -KBUILD_LDS
-> -----------
-> -The linker script with full path. Assigned by the top-level Makefile.
-> -
-> -KBUILD_VMLINUX_OBJS
-> --------------------
-> -All object files for vmlinux. They are linked to vmlinux in the same
-> -order as listed in KBUILD_VMLINUX_OBJS.
-> -
-> -KBUILD_VMLINUX_LIBS
-> --------------------
-> -All .a "lib" files for vmlinux. KBUILD_VMLINUX_OBJS and KBUILD_VMLINUX_LIBS
-> -together specify all the object files used to link vmlinux.
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index f4f0f7ffde2b..d3448d2c8017 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -995,6 +995,20 @@ When kbuild executes, the following steps are followed (roughly):
->         top-level Makefile has set any other flags. This provides a
->         means for an architecture to override the defaults.
->
-> +    KBUILD_LDS
-> +
-> +       The linker script with full path. Assigned by the top-level Makefile.
-> +
-> +    KBUILD_VMLINUX_OBJS
-> +
-> +       All object files for vmlinux. They are linked to vmlinux in the same
-> +       order as listed in KBUILD_VMLINUX_OBJS.
-> +
-> +    KBUILD_VMLINUX_LIBS
-> +
-> +       All .a "lib" files for vmlinux. KBUILD_VMLINUX_OBJS and
-> +       KBUILD_VMLINUX_LIBS together specify all the object files used to
-> +       link vmlinux.
->
->  6.2 Add prerequisites to archheaders
->  ------------------------------------
-> --
-> 2.17.1
->
+I don't think that this use-case has been previously thought out 
+(Miroslav, correct me if I'm wrong here.)
 
+I did just run an external build of a copy of 
+samples/livepatch/livepatch-annotated-sample.c:
 
--- 
-Best Regards
-Masahiro Yamada
+  - modules.livepatch is generated in external dir
+  - klp-convert is invoked for the livepatch module
+  - the external livepatch module successfully loads
+
+But that was only testing external livepatch modules.
+
+I don't know if we need/want to support general external modules 
+supplementing Symbols.list, at least for the initial klp-convert commit. 
+  I suppose external livepatch modules would then need to specify 
+additional Symbols.list(s) files somehow as well.
+
+> 
+> BTW, 'Symbols.list' sounds like a file to list out symbols
+> for generic purposes, but in fact, the
+> file format is very specific for the klp-convert tool.
+> Perhaps, is it better to rename it so it infers
+> this is for livepatching? What do you think?
+> 
+
+I don't know if the "Symbols.list" name and leading uppercase was based 
+on any convention, but something like symbols.klp would be fine with me.
+
+Thanks,
+
+-- Joe
