@@ -2,85 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8562A94952
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 18:02:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E66019497A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 18:09:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726464AbfHSQC0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Aug 2019 12:02:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47532 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726390AbfHSQC0 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Aug 2019 12:02:26 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5383D3018FC6;
-        Mon, 19 Aug 2019 16:02:26 +0000 (UTC)
-Received: from [10.18.17.153] (dhcp-17-153.bos.redhat.com [10.18.17.153])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C67C7859D6;
-        Mon, 19 Aug 2019 16:02:25 +0000 (UTC)
-Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
-To:     Miroslav Benes <mbenes@suse.cz>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <20190509143859.9050-1-joe.lawrence@redhat.com>
- <20190509143859.9050-7-joe.lawrence@redhat.com>
- <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
- <20190812155626.GA19845@redhat.com>
- <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
- <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz>
- <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
- <CAK7LNAS0Z95VT2n1o3V09bKf-rkPBMNdRryF67gpLKtnjAVAiA@mail.gmail.com>
- <alpine.LSU.2.21.1908190928520.31051@pobox.suse.cz>
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-Message-ID: <42254ffc-6422-19e1-62a2-6abc23fd089a@redhat.com>
-Date:   Mon, 19 Aug 2019 12:02:25 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1726742AbfHSQJZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Aug 2019 12:09:25 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:35324 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726654AbfHSQJZ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 19 Aug 2019 12:09:25 -0400
+Received: by mail-wr1-f66.google.com with SMTP id k2so9308180wrq.2;
+        Mon, 19 Aug 2019 09:09:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jopRZr5rirHRrOwX/83i4Za+nhdtinIu3t3rEz9kHGI=;
+        b=QKpuUher4+uIIBAo+WFBLOvboqwLYxYuU9cnchtO8BRKpxQVftAMe15tR0YigiAlNF
+         2eBEOwUn0koH8Xifa3mzdSLHv9dCttUbcQNp2uSijbUgD61XBLnNQodfq0RFZN8HAty1
+         3VjRRZIt1tWVCvavrAllLCeP7s/lWoecJzA6e0KTFRQBMo8mfFfoSW/B9KvH5PUTlaXe
+         WhExYRPlEKX0lW6h/HSreUyKAO3NrARKR9hZ5/BWCpehTbgWGiC9uoPnP7Qm+8aiCrho
+         duzHtg3abwQ7Wpd+B4ojogmH2SUoeDNhfAat15DOFM2jkvagj4l+GHazGyyS25fgCkvl
+         N15A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=jopRZr5rirHRrOwX/83i4Za+nhdtinIu3t3rEz9kHGI=;
+        b=fqBBISZjtS4s7TZWAH4XgKS/B2b7fLOBUnfKBqlg70r0dcQ8mVX2TUgklRT101qBGw
+         bUXHJGf1AizzYgiicHrLBYh8fa/hzrb2DmrYLMUAeNQd2SHZPiWQs3ew3pLYsdVPibcL
+         MIGp3RAvSo5wfwx6hRYrZoPPYEqPrxE3JuzrdvK6XJefAwK91QilD1NlD//8+VousnbG
+         KBHQj5BkKEdWp6i830mKgAUmVTzFmS8MtW64T79HFcLXcNjovD78Pu0E6itZARS769C2
+         nV2OVxbzcPS2Np5vznMR6vDgot8fukVFHdaU6p+K4jVFTMMKZi7MSZ54m8/Pma4z8VtG
+         2m8g==
+X-Gm-Message-State: APjAAAV6NIcmmoFSZ3qsNzs6sRay1fHgWcgv0cdkj0mrZn7bb0hWDQWU
+        8PoLi7x4PF7rDDx7Z1M4otA=
+X-Google-Smtp-Source: APXvYqxSQZ4aUP2N+zLyafLsDeEq3T2PAatY1neZ+EGYyqVUXLQM+Te2l35TMI63hiI0Q8cKS6O0ig==
+X-Received: by 2002:adf:ce04:: with SMTP id p4mr29018938wrn.227.1566230962458;
+        Mon, 19 Aug 2019 09:09:22 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id 39sm50025159wrc.45.2019.08.19.09.09.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2019 09:09:21 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 09:09:20 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Borislav Petkov <bp@suse.de>,
+        Kees Cook <keescook@chromium.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Paul Burton <paul.burton@mips.com>,
+        Xiaozhou Liu <liuxiaozhou@bytedance.com>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: enable unused-function warnings for W= build
+ with Clang
+Message-ID: <20190819160920.GA108942@archlinux-threadripper>
+References: <20190819105138.5053-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LSU.2.21.1908190928520.31051@pobox.suse.cz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.46]); Mon, 19 Aug 2019 16:02:26 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190819105138.5053-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/19/19 3:31 AM, Miroslav Benes wrote:
-> On Mon, 19 Aug 2019, Masahiro Yamada wrote:
+On Mon, Aug 19, 2019 at 07:51:38PM +0900, Masahiro Yamada wrote:
+> GCC and Clang have different policy for -Wunused-function; GCC does
+> not report unused-function warnings at all for the functions marked
+> as 'static inline'. Clang does report unused-function warnings if they
+> are defined in source files instead of headers.
 > 
->>
->> I can review this series from the build system point of view,
->> but I am not familiar enough with live-patching itself.
->>
->> Some possibilities:
->>
->> [1] Merge this series thru the live-patch tree after the
->>      kbuild base patches land.
->>      This requires one extra development cycle (targeting for 5.5-rc1)
->>      but I think this is the official way if you do not rush into it.
+> We could use Clang for detecting unused functions, but it has been
+> suppressed since commit abb2ea7dfd82 ("compiler, clang: suppress
+> warning for unused static inline functions").
 > 
-> I'd prefer this option. There is no real rush and I think we can wait one
-> extra development cycle.
+> So, we never notice left-over code if functions in .c files are
+> marked as inline.
+> 
+> Let's remove __maybe_unused from the inline macro. As always, it is
+> not a good idea to sprinkle warnings for the normal build. So, these
+> warnings will be shown for the W= build.
+> 
+> If you contribute to code clean-up, please run "make CC=clang W=1"
+> and check -Wunused-function warnings. You will find lots of unused
+> functions.
+> 
+> Some of them are false-positives because the call-sites are disabled
+> by #ifdef. I do not like to abuse the inline keyword for suppressing
+> unused-function warnings because it might affect the compiler's
+> optimization. When I need to fix unused-functions warnings, I prefer
+> adding #ifdef or __maybe_unused to function definitions.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Agreed.  I'm in no hurry and was only curious about the kbuild changes 
-that this patchset is now dependent on -- how to note them for other 
-reviewers or anyone wishing to test.
+So if I understand everything correctly, this change allows us to start
+finding unused static inline functions with clang at W=1 but disables
+-Wunused-function by default... I am not sure that is a good tradeoff
+as I am pretty sure that W=1 is fairly noisy for clang although I
+haven't checked lately. I'd argue most regular developers do not build
+with W=1 meaning -Wunused-function generally will not be run with clang
+at all, missing stuff like this:
 
-> Joe, could you submit one more revision with all the recent changes (once
-> kbuild improvements settle down), please? We should take a look at the
-> whole thing one more time? What do you think?
->   
+https://lore.kernel.org/lkml/20190523010235.GA105588@archlinux-epyc/
 
-Definitely, yes.  I occasionally force a push to:
-https://github.com/joe-lawrence/linux/tree/klp-convert-v5-expanded
+https://lore.kernel.org/lkml/1558574945-19275-1-git-send-email-skomatineni@nvidia.com/
 
-as I've been updating and collecting feedback from v4.  Once updates 
-settle, I'll send out a new v5 set.
+Furthermore, per the documemtation [1], -Wno-unused-function will also
+disable -Wunneeded-internal-declaration, which can help find bugs like
+commit 8289c4b6f2e5 ("platform/x86: mlx-platform: Properly use
+mlxplat_mlxcpld_msn201x_items").
 
--- Joe
+[1]: https://clang.llvm.org/docs/DiagnosticsReference.html#wunused-function
+
+Is there a way to conditionally remove __maybe_unused from the inline
+defintion so that we keep the current behavior but we can still
+selectively find potentially unused functions?
+
+Cheers,
+Nathan
