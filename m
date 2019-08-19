@@ -2,156 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF34691B5B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 05:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D166091B99
+	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 05:49:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726261AbfHSDGZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 18 Aug 2019 23:06:25 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:55567 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726254AbfHSDGY (ORCPT
+        id S1726261AbfHSDtr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 18 Aug 2019 23:49:47 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:20255 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726132AbfHSDtq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 18 Aug 2019 23:06:24 -0400
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x7J35wEe030201;
-        Mon, 19 Aug 2019 12:05:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x7J35wEe030201
+        Sun, 18 Aug 2019 23:49:46 -0400
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x7J3ncXR024718;
+        Mon, 19 Aug 2019 12:49:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x7J3ncXR024718
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566183959;
-        bh=FvrvXZdRwWZZ1KuvO9EEoL2qJALXtG/9Jo/vp+F3xNE=;
+        s=dec2015msa; t=1566186579;
+        bh=7yhX/6r1Sfr5gey1E0uYRtZ15/zptfZcpaZY5EZ+xEQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tipIfDeG6ZLt6NNy+m1S53m2FFGTNuHlwciLyApcwhx9+2XtCtXFRnb3dgVQ3E23Z
-         IeXdb+6M/BmJ0CiAPssY4N5XUp/mBf5XgCL5EB9pvHUAaujIkDPpRfre051E0Tfa6Q
-         y7mmsCjPRLpxFtuGGtSDj4HTW/RSGwmsZl16TRTXpUWRimwjcGmXArQqyN1hjb0v95
-         Rv4msGtPpW0PySfo3AdtS2y2D5YwZt+ru8rkgmwtLUvo+Hv85+3dL3rY0Mtd6vdCiH
-         dtcMnVfiQyUzQhMafq8FoUOPNh7CWosTsg9bJsFCRPGadhAuSA9p4NILxvjvTg/1tJ
-         L8nUIHraczI/w==
-X-Nifty-SrcIP: [209.85.221.179]
-Received: by mail-vk1-f179.google.com with SMTP id 82so90314vkf.11;
-        Sun, 18 Aug 2019 20:05:59 -0700 (PDT)
-X-Gm-Message-State: APjAAAUFO1rQX1jCMZBwMWHBMKbYr0W6ogAQdFOJPWC4RZycgQx/v46L
-        Nj1SfQpk1S9JN9jBQDOlbMn+gcpI/8FBFA8SNmI=
-X-Google-Smtp-Source: APXvYqwhx55VHoZeo7T6/fDL/ga/52EL6eberou+DA3UuTMH+Bh71njnfuexmvOpPjx50tOl1Kw5t/JARBSO9A34KXw=
-X-Received: by 2002:a1f:57c2:: with SMTP id l185mr1860086vkb.84.1566183957703;
- Sun, 18 Aug 2019 20:05:57 -0700 (PDT)
+        b=Ew2sIUSVfUuXiqxOpx7MUK/gXSdkUsEZnUKjVbuuK95jNI3n58Z/sjO1CzaWIyloI
+         3x9Li3X8rTlZZoP7lgPWBZ8abyvMXSxoIErmk5/Fh93UpA1yI1QCUx67aiaRrATUHB
+         oTTCyMivWSb1Mo0Dt4f7/8RDqTIVTYHYzMXTvyA6Wlv2kLo9nhvha3DG1jWJekJIMa
+         LAF5Rvbhd7jzDDhmFOingNTceHaOR4icI4rJHgNMH9z5pb+1+1lllYn3HboE7Hv5Y5
+         CAqxe5KTkyZBLI9Vl0Qeyc2IbSJVvgvMzcHYdHjl3B0HkuRuq1A0hQysIbHNb/CEHK
+         HE1TcslcM806g==
+X-Nifty-SrcIP: [209.85.222.47]
+Received: by mail-ua1-f47.google.com with SMTP id y7so161928uae.10;
+        Sun, 18 Aug 2019 20:49:39 -0700 (PDT)
+X-Gm-Message-State: APjAAAXZFFEbAUjxJGd6Ke8N9uYoNSJwQE9RjDjuoJMOvKUn+mDvq4zz
+        W0kNPtDubRYpgDjXJA9yuw6FjBG4MQ/yBg6ylUA=
+X-Google-Smtp-Source: APXvYqzFRy9QePNXY4Wm+23Bncf6RbOT879TVJiBthqzHVOAk0tzLxI/iQyC6HXjtvls3fxTCLPWU8l+BtC/63bsbvc=
+X-Received: by 2002:ab0:32d8:: with SMTP id f24mr6026375uao.121.1566186578219;
+ Sun, 18 Aug 2019 20:49:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKwvOdk+NQCKZ4EXAukaKYK4R9CDaNWVY_aDxXaeQrLfo_Z=nw@mail.gmail.com>
- <20190815225844.145726-1-nhuck@google.com> <CAK7LNATsA0foyeaE2W3xe=_Hkf9S=q0eD5WHqwPXkMw8udkDPg@mail.gmail.com>
- <20190818184341.GA6262@archlinux-threadripper>
-In-Reply-To: <20190818184341.GA6262@archlinux-threadripper>
+References: <20190509143859.9050-1-joe.lawrence@redhat.com>
+ <20190509143859.9050-7-joe.lawrence@redhat.com> <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
+ <20190812155626.GA19845@redhat.com> <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
+ <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz> <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
+In-Reply-To: <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 19 Aug 2019 12:05:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQuMcLBHhRy3ygqXoYUfdNpNfLRAgxVKx2+suoAoyso9w@mail.gmail.com>
-Message-ID: <CAK7LNAQuMcLBHhRy3ygqXoYUfdNpNfLRAgxVKx2+suoAoyso9w@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Require W=1 for -Wimplicit-fallthrough with clang
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Nathan Huckleberry <nhuck@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Joe Perches <joe@perches.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Mon, 19 Aug 2019 12:49:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS0Z95VT2n1o3V09bKf-rkPBMNdRryF67gpLKtnjAVAiA@mail.gmail.com>
+Message-ID: <CAK7LNAS0Z95VT2n1o3V09bKf-rkPBMNdRryF67gpLKtnjAVAiA@mail.gmail.com>
+Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Miroslav Benes <mbenes@suse.cz>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+        live-patching@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 19, 2019 at 3:43 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Fri, Aug 16, 2019 at 9:43 PM Joe Lawrence <joe.lawrence@redhat.com> wrote:
 >
-> On Mon, Aug 19, 2019 at 01:43:08AM +0900, Masahiro Yamada wrote:
-> > Hi.
+> On 8/16/19 4:19 AM, Miroslav Benes wrote:
+> > Hi,
 > >
-> > On Fri, Aug 16, 2019 at 7:59 AM Nathan Huckleberry <nhuck@google.com> wrote:
-> > >
-> > > Clang is updating to support -Wimplicit-fallthrough on C
-> > > https://reviews.llvm.org/D64838. Since clang does not
-> > > support the comment version of fallthrough annotations
-> > > this update causes an additional 50k warnings. Most
-> > > of these warnings (>49k) are duplicates from header files.
-> > >
-> > > This patch is intended to be reverted after the warnings
-> > > have been cleaned up.
-> > >
-> > > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> > > Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > ---
-> > > Changes v1->v2
-> > > * Move code to preexisting ifdef
-> > >  scripts/Makefile.extrawarn | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> > > index a74ce2e3c33e..95973a1ee999 100644
-> > > --- a/scripts/Makefile.extrawarn
-> > > +++ b/scripts/Makefile.extrawarn
-> > > @@ -70,5 +70,6 @@ KBUILD_CFLAGS += -Wno-initializer-overrides
-> > >  KBUILD_CFLAGS += -Wno-format
-> > >  KBUILD_CFLAGS += -Wno-sign-compare
-> > >  KBUILD_CFLAGS += -Wno-format-zero-length
-> > > +KBUILD_CFLAGS += $(call cc-option,-Wno-implicit-fallthrough)
-> > >  endif
-> > >  endif
-> > > --
-> > > 2.23.0.rc1.153.gdeed80330f-goog
-> > >
+> >> I cleaned up the build system, and pushed it based on my
+> >> kbuild tree.
+> >>
+> >> Please see:
+> >>
+> >> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> >> klp-cleanup
 > >
+> > This indeed looks much simpler and cleaner (as far as I can judge with my
+> > limited kbuild knowledge). We just need to remove MODULE_INFO(livepatch,
+> > "Y") from lib/livepatch/test_klp_convert_mod_a.c to make it compile and
+> > work (test_klp_convert_mod_a is not a livepatch module, it is just a dummy
+> > module which is then livepatched by lib/livepatch/test_klp_convert1.c).
 > >
-> > Perhaps, is the following even cleaner?
-> >
-> >
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 1b23f95db176..cebc6bf5372e 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -751,6 +751,9 @@ else
-> >  # These warnings generated too much noise in a regular build.
-> >  # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
-> >  KBUILD_CFLAGS += -Wno-unused-but-set-variable
-> > +
-> > +# Warn about unmarked fall-throughs in switch statement.
-> > +KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
-> >  endif
-> >
-> >  KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
-> > @@ -845,9 +848,6 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC)
-> > -print-file-name=include)
-> >  # warn about C99 declaration after statement
-> >  KBUILD_CFLAGS += -Wdeclaration-after-statement
-> >
-> > -# Warn about unmarked fall-throughs in switch statement.
-> > -KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
-> > -
-> >  # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
-> >  KBUILD_CFLAGS += -Wvla
-> >
-> >
-> >
-> > --
-> > Best Regards
-> > Masahiro Yamada
 >
-> I like this more than anything suggested so far. I think a comment
-> should be added regarding why this is only enabled for GCC right now but
-> that is pretty easy to revert once we have figured out the right course
-> of action.
+> Yeah, Masahiro this is great, thanks for reworking this!
+>
+> I did tweak one module like Miroslav mentioned and I think a few of the
+> newly generated files need to be cleaned up as part of "make clean", but
+> all said, this is a nice improvement.
+>
+> Are you targeting the next merge window for your kbuild branch?  (This
+> appears to be what the klp-cleanup branch was based on.)
 
-Agree. This is well-explained in the commit log,
-but adding a short comment will be nice.
 
+I can review this series from the build system point of view,
+but I am not familiar enough with live-patching itself.
 
+Some possibilities:
 
-BTW, I personally like the traditional
-comment version of fallthrough annotations.
+[1] Merge this series thru the live-patch tree after the
+    kbuild base patches land.
+    This requires one extra development cycle (targeting for 5.5-rc1)
+    but I think this is the official way if you do not rush into it.
 
-Is there a plan for Clang to support it
-as well as the attribute?
+[2] Create an immutable branch in kbuild tree, and the live-patch
+    tree will use it as the basis for queuing this series.
+    We will have to coordinate the pull request order, but
+    we can merge this feature for 5.4-rc1
 
-Thanks.
+[3] Apply this series to my kbuild tree, with proper Acked-by
+    from the livepatch maintainers.
+    I am a little bit uncomfortable with applying patches I
+    do not understand, though...
+
 
 -- 
 Best Regards
