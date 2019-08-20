@@ -2,125 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10F8D963BB
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2019 17:08:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E13396721
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2019 19:13:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726879AbfHTPIG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Aug 2019 11:08:06 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:25580 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726663AbfHTPIG (ORCPT
+        id S1728277AbfHTRKZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Aug 2019 13:10:25 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:45826 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727006AbfHTRKZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Aug 2019 11:08:06 -0400
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x7KF7iEI015081;
-        Wed, 21 Aug 2019 00:07:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x7KF7iEI015081
+        Tue, 20 Aug 2019 13:10:25 -0400
+Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x7KH9n49020646;
+        Wed, 21 Aug 2019 02:09:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x7KH9n49020646
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566313664;
-        bh=K8iJaWgwlMDK+OlU7YLfgIi/89fs2wcwIBbyV/ut3Xg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=r0JTMtwS7bXGKh0LzSQe2B6bAJ9gURESWM7orh3U+SJLO/4fBgaO+aiE87pwUbqht
-         pEN6GgSqsHb97mwe0arR1MyTAskOZSNVIgrPcuNiG0s5y0GuAFsU3PTbZknvO9xaCt
-         YiyRCAoINDbpn7NWr3/QUFBZZ4+1Rr6yrvAmk/kdXxYqsJQLGGjuYnQFra1GiU/rsO
-         sKuAl2xCDsFbqb+H2bCKnSxw+XAkJ3+h7mDxPu94D9yqW/YxZbE62ZaTW9n2Nw2a44
-         FNO6p8UWA2D7t1NcMoM5vCbX9RzG7HR2jqa96tNUW1E2DuOSRZ8za98Dusi0fe8ib3
-         K8ml+Ni8Zq2xA==
-X-Nifty-SrcIP: [209.85.217.44]
-Received: by mail-vs1-f44.google.com with SMTP id q16so3757413vsm.2;
-        Tue, 20 Aug 2019 08:07:44 -0700 (PDT)
-X-Gm-Message-State: APjAAAUEHaXha+MPlTu1aaiYNOe6V6hyBqaoPGIIpwdCXLoKupZIgp6J
-        NH1Wgrw/X9sSwpHz2msmSGjca2LGLcVKMpdKaB4=
-X-Google-Smtp-Source: APXvYqzVwIl5c0/FMcWNBbgpHsdWNZyxfvEzTsj5F0N9FyZ7bYyO0hEfQILwoAU1YRJRG5XvsHvtQFt5cgur+TrHfbI=
-X-Received: by 2002:a67:e401:: with SMTP id d1mr7143023vsf.215.1566313663086;
- Tue, 20 Aug 2019 08:07:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190819200650.18156-1-broonie@kernel.org>
-In-Reply-To: <20190819200650.18156-1-broonie@kernel.org>
+        s=dec2015msa; t=1566320990;
+        bh=NX+Y5RmE+GMCx3VPH/N13pbHW6+fZL4TprkkbxCZzTA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CeHhXalJuSQA8t5jvXhsUEcBno1LH0g/7/wBeHXqHemLSXlyo+TOq1pHDHA+MpYiD
+         UK1RCeZBWi2T/yGyaZYs1+p3f9GPKzxixFlYjDfsueoUVzUZwx1OrL/6X2s8+o5JTa
+         WF51kTWXfKc6vUW0dpZZkQ9f3dmFlTGUUGfYPQmWcQ8iJKOHnLYWaeE5MkDH0n3a8j
+         6ZbZ4eehAf1UpFsiBhgUy63edhVCWz1zuGwurdZ52Z0GVnnTYIEmbDjpBNLgAq2Ztk
+         lGXEUjn270PiEuE1onY/yluLSbUB0bDEjd26H6ChvB3GyLE+1h8L2NEMWYUCZmXaYe
+         t1J9YxjWEICjA==
+X-Nifty-SrcIP: [126.125.143.222]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 21 Aug 2019 00:07:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARaVoxWVi679JkR1w+m-RRH1PLdvfJc1ba4n2N2bZR_5g@mail.gmail.com>
-Message-ID: <CAK7LNARaVoxWVi679JkR1w+m-RRH1PLdvfJc1ba4n2N2bZR_5g@mail.gmail.com>
-Subject: Re: [PATCH v2] merge_config.sh: Check error codes from make
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Vineet Gupta <vgupta@synopsys.com>,
+        linux-snps-arc@lists.infradead.org, Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] init/Kconfig: rework help of CONFIG_CC_OPTIMIZE_FOR_SIZE
+Date:   Wed, 21 Aug 2019 02:09:39 +0900
+Message-Id: <20190820170941.26193-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 20, 2019 at 5:07 AM Mark Brown <broonie@kernel.org> wrote:
->
-> When we execute make after merging the configurations we ignore any
-> errors it produces causing whatever is running merge_config.sh to be
-> unaware of any failures.  This issue was noticed by Guillaume Tucker
-> while looking at problems with testing of clang only builds in KernelCI
-> which caused Kbuild to be unable to find a working host compiler.
->
-> This implementation was suggested by Yamada-san.
->
-> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Reported-by: Guillaume Tucker <guillaume.tucker@collabora.com>
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> ---
+CONFIG_CC_OPTIMIZE_FOR_SIZE was originally an independent boolean
+option, but commit 877417e6ffb9 ("Kbuild: change CC_OPTIMIZE_FOR_SIZE
+definition") turned it into a choice between _PERFORMANCE and _SIZE.
 
-Applied to linux-kbuild.
-Thanks.
+The phrase "If unsure, say N." sounds like an independent option.
+Reword the help text to make it appropriate for the choice menu.
 
->  scripts/kconfig/merge_config.sh | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-> index d924c51d28b7..bec246719aea 100755
-> --- a/scripts/kconfig/merge_config.sh
-> +++ b/scripts/kconfig/merge_config.sh
-> @@ -13,12 +13,12 @@
->  #  Copyright (c) 2009-2010 Wind River Systems, Inc.
->  #  Copyright 2011 Linaro
->
-> +set -e
-> +
->  clean_up() {
->         rm -f $TMP_FILE
->         rm -f $MERGE_FILE
-> -       exit
->  }
-> -trap clean_up HUP INT TERM
->
->  usage() {
->         echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
-> @@ -110,6 +110,9 @@ TMP_FILE=$(mktemp ./.tmp.config.XXXXXXXXXX)
->  MERGE_FILE=$(mktemp ./.merge_tmp.config.XXXXXXXXXX)
->
->  echo "Using $INITFILE as base"
-> +
-> +trap clean_up EXIT
-> +
->  cat $INITFILE > $TMP_FILE
->
->  # Merge files, printing warnings on overridden values
-> @@ -155,7 +158,6 @@ if [ "$RUNMAKE" = "false" ]; then
->         echo "#"
->         echo "# merged configuration written to $KCONFIG_CONFIG (needs make)"
->         echo "#"
-> -       clean_up
->         exit
->  fi
->
-> @@ -185,5 +187,3 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
->                 echo ""
->         fi
->  done
-> -
-> -clean_up
-> --
-> 2.20.1
->
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
+ init/Kconfig | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
+diff --git a/init/Kconfig b/init/Kconfig
+index bf971b5c707d..149efd82447f 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1219,10 +1219,8 @@ config CC_OPTIMIZE_FOR_SIZE
+ 	bool "Optimize for size"
+ 	imply CC_DISABLE_WARN_MAYBE_UNINITIALIZED  # avoid false positives
+ 	help
+-	  Enabling this option will pass "-Os" instead of "-O2" to
+-	  your compiler resulting in a smaller kernel.
+-
+-	  If unsure, say N.
++	  Choosing this option will pass "-Os" to your compiler resulting
++	  in a smaller kernel.
+ 
+ endchoice
+ 
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
