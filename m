@@ -2,79 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B69E958F2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2019 09:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F8D963BB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2019 17:08:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbfHTHyP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Aug 2019 03:54:15 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44672 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726049AbfHTHyP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Aug 2019 03:54:15 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id AE5E9AE1B;
-        Tue, 20 Aug 2019 07:54:13 +0000 (UTC)
-Date:   Tue, 20 Aug 2019 09:54:05 +0200 (CEST)
-From:   Miroslav Benes <mbenes@suse.cz>
-To:     Joe Lawrence <joe.lawrence@redhat.com>
-cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        live-patching@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch
- modules
-In-Reply-To: <9127bdf6-1daf-0387-88fb-6f1118dd6804@redhat.com>
-Message-ID: <alpine.LSU.2.21.1908200948260.9536@pobox.suse.cz>
-References: <20190509143859.9050-1-joe.lawrence@redhat.com> <20190509143859.9050-7-joe.lawrence@redhat.com> <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com> <20190812155626.GA19845@redhat.com> <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
- <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz> <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com> <163ad1fb-ccbf-0a3e-d795-2bb748a0e88f@redhat.com> <CAK7LNAR-1qXUhZ=cKUK2WEg5WeinXgFf1B2rq-=Oke4CUucp_g@mail.gmail.com>
- <9127bdf6-1daf-0387-88fb-6f1118dd6804@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1726879AbfHTPIG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Aug 2019 11:08:06 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:25580 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726663AbfHTPIG (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 20 Aug 2019 11:08:06 -0400
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x7KF7iEI015081;
+        Wed, 21 Aug 2019 00:07:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x7KF7iEI015081
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566313664;
+        bh=K8iJaWgwlMDK+OlU7YLfgIi/89fs2wcwIBbyV/ut3Xg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=r0JTMtwS7bXGKh0LzSQe2B6bAJ9gURESWM7orh3U+SJLO/4fBgaO+aiE87pwUbqht
+         pEN6GgSqsHb97mwe0arR1MyTAskOZSNVIgrPcuNiG0s5y0GuAFsU3PTbZknvO9xaCt
+         YiyRCAoINDbpn7NWr3/QUFBZZ4+1Rr6yrvAmk/kdXxYqsJQLGGjuYnQFra1GiU/rsO
+         sKuAl2xCDsFbqb+H2bCKnSxw+XAkJ3+h7mDxPu94D9yqW/YxZbE62ZaTW9n2Nw2a44
+         FNO6p8UWA2D7t1NcMoM5vCbX9RzG7HR2jqa96tNUW1E2DuOSRZ8za98Dusi0fe8ib3
+         K8ml+Ni8Zq2xA==
+X-Nifty-SrcIP: [209.85.217.44]
+Received: by mail-vs1-f44.google.com with SMTP id q16so3757413vsm.2;
+        Tue, 20 Aug 2019 08:07:44 -0700 (PDT)
+X-Gm-Message-State: APjAAAUEHaXha+MPlTu1aaiYNOe6V6hyBqaoPGIIpwdCXLoKupZIgp6J
+        NH1Wgrw/X9sSwpHz2msmSGjca2LGLcVKMpdKaB4=
+X-Google-Smtp-Source: APXvYqzVwIl5c0/FMcWNBbgpHsdWNZyxfvEzTsj5F0N9FyZ7bYyO0hEfQILwoAU1YRJRG5XvsHvtQFt5cgur+TrHfbI=
+X-Received: by 2002:a67:e401:: with SMTP id d1mr7143023vsf.215.1566313663086;
+ Tue, 20 Aug 2019 08:07:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20190819200650.18156-1-broonie@kernel.org>
+In-Reply-To: <20190819200650.18156-1-broonie@kernel.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 21 Aug 2019 00:07:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARaVoxWVi679JkR1w+m-RRH1PLdvfJc1ba4n2N2bZR_5g@mail.gmail.com>
+Message-ID: <CAK7LNARaVoxWVi679JkR1w+m-RRH1PLdvfJc1ba4n2N2bZR_5g@mail.gmail.com>
+Subject: Re: [PATCH v2] merge_config.sh: Check error codes from make
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> > How is this feature supposed to work for external modules?
-> > 
-> > klp-convert receives:
-> > "symbols from vmlinux" + "symbols from no-klp in-tree modules"
-> > + "symbols from no-klp external modules" ??
-> > 
-> 
-> I don't think that this use-case has been previously thought out (Miroslav,
-> correct me if I'm wrong here.)
-> 
-> I did just run an external build of a copy of
-> samples/livepatch/livepatch-annotated-sample.c:
-> 
->  - modules.livepatch is generated in external dir
->  - klp-convert is invoked for the livepatch module
->  - the external livepatch module successfully loads
-> 
-> But that was only testing external livepatch modules.
-> 
-> I don't know if we need/want to support general external modules supplementing
-> Symbols.list, at least for the initial klp-convert commit.  I suppose external
-> livepatch modules would then need to specify additional Symbols.list(s) files
-> somehow as well.
+On Tue, Aug 20, 2019 at 5:07 AM Mark Brown <broonie@kernel.org> wrote:
+>
+> When we execute make after merging the configurations we ignore any
+> errors it produces causing whatever is running merge_config.sh to be
+> unaware of any failures.  This issue was noticed by Guillaume Tucker
+> while looking at problems with testing of clang only builds in KernelCI
+> which caused Kbuild to be unable to find a working host compiler.
+>
+> This implementation was suggested by Yamada-san.
+>
+> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Reported-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
 
-I think we discussed it briefly and decided to postpone it for later 
-improvements. External modules are not so important in my opinion.
- 
-> > 
-> > BTW, 'Symbols.list' sounds like a file to list out symbols
-> > for generic purposes, but in fact, the
-> > file format is very specific for the klp-convert tool.
-> > Perhaps, is it better to rename it so it infers
-> > this is for livepatching? What do you think?
-> > 
-> 
-> I don't know if the "Symbols.list" name and leading uppercase was based on any
-> convention, but something like symbols.klp would be fine with me.
+Applied to linux-kbuild.
+Thanks.
 
-symbols.klp looks ok
+>  scripts/kconfig/merge_config.sh | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+> index d924c51d28b7..bec246719aea 100755
+> --- a/scripts/kconfig/merge_config.sh
+> +++ b/scripts/kconfig/merge_config.sh
+> @@ -13,12 +13,12 @@
+>  #  Copyright (c) 2009-2010 Wind River Systems, Inc.
+>  #  Copyright 2011 Linaro
+>
+> +set -e
+> +
+>  clean_up() {
+>         rm -f $TMP_FILE
+>         rm -f $MERGE_FILE
+> -       exit
+>  }
+> -trap clean_up HUP INT TERM
+>
+>  usage() {
+>         echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
+> @@ -110,6 +110,9 @@ TMP_FILE=$(mktemp ./.tmp.config.XXXXXXXXXX)
+>  MERGE_FILE=$(mktemp ./.merge_tmp.config.XXXXXXXXXX)
+>
+>  echo "Using $INITFILE as base"
+> +
+> +trap clean_up EXIT
+> +
+>  cat $INITFILE > $TMP_FILE
+>
+>  # Merge files, printing warnings on overridden values
+> @@ -155,7 +158,6 @@ if [ "$RUNMAKE" = "false" ]; then
+>         echo "#"
+>         echo "# merged configuration written to $KCONFIG_CONFIG (needs make)"
+>         echo "#"
+> -       clean_up
+>         exit
+>  fi
+>
+> @@ -185,5 +187,3 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
+>                 echo ""
+>         fi
+>  done
+> -
+> -clean_up
+> --
+> 2.20.1
+>
 
-Miroslav
+
+-- 
+Best Regards
+Masahiro Yamada
