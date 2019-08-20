@@ -2,120 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E86E94EB0
-	for <lists+linux-kbuild@lfdr.de>; Mon, 19 Aug 2019 22:07:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9321795459
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Aug 2019 04:25:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728272AbfHSUG6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 19 Aug 2019 16:06:58 -0400
-Received: from mail-wm1-f97.google.com ([209.85.128.97]:51386 "EHLO
-        mail-wm1-f97.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728255AbfHSUG5 (ORCPT
+        id S1728847AbfHTCZU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 19 Aug 2019 22:25:20 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34456 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728647AbfHTCZT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 19 Aug 2019 16:06:57 -0400
-Received: by mail-wm1-f97.google.com with SMTP id k1so359195wmi.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 19 Aug 2019 13:06:56 -0700 (PDT)
+        Mon, 19 Aug 2019 22:25:19 -0400
+Received: by mail-wr1-f67.google.com with SMTP id s18so10678793wrn.1;
+        Mon, 19 Aug 2019 19:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=PmmdLjAbLWYIX1qFNc1WXndwzxCg8W0lx5gykrGDbVE=;
+        b=RZkyaJJCqg+TqN1s+p5yx2tqdCmWBSlDnH/gMuti6Hr5J/yHzHhkZjY01RKZjfbC3A
+         toqcMqJzTqRxct9C0Qu702+P7JLEaex1LsellLU2GxoIhpsHLt5aUjS9yFIa2IH/9o+k
+         FtTbyi+ZvckvmrdkNeIFX/IB+/PEpBDeGD9HKs+9YUPXsPwS6YF4XQYBLOG8KEiWhbe0
+         dyHS3w4+tQpNDulgpgc50wImIY97ivOEAYPkxK3Ul4Q2UkBhutGQ+2Zaj7YlNmbKDIrb
+         v4pQ8EdS3bD4liuHu7eGBj1vXs2pXPBAJS+IsJQAiD/BHP2eOLuojmvfvT2B0TL7YXaU
+         oPnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FgIxKoIsQoXNZe/y1pySQAz1KVR8mwuWigj8Pby/9nU=;
-        b=jGicaR+TuqZI4HVhMzFnxtNbFzBOh2LKg4KAVUSemLItirqiDY2dugQ/Gy5ShYBBhg
-         kuPA6cX8J661IfvzZvbdg0kINtdhm8wDG8RbwmpWXW3XTSIXb5s5bxKoCsd/7/jwDX9C
-         mOepsZZoa2rDrE0bRbnCzWGCsRemp/TrKHKiB3FsIpcU0s15ZzNHhk5uNfCyhi0qvtcp
-         OV1chqwPN0zjGgwbs/XvC82/EUsMjmL/l3i0sv/oM1OeAXbsHvpcnIcx6cRDWo89SSMT
-         g99XiJyWpZWPXD6VpggltjFoWFTg/xjvSzNiYIpeUtZmOAieZdMnIn/GcLyjcDiA4Wu8
-         uMcw==
-X-Gm-Message-State: APjAAAXV1WBCt0miG0x9tSvgMgsSr4YSPlBcqzGnoLvGhRQiZ1knRs37
-        e3G4vooq8yZKyB0A7LbdsQz2KshsW538ZiyuPmfOZH5wj9ZJe8hUdQ7ljaB7x7F/Ew==
-X-Google-Smtp-Source: APXvYqywrL6kptN8K+Gh1ua8PZU6yjRQ8ykndVKgTUhOsgCWLbNDn/Ia1WWslE9Xc+ZE91GohtwDiMUGGysA
-X-Received: by 2002:a1c:c1c1:: with SMTP id r184mr22036371wmf.9.1566245215772;
-        Mon, 19 Aug 2019 13:06:55 -0700 (PDT)
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk. [2a01:7e01::f03c:91ff:fed4:a3b6])
-        by smtp-relay.gmail.com with ESMTPS id z7sm248136wrl.24.2019.08.19.13.06.55
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PmmdLjAbLWYIX1qFNc1WXndwzxCg8W0lx5gykrGDbVE=;
+        b=qMdZynCc1iy9rM5PVluSo5ENYybuStbd6cYCGDTpQt+9mjwPzUgtD7XjpdIUBhZD4p
+         wCYOAVhb/HZBK3jcpeYh48dMTYUMy5nC/mF2NIlhDhxjNGqRBIt3Y7fx/+VT6F95Nh5Q
+         q+3o19kxNGDbm99jBVCTuzfwRbZ9PcZ5kggU22tRNKHWsZ2EkOZLdmh6tPKqeGTCkKRM
+         GtJgcxmgkGhpf/Zpyb16peeAhqCN+1ZGoeHY6g6mEWdnv7cT1F315DVcbZKSRZTub6m0
+         EdObsHF3lkatQBWx6uqrJqX3Z/zUPklFW5MTAED0OIc+If5RK9jW8WsVqEW6LyQHd4VH
+         7PzQ==
+X-Gm-Message-State: APjAAAUXR92J/33qmcJBzKsKrMbJ02z6pmHQImBqtNQ4VW0qaCeNOkge
+        MYEa9qlVHiJcz9yTx1MbekE=
+X-Google-Smtp-Source: APXvYqwmtHgUWjBBzBVhqVOXLr7xAnJl35gavhqxAvui5pSfgZDCynsys6hSKsAjLUWffbLIXnXBCQ==
+X-Received: by 2002:adf:f304:: with SMTP id i4mr25292909wro.61.1566267916510;
+        Mon, 19 Aug 2019 19:25:16 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id m7sm18024413wmi.18.2019.08.19.19.25.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2019 13:06:55 -0700 (PDT)
-X-Relaying-Domain: sirena.org.uk
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1hznvb-0006eC-Hd; Mon, 19 Aug 2019 20:06:55 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 85D6F274314C; Mon, 19 Aug 2019 21:06:54 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Guillaume Tucker <guillaume.tucker@collabora.com>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>
-Subject: [PATCH v2] merge_config.sh: Check error codes from make
-Date:   Mon, 19 Aug 2019 21:06:50 +0100
-Message-Id: <20190819200650.18156-1-broonie@kernel.org>
-X-Mailer: git-send-email 2.20.1
+        Mon, 19 Aug 2019 19:25:15 -0700 (PDT)
+Date:   Mon, 19 Aug 2019 19:25:14 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Borislav Petkov <bp@suse.de>,
+        Kees Cook <keescook@chromium.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Paul Burton <paul.burton@mips.com>,
+        Xiaozhou Liu <liuxiaozhou@bytedance.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: enable unused-function warnings for W= build
+ with Clang
+Message-ID: <20190820022514.GB30221@archlinux-threadripper>
+References: <20190819105138.5053-1-yamada.masahiro@socionext.com>
+ <20190819160920.GA108942@archlinux-threadripper>
+ <CAK7LNARDQPixBfWp8od1=13w+hcycYbyTX9+G-gqEHHwXxDCvA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNARDQPixBfWp8od1=13w+hcycYbyTX9+G-gqEHHwXxDCvA@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When we execute make after merging the configurations we ignore any
-errors it produces causing whatever is running merge_config.sh to be
-unaware of any failures.  This issue was noticed by Guillaume Tucker
-while looking at problems with testing of clang only builds in KernelCI
-which caused Kbuild to be unable to find a working host compiler.
+On Tue, Aug 20, 2019 at 01:58:26AM +0900, Masahiro Yamada wrote:
+> Hi Nathan,
+> 
+> On Tue, Aug 20, 2019 at 1:09 AM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> >
+> > On Mon, Aug 19, 2019 at 07:51:38PM +0900, Masahiro Yamada wrote:
+> > > GCC and Clang have different policy for -Wunused-function; GCC does
+> > > not report unused-function warnings at all for the functions marked
+> > > as 'static inline'. Clang does report unused-function warnings if they
+> > > are defined in source files instead of headers.
+> > >
+> > > We could use Clang for detecting unused functions, but it has been
+> > > suppressed since commit abb2ea7dfd82 ("compiler, clang: suppress
+> > > warning for unused static inline functions").
+> > >
+> > > So, we never notice left-over code if functions in .c files are
+> > > marked as inline.
+> > >
+> > > Let's remove __maybe_unused from the inline macro. As always, it is
+> > > not a good idea to sprinkle warnings for the normal build. So, these
+> > > warnings will be shown for the W= build.
+> > >
+> > > If you contribute to code clean-up, please run "make CC=clang W=1"
+> > > and check -Wunused-function warnings. You will find lots of unused
+> > > functions.
+> > >
+> > > Some of them are false-positives because the call-sites are disabled
+> > > by #ifdef. I do not like to abuse the inline keyword for suppressing
+> > > unused-function warnings because it might affect the compiler's
+> > > optimization. When I need to fix unused-functions warnings, I prefer
+> > > adding #ifdef or __maybe_unused to function definitions.
+> > >
+> > > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> >
+> > So if I understand everything correctly, this change allows us to start
+> > finding unused static inline functions with clang at W=1 but disables
+> > -Wunused-function by default... I am not sure that is a good tradeoff
+> > as I am pretty sure that W=1 is fairly noisy for clang although I
+> > haven't checked lately. I'd argue most regular developers do not build
+> > with W=1 meaning -Wunused-function generally will not be run with clang
+> > at all, missing stuff like this:
+> 
+> 
+> Try "git log --grep=W=1"
+> 
+> Some people are making efforts to fix W=1 warnings.
+> I believe somebody will start to remove unused static inline functions.
 
-This implementation was suggested by Yamada-san.
+Yes, it could be a good way to get people involved with working with
+clang.
 
-Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Reported-by: Guillaume Tucker <guillaume.tucker@collabora.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- scripts/kconfig/merge_config.sh | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> 
+> 
+> >
+> > https://lore.kernel.org/lkml/20190523010235.GA105588@archlinux-epyc/
+> >
+> > https://lore.kernel.org/lkml/1558574945-19275-1-git-send-email-skomatineni@nvidia.com/
+> >
+> > Furthermore, per the documemtation [1], -Wno-unused-function will also
+> > disable -Wunneeded-internal-declaration, which can help find bugs like
+> > commit 8289c4b6f2e5 ("platform/x86: mlx-platform: Properly use
+> > mlxplat_mlxcpld_msn201x_items").
+> >
+> > [1]: https://clang.llvm.org/docs/DiagnosticsReference.html#wunused-function
+> 
+> 
+> How about this?
+> 
+> KBUILD_CFLAGS += -Wno-unused-function
+> KBUILD_CFLAGS += -Wunneeded-internal-declaration
 
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index d924c51d28b7..bec246719aea 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -13,12 +13,12 @@
- #  Copyright (c) 2009-2010 Wind River Systems, Inc.
- #  Copyright 2011 Linaro
- 
-+set -e
-+
- clean_up() {
- 	rm -f $TMP_FILE
- 	rm -f $MERGE_FILE
--	exit
- }
--trap clean_up HUP INT TERM
- 
- usage() {
- 	echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
-@@ -110,6 +110,9 @@ TMP_FILE=$(mktemp ./.tmp.config.XXXXXXXXXX)
- MERGE_FILE=$(mktemp ./.merge_tmp.config.XXXXXXXXXX)
- 
- echo "Using $INITFILE as base"
-+
-+trap clean_up EXIT
-+
- cat $INITFILE > $TMP_FILE
- 
- # Merge files, printing warnings on overridden values
-@@ -155,7 +158,6 @@ if [ "$RUNMAKE" = "false" ]; then
- 	echo "#"
- 	echo "# merged configuration written to $KCONFIG_CONFIG (needs make)"
- 	echo "#"
--	clean_up
- 	exit
- fi
- 
-@@ -185,5 +187,3 @@ for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
- 		echo ""
- 	fi
- done
--
--clean_up
--- 
-2.20.1
+Yes, that would work.
 
+> 
+> 
+> 
+> > Is there a way to conditionally remove __maybe_unused from the inline
+> > defintion so that we keep the current behavior but we can still
+> > selectively find potentially unused functions?
+> 
+> It would be possible by tweaking include/linux/compiler_types.h
+> but I am not a big fan of uglifying the 'inline' replacement any more.
+
+I agree that ugly is not ideal but I think it is even less ideal to
+weaken the default set of warnings for clang... Merely food for thought
+though.
+
+Cheers,
+Nathan
