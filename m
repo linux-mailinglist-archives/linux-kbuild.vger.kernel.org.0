@@ -2,129 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE82E972E7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 09:02:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79917972EC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 09:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727484AbfHUHCQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Aug 2019 03:02:16 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:35706 "EHLO
+        id S1727266AbfHUHCV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Aug 2019 03:02:21 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:35875 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727266AbfHUHCQ (ORCPT
+        with ESMTP id S1727283AbfHUHCU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:02:16 -0400
+        Wed, 21 Aug 2019 03:02:20 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x7L727v9010350;
-        Wed, 21 Aug 2019 16:02:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x7L727v9010350
+        by conuserg-09.nifty.com with ESMTP id x7L727vA010350;
+        Wed, 21 Aug 2019 16:02:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x7L727vA010350
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566370927;
-        bh=Z7gvvNxo+7LVHLVYFSIPDzEWxjAUzSyIAekpVsmRCAg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ky+rtDEX3RZk30Dv08vN0ByKpuhHdlvg+4bh3aO2dtvjc0ezCSDp+CmB1B9FoHOb8
-         ZH7ndb4faWzZFYx3c9csb/0oZzZcMpAfyGFKmVLCU07H20Bs+5RBxiO64sXAcmvg6r
-         Q4smtMUPGzvSYAwdvjEQquvor7KG3Wc37LFrwyOBxIj/ZG8Tl7zeRtbwfPxpd1SxDo
-         r5R7TNAErV7yhXaCUcizgeR3qHvri3TkkBCkNFJiFwH5mEX+QrsKq2Nkzl7afDgTMY
-         V6RZ5C4F4txePGIUmc2HElByEa2kiT6jeYYwUdT18EfHcJDIHJ8jhv2T4BSexG1DwA
-         ey7QblAaDu4Ig==
+        s=dec2015msa; t=1566370928;
+        bh=+clSVecoKH2g25vlDLqxPHel4AoAmLlsWAj659naMc0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=ZlF5mMCucHptFuOC2iNrbVpnU9EjmYxjDnCd1Kezt2jBAxVUpp6+bZmA1a+0mE0CZ
+         Zf2/JKR36Ec8Ss6S7yCraGKNASZju5zFZNjXRUwDw0sbfW6njnfeYpL19SnE/Rfgs4
+         LHJ3Uk9uGbZX1woevT6xZoE7Mku7jM2BNWeefpY+uAz7QfDmG2xQBYR6dynYxMGbhe
+         LpANOf9+wsXZk/Kn8pCzdwvR2eFwIu9Pd3CBaSb6xxhS+6IXfvTmOl/mpfpaZwRB3Q
+         FuDJC6kNh9o8e+2GzT1qFs/Vw5gE3SqmNiI982PAZI0r9u6+ZUUucDKO0FDX9j7TuR
+         8Eaq0AHZdoRJg==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] kbuild: pkg: clean up package files/dirs from the top Makefile
-Date:   Wed, 21 Aug 2019 16:02:02 +0900
-Message-Id: <20190821070205.8297-1-yamada.masahiro@socionext.com>
+Subject: [PATCH 2/4] kbuild: pkg: add package targets to PHONY instead of FORCE
+Date:   Wed, 21 Aug 2019 16:02:03 +0900
+Message-Id: <20190821070205.8297-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190821070205.8297-1-yamada.masahiro@socionext.com>
+References: <20190821070205.8297-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I am not a big fan of the $(objtree)/ hack for clean-files/clean-dirs.
-
-These are created in the top of $(objtree), so let's clean them up
-from the top Makefile.
+These are not real targets. Adding them to PHONY is preferred.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- Makefile                 | 6 ++++--
- scripts/Makefile         | 2 +-
- scripts/package/Makefile | 9 ---------
- 3 files changed, 5 insertions(+), 12 deletions(-)
+ scripts/package/Makefile | 29 ++++++++++++++++++++---------
+ 1 file changed, 20 insertions(+), 9 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 5d202ad1481a..e88d4fcd5e87 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1389,12 +1389,14 @@ CLEAN_FILES += modules.builtin.modinfo
- 
- # Directories & files removed with 'make mrproper'
- MRPROPER_DIRS  += include/config include/generated          \
--		  arch/$(SRCARCH)/include/generated .tmp_objdiff
-+		  arch/$(SRCARCH)/include/generated .tmp_objdiff \
-+		  debian/ snap/ tar-install/
- MRPROPER_FILES += .config .config.old .version \
- 		  Module.symvers \
- 		  signing_key.pem signing_key.priv signing_key.x509	\
- 		  x509.genkey extra_certificates signing_key.x509.keyid	\
--		  signing_key.x509.signer vmlinux-gdb.py
-+		  signing_key.x509.signer vmlinux-gdb.py \
-+		  *.spec
- 
- # Directories & files removed with 'make distclean'
- DISTCLEAN_DIRS  +=
-diff --git a/scripts/Makefile b/scripts/Makefile
-index 16bcb8087899..c42891e10ba3 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -36,4 +36,4 @@ subdir-$(CONFIG_MODVERSIONS) += genksyms
- subdir-$(CONFIG_SECURITY_SELINUX) += selinux
- 
- # Let clean descend into subdirs
--subdir-	+= basic dtc gdb kconfig mod package
-+subdir-	+= basic dtc gdb kconfig mod
 diff --git a/scripts/package/Makefile b/scripts/package/Makefile
-index ca7f46b562a4..a2d8830f54be 100644
+index a2d8830f54be..407189d9942a 100644
 --- a/scripts/package/Makefile
 +++ b/scripts/package/Makefile
-@@ -65,8 +65,6 @@ binrpm-pkg: FORCE
+@@ -50,7 +50,8 @@ rm -f $(objtree)/.scmversion
+ 
+ # rpm-pkg
+ # ---------------------------------------------------------------------------
+-rpm-pkg: FORCE
++PHONY += rpm-pkg
++rpm-pkg:
+ 	$(MAKE) clean
+ 	$(CONFIG_SHELL) $(MKSPEC) >$(objtree)/kernel.spec
+ 	$(call cmd,src_tar,$(KERNELPATH),kernel.spec)
+@@ -59,13 +60,15 @@ rpm-pkg: FORCE
+ 
+ # binrpm-pkg
+ # ---------------------------------------------------------------------------
+-binrpm-pkg: FORCE
++PHONY += binrpm-pkg
++binrpm-pkg:
+ 	$(MAKE) -f $(srctree)/Makefile
+ 	$(CONFIG_SHELL) $(MKSPEC) prebuilt > $(objtree)/binkernel.spec
  	+rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
  		$(UTS_MACHINE) -bb $(objtree)/binkernel.spec
  
--clean-files += $(objtree)/*.spec
--
- deb-pkg: FORCE
+-deb-pkg: FORCE
++PHONY += deb-pkg
++deb-pkg:
  	$(MAKE) clean
  	$(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
-@@ -82,8 +80,6 @@ bindeb-pkg: FORCE
- intdeb-pkg: FORCE
+ 	$(call cmd,src_tar,$(KDEB_SOURCENAME))
+@@ -73,16 +76,19 @@ deb-pkg: FORCE
+ 		mv $(KDEB_SOURCENAME).tar.gz ../$(KDEB_SOURCENAME)_$${origversion}.orig.tar.gz
+ 	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) -i.git -us -uc
+ 
+-bindeb-pkg: FORCE
++PHONY += bindeb-pkg
++bindeb-pkg:
+ 	$(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
+ 	+dpkg-buildpackage -r$(KBUILD_PKG_ROOTCMD) -a$$(cat debian/arch) $(DPKG_FLAGS) -b -nc -uc
+ 
+-intdeb-pkg: FORCE
++PHONY += intdeb-pkg
++intdeb-pkg:
  	+$(CONFIG_SHELL) $(srctree)/scripts/package/builddeb
  
--clean-dirs += $(objtree)/debian/
--
  # snap-pkg
  # ---------------------------------------------------------------------------
- snap-pkg: FORCE
-@@ -98,17 +94,12 @@ snap-pkg: FORCE
- 	cd $(objtree)/snap && \
- 	snapcraft --target-arch=$(UTS_MACHINE)
+-snap-pkg: FORCE
++PHONY += snap-pkg
++snap-pkg:
+ 	rm -rf $(objtree)/snap
+ 	mkdir $(objtree)/snap
+ 	$(MAKE) clean
+@@ -96,7 +102,9 @@ snap-pkg: FORCE
  
--clean-dirs += $(objtree)/snap/
--
  # tarball targets
  # ---------------------------------------------------------------------------
- tar%pkg: FORCE
+-tar%pkg: FORCE
++tar-pkgs := tar-pkg targz-pkg tarbz2-pkg tarxz-pkg
++PHONY += $(tar-pkgs)
++$(tar-pkgs):
  	$(MAKE) -f $(srctree)/Makefile
  	+$(CONFIG_SHELL) $(srctree)/scripts/package/buildtar $@
  
--clean-dirs += $(objtree)/tar-install/
--
--
- # perf-pkg - generate a source tarball with perf source
- # ---------------------------------------------------------------------------
+@@ -124,12 +132,15 @@ $(if $(findstring xz,$@),xz,                                        \
+ $(error unknown target $@))))                                       \
+ 	-f -9 $(perf-tar).tar)
  
+-perf-%pkg: FORCE
++perf-tar-pkgs := perf-tar-src-pkg perf-targz-src-pkg perf-tarbz2-src-pkg perf-tarxz-src-pkg
++PHONY += $(perf-tar-pkgs)
++$(perf-tar-pkgs):
+ 	$(call cmd,perf_tar)
+ 
+ # Help text displayed when executing 'make help'
+ # ---------------------------------------------------------------------------
+-help: FORCE
++PHONY += help
++help:
+ 	@echo '  rpm-pkg             - Build both source and binary RPM kernel packages'
+ 	@echo '  binrpm-pkg          - Build only the binary kernel RPM package'
+ 	@echo '  deb-pkg             - Build both source and binary deb kernel packages'
 -- 
 2.17.1
 
