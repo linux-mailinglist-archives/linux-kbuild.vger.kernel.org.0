@@ -2,90 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DEE97D27
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 16:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2129814F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 19:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729112AbfHUOhG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Aug 2019 10:37:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37004 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728724AbfHUOhG (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Aug 2019 10:37:06 -0400
-Received: from linux-8ccs (ip5f5ade6e.dynamic.kabel-deutschland.de [95.90.222.110])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B6C2C206BA;
-        Wed, 21 Aug 2019 14:36:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566398225;
-        bh=LLHM3HLNnSTk9CIZqdIrW76ESIQASTQvj9y7JVMhEwU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tX0ldqZERDP4xQ8nTag6pfFnc82CxILalGtaetxbHG8xXXzAIW0JIHVE3CJGb/4E/
-         EMjrjUGonCrYNoOy6eDoS609WwM0Ddr/MJYcXij1vlsZAS6fj2xJ0YB3fwrJmrZor9
-         QEX8ufh6sVHXovTET4evmeAPBDKEozvv0a7cSA5A=
-Date:   Wed, 21 Aug 2019 16:36:55 +0200
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        linux-kernel@vger.kernel.org, kernel-team@android.com,
-        arnd@arndb.de, geert@linux-m68k.org, hpa@zytor.com,
-        joel@joelfernandes.org, kstewart@linuxfoundation.org,
-        linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-modules@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
-        lucas.de.marchi@gmail.com, maco@android.com, maco@google.com,
-        michal.lkml@markovi.net, mingo@redhat.com, oneukum@suse.com,
-        pombredanne@nexb.com, sam@ravnborg.org, sspatil@google.com,
-        stern@rowland.harvard.edu, tglx@linutronix.de,
-        usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
-        yamada.masahiro@socionext.com
-Subject: Re: [PATCH v3 10/11] RFC: usb-storage: export symbols in USB_STORAGE
- namespace
-Message-ID: <20190821143655.GA13637@linux-8ccs>
-References: <20190813121733.52480-1-maennich@google.com>
- <20190821114955.12788-1-maennich@google.com>
- <20190821114955.12788-11-maennich@google.com>
- <20190821123827.GB4059@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190821123827.GB4059@kroah.com>
-X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1729552AbfHURdM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Aug 2019 13:33:12 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:18151 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728332AbfHURdL (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 21 Aug 2019 13:33:11 -0400
+Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x7LHWoMD012674;
+        Thu, 22 Aug 2019 02:32:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x7LHWoMD012674
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566408771;
+        bh=bQwdZWB/Tflkc18176JRhMFX7d8J4tn50Ll0eJO7ghQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=0/f0k9B5tgknvpUWCf1M9qoiwkmsdRzyt5Zy+AtmaLG4Vlm+m3eDoQhn0FJ1Yb3Um
+         I6X4hzWYhZKV36yAAKZ+fKFhiOGGNYfjLTSbcUO1/lgzVxhM7QexxBxl+BhKo7hQXc
+         T5oz33PcdZVeTTnSEW8d4YOR+W3BmjWtbGDhh3Gf8H+QG1UVPEkdgnoD3x9LP5lwpq
+         /pznT6w2OpU4LD2eZCnnTH+Fo/hYphSRgfrgevaQUHUbaXoce1FgC/cpjbDV3/d4fY
+         YgPWIKsAYFFfZNJpluj0RATLGJB0UCBpIUYmjvQPRWaO2qbX17qcIk/frzDeur1Y84
+         PZuz833FvBTZA==
+X-Nifty-SrcIP: [126.125.143.222]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove unneeded comments and code from scripts/basic/Makefile
+Date:   Thu, 22 Aug 2019 02:32:47 +0900
+Message-Id: <20190821173247.14933-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+++ Greg KH [21/08/19 05:38 -0700]:
->On Wed, Aug 21, 2019 at 12:49:25PM +0100, Matthias Maennich wrote:
->> Modules using these symbols are required to explicitly import the
->> namespace. This patch was generated with the following steps and serves
->> as a reference to use the symbol namespace feature:
->>
->>  1) Define DEFAULT_SYMBOL_NAMESPACE in the corresponding Makefile
->>  2) make  (see warnings during modpost about missing imports)
->>  3) make nsdeps
->>
->> Instead of a DEFAULT_SYMBOL_NAMESPACE definition, the EXPORT_SYMBOL_NS
->> variants can be used to explicitly specify the namespace. The advantage
->> of the method used here is that newly added symbols are automatically
->> exported and existing ones are exported without touching their
->> respective EXPORT_SYMBOL macro expansion.
->>
->> Signed-off-by: Matthias Maennich <maennich@google.com>
->
->This looks good to me.  This can be included with the rest of this
->series when/if it goes through the kbuild or module tree:
->
->Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
->Actually, which tree will this be going through?
+Kbuild descends into scripts/basic/ even before the Kconfig.
+I do not expect any other host programs added to this Makefile.
 
-I would be happy to take the patchset through the modules tree once it
-collects the appropriate ack/reviewed-by's and once I get a chance to
-sit down and review/test it next week :)
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Thanks!
+ scripts/basic/Makefile | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-Jessica
+diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
+index 548aeb592806..7c9cb80d097b 100644
+--- a/scripts/basic/Makefile
++++ b/scripts/basic/Makefile
+@@ -1,16 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-###
+-# This Makefile lists the most basic programs used during the build process.
+-# The programs listed herein are what are needed to do the basic stuff,
+-# such as fix file dependencies.
+-# This initial step is needed to avoid files to be recompiled
+-# when kernel configuration changes (which is what happens when
+-# .config is included by main Makefile.
+-# ---------------------------------------------------------------------------
+-# fixdep: 	 Used to generate dependency information during build process
++#
++# fixdep: used to generate dependency information during build process
+ 
+ hostprogs-y	:= fixdep
+ always		:= $(hostprogs-y)
+-
+-# fixdep is needed to compile other host programs
+-$(addprefix $(obj)/,$(filter-out fixdep,$(always))): $(obj)/fixdep
+-- 
+2.17.1
+
