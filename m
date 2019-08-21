@@ -2,67 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 120A5972F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 09:03:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E6EB97877
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 13:58:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbfHUHDy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Aug 2019 03:03:54 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:46625 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726693AbfHUHDy (ORCPT
+        id S1727206AbfHULyJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Aug 2019 07:54:09 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:49180 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727185AbfHULyJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:03:54 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x7L73obt020055;
-        Wed, 21 Aug 2019 16:03:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x7L73obt020055
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566371030;
-        bh=sMFPtLuGDuqHPGp8bbKvCgqciiiU1yw2wz53C7izrOw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=iD1FzuN4oVpqcAMVZKMaQTdOJpL+e9O5HkbgvBpZu+ff4KIkRJI8prPuq5ybO6zDt
-         3uYDFIXfrhqG+wLskRbc4zFMicClH+YyEpF6AevKXac6K3bv9jYetcIkg2oSK9v/Z9
-         df4KvplaBtWLfAIXN0lIVIxFKEDT0ykcD+7b0YCuD5MG8VKDO0q7xkEAsy8JlwSh/i
-         QdRMdIsqlwT/oacO70t6AsIqDiBwU2FkcNtw7hgOpXSCtoqooK6ifq4z50ACurEjKs
-         vppH+uMj3DJg/mTlctf6vHYMCuzfYXkv93V/+lnPt+kIk6BtE4NWC56BVmbcdY+rFP
-         sEQ2Z+w0VDdVQ==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: remove unneeded '+' marker from kselftest-merge
-Date:   Wed, 21 Aug 2019 16:03:48 +0900
-Message-Id: <20190821070348.8596-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        Wed, 21 Aug 2019 07:54:09 -0400
+Received: by mail-qk1-f201.google.com with SMTP id l14so1829732qke.16
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Aug 2019 04:54:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=uOv8ZVUXw4B5LiGRR+kjcrlEBVKgrrvFGm/lppkYW7E=;
+        b=LD/8CSp/RxQw+2lyviI3tg24wVYD3DH58HPqAwJLXDZx3uFVYieKuUe7oe5T4AioW9
+         vjtJ7MmIbCwlkq5034E/aCLr7rPwHV0bYDL1oLV/k2tmUGEGoqvrUk3qEumsTmk6GH/3
+         JuAj/FjWli9aoIqMsTDmEfJZ6PW4VA3di3cPhMYBoEbzwVcOwVshHR/8AiGMr1zev5g0
+         ROmVTWCHDhIR4J55vBh5GtMiTBY5dh3h0WURCvlmGnxAJOkj0Kn/N41grJcLmjMX0k0s
+         vzQ6ra500Ia9KNq8TpjjEYCZi1bIj64t16V6ns699jTEmp/IaKkwzZcyVozq0vyOfSWR
+         oqng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=uOv8ZVUXw4B5LiGRR+kjcrlEBVKgrrvFGm/lppkYW7E=;
+        b=LL/3v8F10dtmdCOoYH8oUqVvRbDpu74+xlpBBj88nE0gNhBcvHwzlEVQQc0WT582g2
+         rvgfq1C0RKHskxxeOssH4QXRsA5U4QOQ+3t4Hqe9oL+QrpuV5SlFaR7x825RbBFSBSeq
+         pUBXbq71jQ+YZbxv+dgPc2XbtzqvmXm7lfA9UZWsQjcCUlf+64s4TjwK+QfsT6J/4ZOu
+         htA+NDGrBxOeXwjWAoJZHj9xQixMHmQ60Gnegb8aCX6/7QKDHsq7TWgccK4I9LGo8tYV
+         5z3yoRlRP6DgEdv8y60Do5K1SP+XzooRO9SY8nv030WdIZn32aqJWdiDmDP7KKcXJ3AD
+         RSAg==
+X-Gm-Message-State: APjAAAVorLb5QKujIW5z4Yu5+PUn4eUW/AWuZVuYnX0QUo72lkdRn8OW
+        VgwIVXm8bkTFy/phyu/DDomZA5CjTR/EKg==
+X-Google-Smtp-Source: APXvYqxlS9YHlJGjPey+iEejjE7Li2lRg3JRhE6Q+qpdLfd2tQ+XVL+cX2AfZiyt6A1piFzErIXWpt3zZ9mzgg==
+X-Received: by 2002:ac8:25f2:: with SMTP id f47mr30077518qtf.195.1566388448166;
+ Wed, 21 Aug 2019 04:54:08 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 12:49:16 +0100
+In-Reply-To: <20190821114955.12788-1-maennich@google.com>
+Message-Id: <20190821114955.12788-2-maennich@google.com>
+Mime-Version: 1.0
+References: <20190813121733.52480-1-maennich@google.com> <20190821114955.12788-1-maennich@google.com>
+X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
+Subject: [PATCH v3 01/11] module: support reading multiple values per modinfo tag
+From:   Matthias Maennich <maennich@google.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
+        geert@linux-m68k.org, gregkh@linuxfoundation.org, hpa@zytor.com,
+        jeyu@kernel.org, joel@joelfernandes.org,
+        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
+        maco@android.com, maco@google.com, michal.lkml@markovi.net,
+        mingo@redhat.com, oneukum@suse.com, pombredanne@nexb.com,
+        sam@ravnborg.org, sspatil@google.com, stern@rowland.harvard.edu,
+        tglx@linutronix.de, usb-storage@lists.one-eyed-alien.net,
+        x86@kernel.org, yamada.masahiro@socionext.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This line contains $(MAKE), so Make knows that it will invoke sub-make
-without help of the '+' marker.
+Similar to modpost's get_next_modinfo(), introduce get_next_modinfo() in
+kernel/module.c to acquire any further values associated with the same
+modinfo tag name. That is useful for any tags that have multiple
+occurrences (such as 'alias'), but is in particular introduced here as
+part of the symbol namespaces patch series to read the (potentially)
+multiple namespaces a module is importing.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
+Reviewed-by: Martijn Coenen <maco@android.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Matthias Maennich <maennich@google.com>
 ---
+ kernel/module.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index ec2a6b85a0fa..c0be1a4dbfdd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1253,7 +1253,7 @@ kselftest-merge:
- 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
- 	$(Q)find $(srctree)/tools/testing/selftests -name config | \
- 		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
--	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
-+	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+diff --git a/kernel/module.c b/kernel/module.c
+index 5933395af9a0..a23067907169 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -2481,7 +2481,8 @@ static char *next_string(char *string, unsigned long *secsize)
+ 	return string;
+ }
  
- # ---------------------------------------------------------------------------
- # Devicetree files
+-static char *get_modinfo(struct load_info *info, const char *tag)
++static char *get_next_modinfo(const struct load_info *info, const char *tag,
++			      char *prev)
+ {
+ 	char *p;
+ 	unsigned int taglen = strlen(tag);
+@@ -2492,13 +2493,25 @@ static char *get_modinfo(struct load_info *info, const char *tag)
+ 	 * get_modinfo() calls made before rewrite_section_headers()
+ 	 * must use sh_offset, as sh_addr isn't set!
+ 	 */
+-	for (p = (char *)info->hdr + infosec->sh_offset; p; p = next_string(p, &size)) {
++	char *modinfo = (char *)info->hdr + infosec->sh_offset;
++
++	if (prev) {
++		size -= prev - modinfo;
++		modinfo = next_string(prev, &size);
++	}
++
++	for (p = modinfo; p; p = next_string(p, &size)) {
+ 		if (strncmp(p, tag, taglen) == 0 && p[taglen] == '=')
+ 			return p + taglen + 1;
+ 	}
+ 	return NULL;
+ }
+ 
++static char *get_modinfo(const struct load_info *info, const char *tag)
++{
++	return get_next_modinfo(info, tag, NULL);
++}
++
+ static void setup_modinfo(struct module *mod, struct load_info *info)
+ {
+ 	struct module_attribute *attr;
 -- 
-2.17.1
+2.23.0.rc1.153.gdeed80330f-goog
 
