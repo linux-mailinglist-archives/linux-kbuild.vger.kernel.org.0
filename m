@@ -2,95 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00725972EB
-	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 09:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 120A5972F0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 09:03:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728031AbfHUHCT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Aug 2019 03:02:19 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:35857 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727266AbfHUHCT (ORCPT
+        id S1727299AbfHUHDy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Aug 2019 03:03:54 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:46625 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726693AbfHUHDy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:02:19 -0400
+        Wed, 21 Aug 2019 03:03:54 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x7L727vC010350;
-        Wed, 21 Aug 2019 16:02:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x7L727vC010350
+        by conuserg-07.nifty.com with ESMTP id x7L73obt020055;
+        Wed, 21 Aug 2019 16:03:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x7L73obt020055
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566370933;
-        bh=TA/zbA2DSALzdXaU6Ddb7Mv6d9woV6++8wrK6WyUiu8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O79tJqASw472VpGe7Z+6TJ2h8ISo4UlOS4IQMB2etcEVSTgPUeoQ74NLgmTajpJCF
-         6Zg+S3IHflNqo+N6C/zUcbB38lIwjaM2fwTQwVBvDYiwiw5+Uok7gAXqc447zmvcBW
-         6BSRX4X+jO8Z0cOgjBEZ2+sRV+UOmc6jQxxSOR7rLUxBUZ9xKUa4CoguUmT2qDc4F3
-         zFRmd5cR21kaf7ldQku5+i2Wj6PncLxjBonlPfT1uJO0ymlqbJL5fHNKRBQ4ZNeEHs
-         0TKQmcYhgMoUdFn+0MXlk+iTtpeHbMcc9ybWD1SUhkirQoe7HjLkxyESKpr8CSZrwm
-         pkCAIP0X40cUw==
+        s=dec2015msa; t=1566371030;
+        bh=sMFPtLuGDuqHPGp8bbKvCgqciiiU1yw2wz53C7izrOw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iD1FzuN4oVpqcAMVZKMaQTdOJpL+e9O5HkbgvBpZu+ff4KIkRJI8prPuq5ybO6zDt
+         3uYDFIXfrhqG+wLskRbc4zFMicClH+YyEpF6AevKXac6K3bv9jYetcIkg2oSK9v/Z9
+         df4KvplaBtWLfAIXN0lIVIxFKEDT0ykcD+7b0YCuD5MG8VKDO0q7xkEAsy8JlwSh/i
+         QdRMdIsqlwT/oacO70t6AsIqDiBwU2FkcNtw7hgOpXSCtoqooK6ifq4z50ACurEjKs
+         vppH+uMj3DJg/mTlctf6vHYMCuzfYXkv93V/+lnPt+kIk6BtE4NWC56BVmbcdY+rFP
+         sEQ2Z+w0VDdVQ==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] kbuild: remove unneeded '+' marker from cmd_clean
-Date:   Wed, 21 Aug 2019 16:02:05 +0900
-Message-Id: <20190821070205.8297-4-yamada.masahiro@socionext.com>
+Subject: [PATCH] kbuild: remove unneeded '+' marker from kselftest-merge
+Date:   Wed, 21 Aug 2019 16:03:48 +0900
+Message-Id: <20190821070348.8596-1-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190821070205.8297-1-yamada.masahiro@socionext.com>
-References: <20190821070205.8297-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This '+' was added a long time ago:
-
-|commit c23e6bf05f7802e92fd3da69a1ed35e56f9c85bb (HEAD)
-|Author: Kai Germaschewski <kai@tp1.ruhr-uni-bochum.de>
-|Date:   Mon Oct 28 01:16:34 2002 -0600
-|
-|    kbuild: Fix a "make -j<N>" warning
-|
-|diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-|index 2c843e0380bc..e7c392fd5788 100644
-|--- a/scripts/Makefile.clean
-|+++ b/scripts/Makefile.clean
-|@@ -42,7 +42,7 @@ quiet_cmd_clean = CLEAN   $(obj)
-|
-| __clean: $(subdir-ymn)
-| ifneq ($(strip $(__clean-files) $(clean-rule)),)
-|-       $(call cmd,clean)
-|+       +$(call cmd,clean)
-| else
-|        @:
-| endif
-
-At that time, cmd_clean contained '$(clean-rule)', which was able to
-invoke sub-make. That was why "make -j<N> clean" showed:
-warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
-
-It is not the case any more. cmd_clean now just runs the 'rm' command.
-The '+' marker is pointless.
+This line contains $(MAKE), so Make knows that it will invoke sub-make
+without help of the '+' marker.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- scripts/Makefile.clean | 2 +-
+ Makefile | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index 798e8717c1d9..29281a20cf8e 100644
---- a/scripts/Makefile.clean
-+++ b/scripts/Makefile.clean
-@@ -59,7 +59,7 @@ quiet_cmd_clean    = CLEAN   $(obj)
+diff --git a/Makefile b/Makefile
+index ec2a6b85a0fa..c0be1a4dbfdd 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1253,7 +1253,7 @@ kselftest-merge:
+ 	$(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+ 	$(Q)find $(srctree)/tools/testing/selftests -name config | \
+ 		xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+-	+$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
++	$(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
  
- __clean: $(subdir-ymn)
- ifneq ($(strip $(__clean-files)),)
--	+$(call cmd,clean)
-+	$(call cmd,clean)
- endif
- 	@:
- 
+ # ---------------------------------------------------------------------------
+ # Devicetree files
 -- 
 2.17.1
 
