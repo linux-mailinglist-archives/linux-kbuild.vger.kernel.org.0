@@ -2,52 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B221F97895
+	by mail.lfdr.de (Postfix) with ESMTP id 488AD97894
 	for <lists+linux-kbuild@lfdr.de>; Wed, 21 Aug 2019 13:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727874AbfHULyp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Aug 2019 07:54:45 -0400
-Received: from mail-yb1-f201.google.com ([209.85.219.201]:57179 "EHLO
-        mail-yb1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727781AbfHULy1 (ORCPT
+        id S1727953AbfHULyo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Aug 2019 07:54:44 -0400
+Received: from mail-vs1-f73.google.com ([209.85.217.73]:39949 "EHLO
+        mail-vs1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727874AbfHULyc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Aug 2019 07:54:27 -0400
-Received: by mail-yb1-f201.google.com with SMTP id z16so1320985ybm.23
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Aug 2019 04:54:26 -0700 (PDT)
+        Wed, 21 Aug 2019 07:54:32 -0400
+Received: by mail-vs1-f73.google.com with SMTP id y7so630107vsq.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Aug 2019 04:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=PMfgpvV4p29AlBNiXlEti/BQa916MI0li39A4AvOT8o=;
-        b=abTPfEJhVwI/gTUYBSiD3/lNZoCFClIsVlF/S1LUw2hkn62URKuAwYcGeZTiMgflCE
-         RH0FW4rwVygHz/irYwGK+2B8izibJphUwGkIg3MYKMiB94z2GaNprg8wrKbnbJxDAh7w
-         LTTCqXeFZuXpWKiLLsFInxfjxXoQv05Woq/GeUH88OP6wdtiNh03LDNHrPVh/UmzbhTD
-         D8DEHJnTdvf2WWeNotbNP3DawUqMAATGqe8bVNhGnamyNxb6t+fbpbmbuQWHhl09D6yh
-         OyOPUn6H0uBx7epA7HzZ5sWn4sT8XEHjpqM1tqCiVYjla+4Wbs8sCnh0+SDMTc1QpD71
-         uuyQ==
+        bh=rT0KSU6kg1U7KAakAlt0j+Yalj1dCKE373XdhjaHS/Y=;
+        b=sL78SFBJ7FLQgHM0KvFFBQfHGyZBRIG9AKMMPahPrreho6GZ7q/hi1HXcChLC7EStO
+         Ojrr18OFXwtTmjjJGN2mirgUwSuhnghkVNaYnBO9OFrTnLuS2GdPAaYBmv4cqljzY8Jl
+         EbcPdMJPRYjW4xTocUDZ0DUWLHN7qa3uA82NvUxR8jbI+KfBdv4C/qi0yrz6m1JKUJV3
+         APKYs3B0H/xC+dXi9Or4SKjhuHehlV48wcTBTXAIe4N3IU/1KA+PGO9xSwfC//sr9iTR
+         13qg8sPQBD24vebJsBEVWuh2b3IIdnKFAhy7luPXgP+dREwvWqQStxe9jGj+9mGONgEh
+         OHkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=PMfgpvV4p29AlBNiXlEti/BQa916MI0li39A4AvOT8o=;
-        b=ReGHMW5QH3rBnpcrvGHhqLIiUgatSWJpdkG+2c1glCWkGVBHlxlemDau4llHVWCR9k
-         q0t8x4XGhCphEYu0Ch/xW/7N+oFykbcaxoN0Goexdfir1gceDrPdDOA2qEMvyAkRrmEn
-         WyVVAlHGP3uT7IAb6twTOhqHboF1LY+da8Ky9Lv2dFQMRvmK5Kd4c977qeGujpri9Ohk
-         YqsaYRdLU5jxDurhKGLs95tAPW0etgf25lWtXJOnJhc9kw0IDq/tjs88sov8ts/pWico
-         4JMbOod8RdRWdXWSuGugty/Bmq6YsbISdoRFd2pBNVjCjhSPlfGQhsGS15BzqmLgBoAI
-         2VbA==
-X-Gm-Message-State: APjAAAW7FvKcH0Xw0rlNWw0KTSmBqu4yfpvrcpplYeV6FqIS11afq5oL
-        vW1EoDXjPEpESc5ZbmObMoPYYNuVKwFrJA==
-X-Google-Smtp-Source: APXvYqxGjPF+kvZobt3ndd57e0J8cIy5FA7wdFldKnvqADf0nQHm5Fy15Hii56pIWC3eVZOoy4fG6NGLJXG+CQ==
-X-Received: by 2002:a0d:e14d:: with SMTP id k74mr23507585ywe.364.1566388466112;
- Wed, 21 Aug 2019 04:54:26 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 12:49:20 +0100
+        bh=rT0KSU6kg1U7KAakAlt0j+Yalj1dCKE373XdhjaHS/Y=;
+        b=cccyZ8YkuHBOi5cG4iQ6B4ZGH25i1jRp1eB/ihkEEa5Sf34x/rVyL8ljGAdNfZ9nf5
+         GQjYzDI46EetOoO2+XE/vx1h8q0LZlzsSOPzdTRkGKynZulSfAYAzjyL/Auye30ebGWt
+         ZXh2qm6LePgW3TpZjtt5gbmYQ5ccpvMgJy3Bgfweg6A8Hm2/dFUpwXxxj4LWkKZ12r86
+         gSTtXSS06ijjzTcOPmwCKkZzJvjxeCiL2MiKcd9PkKsUnWKbu0pl29PZnemiLdap5LRC
+         jZeAbIFsL4Pg3Er8ODpG5Eqtvkyfum/RjcDaJqxaQcQi9/Axa6H4eOOVxnv5vlWhiZ/D
+         vcCA==
+X-Gm-Message-State: APjAAAWX0u24Ixq/oAWpUpVQORbM4LleC/VWCLD6zsCzTejFiTElCCS0
+        JI9SPUkOZx4PIOnNrhlkqJLbqTe7l0m8HQ==
+X-Google-Smtp-Source: APXvYqwJa5MMHL1L/Kpr0qJVI9N7n4kQrm4ogFR+PTqANm6lE14ye/6fboCOGimHuOIQftsP5yUiGv+IVJhNKw==
+X-Received: by 2002:ab0:5fd4:: with SMTP id g20mr2062332uaj.111.1566388470706;
+ Wed, 21 Aug 2019 04:54:30 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 12:49:21 +0100
 In-Reply-To: <20190821114955.12788-1-maennich@google.com>
-Message-Id: <20190821114955.12788-6-maennich@google.com>
+Message-Id: <20190821114955.12788-7-maennich@google.com>
 Mime-Version: 1.0
 References: <20190813121733.52480-1-maennich@google.com> <20190821114955.12788-1-maennich@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v3 05/11] module: add config option MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
+Subject: [PATCH v3 06/11] export: allow definition default namespaces in
+ Makefiles or sources
 From:   Matthias Maennich <maennich@google.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
@@ -62,85 +63,67 @@ Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
         sam@ravnborg.org, sspatil@google.com, stern@rowland.harvard.edu,
         tglx@linutronix.de, usb-storage@lists.one-eyed-alien.net,
         x86@kernel.org, yamada.masahiro@socionext.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Adrian Reber <adrian@lisas.de>,
-        Richard Guy Briggs <rgb@redhat.com>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Ingo Molnar <mingo@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS is enabled (default=n), the
-requirement for modules to import all namespaces that are used by
-the module is relaxed.
+To avoid excessive usage of EXPORT_SYMBOL_NS(sym, MY_NAMESPACE), where
+MY_NAMESPACE will always be the namespace we are exporting to, allow
+exporting all definitions of EXPORT_SYMBOL() and friends by defining
+DEFAULT_SYMBOL_NAMESPACE.
 
-Enabling this option effectively allows (invalid) modules to be loaded
-while only a warning is emitted.
+For example, to export all symbols defined in usb-common into the
+namespace USB_COMMON, add a line like this to drivers/usb/common/Makefile:
 
-Disabling this option keeps the enforcement at module loading time and
-loading is denied if the module's imports are not satisfactory.
+  ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=USB_COMMON
 
+That is equivalent to changing all EXPORT_SYMBOL(sym) definitions to
+EXPORT_SYMBOL_NS(sym, USB_COMMON). Subsequently all symbol namespaces
+functionality will apply.
+
+Another way of making use of this feature is to define the namespace
+within source or header files similar to how TRACE_SYSTEM defines are
+used:
+  #undef DEFAULT_SYMBOL_NAMESPACE
+  #define DEFAULT_SYMBOL_NAMESPACE USB_COMMON
+
+Please note that, as opposed to TRACE_SYSTEM, DEFAULT_SYMBOL_NAMESPACE
+has to be defined before including include/linux/export.h.
+
+If DEFAULT_SYMBOL_NAMESPACE is defined, a symbol can still be exported
+to another namespace by using EXPORT_SYMBOL_NS() and friends with
+explicitly specifying the namespace.
+
+Suggested-by: Arnd Bergmann <arnd@arndb.de>
 Reviewed-by: Martijn Coenen <maco@android.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Matthias Maennich <maennich@google.com>
 ---
- init/Kconfig    | 13 +++++++++++++
- kernel/module.c | 11 +++++++++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
+ include/linux/export.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index bd7d650d4a99..cc28561288a7 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2119,6 +2119,19 @@ config MODULE_COMPRESS_XZ
+diff --git a/include/linux/export.h b/include/linux/export.h
+index 8e12e05444d1..1fb243abdbc4 100644
+--- a/include/linux/export.h
++++ b/include/linux/export.h
+@@ -166,6 +166,12 @@ struct kernel_symbol {
+ #define __EXPORT_SYMBOL ___EXPORT_SYMBOL
+ #endif
  
- endchoice
- 
-+config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-+	bool "Allow loading of modules with missing namespace imports"
-+	help
-+	  Symbols exported with EXPORT_SYMBOL_NS*() are considered exported in
-+	  a namespace. A module that makes use of a symbol exported with such a
-+	  namespace is required to import the namespace via MODULE_IMPORT_NS().
-+	  There is no technical reason to enforce correct namespace imports,
-+	  but it creates consistency between symbols defining namespaces and
-+	  users importing namespaces they make use of. This option relaxes this
-+	  requirement and lifts the enforcement when loading a module.
-+
-+	  If unsure, say N.
-+
- config TRIM_UNUSED_KSYMS
- 	bool "Trim unused exported kernel symbols"
- 	depends on MODULES && !UNUSED_SYMBOLS
-diff --git a/kernel/module.c b/kernel/module.c
-index 57e8253f2251..7c934aaae2d3 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -1408,9 +1408,16 @@ static int verify_namespace_is_imported(const struct load_info *info,
- 			imported_namespace = get_next_modinfo(
- 				info, "import_ns", imported_namespace);
- 		}
--		pr_err("%s: module uses symbol (%s) from namespace %s, but does not import it.\n",
--		       mod->name, kernel_symbol_name(sym), namespace);
-+#ifdef CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
-+		pr_warn(
-+#else
-+		pr_err(
++#ifdef DEFAULT_SYMBOL_NAMESPACE
++#undef __EXPORT_SYMBOL
++#define __EXPORT_SYMBOL(sym, sec)				\
++	__EXPORT_SYMBOL_NS(sym, sec, DEFAULT_SYMBOL_NAMESPACE)
 +#endif
-+			"%s: module uses symbol (%s) from namespace %s, but does not import it.\n",
-+			mod->name, kernel_symbol_name(sym), namespace);
-+#ifndef CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
- 		return -EINVAL;
-+#endif
- 	}
- 	return 0;
- }
++
+ #define EXPORT_SYMBOL(sym) __EXPORT_SYMBOL(sym, "")
+ #define EXPORT_SYMBOL_GPL(sym) __EXPORT_SYMBOL(sym, "_gpl")
+ #define EXPORT_SYMBOL_GPL_FUTURE(sym) __EXPORT_SYMBOL(sym, "_gpl_future")
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
