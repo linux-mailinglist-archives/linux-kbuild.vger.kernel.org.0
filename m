@@ -2,77 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF8BF987AC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2019 01:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9956989E6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2019 05:36:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731307AbfHUXNg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Aug 2019 19:13:36 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54474 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729763AbfHUXNf (ORCPT
+        id S1727843AbfHVDgg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Aug 2019 23:36:36 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:16891 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726785AbfHVDgg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Aug 2019 19:13:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=WM7SZ88kyqemBkIYTm2NML5mscgb3zmbfZeZ+GXNIXY=; b=LGr1j52GyKOw/HBHTEYaEj8Hb
-        uA7xSFH9W6skRCtnvb26k+BfEDOTMOQLZ5pwCWM8HwOXugtz2pCIoK6rLI6lixhEVzv4Z8m5yNnJz
-        Qx8xlXi5+HXyevRlwQE5FIV8mAWh+oXFTCQc8E8E9WmokfjsL7VKctjLPqGdsHTxW8ITHyfc3YTe8
-        b7Ai//7E3J9wDTuVpUe6vP3AQdrCPGkrkWfEIMECAmG0AVR4ecNuJUlt8XcUiFs9LkTVxX3TcFJ+I
-        p6RKEpo3+dmRQwHaD5q0tvwK50Ysnd7WrYD3oAvjPpTw9FoeKaVXP9N4ol7y0xXLVVwIDzISdxKDJ
-        wcG1XLSsg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1i0ZnF-00059G-IV; Wed, 21 Aug 2019 23:13:29 +0000
-Date:   Wed, 21 Aug 2019 16:13:29 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Matthias Maennich <maennich@google.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        arnd@arndb.de, geert@linux-m68k.org, gregkh@linuxfoundation.org,
-        hpa@zytor.com, jeyu@kernel.org, joel@joelfernandes.org,
-        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
-        maco@android.com, maco@google.com, michal.lkml@markovi.net,
-        mingo@redhat.com, oneukum@suse.com, pombredanne@nexb.com,
-        sam@ravnborg.org, sspatil@google.com, stern@rowland.harvard.edu,
-        tglx@linutronix.de, usb-storage@lists.one-eyed-alien.net,
-        x86@kernel.org, yamada.masahiro@socionext.com
-Subject: Re: [PATCH v3 10/11] RFC: usb-storage: export symbols in USB_STORAGE
- namespace
-Message-ID: <20190821231329.GA369@infradead.org>
-References: <20190813121733.52480-1-maennich@google.com>
- <20190821114955.12788-1-maennich@google.com>
- <20190821114955.12788-11-maennich@google.com>
+        Wed, 21 Aug 2019 23:36:36 -0400
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x7M3aUer010801;
+        Thu, 22 Aug 2019 12:36:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x7M3aUer010801
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566444991;
+        bh=R9DdSYdCLpkt/LbQI9zbQtcp6/zLnu2cPiFV1+CyfHo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=eUEkk9eWXjdoHatpVYwRKckiQipct8CNYZ1yNMX6zz/9a0vjuv5L2H/HYs7E93wIQ
+         Ye0JffRsJlJ03ayqyRx26a+RPd/Eb2Rg3D3R+tq7ICO2sF9RzuzRNC/+S4V4N6RhbN
+         o5gzZ4Q5WkP6o2fBnZ6rTTVnM2jSFLXMIoOVG3fdIKKBvRN8KjDRsVYJyIuV6FRW6f
+         UjPEtmBF0lRLM2klZ0M8yBpEplIwhCeJ1jACbKuw1GCgHrLcKdTBGDbJeDE2IVpD7F
+         y11AcLO+99qrOJj8oKWFrSU7Aj7mdhMnE/7G142WmmPiGNmr6C2qqj11DdnVQjzviE
+         KYEDrvQqW/BUg==
+X-Nifty-SrcIP: [209.85.222.52]
+Received: by mail-ua1-f52.google.com with SMTP id g11so1541686uak.0;
+        Wed, 21 Aug 2019 20:36:31 -0700 (PDT)
+X-Gm-Message-State: APjAAAWT43xTfUBYVGww77u79OvQjWbqR1WvjfMv8btve7dg3hX7c3uO
+        tAJHIDr0VM13hYDqD06H5ckq2rVLbxIO9RhE2AU=
+X-Google-Smtp-Source: APXvYqyP82w0LcNr90K+YIvYDLaC1gE8BN3JtOVy4zweoBYyINB1DSz23Tf3bwhMHYIOMB6f4JWmuGj3PmaxlGb6mu0=
+X-Received: by 2002:ab0:70d9:: with SMTP id r25mr3941384ual.109.1566444990083;
+ Wed, 21 Aug 2019 20:36:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190821114955.12788-11-maennich@google.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+References: <20190509143859.9050-1-joe.lawrence@redhat.com>
+ <20190509143859.9050-7-joe.lawrence@redhat.com> <CAK7LNAQuS-YcXecfJ21BGzc0CimzWxQcYST5-1xRgnCQGtcL4A@mail.gmail.com>
+ <20190812155626.GA19845@redhat.com> <CAK7LNATRLTBqA9c=b+Y38T-zWc9o5JMq18r9auA=enPC=p10pA@mail.gmail.com>
+ <alpine.LSU.2.21.1908161016430.2020@pobox.suse.cz> <6c7e4d19-b993-1c14-d6cf-6aa1ee891361@redhat.com>
+ <CAK7LNAS0Z95VT2n1o3V09bKf-rkPBMNdRryF67gpLKtnjAVAiA@mail.gmail.com>
+ <alpine.LSU.2.21.1908190928520.31051@pobox.suse.cz> <42254ffc-6422-19e1-62a2-6abc23fd089a@redhat.com>
+In-Reply-To: <42254ffc-6422-19e1-62a2-6abc23fd089a@redhat.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 22 Aug 2019 12:35:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS=yCP=me5_qc_yxjeQPvRtbHwp3CAe8-w6KE6P0+VS_w@mail.gmail.com>
+Message-ID: <CAK7LNAS=yCP=me5_qc_yxjeQPvRtbHwp3CAe8-w6KE6P0+VS_w@mail.gmail.com>
+Subject: Re: [PATCH v4 06/10] modpost: Add modinfo flag to livepatch modules
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Miroslav Benes <mbenes@suse.cz>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        live-patching@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 12:49:25PM +0100, Matthias Maennich wrote:
-> Modules using these symbols are required to explicitly import the
-> namespace. This patch was generated with the following steps and serves
-> as a reference to use the symbol namespace feature:
-> 
->  1) Define DEFAULT_SYMBOL_NAMESPACE in the corresponding Makefile
->  2) make  (see warnings during modpost about missing imports)
->  3) make nsdeps
-> 
-> Instead of a DEFAULT_SYMBOL_NAMESPACE definition, the EXPORT_SYMBOL_NS
-> variants can be used to explicitly specify the namespace. The advantage
-> of the method used here is that newly added symbols are automatically
-> exported and existing ones are exported without touching their
-> respective EXPORT_SYMBOL macro expansion.
+Hi Joe,
 
-So what is USB_STORAGE here?  It isn't a C string, so where does it
-come from?  To me using a C string would seem like the nicer interface
-vs a random cpp symbol that gets injected somewhere.
+On Tue, Aug 20, 2019 at 1:02 AM Joe Lawrence <joe.lawrence@redhat.com> wrote:
+>
+> On 8/19/19 3:31 AM, Miroslav Benes wrote:
+> > On Mon, 19 Aug 2019, Masahiro Yamada wrote:
+> >
+> >>
+> >> I can review this series from the build system point of view,
+> >> but I am not familiar enough with live-patching itself.
+> >>
+> >> Some possibilities:
+> >>
+> >> [1] Merge this series thru the live-patch tree after the
+> >>      kbuild base patches land.
+> >>      This requires one extra development cycle (targeting for 5.5-rc1)
+> >>      but I think this is the official way if you do not rush into it.
+> >
+> > I'd prefer this option. There is no real rush and I think we can wait one
+> > extra development cycle.
+>
+> Agreed.  I'm in no hurry and was only curious about the kbuild changes
+> that this patchset is now dependent on -- how to note them for other
+> reviewers or anyone wishing to test.
+>
+> > Joe, could you submit one more revision with all the recent changes (once
+> > kbuild improvements settle down), please? We should take a look at the
+> > whole thing one more time? What do you think?
+> >
+>
+> Definitely, yes.  I occasionally force a push to:
+> https://github.com/joe-lawrence/linux/tree/klp-convert-v5-expanded
+>
+> as I've been updating and collecting feedback from v4.  Once updates
+> settle, I'll send out a new v5 set.
+>
+> -- Joe
+
+When you send v5, please squash the following clean-up too:
+
+
+
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 89eaef0d3efc..9e77246d84e3 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -47,7 +47,7 @@ targets += $(modules) $(modules:.ko=.mod.o)
+ # Live Patch
+ # ---------------------------------------------------------------------------
+
+-$(modules-klp:.ko=.tmp.ko): %.tmp.ko: %.o %.mod.o Symbols.list FORCE
++%.tmp.ko: %.o %.mod.o Symbols.list FORCE
+        +$(call if_changed,ld_ko_o)
+
+ quiet_cmd_klp_convert = KLP     $@
+
+
+
+
+Thanks.
+
+
+-- 
+Best Regards
+Masahiro Yamada
