@@ -2,138 +2,271 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3303798F1F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2019 11:19:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32DE499159
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Aug 2019 12:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733156AbfHVJTF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Aug 2019 05:19:05 -0400
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:44794 "EHLO
-        mail-wr1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733154AbfHVJTF (ORCPT
+        id S2387884AbfHVKs7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Aug 2019 06:48:59 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:58804 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732378AbfHVKs6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:19:05 -0400
-Received: by mail-wr1-f50.google.com with SMTP id p17so4661971wrf.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 22 Aug 2019 02:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=8fMTG6N2j/TMUB2P1ujx2DtHjddT/TmmdRfnCuZ9XY0=;
-        b=T2pMI6y+G8IKrsK8J/v9Hw6Ze7VNU1QAegTQBtAa7YoAqIMV7jl4rsOxqLr2uKv+7E
-         qU8OpzWDLx9aa2GeALCMNY10DH8xUmpEvSQpL0ayo6EJseiHy6wUP019c/nCCacrOqhB
-         QB+3d2H2f0vEl7LtOw9XPlAwhFizRTqjD3JcaH9+n+VKUvYDS9r4fRpDwq0+iXaszL13
-         J3sknRZdTSR9IJXI8txUWEFdl9+uB5tH3eqzTb0H6t3MUJTXPo1J+pZxj4+FMYBI1PHv
-         B9TvUD/P3C3CaL5RpMtkMMjLBIWW2hdg5F7iwFp/hNbtITgX9r32GojgJ+PW0XbAEkM3
-         Pdcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=8fMTG6N2j/TMUB2P1ujx2DtHjddT/TmmdRfnCuZ9XY0=;
-        b=Prt6j4LhdhiRnVC4EwkI062O/PUXSW2T8/A4bOdsPAxf4BqTZ2KjqPgANIGs+UsAmr
-         jt0+/U/Von7dav6EUsihcbK0VTIHui0Ok/6U6tXKzFRb+T0c3YQbyf+avyIenGBd2B3k
-         B15niamjfj0VJGioK3EhUdDBLcES0kRORHYq/Qb9juOB6QY/NxQ8xm7KSV32atJqvELZ
-         P7Gsxt7MG3QAHDcyhAJDmv3RmzZl50xvRGNwfGwHw303l7fzWiJSgh9xuskveNEd7lPP
-         Aqa89n8d9KQnoVraelOGXQsIJdcH02Ma/gOmMUwS3Ahsoa0qhbPqjA1jZPtx0c+GyOYi
-         eKeA==
-X-Gm-Message-State: APjAAAUNRfcpoln3u6qPUVUiMsMgD7aTUtvvww1hT/I7rYsp5amavTSK
-        vozpZCBDX+4JcAUhzRsjM5+QiA==
-X-Google-Smtp-Source: APXvYqzPaTB9as2RdUevNC/gvIlaqvXJBR28ZGeYWGl/cnFEEuvQi+58LrWHZHhwnpFu/CiJ7AkAEg==
-X-Received: by 2002:a5d:4101:: with SMTP id l1mr4986587wrp.202.1566465543440;
-        Thu, 22 Aug 2019 02:19:03 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id 4sm46118162wro.78.2019.08.22.02.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Aug 2019 02:19:02 -0700 (PDT)
-Date:   Thu, 22 Aug 2019 10:18:58 +0100
-From:   Matthias Maennich <maennich@google.com>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Martijn Coenen <maco@android.com>, cocci@systeme.lip6.fr,
-        kernel-janitors@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-modules@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
-        kernel-team@android.com, usb-storage@lists.one-eyed-alien.net,
-        x86@kernel.org, Alan Stern <stern@rowland.harvard.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Gilles Muller <Gilles.Muller@lip6.fr>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Martijn Coenen <maco@google.com>,
+        Thu, 22 Aug 2019 06:48:58 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x7MAm3ob013611;
+        Thu, 22 Aug 2019 19:48:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x7MAm3ob013611
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566470884;
+        bh=pgMh/XShvFXZtm5mQiWwmSeXQh92l0dVrwBiaBdOW5M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qy7j2+OxzQ3YyC5B0siftsymKSsn8q0bji129g0ZmxeoUxuJT4Hjbjz2E2wJa1W3A
+         zT8w16DEdBNGoR0kcNTp6nEnWdrnMtoIT3hx3gHs4xOhvRLxAnTZtGiJd4Ufk3xmqa
+         jHeL1ldQYloj4FyLWKCPHpD1/xaPRaZyM3f64gOvCY9WbUfZ/wu50Yni0BX4yVjDn1
+         mR+r8lwRE6Czj1pDJojrMKrrr5dlulM5EWEIidWRPPo8006ajvj4N4lWpYq2lCs01V
+         QokuaM9FjCfIJwIV3kNn7TOsFheU4kWySS3F86zH6qtUPefcek7LG5nEkGKbPiv2Hq
+         mMTrN5QN8YzIA==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Sam Ravnborg <sam@ravnborg.org>, Paul Smith <psmith@gnu.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Oliver Neukum <oneukum@suse.com>,
-        Philippe Ombredanne <pombredanne@nexb.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sandeep Patil <sspatil@google.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [v2 08/10] scripts: Coccinelle script for namespace dependencies
-Message-ID: <20190822091858.GA60652@google.com>
-References: <20190813121733.52480-9-maennich@google.com>
- <1c4420f4-361c-7358-49d9-87d8a51f7920@web.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1c4420f4-361c-7358-49d9-87d8a51f7920@web.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] [NOT APPLICABLE YET] kbuild: speed up incremental build for the new GNU Make?
+Date:   Thu, 22 Aug 2019 19:47:59 +0900
+Message-Id: <20190822104759.31775-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 15, 2019 at 03:50:38PM +0200, Markus Elfring wrote:
->> +generate_deps_for_ns() {
->> +    $SPATCH --very-quiet --in-place --sp-file \
->> +	    $srctree/scripts/coccinelle/misc/add_namespace.cocci -D ns=$1 $2
->> +}
->
->* Where will the variable “srctree” be set for the file “scripts/nsdeps”?
->
+It has been 3 years since GNU Make 4.2.1 was released. The maintainer
+of GNU Make, Paul Smith, has announced that the new version (4.3?) will
+be released soon.
 
-$srctree is defined by kbuild in the toplevel Makefile.
+I reported a bug about the $? behavior some time ago, but it has not
+been fixed yet. I am eager to see it fixed for the new release.
+[https://savannah.gnu.org/bugs/?55532]
 
->* Would you like to support a separate build directory for desired adjustments?
->
+This is a hypothetical patch to demonstrate how it would be beneficial
+for the Linux kernel build if it were fixed in time.
 
-No, as the purpose of this script is to directly patch the kernel
-sources where applicable.
+The incremental build of Linux kernel is somewhat slow, especially when
+lots of objects are compiled. The incremental build of allmodconfig
+typically takes a couple of minutes even when none of the objects needs
+to be rebuilt.
 
->* How do you think about to check error handling around such commands?
->
->
+The time-consuming part in the incremental build is the evaluation of
+if_changed* macros since they are used in the recipes to compile C and
+assembly source files into objects.
 
-spatch emits a descriptive message on error. I will add a 'set
--e' to the script so that it aborts on errors.
+I notice the following code in if_changed* is expensive:
 
->> +generate_deps() {
->…
->> +        for source_file in $mod_source_files; do
->> +            sed '/MODULE_IMPORT_NS/Q' $source_file > ${source_file}.tmp
->…
->
->I suggest to assign the name for the temporary file to a variable
->which should be used by subsequent commands.
+  $(filter-out $(PHONY) $(wildcard $^),$^)
 
-I somehow don't agree that this is an improvement to the code as the
-variable would likely be something like ${source_file_tmp}. Sticking to
-${source_file}.tmp does express the intent of a temporary file next to
-the original source file and the reader of the code does not need to
-reason about the value of ${source_file_tmp}.
+In the incremental build, every object has its .*.cmd file, which
+contains the auto-generated list of included headers. So, $^ are
+expanded into the long list of the source file + included headers,
+and $(wildcard $^) checks whether they exist.
 
-Cheers,
-Matthias
+It may not be clear why this check exists there.
+
+Here is the record of my research.
+
+[1] The first code addition into Kbuild
+
+This code dates back to 2002. It is the pre-git era. So, I copy-pasted
+it from the historical git tree.
+
+| commit 4a6db0791528c220655b063cf13fefc8470dbfee (HEAD)
+| Author: Kai Germaschewski <kai@tp1.ruhr-uni-bochum.de>
+| Date:   Mon Jun 17 00:22:37 2002 -0500
+|
+|     kbuild: Handle removed headers
+|
+|     New and old way to handle dependencies would choke when a file
+|     #include'd by other files was removed, since the dependency on it was
+|     still recorded, but since it was gone, make has no idea what to do about
+|     it (and would complain with "No rule to make <file> ...")
+|
+|     We now add targets for all the previously included files, so make will
+|     just ignore them if they disappear.
+|
+| diff --git a/Rules.make b/Rules.make
+| index 6ef827d3df39..7db5301ea7db 100644
+| --- a/Rules.make
+| +++ b/Rules.make
+| @@ -446,7 +446,7 @@ if_changed = $(if $(strip $? \
+|  # execute the command and also postprocess generated .d dependencies
+|  # file
+|
+| -if_changed_dep = $(if $(strip $? \
+| +if_changed_dep = $(if $(strip $? $(filter-out FORCE $(wildcard $^),$^)\
+|                           $(filter-out $(cmd_$(1)),$(cmd_$@))\
+|                           $(filter-out $(cmd_$@),$(cmd_$(1)))),\
+|         @set -e; \
+| diff --git a/scripts/fixdep.c b/scripts/fixdep.c
+| index b5d7bee8efc7..db45bd1888c0 100644
+| --- a/scripts/fixdep.c
+| +++ b/scripts/fixdep.c
+| @@ -292,7 +292,7 @@ void parse_dep_file(void *map, size_t len)
+|                 exit(1);
+|         }
+|         memcpy(s, m, p-m); s[p-m] = 0;
+| -       printf("%s: \\\n", target);
+| +       printf("deps_%s := \\\n", target);
+|         m = p+1;
+|
+|         clear_config();
+| @@ -314,7 +314,8 @@ void parse_dep_file(void *map, size_t len)
+|                 }
+|                 m = p + 1;
+|         }
+| -       printf("\n");
+| +       printf("\n%s: $(deps_%s)\n\n", target, target);
+| +       printf("$(deps_%s):\n", target);
+|  }
+|
+|  void print_deps(void)
+
+The "No rule to make <file> ..." error can be solved by passing -MP to
+the compiler, but I think the detection of header removal is a good
+feature. When a header is removed, all source files that previously
+included it should be re-compiled. This makes sure we has correctly
+got rid of #include directives of it.
+
+This is also related with the behavior of $?. The manual says:
+
+  $?
+      The names of all the prerequisites that are newer than the target,
+      with spaces between them.
+
+This does not address whether a non-existent prerequisite is considered
+to be newer than the target.
+
+At this point of time, GNU Make 3.7x was used, where the $? did not
+include non-existent prerequisites. Therefore,
+
+  $(filter-out FORCE $(wildcard $^),$^)
+
+was added to detect the header removal, and to rebuild the related
+objects if it is the case.
+
+[2] Change of $? behavior
+
+Later, the behavior of $? was changed (fixed) to include prerequisites
+that did not exist.
+
+First, GNU Make commit 64e16d6c00a5 ("Various changes getting ready for
+the release of 3.81.") changed it, but in the release test of 3.81, it
+turned out to break the kernel build.
+
+Some materials:
+
+ - http://lists.gnu.org/archive/html/bug-make/2006-03/msg00003.html
+ - https://savannah.gnu.org/bugs/?16002
+ - https://savannah.gnu.org/bugs/?16051
+
+Then, GNU Make commit 6d8d9b74d9c5 ("Numerous updates to tests for
+issues found on Cygwin and Windows.") reverted it for the 3.81 release
+to give Linux kernel time to adjust to the new behavior.
+
+After the 3.81 release, GNU Make commit 7595f38f62af ("Fixed a number
+of documentation bugs, plus some build/install issues:") re-added it.
+
+[3] Adjustment to the new $? behavior on Kbuild side
+
+Meanwhile, the kernel build was changed by commit 4f1933620f57 ("kbuild:
+change kbuild to not rely on incorrect GNU make behavior") to adjust to
+the new $? behavior.
+
+[4] GNU Make 3.82 released in 2010
+
+Talking about the released versions, 3.82 was the first release that
+came with the new $? behavior.
+
+ 3.81 or older:
+    $? does not contain any non-existent prerequisite. So, we need the
+    expensive $(filter-out $(PHONY) $(wildcard $^),$^) if we want to
+    notice the removal of an included header.
+
+ 3.82 or newer:
+    $? contains non-existent prerequisites. When a header is removed,
+    it appears in $?. $(filter-out $(PHONY) $(wildcard $^),$^) became
+    a redundant check.
+
+We could have optimized the build by dropping the expensive check
+for 3.82 or later. But, we did not.
+
+[5] The .SECONDARY special target affects $?
+
+Some time later, I noticed $? did not work as expected under some
+circumstances. As above, $? should list non-existent prerequisites,
+but the ones specified as SECONDARY do not appear in $?.
+
+I asked this in GNU Make ML, and it seems a bug:
+
+  https://lists.gnu.org/archive/html/bug-make/2019-01/msg00001.html
+
+Since commit 8e9b61b293d9 ("kbuild: move .SECONDARY special target to
+Kbuild.include"), all files, including headers listed in .*.cmd files,
+are treated as secondary.
+
+So, we are back into the situation where non-existent files are not
+contained in $?.
+
+If we want to rebuild objects, reacting to the header removal, we need
+the extra check by $(filter-out $(PHONY) $(wildcard $^),$^).
+
+[Summary]
+
+ - I believe noticing the header removal and recompiling objects is a
+   good feature for the build system.
+
+ - Currently, it is achieved by the expensive code:
+
+    $(filter-out $(PHONY) $(wildcard $^),$^)
+
+ - I do not want to revert commit 8e9b61b293d9 ("kbuild: move
+   .SECONDARY special target to Kbuild.include"). Specifying
+   .SECONDARY globally is clean, and it matches to the Kbuild policy.
+
+ - The behavior of $? affected by .SECONDARY is a bug.
+
+ - If it is fixed, we can bypass the costly check, at least for
+   the new released version.
+
+This commit bypasses the expensive check for GNU Make >= 4.3.
+According to my analysis, we can save ~20% of time for the incremental
+build.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ scripts/Kbuild.include | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 4b0432e095ae..5c4f63642bfe 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -217,7 +217,14 @@ make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1))))
+ 
+ # Find any prerequisites that is newer than target or that does not exist.
+ # PHONY targets skipped in both cases.
++
++ifeq ($(firstword $(sort $(MAKE_VERSION) 4.3)),4.3)
++any-prereq = $(filter-out $(PHONY),$?)
++else
++# For Make <= 4.2.1, $? does not contain non-existent prerequisites that are
++# specified as secondary. We need an extra check to notice header removal.
+ any-prereq = $(filter-out $(PHONY),$?)$(filter-out $(PHONY) $(wildcard $^),$^)
++endif
+ 
+ # Execute command if command has changed or prerequisite(s) are updated.
+ if_changed = $(if $(any-prereq)$(cmd-check),                                 \
+-- 
+2.17.1
+
