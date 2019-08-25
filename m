@@ -2,152 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69F299C140
-	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Aug 2019 03:32:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C322D9C13C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Aug 2019 03:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728347AbfHYBcC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 24 Aug 2019 21:32:02 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:34351 "EHLO
+        id S1727950AbfHYBbu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Aug 2019 21:31:50 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:34084 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728320AbfHYBcB (ORCPT
+        with ESMTP id S1727941AbfHYBbt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Aug 2019 21:32:01 -0400
+        Sat, 24 Aug 2019 21:31:49 -0400
 Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x7P1VTtI011335;
+        by conuserg-10.nifty.com with ESMTP id x7P1VTtJ011335;
         Sun, 25 Aug 2019 10:31:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x7P1VTtI011335
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x7P1VTtJ011335
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566696690;
-        bh=UySt3IPQMKQvA8Z6xXUcqOfyPtK0Hni6tKUbgs1EZ/I=;
-        h=From:To:Cc:Subject:Date:From;
-        b=eWAcLDCT59y58Rfu/1f5RkY99019OS3+Wlfv0VmdeXHVcwlbhs7LJJpzNqi3TdGDw
-         9EA6rclq5AGHFwaD2alKpEUtofXI69ZR7RP/PBjN29NtoaYoa0YlQRTvHpflbyPvln
-         I4HMi8kbXkJljsXilZqbE8doE+GF9h8k3BauVzdr6esn79gaI1khmSXC9x+xqa1ntv
-         cF0TMcx3olVOAsZle6/7OFFYHXxvLVVllOeuO22IosFCbNxsXkZpfnE+YlOCK/itaW
-         rJArTylYRZm0jb/OMbgs6iK6KL2h47D9bxqcjwL+Vs5QSpgjkaqIrg9WiP3mAPX0ew
-         wzTCuzu59R1ng==
+        s=dec2015msa; t=1566696691;
+        bh=30Euh363O97qvPwnEmpk915vAjmKH6E6UqZ3IfON09c=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=LeuaRwO7RqpKYcfMmYy2v6S4kcL6SqFe8KokSGn6BajDDT4WNje7hNTWyLlyjJawA
+         ONx2sZ08G5ra3bYCGUKJfBwdCGq9nGuy/QegFmenopuxBIwwB2ZNeIp6JNOOS7VVhY
+         wzmNdEgysCGBABXHtavs4KkEOE2NUHzVmanNWDgUDt/nO9DSkjFk4UUQF+m0ayeLUv
+         EMSnY9rtiVJKxsuFoeeMMlmnAHA6L6deZGAHzDNaLC5ABn7j2wbiI+BAHsshD5i/eT
+         uWYrANem8/h2JE1pw9oMaPSIGfbV+lGlMPQSwQllf1wIBb36KvubkvFxyDOVHPNPg6
+         nIlsSiJxpO2Tg==
 X-Nifty-SrcIP: [126.125.143.222]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] kbuild: remove clean-dirs syntax
-Date:   Sun, 25 Aug 2019 10:31:27 +0900
-Message-Id: <20190825013128.12831-1-yamada.masahiro@socionext.com>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] kbuild: remove unneeded '+' marker from cmd_clean
+Date:   Sun, 25 Aug 2019 10:31:28 +0900
+Message-Id: <20190825013128.12831-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190825013128.12831-1-yamada.masahiro@socionext.com>
+References: <20190825013128.12831-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The only the difference between clean-files and clean-dirs is the -r
-option passed to the 'rm' command.
+This '+' was added a long time ago:
 
-You can always pass -r, and then remove the clean-dirs syntax.
+| commit c23e6bf05f7802e92fd3da69a1ed35e56f9c85bb (HEAD)
+| Author: Kai Germaschewski <kai@tp1.ruhr-uni-bochum.de>
+| Date:   Mon Oct 28 01:16:34 2002 -0600
+|
+|     kbuild: Fix a "make -j<N>" warning
+|
+| diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
+| index 2c843e0380bc..e7c392fd5788 100644
+| --- a/scripts/Makefile.clean
+| +++ b/scripts/Makefile.clean
+| @@ -42,7 +42,7 @@ quiet_cmd_clean = CLEAN   $(obj)
+|
+|  __clean: $(subdir-ymn)
+|  ifneq ($(strip $(__clean-files) $(clean-rule)),)
+| -        $(call cmd,clean)
+| +        +$(call cmd,clean)
+|  else
+|          @:
+|  endif
+
+At that time, cmd_clean contained $(clean-rule), which was able to
+invoke sub-make. That was why cleaning with the -j option showed:
+warning: jobserver unavailable: using -j1.  Add '+' to parent make rule.
+
+It is not the case any more. cmd_clean now just runs the 'rm' command.
+The '+' marker is pointless.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- Documentation/kbuild/makefiles.rst | 16 ++++------------
- scripts/Makefile.clean             | 16 ++--------------
- scripts/kconfig/Makefile           |  2 +-
- usr/include/Makefile               |  4 +---
- 4 files changed, 8 insertions(+), 30 deletions(-)
+ scripts/Makefile.clean | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 68ed20ef37dd..78aa51a6fcd4 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -765,7 +765,8 @@ Files matching the patterns "*.[oas]", "*.ko", plus some additional files
- generated by kbuild are deleted all over the kernel src tree when
- "make clean" is executed.
- 
--Additional files can be specified in kbuild makefiles by use of $(clean-files).
-+Additional files or directories can be specified in kbuild makefiles by use of
-+$(clean-files).
- 
- 	Example::
- 
-@@ -776,17 +777,8 @@ When executing "make clean", the file "crc32table.h" will be deleted.
- Kbuild will assume files to be in the same relative directory as the
- Makefile, except if prefixed with $(objtree).
- 
--To delete a directory hierarchy use:
--
--	Example::
--
--		#scripts/package/Makefile
--		clean-dirs := $(objtree)/debian/
--
--This will delete the directory debian in the toplevel directory, including all
--subdirectories.
--
--To exclude certain files from make clean, use the $(no-clean-files) variable.
-+To exclude certain files or directories from make clean, use the
-+$(no-clean-files) variable.
- 
- Usually kbuild descends down in subdirectories due to "obj-* := dir/",
- but in the architecture makefiles where the kbuild infrastructure
 diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index 0b80e3207b20..cbfbe13dc87d 100644
+index cbfbe13dc87d..fc38a34128d4 100644
 --- a/scripts/Makefile.clean
 +++ b/scripts/Makefile.clean
-@@ -52,26 +52,14 @@ __clean-files   := $(wildcard                                               \
- 		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
- 		   $(filter $(objtree)/%, $(__clean-files)))
- 
--# same as clean-files
--
--__clean-dirs    := $(wildcard                                               \
--		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(clean-dirs)))    \
--		   $(filter $(objtree)/%, $(clean-dirs)))
--
- # ==========================================================================
- 
--quiet_cmd_clean    = CLEAN   $(obj)
--      cmd_clean    = rm -f $(__clean-files)
--quiet_cmd_cleandir = CLEAN   $(__clean-dirs)
--      cmd_cleandir = rm -rf $(__clean-dirs)
--
-+quiet_cmd_clean = CLEAN   $(obj)
-+      cmd_clean = rm -rf $(__clean-files)
+@@ -59,7 +59,7 @@ quiet_cmd_clean = CLEAN   $(obj)
  
  __clean: $(subdir-ymn)
  ifneq ($(strip $(__clean-files)),)
- 	+$(call cmd,clean)
--endif
--ifneq ($(strip $(__clean-dirs)),)
--	+$(call cmd,cleandir)
+-	+$(call cmd,clean)
++	$(call cmd,clean)
  endif
  	@:
  
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 7656e1137b6b..bed7a5a2fbe9 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -114,7 +114,7 @@ testconfig: $(obj)/conf
- 	$(PYTHON3) -B -m pytest $(srctree)/$(src)/tests \
- 	-o cache_dir=$(abspath $(obj)/tests/.cache) \
- 	$(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=no)
--clean-dirs += tests/.cache
-+clean-files += tests/.cache
- 
- # Help text used by make help
- help:
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 1fb6abe29b2f..05c71ef42f51 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -115,6 +115,4 @@ header-test-y += $(filter-out $(header-test-), \
- 			$(patsubst $(obj)/%,%, $(wildcard \
- 			$(addprefix $(obj)/, *.h */*.h */*/*.h */*/*/*.h))))
- 
--# For GNU Make <= 4.2.1, $(wildcard $(obj)/*/) matches to not only directories
--# but also regular files. Use $(filter %/, ...) just in case.
--clean-dirs += $(patsubst $(obj)/%/,%,$(filter %/, $(wildcard $(obj)/*/)))
-+clean-files += $(filter-out Makefile, $(notdir $(wildcard $(obj)/*)))
 -- 
 2.17.1
 
