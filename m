@@ -2,54 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 309649BF95
-	for <lists+linux-kbuild@lfdr.de>; Sat, 24 Aug 2019 21:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69F299C140
+	for <lists+linux-kbuild@lfdr.de>; Sun, 25 Aug 2019 03:32:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728017AbfHXTAd convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sat, 24 Aug 2019 15:00:33 -0400
-Received: from smtp2.osep.mendoza.gov.ar ([200.16.135.145]:52914 "HELO
-        smtp2.osep.mendoza.gov.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727997AbfHXTAd (ORCPT
+        id S1728347AbfHYBcC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 24 Aug 2019 21:32:02 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:34351 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728320AbfHYBcB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 24 Aug 2019 15:00:33 -0400
-X-Greylist: delayed 9984 seconds by postgrey-1.27 at vger.kernel.org; Sat, 24 Aug 2019 15:00:32 EDT
-Received: (qmail 402 invoked from network); 24 Aug 2019 14:14:38 -0000
-Received: from unknown (HELO zimbra.servers.dg.intranet) (10.10.195.224)
-  by smtp2.osep.mendoza.gov.ar with SMTP; 24 Aug 2019 14:14:38 -0000
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id DB8B3CF7CC66;
-        Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from zimbra.servers.dg.intranet ([127.0.0.1])
-        by localhost (zimbra.servers.dg.intranet [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id RViPrJdL95bg; Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id 877BBCF7CC58;
-        Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-X-Virus-Scanned: amavisd-new at osep.mendoza.gov.ar
-Received: from zimbra.servers.dg.intranet ([127.0.0.1])
-        by localhost (zimbra.servers.dg.intranet [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 9n2-6F1Dy9XD; Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from zimbra.servers.dg.intranet (zimbra.servers.dg.intranet [10.10.195.224])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id BAAEBCF7CC40;
-        Sat, 24 Aug 2019 11:14:36 -0300 (ART)
-Date:   Sat, 24 Aug 2019 11:14:36 -0300 (ART)
-From:   "Herr.Robert Jackson" <liliana.marinero@osep.mendoza.gov.ar>
-Reply-To: SKY GROUP FINANCIAL <skygroupfinancial0@gmail.com>
-Message-ID: <1268244548.24999093.1566656076742.JavaMail.zimbra@osep.mendoza.gov.ar>
-Subject: 
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [172.16.3.2]
-X-Mailer: Zimbra 8.6.0_GA_1153 (zclient/8.6.0_GA_1153)
-Thread-Topic: 
-Thread-Index: 9gdTMQJ8JBu8cvpzdFVmtKjzn0qahQ==
-To:     unlisted-recipients:; (no To-header on input)
+        Sat, 24 Aug 2019 21:32:01 -0400
+Received: from grover.flets-west.jp (softbank126125143222.bbtec.net [126.125.143.222]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x7P1VTtI011335;
+        Sun, 25 Aug 2019 10:31:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x7P1VTtI011335
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1566696690;
+        bh=UySt3IPQMKQvA8Z6xXUcqOfyPtK0Hni6tKUbgs1EZ/I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=eWAcLDCT59y58Rfu/1f5RkY99019OS3+Wlfv0VmdeXHVcwlbhs7LJJpzNqi3TdGDw
+         9EA6rclq5AGHFwaD2alKpEUtofXI69ZR7RP/PBjN29NtoaYoa0YlQRTvHpflbyPvln
+         I4HMi8kbXkJljsXilZqbE8doE+GF9h8k3BauVzdr6esn79gaI1khmSXC9x+xqa1ntv
+         cF0TMcx3olVOAsZle6/7OFFYHXxvLVVllOeuO22IosFCbNxsXkZpfnE+YlOCK/itaW
+         rJArTylYRZm0jb/OMbgs6iK6KL2h47D9bxqcjwL+Vs5QSpgjkaqIrg9WiP3mAPX0ew
+         wzTCuzu59R1ng==
+X-Nifty-SrcIP: [126.125.143.222]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: remove clean-dirs syntax
+Date:   Sun, 25 Aug 2019 10:31:27 +0900
+Message-Id: <20190825013128.12831-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+The only the difference between clean-files and clean-dirs is the -r
+option passed to the 'rm' command.
 
+You can always pass -r, and then remove the clean-dirs syntax.
 
-Wir sind zuverlässige, vertrauenswürdige Kreditgeber, leihen wir Unternehmen und Einzelpersonen zu einem niedrigen Zinssatz von 2%, Sind Sie auf der Suche nach einem Geschäftskredit, Privatkredite, Schuldenkonsolidierung, unbesicherte Kredite, Risikokapital, wenn ja Kontaktieren Sie uns jetzt für weitere Einzelheiten.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ Documentation/kbuild/makefiles.rst | 16 ++++------------
+ scripts/Makefile.clean             | 16 ++--------------
+ scripts/kconfig/Makefile           |  2 +-
+ usr/include/Makefile               |  4 +---
+ 4 files changed, 8 insertions(+), 30 deletions(-)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 68ed20ef37dd..78aa51a6fcd4 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -765,7 +765,8 @@ Files matching the patterns "*.[oas]", "*.ko", plus some additional files
+ generated by kbuild are deleted all over the kernel src tree when
+ "make clean" is executed.
+ 
+-Additional files can be specified in kbuild makefiles by use of $(clean-files).
++Additional files or directories can be specified in kbuild makefiles by use of
++$(clean-files).
+ 
+ 	Example::
+ 
+@@ -776,17 +777,8 @@ When executing "make clean", the file "crc32table.h" will be deleted.
+ Kbuild will assume files to be in the same relative directory as the
+ Makefile, except if prefixed with $(objtree).
+ 
+-To delete a directory hierarchy use:
+-
+-	Example::
+-
+-		#scripts/package/Makefile
+-		clean-dirs := $(objtree)/debian/
+-
+-This will delete the directory debian in the toplevel directory, including all
+-subdirectories.
+-
+-To exclude certain files from make clean, use the $(no-clean-files) variable.
++To exclude certain files or directories from make clean, use the
++$(no-clean-files) variable.
+ 
+ Usually kbuild descends down in subdirectories due to "obj-* := dir/",
+ but in the architecture makefiles where the kbuild infrastructure
+diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
+index 0b80e3207b20..cbfbe13dc87d 100644
+--- a/scripts/Makefile.clean
++++ b/scripts/Makefile.clean
+@@ -52,26 +52,14 @@ __clean-files   := $(wildcard                                               \
+ 		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(__clean-files))) \
+ 		   $(filter $(objtree)/%, $(__clean-files)))
+ 
+-# same as clean-files
+-
+-__clean-dirs    := $(wildcard                                               \
+-		   $(addprefix $(obj)/, $(filter-out $(objtree)/%, $(clean-dirs)))    \
+-		   $(filter $(objtree)/%, $(clean-dirs)))
+-
+ # ==========================================================================
+ 
+-quiet_cmd_clean    = CLEAN   $(obj)
+-      cmd_clean    = rm -f $(__clean-files)
+-quiet_cmd_cleandir = CLEAN   $(__clean-dirs)
+-      cmd_cleandir = rm -rf $(__clean-dirs)
+-
++quiet_cmd_clean = CLEAN   $(obj)
++      cmd_clean = rm -rf $(__clean-files)
+ 
+ __clean: $(subdir-ymn)
+ ifneq ($(strip $(__clean-files)),)
+ 	+$(call cmd,clean)
+-endif
+-ifneq ($(strip $(__clean-dirs)),)
+-	+$(call cmd,cleandir)
+ endif
+ 	@:
+ 
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index 7656e1137b6b..bed7a5a2fbe9 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -114,7 +114,7 @@ testconfig: $(obj)/conf
+ 	$(PYTHON3) -B -m pytest $(srctree)/$(src)/tests \
+ 	-o cache_dir=$(abspath $(obj)/tests/.cache) \
+ 	$(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=no)
+-clean-dirs += tests/.cache
++clean-files += tests/.cache
+ 
+ # Help text used by make help
+ help:
+diff --git a/usr/include/Makefile b/usr/include/Makefile
+index 1fb6abe29b2f..05c71ef42f51 100644
+--- a/usr/include/Makefile
++++ b/usr/include/Makefile
+@@ -115,6 +115,4 @@ header-test-y += $(filter-out $(header-test-), \
+ 			$(patsubst $(obj)/%,%, $(wildcard \
+ 			$(addprefix $(obj)/, *.h */*.h */*/*.h */*/*/*.h))))
+ 
+-# For GNU Make <= 4.2.1, $(wildcard $(obj)/*/) matches to not only directories
+-# but also regular files. Use $(filter %/, ...) just in case.
+-clean-dirs += $(patsubst $(obj)/%/,%,$(filter %/, $(wildcard $(obj)/*/)))
++clean-files += $(filter-out Makefile, $(notdir $(wildcard $(obj)/*)))
+-- 
+2.17.1
+
