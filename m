@@ -2,414 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1223C9EFAA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2019 18:04:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAEFA9F34D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 27 Aug 2019 21:28:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730257AbfH0QE2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Aug 2019 12:04:28 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:35195 "EHLO
+        id S1730237AbfH0T2Q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 27 Aug 2019 15:28:16 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33173 "EHLO
         mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730258AbfH0QEU (ORCPT
+        with ESMTP id S1729626AbfH0T2P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Aug 2019 12:04:20 -0400
-Received: by mail-wr1-f68.google.com with SMTP id k2so19396005wrq.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 27 Aug 2019 09:04:18 -0700 (PDT)
+        Tue, 27 Aug 2019 15:28:15 -0400
+Received: by mail-wr1-f68.google.com with SMTP id u16so26526wrr.0;
+        Tue, 27 Aug 2019 12:28:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Ljo8vajhU+W+Ukm/1s/QogI8ChcEKwBtMF+HxQ/PSw4=;
-        b=pT3W2hD1RvsxoHm+zEZ/U6mTjDjviLu6X1btSRz1uz2E9GHokFjUxdkKJCkelWSu1u
-         bpsj+wb5B6JYz//IC3AJ6ouZyEZgJdlwwF6WDqsHH3ahgA8vcdWT4W/9xu7zdEG9s8qw
-         6YYPisKqXJMWOxmAPFSpZbqj3Mqo6VgzJLMoNoUPgAsdZy50h91qvJUGl+EWU6seNtoE
-         7XxfupdQWUnuD+7YbCsN8fUevv8I+NVGUpKV1eowgsWqw/lXmQJFsTn2+I7V+UXJ8PvZ
-         bC5kOIFz6/b3Rl9M6hYx1ow323QKUjSZBAJCIxSLL+RwJ2YznMMzYF/epQHhNd/rqDV1
-         yA3Q==
+        bh=SeFHORwP0KKGlcV55f8im298zyWvbw1KHenZzAs1bo8=;
+        b=hq2tqphiTJC6saEWs4pfHw0h65iROisRo5ehuKqjVkIVGZoHaZbV6wdvFMMcEkSbw5
+         gRJ2wnqKkSIuWCrSLiEdqqtuykt5lAzWloJ//lNP48SMDhwywPC1emuvwZoN2xkQR1vM
+         ZzgsBCB+6jF+Dej9oXS2biJgzob2t8rUb1WNQ7gQUyEYLNEfvNOFbf4qUtq9+4cm1iH/
+         +J+BkMIOvu5KTScPjONkExhKrElE+773XZPXGb+/92HldWLo/Q2PQeF/rO3R7ehv2jO5
+         NO1Qwud9N1/DWG5hzVNWW++LZg7jsdERlrp1htad4e2ZyNR9nkwCAMew2oubUJ230UQg
+         EF+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Ljo8vajhU+W+Ukm/1s/QogI8ChcEKwBtMF+HxQ/PSw4=;
-        b=XWjJQnTEpgKka6ewTItoY4hAxd7jSHzuh0RNMzT8HjcnIQDAgCPbcvSy/Ncunuuzat
-         o3P9620Xc6GeTnn+xJ/6jtsoKD/967dEzmwC+eqQVrGjHDKZQ1QCG+jV+jefvvtDVddB
-         zdq2PbAWB+YBI74hXeLwssodlkng6t0VRhFOJIrgAbg9xedN6C2l+i6CeShi0lsaNZp+
-         PawGzphy/Ak7zM0pz2ugEwiMEKsDJ+pqKZIfIsjrzT8yVUI7APU6etgJPHwWX1yJjxOJ
-         Wiczl/XlUKzv5KaZnwy1oHjVX5fpoUFCNy4LONyF7BztjOt3+eg8c4dps6dA8cF+gNqS
-         7wGQ==
-X-Gm-Message-State: APjAAAXN9OfDnFxf8TTr3x+XtDkLQXQAMqaX9fd0qdUR8YG/1K+RoARw
-        e51JzbFGYgzQhSklkPSZInQw8Q==
-X-Google-Smtp-Source: APXvYqyCAay58gtSIUr78MGmhxH+wCfTtE99gWMRLBFHY3CeeAgj7Z5U0wI2K44F8jvEfOo444iNTA==
-X-Received: by 2002:a5d:50cb:: with SMTP id f11mr30096307wrt.277.1566921857187;
-        Tue, 27 Aug 2019 09:04:17 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id i93sm32304192wri.57.2019.08.27.09.04.16
+        bh=SeFHORwP0KKGlcV55f8im298zyWvbw1KHenZzAs1bo8=;
+        b=dq2thvnrsKwnIAe3c75umJnrXoBE37veqrosKDfM8M4UmzvGFYUb85v9HMyhcHpXMV
+         02g1HOEEigxJgPW26chXCf3I6cOay2Zd+FOrkcpPfMG20TDA/hd+Lb1kU2LCPz4UKuOM
+         a6UsB5Y0DzNRjs5+Z8LTMksoG90jYySYXVOpKNXe8TyFao/HhgS4pcjvTI65XoDe0+C9
+         IyKbBOmE/BzQ+4ZfyREesli3XKY5g/kXjHwSJgnmQ5ZyJQH4FGXIbqElIQIzm/6BHy5i
+         p0Kmc3u8If6ptsfG19eFEbRwZ3AEDAp5VFr8b2HemIKKK2Ijx1UO6VkOQ9kgZWBbE757
+         MbAw==
+X-Gm-Message-State: APjAAAUdRyG3jPBXpjAFpMIumllmpsRtJALRHu7uCfqgZh2qcOFlCrwv
+        FBvC14voWXucQF7hU2Uuy3U=
+X-Google-Smtp-Source: APXvYqyj0C+7XYoesvcSM7jqhXKXn5kF4uBVIiVOL4P29Y4sKLW3XxRVKGC/6UC6LMH0hwS23VDD4w==
+X-Received: by 2002:a5d:4b8c:: with SMTP id b12mr33150527wrt.26.1566934093318;
+        Tue, 27 Aug 2019 12:28:13 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id k9sm14405337wrq.15.2019.08.27.12.28.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2019 09:04:16 -0700 (PDT)
-Date:   Tue, 27 Aug 2019 17:04:13 +0100
-From:   Matthias Maennich <maennich@google.com>
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        arnd@arndb.de, geert@linux-m68k.org, gregkh@linuxfoundation.org,
-        hpa@zytor.com, joel@joelfernandes.org,
-        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
-        maco@android.com, maco@google.com, michal.lkml@markovi.net,
-        mingo@redhat.com, oneukum@suse.com, pombredanne@nexb.com,
-        sam@ravnborg.org, sspatil@google.com, stern@rowland.harvard.edu,
-        tglx@linutronix.de, usb-storage@lists.one-eyed-alien.net,
-        x86@kernel.org, yamada.masahiro@socionext.com,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Subject: Re: [PATCH v3 03/11] module: add support for symbol namespaces.
-Message-ID: <20190827160413.GA148206@google.com>
-References: <20190813121733.52480-1-maennich@google.com>
- <20190821114955.12788-1-maennich@google.com>
- <20190821114955.12788-4-maennich@google.com>
- <20190827153717.GA20822@linux-8ccs.fritz.box>
+        Tue, 27 Aug 2019 12:28:12 -0700 (PDT)
+Date:   Tue, 27 Aug 2019 12:28:11 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: enable unused-function warnings for W= build
+ with Clang
+Message-ID: <20190827192811.GA24626@archlinux-threadripper>
+References: <20190827103621.1073-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190827153717.GA20822@linux-8ccs.fritz.box>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190827103621.1073-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 05:37:18PM +0200, Jessica Yu wrote:
->+++ Matthias Maennich [21/08/19 12:49 +0100]:
->>The EXPORT_SYMBOL_NS() and EXPORT_SYMBOL_NS_GPL() macros can be used to
->>export a symbol to a specific namespace.  There are no _GPL_FUTURE and
->>_UNUSED variants because these are currently unused, and I'm not sure
->>they are necessary.
->>
->>I didn't add EXPORT_SYMBOL_NS() for ASM exports; this patch sets the
->>namespace of ASM exports to NULL by default. In case of relative
->>references, it will be relocatable to NULL. If there's a need, this
->>should be pretty easy to add.
->>
->>A module that wants to use a symbol exported to a namespace must add a
->>MODULE_IMPORT_NS() statement to their module code; otherwise, modpost
->>will complain when building the module, and the kernel module loader
->>will emit an error and fail when loading the module.
->>
->>MODULE_IMPORT_NS() adds a modinfo tag 'import_ns' to the module. That
->>tag can be observed by the modinfo command, modpost and kernel/module.c
->>at the time of loading the module.
->>
->>The ELF symbols are renamed to include the namespace with an asm label;
->>for example, symbol 'usb_stor_suspend' in namespace USB_STORAGE becomes
->>'usb_stor_suspend.USB_STORAGE'.  This allows modpost to do namespace
->>checking, without having to go through all the effort of parsing ELF and
->>relocation records just to get to the struct kernel_symbols.
->>
->>On x86_64 I saw no difference in binary size (compression), but at
->>runtime this will require a word of memory per export to hold the
->>namespace. An alternative could be to store namespaced symbols in their
->>own section and use a separate 'struct namespaced_kernel_symbol' for
->>that section, at the cost of making the module loader more complex.
->>
->>Co-developed-by: Martijn Coenen <maco@android.com>
->>Signed-off-by: Martijn Coenen <maco@android.com>
->>Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>Signed-off-by: Matthias Maennich <maennich@google.com>
->>---
->>include/asm-generic/export.h |  6 +--
->>include/linux/export.h       | 85 ++++++++++++++++++++++++++++++------
->>include/linux/module.h       |  2 +
->>kernel/module.c              | 43 ++++++++++++++++++
->>4 files changed, 120 insertions(+), 16 deletions(-)
->>
->>diff --git a/include/asm-generic/export.h b/include/asm-generic/export.h
->>index 63f54907317b..e2b5d0f569d3 100644
->>--- a/include/asm-generic/export.h
->>+++ b/include/asm-generic/export.h
->>@@ -17,11 +17,11 @@
->>
->>.macro __put, val, name
->>#ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
->>-	.long	\val - ., \name - .
->>+	.long	\val - ., \name - ., 0 - .
->>#elif defined(CONFIG_64BIT)
->>-	.quad	\val, \name
->>+	.quad	\val, \name, 0
->>#else
->>-	.long	\val, \name
->>+	.long	\val, \name, 0
->>#endif
->>.endm
->>
->>diff --git a/include/linux/export.h b/include/linux/export.h
->>index 28a4d2150689..8e12e05444d1 100644
->>--- a/include/linux/export.h
->>+++ b/include/linux/export.h
->>@@ -20,6 +20,8 @@ extern struct module __this_module;
->>
->>#ifdef CONFIG_MODULES
->>
->>+#define NS_SEPARATOR "."
->>+
->>#if defined(__KERNEL__) && !defined(__GENKSYMS__)
->>#ifdef CONFIG_MODVERSIONS
->>/* Mark the CRC weak since genksyms apparently decides not to
->>@@ -49,6 +51,16 @@ extern struct module __this_module;
->> * absolute relocations that require runtime processing on relocatable
->> * kernels.
->> */
->>+#define __KSYMTAB_ENTRY_NS(sym, sec, ns)				\
->>+	__ADDRESSABLE(sym)						\
->>+	asm("	.section \"___ksymtab" sec "+" #sym "\", \"a\"	\n"	\
->>+	    "	.balign	4					\n"	\
->>+	    "__ksymtab_" #sym NS_SEPARATOR #ns ":		\n"	\
->>+	    "	.long	" #sym "- .				\n"	\
->>+	    "	.long	__kstrtab_" #sym "- .			\n"	\
->>+	    "	.long	__kstrtab_ns_" #sym "- .		\n"	\
->>+	    "	.previous					\n")
->>+
->>#define __KSYMTAB_ENTRY(sym, sec)					\
->>	__ADDRESSABLE(sym)						\
->>	asm("	.section \"___ksymtab" sec "+" #sym "\", \"a\"	\n"	\
->>@@ -56,32 +68,53 @@ extern struct module __this_module;
->>	    "__ksymtab_" #sym ":				\n"	\
->>	    "	.long	" #sym "- .				\n"	\
->>	    "	.long	__kstrtab_" #sym "- .			\n"	\
->>+	    "	.long	0 - .					\n"	\
->>	    "	.previous					\n")
->>
->>struct kernel_symbol {
->>	int value_offset;
->>	int name_offset;
->>+	int namespace_offset;
->>};
->>#else
->>+#define __KSYMTAB_ENTRY_NS(sym, sec, ns)				\
->>+	static const struct kernel_symbol __ksymtab_##sym##__##ns	\
->>+	asm("__ksymtab_" #sym NS_SEPARATOR #ns)				\
->>+	__attribute__((section("___ksymtab" sec "+" #sym), used))	\
->>+	__aligned(sizeof(void *))					\
->>+	= { (unsigned long)&sym, __kstrtab_##sym, __kstrtab_ns_##sym}
->
->Style nit: missing space after __kstrtab_ns_##sym.
->
->>+
->>#define __KSYMTAB_ENTRY(sym, sec)					\
->>	static const struct kernel_symbol __ksymtab_##sym		\
->>+	asm("__ksymtab_" #sym)						\
->>	__attribute__((section("___ksymtab" sec "+" #sym), used))	\
->>	__aligned(sizeof(void *))					\
->>-	= { (unsigned long)&sym, __kstrtab_##sym }
->>+	= { (unsigned long)&sym, __kstrtab_##sym, NULL }
->>
->>struct kernel_symbol {
->>	unsigned long value;
->>	const char *name;
->>+	const char *namespace;
->>};
->>#endif
->>
->>-/* For every exported symbol, place a struct in the __ksymtab section */
->>-#define ___EXPORT_SYMBOL(sym, sec)					\
->>+#define ___export_symbol_common(sym, sec)				\
->>	extern typeof(sym) sym;						\
->>	__CRC_SYMBOL(sym, sec)						\
->>	static const char __kstrtab_##sym[]				\
->>	__attribute__((section("__ksymtab_strings"), used, aligned(1)))	\
->>-	= #sym;								\
->>+	= #sym								\
->
->Any particular reason for this change? Not that it's important, just
->noticing the inconsistent inclusion of the semicolon in some of the
->macros (e.g. __CRC_SYMBOL includes it but __export_symbol_common doesn't).
->
+On Tue, Aug 27, 2019 at 07:36:21PM +0900, Masahiro Yamada wrote:
+> GCC and Clang have different policy for -Wunused-function; GCC never
+> reports unused-function warnings for 'static inline' functions whereas
+> Clang reports them if they are defined in source files instead of
+> included headers although it has been suppressed since commit
+> abb2ea7dfd82 ("compiler, clang: suppress warning for unused static
+> inline functions").
+> 
+> We often miss to remove unused functions where 'static inline' is used
+> in .c files since there is no tool to detect them. Unused code remains
+> until somebody notices. For example, commit 075ddd75680f ("regulator:
+> core: remove unused rdev_get_supply()").
+> 
+> Let's remove __maybe_unused from the inline macro to allow Clang to
+> start finding unused static inline functions. As always, it is not a
+> good idea to sprinkle warnings for the normal build, so I added
+> -Wno-unsued-function for no W= build.
+> 
+> Per the documentation [1], -Wno-unused-function will also disable
+> -Wunneeded-internal-declaration, which can help find bugs like
+> commit 8289c4b6f2e5 ("platform/x86: mlx-platform: Properly use
+> mlxplat_mlxcpld_msn201x_items"). (pointed out by Nathan Chancellor)
+> I added -Wunneeded-internal-declaration to address it.
+> 
+> If you contribute to code clean-up, please run "make CC=clang W=1"
+> and check -Wunused-function warnings. You will find lots of unused
+> functions.
+> 
+> Some of them are false-positives because the call-sites are disabled
+> by #ifdef. I do not like to abuse the inline keyword for suppressing
+> unused-function warnings because it is intended to be a hint for the
+> compiler's optimization. I prefer __maybe_unused or #ifdef around the
+> definition.
+> 
+> [1]: https://clang.llvm.org/docs/DiagnosticsReference.html#wunused-function
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 
-I tried to be consistent to let the macro "call site" provide the final
-semicolon. And you are right, I could have adjusted __CRC_SYMBOL as
-well. I will adjust this for the next version.
+I am still not a big fan of this as I think it weakens clang as a
+standalone compiler but the change itself looks good so if it is going
+in anyways:
 
->>+
->>+/* For every exported symbol, place a struct in the __ksymtab section */
->>+#define ___EXPORT_SYMBOL_NS(sym, sec, ns)				\
->>+	___export_symbol_common(sym, sec);			\
->>+	static const char __kstrtab_ns_##sym[]				\
->>+	__attribute__((section("__ksymtab_strings"), used, aligned(1)))	\
->>+	= #ns;								\
->>+	__KSYMTAB_ENTRY_NS(sym, sec, ns)
->>+
->>+#define ___EXPORT_SYMBOL(sym, sec)					\
->>+	___export_symbol_common(sym, sec);				\
->>	__KSYMTAB_ENTRY(sym, sec)
->>
->>#if defined(__DISABLE_EXPORTS)
->>@@ -91,6 +124,7 @@ struct kernel_symbol {
->> * be reused in other execution contexts such as the UEFI stub or the
->> * decompressor.
->> */
->>+#define __EXPORT_SYMBOL_NS(sym, sec, ns)
->>#define __EXPORT_SYMBOL(sym, sec)
->>
->>#elif defined(CONFIG_TRIM_UNUSED_KSYMS)
->>@@ -117,18 +151,26 @@ struct kernel_symbol {
->>#define __cond_export_sym_1(sym, sec) ___EXPORT_SYMBOL(sym, sec)
->>#define __cond_export_sym_0(sym, sec) /* nothing */
->>
->>+#define __EXPORT_SYMBOL_NS(sym, sec, ns)				\
->>+	__ksym_marker(sym);						\
->>+	__cond_export_ns_sym(sym, sec, ns, __is_defined(__KSYM_##sym))
->>+#define __cond_export_ns_sym(sym, sec, ns, conf)			\
->>+	___cond_export_ns_sym(sym, sec, ns, conf)
->>+#define ___cond_export_ns_sym(sym, sec, ns, enabled)			\
->>+	__cond_export_ns_sym_##enabled(sym, sec, ns)
->>+#define __cond_export_ns_sym_1(sym, sec, ns) ___EXPORT_SYMBOL_NS(sym, sec, ns)
->>+#define __cond_export_ns_sym_0(sym, sec, ns) /* nothing */
->>+
->>#else
->>+#define __EXPORT_SYMBOL_NS ___EXPORT_SYMBOL_NS
->>#define __EXPORT_SYMBOL ___EXPORT_SYMBOL
->>#endif
->>
->>-#define EXPORT_SYMBOL(sym)					\
->>-	__EXPORT_SYMBOL(sym, "")
->>-
->>-#define EXPORT_SYMBOL_GPL(sym)					\
->>-	__EXPORT_SYMBOL(sym, "_gpl")
->>-
->>-#define EXPORT_SYMBOL_GPL_FUTURE(sym)				\
->>-	__EXPORT_SYMBOL(sym, "_gpl_future")
->>+#define EXPORT_SYMBOL(sym) __EXPORT_SYMBOL(sym, "")
->>+#define EXPORT_SYMBOL_GPL(sym) __EXPORT_SYMBOL(sym, "_gpl")
->>+#define EXPORT_SYMBOL_GPL_FUTURE(sym) __EXPORT_SYMBOL(sym, "_gpl_future")
->>+#define EXPORT_SYMBOL_NS(sym, ns) __EXPORT_SYMBOL_NS(sym, "", ns)
->>+#define EXPORT_SYMBOL_NS_GPL(sym, ns) __EXPORT_SYMBOL_NS(sym, "_gpl", ns)
->>
->>#ifdef CONFIG_UNUSED_SYMBOLS
->>#define EXPORT_UNUSED_SYMBOL(sym) __EXPORT_SYMBOL(sym, "_unused")
->>@@ -138,11 +180,28 @@ struct kernel_symbol {
->>#define EXPORT_UNUSED_SYMBOL_GPL(sym)
->>#endif
->>
->>-#endif	/* __GENKSYMS__ */
->>+#endif	/* __KERNEL__ && !__GENKSYMS__ */
->>+
->>+#if defined(__GENKSYMS__)
->>+/*
->>+ * When we're running genksyms, ignore the namespace and make the _NS
->>+ * variants look like the normal ones. There are two reasons for this:
->>+ * 1) In the normal definition of EXPORT_SYMBOL_NS, the 'ns' macro
->>+ *    argument is itself not expanded because it's always tokenized or
->>+ *    concatenated; but when running genksyms, a blank definition of the
->>+ *    macro does allow the argument to be expanded; if a namespace
->>+ *    happens to collide with a #define, this can cause issues.
->>+ * 2) There's no need to modify genksyms to deal with the _NS variants
->>+ */
->>+#define EXPORT_SYMBOL_NS(sym, ns) EXPORT_SYMBOL(sym)
->>+#define EXPORT_SYMBOL_NS_GPL(sym, ns) EXPORT_SYMBOL_GPL(sym)
->>+#endif
->>
->>#else /* !CONFIG_MODULES... */
->>
->>#define EXPORT_SYMBOL(sym)
->>+#define EXPORT_SYMBOL_NS(sym, ns)
->>+#define EXPORT_SYMBOL_NS_GPL(sym, ns)
->>#define EXPORT_SYMBOL_GPL(sym)
->>#define EXPORT_SYMBOL_GPL_FUTURE(sym)
->>#define EXPORT_UNUSED_SYMBOL(sym)
->>diff --git a/include/linux/module.h b/include/linux/module.h
->>index 1455812dd325..b3611e749f72 100644
->>--- a/include/linux/module.h
->>+++ b/include/linux/module.h
->>@@ -280,6 +280,8 @@ struct notifier_block;
->>
->>#ifdef CONFIG_MODULES
->>
->>+#define MODULE_IMPORT_NS(ns) MODULE_INFO(import_ns, #ns)
->>+
->>extern int modules_disabled; /* for sysctl */
->>/* Get/put a kernel symbol (calls must be symmetric) */
->>void *__symbol_get(const char *symbol);
->>diff --git a/kernel/module.c b/kernel/module.c
->>index a23067907169..57e8253f2251 100644
->>--- a/kernel/module.c
->>+++ b/kernel/module.c
->>@@ -544,6 +544,15 @@ static const char *kernel_symbol_name(const struct kernel_symbol *sym)
->>#endif
->>}
->>
->>+static const char *kernel_symbol_namespace(const struct kernel_symbol *sym)
->>+{
->>+#ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
->>+	return offset_to_ptr(&sym->namespace_offset);
->>+#else
->>+	return sym->namespace;
->>+#endif
->>+}
->>+
->>static int cmp_name(const void *va, const void *vb)
->>{
->>	const char *a;
->>@@ -1379,6 +1388,34 @@ static inline int same_magic(const char *amagic, const char *bmagic,
->>}
->>#endif /* CONFIG_MODVERSIONS */
->>
->>+static char *get_modinfo(const struct load_info *info, const char *tag);
->>+static char *get_next_modinfo(const struct load_info *info, const char *tag,
->>+			      char *prev);
->>+
->>+static int verify_namespace_is_imported(const struct load_info *info,
->>+					const struct kernel_symbol *sym,
->>+					struct module *mod)
->>+{
->>+	const char *namespace;
->>+	char *imported_namespace;
->>+
->>+	namespace = kernel_symbol_namespace(sym);
->>+	if (namespace) {
->>+		imported_namespace = get_modinfo(info, "import_ns");
->>+		while (imported_namespace) {
->>+			if (strcmp(namespace, imported_namespace) == 0)
->>+				return 0;
->>+			imported_namespace = get_next_modinfo(
->>+				info, "import_ns", imported_namespace);
->>+		}
->>+		pr_err("%s: module uses symbol (%s) from namespace %s, but does not import it.\n",
->>+		       mod->name, kernel_symbol_name(sym), namespace);
->>+		return -EINVAL;
->>+	}
->>+	return 0;
->>+}
->>+
->>+
->>/* Resolve a symbol for this module.  I.e. if we find one, record usage. */
->>static const struct kernel_symbol *resolve_symbol(struct module *mod,
->>						  const struct load_info *info,
->>@@ -1413,6 +1450,12 @@ static const struct kernel_symbol *resolve_symbol(struct module *mod,
->>		goto getname;
->>	}
->>
->>+	err = verify_namespace_is_imported(info, sym, mod);
->>+	if (err) {
->>+		sym = ERR_PTR(err);
->>+		goto getname;
->>+	}
->
->I think we should verify the namespace before taking a reference to
->the owner module (just swap the verify_namespace_is_imported() and
->ref_module() calls here).
->
->Other than that, this patch looks good. Thanks!
->
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
-Thanks! I will address the points above.
-
-Cheers,
-Matthias
-
->>+
->>getname:
->>	/* We must make copy under the lock if we failed to get ref. */
->>	strncpy(ownername, module_name(owner), MODULE_NAME_LEN);
->>-- 
->>2.23.0.rc1.153.gdeed80330f-goog
->>
+I'm sure Nick would like to weigh in as well before this gets merged.
