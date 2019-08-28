@@ -2,200 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0569A06D5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 18:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 703DFA072B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 18:21:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbfH1QAN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 12:00:13 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:33247 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726450AbfH1QAM (ORCPT
+        id S1726429AbfH1QVC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 12:21:02 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:46782 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726415AbfH1QVC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 12:00:12 -0400
-Received: by mail-wm1-f67.google.com with SMTP id r17so2089892wme.0;
-        Wed, 28 Aug 2019 09:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=ilsyNqlWp5FVYGjiIBBsqAystUJXrBFSMt033j8p03g=;
-        b=CEwqsmRPE3LzmaNiy3zMXZ+1qmFuAjujOm3V/fNWtfAMdT1+N6hhLliv0pS3arK0YV
-         J0UtQblc9olTfKk5Q8SXOCmfmajyHDsvEHX4JNjMQ1p34S2UvxOJQHoWh/6hr4PG7Meo
-         5zN7FF9LVD5YvRTuhYGo/2yr12aWNOIGJe0/hAyj2dQI5KCCEAAHg7PMSEKjU9HOWQDN
-         Emq59TBLdnCDgg36vD5dZ2kg84cr3bsjdjGaMhS3IwPfw1SzuNdMKJNPc7+hYiJjTm3R
-         p+flFi4gp0RF62Uzo+B9ifbEkpQDl9MtNmwgJaOPwwUdCGQV5fMmZMcV1pg0j14cF/po
-         t4Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=ilsyNqlWp5FVYGjiIBBsqAystUJXrBFSMt033j8p03g=;
-        b=pCIdlUSf+3gU2yaYcH+eztR9fnk3auL8ENiznGzn5bfJ0G4SSbzQoY3jtx8r3G/GFi
-         kXyN5O7mcm6Shq8yPLLmpM/nLDP6OYf3DoBxZMkfcAe3fzEB/C1sLPtPNCV+XJqWO6tp
-         7Otq5jz4+Cv4Xo1IgOsXkdFnxK7LRHXAh80gsw7p3I1TiIasaZ4Q6ObpYlOgD+UyZP3A
-         tWbXYM+xalmi00lsCwKeddudtTWQ3GzW+7FYeHz7IqjXRvh0uaW4oIRTLIv4BExSDZfb
-         ButbUWzcCrzV8kEO6sb01guTytODkIlxZ6B7HkK7V6tJ6YdK6TIud15vmAMkp56NCw+O
-         b4uQ==
-X-Gm-Message-State: APjAAAWzp6Fy0qYm5hCoYxhSzMQQBN5gDE40CmH5nR5UBvPe+GY8IrhS
-        85wdp8zN3EEyC9n0iLncYYHfgIXrs1JuD5BFPzE=
-X-Google-Smtp-Source: APXvYqwdzYFj6+l1Pu1RXgt3dHTfyok9N4Ztp5MYy0rwG3K8ThfdxzNmniPOvXGLjhgGnnWbvom6ohmNvk0uGZt8DrE=
-X-Received: by 2002:a1c:9c45:: with SMTP id f66mr5858099wme.38.1567008009541;
- Wed, 28 Aug 2019 09:00:09 -0700 (PDT)
+        Wed, 28 Aug 2019 12:21:02 -0400
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x7SGKwWr032555;
+        Thu, 29 Aug 2019 01:20:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x7SGKwWr032555
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1567009258;
+        bh=gLFsc4GoaKSP2blYoRMPLmZqDOXVyUGvyhVsoSy7tug=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=UkCaK5W8/HC7ydYopRcA4en5nWKsFmKqbSKJp9oK21bX2H06tR9nl9dHrNfyObGvh
+         is4V+7oNJazKp1A6YNn+xiH8UxkoBKLuCUktUiLDOkdTdhW9Zebr630SBUJb9S98ky
+         RSCqGlhu8eaFkQQ16Gw9HpVYOIYc6ssDAsN81AVAymmeN0SLgKc+KupvmJ2iLKS2rv
+         YJMVJ3VSm7pT9S9shNhZUoILI0ydRy78d7idJOANrOWHVppD2c5dZK4eVFusmpFGwo
+         6mDJ3ad0qWFf1T09eYOveiXmW/G+Ac9EoysRn+iJYXNlKLHAEA64Tvkhkyw2KkPI7d
+         4L7DepLRaKhVg==
+X-Nifty-SrcIP: [209.85.222.50]
+Received: by mail-ua1-f50.google.com with SMTP id f9so175898uaj.4;
+        Wed, 28 Aug 2019 09:20:58 -0700 (PDT)
+X-Gm-Message-State: APjAAAWicYO1dAgErUkeAssot+HKphHGVExSuusKQDx+Ga/rMocrPPnx
+        RKN7hpLMzjBJaD6Z4YfLfuUag+wVBN7op3xSJRI=
+X-Google-Smtp-Source: APXvYqx0AiCoT1Nj6qNzrL4eY7yrUbBwb44z2Gqdj7kuBZooLZlGmtWqmGPjhiDk6h/Wjp4X3ddsAWdyEpa1sklEZD0=
+X-Received: by 2002:ab0:32d8:: with SMTP id f24mr2475802uao.121.1567009256901;
+ Wed, 28 Aug 2019 09:20:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190828055425.24765-1-yamada.masahiro@socionext.com>
- <CA+icZUWigJkh-VtJc4=xE06oMgE=ci2Mfdo2JaDv0fth8PKH+A@mail.gmail.com>
- <CA+icZUUhhOLfOgwoKP4nKOdPakNJF7XafJ09ERP6r7dOUduMsg@mail.gmail.com> <CA+icZUUSVRURu-jQAnVnZwPp0qiWpostDz+WkTjxx8zunVKBgw@mail.gmail.com>
-In-Reply-To: <CA+icZUUSVRURu-jQAnVnZwPp0qiWpostDz+WkTjxx8zunVKBgw@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 28 Aug 2019 17:59:58 +0200
-Message-ID: <CA+icZUXZqKpLcp7xmXEezquaCfKLiPS16gwrbcce105gjYftBg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: refactor scripts/Makefile.extrawarn
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+References: <20190815225844.145726-1-nhuck@google.com> <20190827004155.11366-1-natechancellor@gmail.com>
+In-Reply-To: <20190827004155.11366-1-natechancellor@gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 29 Aug 2019 01:20:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATHj5KrnFa0fvHjuC-=5mV8VBT14vrpPMfuNKWw7wabag@mail.gmail.com>
+Message-ID: <CAK7LNATHj5KrnFa0fvHjuC-=5mV8VBT14vrpPMfuNKWw7wabag@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Do not enable -Wimplicit-fallthrough for clang
+ for now
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Huckleberry <nhuck@google.com>,
+        Joe Perches <joe@perches.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000c516d505912f7bdc"
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
---000000000000c516d505912f7bdc
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Aug 27, 2019 at 9:42 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> This functionally reverts commit bfd77145f35c ("Makefile: Convert
+> -Wimplicit-fallthrough=3 to just -Wimplicit-fallthrough for clang").
+>
+> clang enabled support for -Wimplicit-fallthrough in C in r369414 [1],
+> which causes a lot of warnings when building the kernel for two reasons:
+>
+> 1. Clang does not support the /* fall through */ comments. There seems
+>    to be a general consensus in the LLVM community that this is not
+>    something they want to support. Joe Perches wrote a script to convert
+>    all of the comments to a "fallthrough" keyword that will be added to
+>    compiler_attributes.h [2] [3], which catches the vast majority of the
+>    comments. There doesn't appear to be any consensus in the kernel
+>    community when to do this conversion.
+>
+> 2. Clang and GCC disagree about falling through to final case statements
+>    with no content or cases that simply break:
+>
+>    https://godbolt.org/z/c8csDu
+>
+>    This difference contributes at least 50 warnings in an allyesconfig
+>    build for x86, not considering other architectures. This difference
+>    will need to be discussed to see which compiler is right [4] [5].
+>
+> [1]: https://github.com/llvm/llvm-project/commit/1e0affb6e564b7361b0aadb38805f26deff4ecfc
+> [2]: https://lore.kernel.org/lkml/61ddbb86d5e68a15e24ccb06d9b399bbf5ce2da7.camel@perches.com/
+> [3]: https://lore.kernel.org/lkml/1d2830aadbe9d8151728a7df5b88528fc72a0095.1564549413.git.joe@perches.com/
+> [4]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91432
+> [5]: https://github.com/ClangBuiltLinux/linux/issues/636
+>
+> Given these two problems need discussion and coordination, do not enable
+> -Wimplicit-fallthrough with clang right now. Add a comment to explain
+> what is going on as well. This commit should be reverted once these two
+> issues are fully flushed out and resolved.
+>
+> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
 
-Something like that...
+Applied to linux-kbuild. Thanks.
 
-[PATCH 1/2] kbuild: Improve extrawarn documentation
-[PATCH 2/2] kbuild: Rename extrawarn Kconfig to KBUILD_EXTRA_CC_CHECKS
+(If other clang folks give tags, I will add them later.)
 
-- Sedat -
 
---000000000000c516d505912f7bdc
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-kbuild-Improve-extrawarn-documentation.patch"
-Content-Disposition: attachment; 
-	filename="0001-kbuild-Improve-extrawarn-documentation.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_jzvg1uqs0>
-X-Attachment-Id: f_jzvg1uqs0
 
-RnJvbSAxMjc1ZWMwZjFkMzFjNGFjNTdiNzNiMzE4YmRjNDUxNTFkOTllOGRjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBTZWRhdCBEaWxlayA8c2VkYXQuZGlsZWtAY3JlZGF0aXYuZGU+
-CkRhdGU6IFdlZCwgMjggQXVnIDIwMTkgMTY6Mjc6MTMgKzAyMDAKU3ViamVjdDogW1BBVENIIDEv
-Ml0ga2J1aWxkOiBJbXByb3ZlIGV4dHJhd2FybiBkb2N1bWVudGF0aW9uCgotLS0KIERvY3VtZW50
-YXRpb24va2J1aWxkL2tidWlsZC5yc3QgfCAxMCArKysrKysrKy0tCiBzY3JpcHRzL01ha2VmaWxl
-LmV4dHJhd2FybiAgICAgIHwgIDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCsp
-LCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24va2J1aWxkL2tidWls
-ZC5yc3QgYi9Eb2N1bWVudGF0aW9uL2tidWlsZC9rYnVpbGQucnN0CmluZGV4IDYyZjlkODZjMDgy
-Yy4uZjBmMWM0NzVkN2ZhIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2tidWlsZC9rYnVpbGQu
-cnN0CisrKyBiL0RvY3VtZW50YXRpb24va2J1aWxkL2tidWlsZC5yc3QKQEAgLTI0Myw4ICsyNDMs
-MTQgQEAgVG8gZ2V0IGFsbCBhdmFpbGFibGUgYXJjaHMgeW91IGNhbiBhbHNvIHNwZWNpZnkgYWxs
-LiBFLmcuOjoKIAogS0JVSUxEX0VOQUJMRV9FWFRSQV9HQ0NfQ0hFQ0tTCiAtLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0KLUlmIGVuYWJsZWQgb3ZlciB0aGUgbWFrZSBjb21tYW5kIGxpbmUg
-d2l0aCAiVz0xIiwgaXQgdHVybnMgb24gYWRkaXRpb25hbAotZ2NjIC1XLi4uIG9wdGlvbnMgZm9y
-IG1vcmUgZXh0ZW5zaXZlIGJ1aWxkLXRpbWUgY2hlY2tpbmcuCitJZiBlbmFibGVkIG92ZXIgdGhl
-IG1ha2UgY29tbWFuZCBsaW5lIHdpdGggIlc9Li4uIiwgaXQgdHVybnMgb24gYWRkaXRpb25hbAor
-Y29tcGlsZXIgd2FybmluZyBvcHRpb25zIGxpa2UgLVdtaXNzaW5nLWRlY2xhcmF0aW9ucyBmb3Ig
-bW9yZSBleHRlbnNpdmUKK2J1aWxkLXRpbWUgY2hlY2tpbmcuIEZvciBtb3JlIGRldGFpbHMgc2Vl
-IDxzY3JpcHRzL01ha2VmaWxlLmV4dHJhd2Fybj4uCisKK1c9MSAtIHdhcm5pbmdzIHRoYXQgbWF5
-IGJlIHJlbGV2YW50IGFuZCBkb2VzIG5vdCBvY2N1ciB0b28gb2Z0ZW4KK1c9MSAtIGFsc28gc3Rv
-cHMgc3VwcHJlc3Npbmcgc29tZSB3YXJuaW5ncworVz0yIC0gd2FybmluZ3MgdGhhdCBvY2N1ciBx
-dWl0ZSBvZnRlbiBidXQgbWF5IHN0aWxsIGJlIHJlbGV2YW50CitXPTMgLSB0aGUgbW9yZSBvYnNj
-dXJlIHdhcm5pbmdzLCBjYW4gbW9zdCBsaWtlbHkgYmUgaWdub3JlZAogCiBLQlVJTERfQlVJTERf
-VElNRVNUQU1QCiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tCmRpZmYgLS1naXQgYS9zY3JpcHRzL01h
-a2VmaWxlLmV4dHJhd2FybiBiL3NjcmlwdHMvTWFrZWZpbGUuZXh0cmF3YXJuCmluZGV4IDNhZjE3
-NzA0OTdmZC4uNjc3MGY4ZGE0ZTZkIDEwMDY0NAotLS0gYS9zY3JpcHRzL01ha2VmaWxlLmV4dHJh
-d2FybgorKysgYi9zY3JpcHRzL01ha2VmaWxlLmV4dHJhd2FybgpAQCAtMzIsNyArMzIsNyBAQCBL
-QlVJTERfQ1BQRkxBR1MgKz0gLURLQlVJTERfRVhUUkFfV0FSTjEKIAogZWxzZQogCi0jIFc9MSBh
-bHNvIHN0b3BzIHN1cHByZXNzaW5nIHNvbWUgd2FybmluZ3MKKyMgVz0xIC0gYWxzbyBzdG9wcyBz
-dXBwcmVzc2luZyBzb21lIHdhcm5pbmdzCiAKIGlmZGVmIENPTkZJR19DQ19JU19DTEFORwogS0JV
-SUxEX0NGTEFHUyArPSAtV25vLWluaXRpYWxpemVyLW92ZXJyaWRlcwotLSAKMi4yMC4xCgo=
---000000000000c516d505912f7bdc
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0002-kbuild-Rename-extrawarn-Kconfig-to-KBUILD_EXTRA_CC_C.patch"
-Content-Disposition: attachment; 
-	filename="0002-kbuild-Rename-extrawarn-Kconfig-to-KBUILD_EXTRA_CC_C.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_jzvg1wty1>
-X-Attachment-Id: f_jzvg1wty1
+>  Makefile | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f125625efd60..6007a56bdbee 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -751,6 +751,11 @@ else
+>  # These warnings generated too much noise in a regular build.
+>  # Use make W=1 to enable them (see scripts/Makefile.extrawarn)
+>  KBUILD_CFLAGS += -Wno-unused-but-set-variable
+> +
+> +# Warn about unmarked fall-throughs in switch statement.
+> +# Disabled for clang while comment to attribute conversion happens and
+> +# https://github.com/ClangBuiltLinux/linux/issues/636 is discussed.
+> +KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
+>  endif
+>
+>  KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+> @@ -845,9 +850,6 @@ NOSTDINC_FLAGS += -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+>  # warn about C99 declaration after statement
+>  KBUILD_CFLAGS += -Wdeclaration-after-statement
+>
+> -# Warn about unmarked fall-throughs in switch statement.
+> -KBUILD_CFLAGS += $(call cc-option,-Wimplicit-fallthrough,)
+> -
+>  # Variable Length Arrays (VLAs) should not be used anywhere in the kernel
+>  KBUILD_CFLAGS += -Wvla
+>
+> --
+> 2.23.0
+>
 
-RnJvbSBiMzY0ODgxZjhiMmE3YWEyNThkY2RiYWJhOGQ2YmM1N2I0MWRlZjBkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBTZWRhdCBEaWxlayA8c2VkYXQuZGlsZWtAY3JlZGF0aXYuZGU+
-CkRhdGU6IFdlZCwgMjggQXVnIDIwMTkgMTY6MzA6MDMgKzAyMDAKU3ViamVjdDogW1BBVENIIDIv
-Ml0ga2J1aWxkOiBSZW5hbWUgZXh0cmF3YXJuIEtjb25maWcgdG8KIEtCVUlMRF9FWFRSQV9DQ19D
-SEVDS1MKCi0tLQogRG9jdW1lbnRhdGlvbi9rYnVpbGQva2J1aWxkLnJzdCB8IDIgKy0KIHNjcmlw
-dHMvTWFrZWZpbGUuYnVpbGQgICAgICAgICAgfCAyICstCiBzY3JpcHRzL01ha2VmaWxlLmV4dHJh
-d2FybiAgICAgIHwgOCArKysrLS0tLQogc2NyaXB0cy9NYWtlZmlsZS5saWIgICAgICAgICAgICB8
-IDQgKystLQogc2NyaXB0cy9nZW5rc3ltcy9NYWtlZmlsZSAgICAgICB8IDIgKy0KIDUgZmlsZXMg
-Y2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA5IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL0Rv
-Y3VtZW50YXRpb24va2J1aWxkL2tidWlsZC5yc3QgYi9Eb2N1bWVudGF0aW9uL2tidWlsZC9rYnVp
-bGQucnN0CmluZGV4IGYwZjFjNDc1ZDdmYS4uZGNjODNkOTkzNDU5IDEwMDY0NAotLS0gYS9Eb2N1
-bWVudGF0aW9uL2tidWlsZC9rYnVpbGQucnN0CisrKyBiL0RvY3VtZW50YXRpb24va2J1aWxkL2ti
-dWlsZC5yc3QKQEAgLTI0MSw3ICsyNDEsNyBAQCBUbyBnZXQgYWxsIGF2YWlsYWJsZSBhcmNocyB5
-b3UgY2FuIGFsc28gc3BlY2lmeSBhbGwuIEUuZy46OgogCiAgICAgJCBtYWtlIEFMTFNPVVJDRV9B
-UkNIUz1hbGwgdGFncwogCi1LQlVJTERfRU5BQkxFX0VYVFJBX0dDQ19DSEVDS1MKK0tCVUlMRF9F
-WFRSQV9DQ19DSEVDS1MKIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogSWYgZW5hYmxl
-ZCBvdmVyIHRoZSBtYWtlIGNvbW1hbmQgbGluZSB3aXRoICJXPS4uLiIsIGl0IHR1cm5zIG9uIGFk
-ZGl0aW9uYWwKIGNvbXBpbGVyIHdhcm5pbmcgb3B0aW9ucyBsaWtlIC1XbWlzc2luZy1kZWNsYXJh
-dGlvbnMgZm9yIG1vcmUgZXh0ZW5zaXZlCmRpZmYgLS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLmJ1
-aWxkIGIvc2NyaXB0cy9NYWtlZmlsZS5idWlsZAppbmRleCAyYTIxY2E4NmI3MjAuLjFkZTliOWRk
-ZGRhYSAxMDA2NDQKLS0tIGEvc2NyaXB0cy9NYWtlZmlsZS5idWlsZAorKysgYi9zY3JpcHRzL01h
-a2VmaWxlLmJ1aWxkCkBAIC04NSw3ICs4NSw3IEBAIGVsc2UgaWZlcSAoJChLQlVJTERfQ0hFQ0tT
-UkMpLDIpCiAgICAgICAgIGNtZF9mb3JjZV9jaGVja3NyYyA9ICQoQ0hFQ0spICQoQ0hFQ0tGTEFH
-UykgJChjX2ZsYWdzKSAkPAogZW5kaWYKIAotaWZuZXEgKCQoS0JVSUxEX0VOQUJMRV9FWFRSQV9H
-Q0NfQ0hFQ0tTKSwpCitpZm5lcSAoJChLQlVJTERfRVhUUkFfQ0NfQ0hFQ0tTKSwpCiAgIGNtZF9j
-aGVja2RvYyA9ICQoc3JjdHJlZSkvc2NyaXB0cy9rZXJuZWwtZG9jIC1ub25lICQ8CiBlbmRpZgog
-CmRpZmYgLS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLmV4dHJhd2FybiBiL3NjcmlwdHMvTWFrZWZp
-bGUuZXh0cmF3YXJuCmluZGV4IDY3NzBmOGRhNGU2ZC4uMGVlNGE1YTg4ZDJjIDEwMDY0NAotLS0g
-YS9zY3JpcHRzL01ha2VmaWxlLmV4dHJhd2FybgorKysgYi9zY3JpcHRzL01ha2VmaWxlLmV4dHJh
-d2FybgpAQCAtNiwxMyArNiwxMyBAQAogS0JVSUxEX0NGTEFHUyArPSAkKGNhbGwgY2MtZGlzYWJs
-ZS13YXJuaW5nLCBwYWNrZWQtbm90LWFsaWduZWQpCiAKIGlmZXEgKCIkKG9yaWdpbiBXKSIsICJj
-b21tYW5kIGxpbmUiKQotICBleHBvcnQgS0JVSUxEX0VOQUJMRV9FWFRSQV9HQ0NfQ0hFQ0tTIDo9
-ICQoVykKKyAgZXhwb3J0IEtCVUlMRF9FWFRSQV9DQ19DSEVDS1MgOj0gJChXKQogZW5kaWYKIAog
-IwogIyBXPTEgLSB3YXJuaW5ncyB0aGF0IG1heSBiZSByZWxldmFudCBhbmQgZG9lcyBub3Qgb2Nj
-dXIgdG9vIG9mdGVuCiAjCi1pZm5lcSAoJChmaW5kc3RyaW5nIDEsICQoS0JVSUxEX0VOQUJMRV9F
-WFRSQV9HQ0NfQ0hFQ0tTKSksKQoraWZuZXEgKCQoZmluZHN0cmluZyAxLCAkKEtCVUlMRF9FWFRS
-QV9DQ19DSEVDS1MpKSwpCiAKIEtCVUlMRF9DRkxBR1MgKz0gLVdleHRyYSAtV3VudXNlZCAtV25v
-LXVudXNlZC1wYXJhbWV0ZXIKIEtCVUlMRF9DRkxBR1MgKz0gLVdtaXNzaW5nLWRlY2xhcmF0aW9u
-cwpAQCAtNDYsNyArNDYsNyBAQCBlbmRpZgogIwogIyBXPTIgLSB3YXJuaW5ncyB0aGF0IG9jY3Vy
-IHF1aXRlIG9mdGVuIGJ1dCBtYXkgc3RpbGwgYmUgcmVsZXZhbnQKICMKLWlmbmVxICgkKGZpbmRz
-dHJpbmcgMiwgJChLQlVJTERfRU5BQkxFX0VYVFJBX0dDQ19DSEVDS1MpKSwpCitpZm5lcSAoJChm
-aW5kc3RyaW5nIDIsICQoS0JVSUxEX0VYVFJBX0NDX0NIRUNLUykpLCkKIAogS0JVSUxEX0NGTEFH
-UyArPSAtV2Nhc3QtYWxpZ24KIEtCVUlMRF9DRkxBR1MgKz0gLVdkaXNhYmxlZC1vcHRpbWl6YXRp
-b24KQEAgLTY1LDcgKzY1LDcgQEAgZW5kaWYKICMKICMgVz0zIC0gdGhlIG1vcmUgb2JzY3VyZSB3
-YXJuaW5ncywgY2FuIG1vc3QgbGlrZWx5IGJlIGlnbm9yZWQKICMKLWlmbmVxICgkKGZpbmRzdHJp
-bmcgMywgJChLQlVJTERfRU5BQkxFX0VYVFJBX0dDQ19DSEVDS1MpKSwpCitpZm5lcSAoJChmaW5k
-c3RyaW5nIDMsICQoS0JVSUxEX0VYVFJBX0NDX0NIRUNLUykpLCkKIAogS0JVSUxEX0NGTEFHUyAr
-PSAtV2JhZC1mdW5jdGlvbi1jYXN0CiBLQlVJTERfQ0ZMQUdTICs9IC1XY2FzdC1xdWFsCmRpZmYg
-LS1naXQgYS9zY3JpcHRzL01ha2VmaWxlLmxpYiBiL3NjcmlwdHMvTWFrZWZpbGUubGliCmluZGV4
-IDg4OGU1YzgzMDY0Ni4uMWY5ZTM4NTUwY2U0IDEwMDY0NAotLS0gYS9zY3JpcHRzL01ha2VmaWxl
-LmxpYgorKysgYi9zY3JpcHRzL01ha2VmaWxlLmxpYgpAQCAtMjQ4LDcgKzI0OCw3IEBAIHF1aWV0
-X2NtZF9nemlwID0gR1pJUCAgICAkQAogRFRDID89ICQob2JqdHJlZSkvc2NyaXB0cy9kdGMvZHRj
-CiAKICMgRGlzYWJsZSBub2lzeSBjaGVja3MgYnkgZGVmYXVsdAotaWZlcSAoJChmaW5kc3RyaW5n
-IDEsJChLQlVJTERfRU5BQkxFX0VYVFJBX0dDQ19DSEVDS1MpKSwpCitpZmVxICgkKGZpbmRzdHJp
-bmcgMSwkKEtCVUlMRF9FWFRSQV9DQ19DSEVDS1MpKSwpCiBEVENfRkxBR1MgKz0gLVduby11bml0
-X2FkZHJlc3NfdnNfcmVnIFwKIAktV25vLXVuaXRfYWRkcmVzc19mb3JtYXQgXAogCS1Xbm8tYXZv
-aWRfdW5uZWNlc3NhcnlfYWRkcl9zaXplIFwKQEAgLTI1OSw3ICsyNTksNyBAQCBEVENfRkxBR1Mg
-Kz0gLVduby11bml0X2FkZHJlc3NfdnNfcmVnIFwKIAktV25vLXBjaV9kZXZpY2VfcmVnCiBlbmRp
-ZgogCi1pZm5lcSAoJChmaW5kc3RyaW5nIDIsJChLQlVJTERfRU5BQkxFX0VYVFJBX0dDQ19DSEVD
-S1MpKSwpCitpZm5lcSAoJChmaW5kc3RyaW5nIDIsJChLQlVJTERfRVhUUkFfQ0NfQ0hFQ0tTKSks
-KQogRFRDX0ZMQUdTICs9IC1Xbm9kZV9uYW1lX2NoYXJzX3N0cmljdCBcCiAJLVdwcm9wZXJ0eV9u
-YW1lX2NoYXJzX3N0cmljdAogZW5kaWYKZGlmZiAtLWdpdCBhL3NjcmlwdHMvZ2Vua3N5bXMvTWFr
-ZWZpbGUgYi9zY3JpcHRzL2dlbmtzeW1zL01ha2VmaWxlCmluZGV4IGJhZjQ0ZWQwYTkzYS4uZTA4
-ZmMzYTZmN2UyIDEwMDY0NAotLS0gYS9zY3JpcHRzL2dlbmtzeW1zL01ha2VmaWxlCisrKyBiL3Nj
-cmlwdHMvZ2Vua3N5bXMvTWFrZWZpbGUKQEAgLTEyLDcgKzEyLDcgQEAgZ2Vua3N5bXMtb2Jqcwk6
-PSBnZW5rc3ltcy5vIHBhcnNlLnRhYi5vIGxleC5sZXgubwogIwogIyBKdXN0IGluIGNhc2UsIHJ1
-biAiJChZQUNDKSAtLXZlcnNpb24iIHdpdGhvdXQgc3VwcHJlc3Npbmcgc3RkZXJyCiAjIHNvIHRo
-YXQgJ2Jpc29uOiBub3QgZm91bmQnIHdpbGwgYmUgZGlzcGxheWVkIGlmIGl0IGlzIG1pc3Npbmcu
-Ci1pZmVxICgkKGZpbmRzdHJpbmcgMSwkKEtCVUlMRF9FTkFCTEVfRVhUUkFfR0NDX0NIRUNLUykp
-LCkKK2lmZXEgKCQoZmluZHN0cmluZyAxLCQoS0JVSUxEX0VYVFJBX0NDX0NIRUNLUykpLCkKIAog
-cXVpZXRfY21kX2Jpc29uX25vX3dhcm4gPSAkKHF1aWV0X2NtZF9iaXNvbikKICAgICAgIGNtZF9i
-aXNvbl9ub193YXJuID0gJChZQUNDKSAtLXZlcnNpb24gPi9kZXYvbnVsbDsgXAotLSAKMi4yMC4x
-Cgo=
---000000000000c516d505912f7bdc--
+
+-- 
+Best Regards
+Masahiro Yamada
