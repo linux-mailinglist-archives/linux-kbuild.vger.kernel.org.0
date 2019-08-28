@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2E57A07AD
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 18:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDC45A07B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 18:44:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbfH1QnZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 12:43:25 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:33033 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbfH1QnZ (ORCPT
+        id S1726561AbfH1QoS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 12:44:18 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:50291 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726563AbfH1QoR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 12:43:25 -0400
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x7SGhKvr028731;
-        Thu, 29 Aug 2019 01:43:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x7SGhKvr028731
+        Wed, 28 Aug 2019 12:44:17 -0400
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id x7SGhuDU003279;
+        Thu, 29 Aug 2019 01:43:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x7SGhuDU003279
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1567010601;
-        bh=59gdCQYyt4WFTLa0VJOuXipx2hC/GGa/B8YFQvrXlsg=;
+        s=dec2015msa; t=1567010637;
+        bh=+iR2wGeB3ADz18zgAyOrpJCFTT9CHJCP8dcmnyGJwvs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NokCpAH5Ok9a4O3hbnVRtBVYv3wP/ncXQ1qzW7RRji/4PgZvQneDkPhT3W/yJdfhG
-         9J0d3oCVQRbSRn/U1QuBd3sxpjzq1gYIoWg0/Zz9eRU7SzrrmKooDpZjBEf8cHr1+1
-         lc2jm3tC0iMdpQ0+VbrcFV0T3iDOXUCyLz9FPyB6DiJKVr7twYiOKw54mLVO91u0su
-         0MvfGmQ4WYkPLWXGPagsp5jP5Wp8/hAL87CeYn6cBkjAztfWjpGhbjcQJ9+QO4S3/3
-         e94yaJTPK3fvbBe7abGq3t9B8AQ0zfz7tyJ/6GcHbFU9v/yd/QcqNwDcso4OapqUNz
-         jEAngpbjATLFQ==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id y19so178689ual.13;
-        Wed, 28 Aug 2019 09:43:21 -0700 (PDT)
-X-Gm-Message-State: APjAAAV92QNBB3xEjBgPnI7RXjSKLRZpV1l7F9uGtPateDlIe8bTWE74
-        eRFugVAjgmjJPvAPU8uxdplv378NoGMP6bQmjhE=
-X-Google-Smtp-Source: APXvYqy5/HkNib7+qeS5rprhDQhJDWpCinBaPEKLjgEqPH2eisrLA4CBCWrqk/cIGCMYGxo93El03la3zxyErwdyizs=
-X-Received: by 2002:ab0:442:: with SMTP id 60mr2209408uav.109.1567010599882;
- Wed, 28 Aug 2019 09:43:19 -0700 (PDT)
+        b=edIjBueoXPfrTuXqzqsgCqHEbSZvpndN0QckeBuAvljwoLk3eF/HKsEFosLWl1lwf
+         SZWEgIc4Gg7TLe1DsKovEisZ4srJzndZZpSjIbE9S2fOS9xWnzpfv9J27pujmCdcF/
+         8iJnHGqLELREaxwD8KqtfQuuc3GHfrU0Ivhr/QoIXNjfHMTHcY7B+y15WU+siIJNdE
+         Vbjm6dsaK6C71jybGtONrHYQxZSp5a2p6JzvabrhSGwDK1yjoHIzrSM8S8JmowjrJJ
+         6u3Eyw64fffKzufj55kOqhWRPf727TTH4tHW2+wV/qVz0okZm8pO/oABMJl2zJ4TU5
+         ye/B5PHnsoOGQ==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id n13so190570uap.9;
+        Wed, 28 Aug 2019 09:43:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAU2tF1dDZrUlqRpfGR/N0sZBH/9erH5BFtw1/65AtYI6pIMlJWX
+        e5oQXoOQriw1u8wz8rlNZ4ccwAIUNrHDfW3GnZc=
+X-Google-Smtp-Source: APXvYqyvhbTL1chF5Rs/VNuz8fUNUTah+WXWqsLx0PVfEeqgD/rRLDRYEZjhet+JqmEDTXLfIz88NdTZYD+lbygKahQ=
+X-Received: by 2002:ab0:32d8:: with SMTP id f24mr2537777uao.121.1567010636117;
+ Wed, 28 Aug 2019 09:43:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190821173321.15012-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190821173321.15012-1-yamada.masahiro@socionext.com>
+References: <20190821070205.8297-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190821070205.8297-1-yamada.masahiro@socionext.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 29 Aug 2019 01:42:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS=2=D=aQDn_+iYTW6f86TnvHUL68SzCPkdqXxbNZWw-Q@mail.gmail.com>
-Message-ID: <CAK7LNAS=2=D=aQDn_+iYTW6f86TnvHUL68SzCPkdqXxbNZWw-Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: remove unneeded dependency for $(DOC_TARGETS)
+Date:   Thu, 29 Aug 2019 01:43:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARu+9pdGsTh2tzMvopXXpBYC_BA0y+aQyjfP9nhKtqGDw@mail.gmail.com>
+Message-ID: <CAK7LNARu+9pdGsTh2tzMvopXXpBYC_BA0y+aQyjfP9nhKtqGDw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] kbuild: pkg: clean up package files/dirs from the top Makefile
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
@@ -51,15 +51,13 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 2:33 AM Masahiro Yamada
+On Wed, Aug 21, 2019 at 4:02 PM Masahiro Yamada
 <yamada.masahiro@socionext.com> wrote:
 >
-> Commit 415008af3219 ("docs-rst: convert lsm from DocBook to ReST")
-> stopped using if_changed_rule. No more users of if_changed* for the
-> doc targets. Hence, fixdep is unneeded. Remove the dependency on
-> scripts_basic.
+> I am not a big fan of the $(objtree)/ hack for clean-files/clean-dirs.
 >
-> All the doc targets are phony. Depending on FORCE is odd.
+> These are created in the top of $(objtree), so let's clean them up
+> from the top Makefile.
 >
 > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 > ---
@@ -67,22 +65,83 @@ On Thu, Aug 22, 2019 at 2:33 AM Masahiro Yamada
 Applied to linux-kbuild.
 
 
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  Makefile                 | 6 ++++--
+>  scripts/Makefile         | 2 +-
+>  scripts/package/Makefile | 9 ---------
+>  3 files changed, 5 insertions(+), 12 deletions(-)
 >
 > diff --git a/Makefile b/Makefile
-> index c0be1a4dbfdd..7e54a821b4b0 100644
+> index 5d202ad1481a..e88d4fcd5e87 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -1578,7 +1578,7 @@ $(help-board-dirs): help-%:
->  DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
->                linkcheckdocs dochelp refcheckdocs
->  PHONY += $(DOC_TARGETS)
-> -$(DOC_TARGETS): scripts_basic FORCE
-> +$(DOC_TARGETS):
->         $(Q)$(MAKE) $(build)=Documentation $@
+> @@ -1389,12 +1389,14 @@ CLEAN_FILES += modules.builtin.modinfo
 >
->  # Misc
+>  # Directories & files removed with 'make mrproper'
+>  MRPROPER_DIRS  += include/config include/generated          \
+> -                 arch/$(SRCARCH)/include/generated .tmp_objdiff
+> +                 arch/$(SRCARCH)/include/generated .tmp_objdiff \
+> +                 debian/ snap/ tar-install/
+>  MRPROPER_FILES += .config .config.old .version \
+>                   Module.symvers \
+>                   signing_key.pem signing_key.priv signing_key.x509     \
+>                   x509.genkey extra_certificates signing_key.x509.keyid \
+> -                 signing_key.x509.signer vmlinux-gdb.py
+> +                 signing_key.x509.signer vmlinux-gdb.py \
+> +                 *.spec
+>
+>  # Directories & files removed with 'make distclean'
+>  DISTCLEAN_DIRS  +=
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index 16bcb8087899..c42891e10ba3 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -36,4 +36,4 @@ subdir-$(CONFIG_MODVERSIONS) += genksyms
+>  subdir-$(CONFIG_SECURITY_SELINUX) += selinux
+>
+>  # Let clean descend into subdirs
+> -subdir-        += basic dtc gdb kconfig mod package
+> +subdir-        += basic dtc gdb kconfig mod
+> diff --git a/scripts/package/Makefile b/scripts/package/Makefile
+> index ca7f46b562a4..a2d8830f54be 100644
+> --- a/scripts/package/Makefile
+> +++ b/scripts/package/Makefile
+> @@ -65,8 +65,6 @@ binrpm-pkg: FORCE
+>         +rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
+>                 $(UTS_MACHINE) -bb $(objtree)/binkernel.spec
+>
+> -clean-files += $(objtree)/*.spec
+> -
+>  deb-pkg: FORCE
+>         $(MAKE) clean
+>         $(CONFIG_SHELL) $(srctree)/scripts/package/mkdebian
+> @@ -82,8 +80,6 @@ bindeb-pkg: FORCE
+>  intdeb-pkg: FORCE
+>         +$(CONFIG_SHELL) $(srctree)/scripts/package/builddeb
+>
+> -clean-dirs += $(objtree)/debian/
+> -
+>  # snap-pkg
+>  # ---------------------------------------------------------------------------
+>  snap-pkg: FORCE
+> @@ -98,17 +94,12 @@ snap-pkg: FORCE
+>         cd $(objtree)/snap && \
+>         snapcraft --target-arch=$(UTS_MACHINE)
+>
+> -clean-dirs += $(objtree)/snap/
+> -
+>  # tarball targets
+>  # ---------------------------------------------------------------------------
+>  tar%pkg: FORCE
+>         $(MAKE) -f $(srctree)/Makefile
+>         +$(CONFIG_SHELL) $(srctree)/scripts/package/buildtar $@
+>
+> -clean-dirs += $(objtree)/tar-install/
+> -
+> -
+>  # perf-pkg - generate a source tarball with perf source
+>  # ---------------------------------------------------------------------------
+>
 > --
 > 2.17.1
 >
