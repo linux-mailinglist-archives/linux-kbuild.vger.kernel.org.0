@@ -2,231 +2,209 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C1CD9F879
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 04:58:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 471709FA08
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 07:55:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726227AbfH1C6S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 27 Aug 2019 22:58:18 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:23781 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726207AbfH1C6S (ORCPT
+        id S1726100AbfH1FzX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 01:55:23 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:41031 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725959AbfH1FzW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 27 Aug 2019 22:58:18 -0400
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x7S2wANV016624;
-        Wed, 28 Aug 2019 11:58:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x7S2wANV016624
+        Wed, 28 Aug 2019 01:55:22 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id x7S5sQl1027215;
+        Wed, 28 Aug 2019 14:54:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x7S5sQl1027215
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566961092;
-        bh=mFHsEzwB4oWOXBHmgeLVqODXLT7BOd0irzx8s7TXEyg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J7wcNIqR0iChGHGKviSAJbwDFUw1A4+GmfZWoj7h92vKagxrjBbOsmYMhoPH1yXL6
-         w4pjh1LNROd1Lu6VipxBuDfvaKD6ngM4zNCaqQv8t5h25FNuJysqjKkarA+gOTCS8i
-         2dG+MD+Wc3cBUd0stwk0Q7suwnyfGyRWQHW+wImaWfIKmdIFG/PJQoSiYTXyFe/cST
-         qynux6JT4pAbvQts+abkl0ayN0dHFlmE90lil3e7fWSdQa3x4Z7JRilkzcZpswAHSg
-         nukuYhk3lLzn6w8I5xW/KDEcAQnRnKVblpWk13hDmQej6BxnYSLg7xQp4Y0/QO89fI
-         PjFdatCs16Wfw==
-X-Nifty-SrcIP: [209.85.217.44]
-Received: by mail-vs1-f44.google.com with SMTP id b20so895323vso.1;
-        Tue, 27 Aug 2019 19:58:11 -0700 (PDT)
-X-Gm-Message-State: APjAAAWlGaRzUH3cSLqqycL0A+DQWJEVRdbNvDwayNHKPJsZdYoIJCTT
-        //DuUo6zWaVIye+xFBZ8ukp0/Hk9chGe43jwZz0=
-X-Google-Smtp-Source: APXvYqx6drAO5VNEZonnNYeGy9NH4k3kBr70fIT0ItBVqaeLU6B/YCT3sh1pBnPM+sgD47uB8cjkfLMm4IuUVx0QUEQ=
-X-Received: by 2002:a05:6102:20c3:: with SMTP id i3mr1099865vsr.155.1566961090274;
- Tue, 27 Aug 2019 19:58:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190827103621.1073-1-yamada.masahiro@socionext.com>
- <20190827192811.GA24626@archlinux-threadripper> <CAKwvOd=7Jf13PDC9Q1FMhZUJQsq7Ggn=wRz5xpRY0YrU6tP9Kw@mail.gmail.com>
- <20190827213447.GA26954@archlinux-threadripper> <CAKwvOd=pQm7ytZSJeRzXoWwzouDADOYkO8S_+zSPtXOAO3Jc5g@mail.gmail.com>
-In-Reply-To: <CAKwvOd=pQm7ytZSJeRzXoWwzouDADOYkO8S_+zSPtXOAO3Jc5g@mail.gmail.com>
+        s=dec2015msa; t=1566971667;
+        bh=1ulsOyalAvz8imh5AvDLy9mR+uGhKRhvRPZqusNGPNY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QWFfx4YqVVqKrFMVUBgcnfCgGgmH4UnvUVDw5b0jiWcuzbYh59RiHeBlY89iqCuns
+         jAihefBttY849PflHjvHW0GfkHKNWH5H3p/wfGSgI1XhHR8X+fK2xEwjZdfv1gSz77
+         RlQcnC13GN0XJNW7bEfdGktIpZGBQXJK+d/b14cHc0rvWgGlxeYVyOO2QqEz/evnCo
+         9vKsyAQ6gAFjziy1opXFHISXQngmgYYCmIiQHkp68Gfcx1r+BCf5y4bLCdkrIgVySV
+         Wee3FC1kVl/ziDQHKbC7DhaixdszE98CgN00SfLfioxHeU6OiePjRTGcMenzYi27Sf
+         XntT+s380czaw==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 28 Aug 2019 11:57:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARduZNvwQ2AJbP3NNDojM+1AACx=wRqdRz+DRSCuVMK2w@mail.gmail.com>
-Message-ID: <CAK7LNARduZNvwQ2AJbP3NNDojM+1AACx=wRqdRz+DRSCuVMK2w@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: enable unused-function warnings for W= build
- with Clang
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: refactor scripts/Makefile.extrawarn
+Date:   Wed, 28 Aug 2019 14:54:24 +0900
+Message-Id: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nick, Nathan,
+Instead of the warning-[123] magic, let's accumulate compiler options
+to KBUILD_CFLAGS directly as the top Makefile does. I think this makes
+easier to understand what is going on in this file.
 
-On Wed, Aug 28, 2019 at 6:56 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Tue, Aug 27, 2019 at 2:34 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > On Tue, Aug 27, 2019 at 01:58:05PM -0700, Nick Desaulniers wrote:
-> > > On Tue, Aug 27, 2019 at 12:28 PM Nathan Chancellor
-> > > <natechancellor@gmail.com> wrote:
-> > > >
-> > > > On Tue, Aug 27, 2019 at 07:36:21PM +0900, Masahiro Yamada wrote:
-> > > > > GCC and Clang have different policy for -Wunused-function; GCC never
-> > > > > reports unused-function warnings for 'static inline' functions whereas
-> > > > > Clang reports them if they are defined in source files instead of
-> > > > > included headers although it has been suppressed since commit
-> > > > > abb2ea7dfd82 ("compiler, clang: suppress warning for unused static
-> > > > > inline functions").
-> > > > >
-> > > > > We often miss to remove unused functions where 'static inline' is used
-> > > > > in .c files since there is no tool to detect them. Unused code remains
-> > > > > until somebody notices. For example, commit 075ddd75680f ("regulator:
-> > > > > core: remove unused rdev_get_supply()").
-> > > > >
-> > > > > Let's remove __maybe_unused from the inline macro to allow Clang to
-> > > > > start finding unused static inline functions. As always, it is not a
-> > > > > good idea to sprinkle warnings for the normal build, so I added
-> > > > > -Wno-unsued-function for no W= build.
-> > >
-> > > s/unsued/unused/
-> > >
-> > > > >
-> > > > > Per the documentation [1], -Wno-unused-function will also disable
-> > > > > -Wunneeded-internal-declaration, which can help find bugs like
-> > > > > commit 8289c4b6f2e5 ("platform/x86: mlx-platform: Properly use
-> > > > > mlxplat_mlxcpld_msn201x_items"). (pointed out by Nathan Chancellor)
-> > > > > I added -Wunneeded-internal-declaration to address it.
-> > > > >
-> > > > > If you contribute to code clean-up, please run "make CC=clang W=1"
-> > > > > and check -Wunused-function warnings. You will find lots of unused
-> > > > > functions.
-> > > > >
-> > > > > Some of them are false-positives because the call-sites are disabled
-> > > > > by #ifdef. I do not like to abuse the inline keyword for suppressing
-> > > > > unused-function warnings because it is intended to be a hint for the
-> > > > > compiler's optimization. I prefer __maybe_unused or #ifdef around the
-> > > > > definition.
-> > >
-> > > I'd say __maybe_unused for function parameters that are used depending
-> > > of ifdefs in the body of the function, otherwise strictly ifdefs.
-> > >
-> > > > >
-> > > > > [1]: https://clang.llvm.org/docs/DiagnosticsReference.html#wunused-function
-> > > > >
-> > > > > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > >
-> > > > I am still not a big fan of this as I think it weakens clang as a
-> > > > standalone compiler but the change itself looks good so if it is going
-> > > > in anyways:
-> > > >
-> > > > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > >
-> > > > I'm sure Nick would like to weigh in as well before this gets merged.
-> > >
-> > > So right away for an x86_64 defconfig w/ this patch, clang points out:
-> > >
-> > > drivers/gpu/drm/i915/i915_sw_fence.c:84:20: warning: unused function
-> > > 'debug_fence_init_onstack' [-Wunused-function]
-> > > static inline void debug_fence_init_onstack(struct i915_sw_fence *fence)
-> > >                    ^
-> > > drivers/gpu/drm/i915/i915_sw_fence.c:105:20: warning: unused function
-> > > 'debug_fence_free' [-Wunused-function]
-> > > static inline void debug_fence_free(struct i915_sw_fence *fence)
-> > >                    ^
-> > >
-> > > The first looks fishy (grep -r debug_fence_init_onstack), the second
-> > > only has a callsite ifdef CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS.
-> > >
-> > > drivers/gpu/drm/i915/intel_guc_submission.c:1117:20: warning: unused
-> > > function 'ctx_save_restore_disabled' [-Wunused-function]
-> > > static inline bool ctx_save_restore_disabled(struct intel_context *ce)
-> > >                    ^
-> > > drivers/gpu/drm/i915/display/intel_hdmi.c:1696:26: warning: unused
-> > > function 'intel_hdmi_hdcp2_protocol' [-Wunused-function]
-> > > enum hdcp_wired_protocol intel_hdmi_hdcp2_protocol(void)
-> > >                          ^
-> > > arm64 defconfig builds cleanly, same with arm.  Things might get more
-> > > hairy with all{yes|mod}config, but the existing things it finds don't
-> > > look insurmountable to me.  In fact, I'll file bugs in our issue
-> > > tracker (https://github.com/ClangBuiltLinux/linux/issues) for the
-> > > above.
-> > >
-> > > So I'm not certain this patch weakens existing checks.
-> >
-> > Well, we no longer get -Wunused-function warnings without W=1.
-> > Sometimes, that warning is just a result of missed clean up but there
-> > have been instances where it was a real bug:
-> >
-> > https://lore.kernel.org/lkml/20190523010235.GA105588@archlinux-epyc/
-> >
-> > https://lore.kernel.org/lkml/1558574945-19275-1-git-send-email-skomatineni@nvidia.com/
-> >
-> > Having warnings not be equal between compilers out of the box causes
-> > confusion and irritation: https://crbug.com/974884
-> >
-> > Is not the objective of ClangBuiltLinux to rely on GCC less?
-> >
-> > The only reason that we see the warnings crop up in i915 is because
-> > they add -Wall after all of the warnings get disabled (i.e.
-> > -Wno-unused-function -Wall so -Wunused-function gets enabled again).
-> >
-> > To get these warnings after this patch, W=1 has to be used and that
-> > results in a lot of extra warnings. x86_64 defconfig has one objtool
-> > warning right now, W=1 adds plenty more (from both -W flags and lack of
-> > kerneldoc annotations):
-> >
-> > https://gist.github.com/175afbca29ead14bd039ad46f4ab0ded
-> >
-> > This is just food for thought though.
->
-> So if we took just the hunk against include/linux/compiler_types.h
-> from this patch, we'd be back in a situation pre-commit-abb2ea7dfd82
-> ("compiler, clang: suppress warning for unused static inline
-> functions").  Hmm...
->
-> I would like to minimize the number of Clang specific warnings that
-> are disabled in scripts/Makefile.extrawarn.
+This commit slightly changes the behavior, I think all of which are OK.
 
-I agree.
+[1] Currently, cc-option calls are needlessly evaluated. For example,
+      warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
+    needs evaluating only when W=3, but it is actually evaluated for
+    W=1, W=2 as well. With this commit, only relevant cc-option calls
+    will be evaluated. This is a slight optimization.
 
-I do not want to carry this forever.
+[2] Currently, unsupported level like W=4 is checked by:
+      $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
+    This will no longer be checked, but I do not think it is a big
+    deal.
 
-After we clean up the warnings (it may take several development cycles),
-I want to turn on Wunused-function for all the build mode.
+[3] Currently, 4 Clang warnings (Winitializer-overrides, Wformat,
+    Wsign-compare, Wformat-zero-length) are shown by any of W=1, W=2,
+    and W=3. With this commit, they will be warned only by W=1. I
+    think this is a more correct behavior since each warning belongs
+    to only one warning level.
 
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
+ scripts/Makefile.extrawarn | 104 +++++++++++++++++++------------------
+ 1 file changed, 53 insertions(+), 51 deletions(-)
 
-> Masahiro, does your patch correctly make -Wunused-function work for
-> clang at W=1?  It looks like -Wunused gets added to warning-1, but
-> then -Wno-unused-function gets added to KBUILD_CFLAGS after `warning`
-> does.  Will that work correctly?  I'd imagine that at W=1,
-> KBUILD_CFLAGS for clang will look like:
-> ... -Wunused -Wno-unused-function ...
-> which is probably not what we want?
+diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+index a74ce2e3c33e..1fa53968e292 100644
+--- a/scripts/Makefile.extrawarn
++++ b/scripts/Makefile.extrawarn
+@@ -1,14 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # ==========================================================================
+-#
+ # make W=... settings
+-#
+-# W=1 - warnings that may be relevant and does not occur too often
+-# W=2 - warnings that occur quite often but may still be relevant
+-# W=3 - the more obscure warnings, can most likely be ignored
+-#
+-# $(call cc-option, -W...) handles gcc -W.. options which
+-# are not supported by all versions of the compiler
+ # ==========================================================================
+ 
+ KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+@@ -17,58 +9,68 @@ ifeq ("$(origin W)", "command line")
+   export KBUILD_ENABLE_EXTRA_GCC_CHECKS := $(W)
+ endif
+ 
+-ifdef KBUILD_ENABLE_EXTRA_GCC_CHECKS
+-warning-  := $(empty)
++#
++# W=1 - warnings that may be relevant and does not occur too often
++#
++ifneq ($(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
+ 
+-warning-1 := -Wextra -Wunused -Wno-unused-parameter
+-warning-1 += -Wmissing-declarations
+-warning-1 += -Wmissing-format-attribute
+-warning-1 += -Wmissing-prototypes
+-warning-1 += -Wold-style-definition
+-warning-1 += -Wmissing-include-dirs
+-warning-1 += $(call cc-option, -Wunused-but-set-variable)
+-warning-1 += $(call cc-option, -Wunused-const-variable)
+-warning-1 += $(call cc-option, -Wpacked-not-aligned)
+-warning-1 += $(call cc-option, -Wstringop-truncation)
++KBUILD_CFLAGS += -Wextra -Wunused -Wno-unused-parameter
++KBUILD_CFLAGS += -Wmissing-declarations
++KBUILD_CFLAGS += -Wmissing-format-attribute
++KBUILD_CFLAGS += -Wmissing-prototypes
++KBUILD_CFLAGS += -Wold-style-definition
++KBUILD_CFLAGS += -Wmissing-include-dirs
++KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
++KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
++KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
++KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
+ # The following turn off the warnings enabled by -Wextra
+-warning-1 += -Wno-missing-field-initializers
+-warning-1 += -Wno-sign-compare
+-
+-warning-2 += -Wcast-align
+-warning-2 += -Wdisabled-optimization
+-warning-2 += -Wnested-externs
+-warning-2 += -Wshadow
+-warning-2 += $(call cc-option, -Wlogical-op)
+-warning-2 += -Wmissing-field-initializers
+-warning-2 += -Wsign-compare
+-warning-2 += $(call cc-option, -Wmaybe-uninitialized)
+-warning-2 += $(call cc-option, -Wunused-macros)
+-
+-warning-3 := -Wbad-function-cast
+-warning-3 += -Wcast-qual
+-warning-3 += -Wconversion
+-warning-3 += -Wpacked
+-warning-3 += -Wpadded
+-warning-3 += -Wpointer-arith
+-warning-3 += -Wredundant-decls
+-warning-3 += -Wswitch-default
+-warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
+-
+-warning := $(warning-$(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
+-warning += $(warning-$(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
+-warning += $(warning-$(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
+-
+-ifeq ("$(strip $(warning))","")
+-        $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
+-endif
++KBUILD_CFLAGS += -Wno-missing-field-initializers
++KBUILD_CFLAGS += -Wno-sign-compare
+ 
+-KBUILD_CFLAGS += $(warning)
+ else
+ 
++# W=1 also stops suppressing some warnings
++
+ ifdef CONFIG_CC_IS_CLANG
+ KBUILD_CFLAGS += -Wno-initializer-overrides
+ KBUILD_CFLAGS += -Wno-format
+ KBUILD_CFLAGS += -Wno-sign-compare
+ KBUILD_CFLAGS += -Wno-format-zero-length
+ endif
++
++endif
++
++#
++# W=2 - warnings that occur quite often but may still be relevant
++#
++ifneq ($(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
++
++KBUILD_CFLAGS += -Wcast-align
++KBUILD_CFLAGS += -Wdisabled-optimization
++KBUILD_CFLAGS += -Wnested-externs
++KBUILD_CFLAGS += -Wshadow
++KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
++KBUILD_CFLAGS += -Wmissing-field-initializers
++KBUILD_CFLAGS += -Wsign-compare
++KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
++KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
++
++endif
++
++#
++# W=3 - the more obscure warnings, can most likely be ignored
++#
++ifneq ($(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
++
++KBUILD_CFLAGS += -Wbad-function-cast
++KBUILD_CFLAGS += -Wcast-qual
++KBUILD_CFLAGS += -Wconversion
++KBUILD_CFLAGS += -Wpacked
++KBUILD_CFLAGS += -Wpadded
++KBUILD_CFLAGS += -Wpointer-arith
++KBUILD_CFLAGS += -Wredundant-decls
++KBUILD_CFLAGS += -Wswitch-default
++KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
++
+ endif
+-- 
+2.17.1
 
-Hmm?
-
--Wunused is added only when W=1.
-
--Wno-unused-function is added only when W= was not passed.
-
-They do not happen at the same time.
-
-
-
-
-
-
-
-
-
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
-
---
-Best Regards
-Masahiro Yamada
