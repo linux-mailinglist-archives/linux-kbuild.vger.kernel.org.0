@@ -2,154 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC44A0960
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 20:23:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1322EA0959
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 20:20:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbfH1SXw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 14:23:52 -0400
-Received: from gateway24.websitewelcome.com ([192.185.50.45]:18659 "EHLO
-        gateway24.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726315AbfH1SXw (ORCPT
+        id S1726512AbfH1SUW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 14:20:22 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34526 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726315AbfH1SUW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 14:23:52 -0400
-X-Greylist: delayed 1269 seconds by postgrey-1.27 at vger.kernel.org; Wed, 28 Aug 2019 14:23:51 EDT
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway24.websitewelcome.com (Postfix) with ESMTP id ECA6F9467
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2019 13:02:41 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id 32HJiRGf2dnCe32HJip40Z; Wed, 28 Aug 2019 13:02:41 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:Subject:From:References:Cc:To:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=less7Zf5BNV9IyHefo9kL2fqjZkjaeKMuZG75GoyiY0=; b=N481qjqoLQVZSpRwW658S9A6Hf
-        NuJO/lBK+iGPO02KOqBw0Bz6QN7udv+NhlifbhVM+4tjI/GiN7dKUwkiwXjZ97+FEimGgEHrsBpvW
-        s0Dev7eAgDe0HCKEnNJTVN41YTTmCWxsBzZTHF+fGAknnWXMbhr4n//KxQO47Vw6/1B6YrfKNs80M
-        xiNRQjxaoVRWjJ6hD/4UzPJYiRKvWr9m5AgMd7lZLf+kgcxxiccAigYuSpt1bF1ZDRsk+ahzqWm+E
-        cN6xsXV6scbq732JtH9bwvOFrFi6xaeauXBMkLySHOsKvfGJdqNVQ+Hg55MHYDaaDL7LN8czXrh9v
-        /nMM2Pog==;
-Received: from [189.152.216.116] (port=46728 helo=[192.168.43.131])
-        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1i32HJ-003KpM-D1; Wed, 28 Aug 2019 13:02:41 -0500
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Huckleberry <nhuck@google.com>,
-        Joe Perches <joe@perches.com>,
+        Wed, 28 Aug 2019 14:20:22 -0400
+Received: by mail-wr1-f65.google.com with SMTP id s18so800301wrn.1;
+        Wed, 28 Aug 2019 11:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=FmZWuyzXgdUwXVfXnARqmGSbKSR4TizqVD3AQkgzi7A=;
+        b=cjH5XczQkjoLXAo9dkBLhKq20RtyY9fv4ghF7e1qpWBvIxybqCfhA3qCAMgUQ8Rzkn
+         pj7rROP+H8jD6TarciOB4LYpgmkEzXuUHzYkXX/FBKSkQLUpDwvLuaEwYWFHNWIPENLi
+         lMySAoseWH5KlSvhgzeK+H7mwd0wRm8trpKfCft25wz8Lc3AWAAJR8YSoup0hJzj8P3d
+         uFM434Z3y9YdIy8LSeKV7dgtGAM7Dkr7xaixS2/Lstv6kHusOCLDM1a41mX+rTQYEz1t
+         GHVPbubqLxnLNltylFQ0ZaKbwS+WJhaWN46v4YL1fOBiKRBnlOfNM69poca9rpSyMUfI
+         qUhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FmZWuyzXgdUwXVfXnARqmGSbKSR4TizqVD3AQkgzi7A=;
+        b=snbQoSkZzK8C73sMt3xjpfJ9eMBK+udYtfnVe6gYIxIkjuNUINw++gmNGhG/smp+/F
+         nnabEDa5ysdi6fcGCTuIRUDYziRP1X0+LMvklKx+Af05JcrYp1A05DxeJS2ZavdekyRD
+         H+zQTA2HCYkS9xzQd0rrh7j+tt06w16v2AOnHKVm1P6ZmjX9gKAWfpawH/1Sb8G6BZPj
+         c+hWiq2Y5QUh6gFRbLAid0fa5190x561t/4NMofOZWSdEV2JNYB17XaOdFFB4gKp1Adx
+         6q+gj9E8ofEdcvqVd7BAYV0CTDofehjFx+sczg2hUuAlp0JnbFJsPUS7OsTagW/4L9hH
+         5u+A==
+X-Gm-Message-State: APjAAAU8m/SyT6AM8SYx81iYteOgdiH/XHZF7cIsYGwocYtWT7KzFWOI
+        81Si+iLp98dVRnrNb9awVvSG1GkR02iWSw==
+X-Google-Smtp-Source: APXvYqzyOhe5pZadZXuOughj4gdOcbLgb4B8mNrBuAbb8eqeqiyJQ+8aOy7wZdznJj6DwYHsBsMFuw==
+X-Received: by 2002:adf:8541:: with SMTP id 59mr6357653wrh.298.1567016419538;
+        Wed, 28 Aug 2019 11:20:19 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id o3sm2017589wrv.90.2019.08.28.11.20.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2019 11:20:18 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 11:20:17 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-References: <20190815225844.145726-1-nhuck@google.com>
- <20190827004155.11366-1-natechancellor@gmail.com>
- <CAK7LNATHj5KrnFa0fvHjuC-=5mV8VBT14vrpPMfuNKWw7wabag@mail.gmail.com>
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=gustavo@embeddedor.com; keydata=
- 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
- VtSixD1uOgytAP7RWS474w==
-Subject: Re: [PATCH] kbuild: Do not enable -Wimplicit-fallthrough for clang
- for now
-Message-ID: <d42b1f1c-f0fe-39ca-0573-04147c58b9e5@embeddedor.com>
-Date:   Wed, 28 Aug 2019 13:02:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Arnd Bergmann <arnd@arndb.de>,
+        Kees Cook <keescook@chromium.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Sven Schnelle <svens@stackframe.org>,
+        Xiaozhou Liu <liuxiaozhou@bytedance.com>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] kbuild: allow Clang to find unused static inline
+ functions for W=1 build
+Message-ID: <20190828182017.GB127646@archlinux-threadripper>
+References: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+ <20190828055425.24765-2-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNATHj5KrnFa0fvHjuC-=5mV8VBT14vrpPMfuNKWw7wabag@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 189.152.216.116
-X-Source-L: No
-X-Exim-ID: 1i32HJ-003KpM-D1
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.43.131]) [189.152.216.116]:46728
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 4
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190828055425.24765-2-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On 8/28/19 11:20 AM, Masahiro Yamada wrote:
-
->>
->> Given these two problems need discussion and coordination, do not enable
->> -Wimplicit-fallthrough with clang right now. Add a comment to explain
->> what is going on as well. This commit should be reverted once these two
->> issues are fully flushed out and resolved.
->>
->> Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
->> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
->> ---
+On Wed, Aug 28, 2019 at 02:54:25PM +0900, Masahiro Yamada wrote:
+> GCC and Clang have different policy for -Wunused-function; GCC does not
+> warn unused static inline functions at all whereas Clang does if they
+> are defined in source files instead of included headers although it has
+> been suppressed since commit abb2ea7dfd82 ("compiler, clang: suppress
+> warning for unused static inline functions").
 > 
-> Applied to linux-kbuild. Thanks.
+> We often miss to delete unused functions where 'static inline' is used
+> in *.c files since there is no tool to detect them. Unused code remains
+> until somebody notices. For example, commit 075ddd75680f ("regulator:
+> core: remove unused rdev_get_supply()").
 > 
-> (If other clang folks give tags, I will add them later.)
+> Let's remove __maybe_unused from the inline macro to allow Clang to
+> start finding unused static inline functions. For now, we do this only
+> for W=1 build since it is not a good idea to sprinkle warnings for the
+> normal build.
 > 
+> My initial attempt was to add -Wno-unused-function for no W=1 build
+> (https://lore.kernel.org/patchwork/patch/1120594/)
+> 
+> Nathan Chancellor pointed out that would weaken Clang's checks since
+> we would no longer get -Wunused-function without W=1. It is true GCC
+> would detect unused static non-inline functions, but it would weaken
+> Clang as a standalone compiler at least.
+> 
+> Here is a counter implementation. The current problem is, W=... only
+> controls compiler flags, which are globally effective. There is no way
+> to narrow the scope to only 'static inline' functions.
+> 
+> This commit defines KBUILD_EXTRA_WARN[123] corresponding to W=[123].
+> When KBUILD_EXTRA_WARN1 is defined, __maybe_unused is omitted from
+> the 'inline' macro.
+> 
+> This makes the code a bit uglier, so personally I do not want to carry
+> this forever. If we can manage to fix most of the warnings, we can
+> drop this entirely, then enable -Wunused-function all the time.
+> 
+> If you contribute to code clean-up, please run "make CC=clang W=1"
+> and check -Wunused-function warnings. You will find lots of unused
+> functions.
+> 
+> Some of them are false-positives because the call-sites are disabled
+> by #ifdef. I do not like to abuse the inline keyword for suppressing
+> unused-function warnings because it is intended to be a hint for the
+> compiler optimization. I prefer #ifdef around the definition, or
+> __maybe_unused if #ifdef would make the code too ugly.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Acked-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+I can still see warnings from static unused functions and with W=1, I
+see plenty more. I agree that this is uglier because of the
+__inline_maybe_unused but I think this is better for regular developers.
+I will try to work on these unused-function warnings!
 
-
-Thanks
---
-Gustavo
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
