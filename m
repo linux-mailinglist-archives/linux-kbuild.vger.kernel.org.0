@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 471709FA08
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 07:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CFB39FA0B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 07:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbfH1FzX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 01:55:23 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:41031 "EHLO
+        id S1726100AbfH1Fzr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 01:55:47 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:41721 "EHLO
         conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbfH1FzW (ORCPT
+        with ESMTP id S1725959AbfH1Fzr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 01:55:22 -0400
+        Wed, 28 Aug 2019 01:55:47 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id x7S5sQl1027215;
+        by conuserg-07.nifty.com with ESMTP id x7S5sQl2027215;
         Wed, 28 Aug 2019 14:54:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x7S5sQl1027215
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com x7S5sQl2027215
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1566971667;
-        bh=1ulsOyalAvz8imh5AvDLy9mR+uGhKRhvRPZqusNGPNY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QWFfx4YqVVqKrFMVUBgcnfCgGgmH4UnvUVDw5b0jiWcuzbYh59RiHeBlY89iqCuns
-         jAihefBttY849PflHjvHW0GfkHKNWH5H3p/wfGSgI1XhHR8X+fK2xEwjZdfv1gSz77
-         RlQcnC13GN0XJNW7bEfdGktIpZGBQXJK+d/b14cHc0rvWgGlxeYVyOO2QqEz/evnCo
-         9vKsyAQ6gAFjziy1opXFHISXQngmgYYCmIiQHkp68Gfcx1r+BCf5y4bLCdkrIgVySV
-         Wee3FC1kVl/ziDQHKbC7DhaixdszE98CgN00SfLfioxHeU6OiePjRTGcMenzYi27Sf
-         XntT+s380czaw==
+        s=dec2015msa; t=1566971668;
+        bh=qJTg+AM4SVuAt9eaitUPepAhylXNc0xd+RxSAWBzAtU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kIYIbU4AbUD9farUf9eBzCAwYeQBzv+AHzrT/s/jZzazBkLlCimwBpkOX3TnC4FKh
+         fIixvoywpVrCh1ZGv4x6EpYWUtm7ICQuIlvDhSRZp3SeYN824z0VVpVKNsEfjZpOnm
+         +0O80CMd1F7YEREygkWtN+GESpCkcx6fJOxSf8JvJMG03qZORVXArkaiJW3kotqgyM
+         ZhjtDXHNXdnw/1Z6iZKZ/0sIIosoyX+8dd2+f2KMn6Eh5pDYtYrw/albHLiC1RyoC2
+         VRVA6THt4ZOlOyl03q/T0xknxIjCjnz3NAROjIHB8McQbuKpgYbkE3LpxJ8bcZGAwZ
+         HduYVIGixbcpg==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -34,175 +34,148 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Kees Cook <keescook@chromium.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
+        Sven Schnelle <svens@stackframe.org>,
+        Xiaozhou Liu <liuxiaozhou@bytedance.com>,
         clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] kbuild: refactor scripts/Makefile.extrawarn
-Date:   Wed, 28 Aug 2019 14:54:24 +0900
-Message-Id: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+Subject: [PATCH 2/2] kbuild: allow Clang to find unused static inline functions for W=1 build
+Date:   Wed, 28 Aug 2019 14:54:25 +0900
+Message-Id: <20190828055425.24765-2-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+References: <20190828055425.24765-1-yamada.masahiro@socionext.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Instead of the warning-[123] magic, let's accumulate compiler options
-to KBUILD_CFLAGS directly as the top Makefile does. I think this makes
-easier to understand what is going on in this file.
+GCC and Clang have different policy for -Wunused-function; GCC does not
+warn unused static inline functions at all whereas Clang does if they
+are defined in source files instead of included headers although it has
+been suppressed since commit abb2ea7dfd82 ("compiler, clang: suppress
+warning for unused static inline functions").
 
-This commit slightly changes the behavior, I think all of which are OK.
+We often miss to delete unused functions where 'static inline' is used
+in *.c files since there is no tool to detect them. Unused code remains
+until somebody notices. For example, commit 075ddd75680f ("regulator:
+core: remove unused rdev_get_supply()").
 
-[1] Currently, cc-option calls are needlessly evaluated. For example,
-      warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
-    needs evaluating only when W=3, but it is actually evaluated for
-    W=1, W=2 as well. With this commit, only relevant cc-option calls
-    will be evaluated. This is a slight optimization.
+Let's remove __maybe_unused from the inline macro to allow Clang to
+start finding unused static inline functions. For now, we do this only
+for W=1 build since it is not a good idea to sprinkle warnings for the
+normal build.
 
-[2] Currently, unsupported level like W=4 is checked by:
-      $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
-    This will no longer be checked, but I do not think it is a big
-    deal.
+My initial attempt was to add -Wno-unused-function for no W=1 build
+(https://lore.kernel.org/patchwork/patch/1120594/)
 
-[3] Currently, 4 Clang warnings (Winitializer-overrides, Wformat,
-    Wsign-compare, Wformat-zero-length) are shown by any of W=1, W=2,
-    and W=3. With this commit, they will be warned only by W=1. I
-    think this is a more correct behavior since each warning belongs
-    to only one warning level.
+Nathan Chancellor pointed out that would weaken Clang's checks since
+we would no longer get -Wunused-function without W=1. It is true GCC
+would detect unused static non-inline functions, but it would weaken
+Clang as a standalone compiler at least.
+
+Here is a counter implementation. The current problem is, W=... only
+controls compiler flags, which are globally effective. There is no way
+to narrow the scope to only 'static inline' functions.
+
+This commit defines KBUILD_EXTRA_WARN[123] corresponding to W=[123].
+When KBUILD_EXTRA_WARN1 is defined, __maybe_unused is omitted from
+the 'inline' macro.
+
+This makes the code a bit uglier, so personally I do not want to carry
+this forever. If we can manage to fix most of the warnings, we can
+drop this entirely, then enable -Wunused-function all the time.
+
+If you contribute to code clean-up, please run "make CC=clang W=1"
+and check -Wunused-function warnings. You will find lots of unused
+functions.
+
+Some of them are false-positives because the call-sites are disabled
+by #ifdef. I do not like to abuse the inline keyword for suppressing
+unused-function warnings because it is intended to be a hint for the
+compiler optimization. I prefer #ifdef around the definition, or
+__maybe_unused if #ifdef would make the code too ugly.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- scripts/Makefile.extrawarn | 104 +++++++++++++++++++------------------
- 1 file changed, 53 insertions(+), 51 deletions(-)
+ include/linux/compiler_types.h | 20 ++++++++++++++------
+ scripts/Makefile.extrawarn     |  6 ++++++
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 599c27b56c29..b056a40116da 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -130,10 +130,6 @@ struct ftrace_likely_data {
+ 
+ /*
+  * Force always-inline if the user requests it so via the .config.
+- * GCC does not warn about unused static inline functions for
+- * -Wunused-function.  This turns out to avoid the need for complex #ifdef
+- * directives.  Suppress the warning in clang as well by using "unused"
+- * function attribute, which is redundant but not harmful for gcc.
+  * Prefer gnu_inline, so that extern inline functions do not emit an
+  * externally visible function. This makes extern inline behave as per gnu89
+  * semantics rather than c99. This prevents multiple symbol definition errors
+@@ -144,15 +140,27 @@ struct ftrace_likely_data {
+  */
+ #if !defined(CONFIG_OPTIMIZE_INLINING)
+ #define inline inline __attribute__((__always_inline__)) __gnu_inline \
+-	__maybe_unused notrace
++	__inline_maybe_unused notrace
+ #else
+ #define inline inline                                    __gnu_inline \
+-	__maybe_unused notrace
++	__inline_maybe_unused notrace
+ #endif
+ 
+ #define __inline__ inline
+ #define __inline   inline
+ 
++/*
++ * GCC does not warn about unused static inline functions for -Wunused-function.
++ * Suppress the warning in clang as well by using __maybe_unused, but enable it
++ * for W=1 build. This will allow clang to find unused functions. Remove the
++ * __inline_maybe_unused entirely after fixing most of -Wunused-function warnings.
++ */
++#ifdef KBUILD_EXTRA_WARN1
++#define __inline_maybe_unused
++#else
++#define __inline_maybe_unused __maybe_unused
++#endif
++
+ /*
+  * Rather then using noinline to prevent stack consumption, use
+  * noinline_for_stack instead.  For documentation reasons.
 diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index a74ce2e3c33e..1fa53968e292 100644
+index 1fa53968e292..3af1770497fd 100644
 --- a/scripts/Makefile.extrawarn
 +++ b/scripts/Makefile.extrawarn
-@@ -1,14 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # ==========================================================================
--#
- # make W=... settings
--#
--# W=1 - warnings that may be relevant and does not occur too often
--# W=2 - warnings that occur quite often but may still be relevant
--# W=3 - the more obscure warnings, can most likely be ignored
--#
--# $(call cc-option, -W...) handles gcc -W.. options which
--# are not supported by all versions of the compiler
- # ==========================================================================
+@@ -28,6 +28,8 @@ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
+ KBUILD_CFLAGS += -Wno-missing-field-initializers
+ KBUILD_CFLAGS += -Wno-sign-compare
  
- KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
-@@ -17,58 +9,68 @@ ifeq ("$(origin W)", "command line")
-   export KBUILD_ENABLE_EXTRA_GCC_CHECKS := $(W)
- endif
- 
--ifdef KBUILD_ENABLE_EXTRA_GCC_CHECKS
--warning-  := $(empty)
-+#
-+# W=1 - warnings that may be relevant and does not occur too often
-+#
-+ifneq ($(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
- 
--warning-1 := -Wextra -Wunused -Wno-unused-parameter
--warning-1 += -Wmissing-declarations
--warning-1 += -Wmissing-format-attribute
--warning-1 += -Wmissing-prototypes
--warning-1 += -Wold-style-definition
--warning-1 += -Wmissing-include-dirs
--warning-1 += $(call cc-option, -Wunused-but-set-variable)
--warning-1 += $(call cc-option, -Wunused-const-variable)
--warning-1 += $(call cc-option, -Wpacked-not-aligned)
--warning-1 += $(call cc-option, -Wstringop-truncation)
-+KBUILD_CFLAGS += -Wextra -Wunused -Wno-unused-parameter
-+KBUILD_CFLAGS += -Wmissing-declarations
-+KBUILD_CFLAGS += -Wmissing-format-attribute
-+KBUILD_CFLAGS += -Wmissing-prototypes
-+KBUILD_CFLAGS += -Wold-style-definition
-+KBUILD_CFLAGS += -Wmissing-include-dirs
-+KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
-+KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
-+KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
-+KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
- # The following turn off the warnings enabled by -Wextra
--warning-1 += -Wno-missing-field-initializers
--warning-1 += -Wno-sign-compare
--
--warning-2 += -Wcast-align
--warning-2 += -Wdisabled-optimization
--warning-2 += -Wnested-externs
--warning-2 += -Wshadow
--warning-2 += $(call cc-option, -Wlogical-op)
--warning-2 += -Wmissing-field-initializers
--warning-2 += -Wsign-compare
--warning-2 += $(call cc-option, -Wmaybe-uninitialized)
--warning-2 += $(call cc-option, -Wunused-macros)
--
--warning-3 := -Wbad-function-cast
--warning-3 += -Wcast-qual
--warning-3 += -Wconversion
--warning-3 += -Wpacked
--warning-3 += -Wpadded
--warning-3 += -Wpointer-arith
--warning-3 += -Wredundant-decls
--warning-3 += -Wswitch-default
--warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
--
--warning := $(warning-$(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
--warning += $(warning-$(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
--warning += $(warning-$(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
--
--ifeq ("$(strip $(warning))","")
--        $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
--endif
-+KBUILD_CFLAGS += -Wno-missing-field-initializers
-+KBUILD_CFLAGS += -Wno-sign-compare
- 
--KBUILD_CFLAGS += $(warning)
++KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
++
  else
  
-+# W=1 also stops suppressing some warnings
+ # W=1 also stops suppressing some warnings
+@@ -56,6 +58,8 @@ KBUILD_CFLAGS += -Wsign-compare
+ KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
+ KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
+ 
++KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN2
 +
- ifdef CONFIG_CC_IS_CLANG
- KBUILD_CFLAGS += -Wno-initializer-overrides
- KBUILD_CFLAGS += -Wno-format
- KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += -Wno-format-zero-length
  endif
-+
-+endif
-+
-+#
-+# W=2 - warnings that occur quite often but may still be relevant
-+#
-+ifneq ($(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
-+
-+KBUILD_CFLAGS += -Wcast-align
-+KBUILD_CFLAGS += -Wdisabled-optimization
-+KBUILD_CFLAGS += -Wnested-externs
-+KBUILD_CFLAGS += -Wshadow
-+KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
-+KBUILD_CFLAGS += -Wmissing-field-initializers
-+KBUILD_CFLAGS += -Wsign-compare
-+KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
-+KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
-+
-+endif
-+
-+#
-+# W=3 - the more obscure warnings, can most likely be ignored
-+#
-+ifneq ($(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
-+
-+KBUILD_CFLAGS += -Wbad-function-cast
-+KBUILD_CFLAGS += -Wcast-qual
-+KBUILD_CFLAGS += -Wconversion
-+KBUILD_CFLAGS += -Wpacked
-+KBUILD_CFLAGS += -Wpadded
-+KBUILD_CFLAGS += -Wpointer-arith
-+KBUILD_CFLAGS += -Wredundant-decls
-+KBUILD_CFLAGS += -Wswitch-default
-+KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
+ 
+ #
+@@ -73,4 +77,6 @@ KBUILD_CFLAGS += -Wredundant-decls
+ KBUILD_CFLAGS += -Wswitch-default
+ KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
+ 
++KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN3
 +
  endif
 -- 
