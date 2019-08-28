@@ -2,91 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9802CA07C6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 18:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD2AA08CB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 19:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbfH1Qq3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 12:46:29 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:43944 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726512AbfH1Qq3 (ORCPT
+        id S1726894AbfH1Rjc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 13:39:32 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46986 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726828AbfH1Rjb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 12:46:29 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id x7SGkQZQ013997;
-        Thu, 29 Aug 2019 01:46:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com x7SGkQZQ013997
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1567010787;
-        bh=HOoxEV5QjxBwDEPSU4jmSes5ralaQsiXm8xTi86Ofig=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PRQAWcylUz71r/KDOxVv53LjTlDoqzf00X4et5egiwwKnBE3ejOBM2IX4KyfLNqsy
-         +9XFLozfl9yCrbiWVhIGtNxjHjUhzqFO34lnEOi9N+QSDc2fSJaik73naVUHB0awNy
-         kx7s7NTQCW4dKvaKnlFAEN+Dz/veQ7jdkx/WhBo+GLi0VbpnvleOerhAerm337LMv4
-         F0hf/HffMa/AKAQZEE3gyMvEslxOumBTNR4hdOpc/SJE1EllcuKMw6CEMkhRFjyml5
-         olLXBZNIjw9srdXsGGdXeddg8dyIhgdmdfHzn/qioSMlqovwi/KwO42D9NaFaCnoYO
-         bTA58r0rldpdw==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id y16so435857vsc.3;
-        Wed, 28 Aug 2019 09:46:27 -0700 (PDT)
-X-Gm-Message-State: APjAAAXJzJek1UmC0vLKUCE5tgACLjjhT5AGhpfxe2/yA8vHo59gnO/o
-        SAYQ9cDCW15DmkXuip57YWpdw5+pNXo1kxWA7/U=
-X-Google-Smtp-Source: APXvYqwWxkXjqW9v46LtN7rTY5NYzmUdBGjyCSq0FCHpIV0AHLMB0nCHL8Yq5A687FFFOHGOFhCjBzS0yA7Bg0QULCg=
-X-Received: by 2002:a67:fe12:: with SMTP id l18mr2943065vsr.54.1567010786102;
- Wed, 28 Aug 2019 09:46:26 -0700 (PDT)
+        Wed, 28 Aug 2019 13:39:31 -0400
+Received: by mail-pg1-f194.google.com with SMTP id m3so86965pgv.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2019 10:39:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GuCbGVwHRmEGqfMBjZZ+2u4NovL8Rt/IpkZfKDrFBI8=;
+        b=IGR9CiXHZQSh/xjQMoY6pRAdfAFxdTZNImDxml/hjjOXvJ+gRYKyeoRx8mYWbRhZvz
+         GrByy0qWFHCi/YCnq0nk0i2F0Uyh3zew2GKE8iw1N3pmmuOwEaPeSFiy1MRX8CzcMuRZ
+         mkQ13VgaMibRHsM8YDcSX84q45vyxMq3XHi0YOSc/Vn9seZ/HrhxmFEBsJMH50ohZon3
+         3GRUl2ipzTQISk5T0eHK9Exwck0dA+Y54K8x2HMFLy+sXXha95k9CGPrjVar0ijiCvgl
+         0MxX1s9Z/4QIb0NNa+jEur5DCeeV9hDAw3GHwjG97CDGBh3JGZBHUx3Qf5sn1ZCR17+h
+         +pvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GuCbGVwHRmEGqfMBjZZ+2u4NovL8Rt/IpkZfKDrFBI8=;
+        b=unXi78CSUtt5KxC25WZJLLx8nAK4tElqcfM8tA0AECIuAUbKKPjwn21GL5Zx70qLme
+         kEaK9phGkpGuYVI+FBzosUwQng/vT57CHq8cFKpOSTslNgwry1l/9FO+6DZAogOwWWhK
+         k+fPEhVOgbEppn6gxhPp6mPFinaM/VcMYKsYs4kdOy6s27zsrUEBVKBwAfBreHZzDY/x
+         wlxG1olFR2Dpf3zSQV+6ar3fMdlLuoCki3YJa1NX0rrY52fgt+E9ouRoPZRGCyOAdVlM
+         Pr3mZ/veX1OJl1lYZ2eZQnbJ+L5v7d16wdjxhoOct9V4fwFxBhAz5VgXUkevdONrISHG
+         Axjw==
+X-Gm-Message-State: APjAAAVGuS+aVZd/UMhZchzlpFJvULVJj92IOJ+4XpSbtaDUsWfIqgp8
+        ONl/qkkCRXNqA4GbyFSJQKENDo3EfEQ4MVIttTf2QQ==
+X-Google-Smtp-Source: APXvYqzdtkFSXhZjMKVoVzXBpdLNDINY5K3kMdUxm75M/4l37E4Q0dysGQ/lGI2Jnh2fcoAoGM+YptMYIOb8HnteoXE=
+X-Received: by 2002:a17:90a:c20f:: with SMTP id e15mr5304440pjt.123.1567013970427;
+ Wed, 28 Aug 2019 10:39:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190822035911.23478-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190822035911.23478-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 29 Aug 2019 01:45:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT6kTyhfx7X0Bqr9unsychfu2T91ZJuqM4jqOnWoV81VA@mail.gmail.com>
-Message-ID: <CAK7LNAT6kTyhfx7X0Bqr9unsychfu2T91ZJuqM4jqOnWoV81VA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: get rid of $(realpath ...) from scripts/mkmakefile
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20190815225844.145726-1-nhuck@google.com> <20190827004155.11366-1-natechancellor@gmail.com>
+ <CAK7LNATHj5KrnFa0fvHjuC-=5mV8VBT14vrpPMfuNKWw7wabag@mail.gmail.com> <CANiq72ndWZWD-KBT1s-mUxQNa1jaD7oDaCB2+NPiT1chf14Z_g@mail.gmail.com>
+In-Reply-To: <CANiq72ndWZWD-KBT1s-mUxQNa1jaD7oDaCB2+NPiT1chf14Z_g@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 28 Aug 2019 10:39:19 -0700
+Message-ID: <CAKwvOdkuDPfOusJRneeTzg7tZ4VKxaRCNg2SgmjVas58cDwe8w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Do not enable -Wimplicit-fallthrough for clang
+ for now
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nathan Huckleberry <nhuck@google.com>,
+        Joe Perches <joe@perches.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 12:59 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+On Wed, Aug 28, 2019 at 9:45 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
 >
-> Both relative path and absolute path have pros and cons. For example,
-> we can move the source and objtree around together by using the
-> relative path to the source tree.
+> On Wed, Aug 28, 2019 at 6:21 PM Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
+> >
+> > Applied to linux-kbuild. Thanks.
+> >
+> > (If other clang folks give tags, I will add them later.)
 >
-> Do not force the absolute path to the source tree. If you prefer the
-> absolute path, you can specify KBUILD_ABS_SRCTREE=1.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
+> Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 
-Applied to linux-kbuild.
-
->  scripts/mkmakefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/mkmakefile b/scripts/mkmakefile
-> index 4d0faebb1719..1cb174751429 100755
-> --- a/scripts/mkmakefile
-> +++ b/scripts/mkmakefile
-> @@ -12,6 +12,6 @@ if [ "${quiet}" != "silent_" ]; then
->  fi
->
->  cat << EOF > Makefile
-> -# Automatically generated by $(realpath $0): don't edit
-> -include $(realpath $1/Makefile)
-> +# Automatically generated by $0: don't edit
-> +include $1/Makefile
->  EOF
-> --
-> 2.17.1
->
-
-
+I verified that GCC didn't get support for -Wimplicit-fallthrough
+until GCC ~7.1 release, so the cc-option guard is still required.
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+Thanks for the patch Nathan.
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
