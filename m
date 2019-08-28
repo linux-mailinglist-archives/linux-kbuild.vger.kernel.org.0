@@ -2,98 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95DCEA08D2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 19:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCE39A0952
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 20:17:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbfH1RoZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 13:44:25 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:37124 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726563AbfH1RoY (ORCPT
+        id S1726725AbfH1SRY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 14:17:24 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35835 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726563AbfH1SRY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 13:44:24 -0400
-Received: by mail-pg1-f194.google.com with SMTP id d1so119712pgp.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 28 Aug 2019 10:44:24 -0700 (PDT)
+        Wed, 28 Aug 2019 14:17:24 -0400
+Received: by mail-wm1-f65.google.com with SMTP id l2so1072048wmg.0;
+        Wed, 28 Aug 2019 11:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=94qXpyDS0THtDB4WwXpF5NYofHpbK853mMaCrKH08oM=;
-        b=o51zeIqcgVO6XFBOHsGkXHI9eeRg/kCORZP7XWGbUheVDyBBM2P4l0hhh5v7/lW4Fh
-         /BoFhmwS0DOaaW2h8Hap//X+4QGMXUnx+Xzz6IntmHCaJfSE3obLQYBEGe1DB6ugUGoo
-         187CxLdT4hE4uF3QL8ysoCmkBexkp5qW52gCbIuAPoU/rdx/9E5M+S0Fk3yHkhsBtFJZ
-         9RVIQHxsjqIUvfDohrYhN7A7cOwUE1sz5ZRcIMfgBkOH+goBi/O1ePCpfIEt7j/2vel1
-         WQFgofcRJko1f6UyzH2zJy95gHdN1v2I7bLPjQjuQBc7/j8hoGn/do3SHZgLcIZkNVko
-         NpJw==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Gwd3eZyhGra4vRNIIEht3m+fofsrn3t+q1IGOiidRPk=;
+        b=TTIo+0optHj3u5YwkzlBxu0RdDVR4vE92MoIW4kxbEMiAA1dprqkOjeYaZ6r1lioKQ
+         hCSW1RQfNM9F0COF4NbNjCyf3fYY43eoRLgJlA/CTgbjkBEftHJMvVb4smrcy4WHzoFV
+         0s3tmT4AIItZzHLdmJvgTXV0iauHoThAq9kRaf1KP3ZGEeE26TvVKJ+rpk401cyhtZyf
+         ReSquyUvoSqa+bLKSNA89mwjBdHCNH58fh5giDclS5Aw9YTBe8oZB8WAYEy9Poz4+J9f
+         /RVQyetXt7Gdu4gtLwthHqZmFh0lC8IpGgirZ0/8YoQbSEtGIb2hQC4NvAohu2E++C/x
+         2qRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=94qXpyDS0THtDB4WwXpF5NYofHpbK853mMaCrKH08oM=;
-        b=ewabNATpiBT+wDu0BjhJE/MS/L6N4AzNhbDSrCOnJ1VUQ8hLHfSdfghyGb061DsNoi
-         zqaI6Rhg/iTYsNRi1MQfLGCtLkokTbCWo8PaQ2uvjRMU/K3kTZ824CNx4PHzzn8OG2gB
-         Ml8pgvsZPmAkvGTgqN4epszRR3FKcnofeSrRL+DeB5qvFJqQm6oLGQk6VuHSpU/AV/PP
-         6UEoG1CEqLU3aucFLj8sZXV6jJS9LsjqyXsnycAmFGVH8Dd16jo5Ehiif8bsvdCnPWyc
-         qSB1nZMEk/XbFWewOASNpJnA1A/TjNXQsUpG+VGEYDNUKjVCtviJwkwC/rTDo7yHbTAd
-         LjKw==
-X-Gm-Message-State: APjAAAUeA+JS7iW1aerqdxOhAv727M54nneL48iKbsYPbf9jPtsR5gF8
-        y8Df0CacixAEYMYyZuBnep+SR3A0d58joy4LK6QFMw==
-X-Google-Smtp-Source: APXvYqxUoj2b1JtWGXB1HZKQs9OM6muwZaa8rYV9vepLadTGApisRJFpy3gzexw1zj9C9HU5EgImTlUmQvJ0m617STE=
-X-Received: by 2002:a17:90a:ac02:: with SMTP id o2mr5499971pjq.134.1567014263717;
- Wed, 28 Aug 2019 10:44:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190815225844.145726-1-nhuck@google.com> <20190827004155.11366-1-natechancellor@gmail.com>
- <CAK7LNATHj5KrnFa0fvHjuC-=5mV8VBT14vrpPMfuNKWw7wabag@mail.gmail.com>
- <CANiq72ndWZWD-KBT1s-mUxQNa1jaD7oDaCB2+NPiT1chf14Z_g@mail.gmail.com> <CAKwvOdkuDPfOusJRneeTzg7tZ4VKxaRCNg2SgmjVas58cDwe8w@mail.gmail.com>
-In-Reply-To: <CAKwvOdkuDPfOusJRneeTzg7tZ4VKxaRCNg2SgmjVas58cDwe8w@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 28 Aug 2019 10:44:12 -0700
-Message-ID: <CAKwvOdnOo3RXm3cx5YDtPyM=9Ry7kss-i4HzjxQkK4pjE-n9Lw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Do not enable -Wimplicit-fallthrough for clang
- for now
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Gwd3eZyhGra4vRNIIEht3m+fofsrn3t+q1IGOiidRPk=;
+        b=cpsPG9g4u4kG1qr3y7ufrj7IuPz1p9f+IRjCosHn1GydveoThxmTpzHqksfYcIMPRU
+         8fi0ocjnyvpEHGyYijONHGQjTFbxASxCanCbODZX/irKl3COR9RxO/Vz0Y5vkJnP02/3
+         QXclsnh0/qUKsAima64PCzV+N7ohnqq/oPu7tBypMRXZLMSUXpA97qya8iBSyHDxapV0
+         sSVCKe5V73XgI5h1A3YD9tWXRtHog1y4hG8zsRGsxW2aYS3muB2V+G94Fy/ZPsJCB1Da
+         lEGkpNjv6WZXXrm2k1q5vL8gKOEXv1Lust6kYYVVcWpuWfkSAP4QYDpa3airxV9TAiBL
+         se0A==
+X-Gm-Message-State: APjAAAXDFrco7PUyExUSK3/Z5twN2t4z+UnnXlApnFgMOEUmB1ZMI8hJ
+        1IPggqO0jWKEzYHb/lDwa2o=
+X-Google-Smtp-Source: APXvYqwxIJymu4cQI6iKhnBrBH3S46XWZYQvB+qHMkAb4pGsWqJFt3qqyCqdrYn2dJOFkK2QrJuAKw==
+X-Received: by 2002:a7b:ce02:: with SMTP id m2mr6761639wmc.7.1567016241750;
+        Wed, 28 Aug 2019 11:17:21 -0700 (PDT)
+Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
+        by smtp.gmail.com with ESMTPSA id g65sm144417wma.21.2019.08.28.11.17.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2019 11:17:21 -0700 (PDT)
+Date:   Wed, 28 Aug 2019 11:17:19 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Huckleberry <nhuck@google.com>,
-        Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] kbuild: refactor scripts/Makefile.extrawarn
+Message-ID: <20190828181719.GA127646@archlinux-threadripper>
+References: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 10:39 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Wed, Aug 28, 2019 at 9:45 AM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> >
-> > On Wed, Aug 28, 2019 at 6:21 PM Masahiro Yamada
-> > <yamada.masahiro@socionext.com> wrote:
-> > >
-> > > Applied to linux-kbuild. Thanks.
-> > >
-> > > (If other clang folks give tags, I will add them later.)
-> >
-> > Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
->
-> I verified that GCC didn't get support for -Wimplicit-fallthrough
-> until GCC ~7.1 release, so the cc-option guard is still required.
-> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-> Thanks for the patch Nathan.
+On Wed, Aug 28, 2019 at 02:54:24PM +0900, Masahiro Yamada wrote:
+> Instead of the warning-[123] magic, let's accumulate compiler options
+> to KBUILD_CFLAGS directly as the top Makefile does. I think this makes
+> easier to understand what is going on in this file.
+> 
+> This commit slightly changes the behavior, I think all of which are OK.
+> 
+> [1] Currently, cc-option calls are needlessly evaluated. For example,
+>       warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
+>     needs evaluating only when W=3, but it is actually evaluated for
+>     W=1, W=2 as well. With this commit, only relevant cc-option calls
+>     will be evaluated. This is a slight optimization.
+> 
+> [2] Currently, unsupported level like W=4 is checked by:
+>       $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
+>     This will no longer be checked, but I do not think it is a big
+>     deal.
+> 
+> [3] Currently, 4 Clang warnings (Winitializer-overrides, Wformat,
+>     Wsign-compare, Wformat-zero-length) are shown by any of W=1, W=2,
+>     and W=3. With this commit, they will be warned only by W=1. I
+>     think this is a more correct behavior since each warning belongs
+>     to only one warning level.
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Also, there's an inconsistency between Makefile vs
-scripts/Makefile.extrawarn that's been bugging me: it seems we enable
-GCC only flags in Makefile, then disable certain Clang flags in
-scripts/Makefile.extrawarn.  Not necessary to fix here and now, but I
-hope one day to have one file that has all of the compiler specific
-flags in one place (maybe its own file), so I only have to look in one
-place.  I know, I know, "patches welcome." ;)
-
--- 
-Thanks,
-~Nick Desaulniers
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
