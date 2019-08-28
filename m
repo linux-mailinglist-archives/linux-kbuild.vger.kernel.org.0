@@ -2,52 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 523B0A04A5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 16:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A12FA04B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 28 Aug 2019 16:22:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbfH1OTF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 28 Aug 2019 10:19:05 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:32927 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726472AbfH1OTF (ORCPT
+        id S1726397AbfH1OWL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 28 Aug 2019 10:22:11 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53017 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726341AbfH1OWL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 28 Aug 2019 10:19:05 -0400
-Received: by mail-wr1-f67.google.com with SMTP id u16so19665wrr.0;
-        Wed, 28 Aug 2019 07:19:03 -0700 (PDT)
+        Wed, 28 Aug 2019 10:22:11 -0400
+Received: by mail-wm1-f65.google.com with SMTP id t17so270598wmi.2;
+        Wed, 28 Aug 2019 07:22:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=Seb53bhrV9qLT1s/qYvDSSQVj25Xuijj2Bv+NVJgBcQ=;
-        b=XgVEVqMVsvRENk3CCBT1mQR1Ab+6FMr79DZ9YVtgGtYU1bOtezE4qtpsrhQvnbIx6M
-         EAaJnNI4xc2EyyG/cu/kk5ALWTiLCptpNiKzo0kSsonP62YYUeRamv2GUtCQ98dln+KV
-         E0aYIUKAHsQvPhGQvVohJSbp9GhD5QlM+tmhS/tsE4afMLhFYNA+4tWL32fMb/PUVfTv
-         P4GvqdOpXcYZ0dzWaTAusKUPLp5pAFomAvX3lvChMOC6RFZRz+/h0mYIVAlbIFgpj/+l
-         Awdy/eF3QXj9LcHpWtJqHg/p1885BDn8sz8QCjpbF30hJDJptdk6NY9b/vb5hNQdLvAy
-         D3XA==
+        bh=D4lwdLEb4QQKbZ9weOV4KhRYID3FQMV0ZKC/KJGyR5E=;
+        b=DOCxhZ0q5T2JQYg2s16hNNsaXELwXQE9uLBO4MCD4nqEzNQp6RFzjOV8sxkEei1gZ7
+         YphdelfVMwbNGQ7/HQgoPKGwdCOXbjzhtoEzqf5sS7mF5bzLU1flnPGWkre81cwDcCky
+         ZZ1BCEl47CtNdQbjA57jzTqRvaL3QGqLdqC9rZ8tPmFRyJXH7gd45UgY/GI6VKwWTYIK
+         Dj6oUl2aTmZUahvxrB6i3Dawr8JIsJcipgMkGOtfydBCL9Dfm0cPKflgxNO0rlBwpswZ
+         B9OAGr/2vtfYtYZ2tPmTEUbPYK3CZlxh4Ia7UFk9QiRM4GqydGAACs6qnSA4UhcDGvcx
+         WFgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=Seb53bhrV9qLT1s/qYvDSSQVj25Xuijj2Bv+NVJgBcQ=;
-        b=SpcryJ7FgmBpQmPW3UAymRN2/6DAz4yio699oqU1QMRHwccr2UAL30V/uROPUeJogP
-         E2a1R4oG5qY/LSXsMvJ0Pmm2WUW6iX4B3qtYh4t5nVyxpDjn7r5Jg0zwuq2QPOfzRSA2
-         IqoOZcOx3SiB8kilggCfiiCSbDL0DYnW94K9Q1j8506VI3isK9+MA+TWsNCoHCqiGv7V
-         ab6u+rze8mUi/4Uer+LRKzGResVxSCG0jcqozlw4iUnAzcojzr7wkzZYCSBtUV9zE7D9
-         hljicYB3h+GDZSUFkMiYg0+aFSJBa/1HTDL4uwFIp7sJY0s1j4uR0Mdq/iWVGKWf2zHm
-         Ie9g==
-X-Gm-Message-State: APjAAAWnZ/zCPiY+oKPEqtDaiAkDYyipBoh5A0qnidyY1cl8b0VqTFC1
-        07PVZ8E1oo9QAkx0Js6AvENgk28HibSMmkgM1fM=
-X-Google-Smtp-Source: APXvYqxeKif+VQwDRwK/EPQRG6U/V2qjCYPmjzlqT9bh1+ZpVCn8SHoVNLZpQocB1u/GulTYG+opibNwZwstIsxgBnc=
-X-Received: by 2002:a5d:69c8:: with SMTP id s8mr4682010wrw.353.1567001943244;
- Wed, 28 Aug 2019 07:19:03 -0700 (PDT)
+        bh=D4lwdLEb4QQKbZ9weOV4KhRYID3FQMV0ZKC/KJGyR5E=;
+        b=r0bIobuS5oTiTcbL0F0o/keOGEDWJG8GiyPQ9+Nt/PlTtdB51S2Pk3pEoyl0B7nxxG
+         pdCJnEhP+z4du1LegScWour6yrLPMuxewVKBCm0APuRWy8I9i0AAUUZ30EgnMDX10kOC
+         q/kDdMHxaGEZTNqWPbSGRMFqvq8SNkCR9pDk45wSq/koNWAz3gTSBe6FBSQa0XNFWRL0
+         ICoJV6m1p0qecIDRwldpCraG6OTzM3RCqw9fahNP61k16tbetXoCkqVm15LqGMHGVo9o
+         mLyIpcEfp79CLKcpLV+C/lty6JYHyriXhE6mAoE92Hs0N2JZYUJ0sZG1I0rR1rqJAwDH
+         wVNg==
+X-Gm-Message-State: APjAAAWhXVBgiBKRN+bbLpTdEeeXnlkTOzDBSan+lwdFA8FJyX/FUzS6
+        OhAhdCMpNAESKIoyr4kx7x/pz/zop+uo+Loj7g8=
+X-Google-Smtp-Source: APXvYqxCAlRy8ROXK9G2GnuDBTqcHC3Ggaq+VaNUfdOmWaUyVB1CNvvLV7q/83lqVw2NDK+hphCfpobr/nq5ilnbKME=
+X-Received: by 2002:a7b:cf21:: with SMTP id m1mr5533245wmg.150.1567002129167;
+ Wed, 28 Aug 2019 07:22:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190828055425.24765-1-yamada.masahiro@socionext.com> <CA+icZUWigJkh-VtJc4=xE06oMgE=ci2Mfdo2JaDv0fth8PKH+A@mail.gmail.com>
-In-Reply-To: <CA+icZUWigJkh-VtJc4=xE06oMgE=ci2Mfdo2JaDv0fth8PKH+A@mail.gmail.com>
+References: <20190828055425.24765-1-yamada.masahiro@socionext.com>
+ <CA+icZUWigJkh-VtJc4=xE06oMgE=ci2Mfdo2JaDv0fth8PKH+A@mail.gmail.com> <CA+icZUUhhOLfOgwoKP4nKOdPakNJF7XafJ09ERP6r7dOUduMsg@mail.gmail.com>
+In-Reply-To: <CA+icZUUhhOLfOgwoKP4nKOdPakNJF7XafJ09ERP6r7dOUduMsg@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 28 Aug 2019 16:18:51 +0200
-Message-ID: <CA+icZUUhhOLfOgwoKP4nKOdPakNJF7XafJ09ERP6r7dOUduMsg@mail.gmail.com>
+Date:   Wed, 28 Aug 2019 16:21:58 +0200
+Message-ID: <CA+icZUUSVRURu-jQAnVnZwPp0qiWpostDz+WkTjxx8zunVKBgw@mail.gmail.com>
 Subject: Re: [PATCH 1/2] kbuild: refactor scripts/Makefile.extrawarn
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     linux-kbuild@vger.kernel.org,
@@ -64,103 +65,10 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 9:20 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Wed, Aug 28, 2019 at 7:55 AM Masahiro Yamada
-> <yamada.masahiro@socionext.com> wrote:
-> >
-> > Instead of the warning-[123] magic, let's accumulate compiler options
-> > to KBUILD_CFLAGS directly as the top Makefile does. I think this makes
-> > easier to understand what is going on in this file.
-> >
-> > This commit slightly changes the behavior, I think all of which are OK.
-> >
-> > [1] Currently, cc-option calls are needlessly evaluated. For example,
-> >       warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
-> >     needs evaluating only when W=3, but it is actually evaluated for
-> >     W=1, W=2 as well. With this commit, only relevant cc-option calls
-> >     will be evaluated. This is a slight optimization.
-> >
-> > [2] Currently, unsupported level like W=4 is checked by:
-> >       $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
-> >     This will no longer be checked, but I do not think it is a big
-> >     deal.
-> >
->
-> Hi Masahiro Yamada,
->
-> thanks for your patch series.
->
-> If KBUILD_ENABLE_EXTRA_GCC_CHECKS does extra(-warning)-checks for GCC and Clang,
-> please rename the Kconfig into...
->
-> KBUILD_ENABLE_EXTRA_CC_CHECKS
->
-> ...or something similiar (and maybe with some notes in its Kconfig help-text?).
->
+> build-time checking. For more details see <Documentation/kbuild/kbuild.rst>.
 
-I have tested both patches against recent kbuild-next and can boot on
-bare metal with clang.
+Grrr.
 
-I have *not* passed any W= to my make, but I see that clang's W=1
-kbuild-cflags are active.
-
-[ scripts/Makefile.extrawarn ]
-
-ifeq ("$(origin W)", "command line")
-  export KBUILD_ENABLE_EXTRA_GCC_CHECKS := $(W)
-endif
-
-#
-# W=1 - warnings that may be relevant and does not occur too often
-#
-ifneq ($(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
-[ ... ]
-KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
-
-else
-
-# W=1 also stops suppressing some warnings
-
-ifdef CONFIG_CC_IS_CLANG
-KBUILD_CFLAGS += -Wno-initializer-overrides
-KBUILD_CFLAGS += -Wno-format
-KBUILD_CFLAGS += -Wno-sign-compare
-KBUILD_CFLAGS += -Wno-format-zero-length
-endif # CONFIG_CC_IS_CLANG
-
-endif # KBUILD_ENABLE_EXTRA_GCC_CHECKS
-
-These clang KBUILD_CFLAGS are active independently of passing W=1.
-
-$ grep '\-Wno-initializer-overrides'
-build-log_5.3.0-rc6-2-amd64-cbl-asmgoto.txt | wc -l
-27195
-
-So the above comment is misleading?
-
-Is W=1 activated by default?
-
-Or do I miss something?
-
-[ Documentation/kbuild/kbuild.rst ]
-
-KBUILD_ENABLE_EXTRA_GCC_CHECKS
-------------------------------
-If enabled over the make command line with "W=1", it turns on additional
-gcc -W... options for more extensive build-time checking.
-
-What about?
-
-KBUILD_CC_EXTRA_CHECKS (or KBUILD_EXTRA_CC_CHECKS)
-------------------------------
-If enabled over the make command line with "W=...", it turns on additional
-compiler warning options like -Wmissing-declarations for more extensive
-build-time checking. For more details see <Documentation/kbuild/kbuild.rst>.
-
-W=1 - warnings that may be relevant and does not occur too often
-W=1 - also stops suppressing some warnings
-W=2 - warnings that occur quite often but may still be relevant
-W=3 - the more obscure warnings, can most likely be ignored
+s/ Documentation/kbuild/kbuild.rst / scripts/Makefile.extrawarn
 
 - Sedat -
