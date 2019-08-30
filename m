@@ -2,75 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 462AFA366A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Aug 2019 14:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5529A3A8D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Aug 2019 17:40:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbfH3MMg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Aug 2019 08:12:36 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41677 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727326AbfH3MMg (ORCPT
+        id S1728336AbfH3Pkp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Aug 2019 11:40:45 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36052 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728333AbfH3Pkp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Aug 2019 08:12:36 -0400
-Received: by mail-lf1-f65.google.com with SMTP id j4so5169668lfh.8;
-        Fri, 30 Aug 2019 05:12:34 -0700 (PDT)
+        Fri, 30 Aug 2019 11:40:45 -0400
+Received: by mail-pl1-f195.google.com with SMTP id f19so3547733plr.3
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Aug 2019 08:40:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uo5QXx6OVi+EZsgsiMtZvW49jMucnNQYYVHnbYIyY8U=;
-        b=poj5ucJzEB3RlxQNN2VKdSWVhlVJn43CM7RgD7jgcF1O0y4zs09/5l0iZPv+HjA06I
-         uTRCXTMCO9O4bSpwSemT6PATKcl62yRE5y/q1Csg1sQeSiws5nRALTsMY7MVgMK5aagY
-         UeumT7bWJFB7FUm+OBtdOhxYWzlR8mu6wXD6HOGWyGAvi/ParAPjowS3Z53n0aV5mJbT
-         1rgPAF33HbSZOYI9kFo9Z7UMbeE264b1kipMQsPwcvbqtawLKQK66Ga35aHqbZHBOs6j
-         nBsZTcUb1LfOcCHh410j3yiksDd0S+KmKC09g9u8DdJuDpdIQaJLURsxqdaNzAJrfn1W
-         Kx0w==
+        d=chromium.org; s=google;
+        h=message-id:mime-version:content-transfer-encoding:in-reply-to
+         :references:cc:subject:to:from:user-agent:date;
+        bh=Ni6vNyoiAeI273d2BSfT1RbRFUtf/5mAYsPvknqZkqM=;
+        b=muR7C5wWL5lPrP4S4XeyNe0FZ45O/GeNLN2/NCaK1O+WpN6QlMihoe7PQzPflJ02i6
+         GV+xG/6KhUXf03e1zxSM4P1ZsyC7i4I+MWgMBk0Ab5i+a50uYi4U+fIL8nHwiWM+3Jiq
+         DljDInXRECSbYBXAKNKHbWpE6HUOKD/nxznnw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uo5QXx6OVi+EZsgsiMtZvW49jMucnNQYYVHnbYIyY8U=;
-        b=awmIqbPcDqXMYgOEUhA1S1PBRXSLPDIsj+w2jclnPI6k1gGiBEWmIKdb9QZZGKA1zK
-         OBq4cGsMn/TNpNdNHhkcAQMJHkREyLJloWvPpaVPHLe3t0TR89DAlOsuRR1sBlGph3Ht
-         I2cht62DvUjDVtQYrUeU6WHF8PizuwOb+lod7jtMoHgMqQ82j0qF5sr7r/i+GxtMW9b+
-         P7oW7qTiRDLITFA/nk+mZQjfBfu1IsfDoRJGBI9EumAKHsVKRAfKmyPdANzOE9S2tlQV
-         6aXF6KCkG5mhy16XI9vSWhQdmQNMnYWFYGZ8FPjrxMMsst84ubo3erdJlE2FeS6q2s7G
-         s1Fw==
-X-Gm-Message-State: APjAAAX872a2bUNXmgOy1V8gkjMCVujjSxAYhUAzo80v5OEn3/d/oGm6
-        +Xc6V1zFbtw3Bp+As1Pb22YTDCD6bUu9GcyJyN8=
-X-Google-Smtp-Source: APXvYqyvByj1EWem56d4TT79u5U4Bo0K8ITf8OGgAh/fkFMqhtRgseWc/gRi6O2mWlxBT6jTP5ReG3KH835Ea17Cg30=
-X-Received: by 2002:ac2:43ad:: with SMTP id t13mr9877625lfl.66.1567167154263;
- Fri, 30 Aug 2019 05:12:34 -0700 (PDT)
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:in-reply-to:references:cc:subject:to:from
+         :user-agent:date;
+        bh=Ni6vNyoiAeI273d2BSfT1RbRFUtf/5mAYsPvknqZkqM=;
+        b=jWoLCK7NSzca/Sf6w6mrWQZVzQs30uJBnLmROtKaQVXs2ugp3TLY0SWm8Mz0A+Kg5b
+         hFp3EMcPOfI4ABR+SFnNGR43VQmRmFRIV/Xk0+K2wbDfq3oByhNmeDDL6Rf/53Z66O3/
+         nCutkFNwmhu8dBBJ8XbE3eRZFbvHH0Kcs1dkVuAnD1Inxn6N0NzzYNd2rr8/PuAnT9Ug
+         XCJp3aGHX0nxJvR4ja4eTS4oDqwlz6J0gZUU+CXNdVzirTEMx9F2+3utAM5LdcfhFbDP
+         wpHIz8EIkELIlVFox/4NwasXKh3NPfWpGco/tcQAH/6liIDEVQlwKEkp7JF9idP0W6ES
+         rRqg==
+X-Gm-Message-State: APjAAAWiYJvXwZQg8Q2/rOtsIBjag5UhxjG90/17X+O/9o9UhBSZoCJi
+        NmzTVt2Ra4T8OMtUnzgaZNwTLA==
+X-Google-Smtp-Source: APXvYqzZ0ZAHomdPr+u0gekRSspkMTVbLIDC9pDSXzLNL2dUFK/VU90FKtIevvRB/QYLVlF4ZbfAlA==
+X-Received: by 2002:a17:902:e9:: with SMTP id a96mr16802533pla.169.1567179644447;
+        Fri, 30 Aug 2019 08:40:44 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id i14sm3164228pfo.158.2019.08.30.08.40.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2019 08:40:43 -0700 (PDT)
+Message-ID: <5d69437b.1c69fb81.2722d.8556@mx.google.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20190829120215.1977-1-msuchanek@suse.de> <ccc65bd29747f8ad4d0ba1b3eda6c9d230f03c70.camel@perches.com>
-In-Reply-To: <ccc65bd29747f8ad4d0ba1b3eda6c9d230f03c70.camel@perches.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 30 Aug 2019 14:12:23 +0200
-Message-ID: <CANiq72=ND-czaeKS9qUpEfrFj_SrUWBrmGQHVKCvV=dG8S=-XA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Convert -Wimplicit-fallthrough to -Wimplicit-fallthrough=2
-To:     Joe Perches <joe@perches.com>
-Cc:     Michal Suchanek <msuchanek@suse.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <2926868.n5I8ZQlzTx@phil>
+References: <20190829224110.91103-1-swboyd@chromium.org> <20190829224110.91103-5-swboyd@chromium.org> <2926868.n5I8ZQlzTx@phil>
+Cc:     Peter Huewe <peterhuewe@gmx.de>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Andrey Pronin <apronin@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org,
+        Duncan Laurie <dlaurie@chromium.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Alexander Steffen <Alexander.Steffen@infineon.com>,
+        <linux-kbuild@vger.kernel.org>
+Subject: Re: [PATCH v6 4/4] tpm: tpm_tis_spi: Support cr50 devices
+To:     Heiko Stuebner <heiko@sntech.de>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.8.1
+Date:   Fri, 30 Aug 2019 08:40:42 -0700
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 30, 2019 at 1:09 PM Joe Perches <joe@perches.com> wrote:
->
-> On Thu, 2019-08-29 at 14:02 +0200, Michal Suchanek wrote:
-> > In particular the default value of 3 does not match the comments like
-> > /* falls through to do foobar */
->
-> How many comments are there like this in the kernel?
+Quoting Heiko Stuebner (2019-08-30 08:33:48)
+> Am Freitag, 30. August 2019, 00:41:10 CEST schrieb Stephen Boyd:
+> > From: Andrey Pronin <apronin@chromium.org>
+> >=20
+> > Add TPM2.0 PTP FIFO compatible SPI interface for chips with Cr50
+> > firmware. The firmware running on the currently supported H1 Secure
+> > Microcontroller requires a special driver to handle its specifics:
+> >=20
+> >  - need to ensure a certain delay between SPI transactions, or else
+> >    the chip may miss some part of the next transaction
+> >  - if there is no SPI activity for some time, it may go to sleep,
+> >    and needs to be waken up before sending further commands
+> >  - access to vendor-specific registers
+> >=20
+> > Cr50 firmware has a requirement to wait for the TPM to wakeup before
+> > sending commands over the SPI bus. Otherwise, the firmware could be in
+> > deep sleep and not respond. The method to wait for the device to wakeup
+> > is slightly different than the usual flow control mechanism described in
+> > the TCG SPI spec. Add a completion to tpm_tis_spi_transfer() before we
+> > start a SPI transfer so we can keep track of the last time the TPM
+> > driver accessed the SPI bus to support the flow control mechanism.
+> >=20
+> > Split the cr50 logic off into a different file to keep it out of the
+> > normal code flow of the existing SPI driver while making it all part of
+> > the same module when the code is optionally compiled into the same
+> > module. Export a new function, tpm_tis_spi_init(), and the associated
+> > read/write/transfer APIs so that we can do this. Make the cr50 code wrap
+> > the tpm_tis_spi_phy struct with its own struct to override the behavior
+> > of tpm_tis_spi_transfer() by supplying a custom flow control hook. This
+> > shares the most code between the core driver and the cr50 support
+> > without combining everything into the core driver or exporting module
+> > symbols.
+> >=20
+> > Signed-off-by: Andrey Pronin <apronin@chromium.org>
+> > Cc: Andrey Pronin <apronin@chromium.org>
+> > Cc: Duncan Laurie <dlaurie@chromium.org>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Guenter Roeck <groeck@chromium.org>
+> > Cc: Alexander Steffen <Alexander.Steffen@infineon.com>
+> > Cc: Heiko Stuebner <heiko@sntech.de>
+> > [swboyd@chromium.org: Replace boilerplate with SPDX tag, drop
+> > suspended bit and remove ifdef checks in cr50.h, migrate to functions
+> > exported in tpm_tis_spi.h, combine into one module instead of two]
+> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>=20
+> This variant breaks building the tpm as a module:
+>=20
+>=20
+> WARNING: modpost: missing MODULE_LICENSE() in drivers/char/tpm/cr50_spi.o
+> see include/linux/module.h for more information
+> ERROR: "tpm_tis_spi_write32" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_read32" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_read16" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_init" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_transfer" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_resume" [drivers/char/tpm/tpm_tis_spi.ko] undefined!
+> ERROR: "cr50_spi_probe" [drivers/char/tpm/tpm_tis_spi.ko] undefined!
+> make[2]: *** [../scripts/Makefile.modpost:103: modules-modpost] Fehler 1
+> make[1]: *** [/home/devel/hstuebner/00_git-repos/linux-rockchip/Makefile:=
+1302: modules] Fehler 2
+> make[1]: Verzeichnis =E2=80=9E/home/devel/hstuebner/00_git-repos/linux-ro=
+ckchip/_build-arm64=E2=80=9C wird verlassen
+> make: *** [Makefile:179: sub-make] Fehler 2
+>=20
+>=20
+> After adding a dummy MODULE_LICENSE I end up with:
+>=20
+> ERROR: "tpm_tis_spi_write32" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_read32" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_read16" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_init" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_transfer" [drivers/char/tpm/cr50_spi.ko] undefined!
+> ERROR: "tpm_tis_spi_resume" [drivers/char/tpm/tpm_tis_spi.ko] undefined!
+> ERROR: "cr50_spi_probe" [drivers/char/tpm/tpm_tis_spi.ko] undefined!
+>=20
+>=20
+> So building things as modules this way clearly is not working. Going back
+> to the previous approach makes the module happy again, aka:
+>=20
+> diff --git a/drivers/char/tpm/Makefile b/drivers/char/tpm/Makefile
+> index 6ff135d6f008..477fcddbff8c 100644
+> --- a/drivers/char/tpm/Makefile
+> +++ b/drivers/char/tpm/Makefile
+> @@ -21,7 +21,9 @@ tpm-$(CONFIG_EFI) +=3D eventlog/efi.o
+>  tpm-$(CONFIG_OF) +=3D eventlog/of.o
+>  obj-$(CONFIG_TCG_TIS_CORE) +=3D tpm_tis_core.o
+>  obj-$(CONFIG_TCG_TIS) +=3D tpm_tis.o
+> -obj-$(CONFIG_TCG_TIS_SPI) +=3D tpm_tis_spi.o cr50_spi.o
+> +obj-$(CONFIG_TCG_TIS_SPI) +=3D tpm_tis_spi_mod.o
+> +tpm_tis_spi_mod-y :=3D tpm_tis_spi.o
+> +tpm_tis_spi_mod-y +=3D cr50_spi.o
+>  obj-$(CONFIG_TCG_TIS_I2C_ATMEL) +=3D tpm_i2c_atmel.o
+>  obj-$(CONFIG_TCG_TIS_I2C_INFINEON) +=3D tpm_i2c_infineon.o
+>  obj-$(CONFIG_TCG_TIS_I2C_NUVOTON) +=3D tpm_i2c_nuvoton.o
+>=20
 
-+1 Given we are trying to move to attr-only and therefore
--Wimplicit-fallthrough=5, going back a level needs to be backed by a
-good argument. It would be way better to fix those comments instead.
+I wasn't happy that I had to make a tpm_tis_spi_mod target to get the
+.ko to build properly but I thought it was because of the extra Kconfig
+option. If two files can't be combined into one .ko and have it be named
+tpm_tis_spi.ko then we have to do the above workaround. Or we can
+#include the cr50_spi.c file into tpm_tis_spi.c file. Or we can rename
+tpm_tis_spi.c to tpm_tis_spi_base.c and then do the above change with a
+tpm_tis_spi-y. Maybe Masahiro has some hints.
 
-Cheers,
-Miguel
