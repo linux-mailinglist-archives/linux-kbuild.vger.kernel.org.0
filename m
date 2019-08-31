@@ -2,265 +2,175 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E773A3F48
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Aug 2019 23:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B0D2A426A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Aug 2019 07:34:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728164AbfH3VCw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Aug 2019 17:02:52 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:37484 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728159AbfH3VCw (ORCPT
+        id S1726135AbfHaFeL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 31 Aug 2019 01:34:11 -0400
+Received: from gateway30.websitewelcome.com ([50.116.125.1]:33776 "EHLO
+        gateway30.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725298AbfHaFeL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Aug 2019 17:02:52 -0400
-Received: by mail-pg1-f195.google.com with SMTP id d1so4127492pgp.4
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Aug 2019 14:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JhMV1jTD3mPsfg3GhoNSr9wlsLmJbYqBSQl0eZsMIz8=;
-        b=WBeU8UAycSpqkfqlO1sVT0TEZLp+jnqY/kw4pz0QXAcPQPZen6e3+xubiJVRpGVRud
-         01QjRQlbHbzlhsRoNp8THOEBSvbdLgCgLrMC28TXdRTUU6EMYMw9hrdFNjjPNgY8s3Up
-         b6mnvu7ntkaJyrgUf2eHW09hMwbxBC4MQS38MIO7ZGadW++ZXhBTNJc9sr+FZx8bwZE9
-         KFqn6QRYiqnIp1qcYRL65H8sN+FwgsZVLrjS+2vkwxyL2G/uQCRPUOsOEfiVQY49FMp6
-         7JGXYg8CCyDG1cBCVBRr/V9XeK1x/5ofjDJS/nwNRRnqpTLfUMmJyA8PGHTz+oXaJpwi
-         ZCtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JhMV1jTD3mPsfg3GhoNSr9wlsLmJbYqBSQl0eZsMIz8=;
-        b=I7X9GFrY1/LvIb7HTPWxuTxjfQxPX94M+qlhRTAppZ3Q9UOROSbkqwEzK2bmwt/k68
-         DgJUItc7rxl8KrPlkDhhxslekh5pB9hbzD4meTehg/0PzQfp5rDBo8nvvXsH+v9sOYUw
-         MRYv7E4nyXcSGCOQvcambtQ1/vuMeIKCskWLYplf8CPDsp6jTY3f9DCizUKnEfUNltzx
-         oxex4Ys0LuHl4BEwVkYU/qpkgYLN9u8/FWI4ZilpRehSDHY9AeDbpmXwWrflLbSUn8hx
-         qvtFTQ2y2vv8fOupCIrmMKOz/Qh2DONQEBLy9p8ZYv/ivOi9r+g28OSjbiidJrtRxoOg
-         RwIw==
-X-Gm-Message-State: APjAAAWzU0fJVvtVTxdPD0xKZuV0s3vSLSVYTGzQcs3OogNTxICW+s4q
-        xkvDQ327vuwHIWOVs3q2I8aOCAM3mHUjANv8qdBNDg==
-X-Google-Smtp-Source: APXvYqy/SCN4xgIhwh8g2qZ82udv/JJ4bD/ZxvQlx7zZmaNWaaXMWIb4AMAOETsykK+Sjw15ojQQE7b1FbKkOeXTK98=
-X-Received: by 2002:aa7:984a:: with SMTP id n10mr20614018pfq.3.1567198970999;
- Fri, 30 Aug 2019 14:02:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190829181231.5920-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190829181231.5920-1-yamada.masahiro@socionext.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 30 Aug 2019 14:02:39 -0700
-Message-ID: <CAKwvOdn4abmHse=EUf1mMNUbXO3ZprZQYDmxbRFyeLVhhs8Rew@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: refactor scripts/Makefile.extrawarn
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
+        Sat, 31 Aug 2019 01:34:11 -0400
+X-Greylist: delayed 1317 seconds by postgrey-1.27 at vger.kernel.org; Sat, 31 Aug 2019 01:34:10 EDT
+Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
+        by gateway30.websitewelcome.com (Postfix) with ESMTP id C02D331EF
+        for <linux-kbuild@vger.kernel.org>; Sat, 31 Aug 2019 00:12:12 -0500 (CDT)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 3vgKijl6t3Qi03vgKiOb11; Sat, 31 Aug 2019 00:12:12 -0500
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:Subject:From:References:Cc:To:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=l5m9qZpWXLR4ODSDzTimMTd+4s8KBNI1HDjixjbonmM=; b=rAi89eYuj/HxJdsXWRomKgfGnZ
+        10Vlq/M48zGVWN6ij0loJxUnQuGoDssCfotyPa1UzRbgOmdxs9DjSKYiLpQKF3Rx2sfn+8ty98xIe
+        DWOO33BoJXPRpLfWjGPp7pO78Hh1BQExHiKnkQftr9EU3sZxs3ht57sw5nV21WSGqZOkSGrvKLbeK
+        cLpWTenE0Fg76hRZd89Oy1oaHYOF7iOJbuZc6NCukFCu9NSxBK3V7+DerZt9G98+gdLbfVN6hLAX8
+        R+vWsSQB7hRSHKYlE+PwMVOoFlo9Kz7n8Qwn461oG7/blARB0224aPHGwqZCMJJj4Tso/Z8LWJDEa
+        TlXVcmPw==;
+Received: from [189.152.216.116] (port=35828 helo=[192.168.43.131])
+        by gator4166.hostgator.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1i3vgK-0038m2-DU; Sat, 31 Aug 2019 00:12:12 -0500
+To:     Michal Suchanek <msuchanek@suse.de>, linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>
+References: <20190829120215.1977-1-msuchanek@suse.de>
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=gustavo@embeddedor.com; keydata=
+ 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
+ VtSixD1uOgytAP7RWS474w==
+Subject: Re: [PATCH] Makefile: Convert -Wimplicit-fallthrough to
+ -Wimplicit-fallthrough=2
+Message-ID: <975cea02-a2db-c0b9-ba84-83a0ddadab0f@embeddedor.com>
+Date:   Sat, 31 Aug 2019 00:12:10 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190829120215.1977-1-msuchanek@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 189.152.216.116
+X-Source-L: No
+X-Exim-ID: 1i3vgK-0038m2-DU
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: ([192.168.43.131]) [189.152.216.116]:35828
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 2
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 11:12 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> Instead of the warning-[123] magic, let's accumulate compiler options
-> to KBUILD_CFLAGS directly as the top Makefile does. I think this makes
-> easier to understand what is going on in this file.
->
-> This commit slightly changes the behavior, I think all of which are OK.
->
-> [1] Currently, cc-option calls are needlessly evaluated. For example,
->       warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
->     needs evaluating only when W=3, but it is actually evaluated for
->     W=1, W=2 as well. With this commit, only relevant cc-option calls
->     will be evaluated. This is a slight optimization.
->
-> [2] Currently, unsupported level like W=4 is checked by:
->       $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
->     This will no longer be checked, but I do not think it is a big
->     deal.
->
-> [3] Currently, 4 Clang warnings (Winitializer-overrides, Wformat,
->     Wsign-compare, Wformat-zero-length) are shown by any of W=1, W=2,
->     and W=3. With this commit, they will be warned only by W=1. I
->     think this is a more correct behavior since each warning belongs
->     to only one group.
->
-> For understanding this commit correctly:
->
-> We have 3 warning groups, W=1, W=2, and W=3. You may think W=3 has a
-> higher level than W=1, but they are actually independent. If you like,
-
-What?! Ok now things make much more sense.  (This is a great addition
-to this patch).  Maybe this should additionally be a comment in the
-source code?
-
-> you can combine them like W=13. To enable all the warnings, you can
-> pass W=123. This is shown by 'make help', but it is often missed
-> unfortunately. Since we support W= combination, there should not exist
-> intersection among the three groups. If we enable Winitializer-overrides
-> for W=1, we do not need to for W=2 or W=3. This is why I believe the
-> change [3] makes sense.
->
-> The documentation says -Winitializer-overrides is enabled by default.
-> (https://clang.llvm.org/docs/DiagnosticsReference.html#winitializer-overrides)
-> We negate it by passing -Wno-initializer-overrides for the normal
-> build, but we do not do that for W=1. This means, W=1 effectively
-> enables -Winitializer-overrides by the clang's default. The same for
-> the other three. I wonder if this logic needs detailed commenting,
-> but I do not want to be bothered any more. I added comments.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-
-> ---
->
-> Changes in v2:
->   - Added comments and more commit log
->
->  scripts/Makefile.extrawarn | 105 +++++++++++++++++++------------------
->  1 file changed, 54 insertions(+), 51 deletions(-)
->
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index a74ce2e3c33e..3680445823b7 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -1,14 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  # ==========================================================================
-> -#
->  # make W=... settings
-> -#
-> -# W=1 - warnings that may be relevant and does not occur too often
-> -# W=2 - warnings that occur quite often but may still be relevant
-> -# W=3 - the more obscure warnings, can most likely be ignored
-> -#
-> -# $(call cc-option, -W...) handles gcc -W.. options which
-> -# are not supported by all versions of the compiler
->  # ==========================================================================
->
->  KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
-> @@ -17,58 +9,69 @@ ifeq ("$(origin W)", "command line")
->    export KBUILD_ENABLE_EXTRA_GCC_CHECKS := $(W)
->  endif
->
-> -ifdef KBUILD_ENABLE_EXTRA_GCC_CHECKS
-> -warning-  := $(empty)
-> +#
-> +# W=1 - warnings that may be relevant and does not occur too often
-> +#
-> +ifneq ($(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
->
-> -warning-1 := -Wextra -Wunused -Wno-unused-parameter
-> -warning-1 += -Wmissing-declarations
-> -warning-1 += -Wmissing-format-attribute
-> -warning-1 += -Wmissing-prototypes
-> -warning-1 += -Wold-style-definition
-> -warning-1 += -Wmissing-include-dirs
-> -warning-1 += $(call cc-option, -Wunused-but-set-variable)
-> -warning-1 += $(call cc-option, -Wunused-const-variable)
-> -warning-1 += $(call cc-option, -Wpacked-not-aligned)
-> -warning-1 += $(call cc-option, -Wstringop-truncation)
-> +KBUILD_CFLAGS += -Wextra -Wunused -Wno-unused-parameter
-> +KBUILD_CFLAGS += -Wmissing-declarations
-> +KBUILD_CFLAGS += -Wmissing-format-attribute
-> +KBUILD_CFLAGS += -Wmissing-prototypes
-> +KBUILD_CFLAGS += -Wold-style-definition
-> +KBUILD_CFLAGS += -Wmissing-include-dirs
-> +KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
-> +KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
-> +KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
-> +KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
->  # The following turn off the warnings enabled by -Wextra
-> -warning-1 += -Wno-missing-field-initializers
-> -warning-1 += -Wno-sign-compare
-> -
-> -warning-2 += -Wcast-align
-> -warning-2 += -Wdisabled-optimization
-> -warning-2 += -Wnested-externs
-> -warning-2 += -Wshadow
-> -warning-2 += $(call cc-option, -Wlogical-op)
-> -warning-2 += -Wmissing-field-initializers
-> -warning-2 += -Wsign-compare
-> -warning-2 += $(call cc-option, -Wmaybe-uninitialized)
-> -warning-2 += $(call cc-option, -Wunused-macros)
-> -
-> -warning-3 := -Wbad-function-cast
-> -warning-3 += -Wcast-qual
-> -warning-3 += -Wconversion
-> -warning-3 += -Wpacked
-> -warning-3 += -Wpadded
-> -warning-3 += -Wpointer-arith
-> -warning-3 += -Wredundant-decls
-> -warning-3 += -Wswitch-default
-> -warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
-> -
-> -warning := $(warning-$(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
-> -warning += $(warning-$(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
-> -warning += $(warning-$(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
-> -
-> -ifeq ("$(strip $(warning))","")
-> -        $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
-> -endif
-> +KBUILD_CFLAGS += -Wno-missing-field-initializers
-> +KBUILD_CFLAGS += -Wno-sign-compare
->
-> -KBUILD_CFLAGS += $(warning)
->  else
->
-> +# Some diagnostics such as -Winitializer-overrides are enabled by default.
-> +# We suppress them by using -Wno... except for W=1.
-> +
->  ifdef CONFIG_CC_IS_CLANG
->  KBUILD_CFLAGS += -Wno-initializer-overrides
->  KBUILD_CFLAGS += -Wno-format
->  KBUILD_CFLAGS += -Wno-sign-compare
->  KBUILD_CFLAGS += -Wno-format-zero-length
->  endif
-> +
-> +endif
-> +
-> +#
-> +# W=2 - warnings that occur quite often but may still be relevant
-> +#
-> +ifneq ($(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
-> +
-> +KBUILD_CFLAGS += -Wcast-align
-> +KBUILD_CFLAGS += -Wdisabled-optimization
-> +KBUILD_CFLAGS += -Wnested-externs
-> +KBUILD_CFLAGS += -Wshadow
-> +KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
-> +KBUILD_CFLAGS += -Wmissing-field-initializers
-> +KBUILD_CFLAGS += -Wsign-compare
-> +KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
-> +KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
-> +
-> +endif
-> +
-> +#
-> +# W=3 - the more obscure warnings, can most likely be ignored
-> +#
-> +ifneq ($(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
-> +
-> +KBUILD_CFLAGS += -Wbad-function-cast
-> +KBUILD_CFLAGS += -Wcast-qual
-> +KBUILD_CFLAGS += -Wconversion
-> +KBUILD_CFLAGS += -Wpacked
-> +KBUILD_CFLAGS += -Wpadded
-> +KBUILD_CFLAGS += -Wpointer-arith
-> +KBUILD_CFLAGS += -Wredundant-decls
-> +KBUILD_CFLAGS += -Wswitch-default
-> +KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
-> +
->  endif
-> --
-> 2.17.1
->
 
 
--- 
-Thanks,
-~Nick Desaulniers
+On 8/29/19 7:02 AM, Michal Suchanek wrote:
+> From gcc documentation:
+> 
+> -Wimplicit-fallthrough=0
+>   disables the warning altogether.
+> -Wimplicit-fallthrough=1
+>   matches .* regular expression, any comment is used as fallthrough comment.
+> -Wimplicit-fallthrough=2
+>   case insensitively matches .*falls?[ \t-]*thr(ough|u).* regular expression.
+> -Wimplicit-fallthrough=3
+>   case sensitively matches one of the following regular expressions:
+>    -fallthrough
+>    @fallthrough@
+>    lint -fallthrough[ \t]*
+>    [ \t.!]*(ELSE,? |INTENTIONAL(LY)? )?
+>    FALL(S | |-)?THR(OUGH|U)[ \t.!]*(-[^\n\r]*)?
+>    [ \t.!]*(Else,? |Intentional(ly)? )?
+>    Fall((s | |-)[Tt]|t)hr(ough|u)[ \t.!]*(-[^\n\r]*)?
+>    [ \t.!]*([Ee]lse,? |[Ii]ntentional(ly)? )?
+>    fall(s | |-)?thr(ough|u)[ \t.!]*(-[^\n\r]*)?
+> -Wimplicit-fallthrough=4
+>   case sensitively matches one of the following regular expressions:
+>    -fallthrough
+>    @fallthrough@
+>    lint -fallthrough[ \t]*
+>    [ \t]*FALLTHR(OUGH|U)[ \t]*
+> -Wimplicit-fallthrough=5
+>   doesn’t recognize any comments as fallthrough comments, only attributes disable the warning.
+> 
+> In particular the default value of 3 does not match the comments like
+> /* falls through to do foobar */
+> generating suprious warnings on properly annotated code.
+> 
+
+NACK
+
+How many of those case do you see? if any...
+
+In any case, those comments can be easily transformed to:
+
+/* falls through - to do foobar */
+
+like in this case:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d2d833e0bf2bad221a955626b942b38312630894
+
+Also, notice that code in linux-next is already ahead... :
+
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e2079e93f562c7f7a030eb7642017ee5eabaaa10
+
+--
+Gustavo
