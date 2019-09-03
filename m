@@ -2,86 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8399CA60BB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2019 07:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 784F0A6647
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Sep 2019 12:10:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725919AbfICFhk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Sep 2019 01:37:40 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38524 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbfICFhk (ORCPT
+        id S1728592AbfICKKl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Sep 2019 06:10:41 -0400
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:19248 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbfICKKl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Sep 2019 01:37:40 -0400
-Received: by mail-wm1-f67.google.com with SMTP id o184so16567691wme.3;
-        Mon, 02 Sep 2019 22:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dHZB7av9ACZZKXwGXky8ptXmiuaPwp7UFQYgxLaFadk=;
-        b=ZHTJjC9mcxUyZllM3u90Dq/A9Yw5Ml0cRRfAWmttvW3PhUNPkzfuRj+UJHiRIKyB/u
-         pAJ2ZeFHTPoZNBEr4Y+DqpB/My5LeV69caKE2dozG5WuweRwPxubEDLwjKtnXZa2OzDP
-         o7EbjQxqtpZYs9NyIgRxzFBO0XK4rwzZLF5ZNwEwmLUVrh7Fj/X+fCgCEOd79v/ur7ht
-         W/1XrenehgzYcmw5h14CuA9YIeF1vaw4GVKXihhVjcECQSn4eMyRRFeLD3ERW+0NJhll
-         b6D3L+sYxr2DIPo2nw7cg95QyReGQcfJMA9a5bvNzTGkK6kgsix6BjJIPgot68XIfCon
-         z2iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dHZB7av9ACZZKXwGXky8ptXmiuaPwp7UFQYgxLaFadk=;
-        b=DouWJIz5GZiUBOa8nLIueVHyvw6mKeBHS4+X6YYnpEcy+bqI7IS6TfKC24tIILUc3X
-         4ZrSMRYN5uUUn3aZJftcPfcSPoM6sfwaKFYYVNWJUGpFhX2tQMROW3zR9tSJhC58v554
-         cUVkLUfpWfwZrpTg4U+9bW0sTUH6GZMfjKzqqmUgK+O9m79fef/Rb9KDrWT1tQrV6SAu
-         EouY6GR+oQ8F0cMASt1lTMj0i48FnCtbTvfbjdaOWbQjwz2dONLHvSMCSQenVfO5RvCm
-         GhNpB4/eaqtA7AClfftOFmJQZuMNuBZx6lWXSAQO1J8JNzC05qv/wseIlh8jwtB6hkkr
-         b9aA==
-X-Gm-Message-State: APjAAAXSfhoJaHDMWTKsWcPC99s2E3iHHsQTyVC3u4U8TuBP2OJ/S/82
-        6GeMSyNt+XQ3ed/STXWxAlw=
-X-Google-Smtp-Source: APXvYqy4lgkFGkl7Qf9buQYgHWfd2Vr+qRY5+MNXkk3jPv4O/wnCd+JJv5RYYpR6k0I+LpcLG5gKBQ==
-X-Received: by 2002:a7b:cf0a:: with SMTP id l10mr8284178wmg.4.1567489057760;
-        Mon, 02 Sep 2019 22:37:37 -0700 (PDT)
-Received: from archlinux-threadripper ([2a01:4f8:222:2f1b::2])
-        by smtp.gmail.com with ESMTPSA id f24sm16833876wmc.25.2019.09.02.22.37.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2019 22:37:37 -0700 (PDT)
-Date:   Mon, 2 Sep 2019 22:37:35 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] kbuild: rename KBUILD_ENABLE_EXTRA_GCC_CHECKS to
- KBUILD_EXTRA_WARN
-Message-ID: <20190903053735.GA56603@archlinux-threadripper>
-References: <20190831162555.31887-1-yamada.masahiro@socionext.com>
- <20190831162555.31887-2-yamada.masahiro@socionext.com>
+        Tue, 3 Sep 2019 06:10:41 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d6e3c210000>; Tue, 03 Sep 2019 03:10:41 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 03 Sep 2019 03:10:40 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 03 Sep 2019 03:10:40 -0700
+Received: from [10.21.132.148] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Sep
+ 2019 10:10:38 +0000
+Subject: Re: [PATCH v2] merge_config.sh: ignore unwanted grep errors
+To:     Guillaume Tucker <guillaume.tucker@collabora.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mark Brown <broonie@kernel.org>
+CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kernel@collabora.com>, <linux-tegra@vger.kernel.org>
+References: <a60fe77a1475ba960ad9fc851f1ace2196b661b8.1567436778.git.guillaume.tucker@collabora.com>
+From:   Jon Hunter <jonathanh@nvidia.com>
+Message-ID: <3f5df041-ae53-8719-41f4-7b56a49a8bbc@nvidia.com>
+Date:   Tue, 3 Sep 2019 11:10:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190831162555.31887-2-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <a60fe77a1475ba960ad9fc851f1ace2196b661b8.1567436778.git.guillaume.tucker@collabora.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1567505441; bh=yP6lqyVaco/w8M3HPHrreEiKuBrDXd5RtrVC6WjwWEc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=UGwCFRV0Ly2PlBdVSpRr7afLSTbHcab2B7bfyl79fab/T7BNnoy+vQnPz0bX1ckfn
+         PSUPZalh4PZwiZakqR4lzs+LcCU5b5YaxdZRX3C3REDmqa98VOmD2eAQTd1QoGBqsi
+         1SjQjmtki2yOkbidr8U6z/PEzCnE4Dx/pDXUri52W509E7wpR5yFEROE1YvEesxAiB
+         hdJHcssoRksOKUTQzTBSKH4JkaEQN2wXOlPeg95ZNr9TdcFyH4EvNlbMzECBEQS7gf
+         8Ny30rGUJ50mhG4XiVbQyAltLtnA+NxCX4lK0sacxmFpjPWyBIncyR7JzOMLYYBd67
+         9Ot0b4PMKXSEA==
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Sep 01, 2019 at 01:25:55AM +0900, Masahiro Yamada wrote:
-> KBUILD_ENABLE_EXTRA_GCC_CHECKS started as a switch to add extra warning
-> options for GCC, but now it is a historical misnomer since we use it
-> also for Clang, DTC, and even kernel-doc.
-> 
-> Rename it to more sensible, and shorter KBUILD_EXTRA_WARN.
-> 
-> For the backward compatibility, KBUILD_ENABLE_EXTRA_GCC_CHECKS is still
-> supported (but not advertised in the documentation).
-> 
-> I also fixed up 'make help', and updated the documentation.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+On 02/09/2019 16:18, Guillaume Tucker wrote:
+> The merge_config.sh script verifies that all the config options have
+> their expected value in the resulting file and prints any issues as
+> warnings.  These checks aren't intended to be treated as errors given
+> the current implementation.  However, since "set -e" was added, if the
+> grep command to look for a config option does not find it the script
+> will then abort prematurely.
+> 
+> Handle the case where the grep exit status is non-zero by setting
+> ACTUAL_VAL to an empty string to restore previous functionality.
+> 
+> Fixes: cdfca821571d ("merge_config.sh: Check error codes from make")
+> Signed-off-by: Guillaume Tucker <guillaume.tucker@collabora.com>
+> Cc: Jon Hunter <jonathanh@nvidia.com>
+> ---
+> 
+> Notes:
+>     v2: use true rather than echo as per Jon Hunter's suggestion
+> 
+>  scripts/kconfig/merge_config.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+> index d924c51d28b7..f2cc10b1d404 100755
+> --- a/scripts/kconfig/merge_config.sh
+> +++ b/scripts/kconfig/merge_config.sh
+> @@ -177,7 +177,7 @@ make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+>  for CFG in $(sed -n -e "$SED_CONFIG_EXP1" -e "$SED_CONFIG_EXP2" $TMP_FILE); do
+>  
+>  	REQUESTED_VAL=$(grep -w -e "$CFG" $TMP_FILE)
+> -	ACTUAL_VAL=$(grep -w -e "$CFG" "$KCONFIG_CONFIG")
+> +	ACTUAL_VAL=$(grep -w -e "$CFG" "$KCONFIG_CONFIG" || true)
+>  	if [ "x$REQUESTED_VAL" != "x$ACTUAL_VAL" ] ; then
+>  		echo "Value requested for $CFG not in final .config"
+>  		echo "Requested value:  $REQUESTED_VAL"
+> 
+
+Thanks for fixing! Great if we could get this into -next as soon as
+possible!
+
+Acked-by: Jon Hunter <jonathanh@nvidia.com>
+Tested-by: Jon Hunter <jonathanh@nvidia.com>
+
+Cheers
+Jon
+
+-- 
+nvpublic
