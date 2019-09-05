@@ -2,108 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E1CDA9C93
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2019 10:07:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B85AAAA016
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Sep 2019 12:42:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730867AbfIEIHA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 Sep 2019 04:07:00 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:44223 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730809AbfIEIHA (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 Sep 2019 04:07:00 -0400
-Received: by mail-qt1-f196.google.com with SMTP id u40so1708983qth.11;
-        Thu, 05 Sep 2019 01:06:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AIQLXRbVyNYLq+ol22DsuLqLcT0DV8DAEZvd/28G2Y8=;
-        b=FpRpchdKvqMSkeJ/5sO8CMY+J41eGcJpVvUO/UgNZuOSlALFlDpcO48+hiau/B5PuP
-         08TnU2+DvodbwLUZe8hq6yMOV4HU3+YfKmwWnN2wBiLiOuqAFLMRl21Mn4lKQLBU7HEm
-         CHwpvJdX65HhElRoArF/NQ7exDZe45eOFMd4mjM0TzoNaYGuazl1VmDvI3OM7oiDMYgF
-         7BNB98KVpSy2wJqdZDjxlmNWIYBQm7f2k4pa/aamWWsJ/ODQghE4AlZjkJ1Xl3xr/tZG
-         8rZ35EJuE5Ei+TeMEABSFUTmFmbsr0V+gnAtYVA3LCjnTMg3zw1qktQpUup9NXjun1II
-         G4dQ==
-X-Gm-Message-State: APjAAAUSPGtBqx0zzdoanSpPnukavMkDOUmgSxY2bdf4JV/UUQP7x38u
-        UEWU1hUSdU5PdZfiVSjCd5kMQ+aHeUdb/p1b2lc=
-X-Google-Smtp-Source: APXvYqzex4fLXZ/mKlGNUOU0ZQUObckXY2DD8ddIDBJhMKhbD6Zom5YIMIJqBjYLOTSaVc52F7CeU76TxQx7Vq/TSLc=
-X-Received: by 2002:ac8:5306:: with SMTP id t6mr2220290qtn.204.1567670819019;
- Thu, 05 Sep 2019 01:06:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190831162555.31887-1-yamada.masahiro@socionext.com>
- <CAK8P3a0kPFojqAWqXEAcitVMjBA5ABc=rRx=zHMxXat+gCz=gA@mail.gmail.com> <20190904224050.GA82176@archlinux-threadripper>
-In-Reply-To: <20190904224050.GA82176@archlinux-threadripper>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 5 Sep 2019 10:06:42 +0200
-Message-ID: <CAK8P3a3d-hFFznJAXOjtemV02Zzm_wJW2LefLONRJmobYodmrw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] kbuild: refactor scripts/Makefile.extrawarn
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        id S2388032AbfIEKlz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 Sep 2019 06:41:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39376 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731215AbfIEKlz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 5 Sep 2019 06:41:55 -0400
+Received: from linux-8ccs (nat.nue.novell.com [195.135.221.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8503A206BB;
+        Thu,  5 Sep 2019 10:41:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567680113;
+        bh=f3g6+GkFfq7dsW3Hcfdj3HneqZPXcFMZ8t3cgR3qUcw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cxyT0NCRQWEW0CzJzXAKo/7ZeMnS91FwRcZR6V2djERXI2dpN9lo6kUNOwDCKqSN9
+         +cwK/irArqaUooaX6It16R2kiGAZeIOM5GO2r0wJjuyVPaiYm5PqRdPBDrAgecqkEB
+         o4pc6bNQO33ZjIl7KaHnCnv5U5WRXIE9dnMY9p/Q=
+Date:   Thu, 5 Sep 2019 12:41:47 +0200
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Matthew Dharm <mdharm-usb@one-eyed-alien.net>
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Matthias Maennich <maennich@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        maco@android.com, sspatil@google.com,
+        Will Deacon <will@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-modules@vger.kernel.org,
+        linux-usb <linux-usb@vger.kernel.org>,
+        USB Mass Storage on Linux 
+        <usb-storage@lists.one-eyed-alien.net>,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [usb-storage] Re: [PATCH v4 12/12] RFC: watchdog: export core
+ symbols in WATCHDOG_CORE namespace
+Message-ID: <20190905104147.GA27788@linux-8ccs>
+References: <20180716122125.175792-1-maco@android.com>
+ <20190903150638.242049-1-maennich@google.com>
+ <20190903150638.242049-13-maennich@google.com>
+ <20190903161045.GA22754@roeck-us.net>
+ <CAK7LNARYqqCSCc0G4FL7_bj80iMoLLJrUJ7B3+huD25EUkrttA@mail.gmail.com>
+ <c6ac941c-06a4-e5dc-5cb9-fca7b40d7e9a@roeck-us.net>
+ <CAA6KcBBeP9xYbVws4=RMFNA4kyrodE-R3mifhbkee-Q+jFRcoQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAA6KcBBeP9xYbVws4=RMFNA4kyrodE-R3mifhbkee-Q+jFRcoQ@mail.gmail.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.61-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 5, 2019 at 12:40 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
-> On Wed, Sep 04, 2019 at 11:46:45PM +0200, Arnd Bergmann wrote:
-> > On Sat, Aug 31, 2019 at 6:26 PM Masahiro Yamada
-> > <yamada.masahiro@socionext.com> wrote:
-> >
-> > FWIW, I just found out I missed a bug that clang failed to warn about
-> > because of the  -Wno-format. Apparently gcc warns only about type
-> > mismatches that result in incompatible calling conventions (e.g.
-> > int vs int64_t) but not smaller types (int, short) that get converted to an
-> > int anyway. Passing -Wno-format turns both off.
-> >
-> >       Arnd
++++ Matthew Dharm [04/09/19 09:16 -0700]:
+>On Wed, Sep 4, 2019 at 5:12 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> Note that I don't object to the patch set in general. There may be symbols
+>> which only need be exported in the context of a single subsystem or even
+>> driver (if a driver consists of more than one module). For example, a mfd
+>> driver may export symbols which should only be called by its client drivers.
+>> In such a situation, it may well be beneficial to limit the use of exported
+>> symbols.
 >
-> Hi Arnd,
+>I can appreciate this benefit.
 >
-> This has been fixed in clang 10.0.0 but this areas has not been updated
-> as nobody has sent a patch yet:
+>> I am not sure what good that does in practice (if I understand correctly,
+>> a driver only has to declare that it wants to use a restricted use symbol
+>> if it wants to use it), but that is a different question.
 >
-> https://github.com/ClangBuiltLinux/linux/issues/378#issuecomment-524411147
+>I think this question implies that you are coming from the perspective
+>of "security" or wanting to restrict access to the underlying
+>functions, rather than wanting to clean-up the way symbols are handled
+>for manageability / maintainability purposes (which is the goal, as I
+>understand it).
+>
+>HOWEVER, I have one question:  If these patches are included, and
+>someone wants to introduce a bit of code which needs to use two
+>symbols from different namespaces but with the same name, can that be
+>done?  That is, if driver A has symbol 'foo' and driver B has symbol
+>'foo' (both in their respective namespaces), and driver C wants to use
+>A.foo and B.foo, can that be supported?
 
-Ok, that's good. I see that on clang-9, the documentation also
-mentions that -Wformat control -Wformat-extra-args -Wformat-invalid-specifier
--Wformat-y2k -Wformat-zero-length -Wnonnull and -Wformat-security.
-We can probably turn these all on, regardless. The only warning
-that produces output here is -Wformat-security, and only in a couple of
-files (number of warnings per file from a few hundred randconfig builds):
+As of now, we currently don't support this - modpost will warn if a
+symbol is exported more than once (across modules + vmlinux), and the
+module loader currently assumes exported symbol names are unique.  Do
+you have a concrete use case? If there is a strong need for this, I
+don't think it'd be too hard to implement.
 
-   384 kernel/trace/ring_buffer_benchmark.c
-    176 samples/trace_printk/trace-printk.c
-    174 kernel/debug/kdb/kdb_io.c
-    102 arch/x86/kernel/e820.c
-     80 fs/btrfs/check-integrity.c
-     67 fs/reiserfs/prints.c
-     63 fs/xfs/xfs_log_recover.c
-     54 fs/quota/dquot.c
-     53 lib/test_printf.c
-     39 sound/core/sound.c
-     28 arch/x86/kernel/cpu/mce/core.c
-     21 kernel/trace/preemptirq_delay_test.c
-     19 sound/core/seq/seq_clientmgr.c
-     17 sound/pci/hda/hda_bind.c
-     16 sound/usb/mixer_quirks.c
-     16 arch/x86/kernel/cpu/mce/amd.c
-     15 net/smc/smc_ism.c
-     12 kernel/debug/kdb/kdb_main.c
-      8 net/netfilter/nf_conntrack_helper.c
-      4 kernel/power/suspend_test.c
-      3 sound/pci/rme32.c
-      3 net/dsa/dsa.c
-      2 sound/pci/rme96.c
-      1 sound/soc/sof/intel/hda-codec.c
-      1 sound/pci/korg1212/korg1212.c
+Thanks,
 
-      Arnd
+Jessica
+
