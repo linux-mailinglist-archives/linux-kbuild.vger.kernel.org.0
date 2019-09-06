@@ -2,74 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C85D0AB92D
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2019 15:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AB9CABBE2
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Sep 2019 17:11:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393274AbfIFNWj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Sep 2019 09:22:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39576 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389315AbfIFNWj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Sep 2019 09:22:39 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 87B85206BB;
-        Fri,  6 Sep 2019 13:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567776159;
-        bh=F+5+j0hKHkPlII4mJBazwLBvW2FnavVO0cGYYhrJaCU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gdhwqgHzrty8ug0LWYyHfJC2LuFizBFsAeBK3mDDpX09UZEPGQm3nGIcMLNub3hNY
-         oroBiG2qFlSBxjICeacuDwAmVt+uWN5fZZ3n+KBz3UsJFrvyN/lAcKZYqWu5M5r9cy
-         yzonJ6LwGUOnNy40Yv71iisbzwzEBVXBgjO7A1HQ=
-Date:   Fri, 6 Sep 2019 15:22:36 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        linux-kernel@vger.kernel.org, kernel-team@android.com,
-        arnd@arndb.de, joel@joelfernandes.org, lucas.de.marchi@gmail.com,
-        maco@android.com, sspatil@google.com, will@kernel.org,
-        yamada.masahiro@socionext.com, linux-kbuild@vger.kernel.org,
-        linux-modules@vger.kernel.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: Re: [PATCH v5 10/11] usb-storage: remove single-use define for
- debugging
-Message-ID: <20190906132236.GA4107@kroah.com>
-References: <20180716122125.175792-1-maco@android.com>
- <20190906103235.197072-1-maennich@google.com>
- <20190906103235.197072-11-maennich@google.com>
- <20190906125942.GA31531@linux-8ccs>
+        id S1727041AbfIFPLZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Sep 2019 11:11:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:33425 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726019AbfIFPLZ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 6 Sep 2019 11:11:25 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MV2Sk-1hgIWR2ZKI-00S57m; Fri, 06 Sep 2019 17:11:01 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Denis Efremov <efremov@linux.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        WANG Chao <chao.wang@ucloud.cn>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] mostpost: don't warn about symbols from another file
+Date:   Fri,  6 Sep 2019 17:10:48 +0200
+Message-Id: <20190906151059.1077708-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190906125942.GA31531@linux-8ccs>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:MYSsX62M3kMVOdBJmO0fvdsGZ8LVBevwQAuhV3ZGapv8NxCoKjk
+ ewBSHOJ+U+W4Bx40YN/DKiYCMc86z16Ni9hwgNX31KTZIAQYIAvTD4YPKc19zHK2HJ7KxZM
+ 34zimubqZDjIL66j4kVkFU7LPxsU3RM9eaT4qGUqavdgjJa2/3/5bWTiBhHSmqT+lHTR+FE
+ 1IJMRDtXw4khhHR8Tekyg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jPkOfdxtGfs=:MMY/6CGqG/UaoJb6vlh/AH
+ U2S63vjc7H4TGNfEYOqhGsvpyk6EgV+g15g+sMayiSRR2f+MT5IdUdb9rZbHaLCr1GotwD6pT
+ frLmDSswIbANiqQSInn3yIX8G+ziGOO1Vf8V+QB7qpyhit/8ieCC9j1bUYMkjNqIa9MW9hQRU
+ 0wDsEX+hDy3qwUhpRGa5jGdsgIyiwXrqC7dAamrIzlrtHEIXYOwFm57GshwlU1WJsJTv1E4Wb
+ xsUowHX2NJGL9RhYj6GDxJTEpJSjQ57naMl2kC4yOS+g1vrghWwECPYRqyWAkU0B53jE2KYjA
+ 9IeJbdtviemSV3LsUtpKGAYOs8dP3JyKnqwEc86GmeYVf8vq48AVfft6Fz7RBCqzxoNAmN/p/
+ YXcn/DnAtGdcEOLAsYjgKfMOdHQQ+QaCZhPPlO57z1uJlMOS2rYP63phI8tKm9B/Op1IKdLjv
+ jidOQNVMWyVc3yCdnIOwBi/tpIsQw98d2VCKlQ8ubtacaqaZYNLeER6RhMT7XloK403DppwZH
+ rrqtyQcwavMJMWQHm5RieV9NqUJ9+Hl2NrPRneE99v6dqcFZpj0L14cUuPF5zsuG5pmVzHokf
+ VHIi1FgSaP3HccwZyt5aUm1TzelqEujdKzlU2LW0gWyrCA6oWslARprr7xAC9FtdH4p4IEwag
+ XmIzaJIggQbqgbEp6I8u7zm9W/9lX7C3XdPYzmFLfsI6Efy72BQg9wlFSXnrgago5Pc4yXeuO
+ l053iPLVHskj4J3ftQDlLripZ8/U19RyokcegBgwFccbc9qkshuvbS5fWqozc5bhMuWZPtPEc
+ sAOqHEpf3V0xguUpX9MgRl1zWeeGg==
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 06, 2019 at 02:59:42PM +0200, Jessica Yu wrote:
-> +++ Matthias Maennich [06/09/19 11:32 +0100]:
-> > USB_STORAGE was defined as "usb-storage: " and used in a single location
-> > as argument to printk. In order to be able to use the name
-> > 'USB_STORAGE', drop the definition and use the string directly for the
-> > printk call.
-> > 
-> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Signed-off-by: Matthias Maennich <maennich@google.com>
-> 
-> Greg, didn't you pick this patch up for usb-next already (for the 5.4
-> merge window)? If that's the case, I could apply the series omitting
-> this patch (once there are no more comments or complaints).
+On architectures such as ARM that have a list of symbols exported from
+assembler in a separate C file, we get a lot of new warnings:
 
-Yes, I already have this in my tree, but there's no problem with you
-taking it in yours as I think it's needed for the one after this to
-build properly.
+WARNING: "__ashrdi3" [vmlinux] is a static (unknown)
+WARNING: "__lshrdi3" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_llsr" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_lasr" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_uidivmod" [vmlinux] is a static (unknown)
+WARNING: "__udivsi3" [vmlinux] is a static (unknown)
+WARNING: "_change_bit" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_idiv" [vmlinux] is a static (unknown)
+WARNING: "__umodsi3" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_uidiv" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_idivmod" [vmlinux] is a static (unknown)
+WARNING: "__muldi3" [vmlinux] is a static (unknown)
+WARNING: "__aeabi_ulcmp" [vmlinux] is a static (unknown)
+WARNING: "__raw_writesb" [vmlinux] is a static (unknown)
+WARNING: "__raw_readsb" [vmlinux] is a static (unknown)
+...
 
-git will handle it properly when merging :)
+This is not helpful, as these are clearly not static symbols
+at all. Suppress the warning in a case like this.
 
-thanks!
+Fixes: 15bfc2348d54 ("modpost: check for static EXPORT_SYMBOL* functions")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ scripts/mod/modpost.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 76c221dd9b2b..4265dd924933 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2543,7 +2543,7 @@ int main(int argc, char **argv)
+ 		struct symbol *s = symbolhash[n];
+ 
+ 		while (s) {
+-			if (s->is_static)
++			if (s->is_static && s->export != export_unknown)
+ 				warn("\"%s\" [%s] is a static %s\n",
+ 				     s->name, s->module->name,
+ 				     export_str(s->export));
+-- 
+2.20.0
+
