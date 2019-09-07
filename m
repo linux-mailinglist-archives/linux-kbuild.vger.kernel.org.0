@@ -2,106 +2,264 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CED50AC3F4
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Sep 2019 03:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AE05AC40D
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Sep 2019 04:30:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406430AbfIGBfx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Sep 2019 21:35:53 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:38974 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406427AbfIGBfx (ORCPT
+        id S1729395AbfIGC37 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Sep 2019 22:29:59 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:22115 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726829AbfIGC37 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Sep 2019 21:35:53 -0400
-Received: by mail-vs1-f65.google.com with SMTP id y62so5280438vsb.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 06 Sep 2019 18:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=C+0rVi6PzTMFYTcbcIBgVtgcdKuod3fbgGTlJ3s1Cbc=;
-        b=aAqX8GF3NxJfYWTz+7NIDPLIjo0XP9/JZPono8ypSM0neNSMZHUmzdkq2Se7OJFOh9
-         PoY/oOktOwroaWpUhvkh/0lVCpOy0KJOLjA7Oi/nzaXZuFlZGZbL/4747zKBrwwhtzas
-         gG/MLSk0D7meYg6rv72yzT1Ye0iKhsbuA3x7qNKl17C/ShWvLceuPesYJRB24JI3yF/d
-         RlQ1pN3llWGMGktA9M5mcCV2mXYnONq4mktjFBILLKDKqhDlfm3tts6F97UbE+dOxwKG
-         stLn6T4VogMt45OE5RvOA2uSkgh1bK36Tx1Z5lO8sum/OTUS4kxFqGu49PNKiFyRTNrp
-         8fGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=C+0rVi6PzTMFYTcbcIBgVtgcdKuod3fbgGTlJ3s1Cbc=;
-        b=LJ0XbhM7Zv35H4dLdczMgRIIvc3I1eO+dpNOnBl9lb3gKoIOZ9JIAc+VbBa2TsN0+z
-         sz4x+NdrFyV+0FiDVTWrDau1Hl1XESNXxdsDhnx0qTbWfkIld5mx3fz8E9rCo1xeY+kC
-         ApjJBvlJ+HDxYKp49/AvnWdUHiidbOgEFJ8m9ZyKlbrLdoLJFIZtvIVjp35wH9qubMyh
-         jgVu+sX/ntkJjdRVQZVCqNqB2iTizikaZ6JLyjkVkovQ7nWp6piLa2rTczKbM5PR82T7
-         94cBc2d3o9G+Bz7If1EUqJVTkCbzVeKdabslWXXxFtglcvzue+Od6YVyjnCMwSt/81US
-         zjKA==
-X-Gm-Message-State: APjAAAVermtUg92k9Olt7+0bnPQYMeU/887b9kuofj4+2xj07Jgj0n2U
-        dEvtJ50fcVJN4QSKOYfrWvZdla09vC2c5uLbrdQ=
-X-Google-Smtp-Source: APXvYqyTtP/aHSfYAfmSrs7MWIe/GTCmIy0j5/fOPaIGMbEKnvKQPW7B/2OIkBGdOM/ShGwFA2jh7u3jozMFI6xv0E8=
-X-Received: by 2002:a05:6102:15a:: with SMTP id a26mr6991278vsr.143.1567820152517;
- Fri, 06 Sep 2019 18:35:52 -0700 (PDT)
+        Fri, 6 Sep 2019 22:29:59 -0400
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x872TqBS031519;
+        Sat, 7 Sep 2019 11:29:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x872TqBS031519
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1567823393;
+        bh=ecpq39w1kLvt8KzSabpKqd9mUE8PScl47JDUsEouC00=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=piiNLL1/i7wf6MUv2WT5/hQG5Lpf/W1ZlRjxLuU72p77cStKIYVRlchMtFa+4RUPz
+         rv2Wkm8EFPi/wy6OkOZwcMCuXDtMXtXjIqqJp1m6l7NWHTGvcxXqftUmjfKiCAEK7j
+         t/S0oMvyzKwXIANaZMKZtFztbnIS8wzJSdar/NGDoGELztPDYywilJC3dwb18nRUvN
+         6BoxAILEE90KKIDUoI97Q/bOuPZCtCOWCL2i+fw4KYMFCQ3Dmh33uNlzvzxBvGz6Zu
+         7AZ99QSSC7EV3I2dIPQ82PBHQzJ66PWVCGYX0p0ZKYderMpO5EJLIMT7Qh+/wH66aj
+         oDFc1ffctxvRw==
+X-Nifty-SrcIP: [209.85.217.46]
+Received: by mail-vs1-f46.google.com with SMTP id q9so5332426vsl.4;
+        Fri, 06 Sep 2019 19:29:53 -0700 (PDT)
+X-Gm-Message-State: APjAAAVVGESHGGGZ+7xwab6K//MIp3gibhdxFi21gdxOPIowlF/vgKak
+        v/vbwiFXelpXCtRmhUrn9diIWlXTJwF1MvczpLI=
+X-Google-Smtp-Source: APXvYqwMq6WF7Zgz7faYgMdiTT7SWW5kG/vSlGHpe4CGvwG9idkwyC/+hQgoutyozZcDBOhfbX1NA749xdEXDSeBiOY=
+X-Received: by 2002:a67:f418:: with SMTP id p24mr6709049vsn.215.1567823391858;
+ Fri, 06 Sep 2019 19:29:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a1f:c545:0:0:0:0:0 with HTTP; Fri, 6 Sep 2019 18:35:52 -0700 (PDT)
-Reply-To: waltonalice41@gmail.com
-From:   Alice Walton <saraharmony501@gmail.com>
-Date:   Sat, 7 Sep 2019 02:35:52 +0100
-Message-ID: <CAHoQAbVi2eUJHHAx8-i6uv=tXXkdZbDQj+bGXrd4foXr+8goAQ@mail.gmail.com>
-Subject: Please forgive me
-To:     undisclosed-recipients:;
+References: <20190831162555.31887-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190831162555.31887-1-yamada.masahiro@socionext.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 7 Sep 2019 11:29:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQYYHni+_1cC8+dVozVgtzzpEqCDJ+-e5k=9yR-+dZTYg@mail.gmail.com>
+Message-ID: <CAK7LNAQYYHni+_1cC8+dVozVgtzzpEqCDJ+-e5k=9yR-+dZTYg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] kbuild: refactor scripts/Makefile.extrawarn
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-My Dearest,
+On Sun, Sep 1, 2019 at 1:26 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> Instead of the warning-[123] magic, let's accumulate compiler options
+> to KBUILD_CFLAGS directly as the top Makefile does. I think this makes
+> easier to understand what is going on in this file.
+>
+> This commit slightly changes the behavior, I think all of which are OK.
+>
+> [1] Currently, cc-option calls are needlessly evaluated. For example,
+>       warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
+>     needs evaluating only when W=3, but it is actually evaluated for
+>     W=1, W=2 as well. With this commit, only relevant cc-option calls
+>     will be evaluated. This is a slight optimization.
+>
+> [2] Currently, unsupported level like W=4 is checked by:
+>       $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
+>     This will no longer be checked, but I do not think it is a big
+>     deal.
+>
+> [3] Currently, 4 Clang warnings (Winitializer-overrides, Wformat,
+>     Wsign-compare, Wformat-zero-length) are shown by any of W=1, W=2,
+>     and W=3. With this commit, they will be warned only by W=1. I
+>     think this is a more correct behavior since each warning belongs
+>     to only one group.
+>
+> For understanding this commit correctly:
+>
+> We have 3 warning groups, W=1, W=2, and W=3. You may think W=3 has a
+> higher level than W=1, but they are actually independent. If you like,
+> you can combine them like W=13. To enable all the warnings, you can
+> pass W=123. It is shown by 'make help', but not noticed much. Since we
+> support W= combination, there should not exist intersection among the
+> three groups. If we enable Winitializer-overrides for W=1, we do not
+> need to for W=2 or W=3. This is the reason why I think the change [3]
+> makes sense.
+>
+> The documentation says -Winitializer-overrides is enabled by default.
+> (https://clang.llvm.org/docs/DiagnosticsReference.html#winitializer-overrides)
+> We negate it by passing -Wno-initializer-overrides for the normal
+> build, but we do not do that for W=1. This means, W=1 effectively
+> enables -Winitializer-overrides by the clang's default. The same for
+> the other three.
+>
+> Add comments in case people are confused with the code.
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+> Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> ---
 
-Please forgive me for stressing you with my predicaments as I know
-that this letter may come to you as a big surprise.
+Both applied to linux-kbuild.
 
-Actually, I came across your E-mail from my personal search afterward
-I decided to email you directly believing that you will be honest to
-fulfil my final wish before anything happens to me. Meanwhile, I am
-Madam Alice Walton, 71 years old childless widow from France but i
-reside and doing Gold mining business in Africa before i fall sick.
 
-I am suffering from Adenocarcinoma Cancer of the lungs for the past 8
-years and from all indication my condition is really deteriorating as
-my doctors have confirmed and courageously advised me that I may not
-live beyond 3 weeks from now for the reason that my tumor has reached
-a critical stage which has defiled all forms of medical treatment.
+> Changes in v3:
+>   - Added yet more comments.
+>     Fix grammatical mistake 'does' -> 'do'.
+>
+> Changes in v2:
+>   - Added comments and more commit log
+>
+>  scripts/Makefile.extrawarn | 106 ++++++++++++++++++++-----------------
+>  1 file changed, 56 insertions(+), 50 deletions(-)
+>
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index a74ce2e3c33e..d226c5fb13e2 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -1,14 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  # ==========================================================================
+> -#
+>  # make W=... settings
+>  #
+> -# W=1 - warnings that may be relevant and does not occur too often
+> -# W=2 - warnings that occur quite often but may still be relevant
+> -# W=3 - the more obscure warnings, can most likely be ignored
+> -#
+> -# $(call cc-option, -W...) handles gcc -W.. options which
+> -# are not supported by all versions of the compiler
+> +# There are three warning groups enabled by W=1, W=2, W=3.
+> +# They are independent, and can be combined like W=12 or W=123.
+>  # ==========================================================================
+>
+>  KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+> @@ -17,58 +12,69 @@ ifeq ("$(origin W)", "command line")
+>    export KBUILD_ENABLE_EXTRA_GCC_CHECKS := $(W)
+>  endif
+>
+> -ifdef KBUILD_ENABLE_EXTRA_GCC_CHECKS
+> -warning-  := $(empty)
+> +#
+> +# W=1 - warnings which may be relevant and do not occur too often
+> +#
+> +ifneq ($(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
+>
+> -warning-1 := -Wextra -Wunused -Wno-unused-parameter
+> -warning-1 += -Wmissing-declarations
+> -warning-1 += -Wmissing-format-attribute
+> -warning-1 += -Wmissing-prototypes
+> -warning-1 += -Wold-style-definition
+> -warning-1 += -Wmissing-include-dirs
+> -warning-1 += $(call cc-option, -Wunused-but-set-variable)
+> -warning-1 += $(call cc-option, -Wunused-const-variable)
+> -warning-1 += $(call cc-option, -Wpacked-not-aligned)
+> -warning-1 += $(call cc-option, -Wstringop-truncation)
+> +KBUILD_CFLAGS += -Wextra -Wunused -Wno-unused-parameter
+> +KBUILD_CFLAGS += -Wmissing-declarations
+> +KBUILD_CFLAGS += -Wmissing-format-attribute
+> +KBUILD_CFLAGS += -Wmissing-prototypes
+> +KBUILD_CFLAGS += -Wold-style-definition
+> +KBUILD_CFLAGS += -Wmissing-include-dirs
+> +KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
+> +KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
+> +KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
+> +KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
+>  # The following turn off the warnings enabled by -Wextra
+> -warning-1 += -Wno-missing-field-initializers
+> -warning-1 += -Wno-sign-compare
+> -
+> -warning-2 += -Wcast-align
+> -warning-2 += -Wdisabled-optimization
+> -warning-2 += -Wnested-externs
+> -warning-2 += -Wshadow
+> -warning-2 += $(call cc-option, -Wlogical-op)
+> -warning-2 += -Wmissing-field-initializers
+> -warning-2 += -Wsign-compare
+> -warning-2 += $(call cc-option, -Wmaybe-uninitialized)
+> -warning-2 += $(call cc-option, -Wunused-macros)
+> -
+> -warning-3 := -Wbad-function-cast
+> -warning-3 += -Wcast-qual
+> -warning-3 += -Wconversion
+> -warning-3 += -Wpacked
+> -warning-3 += -Wpadded
+> -warning-3 += -Wpointer-arith
+> -warning-3 += -Wredundant-decls
+> -warning-3 += -Wswitch-default
+> -warning-3 += $(call cc-option, -Wpacked-bitfield-compat)
+> -
+> -warning := $(warning-$(findstring 1, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
+> -warning += $(warning-$(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
+> -warning += $(warning-$(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)))
+> -
+> -ifeq ("$(strip $(warning))","")
+> -        $(error W=$(KBUILD_ENABLE_EXTRA_GCC_CHECKS) is unknown)
+> -endif
+> +KBUILD_CFLAGS += -Wno-missing-field-initializers
+> +KBUILD_CFLAGS += -Wno-sign-compare
+>
+> -KBUILD_CFLAGS += $(warning)
+>  else
+>
+> +# Some diagnostics enabled by default are noisy.
+> +# Suppress them by using -Wno... except for W=1.
+> +
+>  ifdef CONFIG_CC_IS_CLANG
+>  KBUILD_CFLAGS += -Wno-initializer-overrides
+>  KBUILD_CFLAGS += -Wno-format
+>  KBUILD_CFLAGS += -Wno-sign-compare
+>  KBUILD_CFLAGS += -Wno-format-zero-length
+>  endif
+> +
+> +endif
+> +
+> +#
+> +# W=2 - warnings which occur quite often but may still be relevant
+> +#
+> +ifneq ($(findstring 2, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
+> +
+> +KBUILD_CFLAGS += -Wcast-align
+> +KBUILD_CFLAGS += -Wdisabled-optimization
+> +KBUILD_CFLAGS += -Wnested-externs
+> +KBUILD_CFLAGS += -Wshadow
+> +KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
+> +KBUILD_CFLAGS += -Wmissing-field-initializers
+> +KBUILD_CFLAGS += -Wsign-compare
+> +KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
+> +KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
+> +
+> +endif
+> +
+> +#
+> +# W=3 - more obscure warnings, can most likely be ignored
+> +#
+> +ifneq ($(findstring 3, $(KBUILD_ENABLE_EXTRA_GCC_CHECKS)),)
+> +
+> +KBUILD_CFLAGS += -Wbad-function-cast
+> +KBUILD_CFLAGS += -Wcast-qual
+> +KBUILD_CFLAGS += -Wconversion
+> +KBUILD_CFLAGS += -Wpacked
+> +KBUILD_CFLAGS += -Wpadded
+> +KBUILD_CFLAGS += -Wpointer-arith
+> +KBUILD_CFLAGS += -Wredundant-decls
+> +KBUILD_CFLAGS += -Wswitch-default
+> +KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
+> +
+>  endif
+> --
+> 2.17.1
+>
 
-Since my days are numbered, I=E2=80=99ve decided willingly to fulfil my
-long-time vow to donate to the less privileges the sum of($18.5
-million dollars) I deposited in my offshore account over 7 years now
-because I have tried to handle this project by myself but I have seen
-that my health could not allow me to do so anymore.
 
-My promise to God includes building of well-equipped charity
-foundation/hospital and a technical school for the orphans and less
-privileges.
-
-Since i am not capable to handle this again myself due to my critical
-health condition,please i need your consent to help me receive my
-money from the bank and use it to do this divine works of God in your
-country in my name so that my soul can be at rest if anything happens
-to me.
-
-If you will be honest, kind and willing to assist me handle this
-charity project as I=E2=80=99ve mentioned here, I will like you to provide =
-me
-your personal data like,
-
-(1) Your full name:
-(2) country:
-(3) Occupation:
-(4) phone number:
-(5) Age:
-
-Let me have this data so that i can link you up with my bank as my
-representative and receiver of the funds now that i am still alive.
-
-Warmest Regards!
-Mrs. Alice Walton
+-- 
+Best Regards
+Masahiro Yamada
