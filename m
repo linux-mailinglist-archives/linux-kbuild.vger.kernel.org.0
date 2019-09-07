@@ -2,122 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C6E2AC29D
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Sep 2019 00:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CED50AC3F4
+	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Sep 2019 03:35:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392552AbfIFWjQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Sep 2019 18:39:16 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:46956 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392542AbfIFWjQ (ORCPT
+        id S2406430AbfIGBfx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Sep 2019 21:35:53 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:38974 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406427AbfIGBfx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Sep 2019 18:39:16 -0400
-Received: by mail-ed1-f67.google.com with SMTP id i8so7854495edn.13;
-        Fri, 06 Sep 2019 15:39:14 -0700 (PDT)
+        Fri, 6 Sep 2019 21:35:53 -0400
+Received: by mail-vs1-f65.google.com with SMTP id y62so5280438vsb.6
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Sep 2019 18:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=C+0rVi6PzTMFYTcbcIBgVtgcdKuod3fbgGTlJ3s1Cbc=;
+        b=aAqX8GF3NxJfYWTz+7NIDPLIjo0XP9/JZPono8ypSM0neNSMZHUmzdkq2Se7OJFOh9
+         PoY/oOktOwroaWpUhvkh/0lVCpOy0KJOLjA7Oi/nzaXZuFlZGZbL/4747zKBrwwhtzas
+         gG/MLSk0D7meYg6rv72yzT1Ye0iKhsbuA3x7qNKl17C/ShWvLceuPesYJRB24JI3yF/d
+         RlQ1pN3llWGMGktA9M5mcCV2mXYnONq4mktjFBILLKDKqhDlfm3tts6F97UbE+dOxwKG
+         stLn6T4VogMt45OE5RvOA2uSkgh1bK36Tx1Z5lO8sum/OTUS4kxFqGu49PNKiFyRTNrp
+         8fGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YNLqTN8803DFINNIjjxUVy15PHLGVY4/L8dez9jnCGo=;
-        b=okfNRS/dbkcwoXAcUFWBTmUHQLMlnPPJTZRh52uiQo0H5Kiz66dYXEgwPJEUwyX8AI
-         2xCjEpiEBizpBj/hlKX/9cSk8IxvSt58rhp/jX7T9lvDjYdihKE2hLQXpMdEWMbldZ0g
-         FRAELyFjA6CI8it29Z2BDrHOu8MyPok1mYzA1EwYvJaU7gQOYTBMvub0cKlgI/T+Nnxz
-         9mu/vw09M/A3ubUA/wCR5smInW2rmr+DX1IMDyzaLRHSupZfKmceKh3uUGJaSX7jlZyE
-         W0DBvutUps2naG9w+Kt1yK1OKTHMQYDswSTGlyDcgwcViScQR2ks1cOkEOH6jxXIBajZ
-         HgGQ==
-X-Gm-Message-State: APjAAAUmVeEKdB8lD4too5u+zLcKto/L9cCWzuHXLg0BwoIEqzRWHAo/
-        YHf5pz7ozRGVjuwDReTPKUfiVj+e
-X-Google-Smtp-Source: APXvYqz7gLTmLHUbahLeOqR7dknkVE+aivBMARy2opxkne/AGr+ar0mOc39wS4C7xmosIlUDviq30Q==
-X-Received: by 2002:a50:a5f8:: with SMTP id b53mr12284231edc.39.1567809553991;
-        Fri, 06 Sep 2019 15:39:13 -0700 (PDT)
-Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru. [188.32.48.208])
-        by smtp.gmail.com with ESMTPSA id c32sm963827eda.97.2019.09.06.15.39.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2019 15:39:13 -0700 (PDT)
-Subject: Re: [PATCH] mostpost: don't warn about symbols from another file
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Emil Velikov <emil.l.velikov@gmail.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        WANG Chao <chao.wang@ucloud.cn>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190906151059.1077708-1-arnd@arndb.de>
-From:   Denis Efremov <efremov@linux.com>
-Message-ID: <7fc19dd4-93fb-fa15-3d36-3079cd42cf7c@linux.com>
-Date:   Sat, 7 Sep 2019 01:39:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=C+0rVi6PzTMFYTcbcIBgVtgcdKuod3fbgGTlJ3s1Cbc=;
+        b=LJ0XbhM7Zv35H4dLdczMgRIIvc3I1eO+dpNOnBl9lb3gKoIOZ9JIAc+VbBa2TsN0+z
+         sz4x+NdrFyV+0FiDVTWrDau1Hl1XESNXxdsDhnx0qTbWfkIld5mx3fz8E9rCo1xeY+kC
+         ApjJBvlJ+HDxYKp49/AvnWdUHiidbOgEFJ8m9ZyKlbrLdoLJFIZtvIVjp35wH9qubMyh
+         jgVu+sX/ntkJjdRVQZVCqNqB2iTizikaZ6JLyjkVkovQ7nWp6piLa2rTczKbM5PR82T7
+         94cBc2d3o9G+Bz7If1EUqJVTkCbzVeKdabslWXXxFtglcvzue+Od6YVyjnCMwSt/81US
+         zjKA==
+X-Gm-Message-State: APjAAAVermtUg92k9Olt7+0bnPQYMeU/887b9kuofj4+2xj07Jgj0n2U
+        dEvtJ50fcVJN4QSKOYfrWvZdla09vC2c5uLbrdQ=
+X-Google-Smtp-Source: APXvYqyTtP/aHSfYAfmSrs7MWIe/GTCmIy0j5/fOPaIGMbEKnvKQPW7B/2OIkBGdOM/ShGwFA2jh7u3jozMFI6xv0E8=
+X-Received: by 2002:a05:6102:15a:: with SMTP id a26mr6991278vsr.143.1567820152517;
+ Fri, 06 Sep 2019 18:35:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190906151059.1077708-1-arnd@arndb.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a1f:c545:0:0:0:0:0 with HTTP; Fri, 6 Sep 2019 18:35:52 -0700 (PDT)
+Reply-To: waltonalice41@gmail.com
+From:   Alice Walton <saraharmony501@gmail.com>
+Date:   Sat, 7 Sep 2019 02:35:52 +0100
+Message-ID: <CAHoQAbVi2eUJHHAx8-i6uv=tXXkdZbDQj+bGXrd4foXr+8goAQ@mail.gmail.com>
+Subject: Please forgive me
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+My Dearest,
 
-On 06.09.2019 18:10, Arnd Bergmann wrote:
-> On architectures such as ARM that have a list of symbols exported from
-> assembler in a separate C file, we get a lot of new warnings:
-> 
-> WARNING: "__ashrdi3" [vmlinux] is a static (unknown)
-> WARNING: "__lshrdi3" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_llsr" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_lasr" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_uidivmod" [vmlinux] is a static (unknown)
-> WARNING: "__udivsi3" [vmlinux] is a static (unknown)
-> WARNING: "_change_bit" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_idiv" [vmlinux] is a static (unknown)
-> WARNING: "__umodsi3" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_uidiv" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_idivmod" [vmlinux] is a static (unknown)
-> WARNING: "__muldi3" [vmlinux] is a static (unknown)
-> WARNING: "__aeabi_ulcmp" [vmlinux] is a static (unknown)
-> WARNING: "__raw_writesb" [vmlinux] is a static (unknown)
-> WARNING: "__raw_readsb" [vmlinux] is a static (unknown)
-> ...
-> 
-> This is not helpful, as these are clearly not static symbols
-> at all. Suppress the warning in a case like this.
-> 
+Please forgive me for stressing you with my predicaments as I know
+that this letter may come to you as a big surprise.
 
-It looks very similar to this discussion https://lkml.org/lkml/2019/7/30/112
+Actually, I came across your E-mail from my personal search afterward
+I decided to email you directly believing that you will be honest to
+fulfil my final wish before anything happens to me. Meanwhile, I am
+Madam Alice Walton, 71 years old childless widow from France but i
+reside and doing Gold mining business in Africa before i fall sick.
 
-Could you please write the steps to reproduce the warnings?
-Now, I'm trying to build linux-next (host Ubuntu 19.04 x86_64) with:
-$ make ARCH=arm CROSS_COMPILE=/usr/bin/arm-linux-gnueabi-
-But I can't get these warnings.
+I am suffering from Adenocarcinoma Cancer of the lungs for the past 8
+years and from all indication my condition is really deteriorating as
+my doctors have confirmed and courageously advised me that I may not
+live beyond 3 weeks from now for the reason that my tumor has reached
+a critical stage which has defiled all forms of medical treatment.
 
-I would like to check the type of this asm symbols. It seems like they
-are STT_NOTYPE. In this case the fix could also involve ELF_ST_TYPE check.
+Since my days are numbered, I=E2=80=99ve decided willingly to fulfil my
+long-time vow to donate to the less privileges the sum of($18.5
+million dollars) I deposited in my offshore account over 7 years now
+because I have tried to handle this project by myself but I have seen
+that my health could not allow me to do so anymore.
 
-Thanks,
-Denis
+My promise to God includes building of well-equipped charity
+foundation/hospital and a technical school for the orphans and less
+privileges.
 
-> Fixes: 15bfc2348d54 ("modpost: check for static EXPORT_SYMBOL* functions")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  scripts/mod/modpost.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 76c221dd9b2b..4265dd924933 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2543,7 +2543,7 @@ int main(int argc, char **argv)
->  		struct symbol *s = symbolhash[n];
->  
->  		while (s) {
-> -			if (s->is_static)
-> +			if (s->is_static && s->export != export_unknown)
->  				warn("\"%s\" [%s] is a static %s\n",
->  				     s->name, s->module->name,
->  				     export_str(s->export));
-> 
+Since i am not capable to handle this again myself due to my critical
+health condition,please i need your consent to help me receive my
+money from the bank and use it to do this divine works of God in your
+country in my name so that my soul can be at rest if anything happens
+to me.
+
+If you will be honest, kind and willing to assist me handle this
+charity project as I=E2=80=99ve mentioned here, I will like you to provide =
+me
+your personal data like,
+
+(1) Your full name:
+(2) country:
+(3) Occupation:
+(4) phone number:
+(5) Age:
+
+Let me have this data so that i can link you up with my bank as my
+representative and receiver of the funds now that i am still alive.
+
+Warmest Regards!
+Mrs. Alice Walton
