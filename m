@@ -2,80 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2C7BAD7FA
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Sep 2019 13:34:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2B9DADA32
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Sep 2019 15:43:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403880AbfIILej (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Sep 2019 07:34:39 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:60119 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404103AbfIILej (ORCPT
+        id S1730516AbfIINnr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Sep 2019 09:43:47 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:37914 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729438AbfIINnr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Sep 2019 07:34:39 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x89BYPw7012688;
-        Mon, 9 Sep 2019 20:34:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x89BYPw7012688
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1568028866;
-        bh=qwVV+ymKu24KVZhw2r78oztqOJ1wcoVVFfPTdN1I4Ew=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ESJ4wZNUd6jlgvkXG32t74wGRLXE4TB3AQ81jyghI1D1F/YwNuZWxQTFyiu58XRxl
-         SnLmzXb8AyOB/oHunoyhrxmD+EAck/seIvIdyudjQ4pvifp+sX8pUZ+AJF+SiXZk5h
-         laA+1/arZUaoWKmYm9he2aTxCBmJWNl+Yzjs4NQajTucjfrue63e5w8KG49hTNop1V
-         SnWWG4h8cdihm0zGUIaA8XP073uYUr9yI6yOtOUuvYWHFPuCOH3/9Q2Uik7O8ldCA2
-         BqrymsyaVe9ZUOQfrmK5Azb4wcFfHg+F2zRRUQBCA4CWfyBZRbt9Km4s4jvhpDmID2
-         psVgmNdqSYaKg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Lucas De Marchi <lucas.demarchi@intel.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] modpost: use __section in the output to *.mod.c
-Date:   Mon,  9 Sep 2019 20:34:23 +0900
-Message-Id: <20190909113423.2289-2-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190909113423.2289-1-yamada.masahiro@socionext.com>
-References: <20190909113423.2289-1-yamada.masahiro@socionext.com>
+        Mon, 9 Sep 2019 09:43:47 -0400
+Received: by mail-qt1-f194.google.com with SMTP id b2so16188093qtq.5;
+        Mon, 09 Sep 2019 06:43:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=642cFtI3f24XPx+5CJOS0tuBt/rWYPYIkmSER4gGvqI=;
+        b=ZfxSEkfquoKKvIngIqHiKeW0stnX8fa31cKbbjtZR5p6yVeasDtthawj+wFp1QLEHX
+         jeRw1NPSApPboksxvSHchSoGOyFz5tb8oBbTU/JUrHlJGJ3z3zej/b5yqhgxak84dFbC
+         NlK5MusQ/n9Ecvey1GmMfqP10/ClSKajACUpWnkr7/5KUVpWNUNdMkIXeTJCODOItkho
+         ShsAi6qbx699/iu61YSPFz/03kxGr8sFA+ZRCDNGPgVnIgY1gucJ1LopUDxGeM0z5PYF
+         8zKqr1fOtOqPwemXZ+HdeCii5y1+ZC+INCrW7lt8lWFZOlkrtrHAML64u+UchkU37VAT
+         4+wQ==
+X-Gm-Message-State: APjAAAWxZrR2/247MhNabzKSFMCJkSKvQJaFbBMsN/LWQ+zRLmgDEjiK
+        dqYjknGg4vlj5Phaxe2FBLwOAEHCMTGztIZfUh8=
+X-Google-Smtp-Source: APXvYqxsd48uc76vj06LPa3C/gIwjvH1qE1KDfxVodGiwZLdizquOW+NL+DPH8y8oaGhqAMuDEo3ROFiCKnsdys3ksw=
+X-Received: by 2002:ad4:4529:: with SMTP id l9mr9849589qvu.45.1568036625284;
+ Mon, 09 Sep 2019 06:43:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190909105317.20473-1-yamada.masahiro@socionext.com> <20190909105317.20473-2-yamada.masahiro@socionext.com>
+In-Reply-To: <20190909105317.20473-2-yamada.masahiro@socionext.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 9 Sep 2019 15:43:29 +0200
+Message-ID: <CAK8P3a0XX_ZZNgZcU=PucJ3-aJccR80mBnTpgpGNew_mOUv8-w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] export.h, genksyms: do not make genksyms calculate
+ CRC of trimmed symbols
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Denis Efremov <efremov@linux.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Use the __section() shorthand. This avoids escaping double-quotes,
-and improves the readability.
+On Mon, Sep 9, 2019 at 12:53 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+> Since commit 15bfc2348d54 ("modpost: check for static EXPORT_SYMBOL*
+> functions"), it is harmful because the bogus __crc* symbols make
+> modpost call sym_update_crc(), and then new_symbol(), but there is
+> no one that clears the ->is_static member.
+>
+> I gave Fixes to the first commit that uncovered the issue, but the
+> potential problem has long existed since commit f235541699bc
+> ("export.h: allow for per-symbol configurable EXPORT_SYMBOL()").
+>
+> Fixes: 15bfc2348d54 ("modpost: check for static EXPORT_SYMBOL* functions")
+> Reported-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+Tested-by: Arnd Bergmann <arnd@arndb.de>
 
- scripts/mod/modpost.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thanks for providing a proper fix!
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 480c7b60153b..0dd1bb6f6eec 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2159,7 +2159,7 @@ static void add_header(struct buffer *b, struct module *mod)
- 	buf_printf(b, "MODULE_INFO(name, KBUILD_MODNAME);\n");
- 	buf_printf(b, "\n");
- 	buf_printf(b, "__visible struct module __this_module\n");
--	buf_printf(b, "__attribute__((section(\".gnu.linkonce.this_module\"))) = {\n");
-+	buf_printf(b, "__section(.gnu.linkonce.this_module) = {\n");
- 	buf_printf(b, "\t.name = KBUILD_MODNAME,\n");
- 	if (mod->has_init)
- 		buf_printf(b, "\t.init = init_module,\n");
-@@ -2213,8 +2213,7 @@ static int add_versions(struct buffer *b, struct module *mod)
- 
- 	buf_printf(b, "\n");
- 	buf_printf(b, "static const struct modversion_info ____versions[]\n");
--	buf_printf(b, "__used\n");
--	buf_printf(b, "__attribute__((section(\"__versions\"))) = {\n");
-+	buf_printf(b, "__used __section(__versions) = {\n");
- 
- 	for (s = mod->unres; s; s = s->next) {
- 		if (!s->module)
--- 
-2.17.1
-
+       Arnd
