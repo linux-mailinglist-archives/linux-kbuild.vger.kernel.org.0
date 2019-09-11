@@ -2,91 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F055AF663
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2019 09:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC9C2AF877
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2019 11:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726911AbfIKHHR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Sep 2019 03:07:17 -0400
-Received: from mail2.protonmail.ch ([185.70.40.22]:48917 "EHLO
-        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726889AbfIKHHR (ORCPT
+        id S1727346AbfIKJF2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Sep 2019 05:05:28 -0400
+Received: from mail-io1-f45.google.com ([209.85.166.45]:35765 "EHLO
+        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727307AbfIKJF1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Sep 2019 03:07:17 -0400
-Date:   Wed, 11 Sep 2019 07:07:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aurabindo.in;
-        s=protonmail; t=1568185634;
-        bh=o1L+8KhqsX2u25XHVsCqbScSrZDVm6VBVGwx2oUNrkc=;
-        h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=B1ngaLX5Wd0vi0NHSp7skQKh8dYy4lezL9ofvPLKxXliM72y9PJF4LOxBEYH7uFZC
-         Z++rLaVCEzu2lnHJ/qIXYW5ltoyhKg1aOg/UTULTuX3epfAqsBxEgfx1+viO2SlrCP
-         wUAMOlolarO3wnMNqjqWJ5w30HjId+EtZmFEOyv0=
-To:     Paul Walmsley <paul.walmsley@sifive.com>,
+        Wed, 11 Sep 2019 05:05:27 -0400
+Received: by mail-io1-f45.google.com with SMTP id f4so43406749ion.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Sep 2019 02:05:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=rcHZ7V9Te0/ZBIfH3p5NzVwZRy2kREKEbZcXarQ/wOM=;
+        b=VuZMT/9XyJEIM69eA46bFbypZPJF66OB0+eSboBzzYL5ASttwOQDAvjxBBR4sJslqo
+         RMQdGFnVp/sy5tBDcpa85qTZS9WjktN0bXZqAhhyXtpuS1uQTovRyqMQm8eXoPkA4rLt
+         DZgllNzl7KB8TbmGFGr3QuS06gigYWatW9pjg0uU2D1wimW2rIhLCw+txOdMN51hhfB4
+         45ndhddr33F7vXCu/e4xNx+hjQMJMa6fP+LveWJlypqHRWl5tfOFIn0D+HGp1JzB7v/0
+         3NmwX/4Pi13AZbC/c2Q0EjUzPwNMM4HVXo0s9SirPfru7sxaCaBA8SeFZ9tBXWJDGlVP
+         0VEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=rcHZ7V9Te0/ZBIfH3p5NzVwZRy2kREKEbZcXarQ/wOM=;
+        b=OfYia4bBokElTKEo/0xF5ITapUhGdZWsVywHG2QwA4gTgm+msZBfSLWVHP/IxUscQ0
+         lOf7Wcg67ieCcQjF5HTYhGLtPEm/+KnTCyHzemNCDCOKEa6THIt31mSJk612wYMPeJrh
+         JfR8OgZU0ysGsnhCiBXJdwLj9Vo+vnxWiiZ8SRxwDLquNiaR4vlPpcnMby0LJQefOjjw
+         K3vB/efC8VSqrDpeLk8qAPkdVtDdFU87n7/HNEGw2N918AUW6jKJuMGzvu3Ijfvh7eUR
+         Fy34fHDoplghFIA1UCUmAlgyOBjvadf6WgrCvJpFZNZa1r7gK8mNjBIDQYxO9BZzDj17
+         Z8sg==
+X-Gm-Message-State: APjAAAXlAl65vDHo6CioXd6FaekwWm/6D2X302HqtjYP3rVFmBfce3Kc
+        9B1NONLqhdjvuCNyGIafrmdc/g==
+X-Google-Smtp-Source: APXvYqxMF51CnJ0mEaL1+NJdgmTNVeMqdL8V/PSvNSEU5r+6PqGq+T4qLRqwfbLWRxw4GTVfEcRVrw==
+X-Received: by 2002:a02:c790:: with SMTP id n16mr37716992jao.10.1568192726929;
+        Wed, 11 Sep 2019 02:05:26 -0700 (PDT)
+Received: from [192.168.1.138] ([216.160.37.230])
+        by smtp.gmail.com with ESMTPSA id u6sm3745241iol.49.2019.09.11.02.05.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 Sep 2019 02:05:26 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
+Subject: Re: [RFC] buildtar: add case for riscv architecture
+From:   Troy Benjegerdes <troy.benjegerdes@sifive.com>
+In-Reply-To: <NwVOGH2ZdDQaDK35QUy7y8GS__G8IYSIUUIBAJsimZq5BgvI3SzLS3uY6fV7Pgppq-RTRHzpT-8KrsLjDN74CPWwHTCWoSgHkGbeJNvyS30=@aurabindo.in>
+Date:   Wed, 11 Sep 2019 04:05:25 -0500
+Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
         Palmer Dabbelt <palmer@sifive.com>,
-        Albert Ou <aou@eecs.berkeley.edu>
-From:   Aurabindo Jayamohanan <mail@aurabindo.in>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>
-Reply-To: Aurabindo Jayamohanan <mail@aurabindo.in>
-Subject: [RFC] buildtar: add case for riscv architecture
-Message-ID: <NwVOGH2ZdDQaDK35QUy7y8GS__G8IYSIUUIBAJsimZq5BgvI3SzLS3uY6fV7Pgppq-RTRHzpT-8KrsLjDN74CPWwHTCWoSgHkGbeJNvyS30=@aurabindo.in>
-Feedback-ID: D1Wwva8zb0UdpJtanaReRLGO3iCsewpGmDn8ZDKmpao-Gnxd2qXPmwwrSQ99r5Q15lmK-D8x6vKzqhUKCgzweA==:Ext:ProtonMail
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
-        boundary="b1_8aa5ac17d5a37d2299526ba3f06c3a3e"
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF autolearn=ham
-        autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <8EF02DA7-46D3-4EA8-96FB-27708BF25DAC@sifive.com>
+References: <NwVOGH2ZdDQaDK35QUy7y8GS__G8IYSIUUIBAJsimZq5BgvI3SzLS3uY6fV7Pgppq-RTRHzpT-8KrsLjDN74CPWwHTCWoSgHkGbeJNvyS30=@aurabindo.in>
+To:     Aurabindo Jayamohanan <mail@aurabindo.in>
+X-Mailer: Apple Mail (2.3445.9.1)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This is a multi-part message in MIME format.
-
---b1_8aa5ac17d5a37d2299526ba3f06c3a3e
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-I would like to know if something extra needs to be done other than copying=
- compressed kernel image, when making tar package for riscv architecture. P=
-lease see the attached patch.
-
---
-
-Thanks and Regards,
-Aurabindo Jayamohanan
-
---b1_8aa5ac17d5a37d2299526ba3f06c3a3e
-Content-Type: text/x-patch; name="0001-buildtar-add-riscv-case.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=0001-buildtar-add-riscv-case.patch
-
-RnJvbSA4NmZlYjkzYzYyZGFhNjEzMTRkZjBiYmUxYTExMjcyYzIzYjFlYWRiIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBdXJhYmluZG8gSmF5YW1vaGFuYW4gPG1haWxAYXVyYWJpbmRv
-LmluPgpEYXRlOiBUaHUsIDUgU2VwIDIwMTkgMTI6NTI6NDUgKzA1MzAKU3ViamVjdDogW1BBVENI
-XSBidWlsZHRhcjogYWRkIHJpc2N2IGNhc2UKCkNvcHkgY29tcHJlc3NlZCBrZXJuZWwgaW1hZ2Ug
-aW50byB0YXJiYWxsIHJvb3QuIFNpbWlsYXIKYWN0aW9uIGZvciBib3RoIGFybTY0IGFuZCByaXNj
-diBhcmNoaXRlY3R1cmVzLgoKU2lnbmVkLW9mZi1ieTogQXVyYWJpbmRvIEpheWFtb2hhbmFuIDxt
-YWlsQGF1cmFiaW5kby5pbj4KLS0tCiBzY3JpcHRzL3BhY2thZ2UvYnVpbGR0YXIgfCA2ICsrKy0t
-LQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYg
-LS1naXQgYS9zY3JpcHRzL3BhY2thZ2UvYnVpbGR0YXIgYi9zY3JpcHRzL3BhY2thZ2UvYnVpbGR0
-YXIKaW5kZXggMmY2NmM4MWU0MDIxLi4zODhkMGZjYmU4YzIgMTAwNzU1Ci0tLSBhL3NjcmlwdHMv
-cGFja2FnZS9idWlsZHRhcgorKysgYi9zY3JpcHRzL3BhY2thZ2UvYnVpbGR0YXIKQEAgLTEwNSwx
-MCArMTA1LDEwIEBAIGNhc2UgIiR7QVJDSH0iIGluCiAJCQljcCAtdiAtLSAiJHtvYmp0cmVlfS92
-bWxpbnV4IiAiJHt0bXBkaXJ9L2Jvb3Qvdm1saW51eC0ke0tFUk5FTFJFTEVBU0V9IgogCQlmaQog
-CQk7OwotCWFybTY0KQorCWFybTY0fHJpc2N2KQogCQlmb3IgaSBpbiBJbWFnZS5iejIgSW1hZ2Uu
-Z3ogSW1hZ2UubHo0IEltYWdlLmx6bWEgSW1hZ2UubHpvIDsgZG8KLQkJCWlmIFsgLWYgIiR7b2Jq
-dHJlZX0vYXJjaC9hcm02NC9ib290LyR7aX0iIF0gOyB0aGVuCi0JCQkJY3AgLXYgLS0gIiR7b2Jq
-dHJlZX0vYXJjaC9hcm02NC9ib290LyR7aX0iICIke3RtcGRpcn0vYm9vdC92bWxpbnV6LSR7S0VS
-TkVMUkVMRUFTRX0iCisJCQlpZiBbIC1mICIke29ianRyZWV9L2FyY2gvJHtBUkNIfS9ib290LyR7
-aX0iIF0gOyB0aGVuCisJCQkJY3AgLXYgLS0gIiR7b2JqdHJlZX0vYXJjaC8ke0FSQ0h9L2Jvb3Qv
-JHtpfSIgIiR7dG1wZGlyfS9ib290L3ZtbGludXotJHtLRVJORUxSRUxFQVNFfSIKIAkJCQlicmVh
-awogCQkJZmkKIAkJZG9uZQotLSAKMi4yMy4wCgo=
+None of the available RiscV platforms that I=E2=80=99m aware of use =
+compressed images, unless there are some new bootloaders I haven=E2=80=99t=
+ seen yet.
 
 
---b1_8aa5ac17d5a37d2299526ba3f06c3a3e--
+> On Sep 11, 2019, at 2:07 AM, Aurabindo Jayamohanan <mail@aurabindo.in> =
+wrote:
+>=20
+> Hi,
+>=20
+> I would like to know if something extra needs to be done other than =
+copying compressed kernel image, when making tar package for riscv =
+architecture. Please see the attached patch.
+>=20
+> --
+>=20
+> Thanks and Regards,
+> Aurabindo Jayamohanan
+> =
+<0001-buildtar-add-riscv-case.patch>______________________________________=
+_________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
