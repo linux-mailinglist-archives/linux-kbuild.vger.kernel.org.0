@@ -2,96 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F051B02D1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Sep 2019 19:41:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 104ADB064E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Sep 2019 02:53:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729683AbfIKRlg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Sep 2019 13:41:36 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:34374 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729673AbfIKRlg (ORCPT
+        id S1728768AbfILAxC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Sep 2019 20:53:02 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:55862 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728762AbfILAxC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Sep 2019 13:41:36 -0400
-Received: by mail-qk1-f193.google.com with SMTP id q203so21657132qke.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Sep 2019 10:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lca.pw; s=google;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=25JRBoGwbNqZ8ZbbR+1c/cAOmRYTY0r1W7kYmacXxVo=;
-        b=WrMnaL3Xuka4oZaXmJIo2WSIwuL2P1+DUFq3nOHLuWVF/+2jQl5Oee0dLhKstwt6sg
-         3K3NBriWe2s0xVrhqJpY48vzHy+845CJCkLYXOu4bL/KxHAkVKOsq/Ah4vrFoF/e5hov
-         iTYSMYKKVFK63FjFMfShG5O/82tioYFSSYbxsvI6fI/XdRZkpaMGwh3ctaApfURzvupt
-         ksmy7yBuJSZJHNpK+ZULajI4JeNGpafSCmvbvgIix4BKrUk4LhAlwfpCLJ5niyiTLkXm
-         SfmVe2Io4WLDlBBjXb+izlbIEb7XKmRRhllJco/fpw8nL69/VUrhskbaKyFmaEpopfh/
-         NfuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=25JRBoGwbNqZ8ZbbR+1c/cAOmRYTY0r1W7kYmacXxVo=;
-        b=jEPVLeIAiJ6oc6wxwtw9JswrfCUtmF8BpaxkDoagGyAqHkE/CmcGujCm0sKvjT91QL
-         j663TcQZ8mJcFb3wb+BPDMfDnndrUxgfD8aCO3wKwBJe0QyR0SutkSPgCEBV+whc3j45
-         WnAK3MsK2EwKBIXFIz8IcqWKat7qEkKPXFk6oQ8k3EwztHEUMgfVXhyiX2JUP0EJZteq
-         XXVmz9FTylB1Gx8UXwRb2NClZhZufQzs1Qgy86J3iWwCtTB/fsnFRTtU43IopYOuOWhN
-         WZO5WISrcSyjiJMMwZZTeSd5kXUAe7/0DH60UzWReMv/6KJGGapuJ6AVSPQkxacjaLBr
-         M1yg==
-X-Gm-Message-State: APjAAAUTFNWqmqjRDr7mWjvfyVfg2sauH5we6v+ETsfPLbM/4aCjLXdU
-        hJr8lPC6SehStJ2NJLSEP62tzw==
-X-Google-Smtp-Source: APXvYqwRPN13iIetO6Wdur/IeaTIoSzIQ9r9ATrh7EP/53AQPhMtw6dHKFMi/Xdr6uoIk3W9ikvjOg==
-X-Received: by 2002:a37:541:: with SMTP id 62mr7007670qkf.371.1568223695653;
-        Wed, 11 Sep 2019 10:41:35 -0700 (PDT)
-Received: from [192.168.1.153] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id d127sm10590761qke.54.2019.09.11.10.41.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Sep 2019 10:41:35 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+        Wed, 11 Sep 2019 20:53:02 -0400
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x8C0qemV031825;
+        Thu, 12 Sep 2019 09:52:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x8C0qemV031825
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1568249561;
+        bh=NKUMKkNtqrTDWVT1RfLccaVJ+xpM7V6DZTRRz/GPGuw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=RzDfyOI55EA7WF2xdjs7tkxM22KbWfvxPD1sifXO1FtLjiIfV65YxTizktZcuyqj8
+         c2bfyOHKAFI9geummPzJ7TjFboyxopJcSgnprroGE/FobXeHsAqgCtHGvOE3W5gKqe
+         ouH3pFBjTf55YJHAdv5aO85BZMm99/Kh1bb7EpUMjqJFFNSTEhHvUCK9n1dINncUAs
+         N7ocOOdaurLi6hQk9iI51a3SxL8s1el/rqU3nFx6IB7+p+1eqnAqTzXiU+HUV4WrfF
+         s+//lApTUSIifRjGTJ9mfsQmB4qyV4qkwM21WzJKS6sX3dfh4pSIlabRpn2fC40jdT
+         473stFcb60nhA==
+X-Nifty-SrcIP: [209.85.217.47]
+Received: by mail-vs1-f47.google.com with SMTP id m22so15039440vsl.9;
+        Wed, 11 Sep 2019 17:52:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAWsDqiZ7lUOhv7IfQ3BKSp1ZgXVHWtyRvyHg8/vMDuDt4Y6qXo5
+        hO3m4R8bIJXclAVVJF7neScH3LyoKWfStb+E7Zs=
+X-Google-Smtp-Source: APXvYqzqoiDkP84GVdQRATv6NHL348lP9+WwfJKOqB3cvmaSODCnoCOjiv71A4zCzLOntY7ISObv/nmkVN1okIGiPpM=
+X-Received: by 2002:a67:1a41:: with SMTP id a62mr22692085vsa.54.1568249560218;
+ Wed, 11 Sep 2019 17:52:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190911173453.958-1-cai@lca.pw> <CAO4ZVTMUMKMOqef5yV=5bwHLXLMsNtTegGGMkw0GbFaDHvrV6g@mail.gmail.com>
+ <08E1DEDD-D82F-41C1-966B-ECCE445C8FA1@lca.pw>
+In-Reply-To: <08E1DEDD-D82F-41C1-966B-ECCE445C8FA1@lca.pw>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 12 Sep 2019 09:52:03 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASuqYP6kCvkkWQSw1=_DqyYPjgGwxjg3yCtXqyB2KKqrg@mail.gmail.com>
+Message-ID: <CAK7LNASuqYP6kCvkkWQSw1=_DqyYPjgGwxjg3yCtXqyB2KKqrg@mail.gmail.com>
 Subject: Re: [RFC PATCH] gpu: no need to compile drm/ if CONFIG_DRM=n
-From:   Qian Cai <cai@lca.pw>
-In-Reply-To: <CAO4ZVTMUMKMOqef5yV=5bwHLXLMsNtTegGGMkw0GbFaDHvrV6g@mail.gmail.com>
-Date:   Wed, 11 Sep 2019 13:41:33 -0400
-Cc:     airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-        emil.l.velikov@gmail.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-        michal.lkml@markovi.net, mripard@kernel.org, sean@poorly.run,
-        yamada.masahiro@socionext.com
+To:     Qian Cai <cai@lca.pw>
+Cc:     Maxime Ripard <maxime.ripard@anandra.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        maarten.lankhorst@linux.intel.com,
+        Michal Marek <michal.lkml@markovi.net>, mripard@kernel.org,
+        Sean Paul <sean@poorly.run>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <08E1DEDD-D82F-41C1-966B-ECCE445C8FA1@lca.pw>
-References: <20190911173453.958-1-cai@lca.pw>
- <CAO4ZVTMUMKMOqef5yV=5bwHLXLMsNtTegGGMkw0GbFaDHvrV6g@mail.gmail.com>
-To:     Maxime Ripard <maxime.ripard@anandra.org>
-X-Mailer: Apple Mail (2.3445.104.11)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-> On Sep 11, 2019, at 1:37 PM, Maxime Ripard <maxime.ripard@anandra.org> =
+On Thu, Sep 12, 2019 at 2:41 AM Qian Cai <cai@lca.pw> wrote:
+>
+>
+>
+> > On Sep 11, 2019, at 1:37 PM, Maxime Ripard <maxime.ripard@anandra.org> =
 wrote:
->=20
-> Hi,
->=20
-> Le mer. 11 sept. 2019 =C3=A0 19:35, Qian Cai <cai@lca.pw> a =C3=A9crit =
+> >
+> > Hi,
+> >
+> > Le mer. 11 sept. 2019 =C3=A0 19:35, Qian Cai <cai@lca.pw> a =C3=A9crit =
 :
-> The commit c0e09200dc08 ("drm: reorganise drm tree to be more future
-> proof.") changed the behavior from only compiling drm/ if CONFIG_DRM=3Dy=
+> > The commit c0e09200dc08 ("drm: reorganise drm tree to be more future
+> > proof.") changed the behavior from only compiling drm/ if CONFIG_DRM=3D=
+y
+> > to always compiling drm/. This restores the behavior, so people don't
+> > need to waste time compiling stuff they don't need.
+> >
+> > Fixes: c0e09200dc08 ("drm: reorganise drm tree to be more future proof.=
+")
+> >
+> > You are missing your signed-off-by
+>
+> That is intentional because this is a RFC patch to gather the feedback as=
+ I am no
+> expert in DRM and may miss something important.
+>
+> Once people are happy with it, I plan to send a formal patch with Signed-=
+off-by.
+>
 
-> to always compiling drm/. This restores the behavior, so people don't
-> need to waste time compiling stuff they don't need.
->=20
-> Fixes: c0e09200dc08 ("drm: reorganise drm tree to be more future =
-proof.")
->=20
-> You are missing your signed-off-by
 
-That is intentional because this is a RFC patch to gather the feedback =
-as I am no
-expert in DRM and may miss something important.
+CONFIG_DRM is tristate.
 
-Once people are happy with it, I plan to send a formal patch with =
-Signed-off-by.
+Your patch requires everything under drivers/gpu/drm/
+modular when CONFIG_DRM=3Dm.
 
+At least, drivers/gpu/drm/drm_mipi_dsi.c
+is built-in only.
+
+I guess that is the reason why
+they use 'obj-y +=3D drm/'.
+
+
+In other words, if you are able to
+make all the drm code modular,
+your patch is applicable.
+
+
+--=20
+Best Regards
+Masahiro Yamada
