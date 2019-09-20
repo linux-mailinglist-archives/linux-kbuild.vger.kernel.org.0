@@ -2,85 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97EA5B90D9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2019 15:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45E6FB9435
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Sep 2019 17:41:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728238AbfITNms (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Sep 2019 09:42:48 -0400
-Received: from foss.arm.com ([217.140.110.172]:44866 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726924AbfITNmr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Sep 2019 09:42:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63A791570;
-        Fri, 20 Sep 2019 06:42:47 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 43D923F67D;
-        Fri, 20 Sep 2019 06:42:46 -0700 (PDT)
-Subject: Re: "arm64: use asm-generic/dma-mapping.h" introduced a kbuild
- warning
-To:     Qian Cai <cai@lca.pw>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        id S2389691AbfITPlP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Sep 2019 11:41:15 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38392 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387937AbfITPlP (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 20 Sep 2019 11:41:15 -0400
+Received: by mail-lj1-f195.google.com with SMTP id b20so2155145ljj.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Sep 2019 08:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VX7KNoBIJ8sruOeElrZxFbFSWZuAc4wcswq+ygSvynk=;
+        b=b6rzDbXppCSe1wCvJxP52dfQX+c4KnauaRppVi1nRpe9elnfSAYO5604jCbITdEwAN
+         2HbWvxq24OZNrktog+t/a3UyCQVQ4PnJQ+mD6dKMwDWq2bGJWtMOHz1z9lUd3jpdtCTw
+         lSD5hpoRUEYS/pfu9ur9Npkp3L0I2ZFnC5S5I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VX7KNoBIJ8sruOeElrZxFbFSWZuAc4wcswq+ygSvynk=;
+        b=n0e1bSE24wYTgHkkFttLSOMV5vC93QPjzHyWRjJJ/H6JndSNoKM69ql2sZBsbQUS5n
+         I2Y/sELPKDF3LLdHGl6uP1GkaMkWitjYSd3N972hx2+ewJHgStv2tQzkFO7W+F9XYtCj
+         x8LjSg+9aJJEqyuFAHGX3TZq/Dx0clsa9ZUADrPvtr4xD/M3ZYY7wZjWjWacfKdboivJ
+         SQ5nbzCZeKiw/4xjKrFR4QEmGTndAnWWzm8ljop8vNwZF/azRJx251tb4uJqvnFEYh/x
+         xVSLnanmU+DRGgCOo69i5V0eMyhICZBXH+dPL9U/SYhPD1c4RzIjR8mgvZduX9xUteBN
+         WpeQ==
+X-Gm-Message-State: APjAAAVtaww+7B6LI9wWro8JHjT8dxz8iTHskT44K3v6AlYa20PdplhE
+        7Sg8AVyA0hnMyrYkJq7yV6nBwEXmy6A=
+X-Google-Smtp-Source: APXvYqy7L4P9w1qv0Y7D+lIznfpUhvOHShd+TMC2DiQg52R//+djP0T+JSbpoaWdYs8nUOpJGdeYVQ==
+X-Received: by 2002:a2e:1bc4:: with SMTP id c65mr2948480ljf.130.1568994072661;
+        Fri, 20 Sep 2019 08:41:12 -0700 (PDT)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
+        by smtp.gmail.com with ESMTPSA id n9sm499229ljh.53.2019.09.20.08.41.11
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Sep 2019 08:41:11 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id n14so2480003ljj.10
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Sep 2019 08:41:11 -0700 (PDT)
+X-Received: by 2002:a2e:5b9a:: with SMTP id m26mr9484294lje.90.1568994071382;
+ Fri, 20 Sep 2019 08:41:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAK7LNARsoed86dY75b_HNXXkCXRAKdMUGaEWUUca4BuGaZCwcg@mail.gmail.com>
+ <20190917150902.GA4116@linux-8ccs> <CAK7LNAR_8atC3M9gGQ=DBwzFG52PVuNaFVAzAr32TKxTwDCLug@mail.gmail.com>
+ <20190917180136.GA10376@linux-8ccs> <20190917181636.7sngz5lrldx34rth@willie-the-truck>
+ <20190917184844.GA15149@linux-8ccs> <CAK7LNARxmDwu4QmV3bRBtptu-jUaHum=hHaia11-vmOd2ZkeKw@mail.gmail.com>
+ <CAHk-=wggsTOU44tvdHAXBP-mmH+UJMXbJAdZYTOYD0PzPJntkg@mail.gmail.com>
+In-Reply-To: <CAHk-=wggsTOU44tvdHAXBP-mmH+UJMXbJAdZYTOYD0PzPJntkg@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 20 Sep 2019 08:40:55 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjk=0KUP+Kkr=vRnUrL71j5q_SEQc0x5EPhq2ZJ-=sV1Q@mail.gmail.com>
+Message-ID: <CAHk-=wjk=0KUP+Kkr=vRnUrL71j5q_SEQc0x5EPhq2ZJ-=sV1Q@mail.gmail.com>
+Subject: Re: [GIT PULL] Kbuild updates for v5.4-rc1
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Will Deacon <will@kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Will Deacon <will@kernel.org>, Christoph Hellwig <hch@lst.de>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-References: <1568898377.5576.186.camel@lca.pw>
- <CAK7LNATa=rzCZkBCDaUCcyo4_1JxsrGQrdUFxPh0Pw3KEu6exA@mail.gmail.com>
- <1568985515.5576.195.camel@lca.pw>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <32e53c34-6cc5-6231-6069-3b782f5d2cf0@arm.com>
-Date:   Fri, 20 Sep 2019 14:42:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1568985515.5576.195.camel@lca.pw>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+        Jessica Yu <jeyu@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 20/09/2019 14:18, Qian Cai wrote:
-> On Fri, 2019-09-20 at 19:24 +0900, Masahiro Yamada wrote:
->> Hi Qian,
->>
->> On Thu, Sep 19, 2019 at 10:06 PM Qian Cai <cai@lca.pw> wrote:
->>>
->>> The commit 5489c8e0cf03 ("arm64: use asm-generic/dma-mapping.h") introduced a
->>> kbuild warning,
->>>
->>> scripts/Makefile.asm-generic:25: redundant generic-y found in
->>> arch/arm64/include/asm/Kbuild: dma-mapping.h
->>>
->>>
->>
->> Which tree did you test?
-> 
-> It was yesterday's linux-next (next-20190918) with this config [1], but it seems
-> gone in today's linux-next.
+On Thu, Sep 19, 2019 at 8:48 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> No problem. I'm used to merges, and I appreciate the heads-up.
 
-There was a conflict in dma-mapping.h between the arm64 tree and the 
-dma-mapping tree (where that commit deleted it) - looks like -next must 
-have just resolved it the wrong way that day.
+Heh. The Kbuild merge turns out to be painful for other trees too. I
+suspect the module tree isn't going to be any worse than the
+DEBUG_INFO_BTF conflict.
 
-Robin.
-
-> [1] https://raw.githubusercontent.com/cailca/linux-mm/master/arm64.config
-> 
->>
->> I tried the latest Linus tree (, which contains 5489c8e0cf03),
->> but I did not see this warning.
->>
->>
->>
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+             Linus
