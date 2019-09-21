@@ -2,110 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A428B9B6C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Sep 2019 02:20:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96CF3B9C9A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Sep 2019 08:31:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437539AbfIUAUQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Sep 2019 20:20:16 -0400
-Received: from mail-pl1-f202.google.com ([209.85.214.202]:52278 "EHLO
-        mail-pl1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437483AbfIUAT4 (ORCPT
+        id S1730976AbfIUGbZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 21 Sep 2019 02:31:25 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:63707 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729346AbfIUGbZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Sep 2019 20:19:56 -0400
-Received: by mail-pl1-f202.google.com with SMTP id y2so5457835plk.19
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Sep 2019 17:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=GL8bIr8dLG5/Kc/Y8WKLabBIaZO7WJH2uwuCEH7n76U=;
-        b=JOe+XfR60TVQqjAO/rFGpvwAcA/DeU0SVyM/HI2Zhgf+PtyQB0/LAoxlOspG28eTUB
-         KN9jxB3mTzgH/VAIVLmulJHeZb79W2QD+ooJERsLdgQedeMWn7VcN7Es1aYnH0Gkhhwi
-         IWLHePrpOKcGs0YbMH6P+d7N9pQmEfolkxrEGwDrz/ATDZir+fRfFHmN/SDktuIu5Rh2
-         YIeerHsfSRWFqIBf6DnJxi13eT3crcKMRNm5YJ3SiPsnPe1bj3g68f8sQWHI3XdZy9LM
-         zpm7N5ugYQFlZqq0A7vg+AC3kwfWXBikM38GfptB+DWaOMSZABTa2cAcFPjPTvyX4Vkh
-         9gwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=GL8bIr8dLG5/Kc/Y8WKLabBIaZO7WJH2uwuCEH7n76U=;
-        b=bVry86E4C8D8uq13NVqFIeXOyFD7zrNpGsxqTb+YiUlKKovNX61//B0BWOZB9ThhM1
-         V9PQcZha17O8amXSzq0Ur/J9X9TID08nLnx/vKdrOg6CWcHqXeAbkqnEV51ITo6OYdEe
-         ZNWWb+e66z0Fb1ECRfZS8uFVHHrMnO6G4bma6pjzOlGwIkOTYOgZ6G1iwBn35EQ/ZGFX
-         tC9U8qlsrKP9RyxvzekyqPIlaSu74lNlHSBig58MgxJD/bCg+SV2UIb/glInj4RCztoK
-         pQc8P87ALxly6/BFBQfYg6kGpAZ7kIsOLTyQW0GYLAWCf6NoEHy1Mt/Xl3xgTV1ZCyB5
-         cWtw==
-X-Gm-Message-State: APjAAAWW1MYGGG9mEPcZ5C170ZerTW5wq9Cx6rF2YhaiIF5gcaO+VHoM
-        DRo/nUSD8Wty3BAJODA1IaMIMLf96mJ17utOrkQEOw==
-X-Google-Smtp-Source: APXvYqzXl1Z5WO9dWeLbpxv4VzPzrj0gpja77fNZj2M2QIzsJxEJrlfVmtKghEGLDfEqjyLta/fW30aIAzXg7GqHAbqviQ==
-X-Received: by 2002:a63:b954:: with SMTP id v20mr17995160pgo.140.1569025194919;
- Fri, 20 Sep 2019 17:19:54 -0700 (PDT)
-Date:   Fri, 20 Sep 2019 17:18:54 -0700
-In-Reply-To: <20190921001855.200947-1-brendanhiggins@google.com>
-Message-Id: <20190921001855.200947-19-brendanhiggins@google.com>
-Mime-Version: 1.0
-References: <20190921001855.200947-1-brendanhiggins@google.com>
-X-Mailer: git-send-email 2.23.0.351.gc4317032e6-goog
-Subject: [PATCH v17 18/19] MAINTAINERS: add proc sysctl KUnit test to PROC
- SYSCTL section
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     frowand.list@gmail.com, gregkh@linuxfoundation.org,
-        jpoimboe@redhat.com, keescook@google.com,
-        kieran.bingham@ideasonboard.com, mcgrof@kernel.org,
-        peterz@infradead.org, robh@kernel.org, sboyd@kernel.org,
-        shuah@kernel.org, tytso@mit.edu, yamada.masahiro@socionext.com
-Cc:     devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-um@lists.infradead.org,
-        Alexander.Levin@microsoft.com, Tim.Bird@sony.com,
-        amir73il@gmail.com, dan.carpenter@oracle.com, daniel@ffwll.ch,
-        jdike@addtoit.com, joel@jms.id.au, julia.lawall@lip6.fr,
-        khilman@baylibre.com, knut.omang@oracle.com, logang@deltatee.com,
-        mpe@ellerman.id.au, pmladek@suse.com, rdunlap@infradead.org,
-        richard@nod.at, rientjes@google.com, rostedt@goodmis.org,
-        wfg@linux.intel.com, torvalds@linux-foundation.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Iurii Zaikin <yzaikin@google.com>
+        Sat, 21 Sep 2019 02:31:25 -0400
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x8L6V3co010207;
+        Sat, 21 Sep 2019 15:31:03 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x8L6V3co010207
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1569047463;
+        bh=I2MuW03AliQw/gaYqV9LysZAy2kLY2LmxSGuO1+KXSA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BI5a+GuFu55tec5avj/1Y+0ePxka/rxrCS8vR+x9WORJGDyeQfdbR/oe/f1x170xo
+         c/eLvydjxVJscY8Ea3CcruiTMeVRnOl2NApzdLbooVtWZ9Dos5P0BZIhAd7X4AHXL+
+         g2ee0HZVovnTSX27iO8g3J5QCOVaAi7aXGSlY5pFGXKChSoQf8VQUDd+udTuJnaXb6
+         1t78cq7/4ecJwk6lZVM3lRJxgbfEIK3WaPbFMGAaja7TBSNDigK5fI+uYb1SM/XfJq
+         DadroPJKs3Q5DDLnKeIxDl+s74jMNkimbYwxDV9fefDUykfmUpUI1Uk+JCmxRyXCQn
+         tyyeckXSbp2Xw==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id q186so2043722vkb.0;
+        Fri, 20 Sep 2019 23:31:03 -0700 (PDT)
+X-Gm-Message-State: APjAAAUis8hFdn7Bb9jrxJqHz6vPV3TJ4DVJcIleM1x8KP1LtKg7IByT
+        CL6pRQeW0TNu/2KX+bNHmk8ICn2TDCVbnCpB47g=
+X-Google-Smtp-Source: APXvYqx+/dL8nburdX1VqaeNQP8WSs8ZCkOLM2bBvOWhD93+WGpKH8Xgg6seoQYhLdNlViSC1GyWRHsEdIPzBuoapnc=
+X-Received: by 2002:a1f:294a:: with SMTP id p71mr10664037vkp.74.1569047462532;
+ Fri, 20 Sep 2019 23:31:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <1569006062-17862-1-git-send-email-jhugo@codeaurora.org>
+In-Reply-To: <1569006062-17862-1-git-send-email-jhugo@codeaurora.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 21 Sep 2019 15:30:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATHu6M8zKQi4O30Dvijg0zi8Lvxv6EBbWOE+H_s=E6m+Q@mail.gmail.com>
+Message-ID: <CAK7LNATHu6M8zKQi4O30Dvijg0zi8Lvxv6EBbWOE+H_s=E6m+Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: binrpm-pkg: Propagate O= to rpmbuild
+To:     Jeffrey Hugo <jhugo@codeaurora.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add entry for the new proc sysctl KUnit test to the PROC SYSCTL section,
-and add Iurii as a maintainer.
+Hi Jeffrey,
 
-Signed-off-by: Brendan Higgins <brendanhiggins@google.com>
-Cc: Iurii Zaikin <yzaikin@google.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
-Acked-by: Luis Chamberlain <mcgrof@kernel.org>
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+On Sat, Sep 21, 2019 at 4:01 AM Jeffrey Hugo <jhugo@codeaurora.org> wrote:
+>
+> If the user specifies O= to indicate a specific output directory for the
+> build, rpmbuild does not honor this, and will use its default, which could
+> be the user's home directory.  In cases where the user has limited home
+> directory space, this could cause the build to outright fail.
+>
+> In the case of the binrpm-pkg target, redefine the top directory for output
+> to be what the user specified in O=, thus the user will find a "rpmbuild"
+> subdirectory in that location with all of the RPM artifacts.
+>
+> This does not apply to rpm-pkg, since we already cannot handle creating
+> the source tarball out of tree.
+>
+> Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e3d0d184ae4e..6663d4accd36 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12983,12 +12983,14 @@ F:	Documentation/filesystems/proc.txt
- PROC SYSCTL
- M:	Luis Chamberlain <mcgrof@kernel.org>
- M:	Kees Cook <keescook@chromium.org>
-+M:	Iurii Zaikin <yzaikin@google.com>
- L:	linux-kernel@vger.kernel.org
- L:	linux-fsdevel@vger.kernel.org
- S:	Maintained
- F:	fs/proc/proc_sysctl.c
- F:	include/linux/sysctl.h
- F:	kernel/sysctl.c
-+F:	kernel/sysctl-test.c
- F:	tools/testing/selftests/sysctl/
- 
- PS3 NETWORK SUPPORT
--- 
-2.23.0.351.gc4317032e6-goog
 
+binrpm-pkg creates intermediate build artifacts in $(objtree)/,
+but puts only the final .rpm into ${HOME}/rpmbuild/RPMS/${ARCH}/.
+
+It has worked like that since a long time before
+probably in order to respect the default of rpmbuild.
+
+
+If you change this behavior, it should be consistent.
+The 'rpmbuild' should be always located in the kernel tree
+instead of the user's home directory.
+
+But, doing so might give impact to other users who
+rely on having 'rpmbuild' in the home directory.
+I have to hear opinions from others
+if this change is desired.
+
+Meanwhile, if you are unhappy with that, one solution is to use RPMOPTS.
+RPMOPTS exists to tweak the default behavior.
+
+
+Thanks.
+
+
+> ---
+>  scripts/Makefile.package | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index 56eadcc..aab0711 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -21,7 +21,7 @@ include $(srctree)/scripts/Kbuild.include
+>  # - Use /. to avoid tar packing just the symlink
+>
+>  # Note that the rpm-pkg target cannot be used with KBUILD_OUTPUT,
+> -# but the binrpm-pkg target can; for some reason O= gets ignored.
+> +# but the binrpm-pkg target can
+>
+>  # Remove hyphens since they have special meaning in RPM filenames
+>  KERNELPATH := kernel-$(subst -,_,$(KERNELRELEASE))
+> @@ -33,6 +33,12 @@ TAR_CONTENT := $(KBUILD_ALLDIRS) .config .scmversion Makefile \
+>                 Kbuild Kconfig COPYING $(wildcard localversion*)
+>  MKSPEC     := $(srctree)/scripts/package/mkspec
+>
+> +RPM_OUTDIR :=
+> +ifneq ($(objtree),$(srctree))
+> +# Using absolute path as relative path will cause parts of rpmbuild to fail
+> +        RPM_OUTDIR := --define "_topdir $(abs_objtree)/rpmbuild"
+> +endif
+> +
+>  quiet_cmd_src_tar = TAR     $(2).tar.gz
+>        cmd_src_tar = \
+>  if test "$(objtree)" != "$(srctree)"; then \
+> @@ -65,8 +71,8 @@ PHONY += binrpm-pkg
+>  binrpm-pkg:
+>         $(MAKE) -f $(srctree)/Makefile
+>         $(CONFIG_SHELL) $(MKSPEC) prebuilt > $(objtree)/binkernel.spec
+> -       +rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
+> -               $(UTS_MACHINE) -bb $(objtree)/binkernel.spec
+> +       +rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" $(RPM_OUTDIR) \
+> +               --target $(UTS_MACHINE) -bb $(objtree)/binkernel.spec
+>
+>  PHONY += deb-pkg
+>  deb-pkg:
+> --
+> Qualcomm Technologies, Inc. is a member of the
+> Code Aurora Forum, a Linux Foundation Collaborative Project.
+>
+
+
+--
+Best Regards
+Masahiro Yamada
