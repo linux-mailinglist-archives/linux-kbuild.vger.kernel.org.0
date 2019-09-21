@@ -2,145 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96CF3B9C9A
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Sep 2019 08:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C9E2B9CC3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Sep 2019 08:51:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730976AbfIUGbZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 Sep 2019 02:31:25 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:63707 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729346AbfIUGbZ (ORCPT
+        id S2437310AbfIUGvp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 21 Sep 2019 02:51:45 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:44852 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437309AbfIUGvo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 Sep 2019 02:31:25 -0400
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x8L6V3co010207;
-        Sat, 21 Sep 2019 15:31:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x8L6V3co010207
+        Sat, 21 Sep 2019 02:51:44 -0400
+Received: from grover.flets-west.jp (softbank126021098169.bbtec.net [126.21.98.169]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id x8L6ntFu016571;
+        Sat, 21 Sep 2019 15:49:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x8L6ntFu016571
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1569047463;
-        bh=I2MuW03AliQw/gaYqV9LysZAy2kLY2LmxSGuO1+KXSA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BI5a+GuFu55tec5avj/1Y+0ePxka/rxrCS8vR+x9WORJGDyeQfdbR/oe/f1x170xo
-         c/eLvydjxVJscY8Ea3CcruiTMeVRnOl2NApzdLbooVtWZ9Dos5P0BZIhAd7X4AHXL+
-         g2ee0HZVovnTSX27iO8g3J5QCOVaAi7aXGSlY5pFGXKChSoQf8VQUDd+udTuJnaXb6
-         1t78cq7/4ecJwk6lZVM3lRJxgbfEIK3WaPbFMGAaja7TBSNDigK5fI+uYb1SM/XfJq
-         DadroPJKs3Q5DDLnKeIxDl+s74jMNkimbYwxDV9fefDUykfmUpUI1Uk+JCmxRyXCQn
-         tyyeckXSbp2Xw==
-X-Nifty-SrcIP: [209.85.221.170]
-Received: by mail-vk1-f170.google.com with SMTP id q186so2043722vkb.0;
-        Fri, 20 Sep 2019 23:31:03 -0700 (PDT)
-X-Gm-Message-State: APjAAAUis8hFdn7Bb9jrxJqHz6vPV3TJ4DVJcIleM1x8KP1LtKg7IByT
-        CL6pRQeW0TNu/2KX+bNHmk8ICn2TDCVbnCpB47g=
-X-Google-Smtp-Source: APXvYqx+/dL8nburdX1VqaeNQP8WSs8ZCkOLM2bBvOWhD93+WGpKH8Xgg6seoQYhLdNlViSC1GyWRHsEdIPzBuoapnc=
-X-Received: by 2002:a1f:294a:: with SMTP id p71mr10664037vkp.74.1569047462532;
- Fri, 20 Sep 2019 23:31:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <1569006062-17862-1-git-send-email-jhugo@codeaurora.org>
-In-Reply-To: <1569006062-17862-1-git-send-email-jhugo@codeaurora.org>
+        s=dec2015msa; t=1569048596;
+        bh=tas5o108IC96vrbiA6E2q4q/CHS7VyOE8X05kkRhjv4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M2KoWggIDxhTWdR3manNk4BIAW/gVcpoBEur+qmkgpTXa/tjxMVRqeozpFHJyp6Te
+         J8DzbqMjb01sXCBY82J8SBNr1LD7x0TR3454MT8I1v6mYnxeTcaTz5dU2vcmeJHbY4
+         qwz2TjETGlDjVXj+RilqsT7SEkCvznnDgJQY96qx98HDCWHNrNs55K9tlNncuzRQC2
+         Ee+IXj0fCOlSQBN5NyiQ532f32Y9V6U+r66GtU9NL8TQlzhWZxofyfWIyOCSpiYmcf
+         THXaC7U9m+af4Zs/d+BNpm2cIc8v8dE9FTCg+InBUVvpeyChZcwBetWZnZSISwaALC
+         1HvO9uNtSVXhQ==
+X-Nifty-SrcIP: [126.21.98.169]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 21 Sep 2019 15:30:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATHu6M8zKQi4O30Dvijg0zi8Lvxv6EBbWOE+H_s=E6m+Q@mail.gmail.com>
-Message-ID: <CAK7LNATHu6M8zKQi4O30Dvijg0zi8Lvxv6EBbWOE+H_s=E6m+Q@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: binrpm-pkg: Propagate O= to rpmbuild
-To:     Jeffrey Hugo <jhugo@codeaurora.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Paul Mackerras <paulus@samba.org>,
+        clang-built-linux@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH] kbuild: remove ar-option and KBUILD_ARFLAGS
+Date:   Sat, 21 Sep 2019 15:49:54 +0900
+Message-Id: <20190921064954.11196-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Jeffrey,
+Commit 40df759e2b9e ("kbuild: Fix build with binutils <= 2.19")
+introduced ar-option and KBUILD_ARFLAGS to cope with old binutils.
 
-On Sat, Sep 21, 2019 at 4:01 AM Jeffrey Hugo <jhugo@codeaurora.org> wrote:
->
-> If the user specifies O= to indicate a specific output directory for the
-> build, rpmbuild does not honor this, and will use its default, which could
-> be the user's home directory.  In cases where the user has limited home
-> directory space, this could cause the build to outright fail.
->
-> In the case of the binrpm-pkg target, redefine the top directory for output
-> to be what the user specified in O=, thus the user will find a "rpmbuild"
-> subdirectory in that location with all of the RPM artifacts.
->
-> This does not apply to rpm-pkg, since we already cannot handle creating
-> the source tarball out of tree.
->
-> Signed-off-by: Jeffrey Hugo <jhugo@codeaurora.org>
+According to Documentation/process/changes.rst, the current minimal
+supported version of binutils is 2.21 so you can assume the 'D' option
+is always supported. Not only GNU ar but also llvm-ar supports it.
 
+With the 'D' option hard-coded, there is no more user of ar-option
+or KBUILD_ARFLAGS.
 
-binrpm-pkg creates intermediate build artifacts in $(objtree)/,
-but puts only the final .rpm into ${HOME}/rpmbuild/RPMS/${ARCH}/.
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-It has worked like that since a long time before
-probably in order to respect the default of rpmbuild.
+ Documentation/kbuild/makefiles.rst | 5 -----
+ Makefile                           | 4 ----
+ arch/powerpc/boot/Makefile         | 2 +-
+ scripts/Kbuild.include             | 5 -----
+ scripts/Makefile.build             | 2 +-
+ scripts/Makefile.lib               | 2 +-
+ 6 files changed, 3 insertions(+), 17 deletions(-)
 
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 6ba9d5365ff3..b89c88168d6a 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -954,11 +954,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 
+ 	From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
+ 
+-    KBUILD_ARFLAGS   Options for $(AR) when creating archives
+-
+-	$(KBUILD_ARFLAGS) set by the top level Makefile to "D" (deterministic
+-	mode) if this option is supported by $(AR).
+-
+     KBUILD_LDS
+ 
+ 	The linker script with full path. Assigned by the top-level Makefile.
+diff --git a/Makefile b/Makefile
+index 656a8c95789d..88b180b2cb64 100644
+--- a/Makefile
++++ b/Makefile
+@@ -498,7 +498,6 @@ export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN
+ export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
+ export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
+ export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
+-export KBUILD_ARFLAGS
+ 
+ # Files to ignore in find ... statements
+ 
+@@ -914,9 +913,6 @@ ifdef CONFIG_RETPOLINE
+ KBUILD_CFLAGS += $(call cc-option,-fcf-protection=none)
+ endif
+ 
+-# use the deterministic mode of AR if available
+-KBUILD_ARFLAGS := $(call ar-option,D)
+-
+ include scripts/Makefile.kasan
+ include scripts/Makefile.extrawarn
+ include scripts/Makefile.ubsan
+diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+index 6841bd52738b..dfbd7f22eef5 100644
+--- a/arch/powerpc/boot/Makefile
++++ b/arch/powerpc/boot/Makefile
+@@ -50,7 +50,7 @@ endif
+ 
+ BOOTAFLAGS	:= -D__ASSEMBLY__ $(BOOTCFLAGS) -nostdinc
+ 
+-BOOTARFLAGS	:= -cr$(KBUILD_ARFLAGS)
++BOOTARFLAGS	:= -crD
+ 
+ ifdef CONFIG_CC_IS_CLANG
+ BOOTCFLAGS += $(CLANG_FLAGS)
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index e31fd6a8b2a3..956668239ef5 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -143,11 +143,6 @@ cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || e
+ # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+ ld-option = $(call try-run, $(LD) $(KBUILD_LDFLAGS) $(1) -v,$(1),$(2),$(3))
+ 
+-# ar-option
+-# Usage: KBUILD_ARFLAGS := $(call ar-option,D)
+-# Important: no spaces around options
+-ar-option = $(call try-run, $(AR) rc$(1) "$$TMP",$(1),$(2))
+-
+ # ld-version
+ # Note this is mainly for HJ Lu's 3 number binutil versions
+ ld-version = $(shell $(LD) --version | $(srctree)/scripts/ld-version.sh)
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 611bda95ac5e..f199341f04eb 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -395,7 +395,7 @@ $(sort $(subdir-obj-y)): $(subdir-ym) ;
+ ifdef builtin-target
+ 
+ quiet_cmd_ar_builtin = AR      $@
+-      cmd_ar_builtin = rm -f $@; $(AR) rcSTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
++      cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
+ 
+ $(builtin-target): $(real-obj-y) FORCE
+ 	$(call if_changed,ar_builtin)
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 23e524027740..15895fd4ef9f 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -238,7 +238,7 @@ quiet_cmd_ld = LD      $@
+ # ---------------------------------------------------------------------------
+ 
+ quiet_cmd_ar = AR      $@
+-      cmd_ar = rm -f $@; $(AR) rcsTP$(KBUILD_ARFLAGS) $@ $(real-prereqs)
++      cmd_ar = rm -f $@; $(AR) cDPrsT $@ $(real-prereqs)
+ 
+ # Objcopy
+ # ---------------------------------------------------------------------------
+-- 
+2.17.1
 
-If you change this behavior, it should be consistent.
-The 'rpmbuild' should be always located in the kernel tree
-instead of the user's home directory.
-
-But, doing so might give impact to other users who
-rely on having 'rpmbuild' in the home directory.
-I have to hear opinions from others
-if this change is desired.
-
-Meanwhile, if you are unhappy with that, one solution is to use RPMOPTS.
-RPMOPTS exists to tweak the default behavior.
-
-
-Thanks.
-
-
-> ---
->  scripts/Makefile.package | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 56eadcc..aab0711 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -21,7 +21,7 @@ include $(srctree)/scripts/Kbuild.include
->  # - Use /. to avoid tar packing just the symlink
->
->  # Note that the rpm-pkg target cannot be used with KBUILD_OUTPUT,
-> -# but the binrpm-pkg target can; for some reason O= gets ignored.
-> +# but the binrpm-pkg target can
->
->  # Remove hyphens since they have special meaning in RPM filenames
->  KERNELPATH := kernel-$(subst -,_,$(KERNELRELEASE))
-> @@ -33,6 +33,12 @@ TAR_CONTENT := $(KBUILD_ALLDIRS) .config .scmversion Makefile \
->                 Kbuild Kconfig COPYING $(wildcard localversion*)
->  MKSPEC     := $(srctree)/scripts/package/mkspec
->
-> +RPM_OUTDIR :=
-> +ifneq ($(objtree),$(srctree))
-> +# Using absolute path as relative path will cause parts of rpmbuild to fail
-> +        RPM_OUTDIR := --define "_topdir $(abs_objtree)/rpmbuild"
-> +endif
-> +
->  quiet_cmd_src_tar = TAR     $(2).tar.gz
->        cmd_src_tar = \
->  if test "$(objtree)" != "$(srctree)"; then \
-> @@ -65,8 +71,8 @@ PHONY += binrpm-pkg
->  binrpm-pkg:
->         $(MAKE) -f $(srctree)/Makefile
->         $(CONFIG_SHELL) $(MKSPEC) prebuilt > $(objtree)/binkernel.spec
-> -       +rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" --target \
-> -               $(UTS_MACHINE) -bb $(objtree)/binkernel.spec
-> +       +rpmbuild $(RPMOPTS) --define "_builddir $(objtree)" $(RPM_OUTDIR) \
-> +               --target $(UTS_MACHINE) -bb $(objtree)/binkernel.spec
->
->  PHONY += deb-pkg
->  deb-pkg:
-> --
-> Qualcomm Technologies, Inc. is a member of the
-> Code Aurora Forum, a Linux Foundation Collaborative Project.
->
-
-
---
-Best Regards
-Masahiro Yamada
