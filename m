@@ -2,68 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB90B9E02
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Sep 2019 15:19:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3120B9FDF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Sep 2019 00:23:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394132AbfIUNTA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 Sep 2019 09:19:00 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:24022 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389497AbfIUNTA (ORCPT
+        id S1726748AbfIUWXR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 21 Sep 2019 18:23:17 -0400
+Received: from cavan.codon.org.uk ([93.93.128.6]:42081 "EHLO
+        cavan.codon.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726747AbfIUWXQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 Sep 2019 09:19:00 -0400
-Received: from grover.flets-west.jp (softbank126021098169.bbtec.net [126.21.98.169]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id x8LDImo3014366;
-        Sat, 21 Sep 2019 22:18:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com x8LDImo3014366
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1569071928;
-        bh=XVVno40agGdniDiS2Ob/nbsE/04CiPA8IGTW3qDnaaA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=S4kl0Yq91pVQxQ2NUslSds3FW/yAC1ZqRjhDqIFJ1kUwOVU+9zPnxPdTBy4pfblDd
-         sUtFZwefHABK29hcFFJEqMJnBpOhQ9ieqWRfL3ckjocYBG9cdVbdM4l8LBWPt44j1O
-         ZjnW8AFLge6yxGiPyuDuyRyl16lWmvH7f5xgTgw5QsyKQltQjwgudQxWES/gLnvXAg
-         JsW1CFb27W5cbvkHHY3y7+n2nPZTHP7mJjArD48zFOCSdVGxxXR4frX5Ajz0+RDFTa
-         aoOIPhuIF50TiCKW6rnrbT/ggdrG+5tiHHRqCfRS0yFTtFTQAZn0030b/1XjKRhTFy
-         k/sVfRpuJs+sA==
-X-Nifty-SrcIP: [126.21.98.169]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+        Sat, 21 Sep 2019 18:23:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=codon.org.uk; s=63138784; h=Subject:Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=B+a2MTidxC1AbLvWfiUlt87RQGuqwtaiTd5K8DDerzM=; b=IGzfjKuAlE4yL6XBv05IlNKmc6
+        tGYZgqXMP4ArYZidHXy9C83ZvR3fEIZuSqvOwjjxysP52QBqUSYuL0P5NIb74npvfaElzmfAGq4Qs
+        0JsQODWCiQOZe4D/QoSIPexU0xOGEk/O5ASxkirTI1cjqoGKw60EhRaRpiWWJh5lIwZo=;
+Received: from [2604:5500:c004:0:c42d:463d:d00a:7d00] (helo=x210-mjg59.webpass.net)
+        by cavan.codon.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <mjg59@codon.org.uk>)
+        id 1iBnmZ-0003IT-Pi; Sat, 21 Sep 2019 23:23:14 +0100
+From:   Matthew Garrett <mjg59@srcf.ucam.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: update comment about KBUILD_ALLDIRS
-Date:   Sat, 21 Sep 2019 22:18:46 +0900
-Message-Id: <20190921131846.18981-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+Cc:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Matthew Garrett <mjg59@google.com>
+Date:   Sat, 21 Sep 2019 15:23:04 -0700
+Message-Id: <20190921222304.23267-1-mjg59@srcf.ucam.org>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Do-Not-Run: Yes
+X-SA-Exim-Connect-IP: 2604:5500:c004:0:c42d:463d:d00a:7d00
+X-SA-Exim-Mail-From: mjg59@codon.org.uk
+Subject: [PATCH] Corrected formatting of header in kbuild module docs
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: No (on cavan.codon.org.uk); Unknown failure
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 000ec95fbe75 ("kbuild: pkg: rename scripts/package/Makefile to
-scripts/Makefile.package") missed to update this comment.
+From: Alex Gaynor <alex.gaynor@gmail.com>
 
-Fixes: 000ec95fbe75 ("kbuild: pkg: rename scripts/package/Makefile to scripts/Makefile.package")
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Minor formatting fixup.
+
+Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+Signed-off-by: Matthew Garrett <mjg59@google.com>
 ---
+ Documentation/kbuild/modules.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index 6206cd358411..4808377f2db8 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1037,7 +1037,7 @@ export KBUILD_VMLINUX_OBJS := $(head-y) $(init-y) $(core-y) $(libs-y2) \
- export KBUILD_VMLINUX_LIBS := $(libs-y1)
- export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
- export LDFLAGS_vmlinux
--# used by scripts/package/Makefile
-+# used by scripts/Makefile.package
- export KBUILD_ALLDIRS := $(sort $(filter-out arch/%,$(vmlinux-alldirs)) LICENSES arch include scripts tools)
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index 24e763482650..6716508fb79c 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -495,7 +495,8 @@ build.
+ 	will be written containing all exported symbols that were not
+ 	defined in the kernel.
  
- vmlinux-deps := $(KBUILD_LDS) $(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)
+---- 6.3 Symbols From Another External Module
++6.3 Symbols From Another External Module
++----------------------------------------
+ 
+ 	Sometimes, an external module uses exported symbols from
+ 	another external module. kbuild needs to have full knowledge of
 -- 
-2.17.1
+2.21.0
 
