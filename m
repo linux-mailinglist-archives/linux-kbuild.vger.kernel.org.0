@@ -2,56 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB0CBE8BF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2019 01:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB0DBE8C7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Sep 2019 01:05:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726114AbfIYXFH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Sep 2019 19:05:07 -0400
-Received: from mail-io1-f43.google.com ([209.85.166.43]:45112 "EHLO
-        mail-io1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730974AbfIYXFG (ORCPT
+        id S1731055AbfIYXFJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Sep 2019 19:05:09 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:42423 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731028AbfIYXFI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Sep 2019 19:05:06 -0400
-Received: by mail-io1-f43.google.com with SMTP id c25so1247226iot.12
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Sep 2019 16:05:06 -0700 (PDT)
+        Wed, 25 Sep 2019 19:05:08 -0400
+Received: by mail-io1-f67.google.com with SMTP id n197so1296800iod.9
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Sep 2019 16:05:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=579Tnc2tHWRxfBzI2AYOcygJW1YrE5JUA2yogVfQLuk=;
-        b=ApdS52HZvPG4UPM6xBSrQ2S/UNXlmI8kFOmZudEilOG4y80P5HJRHlUnXKPfNJ+WKH
-         au6AjE0kdrTM+IBnFeBGhuDDtnofOCiBS7i2bfyRqXibn7ujiFixczgXhQZkG/9SPJLP
-         nWtV3tk8SZJqPR2uvC9inxGGtNfRDe6urfDEQ=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+b6H124ZTnuWVLwpA+w8I3lt6Bfem5vLH0ApPGFNuR4=;
+        b=CEKaiLvSUKGkt9kJikJ4frh0/mKqeP2axdt/8who5BPBFIDeQM39dUFtxSf3ibq+XU
+         t9DvdyOX/lF/ZfMY7hJi6Eizlu/gZEyxqUoRwvJKNLKrIq+f5BA2o8cIMfXOv/0S5SdM
+         16CkWbqDTanlWQQK554kaOOzjZqaqneNE1aRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=579Tnc2tHWRxfBzI2AYOcygJW1YrE5JUA2yogVfQLuk=;
-        b=XG5Nv+yqRDjO9ay3NijmB7sz0qShgeEXjQrLGCH68SyEyiM4c7sskGfcogpZz0tELE
-         peFpiAh4wVfo9coWMDVrrrWc5WB8maAivLqNdUXlcz3Xkz1UlqcTvBL2uJvFnkzcuIZI
-         +jszO/mU22N2Qum2V0v3klU2Ex6ZXiGI7NIUu6XXPyv5frdU/I6D9H4RuE+WGsFw9CLi
-         AVSr7Eox+OzfKRrtXEKg7OkJzwheuzc0xampwV85CL61jY98BqM1brp7s1o96fLpkv+3
-         wMYesDOvHghVcABQS3lf/FEpd/4uwDucbupF3J7dIgDBWBqFnYcGaaljZgJen1F41IhT
-         agKg==
-X-Gm-Message-State: APjAAAXgc9DzI26hbQdu7ANYxyjsdFGVr8Muh74KvcXLk5n/bSXtg8sz
-        Wz+sRndGQ5PlB/USGhK6Pb5jge1hn6s=
-X-Google-Smtp-Source: APXvYqw3G8DNm3m995j68ySkBp40wb8S0xhIePya4oAlregS01zaifCXpCYtrJLA2UrcL7HqzDB3rg==
-X-Received: by 2002:a02:a792:: with SMTP id e18mr803374jaj.125.1569452705565;
-        Wed, 25 Sep 2019 16:05:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+b6H124ZTnuWVLwpA+w8I3lt6Bfem5vLH0ApPGFNuR4=;
+        b=bK5B9du/WASz+iu1SlLC2+3ppiWt66ytNI++p9Du7SS4DkG9e4X5CbFwXGEYrIZWo2
+         llKd2HVa/+KHkSDuMMz7N4vRiNjP/7QvbNwhgvDKVk1qNxk4C5lXzSklUhIw/kseS/CQ
+         DF54Ih7ECxoFfzgNmrk8bq/jBZk/b9Y3tcPWRCAJg55k63AVhihOKWqG9fTEf67SSdCp
+         7Bm+QCmdmXnGa+FIVqE0EOqNyPCfhKQb+JUEYcbfj4djStJmOzErk6rs0BHziNY9lBoT
+         MftuKT5XJbqeqezU/B4K3cOyYsxC59KNYyllJONVhChrkNZmOM0XGBoztn0x82DTGi+N
+         DISg==
+X-Gm-Message-State: APjAAAVWfTFNQk/jskgHSecVPQ5Iybtr3CJLf78fHZ8I3pY3GY79b2ZJ
+        j2N6CjfbM2MDnAD0zJq50U8Zhg==
+X-Google-Smtp-Source: APXvYqyjRRInxClK01iFOyoqVb48oB0vJYhbYNGchBjzPtQmKBhsAVGG+7+KJMKiPJZOg6kqgAf0+Q==
+X-Received: by 2002:a02:ac82:: with SMTP id x2mr883743jan.18.1569452707372;
+        Wed, 25 Sep 2019 16:05:07 -0700 (PDT)
 Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id f23sm70767ioc.36.2019.09.25.16.05.04
+        by smtp.gmail.com with ESMTPSA id f23sm70767ioc.36.2019.09.25.16.05.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2019 16:05:04 -0700 (PDT)
+        Wed, 25 Sep 2019 16:05:06 -0700 (PDT)
 From:   Shuah Khan <skhan@linuxfoundation.org>
 To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
         shuah@kernel.org
 Cc:     Shuah Khan <skhan@linuxfoundation.org>,
         linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] Simplify kselftest build and install use-cases
-Date:   Wed, 25 Sep 2019 17:04:33 -0600
-Message-Id: <cover.1569452305.git.skhan@linuxfoundation.org>
+Subject: [PATCH 1/2] Makefile: Add kselftest_build target to build tests
+Date:   Wed, 25 Sep 2019 17:04:34 -0600
+Message-Id: <f13deab77f9e118bd290b6a978734871efac4bf2.1569452305.git.skhan@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1569452305.git.skhan@linuxfoundation.org>
+References: <cover.1569452305.git.skhan@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -59,19 +61,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This patch series simplifies kselftest use-cases and addresses requests
-from developers and testers to add support for building and installing
-from the main Makefile.
+Add kselftest_build target to build tests from the top level
+Makefile. This is to simplify kselftest use-cases for CI and
+distributions where build and test systems are different.
 
-Shuah Khan (2):
-  Makefile: Add kselftest_build target to build tests
-  selftests: Add kselftest_install target to main Makefile
+Current kselftest target builds and runs tests on a development
+system which is a developer use-case.
 
- Makefile                                     | 8 ++++++++
- tools/testing/selftests/Makefile             | 8 ++++++--
- tools/testing/selftests/kselftest_install.sh | 4 ++--
- 3 files changed, 16 insertions(+), 4 deletions(-)
+This change addresses requests from developers and testers to add
+support for building from the main Makefile.
 
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+---
+ Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Makefile b/Makefile
+index d456746da347..ac4af6fc4b50 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1233,6 +1233,10 @@ scripts_unifdef: scripts_basic
+ # ---------------------------------------------------------------------------
+ # Kernel selftest
+ 
++PHONY += kselftest_build
++kselftest_build:
++	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests all
++
+ PHONY += kselftest
+ kselftest:
+ 	$(Q)$(MAKE) -C $(srctree)/tools/testing/selftests run_tests
 -- 
 2.20.1
 
