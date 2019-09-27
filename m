@@ -2,98 +2,68 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90066C0A84
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2019 19:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F06ABC0E40
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Sep 2019 01:12:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbfI0Rmq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Sep 2019 13:42:46 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:36695 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726294AbfI0Rmq (ORCPT
+        id S1725815AbfI0XMS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Sep 2019 19:12:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53416 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbfI0XMR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Sep 2019 13:42:46 -0400
-Received: by mail-lf1-f66.google.com with SMTP id x80so2549346lff.3;
-        Fri, 27 Sep 2019 10:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=R2dWFPB086+p8xJ/thjxb6g8VFmjwb9hHyVKeU6WZ/0=;
-        b=Sy1Htyq5XwwO9o5yPUeSrTq7Dh7gibf4TrUuEOuXgqrIeKy/zx6N84M0Fl98VqBhE6
-         724CVD4qRV7BymXYazp+pyZBZxXyyyKGWZvi8nRI2K8CC/ClKQvsD3WmOns1f/wsPx3K
-         6Y7bSANa18K1yRjHsaZ/l/HPIpGdss2SAKj6UBf7phbE8uJMQsuL4A3B6sC6YEcD9vpO
-         xmrl9MasDD+8SgnNaLuXe/HHQyGIF+u1wBGPKJ8lQHQHjRNzmw72qocRGWhlwKgJH6MV
-         WQJ2Cdzz4p5aCc5XacVTjoT41/RJ8ud/YGTIbq7ZOu4Pfd2ri74EiHHpXasNWQhcZsGu
-         jZIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=R2dWFPB086+p8xJ/thjxb6g8VFmjwb9hHyVKeU6WZ/0=;
-        b=Oh9gbse0Ah/jGVxEUyIELRqCRp56pO8DDRWd5jQXWGXMDy1gRZg4rGKDOO6KHh17oN
-         iPjwOkp7uPLlc1IIBdeVrNXXSM9xdLEEIageynbPOtv8Hft6Vb0X7k55zYDsXip2W9T0
-         XfpJozQNI2ckge5tlYITFPwCpz48Qin5ZfZYeY1hhEzTTeFQlSSCUgQcJ86QiPGS+sBI
-         RRZQSENoVcaj+WraQozfCApFiVQrjDRtUYeaLB319ycIcE5U12LQiz12RkVx9k1iFXFH
-         MZFyeWqBdBbZ6Dyax7d2qTmKDQ684onUTTSuS3P2WCqVMz3h8tzPF9MoKq1guAIs3Pje
-         K7FA==
-X-Gm-Message-State: APjAAAVQOmez5I7GBs5qY6sXXiqokqGfNAmo3kiX1/5mu+yux3bOVPVZ
-        vTNFf7AZ2jJ25bJ0GDU/lX2ogoNdHQlQvA==
-X-Google-Smtp-Source: APXvYqwGr8bV/GXzdC57sgkSs7LFXCZslMzPQlxL9Rrsc5AoXYXN3FwkcvWhOTriaNZpytJdaCRwiQ==
-X-Received: by 2002:ac2:50c5:: with SMTP id h5mr3557274lfm.105.1569606162813;
-        Fri, 27 Sep 2019 10:42:42 -0700 (PDT)
-Received: from huvuddator (132-228.soderhamn.com. [80.245.228.132])
-        by smtp.gmail.com with ESMTPSA id g27sm578026lja.33.2019.09.27.10.42.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2019 10:42:41 -0700 (PDT)
-Date:   Fri, 27 Sep 2019 19:42:32 +0200
-From:   Ulf Magnusson <ulfalizer@gmail.com>
-To:     linux-kbuild@vger.kernel.org, yamada.masahiro@socionext.com
-Cc:     airlied@linux.ie, daniel@ffwll.ch, noralf@tronnes.org,
-        sam@ravnborg.org, david@lechnology.com, hdegoede@redhat.com,
-        eric@anholt.net, tglx@linutronix.de,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/tiny: Kconfig: Remove always-y THERMAL dep. from
- TINYDRM_REPAPER
-Message-ID: <20190927174218.GA32085@huvuddator>
+        Fri, 27 Sep 2019 19:12:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:Subject:References
+        :Cc:To:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From
+        :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=XeCZtUNseW2GHe2ZEi9YJRrHUwhbktgUjULEiuq7uvw=; b=m9WPAvUBB3Qhjsyy3kdy837y2t
+        D+VFc85zKmRSz/RMlCSo277bmxSqpdAzDr63oCzAu6yj/b3QeILS6F//hF2YFOwJCKJH+1oBIFOPL
+        musHbFATZo6u7ihvLkcXTAcwsmGAviEBre3toEMSzFSnGTqK6HO2iiLYHqIXxG79gXgpHen3oCnzZ
+        SVQBIdRjyK1KHQG8czOjn2HNvY8k49BiCq52GPvcREYzVhbl6YVzB2LlipYXdGN6JfYz6pZATKMdn
+        ljlskPLzmMnVt3o3rTLlCIQX0TgwwQwgVlgcst+eu6TzpE7JpaBXu9L2FnQXq1sUCc6vnqdQPx3OS
+        REERNIRQ==;
+Received: from [2601:1c0:6280:3f0::9a1f]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iDzPM-0003co-1d; Fri, 27 Sep 2019 23:12:16 +0000
+To:     jacob.e.keller@intel.com
+Cc:     intel-wired-lan@lists.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+References: <20190129204319.15238-1-jacob.e.keller@intel.com>
+Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative
+ paths
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <7b26e6cc-10ce-5df2-6375-1f95bc4da04e@infradead.org>
+Date:   Fri, 27 Sep 2019 16:12:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190129204319.15238-1-jacob.e.keller@intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 554b3529fe01 ("thermal/drivers/core: Remove the module Kconfig's
-option") changed the type of THERMAL from tristate to bool, so
-THERMAL || !THERMAL is now always y. Remove the redundant dependency.
 
-Discovered through Kconfiglib detecting a dependency loop. The C tools
-simplify the expression to y before running dependency loop detection,
-and so don't see it. Changing the type of THERMAL back to tristate makes
-the C tools detect the same loop.
+re: https://lore.kernel.org/lkml/20190129204319.15238-1-jacob.e.keller@intel.com/
 
-Not sure if running dep. loop detection after simplification can be
-called a bug. Fixing this nit unbreaks Kconfiglib on the kernel at
-least.
+Did anything happen with this patch?
 
-Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
----
- drivers/gpu/drm/tiny/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+Please send it to linux-kbuild@vger.kernel.org and
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 504763423d46..a46ac284dd5e 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -63,7 +63,6 @@ config TINYDRM_REPAPER
- 	depends on DRM && SPI
- 	select DRM_KMS_HELPER
- 	select DRM_KMS_CMA_HELPER
--	depends on THERMAL || !THERMAL
- 	help
- 	  DRM driver for the following Pervasive Displays panels:
- 	  1.44" TFT EPD Panel (E1144CS021)
+You can also add:
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+I was just about to fix this script but I decided to first see if anyone else
+had already done so.  Thanks.
+
 -- 
-2.20.1
-
+~Randy
