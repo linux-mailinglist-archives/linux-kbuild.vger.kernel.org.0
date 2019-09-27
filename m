@@ -2,50 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73415C048F
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2019 13:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96108C04D3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Sep 2019 14:07:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbfI0Lqw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Sep 2019 07:46:52 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:32800 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727076AbfI0Lqw (ORCPT
+        id S1726251AbfI0MHc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Sep 2019 08:07:32 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33061 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726549AbfI0MHc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Sep 2019 07:46:52 -0400
-Received: by mail-wr1-f67.google.com with SMTP id b9so2410935wrs.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 27 Sep 2019 04:46:51 -0700 (PDT)
+        Fri, 27 Sep 2019 08:07:32 -0400
+Received: by mail-wm1-f66.google.com with SMTP id r17so8832702wme.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 Sep 2019 05:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=Mo7w1y+kTxQvAhwo3KNKSDDsQrA2Q4cN6VWd/Y+DTgg=;
-        b=eLQf3+58GleOYNxjl36MGqUEZ9Mz97JQrIZ0wcBlZySF37+bB4SXVYkO9JeCO1ZdTu
-         WpsxmTCLhiUx4a56NRkegqpijByiDrYtr5E10yx2AOL7moE7RRGoOcO/9MS0Dp25qLan
-         UUyTEYT/atpvCbBcG1zBLdqANesE2OhVPr/MqHZmL3SVT9ZMhl7yt7vTZf/LMSDjyaKw
-         QcjK+R8UJevHyp+Bqp5bJtCu4ERVMKT3/8cqBqSNgvRSSyOU9oHQ+Cx6jWzzis82lj02
-         CdP8Eof5378ZxsQGgWIkEwPOghh8v9imHLXt5JOudD1vUrC9XwW/9k1t+wG0ZSpEQMnW
-         tRNA==
+        bh=84xRwRrZmOOdIxdbCFs/76XVQL6uDCBjiwfidtG4ZYM=;
+        b=WoDuTDJ51YpWy/YTLe3hqO+KzOYNYKoW0+q9q0OQPcU/aio9PtBbBoWCF1YqMtaj8V
+         hQiEBkcuJfUEWV9pQVH06ZHV7IMIdYEJjDjNpLIwovn1xGmBPYx28ZMVXqzdcFKP3qSx
+         J8XLZ4S/fFMX5VTG31hnjH+1EVtwz7RURg3WoD/AM6d7jsl+ogW2pkKL9LbMiBGKfWfq
+         3fjMjHu7gRcz1wr5aWPUMYMpBBI/XPmBoDQlBPKFwc2dAF5c/AES00tYXRRqeWmfwSqg
+         5HOIpn+WjiDQkdDSzuVxPnh0N8DxuR33WREM2SdLMjejLeWaTloir5hs6sgS2uQ6mRFQ
+         eYJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Mo7w1y+kTxQvAhwo3KNKSDDsQrA2Q4cN6VWd/Y+DTgg=;
-        b=P+PhKT4x5xImJZ+pArc7I/DUgMmyvHXzIKLxduSp/pgmnYVF4a42xYebqN3b5Cd9fN
-         deWUwPT3qlVQYEP/qTMb/ltL7bCaNNim7fu/WFWYYTz4i5ibogePnTHhcyYtXhA6ObPy
-         h08rR+jksbD6KdwPe+9UoF02AsIjau5QpBfLdKeUXn9BovmRJ+7+4GsxFJKRxH0yqK0H
-         xkcimRJeTPBvlxxu3rY7kwcrcpiR0Jq4sjwhna3FvRR2XmKJnAB74TenUlWgXK6B61+O
-         eylSU0f+9nQn30ZKZERv3B3cftlHRzYP8YwZ/PBr0T3o17fQJxTjz4wWGT9X0uEf8Aq8
-         jB2Q==
-X-Gm-Message-State: APjAAAUvj/ViPHq8MCGJPPPk6+3vfjUcnypteH/bflQG+8WcdCUWtnQt
-        TWhM3PzZfhgD020yHiM5+INyjA==
-X-Google-Smtp-Source: APXvYqwy1DGFKXlpnTExzTNGWK+e0W8dkUR8pVsDsBen4nsykmIsm2BuGoNRS6tDQ3AE19WsHhG5yA==
-X-Received: by 2002:a5d:6885:: with SMTP id h5mr2701094wru.92.1569584809858;
-        Fri, 27 Sep 2019 04:46:49 -0700 (PDT)
+        bh=84xRwRrZmOOdIxdbCFs/76XVQL6uDCBjiwfidtG4ZYM=;
+        b=PsY0FATtrvC+mT1hbIOu8vlQKLg/4iuRwJnFBgQpE8AjqhOnZGz+/WSFQ2PYhtXTPq
+         gAhbr22SSW2sG2cRMADo8tRzjbEGK/GP/lS8cCX1nOsshH0UY62LSmuqxxXUnQuW6Tra
+         RlbgQD69TSxQaSX4aLiTTVcY2ngBvoOSVrqyWXbS14cjLmeVb3oRpvMmp5gNsZS6H7nU
+         Mzb0RIYk//gpNs6kayyH1aIbmy1M1MdcTSPsiYKSmk9gb5YJIWh7NbugnSvafQECxBLY
+         9hgtpJEyg0Cb0TAQfVw/OH4GSWjs98aM0dEhgz4JbwXbZHcWOhoyr+t/yFltXC5+Rxj9
+         ymAA==
+X-Gm-Message-State: APjAAAVnMXngg36as9vQJOtVDZL4KOztMDgT5dtECpzVj7ekn0qg6kmT
+        xwIHcFrBwQemkH2EnnF498/AxA==
+X-Google-Smtp-Source: APXvYqyl4i/x7HZQ30O6mlu2aXxv7XYbP6Z+aw4pLYSgDuPMZfoBLL2hyS3M3I2UZrJt6GKFDNdq3g==
+X-Received: by 2002:a05:600c:34e:: with SMTP id u14mr6416482wmd.110.1569586050030;
+        Fri, 27 Sep 2019 05:07:30 -0700 (PDT)
 Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id o19sm6262169wmh.27.2019.09.27.04.46.49
+        by smtp.gmail.com with ESMTPSA id a14sm7174519wmm.44.2019.09.27.05.07.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2019 04:46:49 -0700 (PDT)
-Date:   Fri, 27 Sep 2019 12:46:46 +0100
+        Fri, 27 Sep 2019 05:07:28 -0700 (PDT)
+Date:   Fri, 27 Sep 2019 13:07:25 +0100
 From:   Matthias Maennich <maennich@google.com>
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Jessica Yu <jeyu@kernel.org>,
@@ -54,58 +54,56 @@ Cc:     Jessica Yu <jeyu@kernel.org>,
         Martijn Coenen <maco@android.com>,
         Will Deacon <will.deacon@arm.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shaun Ruffell <sruffell@sruffell.net>
-Subject: Re: [PATCH 1/7] modpost: fix broken sym->namespace for external
- module builds
-Message-ID: <20190927114646.GA259443@google.com>
+        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/7] module: swap the order of symbol.namespace
+Message-ID: <20190927120725.GB259443@google.com>
 References: <20190927093603.9140-1-yamada.masahiro@socionext.com>
- <20190927093603.9140-2-yamada.masahiro@socionext.com>
+ <20190927093603.9140-3-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20190927093603.9140-2-yamada.masahiro@socionext.com>
+In-Reply-To: <20190927093603.9140-3-yamada.masahiro@socionext.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 27, 2019 at 06:35:57PM +0900, Masahiro Yamada wrote:
->Currently, external module builds produce tons of false-positives:
+On Fri, Sep 27, 2019 at 06:35:58PM +0900, Masahiro Yamada wrote:
+>Currently, EXPORT_SYMBOL_NS(_GPL) constructs the kernel symbol as
+>follows:
 >
->  WARNING: module <mod> uses symbol <sym> from namespace <ns>, but does not import it.
+>  __ksymtab_SYMBOL.NAMESPACE
 >
->Here, the <ns> part shows a random string.
+>The sym_extract_namespace() in modpost allocates memory for the part
+>SYMBOL.NAMESPACE when '.' is contained. One problem is that the pointer
+>returned by strdup() is lost because the symbol name will be copied to
+>malloc'ed memory by alloc_symbol(). No one will keep track of the
+>pointer of strdup'ed memory.
 >
->When you build external modules, the symbol info of vmlinux and
->in-kernel modules are read from $(objtree)/Module.symvers, but
->read_dump() is buggy in multiple ways:
+>sym->namespace still points to the NAMESPACE part. So, if you like,
+>you can free it with complicated code like this:
 >
->[1] When the modpost is run for vmlinux and in-kernel modules,
->sym_extract_namespace() correctly allocates memory for the namespace.
->On the other hand, read_dump() does not, then sym->namespace will
->point to somewhere in the line buffer of get_next_line(). The data
->in the buffer will be replaced soon, and sym->namespace will end up
->with pointing to unrelated data. As a result, check_exports() will
->show random strings in the warning messages.
+>   free(sym->namespace - strlen(sym->name) - 1);
 >
->[2] When there is no namespace, sym_extract_namespace() returns NULL.
->On the other hand, read_dump() sets namespace to an empty string "".
->(but, it will be later replaced with unrelated data due to bug [1].)
->The check_exports() shows a warning unless exp->namespace is NULL,
->so every symbol read from read_dump() emits the warning, which is
->mostly false positive.
+>I would not say it is fatal since we seldom bother to manually free
+>memory in host programs. But, I can fix it in an elegant way.
 >
->To address [1], I added NOFAIL(strdup(...)) to allocate memory.
->For [2], I changed the if-conditional in check_exports().
+>I swapped the order of the symbol and the namespace as follows:
+>
+>  __ksymtab_NAMESPACE.SYMBOL
+>
+>then, simplified sym_extract_namespace() so that it allocates memory
+>only for the NAMESPACE part.
+>
+>I prefer this order because it is intuitive and also matches to major
+>languages. For example, NAMESPACE::NAME in C++, MODULE.NAME in Python.
 
-
-Thanks for addressing this. Greg had reported this earlier this week and
-Shaun was proposing a fix earlier today. Shaun's fix also ensures that
-memory is released when updating the namespace. But judging from the
-code around 'symbolhash' it seems that leaking this is accepted for
-modpost. Not sure about that. Having said that, please feel free to add
+I agree with this rationale and like the implementation. I believe the
+idea of appending the namespace came from being afraid of other tools
+facing the problem of parsing the namespace out of the middle of the
+entry. Thanks for this improvement.
 
 Reviewed-by: Matthias Maennich <maennich@google.com>
 
@@ -115,31 +113,62 @@ Matthias
 >Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 >---
 >
-> scripts/mod/modpost.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
+> include/linux/export.h |  4 ++--
+> scripts/mod/modpost.c  | 16 +++++++---------
+> 2 files changed, 9 insertions(+), 11 deletions(-)
 >
+>diff --git a/include/linux/export.h b/include/linux/export.h
+>index 95f55b7f83a0..0695d4e847d9 100644
+>--- a/include/linux/export.h
+>+++ b/include/linux/export.h
+>@@ -52,7 +52,7 @@ extern struct module __this_module;
+> 	__ADDRESSABLE(sym)						\
+> 	asm("	.section \"___ksymtab" sec "+" #sym "\", \"a\"	\n"	\
+> 	    "	.balign	4					\n"	\
+>-	    "__ksymtab_" #sym NS_SEPARATOR #ns ":		\n"	\
+>+	    "__ksymtab_" #ns NS_SEPARATOR #sym ":		\n"	\
+> 	    "	.long	" #sym "- .				\n"	\
+> 	    "	.long	__kstrtab_" #sym "- .			\n"	\
+> 	    "	.long	__kstrtab_ns_" #sym "- .		\n"	\
+>@@ -76,7 +76,7 @@ struct kernel_symbol {
+> #else
+> #define __KSYMTAB_ENTRY_NS(sym, sec, ns)				\
+> 	static const struct kernel_symbol __ksymtab_##sym##__##ns	\
+>-	asm("__ksymtab_" #sym NS_SEPARATOR #ns)				\
+>+	asm("__ksymtab_" #ns NS_SEPARATOR #sym)				\
+> 	__attribute__((section("___ksymtab" sec "+" #sym), used))	\
+> 	__aligned(sizeof(void *))					\
+> 	= { (unsigned long)&sym, __kstrtab_##sym, __kstrtab_ns_##sym }
 >diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
->index 3961941e8e7a..5c628a7d80f7 100644
+>index 5c628a7d80f7..d171b0cffb05 100644
 >--- a/scripts/mod/modpost.c
 >+++ b/scripts/mod/modpost.c
->@@ -2195,7 +2195,7 @@ static int check_exports(struct module *mod)
-> 		else
-> 			basename = mod->name;
+>@@ -350,18 +350,16 @@ static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
 >
->-		if (exp->namespace) {
->+		if (exp->namespace && exp->namespace[0]) {
-> 			add_namespace(&mod->required_namespaces,
-> 				      exp->namespace);
+> static const char *sym_extract_namespace(const char **symname)
+> {
+>-	size_t n;
+>-	char *dupsymname;
+>+	char *namespace = NULL;
+>+	char *ns_separator;
 >
->@@ -2453,7 +2453,7 @@ static void read_dump(const char *fname, unsigned int kernel)
-> 			mod = new_module(modname);
-> 			mod->skip = 1;
-> 		}
->-		s = sym_add_exported(symname, namespace, mod,
->+		s = sym_add_exported(symname, NOFAIL(strdup(namespace)), mod,
-> 				     export_no(export));
-> 		s->kernel    = kernel;
-> 		s->preloaded = 1;
+>-	n = strcspn(*symname, ".");
+>-	if (n < strlen(*symname) - 1) {
+>-		dupsymname = NOFAIL(strdup(*symname));
+>-		dupsymname[n] = '\0';
+>-		*symname = dupsymname;
+>-		return dupsymname + n + 1;
+>+	ns_separator = strchr(*symname, '.');
+>+	if (ns_separator) {
+>+		namespace = NOFAIL(strndup(*symname, ns_separator - *symname));
+>+		*symname = ns_separator + 1;
+> 	}
+>
+>-	return NULL;
+>+	return namespace;
+> }
+>
+> /**
 >-- 
 >2.17.1
 >
