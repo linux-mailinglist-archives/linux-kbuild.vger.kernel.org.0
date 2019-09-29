@@ -2,96 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D898C1288
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2019 02:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91206C12DF
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2019 04:57:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728655AbfI2AVU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Sep 2019 20:21:20 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:51339 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728569AbfI2AVU (ORCPT
+        id S1728747AbfI2C5C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Sep 2019 22:57:02 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39037 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728696AbfI2C5C (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Sep 2019 20:21:20 -0400
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x8T0L80N016203;
-        Sun, 29 Sep 2019 09:21:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x8T0L80N016203
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1569716469;
-        bh=5fDc5YaT7f/VUVtzw3IY9ZlI3jXeAzbdB4vRLcrugfI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oeAakd7g6wCJoOhdW9zt5iE6K9cgSMnoV8CoZ5y56M+issdOJmtkMxdqpupZWdPBd
-         HpIk0rLrLvFNT5RIZk4NRBViVzQaZ1ZA8nReK5SvYtQ37dZ+yRQVsIcZ28Ovk/vTR7
-         g/FDELPEAd+MwfZ9aKuQhcHcB+pCaVoKBtEfCcLbfUJ7i3L4aS4Sk2XwQaXF1v9/M6
-         SULysb10cNZKdskauvD7kil0UCOJl4FfPTJfL1C5PQ2JTs+3Zz4xpAIQaJNmLyjw60
-         BBqII+/cD51qDmVwm1wGJxiK/bJZMwB7ZWvxxEZiqUJ277D9cWSScit9/IAcEZXUPV
-         /aFX8AeNdTRqg==
-X-Nifty-SrcIP: [209.85.221.169]
-Received: by mail-vk1-f169.google.com with SMTP id t128so1966478vkd.13;
-        Sat, 28 Sep 2019 17:21:08 -0700 (PDT)
-X-Gm-Message-State: APjAAAX35arnr32zBrpccdztCwDIeqxFyaFE/80BurrXoANgwIRykV7F
-        ubG9cvOmBXYYD7eaHIf94nHrlAe2ari+owfsDj4=
-X-Google-Smtp-Source: APXvYqymOZkiXNxKVDSVKujhu5kJTfTDulxnWJzegGEnWkmbn4GZXf+H5EJwbxw+EyLqr/6h8oVz67rObQDH2Fk3mWM=
-X-Received: by 2002:a1f:2343:: with SMTP id j64mr1919485vkj.84.1569716467891;
- Sat, 28 Sep 2019 17:21:07 -0700 (PDT)
+        Sat, 28 Sep 2019 22:57:02 -0400
+Received: by mail-lj1-f196.google.com with SMTP id y3so6030329ljj.6
+        for <linux-kbuild@vger.kernel.org>; Sat, 28 Sep 2019 19:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=C8yXdw0h0p8F6fKLaDgDQwFYdgULtupqFt2t+GrVNvU=;
+        b=RW7Sb/4aJlXGRC6xwt+1bMJlvhizR+i9Eq9eKpzZfrVoj22korZmpNc2NL6eCx4v0O
+         XXPGp9pLIXXPXxFOrIAiDbgDK+vG9IgDXYMiyWVm9YasXG7Vp+l/53OuGPxzOaycRGU5
+         yHT20DkiwOMeWk9YTWw/7WVItYlUJvEa7dj2g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C8yXdw0h0p8F6fKLaDgDQwFYdgULtupqFt2t+GrVNvU=;
+        b=O1tTkYBchhskPDp+o16DNQ61rfTAA/lBF1SnT3jKjhC0PIjGeY6nwVWcL/v+XZwoER
+         UNi6Vm0N2eKqujnJlnaszb88mHj7vu1oPkh3FumEhepiz/b7Rog8TU54qML96Af0LRfg
+         ZHi3GvqyxFrYriFXFuVwrzPGCaZRzrpj3l45tY3NrAhpGo00P9PbbYNGVUDpEbV1+iLf
+         f76DLIHDPdgahcwdu0UlyoJVV2lkfZJeaj0YAo9WV34s4YmFe/aEzQFw6R6ermtPSXnn
+         2W3R1/xqT120mhuxLMZx361IWU3H2aEMli4PMLbQALMONya5u87Pf9NNeOGAAE7Au5n/
+         w0ZQ==
+X-Gm-Message-State: APjAAAVUXgsBP4bVxOoDt1x8nwAczW09uyibwnXx7eBKOgUuZ7CmxhAT
+        FQSa70QCFfXZ4W5GmBMmx7lMRPkE27E=
+X-Google-Smtp-Source: APXvYqxNe+FYi3zrEb/nyXZ8PffBEmJ1p+zSqS5ZexP6ErGIOR2wVtoXrAlfWQOXUpdRjaTxxYFWEA==
+X-Received: by 2002:a2e:2953:: with SMTP id u80mr7854751lje.233.1569725819881;
+        Sat, 28 Sep 2019 19:56:59 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id d3sm1770250ljc.66.2019.09.28.19.56.58
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Sep 2019 19:56:59 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id r22so4582223lfm.1
+        for <linux-kbuild@vger.kernel.org>; Sat, 28 Sep 2019 19:56:58 -0700 (PDT)
+X-Received: by 2002:ac2:50cb:: with SMTP id h11mr7398086lfm.170.1569725818343;
+ Sat, 28 Sep 2019 19:56:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190129204319.15238-1-jacob.e.keller@intel.com>
- <7b26e6cc-10ce-5df2-6375-1f95bc4da04e@infradead.org> <02874ECE860811409154E81DA85FBB58968DBE54@ORSMSX121.amr.corp.intel.com>
-In-Reply-To: <02874ECE860811409154E81DA85FBB58968DBE54@ORSMSX121.amr.corp.intel.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 29 Sep 2019 09:20:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARyUEakeG_N9TWcO2cjFSzbgY__k_QJm6C+oOz+fW0aeg@mail.gmail.com>
-Message-ID: <CAK7LNARyUEakeG_N9TWcO2cjFSzbgY__k_QJm6C+oOz+fW0aeg@mail.gmail.com>
-Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative paths
-To:     "Keller, Jacob E" <jacob.e.keller@intel.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
+References: <CAK7LNAT-D68xMFrE-D_F-2y+iZt45+8iLF9dmTyO8YwUX-bTqA@mail.gmail.com>
+In-Reply-To: <CAK7LNAT-D68xMFrE-D_F-2y+iZt45+8iLF9dmTyO8YwUX-bTqA@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 28 Sep 2019 19:56:42 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com>
+Message-ID: <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com>
+Subject: Re: [GIT PULL] More Kbuild updates for v5.4-rc1
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        masahiroy@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Sep 28, 2019 at 8:30 AM Keller, Jacob E
-<jacob.e.keller@intel.com> wrote:
+On Sat, Sep 28, 2019 at 11:41 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> > -----Original Message-----
-> > From: Randy Dunlap [mailto:rdunlap@infradead.org]
-> > Sent: Friday, September 27, 2019 4:12 PM
-> > To: Keller, Jacob E <jacob.e.keller@intel.com>
-> > Cc: intel-wired-lan@lists.osuosl.org; linux-kernel@vger.kernel.org; linux-kbuild <linux-
-> > kbuild@vger.kernel.org>; Masahiro Yamada <yamada.masahiro@socionext.com>
-> > Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative paths
-> >
-> >
-> > re: https://lore.kernel.org/lkml/20190129204319.15238-1-jacob.e.keller@intel.com/
-> >
-> > Did anything happen with this patch?
-> >
-> > Please send it to linux-kbuild@vger.kernel.org and
-> > Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> >
-> > You can also add:
-> > Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> >
-> >
-> > I was just about to fix this script but I decided to first see if anyone else
-> > had already done so.  Thanks.
-> >
-> > --
-> > ~Randy
->
-> Done, thanks.
->
-> Regards,
-> Jake
+> Please pull some more updates for v5.4-rc1
 
+I pulled this, but I'm not sure if I'm going to keep it.
 
-Applied to linux/kbuild. Thanks.
+There's thousands of lines of changes because of the header-test-y
+thing, and I'm honestly considering just getting rid of that thing
+entirely.
 
--- 
-Best Regards
-Masahiro Yamada
+It has no actual upside that I can tell, and it's extremely annoying.
+It pollutes the tree with hundreds of *.h.s files, which messes up
+filename completion, and just generally is ugly and annoying.
+
+So I've unpulled for now, and I'm not sure I want to pull more noise
+for this mis-feature.
+
+                Linus
