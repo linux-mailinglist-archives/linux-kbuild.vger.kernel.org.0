@@ -2,60 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91206C12DF
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2019 04:57:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23392C12F8
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2019 06:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728747AbfI2C5C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Sep 2019 22:57:02 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39037 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728696AbfI2C5C (ORCPT
+        id S1725616AbfI2EAG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 Sep 2019 00:00:06 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:62160 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725379AbfI2EAG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Sep 2019 22:57:02 -0400
-Received: by mail-lj1-f196.google.com with SMTP id y3so6030329ljj.6
-        for <linux-kbuild@vger.kernel.org>; Sat, 28 Sep 2019 19:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C8yXdw0h0p8F6fKLaDgDQwFYdgULtupqFt2t+GrVNvU=;
-        b=RW7Sb/4aJlXGRC6xwt+1bMJlvhizR+i9Eq9eKpzZfrVoj22korZmpNc2NL6eCx4v0O
-         XXPGp9pLIXXPXxFOrIAiDbgDK+vG9IgDXYMiyWVm9YasXG7Vp+l/53OuGPxzOaycRGU5
-         yHT20DkiwOMeWk9YTWw/7WVItYlUJvEa7dj2g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C8yXdw0h0p8F6fKLaDgDQwFYdgULtupqFt2t+GrVNvU=;
-        b=O1tTkYBchhskPDp+o16DNQ61rfTAA/lBF1SnT3jKjhC0PIjGeY6nwVWcL/v+XZwoER
-         UNi6Vm0N2eKqujnJlnaszb88mHj7vu1oPkh3FumEhepiz/b7Rog8TU54qML96Af0LRfg
-         ZHi3GvqyxFrYriFXFuVwrzPGCaZRzrpj3l45tY3NrAhpGo00P9PbbYNGVUDpEbV1+iLf
-         f76DLIHDPdgahcwdu0UlyoJVV2lkfZJeaj0YAo9WV34s4YmFe/aEzQFw6R6ermtPSXnn
-         2W3R1/xqT120mhuxLMZx361IWU3H2aEMli4PMLbQALMONya5u87Pf9NNeOGAAE7Au5n/
-         w0ZQ==
-X-Gm-Message-State: APjAAAVUXgsBP4bVxOoDt1x8nwAczW09uyibwnXx7eBKOgUuZ7CmxhAT
-        FQSa70QCFfXZ4W5GmBMmx7lMRPkE27E=
-X-Google-Smtp-Source: APXvYqxNe+FYi3zrEb/nyXZ8PffBEmJ1p+zSqS5ZexP6ErGIOR2wVtoXrAlfWQOXUpdRjaTxxYFWEA==
-X-Received: by 2002:a2e:2953:: with SMTP id u80mr7854751lje.233.1569725819881;
-        Sat, 28 Sep 2019 19:56:59 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id d3sm1770250ljc.66.2019.09.28.19.56.58
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Sep 2019 19:56:59 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id r22so4582223lfm.1
-        for <linux-kbuild@vger.kernel.org>; Sat, 28 Sep 2019 19:56:58 -0700 (PDT)
-X-Received: by 2002:ac2:50cb:: with SMTP id h11mr7398086lfm.170.1569725818343;
- Sat, 28 Sep 2019 19:56:58 -0700 (PDT)
+        Sun, 29 Sep 2019 00:00:06 -0400
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x8T40102019634;
+        Sun, 29 Sep 2019 13:00:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x8T40102019634
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1569729602;
+        bh=woyYg5ZX3LH+X72yt3rLwXDVMvzanzz7a9iBSSuatNc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t9blx5JNwA2UaReQ0OtqgxMt2qkyq6fRdEWIqVBpfzw5Dcgl75zPLpiYwjcPseREK
+         GuJ+hEebEny+qrz6qwgp81Sol5lbX7iU/eWEW3nGcVvtSbvEo1LRxD7jS83q4/8Mzg
+         Lc27PpMNjTjJCNtXVLcNkH9Xt+4x1SgJBf+H9m9yTQS7GzuLjV4SYx5qyc9O/amsyB
+         PFhYNGg5zvuT/05Y0mMR95gWVkZd/yHrhPX/Hv16ktW6aBWjYOx09+avkR5wM5b9NC
+         67qrIO/ySR4RBao+XXr3bvflIqjbJ0E3Vz5/jyU5gg/pbhBaiZtoOjH4cPn8mnYj15
+         yAncEkYBNkqOg==
+X-Nifty-SrcIP: [209.85.217.46]
+Received: by mail-vs1-f46.google.com with SMTP id m22so4528879vsl.9;
+        Sat, 28 Sep 2019 21:00:02 -0700 (PDT)
+X-Gm-Message-State: APjAAAV9sSrekqwA2nIAcNHvqwvoYja5yRS4OMs8Q+3TA4cdctl9Y5q7
+        ZD0IrO5+tZ3qOhvZIz+6dHlNjilVz4KprfY+D1M=
+X-Google-Smtp-Source: APXvYqymY9M6kRY90i07BR10rMIYHpst/c0y6tGNx5PqcwpwENOpzdBCUbYJvLcYdOoYY5n4PgwRujfqSkxiAQG5Cbg=
+X-Received: by 2002:a67:ec09:: with SMTP id d9mr6522939vso.215.1569729601029;
+ Sat, 28 Sep 2019 21:00:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAK7LNAT-D68xMFrE-D_F-2y+iZt45+8iLF9dmTyO8YwUX-bTqA@mail.gmail.com>
-In-Reply-To: <CAK7LNAT-D68xMFrE-D_F-2y+iZt45+8iLF9dmTyO8YwUX-bTqA@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 28 Sep 2019 19:56:42 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com>
-Message-ID: <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com>
+ <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com>
+In-Reply-To: <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sun, 29 Sep 2019 12:59:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQuY50tB790n85LGpX3m6yuxHTyB++0BwVFnSnz1B0gWA@mail.gmail.com>
+Message-ID: <CAK7LNAQuY50tB790n85LGpX3m6yuxHTyB++0BwVFnSnz1B0gWA@mail.gmail.com>
 Subject: Re: [GIT PULL] More Kbuild updates for v5.4-rc1
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         masahiroy@kernel.org
@@ -65,22 +53,65 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Sep 28, 2019 at 11:41 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
+Hi Linus,
+
+On Sun, Sep 29, 2019 at 11:57 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Please pull some more updates for v5.4-rc1
+> On Sat, Sep 28, 2019 at 11:41 AM Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
+> >
+> > Please pull some more updates for v5.4-rc1
+>
+> I pulled this, but I'm not sure if I'm going to keep it.
+>
+> There's thousands of lines of changes because of the header-test-y
+> thing, and I'm honestly considering just getting rid of that thing
+> entirely.
+>
+> It has no actual upside that I can tell, and it's extremely annoying.
+> It pollutes the tree with hundreds of *.h.s files, which messes up
+> filename completion, and just generally is ugly and annoying.
+>
+> So I've unpulled for now, and I'm not sure I want to pull more noise
+> for this mis-feature.
+>
+>                 Linus
 
-I pulled this, but I'm not sure if I'm going to keep it.
 
-There's thousands of lines of changes because of the header-test-y
-thing, and I'm honestly considering just getting rid of that thing
-entirely.
 
-It has no actual upside that I can tell, and it's extremely annoying.
-It pollutes the tree with hundreds of *.h.s files, which messes up
-filename completion, and just generally is ugly and annoying.
 
-So I've unpulled for now, and I'm not sure I want to pull more noise
-for this mis-feature.
+The concept of header test is to make sure every header
+is self-contained, so that headers can be included in
+  either
+#include <linux/foo.h>
+#include <linux/bar.h>
+  or
+#include <linux/bar.h>
+#include <linux/foo.h>
 
-                Linus
+
+Of course, you can argue that it is addressing hypothetical issues
+"what if the include directives are arranged in this order?",
+that nobody has been hit before.
+
+If this test is just annoying, shall we remove
+the 'header-test-y' syntax and include/Kbuild entirely?
+
+But, at least, I want to continue compile-testing
+uapi headers that are exported to user-space.
+
+This is useful to detect a broken uapi header
+that is never be able to be compiled in user-space.
+
+For example,
+https://lkml.org/lkml/2019/6/19/104
+
+
+So, I'd like to keep usr/include/Makefile
+at least.
+
+
+-- 
+Best Regards
+Masahiro Yamada
