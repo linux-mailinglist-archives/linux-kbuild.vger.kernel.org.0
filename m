@@ -2,65 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86829C1604
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2019 17:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC995C166C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Sep 2019 19:00:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbfI2Pvy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 Sep 2019 11:51:54 -0400
-Received: from padbanking.net ([31.220.0.186]:56499 "EHLO
-        slot0.jntechglass.com" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbfI2Pvy (ORCPT
+        id S1726838AbfI2RAO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 Sep 2019 13:00:14 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42394 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726390AbfI2RAN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 Sep 2019 11:51:54 -0400
-X-Greylist: delayed 610 seconds by postgrey-1.27 at vger.kernel.org; Sun, 29 Sep 2019 11:51:53 EDT
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=jntechglass.com;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=admin@jntechglass.com;
- bh=SQLP4om4P2qFu3Jv36hG0y56Qcw=;
- b=aMz6ZsGby7ACjP9SjWjdqo0tVh+vKz9qn6NOEc8m8F/++iGhflMoa8vWzZSIYeb5FwTFob+Obvhp
-   QjpqZ2kyCvbvYapjzBuSTXPt6j9PZFJ2/GnbZ3MwbIC6X2xzlxgzCjqUyvVSb0m8inrmi9DRP+gb
-   t91OwLOrpEzo2/sOqXROhEb20Ge4I4EAyLNg3gL5RsNp9Cdhow1hjaDbHOXjIFJrESg0kF6QJ2tT
-   amuwBYTfaTQpHIZrjFRvicHxPOwWwzf0kWzQ14cPoT6eWcj6eotz8S2/ZhXo5s1TyfY6C3rjNkCQ
-   6TAYlAUXsbKykvSNa2hB7RIIUYE5VvUdc2gJvg==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=jntechglass.com;
- b=YAvlq0dKfavAJfexykyJhrPbKIqcouEErKVH/D0YNJ299hEbsvfLLpcMwKD2YZ0wcjqS+bUlmhB2
-   NrqrSve0MuMNqvzVJS8WVWXBjaKbz4mbpbClWVJZqFZ3LZgPGBrwgXeROY2XMQQZCjS5I1MYroOl
-   QdCxjR3SUhtY9E6w+TTqiCSv0FecXlI4N4Sii1497zAOcN8sQ1KmSDnJTmALps8Bvy/0xBNFW5vZ
-   XwfFsZrJ5xX/1e+ThO55EtyCTSbYLPSXCl8SA0axbWcKZe7XoazaTyRyoUo1IfhRA/4Bkd4O0W8T
-   wIixIXSxhhBfr8lN7hgfmGtFi4jdVqho1BY9BA==;
-Content-Type: text/plain; charset="utf-8"
+        Sun, 29 Sep 2019 13:00:13 -0400
+Received: by mail-lj1-f194.google.com with SMTP id y23so6990556lje.9
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Sep 2019 10:00:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RNDoutGDvOZvHTVduDc/xowF3Yl3vCcT50+XRcdHU+4=;
+        b=a9TpzaH3q3HwmagNzHo1UyLPfKUrFN8tPFY8I1+plKnNTY1e10w+JBEJFpaTuRBvRW
+         W2yIcI3Xrultoz6vVXOdWNqGlQo+iCB6FGJsrDMifCWX1Qms3kf26i2WdF88FE2sIvJA
+         AEgkWZvERAKYAY8SVcmU5Emsf3IfqPwGrj15g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RNDoutGDvOZvHTVduDc/xowF3Yl3vCcT50+XRcdHU+4=;
+        b=SAwN9ui3KFbpss0VUAkI9Ec4MW6R0b928qBL60n7vJxdd8t6/RBqPo9Ea+v6WxwHo2
+         GNGYcKAGgkuRj0kvKAHEuFpRlqWIo0aVLH61QlRl+kaZyyjq78ydQnDIuq7VAZZ0HARh
+         oW4wUVl9EtzopEM0/9IXjIEwwrMyG2Jn7rMuFf5xdEkeQTRxCg6crJrtYGrO9DWXQa1I
+         OV6afTFiPsfqeMMDpKcfZABEht/MU7CtfOexHnyJ/bSa7oQ5gGfnNagDhEHLLR5GmWQQ
+         ncrrX3J+JQ4oMt56imkm7ZFlaSvk3gECwZIiI+vtqLBtG0Ygn0H3Y1yUGxMAOA461gM8
+         CeIw==
+X-Gm-Message-State: APjAAAVoY0mq05u3v50FMLMAPe3EtwV85YFC2QceS6QiAp2XNm2uqIkE
+        s1HSelhQqzzFkxOtvcVRgko0KIzrpbA=
+X-Google-Smtp-Source: APXvYqwaTHsrUOPI566uQphBGrtkJT/SFGOGsc0luFy9gK+LWguBM6+7gkjxaqY4L+EJTiK8AF/p3Q==
+X-Received: by 2002:a05:651c:22a:: with SMTP id z10mr9170887ljn.103.1569776411418;
+        Sun, 29 Sep 2019 10:00:11 -0700 (PDT)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id y8sm2444354ljh.21.2019.09.29.10.00.10
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Sep 2019 10:00:10 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id a22so7047887ljd.0
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Sep 2019 10:00:10 -0700 (PDT)
+X-Received: by 2002:a2e:3e07:: with SMTP id l7mr9326176lja.180.1569776410194;
+ Sun, 29 Sep 2019 10:00:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?b?UmU6IOKCrCAyLDAwMCwwMDAtMDAgRVVS?=
-To:     Recipients <admin@jntechglass.com>
-From:   "Herr Richard Wahl" <admin@jntechglass.com>
-Date:   Sun, 29 Sep 2019 08:36:02 -0700
-Reply-To: unitednationscouncilrefunds@gmail.com
-Message-ID: <0.0.1B.53D.1D576DB995906B0.0@slot0.jntechglass.com>
+References: <CAK7LNAT-D68xMFrE-D_F-2y+iZt45+8iLF9dmTyO8YwUX-bTqA@mail.gmail.com>
+ <CAHk-=wjdc7Ovi-iVGBGzuP6prTXVRT8rgbnabBd0AiHRqECMCg@mail.gmail.com> <CAK7LNAQuY50tB790n85LGpX3m6yuxHTyB++0BwVFnSnz1B0gWA@mail.gmail.com>
+In-Reply-To: <CAK7LNAQuY50tB790n85LGpX3m6yuxHTyB++0BwVFnSnz1B0gWA@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun, 29 Sep 2019 09:59:54 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjhKeCH+yGOmHk_2v8GY2EHwXboSS6R-Jov63JHat21XQ@mail.gmail.com>
+Message-ID: <CAHk-=wjhKeCH+yGOmHk_2v8GY2EHwXboSS6R-Jov63JHat21XQ@mail.gmail.com>
+Subject: Re: [GIT PULL] More Kbuild updates for v5.4-rc1
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        masahiroy@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Lieber Freund,
+On Sat, Sep 28, 2019 at 9:00 PM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> The concept of header test is to make sure every header
+> is self-contained,
 
-Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jac=
-kpot spende ich an 5 zuf=C3=A4llige Personen, wenn Sie diese E-Mail erhalte=
-n, dann wurde Ihre E-Mail nach einem Spinball ausgew=C3=A4hlt. Ich habe den=
- gr=C3=B6=C3=9Ften Teil meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=
-=A4tigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwi=
-llig dazu entschieden, Ihnen den Betrag von =E2=82=AC 2.000.000,00 zu spend=
-en eine der ausgew=C3=A4hlten 5, um meine Gewinne zu =C3=BCberpr=C3=BCfen, =
-finden Sie auf meiner You Tube Seite unten.
+Yes, I realize. But at the same time the filenames it creates are very
+annoying and clutter up the tree, and I'm not sure we really want that
+in the first place.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3Dtne02ExNDrw
+The thing _I_ would want is actually a lot less includes, and a lot
+more streamlined, just for better build times. I sometimes get a small
+pull, and wonder why the *whole* tree recompiles, and realize that
+it's due to some really obscure header file that just gets included
+"in case".
 
-Das ist dein Spendencode: [DF00430342018]
+So I'd like us to be stricter about header files another way entirely,
+and I'm not sure that header files should need to be completely
+independent.
 
-Antworten Sie mit dem Spendencode auf diese E-Mail: andrebotha@yahoo.com
+> Of course, you can argue that it is addressing hypothetical issues
+> "what if the include directives are arranged in this order?",
+> that nobody has been hit before.
 
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+Well, I think people hit it all the time but just add the right header
+file when some build fails.
 
-Gr=C3=BC=C3=9Fe
+In a perfect world, we'd have something that understands what symbols
+get declared in each header file, and what symbols each header file
+needs, and have a SAT solver for this that actually also understands
+about different configurations and architectures. And actually
+minimize the headers, and have a tool that warns when you have
+unnecessary ones - or are lacking some.
 
-Herr Richard Wahl
+Yeah, it's probably too complex to be worth the pain, but it would be lovely.
+
+> But, at least, I want to continue compile-testing
+> uapi headers that are exported to user-space.
+
+I think the uapi headers have a much stronger case for being
+self-sufficient, but even there I'd really prefer some other model
+than "*.h.s".
+
+We have the dot-files for dependencies and for tracking the command
+that was used to generate them, I'd much rather have that. At least
+then we wouldn't uglify the directory structure.
+
+Yea, I realize that some people "solve" that problem by just not
+building in the source-tree at all, but I find that annoying too.
+
+               Linus
