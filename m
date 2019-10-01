@@ -2,53 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30E30C344D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2019 14:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1603C36D6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Oct 2019 16:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732375AbfJAMdt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Oct 2019 08:33:49 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:36852 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726181AbfJAMds (ORCPT
+        id S2388725AbfJAOQU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Oct 2019 10:16:20 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42858 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbfJAOQU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Oct 2019 08:33:48 -0400
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x91CXb5n009302;
-        Tue, 1 Oct 2019 21:33:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x91CXb5n009302
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1569933218;
-        bh=vZ/by6QGyvjk+iMrCPDyuHl+7HvLeaF7vg7qAlH/0gM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LcxUtM7Szvj3Aa2e4c2A1wzxF3fUSR8DEKqTJvpb1RlRemNEy9bn14M3IRgHYzs11
-         AjHa/fw1zpSswKnqtBDS03OHuKplMR057CnPolWhMcv4iyYAr6tGBM8ga4SR12S76P
-         cG5et+8g+yyQFVCC6bhCsLC2GsGuFROtLfVo8PYphiJ0yzCD+X4S7ms6WL/sNrdaUw
-         PGNEu9uPWIt6jJL17RcM68FMLNK1mOFaTP/jOrO+BgOSvrGLInFE2ByW7SSkIeoTb8
-         GPNFBqfkKsf1lj+gHbF2sgU+4rJO4i+krzAlxs9wjyHpsat1odB9sGygYPq53lIz3w
-         F5N56NLrRJ2IA==
-X-Nifty-SrcIP: [209.85.217.47]
-Received: by mail-vs1-f47.google.com with SMTP id y129so8217342vsc.6;
-        Tue, 01 Oct 2019 05:33:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAVqoUo4xMHtaIhWOsrj2nqL9/L7VKuzLpFhlUsDoxqHN917PWLL
-        qtDUaa7pg8TwXe+hqgCpmSn0rTCJAVkApQikIW4=
-X-Google-Smtp-Source: APXvYqzyG7S32nGz1uEUNLPUcQCQ8TKvJylySJaOoKcfZPW3A+jS3aqcfynfl9dnbk2g6Sr1O9oa0d+P231N1XKqaRU=
-X-Received: by 2002:a67:1e87:: with SMTP id e129mr13181899vse.179.1569933216622;
- Tue, 01 Oct 2019 05:33:36 -0700 (PDT)
+        Tue, 1 Oct 2019 10:16:20 -0400
+Received: by mail-qt1-f193.google.com with SMTP id w14so21743341qto.9;
+        Tue, 01 Oct 2019 07:16:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=zqe/3yQ//FnSWGENLzctmWxawD8BEgiS/3EQrQ4HX8Q=;
+        b=U5szjWsyE6rJuE1IsJodEcdG6EC9zXgWg6A1w9p6+VcT3Ug/y6Xf0r6pQ8e3EyaHtJ
+         SHuWDz50EB2O+ZJ3Ca4aTVtSbuFgmK+G3EI44O3R+2zpu0kyjzXXOeRhcIh8EPjMVBA3
+         Q8dpXPkI4L177mVxdw6QXwBvQsegsNHR71bJLYcv42T6atSGrk8YbrzC4xcsTGsULGqB
+         64OB27zXFiLEFyTTSQh6XyO2w8yPC6jW35qlEkoupPUZ+boU5fWvhhAnkmGppaGjnQOu
+         oKSMC5PzD7KkhEh2rl6DMF1TpM6SObOk2nBwCbwnLpfFqFQMVXE6fEr17l8+qdJxUv5h
+         YWNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=zqe/3yQ//FnSWGENLzctmWxawD8BEgiS/3EQrQ4HX8Q=;
+        b=Fw7foO3f2PASYJVqStJ4mMWRQ6XLykqVTdkur49JeJM80FIWTn2Bvx8Bmq7uRVGaqt
+         0N4hvyo+SIhSY7qb9lgkhcqGEIf1BhdsdMNbXlWW/xBkBnxGQZqPNVJclKGgdVd5Hlrn
+         EWn3ZKyXtVahkHhKLph8mQFypm1EoFO8mxYFbDCB5FFop8j4zRKh8/jGdIvhYTJfUf96
+         09B+hJulFkgevjSlgoKL4oAScKaf403MCzbzQehL9oAA+r9aKtXM60clIm+Y45wwsAb4
+         LoczYeBuGMDe5SDboQXASh+x3wjYTdO+eCU2ymrGzenZqNJRhtrC9RimRIly3pp0nHHd
+         7Myw==
+X-Gm-Message-State: APjAAAVe2cMHQOHWavwUrTPI2U+RkmBqpAXa6yFcdzb78rLNKyKyNSpT
+        kAI+4DOS1GPnsgg5pvFr4cQ8mGJtZHPqRr74eDo=
+X-Google-Smtp-Source: APXvYqwy5L7lsArt7eRzsOObi54HA7rJbsTO0TkfyRzzAV4GNqKD8qOP15LcFgfixXyNieEk8mnHY5psxc3M3RmPVBM=
+X-Received: by 2002:a05:6214:1369:: with SMTP id c9mr25800672qvw.3.1569939377523;
+ Tue, 01 Oct 2019 07:16:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191001101429.24965-1-bjorn.topel@gmail.com>
-In-Reply-To: <20191001101429.24965-1-bjorn.topel@gmail.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 1 Oct 2019 21:33:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATNw4Qysj1Q2dXd4PALfbtgMXPwgvmW=g0dRcrczGW-Fg@mail.gmail.com>
-Message-ID: <CAK7LNATNw4Qysj1Q2dXd4PALfbtgMXPwgvmW=g0dRcrczGW-Fg@mail.gmail.com>
+References: <20191001101429.24965-1-bjorn.topel@gmail.com> <CAK7LNATNw4Qysj1Q2dXd4PALfbtgMXPwgvmW=g0dRcrczGW-Fg@mail.gmail.com>
+In-Reply-To: <CAK7LNATNw4Qysj1Q2dXd4PALfbtgMXPwgvmW=g0dRcrczGW-Fg@mail.gmail.com>
+From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+Date:   Tue, 1 Oct 2019 16:16:05 +0200
+Message-ID: <CAJ+HfNgvxornSfqnbAthNy6u6=-enGCdA8K1e6rLXhCzGgmONQ@mail.gmail.com>
 Subject: Re: [PATCH bpf] samples/bpf: kbuild: add CONFIG_SAMPLE_BPF Kconfig
-To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Networking <netdev@vger.kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
         =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf@vger.kernel.org
+        bpf <bpf@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -56,73 +62,54 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Bjorn
-
-On Tue, Oct 1, 2019 at 7:14 PM Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.com=
-> wrote:
+On Tue, 1 Oct 2019 at 14:33, Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> From: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@intel.com>
+> Hi Bjorn
 >
-> This commit makes it possible to build the BPF samples via a Kconfig
-> option, CONFIG_SAMPLE_BPF. Further, it fixes that samples/bpf/ could
-> not be built due to a missing samples/Makefile subdir-y entry, after
-> the introduction of commit 394053f4a4b3 ("kbuild: make single targets
-> work more correctly").
+> On Tue, Oct 1, 2019 at 7:14 PM Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.c=
+om> wrote:
+> >
+[...]
+> >  subdir-$(CONFIG_SAMPLE_VFS)            +=3D vfs
+> > +subdir-$(CONFIG_SAMPLE_BPF)            +=3D bpf
 >
-> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@intel.com>
-> ---
->  samples/Kconfig  | 4 ++++
->  samples/Makefile | 1 +
->  2 files changed, 5 insertions(+)
 >
-> diff --git a/samples/Kconfig b/samples/Kconfig
-> index c8dacb4dda80..054297ac89ad 100644
-> --- a/samples/Kconfig
-> +++ b/samples/Kconfig
-> @@ -169,4 +169,8 @@ config SAMPLE_VFS
->           as mount API and statx().  Note that this is restricted to the =
-x86
->           arch whilst it accesses system calls that aren't yet in all arc=
-hes.
+> Please keep samples/Makefile sorted alphabetically.
 >
-> +config SAMPLE_BPF
-> +       bool "BPF samples"
-> +       depends on HEADERS_INSTALL
-> +
->  endif # SAMPLES
-> diff --git a/samples/Makefile b/samples/Makefile
-> index 7d6e4ca28d69..49aa2f7d044b 100644
-> --- a/samples/Makefile
-> +++ b/samples/Makefile
-> @@ -20,3 +20,4 @@ obj-$(CONFIG_SAMPLE_TRACE_PRINTK)     +=3D trace_printk=
-/
->  obj-$(CONFIG_VIDEO_PCI_SKELETON)       +=3D v4l/
->  obj-y                                  +=3D vfio-mdev/
->  subdir-$(CONFIG_SAMPLE_VFS)            +=3D vfs
-> +subdir-$(CONFIG_SAMPLE_BPF)            +=3D bpf
+
+Thank you, I'll address that in the v2!
+
+>
+>
+>
+> I am not checking samples/bpf/Makefile, but
+> allmodconfig no longer compiles for me.
+>
+>
+>
+> samples/bpf/Makefile:209: WARNING: Detected possible issues with include =
+path.
+> samples/bpf/Makefile:210: WARNING: Please install kernel headers
+> locally (make headers_install).
+> error: unable to create target: 'No available targets are compatible
+> with triple "bpf"'
+> 1 error generated.
+> readelf: Error: './llvm_btf_verify.o': No such file
+> *** ERROR: LLVM (llc) does not support 'bpf' target
+>    NOTICE: LLVM version >=3D 3.7.1 required
+>
+
+Yes, the BPF samples require clang/LLVM with BPF support to build. Any
+suggestion on a good way to address this (missing tools), better than
+the warning above? After the commit 394053f4a4b3 ("kbuild: make single
+targets work more correctly"), it's no longer possible to build
+samples/bpf without support in the samples/Makefile.
 
 
-Please keep samples/Makefile sorted alphabetically.
+Thanks,
+Bj=C3=B6rn
 
-
-
-
-I am not checking samples/bpf/Makefile, but
-allmodconfig no longer compiles for me.
-
-
-
-samples/bpf/Makefile:209: WARNING: Detected possible issues with include pa=
-th.
-samples/bpf/Makefile:210: WARNING: Please install kernel headers
-locally (make headers_install).
-error: unable to create target: 'No available targets are compatible
-with triple "bpf"'
-1 error generated.
-readelf: Error: './llvm_btf_verify.o': No such file
-*** ERROR: LLVM (llc) does not support 'bpf' target
-   NOTICE: LLVM version >=3D 3.7.1 required
-
---=20
-Best Regards
-Masahiro Yamada
+> --
+> Best Regards
+> Masahiro Yamada
