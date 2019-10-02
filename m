@@ -2,48 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7A7CC45B4
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Oct 2019 03:49:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CF0BC48B4
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Oct 2019 09:41:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727717AbfJBBtg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Oct 2019 21:49:36 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:28970 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727603AbfJBBtg (ORCPT
+        id S1726951AbfJBHl2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Oct 2019 03:41:28 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:43350 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726933AbfJBHl2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Oct 2019 21:49:36 -0400
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id x921nVMp020028;
-        Wed, 2 Oct 2019 10:49:31 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x921nVMp020028
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1569980972;
-        bh=LjA8My+d4AXL7V4tiUE7HhNcYoSR/qp9wLGs+QBy8Xg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Hvi8hapQfUO2Bu8gbSviT13DPPT0YHHo+bgu1tRSU9/8EHHPjBejRa/EctiRhaImt
-         niq3xWX9oVIdVuccVCyuSgKm1nW0sLgmGNyqB6uYgshPq1RDHwQSedgcRrfRWmAYAa
-         eOjn9v6lvjmaIr7EHGiiBo+5OozvMQBr7+FPf5LvG6gqGBSOhlFShfQiwycNMM59o2
-         dHG1tK05agxCYI34w3fglCEAd9ARGdOi9hvoTz2nMe918b3jxoZvxdGf4ZRBQEDYP0
-         wwc8jbbgboN4gve9LVlM7PJ6aR4xwn1yPtUoaJPTxM0wIDC2xdj65b1QFRRtBuG4md
-         goIJSBcQECLtg==
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id m22so10811250vsl.9;
-        Tue, 01 Oct 2019 18:49:31 -0700 (PDT)
-X-Gm-Message-State: APjAAAUJlg3M1pm3qvcEPUA3og8Si73ux+7fnwRTVeuIGA1qXb0C2jlF
-        nKw2ZwhfUqPK5C8tXa278NCPMFbdCgK3m7tFSpE=
-X-Google-Smtp-Source: APXvYqxCAYyFoQZyJNti5pJOkHTE9th8RVVwPpDGWczMD67cVLZzOytCkyRv+ymTayZa3BXEKEhJUzcQUJmbrHVeDHU=
-X-Received: by 2002:a67:7c03:: with SMTP id x3mr529092vsc.155.1569980970468;
- Tue, 01 Oct 2019 18:49:30 -0700 (PDT)
+        Wed, 2 Oct 2019 03:41:28 -0400
+Received: by mail-qt1-f193.google.com with SMTP id c3so25110106qtv.10;
+        Wed, 02 Oct 2019 00:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qUqxejXCWWOZwizJyqCtQinix21SQ9Npf4IfNuwlbEU=;
+        b=GIV/78XFhAdZYpwjknajQcq61aU2k0XhewBadc7/N4SPJje+c5PoeHPd++UwFrxgCm
+         h6nLrLAxV0aZ0OHM9R3peJ0JXoDNu5cSl2HPsZstdpVGytReUMlkI9VgH7MVMHtsi5V8
+         aELOluuNzlzouZh4UQsd8cjDfwrHV+Id66JeKwi76e03cs/Y8vMHeIimjroXXV0xUs/J
+         ydNt8uz50ffv7jyCa2xCY6QL1HdXI8O31o9ZAbEoXV+hnQvdSdub0MS4du82UJIG8ues
+         wBwrgaq7CQ0S41UYCeCTx3BNq+6Avtipl7UouU0o5JIQXgW/Hb5jXuAU3PTkJZnHOEsO
+         EiCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qUqxejXCWWOZwizJyqCtQinix21SQ9Npf4IfNuwlbEU=;
+        b=QFlW41z3M0wHr1MLpxHanVgfTInEqzCbqT3/ZmPWUAYI4Yx2ff7dsIyojpUVkbfgLD
+         EBOLyDHenN4PXRtVZjyccI9o822muuYcEVTbDIdtnsqnVrTmFmVWIR1o3rlmi6WYl95g
+         zrB0bd15GQF0NgG/TNhf9Z/1nQQ6NGvGc1wsoYkIs/IloaWsY1okLwiaUA2DiCise5du
+         EL3Y1JULwRFXqBLXWyOP2hY2KME6VAXAFsdN8NUZjBfMj4ia2YcBfLR+vwT3TCpNrvQa
+         WQjFFIHPbTg08N3jgR3q8b4F4Aqc55Nrf2uwyJp9wE/unJp48iJ3Hmc/4cpz1FwTr4qz
+         Wm8A==
+X-Gm-Message-State: APjAAAXcsFKq5InKcfcqmWW2SAabC6jsDGj/xvuoyTQTFYalq3VztWeg
+        e3BcEwyJCobp7F77lccqmycQGei/zipa/CoUzRx4LQt8uzodTOTc
+X-Google-Smtp-Source: APXvYqyM5XlageXxsPCyZ0V0fsnO7FrSU69xKOJjb/wMW1GUYyvQiXoNMh9xaMg/e76ratnvv/cDdpdNNpYCzQ0fXSA=
+X-Received: by 2002:ac8:3f96:: with SMTP id d22mr2730687qtk.36.1570002087071;
+ Wed, 02 Oct 2019 00:41:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191001101429.24965-1-bjorn.topel@gmail.com> <CAK7LNATNw4Qysj1Q2dXd4PALfbtgMXPwgvmW=g0dRcrczGW-Fg@mail.gmail.com>
- <CAJ+HfNgvxornSfqnbAthNy6u6=-enGCdA8K1e6rLXhCzGgmONQ@mail.gmail.com>
-In-Reply-To: <CAJ+HfNgvxornSfqnbAthNy6u6=-enGCdA8K1e6rLXhCzGgmONQ@mail.gmail.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 2 Oct 2019 10:48:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATD4vCQnNsHXP8A2cyWDkCNX=LGh0ej-dkDajm-+Lfw8Q@mail.gmail.com>
-Message-ID: <CAK7LNATD4vCQnNsHXP8A2cyWDkCNX=LGh0ej-dkDajm-+Lfw8Q@mail.gmail.com>
+ <CAJ+HfNgvxornSfqnbAthNy6u6=-enGCdA8K1e6rLXhCzGgmONQ@mail.gmail.com> <CAK7LNATD4vCQnNsHXP8A2cyWDkCNX=LGh0ej-dkDajm-+Lfw8Q@mail.gmail.com>
+In-Reply-To: <CAK7LNATD4vCQnNsHXP8A2cyWDkCNX=LGh0ej-dkDajm-+Lfw8Q@mail.gmail.com>
+From:   =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+Date:   Wed, 2 Oct 2019 09:41:15 +0200
+Message-ID: <CAJ+HfNgem7ijzQkz7BU-Z_A-CqWXY_uMF6_p0tGZ6eUMx_N3QQ@mail.gmail.com>
 Subject: Re: [PATCH bpf] samples/bpf: kbuild: add CONFIG_SAMPLE_BPF Kconfig
-To:     =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@gmail.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     Networking <netdev@vger.kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -57,68 +63,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 1, 2019 at 11:16 PM Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail.co=
-m> wrote:
+On Wed, 2 Oct 2019 at 03:49, Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> On Tue, 1 Oct 2019 at 14:33, Masahiro Yamada
-> <yamada.masahiro@socionext.com> wrote:
-> >
-> > Hi Bjorn
-> >
-> > On Tue, Oct 1, 2019 at 7:14 PM Bj=C3=B6rn T=C3=B6pel <bjorn.topel@gmail=
-.com> wrote:
-> > >
-> [...]
-> > >  subdir-$(CONFIG_SAMPLE_VFS)            +=3D vfs
-> > > +subdir-$(CONFIG_SAMPLE_BPF)            +=3D bpf
-> >
-> >
-> > Please keep samples/Makefile sorted alphabetically.
-> >
+[...]
+> > Yes, the BPF samples require clang/LLVM with BPF support to build. Any
+> > suggestion on a good way to address this (missing tools), better than
+> > the warning above? After the commit 394053f4a4b3 ("kbuild: make single
+> > targets work more correctly"), it's no longer possible to build
+> > samples/bpf without support in the samples/Makefile.
 >
-> Thank you, I'll address that in the v2!
 >
-> >
-> >
-> >
-> > I am not checking samples/bpf/Makefile, but
-> > allmodconfig no longer compiles for me.
-> >
-> >
-> >
-> > samples/bpf/Makefile:209: WARNING: Detected possible issues with includ=
-e path.
-> > samples/bpf/Makefile:210: WARNING: Please install kernel headers
-> > locally (make headers_install).
-> > error: unable to create target: 'No available targets are compatible
-> > with triple "bpf"'
-> > 1 error generated.
-> > readelf: Error: './llvm_btf_verify.o': No such file
-> > *** ERROR: LLVM (llc) does not support 'bpf' target
-> >    NOTICE: LLVM version >=3D 3.7.1 required
-> >
+> You can with
+>
+> "make M=3Dsamples/bpf"
+>
 
-So, samples/bpf intentionally opts out the normal build
-because most of people fail to build it.
+Oh, I didn't know that. Does M=3D support "output" builds (O=3D)?
 
-It must be fixed somehow
-before supporting it in samples/Makefile.
+I usually just build samples/bpf/ with:
+
+  $ make V=3D1 O=3D/home/foo/build/bleh samples/bpf/
 
 
-
-> Yes, the BPF samples require clang/LLVM with BPF support to build. Any
-> suggestion on a good way to address this (missing tools), better than
-> the warning above? After the commit 394053f4a4b3 ("kbuild: make single
-> targets work more correctly"), it's no longer possible to build
-> samples/bpf without support in the samples/Makefile.
-
-
-You can with
-
-"make M=3Dsamples/bpf"
-
-
-
---
-Best Regards
-Masahiro Yamada
+Bj=C3=B6rn
