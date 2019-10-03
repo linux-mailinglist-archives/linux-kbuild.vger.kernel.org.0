@@ -2,102 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD7A6C9620
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2019 03:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 478D7C96BD
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2019 04:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725799AbfJCB1L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Oct 2019 21:27:11 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:49234 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726948AbfJCB1K (ORCPT
+        id S1726178AbfJCChY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Oct 2019 22:37:24 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:53302 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbfJCChY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Oct 2019 21:27:10 -0400
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x931Qkxq032090;
-        Thu, 3 Oct 2019 10:26:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x931Qkxq032090
+        Wed, 2 Oct 2019 22:37:24 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id x932aVWg021578;
+        Thu, 3 Oct 2019 11:36:31 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x932aVWg021578
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570066007;
-        bh=x6/8l8kVsC1NbNuoqq4xa9uPDopH488YlyQtX+qP+3U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kUSSaEsDmZz8ALmJHVOaLQGYfBrsuUIYZCgjVjDx6ZEgkw0Ei0TaP05NDwD3aQBnx
-         JXuM+slUKDoOBTu7+hzWsF7LNWO5ogCaacgz6BW1MMhfCy2nZMwiyVXIU1suq/QNjs
-         WmrsfRc8HHAXCOvASsIFh2Nt986I9B6UGR60htgeWpRPG1ZxEV6yLI9mJsyHrp6N/H
-         BjXA//0rtpdzUTiRkYlFTZrapg1xSizFGsGlPZFGvXLzmsjn68Mf1l2lB3Lg5kLFQg
-         fgoE2jrolyP8hbawBJYtTTJFUoskrwrciZbP7td06xhv/Lh6WIZwTrx2nz5x0Aliug
-         B8EJPrwoiTYGA==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id u31so380833uah.0;
-        Wed, 02 Oct 2019 18:26:46 -0700 (PDT)
-X-Gm-Message-State: APjAAAU+OkGKMvn2f936XI8xH9FIz/NdjbRTyx8USMtNa8R5FLqJKdZz
-        uf5Vt1YNXAYNKbNXhM06LEhoAL7rAHDd6uP/mlg=
-X-Google-Smtp-Source: APXvYqzd0f8HET8II/UsIBzv70d/UG4czUDbi94oH82Ta/IsxIWI235KX/if2tQktrEkYTlgpyqXUkKUig5vpKEcNxw=
-X-Received: by 2002:ab0:20b4:: with SMTP id y20mr3537503ual.121.1570066005679;
- Wed, 02 Oct 2019 18:26:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190927093603.9140-1-yamada.masahiro@socionext.com>
- <20190927134108.GC187147@google.com> <20191002185701.GA29041@linux-8ccs>
-In-Reply-To: <20191002185701.GA29041@linux-8ccs>
+        s=dec2015msa; t=1570070192;
+        bh=LP0Xhzi9qR0mSHkbibcTK1g5jYagA5pJi1SkU63VT2o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=rTKfKaN9GTJhMkdu60OPQQahUz+dR52OCXatwL1Ce27MtOKPPuo8MKXmXoFdGIt7f
+         34uizYl/Oi3YgeHKAmxUYYbAUe66vg1qo2ItPKYWIsg55RzV8W5xBUYXaJ5wIqhPp5
+         Ps0+UzbDFDI43iYUWugk8Y+YOQGtTfYokWZkmdp+vPfqOLNQpV5YsWWx8p3kmv+tsw
+         fgVwzyP9UoznjLV3rdDsQQ/zpMUzDHI44Oxwda47osKeOsJareKvH/FVJsxnJNyDFo
+         NTMKhdQT4yb0ePoNkbt0y/Gnb8CrKugemudlYD+DUvxllSVC8mM4CVmt047mnyxUEl
+         at5SncHoB9G5w==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 3 Oct 2019 10:26:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATbKVEf8Q82k5374UOQVxFJX1U7eU4ywW-LdGvHOq+tPw@mail.gmail.com>
-Message-ID: <CAK7LNATbKVEf8Q82k5374UOQVxFJX1U7eU4ywW-LdGvHOq+tPw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] module: various bug-fixes and clean-ups for module namespace
-To:     Jessica Yu <jeyu@kernel.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Martijn Coenen <maco@android.com>,
-        Will Deacon <will.deacon@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Will Deacon <will@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] kbuild: update compile-test header list for v5.4-rc2
+Date:   Thu,  3 Oct 2019 11:36:29 +0900
+Message-Id: <20191003023629.13175-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-H Jessica,
+Commit 6dc280ebeed2 ("coda: remove uapi/linux/coda_psdev.h") removed
+a header in question. Some more build errors were fixed. Add more
+headers into the test coverage.
 
-On Thu, Oct 3, 2019 at 3:57 AM Jessica Yu <jeyu@kernel.org> wrote:
->
-> +++ Matthias Maennich [27/09/19 14:41 +0100]:
-> >On Fri, Sep 27, 2019 at 06:35:56PM +0900, Masahiro Yamada wrote:
-> >>
-> >>I was hit by some problems caused by the module namespace feature
-> >>that was merged recently. At least, the breakage of
-> >>external module builds is a fatal one. I just took a look at the code
-> >>closer, and I noticed some more issues and improvements.
-> >>
-> >>I hope these patches are mostly OK.
-> >>The 4th patch might have room for argument since it is a trade-off
-> >>of "cleaner implermentation" vs "code size".
-> >>
-> >Thanks Masahiro for taking the time to improve the implementation of the
-> >symbol namespaces. These are all good points that you addressed!
->
-> Agreed, thanks Masahiro for fixing up all the rough edges! Your series
-> of fixes look good to me, I will queue this up on modules-next this
-> week
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Since these are bug fixes,
-please send them before v5.4.
+Changes in v2:
+  - remove linux/coda_psdev.h as well
 
-Thanks.
+ usr/include/Makefile | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-
-
-> with the exception of patch 4 - Matthias, you are planning to
-> submit a patch that would supercede patch 04/07, right?
->
-> Thanks!
->
-> Jessica
-
-
-
+diff --git a/usr/include/Makefile b/usr/include/Makefile
+index c9449aaf438d..57b20f7b6729 100644
+--- a/usr/include/Makefile
++++ b/usr/include/Makefile
+@@ -29,13 +29,11 @@ header-test- += linux/android/binderfs.h
+ header-test-$(CONFIG_CPU_BIG_ENDIAN) += linux/byteorder/big_endian.h
+ header-test-$(CONFIG_CPU_LITTLE_ENDIAN) += linux/byteorder/little_endian.h
+ header-test- += linux/coda.h
+-header-test- += linux/coda_psdev.h
+ header-test- += linux/elfcore.h
+ header-test- += linux/errqueue.h
+ header-test- += linux/fsmap.h
+ header-test- += linux/hdlc/ioctl.h
+ header-test- += linux/ivtv.h
+-header-test- += linux/jffs2.h
+ header-test- += linux/kexec.h
+ header-test- += linux/matroxfb.h
+ header-test- += linux/netfilter_ipv4/ipt_LOG.h
+@@ -55,20 +53,12 @@ header-test- += linux/v4l2-mediabus.h
+ header-test- += linux/v4l2-subdev.h
+ header-test- += linux/videodev2.h
+ header-test- += linux/vm_sockets.h
+-header-test- += scsi/scsi_bsg_fc.h
+-header-test- += scsi/scsi_netlink.h
+-header-test- += scsi/scsi_netlink_fc.h
+ header-test- += sound/asequencer.h
+ header-test- += sound/asoc.h
+ header-test- += sound/asound.h
+ header-test- += sound/compress_offload.h
+ header-test- += sound/emu10k1.h
+ header-test- += sound/sfnt_info.h
+-header-test- += sound/sof/eq.h
+-header-test- += sound/sof/fw.h
+-header-test- += sound/sof/header.h
+-header-test- += sound/sof/manifest.h
+-header-test- += sound/sof/trace.h
+ header-test- += xen/evtchn.h
+ header-test- += xen/gntdev.h
+ header-test- += xen/privcmd.h
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
