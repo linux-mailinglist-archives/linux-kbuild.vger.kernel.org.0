@@ -2,59 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65187C94B0
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2019 01:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD7A6C9620
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Oct 2019 03:27:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727993AbfJBXQI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Oct 2019 19:16:08 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:42676 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727724AbfJBXQI (ORCPT
+        id S1725799AbfJCB1L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Oct 2019 21:27:11 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:49234 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726948AbfJCB1K (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Oct 2019 19:16:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=+Jc6VAq2RVRA15SgYl559gtU9HYlPAnAB7vPjMQym6I=; b=dn0/k5m4s4CuFAi+Km9aYOmJN
-        3Fz67CeXW/BofcyHDGRVpU+6ey2KNnWsXSfmkAxeSH/pXXKvKMpepy+trK7buizLsTe7fieIaulvD
-        5LaFuhzGewLYqyDY25sRx5rXzdquZDktIFa5gzDxKyfIgEXls5ajBScZkSc6+7pABWuhy2dfPFANR
-        95fmb9TMOpEeV/i3H02zJdmWZkaxOo6b/sFvAiY3JBp5NOdQ+SmhSo9m/QoLN5JJrWXeX4LHQjm5O
-        LYi/4DkaN2cK58FfrHfzQNbhAleNG0AHs1X5PGqwRvQYS9XoG3imgZKiovSvEcyzdZQyRD7ByA0bc
-        bVf9f15Lg==;
-Received: from [2601:1c0:6280:3f0::9a1f]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFnqp-0007jN-U6; Wed, 02 Oct 2019 23:16:08 +0000
-To:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: 'make help' br0ken for @echo ' valid values for SPHINXDIRS are:
- $(_SPHINXDIRS)'
-Message-ID: <416a61e8-e40a-6266-3f6a-bdbadf9a10c3@infradead.org>
-Date:   Wed, 2 Oct 2019 16:16:07 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 2 Oct 2019 21:27:10 -0400
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x931Qkxq032090;
+        Thu, 3 Oct 2019 10:26:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x931Qkxq032090
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1570066007;
+        bh=x6/8l8kVsC1NbNuoqq4xa9uPDopH488YlyQtX+qP+3U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kUSSaEsDmZz8ALmJHVOaLQGYfBrsuUIYZCgjVjDx6ZEgkw0Ei0TaP05NDwD3aQBnx
+         JXuM+slUKDoOBTu7+hzWsF7LNWO5ogCaacgz6BW1MMhfCy2nZMwiyVXIU1suq/QNjs
+         WmrsfRc8HHAXCOvASsIFh2Nt986I9B6UGR60htgeWpRPG1ZxEV6yLI9mJsyHrp6N/H
+         BjXA//0rtpdzUTiRkYlFTZrapg1xSizFGsGlPZFGvXLzmsjn68Mf1l2lB3Lg5kLFQg
+         fgoE2jrolyP8hbawBJYtTTJFUoskrwrciZbP7td06xhv/Lh6WIZwTrx2nz5x0Aliug
+         B8EJPrwoiTYGA==
+X-Nifty-SrcIP: [209.85.222.43]
+Received: by mail-ua1-f43.google.com with SMTP id u31so380833uah.0;
+        Wed, 02 Oct 2019 18:26:46 -0700 (PDT)
+X-Gm-Message-State: APjAAAU+OkGKMvn2f936XI8xH9FIz/NdjbRTyx8USMtNa8R5FLqJKdZz
+        uf5Vt1YNXAYNKbNXhM06LEhoAL7rAHDd6uP/mlg=
+X-Google-Smtp-Source: APXvYqzd0f8HET8II/UsIBzv70d/UG4czUDbi94oH82Ta/IsxIWI235KX/if2tQktrEkYTlgpyqXUkKUig5vpKEcNxw=
+X-Received: by 2002:ab0:20b4:: with SMTP id y20mr3537503ual.121.1570066005679;
+ Wed, 02 Oct 2019 18:26:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190927093603.9140-1-yamada.masahiro@socionext.com>
+ <20190927134108.GC187147@google.com> <20191002185701.GA29041@linux-8ccs>
+In-Reply-To: <20191002185701.GA29041@linux-8ccs>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 3 Oct 2019 10:26:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATbKVEf8Q82k5374UOQVxFJX1U7eU4ywW-LdGvHOq+tPw@mail.gmail.com>
+Message-ID: <CAK7LNATbKVEf8Q82k5374UOQVxFJX1U7eU4ywW-LdGvHOq+tPw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] module: various bug-fixes and clean-ups for module namespace
+To:     Jessica Yu <jeyu@kernel.org>
+Cc:     Matthias Maennich <maennich@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Martijn Coenen <maco@android.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Will Deacon <will@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It seems that _SPHINXDIRS is empty.  I'm getting (short extract):
+H Jessica,
 
-  make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2
-  valid values for SPHINXDIRS are: 
+On Thu, Oct 3, 2019 at 3:57 AM Jessica Yu <jeyu@kernel.org> wrote:
+>
+> +++ Matthias Maennich [27/09/19 14:41 +0100]:
+> >On Fri, Sep 27, 2019 at 06:35:56PM +0900, Masahiro Yamada wrote:
+> >>
+> >>I was hit by some problems caused by the module namespace feature
+> >>that was merged recently. At least, the breakage of
+> >>external module builds is a fatal one. I just took a look at the code
+> >>closer, and I noticed some more issues and improvements.
+> >>
+> >>I hope these patches are mostly OK.
+> >>The 4th patch might have room for argument since it is a trade-off
+> >>of "cleaner implermentation" vs "code size".
+> >>
+> >Thanks Masahiro for taking the time to improve the implementation of the
+> >symbol namespaces. These are all good points that you addressed!
+>
+> Agreed, thanks Masahiro for fixing up all the rough edges! Your series
+> of fixes look good to me, I will queue this up on modules-next this
+> week
 
-  make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build
-  configuration. This is e.g. useful to build with nit-picking config.
+Since these are bug fixes,
+please send them before v5.4.
 
-  Default location for the generated documents is Documentation/output
+Thanks.
+
+
+
+> with the exception of patch 4 - Matthias, you are planning to
+> submit a patch that would supercede patch 04/07, right?
+>
+> Thanks!
+>
+> Jessica
+
 
 
 -- 
-~Randy
+Best Regards
+Masahiro Yamada
