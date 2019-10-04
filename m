@@ -2,52 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEF95CC5D7
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Oct 2019 00:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6403ECC60F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Oct 2019 00:47:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388685AbfJDW1Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Oct 2019 18:27:25 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:40165 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388676AbfJDW1X (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Oct 2019 18:27:23 -0400
-Received: by mail-pg1-f196.google.com with SMTP id d26so4530881pgl.7
-        for <linux-kbuild@vger.kernel.org>; Fri, 04 Oct 2019 15:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=sGtC9Y61I0fWewzKpxnAs5yLawr9FrkTbXzFkx6uKAk=;
-        b=YeeGuXR/EbMstIHwMR+WBpofOCJlBn7xcT75NgBfyAZoiHg/V1PWHpO2epGkRD81Ai
-         4RW+gTAEC4WD2yQ2SDrd5K9D7fdDNSPo3UNYUZZ8Zf+ibkFAmTJbDVSYEarDpJ5oPg1j
-         dg3dC2LmBlg/HcrMgqb9PfzfTOzDXYHOa+/PYROjQTT8qZENzhrzuulgnZ3jTVdd9CoS
-         6vHXpukys6F6ZvGyvO/MC52uvNRRW1RrRmLnirND7BrQ4tM7+hSt8ILrukDjy2Zkorp5
-         a2EePtRfrlsKmCyDjJa9T4B+oNHxvnazyX654xQc9H1YU9WC6Z9K9EsF5+8bMHzSZibS
-         tMmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sGtC9Y61I0fWewzKpxnAs5yLawr9FrkTbXzFkx6uKAk=;
-        b=eYk1CoVjQHV0qolfe0qt15BFfeB0rRZ23DaJf6H61Q0J9J2EAyl+m8QRUeiDB06KBL
-         BpwI/ncbCIxqWqJfinybb5Qfy2d8pLC72RhALLLimZXTaQBk/+EXc/wvM5ud6qrdrEa6
-         p1nKXYtjAQvbqQTNShBw43DlLY1dPROoHJArSEhkgR1Djd9VRfrVlpT+FPSCGf/YCVN0
-         RZw9ljsuggSAxRAKEPy5O6zxYfLiAwDyASHdeFx4uoIgcnfxvjbPk2kJ1eOGUuG71/pt
-         yRM253ytovNQb7SsmSOLk+ZhmF9lw5MWCCXcqu0hbS1drblajYtj+fsMXo0tmsy5aeab
-         4Smw==
-X-Gm-Message-State: APjAAAUEKrQGzkvWbs5Ol93/4gx9pjyqbbdayPAe8G3bPciTw3wNcNTl
-        maUuVBhkteSLqztQ3PzQTj6MqQ==
-X-Google-Smtp-Source: APXvYqz9/Um6buAfhCtRCPjLYgne6gcH8Y83qWem0TWomrvMdMPDQueWyrF35KAweIvctX7qICTVOw==
-X-Received: by 2002:a65:638a:: with SMTP id h10mr8380897pgv.106.1570228039982;
-        Fri, 04 Oct 2019 15:27:19 -0700 (PDT)
-Received: from google.com ([2620:15c:2cb:1:e90c:8e54:c2b4:29e7])
-        by smtp.gmail.com with ESMTPSA id w7sm5066788pjn.1.2019.10.04.15.27.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2019 15:27:19 -0700 (PDT)
-Date:   Fri, 4 Oct 2019 15:27:14 -0700
-From:   Brendan Higgins <brendanhiggins@google.com>
-To:     shuah <shuah@kernel.org>
+        id S1730298AbfJDWrP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 4 Oct 2019 18:47:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50258 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725730AbfJDWrO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 4 Oct 2019 18:47:14 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 27C0D20873;
+        Fri,  4 Oct 2019 22:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570229232;
+        bh=xzHJwRDpMutixnFislQvEBP/YT7jem/U/8kCBigrHuc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=iwzzgBVqn0QkoDuULW/O4NrloecUNaYOg0c99vmkwrF/zjed3x2bOMaHRqdx3FMcB
+         x9c+A3rz+204+uJreaQuOoW8uMDh6bYqcKQgfB1jhKbgSV/JJFS70YgyJLCTDDtbp8
+         DUCzwKxib6rwVWWLjRz787WWmuX5+RAponaYusdk=
+Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+To:     Brendan Higgins <brendanhiggins@google.com>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         "Theodore Y. Ts'o" <tytso@mit.edu>,
         Frank Rowand <frowand.list@gmail.com>,
@@ -82,72 +60,77 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         Richard Weinberger <richard@nod.at>,
         David Rientjes <rientjes@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
-Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
- testing framework
-Message-ID: <20191004222714.GA107737@google.com>
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com,
+        shuah <shuah@kernel.org>
 References: <20190923090249.127984-1-brendanhiggins@google.com>
  <20191004213812.GA24644@mit.edu>
  <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
  <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
+ <20191004222714.GA107737@google.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
+Date:   Fri, 4 Oct 2019 16:47:09 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191004222714.GA107737@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 04, 2019 at 03:59:10PM -0600, shuah wrote:
-> On 10/4/19 3:42 PM, Linus Torvalds wrote:
-> > On Fri, Oct 4, 2019 at 2:39 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
-> > > 
-> > > This question is primarily directed at Shuah and Linus....
-> > > 
-> > > What's the current status of the kunit series now that Brendan has
-> > > moved it out of the top-level kunit directory as Linus has requested?
-> > 
+On 10/4/19 4:27 PM, Brendan Higgins wrote:
+> On Fri, Oct 04, 2019 at 03:59:10PM -0600, shuah wrote:
+>> On 10/4/19 3:42 PM, Linus Torvalds wrote:
+>>> On Fri, Oct 4, 2019 at 2:39 PM Theodore Y. Ts'o <tytso@mit.edu> wrote:
+>>>>
+>>>> This question is primarily directed at Shuah and Linus....
+>>>>
+>>>> What's the current status of the kunit series now that Brendan has
+>>>> moved it out of the top-level kunit directory as Linus has requested?
+>>>
+>>
+>> The move happened smack in the middle of merge window and landed in
+>> linux-next towards the end of the merge window.
+>>
+>>> We seemed to decide to just wait for 5.5, but there is nothing that
+>>> looks to block that. And I encouraged Shuah to find more kunit cases
+>>> for when it _does_ get merged.
+>>>
+>>
+>> Right. I communicated that to Brendan that we could work on adding more
+>> kunit based tests which would help get more mileage on the kunit.
+>>
+>>> So if the kunit branch is stable, and people want to start using it
+>>> for their unit tests, then I think that would be a good idea, and then
+>>> during the 5.5 merge window we'll not just get the infrastructure,
+>>> we'll get a few more users too and not just examples.
 > 
-> The move happened smack in the middle of merge window and landed in
-> linux-next towards the end of the merge window.
+> I was planning on holding off on accepting more tests/changes until
+> KUnit is in torvalds/master. As much as I would like to go around
+> promoting it, I don't really want to promote too much complexity in a
+> non-upstream branch before getting it upstream because I don't want to
+> risk adding something that might cause it to get rejected again.
 > 
-> > We seemed to decide to just wait for 5.5, but there is nothing that
-> > looks to block that. And I encouraged Shuah to find more kunit cases
-> > for when it _does_ get merged.
-> > 
+> To be clear, I can understand from your perspective why getting more
+> tests/usage before accepting it is a good thing. The more people that
+> play around with it, the more likely that someone will find an issue
+> with it, and more likely that what is accepted into torvalds/master is
+> of high quality.
 > 
-> Right. I communicated that to Brendan that we could work on adding more
-> kunit based tests which would help get more mileage on the kunit.
+> However, if I encourage arbitrary tests/improvements into my KUnit
+> branch, it further diverges away from torvalds/master, and is more
+> likely that there will be a merge conflict or issue that is not related
+> to the core KUnit changes that will cause the whole thing to be
+> rejected again in v5.5.
 > 
-> > So if the kunit branch is stable, and people want to start using it
-> > for their unit tests, then I think that would be a good idea, and then
-> > during the 5.5 merge window we'll not just get the infrastructure,
-> > we'll get a few more users too and not just examples.
 
-I was planning on holding off on accepting more tests/changes until
-KUnit is in torvalds/master. As much as I would like to go around
-promoting it, I don't really want to promote too much complexity in a
-non-upstream branch before getting it upstream because I don't want to
-risk adding something that might cause it to get rejected again.
+The idea is that the new development will happen based on kunit in
+linux-kselftest next. It will work just fine. As we accepts patches,
+they will go on top of kunit that is in linux-next now.
 
-To be clear, I can understand from your perspective why getting more
-tests/usage before accepting it is a good thing. The more people that
-play around with it, the more likely that someone will find an issue
-with it, and more likely that what is accepted into torvalds/master is
-of high quality.
-
-However, if I encourage arbitrary tests/improvements into my KUnit
-branch, it further diverges away from torvalds/master, and is more
-likely that there will be a merge conflict or issue that is not related
-to the core KUnit changes that will cause the whole thing to be
-rejected again in v5.5.
-
-I don't know. I guess we could maybe address that situation by splitting
-up the pull request into features and tests when we go to send it in,
-but that seems to invite a lot of unnecessary complexity. I actually
-already had some other tests/changes ready to send for review, but was
-holding off until the initial set of patches mad it in.
-
-Looking forward to hearing other people's thoughts.
+thanks,
+-- Shuah
