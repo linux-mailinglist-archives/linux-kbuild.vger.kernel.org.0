@@ -2,131 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37DF6CC8BB
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Oct 2019 10:22:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9763CCAAE
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Oct 2019 17:02:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbfJEIWT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 5 Oct 2019 04:22:19 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:47221 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbfJEIWT (ORCPT
+        id S1728545AbfJEPCB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 5 Oct 2019 11:02:01 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:56744 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725963AbfJEPCB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 5 Oct 2019 04:22:19 -0400
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x958Lq9j003393;
-        Sat, 5 Oct 2019 17:21:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x958Lq9j003393
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570263713;
-        bh=ahNX28eQh15M5M5GRg0L87a3bdEVJYZPnUJtAsPiDAM=;
-        h=From:Date:Subject:To:Cc:From;
-        b=KjMk2UAnrp0FtJLCi99ymFgaT/w/ZYeJ/9yjfTYdEQAXWQoAZrgCbDWsBaYw9sHS5
-         c2UoIF1WCOhhZAY9q0bzDzaw7dRr0cyXYOH8c8nX38mSyyvzIwh7c7mDoxiNPZDDPz
-         HN+9gMy8o50mXPnRM/OaXMBaaDTLMXv0Bajwu8QTyO7rVqt49j5M7SBPZ+NglrVSQL
-         m0h3f7Novr41qK12i8xzaEq7evNPgsqYajkxwiexueXIvU+bg4BYklwbu1njFaWrMA
-         fPbM7ySq31onZeO4FpkQPAsFpjQucUBLmScBK1mfl2c9Rz6qP/OSfN6dSHHkYjVlWx
-         HZykREIPawKDQ==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id q11so2740908uao.1;
-        Sat, 05 Oct 2019 01:21:53 -0700 (PDT)
-X-Gm-Message-State: APjAAAWvlt+qmfMH2bocb/ey4RoDk6E0svkymskJrGZq6WTNHoF4D+aL
-        O0q1aZFDMlpnhamvpIM0NVsuI0T54w/PJtrzP+M=
-X-Google-Smtp-Source: APXvYqxXl13p0OLGQLg79BpS+L7p9BMoMbMf5pOv2MJB8PEadVrhk/x1d1QzhVSI4ZFYyDoV4ZCDMnkkYNp2IvZQAsE=
-X-Received: by 2002:ab0:6355:: with SMTP id f21mr10094017uap.40.1570263712238;
- Sat, 05 Oct 2019 01:21:52 -0700 (PDT)
+        Sat, 5 Oct 2019 11:02:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Date:Message-ID:Subject:Cc:From:To:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=5rADLYO7eeJAfGALC4YPyOxaJUx0EtborHdGGdhmDlM=; b=fyC8YOtF809gi+tUnvuuqW5LI
+        2vDEZq2xRlgOQDj6FqI+kA3yNV4AEsZSMEAYA8jKQwX8tRYpzzRK1KNH2WQ5KeqteJWGHbEfnQtQU
+        q8K3HCJ1DvcxCwsbJrHFpQLxJwPrbW9zk9LSjQM0nfC/oPKQFRp8FvnpUYtle9oYV9fEtIqw601y1
+        35/W9isd5DzL3f998x/a+uqPVnEPNPN7vQuF1FiDi6ScEdgExuhElr5ukdM+N+Uq0pXcqLfOqzw4n
+        tF2d5+r5Fvbz9GhfWKU6+lOonVnTEtH535/r/Tgx6BcDyL5GnjPDw6ZbC3W81y+tJ7WdUkmv77H/p
+        1b2b5vFsA==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iGlZI-0003MA-Mh; Sat, 05 Oct 2019 15:02:00 +0000
+To:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Cc:     Mike Crowe <mcrowe@zipitwireless.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] scripts: setlocalversion: fix a bashism
+Message-ID: <f5cb4272-4cb8-4253-77fd-56aaf73a0dbc@infradead.org>
+Date:   Sat, 5 Oct 2019 08:01:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 5 Oct 2019 17:21:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATpmqt57w9m1keLKu4Y0zbvWjJX8SWqKC6b6mj-23Y0xg@mail.gmail.com>
-Message-ID: <CAK7LNATpmqt57w9m1keLKu4Y0zbvWjJX8SWqKC6b6mj-23Y0xg@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.4-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        masahiroy@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Please pull Kbuild fixes for v5.4-rc2.
-Thanks.
+Fix bashism reported by checkbashisms by using only one '=':
 
+possible bashism in scripts/setlocalversion line 96 (should be 'b = a'):
+	if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
 
+Fixes: 38b3439d84f4 ("setlocalversion: update mercurial tag parsing")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Mike Crowe <mcrowe@zipitwireless.com>
+---
+Does anyone still use hg for kernel development?
 
-The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
+ scripts/setlocalversion |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
+--- lnx-54-rc1.orig/scripts/setlocalversion
++++ lnx-54-rc1/scripts/setlocalversion
+@@ -93,7 +93,7 @@ scm_version()
+ 	# Check for mercurial and a mercurial repo.
+ 	if test -d .hg && hgid=`hg id 2>/dev/null`; then
+ 		# Do we have an tagged version?  If so, latesttagdistance == 1
+-		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
++		if [ "`hg log -r . --template '{latesttagdistance}'`" = "1" ]; then
+ 			id=`hg log -r . --template '{latesttag}'`
+ 			printf '%s%s' -hg "$id"
+ 		else
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.4
-
-for you to fetch changes up to 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226:
-
-  kheaders: make headers archive reproducible (2019-10-05 15:29:49 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.4
-
- - remove unneeded ar-option and KBUILD_ARFLAGS
-
- - remove long-deprecated SUBDIRS
-
- - fix modpost to suppress false-positive warnings for UML builds
-
- - fix namespace.pl to handle relative paths to ${objtree}, ${srctree}
-
- - make setlocalversion work for /bin/sh
-
- - make header archive reproducible
-
- - fix some Makefiles and documents
-
-----------------------------------------------------------------
-Alex Gaynor (1):
-      kbuild: correct formatting of header in kbuild module docs
-
-Dmitry Goldin (1):
-      kheaders: make headers archive reproducible
-
-Jacob Keller (1):
-      namespace: fix namespace.pl script to support relative paths
-
-Masahiro Yamada (10):
-      kbuild: remove ar-option and KBUILD_ARFLAGS
-      kbuild: remove SUBDIRS support
-      modpost: fix static EXPORT_SYMBOL warnings for UML build
-      integrity: remove unneeded, broken attempt to add -fshort-wchar
-      integrity: remove pointless subdir-$(CONFIG_...)
-      video/logo: remove unneeded *.o pattern from clean-files
-      video/logo: do not generate unneeded logo C files
-      scripts/setlocalversion: clear local variable to make it work for sh
-      kbuild: two minor updates for Documentation/kbuild/modules.rst
-      kbuild: update compile-test header list for v5.4-rc2
-
- Documentation/kbuild/makefiles.rst           |  5 -----
- Documentation/kbuild/modules.rst             |  7 +++---
- Documentation/kbuild/reproducible-builds.rst | 13 +++++++----
- Makefile                                     | 24 ++-------------------
- arch/powerpc/boot/Makefile                   |  2 +-
- drivers/video/logo/Makefile                  | 21 ++----------------
- kernel/gen_kheaders.sh                       |  5 ++++-
- scripts/Kbuild.include                       |  5 -----
- scripts/Makefile.build                       |  2 +-
- scripts/Makefile.lib                         |  2 +-
- scripts/mod/modpost.c                        | 13 +++++++----
- scripts/namespace.pl                         | 13 +++++------
- scripts/setlocalversion                      |  2 +-
- security/integrity/Makefile                  |  3 ---
- usr/include/Makefile                         | 10 ---------
- 15 files changed, 41 insertions(+), 86 deletions(-)
-
-
--- 
-Best Regards
-Masahiro Yamada
