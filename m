@@ -2,55 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80122CCC98
-	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Oct 2019 22:05:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F43CD3B8
+	for <lists+linux-kbuild@lfdr.de>; Sun,  6 Oct 2019 18:56:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730269AbfJEUFR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 5 Oct 2019 16:05:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53584 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730245AbfJEUFP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 5 Oct 2019 16:05:15 -0400
-Subject: Re: [GIT PULL] Kbuild fixes for v5.4-rc2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570305914;
-        bh=C3dOcbNbvsVVNtkIVIpngy0VYlrwjiXnsg6x80Z5T9c=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=SdCOzdSS7ZhblZ7iAw3LshSRDKNedjH/PuEhmQ60HdDWIh/hQda+tjqb2q3Bz4tR3
-         VMp2rkIL6H8TLDlEnF7NgPl0NOAi3RElo+KDOu3oJKiGVQcFOLVQeuwwQbu6jiVxAw
-         lyJM/EwA6ilorrNlMH4ek9YvwPgt+crajaRe5HhM=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNATpmqt57w9m1keLKu4Y0zbvWjJX8SWqKC6b6mj-23Y0xg@mail.gmail.com>
-References: <CAK7LNATpmqt57w9m1keLKu4Y0zbvWjJX8SWqKC6b6mj-23Y0xg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNATpmqt57w9m1keLKu4Y0zbvWjJX8SWqKC6b6mj-23Y0xg@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- tags/kbuild-fixes-v5.4
-X-PR-Tracked-Commit-Id: 86cdd2fdc4e39c388d39c7ba2396d1a9dfd66226
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2d00aee21a5d4966e086d98f9d710afb92fb14e8
-Message-Id: <157030591476.15791.17657287644153393351.pr-tracker-bot@kernel.org>
-Date:   Sat, 05 Oct 2019 20:05:14 +0000
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S1726484AbfJFQ4t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 6 Oct 2019 12:56:49 -0400
+Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:48794 "EHLO
+        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726443AbfJFQ4t (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 6 Oct 2019 12:56:49 -0400
+Received: from callcc.thunk.org (pool-72-93-95-157.bstnma.fios.verizon.net [72.93.95.157])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id x96GsaNE023214
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 6 Oct 2019 12:54:38 -0400
+Received: by callcc.thunk.org (Postfix, from userid 15806)
+        id A922942088C; Sun,  6 Oct 2019 12:54:36 -0400 (EDT)
+Date:   Sun, 6 Oct 2019 12:54:36 -0400
+From:   "Theodore Y. Ts'o" <tytso@mit.edu>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     shuah <shuah@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        masahiroy@kernel.org
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>, wfg@linux.intel.com
+Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20191006165436.GA29585@mit.edu>
+References: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
+ <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
+ <20191004222714.GA107737@google.com>
+ <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
+ <20191004232955.GC12012@mit.edu>
+ <CAFd5g456rBSp177EkYAwsF+KZ0rxJa90mzUpW2M3R7tWbMAh9Q@mail.gmail.com>
+ <63e59b0b-b51e-01f4-6359-a134a1f903fd@kernel.org>
+ <CAFd5g47wji3T9RFmqBwt+jPY0tb83y46oj_ttOq=rTX_N1Ggyg@mail.gmail.com>
+ <544bdfcb-fb35-5008-ec94-8d404a08fd14@kernel.org>
+ <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sat, 5 Oct 2019 17:21:15 +0900:
+On Fri, Oct 04, 2019 at 06:18:04PM -0700, Brendan Higgins wrote:
+> > Let's talk about current state. Right now kunit is in linux-next and
+> > we want to add a few more tests. We will have to coordinate the effort.
+> > Once kunit get into mainline, then the need for this coordination goes
+> > down.
+> 
+> Sure, I was just thinking that getting other people to write the tests
+> would be better. Since not only is it then useful to someone else, it
+> provides the best possible exercise of KUnit.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.4
+Well, one thing we *can* do is if (a) if we can create a kselftest
+branch which we know is stable and won't change, and (b) we can get
+assurances that Linus *will* accept that branch during the next merge
+window, those subsystems which want to use kself test can simply pull
+it into their tree.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2d00aee21a5d4966e086d98f9d710afb92fb14e8
+We've done this before in the file system world, when there has been
+some common set of changes needed to improve, say, Direct I/O, where
+the changes are put into a standalone branch, say, in the xfs tree,
+and those file systems which need it as a building block can pull it
+into their tree, and then add the changes needed to use those changes
+into their file system git tree.  These changes are generally not
+terribly controversial, and we've not had to worry about people want
+to bikeshed the changes.
 
-Thank you!
+There is a risk with doing this of course, which is that if the branch
+*is* controversial, or gets bike-shedded for some reason, then Linus
+gets upset and any branches which depended on said branch will get
+rejected at the next merge window.  Which is the requirement for (a)
+and (b) above.  Presumably, the fact that people were unwilling to let
+Kunit land during this merge window might will *because* we think more
+changes might be pending?
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+The other thing I suppose I can do is to let the ext4 kunit tests land
+in ext4 tree, but with the necessary #ifdef's around things like
+"#include <kunit/test.h>" so that the build won't blow up w/o kunit
+changes being in the tree that I'm building.  It means I won't be able
+to run the tests without creating a test integration branch and
+merging in kunit by hand, which will super-annoying, of course.  And
+if some of the bike-shedding is in Kunit's interfaces, then that
+becomes problematic as well, since any tests that are in ext4.git tree
+might change if people want to rename Kunit's publically exported
+functions (for example).
+
+> Hey Ted, do you know if that ext4 timestamp test can go in through
+> linux-kselftest? It seemed fairly self-contained. Or is that what you
+> were saying wouldn't work for you?
+
+Well, I was hoping that we might start creating more tests beyond just
+the ext4 timestamp tests....
+
+						- Ted
