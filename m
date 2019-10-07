@@ -2,105 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1AF2CE3F2
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Oct 2019 15:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D26C3CE57D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Oct 2019 16:41:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728047AbfJGNl3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Oct 2019 09:41:29 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:56294 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727940AbfJGNl2 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Oct 2019 09:41:28 -0400
-Received: by mail-wm1-f67.google.com with SMTP id a6so12716901wma.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 07 Oct 2019 06:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=a1DymUfYCUkBtLvKqZBG2BDJK0pFyy+uWvMSL42B6Ss=;
-        b=W+Y5I+rbCETeTd3zSOtYINoNLECYEKqOmhtqTDAd1Oki295s5IQtHYwqbc3NbI4nf3
-         BcOnfzMjw31CCtBohix4nCsX/ovthQRffdaTxLQFYkZ6C0w34Hb8p3Kw/vcwipt7qf/H
-         gn85JdL4z303jrta9oDlhYG+mfWQb8MpxLAS+EknwKnuh2lT0FMQehMwpPl1ygXKCkVl
-         0IUxjvmC6557Jw9u3Aa6kay/D+E7sphEIwo88kx6zdhRCFwHBCdotdIqTlJgoKRKQvnR
-         bAj+c922mMlcWjczESBx31xUbX0rdz/Zg97eo+F2TyyWtFe7mT2PVD5I5bmxWKR/iPTo
-         o0RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=a1DymUfYCUkBtLvKqZBG2BDJK0pFyy+uWvMSL42B6Ss=;
-        b=ep+WPHOwIpmcIZsQWgk0XVQt96E5KcFW7z8vJzX+b80bG7TfWnJR23tK4zE60PoXvy
-         566jGt7U2DtLbvI0kRWvet8szUSWtqoh022tsspowVGiObiEVQzGadjEux91SOJvFPB4
-         4ilkUhIiZiqfdai06uOHnr3gDK9ufYj4d+HrEO/y/Gc6uVUVs8XSuydysohkcp/CXVPQ
-         AwzdhoW1P8TO5td3JIJuNQteq2c3z8MayvhRG681g9u8jOpayW30kopexTg5em+beNlz
-         hpfOidDeQdP1HykD2WIpGewZnu+f/TOqL45/eQsA16jAHqqBi9hbSiXxYhGeEJddiFlA
-         Gr+A==
-X-Gm-Message-State: APjAAAUOo4/U8rpFS38L1LPf4qXh+IrVaPe1FxcbbW8RI+VSIN6Hjkjf
-        AmG3EinfPLPFgIbP8mdVz46fOA==
-X-Google-Smtp-Source: APXvYqwgPFTmDn3M4fzkA7mrblggHx7Q7ntMyvm4KAu41hDTlk9sb7yTHRIPd7komTwCEFCCQJnQ2Q==
-X-Received: by 2002:a1c:720a:: with SMTP id n10mr21937845wmc.0.1570455686279;
-        Mon, 07 Oct 2019 06:41:26 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id z189sm15872884wmc.25.2019.10.07.06.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2019 06:41:25 -0700 (PDT)
-Date:   Mon, 7 Oct 2019 14:41:24 +0100
-From:   Matthias Maennich <maennich@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Jessica Yu <jeyu@kernel.org>,
+        id S1727835AbfJGOky (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Oct 2019 10:40:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54458 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727324AbfJGOky (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 7 Oct 2019 10:40:54 -0400
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F3372084D;
+        Mon,  7 Oct 2019 14:40:50 +0000 (UTC)
+Date:   Mon, 7 Oct 2019 10:40:48 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        shuah <shuah@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Kees Cook <keescook@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Adam Zerella <adam.zerella@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: move namespaces.rst out of kbuild directory
-Message-ID: <20191007134124.GC23938@google.com>
-References: <20191007043611.31036-1-yamada.masahiro@socionext.com>
- <20191007060614.GA142813@google.com>
- <20191007081241.GA8279@linux-8ccs>
- <20191007072930.07b1e90a@lwn.net>
+        devicetree <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        kunit-dev@googlegroups.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>,
+        linux-um@lists.infradead.org,
+        Sasha Levin <Alexander.Levin@microsoft.com>,
+        "Bird, Timothy" <Tim.Bird@sony.com>,
+        Amir Goldstein <amir73il@gmail.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Daniel Vetter <daniel@ffwll.ch>, Jeff Dike <jdike@addtoit.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Julia Lawall <julia.lawall@lip6.fr>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Knut Omang <knut.omang@oracle.com>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Petr Mladek <pmladek@suse.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        David Rientjes <rientjes@google.com>, wfg@linux.intel.com
+Subject: Re: [PATCH v18 00/19] kunit: introduce KUnit, the Linux kernel unit
+ testing framework
+Message-ID: <20191007104048.66ae7e59@gandalf.local.home>
+In-Reply-To: <CAHk-=wjcJxypxUOSF-jc=SQKT1CrOoTMyT7soYzbvK3965JmCA@mail.gmail.com>
+References: <CAHk-=whX-JbpM2Sc85epng_GAgGGzxRAJ2SSKkMf9N1Lsqe+OA@mail.gmail.com>
+        <56e2e1a7-f8fe-765b-8452-1710b41895bf@kernel.org>
+        <20191004222714.GA107737@google.com>
+        <ad800337-1ae2-49d2-e715-aa1974e28a10@kernel.org>
+        <20191004232955.GC12012@mit.edu>
+        <CAFd5g456rBSp177EkYAwsF+KZ0rxJa90mzUpW2M3R7tWbMAh9Q@mail.gmail.com>
+        <63e59b0b-b51e-01f4-6359-a134a1f903fd@kernel.org>
+        <CAFd5g47wji3T9RFmqBwt+jPY0tb83y46oj_ttOq=rTX_N1Ggyg@mail.gmail.com>
+        <544bdfcb-fb35-5008-ec94-8d404a08fd14@kernel.org>
+        <CAFd5g467PkfELixpU0JbaepEAAD_ugAA340-uORngC-eXsQQ-g@mail.gmail.com>
+        <20191006165436.GA29585@mit.edu>
+        <CAHk-=wjcJxypxUOSF-jc=SQKT1CrOoTMyT7soYzbvK3965JmCA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20191007072930.07b1e90a@lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 07, 2019 at 07:29:30AM -0600, Jonathan Corbet wrote:
->On Mon, 7 Oct 2019 10:12:42 +0200
->Jessica Yu <jeyu@kernel.org> wrote:
->
->> This was my line of thought as well, since the audience of
->> admin-guide/ is sysadmins and users. Namespaces are mostly relevant to
->> module authors and kernel developers. Currently, I don't think there
->> is an existing good place in Documentation/ for this topic :-/
->> I suppose kernel-hacking/ might be the closest fit, as Adam suggested.
->
->I didn't see this thread before responding in the first, naturally...
->
->I think the core-api manual is probably as good a place as any for this.
->Changing the name to something like symbol-namespaces.rst is probably a
->good idea, since most people think of other things when they see
->"namespaces".  Or perhaps that mythical Somebody could expand it into a
->proper description of symbol exports in general...:)
+On Sun, 6 Oct 2019 10:18:11 -0700
+Linus Torvalds <torvalds@linux-foundation.org> wrote:
 
-As I said in the other thread, I am happy for it to be moved to a better
-location. core-api/ as well as kernel-hacking/ seem to be good
-locations.
+> On Sun, Oct 6, 2019 at 9:55 AM Theodore Y. Ts'o <tytso@mit.edu> wrote:
+> >
+> > Well, one thing we *can* do is if (a) if we can create a kselftest
+> > branch which we know is stable and won't change, and (b) we can get
+> > assurances that Linus *will* accept that branch during the next merge
+> > window, those subsystems which want to use kself test can simply pull
+> > it into their tree.  
+> 
+> Yes.
+> 
+> At the same time, I don't think it needs to be even that fancy. Even
+> if it's not a stable branch that gets shared between different
+> developers, it would be good to just have people do a "let's try this"
+> throw-away branch to use the kunit functionality and verify that
+> "yeah, this is fairly convenient for ext4".
+> 
+> It doesn't have to be merged in that form, but just confirmation that
+> the infrastructure is helpful before it gets merged would be good.
 
-I could imagine expanding the documentation, but would not like to
-commit to it right now. (Even though I feel very encouraged by your talk
-in Paris, Jon. Thanks for that!)
+Can't you just create an ext4 branch that has the kselftest-next branch
+in it, that you build upon. And push that after the kunit test is
+merged?
 
-Cheers,
-Matthias
+In the past I've had to rely on other branches in next, and would just
+hold two branches myself. One with everything not dependent on the other
+developer's branch, and one with the work that was. At the merge
+window, I would either merge the two or just send two pull requests
+with the two branches.
 
->
->Thanks,
->
->jon
+-- Steve
