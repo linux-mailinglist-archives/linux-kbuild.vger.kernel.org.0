@@ -2,77 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 877ACCE987
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Oct 2019 18:43:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0DDECE9DE
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Oct 2019 18:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728048AbfJGQnk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Oct 2019 12:43:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37898 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727830AbfJGQnk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Oct 2019 12:43:40 -0400
-Received: from linux-8ccs (ip5f5ade87.dynamic.kabel-deutschland.de [95.90.222.135])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 43E0E20700;
-        Mon,  7 Oct 2019 16:43:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570466619;
-        bh=18jBfXv9rylAjh6k7GAxABb+qhImwkW083rbcWQbSpY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L41iUj+ZaQkgvmNDSRNeXBh1OnhPFuJg4lBFldlglcR1Pswi/z8i+ccMEHi3wm6tW
-         yvvpUFglAJfvJ9H2Rn/evA/K3h9PU15zmZRnL4lEJmyitLjJxzRZkDknzjjXxBrd1d
-         RNlIph9vM2Fa/OR0I86t+iVAIKy/DQyLSK4YPjBw=
-Date:   Mon, 7 Oct 2019 18:43:33 +0200
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Matthias Maennich <maennich@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shaun Ruffell <sruffell@sruffell.net>,
-        linux-kbuild@vger.kernel.org, Martijn Coenen <maco@android.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] module: various bug-fixes and clean-ups for
- module namespace
-Message-ID: <20191007164332.GA6021@linux-8ccs>
-References: <20191003075826.7478-1-yamada.masahiro@socionext.com>
+        id S1728162AbfJGQy3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Oct 2019 12:54:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59586 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728019AbfJGQy2 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 7 Oct 2019 12:54:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=t/yQUf+EtdNPtNNx+uvRr8fK6YdYLYWGcWajnVQ+Rwo=; b=GPiD9U91/v8Zp2mE39SHfatZx
+        8o9xcA0Jg0EzwnrBfepGwwl6Yqubc6qRjpPMrgTj89Pr2Gw6mrnSMN2C3lYKBfGYMROyiQev90z7q
+        THbX00UMWOblg3GDzWUeSba/kWirrm2wENvHjzSXTVD7Vn+XcPbi/+CnApoPF8qJ8tN2NTVdlnW/0
+        XI37hsVstGn1YzG60Y14pLTIdkyoZrGyCB6YXAflXwbwPvU2PraNRVVCzPOL80tLqJfswCT4QSnam
+        Z6Fhf1QD40808vOLT65Ut9PyTvyZdVlCw4xHBGa+7dCcD+S8+I8q5QzHRGdyks6tBYCMJqCEaDLuI
+        Nezh0jN8g==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iHWHE-0008Bc-0a; Mon, 07 Oct 2019 16:54:28 +0000
+Subject: Re: 'make help' br0ken for @echo ' valid values for SPHINXDIRS are:
+ $(_SPHINXDIRS)'
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@infradead.org>
+References: <416a61e8-e40a-6266-3f6a-bdbadf9a10c3@infradead.org>
+ <20191007094143.3a4d8a09@lwn.net>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <084a5009-bb2a-b043-6c16-5b08e5a87d5c@infradead.org>
+Date:   Mon, 7 Oct 2019 09:54:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20191003075826.7478-1-yamada.masahiro@socionext.com>
-X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191007094143.3a4d8a09@lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+++ Masahiro Yamada [03/10/19 16:58 +0900]:
->
->I was hit by some problems caused by the module namespace feature
->that was merged recently. At least, the breakage of
->external module builds is a fatal one. I just took a look at the code
->closer, and I noticed some more issues (some are nit-picking).
->
->V2:
-> - I dropped "module: avoid code duplication in include/linux/export.h"
->   because Matthias offered to refactor the code by himself.
->
-> - V1 missed the problem when a symbol is preloaded before
->  sym_add_exported() is called.  I fixed it too.
+On 10/7/19 8:41 AM, Jonathan Corbet wrote:
+> On Wed, 2 Oct 2019 16:16:07 -0700
+> Randy Dunlap <rdunlap@infradead.org> wrote:
+> 
+>> It seems that _SPHINXDIRS is empty.  I'm getting (short extract):
+>>
+>>   make SPHINXDIRS="s1 s2" [target] Generate only docs of folder s1, s2
+>>   valid values for SPHINXDIRS are: 
+>>
+>>   make SPHINX_CONF={conf-file} [target] use *additional* sphinx-build
+>>   configuration. This is e.g. useful to build with nit-picking config.
+>>
+>>   Default location for the generated documents is Documentation/output
+> 
+> Hmm...it looks like that broke with 9fc3a18a942f, which got rid of the
+> various conf.py files.  Something like the following seems to do the right
+> thing?  (It also shows that we have way too many top-level directories, but
+> that's a separate issue...)
 
-Hi Masahiro!
+true dat.
 
-Thanks for the v2. I've queued this up in the module tree with the
-intention of getting the fixes in for -rc3.
+> Thanks,
+> 
+> jon
+> 
+> From d402c2de65bb9353e6222a05095f32929ae62373 Mon Sep 17 00:00:00 2001
+> From: Jonathan Corbet <corbet@lwn.net>
+> Date: Mon, 7 Oct 2019 09:38:58 -0600
+> Subject: [PATCH] docs: Fix "make help" suggestion for SPHINXDIR
+> 
+> Commit 9fc3a18a942f ("docs: remove extra conf.py files") broke the setting
+> of _SPHINXDIRS in Documentation/Makefile.  Let's just have it look for an
+> index.rst file instead.
+> 
+> Fixes: 9fc3a18a942f ("docs: remove extra conf.py files")
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
 
-Matthias is working on some modpost fixes that would get rid of the
-__ksymtab_<symbol>.<ns>/__ksymtab_<ns>.<symbol> naming scheme
-altogether in favor of just getting the namespace string from
-__kstrtabns and __ksymtab_strings -- this may render patch 1
-unnecessary. But since we want to fix this asap, we can just keep it
-and apply Matthias's fix on top later.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks!
+Thanks.
 
-Jessica
+> ---
+>  Documentation/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index c6e564656a5b..ce8eb63b523a 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -13,7 +13,7 @@ endif
+>  SPHINXBUILD   = sphinx-build
+>  SPHINXOPTS    =
+>  SPHINXDIRS    = .
+> -_SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/conf.py,%,$(wildcard $(srctree)/Documentation/*/conf.py))
+> +_SPHINXDIRS   = $(patsubst $(srctree)/Documentation/%/index.rst,%,$(wildcard $(srctree)/Documentation/*/index.rst))
+>  SPHINX_CONF   = conf.py
+>  PAPER         =
+>  BUILDDIR      = $(obj)/output
+> 
+
+
+-- 
+~Randy
