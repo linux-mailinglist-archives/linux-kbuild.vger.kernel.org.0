@@ -2,97 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E62B8CE8C8
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Oct 2019 18:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 877ACCE987
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Oct 2019 18:43:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727791AbfJGQMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Oct 2019 12:12:35 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:65271 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727711AbfJGQMf (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Oct 2019 12:12:35 -0400
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id x97GCH8x026939;
-        Tue, 8 Oct 2019 01:12:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x97GCH8x026939
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570464738;
-        bh=NPa8YpRQHzD38z1zgTrtNvaEwRdTmAWhu5DjV8yIWJA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uE3pcn6OyjahUmYjOcGsgJs2vr47HmpyZKQVcOJ15qr2Nr3UO7DM4np2skn86bjJx
-         3XagAJt7WUMLTR2IsraMM4NscvJk4LxmN2HOg7ruxmPtk0NJXpekwZdNwnkTSzSc5k
-         Uv2CQz2mtNdR2m0zmuBwa8TaTEUlNAyOmvZza+/a4BjLd99C6lSqeY0hCfput55h/V
-         7v8f0omrhZlw27TW2WMTon3ONd9dUpgKqATmyaDF8ArZPfI8WopwYPNrSvxfYSsLc9
-         8xZ43CRTDtegXIULL0LvNzx/Hk4fBBArZhYz57f4Tr3YoIQycTpPW8eKIN58zsYdmc
-         doLxj8qu/elkw==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id f1so3085831vkh.9;
-        Mon, 07 Oct 2019 09:12:17 -0700 (PDT)
-X-Gm-Message-State: APjAAAVA2nn/0VN5pGp+yPQ+Hxm5jC0BPuhp/nH/f7/ej+cJmFlNnswy
-        9epRHrDvSUkHB0S/yh/gPDbkzXpOvCXwm1WLkqY=
-X-Google-Smtp-Source: APXvYqz8jDbBaSAALL0wkk3X5+X0AhSNNwJCs33YMBPBKD4Ivvh0dvzxyjv6ORdCfCNeR1NlqrA9KGzvYYCWEUUho/k=
-X-Received: by 2002:a1f:9344:: with SMTP id v65mr10019860vkd.96.1570464736366;
- Mon, 07 Oct 2019 09:12:16 -0700 (PDT)
+        id S1728048AbfJGQnk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Oct 2019 12:43:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727830AbfJGQnk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 7 Oct 2019 12:43:40 -0400
+Received: from linux-8ccs (ip5f5ade87.dynamic.kabel-deutschland.de [95.90.222.135])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 43E0E20700;
+        Mon,  7 Oct 2019 16:43:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570466619;
+        bh=18jBfXv9rylAjh6k7GAxABb+qhImwkW083rbcWQbSpY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=L41iUj+ZaQkgvmNDSRNeXBh1OnhPFuJg4lBFldlglcR1Pswi/z8i+ccMEHi3wm6tW
+         yvvpUFglAJfvJ9H2Rn/evA/K3h9PU15zmZRnL4lEJmyitLjJxzRZkDknzjjXxBrd1d
+         RNlIph9vM2Fa/OR0I86t+iVAIKy/DQyLSK4YPjBw=
+Date:   Mon, 7 Oct 2019 18:43:33 +0200
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Matthias Maennich <maennich@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shaun Ruffell <sruffell@sruffell.net>,
+        linux-kbuild@vger.kernel.org, Martijn Coenen <maco@android.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] module: various bug-fixes and clean-ups for
+ module namespace
+Message-ID: <20191007164332.GA6021@linux-8ccs>
+References: <20191003075826.7478-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-References: <f5cb4272-4cb8-4253-77fd-56aaf73a0dbc@infradead.org>
-In-Reply-To: <f5cb4272-4cb8-4253-77fd-56aaf73a0dbc@infradead.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Tue, 8 Oct 2019 01:11:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARCzEQNAJa1-ub6Ga1VcC6pQHtqc8P1dutscyfQZFzTmQ@mail.gmail.com>
-Message-ID: <CAK7LNARCzEQNAJa1-ub6Ga1VcC6pQHtqc8P1dutscyfQZFzTmQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts: setlocalversion: fix a bashism
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Mike Crowe <mcrowe@zipitwireless.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20191003075826.7478-1-yamada.masahiro@socionext.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Oct 6, 2019 at 12:02 AM Randy Dunlap <rdunlap@infradead.org> wrote:
++++ Masahiro Yamada [03/10/19 16:58 +0900]:
 >
-> From: Randy Dunlap <rdunlap@infradead.org>
+>I was hit by some problems caused by the module namespace feature
+>that was merged recently. At least, the breakage of
+>external module builds is a fatal one. I just took a look at the code
+>closer, and I noticed some more issues (some are nit-picking).
 >
-> Fix bashism reported by checkbashisms by using only one '=':
+>V2:
+> - I dropped "module: avoid code duplication in include/linux/export.h"
+>   because Matthias offered to refactor the code by himself.
 >
-> possible bashism in scripts/setlocalversion line 96 (should be 'b = a'):
->         if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
->
-> Fixes: 38b3439d84f4 ("setlocalversion: update mercurial tag parsing")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Mike Crowe <mcrowe@zipitwireless.com>
+> - V1 missed the problem when a symbol is preloaded before
+>  sym_add_exported() is called.  I fixed it too.
 
-Applied to linux-kbuild. Thanks.
+Hi Masahiro!
 
-> ---
-> Does anyone still use hg for kernel development?
+Thanks for the v2. I've queued this up in the module tree with the
+intention of getting the fixes in for -rc3.
 
-I have also been wondering in which situation
-this code is used...
+Matthias is working on some modpost fixes that would get rid of the
+__ksymtab_<symbol>.<ns>/__ksymtab_<ns>.<symbol> naming scheme
+altogether in favor of just getting the namespace string from
+__kstrtabns and __ksymtab_strings -- this may render patch 1
+unnecessary. But since we want to fix this asap, we can just keep it
+and apply Matthias's fix on top later.
 
+Thanks!
 
->
->  scripts/setlocalversion |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> --- lnx-54-rc1.orig/scripts/setlocalversion
-> +++ lnx-54-rc1/scripts/setlocalversion
-> @@ -93,7 +93,7 @@ scm_version()
->         # Check for mercurial and a mercurial repo.
->         if test -d .hg && hgid=`hg id 2>/dev/null`; then
->                 # Do we have an tagged version?  If so, latesttagdistance == 1
-> -               if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
-> +               if [ "`hg log -r . --template '{latesttagdistance}'`" = "1" ]; then
->                         id=`hg log -r . --template '{latesttag}'`
->                         printf '%s%s' -hg "$id"
->                 else
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Jessica
