@@ -2,120 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F66B23B790
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Aug 2020 11:20:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A456F23C255
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Aug 2020 01:52:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730080AbgHDJUE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Aug 2020 05:20:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37980 "EHLO
+        id S1727889AbgHDXwb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Aug 2020 19:52:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbgHDJUD (ORCPT
+        with ESMTP id S1726011AbgHDXw2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Aug 2020 05:20:03 -0400
-Received: from tartarus.angband.pl (tartarus.angband.pl [IPv6:2001:41d0:602:dbe::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F622C06174A;
-        Tue,  4 Aug 2020 02:20:03 -0700 (PDT)
-Received: from kilobyte by tartarus.angband.pl with local (Exim 4.92)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1k2t6r-00025G-El; Tue, 04 Aug 2020 11:19:49 +0200
-Date:   Tue, 4 Aug 2020 11:19:49 +0200
-From:   Adam Borowski <kilobyte@angband.pl>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Nick Terrell <nickrterrell@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Chris Mason <clm@fb.com>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        Ingo Molnar <mingo@kernel.org>,
-        Patrick Williams <patrick@stwcx.xyz>,
-        Norbert Lange <nolange79@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alex Xu <alex_y_xu@yahoo.ca>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Terrell <terrelln@fb.com>
-Subject: Re: [PATCH v10 4/8] usr: add support for zstd compressed initramfs
-Message-ID: <20200804091949.GB9657@angband.pl>
-References: <20200730190841.2071656-1-nickrterrell@gmail.com>
- <20200730190841.2071656-5-nickrterrell@gmail.com>
- <CAMuHMdUo5tfcEUaq4x_b9HJy25HXWmBZ3GPfqJy491zDsct5Rg@mail.gmail.com>
- <CA+icZUXGbV1x0YJn-0mLA2TtU2jWS6PO3bqdDrqJBMYOMS9Eog@mail.gmail.com>
+        Tue, 4 Aug 2020 19:52:28 -0400
+X-Greylist: delayed 86248 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 04 Aug 2020 16:52:27 PDT
+Received: from dockerbox (unknown [IPv6:2001:4800:7817:101:be76:4eff:fe04:a215])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BC72FC061756;
+        Tue,  4 Aug 2020 16:52:27 -0700 (PDT)
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by dockerbox (Postfix) with SMTP id 6F4DA5EC5A;
+        Mon,  7 Oct 2019 19:30:12 -0500 (CDT)
+Received: from [32.188.209.113] by 127.0.0.1 with SMTP; Mon, 07 Oct 2019 18:22:17 -0600
+Message-ID: <80v-q$4-o4pqyq0@6eeih174.p55>
+From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
+Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
+To:     linkos@binet.lv
+Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
+Date:   Mon, 07 Oct 19 18:22:17 GMT
+X-Mailer: Microsoft Outlook Express 5.00.2615.200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+icZUXGbV1x0YJn-0mLA2TtU2jWS6PO3bqdDrqJBMYOMS9Eog@mail.gmail.com>
-X-Junkbait: aaron@angband.pl, zzyx@angband.pl
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
+Content-Type: multipart/alternative;
+        boundary="_.A4476ECDD73A3"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 04, 2020 at 09:25:23AM +0200, Sedat Dilek wrote:
-> On Tue, Aug 4, 2020 at 8:52 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Jul 30, 2020 at 9:13 PM Nick Terrell <nickrterrell@gmail.com> wrote:
-> > > From: Nick Terrell <terrelln@fb.com>
-> > > * Add support for a zstd compressed initramfs.
-> > > * Add compression for compressing built-in initramfs with zstd.
 
-> > > --- a/usr/Kconfig
-> > > +++ b/usr/Kconfig
-> > > @@ -100,6 +100,15 @@ config RD_LZ4
-> > >           Support loading of a LZ4 encoded initial ramdisk or cpio buffer
-> > >           If unsure, say N.
-> > >
-> > > +config RD_ZSTD
-> > > +       bool "Support initial ramdisk/ramfs compressed using ZSTD"
-> > > +       default y
-> > > +       depends on BLK_DEV_INITRD
-> > > +       select DECOMPRESS_ZSTD
-> > > +       help
-> > > +         Support loading of a ZSTD encoded initial ramdisk or cpio buffer.
-> > > +         If unsure, say N.
-> >
-> > I'm aware you copied this from the other entries, but IMHO "default y",
-> > and "If unsure, say N" are not a good combination.
+--_.A4476ECDD73A3
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-> you are right - for new stuff it should be "default n".
+Greetings
 
-It got already applied to Linus' tree with "y", and I think it'd be nice
-to have it as a default.  Let's disable other compressors instead.
+My name is Barrister Hans Erich.
 
-On the other hand, having an unsupported rd compressor results in a boot
-failure that's not immediately obvious, so that's a reason for keeping
-the setting as "y".
+I have a client who is interested to invest in your country, she is a well=
+ known politician in her country and deserve a lucrative investment partne=
+rship with you outside her country without any delay   Please can you mana=
+ge such investment please Kindly reply for further details.
 
-On the third hand, distributions default to either gz or xz, thus I'd say:
-* let's have gz xz zstd default to y, all others to n
-* drop bzip2 lzma1 completely
-* distros can't switch the mkinitramfs default yet, but if RD_ZSTD=y now,
-  they'll be able to once they drop support for old kernels in a few years
-
-> What I am missing - still - is a note - that your user-space should
-> have the correct bits to support zstd-initramfs.
-> Unsure where to place such an information.
-
-Looks like INITRAMFS_COMPRESSION_* have lengthy prose but are not shown in
-menuconfig, while RD_*, with no such prose, are shown.
-
-The prose itself is grossly obsolete, too.  I have some updates in:
-    https://github.com/kilobyte/linux/commits/nobz2-v3
-but that patchset needs rebasing and refreshing.
+Your full names --------
 
 
-Meow!
--- 
-⢀⣴⠾⠻⢶⣦⠀
-⣾⠁⢠⠒⠀⣿⡁
-⢿⡄⠘⠷⠚⠋⠀ It's time to migrate your Imaginary Protocol from version 4i to 6i.
-⠈⠳⣄⠀⠀⠀⠀
+Your urgent response will be appreciated
+
+Thank you and God bless you.
+
+Barrister Hans Erich
+
+Yours sincerely,
+Barrister Hans Erich
+CONTACT: hanserich9helmut@gmail.com
+
+--_.A4476ECDD73A3--
+
