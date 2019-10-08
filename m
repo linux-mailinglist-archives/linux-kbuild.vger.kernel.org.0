@@ -2,113 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ED0BCFE8F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 18:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB2A8D01AC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 21:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbfJHQKH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Oct 2019 12:10:07 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39453 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727046AbfJHQKH (ORCPT
+        id S1730811AbfJHTzd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Oct 2019 15:55:33 -0400
+Received: from mail-ed1-f46.google.com ([209.85.208.46]:43741 "EHLO
+        mail-ed1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730780AbfJHTzW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Oct 2019 12:10:07 -0400
-Received: by mail-wr1-f67.google.com with SMTP id r3so20116293wrj.6;
-        Tue, 08 Oct 2019 09:10:03 -0700 (PDT)
+        Tue, 8 Oct 2019 15:55:22 -0400
+Received: by mail-ed1-f46.google.com with SMTP id r9so16818889edl.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Oct 2019 12:55:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
+        b=aMQQgi7dIXVBnmVMSSMCLgb3oXTzeafbZdgWl2Y7dgh9d3yilS1+9yTnvWoS7+GzUk
+         LWbTYKnbDzuBJ3/U6U4a0Txwis4unkVKDohWYyBjnKYrTLghN7laSYeGp1/FcmznDyEO
+         GS9pgiMN+uT0qCjbihaa5wuvtHOM98vqOW8UVjJ7Cv+EprgLSNS8LJdhrjnJyNqQEN56
+         5sfOyU15h4kpoOXNgzNljIz5N8IZnpl4XHLYJYLCwvTOpHMRDfM3ywlgrk+4Qs+isMtv
+         bwWMXB9P8rpPXCaQx70qpw2S2sG0Q07XznOIe3PPQ9uFVdh7+iWMtRM+rtyrWFblwrYM
+         wXZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TwO+d9qD9wJW979LKepMLImGrjMaBnzYxRK7KA5j0Xk=;
-        b=aR/7iMpMxZ4g5vs+DrnV6pTeJm/kUw9rjmspB3P9tQeaRWxnUKOp7DaBbuWJcTp5+q
-         aFKGK7Q2/J/v8a7pK6z7gYH2V0uSBFhA/TB3jEHix5FM5EGrTGPTI370DekIGEqKEDTi
-         gVbc7MW/r0vdQIkRgnWMyUCQHdn6uG8LLCT8uyafThUL5eG+wPoqplsLCq3AsHWHKrv2
-         1ix1h6hg19fo25wnJRokwQkarwa4WfwDh7JhOyG+Ncl4jrhWJi2KSZq2nE4RD3z8ShzF
-         lD53o2vKVc41hlWqE8bIVUE8d0N6nIJ4qKIaSZWDmeDN4nQZ2qF2E56fA6eKUbq6PFKN
-         2w/w==
-X-Gm-Message-State: APjAAAVupkD3K0ZpYhZ4qHxq+5CakdwhzC9OXtWXCybXnnej1z7BQeT4
-        EQzemptaO3xvJNUUTwRBcqE=
-X-Google-Smtp-Source: APXvYqyLw49eump/ox38Z4zA11mDBtivQ61A7rJMxWU5H6pE4n+L8FeJt8/QHXENvF/U12TGXTn3sQ==
-X-Received: by 2002:a5d:44d2:: with SMTP id z18mr6605539wrr.122.1570551003336;
-        Tue, 08 Oct 2019 09:10:03 -0700 (PDT)
-Received: from debian (207.148.159.143.dyn.plus.net. [143.159.148.207])
-        by smtp.gmail.com with ESMTPSA id f20sm3302107wmb.6.2019.10.08.09.10.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 09:10:02 -0700 (PDT)
-Date:   Tue, 8 Oct 2019 17:10:01 +0100
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Linux on Hyper-V List <linux-hyperv@vger.kernel.org>,
-        Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Linux Kconfig List <linux-kbuild@vger.kernel.org>,
-        Wei Liu <liuwe@microsoft.com>
-Subject: Re: [PATCH RFC] kconfig: add hvconfig for Linux on Hyper-V
-Message-ID: <20191008161001.lwiduq4mlyjumw5b@debian>
-References: <20191008131508.21189-1-liuw@liuw.name>
- <CAK7LNAQpszkwtp2mAfoPajkRi0SHPspivWn9sUsxO0oua2X6NQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=d9t6Rq0RbZ7PXIZmIcLbP2JTBMFny2QBILsKgMXZe9M=;
+        b=rpQ68Jo7S+BTBruKQIp4Z2FL7uCw/avrXes6v1UF32ftEOiv66SpUQGgcqAqd91tjb
+         rEmfRpF04uSg31SYbASP6GRyXjCiNpiYeeuOkeb0Uss1BBQlS2TvYspaFZYhxCRdbeZl
+         0WpqtMrrEXixY7Rg8YE5uWOEzRGIYBehMbOpBS6BQJwYrhWO+4XplMHYTKIYANvNIGUT
+         Ig2HbKXF1AW6Zelj7owOfGvjlDvKNmmTTzJrabbsAYBAdEZmBOjtMaEXOOsjOTgD8YuR
+         A+qgKcQV0WhQ3VSp4giUDFo422V4886EAfVlF7v8n04hlCfdV7a5maSK8mSTqwW3p0GI
+         UIgg==
+X-Gm-Message-State: APjAAAXyEZeo3FkiboM+z3QLYMATt6bJ5XARU2dpsbwtNTtFdTZNYsp5
+        FurPiR0hodOR5AfE5xWHUeZxoMO9VOwKUKfLhzU=
+X-Google-Smtp-Source: APXvYqxaZfvXk0/G1PfPN40JEbEfue6b7v2Lk/SQWmnUxoxmnZyxXwpPNC4UPIh9mJw4kQ9atMHeHG1Orcb22TWXOSk=
+X-Received: by 2002:a50:c306:: with SMTP id a6mr36339639edb.108.1570564517490;
+ Tue, 08 Oct 2019 12:55:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQpszkwtp2mAfoPajkRi0SHPspivWn9sUsxO0oua2X6NQ@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Received: by 2002:a17:906:cc89:0:0:0:0 with HTTP; Tue, 8 Oct 2019 12:55:16
+ -0700 (PDT)
+Reply-To: moneygram.1820@outlook.fr
+From:   MONEY GRAM <currency1000000@gmail.com>
+Date:   Tue, 8 Oct 2019 20:55:16 +0100
+Message-ID: <CAPqfnSEO==O6BEtBbcMMZfh3qcY4Bz0qndhCqbcLqZx4DCs44A@mail.gmail.com>
+Subject: HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE M.T.C.N:78393135
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 01:03:19AM +0900, Masahiro Yamada wrote:
-[...]
-> > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> > index ef2f2336c469..2ee46301b22e 100644
-> > --- a/scripts/kconfig/Makefile
-> > +++ b/scripts/kconfig/Makefile
-> > @@ -104,6 +104,10 @@ PHONY += xenconfig
-> >  xenconfig: xen.config
-> >         @:
-> >
-> > +PHONY += hvconfig
-> > +hvconfig: hv_guest.config
-> > +       @:
-> > +
-> 
-> 
-> Does this need to be hooked up to kconfig Makefile?
-> 
+HERE IS YOUR MONEY GRAM PAYMENT HAS BEEN SENT TO YOU HERE IS THE
+M.T.C.N:78393135
 
-It is not strictly necessary. Just thought it would be nice to follow
-existing examples.
+Attn: Beneficiary,
 
-> In my understanding, this code provides
-> "make hvconfig" as a shorthand for "make hv_guest.config"
-> 
+This is to inform you that the America Embassy office was instructed
+to transfer your fund $980,000.00 U.S Dollars compensating all the
+SCAM VICTIMS and your email was found as one of the VICTIMS. by
+America security leading team and America representative officers so
+between today the 8th of October till 1ST Of December 2019 you will
+be receiving MONEY GRAM the sum of $6,000 dollars per day. However be informed
+that we have already sent the $6,000 dollars this morning to avoid
+cancellation of your payment, remain the total sum of $980,000.00.
 
-Yes that's correct.
+You have only six hours to call this office upon the receipt of this
+email the maximum amount you will be receiving per a day starting from
+today's $6,000 and the Money Transfer Control Number of today is
+below.
 
-> Please do not do this.
-> 
-> 
-> See "xenconfig" as a bad example.
-> 
-> "make xenconfig" is a shorthand of "make xen.config".
-> This exists to save just one character typing.
-> 
-> 
-> If I allow this, people would push more and more random pointless shorthands,
-> which are essentially unrelated to kconfig.
-> 
-> 
-> kvmconfig and xenconfig are just historical mistakes.
-> 
-> 
-> Please drop the changes to scripts/kconfig/Makefile.
+NOTE; The sent $6,000 is on hold because of the instruction from IMF
+office, they asked us to place it on hold by requesting the (Clean
+Bill Record Certificate) which will cost you $25 in order to fulfill
+all the necessary obligation to avoid any hitches while sending you
+the payment through MONEY GRAM money transfer, the necessary
+obligation I mean here is to obtain the (Clean Bill Record
+Certificate)
 
-OK.
+Below is the information of today track it in our
 
-> 
-> Also, please do not use misleading "kconfig:" for the subject prefix.
-> You can use the subject prefix "hyper-v:" or something.
-> 
+websitehttps://moneygarm.com/asp/orderStatus.asp?country=global
+to see is available to pick up by the receiver, but if we didn't here
+from you soon we'll pickup it up from line for security reason to
+avoid hackers stealing the money online.
 
-OK.
+Money Transfer Control Number M.T.C.N)::78393135
+SENDERS FIRST NAME: John
+SENDERS LAST NAME: Chun
+SENDERS COUNTRY...BENIN REPUBLIC
+TEXT QUESTION: A
+ANSWER: B
+AMOUNT: $6,000
 
-Wei.
+We need the below details from you, to enable us place the payment to
+your name and transfer the fund to you.
+
+(Full Receivers name)...................
+(You're Country)................................
+(Address)......................................
+(Phone NuMBER-...............................
+(You're Age)............................
+(OCCUPATION)..REAL ESTATE..................
+(A Copy of Your ID CARD).SEE ATTACHMENTS.............
+
+HOWEVER YOU HAVE TO PAY $25 FOR THE (Clean Bill Record Certificate)
+AND THAT IS ALL YOU HAVE TO DO ASAP.
+
+The payment will be sending to below information, such as:
+
+Receiver.............. ALAN UDE
+Country................Benin Republic
+Amount: ....................$25
+Question: .....................A
+Answer:................... B
+Sender...............Name:
+MTCN :..............
+
+According to the instruction and order we received from IMF the their
+requested $25 must be made directly to the above info's.
+
+Furthermore you are advised to call us as the instruction was passed
+that within 6hours without hearing from you, Count your payment
+canceled. Number to call is below listed manager director office of
+release order:
+DR.ALAN UDE
+Director MONEY GRAM-Benin
