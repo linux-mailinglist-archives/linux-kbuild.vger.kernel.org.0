@@ -2,80 +2,166 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB387CF93D
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 14:06:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E16CCFB1A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 15:15:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730756AbfJHMGn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Oct 2019 08:06:43 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:28287 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730648AbfJHMGm (ORCPT
+        id S1730646AbfJHNP0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Oct 2019 09:15:26 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:37211 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730371AbfJHNPZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Oct 2019 08:06:42 -0400
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x98C6137021176;
-        Tue, 8 Oct 2019 21:06:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x98C6137021176
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570536365;
-        bh=o08jjtAXayQQibqWZRK6KQghEgpMnJSKKT2mpiY9c0U=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2Uu9Qr+8AGGzvZd0q21inKfPqkb3+LMAVmxPBumQEdVjLZ3i/EXLi8qnf6VOzyIvr
-         NcIteZbNS121zvZNqlfXSJNr/R1AireeQYJTDrJ3Lff3VhRZ2W3pm6+7sHX+nlr5Te
-         8jcKIg8Rc83tFGhW4eJG5H5qPmyBeFwD24pVr7BZYVPJRIvBpfklJ7b613JD6iltzw
-         JaPKxFdHBfjLL4tRVGOBWi7ZaOaCKewtd9sfxRUT0bbdl0RfJRA38ukFmFHqJTdNAa
-         EVG8g0WUUGLfE2PKeGCsHOi7AtKte8oW8UH4aYzis7LsQ91o0N7YETeQ8TNGniFb5O
-         Bj1/7DImlJvPg==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] kheaders: explain why include/config/autoconf.h is excluded from md5sum
-Date:   Tue,  8 Oct 2019 21:05:56 +0900
-Message-Id: <20191008120556.4263-5-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191008120556.4263-1-yamada.masahiro@socionext.com>
-References: <20191008120556.4263-1-yamada.masahiro@socionext.com>
+        Tue, 8 Oct 2019 09:15:25 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f22so3097952wmc.2;
+        Tue, 08 Oct 2019 06:15:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PkpF12I5oQshYFWC4o9XSkqiU1qpyK9lT1SgMd5gkK4=;
+        b=Y1k4Wk9UX+Y9FRbroM6LtBWf93FOcq6kDKkBB2zP1Ah52Lg0AHcaF4VIzXzWoYT7IC
+         +P30xMZV7MRbPmGKDLslptAl/YYVdrEXIIwiabicfU6Dq/MnLygAfMF48ESEZe/Ztroq
+         bjzhD+XQWcWcGRoQlhFsN66f2DQ02LLmGTH2AAE03JY1yx37ncmZNo7l2agzMoZLr5Ia
+         deKG5kKYS0LjvEqfK1E1ArC5is/MR6M/j3DDhA0HcZknap4HfREj72uHvE4CR2oWW6py
+         DVBNk6GZkwM8t4oJ4KbsGPjeF1Dd34gcpuUxR6WBd5MVY7klDfN9Fk5jfnDBK3JwJvmy
+         AUQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=PkpF12I5oQshYFWC4o9XSkqiU1qpyK9lT1SgMd5gkK4=;
+        b=DL845Di1RHEnn0pUwZFMRVSP6HejnEECmwb5rAZeNDByaKF/qI4byHOi4DNOplgqpw
+         125dKA+tvNCQgHdzhZTk0zsgMJ32n1uDA0QVtGFyzfB8Z2IpOIeItagZbg/6anbfDwZv
+         zyYFtPzK+CT7Feff1ugGXs7/R0Dhwf7jkhaTQiREzqs5ECxVOXXi+ydX4Pph9MqFzPQp
+         TQWC9r9G7wbsex0vyLWD9JwUA1jK3UajV3mQgGlHXh3SEoEt7iaJZRaJx+Ilrc/OiaZv
+         poSwUM7keKqADhvpHEDejesQ0tv7Z2nkLE7hFmjATHz893sDvbzvN9CuhNS3TEIAYtzr
+         SgrQ==
+X-Gm-Message-State: APjAAAVu0XPKl2wV51xycHfeBukNRfljANMrpuqqjZ2JpGehyOjObpls
+        jKBdG8QX7nc0ruXQ+sTOVwCTeWIR
+X-Google-Smtp-Source: APXvYqxi2eXP5iDv1oV+9RJSekAwMNi7Dl5XfE0GwzX7za55ZRZfFZHCKBd3pI2e5P/gIz2GO+HO4A==
+X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr3709880wmh.54.1570540523490;
+        Tue, 08 Oct 2019 06:15:23 -0700 (PDT)
+Received: from debian.mshome.net (207.148.159.143.dyn.plus.net. [143.159.148.207])
+        by smtp.gmail.com with ESMTPSA id 79sm5485377wmb.7.2019.10.08.06.15.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 06:15:22 -0700 (PDT)
+From:   Wei Liu <wei.liu@kernel.org>
+X-Google-Original-From: Wei Liu <liuw@liuw.name>
+To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
+Cc:     Linux Kernel List <linux-kernel@vger.kernel.org>,
+        Linux Kconfig List <linux-kbuild@vger.kernel.org>,
+        Wei Liu <liuwe@microsoft.com>
+Subject: [PATCH RFC] kconfig: add hvconfig for Linux on Hyper-V
+Date:   Tue,  8 Oct 2019 14:15:08 +0100
+Message-Id: <20191008131508.21189-1-liuw@liuw.name>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This comment block explains why include/generated/compile.h is omitted,
-but nothing about include/generated/autoconf.h, which might be more
-difficult to understand. Add more comments.
+From: Wei Liu <liuwe@microsoft.com>
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+Add an config file snippet which enalbes additional options useful for
+running the kernel in a Hyper-V guest.
+
+The expected use case is a user provides an existing config file then
+executes `make hvconfig`. It will merge those options with the
+provided config file.
+
+Based on similar concept for Xen and KVM.
+
+Signed-off-by: Wei Liu <liuwe@microsoft.com>
 ---
+RFC: I only tested this on x86.  Although the config options included in
+hv_guest.config don't seem to be arch-specific, we should probably
+move the ones not yet implemented on Arm to an x86 specific config
+file.
+---
+ Documentation/admin-guide/README.rst |  3 +++
+ kernel/configs/hv_guest.config       | 33 ++++++++++++++++++++++++++++
+ scripts/kconfig/Makefile             |  5 +++++
+ 3 files changed, 41 insertions(+)
+ create mode 100644 kernel/configs/hv_guest.config
 
- kernel/gen_kheaders.sh | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index 6c5f88f3ca2d..b229a84693e5 100755
---- a/kernel/gen_kheaders.sh
-+++ b/kernel/gen_kheaders.sh
-@@ -32,8 +32,15 @@ fi
- all_dirs="$all_dirs $dir_list"
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index cc6151fc0845..d5f4389a7a2f 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -224,6 +224,9 @@ Configuring the kernel
+      "make xenconfig"   Enable additional options for xen dom0 guest kernel
+                         support.
  
- # include/generated/compile.h is ignored because it is touched even when none
--# of the source files changed. This causes pointless regeneration, so let us
--# ignore them for md5 calculation.
-+# of the source files changed.
-+#
-+# When Kconfig regenerates include/generated/autoconf.h, its timestamp is
-+# updated, but the contents might be still the same. When any CONFIG option is
-+# changed, Kconfig touches the corresponding timestamp file include/config/*.h.
-+# Hence, the md5sum detects the configuration change anyway. We do not need to
-+# check include/generated/autoconf.h explicitly.
-+#
-+# Ignore them for md5 calculation to avoid pointless regeneration.
- headers_md5="$(find $all_dirs -name "*.h"			|
- 		grep -v "include/generated/compile.h"	|
- 		grep -v "include/generated/autoconf.h"	|
++     "make hvconfig"    Enable additional options for Hyper-V guest kernel
++                        support.
++
+      "make tinyconfig"  Configure the tiniest possible kernel.
+ 
+    You can find more information on using the Linux kernel config tools
+diff --git a/kernel/configs/hv_guest.config b/kernel/configs/hv_guest.config
+new file mode 100644
+index 000000000000..0e71e34a2d4d
+--- /dev/null
++++ b/kernel/configs/hv_guest.config
+@@ -0,0 +1,33 @@
++CONFIG_NET=y
++CONFIG_NET_CORE=y
++CONFIG_NETDEVICES=y
++CONFIG_BLOCK=y
++CONFIG_BLK_DEV=y
++CONFIG_NETWORK_FILESYSTEMS=y
++CONFIG_INET=y
++CONFIG_TTY=y
++CONFIG_SERIAL_8250=y
++CONFIG_SERIAL_8250_CONSOLE=y
++CONFIG_IP_PNP=y
++CONFIG_IP_PNP_DHCP=y
++CONFIG_BINFMT_ELF=y
++CONFIG_PCI=y
++CONFIG_PCI_MSI=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_VIRTUALIZATION=y
++CONFIG_HYPERVISOR_GUEST=y
++CONFIG_PARAVIRT=y
++CONFIG_HYPERV=y
++CONFIG_HYPERV_VSOCKETS=y
++CONFIG_PCI_HYPERV=y
++CONFIG_PCI_HYPERV_INTERFACE=y
++CONFIG_HYPERV_STORAGE=y
++CONFIG_HYPERV_NET=y
++CONFIG_HYPERV_KEYBOARD=y
++CONFIG_FB_HYPERV=y
++CONFIG_HID_HYPERV_MOUSE=y
++CONFIG_HYPERV=y
++CONFIG_HYPERV_TIMER=y
++CONFIG_HYPERV_UTILS=y
++CONFIG_HYPERV_BALLOON=y
++CONFIG_HYPERV_IOMMU=y
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index ef2f2336c469..2ee46301b22e 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -104,6 +104,10 @@ PHONY += xenconfig
+ xenconfig: xen.config
+ 	@:
+ 
++PHONY += hvconfig
++hvconfig: hv_guest.config
++	@:
++
+ PHONY += tinyconfig
+ tinyconfig:
+ 	$(Q)$(MAKE) -f $(srctree)/Makefile allnoconfig tiny.config
+@@ -138,6 +142,7 @@ help:
+ 	@echo  '                    default value without prompting'
+ 	@echo  '  kvmconfig	  - Enable additional options for kvm guest kernel support'
+ 	@echo  '  xenconfig       - Enable additional options for xen dom0 and guest kernel support'
++	@echo  '  hvconfig        - Enable additional options for Hyper-V guest kernel support'
+ 	@echo  '  tinyconfig	  - Configure the tiniest possible kernel'
+ 	@echo  '  testconfig	  - Run Kconfig unit tests (requires python3 and pytest)'
+ 
 -- 
-2.17.1
+2.20.1
 
