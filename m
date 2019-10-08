@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19D2DCF940
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 14:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 157A9CF942
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 14:06:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730957AbfJHMGn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1730816AbfJHMGn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Tue, 8 Oct 2019 08:06:43 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:28282 "EHLO
+Received: from conuserg-11.nifty.com ([210.131.2.78]:28283 "EHLO
         conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730719AbfJHMGn (ORCPT
+        with ESMTP id S1730683AbfJHMGm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Oct 2019 08:06:43 -0400
+        Tue, 8 Oct 2019 08:06:42 -0400
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id x98C6135021176;
-        Tue, 8 Oct 2019 21:06:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x98C6135021176
+        by conuserg-11.nifty.com with ESMTP id x98C6136021176;
+        Tue, 8 Oct 2019 21:06:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com x98C6136021176
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570536363;
-        bh=ky+LkOLJvLz7GQrqNxbqax/IF2ZqOBtCIPZVaij14hc=;
+        s=dec2015msa; t=1570536364;
+        bh=PgC6Hu85mI6smUhbjGbKEy1lzgBgshSxS8+Ygx9AYwc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CouozuWhUbGuiISjMHzx2mHgMpE1ijsXTbEu0z88EKiN2NIg+GP4wXu7zejtJufXU
-         VdslYdQ6cSgR1rY5hOEVSwTz1Abl5LdojENGoCg79DJjhwL2ni9zz7SlTUYnNdTfql
-         ZgO3f+ze824TMw60Msc3GXYj9czZVPev3B1BVTtvqagNORSkHIcsC2nQztuDbU5V2i
-         H8rUguRBm7+6f03ywI9FNe2Z1/hNTj0D6aWHZ3PVdHefZ485eX+RPIYh0zveXJlz8L
-         SpQwkuXA+wRtsDlrYXJcMuesotxo/q+jFphzS2+7D6eB/u0kMDclL6GSCtgNVcJAqO
-         rFFbYC5xduR8w==
+        b=gHzP/IZAEvhFKy7tFjejGrZpEytl4EnUKO5lhkb8JCB4OKcqTNh+GJBkd5w0uB2rG
+         5hFATSHxB6200o7GzxuBkDnAZ7xXS57bbjbDcbnrVjWhfZe5qfli5KhBwcsp5f9c3K
+         m5K5K5dlBy8Ox7gUVzRzuRwVenmqdt5mESVs5bowYFfTi/l4yiCAFpFNhcrLbySN2o
+         N1rHs6L4DjJ0tgm+PrT7JNd+4umTYSIrNq7R/z3eHIqdMbYEYhroX9TL34Mhf2izNC
+         vpn7S//dTpL/y4IRjiVHsKdFoGrRZjX93TZLbGOiYb12G4h0gev9DxQu38DJ8CLPJB
+         2eodAtaQUdkUA==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Joel Fernandes <joel@joelfernandes.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 3/5] kheaders: optimize header copy for in-tree builds
-Date:   Tue,  8 Oct 2019 21:05:54 +0900
-Message-Id: <20191008120556.4263-3-yamada.masahiro@socionext.com>
+Subject: [PATCH 4/5] kheaders: remove the last bashism to allow sh to run it
+Date:   Tue,  8 Oct 2019 21:05:55 +0900
+Message-Id: <20191008120556.4263-4-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191008120556.4263-1-yamada.masahiro@socionext.com>
 References: <20191008120556.4263-1-yamada.masahiro@socionext.com>
@@ -44,47 +44,62 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This script copies headers by the cpio command twice; first from
-srctree, and then from objtree. However, when we building in-tree,
-we know the srctree and the objtree are the same. That is, all the
-headers copied by the first cpio are overwritten by the second one.
+'pushd' ... 'popd' is the last bash-specific code in this script.
+One way to avoid it is to run the code in a sub-shell.
 
-Skip the first cpio when we are building in-tree.
+With that addressed, you can run this script with sh.
+
+I replaced $(BASH) with $(CONFIG_SHELL), and I changed the hashbang
+to #!/bin/sh.
 
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
- kernel/gen_kheaders.sh | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ kernel/Makefile        |  2 +-
+ kernel/gen_kheaders.sh | 13 +++++++------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
+diff --git a/kernel/Makefile b/kernel/Makefile
+index daad787fb795..42557f251fea 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -128,7 +128,7 @@ $(obj)/config_data.gz: $(KCONFIG_CONFIG) FORCE
+ $(obj)/kheaders.o: $(obj)/kheaders_data.tar.xz
+ 
+ quiet_cmd_genikh = CHK     $(obj)/kheaders_data.tar.xz
+-      cmd_genikh = $(BASH) $(srctree)/kernel/gen_kheaders.sh $@
++      cmd_genikh = $(CONFIG_SHELL) $(srctree)/kernel/gen_kheaders.sh $@
+ $(obj)/kheaders_data.tar.xz: FORCE
+ 	$(call cmd,genikh)
+ 
 diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-index 5f8e664977f8..dd40a1b86f96 100755
+index dd40a1b86f96..6c5f88f3ca2d 100755
 --- a/kernel/gen_kheaders.sh
 +++ b/kernel/gen_kheaders.sh
-@@ -56,14 +56,16 @@ fi
- rm -rf $cpio_dir
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/bin/sh
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ # This script generates an archive consisting of kernel headers
+@@ -57,11 +57,12 @@ rm -rf $cpio_dir
  mkdir $cpio_dir
  
--pushd $srctree > /dev/null
--for f in $dir_list;
--	do find "$f" -name "*.h";
--done | cpio --quiet -pd $cpio_dir
--popd > /dev/null
-+if [ "$building_out_of_srctree" ]; then
-+	pushd $srctree > /dev/null
-+	for f in $dir_list
-+		do find "$f" -name "*.h";
-+	done | cpio --quiet -pd $cpio_dir
-+	popd > /dev/null
-+fi
+ if [ "$building_out_of_srctree" ]; then
+-	pushd $srctree > /dev/null
+-	for f in $dir_list
+-		do find "$f" -name "*.h";
+-	done | cpio --quiet -pd $cpio_dir
+-	popd > /dev/null
++	(
++		cd $srctree
++		for f in $dir_list
++			do find "$f" -name "*.h";
++		done | cpio --quiet -pd $cpio_dir
++	)
+ fi
  
--# The second CPIO can complain if files already exist which can
--# happen with out of tree builds. Just silence CPIO for now.
-+# The second CPIO can complain if files already exist which can happen with out
-+# of tree builds having stale headers in srctree. Just silence CPIO for now.
- for f in $dir_list;
- 	do find "$f" -name "*.h";
- done | cpio --quiet -pd $cpio_dir >/dev/null 2>&1
+ # The second CPIO can complain if files already exist which can happen with out
 -- 
 2.17.1
 
