@@ -2,166 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E16CCFB1A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 15:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6246CFDE6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Oct 2019 17:41:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730646AbfJHNP0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Oct 2019 09:15:26 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37211 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730371AbfJHNPZ (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Oct 2019 09:15:25 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f22so3097952wmc.2;
-        Tue, 08 Oct 2019 06:15:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=PkpF12I5oQshYFWC4o9XSkqiU1qpyK9lT1SgMd5gkK4=;
-        b=Y1k4Wk9UX+Y9FRbroM6LtBWf93FOcq6kDKkBB2zP1Ah52Lg0AHcaF4VIzXzWoYT7IC
-         +P30xMZV7MRbPmGKDLslptAl/YYVdrEXIIwiabicfU6Dq/MnLygAfMF48ESEZe/Ztroq
-         bjzhD+XQWcWcGRoQlhFsN66f2DQ02LLmGTH2AAE03JY1yx37ncmZNo7l2agzMoZLr5Ia
-         deKG5kKYS0LjvEqfK1E1ArC5is/MR6M/j3DDhA0HcZknap4HfREj72uHvE4CR2oWW6py
-         DVBNk6GZkwM8t4oJ4KbsGPjeF1Dd34gcpuUxR6WBd5MVY7klDfN9Fk5jfnDBK3JwJvmy
-         AUQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=PkpF12I5oQshYFWC4o9XSkqiU1qpyK9lT1SgMd5gkK4=;
-        b=DL845Di1RHEnn0pUwZFMRVSP6HejnEECmwb5rAZeNDByaKF/qI4byHOi4DNOplgqpw
-         125dKA+tvNCQgHdzhZTk0zsgMJ32n1uDA0QVtGFyzfB8Z2IpOIeItagZbg/6anbfDwZv
-         zyYFtPzK+CT7Feff1ugGXs7/R0Dhwf7jkhaTQiREzqs5ECxVOXXi+ydX4Pph9MqFzPQp
-         TQWC9r9G7wbsex0vyLWD9JwUA1jK3UajV3mQgGlHXh3SEoEt7iaJZRaJx+Ilrc/OiaZv
-         poSwUM7keKqADhvpHEDejesQ0tv7Z2nkLE7hFmjATHz893sDvbzvN9CuhNS3TEIAYtzr
-         SgrQ==
-X-Gm-Message-State: APjAAAVu0XPKl2wV51xycHfeBukNRfljANMrpuqqjZ2JpGehyOjObpls
-        jKBdG8QX7nc0ruXQ+sTOVwCTeWIR
-X-Google-Smtp-Source: APXvYqxi2eXP5iDv1oV+9RJSekAwMNi7Dl5XfE0GwzX7za55ZRZfFZHCKBd3pI2e5P/gIz2GO+HO4A==
-X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr3709880wmh.54.1570540523490;
-        Tue, 08 Oct 2019 06:15:23 -0700 (PDT)
-Received: from debian.mshome.net (207.148.159.143.dyn.plus.net. [143.159.148.207])
-        by smtp.gmail.com with ESMTPSA id 79sm5485377wmb.7.2019.10.08.06.15.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 06:15:22 -0700 (PDT)
-From:   Wei Liu <wei.liu@kernel.org>
-X-Google-Original-From: Wei Liu <liuw@liuw.name>
-To:     Linux on Hyper-V List <linux-hyperv@vger.kernel.org>
-Cc:     Linux Kernel List <linux-kernel@vger.kernel.org>,
-        Linux Kconfig List <linux-kbuild@vger.kernel.org>,
-        Wei Liu <liuwe@microsoft.com>
-Subject: [PATCH RFC] kconfig: add hvconfig for Linux on Hyper-V
-Date:   Tue,  8 Oct 2019 14:15:08 +0100
-Message-Id: <20191008131508.21189-1-liuw@liuw.name>
-X-Mailer: git-send-email 2.20.1
+        id S1726291AbfJHPlS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Oct 2019 11:41:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46980 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725966AbfJHPlS (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 8 Oct 2019 11:41:18 -0400
+Received: from linux-8ccs (ip5f5adbf2.dynamic.kabel-deutschland.de [95.90.219.242])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D09B2070B;
+        Tue,  8 Oct 2019 15:41:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570549278;
+        bh=1AOz1WaJM2kMZGmJ/drNUw2mve3Szc1LQSCLyQ/Qf6o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oIPTPUqv1NOHHn6EsGHV7Ds8fiZ1FseXHYLNbow7yP3XSg1kB8aTnRpPwFD6A+jMc
+         dr5Z5udWfLSWdzOtFZtuMNG691ktaXJqShE6OxYK4Cv7ON9JbRAy+rE6i9iHuYxZYN
+         uXT4RbkpSdVSY0nsuJlBisaazq2aRx/aUiqimJH4=
+Date:   Tue, 8 Oct 2019 17:41:12 +0200
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Matthias Maennich <maennich@google.com>,
+        Adam Zerella <adam.zerella@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc: move namespaces.rst from kbuild/ to core-api/
+Message-ID: <20191008154111.GA7466@linux-8ccs>
+References: <20191008031009.17364-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20191008031009.17364-1-yamada.masahiro@socionext.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Wei Liu <liuwe@microsoft.com>
++++ Masahiro Yamada [08/10/19 12:10 +0900]:
+>We discussed a better location for this file, and agreed that
+>core-api/ is a good fit. Rename it to symbol-namespaces.rst
+>for disambiguation, and also add it to index.rst and MAINTAINERS.
+>
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Add an config file snippet which enalbes additional options useful for
-running the kernel in a Hyper-V guest.
+Applied, thanks!
 
-The expected use case is a user provides an existing config file then
-executes `make hvconfig`. It will merge those options with the
-provided config file.
-
-Based on similar concept for Xen and KVM.
-
-Signed-off-by: Wei Liu <liuwe@microsoft.com>
----
-RFC: I only tested this on x86.  Although the config options included in
-hv_guest.config don't seem to be arch-specific, we should probably
-move the ones not yet implemented on Arm to an x86 specific config
-file.
----
- Documentation/admin-guide/README.rst |  3 +++
- kernel/configs/hv_guest.config       | 33 ++++++++++++++++++++++++++++
- scripts/kconfig/Makefile             |  5 +++++
- 3 files changed, 41 insertions(+)
- create mode 100644 kernel/configs/hv_guest.config
-
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index cc6151fc0845..d5f4389a7a2f 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -224,6 +224,9 @@ Configuring the kernel
-      "make xenconfig"   Enable additional options for xen dom0 guest kernel
-                         support.
- 
-+     "make hvconfig"    Enable additional options for Hyper-V guest kernel
-+                        support.
-+
-      "make tinyconfig"  Configure the tiniest possible kernel.
- 
-    You can find more information on using the Linux kernel config tools
-diff --git a/kernel/configs/hv_guest.config b/kernel/configs/hv_guest.config
-new file mode 100644
-index 000000000000..0e71e34a2d4d
---- /dev/null
-+++ b/kernel/configs/hv_guest.config
-@@ -0,0 +1,33 @@
-+CONFIG_NET=y
-+CONFIG_NET_CORE=y
-+CONFIG_NETDEVICES=y
-+CONFIG_BLOCK=y
-+CONFIG_BLK_DEV=y
-+CONFIG_NETWORK_FILESYSTEMS=y
-+CONFIG_INET=y
-+CONFIG_TTY=y
-+CONFIG_SERIAL_8250=y
-+CONFIG_SERIAL_8250_CONSOLE=y
-+CONFIG_IP_PNP=y
-+CONFIG_IP_PNP_DHCP=y
-+CONFIG_BINFMT_ELF=y
-+CONFIG_PCI=y
-+CONFIG_PCI_MSI=y
-+CONFIG_DEBUG_KERNEL=y
-+CONFIG_VIRTUALIZATION=y
-+CONFIG_HYPERVISOR_GUEST=y
-+CONFIG_PARAVIRT=y
-+CONFIG_HYPERV=y
-+CONFIG_HYPERV_VSOCKETS=y
-+CONFIG_PCI_HYPERV=y
-+CONFIG_PCI_HYPERV_INTERFACE=y
-+CONFIG_HYPERV_STORAGE=y
-+CONFIG_HYPERV_NET=y
-+CONFIG_HYPERV_KEYBOARD=y
-+CONFIG_FB_HYPERV=y
-+CONFIG_HID_HYPERV_MOUSE=y
-+CONFIG_HYPERV=y
-+CONFIG_HYPERV_TIMER=y
-+CONFIG_HYPERV_UTILS=y
-+CONFIG_HYPERV_BALLOON=y
-+CONFIG_HYPERV_IOMMU=y
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index ef2f2336c469..2ee46301b22e 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -104,6 +104,10 @@ PHONY += xenconfig
- xenconfig: xen.config
- 	@:
- 
-+PHONY += hvconfig
-+hvconfig: hv_guest.config
-+	@:
-+
- PHONY += tinyconfig
- tinyconfig:
- 	$(Q)$(MAKE) -f $(srctree)/Makefile allnoconfig tiny.config
-@@ -138,6 +142,7 @@ help:
- 	@echo  '                    default value without prompting'
- 	@echo  '  kvmconfig	  - Enable additional options for kvm guest kernel support'
- 	@echo  '  xenconfig       - Enable additional options for xen dom0 and guest kernel support'
-+	@echo  '  hvconfig        - Enable additional options for Hyper-V guest kernel support'
- 	@echo  '  tinyconfig	  - Configure the tiniest possible kernel'
- 	@echo  '  testconfig	  - Run Kconfig unit tests (requires python3 and pytest)'
- 
--- 
-2.20.1
+Jessica
 
