@@ -2,78 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8B2CD2AFF
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2019 15:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5FED2BBB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2019 15:51:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388161AbfJJNR5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Oct 2019 09:17:57 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:42718 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388126AbfJJNRn (ORCPT
+        id S1725909AbfJJNvP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Oct 2019 09:51:15 -0400
+Received: from smtp.domeneshop.no ([194.63.252.55]:60773 "EHLO
+        smtp.domeneshop.no" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725880AbfJJNvP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Oct 2019 09:17:43 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c10so4804844otd.9
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2019 06:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
-        b=kbDD0ETnfb+9T5ky4afnuU19WL5B3TgSTtrvr8/78l52RfSJ/bD7cjcm8C45XsJ4wr
-         kY8zUv/ms1sLDr56E/0rqAcpldgbTirzVsO1TqrlTRt5AL5IhxusLfWbWkCQZqSDApog
-         xVZixZPZF5pv+wD9wYHHFszyBuRJ0Z0/71+2E/SGgHwnMzv66/86w9uplcX1z0grTv9p
-         1TYZ7MtIagYr+hnMPgyspL8CH18dkY1RexU6NSgr6L6/lGHi7jHNMmmGOoiBuh2azqNd
-         aWHFVXbx5cxjkbX5kJe7PAp4IU2wf06fogqa+YoO9ylF7jna+POCU+xNsHXT6R2wFQg9
-         YqYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
-        b=ZSLQ8WvvGURhIT912sqB14oNWhEv6bEq0dQcnZ451IYSb1I3QeIZOnY6xsUypAZ357
-         uz1ZTnfihQddCdaEZ3PiM/cEYTvHTqSNrE6ViGqX4JFqRuVVGnRwvuz/gK0nJFY9AP4H
-         SX4LHWmFoi023b0GqhBzc2j7MT7m6tIgNVXZ5psIDJ3xQSt9FltaH454lWvf59GMPGPs
-         SmTqzZUrg0USUsC4yKUKONs/GvJHpIqM8xEL4fiQz47JpJ4o/2j7P+UGfOpl/mhPzx/N
-         Hq9a0nHfjtPIl0/8TYAMiY9JWcVvLikJf9miuh/6tMhxfnFVIdQt+3JGsll5EtmWlpSq
-         Ea2A==
-X-Gm-Message-State: APjAAAXFnsQH94qGGVfWc30fT+4k7hJk3mydfT1+KUVKBvs44ZGxP2E+
-        GSQYO6jPHDGSGamoXUJvUD7TGHdcHAp5BThWqln6
-X-Google-Smtp-Source: APXvYqwe5B6z/3dUuNDQtQ0n2oQYOsdY3HQR3dkIin1gqVhu0NNteov05tKzv4DhJBBR4bjK2RG7Phnj6WUHoBrkRYc=
-X-Received: by 2002:a05:6830:1103:: with SMTP id w3mr7909437otq.312.1570713462861;
- Thu, 10 Oct 2019 06:17:42 -0700 (PDT)
+        Thu, 10 Oct 2019 09:51:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+        ; s=ds201810; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Z9kT8deS5roy+K52zZTsn6tV5HXJkoAJ1yAla/8rmZU=; b=AcworK715AEXg5eIsIVd5jDN9O
+        9PJ+TZmcl1xkVfpSlXl+071b3lkDENK0W6/fevePDKMd2zFClxy1B+AAuBIK2/yDAEoNvqGm7XTg2
+        zvi768iIkqezp/ohhS9tyfEfrhI6dBtG+o4afnxOUH8ZnYyR2qeuv17yISXpu64CkYd/Hf8poQrb5
+        VZuZvyRiEaTtProqjGunHzXDrS8cSuscJAOlRazRz7IvTTwGhdFGDrOwBlaAKw+Ca+vbbv6eZJgRM
+        F+mhx8shxX/zzaMGDu5uPExZbH9YSYzJsd/YFWJgxCXtJ/x4kwz0MrNNB7d0nkZXaxhfcpJQndrxB
+        DG1+b2vA==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:58426 helo=[192.168.10.177])
+        by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.92)
+        (envelope-from <noralf@tronnes.org>)
+        id 1iIYqT-00083M-Tc; Thu, 10 Oct 2019 15:51:09 +0200
+Subject: Re: [PATCH] drm/tiny: Kconfig: Remove always-y THERMAL dep. from
+ TINYDRM_REPAPER
+From:   =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+To:     Ulf Magnusson <ulfalizer@gmail.com>, linux-kbuild@vger.kernel.org,
+        yamada.masahiro@socionext.com
+Cc:     david@lechnology.com, airlied@linux.ie,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        hdegoede@redhat.com, tglx@linutronix.de, sam@ravnborg.org,
+        Jason Gunthorpe <jgg@ziepe.ca>
+References: <20190927174218.GA32085@huvuddator>
+ <c3b41a7b-ef3b-7960-13a1-d4b8dd6f15b6@tronnes.org>
+Message-ID: <10f6225f-89c0-268e-8ef9-7a6b7c22e911@tronnes.org>
+Date:   Thu, 10 Oct 2019 15:51:06 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Received: by 2002:a4a:3346:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:17:41
- -0700 (PDT)
-Reply-To: sunrisefundingltd50@gmail.com
-From:   Valentina Yurina <v_yurina@ub.ac.id>
-Date:   Thu, 10 Oct 2019 14:17:41 +0100
-Message-ID: <CAKoEkvu4vc5Yn9-hzxQ5dYmUL=oO69=GSP0FC7O+CGz9Jni8+Q@mail.gmail.com>
-Subject: Apply For Financial investment at a lower rate 2%
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <c3b41a7b-ef3b-7960-13a1-d4b8dd6f15b6@tronnes.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--- 
-Hello,
 
-We are private lenders based in UK.
 
-Do you need a loan (credit) as soon as possible. Are you in search of
-money to solve your personal needs or finance your business venture,
-then get Your desired loan today! Consult us at Sunrise Funding Ltd.
+Den 01.10.2019 12.58, skrev Noralf Trønnes:
+> 
+> 
+> Den 27.09.2019 19.42, skrev Ulf Magnusson:
+>> Commit 554b3529fe01 ("thermal/drivers/core: Remove the module Kconfig's
+>> option") changed the type of THERMAL from tristate to bool, so
+>> THERMAL || !THERMAL is now always y. Remove the redundant dependency.
+>>
+>> Discovered through Kconfiglib detecting a dependency loop. The C tools
+>> simplify the expression to y before running dependency loop detection,
+>> and so don't see it. Changing the type of THERMAL back to tristate makes
+>> the C tools detect the same loop.
+>>
+>> Not sure if running dep. loop detection after simplification can be
+>> called a bug. Fixing this nit unbreaks Kconfiglib on the kernel at
+>> least.
+>>
+>> Signed-off-by: Ulf Magnusson <ulfalizer@gmail.com>
+>> ---
+> 
+> Thanks, applied to drm-misc-next.
+> 
 
-* We offer personal loan & huge capital loan at 2% interest rate to
-the general public both locally and internationally.
-* Credit amount range from $5,000.00 -- $500,000.00 and above.
-* Special $10,000,000.00 Loan offer for huge project also available.
-* Loan period of 6 months -- 10 years.
-* Loan is granted 24 hours after approval and accredited, directly in
-hand or bank account.
+This has now been queued for the next -rc pull.
 
-Please note that you are advised to contact us for more details via
-the following e-mail address below;
+Discussion: https://patchwork.freedesktop.org/patch/319826/
 
-EMAIL : sunrisefundingltd50@gmail.com
-FIRM : Sunrise Funding Ltd UK.
+Noralf.
