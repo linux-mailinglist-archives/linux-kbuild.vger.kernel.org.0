@@ -2,147 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B96D1220
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Oct 2019 17:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B2CD2AFF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2019 15:18:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730503AbfJIPKi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 9 Oct 2019 11:10:38 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58901 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729471AbfJIPKi (ORCPT
+        id S2388161AbfJJNR5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Oct 2019 09:17:57 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42718 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388126AbfJJNRn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 9 Oct 2019 11:10:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1570633836;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=eHwEpktLjemhDVWBTEE5wdMKU4jlPm/MsrXeEwc5KjE=;
-        b=ehbu/UktkMgwKzSVo0JIOcQfodzaxKrFZa8lTwLxkDz1mHawLGeFjZS7T42LeoUmhVBinO
-        EIAc8Cqb0SXPk/vXqxDrzN5YlV+KhIrL1Rc7nkLeJUvsIB1YUBCRdZwhiGjnIx6FuWV3VR
-        4pSrzFUm28AGr06Jt0+ibf9ZlbgypSU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-xBrLKXIXOzSJW0RmjaB7Wg-1; Wed, 09 Oct 2019 11:10:34 -0400
-Received: by mail-wm1-f70.google.com with SMTP id 4so797769wmj.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 09 Oct 2019 08:10:34 -0700 (PDT)
+        Thu, 10 Oct 2019 09:17:43 -0400
+Received: by mail-ot1-f65.google.com with SMTP id c10so4804844otd.9
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2019 06:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ub-ac-id.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=kbDD0ETnfb+9T5ky4afnuU19WL5B3TgSTtrvr8/78l52RfSJ/bD7cjcm8C45XsJ4wr
+         kY8zUv/ms1sLDr56E/0rqAcpldgbTirzVsO1TqrlTRt5AL5IhxusLfWbWkCQZqSDApog
+         xVZixZPZF5pv+wD9wYHHFszyBuRJ0Z0/71+2E/SGgHwnMzv66/86w9uplcX1z0grTv9p
+         1TYZ7MtIagYr+hnMPgyspL8CH18dkY1RexU6NSgr6L6/lGHi7jHNMmmGOoiBuh2azqNd
+         aWHFVXbx5cxjkbX5kJe7PAp4IU2wf06fogqa+YoO9ylF7jna+POCU+xNsHXT6R2wFQg9
+         YqYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LxNQTZ3YeufmomqfUHsgwjNWfLwpx4ZrPxKfNiHSTCQ=;
-        b=j3e1kEWu9sQIfEw1ajIaE/frA4wmkptyuFGjWWtHDDowhKgeTxzeAIU1PSISlWumqT
-         WIiQQ2NHqQxIgMy+pZU6BcUhs8+uS34gPqragTrFG7qElpi2bE0jjuIqVy+4TeznOlA1
-         xZ+iJrPM1M5XR3TZV6gKRB+OblRzKlFFZiOPwnOF1gJFfJse1uKRM9uZ5oZ0EGhhkuug
-         TfitpJyup2c98M4u0hGazuYi+vYbagisF7s91OdfmKE9AtRYprn2gmeeMcSjL3L4ziGM
-         SG2/fGaHBbk+ROB/viE1ujH2dXfvs2DkLyQzSXqwzSbvhTc0bL7sAzxnF6/Pn4HCBhRP
-         b+KA==
-X-Gm-Message-State: APjAAAVNfUrCtqRZnB7se9XSbNRZffksEbVQ2w3n5OVJf9KMNo+22bQ1
-        s9DKdZ0qdadaEYea7JC/0ymODhKM1Hbymi1tJ052Va+OaL54VJa9IAcqxUSa11I4bxTMGrXwove
-        MLrB2lLu3BPSF1sw6qtSjpn1k
-X-Received: by 2002:a1c:a651:: with SMTP id p78mr3091153wme.53.1570633832722;
-        Wed, 09 Oct 2019 08:10:32 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy2DKfpiOa0gDYGVHcI1QGzExxF+RjY57g4EvetJOtB+5T4xjb1JbF4tMF5HPiOYyOdwRBr+Q==
-X-Received: by 2002:a1c:a651:: with SMTP id p78mr3091130wme.53.1570633832474;
-        Wed, 09 Oct 2019 08:10:32 -0700 (PDT)
-Received: from mcroce-redhat.mxp.redhat.com (nat-pool-mxp-t.redhat.com. [149.6.153.186])
-        by smtp.gmail.com with ESMTPSA id e3sm2708136wme.39.2019.10.09.08.10.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 08:10:31 -0700 (PDT)
-From:   Matteo Croce <mcroce@redhat.com>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: Add make dir-pkg build option
-Date:   Wed,  9 Oct 2019 17:10:19 +0200
-Message-Id: <20191009151019.13488-1-mcroce@redhat.com>
-X-Mailer: git-send-email 2.21.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=QTZIdVmjWEaVgfwGRupI4vAqJVGET3VIX90hz2R16m0=;
+        b=ZSLQ8WvvGURhIT912sqB14oNWhEv6bEq0dQcnZ451IYSb1I3QeIZOnY6xsUypAZ357
+         uz1ZTnfihQddCdaEZ3PiM/cEYTvHTqSNrE6ViGqX4JFqRuVVGnRwvuz/gK0nJFY9AP4H
+         SX4LHWmFoi023b0GqhBzc2j7MT7m6tIgNVXZ5psIDJ3xQSt9FltaH454lWvf59GMPGPs
+         SmTqzZUrg0USUsC4yKUKONs/GvJHpIqM8xEL4fiQz47JpJ4o/2j7P+UGfOpl/mhPzx/N
+         Hq9a0nHfjtPIl0/8TYAMiY9JWcVvLikJf9miuh/6tMhxfnFVIdQt+3JGsll5EtmWlpSq
+         Ea2A==
+X-Gm-Message-State: APjAAAXFnsQH94qGGVfWc30fT+4k7hJk3mydfT1+KUVKBvs44ZGxP2E+
+        GSQYO6jPHDGSGamoXUJvUD7TGHdcHAp5BThWqln6
+X-Google-Smtp-Source: APXvYqwe5B6z/3dUuNDQtQ0n2oQYOsdY3HQR3dkIin1gqVhu0NNteov05tKzv4DhJBBR4bjK2RG7Phnj6WUHoBrkRYc=
+X-Received: by 2002:a05:6830:1103:: with SMTP id w3mr7909437otq.312.1570713462861;
+ Thu, 10 Oct 2019 06:17:42 -0700 (PDT)
 MIME-Version: 1.0
-X-MC-Unique: xBrLKXIXOzSJW0RmjaB7Wg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:a4a:3346:0:0:0:0:0 with HTTP; Thu, 10 Oct 2019 06:17:41
+ -0700 (PDT)
+Reply-To: sunrisefundingltd50@gmail.com
+From:   Valentina Yurina <v_yurina@ub.ac.id>
+Date:   Thu, 10 Oct 2019 14:17:41 +0100
+Message-ID: <CAKoEkvu4vc5Yn9-hzxQ5dYmUL=oO69=GSP0FC7O+CGz9Jni8+Q@mail.gmail.com>
+Subject: Apply For Financial investment at a lower rate 2%
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add a 'dir-pkg' target which just creates the same directory structures
-as in tar-pkg, but doesn't package anything.
-Useful when the user wants to copy the kernel tree on a machine using
-ssh, rsync or whatever.
+-- 
+Hello,
 
-Signed-off-by: Matteo Croce <mcroce@redhat.com>
----
- scripts/Makefile.package | 3 ++-
- scripts/package/buildtar | 9 +++++++--
- 2 files changed, 9 insertions(+), 3 deletions(-)
+We are private lenders based in UK.
 
-diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-index 56eadcc48d46..36600ad1d5e6 100644
---- a/scripts/Makefile.package
-+++ b/scripts/Makefile.package
-@@ -103,7 +103,7 @@ snap-pkg:
-=20
- # tarball targets
- # ------------------------------------------------------------------------=
----
--tar-pkgs :=3D tar-pkg targz-pkg tarbz2-pkg tarxz-pkg
-+tar-pkgs :=3D dir-pkg tar-pkg targz-pkg tarbz2-pkg tarxz-pkg
- PHONY +=3D $(tar-pkgs)
- $(tar-pkgs):
- =09$(MAKE) -f $(srctree)/Makefile
-@@ -147,6 +147,7 @@ help:
- =09@echo '  deb-pkg             - Build both source and binary deb kernel =
-packages'
- =09@echo '  bindeb-pkg          - Build only the binary kernel deb package=
-'
- =09@echo '  snap-pkg            - Build only the binary kernel snap packag=
-e (will connect to external hosts)'
-+=09@echo '  dir-pkg             - Build the kernel as a plain directory st=
-ructure'
- =09@echo '  tar-pkg             - Build the kernel as an uncompressed tarb=
-all'
- =09@echo '  targz-pkg           - Build the kernel as a gzip compressed ta=
-rball'
- =09@echo '  tarbz2-pkg          - Build the kernel as a bzip2 compressed t=
-arball'
-diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-index 2f66c81e4021..ca283079f652 100755
---- a/scripts/package/buildtar
-+++ b/scripts/package/buildtar
-@@ -2,7 +2,7 @@
- # SPDX-License-Identifier: GPL-2.0
-=20
- #
--# buildtar 0.0.4
-+# buildtar 0.0.5
- #
- # (C) 2004-2006 by Jan-Benedict Glaw <jbglaw@lug-owl.de>
- #
-@@ -24,7 +24,7 @@ tarball=3D"${objtree}/linux-${KERNELRELEASE}-${ARCH}.tar"
- # Figure out how to compress, if requested at all
- #
- case "${1}" in
--=09tar-pkg)
-+=09dir-pkg|tar-pkg)
- =09=09opts=3D
- =09=09;;
- =09targz-pkg)
-@@ -133,6 +133,11 @@ if tar --owner=3Droot --group=3Droot --help >/dev/null=
- 2>&1; then
- =09opts=3D"$opts --owner=3Droot --group=3Droot"
- fi
-=20
-+if [ "${1}" =3D dir-pkg ]; then
-+=09echo "Kernel tree successfully created in $tmpdir"
-+=09exit 0
-+fi
-+
- tar cf $tarball -C $tmpdir $opts $dirs
-=20
- echo "Tarball successfully created in $tarball"
---=20
-2.21.0
+Do you need a loan (credit) as soon as possible. Are you in search of
+money to solve your personal needs or finance your business venture,
+then get Your desired loan today! Consult us at Sunrise Funding Ltd.
 
+* We offer personal loan & huge capital loan at 2% interest rate to
+the general public both locally and internationally.
+* Credit amount range from $5,000.00 -- $500,000.00 and above.
+* Special $10,000,000.00 Loan offer for huge project also available.
+* Loan period of 6 months -- 10 years.
+* Loan is granted 24 hours after approval and accredited, directly in
+hand or bank account.
+
+Please note that you are advised to contact us for more details via
+the following e-mail address below;
+
+EMAIL : sunrisefundingltd50@gmail.com
+FIRM : Sunrise Funding Ltd UK.
