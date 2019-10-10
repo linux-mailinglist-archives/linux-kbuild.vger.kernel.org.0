@@ -2,49 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A70CBD2D77
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2019 17:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 849C7D2D6C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2019 17:16:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfJJPQV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Oct 2019 11:16:21 -0400
-Received: from mail-wr1-f73.google.com ([209.85.221.73]:50413 "EHLO
-        mail-wr1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbfJJPQE (ORCPT
+        id S1726489AbfJJPQG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Oct 2019 11:16:06 -0400
+Received: from mail-wm1-f74.google.com ([209.85.128.74]:40408 "EHLO
+        mail-wm1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726457AbfJJPQF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Oct 2019 11:16:04 -0400
-Received: by mail-wr1-f73.google.com with SMTP id m14so2889081wru.17
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2019 08:16:01 -0700 (PDT)
+        Thu, 10 Oct 2019 11:16:05 -0400
+Received: by mail-wm1-f74.google.com with SMTP id o188so2758783wmo.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2019 08:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=JnBEaa7F8Z1V9KqywKFqf8fBJ0Vr9PkxAfCT13jnqaQ=;
-        b=kA+xAflPHKMcLMO5k9wA/HehdrDX5OsKjvfma+dSuS5w5OCjt7m5C+NemNQE92jyGX
-         M/CfDXDNzsHeOgCVJcnVy/1k0/jX2uELIQXIeMpNmEVujtMFX3eupGCcm6dhitH1hex3
-         ecrGxAA5LqqPYGkfdm8/eRjdLcBgiZVmUY2CSjp6JXAT5HDCxpddQRXy9VEFOa0wbPdl
-         IshkWWXJTh6D9tzHW463e0x7Nk70qZKfyFgQP6XMx9NPv9r9eY78pfEEqohIWBK2XNEm
-         71a+eWSitDIhUBPCc6iHAIz7cGPDozth7RjZM9Xy+SMcVHpOdYScSdfrw16lsRIiDCHC
-         e4Ig==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=IzMPe/tjamSa0KLYQxTKRfMo0szpHPyKHH63Rc8COQE=;
+        b=CEhsoKqb1NUOR2q9K12j5UZX10yW1wI2M3yPsx7L52TxlBGNCNvfJ8OpKpFeodUWNO
+         A8V/AN3q5wNrJ4f2inCZFsdFJRT8MoUDRp4LP77DqdmmB5/2jnF0zZMk1UzqK9rmTIZN
+         7fQFJyk6lzYIeOtWenG5f9RdXOyf5j6OrG914HRXCGVMNAOZURmjzdtQkUvdMfdy3Wq1
+         9/iZ0Yap9Hol6k0NlLwvulKLYBo3qG7C9XQzwpqGYI0RZmuzQZXQvkhOtKJ4yXwrpHgi
+         D1uQQmY72bE6vHjTxMJalR8KGShZmbyMybxZQDzfEsFjGhTX15OtTM3Ol9doWeF1+ihk
+         x69Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=JnBEaa7F8Z1V9KqywKFqf8fBJ0Vr9PkxAfCT13jnqaQ=;
-        b=UwuX6gSvIhnmu5SlcsTVT5Jc8E06owtK3a5JOZywTGHt1dMt7nFGcrnwJbhrPD/nMB
-         ptx2iwosHdUvG6oPr/aQpvHYrGJozGUs1oFCUfLAGEcnTBIPhIp3ZC/BdZl1uJF2mmcC
-         4YQrPW99uKE4rxDO59Ka79Tk+N+Tw7FyiZSEvNLbIaSql19keegNceJU2naHp0xLMe5l
-         OV5DMYcousyGjyjuuzIMnQXqDw7uEIh6mia64kAKgqzIxMrUzTxn6zDaDdPgVPUPpDNb
-         04feB96PyImDBXx352oCYLQJZTkVMYjvnZsqvt3d2/4dN+rB68O1Zrc/RSCSKUVbFu9B
-         Wnwg==
-X-Gm-Message-State: APjAAAUn6TlXCEuM1LwArx98IsjG+6hKmLauS+aRXmZ9eGMlKgci0NR9
-        EDXj2RtP1b1WeL9LR7jFREHHFkJB7W5DHA==
-X-Google-Smtp-Source: APXvYqwOmCBOUOIBgrU0mWLmDOajyzh9Ms93budV/do9YlhAoyu8eBu9ca2BMeneC59qTz+1zYNOUzJb0OX4vA==
-X-Received: by 2002:a05:6000:1cb:: with SMTP id t11mr8717075wrx.144.1570720560652;
- Thu, 10 Oct 2019 08:16:00 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 16:14:39 +0100
-Message-Id: <20191010151443.7399-1-maennich@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=IzMPe/tjamSa0KLYQxTKRfMo0szpHPyKHH63Rc8COQE=;
+        b=OjV/KGlfBYFXKu9fjeG4Ji/YDeASmrUIA60MmfjwXZ+L4lrO+3DhaiMDEL5cXEtKbl
+         nN1i4PHl/PFZKwxFuXtFXF63aAfcZoyMDGLaWW6QyO5MALmPbYCDqeScm47VG+yV5E1j
+         YkQevWoHcj4L04cNkpv8WoxftJVdJYQ/yBDHrQVrXsEiyUe/PdhlgQ8PLbYYKJ2Yz0t/
+         dJzcZArFZSdTzVVjwWe+8CEHNDXc9lAuJgV7P/6W2dpbGOS3rgJrxVsoD2CYApsSJFdw
+         hUzolbSRFzz9JhjrQVYGt3V+ba6SFQpK5utHfQktv9Nt1jz0J8NRWgFC6PqdRligUxxx
+         kXnw==
+X-Gm-Message-State: APjAAAUUV/xKqkVxR43oOz8xcYpO/JdfNFJUMPPDtKVpVSzluTurVRd7
+        6mdZ+GjJwfzw9/5of7BqOPxdJcQ1jNd02A==
+X-Google-Smtp-Source: APXvYqxUFrO45AenqhkUTcZaTxun64DQq7V5a8YzdTqBy7fIUjqZPr6+DetwheUXxVd12BKdJKq68KIhnd9B1w==
+X-Received: by 2002:adf:9cca:: with SMTP id h10mr8720719wre.339.1570720563350;
+ Thu, 10 Oct 2019 08:16:03 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 16:14:40 +0100
+In-Reply-To: <20191010151443.7399-1-maennich@google.com>
+Message-Id: <20191010151443.7399-2-maennich@google.com>
 Mime-Version: 1.0
+References: <20191010151443.7399-1-maennich@google.com>
 X-Mailer: git-send-email 2.23.0.581.g78d2f28ef7-goog
-Subject: [PATCH 0/4] export/modpost: avoid renaming __ksymtab entries for
- symbol namespaces
+Subject: [PATCH 1/4] modpost: delegate updating namespaces to separate function
 From:   Matthias Maennich <maennich@google.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     kernel-team@android.com, maennich@google.com,
@@ -62,55 +65,71 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The introduction of the symbol namespace patches changed the way symbols are
-named in the ksymtab entries. That caused userland tools to fail (such as
-kmod's depmod). As depmod is used as part of the kernel build it was worth
-having another look whether this name change can be avoided.
+Let the function 'sym_update_namespace' take care of updating the
+namespace for a symbol. While this currently only replaces one single
+location where namespaces are updated, in a following patch, this
+function will get more call sites.
 
-The main purpose of this series is to restore the original ksymtab entry names.
-For that to happen and to remove some rough edges around that, the relevant
-parts in modpost got a small refactoring as to when and how namespaces are
-evaluated and set in the symbol struct.
+The function signature is intentionally close to sym_update_crc and
+taking the name by char* seems like unnecessary work as the symbol has
+to be looked up again. In a later patch of this series, this concern
+will be addressed.
 
-Eventually, the namespace values can be read from __kstrtabns_ entries and
-their corresponding __ksymtab_strings values. That removes the need to carry
-the namespace names within the (anyway unique) symbol name entries.
+This function ensures that symbol::namespace is either NULL or has a
+valid non-empty value. Previously, the empty string was considered 'no
+namespace' as well and this lead to confusion.
 
-The last patch of this series is adopted from Masahiro [1]. By allowing 'no
-namespace' to be represented as empty string, large chunks of
-include/linux/export.h could be consolidated. Technically, this last patch is
-not absolutely necessary to fix functionality. It addresses concerns about
-maintainability and readability. While I strongly suggest sending all of the
-patches for 5.4, the last one could possible deferred to the next merge window.
+Signed-off-by: Matthias Maennich <maennich@google.com>
+---
+ scripts/mod/modpost.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-This patch applies to the modules-linus [2] branch.
-
-[1] https://lore.kernel.org/lkml/20190927093603.9140-5-yamada.masahiro@socionext.com/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/jeyu/linux.git/log/?h=modules-linus
-
-Cc: Jessica Yu <jeyu@kernel.org>
-Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc: Martijn Coenen <maco@android.com>
-Cc: Lucas De Marchi <lucas.de.marchi@gmail.com>
-Cc: Shaun Ruffell <sruffell@sruffell.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: linux-kbuild@vger.kernel.org
-Cc: linux-modules@vger.kernel.org
-
-
-Matthias Maennich (4):
-  modpost: delegate updating namespaces to separate function
-  modpost: make updating the symbol namespace explict
-  symbol namespaces: revert to previous __ksymtab name scheme
-  export: avoid code duplication in include/linux/export.h
-
- include/linux/export.h | 97 +++++++++++++-----------------------------
- kernel/module.c        |  2 +-
- scripts/mod/modpost.c  | 58 ++++++++++++++++---------
- scripts/mod/modpost.h  |  1 +
- 4 files changed, 69 insertions(+), 89 deletions(-)
-
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 4d2cdb4d71e3..9f5dcdff4d2f 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -362,6 +362,22 @@ static char *sym_extract_namespace(const char **symname)
+ 	return namespace;
+ }
+ 
++static void sym_update_namespace(const char *symname, const char *namespace)
++{
++       struct symbol *s = find_symbol(symname);
++       /* That symbol should have been created earlier and thus this is
++        * actually an assertion. */
++       if (!s) {
++               merror("Could not update namespace(%s) for symbol %s\n",
++                      namespace, symname);
++               return;
++       }
++
++       free(s->namespace);
++       s->namespace =
++	       namespace && namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
++}
++
+ /**
+  * Add an exported symbol - it may have already been added without a
+  * CRC, in this case just update the CRC
+@@ -383,8 +399,7 @@ static struct symbol *sym_add_exported(const char *name, const char *namespace,
+ 			s->module = mod;
+ 		}
+ 	}
+-	free(s->namespace);
+-	s->namespace = namespace ? strdup(namespace) : NULL;
++	sym_update_namespace(name, namespace);
+ 	s->preloaded = 0;
+ 	s->vmlinux   = is_vmlinux(mod->name);
+ 	s->kernel    = 0;
+@@ -2196,7 +2211,7 @@ static int check_exports(struct module *mod)
+ 		else
+ 			basename = mod->name;
+ 
+-		if (exp->namespace && exp->namespace[0]) {
++		if (exp->namespace) {
+ 			add_namespace(&mod->required_namespaces,
+ 				      exp->namespace);
+ 
 -- 
 2.23.0.581.g78d2f28ef7-goog
 
