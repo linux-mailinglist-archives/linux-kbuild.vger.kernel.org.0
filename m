@@ -2,139 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3E3FD39E1
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2019 09:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51EEFD42BC
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2019 16:24:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727163AbfJKHQH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Oct 2019 03:16:07 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:40401 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726679AbfJKHQH (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Oct 2019 03:16:07 -0400
-Received: by mail-pf1-f195.google.com with SMTP id x127so5525248pfb.7
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Oct 2019 00:16:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=V2YeVd0ZQDnILsHdTo7UizlzxsyScrZO6AxEn8H8xl4=;
-        b=pYxr2R1+zti17xvAKqQhe7JNlHgQHSJcJRpz4cWvMQXtNphBU9jGA7UU5I7KbnoWOJ
-         85VDAk1zYJkT224yndmTQez3GW1evPuwZZG8GmZF9pKAF902onvdeZw5JfjDFYKo3GTQ
-         VhDQUTo/SBW7pnbk06KpFUAnQPsfmBlGdX8ZHGlzEnnz6/kN2SKuWwIIONW3ynBC1eA8
-         ZdOCxPE0UHgmpUoGNrILiIdsw1CzNnXT95UyEOzoqZwrxaOWv2TnBu02WYdFjHl/IghV
-         43qFY5sJc7xSyUZ+d7ANr2iOe7GbQPDuVaNpb+HmKegztsb0PWoK8Okb7EoK5ghWPyYS
-         JoMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=V2YeVd0ZQDnILsHdTo7UizlzxsyScrZO6AxEn8H8xl4=;
-        b=DdUHlGMW357TaYRYiaNtAG7A64/4ie1desIdV1MXgkOisYETq7dMe/6lybjShAJ/+6
-         lKRPG59EGmA8FBq9NGsf6EsFhWr+SyF7nhPaEncf+Ws8ZHei0T2VbLROFZ8iApnLBcRp
-         YAbb31IDBP4/8US/MJWNVIfaBsHluadQyB48twIsQQ2tEG9KiNl0kiSOPptvkm5lxS9C
-         Qz+/yblhw5WOky427M4JAJHljTYpEXU1wNcvbNShj/QfERNhWHXkLyeyIyBKPLemYidx
-         KaL4COP1pxuimW+JrY24ouPqGQDwYZ1cfpqnvwZ03VEYKaIOeQZhBJzA7R0S9l08BRxl
-         LhLA==
-X-Gm-Message-State: APjAAAVwCQ+imJvmay8NvcCrd6yrdfv5wD0QKGhqe7ITKVQqs8wLz1GF
-        gIK2Ve4D0zupCbmQUCNaZ9XvADP3iMOTEA==
-X-Google-Smtp-Source: APXvYqwhGapWCrOYvu7HSsIgeuTYePQx4stQ7RqwIgyBJPiAK0WC5XuTgenY/kcZofEr1kRNH8BYhg==
-X-Received: by 2002:a62:8305:: with SMTP id h5mr14945204pfe.176.1570778166168;
-        Fri, 11 Oct 2019 00:16:06 -0700 (PDT)
-Received: from Gentoo.localdomain ([103.231.91.69])
-        by smtp.gmail.com with ESMTPSA id j16sm6892442pje.6.2019.10.11.00.16.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Oct 2019 00:16:05 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     linux-kbuild@vger.kernel.org, yamada.masahiro@socionext.com,
-        michal.lkml@markovi.net
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] fix shell syntax
-Date:   Fri, 11 Oct 2019 12:35:40 +0530
-Message-Id: <20191011070539.25908-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <linux-kbuild@vger.kernel.org , yamada.masahiro@socionext.com , michal.lkml@markovi.net>
-References: <linux-kbuild@vger.kernel.org , yamada.masahiro@socionext.com , michal.lkml@markovi.net>
+        id S1728153AbfJKOYd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Oct 2019 10:24:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728068AbfJKOYd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 11 Oct 2019 10:24:33 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 97B4F206A1;
+        Fri, 11 Oct 2019 14:24:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570803872;
+        bh=QAb4bxoTz2iQy8IO0iLYwBX2ij2Bqz40OXibaGp0LAE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uiM7sMCFSjxUZ8NgAbCBCUdtgurhfH0Ka5EmsYcs/zeD7OGnInylw6oUN60nffJ1n
+         0FqG46kIjiBOagecYOUMvejBlvompnZuw6xAu4X+92OWzdCnyhWPNa29+nFj5+MbeD
+         2AaDOlzJArudhaSe7jQZKduYIke8HXwRBQrp4ET8=
+Date:   Fri, 11 Oct 2019 15:24:27 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Matthias Maennich <maennich@google.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Martijn Coenen <maco@android.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Shaun Ruffell <sruffell@sruffell.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org
+Subject: Re: [PATCH 1/4] modpost: delegate updating namespaces to separate
+ function
+Message-ID: <20191011142426.vwfhw4dtyy4nfzkv@willie-the-truck>
+References: <20191010151443.7399-1-maennich@google.com>
+ <20191010151443.7399-2-maennich@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191010151443.7399-2-maennich@google.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- scripts/setlocalversion | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+On Thu, Oct 10, 2019 at 04:14:40PM +0100, Matthias Maennich wrote:
+> Let the function 'sym_update_namespace' take care of updating the
+> namespace for a symbol. While this currently only replaces one single
+> location where namespaces are updated, in a following patch, this
+> function will get more call sites.
+> 
+> The function signature is intentionally close to sym_update_crc and
+> taking the name by char* seems like unnecessary work as the symbol has
+> to be looked up again. In a later patch of this series, this concern
+> will be addressed.
+> 
+> This function ensures that symbol::namespace is either NULL or has a
+> valid non-empty value. Previously, the empty string was considered 'no
+> namespace' as well and this lead to confusion.
+> 
+> Signed-off-by: Matthias Maennich <maennich@google.com>
+> ---
+>  scripts/mod/modpost.c | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 4d2cdb4d71e3..9f5dcdff4d2f 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -362,6 +362,22 @@ static char *sym_extract_namespace(const char **symname)
+>  	return namespace;
+>  }
+>  
+> +static void sym_update_namespace(const char *symname, const char *namespace)
+> +{
+> +       struct symbol *s = find_symbol(symname);
+> +       /* That symbol should have been created earlier and thus this is
+> +        * actually an assertion. */
+> +       if (!s) {
+> +               merror("Could not update namespace(%s) for symbol %s\n",
+> +                      namespace, symname);
+> +               return;
+> +       }
+> +
+> +       free(s->namespace);
+> +       s->namespace =
+> +	       namespace && namespace[0] ? NOFAIL(strdup(namespace)) : NULL;
+> +}
 
-diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index 220dae0db3f1..b82a29bfc78a 100755
---- a/scripts/setlocalversion
-+++ b/scripts/setlocalversion
-@@ -45,11 +45,11 @@ scm_version()
- 
- 	# Check for git and a git repo.
- 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
--	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
-+		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
- 
- 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
- 		# it, because this version is defined in the top level Makefile.
--		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
-+		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
- 
- 			# If only the short version is requested, don't bother
- 			# running further git commands
-@@ -59,7 +59,7 @@ scm_version()
- 			fi
- 			# If we are past a tagged commit (like
- 			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
--			if atag="`git describe 2>/dev/null`"; then
-+			if atag="$(git describe 2>/dev/null)"; then
- 				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
- 
- 			# If we don't have a tag at all we print -g{commitish}.
-@@ -70,7 +70,7 @@ scm_version()
- 
- 		# Is this git on svn?
- 		if git config --get svn-remote.svn.url >/dev/null; then
--			printf -- '-svn%s' "`git svn find-rev $head`"
-+			printf -- '-svn%s' "$(git svn find-rev $head)"
- 		fi
- 
- 		# Check for uncommitted changes.
-@@ -91,15 +91,15 @@ scm_version()
- 	fi
- 
- 	# Check for mercurial and a mercurial repo.
--	if test -d .hg && hgid=`hg id 2>/dev/null`; then
-+	if test -d .hg && hgid=$(hg id 2>/dev/null); then
- 		# Do we have an tagged version?  If so, latesttagdistance == 1
--		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
--			id=`hg log -r . --template '{latesttag}'`
-+		if [ "$(hg log -r . --template '{latesttagdistance}')" == "1" ]; then
-+			id=$(hg log -r . --template '{latesttag}')
- 			printf '%s%s' -hg "$id"
- 		else
--			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
-+			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
- 			if [ -z "$tag" -o "$tag" = tip ]; then
--				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
-+				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
- 				printf '%s%s' -hg "$id"
- 			fi
- 		fi
-@@ -115,8 +115,8 @@ scm_version()
- 	fi
- 
- 	# Check for svn and a svn repo.
--	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
--		rev=`echo $rev | awk '{print $NF}'`
-+	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
-+		rev=$(echo $rev | awk '{print $NF}')
- 		printf -- '-svn%s' "$rev"
- 
- 		# All done with svn
--- 
-2.21.0
+You made me look up C operator precedence again, but it's fine so:
 
+Acked-by: Will Deacon <will@kernel.org>
+
+Will
