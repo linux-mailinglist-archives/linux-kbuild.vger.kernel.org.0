@@ -2,110 +2,147 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6460BD44A4
-	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2019 17:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C38FD4A6C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2019 00:38:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727709AbfJKPnR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Oct 2019 11:43:17 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36156 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727399AbfJKPnP (ORCPT
+        id S1726781AbfJKWiQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Oct 2019 18:38:16 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60240 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726642AbfJKWiQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Oct 2019 11:43:15 -0400
-Received: by mail-wm1-f65.google.com with SMTP id m18so10688631wmc.1
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Oct 2019 08:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=IkvpMa/Wbpx2VqhnGR9Yn3NTs6llmrr8FmiZZgZjer8=;
-        b=X3vZDG8yiduvmHkrBKdm66t60S2SmVt7Hj4fmdcMZ9LRkp8FNQ5jAnkRGJf8POzXRn
-         ZEPrUuEA3sjz31G7Y9MBGEg7tTqpLOgVdDXqiEMfgQqhoQdd6vB1WyxWmXPJM+K0yepf
-         ftDr+itzH0IsdPAiGU6jnb9Rp1PjWD57efySuYo06Y4A8D/xpLj+zhfX9ZXdovaI3IN6
-         dBzcy/EDVFQj7UDYNh325+ZdIyxnami4RvpcuTMpwIkaw2j4OYAfXqTA6DXki7NbT/Uw
-         2Dfml6WB1+tx2UD8EtcC+pFFiDQSfgST/KKkzypSFFKVKwOOhG+HvaNXU1oKtc4fkeIx
-         dNGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=IkvpMa/Wbpx2VqhnGR9Yn3NTs6llmrr8FmiZZgZjer8=;
-        b=OF0SBsfWF7taiwLAQxRP37aQUkCPPyQtFWuuX/UNrmT/jUXiSk7c8AEDsRH6++uyNs
-         LmE9QxXXTQ2PdvHhw3OtKAIeH+fESCHRi2Ns1cgAdMEY+6fNDoPbritqncnjBX4TEcjt
-         /P2jcPXopAIhBEcuEG4TaV4dahAfTIkGTdsNhMAE5kd9ffvZgkM/Vgj1z8UnWpIRa+uk
-         uWNJHHQusYZLRtyDP5VxPU4dk9SlmTahosZs7AFPnAxIp5GGDji6ISTkHQ0OeH43qBmD
-         ruaCWtFp2PURXQp+8e7ea8bM0vuEUZuspzoclxvVhE+ucTWz50w62FUkU6elEe5N5NgM
-         Xqig==
-X-Gm-Message-State: APjAAAXRxBwBXqi5bW5ncIwnvve/soF8TBA/dRWb0XIbhRKyZrJzApNY
-        E55KzCoqiL/eLshQX8jQFv+M+Q==
-X-Google-Smtp-Source: APXvYqxt3UXygeXinwIg1evC6ymRhLH+w7/H5e3CEQMemZD1O0osIhi1XeCl3mzp06xPlgUPPoUUnA==
-X-Received: by 2002:a1c:6a05:: with SMTP id f5mr3785533wmc.121.1570808592952;
-        Fri, 11 Oct 2019 08:43:12 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id r2sm13732272wrm.3.2019.10.11.08.43.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 08:43:11 -0700 (PDT)
-Date:   Fri, 11 Oct 2019 16:43:11 +0100
-From:   Matthias Maennich <maennich@google.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Jessica Yu <jeyu@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Martijn Coenen <maco@android.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Shaun Ruffell <sruffell@sruffell.net>,
-        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-modules@vger.kernel.org,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 4/4] export: avoid code duplication in
- include/linux/export.h
-Message-ID: <20191011154311.GA192647@google.com>
-References: <20191010151443.7399-1-maennich@google.com>
- <20191010151443.7399-5-maennich@google.com>
- <20191011153127.GA1283883@kroah.com>
+        Fri, 11 Oct 2019 18:38:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:
+        Subject:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=BGXFkV1G+i7gDMgQQFrP+fGdyRlBi0CXFz2JBNuUpRc=; b=s1pbxNe7/HVbfmcBr3O9LwonO
+        rLyQim38Z0JiB8rmogVYZR9DEryWeqw7FiZKaqtYRlZDgNEQGqtSEOxcvlzx5RzKVaS+HS9ivjaUD
+        bd5PaaIEtqwb6OZ1WaYuMpiVQa55sS5zyh6ULAlZ07V9GX+xdrF5bfE1QhR1rG9l0XxkJ801QcwMS
+        DuywN67E1A+zNMMOLSTzFl6AeHgCjzu2txjOXDQk2GQty6sMEuOO8oZa+itm4+822m0CmqTHJToFx
+        utd/UTKRw5iUJJV2YTJA6ucuSBy7c3yv1la4ebY1uhm3Tbrg9sug1kR7ngi8TqYsgxm7ZUf+Po94U
+        hhInvSqfQ==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iJ3Y6-0003Ad-Pd; Fri, 11 Oct 2019 22:38:14 +0000
+Subject: Re: [PATCH] fix shell syntax
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        linux-kbuild@vger.kernel.org, yamada.masahiro@socionext.com,
+        michal.lkml@markovi.net
+References: <linux-kbuild@vger.kernel.org , yamada.masahiro@socionext.com ,
+ michal.lkml@markovi.net> <20191011070539.25908-1-unixbhaskar@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <e9a4a63c-954d-6437-0a79-323e88ef637c@infradead.org>
+Date:   Fri, 11 Oct 2019 15:38:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20191011153127.GA1283883@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191011070539.25908-1-unixbhaskar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 05:31:27PM +0200, Greg Kroah-Hartman wrote:
->On Thu, Oct 10, 2019 at 04:14:43PM +0100, Matthias Maennich wrote:
->> Now that the namespace value is not part of the __ksymtab entry name
->> anymore, we can simplify the implementation of EXPORT_SYMBOL*. By
->> allowing the empty string "" to represent 'no namespace', we can unify
->> the implementation and drop a lot redundant code.  That increases
->> readability and maintainability.
->>
->> As Masahiro pointed out earlier,
->> "The drawback of this change is, it grows the code size. When the symbol
->> has no namespace, sym->namespace was previously NULL, but it is now am
->> empty string "". So, it increases 1 byte for every no namespace
->> EXPORT_SYMBOL. A typical kernel configuration has 10K exported symbols,
->> so it increases 10KB in rough estimation."
->
->10Kb of non-swapable memory isn't good.  But if you care about that, you
->can get it back with the option to compile away any non-used symbols,
->and that shouldn't be affected by this change, right?
+Hi Bhaskar,
 
-Rasmus suggested to put the 'aMS' flags on the __ksymtab_strings section
-to mitigate this:
-https://lore.kernel.org/lkml/f2e28d6b-77c5-5fe2-0bc4-b24955de9954@rasmusvillemoes.dk/
+1- the Subject line is incomplete, missing some info: e.g.
+    [PATCH] scripts: setlocalversion: fix shell syntax
 
-I was not yet able to properly test this, so I did not include it in
-this series. As I said in the cover letter, this 4th patch might be
-optional for 5.4. So, we could defer it to a later time when we have
-addressed that properly.
 
-Cheers,
-Matthias
 
->
->That being said, the code is a lot cleaner, so I have no objection to
->it.
->
->Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On 10/11/19 12:05 AM, Bhaskar Chowdhury wrote:
+
+2- at this place, there should be a description of how the patch
+"fixes" the shell syntax.  and why.
+
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  scripts/setlocalversion | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+> index 220dae0db3f1..b82a29bfc78a 100755
+> --- a/scripts/setlocalversion
+> +++ b/scripts/setlocalversion
+> @@ -45,11 +45,11 @@ scm_version()
+>  
+>  	# Check for git and a git repo.
+>  	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
+> -	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
+> +		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
+
+3- That indentation change is not good IMO.
+
+4- The patch does seem to work, in my limited testing.
+
+5- Near the beginning of the script, it seems to say that the author
+would like to be Cc:ed on patches.
+
+>  
+>  		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
+>  		# it, because this version is defined in the top level Makefile.
+> -		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
+> +		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
+>  
+>  			# If only the short version is requested, don't bother
+>  			# running further git commands
+> @@ -59,7 +59,7 @@ scm_version()
+>  			fi
+>  			# If we are past a tagged commit (like
+>  			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
+> -			if atag="`git describe 2>/dev/null`"; then
+> +			if atag="$(git describe 2>/dev/null)"; then
+>  				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
+>  
+>  			# If we don't have a tag at all we print -g{commitish}.
+> @@ -70,7 +70,7 @@ scm_version()
+>  
+>  		# Is this git on svn?
+>  		if git config --get svn-remote.svn.url >/dev/null; then
+> -			printf -- '-svn%s' "`git svn find-rev $head`"
+> +			printf -- '-svn%s' "$(git svn find-rev $head)"
+>  		fi
+>  
+>  		# Check for uncommitted changes.
+> @@ -91,15 +91,15 @@ scm_version()
+>  	fi
+>  
+>  	# Check for mercurial and a mercurial repo.
+> -	if test -d .hg && hgid=`hg id 2>/dev/null`; then
+> +	if test -d .hg && hgid=$(hg id 2>/dev/null); then
+>  		# Do we have an tagged version?  If so, latesttagdistance == 1
+> -		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
+> -			id=`hg log -r . --template '{latesttag}'`
+> +		if [ "$(hg log -r . --template '{latesttagdistance}')" == "1" ]; then
+> +			id=$(hg log -r . --template '{latesttag}')
+>  			printf '%s%s' -hg "$id"
+>  		else
+> -			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
+> +			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
+>  			if [ -z "$tag" -o "$tag" = tip ]; then
+> -				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
+> +				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
+>  				printf '%s%s' -hg "$id"
+>  			fi
+>  		fi
+> @@ -115,8 +115,8 @@ scm_version()
+>  	fi
+>  
+>  	# Check for svn and a svn repo.
+> -	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
+> -		rev=`echo $rev | awk '{print $NF}'`
+> +	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+> +		rev=$(echo $rev | awk '{print $NF}')
+>  		printf -- '-svn%s' "$rev"
+>  
+>  		# All done with svn
+> 
+
+Thanks.
+-- 
+~Randy
