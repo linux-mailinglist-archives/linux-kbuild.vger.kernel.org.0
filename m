@@ -2,264 +2,260 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D9AAD2D74
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Oct 2019 17:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE0C0D3776
+	for <lists+linux-kbuild@lfdr.de>; Fri, 11 Oct 2019 04:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726631AbfJJPQS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Oct 2019 11:16:18 -0400
-Received: from mail-wm1-f73.google.com ([209.85.128.73]:57635 "EHLO
-        mail-wm1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726546AbfJJPQP (ORCPT
+        id S1727751AbfJKCUl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Oct 2019 22:20:41 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44797 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727518AbfJKCUl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Oct 2019 11:16:15 -0400
-Received: by mail-wm1-f73.google.com with SMTP id f63so1904471wma.7
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2019 08:16:12 -0700 (PDT)
+        Thu, 10 Oct 2019 22:20:41 -0400
+Received: by mail-pl1-f193.google.com with SMTP id q15so3709475pll.11
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Oct 2019 19:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=i3Erxj68tMcwkIZ2NUT8ZG/xvUxR9gGY2fME2mvG5JY=;
-        b=tyB4NIF4cyHaIp1deXiILh3c/NzNlyLfId7Y01hj7cBrdXiAD5xlGQJutMNAGCtNmG
-         ZKUSPPCStZWLOV/zrn9ZVfQ0dgRnycAO478qTG/1k2UWvgsEZWhqRUE1IWFVAwnLdUMr
-         N/5Y1aBXECx5kPn+1WmAsLLyI8fXweizVUDikwqGEMRkPfDLOpCUyQv5GgqrPQBUQi2s
-         MAxDgN89vvewQZl4gT7NCY39rc4pVbYCKMGlL1U4iX9rbcA4FP8tw7l01GYvjrCqShoc
-         /STRfyXIDPQXEuI1ky55ZGGvrHCrNZVlQ4bPrfRsNptOT/sHAQAxJA5mUdJGineCrdTT
-         Pw+g==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=loxMCeFc1Im/5JB1T4NFelfcg9Da9FCw06HFDLxSsv0=;
+        b=X5bwM1VpFLEg1fdKHZqtPC1K5ogLW3r26nZb+rRRao+FJbQqATuGy4cHLTCK7WOD02
+         yHCZfu3EJ8oNUgOyrh+ynPvgwQHXiCPL8q3+fzRD98bCGZEls1SjcmsjppUR3WtG9mLi
+         Zv7fnRarRXrbKG7LRPls96YBMePA8esnfHbRfvOnJidhQwyvFubUVyBmDu+TT3ot8mId
+         VOPra/hgxFwsjLUUUqQmP4UVh5DznJ9f7rQx8y2ShL+qwXrR5blwPTBR0m92wBzHKizf
+         mmBa4+DawxHrb73K1TG2K0qiSStqVAIGgppK5/EFMbcXeicJH7YED2Vn8mkc4Uas5eFX
+         VrEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=i3Erxj68tMcwkIZ2NUT8ZG/xvUxR9gGY2fME2mvG5JY=;
-        b=Rhpn1/4hg8niK/mDoba6bJQQ5qblQSz/PGOABFgVVo63OxCfOIfZdyLrUl9IdHTzS/
-         Xgr5oCQnfCT4i/qgFU7sPoTViyqvJr/xY61m7E1114F1URLD7Ss1R+4zesfFsVGVX9gn
-         PV4/GoyNSWthAB+R55VFiEcSNtAuU15gz4G44HTBnkci/wti7ZsGL8IYYeLBCCLMTNL0
-         IYfSLyBEab0FCks/UEvUhqxwuK8iH+1jeMGTjWCTBqTCcUvyl9WNFeiw0CM1vuncwkEO
-         LYCbXi4jXvTLjS7cMadQLLCs3lTTyj1Yv/IticGd1Q/8PDWg+iuLvxZ+mQIJi2zCUUWx
-         IcEQ==
-X-Gm-Message-State: APjAAAWZ+cbdyYvekuMLj6pMRcVuf1X2axuWDX/leRRxGqAr69Y1OtmX
-        KM9SD6cSB9JkhOFEin1SImC/evi/so1vEA==
-X-Google-Smtp-Source: APXvYqzykiWp/pYZwS7FjqEfOT321sqVXUyjY6mctjsFEEZhtdsbXpRqa/2zu/NB+vr22KsSqa76pviTrglD3w==
-X-Received: by 2002:a5d:4691:: with SMTP id u17mr8903588wrq.41.1570720571422;
- Thu, 10 Oct 2019 08:16:11 -0700 (PDT)
-Date:   Thu, 10 Oct 2019 16:14:43 +0100
-In-Reply-To: <20191010151443.7399-1-maennich@google.com>
-Message-Id: <20191010151443.7399-5-maennich@google.com>
-Mime-Version: 1.0
-References: <20191010151443.7399-1-maennich@google.com>
-X-Mailer: git-send-email 2.23.0.581.g78d2f28ef7-goog
-Subject: [PATCH 4/4] export: avoid code duplication in include/linux/export.h
-From:   Matthias Maennich <maennich@google.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com, maennich@google.com,
-        Jessica Yu <jeyu@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Martijn Coenen <maco@android.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Shaun Ruffell <sruffell@sruffell.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Will Deacon <will@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-modules@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=loxMCeFc1Im/5JB1T4NFelfcg9Da9FCw06HFDLxSsv0=;
+        b=PfTmBIUvMRGhIgd+LRFAykSDj65AjotS+VvWATmGwKC6l4QsiluH4BbSPeSMygKpCz
+         rDaNl4LxnZ4fNtroHqSpLVO7w/I1X7E5CVtsLkQ1gMKZWxDMbA4n2Jlfii3mDsLcFHRR
+         yCIa+vuv6zo4iPyEmebDJjcGB6vhqXRO42wE7Bya7ejpIghPkbyk+aE9o/dh4kws/quD
+         kbGszeX8wYJjTN9q/02DiCoaQv8g2O6eoXkh+tbwp0Cb3AMI4QG+SQNcpvpsY1WlOQ4J
+         2jSu9CEKdiptpAvXP+frybz8qclRVKuNV4V7xPD20P3bi+PDH2uySE2CTU9Z2CzYQg1S
+         op0w==
+X-Gm-Message-State: APjAAAXtyb23ujSrngbRgsm8pW5KdAmO2oTkhWON3iGpwr+zRu4D0bLM
+        qqbUungIQRxd7IxahCYSRO48VTWobvCg4w==
+X-Google-Smtp-Source: APXvYqxdzo8dAS4gDkSsqR/rY/VHRnm2NIQNqUog4rOPfFORLy2zVYZFEEXL0WHMAWK8iM7qwCy8QA==
+X-Received: by 2002:a17:902:a610:: with SMTP id u16mr12773920plq.200.1570760439306;
+        Thu, 10 Oct 2019 19:20:39 -0700 (PDT)
+Received: from Gentoo.localdomain ([103.231.90.173])
+        by smtp.gmail.com with ESMTPSA id v28sm7644384pgn.17.2019.10.10.19.20.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 10 Oct 2019 19:20:38 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] Modern Bash syntax, replace backquote to dollar parenthesis
+Date:   Fri, 11 Oct 2019 07:47:59 +0530
+Message-Id: <20191011021759.28960-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <yamada.masahiro@socionext.com,michal.lkml@markovi.net,linux-kbuild@vger.kernel.org>
+References: <yamada.masahiro@socionext.com,michal.lkml@markovi.net,linux-kbuild@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Now that the namespace value is not part of the __ksymtab entry name
-anymore, we can simplify the implementation of EXPORT_SYMBOL*. By
-allowing the empty string "" to represent 'no namespace', we can unify
-the implementation and drop a lot redundant code.  That increases
-readability and maintainability.
-
-As Masahiro pointed out earlier,
-"The drawback of this change is, it grows the code size. When the symbol
-has no namespace, sym->namespace was previously NULL, but it is now am
-empty string "". So, it increases 1 byte for every no namespace
-EXPORT_SYMBOL. A typical kernel configuration has 10K exported symbols,
-so it increases 10KB in rough estimation."
-
-Suggested-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Signed-off-by: Matthias Maennich <maennich@google.com>
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- include/linux/export.h | 92 +++++++++++++-----------------------------
- kernel/module.c        |  2 +-
- 2 files changed, 29 insertions(+), 65 deletions(-)
+ setlocalversion | 183 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 183 insertions(+)
+ create mode 100755 setlocalversion
 
-diff --git a/include/linux/export.h b/include/linux/export.h
-index f24b86d7dd4d..201262793369 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -46,7 +46,7 @@ extern struct module __this_module;
-  * absolute relocations that require runtime processing on relocatable
-  * kernels.
-  */
--#define __KSYMTAB_ENTRY_NS(sym, sec)					\
-+#define __KSYMTAB_ENTRY(sym, sec)					\
- 	__ADDRESSABLE(sym)						\
- 	asm("	.section \"___ksymtab" sec "+" #sym "\", \"a\"	\n"	\
- 	    "	.balign	4					\n"	\
-@@ -56,34 +56,17 @@ extern struct module __this_module;
- 	    "	.long	__kstrtabns_" #sym "- .			\n"	\
- 	    "	.previous					\n")
- 
--#define __KSYMTAB_ENTRY(sym, sec)					\
--	__ADDRESSABLE(sym)						\
--	asm("	.section \"___ksymtab" sec "+" #sym "\", \"a\"	\n"	\
--	    "	.balign 4					\n"	\
--	    "__ksymtab_" #sym ":				\n"	\
--	    "	.long	" #sym "- .				\n"	\
--	    "	.long	__kstrtab_" #sym "- .			\n"	\
--	    "	.long	0					\n"	\
--	    "	.previous					\n")
--
- struct kernel_symbol {
- 	int value_offset;
- 	int name_offset;
- 	int namespace_offset;
- };
- #else
--#define __KSYMTAB_ENTRY_NS(sym, sec)					\
--	static const struct kernel_symbol __ksymtab_##sym		\
--	__attribute__((section("___ksymtab" sec "+" #sym), used))	\
--	__aligned(sizeof(void *))					\
--	= { (unsigned long)&sym, __kstrtab_##sym, __kstrtabns_##sym }
--
- #define __KSYMTAB_ENTRY(sym, sec)					\
- 	static const struct kernel_symbol __ksymtab_##sym		\
--	asm("__ksymtab_" #sym)						\
- 	__attribute__((section("___ksymtab" sec "+" #sym), used))	\
- 	__aligned(sizeof(void *))					\
--	= { (unsigned long)&sym, __kstrtab_##sym, NULL }
-+	= { (unsigned long)&sym, __kstrtab_##sym, __kstrtabns_##sym }
- 
- struct kernel_symbol {
- 	unsigned long value;
-@@ -94,28 +77,20 @@ struct kernel_symbol {
- 
- #ifdef __GENKSYMS__
- 
--#define ___EXPORT_SYMBOL(sym,sec)	__GENKSYMS_EXPORT_SYMBOL(sym)
--#define ___EXPORT_SYMBOL_NS(sym,sec,ns)	__GENKSYMS_EXPORT_SYMBOL(sym)
-+#define ___EXPORT_SYMBOL(sym, sec, ns)	__GENKSYMS_EXPORT_SYMBOL(sym)
- 
- #else
- 
--#define ___export_symbol_common(sym, sec)				\
-+/* For every exported symbol, place a struct in the __ksymtab section */
-+#define ___EXPORT_SYMBOL(sym, sec, ns)					\
- 	extern typeof(sym) sym;						\
- 	__CRC_SYMBOL(sym, sec);						\
- 	static const char __kstrtab_##sym[]				\
- 	__attribute__((section("__ksymtab_strings"), used, aligned(1)))	\
--	= #sym								\
--
--/* For every exported symbol, place a struct in the __ksymtab section */
--#define ___EXPORT_SYMBOL_NS(sym, sec, ns)				\
--	___export_symbol_common(sym, sec);				\
-+	= #sym;								\
- 	static const char __kstrtabns_##sym[]				\
- 	__attribute__((section("__ksymtab_strings"), used, aligned(1)))	\
--	= #ns;								\
--	__KSYMTAB_ENTRY_NS(sym, sec)
--
--#define ___EXPORT_SYMBOL(sym, sec)					\
--	___export_symbol_common(sym, sec);				\
-+	= ns;								\
- 	__KSYMTAB_ENTRY(sym, sec)
- 
- #endif
-@@ -127,8 +102,7 @@ struct kernel_symbol {
-  * be reused in other execution contexts such as the UEFI stub or the
-  * decompressor.
-  */
--#define __EXPORT_SYMBOL_NS(sym, sec, ns)
--#define __EXPORT_SYMBOL(sym, sec)
-+#define __EXPORT_SYMBOL(sym, sec, ns)
- 
- #elif defined(CONFIG_TRIM_UNUSED_KSYMS)
- 
-@@ -144,48 +118,38 @@ struct kernel_symbol {
- #define __ksym_marker(sym)	\
- 	static int __ksym_marker_##sym[0] __section(".discard.ksym") __used
- 
--#define __EXPORT_SYMBOL(sym, sec)				\
--	__ksym_marker(sym);					\
--	__cond_export_sym(sym, sec, __is_defined(__KSYM_##sym))
--#define __cond_export_sym(sym, sec, conf)			\
--	___cond_export_sym(sym, sec, conf)
--#define ___cond_export_sym(sym, sec, enabled)			\
--	__cond_export_sym_##enabled(sym, sec)
--#define __cond_export_sym_1(sym, sec) ___EXPORT_SYMBOL(sym, sec)
--#define __cond_export_sym_0(sym, sec) /* nothing */
--
--#define __EXPORT_SYMBOL_NS(sym, sec, ns)				\
-+#define __EXPORT_SYMBOL(sym, sec, ns)					\
- 	__ksym_marker(sym);						\
--	__cond_export_ns_sym(sym, sec, ns, __is_defined(__KSYM_##sym))
--#define __cond_export_ns_sym(sym, sec, ns, conf)			\
--	___cond_export_ns_sym(sym, sec, ns, conf)
--#define ___cond_export_ns_sym(sym, sec, ns, enabled)			\
--	__cond_export_ns_sym_##enabled(sym, sec, ns)
--#define __cond_export_ns_sym_1(sym, sec, ns) ___EXPORT_SYMBOL_NS(sym, sec, ns)
--#define __cond_export_ns_sym_0(sym, sec, ns) /* nothing */
-+	__cond_export_sym(sym, sec, ns, __is_defined(__KSYM_##sym))
-+#define __cond_export_sym(sym, sec, ns, conf)				\
-+	___cond_export_sym(sym, sec, ns, conf)
-+#define ___cond_export_sym(sym, sec, ns, enabled)			\
-+	__cond_export_sym_##enabled(sym, sec, ns)
-+#define __cond_export_sym_1(sym, sec, ns) ___EXPORT_SYMBOL(sym, sec, ns)
-+#define __cond_export_sym_0(sym, sec, ns) /* nothing */
- 
- #else
- 
--#define __EXPORT_SYMBOL_NS(sym,sec,ns)	___EXPORT_SYMBOL_NS(sym,sec,ns)
--#define __EXPORT_SYMBOL(sym,sec)	___EXPORT_SYMBOL(sym,sec)
-+#define __EXPORT_SYMBOL(sym, sec, ns)	___EXPORT_SYMBOL(sym, sec, ns)
- 
- #endif /* CONFIG_MODULES */
- 
- #ifdef DEFAULT_SYMBOL_NAMESPACE
--#undef __EXPORT_SYMBOL
--#define __EXPORT_SYMBOL(sym, sec)				\
--	__EXPORT_SYMBOL_NS(sym, sec, DEFAULT_SYMBOL_NAMESPACE)
-+#include <linux/stringify.h>
-+#define _EXPORT_SYMBOL(sym, sec)	__EXPORT_SYMBOL(sym, sec, __stringify(DEFAULT_SYMBOL_NAMESPACE))
-+#else
-+#define _EXPORT_SYMBOL(sym, sec)	__EXPORT_SYMBOL(sym, sec, "")
- #endif
- 
--#define EXPORT_SYMBOL(sym)		__EXPORT_SYMBOL(sym, "")
--#define EXPORT_SYMBOL_GPL(sym)		__EXPORT_SYMBOL(sym, "_gpl")
--#define EXPORT_SYMBOL_GPL_FUTURE(sym)	__EXPORT_SYMBOL(sym, "_gpl_future")
--#define EXPORT_SYMBOL_NS(sym, ns)	__EXPORT_SYMBOL_NS(sym, "", ns)
--#define EXPORT_SYMBOL_NS_GPL(sym, ns)	__EXPORT_SYMBOL_NS(sym, "_gpl", ns)
-+#define EXPORT_SYMBOL(sym)		_EXPORT_SYMBOL(sym, "")
-+#define EXPORT_SYMBOL_GPL(sym)		_EXPORT_SYMBOL(sym, "_gpl")
-+#define EXPORT_SYMBOL_GPL_FUTURE(sym)	_EXPORT_SYMBOL(sym, "_gpl_future")
-+#define EXPORT_SYMBOL_NS(sym, ns)	__EXPORT_SYMBOL(sym, "", #ns)
-+#define EXPORT_SYMBOL_NS_GPL(sym, ns)	__EXPORT_SYMBOL(sym, "_gpl", #ns)
- 
- #ifdef CONFIG_UNUSED_SYMBOLS
--#define EXPORT_UNUSED_SYMBOL(sym)	__EXPORT_SYMBOL(sym, "_unused")
--#define EXPORT_UNUSED_SYMBOL_GPL(sym)	__EXPORT_SYMBOL(sym, "_unused_gpl")
-+#define EXPORT_UNUSED_SYMBOL(sym)	_EXPORT_SYMBOL(sym, "_unused")
-+#define EXPORT_UNUSED_SYMBOL_GPL(sym)	_EXPORT_SYMBOL(sym, "_unused_gpl")
- #else
- #define EXPORT_UNUSED_SYMBOL(sym)
- #define EXPORT_UNUSED_SYMBOL_GPL(sym)
-diff --git a/kernel/module.c b/kernel/module.c
-index ff2d7359a418..26c13173da3d 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -1400,7 +1400,7 @@ static int verify_namespace_is_imported(const struct load_info *info,
- 	char *imported_namespace;
- 
- 	namespace = kernel_symbol_namespace(sym);
--	if (namespace) {
-+	if (namespace && namespace[0]) {
- 		imported_namespace = get_modinfo(info, "import_ns");
- 		while (imported_namespace) {
- 			if (strcmp(namespace, imported_namespace) == 0)
+diff --git a/setlocalversion b/setlocalversion
+new file mode 100755
+index 000000000000..220dae0db3f1
+--- /dev/null
++++ b/setlocalversion
+@@ -0,0 +1,183 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++#
++# This scripts adds local version information from the version
++# control systems git, mercurial (hg) and subversion (svn).
++#
++# If something goes wrong, send a mail the kernel build mailinglist
++# (see MAINTAINERS) and CC Nico Schottelius
++# <nico-linuxsetlocalversion -at- schottelius.org>.
++#
++#
++
++usage() {
++	echo "Usage: $0 [--save-scmversion] [srctree]" >&2
++	exit 1
++}
++
++scm_only=false
++srctree=.
++if test "$1" = "--save-scmversion"; then
++	scm_only=true
++	shift
++fi
++if test $# -gt 0; then
++	srctree=$1
++	shift
++fi
++if test $# -gt 0 -o ! -d "$srctree"; then
++	usage
++fi
++
++scm_version()
++{
++	local short
++	short=false
++
++	cd "$srctree"
++	if test -e .scmversion; then
++		cat .scmversion
++		return
++	fi
++	if test "$1" = "--short"; then
++		short=true
++	fi
++
++	# Check for git and a git repo.
++	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
++	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
++
++		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
++		# it, because this version is defined in the top level Makefile.
++		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
++
++			# If only the short version is requested, don't bother
++			# running further git commands
++			if $short; then
++				echo "+"
++				return
++			fi
++			# If we are past a tagged commit (like
++			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
++			if atag="`git describe 2>/dev/null`"; then
++				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
++
++			# If we don't have a tag at all we print -g{commitish}.
++			else
++				printf '%s%s' -g $head
++			fi
++		fi
++
++		# Is this git on svn?
++		if git config --get svn-remote.svn.url >/dev/null; then
++			printf -- '-svn%s' "`git svn find-rev $head`"
++		fi
++
++		# Check for uncommitted changes.
++		# First, with git-status, but --no-optional-locks is only
++		# supported in git >= 2.14, so fall back to git-diff-index if
++		# it fails. Note that git-diff-index does not refresh the
++		# index, so it may give misleading results. See
++		# git-update-index(1), git-diff-index(1), and git-status(1).
++		if {
++			git --no-optional-locks status -uno --porcelain 2>/dev/null ||
++			git diff-index --name-only HEAD
++		} | grep -qvE '^(.. )?scripts/package'; then
++			printf '%s' -dirty
++		fi
++
++		# All done with git
++		return
++	fi
++
++	# Check for mercurial and a mercurial repo.
++	if test -d .hg && hgid=`hg id 2>/dev/null`; then
++		# Do we have an tagged version?  If so, latesttagdistance == 1
++		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
++			id=`hg log -r . --template '{latesttag}'`
++			printf '%s%s' -hg "$id"
++		else
++			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
++			if [ -z "$tag" -o "$tag" = tip ]; then
++				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
++				printf '%s%s' -hg "$id"
++			fi
++		fi
++
++		# Are there uncommitted changes?
++		# These are represented by + after the changeset id.
++		case "$hgid" in
++			*+|*+\ *) printf '%s' -dirty ;;
++		esac
++
++		# All done with mercurial
++		return
++	fi
++
++	# Check for svn and a svn repo.
++	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
++		rev=`echo $rev | awk '{print $NF}'`
++		printf -- '-svn%s' "$rev"
++
++		# All done with svn
++		return
++	fi
++}
++
++collect_files()
++{
++	local file res=
++
++	for file; do
++		case "$file" in
++		*\~*)
++			continue
++			;;
++		esac
++		if test -e "$file"; then
++			res="$res$(cat "$file")"
++		fi
++	done
++	echo "$res"
++}
++
++if $scm_only; then
++	if test ! -e .scmversion; then
++		res=$(scm_version)
++		echo "$res" >.scmversion
++	fi
++	exit
++fi
++
++if test -e include/config/auto.conf; then
++	. include/config/auto.conf
++else
++	echo "Error: kernelrelease not valid - run 'make prepare' to update it" >&2
++	exit 1
++fi
++
++# localversion* files in the build and source directory
++res="$(collect_files localversion*)"
++if test ! "$srctree" -ef .; then
++	res="$res$(collect_files "$srctree"/localversion*)"
++fi
++
++# CONFIG_LOCALVERSION and LOCALVERSION (if set)
++res="${res}${CONFIG_LOCALVERSION}${LOCALVERSION}"
++
++# scm version string if not at a tagged commit
++if test "$CONFIG_LOCALVERSION_AUTO" = "y"; then
++	# full scm version string
++	res="$res$(scm_version)"
++else
++	# append a plus sign if the repository is not in a clean
++	# annotated or signed tagged state (as git describe only
++	# looks at signed or annotated tags - git tag -a/-s) and
++	# LOCALVERSION= is not specified
++	if test "${LOCALVERSION+set}" != "set"; then
++		scm=$(scm_version --short)
++		res="$res${scm:++}"
++	fi
++fi
++
++echo "$res"
 -- 
-2.23.0.581.g78d2f28ef7-goog
+2.21.0
 
