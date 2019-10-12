@@ -2,101 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAF9BD4CF3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2019 06:26:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9277D4D0F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2019 06:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbfJLE0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 12 Oct 2019 00:26:22 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:49627 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725308AbfJLE0V (ORCPT
+        id S1726839AbfJLEyd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 12 Oct 2019 00:54:33 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:38917 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726269AbfJLEyd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 12 Oct 2019 00:26:21 -0400
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x9C4QARl002225;
-        Sat, 12 Oct 2019 13:26:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x9C4QARl002225
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570854370;
-        bh=u9wmT/Hdot8DTpUJdxXrIyO9KPNJrJCevfN1MDnU3f8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nYyD0KjmUXXABcj9S78TlxMjTQmnh//Ytn2VsWmK2ZketQ1H6SVxWvy1QWX0tQNWg
-         hQkBvFNV+hMZbBR87NecBfH0KV2hPCqFleW4zF52rRfNPxULkb+HRbBbbrg7qcSNuc
-         6kR45j0wNBsSFV0bNVTfbuD4U+wtNnRWsVT7S/h4/lMW5v7ha0fUfkD5r/SFD6Bc4T
-         JoujFjUpPoajxAMe1CQakP/HS/dnANgvOBWb6sP79jx+5yuAwyHBZsXOi9n1x1AKI3
-         7+2C0vTVJf5uRgJwufpkUCc4zM8vRk8iFHwDmazS3pia4gCzjeF1O2xrSveJPglr4Y
-         wEkuxrum6Mu4w==
-X-Nifty-SrcIP: [209.85.217.51]
-Received: by mail-vs1-f51.google.com with SMTP id v19so7575794vsv.3;
-        Fri, 11 Oct 2019 21:26:10 -0700 (PDT)
-X-Gm-Message-State: APjAAAVkzPklTOOEf/N/4SE9p86OmFKdJT97rjMTAY97pOB1RAX2jay7
-        HoOk9Hsj8LuRd9i2OFgca76Fp8j1c6ZxAJ9siiA=
-X-Google-Smtp-Source: APXvYqyJCP1RZpKZxR61EaQLFEnhVwEqC60uotPeRKxZ2pZZOMM2TgalafsILrZufd2nJyMNHWQkyhs2H+F8UOY8ryM=
-X-Received: by 2002:a67:e354:: with SMTP id s20mr11212403vsm.54.1570854369388;
- Fri, 11 Oct 2019 21:26:09 -0700 (PDT)
+        Sat, 12 Oct 2019 00:54:33 -0400
+Received: by mail-pf1-f196.google.com with SMTP id v4so7256730pff.6
+        for <linux-kbuild@vger.kernel.org>; Fri, 11 Oct 2019 21:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6g+J6tg3PNsjGKl1XF37sMp3xv14tzdfnfnOQlqr0O0=;
+        b=iCmKpoaIuQMLFcUWNp6/UfxOgKOOmgX63RHK7fGq6wLpgfVgyTgyDM3hPBYQYIRi6E
+         Rym6jQOLcQUqHZhuPzjUqkCTTXopFZ4WeiE38g7EyMLnSIHmLSrursv5sCIhqiLix1QB
+         lHvUmQFu+xh4gRB6bU85kMpVjz9jUKgiNFHig+o3tJ+7/7Lz3v0v5IdDmC7z2ZJic04M
+         gU0CYCXlT3Q3iDtJxJiuBZ6qc1vi+mBz/q3VYXV3Jh3zix58ssOqM0jFwbhnckuCr92z
+         4FQcCD2hsV6CZFKfrqBL88/QNS1OEmRYEV7TKmtKjXRLSBn++Umgp3NtSvhGA/ud8QVq
+         gRRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6g+J6tg3PNsjGKl1XF37sMp3xv14tzdfnfnOQlqr0O0=;
+        b=Nq4bWB+z8PpL+tpFYq9s1uCvQBZtF0QxEJKgnBtxeAs623YFsjThPSl9y71XRhOnXN
+         eFkSE4aEYSNYEQhgdyF0GN1F3yIFzhWzc3woReUNOnMPak1oCcG/FNULGmR0mlhubJzi
+         WAmb/w+x3HtP6Lw7+MqhvM8TE7gxNorgjT26FlyW0AF76HI2G0yUsQYUm33vamkPB7SG
+         4ySDh/urxOxY6T7SwCgDzTMPAFscv6hDbUiHyukLY3MT5hb0PW1OHto+TZ9Ilpa4lg9c
+         bWiEVx4Xo/ZPDkkqVtCm+lOY4TcmIMnUQ2e2G5JDv0FL3QyXiOwbHScgd+oODhRxyQct
+         Qqyg==
+X-Gm-Message-State: APjAAAX/f5MYFED+cve+2D3kPCZ4nkFE6l07Ny4fWleSZLllo3ivGglT
+        EauQu0I7RPUb8MY+f6k45OA=
+X-Google-Smtp-Source: APXvYqw1cEfsbje/ndnAsbrH5brFZzGO22nMAA6Fya4k9jOZmSZKqS6M9oWNvluj3glHhpJbac6yMQ==
+X-Received: by 2002:aa7:8691:: with SMTP id d17mr20668322pfo.152.1570856072911;
+        Fri, 11 Oct 2019 21:54:32 -0700 (PDT)
+Received: from Gentoo.localdomain ([103.231.91.68])
+        by smtp.gmail.com with ESMTPSA id cx22sm11047970pjb.19.2019.10.11.21.54.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 11 Oct 2019 21:54:31 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org,
+        nico-linuxsetlocalversion@schottelius.org, rdunlap@infradead.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] scripts: setlocalversion: fix shell syntax
+Date:   Sat, 12 Oct 2019 10:23:28 +0530
+Message-Id: <20191012045328.24443-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20191010151443.7399-1-maennich@google.com> <20191010151443.7399-5-maennich@google.com>
- <20191011153127.GA1283883@kroah.com> <20191011154311.GA192647@google.com>
-In-Reply-To: <20191011154311.GA192647@google.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 12 Oct 2019 13:25:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASvQd8C4UE3Zm9tsSH48w3QKwskyTKn2P8tegBMrV0_ww@mail.gmail.com>
-Message-ID: <CAK7LNASvQd8C4UE3Zm9tsSH48w3QKwskyTKn2P8tegBMrV0_ww@mail.gmail.com>
-Subject: Re: [PATCH 4/4] export: avoid code duplication in include/linux/export.h
-To:     Matthias Maennich <maennich@google.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        Martijn Coenen <maco@android.com>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        Shaun Ruffell <sruffell@sruffell.net>,
-        Will Deacon <will@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-modules <linux-modules@vger.kernel.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Oct 12, 2019 at 12:43 AM Matthias Maennich <maennich@google.com> wrote:
->
-> On Fri, Oct 11, 2019 at 05:31:27PM +0200, Greg Kroah-Hartman wrote:
-> >On Thu, Oct 10, 2019 at 04:14:43PM +0100, Matthias Maennich wrote:
-> >> Now that the namespace value is not part of the __ksymtab entry name
-> >> anymore, we can simplify the implementation of EXPORT_SYMBOL*. By
-> >> allowing the empty string "" to represent 'no namespace', we can unify
-> >> the implementation and drop a lot redundant code.  That increases
-> >> readability and maintainability.
-> >>
-> >> As Masahiro pointed out earlier,
-> >> "The drawback of this change is, it grows the code size. When the symbol
-> >> has no namespace, sym->namespace was previously NULL, but it is now am
-> >> empty string "". So, it increases 1 byte for every no namespace
-> >> EXPORT_SYMBOL. A typical kernel configuration has 10K exported symbols,
-> >> so it increases 10KB in rough estimation."
-> >
-> >10Kb of non-swapable memory isn't good.  But if you care about that, you
-> >can get it back with the option to compile away any non-used symbols,
-> >and that shouldn't be affected by this change, right?
->
-> Rasmus suggested to put the 'aMS' flags on the __ksymtab_strings section
-> to mitigate this:
-> https://lore.kernel.org/lkml/f2e28d6b-77c5-5fe2-0bc4-b24955de9954@rasmusvillemoes.dk/
->
-> I was not yet able to properly test this, so I did not include it in
-> this series. As I said in the cover letter, this 4th patch might be
-> optional for 5.4. So, we could defer it to a later time when we have
-> addressed that properly.
+This patch replace backquote to dollar parenthesis.
 
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ scripts/setlocalversion | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-This looks the same as my patch, though.
-
-Reviewed-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-
-
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index 220dae0db3f1..b82a29bfc78a 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -45,11 +45,11 @@ scm_version()
+ 
+ 	# Check for git and a git repo.
+ 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
+-	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
++		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
+ 
+ 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
+ 		# it, because this version is defined in the top level Makefile.
+-		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
++		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
+ 
+ 			# If only the short version is requested, don't bother
+ 			# running further git commands
+@@ -59,7 +59,7 @@ scm_version()
+ 			fi
+ 			# If we are past a tagged commit (like
+ 			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
+-			if atag="`git describe 2>/dev/null`"; then
++			if atag="$(git describe 2>/dev/null)"; then
+ 				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
+ 
+ 			# If we don't have a tag at all we print -g{commitish}.
+@@ -70,7 +70,7 @@ scm_version()
+ 
+ 		# Is this git on svn?
+ 		if git config --get svn-remote.svn.url >/dev/null; then
+-			printf -- '-svn%s' "`git svn find-rev $head`"
++			printf -- '-svn%s' "$(git svn find-rev $head)"
+ 		fi
+ 
+ 		# Check for uncommitted changes.
+@@ -91,15 +91,15 @@ scm_version()
+ 	fi
+ 
+ 	# Check for mercurial and a mercurial repo.
+-	if test -d .hg && hgid=`hg id 2>/dev/null`; then
++	if test -d .hg && hgid=$(hg id 2>/dev/null); then
+ 		# Do we have an tagged version?  If so, latesttagdistance == 1
+-		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
+-			id=`hg log -r . --template '{latesttag}'`
++		if [ "$(hg log -r . --template '{latesttagdistance}')" == "1" ]; then
++			id=$(hg log -r . --template '{latesttag}')
+ 			printf '%s%s' -hg "$id"
+ 		else
+-			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
++			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
+ 			if [ -z "$tag" -o "$tag" = tip ]; then
+-				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
++				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
+ 				printf '%s%s' -hg "$id"
+ 			fi
+ 		fi
+@@ -115,8 +115,8 @@ scm_version()
+ 	fi
+ 
+ 	# Check for svn and a svn repo.
+-	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
+-		rev=`echo $rev | awk '{print $NF}'`
++	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
++		rev=$(echo $rev | awk '{print $NF}')
+ 		printf -- '-svn%s' "$rev"
+ 
+ 		# All done with svn
 -- 
-Best Regards
-Masahiro Yamada
+2.21.0
+
