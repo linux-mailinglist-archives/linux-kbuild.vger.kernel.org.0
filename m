@@ -2,209 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6F4D4A7D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2019 00:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE20BD4C65
+	for <lists+linux-kbuild@lfdr.de>; Sat, 12 Oct 2019 05:20:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726255AbfJKW5s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 11 Oct 2019 18:57:48 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36101 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726205AbfJKW5s (ORCPT
+        id S1726407AbfJLDUu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 11 Oct 2019 23:20:50 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:31646 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726391AbfJLDUu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 11 Oct 2019 18:57:48 -0400
-Received: by mail-pf1-f195.google.com with SMTP id y22so6918548pfr.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 11 Oct 2019 15:57:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Gk4zjpVRD8fFyE4qoFHFYsk3gZUIIVfevaypGZU1wPw=;
-        b=CIUbbQYirhimksKWIG2NMx2oPNbuldcTxsePFqIAf0G/i7Pv9efroz/CWuGV7ZSfb9
-         /YN38L+CcWE4fWuuZCBoQoS0GTdzmisRi+9rPXDaU2SBTIRtYZB7uqadvZC/Z8UA099G
-         wfExAs0fYKqhQCJHR0XGXGNre7JqWH+rj3U3tG2IxgyBqS765AchNGw4xq2NmocuI7wc
-         ZRFvxkkJnS6jI14vPatvRRqBixlZMuEOB5V6eXPAEvUUzkE3TASUFdR1zDqhVY/JvLQy
-         2IGOFZj3iino5LVloWBgwG63Gg/XZhz8p8m6j9reW2lF7/lQSeYwIZMl1LIGrauhRQ1E
-         wHdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Gk4zjpVRD8fFyE4qoFHFYsk3gZUIIVfevaypGZU1wPw=;
-        b=R9Nx+ohkxAY3SYNVNUywwobSxIhszMKUZPyxHzymix6ZUMa2jCsOrmEZigi1gsPam7
-         QSP7HXows2Yefpi+ddVlIh49IUiQ4ldMun6tsi3oqBqSip5nExilxdtoKo4SOhDYq9vA
-         +0H5V6ot/vIKE3ZT9ihJ7N86si4LvjMETQpARK5Wb7uVeaXReIZo66o3itiQEF0Q+hWx
-         WRaAqg26sdN833MrQFor7b0XzsbbYlhoK8g58wr7szG0N+ZK3LGNM/ZsUmrx7tPVCr5P
-         dOmImtUD/dS6P5HWQmTSjblcM9lcb5Z2DQgCzfNtJqCPJjTPhFKwp3gLWq682aZXCVJY
-         GLjw==
-X-Gm-Message-State: APjAAAVkU12QsBL7DRTPwHbfy3rtVsx7ibsC55hU1OiMu6ZzdMdglpUw
-        XQ1bg88IkBlRtfLqUtRaQ/A=
-X-Google-Smtp-Source: APXvYqw1nS6nE5vBRrewV/EGSTjJpxggZGMakKL9zdhyo3Zw85xX8CAkKjmYiW54sZ0mIL5tR3HYFw==
-X-Received: by 2002:a62:a50b:: with SMTP id v11mr19063606pfm.164.1570834667014;
-        Fri, 11 Oct 2019 15:57:47 -0700 (PDT)
-Received: from Gentoo ([103.231.91.68])
-        by smtp.gmail.com with ESMTPSA id d76sm10619252pfd.185.2019.10.11.15.57.41
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Oct 2019 15:57:46 -0700 (PDT)
-Date:   Sat, 12 Oct 2019 04:27:33 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kbuild@vger.kernel.org, yamada.masahiro@socionext.com,
-        michal.lkml@markovi.net
-Subject: Re: [PATCH] fix shell syntax
-Message-ID: <20191011225730.GA25079@Gentoo>
-References: <20191011070539.25908-1-unixbhaskar@gmail.com>
- <e9a4a63c-954d-6437-0a79-323e88ef637c@infradead.org>
+        Fri, 11 Oct 2019 23:20:50 -0400
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x9C3KZvC029353;
+        Sat, 12 Oct 2019 12:20:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x9C3KZvC029353
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1570850436;
+        bh=fVr6myVWeNkwM1bzUYkAV3KR6w6/G/BTVwiRy1YKeFE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jBGzyU5Mq7JX//jH7mWGJu9NdKguZyZXnVGNj3iCJS5PRSD3xLkJRY0TGS4Dk2k0G
+         PJQ7rHVBvJb3mZkIbGIpgatVzi0UNBGZW3Oa2TAi1tVvoegSiHlWCBzOUQtFg/wGSW
+         9t9f3+QGAgRYXfE3wrIe0ip/p3bytfQVfw/nQvT4u3bYR4T8Vk6zvfIXG7KTzYmZfD
+         3QERovRA/lXLHDqYZCmp4F2raHSRboVWEeLWepwohRaE56ray+aQB3i17uJAu9wpXj
+         wiWyYHDDm4LRjw50yOhTz56hoox7MNupUsWV4924Ir95zuqk9ECeRDvXtUz0+XBKNc
+         FVtnRymLipdlg==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id z14so7481125vsz.13;
+        Fri, 11 Oct 2019 20:20:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAW1xwzad01EzQvNacNbHmX0+XbtwRiUi9FQqHD8/aksLmU/mbFD
+        epPPHsweGjzTP0pJT6Z3vEiwTkxpHfuWt2qS3yk=
+X-Google-Smtp-Source: APXvYqxNrd3wl6DgsTBqbsxBQYF+1gG7D7r2FAwVB2ThW11Jz8W/5aeuJmNk7KKiWAHe87RF9lJgtuaoBtTuQKOpfXE=
+X-Received: by 2002:a67:e354:: with SMTP id s20mr11109571vsm.54.1570850434646;
+ Fri, 11 Oct 2019 20:20:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="+QahgC5+KEYLbs62"
-Content-Disposition: inline
-In-Reply-To: <e9a4a63c-954d-6437-0a79-323e88ef637c@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191010151443.7399-1-maennich@google.com> <20191010151443.7399-2-maennich@google.com>
+ <20191011153253.GB1283883@kroah.com>
+In-Reply-To: <20191011153253.GB1283883@kroah.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 12 Oct 2019 12:19:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQbgtnP_P6aZEO7bHNL+w641ED+19TXCXKkU=dE+gyBGQ@mail.gmail.com>
+Message-ID: <CAK7LNAQbgtnP_P6aZEO7bHNL+w641ED+19TXCXKkU=dE+gyBGQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] modpost: delegate updating namespaces to separate function
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Matthias Maennich <maennich@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        Martijn Coenen <maco@android.com>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Shaun Ruffell <sruffell@sruffell.net>,
+        Will Deacon <will@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-modules <linux-modules@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---+QahgC5+KEYLbs62
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 15:38 Fri 11 Oct 2019, Randy Dunlap wrote:
->Hi Bhaskar,
+On Sat, Oct 12, 2019 at 12:33 AM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
->1- the Subject line is incomplete, missing some info: e.g.
->    [PATCH] scripts: setlocalversion: fix shell syntax
+> On Thu, Oct 10, 2019 at 04:14:40PM +0100, Matthias Maennich wrote:
+> > Let the function 'sym_update_namespace' take care of updating the
+> > namespace for a symbol. While this currently only replaces one single
+> > location where namespaces are updated, in a following patch, this
+> > function will get more call sites.
+> >
+> > The function signature is intentionally close to sym_update_crc and
+> > taking the name by char* seems like unnecessary work as the symbol has
+> > to be looked up again. In a later patch of this series, this concern
+> > will be addressed.
+> >
+> > This function ensures that symbol::namespace is either NULL or has a
+> > valid non-empty value. Previously, the empty string was considered 'no
+> > namespace' as well and this lead to confusion.
+> >
+> > Signed-off-by: Matthias Maennich <maennich@google.com>
+> > ---
+> >  scripts/mod/modpost.c | 21 ++++++++++++++++++---
+> >  1 file changed, 18 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 4d2cdb4d71e3..9f5dcdff4d2f 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -362,6 +362,22 @@ static char *sym_extract_namespace(const char **symname)
+> >       return namespace;
+> >  }
+> >
+> > +static void sym_update_namespace(const char *symname, const char *namespace)
+> > +{
+> > +       struct symbol *s = find_symbol(symname);
+> > +       /* That symbol should have been created earlier and thus this is
+> > +        * actually an assertion. */
 >
-Oops! let me redo it, I was going by your earlier suggestion :)
+> Do we care about checkpatch issues in tools?
+
+Personally, I do.
+
+
 >
->On 10/11/19 12:05 AM, Bhaskar Chowdhury wrote:
+> If so, you need a blank line before the comment :)
+
+One more minor issue, the block comment style is not correct.
+Please do like this:
+
+/*
+ * Blah Blah ...
+ * Blah Blha ...
+ */
+
+With those addressed,
+
+Reviewed-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+
+
 >
->2- at this place, there should be a description of how the patch
->"fixes" the shell syntax.  and why.
+> Anyway, not a big deal
 >
+> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-My bad, was kinda confused,thought it might break the patch..lack of
-awareness. Will fix that next one.
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> ---
->>  scripts/setlocalversion | 22 +++++++++++-----------
->>  1 file changed, 11 insertions(+), 11 deletions(-)
->>
->> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
->> index 220dae0db3f1..b82a29bfc78a 100755
->> --- a/scripts/setlocalversion
->> +++ b/scripts/setlocalversion
->> @@ -45,11 +45,11 @@ scm_version()
->>
->>  	# Check for git and a git repo.
->>  	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
->> -	   head=3D`git rev-parse --verify --short HEAD 2>/dev/null`; then
->> +		head=3D$(git rev-parse --verify --short HEAD 2>/dev/null); then
->
->3- That indentation change is not good IMO.
->
-Heck...another fix ...I am gobbling up your and others precious time
-with this trivialities. Will be careful .
 
->4- The patch does seem to work, in my limited testing.
->
-I made sure before sending anything , that thing should work in my local
-environment. Thank you for the double check ...at least I am inline :)
 
->5- Near the beginning of the script, it seems to say that the author
->would like to be Cc:ed on patches.
->
-Curse me for ignoring that...not fun ..why the fuck I missed that I
-don't know...
->>
->>  		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
->>  		# it, because this version is defined in the top level Makefile.
->> -		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
->> +		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
->>
->>  			# If only the short version is requested, don't bother
->>  			# running further git commands
->> @@ -59,7 +59,7 @@ scm_version()
->>  			fi
->>  			# If we are past a tagged commit (like
->>  			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
->> -			if atag=3D"`git describe 2>/dev/null`"; then
->> +			if atag=3D"$(git describe 2>/dev/null)"; then
->>  				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
->>
->>  			# If we don't have a tag at all we print -g{commitish}.
->> @@ -70,7 +70,7 @@ scm_version()
->>
->>  		# Is this git on svn?
->>  		if git config --get svn-remote.svn.url >/dev/null; then
->> -			printf -- '-svn%s' "`git svn find-rev $head`"
->> +			printf -- '-svn%s' "$(git svn find-rev $head)"
->>  		fi
->>
->>  		# Check for uncommitted changes.
->> @@ -91,15 +91,15 @@ scm_version()
->>  	fi
->>
->>  	# Check for mercurial and a mercurial repo.
->> -	if test -d .hg && hgid=3D`hg id 2>/dev/null`; then
->> +	if test -d .hg && hgid=3D$(hg id 2>/dev/null); then
->>  		# Do we have an tagged version?  If so, latesttagdistance =3D=3D 1
->> -		if [ "`hg log -r . --template '{latesttagdistance}'`" =3D=3D "1" ]; t=
-hen
->> -			id=3D`hg log -r . --template '{latesttag}'`
->> +		if [ "$(hg log -r . --template '{latesttagdistance}')" =3D=3D "1" ]; =
-then
->> +			id=3D$(hg log -r . --template '{latesttag}')
->>  			printf '%s%s' -hg "$id"
->>  		else
->> -			tag=3D`printf '%s' "$hgid" | cut -d' ' -f2`
->> +			tag=3D$(printf '%s' "$hgid" | cut -d' ' -f2)
->>  			if [ -z "$tag" -o "$tag" =3D tip ]; then
->> -				id=3D`printf '%s' "$hgid" | sed 's/[+ ].*//'`
->> +				id=3D$(printf '%s' "$hgid" | sed 's/[+ ].*//')
->>  				printf '%s%s' -hg "$id"
->>  			fi
->>  		fi
->> @@ -115,8 +115,8 @@ scm_version()
->>  	fi
->>
->>  	# Check for svn and a svn repo.
->> -	if rev=3D`LANG=3D LC_ALL=3D LC_MESSAGES=3DC svn info 2>/dev/null | gre=
-p '^Last Changed Rev'`; then
->> -		rev=3D`echo $rev | awk '{print $NF}'`
->> +	if rev=3D$(LANG=3D LC_ALL=3D LC_MESSAGES=3DC svn info 2>/dev/null | gr=
-ep '^Last Changed Rev'); then
->> +		rev=3D$(echo $rev | awk '{print $NF}')
->>  		printf -- '-svn%s' "$rev"
->>
->>  		# All done with svn
->>
->
 
-Thank you so much for your invaluable time Randy...will be sending
-another one with the correction.
 
-Thanks,
-Bhaskar
->Thanks.
->--=20
->~Randy
-
---+QahgC5+KEYLbs62
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2hCNcACgkQsjqdtxFL
-KRV6pwgAmYkb2rRsXeLToD4sdpE/LieGahcAXdFWey4vMmTOsg8QUz4jAE9xWrH2
-QIzzX+cCLn0erAnbA2rjB+Ev0PhndJ2JK31M2mcRFqyKyyP4AiDB4QMW6G3eoa0R
-BcBYjtxAFiRkoI95ao4DP8TsT++BI4aY0kWtn4yWdMkAP0nbeuaTzmQT2pSxqWgd
-hRYlChrej2+2b3JB1jjYU2/s7uCgrRCz/PiAi7tBxN98my4qfwrq/cswKEKyYCDV
-kHr7/j5MtGGyiEwDUnzIJG3qtO6uHvmDtnjGODTaONPEc5UI8lWOZa3CYM/xy51J
-tTAxemWPwWQasJIgCwmVzsDyUhUv5A==
-=FEeY
------END PGP SIGNATURE-----
-
---+QahgC5+KEYLbs62--
+-- 
+Best Regards
+Masahiro Yamada
