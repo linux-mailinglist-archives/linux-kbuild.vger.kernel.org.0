@@ -2,265 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 575EBD8B6C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 10:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 070F5D8C8E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 11:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391808AbfJPIlv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Oct 2019 04:41:51 -0400
-Received: from mail-wm1-f73.google.com ([209.85.128.73]:60221 "EHLO
-        mail-wm1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404099AbfJPIlh (ORCPT
+        id S2388455AbfJPJdl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Oct 2019 05:33:41 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:40586 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388426AbfJPJdl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:41:37 -0400
-Received: by mail-wm1-f73.google.com with SMTP id c188so656222wmd.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2019 01:41:35 -0700 (PDT)
+        Wed, 16 Oct 2019 05:33:41 -0400
+Received: by mail-pf1-f194.google.com with SMTP id x127so14347471pfb.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2019 02:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=7ROjjIT0dSiqK7weicBG4sWceIh3b0q1ZAIHDJ8V6Dk=;
-        b=NSrpYdVj6fvXpFrnYfMPpaxzWB8tZgAHeQar0WnBSBStaLWhUFgVJk9C/oS/EQde3j
-         MN4Pu2PiFyorxV2NAx67TfVsuapiiUeipddfWo7q/H/WBwZUnkM+6M8rF64LWI1zqnod
-         u5c2hdeezFE94Xt0CqiWPN9JZ+XWZGa2LmHJ17RvhMuYF8jJYNzHYmLp4bSOyQhnLb5n
-         wcTS/OQn6cmqiOthUHvG8diywSJRIpleWQFeeW+APiJo3NuWVCMKVB3OAzacpbRddg+g
-         eGRi/qTPu5x/ubxado+lIc7l9pv4VKTx9GmOiVRvCsEI/RgIn0MQsYWgNaf1gyqvzMor
-         8Gxw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B5x4poEMUJzzXYvSwoGa8hbTY4sRmkrGTYpqcYzgK+g=;
+        b=qLQKPjDAfSmkAAEG8z5mVq1jh79MGVy+Wo2XvIHzeELwnI7V9EmWTWGZN2yLcCPtX9
+         YvCmeG0LYMimOGHDstLA2Gh0WpvRL7z1zwCSwPUJFttq2KdYccZFgRiV+dXLEU+fvxfm
+         KVlCrUlEueGENxZ5uJ3tRVHRYtsNuMo4fHCechwH40cphyba0iN1dPAhiMVAdoYriTIb
+         RcDOvj0B+A8OVIYTuM2Jc/pVYEwXwUEWy3isDpaCT6B1PZ0iflZem/lcjvJ0iOOf0ZGV
+         tamH9rIve8OcbfwtYwtbVmWzAGnyOwAprU6R4dD2Ftk2lbriN6/AUd8pdK06duzTYlSP
+         QX8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=7ROjjIT0dSiqK7weicBG4sWceIh3b0q1ZAIHDJ8V6Dk=;
-        b=KvlLqA8f2cJjuEGc3y6SnscVPYCXH17mOGdI7XhmHdVizQ6w2LRTM7+kCeUHQbHd/y
-         midC8RamEGeSdQCpAsYsSEL7ffqwCVGDxVT6MtMz2Ylu3jHWS7/sBtAu9NEjzxLNQYoD
-         ZD5eu4vYQH9A5+5XBCqkGAZYVPFpJe4837vO52LHK/WLEq1bIB+7TdHzFe5RxbGaZPXG
-         SjwEN3aHT+EjsJBB+5s77KUh3IuhbUErw5vCh0Iwv9jCo59wiGMag7ul9yw7VRe9IzQO
-         2Wmvqp4cLnLFsMyTszjRt7AgC14tekHseYcF8jGgZkMg9F+xWgXeJSSCQIzHXlLg3Za9
-         Fkew==
-X-Gm-Message-State: APjAAAWYvVlQAcpC+gV4YDg8gpejKF3xz7rZu1v7Uv3S8MNqvdyLh8Jg
-        s9KWJU6Sz4NXRDakgwoAJ0y5eOFMhQ==
-X-Google-Smtp-Source: APXvYqyPTbF4tMvD/+6fq80mlU+ztvS58zl/Ed2jENLqLLVlUfZnkS670w03BnK/IEZ6vSaVSsQZVxJcuQ==
-X-Received: by 2002:adf:e983:: with SMTP id h3mr1520622wrm.95.1571215294184;
- Wed, 16 Oct 2019 01:41:34 -0700 (PDT)
-Date:   Wed, 16 Oct 2019 10:39:59 +0200
-In-Reply-To: <20191016083959.186860-1-elver@google.com>
-Message-Id: <20191016083959.186860-9-elver@google.com>
-Mime-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com>
-X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
-Subject: [PATCH 8/8] x86, kcsan: Enable KCSAN for x86
-From:   Marco Elver <elver@google.com>
-To:     elver@google.com
-Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
-        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
-        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
-        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
-        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
-        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
-        npiggin@gmail.com, paulmck@linux.ibm.com, peterz@infradead.org,
-        tglx@linutronix.de, will@kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=B5x4poEMUJzzXYvSwoGa8hbTY4sRmkrGTYpqcYzgK+g=;
+        b=pi3YyRPblUHjKj7gZVlRAB0JU7x2U93KtIKDMw0mam6hcObMbIiV29pGEWWZMk1X7K
+         JOAtWbs9XpIujRgafW40HYR7/2Qf9x9tkO2azNTF4QrW51Q/QpdkPz8aQX3ouD5HSrKG
+         UnqKm/iAJKkIK9BZbmkRMU0vRPU47MsLPETqPcuuS5VTK6vypchIyrJ/5qrd4PTwj8eS
+         DmOS3YrKgbIFLRBzyQ4bRjuK8wT74VBk3yDbYuPtFemAc90b0iCPsk+NS4jJ20JivoLd
+         i2n6JpoUn+y7wA8iTvlG3udYrVq0Et0ai+TjqdqRxyuZRmSyg10nUsak8BGDwAtjp4PT
+         7Nqg==
+X-Gm-Message-State: APjAAAUu3m0mEnVALXJZIPPbfaOBV02nSfekOK3G2cHZMK+v0DSmZqt5
+        C2+Es+zhJqio74DzorDprXE=
+X-Google-Smtp-Source: APXvYqw8osSZhRUPynhFYenXweUWbFk7NcJPMeMGiMJ40qwbE8FauIpP66ydl3iPz3fAwoa5JPJIWw==
+X-Received: by 2002:a63:778f:: with SMTP id s137mr24145264pgc.147.1571218420560;
+        Wed, 16 Oct 2019 02:33:40 -0700 (PDT)
+Received: from Gentoo.localdomain ([103.231.90.170])
+        by smtp.gmail.com with ESMTPSA id s18sm1874667pji.30.2019.10.16.02.33.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 16 Oct 2019 02:33:39 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org,
+        nico-linuxsetlocalversion@schottelius.org, rdunlap@infradead.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] scripts: setlocalversion: replace backquote to dollar parenthesis 
+Date:   Wed, 16 Oct 2019 15:02:46 +0530
+Message-Id: <20191016093246.20000-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This patch enables KCSAN for x86, with updates to build rules to not use
-KCSAN for several incompatible compilation units.
+This patch replace backquote to dollar parenthesis syntax for better
+readability.
 
-Signed-off-by: Marco Elver <elver@google.com>
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- arch/x86/Kconfig                      | 1 +
- arch/x86/boot/Makefile                | 1 +
- arch/x86/boot/compressed/Makefile     | 1 +
- arch/x86/entry/vdso/Makefile          | 1 +
- arch/x86/include/asm/bitops.h         | 2 +-
- arch/x86/kernel/Makefile              | 6 ++++++
- arch/x86/kernel/cpu/Makefile          | 3 +++
- arch/x86/lib/Makefile                 | 2 ++
- arch/x86/mm/Makefile                  | 3 +++
- arch/x86/purgatory/Makefile           | 1 +
- arch/x86/realmode/Makefile            | 1 +
- arch/x86/realmode/rm/Makefile         | 1 +
- drivers/firmware/efi/libstub/Makefile | 1 +
- 13 files changed, 23 insertions(+), 1 deletion(-)
+ scripts/setlocalversion | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index d6e1faa28c58..81859be4a005 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -226,6 +226,7 @@ config X86
- 	select VIRT_TO_BUS
- 	select X86_FEATURE_NAMES		if PROC_FS
- 	select PROC_PID_ARCH_STATUS		if PROC_FS
-+	select HAVE_ARCH_KCSAN if X86_64
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index 220dae0db3f1..b82a29bfc78a 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -45,11 +45,11 @@ scm_version()
  
- config INSTRUCTION_DECODER
- 	def_bool y
-diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-index e2839b5c246c..2f9e928acae6 100644
---- a/arch/x86/boot/Makefile
-+++ b/arch/x86/boot/Makefile
-@@ -10,6 +10,7 @@
- #
+ 	# Check for git and a git repo.
+ 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
+-	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
++		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
  
- KASAN_SANITIZE			:= n
-+KCSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
+ 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
+ 		# it, because this version is defined in the top level Makefile.
+-		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
++		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
  
- # Kernel does not boot with kcov instrumentation here.
-diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-index 6b84afdd7538..0921689f7c70 100644
---- a/arch/x86/boot/compressed/Makefile
-+++ b/arch/x86/boot/compressed/Makefile
-@@ -18,6 +18,7 @@
- #	compressed vmlinux.bin.all + u32 size of vmlinux.bin.all
+ 			# If only the short version is requested, don't bother
+ 			# running further git commands
+@@ -59,7 +59,7 @@ scm_version()
+ 			fi
+ 			# If we are past a tagged commit (like
+ 			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
+-			if atag="`git describe 2>/dev/null`"; then
++			if atag="$(git describe 2>/dev/null)"; then
+ 				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
  
- KASAN_SANITIZE			:= n
-+KCSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
+ 			# If we don't have a tag at all we print -g{commitish}.
+@@ -70,7 +70,7 @@ scm_version()
  
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 0f2154106d01..d2cd34d2ac4e 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -12,6 +12,7 @@ include $(srctree)/lib/vdso/Makefile
- KBUILD_CFLAGS += $(DISABLE_LTO)
- KASAN_SANITIZE			:= n
- UBSAN_SANITIZE			:= n
-+KCSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
+ 		# Is this git on svn?
+ 		if git config --get svn-remote.svn.url >/dev/null; then
+-			printf -- '-svn%s' "`git svn find-rev $head`"
++			printf -- '-svn%s' "$(git svn find-rev $head)"
+ 		fi
  
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
-diff --git a/arch/x86/include/asm/bitops.h b/arch/x86/include/asm/bitops.h
-index 7d1f6a49bfae..a36d900960e4 100644
---- a/arch/x86/include/asm/bitops.h
-+++ b/arch/x86/include/asm/bitops.h
-@@ -201,7 +201,7 @@ arch_test_and_change_bit(long nr, volatile unsigned long *addr)
- 	return GEN_BINARY_RMWcc(LOCK_PREFIX __ASM_SIZE(btc), *addr, c, "Ir", nr);
- }
+ 		# Check for uncommitted changes.
+@@ -91,15 +91,15 @@ scm_version()
+ 	fi
  
--static __always_inline bool constant_test_bit(long nr, const volatile unsigned long *addr)
-+static __no_kcsan_or_inline bool constant_test_bit(long nr, const volatile unsigned long *addr)
- {
- 	return ((1UL << (nr & (BITS_PER_LONG-1))) &
- 		(addr[nr >> _BITOPS_LONG_SHIFT])) != 0;
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index 3578ad248bc9..adccbbfa47e4 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -28,6 +28,12 @@ KASAN_SANITIZE_dumpstack_$(BITS).o			:= n
- KASAN_SANITIZE_stacktrace.o				:= n
- KASAN_SANITIZE_paravirt.o				:= n
+ 	# Check for mercurial and a mercurial repo.
+-	if test -d .hg && hgid=`hg id 2>/dev/null`; then
++	if test -d .hg && hgid=$(hg id 2>/dev/null); then
+ 		# Do we have an tagged version?  If so, latesttagdistance == 1
+-		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
+-			id=`hg log -r . --template '{latesttag}'`
++		if [ "$(hg log -r . --template '{latesttagdistance}')" == "1" ]; then
++			id=$(hg log -r . --template '{latesttag}')
+ 			printf '%s%s' -hg "$id"
+ 		else
+-			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
++			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
+ 			if [ -z "$tag" -o "$tag" = tip ]; then
+-				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
++				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
+ 				printf '%s%s' -hg "$id"
+ 			fi
+ 		fi
+@@ -115,8 +115,8 @@ scm_version()
+ 	fi
  
-+KCSAN_SANITIZE_head$(BITS).o				:= n
-+KCSAN_SANITIZE_dumpstack.o				:= n
-+KCSAN_SANITIZE_dumpstack_$(BITS).o			:= n
-+KCSAN_SANITIZE_stacktrace.o				:= n
-+KCSAN_SANITIZE_paravirt.o				:= n
-+
- OBJECT_FILES_NON_STANDARD_relocate_kernel_$(BITS).o	:= y
- OBJECT_FILES_NON_STANDARD_test_nx.o			:= y
- OBJECT_FILES_NON_STANDARD_paravirt_patch.o		:= y
-diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
-index d7a1e5a9331c..7651c4f37e5e 100644
---- a/arch/x86/kernel/cpu/Makefile
-+++ b/arch/x86/kernel/cpu/Makefile
-@@ -3,6 +3,9 @@
- # Makefile for x86-compatible CPU details, features and quirks
- #
+ 	# Check for svn and a svn repo.
+-	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
+-		rev=`echo $rev | awk '{print $NF}'`
++	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
++		rev=$(echo $rev | awk '{print $NF}')
+ 		printf -- '-svn%s' "$rev"
  
-+KCSAN_SANITIZE_common.o = n
-+KCSAN_SANITIZE_perf_event.o = n
-+
- # Don't trace early stages of a secondary CPU boot
- ifdef CONFIG_FUNCTION_TRACER
- CFLAGS_REMOVE_common.o = -pg
-diff --git a/arch/x86/lib/Makefile b/arch/x86/lib/Makefile
-index 5246db42de45..4e4b74f525f2 100644
---- a/arch/x86/lib/Makefile
-+++ b/arch/x86/lib/Makefile
-@@ -5,11 +5,13 @@
- 
- # Produces uninteresting flaky coverage.
- KCOV_INSTRUMENT_delay.o	:= n
-+KCSAN_SANITIZE_delay.o := n
- 
- # Early boot use of cmdline; don't instrument it
- ifdef CONFIG_AMD_MEM_ENCRYPT
- KCOV_INSTRUMENT_cmdline.o := n
- KASAN_SANITIZE_cmdline.o  := n
-+KCSAN_SANITIZE_cmdline.o  := n
- 
- ifdef CONFIG_FUNCTION_TRACER
- CFLAGS_REMOVE_cmdline.o = -pg
-diff --git a/arch/x86/mm/Makefile b/arch/x86/mm/Makefile
-index 84373dc9b341..ee871602f96a 100644
---- a/arch/x86/mm/Makefile
-+++ b/arch/x86/mm/Makefile
-@@ -7,6 +7,9 @@ KCOV_INSTRUMENT_mem_encrypt_identity.o	:= n
- KASAN_SANITIZE_mem_encrypt.o		:= n
- KASAN_SANITIZE_mem_encrypt_identity.o	:= n
- 
-+KCSAN_SANITIZE_mem_encrypt.o		:= n
-+KCSAN_SANITIZE_mem_encrypt_identity.o	:= n
-+
- ifdef CONFIG_FUNCTION_TRACER
- CFLAGS_REMOVE_mem_encrypt.o		= -pg
- CFLAGS_REMOVE_mem_encrypt_identity.o	= -pg
-diff --git a/arch/x86/purgatory/Makefile b/arch/x86/purgatory/Makefile
-index fb4ee5444379..72060744f34f 100644
---- a/arch/x86/purgatory/Makefile
-+++ b/arch/x86/purgatory/Makefile
-@@ -18,6 +18,7 @@ LDFLAGS_purgatory.ro := -e purgatory_start -r --no-undefined -nostdlib -z nodefa
- targets += purgatory.ro
- 
- KASAN_SANITIZE	:= n
-+KCSAN_SANITIZE	:= n
- KCOV_INSTRUMENT := n
- 
- # These are adjustments to the compiler flags used for objects that
-diff --git a/arch/x86/realmode/Makefile b/arch/x86/realmode/Makefile
-index 682c895753d9..4fc7ce2534dd 100644
---- a/arch/x86/realmode/Makefile
-+++ b/arch/x86/realmode/Makefile
-@@ -7,6 +7,7 @@
- #
- #
- KASAN_SANITIZE			:= n
-+KCSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
- 
- subdir- := rm
-diff --git a/arch/x86/realmode/rm/Makefile b/arch/x86/realmode/rm/Makefile
-index f60501a384f9..6f7fbe9dfda6 100644
---- a/arch/x86/realmode/rm/Makefile
-+++ b/arch/x86/realmode/rm/Makefile
-@@ -7,6 +7,7 @@
- #
- #
- KASAN_SANITIZE			:= n
-+KCSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
- 
- # Prevents link failures: __sanitizer_cov_trace_pc() is not linked in.
-diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
-index 0460c7581220..a56981286623 100644
---- a/drivers/firmware/efi/libstub/Makefile
-+++ b/drivers/firmware/efi/libstub/Makefile
-@@ -32,6 +32,7 @@ KBUILD_CFLAGS			:= $(cflags-y) -DDISABLE_BRANCH_PROFILING \
- 
- GCOV_PROFILE			:= n
- KASAN_SANITIZE			:= n
-+KCSAN_SANITIZE			:= n
- UBSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
- 
+ 		# All done with svn
 -- 
-2.23.0.700.g56cf767bdb-goog
+2.21.0
 
