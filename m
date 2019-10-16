@@ -2,313 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57C37D960A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 17:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F8C9D9660
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 18:08:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405891AbfJPPyB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Oct 2019 11:54:01 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:33422 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405903AbfJPPyA (ORCPT
+        id S2390244AbfJPQIW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Oct 2019 12:08:22 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:48576 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732188AbfJPQIV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:54:00 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 60so20586229otu.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2019 08:53:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ES8PPxqISv6le2aU+Na1jJhECeSWLsXBsBUpCljFmNc=;
-        b=oO69GKlEUEmZWfog28/tduGmrNxTECrWedf44ep3BiJWADibe3BtF/qSPOt+lHQnrd
-         HMZ/O6vy/oZ1Mn29CFgrBvva1cxYf0fsP2Iv2I85mFP+PSSHxMWS5bWwvJtAkW4KeQ4X
-         zHsZ4zn4Ud3sy3FtVlyWWHfups+bSfs5dcKPEQoYxyP86YUHE43Ssz5B42ovDjgprbuJ
-         QoImASQ3r2C39DI1HTT9w7MtYoLRwjzHESnKd/q21EZ4qeAz9arZ/6uRGqW264QE2D9u
-         M4kZpDAKBF3fk3pugbmFA+dNIL07VCSKkOnXhdXNc50ltBiqs8ufauu0rzHnctKYwyTf
-         J+zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ES8PPxqISv6le2aU+Na1jJhECeSWLsXBsBUpCljFmNc=;
-        b=DAu47VJBk5O15reEaboWEGpU/FVEIKTwcTZXAWScZ4jERkABeKAsWZpAC0hdwoOf1t
-         qRkKOplx8Cs7W24wqUKm6o8GEqETOm6tKP9HaONQct05zYOsSlaaO6VA7D3rE8ZmoEoU
-         29hBBzBgQZPspjBaSdGads4YSlnFdsXlOWfc9clelKgL0IIxGUd1hNtkkg1A0KZIG/pt
-         ok4qPZhL53UtRiLE5MUUf4Fw/2ihNWn0+TduDDUsUY8eU7CV/OuqekT6haqmTFN7skVl
-         h1/lXNn9cxv5wZu3c1p4PjYUn0vv7xwaRX55PwN33NshLFDmGfB81Fp2tpQ1KDpeq/xD
-         SeOg==
-X-Gm-Message-State: APjAAAX5AZGFTGycGWbiCyYMYe1x1GXfcg1tuEEXD9TFUH0MCOOSU2v1
-        DfqU3SZhOhnLbFTg7gGqlIxNbZegqxm7XmIxfyllbg==
-X-Google-Smtp-Source: APXvYqy/bEpTtLLHRnuZTAKQyMKjVxdlLHEt24tIzExwmKRAvwqnmZoQehyCbZB5w1Ds0iSmKpp3CZhKegjg3ge7PUQ=
-X-Received: by 2002:a9d:7590:: with SMTP id s16mr8514934otk.2.1571241237486;
- Wed, 16 Oct 2019 08:53:57 -0700 (PDT)
+        Wed, 16 Oct 2019 12:08:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=oiKEHdS8biAfxu8EaK2ZrXR0yySguU1MKB+SrQtNg8A=; b=e3y/nq3VKcddu+6AV5ybwVV3I
+        lragupywXtbHyMts2l0QMhpi8FqPSmrFfE6dK3Zgq2jO3tCFU796uwAcHY7f/L2pM9ZuzzUvg/KIL
+        JN51XQyLYslah0jjKCYR7hWJe4ahpbE6gId8x8CzlNzGLGMjoH0LkHqObxJy5U3cELoWfCaDBD7XJ
+        soRoPyDSVpKSdJlCbBkyWfRzdITVJsj+7xusl3901N/lX82DO2IakkCEnaHnbBFUt7kt8ulRmerGx
+        Qn605uMRNsH9eczyJGKcidjxSionSm+5JfqSzG5fd/+TuHt5P4y9wjKSSQSEe5PEYGjmbJhdeo3Pz
+        DdA55wI4w==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iKlqW-0007Gf-9c; Wed, 16 Oct 2019 16:08:20 +0000
+Subject: Re: [PATCH] scripts : prune-kernel : prune kernels generalized way
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bfields@fieldses.org
+References: <20191016061312.10626-1-unixbhaskar@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <307349e6-69b0-b894-a2b9-edfd5b0fe4c7@infradead.org>
+Date:   Wed, 16 Oct 2019 09:08:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016151643.GC46264@lakrids.cambridge.arm.com>
-In-Reply-To: <20191016151643.GC46264@lakrids.cambridge.arm.com>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 16 Oct 2019 17:53:45 +0200
-Message-ID: <CANpmjNNctoVsUc+VbJ_RAMgLxcbvjq55gK1NdE0G0muMdv1+Ng@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>, ard.biesheuvel@linaro.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        dave.hansen@linux.intel.com, dhowells@redhat.com,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191016061312.10626-1-unixbhaskar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 16 Oct 2019 at 17:16, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
-> > diff --git a/include/linux/sched.h b/include/linux/sched.h
-> > index 2c2e56bd8913..34a1d9310304 100644
-> > --- a/include/linux/sched.h
-> > +++ b/include/linux/sched.h
-> > @@ -1171,6 +1171,13 @@ struct task_struct {
-> >  #ifdef CONFIG_KASAN
-> >       unsigned int                    kasan_depth;
-> >  #endif
-> > +#ifdef CONFIG_KCSAN
-> > +     /* See comments at kernel/kcsan/core.c: struct cpu_state. */
-> > +     int                             kcsan_disable;
-> > +     int                             kcsan_atomic_next;
-> > +     int                             kcsan_atomic_region;
-> > +     bool                            kcsan_atomic_region_flat;
-> > +#endif
->
-> Should these be unsigned?
+On 10/15/19 11:13 PM, Bhaskar Chowdhury wrote:
+> This patch will remove old kernel from the system in a selective way.
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+> Thanks, a bunch to Randy for the hand holding . :)
 
-I prefer to keep them int, as they can become negative (rather than
-underflow with unsigned), if we e.g. have unbalanced
-kcsan_enable_current etc. Since we do not need the full unsigned range
-(these values should stay relatively small), int is more than enough.
+Hi Bhaskar,
 
-> > +/*
-> > + * Per-CPU state that should be used instead of 'current' if we are not in a
-> > + * task.
-> > + */
-> > +struct cpu_state {
-> > +     int disable; /* disable counter */
-> > +     int atomic_next; /* number of following atomic ops */
-> > +
-> > +     /*
-> > +      * We use separate variables to store if we are in a nestable or flat
-> > +      * atomic region. This helps make sure that an atomic region with
-> > +      * nesting support is not suddenly aborted when a flat region is
-> > +      * contained within. Effectively this allows supporting nesting flat
-> > +      * atomic regions within an outer nestable atomic region. Support for
-> > +      * this is required as there are cases where a seqlock reader critical
-> > +      * section (flat atomic region) is contained within a seqlock writer
-> > +      * critical section (nestable atomic region), and the "mismatching
-> > +      * kcsan_end_atomic()" warning would trigger otherwise.
-> > +      */
-> > +     int atomic_region;
-> > +     bool atomic_region_flat;
-> > +};
-> > +static DEFINE_PER_CPU(struct cpu_state, this_state) = {
-> > +     .disable = 0,
-> > +     .atomic_next = 0,
-> > +     .atomic_region = 0,
-> > +     .atomic_region_flat = 0,
-> > +};
->
-> These are the same as in task_struct, so I think it probably makes sense
-> to have a common structure for these, e.g.
->
-> | struct kcsan_ctx {
-> |       int     disable;
-> |       int     atomic_next;
-> |       int     atomic_region;
-> |       bool    atomic_region_flat;
-> | };
->
-> ... which you then place within task_struct, e.g.
->
-> | #ifdef CONFIG_KCSAN
-> |       struct kcsan_ctx        kcsan_ctx;
-> | #endif
->
-> ... and here, e.g.
->
-> | static DEFINE_PER_CPU(struct kcsan_ctx, kcsan_cpu_ctx);
->
-> That would simplify a number of cases below where you have to choose one
-> or the other, as you can choose the pointer, then handle the rest in a
-> common way.
->
-> e.g. for:
->
-> > +static inline bool is_atomic(const volatile void *ptr)
-> > +{
-> > +     if (in_task()) {
-> > +             if (unlikely(current->kcsan_atomic_next > 0)) {
-> > +                     --current->kcsan_atomic_next;
-> > +                     return true;
-> > +             }
-> > +             if (unlikely(current->kcsan_atomic_region > 0 ||
-> > +                          current->kcsan_atomic_region_flat))
-> > +                     return true;
-> > +     } else { /* interrupt */
-> > +             if (unlikely(this_cpu_read(this_state.atomic_next) > 0)) {
-> > +                     this_cpu_dec(this_state.atomic_next);
-> > +                     return true;
-> > +             }
-> > +             if (unlikely(this_cpu_read(this_state.atomic_region) > 0 ||
-> > +                          this_cpu_read(this_state.atomic_region_flat)))
-> > +                     return true;
-> > +     }
-> > +
-> > +     return kcsan_is_atomic(ptr);
-> > +}
->
-> ... you could have something like:
->
-> | struct kcsan_ctx *kcsan_get_ctx(void)
-> | {
-> |       return in_task() ? &current->kcsan_ctx : this_cpu_ptr(kcsan_cpu_ctx);
-> | }
-> |
-> | static inline bool is_atomic(const volatile void *ptr)
-> | {
-> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
-> |       if (unlikely(ctx->atomic_next > 0) {
-> |               --ctx->atomic_next;
-> |               return true;
-> |       }
-> |       if (unlikely(ctx->atomic_region > 0 || ctx->atomic_region_flat))
-> |               return true;
-> |
-> |       return kcsan_is_atomic(ptr);
-> | }
->
-> ... avoiding duplicating the checks for task/irq contexts.
->
-> It's not clear to me how either that or the original code works if a
-> softirq is interrupted by a hardirq. IIUC most of the fields should
-> remain stable over that window, since the hardirq should balance most
-> changes it makes before returning, but I don't think that's true for
-> atomic_next. Can't that be corrupted from the PoV of the softirq
-> handler?
+First problem is that patch complains:
 
-As you say, these fields should balance. So far I have not observed
-any issues. For atomic_next I'm not concerned as it is an
-approximation either way (see seqlock patch), and it's fine if there
-is a small error.
+checking file scripts/prune-kernel
+Using Plan A...
+patch: **** malformed patch at line 87: 2.21.0
 
-> [...]
->
-> > +void kcsan_begin_atomic(bool nest)
-> > +{
-> > +     if (nest) {
-> > +             if (in_task())
-> > +                     ++current->kcsan_atomic_region;
-> > +             else
-> > +                     this_cpu_inc(this_state.atomic_region);
-> > +     } else {
-> > +             if (in_task())
-> > +                     current->kcsan_atomic_region_flat = true;
-> > +             else
-> > +                     this_cpu_write(this_state.atomic_region_flat, true);
-> > +     }
-> > +}
->
-> Assuming my suggestion above wasn't bogus, this can be:
->
-> | void kcsan_begin_atomic(boot nest)
-> | {
-> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
-> |       if (nest)
-> |               ctx->atomic_region++;
-> |       else
-> |               ctx->atomic_region_flat = true;
-> | }
->
-> > +void kcsan_end_atomic(bool nest)
-> > +{
-> > +     if (nest) {
-> > +             int prev =
-> > +                     in_task() ?
-> > +                             current->kcsan_atomic_region-- :
-> > +                             (this_cpu_dec_return(this_state.atomic_region) +
-> > +                              1);
-> > +             if (prev == 0) {
-> > +                     kcsan_begin_atomic(true); /* restore to 0 */
-> > +                     kcsan_disable_current();
-> > +                     WARN(1, "mismatching %s", __func__);
-> > +                     kcsan_enable_current();
-> > +             }
-> > +     } else {
-> > +             if (in_task())
-> > +                     current->kcsan_atomic_region_flat = false;
-> > +             else
-> > +                     this_cpu_write(this_state.atomic_region_flat, false);
-> > +     }
-> > +}
->
-> ... similarly:
->
-> | void kcsan_end_atomic(bool nest)
-> | {
-> |       struct kcsan_ctx *ctx = kcsan_get_ctx();
-> |
-> |       if (nest)
-> |               if (ctx->kcsan_atomic_region--) {
-> |                       kcsan_begin_atomic(true); /* restore to 0 */
-> |                       kcsan_disable_current();
-> |                       WARN(1, "mismatching %s"\ __func__);
-> |                       kcsan_enable_current();
-> |               }
-> |       } else {
-> |               ctx->atomic_region_flat = true;
-> |       }
-> | }
->
-> > +void kcsan_atomic_next(int n)
-> > +{
-> > +     if (in_task())
-> > +             current->kcsan_atomic_next = n;
-> > +     else
-> > +             this_cpu_write(this_state.atomic_next, n);
-> > +}
->
-> ... and:
->
-> | void kcsan_atomic_nextint n)
-> | {
-> |       kcsan_get_ctx()->atomic_next = n;
-> | }
+IOW, this patch does not apply cleanly.
 
-Otherwise, yes, this makes much more sense and I will just introduce
-the struct and integrate the above suggestions for v2.
+More comments below.
 
-Many thanks,
--- Marco
+
+>  scripts/prune-kernel | 71 ++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 59 insertions(+), 12 deletions(-)
+> 
+> diff --git a/scripts/prune-kernel b/scripts/prune-kernel
+> index e8aa940bc0a9..78dd4c854b2b 100755
+> --- a/scripts/prune-kernel
+> +++ b/scripts/prune-kernel
+> @@ -5,17 +5,64 @@
+>  # again, /boot and /lib/modules/ eventually fill up.
+>  # Dumb script to purge that stuff:
+> 
+> +#for f in "$@"
+> +#do
+> +#        if rpm -qf "/lib/modules/$f" >/dev/null; then
+> +#                echo "keeping $f (installed from rpm)"
+> +#        elif [ $(uname -r) = "$f" ]; then
+> +#                echo "keeping $f (running kernel) "
+> +#        else
+> +#                echo "removing $f"
+> +#                rm -f "/boot/initramfs-$f.img" "/boot/System.map-$f"
+> +#                rm -f "/boot/vmlinuz-$f"   "/boot/config-$f"
+> +#                rm -rf "/lib/modules/$f"
+> +#                new-kernel-pkg --remove $f
+> +#        fi
+> +#done
+> +boot_dir=/boot
+> +modules_dir=/lib/modules
+> +
+> +function remove_old_kernel(){
+> +	cd $boot_dir
+> +	rm -If vmlinuz-$kenrel_version System.map-$kernel_version config-$kernel_verison
+
+Typos:
+	               $kernel_version                                   $kernel_version
+
+I.e., you can't have tested this.
+
+> +}
+> +function remove_old_kernel_modules_dir(){
+> +	cd $modules_dir
+> +	rm -rf $modules_version
+> +}
+> +printf "\n\n Enlist the installed kernels \n\n"
+> +
+> +find $boot_dir -name "vmlinuz-*" -type f  -exec ls -1 {} \;
+> +
+> +printf "\n\n\n Please give the kernel version to remove: %s"
+> +read kernel_version
+> +
+
+If I enter nothing here, no need to call remove_old_kernel.
+
+> +remove_old_kernel
+> +
+> +printf "\n\n Enlist the installed modules directory \n\n"
+> +
+> +find $modules_dir  -maxdepth 0 -type d -exec ls -1 {} \;
+> +
+> +printf "\n\n Please give the full modules directory name to remove: %s"
+> +read modules_version
+
+If I enter nothing here, don't call remove_old_kernel_modules_dir.
+
+> +
+> +remove_old_kernel_modules_dir
+> +
+> +printf "\n\n Removed kernel version: $kernel_version and associcated modules: $modules_version ...Done \n"
+
+       typo:                                                associated
+
+> +while :
+>  do
+
+Why is the "do" line missing a '+'?  The only do/done in the current script
+are already listed above as being commented out.
+
+> +printf "\n\n Do you want to remove another?[YN] : %s"
+> +read response
+> +
+> +if [[ $response == "Y" ]];then
+> +	printf "Please give another version to remove : %s"
+> +	read kernel_version
+> +	remove_old_kernel
+> +	printf "\n\n Please give the full modules directory name to remove: %s"
+> +	read modules_version
+> +	remove_old_kernel_modules_dir
+> +elif [[ $response == "N" ]];then
+> +	printf "\n\n Alright,no more. \n\n"
+
+Just exit, no printf needed.
+
+> +	exit 1
+> +fi
+>  done
+
+Same comment for "done" as for "do" above.
+
+> --
+> 2.21.0
+
+
+-- 
+~Randy
