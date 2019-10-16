@@ -2,165 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E413BD85DE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 04:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67062D85F5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 04:38:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727054AbfJPCXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Oct 2019 22:23:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:59192 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726534AbfJPCXb (ORCPT
+        id S2388284AbfJPCiC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Oct 2019 22:38:02 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:36857 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729087AbfJPCiB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Oct 2019 22:23:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=U6gaGl4ZpC5LRRX8VCe49mQAXDRUM7YNegWSvt2a6Nw=; b=oj2M5fdiWUVpDzruitqkaKM6L
-        PLKBc9Ih//6M4s43x3qh7GhD7w+5P0pYRFnOyYMTy3qHb2ltzB7C74PyOIO+2+iLRk4l6ordEuGGV
-        ray5zedAvjAxHJlTZr4JChgVKPr1yP/pKs6IkWfS6PTRKh+EX4bd6MbxcWDBolXuil6uURtWFbRsE
-        AkgrknERX5kOEP54gV+STCh/jVfAEHMHT/4CzRQt71A21rK+6CG6G0m4jVmYEdJlx9u4ay3qHSFfr
-        WMjRe/NhU3AmMJvt7L6yvd1avTL0qHKYU3U6nZ/cK43GuROapC0ir7kDB0Y8NUU8PPqeqHFucmyCG
-        YlQgfXRyw==;
-Received: from [2601:1c0:6280:3f0::9ef4]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iKYyH-00068Z-PW; Wed, 16 Oct 2019 02:23:29 +0000
-Subject: Re: [PATCH] :scripts: prune-kernel : prunning kernel generalize way
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bfields@fieldses.org
-References: <20191015145548.24165-1-unixbhaskar@gmail.com>
- <c075bcce-0d6d-abee-7fb5-80821f2ae3a2@infradead.org>
- <20191016013601.GA13621@Gentoo>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b6ad816a-c67e-f16c-3613-563a43b629ad@infradead.org>
-Date:   Tue, 15 Oct 2019 19:23:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        Tue, 15 Oct 2019 22:38:01 -0400
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x9G2bvjE003202
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2019 11:37:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x9G2bvjE003202
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1571193478;
+        bh=UodyNJvnWbFeQsREuWQJ1Gw2fjd0qicT6SgiHx1PZus=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Oer9s3oQMqbydx3tsnpFgJvSot+iUERwqpIEh7znGzNVxnyL0n4BXfOpi1CVH5pFv
+         cCQp4Ngl281wW4VTIwAgdyXx3bLqu8dawBeELetZO+8Di4ET0pQNbI8xcXbNa14eQM
+         MdUBhdvM2nnDfvNenUc8YGaWmbb+hlXDAF+a5TZlFq8wfMweimtHxuuK+zCJbCVjUM
+         lcWNTzlBShScj85134MCwK6mwjoBMJTuy8hDkMgq2CLgKvh2RfxRcL/bKAzuN0/1dF
+         x14MpUqUncUN4DIVvx1jtGCgErc0lIHbVi9zF0jFBt4gvYUWTv57arTf3funDoVXks
+         HofK3VfAHyGrQ==
+X-Nifty-SrcIP: [209.85.217.54]
+Received: by mail-vs1-f54.google.com with SMTP id l2so14562774vsr.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 15 Oct 2019 19:37:57 -0700 (PDT)
+X-Gm-Message-State: APjAAAVx5e6oSV1QQPOgwpjip/smtXwLNQSp1W9fHVi7A89aMNsTUCHv
+        42QBF/orFZCK0Gulb9frsjDFoVFJjPFZ5AM+LnA=
+X-Google-Smtp-Source: APXvYqx6iCDHaABF8DAuk1UtdTJJkm/dcSLcPV+JidD5h1ZWFLnzPvnf1MdrbQL2kQUynN2/phVyIkrn4am8DoedbTI=
+X-Received: by 2002:a05:6102:97:: with SMTP id t23mr22708469vsp.179.1571193476472;
+ Tue, 15 Oct 2019 19:37:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191016013601.GA13621@Gentoo>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20191012045328.24443-1-unixbhaskar@gmail.com>
+In-Reply-To: <20191012045328.24443-1-unixbhaskar@gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 16 Oct 2019 11:37:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQGLX+Z5Ti3LBWsDQ7yz4isL=J6Vwj9N2Ag4dk1HN9N9w@mail.gmail.com>
+Message-ID: <CAK7LNAQGLX+Z5Ti3LBWsDQ7yz4isL=J6Vwj9N2Ag4dk1HN9N9w@mail.gmail.com>
+Subject: Re: [PATCH] scripts: setlocalversion: fix shell syntax
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nico Schottelius <nico-linuxsetlocalversion@schottelius.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10/15/19 6:36 PM, Bhaskar Chowdhury wrote:
-> On 16:03 Tue 15 Oct 2019, Randy Dunlap wrote:
->> Subject: s/prunning/pruning/
->> Subject:  s/:scripts:/scripts:/
->>
->> On 10/15/19 7:55 AM, Bhaskar Chowdhury wrote:
->>> This patch will remove old kernels from system selective way.
->>
->>                                                 in a selective way.
->>
->>>
->>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->>> ---
->>>  scripts/prune-kernel | 16 ++++++++--------
->>>  1 file changed, 8 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/scripts/prune-kernel b/scripts/prune-kernel
->>> index 74143f229f84..28fae6c91218 100755
->>> --- a/scripts/prune-kernel
->>> +++ b/scripts/prune-kernel
->>> @@ -33,7 +33,7 @@ printf "\t\n Enlist the installed kernels \n\n\n"
->>>  cd $boot_dir && pwd
->>>
->>>  #Bash experts not recomend to run ls inside script,but you can by running that too
->>> -# ls -1 vmlinuz-*
->>> +# ls -1 vmlinuz-*
->>>
->>>  #This is the recommended way , little complex but that's what people want to see!
->>>
->>> @@ -42,10 +42,10 @@ find $boot_dir -name "vmlinuz-*" -type f -print0 -exec ls -1 {} \;
->>>  printf "\n\n\n Well, we need to purge some kernel to gain some space.\n\n\n"
->>>
->>>
->>> -printf "Please give the kernel version to remove: %s"
->>> +printf "Please give the kernel version to remove: %s"
->>>  read kernel_version
->>>
->>> -remove_old_kernel
->>> +remove_old_kernel
->>>
->>>  printf "\n\n Remove associated modules too ... \n\n"
->>>
->>> @@ -54,7 +54,7 @@ cd $modules_dir && pwd
->>>  printf "\n\n\n Enlist the installed modules \n\n\n"
->>>
->>>  #This is (-1) minus one not l(el)
->>> -# ls -1
->>> +# ls -1
->>>
->>>  find $modules_dir -name "$kernel_version-*" -type f -print0 -exec ls -1 {} \;
->>>
->>> @@ -66,14 +66,14 @@ rm -rf $modules_version
->>>  printf "\n\n Done \n\n"
->>>
->>>  printf "\n\n Want to remove another?[Yn] : %s"
->>> -read response
->>> +read response
->>>
->>>
->>>  if [[ $response == "Y" ]]; then
->>> - printf "Please give another version to remove : %s"
->>> + printf "Please give another version to remove : %s"
->>>   read kernel_version
->>>
->>> -remove_old_kernel
->>> +remove_old_kernel
->>>
->>>  elif [[ $response == "n" ]]; then
->>>
->>> @@ -81,4 +81,4 @@ elif [[ $response == "n" ]]; then
->>>
->>>  fi
->>>
->>> -exit 0
->>> +exit 0
->>> -- 
->>> 2.21.0
->>>
->>
->> Trying to apply this patch with 'patch --verbose' says:
->>
->> checking file scripts/prune-kernel
->> Using Plan A...
->> Hunk #1 FAILED at 33.
->> Hunk #2 FAILED at 42.
->> Hunk #3 FAILED at 54.
->> Hunk #4 FAILED at 66.
->> Hunk #5 FAILED at 81.
->> 5 out of 5 hunks FAILED
->> Hmm...  Ignoring the trailing garbage.
->> done
->>
->>
->> Those + and - lines with the same content don't make any sense.
->>
->> And probably Cc: the author of the script:
->> J. Bruce Fields <bfields@fieldses.org>
->>
->> -- 
->> ~Randy
-> 
-> Thank you Randy, silly mistakes creeps in...my bad ...will correct that
-> and resend.
-> BTW I haven't found Bruce's name anywhere...where did you get it? Or did I
-> miss the obvious??
+Hi Bhaskar,
 
-It's in the git repository history for this file.
 
-> Ran against get_maintainers and it only throw a open list , no other
-> names.So kinda, stump by that.> Time to redo it again...huh
+I think the commit subject "scripts: setlocalversion: fix shell syntax"
+is strange. This patch does not fix any bug.
+`some_command` works as well as $(some-command)
+
+
+Please describe "what this commit does" in the commit subject,
+and "why this change is needed" in the commit description.
+
+
+An example of the subject would be:
+
+scripts: setlocalversion: replace backquote to dollar parenthesis
+
+
+An example of the commit description might be:
+
+This commit improves the code readability.
+
+
+
+
+
+On Sat, Oct 12, 2019 at 1:54 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+>
+> This patch replace backquote to dollar parenthesis.
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  scripts/setlocalversion | 22 +++++++++++-----------
+>  1 file changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+> index 220dae0db3f1..b82a29bfc78a 100755
+> --- a/scripts/setlocalversion
+> +++ b/scripts/setlocalversion
+> @@ -45,11 +45,11 @@ scm_version()
+>
+>         # Check for git and a git repo.
+>         if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
+> -          head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
+> +               head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
+
+This line is fine as-is.
+
+
+
+
+>                 # If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
+>                 # it, because this version is defined in the top level Makefile.
+> -               if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
+> +               if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
+>
+>                         # If only the short version is requested, don't bother
+>                         # running further git commands
+> @@ -59,7 +59,7 @@ scm_version()
+>                         fi
+>                         # If we are past a tagged commit (like
+>                         # "v2.6.30-rc5-302-g72357d5"), we pretty print it.
+> -                       if atag="`git describe 2>/dev/null`"; then
+> +                       if atag="$(git describe 2>/dev/null)"; then
+>                                 echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
+>
+>                         # If we don't have a tag at all we print -g{commitish}.
+> @@ -70,7 +70,7 @@ scm_version()
+>
+>                 # Is this git on svn?
+>                 if git config --get svn-remote.svn.url >/dev/null; then
+> -                       printf -- '-svn%s' "`git svn find-rev $head`"
+> +                       printf -- '-svn%s' "$(git svn find-rev $head)"
+>                 fi
+>
+>                 # Check for uncommitted changes.
+> @@ -91,15 +91,15 @@ scm_version()
+>         fi
+>
+>         # Check for mercurial and a mercurial repo.
+> -       if test -d .hg && hgid=`hg id 2>/dev/null`; then
+> +       if test -d .hg && hgid=$(hg id 2>/dev/null); then
+>                 # Do we have an tagged version?  If so, latesttagdistance == 1
+> -               if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
+> -                       id=`hg log -r . --template '{latesttag}'`
+> +               if [ "$(hg log -r . --template '{latesttagdistance}')" == "1" ]; then
+> +                       id=$(hg log -r . --template '{latesttag}')
+>                         printf '%s%s' -hg "$id"
+>                 else
+> -                       tag=`printf '%s' "$hgid" | cut -d' ' -f2`
+> +                       tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
+>                         if [ -z "$tag" -o "$tag" = tip ]; then
+> -                               id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
+> +                               id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
+>                                 printf '%s%s' -hg "$id"
+>                         fi
+>                 fi
+> @@ -115,8 +115,8 @@ scm_version()
+>         fi
+>
+>         # Check for svn and a svn repo.
+> -       if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
+> -               rev=`echo $rev | awk '{print $NF}'`
+> +       if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
+> +               rev=$(echo $rev | awk '{print $NF}')
+>                 printf -- '-svn%s' "$rev"
+>
+>                 # All done with svn
+> --
+> 2.21.0
+>
 
 
 -- 
-~Randy
+Best Regards
+Masahiro Yamada
