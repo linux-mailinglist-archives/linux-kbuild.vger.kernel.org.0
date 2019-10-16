@@ -2,109 +2,165 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAFC6D85B0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 04:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E413BD85DE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 04:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388923AbfJPCAa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 15 Oct 2019 22:00:30 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:34283 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727488AbfJPCAa (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 15 Oct 2019 22:00:30 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 46tFqs03bsz9sP7;
-        Wed, 16 Oct 2019 13:00:25 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1571191226;
-        bh=0KA4g3xowsqOnI9ovIRoXat3q18fqIJdjDOOFzRTZIg=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=XPgn6dcXOiENhvvPhScdow4uV6XbPWC/BZjzknSx1mU6zuIAhaMjhUAq9EcndoA8U
-         FiJoTuLImuL4G+j2ot562gMKoLKb8zxE2O0ShNPLunyJVc/6LAkX+9F4tB1OLvcPYi
-         Ty1JdudVrAYDJzRpQ6q3PYyO2XQKnU+yxJSwixPESIK6WCxUX90Fe5IvVEOVGitbuk
-         /6AlB1ZsGHmwqARGfbkYZOYrqLL4DvIA7YCzqeaUJLd+7YVW/UMmXXKKF1hVrrzUgE
-         sRMFALFgH9UfdEg1BNE9HeutVBQa9qAL1Xw9LgmhAIFgsQQL82AJqNrcASGRqPMrHv
-         f+TT+KahHEtqQ==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        shuah@kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] selftests: Add kselftest-all and kselftest-install targets
-In-Reply-To: <20190926224014.28910-1-skhan@linuxfoundation.org>
-References: <20190926224014.28910-1-skhan@linuxfoundation.org>
-Date:   Wed, 16 Oct 2019 13:00:21 +1100
-Message-ID: <87sgnttpoq.fsf@mpe.ellerman.id.au>
+        id S1727054AbfJPCXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Oct 2019 22:23:31 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59192 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726534AbfJPCXb (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 15 Oct 2019 22:23:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=U6gaGl4ZpC5LRRX8VCe49mQAXDRUM7YNegWSvt2a6Nw=; b=oj2M5fdiWUVpDzruitqkaKM6L
+        PLKBc9Ih//6M4s43x3qh7GhD7w+5P0pYRFnOyYMTy3qHb2ltzB7C74PyOIO+2+iLRk4l6ordEuGGV
+        ray5zedAvjAxHJlTZr4JChgVKPr1yP/pKs6IkWfS6PTRKh+EX4bd6MbxcWDBolXuil6uURtWFbRsE
+        AkgrknERX5kOEP54gV+STCh/jVfAEHMHT/4CzRQt71A21rK+6CG6G0m4jVmYEdJlx9u4ay3qHSFfr
+        WMjRe/NhU3AmMJvt7L6yvd1avTL0qHKYU3U6nZ/cK43GuROapC0ir7kDB0Y8NUU8PPqeqHFucmyCG
+        YlQgfXRyw==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iKYyH-00068Z-PW; Wed, 16 Oct 2019 02:23:29 +0000
+Subject: Re: [PATCH] :scripts: prune-kernel : prunning kernel generalize way
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bfields@fieldses.org
+References: <20191015145548.24165-1-unixbhaskar@gmail.com>
+ <c075bcce-0d6d-abee-7fb5-80821f2ae3a2@infradead.org>
+ <20191016013601.GA13621@Gentoo>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b6ad816a-c67e-f16c-3613-563a43b629ad@infradead.org>
+Date:   Tue, 15 Oct 2019 19:23:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20191016013601.GA13621@Gentoo>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Shuah,
+On 10/15/19 6:36 PM, Bhaskar Chowdhury wrote:
+> On 16:03 Tue 15 Oct 2019, Randy Dunlap wrote:
+>> Subject: s/prunning/pruning/
+>> Subject:  s/:scripts:/scripts:/
+>>
+>> On 10/15/19 7:55 AM, Bhaskar Chowdhury wrote:
+>>> This patch will remove old kernels from system selective way.
+>>
+>>                                                 in a selective way.
+>>
+>>>
+>>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>>> ---
+>>>  scripts/prune-kernel | 16 ++++++++--------
+>>>  1 file changed, 8 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/scripts/prune-kernel b/scripts/prune-kernel
+>>> index 74143f229f84..28fae6c91218 100755
+>>> --- a/scripts/prune-kernel
+>>> +++ b/scripts/prune-kernel
+>>> @@ -33,7 +33,7 @@ printf "\t\n Enlist the installed kernels \n\n\n"
+>>>  cd $boot_dir && pwd
+>>>
+>>>  #Bash experts not recomend to run ls inside script,but you can by running that too
+>>> -# ls -1 vmlinuz-*
+>>> +# ls -1 vmlinuz-*
+>>>
+>>>  #This is the recommended way , little complex but that's what people want to see!
+>>>
+>>> @@ -42,10 +42,10 @@ find $boot_dir -name "vmlinuz-*" -type f -print0 -exec ls -1 {} \;
+>>>  printf "\n\n\n Well, we need to purge some kernel to gain some space.\n\n\n"
+>>>
+>>>
+>>> -printf "Please give the kernel version to remove: %s"
+>>> +printf "Please give the kernel version to remove: %s"
+>>>  read kernel_version
+>>>
+>>> -remove_old_kernel
+>>> +remove_old_kernel
+>>>
+>>>  printf "\n\n Remove associated modules too ... \n\n"
+>>>
+>>> @@ -54,7 +54,7 @@ cd $modules_dir && pwd
+>>>  printf "\n\n\n Enlist the installed modules \n\n\n"
+>>>
+>>>  #This is (-1) minus one not l(el)
+>>> -# ls -1
+>>> +# ls -1
+>>>
+>>>  find $modules_dir -name "$kernel_version-*" -type f -print0 -exec ls -1 {} \;
+>>>
+>>> @@ -66,14 +66,14 @@ rm -rf $modules_version
+>>>  printf "\n\n Done \n\n"
+>>>
+>>>  printf "\n\n Want to remove another?[Yn] : %s"
+>>> -read response
+>>> +read response
+>>>
+>>>
+>>>  if [[ $response == "Y" ]]; then
+>>> - printf "Please give another version to remove : %s"
+>>> + printf "Please give another version to remove : %s"
+>>>   read kernel_version
+>>>
+>>> -remove_old_kernel
+>>> +remove_old_kernel
+>>>
+>>>  elif [[ $response == "n" ]]; then
+>>>
+>>> @@ -81,4 +81,4 @@ elif [[ $response == "n" ]]; then
+>>>
+>>>  fi
+>>>
+>>> -exit 0
+>>> +exit 0
+>>> -- 
+>>> 2.21.0
+>>>
+>>
+>> Trying to apply this patch with 'patch --verbose' says:
+>>
+>> checking file scripts/prune-kernel
+>> Using Plan A...
+>> Hunk #1 FAILED at 33.
+>> Hunk #2 FAILED at 42.
+>> Hunk #3 FAILED at 54.
+>> Hunk #4 FAILED at 66.
+>> Hunk #5 FAILED at 81.
+>> 5 out of 5 hunks FAILED
+>> Hmm...  Ignoring the trailing garbage.
+>> done
+>>
+>>
+>> Those + and - lines with the same content don't make any sense.
+>>
+>> And probably Cc: the author of the script:
+>> J. Bruce Fields <bfields@fieldses.org>
+>>
+>> -- 
+>> ~Randy
+> 
+> Thank you Randy, silly mistakes creeps in...my bad ...will correct that
+> and resend.
+> BTW I haven't found Bruce's name anywhere...where did you get it? Or did I
+> miss the obvious??
 
-I know this has been merged already, so this is just FYI and in case it
-helps anyone else who's tracking down build failures.
+It's in the git repository history for this file.
 
-Sorry I didn't reply before you merged it, I was on leave.
-
-Shuah Khan <skhan@linuxfoundation.org> writes:
-> Add kselftest-all target to build tests from the top level
-> Makefile. This is to simplify kselftest use-cases for CI and
-> distributions where build and test systems are different.
->
-> Current kselftest target builds and runs tests on a development
-> system which is a developer use-case.
->
-> Add kselftest-install target to install tests from the top level
-> Makefile. This is to simplify kselftest use-cases for CI and
-> distributions where build and test systems are different.
->
-> This change addresses requests from developers and testers to add
-> support for installing kselftest from the main Makefile.
->
-> In addition, make the install directory the same when install is
-> run using "make kselftest-install" or by running kselftest_install.sh.
-> Also fix the INSTALL_PATH variable conflict between main Makefile and
-> selftests Makefile.
-...
-> diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-> index c3feccb99ff5..bad18145ed1a 100644
-> --- a/tools/testing/selftests/Makefile
-> +++ b/tools/testing/selftests/Makefile
-> @@ -171,9 +171,12 @@ run_pstore_crash:
->  # 1. output_dir=kernel_src
->  # 2. a separate output directory is specified using O= KBUILD_OUTPUT
->  # 3. a separate output directory is specified using KBUILD_OUTPUT
-> +# Avoid conflict with INSTALL_PATH set by the main Makefile
->  #
-> -INSTALL_PATH ?= $(BUILD)/install
-> -INSTALL_PATH := $(abspath $(INSTALL_PATH))
-> +KSFT_INSTALL_PATH ?= $(BUILD)/kselftest_install
-
-This change broke all my CI, because the tests no longer install in the
-place it's expecting them :/
-
-I can fix it by explicitly specifying the install path in my CI scripts.
-
-> +KSFT_INSTALL_PATH := $(abspath $(KSFT_INSTALL_PATH))
-> +# Avoid changing the rest of the logic here and lib.mk.
-> +INSTALL_PATH := $(KSFT_INSTALL_PATH)
-
-But because the over-rideable variable changed from INSTALL_PATH to
-KSFT_INSTALL_PATH I will need to export both of them in order for my CI
-to work with old and new kernels.
-
-So to emulate the old behaviour for old & new kernels you need to do:
-
-# export KSFT_INSTALL_PATH=install
-# export INSTALL_PATH=install
-# make -C tools/testing/selftests install
+> Ran against get_maintainers and it only throw a open list , no other
+> names.So kinda, stump by that.> Time to redo it again...huh
 
 
-cheers
+-- 
+~Randy
