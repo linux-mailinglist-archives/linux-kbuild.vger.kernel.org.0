@@ -2,200 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87893D8D4C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 12:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3A4D8F2C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Oct 2019 13:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390332AbfJPKHE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Oct 2019 06:07:04 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:36856 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388503AbfJPKHE (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Oct 2019 06:07:04 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k20so19526843oih.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2019 03:07:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qMLDRlP6KAQbJ6EBR+tTwOR/BZha8QBB781yjh9f+vI=;
-        b=IzhRqtVYSIrQOWk8qCQYn4/rTOnHC2BhU7+kR7WbjbeLrfwEgkriTH0i/iiLXUxE6w
-         9TY1zEHAxm9LWqj9U9FKFNFpJPksG+o5jpTnwf0AH9L9qx4EjTfEmYZspBAwyoYTq58y
-         2XoJim6PnzA8V5rkbEZ+1gHJd/d8E1TT3mVou1qLNPGV59Oh4Lp8AGHQC6TqedqA1I80
-         mFPnDoRcUI6zhCDUTpoHxhcuDdKJAMAQgwv1O9N/6gP1uqvOtZZc24tKklN7heCOtCLw
-         AGLWDPjGICR0HouGNZzMf7ZxOX6YjI/TIY2ddPvOeO7bcqUGL2vcWzGzn9/wEQ98UyfN
-         oZxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qMLDRlP6KAQbJ6EBR+tTwOR/BZha8QBB781yjh9f+vI=;
-        b=Bho3CpEmSk8wGHkoKiGeuMaOYiMew+HKeodFz0UGaWWjVdK0JoHqKJQH9AQjldM4Sb
-         eF2hzuqX5MeQSjW+fGt/8l8XIcvpx/2jEUPVzcB8o2YepLgM8AVUBbZSMgsbZ/YAv4ua
-         rUEHNBQ7gYD3YQaYxJ9S7xCHuymGd2sJn6/zyqE1V/m2hvETmeCytd5hyWg9fhBClcXh
-         TKOa6JIDAQCpdclz6xNCc5cz9z+9uQBzwRMVvB4cmBkq5sbLrnk/yT8l8hpoGYBI55Ax
-         AyGyJ5GUle8PVsDE+flrm7Hwdhi/3Pv1kliJNH2xZtYvkBvF6BiUez0j0jhKZP4N5TD/
-         xgtg==
-X-Gm-Message-State: APjAAAVFmfafAKjGp6qYnWnvo3ASBAD1/+gvgBMhjsx1mBtlwx2rFSBn
-        raVMk9yLZLWeXZP1YfRg5j2FunCoax7daCa38YF3yw==
-X-Google-Smtp-Source: APXvYqxWEIV0fVIrxNzDqgv+Do5nMi6aRtYEMsJW2Y12BL+F4CpGAX7l1gYylp2IQRBYF8VTmXy4feTlqfHWT/7/2sQ=
-X-Received: by 2002:aca:f492:: with SMTP id s140mr2789533oih.83.1571220422532;
- Wed, 16 Oct 2019 03:07:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016094234.GB2701514@tardis>
-In-Reply-To: <20191016094234.GB2701514@tardis>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 16 Oct 2019 12:06:51 +0200
-Message-ID: <CANpmjNOxmQDKin=9Cyi+ERVQ-ehH79AaPjRvJNfFfmgOjJAogA@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Boqun Feng <boqun.feng@gmail.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>, ard.biesheuvel@linaro.org,
-        Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>,
-        Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
+        id S2390950AbfJPLS4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Oct 2019 07:18:56 -0400
+Received: from foss.arm.com ([217.140.110.172]:36942 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389063AbfJPLS4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 16 Oct 2019 07:18:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 005F828;
+        Wed, 16 Oct 2019 04:18:54 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2B2573F6C4;
+        Wed, 16 Oct 2019 04:18:50 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 12:18:47 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
         dave.hansen@linux.intel.com, dhowells@redhat.com,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
+        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH 7/8] locking/atomics, kcsan: Add KCSAN instrumentation
+Message-ID: <20191016111847.GB44246@lakrids.cambridge.arm.com>
+References: <20191016083959.186860-1-elver@google.com>
+ <20191016083959.186860-8-elver@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191016083959.186860-8-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 16 Oct 2019 at 11:42, Boqun Feng <boqun.feng@gmail.com> wrote:
->
-> Hi Marco,
->
-> On Wed, Oct 16, 2019 at 10:39:52AM +0200, Marco Elver wrote:
-> [...]
-> > --- /dev/null
-> > +++ b/kernel/kcsan/kcsan.c
-> > @@ -0,0 +1,81 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +/*
-> > + * The Kernel Concurrency Sanitizer (KCSAN) infrastructure. For more info please
-> > + * see Documentation/dev-tools/kcsan.rst.
-> > + */
-> > +
-> > +#include <linux/export.h>
-> > +
-> > +#include "kcsan.h"
-> > +
-> > +/*
-> > + * Concurrency Sanitizer uses the same instrumentation as Thread Sanitizer.
->
-> Is there any documentation on the instrumentation? Like a complete list
-> for all instrumentation functions plus a description of where the
-> compiler will use those functions. Yes, the names of the below functions
-> are straightforward, but an accurate doc on the instrumentation will
-> cerntainly help people review KCSAN.
+Hi Marco,
 
-As far as I'm aware neither GCC nor Clang have documentation on the
-emitted instrumentation that we could reference (other than look into
-the compiler passes).
+On Wed, Oct 16, 2019 at 10:39:58AM +0200, Marco Elver wrote:
+> This adds KCSAN instrumentation to atomic-instrumented.h.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  include/asm-generic/atomic-instrumented.h | 192 +++++++++++++++++++++-
+>  scripts/atomic/gen-atomic-instrumented.sh |   9 +-
+>  2 files changed, 199 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/asm-generic/atomic-instrumented.h b/include/asm-generic/atomic-instrumented.h
+> index e8730c6b9fe2..9e487febc610 100644
+> --- a/include/asm-generic/atomic-instrumented.h
+> +++ b/include/asm-generic/atomic-instrumented.h
+> @@ -19,11 +19,13 @@
+>  
+>  #include <linux/build_bug.h>
+>  #include <linux/kasan-checks.h>
+> +#include <linux/kcsan-checks.h>
+>  
+>  static inline int
+>  atomic_read(const atomic_t *v)
+>  {
+>  	kasan_check_read(v, sizeof(*v));
+> +	kcsan_check_atomic(v, sizeof(*v), false);
 
-However it is as straightforward as it seems: the compiler emits
-instrumentation calls for all loads and stores that the compiler
-generates; inline asm is not instrumented. I will add a comment to
-that effect for v2.
+For legibility and consistency with kasan, it would be nicer to avoid
+the bool argument here and have kcsan_check_atomic_{read,write}()
+helpers...
+
+> diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
+> index e09812372b17..c0553743a6f4 100755
+> --- a/scripts/atomic/gen-atomic-instrumented.sh
+> +++ b/scripts/atomic/gen-atomic-instrumented.sh
+> @@ -12,15 +12,20 @@ gen_param_check()
+>  	local type="${arg%%:*}"
+>  	local name="$(gen_param_name "${arg}")"
+>  	local rw="write"
+> +	local is_write="true"
+>  
+>  	case "${type#c}" in
+>  	i) return;;
+>  	esac
+>  
+>  	# We don't write to constant parameters
+> -	[ ${type#c} != ${type} ] && rw="read"
+> +	if [ ${type#c} != ${type} ]; then
+> +		rw="read"
+> +		is_write="false"
+> +	fi
+>  
+>  	printf "\tkasan_check_${rw}(${name}, sizeof(*${name}));\n"
+> +	printf "\tkcsan_check_atomic(${name}, sizeof(*${name}), ${is_write});\n"
+
+... which would also simplify this.
+
+Though as below, we might want to wrap both in a helper local to
+atomic-instrumented.h.
+
+>  }
+>  
+>  #gen_param_check(arg...)
+> @@ -108,6 +113,7 @@ cat <<EOF
+>  ({									\\
+>  	typeof(ptr) __ai_ptr = (ptr);					\\
+>  	kasan_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));		\\
+> +	kcsan_check_atomic(__ai_ptr, ${mult}sizeof(*__ai_ptr), true);	\\
+>  	arch_${xchg}(__ai_ptr, __VA_ARGS__);				\\
+>  })
+>  EOF
+> @@ -148,6 +154,7 @@ cat << EOF
+>  
+>  #include <linux/build_bug.h>
+>  #include <linux/kasan-checks.h>
+> +#include <linux/kcsan-checks.h>
+
+We could add the following to this preamble:
+
+static inline void __atomic_check_read(const volatile void *v, size_t size)
+{
+	kasan_check_read(v, sizeof(*v));
+	kcsan_check_atomic(v, sizeof(*v), false);
+}
+
+static inline void __atomic_check_write(const volatile void *v, size_t size)
+{
+	kasan_check_write(v, sizeof(*v));
+	kcsan_check_atomic(v, sizeof(*v), true);
+}
+
+... and only have the one call in each atomic wrapper.
+
+Otherwise, this looks good to me.
 
 Thanks,
--- Marco
-
-> Regards,
-> Boqun
->
-> > + */
-> > +
-> > +#define DEFINE_TSAN_READ_WRITE(size)                                           \
-> > +     void __tsan_read##size(void *ptr)                                      \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, false);                        \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_read##size);                                      \
-> > +     void __tsan_write##size(void *ptr)                                     \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, true);                         \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_write##size)
-> > +
-> > +DEFINE_TSAN_READ_WRITE(1);
-> > +DEFINE_TSAN_READ_WRITE(2);
-> > +DEFINE_TSAN_READ_WRITE(4);
-> > +DEFINE_TSAN_READ_WRITE(8);
-> > +DEFINE_TSAN_READ_WRITE(16);
-> > +
-> > +/*
-> > + * Not all supported compiler versions distinguish aligned/unaligned accesses,
-> > + * but e.g. recent versions of Clang do.
-> > + */
-> > +#define DEFINE_TSAN_UNALIGNED_READ_WRITE(size)                                 \
-> > +     void __tsan_unaligned_read##size(void *ptr)                            \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, false);                        \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_unaligned_read##size);                            \
-> > +     void __tsan_unaligned_write##size(void *ptr)                           \
-> > +     {                                                                      \
-> > +             __kcsan_check_access(ptr, size, true);                         \
-> > +     }                                                                      \
-> > +     EXPORT_SYMBOL(__tsan_unaligned_write##size)
-> > +
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(2);
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(4);
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(8);
-> > +DEFINE_TSAN_UNALIGNED_READ_WRITE(16);
-> > +
-> > +void __tsan_read_range(void *ptr, size_t size)
-> > +{
-> > +     __kcsan_check_access(ptr, size, false);
-> > +}
-> > +EXPORT_SYMBOL(__tsan_read_range);
-> > +
-> > +void __tsan_write_range(void *ptr, size_t size)
-> > +{
-> > +     __kcsan_check_access(ptr, size, true);
-> > +}
-> > +EXPORT_SYMBOL(__tsan_write_range);
-> > +
-> > +/*
-> > + * The below are not required KCSAN, but can still be emitted by the compiler.
-> > + */
-> > +void __tsan_func_entry(void *call_pc)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(__tsan_func_entry);
-> > +void __tsan_func_exit(void)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(__tsan_func_exit);
-> > +void __tsan_init(void)
-> > +{
-> > +}
-> > +EXPORT_SYMBOL(__tsan_init);
-> [...]
+Mark.
