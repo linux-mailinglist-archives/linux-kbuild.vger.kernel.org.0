@@ -2,118 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81EF5DA6BA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 09:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 561BCDA748
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 10:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392874AbfJQHtl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Oct 2019 03:49:41 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35605 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727470AbfJQHtk (ORCPT
+        id S2387890AbfJQI0o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Oct 2019 04:26:44 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:44398 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438938AbfJQI0e (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:49:40 -0400
-Received: by mail-oi1-f195.google.com with SMTP id x3so1365723oig.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2019 00:49:40 -0700 (PDT)
+        Thu, 17 Oct 2019 04:26:34 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q21so1142643pfn.11;
+        Thu, 17 Oct 2019 01:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cUHCv9N4xmS+l1KgWpk7F+i9WTYTBzhVIUBy6Hulrwk=;
-        b=dt61IqtloaZiwqdtmjmdhi8e3I0pzOWxPhzFhs+0FutgvUJ++FJOjdWO4BjIZxdya4
-         caOrhbydK56exS2QuA7Fd/bGjBtmOLqdRwkisDlBpmKuprQVBzPi+VbRWrE1Qg6x33eB
-         L75C7W/XAakRnGcEUuRBZ2z0un1gUplzXJroKi8gc4pISSeGK+cslFlF67xNbSnSkcrH
-         LFchrXP3xHyls9CwuwZQyeVw5GAWJqlGniCs+QihxmqhsqJFUxxUdUPgx8sH/6i8mrEB
-         sJzIy+1BqIQwiJztBJmzppL/ZLh/4Dco+FslmOq/Cu10P2FffFtoC2Vy5Qpl06EYeyt4
-         9GPQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=Xb7qs12MemfKVWtSykgYZkO32TotNiSe8AbElBYtURY=;
+        b=tvvXCKtpyNKDe2hsKEadS4wQBy88bOUVWID/PEDJjxydVxbn8lc/gw/1VmSwPvjLnD
+         JNsyamF20conyCO9V0PkRfGdBoQ1nLt7i7YEvfr7xQAJLn2zCtsBtY5bttjNOGZFJ5d/
+         1P40XadGaxb5zq1tnadLiAgCZ1E32B2Z+YlzbV8GTCP3Zn4vbsGLEtKXyMt+hVQObOCp
+         SExNW6VXfIv5haZgQWh5xK1Tih2TjcM85u4iMHDIs/sqGx4fDIaZXfUKvQdcwnJvma+t
+         SEASIkinGS51D7jyaYydZgxpt8RSlNtSbdC/xXnPlgVC6uqiSMb4ydlokr8pNK8udN+C
+         dW7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cUHCv9N4xmS+l1KgWpk7F+i9WTYTBzhVIUBy6Hulrwk=;
-        b=YcprqNR7zXRqYump+2m1j1PmHh0LZlYBx+vpoo7Xs42f/kJktoZnIZgBIk1dIYZOpF
-         rW719YsaS6kOisqF/r+63QoAZqIKQ9nIUb89/24eycMDC3OccPYhjt6ZQnF3LkLY0g7q
-         t4ycWehnTjYyF9iJcWKv265ue/avV0r9Hlo4Mq4lh5XYWRDFrQVG/ePUtsO3hNnGIrSa
-         fGeEcBxRD08xLHHWIPr/2jfbVUP767wjSak16xt/ATy/pVXQmLAWA0kpOvqgrC9AS9JR
-         X7Bql9dpq4OX7KqpeOxYAw7N3y9/7dfQj5LffaPra+kWXvxD5X2yMvDlfQYAXtcqWdQb
-         cq9g==
-X-Gm-Message-State: APjAAAUCua0x0YM9lvW4XZMZbWeZ2VHVp/Nd5u5o2FBX0OZzBpAr0/3E
-        XWU4kkgLw5d4e3vZZY1rqeozSq1ZIo6YS68atvZzBw==
-X-Google-Smtp-Source: APXvYqw1eEq8EzjwYbx0MRbK18Xsa8AnqD+7ouVLKZUwR1kvjQzxQA3cqofqYXLP73Ei/x91O0n2XeJ8s6UCZGf1FOg=
-X-Received: by 2002:aca:55cb:: with SMTP id j194mr1913152oib.155.1571298579393;
- Thu, 17 Oct 2019 00:49:39 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=Xb7qs12MemfKVWtSykgYZkO32TotNiSe8AbElBYtURY=;
+        b=FHHmvI81CZ6+ihnel21LAKmJQptQDtNO4AgZKC8JQnRjmMYSzjAojBe0Wxa81vb4s8
+         jMfnpNvwFZ+f2mGFMhvRiUkCSzjTptD9vPjT+hquESRGXmN1uH0RoPxlxPVJBG0hddTy
+         anVktmakZU4sMajPtxxoH3+jhAa3P+Q0quEOGJIy0q8+EMOUF3jtcZDtqcD4vIlxR6I1
+         xUM0af27qrekqu7BjqjPsRQgEa6C+KZFbXkudhrSo0WoaBUBVsdz4TBTJGpRmaBGOD8V
+         ugLnikkhSxdKk1o/QiXG1f5OLYWKOeKPIVAuJy3gca8IpEKNvKFcMEYO+1BDqFPR7gvF
+         /Rbw==
+X-Gm-Message-State: APjAAAXY55EDdnv9zznFNsAtDeJFcIGxYR79fcwNRn8StP6n00eZJ9NR
+        oTUKSz44BTsBw0BZ1mtJDts=
+X-Google-Smtp-Source: APXvYqwfzKNIaADxeZzbyjxc4Rv0Xni12tW0pUklkueISnMwSTc29z/rvrIzvUc0FJHPIv+OhzlgZg==
+X-Received: by 2002:a65:4c8b:: with SMTP id m11mr2891634pgt.25.1571300794153;
+        Thu, 17 Oct 2019 01:26:34 -0700 (PDT)
+Received: from Gentoo ([103.231.90.172])
+        by smtp.gmail.com with ESMTPSA id f21sm991386pgh.85.2019.10.17.01.26.29
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 17 Oct 2019 01:26:33 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 13:56:22 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org
+Subject: [RFC] scripts : mkmakefile : change name to create_makefile
+Message-ID: <20191017082619.GA22508@Gentoo>
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com> <20191016083959.186860-2-elver@google.com>
- <20191016184346.GT2328@hirez.programming.kicks-ass.net> <CANpmjNP4b9Eo3ZKE6maBs4ANS7K7sLiVB2CbebQnCH09TB+hZQ@mail.gmail.com>
- <20191017074730.GW2328@hirez.programming.kicks-ass.net>
-In-Reply-To: <20191017074730.GW2328@hirez.programming.kicks-ass.net>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 17 Oct 2019 09:49:27 +0200
-Message-ID: <CANpmjNPKbCrL+XzmMrnjqw+EYOa2H94cgE5sPJeuVONbCSqBHg@mail.gmail.com>
-Subject: Re: [PATCH 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        dave.hansen@linux.intel.com, David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 17 Oct 2019 at 09:47, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Wed, Oct 16, 2019 at 09:34:05PM +0200, Marco Elver wrote:
-> > On Wed, 16 Oct 2019 at 20:44, Peter Zijlstra <peterz@infradead.org> wrote:
-> > > > +     /*
-> > > > +      * Disable interrupts & preemptions, to ignore races due to accesses in
-> > > > +      * threads running on the same CPU.
-> > > > +      */
-> > > > +     local_irq_save(irq_flags);
-> > > > +     preempt_disable();
-> > >
-> > > Is there a point to that preempt_disable() here?
-> >
-> > We want to avoid being preempted while the watchpoint is set up;
-> > otherwise, we would report data-races for CPU-local data, which is
-> > incorrect.
->
-> Disabling IRQs already very much disables preemption. There is
-> absolutely no point in doing preempt_disable() when the whole section
-> already runs with IRQs disabled.
 
-Ah thanks for the clarification, in that case I assume it's safe to
-remove preempt_disable() for v2.
+--AhhlLboLdkugWU4S
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191017074730.GW2328%40hirez.programming.kicks-ass.net.
+Hi,
+
+It would be good, if we can change the name of the script to more
+explicit name ,which also tell us the purpose of the script by just
+looking at it.=20
+
+The present name "mkmakefile" is perfectly alright for the people ,who
+are technically inclined not so with other, who wants to understand.
+
+This my understanding.
+
+Present Script Name :  mkmakefile
+
+Change Script name  : create_makefile
+
+Please shed some light.
+
+Thanks,
+Bhaskar
+
+--AhhlLboLdkugWU4S
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2oJagACgkQsjqdtxFL
+KRVvaAgAhf9g5o+HCmnaDBDG2b0Z5drT1VO2BHh1DyVl9KwI2PpbMG9ToezruMF8
+rHKhg249Xz9xTiCvXr337T5BsU39YJ8Wss33aZ0Ptk3BjbDK/kTabQjf1Giv3Akw
+TorrQUMLQ/lLvLx43T4ASIAQaPJ/Bi9ZZQ27fWqVqIS+7OTODHWMko5YKMuRwRt1
+tSiy59ontancJwdnEcy9+KK+W1yaSqZrgTPJLwjmM++ZJ55iWb6i/JHQVDCBaAEj
+rVRhiRj2gicK/z3dm1eG034B4MS36a2dyVjb5bnZZcBYYM82fMN5/1n0LMYHV2Cf
+F76YHImeUWu5RnA1GJ15rSv0fJNgxg==
+=NzPR
+-----END PGP SIGNATURE-----
+
+--AhhlLboLdkugWU4S--
