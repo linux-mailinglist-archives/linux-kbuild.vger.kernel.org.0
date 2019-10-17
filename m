@@ -2,192 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 568E3DAF97
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 16:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D761DB0CF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 17:11:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439944AbfJQOPg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Oct 2019 10:15:36 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:36266 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394836AbfJQOPf (ORCPT
+        id S1731390AbfJQPLn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Oct 2019 11:11:43 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:34795 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728994AbfJQPLn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Oct 2019 10:15:35 -0400
-Received: by mail-oi1-f195.google.com with SMTP id k20so2286327oih.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2019 07:15:33 -0700 (PDT)
+        Thu, 17 Oct 2019 11:11:43 -0400
+Received: by mail-lj1-f193.google.com with SMTP id j19so2988666lja.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2019 08:11:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gNom0VFlbRYX78r4OKfXRzBJyj1ZzMem6+U6GRAPZGs=;
-        b=Kv2dqE7DBOjguEO+g1W15SDaL2UD4S+vcY1QNPVx8SnJ2E5T2gdGww8rE+GRAhGYAF
-         ILBKEBvVHXtMZ3BmzKphs7G2RPP27C2X9+3swp8cGF2i/u/m66J9i9veo+ceI3Bj3osq
-         MWlFe3gqzbgrf9H5LWLUoOvE3Mg2Hr3oEmfWcYTbw5kZC11hxu6xajsIp6aP88N8Ct22
-         ZTltpyBZZS0029i8Cfhdn6iROub4bj69y7h+zPK6we8swLKJcmbnUZt3w2D0PXT19Z7X
-         n98Y+SLmGCkEjEMCpEuotp9DxZ2U01vOh+RKvP1EMnD5m2ntbhD2ntvxfPt1+/6e0XPl
-         W8yw==
+        bh=EWXmeJPuiymseCj6xcWqVS3Sx+bDYNGGghSQDXs7lGU=;
+        b=dQnAoMOLXxdnkmMnZKKhqkYSJhPE7fd37smKpuRu1Gx0ghF6svHjIV4OA+BFbSyFWz
+         qodi5h6+xJSpeqac66M2SEEgLt8Cv2pZxx2LJtw5GbnIXariCqWdbHEGfCZ99W6M/6CN
+         xfncevHjC0P6+Y9xBhshp3XPxzlCFmQ5Uf9bM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gNom0VFlbRYX78r4OKfXRzBJyj1ZzMem6+U6GRAPZGs=;
-        b=BxWUwqzy9mDReF1FCDB8I2BqksuRrS7bQl0Ubhfq85rr7uK4NkVWOuBxq9pFC9n6Rr
-         rk/aRSEwM+Vw+BMBF27GpWCL0tL0YaWZGprjd3H8+py2x+BSiyqfDTZMGXP0um12GMKy
-         8Sb0HpGoHrRQbEEdiQtt2bhr5lvRSgcaFQzVKgAdAuEOKSQk1Ee7rZEqmIiTeRAtSOAD
-         +8ZzTGMFv8gA1eoJ1nbNJfVGZx4JpFDWABfZJaRz+w+AOCrAdjd6o1W8v/MOju19mUED
-         elMdPjllkfSMs2oRItw+pfevzWnTfLcKnakWK/n59n8eTYU/d8RqymMJzUOYEsRqpg19
-         Vzyg==
-X-Gm-Message-State: APjAAAU8NWh83Q0n0cTAU7iyGoFGQs4VQz3YdcTjynhZVvQIY+UQAshI
-        iQwfGqXRGFqH667iKEaldsBsZuJjAG95LI11Sp2SFw==
-X-Google-Smtp-Source: APXvYqyuauWsvEE+jliJ5S7S3Gh0NvhZGewq3BAb0qQ2dVeR8Gj7daShagq5yO57tbCuu+twdnA3Uh6Z3wF+KW7VHrc=
-X-Received: by 2002:aca:5015:: with SMTP id e21mr3502104oib.121.1571321732803;
- Thu, 17 Oct 2019 07:15:32 -0700 (PDT)
+        bh=EWXmeJPuiymseCj6xcWqVS3Sx+bDYNGGghSQDXs7lGU=;
+        b=clc23POfQBVC4xRHb/e611tjtWEjRBJHq5mYZqjraZs/rEe1XfS2daXmzDhqt322mB
+         eMXju68RDMfX/S/HIoJtwgzlWR81aylNpQXGQIU5yKeA/ZcZqAQ2ayAZuxc5VuJtSZ/5
+         vawaAtzgj9ggcFRrVi3EE0bt85eWy/kcatyrW0MoBSl8n4KH6gRgDahhW8iCM6vRiJ1c
+         sFlqoRT/8bc/POfYRuENnPkGAfN0myUjdw5NKVF/YjPWKQZ0l8KJtREuWPiUz6+6kN6l
+         nL5dLLilpRCU/koNwfyLUsXR31N0TyFB77d0RRwHpJq0CmLTuhLXnk6hoPeGm01V5a68
+         9ffw==
+X-Gm-Message-State: APjAAAX+mzr1LXG96G0xXnysV2KxuwaEOfMMMAQNsOeSWdWW0UXU4I8O
+        RW4W5uuTqd4ZtlQqo0+VSfz3SypRug4=
+X-Google-Smtp-Source: APXvYqx/583UZci2sdSZUOiwUhC04+7c5ycEaeveuwQGpcBX8G0gbxXfbH9OP+F8OEM5nAQQXll+cg==
+X-Received: by 2002:a2e:a415:: with SMTP id p21mr2866952ljn.59.1571325100877;
+        Thu, 17 Oct 2019 08:11:40 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id k21sm1052513lfm.68.2019.10.17.08.11.39
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2019 08:11:40 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id u16so2197699lfq.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2019 08:11:39 -0700 (PDT)
+X-Received: by 2002:ac2:43a8:: with SMTP id t8mr2721336lfl.134.1571324744327;
+ Thu, 17 Oct 2019 08:05:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191016083959.186860-1-elver@google.com>
-In-Reply-To: <20191016083959.186860-1-elver@google.com>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 17 Oct 2019 16:15:20 +0200
-Message-ID: <CANpmjNPB8mFso7=WpUQ8Nbxon3kKTEGRUFMCVhjLNkfzey+TJg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] Add Kernel Concurrency Sanitizer (KCSAN)
-To:     Marco Elver <elver@google.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
+References: <CAK8P3a3uiTSaruN7x5iMaDowYziqMFxKWjDyS1c8pYFJgPJ5Dg@mail.gmail.com>
+ <20191017125637.1041949-1-arnd@arndb.de>
+In-Reply-To: <20191017125637.1041949-1-arnd@arndb.de>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Thu, 17 Oct 2019 08:05:28 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiH7Ej9x3RqJkUEW4hDCisgWdi6wai6E0tvo4omF_FbeQ@mail.gmail.com>
+Message-ID: <CAHk-=wiH7Ej9x3RqJkUEW4hDCisgWdi6wai6E0tvo4omF_FbeQ@mail.gmail.com>
+Subject: Re: [PATCH] [RFC, EXPERIMENTAL] allow building with --std=gnu99
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     "Kirill A . Shutemov" <kirill@shutemov.name>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sasha Levin <sasha.levin@oracle.com>,
+        Andrew Pinski <apinski@cavium.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        mm-commits@vger.kernel.org,
         Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        dave.hansen@linux.intel.com, David Howells <dhowells@redhat.com>,
         Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Ingo Molnar <mingo@elte.hu>,
         linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 16 Oct 2019 at 10:41, Marco Elver <elver@google.com> wrote:
+On Thu, Oct 17, 2019 at 6:02 AM Arnd Bergmann <arnd@arndb.de> wrote:
 >
-> This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> KCSAN is a sampling watchpoint-based data-race detector. More details
-> are included in Documentation/dev-tools/kcsan.rst. This patch-series
-> only enables KCSAN for x86, but we expect adding support for other
-> architectures is relatively straightforward (we are aware of
-> experimental ARM64 and POWER support).
->
-> To gather early feedback, we announced KCSAN back in September, and
-> have integrated the feedback where possible:
-> http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
->
-> We want to point out and acknowledge the work surrounding the LKMM,
-> including several articles that motivate why data-races are dangerous
-> [1, 2], justifying a data-race detector such as KCSAN.
-> [1] https://lwn.net/Articles/793253/
-> [2] https://lwn.net/Articles/799218/
->
-> The current list of known upstream fixes for data-races found by KCSAN
-> can be found here:
-> https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> Change enough of the kernel to allow building a 'defconfig'
+> kernel on x86 and arm, by turning the compound literals into
+> struct initializers.
 
-Sent v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+Ugh. I detest this patch.
 
-Many thanks,
--- Marco
+Not only is the patch itself fairly ugly, the end result is
+unmaintainable, since any regular kernel developer will
 
-> Marco Elver (8):
->   kcsan: Add Kernel Concurrency Sanitizer infrastructure
->   objtool, kcsan: Add KCSAN runtime functions to whitelist
->   build, kcsan: Add KCSAN build exceptions
->   seqlock, kcsan: Add annotations for KCSAN
->   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
->   asm-generic, kcsan: Add KCSAN instrumentation for bitops
->   locking/atomics, kcsan: Add KCSAN instrumentation
->   x86, kcsan: Enable KCSAN for x86
->
->  Documentation/dev-tools/kcsan.rst         | 202 ++++++++++
->  MAINTAINERS                               |  11 +
->  Makefile                                  |   3 +-
->  arch/x86/Kconfig                          |   1 +
->  arch/x86/boot/Makefile                    |   1 +
->  arch/x86/boot/compressed/Makefile         |   1 +
->  arch/x86/entry/vdso/Makefile              |   1 +
->  arch/x86/include/asm/bitops.h             |   2 +-
->  arch/x86/kernel/Makefile                  |   6 +
->  arch/x86/kernel/cpu/Makefile              |   3 +
->  arch/x86/lib/Makefile                     |   2 +
->  arch/x86/mm/Makefile                      |   3 +
->  arch/x86/purgatory/Makefile               |   1 +
->  arch/x86/realmode/Makefile                |   1 +
->  arch/x86/realmode/rm/Makefile             |   1 +
->  drivers/firmware/efi/libstub/Makefile     |   1 +
->  include/asm-generic/atomic-instrumented.h | 192 ++++++++-
->  include/asm-generic/bitops-instrumented.h |  18 +
->  include/linux/compiler-clang.h            |   9 +
->  include/linux/compiler-gcc.h              |   7 +
->  include/linux/compiler.h                  |  35 +-
->  include/linux/kcsan-checks.h              | 116 ++++++
->  include/linux/kcsan.h                     |  85 ++++
->  include/linux/sched.h                     |   7 +
->  include/linux/seqlock.h                   |  51 ++-
->  init/init_task.c                          |   6 +
->  init/main.c                               |   2 +
->  kernel/Makefile                           |   6 +
->  kernel/kcsan/Makefile                     |  14 +
->  kernel/kcsan/atomic.c                     |  21 +
->  kernel/kcsan/core.c                       | 458 ++++++++++++++++++++++
->  kernel/kcsan/debugfs.c                    | 225 +++++++++++
->  kernel/kcsan/encoding.h                   |  94 +++++
->  kernel/kcsan/kcsan.c                      |  81 ++++
->  kernel/kcsan/kcsan.h                      | 140 +++++++
->  kernel/kcsan/report.c                     | 307 +++++++++++++++
->  kernel/kcsan/test.c                       | 117 ++++++
->  kernel/sched/Makefile                     |   6 +
->  lib/Kconfig.debug                         |   2 +
->  lib/Kconfig.kcsan                         |  88 +++++
->  lib/Makefile                              |   3 +
->  mm/Makefile                               |   8 +
->  scripts/Makefile.kcsan                    |   6 +
->  scripts/Makefile.lib                      |  10 +
->  scripts/atomic/gen-atomic-instrumented.sh |   9 +-
->  tools/objtool/check.c                     |  17 +
->  46 files changed, 2364 insertions(+), 16 deletions(-)
->  create mode 100644 Documentation/dev-tools/kcsan.rst
->  create mode 100644 include/linux/kcsan-checks.h
->  create mode 100644 include/linux/kcsan.h
->  create mode 100644 kernel/kcsan/Makefile
->  create mode 100644 kernel/kcsan/atomic.c
->  create mode 100644 kernel/kcsan/core.c
->  create mode 100644 kernel/kcsan/debugfs.c
->  create mode 100644 kernel/kcsan/encoding.h
->  create mode 100644 kernel/kcsan/kcsan.c
->  create mode 100644 kernel/kcsan/kcsan.h
->  create mode 100644 kernel/kcsan/report.c
->  create mode 100644 kernel/kcsan/test.c
->  create mode 100644 lib/Kconfig.kcsan
->  create mode 100644 scripts/Makefile.kcsan
->
-> --
-> 2.23.0.700.g56cf767bdb-goog
->
+ (a) not use ancient compilers
+
+ (b) look at code like this
+
+   static struct rb_root memtype_rbroot = __RB_ROOT;
+
+and go "that double underscore is pointless" and fix it. And it will
+build fine for the developer.
+
+So some of the patch looks like fine cleanups and not bad at all, but
+some of it really looks like it's going to be long-term annoyance,
+with duplicate names and unnecessary underscores.
+
+In general the double underscores in contexts where they don't exist
+from before just look wrong.
+
+Some of the "just remove the cast from the macro define" look good,
+though. And making users do DEFINE_RB_ROOT() looks fine. It's more the
+"make users have to use the internal double-underscore versions" where
+I go "that's wrong".
+
+What distros are still stuck on gcc-4?
+
+              Linus
