@@ -2,105 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 561BCDA748
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 10:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B325DA7C5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 10:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387890AbfJQI0o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Oct 2019 04:26:44 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:44398 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438938AbfJQI0e (ORCPT
+        id S2405259AbfJQIuS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Oct 2019 04:50:18 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:33020 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405250AbfJQIuS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Oct 2019 04:26:34 -0400
-Received: by mail-pf1-f193.google.com with SMTP id q21so1142643pfn.11;
-        Thu, 17 Oct 2019 01:26:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=Xb7qs12MemfKVWtSykgYZkO32TotNiSe8AbElBYtURY=;
-        b=tvvXCKtpyNKDe2hsKEadS4wQBy88bOUVWID/PEDJjxydVxbn8lc/gw/1VmSwPvjLnD
-         JNsyamF20conyCO9V0PkRfGdBoQ1nLt7i7YEvfr7xQAJLn2zCtsBtY5bttjNOGZFJ5d/
-         1P40XadGaxb5zq1tnadLiAgCZ1E32B2Z+YlzbV8GTCP3Zn4vbsGLEtKXyMt+hVQObOCp
-         SExNW6VXfIv5haZgQWh5xK1Tih2TjcM85u4iMHDIs/sqGx4fDIaZXfUKvQdcwnJvma+t
-         SEASIkinGS51D7jyaYydZgxpt8RSlNtSbdC/xXnPlgVC6uqiSMb4ydlokr8pNK8udN+C
-         dW7w==
+        Thu, 17 Oct 2019 04:50:18 -0400
+Received: by mail-qt1-f193.google.com with SMTP id r5so2504963qtd.0;
+        Thu, 17 Oct 2019 01:50:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=Xb7qs12MemfKVWtSykgYZkO32TotNiSe8AbElBYtURY=;
-        b=FHHmvI81CZ6+ihnel21LAKmJQptQDtNO4AgZKC8JQnRjmMYSzjAojBe0Wxa81vb4s8
-         jMfnpNvwFZ+f2mGFMhvRiUkCSzjTptD9vPjT+hquESRGXmN1uH0RoPxlxPVJBG0hddTy
-         anVktmakZU4sMajPtxxoH3+jhAa3P+Q0quEOGJIy0q8+EMOUF3jtcZDtqcD4vIlxR6I1
-         xUM0af27qrekqu7BjqjPsRQgEa6C+KZFbXkudhrSo0WoaBUBVsdz4TBTJGpRmaBGOD8V
-         ugLnikkhSxdKk1o/QiXG1f5OLYWKOeKPIVAuJy3gca8IpEKNvKFcMEYO+1BDqFPR7gvF
-         /Rbw==
-X-Gm-Message-State: APjAAAXY55EDdnv9zznFNsAtDeJFcIGxYR79fcwNRn8StP6n00eZJ9NR
-        oTUKSz44BTsBw0BZ1mtJDts=
-X-Google-Smtp-Source: APXvYqwfzKNIaADxeZzbyjxc4Rv0Xni12tW0pUklkueISnMwSTc29z/rvrIzvUc0FJHPIv+OhzlgZg==
-X-Received: by 2002:a65:4c8b:: with SMTP id m11mr2891634pgt.25.1571300794153;
-        Thu, 17 Oct 2019 01:26:34 -0700 (PDT)
-Received: from Gentoo ([103.231.90.172])
-        by smtp.gmail.com with ESMTPSA id f21sm991386pgh.85.2019.10.17.01.26.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Oct 2019 01:26:33 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 13:56:22 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
-Subject: [RFC] scripts : mkmakefile : change name to create_makefile
-Message-ID: <20191017082619.GA22508@Gentoo>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xJ4RoHO1Os//gNp/BXL0U1ud40EsC0HZWt8dIz/Uq1A=;
+        b=aiZRONlqVoqt4dZAetTdoZ3HvnAk2lefkAcP3V4WBm45kKPSGVoWoUgG6uB3UrxApG
+         gQ9LjZO6NZqonNce8w9WJdtaPhO1r196PZ4Uj7uIjRn4gJFgguOgsQMIujOTdAt/3LY7
+         zj3UKlB5TscbOZNLOI9qqf107HDmIxRfNrOkJGsCrPyQkkP/80fZdmkbZwhiWUK+cCBD
+         bUb9MxDrNAdcjn7YX1y0lBqZBRqKkS+w3OvJSsJN8SK0rY6GD7KSaBMsZ1JiOH3/WTJy
+         kPBokUgg7bCJsu6y7xVCd21ZkYIXK5r3JGvgc4xifkGRVyIMQiU12f6QzE1TMEU2NYqG
+         VB8A==
+X-Gm-Message-State: APjAAAWkg9Fa1TAaKtl9dCcEP5bqWruYk8+SqQ11rAmGgMUnb+csragT
+        enWDjM2LNmXLFXUBSKE7cTlGh5Mt1ltQar7yGbqM/1cB
+X-Google-Smtp-Source: APXvYqxjGzWfuIB85q/hZTRDWvsPaHlLEjeIw6zioCNqT475/A9ElmwaGxDyYGuvF+mkbWwGQTqCysGkkGsU+ao0XKY=
+X-Received: by 2002:ad4:408c:: with SMTP id l12mr2582241qvp.210.1571302217240;
+ Thu, 17 Oct 2019 01:50:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="AhhlLboLdkugWU4S"
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <57fd50dd./gNBvRBYvu+kYV+l%akpm@linux-foundation.org>
+ <CA+55aFxr2uZADh--vtLYXjcLjNGO5t4jmTWEVZWbRuaJwiocug@mail.gmail.com>
+ <CA+55aFxQRf+U0z6mrAd5QQLWgB2A_mRjY7g9vpZHCSuyjrdhxQ@mail.gmail.com>
+ <CAHk-=wgr12JkKmRd21qh-se-_Gs69kbPgR9x4C+Es-yJV2GLkA@mail.gmail.com>
+ <20191016231116.inv5stimz6fg7gof@box.shutemov.name> <CAHk-=wh9Jjb6iiU5dNhGTei_jTEoe7eFjxnyQ2DezbtgzdoskQ@mail.gmail.com>
+ <20191017001613.watsu7vhqujufjxv@box.shutemov.name> <CAK7LNAT8968tYxePbS_RD0n52dLfs1vx+tdKc_64PwCzwGOgAw@mail.gmail.com>
+In-Reply-To: <CAK7LNAT8968tYxePbS_RD0n52dLfs1vx+tdKc_64PwCzwGOgAw@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 17 Oct 2019 10:50:00 +0200
+Message-ID: <CAK8P3a2UWyNsguPvfCiHjuk1K=iY_8ASUrG3m=gRK+p+bRWysQ@mail.gmail.com>
+Subject: Re: [patch 014/102] llist: introduce llist_entry_safe()
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sasha Levin <sasha.levin@oracle.com>,
+        Andrew Pinski <apinski@cavium.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        mm-commits@vger.kernel.org,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Ingo Molnar <mingo@elte.hu>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, Oct 17, 2019 at 7:21 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+> On Thu, Oct 17, 2019 at 9:16 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
+> > On Wed, Oct 16, 2019 at 04:29:54PM -0700, Linus Torvalds wrote:
+> I can no longer get the toolchains for hexagon, unicore32.
 
---AhhlLboLdkugWU4S
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Guan Xuetao said in 2018 that he'd try to make a new gcc available, but
+I don't think anything ever came out of that.
 
-Hi,
+> https://mirrors.edge.kernel.org/pub/tools/crosstool/
+> provides hexagon compilers, but only for GCC 4.6.1
 
-It would be good, if we can change the name of the script to more
-explicit name ,which also tell us the purpose of the script by just
-looking at it.=20
+For all I know, Qualcomm use clang internally to build hexagon kernels,
+it may be a good idea to try again with clang-9. The last I know about it,
+clang itself should have all the required patches, but there were still
+issues with using llvm as a binutils replacement (as and/or ld). Not sure
+if that has been resolved by now.
 
-The present name "mkmakefile" is perfectly alright for the people ,who
-are technically inclined not so with other, who wants to understand.
-
-This my understanding.
-
-Present Script Name :  mkmakefile
-
-Change Script name  : create_makefile
-
-Please shed some light.
-
-Thanks,
-Bhaskar
-
---AhhlLboLdkugWU4S
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2oJagACgkQsjqdtxFL
-KRVvaAgAhf9g5o+HCmnaDBDG2b0Z5drT1VO2BHh1DyVl9KwI2PpbMG9ToezruMF8
-rHKhg249Xz9xTiCvXr337T5BsU39YJ8Wss33aZ0Ptk3BjbDK/kTabQjf1Giv3Akw
-TorrQUMLQ/lLvLx43T4ASIAQaPJ/Bi9ZZQ27fWqVqIS+7OTODHWMko5YKMuRwRt1
-tSiy59ontancJwdnEcy9+KK+W1yaSqZrgTPJLwjmM++ZJ55iWb6i/JHQVDCBaAEj
-rVRhiRj2gicK/z3dm1eG034B4MS36a2dyVjb5bnZZcBYYM82fMN5/1n0LMYHV2Cf
-F76YHImeUWu5RnA1GJ15rSv0fJNgxg==
-=NzPR
------END PGP SIGNATURE-----
-
---AhhlLboLdkugWU4S--
+      Arnd
