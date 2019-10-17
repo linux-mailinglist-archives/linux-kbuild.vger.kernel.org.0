@@ -2,83 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B325DA7C5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 10:50:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7DC3DA9D7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 12:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405259AbfJQIuS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Oct 2019 04:50:18 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:33020 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405250AbfJQIuS (ORCPT
+        id S1727211AbfJQKW0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Oct 2019 06:22:26 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44170 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726248AbfJQKW0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Oct 2019 04:50:18 -0400
-Received: by mail-qt1-f193.google.com with SMTP id r5so2504963qtd.0;
-        Thu, 17 Oct 2019 01:50:17 -0700 (PDT)
+        Thu, 17 Oct 2019 06:22:26 -0400
+Received: by mail-pg1-f195.google.com with SMTP id e10so1075180pgd.11;
+        Thu, 17 Oct 2019 03:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WWBl598hPch0kRqDu8LvL1lTEO0c+qZkYK5TCBHEuVY=;
+        b=hFXoCi32lErSoCCYnLu5CfJ5DUh7jtw3dJSjpZu4QIhXIornz5SS8Wv3NgRj8cjHga
+         /xg14KfrMHnWMM6msGCRNHmNqBY6oGALbioDutwzlhr95ogGDhPrnvAOrNTxdT2prtUx
+         lrxfD1PLKHEuR4/fADn1uDcD+Fqo9/2qi0t1J27F18zT38xqZENKxrMT0bpUDEBZYMcu
+         1BbDBuIwb494vcxM+0pH/XijHfw0cw+K//MTcBhWzI/kx1GIDa4Pm4ZrKSLEL9Z/hWS8
+         ln3OrTsDIJxr2ZwPEdNKK+gHVqSzWA14+n/KMn6V25HoSg193v5HNiwLWfW7GmAMovO2
+         jB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xJ4RoHO1Os//gNp/BXL0U1ud40EsC0HZWt8dIz/Uq1A=;
-        b=aiZRONlqVoqt4dZAetTdoZ3HvnAk2lefkAcP3V4WBm45kKPSGVoWoUgG6uB3UrxApG
-         gQ9LjZO6NZqonNce8w9WJdtaPhO1r196PZ4Uj7uIjRn4gJFgguOgsQMIujOTdAt/3LY7
-         zj3UKlB5TscbOZNLOI9qqf107HDmIxRfNrOkJGsCrPyQkkP/80fZdmkbZwhiWUK+cCBD
-         bUb9MxDrNAdcjn7YX1y0lBqZBRqKkS+w3OvJSsJN8SK0rY6GD7KSaBMsZ1JiOH3/WTJy
-         kPBokUgg7bCJsu6y7xVCd21ZkYIXK5r3JGvgc4xifkGRVyIMQiU12f6QzE1TMEU2NYqG
-         VB8A==
-X-Gm-Message-State: APjAAAWkg9Fa1TAaKtl9dCcEP5bqWruYk8+SqQ11rAmGgMUnb+csragT
-        enWDjM2LNmXLFXUBSKE7cTlGh5Mt1ltQar7yGbqM/1cB
-X-Google-Smtp-Source: APXvYqxjGzWfuIB85q/hZTRDWvsPaHlLEjeIw6zioCNqT475/A9ElmwaGxDyYGuvF+mkbWwGQTqCysGkkGsU+ao0XKY=
-X-Received: by 2002:ad4:408c:: with SMTP id l12mr2582241qvp.210.1571302217240;
- Thu, 17 Oct 2019 01:50:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WWBl598hPch0kRqDu8LvL1lTEO0c+qZkYK5TCBHEuVY=;
+        b=AMh9Lrx+LvI4n3zbnTIo9XbmkbQqwkDGqRhnUAiyamYqxL/zCN0ROe+OWiGuZcLPhp
+         YidOz/PZ8kLYt973bOLq1uaJBOxzT5skDpsQlNgChQk7m6sAjuhsv9KyQhCV+q4S1jhJ
+         ceflLuKNB5dn+K0V3qGpqw7IP1+IgkBrRXtk1lZaZvB3yeg7AdoTXjyLSyePLzBTV7r7
+         82iDVwWhig2TwHToX5/ziESQ/NgNVwqAm94ZH+tPfYuEEbPA6IAZBGuA2oRDy2ZqErhx
+         DMmF+RV/7MMe5E6+fT0Ln97rnu6W8OcjVthArZdbiPLcbbDhogzRKkqt1HMlqFMu2EBu
+         Al7Q==
+X-Gm-Message-State: APjAAAVNWFapRCdd4euKfJ+QYCOsao8B5Y9QeQpafljaxXHY29gqwc8k
+        M84TV3qfnydBVfhjr6bQ3Go=
+X-Google-Smtp-Source: APXvYqy/NFZF8MLOEiZlivZs3yu1xL1dOOvdGkL1iWCIYRG9CULS2iKg4D8aYunoEpaFFobksF32OQ==
+X-Received: by 2002:a63:db15:: with SMTP id e21mr3281660pgg.21.1571307744360;
+        Thu, 17 Oct 2019 03:22:24 -0700 (PDT)
+Received: from Gentoo.localdomain ([103.231.90.172])
+        by smtp.gmail.com with ESMTPSA id r24sm2150135pfh.69.2019.10.17.03.22.18
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 17 Oct 2019 03:22:23 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org, torvalds@linux-foundation.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] NM variable missed the value,so fixed
+Date:   Thu, 17 Oct 2019 15:51:59 +0530
+Message-Id: <20191017102159.20387-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <57fd50dd./gNBvRBYvu+kYV+l%akpm@linux-foundation.org>
- <CA+55aFxr2uZADh--vtLYXjcLjNGO5t4jmTWEVZWbRuaJwiocug@mail.gmail.com>
- <CA+55aFxQRf+U0z6mrAd5QQLWgB2A_mRjY7g9vpZHCSuyjrdhxQ@mail.gmail.com>
- <CAHk-=wgr12JkKmRd21qh-se-_Gs69kbPgR9x4C+Es-yJV2GLkA@mail.gmail.com>
- <20191016231116.inv5stimz6fg7gof@box.shutemov.name> <CAHk-=wh9Jjb6iiU5dNhGTei_jTEoe7eFjxnyQ2DezbtgzdoskQ@mail.gmail.com>
- <20191017001613.watsu7vhqujufjxv@box.shutemov.name> <CAK7LNAT8968tYxePbS_RD0n52dLfs1vx+tdKc_64PwCzwGOgAw@mail.gmail.com>
-In-Reply-To: <CAK7LNAT8968tYxePbS_RD0n52dLfs1vx+tdKc_64PwCzwGOgAw@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 17 Oct 2019 10:50:00 +0200
-Message-ID: <CAK8P3a2UWyNsguPvfCiHjuk1K=iY_8ASUrG3m=gRK+p+bRWysQ@mail.gmail.com>
-Subject: Re: [patch 014/102] llist: introduce llist_entry_safe()
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sasha Levin <sasha.levin@oracle.com>,
-        Andrew Pinski <apinski@cavium.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        mm-commits@vger.kernel.org,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Ingo Molnar <mingo@elte.hu>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 7:21 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
-> On Thu, Oct 17, 2019 at 9:16 AM Kirill A. Shutemov <kirill@shutemov.name> wrote:
-> > On Wed, Oct 16, 2019 at 04:29:54PM -0700, Linus Torvalds wrote:
-> I can no longer get the toolchains for hexagon, unicore32.
+This patch will provide the missing value for NM variable.
 
-Guan Xuetao said in 2018 that he'd try to make a new gcc available, but
-I don't think anything ever came out of that.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ scripts/mksysmap | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> https://mirrors.edge.kernel.org/pub/tools/crosstool/
-> provides hexagon compilers, but only for GCC 4.6.1
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index a35acc0d0b82..4b2f45c45f14 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -40,5 +40,5 @@
+ # 'W' or 'w'. __crc_ are 'A' and placed in the middle
+ # so we just ignore them to let readprofile continue to work.
+ # (At least sparc64 has __crc_ in the middle).
+-
++NM=$(which nm)
+ $NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( .L\)' > $2
+--
+2.21.0
 
-For all I know, Qualcomm use clang internally to build hexagon kernels,
-it may be a good idea to try again with clang-9. The last I know about it,
-clang itself should have all the required patches, but there were still
-issues with using llvm as a binutils replacement (as and/or ld). Not sure
-if that has been resolved by now.
-
-      Arnd
