@@ -2,167 +2,223 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E2E8DB9E8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2019 00:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93923DB9FB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Oct 2019 01:00:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441673AbfJQWvb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Oct 2019 18:51:31 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:44390 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438306AbfJQWva (ORCPT
+        id S2441690AbfJQXAT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 17 Oct 2019 19:00:19 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:37106 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389846AbfJQXAS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Oct 2019 18:51:30 -0400
-Received: by mail-il1-f194.google.com with SMTP id f13so3719216ils.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 17 Oct 2019 15:51:29 -0700 (PDT)
+        Thu, 17 Oct 2019 19:00:18 -0400
+Received: by mail-pl1-f194.google.com with SMTP id u20so1864942plq.4;
+        Thu, 17 Oct 2019 16:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/eF/L3m73e+e1oQsDpVEkuWHj3baK6hMXuTSH0BtWMA=;
-        b=VOnh4QxHOkSB/aw6xuc4s2CW/EmlVg6shi8Vepao5j5TUeNZ/0Q6MBunp97DOYuO8Z
-         lqRSovVOI8nWSlUE2Xcc+jOs8iCqdhc7QQwhAVGO92Bywg8YWmUJNfgeMbQ4TZalYuHZ
-         H1ZrclA8HFOcApR60QFv7rgaOjdHkJ7JvGw1Q=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Hn50OmnbePcUrBFpzCHHjPlWMo4Zv5ggnBIvFTVy/1c=;
+        b=EKxRTbc/ylIrzdUg8QwmKQ8lCf0hAqdDeh7kx/8psoxYyYcnXino7rOgEcNjfGI882
+         SWuMmPHiQwkyXmBWHlCLx5flrLT49Pw9Fozp9qoSX0TanKLSGsQqRZNfszGrDnBHNbzW
+         s8tK/i+6izd8u/sopL1my3YcDip0WwTJ4muqUvWY/wSu3nflp2PMfF/Mj9xJM3tV0dcf
+         p2qu730FSxykyDoX50RRzK2zDH5hp3awi1fWrmRLUtLlVxbgkJPwh7PpBqodSEEvD/Tk
+         0PuRLvxpSNscDg62NjiImYB1C9jUV+mU7RdLcf9y8Yexs/LbZFz6q43Gydrt0d7T8U1x
+         UvxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/eF/L3m73e+e1oQsDpVEkuWHj3baK6hMXuTSH0BtWMA=;
-        b=dYg7RD2+mQqWhg2iAdfGJI1/0Kgwz5wCmdYhFiajltBwaXp85msLm48polOQreqq29
-         7IeNIUhdpR9SYpeZFOJ8PT89VoCjhwQVmDYVUSaI5kbP3d2o5iBwrUVblzC3xY431QPW
-         NkUBW0CkMTJi0mbfdKyryshLSKlFlul2kp8b5p8vFPeULIu4fNNa7h9xIm3jJ9Rw8uV8
-         0Zm/fXg5JAOaKiUWCJHUZ5A36EzDZjmMNTd5wA2rqHk12ZMeycENVpDtTjzYgL3FH/m9
-         YHJwwFlmJloEZqxKQE6r4UUiD0wTE7LHggd2v49oISa74m3QS6XYKzSk+gLcb0/fQ/+A
-         tVLw==
-X-Gm-Message-State: APjAAAVDAcTNpmhhSK4SfIC6gC8YwUIts11N0WB5trz8zXS7YRF9Q8A+
-        NXsZeneuEVqNqlMJsI/8kwaLDw==
-X-Google-Smtp-Source: APXvYqwg26CF9upmlevG8JNy+vFcQXWOUpGE5JAzgz0/XPmngcr3LqkRmJOakfbKR22lkLCFEB48ww==
-X-Received: by 2002:a92:1d5c:: with SMTP id d89mr6407901ild.94.1571352689406;
-        Thu, 17 Oct 2019 15:51:29 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id m9sm1677403ilc.44.2019.10.17.15.51.28
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Hn50OmnbePcUrBFpzCHHjPlWMo4Zv5ggnBIvFTVy/1c=;
+        b=QzNOZmy3kattwDsp0cRbq/5OYM8QCjyXkp3yqNAFd53Bc6+hLU8Cb62t0umUKe7iyb
+         cya9GA1v/v03ng/9JOgRldDxkVbnS0MzZSbppEVYUkzE+4G83+9rtlujdiymome9TCwj
+         sd5rqFGkivHDAeuwbHdH8Qy36Sug/jin/T70UoLA9ZCRAJRpqU03HlsC/IUX3UN09KAR
+         G2D7CARR7X2fIN/l+2Ih+wsa/+jo1e2iYRhKMaO1Ib6fQwpGiT9+e+uhjZsOmAuZJANm
+         Ptga4pBGROjyw43gcOX4BCLwDSylDp7ucNiO/siuYUzv75ndtUjw33G9+UmwzHR/RbvH
+         2WfQ==
+X-Gm-Message-State: APjAAAUuVJICoz/Zb707vVBV5pMumMAjYqWZdMxGbfbCGGuZWD1lOY1n
+        hvov4TiJ+d077OYj+5YjAhtcEm/w1MkSyg==
+X-Google-Smtp-Source: APXvYqz+WwsKwsdDNjzRsnSV94v64w6bbgu3jT8vSj22GVocsgOFK1fOyebcH1wRnKPCgbOk+baYUw==
+X-Received: by 2002:a17:902:6bc4:: with SMTP id m4mr6573308plt.103.1571353217991;
+        Thu, 17 Oct 2019 16:00:17 -0700 (PDT)
+Received: from Gentoo ([103.231.90.170])
+        by smtp.gmail.com with ESMTPSA id h8sm4437245pfo.64.2019.10.17.16.00.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Oct 2019 15:51:28 -0700 (PDT)
-Subject: Re: [PATCH v2] selftests: Add kselftest-all and kselftest-install
- targets
-To:     Michael Ellerman <mpe@ellerman.id.au>,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        shuah@kernel.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20190926224014.28910-1-skhan@linuxfoundation.org>
- <87sgnttpoq.fsf@mpe.ellerman.id.au>
- <adcfcda4-c36e-c222-4964-f83b5f3d0097@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <7d8056fe-ddb3-1831-d18f-deed4e0d3a76@linuxfoundation.org>
-Date:   Thu, 17 Oct 2019 16:51:27 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 17 Oct 2019 16:00:17 -0700 (PDT)
+Date:   Fri, 18 Oct 2019 04:30:03 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
+        bfields@fieldses.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts : prune-kernel : prune kernels generalized way
+Message-ID: <20191017230000.GA13667@Gentoo>
+References: <20191017063126.2005-1-unixbhaskar@gmail.com>
+ <7965fdbe-eb2b-1178-61c3-ad54fa147fb3@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <adcfcda4-c36e-c222-4964-f83b5f3d0097@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="IJpNTDwzlM2Ie8A6"
+Content-Disposition: inline
+In-Reply-To: <7965fdbe-eb2b-1178-61c3-ad54fa147fb3@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10/16/19 10:08 AM, Shuah Khan wrote:
-> On 10/15/19 8:00 PM, Michael Ellerman wrote:
->> Hi Shuah,
->>
->> I know this has been merged already, so this is just FYI and in case it
->> helps anyone else who's tracking down build failures.
->>
-> 
-> Thanks for letting me know. I have been sending updates about
-> breakages. Will send an update with this info.
-> 
->> Sorry I didn't reply before you merged it, I was on leave.
->>
->> Shuah Khan <skhan@linuxfoundation.org> writes:
->>> Add kselftest-all target to build tests from the top level
->>> Makefile. This is to simplify kselftest use-cases for CI and
->>> distributions where build and test systems are different.
->>>
->>> Current kselftest target builds and runs tests on a development
->>> system which is a developer use-case.
->>>
->>> Add kselftest-install target to install tests from the top level
->>> Makefile. This is to simplify kselftest use-cases for CI and
->>> distributions where build and test systems are different.
->>>
->>> This change addresses requests from developers and testers to add
->>> support for installing kselftest from the main Makefile.
->>>
->>> In addition, make the install directory the same when install is
->>> run using "make kselftest-install" or by running kselftest_install.sh.
->>> Also fix the INSTALL_PATH variable conflict between main Makefile and
->>> selftests Makefile.
->> ...
->>> diff --git a/tools/testing/selftests/Makefile 
->>> b/tools/testing/selftests/Makefile
->>> index c3feccb99ff5..bad18145ed1a 100644
->>> --- a/tools/testing/selftests/Makefile
->>> +++ b/tools/testing/selftests/Makefile
->>> @@ -171,9 +171,12 @@ run_pstore_crash:
->>>   # 1. output_dir=kernel_src
->>>   # 2. a separate output directory is specified using O= KBUILD_OUTPUT
->>>   # 3. a separate output directory is specified using KBUILD_OUTPUT
->>> +# Avoid conflict with INSTALL_PATH set by the main Makefile
->>>   #
->>> -INSTALL_PATH ?= $(BUILD)/install
->>> -INSTALL_PATH := $(abspath $(INSTALL_PATH))
->>> +KSFT_INSTALL_PATH ?= $(BUILD)/kselftest_install
->>
->> This change broke all my CI, because the tests no longer install in the
->> place it's expecting them :/
->>
-> 
-> Sorry about that.
-> 
->> I can fix it by explicitly specifying the install path in my CI scripts.
->>
->>> +KSFT_INSTALL_PATH := $(abspath $(KSFT_INSTALL_PATH))
->>> +# Avoid changing the rest of the logic here and lib.mk.
->>> +INSTALL_PATH := $(KSFT_INSTALL_PATH)
->>
-> 
-> 
-> I searched all the selftests Makefiles for it and convinced myself that,
-> the above would take care of it for these cases. I searched powerpc
-> Makefiles so this doesn't break it. Didn't think about the CI.
-> 
-> android/Makefile:    mkdir -p $(INSTALL_PATH)
-> android/Makefile:    install -t $(INSTALL_PATH) $(TEST_PROGS) 
-> $(TEST_PROGS_EXTENDED) $(TEST_FILES)
-> android/Makefile:        $(MAKE) OUTPUT=$$BUILD_TARGET -C $$SUBDIR 
-> INSTALL_PATH=$(INSTALL_PATH)/$$SUBDIR install; \
-> futex/Makefile:    mkdir -p $(INSTALL_PATH)
-> futex/Makefile:    install -t $(INSTALL_PATH) $(TEST_PROGS) 
-> $(TEST_PROGS_EXTENDED) $(TEST_FILES)
-> futex/Makefile:        $(MAKE) OUTPUT=$$BUILD_TARGET -C $$SUBDIR 
-> INSTALL_PATH=$(INSTALL_PATH)/$$SUBDIR install; \
-> sparc64/Makefile:    mkdir -p $(INSTALL_PATH)
-> sparc64/Makefile:    install -t $(INSTALL_PATH) $(TEST_PROGS) 
-> $(TEST_PROGS_EXTENDED) $(TEST_FILES)
-> sparc64/Makefile:        $(MAKE) OUTPUT=$$BUILD_TARGET -C $$SUBDIR 
-> INSTALL_PATH=$(INSTALL_PATH)/$$SUBDIR install; \
-> 
-> 
->> But because the over-rideable variable changed from INSTALL_PATH to
->> KSFT_INSTALL_PATH I will need to export both of them in order for my CI
->> to work with old and new kernels.
-> 
-> My mistake. I overlooked that this could be overridden and could
-> be in used in CI scripts.
-> 
->>
 
-Can you send me your CI script for testing my changes? I also want
-to make sure I don't break your CI again.
+--IJpNTDwzlM2Ie8A6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
--- Shuah
+On 13:16 Thu 17 Oct 2019, Randy Dunlap wrote:
+>On 10/16/19 11:31 PM, Bhaskar Chowdhury wrote:
+>> This patch will remove old kernel from the system in a selective way.
+>>=20
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>> ---
+>> For Randy :
+>> =E2=9C=94 ~/git-linux/linux-kbuild [master|AM/REBASE =E2=86=91=C2=B78|=
+=E2=9C=94]
+>> 11:42 $ ./scripts/checkpatch.pl -f
+>> scripts/0001-Fix-all-the-concern-raised-by-Randy.patch
+>> total: 0 errors, 0 warnings, 93 lines checked
+>>=20
+>> scripts/0001-Fix-all-the-concern-raised-by-Randy.patch has no obvious
+>> style problems and is ready for submission.
+>>=20
+>> scripts/prune-kernel | 75 ++++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 75 insertions(+)
+>>=20
+>> diff --git a/scripts/prune-kernel b/scripts/prune-kernel
+>> index e69de29bb2d1..9461ae2bc122 100755
+>> --- a/scripts/prune-kernel
+>> +++ b/scripts/prune-kernel
+>> @@ -0,0 +1,75 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +
+>> +# because I use CONFIG_LOCALVERSION_AUTO, not the same version again and
+>> +# again, /boot and /lib/modules/ eventually fill up.
+>> +# Dumb script to purge that stuff:
+>> +
+>> +#for f in "$@"
+>> +#do
+>> +#        if rpm -qf "/lib/modules/$f" >/dev/null; then
+>> +#                echo "keeping $f (installed from rpm)"
+>> +#        elif [ $(uname -r) =3D "$f" ]; then
+>> +#                echo "keeping $f (running kernel) "
+>> +#        else
+>> +#                echo "removing $f"
+>> +#                rm -f "/boot/initramfs-$f.img" "/boot/System.map-$f"
+>> +#                rm -f "/boot/vmlinuz-$f"   "/boot/config-$f"
+>> +#                rm -rf "/lib/modules/$f"
+>> +#                new-kernel-pkg --remove $f
+>> +#        fi
+>> +#done
+>> +boot_dir=3D/boot
+>> +modules_dir=3D/lib/modules
+>> +function remove_old_kernel(){
+>> +	cd $boot_dir
+>> +	rm -If vmlinuz-$kernel_version System.map-$kernel_version config-$kern=
+el_verison
+>
+>typo/spello: not tested:                                                  =
+^^^^^^^^^^^^^^
+>
+/face palm
+>> +}
+>> +function remove_old_kernel_modules_dir(){
+>> +	cd $modules_dir
+>> +	rm -rf $modules_version
+>> +}
+>> +printf "\n\n Enlist the installed kernels \n\n"
+>> +
+>> +find $boot_dir -name "vmlinuz-*" -type f  -exec ls -1 {} \;
+>> +
+>> +printf "\n\n\n Please give the kernel version to remove: %s"
+>> +read kernel_version
+>> +if [[ $kernel_version -eq "" ]];then
+>> +	printf "You have forgotten the version to give for removal"
+>
+>No message needed IMO -- just exit.
+>
+I though busy user mind should be reminded what they miss, so the msg.=20
+>> +	exit 1
+>> +else
+>> +        remove_old_kernel
+>> +fi
+>> +
+>> +printf "\n\n Enlist the installed modules directory \n\n"
+>> +
+>> +find $modules_dir  -maxdepth 0 -type d -exec ls -1 {} \;
+>> +
+>> +printf "\n\n Please give the full modules directory name to remove: %s"
+>> +read modules_version
+>> +if [[ $modules_version -eq "" ]];then
+>> +	printf "You have forgotten to give the modules dir to remove"
+>
+>ditto.
+>
+Same login like above if it reaches here, which should not.
+>> +else
+>> +        remove_old_kernel_modules_dir
+>> +fi
+>> +
+>> +printf "\n\n Removed kernel version: $kernel_version and associated mod=
+ules: $modules_version ...Done \n"
+>> +while :
+>> +  do
+>> +     printf "\n\n Do you want to remove another?[YN] : %s"
+>> +     read response
+>> +
+>> +       if [[ $response =3D=3D "Y" ]];then
+>
+>Odd indentation here.  Some lines use tab, some lines use spaces.
+>
+Don't know how fix this bloody thing.
+>> +	printf "Please give another version to remove : %s"
+>> +	read kernel_version
+>> +	remove_old_kernel
+>> +	printf "\n\n Please give the full modules directory name to remove: %s"
+>> +	read modules_version
+>> +	remove_old_kernel_modules_dir
+>> +        printf "\n\n Removed kernel version: $kernel_version and associ=
+ated modules: $modules_version ...Done \n"
+>> +
+>> +      elif [[ $response =3D=3D "N" ]];then
+>> +	   exit 1
+>> +      fi
+>> +  done
+>> --
+>> 2.21.0
+>
+>
+>And lastly, 'patch' will apply this patch cleanly, but it ends up with
+>almost all of this patch inserted into the new prune-kernel source file
+>before the current contents of the prune-kernel source file,
+>so I think that the emailed patch file has a problem.
+>
+Duh! that shit ...should have realized it before ...
+>--=20
+>~Randy
+>
+Thanks Randy for the heads up.
+
+--IJpNTDwzlM2Ie8A6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl2o8m0ACgkQsjqdtxFL
+KRU9GAf+K+uMac1DNj+yAGyQcaXyUs3kvQtBfyLEacjl2ppnCzu7cLIAhtHAAFaK
+Tc025f13QdHL8oYH6HS7ME/SyrDqgHUeulk0vWU9QzmnC+wU2NEnYcX5vXhHfXL/
+gbhlR0UV7L8BNpPUQ6KNr/2UNugTdaDMdL2vfBd7qIo7jDGXZxF1elFTBqZXwU47
+QZ/MG/9h3/E8yVc1EtbT9/WsuQOhGDH7+1djciMi4P0leYEmfXlC/hBxkREqq1ps
+C6DxdyOWzaVE4aFzCz7C2/qJsETB2DH5cilo+txZZKIeterftdUbxS9rGbFVCLGN
+nqRgM1vaRiBdtiEAdcEoIGqP5832bQ==
+=Cl31
+-----END PGP SIGNATURE-----
+
+--IJpNTDwzlM2Ie8A6--
