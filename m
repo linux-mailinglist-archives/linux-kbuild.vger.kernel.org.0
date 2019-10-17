@@ -2,96 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80145DA28A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 02:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 162CEDA29A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 17 Oct 2019 02:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389057AbfJQABh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Oct 2019 20:01:37 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:46580 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727859AbfJQABh (ORCPT
+        id S1732250AbfJQAQS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Oct 2019 20:16:18 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45890 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726820AbfJQAQS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Oct 2019 20:01:37 -0400
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id x9H01SqF029001;
-        Thu, 17 Oct 2019 09:01:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com x9H01SqF029001
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1571270489;
-        bh=ePR8/62tTCV9RgFvpCZdnwGUvBiPGJw/lxcq6lSwPM4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dzbRP1Y31JzhX9BNHKICCH6zsVtJmG82lxYJpYOb+3NC7vVZM3X8lvOTtkNyR2kqV
-         mQo5yi7s/mjTM/Mmfb+GNVJO1/9dPkmrntIbupNDmqnr2IALvgmo+tQMw3o6Zj+kal
-         ID7GZR4kLSGYyVCUKfBN14YkdSbLpoUgFL0XNkAd9VC0GYjDjxjge74wDakY7CXwvU
-         drzIiInnKCXKIfFlS53jEu9LM1mZK4bp9T71NT/Fe3fgaF0IXiKSHbKpnV0BBfkdtH
-         SsVIbO7Rslu6nl30AJruW+gswIequS+z2l5NLAUTWePZi8y3b26/R5INVwwuqYiyki
-         len2PZ/LJAmcQ==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id w3so110240vkm.3;
-        Wed, 16 Oct 2019 17:01:29 -0700 (PDT)
-X-Gm-Message-State: APjAAAX7574wub97hpEIxzT+UrBKIiOZA0/9W0q4QkzQszp05NTwyYGU
-        pohmTyL1BzjmzPNH8mQ8QS9838gGgOtfmXca25s=
-X-Google-Smtp-Source: APXvYqxOKQo7+/EYmjvOrOWieFNkZ8gbZ2aF2PsHAio8Amlr0gcqt1WR0T3ky/yS2Q/fy1HG7YLp4MhVvSVOBGoCD5o=
-X-Received: by 2002:a1f:1881:: with SMTP id 123mr464954vky.26.1571270488067;
- Wed, 16 Oct 2019 17:01:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191015064906.13833-1-efremov@linux.com>
-In-Reply-To: <20191015064906.13833-1-efremov@linux.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 17 Oct 2019 09:00:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATn62wLjwEFSVESRNXJAVHkcJ2hFFPbR8xbVHjXwONrcw@mail.gmail.com>
-Message-ID: <CAK7LNATn62wLjwEFSVESRNXJAVHkcJ2hFFPbR8xbVHjXwONrcw@mail.gmail.com>
-Subject: Re: [PATCH] modpost: add NOFAIL to strdup call
-To:     Denis Efremov <efremov@linux.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Wed, 16 Oct 2019 20:16:18 -0400
+Received: by mail-lj1-f196.google.com with SMTP id q64so536544ljb.12
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Oct 2019 17:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=NOhcohWAiInmjTFcW8QzmT2pG077c1YWYQvbWDWdr9g=;
+        b=0GVCISF/6wmd5g9e4GmprZEFXv6Bg6OsgM7YClR1pQIfU8nyKG/pmMUZGiYlsifhA5
+         GbbzVDw9Q11qzqNoVYT2P1Q7l7RXu0xo7cwvoIU2LOCaQIknAyqkZ4DWCrj+4nnvnI2H
+         meoZHNWMwXD7trAfZrRL/axPcjvGAaxjF5NrEteSpCH1lboVczjEp5GGOaXtyudsrQsX
+         /oaNxsmLIgjmt4ln2MTXdU5o8xYPIUzRc1vNihzOnOSl7t096b0yH4XG88xHWRrUpdH9
+         HjBwjtlT8UBZk3DwJCTXzjPv1n+9YIp1LXvGMpVQu9pL7CikkbPvGjKktE4VCTwMPbeJ
+         noAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=NOhcohWAiInmjTFcW8QzmT2pG077c1YWYQvbWDWdr9g=;
+        b=plcgwuOm/TROBonVywGr927YOAfB8JLn7gpLNlVl9X9JIcrzPXy6H29SVqJrGf0pFJ
+         OImdcRn1aKUo1B5PyUe4QqdvxYVHzC2bxBcTgkTQhH9KRvcaD+sQf1tyc0R2+KqGaFE3
+         1XSi8bctrKhbBlGEfn5+2jRVMsMg4KbT02zjw1tu/kynh+7gizt8p7sPAN5FZ6FzPnID
+         VErAovMu0kY8vL73oOzuojnRxjKGC5HJ2VC6+4PkwheKGyEZZYsAfmFYxgUEZgt73wJW
+         iBJM6Zdy9dUiB7QmCFti5fuXjdU4zHzJkzMan46CsTYk6OCTRwATkGW8gWTvc/fKYTbF
+         UbBA==
+X-Gm-Message-State: APjAAAWg1OhuGskroM3tGBcrvKjPNoF9rYMKtmo8T5fbAD5RmSWN4dgp
+        81FShQOQdkABm3W2PeK4mUErwA==
+X-Google-Smtp-Source: APXvYqyMspv61yx/Obhk166Fc9R826HgXtuzKXb+x4CLZ4P5bhtWHLMAROwlQdVrUPF2Gm5/wXM9NQ==
+X-Received: by 2002:a2e:878a:: with SMTP id n10mr479592lji.229.1571271376254;
+        Wed, 16 Oct 2019 17:16:16 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id a8sm211738ljf.47.2019.10.16.17.16.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 17:16:14 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 34F07101287; Thu, 17 Oct 2019 03:16:13 +0300 (+03)
+Date:   Thu, 17 Oct 2019 03:16:13 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Sasha Levin <sasha.levin@oracle.com>,
+        Andrew Pinski <apinski@cavium.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        mm-commits@vger.kernel.org,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Ingo Molnar <mingo@elte.hu>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: Re: [patch 014/102] llist: introduce llist_entry_safe()
+Message-ID: <20191017001613.watsu7vhqujufjxv@box.shutemov.name>
+References: <57fd50dd./gNBvRBYvu+kYV+l%akpm@linux-foundation.org>
+ <CA+55aFxr2uZADh--vtLYXjcLjNGO5t4jmTWEVZWbRuaJwiocug@mail.gmail.com>
+ <CA+55aFxQRf+U0z6mrAd5QQLWgB2A_mRjY7g9vpZHCSuyjrdhxQ@mail.gmail.com>
+ <CAHk-=wgr12JkKmRd21qh-se-_Gs69kbPgR9x4C+Es-yJV2GLkA@mail.gmail.com>
+ <20191016231116.inv5stimz6fg7gof@box.shutemov.name>
+ <CAHk-=wh9Jjb6iiU5dNhGTei_jTEoe7eFjxnyQ2DezbtgzdoskQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHk-=wh9Jjb6iiU5dNhGTei_jTEoe7eFjxnyQ2DezbtgzdoskQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 3:49 PM Denis Efremov <efremov@linux.com> wrote:
+On Wed, Oct 16, 2019 at 04:29:54PM -0700, Linus Torvalds wrote:
+> On Wed, Oct 16, 2019 at 4:11 PM Kirill A. Shutemov <kirill@shutemov.name> wrote:
+> >
+> > Looks like it was fixed soon after the complain:
+> >
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63567
+> 
+> Ahh, so there are gcc versions which essentially do this wrong, and
+> I'm not seeing it because it was fixed.
+> 
+> Ho humm. Considering that this was fixed in gcc five years ago, and we
+> already require gc-4.6, and did that two years ago, maybe we can just
+> raise the requirement a bit further.
+> 
+> BUT.
+> 
+> It's not clear which versions are ok with this. In your next email you said:
+> 
+> > It would mean bumping GCC version requirements to 4.7.
+> 
+> which I think would be reasonable, but is it actually ok in 4.7?
+
+I think, not. I don't have 4.7 around, but 4.9.3 has the issue if
+-std=gnu99 is used.
+
+> The bugzilla entry says "Target Milestone: 5.0", and I'm not sure how
+> to check what that "revision=216440" ends up actually meaning.
+> 
+> I have a git tree of gcc, and in that one 216440 is commit
+> d303aeafa9b, but that seems to imply it only made it into 5.1:
+> 
+>   [torvalds@i7 gcc]$ git name-rev --tags
+> d303aeafa9b46e06cd853696acb6345dff51a6b9
+>   d303aeafa9b46e06cd853696acb6345dff51a6b9 tags/gcc-5_1_0-release~3943
+> 
+> so we'd have to jump forward a _lot_.
+> 
+> That's a bit sad and annoying. I'd be ok with jumping to 4.7, but I'm
+> not sure we can jump to 5.1.
 >
-> Add NOFAIL check for the strdup call, since the function
-> allocates memory and can return NULL. All strdup calls in
-> modpost are checked with NOFAIL.
->
-> Signed-off-by: Denis Efremov <efremov@linux.com>
-> ---
->  scripts/mod/modpost.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 936d3ad23c83..8e8975065cbc 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -384,7 +384,7 @@ static struct symbol *sym_add_exported(const char *name, const char *namespace,
->                 }
->         }
->         free(s->namespace);
-> -       s->namespace = namespace ? strdup(namespace) : NULL;
-> +       s->namespace = namespace ? NOFAIL(strdup(namespace)) : NULL;
+> Although maybe we should be a _lot_ more aggressive about gcc
+> versions, I'm on gcc-9.2.1 right now, and gcc-5.1 is from April 22,
+> 2015.
 
-This is correct, but I will put it off
-because otherwise if would cause a conflict against this patch:
+5.4.1 builds kernel fine for me with allmodconfig (minus retpoline which
+requires compiler support). Both -std=gnu99 and -std=gnu11.
 
-https://lore.kernel.org/patchwork/patch/1138151/
-
-That patch is adding NOFAIL().
-
-
-
-
->         s->preloaded = 0;
->         s->vmlinux   = is_vmlinux(mod->name);
->         s->kernel    = 0;
-> --
-> 2.21.0
->
-
+Note that GCC has changed their version scheme. 5.4.1 is bug-fix release
+of GCC-5.
 
 -- 
-Best Regards
-Masahiro Yamada
+ Kirill A. Shutemov
