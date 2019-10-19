@@ -2,85 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98CEEDD32B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Oct 2019 00:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98EB7DD5AF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Oct 2019 02:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733256AbfJRWPg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Oct 2019 18:15:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41556 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388321AbfJRWI4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:08:56 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 08C1A22459;
-        Fri, 18 Oct 2019 22:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436535;
-        bh=rZRm5J/AmWsVhViflrWRUWX0gjD/Q8+JKfa0BuGOMVg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Met6TUdT3Rdh462EZ9fLuxnxFLVdVsy1zsw8W6kF3Yqyyv13YwyP91V9F4EoS/oLT
-         jUrljhzD0rt/HoXJF+wzG5LWixOZSTAxDlXb66KDsr2IMUJKc0cUcEZcohdyZv6dSL
-         apsBKoFGbh1tF/CU3LccxuiTQnpXWUVz09VyhAEs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Matthias Maennich <maennich@google.com>,
-        Jessica Yu <jeyu@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 39/56] kbuild: fix build error of 'make nsdeps' in clean tree
-Date:   Fri, 18 Oct 2019 18:07:36 -0400
-Message-Id: <20191018220753.10002-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220753.10002-1-sashal@kernel.org>
-References: <20191018220753.10002-1-sashal@kernel.org>
+        id S1730377AbfJSANs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Oct 2019 20:13:48 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:30391 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728453AbfJSANs (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 18 Oct 2019 20:13:48 -0400
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x9J0DhVI017441;
+        Sat, 19 Oct 2019 09:13:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x9J0DhVI017441
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1571444024;
+        bh=Wv7SDO7TGz/Tz/kPoq97RTLIMVXEt2S+6Yr6mw+gDCQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qiFlhYVBWH7HcAHa04a0nidYNnCnZHQY+DeY0xGKGwNJa1W70j6ualaYq5jjbei7Q
+         P0um+gifV5M5Isba1elISoevdeTYTvYVo+IEQZvfPEPAi3ROzpZ97MNGbVtXp/hr6S
+         C7NJr+SBe2+MffR3Mmv4rXjGb4m703A0rEuKsGUFbbvRVUMxdlarZPmASzStUihaTW
+         F7PTu2wrtwAtPEmVRw52VavGHZ7/s9dcNkNl6ZviYD+KYHI/Y0HoxDDFKJn/x6KaOm
+         U/aN4/z6b3N8Es3NGkKRp/W04yH52En28mxmOllC7turK959Lb1IJcMKhaLE4Ojp6B
+         3Mg4brqp1262Q==
+X-Nifty-SrcIP: [209.85.222.46]
+Received: by mail-ua1-f46.google.com with SMTP id l13so2338807uap.8;
+        Fri, 18 Oct 2019 17:13:44 -0700 (PDT)
+X-Gm-Message-State: APjAAAX/TkFC5XQJsNcLY2bIJo7JNP6DZM2EPPfir952rYF9Fs9bfqkL
+        n1AUebqcGfqaLUcOu+3uDlbXLT4LsEk3cJl/CcY=
+X-Google-Smtp-Source: APXvYqwLdG24TcKRI2xGdPVyXycA/P86iGVpj388RYLudVH3Yy2vabgr2OOiiA0cJgKnUH8lbg94E4aPGHgyjlzHrec=
+X-Received: by 2002:ab0:59ed:: with SMTP id k42mr7047231uad.25.1571444023192;
+ Fri, 18 Oct 2019 17:13:43 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20191018220525.9042-1-sashal@kernel.org> <20191018220525.9042-77-sashal@kernel.org>
+In-Reply-To: <20191018220525.9042-77-sashal@kernel.org>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Sat, 19 Oct 2019 09:13:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATx=yY2Tmfd-BkmPjsqOFc+wUAtKzR7UpmU83LueVDQQw@mail.gmail.com>
+Message-ID: <CAK7LNATx=yY2Tmfd-BkmPjsqOFc+wUAtKzR7UpmU83LueVDQQw@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 4.19 077/100] kbuild: fix build error of 'make
+ nsdeps' in clean tree
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <yamada.masahiro@socionext.com>
+Hi Sasha,
 
-[ Upstream commit d85103ac78a6d8573b21348b36f4cca2e1839a31 ]
+On Sat, Oct 19, 2019 at 7:18 AM Sasha Levin <sashal@kernel.org> wrote:
+>
+> From: Masahiro Yamada <yamada.masahiro@socionext.com>
+>
+> [ Upstream commit d85103ac78a6d8573b21348b36f4cca2e1839a31 ]
+>
+> Running 'make nsdeps' in a clean source tree fails as follows:
+>
+> $ make -s clean; make -s defconfig; make nsdeps
+>    [ snip ]
+> awk: fatal: cannot open file `init/modules.order' for reading (No such file or directory)
+> make: *** [Makefile;1307: modules.order] Error 2
+> make: *** Deleting file 'modules.order'
+> make: *** Waiting for unfinished jobs....
+>
+> The cause of the error is 'make nsdeps' does not build modules at all.
+> Set KBUILD_MODULES to fix it.
+>
+> Reviewed-by: Matthias Maennich <maennich@google.com>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> Signed-off-by: Jessica Yu <jeyu@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
 
-Running 'make nsdeps' in a clean source tree fails as follows:
 
-$ make -s clean; make -s defconfig; make nsdeps
-   [ snip ]
-awk: fatal: cannot open file `init/modules.order' for reading (No such file or directory)
-make: *** [Makefile;1307: modules.order] Error 2
-make: *** Deleting file 'modules.order'
-make: *** Waiting for unfinished jobs....
+nsdeps was introduced in v5.4
 
-The cause of the error is 'make nsdeps' does not build modules at all.
-Set KBUILD_MODULES to fix it.
+Please do not backport this commit.
 
-Reviewed-by: Matthias Maennich <maennich@google.com>
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-Signed-off-by: Jessica Yu <jeyu@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks.
 
-diff --git a/Makefile b/Makefile
-index 93c3467eeb8c9..731a2ce8a749a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -554,7 +554,7 @@ endif
- # in addition to whatever we do anyway.
- # Just "make" or "make all" shall build modules as well
- 
--ifneq ($(filter all _all modules,$(MAKECMDGOALS)),)
-+ifneq ($(filter all _all modules nsdeps,$(MAKECMDGOALS)),)
-   KBUILD_MODULES := 1
- endif
- 
+
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 4d29c7370b464..80f169534c4a7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -566,7 +566,7 @@ endif
+>  # in addition to whatever we do anyway.
+>  # Just "make" or "make all" shall build modules as well
+>
+> -ifneq ($(filter all _all modules,$(MAKECMDGOALS)),)
+> +ifneq ($(filter all _all modules nsdeps,$(MAKECMDGOALS)),)
+>    KBUILD_MODULES := 1
+>  endif
+>
+> --
+> 2.20.1
+>
+
+
 -- 
-2.20.1
-
+Best Regards
+Masahiro Yamada
