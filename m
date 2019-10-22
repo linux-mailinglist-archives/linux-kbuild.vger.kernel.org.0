@@ -2,151 +2,137 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AE5CE072D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2019 17:21:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3786DE07DD
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2019 17:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731220AbfJVPVc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Oct 2019 11:21:32 -0400
-Received: from mx.ungleich.ch ([185.203.112.16]:34840 "EHLO smtp.ungleich.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731025AbfJVPVb (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Oct 2019 11:21:31 -0400
-Received: from diamond.localdomain (localhost [IPv6:::1])
-        by smtp.ungleich.ch (Postfix) with ESMTP id 0FD86200BB;
-        Tue, 22 Oct 2019 17:21:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ungleich.ch; s=mail;
-        t=1571757688; bh=vGinmf3HTVVLER3WLc/60TML/X0E8b0w9iv7eiQT9rI=;
-        h=References:From:To:Cc:Subject:In-reply-to:Date:From;
-        b=qMzMTks+ayJtBNgRARcZTYuX24+J107bgP7IIShNjnB+ZjiS2Pk/X99PbMMc7MaeZ
-         u5RuSn+ttb7Mxyp/WtWkOQ33m0UJGJiVntm728IrmLYMEo3rOJNqEg0eVMBzN/QJiy
-         v9JMRk9FHqyC0loZmXJndWY45ObQ1u0PhkZki+dwOADN+5D/cKJT6GYqr0rW1fvTOk
-         r5qxFqVwKj39vuKSAALRyzxhvQHWuDtyt/4pTASbc4KLlREQGTnui/Zywjx8zXgQ0U
-         9/g5cYHy8+RdwQwnTv97QBy8hczxCtCjSN7Q4b+0ohxT6U0TxtLfrf8Ewj+nhPfOaZ
-         wMP6lUT0XH1LA==
-Received: by diamond.localdomain (Postfix, from userid 1000)
-        id 9F94313E2BB8; Tue, 22 Oct 2019 17:21:50 +0200 (CEST)
-References: <20191016093246.20000-1-unixbhaskar@gmail.com> <87h848vrej.fsf@ungleich.ch> <20191022144602.GB28989@debian>
-User-agent: mu4e 1.3.5; emacs 26.3
-From:   Nico Schottelius <nico.schottelius@ungleich.ch>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     Nico Schottelius <nico-linuxsetlocalversion@schottelius.org>,
-        yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        linux-kbuild@vger.kernel.org, rdunlap@infradead.org
-Subject: Re: [PATCH] scripts: setlocalversion: replace backquote to dollar parenthesis
-In-reply-to: <20191022144602.GB28989@debian>
-Date:   Tue, 22 Oct 2019 17:21:50 +0200
-Message-ID: <875zkg4xgx.fsf@ungleich.ch>
+        id S2388438AbfJVPtY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Oct 2019 11:49:24 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:37628 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388374AbfJVPtQ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 22 Oct 2019 11:49:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1571759354;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=soPvBg70/+oC8uencQegA6z5y64aNbKflTrsxEmRfUE=;
+        b=bp5PmL+R633SlveIxj6b4+pycNt01m+rfqq8xxuo7oZlgSKIzNqfbQKEwhzRHuJZKZgoIc
+        7rgDNokYLXGXI8b7n9zLL+WUYv/1dxyghnWIMjB2tOjee2Qq7KOCmj8DKbJhJ4RXmnhAUH
+        nI4G88EZjgCC8qjD37IOg7rakhUtTwk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-pP--3crAMhSTJdyaJUkLUQ-1; Tue, 22 Oct 2019 11:49:10 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64FA5800D49;
+        Tue, 22 Oct 2019 15:49:06 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.43.17.44])
+        by smtp.corp.redhat.com (Postfix) with SMTP id 88EE560C57;
+        Tue, 22 Oct 2019 15:48:59 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+        oleg@redhat.com; Tue, 22 Oct 2019 17:49:06 +0200 (CEST)
+Date:   Tue, 22 Oct 2019 17:48:58 +0200
+From:   Oleg Nesterov <oleg@redhat.com>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, paulmck@linux.ibm.com, peterz@infradead.org,
+        tglx@linutronix.de, will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20191022154858.GA13700@redhat.com>
+References: <20191017141305.146193-1-elver@google.com>
+ <20191017141305.146193-2-elver@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20191017141305.146193-2-elver@google.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: pP--3crAMhSTJdyaJUkLUQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-Acked-by confirmed from my side.
-
-Best regards,
-
-Nico
-
-Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
-
-> On 13:52 Wed 16 Oct 2019, Nico Schottelius wrote:
->>
->>As $() is more robust than `` (no nesting possible),
->>I support this patch.
->>
-> Hi Nico,
+On 10/17, Marco Elver wrote:
 >
-> Kindly provide the consent to use your support as Acked-by in the patch.
->
-> Thanks,
-> Bhaskar
->>
->>Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
->>
->>> This patch replace backquote to dollar parenthesis syntax for better
->>> readability.
->>>
->>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->>> ---
->>>  scripts/setlocalversion | 22 +++++++++++-----------
->>>  1 file changed, 11 insertions(+), 11 deletions(-)
->>>
->>> diff --git a/scripts/setlocalversion b/scripts/setlocalversion
->>> index 220dae0db3f1..b82a29bfc78a 100755
->>> --- a/scripts/setlocalversion
->>> +++ b/scripts/setlocalversion
->>> @@ -45,11 +45,11 @@ scm_version()
->>>
->>>  	# Check for git and a git repo.
->>>  	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
->>> -	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
->>> +		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
->>>
->>>  		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
->>>  		# it, because this version is defined in the top level Makefile.
->>> -		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
->>> +		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
->>>
->>>  			# If only the short version is requested, don't bother
->>>  			# running further git commands
->>> @@ -59,7 +59,7 @@ scm_version()
->>>  			fi
->>>  			# If we are past a tagged commit (like
->>>  			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
->>> -			if atag="`git describe 2>/dev/null`"; then
->>> +			if atag="$(git describe 2>/dev/null)"; then
->>>  				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
->>>
->>>  			# If we don't have a tag at all we print -g{commitish}.
->>> @@ -70,7 +70,7 @@ scm_version()
->>>
->>>  		# Is this git on svn?
->>>  		if git config --get svn-remote.svn.url >/dev/null; then
->>> -			printf -- '-svn%s' "`git svn find-rev $head`"
->>> +			printf -- '-svn%s' "$(git svn find-rev $head)"
->>>  		fi
->>>
->>>  		# Check for uncommitted changes.
->>> @@ -91,15 +91,15 @@ scm_version()
->>>  	fi
->>>
->>>  	# Check for mercurial and a mercurial repo.
->>> -	if test -d .hg && hgid=`hg id 2>/dev/null`; then
->>> +	if test -d .hg && hgid=$(hg id 2>/dev/null); then
->>>  		# Do we have an tagged version?  If so, latesttagdistance == 1
->>> -		if [ "`hg log -r . --template '{latesttagdistance}'`" == "1" ]; then
->>> -			id=`hg log -r . --template '{latesttag}'`
->>> +		if [ "$(hg log -r . --template '{latesttagdistance}')" == "1" ]; then
->>> +			id=$(hg log -r . --template '{latesttag}')
->>>  			printf '%s%s' -hg "$id"
->>>  		else
->>> -			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
->>> +			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
->>>  			if [ -z "$tag" -o "$tag" = tip ]; then
->>> -				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
->>> +				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
->>>  				printf '%s%s' -hg "$id"
->>>  			fi
->>>  		fi
->>> @@ -115,8 +115,8 @@ scm_version()
->>>  	fi
->>>
->>>  	# Check for svn and a svn repo.
->>> -	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
->>> -		rev=`echo $rev | awk '{print $NF}'`
->>> +	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
->>> +		rev=$(echo $rev | awk '{print $NF}')
->>>  		printf -- '-svn%s' "$rev"
->>>
->>>  		# All done with svn
->>
->>
->>--
->>Modern, affordable, Swiss Virtual Machines. Visit www.datacenterlight.ch
+> +=09/*
+> +=09 * Delay this thread, to increase probability of observing a racy
+> +=09 * conflicting access.
+> +=09 */
+> +=09udelay(get_delay());
+> +
+> +=09/*
+> +=09 * Re-read value, and check if it is as expected; if not, we infer a
+> +=09 * racy access.
+> +=09 */
+> +=09switch (size) {
+> +=09case 1:
+> +=09=09is_expected =3D expect_value._1 =3D=3D READ_ONCE(*(const u8 *)ptr)=
+;
+> +=09=09break;
+> +=09case 2:
+> +=09=09is_expected =3D expect_value._2 =3D=3D READ_ONCE(*(const u16 *)ptr=
+);
+> +=09=09break;
+> +=09case 4:
+> +=09=09is_expected =3D expect_value._4 =3D=3D READ_ONCE(*(const u32 *)ptr=
+);
+> +=09=09break;
+> +=09case 8:
+> +=09=09is_expected =3D expect_value._8 =3D=3D READ_ONCE(*(const u64 *)ptr=
+);
+> +=09=09break;
+> +=09default:
+> +=09=09break; /* ignore; we do not diff the values */
+> +=09}
+> +
+> +=09/* Check if this access raced with another. */
+> +=09if (!remove_watchpoint(watchpoint)) {
+> +=09=09/*
+> +=09=09 * No need to increment 'race' counter, as the racing thread
+> +=09=09 * already did.
+> +=09=09 */
+> +=09=09kcsan_report(ptr, size, is_write, smp_processor_id(),
+> +=09=09=09     kcsan_report_race_setup);
+> +=09} else if (!is_expected) {
+> +=09=09/* Inferring a race, since the value should not have changed. */
+> +=09=09kcsan_counter_inc(kcsan_counter_races_unknown_origin);
+> +#ifdef CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN
+> +=09=09kcsan_report(ptr, size, is_write, smp_processor_id(),
+> +=09=09=09     kcsan_report_race_unknown_origin);
+> +#endif
+> +=09}
 
+Not sure I understand this code...
 
---
-Modern, affordable, Swiss Virtual Machines. Visit www.datacenterlight.ch
+Just for example. Suppose that task->state =3D TASK_UNINTERRUPTIBLE, this t=
+ask
+does __set_current_state(TASK_RUNNING), another CPU does wake_up_process(ta=
+sk)
+which does the same UNINTERRUPTIBLE -> RUNNING transition.
+
+Looks like, this is the "data race" according to kcsan?
+
+Hmm. even the "if (!(p->state & state))" check in try_to_wake_up() can trig=
+ger
+kcsan_report() ?
+
+Oleg.
+
