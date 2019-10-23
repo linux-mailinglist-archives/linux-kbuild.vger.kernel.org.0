@@ -2,51 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ED84E1762
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 12:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 489D3E17EC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 12:29:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390935AbfJWKJb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Oct 2019 06:09:31 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:42286 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390920AbfJWKJa (ORCPT
+        id S2404270AbfJWK3R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Oct 2019 06:29:17 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:46091 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391022AbfJWK3P (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Oct 2019 06:09:30 -0400
-Received: by mail-qk1-f196.google.com with SMTP id m4so2268585qke.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2019 03:09:28 -0700 (PDT)
+        Wed, 23 Oct 2019 06:29:15 -0400
+Received: by mail-qt1-f193.google.com with SMTP id u22so31434574qtq.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2019 03:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Af0KIyyOwnj3mZOcD+QRESFxrrly9prG8q3YaUNAUqo=;
-        b=q28y6CPjh4YCfMFxwOuGmikU2bU54DpL61rtn+fbInJO3jOuhuM5+lfT/teVB9VDaI
-         udxfOTOThwpclTCwhrr0zdJHfTQBpWOrn7MZd8oqb+0/LjJbmqS+ZUBPauC9ldlBUhLh
-         VYs1AflegBSusb/BT/Slc1R6u7kgdM2Dux3q5j1JKpiGLNTyD7zZ6reMJHHynu4CF6m6
-         PX2nvWe1oEHlrgAPdFchxWIXWGo2VfS9jsewMkbj0DkVZYzJQj0yamd5rrTrqjF7b2N8
-         k7XFaJ/BE5jCSi6bU0HL8H3zjrLvkokY0eQ9uL7f/JrQY/1CFTbqyb9M4FIlwzujCad+
-         MPsA==
+        bh=slXk6xYqg23PkDfUUqQ9LQJESOwIAjbard9E/3jepxs=;
+        b=revT3IO6QRyVpkoISe81SAOBBvQZhNgKw8ICh+cTROzcoTps94H3GpTmqYR50BApq+
+         2xLIcl6N65/YBj+wQIm6txhmFuD3LwlII4lYmfh12Dh73MyQdY32hYVzSL4YkEUPz22t
+         iYUySB1qCiQiyfVUhcOxxoCiYnl2f9Dl0PMymMBJmhjtomIhbNtJJXlCwGNDY2uSflb0
+         QE75vNE+6PFj/fYRtHW+g/UaXZzbJoJ4kF9B7rnTvDKRUY+AsAhWvWXD602MLfBgEZTk
+         kTfx5H/oxIHDY4EAckCZzUkeaWbqEm6HqBvAmFYVeC00BksUA0W1CNHryos4kJmn+QHO
+         vW4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Af0KIyyOwnj3mZOcD+QRESFxrrly9prG8q3YaUNAUqo=;
-        b=Gjdzk0AFHHpYeISXJYBtDEzXINEM9bjydMIODT1QGfRgoL46WEf8NhC+RafpmKtL6S
-         s7PAld3vdq+PGDG6WMIRablTkn1c1QraT6cOYQBAEXWitPdrkY6CRYSRDDUC7beJoajI
-         BUSlJlRwSUjxzDuQJqGHbz1Dmnw5TmpAWIBEFgibtLfLJo5tuceOMYASTmFcoarWTP0f
-         u4oKzLg2bdNKogp07uhE8qZk0SUP3NxRiLjOvGiYeHs8/cz4jAikkyZed4VxZXmSavmu
-         i6aFAmtQJpsRft37hy3DJO5oUC/h1dZujQKsgGab1LsEzVfX1S8c1JfcB7gn+XEtkYSu
-         MrFQ==
-X-Gm-Message-State: APjAAAVGS6+h3uOsTOnOclB/7K0ibjJlHKcVwn0/ps0qZe+2PIDaKP1o
-        mU7HcoZntBAIWEhNENVq/FjY4eAHIqtt5lrcVIozvA==
-X-Google-Smtp-Source: APXvYqyOraH8N4RWvCWfwfjYT+3v82g6MrsnydBSwF5ZIUYgEa79/wwYXwhaoM0D4EgSJhAUX3JnGzI37TQVIInavmk=
-X-Received: by 2002:a05:620a:6b6:: with SMTP id i22mr3998286qkh.256.1571825365719;
- Wed, 23 Oct 2019 03:09:25 -0700 (PDT)
+        bh=slXk6xYqg23PkDfUUqQ9LQJESOwIAjbard9E/3jepxs=;
+        b=Zt2NShd0ZBpX3nN+m5zh73yJJKp8xUy3q3E7iux37H1KAcrAFtw1crxFSJwx7UAqZt
+         goUYBNP2H9tqHcB8nGNPI3QNa0ZE0wK3TEHOsxr/B3pAUjc2+HCRSZkmIGaN+e0D8r7g
+         3Ss8fl3jolQerG0qgjhuSiXtidN4Q8W0WsD1eLW7P3I5I+vo3pEIB+uoHDoNdOX8r9NY
+         v+W993PW3UchisY4J+GOzQxSW6uIGAtRgYHVPeuaiGsrWJWPfs+jeiM/o/mgieB7PsV+
+         aNs/b6S3hAk+8M59lh1uADm7NwEoQmA1faVZ2EtKGZK69r9j5ZTebPime0sSHCM7K3sh
+         IV8g==
+X-Gm-Message-State: APjAAAUkIRiLQNURDUwfXk4nDkdHUNC4GNeoqGpPw9fsSCPLwljMxDGH
+        iTGzy5fvi/t1CJf5c8sIQtAGWFALSYFglOIjbK4Akw==
+X-Google-Smtp-Source: APXvYqzDNwZ4D62uk3/SU08/87ZN+kmsofJWN9dvxITfz4RyeXQzGTQvUc6FVCVgLy1v25ndo9c+G23syjdpVHM9pag=
+X-Received: by 2002:ac8:1103:: with SMTP id c3mr8408047qtj.50.1571826549688;
+ Wed, 23 Oct 2019 03:29:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
 In-Reply-To: <20191017141305.146193-2-elver@google.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 23 Oct 2019 12:09:12 +0200
-Message-ID: <CACT4Y+akk3QRKM+P_KB3AHPOc2RDB-iVqQS2BbBkXv6ufo8VpA@mail.gmail.com>
+Date:   Wed, 23 Oct 2019 12:28:57 +0200
+Message-ID: <CACT4Y+b=y0qbW=6=Q1ZZtTr=CYLyZqRYBFYz6LiczPUifBdaBQ@mail.gmail.com>
 Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
 To:     Marco Elver <elver@google.com>
 Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
@@ -88,7 +88,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-/On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
+"))On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
 >
 > Kernel Concurrency Sanitizer (KCSAN) is a dynamic data-race detector for
 > kernel space. KCSAN is a sampling watchpoint-based data-race detector.
@@ -809,6 +809,9 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 > +#ifdef CONFIG_KCSAN
 > +       .kcsan_ctx = {
 > +               .disable                = 1,
+
+What will happen if we don't disable it?
+
 > +               .atomic_next            = 0,
 > +               .atomic_region          = 0,
 > +               .atomic_region_flat     = 0,
@@ -1095,6 +1098,11 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 > +       kcsan_debugfs_init();
 > +       kcsan_enable_current();
 > +#ifdef CONFIG_KCSAN_EARLY_ENABLE
+
+if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
+
+
+
 > +       /*
 > +        * We are in the init task, and no other tasks should be running.
 > +        */
@@ -1681,6 +1689,11 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 > +/*
 > + * KCSAN uses the same instrumentation that is emitted by supported compilers
 > + * for Thread Sanitizer (TSAN).
+
+Strictly saying, ThreadSanitizer is never spelled with a space (here
+and in one other place).
+
+
 > + *
 > + * When enabled, the compiler emits instrumentation calls (the functions
 > + * prefixed with "__tsan" below) for all loads and stores that it generated;
@@ -1862,6 +1875,10 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 > +
 > +/*
 > + * Returns true if data-races in the function symbol that maps to addr (offsets
+
+"maps to func_addr"
+
+
 > + * are ignored) should *not* be reported.
 > + */
 > +bool kcsan_skip_report(unsigned long func_addr);
@@ -2477,10 +2494,6 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 >
 > +#
 > +# Enable ConcurrencySanitizer flags for kernel except some files or directories
-
-s/ConcurrencySanitizer/KCSAN/
-This is the only mention of "ConcurrencySanitizer" in the whole patch.
-
 > +# we don't want to check (depends on variables KCSAN_SANITIZE_obj.o, KCSAN_SANITIZE)
 > +#
 > +ifeq ($(CONFIG_KCSAN),y)
