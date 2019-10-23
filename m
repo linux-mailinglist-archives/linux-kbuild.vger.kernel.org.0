@@ -2,143 +2,175 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBBD9E0FD4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 03:56:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1082E1188
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 07:22:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730121AbfJWB4U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Oct 2019 21:56:20 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43096 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727582AbfJWB4U (ORCPT
+        id S2389090AbfJWFWV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Oct 2019 01:22:21 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:39393 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732286AbfJWFWU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Oct 2019 21:56:20 -0400
-Received: by mail-pg1-f194.google.com with SMTP id l24so6193338pgh.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Oct 2019 18:56:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nQNpXYtEEs98WRZmV+IJQ5q/RqSZVR1h7BdT3TQOlVQ=;
-        b=d2zwv738z7UhbHqceN2ILi457nULlrcdfO6QrxX/xeb8QvpP0ltS78T3y6x/ei5dDD
-         RgYk+dm0rBsNY6Of/ffpdb0eTCDRv6uuYMUG7B6fqBw0HUHGms8EC/cWwT5rkHDgSHmn
-         JyKzvbfxFGk26KqLYofUOLcXMhfu8UmIw0D9AKYxJaXeDIyBK8H+F+L8DX43jT8A6LKo
-         8iv5/zd5YVokNXt3m72NoyByD9YDLSv6evy95x6uWhTCkffgDyRWr/4JtiIJgrVKa/lm
-         /l1kUGlo/BpSUEQn2opvibDNGFBYbkjksPd8B38Tj8cBIn8Ztsrs7zjZOqwtYWRE05Ew
-         UhaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nQNpXYtEEs98WRZmV+IJQ5q/RqSZVR1h7BdT3TQOlVQ=;
-        b=m+GdbfYOwSo6w45LBrzwz35Sy2GnF92NT6yL6eN9mkxV9oADYFOtxh85k2q6+YpqOq
-         Tf2fMKDvL5g05bMv2Qw5SwMhRFrt3yif1N2HLu+CFuZTdiCgc0f//LEE2+9gUGK9x746
-         0YP84Eh7wU0jwXyJeFKEodES3B1q11/I/4AoiyHqoll3HM+vjKVC2Nq5nei+W74ulDUj
-         QUqhkwRvbAVDqqy28QJRIMrmmYW3tUuljOtnTELuk3FyIfqLqz4QmkUhB6rpkxG8g+Kh
-         Nq22ZQIc1mCg0cGvV599+z4fvi4AGL2fSxnL02sDS3H8BJE7L991fRf1nFHx4U3NoDm4
-         vfBg==
-X-Gm-Message-State: APjAAAXyAt3hDAtvnDDdOGD9eRZBYN2IDz4lfbLeUsW/xR+I1B4NYUG+
-        e+47hdAAH/QLftCWq12rqzs=
-X-Google-Smtp-Source: APXvYqx/mjDdelrrQ6p3IN6Ob9RlmBaHeDDLkhvAf0b781vUXaGMHHRiL8Iduc04kAnR8nb9G04U/A==
-X-Received: by 2002:a63:715d:: with SMTP id b29mr243426pgn.369.1571795779483;
-        Tue, 22 Oct 2019 18:56:19 -0700 (PDT)
-Received: from localhost.localdomain ([223.191.16.197])
-        by smtp.gmail.com with ESMTPSA id j128sm22649056pfg.51.2019.10.22.18.56.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2019 18:56:18 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
-Cc:     nico-linuxsetlocalversion@schottelius.org, rdunlap@infradead.org,
-        linux-kbuild@vger.kernel.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH RESEND] scripts: setlocalversion: replace backquote to dollar parenthesis 
-Date:   Wed, 23 Oct 2019 07:24:27 +0530
-Message-Id: <20191023015426.31169-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Wed, 23 Oct 2019 01:22:20 -0400
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x9N5MD1d007091;
+        Wed, 23 Oct 2019 14:22:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x9N5MD1d007091
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1571808134;
+        bh=4uWhQkSgKJyJpi9dgEd8rnoW9JQaybqUylXhhSC0nec=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=AzcLO0MjlBC1/BEeJm9qyRkRgcPAkYv4QxMtxeUo3Re7hVadzJzlkr5g7u8mhf8wL
+         I+FMIbGBt8bkCzOTcIPamlUfqvlNGvtpEsBYRyKfjRIYHYFT4wSiqZzNWOFUEnb15o
+         hWUQlgxEJv3mbTl/jyR4fr/ZdqE8uH/8GN+Fhd4ko8xwKe9gfKUG2g20ZZDWqO0P1s
+         /plJux5tDnUCVn4pFMz+DABNLRK0tD114Ty+lCe15mBfEA3Kb8QH9RQ4GjOb4doMG6
+         DAl4aRfvENZzyWk7XJ0sBdiLQHwbQOS3gTV2ItHPoVXIXamYJsftRc+Hk8VhWOJ9zs
+         8PZTF/aGNWHVA==
+X-Nifty-SrcIP: [209.85.222.48]
+Received: by mail-ua1-f48.google.com with SMTP id c25so359145uap.10;
+        Tue, 22 Oct 2019 22:22:13 -0700 (PDT)
+X-Gm-Message-State: APjAAAWGp1y1nH591KZ/9/uQ/oi+d2onTR7whgW3HK3buHnMglNPfh6E
+        g20YLU1NngUZnQZCrgqOXk2g8by3vryN9O2KrOo=
+X-Google-Smtp-Source: APXvYqxLqGkSOgIFRyd9PTxHyI25VNUcERzN0x2gYGlStMqZTJ+flp75axCjaZb/WyR7UjkEmRdgV01UzlT91dSwPgk=
+X-Received: by 2002:a9f:3824:: with SMTP id p33mr4091753uad.109.1571808132530;
+ Tue, 22 Oct 2019 22:22:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190129204319.15238-1-jacob.e.keller@intel.com>
+ <7b26e6cc-10ce-5df2-6375-1f95bc4da04e@infradead.org> <02874ECE860811409154E81DA85FBB58968DBE54@ORSMSX121.amr.corp.intel.com>
+ <CAK7LNARyUEakeG_N9TWcO2cjFSzbgY__k_QJm6C+oOz+fW0aeg@mail.gmail.com> <02874ECE860811409154E81DA85FBB58968E1402@ORSMSX121.amr.corp.intel.com>
+In-Reply-To: <02874ECE860811409154E81DA85FBB58968E1402@ORSMSX121.amr.corp.intel.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 23 Oct 2019 14:21:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARAhZtzdnS9+mgtamj=pLdV81dudnYVDa8NRxcQPpF0bw@mail.gmail.com>
+Message-ID: <CAK7LNARAhZtzdnS9+mgtamj=pLdV81dudnYVDa8NRxcQPpF0bw@mail.gmail.com>
+Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative paths
+To:     "Keller, Jacob E" <jacob.e.keller@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This patch replace backquote to dollar parenthesis syntax for better
-readability.
+On Tue, Oct 1, 2019 at 5:49 AM Keller, Jacob E <jacob.e.keller@intel.com> wrote:
+>
+> > -----Original Message-----
+> > From: Masahiro Yamada [mailto:yamada.masahiro@socionext.com]
+> > Sent: Saturday, September 28, 2019 5:21 PM
+> > To: Keller, Jacob E <jacob.e.keller@intel.com>
+> > Cc: Randy Dunlap <rdunlap@infradead.org>; intel-wired-lan@lists.osuosl.org; linux-
+> > kernel@vger.kernel.org; linux-kbuild <linux-kbuild@vger.kernel.org>
+> > Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative paths
+> >
+> > On Sat, Sep 28, 2019 at 8:30 AM Keller, Jacob E
+> > <jacob.e.keller@intel.com> wrote:
+> > >
+> > > > -----Original Message-----
+> > > > From: Randy Dunlap [mailto:rdunlap@infradead.org]
+> > > > Sent: Friday, September 27, 2019 4:12 PM
+> > > > To: Keller, Jacob E <jacob.e.keller@intel.com>
+> > > > Cc: intel-wired-lan@lists.osuosl.org; linux-kernel@vger.kernel.org; linux-kbuild
+> > <linux-
+> > > > kbuild@vger.kernel.org>; Masahiro Yamada <yamada.masahiro@socionext.com>
+> > > > Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative paths
+> > > >
+> > > >
+> > > > re: https://lore.kernel.org/lkml/20190129204319.15238-1-
+> > jacob.e.keller@intel.com/
+> > > >
+> > > > Did anything happen with this patch?
+> > > >
+> > > > Please send it to linux-kbuild@vger.kernel.org and
+> > > > Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > > >
+> > > > You can also add:
+> > > > Acked-by: Randy Dunlap <rdunlap@infradead.org>
+> > > > Tested-by: Randy Dunlap <rdunlap@infradead.org>
+> > > >
+> > > >
+> > > > I was just about to fix this script but I decided to first see if anyone else
+> > > > had already done so.  Thanks.
+> > > >
+> > > > --
+> > > > ~Randy
+> > >
+> > > Done, thanks.
+> > >
+> > > Regards,
+> > > Jake
+> >
+> >
+> > Applied to linux/kbuild. Thanks.
+> >
+>
+> Great, thanks!
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-     Acked-by: Randy Dunlap <rdunlap@infradead.org>
-     Acked-by: Nico Schottelius <nico-linuxsetlocalversion@schottelius.org>
----
- scripts/setlocalversion | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/setlocalversion b/scripts/setlocalversion
-index a2998b118ef9..d3f93de0d046 100755
---- a/scripts/setlocalversion
-+++ b/scripts/setlocalversion
-@@ -45,11 +45,11 @@ scm_version()
+This scripts has been 5-year broken,
+and I did not see any complaint except from you.
+So, I wonder how many people are using this.
 
- 	# Check for git and a git repo.
- 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
--	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
-+		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
+Nor, do I understand how to use it.
 
- 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
- 		# it, because this version is defined in the top level Makefile.
--		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
-+		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
+Could you teach me a bit more about this script?
 
- 			# If only the short version is requested, don't bother
- 			# running further git commands
-@@ -59,7 +59,7 @@ scm_version()
- 			fi
- 			# If we are past a tagged commit (like
- 			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
--			if atag="`git describe 2>/dev/null`"; then
-+			if atag="$(git describe 2>/dev/null)"; then
- 				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
 
- 			# If we don't have a tag at all we print -g{commitish}.
-@@ -70,7 +70,7 @@ scm_version()
 
- 		# Is this git on svn?
- 		if git config --get svn-remote.svn.url >/dev/null; then
--			printf -- '-svn%s' "`git svn find-rev $head`"
-+			printf -- '-svn%s' "$(git svn find-rev $head)"
- 		fi
+Something might be missing in my mind, but
+I do not know how to use this script in a useful way.
 
- 		# Check for uncommitted changes.
-@@ -91,15 +91,15 @@ scm_version()
- 	fi
 
- 	# Check for mercurial and a mercurial repo.
--	if test -d .hg && hgid=`hg id 2>/dev/null`; then
-+	if test -d .hg && hgid=$(hg id 2>/dev/null); then
- 		# Do we have an tagged version?  If so, latesttagdistance == 1
--		if [ "`hg log -r . --template '{latesttagdistance}'`" = "1" ]; then
--			id=`hg log -r . --template '{latesttag}'`
-+		if [ "$(hg log -r . --template '{latesttagdistance}')" = "1" ]; then
-+			id=$(hg log -r . --template '{latesttag}')
- 			printf '%s%s' -hg "$id"
- 		else
--			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
-+			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
- 			if [ -z "$tag" -o "$tag" = tip ]; then
--				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
-+				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
- 				printf '%s%s' -hg "$id"
- 			fi
- 		fi
-@@ -115,8 +115,8 @@ scm_version()
- 	fi
 
- 	# Check for svn and a svn repo.
--	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
--		rev=`echo $rev | awk '{print $NF}'`
-+	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
-+		rev=$(echo $rev | awk '{print $NF}')
- 		printf -- '-svn%s' "$rev"
+It provides three checks.
 
- 		# All done with svn
---
-2.20.1
+[1] list_multiply_defined()
 
+This warns multiple definition of functions.
+
+The compiler would fail if it saw any multiple definition,
+so the reports from this check are all false-positive.
+
+
+[2] resolve_external_references()
+
+This warns unresolved symbols.
+
+The compiler would fail if it saw any unresolved symbol,
+so the reports from this check are all false-positive, too.
+
+
+
+
+[3] list_extra_externals
+
+This warns symbols with no reference.
+
+This potentially contains lots of false-positives.
+For example, the core framework provides APIs, but if all drivers
+are disabled, there is no user of those APIs.
+
+
+
+
+I built the kernel with x86_64_defconfig,
+and namespacecheck provides
+
+1400 line reports for [1].
+200 line reports for [2].
+6800 line reports for [3].
+
+Most of these seem false-positives.
+
+
+
+How can I use it for the code improvement?
+
+[3] might be still useful to find 'static' candidates,
+but it would be difficult given the amount of the report.
+
+-- 
+Best Regards
+Masahiro Yamada
