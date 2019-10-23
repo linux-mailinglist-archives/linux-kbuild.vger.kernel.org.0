@@ -2,51 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 489D3E17EC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 12:29:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5B4AE188E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 13:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404270AbfJWK3R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Oct 2019 06:29:17 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:46091 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391022AbfJWK3P (ORCPT
+        id S2404630AbfJWLJL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Oct 2019 07:09:11 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:45530 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404671AbfJWLJH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Oct 2019 06:29:15 -0400
-Received: by mail-qt1-f193.google.com with SMTP id u22so31434574qtq.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2019 03:29:12 -0700 (PDT)
+        Wed, 23 Oct 2019 07:09:07 -0400
+Received: by mail-qt1-f194.google.com with SMTP id c21so31587723qtj.12
+        for <linux-kbuild@vger.kernel.org>; Wed, 23 Oct 2019 04:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=slXk6xYqg23PkDfUUqQ9LQJESOwIAjbard9E/3jepxs=;
-        b=revT3IO6QRyVpkoISe81SAOBBvQZhNgKw8ICh+cTROzcoTps94H3GpTmqYR50BApq+
-         2xLIcl6N65/YBj+wQIm6txhmFuD3LwlII4lYmfh12Dh73MyQdY32hYVzSL4YkEUPz22t
-         iYUySB1qCiQiyfVUhcOxxoCiYnl2f9Dl0PMymMBJmhjtomIhbNtJJXlCwGNDY2uSflb0
-         QE75vNE+6PFj/fYRtHW+g/UaXZzbJoJ4kF9B7rnTvDKRUY+AsAhWvWXD602MLfBgEZTk
-         kTfx5H/oxIHDY4EAckCZzUkeaWbqEm6HqBvAmFYVeC00BksUA0W1CNHryos4kJmn+QHO
-         vW4g==
+        bh=uJIRvae5Tadr5tpoTeQKMwZtBWAiqA2ri1+8GTwKn9A=;
+        b=ZU8k+TEFHf8De71GB/w6dKf0EvFXULUUBVHiKmofOelJNlP7/aP9s7Whbktw/lzxy2
+         GZuS5pOjFxu7p8qlziIG/F//TjH5r3mV0Dxa/zRWNeSBP4vfPiDqqrgvLFVjoovgv5hE
+         ihuD61FerrmcDqxFlxFFgbX9fnCSbN7h4Hn1+44De+ObgKJkaEWfgpSORn39Qr6PDYUI
+         sm4N7hnVj4bM7E2jZjExw1ZTYFt/AVhK78tq7i4U5I0/0oFHWh85lVBGolE72XVvvkph
+         rnfMA3J/QERLi9cZ2J2mewsYwzezfLX/G+w8eh8yy0lM1ZHYw3P1SgR60aRJbv8NqI5E
+         TKJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=slXk6xYqg23PkDfUUqQ9LQJESOwIAjbard9E/3jepxs=;
-        b=Zt2NShd0ZBpX3nN+m5zh73yJJKp8xUy3q3E7iux37H1KAcrAFtw1crxFSJwx7UAqZt
-         goUYBNP2H9tqHcB8nGNPI3QNa0ZE0wK3TEHOsxr/B3pAUjc2+HCRSZkmIGaN+e0D8r7g
-         3Ss8fl3jolQerG0qgjhuSiXtidN4Q8W0WsD1eLW7P3I5I+vo3pEIB+uoHDoNdOX8r9NY
-         v+W993PW3UchisY4J+GOzQxSW6uIGAtRgYHVPeuaiGsrWJWPfs+jeiM/o/mgieB7PsV+
-         aNs/b6S3hAk+8M59lh1uADm7NwEoQmA1faVZ2EtKGZK69r9j5ZTebPime0sSHCM7K3sh
-         IV8g==
-X-Gm-Message-State: APjAAAUkIRiLQNURDUwfXk4nDkdHUNC4GNeoqGpPw9fsSCPLwljMxDGH
-        iTGzy5fvi/t1CJf5c8sIQtAGWFALSYFglOIjbK4Akw==
-X-Google-Smtp-Source: APXvYqzDNwZ4D62uk3/SU08/87ZN+kmsofJWN9dvxITfz4RyeXQzGTQvUc6FVCVgLy1v25ndo9c+G23syjdpVHM9pag=
-X-Received: by 2002:ac8:1103:: with SMTP id c3mr8408047qtj.50.1571826549688;
- Wed, 23 Oct 2019 03:29:09 -0700 (PDT)
+        bh=uJIRvae5Tadr5tpoTeQKMwZtBWAiqA2ri1+8GTwKn9A=;
+        b=BbtndXS5J3ZdLvgMYeXuBv01j3BB5Y9M/W5NnTtZ3uAunsVo4/2/xcNK/eEFtGsDtY
+         DBlm7QcjCwAWjJjMoH6U/wPQE16zZrCpg8MzpQeBaBCYQP9Fh+cq2gjjcvo25S01CzL2
+         l+GwT4wanJ3375hornBgz1TUSWcgRjUtwYd5zAhoFzx09WkhL5kJ+ZrnMtar1EZbV5Gg
+         QRvB2GumdynoIlQJbiI/LP3VBsE1mRuTxqvb9K0IvJiwOnhjpjwAZVjI4mX6FiQ+MEep
+         f3lz1S0mLIvRRwYOENqGZPCZXy0BswwAGe7NXcHN605aXFVDRYqwJWCH0mXwIO9yv0qy
+         PIoQ==
+X-Gm-Message-State: APjAAAVr6abSeDftyaxsoVg88MsLu2zikopIljE6fNzpGEl3yCRp2YkK
+        p6ONqZJnDYqoqtsZav3hIeNuQi3QRVJwdzYAWHqLQg==
+X-Google-Smtp-Source: APXvYqzhaC0M6hDtaaBrQSjiowl7ZvTNNzOp1lc3D+pzJMe65FkqmaY/hv9WNV2eZw/Ho0m8+++thqJJdTDgdvl32PQ=
+X-Received: by 2002:aed:24af:: with SMTP id t44mr8144640qtc.57.1571828941930;
+ Wed, 23 Oct 2019 04:09:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
 In-Reply-To: <20191017141305.146193-2-elver@google.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 23 Oct 2019 12:28:57 +0200
-Message-ID: <CACT4Y+b=y0qbW=6=Q1ZZtTr=CYLyZqRYBFYz6LiczPUifBdaBQ@mail.gmail.com>
+Date:   Wed, 23 Oct 2019 13:08:49 +0200
+Message-ID: <CACT4Y+bsTHAOtMKj_kWps1UdORWM1C8C7AN+ogPvw1gg1ugY7A@mail.gmail.com>
 Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
 To:     Marco Elver <elver@google.com>
 Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
@@ -88,7 +88,9 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-"))On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
+ w?
+
+ On Thu, Oct 17, 2019 at 4:13 PM Marco Elver <elver@google.com> wrote:
 >
 > Kernel Concurrency Sanitizer (KCSAN) is a dynamic data-race detector for
 > kernel space. KCSAN is a sampling watchpoint-based data-race detector.
@@ -809,9 +811,6 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 > +#ifdef CONFIG_KCSAN
 > +       .kcsan_ctx = {
 > +               .disable                = 1,
-
-What will happen if we don't disable it?
-
 > +               .atomic_next            = 0,
 > +               .atomic_region          = 0,
 > +               .atomic_region_flat     = 0,
@@ -869,7 +868,18 @@ What will happen if we don't disable it?
 > +CFLAGS_kcsan.o = $(call cc-option, -fno-conserve-stack -fno-stack-protector)
 > +CFLAGS_core.o = $(call cc-option, -fno-conserve-stack -fno-stack-protector)
 > +CFLAGS_atomic.o = $(call cc-option, -fno-conserve-stack -fno-stack-protector)
-> +
+
+Building with clang 10, I still see:
+
+  CC      kernel/kcsan/core.o
+kernel/kcsan/core.o: warning: objtool:
+__kcsan_check_watchpoint()+0x228: call to __stack_chk_fail() with
+UACCESS enabled
+kernel/kcsan/core.o: warning: objtool:
+__kcsan_setup_watchpoint()+0x3be: call to __stack_chk_fail() with
+UACCESS enabled
+
+
 > +obj-y := kcsan.o core.o atomic.o debugfs.o report.o
 > +obj-$(CONFIG_KCSAN_SELFTEST) += test.o
 > diff --git a/kernel/kcsan/atomic.c b/kernel/kcsan/atomic.c
@@ -1098,11 +1108,6 @@ What will happen if we don't disable it?
 > +       kcsan_debugfs_init();
 > +       kcsan_enable_current();
 > +#ifdef CONFIG_KCSAN_EARLY_ENABLE
-
-if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
-
-
-
 > +       /*
 > +        * We are in the init task, and no other tasks should be running.
 > +        */
@@ -1134,6 +1139,9 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +       if (nest)
 > +               ++get_ctx()->atomic_region;
 > +       else
+
+If it's flat, shoudn't we do WARN_ON(get_ctx()->atomic_region_flat)?
+
 > +               get_ctx()->atomic_region_flat = true;
 > +}
 > +EXPORT_SYMBOL(kcsan_begin_atomic);
@@ -1148,6 +1156,9 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +                       kcsan_enable_current();
 > +               }
 > +       } else {
+
+WARN_ON(!get_ctx()->atomic_region_flat)?
+
 > +               get_ctx()->atomic_region_flat = false;
 > +       }
 > +}
@@ -1475,6 +1486,9 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +       if (!addr) {
 > +               pr_err("KCSAN: could not find function: '%s'\n", func);
 > +               return;
+
+Would be reasonable to return ENOENT to user.
+
 > +       }
 > +
 > +       spin_lock_irqsave(&report_filterlist_lock, flags);
@@ -1483,6 +1497,9 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +               report_filterlist.addrs = /* initial allocation */
 > +                       kvmalloc_array(report_filterlist.size,
 > +                                      sizeof(unsigned long), GFP_KERNEL);
+
+This can fail.
+
 > +       else if (report_filterlist.used == report_filterlist.size) {
 > +               /* resize filterlist */
 > +               unsigned long *new_addrs;
@@ -1490,6 +1507,11 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +               report_filterlist.size *= 2;
 > +               new_addrs = kvmalloc_array(report_filterlist.size,
 > +                                          sizeof(unsigned long), GFP_KERNEL);
+
+This can fail.
+Would it be easier to use krealloc? It's usefule to have a cap on list
+size anyway.
+
 > +               memcpy(new_addrs, report_filterlist.addrs,
 > +                      report_filterlist.used * sizeof(unsigned long));
 > +               kvfree(report_filterlist.addrs);
@@ -1541,10 +1563,18 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +
 > +       if (copy_from_user(kbuf, buf, read_len))
 > +               return -EINVAL;
+
+EFAULT
+
 > +       kbuf[read_len] = '\0';
 > +       arg = strstrip(kbuf);
 > +
 > +       if (!strncmp(arg, "on", sizeof("on") - 1))
+
+I would be cleaner to use strcmp (trim trailing newline first).
+Otherwise we accept anything starting with "on".
+
+
 > +               WRITE_ONCE(kcsan_enabled, true);
 > +       else if (!strncmp(arg, "off", sizeof("off") - 1))
 > +               WRITE_ONCE(kcsan_enabled, false);
@@ -1689,11 +1719,6 @@ if (CONFIG_ENABLED(CONFIG_KCSAN_EARLY_ENABLE))
 > +/*
 > + * KCSAN uses the same instrumentation that is emitted by supported compilers
 > + * for Thread Sanitizer (TSAN).
-
-Strictly saying, ThreadSanitizer is never spelled with a space (here
-and in one other place).
-
-
 > + *
 > + * When enabled, the compiler emits instrumentation calls (the functions
 > + * prefixed with "__tsan" below) for all loads and stores that it generated;
@@ -1753,6 +1778,9 @@ and in one other place).
 > +
 > +/*
 > + * The below are not required KCSAN, but can still be emitted by the compiler.
+
+Is "for" missed before KCSAN?
+
 > + */
 > +void __tsan_func_entry(void *call_pc)
 > +{
@@ -1875,10 +1903,6 @@ and in one other place).
 > +
 > +/*
 > + * Returns true if data-races in the function symbol that maps to addr (offsets
-
-"maps to func_addr"
-
-
 > + * are ignored) should *not* be reported.
 > + */
 > +bool kcsan_skip_report(unsigned long func_addr);
@@ -1938,6 +1962,9 @@ and in one other place).
 > + * Max. number of stack entries to show in the report.
 > + */
 > +#define NUM_STACK_ENTRIES 16
+
+Increase it to 64 at least. No reason to truncate potentailly useful info.
+
 > +
 > +/*
 > + * Other thread info: communicated from other racing thread to thread that set
@@ -2086,6 +2113,12 @@ and in one other place).
 > +               return buf;
 > +       }
 > +       return in_nmi() ? "NMI" : "interrupt";
+
+in_nmi() will return a wrong thing for the other thread. We either
+need to memorize it with the pid, or I would simply always print
+"interrupt" b/c nmi/non-nmi is inferrable from the stack if necessary.
+
+
 > +}
 > +
 > +/* Helper to skip KCSAN-related functions in stack-trace. */
