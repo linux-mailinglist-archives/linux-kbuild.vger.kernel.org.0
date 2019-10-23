@@ -2,160 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB713E0B4D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Oct 2019 20:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBBD9E0FD4
+	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 03:56:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732346AbfJVSRz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Oct 2019 14:17:55 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:43995 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732342AbfJVSRz (ORCPT
+        id S1730121AbfJWB4U (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Oct 2019 21:56:20 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43096 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727582AbfJWB4U (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Oct 2019 14:17:55 -0400
-Received: by mail-oi1-f193.google.com with SMTP id t84so15005438oih.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 22 Oct 2019 11:17:55 -0700 (PDT)
+        Tue, 22 Oct 2019 21:56:20 -0400
+Received: by mail-pg1-f194.google.com with SMTP id l24so6193338pgh.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 22 Oct 2019 18:56:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WOpu0OseuiXc08mdI69tOPOopIwWTdbk8nIc2lokKaQ=;
-        b=XJgdWmt1Fb01rtimxVs7UGUgg2nNjFELzvqXbKwOR2N0+RlvYp+1STsURqwktcTbn2
-         CYNMx5zkYFWeJy9Pp1crLJpMWkAa9lnFUFosfymwVkAw2Zg93wYs5IZnlIcSzzVhtZF0
-         FUS8z+oUFT8cShOthSahN28+4Ofg9kOnVmr4aZbNmLi3ccowGggxISCVpdu0yGs+4dht
-         HEvSGx4jDzphsM83UtxMqUGmYRC24HTm+icekjZvloyRwMHGGcP1JG6vcTt90amPncwd
-         0BBPZwnc6ueQxoqkD5kc4oeuKHk0+UEm4XXoClIYHx9pYHlHK6zhE2OqzSStqn3lR46/
-         b6Yw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nQNpXYtEEs98WRZmV+IJQ5q/RqSZVR1h7BdT3TQOlVQ=;
+        b=d2zwv738z7UhbHqceN2ILi457nULlrcdfO6QrxX/xeb8QvpP0ltS78T3y6x/ei5dDD
+         RgYk+dm0rBsNY6Of/ffpdb0eTCDRv6uuYMUG7B6fqBw0HUHGms8EC/cWwT5rkHDgSHmn
+         JyKzvbfxFGk26KqLYofUOLcXMhfu8UmIw0D9AKYxJaXeDIyBK8H+F+L8DX43jT8A6LKo
+         8iv5/zd5YVokNXt3m72NoyByD9YDLSv6evy95x6uWhTCkffgDyRWr/4JtiIJgrVKa/lm
+         /l1kUGlo/BpSUEQn2opvibDNGFBYbkjksPd8B38Tj8cBIn8Ztsrs7zjZOqwtYWRE05Ew
+         UhaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WOpu0OseuiXc08mdI69tOPOopIwWTdbk8nIc2lokKaQ=;
-        b=blpPJskvrzpLBEHKNyuauzqCnpsq2YXFyHAGyRCV2iXt/Mu0tQneu2HP/K0mXv3ccX
-         LPiUJrOHzlES0xiojMM7blcHUC3GYLC5T+XAbCb2uglznB3bBgVeQMWV3CeXA8ST7d6i
-         NCs9YUqnSFskHTAKTFF2LXc4+lI44bz6gKaQ55Kh1K1NAJ/egMG9SY00pENTWGjNlMUb
-         5cLdlg9f5QbYdIk3F6l9w1WmmqDBCNoDByOs5cXgdlr9oHmHmkfFaxXb8XB7yKgL9mWX
-         0jSw/mfUfs1UZaDPGyPlyueyop8RvGljJa3HaRwYl1w0SbQ/NpVJs8GxiW+s52uawvZx
-         sPcA==
-X-Gm-Message-State: APjAAAVcaesaLUO0s4YCALBTatpbWNvayWHBVTUlvgcUZefZ3ZhhE/Ow
-        LhnT/SnripIjlX6bIX1KFVd9jTQHhfDGSlOCRIWEhw==
-X-Google-Smtp-Source: APXvYqzX+UBLuSqSX7xu+0iFpX/BMy6QMySPZgTjJ3NU0aDX6ipn2ST8I/CCQJ5VPBJ/kifUvNY+rliR1JaUu8riJKw=
-X-Received: by 2002:a05:6808:4b:: with SMTP id v11mr4195346oic.70.1571768274619;
- Tue, 22 Oct 2019 11:17:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nQNpXYtEEs98WRZmV+IJQ5q/RqSZVR1h7BdT3TQOlVQ=;
+        b=m+GdbfYOwSo6w45LBrzwz35Sy2GnF92NT6yL6eN9mkxV9oADYFOtxh85k2q6+YpqOq
+         Tf2fMKDvL5g05bMv2Qw5SwMhRFrt3yif1N2HLu+CFuZTdiCgc0f//LEE2+9gUGK9x746
+         0YP84Eh7wU0jwXyJeFKEodES3B1q11/I/4AoiyHqoll3HM+vjKVC2Nq5nei+W74ulDUj
+         QUqhkwRvbAVDqqy28QJRIMrmmYW3tUuljOtnTELuk3FyIfqLqz4QmkUhB6rpkxG8g+Kh
+         Nq22ZQIc1mCg0cGvV599+z4fvi4AGL2fSxnL02sDS3H8BJE7L991fRf1nFHx4U3NoDm4
+         vfBg==
+X-Gm-Message-State: APjAAAXyAt3hDAtvnDDdOGD9eRZBYN2IDz4lfbLeUsW/xR+I1B4NYUG+
+        e+47hdAAH/QLftCWq12rqzs=
+X-Google-Smtp-Source: APXvYqx/mjDdelrrQ6p3IN6Ob9RlmBaHeDDLkhvAf0b781vUXaGMHHRiL8Iduc04kAnR8nb9G04U/A==
+X-Received: by 2002:a63:715d:: with SMTP id b29mr243426pgn.369.1571795779483;
+        Tue, 22 Oct 2019 18:56:19 -0700 (PDT)
+Received: from localhost.localdomain ([223.191.16.197])
+        by smtp.gmail.com with ESMTPSA id j128sm22649056pfg.51.2019.10.22.18.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2019 18:56:18 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     nico-linuxsetlocalversion@schottelius.org, rdunlap@infradead.org,
+        linux-kbuild@vger.kernel.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH RESEND] scripts: setlocalversion: replace backquote to dollar parenthesis 
+Date:   Wed, 23 Oct 2019 07:24:27 +0530
+Message-Id: <20191023015426.31169-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-8-elver@google.com>
- <20191022123329.GC11583@lakrids.cambridge.arm.com>
-In-Reply-To: <20191022123329.GC11583@lakrids.cambridge.arm.com>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 22 Oct 2019 20:17:43 +0200
-Message-ID: <CANpmjNOhoyDMFMUz6by3hLtX7aBFk4pXTmzjmWYiq2+z+R5fAQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] locking/atomics, kcsan: Add KCSAN instrumentation
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 22 Oct 2019 at 14:33, Mark Rutland <mark.rutland@arm.com> wrote:
->
-> On Thu, Oct 17, 2019 at 04:13:04PM +0200, Marco Elver wrote:
-> > This adds KCSAN instrumentation to atomic-instrumented.h.
-> >
-> > Signed-off-by: Marco Elver <elver@google.com>
-> > ---
-> > v2:
-> > * Use kcsan_check{,_atomic}_{read,write} instead of
-> >   kcsan_check_{access,atomic}.
-> > * Introduce __atomic_check_{read,write} [Suggested by Mark Rutland].
-> > ---
-> >  include/asm-generic/atomic-instrumented.h | 393 +++++++++++-----------
-> >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
-> >  2 files changed, 218 insertions(+), 192 deletions(-)
->
-> The script changes and generated code look fine to me, so FWIW:
->
-> Reviewed-by: Mark Rutland <mark.rutland@arm.com>
+This patch replace backquote to dollar parenthesis syntax for better
+readability.
 
-Great, thank you Mark!
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+     Acked-by: Randy Dunlap <rdunlap@infradead.org>
+     Acked-by: Nico Schottelius <nico-linuxsetlocalversion@schottelius.org>
+---
+ scripts/setlocalversion | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-> Thanks,
-> Mark.
->
-> > diff --git a/scripts/atomic/gen-atomic-instrumented.sh b/scripts/atomic/gen-atomic-instrumented.sh
-> > index e09812372b17..8b8b2a6f8d68 100755
-> > --- a/scripts/atomic/gen-atomic-instrumented.sh
-> > +++ b/scripts/atomic/gen-atomic-instrumented.sh
-> > @@ -20,7 +20,7 @@ gen_param_check()
-> >       # We don't write to constant parameters
-> >       [ ${type#c} != ${type} ] && rw="read"
-> >
-> > -     printf "\tkasan_check_${rw}(${name}, sizeof(*${name}));\n"
-> > +     printf "\t__atomic_check_${rw}(${name}, sizeof(*${name}));\n"
-> >  }
-> >
-> >  #gen_param_check(arg...)
-> > @@ -107,7 +107,7 @@ cat <<EOF
-> >  #define ${xchg}(ptr, ...)                                            \\
-> >  ({                                                                   \\
-> >       typeof(ptr) __ai_ptr = (ptr);                                   \\
-> > -     kasan_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));          \\
-> > +     __atomic_check_write(__ai_ptr, ${mult}sizeof(*__ai_ptr));               \\
-> >       arch_${xchg}(__ai_ptr, __VA_ARGS__);                            \\
-> >  })
-> >  EOF
-> > @@ -148,6 +148,19 @@ cat << EOF
-> >
-> >  #include <linux/build_bug.h>
-> >  #include <linux/kasan-checks.h>
-> > +#include <linux/kcsan-checks.h>
-> > +
-> > +static inline void __atomic_check_read(const volatile void *v, size_t size)
-> > +{
-> > +     kasan_check_read(v, size);
-> > +     kcsan_check_atomic_read(v, size);
-> > +}
-> > +
-> > +static inline void __atomic_check_write(const volatile void *v, size_t size)
-> > +{
-> > +     kasan_check_write(v, size);
-> > +     kcsan_check_atomic_write(v, size);
-> > +}
-> >
-> >  EOF
-> >
-> > --
-> > 2.23.0.866.gb869b98d4c-goog
-> >
+diff --git a/scripts/setlocalversion b/scripts/setlocalversion
+index a2998b118ef9..d3f93de0d046 100755
+--- a/scripts/setlocalversion
++++ b/scripts/setlocalversion
+@@ -45,11 +45,11 @@ scm_version()
+
+ 	# Check for git and a git repo.
+ 	if test -z "$(git rev-parse --show-cdup 2>/dev/null)" &&
+-	   head=`git rev-parse --verify --short HEAD 2>/dev/null`; then
++		head=$(git rev-parse --verify --short HEAD 2>/dev/null); then
+
+ 		# If we are at a tagged commit (like "v2.6.30-rc6"), we ignore
+ 		# it, because this version is defined in the top level Makefile.
+-		if [ -z "`git describe --exact-match 2>/dev/null`" ]; then
++		if [ -z "$(git describe --exact-match 2>/dev/null)" ]; then
+
+ 			# If only the short version is requested, don't bother
+ 			# running further git commands
+@@ -59,7 +59,7 @@ scm_version()
+ 			fi
+ 			# If we are past a tagged commit (like
+ 			# "v2.6.30-rc5-302-g72357d5"), we pretty print it.
+-			if atag="`git describe 2>/dev/null`"; then
++			if atag="$(git describe 2>/dev/null)"; then
+ 				echo "$atag" | awk -F- '{printf("-%05d-%s", $(NF-1),$(NF))}'
+
+ 			# If we don't have a tag at all we print -g{commitish}.
+@@ -70,7 +70,7 @@ scm_version()
+
+ 		# Is this git on svn?
+ 		if git config --get svn-remote.svn.url >/dev/null; then
+-			printf -- '-svn%s' "`git svn find-rev $head`"
++			printf -- '-svn%s' "$(git svn find-rev $head)"
+ 		fi
+
+ 		# Check for uncommitted changes.
+@@ -91,15 +91,15 @@ scm_version()
+ 	fi
+
+ 	# Check for mercurial and a mercurial repo.
+-	if test -d .hg && hgid=`hg id 2>/dev/null`; then
++	if test -d .hg && hgid=$(hg id 2>/dev/null); then
+ 		# Do we have an tagged version?  If so, latesttagdistance == 1
+-		if [ "`hg log -r . --template '{latesttagdistance}'`" = "1" ]; then
+-			id=`hg log -r . --template '{latesttag}'`
++		if [ "$(hg log -r . --template '{latesttagdistance}')" = "1" ]; then
++			id=$(hg log -r . --template '{latesttag}')
+ 			printf '%s%s' -hg "$id"
+ 		else
+-			tag=`printf '%s' "$hgid" | cut -d' ' -f2`
++			tag=$(printf '%s' "$hgid" | cut -d' ' -f2)
+ 			if [ -z "$tag" -o "$tag" = tip ]; then
+-				id=`printf '%s' "$hgid" | sed 's/[+ ].*//'`
++				id=$(printf '%s' "$hgid" | sed 's/[+ ].*//')
+ 				printf '%s%s' -hg "$id"
+ 			fi
+ 		fi
+@@ -115,8 +115,8 @@ scm_version()
+ 	fi
+
+ 	# Check for svn and a svn repo.
+-	if rev=`LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'`; then
+-		rev=`echo $rev | awk '{print $NF}'`
++	if rev=$(LANG= LC_ALL= LC_MESSAGES=C svn info 2>/dev/null | grep '^Last Changed Rev'); then
++		rev=$(echo $rev | awk '{print $NF}')
+ 		printf -- '-svn%s' "$rev"
+
+ 		# All done with svn
+--
+2.20.1
+
