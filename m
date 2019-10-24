@@ -2,93 +2,141 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D035FE2569
-	for <lists+linux-kbuild@lfdr.de>; Wed, 23 Oct 2019 23:34:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 898ABE27AB
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2019 03:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405743AbfJWVeI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 23 Oct 2019 17:34:08 -0400
-Received: from mga12.intel.com ([192.55.52.136]:8888 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405467AbfJWVeH (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 23 Oct 2019 17:34:07 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 14:34:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,222,1569308400"; 
-   d="scan'208";a="281741938"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-  by orsmga001.jf.intel.com with ESMTP; 23 Oct 2019 14:34:07 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.88]) by
- ORSMSX106.amr.corp.intel.com ([169.254.1.210]) with mapi id 14.03.0439.000;
- Wed, 23 Oct 2019 14:34:07 -0700
-From:   "Keller, Jacob E" <jacob.e.keller@intel.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-CC:     "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
-Subject: RE: [PATCH] namespace: fix namespace.pl script to support relative
- paths
-Thread-Topic: [PATCH] namespace: fix namespace.pl script to support relative
- paths
-Thread-Index: AQHVdYkISHS3XNGT0kCKyhZHN6EY9KdALBNAgAIVm4CAAmLQsIAjqUEAgACZz9A=
-Date:   Wed, 23 Oct 2019 21:34:06 +0000
-Message-ID: <02874ECE860811409154E81DA85FBB589693A38A@ORSMSX121.amr.corp.intel.com>
+        id S2392237AbfJXBWj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 23 Oct 2019 21:22:39 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:30540 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726925AbfJXBWj (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 23 Oct 2019 21:22:39 -0400
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id x9O1MYXU012475;
+        Thu, 24 Oct 2019 10:22:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com x9O1MYXU012475
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1571880154;
+        bh=geAUxe+Ff9Y2Jv7XM1GA4xSYAZEDzRqLo9nk9PiEblg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tb9N+EMxvyHzDhZv7JF9FmYBRAi+LLFjNhOABzHjfnXw8Bpx+8q517V2wG98xlQKd
+         brUuNyAHNpOuOvSIVsAD1g5LFFQrS/XpOHJ3iuvyFMuOrH9WOZ7SupCkvyYb2bpzQu
+         9pa3UsbWp02UsfSmBmrGHl7EFZEfKJw09X54FAlQukJVC9X+J6Q9xrLJsVCOf3Xh2y
+         h/DWu7CZJShdlnjl7O/kTDcjFPBjHzhW/7mKThPeQoENweXYSqYv6IRcnNHdh4ASIU
+         aK20p0f8GFjhRMdvVj2viMIQYzesP22AJN7XlwUDMvkta4b4G/KfLNIZJkjJHIAnc5
+         i4mZ+/VBAnEBA==
+X-Nifty-SrcIP: [209.85.222.51]
+Received: by mail-ua1-f51.google.com with SMTP id u31so6643490uah.0;
+        Wed, 23 Oct 2019 18:22:34 -0700 (PDT)
+X-Gm-Message-State: APjAAAWp1tDDL2kp3IoTc3cDnS7KA//77CPStxDi2GtQwfSTyElv4eaF
+        7ZQbKqr7JW0a+FuF2xEWuzPKG/dUAsFUt0C7DuE=
+X-Google-Smtp-Source: APXvYqy9MnE6a8zlXdK8RgZ13zxQkZtNSf6lCRsUJYZynPIbxfNruMIbpkSGbKOEW//zNOd27Yv03EgJOvtVF4h1hiQ=
+X-Received: by 2002:a9f:3e81:: with SMTP id x1mr7429935uai.121.1571880153351;
+ Wed, 23 Oct 2019 18:22:33 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190129204319.15238-1-jacob.e.keller@intel.com>
- <7b26e6cc-10ce-5df2-6375-1f95bc4da04e@infradead.org>
- <02874ECE860811409154E81DA85FBB58968DBE54@ORSMSX121.amr.corp.intel.com>
+ <7b26e6cc-10ce-5df2-6375-1f95bc4da04e@infradead.org> <02874ECE860811409154E81DA85FBB58968DBE54@ORSMSX121.amr.corp.intel.com>
  <CAK7LNARyUEakeG_N9TWcO2cjFSzbgY__k_QJm6C+oOz+fW0aeg@mail.gmail.com>
  <02874ECE860811409154E81DA85FBB58968E1402@ORSMSX121.amr.corp.intel.com>
- <CAK7LNARAhZtzdnS9+mgtamj=pLdV81dudnYVDa8NRxcQPpF0bw@mail.gmail.com>
-In-Reply-To: <CAK7LNARAhZtzdnS9+mgtamj=pLdV81dudnYVDa8NRxcQPpF0bw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiNDM0NzM2NjAtY2FkYi00M2RlLWJkMjAtMDRlNjYzZWEwNjVmIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiSml3YTNpVGVEakpDSEJyakU2ZFhyaTBMc1F5ZHBmdWYyamJyKzZEWUYxYnRRXC9GOHlINVlWS0poeHQ5TE41aUEifQ==
-x-ctpclassification: CTP_NT
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.139]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+ <CAK7LNARAhZtzdnS9+mgtamj=pLdV81dudnYVDa8NRxcQPpF0bw@mail.gmail.com> <02874ECE860811409154E81DA85FBB589693A38A@ORSMSX121.amr.corp.intel.com>
+In-Reply-To: <02874ECE860811409154E81DA85FBB589693A38A@ORSMSX121.amr.corp.intel.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 24 Oct 2019 10:21:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQow8N9a5e_=pu7qDiuvETy1x1P5fxp20zYOZgQhXPJhg@mail.gmail.com>
+Message-ID: <CAK7LNAQow8N9a5e_=pu7qDiuvETy1x1P5fxp20zYOZgQhXPJhg@mail.gmail.com>
+Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative paths
+To:     "Keller, Jacob E" <jacob.e.keller@intel.com>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXNhaGlybyBZYW1hZGEgPHlh
-bWFkYS5tYXNhaGlyb0Bzb2Npb25leHQuY29tPg0KPiBTZW50OiBUdWVzZGF5LCBPY3RvYmVyIDIy
-LCAyMDE5IDEwOjIyIFBNDQo+IFRvOiBLZWxsZXIsIEphY29iIEUgPGphY29iLmUua2VsbGVyQGlu
-dGVsLmNvbT47IFJhbmR5IER1bmxhcA0KPiA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPg0KPiBDYzog
-aW50ZWwtd2lyZWQtbGFuQGxpc3RzLm9zdW9zbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5l
-bC5vcmc7IGxpbnV4LWtidWlsZA0KPiA8bGludXgta2J1aWxkQHZnZXIua2VybmVsLm9yZz4NCj4g
-U3ViamVjdDogUmU6IFtQQVRDSF0gbmFtZXNwYWNlOiBmaXggbmFtZXNwYWNlLnBsIHNjcmlwdCB0
-byBzdXBwb3J0IHJlbGF0aXZlDQo+IHBhdGhzDQo+IA0KPiBUaGlzIHNjcmlwdHMgaGFzIGJlZW4g
-NS15ZWFyIGJyb2tlbiwNCj4gYW5kIEkgZGlkIG5vdCBzZWUgYW55IGNvbXBsYWludCBleGNlcHQg
-ZnJvbSB5b3UuDQo+IFNvLCBJIHdvbmRlciBob3cgbWFueSBwZW9wbGUgYXJlIHVzaW5nIHRoaXMu
-DQo+IA0KPiBOb3IsIGRvIEkgdW5kZXJzdGFuZCBob3cgdG8gdXNlIGl0Lg0KPiANCj4gQ291bGQg
-eW91IHRlYWNoIG1lIGEgYml0IG1vcmUgYWJvdXQgdGhpcyBzY3JpcHQ/DQo+IA0KPiANCj4gDQo+
-IFNvbWV0aGluZyBtaWdodCBiZSBtaXNzaW5nIGluIG15IG1pbmQsIGJ1dA0KPiBJIGRvIG5vdCBr
-bm93IGhvdyB0byB1c2UgdGhpcyBzY3JpcHQgaW4gYSB1c2VmdWwgd2F5Lg0KPiANCj4gDQo+IA0K
-PiBJdCBwcm92aWRlcyB0aHJlZSBjaGVja3MuDQo+IA0KPiBbMV0gbGlzdF9tdWx0aXBseV9kZWZp
-bmVkKCkNCj4gDQo+IFRoaXMgd2FybnMgbXVsdGlwbGUgZGVmaW5pdGlvbiBvZiBmdW5jdGlvbnMu
-DQo+IA0KPiBUaGUgY29tcGlsZXIgd291bGQgZmFpbCBpZiBpdCBzYXcgYW55IG11bHRpcGxlIGRl
-ZmluaXRpb24sDQo+IHNvIHRoZSByZXBvcnRzIGZyb20gdGhpcyBjaGVjayBhcmUgYWxsIGZhbHNl
-LXBvc2l0aXZlLg0KPiANCj4gDQo+IFsyXSByZXNvbHZlX2V4dGVybmFsX3JlZmVyZW5jZXMoKQ0K
-PiANCj4gVGhpcyB3YXJucyB1bnJlc29sdmVkIHN5bWJvbHMuDQo+IA0KPiBUaGUgY29tcGlsZXIg
-d291bGQgZmFpbCBpZiBpdCBzYXcgYW55IHVucmVzb2x2ZWQgc3ltYm9sLA0KPiBzbyB0aGUgcmVw
-b3J0cyBmcm9tIHRoaXMgY2hlY2sgYXJlIGFsbCBmYWxzZS1wb3NpdGl2ZSwgdG9vLg0KPiANCj4g
-DQoNClRoZSBjb21waWxlciB3b24ndCBuZWNlc3NhcmlseSBmYWlsIHdoZW4gYnVpbGRpbmcgbW9k
-dWxlcywgYmVjYXVzZSB0aGUgc3ltYm9sIG1pZ2h0IGJlIGluIGFub3RoZXIgbG9hZGFibGUgbW9k
-dWxlLg0KDQo+IA0KPiANCj4gWzNdIGxpc3RfZXh0cmFfZXh0ZXJuYWxzDQo+IA0KPiBUaGlzIHdh
-cm5zIHN5bWJvbHMgd2l0aCBubyByZWZlcmVuY2UuDQo+IA0KPiBUaGlzIHBvdGVudGlhbGx5IGNv
-bnRhaW5zIGxvdHMgb2YgZmFsc2UtcG9zaXRpdmVzLg0KPiBGb3IgZXhhbXBsZSwgdGhlIGNvcmUg
-ZnJhbWV3b3JrIHByb3ZpZGVzIEFQSXMsIGJ1dCBpZiBhbGwgZHJpdmVycw0KPiBhcmUgZGlzYWJs
-ZWQsIHRoZXJlIGlzIG5vIHVzZXIgb2YgdGhvc2UgQVBJcy4NCj4gDQoNCldlIHVzZSB0aGlzIHRv
-IGhlbHAgdmVyaWZ5IHRoYXQgZHJpdmVyIG1vZHVsZXMgZG8gbm90IGV4cG9zZSBzeW1ib2xzLg0K
-DQpUaGFua3MsDQpKYWtlDQo=
+On Thu, Oct 24, 2019 at 6:34 AM Keller, Jacob E
+<jacob.e.keller@intel.com> wrote:
+>
+> > -----Original Message-----
+> > From: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > Sent: Tuesday, October 22, 2019 10:22 PM
+> > To: Keller, Jacob E <jacob.e.keller@intel.com>; Randy Dunlap
+> > <rdunlap@infradead.org>
+> > Cc: intel-wired-lan@lists.osuosl.org; linux-kernel@vger.kernel.org; linux-kbuild
+> > <linux-kbuild@vger.kernel.org>
+> > Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative
+> > paths
+> >
+> > This scripts has been 5-year broken,
+> > and I did not see any complaint except from you.
+> > So, I wonder how many people are using this.
+> >
+> > Nor, do I understand how to use it.
+> >
+> > Could you teach me a bit more about this script?
+> >
+> >
+> >
+> > Something might be missing in my mind, but
+> > I do not know how to use this script in a useful way.
+> >
+> >
+> >
+> > It provides three checks.
+> >
+> > [1] list_multiply_defined()
+> >
+> > This warns multiple definition of functions.
+> >
+> > The compiler would fail if it saw any multiple definition,
+> > so the reports from this check are all false-positive.
+> >
+> >
+> > [2] resolve_external_references()
+> >
+> > This warns unresolved symbols.
+> >
+> > The compiler would fail if it saw any unresolved symbol,
+> > so the reports from this check are all false-positive, too.
+> >
+> >
+>
+> The compiler won't necessarily fail when building modules, because the symbol might be in another loadable module.
+
+Right, but this is already checked by modpost, isn't it?
+
+
+
+> >
+> >
+> > [3] list_extra_externals
+> >
+> > This warns symbols with no reference.
+> >
+> > This potentially contains lots of false-positives.
+> > For example, the core framework provides APIs, but if all drivers
+> > are disabled, there is no user of those APIs.
+> >
+>
+> We use this to help verify that driver modules do not expose symbols.
+
+Ah, the output is quite large, so
+you search for only modules in your interest. Right?
+
+
+If you want to detect missing 'static',
+have you tried 'sparse'?
+
+
+
+> Thanks,
+> Jake
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
