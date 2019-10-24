@@ -2,133 +2,214 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C7B0E2FB4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2019 13:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7306E3259
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Oct 2019 14:28:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392751AbfJXLCR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Oct 2019 07:02:17 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43312 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392237AbfJXLCR (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Oct 2019 07:02:17 -0400
-Received: by mail-ot1-f67.google.com with SMTP id z20so1610969otk.10
-        for <linux-kbuild@vger.kernel.org>; Thu, 24 Oct 2019 04:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Wp7j55fCu8VBbV3w6xxbpPhvOdRSu/ha8VU4hcpzHdY=;
-        b=GSxZTUgn5T2HRAlKrADzvv53PhUqCr6HGwWIfZ+q0bFeBI/8il22Kv3vpugrhHlUKc
-         JSd3yXOh4TDUfIqO8JPYXGilp4Vg98FIe9l+pL6F5FO2iW7zWgkU28rHfnrJDKC/RUhT
-         9y7xvvCroceLV28G/DNxI6s3sI/MSBb0LxVcLxj5vL25ilXRyhqWJ+AnuTdwWYD+wKpX
-         O5vqsk+9Nvl/sUnYEZWYKKkmZRx3M69w2mSa0T0GYjtT0TBikdjdIHl9bdIy1avJXFGR
-         mVT16n7Jv0qZPjTSiWzuZVrSqaZmV1oEhg+iVLOxp3SXxbxsxWpuo8R2VJIKx8+2qGRR
-         M+7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Wp7j55fCu8VBbV3w6xxbpPhvOdRSu/ha8VU4hcpzHdY=;
-        b=OZWVvkLhGVSzGc6G0u26aIfUhsP/1tDyszfLMP4PK2m41R508k4bj/ooAC5eF7K91q
-         f2v99s7wR9CqhQmsCqpOb9C0I9DAXNGAVuC3xBvp6VH1768lr4/YOYKw/8F7/oO9eKbI
-         GsBKVe8jXjc0jfyk6OliEFhXg3Hb3zOov6+EpnZMGkuktC6215efmgUhjDuIEnmlUnQo
-         xlYMRdSvte0IgQNrTjEBhj8PDrEoft2n7rRXXH3Xrv1wytxPnBzsmKxR5teH5uotki6j
-         /FrjXOCUHj95aqId8edDmRXSrYpSSzb0Ab+GSeOVNGk14z1PxlOuuSyrqy/RnTXTeDwm
-         FJMQ==
-X-Gm-Message-State: APjAAAWauxBrX9GPJy0WDlWgFeGom9HzZiXSOGJksQvoQtCTcSVWLs4D
-        ZA3ZlvJ7dY+vPO0/WRuq2bhANh3Php116kCDUk5xLw==
-X-Google-Smtp-Source: APXvYqzzXJwi5QeAS4Gnmcn5kNWx1bB+mxOrVbyaL3mIhkaZR6F+nFKJsdPfH9bNhx4bqmlmQAfh3F8piEDK6aQ6BY4=
-X-Received: by 2002:a9d:82e:: with SMTP id 43mr8537524oty.23.1571914935893;
- Thu, 24 Oct 2019 04:02:15 -0700 (PDT)
+        id S2501921AbfJXM2Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Oct 2019 08:28:25 -0400
+Received: from foss.arm.com ([217.140.110.172]:49806 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726360AbfJXM2Z (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 24 Oct 2019 08:28:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E39F1B57;
+        Thu, 24 Oct 2019 05:28:08 -0700 (PDT)
+Received: from lakrids.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A58543F71A;
+        Thu, 24 Oct 2019 05:28:04 -0700 (PDT)
+Date:   Thu, 24 Oct 2019 13:28:02 +0100
+From:   Mark Rutland <mark.rutland@arm.com>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, npiggin@gmail.com,
+        paulmck@linux.ibm.com, peterz@infradead.org, tglx@linutronix.de,
+        will@kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v2 4/8] seqlock, kcsan: Add annotations for KCSAN
+Message-ID: <20191024122801.GD4300@lakrids.cambridge.arm.com>
+References: <20191017141305.146193-1-elver@google.com>
+ <20191017141305.146193-5-elver@google.com>
 MIME-Version: 1.0
-References: <20191017141305.146193-1-elver@google.com> <20191017141305.146193-2-elver@google.com>
- <20191022154858.GA13700@redhat.com> <CANpmjNPUT2B3rWaa=5Ee2Xs3HHDaUiBGpG09Q4h9Gemhsp9KFw@mail.gmail.com>
- <20191023162432.GC14327@redhat.com>
-In-Reply-To: <20191023162432.GC14327@redhat.com>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 24 Oct 2019 13:02:03 +0200
-Message-ID: <CANpmjNOOT+KR7m8KpETk1czyJLr3TeHsvvejwyuY3JXKr=eajg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/8] kcsan: Add Kernel Concurrency Sanitizer infrastructure
-To:     Oleg Nesterov <oleg@redhat.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191017141305.146193-5-elver@google.com>
+User-Agent: Mutt/1.11.1+11 (2f07cb52) (2018-12-01)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 23 Oct 2019 at 18:24, Oleg Nesterov <oleg@redhat.com> wrote:
->
-> On 10/22, Marco Elver wrote:
-> >
-> > On Tue, 22 Oct 2019 at 17:49, Oleg Nesterov <oleg@redhat.com> wrote:
-> > >
-> > > Just for example. Suppose that task->state = TASK_UNINTERRUPTIBLE, this task
-> > > does __set_current_state(TASK_RUNNING), another CPU does wake_up_process(task)
-> > > which does the same UNINTERRUPTIBLE -> RUNNING transition.
-> > >
-> > > Looks like, this is the "data race" according to kcsan?
-> >
-> > Yes, they are "data races". They are probably not "race conditions" though.
-> >
-> > This is a fair distinction to make, and we never claimed to find "race
-> > conditions" only
->
-> I see, thanks, just wanted to be sure...
->
-> > KCSAN's goal is to find *data races* according to the LKMM.  Some data
-> > races are race conditions (usually the more interesting bugs) -- but
-> > not *all* data races are race conditions. Those are what are usually
-> > referred to as "benign", but they can still become bugs on the wrong
-> > arch/compiler combination. Hence, the need to annotate these accesses
-> > with READ_ONCE, WRITE_ONCE or use atomic_t:
->
-> Well, if I see READ_ONCE() in the code I want to understand why it was
-> used. Is it really needed for correctness or we want to shut up kcsan?
-> Say, why should wait_event(wq, *ptr) use READ_ONCE()? Nevermind, please
-> forget.
->
-> Btw, why __kcsan_check_watchpoint() does user_access_save() before
-> try_consume_watchpoint() ?
+On Thu, Oct 17, 2019 at 04:13:01PM +0200, Marco Elver wrote:
+> Since seqlocks in the Linux kernel do not require the use of marked
+> atomic accesses in critical sections, we teach KCSAN to assume such
+> accesses are atomic. KCSAN currently also pretends that writes to
+> `sequence` are atomic, although currently plain writes are used (their
+> corresponding reads are READ_ONCE).
+> 
+> Further, to avoid false positives in the absence of clear ending of a
+> seqlock reader critical section (only when using the raw interface),
+> KCSAN assumes a fixed number of accesses after start of a seqlock
+> critical section are atomic.
 
-Instrumentation is added in UACCESS regions. Since we do not access
-user-memory, we do user_access_save to ensure everything is safe
-(otherwise objtool complains that we do calls to non-whitelisted
-functions). I will try to optimize this a bit, but we can't avoid it.
+Do we have many examples where there's not a clear end to a seqlock
+sequence? Or are there just a handful?
 
-> Oleg.
->
+If there aren't that many, I wonder if we can make it mandatory to have
+an explicit end, or to add some helper for those patterns so that we can
+reliably hook them.
+
+Thanks,
+Mark.
+
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  include/linux/seqlock.h | 44 +++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 40 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+> index bcf4cf26b8c8..1e425831a7ed 100644
+> --- a/include/linux/seqlock.h
+> +++ b/include/linux/seqlock.h
+> @@ -37,8 +37,24 @@
+>  #include <linux/preempt.h>
+>  #include <linux/lockdep.h>
+>  #include <linux/compiler.h>
+> +#include <linux/kcsan.h>
+>  #include <asm/processor.h>
+>  
+> +/*
+> + * The seqlock interface does not prescribe a precise sequence of read
+> + * begin/retry/end. For readers, typically there is a call to
+> + * read_seqcount_begin() and read_seqcount_retry(), however, there are more
+> + * esoteric cases which do not follow this pattern.
+> + *
+> + * As a consequence, we take the following best-effort approach for *raw* usage
+> + * of seqlocks under KCSAN: upon beginning a seq-reader critical section,
+> + * pessimistically mark then next KCSAN_SEQLOCK_REGION_MAX memory accesses as
+> + * atomics; if there is a matching read_seqcount_retry() call, no following
+> + * memory operations are considered atomic. Non-raw usage of seqlocks is not
+> + * affected.
+> + */
+> +#define KCSAN_SEQLOCK_REGION_MAX 1000
+> +
+>  /*
+>   * Version using sequence counter only.
+>   * This can be used when code has its own mutex protecting the
+> @@ -115,6 +131,7 @@ static inline unsigned __read_seqcount_begin(const seqcount_t *s)
+>  		cpu_relax();
+>  		goto repeat;
+>  	}
+> +	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
+>  	return ret;
+>  }
+>  
+> @@ -131,6 +148,7 @@ static inline unsigned raw_read_seqcount(const seqcount_t *s)
+>  {
+>  	unsigned ret = READ_ONCE(s->sequence);
+>  	smp_rmb();
+> +	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
+>  	return ret;
+>  }
+>  
+> @@ -183,6 +201,7 @@ static inline unsigned raw_seqcount_begin(const seqcount_t *s)
+>  {
+>  	unsigned ret = READ_ONCE(s->sequence);
+>  	smp_rmb();
+> +	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
+>  	return ret & ~1;
+>  }
+>  
+> @@ -202,7 +221,8 @@ static inline unsigned raw_seqcount_begin(const seqcount_t *s)
+>   */
+>  static inline int __read_seqcount_retry(const seqcount_t *s, unsigned start)
+>  {
+> -	return unlikely(s->sequence != start);
+> +	kcsan_atomic_next(0);
+> +	return unlikely(READ_ONCE(s->sequence) != start);
+>  }
+>  
+>  /**
+> @@ -225,6 +245,7 @@ static inline int read_seqcount_retry(const seqcount_t *s, unsigned start)
+>  
+>  static inline void raw_write_seqcount_begin(seqcount_t *s)
+>  {
+> +	kcsan_begin_atomic(true);
+>  	s->sequence++;
+>  	smp_wmb();
+>  }
+> @@ -233,6 +254,7 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
+>  {
+>  	smp_wmb();
+>  	s->sequence++;
+> +	kcsan_end_atomic(true);
+>  }
+>  
+>  /**
+> @@ -262,18 +284,20 @@ static inline void raw_write_seqcount_end(seqcount_t *s)
+>   *
+>   *      void write(void)
+>   *      {
+> - *              Y = true;
+> + *              WRITE_ONCE(Y, true);
+>   *
+>   *              raw_write_seqcount_barrier(seq);
+>   *
+> - *              X = false;
+> + *              WRITE_ONCE(X, false);
+>   *      }
+>   */
+>  static inline void raw_write_seqcount_barrier(seqcount_t *s)
+>  {
+> +	kcsan_begin_atomic(true);
+>  	s->sequence++;
+>  	smp_wmb();
+>  	s->sequence++;
+> +	kcsan_end_atomic(true);
+>  }
+>  
+>  static inline int raw_read_seqcount_latch(seqcount_t *s)
+> @@ -398,7 +422,9 @@ static inline void write_seqcount_end(seqcount_t *s)
+>  static inline void write_seqcount_invalidate(seqcount_t *s)
+>  {
+>  	smp_wmb();
+> +	kcsan_begin_atomic(true);
+>  	s->sequence+=2;
+> +	kcsan_end_atomic(true);
+>  }
+>  
+>  typedef struct {
+> @@ -430,11 +456,21 @@ typedef struct {
+>   */
+>  static inline unsigned read_seqbegin(const seqlock_t *sl)
+>  {
+> -	return read_seqcount_begin(&sl->seqcount);
+> +	unsigned ret = read_seqcount_begin(&sl->seqcount);
+> +
+> +	kcsan_atomic_next(0);  /* non-raw usage, assume closing read_seqretry */
+> +	kcsan_begin_atomic(false);
+> +	return ret;
+>  }
+>  
+>  static inline unsigned read_seqretry(const seqlock_t *sl, unsigned start)
+>  {
+> +	/*
+> +	 * Assume not nested: read_seqretry may be called multiple times when
+> +	 * completing read critical section.
+> +	 */
+> +	kcsan_end_atomic(false);
+> +
+>  	return read_seqcount_retry(&sl->seqcount, start);
+>  }
+>  
+> -- 
+> 2.23.0.866.gb869b98d4c-goog
+> 
