@@ -2,43 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D97DE5287
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Oct 2019 19:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5182E5459
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Oct 2019 21:30:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728023AbfJYRps (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Oct 2019 13:45:48 -0400
-Received: from mga17.intel.com ([192.55.52.151]:12513 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726002AbfJYRpr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Oct 2019 13:45:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Oct 2019 10:45:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,229,1569308400"; 
-   d="scan'208";a="198086417"
-Received: from orsmsx110.amr.corp.intel.com ([10.22.240.8])
-  by fmsmga007.fm.intel.com with ESMTP; 25 Oct 2019 10:45:47 -0700
-Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
- ORSMSX110.amr.corp.intel.com (10.22.240.8) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Fri, 25 Oct 2019 10:45:44 -0700
-Received: from orsmsx121.amr.corp.intel.com ([169.254.10.88]) by
- ORSMSX162.amr.corp.intel.com ([169.254.3.148]) with mapi id 14.03.0439.000;
- Fri, 25 Oct 2019 10:45:44 -0700
-From:   "Keller, Jacob E" <jacob.e.keller@intel.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-CC:     Randy Dunlap <rdunlap@infradead.org>,
-        "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+        id S1725783AbfJYTaE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Oct 2019 15:30:04 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35134 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbfJYTaD (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 25 Oct 2019 15:30:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=eRmEhu6UaEE9aDlNXBAMxFiri2OdztWgkwKxSJoiZ7s=; b=N0sE4R4O6dRfbhhWJpeT2AZCV
+        5qYj2nO9mONNABKxdKeG5MU9hjSvSqIyIU/ZowuG3q1df2Mt5b6L+AEwwrbVGmuivPhzfAeVJsuxe
+        llD1ZFLQL8MHpA+KduLWRmHp1xqT5+hgS0V74Gbm2Q6SBS0aiuD7nf2S4lhioXwcIDbFUMXVC69cd
+        sAxkeE42hfhRi7u5Uk01raoShpsq6U9iHP2Pw9nd67tEF4E8QjAgzWESB5Q2DGv0bce9YhNnJoKZW
+        MteCGtihh7nGLw56DwWPDYGsUoTc8+U428/IpU9P7mnAMWKyWZs6VtULssZFyI084NS1MW9EwpdOH
+        Bo2KVaH4Q==;
+Received: from [2601:1c0:6280:3f0::9ef4]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iO5He-0003Ig-Tg; Fri, 25 Oct 2019 19:30:02 +0000
+Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative
+ paths
+To:     "Keller, Jacob E" <jacob.e.keller@intel.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     "intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         linux-kbuild <linux-kbuild@vger.kernel.org>
-Subject: RE: [PATCH] namespace: fix namespace.pl script to support relative
- paths
-Thread-Topic: [PATCH] namespace: fix namespace.pl script to support relative
- paths
-Thread-Index: AQHVdYkISHS3XNGT0kCKyhZHN6EY9KdALBNAgAIVm4CAAmLQsIAjqUEAgACZz9CAALWTgIACLwmw
-Date:   Fri, 25 Oct 2019 17:45:43 +0000
-Message-ID: <02874ECE860811409154E81DA85FBB589693D053@ORSMSX121.amr.corp.intel.com>
 References: <20190129204319.15238-1-jacob.e.keller@intel.com>
  <7b26e6cc-10ce-5df2-6375-1f95bc4da04e@infradead.org>
  <02874ECE860811409154E81DA85FBB58968DBE54@ORSMSX121.amr.corp.intel.com>
@@ -47,80 +42,121 @@ References: <20190129204319.15238-1-jacob.e.keller@intel.com>
  <CAK7LNARAhZtzdnS9+mgtamj=pLdV81dudnYVDa8NRxcQPpF0bw@mail.gmail.com>
  <02874ECE860811409154E81DA85FBB589693A38A@ORSMSX121.amr.corp.intel.com>
  <CAK7LNAQow8N9a5e_=pu7qDiuvETy1x1P5fxp20zYOZgQhXPJhg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQow8N9a5e_=pu7qDiuvETy1x1P5fxp20zYOZgQhXPJhg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZmZmNDVjMTgtNDA3ZC00NzM1LThlZmQtNThmM2Q3Yjc4NTdjIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiWFV0eGJtcWZwbFY4QVdIR1djN2VydkordFhyaHNuTUN4elpiOWFpZWxib1pQN25GSDNMM2R5MVFiWXZrOWlMNSJ9
-x-ctpclassification: CTP_NT
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.139]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <02874ECE860811409154E81DA85FBB589693D053@ORSMSX121.amr.corp.intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <6127ec91-ad81-f0d7-576e-22e06e677442@infradead.org>
+Date:   Fri, 25 Oct 2019 12:30:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
+In-Reply-To: <02874ECE860811409154E81DA85FBB589693D053@ORSMSX121.amr.corp.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE1hc2FoaXJvIFlhbWFkYSA8
-eWFtYWRhLm1hc2FoaXJvQHNvY2lvbmV4dC5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgT2N0b2Jl
-ciAyMywgMjAxOSA2OjIyIFBNDQo+IFRvOiBLZWxsZXIsIEphY29iIEUgPGphY29iLmUua2VsbGVy
-QGludGVsLmNvbT4NCj4gQ2M6IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPjsg
-aW50ZWwtd2lyZWQtbGFuQGxpc3RzLm9zdW9zbC5vcmc7DQo+IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc7IGxpbnV4LWtidWlsZCA8bGludXgta2J1aWxkQHZnZXIua2VybmVsLm9yZz4NCj4g
-U3ViamVjdDogUmU6IFtQQVRDSF0gbmFtZXNwYWNlOiBmaXggbmFtZXNwYWNlLnBsIHNjcmlwdCB0
-byBzdXBwb3J0IHJlbGF0aXZlDQo+IHBhdGhzDQo+IA0KPiBPbiBUaHUsIE9jdCAyNCwgMjAxOSBh
-dCA2OjM0IEFNIEtlbGxlciwgSmFjb2IgRQ0KPiA8amFjb2IuZS5rZWxsZXJAaW50ZWwuY29tPiB3
-cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206
-IE1hc2FoaXJvIFlhbWFkYSA8eWFtYWRhLm1hc2FoaXJvQHNvY2lvbmV4dC5jb20+DQo+ID4gPiBT
-ZW50OiBUdWVzZGF5LCBPY3RvYmVyIDIyLCAyMDE5IDEwOjIyIFBNDQo+ID4gPiBUbzogS2VsbGVy
-LCBKYWNvYiBFIDxqYWNvYi5lLmtlbGxlckBpbnRlbC5jb20+OyBSYW5keSBEdW5sYXANCj4gPiA+
-IDxyZHVubGFwQGluZnJhZGVhZC5vcmc+DQo+ID4gPiBDYzogaW50ZWwtd2lyZWQtbGFuQGxpc3Rz
-Lm9zdW9zbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPiBrYnVp
-bGQNCj4gPiA+IDxsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnPg0KPiA+ID4gU3ViamVjdDog
-UmU6IFtQQVRDSF0gbmFtZXNwYWNlOiBmaXggbmFtZXNwYWNlLnBsIHNjcmlwdCB0byBzdXBwb3J0
-IHJlbGF0aXZlDQo+ID4gPiBwYXRocw0KPiA+ID4NCj4gPiA+IFRoaXMgc2NyaXB0cyBoYXMgYmVl
-biA1LXllYXIgYnJva2VuLA0KPiA+ID4gYW5kIEkgZGlkIG5vdCBzZWUgYW55IGNvbXBsYWludCBl
-eGNlcHQgZnJvbSB5b3UuDQo+ID4gPiBTbywgSSB3b25kZXIgaG93IG1hbnkgcGVvcGxlIGFyZSB1
-c2luZyB0aGlzLg0KPiA+ID4NCj4gPiA+IE5vciwgZG8gSSB1bmRlcnN0YW5kIGhvdyB0byB1c2Ug
-aXQuDQo+ID4gPg0KPiA+ID4gQ291bGQgeW91IHRlYWNoIG1lIGEgYml0IG1vcmUgYWJvdXQgdGhp
-cyBzY3JpcHQ/DQo+ID4gPg0KPiA+ID4NCj4gPiA+DQo+ID4gPiBTb21ldGhpbmcgbWlnaHQgYmUg
-bWlzc2luZyBpbiBteSBtaW5kLCBidXQNCj4gPiA+IEkgZG8gbm90IGtub3cgaG93IHRvIHVzZSB0
-aGlzIHNjcmlwdCBpbiBhIHVzZWZ1bCB3YXkuDQo+ID4gPg0KPiA+ID4NCj4gPiA+DQo+ID4gPiBJ
-dCBwcm92aWRlcyB0aHJlZSBjaGVja3MuDQo+ID4gPg0KPiA+ID4gWzFdIGxpc3RfbXVsdGlwbHlf
-ZGVmaW5lZCgpDQo+ID4gPg0KPiA+ID4gVGhpcyB3YXJucyBtdWx0aXBsZSBkZWZpbml0aW9uIG9m
-IGZ1bmN0aW9ucy4NCj4gPiA+DQo+ID4gPiBUaGUgY29tcGlsZXIgd291bGQgZmFpbCBpZiBpdCBz
-YXcgYW55IG11bHRpcGxlIGRlZmluaXRpb24sDQo+ID4gPiBzbyB0aGUgcmVwb3J0cyBmcm9tIHRo
-aXMgY2hlY2sgYXJlIGFsbCBmYWxzZS1wb3NpdGl2ZS4NCj4gPiA+DQo+ID4gPg0KPiA+ID4gWzJd
-IHJlc29sdmVfZXh0ZXJuYWxfcmVmZXJlbmNlcygpDQo+ID4gPg0KPiA+ID4gVGhpcyB3YXJucyB1
-bnJlc29sdmVkIHN5bWJvbHMuDQo+ID4gPg0KPiA+ID4gVGhlIGNvbXBpbGVyIHdvdWxkIGZhaWwg
-aWYgaXQgc2F3IGFueSB1bnJlc29sdmVkIHN5bWJvbCwNCj4gPiA+IHNvIHRoZSByZXBvcnRzIGZy
-b20gdGhpcyBjaGVjayBhcmUgYWxsIGZhbHNlLXBvc2l0aXZlLCB0b28uDQo+ID4gPg0KPiA+ID4N
-Cj4gPg0KPiA+IFRoZSBjb21waWxlciB3b24ndCBuZWNlc3NhcmlseSBmYWlsIHdoZW4gYnVpbGRp
-bmcgbW9kdWxlcywgYmVjYXVzZSB0aGUgc3ltYm9sDQo+IG1pZ2h0IGJlIGluIGFub3RoZXIgbG9h
-ZGFibGUgbW9kdWxlLg0KPiANCj4gUmlnaHQsIGJ1dCB0aGlzIGlzIGFscmVhZHkgY2hlY2tlZCBi
-eSBtb2Rwb3N0LCBpc24ndCBpdD8NCj4gDQo+IA0KPiANCj4gPiA+DQo+ID4gPg0KPiA+ID4gWzNd
-IGxpc3RfZXh0cmFfZXh0ZXJuYWxzDQo+ID4gPg0KPiA+ID4gVGhpcyB3YXJucyBzeW1ib2xzIHdp
-dGggbm8gcmVmZXJlbmNlLg0KPiA+ID4NCj4gPiA+IFRoaXMgcG90ZW50aWFsbHkgY29udGFpbnMg
-bG90cyBvZiBmYWxzZS1wb3NpdGl2ZXMuDQo+ID4gPiBGb3IgZXhhbXBsZSwgdGhlIGNvcmUgZnJh
-bWV3b3JrIHByb3ZpZGVzIEFQSXMsIGJ1dCBpZiBhbGwgZHJpdmVycw0KPiA+ID4gYXJlIGRpc2Fi
-bGVkLCB0aGVyZSBpcyBubyB1c2VyIG9mIHRob3NlIEFQSXMuDQo+ID4gPg0KPiA+DQo+ID4gV2Ug
-dXNlIHRoaXMgdG8gaGVscCB2ZXJpZnkgdGhhdCBkcml2ZXIgbW9kdWxlcyBkbyBub3QgZXhwb3Nl
-IHN5bWJvbHMuDQo+IA0KPiBBaCwgdGhlIG91dHB1dCBpcyBxdWl0ZSBsYXJnZSwgc28NCj4geW91
-IHNlYXJjaCBmb3Igb25seSBtb2R1bGVzIGluIHlvdXIgaW50ZXJlc3QuIFJpZ2h0Pw0KPiANCg0K
-V2UgcnVuIGl0IG9uIG9ubHkgb25lIG1vZHVsZSBhdCBhIHRpbWUsIHllcy4NCg0KPiANCj4gSWYg
-eW91IHdhbnQgdG8gZGV0ZWN0IG1pc3NpbmcgJ3N0YXRpYycsDQo+IGhhdmUgeW91IHRyaWVkICdz
-cGFyc2UnPw0KPiANCg0KV2UndmUgdXNlZCB0aGF0IGFzIHdlbGwuIA0KDQpUbyBiZSBmYWlyLCBJ
-IGFncmVlIHRoYXQgaXQgY292ZXJzIHNpbWlsYXIgZnVuY3Rpb25hbGl0eSBhcyBvdGhlciB0b29s
-cy4gSSBoYXZlbid0IGxvb2tlZCBkaXJlY3RseSBhdCBuYW1lc3BhY2UucGwgb3V0cHV0IGluIGEg
-d2hpbGUsIGFuZCB0aGUgZml4IGhlcmUgaXMgbXVsdGlwbGUgeWVhcnMgb2xkIHRoYXQgdG9vayBh
-IGxvbmcgdGltZSB0byBnZXQgcGlja2VkIHVwLg0KDQpJZiBpdCdzIGFncmVlZCB0aGF0IHRoZSB0
-b29sIGhhcyBubyB2YWx1ZSwgYW5kIGVzcGVjaWFsbHkgaWYgaXQgcmVzdWx0cyBpbiBmYWxzZSBp
-bmRpY2F0aW9ucyBvZiBhIHByb2JsZW0sIHRoZW4gbWF5YmUgcmVtb3ZpbmcgaXQgdG8gcHJldmVu
-dCBzb21lb25lIGZyb20gbWlzLXJlYWRpbmcgaXRzIG91dHB1dCBtYWtlcyBzZW5zZT8NCg0KVGhh
-bmtzLA0KSmFrZQ0KDQo+IA0KPiANCj4gPiBUaGFua3MsDQo+ID4gSmFrZQ0KPiANCj4gDQo+IA0K
-PiAtLQ0KPiBCZXN0IFJlZ2FyZHMNCj4gTWFzYWhpcm8gWWFtYWRhDQo=
+On 10/25/19 10:45 AM, Keller, Jacob E wrote:
+> 
+>> -----Original Message-----
+>> From: Masahiro Yamada <yamada.masahiro@socionext.com>
+>> Sent: Wednesday, October 23, 2019 6:22 PM
+>> To: Keller, Jacob E <jacob.e.keller@intel.com>
+>> Cc: Randy Dunlap <rdunlap@infradead.org>; intel-wired-lan@lists.osuosl.org;
+>> linux-kernel@vger.kernel.org; linux-kbuild <linux-kbuild@vger.kernel.org>
+>> Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative
+>> paths
+>>
+>> On Thu, Oct 24, 2019 at 6:34 AM Keller, Jacob E
+>> <jacob.e.keller@intel.com> wrote:
+>>>
+>>>> -----Original Message-----
+>>>> From: Masahiro Yamada <yamada.masahiro@socionext.com>
+>>>> Sent: Tuesday, October 22, 2019 10:22 PM
+>>>> To: Keller, Jacob E <jacob.e.keller@intel.com>; Randy Dunlap
+>>>> <rdunlap@infradead.org>
+>>>> Cc: intel-wired-lan@lists.osuosl.org; linux-kernel@vger.kernel.org; linux-
+>> kbuild
+>>>> <linux-kbuild@vger.kernel.org>
+>>>> Subject: Re: [PATCH] namespace: fix namespace.pl script to support relative
+>>>> paths
+>>>>
+>>>> This scripts has been 5-year broken,
+>>>> and I did not see any complaint except from you.
+>>>> So, I wonder how many people are using this.
+>>>>
+>>>> Nor, do I understand how to use it.
+>>>>
+>>>> Could you teach me a bit more about this script?
+>>>>
+>>>>
+>>>>
+>>>> Something might be missing in my mind, but
+>>>> I do not know how to use this script in a useful way.
+>>>>
+>>>>
+>>>>
+>>>> It provides three checks.
+>>>>
+>>>> [1] list_multiply_defined()
+>>>>
+>>>> This warns multiple definition of functions.
+>>>>
+>>>> The compiler would fail if it saw any multiple definition,
+>>>> so the reports from this check are all false-positive.
+>>>>
+>>>>
+>>>> [2] resolve_external_references()
+>>>>
+>>>> This warns unresolved symbols.
+>>>>
+>>>> The compiler would fail if it saw any unresolved symbol,
+>>>> so the reports from this check are all false-positive, too.
+>>>>
+>>>>
+>>>
+>>> The compiler won't necessarily fail when building modules, because the symbol
+>> might be in another loadable module.
+>>
+>> Right, but this is already checked by modpost, isn't it?
+>>
+>>
+>>
+>>>>
+>>>>
+>>>> [3] list_extra_externals
+>>>>
+>>>> This warns symbols with no reference.
+>>>>
+>>>> This potentially contains lots of false-positives.
+>>>> For example, the core framework provides APIs, but if all drivers
+>>>> are disabled, there is no user of those APIs.
+>>>>
+>>>
+>>> We use this to help verify that driver modules do not expose symbols.
+>>
+>> Ah, the output is quite large, so
+>> you search for only modules in your interest. Right?
+>>
+> 
+> We run it on only one module at a time, yes.
+> 
+>>
+>> If you want to detect missing 'static',
+>> have you tried 'sparse'?
+>>
+> 
+> We've used that as well. 
+> 
+> To be fair, I agree that it covers similar functionality as other tools. I haven't looked directly at namespace.pl output in a while, and the fix here is multiple years old that took a long time to get picked up.
+> 
+> If it's agreed that the tool has no value, and especially if it results in false indications of a problem, then maybe removing it to prevent someone from mis-reading its output makes sense?
+
+If there is a satisfactory alternative, I expect that namespace.pl is old,
+unmaintained, and unneeded, and should go away.
+
+-- 
+~Randy
+
