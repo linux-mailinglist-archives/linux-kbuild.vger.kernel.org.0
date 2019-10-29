@@ -2,82 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22995E83E0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2019 10:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C93AE87D5
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Oct 2019 13:13:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731026AbfJ2JJp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Oct 2019 05:09:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55002 "EHLO mail.kernel.org"
+        id S1731485AbfJ2MNx convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 29 Oct 2019 08:13:53 -0400
+Received: from s0090.ppsmtp.net ([91.90.154.91]:51478 "EHLO s0090.ppsmtp.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727320AbfJ2JJp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Oct 2019 05:09:45 -0400
-Received: from localhost (100.50.158.77.rev.sfr.net [77.158.50.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BE58020717;
-        Tue, 29 Oct 2019 09:09:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572340184;
-        bh=6xewZwzEDZm0BJwjNyiTn5HPxc795xoDtGQ7k7FbBeM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s1XVqUbRK7tSeIa0z4nvyUmPasVi+VNCCFif7ArUxyxxNLB8wAYAYaZrhRKKgAX7j
-         rpJVf7YSZMSh1xrZ4S6yqJLlYV7TqIMLt/i+S9gWBnVe0P0EkICpdJMrO1Y7aBLg0J
-         PzlrJjFqgGSkA8LwQVk2MR4iRsWFpHxuZIU5HGMk=
-Date:   Tue, 29 Oct 2019 05:09:41 -0400
-From:   Sasha Levin <sashal@kernel.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH AUTOSEL 5.3 50/89] kbuild: fix build error of 'make
- nsdeps' in clean tree
-Message-ID: <20191029090941.GK1554@sasha-vm>
-References: <20191018220324.8165-1-sashal@kernel.org>
- <20191018220324.8165-50-sashal@kernel.org>
- <CAK7LNARovn6jNGUBQbn-0KbwsCfC6GHE-ybqHDvRUXiCCDuMZA@mail.gmail.com>
+        id S1727082AbfJ2MNx (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 29 Oct 2019 08:13:53 -0400
+X-Greylist: delayed 19136 seconds by postgrey-1.27 at vger.kernel.org; Tue, 29 Oct 2019 08:13:51 EDT
+Received: from pps.filterd (s0090.ppsmtp.net [127.0.0.1])
+        by s0090.ppsmtp.net (8.16.0.27/8.16.0.27) with SMTP id x9T6h4GR016609;
+        Tue, 29 Oct 2019 07:54:21 +0100
+Received: from mail.schuetz.net ([212.185.169.233])
+        by s0090.ppsmtp.net with ESMTP id 2vx8bh8a08-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 29 Oct 2019 07:54:21 +0100
+Received: from julia02 (localhost [127.0.0.1])
+        by mail.schuetz.net (Postfix) with ESMTP id 917C820221A4;
+        Tue, 29 Oct 2019 07:52:54 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARovn6jNGUBQbn-0KbwsCfC6GHE-ybqHDvRUXiCCDuMZA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Subject: Dear Friend,
+To:     Recipients <infocarfer1@aim.com>
+From:   "Mr.R.C" <infocarfer1@aim.com>
+Date:   Tue, 29 Oct 2019 06:52:38 +0000
+Reply-To: infocarfer@aim.com
+X-TNEFEvaluated: 1
+Message-ID: <OFB6DE1564.0A7EAD44-ON882584A2.0025CD2E@schuetz.net>
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Description: Mail message body
+X-Proofpoint-ID: SID=2vx8bh8a08 QID=2vx8bh8a08-1
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-29_03:,,
+ signatures=0
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Oct 19, 2019 at 09:14:13AM +0900, Masahiro Yamada wrote:
->On Sat, Oct 19, 2019 at 7:04 AM Sasha Levin <sashal@kernel.org> wrote:
->>
->> From: Masahiro Yamada <yamada.masahiro@socionext.com>
->>
->> [ Upstream commit d85103ac78a6d8573b21348b36f4cca2e1839a31 ]
->>
->> Running 'make nsdeps' in a clean source tree fails as follows:
->>
->> $ make -s clean; make -s defconfig; make nsdeps
->>    [ snip ]
->> awk: fatal: cannot open file `init/modules.order' for reading (No such file or directory)
->> make: *** [Makefile;1307: modules.order] Error 2
->> make: *** Deleting file 'modules.order'
->> make: *** Waiting for unfinished jobs....
->>
->> The cause of the error is 'make nsdeps' does not build modules at all.
->> Set KBUILD_MODULES to fix it.
->>
->> Reviewed-by: Matthias Maennich <maennich@google.com>
->> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
->> Signed-off-by: Jessica Yu <jeyu@kernel.org>
->> Signed-off-by: Sasha Levin <sashal@kernel.org>
->> ---
->
->nsdeps was introduced in v5.4
->
->Please do not backport this commit.
+Dear Friend,
 
-I've dropped it everywhere, thank you.
-
--- 
-Thanks,
-Sasha
+I am Vice Chairman of Hang Seng Bank, I have Important Matter to Discuss with you concerning my late client, Died without a NEXT OF KIN. Send me your private email for full details information. email me at (infocarfer@aim.com)
+Mail:
+Regards
