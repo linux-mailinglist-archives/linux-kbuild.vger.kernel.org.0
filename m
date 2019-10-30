@@ -2,28 +2,28 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7195EA239
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2019 18:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA7CEA493
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Oct 2019 21:11:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727149AbfJ3RCd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Oct 2019 13:02:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54248 "EHLO mail.kernel.org"
+        id S1726475AbfJ3ULi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Oct 2019 16:11:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53996 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726619AbfJ3RCd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Oct 2019 13:02:33 -0400
+        id S1726269AbfJ3ULi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 30 Oct 2019 16:11:38 -0400
 Received: from linux-8ccs (unknown [92.117.144.115])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 751B220650;
-        Wed, 30 Oct 2019 17:02:29 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5069720650;
+        Wed, 30 Oct 2019 20:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572454951;
-        bh=aBt9Q8NfOQlfzMtFVoThOg7ZO26NQB6l/hLoSz7abqY=;
+        s=default; t=1572466296;
+        bh=fYNg2uPUmC97M1FRlx78nN1TvRwX0gv7SPs17Dc9Fo8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SdIGr98K1FC3u4CQ7m7TiKXLyvBADuk3ieXByyZ6Kf6eFhlf6hylsMdLgW6T/6lVi
-         XUA3zJCmag9Gx5GYIaaE7KdZIxNz/RSYTxqxaEdfRfYmOCpGnoVsMUcnRL0QogNfns
-         xLbZpQSCw5CV0KZ4TyzObbnNnhDBCs27ytFEbpFc=
-Date:   Wed, 30 Oct 2019 18:02:25 +0100
+        b=m6se2yb5mOsj6qTGDes9L00wnk6VmdMP4fQ48m9LOir2oi/PGfWQGhpuZGGN/SIh7
+         D2MXFy3VbBMe18T178UzZ5DGQYBz6YgxmAkjcZ3s1EsUg1lbvI2ydon+BGdvsTyM5X
+         A97F0z3ruwtg8BEbz2msc3ZRxDbIzy7OhX0RBzgk=
+Date:   Wed, 30 Oct 2019 21:11:28 +0100
 From:   Jessica Yu <jeyu@kernel.org>
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     linux-kbuild@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
@@ -31,15 +31,15 @@ Cc:     linux-kbuild@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
         Matthias Maennich <maennich@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] scripts/nsdeps: support nsdeps for external module
- builds
-Message-ID: <20191030170225.GB13413@linux-8ccs>
+Subject: Re: [PATCH 2/4] modpost: dump missing namespaces into a single
+ modules.nsdeps file
+Message-ID: <20191030201127.GC13413@linux-8ccs>
 References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
- <20191029123809.29301-4-yamada.masahiro@socionext.com>
+ <20191029123809.29301-3-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20191029123809.29301-4-yamada.masahiro@socionext.com>
+In-Reply-To: <20191029123809.29301-3-yamada.masahiro@socionext.com>
 X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -48,104 +48,284 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 +++ Masahiro Yamada [29/10/19 21:38 +0900]:
->Apparently, scripts/nsdeps is written to take care of only in-tree
->modules. Perhaps, this is not a bug, but just a design. At least,
->Documentation/core-api/symbol-namespaces.rst focuses on in-tree modules:
+>The modpost, with the -d option given, generates per-module .ns_deps
+>files.
 >
->  Again, `make nsdeps` will eventually add the missing namespace imports for
->  in-tree modules::
->  ^^^^^^^
+>Kbuild generates per-module .mod files to carry module information.
+>This is convenient because Make handles multiple jobs when the -j
+>option is given.
 >
->Having said that, I already saw at least two people trying nsdeps for
->external module builds. So, it would be nice to support it.
+>On the other hand, the modpost always runs as a single thread.
+>I do not see a strong reason to produce separate .ns_deps files.
 >
->Reported-by: Steve French <smfrench@gmail.com>
->Reported-by: Jessica Yu <jeyu@kernel.org>
->Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+>This commit changes the modpost to generate just one file,
+>modules.nsdeps, each line of which has the following format:
+>
+>  <module_name>: <list of missing namespaces>
+>
+>Please note it contains *missing* namespaces instead of required ones.
+>So, modules.nsdeps is empty if the namespace dependency is all good.
+>
+>This will work more efficiently because spatch will no longer process
+>already imported namespaces. I removed the '(if needed)' from the
+>nsdeps log since spatch is invoked only when needed.
 
-I can confirm that this fixes nsdeps for external modules for me.
+This is a nice optimization! :-)
+
+>This also solved the stale .ns_deps files problem reported by
+>Jessica Yu:
+>
+>  https://lkml.org/lkml/2019/10/28/467
 
 Tested-by: Jessica Yu <jeyu@kernel.org>
 Acked-by: Jessica Yu <jeyu@kernel.org>
 
-Thanks!
+Thanks for the fix!
 
+>While I was here, I improved the modpost code a little more;
+>I freed ns_deps_bus.p because buf_write() allocates memory.
+>
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 >---
 >
-> Documentation/core-api/symbol-namespaces.rst |  3 +++
-> Makefile                                     |  1 +
-> scripts/Makefile.modpost                     |  2 +-
-> scripts/nsdeps                               | 10 ++++++++--
-> 4 files changed, 13 insertions(+), 3 deletions(-)
+> .gitignore               |  2 +-
+> Documentation/dontdiff   |  1 +
+> Makefile                 |  4 ++--
+> scripts/Makefile.modpost |  2 +-
+> scripts/mod/modpost.c    | 44 +++++++++++++++++-----------------------
+> scripts/mod/modpost.h    |  4 ++--
+> scripts/nsdeps           | 21 +++++++++----------
+> 7 files changed, 36 insertions(+), 42 deletions(-)
 >
->diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
->index 982ed7b568ac..9b76337f6756 100644
->--- a/Documentation/core-api/symbol-namespaces.rst
->+++ b/Documentation/core-api/symbol-namespaces.rst
->@@ -152,3 +152,6 @@ in-tree modules::
-> 	- notice the warning of modpost telling about a missing import
-> 	- run `make nsdeps` to add the import to the correct code location
+>diff --git a/.gitignore b/.gitignore
+>index 70580bdd352c..72ef86a5570d 100644
+>--- a/.gitignore
+>+++ b/.gitignore
+>@@ -32,7 +32,6 @@
+> *.lzo
+> *.mod
+> *.mod.c
+>-*.ns_deps
+> *.o
+> *.o.*
+> *.patch
+>@@ -61,6 +60,7 @@ modules.order
+> /System.map
+> /Module.markers
+> /modules.builtin.modinfo
+>+/modules.nsdeps
 >
->+You can also run nsdeps for external module builds. A typical usage is::
->+
->+	$ make -C <path_to_kernel_src> M=$PWD nsdeps
+> #
+> # RPM spec file (make rpm-pkg)
+>diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+>index 9f4392876099..72fc2e9e2b63 100644
+>--- a/Documentation/dontdiff
+>+++ b/Documentation/dontdiff
+>@@ -179,6 +179,7 @@ mkutf8data
+> modpost
+> modules.builtin
+> modules.builtin.modinfo
+>+modules.nsdeps
+> modules.order
+> modversions.h*
+> nconf
 >diff --git a/Makefile b/Makefile
->index 1e3f307bd49b..780a65493866 100644
+>index 0ef897fd9cfd..1e3f307bd49b 100644
 >--- a/Makefile
 >+++ b/Makefile
->@@ -1007,6 +1007,7 @@ endif
-> PHONY += prepare0
+>@@ -1356,7 +1356,7 @@ endif # CONFIG_MODULES
 >
-> export MODORDER := $(extmod-prefix)modules.order
->+export MODULES_NSDEPS := $(extmod-prefix)modules.nsdeps
+> # Directories & files removed with 'make clean'
+> CLEAN_DIRS  += include/ksym
+>-CLEAN_FILES += modules.builtin.modinfo
+>+CLEAN_FILES += modules.builtin.modinfo modules.nsdeps
 >
-> ifeq ($(KBUILD_EXTMOD),)
-> core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
+> # Directories & files removed with 'make mrproper'
+> MRPROPER_DIRS  += include/config include/generated          \
+>@@ -1660,7 +1660,7 @@ clean: $(clean-dirs)
+> 		-o -name '*.ko.*' \
+> 		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
+> 		-o -name '*.dwo' -o -name '*.lst' \
+>-		-o -name '*.su' -o -name '*.mod' -o -name '*.ns_deps' \
+>+		-o -name '*.su' -o -name '*.mod' \
+> 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
+> 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
+> 		-o -name '*.asn1.[ch]' \
 >diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
->index da37128c3f9f..8359f8af5ee6 100644
+>index c9757b20b048..da37128c3f9f 100644
 >--- a/scripts/Makefile.modpost
 >+++ b/scripts/Makefile.modpost
 >@@ -66,7 +66,7 @@ __modpost:
 > else
 >
 > MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - \
->-	$(if $(KBUILD_NSDEPS),-d modules.nsdeps)
->+	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))
+>-	$(if $(KBUILD_NSDEPS),-d)
+>+	$(if $(KBUILD_NSDEPS),-d modules.nsdeps)
 >
 > ifeq ($(KBUILD_EXTMOD),)
 > MODPOST += $(wildcard vmlinux)
+>diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>index dcd90d563ce8..f7425f5d4ab0 100644
+>--- a/scripts/mod/modpost.c
+>+++ b/scripts/mod/modpost.c
+>@@ -38,8 +38,6 @@ static int sec_mismatch_count = 0;
+> static int sec_mismatch_fatal = 0;
+> /* ignore missing files */
+> static int ignore_missing_files;
+>-/* write namespace dependencies */
+>-static int write_namespace_deps;
+>
+> enum export {
+> 	export_plain,      export_unused,     export_gpl,
+>@@ -2217,14 +2215,11 @@ static int check_exports(struct module *mod)
+> 		else
+> 			basename = mod->name;
+>
+>-		if (exp->namespace) {
+>-			add_namespace(&mod->required_namespaces,
+>-				      exp->namespace);
+>-
+>-			if (!module_imports_namespace(mod, exp->namespace)) {
+>-				warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
+>-				     basename, exp->name, exp->namespace);
+>-			}
+>+		if (exp->namespace &&
+>+		    !module_imports_namespace(mod, exp->namespace)) {
+>+			warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
+>+			     basename, exp->name, exp->namespace);
+>+			add_namespace(&mod->missing_namespaces, exp->namespace);
+> 		}
+>
+> 		if (!mod->gpl_compatible)
+>@@ -2525,29 +2520,27 @@ static void write_dump(const char *fname)
+> 	free(buf.p);
+> }
+>
+>-static void write_namespace_deps_files(void)
+>+static void write_namespace_deps_files(const char *fname)
+> {
+> 	struct module *mod;
+> 	struct namespace_list *ns;
+> 	struct buffer ns_deps_buf = {};
+>
+> 	for (mod = modules; mod; mod = mod->next) {
+>-		char fname[PATH_MAX];
+>
+>-		if (mod->skip)
+>+		if (mod->skip || !mod->missing_namespaces)
+> 			continue;
+>
+>-		ns_deps_buf.pos = 0;
+>+		buf_printf(&ns_deps_buf, "%s.ko:", mod->name);
+>
+>-		for (ns = mod->required_namespaces; ns; ns = ns->next)
+>-			buf_printf(&ns_deps_buf, "%s\n", ns->namespace);
+>+		for (ns = mod->missing_namespaces; ns; ns = ns->next)
+>+			buf_printf(&ns_deps_buf, " %s", ns->namespace);
+>
+>-		if (ns_deps_buf.pos == 0)
+>-			continue;
+>-
+>-		sprintf(fname, "%s.ns_deps", mod->name);
+>-		write_if_changed(&ns_deps_buf, fname);
+>+		buf_printf(&ns_deps_buf, "\n");
+> 	}
+>+
+>+	write_if_changed(&ns_deps_buf, fname);
+>+	free(ns_deps_buf.p);
+> }
+>
+> struct ext_sym_list {
+>@@ -2560,6 +2553,7 @@ int main(int argc, char **argv)
+> 	struct module *mod;
+> 	struct buffer buf = { };
+> 	char *kernel_read = NULL;
+>+	char *missing_namespace_deps = NULL;
+> 	char *dump_write = NULL, *files_source = NULL;
+> 	int opt;
+> 	int err;
+>@@ -2567,7 +2561,7 @@ int main(int argc, char **argv)
+> 	struct ext_sym_list *extsym_iter;
+> 	struct ext_sym_list *extsym_start = NULL;
+>
+>-	while ((opt = getopt(argc, argv, "i:e:mnsT:o:awEd")) != -1) {
+>+	while ((opt = getopt(argc, argv, "i:e:mnsT:o:awEd:")) != -1) {
+> 		switch (opt) {
+> 		case 'i':
+> 			kernel_read = optarg;
+>@@ -2606,7 +2600,7 @@ int main(int argc, char **argv)
+> 			sec_mismatch_fatal = 1;
+> 			break;
+> 		case 'd':
+>-			write_namespace_deps = 1;
+>+			missing_namespace_deps = optarg;
+> 			break;
+> 		default:
+> 			exit(1);
+>@@ -2654,8 +2648,8 @@ int main(int argc, char **argv)
+> 		write_if_changed(&buf, fname);
+> 	}
+>
+>-	if (write_namespace_deps)
+>-		write_namespace_deps_files();
+>+	if (missing_namespace_deps)
+>+		write_namespace_deps_files(missing_namespace_deps);
+>
+> 	if (dump_write)
+> 		write_dump(dump_write);
+>diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+>index ad271bc6c313..fe6652535e4b 100644
+>--- a/scripts/mod/modpost.h
+>+++ b/scripts/mod/modpost.h
+>@@ -126,8 +126,8 @@ struct module {
+> 	struct buffer dev_table_buf;
+> 	char	     srcversion[25];
+> 	int is_dot_o;
+>-	// Required namespace dependencies
+>-	struct namespace_list *required_namespaces;
+>+	// Missing namespace dependencies
+>+	struct namespace_list *missing_namespaces;
+> 	// Actual imported namespaces
+> 	struct namespace_list *imported_namespaces;
+> };
 >diff --git a/scripts/nsdeps b/scripts/nsdeps
->index 08db427a7fe5..3b8a9e173ebf 100644
+>index dda6fbac016e..08db427a7fe5 100644
 >--- a/scripts/nsdeps
 >+++ b/scripts/nsdeps
->@@ -21,6 +21,12 @@ if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
-> 	exit 1
-> fi
+>@@ -27,15 +27,14 @@ generate_deps_for_ns() {
+> }
 >
->+if [ "$KBUILD_EXTMOD" ]; then
->+	src_prefix=
->+else
->+	src_prefix=$srctree/
->+fi
->+
-> generate_deps_for_ns() {
-> 	$SPATCH --very-quiet --in-place --sp-file \
-> 		$srctree/scripts/coccinelle/misc/add_namespace.cocci -D ns=$1 $2
->@@ -32,7 +38,7 @@ generate_deps() {
-> 	local namespaces="$*"
-> 	local mod_source_files=`cat $mod.mod | sed -n 1p                      \
+> generate_deps() {
+>-	local mod_name=`basename $@ .ko`
+>-	local mod_file=`echo $@ | sed -e 's/\.ko/\.mod/'`
+>-	local ns_deps_file=`echo $@ | sed -e 's/\.ko/\.ns_deps/'`
+>-	if [ ! -f "$ns_deps_file" ]; then return; fi
+>-	local mod_source_files=`cat $mod_file | sed -n 1p                      \
+>+	local mod=${1%.ko:}
+>+	shift
+>+	local namespaces="$*"
+>+	local mod_source_files=`cat $mod.mod | sed -n 1p                      \
 > 					      | sed -e 's/\.o/\.c/g'           \
->-					      | sed "s|[^ ]* *|${srctree}/&|g"`
->+					     | sed "s|[^ ]* *|${src_prefix}&|g"`
-> 	for ns in $namespaces; do
-> 		echo "Adding namespace $ns to module $mod.ko."
+> 					      | sed "s|[^ ]* *|${srctree}/&|g"`
+>-	for ns in `cat $ns_deps_file`; do
+>-		echo "Adding namespace $ns to module $mod_name (if needed)."
+>+	for ns in $namespaces; do
+>+		echo "Adding namespace $ns to module $mod.ko."
 > 		generate_deps_for_ns $ns $mod_source_files
->@@ -54,4 +60,4 @@ generate_deps() {
-> while read line
-> do
-> 	generate_deps $line
->-done < modules.nsdeps
->+done < $MODULES_NSDEPS
+> 		# sort the imports
+> 		for source_file in $mod_source_files; do
+>@@ -52,7 +51,7 @@ generate_deps() {
+> 	done
+> }
+>
+>-for f in `cat $objtree/modules.order`; do
+>-	generate_deps $f
+>-done
+>-
+>+while read line
+>+do
+>+	generate_deps $line
+>+done < modules.nsdeps
 >-- 
 >2.17.1
 >
