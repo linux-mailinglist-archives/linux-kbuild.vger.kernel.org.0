@@ -2,117 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A685EB360
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2019 16:06:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 049E2EB562
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2019 17:52:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbfJaPG5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Oct 2019 11:06:57 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:46148 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727511AbfJaPG5 (ORCPT
+        id S1727715AbfJaQvy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Oct 2019 12:51:54 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22556 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728614AbfJaQvy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Oct 2019 11:06:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=MlOw5NRDpHwJ1Rs317sMHBDUIvhDZbgUO23wmmeFwVs=; b=mOpzU5+WZ4iG5/vKS1QWvyjDq
-        PFByJmppO3qnlgFnaQx+jkKxzwDF4kzy6vi67dXkyIjFaFil6qGbIeHi0VhVrma2cgqhYAI1xiQYS
-        v4CoCPWj2qTHk1SIcIO1CCXv1eksHk7FEQwtZ2RHaA4FEs3guS4kI35WTQKqgzKff16/CJppwZ56Z
-        6ZsIzxjcRktOQwmUO/n8AD9cOW7J+SvL0ZJ8/kfsRpaiwfshGIMOV9O5jgIZ0mm8uSTPUo31YRjoH
-        QYpOQPnDnIDqHLVSdaMtURmu9mWXjoyd3UX91lORcxFR5Q0nrHAOsrWuiI4C9aHxhdw8hylatC9Tt
-        nmV1BEPOg==;
-Received: from [2601:1c0:6280:3f0::4ba1]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iQC2K-0007hK-RC; Thu, 31 Oct 2019 15:06:56 +0000
-Subject: Re: [PATCH] scripts: prune-kernel:remove old kernels and modules dir
- from system
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     bfields@fieldses.org, yamada.masahiro@socionext.com,
-        michal.lkml@markovi.net, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191030095445.912435-1-unixbhaskar@gmail.com>
- <b8a12c03-1e17-61de-2cd9-a09650dc22b1@infradead.org>
- <20191031033722.GA7687@Gentoo>
- <41693d0e-8ff2-bf06-f1a6-e7fb52779f95@infradead.org>
- <20191031045242.GA3130@Gentoo>
- <809aa850-7a22-a7c5-af21-0e88d1c63dd7@infradead.org>
- <20191031071839.GB3130@Gentoo>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <875a75ec-bbf1-9d80-a3e1-9c759c9c05e1@infradead.org>
-Date:   Thu, 31 Oct 2019 08:06:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        Thu, 31 Oct 2019 12:51:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1572540712;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Eg9oWuOPqo1L+W4rD3h5PNuEgEsQhGB7UKbPvjWbL1s=;
+        b=P8+lQfeQ7cTDv/q1DrVF0wUF6/IfvVHW50Y5/VFOmJIEb2cotuHiAj4a7ui2btFO46Kxxp
+        FOmss1EgPGaR8achhbIOrpQWVlj1H3zx4VA6koMchycJ7F96Z4PAcaZCmQ/kxK1ZnSGWIt
+        k6RfhhwaaTTy2D6806CVlsG4d9dwd+Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-SFOVO5HhMI-DJYYvgzKgZA-1; Thu, 31 Oct 2019 12:51:49 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AD8D107ACC0;
+        Thu, 31 Oct 2019 16:51:47 +0000 (UTC)
+Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AC541001B07;
+        Thu, 31 Oct 2019 16:51:46 +0000 (UTC)
+From:   Jeff Moyer <jmoyer@redhat.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
+        linux-nvdimm@lists.01.org
+Subject: Re: [PATCH 4/4] modpost: do not set ->preloaded for symbols from Module.symvers
+References: <20191003102915.28301-1-yamada.masahiro@socionext.com>
+        <20191003102915.28301-4-yamada.masahiro@socionext.com>
+X-PGP-KeyID: 1F78E1B4
+X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
+Date:   Thu, 31 Oct 2019 12:51:45 -0400
+In-Reply-To: <20191003102915.28301-4-yamada.masahiro@socionext.com> (Masahiro
+        Yamada's message of "Thu, 3 Oct 2019 19:29:15 +0900")
+Message-ID: <x497e4kluxq.fsf@segfault.boston.devel.redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20191031071839.GB3130@Gentoo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-MC-Unique: SFOVO5HhMI-DJYYvgzKgZA-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10/31/19 12:18 AM, Bhaskar Chowdhury wrote:
-> On 22:27 Wed 30 Oct 2019, Randy Dunlap wrote:
->> On 10/30/19 9:52 PM, Bhaskar Chowdhury wrote:
->>>>>> That 'rm' doesn't remove any files.  Compare what remove_old_kernel() does.
->>>>> No,it is not using that function rather take the parameter from the
->>>>> commandline and get into boot dir match with it and remove it.
->>>>
->>>> But it doesn't do that.  I tested it.  It should be more like what
->>>> rmeove_old_kernel() does:
->>>>
->>>>         rm -If vmlinuz-$kernel_ver System.map-$kernel_ver config-$kernel_ver
->>>>
->>>> and if not, please explain why not.
->>> Okay, again some uniformity missing in the code, I would like to your
->>> suggested method,i.e call remove_old_kernel to do the job instead of depending on individual kernel.
->>
->> The simplest thing to do is set kernel_version=$kernel_ver
->> and then call remove_old_kernel().
->> And set modules_version=$modules_dir_name and call remove_old_modules_dir().
->>
->> But it would be cleaner to pass a parameter (kernel_version) to the
->> remove_old_kernel() function and to pass a parameter (modules_dir) to the
->> remove_old_modules_dir() function.
-> 
->>
-> 
-> Thank you...I have just modified the code and call both the function
-> under remove option. BTW I didn't set the extra variable $kernel_ver name it $kernel_version and instead of $modules_dir_name name it $mo
-> dules_version.
-> 
-> Capturing command line parameter in $kernel_version and $modules_version
-> 
-> Is that fine? Here is a code snippet:
+Masahiro Yamada <yamada.masahiro@socionext.com> writes:
 
-Yes, that should be OK.
+> Now that there is no overwrap between symbols from ELF files and
+> ones from Module.symvers.
+>
+> So, the 'exported twice' warning should be reported irrespective
+> of where the symbol in question came from. Only the exceptional case
+> is when __crc_<sym> symbol appears before __ksymtab_<sym>. This
+> typically occurs for EXPORT_SYMBOL in .S files.
 
-> -r | --remove)
->   if [[ $# -ne 3 ]]; then
->    printf "You need to provide kernel version and modules directory
->    name \n"
->    exit 1
->    else
->    remove_old_kernel
->    remove_old_modules_dir
->    fi
-> 
-> 
-> I have just test it and it works.
-> 
-> 
-> And about solitary r option without hypen is ignoring and doing nothing.
-> 
-> Means, if I pass ./scripts/prune-kernel r 5.3.3
-> it simply ignore and does nothing.Only with the hypen it can work.
+Hi, Masahiro,
 
-Is that how it should be?
-or what would you expect that to do?
+After apply this patch, I get the following modpost warnings when doing:
 
--- 
-~Randy
+$ make M=3Dtools/tesing/nvdimm
+...
+  Building modules, stage 2.
+  MODPOST 12 modules
+WARNING: tools/testing/nvdimm/libnvdimm: 'nvdimm_bus_lock' exported twice. =
+Previous export was in drivers/nvdimm/libnvdimm.ko
+WARNING: tools/testing/nvdimm/libnvdimm: 'nvdimm_bus_unlock' exported twice=
+. Previous export was in drivers/nvdimm/libnvdimm.ko
+WARNING: tools/testing/nvdimm/libnvdimm: 'is_nvdimm_bus_locked' exported tw=
+ice. Previous export was in drivers/nvdimm/libnvdimm.ko
+WARNING: tools/testing/nvdimm/libnvdimm: 'devm_nvdimm_memremap' exported tw=
+ice. Previous export was in drivers/nvdimm/libnvdimm.ko
+WARNING: tools/testing/nvdimm/libnvdimm: 'nd_fletcher64' exported twice. Pr=
+evious export was in drivers/nvdimm/libnvdimm.ko
+WARNING: tools/testing/nvdimm/libnvdimm: 'to_nd_desc' exported twice. Previ=
+ous export was in drivers/nvdimm/libnvdimm.ko
+WARNING: tools/testing/nvdimm/libnvdimm: 'to_nvdimm_bus_dev' exported twice=
+. Previous export was in drivers/nvdimm/libnvdimm.ko
+...
+
+There are a lot of these warnings.  :)  If I revert this patch, no
+complaints.
+
+Cheers,
+Jeff
+
+
+>
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
+>
+>  scripts/mod/modpost.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 5234555cf550..6ca38d10efc5 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2457,7 +2457,6 @@ static void read_dump(const char *fname, unsigned i=
+nt kernel)
+>  =09=09s =3D sym_add_exported(symname, namespace, mod,
+>  =09=09=09=09     export_no(export));
+>  =09=09s->kernel    =3D kernel;
+> -=09=09s->preloaded =3D 1;
+>  =09=09s->is_static =3D 0;
+>  =09=09sym_update_crc(symname, mod, crc, export_no(export));
+>  =09}
 
