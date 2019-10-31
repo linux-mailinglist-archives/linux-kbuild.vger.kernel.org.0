@@ -2,161 +2,183 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8954EAAE9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2019 08:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD60AEAEA2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2019 12:20:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbfJaHS5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Oct 2019 03:18:57 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42405 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726479AbfJaHS5 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Oct 2019 03:18:57 -0400
-Received: by mail-pf1-f193.google.com with SMTP id 21so3669113pfj.9;
-        Thu, 31 Oct 2019 00:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1aArgnbDaF4vNzrG28Q3wfHxUiG18eeUAr/yEEfdFtc=;
-        b=UmOccsOougBbsjpy3d6bIpcYYQRViOd5I2N9QlSOHcN+LY+gwh+F4LbddXm4VitP3m
-         0p9aHGlyqKInmhPl71bs3SUqcvSo9WHouNNwRx3wkiyGKDpzj1vu1Z+rvoJCeN85gboE
-         2/aNkvj6ym1UXCtm1gtTEQSC6EhlvFLaK/FPZIzPh6w9ghepk1pPbXmkC9oIWcPR+wW1
-         yk4xNY0mj8mCvN8CoKSPViECopVuE7fLxZqxI00uArxSuWILkzapGOnfGsQY62rgBMUI
-         a9usQw2MP8BVlAYkQPde4mqlQjsoDXp0ejUnlBwbt8mne2z67DQcePna0yLenNWw/wQH
-         Uihw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1aArgnbDaF4vNzrG28Q3wfHxUiG18eeUAr/yEEfdFtc=;
-        b=kgdxFXYNtEafAYHZksu9n5y0c5RIGW4CR/eQvyLzfG60rlCD6e0MRQigfj2F4O8xRd
-         /FJEYYoi5sgQGmN1TFHCtTGxe0zS8Tcz3R/nrE25IHEG+jgsq7AjmJKlg2calK36wX68
-         ahh4XHRNQsKa1afP9vpAI9Xm/OZOgK4rLQgC0iSmEfl7O0up+7D2Bf/1ogIf0DP1xgmG
-         INKqYVTJEGxnTpA8AhA05VBcvaQONIkPypNOrLB0ipUKJI0xQjSPrzkv1ZvDRLfGZYco
-         7M9WzekVrZiQtnS8FwAdN5kJ7eH8mih97DAEWDpdlUoIATLNnd0ci2V1IYHqKXuH6zvu
-         EoKw==
-X-Gm-Message-State: APjAAAUE4qbru6B2JSxNTR68bseBTGKw2QSqISZLNdrZCGJRnc6kh4gL
-        AVURT6HYnhZPC2qtwY2k5DQ=
-X-Google-Smtp-Source: APXvYqx9nES+bwUHd/B+Dyxjp8g8HMYLV+RwsKVO3akjNB6ve2hIQl8jcptqMNCeRVTyHuuzftDdag==
-X-Received: by 2002:a17:90a:2a41:: with SMTP id d1mr5208172pjg.87.1572506334911;
-        Thu, 31 Oct 2019 00:18:54 -0700 (PDT)
-Received: from Gentoo ([103.231.90.174])
-        by smtp.gmail.com with ESMTPSA id e198sm2093458pfh.83.2019.10.31.00.18.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 31 Oct 2019 00:18:54 -0700 (PDT)
-Date:   Thu, 31 Oct 2019 12:48:42 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     bfields@fieldses.org, yamada.masahiro@socionext.com,
-        michal.lkml@markovi.net, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts: prune-kernel:remove old kernels and modules dir
- from system
-Message-ID: <20191031071839.GB3130@Gentoo>
-References: <20191030095445.912435-1-unixbhaskar@gmail.com>
- <b8a12c03-1e17-61de-2cd9-a09650dc22b1@infradead.org>
- <20191031033722.GA7687@Gentoo>
- <41693d0e-8ff2-bf06-f1a6-e7fb52779f95@infradead.org>
- <20191031045242.GA3130@Gentoo>
- <809aa850-7a22-a7c5-af21-0e88d1c63dd7@infradead.org>
+        id S1726462AbfJaLUu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Oct 2019 07:20:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58088 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726455AbfJaLUu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 31 Oct 2019 07:20:50 -0400
+Received: from linux-8ccs (nat.nue.novell.com [195.135.221.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6DF172083E;
+        Thu, 31 Oct 2019 11:20:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572520849;
+        bh=qbolzit8+ocGRc2S2uV5k+K0AQ6gemV7AMG6LItKXnk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=m34ftpbVQHRxvCAB4kilR0Bv3E8ebc3JxfR/lVCOGeCt0K/D6lvtYypRFelK3JvQ8
+         vEkt17hBi+iyPGDs2Y83C/ffUeqV6ZUzR8DMFQAxm2lJQziUA3HsPTaVUrA7/w3wK9
+         5loT+3QxvoFVOotYQqtI3r0DCL6wjlx1/+WybhTE=
+Date:   Thu, 31 Oct 2019 12:20:44 +0100
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Matthias Kaehlcke <mka@chromium.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Matthias Maennich <maennich@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] modpost: dump missing namespaces into a single
+ modules.nsdeps file
+Message-ID: <20191031112044.GC2177@linux-8ccs>
+References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
+ <20191029123809.29301-3-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="61jdw2sOBCFtR2d/"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <809aa850-7a22-a7c5-af21-0e88d1c63dd7@infradead.org>
+In-Reply-To: <20191029123809.29301-3-yamada.masahiro@socionext.com>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.28-default x86_64
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---61jdw2sOBCFtR2d/
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 22:27 Wed 30 Oct 2019, Randy Dunlap wrote:
->On 10/30/19 9:52 PM, Bhaskar Chowdhury wrote:
->>>>> That=C2=A0'rm'=C2=A0doesn't=C2=A0remove=C2=A0any=C2=A0files.=C2=A0=C2=
-=A0Compare=C2=A0what=C2=A0remove_old_kernel()=C2=A0does.
->>>> No,it=C2=A0is=C2=A0not=C2=A0using=C2=A0that=C2=A0function=C2=A0rather=
-=C2=A0take=C2=A0the=C2=A0parameter=C2=A0from=C2=A0the
->>>> commandline=C2=A0and=C2=A0get=C2=A0into=C2=A0boot=C2=A0dir=C2=A0match=
-=C2=A0with=C2=A0it=C2=A0and=C2=A0remove=C2=A0it.
->>>
->>> But=C2=A0it=C2=A0doesn't=C2=A0do=C2=A0that.=C2=A0=C2=A0I=C2=A0tested=C2=
-=A0it.=C2=A0=C2=A0It=C2=A0should=C2=A0be=C2=A0more=C2=A0like=C2=A0what
->>> rmeove_old_kernel()=C2=A0does:
->>>
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0rm=C2=A0-If=C2=A0vmlinu=
-z-$kernel_ver=C2=A0System.map-$kernel_ver=C2=A0config-$kernel_ver
->>>
->>> and=C2=A0if=C2=A0not,=C2=A0please=C2=A0explain=C2=A0why=C2=A0not.
->> Okay,=C2=A0again=C2=A0some=C2=A0uniformity=C2=A0missing=C2=A0in=C2=A0the=
-=C2=A0code,=C2=A0I=C2=A0would=C2=A0like=C2=A0to=C2=A0your
->> suggested method,i.e call remove_old_kernel to do the job instead of dep=
-ending=C2=A0on=C2=A0individual=C2=A0kernel.
++++ Masahiro Yamada [29/10/19 21:38 +0900]:
+>The modpost, with the -d option given, generates per-module .ns_deps
+>files.
 >
->The simplest thing to do is set kernel_version=3D$kernel_ver
->and then call remove_old_kernel().
->And set modules_version=3D$modules_dir_name and call remove_old_modules_di=
-r().
+>Kbuild generates per-module .mod files to carry module information.
+>This is convenient because Make handles multiple jobs when the -j
+>option is given.
 >
->But it would be cleaner to pass a parameter (kernel_version) to the
->remove_old_kernel() function and to pass a parameter (modules_dir) to the
->remove_old_modules_dir() function.
-
+>On the other hand, the modpost always runs as a single thread.
+>I do not see a strong reason to produce separate .ns_deps files.
 >
-
-Thank you...I have just modified the code and call both the function
-under remove option. BTW I didn't set the extra variable $kernel_ver=20
-name it $kernel_version and instead of $modules_dir_name name it $mo
-dules_version.
-
-Capturing command line parameter in $kernel_version and $modules_version
-
-Is that fine? Here is a code snippet:
-
- -r | --remove)
-   if [[ $# -ne 3 ]]; then
-    printf "You need to provide kernel version and modules directory
-    name \n"
-    exit 1
-    else
-    remove_old_kernel
-    remove_old_modules_dir
-    fi
-
-
-I have just test it and it works.
-
-
-And about solitary r option without hypen is ignoring and doing nothing.
-
-Means, if I pass ./scripts/prune-kernel r 5.3.3=20
-
-it simply ignore and does nothing.Only with the hypen it can work.
-
->--=20
->~Randy
+>This commit changes the modpost to generate just one file,
+>modules.nsdeps, each line of which has the following format:
 >
-Bhaskar
+>  <module_name>: <list of missing namespaces>
+>
+>Please note it contains *missing* namespaces instead of required ones.
+>So, modules.nsdeps is empty if the namespace dependency is all good.
+>
+>This will work more efficiently because spatch will no longer process
+>already imported namespaces. I removed the '(if needed)' from the
+>nsdeps log since spatch is invoked only when needed.
+>
+>This also solved the stale .ns_deps files problem reported by
+>Jessica Yu:
+>
+>  https://lkml.org/lkml/2019/10/28/467
+>
+>While I was here, I improved the modpost code a little more;
+>I freed ns_deps_bus.p because buf_write() allocates memory.
+>
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+>---
+>
+> .gitignore               |  2 +-
+> Documentation/dontdiff   |  1 +
+> Makefile                 |  4 ++--
+> scripts/Makefile.modpost |  2 +-
+> scripts/mod/modpost.c    | 44 +++++++++++++++++-----------------------
+> scripts/mod/modpost.h    |  4 ++--
+> scripts/nsdeps           | 21 +++++++++----------
+> 7 files changed, 36 insertions(+), 42 deletions(-)
+>
+>diff --git a/.gitignore b/.gitignore
+>index 70580bdd352c..72ef86a5570d 100644
+>--- a/.gitignore
+>+++ b/.gitignore
+>@@ -32,7 +32,6 @@
+> *.lzo
+> *.mod
+> *.mod.c
+>-*.ns_deps
+> *.o
+> *.o.*
+> *.patch
+>@@ -61,6 +60,7 @@ modules.order
+> /System.map
+> /Module.markers
+> /modules.builtin.modinfo
+>+/modules.nsdeps
+>
+> #
+> # RPM spec file (make rpm-pkg)
+>diff --git a/Documentation/dontdiff b/Documentation/dontdiff
+>index 9f4392876099..72fc2e9e2b63 100644
+>--- a/Documentation/dontdiff
+>+++ b/Documentation/dontdiff
+>@@ -179,6 +179,7 @@ mkutf8data
+> modpost
+> modules.builtin
+> modules.builtin.modinfo
+>+modules.nsdeps
+> modules.order
+> modversions.h*
+> nconf
+>diff --git a/Makefile b/Makefile
+>index 0ef897fd9cfd..1e3f307bd49b 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -1356,7 +1356,7 @@ endif # CONFIG_MODULES
+>
+> # Directories & files removed with 'make clean'
+> CLEAN_DIRS  += include/ksym
+>-CLEAN_FILES += modules.builtin.modinfo
+>+CLEAN_FILES += modules.builtin.modinfo modules.nsdeps
 
---61jdw2sOBCFtR2d/
-Content-Type: application/pgp-signature; name="signature.asc"
+Hmm, I tried to run `make -C path/to/kernel/src M=$(PWD) clean` for a test
+external module, but it didn't remove modules.nsdeps for me. I declared a
+MODULE namespace for testing purposes.
 
------BEGIN PGP SIGNATURE-----
+$ make 
+make -C /dev/shm/linux M=/tmp/ppyu/test-module 
+make[1]: Entering directory '/dev/shm/linux'
+  AR      /tmp/ppyu/test-module/built-in.a
+  CC [M]  /tmp/ppyu/test-module/test1.o
+  CC [M]  /tmp/ppyu/test-module/test2.o
+  LD [M]  /tmp/ppyu/test-module/test.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+WARNING: module test uses symbol try_module_get from namespace MODULE, but does not import it.
+  CC [M]  /tmp/ppyu/test-module/test.mod.o
+  LD [M]  /tmp/ppyu/test-module/test.ko
+make[1]: Leaving directory '/dev/shm/linux'
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl26isgACgkQsjqdtxFL
-KRVyXAf/ebHDm+R5TuyyrwcURHxUYZQ+vAAH5KziMSdZy7E6XMrQoRX3bmOrUsfd
-FQ7ew7Ol3rC6kmHRAVIi60Eqkanyo7ocjwQnrKMAJR7Uxx52HJz+/UBDLpy2xvKL
-rrkzvGAmRUrh/J/Fa2sglYZgdFzRP847eXRjFJEpfLdNldSIbTuBIMrtgIPdh2nP
-xT/ZCJgmn+kVvLd1Z57pWm5tiyJPnNpdjA6ckiWn2xC2uW2NAvA+/COqOb+I/bgu
-DSWu3kLkQncA/SE17PxrlOJyb6RUF3JurM1lnUcF4SaK6IJFhtUgEiqqTo+P9JzH
-If6K9voH/VypHZnbIV9hw9OCd2PHmg==
-=gnFn
------END PGP SIGNATURE-----
+Then I make nsdeps:
 
---61jdw2sOBCFtR2d/--
+make -C /dev/shm/linux M=/tmp/ppyu/test-module nsdeps
+make[1]: Entering directory '/dev/shm/linux'
+  Building modules, stage 2.
+  MODPOST 1 modules
+WARNING: module test uses symbol try_module_get from namespace MODULE, but does not import it.
+Adding namespace MODULE to module /tmp/ppyu/test-module/test.ko.
+--- /tmp/ppyu/test-module/test1.c
++++ /tmp/cocci-output-3696-c1f8b3-test1.c
+@@ -38,3 +38,4 @@ static void __exit hello_cleanup(void)
+ module_init(hello_init);
+ module_exit(hello_cleanup);
+ MODULE_LICENSE("GPL");
++MODULE_IMPORT_NS(MODULE);
+make[1]: Leaving directory '/dev/shm/linux'
+$ cat modules.nsdeps
+/tmp/ppyu/test-module/test.ko: MODULE
+
+Looks good so far, then I try make clean:
+
+$ make clean
+make -C /dev/shm/linux M=/tmp/ppyu/test-module clean
+make[1]: Entering directory '/dev/shm/linux'
+  CLEAN   /tmp/ppyu/test-module/Module.symvers
+make[1]: Leaving directory '/dev/shm/linux'
+$ ls
+Makefile  modules.nsdeps  test1.c  test2.c
+
+But modules.nsdeps is still there.
+
