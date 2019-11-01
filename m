@@ -2,123 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 049E2EB562
-	for <lists+linux-kbuild@lfdr.de>; Thu, 31 Oct 2019 17:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B73C6EBB99
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 Nov 2019 02:13:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727715AbfJaQvy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 31 Oct 2019 12:51:54 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22556 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728614AbfJaQvy (ORCPT
+        id S1727905AbfKABN4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 31 Oct 2019 21:13:56 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:38495 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726772AbfKABNz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 31 Oct 2019 12:51:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572540712;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Eg9oWuOPqo1L+W4rD3h5PNuEgEsQhGB7UKbPvjWbL1s=;
-        b=P8+lQfeQ7cTDv/q1DrVF0wUF6/IfvVHW50Y5/VFOmJIEb2cotuHiAj4a7ui2btFO46Kxxp
-        FOmss1EgPGaR8achhbIOrpQWVlj1H3zx4VA6koMchycJ7F96Z4PAcaZCmQ/kxK1ZnSGWIt
-        k6RfhhwaaTTy2D6806CVlsG4d9dwd+Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-SFOVO5HhMI-DJYYvgzKgZA-1; Thu, 31 Oct 2019 12:51:49 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AD8D107ACC0;
-        Thu, 31 Oct 2019 16:51:47 +0000 (UTC)
-Received: from segfault.boston.devel.redhat.com (segfault.boston.devel.redhat.com [10.19.60.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AC541001B07;
-        Thu, 31 Oct 2019 16:51:46 +0000 (UTC)
-From:   Jeff Moyer <jmoyer@redhat.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org, dan.j.williams@intel.com,
-        linux-nvdimm@lists.01.org
-Subject: Re: [PATCH 4/4] modpost: do not set ->preloaded for symbols from Module.symvers
-References: <20191003102915.28301-1-yamada.masahiro@socionext.com>
-        <20191003102915.28301-4-yamada.masahiro@socionext.com>
-X-PGP-KeyID: 1F78E1B4
-X-PGP-CertKey: F6FE 280D 8293 F72C 65FD  5A58 1FF8 A7CA 1F78 E1B4
-Date:   Thu, 31 Oct 2019 12:51:45 -0400
-In-Reply-To: <20191003102915.28301-4-yamada.masahiro@socionext.com> (Masahiro
-        Yamada's message of "Thu, 3 Oct 2019 19:29:15 +0900")
-Message-ID: <x497e4kluxq.fsf@segfault.boston.devel.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        Thu, 31 Oct 2019 21:13:55 -0400
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id xA11DmlE031721;
+        Fri, 1 Nov 2019 10:13:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com xA11DmlE031721
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1572570829;
+        bh=gq2ntcwWwPmJbX6KujZPFJEqb9x4csC/Cehv9Nngo0w=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Bzq9d8FJodYz9vCF76NW7o+SZ/rPK0s7Th0OZWmA6N+1dAxUQJNuK52yFbN90VdQI
+         uwVbIzRLJbdSy8oE9Hggm7lFTAxl8PEX7a+E1OGUjan7Sy7ROOzI1vDX3KVe3jSGMT
+         f+wAPPDA4utqcaXdKya1zM8aYI9OGyNgzU5V0WCRYHY8aAqZJhQ3PEPsHpjC47vWvz
+         niGHFm3AdBGfgvV0a3DmfQZa6Frnz7RzwLCf15jU9f8TipjC7jHmlEaTEt/rQbdmPb
+         jQDH8jWeRym1XSfBcEunMaj+4d0Maot3Ryespos1dGFoFgGaktyocly3JDDun6yaox
+         ymNSbd+pGr8Zg==
+X-Nifty-SrcIP: [209.85.222.46]
+Received: by mail-ua1-f46.google.com with SMTP id q16so2492376uao.1;
+        Thu, 31 Oct 2019 18:13:48 -0700 (PDT)
+X-Gm-Message-State: APjAAAVd55hJpo4yYl0wJyUS2xtNMJcD6WPFuvOzUBn7IqmTWw2ro95A
+        +8l2IYjI3uauoIpVXjdSxViXMmBUDeKOkXR3ySI=
+X-Google-Smtp-Source: APXvYqw/PajTAhDXPdOfLwuMzSOHJNtlGhOENV4a2oNhQQR/ci6cU5z+to6L/NH38vwTMbUIwFxp8YSFIT2xqMloz1E=
+X-Received: by 2002:ab0:279a:: with SMTP id t26mr779257uap.40.1572570827659;
+ Thu, 31 Oct 2019 18:13:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: SFOVO5HhMI-DJYYvgzKgZA-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
+References: <20191003102915.28301-1-yamada.masahiro@socionext.com>
+ <20191003102915.28301-4-yamada.masahiro@socionext.com> <x497e4kluxq.fsf@segfault.boston.devel.redhat.com>
+In-Reply-To: <x497e4kluxq.fsf@segfault.boston.devel.redhat.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Fri, 1 Nov 2019 10:13:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASmpO6Dn2M1DtoCDs=RM+jwW7_tRhq7nqDU1YZWdRafuw@mail.gmail.com>
+Message-ID: <CAK7LNASmpO6Dn2M1DtoCDs=RM+jwW7_tRhq7nqDU1YZWdRafuw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] modpost: do not set ->preloaded for symbols from Module.symvers
+To:     Jeff Moyer <jmoyer@redhat.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        linux-nvdimm <linux-nvdimm@lists.01.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <yamada.masahiro@socionext.com> writes:
-
-> Now that there is no overwrap between symbols from ELF files and
-> ones from Module.symvers.
+On Fri, Nov 1, 2019 at 1:51 AM Jeff Moyer <jmoyer@redhat.com> wrote:
 >
-> So, the 'exported twice' warning should be reported irrespective
-> of where the symbol in question came from. Only the exceptional case
-> is when __crc_<sym> symbol appears before __ksymtab_<sym>. This
-> typically occurs for EXPORT_SYMBOL in .S files.
-
-Hi, Masahiro,
-
-After apply this patch, I get the following modpost warnings when doing:
-
-$ make M=3Dtools/tesing/nvdimm
-...
-  Building modules, stage 2.
-  MODPOST 12 modules
-WARNING: tools/testing/nvdimm/libnvdimm: 'nvdimm_bus_lock' exported twice. =
-Previous export was in drivers/nvdimm/libnvdimm.ko
-WARNING: tools/testing/nvdimm/libnvdimm: 'nvdimm_bus_unlock' exported twice=
-. Previous export was in drivers/nvdimm/libnvdimm.ko
-WARNING: tools/testing/nvdimm/libnvdimm: 'is_nvdimm_bus_locked' exported tw=
-ice. Previous export was in drivers/nvdimm/libnvdimm.ko
-WARNING: tools/testing/nvdimm/libnvdimm: 'devm_nvdimm_memremap' exported tw=
-ice. Previous export was in drivers/nvdimm/libnvdimm.ko
-WARNING: tools/testing/nvdimm/libnvdimm: 'nd_fletcher64' exported twice. Pr=
-evious export was in drivers/nvdimm/libnvdimm.ko
-WARNING: tools/testing/nvdimm/libnvdimm: 'to_nd_desc' exported twice. Previ=
-ous export was in drivers/nvdimm/libnvdimm.ko
-WARNING: tools/testing/nvdimm/libnvdimm: 'to_nvdimm_bus_dev' exported twice=
-. Previous export was in drivers/nvdimm/libnvdimm.ko
-...
-
-There are a lot of these warnings.  :)  If I revert this patch, no
-complaints.
-
-Cheers,
-Jeff
-
-
+> Masahiro Yamada <yamada.masahiro@socionext.com> writes:
 >
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
+> > Now that there is no overwrap between symbols from ELF files and
+> > ones from Module.symvers.
+> >
+> > So, the 'exported twice' warning should be reported irrespective
+> > of where the symbol in question came from. Only the exceptional case
+> > is when __crc_<sym> symbol appears before __ksymtab_<sym>. This
+> > typically occurs for EXPORT_SYMBOL in .S files.
 >
->  scripts/mod/modpost.c | 1 -
->  1 file changed, 1 deletion(-)
+> Hi, Masahiro,
 >
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 5234555cf550..6ca38d10efc5 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2457,7 +2457,6 @@ static void read_dump(const char *fname, unsigned i=
-nt kernel)
->  =09=09s =3D sym_add_exported(symname, namespace, mod,
->  =09=09=09=09     export_no(export));
->  =09=09s->kernel    =3D kernel;
-> -=09=09s->preloaded =3D 1;
->  =09=09s->is_static =3D 0;
->  =09=09sym_update_crc(symname, mod, crc, export_no(export));
->  =09}
+> After apply this patch, I get the following modpost warnings when doing:
+>
+> $ make M=tools/tesing/nvdimm
+> ...
+>   Building modules, stage 2.
+>   MODPOST 12 modules
+> WARNING: tools/testing/nvdimm/libnvdimm: 'nvdimm_bus_lock' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> WARNING: tools/testing/nvdimm/libnvdimm: 'nvdimm_bus_unlock' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> WARNING: tools/testing/nvdimm/libnvdimm: 'is_nvdimm_bus_locked' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> WARNING: tools/testing/nvdimm/libnvdimm: 'devm_nvdimm_memremap' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> WARNING: tools/testing/nvdimm/libnvdimm: 'nd_fletcher64' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> WARNING: tools/testing/nvdimm/libnvdimm: 'to_nd_desc' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> WARNING: tools/testing/nvdimm/libnvdimm: 'to_nvdimm_bus_dev' exported twice. Previous export was in drivers/nvdimm/libnvdimm.ko
+> ...
+>
+> There are a lot of these warnings.  :)
 
+These warnings are correct since
+drivers/nvdimm/Makefile and
+tools/testing/nvdimm/Kbuild
+compile the same files.
+
+
+
+
+>  If I revert this patch, no
+> complaints.
+>
+> Cheers,
+> Jeff
+>
+>
+> >
+> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > ---
+> >
+> >  scripts/mod/modpost.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> > index 5234555cf550..6ca38d10efc5 100644
+> > --- a/scripts/mod/modpost.c
+> > +++ b/scripts/mod/modpost.c
+> > @@ -2457,7 +2457,6 @@ static void read_dump(const char *fname, unsigned int kernel)
+> >               s = sym_add_exported(symname, namespace, mod,
+> >                                    export_no(export));
+> >               s->kernel    = kernel;
+> > -             s->preloaded = 1;
+> >               s->is_static = 0;
+> >               sym_update_crc(symname, mod, crc, export_no(export));
+> >       }
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
