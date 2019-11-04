@@ -2,132 +2,221 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D50DEEA10
-	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2019 21:47:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B27EEB24
+	for <lists+linux-kbuild@lfdr.de>; Mon,  4 Nov 2019 22:32:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728940AbfKDUrm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 4 Nov 2019 15:47:42 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:47545 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728392AbfKDUrm (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 4 Nov 2019 15:47:42 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 81A4A21B4C;
-        Mon,  4 Nov 2019 15:47:40 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 04 Nov 2019 15:47:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=XmRwftF81yg852f+UvjXfdQjfz
-        O1tQWIo/qB1nRcCIM=; b=RCT4Y9KaK7JUgkB0GJjZKwT63HfUP8OSbRYq0dhFrB
-        XkJErq8NyARygfMeYWy3KGL3X176f6aps41+M2opU7N9DRgsnLDIg4RCeaF+av53
-        3F+sAxki+oRjbbQo9W/uDxR+QaRmU3V7y/g3gzXPyb6bLHeBONCv4Dd+KdzvO8ne
-        eaal/GNltBJJKI8yHImoNcSiPos5e7G+sl/2brX+rzyJJhD93UXT9icBAvcHL7aX
-        wxBjBGEcYOjofIrn2eX+wANDD4v3U67p81gphGS2eAWbap+0LF/SUp9fCwnCE8Hx
-        JfcxqFEqVwtylBuL0aFIbJqD8ibXxs8vROq35kWhADtg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XmRwftF81yg852f+U
-        vjXfdQjfzO1tQWIo/qB1nRcCIM=; b=UtbmnlplIaNObTZGtWoQCXfoAFA0vDkQu
-        pVK8J94JkNfA0gZ5wnGWIBzLoNz9Yy4AVdhOzUwRjrYI5sZtnnkI/km31g+UpYV3
-        11nP1TaPgr63m1PjrSGUs/T0wI7Ll/3RjAXzAHRTo+oSoiCpGSLXn/i7qmXZpalE
-        E/q2hLZZSsBcd5Taf4o6pVeumxwNu32O2rSmD5DVoBF5fTadBjShRDCBoqm8mt0X
-        p1W0wDXwh44PULFz4ujtd6PrrL0WvW4GokJyRi3Mh2XMl+EBCqlXq6NbGT9gCAUO
-        xfqkQD8nPlxA/ukockdrGiQXQvN5NeLXqslwdtqWbfvoneEE82t2Q==
-X-ME-Sender: <xms:a47AXeT4srDBpkPPaBG_APvd0RZ58LMryC6fHhkiyISLqqk2vMwTvw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedruddufedgudegudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlhihsshgr
-    ucftohhsshcuoehhihesrghlhihsshgrrdhisheqnecukfhppeekgedrudekgedrvdefje
-    druddufeenucfrrghrrghmpehmrghilhhfrhhomhepqhihlhhishhsseigvddvtddrqhih
-    lhhishhsrdhnvghtnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:a47AXeFN2yHZt7auarc7NqlOxcsb_xwyP_cf-bRJDjYWCReypLRZJw>
-    <xmx:a47AXWE5JBnJC8Ax7DkDHXcMXu1yQbAJqeFygfZCWZt-mnQIskK17Q>
-    <xmx:a47AXQSJFynteyOeVPSOLd9wZECsDmfgHHcBHRE5XAf2qfqBpNRXhw>
-    <xmx:bI7AXQ2JYH0docpGusjS_K-wPBKnSOtjrjveueewWgCqTf6i68QkLw>
-Received: from x220.qyliss.net (p54b8ed71.dip0.t-ipconnect.de [84.184.237.113])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 013E63060060;
-        Mon,  4 Nov 2019 15:47:39 -0500 (EST)
-Received: by x220.qyliss.net (Postfix, from userid 1000)
-        id 24E841400EA; Mon,  4 Nov 2019 20:47:36 +0000 (UTC)
-From:   Alyssa Ross <hi@alyssa.is>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org, Alyssa Ross <hi@alyssa.is>
-Subject: [PATCH] kconfig: be more helpful if pkg-config is missing
-Date:   Mon,  4 Nov 2019 20:44:54 +0000
-Message-Id: <20191104204453.20115-1-hi@alyssa.is>
-X-Mailer: git-send-email 2.23.0
+        id S1728377AbfKDVbi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 4 Nov 2019 16:31:38 -0500
+Received: from mx1.redhat.com ([209.132.183.28]:58516 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728741AbfKDVbi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 4 Nov 2019 16:31:38 -0500
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 9831F81F01
+        for <linux-kbuild@vger.kernel.org>; Mon,  4 Nov 2019 21:31:37 +0000 (UTC)
+Received: by mail-qk1-f200.google.com with SMTP id l21so2131466qke.21
+        for <linux-kbuild@vger.kernel.org>; Mon, 04 Nov 2019 13:31:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=odBYYPB2dwXjXn5RBPYq4Rzo0JDyXN/FBfk/mj5Z+EQ=;
+        b=De+5LK3TZ09VoXJnbl8rlGzkhUYsRuVdMYoUOssUOE31eqv792umriWJGxN9XBnyMC
+         cQ8dPqSUXVLcjSFuoc1Hvuq2sEHaRevq5VRAok/gQwVuH6f5DnmKMIDncwssQHFPW6em
+         H36h406DiDvV3E+nhyL7Cbn5F53AQOr5n0KV4F5GfovCFTYNUIpqx+oVdSSNCS9IOEhg
+         Pq0WajABhpwFVxKpYQtW0lahvAITrBRgDOWVFhcp67QGoH/qyBz++tQdoT5CJ550eMvg
+         RjXANLx8io2GqCPls+On3dXbDzi4fVQx8n2X0Bpyv46p4ElgpP0dzZdchFhH/6OdanFt
+         xLUA==
+X-Gm-Message-State: APjAAAUC3USbRUV9TjlF7UIqS4lduPuwXoyTmPYwgTX8NGh4fb0+d1e2
+        PwR69rJZZhYXsHc1Dp38Ca4pKT31hg2RqAqV2nKodDhx5+qOHBb5k/bwtCmeTucXK+l3rSfGAjL
+        LdM4diw+mEwME52XcYLBaZ+BL
+X-Received: by 2002:a0c:94fb:: with SMTP id k56mr24684048qvk.127.1572903096309;
+        Mon, 04 Nov 2019 13:31:36 -0800 (PST)
+X-Google-Smtp-Source: APXvYqxCaLFc7g2Jbkr2kxfKOHZxG4CVScikJchrj/BxFvo2Kw/4kx1PfGW0DIQYm2b/95qkX5y88g==
+X-Received: by 2002:a0c:94fb:: with SMTP id k56mr24684020qvk.127.1572903095923;
+        Mon, 04 Nov 2019 13:31:35 -0800 (PST)
+Received: from [192.168.1.157] (pool-96-235-39-235.pitbpa.fios.verizon.net. [96.235.39.235])
+        by smtp.gmail.com with ESMTPSA id i75sm9718319qke.22.2019.11.04.13.31.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2019 13:31:35 -0800 (PST)
+Subject: Re: [RFC PATCH] kconfig: Add option to get the full help text with
+ listnewconfig
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jeremy Cline <jcline@redhat.com>,
+        Don Zickus <dzickus@redhat.com>
+References: <20191029181702.21460-1-labbott@redhat.com>
+ <CAK7LNAQV2X94rQP4exP8Kujjm-6FAt_pHoGF6dtHx5qZgAWDxg@mail.gmail.com>
+From:   Laura Abbott <labbott@redhat.com>
+Message-ID: <070517f0-6394-ede5-f7c2-f0e4552f5088@redhat.com>
+Date:   Mon, 4 Nov 2019 16:31:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNAQV2X94rQP4exP8Kujjm-6FAt_pHoGF6dtHx5qZgAWDxg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-If ncurses is installed, but at a non-default location, the previous
-error message was not helpful in resolving the situation.  Now, if
-ncurses can't be found, and pkg-config is not installed, it will
-suggest that pkg-config might need to be installed in addition to
-ncurses.
+On 11/3/19 9:20 PM, Masahiro Yamada wrote:
+> On Wed, Oct 30, 2019 at 3:17 AM Laura Abbott <labbott@redhat.com> wrote:
+>>
+>> make listnewconfig will list the individual options that need to be set.
+>> This is useful but there's no easy way to get the help text associated
+>> with the options at the same time. Introduce a new targe
+>> 'make extendedlistnewconfig' which lists the full help text of all the
+>> new options as well. This makes it easier to automatically generate
+>> changes that are easy for humans to review. This command also adds
+>> markers between each option for easier parsing.
+>>
+>> Signed-off-by: Laura Abbott <labbott@redhat.com>
+>> ---
+>> Red Hat has been relying on some external libraries that have a tendency
+>> to break to get the help text for all new config options. I'd really
+>> like an in tree way to get the help text so we can automatically
+>> generate patches for people to reveiw new config options. I'm open to
+>> other approaches that let us script getting the help text as well.
+> 
+> I am not familiar with the workflow in Red Hat.
+> I cannot propose another approach.
+> 
+> 
+> I am not a big fan of the target name.
+> 'extendedlistnewconfig' is so long that it breaks the
+> alignment of 'make help'.
+> Maybe 'helpnewconfig' is understandable
+> although I am open to discussion for a better name.
+> 
+> 
 
-Signed-off-by: Alyssa Ross <hi@alyssa.is>
----
- scripts/kconfig/mconf-cfg.sh | 14 ++++++++++++--
- scripts/kconfig/nconf-cfg.sh | 14 ++++++++++++--
- 2 files changed, 24 insertions(+), 4 deletions(-)
+Yes, I agree the name is long. helpnewconfig is fine by me.
 
-diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
-index c812872d7f9d..f547b13f77f6 100755
---- a/scripts/kconfig/mconf-cfg.sh
-+++ b/scripts/kconfig/mconf-cfg.sh
-@@ -41,7 +41,17 @@ fi
- 
- echo >&2 "*"
- echo >&2 "* Unable to find the ncurses package."
--echo >&2 "* Install ncurses (ncurses-devel or libncurses-dev"
--echo >&2 "* depending on your distribution)."
-+echo >&2 "*"
-+if [ -n "$(command -v pkg-config)" ]; then
-+	echo >&2 "* Install ncurses (ncurses-devel or libncurses-dev"
-+	echo >&2 "* depending on your distribution)."
-+else
-+	echo >&2 "* You may need to install ncurses"
-+	echo >&2 "* (ncurses-devel or libncurses-dev"
-+	echo >&2 "* depending on your distribution)."
-+	echo >&2 "*"
-+	echo >&2 "* If you have ncurses installed,"
-+	echo >&2 "* you may also need to install pkg-config."
-+fi
- echo >&2 "*"
- exit 1
-diff --git a/scripts/kconfig/nconf-cfg.sh b/scripts/kconfig/nconf-cfg.sh
-index 001559ef0a60..569226f1b497 100755
---- a/scripts/kconfig/nconf-cfg.sh
-+++ b/scripts/kconfig/nconf-cfg.sh
-@@ -41,7 +41,17 @@ fi
- 
- echo >&2 "*"
- echo >&2 "* Unable to find the ncurses package."
--echo >&2 "* Install ncurses (ncurses-devel or libncurses-dev"
--echo >&2 "* depending on your distribution)."
-+echo >&2 "*"
-+if [ -n "$(command -v pkg-config)" ]; then
-+	echo >&2 "* Install ncurses (ncurses-devel or libncurses-dev"
-+	echo >&2 "* depending on your distribution)."
-+else
-+	echo >&2 "* You may need to install ncurses"
-+	echo >&2 "* (ncurses-devel or libncurses-dev"
-+	echo >&2 "* depending on your distribution)."
-+	echo >&2 "*"
-+	echo >&2 "* If you have ncurses installed,"
-+	echo >&2 "* you may also need to install pkg-config."
-+fi
- echo >&2 "*"
- exit 1
--- 
-2.23.0
+> BTW, did you check how the newly-added 'choice' was displayed?
+> Its help message is displayed, but the choice has no name.
+> So, people might be confused what the help message is talking about.
+> 
+> 
+
+Thanks for pointing this out. For what we're looking to do I
+think we can work around it.
+
+Thanks,
+Laura
+
+> 
+> 
+>> ---
+>>   scripts/kconfig/Makefile |  5 ++++-
+>>   scripts/kconfig/conf.c   | 13 ++++++++++++-
+>>   2 files changed, 16 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+>> index ef2f2336c469..aaaf1f62300c 100644
+>> --- a/scripts/kconfig/Makefile
+>> +++ b/scripts/kconfig/Makefile
+>> @@ -66,7 +66,9 @@ localyesconfig localmodconfig: $(obj)/conf
+>>   #  syncconfig has become an internal implementation detail and is now
+>>   #  deprecated for external use
+>>   simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
+>> -       alldefconfig randconfig listnewconfig olddefconfig syncconfig
+>> +       alldefconfig randconfig listnewconfig olddefconfig syncconfig \
+>> +       extendedlistnewconfig
+>> +
+>>   PHONY += $(simple-targets)
+>>
+>>   $(simple-targets): $(obj)/conf
+>> @@ -134,6 +136,7 @@ help:
+>>          @echo  '  alldefconfig    - New config with all symbols set to default'
+>>          @echo  '  randconfig      - New config with random answer to all options'
+>>          @echo  '  listnewconfig   - List new options'
+>> +       @echo  '  extendedlistnewconfig   - List new options'
+>>          @echo  '  olddefconfig    - Same as oldconfig but sets new symbols to their'
+>>          @echo  '                    default value without prompting'
+>>          @echo  '  kvmconfig       - Enable additional options for kvm guest kernel support'
+>> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+>> index 40e16e871ae2..7aeb77374d9a 100644
+>> --- a/scripts/kconfig/conf.c
+>> +++ b/scripts/kconfig/conf.c
+>> @@ -32,6 +32,7 @@ enum input_mode {
+>>          defconfig,
+>>          savedefconfig,
+>>          listnewconfig,
+>> +       extendedlistnewconfig,
+>>          olddefconfig,
+>>   };
+>>   static enum input_mode input_mode = oldaskconfig;
+>> @@ -434,6 +435,11 @@ static void check_conf(struct menu *menu)
+>>                                                  printf("%s%s=%s\n", CONFIG_, sym->name, str);
+>>                                          }
+>>                                  }
+>> +                       } else if (input_mode == extendedlistnewconfig) {
+>> +                               printf("-----\n");
+>> +                               print_help(menu);
+>> +                               printf("-----\n");
+>> +
+>>                          } else {
+>>                                  if (!conf_cnt++)
+>>                                          printf("*\n* Restart config...\n*\n");
+>> @@ -459,6 +465,7 @@ static struct option long_opts[] = {
+>>          {"alldefconfig",    no_argument,       NULL, alldefconfig},
+>>          {"randconfig",      no_argument,       NULL, randconfig},
+>>          {"listnewconfig",   no_argument,       NULL, listnewconfig},
+>> +       {"extendedlistnewconfig",   no_argument,       NULL, extendedlistnewconfig},
+>>          {"olddefconfig",    no_argument,       NULL, olddefconfig},
+>>          {NULL, 0, NULL, 0}
+>>   };
+>> @@ -469,6 +476,7 @@ static void conf_usage(const char *progname)
+>>          printf("Usage: %s [-s] [option] <kconfig-file>\n", progname);
+>>          printf("[option] is _one_ of the following:\n");
+>>          printf("  --listnewconfig         List new options\n");
+>> +       printf("  --extendedlistnewconfig List new options and help text\n");
+>>          printf("  --oldaskconfig          Start a new configuration using a line-oriented program\n");
+>>          printf("  --oldconfig             Update a configuration using a provided .config as base\n");
+>>          printf("  --syncconfig            Similar to oldconfig but generates configuration in\n"
+>> @@ -543,6 +551,7 @@ int main(int ac, char **av)
+>>                  case allmodconfig:
+>>                  case alldefconfig:
+>>                  case listnewconfig:
+>> +               case extendedlistnewconfig:
+>>                  case olddefconfig:
+>>                          break;
+>>                  case '?':
+>> @@ -576,6 +585,7 @@ int main(int ac, char **av)
+>>          case oldaskconfig:
+>>          case oldconfig:
+>>          case listnewconfig:
+>> +       case extendedlistnewconfig:
+>>          case olddefconfig:
+>>                  conf_read(NULL);
+>>                  break;
+>> @@ -657,6 +667,7 @@ int main(int ac, char **av)
+>>                  /* fall through */
+>>          case oldconfig:
+>>          case listnewconfig:
+>> +       case extendedlistnewconfig:
+>>          case syncconfig:
+>>                  /* Update until a loop caused no more changes */
+>>                  do {
+>> @@ -675,7 +686,7 @@ int main(int ac, char **av)
+>>                                  defconfig_file);
+>>                          return 1;
+>>                  }
+>> -       } else if (input_mode != listnewconfig) {
+>> +       } else if (input_mode != listnewconfig && input_mode != extendedlistnewconfig) {
+>>                  if (!no_conf_write && conf_write(NULL)) {
+>>                          fprintf(stderr, "\n*** Error during writing of the configuration.\n\n");
+>>                          exit(1);
+>> --
+>> 2.21.0
+>>
+> 
+> 
 
