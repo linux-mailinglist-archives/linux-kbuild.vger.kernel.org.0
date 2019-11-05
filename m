@@ -2,109 +2,249 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB10EFEED
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Nov 2019 14:47:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B05E7EFF8F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Nov 2019 15:20:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389067AbfKENrq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Nov 2019 08:47:46 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:34824 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388615AbfKENrq (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Nov 2019 08:47:46 -0500
-Received: by mail-wm1-f67.google.com with SMTP id 8so13186452wmo.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 Nov 2019 05:47:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=nZ0NtyKlN0mECHG4PVEtPii79ddIWJ/dNETUstyjSo4=;
-        b=WzMofGxaV4+waE9HFVg1hUeiDUkLmUiD8evWbx47N6a73UjVCKy5N69mB9gYIIbETC
-         yn6ZaRoNcnv/5nRk5ZWIwzrIHfjBOOyK4ILGbAlAU0yTaBdDkM7UrZpZ9oIAcdnWlidk
-         1RFYtnbxSXEpF/Nv15GC0/Sm9nCQCGI3IQaVxkmXnS7lofKPTn8Ob08efu0TyN1iGrfY
-         jbP0qjEfX8LUQH463Ox5r1OUv9aByO155IFwD7KIMCxkQe02cnZxZQQwFe7PqoVRzENi
-         bVHgEBL59zCUcGveUFQUxd2dKviPjJqW9n4E4QuogiA3f/5RkOmA03w/D2zsvEFpXM6f
-         f4pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=nZ0NtyKlN0mECHG4PVEtPii79ddIWJ/dNETUstyjSo4=;
-        b=NnUozPvnkLvZPIzZ55gHUMrKZIGCGQcdflzlXjm1BR7StGGFT7ZXSTscyPeMfthrC3
-         W4VfP6TdBQ5VEtHetFHZnVb753vLGMUyjXch9cNTGCzW8pKez7e5TOqZp/jM1TsIOOzx
-         guxEmUaUknV2zE7Fk3zmjtfm3IydpHLlGFOyicx3FqSdHbBLCIOb/il87Bxw/reIx0eY
-         CnsCnKwkV6KtRSedwa6UOQb8eX0Nzk+9DQnU3U0gDg9MMwMjST70CvpDzYQSd3FSY1VX
-         xioAZTDcGoIjL/KcuRP1qn2t0ThIQ16I1ygAR760SWGcGokb5coiiLAob4oYaKV/R170
-         iVrg==
-X-Gm-Message-State: APjAAAVSIlaFkyPr3CEJnIioEO5En9wQCFj7qrdGCXDZ7XkA/gCw5oKK
-        21fNVbmjBWMFOOQPso+XzApOXw==
-X-Google-Smtp-Source: APXvYqz6TwrUtKtwRhKyTrjAPt8ruFrngSCuQfZKpEY7AkKWkRgK1SLBJ7dRQ+2weGZP3OT233hU2A==
-X-Received: by 2002:a1c:b404:: with SMTP id d4mr4598549wmf.9.1572961663785;
-        Tue, 05 Nov 2019 05:47:43 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id q25sm25737207wra.3.2019.11.05.05.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 05:47:42 -0800 (PST)
-Date:   Tue, 5 Nov 2019 13:47:42 +0000
-From:   Matthias Maennich <maennich@google.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Jessica Yu <jeyu@kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] mospost: remove unneeded local variable in
- contains_namespace()
-Message-ID: <20191105134742.GC65671@google.com>
-References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
- <20191029123809.29301-5-yamada.masahiro@socionext.com>
+        id S2388860AbfKEOUj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Nov 2019 09:20:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44342 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388209AbfKEOUj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 5 Nov 2019 09:20:39 -0500
+Received: from paulmck-ThinkPad-P72.home (unknown [109.144.209.237])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 92A83214D8;
+        Tue,  5 Nov 2019 14:20:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572963638;
+        bh=Z2MPkIAzAKDglk54O+36XxRRS4oH0whPqRPz7c34+ro=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=LVMEw0wDVyt/Dy+UZrrYompGaW9qKksnSQABcvC7ArZA5iZoM8yYIALMJAaCRTjLv
+         HMb9NlU0Vnt9P9tK56zmvIsH4RvkgqmU6ZisE1/Q5ZAQFcrbZJeBTqU4NbBmrV2TRN
+         f/+OzgqNvbcmmprG5uPIP08Y0kYgGVMI4C64Og3g=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id A450B35227C0; Tue,  5 Nov 2019 06:20:35 -0800 (PST)
+Date:   Tue, 5 Nov 2019 06:20:35 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Marco Elver <elver@google.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191105142035.GR20975@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20191104142745.14722-1-elver@google.com>
+ <20191104164717.GE20975@paulmck-ThinkPad-P72>
+ <CANpmjNOtR6NEsXGo=M1o26d8vUyF7gwj=gew+LAeE_D+qfbEmQ@mail.gmail.com>
+ <20191104194658.GK20975@paulmck-ThinkPad-P72>
+ <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191029123809.29301-5-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi!
+On Tue, Nov 05, 2019 at 12:10:56PM +0100, Marco Elver wrote:
+> On Mon, 4 Nov 2019 at 20:47, Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > On Mon, Nov 04, 2019 at 07:41:30PM +0100, Marco Elver wrote:
+> > > On Mon, 4 Nov 2019 at 17:47, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > >
+> > > > On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
+> > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > > > KCSAN is a sampling watchpoint-based data-race detector. More details
+> > > > > are included in Documentation/dev-tools/kcsan.rst. This patch-series
+> > > > > only enables KCSAN for x86, but we expect adding support for other
+> > > > > architectures is relatively straightforward (we are aware of
+> > > > > experimental ARM64 and POWER support).
+> > > > >
+> > > > > To gather early feedback, we announced KCSAN back in September, and
+> > > > > have integrated the feedback where possible:
+> > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> > > > >
+> > > > > We want to point out and acknowledge the work surrounding the LKMM,
+> > > > > including several articles that motivate why data-races are dangerous
+> > > > > [1, 2], justifying a data-race detector such as KCSAN.
+> > > > > [1] https://lwn.net/Articles/793253/
+> > > > > [2] https://lwn.net/Articles/799218/
+> > > > >
+> > > > > The current list of known upstream fixes for data-races found by KCSAN
+> > > > > can be found here:
+> > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> > > >
+> > > > Making this more accessible to more people seems like a good thing.
+> > > > So, for the series:
+> > > >
+> > > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
+> > >
+> > > Much appreciated. Thanks, Paul!
+> > >
+> > > Any suggestions which tree this could eventually land in?
+> >
+> > I would guess that Dmitry might have some suggestions.
+> 
+> I checked and we're both unclear what the most obvious tree to land in
+> is (the other sanitizers are mm related, which KCSAN is not).
+> 
+> One suggestion that comes to my mind is for KCSAN to go through the
+> same tree (rcu?) as the LKMM due to their inherent relationship. Would
+> that make most sense?
 
-On Tue, Oct 29, 2019 at 09:38:09PM +0900, Masahiro Yamada wrote:
->The local variable, ns_entry, is unneeded.
->
->While I was here, I also cleaned up the comparison with NULL or 0.
->
->Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
->---
+It works for me, though you guys have to continue to be the main
+developers.  ;-)
 
-This was not directly sent to me, hence I missed it.
-Nevertheless, please feel free to add
+I will go through the patches more carefully, and please look into the
+kbuild test robot complaint.
 
-Reviewed-by: Matthias Maennich <maennich@google.com>
+							Thanx, Paul
 
-Cheers,
-Matthias
->
-> scripts/mod/modpost.c | 6 ++----
-> 1 file changed, 2 insertions(+), 4 deletions(-)
->
->diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
->index f7425f5d4ab0..f70b924f379f 100644
->--- a/scripts/mod/modpost.c
->+++ b/scripts/mod/modpost.c
->@@ -239,10 +239,8 @@ static struct symbol *find_symbol(const char *name)
-> static bool contains_namespace(struct namespace_list *list,
-> 			       const char *namespace)
-> {
->-	struct namespace_list *ns_entry;
->-
->-	for (ns_entry = list; ns_entry != NULL; ns_entry = ns_entry->next)
->-		if (strcmp(ns_entry->namespace, namespace) == 0)
->+	for (; list; list = list->next)
->+		if (!strcmp(list->namespace, namespace))
-> 			return true;
->
-> 	return false;
->-- 
->2.17.1
->
+> Thanks,
+> -- Marco
+> 
+> > >
+> > > > > Changelog
+> > > > > ---------
+> > > > > v3:
+> > > > > * Major changes:
+> > > > >  - Add microbenchmark.
+> > > > >  - Add instruction watchpoint skip randomization.
+> > > > >  - Refactor API and core runtime fast-path and slow-path. Compared to
+> > > > >    the previous version, with a default config and benchmarked using the
+> > > > >    added microbenchmark, this version is 3.8x faster.
+> > > > >  - Make __tsan_unaligned __alias of generic accesses.
+> > > > >  - Rename kcsan_{begin,end}_atomic ->
+> > > > >    kcsan_{nestable,flat}_atomic_{begin,end}
+> > > > >  - For filter list in debugfs.c use kmalloc+krealloc instead of
+> > > > >    kvmalloc.
+> > > > >  - Split Documentation into separate patch.
+> > > > >
+> > > > > v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+> > > > > * Major changes:
+> > > > >  - Replace kcsan_check_access(.., {true, false}) with
+> > > > >    kcsan_check_{read,write}.
+> > > > >  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
+> > > > >  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+> > > > >    contexts.
+> > > > >
+> > > > > v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
+> > > > >
+> > > > > Marco Elver (9):
+> > > > >   kcsan: Add Kernel Concurrency Sanitizer infrastructure
+> > > > >   kcsan: Add Documentation entry in dev-tools
+> > > > >   objtool, kcsan: Add KCSAN runtime functions to whitelist
+> > > > >   build, kcsan: Add KCSAN build exceptions
+> > > > >   seqlock, kcsan: Add annotations for KCSAN
+> > > > >   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+> > > > >   asm-generic, kcsan: Add KCSAN instrumentation for bitops
+> > > > >   locking/atomics, kcsan: Add KCSAN instrumentation
+> > > > >   x86, kcsan: Enable KCSAN for x86
+> > > > >
+> > > > >  Documentation/dev-tools/index.rst         |   1 +
+> > > > >  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
+> > > > >  MAINTAINERS                               |  11 +
+> > > > >  Makefile                                  |   3 +-
+> > > > >  arch/x86/Kconfig                          |   1 +
+> > > > >  arch/x86/boot/Makefile                    |   2 +
+> > > > >  arch/x86/boot/compressed/Makefile         |   2 +
+> > > > >  arch/x86/entry/vdso/Makefile              |   3 +
+> > > > >  arch/x86/include/asm/bitops.h             |   6 +-
+> > > > >  arch/x86/kernel/Makefile                  |   7 +
+> > > > >  arch/x86/kernel/cpu/Makefile              |   3 +
+> > > > >  arch/x86/lib/Makefile                     |   4 +
+> > > > >  arch/x86/mm/Makefile                      |   3 +
+> > > > >  arch/x86/purgatory/Makefile               |   2 +
+> > > > >  arch/x86/realmode/Makefile                |   3 +
+> > > > >  arch/x86/realmode/rm/Makefile             |   3 +
+> > > > >  drivers/firmware/efi/libstub/Makefile     |   2 +
+> > > > >  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
+> > > > >  include/asm-generic/bitops-instrumented.h |  18 +
+> > > > >  include/linux/compiler-clang.h            |   9 +
+> > > > >  include/linux/compiler-gcc.h              |   7 +
+> > > > >  include/linux/compiler.h                  |  35 +-
+> > > > >  include/linux/kcsan-checks.h              |  97 ++++
+> > > > >  include/linux/kcsan.h                     | 115 +++++
+> > > > >  include/linux/sched.h                     |   4 +
+> > > > >  include/linux/seqlock.h                   |  51 +-
+> > > > >  init/init_task.c                          |   8 +
+> > > > >  init/main.c                               |   2 +
+> > > > >  kernel/Makefile                           |   6 +
+> > > > >  kernel/kcsan/Makefile                     |  11 +
+> > > > >  kernel/kcsan/atomic.h                     |  27 ++
+> > > > >  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
+> > > > >  kernel/kcsan/debugfs.c                    | 275 +++++++++++
+> > > > >  kernel/kcsan/encoding.h                   |  94 ++++
+> > > > >  kernel/kcsan/kcsan.h                      | 131 +++++
+> > > > >  kernel/kcsan/report.c                     | 306 ++++++++++++
+> > > > >  kernel/kcsan/test.c                       | 121 +++++
+> > > > >  kernel/sched/Makefile                     |   6 +
+> > > > >  lib/Kconfig.debug                         |   2 +
+> > > > >  lib/Kconfig.kcsan                         | 119 +++++
+> > > > >  lib/Makefile                              |   3 +
+> > > > >  mm/Makefile                               |   8 +
+> > > > >  scripts/Makefile.kcsan                    |   6 +
+> > > > >  scripts/Makefile.lib                      |  10 +
+> > > > >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+> > > > >  tools/objtool/check.c                     |  18 +
+> > > > >  46 files changed, 2526 insertions(+), 206 deletions(-)
+> > > > >  create mode 100644 Documentation/dev-tools/kcsan.rst
+> > > > >  create mode 100644 include/linux/kcsan-checks.h
+> > > > >  create mode 100644 include/linux/kcsan.h
+> > > > >  create mode 100644 kernel/kcsan/Makefile
+> > > > >  create mode 100644 kernel/kcsan/atomic.h
+> > > > >  create mode 100644 kernel/kcsan/core.c
+> > > > >  create mode 100644 kernel/kcsan/debugfs.c
+> > > > >  create mode 100644 kernel/kcsan/encoding.h
+> > > > >  create mode 100644 kernel/kcsan/kcsan.h
+> > > > >  create mode 100644 kernel/kcsan/report.c
+> > > > >  create mode 100644 kernel/kcsan/test.c
+> > > > >  create mode 100644 lib/Kconfig.kcsan
+> > > > >  create mode 100644 scripts/Makefile.kcsan
+> > > > >
+> > > > > --
+> > > > > 2.24.0.rc1.363.gb1bccd3e3d-goog
+> > > > >
+> > > >
+> > > > --
+> > > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> > > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> > > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104164717.GE20975%40paulmck-ThinkPad-P72.
+> >
+> > --
+> > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104194658.GK20975%40paulmck-ThinkPad-P72.
