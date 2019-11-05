@@ -2,275 +2,180 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51543F0145
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Nov 2019 16:25:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD2B0F0320
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 Nov 2019 17:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389852AbfKEPZ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Nov 2019 10:25:28 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:40160 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389846AbfKEPZ2 (ORCPT
+        id S2390204AbfKEQhS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Nov 2019 11:37:18 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39669 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390159AbfKEQhS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Nov 2019 10:25:28 -0500
-Received: by mail-oi1-f193.google.com with SMTP id r27so17840481oij.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 Nov 2019 07:25:27 -0800 (PST)
+        Tue, 5 Nov 2019 11:37:18 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t26so16797250wmi.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 05 Nov 2019 08:37:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F+CYhJdTSBVhddLA7SYp46bo6WQRi/eEfG9ft70Vz4c=;
-        b=u71G5vAuN5eK4YoBCJXnO2xds7IiybauVnqeGdwQsyuyUKRRK2KzpPy8AkptdNszl0
-         Wq9Vt/ffCzkCv/uLd1uWoUG4vyVl2SBm9iWUDuL4oE7qUMJ4phsvzkjUxdA27V2ICx9o
-         uBbxZFMVgjJjHRj1gL3mUrxJacQPLolbUyn4RB/h0DbC9ke/h+SVsE9Rm6bGY+eGMXOK
-         30hQkUjoPYI4G0qkU+HujVyzOf0cNK6sVRcmhopEl8qxn12pEeeRSmyAUeMf9xr3ABrP
-         so7aUxHrFqu6xs0RVD4EqX4GpWa+uzVVoDhwDzTVBU+1jHAhktEc2Vw312PLMQSDCV6d
-         rB0Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9eAWZHysMmpPsT2Fk/e3em8a1xRDVffvs84LpQrPqi8=;
+        b=TbC+zWlJZzFOgylqxfBv9VBDLGr1WDy9Xz17fBOjwCGTETw57vtqvxhyD+1THF0ADa
+         dhphs1leU3Jg2QCc2b7BgsxZU8muO2T2McW7UXHpYKwaB/aw03dQHO5c+SyhcweFR+O9
+         VPIPrEf7mljWURtJyDumIpMbstb3hCYmao1c0b9SrDZ8T86c7uJlphnrME4N1LUvYkSL
+         VzmKO/hbjBnDcvfkC2zPfyMhA9T92DZmSgEQLonHi8BDzj5uziUE878Qp0lDmlxB3tWq
+         gngZnXwRvwYkfAFpXuTTDd3HAxIXg5gGLTjyFj9Wrtkrbp7BM2dmELaAy8nE7jz2FB2X
+         JSfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F+CYhJdTSBVhddLA7SYp46bo6WQRi/eEfG9ft70Vz4c=;
-        b=q0OS7bbgZD6kBiyNVaj7KJstZUwGyiuxNfcyzyuGnMwUGpWaXwn+cUwVV/XGNP7VOP
-         4P59ViQAZLUHqPJJ+4RF2Zp24jOJA/sBtXhbZacsknqU58q1pf/fNtNyfv80+dO06iTi
-         YrRKWXyvudwDnkItvGq3x3hl+DYCbNvISgprBoE2eBCB+8sZgpxX9vgCdWk3NHoVqh10
-         7KjKFsXNtRJs7Q2v39c+o/0zxIYyCUnqK9PzFZXWjphvrnCa3v0pstJY7LGNlHBgbm+U
-         qg7a/x42Gw1W/yfKsQMFZV7wIs/JoZETKf9Pl1autUgrCTHVxr1pqLsQsVR+jZYVDpYy
-         tbqQ==
-X-Gm-Message-State: APjAAAVPhwqhNO+3bNpx0AHdn+vWZ3IgLVhciFI0+LJ71AJcpr93EzZM
-        +rcJLM2NyugV3unLX701Ui5/VZVC2PQyWshoSypO9w==
-X-Google-Smtp-Source: APXvYqwQPHjqYkXc5Iunuduc62ptGdrF5fouPXC6HOb4+99xjsnytfPeV4dt6tvvElLHXEhrxEU7gefGOW36iszyH58=
-X-Received: by 2002:aca:f046:: with SMTP id o67mr1917381oih.155.1572967526641;
- Tue, 05 Nov 2019 07:25:26 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9eAWZHysMmpPsT2Fk/e3em8a1xRDVffvs84LpQrPqi8=;
+        b=pVWBTdXSAJEtzxBVCVBXMV/49p1/amduWv7avm6apNa5z2m/E2Nv8HgJtN+K1/mfsk
+         owL631tWfI5DHiH78aOl+dNe8ha9sdpvm5UiIWznzI+7knwOG5dsCMi86VOlnBZnNZO1
+         3d3XR7RkAUF5auTCY2DCPlUKU1XlWNnMGrZcZnDmWe6QrTul2N/l9g2+l+2Cye3bsrx9
+         I2aZBUI8P09ZEMNUZ6tsUkfTbAkkZ80gpvHrm4BFLTeGNEtEDF0Rp2uyZk8lMG4VS3Ar
+         YyQpdqIy24MP6/vRf1OGa/T33fttlSO9lLJzHpVVXgRmngS5lsAvo1I5HGwjlgf4ekqV
+         fjXA==
+X-Gm-Message-State: APjAAAVXPW3Mq+xp6L2CzD1CgUhqeScjzmQ3qF1YdSloJ0930MNb5wv1
+        ZRAXDi0o4S+OCqzrnoPXC47QOVEnyQc=
+X-Google-Smtp-Source: APXvYqwM5cdx7UrG3LSq/lKZ/xN0P/hNMzxTBLC+4oky5BEG43G9kytQtk9/eVZjU3tDwALbR7LxbA==
+X-Received: by 2002:a05:600c:21c9:: with SMTP id x9mr4977277wmj.54.1572971835568;
+        Tue, 05 Nov 2019 08:37:15 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
+        by smtp.gmail.com with ESMTPSA id w17sm21725171wra.34.2019.11.05.08.37.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 08:37:15 -0800 (PST)
+Date:   Tue, 5 Nov 2019 16:37:14 +0000
+From:   Matthias Maennich <maennich@google.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     linux-kbuild@vger.kernel.org, Jessica Yu <jeyu@kernel.org>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] modpost: do not invoke extra modpost for nsdeps
+Message-ID: <20191105163714.GC73159@google.com>
+References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
+ <20191029123809.29301-2-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-References: <20191104142745.14722-1-elver@google.com> <20191104164717.GE20975@paulmck-ThinkPad-P72>
- <CANpmjNOtR6NEsXGo=M1o26d8vUyF7gwj=gew+LAeE_D+qfbEmQ@mail.gmail.com>
- <20191104194658.GK20975@paulmck-ThinkPad-P72> <CANpmjNPpVCRhgVgfaApZJCnMKHsGxVUno+o-Fe+7OYKmPvCboQ@mail.gmail.com>
- <20191105142035.GR20975@paulmck-ThinkPad-P72>
-In-Reply-To: <20191105142035.GR20975@paulmck-ThinkPad-P72>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 5 Nov 2019 16:25:14 +0100
-Message-ID: <CANpmjNPEukbQtD5BGpHdxqMvnq7Uyqr9o3QCByjCKxtPboEJtA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] Add Kernel Concurrency Sanitizer (KCSAN)
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20191029123809.29301-2-yamada.masahiro@socionext.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 5 Nov 2019 at 15:20, Paul E. McKenney <paulmck@kernel.org> wrote:
+On Tue, Oct 29, 2019 at 09:38:06PM +0900, Masahiro Yamada wrote:
+>'make nsdeps' invokes the modpost three times at most; before linking
+>vmlinux, before building modules, and finally for generating .ns_deps
+>files. Running the modpost again and again is annoying.
 >
-> On Tue, Nov 05, 2019 at 12:10:56PM +0100, Marco Elver wrote:
-> > On Mon, 4 Nov 2019 at 20:47, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > On Mon, Nov 04, 2019 at 07:41:30PM +0100, Marco Elver wrote:
-> > > > On Mon, 4 Nov 2019 at 17:47, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > >
-> > > > > On Mon, Nov 04, 2019 at 03:27:36PM +0100, Marco Elver wrote:
-> > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > > > KCSAN is a sampling watchpoint-based data-race detector. More details
-> > > > > > are included in Documentation/dev-tools/kcsan.rst. This patch-series
-> > > > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > > > architectures is relatively straightforward (we are aware of
-> > > > > > experimental ARM64 and POWER support).
-> > > > > >
-> > > > > > To gather early feedback, we announced KCSAN back in September, and
-> > > > > > have integrated the feedback where possible:
-> > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > > > >
-> > > > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > > > including several articles that motivate why data-races are dangerous
-> > > > > > [1, 2], justifying a data-race detector such as KCSAN.
-> > > > > > [1] https://lwn.net/Articles/793253/
-> > > > > > [2] https://lwn.net/Articles/799218/
-> > > > > >
-> > > > > > The current list of known upstream fixes for data-races found by KCSAN
-> > > > > > can be found here:
-> > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > > >
-> > > > > Making this more accessible to more people seems like a good thing.
-> > > > > So, for the series:
-> > > > >
-> > > > > Acked-by: Paul E. McKenney <paulmck@kernel.org>
-> > > >
-> > > > Much appreciated. Thanks, Paul!
-> > > >
-> > > > Any suggestions which tree this could eventually land in?
-> > >
-> > > I would guess that Dmitry might have some suggestions.
-> >
-> > I checked and we're both unclear what the most obvious tree to land in
-> > is (the other sanitizers are mm related, which KCSAN is not).
-> >
-> > One suggestion that comes to my mind is for KCSAN to go through the
-> > same tree (rcu?) as the LKMM due to their inherent relationship. Would
-> > that make most sense?
+>The last two can be unified. When the -d option is given, the modpost
+>still does the usual job, and in addition, generates .ns_deps files.
 >
-> It works for me, though you guys have to continue to be the main
-> developers.  ;-)
+>Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+>---
 
-Great, thanks. We did add an entry to MAINTAINERS, so yes of course. :-)
+That is a very nice simplification of `make nsdeps`. Thanks!
 
-> I will go through the patches more carefully, and please look into the
-> kbuild test robot complaint.
+Tested-by: Matthias Maennich <maennich@google.com>
+Reviewed-by: Matthias Maennich <maennich@google.com>
 
-I just responded to that, it seems to be a sparse problem.
+Cheers,
+Matthias
 
-Thanks,
--- Marco
-
->                                                         Thanx, Paul
 >
-> > Thanks,
-> > -- Marco
-> >
-> > > >
-> > > > > > Changelog
-> > > > > > ---------
-> > > > > > v3:
-> > > > > > * Major changes:
-> > > > > >  - Add microbenchmark.
-> > > > > >  - Add instruction watchpoint skip randomization.
-> > > > > >  - Refactor API and core runtime fast-path and slow-path. Compared to
-> > > > > >    the previous version, with a default config and benchmarked using the
-> > > > > >    added microbenchmark, this version is 3.8x faster.
-> > > > > >  - Make __tsan_unaligned __alias of generic accesses.
-> > > > > >  - Rename kcsan_{begin,end}_atomic ->
-> > > > > >    kcsan_{nestable,flat}_atomic_{begin,end}
-> > > > > >  - For filter list in debugfs.c use kmalloc+krealloc instead of
-> > > > > >    kvmalloc.
-> > > > > >  - Split Documentation into separate patch.
-> > > > > >
-> > > > > > v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
-> > > > > > * Major changes:
-> > > > > >  - Replace kcsan_check_access(.., {true, false}) with
-> > > > > >    kcsan_check_{read,write}.
-> > > > > >  - Change atomic-instrumented.h to use __atomic_check_{read,write}.
-> > > > > >  - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
-> > > > > >    contexts.
-> > > > > >
-> > > > > > v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
-> > > > > >
-> > > > > > Marco Elver (9):
-> > > > > >   kcsan: Add Kernel Concurrency Sanitizer infrastructure
-> > > > > >   kcsan: Add Documentation entry in dev-tools
-> > > > > >   objtool, kcsan: Add KCSAN runtime functions to whitelist
-> > > > > >   build, kcsan: Add KCSAN build exceptions
-> > > > > >   seqlock, kcsan: Add annotations for KCSAN
-> > > > > >   seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
-> > > > > >   asm-generic, kcsan: Add KCSAN instrumentation for bitops
-> > > > > >   locking/atomics, kcsan: Add KCSAN instrumentation
-> > > > > >   x86, kcsan: Enable KCSAN for x86
-> > > > > >
-> > > > > >  Documentation/dev-tools/index.rst         |   1 +
-> > > > > >  Documentation/dev-tools/kcsan.rst         | 217 +++++++++
-> > > > > >  MAINTAINERS                               |  11 +
-> > > > > >  Makefile                                  |   3 +-
-> > > > > >  arch/x86/Kconfig                          |   1 +
-> > > > > >  arch/x86/boot/Makefile                    |   2 +
-> > > > > >  arch/x86/boot/compressed/Makefile         |   2 +
-> > > > > >  arch/x86/entry/vdso/Makefile              |   3 +
-> > > > > >  arch/x86/include/asm/bitops.h             |   6 +-
-> > > > > >  arch/x86/kernel/Makefile                  |   7 +
-> > > > > >  arch/x86/kernel/cpu/Makefile              |   3 +
-> > > > > >  arch/x86/lib/Makefile                     |   4 +
-> > > > > >  arch/x86/mm/Makefile                      |   3 +
-> > > > > >  arch/x86/purgatory/Makefile               |   2 +
-> > > > > >  arch/x86/realmode/Makefile                |   3 +
-> > > > > >  arch/x86/realmode/rm/Makefile             |   3 +
-> > > > > >  drivers/firmware/efi/libstub/Makefile     |   2 +
-> > > > > >  include/asm-generic/atomic-instrumented.h | 393 +++++++--------
-> > > > > >  include/asm-generic/bitops-instrumented.h |  18 +
-> > > > > >  include/linux/compiler-clang.h            |   9 +
-> > > > > >  include/linux/compiler-gcc.h              |   7 +
-> > > > > >  include/linux/compiler.h                  |  35 +-
-> > > > > >  include/linux/kcsan-checks.h              |  97 ++++
-> > > > > >  include/linux/kcsan.h                     | 115 +++++
-> > > > > >  include/linux/sched.h                     |   4 +
-> > > > > >  include/linux/seqlock.h                   |  51 +-
-> > > > > >  init/init_task.c                          |   8 +
-> > > > > >  init/main.c                               |   2 +
-> > > > > >  kernel/Makefile                           |   6 +
-> > > > > >  kernel/kcsan/Makefile                     |  11 +
-> > > > > >  kernel/kcsan/atomic.h                     |  27 ++
-> > > > > >  kernel/kcsan/core.c                       | 560 ++++++++++++++++++++++
-> > > > > >  kernel/kcsan/debugfs.c                    | 275 +++++++++++
-> > > > > >  kernel/kcsan/encoding.h                   |  94 ++++
-> > > > > >  kernel/kcsan/kcsan.h                      | 131 +++++
-> > > > > >  kernel/kcsan/report.c                     | 306 ++++++++++++
-> > > > > >  kernel/kcsan/test.c                       | 121 +++++
-> > > > > >  kernel/sched/Makefile                     |   6 +
-> > > > > >  lib/Kconfig.debug                         |   2 +
-> > > > > >  lib/Kconfig.kcsan                         | 119 +++++
-> > > > > >  lib/Makefile                              |   3 +
-> > > > > >  mm/Makefile                               |   8 +
-> > > > > >  scripts/Makefile.kcsan                    |   6 +
-> > > > > >  scripts/Makefile.lib                      |  10 +
-> > > > > >  scripts/atomic/gen-atomic-instrumented.sh |  17 +-
-> > > > > >  tools/objtool/check.c                     |  18 +
-> > > > > >  46 files changed, 2526 insertions(+), 206 deletions(-)
-> > > > > >  create mode 100644 Documentation/dev-tools/kcsan.rst
-> > > > > >  create mode 100644 include/linux/kcsan-checks.h
-> > > > > >  create mode 100644 include/linux/kcsan.h
-> > > > > >  create mode 100644 kernel/kcsan/Makefile
-> > > > > >  create mode 100644 kernel/kcsan/atomic.h
-> > > > > >  create mode 100644 kernel/kcsan/core.c
-> > > > > >  create mode 100644 kernel/kcsan/debugfs.c
-> > > > > >  create mode 100644 kernel/kcsan/encoding.h
-> > > > > >  create mode 100644 kernel/kcsan/kcsan.h
-> > > > > >  create mode 100644 kernel/kcsan/report.c
-> > > > > >  create mode 100644 kernel/kcsan/test.c
-> > > > > >  create mode 100644 lib/Kconfig.kcsan
-> > > > > >  create mode 100644 scripts/Makefile.kcsan
-> > > > > >
-> > > > > > --
-> > > > > > 2.24.0.rc1.363.gb1bccd3e3d-goog
-> > > > > >
-> > > > >
-> > > > > --
-> > > > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > > > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > > > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104164717.GE20975%40paulmck-ThinkPad-P72.
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> > > To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191104194658.GK20975%40paulmck-ThinkPad-P72.
+> Makefile                 | 5 ++---
+> scripts/Makefile.modpost | 8 +++-----
+> scripts/mod/modpost.c    | 9 ++-------
+> 3 files changed, 7 insertions(+), 15 deletions(-)
 >
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20191105142035.GR20975%40paulmck-ThinkPad-P72.
+>diff --git a/Makefile b/Makefile
+>index 4f4d8979bfce..0ef897fd9cfd 100644
+>--- a/Makefile
+>+++ b/Makefile
+>@@ -1682,10 +1682,9 @@ tags TAGS cscope gtags: FORCE
+> # ---------------------------------------------------------------------------
+>
+> PHONY += nsdeps
+>-
+>+nsdeps: export KBUILD_NSDEPS=1
+> nsdeps: modules
+>-	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost nsdeps
+>-	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/$@
+>+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/nsdeps
+>
+> # Scripts to check various things for consistency
+> # ---------------------------------------------------------------------------
+>diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+>index 01c0a992d293..c9757b20b048 100644
+>--- a/scripts/Makefile.modpost
+>+++ b/scripts/Makefile.modpost
+>@@ -53,8 +53,7 @@ MODPOST = scripts/mod/modpost						\
+> 	$(if $(KBUILD_EXTMOD),$(addprefix -e ,$(KBUILD_EXTRA_SYMBOLS)))	\
+> 	$(if $(KBUILD_EXTMOD),-o $(modulesymfile))			\
+> 	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)			\
+>-	$(if $(KBUILD_MODPOST_WARN),-w)					\
+>-	$(if $(filter nsdeps,$(MAKECMDGOALS)),-d)
+>+	$(if $(KBUILD_MODPOST_WARN),-w)
+>
+> ifdef MODPOST_VMLINUX
+>
+>@@ -66,7 +65,8 @@ __modpost:
+>
+> else
+>
+>-MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T -
+>+MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - \
+>+	$(if $(KBUILD_NSDEPS),-d)
+>
+> ifeq ($(KBUILD_EXTMOD),)
+> MODPOST += $(wildcard vmlinux)
+>@@ -97,8 +97,6 @@ ifneq ($(KBUILD_MODPOST_NOFINAL),1)
+> 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
+> endif
+>
+>-nsdeps: __modpost
+>-
+> endif
+>
+> .PHONY: $(PHONY)
+>diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>index 26ba97245576..dcd90d563ce8 100644
+>--- a/scripts/mod/modpost.c
+>+++ b/scripts/mod/modpost.c
+>@@ -2221,8 +2221,7 @@ static int check_exports(struct module *mod)
+> 			add_namespace(&mod->required_namespaces,
+> 				      exp->namespace);
+>
+>-			if (!write_namespace_deps &&
+>-			    !module_imports_namespace(mod, exp->namespace)) {
+>+			if (!module_imports_namespace(mod, exp->namespace)) {
+> 				warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
+> 				     basename, exp->name, exp->namespace);
+> 			}
+>@@ -2641,8 +2640,6 @@ int main(int argc, char **argv)
+>
+> 		err |= check_modname_len(mod);
+> 		err |= check_exports(mod);
+>-		if (write_namespace_deps)
+>-			continue;
+>
+> 		add_header(&buf, mod);
+> 		add_intree_flag(&buf, !external_module);
+>@@ -2657,10 +2654,8 @@ int main(int argc, char **argv)
+> 		write_if_changed(&buf, fname);
+> 	}
+>
+>-	if (write_namespace_deps) {
+>+	if (write_namespace_deps)
+> 		write_namespace_deps_files();
+>-		return 0;
+>-	}
+>
+> 	if (dump_write)
+> 		write_dump(dump_write);
+>-- 
+>2.17.1
+>
