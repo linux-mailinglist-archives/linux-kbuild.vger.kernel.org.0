@@ -2,53 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5060DF0D87
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 05:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2CE0F0DAB
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 05:16:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731045AbfKFEEC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 Nov 2019 23:04:02 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:64111 "EHLO
+        id S1731207AbfKFEQc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 Nov 2019 23:16:32 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:33463 "EHLO
         conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbfKFEEC (ORCPT
+        with ESMTP id S1727266AbfKFEQc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 Nov 2019 23:04:02 -0500
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id xA643rHT001039;
-        Wed, 6 Nov 2019 13:03:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com xA643rHT001039
+        Tue, 5 Nov 2019 23:16:32 -0500
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id xA64GQDP008203;
+        Wed, 6 Nov 2019 13:16:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com xA64GQDP008203
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1573013034;
-        bh=Q0cc2X1MjTt4VhZMgWmZrlmkbFMLKCaE5TUKfcrczZI=;
+        s=dec2015msa; t=1573013787;
+        bh=oq2kVTgJnhwHzQg6FYk0N33Gkp9WTDpEnW/af98rhL8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UGJF71MSB2Ju6xL21sGoBuKyLGzZVv1uvkIrwLyjlbhQPKdj2CKLYbUH2PNskTI/N
-         D22Dt1OGfqGXhIq3adE4pnXP1CaqxIOb1PCQGRsWL2G+B8HLYa+3zmo7W+gaZA171U
-         8niAvt4kcj9ysDGIuJu6SOm8tU26tCx44Etvp5SJmGxKCXBDJaK5vUWFVcMenmgOvf
-         XPYNG7HMe9wPW8q3HjHkyKsG6cYbcARx0ujfxpCd/Q1KFunAcIpEcto3XW/GgQ0ja5
-         lrbeBBLqINjcin9U/IGESeebhhaDGTx7uxlvR9ak+vEPQjklhrCG0NoDZVdbSZ4GO9
-         m/+C8yCLpJTVQ==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id c25so4747697vsp.0;
-        Tue, 05 Nov 2019 20:03:53 -0800 (PST)
-X-Gm-Message-State: APjAAAWpCJZAhtAyjrTRAWoMxp0ypsNVRs/J9d9skC3M4lXBfu3rBhb0
-        7/cNwAH6nLenSjrOuRn2wSFj0pyxCFWEND/lZCE=
-X-Google-Smtp-Source: APXvYqwCe1qFGgwM7WG1d1TFIx1VPbJBTAIrzglfkTm5deQvyjJ8KnJVyRPrUvY2rfAizmKDd3eqG0ZGksqZSz7pYPg=
-X-Received: by 2002:a67:e290:: with SMTP id g16mr286532vsf.54.1573013032448;
- Tue, 05 Nov 2019 20:03:52 -0800 (PST)
+        b=PQGhudb9I08q8LPWfnqoOWuLLs5X+mGpAQziK25vEzrTIvYt5zBVFCgvQeaD6mSNz
+         8nSM9Wjtt2ecKL1ccG0YsJF7zaLURVJ2xhI3uR22YINY4XebxpTOp+AtO7wtittIvI
+         HMfhOphz2kfwtkGaQMet8OjJXAwwH1/suWVnpEq2F5RNCGx++35U357xEETqnsau4U
+         yNNj0rlxBtKHWbU2ux4iDicg9Lz5ugIsrpVOeaYClNH4HZBOsMdzyS+ezqk3HfhAL7
+         wG+cJ0dR5LNC5A8rnFkn3D/SwDefQ46T1V2PFAm1g3zaRhN8GtS89t6lvLnKTixTXf
+         u4eUobhmuJkzQ==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id k15so15073726vsp.2;
+        Tue, 05 Nov 2019 20:16:26 -0800 (PST)
+X-Gm-Message-State: APjAAAUHHw2T/9q6kXRIyMsPOyIwWAqEpXstB6PNGZapLcdsVqnUIv+c
+        VUxBvlRJSiGi9em89O5uHCgO8Iei8b9plZYpJKE=
+X-Google-Smtp-Source: APXvYqyj2fn6n6xfIF0zWdZVbfoYZNCKmN0aECMFEX4AODzPIGTNIPvyzpVHP4cWRdHOCSwn4LNzAWBWw3vOWk/7IsE=
+X-Received: by 2002:a05:6102:726:: with SMTP id u6mr262077vsg.179.1573013785785;
+ Tue, 05 Nov 2019 20:16:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20191102063036.28601-1-unixbhaskar@gmail.com> <50680c37-9e85-0050-c1e1-700260a0471c@infradead.org>
- <20191105023243.GA16635@fieldses.org> <CAK7LNARAgOEnMRYAyzbvJ-xZzFfwOMckxb=bW0-E+P1HYu5nhA@mail.gmail.com>
- <20191106031027.GA20442@Gentoo>
-In-Reply-To: <20191106031027.GA20442@Gentoo>
+References: <20191025080544.7209-1-unixbhaskar@gmail.com>
+In-Reply-To: <20191025080544.7209-1-unixbhaskar@gmail.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Wed, 6 Nov 2019 13:03:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQVhUS=WNoqgWQaS2-MJ9KoVBXurop8_vS5OC1VPtVTKw@mail.gmail.com>
-Message-ID: <CAK7LNAQVhUS=WNoqgWQaS2-MJ9KoVBXurop8_vS5OC1VPtVTKw@mail.gmail.com>
-Subject: Re: [PATCH] scripts:prune-kernel:remove old kernels and modules dir
- from system
+Date:   Wed, 6 Nov 2019 13:15:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT1=e36tLgPcHUOxKUSCH7MW3egYuJMtY+OfZWvHRxfGA@mail.gmail.com>
+Message-ID: <CAK7LNAT1=e36tLgPcHUOxKUSCH7MW3egYuJMtY+OfZWvHRxfGA@mail.gmail.com>
+Subject: Re: [PATCH] scripts:patch-kernel:bash syntax replace,correct one
 To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     "J. Bruce Fields" <bfields@fieldses.org>,
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -57,225 +54,102 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 6, 2019 at 12:10 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+On Fri, Oct 25, 2019 at 5:06 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
 >
-> On 11:53 Wed 06 Nov 2019, Masahiro Yamada wrote:
-> >On Tue, Nov 5, 2019 at 11:32 AM J. Bruce Fields <bfields@fieldses.org> wrote:
-> >>
-> >> On Mon, Nov 04, 2019 at 06:03:13PM -0800, Randy Dunlap wrote:
-> >> > On 11/1/19 11:30 PM, Bhaskar Chowdhury wrote:
-> >> > > This patch allow you to remove old kernels and associated modules
-> >> > > directory from the system.You can do it at once with the -r flag
-> >> > > and interactively with the -i flag.
-> >> > >
-> >> > > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> >> > > ---
-> >> > >  scripts/prune-kernel | 82 +++++++++++++++++++++++++++++++++++---------
-> >> > >  1 file changed, 65 insertions(+), 17 deletions(-)
-> >> >
-> >> > Hi,
-> >> > I believe that this script now does what the patch author intends it to do.
-> >> > It does have a few whitespace issues, but no big deals.  (see below)
-> >>
-> >> My original comment stands: looks like it prompts for full module path
-> >> and kernel versions which means it's no more convenient than just doing
-> >> an "ls" and then removing the ones you want to.  (In fact, with "rm"
-> >> you'd also get the benefit of tab completion....)
-> >>
-> >> It's quite different from the original script and I don't really see the
-> >> advantage.
-> >>
-> >> --b.
-> >
-> >I am with Bruce.
-> >
-> >This patch is trying to replace everything
-> >with worse code.
-> Well,Masahiro,
-> I won't mind dropping the idea, which you already concluded.But, would
-> you care to let me know how worse the code seems to be????
+> This patch will replace backquote to dollar parenthesis syntax
+> for better readability.Corrected one.
+
+Talking about the commit subject,
+which part is 'bash syntax' ?
+
+One more thing,
+"correct one" is not the correct way to send
+a new patch version.
+See the patch submission from other people.
+The version number is enclosed in the square brackets.
+
+[PATCH v2]
 
 
-As far as I understood this script,
-it is useful to delete stale versions with a single command.
+The commit subject should describe what it does
+in imperative mood.
 
-scripts/prune-kernel  5.2-rc1  5.2-rc2  5.2-rc3
-
-
-This patch is dropping the 'for f in "$@"' loop,
-so you would end up with running this script multiple times.
-
-scripts/prune-kernel -r  5.2-rc1  5.2-rc1
-scripts/prune-kernel -r  5.2-rc2  5.2-rc2
-scripts/prune-kernel -r  5.2-rc3  5.2-rc3
-
-
-What is funny is, it takes the kernel_version and modules_version
-separately.
-And now it requires -r option for the default behavior.
-I see nothing cool overall.
-
-
-
-J. Bruce Fields suggested:
-"But if somebody does actually use it as-is, it'd be nicer to keep the
-current behavior and add an option ("-i" or something) for the
-interactive behavior."
-
-
-I want to see a patch if and only if
-you can add -i without intrusively changing the current code.
-
-
-Masahiro
+https://patchwork.kernel.org/patch/11205593/
 
 
 
 
-> >
-> >BTW.
-> >Bruce,
-> >Does the current script expect RHEL or something?
-> >I do not see 'new-kernel-pkg' on my Ubuntu machine.
-> >
-> >It would still work with 'new-kernel-pkg: command not found'
-> >warning.
-> >
-> >We could bypass it if we like.
-> >
-> >command -v new-kernel-pkg && new-kernel-pkg --remove $f
-> >
-> >
-> >
-> >Masahiro Yamada
-> >
-> >
-> >
-> >> >
-> >> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> >> >
-> >> >
-> >> > > diff --git a/scripts/prune-kernel b/scripts/prune-kernel
-> >> > > index e8aa940bc0a9..01d0778db71f 100755
-> >> > > --- a/scripts/prune-kernel
-> >> > > +++ b/scripts/prune-kernel
-> >> > > @@ -1,21 +1,69 @@
-> >> > >  #!/bin/bash
-> >> > >  # SPDX-License-Identifier: GPL-2.0
-> >> > > +#This script will remove old kernels and modules directory related to it.
-> >> > > +#"-r" or "--remove" show how to silently remove old kernel and modules dir.
-> >> > > +# "-h" or "--help" show how to use this script or show without parameter.
-> >> > > +#"-i" or "--interactive" show how to remove interactively.
-> >> > > +
-> >> > > +flag=$1
-> >> > > +kernel_version=$2
-> >> > > +modules_version=$3
-> >> > > +boot_dir=/boot
-> >> > > +modules_dir=/lib/modules
-> >> > > +
-> >> > > +remove_old_kernel() {
-> >> > > +   cd $boot_dir
-> >> > > +   rm -If vmlinuz-$kernel_version System.map-$kernel_version config-$kernel_version
-> >> > > +   return 0
-> >> > > +}
-> >> > > +
-> >> > > +remove_old_modules_dir() {
-> >> > > +   cd $modules_dir
-> >> > > +   rm -rf $modules_version
-> >> > > +   return 0
-> >> > > +}
-> >> > > +
-> >> > > +usage() {
-> >> > > +   printf "Usage: $(basename $0) [-ri]\n"
-> >> > > +   printf "\n -r or --remove  kernel_version modules_version\n"
-> >> > > +   printf "\n -i or --interactive do as interactive way\n"
-> >> > > +   return 0
-> >> > > +}
-> >> > > +
-> >> > > +case "$flag" in
-> >> > > +   -i | --interactive)
-> >> > > +           printf "\nEnter kernel version to remove or blank/empty to exit:"
-> >> > > +           read kernel_version
-> >> > > +           if [[ $kernel_version != "" ]]; then
-> >> > > +                   remove_old_kernel
-> >> > > +                   printf "\nRemoved kernel version:$kernel_version from the system.\n\n"
-> >> >
-> >> > space after ':'
-> >> >
-> >> > drop one \n above.
-> >> >
-> >> > > +                   printf "Please give the full modules directory name to remove:"
-> >> > > +                   read modules_version
-> >> > > +                   if [[ $modules_version != "" ]]; then
-> >> > > +                           remove_old_modules_dir
-> >> > > +                           printf "\n\nRemoved modules directory:$modules_version from the system.\n\n"
-> >> >
-> >> > space after ':'
-> >> >
-> >> > drop one \n above.
-> >> >
-> >> > > +                   else
-> >> > > +                           exit 1
-> >> > > +                   fi
-> >> > > +           fi
-> >> > > +           ;;
-> >> > > +   -h | --help)
-> >> > > +           usage
-> >> > > +           exit 0
-> >> > > +           ;;
-> >> > > +   -r | --remove)
-> >> > > +           if [[ $# -ne 3 ]]; then
-> >> > > +                    printf "You need to provide kernel version and modules directory name.\n"
-> >> > > +                    exit 1
-> >> > > +            else
-> >> > > +                    remove_old_kernel
-> >> > > +                    remove_old_modules_dir
-> >> > > +           fi
-> >> > > +           ;;
-> >> > > +   *)
-> >> > > +           usage
-> >> > > +           exit 1
-> >> > > +           ;;
-> >> > > +esac
-> >> > >
-> >> > > -# because I use CONFIG_LOCALVERSION_AUTO, not the same version again and
-> >> > > -# again, /boot and /lib/modules/ eventually fill up.
-> >> > > -# Dumb script to purge that stuff:
-> >> > >
-> >> >
-> >> > OK, the former script's loop is removed.. good.
-> >> > But the 2 preceding blank lines are not removed, so the script
-> >> > now ends with 2 unnecessary blank lines.
-> >> >
-> >> > > -for f in "$@"
-> >> > > -do
-> >> > > -        if rpm -qf "/lib/modules/$f" >/dev/null; then
-> >> > > -                echo "keeping $f (installed from rpm)"
-> >> > > -        elif [ $(uname -r) = "$f" ]; then
-> >> > > -                echo "keeping $f (running kernel) "
-> >> > > -        else
-> >> > > -                echo "removing $f"
-> >> > > -                rm -f "/boot/initramfs-$f.img" "/boot/System.map-$f"
-> >> > > -                rm -f "/boot/vmlinuz-$f"   "/boot/config-$f"
-> >> > > -                rm -rf "/lib/modules/$f"
-> >> > > -                new-kernel-pkg --remove $f
-> >> > > -        fi
-> >> > > -done
-> >> > > --
-> >> >
-> >> >
-> >> > --
-> >> > ~Randy
-> >
-> >
-> >
-> >--
-> >Best Regards
-> >
-> >Masahiro Yamada
+
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  scripts/patch-kernel | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/scripts/patch-kernel b/scripts/patch-kernel
+> index 033d5916797d..6f9443336f9a 100755
+> --- a/scripts/patch-kernel
+> +++ b/scripts/patch-kernel
+> @@ -153,7 +153,7 @@ applyPatch () {
+>      echo "failed.  Clean up yourself."
+>      return 1;
+>    fi
+> -  if [ "`find $sourcedir/ '(' -name '*.rej' -o -name '.*.rej' ')' -print`" ]
+> +  if [ "$(find $sourcedir/ '(' -name '*.rej' -o -name '.*.rej' ')' -print)" ]
+>    then
+>      echo "Aborting.  Reject files found."
+>      return 1;
+> @@ -175,7 +175,7 @@ reversePatch () {
+>                 echo "failed.  Clean it up."
+>                 exit 1
+>         fi
+> -       if [ "`find $sourcedir/ '(' -name '*.rej' -o -name '.*.rej' ')' -print`" ]
+> +       if [ "$(find $sourcedir/ '(' -name '*.rej' -o -name '.*.rej' ')' -print)" ]
+>         then
+>                 echo "Aborting.  Reject files found."
+>                 return 1
+> @@ -189,7 +189,7 @@ reversePatch () {
+>  # set current VERSION, PATCHLEVEL, SUBLEVEL, EXTRAVERSION
+>  # force $TMPFILEs below to be in local directory: a slash character prevents
+>  # the dot command from using the search path.
+> -TMPFILE=`mktemp ./.tmpver.XXXXXX` || { echo "cannot make temp file" ; exit 1; }
+> +TMPFILE=$(mktemp ./.tmpver.XXXXXX) || { echo "cannot make temp file" ; exit 1; }
+>  grep -E "^(VERSION|PATCHLEVEL|SUBLEVEL|EXTRAVERSION)" $sourcedir/Makefile > $TMPFILE
+>  tr -d [:blank:] < $TMPFILE > $TMPFILE.1
+>  . $TMPFILE.1
+> @@ -200,7 +200,7 @@ then
+>      exit 1
+>  fi
+>
+> -NAME=`grep ^NAME $sourcedir/Makefile`
+> +NAME=$(grep ^NAME $sourcedir/Makefil)
+>  NAME=${NAME##*=}
+>
+>  echo "Current kernel version is $VERSION.$PATCHLEVEL.$SUBLEVEL${EXTRAVERSION} ($NAME)"
+> @@ -216,8 +216,8 @@ fi
+>
+>  #echo "stopvers=$stopvers"
+>  if [ $stopvers != "default" ]; then
+> -       STOPSUBLEVEL=`echo $stopvers | cut -d. -f3`
+> -       STOPEXTRA=`echo $stopvers | cut -d. -f4`
+> +       STOPSUBLEVEL=$(echo $stopvers | cut -d. -f3)
+> +       STOPEXTRA=$(echo $stopvers | cut -d. -f4)
+>         STOPFULLVERSION=${stopvers%%.$STOPEXTRA}
+>         #echo "#___STOPSUBLEVEL=/$STOPSUBLEVEL/, STOPEXTRA=/$STOPEXTRA/"
+>  else
+> @@ -306,7 +306,7 @@ if [ x$gotac != x ]; then
+>                 HIGHESTPATCH=0
+>                 for PATCHNAMES in $patchdir/patch-${CURRENTFULLVERSION}-ac*\.*
+>                 do
+> -                       ACVALUE=`echo $PATCHNAMES | sed -e 's/^.*patch-[0-9.]*-ac\([0-9]*\).*/\1/'`
+> +                       ACVALUE=$(echo $PATCHNAMES | sed -e 's/^.*patch-[0-9.]*-ac\([0-9]*\).*/\1/')
+>                         # Check it is actually a recognised patch type
+>                         findFile $patchdir/patch-${CURRENTFULLVERSION}-ac${ACVALUE} || break
+>
+> --
+> 2.20.1
+>
 
 
-
--- 
+--
 Best Regards
 Masahiro Yamada
