@@ -2,205 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20176F1E50
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 20:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36274F1EC5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 20:30:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732185AbfKFTL7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Nov 2019 14:11:59 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35932 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732187AbfKFTL6 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Nov 2019 14:11:58 -0500
-Received: by mail-wr1-f67.google.com with SMTP id r10so598439wrx.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Nov 2019 11:11:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EcgRR3fhItj7MngTpAkKZQgz86ETXxndudb9oWnZwxg=;
-        b=rgRyO6x1nGDPENAhlTeX1XD1tL7bztL4f34POmMWurjqkhpHZRc6O0seKYBMbC9u2m
-         GiOBZXsbYzd2cMwQ7Un5XYdpqxCR88JdJYcGqZ+EIZn0tz+O/gh+0gVymXtnTh3x3e+Q
-         +vgQsiFQzsAF0f1SzF6rQeWosSl4KG7cSBO0cMeY/yFMtjaD3kOQUI7B0ybY2Mp1EYRj
-         XlqQzSr4fPATOqhHF3AqAEPw28SBvkbGqiOwb13fJHc3e8IJB/HGyF85obDx5SBHYEOt
-         r5PJ8CZ3wiWvJaTMjVlEH/zcloEiB3aDDbSMcFQnX/01veFTumtByBbnmVpbWkZ+fwuV
-         UtjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EcgRR3fhItj7MngTpAkKZQgz86ETXxndudb9oWnZwxg=;
-        b=lUeMDdVuAzIfHnYGBbC0SchDh4+vFq6DxTKyIb+/2nwb2groH9yqY4DNwg63HKivMO
-         h5qmJT+YajCLJcL5yjg4/suw6NTIjxbI0nND/CuH6/1dz9k3nBS3dLGgYjtc3spvlZWQ
-         Q16rbcZzFRXqvTD0JPcYgulPJHks+9m9fQIbJ/Pro6qgGfaQyuJCSq7wBcyEA8CgiFyl
-         XLcXlhIwblXZ+tp9nA0nrTsngkPenlBHLmFSUXSyU08oFmxUpoK1PM4/4XI2ficgmQL+
-         o0YyXXQmgLsSzGF5e6hNeZHKCKLEE7qpfhEMm8gTr+9v/JRKBFeLnB37A5kylKGEEW2Y
-         cQuQ==
-X-Gm-Message-State: APjAAAVjAx54mk0qG61AOH7WTgtzv9R/wkZewkzJH/K+r9kNGLjH4H3C
-        X8EL+QQuGUVeXhYj9TRFFczMmA==
-X-Google-Smtp-Source: APXvYqy2j8z4zrv6pixCYXtdwfDCHIPHcMSlZiyOi4PqRbOW14W0q0tt/ziIhir+mKB+jiKw5TxZRQ==
-X-Received: by 2002:adf:f743:: with SMTP id z3mr4041566wrp.200.1573067516685;
-        Wed, 06 Nov 2019 11:11:56 -0800 (PST)
-Received: from google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id p14sm16143410wrq.72.2019.11.06.11.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2019 11:11:55 -0800 (PST)
-Date:   Wed, 6 Nov 2019 20:11:49 +0100
-From:   Marco Elver <elver@google.com>
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>, paulmck@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v3 1/9] kcsan: Add Kernel Concurrency Sanitizer
- infrastructure
-Message-ID: <20191106191149.GA126960@google.com>
-References: <20191104142745.14722-1-elver@google.com>
- <20191104142745.14722-2-elver@google.com>
- <CACT4Y+a+ftjHnRx9PD48hEVm98muooHwO0Y7i3cHetTJobRDxg@mail.gmail.com>
+        id S1727208AbfKFTaK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Nov 2019 14:30:10 -0500
+Received: from fieldses.org ([173.255.197.46]:34206 "EHLO fieldses.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726713AbfKFTaK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 6 Nov 2019 14:30:10 -0500
+Received: by fieldses.org (Postfix, from userid 2815)
+        id 5443E1BE7; Wed,  6 Nov 2019 14:30:10 -0500 (EST)
+Date:   Wed, 6 Nov 2019 14:30:10 -0500
+From:   "J. Bruce Fields" <bfields@fieldses.org>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] scripts:prune-kernel:remove old kernels and modules dir
+ from system
+Message-ID: <20191106193010.GG17669@fieldses.org>
+References: <20191102063036.28601-1-unixbhaskar@gmail.com>
+ <50680c37-9e85-0050-c1e1-700260a0471c@infradead.org>
+ <20191105023243.GA16635@fieldses.org>
+ <CAK7LNARAgOEnMRYAyzbvJ-xZzFfwOMckxb=bW0-E+P1HYu5nhA@mail.gmail.com>
+ <20191106043120.GB6355@fieldses.org>
+ <20191106044223.GA18076@Gentoo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACT4Y+a+ftjHnRx9PD48hEVm98muooHwO0Y7i3cHetTJobRDxg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191106044223.GA18076@Gentoo>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On Wed, 06 Nov 2019, Dmitry Vyukov wrote:
-
-> On Mon, Nov 4, 2019 at 3:28 PM Marco Elver <elver@google.com> wrote:
+On Wed, Nov 06, 2019 at 10:12:26AM +0530, Bhaskar Chowdhury wrote:
+> On 23:31 Tue 05 Nov 2019, J. Bruce Fields wrote:
+> >On Wed, Nov 06, 2019 at 11:53:28AM +0900, Masahiro Yamada wrote:
+> >>BTW.
+> >>Bruce,
+> >>Does the current script expect RHEL or something?
+> >>I do not see 'new-kernel-pkg' on my Ubuntu machine.
 > >
-> > Kernel Concurrency Sanitizer (KCSAN) is a dynamic data-race detector for
-> > kernel space. KCSAN is a sampling watchpoint-based data-race detector.
-> > See the included Documentation/dev-tools/kcsan.rst for more details.
-> ...
-> > +static inline atomic_long_t *find_watchpoint(unsigned long addr, size_t size,
-> > +                                            bool expect_write,
-> > +                                            long *encoded_watchpoint)
-> > +{
-> > +       const int slot = watchpoint_slot(addr);
-> > +       const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
-> > +       atomic_long_t *watchpoint;
-> > +       unsigned long wp_addr_masked;
-> > +       size_t wp_size;
-> > +       bool is_write;
-> > +       int i;
-> > +
-> > +       BUILD_BUG_ON(CONFIG_KCSAN_NUM_WATCHPOINTS < CHECK_NUM_SLOTS);
-> > +
-> > +       for (i = 0; i < CHECK_NUM_SLOTS; ++i) {
-> > +               watchpoint = &watchpoints[SLOT_IDX(slot, i)];
+> >I test on Fedora.  Looks like on recent Fedora that's only provided by
+> >an rpm "grubby-deprecated", which is an inauspicious name....
+> >
+> >I think maybe you're supposed to use "grubby" itself now.  Do you have
+> >that?
+> >
+> >>It would still work with 'new-kernel-pkg: command not found'
+> >>warning.
+> >>
+> >>We could bypass it if we like.
+> >>
+> >>command -v new-kernel-pkg && new-kernel-pkg --remove $f
+> >
+> >Looks like it's what updates the grub configuration, which is probably a
+> >nice thing to do if you can.
+> >
+> >--b.
 > 
+> Bruce,
 > 
-> The fast path code become much nicer!
-> I did another pass looking at how we can optimize the fast path.
-> Currently we still have 2 push/pop pairs on the fast path because of
-> register pressure. The logic in SLOT_IDX seems to be the main culprit.
-> We discussed several options offline:
-> 1. Just check 1 slot and ignore all corner cases (we will miss racing
-> unaligned access to different addresses but overlapping and crossing
-> pages, which sounds pretty esoteric)
-> 2. Check 3 slots in order and without wraparound (watchpoints[slot +
-> i], where i=-1,0,1), this will require adding dummy slots around the
-> array
-> 3. An interesting option is to check just 2 slots (that's enough!), to
-> make this work we will need to slightly offset bucket number when
-> setting a watch point (namely, if an access goes to the very end of a
-> page, we set the watchpoint into the bucket corresponding to the
-> _next_ page)
-> All of these options remove push/pop in my experiments. Obviously
-> checking fewer slots will reduce dynamic overhead even more.
+> Two things,
 > 
+> If the system doesn't run grub , how the fallback policy???
 > 
-> > +               *encoded_watchpoint = atomic_long_read(watchpoint);
-> > +               if (!decode_watchpoint(*encoded_watchpoint, &wp_addr_masked,
-> > +                                      &wp_size, &is_write))
-> > +                       continue;
-> > +
-> > +               if (expect_write && !is_write)
-> > +                       continue;
-> > +
-> > +               /* Check if the watchpoint matches the access. */
-> > +               if (matching_access(wp_addr_masked, wp_size, addr_masked, size))
-> > +                       return watchpoint;
-> > +       }
-> > +
-> > +       return NULL;
-> > +}
-> > +
-> > +static inline atomic_long_t *insert_watchpoint(unsigned long addr, size_t size,
-> > +                                              bool is_write)
-> > +{
-> > +       const int slot = watchpoint_slot(addr);
-> > +       const long encoded_watchpoint = encode_watchpoint(addr, size, is_write);
-> > +       atomic_long_t *watchpoint;
-> > +       int i;
-> > +
-> > +       for (i = 0; i < CHECK_NUM_SLOTS; ++i) {
-> > +               long expect_val = INVALID_WATCHPOINT;
-> > +
-> > +               /* Try to acquire this slot. */
-> > +               watchpoint = &watchpoints[SLOT_IDX(slot, i)];
+> This binary "new-kernel-pkg" also missing in other systems too...I can
+> confirm that... i.e gentoo,slackware,
 > 
-> If we do this SLOT_IDX trickery to catch unaligned accesses crossing
-> pages, then I think we should not use it insert_watchpoint at all and
-> only set the watchpoint to the exact index. Otherwise, we will
-> actually miss the corner cases which defeats the whole purpose of
-> SLOT_IDX and 3 iterations.
-> 
+> So , you are only targeting the rpm based system????
 
-Just for the record, there are 2 reasons actually I decided to do this:
+It's just what I happen to use.  If someone wants to make it work
+elsewhere that'd be great, as long as we don't break what already works.
 
-1. the address slot is already occupied, check if any adjacent slots are
-   free;
-2. accesses that straddle a slot boundary due to size that exceeds a
-   slot's range may check adjacent slots if any watchpoint matches.
+I think Debian uses grub2-mkconfig?  Might be OK for Fedora too, I
+dunno.
 
-In /sys/kernel/debug/kcsan I can see no_capacity with the current version stays
-below 10 for kernel boot. When I just use 1 slot, no_capacity events exceed
-90000, because point (1) is no longer addressed. This is a problem that would
-impair our ability to detect races.  One reason this happens is due to
-locality: it is just much more likely that we have multiple accesses to the
-same pages during some phase of execution from multiple threads.
-
-To avoid blowing up no_capacity events, insert_watchpoint should not change. I
-will change the iteration order in the fast-path (avoiding the complicated
-logic), and add additional overflow entries to the watchpoint array.
-
-AFAIK this generates better code, while still addressing points (1) and
-(2) above. This should be the best trade-off between absolute
-performance and our ability to detect data races.
-
--- Marco
+--b.
