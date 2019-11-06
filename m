@@ -2,170 +2,205 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F533F1ADB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 17:12:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20176F1E50
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 20:12:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727285AbfKFQML (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Nov 2019 11:12:11 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46396 "EHLO
+        id S1732185AbfKFTL7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Nov 2019 14:11:59 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35932 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727321AbfKFQMK (ORCPT
+        with ESMTP id S1732187AbfKFTL6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Nov 2019 11:12:10 -0500
-Received: by mail-wr1-f67.google.com with SMTP id b3so20773227wrs.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 06 Nov 2019 08:12:08 -0800 (PST)
+        Wed, 6 Nov 2019 14:11:58 -0500
+Received: by mail-wr1-f67.google.com with SMTP id r10so598439wrx.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 06 Nov 2019 11:11:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=1KzRnMH55iNF2+p95RAsnTdJw/GC1Gd3D087wCrTJsE=;
-        b=JbPvNMigLGbF2aRlJmh7roildZkpRTH0HmKUbzD0MpncGM+PFJ9Dxf3CpD+w3MvJzo
-         NVuj9nCNWxukoTVo7ajSqAxADVl7BcfyyszdjPprlZNvQKdWG/2TmGwI1zR7cuBaPCGa
-         4pnIjgNEN6Z+ONR4kUT5/MUKQOEk8uyVHK9t6MjMMSQshNij3OqXDiRWinGJ7x5eLjzn
-         H7SfrET9hvmajGBm4P3GEL9oEwpnntdddYnBB9c30cprHbEIOVuJXwKt3GwbeDYD/yjf
-         84vYrW0woBueYI+QkG9iIEhhiWtIi4186vnMTX3OUAQJcHmCsLbnOpjSQYCHH+j2I08A
-         bYJA==
+        bh=EcgRR3fhItj7MngTpAkKZQgz86ETXxndudb9oWnZwxg=;
+        b=rgRyO6x1nGDPENAhlTeX1XD1tL7bztL4f34POmMWurjqkhpHZRc6O0seKYBMbC9u2m
+         GiOBZXsbYzd2cMwQ7Un5XYdpqxCR88JdJYcGqZ+EIZn0tz+O/gh+0gVymXtnTh3x3e+Q
+         +vgQsiFQzsAF0f1SzF6rQeWosSl4KG7cSBO0cMeY/yFMtjaD3kOQUI7B0ybY2Mp1EYRj
+         XlqQzSr4fPATOqhHF3AqAEPw28SBvkbGqiOwb13fJHc3e8IJB/HGyF85obDx5SBHYEOt
+         r5PJ8CZ3wiWvJaTMjVlEH/zcloEiB3aDDbSMcFQnX/01veFTumtByBbnmVpbWkZ+fwuV
+         UtjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1KzRnMH55iNF2+p95RAsnTdJw/GC1Gd3D087wCrTJsE=;
-        b=ebMgjMGSj8M7KZWNFOXtW0Y/sHLz3P/OcTWOoBeExdMGMN97gbkZ3Zl1vu6XSPZhvp
-         gyZcqRr/t/Fap2UlaT5USLRRFWlL+NLDiO+RSphlRRTjOJNucDhp00E8IjBhNRTqNLlt
-         EcLZ4qIgdJixMDcmLhpMKy7l8nBwNZLBDyp3B3uJ6S/+cOrzobDDk7o6AAFh6qTY/o+3
-         oS6VbPPV7BDt7ODsaEUhTCZTTYkwWtkLEC9xdDSsiCMxMWAqQyYZ9P9YJSMRnFTJ9nv0
-         drjFEB+3Q6MGU/YgP8RJxCa9GWYgoFZVOh/cKB15LHlc5fLY2MkWc2V+pCjKwfe1+Law
-         26IQ==
-X-Gm-Message-State: APjAAAWLTn2c1E6Smdbj7EB1/rHmRuj3fPigs2RtxygsGQvRjroAwMr4
-        vR7XaFm5JdOBPIDGXSLxbnnIxw==
-X-Google-Smtp-Source: APXvYqzRldwR06Ft12uvUC5PPsAi7qbapyl0hpVkWdMQWpQryY49KMOXbFkBBG9AkNRziaiU0NhoUQ==
-X-Received: by 2002:a5d:6947:: with SMTP id r7mr3556903wrw.129.1573056727073;
-        Wed, 06 Nov 2019 08:12:07 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id q25sm29781143wra.3.2019.11.06.08.12.06
+        bh=EcgRR3fhItj7MngTpAkKZQgz86ETXxndudb9oWnZwxg=;
+        b=lUeMDdVuAzIfHnYGBbC0SchDh4+vFq6DxTKyIb+/2nwb2groH9yqY4DNwg63HKivMO
+         h5qmJT+YajCLJcL5yjg4/suw6NTIjxbI0nND/CuH6/1dz9k3nBS3dLGgYjtc3spvlZWQ
+         Q16rbcZzFRXqvTD0JPcYgulPJHks+9m9fQIbJ/Pro6qgGfaQyuJCSq7wBcyEA8CgiFyl
+         XLcXlhIwblXZ+tp9nA0nrTsngkPenlBHLmFSUXSyU08oFmxUpoK1PM4/4XI2ficgmQL+
+         o0YyXXQmgLsSzGF5e6hNeZHKCKLEE7qpfhEMm8gTr+9v/JRKBFeLnB37A5kylKGEEW2Y
+         cQuQ==
+X-Gm-Message-State: APjAAAVjAx54mk0qG61AOH7WTgtzv9R/wkZewkzJH/K+r9kNGLjH4H3C
+        X8EL+QQuGUVeXhYj9TRFFczMmA==
+X-Google-Smtp-Source: APXvYqy2j8z4zrv6pixCYXtdwfDCHIPHcMSlZiyOi4PqRbOW14W0q0tt/ziIhir+mKB+jiKw5TxZRQ==
+X-Received: by 2002:adf:f743:: with SMTP id z3mr4041566wrp.200.1573067516685;
+        Wed, 06 Nov 2019 11:11:56 -0800 (PST)
+Received: from google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id p14sm16143410wrq.72.2019.11.06.11.11.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2019 08:12:06 -0800 (PST)
-Date:   Wed, 6 Nov 2019 16:12:05 +0000
-From:   Matthias Maennich <maennich@google.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org, Jessica Yu <jeyu@kernel.org>,
-        Matthias Kaehlcke <mka@chromium.org>,
+        Wed, 06 Nov 2019 11:11:55 -0800 (PST)
+Date:   Wed, 6 Nov 2019 20:11:49 +0100
+From:   Marco Elver <elver@google.com>
+To:     Dmitry Vyukov <dvyukov@google.com>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] scripts/nsdeps: support nsdeps for external module
- builds
-Message-ID: <20191106161205.GB1243@google.com>
-References: <20191029123809.29301-1-yamada.masahiro@socionext.com>
- <20191029123809.29301-4-yamada.masahiro@socionext.com>
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>, paulmck@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        "open list:KERNEL BUILD + fi..." <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v3 1/9] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+Message-ID: <20191106191149.GA126960@google.com>
+References: <20191104142745.14722-1-elver@google.com>
+ <20191104142745.14722-2-elver@google.com>
+ <CACT4Y+a+ftjHnRx9PD48hEVm98muooHwO0Y7i3cHetTJobRDxg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191029123809.29301-4-yamada.masahiro@socionext.com>
+In-Reply-To: <CACT4Y+a+ftjHnRx9PD48hEVm98muooHwO0Y7i3cHetTJobRDxg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 09:38:08PM +0900, Masahiro Yamada wrote:
->Apparently, scripts/nsdeps is written to take care of only in-tree
->modules. Perhaps, this is not a bug, but just a design. At least,
->Documentation/core-api/symbol-namespaces.rst focuses on in-tree modules:
->
->  Again, `make nsdeps` will eventually add the missing namespace imports for
->  in-tree modules::
->  ^^^^^^^
->
->Having said that, I already saw at least two people trying nsdeps for
->external module builds. So, it would be nice to support it.
->
->Reported-by: Steve French <smfrench@gmail.com>
->Reported-by: Jessica Yu <jeyu@kernel.org>
->Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
->---
->
 
-Reviewed-by: Matthias Maennich <maennich@google.com>
-Tested-by: Matthias Maennich <maennich@google.com>
 
-Cheers,
-Matthias
+On Wed, 06 Nov 2019, Dmitry Vyukov wrote:
 
-> Documentation/core-api/symbol-namespaces.rst |  3 +++
-> Makefile                                     |  1 +
-> scripts/Makefile.modpost                     |  2 +-
-> scripts/nsdeps                               | 10 ++++++++--
-> 4 files changed, 13 insertions(+), 3 deletions(-)
->
->diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
->index 982ed7b568ac..9b76337f6756 100644
->--- a/Documentation/core-api/symbol-namespaces.rst
->+++ b/Documentation/core-api/symbol-namespaces.rst
->@@ -152,3 +152,6 @@ in-tree modules::
-> 	- notice the warning of modpost telling about a missing import
-> 	- run `make nsdeps` to add the import to the correct code location
->
->+You can also run nsdeps for external module builds. A typical usage is::
->+
->+	$ make -C <path_to_kernel_src> M=$PWD nsdeps
->diff --git a/Makefile b/Makefile
->index 1e3f307bd49b..780a65493866 100644
->--- a/Makefile
->+++ b/Makefile
->@@ -1007,6 +1007,7 @@ endif
-> PHONY += prepare0
->
-> export MODORDER := $(extmod-prefix)modules.order
->+export MODULES_NSDEPS := $(extmod-prefix)modules.nsdeps
->
-> ifeq ($(KBUILD_EXTMOD),)
-> core-y		+= kernel/ certs/ mm/ fs/ ipc/ security/ crypto/ block/
->diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
->index da37128c3f9f..8359f8af5ee6 100644
->--- a/scripts/Makefile.modpost
->+++ b/scripts/Makefile.modpost
->@@ -66,7 +66,7 @@ __modpost:
-> else
->
-> MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - \
->-	$(if $(KBUILD_NSDEPS),-d modules.nsdeps)
->+	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))
->
-> ifeq ($(KBUILD_EXTMOD),)
-> MODPOST += $(wildcard vmlinux)
->diff --git a/scripts/nsdeps b/scripts/nsdeps
->index 08db427a7fe5..3b8a9e173ebf 100644
->--- a/scripts/nsdeps
->+++ b/scripts/nsdeps
->@@ -21,6 +21,12 @@ if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
-> 	exit 1
-> fi
->
->+if [ "$KBUILD_EXTMOD" ]; then
->+	src_prefix=
->+else
->+	src_prefix=$srctree/
->+fi
->+
-> generate_deps_for_ns() {
-> 	$SPATCH --very-quiet --in-place --sp-file \
-> 		$srctree/scripts/coccinelle/misc/add_namespace.cocci -D ns=$1 $2
->@@ -32,7 +38,7 @@ generate_deps() {
-> 	local namespaces="$*"
-> 	local mod_source_files=`cat $mod.mod | sed -n 1p                      \
-> 					      | sed -e 's/\.o/\.c/g'           \
->-					      | sed "s|[^ ]* *|${srctree}/&|g"`
->+					     | sed "s|[^ ]* *|${src_prefix}&|g"`
-> 	for ns in $namespaces; do
-> 		echo "Adding namespace $ns to module $mod.ko."
-> 		generate_deps_for_ns $ns $mod_source_files
->@@ -54,4 +60,4 @@ generate_deps() {
-> while read line
-> do
-> 	generate_deps $line
->-done < modules.nsdeps
->+done < $MODULES_NSDEPS
->-- 
->2.17.1
->
+> On Mon, Nov 4, 2019 at 3:28 PM Marco Elver <elver@google.com> wrote:
+> >
+> > Kernel Concurrency Sanitizer (KCSAN) is a dynamic data-race detector for
+> > kernel space. KCSAN is a sampling watchpoint-based data-race detector.
+> > See the included Documentation/dev-tools/kcsan.rst for more details.
+> ...
+> > +static inline atomic_long_t *find_watchpoint(unsigned long addr, size_t size,
+> > +                                            bool expect_write,
+> > +                                            long *encoded_watchpoint)
+> > +{
+> > +       const int slot = watchpoint_slot(addr);
+> > +       const unsigned long addr_masked = addr & WATCHPOINT_ADDR_MASK;
+> > +       atomic_long_t *watchpoint;
+> > +       unsigned long wp_addr_masked;
+> > +       size_t wp_size;
+> > +       bool is_write;
+> > +       int i;
+> > +
+> > +       BUILD_BUG_ON(CONFIG_KCSAN_NUM_WATCHPOINTS < CHECK_NUM_SLOTS);
+> > +
+> > +       for (i = 0; i < CHECK_NUM_SLOTS; ++i) {
+> > +               watchpoint = &watchpoints[SLOT_IDX(slot, i)];
+> 
+> 
+> The fast path code become much nicer!
+> I did another pass looking at how we can optimize the fast path.
+> Currently we still have 2 push/pop pairs on the fast path because of
+> register pressure. The logic in SLOT_IDX seems to be the main culprit.
+> We discussed several options offline:
+> 1. Just check 1 slot and ignore all corner cases (we will miss racing
+> unaligned access to different addresses but overlapping and crossing
+> pages, which sounds pretty esoteric)
+> 2. Check 3 slots in order and without wraparound (watchpoints[slot +
+> i], where i=-1,0,1), this will require adding dummy slots around the
+> array
+> 3. An interesting option is to check just 2 slots (that's enough!), to
+> make this work we will need to slightly offset bucket number when
+> setting a watch point (namely, if an access goes to the very end of a
+> page, we set the watchpoint into the bucket corresponding to the
+> _next_ page)
+> All of these options remove push/pop in my experiments. Obviously
+> checking fewer slots will reduce dynamic overhead even more.
+> 
+> 
+> > +               *encoded_watchpoint = atomic_long_read(watchpoint);
+> > +               if (!decode_watchpoint(*encoded_watchpoint, &wp_addr_masked,
+> > +                                      &wp_size, &is_write))
+> > +                       continue;
+> > +
+> > +               if (expect_write && !is_write)
+> > +                       continue;
+> > +
+> > +               /* Check if the watchpoint matches the access. */
+> > +               if (matching_access(wp_addr_masked, wp_size, addr_masked, size))
+> > +                       return watchpoint;
+> > +       }
+> > +
+> > +       return NULL;
+> > +}
+> > +
+> > +static inline atomic_long_t *insert_watchpoint(unsigned long addr, size_t size,
+> > +                                              bool is_write)
+> > +{
+> > +       const int slot = watchpoint_slot(addr);
+> > +       const long encoded_watchpoint = encode_watchpoint(addr, size, is_write);
+> > +       atomic_long_t *watchpoint;
+> > +       int i;
+> > +
+> > +       for (i = 0; i < CHECK_NUM_SLOTS; ++i) {
+> > +               long expect_val = INVALID_WATCHPOINT;
+> > +
+> > +               /* Try to acquire this slot. */
+> > +               watchpoint = &watchpoints[SLOT_IDX(slot, i)];
+> 
+> If we do this SLOT_IDX trickery to catch unaligned accesses crossing
+> pages, then I think we should not use it insert_watchpoint at all and
+> only set the watchpoint to the exact index. Otherwise, we will
+> actually miss the corner cases which defeats the whole purpose of
+> SLOT_IDX and 3 iterations.
+> 
+
+Just for the record, there are 2 reasons actually I decided to do this:
+
+1. the address slot is already occupied, check if any adjacent slots are
+   free;
+2. accesses that straddle a slot boundary due to size that exceeds a
+   slot's range may check adjacent slots if any watchpoint matches.
+
+In /sys/kernel/debug/kcsan I can see no_capacity with the current version stays
+below 10 for kernel boot. When I just use 1 slot, no_capacity events exceed
+90000, because point (1) is no longer addressed. This is a problem that would
+impair our ability to detect races.  One reason this happens is due to
+locality: it is just much more likely that we have multiple accesses to the
+same pages during some phase of execution from multiple threads.
+
+To avoid blowing up no_capacity events, insert_watchpoint should not change. I
+will change the iteration order in the fast-path (avoiding the complicated
+logic), and add additional overflow entries to the watchpoint array.
+
+AFAIK this generates better code, while still addressing points (1) and
+(2) above. This should be the best trade-off between absolute
+performance and our ability to detect data races.
+
+-- Marco
