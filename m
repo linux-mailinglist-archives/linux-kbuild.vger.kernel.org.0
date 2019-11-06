@@ -2,88 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E339F0E63
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 06:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E85FDF0EDE
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 Nov 2019 07:26:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725883AbfKFFam (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 Nov 2019 00:30:42 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:39267 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbfKFFam (ORCPT
+        id S1729086AbfKFG03 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 Nov 2019 01:26:29 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:20719 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725948AbfKFG03 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 Nov 2019 00:30:42 -0500
-Received: by mail-io1-f67.google.com with SMTP id k1so13792158ioj.6;
-        Tue, 05 Nov 2019 21:30:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+fH1t0Eq4b/SHUIVadznQK+VU9FRk8QojvCrEtj9mF8=;
-        b=ZSS3EEcB2IzDDPnzPVHx84yJB9gBEj7wDWlZPAh8UZThEQ2yGnINh3gk8zSc1YE2wb
-         cJVtv2id4rtGyocb++HadZ+qIll26xTnOnfUHGz50HmzHRpIS3o8HPtLqAJwNm86yrwV
-         zyWjdrWlJFfZL90Ekt19TsQrf93SN4/SDxQmnqqSui7fqIIpdPWLvvBtJ30mvsEJjA8k
-         cXf1oYUXQvTd2eNvfRlhJjIkPEj8vXCMtmpnhcy/MoyB2cibC81rxbSnOeDAYDEMSlQD
-         6ji9XJ5EQgMiZf8NbqlagWL2Eoz3nxx3ikhHvJrI5Nowwr4o2vm4JZ0POZf9Yz060+VL
-         SODw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+fH1t0Eq4b/SHUIVadznQK+VU9FRk8QojvCrEtj9mF8=;
-        b=EPvKXhwCZGHWzvGVqAAiS01oxFelnW986kGMWM0Z7HOoOuxjXhf6HhT1nNF2R8waJB
-         FshDqgDyHHLRZ/8zjCaqO4QKe1jSkGfVgc2cEz/lktmdZ2s1p/gj8MFfSCH9qzesLxWl
-         XtUTDSVG1TYqiAYK/QWf1gFt6xBoXrLFf/Zard5noQRsifiHVKbDo/tGTvzXY+Wd7Kz+
-         KYa1XtPc4Srn2NRiE2JqgUijiE1Hf20CHjmcHkqSP4hH4ifgxa0DWa/IJZU0w8erOpYG
-         yUrUdUXkmcmm8t+ekjQGMaqIPbhZVWUCY99ufcpPPfTo9PU1oSLeJ+J3wQA39QK5jjTy
-         4ZXw==
-X-Gm-Message-State: APjAAAXVzQevo1Qx5onLP5/sChI45nuX9OhkJjGteIUhXpirKdipeboZ
-        as2Wcyo3KiE9zwro7fhidz2rNBWW9iNXOpkvZWM=
-X-Google-Smtp-Source: APXvYqxoI0HwBWl1tgdjqQfl4a23TXLa96lD9u4dd1qc9E5GumlerFW7jqB5c9/tapG2zzM4xkS5G8w7jfW9MLgj95g=
-X-Received: by 2002:a6b:908a:: with SMTP id s132mr32238843iod.118.1573018239753;
- Tue, 05 Nov 2019 21:30:39 -0800 (PST)
+        Wed, 6 Nov 2019 01:26:29 -0500
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id xA66QLgl015592;
+        Wed, 6 Nov 2019 15:26:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com xA66QLgl015592
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1573021582;
+        bh=nwdmRec0SwvFntm3oIpBtAklltXncxX2mwlUG5yNPgo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Yp0YpKRn+UMpUGuxOb739Zn1aD65XmZMHkgCbVNF8VdKW/8BpXQmfi428Y0d5Y5Qv
+         hYJM6tjObUgtnAxz7jWyUfW5yVwhePikksylra69GtRAPQR4mIQrzcF5OcQGbwJuIc
+         T20EmCLlV6s34eKBcUQxzwBTB6dw43IC5mA4y4yOodes1AsQLGRpodOVxK9+8z9Qa2
+         DVWd94hvIDm1YglRI5VROjb3QusI4jPlgb/WjEASYrYH91sKA6ylWIWzH85f/U/UJB
+         Fpoqlj1wg4/nSOTg2iKLzfwTvbBH0Jb9sG91tNdD5+BOO7JZtM3CZvjyKHHvPBwf6O
+         /W2QppSZ1nIeg==
+X-Nifty-SrcIP: [209.85.217.44]
+Received: by mail-vs1-f44.google.com with SMTP id c25so4923268vsp.0;
+        Tue, 05 Nov 2019 22:26:22 -0800 (PST)
+X-Gm-Message-State: APjAAAW3sC7fGL2CXxpFwBKa2875tMKriu7IRWfZQeH0FWG0YYTYyQvV
+        z0SpJPKpR/GSuwrgAB4VVzW0/h4nsi4Mj8YMU3E=
+X-Google-Smtp-Source: APXvYqwGgJ9D5WT2pjLPzqfIFFWGWWXEasOPtaXRompnn/0I3eBIhmjsnMRvmqemlUnLD5mT+T5vt2z+TsxRh/7goAs=
+X-Received: by 2002:a67:2d08:: with SMTP id t8mr475945vst.155.1573021581064;
+ Tue, 05 Nov 2019 22:26:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20191106033610.29841-1-unixbhaskar@gmail.com>
-In-Reply-To: <20191106033610.29841-1-unixbhaskar@gmail.com>
-From:   Alexander Kapshuk <alexander.kapshuk@gmail.com>
-Date:   Wed, 6 Nov 2019 07:30:03 +0200
-Message-ID: <CAJ1xhMXXT9HaZFB2QjB0NCQgc9q6BCnN64Ock1n0Row=jh6aww@mail.gmail.com>
-Subject: [PATCH]scripts:ver_linux:Added Bison and Flex to the checklist
+References: <20191025080544.7209-1-unixbhaskar@gmail.com> <CAK7LNAT1=e36tLgPcHUOxKUSCH7MW3egYuJMtY+OfZWvHRxfGA@mail.gmail.com>
+ <20191106042049.GC20442@Gentoo>
+In-Reply-To: <20191106042049.GC20442@Gentoo>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Wed, 6 Nov 2019 15:25:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARdxhr1Ab1bkUqRjz4LGuH6mUg9kmp_4U0sYcK8uWzRyw@mail.gmail.com>
+Message-ID: <CAK7LNARdxhr1Ab1bkUqRjz4LGuH6mUg9kmp_4U0sYcK8uWzRyw@mail.gmail.com>
+Subject: Re: [PATCH] scripts:patch-kernel:bash syntax replace,correct one
 To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 6, 2019 at 5:36 AM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+On Wed, Nov 6, 2019 at 1:21 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
 >
-> As Masahiro pointed out ,only add Bison and Flex to the checklist.
+> On 13:15 Wed 06 Nov 2019, Masahiro Yamada wrote:
+> >On Fri, Oct 25, 2019 at 5:06 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+> >>
+> >> This patch will replace backquote to dollar parenthesis syntax
+> >> for better readability.Corrected one.
+> >
+> >Talking about the commit subject,
+> >which part is 'bash syntax' ?
+> >
+> >One more thing,
+> >"correct one" is not the correct way to send
+> >a new patch version.
+> >See the patch submission from other people.
+> >The version number is enclosed in the square brackets.
+> >
+> >[PATCH v2]
+> >
+> >
+> >The commit subject should describe what it does
+> >in imperative mood.
+> >
+> >https://patchwork.kernel.org/patch/11205593/
+> You are right ..my mistake ..shouldn't have included the
+> "correct one" ...and you are absolutely right..."bash syntax"
+> is as vague and confusing .
 >
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  scripts/ver_linux | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/scripts/ver_linux b/scripts/ver_linux
-> index 810e608baa24..85005d6b7f10 100755
-> --- a/scripts/ver_linux
-> +++ b/scripts/ver_linux
-> @@ -32,6 +32,8 @@ BEGIN {
->         printversion("PPP", version("pppd --version"))
->         printversion("Isdn4k-utils", version("isdnctrl"))
->         printversion("Nfs-utils", version("showmount --version"))
-> +       printversion("Bison", version("bison --version"))
-> +       printversion("Flex", version("flex --version"))
->
->         while (getline <"/proc/self/maps" > 0) {
->                 if (/libc.*\.so$/) {
-> --
-> 2.23.0
->
+> Again , Would you mind if I send you the correct one with
+> proper subject line and explained what changed.
 
-Acked-by: Alexander Kapshuk <alexander.kapshuk@gmail.com>
+
+I will pick up the patch with the subject corrected
+but you do not need to send similar patches any more.
+
+`...` is the correct syntax.
+Even if $(...) is more readable,
+the added value is quite small.
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
