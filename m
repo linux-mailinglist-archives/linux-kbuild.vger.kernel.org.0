@@ -2,86 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71BF1F32E2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2019 16:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01C1FF33BA
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2019 16:47:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729873AbfKGPXJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Nov 2019 10:23:09 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:33804 "EHLO
-        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726877AbfKGPXJ (ORCPT
+        id S2388220AbfKGPrK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Nov 2019 10:47:10 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55298 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726640AbfKGPrK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Nov 2019 10:23:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=2bEBCVEzj/UW4TTeCQCzfwpdXCg8fMIpoINpN+K/OOw=; b=qEmmPweXw7L/1q8f4gh06i9On
-        /ueo7gq/0dhyEkAkP6tqn894aUgZRKXLup7jGvLUz/TrKiyx/iWwjuAFO9pP/DrGdUGRebVW3Cc4w
-        OwLEPlne+3E9+1roX5A2rNumX1DIWknYRRPlYpeWzrbzMvcVehNu0q8MwQ13nj/TCwfD8erA3S1VT
-        NJQECMx+KNAxsQvL0iorTdPnqru2s/XJDD6vc3r8xeL8ZuRNK6CtfuDl8gMqC2laNszOrQs7vYG1O
-        czwvqnBznWAclenFOTXpY2B7ahPcapn8CQh+ZgV0QafkH2Uv6f1L6GVykH2jwU9IVGxUrS+FFN9qK
-        5VwH7G25g==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iSjcU-0000cB-Ms; Thu, 07 Nov 2019 15:22:46 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0AC5C300692;
-        Thu,  7 Nov 2019 16:21:40 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8F5CE2B212C1C; Thu,  7 Nov 2019 16:22:44 +0100 (CET)
-Date:   Thu, 7 Nov 2019 16:22:44 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
+        Thu, 7 Nov 2019 10:47:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573141629;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=eooRFWlYVnIRh/QtCSZzA74f3ZkgpeF1WBZiD3Lhz9Q=;
+        b=McSn6YVnHEOFQ9LfvU3thPnPZkw0dU1ZaS5NwlAnDjwHKUZ8vlu2mpPu9IoWEZVgqkEWob
+        qkf6i5ckK9lHn6rklVq+597NVxcyxEIs6EBzGOfLj3HETRXgDwHgb9q5eEgydhcG87Aa+b
+        UZ5Q3E2CSqHcPiY7Q49m5l4JbSXpOYM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-81-iNT5U8IfPcGlAesTgbQGtw-1; Thu, 07 Nov 2019 10:47:05 -0500
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06EA51800D6B;
+        Thu,  7 Nov 2019 15:47:04 +0000 (UTC)
+Received: from treble (ovpn-123-141.rdu2.redhat.com [10.10.123.141])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 053735D6A0;
+        Thu,  7 Nov 2019 15:46:58 +0000 (UTC)
+Date:   Thu, 7 Nov 2019 09:46:54 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
 To:     shile.zhang@linux.alibaba.com
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Josh Poimboeuf <jpoimboe@redhat.com>, x86@kernel.org,
-        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Subject: Re: [RFC PATCH 0/4] Speed booting by sorting ORC unwind tables at
  build time
-Message-ID: <20191107152244.GD4114@hirez.programming.kicks-ass.net>
+Message-ID: <20191107154654.jyg24wzqujdtx7zq@treble>
 References: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-MC-Unique: iNT5U8IfPcGlAesTgbQGtw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 07, 2019 at 10:32:01PM +0800, shile.zhang@linux.alibaba.com wrote:
+On Thu, Nov 07, 2019 at 10:32:01PM +0800, shile.zhang@linux.alibaba.com wro=
+te:
 > From: Shile Zhang <shile.zhang@linux.alibaba.com>
-> 
+>=20
 > Hi,
-> 
+>=20
 > I found the unwind_init taken long time (more than 90ms) in kernel
 > booting, mainly spent on sorting the two ORC unwind tables, orc_unwind
 > and orc_unwind_ip.
-> 
+>=20
 > I also noticed that this issued has reported and discussed last year:
 > https://lkml.org/lkml/2018/10/8/342
 > But seems no final solution until now, I tried to sort the ORC tables at
 > build time, followed the helpful hints from Josh and Ingo in that thread.
 > And mainly referred the implementation of 'sortextable' tool:
-> https://lore.kernel.org/linux-mips/1334872799-14589-1-git-send-email-ddaney.cavm@gmail.com/
-> 
+> https://lore.kernel.org/linux-mips/1334872799-14589-1-git-send-email-ddan=
+ey.cavm@gmail.com/
+>=20
 > What I did:
-> 
+>=20
 > - Add a Kconfig to control build-time sorting or runtime sorting;
 > - Referred 'sortextable', create a similar helper tool 'sortorctable',
 >   help to sort the ORC unwind tables at vmlinux link process.
+>=20
+> One potential improvement is to sort the module ORC tables in future.
+>=20
+> Thanks!
 
-What is the build-time cost for doing this? The link phase is already a
-fairly big bottleneck for building a kernel.
+Thanks a lot for working on this!
 
-Can sort{ex,orc}table() be ran concurrently? Do they want to be the same
-(threaded) tool?
+I'd say the new config option isn't needed.  The runtime ORC sorting
+logic is unconditionally bad and the code should just be removed.  I saw
+recently that it's one of the main offenders for boot time latency.
+
+I also agree with Peter that we should try to reduce the link-time
+penalty as much as possible.  But it's a necessary evil to a certain
+extent.
+
+--=20
+Josh
+
