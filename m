@@ -2,102 +2,215 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01C1FF33BA
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2019 16:47:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37495F3771
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2019 19:44:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388220AbfKGPrK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Nov 2019 10:47:10 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55298 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726640AbfKGPrK (ORCPT
+        id S1727249AbfKGSn7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Nov 2019 13:43:59 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33126 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727031AbfKGSn6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Nov 2019 10:47:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573141629;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eooRFWlYVnIRh/QtCSZzA74f3ZkgpeF1WBZiD3Lhz9Q=;
-        b=McSn6YVnHEOFQ9LfvU3thPnPZkw0dU1ZaS5NwlAnDjwHKUZ8vlu2mpPu9IoWEZVgqkEWob
-        qkf6i5ckK9lHn6rklVq+597NVxcyxEIs6EBzGOfLj3HETRXgDwHgb9q5eEgydhcG87Aa+b
-        UZ5Q3E2CSqHcPiY7Q49m5l4JbSXpOYM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-iNT5U8IfPcGlAesTgbQGtw-1; Thu, 07 Nov 2019 10:47:05 -0500
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06EA51800D6B;
-        Thu,  7 Nov 2019 15:47:04 +0000 (UTC)
-Received: from treble (ovpn-123-141.rdu2.redhat.com [10.10.123.141])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 053735D6A0;
-        Thu,  7 Nov 2019 15:46:58 +0000 (UTC)
-Date:   Thu, 7 Nov 2019 09:46:54 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     shile.zhang@linux.alibaba.com
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Speed booting by sorting ORC unwind tables at
- build time
-Message-ID: <20191107154654.jyg24wzqujdtx7zq@treble>
-References: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
+        Thu, 7 Nov 2019 13:43:58 -0500
+Received: by mail-ot1-f68.google.com with SMTP id u13so2939433ote.0
+        for <linux-kbuild@vger.kernel.org>; Thu, 07 Nov 2019 10:43:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Np0FlikDqTmwL51OIp1+s+VGLrj6Eo2iSbS+rqBgcFU=;
+        b=X+s4tLRet1xj+dqvHmXEfS/YHLe9+sdvUDznD6OlUWI1efIcn7AG/F2h+d/MAYLkzE
+         RZAo2vYVy43hDiFbRXlMXoJJpsQgmQQStj+TuVAMQsuH8uyG1troWMTHxgRUkoaA2D0M
+         lX78jV+zpKCFZNmj7pCPrLLYtNjxrJOdz0gg63KPn5E1sBi6CN2r3YbiZ/l0EebGtLvZ
+         NtNYsP79rjcjCNmbUCeWEhAOfhSnRP/IZaWkcKtAJd6EriACLLGruAoJfWiVaoiu5qlN
+         6h+gGPib2+VjxvGXiD9ykfXsmY75IIvFAAhMpUzqeAR1f4jvFwGMm/A3rlvbZJ9CCx90
+         h7sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Np0FlikDqTmwL51OIp1+s+VGLrj6Eo2iSbS+rqBgcFU=;
+        b=AhYBXBIImugJNorrMpT3g4ISq/mvkPbdsy5flxJS55z8JiIWZ/1qJwi550ZUEWJqKo
+         zaKGJwuRCEJV2QxUSH3AkhhjcLUSnCPrPwoMbRskEKRhPgqWDl1NLCigP08p7rapW/59
+         OZemjXI4SJC0MF9wEKHJsLEh9ygciMu40DPM937GuotSl5RD7JRzvzcukCXKrRE9HaN6
+         E7quOX+nGPtjNncOPkJDua4vXE8iXxVF7li9EEhviQcRXzASeYKdFWWmIvctYwXxx5Wf
+         MUWHpHhD9T9/3I8HN3FKGvMn7fx2TFhHTwXJYEORWfwYdiynKlcSPPWR2P+uGLdbTXoN
+         CWNA==
+X-Gm-Message-State: APjAAAUD9zlPNOCirD8ZmrA3rwrfxYbGBuMY2b9T3q6ud8mu4SGqOip0
+        7o2wt7BBzN0at9+v6XhMtDlBNjaNcf5Nu6lRog6g/Q==
+X-Google-Smtp-Source: APXvYqwO3UnGuF7d4Y2gfzVJSb7LPWecfAiiK/QIM9BoHDNRh9E7Srx5p/4cCr/YwL4Jvfd1ibRj9LkTbNN2VnuQejM=
+X-Received: by 2002:a05:6830:1e84:: with SMTP id n4mr4371298otr.233.1573152236918;
+ Thu, 07 Nov 2019 10:43:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-MC-Unique: iNT5U8IfPcGlAesTgbQGtw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+References: <20191104142745.14722-2-elver@google.com> <201911070445.vRUSVUAX%lkp@intel.com>
+In-Reply-To: <201911070445.vRUSVUAX%lkp@intel.com>
+From:   Marco Elver <elver@google.com>
+Date:   Thu, 7 Nov 2019 19:43:45 +0100
+Message-ID: <CANpmjNNWeM91Jmoh8aujpBA9YVfL6LSqH-taQO-6BJQwUZfCkw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] kcsan: Add Kernel Concurrency Sanitizer infrastructure
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org,
+        LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 07, 2019 at 10:32:01PM +0800, shile.zhang@linux.alibaba.com wro=
-te:
-> From: Shile Zhang <shile.zhang@linux.alibaba.com>
->=20
-> Hi,
->=20
-> I found the unwind_init taken long time (more than 90ms) in kernel
-> booting, mainly spent on sorting the two ORC unwind tables, orc_unwind
-> and orc_unwind_ip.
->=20
-> I also noticed that this issued has reported and discussed last year:
-> https://lkml.org/lkml/2018/10/8/342
-> But seems no final solution until now, I tried to sort the ORC tables at
-> build time, followed the helpful hints from Josh and Ingo in that thread.
-> And mainly referred the implementation of 'sortextable' tool:
-> https://lore.kernel.org/linux-mips/1334872799-14589-1-git-send-email-ddan=
-ey.cavm@gmail.com/
->=20
-> What I did:
->=20
-> - Add a Kconfig to control build-time sorting or runtime sorting;
-> - Referred 'sortextable', create a similar helper tool 'sortorctable',
->   help to sort the ORC unwind tables at vmlinux link process.
->=20
-> One potential improvement is to sort the module ORC tables in future.
->=20
-> Thanks!
+On Wed, 6 Nov 2019 at 21:35, kbuild test robot <lkp@intel.com> wrote:
+>
+> Hi Marco,
+>
+> I love your patch! Perhaps something to improve:
+>
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v5.4-rc6]
+> [cannot apply to next-20191106]
+> [if your patch is applied to the wrong git tree, please drop us a note to help
+> improve the system. BTW, we also suggest to use '--base' option to specify the
+> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+>
+> url:    https://github.com/0day-ci/linux/commits/Marco-Elver/Add-Kernel-Concurrency-Sanitizer-KCSAN/20191105-002542
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git a99d8080aaf358d5d23581244e5da23b35e340b9
+> config: x86_64-randconfig-a004-201944 (attached as .config)
+> compiler: gcc-4.9 (Debian 4.9.2-10+deb8u1) 4.9.2
+> reproduce:
+>         # save the attached .config to linux build tree
+>         make ARCH=x86_64
+>
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
 
-Thanks a lot for working on this!
+Thanks! Will send v4 with a fix.
 
-I'd say the new config option isn't needed.  The runtime ORC sorting
-logic is unconditionally bad and the code should just be removed.  I saw
-recently that it's one of the main offenders for boot time latency.
-
-I also agree with Peter that we should try to reduce the link-time
-penalty as much as possible.  But it's a necessary evil to a certain
-extent.
-
---=20
-Josh
-
+> All warnings (new ones prefixed by >>):
+>
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+> --
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    fs/afs/dynroot.c: In function 'afs_dynroot_lookup':
+>    fs/afs/dynroot.c:117:6: warning: 'len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>      ret = lookup_one_len(name, dentry->d_parent, len);
+>          ^
+>    fs/afs/dynroot.c:91:6: note: 'len' was declared here
+>      int len;
+>          ^
+> --
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    7 real  2 user  5 sys  107.26% cpu   make modules_prepare
+> --
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    In file included from include/linux/compiler_types.h:59:0,
+>                     from <command-line>:0:
+> >> include/linux/compiler_attributes.h:35:29: warning: "__GCC4_has_attribute___no_sanitize_thread__" is not defined [-Wundef]
+>     # define __has_attribute(x) __GCC4_has_attribute_##x
+>                                 ^
+> >> include/linux/compiler-gcc.h:148:5: note: in expansion of macro '__has_attribute'
+>     #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>         ^
+>    8 real  24 user  10 sys  405.87% cpu         make prepare
+>
+> vim +/__has_attribute +148 include/linux/compiler-gcc.h
+>
+>    147
+>  > 148  #if __has_attribute(__no_sanitize_thread__) && defined(__SANITIZE_THREAD__)
+>    149  #define __no_sanitize_thread                                                   \
+>    150          __attribute__((__noinline__)) __attribute__((no_sanitize_thread))
+>    151  #else
+>    152  #define __no_sanitize_thread
+>    153  #endif
+>    154
+>
+> ---
+> 0-DAY kernel test infrastructure                 Open Source Technology Center
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/201911070445.vRUSVUAX%25lkp%40intel.com.
