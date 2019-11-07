@@ -2,106 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72B62F3234
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2019 16:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71BF1F32E2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 Nov 2019 16:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389197AbfKGPJ6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 7 Nov 2019 10:09:58 -0500
-Received: from conuserg-10.nifty.com ([210.131.2.77]:63494 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729985AbfKGPJ5 (ORCPT
+        id S1729873AbfKGPXJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 7 Nov 2019 10:23:09 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:33804 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726877AbfKGPXJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 7 Nov 2019 10:09:57 -0500
-Received: from grover.flets-west.jp (softbank126021098169.bbtec.net [126.21.98.169]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id xA7F9lnE027691;
-        Fri, 8 Nov 2019 00:09:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com xA7F9lnE027691
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1573139389;
-        bh=j+Cvt6seYHFvw2RmLOUQxrYQHSymidnwSWT4pOwDdsY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aOiwQjF2KC0JtUBdPd/6aFdwBgh2XMjwtnNOmwUVxMk3WkicJKyDS2Tk08WJXhwcO
-         ujwaQ1opOQjDaCgJbA3EcgrmcHGsnZOsxtTbq5PvyWJ6c119vmcihQCKUiLCy/B99v
-         Ncuo2Q16YCWFxhZTPIdL4TOCsi0hwbupcj/dUhsJwmH3w3xKKA2sROC+H1Op2ovlJL
-         rNjTcjNKUAY/lyB3cI2PPA9hE7u7e/RB1ugM1PQM/dIqH6HO6zN36u5PeEeKoqf4Td
-         bAseMh+RlFtMalEL4wMSmaj9zn5hLq/tiG/y/nRW/n0/qT+IyneGLjxPbJFmXd0INS
-         amxIvZYr8yDRw==
-X-Nifty-SrcIP: [126.21.98.169]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     linux-kbuild@vger.kernel.org
+        Thu, 7 Nov 2019 10:23:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=2bEBCVEzj/UW4TTeCQCzfwpdXCg8fMIpoINpN+K/OOw=; b=qEmmPweXw7L/1q8f4gh06i9On
+        /ueo7gq/0dhyEkAkP6tqn894aUgZRKXLup7jGvLUz/TrKiyx/iWwjuAFO9pP/DrGdUGRebVW3Cc4w
+        OwLEPlne+3E9+1roX5A2rNumX1DIWknYRRPlYpeWzrbzMvcVehNu0q8MwQ13nj/TCwfD8erA3S1VT
+        NJQECMx+KNAxsQvL0iorTdPnqru2s/XJDD6vc3r8xeL8ZuRNK6CtfuDl8gMqC2laNszOrQs7vYG1O
+        czwvqnBznWAclenFOTXpY2B7ahPcapn8CQh+ZgV0QafkH2Uv6f1L6GVykH2jwU9IVGxUrS+FFN9qK
+        5VwH7G25g==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iSjcU-0000cB-Ms; Thu, 07 Nov 2019 15:22:46 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0AC5C300692;
+        Thu,  7 Nov 2019 16:21:40 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 8F5CE2B212C1C; Thu,  7 Nov 2019 16:22:44 +0100 (CET)
+Date:   Thu, 7 Nov 2019 16:22:44 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     shile.zhang@linux.alibaba.com
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: rename any-prereq to newer-prereqs
-Date:   Fri,  8 Nov 2019 00:09:45 +0900
-Message-Id: <20191107150945.4513-2-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191107150945.4513-1-yamada.masahiro@socionext.com>
-References: <20191107150945.4513-1-yamada.masahiro@socionext.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH 0/4] Speed booting by sorting ORC unwind tables at
+ build time
+Message-ID: <20191107152244.GD4114@hirez.programming.kicks-ass.net>
+References: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-GNU Make manual says:
+On Thu, Nov 07, 2019 at 10:32:01PM +0800, shile.zhang@linux.alibaba.com wrote:
+> From: Shile Zhang <shile.zhang@linux.alibaba.com>
+> 
+> Hi,
+> 
+> I found the unwind_init taken long time (more than 90ms) in kernel
+> booting, mainly spent on sorting the two ORC unwind tables, orc_unwind
+> and orc_unwind_ip.
+> 
+> I also noticed that this issued has reported and discussed last year:
+> https://lkml.org/lkml/2018/10/8/342
+> But seems no final solution until now, I tried to sort the ORC tables at
+> build time, followed the helpful hints from Josh and Ingo in that thread.
+> And mainly referred the implementation of 'sortextable' tool:
+> https://lore.kernel.org/linux-mips/1334872799-14589-1-git-send-email-ddaney.cavm@gmail.com/
+> 
+> What I did:
+> 
+> - Add a Kconfig to control build-time sorting or runtime sorting;
+> - Referred 'sortextable', create a similar helper tool 'sortorctable',
+>   help to sort the ORC unwind tables at vmlinux link process.
 
-  $?
-      The names of all the prerequisites that are newer than the target,
-      with spaces between them.
+What is the build-time cost for doing this? The link phase is already a
+fairly big bottleneck for building a kernel.
 
-To reflect this, rename any-prereq to newer-prereqs, which is clearer
-and more intuitive.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- scripts/Kbuild.include | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index b3a1189ec3d9..79713bd48a1e 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -210,17 +210,17 @@ endif
- # (needed for the shell)
- make-cmd = $(call escsq,$(subst $(pound),$$(pound),$(subst $$,$$$$,$(cmd_$(1)))))
- 
--# Find any prerequisites that is newer than target or that does not exist.
-+# Find any prerequisites that are newer than target or that do not exist.
- # PHONY targets skipped in both cases.
--any-prereq = $(filter-out $(PHONY),$?)
-+newer-prereqs = $(filter-out $(PHONY),$?)
- 
- # Execute command if command has changed or prerequisite(s) are updated.
--if_changed = $(if $(any-prereq)$(cmd-check),                                 \
-+if_changed = $(if $(newer-prereqs)$(cmd-check),                              \
- 	$(cmd);                                                              \
- 	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
- 
- # Execute the command and also postprocess generated .d dependencies file.
--if_changed_dep = $(if $(any-prereq)$(cmd-check),$(cmd_and_fixdep),@:)
-+if_changed_dep = $(if $(newer-prereqs)$(cmd-check),$(cmd_and_fixdep),@:)
- 
- cmd_and_fixdep =                                                             \
- 	$(cmd);                                                              \
-@@ -230,7 +230,7 @@ cmd_and_fixdep =                                                             \
- # Usage: $(call if_changed_rule,foo)
- # Will check if $(cmd_foo) or any of the prerequisites changed,
- # and if so will execute $(rule_foo).
--if_changed_rule = $(if $(any-prereq)$(cmd-check),$(rule_$(1)),@:)
-+if_changed_rule = $(if $(newer-prereqs)$(cmd-check),$(rule_$(1)),@:)
- 
- ###
- # why - tell why a target got built
-@@ -255,7 +255,7 @@ ifeq ($(KBUILD_VERBOSE),2)
- why =                                                                        \
-     $(if $(filter $@, $(PHONY)),- due to target is PHONY,                    \
-         $(if $(wildcard $@),                                                 \
--            $(if $(any-prereq),- due to: $(any-prereq),                      \
-+            $(if $(newer-prereqs),- due to: $(newer-prereqs),                \
-                 $(if $(cmd-check),                                           \
-                     $(if $(cmd_$@),- due to command line change,             \
-                         $(if $(filter $@, $(targets)),                       \
--- 
-2.17.1
-
+Can sort{ex,orc}table() be ran concurrently? Do they want to be the same
+(threaded) tool?
