@@ -2,101 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2D8F6C75
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2019 02:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C088F6CF5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2019 03:44:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbfKKBsN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 10 Nov 2019 20:48:13 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:36331 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726754AbfKKBsN (ORCPT
+        id S1726770AbfKKCoc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 10 Nov 2019 21:44:32 -0500
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:45362 "EHLO
+        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726742AbfKKCoc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 10 Nov 2019 20:48:13 -0500
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id xAB1lfOI017499;
-        Mon, 11 Nov 2019 10:47:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xAB1lfOI017499
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1573436862;
-        bh=WbMgIOtYDdMgY2/d3IuvIcnvLizbq0pCW8eDAZ+z/V4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=diTngbxIfddXhY00gmelzpcj+vztYcwyI8La863aBk04hqAdnHUmKZNWSLd7fYLPF
-         PC1sxcYmHccYh9v68zFZacKRCM6Hy8vkXgg3Uq4sBY1JufQI/ChM2em2ayBHCv4TpX
-         EgkJFHmhi68bAUDT1x0A8sRqNtC3VGyIPpPNcGZjW8wazzo8WsYbqzq1djFHwesPic
-         IBgqDyUEV4gAaZrWCutpqFXNFm6iIM7uxQcFrpNfo4cSB+DEbs2SSmX+VCu48b3BQj
-         OOU67AdKryxv7+MHXFVztSb3XL2OcPnTPLvydhFArDPGAqVO+TCldMUsbtahK+HEN0
-         L9u9w1eEQR+gQ==
-X-Nifty-SrcIP: [209.85.221.180]
-Received: by mail-vk1-f180.google.com with SMTP id d10so2794969vke.3;
-        Sun, 10 Nov 2019 17:47:41 -0800 (PST)
-X-Gm-Message-State: APjAAAXWY8hHrZK2IA6wAB+myJGjDQeds1+PLKrXx6WT4kp0Jwqq7jsa
-        tZpepWzKZXSKwdhn7swhXnDHAq78b1Yu8wc4xIw=
-X-Google-Smtp-Source: APXvYqyNZWKa5fyzyyuiSEGDG6IQcCG/C1v7f4SYYRL4ByziZJnFAm6NzQx4ISGqHeD5S7yw6LvTW012Xq0/B7cITWU=
-X-Received: by 2002:a1f:6a43:: with SMTP id f64mr16835572vkc.96.1573436860882;
- Sun, 10 Nov 2019 17:47:40 -0800 (PST)
+        Sun, 10 Nov 2019 21:44:32 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0ThfxG.8_1573440269;
+Received: from ali-6c96cfdd1403.local(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0ThfxG.8_1573440269)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 11 Nov 2019 10:44:29 +0800
+Subject: Re: [RFC PATCH 0/4] Speed booting by sorting ORC unwind tables at
+ build time
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Josh Poimboeuf <jpoimboe@redhat.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+References: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
+ <20191107152244.GD4114@hirez.programming.kicks-ass.net>
+ <85abe498-f241-4752-81b5-6c0314f5a1e8@linux.alibaba.com>
+ <20191108092136.GH4114@hirez.programming.kicks-ass.net>
+ <20191108092533.GN5671@hirez.programming.kicks-ass.net>
+From:   Shile Zhang <shile.zhang@linux.alibaba.com>
+Message-ID: <2906cc91-113a-c132-1aef-ba94db31f847@linux.alibaba.com>
+Date:   Mon, 11 Nov 2019 10:44:29 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191111011106.18427-1-linux@roeck-us.net> <20191110.173203.1243596361382467520.davem@davemloft.net>
-In-Reply-To: <20191110.173203.1243596361382467520.davem@davemloft.net>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Mon, 11 Nov 2019 10:47:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQTCyEVKkJQfoTpd5USk5tibmcro6EeoonjXKm-OAFJ_g@mail.gmail.com>
-Message-ID: <CAK7LNAQTCyEVKkJQfoTpd5USk5tibmcro6EeoonjXKm-OAFJ_g@mail.gmail.com>
-Subject: Re: [PATCH] sparc: vdso: Fix build failure seen due to kbuild changes
-To:     David Miller <davem@davemloft.net>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     sparclinux <sparclinux@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191108092533.GN5671@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 10:32 AM David Miller <davem@davemloft.net> wrote:
+
+
+On 2019/11/8 17:25, Peter Zijlstra wrote:
+> On Fri, Nov 08, 2019 at 10:21:36AM +0100, Peter Zijlstra wrote:
+>> On Fri, Nov 08, 2019 at 09:42:55AM +0800, Shile Zhang wrote:
+>>
+>>>> Can sort{ex,orc}table() be ran concurrently? Do they want to be the same
+>>>> (threaded) tool?
+>>> I think it is possible to do those sort work concurrently, likes deferred
+>>> memory init which is big boot time speed up.
+>>> But I don't know if the exception table and ORC unwind tables can be
+>>> deferred, due to those tables might be used in early boot time, for early
+>>> exception handling and early debugging. I'm not familiar with that.
+>> I meant at link time, run both sorts concurrently such that we only have
+>> to wait for the longest, instead of the sum of them.
+>>
+>> They're not changing the same part of the ELF file, so it should be
+>> possible to have one tool have multiple threads, each sorting a
+>> different table.
+>>
+>> Aside from the .ex_table and ORC there's also .jump_table that wants
+>> sorting (see jump_label_sort_entries()).
+> Oh, and I'll be adding .static_call_sites soon, see:
 >
-> From: Guenter Roeck <linux@roeck-us.net>
-> Date: Sun, 10 Nov 2019 17:11:06 -0800
+>    https://lkml.kernel.org/r/20191007082708.013939311@infradead.org
 >
-> > sparc64:allmodconfig fails to build with the following error.
-> >
-> > unrecognized e_machine 18 arch/sparc/vdso/vdso32/vclock_gettime.o
-> > arch/sparc/vdso/vdso32/vclock_gettime.o: failed
-> > make[2]: *** [arch/sparc/vdso/vdso32/vclock_gettime.o] Error 1
-> > make[2]: *** Deleting file 'arch/sparc/vdso/vdso32/vclock_gettime.o'
-> > make[2]: *** Waiting for unfinished jobs....
-> >
-> > The problem bisects to commit a3de7a72c517 ("kbuild: change
-> > *FLAGS_<basetarget>.o to take the path relative to $(obj)").
-> > Duplicate the x86 specific defines from this commit to the sparc
-> > vdso Makefile to fix the problem.
-> >
-> > Fixes: a3de7a72c517 ("kbuild: change *FLAGS_<basetarget>.o to take the path relative to $(obj)")
-> > Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> > Cc: Marc Zyngier <maz@kernel.org>
-> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> (I should repost that)
 >
-> Acked-by: David S. Miller <davem@davemloft.net>
+> That gives us 4 tables to sort which we can do concurrently in 4
+> threads.
 
+I got your point now.
+I'll try to rework the sort tool to sort all tables concurrently in one 
+tool with multiple-threads.
+Thanks for your advice!
 
-Yeah, I had submitted a fix a long time before.
+>> I agree that doing it at link time makes sense, I just hate to do all
+>> this sorting in sequence and blowing up the link time. I don't build for
+>> customers, I build for single use boot and linking _SUCKS_.
 
-https://lore.kernel.org/patchwork/patch/1130469/
-
-I do not know why it was not picked up.
-
-
-It is OK whether any patch is picked up
-as long as the build error is fixed.
-
-
-(I think  CFLAGS_REMOVE_vdso32/vdso-note.o
-should be added too, though)
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
