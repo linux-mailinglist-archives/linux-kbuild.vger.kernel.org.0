@@ -2,22 +2,22 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C088F6CF5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2019 03:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B97DCF6CFA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 11 Nov 2019 03:46:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726770AbfKKCoc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 10 Nov 2019 21:44:32 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:45362 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726742AbfKKCoc (ORCPT
+        id S1726754AbfKKCqh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 10 Nov 2019 21:46:37 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:49052 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726742AbfKKCqg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 10 Nov 2019 21:44:32 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0ThfxG.8_1573440269;
-Received: from ali-6c96cfdd1403.local(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0ThfxG.8_1573440269)
+        Sun, 10 Nov 2019 21:46:36 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0Thg3uVR_1573440393;
+Received: from ali-6c96cfdd1403.local(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0Thg3uVR_1573440393)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 11 Nov 2019 10:44:29 +0800
-Subject: Re: [RFC PATCH 0/4] Speed booting by sorting ORC unwind tables at
- build time
+          Mon, 11 Nov 2019 10:46:34 +0800
+Subject: Re: [RFC PATCH v2 1/3] scripts: Add sortorctable to sort ORC unwind
+ tables
 To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -26,18 +26,16 @@ Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
         Josh Poimboeuf <jpoimboe@redhat.com>, x86@kernel.org,
         "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org
-References: <20191107143205.206606-1-shile.zhang@linux.alibaba.com>
- <20191107152244.GD4114@hirez.programming.kicks-ass.net>
- <85abe498-f241-4752-81b5-6c0314f5a1e8@linux.alibaba.com>
- <20191108092136.GH4114@hirez.programming.kicks-ass.net>
- <20191108092533.GN5671@hirez.programming.kicks-ass.net>
+References: <20191108071108.72132-1-shile.zhang@linux.alibaba.com>
+ <20191108071108.72132-2-shile.zhang@linux.alibaba.com>
+ <20191108095520.GK4114@hirez.programming.kicks-ass.net>
 From:   Shile Zhang <shile.zhang@linux.alibaba.com>
-Message-ID: <2906cc91-113a-c132-1aef-ba94db31f847@linux.alibaba.com>
-Date:   Mon, 11 Nov 2019 10:44:29 +0800
+Message-ID: <aff231a0-f9c2-5106-a63b-46c6bc8fca40@linux.alibaba.com>
+Date:   Mon, 11 Nov 2019 10:46:33 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
  Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191108092533.GN5671@hirez.programming.kicks-ass.net>
+In-Reply-To: <20191108095520.GK4114@hirez.programming.kicks-ass.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -48,41 +46,14 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
 
-On 2019/11/8 17:25, Peter Zijlstra wrote:
-> On Fri, Nov 08, 2019 at 10:21:36AM +0100, Peter Zijlstra wrote:
->> On Fri, Nov 08, 2019 at 09:42:55AM +0800, Shile Zhang wrote:
+On 2019/11/8 17:55, Peter Zijlstra wrote:
+> On Fri, Nov 08, 2019 at 03:11:06PM +0800, shile.zhang@linux.alibaba.com wrote:
+>> From: Shile Zhang <shile.zhang@linux.alibaba.com>
 >>
->>>> Can sort{ex,orc}table() be ran concurrently? Do they want to be the same
->>>> (threaded) tool?
->>> I think it is possible to do those sort work concurrently, likes deferred
->>> memory init which is big boot time speed up.
->>> But I don't know if the exception table and ORC unwind tables can be
->>> deferred, due to those tables might be used in early boot time, for early
->>> exception handling and early debugging. I'm not familiar with that.
->> I meant at link time, run both sorts concurrently such that we only have
->> to wait for the longest, instead of the sum of them.
->>
->> They're not changing the same part of the ELF file, so it should be
->> possible to have one tool have multiple threads, each sorting a
->> different table.
->>
->> Aside from the .ex_table and ORC there's also .jump_table that wants
->> sorting (see jump_label_sort_entries()).
-> Oh, and I'll be adding .static_call_sites soon, see:
->
->    https://lkml.kernel.org/r/20191007082708.013939311@infradead.org
->
-> (I should repost that)
->
-> That gives us 4 tables to sort which we can do concurrently in 4
-> threads.
+>> Sort orc_unwind and orc_unwind_ip tables at build time instead of runtime
+>> in boot pharse can save more boot time.
+> I still object to adding a copy of sortextable instead of making one
+> tool for all sorts.
 
-I got your point now.
-I'll try to rework the sort tool to sort all tables concurrently in one 
-tool with multiple-threads.
-Thanks for your advice!
-
->> I agree that doing it at link time makes sense, I just hate to do all
->> this sorting in sequence and blowing up the link time. I don't build for
->> customers, I build for single use boot and linking _SUCKS_.
-
+I got your point, thanks for your kindly advice!
+I'll try to do rework it soon.
