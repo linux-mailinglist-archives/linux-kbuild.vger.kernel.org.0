@@ -2,75 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A08BDFC002
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 07:02:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9218CFC834
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 14:56:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbfKNGCo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Nov 2019 01:02:44 -0500
-Received: from mail-wm1-f49.google.com ([209.85.128.49]:35194 "EHLO
-        mail-wm1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbfKNGCo (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Nov 2019 01:02:44 -0500
-Received: by mail-wm1-f49.google.com with SMTP id 8so4507637wmo.0
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 Nov 2019 22:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=0VEFjetxS8gBhGDE9MAAh++nX0NrT9Pwb2y30JCH/XY=;
-        b=KvK1UXZpmih19FKKTKMQ5FpEoia+2ekZGxDsHMVdFldIxvg3gMNYKPJx+jXqNCxt1O
-         VJzsz4LkkLyM6OSJDjdSli9tUkP28agW+KU/MMXg/7dAzItW/Yb4z6fJNvYnBleG5ATy
-         Flo6a7Zw8jNqcNN6v7HZVUL1BzYdprvNJmYcnOWf+ckCjv+k6+Y/ApUGh9N4bOiBItKp
-         U1kptTnbmavMeqtJqXLI032aZpEaWZIV/9RimMWK2d6FMihIKYUw4mngU1FtgMkAkgpl
-         SRYsp+IuwryZeUKIgTZeOFmSsduDYrSfEDh4Hfyb4B6vjXnHPwaNaC204CgVK/fJE3U5
-         fAGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=0VEFjetxS8gBhGDE9MAAh++nX0NrT9Pwb2y30JCH/XY=;
-        b=NzKqM71lRh1uo060IofzPHt6keovFXNQRvSZa/KyCGEHV1MjP1euloY4/yYWLkb31E
-         rQh4dasucU25GqtbHayBNm08WrJ2JRE36Z4Prssgk99+eZh9QXEhiJF8BFR5mh1kQfLv
-         0SVaYNPDc9ttH4T3RsEIJxRzzDbybcVuk6HkmmIsJIvVdOy17kOXdnwmf5O+X4Rdt2NR
-         iKsq0j05i2WuaTP/nj3az9cqRoRu6HIFhNH9V4Yx3WMHpSsGbHrZqKRftwDVrqWytVIx
-         uL5KzZU0qTXI6a6+cz1LBZMZriyqaVAKN9Jr/KllRV0853rpZR/VKeU/bEz1XQDIZFkc
-         dDDw==
-X-Gm-Message-State: APjAAAWGYGy9xY19TR6vcAdnk8HbvdIX2rADqzU+gRD0yeHM+pH4dEX4
-        bO9qs2o4DB86M+ToDf193wU=
-X-Google-Smtp-Source: APXvYqw2R2essy7EOHQEvliJ/si6x4MFb7t5hHY9o6V+uTMzSQJWrb/K38Hg7N+Ovn0WV/ihvItLgw==
-X-Received: by 2002:a1c:7708:: with SMTP id t8mr6072552wmi.29.1573711361895;
-        Wed, 13 Nov 2019 22:02:41 -0800 (PST)
-Received: from oxygen (nat-sch.mentorg.com. [139.181.36.34])
-        by smtp.gmail.com with ESMTPSA id c4sm5769994wrp.86.2019.11.13.22.02.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Nov 2019 22:02:41 -0800 (PST)
-From:   Vijai Kumar K <vijaikumar.kanagarajan@gmail.com>
-X-Google-Original-From: Vijai Kumar K <vijai@oxygen>
-Date:   Thu, 14 Nov 2019 11:32:36 +0530
-To:     yamada.masahiro@socionext.com, linux-kbuild@vger.kernel.org,
-        michal.lkml@markovi.net
-Subject: KBUILD_IMAGE-reg
-Message-ID: <20191114060236.GA13066@oxygen>
+        id S1726327AbfKNN4n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Nov 2019 08:56:43 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38928 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726254AbfKNN4n (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 14 Nov 2019 08:56:43 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 165D1AD17;
+        Thu, 14 Nov 2019 13:56:42 +0000 (UTC)
+Date:   Thu, 14 Nov 2019 14:56:41 +0100
+From:   Michal Hocko <mhocko@kernel.org>
+To:     Shile Zhang <shile.zhang@linux.alibaba.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Joerg Roedel <jroedel@suse.de>, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] mm/vmalloc: Fix regression caused by needless
+ vmalloc_sync_all()
+Message-ID: <20191114135641.GA1356@dhcp22.suse.cz>
+References: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi All,
+On Wed 13-11-19 17:55:30, Shile Zhang wrote:
+> vmalloc_sync_all() was put in the common path in
+> __purge_vmap_area_lazy(), for one sync issue only happened on X86_32
+> with PTI enabled. It is needless for X86_64, which caused a big regression
+> in UnixBench Shell8 testing on X86_64.
+> Similar regression also reported by 0-day kernel test robot in reaim
+> benchmarking:
+> https://lists.01.org/hyperkitty/list/lkp@lists.01.org/thread/4D3JPPHBNOSPFK2KEPC6KGKS6J25AIDB/
+> 
+> Fix it by adding more conditions.
 
-I see that we have moved from directly using KBUILD_IMAGE to "make image_name"
-to decide the image to be included in the final deb package. Long ago when
-I remember we could override KBUILD_IMAGE in the environment to include
-the image of our choice in the deb pkg.
+This doesn't really explain a lot. Could you explain why the syncing
+should be limited only to PAE and !SHARED_KERNEL_PMD? 
 
-Is this possible now by any other means? Because there are times when I
-would like to include vmlinux instead of vmlinuz and just wondering how
-one could go about accomplishing that.
+> Fixes: 3f8fd02b1bf1 ("mm/vmalloc: Sync unmappings in __purge_vmap_area_lazy()")
+> 
+> Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
+> ---
+>  mm/vmalloc.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+> index a3c70e275f4e..7b9fc7966da6 100644
+> --- a/mm/vmalloc.c
+> +++ b/mm/vmalloc.c
+> @@ -1255,11 +1255,17 @@ static bool __purge_vmap_area_lazy(unsigned long start, unsigned long end)
+>  	if (unlikely(valist == NULL))
+>  		return false;
+>  
+> +#if defined(CONFIG_X86_32) && defined(CONFIG_X86_PAE)
+>  	/*
+>  	 * First make sure the mappings are removed from all page-tables
+>  	 * before they are freed.
+> +	 *
+> +	 * This is only needed on x86-32 with !SHARED_KERNEL_PMD, which is
+> +	 * the case on a PAE kernel with PTI enabled.
+>  	 */
+> -	vmalloc_sync_all();
+> +	if (!SHARED_KERNEL_PMD && boot_cpu_has(X86_FEATURE_PTI))
+> +		vmalloc_sync_all();
+> +#endif
+>  
+>  	/*
+>  	 * TODO: to calculate a flush range without looping.
+> -- 
+> 2.24.0.rc2
+> 
 
-Thanks,
-Vijai Kumar K
+-- 
+Michal Hocko
+SUSE Labs
