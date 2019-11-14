@@ -2,46 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83E8CFCC11
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 18:45:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59885FCC17
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 18:46:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725976AbfKNRpz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Nov 2019 12:45:55 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:33649 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726443AbfKNRpz (ORCPT
+        id S1726263AbfKNRqx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Nov 2019 12:46:53 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:25658 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725976AbfKNRqx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Nov 2019 12:45:55 -0500
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id xAEHjeI1025064;
-        Fri, 15 Nov 2019 02:45:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com xAEHjeI1025064
+        Thu, 14 Nov 2019 12:46:53 -0500
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id xAEHkiSr031689;
+        Fri, 15 Nov 2019 02:46:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xAEHkiSr031689
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1573753541;
-        bh=BcA9yFsMlJst8ZzmTrIRKKCI279WdiORVkP8tMP3V6o=;
+        s=dec2015msa; t=1573753605;
+        bh=RnTRkKRmwGrZIBYmr069B+wqrpCe/TPtwzUT5A13c6o=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ESvySBPfR6cYtXxIYJZgL9uqvX/ZsiPk08ydHM1nywiRoM0BezB08/Ijq+smlfbzn
-         gtl9NMA7v6e6XK0CxuZe3fbKyDgCOJmo9Slv5p9fa0xyyE6Cf7y5Vx+8cv4e0SST8b
-         8x5xSeygLug4wH/gx1tmVqenFMDmfj5/2EtsKCcs6VYWEOzzr8VwJ2lD29y/69ayUb
-         x8fYqv7D4N8vcq6LX2YOWWniTuRC5zJn1teGWibT6gjyps7SdUJ1eHRaG4P8IReklT
-         Ao7BpXpel4rrIJwxCyTJcA224yXJCSHo4QSJx7/PWqt6sPgC4XGF9mGDhw7bapogZi
-         qzBTHU9XLmEng==
-X-Nifty-SrcIP: [209.85.222.46]
-Received: by mail-ua1-f46.google.com with SMTP id o9so2143769uat.8;
-        Thu, 14 Nov 2019 09:45:40 -0800 (PST)
-X-Gm-Message-State: APjAAAVNPl/2VLXcaElEMqnF4Ay/dmcKB2Bloxb5K5BkWyCybVSel/03
-        IbhnqV4XC4owEfwlHzIGhhP8xPpxAtW08gl1aAM=
-X-Google-Smtp-Source: APXvYqz8qtbhXy/nBCYLntGkHkL+w04hSKO8KAfP1ir3qs/vxIyl2qy+kjSDCLPa14saT0vxv+DdmTv/qq/iq9ULPYI=
-X-Received: by 2002:a9f:3015:: with SMTP id h21mr6570412uab.95.1573753539427;
- Thu, 14 Nov 2019 09:45:39 -0800 (PST)
+        b=mOd1jL63I1IWjvuwOJTk5mJ98bAC/VCGnSMZ9vQeKZbVGLs8m+DklEYoo7OXvW/0T
+         gMkYeVfEw+aywiRTrgnWG9+ZW37Ic3dNrrDv+15fYWfejjeTeaHCpCdF1xc/sTUQGm
+         Ak9F7vhf4dzIt/yEJCWt8RUWffKMJeyXPaVuymCQGYPuj6JJpNty59yk2GDhOB2TOv
+         LPTZ1mFXXEB32wTB18b9KgP/C1C35ljt3AbhHpn3J6ODxTkwojCsk1uzEz6jSjxyOO
+         cMYAq3PQF2duKLgVwlAdjoZVwQ8iBGNYGJgRI6yllbZ4DxatmdK2C4PntvuMRUgq+e
+         x7Fff6887qXPQ==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id k24so1686098vko.7;
+        Thu, 14 Nov 2019 09:46:45 -0800 (PST)
+X-Gm-Message-State: APjAAAW2bEOnal2h2hF4vltCXy5GvupaacE/C/GAB7hH7IiMGP0wEVc6
+        0yctYfzz4FxxMvAfbj3M8H6UgzfDd5JKViaf6fI=
+X-Google-Smtp-Source: APXvYqxCgx2Cksxrrex4Puc8fMIMYoKNsrErgHs9rWSi3zoIQdoaUCWi/iM6SBNnJoOGhnNsL9yX+m4vTWvedDQgaM4=
+X-Received: by 2002:a1f:7387:: with SMTP id o129mr5885230vkc.73.1573753604038;
+ Thu, 14 Nov 2019 09:46:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20191114174226.7201-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20191114174226.7201-1-yamada.masahiro@socionext.com>
+References: <20191114174226.7201-1-yamada.masahiro@socionext.com> <20191114174226.7201-2-yamada.masahiro@socionext.com>
+In-Reply-To: <20191114174226.7201-2-yamada.masahiro@socionext.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 15 Nov 2019 02:45:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASYU4K87fR-v5xmhWGww_+3xRZ7otBGooXyshjXqfrv=w@mail.gmail.com>
-Message-ID: <CAK7LNASYU4K87fR-v5xmhWGww_+3xRZ7otBGooXyshjXqfrv=w@mail.gmail.com>
-Subject: Re: [PATCH 1/6] modpost: add a helper to get data pointed by a symbol
+Date:   Fri, 15 Nov 2019 02:46:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATGjv7_bmhGGpOupFpRRvvaGetvaTszE09MBKz3Ob06fQ@mail.gmail.com>
+Message-ID: <CAK7LNATGjv7_bmhGGpOupFpRRvvaGetvaTszE09MBKz3Ob06fQ@mail.gmail.com>
+Subject: Re: [PATCH 2/6] modpost: refactor namespace_from_kstrtabns() to not
+ hard-code section name
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -54,60 +55,71 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 (+CC: Matthias, who might be interested)
 
+
 On Fri, Nov 15, 2019 at 2:42 AM Masahiro Yamada
 <yamada.masahiro@socionext.com> wrote:
 >
-> When CONFIG_MODULE_REL_CRCS is enabled, the value of __crc_* is not
-> an absolute value, but the address to the CRC data embedded in the
-> .rodata section.
+> Currently, namespace_from_kstrtabns() relies on the fact that
+> namespace strings are recorded in the __ksymtab_strings section.
+> Actually, it is coded in include/linux/export.h, but modpost does
+> not need to hard-code the section name.
 >
-> Getting the data pointed by the symbol value is somewhat complex.
-> Split it out into a new helper, sym_get_data().
+> Elf_Sym::st_shndx holds the section number of the relevant section.
+> Using it is a more portable way to find the namespace string.
 >
-> I will reuse it to refactor namespace_from_kstrtabns() in the next
-> commit.
+> sym_get_value() takes care of it, so namespace_from_kstrtabns() can
+> simply wrap it. Delete the unneeded info->ksymtab_strings .
+>
+> While I was here, I added more 'const' qualifiers to pointers.
 >
 > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 > ---
 >
->  scripts/mod/modpost.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+>  scripts/mod/modpost.c | 10 +++-------
+>  scripts/mod/modpost.h |  1 -
+>  2 files changed, 3 insertions(+), 8 deletions(-)
 >
 > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 46d7f695fe7f..cd885573daaf 100644
+> index cd885573daaf..d9418c58a8c0 100644
 > --- a/scripts/mod/modpost.c
 > +++ b/scripts/mod/modpost.c
-> @@ -308,6 +308,18 @@ static const char *sec_name(struct elf_info *elf, int secindex)
->         return sech_name(elf, &elf->sechdrs[secindex]);
+> @@ -356,10 +356,10 @@ static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
+>                 return export_unknown;
 >  }
 >
-> +static void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym)
-> +{
-> +       Elf_Shdr *sechdr = &info->sechdrs[sym->st_shndx];
-> +       unsigned long offset;
-> +
-> +       offset = sym->st_value;
-> +       if (info->hdr->e_type != ET_REL)
-> +               offset -= sechdr->sh_addr;
-> +
-> +       return (void *)info->hdr + sechdr->sh_offset + offset;
-> +}
-> +
->  #define strstarts(str, prefix) (strncmp(str, prefix, strlen(prefix)) == 0)
+> -static const char *namespace_from_kstrtabns(struct elf_info *info,
+> -                                           Elf_Sym *kstrtabns)
+> +static const char *namespace_from_kstrtabns(const struct elf_info *info,
+> +                                           const Elf_Sym *sym)
+>  {
+> -       char *value = info->ksymtab_strings + kstrtabns->st_value;
+> +       const char *value = sym_get_data(info, sym);
+>         return value[0] ? value : NULL;
+>  }
 >
->  static enum export export_from_secname(struct elf_info *elf, unsigned int sec)
-> @@ -697,10 +709,7 @@ static void handle_modversions(struct module *mod, struct elf_info *info,
->                         unsigned int *crcp;
+> @@ -601,10 +601,6 @@ static int parse_elf(struct elf_info *info, const char *filename)
+>                         info->export_unused_gpl_sec = i;
+>                 else if (strcmp(secname, "__ksymtab_gpl_future") == 0)
+>                         info->export_gpl_future_sec = i;
+> -               else if (strcmp(secname, "__ksymtab_strings") == 0)
+> -                       info->ksymtab_strings = (void *)hdr +
+> -                                               sechdrs[i].sh_offset -
+> -                                               sechdrs[i].sh_addr;
 >
->                         /* symbol points to the CRC in the ELF object */
-> -                       crcp = (void *)info->hdr + sym->st_value +
-> -                              info->sechdrs[sym->st_shndx].sh_offset -
-> -                              (info->hdr->e_type != ET_REL ?
-> -                               info->sechdrs[sym->st_shndx].sh_addr : 0);
-> +                       crcp = sym_get_data(info, sym);
->                         crc = TO_NATIVE(*crcp);
->                 }
->                 sym_update_crc(symname + strlen("__crc_"), mod, crc,
+>                 if (sechdrs[i].sh_type == SHT_SYMTAB) {
+>                         unsigned int sh_link_idx;
+> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+> index fe6652535e4b..64a82d2d85f6 100644
+> --- a/scripts/mod/modpost.h
+> +++ b/scripts/mod/modpost.h
+> @@ -143,7 +143,6 @@ struct elf_info {
+>         Elf_Section  export_gpl_sec;
+>         Elf_Section  export_unused_gpl_sec;
+>         Elf_Section  export_gpl_future_sec;
+> -       char         *ksymtab_strings;
+>         char         *strtab;
+>         char         *modinfo;
+>         unsigned int modinfo_len;
 > --
 > 2.17.1
 >
