@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C97AFCB23
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 17:55:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E6D7FCB8D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 18:12:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726923AbfKNQzK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Nov 2019 11:55:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43764 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726655AbfKNQzF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Nov 2019 11:55:05 -0500
-Subject: Re: [GIT PULL] Kbuild fixes for v5.4(-rc8)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573750505;
-        bh=FWK96innZUFwJLbbxQ7jYD09cgTH4QK3AYDMHe/aJE8=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=NGNJL0RFRJTy6Fk842uVXLN/wRoIL10u0WvAEEmeVfewSrClauD7OOiEKCcyHSZ6r
-         pnnWkVh4pDu/1SVBxgk2ngcuWU38QoFuzMo6tUjyUaz7Shz/Rvb9wbreeFsBj7MEji
-         OLsDCJ3l+h0n/Nl2GXpExf/cVrkdwFDNGQ0zOlYg=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNATqoF-NVhkP9J7SyDmK-x8vQ5pDJ7U_aEngdJb_vvDixg@mail.gmail.com>
-References: <CAK7LNATqoF-NVhkP9J7SyDmK-x8vQ5pDJ7U_aEngdJb_vvDixg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNATqoF-NVhkP9J7SyDmK-x8vQ5pDJ7U_aEngdJb_vvDixg@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- kbuild-fixes-v5.4-3
-X-PR-Tracked-Commit-Id: 80591e61a0f7e88deaada69844e4a31280c4a38f
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 96b95eff4a591dbac582c2590d067e356a18aacb
-Message-Id: <157375050535.665.2266424346154790313.pr-tracker-bot@kernel.org>
-Date:   Thu, 14 Nov 2019 16:55:05 +0000
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        masahiroy@kernel.org
+        id S1726592AbfKNRMf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Nov 2019 12:12:35 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53190 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726482AbfKNRMf (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 14 Nov 2019 12:12:35 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D07CEAC68;
+        Thu, 14 Nov 2019 17:12:33 +0000 (UTC)
+Date:   Thu, 14 Nov 2019 18:12:31 +0100
+From:   Joerg Roedel <jroedel@suse.de>
+To:     Shile Zhang <shile.zhang@linux.alibaba.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH] mm/vmalloc: Fix regression caused by needless
+ vmalloc_sync_all()
+Message-ID: <20191114171231.GA21753@suse.de>
+References: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Fri, 15 Nov 2019 00:19:27 +0900:
+On Wed, Nov 13, 2019 at 05:55:30PM +0800, Shile Zhang wrote:
+> +#if defined(CONFIG_X86_32) && defined(CONFIG_X86_PAE)
+>  	/*
+>  	 * First make sure the mappings are removed from all page-tables
+>  	 * before they are freed.
+> +	 *
+> +	 * This is only needed on x86-32 with !SHARED_KERNEL_PMD, which is
+> +	 * the case on a PAE kernel with PTI enabled.
+>  	 */
+> -	vmalloc_sync_all();
+> +	if (!SHARED_KERNEL_PMD && boot_cpu_has(X86_FEATURE_PTI))
+> +		vmalloc_sync_all();
+> +#endif
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild-fixes-v5.4-3
+I already submitted another fix for this quite some time ago:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/96b95eff4a591dbac582c2590d067e356a18aacb
+	https://lore.kernel.org/lkml/20191009124418.8286-1-joro@8bytes.org/
 
-Thank you!
+Regards,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+	Joerg
+
