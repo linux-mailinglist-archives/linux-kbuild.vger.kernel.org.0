@@ -2,139 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 795A2FBA78
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 Nov 2019 22:12:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A08BDFC002
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 07:02:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbfKMVMk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 Nov 2019 16:12:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33222 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726162AbfKMVMk (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 Nov 2019 16:12:40 -0500
-Received: from akpm3.svl.corp.google.com (unknown [104.133.8.65])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9529B206EC;
-        Wed, 13 Nov 2019 21:12:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573679558;
-        bh=vJ7IhoSjE32BHhAaQN6ntWH73S6zmQejp4F1GdO1ZS8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=POCKKUQPiNRqz66K7hD2meBTtE3aBmczxvPQXRgE9rDYEYIGpCXvCAZyQbF+q1ppL
-         fEOIQYlqHMZwkkM+7ViUtZNFYXqldMSWNV6csS2c+ViOSF9g1/UFNIcdeQvxD6/baj
-         ++tBpwbomQ/7V9PpOc9IzOQH4GTenTXDmxqQrDGw=
-Date:   Wed, 13 Nov 2019 13:12:37 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Shile Zhang <shile.zhang@linux.alibaba.com>
-Cc:     Joerg Roedel <jroedel@suse.de>, linux-mm@kvack.org,
-        linux-kbuild@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Dave Hansen <dave.hansen@intel.com>, Qian Cai <cai@lca.pw>
-Subject: Re: [PATCH] mm/vmalloc: Fix regression caused by needless
- vmalloc_sync_all()
-Message-Id: <20191113131237.1757241fb0c458484c2b19aa@linux-foundation.org>
-In-Reply-To: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
-References: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726838AbfKNGCo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Nov 2019 01:02:44 -0500
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:35194 "EHLO
+        mail-wm1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbfKNGCo (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 14 Nov 2019 01:02:44 -0500
+Received: by mail-wm1-f49.google.com with SMTP id 8so4507637wmo.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 13 Nov 2019 22:02:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=0VEFjetxS8gBhGDE9MAAh++nX0NrT9Pwb2y30JCH/XY=;
+        b=KvK1UXZpmih19FKKTKMQ5FpEoia+2ekZGxDsHMVdFldIxvg3gMNYKPJx+jXqNCxt1O
+         VJzsz4LkkLyM6OSJDjdSli9tUkP28agW+KU/MMXg/7dAzItW/Yb4z6fJNvYnBleG5ATy
+         Flo6a7Zw8jNqcNN6v7HZVUL1BzYdprvNJmYcnOWf+ckCjv+k6+Y/ApUGh9N4bOiBItKp
+         U1kptTnbmavMeqtJqXLI032aZpEaWZIV/9RimMWK2d6FMihIKYUw4mngU1FtgMkAkgpl
+         SRYsp+IuwryZeUKIgTZeOFmSsduDYrSfEDh4Hfyb4B6vjXnHPwaNaC204CgVK/fJE3U5
+         fAGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=0VEFjetxS8gBhGDE9MAAh++nX0NrT9Pwb2y30JCH/XY=;
+        b=NzKqM71lRh1uo060IofzPHt6keovFXNQRvSZa/KyCGEHV1MjP1euloY4/yYWLkb31E
+         rQh4dasucU25GqtbHayBNm08WrJ2JRE36Z4Prssgk99+eZh9QXEhiJF8BFR5mh1kQfLv
+         0SVaYNPDc9ttH4T3RsEIJxRzzDbybcVuk6HkmmIsJIvVdOy17kOXdnwmf5O+X4Rdt2NR
+         iKsq0j05i2WuaTP/nj3az9cqRoRu6HIFhNH9V4Yx3WMHpSsGbHrZqKRftwDVrqWytVIx
+         uL5KzZU0qTXI6a6+cz1LBZMZriyqaVAKN9Jr/KllRV0853rpZR/VKeU/bEz1XQDIZFkc
+         dDDw==
+X-Gm-Message-State: APjAAAWGYGy9xY19TR6vcAdnk8HbvdIX2rADqzU+gRD0yeHM+pH4dEX4
+        bO9qs2o4DB86M+ToDf193wU=
+X-Google-Smtp-Source: APXvYqw2R2essy7EOHQEvliJ/si6x4MFb7t5hHY9o6V+uTMzSQJWrb/K38Hg7N+Ovn0WV/ihvItLgw==
+X-Received: by 2002:a1c:7708:: with SMTP id t8mr6072552wmi.29.1573711361895;
+        Wed, 13 Nov 2019 22:02:41 -0800 (PST)
+Received: from oxygen (nat-sch.mentorg.com. [139.181.36.34])
+        by smtp.gmail.com with ESMTPSA id c4sm5769994wrp.86.2019.11.13.22.02.39
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 13 Nov 2019 22:02:41 -0800 (PST)
+From:   Vijai Kumar K <vijaikumar.kanagarajan@gmail.com>
+X-Google-Original-From: Vijai Kumar K <vijai@oxygen>
+Date:   Thu, 14 Nov 2019 11:32:36 +0530
+To:     yamada.masahiro@socionext.com, linux-kbuild@vger.kernel.org,
+        michal.lkml@markovi.net
+Subject: KBUILD_IMAGE-reg
+Message-ID: <20191114060236.GA13066@oxygen>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 13 Nov 2019 17:55:30 +0800 Shile Zhang <shile.zhang@linux.alibaba.com> wrote:
+Hi All,
 
-> vmalloc_sync_all() was put in the common path in
-> __purge_vmap_area_lazy(), for one sync issue only happened on X86_32
-> with PTI enabled. It is needless for X86_64, which caused a big regression
-> in UnixBench Shell8 testing on X86_64.
-> Similar regression also reported by 0-day kernel test robot in reaim
-> benchmarking:
-> https://lists.01.org/hyperkitty/list/lkp@lists.01.org/thread/4D3JPPHBNOSPFK2KEPC6KGKS6J25AIDB/
+I see that we have moved from directly using KBUILD_IMAGE to "make image_name"
+to decide the image to be included in the final deb package. Long ago when
+I remember we could override KBUILD_IMAGE in the environment to include
+the image of our choice in the deb pkg.
 
-That is indeed a large performance regression.
+Is this possible now by any other means? Because there are times when I
+would like to include vmlinux instead of vmlinuz and just wondering how
+one could go about accomplishing that.
 
-> Fix it by adding more conditions.
-> 
-> Fixes: 3f8fd02b1bf1 ("mm/vmalloc: Sync unmappings in __purge_vmap_area_lazy()")
->
-> ...
->
-> --- a/mm/vmalloc.c
-> +++ b/mm/vmalloc.c
-> @@ -1255,11 +1255,17 @@ static bool __purge_vmap_area_lazy(unsigned long start, unsigned long end)
->  	if (unlikely(valist == NULL))
->  		return false;
->  
-> +#if defined(CONFIG_X86_32) && defined(CONFIG_X86_PAE)
-
-Are we sure that x86_32 is the only architecture whcih is (or ever will
-be) affected?
-
->  	/*
->  	 * First make sure the mappings are removed from all page-tables
->  	 * before they are freed.
-> +	 *
-> +	 * This is only needed on x86-32 with !SHARED_KERNEL_PMD, which is
-> +	 * the case on a PAE kernel with PTI enabled.
->  	 */
-> -	vmalloc_sync_all();
-> +	if (!SHARED_KERNEL_PMD && boot_cpu_has(X86_FEATURE_PTI))
-> +		vmalloc_sync_all();
-> +#endif
->  
->  	/*
->  	 * TODO: to calculate a flush range without looping.
-
-CONFIG_X86_PAE depends on CONFIG_X86_32 so no need to check
-CONFIG_X86_32?
-
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: mm-vmalloc-fix-regression-caused-by-needless-vmalloc_sync_all-fix
-
-simplify config expression, use IS_ENABLED()
-
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Joerg Roedel <jroedel@suse.de>
-Cc: Qian Cai <cai@lca.pw>
-Cc: Shile Zhang <shile.zhang@linux.alibaba.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- mm/vmalloc.c |   21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
-
---- a/mm/vmalloc.c~mm-vmalloc-fix-regression-caused-by-needless-vmalloc_sync_all-fix
-+++ a/mm/vmalloc.c
-@@ -1255,16 +1255,17 @@ static bool __purge_vmap_area_lazy(unsig
- 	if (unlikely(valist == NULL))
- 		return false;
- 
--#if defined(CONFIG_X86_32) && defined(CONFIG_X86_PAE)
--	/*
--	 * First make sure the mappings are removed from all page-tables
--	 * before they are freed.
--	 *
--	 * This is only needed on x86-32 with !SHARED_KERNEL_PMD, which is
--	 * the case on a PAE kernel with PTI enabled.
--	 */
--	if (!SHARED_KERNEL_PMD && boot_cpu_has(X86_FEATURE_PTI))
--		vmalloc_sync_all();
-+	if (IS_ENABLED(CONFIG_X86_PAE)) {
-+		/*
-+		 * First make sure the mappings are removed from all page-tables
-+		 * before they are freed.
-+		 *
-+		 * This is only needed on x86-32 with !SHARED_KERNEL_PMD, which
-+		 * is the case on a PAE kernel with PTI enabled.
-+		 */
-+		if (!SHARED_KERNEL_PMD && boot_cpu_has(X86_FEATURE_PTI))
-+			vmalloc_sync_all();
-+	}
- #endif
- 
- 	/*
-_
-
+Thanks,
+Vijai Kumar K
