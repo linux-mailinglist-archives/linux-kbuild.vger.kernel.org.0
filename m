@@ -2,129 +2,230 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59885FCC17
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 18:46:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F25B8FCCBF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 Nov 2019 19:05:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726263AbfKNRqx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 Nov 2019 12:46:53 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:25658 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725976AbfKNRqx (ORCPT
+        id S1727152AbfKNSEy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 Nov 2019 13:04:54 -0500
+Received: from mail-wm1-f74.google.com ([209.85.128.74]:55403 "EHLO
+        mail-wm1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726491AbfKNSEA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 Nov 2019 12:46:53 -0500
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id xAEHkiSr031689;
-        Fri, 15 Nov 2019 02:46:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xAEHkiSr031689
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1573753605;
-        bh=RnTRkKRmwGrZIBYmr069B+wqrpCe/TPtwzUT5A13c6o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mOd1jL63I1IWjvuwOJTk5mJ98bAC/VCGnSMZ9vQeKZbVGLs8m+DklEYoo7OXvW/0T
-         gMkYeVfEw+aywiRTrgnWG9+ZW37Ic3dNrrDv+15fYWfejjeTeaHCpCdF1xc/sTUQGm
-         Ak9F7vhf4dzIt/yEJCWt8RUWffKMJeyXPaVuymCQGYPuj6JJpNty59yk2GDhOB2TOv
-         LPTZ1mFXXEB32wTB18b9KgP/C1C35ljt3AbhHpn3J6ODxTkwojCsk1uzEz6jSjxyOO
-         cMYAq3PQF2duKLgVwlAdjoZVwQ8iBGNYGJgRI6yllbZ4DxatmdK2C4PntvuMRUgq+e
-         x7Fff6887qXPQ==
-X-Nifty-SrcIP: [209.85.221.170]
-Received: by mail-vk1-f170.google.com with SMTP id k24so1686098vko.7;
-        Thu, 14 Nov 2019 09:46:45 -0800 (PST)
-X-Gm-Message-State: APjAAAW2bEOnal2h2hF4vltCXy5GvupaacE/C/GAB7hH7IiMGP0wEVc6
-        0yctYfzz4FxxMvAfbj3M8H6UgzfDd5JKViaf6fI=
-X-Google-Smtp-Source: APXvYqxCgx2Cksxrrex4Puc8fMIMYoKNsrErgHs9rWSi3zoIQdoaUCWi/iM6SBNnJoOGhnNsL9yX+m4vTWvedDQgaM4=
-X-Received: by 2002:a1f:7387:: with SMTP id o129mr5885230vkc.73.1573753604038;
- Thu, 14 Nov 2019 09:46:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20191114174226.7201-1-yamada.masahiro@socionext.com> <20191114174226.7201-2-yamada.masahiro@socionext.com>
-In-Reply-To: <20191114174226.7201-2-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Fri, 15 Nov 2019 02:46:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATGjv7_bmhGGpOupFpRRvvaGetvaTszE09MBKz3Ob06fQ@mail.gmail.com>
-Message-ID: <CAK7LNATGjv7_bmhGGpOupFpRRvvaGetvaTszE09MBKz3Ob06fQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] modpost: refactor namespace_from_kstrtabns() to not
- hard-code section name
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>
+        Thu, 14 Nov 2019 13:04:00 -0500
+Received: by mail-wm1-f74.google.com with SMTP id h191so4388865wme.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 14 Nov 2019 10:03:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=1bg0Urry1BGwaxpDX8MHZFNgYP5IGRugkAlFUvPLa/I=;
+        b=lr7v9t/b/nWB+oAlbYHlnG9ii8vIW9kKStfj1dl2F+rlYORyMHGnNhsdqh03G2C0//
+         yZ5xgTbXsNNf3QwN0Qwga6q5nM/rxjeVaZ9U0zczdCT+0e79wzZS/U9XMus96cOP/QX/
+         k+CVWVti+mZkubWF9QrVTJw5SEehpsKf4hZ7DQ09LIv3oofslpgizYbK8l6+ycIKA89x
+         lJJ9GsqBG24Ur5vUOlwu59yaqPO0FZzn4qgShqmaoVE0Mt8y0BC4GS/WhwSSgu2zcAJI
+         XG0iaZB3EWiAvVB2PFnjG7HFSd/bTbpARaMvFNvmSCEtNF2A9luiODjbY2pxefIlmYv8
+         L4nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=1bg0Urry1BGwaxpDX8MHZFNgYP5IGRugkAlFUvPLa/I=;
+        b=qSFw1GBh3iqnyn+FFLd4zQ5hj+Mm3n06Kz8EiwaONFCbnAOpkWEm6xeHw8vVevRixf
+         AbzsAdhHJ+FX2rDYlDp4nWpf7qA2b6TtotUo/UA3j0pCMoLj3fKLbZlL4K0FSKNJJm3O
+         4R0EO5hUkvG94D2d+johvVpI/HE4JbBnPsWoUwkjs4SVs1FztPwJcOu7ChMV+SSXLMLs
+         WTe5uLgqDTsBNQcVqXSAamVMQ0PY+Eock3b705IiCP2I1tYE7lFOx/OF/d8S1eucmpwN
+         aF2Z0/5aMmv+BZK5h0Fw5f0mh4pjd0K22fDjiQcOz+M6J7PqvOyrf850viZDINF8M4yG
+         PSaw==
+X-Gm-Message-State: APjAAAXcWLJeLz++I1T7ADpvi0GWqQOOl5z28rChRrcIYP9IWpPpT8Bo
+        tIhHFabdZf3Ve9VIN+thk2ic1aX9kA==
+X-Google-Smtp-Source: APXvYqyCRLhzabKP15Hc3I8tuyq3pOVGFzSfCNQc1mA04B8Z4nfTDX8KQ8VJZaVdt16PEvULqCx0tNT5ug==
+X-Received: by 2002:a5d:4585:: with SMTP id p5mr9720266wrq.134.1573754637105;
+ Thu, 14 Nov 2019 10:03:57 -0800 (PST)
+Date:   Thu, 14 Nov 2019 19:02:53 +0100
+Message-Id: <20191114180303.66955-1-elver@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
+Subject: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+From:   Marco Elver <elver@google.com>
+To:     elver@google.com
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, paulmck@kernel.org, peterz@infradead.org,
+        tglx@linutronix.de, will@kernel.org, edumazet@google.com,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(+CC: Matthias, who might be interested)
+This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+KCSAN is a sampling watchpoint-based *data race detector*. More details
+are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+only enables KCSAN for x86, but we expect adding support for other
+architectures is relatively straightforward (we are aware of
+experimental ARM64 and POWER support).
 
+To gather early feedback, we announced KCSAN back in September, and have
+integrated the feedback where possible:
+http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
 
-On Fri, Nov 15, 2019 at 2:42 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> Currently, namespace_from_kstrtabns() relies on the fact that
-> namespace strings are recorded in the __ksymtab_strings section.
-> Actually, it is coded in include/linux/export.h, but modpost does
-> not need to hard-code the section name.
->
-> Elf_Sym::st_shndx holds the section number of the relevant section.
-> Using it is a more portable way to find the namespace string.
->
-> sym_get_value() takes care of it, so namespace_from_kstrtabns() can
-> simply wrap it. Delete the unneeded info->ksymtab_strings .
->
-> While I was here, I added more 'const' qualifiers to pointers.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->
->  scripts/mod/modpost.c | 10 +++-------
->  scripts/mod/modpost.h |  1 -
->  2 files changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index cd885573daaf..d9418c58a8c0 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -356,10 +356,10 @@ static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
->                 return export_unknown;
->  }
->
-> -static const char *namespace_from_kstrtabns(struct elf_info *info,
-> -                                           Elf_Sym *kstrtabns)
-> +static const char *namespace_from_kstrtabns(const struct elf_info *info,
-> +                                           const Elf_Sym *sym)
->  {
-> -       char *value = info->ksymtab_strings + kstrtabns->st_value;
-> +       const char *value = sym_get_data(info, sym);
->         return value[0] ? value : NULL;
->  }
->
-> @@ -601,10 +601,6 @@ static int parse_elf(struct elf_info *info, const char *filename)
->                         info->export_unused_gpl_sec = i;
->                 else if (strcmp(secname, "__ksymtab_gpl_future") == 0)
->                         info->export_gpl_future_sec = i;
-> -               else if (strcmp(secname, "__ksymtab_strings") == 0)
-> -                       info->ksymtab_strings = (void *)hdr +
-> -                                               sechdrs[i].sh_offset -
-> -                                               sechdrs[i].sh_addr;
->
->                 if (sechdrs[i].sh_type == SHT_SYMTAB) {
->                         unsigned int sh_link_idx;
-> diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-> index fe6652535e4b..64a82d2d85f6 100644
-> --- a/scripts/mod/modpost.h
-> +++ b/scripts/mod/modpost.h
-> @@ -143,7 +143,6 @@ struct elf_info {
->         Elf_Section  export_gpl_sec;
->         Elf_Section  export_unused_gpl_sec;
->         Elf_Section  export_gpl_future_sec;
-> -       char         *ksymtab_strings;
->         char         *strtab;
->         char         *modinfo;
->         unsigned int modinfo_len;
-> --
-> 2.17.1
->
+The current list of known upstream fixes for data races found by KCSAN
+can be found here:
+https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
 
+We want to point out and acknowledge the work surrounding the LKMM,
+including several articles that motivate why data races are dangerous
+[1, 2], justifying a data race detector such as KCSAN.
+
+[1] https://lwn.net/Articles/793253/
+[2] https://lwn.net/Articles/799218/
+
+Race conditions vs. data races
+------------------------------
+
+Race conditions are logic bugs, where unexpected interleaving of racing
+concurrent operations result in an erroneous state.
+
+Data races on the other hand are defined at the *memory model/language
+level*.  Many data races are also harmful race conditions, which a tool
+like KCSAN reports!  However, not all data races are race conditions and
+vice-versa.  KCSAN's intent is to report data races according to the
+LKMM. A data race detector can only work at the memory model/language
+level.
+
+Deeper analysis, to find high-level race conditions only, requires
+conveying the intended kernel logic to a tool. This requires (1) the
+developer writing a specification or model of their code, and then (2)
+the tool verifying that the implementation matches. This has been done
+for small bits of code using model checkers and other formal methods,
+but does not scale to the level of what can be covered with a dynamic
+analysis based data race detector such as KCSAN.
+
+For reasons outlined in [1, 2], data races can be much more subtle, but
+can cause no less harm than high-level race conditions.
+
+Changelog
+---------
+v4:
+* Major changes:
+ - Optimizations resulting in performance improvement of 33% (on
+   microbenchmark).
+ - Deal with nested interrupts for atomic_next.
+ - Simplify report.c (removing double-locking as well), in preparation
+   for KCSAN_REPORT_VALUE_CHANGE_ONLY.
+ - Add patch to introduce "data_race(expr)" macro.
+ - Introduce KCSAN_REPORT_VALUE_CHANGE_ONLY option for further filtering of data
+   races: if a conflicting write was observed via a watchpoint, only report the
+   data race if a value change was observed as well. The option will be enabled
+   by default on syzbot. (rcu-functions will be excluded from this filter at
+   request of Paul McKenney.) Context:
+   http://lkml.kernel.org/r/CANpmjNOepvb6+zJmDePxj21n2rctM4Sp4rJ66x_J-L1UmNK54A@mail.gmail.com
+
+v3: http://lkml.kernel.org/r/20191104142745.14722-1-elver@google.com
+* Major changes:
+ - Add microbenchmark.
+ - Add instruction watchpoint skip randomization.
+ - Refactor API and core runtime fast-path and slow-path. Compared to
+   the previous version, with a default config and benchmarked using the
+   added microbenchmark, this version is 3.8x faster.
+ - Make __tsan_unaligned __alias of generic accesses.
+ - Rename kcsan_{begin,end}_atomic ->
+   kcsan_{nestable,flat}_atomic_{begin,end}
+ - For filter list in debugfs.c use kmalloc+krealloc instead of
+   kvmalloc.
+ - Split Documentation into separate patch.
+
+v2: http://lkml.kernel.org/r/20191017141305.146193-1-elver@google.com
+* Major changes:
+ - Replace kcsan_check_access(.., {true, false}) with
+   kcsan_check_{read,write}.
+ - Change atomic-instrumented.h to use __atomic_check_{read,write}.
+ - Use common struct kcsan_ctx in task_struct and for per-CPU interrupt
+   contexts.
+
+v1: http://lkml.kernel.org/r/20191016083959.186860-1-elver@google.com
+
+Marco Elver (10):
+  kcsan: Add Kernel Concurrency Sanitizer infrastructure
+  include/linux/compiler.h: Introduce data_race(expr) macro
+  kcsan: Add Documentation entry in dev-tools
+  objtool, kcsan: Add KCSAN runtime functions to whitelist
+  build, kcsan: Add KCSAN build exceptions
+  seqlock, kcsan: Add annotations for KCSAN
+  seqlock: Require WRITE_ONCE surrounding raw_seqcount_barrier
+  asm-generic, kcsan: Add KCSAN instrumentation for bitops
+  locking/atomics, kcsan: Add KCSAN instrumentation
+  x86, kcsan: Enable KCSAN for x86
+
+ Documentation/dev-tools/index.rst         |   1 +
+ Documentation/dev-tools/kcsan.rst         | 256 +++++++++
+ MAINTAINERS                               |  11 +
+ Makefile                                  |   3 +-
+ arch/x86/Kconfig                          |   1 +
+ arch/x86/boot/Makefile                    |   2 +
+ arch/x86/boot/compressed/Makefile         |   2 +
+ arch/x86/entry/vdso/Makefile              |   3 +
+ arch/x86/include/asm/bitops.h             |   6 +-
+ arch/x86/kernel/Makefile                  |   4 +
+ arch/x86/kernel/cpu/Makefile              |   3 +
+ arch/x86/lib/Makefile                     |   4 +
+ arch/x86/mm/Makefile                      |   4 +
+ arch/x86/purgatory/Makefile               |   2 +
+ arch/x86/realmode/Makefile                |   3 +
+ arch/x86/realmode/rm/Makefile             |   3 +
+ drivers/firmware/efi/libstub/Makefile     |   2 +
+ include/asm-generic/atomic-instrumented.h | 393 +++++++-------
+ include/asm-generic/bitops-instrumented.h |  18 +
+ include/linux/compiler-clang.h            |   9 +
+ include/linux/compiler-gcc.h              |   7 +
+ include/linux/compiler.h                  |  57 +-
+ include/linux/kcsan-checks.h              |  97 ++++
+ include/linux/kcsan.h                     | 115 ++++
+ include/linux/sched.h                     |   4 +
+ include/linux/seqlock.h                   |  51 +-
+ init/init_task.c                          |   8 +
+ init/main.c                               |   2 +
+ kernel/Makefile                           |   6 +
+ kernel/kcsan/Makefile                     |  11 +
+ kernel/kcsan/atomic.h                     |  27 +
+ kernel/kcsan/core.c                       | 626 ++++++++++++++++++++++
+ kernel/kcsan/debugfs.c                    | 275 ++++++++++
+ kernel/kcsan/encoding.h                   |  94 ++++
+ kernel/kcsan/kcsan.h                      | 108 ++++
+ kernel/kcsan/report.c                     | 320 +++++++++++
+ kernel/kcsan/test.c                       | 121 +++++
+ kernel/sched/Makefile                     |   6 +
+ lib/Kconfig.debug                         |   2 +
+ lib/Kconfig.kcsan                         | 118 ++++
+ lib/Makefile                              |   3 +
+ mm/Makefile                               |   8 +
+ scripts/Makefile.kcsan                    |   6 +
+ scripts/Makefile.lib                      |  10 +
+ scripts/atomic/gen-atomic-instrumented.sh |  17 +-
+ tools/objtool/check.c                     |  18 +
+ 46 files changed, 2641 insertions(+), 206 deletions(-)
+ create mode 100644 Documentation/dev-tools/kcsan.rst
+ create mode 100644 include/linux/kcsan-checks.h
+ create mode 100644 include/linux/kcsan.h
+ create mode 100644 kernel/kcsan/Makefile
+ create mode 100644 kernel/kcsan/atomic.h
+ create mode 100644 kernel/kcsan/core.c
+ create mode 100644 kernel/kcsan/debugfs.c
+ create mode 100644 kernel/kcsan/encoding.h
+ create mode 100644 kernel/kcsan/kcsan.h
+ create mode 100644 kernel/kcsan/report.c
+ create mode 100644 kernel/kcsan/test.c
+ create mode 100644 lib/Kconfig.kcsan
+ create mode 100644 scripts/Makefile.kcsan
 
 -- 
-Best Regards
-Masahiro Yamada
+2.24.0.rc1.363.gb1bccd3e3d-goog
+
