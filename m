@@ -2,101 +2,268 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89731FDB72
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2019 11:33:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A28FDCBF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2019 12:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727142AbfKOKdu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Nov 2019 05:33:50 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:60518 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726983AbfKOKdu (ORCPT
+        id S1727196AbfKOLzf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 Nov 2019 06:55:35 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:39428 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727183AbfKOLzf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Nov 2019 05:33:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=BQq4rfhZ/qkZrjGi9VrRkJjPTU3IQASdxtk+py8db0M=; b=GmWz2UJQfoWTfLRQgXnDZvK+D
-        /bs80r9tjbY+/kCYcNsBmynTY3nzHl4LwSn/tKhnlJowKEWUJBn4kDT/B5x+cBVf44PHMQaqXPbUY
-        NEL5MZLwm6m8ByKuq9/K7MRpEbQU8tnkQpEaqZwPF0bNajkdwNcl69p8t2ISEkpHCDkFraGqZ5b9c
-        T87fCO8b9dZuXNBr/Y6P0UdHxpGs85fbRzrU/GjGkIFzzyMXqB2uwClJCxwc+5MgfxyHVshPH9LCW
-        FVC5aZuaSOomFoV56E4ak3eK7j/MOLQRbgefbN3y7zas1GJvJrf1Ukf8ty8negsSo4SYym/cE85oE
-        a2dlz4r5w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iVYv5-0005ss-3g; Fri, 15 Nov 2019 10:33:39 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 1412F303D9F;
-        Fri, 15 Nov 2019 11:32:28 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 2622D2B128BE8; Fri, 15 Nov 2019 11:33:36 +0100 (CET)
-Date:   Fri, 15 Nov 2019 11:33:36 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Shile Zhang <shile.zhang@linux.alibaba.com>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH v3 6/7] scripts/sorttable: Add ORC unwind tables sort
- concurrently
-Message-ID: <20191115103336.GD4131@hirez.programming.kicks-ass.net>
-References: <20191115064750.47888-1-shile.zhang@linux.alibaba.com>
- <20191115064750.47888-7-shile.zhang@linux.alibaba.com>
- <20191115090723.GS4114@hirez.programming.kicks-ass.net>
- <9594afbc-52bc-5ae7-4a19-8fc4b36a1abd@linux.alibaba.com>
+        Fri, 15 Nov 2019 06:55:35 -0500
+Received: by mail-wm1-f67.google.com with SMTP id t26so10105296wmi.4
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 Nov 2019 03:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Y2n2+Uz9lfxeIcRjHd5xKcgiwSj7xMIx4TZvu7ih+9A=;
+        b=d37xtxs0OyxXEgxd2vBPqffrAhLM/MRpoLejTA0XmotnghUoYngT44PnZEzK6iiiak
+         kcO3q0hw8V3w4uTUZ00JW6SZQjPxPHgqB7FDBNiZV1fLYedu0ISVeMuMDApHmR6Q/w/r
+         uxO8uzDlOqJPyOjSf5pPVsWOE/RLJ1DKTXjarVFpaM6Q2Gt9LlepYKj0oeGbdRhtXJtx
+         fKwXnqs0Senmm91apKAJI7LBWwn4ogo77hDaKe4af+ZUI64piUH5/wjbJLXpZvW2JvxJ
+         GhfmQhgHVCwldueHxjdETOqKBKO2tsmJAZll2+/BiWxwhGUZWNcGLtZbHwe6fSIt3jpG
+         VIzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Y2n2+Uz9lfxeIcRjHd5xKcgiwSj7xMIx4TZvu7ih+9A=;
+        b=G4JS7wh7s+qGTVVeTD71ebxqKvBh6wxkgOPC+OsSpv+00+bYqI6NYK8Z3ZTSZFmR8L
+         jyyq1KfVaqm6DFwzjJDcCiw78WWYiwMv747YCNVHrYTCr333hkH8Hne23fmZQwhcF8g5
+         A+cbF5Wdjal3OrJ0/kkqASbyDYUByk+KZKfANdQcgidt75El86Z0bww0v2QBGAKFHfZ/
+         BmMF5tUfYeQJGodfXTHtFQdVSEMp2tF9vezWK3qsy7bcyX1ptX3dypejT6gbwOG5uOP4
+         frKAFdnH+tLd7tqxG94YESZwwBZR42H8pfXXJG5kYUTXkWiKRgd8ViMVh/hox4N4Fxrl
+         ENog==
+X-Gm-Message-State: APjAAAXb+ts08YxCqGHGSYoYnXPwCN2B2PUcdzQMwV06yPF8QKQmerNE
+        wZWoMk4GUDrDyuBZvpbszMmwSw==
+X-Google-Smtp-Source: APXvYqy2kfX55qFBNCb+Wrn5ApCpMkIIPzig/1KQ0/VrZP9q4n9Rn3BPNonIOGVM4M7H0XvQuYQdEQ==
+X-Received: by 2002:a1c:6a0d:: with SMTP id f13mr14719193wmc.164.1573818931176;
+        Fri, 15 Nov 2019 03:55:31 -0800 (PST)
+Received: from google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id d202sm8926257wmd.47.2019.11.15.03.55.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2019 03:55:30 -0800 (PST)
+Date:   Fri, 15 Nov 2019 12:55:24 +0100
+From:   Marco Elver <elver@google.com>
+To:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, paulmck@kernel.org, peterz@infradead.org,
+        tglx@linutronix.de, will@kernel.org, edumazet@google.com,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v4 08/10] asm-generic, kcsan: Add KCSAN instrumentation
+ for bitops
+Message-ID: <20191115115524.GA77379@google.com>
+References: <20191114180303.66955-1-elver@google.com>
+ <20191114180303.66955-9-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9594afbc-52bc-5ae7-4a19-8fc4b36a1abd@linux.alibaba.com>
+In-Reply-To: <20191114180303.66955-9-elver@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 05:43:49PM +0800, Shile Zhang wrote:
-> On 2019/11/15 17:07, Peter Zijlstra wrote:
-> > On Fri, Nov 15, 2019 at 02:47:49PM +0800, Shile Zhang wrote:
+Signed-off-by: Marco Elver <elver@google.com>
+---
+Tentative version of the bitops patch that applies with the new
+instrumented bitops infrastructure currently in linux-next. (Note that
+that test_bit() is an atomic bitop, but is currently in the wrong
+header.)
 
-> > > +/**
-> > > + * sort - sort an array of elements
-> > > + * @base: pointer to data to sort
-> > > + * @num: number of elements
-> > > + * @size: size of each element
-> > > + * @cmp_func: pointer to comparison function
-> > > + * @swap_func: pointer to swap function
-> > > + *
-> > > + * This function does a heapsort on the given array. You may provide a
-> > > + * swap_func function optimized to your element type.
-> > > + *
-> > > + * Sorting time is O(n log n) both on average and worst-case. While
-> > > + * qsort is about 20% faster on average, it suffers from exploitable
-> > > + * O(n*n) worst-case behavior and extra memory requirements that make
-> > > + * it less suitable for kernel use.
-> > > + *
-> > > + * This code token out of /lib/sort.c.
-> > > + */
-> > > +static void sort(void *base, size_t num, size_t size,
-> > > +	  int (*cmp_func)(const void *, const void *),
-> > > +	  void (*swap_func)(void *, void *, int size))
-> > > +{
+Otherwise there is no functional change compared to v4 that applies to
+mainline.
 
-> > > +}
+---
+ include/asm-generic/bitops/instrumented-atomic.h     | 7 +++++++
+ include/asm-generic/bitops/instrumented-lock.h       | 5 +++++
+ include/asm-generic/bitops/instrumented-non-atomic.h | 8 ++++++++
+ 3 files changed, 20 insertions(+)
 
-> > Do we really need to copy the heapsort implementation? That is, why not
-> > use libc's qsort() ? This is userspace after all.
-> 
-> Yes, I think qsort is better choice than copy-paste here. But qsort does not
-> support customized swap func, which is needed for ORC unwind swap two tables
-> together.
-> I think it's hard to do with qsort, so I used sort same with original orc
-> unwind table sort.
+diff --git a/include/asm-generic/bitops/instrumented-atomic.h b/include/asm-generic/bitops/instrumented-atomic.h
+index 18ce3c9e8eec..eb3abf7e5c08 100644
+--- a/include/asm-generic/bitops/instrumented-atomic.h
++++ b/include/asm-generic/bitops/instrumented-atomic.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * set_bit - Atomically set a bit in memory
+@@ -26,6 +27,7 @@
+ static inline void set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_set_bit(nr, addr);
+ }
+ 
+@@ -39,6 +41,7 @@ static inline void set_bit(long nr, volatile unsigned long *addr)
+ static inline void clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_clear_bit(nr, addr);
+ }
+ 
+@@ -55,6 +58,7 @@ static inline void clear_bit(long nr, volatile unsigned long *addr)
+ static inline void change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_change_bit(nr, addr);
+ }
+ 
+@@ -68,6 +72,7 @@ static inline void change_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_set_bit(nr, addr);
+ }
+ 
+@@ -81,6 +86,7 @@ static inline bool test_and_set_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -94,6 +100,7 @@ static inline bool test_and_clear_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_change_bit(nr, addr);
+ }
+ 
+diff --git a/include/asm-generic/bitops/instrumented-lock.h b/include/asm-generic/bitops/instrumented-lock.h
+index ec53fdeea9ec..2c80dca31e27 100644
+--- a/include/asm-generic/bitops/instrumented-lock.h
++++ b/include/asm-generic/bitops/instrumented-lock.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_LOCK_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * clear_bit_unlock - Clear a bit in memory, for unlock
+@@ -23,6 +24,7 @@
+ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch_clear_bit_unlock(nr, addr);
+ }
+ 
+@@ -38,6 +40,7 @@ static inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___clear_bit_unlock(nr, addr);
+ }
+ 
+@@ -53,6 +56,7 @@ static inline void __clear_bit_unlock(long nr, volatile unsigned long *addr)
+ static inline bool test_and_set_bit_lock(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_and_set_bit_lock(nr, addr);
+ }
+ 
+@@ -72,6 +76,7 @@ static inline bool
+ clear_bit_unlock_is_negative_byte(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_clear_bit_unlock_is_negative_byte(nr, addr);
+ }
+ /* Let everybody know we have it. */
+diff --git a/include/asm-generic/bitops/instrumented-non-atomic.h b/include/asm-generic/bitops/instrumented-non-atomic.h
+index 95ff28d128a1..8479af8b3309 100644
+--- a/include/asm-generic/bitops/instrumented-non-atomic.h
++++ b/include/asm-generic/bitops/instrumented-non-atomic.h
+@@ -12,6 +12,7 @@
+ #define _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
+ 
+ #include <linux/kasan-checks.h>
++#include <linux/kcsan-checks.h>
+ 
+ /**
+  * __set_bit - Set a bit in memory
+@@ -25,6 +26,7 @@
+ static inline void __set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___set_bit(nr, addr);
+ }
+ 
+@@ -40,6 +42,7 @@ static inline void __set_bit(long nr, volatile unsigned long *addr)
+ static inline void __clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___clear_bit(nr, addr);
+ }
+ 
+@@ -55,6 +58,7 @@ static inline void __clear_bit(long nr, volatile unsigned long *addr)
+ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	arch___change_bit(nr, addr);
+ }
+ 
+@@ -69,6 +73,7 @@ static inline void __change_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_set_bit(nr, addr);
+ }
+ 
+@@ -83,6 +88,7 @@ static inline bool __test_and_set_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_clear_bit(nr, addr);
+ }
+ 
+@@ -97,6 +103,7 @@ static inline bool __test_and_clear_bit(long nr, volatile unsigned long *addr)
+ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ {
+ 	kasan_check_write(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_write(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch___test_and_change_bit(nr, addr);
+ }
+ 
+@@ -108,6 +115,7 @@ static inline bool __test_and_change_bit(long nr, volatile unsigned long *addr)
+ static inline bool test_bit(long nr, const volatile unsigned long *addr)
+ {
+ 	kasan_check_read(addr + BIT_WORD(nr), sizeof(long));
++	kcsan_check_atomic_read(addr + BIT_WORD(nr), sizeof(long));
+ 	return arch_test_bit(nr, addr);
+ }
+ 
+-- 
+2.24.0.432.g9d3f5f5b63-goog
 
-Urgh, you're right. That's unforunate.
