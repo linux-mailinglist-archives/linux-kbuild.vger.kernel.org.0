@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 072A6FD862
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2019 10:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781A8FD89D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 Nov 2019 10:19:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726567AbfKOJHn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Nov 2019 04:07:43 -0500
-Received: from merlin.infradead.org ([205.233.59.134]:58230 "EHLO
+        id S1726196AbfKOJT4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 Nov 2019 04:19:56 -0500
+Received: from merlin.infradead.org ([205.233.59.134]:58364 "EHLO
         merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725829AbfKOJHn (ORCPT
+        with ESMTP id S1725829AbfKOJT4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Nov 2019 04:07:43 -0500
+        Fri, 15 Nov 2019 04:19:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
         References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Wywu5hu/w55f41qJ3KYVl1DQLx0MMhrbVYtcMb7LQiU=; b=JWRjfXgpPe6mraasyPv85Cjqn
-        JaxLy+jW5A0DomqL9rwK1XYh3zaMv41Aba5AOFAijR84ffzJlP1U9rkH3XBBFAT1UfAjU4vBYLv18
-        3zrmPWrqyA+zJcXIxPXpw2LznWr5vG4orDqm81t+MXBevKEI3PpOcdeLx7aAD+xfiKdMHaIgGVo1j
-        d1MfTT9OJl2Q8GvqGdHguyOHBYuUq+7Ta+m8/2I2wXwoIJSmd9h/m8jnQJxR5rhMowtI6AfPWyH60
-        OlGSU9b9hXiZ4IF02OF9e9fYITev46N50c3IElq0NQyJAqnvMwxE9qYWAWjJQu5q+JX/gbCbeSQ1O
-        uIbNewhmw==;
+         bh=CaVJL0m4rVC3kIgt7PaU/sZ/HckuS6iVscw9ZZiEBBw=; b=KJsystCX+eKUhlSxbNUCd/mmx
+        HMGb8vM5Z2ldYimeZVR2muQrcWpB98iMQ3W8DOuva+pWvm3DyHlxsfgcDGnuWf6YNF1WCAOIRZxhA
+        QZRk3E6WFHZdIeGs0Z3ehNZe6wobo5EqeWNsI2uL4aj3n6V3ftzYbN6ZmV/WeKTW4hkxTse6htBsA
+        VwBaHuSgw6tdp2CfOdqTzRq9eYjJ4KPbRyV46kGhGPqU3m1z1E6PCa8/Mfls2Gfcr6MFW5d1QFO0g
+        3L9E5+FY/ccD0Vh7yYkvNiCjOeeB8puQmXkkovj8vpqdW3PLzy4KVi2kL7e7aqhlz+SGTq4ZGdXvt
+        Bi8iVWMkg==;
 Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iVXZe-000558-Pg; Fri, 15 Nov 2019 09:07:26 +0000
+        id 1iVXlc-0005KW-EY; Fri, 15 Nov 2019 09:19:48 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8A9C1303DDD;
-        Fri, 15 Nov 2019 10:06:15 +0100 (CET)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3C4A2303D9F;
+        Fri, 15 Nov 2019 10:18:37 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 96C1F29E4EBA3; Fri, 15 Nov 2019 10:07:23 +0100 (CET)
-Date:   Fri, 15 Nov 2019 10:07:23 +0100
+        id 4929429E4EBB1; Fri, 15 Nov 2019 10:19:45 +0100 (CET)
+Date:   Fri, 15 Nov 2019 10:19:45 +0100
 From:   Peter Zijlstra <peterz@infradead.org>
 To:     Shile Zhang <shile.zhang@linux.alibaba.com>
 Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
@@ -46,7 +46,7 @@ Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
 Subject: Re: [RFC PATCH v3 6/7] scripts/sorttable: Add ORC unwind tables sort
  concurrently
-Message-ID: <20191115090723.GS4114@hirez.programming.kicks-ass.net>
+Message-ID: <20191115091945.GT4114@hirez.programming.kicks-ass.net>
 References: <20191115064750.47888-1-shile.zhang@linux.alibaba.com>
  <20191115064750.47888-7-shile.zhang@linux.alibaba.com>
 MIME-Version: 1.0
@@ -61,84 +61,102 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Fri, Nov 15, 2019 at 02:47:49PM +0800, Shile Zhang wrote:
 
+> @@ -141,21 +306,44 @@ static int do_sort(Elf_Ehdr *ehdr,
+>  		if (r(&s->sh_type) == SHT_SYMTAB_SHNDX)
+>  			symtab_shndx = (Elf32_Word *)((const char *)ehdr +
+>  						      _r(&s->sh_offset));
+> -	}
+>  
 > +#if defined(SORTTABLE_64) && defined(UNWINDER_ORC_ENABLED)
-> +/* ORC unwinder only support X86_64 */
-> +#include <errno.h>
-> +#include <pthread.h>
-> +#include <linux/types.h>
-> +
-> +#define ORC_REG_UNDEFINED	0
-> +#define ERRSTRING_MAXSZ		256
-> +
-> +struct orc_entry {
-> +	s16		sp_offset;
-> +	s16		bp_offset;
-> +	unsigned	sp_reg:4;
-> +	unsigned	bp_reg:4;
-> +	unsigned	type:2;
-> +	unsigned	end:1;
-> +} __attribute__((packed));
-> +
-> +struct orctable_info {
-> +	size_t	orc_size;
-> +	size_t	orc_ip_size;
-> +} orctable;
-
-There's ./arch/x86/include/asm/orc_types.h for this. Please don't
-duplicate. objtool uses that same header.
-
-> +/**
-> + * sort - sort an array of elements
-> + * @base: pointer to data to sort
-> + * @num: number of elements
-> + * @size: size of each element
-> + * @cmp_func: pointer to comparison function
-> + * @swap_func: pointer to swap function
-> + *
-> + * This function does a heapsort on the given array. You may provide a
-> + * swap_func function optimized to your element type.
-> + *
-> + * Sorting time is O(n log n) both on average and worst-case. While
-> + * qsort is about 20% faster on average, it suffers from exploitable
-> + * O(n*n) worst-case behavior and extra memory requirements that make
-> + * it less suitable for kernel use.
-> + *
-> + * This code token out of /lib/sort.c.
-> + */
-> +static void sort(void *base, size_t num, size_t size,
-> +	  int (*cmp_func)(const void *, const void *),
-> +	  void (*swap_func)(void *, void *, int size))
-> +{
-> +	/* pre-scale counters for performance */
-> +	int i = (num/2 - 1) * size, n = num * size, c, r;
-> +
-> +	/* heapify */
-> +	for ( ; i >= 0; i -= size) {
-> +		for (r = i; r * 2 + size < n; r  = c) {
-> +			c = r * 2 + size;
-> +			if (c < n - size &&
-> +					cmp_func(base + c, base + c + size) < 0)
-> +				c += size;
-> +			if (cmp_func(base + r, base + c) >= 0)
-> +				break;
-> +			swap_func(base + r, base + c, size);
+> +		/* locate the ORC unwind tables */
+> +		if (!strcmp(secstrings + idx, ".orc_unwind_ip")) {
+> +			orctable.orc_ip_size = s->sh_size;
+> +			g_orc_ip_table = (int *)((void *)ehdr +
+> +						   s->sh_offset);
 > +		}
-> +	}
-> +
-> +	/* sort */
-> +	for (i = n - size; i > 0; i -= size) {
-> +		swap_func(base, base + i, size);
-> +		for (r = 0; r * 2 + size < i; r = c) {
-> +			c = r * 2 + size;
-> +			if (c < i - size &&
-> +					cmp_func(base + c, base + c + size) < 0)
-> +				c += size;
-> +			if (cmp_func(base + r, base + c) >= 0)
-> +				break;
-> +			swap_func(base + r, base + c, size);
+> +		if (!strcmp(secstrings + idx, ".orc_unwind")) {
+> +			orctable.orc_size = s->sh_size;
+> +			g_orc_table = (struct orc_entry *)((void *)ehdr +
+> +							     s->sh_offset);
 > +		}
-> +	}
-> +}
+> +#endif
+> +	} /* for loop */
+> +
+> +#if defined(SORTTABLE_64) && defined(UNWINDER_ORC_ENABLED)
 
-Do we really need to copy the heapsort implementation? That is, why not
-use libc's qsort() ? This is userspace after all.
+Maybe something like:
+
+	if (g_orc_table && g_orc_ip_table) {
+		 if (pthread_create(...))
+		...
+	} else if (g_orc_table || g_orc_up_table) {
+		fprintf(stderr, "incomplete ORC tables...\n");
+	}
+
+> +	/* create thread to sort ORC unwind tables concurrently */
+> +	if (pthread_create(&orc_sort_thread, NULL, sort_orctable, &orctable)) {
+> +		fprintf(stderr,
+> +			"pthread_create orc_sort_thread failed '%s': %s\n",
+> +			strerror(errno), fname);
+> +		goto out;
+> +	}
+> +#endif
+>  	if (!extab_sec) {
+>  		fprintf(stderr,	"no __ex_table in file: %s\n", fname);
+> -		return -1;
+> +		goto out;
+>  	}
+>  
+>  	if (!symtab_sec) {
+>  		fprintf(stderr,	"no .symtab in file: %s\n", fname);
+> -		return -1;
+> +		goto out;
+>  	}
+>  
+>  	if (!strtab_sec) {
+>  		fprintf(stderr,	"no .strtab in file: %s\n", fname);
+> -		return -1;
+> +		goto out;
+>  	}
+>  
+>  	extab_image = (void *)ehdr + _r(&extab_sec->sh_offset);
+> @@ -192,7 +380,7 @@ static int do_sort(Elf_Ehdr *ehdr,
+>  		fprintf(stderr,
+>  			"no main_extable_sort_needed symbol in file: %s\n",
+>  			fname);
+> -		return -1;
+> +		goto out;
+>  	}
+>  
+>  	sort_needed_sec = &shdr[get_secindex(r2(&sym->st_shndx),
+> @@ -205,6 +393,20 @@ static int do_sort(Elf_Ehdr *ehdr,
+>  
+>  	/* extable has been sorted, clear the flag */
+>  	w(0, sort_needed_loc);
+> +	rc = 0;
+>  
+> -	return 0;
+> +out:
+> +#if defined(SORTTABLE_64) && defined(UNWINDER_ORC_ENABLED)
+> +	{ /* to avoid gcc warning about declaration */
+> +	void *retval = NULL;
+
+and then here:
+
+	if (orc_sort_thread) {
+		void *retval = NULL;
+		pthread_join(...);
+		...
+	}
+
+> +
+> +	/* wait for ORC tables sort done */
+> +	pthread_join(orc_sort_thread, &retval);
+> +	if (retval) {
+> +		fprintf(stderr, "%s in file: %s\n", (char *)retval, fname);
+> +		rc = -1;
+> +	}
+> +	}
+> +#endif
+> +	return rc;
+>  }
