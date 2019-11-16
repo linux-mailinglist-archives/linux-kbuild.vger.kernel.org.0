@@ -2,266 +2,217 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 776FEFE8B3
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2019 00:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0007FEB42
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2019 09:21:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbfKOXhX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 Nov 2019 18:37:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46150 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727056AbfKOXhX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 Nov 2019 18:37:23 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 970F1206D6;
-        Fri, 15 Nov 2019 23:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573861042;
-        bh=nZ5LwAmuivjeEeQ0Qwg3zn4lr8m5vqYFU8cFuVW68bw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Q5mYqQGA/WWQPLXEaBY6XBR3PIIjoPejYHWAts4FJgf4hNOFboBXBGxprl4GVctGb
-         Pc6i4J34v/tPqxR93bAbJxg7kVCxpULw7b6E1DAqaWnzSjV7b7eXEsZ7BT4+a0gljg
-         qDcPy4gUrOuS9IS0dWWl9Og9jzSk4GuVrahAsObg=
-Date:   Fri, 15 Nov 2019 15:37:21 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     Joerg Roedel <jroedel@suse.de>,
-        Shile Zhang <shile.zhang@linux.alibaba.com>,
-        linux-mm@kvack.org, linux-kbuild@vger.kernel.org,
-        Dave Hansen <dave.hansen@linux.intel.com>,
+        id S1726794AbfKPIVI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Nov 2019 03:21:08 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:37614 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbfKPIVI (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 16 Nov 2019 03:21:08 -0500
+Received: by mail-ot1-f68.google.com with SMTP id d5so10116024otp.4
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 Nov 2019 00:21:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IAbPck/tyWYpcH6q1DqU0wF9VrcqMWHjsvfsasMdJQ8=;
+        b=XWnuclkqZMItq+/ksJ8Y1qa9/9oIF2fdvK7zku42Z8ODKYKzpWGUzZ/8O3BaVjf7Ag
+         P71ZJ18PYDh/S+GcXJv7JbUHBfrVxcoQ8Tvy3/rDGiRsih1j0Zfw3p0aX5sUwbDmnNzp
+         UJbeoNYdVfNU8lrJD/bixaoQ7gvdzCi0y77rY6eMix67aCD4LLAxKMFtrjIBZplbOSLa
+         whiths2ljXaRVaJ66Ty6f/l0eqANuJrB5x+g554vTxKefToWIvkl2VMJofQLrWCYVNFN
+         uMyJ4CtcCuhbdCcrnripCXXi0U9CRkogJhOh3chGjPKJVPuRp3IpvYuKiS5dSot+QvZ1
+         UFSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IAbPck/tyWYpcH6q1DqU0wF9VrcqMWHjsvfsasMdJQ8=;
+        b=CCfk8j3k7UHkN2o1/2TnghWhq4ZEnWPWgIjwCN2H2ByzSi5amK0+mVj8Pe/9pum+pl
+         vtH3lb55EVjwGjORE1OZkSuU22hBZ/Qi10zi60vKEan1YWEbhVp0EeONxqPQZPdQlneX
+         GtvllhqJKlzv5W5J7/v96hKx97Jvpf9YaC3Uo9UWrHlVA+jWp8aBGwQTkUAvQzRxlgXW
+         zKqpYCXVL+2qMbVnnVofkWiinoUM7/j9/y4rwTYdyYDkTcJxkejDQ/Xug9pPY6/67z1e
+         N5Pk008u4OX8Ft353N7p7b34ClwkvKfoT0p7M5LIjkA44eK94cvMwkZTHe2YVd5kTOdS
+         ExDA==
+X-Gm-Message-State: APjAAAVoAKaJJz8Nj/CVIdEKjZgfazigcpCYLelQ7dQ/UAVPwRJaekVU
+        UYj4PblTejqnV6AZHmUtadyVtL2RpaaeqVZZf0oSew==
+X-Google-Smtp-Source: APXvYqyFoD1MoXKYzcJ0ETjr8RD5raPWnHWPSZdYf70aViyP/iAqqE28rDX/p+nlWotCJAjaCdGBcwat07yGzdHKecY=
+X-Received: by 2002:a9d:3d76:: with SMTP id a109mr14975357otc.233.1573892466111;
+ Sat, 16 Nov 2019 00:21:06 -0800 (PST)
+MIME-Version: 1.0
+References: <20191114180303.66955-1-elver@google.com> <20191114195046.GP2865@paulmck-ThinkPad-P72>
+ <20191114213303.GA237245@google.com> <20191114221559.GS2865@paulmck-ThinkPad-P72>
+ <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com>
+ <20191115164159.GU2865@paulmck-ThinkPad-P72> <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
+ <20191115204321.GX2865@paulmck-ThinkPad-P72>
+In-Reply-To: <20191115204321.GX2865@paulmck-ThinkPad-P72>
+From:   Marco Elver <elver@google.com>
+Date:   Sat, 16 Nov 2019 09:20:54 +0100
+Message-ID: <CANpmjNN0JCgEOC=AhKN7pH9OpmzbNB94mioP0FN9ueCQUfKzBQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
         Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, hpa@zytor.com
-Subject: Re: [PATCH] mm/vmalloc: Fix regression caused by needless
- vmalloc_sync_all()
-Message-Id: <20191115153721.c869afe6e7564877b848c69d@linux-foundation.org>
-In-Reply-To: <20191115083847.GB18929@zn.tnic>
-References: <20191113095530.228959-1-shile.zhang@linux.alibaba.com>
-        <20191114171231.GA21753@suse.de>
-        <20191114160108.57a72907f7b1aa9860471a06@linux-foundation.org>
-        <20191115083847.GB18929@zn.tnic>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 15 Nov 2019 09:38:47 +0100 Borislav Petkov <bp@alien8.de> wrote:
+On Fri, 15 Nov 2019 at 21:43, Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Fri, Nov 15, 2019 at 06:14:46PM +0100, Marco Elver wrote:
+> > On Fri, 15 Nov 2019 at 17:42, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > >
+> > > On Fri, Nov 15, 2019 at 01:02:08PM +0100, Marco Elver wrote:
+> > > > On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
+> > > > >
+> > > > > On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
+> > > > > > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
+> > > > > >
+> > > > > > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
+> > > > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > > > > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
+> > > > > > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+> > > > > > > > only enables KCSAN for x86, but we expect adding support for other
+> > > > > > > > architectures is relatively straightforward (we are aware of
+> > > > > > > > experimental ARM64 and POWER support).
+> > > > > > > >
+> > > > > > > > To gather early feedback, we announced KCSAN back in September, and have
+> > > > > > > > integrated the feedback where possible:
+> > > > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
+> > > > > > > >
+> > > > > > > > The current list of known upstream fixes for data races found by KCSAN
+> > > > > > > > can be found here:
+> > > > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
+> > > > > > > >
+> > > > > > > > We want to point out and acknowledge the work surrounding the LKMM,
+> > > > > > > > including several articles that motivate why data races are dangerous
+> > > > > > > > [1, 2], justifying a data race detector such as KCSAN.
+> > > > > > > >
+> > > > > > > > [1] https://lwn.net/Articles/793253/
+> > > > > > > > [2] https://lwn.net/Articles/799218/
+> > > > > > >
+> > > > > > > I queued this and ran a quick rcutorture on it, which completed
+> > > > > > > successfully with quite a few reports.
+> > > > > >
+> > > > > > Great. Many thanks for queuing this in -rcu. And regarding merge window
+> > > > > > you mentioned, we're fine with your assumption to targeting the next
+> > > > > > (v5.6) merge window.
+> > > > > >
+> > > > > > I've just had a look at linux-next to check what a future rebase
+> > > > > > requires:
+> > > > > >
+> > > > > > - There is a change in lib/Kconfig.debug and moving KCSAN to the
+> > > > > >   "Generic Kernel Debugging Instruments" section seems appropriate.
+> > > > > > - bitops-instrumented.h was removed and split into 3 files, and needs
+> > > > > >   re-inserting the instrumentation into the right places.
+> > > > > >
+> > > > > > Otherwise there are no issues. Let me know what you recommend.
+> > > > >
+> > > > > Sounds good!
+> > > > >
+> > > > > I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
+> > > > > approach is to fix any conflicts during that rebasing operation.
+> > > > > Does that make sense, or would you prefer to send me a rebased stack at
+> > > > > that point?  Either way is fine for me.
+> > > >
+> > > > That's fine with me, thanks!  To avoid too much additional churn on
+> > > > your end, I just replied to the bitops patch with a version that will
+> > > > apply with the change to bitops-instrumented infrastructure.
+> > >
+> > > My first thought was to replace 8/10 of the previous version of your
+> > > patch in -rcu (047ca266cfab "asm-generic, kcsan: Add KCSAN instrumentation
+> > > for bitops"), but this does not apply.  So I am guessing that I instead
+> > > do this substitution when a rebase onto -rc1..
+> > >
+> > > Except...
+> > >
+> > > > Also considering the merge window, we had a discussion and there are
+> > > > some arguments for targeting the v5.5 merge window:
+> > > > - we'd unblock ARM and POWER ports;
+> > > > - we'd unblock people wanting to use the data_race macro;
+> > > > - we'd unblock syzbot just tracking upstream;
+> > > > Unless there are strong reasons to not target v5.5, I leave it to you
+> > > > if you think it's appropriate.
+> > >
+> > > My normal process is to send the pull request shortly after -rc5 comes
+> > > out, but you do call out some benefits of getting it in sooner, so...
+> > >
+> > > What I will do is to rebase your series onto (say) -rc7, test it, and
+> > > see about an RFC pull request.
+> > >
+> > > One possible complication is the new 8/10 patch.  But maybe it will
+> > > apply against -rc7?
+> > >
+> > > Another possible complication is this:
+> > >
+> > > scripts/kconfig/conf  --syncconfig Kconfig
+> > > *
+> > > * Restart config...
+> > > *
+> > > *
+> > > * KCSAN: watchpoint-based dynamic data race detector
+> > > *
+> > > KCSAN: watchpoint-based dynamic data race detector (KCSAN) [N/y/?] (NEW)
+> > >
+> > > Might be OK in this case because it is quite obvious what it is doing.
+> > > (Avoiding pain from this is the reason that CONFIG_RCU_EXPERT exists.)
+> > >
+> > > But I will just mention this in the pull request.
+> > >
+> > > If there is a -rc8, there is of course a higher probability of making it
+> > > into the next merge window.
+> > >
+> > > Fair enough?
+> >
+> > Totally fine with that, sounds like a good plan, thanks!
+> >
+> > If it helps, in theory we can also drop and delay the bitops
+> > instrumentation patch until the new bitops instrumentation
+> > infrastructure is in 5.5-rc1. There won't be any false positives if
+> > this is missing, we might just miss a few data races until we have it.
+>
+> That sounds advisable for an attempt to hit this coming merge window.
+>
+> So just to make sure I understand, I drop 8/10 and keep the rest during
+> a rebase to 5.4-rc7, correct?
 
-> On Thu, Nov 14, 2019 at 04:01:08PM -0800, Andrew Morton wrote:
-> > It's fairly urgent - I consider this to be -stable material.
-> > 
-> > Thomas & co, was that a deliberate skip?
-> 
-> More like lost in the mail flood. I'm assuming you're taking it?
-> 
-> In any case, patch looks ok to me - the "unmappings" naming sounds like
-> coming from someone with a very wild phantasy... :-)
-> 
+Yes, that's right.
 
-OK, thanks, here's what I queued.  Reviews, acks and testing, please??
-
-From: Joerg Roedel <jroedel@suse.de>
-Subject: x86/mm: Split vmalloc_sync_all()
-
-Commit 3f8fd02b1bf1 ("mm/vmalloc: Sync unmappings in
-__purge_vmap_area_lazy()") introduced a call to vmalloc_sync_all() in the
-vunmap() code-path.  While this change was necessary to maintain
-correctness on x86-32-pae kernels, it also adds additional cycles for
-architectures that don't need it.
-
-Specifically on x86-64 with CONFIG_VMAP_STACK=y some people reported
-severe performance regressions in micro-benchmarks because it now also
-calls the x86-64 implementation of vmalloc_sync_all() on vunmap().  But
-the vmalloc_sync_all() implementation on x86-64 is only needed for newly
-created mappings.
-
-To avoid the unnecessary work on x86-64 and to gain the performance back,
-split up vmalloc_sync_all() into two functions:
-
-	* vmalloc_sync_mappings(), and
-	* vmalloc_sync_unmappings()
-
-Most call-sites to vmalloc_sync_all() only care about new mappings being
-synchronized.  The only exception is the new call-site added in the above
-mentioned commit.
-
-Shile Zhang directed us to a report of an 80% regression in reaim
-throughput.
-
-Link: http://lkml.kernel.org/r/20191009124418.8286-1-joro@8bytes.org
-Link: https://lists.01.org/hyperkitty/list/lkp@lists.01.org/thread/4D3JPPHBNOSPFK2KEPC6KGKS6J25AIDB/
-Link: http://lkml.kernel.org/r/20191113095530.228959-1-shile.zhang@linux.alibaba.com
-Fixes: 3f8fd02b1bf1 ("mm/vmalloc: Sync unmappings in __purge_vmap_area_lazy()")
-Signed-off-by: Joerg Roedel <jroedel@suse.de>
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Reported-by: Shile Zhang <shile.zhang@linux.alibaba.com>
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>	[GHES]
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- arch/x86/mm/fault.c      |   26 ++++++++++++++++++++++++--
- drivers/acpi/apei/ghes.c |    2 +-
- include/linux/vmalloc.h  |    5 +++--
- kernel/notifier.c        |    2 +-
- mm/nommu.c               |   10 +++++++---
- mm/vmalloc.c             |   11 +++++++----
- 6 files changed, 43 insertions(+), 13 deletions(-)
-
---- a/arch/x86/mm/fault.c~x86-mm-split-vmalloc_sync_all
-+++ a/arch/x86/mm/fault.c
-@@ -189,7 +189,7 @@ static inline pmd_t *vmalloc_sync_one(pg
- 	return pmd_k;
- }
- 
--void vmalloc_sync_all(void)
-+static void vmalloc_sync(void)
- {
- 	unsigned long address;
- 
-@@ -216,6 +216,16 @@ void vmalloc_sync_all(void)
- 	}
- }
- 
-+void vmalloc_sync_mappings(void)
-+{
-+	vmalloc_sync();
-+}
-+
-+void vmalloc_sync_unmappings(void)
-+{
-+	vmalloc_sync();
-+}
-+
- /*
-  * 32-bit:
-  *
-@@ -318,11 +328,23 @@ out:
- 
- #else /* CONFIG_X86_64: */
- 
--void vmalloc_sync_all(void)
-+void vmalloc_sync_mappings(void)
- {
-+	/*
-+	 * 64-bit mappings might allocate new p4d/pud pages
-+	 * that need to be propagated to all tasks' PGDs.
-+	 */
- 	sync_global_pgds(VMALLOC_START & PGDIR_MASK, VMALLOC_END);
- }
- 
-+void vmalloc_sync_unmappings(void)
-+{
-+	/*
-+	 * Unmappings never allocate or free p4d/pud pages.
-+	 * No work is required here.
-+	 */
-+}
-+
- /*
-  * 64-bit:
-  *
---- a/drivers/acpi/apei/ghes.c~x86-mm-split-vmalloc_sync_all
-+++ a/drivers/acpi/apei/ghes.c
-@@ -171,7 +171,7 @@ int ghes_estatus_pool_init(int num_ghes)
- 	 * New allocation must be visible in all pgd before it can be found by
- 	 * an NMI allocating from the pool.
- 	 */
--	vmalloc_sync_all();
-+	vmalloc_sync_mappings();
- 
- 	rc = gen_pool_add(ghes_estatus_pool, addr, PAGE_ALIGN(len), -1);
- 	if (rc)
---- a/include/linux/vmalloc.h~x86-mm-split-vmalloc_sync_all
-+++ a/include/linux/vmalloc.h
-@@ -126,8 +126,9 @@ extern int remap_vmalloc_range_partial(s
- 
- extern int remap_vmalloc_range(struct vm_area_struct *vma, void *addr,
- 							unsigned long pgoff);
--void vmalloc_sync_all(void);
-- 
-+void vmalloc_sync_mappings(void);
-+void vmalloc_sync_unmappings(void);
-+
- /*
-  *	Lowlevel-APIs (not for driver use!)
-  */
---- a/kernel/notifier.c~x86-mm-split-vmalloc_sync_all
-+++ a/kernel/notifier.c
-@@ -554,7 +554,7 @@ NOKPROBE_SYMBOL(notify_die);
- 
- int register_die_notifier(struct notifier_block *nb)
- {
--	vmalloc_sync_all();
-+	vmalloc_sync_mappings();
- 	return atomic_notifier_chain_register(&die_chain, nb);
- }
- EXPORT_SYMBOL_GPL(register_die_notifier);
---- a/mm/nommu.c~x86-mm-split-vmalloc_sync_all
-+++ a/mm/nommu.c
-@@ -359,10 +359,14 @@ void vm_unmap_aliases(void)
- EXPORT_SYMBOL_GPL(vm_unmap_aliases);
- 
- /*
-- * Implement a stub for vmalloc_sync_all() if the architecture chose not to
-- * have one.
-+ * Implement a stub for vmalloc_sync_[un]mapping() if the architecture
-+ * chose not to have one.
-  */
--void __weak vmalloc_sync_all(void)
-+void __weak vmalloc_sync_mappings(void)
-+{
-+}
-+
-+void __weak vmalloc_sync_unmappings(void)
- {
- }
- 
---- a/mm/vmalloc.c~x86-mm-split-vmalloc_sync_all
-+++ a/mm/vmalloc.c
-@@ -1259,7 +1259,7 @@ static bool __purge_vmap_area_lazy(unsig
- 	 * First make sure the mappings are removed from all page-tables
- 	 * before they are freed.
- 	 */
--	vmalloc_sync_all();
-+	vmalloc_sync_unmappings();
- 
- 	/*
- 	 * TODO: to calculate a flush range without looping.
-@@ -3050,16 +3050,19 @@ int remap_vmalloc_range(struct vm_area_s
- EXPORT_SYMBOL(remap_vmalloc_range);
- 
- /*
-- * Implement a stub for vmalloc_sync_all() if the architecture chose not to
-- * have one.
-+ * Implement stubs for vmalloc_sync_[un]mappings () if the architecture chose
-+ * not to have one.
-  *
-  * The purpose of this function is to make sure the vmalloc area
-  * mappings are identical in all page-tables in the system.
-  */
--void __weak vmalloc_sync_all(void)
-+void __weak vmalloc_sync_mappings(void)
- {
- }
- 
-+void __weak vmalloc_sync_unmappings(void)
-+{
-+}
- 
- static int f(pte_t *pte, unsigned long addr, void *data)
- {
-_
-
+Many thanks,
+-- Marco
