@@ -2,278 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFC4FF4BE
-	for <lists+linux-kbuild@lfdr.de>; Sat, 16 Nov 2019 19:28:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AA65FF631
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 Nov 2019 01:32:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727603AbfKPS2x (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 16 Nov 2019 13:28:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36052 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726632AbfKPS2x (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 16 Nov 2019 13:28:53 -0500
-Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E33392068D;
-        Sat, 16 Nov 2019 18:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573928932;
-        bh=yL+ARVFynQ/8PR0l7R7gDPQdnwbyNLp4ladEfgFKluU=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=RHdQcc2+CgSpd14RWUll5sb+C8RdViQCFtKvgKQt8IZEx8EbB6t941wkIPdhv8xkh
-         msWOZlB9d8H5MkZ7rca6A//lgKCCha/ShaCu+8DC6tsmj5GSCjvGVaEZvpVG22JDAd
-         i7VDnyBtVNxNVBRbpiVCTVthDSw3EtcgQWpf/ADk=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 7ACD335227AD; Sat, 16 Nov 2019 10:28:51 -0800 (PST)
-Date:   Sat, 16 Nov 2019 10:28:51 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Marco Elver <elver@google.com>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
-Message-ID: <20191116182851.GF2865@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20191114195046.GP2865@paulmck-ThinkPad-P72>
- <20191114213303.GA237245@google.com>
- <20191114221559.GS2865@paulmck-ThinkPad-P72>
- <CANpmjNPxAOUAxXHd9tka5gCjR_rNKmBk+k5UzRsXT0a0CtNorw@mail.gmail.com>
- <20191115164159.GU2865@paulmck-ThinkPad-P72>
- <CANpmjNPy2RDBUhV-j-APzwYr-_x2V9QwgPTYZph36rCpEVqZSQ@mail.gmail.com>
- <20191115204321.GX2865@paulmck-ThinkPad-P72>
- <CANpmjNN0JCgEOC=AhKN7pH9OpmzbNB94mioP0FN9ueCQUfKzBQ@mail.gmail.com>
- <20191116153454.GC2865@paulmck-ThinkPad-P72>
- <CANpmjNM6NT3bA07h5L9HNMzFY83Nd-yZRzum9-ykd4pW58kNOQ@mail.gmail.com>
+        id S1727667AbfKQAcj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 16 Nov 2019 19:32:39 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:35594 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727666AbfKQAcj (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 16 Nov 2019 19:32:39 -0500
+Received: by mail-lj1-f196.google.com with SMTP id r7so14698951ljg.2
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 Nov 2019 16:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=knT5eug1ThI8ar7lmpi7yRk7gD5tsJK0aCyrTYGT2SY=;
+        b=TizowyLdMboygP+1eW2n9Dh7mWzNake/Pf7HPqbHATIa5ju+lAYU6zkxU25WeaSbTB
+         DgBnWRrtwkZuYawiW2LGvprqAiiLLrDz6cjpuO5SgMdfSkSB1Q63HKGPoy/IdySQLgSw
+         TsSnbcxoZAZYLdmMTsTmF9SJdaKv17km3kI3k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=knT5eug1ThI8ar7lmpi7yRk7gD5tsJK0aCyrTYGT2SY=;
+        b=CIEjeaktV3sOaAEMrtnNpJNa8pX6wQXLS4CcFNtk4yVWDlDhVHF4xEdBRl0JoxIJT3
+         Cuesh/s+zKeKz3M34caBvFs4apOxot1htJoPrF06vtzpg1+4mY9W0GtZgB6FhsOHg7Xy
+         NCATUouXqF1uVg0P3enw5ShlJ3Lyk+wR00JvIoUrGGrdcCl2A0qFxm4rPC/vQpJtFoQt
+         +IONckp1sFoWUkkQE6oDNToyjCuyvXfkMUTAwh47HS+zwRiLQcrtVRN1Y1ECHNRPAt5X
+         L4fEevbzc7rXU2uGGpPo+FcMIje9g1fvUIHJ8zSkku4KrzfU2ZZaLDWTzPh34rv09RHM
+         LYrQ==
+X-Gm-Message-State: APjAAAUbilssGq+QndVoHvA7mLYZl3jQCY4S03z4kPv0QfVapwliNpP6
+        BymV51oA7KvqwHtGQnchu0JhGCllEsI=
+X-Google-Smtp-Source: APXvYqwRPLjkDv8Bb6d/dYx2GW0pyojCDXQL7D+ETVrmFXEjPlMnjUZj2treoGbY3FnV7/+KKVNrfg==
+X-Received: by 2002:a2e:8784:: with SMTP id n4mr11836861lji.230.1573950756734;
+        Sat, 16 Nov 2019 16:32:36 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id g26sm6477494lfh.1.2019.11.16.16.32.35
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Nov 2019 16:32:35 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id g3so14656350ljl.11
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 Nov 2019 16:32:35 -0800 (PST)
+X-Received: by 2002:a2e:8919:: with SMTP id d25mr16013569lji.97.1573950754952;
+ Sat, 16 Nov 2019 16:32:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNM6NT3bA07h5L9HNMzFY83Nd-yZRzum9-ykd4pW58kNOQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20191114223036.9359-1-eugene.loh@oracle.com> <20191115114708.2a784f8d@gandalf.local.home>
+ <CAHk-=wjQBFTaEfHQNmrBQOLOLey5Goz01wJHTJKKLQm22ZyrJA@mail.gmail.com> <11861ca1-76c5-ed14-8ee1-f067c7e5b0c0@oracle.com>
+In-Reply-To: <11861ca1-76c5-ed14-8ee1-f067c7e5b0c0@oracle.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 16 Nov 2019 16:32:19 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wjoXE1tRVVwgDY=G8xXKCAxz8mfYBaTh8wF=QTFPRwmJQ@mail.gmail.com>
+Message-ID: <CAHk-=wjoXE1tRVVwgDY=G8xXKCAxz8mfYBaTh8wF=QTFPRwmJQ@mail.gmail.com>
+Subject: Re: [PATCH] kallsyms: new /proc/kallmodsyms with builtin modules and
+ symbol sizes
+To:     Eugene Loh <eugene.loh@oracle.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jessica Yu <jeyu@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>, jacob.e.keller@intel.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Nov 16, 2019 at 07:09:21PM +0100, Marco Elver wrote:
-> On Sat, 16 Nov 2019 at 16:34, Paul E. McKenney <paulmck@kernel.org> wrote:
-> >
-> > On Sat, Nov 16, 2019 at 09:20:54AM +0100, Marco Elver wrote:
-> > > On Fri, 15 Nov 2019 at 21:43, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > >
-> > > > On Fri, Nov 15, 2019 at 06:14:46PM +0100, Marco Elver wrote:
-> > > > > On Fri, 15 Nov 2019 at 17:42, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > > >
-> > > > > > On Fri, Nov 15, 2019 at 01:02:08PM +0100, Marco Elver wrote:
-> > > > > > > On Thu, 14 Nov 2019 at 23:16, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > > > > >
-> > > > > > > > On Thu, Nov 14, 2019 at 10:33:03PM +0100, Marco Elver wrote:
-> > > > > > > > > On Thu, 14 Nov 2019, Paul E. McKenney wrote:
-> > > > > > > > >
-> > > > > > > > > > On Thu, Nov 14, 2019 at 07:02:53PM +0100, Marco Elver wrote:
-> > > > > > > > > > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > > > > > > > > > KCSAN is a sampling watchpoint-based *data race detector*. More details
-> > > > > > > > > > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
-> > > > > > > > > > > only enables KCSAN for x86, but we expect adding support for other
-> > > > > > > > > > > architectures is relatively straightforward (we are aware of
-> > > > > > > > > > > experimental ARM64 and POWER support).
-> > > > > > > > > > >
-> > > > > > > > > > > To gather early feedback, we announced KCSAN back in September, and have
-> > > > > > > > > > > integrated the feedback where possible:
-> > > > > > > > > > > http://lkml.kernel.org/r/CANpmjNPJ_bHjfLZCAPV23AXFfiPiyXXqqu72n6TgWzb2Gnu1eA@mail.gmail.com
-> > > > > > > > > > >
-> > > > > > > > > > > The current list of known upstream fixes for data races found by KCSAN
-> > > > > > > > > > > can be found here:
-> > > > > > > > > > > https://github.com/google/ktsan/wiki/KCSAN#upstream-fixes-of-data-races-found-by-kcsan
-> > > > > > > > > > >
-> > > > > > > > > > > We want to point out and acknowledge the work surrounding the LKMM,
-> > > > > > > > > > > including several articles that motivate why data races are dangerous
-> > > > > > > > > > > [1, 2], justifying a data race detector such as KCSAN.
-> > > > > > > > > > >
-> > > > > > > > > > > [1] https://lwn.net/Articles/793253/
-> > > > > > > > > > > [2] https://lwn.net/Articles/799218/
-> > > > > > > > > >
-> > > > > > > > > > I queued this and ran a quick rcutorture on it, which completed
-> > > > > > > > > > successfully with quite a few reports.
-> > > > > > > > >
-> > > > > > > > > Great. Many thanks for queuing this in -rcu. And regarding merge window
-> > > > > > > > > you mentioned, we're fine with your assumption to targeting the next
-> > > > > > > > > (v5.6) merge window.
-> > > > > > > > >
-> > > > > > > > > I've just had a look at linux-next to check what a future rebase
-> > > > > > > > > requires:
-> > > > > > > > >
-> > > > > > > > > - There is a change in lib/Kconfig.debug and moving KCSAN to the
-> > > > > > > > >   "Generic Kernel Debugging Instruments" section seems appropriate.
-> > > > > > > > > - bitops-instrumented.h was removed and split into 3 files, and needs
-> > > > > > > > >   re-inserting the instrumentation into the right places.
-> > > > > > > > >
-> > > > > > > > > Otherwise there are no issues. Let me know what you recommend.
-> > > > > > > >
-> > > > > > > > Sounds good!
-> > > > > > > >
-> > > > > > > > I will be rebasing onto v5.5-rc1 shortly after it comes out.  My usual
-> > > > > > > > approach is to fix any conflicts during that rebasing operation.
-> > > > > > > > Does that make sense, or would you prefer to send me a rebased stack at
-> > > > > > > > that point?  Either way is fine for me.
-> > > > > > >
-> > > > > > > That's fine with me, thanks!  To avoid too much additional churn on
-> > > > > > > your end, I just replied to the bitops patch with a version that will
-> > > > > > > apply with the change to bitops-instrumented infrastructure.
-> > > > > >
-> > > > > > My first thought was to replace 8/10 of the previous version of your
-> > > > > > patch in -rcu (047ca266cfab "asm-generic, kcsan: Add KCSAN instrumentation
-> > > > > > for bitops"), but this does not apply.  So I am guessing that I instead
-> > > > > > do this substitution when a rebase onto -rc1..
-> > > > > >
-> > > > > > Except...
-> > > > > >
-> > > > > > > Also considering the merge window, we had a discussion and there are
-> > > > > > > some arguments for targeting the v5.5 merge window:
-> > > > > > > - we'd unblock ARM and POWER ports;
-> > > > > > > - we'd unblock people wanting to use the data_race macro;
-> > > > > > > - we'd unblock syzbot just tracking upstream;
-> > > > > > > Unless there are strong reasons to not target v5.5, I leave it to you
-> > > > > > > if you think it's appropriate.
-> > > > > >
-> > > > > > My normal process is to send the pull request shortly after -rc5 comes
-> > > > > > out, but you do call out some benefits of getting it in sooner, so...
-> > > > > >
-> > > > > > What I will do is to rebase your series onto (say) -rc7, test it, and
-> > > > > > see about an RFC pull request.
-> > > > > >
-> > > > > > One possible complication is the new 8/10 patch.  But maybe it will
-> > > > > > apply against -rc7?
-> > > > > >
-> > > > > > Another possible complication is this:
-> > > > > >
-> > > > > > scripts/kconfig/conf  --syncconfig Kconfig
-> > > > > > *
-> > > > > > * Restart config...
-> > > > > > *
-> > > > > > *
-> > > > > > * KCSAN: watchpoint-based dynamic data race detector
-> > > > > > *
-> > > > > > KCSAN: watchpoint-based dynamic data race detector (KCSAN) [N/y/?] (NEW)
-> > > > > >
-> > > > > > Might be OK in this case because it is quite obvious what it is doing.
-> > > > > > (Avoiding pain from this is the reason that CONFIG_RCU_EXPERT exists.)
-> > > > > >
-> > > > > > But I will just mention this in the pull request.
-> > > > > >
-> > > > > > If there is a -rc8, there is of course a higher probability of making it
-> > > > > > into the next merge window.
-> > > > > >
-> > > > > > Fair enough?
-> > > > >
-> > > > > Totally fine with that, sounds like a good plan, thanks!
-> > > > >
-> > > > > If it helps, in theory we can also drop and delay the bitops
-> > > > > instrumentation patch until the new bitops instrumentation
-> > > > > infrastructure is in 5.5-rc1. There won't be any false positives if
-> > > > > this is missing, we might just miss a few data races until we have it.
-> > > >
-> > > > That sounds advisable for an attempt to hit this coming merge window.
-> > > >
-> > > > So just to make sure I understand, I drop 8/10 and keep the rest during
-> > > > a rebase to 5.4-rc7, correct?
-> > >
-> > > Yes, that's right.
-> >
-> > Very good, I just now pushed a "kcsan" branch on -rcu, and am running
-> > rcutorture, first without KCSAN enabled and then with it turned on.
-> > If all that works out, I set my -next branch to that point and see what
-> > -next testing and kbuild test robot think about it.  If all goes well,
-> > an RFC pull request.
-> >
-> > Look OK?
-> 
-> Looks good to me, many thanks!
+On Sat, Nov 16, 2019 at 9:58 AM Eugene Loh <eugene.loh@oracle.com> wrote:
+>
+> Since there are very many gaps, adding dummy entries makes sense only
+> for "big" jumps.  I don't know where one would want to draw the line for
+> "big."  In any case, to identify such gaps, one would still need the "nm
+> -S" information provided by this patch.
 
-And I did get one failure on the KCSAN=n run for the TREE03 scenario,
-but it does not appear to be your fault.  Looks like a race between a
-swait_queue_head swake_up_one() invocation and one of the CPU hotplug
-operations done late in system shutdown.  I have included the splat
-below for your amusement.
+Sure. You can have some kind of error estimate where if the size of
+the thing is much smalle rthan the gap, add the fake padding object.
 
-Starting the KCSAN=y runs now.
+But it "much smaller than" would likely be in the area of page
+alignment, not "next function was aligned to 64-byte boundary" kind of
+small fixups.
 
-							Thanx, Paul
+Honestly, if somebody needs the real size, why aren't they just using
+the original image?
 
-------------------------------------------------------------------------
+> Meanwhile, there are some symbols that encompass others.
 
-[  601.009355] reboot: Power down
-[  601.010447] ------------[ cut here ]------------
-[  601.011020] sched: Unexpected reschedule of offline CPU#1!
-[  601.011639] WARNING: CPU: 7 PID: 0 at arch/x86/kernel/apic/ipi.c:67 native_smp_send_reschedule+0x2f/0x40
-[  601.012692] Modules linked in:
-[  601.013037] CPU: 7 PID: 0 Comm: swapper/7 Not tainted 5.4.0-rc7+ #1497
-[  601.013755] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.10.2-1ubuntu1 04/01/2014
-[  601.014708] RIP: 0010:native_smp_send_reschedule+0x2f/0x40
-[  601.015312] Code: 05 f6 62 5d 01 73 15 48 8b 05 cd ba 28 01 be fd 00 00 00 48 8b 40 30 e9 bf b0 db 00 89 fe 48 c7 c7 d0 df 5e a7 e8 01 20 02 00 <0f> 0b c3 0f 1f 40 00 66 2e 0f 1f 84 00 00 00 00 00 48 8b 05 99 ba
-[  601.017357] RSP: 0018:ffffa1afc020cee0 EFLAGS: 00010086
-[  601.017942] RAX: 0000000000000000 RBX: ffff8d5c1ed24a54 RCX: 0000000000000005
-[  601.018716] RDX: 0000000080000005 RSI: 0000000000000082 RDI: 00000000ffffffff
-[  601.019500] RBP: 0000000000000000 R08: 0000000000000cd5 R09: 000000000000003d
-[  601.020283] R10: ffff8d5c1f067f80 R11: 20666f20656c7564 R12: 0000000000000001
-[  601.021074] R13: 0000000000027f40 R14: 0000000000000087 R15: ffff8d5c1ed23f00
-[  601.021851] FS:  0000000000000000(0000) GS:ffff8d5c1f1c0000(0000) knlGS:0000000000000000
-[  601.022731] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  601.023360] CR2: 00000000ffffffff CR3: 000000001120a000 CR4: 00000000000006e0
-[  601.024140] Call Trace:
-[  601.024437]  <IRQ>
-[  601.024671]  try_to_wake_up+0x2b3/0x650
-[  601.025103]  swake_up_locked.part.6+0xe/0x30
-[  601.025579]  swake_up_one+0x22/0x30
-[  601.025968]  rcu_try_advance_all_cbs+0x71/0x80
-[  601.026459]  rcu_cleanup_after_idle+0x28/0x40
-[  601.026941]  rcu_irq_enter+0xfb/0x130
-[  601.027347]  irq_enter+0x5/0x50
-[  601.027704]  smp_reboot_interrupt+0x1a/0xb0
-[  601.028175]  ? smp_apic_timer_interrupt+0xa1/0x180
-[  601.028711]  reboot_interrupt+0xf/0x20
-[  601.029134]  </IRQ>
-[  601.029374] RIP: 0010:default_idle+0x1e/0x170
-[  601.029853] Code: 90 90 90 90 90 90 90 90 90 90 90 90 41 55 41 54 55 53 e8 c5 c5 91 ff 0f 1f 44 00 00 e9 07 00 00 00 0f 00 2d e6 b4 54 00 fb f4 <e8> ad c5 91 ff 89 c5 0f 1f 44 00 00 5b 5d 41 5c 41 5d c3 65 8b 05
-[  601.031884] RSP: 0018:ffffa1afc00afec0 EFLAGS: 00000202 ORIG_RAX: ffffffffffffff07
-[  601.032716] RAX: 0000000000000007 RBX: 0000000000000007 RCX: 0000000000000007
-[  601.033498] RDX: 0000000000000001 RSI: 0000000000000087 RDI: ffffffffa769a760
-[  601.034280] RBP: ffffffffa7a1c160 R08: 0000009a8e03a656 R09: 0000000000000001
-[  601.035062] R10: 0000000000000400 R11: 00000000000001d8 R12: 0000000000000000
-[  601.035842] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-[  601.036632]  do_idle+0x1a6/0x240
-[  601.036996]  cpu_startup_entry+0x14/0x20
-[  601.037433]  start_secondary+0x150/0x180
-[  601.037869]  secondary_startup_64+0xa4/0xb0
-[  601.038339] ---[ end trace e4c21199f3882c03 ]---
-[  601.038991] acpi_power_off called
+Yeah, I don't think this is at all worth worrying about. Again, if you
+want that kind of information, you should use the original vmlinux
+image, not think that "hey, /proc should give perfect information".
+
+The /proc interface should be a rought and convenient baseline, but I
+don't think it's at all interesting to try to make it perfect or even
+all that clever.
+
+Most of your questions boil down to "just use vmlinux" instead. If you
+_really_ care about things like "one symbol can encompass many
+sub-symbols", you shouldn't look at /proc/kallsyms.
+
+So I think we could improve on /proc/kallsuyms, but we should do it
+with the aim being "just make it incrementally better", not some
+"let's solve big problems". The big problems are already solved by
+just looking at the vmlinux file.
+
+For example, I think the whole "include which module the symbol comes
+from" is a nice improved quality thing even if the module happens to
+be built-in. If that is easy to do, then we should just do it, and it
+allows people to see interesting information and might make it useful
+to (for example) have tools like profiling be able to zoom into
+particular "modules", even if the module is built-in.
+
+And if there are big gaps that aren't just "align to next cacheline",
+then that sounds like it's worth pointing out too.
+
+But I see _zero_ reason not to say "just use vmlinux if you need
+detailed information". The /proc file is not supposed to be a
+replacement for the full setup, it should be seen as a convenient
+shorthand and as a "if you have nothing better, at least you can get
+_some_ information, and maybe you can also use it to validate that you
+have the _right_ vmlinux file"
+
+                 Linus
