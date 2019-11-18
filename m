@@ -2,124 +2,299 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE2CAFFE1B
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2019 06:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6CA6FFF82
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2019 08:31:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725934AbfKRFqV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Nov 2019 00:46:21 -0500
-Received: from mail-eopbgr720103.outbound.protection.outlook.com ([40.107.72.103]:54432
-        "EHLO NAM05-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725816AbfKRFqU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Nov 2019 00:46:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VJ44Xe2MLeOocL4Ny8nzTtwrwz4T4DW0lUahcRaFkdB7sfYtC7LGFNB7ctdaX8TQJzGWC/h8RFMsxv8HJZ8iSJcUR3qNCiYB7i/eCAZAWh2YnnSYiH/ucm5F4jbZ0o6rL1UeTeYjytt0AbDRIKA6Jl1D5PFWlApOZhgxPBoG2+TC9hLdrRP8fsKrLfVQZv4Hew/u9+mwHZ7IZUJvbfBzhfX35M4jR5x/GP8x43W+0kZ9eDbrhwIMVfhj4uUU9J/dRX7GU73NfNGX6atvew00Tq4Is1gqyX9Pp7ED8Q1vpp+lJ7elVwO3PSZ9GYVrVGfrlptERE1w/Gj1BdDOd7iR/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EvVOVJ7pxMsE1oHdd9Jhz5XwOUvUAznfEbM3ggjiE2o=;
- b=bOhwflDHfsKhiY6FWh8walNhCI9zDzoG8P8XjGadQoUSVvA83TrbTSJDSdxGGr0GonZijuiaXmMx41a1kf2qA8iwzVnU+Z6kHKZMiK71VIvIs9/4IJy5A5rCrJOesMKrzC+de0BcDAjizB1DLd5fjvqgjR/K8UiWWKjcu/JfThvULI4fwR7eba/wIzLOlm7OSwUbKjXhzGg6dEYYALy1YayK+AXh25K/kMrPXVC+Do3tBgbVC3BlI/ceX4oW178JpoVENMuDg4sZ90gfLtJXjNv3X6ERG/u11sWQ+YZtbAVnh2tTL0aVWsTIYBb+X7dez+Ke/t1jYfoCmPxP/c50Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=pgazz.com; dmarc=pass action=none header.from=pgazz.com;
- dkim=pass header.d=pgazz.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORGFT3189878.onmicrosoft.com;
- s=selector2-NETORGFT3189878-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EvVOVJ7pxMsE1oHdd9Jhz5XwOUvUAznfEbM3ggjiE2o=;
- b=ebu1XEr5fDgEk5IBakzLiN42NpWdu0UTrhEbJHkAOdwnwK7ZIBOhlqpZ+FIGEijhhxT4SFiSmj/3uNXqD7zwn7irr8x08tJu9xvsxscCJxofpAyb5wC3Kaumv3rQ9ktlApN9Vf1mmaQbaEFdxcMuTb4XR8ypSShJxTwqoA7GjmQ=
-Received: from BN7PR15MB2244.namprd15.prod.outlook.com (52.132.218.21) by
- BN7PR15MB2387.namprd15.prod.outlook.com (52.132.217.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2451.30; Mon, 18 Nov 2019 05:46:17 +0000
-Received: from BN7PR15MB2244.namprd15.prod.outlook.com
- ([fe80::b17d:308:2c24:4f36]) by BN7PR15MB2244.namprd15.prod.outlook.com
- ([fe80::b17d:308:2c24:4f36%4]) with mapi id 15.20.2451.029; Mon, 18 Nov 2019
- 05:46:17 +0000
-From:   Paul <paul@pgazz.com>
-To:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: announcing kmax, a symbolic build config evaluator; requesting useful
- application ideas
-Thread-Topic: announcing kmax, a symbolic build config evaluator; requesting
- useful application ideas
-Thread-Index: AQHVndN+d8LXOoCyZ0iJEaD8Td0mow==
-Date:   Mon, 18 Nov 2019 05:46:16 +0000
-Message-ID: <20191118054613.ar6vnl4vkfum5kr3@dev.opentheblackbox.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BN6PR03CA0059.namprd03.prod.outlook.com
- (2603:10b6:404:4c::21) To BN7PR15MB2244.namprd15.prod.outlook.com
- (2603:10b6:406:8c::21)
-authentication-results: spf=none (sender IP is ) smtp.mailfrom=paul@pgazz.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [2600:1700:cf0:3d40:922b:34ff:fe30:bc7a]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 61067c78-764e-4d42-f8f2-08d76beaa133
-x-ms-traffictypediagnostic: BN7PR15MB2387:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BN7PR15MB2387A34A46C6984708889DB4CB4D0@BN7PR15MB2387.namprd15.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0225B0D5BC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(39830400003)(136003)(366004)(346002)(376002)(189003)(199004)(53754006)(186003)(14454004)(2501003)(25786009)(2351001)(6506007)(316002)(508600001)(6916009)(1076003)(5640700003)(6306002)(9686003)(6512007)(81156014)(81166006)(8676002)(86362001)(2906002)(6486002)(966005)(6436002)(66476007)(6116002)(99286004)(66556008)(64756008)(476003)(5660300002)(66946007)(66446008)(8936002)(305945005)(52116002)(71200400001)(71190400001)(486006)(7736002)(102836004)(46003)(256004)(386003);DIR:OUT;SFP:1102;SCL:1;SRVR:BN7PR15MB2387;H:BN7PR15MB2244.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: pgazz.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: esmaGGhf3kGbz1JotAZ20m+XsvHTpShuU+ge5ht94tsVulIwNao4GcxNygAR8Zo9YXvGymZooTPTxYev9YcYS5DDd6z0JzckeQhQ8Jw/+8/pflDwOFBpQhqVvSxLybfR+7YetB+LVX7WA0iBmeDdjIs36v6CnmNcCfqg/dMBnRYWQNJZFdfeoCzDWlRVkFheyQ2xPDPMxIZc9SzPRcqIHixVPC0jctm2/rmV+4NjmKYAzFissuTS/gbLr7yb2SycH4yxK2/+yuVLITDqGB3n2Kl5l1aLtPmawgHLprMWC/cfLemT+YJWFJgxjf5e1lCzp046SgbKt8aSpIrjx5RQko45PghhJYqiRyE9Zw+oUjzGVV+d5ihNy/ahUHsvWNNALeWkHyOZL7RyeNJYbVpNnXsrBM+omqPptPlQJpdJ1vh8XmBnWChp/wf36sYe3Nib
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D36AB1877AB4B8438B0BD160632C30ED@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726400AbfKRHbm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Nov 2019 02:31:42 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:50224 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726321AbfKRHbm (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 18 Nov 2019 02:31:42 -0500
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id xAI7VQBK021482;
+        Mon, 18 Nov 2019 16:31:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com xAI7VQBK021482
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1574062287;
+        bh=emxptW2soOFW3R7+ZpydijJ0615//BEKeeTXQTbjo+A=;
+        h=References:In-Reply-To:From:Date:Subject:To:From;
+        b=kGz1y8NQK+2kg0hZ1K/Anw6af7KOMxf9L70CvdNNvRL1CK3LQUqxWyUBPw/mJXAe5
+         TAHK8bAq0pjDntY2MJe28zNtBsHsvjsEEY0abeSAxK4/EPhm0IyNOzHpvaBJkQdDzq
+         sYJj796mw5KxMLqEWZ0JDPb4kaNzRjq6fgV6UlnPU2UnyqgbBVIu0qyyUPHeg2mh/Q
+         1IBDgEc1Kg/Lw0HKw8F8QCLbBzzf4F7RDm8PBopETciK68zQQ4XAPquqXRcSNDx0eK
+         GfOFn5rgcvOFBvrW2thmQTojyrQzG8UH/4UYhqHXXVAVBOs0EXULdkcMDB2VAQMn7+
+         hidLmB+vt214A==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id w10so2446275uar.12;
+        Sun, 17 Nov 2019 23:31:27 -0800 (PST)
+X-Gm-Message-State: APjAAAWNpa4xpWXw09R+1zEK6RZ1m6V4o1IL1U0uMzeLdTHihFfji8Wt
+        YgrXLSzUQiFAx1NTLcfkAm7LzuhCi2ZROlz1EhM=
+X-Google-Smtp-Source: APXvYqy4UcbDIObxmfCY0q8w22O5AZC1dbRPJMJhFK3iq/NB6chvtlo7aIKdtjY1+hqmNOwb8KB5/McoONye+v1x9Ws=
+X-Received: by 2002:ab0:279a:: with SMTP id t26mr16477375uap.40.1574062286127;
+ Sun, 17 Nov 2019 23:31:26 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: pgazz.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61067c78-764e-4d42-f8f2-08d76beaa133
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2019 05:46:16.9450
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b70b2353-c6b3-4c42-a970-dff633c69dd2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: AUEXrV/+L7kRjc3GNSbuq14EQMjYi0eMtsx2M1wCtCFCwhvarFglD4Wa1zTKclA2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR15MB2387
+References: <50680c37-9e85-0050-c1e1-700260a0471c@infradead.org>
+ <20191105023243.GA16635@fieldses.org> <CAK7LNARAgOEnMRYAyzbvJ-xZzFfwOMckxb=bW0-E+P1HYu5nhA@mail.gmail.com>
+ <20191106043120.GB6355@fieldses.org> <20191106044223.GA18076@Gentoo>
+ <20191106193010.GG17669@fieldses.org> <20191106223918.GB1852@Slackware>
+ <CAK7LNASvoh1k=vw6DOyTXa5xYDYNT5uH-5YWS=_95t9XwfAgTQ@mail.gmail.com>
+ <20191109111335.GA1198@Gentoo> <CAK7LNAR9PrnXWhA6CCvgexpwVfeZxvHiXp_JtKH7Xb1OZDGusw@mail.gmail.com>
+ <20191115152102.GA23525@Gentoo>
+In-Reply-To: <20191115152102.GA23525@Gentoo>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Mon, 18 Nov 2019 16:30:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARhV9Zy20WRQmZRkcVLtWYT_LKjrpT_Pyx75auCp_veLg@mail.gmail.com>
+Message-ID: <CAK7LNARhV9Zy20WRQmZRkcVLtWYT_LKjrpT_Pyx75auCp_veLg@mail.gmail.com>
+Subject: Re: [PATCH] scripts:prune-kernel:remove old kernels and modules dir
+ from system
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        "J. Bruce Fields" <bfields@fieldses.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: multipart/mixed; boundary="0000000000006b6e5d059799effa"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi all,
+--0000000000006b6e5d059799effa
+Content-Type: text/plain; charset="UTF-8"
 
-I'd like to announce a tool called Kmax and see if it can be of benefit to =
-the developer community: https://github.com/paulgazz/kmax/
+On Sat, Nov 16, 2019 at 12:21 AM Bhaskar Chowdhury
+<unixbhaskar@gmail.com> wrote:
+>
+> On 10:58 Fri 15 Nov 2019, Masahiro Yamada wrote:
+> >On Sat, Nov 9, 2019 at 8:14 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+> >>
+> >> On 16:25 Sat 09 Nov 2019, Masahiro Yamada wrote:
+> >> >On Thu, Nov 7, 2019 at 7:39 AM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+> >> >>
+> >> >> On 14:30 Wed 06 Nov 2019, J. Bruce Fields wrote:
+> >> >> >On Wed, Nov 06, 2019 at 10:12:26AM +0530, Bhaskar Chowdhury wrote:
+> >> >> >> On 23:31 Tue 05 Nov 2019, J. Bruce Fields wrote:
+> >> >> >> >On Wed, Nov 06, 2019 at 11:53:28AM +0900, Masahiro Yamada wrote:
+> >> >> >> >>BTW.
+> >> >> >> >>Bruce,
+> >> >> >> >>Does the current script expect RHEL or something?
+> >> >> >> >>I do not see 'new-kernel-pkg' on my Ubuntu machine.
+> >> >> >> >
+> >> >> >> >I test on Fedora.  Looks like on recent Fedora that's only provided by
+> >> >> >> >an rpm "grubby-deprecated", which is an inauspicious name....
+> >> >> >> >
+> >> >> >> >I think maybe you're supposed to use "grubby" itself now.  Do you have
+> >> >> >> >that?
+> >> >> >> >
+> >> >> >> >>It would still work with 'new-kernel-pkg: command not found'
+> >> >> >> >>warning.
+> >> >> >> >>
+> >> >> >> >>We could bypass it if we like.
+> >> >> >> >>
+> >> >> >> >>command -v new-kernel-pkg && new-kernel-pkg --remove $f
+> >> >> >> >
+> >> >> >> >Looks like it's what updates the grub configuration, which is probably a
+> >> >> >> >nice thing to do if you can.
+> >> >> >> >
+> >> >> >> >--b.
+> >> >> >>
+> >> >> >> Bruce,
+> >> >> >>
+> >> >> >> Two things,
+> >> >> >>
+> >> >> >> If the system doesn't run grub , how the fallback policy???
+> >> >> >>
+> >> >> >> This binary "new-kernel-pkg" also missing in other systems too...I can
+> >> >> >> confirm that... i.e gentoo,slackware,
+> >> >> >>
+> >> >> >> So , you are only targeting the rpm based system????
+> >> >> >
+> >> >> >It's just what I happen to use.  If someone wants to make it work
+> >> >> >elsewhere that'd be great, as long as we don't break what already works.
+> >> >> >
+> >> >> >I think Debian uses grub2-mkconfig?  Might be OK for Fedora too, I
+> >> >> >dunno.
+> >> >> >
+> >> >> >--b.
+> >> >>
+> >> >> Okay , thanks for the input. I was trying to write something in
+> >> >> generalize way , that is why my code spins off.And if you see the
+> >> >> subject line of my very first attempt to patch written was "removing
+> >> >> old kernels and modules dir in selective way"... that was it.
+> >> >>
+> >> >> Now, there are plenty of distros around, not only rpm based one(yes I do
+> >> >> agree that ,you wrote it while using and testing on it, but that is
+> >> >> limited in nature),the broader user base might be using something else.
+> >> >>
+> >> >> we simply can not restrict it to certain packaging version or several
+> >> >> packaging versions of selected distros. We are making and building this
+> >> >> (worth an effort) to make it as generalized as possible.
+> >> >>
+> >> >> Importantly I was only thinking of people who put the stuff in standard
+> >> >> places in the FSH and use it. I might be wrong.
+> >> >>
+> >> >> As I have said it before, I was no way trying to bypass your work ,but
+> >> >> it seems very limited in nature to adopted. So trying to widen the
+> >> >> spectrum.
+> >> >>
+> >> >> I am trying to incorporating both the pole, different kind user base in
+> >> >> mind, like you , who don't like to be prompted for this operation and
+> >> >> assuming things should go well, and you are right.
+> >> >>
+> >> >> On the other hand , I am kinda guy , sometime I need to know what is
+> >> >> going on, so the prompting.
+> >> >>
+> >> >> Well, I have never taken into account about modifying the bootloader
+> >> >> config by looking at your work. Had I been, I would have done it already
+> >> >> and it would be extremely trivial in nature.
+> >> >>
+> >> >> Now, Grub, no doubt it's fantastic piece of software, but complexity
+> >> >> is paramount with it. Don't you think so???  I HAVE NOTHING AGAINST
+> >> >> GRUB!
+> >> >>
+> >> >> I have personally stops using it for years and using something very
+> >> >> rudimentary and simple and useful. That is because I know what I am
+> >> >> doing and my system well.
+> >> >>
+> >> >> Caveat emptor: that was me, not every one else in the wild. Grub is used
+> >> >> by the most distro by default,everybody knows it,but certainly not the
+> >> >> norm.
+> >> >>
+> >> >> I would love to give it a stab again and if you better people feel it is
+> >> >> necessary, but I need some concrete understanding from you,Masahiro and
+> >> >> Randy(who is helping me actively).
+> >> >>
+> >> >> Say, You people might come up ,
+> >> >>
+> >> >> We need these :
+> >> >>
+> >> >> a)
+> >> >> b)
+> >> >> c)
+> >> >>
+> >> >> and we don't need these:
+> >> >>
+> >> >> a)
+> >> >> b)
+> >> >> c)
+> >> >>
+> >> >>
+> >> >> My two cents! kindly, flame me with your thoughts.
+> >> >
+> >> >
+> >> >Honestly, I did not even know this script
+> >> >before you submitted the patch.
+> >> >
+> >> :)
+> >>
+> >> >I prune stale kernel/modules with my own script,
+> >> >and I guess people do similar to meet their demand.
+> >> >
+> >> I do the same.
+> >>
+> >> >I am not sure how many people are using this.
+> >> Only people who look up in the kernel source scripts directory , nobody
+> >> else for sure.
+> >> >If somebody is passionate to improve this script
+> >> >in a simple way, that is fine, but
+> >> >I do not want to see messy code for covering various use-cases.
+> >> Agreed. That is why need guideline from you people(You, Randy and Bruce
+> >> needs to tell me clearly), like what I mentioned, we can do
+> >> these and we can not do these. I am asking because you people have had more
+> >> exposure ,so might come up with some valid points to build up.
+> >> >
+> >
+> >We have two topics here.
+> >
+> >[1]  add the interactive option
+> For that, my last patch stand , I have covered it in a sane way, please try that
+> once more with options.Yes , you said, the modules directory should be
+> pruned at once with kernel. But , every system keeps the modules
+> directory in different names AFAIK. So, the explicitness of the calling.
+> >[2]  do nice things for non-rpm systems
+> Bruce's code cover the base for RPM based system , which can be applied
+> to other similar distribution using that format.Provided I figure out
+> the "unknown binary" in the code.
+>
+> I might add other packaging format distribution to cover. Those will
+> append behind the existing code.
+> >
+> >
+> >They should be done by separate patches.
+> >
+> Agreed. Moduler and clear.
+> >I think [1] is easy to do in a few liners.
+> >
+> My last patch stand.AFAIK...let me know if you feel it should be done
+> differently.
+> >
+> >For [2], I am not sure how well it goes
+> >until I see an actual patch.
 
-Kmax extracts symbolic constraints for compilation units from Kbuild Makefi=
-les. For example, this snippet
 
-    obj-y :=3D fork.o
-    ifeq ($(CONFIG_A),y)
-      BITS :=3D 32
-    else
-      BITS :=3D 64
-    endif
-    obj-$(CONFIG_B) +=3D probe_$(BITS).o
+As I said before, your patch is replacing everything,
+and breaking how it previously worked.
 
-would yield this output
+If you want to support the interactive mode,
+what you need to do is quite simple -
+1) check the command line option -i
+2) if -i is given, show a prompt before the removal
 
-    probe_64.o ((! CONFIG_A) && CONFIG_B)
-    probe_32.o (CONFIG_A && CONFIG_B)
-    fork.o 1
 
-I've used Kmax to collect the symbolic constraints for compilation units fr=
-om the 5.3.11 (x86) kernel: https://drive.google.com/file/d/1q7dDzOvEKWUi7F=
-lZ2YixValV6xlkq1yY/view?usp=3Dsharing
+It would be possible to do these
+in smaller changes.
+I attached a sample patch.
 
-Since this was proposed as a GSoC project last year (https://wiki.linuxfoun=
-dation.org/gsoc/2019-gsoc-safety-critical-linux#student_project_proposals_2=
-018), I thought this might be useful for kernel developers.
 
-What (if any) would be useful applications that developers would most benef=
-it from?  Automatically generating configurations that include a particular=
- C file?  Looking for dead (unconfigurable) compilation units?  Something m=
-ore pressing?  Looking forward to any suggestions.
 
-Best,
-Paul Gazzillo
+
+
+
+> That would be a undertaking to deal with the native packaging system for
+> different distributions.
+>
+> >--
+> >Best Regards
+> >Masahiro Yamada
+>
+> Thanks,
+> Bhaskar
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
+
+--0000000000006b6e5d059799effa
+Content-Type: text/x-patch; charset="US-ASCII"; name="prune-kernel.diff"
+Content-Disposition: attachment; filename="prune-kernel.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_k343ch1n0>
+X-Attachment-Id: f_k343ch1n0
+
+ZGlmZiAtLWdpdCBhL3NjcmlwdHMvcHJ1bmUta2VybmVsIGIvc2NyaXB0cy9wcnVuZS1rZXJuZWwK
+aW5kZXggZThhYTk0MGJjMGE5Li45MDkxZWUxMTI1ZjUgMTAwNzU1Ci0tLSBhL3NjcmlwdHMvcHJ1
+bmUta2VybmVsCisrKyBiL3NjcmlwdHMvcHJ1bmUta2VybmVsCkBAIC01LDYgKzUsMTEgQEAKICMg
+YWdhaW4sIC9ib290IGFuZCAvbGliL21vZHVsZXMvIGV2ZW50dWFsbHkgZmlsbCB1cC4KICMgRHVt
+YiBzY3JpcHQgdG8gcHVyZ2UgdGhhdCBzdHVmZjoKIAoraWYgWyAiJDEiID0gLWkgXTsgdGhlbgor
+CWludGVyYWN0aXZlPXkKKwlzaGlmdAorZmkKKwogZm9yIGYgaW4gIiRAIgogZG8KICAgICAgICAg
+aWYgcnBtIC1xZiAiL2xpYi9tb2R1bGVzLyRmIiA+L2Rldi9udWxsOyB0aGVuCkBAIC0xMiwxMCAr
+MTcsMjAgQEAgZG8KICAgICAgICAgZWxpZiBbICQodW5hbWUgLXIpID0gIiRmIiBdOyB0aGVuCiAg
+ICAgICAgICAgICAgICAgZWNobyAia2VlcGluZyAkZiAocnVubmluZyBrZXJuZWwpICIKICAgICAg
+ICAgZWxzZQotICAgICAgICAgICAgICAgIGVjaG8gInJlbW92aW5nICRmIgotICAgICAgICAgICAg
+ICAgIHJtIC1mICIvYm9vdC9pbml0cmFtZnMtJGYuaW1nIiAiL2Jvb3QvU3lzdGVtLm1hcC0kZiIK
+LSAgICAgICAgICAgICAgICBybSAtZiAiL2Jvb3Qvdm1saW51ei0kZiIgICAiL2Jvb3QvY29uZmln
+LSRmIgotICAgICAgICAgICAgICAgIHJtIC1yZiAiL2xpYi9tb2R1bGVzLyRmIgotICAgICAgICAg
+ICAgICAgIG5ldy1rZXJuZWwtcGtnIC0tcmVtb3ZlICRmCisJCWZvciBnIGluICQobHMgLWQgL2Jv
+b3QvaW5pdHJhbWZzLSRmLmltZyAvYm9vdC9TeXN0ZW0ubWFwLSRmIFwKKwkJCSAgIC9ib290L3Zt
+bGludXotJGYgL2Jvb3QvY29uZmlnLSRmIC9saWIvbW9kdWxlcy8kZiBcCisJCQkgICAyPi9kZXYv
+bnVsbCkKKwkJZG8KKwkJCWlmIFsgIiRpbnRlcmFjdGl2ZSIgPSB5IF07IHRoZW4KKwkJCQlwcmlu
+dGYgInJlbW92ZSAnJGcnPyAiCisJCQkJcmVhZCBhbnMKKwkJCQlpZiBbICRhbnMgIT0gWSAtYSAk
+YW5zICE9IHkgXTsgdGhlbgorCQkJCQljb250aW51ZQorCQkJCWZpCisJCQllbHNlCisJCQkJZWNo
+byAicmVtb3ZpbmcgJyRnJyIKKwkJCWZpCisJCQlybSAtcmYgJGcKKwkJZG9uZQogICAgICAgICBm
+aQogZG9uZQo=
+--0000000000006b6e5d059799effa--
