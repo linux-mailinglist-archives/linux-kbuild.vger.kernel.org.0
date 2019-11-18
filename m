@@ -2,90 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 774D1100753
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2019 15:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 409FD100792
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2019 15:41:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbfKRO03 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Nov 2019 09:26:29 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:41817 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726739AbfKRO02 (ORCPT
+        id S1726830AbfKROlv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 18 Nov 2019 09:41:51 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37100 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727121AbfKROlu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Nov 2019 09:26:28 -0500
-Received: by mail-io1-f67.google.com with SMTP id r144so18902474iod.8
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2019 06:26:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=du0XHpmLviazuqr3BCaTDTx0qFpy8dgUcEPCv5dSJV8=;
-        b=zs8hejVgqws+v5Gu+l9yMA4nopGmUwQZjUJnjQUVogqktbkEW14DoBX4fxmhG7BB/e
-         rbN4UCFmLnNygIsV39ni0tlA4BEAF0c/APLGD/ZTa+LkBHNC46Fe71TDJYmAFLebNyxc
-         bjaWoImPEfZG6H9WC5To7FeQBMDduWzgs+/SQjH9lBAkeDWDxYkTO3ubICGofpdVvKus
-         0b1z9986UfZvNv5urlsR3h80NV7YEjLnLNftaCkm9rwMdgd1Ag+TcSv1BI3Ew39zHT4p
-         vT2DE3u4vKl39KI8bmFDHR0/j76auj782kQxmZCHQSZQP9FsM4utTEaiaBiseC/CF4qq
-         /wbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=du0XHpmLviazuqr3BCaTDTx0qFpy8dgUcEPCv5dSJV8=;
-        b=ffcszUYxtuM0uC9CIR9PzUqcRVsyeDSZcFHIQb2n7lHzj6K2mEis6QnOQs9Nkv0Qcz
-         q9xxza5MyTDE0Gt42ICABRaD9xOVXCOnQOibkkSa2rMuU424zCT8teQO/JKUStkoxxv8
-         5w7+0WkNMoMwOHpKm+82RjJ3dNq76Hb9qyK4UFNf2j7+36jtyp4u8lMBsW1aa+KCGBLL
-         d0OIrKogm3vx0krBFFkRydjX3wKgLakUcBdYt+Vgwf4xXHLoaTFUaoPTHr9dgyPYLt4M
-         8v00u6eIw36DXmfzseCoQZDhEZ0dCYXk9u7hjeIDd91t/TfBQJyVEStt/hSIY4+XH8rf
-         NcqA==
-X-Gm-Message-State: APjAAAV2HNv2F5Xjyg9fqcQAV7CsA+I3u7B9BbaoL0lUCgJDGxuHpnFU
-        R5SYSaN0AQGmubtan3ELAdKM9/TtK/k=
-X-Google-Smtp-Source: APXvYqxho+itgdP4ffBUh8zwnHiMwlXoVhy59Svd9UMWT0O5v/ZjRugfj87x35RO8m6Uyxka3HtgRw==
-X-Received: by 2002:a5e:d716:: with SMTP id v22mr13226365iom.152.1574087187154;
-        Mon, 18 Nov 2019 06:26:27 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id e4sm4534244ilg.33.2019.11.18.06.26.25
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Nov 2019 06:26:26 -0800 (PST)
-Subject: Re: [PATCH] kbuild: make single target builds even faster
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-References: <20191118045247.14082-1-yamada.masahiro@socionext.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <2b1ab1b1-dd20-31f7-c787-921cbd66a828@kernel.dk>
-Date:   Mon, 18 Nov 2019 07:26:24 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 18 Nov 2019 09:41:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574088109;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=zWOuHjtcr+jgrXR9pO0XmYBgEY/ms4Num4NmyM+C6gs=;
+        b=X3bgh4M/IpUnT5h4bYjAbofbyAwSTCRcpEljE94ZO/X9IQ+VkVsidb3xq9OncrC+Z32h9F
+        AbhI2IHa4+lgfw1mK1H9AtbX5jl58UMpi/qvK0qet9CkeY5MgFyCjSJHcKRpq1cXWvdWRr
+        KvpmsoW2scdJ2AMsQwnIHAn2hdmfV+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-jeNprMmrNECxHQTR4Wq5wg-1; Mon, 18 Nov 2019 09:41:45 -0500
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F67918C3940;
+        Mon, 18 Nov 2019 14:41:42 +0000 (UTC)
+Received: from treble (ovpn-121-122.rdu2.redhat.com [10.10.121.122])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B6BDE5DDAA;
+        Mon, 18 Nov 2019 14:41:39 +0000 (UTC)
+Date:   Mon, 18 Nov 2019 08:41:37 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     David Laight <David.Laight@ACULAB.COM>
+Cc:     'Shile Zhang' <shile.zhang@linux.alibaba.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Subject: Re: [RFC PATCH v3 7/7] x86/unwind/orc: remove run-time ORC unwind
+ tables sort
+Message-ID: <20191118144137.ibxel2hmp57jvspc@treble>
+References: <20191115064750.47888-1-shile.zhang@linux.alibaba.com>
+ <20191115064750.47888-8-shile.zhang@linux.alibaba.com>
+ <893d3caf85cd4ed0921fab84cfe28cad@AcuMS.aculab.com>
+ <20191115174649.ldif5o7xqo5ntxeo@treble>
+ <5fe9024bc69c4a4eb115b3c2f3f9bcd1@AcuMS.aculab.com>
 MIME-Version: 1.0
-In-Reply-To: <20191118045247.14082-1-yamada.masahiro@socionext.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <5fe9024bc69c4a4eb115b3c2f3f9bcd1@AcuMS.aculab.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-MC-Unique: jeNprMmrNECxHQTR4Wq5wg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/17/19 9:52 PM, Masahiro Yamada wrote:
-> Commit 2dffd23f81a3 ("kbuild: make single target builds much faster")
-> made the situation much better.
-> 
-> To improve it even more, apply the similar idea to the top Makefile.
-> Trim unrelated directories from build-dirs.
-> 
-> The single build code must be moved above the 'descend' target.
+On Mon, Nov 18, 2019 at 10:05:02AM +0000, David Laight wrote:
+> From: Josh Poimboeuf <jpoimboe@redhat.com>
+> > Sent: 15 November 2019 17:47
+> > On Fri, Nov 15, 2019 at 04:51:24PM +0000, David Laight wrote:
+> > > From: Shile Zhang
+> > > > Sent: 15 November 2019 06:48
+> > > ...
+> > > >  arch/x86/kernel/unwind_orc.c | 8 +++++---
+> > > >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_=
+orc.c
+> > > > index 332ae6530fa8..280da6fa9922 100644
+> > > > --- a/arch/x86/kernel/unwind_orc.c
+> > > > +++ b/arch/x86/kernel/unwind_orc.c
+> > > > @@ -273,9 +273,11 @@ void __init unwind_init(void)
+> > > >  =09=09return;
+> > > >  =09}
+> > > >
+> > > > -=09/* Sort the .orc_unwind and .orc_unwind_ip tables: */
+> > > > -=09sort(__start_orc_unwind_ip, num_entries, sizeof(int), orc_sort_=
+cmp,
+> > > > -=09     orc_sort_swap);
+> > > > +=09/*
+> > > > +=09 * Note, orc_unwind and orc_unwind_ip tables has been sorted in
+> > > > +=09 * vmlinux link phase by sorttable tool at build time.
+> > > > +=09 * Its ready for binary search now.
+> > > > +=09 */
+> > >
+> > > How fast is sort() if the table is sorted?
+> > > Relying on the kernel sources and build scripts always being in sync =
+seems dangerous.
+> > > Probably better to leave the sort in for a release of two.
+> >=20
+> > This patch comes after the build script changes, so they'd be in sync.
+> > What would the concern be?
+>=20
+> Mostly that if, for any reason, the build script changes are missing noth=
+ing
+> will detect the error - but the results will be very confusing.
+> If the sort is fast for sorted inputs (some algorithms aren't) then leavi=
+ng
+> it in won't take that long.
 
-I tested linux-next, which does improve things a bit, and this one on
-top further improves it. We're now not THAT far off the situation
-before these changes, that's a huge win. Thanks for working on this!
+But why would the build script changes be missing...
 
-You can add:
+And it should fail gracefully for oopses anyway: stack traces will just
+have a bunch of question marks.
 
-Tested-by: Jens Axboe <axboe@kernel.dk>
-
-to the commit, if you wish.
-
--- 
-Jens Axboe
+--=20
+Josh
 
