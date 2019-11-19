@@ -2,121 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 409FD100792
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 Nov 2019 15:41:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBD48101956
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2019 07:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbfKROlv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 Nov 2019 09:41:51 -0500
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:37100 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727121AbfKROlu (ORCPT
+        id S1726840AbfKSG0L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Nov 2019 01:26:11 -0500
+Received: from mail-qk1-f169.google.com ([209.85.222.169]:42493 "EHLO
+        mail-qk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbfKSG0L (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 Nov 2019 09:41:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1574088109;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=zWOuHjtcr+jgrXR9pO0XmYBgEY/ms4Num4NmyM+C6gs=;
-        b=X3bgh4M/IpUnT5h4bYjAbofbyAwSTCRcpEljE94ZO/X9IQ+VkVsidb3xq9OncrC+Z32h9F
-        AbhI2IHa4+lgfw1mK1H9AtbX5jl58UMpi/qvK0qet9CkeY5MgFyCjSJHcKRpq1cXWvdWRr
-        KvpmsoW2scdJ2AMsQwnIHAn2hdmfV+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-jeNprMmrNECxHQTR4Wq5wg-1; Mon, 18 Nov 2019 09:41:45 -0500
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F67918C3940;
-        Mon, 18 Nov 2019 14:41:42 +0000 (UTC)
-Received: from treble (ovpn-121-122.rdu2.redhat.com [10.10.121.122])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id B6BDE5DDAA;
-        Mon, 18 Nov 2019 14:41:39 +0000 (UTC)
-Date:   Mon, 18 Nov 2019 08:41:37 -0600
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     David Laight <David.Laight@ACULAB.COM>
-Cc:     'Shile Zhang' <shile.zhang@linux.alibaba.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 7/7] x86/unwind/orc: remove run-time ORC unwind
- tables sort
-Message-ID: <20191118144137.ibxel2hmp57jvspc@treble>
-References: <20191115064750.47888-1-shile.zhang@linux.alibaba.com>
- <20191115064750.47888-8-shile.zhang@linux.alibaba.com>
- <893d3caf85cd4ed0921fab84cfe28cad@AcuMS.aculab.com>
- <20191115174649.ldif5o7xqo5ntxeo@treble>
- <5fe9024bc69c4a4eb115b3c2f3f9bcd1@AcuMS.aculab.com>
+        Tue, 19 Nov 2019 01:26:11 -0500
+Received: by mail-qk1-f169.google.com with SMTP id i3so4862827qkk.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2019 22:26:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SIxCKnkKzKFuiW294oszAJja2nNuZFcn2HEVJx85tIU=;
+        b=immxAQCpxeixRJnW/KIOjBxbmu4EQNc/33R8O1qzLRipWyS7SJImMyvMbZceEZsQwO
+         F8O0FpNI217eFm02LAhqoUk9CNluBD0SqM+e/xmK4pQWw+miIbtxgpVzNL7ww0ixZ8ac
+         dXy4t2B4IdNBKK9vjeuLfi4VYJLf6TXpq98EAw00xKgw6MQbGHHLpSQz+nw1Pq00xcLO
+         lthvWsBFY8eDY2UTA/yjpCd8m1X2BzncbXYWVoHK3Fj8qhPD4BiECU/hlvRSlkuZDMzB
+         NXgLKh+tlY07Y/5izNaM5lPGYc8GZZlLCwRS8mx80iWdD1WFlqy3wjZJT85WMUg0lsz0
+         O7GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SIxCKnkKzKFuiW294oszAJja2nNuZFcn2HEVJx85tIU=;
+        b=cTYQbbO3uma0pHS5vYhtfr+UVUkdjqeJuiNXh808BLbp77V5SrsA/VmVQEeYY9pp36
+         P91gvxSPAIzudVBPwQNWlN0xLMQUnNpDGUmPl33sxLJuodn2JG1RKrJMxetPGvdvvqdM
+         xXXMhCyQcJVskd+iQ4DP8TW2mnHdUC5OIFOJnK2WvExVftYSUQyHxf4pLoXaRbkMzW4y
+         CbB/JaD1noGtNZCD8QMA45xqB299crEOYtpIWwfEU0SCSLlUqbc9Oh7RgvTycwv14U78
+         HooZyvxBTkUlIy9ApJ4rBnvrMX3aBMmXn8xygCXuU1gV84iNc+OMjn2RUt9i1dEJJlxw
+         TBiA==
+X-Gm-Message-State: APjAAAUaB9QcV+gXV6PWC4uQCqLzsWMp3gxb9aMLm4SjdDgpvmQyEsNi
+        GLKXwHuCDyI2dEdOlDxfbKdV9KVlfEZ9CjsJgV4=
+X-Google-Smtp-Source: APXvYqz8pOSmReAHKlRBJSI3EheBGU/h1WE8yihC6/PmPvflcPfEW+EmdQ0wDebIJ1gdAp9h8PsPNRpOlqU+r6iK0FU=
+X-Received: by 2002:ae9:eb06:: with SMTP id b6mr26136988qkg.422.1574144770038;
+ Mon, 18 Nov 2019 22:26:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5fe9024bc69c4a4eb115b3c2f3f9bcd1@AcuMS.aculab.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-MC-Unique: jeNprMmrNECxHQTR4Wq5wg-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+References: <20191114060236.GA13066@oxygen> <CAK7LNAQDczMHTx_T2bY4ujQ0NmbxVV2fdzHWckV-uSwk8ue9gg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQDczMHTx_T2bY4ujQ0NmbxVV2fdzHWckV-uSwk8ue9gg@mail.gmail.com>
+From:   vijai kumar <vijaikumar.kanagarajan@gmail.com>
+Date:   Tue, 19 Nov 2019 11:55:59 +0530
+Message-ID: <CALLGG_KCr6N6iGyZNE+=x1dJiShbz-NH7J2fyb2GQL0ZfcN28g@mail.gmail.com>
+Subject: Re: KBUILD_IMAGE-reg
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 18, 2019 at 10:05:02AM +0000, David Laight wrote:
-> From: Josh Poimboeuf <jpoimboe@redhat.com>
-> > Sent: 15 November 2019 17:47
-> > On Fri, Nov 15, 2019 at 04:51:24PM +0000, David Laight wrote:
-> > > From: Shile Zhang
-> > > > Sent: 15 November 2019 06:48
-> > > ...
-> > > >  arch/x86/kernel/unwind_orc.c | 8 +++++---
-> > > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_=
-orc.c
-> > > > index 332ae6530fa8..280da6fa9922 100644
-> > > > --- a/arch/x86/kernel/unwind_orc.c
-> > > > +++ b/arch/x86/kernel/unwind_orc.c
-> > > > @@ -273,9 +273,11 @@ void __init unwind_init(void)
-> > > >  =09=09return;
-> > > >  =09}
-> > > >
-> > > > -=09/* Sort the .orc_unwind and .orc_unwind_ip tables: */
-> > > > -=09sort(__start_orc_unwind_ip, num_entries, sizeof(int), orc_sort_=
-cmp,
-> > > > -=09     orc_sort_swap);
-> > > > +=09/*
-> > > > +=09 * Note, orc_unwind and orc_unwind_ip tables has been sorted in
-> > > > +=09 * vmlinux link phase by sorttable tool at build time.
-> > > > +=09 * Its ready for binary search now.
-> > > > +=09 */
-> > >
-> > > How fast is sort() if the table is sorted?
-> > > Relying on the kernel sources and build scripts always being in sync =
-seems dangerous.
-> > > Probably better to leave the sort in for a release of two.
-> >=20
-> > This patch comes after the build script changes, so they'd be in sync.
-> > What would the concern be?
->=20
-> Mostly that if, for any reason, the build script changes are missing noth=
-ing
-> will detect the error - but the results will be very confusing.
-> If the sort is fast for sorted inputs (some algorithms aren't) then leavi=
-ng
-> it in won't take that long.
+On Fri, Nov 15, 2019 at 7:55 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
+>
+> On Thu, Nov 14, 2019 at 3:02 PM Vijai Kumar K
+> <vijaikumar.kanagarajan@gmail.com> wrote:
+> >
+> > Hi All,
+> >
+> > I see that we have moved from directly using KBUILD_IMAGE to "make image_name"
+> > to decide the image to be included in the final deb package. Long ago when
+> > I remember we could override KBUILD_IMAGE in the environment to include
+> > the image of our choice in the deb pkg.
+>
+> I checked the old code, but I think it is unrelated to
+> the image_name conversion.
+>
+> As far as I saw the code, it is not possible to
+> override it from the environment variable,
+> but possible from the command line.
 
-But why would the build script changes be missing...
+I don't remember exactly but yeah something like that.
 
-And it should fail gracefully for oopses anyway: stack traces will just
-have a bunch of question marks.
+>
+> >
+> > Is this possible now by any other means? Because there are times when I
+> > would like to include vmlinux instead of vmlinuz and just wondering how
+> > one could go about accomplishing that.
+>
+>
+> make bindeb-pkg KBUILD_IMAGE=vmlinux
+>
+> might work?
+>
 
---=20
-Josh
+Let me give it a try.
 
+Thanks,
+Vijai Kumar K
+
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
