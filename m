@@ -2,102 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBD48101956
-	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2019 07:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E077102C8C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 Nov 2019 20:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbfKSG0L (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 19 Nov 2019 01:26:11 -0500
-Received: from mail-qk1-f169.google.com ([209.85.222.169]:42493 "EHLO
-        mail-qk1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbfKSG0L (ORCPT
+        id S1727171AbfKST1k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 Nov 2019 14:27:40 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:42982 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727164AbfKST1k (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 19 Nov 2019 01:26:11 -0500
-Received: by mail-qk1-f169.google.com with SMTP id i3so4862827qkk.9
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 Nov 2019 22:26:10 -0800 (PST)
+        Tue, 19 Nov 2019 14:27:40 -0500
+Received: by mail-qt1-f196.google.com with SMTP id t20so25930114qtn.9
+        for <linux-kbuild@vger.kernel.org>; Tue, 19 Nov 2019 11:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SIxCKnkKzKFuiW294oszAJja2nNuZFcn2HEVJx85tIU=;
-        b=immxAQCpxeixRJnW/KIOjBxbmu4EQNc/33R8O1qzLRipWyS7SJImMyvMbZceEZsQwO
-         F8O0FpNI217eFm02LAhqoUk9CNluBD0SqM+e/xmK4pQWw+miIbtxgpVzNL7ww0ixZ8ac
-         dXy4t2B4IdNBKK9vjeuLfi4VYJLf6TXpq98EAw00xKgw6MQbGHHLpSQz+nw1Pq00xcLO
-         lthvWsBFY8eDY2UTA/yjpCd8m1X2BzncbXYWVoHK3Fj8qhPD4BiECU/hlvRSlkuZDMzB
-         NXgLKh+tlY07Y/5izNaM5lPGYc8GZZlLCwRS8mx80iWdD1WFlqy3wjZJT85WMUg0lsz0
-         O7GA==
+        d=lca.pw; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wWke+FPRS6Ykc0nO40qrsc1dQ72uzYDMM9s/rffQgXo=;
+        b=cOwJdQ3QaoC1ghWuL5cDionr9lVRVE7w0E6xB29suEcWQZJDbarxSfoUMmuspYbOvs
+         foTc3R4N1YA6vsxpIjJbpSttqpBQ3dDDQi4PwvY4v0Tei1oeHkTXBrFblLAZtKjFSVZT
+         k6iJPky6g4ughqLuVvoeuzEMq/7B1gpdHqjeEKLzSldt+RKr3YKXU3JvPlzO5+msV6uZ
+         6v3vYAlWY89i/LBzOxKeer2saajdLI87BirnkGA6ad3ouHDNIw5STroNQNgNVW12VIMO
+         YBsvns+jHm88LTfB94IIPjtkpMzbROhq16RxFtaOcBoM1QlTB/1om5GndImlFebJg1IB
+         mGiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SIxCKnkKzKFuiW294oszAJja2nNuZFcn2HEVJx85tIU=;
-        b=cTYQbbO3uma0pHS5vYhtfr+UVUkdjqeJuiNXh808BLbp77V5SrsA/VmVQEeYY9pp36
-         P91gvxSPAIzudVBPwQNWlN0xLMQUnNpDGUmPl33sxLJuodn2JG1RKrJMxetPGvdvvqdM
-         xXXMhCyQcJVskd+iQ4DP8TW2mnHdUC5OIFOJnK2WvExVftYSUQyHxf4pLoXaRbkMzW4y
-         CbB/JaD1noGtNZCD8QMA45xqB299crEOYtpIWwfEU0SCSLlUqbc9Oh7RgvTycwv14U78
-         HooZyvxBTkUlIy9ApJ4rBnvrMX3aBMmXn8xygCXuU1gV84iNc+OMjn2RUt9i1dEJJlxw
-         TBiA==
-X-Gm-Message-State: APjAAAUaB9QcV+gXV6PWC4uQCqLzsWMp3gxb9aMLm4SjdDgpvmQyEsNi
-        GLKXwHuCDyI2dEdOlDxfbKdV9KVlfEZ9CjsJgV4=
-X-Google-Smtp-Source: APXvYqz8pOSmReAHKlRBJSI3EheBGU/h1WE8yihC6/PmPvflcPfEW+EmdQ0wDebIJ1gdAp9h8PsPNRpOlqU+r6iK0FU=
-X-Received: by 2002:ae9:eb06:: with SMTP id b6mr26136988qkg.422.1574144770038;
- Mon, 18 Nov 2019 22:26:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20191114060236.GA13066@oxygen> <CAK7LNAQDczMHTx_T2bY4ujQ0NmbxVV2fdzHWckV-uSwk8ue9gg@mail.gmail.com>
-In-Reply-To: <CAK7LNAQDczMHTx_T2bY4ujQ0NmbxVV2fdzHWckV-uSwk8ue9gg@mail.gmail.com>
-From:   vijai kumar <vijaikumar.kanagarajan@gmail.com>
-Date:   Tue, 19 Nov 2019 11:55:59 +0530
-Message-ID: <CALLGG_KCr6N6iGyZNE+=x1dJiShbz-NH7J2fyb2GQL0ZfcN28g@mail.gmail.com>
-Subject: Re: KBUILD_IMAGE-reg
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wWke+FPRS6Ykc0nO40qrsc1dQ72uzYDMM9s/rffQgXo=;
+        b=NaeZt6KF4/RuuzJ0OP+r7kKIx1kTmSrTzFQVb2rREEymKKjJZIo/KdQ/h+aEONNnQV
+         p831yTcxsiSiA5C/uAmmkWIHt2iAhkQN62o7eb7+TKPwZxMrhGPyRoJcWIuiIkXnwCok
+         2FAcAc3m6pjy70GIc21IUD2T1P5NRg3MGmioIp5tWnDsrV9Ov4qc6KfLo3pV+bI1stdt
+         MChG8QUQM7VbqkxyO2HwJ+3ik4TquVCzo0fj7nb4sc7ltIKPPGJ5DJkcT82cuLFof9hm
+         K6oWURvKsWyX7/OAGlk/ebZlE5Hr08ncI+NXEUwCDSdbbAKSEUpVNrbrP3XENXEkGrMI
+         X5ig==
+X-Gm-Message-State: APjAAAWlJzMkaiguNIuqrInFHcwGPkQHVZFrFhWQEC3D/K44/wSu3VnW
+        8LkOXRCyTlifNf6XFI22jFKGTA==
+X-Google-Smtp-Source: APXvYqwqqbIYdbA/gvquqIqz/2jzv9H8hpK3t4AE1C7xJadrM0qWrSPiW0jc/PVgaAG39wcWgRtWhw==
+X-Received: by 2002:ac8:244e:: with SMTP id d14mr35262717qtd.388.1574191657402;
+        Tue, 19 Nov 2019 11:27:37 -0800 (PST)
+Received: from dhcp-41-57.bos.redhat.com (nat-pool-bos-t.redhat.com. [66.187.233.206])
+        by smtp.gmail.com with ESMTPSA id 134sm10319529qkn.24.2019.11.19.11.27.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 Nov 2019 11:27:36 -0800 (PST)
+Message-ID: <1574191653.9585.6.camel@lca.pw>
+Subject: Re: [PATCH v4 01/10] kcsan: Add Kernel Concurrency Sanitizer
+ infrastructure
+From:   Qian Cai <cai@lca.pw>
+To:     Marco Elver <elver@google.com>
+Cc:     akiyks@gmail.com, stern@rowland.harvard.edu, glider@google.com,
+        parri.andrea@gmail.com, andreyknvl@google.com, luto@kernel.org,
+        ard.biesheuvel@linaro.org, arnd@arndb.de, boqun.feng@gmail.com,
+        bp@alien8.de, dja@axtens.net, dlustig@nvidia.com,
+        dave.hansen@linux.intel.com, dhowells@redhat.com,
+        dvyukov@google.com, hpa@zytor.com, mingo@redhat.com,
+        j.alglave@ucl.ac.uk, joel@joelfernandes.org, corbet@lwn.net,
+        jpoimboe@redhat.com, luc.maranget@inria.fr, mark.rutland@arm.com,
+        npiggin@gmail.com, paulmck@kernel.org, peterz@infradead.org,
+        tglx@linutronix.de, will@kernel.org, edumazet@google.com,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, x86@kernel.org
+Date:   Tue, 19 Nov 2019 14:27:33 -0500
+In-Reply-To: <20191114180303.66955-2-elver@google.com>
+References: <20191114180303.66955-1-elver@google.com>
+         <20191114180303.66955-2-elver@google.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6 (3.22.6-10.el7) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 7:55 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> On Thu, Nov 14, 2019 at 3:02 PM Vijai Kumar K
-> <vijaikumar.kanagarajan@gmail.com> wrote:
-> >
-> > Hi All,
-> >
-> > I see that we have moved from directly using KBUILD_IMAGE to "make image_name"
-> > to decide the image to be included in the final deb package. Long ago when
-> > I remember we could override KBUILD_IMAGE in the environment to include
-> > the image of our choice in the deb pkg.
->
-> I checked the old code, but I think it is unrelated to
-> the image_name conversion.
->
-> As far as I saw the code, it is not possible to
-> override it from the environment variable,
-> but possible from the command line.
+On Thu, 2019-11-14 at 19:02 +0100, 'Marco Elver' via kasan-dev wrote:
 
-I don't remember exactly but yeah something like that.
+> +menuconfig KCSAN
+> +	bool "KCSAN: watchpoint-based dynamic data race detector"
+> +	depends on HAVE_ARCH_KCSAN && !KASAN && STACKTRACE
 
->
-> >
-> > Is this possible now by any other means? Because there are times when I
-> > would like to include vmlinux instead of vmlinuz and just wondering how
-> > one could go about accomplishing that.
->
->
-> make bindeb-pkg KBUILD_IMAGE=vmlinux
->
-> might work?
->
+"!KASAN" makes me sorrow. What's problem of those two?
 
-Let me give it a try.
+> +	default n
+> +	help
+> +	  Kernel Concurrency Sanitizer is a dynamic data race detector, which
+> +	  uses a watchpoint-based sampling approach to detect races. See
+> +	  <file:Documentation/dev-tools/kcsan.rst> for more details.
+> +
 
-Thanks,
-Vijai Kumar K
-
->
->
-> --
-> Best Regards
-> Masahiro Yamada
