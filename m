@@ -2,989 +2,158 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0BCF1032B1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2019 06:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1812910401A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2019 16:54:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726083AbfKTFC5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Nov 2019 00:02:57 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:59508 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726038AbfKTFC5 (ORCPT
+        id S1731578AbfKTPy6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 Nov 2019 10:54:58 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:53972 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728412AbfKTPy6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Nov 2019 00:02:57 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAK4wVsX088315;
-        Wed, 20 Nov 2019 05:02:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2019-08-05;
- bh=vq1O3hQO0rTxTrp8ILuR0wpqSqRQVGZbOirLnFaIxcs=;
- b=liB51MbjAjBmCiiPUlx/cSk2xst6bVKJ0wpb/k+xvzv47YWiqHKiFlTqW2dokFo6uA07
- JUw2a3NicnOxDbo5YJ5+o7OqkpP0WcVClBUusTIRpeXluh7PCHNLD3e5XyrqrKqpsJnJ
- 4khjyYGgK32upmC0C3ficnsTbvcNyeYVOFv4hnfguV0psAiSNxUod26+Cd5+fNewko0g
- PxmhnQY0wbSNfzJU9JPv33Rm6gdH+2yRN2fO5vzd1ybM+CfRG31C36chhTkJFCKqvCya
- Xe2sXqwwdI/FwoMBGv1p1gd3J8ccJuM9afH7MmdbYTsXwBgYckv69zzsDkVg9rX93X/7 jw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 2wa92pu3kb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Nov 2019 05:02:03 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id xAK4vfje006656;
-        Wed, 20 Nov 2019 05:00:02 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 2wc09yktkx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 Nov 2019 05:00:02 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id xAK5004b016937;
-        Wed, 20 Nov 2019 05:00:00 GMT
-Received: from localhost.us.oracle.com (/10.211.14.174)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 19 Nov 2019 20:59:59 -0800
-From:   eugene.loh@oracle.com
-To:     eugene.loh@oracle.com
-Cc:     rostedt@goodmis.org, corbet@lwn.net, yamada.masahiro@socionext.com,
-        michal.lkml@markovi.net, jeyu@kernel.org,
-        linux-kbuild@vger.kernel.org, maz@kernel.org,
-        songliubraving@fb.com, tglx@linutronix.de,
-        jacob.e.keller@intel.com, Kris Van Hees <kris.van.hees@oracle.com>,
-        Nick Alcock <nick.alcock@oracle.com>
-Subject: [PATCH v3] kallsyms: add names of built-in modules
-Date:   Tue, 19 Nov 2019 20:59:38 -0800
-Message-Id: <20191120045938.2155-1-eugene.loh@oracle.com>
-X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20191119224225.2438-1-eugene.loh@oracle.com>
-References: <20191119224225.2438-1-eugene.loh@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9446 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=4 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911200045
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9446 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=4 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-1911200045
+        Wed, 20 Nov 2019 10:54:58 -0500
+Received: by mail-wm1-f65.google.com with SMTP id u18so112091wmc.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 20 Nov 2019 07:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Pc/B5s8Op7DZcUpCkoozM2pKb7wkORn3PJUzQ+3VJls=;
+        b=jtMhRC6Pk0HadowGTjQERXbTA9SrlkgA6uoK4GrRBBSya5IrU9FKwc5sKWuazC7hWY
+         91aODgBraKSoG3+eK4B2Za6Q/SMrQiR5aWNtuyZaBsUjHqSN2Zi+JRcOllkgpeTVuzp8
+         KDT853LwBilN+sUKYomYUcWf/qSSmZVkW+82quasRshDxUIO+1hR/nIVZmRvxQmr68TG
+         JuuUYYKg35fGImgfsm/WZdIhy6TJt7Bd0SxC2TXYB82TjG7g7WhD7Xc4n2MJVs5c58xj
+         OsGpyLKVVbGaZmacdh697dBEAEP6D0PtBat1Xcjiao3BpaFQFCZ1O7xp2tWnSqIW3UyD
+         DLNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Pc/B5s8Op7DZcUpCkoozM2pKb7wkORn3PJUzQ+3VJls=;
+        b=bUfdoGjcdyiWqmBnjKgbUGgcI5S0K3nRr5+9d1yKD1Gig2h/oAQGc7czbbz7pxOtZ0
+         aPBVMLKaVNohA8iBhQPLU2zF+cvK3HzuRTw+xpbL8Ruv/4wEj4oqKzzG4pS9onEidMPI
+         R/shmHUFX678KuQhmctSbsSVDo3TjTAawFo5svGidCjkEg7mFyJp16S8ZKjCil06zBdB
+         KV64vLjzbtwGxE7PaGlEmm+9FNQtTFXD24EY1IZ2aMVDufR31difeNmfn9h6rzo0URcN
+         3I5cq1OkI7g8XzpqW2a9fHPEpDdHkRu6RpvMb/tPEy0YxDToYg2tYiXun4B9STL0PHaD
+         fEHg==
+X-Gm-Message-State: APjAAAXaSVpFur2rJevqkRqUg2gg79Zx+M/DEAcEoPW0l4YnD2KhDopE
+        TDUuQxKS+89oicNDAGD5zvTMRQ==
+X-Google-Smtp-Source: APXvYqygyv2epnPyQ8ZUCWpvIvDmkk1mlhM7bZ2yAb9gUjZi3pn0UqvfOAVs0g05UGhLYqygkKm6GA==
+X-Received: by 2002:a1c:38c3:: with SMTP id f186mr4147629wma.58.1574265294776;
+        Wed, 20 Nov 2019 07:54:54 -0800 (PST)
+Received: from google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id z6sm33020710wro.18.2019.11.20.07.54.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2019 07:54:53 -0800 (PST)
+Date:   Wed, 20 Nov 2019 16:54:48 +0100
+From:   Marco Elver <elver@google.com>
+To:     Qian Cai <cai@lca.pw>
+Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Alexander Potapenko <glider@google.com>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
+Message-ID: <20191120155448.GA21320@google.com>
+References: <20191114180303.66955-1-elver@google.com>
+ <1574194379.9585.10.camel@lca.pw>
+ <CANpmjNPynCwYc8-GKTreJ8HF81k14JAHZXLt0jQJr_d+ukL=6A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPynCwYc8-GKTreJ8HF81k14JAHZXLt0jQJr_d+ukL=6A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Eugene Loh <eugene.loh@oracle.com>
+On Tue, 19 Nov 2019, Marco Elver wrote:
 
-/proc/kallsyms is very useful for tracers and other tools that need
-to map kernel symbols to addresses.
+> On Tue, 19 Nov 2019 at 21:13, Qian Cai <cai@lca.pw> wrote:
+> >
+> > On Thu, 2019-11-14 at 19:02 +0100, 'Marco Elver' via kasan-dev wrote:
+> > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
+> > > KCSAN is a sampling watchpoint-based *data race detector*. More details
+> > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
+> > > only enables KCSAN for x86, but we expect adding support for other
+> > > architectures is relatively straightforward (we are aware of
+> > > experimental ARM64 and POWER support).
+> >
+> > This does not allow the system to boot. Just hang forever at the end.
+> >
+> > https://cailca.github.io/files/dmesg.txt
+> >
+> > the config (dselect KASAN and select KCSAN with default options):
+> >
+> > https://raw.githubusercontent.com/cailca/linux-mm/master/x86.config
+> 
+> Thanks! That config enables lots of other debug code. I could
+> reproduce the hang. It's related to CONFIG_PROVE_LOCKING etc.
+> 
+> The problem is definitely not the fact that kcsan_setup_watchpoint
+> disables interrupts (tested by removing that code). Although lockdep
+> still complains here, and looking at the code in kcsan/core.c, I just
+> can't see how local_irq_restore cannot be called before returning (in
+> the stacktrace you provided, there is no kcsan function), and
+> interrupts should always be re-enabled. (Interrupts are only disabled
+> during delay in kcsan_setup_watchpoint.)
+> 
+> What I also notice is that this happens when the console starts
+> getting spammed with data-race reports (presumably because some extra
+> debug code has lots of data races according to KCSAN).
+> 
+> My guess is that some of the extra debug logic enabled in that config
+> is incompatible with KCSAN. However, so far I cannot tell where
+> exactly the problem is. For now the work-around would be not using
+> KCSAN with these extra debug options.  I will investigate more, but
+> nothing obviously wrong stands out..
 
-It would be useful if there were a mapping between kernel symbol and
-module name that only changed when the kernel source code is changed.
-This mapping should not vanish simply because a module becomes built
-into the kernel.
+It seems that due to spinlock_debug.c containing data races, the console
+gets spammed with reports. However, it's also possible to encounter
+deadlock, e.g.  printk lock -> spinlock_debug -> KCSAN detects data race
+-> kcsan_print_report() -> printk lock -> deadlock.
 
-Therefore:
+So the best thing is to fix the data races in spinlock_debug. I will
+send a patch separately for you to test.
 
-- Generate a file "modules_thick.builtin" that maps from thin
-  archives that make up built-in modules to their constituent
-  object files.
+The issue that lockdep still reports inconsistency in IRQ flags tracing
+I cannot yet say what the problem is. It seems that lockdep IRQ flags
+tracing may have an issue with KCSAN for numerous reasons: let's say
+lockdep and IRQ flags tracing code is instrumented, which then calls
+into KCSAN, which disables/enables interrupts, but due to tracing calls
+back into lockdep code. In other words, there may be some recursion
+which corrupts hardirqs_enabled.
 
-- Generate a linker map ".tmp_vmlinux.map", converting it into
-  ".tmp_vmlinux.ranges", mapping address ranges to object files.
-
-- Read "modules_thick.builtin" and ".tmp_vmlinux.ranges" to
-  map symbol addresses to built-in-module names.  Write those
-  module names (kallsyms_modules) and that per-symbol module
-  information (kallsyms_symbol_modules) to the *.s output file.
-
-- Use kallsyms_modules and kallsyms_symbol_modules to add
-  built-in-module information to /proc/kallsyms.
-
-Note that kernel symbols for built-in modules appear in ascending
-order by address, as usual, and thus will appear interspersed with
-symbols that are part of other built-in modules or of the kernel.
-
-Signed-off-by: Kris Van Hees <kris.van.hees@oracle.com>
-Signed-off-by: Nick Alcock <nick.alcock@oracle.com>
-Signed-off-by: Eugene Loh <eugene.loh@oracle.com>
-Reviewed-by: Nick Alcock <nick.alcock@oracle.com>
-Reviewed-by: Kris Van Hees <kris.van.hees@oracle.com>
----
- .gitignore                  |   1 +
- Documentation/dontdiff      |   1 +
- Makefile                    |  41 ++-
- kernel/kallsyms.c           |  12 +-
- scripts/Makefile.modbuiltin |  20 +-
- scripts/kallsyms.c          | 515 +++++++++++++++++++++++++++++++++++-
- scripts/link-vmlinux.sh     |  17 ++
- scripts/namespace.pl        |   5 +
- 8 files changed, 589 insertions(+), 23 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index 70580bdd352c..474491775a1a 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -47,6 +47,7 @@
- Module.symvers
- modules.builtin
- modules.order
-+modules_thick.builtin
- 
- #
- # Top-level generic files
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index 9f4392876099..32ee05f91410 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -180,6 +180,7 @@ modpost
- modules.builtin
- modules.builtin.modinfo
- modules.order
-+modules_thick.builtin
- modversions.h*
- nconf
- nconf-cfg
-diff --git a/Makefile b/Makefile
-index 49363caa7079..15b4e897cd3e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1077,7 +1077,7 @@ cmd_link-vmlinux =                                                 \
- 	$(CONFIG_SHELL) $< $(LD) $(KBUILD_LDFLAGS) $(LDFLAGS_vmlinux) ;    \
- 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
- 
--vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) FORCE
-+vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) modules_thick.builtin FORCE
- 	+$(call if_changed,link-vmlinux)
- 
- targets := vmlinux
-@@ -1292,17 +1292,6 @@ modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order modules.builtin
- modules.order: descend
- 	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
- 
--modbuiltin-dirs := $(addprefix _modbuiltin_, $(build-dirs))
--
--modules.builtin: $(modbuiltin-dirs)
--	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
--
--PHONY += $(modbuiltin-dirs)
--# tristate.conf is not included from this Makefile. Add it as a prerequisite
--# here to make it self-healing in case somebody accidentally removes it.
--$(modbuiltin-dirs): include/config/tristate.conf
--	$(Q)$(MAKE) $(modbuiltin)=$(patsubst _modbuiltin_%,%,$@)
--
- # Target to prepare building external modules
- PHONY += modules_prepare
- modules_prepare: prepare
-@@ -1355,6 +1344,33 @@ modules modules_install:
- 
- endif # CONFIG_MODULES
- 
-+# modules.builtin has a 'thick' form which maps from kernel modules (or rather
-+# the object file names they would have had had they not been built in) to their
-+# constituent object files: kallsyms uses this to determine which modules any
-+# given object file is part of.  (We cannot eliminate the slight redundancy
-+# here without double-expansion.)
-+
-+modbuiltin-dirs := $(addprefix _modbuiltin_, $(build-dirs))
-+
-+modbuiltin-thick-dirs := $(addprefix _modbuiltin_thick_, $(build-dirs))
-+
-+modules.builtin: $(modbuiltin-dirs)
-+	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
-+
-+modules_thick.builtin: $(modbuiltin-thick-dirs)
-+	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
-+
-+PHONY += $(modbuiltin-dirs) $(modbuiltin-thick-dirs)
-+# tristate.conf is not included from this Makefile. Add it as a prerequisite
-+# here to make it self-healing in case somebody accidentally removes it.
-+$(modbuiltin-dirs): include/config/tristate.conf
-+	$(Q)$(MAKE) $(modbuiltin)=$(patsubst _modbuiltin_%,%,$@) \
-+			builtin-file=modules.builtin
-+
-+$(modbuiltin-thick-dirs): include/config/tristate.conf
-+	$(Q)$(MAKE) $(modbuiltin)=$(patsubst _modbuiltin_thick_%,%,$@) \
-+			builtin-file=modules_thick.builtin
-+
- ###
- # Cleaning is done on three levels.
- # make clean     Delete most generated files
-@@ -1674,6 +1690,7 @@ clean: $(clean-dirs)
- 		-o -name '*.asn1.[ch]' \
- 		-o -name '*.symtypes' -o -name 'modules.order' \
- 		-o -name modules.builtin -o -name '.tmp_*.o.*' \
-+		-o -name modules_thick.builtin \
- 		-o -name '*.c.[012]*.*' \
- 		-o -name '*.ll' \
- 		-o -name '*.gcno' \) -type f -print | xargs rm -f
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 136ce049c4ad..ce8576503e35 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -46,6 +46,8 @@ __attribute__((weak, section(".rodata")));
- 
- extern const u8 kallsyms_token_table[] __weak;
- extern const u16 kallsyms_token_index[] __weak;
-+extern const char kallsyms_modules[] __weak;
-+extern const u32 kallsyms_symbol_modules[] __weak;
- 
- extern const unsigned int kallsyms_markers[] __weak;
- 
-@@ -508,8 +510,16 @@ static int get_ksymbol_bpf(struct kallsym_iter *iter)
- static unsigned long get_ksymbol_core(struct kallsym_iter *iter)
- {
- 	unsigned off = iter->nameoff;
-+	u32 mod_index = 0;
- 
--	iter->module_name[0] = '\0';
-+	if (kallsyms_symbol_modules)
-+		mod_index = kallsyms_symbol_modules[iter->pos];
-+
-+	if (mod_index == 0 || kallsyms_modules == NULL)
-+		iter->module_name[0] = '\0';
-+	else
-+		strcpy(iter->module_name, &kallsyms_modules[mod_index]);
-+	iter->exported = 0;
- 	iter->value = kallsyms_sym_address(iter->pos);
- 
- 	iter->type = kallsyms_get_symbol_type(off);
-diff --git a/scripts/Makefile.modbuiltin b/scripts/Makefile.modbuiltin
-index 7d4711b88656..06f31e58111e 100644
---- a/scripts/Makefile.modbuiltin
-+++ b/scripts/Makefile.modbuiltin
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # ==========================================================================
--# Generating modules.builtin
-+# Generating modules.builtin and modules_thick.builtin
- # ==========================================================================
- 
- src := $(obj)
-@@ -30,19 +30,29 @@ __subdir-Y     := $(patsubst %/,%,$(filter %/, $(obj-Y)))
- subdir-Y       += $(__subdir-Y)
- subdir-ym      := $(sort $(subdir-y) $(subdir-Y) $(subdir-m))
- subdir-ym      := $(addprefix $(obj)/,$(subdir-ym))
--obj-Y          := $(addprefix $(obj)/,$(obj-Y))
-+pathobj-Y      := $(addprefix $(obj)/,$(obj-Y))
- 
- modbuiltin-subdirs := $(patsubst %,%/modules.builtin, $(subdir-ym))
--modbuiltin-mods    := $(filter %.ko, $(obj-Y:.o=.ko))
-+modbuiltin-mods    := $(filter %.ko, $(pathobj-Y:.o=.ko))
- modbuiltin-target  := $(obj)/modules.builtin
-+modthickbuiltin-subdirs := $(patsubst %,%/modules_thick.builtin, $(subdir-ym))
-+modthickbuiltin-target  := $(obj)/modules_thick.builtin
- 
--__modbuiltin: $(modbuiltin-target) $(subdir-ym)
-+__modbuiltin: $(obj)/$(builtin-file) $(subdir-ym)
- 	@:
- 
- $(modbuiltin-target): $(subdir-ym) FORCE
- 	$(Q)(for m in $(modbuiltin-mods); do echo $$m; done;	\
- 	cat /dev/null $(modbuiltin-subdirs)) > $@
- 
-+$(modthickbuiltin-target): $(subdir-ym) FORCE
-+	$(Q) $(foreach mod-o, $(filter %.o,$(obj-Y)),\
-+		printf "%s:" $(addprefix $(obj)/,$(mod-o)) >> $@; \
-+		printf " %s" $(sort $(strip $(addprefix $(obj)/,$($(mod-o:.o=-objs)) \
-+			$($(mod-o:.o=-y)) $($(mod-o:.o=-Y))))) >> $@; \
-+		printf "\n" >> $@; ) \
-+	cat /dev/null $(modthickbuiltin-subdirs) >> $@;
-+
- PHONY += FORCE
- 
- FORCE:
-@@ -52,6 +62,6 @@ FORCE:
- 
- PHONY += $(subdir-ym)
- $(subdir-ym):
--	$(Q)$(MAKE) $(modbuiltin)=$@
-+	$(Q)$(MAKE) $(modbuiltin)=$@ builtin-file=$(builtin-file)
- 
- .PHONY: $(PHONY)
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index ae6504d07fd6..f71432df09d8 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -5,7 +5,10 @@
-  * This software may be used and distributed according to the terms
-  * of the GNU General Public License, incorporated herein by reference.
-  *
-- * Usage: nm -n vmlinux | scripts/kallsyms [--all-symbols] > symbols.S
-+ * Usage: nm -n vmlinux
-+ *        | scripts/kallsyms [--all-symbols] [--absolute-percpu]
-+ *             [--base-relative] [--builtin=modules_thick.builtin]
-+ *        > symbols.S
-  *
-  *      Table compression uses all the unused char codes on the symbols and
-  *  maps these to the most used substrings (tokens). For instance, it might
-@@ -18,12 +21,15 @@
-  *
-  */
- 
-+#define _GNU_SOURCE 1
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
- #include <ctype.h>
- #include <limits.h>
- 
-+#include <errno.h>
-+
- #ifndef ARRAY_SIZE
- #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
- #endif
-@@ -36,6 +42,7 @@ struct sym_entry {
- 	unsigned int start_pos;
- 	unsigned char *sym;
- 	unsigned int percpu_absolute;
-+	unsigned int module;
- };
- 
- struct addr_range {
-@@ -69,10 +76,116 @@ static unsigned char best_table[256][2];
- static unsigned char best_table_len[256];
- 
- 
-+static unsigned int strhash(const char *s)
-+{
-+	/* fnv32 hash */
-+	unsigned int hash = 2166136261U;
-+
-+	for (; *s; s++)
-+		hash = (hash ^ *s) * 0x01000193;
-+	return hash;
-+}
-+
-+#define OBJ2MOD_BITS 10
-+#define OBJ2MOD_N (1 << OBJ2MOD_BITS)
-+#define OBJ2MOD_MASK (OBJ2MOD_N - 1)
-+struct obj2mod_elem {
-+	char *obj;
-+	int mod;
-+	struct obj2mod_elem *next;
-+};
-+
-+static struct obj2mod_elem *obj2mod[OBJ2MOD_N];
-+
-+static void obj2mod_init(void)
-+{
-+	memset(obj2mod, 0, sizeof(obj2mod));
-+}
-+
-+static void obj2mod_put(char *obj, int mod)
-+{
-+	int i = strhash(obj) & OBJ2MOD_MASK;
-+	struct obj2mod_elem *elem = malloc(sizeof(struct obj2mod_elem));
-+
-+	if (!elem) {
-+		fprintf(stderr, "kallsyms: out of memory\n");
-+		exit(1);
-+	}
-+
-+	elem->obj = strdup(obj);
-+	if (!elem->obj) {
-+		fprintf(stderr, "kallsyms: out of memory\n");
-+		free(elem);
-+		exit(1);
-+	}
-+
-+	elem->mod = mod;
-+	elem->next = obj2mod[i];
-+	obj2mod[i] = elem;
-+}
-+
-+static int obj2mod_get(char *obj)
-+{
-+	int i = strhash(obj) & OBJ2MOD_MASK;
-+	struct obj2mod_elem *elem;
-+
-+	for (elem = obj2mod[i]; elem; elem = elem->next)
-+		if (strcmp(elem->obj, obj) == 0)
-+			return elem->mod;
-+	return 0;
-+}
-+
-+static void obj2mod_free(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < OBJ2MOD_N; i++) {
-+		struct obj2mod_elem *elem = obj2mod[i];
-+		struct obj2mod_elem *next;
-+
-+		while (elem) {
-+			next = elem->next;
-+			free(elem->obj);
-+			free(elem);
-+			elem = next;
-+		}
-+	}
-+}
-+
-+/*
-+ * The builtin module names.  The "offset" points to the name as if
-+ * all builtin module names were concatenated to a single string.
-+ */
-+static unsigned int builtin_module_size;	/* number allocated */
-+static unsigned int builtin_module_len;		/* number assigned */
-+static char **builtin_modules;			/* array of module names */
-+static unsigned int *builtin_module_offsets;	/* offset */
-+
-+/*
-+ * modules_thick.builtin iteration state.
-+ */
-+struct modules_thick_iter {
-+	FILE *f;
-+	char *line;
-+	size_t line_size;
-+};
-+
-+/*
-+ * An ordered list of address ranges and how they map to built-in modules.
-+ */
-+struct addrmap_entry {
-+	unsigned long long addr;
-+	unsigned long long size;
-+	unsigned int module;
-+};
-+static struct addrmap_entry *addrmap;
-+static int addrmap_num, addrmap_alloced;
-+
- static void usage(void)
- {
--	fprintf(stderr, "Usage: kallsyms [--all-symbols] "
--			"[--base-relative] < in.map > out.S\n");
-+	fprintf(stderr, "Usage: kallsyms [--all-symbols] [--absolute-percpu] "
-+			"[--base-relative] [--builtin=modules_thick.builtin] "
-+			"< nm_vmlinux.out > symbols.S\n");
- 	exit(1);
- }
- 
-@@ -107,11 +220,25 @@ static int check_symbol_range(const char *sym, unsigned long long addr,
- 	return 1;
- }
- 
-+static int addrmap_compare(const void *keyp, const void *rangep)
-+{
-+	unsigned long long addr = *((const unsigned long long *)keyp);
-+	const struct addrmap_entry *range = (const struct addrmap_entry *)rangep;
-+
-+	if (addr < range->addr)
-+		return -1;
-+	if (addr < range->addr + range->size)
-+		return 0;
-+	return 1;
-+}
-+
- static int read_symbol(FILE *in, struct sym_entry *s)
- {
- 	char sym[500], stype;
--	int rc;
-+	int rc, init_scratch = 0;
-+	struct addrmap_entry *range;
- 
-+read_another:
- 	rc = fscanf(in, "%llx %c %499s\n", &s->addr, &stype, sym);
- 	if (rc != 3) {
- 		if (rc != EOF && fgets(sym, 500, in) == NULL)
-@@ -125,6 +252,16 @@ static int read_symbol(FILE *in, struct sym_entry *s)
- 		return -1;
- 	}
- 
-+	/* skip the .init.scratch section */
-+	if (strcmp(sym, "__init_scratch_end") == 0) {
-+		init_scratch = 0;
-+		goto read_another;
-+	}
-+	if (strcmp(sym, "__init_scratch_begin") == 0)
-+		init_scratch = 1;
-+	if (init_scratch)
-+		goto read_another;
-+
- 	/* Ignore most absolute/undefined (?) symbols. */
- 	if (strcmp(sym, "_text") == 0)
- 		_text = s->addr;
-@@ -154,6 +291,14 @@ static int read_symbol(FILE *in, struct sym_entry *s)
- 	else if (!strncmp(sym, ".LASANPC", 8))
- 		return -1;
- 
-+	/* look up the builtin module this is part of (if any) */
-+	range = (struct addrmap_entry *) bsearch(&s->addr,
-+	    addrmap, addrmap_num, sizeof(*addrmap), &addrmap_compare);
-+	if (range)
-+		s->module = builtin_module_offsets[range->module];
-+	else
-+		s->module = 0;
-+
- 	/* include the type field in the symbol name, so that it gets
- 	 * compressed together */
- 	s->len = strlen(sym) + 1;
-@@ -206,6 +351,8 @@ static int symbol_valid(struct sym_entry *s)
- 		"kallsyms_markers",
- 		"kallsyms_token_table",
- 		"kallsyms_token_index",
-+		"kallsyms_symbol_modules",
-+		"kallsyms_modules",
- 
- 	/* Exclude linker generated symbols which vary between passes */
- 		"_SDA_BASE_",		/* ppc */
-@@ -454,6 +601,19 @@ static void write_src(void)
- 	for (i = 0; i < 256; i++)
- 		printf("\t.short\t%d\n", best_idx[i]);
- 	printf("\n");
-+
-+	output_label("kallsyms_modules");
-+	for (i = 0; i < builtin_module_len; i++)
-+		printf("\t.asciz\t\"%s\"\n", builtin_modules[i]);
-+	printf("\n");
-+
-+	for (i = 0; i < builtin_module_len; i++)
-+		free(builtin_modules[i]);
-+
-+	output_label("kallsyms_symbol_modules");
-+	for (i = 0; i < table_cnt; i++)
-+		printf("\t.int\t%d\n", table[i].module);
-+	printf("\n");
- }
- 
- 
-@@ -738,23 +898,368 @@ static void record_relative_base(void)
- 			relative_base = table[i].addr;
- }
- 
-+/*
-+ * Read a modules_thick.builtin file.
-+ */
-+
-+/*
-+ * Construct a modules_thick.builtin iterator.
-+ */
-+static struct modules_thick_iter *
-+modules_thick_iter_new(const char *modules_thick_file)
-+{
-+	struct modules_thick_iter *i;
-+
-+	i = calloc(1, sizeof(struct modules_thick_iter));
-+	if (i == NULL)
-+		return NULL;
-+
-+	i->f = fopen(modules_thick_file, "r");
-+
-+	if (i->f == NULL) {
-+		fprintf(stderr, "Cannot open builtin module file %s: %s\n",
-+			modules_thick_file, strerror(errno));
-+		return NULL;
-+	}
-+
-+	return i;
-+}
-+
-+/*
-+ * Iterate, returning a new null-terminated array of object file names, and a
-+ * new dynamically-allocated module name.  (The module name passed in is freed.)
-+ *
-+ * The array of object file names should be freed by the caller: the strings it
-+ * points to are owned by the iterator, and should not be freed.
-+ */
-+static char ** __attribute__((__nonnull__))
-+modules_thick_iter_next(struct modules_thick_iter *i, char **module_name)
-+{
-+	size_t npaths = 1;
-+	char **module_paths;
-+	char *last_slash;
-+	char *last_dot;
-+	char *trailing_linefeed;
-+	char *object_name = i->line;
-+	char *dash;
-+	int composite = 0;
-+
-+	/*
-+	 * Read in all module entries, computing the suffixless, pathless name
-+	 * of the module and building the next arrayful of object file names for
-+	 * return.
-+	 *
-+	 * Modules can consist of multiple files: in this case, the portion
-+	 * before the colon is the path to the module (as before): the portion
-+	 * after the colon is a space-separated list of files that should be *
-+	 * considered part of this module.  In this case, the portion before the
-+	 * name is an "object file" that does not actually exist: it is merged
-+	 * into built-in.a without ever being written out.
-+	 *
-+	 * All module names have - translated to _, to match what is done to the
-+	 * names of the same things when built as modules.
-+	 */
-+
-+	/*
-+	 * Reinvocation of exhausted iterator. Return NULL, once.
-+	 */
-+retry:
-+	if (getline(&i->line, &i->line_size, i->f) < 0) {
-+		if (ferror(i->f)) {
-+			fprintf(stderr,
-+				"Error reading from modules_thick file: %s\n",
-+				strerror(errno));
-+			exit(1);
-+		}
-+		rewind(i->f);
-+		return NULL;
-+	}
-+
-+	if (i->line[0] == '\0')
-+		goto retry;
-+
-+	/*
-+	 * Slice the line in two at the colon, if any.  If there is anything
-+	 * past the ': ', this is a composite module.  (We allow for no colon
-+	 * for robustness, even though one should always be present.)
-+	 */
-+	if (strchr(i->line, ':') != NULL) {
-+		char *name_start;
-+
-+		object_name = strchr(i->line, ':');
-+		*object_name = '\0';
-+		object_name++;
-+		name_start = object_name + strspn(object_name, " \n");
-+		if (*name_start != '\0') {
-+			composite = 1;
-+			object_name = name_start;
-+		}
-+	}
-+
-+	/*
-+	 * Figure out the module name.
-+	 */
-+	last_slash = strrchr(i->line, '/');
-+	last_slash = (!last_slash) ? i->line :
-+		last_slash + 1;
-+	free(*module_name);
-+	*module_name = strdup(last_slash);
-+	dash = *module_name;
-+
-+	while (dash != NULL) {
-+		dash = strchr(dash, '-');
-+		if (dash != NULL)
-+			*dash = '_';
-+	}
-+
-+	last_dot = strrchr(*module_name, '.');
-+	if (last_dot != NULL)
-+		*last_dot = '\0';
-+
-+	trailing_linefeed = strchr(object_name, '\n');
-+	if (trailing_linefeed != NULL)
-+		*trailing_linefeed = '\0';
-+
-+	/*
-+	 * Multifile separator? Object file names explicitly stated:
-+	 * slice them up and shuffle them in.
-+	 *
-+	 * The array size may be an overestimate if any object file
-+	 * names start or end with spaces (very unlikely) but cannot be
-+	 * an underestimate.  (Check for it anyway.)
-+	 */
-+	if (composite) {
-+		char *one_object;
-+
-+		for (npaths = 0, one_object = object_name;
-+		     one_object != NULL;
-+		     npaths++, one_object = strchr(one_object + 1, ' '))
-+			;
-+	}
-+
-+	module_paths = malloc((npaths + 1) * sizeof(char *));
-+	if (!module_paths) {
-+		fprintf(stderr, "%s: out of memory on module %s\n", __func__,
-+			*module_name);
-+		exit(1);
-+	}
-+
-+	if (composite) {
-+		char *one_object;
-+		size_t i = 0;
-+
-+		while ((one_object = strsep(&object_name, " ")) != NULL) {
-+			if (i >= npaths) {
-+				fprintf(stderr, "%s: npaths overflow on module "
-+					"%s: this is a bug.\n", __func__,
-+					*module_name);
-+				exit(1);
-+			}
-+
-+			module_paths[i++] = one_object;
-+		}
-+	} else
-+		module_paths[0] = i->line;	/* untransformed module name */
-+
-+	module_paths[npaths] = NULL;
-+
-+	return module_paths;
-+}
-+
-+/*
-+ * Free an iterator. Can be called while iteration is underway, so even
-+ * state that is freed at the end of iteration must be freed here too.
-+ */
-+static void
-+modules_thick_iter_free(struct modules_thick_iter *i)
-+{
-+	if (i == NULL)
-+		return;
-+	fclose(i->f);
-+	free(i->line);
-+	free(i);
-+}
-+
-+/*
-+ * Expand the builtin modules list.
-+ */
-+static void expand_builtin_modules(void)
-+{
-+	builtin_module_size += 50;
-+
-+	builtin_modules = realloc(builtin_modules,
-+				  sizeof(*builtin_modules) *
-+				  builtin_module_size);
-+	builtin_module_offsets = realloc(builtin_module_offsets,
-+					 sizeof(*builtin_module_offsets) *
-+					 builtin_module_size);
-+
-+	if (!builtin_modules || !builtin_module_offsets) {
-+		fprintf(stderr, "kallsyms failure: out of memory.\n");
-+		exit(EXIT_FAILURE);
-+	}
-+}
-+
-+/*
-+ * Add a single built-in module (possibly composed of many files) to the
-+ * modules list.  Take the offset of the current module and return it
-+ * (purely for simplicity's sake in the caller).
-+ */
-+static size_t add_builtin_module(const char *module_name, char **module_paths,
-+				 size_t offset)
-+{
-+	/* map the module's object paths to the module offset */
-+	while (*module_paths) {
-+		obj2mod_put(*module_paths, builtin_module_len);
-+		module_paths++;
-+	}
-+
-+	/* add the module name */
-+	if (builtin_module_size <= builtin_module_len)
-+		expand_builtin_modules();
-+	builtin_modules[builtin_module_len] = strdup(module_name);
-+	builtin_module_offsets[builtin_module_len] = offset;
-+	builtin_module_len++;
-+
-+	return (offset + strlen(module_name) + 1);
-+}
-+
-+/*
-+ * Read the linker map.
-+ */
-+static void read_linker_map(void)
-+{
-+	unsigned long long addr, size;
-+	char obj[PATH_MAX+1];
-+	FILE *f = fopen(".tmp_vmlinux.ranges", "r");
-+
-+	if (!f) {
-+		fprintf(stderr, "Cannot open '.tmp_vmlinux.ranges'.\n");
-+		exit(1);
-+	}
-+
-+	addrmap_num = 0;
-+	addrmap_alloced = 4096;
-+	addrmap = malloc(sizeof(*addrmap) * addrmap_alloced);
-+	if (!addrmap)
-+		goto oom;
-+
-+	/*
-+	 * For each address range (addr,size) and object, add to addrmap
-+	 * the range and the built-in module to which the object maps.
-+	 */
-+	while (fscanf(f, "%llx %llx %s\n", &addr, &size, obj) == 3) {
-+		int m = obj2mod_get(obj);
-+
-+		if (addr == 0 || size == 0 || m == 0)
-+			continue;
-+
-+		if (addrmap_num >= addrmap_alloced) {
-+			addrmap_alloced *= 2;
-+			addrmap = realloc(addrmap,
-+			    sizeof(*addrmap) * addrmap_alloced);
-+			if (!addrmap)
-+				goto oom;
-+		}
-+
-+		addrmap[addrmap_num].addr = addr;
-+		addrmap[addrmap_num].size = size;
-+		addrmap[addrmap_num].module = m;
-+		addrmap_num++;
-+	}
-+	fclose(f);
-+	return;
-+
-+oom:
-+	fprintf(stderr, "kallsyms: out of memory\n");
-+	exit(1);
-+}
-+
-+/*
-+ * Read "modules_thick.builtin" (the list of built-in modules).  Construct:
-+ *   - builtin_modules: array of built-in-module names
-+ *   - builtin_module_offsets: array of offsets that will later be
-+ *       used to access a concatenated list of built-in-module names
-+ *   - obj2mod: a temporary, many-to-one, hash mapping
-+ *       from object-file paths to built-in-module names
-+ * Read ".tmp_vmlinux.ranges" (the linker map).
-+ *   - addrmap[] maps address ranges to built-in module names (using obj2mod)
-+ */
-+static void read_modules(const char *modules_builtin)
-+{
-+	struct modules_thick_iter *i;
-+	size_t offset = 0;
-+	char *module_name = NULL;
-+	char **module_paths;
-+
-+	obj2mod_init();
-+
-+	/*
-+	 * builtin_modules[0] is a null entry signifying a symbol that cannot be
-+	 * modular.
-+	 */
-+	builtin_module_size = 50;
-+	builtin_modules = malloc(sizeof(*builtin_modules) *
-+				 builtin_module_size);
-+	builtin_module_offsets = malloc(sizeof(*builtin_module_offsets) *
-+				 builtin_module_size);
-+	if (!builtin_modules || !builtin_module_offsets) {
-+		fprintf(stderr, "kallsyms: out of memory\n");
-+		exit(1);
-+	}
-+	builtin_modules[0] = strdup("");
-+	builtin_module_offsets[0] = 0;
-+	builtin_module_len = 1;
-+	offset++;
-+
-+	/*
-+	 * Iterate over all modules in modules_thick.builtin and add each.
-+	 */
-+	i = modules_thick_iter_new(modules_builtin);
-+	if (i == NULL) {
-+		fprintf(stderr, "Cannot iterate over builtin modules.\n");
-+		exit(1);
-+	}
-+
-+	while ((module_paths = modules_thick_iter_next(i, &module_name))) {
-+		offset = add_builtin_module(module_name, module_paths, offset);
-+		free(module_paths);
-+		module_paths = NULL;
-+	}
-+
-+	free(module_name);
-+	modules_thick_iter_free(i);
-+
-+	/*
-+	 * Read linker map.
-+	 */
-+	read_linker_map();
-+
-+	obj2mod_free();
-+}
-+
- int main(int argc, char **argv)
- {
-+	const char *modules_builtin = "modules_thick.builtin";
-+
- 	if (argc >= 2) {
- 		int i;
- 		for (i = 1; i < argc; i++) {
--			if(strcmp(argv[i], "--all-symbols") == 0)
-+			if (strcmp(argv[i], "--all-symbols") == 0)
- 				all_symbols = 1;
- 			else if (strcmp(argv[i], "--absolute-percpu") == 0)
- 				absolute_percpu = 1;
- 			else if (strcmp(argv[i], "--base-relative") == 0)
- 				base_relative = 1;
-+			else if (strncmp(argv[i], "--builtin=", 10) == 0)
-+				modules_builtin = &argv[i][10];
- 			else
- 				usage();
- 		}
- 	} else if (argc != 1)
- 		usage();
- 
-+	read_modules(modules_builtin);
- 	read_map(stdin);
- 	if (absolute_percpu)
- 		make_percpus_absolute();
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 06495379fcd8..e4d5a98133e7 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -76,6 +76,7 @@ vmlinux_link()
- 			--start-group				\
- 			${KBUILD_VMLINUX_LIBS}			\
- 			--end-group				\
-+			-Map=.tmp_vmlinux.map			\
- 			${@}"
- 
- 		${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}	\
-@@ -88,6 +89,7 @@ vmlinux_link()
- 			-Wl,--start-group			\
- 			${KBUILD_VMLINUX_LIBS}			\
- 			-Wl,--end-group				\
-+			-Wl,-Map=.tmp_vmlinux.map		\
- 			${@}"
- 
- 		${CC} ${CFLAGS_vmlinux}				\
-@@ -138,6 +140,19 @@ kallsyms()
- 	info KSYM ${2}
- 	local kallsymopt;
- 
-+	# read the linker map to identify ranges of addresses:
-+	#   - for each *.o file, report address, size, pathname
-+	#       - most such lines will have four fields
-+	#       - but sometimes there is a line break after the first field
-+	#   - start reading at "Linker script and memory map"
-+	#   - stop reading at ".brk"
-+	${AWK} '
-+	    /\.o$/ && start==1 { print $(NF-2), $(NF-1), $NF }
-+	    /^Linker script and memory map/ { start = 1 }
-+	    /^\.brk/ { exit(0) }
-+	' .tmp_vmlinux.map | sort > .tmp_vmlinux.ranges
-+
-+	# get kallsyms options
- 	if [ -n "${CONFIG_KALLSYMS_ALL}" ]; then
- 		kallsymopt="${kallsymopt} --all-symbols"
- 	fi
-@@ -150,11 +165,13 @@ kallsyms()
- 		kallsymopt="${kallsymopt} --base-relative"
- 	fi
- 
-+	# set up compilation
- 	local aflags="${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL}               \
- 		      ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS}"
- 
- 	local afile="`basename ${2} .o`.S"
- 
-+	# construct file and compile
- 	${NM} -n ${1} | scripts/kallsyms ${kallsymopt} > ${afile}
- 	${CC} ${aflags} -c -o ${2} ${afile}
- }
-diff --git a/scripts/namespace.pl b/scripts/namespace.pl
-index 1da7bca201a4..4c7615e720de 100755
---- a/scripts/namespace.pl
-+++ b/scripts/namespace.pl
-@@ -120,6 +120,11 @@ my %nameexception = (
-     'kallsyms_addresses'=> 1,
-     'kallsyms_offsets'	=> 1,
-     'kallsyms_relative_base'=> 1,
-+    'kallsyms_token_table'=> 1,
-+    'kallsyms_token_index'=> 1,
-+    'kallsyms_markers'	=> 1,
-+    'kallsyms_modules'	=> 1,
-+    'kallsyms_symbol_modules'=> 1,
-     '__this_module'	=> 1,
-     '_etext'		=> 1,
-     '_edata'		=> 1,
--- 
-2.18.1
-
+Thanks,
+-- Marco
