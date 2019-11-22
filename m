@@ -2,158 +2,211 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1812910401A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 20 Nov 2019 16:54:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4F2E10676E
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2019 09:00:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731578AbfKTPy6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 Nov 2019 10:54:58 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53972 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728412AbfKTPy6 (ORCPT
+        id S1726248AbfKVIAt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Nov 2019 03:00:49 -0500
+Received: from conuserg-09.nifty.com ([210.131.2.76]:17390 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726018AbfKVIAs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 Nov 2019 10:54:58 -0500
-Received: by mail-wm1-f65.google.com with SMTP id u18so112091wmc.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 20 Nov 2019 07:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Pc/B5s8Op7DZcUpCkoozM2pKb7wkORn3PJUzQ+3VJls=;
-        b=jtMhRC6Pk0HadowGTjQERXbTA9SrlkgA6uoK4GrRBBSya5IrU9FKwc5sKWuazC7hWY
-         91aODgBraKSoG3+eK4B2Za6Q/SMrQiR5aWNtuyZaBsUjHqSN2Zi+JRcOllkgpeTVuzp8
-         KDT853LwBilN+sUKYomYUcWf/qSSmZVkW+82quasRshDxUIO+1hR/nIVZmRvxQmr68TG
-         JuuUYYKg35fGImgfsm/WZdIhy6TJt7Bd0SxC2TXYB82TjG7g7WhD7Xc4n2MJVs5c58xj
-         OsGpyLKVVbGaZmacdh697dBEAEP6D0PtBat1Xcjiao3BpaFQFCZ1O7xp2tWnSqIW3UyD
-         DLNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Pc/B5s8Op7DZcUpCkoozM2pKb7wkORn3PJUzQ+3VJls=;
-        b=bUfdoGjcdyiWqmBnjKgbUGgcI5S0K3nRr5+9d1yKD1Gig2h/oAQGc7czbbz7pxOtZ0
-         aPBVMLKaVNohA8iBhQPLU2zF+cvK3HzuRTw+xpbL8Ruv/4wEj4oqKzzG4pS9onEidMPI
-         R/shmHUFX678KuQhmctSbsSVDo3TjTAawFo5svGidCjkEg7mFyJp16S8ZKjCil06zBdB
-         KV64vLjzbtwGxE7PaGlEmm+9FNQtTFXD24EY1IZ2aMVDufR31difeNmfn9h6rzo0URcN
-         3I5cq1OkI7g8XzpqW2a9fHPEpDdHkRu6RpvMb/tPEy0YxDToYg2tYiXun4B9STL0PHaD
-         fEHg==
-X-Gm-Message-State: APjAAAXaSVpFur2rJevqkRqUg2gg79Zx+M/DEAcEoPW0l4YnD2KhDopE
-        TDUuQxKS+89oicNDAGD5zvTMRQ==
-X-Google-Smtp-Source: APXvYqygyv2epnPyQ8ZUCWpvIvDmkk1mlhM7bZ2yAb9gUjZi3pn0UqvfOAVs0g05UGhLYqygkKm6GA==
-X-Received: by 2002:a1c:38c3:: with SMTP id f186mr4147629wma.58.1574265294776;
-        Wed, 20 Nov 2019 07:54:54 -0800 (PST)
-Received: from google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id z6sm33020710wro.18.2019.11.20.07.54.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 07:54:53 -0800 (PST)
-Date:   Wed, 20 Nov 2019 16:54:48 +0100
-From:   Marco Elver <elver@google.com>
-To:     Qian Cai <cai@lca.pw>
-Cc:     LKMM Maintainers -- Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Alexander Potapenko <glider@google.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Borislav Petkov <bp@alien8.de>, Daniel Axtens <dja@axtens.net>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        the arch/x86 maintainers <x86@kernel.org>
-Subject: Re: [PATCH v4 00/10] Add Kernel Concurrency Sanitizer (KCSAN)
-Message-ID: <20191120155448.GA21320@google.com>
-References: <20191114180303.66955-1-elver@google.com>
- <1574194379.9585.10.camel@lca.pw>
- <CANpmjNPynCwYc8-GKTreJ8HF81k14JAHZXLt0jQJr_d+ukL=6A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPynCwYc8-GKTreJ8HF81k14JAHZXLt0jQJr_d+ukL=6A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 22 Nov 2019 03:00:48 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id xAM7xjvb022344;
+        Fri, 22 Nov 2019 16:59:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com xAM7xjvb022344
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1574409586;
+        bh=fPMOgceq6VcAzfubQqqmhDdamDoMjnT4yAQ7KXJflwg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RRHl36rtyPe/KbIFZZnO6a4IophfcABjLMSTeZa05LkhEDnoDZD4e67Z5EpfEHIq+
+         qVbvjJ0j+Cyo7rrzuCVi9VYWKhHZBikU+OHiWCCJFaL4XF4oYBaZU8YSr8XDIqCkRx
+         h5Jo+8QaJDrU2eYFHMLvm/+wStJmvvP3Bhlm7FQYaiFeuzQXBRpv/ig6ZjWp/4cJDH
+         WxRkWgjXiJ1lkNL/4u7Rv6MIQEJeaUaxFwvTrrNjC6vrGnLltbsDBglLZmbYcztd+w
+         05cyDFDw7g8C32JWkkJHibGbi9gyb4vjS/YUW9dGiajKiDwEXktLl4sdLoHwI/0SOQ
+         JwNS+f0lMHWaQ==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: check MODULE_* macros in non-modular code
+Date:   Fri, 22 Nov 2019 16:59:39 +0900
+Message-Id: <20191122075939.14481-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 19 Nov 2019, Marco Elver wrote:
+Paul Gortmaker sent a lot of patches to remove orphan modular code.
+You can see his contributions by:
 
-> On Tue, 19 Nov 2019 at 21:13, Qian Cai <cai@lca.pw> wrote:
-> >
-> > On Thu, 2019-11-14 at 19:02 +0100, 'Marco Elver' via kasan-dev wrote:
-> > > This is the patch-series for the Kernel Concurrency Sanitizer (KCSAN).
-> > > KCSAN is a sampling watchpoint-based *data race detector*. More details
-> > > are included in **Documentation/dev-tools/kcsan.rst**. This patch-series
-> > > only enables KCSAN for x86, but we expect adding support for other
-> > > architectures is relatively straightforward (we are aware of
-> > > experimental ARM64 and POWER support).
-> >
-> > This does not allow the system to boot. Just hang forever at the end.
-> >
-> > https://cailca.github.io/files/dmesg.txt
-> >
-> > the config (dselect KASAN and select KCSAN with default options):
-> >
-> > https://raw.githubusercontent.com/cailca/linux-mm/master/x86.config
-> 
-> Thanks! That config enables lots of other debug code. I could
-> reproduce the hang. It's related to CONFIG_PROVE_LOCKING etc.
-> 
-> The problem is definitely not the fact that kcsan_setup_watchpoint
-> disables interrupts (tested by removing that code). Although lockdep
-> still complains here, and looking at the code in kcsan/core.c, I just
-> can't see how local_irq_restore cannot be called before returning (in
-> the stacktrace you provided, there is no kcsan function), and
-> interrupts should always be re-enabled. (Interrupts are only disabled
-> during delay in kcsan_setup_watchpoint.)
-> 
-> What I also notice is that this happens when the console starts
-> getting spammed with data-race reports (presumably because some extra
-> debug code has lots of data races according to KCSAN).
-> 
-> My guess is that some of the extra debug logic enabled in that config
-> is incompatible with KCSAN. However, so far I cannot tell where
-> exactly the problem is. For now the work-around would be not using
-> KCSAN with these extra debug options.  I will investigate more, but
-> nothing obviously wrong stands out..
+  $ git log --grep='make.* explicitly non-modular'
 
-It seems that due to spinlock_debug.c containing data races, the console
-gets spammed with reports. However, it's also possible to encounter
-deadlock, e.g.  printk lock -> spinlock_debug -> KCSAN detects data race
--> kcsan_print_report() -> printk lock -> deadlock.
+To help this work, this commit adds simple shell-script to detect
+MODULE_ tags used in non-modular code.
 
-So the best thing is to fix the data races in spinlock_debug. I will
-send a patch separately for you to test.
+It displays suspicious use of MODULE_LICENSE, MODULE_AUTHOR,
+MODULE_DESCRIPTION, etc.
 
-The issue that lockdep still reports inconsistency in IRQ flags tracing
-I cannot yet say what the problem is. It seems that lockdep IRQ flags
-tracing may have an issue with KCSAN for numerous reasons: let's say
-lockdep and IRQ flags tracing code is instrumented, which then calls
-into KCSAN, which disables/enables interrupts, but due to tracing calls
-back into lockdep code. In other words, there may be some recursion
-which corrupts hardirqs_enabled.
+I was not sure about module_param() or MODULE_PARM_DESC(). A lot of
+non-modular code uses module_param() to prefix the kernel parameter
+with the file name it resides in. If we changed module_param() to
+core_param(), the interface would be broken. MODULE_PARM_DESC() in
+non-modular code could be turned into comments or something, but I
+am not sure. I did not check them.
 
-Thanks,
--- Marco
+I built x86_64_defconfig of v5.4-rc8, and this script detected
+the following:
+
+notice: asymmetric_keys: MODULE macros found in non-modular code
+notice: binfmt_elf: MODULE macros found in non-modular code
+notice: bsg: MODULE macros found in non-modular code
+notice: compat_binfmt_elf: MODULE macros found in non-modular code
+notice: component: MODULE macros found in non-modular code
+notice: debugfs: MODULE macros found in non-modular code
+notice: drm_mipi_dsi: MODULE macros found in non-modular code
+notice: freq_table: MODULE macros found in non-modular code
+notice: glob: MODULE macros found in non-modular code
+notice: intel_pstate: MODULE macros found in non-modular code
+notice: n_null: MODULE macros found in non-modular code
+notice: nvmem_core: MODULE macros found in non-modular code
+notice: power_supply: MODULE macros found in non-modular code
+notice: thermal_sys: MODULE macros found in non-modular code
+notice: tracefs: MODULE macros found in non-modular code
+notice: vgacon: MODULE macros found in non-modular code
+ To fix above, check MODULE_LICENSE(), MODULE_AUTHOR(), etc.
+ Please check #include <linux/module.h>, THIS_MODULE, too.
+
+I confirmed they are all valid.
+
+Maybe the 'debugfs' is unclear because there are tons of debugfs
+stuff in the source tree. It is talking about MODULE_ALIAS_FS()
+in fs/debugfs/inode.c because fs/debugfs/debugfs.o never becomes
+a module.
+
+[How to fix the warnings]
+
+Let's take 'asymmetric_keys' as an example.
+
+(1) grep Makefiles to find the relevant code
+
+$ git grep -A2 asymmetric_keys -- '*/Makefile' '*/Kbuild'
+crypto/Makefile:obj-$(CONFIG_ASYMMETRIC_KEY_TYPE) += asymmetric_keys/
+crypto/Makefile-obj-$(CONFIG_CRYPTO_HASH_INFO) += hash_info.o
+crypto/Makefile-crypto_simd-y := simd.o
+--
+crypto/asymmetric_keys/Makefile:obj-$(CONFIG_ASYMMETRIC_KEY_TYPE) += asymmetric_keys.o
+crypto/asymmetric_keys/Makefile-
+crypto/asymmetric_keys/Makefile:asymmetric_keys-y := \
+crypto/asymmetric_keys/Makefile-        asymmetric_type.o \
+crypto/asymmetric_keys/Makefile-        restrict.o \
+
+Then, you notice it is associated with CONFIG_ASYMMETRIC_KEY_TYPE
+and is a composite object that consists of asymmetric_type.o,
+restrict.o, ...
+
+(2) Confirm the CONFIG is boolean
+
+$ git grep -A2 'config ASYMMETRIC_KEY_TYPE' -- '*/Kconfig*'
+crypto/asymmetric_keys/Kconfig:menuconfig ASYMMETRIC_KEY_TYPE
+crypto/asymmetric_keys/Kconfig- bool "Asymmetric (public-key cryptographic) key type"
+crypto/asymmetric_keys/Kconfig- depends on KEYS
+
+Now you are sure it never get compiled as a module since
+ASYMMETRIC_KEY_TYPE is a bool type option.
+
+(3) Grep the source file(s)
+
+$ grep '^MODULE' crypto/asymmetric_keys/asymmetric_type.c
+MODULE_LICENSE("GPL");
+
+Remove the orphan MODULE tags. You may also need to do some additional
+works such as:
+
+ - replace module_*_driver with builtin_*_driver
+ - replace <linux/module.h> with <linux/init.h>
+ - remove module_exit code
+ - move credit in MODULE_AUTHOR() to the top of the file
+
+Please see Paul's commits.
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
+
+ scripts/modules-check.sh | 54 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
+
+diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
+index f51f446707b8..5f1d98d4ee30 100755
+--- a/scripts/modules-check.sh
++++ b/scripts/modules-check.sh
+@@ -13,4 +13,58 @@ check_same_name_modules()
+ 	done
+ }
+ 
++# Check MODULE_ macros in non-modular code
++check_orphan_module_macros()
++{
++	# modules.builtin.modinfo is created while linking vmlinux.
++	# It may not exist when you do 'make modules'.
++	if [ ! -r modules.builtin.modinfo ]; then
++		return
++	fi
++
++	# modules.builtin lists *real* built-in modules, i.e. controlled by
++	# tristate CONFIG options, but currently built with =y.
++	#
++	# modules.builtin.modinfo is the list of MODULE_ macros compiled
++	# into vmlinux.
++	#
++	# By diff'ing them, users of bogus MODULE_* macros will show up.
++
++	# Kbuild replaces ',' and '-' in file names with '_' for use in C.
++	real_builtin_modules=$(sed -e 's:.*/::' -e 's/\.ko$//' -e 's/,/_/g' \
++			       -e 's/-/_/g' modules.builtin | sort | uniq)
++
++	show_hint=
++
++	# Exclude '.paramtype=' and '.param=' to skip checking module_param()
++	# and MODULE_PARM_DESC().
++	module_macro_users=$(tr '\0' '\n' < modules.builtin.modinfo | \
++		sed -e '/\.parmtype=/d' -e '/\.parm=/d' | \
++		sed -n 's/\..*//p' | sort | uniq)
++
++	for m in $module_macro_users
++	do
++		warn=1
++
++		for n in $real_builtin_modules
++		do
++			if [ "$m" = "$n" ]; then
++				warn=
++				break
++			fi
++		done
++
++		if [ -n "$warn" ]; then
++			echo "notice: $m: MODULE macros found in non-modular code"
++			show_hint=1
++		fi
++	done
++
++	if [ -n "$show_hint" ]; then
++		echo " To fix above, check MODULE_LICENSE(), MODULE_AUTHOR(), etc."
++		echo " Please check #include <linux/module.h>, THIS_MODULE, too."
++	fi
++}
++
+ check_same_name_modules
++check_orphan_module_macros
+-- 
+2.17.1
+
