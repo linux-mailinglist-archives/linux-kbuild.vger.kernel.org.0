@@ -2,30 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4F2E10676E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2019 09:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F07E106819
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 Nov 2019 09:27:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbfKVIAt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 Nov 2019 03:00:49 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:17390 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbfKVIAs (ORCPT
+        id S1727187AbfKVI1W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 Nov 2019 03:27:22 -0500
+Received: from condef-05.nifty.com ([202.248.20.70]:59410 "EHLO
+        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727184AbfKVI1V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 Nov 2019 03:00:48 -0500
+        Fri, 22 Nov 2019 03:27:21 -0500
+X-Greylist: delayed 394 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Nov 2019 03:27:20 EST
+Received: from conuserg-09.nifty.com ([10.126.8.72])by condef-05.nifty.com with ESMTP id xAM8C8D6005198;
+        Fri, 22 Nov 2019 17:12:11 +0900
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id xAM7xjvb022344;
-        Fri, 22 Nov 2019 16:59:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com xAM7xjvb022344
+        by conuserg-09.nifty.com with ESMTP id xAM8B69D003819;
+        Fri, 22 Nov 2019 17:11:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com xAM8B69D003819
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1574409586;
-        bh=fPMOgceq6VcAzfubQqqmhDdamDoMjnT4yAQ7KXJflwg=;
+        s=dec2015msa; t=1574410266;
+        bh=Hwpn9dTrOnKWNzBjRbeo5zgicQbERpM9jetyXIWTTZY=;
         h=From:To:Cc:Subject:Date:From;
-        b=RRHl36rtyPe/KbIFZZnO6a4IophfcABjLMSTeZa05LkhEDnoDZD4e67Z5EpfEHIq+
-         qVbvjJ0j+Cyo7rrzuCVi9VYWKhHZBikU+OHiWCCJFaL4XF4oYBaZU8YSr8XDIqCkRx
-         h5Jo+8QaJDrU2eYFHMLvm/+wStJmvvP3Bhlm7FQYaiFeuzQXBRpv/ig6ZjWp/4cJDH
-         WxRkWgjXiJ1lkNL/4u7Rv6MIQEJeaUaxFwvTrrNjC6vrGnLltbsDBglLZmbYcztd+w
-         05cyDFDw7g8C32JWkkJHibGbi9gyb4vjS/YUW9dGiajKiDwEXktLl4sdLoHwI/0SOQ
-         JwNS+f0lMHWaQ==
+        b=14cAQKK4DZUsgFFMy3GC5LfItYVOBvPBptV5CweOtOqbEEXyHWzWLypXVFI4WsLo1
+         oJmIb3T9RTNUyrQ85vqDcUIKFMa1oMz4nukFoXDud1Fju086LYtV62pcrHL4CWM3Q0
+         WCFl6RLCZhmJbxBWEx/rP3ZoTyKfDt5+1Lq8E4l90DNUVIkHBsK4jw3waoEIuzO76d
+         k7dB9iONTIu89MdmryqVKGRdHTxv2N0WxkdtP8bddmO5lcSOjrcjsPWkdWBMrWWvcm
+         UtsZjtfLNt7ctdW6NA64x8FM8Dv7u4QgB7QcbpADrewqJSQ4PflJmLjOg5gfnsZBWk
+         LY2Y1pGMKpDSw==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -34,11 +37,12 @@ Cc:     Arnd Bergmann <arnd@arndb.de>,
         Paul Gortmaker <paul.gortmaker@windriver.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
         Lucas De Marchi <lucas.demarchi@intel.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: check MODULE_* macros in non-modular code
-Date:   Fri, 22 Nov 2019 16:59:39 +0900
-Message-Id: <20191122075939.14481-1-yamada.masahiro@socionext.com>
+Subject: [PATCH v2] kbuild: check MODULE_* macros in non-modular code
+Date:   Fri, 22 Nov 2019 17:11:00 +0900
+Message-Id: <20191122081100.27695-1-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
@@ -141,11 +145,14 @@ Please see Paul's commits.
 Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
 
+Changes in v2:
+  - Remove redundant back-slashes after the pipe operator '|'
+
  scripts/modules-check.sh | 54 ++++++++++++++++++++++++++++++++++++++++
  1 file changed, 54 insertions(+)
 
 diff --git a/scripts/modules-check.sh b/scripts/modules-check.sh
-index f51f446707b8..5f1d98d4ee30 100755
+index f51f446707b8..7975aa61ddb8 100755
 --- a/scripts/modules-check.sh
 +++ b/scripts/modules-check.sh
 @@ -13,4 +13,58 @@ check_same_name_modules()
@@ -177,9 +184,9 @@ index f51f446707b8..5f1d98d4ee30 100755
 +
 +	# Exclude '.paramtype=' and '.param=' to skip checking module_param()
 +	# and MODULE_PARM_DESC().
-+	module_macro_users=$(tr '\0' '\n' < modules.builtin.modinfo | \
-+		sed -e '/\.parmtype=/d' -e '/\.parm=/d' | \
-+		sed -n 's/\..*//p' | sort | uniq)
++	module_macro_users=$(tr '\0' '\n' < modules.builtin.modinfo |
++			     sed -e '/\.parmtype=/d' -e '/\.parm=/d' |
++			     sed -n 's/\..*//p' | sort | uniq)
 +
 +	for m in $module_macro_users
 +	do
