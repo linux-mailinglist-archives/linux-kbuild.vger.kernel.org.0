@@ -2,49 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 156D1107D52
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2019 07:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 474B9107D54
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2019 07:43:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725973AbfKWGlO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 23 Nov 2019 01:41:14 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:35264 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfKWGlO (ORCPT
+        id S1726368AbfKWGnm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 23 Nov 2019 01:43:42 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:49507 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725800AbfKWGnm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 23 Nov 2019 01:41:14 -0500
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id xAN6f2IS007406;
-        Sat, 23 Nov 2019 15:41:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xAN6f2IS007406
+        Sat, 23 Nov 2019 01:43:42 -0500
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id xAN6hMwl007754;
+        Sat, 23 Nov 2019 15:43:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com xAN6hMwl007754
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1574491263;
-        bh=vN50Gdum6xdlN2ZBfve3DiyX2BSz6gAGvfttTfq4jEw=;
+        s=dec2015msa; t=1574491403;
+        bh=RDtgbp8VFqT52OmhsLs0ZXgZWSBftRKnww81jQk0lF4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qINkBkJ2EF/GIIO3gARVfNl0bSOFycoxqCXm8gkCj/HQv5+OSiLZE8c/j4557r9/e
-         Jqe+3lXgnpfvtyjFWKIl30lHwFihK++V3PvXE+a2dElppm8gqtAQKfUcCJ/ywBF0MQ
-         O3auaaNHJKC1I4Cj8qhg5OIMNmVo/4Dli00oam6LXqkFLIr2OIOrR08rYQE6qPFLGj
-         k566NZ8+ESB0lyJkThqzQBltuvB7FDriKCQ/e5Rm/+UcymlbpmzYqwDo1EPZthByQL
-         Iw1EfkkWN2mCRLJrBDQOdPDpEi7QauLP2BHbSWnXxPpJcryqCDYXK1BSfYHw/eAfNt
-         7gbAfoX3rERIg==
-X-Nifty-SrcIP: [209.85.217.47]
-Received: by mail-vs1-f47.google.com with SMTP id b16so6414715vso.10;
-        Fri, 22 Nov 2019 22:41:03 -0800 (PST)
-X-Gm-Message-State: APjAAAVRl43XzXiitqOkAIVqiUjcbqjWEu/l+fic7WiRgusyVeWCOOCi
-        /THVOAZNqc/Y1lsZiuxvumrO4Gs/36NgJ5rBnTw=
-X-Google-Smtp-Source: APXvYqwCzdm40Gq6CsfRCo2bRpzoGsLsQ2VEhcQ9FguSBgt/9ADgEwAt3pC3LvuuB6eZdbnVfLasA5t20Qi5ubBx9zs=
-X-Received: by 2002:a67:e241:: with SMTP id w1mr1916378vse.155.1574491262013;
- Fri, 22 Nov 2019 22:41:02 -0800 (PST)
+        b=eGm+fXE7I4a/4aKTK4xr2rA2rPBbyssR2lpgQkPYs9qT6QeCLeaqRyZNZxCHuG+tr
+         4I/KyiCTvi7C/M48z3xgyzBnajod2xIuFnK4zfbsFCRzaorIit1AKA1AEO7h/h9vVH
+         gKJQC2Te2TKTYOHZ245q4J01FA6PQMM5ZB6uqg+uCKZ+V21oUGjWHoCbb2PfKwsT4g
+         Ax5JUmX3FYuGAnysPkuVAesePpuB/15Ix0ZPThtcnNSaOeaEHt5WSbop7B7VWe5y/1
+         GD48VG4UgPFwZbtqbAnRvBzdiixjgXG+C8GmSdmrUXXGYlvGlEi5g6sc0Fro0Pwv5A
+         JhYh0cgVc+Wxw==
+X-Nifty-SrcIP: [209.85.217.52]
+Received: by mail-vs1-f52.google.com with SMTP id m5so1767939vsj.3;
+        Fri, 22 Nov 2019 22:43:22 -0800 (PST)
+X-Gm-Message-State: APjAAAWqpiHdr85yg+GxfcVKwTTgUMawjFAc7ulH8QpjxwCSjz1VbvX9
+        jk8DzX/6FIW+4G5g6iOfUQMPUO24yyq26PVkv58=
+X-Google-Smtp-Source: APXvYqw1UVxrcDDQjRJbxcV21a8tzYgd2Dm3qpNHRvtStQIJgMVVoNAkZAwG6voQHSmuaHFNHppL55rED2zQkFb2a9U=
+X-Received: by 2002:a67:d31b:: with SMTP id a27mr13438060vsj.215.1574491401691;
+ Fri, 22 Nov 2019 22:43:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20191118045247.14082-1-yamada.masahiro@socionext.com> <2b1ab1b1-dd20-31f7-c787-921cbd66a828@kernel.dk>
-In-Reply-To: <2b1ab1b1-dd20-31f7-c787-921cbd66a828@kernel.dk>
+References: <20191114174226.7201-1-yamada.masahiro@socionext.com> <20191114174226.7201-4-yamada.masahiro@socionext.com>
+In-Reply-To: <20191114174226.7201-4-yamada.masahiro@socionext.com>
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 23 Nov 2019 15:40:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASmC_1vwo9vhJGMZNng1dvkJmMzCQi7NEgh3V+JGu_QsA@mail.gmail.com>
-Message-ID: <CAK7LNASmC_1vwo9vhJGMZNng1dvkJmMzCQi7NEgh3V+JGu_QsA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: make single target builds even faster
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+Date:   Sat, 23 Nov 2019 15:42:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQtttcb78nog1SMg9Ng37OT7EyX1vs612oCro7R=c1O5g@mail.gmail.com>
+Message-ID: <CAK7LNAQtttcb78nog1SMg9Ng37OT7EyX1vs612oCro7R=c1O5g@mail.gmail.com>
+Subject: Re: [PATCH 4/6] modpost: stop symbol preloading for modversion CRC
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -52,30 +51,178 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 18, 2019 at 11:26 PM Jens Axboe <axboe@kernel.dk> wrote:
+On Fri, Nov 15, 2019 at 2:42 AM Masahiro Yamada
+<yamada.masahiro@socionext.com> wrote:
 >
-> On 11/17/19 9:52 PM, Masahiro Yamada wrote:
-> > Commit 2dffd23f81a3 ("kbuild: make single target builds much faster")
-> > made the situation much better.
-> >
-> > To improve it even more, apply the similar idea to the top Makefile.
-> > Trim unrelated directories from build-dirs.
-> >
-> > The single build code must be moved above the 'descend' target.
+> It is complicated to add mocked-up symbols to pre-handle CRC.
+> Handle CRC after all the export symbols in the relevant module
+> are registered.
 >
-> I tested linux-next, which does improve things a bit, and this one on
-> top further improves it. We're now not THAT far off the situation
-> before these changes, that's a huge win. Thanks for working on this!
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> ---
 >
-> You can add:
+>  scripts/mod/modpost.c | 64 +++++++++++++++++++++++--------------------
+>  1 file changed, 35 insertions(+), 29 deletions(-)
 >
-> Tested-by: Jens Axboe <axboe@kernel.dk>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 6735ae3da4c2..73bdf27c41fe 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -169,7 +169,7 @@ struct symbol {
+>         unsigned int vmlinux:1;    /* 1 if symbol is defined in vmlinux */
+>         unsigned int kernel:1;     /* 1 if symbol is from kernel
+>                                     *  (only for external modules) **/
+> -       unsigned int preloaded:1;  /* 1 if symbol from Module.symvers, or crc */
+> +       unsigned int preloaded:1;  /* 1 if symbol from Module.symvers */
+>         unsigned int is_static:1;  /* 1 if symbol is not global */
+>         enum export  export;       /* Type of export */
+>         char name[0];
+> @@ -410,15 +410,15 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
+>         return s;
+>  }
 >
-> to the commit, if you wish.
+> -static void sym_update_crc(const char *name, struct module *mod,
+> -                          unsigned int crc, enum export export)
+> +static void sym_set_crc(const char *name, const struct module *mod,
+> +                       unsigned int crc)
+>  {
+>         struct symbol *s = find_symbol(name);
 >
+>         if (!s) {
+> -               s = new_symbol(name, mod, export);
+> -               /* Don't complain when we find it later. */
+> -               s->preloaded = 1;
+> +               warn("%s: '__crc_%s' is invalid use. __crc_* is reserved for modversion\n",
+> +                    mod->name, name);
+
+I notice this can produce false positive warnings.
+
+ARCH=arm allyesconfig produces the following:
+
+WARNING: vmlinux: '__crc_ccitt_veneer' is invalid use. __crc_* is
+reserved for modversion
+WARNING: vmlinux: '__crc_ccitt_veneer' is invalid use. __crc_* is
+reserved for modversion
+WARNING: vmlinux: '__crc_ccitt_veneer' is invalid use. __crc_* is
+reserved for modversion
+WARNING: vmlinux: '__crc_itu_t_veneer' is invalid use. __crc_* is
+reserved for modversion
+WARNING: vmlinux: '__crc_itu_t_veneer' is invalid use. __crc_* is
+reserved for modversion
+WARNING: vmlinux: '__crc_itu_t_veneer' is invalid use. __crc_* is
+reserved for modversion
 
 
-Applied to linux-kbuild with Jens' Tested-by.
+The ARM compiler inserts veneers automatically.
+
+I will remove this warn(), and add commit messages as follows:
+
+    In some cases, I see atand-alone __crc_* without __ksymtab_*.
+    For example, ARCH=arm allyesconfig produces __crc_ccitt_veneer and
+    __crc_itu_t_veneer. I guess they come from crc_ccitt, crc_itu_t,
+    respectively. Since __*_veneer are auto-generated symbols, just
+    ignore them.
+
+
+
+> +               return;
+>         }
+>         s->crc = crc;
+>         s->crc_valid = 1;
+> @@ -683,12 +683,34 @@ static int ignore_undef_symbol(struct elf_info *info, const char *symname)
+>         return 0;
+>  }
+>
+> +static void handle_modversion(const struct module *mod,
+> +                             const struct elf_info *info,
+> +                             const Elf_Sym *sym, const char *symname)
+> +{
+> +       unsigned int crc;
+> +
+> +       if (sym->st_shndx == SHN_UNDEF) {
+> +               warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n",
+> +                    symname, mod->name, is_vmlinux(mod->name) ? "":".ko");
+> +               return;
+> +       }
+> +
+> +       if (sym->st_shndx == SHN_ABS) {
+> +               crc = sym->st_value;
+> +       } else {
+> +               unsigned int *crcp;
+> +
+> +               /* symbol points to the CRC in the ELF object */
+> +               crcp = sym_get_data(info, sym);
+> +               crc = TO_NATIVE(*crcp);
+> +       }
+> +       sym_set_crc(symname, mod, crc);
+> +}
+> +
+>  static void handle_symbol(struct module *mod, struct elf_info *info,
+>                           const Elf_Sym *sym, const char *symname)
+>  {
+> -       unsigned int crc;
+>         enum export export;
+> -       bool is_crc = false;
+>         const char *name;
+>
+>         if ((!is_vmlinux(mod->name) || mod->is_dot_o) &&
+> @@ -697,21 +719,6 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
+>         else
+>                 export = export_from_sec(info, get_secindex(info, sym));
+>
+> -       /* CRC'd symbol */
+> -       if (strstarts(symname, "__crc_")) {
+> -               is_crc = true;
+> -               crc = (unsigned int) sym->st_value;
+> -               if (sym->st_shndx != SHN_UNDEF && sym->st_shndx != SHN_ABS) {
+> -                       unsigned int *crcp;
+> -
+> -                       /* symbol points to the CRC in the ELF object */
+> -                       crcp = sym_get_data(info, sym);
+> -                       crc = TO_NATIVE(*crcp);
+> -               }
+> -               sym_update_crc(symname + strlen("__crc_"), mod, crc,
+> -                               export);
+> -       }
+> -
+>         switch (sym->st_shndx) {
+>         case SHN_COMMON:
+>                 if (strstarts(symname, "__gnu_lto_")) {
+> @@ -746,11 +753,6 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
+>                 }
+>  #endif
+>
+> -               if (is_crc) {
+> -                       const char *e = is_vmlinux(mod->name) ?"":".ko";
+> -                       warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n",
+> -                            symname + strlen("__crc_"), mod->name, e);
+> -               }
+>                 mod->unres = alloc_symbol(symname,
+>                                           ELF_ST_BIND(sym->st_info) == STB_WEAK,
+>                                           mod->unres);
+> @@ -2063,6 +2065,10 @@ static void read_symbols(const char *modname)
+>                         sym_update_namespace(symname + strlen("__kstrtabns_"),
+>                                              namespace_from_kstrtabns(&info,
+>                                                                       sym));
+> +
+> +               if (strstarts(symname, "__crc_"))
+> +                       handle_modversion(mod, &info, sym,
+> +                                         symname + strlen("__crc_"));
+>         }
+>
+>         // check for static EXPORT_SYMBOL_* functions && global vars
+> @@ -2476,7 +2482,7 @@ static void read_dump(const char *fname, unsigned int kernel)
+>                 s->kernel    = kernel;
+>                 s->preloaded = 1;
+>                 s->is_static = 0;
+> -               sym_update_crc(symname, mod, crc, export_no(export));
+> +               sym_set_crc(symname, mod, crc);
+>                 sym_update_namespace(symname, namespace);
+>         }
+>         release_file(file, size);
+> --
+> 2.17.1
+>
 
 
 -- 
