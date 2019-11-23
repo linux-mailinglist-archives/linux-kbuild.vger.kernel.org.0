@@ -2,118 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51D52107D6C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2019 08:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13A64107EA2
+	for <lists+linux-kbuild@lfdr.de>; Sat, 23 Nov 2019 14:29:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725973AbfKWHXC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 23 Nov 2019 02:23:02 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:31571 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfKWHXC (ORCPT
+        id S1726765AbfKWN26 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 23 Nov 2019 08:28:58 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:39538 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726760AbfKWN17 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 23 Nov 2019 02:23:02 -0500
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id xAN7MvX8001395;
-        Sat, 23 Nov 2019 16:22:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com xAN7MvX8001395
+        Sat, 23 Nov 2019 08:27:59 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id xANDRbkZ000733;
+        Sat, 23 Nov 2019 22:27:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com xANDRbkZ000733
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1574493777;
-        bh=aM/gT4Oo9cCOwyO64fFZR4tsOde+IsTLsovdWiIejes=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=umt6GBmC22i+BZ03uEvybsl8X4EF0dekZ7/JBsNKiPp20sDX+wf6tMa2HCM1OARNR
-         H4aq+t+A/dvEvKN7D1TsBZZUJA72v4v2l1CIsT/F2Z8Xs4RUZ7RVpucnX7F0cAS9i7
-         nh5tR8ryQ9X7xMY1klgCJ4g2Kgqfp54uAKMXjaK6CJzYtOKdoTc+GBevRqwsxm6sMZ
-         xLV6pzkrSw9rrojS4d6Uerwje7fP+rV473NegGjkyJNLScuqe78zHfZjNLfZZnla+a
-         a6Q0L3O/Dy9zHlS2Mw6FC0H5bZXbbwUaw/WMkkwykPxcO+tsCi38DUN2h+XKpnHoHd
-         j6q3WG8fXjnmw==
-X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id x21so6474465vsp.6;
-        Fri, 22 Nov 2019 23:22:57 -0800 (PST)
-X-Gm-Message-State: APjAAAV+zguUwzppt7gOCjQ4RENU1SOvbYV/7divOhPftuU+sHhm2zG0
-        9drH82KNYjEFeGWknpIodGcy4/TRAdbhLVXqERE=
-X-Google-Smtp-Source: APXvYqyRCIiXOEAQxBgxAIj6rT5ZG0zj/+XGfeuOkhMhpz/RkkNCGna6kguEX6CAQwXhWEtnjRvPXQluti9Dl8jmL3E=
-X-Received: by 2002:a05:6102:726:: with SMTP id u6mr12605479vsg.179.1574493776235;
- Fri, 22 Nov 2019 23:22:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20191114174226.7201-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20191114174226.7201-1-yamada.masahiro@socionext.com>
+        s=dec2015msa; t=1574515658;
+        bh=yHJkiIZAPqvKQqa+UmExDFu6wHnFHcdrF3suxVVV4/Q=;
+        h=From:To:Cc:Subject:Date:From;
+        b=kawQ5XX6Ie3PkrKpKiCZSWqR6sXLkTMWriPgIQEKnKZPUcFs6VmeZHJj+TWmQSXNd
+         mTD4Eb6GLYUehL7+5WxfL6hwwp3DN68PHO5ejc1fHOh5AYNM65+tZ6drdBIVxMzqhh
+         IfSmpH2gWDx3fNYGnLxGwFF8A/YxnSbXm6ZSfVC9mCfRfIR9esIm70kmBOxRnhWi9A
+         GIGilK6XCYRiORz0p5c0slZhYCQdyuorbaNa/Om/ZHh/8tNL9VhH6HDJ7IBWDxVj97
+         GSvxEeDgjJsSthfNWjJI2nnSAwRpAxfmiSuHwjeKKhXQWH7J0dwIGmgIBRK4LoUZrX
+         U0KzCkj2CPXMw==
+X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sat, 23 Nov 2019 16:22:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATk-D2g0FJ_TVVxXQZ-m2uzdHYVaDxzuZKVX9WA+VWOKA@mail.gmail.com>
-Message-ID: <CAK7LNATk-D2g0FJ_TVVxXQZ-m2uzdHYVaDxzuZKVX9WA+VWOKA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] modpost: add a helper to get data pointed by a symbol
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 00/16] scripts/kallsyms: various cleanups and optimizations
+Date:   Sat, 23 Nov 2019 22:27:11 +0900
+Message-Id: <20191123132727.30151-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 2:42 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> When CONFIG_MODULE_REL_CRCS is enabled, the value of __crc_* is not
-> an absolute value, but the address to the CRC data embedded in the
-> .rodata section.
->
-> Getting the data pointed by the symbol value is somewhat complex.
-> Split it out into a new helper, sym_get_data().
->
-> I will reuse it to refactor namespace_from_kstrtabns() in the next
-> commit.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
+Masahiro Yamada (16):
+  scripts/kallsyms: remove unneeded #ifndef ARRAY_SIZE
+  scripts/kallsyms: fix definitely-lost memory leak
+  scripts/kallsyms: set relative_base more effectively
+  scripts/kallsyms: remove redundant is_arm_mapping_symbol()
+  scripts/kallsyms: remove unneeded length check for prefix matching
+  scripts/kallsyms: add sym_name() to mitigate cast ugliness
+  scripts/kallsyms: replace prefix_underscores_count() with strspn()
+  scripts/kallsyms: make find_token() return (unsigned char *)
+  scripts/kallsyms: add const qualifiers where possible
+  scripts/kallsyms: skip ignored symbols very early
+  scripts/kallsyms: move more patterns to the ignored_prefixes array
+  scripts/kallsyms: move ignored symbol types to is_ignored_symbol()
+  scripts/kallsyms: make check_symbol_range() void function
+  scripts/kallsyms: check no valid symbol earlier
+  scripts/kallsyms: put check_symbol_range() calls close together
+  scripts/kallsyms: remove redundant initializers
 
-Series, applied to linux-kbuild.
-
-
->
->  scripts/mod/modpost.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 46d7f695fe7f..cd885573daaf 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -308,6 +308,18 @@ static const char *sec_name(struct elf_info *elf, int secindex)
->         return sech_name(elf, &elf->sechdrs[secindex]);
->  }
->
-> +static void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym)
-> +{
-> +       Elf_Shdr *sechdr = &info->sechdrs[sym->st_shndx];
-> +       unsigned long offset;
-> +
-> +       offset = sym->st_value;
-> +       if (info->hdr->e_type != ET_REL)
-> +               offset -= sechdr->sh_addr;
-> +
-> +       return (void *)info->hdr + sechdr->sh_offset + offset;
-> +}
-> +
->  #define strstarts(str, prefix) (strncmp(str, prefix, strlen(prefix)) == 0)
->
->  static enum export export_from_secname(struct elf_info *elf, unsigned int sec)
-> @@ -697,10 +709,7 @@ static void handle_modversions(struct module *mod, struct elf_info *info,
->                         unsigned int *crcp;
->
->                         /* symbol points to the CRC in the ELF object */
-> -                       crcp = (void *)info->hdr + sym->st_value +
-> -                              info->sechdrs[sym->st_shndx].sh_offset -
-> -                              (info->hdr->e_type != ET_REL ?
-> -                               info->sechdrs[sym->st_shndx].sh_addr : 0);
-> +                       crcp = sym_get_data(info, sym);
->                         crc = TO_NATIVE(*crcp);
->                 }
->                 sym_update_crc(symname + strlen("__crc_"), mod, crc,
-> --
-> 2.17.1
->
-
+ scripts/kallsyms.c | 254 +++++++++++++++++++++------------------------
+ 1 file changed, 121 insertions(+), 133 deletions(-)
 
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
