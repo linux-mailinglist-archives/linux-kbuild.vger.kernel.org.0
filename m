@@ -2,72 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 971A110A167
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 Nov 2019 16:47:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E94B510AAA3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 Nov 2019 07:19:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728628AbfKZPrC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 Nov 2019 10:47:02 -0500
-Received: from mail-io1-f70.google.com ([209.85.166.70]:50845 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728617AbfKZPrC (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 Nov 2019 10:47:02 -0500
-Received: by mail-io1-f70.google.com with SMTP id t193so13578339iof.17
-        for <linux-kbuild@vger.kernel.org>; Tue, 26 Nov 2019 07:47:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=NMIhDQ1/TzZzQjr2wWUncjr9UXV8W0Q6CWNH9QCoYyc=;
-        b=QYVBLFCtNP2JZ8w5qU2phIKjlc1TCk5QCwXgCJJCsVrROohPgxsvq6Rl8TZtPC9/2d
-         yNgXQpe10TvIRjOTPPi65pzI2i5EIW4eHw3vO01HGjVlX6pxAG+Z2f6BaXlR+9ELZqet
-         xpl4d8a1U23Gf/Y6qW++OmQ7WdL/l+LXB+T8rqcARaQSxa0iHR+RO1PHkNMBY5qKvbsE
-         S+Q9SpSQfLA+MGYQ+DqnQvtXLQdLVuDrmU2vUk9IfiCch1DzyaBcz6CbGtBJ8HUoTjx7
-         oIv/yIiE1lfBdKYp6EvTXxN//3kKp3NIOf8nl6chHwJhfgYD3y+IlZqs4sR52R5Ou49e
-         gWwA==
-X-Gm-Message-State: APjAAAXwllnCPzTGb0zPXaqtHbCWDl9xOQWUvHFVwMbrr3IL8iFIaySv
-        /DAFnaxy7t51tNrOepuSvKLyMuM7B9NDiktR42HWfRSpyZ5+
-X-Google-Smtp-Source: APXvYqwGLVmd6lBzBXRckmAQHo5bBkT8ic7o+qm5KSqWVZbE1t3yqtpg3LGxYvDX6Q2q+YWCGwHbZNwPiZQhQ+pyU2BTIV7K7AFJ
-MIME-Version: 1.0
-X-Received: by 2002:a6b:3b06:: with SMTP id i6mr14691402ioa.185.1574783220874;
- Tue, 26 Nov 2019 07:47:00 -0800 (PST)
-Date:   Tue, 26 Nov 2019 07:47:00 -0800
-In-Reply-To: <94eb2c059ce0bca273056940d77d@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007a85c4059841ca66@google.com>
-Subject: Re: INFO: task hung in do_ip_vs_set_ctl (2)
-From:   syzbot <syzbot+7810ed2e0cb359580c17@syzkaller.appspotmail.com>
-To:     coreteam@netfilter.org, davem@davemloft.net, fw@strlen.de,
+        id S1726181AbfK0GTh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 Nov 2019 01:19:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34938 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726061AbfK0GTh (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 27 Nov 2019 01:19:37 -0500
+Received: from sol.localdomain (c-24-5-143-220.hsd1.ca.comcast.net [24.5.143.220])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AD3C9206F0;
+        Wed, 27 Nov 2019 06:19:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574835576;
+        bh=J3d4dyh/vmhHMv1z2Fxba6OHbvFsy8II4ba8oQdw1ds=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=012LBpBnwXDLUs/AxQ9KCJ+ro+73bPuGidZmwL51Y1G1wFUz82jMDsEC3AZPZNlLp
+         zKMl9X7c8VwwoX8SGtD6cwvtM6JbFyoYnkP1VpAoXxtoVDcKQV72G4r6wX7CFrefXh
+         mdfn5Scpjb8BspQSEsVwTRvLFGL59DbMU7AOMuwI=
+Date:   Tue, 26 Nov 2019 22:19:34 -0800
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     syzbot <syzbot+7810ed2e0cb359580c17@syzkaller.appspotmail.com>
+Cc:     coreteam@netfilter.org, davem@davemloft.net, fw@strlen.de,
         horms@verge.net.au, ja@ssi.bg, kadlec@blackhole.kfki.hu,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         lvs-devel@vger.kernel.org, mmarek@suse.com, netdev@vger.kernel.org,
         netfilter-devel@vger.kernel.org, pablo@netfilter.org,
         syzkaller-bugs@googlegroups.com, torvalds@linux-foundation.org,
         wensong@linux-vs.org, yamada.masahiro@socionext.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Subject: Re: INFO: task hung in do_ip_vs_set_ctl (2)
+Message-ID: <20191127061934.GC227319@sol.localdomain>
+References: <94eb2c059ce0bca273056940d77d@google.com>
+ <0000000000007a85c4059841ca66@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0000000000007a85c4059841ca66@google.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-syzbot has bisected this bug to:
+On Tue, Nov 26, 2019 at 07:47:00AM -0800, syzbot wrote:
+> syzbot has bisected this bug to:
+> 
+> commit 6f7da290413ba713f0cdd9ff1a2a9bb129ef4f6c
+> Author: Linus Torvalds <torvalds@linux-foundation.org>
+> Date:   Sun Jul 2 23:07:02 2017 +0000
+> 
+>     Linux 4.12
+> 
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11a2b78ce00000
+> start commit:   17dec0a9 Merge branch 'userns-linus' of git://git.kernel.o..
+> git tree:       net-next
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=da08d02b86752ade
+> dashboard link: https://syzkaller.appspot.com/bug?extid=7810ed2e0cb359580c17
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=130abb47800000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=150a15bb800000
+> 
+> Reported-by: syzbot+7810ed2e0cb359580c17@syzkaller.appspotmail.com
+> Fixes: 6f7da290413b ("Linux 4.12")
+> 
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-commit 6f7da290413ba713f0cdd9ff1a2a9bb129ef4f6c
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun Jul 2 23:07:02 2017 +0000
+This bisection is obviously bogus, though oddly enough the bisection log shows
+that v4.12 crashed 10/10 times, while v4.12~1 crashed 0/10 times...
 
-     Linux 4.12
+Anyway, this bug looks extremely stale, as it only occurred for a 2-week period
+in 2018.  Commit 5c64576a77 ("ipvs: fix rtnl_lock lockups caused by
+start_sync_thread") might have been the fix, but I'm just invalidating this:
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11a2b78ce00000
-start commit:   17dec0a9 Merge branch 'userns-linus' of git://git.kernel.o..
-git tree:       net-next
-kernel config:  https://syzkaller.appspot.com/x/.config?x=da08d02b86752ade
-dashboard link: https://syzkaller.appspot.com/bug?extid=7810ed2e0cb359580c17
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=130abb47800000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=150a15bb800000
+#syz invalid
 
-Reported-by: syzbot+7810ed2e0cb359580c17@syzkaller.appspotmail.com
-Fixes: 6f7da290413b ("Linux 4.12")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+- Eric
