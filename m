@@ -2,88 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3827710C79B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 28 Nov 2019 12:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3DD210E2E9
+	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Dec 2019 19:17:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727436AbfK1LCZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 28 Nov 2019 06:02:25 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:37221 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726990AbfK1LCY (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 28 Nov 2019 06:02:24 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0TjIllLR_1574938929;
-Received: from e18g09479.et15sqa.tbsite.net(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0TjIllLR_1574938929)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 28 Nov 2019 19:02:18 +0800
-From:   Shile Zhang <shile.zhang@linux.alibaba.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org
-Cc:     "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Shile Zhang <shile.zhang@linux.alibaba.com>
-Subject: [RFC PATCH v5 7/7] x86/unwind/orc: remove run-time ORC unwind tables sort
-Date:   Thu, 28 Nov 2019 19:02:06 +0800
-Message-Id: <20191128110206.2107-8-shile.zhang@linux.alibaba.com>
-X-Mailer: git-send-email 2.24.0.rc2
-In-Reply-To: <20191128110206.2107-1-shile.zhang@linux.alibaba.com>
-References: <20191128110206.2107-1-shile.zhang@linux.alibaba.com>
+        id S1727231AbfLASRT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 1 Dec 2019 13:17:19 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:15919 "EHLO mtax.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726155AbfLASRT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 1 Dec 2019 13:17:19 -0500
+X-Greylist: delayed 6465 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:17:18 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217587; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=EmVo0AerX+KRn01z9urwYfyF8XCnAfKGDWLCOuyIRO3P
+        IfpNUHIfWW8WJ++VzoqTX6pZF6opmv59tAEl7sB/8k1KhlUTou
+        Q5QxEQZIWeJ9Ul/Ontg/V7FVmyTu5VVf85ZrmRMjAYhGCm0y7k
+        4/itymCoa92lilmYq/schKVTlDQ=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 217f_5f8f_6241f2eb_4390_45eb_aa55_6ce399ae48e0;
+        Sun, 01 Dec 2019 10:26:26 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id F12971E260C;
+        Sun,  1 Dec 2019 10:18:11 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id wK5JyTCwayyp; Sun,  1 Dec 2019 10:18:11 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 04AE71E24EF;
+        Sun,  1 Dec 2019 10:13:00 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 04AE71E24EF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216780;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=iwhLUS9tHicegZWP8kkb3IecIUA6NjuZIks++/PTA7M9NQECUcD4chutHdH9pqRD6
+         xGfqcLGF1+WeRvO6EouELl33E80DWyUL1VYxaPCQSBb/ZQP5KN/GT2L0oFSVA3WA6b
+         j9WcSe8HA2G+mIDwnzbn9YSapqeYxdLwvi3Qafio=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id LjB5EPe_AFcy; Sun,  1 Dec 2019 10:12:59 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id BF3E21E2DB3;
+        Sun,  1 Dec 2019 10:04:20 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:04:13 +0100
+Message-Id: <20191201160420.BF3E21E2DB3@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=ONdX5WSB c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: 0b9e3ed5.0.105118617.00-2386.176727395.s12p02m015.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949749>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The orc_unwind and orc_unwind_ip tables are sorted in vmlinux link phase
-at build time, just remove the run-time sort.
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
 
-Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
----
- arch/x86/kernel/unwind_orc.c | 8 +++++---
- scripts/link-vmlinux.sh      | 5 ++++-
- 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_orc.c
-index 332ae6530fa8..280da6fa9922 100644
---- a/arch/x86/kernel/unwind_orc.c
-+++ b/arch/x86/kernel/unwind_orc.c
-@@ -273,9 +273,11 @@ void __init unwind_init(void)
- 		return;
- 	}
- 
--	/* Sort the .orc_unwind and .orc_unwind_ip tables: */
--	sort(__start_orc_unwind_ip, num_entries, sizeof(int), orc_sort_cmp,
--	     orc_sort_swap);
-+	/*
-+	 * Note, orc_unwind and orc_unwind_ip tables has been sorted in
-+	 * vmlinux link phase by sorttable tool at build time.
-+	 * Its ready for binary search now.
-+	 */
- 
- 	/* Initialize the fast lookup table: */
- 	lookup_num_blocks = orc_lookup_end - orc_lookup;
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 01978d1e4c13..f0f08e2bbcd5 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -300,7 +300,10 @@ vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
- 
- if [ -n "${CONFIG_BUILDTIME_TABLE_SORT}" ]; then
- 	info SORTTAB vmlinux
--	sorttable vmlinux
-+	if ! sorttable vmlinux; then
-+		echo >&2 Failed to sort kernel tables
-+		exit 1
-+	fi
- fi
- 
- info SYSMAP System.map
--- 
-2.24.0.rc2
-
+EMail: allenandvioletlargeaward@gmail.com
