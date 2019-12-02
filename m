@@ -2,89 +2,77 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3DD210E2E9
-	for <lists+linux-kbuild@lfdr.de>; Sun,  1 Dec 2019 19:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9992F10E8F9
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Dec 2019 11:33:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727231AbfLASRT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 Dec 2019 13:17:19 -0500
-Received: from mtax.cdmx.gob.mx ([187.141.35.197]:15919 "EHLO mtax.cdmx.gob.mx"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726155AbfLASRT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 Dec 2019 13:17:19 -0500
-X-Greylist: delayed 6465 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:17:18 EST
-X-NAI-Header: Modified by McAfee Email Gateway (4500)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
-        t=1575217587; h=DKIM-Filter:X-Virus-Scanned:
-         Content-Type:MIME-Version:Content-Transfer-Encoding:
-         Content-Description:Subject:To:From:Date:Message-Id:
-         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
-         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
-         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
-         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
-        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
-        8=; b=EmVo0AerX+KRn01z9urwYfyF8XCnAfKGDWLCOuyIRO3P
-        IfpNUHIfWW8WJ++VzoqTX6pZF6opmv59tAEl7sB/8k1KhlUTou
-        Q5QxEQZIWeJ9Ul/Ontg/V7FVmyTu5VVf85ZrmRMjAYhGCm0y7k
-        4/itymCoa92lilmYq/schKVTlDQ=
-Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
-        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
-         id 217f_5f8f_6241f2eb_4390_45eb_aa55_6ce399ae48e0;
-        Sun, 01 Dec 2019 10:26:26 -0600
-Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id F12971E260C;
-        Sun,  1 Dec 2019 10:18:11 -0600 (CST)
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id wK5JyTCwayyp; Sun,  1 Dec 2019 10:18:11 -0600 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by cdmx.gob.mx (Postfix) with ESMTP id 04AE71E24EF;
-        Sun,  1 Dec 2019 10:13:00 -0600 (CST)
-DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 04AE71E24EF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
-        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216780;
-        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Message-Id;
-        b=iwhLUS9tHicegZWP8kkb3IecIUA6NjuZIks++/PTA7M9NQECUcD4chutHdH9pqRD6
-         xGfqcLGF1+WeRvO6EouELl33E80DWyUL1VYxaPCQSBb/ZQP5KN/GT2L0oFSVA3WA6b
-         j9WcSe8HA2G+mIDwnzbn9YSapqeYxdLwvi3Qafio=
-X-Virus-Scanned: amavisd-new at cdmx.gob.mx
-Received: from cdmx.gob.mx ([127.0.0.1])
-        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id LjB5EPe_AFcy; Sun,  1 Dec 2019 10:12:59 -0600 (CST)
-Received: from [192.168.0.104] (unknown [188.125.168.160])
-        by cdmx.gob.mx (Postfix) with ESMTPSA id BF3E21E2DB3;
-        Sun,  1 Dec 2019 10:04:20 -0600 (CST)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726428AbfLBKdD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Dec 2019 05:33:03 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:49160 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbfLBKdD (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 2 Dec 2019 05:33:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=7lplhg5FVe4WdSN0TLaSo3Rq+vfl5p/UhqKfE2T37QY=; b=ayH50QNkkkLf9dIa+Ha4ydRQ3
+        0WK1HJo/c058TC76fb6h+6Z518GYwocAS+GGdoq7h0z1dkErXjDJia9CTf/1cdtPJ0fLh2ccBKwZd
+        f6dysRhng7J/WEJPoOD4RLHKbFAM5901AjrYZJ/OdtEcBOPP5D4Sahdn4jy+DMnhZN68Q59nXGCyR
+        mRIv3ZoCLKxXZ+lSv1B44OYhlAB1H/acVxtC4b7yc4RFI6Vvi4ETnEYcrHFtPyZFH++S0Ih2yn4Bd
+        lp10EeDJwu0VLoP2NkuLmHc5NVG36PwdC+S+rXsh84pVhyQP52uKUhys5IjtHK8XSsAtO2iqr8voF
+        Zbjwz6cqQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ibj0d-0000rb-SA; Mon, 02 Dec 2019 10:32:52 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 04A6B301A6C;
+        Mon,  2 Dec 2019 11:31:32 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id CE2BA2059DAEC; Mon,  2 Dec 2019 11:32:48 +0100 (CET)
+Date:   Mon, 2 Dec 2019 11:32:48 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Shile Zhang <shile.zhang@linux.alibaba.com>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v5 0/7] Speed booting by sorting ORC unwind tables at
+ build time
+Message-ID: <20191202103248.GB2827@hirez.programming.kicks-ass.net>
+References: <20191128110206.2107-1-shile.zhang@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Congratulations
-To:     Recipients <aac-styfe@cdmx.gob.mx>
-From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
-Date:   Sun, 01 Dec 2019 17:04:13 +0100
-Message-Id: <20191201160420.BF3E21E2DB3@cdmx.gob.mx>
-X-AnalysisOut: [v=2.2 cv=ONdX5WSB c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
-X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
-X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
-X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
-X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
-X-SAAS-TrackingID: 0b9e3ed5.0.105118617.00-2386.176727395.s12p02m015.mxlogic.net
-X-NAI-Spam-Flag: NO
-X-NAI-Spam-Threshold: 3
-X-NAI-Spam-Score: -5000
-X-NAI-Spam-Rules: 1 Rules triggered
-        WHITELISTED=-5000
-X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
- <1840193> : uri <2949749>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191128110206.2107-1-shile.zhang@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
- them with this email for more information =
+On Thu, Nov 28, 2019 at 07:01:59PM +0800, Shile Zhang wrote:
+> This series refactored the original sortextable tools, add ORC unwind
+> tables sort at build time.
+> 
+> To sort the ORC unwind tables(.orc_unwind & .orc_unwind_ip) can save
+> about 100ms in my test ENV (2C4G VM w/ Xeon 2.5GHz CPU).
+> It costs about 30ms sort by new sorttable tool.
 
+IIRC from your previous emails the new build-time sort is actually
+shorter than that, so even for single build+run scenarios we win.
 
-EMail: allenandvioletlargeaward@gmail.com
+The code looks good to me, so:
+
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+Who it going to apply this? I suppose we could take it through -tip,
+like we do with all x86 and objtool related bits.
