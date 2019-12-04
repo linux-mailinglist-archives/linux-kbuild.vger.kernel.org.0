@@ -2,91 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1150D112CDD
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 14:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D22E112E04
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 16:07:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727973AbfLDNsx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Dec 2019 08:48:53 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:57053 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727792AbfLDNsx (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Dec 2019 08:48:53 -0500
-Received: from [192.168.1.155] ([77.9.37.28]) by mrelayeu.kundenserver.de
- (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MMFdY-1iJKH617Ti-00JHVh; Wed, 04 Dec 2019 14:48:42 +0100
+        id S1727889AbfLDPHn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Dec 2019 10:07:43 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41554 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727828AbfLDPHn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 4 Dec 2019 10:07:43 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id E1A5EAEF9;
+        Wed,  4 Dec 2019 15:07:41 +0000 (UTC)
+Received: by ds.suse.cz (Postfix, from userid 10065)
+        id 89D7EDA98E; Wed,  4 Dec 2019 16:07:33 +0100 (CET)
+Date:   Wed, 4 Dec 2019 16:07:30 +0100
+From:   David Sterba <dsterba@suse.cz>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 1/2] Enlist running kernel modules information
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Message-ID: <20191204150728.GD2734@twin.jikos.cz>
+Reply-To: dsterba@suse.cz
+Mail-Followup-To: dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <20191203094845.610692-1-unixbhaskar@gmail.com>
  <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
- <20191204041543.GA1086470@ArchLinux>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <6ff74f67-11d3-d16f-8aeb-828c01455961@metux.net>
-Date:   Wed, 4 Dec 2019 14:48:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191204041543.GA1086470@ArchLinux>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rQIVarqS/mfesrZjkt5lAqLbU6vFNbEJjc6FQ1P0T6hgR7f1DFX
- d4kEALAgNCfgQd6BFYGXiVR+sTCv/aHdCGLYYaJSiUIX9QnZQwPl0o7Ora0p4SQQIFNItnV
- NRxNyPbQagCuBpVyBNFKEZ3wd1UNQiTxODAK0I2QDNL+Tu90jZQo2f8PzXfShJD0+2m0nRt
- cHwne+onFShMYgZRg11bg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lo7bEjXTHo4=:B9dgbOwiewS8hx95KrTyF+
- 2Y1jf2Xid7R4lj571gmGCgWYYpytxErGrVeDj48tq5m/mP+AuL7Ne9ktj5bQPfp1/vy4A00kY
- tVPZ6KyQGGYvV7gMXRd8FDP8Hs0RsLlmPU8EaGU02nvD/6QNolWdoj6jLrLteO0fKYRDiTFFQ
- u3rNRKgkkzamQ65mOiYJ3koFZ2ErJ4QpcQxPHlWvIbxg9r6Fx6eVNES9tQwY60rWjFIYAnSv2
- /BPGSkKE67eRcHw0as8KoFQAEFIhsmxVcxYLaotsmjS8VbbG+zmu9t0AzhTdeMqZm/bEZmqni
- UQfxGaIF4v1iBFPWrGvHDjhuCTzwmDJ2tzF3xnoT6LDM3bcuIt/kBr55wnrvOU36on2NM+xaC
- 98BlnebnxPGPDAS91o43XAwtg9zQVZLXDMl8PlbuCsXpDKPlxnhlZzvw0pKjqOxPUI4VNyaaA
- xuLfmgh9Vd/Pk+rJ3eMTJ4rx5zBafLErEZYupbuqxHn5QBpy2mI5/e37HiaMY0CpD4oY2wM/e
- ZkRWP7cNpDJuKc7i75NFR+ZMN//lJqFySxCeIUvekjfeVSzQ4Vu61hxYsAIvh0nT3Ae5+ui5f
- Lx4usy2dk64E6a56fk6dJ4Ew1sG6tMFwHl0Hv+yScZi9sbic7SHIDyDfy2GeLU0tBPO+o2Z28
- 6L1VOTX6WMJa5Mvndp6c12N9Na/Vst5iMgdEgh8ojF5EmeqtQRYciAzx+EjoKfi+khcwmwSF0
- fyf/YrbJH8kF1rTssMTTFbLv53HG/LMk5Xe4tST2Axug1i0X/AeGTuGQXU1zjD5P5RcOzoBYI
- JYavRk8XkmZ8Owp9a8LnpYTAfSRKakWBtRHnrEjhjIKyCsTiGfLsNhO+yEpEfHEOUuRtc0VFz
- WyJgShqW/pK8lo0xHOUQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
+User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 04.12.19 05:22, Bhaskar Chowdhury wrote:
+On Wed, Dec 04, 2019 at 12:10:25PM +0900, Masahiro Yamada wrote:
+> On Tue, Dec 3, 2019 at 6:49 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+> > +awk '{print $1}' "/proc/modules" | xargs modinfo | awk '/^(filename|desc|depends)/'
+> 
+> I want to see a good reason (e.g. useful for other developers) for upstreaming.
+> This script looks like your custom script, which you can maintain locally.
 
-Hi,
-
-> I think the usefulness comes from developers wants to see what are the
-> modules are using by the running kernel in formatted way.
-> This is very simple way to enlist all the modules with descriptions of
-> it.So , they can easily parse it with other scripts.
-
-IMHO, this is a good thing to have. I can even imagine it shipped by
-distros, for better bug reports.
-
-OTOH, if it's about the currently running kernel and loaded modules, why
-not putting this into /proc or /sys ?
-
-
---mtx
-
--- 
-Dringender Hinweis: aufgrund existenzieller Bedrohung durch "Emotet"
-sollten Sie *niemals* MS-Office-Dokumente via E-Mail annehmen/öffenen,
-selbst wenn diese von vermeintlich vertrauenswürdigen Absendern zu
-stammen scheinen. Andernfalls droht Totalschaden.
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+I think the verbosity should be added to either lsmod or modinfo, not
+some script in kernel git.
