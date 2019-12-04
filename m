@@ -2,191 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64F9411220D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 05:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 223DA112BBB
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 13:43:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726834AbfLDEWX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Dec 2019 23:22:23 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:46569 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726804AbfLDEWX (ORCPT
+        id S1727896AbfLDMnI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Dec 2019 07:43:08 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:32821 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727855AbfLDMnA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Dec 2019 23:22:23 -0500
-Received: by mail-pj1-f67.google.com with SMTP id z21so2402078pjq.13;
-        Tue, 03 Dec 2019 20:22:22 -0800 (PST)
+        Wed, 4 Dec 2019 07:43:00 -0500
+Received: by mail-qt1-f195.google.com with SMTP id d5so7610342qto.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 04 Dec 2019 04:42:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/pkZzpK23dmwIi5+edhnCbw3h8UFfRYOpvCOiH4IOdI=;
-        b=kQqSCHpzyBi9y0eweJ323UfFfnnjl7xC2pgzwEbjwDPIMsYGcjRW9s6++GHocmeyh5
-         JKmtYUMGQgyINZH8+Y7k43RrqDgz+gXKEX0G75i8F/S7opMshK1UEqa6O82wLA4UDY7H
-         WqePkPOuWstFQMh00MIz4fOLfZRgyaZKugOEEdXlx7etrVtjI/JCh3hje9/O/gK6prdH
-         0HrNMrim4pIhS1HcKPw5RkfgtjPfRvlg0+BI9aJ+w1IusEDmVEQgdDIYW+Y3+wAa+DKO
-         qt22xJbvyZkAe4lM+JcmJH5nA6C3SBjpyHPVd3n85S4niU/CaXn2yPV31lT7SpjrFJzs
-         8KCg==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=AkbuvF8WWOeGkFuNbpEiUPeHs0D9XYCrvYJnn3sJBPk0l/N+bAJ+lU7by52a8c0/XL
+         X5y/+uJVi5SRPzgKpD7LZp2RSO63H/dWhNB+Sgv8CnTmnW6HnNvEkrD3pvFKiHue+ji0
+         Cyct4Vs7hozR5hYKDh8cJJMkT72K9aPHj93bK1Ew++bIIM698i5hGwNXpwVN8RyOlTlg
+         ekVZP06isuUhwZwFxkLwU0Sye3HMnEDkq9yUmWZzxA1JTm8RzibEufZxYTJilauyHwzc
+         pKJFDkaXtzzvkeOyU7ajhljX9QykaA8Ur2FHYJunK1Sxosbxld4ODKAYs9j7AB06Aipc
+         jW5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=/pkZzpK23dmwIi5+edhnCbw3h8UFfRYOpvCOiH4IOdI=;
-        b=FP+VNmKdqtbIUfcZJ1ZGxxVwd1dGQwpJasMMhAu/T1c1KCV1lRGhG4PSumOiWUyVUe
-         4bQDbqhJwwTOUYueahxp/VhP9+ubx/pLMQrgnemQ/f+3VVOIfCVtSvS91FMjHJDtpD0t
-         RiFExOC19xA5B5/g9ouJ8EAfsOlo+/uHOck2Oy0zVJYuU7PqyQ8OC2nw+K8k3lU6Z/Oi
-         ou96DnaZNQUF/uZiV+bR/H+FHGqV6tb40EJ+EyVgC3bjHGpFztszc661QhQPjDDRRwbk
-         AhasnYDnAcvKVzmcFVuFIXtVkyABf9XqdjL2LtgGjWsKahHj2AhD3LswYCshTcdNdsnN
-         /Tzw==
-X-Gm-Message-State: APjAAAWbeZp/Njzh54GApm8isUWbzvyainUMgf74aGVrHzr6QljGbggx
-        AwqxWMq4U/AiFPFpLa4q5y8=
-X-Google-Smtp-Source: APXvYqyfHwid5XXLbjTCd0bG4ZOVKPciFFswFQQxlS/PRPdYcgijCKFvKG+D7VKpK2fR6Jc3tfkL3A==
-X-Received: by 2002:a17:90a:fb87:: with SMTP id cp7mr1208391pjb.56.1575433342375;
-        Tue, 03 Dec 2019 20:22:22 -0800 (PST)
-Received: from ArchLinux ([103.231.91.34])
-        by smtp.gmail.com with ESMTPSA id l11sm5333608pff.120.2019.12.03.20.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2019 20:22:21 -0800 (PST)
-Date:   Wed, 4 Dec 2019 09:52:07 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Enlist running kernel modules information
-Message-ID: <20191204041543.GA1086470@ArchLinux>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191203094845.610692-1-unixbhaskar@gmail.com>
- <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=Di3Z9b1tyohw/xBwk0scHQzQ3QeTOXn3niw5lcWpG1Qgdff0BL56++alilPsfWz1Ic
+         yIrEvksqo1a+KWaxld0gl03mZGL3SH5Db9/Yzr5+Tyvu1u4pjMnH3zsHCgta2nNYgZY9
+         R3fMxU0vg9+4XXKWiG0XXRIdSKmSjOeL9kIM6BeFHyNrc9c1G7hlsxs4J/0RMmhcoU7q
+         xHG0ebrSq3qJduQhSakRifb7qkhhcLWkfsEFmIuapyIybGg8o5X5AgxF1K05AcWkxnmY
+         yRaLxNGoexQACl8PmeC2pXvxRq9D+Ievwfd2a0LcHzyOCvTJfD5dWIhsMUvfqBCUnwUO
+         UZhw==
+X-Gm-Message-State: APjAAAVOGNVBCzIwKVEAdci1nodyB/yN0qkxWqHH4UHKy+B4tgOlHWtB
+        PhszJCCezNNNvdT8qTXB3pouvNS95OAc02mdMnc=
+X-Google-Smtp-Source: APXvYqzw3gCG5cnmI6368TWfhjS/+LLSHd6b95oZCOsPTpsAjIN23auDStB1pQ1PTnMah1qk6gl8uYsnTPaZ7k01uH0=
+X-Received: by 2002:ac8:4a81:: with SMTP id l1mr2434940qtq.357.1575463377714;
+ Wed, 04 Dec 2019 04:42:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="St7VIuEGZ6dlpu13"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Received: by 2002:ac8:2f0c:0:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:42:57 -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
+        <westernunion.benin982@gmail.com>
+Date:   Wed, 4 Dec 2019 13:42:57 +0100
+Message-ID: <CAP=nHBJXiPmPL21x=_0BHWRk_3N3Yax+tTxcFi=t=AhN7g==1Q@mail.gmail.com>
+Subject: God has remembered your prayers I have already sent you Money Gram
+ payment of $5000.00 today, MG 1029-8096
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Attn, dear Beneficiary.
 
---St7VIuEGZ6dlpu13
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+God has remembered your prayers
+I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
+This is because we have finally concluded to effect your transfer
+funds of $4.8,000.000usd
+through MONEY GRAM International Fund transfer Service
+Each payment will be sending to you by $5000.00 daily until the
+($4.8,000.000usd) is completely transferred
+we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
+So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
 
-On 12:10 Wed 04 Dec 2019, Masahiro Yamada wrote:
->On Tue, Dec 3, 2019 at 6:49 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> w=
-rote:
->>
->> This is new file to show running kernel modules list.One line bash
->> script.
->>
->> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
->> ---
->>  scripts/kernel_modules_info.sh | 23 +++++++++++++++++++++++
->>  1 file changed, 23 insertions(+)
->>  create mode 100755 scripts/kernel_modules_info.sh
->>
->> diff --git a/scripts/kernel_modules_info.sh b/scripts/kernel_modules_inf=
-o.sh
->> new file mode 100755
->> index 000000000000..f005c47a3aa6
->> --- /dev/null
->> +++ b/scripts/kernel_modules_info.sh
->> @@ -0,0 +1,23 @@
->> +#!/bin/bash -
->> +#SPDX-License-Identifier: GPL-2.0
->> +#=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->> +#
->> +#          FILE: kernel_modules_info.sh
->> +#
->> +#         USAGE: ./kernel_modules_info.sh
->> +#
->> +#   DESCRIPTION:  Running kernel modules information.
->> +#
->> +#       OPTIONS: ---
->> +#  REQUIREMENTS: awk
->> +#          BUGS: ---
->> +#         NOTES: ---
->> +#        AUTHOR: Bhaskar Chowdhury (https://about.me/unixbhaskar), unix=
-bhaskar@gmail.com
->> +#  ORGANIZATION: Independent
->> +#       CREATED: 12/03/2019 13:52
->> +#      REVISION:  ---
->> +#=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
->> +
->> +set -o nounset                              # Treat unset variables as =
-an error
->> +
->> +awk '{print $1}' "/proc/modules" | xargs modinfo | awk '/^(filename|des=
-c|depends)/'
->
->
->
->I want to see a good reason (e.g. useful for other developers) for upstrea=
-ming.
->This script looks like your custom script, which you can maintain locally.
+Contact person Mrs. Alan Ude
+Dir. MONEY GRAM Service,Benin
+Phone number: +229 98856728
+E-mail: moneygram.1820@outlook.fr
 
-I think the usefulness comes from developers wants to see what are the
-modules are using by the running kernel in formatted way.=20
+Ask him to give you the complete mtcn, sender name, question and
+answer to enable you
+pick up the $5000.00 sent today,
+Also you are instructed to re-confirm your information's
+to Mrs.Alan Ude as listed below to avoid wrong transactions.
 
-This is very simple way to enlist all the modules with descriptions of
-it.So , they can easily parse it with other scripts.
+(1Your Full name:............................................
+(2 Phone number.....................................................
+(3 Contact address:.....................................
+(4 Age:..................................................................
+(5 Country..............................................
+(6) Sex .................................................................
+(7) your occupation...........................................
 
-I believe you have already copy and paste the single line on your
-terminal to see the output it produces, if not, I have already sent a
-mail which includes the out of it.
+(8)Passport/By Attach or Drivers License Number:
+Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
+Note please: I have paid service fees for you but the only money you
+are required
+to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
+pick up your transfer today.
 
-If and only if, no other tool or mechanism(which might have skips my
-eyes and knowledge) to find and display information this way.
+Send it to via Money Gram
+Receiver's Name-----Alan Ude
+Country----------Benin
+Address-----------Cotonou
+Quest--------Honest
+Ans-----------Trust
 
-Kindly, share me the other way , you can achieve that. This is a generic
-script,and expecting stuff in common place, so everybody can use it.No,
-special requirement is needed.
+I done all my best for you to receive your transfer now ok.
+We need your urgent reply
+Best Regards
+Rev.Dr Emmanuel Okoye
+CEO Ecobank-benin
 
-Here is little output,if you missed my other mail with it...
-
-filename:/lib/modules/5.4.1-arch1-1ArchLinux-5.4.1/kernel/drivers/usb/host/=
-xhci-pci.ko.xz
-description:    xHCI PCI Host Controller Driver
-depends:        xhci-hcd
-
-These output can be parse by other scripts too(cliche...sorry) ..
-
-Thanks,
-Bhaskar
-
->
->
->--=20
->Best Regards
->Masahiro Yamada
-
---St7VIuEGZ6dlpu13
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl3nNGgACgkQsjqdtxFL
-KRUypggAgIbmgqA3OMg2FO8KR1Gn+rCPNkMTaekoI8YBpZyZEEriWb8zKTE6cYKQ
-T2SG2dtpKbCu8ZLchEcvhb3ZZtzhFkZvfHEFvn/adauqY6l/O1RqlJZq3Q+SggVz
-w42ceTdLu0O8NOdR2EKG0LhuL43g74By7RhmMMV+iR3H52OtCKyw5rV+z9n/K5dL
-opmGSpF9iH4NleHChPTy3ePUjJxFNXycOhM8PrtkenQ72Cdr34NkAP38eR7XDQVY
-7oZ5BEx+3O6B1KvypOI1e1+hmzypt7DfKwHSN+xifZu6YlvPJG4lV+2bFwhcDKfi
-xWbsPT0Rz4frny9krhnKBI2CZ0MQYg==
-=3QSx
------END PGP SIGNATURE-----
-
---St7VIuEGZ6dlpu13--
+If we did not receive it urgent from you today,
+I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
+representative.
