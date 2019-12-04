@@ -2,89 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C76B1120B6
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 01:47:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B33112198
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 03:52:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbfLDAqt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Dec 2019 19:46:49 -0500
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:54159 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726363AbfLDAqs (ORCPT
+        id S1726968AbfLDCwS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Dec 2019 21:52:18 -0500
+Received: from conuserg-11.nifty.com ([210.131.2.78]:52231 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726521AbfLDCwR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Dec 2019 19:46:48 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R211e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0Tjr6d8u_1575420394;
-Received: from e18g09479.et15sqa.tbsite.net(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0Tjr6d8u_1575420394)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 04 Dec 2019 08:46:45 +0800
-From:   Shile Zhang <shile.zhang@linux.alibaba.com>
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org
-Cc:     "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Shile Zhang <shile.zhang@linux.alibaba.com>
-Subject: [RFC PATCH v6 7/7] x86/unwind/orc: remove run-time ORC unwind tables sort
-Date:   Wed,  4 Dec 2019 08:46:33 +0800
-Message-Id: <20191204004633.88660-8-shile.zhang@linux.alibaba.com>
-X-Mailer: git-send-email 2.24.0.rc2
-In-Reply-To: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
-References: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
+        Tue, 3 Dec 2019 21:52:17 -0500
+X-Greylist: delayed 124053 seconds by postgrey-1.27 at vger.kernel.org; Tue, 03 Dec 2019 21:52:16 EST
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id xB42pqN2021272;
+        Wed, 4 Dec 2019 11:51:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com xB42pqN2021272
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1575427913;
+        bh=h1Zzop3sqPtOLhqGWdfgR6EWkFWSOPCC1FE6B+QXfJs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DAY8ZOIUsVXdtaFP9Kgqfik+1jq26HX2kyZsm3hHV7nUPETSmr/bCJ9tIFXtv8+Cy
+         YUZbGu22saWM3h4NInFBKycZ7+fXMml8+EGruC4mXjrhl7koDBAxIX7aqzaCGDxzw6
+         DdWroYmh4wXNJ/NYCS3EVlZK4rHCGJI8FurIZ0l20K8TSMCyNmNEnKI32+f83fRehd
+         /WO9yMuGnmai3BUoW9yMDxaTJs7xAMkeDWME2ldLilumPo90mUME/CpWfeP8zrWeDM
+         UrV8DX1DkHGe/AUK5vMFsbja/DQKcFuTCow8YpvcMQawN1Qo2f6Qf90rEj3G5sErCZ
+         A8TnCIHd3mt1g==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: fix 'No such file or directory' warning when cleaning
+Date:   Wed,  4 Dec 2019 11:51:48 +0900
+Message-Id: <20191204025148.32101-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The orc_unwind and orc_unwind_ip tables are sorted in vmlinux link phase
-at build time, just remove the run-time sort.
+Since commit fcbb8461fd23 ("kbuild: remove header compile test"),
+'make clean' with O= option in the pristine source tree emits
+'No such file or directory' warning.
 
-Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+$ git clean -d -f -x
+$ make O=foo clean
+make[1]: Entering directory '/home/masahiro/linux/foo'
+find: ‘usr/include’: No such file or directory
+make[1]: Leaving directory '/home/masahiro/linux/foo'
+
+Fixes: fcbb8461fd23 ("kbuild: remove header compile test")
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- arch/x86/kernel/unwind_orc.c | 8 +++++---
- scripts/link-vmlinux.sh      | 5 ++++-
- 2 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_orc.c
-index 332ae6530fa8..280da6fa9922 100644
---- a/arch/x86/kernel/unwind_orc.c
-+++ b/arch/x86/kernel/unwind_orc.c
-@@ -273,9 +273,11 @@ void __init unwind_init(void)
- 		return;
- 	}
+ usr/include/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/usr/include/Makefile b/usr/include/Makefile
+index 24543a30b9f0..e5895a79c45f 100644
+--- a/usr/include/Makefile
++++ b/usr/include/Makefile
+@@ -95,7 +95,7 @@ endif
+ # asm-generic/*.h is used by asm/*.h, and should not be included directly
+ header-test- += asm-generic/%
  
--	/* Sort the .orc_unwind and .orc_unwind_ip tables: */
--	sort(__start_orc_unwind_ip, num_entries, sizeof(int), orc_sort_cmp,
--	     orc_sort_swap);
-+	/*
-+	 * Note, orc_unwind and orc_unwind_ip tables has been sorted in
-+	 * vmlinux link phase by sorttable tool at build time.
-+	 * Its ready for binary search now.
-+	 */
+-extra-y := $(patsubst $(obj)/%.h,%.hdrtest, $(shell find $(obj) -name '*.h'))
++extra-y := $(patsubst $(obj)/%.h,%.hdrtest, $(shell find $(obj) -name '*.h' 2>/dev/null))
  
- 	/* Initialize the fast lookup table: */
- 	lookup_num_blocks = orc_lookup_end - orc_lookup;
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 01978d1e4c13..f0f08e2bbcd5 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -300,7 +300,10 @@ vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
- 
- if [ -n "${CONFIG_BUILDTIME_TABLE_SORT}" ]; then
- 	info SORTTAB vmlinux
--	sorttable vmlinux
-+	if ! sorttable vmlinux; then
-+		echo >&2 Failed to sort kernel tables
-+		exit 1
-+	fi
- fi
- 
- info SYSMAP System.map
+ quiet_cmd_hdrtest = HDRTEST $<
+       cmd_hdrtest = \
 -- 
-2.24.0.rc2
+2.17.1
 
