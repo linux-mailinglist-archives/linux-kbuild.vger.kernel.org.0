@@ -2,58 +2,35 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37BBF10FB26
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Dec 2019 10:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7351C1120BC
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Dec 2019 01:47:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726105AbfLCJyE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Dec 2019 04:54:04 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:39240 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbfLCJyE (ORCPT
+        id S1726395AbfLDAqr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Dec 2019 19:46:47 -0500
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:47854 "EHLO
+        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726086AbfLDAqr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Dec 2019 04:54:04 -0500
-Received: by mail-pf1-f193.google.com with SMTP id x28so1591827pfo.6;
-        Tue, 03 Dec 2019 01:54:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WsogWlyRgThoQhfF9sTWa0YBUYovc2qudSPT4FE8HIs=;
-        b=b9DiFTyLNhlWFfjwPn7KUH/y0rtt2bnC5zKhRkW/qWDMrwUeKA8IsVuh5Nc3arFyAK
-         TSCLJBpes5qA3zvzis8N0h63YIASy96x9v4ynwWp+B6bTnv5ekw0wQmZxkLW0Cs1/nUJ
-         T4CMiV/oEAwIa7JBXNp53VlI1m3mp2NliAXksqvwVTy+q2uZMoGrxcrtBVB79krGGYNV
-         vv1zH2afnxbwtjCeMlB3c8/NLtussF0Vi7HnfkgxMbRifnpKwrmzoOBPDkyrXOP6N2EW
-         IGkLMyDwi+mihA26f648eo0KZYTuodhjcNWuBAbKMPOhJclCbA5VVIEIqHbcEkxihsuG
-         mGqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WsogWlyRgThoQhfF9sTWa0YBUYovc2qudSPT4FE8HIs=;
-        b=RFGORwbC54S4lQUURA0V+fSsRSKKjNIkoqq2CZ8P8jVdYQcY50APrN0VmCZ5nbM6Kr
-         O7+4kYJoluQZreeNFSCWtN/ANIws63Hgx9prBcgxCfSCiRV5joT/62QnB0EGxyt3xUU+
-         hGDfHmTOzu6DE8H+wkz0IivXYtayWiHLhktSOzawF9VVhgI3WpN7Kt+olNxHP86skXsN
-         2WkzxszvOACxrolWOkc1qOxc02aVmJCPmDXhl+B3An0AxzlHs2M07TJu11TMYMLBYwi/
-         5sZokOcQX7b7Yekugr093wYaNDSSLWk2HK8kKG//kTWkS5qVJbAKBTXtFY0ofosy+Bf/
-         U38A==
-X-Gm-Message-State: APjAAAVU8DoXdbmZHBflzg+VEFuDnfV6hiKIm9GCs3UOiVSDXhAfY/hq
-        LzBsfig2db6Z/ri0O7LJ7sRCKVPCTZY=
-X-Google-Smtp-Source: APXvYqysxS/CRZThyJEBcrJNZgOHb7f3bBwnrOwAKmlWS19dAA3LWod93LjSAX4s3tVPC+TNBJmpGw==
-X-Received: by 2002:a62:e709:: with SMTP id s9mr3776830pfh.190.1575366844118;
-        Tue, 03 Dec 2019 01:54:04 -0800 (PST)
-Received: from localhost.localdomain ([103.231.91.74])
-        by smtp.gmail.com with ESMTPSA id b7sm2305739pjo.3.2019.12.03.01.53.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2019 01:54:03 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        rdunlap@infradead.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH 2/2] fix the SPDX syntax and bash interprester pointer
-Date:   Tue,  3 Dec 2019 15:23:39 +0530
-Message-Id: <20191203095339.615774-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        Tue, 3 Dec 2019 19:46:47 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04446;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0Tjr6d8u_1575420394;
+Received: from e18g09479.et15sqa.tbsite.net(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0Tjr6d8u_1575420394)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 04 Dec 2019 08:46:42 +0800
+From:   Shile Zhang <shile.zhang@linux.alibaba.com>
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org
+Cc:     "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Shile Zhang <shile.zhang@linux.alibaba.com>
+Subject: [RFC PATCH v6 0/7] Speed booting by sorting ORC unwind tables at build time
+Date:   Wed,  4 Dec 2019 08:46:26 +0800
+Message-Id: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
+X-Mailer: git-send-email 2.24.0.rc2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -61,26 +38,80 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-SPDX syntax was complining by checkpatch fixed it,added space before it.
-And add bash interpreter to find by the env .
+Hi,
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- scripts/kernel_modules_info.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Sorry, update for compile error fix, reported by Intel's kbuild test robot.
+Any comments or suggestions are welcome!
 
-diff --git a/scripts/kernel_modules_info.sh b/scripts/kernel_modules_info.sh
-index f005c47a3aa6..3a9b00988ed3 100755
---- a/scripts/kernel_modules_info.sh
-+++ b/scripts/kernel_modules_info.sh
-@@ -1,5 +1,5 @@
--#!/bin/bash - 
--#SPDX-License-Identifier: GPL-2.0
-+#!/usr/bin/env bash 
-+# SPDX-License-Identifier: GPL-2.0
- #===============================================================================
- #
- #          FILE: kernel_modules_info.sh
+Thanks!
+
+Changelog:
+==========
+v5->v6:
+- fix compile error reported by kbuild test robot;
+
+v4->v5:
+- replace sort with qsort, suggested by Andy Lutomirski <luto@amacapital.net>;
+- add error handling in link scripts;
+- fixed some review findings;
+https://lore.kernel.org/lkml/20191128110206.2107-1-shile.zhang@linux.alibaba.com/
+
+v3->v4:
+- Code refactored for Peter's review findings and suggestions.
+https://lore.kernel.org/lkml/20191115164539.57930-1-shile.zhang@linux.alibaba.com/
+
+v2->v3:
+- Discard new added sortorctable tool and related Kconfig changes.
+- Refactored sortextable, makes it more readable and extendable.
+- Rename 'sortextable' to 'sorttable', for more kernel tables extend.
+- Add ORC unwind tables sort into sorttable.
+- Remove the runtime ORC tables sort.
+https://lore.kernel.org/lkml/20191115064750.47888-1-shile.zhang@linux.alibaba.com/
+
+v1->v2:
+- Removed new added Kconfig and runtime sort code, advised by Josh Poimboeuf.
+- Some minor refactoring.
+https://lore.kernel.org/lkml/20191108071108.72132-1-shile.zhang@linux.alibaba.com/
+
+v1:
+- Added a new sortorctable tool to sort ORC unwind tables at build time,
+  same as sortextable.
+- Add a new Kconfigure to control if ORC unwind tables sort at build
+  time.
+https://lore.kernel.org/lkml/20191107143205.206606-1-shile.zhang@linux.alibaba.com/
+
+Shile Zhang (7):
+  scripts/sortextable: Rewrite error/success handling
+  scripts/sortextable: kernel coding style formating
+  scripts/sortextable: Remove dead code
+  scripts/sortextable: refactor do_func() function
+  scripts/sorttable: rename sortextable to sorttable
+  scripts/sorttable: Add ORC unwind tables sort concurrently
+  x86/unwind/orc: remove run-time ORC unwind tables sort
+
+ arch/arc/Kconfig                       |   2 +-
+ arch/arm/Kconfig                       |   2 +-
+ arch/arm64/Kconfig                     |   2 +-
+ arch/microblaze/Kconfig                |   2 +-
+ arch/mips/Kconfig                      |   2 +-
+ arch/parisc/Kconfig                    |   2 +-
+ arch/powerpc/Kconfig                   |   2 +-
+ arch/s390/Kconfig                      |   2 +-
+ arch/x86/Kconfig                       |   2 +-
+ arch/x86/kernel/unwind_orc.c           |   8 +-
+ arch/xtensa/Kconfig                    |   2 +-
+ init/Kconfig                           |   2 +-
+ scripts/.gitignore                     |   2 +-
+ scripts/Makefile                       |  13 +-
+ scripts/link-vmlinux.sh                |  13 +-
+ scripts/sortextable.h                  | 209 --------------
+ scripts/{sortextable.c => sorttable.c} | 305 +++++++++-----------
+ scripts/sorttable.h                    | 380 +++++++++++++++++++++++++
+ 18 files changed, 557 insertions(+), 395 deletions(-)
+ delete mode 100644 scripts/sortextable.h
+ rename scripts/{sortextable.c => sorttable.c} (67%)
+ create mode 100644 scripts/sorttable.h
+
 -- 
-2.24.0
+2.24.0.rc2
 
