@@ -2,146 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2DB3113A63
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 04:30:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65556113A80
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 04:36:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728374AbfLEDaw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Dec 2019 22:30:52 -0500
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:33281 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728132AbfLEDaw (ORCPT
+        id S1728714AbfLEDgf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Dec 2019 22:36:35 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:41096 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728490AbfLEDgf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Dec 2019 22:30:52 -0500
-Received: by mail-pj1-f68.google.com with SMTP id r67so697997pjb.0;
-        Wed, 04 Dec 2019 19:30:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BXdzCUHz/0CUvTusmPE8UcGK3GWtUgd8km1icsllXOg=;
-        b=QW45i/IqmcQvZkporhXT8EO5ToLaAbCGL/b1RoAOfSm5lzJyavLqTH2OcxF6RiD47j
-         WLgMc3V570O5zbd5JT8GHU932RpsaOWp4CAXLRwztcf2aQ5EYWfe0yCgM+9kYfrEg+VJ
-         D6AeXBf9kmHAriB/pzzOqiZ3pn9UB8sDra2IzyZ5cpeOWNpPPsxb4ld0+YhilGnXF3CD
-         Vc8kXbcjaCLE14n8JK7l8pRNHs+ezihQauWQpaAaoVwGaatOjkzqYn7ovKds06pOG9kO
-         8xO3Yl4e5Dh7ya1K/ujgasBHxzDBbsFDYWOxdPIDeBZT1+kN2dHmgzxLyfBLYT5Vekbk
-         OUZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=BXdzCUHz/0CUvTusmPE8UcGK3GWtUgd8km1icsllXOg=;
-        b=lJgDI2tA5yQFq+g56NNEklcEy6O/FuRzNKerIdVLZUye/g43FrmpFmrmZlQhvv1QkU
-         CgH7+YRJhiYl4HKKsD3/wkmvMiTVinRjZUx6tBqs0VEQpY6SyXZYQrxVfpiNzTPnwfZx
-         2ky2DYAYnZqVmoviUMPO336X4BHfQhvvyot1tWaQY+5XnohGUxdTc8T9bXhCvf9VyIMk
-         4uBl9QON6koF5HHF/l1qzE1NHKwvmonWMeFabhrcCvqHDRwTrKeBvqUOxo1m24TD6LkY
-         vZ8S0Uxl0MRIAlCEgQO4cLlO2e736WLEEIIsv5eQXFF+0zsnDhs/IgNwKePQxkugcTNE
-         DkYg==
-X-Gm-Message-State: APjAAAWHb/3OoHfdRNG/Svl1zNPE5meyAYu1p7xbyx0mrN5UdfiUqc3L
-        NrbfOvaWWip1FeERJWVO5o0=
-X-Google-Smtp-Source: APXvYqwK/1WZRj1uu7EMum6yvtMmypv7Sf3DOWIbAHoH49lkvzJUyxZnzdpeEW6KiyGbfC1o1VmCOg==
-X-Received: by 2002:a17:90b:110d:: with SMTP id gi13mr7054526pjb.113.1575516651238;
-        Wed, 04 Dec 2019 19:30:51 -0800 (PST)
-Received: from debian ([103.231.91.70])
-        by smtp.gmail.com with ESMTPSA id 136sm8854121pgg.74.2019.12.04.19.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 19:30:50 -0800 (PST)
-Date:   Thu, 5 Dec 2019 09:00:38 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Enlist running kernel modules information
-Message-ID: <20191205033035.GB3981@debian>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191203094845.610692-1-unixbhaskar@gmail.com>
- <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
- <20191204041543.GA1086470@ArchLinux>
- <6ff74f67-11d3-d16f-8aeb-828c01455961@metux.net>
+        Wed, 4 Dec 2019 22:36:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=uA8qdYUY/WlI1NyihsW/y2NRPNtIlPbJremcOrIeCmU=; b=QewMc9bCiS/dK894Y8pt17kDe
+        afDW8/WAHpIXExgn9DoNlklkrmrnlSqi6g17i6uxxWr3v1xLhaBhrdUZByt63bINxKgh5Hdg5kvf9
+        R5HjdxBEleCSLwQ0e5yeDv0UV2Y9Yp79/momOuuxE6ftqvgYJsXzFFWW65bjZoVGukfBTtCjW0ZwM
+        PWogwktMzqz3cQipb3xjkLP1ARjK/2ihIh6zL/tgtyY8g32IGoNnUOg5SX+qlVW648qZlp8J6GuJ8
+        bsXLZu/qP2gaNx8mMgh+Vsv9B8/jwlQY5G4i7IifsbvAPaNlZNY0btLmykXdniyT5aLSM5kTsmUKM
+        l+XfYAu8Q==;
+Received: from [2601:1c0:6280:3f0::3deb]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ichwQ-0004vz-2e; Thu, 05 Dec 2019 03:36:34 +0000
+Subject: Re: [PATCH 2/2] fix the SPDX syntax and bash interprester pointer
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        yamada.masahiro@socionext.com, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191203095339.615774-1-unixbhaskar@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <56303cd3-fcf8-49cd-f66a-4db7e382774c@infradead.org>
+Date:   Wed, 4 Dec 2019 19:36:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GRPZ8SYKNexpdSJ7"
-Content-Disposition: inline
-In-Reply-To: <6ff74f67-11d3-d16f-8aeb-828c01455961@metux.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191203095339.615774-1-unixbhaskar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On 12/3/19 1:53 AM, Bhaskar Chowdhury wrote:
+> SPDX syntax was complining by checkpatch fixed it,added space before it.
+> And add bash interpreter to find by the env .
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  scripts/kernel_modules_info.sh | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/scripts/kernel_modules_info.sh b/scripts/kernel_modules_info.sh
+> index f005c47a3aa6..3a9b00988ed3 100755
+> --- a/scripts/kernel_modules_info.sh
+> +++ b/scripts/kernel_modules_info.sh
+> @@ -1,5 +1,5 @@
+> -#!/bin/bash - 
+> -#SPDX-License-Identifier: GPL-2.0
+> +#!/usr/bin/env bash 
+> +# SPDX-License-Identifier: GPL-2.0
+>  #===============================================================================
+>  #
+>  #          FILE: kernel_modules_info.sh
+> 
 
---GRPZ8SYKNexpdSJ7
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+a.  There is no good reason for patch 2/2.  Just merge the 2 patches.
 
-On 14:48 Wed 04 Dec 2019, Enrico Weigelt, metux IT consult wrote:
->On 04.12.19 05:22, Bhaskar Chowdhury wrote:
->
->Hi,
->
->> I think the usefulness comes from developers wants to see what are the
->> modules are using by the running kernel in formatted way.
->> This is very simple way to enlist all the modules with descriptions of
->> it.So , they can easily parse it with other scripts.
->
->IMHO, this is a good thing to have. I can even imagine it shipped by
->distros, for better bug reports.
->
->OTOH, if it's about the currently running kernel and loaded modules, why
->not putting this into /proc or /sys ?
+b.  The big header comment in patch 1/2 is not needed and is unwanted.
+Just put some or all of that in the patch description/comment message.
 
-The reason being not putting in the /proc or /sys is, it is not
-dynamically generated stuff. This is small script which do a specific
-task ,out of the information available  in /proc or /sys.
 
-And essentially resides in the scripts directory for easy finding and
-using. =20
+-- 
+~Randy
 
-:)
-
-~Bhaskar
->
->
->--mtx
->
->--=20
->Dringender Hinweis: aufgrund existenzieller Bedrohung durch "Emotet"
->sollten Sie *niemals* MS-Office-Dokumente via E-Mail annehmen/=F6ffenen,
->selbst wenn diese von vermeintlich vertrauensw=FCrdigen Absendern zu
->stammen scheinen. Andernfalls droht Totalschaden.
->---
->Hinweis: unverschl=FCsselte E-Mails k=F6nnen leicht abgeh=F6rt und manipul=
-iert
->werden ! F=FCr eine vertrauliche Kommunikation senden Sie bitte ihren
->GPG/PGP-Schl=FCssel zu.
->---
->Enrico Weigelt, metux IT consult
->Free software and Linux embedded engineering
->info@metux.net -- +49-151-27565287
-
---GRPZ8SYKNexpdSJ7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl3oedgACgkQsjqdtxFL
-KRX1EQf/bM+T/selwfgcqWcb3hw5h1W4xeF8v3MgFwzyiBKWHIbSHd8+ly1G4iO+
-YMzDeOSceRGjE3p/GnsR9D2Z2Oz/2Bb9U7LH6QO72TQMsP9yfZCXu2jOgxFWdkns
-KKybGCo4udo/Ui8RiLZm+0agD3mJClJoRxPAXEgMZ0euRh/oja4r2FF4qfclfKnW
-dCuDmLV8eiFElFez+qR1KK4JzmJLcI+RX+0KgATUBNIwbwv+inu/xLKt+nPg2pPu
-L0ui74Slc/RKz0CzEs5HA8jsKF1ErqlKNzweK6GoeHGGGx14vRDwyRmjyU08OIcy
-Yx69fTPorBKBHJxyJbWdzPRhhL+UMw==
-=Tgd4
------END PGP SIGNATURE-----
-
---GRPZ8SYKNexpdSJ7--
