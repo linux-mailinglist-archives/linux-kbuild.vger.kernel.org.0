@@ -2,86 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0273113B1C
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 06:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B7781144EC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 17:35:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725855AbfLEFQM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 5 Dec 2019 00:16:12 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:42553 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725822AbfLEFQL (ORCPT
+        id S1729145AbfLEQfq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 5 Dec 2019 11:35:46 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:51166 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726028AbfLEQfq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 5 Dec 2019 00:16:11 -0500
-Received: by mail-pj1-f67.google.com with SMTP id o11so780201pjp.9;
-        Wed, 04 Dec 2019 21:16:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ww1S/rh1zvVSbDB8LGNfJmI8PQTr/arnIocKw0gWGl8=;
-        b=Y04NfUREjbe3zdo7X89e/wfYGWmcqr39cyvuNQ16XNypEpakmwIkNsHRhcBlF2g8ec
-         +mVDHwjug7tCWWkldbb1wtrYNwIKTiYH8yftPw1wcsTrZFpqV3JRjJjCteCv7DmOsjqM
-         eomg07ry4ngm+jPJ8logCCgmukHoctYXc9I21Koxz1Lg8VN5z0Db16YXMuXIWxrqypoS
-         kSwihR/jeB1aP4sXM24i6mhvdsKfYWTg/BiH11iK7w6RPp8eEBdIEB6doFP/2DVhdYDd
-         juAd1HR8IUaBgcgEOL5XZzgbLUpk0JB3UkZm+LrfOpG3rphUGyGcOaIVikeXOV0YM6ov
-         g0Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ww1S/rh1zvVSbDB8LGNfJmI8PQTr/arnIocKw0gWGl8=;
-        b=eoSp4X+WnZ2kYOl0MGnoyPdA5MCDMzJlFVtMYMFwXvb4hIKZxaLk724CFi30U2Qt68
-         LwVrEGkGIcCfKoDNIpimDw+twpemFbDKWG4qeM9wqye3jASbArLYJACkOC1uM8Wo3bTz
-         tcTOJzCjm++9BlYVjyPED030o76VLpP8+5etS16ZS3v1yrI8/RU+u4hLj3HQODYrh9n7
-         RJVyDffr0uXsQhQ5e8aP2fmVvxonrTmJ7Xbo1T2se2201t4yFxaRczvxzh/1T3zpD8P6
-         0Z5No4Kmp+vnNM/r84nU64qGKcVivyNpt3WCjCcOohI9Sg2qpBhGhfd7IzzZIru+fzqX
-         PZ/Q==
-X-Gm-Message-State: APjAAAVszZHoEDxjltscD0nkKt8SFH+r5oEuEwiNBjYeVkjjOMmJUfOf
-        fSUAH7/fPJ3ob6M0r16molU=
-X-Google-Smtp-Source: APXvYqyYK+vX3i6kTCy8SGVG3+K3wCBVDFA5GE7Lqx89mGyYYlX6hB4yuOs5p+fVjtX3k2uqJe6y6g==
-X-Received: by 2002:a17:90a:b906:: with SMTP id p6mr270229pjr.81.1575522971353;
-        Wed, 04 Dec 2019 21:16:11 -0800 (PST)
-Received: from Slackware.localdomain ([103.231.91.38])
-        by smtp.gmail.com with ESMTPSA id c2sm9860569pfn.55.2019.12.04.21.16.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 21:16:10 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     yamada.masahiro@socionext.com, michal.lkml@markovi.net,
-        rdunlap@infradead.org
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH V2] :scripts:kernel_modules_info.sh Removed unnecessary headers information 
-Date:   Thu,  5 Dec 2019 10:45:50 +0530
-Message-Id: <20191205051550.22927-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        Thu, 5 Dec 2019 11:35:46 -0500
+X-Greylist: delayed 643 seconds by postgrey-1.27 at vger.kernel.org; Thu, 05 Dec 2019 11:35:44 EST
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id xB5GZbeR012511;
+        Fri, 6 Dec 2019 01:35:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xB5GZbeR012511
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1575563738;
+        bh=7RCDcjbdBnI4J3nN6AHAC7zNOa70/0tQQctWWWxqHVE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=K+sX0gQSEDOv3hlCLCk0H490Uvi9xOJY2FhfZG8BT0piTlz41BGs/PWe6T54gg1r8
+         x8EVzSNI+ok9ftZzNrDwsMvigJ9GH64I/KR/GAJF8snCe2tB6MP5cCKVR5aC4+q82V
+         HLCnk8/5rRarKRkIcxmlHpwFIgn6QqXVcigo9GvWGhu1LDhe8x9nRX/Mjbj1qGqzD1
+         hVaR1yNRw4Ai5rSLjgVgEFynr35E+5CARAAJUUGmUpqFq/J8fXTTOHOxK6axa/UZeU
+         jMD3TNrxrY08qbwstY+5e6uYXY+yhSsNVT/a9uHMrt2nsFOIE+yi/LfOO0PWijgU0F
+         u5S5vRI4KMDqw==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id y13so2803880vsd.9;
+        Thu, 05 Dec 2019 08:35:37 -0800 (PST)
+X-Gm-Message-State: APjAAAVGOHSE33IgCktsjriPNL4ZaSFELXDblP2ynUyMRLHy3sffAaD3
+        +X42fzXdNbmTrj0/B7pomrE+V16Hu4dIhwD4D2M=
+X-Google-Smtp-Source: APXvYqzfKqOvSJIEPElm1pWyU91oSt+UAToUSwzfhcnUqdq07YjSNh+po5u8xZMLJOi0lM/11guvf1dzZCIubdiGkoI=
+X-Received: by 2002:a05:6102:757:: with SMTP id v23mr6280994vsg.215.1575563736733;
+ Thu, 05 Dec 2019 08:35:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191204225446.202981-1-dima@golovin.in> <CAKwvOdm-bhuJMRRN3tyNdb88+_TFd4m3b-7gX0-91VG4djzp+Q@mail.gmail.com>
+ <23883331575506134@vla1-3991b5027d7d.qloud-c.yandex.net>
+In-Reply-To: <23883331575506134@vla1-3991b5027d7d.qloud-c.yandex.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 6 Dec 2019 01:35:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATA=OsFVY7D9T_5qCv=2MKc5o4wto8HCd=2qScDAyRrgg@mail.gmail.com>
+Message-ID: <CAK7LNATA=OsFVY7D9T_5qCv=2MKc5o4wto8HCd=2qScDAyRrgg@mail.gmail.com>
+Subject: Re: [PATCH] x86/boot: kbuild: allow readelf executable to be specified
+To:     Dmitry Golovin <dima@golovin.in>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Ross Philipson <ross.philipson@oracle.com>,
+        Ross Burton <ross.burton@intel.com>,
+        Chao Fan <fanc.fnst@cn.fujitsu.com>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "fenghua.yu@intel.com" <fenghua.yu@intel.com>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Strips off the unnecessary details from the header information as Randy
-pointed out.
+On Thu, Dec 5, 2019 at 9:41 AM Dmitry Golovin <dima@golovin.in> wrote:
+>
+> 05.12.2019, 01:18, "'Nick Desaulniers' via Clang Built Linux" <clang-built-linux@googlegroups.com>:
+> >
+> > Grepping the kernel sources for `READELF`, it looks like
+> > arch/ia64/Makefile makes the same mistake. Would you mind fixing both
+> > cases in the same patch (v2)? I'm also curious about it's use in
+> > arch/ia64/scripts/unwcheck.py, and scripts/faddr2line. +ia64
+> > maintainers and list.
+> >
+> > I think if you simply remove the assignment on line 17 of
+> > arch/ia64/Makefile you should be fine.
+>
+> Perhaps something should be done to NM on line 16 of this file as well. Also
+> found similar invocation of `objcopy` in arch/riscv/kernel/vdso/Makefile.
+> I think IA64 and RISC-V changes should be made as separate commits.
+>
+> -- Dmitry
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- scripts/kernel_modules_info.sh | 2 --
- 1 file changed, 2 deletions(-)
+I am fine with either way.
+I can take this patch, and also a one for IA64.
 
-diff --git a/scripts/kernel_modules_info.sh b/scripts/kernel_modules_info.sh
-index b74203322157..c1fe7fae9228 100755
---- a/scripts/kernel_modules_info.sh
-+++ b/scripts/kernel_modules_info.sh
-@@ -2,8 +2,6 @@
- # SPDX-License-Identifier: GPL-2.0
- #===============================================================================
- #
--#          FILE: kernel_modules_info.sh
--# 
- #         USAGE: ./kernel_modules_info.sh 
- # 
- #   DESCRIPTION:  Running kernel modules information.
+You can send a patch for arch/riscv/kernel/vdso/Makefile
+to the riscv maintainer since it has no patch dependency.
+
+
 -- 
-2.24.0
-
+Best Regards
+Masahiro Yamada
