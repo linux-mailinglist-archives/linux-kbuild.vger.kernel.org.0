@@ -2,72 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12B04113A54
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 04:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2DB3113A63
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 04:30:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728680AbfLEDZU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Dec 2019 22:25:20 -0500
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:39576 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728321AbfLEDZU (ORCPT
+        id S1728374AbfLEDaw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Dec 2019 22:30:52 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:33281 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728132AbfLEDaw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Dec 2019 22:25:20 -0500
-Received: by mail-pl1-f195.google.com with SMTP id o9so619781plk.6;
-        Wed, 04 Dec 2019 19:25:19 -0800 (PST)
+        Wed, 4 Dec 2019 22:30:52 -0500
+Received: by mail-pj1-f68.google.com with SMTP id r67so697997pjb.0;
+        Wed, 04 Dec 2019 19:30:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mail-followup-to:references
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7zAIt0+ebLHyVVxag6H3172nMR4IPY6g59wkTHZTPjs=;
-        b=DXTMhGFgvbI8d4eB0ZL5yNlE4HFdkQ5Bbj5CD73XBYmUmzpxfnMNRN8prt3hPvTRpp
-         zUZ9/tj9WLvtemB1X3RQOVY7Zt3CWUdS6sjaTXgsI7ewE9ByRvFA64AMGLjhQ/HYcaEK
-         ehhH/+x6oNqhogXvgwkLUx/D0WjZCQy1jqlTlW6ShEs0BpFzNekybemELCm87slLzuKa
-         cCxON/yL2K1oq1mfGMh7HLL7MgBWgTWB7vUufNgzkZC0GlmjT2Ibevga7oPGKRw9kbme
-         1fqacyZlj/8LkdkdXc3Cbpjq6VytGNm0A39FVUboyUF9s+IzEBqM8gzQvH3vnMZWHaJb
-         PiPQ==
+        bh=BXdzCUHz/0CUvTusmPE8UcGK3GWtUgd8km1icsllXOg=;
+        b=QW45i/IqmcQvZkporhXT8EO5ToLaAbCGL/b1RoAOfSm5lzJyavLqTH2OcxF6RiD47j
+         WLgMc3V570O5zbd5JT8GHU932RpsaOWp4CAXLRwztcf2aQ5EYWfe0yCgM+9kYfrEg+VJ
+         D6AeXBf9kmHAriB/pzzOqiZ3pn9UB8sDra2IzyZ5cpeOWNpPPsxb4ld0+YhilGnXF3CD
+         Vc8kXbcjaCLE14n8JK7l8pRNHs+ezihQauWQpaAaoVwGaatOjkzqYn7ovKds06pOG9kO
+         8xO3Yl4e5Dh7ya1K/ujgasBHxzDBbsFDYWOxdPIDeBZT1+kN2dHmgzxLyfBLYT5Vekbk
+         OUZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7zAIt0+ebLHyVVxag6H3172nMR4IPY6g59wkTHZTPjs=;
-        b=iaDM3I9s1v4QU/ugsgnw/zeTxskjvOy2owRwZJaoW8kkvLRZsjbeL4dAq4N0NeugN/
-         OqD1RGKfoq4HNplfLRTTLjYmBRUU7dtLqEApwCDDbaSj22Xg03HAHDJdFsMdYR6WNt4o
-         iTJ1pe0d/aaVhtz9/nVt+Umx/0XE0zNa6rDvQDtz0tcUoxyFnnr2lvXJRyXOSGfAoS3k
-         2LrJPlcSonEgp9C65zO7ELZMtD5mmsvfcquu7b2QEUatRUB7WtC5d7DJbDWmqzdWWCbO
-         YH3ooHbtYGe7P/ySdH3dixp2gHsvlfFoMT1rOufby2x5J+IhSTK2XG3BGbJqQT2a+aEa
-         qHCQ==
-X-Gm-Message-State: APjAAAUxD9yA1BXVqxT3xtec5ETGTD1hx1AtcQnnElr3C4PJ747++8zD
-        Q/jUhYe1vC6f2U6mD8+fbpw=
-X-Google-Smtp-Source: APXvYqyv94FQzl6F84pzaKxzO6wzKQPukwZH+ug6S8/V8KDseJ/bDFnL7CTQmGQLl2VLBIrEAkAo+Q==
-X-Received: by 2002:a17:90a:970b:: with SMTP id x11mr6751934pjo.35.1575516319399;
-        Wed, 04 Dec 2019 19:25:19 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=BXdzCUHz/0CUvTusmPE8UcGK3GWtUgd8km1icsllXOg=;
+        b=lJgDI2tA5yQFq+g56NNEklcEy6O/FuRzNKerIdVLZUye/g43FrmpFmrmZlQhvv1QkU
+         CgH7+YRJhiYl4HKKsD3/wkmvMiTVinRjZUx6tBqs0VEQpY6SyXZYQrxVfpiNzTPnwfZx
+         2ky2DYAYnZqVmoviUMPO336X4BHfQhvvyot1tWaQY+5XnohGUxdTc8T9bXhCvf9VyIMk
+         4uBl9QON6koF5HHF/l1qzE1NHKwvmonWMeFabhrcCvqHDRwTrKeBvqUOxo1m24TD6LkY
+         vZ8S0Uxl0MRIAlCEgQO4cLlO2e736WLEEIIsv5eQXFF+0zsnDhs/IgNwKePQxkugcTNE
+         DkYg==
+X-Gm-Message-State: APjAAAWHb/3OoHfdRNG/Svl1zNPE5meyAYu1p7xbyx0mrN5UdfiUqc3L
+        NrbfOvaWWip1FeERJWVO5o0=
+X-Google-Smtp-Source: APXvYqwK/1WZRj1uu7EMum6yvtMmypv7Sf3DOWIbAHoH49lkvzJUyxZnzdpeEW6KiyGbfC1o1VmCOg==
+X-Received: by 2002:a17:90b:110d:: with SMTP id gi13mr7054526pjb.113.1575516651238;
+        Wed, 04 Dec 2019 19:30:51 -0800 (PST)
 Received: from debian ([103.231.91.70])
-        by smtp.gmail.com with ESMTPSA id i9sm9987452pfk.24.2019.12.04.19.25.12
+        by smtp.gmail.com with ESMTPSA id 136sm8854121pgg.74.2019.12.04.19.30.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 19:25:18 -0800 (PST)
-Date:   Thu, 5 Dec 2019 08:55:07 +0530
+        Wed, 04 Dec 2019 19:30:50 -0800 (PST)
+Date:   Thu, 5 Dec 2019 09:00:38 +0530
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
+To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH 1/2] Enlist running kernel modules information
-Message-ID: <20191205032503.GA3981@debian>
+Message-ID: <20191205033035.GB3981@debian>
 Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
+        "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Randy Dunlap <rdunlap@infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 References: <20191203094845.610692-1-unixbhaskar@gmail.com>
  <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
- <20191204150728.GD2734@twin.jikos.cz>
+ <20191204041543.GA1086470@ArchLinux>
+ <6ff74f67-11d3-d16f-8aeb-828c01455961@metux.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
+        protocol="application/pgp-signature"; boundary="GRPZ8SYKNexpdSJ7"
 Content-Disposition: inline
-In-Reply-To: <20191204150728.GD2734@twin.jikos.cz>
+In-Reply-To: <6ff74f67-11d3-d16f-8aeb-828c01455961@metux.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
@@ -75,47 +79,69 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
---Qxx1br4bt0+wmkIi
-Content-Type: text/plain; charset=us-ascii; format=flowed
+--GRPZ8SYKNexpdSJ7
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 16:07 Wed 04 Dec 2019, David Sterba wrote:
->On Wed, Dec 04, 2019 at 12:10:25PM +0900, Masahiro Yamada wrote:
->> On Tue, Dec 3, 2019 at 6:49 PM Bhaskar Chowdhury <unixbhaskar@gmail.com>=
- wrote:
->> > +awk '{print $1}' "/proc/modules" | xargs modinfo | awk '/^(filename|d=
-esc|depends)/'
->>=20
->> I want to see a good reason (e.g. useful for other developers) for upstr=
-eaming.
->> This script looks like your custom script, which you can maintain locall=
-y.
+On 14:48 Wed 04 Dec 2019, Enrico Weigelt, metux IT consult wrote:
+>On 04.12.19 05:22, Bhaskar Chowdhury wrote:
 >
->I think the verbosity should be added to either lsmod or modinfo, not
->some script in kernel git.
+>Hi,
+>
+>> I think the usefulness comes from developers wants to see what are the
+>> modules are using by the running kernel in formatted way.
+>> This is very simple way to enlist all the modules with descriptions of
+>> it.So , they can easily parse it with other scripts.
+>
+>IMHO, this is a good thing to have. I can even imagine it shipped by
+>distros, for better bug reports.
+>
+>OTOH, if it's about the currently running kernel and loaded modules, why
+>not putting this into /proc or /sys ?
 
-lsmod and modinfo already are pretty verbose and the one liner is using
-one of them to cut thing out of it....can you give it another look???
+The reason being not putting in the /proc or /sys is, it is not
+dynamically generated stuff. This is small script which do a specific
+task ,out of the information available  in /proc or /sys.
 
-Moreover,this is sort and precise and can be parsed by other scripts.
+And essentially resides in the scripts directory for easy finding and
+using. =20
 
-The whole point behind this is to give the developers a convenient point
-without going through all the rigorous details.
+:)
 
---Qxx1br4bt0+wmkIi
+~Bhaskar
+>
+>
+>--mtx
+>
+>--=20
+>Dringender Hinweis: aufgrund existenzieller Bedrohung durch "Emotet"
+>sollten Sie *niemals* MS-Office-Dokumente via E-Mail annehmen/=F6ffenen,
+>selbst wenn diese von vermeintlich vertrauensw=FCrdigen Absendern zu
+>stammen scheinen. Andernfalls droht Totalschaden.
+>---
+>Hinweis: unverschl=FCsselte E-Mails k=F6nnen leicht abgeh=F6rt und manipul=
+iert
+>werden ! F=FCr eine vertrauliche Kommunikation senden Sie bitte ihren
+>GPG/PGP-Schl=FCssel zu.
+>---
+>Enrico Weigelt, metux IT consult
+>Free software and Linux embedded engineering
+>info@metux.net -- +49-151-27565287
+
+--GRPZ8SYKNexpdSJ7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl3oeIsACgkQsjqdtxFL
-KRX3RQf9Ebo/O6Fv1Psf3ytEbvXQWfRvqqK6lVruZnNzgdDAW4mkeGWevG+9viHd
-4Vdx94bKDHNGDRPSJs1lsm1aZH7k+Jwr6tHMUWDAFzcXHOQz3bnwM57r2gmsd0nb
-YAlNscQGYEO5g6Q2TWgm+7gZVcCSupoyNrx8z8GWERhF+gsR9aUrqNyV26qGeI2T
-PpkBqMhuXigTF0qkS7V5IPWNX7B2TT/caB3jrEIYHwTAVk2ozuENsQxqD27QvUPu
-pdGyf+0XYAnhkJy0nvxPmurQrTcpyd5dMUW9gUymJdogQGxImZ0Hyg83f6nv8yqU
-Wkwkpahx3O/d7p68WismcO9e+ssO2A==
-=QvmI
+iQEzBAABCgAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl3oedgACgkQsjqdtxFL
+KRX1EQf/bM+T/selwfgcqWcb3hw5h1W4xeF8v3MgFwzyiBKWHIbSHd8+ly1G4iO+
+YMzDeOSceRGjE3p/GnsR9D2Z2Oz/2Bb9U7LH6QO72TQMsP9yfZCXu2jOgxFWdkns
+KKybGCo4udo/Ui8RiLZm+0agD3mJClJoRxPAXEgMZ0euRh/oja4r2FF4qfclfKnW
+dCuDmLV8eiFElFez+qR1KK4JzmJLcI+RX+0KgATUBNIwbwv+inu/xLKt+nPg2pPu
+L0ui74Slc/RKz0CzEs5HA8jsKF1ErqlKNzweK6GoeHGGGx14vRDwyRmjyU08OIcy
+Yx69fTPorBKBHJxyJbWdzPRhhL+UMw==
+=Tgd4
 -----END PGP SIGNATURE-----
 
---Qxx1br4bt0+wmkIi--
+--GRPZ8SYKNexpdSJ7--
