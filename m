@@ -2,155 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B887B113807
-	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 00:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12B04113A54
+	for <lists+linux-kbuild@lfdr.de>; Thu,  5 Dec 2019 04:25:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728071AbfLDXST (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 4 Dec 2019 18:18:19 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:35160 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728011AbfLDXSS (ORCPT
+        id S1728680AbfLEDZU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Dec 2019 22:25:20 -0500
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:39576 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728321AbfLEDZU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 4 Dec 2019 18:18:18 -0500
-Received: by mail-pl1-f194.google.com with SMTP id s10so385525plp.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 04 Dec 2019 15:18:18 -0800 (PST)
+        Wed, 4 Dec 2019 22:25:20 -0500
+Received: by mail-pl1-f195.google.com with SMTP id o9so619781plk.6;
+        Wed, 04 Dec 2019 19:25:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bMFgfwVDLyNfP+n9tPTAj8QY4bC2HsMSOAGKRA9gakw=;
-        b=MtSlA/OgS15E0uba3TIek4yo6Dv72Ih5Vz8TtayNLcYj9ko9Y5pcJja4pXlDi+U5B2
-         OzrIhaayNaSUVeiGvMc3+qo1sSa3EgJ+AupbHkkOI9WA9YMvGRb8L6EbA1y0nROXEUzq
-         DLekXMbit5LGIAikGGF/a6V21GXdqB1vVViqVj9DWbn3bDTmE1RQTdmSpi3ceBVwG8X4
-         +RdlDSRJZH67fNHiUDPIpFR2b9qTJvdcCugWSM4lang0P7FFhrNPfmnNSsvwOGYMAa/t
-         Da8KmVghIDsNP9WG/dmjuj/U+HPlXUbXm2G7PwKgGY8EAOc1R7+MLdFwE4WaevwUll23
-         YYAA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7zAIt0+ebLHyVVxag6H3172nMR4IPY6g59wkTHZTPjs=;
+        b=DXTMhGFgvbI8d4eB0ZL5yNlE4HFdkQ5Bbj5CD73XBYmUmzpxfnMNRN8prt3hPvTRpp
+         zUZ9/tj9WLvtemB1X3RQOVY7Zt3CWUdS6sjaTXgsI7ewE9ByRvFA64AMGLjhQ/HYcaEK
+         ehhH/+x6oNqhogXvgwkLUx/D0WjZCQy1jqlTlW6ShEs0BpFzNekybemELCm87slLzuKa
+         cCxON/yL2K1oq1mfGMh7HLL7MgBWgTWB7vUufNgzkZC0GlmjT2Ibevga7oPGKRw9kbme
+         1fqacyZlj/8LkdkdXc3Cbpjq6VytGNm0A39FVUboyUF9s+IzEBqM8gzQvH3vnMZWHaJb
+         PiPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bMFgfwVDLyNfP+n9tPTAj8QY4bC2HsMSOAGKRA9gakw=;
-        b=sfAQ/lVBadI6N5UhHhTQSwVJ4EVV6vPuygnRHdVpQj4GQafckTzZVFwoyHxaUcDAdq
-         Fi4aXhYpzEIQk8WVI5Tkv+KDeWJmdIq4RbWk6L2Moz+dhT7CiRNInoJe9E885zFKh/Pz
-         +v4q14NWn4wnZbOiCTEawq2Mn6IVuVhseHYlqWJNU5e6nDqbAOkbgPu0H0c+UGBw/qVm
-         0HV9umcUtvRvjQVhCee+qCC7bl3Xj3HbV8ZWDGcWv9fiSkE5zyHrQLlPTKQmgqVkPhPg
-         lJddzKgZOGsJ0LonHRqpsy19BnofDYbFtf8m5mBtPwafp5fFsCv32Nlv8KhiArNC6KY3
-         rgpQ==
-X-Gm-Message-State: APjAAAW9H9CO8BbaWL9EEsbnfMj8vEmOoLNemQfF0pTRfd9iP7+ivFh8
-        fvu8AdZxMGv5/TZJxTY2H67EwJ6i/Bw7r5GyfcYbDw==
-X-Google-Smtp-Source: APXvYqxyypwjL3djnDA4vB8jmSAsCckKucoAckitJOpn/REINR7zthvw1tWILnDJLcTdY3b7XdQhBRvlBPMCVLzrJ40=
-X-Received: by 2002:a17:902:8216:: with SMTP id x22mr5812405pln.179.1575501497559;
- Wed, 04 Dec 2019 15:18:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20191204225446.202981-1-dima@golovin.in>
-In-Reply-To: <20191204225446.202981-1-dima@golovin.in>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 4 Dec 2019 15:18:05 -0800
-Message-ID: <CAKwvOdm-bhuJMRRN3tyNdb88+_TFd4m3b-7gX0-91VG4djzp+Q@mail.gmail.com>
-Subject: Re: [PATCH] x86/boot: kbuild: allow readelf executable to be specified
-To:     Dmitry Golovin <dima@golovin.in>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=7zAIt0+ebLHyVVxag6H3172nMR4IPY6g59wkTHZTPjs=;
+        b=iaDM3I9s1v4QU/ugsgnw/zeTxskjvOy2owRwZJaoW8kkvLRZsjbeL4dAq4N0NeugN/
+         OqD1RGKfoq4HNplfLRTTLjYmBRUU7dtLqEApwCDDbaSj22Xg03HAHDJdFsMdYR6WNt4o
+         iTJ1pe0d/aaVhtz9/nVt+Umx/0XE0zNa6rDvQDtz0tcUoxyFnnr2lvXJRyXOSGfAoS3k
+         2LrJPlcSonEgp9C65zO7ELZMtD5mmsvfcquu7b2QEUatRUB7WtC5d7DJbDWmqzdWWCbO
+         YH3ooHbtYGe7P/ySdH3dixp2gHsvlfFoMT1rOufby2x5J+IhSTK2XG3BGbJqQT2a+aEa
+         qHCQ==
+X-Gm-Message-State: APjAAAUxD9yA1BXVqxT3xtec5ETGTD1hx1AtcQnnElr3C4PJ747++8zD
+        Q/jUhYe1vC6f2U6mD8+fbpw=
+X-Google-Smtp-Source: APXvYqyv94FQzl6F84pzaKxzO6wzKQPukwZH+ug6S8/V8KDseJ/bDFnL7CTQmGQLl2VLBIrEAkAo+Q==
+X-Received: by 2002:a17:90a:970b:: with SMTP id x11mr6751934pjo.35.1575516319399;
+        Wed, 04 Dec 2019 19:25:19 -0800 (PST)
+Received: from debian ([103.231.91.70])
+        by smtp.gmail.com with ESMTPSA id i9sm9987452pfk.24.2019.12.04.19.25.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2019 19:25:18 -0800 (PST)
+Date:   Thu, 5 Dec 2019 08:55:07 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        Ross Burton <ross.burton@intel.com>,
-        Chao Fan <fanc.fnst@cn.fujitsu.com>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        tony.luck@intel.com, fenghua.yu@intel.com,
-        linux-ia64@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] Enlist running kernel modules information
+Message-ID: <20191205032503.GA3981@debian>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        dsterba@suse.cz, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191203094845.610692-1-unixbhaskar@gmail.com>
+ <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
+ <20191204150728.GD2734@twin.jikos.cz>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Qxx1br4bt0+wmkIi"
+Content-Disposition: inline
+In-Reply-To: <20191204150728.GD2734@twin.jikos.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 4, 2019 at 2:55 PM Dmitry Golovin <dima@golovin.in> wrote:
+
+--Qxx1br4bt0+wmkIi
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 16:07 Wed 04 Dec 2019, David Sterba wrote:
+>On Wed, Dec 04, 2019 at 12:10:25PM +0900, Masahiro Yamada wrote:
+>> On Tue, Dec 3, 2019 at 6:49 PM Bhaskar Chowdhury <unixbhaskar@gmail.com>=
+ wrote:
+>> > +awk '{print $1}' "/proc/modules" | xargs modinfo | awk '/^(filename|d=
+esc|depends)/'
+>>=20
+>> I want to see a good reason (e.g. useful for other developers) for upstr=
+eaming.
+>> This script looks like your custom script, which you can maintain locall=
+y.
 >
-> Introduce a new READELF variable to top-level Makefile, so the name of
-> readelf binary can be specified.
+>I think the verbosity should be added to either lsmod or modinfo, not
+>some script in kernel git.
 
-Thanks for the patch!
+lsmod and modinfo already are pretty verbose and the one liner is using
+one of them to cut thing out of it....can you give it another look???
 
-This is a general cleanup that should improve cross compilation
-(readelf should be treated as ever binary in the list like
-objcopy/objdump/etc), and allow us to use binutils substitutes for
-readelf that aren't called `readelf` (ie. `llvm-readelf`).
+Moreover,this is sort and precise and can be parsed by other scripts.
 
->
-> Before this change the name of the binary was hardcoded to
-> "$(CROSS_COMPILE)readelf" which might not be present for every
-> toolchain.
->
-> This allows to build with LLVM Object Reader by using make parameter
-> READELF=llvm-readelf.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/771
-> Signed-off-by: Dmitry Golovin <dima@golovin.in>
-> Cc: Nick Desaulniers <ndesaulniers@google.com>
+The whole point behind this is to give the developers a convenient point
+without going through all the rigorous details.
 
-No need to explicitly CC me; I monitor our list like a hawk.
+--Qxx1br4bt0+wmkIi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> ---
->  Makefile                          | 3 ++-
->  arch/x86/boot/compressed/Makefile | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 999a197d67d2..612a55d25442 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -414,6 +414,7 @@ STRIP               = $(CROSS_COMPILE)strip
->  OBJCOPY                = $(CROSS_COMPILE)objcopy
->  OBJDUMP                = $(CROSS_COMPILE)objdump
->  OBJSIZE                = $(CROSS_COMPILE)size
-> +READELF                = $(CROSS_COMPILE)readelf
->  PAHOLE         = pahole
->  LEX            = flex
->  YACC           = bison
-> @@ -472,7 +473,7 @@ GCC_PLUGINS_CFLAGS :=
->  CLANG_FLAGS :=
->
->  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE AS LD CC
-> -export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE PAHOLE LEX YACC AWK INSTALLKERNEL
-> +export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
->  export PERL PYTHON PYTHON2 PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
->  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
->
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index aa976adb7094..1dac210f7d44 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -103,7 +103,7 @@ vmlinux-objs-$(CONFIG_EFI_MIXED) += $(obj)/efi_thunk_$(BITS).o
->  quiet_cmd_check_data_rel = DATAREL $@
->  define cmd_check_data_rel
->         for obj in $(filter %.o,$^); do \
-> -               ${CROSS_COMPILE}readelf -S $$obj | grep -qF .rel.local && { \
-> +               $(READELF) -S $$obj | grep -qF .rel.local && { \
+-----BEGIN PGP SIGNATURE-----
 
-Grepping the kernel sources for `READELF`, it looks like
-arch/ia64/Makefile makes the same mistake. Would you mind fixing both
-cases in the same patch (v2)?  I'm also curious about it's use in
-arch/ia64/scripts/unwcheck.py, and scripts/faddr2line. +ia64
-maintainers and list.
+iQEzBAABCgAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl3oeIsACgkQsjqdtxFL
+KRX3RQf9Ebo/O6Fv1Psf3ytEbvXQWfRvqqK6lVruZnNzgdDAW4mkeGWevG+9viHd
+4Vdx94bKDHNGDRPSJs1lsm1aZH7k+Jwr6tHMUWDAFzcXHOQz3bnwM57r2gmsd0nb
+YAlNscQGYEO5g6Q2TWgm+7gZVcCSupoyNrx8z8GWERhF+gsR9aUrqNyV26qGeI2T
+PpkBqMhuXigTF0qkS7V5IPWNX7B2TT/caB3jrEIYHwTAVk2ozuENsQxqD27QvUPu
+pdGyf+0XYAnhkJy0nvxPmurQrTcpyd5dMUW9gUymJdogQGxImZ0Hyg83f6nv8yqU
+Wkwkpahx3O/d7p68WismcO9e+ssO2A==
+=QvmI
+-----END PGP SIGNATURE-----
 
-I think if you simply remove the assignment on line 17 of
-arch/ia64/Makefile you should be fine.
-
->                         echo "error: $$obj has data relocations!" >&2; \
->                         exit 1; \
->                 } || true; \
-> --
-> 2.23.0
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+--Qxx1br4bt0+wmkIi--
