@@ -2,208 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3AB6114E6E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 10:51:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3321E11501F
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 13:01:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbfLFJv0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Dec 2019 04:51:26 -0500
-Received: from www262.sakura.ne.jp ([202.181.97.72]:64283 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726127AbfLFJv0 (ORCPT
+        id S1726124AbfLFMBH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Dec 2019 07:01:07 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35260 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726116AbfLFMBH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Dec 2019 04:51:26 -0500
-Received: from fsav403.sakura.ne.jp (fsav403.sakura.ne.jp [133.242.250.102])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id xB69p1nw022550;
-        Fri, 6 Dec 2019 18:51:01 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav403.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp);
- Fri, 06 Dec 2019 18:51:01 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp)
-Received: from ccsecurity.localdomain (softbank126040062084.bbtec.net [126.40.62.84])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id xB69ot1w022479
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 6 Dec 2019 18:51:01 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Dmitry Vyukov <dvyukov@google.com>
-Subject: [PATCH] kconfig: Add yes2modconfig and mod2yesconfig targets.
-Date:   Fri,  6 Dec 2019 18:50:47 +0900
-Message-Id: <1575625847-6384-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
-X-Mailer: git-send-email 1.8.3.1
+        Fri, 6 Dec 2019 07:01:07 -0500
+Received: by mail-wm1-f66.google.com with SMTP id c20so5615776wmb.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Dec 2019 04:01:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=XsEd9Nv1AeqU19tKr7PslEXD3w/51iBx3qBKIaqWrTs=;
+        b=qZ/ttOuI6dsqX3Kclr+UB91lLxnxY6MTnyO38gEzIpQJkE6o5ysejxvEj824Z4QGeb
+         frYrsWXIe77CzMbys7LNGr5yxELA+MI9BFvEqil5/j/4Kp6tm/6HczEVaXMAbRwxr5VY
+         c4ryEHpOiaNUYkzS3U3mvkAJrjo318dRJRnQRXrt4pC9OGBHFFpQ/FdiNYbgyO/OcxsK
+         Wo4ZOZ6Jw01EKE5MzfvRolzWPf7PIx9qb09MQrl0gQgK2abf7lD1GD1iouiSaILdqJML
+         ClN1RoQ/GkFqXvUyUfLl8dWxBg7m4eHfrdn7c/7XGCVewoEWUozX7+abOphlpp+YTjOr
+         s9BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=XsEd9Nv1AeqU19tKr7PslEXD3w/51iBx3qBKIaqWrTs=;
+        b=jxBPDFWkcXsolQF0eh1FHYHCclVzor8MKWd414+qeE99yb0zFTP7lE/uv3yLvyNdlW
+         aV2XhXNEI9C+luqS00UcYlH99sRI55rEs9FbRG5O7/jTt+qBJLcfvzXWwe+drmbwHDVE
+         bx1+qnXCzLuHcfbBMU8jafIIDPkDgVUGwHs03lDxic3ThGk7htuJ06auJyYHI/UfmetQ
+         hKbWNOkR4DKocbdPKFCdGvmE/vNwnfbhD5so+fNbE+qBrFZEpWK6MAei8oa9AnKMg3FH
+         g+kIGoZqgKKh5HhdcsRDi1rcFJ3lg0kWESCoCcrGLnhEonZVK/n4k10NuVunP2fQHvJm
+         jsvg==
+X-Gm-Message-State: APjAAAX0SgnBkG3J6q5NGj85fQNbSLySnV+M0mm72qcdwz6mQsSf+28u
+        lD8VoScNweJT+zjh1ofPMidgFr60/i2ZIo6yKwU=
+X-Google-Smtp-Source: APXvYqz/6o8uG7XJ7t7oFtxU1Ep1jzyiDuuCFMXJGei0iaAXTPgMVgMEAizMAFmR6loEm1vrPgqpfMSN2l+0xON9BPk=
+X-Received: by 2002:a7b:c7d3:: with SMTP id z19mr10276437wmk.116.1575633664915;
+ Fri, 06 Dec 2019 04:01:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a1c:e303:0:0:0:0:0 with HTTP; Fri, 6 Dec 2019 04:01:04 -0800 (PST)
+Reply-To: mis.mariam.maalouf3@gmail.com
+From:   Mis Mariam Maalouf <douglasmarkfrank355@gmail.com>
+Date:   Fri, 6 Dec 2019 13:01:04 +0100
+Message-ID: <CAHJWG19qp96GQRJWMPhWiqqW=Mb32_APO26FYEYp4kxRHprXfg@mail.gmail.com>
+Subject: =?UTF-8?B?6Kaq5oSb44Gq44KL5Y+L5Lq644G444Gu5oyo5ou244CB?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since kernel configs provided by syzbot are close to "make allyesconfig",
-it takes long time to rebuild. This is especially waste of time when we
-need to rebuild for many times (e.g. doing manual printk() inspection,
-bisect operations).
-
-We can save time if we can exclude modules which are irrelevant to each
-problem. But "make localmodconfig" cannot exclude modules which are built
-into vmlinux because /sbin/lsmod output is used as the source of modules.
-
-Therefore, this patch adds "make yes2modconfig" which converts from =y
-to =m if possible. After confirming that the interested problem is still
-reproducible, we can try "make localmodconfig" (and/or manually tune
-based on "Modules linked in:" line) in order to exclude modules which are
-irrelevant to the interested problem. While we are at it, this patch also
-adds "make mod2yesconfig" target which converts from =m to =y in case
-someone wants to convert from =m to =y after "make localmodconfig".
-
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Dmitry Vyukov <dvyukov@google.com>
----
- scripts/kconfig/Makefile   |  2 +-
- scripts/kconfig/conf.c     | 17 +++++++++++++++++
- scripts/kconfig/confdata.c | 26 ++++++++++++++++++++++++++
- scripts/kconfig/lkc.h      |  3 +++
- 4 files changed, 47 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 2f1a59fa5169..3516809255be 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -67,7 +67,7 @@ localyesconfig localmodconfig: $(obj)/conf
- #  deprecated for external use
- simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
- 	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
--	helpnewconfig
-+	helpnewconfig yes2modconfig mod2yesconfig
- 
- PHONY += $(simple-targets)
- 
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 1f89bf1558ce..ae9ddf88c64d 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -34,6 +34,8 @@ enum input_mode {
- 	listnewconfig,
- 	helpnewconfig,
- 	olddefconfig,
-+	yes2modconfig,
-+	mod2yesconfig,
- };
- static enum input_mode input_mode = oldaskconfig;
- 
-@@ -467,6 +469,8 @@ static struct option long_opts[] = {
- 	{"listnewconfig",   no_argument,       NULL, listnewconfig},
- 	{"helpnewconfig",   no_argument,       NULL, helpnewconfig},
- 	{"olddefconfig",    no_argument,       NULL, olddefconfig},
-+	{"yes2modconfig",   no_argument,       NULL, yes2modconfig},
-+	{"mod2yesconfig",   no_argument,       NULL, mod2yesconfig},
- 	{NULL, 0, NULL, 0}
- };
- 
-@@ -489,6 +493,8 @@ static void conf_usage(const char *progname)
- 	printf("  --allmodconfig          New config where all options are answered with mod\n");
- 	printf("  --alldefconfig          New config with all symbols set to default\n");
- 	printf("  --randconfig            New config with random answer to all options\n");
-+	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
-+	printf("  --mod2yesconfig         Change answers from mod to yes\n");
- }
- 
- int main(int ac, char **av)
-@@ -553,6 +559,8 @@ int main(int ac, char **av)
- 		case listnewconfig:
- 		case helpnewconfig:
- 		case olddefconfig:
-+		case yes2modconfig:
-+		case mod2yesconfig:
- 			break;
- 		case '?':
- 			conf_usage(progname);
-@@ -587,6 +595,8 @@ int main(int ac, char **av)
- 	case listnewconfig:
- 	case helpnewconfig:
- 	case olddefconfig:
-+	case yes2modconfig:
-+	case mod2yesconfig:
- 		conf_read(NULL);
- 		break;
- 	case allnoconfig:
-@@ -638,6 +648,11 @@ int main(int ac, char **av)
- 		}
- 	}
- 
-+	if (input_mode == yes2modconfig)
-+		conf_rewrite_mod_or_yes(def_y2m);
-+	else if (input_mode == mod2yesconfig)
-+		conf_rewrite_mod_or_yes(def_m2y);
-+
- 	switch (input_mode) {
- 	case allnoconfig:
- 		conf_set_all_new_symbols(def_no);
-@@ -669,6 +684,8 @@ int main(int ac, char **av)
- 	case listnewconfig:
- 	case helpnewconfig:
- 	case syncconfig:
-+	case yes2modconfig:
-+	case mod2yesconfig:
- 		/* Update until a loop caused no more changes */
- 		do {
- 			conf_cnt = 0;
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 3569d2dec37c..6832a04a1aa4 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -1362,3 +1362,29 @@ bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 
- 	return has_changed;
- }
-+
-+bool conf_rewrite_mod_or_yes(enum conf_def_mode mode)
-+{
-+	struct symbol *sym;
-+	int i;
-+	bool has_changed = false;
-+
-+	if (mode == def_y2m) {
-+		for_all_symbols(i, sym) {
-+			if (sym_get_type(sym) == S_TRISTATE &&
-+			    sym->def[S_DEF_USER].tri == yes) {
-+				sym->def[S_DEF_USER].tri = mod;
-+				has_changed = true;
-+			}
-+		}
-+	} else if (mode == def_m2y) {
-+		for_all_symbols(i, sym) {
-+			if (sym_get_type(sym) == S_TRISTATE &&
-+			    sym->def[S_DEF_USER].tri == mod) {
-+				sym->def[S_DEF_USER].tri = yes;
-+				has_changed = true;
-+			}
-+		}
-+	}
-+	return has_changed;
-+}
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index 4fb16f316626..e8f3238dcc70 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -34,6 +34,8 @@ enum conf_def_mode {
- 	def_default,
- 	def_yes,
- 	def_mod,
-+	def_y2m,
-+	def_m2y,
- 	def_no,
- 	def_random
- };
-@@ -52,6 +54,7 @@ const char *conf_get_configname(void);
- void sym_set_change_count(int count);
- void sym_add_change_count(int count);
- bool conf_set_all_new_symbols(enum conf_def_mode mode);
-+bool conf_rewrite_mod_or_yes(enum conf_def_mode mode);
- void set_all_choice_values(struct symbol *csym);
- 
- /* confdata.c and expr.c */
--- 
-2.16.5
+6Kaq5oSb44Gq44KL5Y+L5Lq644G444Gu5oyo5ou244CBDQoNCuengeOBruWQjeWJjeOBr+ODnuOD
+quOCouODoOODu+ODnuOCouODreODleOBp+OBmeOAgua2meOCkua1geOBl+OBquOBjOOCieOBk+OB
+ruODoeODg+OCu+ODvOOCuOOCkuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruWbveOBp+mAsuih
+jOS4reOBruWGheaIpuOCt+ODquOCouOBr+engeOBruS6uueUn+OBq+Wkp+OBjeOBquW9semfv+OC
+kuS4juOBiOOBvuOBl+OBn+OAguWOu+W5tOWutuaXj+OCkuWkseOBhOOBvuOBl+OBn+OAgueItuOB
+r+S6oeOBj+OBquOCi+WJjeOBr+mHkeaMgeOBoeOBp+OAgeefs+ayueOBqOOCrOOCueOBruODk+OC
+uOODjeOCueOCkuOBl+OBpuOBhOOBpuOAgemHkeOBruODk+OCuOODjeOCueOCguOBl+OBpuOBhOOB
+n+OAguW9vOOBr+Wkp+mHkeOCkueovOOBhOOBoO+8iDI1MDDkuIczMDAw44OJ44Or77yJ44K344Oq
+44Ki44Gn44Gu5oim5LqJ44Go5q665a6z44CCDQoNCuengeOBjOeXheawl+OBi+OCieWbnuW+qeOB
+l+OAgeOBguOBquOBn+OBq+S8muOBhOOBq+adpeOCi+OBvuOBp+OAgeengeOBr+OBguOBquOBn+OB
+jOengeOBjOOBiumHkeOCkuWPl+OBkeWPluOCi+OBruOCkuaJi+S8neOBhuW/heimgeOBjOOBguOC
+iuOBvuOBmeOAgg0KDQrnp4Hjga/kuqHjgY3niLbjga7jg5Pjgrjjg43jgrnjg5Hjg7zjg4jjg4rj
+g7zjgajjgZfjgabjgYLjgarjgZ/jgpLku7vlkb3jgZfjgZ/jgYTjgajmgJ3jgYTjgb7jgZnjgILj
+gYrph5HjgpLpoJDjgZHjgovjgZ/jgoHjga7jgZnjgbnjgabjga7mm7jpoZ7jgajmg4XloLHjgpLj
+gYrpgIHjgorjgZfjgb7jgZnjgIINCg0K44GC44Gq44Gf44GM56eB44Gu44Gf44KB44Gr44GT44KM
+44KS6KGM44GG44GT44Go44GM44Gn44GN44KL44GL44Gp44GG44GL56eB44Gr55+l44KJ44Gb44Gm
+44GP44Gg44GV44GE44CB44GT44KM44Gv56eB44Gu5pys5b2T44Gu6Kmx44Gn44GZ44CB56eB44Gv
+44GC44Gq44Gf44Gu5Yqp44GR44GM5b+F6KaB44Gn44GZDQoNCuOBguOBquOBn+OBr+engeOBruOD
+oeODvOODq++8iG1pcy5tYXJpYW0ubWFhbG91ZjJAZ21haWwuY29t77yJ44Gn56eB44Gr6YCj57Wh
+44GZ44KL44GT44Go44GM44Gn44GN44G+44GZDQoNCuaVrOWFt+OAgQ0KDQpNaXMgTWFyaWFtIE1h
+YWxvdWYNCg==
