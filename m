@@ -2,76 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 533DB115495
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 16:49:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5822F1154D8
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 17:09:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbfLFPtY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Dec 2019 10:49:24 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:42037 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726258AbfLFPtY (ORCPT
+        id S1726435AbfLFQJG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Dec 2019 11:09:06 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:45252 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726371AbfLFQJF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Dec 2019 10:49:24 -0500
-Received: from [192.168.1.155] ([95.117.69.190]) by mrelayeu.kundenserver.de
- (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1M4ahC-1idoLh05zi-001hxx; Fri, 06 Dec 2019 16:49:11 +0100
-Subject: Re: [PATCH 1/2] Enlist running kernel modules information
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, dsterba@suse.cz,
+        Fri, 6 Dec 2019 11:09:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=EcvpdwTgGf+qsFdhkXPedvlI2rui3QKW0BzCUUFP9tE=; b=NSBoCzzxwHwDOC0geBuVnjlEE
+        RJ18z8zgSQKyDSWVeXT/A/WKS15yazSwxYfLdx0Twkh8ljeVSDDriz9yolnt4gJ03nRnmal8Th2/r
+        7GOvD0Y9/9OiX9DPK062+fcbadmQ6tgzGAfS0YdZJ4LvDevXo6Xv9c1bADb6SQNpALQejJAS7ojyb
+        nuOdLXyxbVnWDFKulEJp8FNvRkSUL2KTxaWfexHf4WIc5P3gWz+qxazlwl7BrT3x+a14vxy1wtcO8
+        bXGv3bT7RBWYHXXBZOfeEvx8Lu7+YIx1C2PIjr/VIXOInMEKjrnrM9BNXn82K4I8ODM/+PsTYmQ1H
+        j52mmfFpQ==;
+Received: from [2601:1c0:6280:3f0::3deb]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1idGAC-0005X4-OE; Fri, 06 Dec 2019 16:09:04 +0000
+Subject: Re: [PATCH] kconfig: Add yes2modconfig and mod2yesconfig targets.
+To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191203094845.610692-1-unixbhaskar@gmail.com>
- <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
- <20191204150728.GD2734@twin.jikos.cz> <20191205032503.GA3981@debian>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <06491eb2-b43c-badc-ce3c-7709abe06a3f@metux.net>
-Date:   Fri, 6 Dec 2019 16:48:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>
+References: <1575625847-6384-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5a473c6c-cc1f-6648-31ec-3b40e415a836@infradead.org>
+Date:   Fri, 6 Dec 2019 08:09:03 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.1
 MIME-Version: 1.0
-In-Reply-To: <20191205032503.GA3981@debian>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: tl
+In-Reply-To: <1575625847-6384-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:tInG3W5/9Ev12kB4GwOSl/nLu+cykGvnmavZ5PabZt2BGoff1b7
- 8LODrXEqdGO2eqCOazk8nxuB8zzvFYDJchlXWdbYYkSDhcVOwxugdFrIkVWN53eUJAnp7vS
- vQ+ol5F4G+YxnO5jXqoaYKrPG93Xg0Xe4YeVngAbG6bErR8w8Fke9TVVC3Y/SQR2gh53hzL
- W1NBxlQmlPWhZOOOm4DKA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UOaswpM5mqA=:gnho6W/s7c5tH1ofPoql7i
- kDSxDTlUEQGF994uQxtc28OlxdOsjyuo45EBlEpjR/4M0McoS/CXhoA4ZcRUF35qLvNW/5Uj+
- V9PAAHuVz4OVMPg3MD7vTNR0x9vJ3+sn9vKVT4mhO1uXeGfo4Cm3Hm0/Dc3ECe8PrxYFoEbXX
- xpHOTe+tbXT2PZayQtq+UDSBPM7ebquImGFGqqh0Y316OAeJqV+N7awRr30b2QP9GR1ivTpdz
- 8+u6eC2gjxAnjvU7HjuDaRmviIB9lBGKhnrwsgKffjX7bzTfSlIM/RT8WWuCKkjwsRTh1YDek
- t+8Lb6uvKDq0QFCdyHJKfk6cJKt0He87NtUn9200K0Pof0s88tVGAArJaBPQ/vzeqbkZ45rf5
- qpzc+KLTMUDhOlROoqNiPx5r4czFBmFKOr+WMZHC+kM4FYoq8ewmIydPlZhrLQH3FOvGEX3A5
- 6sbI/5wtLrcf4OtK1Cxt50XbRqJFCpc6Uf5Zu7OCAUk6zGvosN8qNBZnUorvdGB5pHGgqHHyX
- my3vutcF3/uBSoYAAWfz0RmuoADYsbVhhykeybjgopPHbHc+wCVKVADdZLnoHF7vh6lLjAgO3
- hUcA/ugR+uXy2ttLimsAQtFqsyUmmlAWzw41iEEmkZ2bhYXRjE0hQfZmhpRX5GPY1COp5h46f
- fwSDu908eXSK0Nu0Yl+WFj+VuV6SGF6h4TGyYK0kj27r8yu9AM3iw9rMkwydIM5q5BQ31qAn6
- PrtiGIMPLeBioVOw54rQKKrIvX59H3ofyDxhTI9T7/F4jJY291RNXRzvJRvjLCYPt+Wpped6w
- GupYpE1EsnT/q0hdZuMAshoLCp7sG4RGyzfaNefrGDKmdjKWlaIFS3Bu9UmECqG3cCFTQePrg
- nB62kclpNfjt8RGoqbVg==
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 05.12.19 04:25, Bhaskar Chowdhury wrote:
+On 12/6/19 1:50 AM, Tetsuo Handa wrote:
+> Since kernel configs provided by syzbot are close to "make allyesconfig",
+> it takes long time to rebuild. This is especially waste of time when we
+> need to rebuild for many times (e.g. doing manual printk() inspection,
+> bisect operations).
+> 
+> We can save time if we can exclude modules which are irrelevant to each
+> problem. But "make localmodconfig" cannot exclude modules which are built
+> into vmlinux because /sbin/lsmod output is used as the source of modules.
+> 
+> Therefore, this patch adds "make yes2modconfig" which converts from =y
+> to =m if possible. After confirming that the interested problem is still
+> reproducible, we can try "make localmodconfig" (and/or manually tune
+> based on "Modules linked in:" line) in order to exclude modules which are
+> irrelevant to the interested problem. While we are at it, this patch also
+> adds "make mod2yesconfig" target which converts from =m to =y in case
+> someone wants to convert from =m to =y after "make localmodconfig".
+> 
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> ---
+>  scripts/kconfig/Makefile   |  2 +-
+>  scripts/kconfig/conf.c     | 17 +++++++++++++++++
+>  scripts/kconfig/confdata.c | 26 ++++++++++++++++++++++++++
+>  scripts/kconfig/lkc.h      |  3 +++
+>  4 files changed, 47 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> index 2f1a59fa5169..3516809255be 100644
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
+> @@ -67,7 +67,7 @@ localyesconfig localmodconfig: $(obj)/conf
+>  #  deprecated for external use
+>  simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
+>  	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
+> -	helpnewconfig
+> +	helpnewconfig yes2modconfig mod2yesconfig
+>  
+>  PHONY += $(simple-targets)
 
-Hi,
 
-> The whole point behind this is to give the developers a convenient point
-> without going through all the rigorous details.
+In this Makefile (above), please also update the available 'help' targets.
 
-I see your point, but I wonder whether it maybe better should go
-into kmod.
+-- 
+~Randy
 
---mtx
-
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
