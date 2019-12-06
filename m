@@ -2,93 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40FEC1150C2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 14:03:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 533DB115495
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 16:49:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726128AbfLFNDg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Dec 2019 08:03:36 -0500
-Received: from conuserg-12.nifty.com ([210.131.2.79]:45593 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbfLFNDd (ORCPT
+        id S1726278AbfLFPtY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Dec 2019 10:49:24 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:42037 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726258AbfLFPtY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Dec 2019 08:03:33 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id xB6D34Gp005873;
-        Fri, 6 Dec 2019 22:03:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xB6D34Gp005873
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1575637387;
-        bh=ekwM9UUGKGl3f+58UAKf0ESmjI1Emgokd72qoh9WRnU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yhoE4qNwV+ZeVhLWKFj3IQCl3XNJt03vtMY2I1LAWMZyj0ZoXgeaL/tMGmv1DeKH7
-         Q+/8JyBFo10WNHvx6Hb/2K4aQ0rI81KnCUU6T94z+Lm+IgSi6P6VTjYls8xGglxFf3
-         WN01PAPEUKI5advI/4ft1YMlBOQeovQd9ifuYDa2a0kOgvyeVOYKQWoAuL+WxojluZ
-         5XXcPUU4rLc4p1hvkfOF5JTp+D7hJ4P7N9/LMvwUpDxfWO2BLouLws10pyXCvzjamT
-         O/TpMjtTgHbfKzD7udhU6R03WiuCYBSYj5HonVVyg945tpHkiD0SkZt6FenaPaxkkW
-         NjqBvEB9dsx1g==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Fri, 6 Dec 2019 10:49:24 -0500
+Received: from [192.168.1.155] ([95.117.69.190]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M4ahC-1idoLh05zi-001hxx; Fri, 06 Dec 2019 16:49:11 +0100
+Subject: Re: [PATCH 1/2] Enlist running kernel modules information
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, dsterba@suse.cz,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] mkcompile_h: use printf for LINUX_COMPILE_BY
-Date:   Fri,  6 Dec 2019 22:03:02 +0900
-Message-Id: <20191206130302.11473-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191206130302.11473-1-masahiroy@kernel.org>
-References: <20191206130302.11473-1-masahiroy@kernel.org>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191203094845.610692-1-unixbhaskar@gmail.com>
+ <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
+ <20191204150728.GD2734@twin.jikos.cz> <20191205032503.GA3981@debian>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <06491eb2-b43c-badc-ce3c-7709abe06a3f@metux.net>
+Date:   Fri, 6 Dec 2019 16:48:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191205032503.GA3981@debian>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: tl
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:tInG3W5/9Ev12kB4GwOSl/nLu+cykGvnmavZ5PabZt2BGoff1b7
+ 8LODrXEqdGO2eqCOazk8nxuB8zzvFYDJchlXWdbYYkSDhcVOwxugdFrIkVWN53eUJAnp7vS
+ vQ+ol5F4G+YxnO5jXqoaYKrPG93Xg0Xe4YeVngAbG6bErR8w8Fke9TVVC3Y/SQR2gh53hzL
+ W1NBxlQmlPWhZOOOm4DKA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UOaswpM5mqA=:gnho6W/s7c5tH1ofPoql7i
+ kDSxDTlUEQGF994uQxtc28OlxdOsjyuo45EBlEpjR/4M0McoS/CXhoA4ZcRUF35qLvNW/5Uj+
+ V9PAAHuVz4OVMPg3MD7vTNR0x9vJ3+sn9vKVT4mhO1uXeGfo4Cm3Hm0/Dc3ECe8PrxYFoEbXX
+ xpHOTe+tbXT2PZayQtq+UDSBPM7ebquImGFGqqh0Y316OAeJqV+N7awRr30b2QP9GR1ivTpdz
+ 8+u6eC2gjxAnjvU7HjuDaRmviIB9lBGKhnrwsgKffjX7bzTfSlIM/RT8WWuCKkjwsRTh1YDek
+ t+8Lb6uvKDq0QFCdyHJKfk6cJKt0He87NtUn9200K0Pof0s88tVGAArJaBPQ/vzeqbkZ45rf5
+ qpzc+KLTMUDhOlROoqNiPx5r4czFBmFKOr+WMZHC+kM4FYoq8ewmIydPlZhrLQH3FOvGEX3A5
+ 6sbI/5wtLrcf4OtK1Cxt50XbRqJFCpc6Uf5Zu7OCAUk6zGvosN8qNBZnUorvdGB5pHGgqHHyX
+ my3vutcF3/uBSoYAAWfz0RmuoADYsbVhhykeybjgopPHbHc+wCVKVADdZLnoHF7vh6lLjAgO3
+ hUcA/ugR+uXy2ttLimsAQtFqsyUmmlAWzw41iEEmkZ2bhYXRjE0hQfZmhpRX5GPY1COp5h46f
+ fwSDu908eXSK0Nu0Yl+WFj+VuV6SGF6h4TGyYK0kj27r8yu9AM3iw9rMkwydIM5q5BQ31qAn6
+ PrtiGIMPLeBioVOw54rQKKrIvX59H3ofyDxhTI9T7/F4jJY291RNXRzvJRvjLCYPt+Wpped6w
+ GupYpE1EsnT/q0hdZuMAshoLCp7sG4RGyzfaNefrGDKmdjKWlaIFS3Bu9UmECqG3cCFTQePrg
+ nB62kclpNfjt8RGoqbVg==
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 858805b336be ("kbuild: add $(BASH) to run scripts with
-bash-extension") shed light on portability issues. Here is another one.
+On 05.12.19 04:25, Bhaskar Chowdhury wrote:
 
-Since commit f07726048d59 ("Fix handling of backlash character in
-LINUX_COMPILE_BY name"), we must escape a backslash contained in
-LINUX_COMPILE_BY. This is not working on distros like Ubuntu.
+Hi,
 
-As the POSIX spec [1] says, if any of the operands contain a backslash
-( '\' ) character, the results are implementation-defined.
+> The whole point behind this is to give the developers a convenient point
+> without going through all the rigorous details.
 
-The actual shell of /bin/sh could be bash, dash depending on distros,
-and the behavior of builtin echo command is different among them.
+I see your point, but I wonder whether it maybe better should go
+into kmod.
 
-The bash builtin echo, unless -e is given, copies the arguments to
-output without expanding escape sequences (BSD-like behavior).
+--mtx
 
-The dash builtin echo, in contrast, adopts System V behavior, which
-does expand escape sequences without any option.
-
-Even non-builtin /bin/echo behaves differently depending on the system.
-Due to these variations, echo is considered as a non-portable command.
-Using printf is the common solution to avoid the portability issue.
-
-[1] https://pubs.opengroup.org/onlinepubs/009695399/utilities/echo.html
-
-Fixes: 858805b336be ("kbuild: add $(BASH) to run scripts with bash-extension")
-Reported-by: XXing Wei <xxing.wei@unisoc.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
-
- scripts/mkcompile_h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 3097fec1756a..3a5a4b210c86 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -69,7 +69,7 @@ UTS_VERSION="$(echo $UTS_VERSION $CONFIG_FLAGS $TIMESTAMP | cut -b -$UTS_LEN)"
- 
-   echo \#define UTS_VERSION \"$UTS_VERSION\"
- 
--  echo \#define LINUX_COMPILE_BY \"$LINUX_COMPILE_BY\"
-+  printf '#define LINUX_COMPILE_BY "%s"\n' "$LINUX_COMPILE_BY"
-   echo \#define LINUX_COMPILE_HOST \"$LINUX_COMPILE_HOST\"
- 
-   echo \#define LINUX_COMPILER \"`$CC -v 2>&1 | grep ' version ' | sed 's/[[:space:]]*$//'`\"
--- 
-2.17.1
-
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
