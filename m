@@ -2,170 +2,208 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC0A114D42
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 09:10:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3AB6114E6E
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 10:51:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726264AbfLFIKn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Dec 2019 03:10:43 -0500
-Received: from mail-pj1-f65.google.com ([209.85.216.65]:45805 "EHLO
-        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbfLFIKn (ORCPT
+        id S1726222AbfLFJv0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Dec 2019 04:51:26 -0500
+Received: from www262.sakura.ne.jp ([202.181.97.72]:64283 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726127AbfLFJv0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Dec 2019 03:10:43 -0500
-Received: by mail-pj1-f65.google.com with SMTP id r11so2412069pjp.12;
-        Fri, 06 Dec 2019 00:10:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=C1UE8dpxmbMCTvXIK4iZw65YiC8lrgI7y3O+kpqnJKM=;
-        b=EokTTUjHKXuUFWclSh+eqpOTCZZ6jVwb1e3UWinw3vGTYKuvW46UP99DzrRbnAtIF2
-         Gbv3+yDv1S6TKXGtmZMjZ9kDLDIsRxtfDdrQ0BRrRmhhcBC6hy58d50swXHS482KXTFe
-         5AUkweroQhK2nUZeuRjg2BSIk+rzUuDcVXUJriC1U5H/GvteYZ0TMfzU51BT2EAa3gzg
-         4e6rOY71ADOM9oZcQSyYNOVzT1V51Pwpf54cpY/6zZh1Gf0P3t5jQDRO+XHTvIFH5/mp
-         s5C3LgUvth2CXOGO1aBgV+40rFWEKTgprNbPDJlocVRDyGfuIB91qTkRz2U2+zn9rVr5
-         rT4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=C1UE8dpxmbMCTvXIK4iZw65YiC8lrgI7y3O+kpqnJKM=;
-        b=rD+4omx05JrUgdnuCy1Qg49L5TgElf1qHzuhIQ0smCjW9z0UPlS4L0UM8AOtVeknqV
-         74t7h14HeQCqEsoEtXULvLtfJmGT62U8iUhOusQPRbLeG+rQEb05rVsb1KACio0OXWdU
-         U5DE3aZ6p/ST0zWuvIqmY6m8eGj93abe7MehrZbJ/ywIw/opo4zlc05bExMI6MAMuZiK
-         uW/3OUy4t3cmg+3kAl7GiqjFAcxhP7rOtS64X+qKFKi2oqsLrp1YiDikmylEuM3FLyjK
-         DsqEeHAna3wDKpVQ0aPOodQ1WcGDegt9ADk731HHD4H0jwPw+3oEkNdTT7zZ4m7Hh3ee
-         hVSg==
-X-Gm-Message-State: APjAAAVUResvDlGBOq+XjAyRf961vbwYZgkbvvGJSBrj08GqgU+BVjXn
-        8VgP4r377f/8f8DfdCmKidc=
-X-Google-Smtp-Source: APXvYqxH5fNfj16ZBr2+7TU0If7d/yWkIH9rk7fjW7ds2lUiymvcKmlSwlwPwWj1wtqUP0SPtqgpKw==
-X-Received: by 2002:a17:902:7207:: with SMTP id ba7mr13594976plb.254.1575619842473;
-        Fri, 06 Dec 2019 00:10:42 -0800 (PST)
-Received: from ArchLinux ([103.231.90.172])
-        by smtp.gmail.com with ESMTPSA id f18sm15401079pfk.124.2019.12.06.00.10.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 00:10:40 -0800 (PST)
-Date:   Fri, 6 Dec 2019 13:40:27 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     dsterba@suse.cz, Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] Enlist running kernel modules information
-Message-ID: <20191206081027.GA1165@ArchLinux>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>, dsterba@suse.cz,
-        Michal Marek <michal.lkml@markovi.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191203094845.610692-1-unixbhaskar@gmail.com>
- <CAK7LNASyrYv+pufwe4CfiNvd7NtriLw=FRdLOtu7CrbmZDSVHg@mail.gmail.com>
- <20191204150728.GD2734@twin.jikos.cz>
- <20191205032503.GA3981@debian>
- <CAK7LNARdOGfvc_8TMX+KbJQ1DRGy8_xZsdDye1ZrvimSS1VoFQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="huq684BweRXVnRxX"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARdOGfvc_8TMX+KbJQ1DRGy8_xZsdDye1ZrvimSS1VoFQ@mail.gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+        Fri, 6 Dec 2019 04:51:26 -0500
+Received: from fsav403.sakura.ne.jp (fsav403.sakura.ne.jp [133.242.250.102])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id xB69p1nw022550;
+        Fri, 6 Dec 2019 18:51:01 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav403.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp);
+ Fri, 06 Dec 2019 18:51:01 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav403.sakura.ne.jp)
+Received: from ccsecurity.localdomain (softbank126040062084.bbtec.net [126.40.62.84])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id xB69ot1w022479
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 6 Dec 2019 18:51:01 +0900 (JST)
+        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
+        Dmitry Vyukov <dvyukov@google.com>
+Subject: [PATCH] kconfig: Add yes2modconfig and mod2yesconfig targets.
+Date:   Fri,  6 Dec 2019 18:50:47 +0900
+Message-Id: <1575625847-6384-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
+X-Mailer: git-send-email 1.8.3.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Since kernel configs provided by syzbot are close to "make allyesconfig",
+it takes long time to rebuild. This is especially waste of time when we
+need to rebuild for many times (e.g. doing manual printk() inspection,
+bisect operations).
 
---huq684BweRXVnRxX
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We can save time if we can exclude modules which are irrelevant to each
+problem. But "make localmodconfig" cannot exclude modules which are built
+into vmlinux because /sbin/lsmod output is used as the source of modules.
 
-On 01:08 Fri 06 Dec 2019, Masahiro Yamada wrote:
->   On Thu, Dec 5, 2019 at 12:25 PM Bhaskar Chowdhury
->   <[1]unixbhaskar@gmail.com> wrote:
->
->     On 16:07 Wed 04 Dec 2019, David Sterba wrote:
->     >On Wed, Dec 04, 2019 at 12:10:25PM +0900, Masahiro Yamada wrote:
->     >> On Tue, Dec 3, 2019 at 6:49 PM Bhaskar Chowdhury
->     <[2]unixbhaskar@gmail.com> wrote:
->     >> > +awk '{print $1}' "/proc/modules" | xargs modinfo | awk
->     '/^(filename|desc|depends)/'
->     >>
->     >> I want to see a good reason (e.g. useful for other developers)
->     for upstreaming.
->     >> This script looks like your custom script, which you can maintain
->     locally.
->     >
->     >I think the verbosity should be added to either lsmod or modinfo,
->     not
->     >some script in kernel git.
->     lsmod and modinfo already are pretty verbose and the one liner is
->     using
->     one of them to cut thing out of it....can you give it another
->     look???
->     Moreover,this is sort and precise and can be parsed by other
->     scripts.
->     The whole point behind this is to give the developers a convenient
->     point
->     without going through all the rigorous details.
->
->   lsmod and modinfo are good.
->   If you are not satisfied with the current format,
->   talk to the kmod maintainer.
->   As a maintainer, I need to avoid the situation
->   where upstream tree is flooded with weird scripts like this.
->   One more thing:
->   Despite advice from Randy over again,
->   you are still not able to submit a patch correctly.
->   (see what you sent as v2).
->   Do not get me wrong. I am not saying you to send v3.
->   I do not like this patch. Please stop.
->   --
-I completely get you. I should stop sending this. Thanks for the heads
-up.=20
+Therefore, this patch adds "make yes2modconfig" which converts from =y
+to =m if possible. After confirming that the interested problem is still
+reproducible, we can try "make localmodconfig" (and/or manually tune
+based on "Modules linked in:" line) in order to exclude modules which are
+irrelevant to the interested problem. While we are at it, this patch also
+adds "make mod2yesconfig" target which converts from =m to =y in case
+someone wants to convert from =m to =y after "make localmodconfig".
 
-And I was not denying the verbosity of lsmod and modinfo , as I was
-pointing out to someone else.
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+---
+ scripts/kconfig/Makefile   |  2 +-
+ scripts/kconfig/conf.c     | 17 +++++++++++++++++
+ scripts/kconfig/confdata.c | 26 ++++++++++++++++++++++++++
+ scripts/kconfig/lkc.h      |  3 +++
+ 4 files changed, 47 insertions(+), 1 deletion(-)
 
-About the V2, this was a mistake , I know once I saw it alas! after
-sending it you. So, my apology.=20
-
-One thing get it straight , I am NOT trying to flooding with some airy
-fairy script , I know what it takes to maintain that bloody thing.
-
-Your time is precious like mine, never try to gobbles it by sending
-garbage.
-
-I was thinking make it easy for others, not sure why you think it's
-wired.
-
-Again , thanks for the heads up...above statements are STRICTLY NOT in my
-defence not to cover the mistake.
-
->   Best Regards
->   Masahiro Yamada
->
->References
->
->   1. mailto:unixbhaskar@gmail.com
->   2. mailto:unixbhaskar@gmail.com
-
---huq684BweRXVnRxX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAl3qDO8ACgkQsjqdtxFL
-KRX92QgAjHkoScuG/jGzDUGWVxlstQ/vqjht3c4mVgIpuTQlEnd9GtpLRS6SWsn3
-mPlrmdVxYpOWUhdRekIfwPQ3I0bcY/teccY04VkoYqvzCq/UGy0xr72fpUrCkN+m
-8nVXztrMDgo5MEiLEmFrpnGIsSPJcOGOekWCotFVu+m14dPPOGzWSTVYm1rCppSn
-PZYrHyiJds0dEM93SH1ruLbqQZvbvMt0jXVa3SBARoknRSBQKs2LdEpZCvi+7gJz
-dior+esWl0a4ajcWXk0MKyjaDPH/LGTI0m12AwA6Ortkr+h73yccxqt2OvcbOHj/
-k4t+Bd44GVymXe/JBKeiPT5vI1Ozlw==
-=4dLL
------END PGP SIGNATURE-----
-
---huq684BweRXVnRxX--
+diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+index 2f1a59fa5169..3516809255be 100644
+--- a/scripts/kconfig/Makefile
++++ b/scripts/kconfig/Makefile
+@@ -67,7 +67,7 @@ localyesconfig localmodconfig: $(obj)/conf
+ #  deprecated for external use
+ simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
+ 	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
+-	helpnewconfig
++	helpnewconfig yes2modconfig mod2yesconfig
+ 
+ PHONY += $(simple-targets)
+ 
+diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+index 1f89bf1558ce..ae9ddf88c64d 100644
+--- a/scripts/kconfig/conf.c
++++ b/scripts/kconfig/conf.c
+@@ -34,6 +34,8 @@ enum input_mode {
+ 	listnewconfig,
+ 	helpnewconfig,
+ 	olddefconfig,
++	yes2modconfig,
++	mod2yesconfig,
+ };
+ static enum input_mode input_mode = oldaskconfig;
+ 
+@@ -467,6 +469,8 @@ static struct option long_opts[] = {
+ 	{"listnewconfig",   no_argument,       NULL, listnewconfig},
+ 	{"helpnewconfig",   no_argument,       NULL, helpnewconfig},
+ 	{"olddefconfig",    no_argument,       NULL, olddefconfig},
++	{"yes2modconfig",   no_argument,       NULL, yes2modconfig},
++	{"mod2yesconfig",   no_argument,       NULL, mod2yesconfig},
+ 	{NULL, 0, NULL, 0}
+ };
+ 
+@@ -489,6 +493,8 @@ static void conf_usage(const char *progname)
+ 	printf("  --allmodconfig          New config where all options are answered with mod\n");
+ 	printf("  --alldefconfig          New config with all symbols set to default\n");
+ 	printf("  --randconfig            New config with random answer to all options\n");
++	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
++	printf("  --mod2yesconfig         Change answers from mod to yes\n");
+ }
+ 
+ int main(int ac, char **av)
+@@ -553,6 +559,8 @@ int main(int ac, char **av)
+ 		case listnewconfig:
+ 		case helpnewconfig:
+ 		case olddefconfig:
++		case yes2modconfig:
++		case mod2yesconfig:
+ 			break;
+ 		case '?':
+ 			conf_usage(progname);
+@@ -587,6 +595,8 @@ int main(int ac, char **av)
+ 	case listnewconfig:
+ 	case helpnewconfig:
+ 	case olddefconfig:
++	case yes2modconfig:
++	case mod2yesconfig:
+ 		conf_read(NULL);
+ 		break;
+ 	case allnoconfig:
+@@ -638,6 +648,11 @@ int main(int ac, char **av)
+ 		}
+ 	}
+ 
++	if (input_mode == yes2modconfig)
++		conf_rewrite_mod_or_yes(def_y2m);
++	else if (input_mode == mod2yesconfig)
++		conf_rewrite_mod_or_yes(def_m2y);
++
+ 	switch (input_mode) {
+ 	case allnoconfig:
+ 		conf_set_all_new_symbols(def_no);
+@@ -669,6 +684,8 @@ int main(int ac, char **av)
+ 	case listnewconfig:
+ 	case helpnewconfig:
+ 	case syncconfig:
++	case yes2modconfig:
++	case mod2yesconfig:
+ 		/* Update until a loop caused no more changes */
+ 		do {
+ 			conf_cnt = 0;
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 3569d2dec37c..6832a04a1aa4 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -1362,3 +1362,29 @@ bool conf_set_all_new_symbols(enum conf_def_mode mode)
+ 
+ 	return has_changed;
+ }
++
++bool conf_rewrite_mod_or_yes(enum conf_def_mode mode)
++{
++	struct symbol *sym;
++	int i;
++	bool has_changed = false;
++
++	if (mode == def_y2m) {
++		for_all_symbols(i, sym) {
++			if (sym_get_type(sym) == S_TRISTATE &&
++			    sym->def[S_DEF_USER].tri == yes) {
++				sym->def[S_DEF_USER].tri = mod;
++				has_changed = true;
++			}
++		}
++	} else if (mode == def_m2y) {
++		for_all_symbols(i, sym) {
++			if (sym_get_type(sym) == S_TRISTATE &&
++			    sym->def[S_DEF_USER].tri == mod) {
++				sym->def[S_DEF_USER].tri = yes;
++				has_changed = true;
++			}
++		}
++	}
++	return has_changed;
++}
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index 4fb16f316626..e8f3238dcc70 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -34,6 +34,8 @@ enum conf_def_mode {
+ 	def_default,
+ 	def_yes,
+ 	def_mod,
++	def_y2m,
++	def_m2y,
+ 	def_no,
+ 	def_random
+ };
+@@ -52,6 +54,7 @@ const char *conf_get_configname(void);
+ void sym_set_change_count(int count);
+ void sym_add_change_count(int count);
+ bool conf_set_all_new_symbols(enum conf_def_mode mode);
++bool conf_rewrite_mod_or_yes(enum conf_def_mode mode);
+ void set_all_choice_values(struct symbol *csym);
+ 
+ /* confdata.c and expr.c */
+-- 
+2.16.5
