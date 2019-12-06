@@ -2,95 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5822F1154D8
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 17:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5960D115822
+	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Dec 2019 21:12:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbfLFQJG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Dec 2019 11:09:06 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:45252 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfLFQJF (ORCPT
+        id S1726330AbfLFUMH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 6 Dec 2019 15:12:07 -0500
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:44840 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726359AbfLFUMH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Dec 2019 11:09:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EcvpdwTgGf+qsFdhkXPedvlI2rui3QKW0BzCUUFP9tE=; b=NSBoCzzxwHwDOC0geBuVnjlEE
-        RJ18z8zgSQKyDSWVeXT/A/WKS15yazSwxYfLdx0Twkh8ljeVSDDriz9yolnt4gJ03nRnmal8Th2/r
-        7GOvD0Y9/9OiX9DPK062+fcbadmQ6tgzGAfS0YdZJ4LvDevXo6Xv9c1bADb6SQNpALQejJAS7ojyb
-        nuOdLXyxbVnWDFKulEJp8FNvRkSUL2KTxaWfexHf4WIc5P3gWz+qxazlwl7BrT3x+a14vxy1wtcO8
-        bXGv3bT7RBWYHXXBZOfeEvx8Lu7+YIx1C2PIjr/VIXOInMEKjrnrM9BNXn82K4I8ODM/+PsTYmQ1H
-        j52mmfFpQ==;
-Received: from [2601:1c0:6280:3f0::3deb]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1idGAC-0005X4-OE; Fri, 06 Dec 2019 16:09:04 +0000
-Subject: Re: [PATCH] kconfig: Add yes2modconfig and mod2yesconfig targets.
-To:     Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>
-References: <1575625847-6384-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <5a473c6c-cc1f-6648-31ec-3b40e415a836@infradead.org>
-Date:   Fri, 6 Dec 2019 08:09:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.1
+        Fri, 6 Dec 2019 15:12:07 -0500
+Received: by mail-ot1-f50.google.com with SMTP id x3so6840890oto.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 06 Dec 2019 12:12:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=bfS18BRqPrx2mb+NiLJhVtQIwRro5nX4k3IuxiLh0sI=;
+        b=RBUm9plsgj8+nZmhKbo4ptcJ4pMBki50nditc4ivdnjya3PnRW/21TKIEPsY+cFf5G
+         AYBtrVS/ACoTunimLKyo63RIf3hvS/x4PWkQX8mA4qnMLX+fHQs4cPohu76ygN53Zpkj
+         N16vOt15mRC+UaLTHMOotaA6DmH48KEAtKflNS+ix3xHiNuNjGNtTH1014LPWXrAjKy1
+         kqIzb4B7LiZmlakjy/vrRTOE9yvMFtP76S0lJa38QHqJs6os/Ta8U569BAhg/m87s8IA
+         Cbo8goN2nm81MOcYpITVCsG2wXlBA/sBEOg18JQ0f2X2L7C+NiBu3dmfCq36hm2RGqBB
+         ruKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=bfS18BRqPrx2mb+NiLJhVtQIwRro5nX4k3IuxiLh0sI=;
+        b=NDFTExmrXMFt7p+ixzrJQ40aKNbJ5b1hpnUgQ5MZafLeEZxgBVMTXyLdE+R4ZgHWyO
+         t1SMAwZfXbgrWhNHRgSoqkXch/v6aXQ485mvmIobw843kbBCKEljqztgs8++OObHX1V6
+         Y9jwVHTNORLy7/L1SpB6fjrNz09mz6JmqNy15K7OjSwxmcAUDXFPh6WfINEb/cjitj4+
+         P1WvHfWD7QEBEToCPD9kfGS2zJ5/ucTXbjgXP46zMj8GFInoIpVxpeKQA+Q5XZSUjZ7D
+         2+dm5rZANaMhpKhkxEYD6xlusx+gY4XG7eAjR6a+Fa+tJ15ZLvoxHGjWSGzOelPynF+1
+         aagw==
+X-Gm-Message-State: APjAAAVHSj6Rx0HlggN+1Wsune5S+NYptq6gjdZ4cbM1prxpuD1CO/ML
+        Uox6sh7yLVdwAF6MWUtRxkaS4TzQjB0rM8jkXvizwI4C
+X-Google-Smtp-Source: APXvYqwCGw1X1mPm1L6+esc+JcpmAOUE5M2qoIGR4Mf2vuzFHDso5tuvS6DuBcrTb93PZyYUIm5gwj8CR+kJAnXRzME=
+X-Received: by 2002:a05:6830:10a:: with SMTP id i10mr11990603otp.365.1575663126627;
+ Fri, 06 Dec 2019 12:12:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1575625847-6384-1-git-send-email-penguin-kernel@I-love.SAKURA.ne.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Martin Galvan <omgalvan.86@gmail.com>
+Date:   Fri, 6 Dec 2019 17:11:55 -0300
+Message-ID: <CAN19L9G-mFN-MTmw0FS3ZX4d1MjeoL2U+s-Fk7Qw9UYWn5Q1YA@mail.gmail.com>
+Subject: Some header files being ignored when calculating srcversion
+To:     linux-kbuild@vger.kernel.org, michal.lkml@markovi.net,
+        yamada.masahiro@socionext.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 12/6/19 1:50 AM, Tetsuo Handa wrote:
-> Since kernel configs provided by syzbot are close to "make allyesconfig",
-> it takes long time to rebuild. This is especially waste of time when we
-> need to rebuild for many times (e.g. doing manual printk() inspection,
-> bisect operations).
-> 
-> We can save time if we can exclude modules which are irrelevant to each
-> problem. But "make localmodconfig" cannot exclude modules which are built
-> into vmlinux because /sbin/lsmod output is used as the source of modules.
-> 
-> Therefore, this patch adds "make yes2modconfig" which converts from =y
-> to =m if possible. After confirming that the interested problem is still
-> reproducible, we can try "make localmodconfig" (and/or manually tune
-> based on "Modules linked in:" line) in order to exclude modules which are
-> irrelevant to the interested problem. While we are at it, this patch also
-> adds "make mod2yesconfig" target which converts from =m to =y in case
-> someone wants to convert from =m to =y after "make localmodconfig".
-> 
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> ---
->  scripts/kconfig/Makefile   |  2 +-
->  scripts/kconfig/conf.c     | 17 +++++++++++++++++
->  scripts/kconfig/confdata.c | 26 ++++++++++++++++++++++++++
->  scripts/kconfig/lkc.h      |  3 +++
->  4 files changed, 47 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index 2f1a59fa5169..3516809255be 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -67,7 +67,7 @@ localyesconfig localmodconfig: $(obj)/conf
->  #  deprecated for external use
->  simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
->  	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
-> -	helpnewconfig
-> +	helpnewconfig yes2modconfig mod2yesconfig
->  
->  PHONY += $(simple-targets)
+Hi all,
 
+I'm working on a kernel module and noticed that sometimes my changes
+to certain header files don't affect the module's srcversion hash.
+This matters because tools like dkms will refuse to upgrade a module
+if the new hash is the same as the one currently installed.
 
-In this Makefile (above), please also update the available 'help' targets.
+The files being ignored are those that are not (however indirectly)
+included by a .c placed in the same directory. In my case, I have a
+header which is included by several .c files placed in other
+directories; changes to this header won't affect the final srcversion
+hash.
 
--- 
-~Randy
+The cause of this seems to be this check in sumversion.c:
 
+/* Check if this file is in same dir as objfile */
+if ((strstr(line, dir)+strlen(dir)-1) == strrchr(line, '/')) {
+    if (!parse_file(line, md)) {
+        warn("could not open %s: %s\n",
+             line, strerror(errno));
+        goto out_file;
+    }
+
+}
+
+I'm not sure what's the rationale behind this check, not whether this
+behavior is documented anywhere.
