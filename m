@@ -2,95 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EED66115EEA
-	for <lists+linux-kbuild@lfdr.de>; Sat,  7 Dec 2019 23:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D6671165A6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2019 04:52:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbfLGWT3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 Dec 2019 17:19:29 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:40990 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726416AbfLGWT3 (ORCPT
+        id S1726860AbfLIDwm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Dec 2019 22:52:42 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:21112 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726823AbfLIDwl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 Dec 2019 17:19:29 -0500
-Received: by mail-io1-f67.google.com with SMTP id z26so10951332iot.8
-        for <linux-kbuild@vger.kernel.org>; Sat, 07 Dec 2019 14:19:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/9nvi8Yrcd1LEVyV/kg9431K2dtrSxT9gl9QEkR1nHQ=;
-        b=ilUdJbyPHfkGXK4Ar8uM+GfwaNLsCB8xQUkIOzbXKiQ9Ik5rh4+a0EOJCklCQbGrfB
-         zjPBsUw7f3PWHLprCHvlJ8ngNw2FLYKVqidQnsb9Id9vbt9CvV5TafDbetCf3y4fXZA/
-         KPmUZD1wQOjZCw8BcSmbHtS2DE4lCKrvnObIkM7cqojjM04jKW6WMOAhZZTz6AiKgwsT
-         OinloHefaow65wYjMlJt0A8Nn5jYtJkh28Ow7idUDhIUvGVvUMnXSdhhAaqL3/OS21hV
-         4Q/Z2Ygg6x9UuAYJGtWMeGR6D9D992XUQJ2+DngawGYzQHgRcGZsnRXLBXAtplEoI9iJ
-         jz2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/9nvi8Yrcd1LEVyV/kg9431K2dtrSxT9gl9QEkR1nHQ=;
-        b=TSJGF4kWsjovh3jWqz1NaNzjB7C7m4AMAF/3EWrsJljg9nRz3CZkymwcOPzud26yx9
-         V9g7+EZYH96X9CBXNW2MTblumTvN/3aewCY9GHo4gzRZUH+Vh0SPepJuV0BOI5kgBdg6
-         km7+qvrXYYM4S6chWa7fkwPsZBl/iI+wfcpZxTGNqZiSH2IDLm326r6/3JWadU8vM7EN
-         csmBfA7yM0xqFPeS8uif5NJGdpfN1hZOAsBUADPDKnvS0Z5bNUN5pMcZ1pIZ+QL4ZL34
-         SN2RoSagWlNpUPnsLl47TJcgxr+eJ2283tEoqEVfFawcdLjs9mvi2KwkVPhS0ehNeEpz
-         j7oQ==
-X-Gm-Message-State: APjAAAVfWVmYJWm1NPN7BePGCJA3xT5aXsGiH6gMDBUqYd+onQyRRPeL
-        YyAj8yN7akIx1U/hgk8ttqOBq8fS5DGBxYEF+JilJg==
-X-Google-Smtp-Source: APXvYqxKyJUhJH+MOZvSvLYvAxouyodwTwkQJWGVJlTId5S4qSwZXCbNQMnlcrEdTyZNT6MpwhI215p1XWZbRONknQA=
-X-Received: by 2002:a6b:1410:: with SMTP id 16mr15132643iou.277.1575757168769;
- Sat, 07 Dec 2019 14:19:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20191123160444.11251-1-yamada.masahiro@socionext.com> <20191123160444.11251-4-yamada.masahiro@socionext.com>
-In-Reply-To: <20191123160444.11251-4-yamada.masahiro@socionext.com>
-From:   Olof Johansson <olof@lixom.net>
-Date:   Sat, 7 Dec 2019 14:19:17 -0800
-Message-ID: <CAOesGMiY65jqo985p_AjLJiXUCFq8AmHMA3xx0LvNwNfjUW-OQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/16] scripts/kallsyms: shrink table before sorting it
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sun, 8 Dec 2019 22:52:41 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id xB93q5xf026282;
+        Mon, 9 Dec 2019 12:52:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xB93q5xf026282
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1575863526;
+        bh=J4iM+2tRSGMAQWxhDFlX1MjDEl1t3wECpLumrWJGNrU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=xCazK7KFE0CPUrpla9BovDQH4c7OGI7LDzhIWlodaDFyt63a9jWDeMrKIu+WxC5Zy
+         TDYCuycPoJzySTgcUtX4tpr9pxQQIeP3e5Wd/sA6xWUY1szc3kKceF55JwfukQ2qd6
+         ezeTrMGcg1K+iXJynSUWnoA9B4lRWjFErcDD+TWMM6poxIgwSQgesSVeo90TxyU5fu
+         YxlmiFEz2xi2sLZfLiB+OoMZwp4fY/RM2BPg50zNx0BUvNCxwDrNSed1hxwGLeO7so
+         YcIS/fEIeE3WTxn41BFeswVI8n34xZJHw6mxjRVFBVfWQIjwPRz9cAhW3xXoMHyzKH
+         oiFy9V74or1UA==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Olof Johansson <olof@lixom.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts/kallsyms: fix offset overflow of kallsyms_relative_base
+Date:   Mon,  9 Dec 2019 12:51:48 +0900
+Message-Id: <20191209035148.17048-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+Since commit 5e5c4fa78745 ("scripts/kallsyms: shrink table before
+sorting it"), kallsyms_relative_base can be larger than _text, which
+causes overflow when building the 32-bit kernel.
 
-On Sat, Nov 23, 2019 at 8:05 AM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
-> Currently, build_initial_tok_table() trims unused symbols, which is
-> called after sort_symbol().
->
-> It is not efficient to sort the huge table that contains unused entries.
-> Shrink the table before sorting it.
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+https://lkml.org/lkml/2019/12/7/156
 
-This started showing warnings on some 32-bit ARM platforms, due to
-kallsyms_relative_base changing:
+This is because _text is, unless --all-symbols is specified, now
+trimmed from the symbol table before record_relative_base() is called.
 
- kallsyms_relative_base:
--       PTR     _text - 0
-+       PTR     _text - 0xfffffffffffffe20
+Handle the offset signedness also for kallsyms_relative_base. Introduce
+a new helper, output_address(), to reduce the code duplication.
 
-The assembler started complaining:
+Fixes: 5e5c4fa78745 ("scripts/kallsyms: shrink table before sorting it")
+Reported-by: Olof Johansson <olof@lixom.net>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-.tmp_kallsyms1.S: Assembler messages:
-.tmp_kallsyms1.S:15315: Warning: right operand is a bignum; integer 0 assumed
+ scripts/kallsyms.c | 38 ++++++++++++++++++--------------------
+ 1 file changed, 18 insertions(+), 20 deletions(-)
 
-Also, I clearly see different output with this patch reverted and
-applied; I would expect no actual difference if it was correct.
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index fb55f262f42d..94153732ec00 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -310,6 +310,15 @@ static void output_label(const char *label)
+ 	printf("%s:\n", label);
+ }
+ 
++/* Provide proper symbols relocatability by their '_text' relativeness. */
++static void output_address(unsigned long long addr)
++{
++	if (_text <= addr)
++		printf("\tPTR\t_text + %#llx\n", addr - _text);
++	else
++		printf("\tPTR\t_text - %#llx\n", _text - addr);
++}
++
+ /* uncompress a compressed symbol. When this function is called, the best table
+  * might still be compressed itself, so the function needs to be recursive */
+ static int expand_symbol(const unsigned char *data, int len, char *result)
+@@ -360,19 +369,6 @@ static void write_src(void)
+ 
+ 	printf("\t.section .rodata, \"a\"\n");
+ 
+-	/* Provide proper symbols relocatability by their relativeness
+-	 * to a fixed anchor point in the runtime image, either '_text'
+-	 * for absolute address tables, in which case the linker will
+-	 * emit the final addresses at build time. Otherwise, use the
+-	 * offset relative to the lowest value encountered of all relative
+-	 * symbols, and emit non-relocatable fixed offsets that will be fixed
+-	 * up at runtime.
+-	 *
+-	 * The symbol names cannot be used to construct normal symbol
+-	 * references as the list of symbols contains symbols that are
+-	 * declared static and are private to their .o files.  This prevents
+-	 * .tmp_kallsyms.o or any other object from referencing them.
+-	 */
+ 	if (!base_relative)
+ 		output_label("kallsyms_addresses");
+ 	else
+@@ -380,6 +376,13 @@ static void write_src(void)
+ 
+ 	for (i = 0; i < table_cnt; i++) {
+ 		if (base_relative) {
++			/*
++			 * Use the offset relative to the lowest value
++			 * encountered of all relative symbols, and emit
++			 * non-relocatable fixed offsets that will be fixed
++			 * up at runtime.
++			 */
++
+ 			long long offset;
+ 			int overflow;
+ 
+@@ -402,12 +405,7 @@ static void write_src(void)
+ 			}
+ 			printf("\t.long\t%#x\n", (int)offset);
+ 		} else if (!symbol_absolute(&table[i])) {
+-			if (_text <= table[i].addr)
+-				printf("\tPTR\t_text + %#llx\n",
+-					table[i].addr - _text);
+-			else
+-				printf("\tPTR\t_text - %#llx\n",
+-					_text - table[i].addr);
++			output_address(table[i].addr);
+ 		} else {
+ 			printf("\tPTR\t%#llx\n", table[i].addr);
+ 		}
+@@ -416,7 +414,7 @@ static void write_src(void)
+ 
+ 	if (base_relative) {
+ 		output_label("kallsyms_relative_base");
+-		printf("\tPTR\t_text - %#llx\n", _text - relative_base);
++		output_address(relative_base);
+ 		printf("\n");
+ 	}
+ 
+-- 
+2.17.1
 
-Can we please revert this for 5.5 while this is being sorted out?
-
-To reproduce, build for example am200epdkit_defconfig for ARCH=arm. I
-see it with GCC 8.2.0, binutils 2.30.0.
-
-
-Thanks,
-
--Olof
