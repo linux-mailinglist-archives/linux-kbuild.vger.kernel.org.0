@@ -2,143 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D6671165A6
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2019 04:52:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57A801166B6
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2019 07:05:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbfLIDwm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Dec 2019 22:52:42 -0500
-Received: from conuserg-12.nifty.com ([210.131.2.79]:21112 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726823AbfLIDwl (ORCPT
+        id S1726132AbfLIGFj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Dec 2019 01:05:39 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:61799 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727117AbfLIGFi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Dec 2019 22:52:41 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id xB93q5xf026282;
-        Mon, 9 Dec 2019 12:52:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xB93q5xf026282
+        Mon, 9 Dec 2019 01:05:38 -0500
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id xB965TJh028548
+        for <linux-kbuild@vger.kernel.org>; Mon, 9 Dec 2019 15:05:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xB965TJh028548
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1575863526;
-        bh=J4iM+2tRSGMAQWxhDFlX1MjDEl1t3wECpLumrWJGNrU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=xCazK7KFE0CPUrpla9BovDQH4c7OGI7LDzhIWlodaDFyt63a9jWDeMrKIu+WxC5Zy
-         TDYCuycPoJzySTgcUtX4tpr9pxQQIeP3e5Wd/sA6xWUY1szc3kKceF55JwfukQ2qd6
-         ezeTrMGcg1K+iXJynSUWnoA9B4lRWjFErcDD+TWMM6poxIgwSQgesSVeo90TxyU5fu
-         YxlmiFEz2xi2sLZfLiB+OoMZwp4fY/RM2BPg50zNx0BUvNCxwDrNSed1hxwGLeO7so
-         YcIS/fEIeE3WTxn41BFeswVI8n34xZJHw6mxjRVFBVfWQIjwPRz9cAhW3xXoMHyzKH
-         oiFy9V74or1UA==
-X-Nifty-SrcIP: [153.142.97.92]
+        s=dec2015msa; t=1575871530;
+        bh=nGlVISfaL34scLCwr0+DubFyqLZpraRdNSmolJeoBv0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fplixkJ2KeJNvelg0KqYh24Qo9uvwil3E74pCq25gwTCfzV+j6aSLfhonB+ZuVXMe
+         OG4P6L+4flu1bohNd5j+XXIiJt2VSuZ+MheYQJDaoEfdDiS35M+p487o13afpcj9fC
+         bO2bMnfZwjY6kucigGJ/p1sWWuNcxTOew8WL+mPuWXB09sVPSLSEOC9mug8SS+GgeZ
+         dmkeEli99rqTtRgEmTOfL6kdBxsjqv+QsBlld36sz4vLG/kTHXRfgQTRhU4D05+cmr
+         gyGsvJ2QQE0NuTFUbTnqBMzRisyQ79uCFZwxaP/7pHAGmVLBqAK0l3DYbWbETKAmRl
+         QT4fSuZHdsQ7g==
+X-Nifty-SrcIP: [209.85.221.173]
+Received: by mail-vk1-f173.google.com with SMTP id x199so4030203vke.6
+        for <linux-kbuild@vger.kernel.org>; Sun, 08 Dec 2019 22:05:30 -0800 (PST)
+X-Gm-Message-State: APjAAAWMSjh8fSTLhTdL9bxaNWCZYIOr6AnRYaM9+taCXCBPpDm2zrtS
+        C9+w8S7MU5gHI3MaSm0/G6GVfrGfutyCEYlyt8k=
+X-Google-Smtp-Source: APXvYqy1yxj2oN3wOZJIRjn/KPAdnYG/5+Sn7+GklDVtn3s2qSCmCUgrKRTvk2k1fVIczP2WNZYAnBRwY1LNsw0m2/U=
+X-Received: by 2002:a1f:e4c7:: with SMTP id b190mr22492014vkh.96.1575871528982;
+ Sun, 08 Dec 2019 22:05:28 -0800 (PST)
+MIME-Version: 1.0
+References: <CAN19L9G-mFN-MTmw0FS3ZX4d1MjeoL2U+s-Fk7Qw9UYWn5Q1YA@mail.gmail.com>
+In-Reply-To: <CAN19L9G-mFN-MTmw0FS3ZX4d1MjeoL2U+s-Fk7Qw9UYWn5Q1YA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Olof Johansson <olof@lixom.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] scripts/kallsyms: fix offset overflow of kallsyms_relative_base
-Date:   Mon,  9 Dec 2019 12:51:48 +0900
-Message-Id: <20191209035148.17048-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Date:   Mon, 9 Dec 2019 15:04:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR2bJW8BMq3xbt2FuuC_=uGqFrDsL9jEw6H1B78wHG_yg@mail.gmail.com>
+Message-ID: <CAK7LNAR2bJW8BMq3xbt2FuuC_=uGqFrDsL9jEw6H1B78wHG_yg@mail.gmail.com>
+Subject: Re: Some header files being ignored when calculating srcversion
+To:     Martin Galvan <omgalvan.86@gmail.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Rusty Russell <rusty@rustcorp.com.au>,
+        Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit 5e5c4fa78745 ("scripts/kallsyms: shrink table before
-sorting it"), kallsyms_relative_base can be larger than _text, which
-causes overflow when building the 32-bit kernel.
+(+CC: Rusty Russell, Andrew Morton)
 
-https://lkml.org/lkml/2019/12/7/156
+On Sat, Dec 7, 2019 at 5:12 AM Martin Galvan <omgalvan.86@gmail.com> wrote:
+>
+> Hi all,
+>
+> I'm working on a kernel module and noticed that sometimes my changes
+> to certain header files don't affect the module's srcversion hash.
+> This matters because tools like dkms will refuse to upgrade a module
+> if the new hash is the same as the one currently installed.
+>
+> The files being ignored are those that are not (however indirectly)
+> included by a .c placed in the same directory. In my case, I have a
+> header which is included by several .c files placed in other
+> directories; changes to this header won't affect the final srcversion
+> hash.
+>
+> The cause of this seems to be this check in sumversion.c:
+>
+> /* Check if this file is in same dir as objfile */
+> if ((strstr(line, dir)+strlen(dir)-1) == strrchr(line, '/')) {
+>     if (!parse_file(line, md)) {
+>         warn("could not open %s: %s\n",
+>              line, strerror(errno));
+>         goto out_file;
+>     }
+>
+> }
+>
+> I'm not sure what's the rationale behind this check, not whether this
+> behavior is documented anywhere.
 
-This is because _text is, unless --all-symbols is specified, now
-trimmed from the symbol table before record_relative_base() is called.
 
-Handle the offset signedness also for kallsyms_relative_base. Introduce
-a new helper, output_address(), to reduce the code duplication.
 
-Fixes: 5e5c4fa78745 ("scripts/kallsyms: shrink table before sorting it")
-Reported-by: Olof Johansson <olof@lixom.net>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I also wondered about this design
+when I looked into this code for the first time.
 
- scripts/kallsyms.c | 38 ++++++++++++++++++--------------------
- 1 file changed, 18 insertions(+), 20 deletions(-)
+In my understanding, this is based on the assumption that
+headers file from the same or sub- directories are highly
+relevant to the module in question, while the header
+files from other locations are less related.
 
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index fb55f262f42d..94153732ec00 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -310,6 +310,15 @@ static void output_label(const char *label)
- 	printf("%s:\n", label);
- }
- 
-+/* Provide proper symbols relocatability by their '_text' relativeness. */
-+static void output_address(unsigned long long addr)
-+{
-+	if (_text <= addr)
-+		printf("\tPTR\t_text + %#llx\n", addr - _text);
-+	else
-+		printf("\tPTR\t_text - %#llx\n", _text - addr);
-+}
-+
- /* uncompress a compressed symbol. When this function is called, the best table
-  * might still be compressed itself, so the function needs to be recursive */
- static int expand_symbol(const unsigned char *data, int len, char *result)
-@@ -360,19 +369,6 @@ static void write_src(void)
- 
- 	printf("\t.section .rodata, \"a\"\n");
- 
--	/* Provide proper symbols relocatability by their relativeness
--	 * to a fixed anchor point in the runtime image, either '_text'
--	 * for absolute address tables, in which case the linker will
--	 * emit the final addresses at build time. Otherwise, use the
--	 * offset relative to the lowest value encountered of all relative
--	 * symbols, and emit non-relocatable fixed offsets that will be fixed
--	 * up at runtime.
--	 *
--	 * The symbol names cannot be used to construct normal symbol
--	 * references as the list of symbols contains symbols that are
--	 * declared static and are private to their .o files.  This prevents
--	 * .tmp_kallsyms.o or any other object from referencing them.
--	 */
- 	if (!base_relative)
- 		output_label("kallsyms_addresses");
- 	else
-@@ -380,6 +376,13 @@ static void write_src(void)
- 
- 	for (i = 0; i < table_cnt; i++) {
- 		if (base_relative) {
-+			/*
-+			 * Use the offset relative to the lowest value
-+			 * encountered of all relative symbols, and emit
-+			 * non-relocatable fixed offsets that will be fixed
-+			 * up at runtime.
-+			 */
-+
- 			long long offset;
- 			int overflow;
- 
-@@ -402,12 +405,7 @@ static void write_src(void)
- 			}
- 			printf("\t.long\t%#x\n", (int)offset);
- 		} else if (!symbol_absolute(&table[i])) {
--			if (_text <= table[i].addr)
--				printf("\tPTR\t_text + %#llx\n",
--					table[i].addr - _text);
--			else
--				printf("\tPTR\t_text - %#llx\n",
--					_text - table[i].addr);
-+			output_address(table[i].addr);
- 		} else {
- 			printf("\tPTR\t%#llx\n", table[i].addr);
- 		}
-@@ -416,7 +414,7 @@ static void write_src(void)
- 
- 	if (base_relative) {
- 		output_label("kallsyms_relative_base");
--		printf("\tPTR\t_text - %#llx\n", _text - relative_base);
-+		output_address(relative_base);
- 		printf("\n");
- 	}
- 
+
+The actual code dates back to 2004, the following commit:
+
+Rusty Russell seems to be the author,
+and the Andrew Morton is the committer.
+
+
+
+
+Author: Andrew Morton <akpm@osdl.org>
+Date:   Thu Feb 26 06:51:58 2004 -0800
+
+    [PATCH] Add a MODULE_VERSION macro
+
+    From: Rusty Russell <rusty@au1.ibm.com>
+
+    The way it works is that the .mod file contains the name of the module (as
+    before), but succeeding lines are the constituent parts (assumed to be .c
+    files, which usually works: if they use MODULE_VERSION in a file for which
+    this isn't true we'll get a warning).
+
+    As we postprocess modules, we look in the .modinfo section for a
+    "version=", which is placed by the MODULE_VERSION() macro.  This will be of
+    form "version=<macroarg>" "\0" [24 chars] "\0".  The 24 chars are replaced
+    by the md4 sum of the .c files and any files they #include using '#include
+    "file"' which are found in the current directory.  Whitespace is collapsed
+    outside strings, and comments are ignored for purposes of the sum.
+
+    The result is a .modinfo entry such as
+
+            version=1.16ac-rustytest B13E9451C4CA3B89577DEFF
+
+
+
+    At the kernel summit, various people asked for a MODULE_VERSION macro to
+    store module strings (for later access through sysfs).  A simple md4 is
+    needed to identify changes in modules which, inevitably, do not update the
+    version.  It skips whitespace and comments, and includes #includes which
+    are in the same dir.
+
+    The module versions should be set according to this definition, based on
+    the RPM one, or CVS Revision tags.  Violators will be shot.
+
+     [<epoch>`:']<version>[`-'<extraversion>]
+     <epoch>: A (small) unsigned integer which allows you to start versions
+              anew. If not mentioned, it's zero.  eg. "2:1.0" is after
+         "1:2.0".
+     <version>: The <version> may contain only alphanumerics.
+     <extraversion>: Like <version>, but inserted for local
+              customizations, eg "rh3" or "rusty1".
+
+    Comparison of two versions (assuming same epoch):
+
+    Split each into all-digit and all-alphabetical parts.  Compare each one one
+    at a time: digit parts numerically, alphabetical in ASCII order.  So 0.10
+    comes after 0.9.
+
+
+
+
+
+
+
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
