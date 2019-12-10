@@ -2,86 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E1F1187BF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2019 13:12:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75EBD118B40
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2019 15:41:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbfLJMMr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Dec 2019 07:12:47 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7207 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727224AbfLJMMr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Dec 2019 07:12:47 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 631AA4F7801B4F2AC67B;
-        Tue, 10 Dec 2019 20:12:45 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.58) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.439.0; Tue, 10 Dec 2019 20:12:39 +0800
-From:   John Garry <john.garry@huawei.com>
-To:     <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <anders.roxell@linaro.org>, John Garry <john.garry@huawei.com>
-Subject: [PATCH] merge_config.sh: Add option for allmodconfig
-Date:   Tue, 10 Dec 2019 20:09:14 +0800
-Message-ID: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
+        id S1727272AbfLJOlJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Dec 2019 09:41:09 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:37705 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727345AbfLJOlJ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 10 Dec 2019 09:41:09 -0500
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 6954322480;
+        Tue, 10 Dec 2019 09:41:08 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Tue, 10 Dec 2019 09:41:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alyssa.is; h=
+        from:to:cc:subject:date:message-id:mime-version:content-type; s=
+        fm1; bh=QyRY1SH/TcZCYCqQzwGfCLBox8YaWx+EjaKhewFMq/s=; b=lpHjPuP+
+        sElkQXi6GriJD0Oooj/CgBCmct25KCYWjWwpWmon6OBdR68ouEPaITKLQl8SOdZD
+        52StJ5Wdc7/1GuLcvldMlcw6prrfVYTRA42q5kItSP3ljMUFN/WP5ArEWJJYp7iD
+        pt3Jvp+dlZrzyjVDIDFBD0v53PzwlutNW6c27m9k7j+2xOUMqMOsgZf4wryMmCSU
+        +Ke/sGSnlSHo+aSF2NcwoEy7Fep6MsGlH/Tub45rc+aNnqZ6UOlf6yHUaiYFNXtp
+        S3u3W5J/aUNqu1fxwDlaCrY2KDRfs+//yHCdsSOeF4juz8Pz+6rMhLbdFPkzXRM4
+        r8a9G38O8ZEjfg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:message-id
+        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm1; bh=QyRY1SH/TcZCYCqQzwGfCLBox8YaW
+        x+EjaKhewFMq/s=; b=MNiyCRZaJ7w+0JHZW8F+zPkUKzRyGOHMrbod3X5SiZYKs
+        wA5Xj+PA2v4uXsvWEorNrvj82MHBXbDdwNgEflQh7YGJUHDT5shfqTRtfIVsYE0n
+        /b4rQgTI2u8TzW27e18UUMcDAC+HMhk2OjvZ9bfjOPHjHfnMSUoPQ6OrQFX1Z1U6
+        m84GKDV7kSOm3OQqCdkpk1bOpW+VYcxemxhgAv+K7/WwXavHI/1Ye8q9nSgQbt7M
+        kk0Ia3th8kTWOi27ng1zc4Xj56SPK0r/0a3udLJB81VUm5GxBpK6BiySl8CkY3Yb
+        n10bhvBfR+L8luCuvMmXKeopQnwrjRqU2XnQLODvg==
+X-ME-Sender: <xms:g67vXYoel1BAGTsg5iDOS_jPaGl0vrU5euYoodmCDDpXis6vguDHvg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudelfedgieejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkfggtgesthdtredttddttdenucfhrhhomheptehlhihsshgrucft
+    ohhsshcuoehhihesrghlhihsshgrrdhisheqnecukfhppeejledrvdefhedruddvfedrud
+    ehfeenucfrrghrrghmpehmrghilhhfrhhomhephhhisegrlhihshhsrgdrihhsnecuvehl
+    uhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:g67vXS7yJIqk4oiSO2_XD6hKzEA2mUFFtyY_hq6z_g_JW4pTpc2Vxw>
+    <xmx:g67vXYNeY-tnl4HZSy6j_lpgqfwXOafnkXpKiH9Ve8Zo2H5KiQvbHA>
+    <xmx:g67vXUP5-0mJChTthckGIKMo6Wb3gBHdc8tsSi1OJKbfBfr6xiY7tA>
+    <xmx:hK7vXdzuISu9OFCA9EOrt6RULcUdpOrqe3i1oQSVvqvIHWtVU-0Cqg>
+Received: from x220.qyliss.net (p4feb7b99.dip0.t-ipconnect.de [79.235.123.153])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6E1018005C;
+        Tue, 10 Dec 2019 09:41:07 -0500 (EST)
+Received: by x220.qyliss.net (Postfix, from userid 1000)
+        id 33C301455C4; Tue, 10 Dec 2019 14:41:04 +0000 (UTC)
+From:   Alyssa Ross <hi@alyssa.is>
+To:     linux-kernel@vger.kernel.org
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org, linux-crypto@vger.kernel.org,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        virtualization@lists.linux-foundation.org
+Subject: Bogus dependency for HW_RANDOM_VIRTIO with oldconfig
+Date:   Tue, 10 Dec 2019 14:41:04 +0000
+Message-ID: <87wob4tf9b.fsf@alyssa.is>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-CFilter-Loop: Reflected
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Recently there has been some work in reporting and fixing bugs in booting
-an allmodconfig kernel - here are a few examples:
+I'm new here and not sure if I'm contacting the correct people/groups --
+please point me in the right direction if not.  I don't know if the
+culprit here is Kconfig, the virtio Kconfig file, the hw_random Kconfig
+file, or some combination of those.
 
-https://lore.kernel.org/linux-edac/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com/T/#t
-https://lore.kernel.org/linux-ide/bdf02e03-86a1-3d35-2908-28187f504495@huawei.com/T/#t
-https://lore.kernel.org/netdev/CADYN=9LCPfbpwdTWKw03B22-y3Text=RWXW7XP7wJBHYsMOgrA@mail.gmail.com/
-https://sourceforge.net/p/openipmi/mailman/message/36871567/
+I believe I have discovered an issue with the order in which make
+oldconfig asks for virtio-related options, and would appreciate some
+advice on how to solve it:
 
-If we want to boot an allmodconfig kernel we may still want to force some
-loadable modules built-in, like UART drivers. Or just still turn off some
-configs.
+HW_RANDOM_VIRTIO=y depends on VIRTIO=y.  In my kernel, VIRTIO=y is
+selected by VIRITO_PCI=y, but when make oldconfig prompts for
+HW_RANDOM_VIRTIO, VIRTIO_PCI has not been prompted for yet, and so
+VIRTIO is still set to m.
 
-So add an option to add add fragments to an allmodconfig kernel.
+This means that it's not possible for me to set HW_RANDOM_VIRTIO=y using
+oldconfig without setting an VIRTIO-selecting option I don't need, but
+that is prompted for _before_ HW_RANDOM_VIRTIO.  One such option that I
+have identified so far is VOP.  It is prompted for before
+HW_RANDOM_VIRTIO, and so if I set VOP=y it is now possible to set
+HW_RANDOM_VIRTIO.
 
-Signed-off-by: John Garry <john.garry@huawei.com>
+When using menuconfig on a config file generated with oldconfig, that
+does not have HW_RANDOM_VIRTIO enabled, I am able to set HW_RANDOM=y and
+HW_RANDOM_VIRTIO=y, and after saving I can confirm that no other changes
+have been made to the configuration file.  This tells me that there's no
+need for a dependency on e.g. VOP, except when using oldconfig.
 
-diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-index 63c8565206a4..01697fb6dfbe 100755
---- a/scripts/kconfig/merge_config.sh
-+++ b/scripts/kconfig/merge_config.sh
-@@ -23,6 +23,7 @@ clean_up() {
- usage() {
- 	echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
- 	echo "  -h    display this help text"
-+	echo "  -a    use allmodconfig instead of alldefconfig"
- 	echo "  -m    only merge the fragments, do not execute the make command"
- 	echo "  -n    use allnoconfig instead of alldefconfig"
- 	echo "  -r    list redundant entries when merging fragments"
-@@ -41,6 +42,11 @@ CONFIG_PREFIX=${CONFIG_-CONFIG_}
- 
- while true; do
- 	case $1 in
-+	"-a")
-+		ALLTARGET=allmodconfig
-+		shift
-+		continue
-+		;;
- 	"-n")
- 		ALLTARGET=allnoconfig
- 		shift
-@@ -171,6 +177,7 @@ fi
- 
- # Use the merged file as the starting point for:
- # alldefconfig: Fills in any missing symbols with Kconfig default
-+# allmodconfig: Fills in any missing symbols with =m when loadable
- # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
- make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
- 
--- 
-2.17.1
+So, I think there is an ordering issue here, and that oldconfig
+should not prompt for HW_RANDOM_VIRTIO until after any option that might
+select VIRTIO=y.
 
+I would be happy to try to submit or test a patch to fix this, but I
+don't know where to go from here.
