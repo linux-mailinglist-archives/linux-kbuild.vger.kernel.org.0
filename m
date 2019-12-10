@@ -2,74 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D43F116E30
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Dec 2019 14:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E1F1187BF
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Dec 2019 13:12:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbfLINxu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Dec 2019 08:53:50 -0500
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:39903 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727436AbfLINxu (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Dec 2019 08:53:50 -0500
-Received: by mail-oi1-f169.google.com with SMTP id a67so6338826oib.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 Dec 2019 05:53:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=9xiMUcQREG3eByi2Ki5LpPjkeilehybucqh8gxwE7vo=;
-        b=CAoYfrMSeEX8nmCFMq8ixeSkDU2rUx7OIZQarGWLma2yFHhj3dwE270ri0Z2LKrP0s
-         w/NDL/C/WsUbezw8qnWAP/CbDhgGD4WP0gRBPzJ/bayKbpGNdUvxI7pMYr3WUVwdldam
-         fGcimhNPXob1wjJliIyYqSw/QqB6m/0avQD9U/eQz8F7Rxg1KsZzCgwCoQxX5p/Fg00/
-         xQr8ZiGuyRTsTJ+jNM696sxIjGDjOhFKfc41tsshcQbdHpK6Vfb9tokNeoL0B+ncZnAJ
-         uao8opA9DycNfIEL226tkVEtUfPfaTR3qk53bBbE38Gj+j78PVj5Vz4XdSh204XDqE/T
-         tR1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9xiMUcQREG3eByi2Ki5LpPjkeilehybucqh8gxwE7vo=;
-        b=bacLpaKC/JkNjCBsV9JnWL+UfZddQgMc+u67AiknD9YS4ETPAINdd+ew3PHXwFYjSZ
-         7eO/ZioMibIt6+EURRGrd36zvBbcf0DXxVlOvhG5mKVPmS2y917sFUhLX6ns2TIs1D0e
-         eZ3FzEphvwTWWsEyKkeu6Y8aAMIm0oCd7YfxT7tK4W4WlGyHBoht3ufc/+x+IjnIYImf
-         Vm1krJ3nlajIHLruN5SVnS91nWqQE6BGjC+ca42YD0XJ4oB68OLahJkGCrHck8oy0T72
-         hzd4TxN3CfzwAIUL+R920bjiuf0r1g8jjP5djbd3elI5LHG3x+DVpz8stH4+QnOl8Zs/
-         WTMw==
-X-Gm-Message-State: APjAAAWRwAR+eG4IHJiKwA0kCtUWzyM4w0CjKCcpG+U4FF/f3niHmLa/
-        hu0O9jNSJTmCLblVmQ/+j3TGHWHquH5JUxh6zsrSPdiZ
-X-Google-Smtp-Source: APXvYqwoHXky2vKVTrf1Z3QJpsCgC5K3SMGXchIBNv4RRzP8PSU4Bc7SGs4xpKlu4P7NzPTCeDivhgNEiQHfy2ZQvhI=
-X-Received: by 2002:a05:6808:681:: with SMTP id k1mr24833888oig.117.1575899629426;
- Mon, 09 Dec 2019 05:53:49 -0800 (PST)
+        id S1727332AbfLJMMr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Dec 2019 07:12:47 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7207 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727224AbfLJMMr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 10 Dec 2019 07:12:47 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 631AA4F7801B4F2AC67B;
+        Tue, 10 Dec 2019 20:12:45 +0800 (CST)
+Received: from localhost.localdomain (10.69.192.58) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 10 Dec 2019 20:12:39 +0800
+From:   John Garry <john.garry@huawei.com>
+To:     <masahiroy@kernel.org>
+CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <anders.roxell@linaro.org>, John Garry <john.garry@huawei.com>
+Subject: [PATCH] merge_config.sh: Add option for allmodconfig
+Date:   Tue, 10 Dec 2019 20:09:14 +0800
+Message-ID: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-References: <CAN19L9G-mFN-MTmw0FS3ZX4d1MjeoL2U+s-Fk7Qw9UYWn5Q1YA@mail.gmail.com>
- <CAK7LNAR2bJW8BMq3xbt2FuuC_=uGqFrDsL9jEw6H1B78wHG_yg@mail.gmail.com>
-In-Reply-To: <CAK7LNAR2bJW8BMq3xbt2FuuC_=uGqFrDsL9jEw6H1B78wHG_yg@mail.gmail.com>
-From:   Martin Galvan <omgalvan.86@gmail.com>
-Date:   Mon, 9 Dec 2019 10:53:38 -0300
-Message-ID: <CAN19L9Hbo_uthS3OYfu4oOjGrOoiZpq9MpKMrbM=f-t=LMec1Q@mail.gmail.com>
-Subject: Re: Some header files being ignored when calculating srcversion
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Rusty Russell <rusty@rustcorp.com.au>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-Originating-IP: [10.69.192.58]
+X-CFilter-Loop: Reflected
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-El lun., 9 dic. 2019 a las 3:05, Masahiro Yamada
-(<masahiroy@kernel.org>) escribi=C3=B3:
-> I also wondered about this design
-> when I looked into this code for the first time.
->
-> In my understanding, this is based on the assumption that
-> headers file from the same or sub- directories are highly
-> relevant to the module in question, while the header
-> files from other locations are less related.
+Recently there has been some work in reporting and fixing bugs in booting
+an allmodconfig kernel - here are a few examples:
 
-If we all agree that this behavior is not correct, I'll send a patch
-to remove that check.
+https://lore.kernel.org/linux-edac/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com/T/#t
+https://lore.kernel.org/linux-ide/bdf02e03-86a1-3d35-2908-28187f504495@huawei.com/T/#t
+https://lore.kernel.org/netdev/CADYN=9LCPfbpwdTWKw03B22-y3Text=RWXW7XP7wJBHYsMOgrA@mail.gmail.com/
+https://sourceforge.net/p/openipmi/mailman/message/36871567/
+
+If we want to boot an allmodconfig kernel we may still want to force some
+loadable modules built-in, like UART drivers. Or just still turn off some
+configs.
+
+So add an option to add add fragments to an allmodconfig kernel.
+
+Signed-off-by: John Garry <john.garry@huawei.com>
+
+diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+index 63c8565206a4..01697fb6dfbe 100755
+--- a/scripts/kconfig/merge_config.sh
++++ b/scripts/kconfig/merge_config.sh
+@@ -23,6 +23,7 @@ clean_up() {
+ usage() {
+ 	echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
+ 	echo "  -h    display this help text"
++	echo "  -a    use allmodconfig instead of alldefconfig"
+ 	echo "  -m    only merge the fragments, do not execute the make command"
+ 	echo "  -n    use allnoconfig instead of alldefconfig"
+ 	echo "  -r    list redundant entries when merging fragments"
+@@ -41,6 +42,11 @@ CONFIG_PREFIX=${CONFIG_-CONFIG_}
+ 
+ while true; do
+ 	case $1 in
++	"-a")
++		ALLTARGET=allmodconfig
++		shift
++		continue
++		;;
+ 	"-n")
+ 		ALLTARGET=allnoconfig
+ 		shift
+@@ -171,6 +177,7 @@ fi
+ 
+ # Use the merged file as the starting point for:
+ # alldefconfig: Fills in any missing symbols with Kconfig default
++# allmodconfig: Fills in any missing symbols with =m when loadable
+ # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
+ make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+ 
+-- 
+2.17.1
+
