@@ -2,47 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C834411B356
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2019 16:42:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F10711BBE3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Dec 2019 19:40:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388638AbfLKPl4 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 11 Dec 2019 10:41:56 -0500
-Received: from mailout03.3bbmail.com ([110.164.252.196]:34482 "EHLO
-        mailout03.3bb.co.th" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387890AbfLKPlx (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Dec 2019 10:41:53 -0500
-X-Greylist: delayed 1352 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Dec 2019 10:41:45 EST
-Authentication-Results: 3bb.co.th;
-        spf=fail smtp.mailfrom=infoccfoundation@amazon.com
-Received: from appserv (mx-ll-110.164.149-9.static.3bb.co.th [110.164.149.9] (may be forged))
-        by mailout03.3bb.co.th (8.16.0.27/8.16.0.27) with ESMTP id xBBFFIBO021534;
-        Wed, 11 Dec 2019 22:15:18 +0700
-Message-ID: <41452-220191231115152890@appserv>
-To:     "a" <skyteamsbiz@gmail.com>
-Reply-To: "CCULVERT FOUNDATION" <skyteamsbiz@gmail.com>
-From:   "CCULVERT FOUNDATION" <infoccfoundation@amazon.com>
-Subject: Mein letzter Wunsch.
-Date:   Wed, 11 Dec 2019 22:15:28 +0700
+        id S1729676AbfLKSkm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Dec 2019 13:40:42 -0500
+Received: from foss.arm.com ([217.140.110.172]:43022 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729522AbfLKSkl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 11 Dec 2019 13:40:41 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 091551045;
+        Wed, 11 Dec 2019 10:40:41 -0800 (PST)
+Received: from arrakis.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4461F3F6CF;
+        Wed, 11 Dec 2019 10:40:39 -0800 (PST)
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        Richard Earnshaw <Richard.Earnshaw@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Andrey Konovalov <andreyknvl@google.com>, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org,
+        Vladimir Murzin <vladimir.murzin@arm.com>
+Subject: [PATCH 02/22] kbuild: Add support for 'as-instr' to be used in Kconfig files
+Date:   Wed, 11 Dec 2019 18:40:07 +0000
+Message-Id: <20191211184027.20130-3-catalin.marinas@arm.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191211184027.20130-1-catalin.marinas@arm.com>
+References: <20191211184027.20130-1-catalin.marinas@arm.com>
 MIME-Version: 1.0
-Content-type: text/plain; charset=windows-874
-Content-Transfer-Encoding: 8BIT
-X-Proofpoint-SPF-Result: fail
-X-Proofpoint-SPF-Record: v=spf1 include:spf1.amazon.com include:spf2.amazon.com
- include:amazonses.com -all
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-11-25_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=40 suspectscore=1 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=433
- adultscore=0 classifier=spam adjust=40 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-1911260048
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Wenn Sie sich für die Finanzierung der STIFTUNG interessieren, schreiben Sie bitte heute über meinen Anwalt zurück
-Grüße,
-Mrs. Cindy Culvert.
-skyteamsbiz@gmail.com
+Similar to 'cc-option' or 'ld-option', it is occasionally necessary to
+check whether the assembler supports certain ISA extensions. In the
+arm64 code we currently do this in Makefile with an additional define:
 
+lseinstr := $(call as-instr,.arch_extension lse,-DCONFIG_AS_LSE=1)
+
+Add the 'as-instr' option so that it can be used in Kconfig directly:
+
+	def_bool $(as-instr,.arch_extension lse)
+
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: linux-kbuild@vger.kernel.org
+Reviewed-by: Vladimir Murzin <vladimir.murzin@arm.com>
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+---
+ scripts/Kconfig.include | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index d4adfbe42690..9d07e59cbdf7 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -31,6 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /de
+ # Return y if the linker supports <flag>, n otherwise
+ ld-option = $(success,$(LD) -v $(1))
+ 
++# $(as-instr,<instr>)
++# Return y if the assembler supports <instr>, n otherwise
++as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler -o /dev/null -)
++
+ # check if $(CC) and $(LD) exist
+ $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
+ $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
