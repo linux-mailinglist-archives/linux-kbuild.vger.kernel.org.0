@@ -2,104 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F82111C51D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2019 06:04:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE1811C57B
+	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2019 06:32:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725980AbfLLFEP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Dec 2019 00:04:15 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:35391 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbfLLFEP (ORCPT
+        id S1726705AbfLLFbQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 12 Dec 2019 00:31:16 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:63787 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725980AbfLLFbQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Dec 2019 00:04:15 -0500
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id xBC5404b010658;
-        Thu, 12 Dec 2019 14:04:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xBC5404b010658
+        Thu, 12 Dec 2019 00:31:16 -0500
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id xBC5UtvP010862;
+        Thu, 12 Dec 2019 14:30:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xBC5UtvP010862
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576127041;
-        bh=f0mX96dUj+4SSO7tlGuJjbJ2RUgELAxn1iGgSDGDbbA=;
+        s=dec2015msa; t=1576128656;
+        bh=yoxmpqDe2x6QTk+OCI2TnHYO1f9S6bQL94maOXXu9Cg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mZ1JIZHe8zix2l9FjfNAniHgyI9oSvauhAcPoqTxKT2A4OdfQ6LoL/v8zbDHIMxYj
-         mhDcjoSh0vEu+LtXS+MtkYAcpX3jOyRNJlre+cXE2vx+SKR622V+/EdoCDiv6L9Czp
-         dtHzu1j68lvJTCpkBrcMBvfNBGz2s/SYZeCDlVHU3+Mi3/LVg1RrQyRG37YV2D6gEs
-         7MSFfyhR+rJYSoK/A9Tros/69wod/qLfHR/Wy8Lu7G3yKos64Goxe3qgV5XICmBHu5
-         BzgUVnck5bQ8tGq7xoCugzdLckDKpcc1wceT248Z9mjHWiNNHBELC/vO2+O8mLC1F/
-         GEeLkj0rANPTw==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id x4so665004vsx.10;
-        Wed, 11 Dec 2019 21:04:01 -0800 (PST)
-X-Gm-Message-State: APjAAAXMPwaobBoE4sd8jkEacqCsZ7ZlT2dTD2kKyttmCH2x6FplGIYx
-        O3UTPnU1/JCCWya6SMPJgRVKP55G6i6Ym7Q36LE=
-X-Google-Smtp-Source: APXvYqwITbfxXfryxfdFs+wuDBH6lMreA653GFfyRlQshqBOwFIPRjFb2inNIzS8YEl1Z3dRS/b2hoN5oMNCFLezUXA=
-X-Received: by 2002:a67:7ac4:: with SMTP id v187mr5603811vsc.181.1576127040046;
- Wed, 11 Dec 2019 21:04:00 -0800 (PST)
+        b=BFMJ0fqyvkgSQU6XTqtRTdjRVMGf2K4LKdULuCjmxrJWmEHbKkLTL08Jq3uyKFVWQ
+         r4z0QcWjdD2c6KDnie9ikxQRa1XFzD6r+OKJRJi2GlzbLkLCA2OFTq483TGWTRxdev
+         xYWai3NjWpSNEvWhjJjrKsz3PgzeKZ5V1fstOAV2RAjbvGY3qRGLQA3L+7GLUrCoO7
+         oE6znrbosrNWUtV+Jt3KUpR0KxJe8isMHFxHkrF7i4Ozq9Y2dV5rOc1ZJTOxGPzWfg
+         DHhHtSHkeZsCF1CNMGn79CYhEJ4hDt93Rwr+rBYcydoDo9cZ+0ReAF239Y55rpytp2
+         8FAz7fY+UmymA==
+X-Nifty-SrcIP: [209.85.221.182]
+Received: by mail-vk1-f182.google.com with SMTP id s62so55073vkb.10;
+        Wed, 11 Dec 2019 21:30:55 -0800 (PST)
+X-Gm-Message-State: APjAAAU4yAC9S9XsgqNCoyD1w/Dy1qZM/z4hhi6mh/CXHcSSsrCuFMqh
+        Od1BN49kZ1ME+CzCdZsM6Lqbwnt5nG21/LirURU=
+X-Google-Smtp-Source: APXvYqzyAz3nSzfmsWApFSr+H7lqWz4keVsUzY5ov/PBG2Gnw3VZND0u41kQMEzVp4JKD2lPAcUKpZx5ND+FxHbatqM=
+X-Received: by 2002:a1f:2e4a:: with SMTP id u71mr3546169vku.96.1576128654360;
+ Wed, 11 Dec 2019 21:30:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20191211184027.20130-1-catalin.marinas@arm.com> <20191211184027.20130-3-catalin.marinas@arm.com>
-In-Reply-To: <20191211184027.20130-3-catalin.marinas@arm.com>
+References: <87wob4tf9b.fsf@alyssa.is>
+In-Reply-To: <87wob4tf9b.fsf@alyssa.is>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 12 Dec 2019 14:03:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARR=DjdnZdu=L+0H8ALr4XJNpVbcRTOz_sVZdZpcM0pdQ@mail.gmail.com>
-Message-ID: <CAK7LNARR=DjdnZdu=L+0H8ALr4XJNpVbcRTOz_sVZdZpcM0pdQ@mail.gmail.com>
-Subject: Re: [PATCH 02/22] kbuild: Add support for 'as-instr' to be used in
- Kconfig files
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Szabolcs Nagy <szabolcs.nagy@arm.com>,
-        Richard Earnshaw <Richard.Earnshaw@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Andrey Konovalov <andreyknvl@google.com>, linux-mm@kvack.org,
-        linux-arch <linux-arch@vger.kernel.org>,
+Date:   Thu, 12 Dec 2019 14:30:18 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ2+=jCO5SUpB-C8NZHODLVXs3SJ2qyYR9J+OiU_+1iAg@mail.gmail.com>
+Message-ID: <CAK7LNAQ2+=jCO5SUpB-C8NZHODLVXs3SJ2qyYR9J+OiU_+1iAg@mail.gmail.com>
+Subject: Re: Bogus dependency for HW_RANDOM_VIRTIO with oldconfig
+To:     Alyssa Ross <hi@alyssa.is>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Vladimir Murzin <vladimir.murzin@arm.com>
+        linux-crypto@vger.kernel.org,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        virtualization@lists.linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 3:40 AM Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Tue, Dec 10, 2019 at 11:41 PM Alyssa Ross <hi@alyssa.is> wrote:
 >
-> Similar to 'cc-option' or 'ld-option', it is occasionally necessary to
-> check whether the assembler supports certain ISA extensions. In the
-> arm64 code we currently do this in Makefile with an additional define:
+> I'm new here and not sure if I'm contacting the correct people/groups --
+> please point me in the right direction if not.  I don't know if the
+> culprit here is Kconfig, the virtio Kconfig file, the hw_random Kconfig
+> file, or some combination of those.
 >
-> lseinstr := $(call as-instr,.arch_extension lse,-DCONFIG_AS_LSE=1)
+> I believe I have discovered an issue with the order in which make
+> oldconfig asks for virtio-related options, and would appreciate some
+> advice on how to solve it:
 >
-> Add the 'as-instr' option so that it can be used in Kconfig directly:
+> HW_RANDOM_VIRTIO=y depends on VIRTIO=y.  In my kernel, VIRTIO=y is
+> selected by VIRITO_PCI=y, but when make oldconfig prompts for
+> HW_RANDOM_VIRTIO, VIRTIO_PCI has not been prompted for yet, and so
+> VIRTIO is still set to m.
 >
->         def_bool $(as-instr,.arch_extension lse)
+> This means that it's not possible for me to set HW_RANDOM_VIRTIO=y using
+> oldconfig without setting an VIRTIO-selecting option I don't need, but
+> that is prompted for _before_ HW_RANDOM_VIRTIO.  One such option that I
+> have identified so far is VOP.  It is prompted for before
+> HW_RANDOM_VIRTIO, and so if I set VOP=y it is now possible to set
+> HW_RANDOM_VIRTIO.
 >
-> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
-> Cc: linux-kbuild@vger.kernel.org
-> Reviewed-by: Vladimir Murzin <vladimir.murzin@arm.com>
-> Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
-> ---
+> When using menuconfig on a config file generated with oldconfig, that
+> does not have HW_RANDOM_VIRTIO enabled, I am able to set HW_RANDOM=y and
+> HW_RANDOM_VIRTIO=y, and after saving I can confirm that no other changes
+> have been made to the configuration file.  This tells me that there's no
+> need for a dependency on e.g. VOP, except when using oldconfig.
 
-Please feel fee to apply this to arm64 tree.
-Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+OK, you are right.
 
->  scripts/Kconfig.include | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> index d4adfbe42690..9d07e59cbdf7 100644
-> --- a/scripts/Kconfig.include
-> +++ b/scripts/Kconfig.include
-> @@ -31,6 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /de
->  # Return y if the linker supports <flag>, n otherwise
->  ld-option = $(success,$(LD) -v $(1))
->
-> +# $(as-instr,<instr>)
-> +# Return y if the assembler supports <instr>, n otherwise
-> +as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler -o /dev/null -)
-> +
->  # check if $(CC) and $(LD) exist
->  $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
->  $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
+Actually, the oldconfig restarts when it finds a newly-visible option.
+For example, when VIRTIO is changed from n to y,
+oldconfig restarts the menu and shows a prompt for HW_RANDOM_VIRTIO.
 
+But, this does not happen when VIRTIO is changed from m to y.
+
+> So, I think there is an ordering issue here, and that oldconfig
+> should not prompt for HW_RANDOM_VIRTIO until after any option that might
+> select VIRTIO=y.
+>
+> I would be happy to try to submit or test a patch to fix this, but I
+> don't know where to go from here.
+
+Perhaps check_conf() could be fixed, though I have not looked into it yet.
 
 
 -- 
