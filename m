@@ -2,106 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AE1811C57B
-	for <lists+linux-kbuild@lfdr.de>; Thu, 12 Dec 2019 06:32:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5455E11DE16
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2019 07:03:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726705AbfLLFbQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 12 Dec 2019 00:31:16 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:63787 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbfLLFbQ (ORCPT
+        id S1731552AbfLMGDw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Dec 2019 01:03:52 -0500
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:49205 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727474AbfLMGDw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 12 Dec 2019 00:31:16 -0500
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id xBC5UtvP010862;
-        Thu, 12 Dec 2019 14:30:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xBC5UtvP010862
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576128656;
-        bh=yoxmpqDe2x6QTk+OCI2TnHYO1f9S6bQL94maOXXu9Cg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BFMJ0fqyvkgSQU6XTqtRTdjRVMGf2K4LKdULuCjmxrJWmEHbKkLTL08Jq3uyKFVWQ
-         r4z0QcWjdD2c6KDnie9ikxQRa1XFzD6r+OKJRJi2GlzbLkLCA2OFTq483TGWTRxdev
-         xYWai3NjWpSNEvWhjJjrKsz3PgzeKZ5V1fstOAV2RAjbvGY3qRGLQA3L+7GLUrCoO7
-         oE6znrbosrNWUtV+Jt3KUpR0KxJe8isMHFxHkrF7i4Ozq9Y2dV5rOc1ZJTOxGPzWfg
-         DHhHtSHkeZsCF1CNMGn79CYhEJ4hDt93Rwr+rBYcydoDo9cZ+0ReAF239Y55rpytp2
-         8FAz7fY+UmymA==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id s62so55073vkb.10;
-        Wed, 11 Dec 2019 21:30:55 -0800 (PST)
-X-Gm-Message-State: APjAAAU4yAC9S9XsgqNCoyD1w/Dy1qZM/z4hhi6mh/CXHcSSsrCuFMqh
-        Od1BN49kZ1ME+CzCdZsM6Lqbwnt5nG21/LirURU=
-X-Google-Smtp-Source: APXvYqzyAz3nSzfmsWApFSr+H7lqWz4keVsUzY5ov/PBG2Gnw3VZND0u41kQMEzVp4JKD2lPAcUKpZx5ND+FxHbatqM=
-X-Received: by 2002:a1f:2e4a:: with SMTP id u71mr3546169vku.96.1576128654360;
- Wed, 11 Dec 2019 21:30:54 -0800 (PST)
+        Fri, 13 Dec 2019 01:03:52 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0Tkm5YRB_1576217015;
+Received: from ali-6c96cfdd1403.local(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0Tkm5YRB_1576217015)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Fri, 13 Dec 2019 14:03:46 +0800
+Subject: Re: [RFC PATCH v6 0/7] Speed booting by sorting ORC unwind tables at
+ build time
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org
+Cc:     "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+References: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
+From:   Shile Zhang <shile.zhang@linux.alibaba.com>
+Message-ID: <7578e83f-0e90-88c3-e07d-4719e907e93a@linux.alibaba.com>
+Date:   Fri, 13 Dec 2019 14:03:52 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-References: <87wob4tf9b.fsf@alyssa.is>
-In-Reply-To: <87wob4tf9b.fsf@alyssa.is>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 12 Dec 2019 14:30:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ2+=jCO5SUpB-C8NZHODLVXs3SJ2qyYR9J+OiU_+1iAg@mail.gmail.com>
-Message-ID: <CAK7LNAQ2+=jCO5SUpB-C8NZHODLVXs3SJ2qyYR9J+OiU_+1iAg@mail.gmail.com>
-Subject: Re: Bogus dependency for HW_RANDOM_VIRTIO with oldconfig
-To:     Alyssa Ross <hi@alyssa.is>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-crypto@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        virtualization@lists.linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 10, 2019 at 11:41 PM Alyssa Ross <hi@alyssa.is> wrote:
+Hi Peter, Ingo,
+
+Sorry for ping,
+but how about this series? or what can I do next?
+
+Thanks!
+
+On 2019/12/4 08:46, Shile Zhang wrote:
+> Hi,
 >
-> I'm new here and not sure if I'm contacting the correct people/groups --
-> please point me in the right direction if not.  I don't know if the
-> culprit here is Kconfig, the virtio Kconfig file, the hw_random Kconfig
-> file, or some combination of those.
+> Sorry, update for compile error fix, reported by Intel's kbuild test robot.
+> Any comments or suggestions are welcome!
 >
-> I believe I have discovered an issue with the order in which make
-> oldconfig asks for virtio-related options, and would appreciate some
-> advice on how to solve it:
+> Thanks!
 >
-> HW_RANDOM_VIRTIO=y depends on VIRTIO=y.  In my kernel, VIRTIO=y is
-> selected by VIRITO_PCI=y, but when make oldconfig prompts for
-> HW_RANDOM_VIRTIO, VIRTIO_PCI has not been prompted for yet, and so
-> VIRTIO is still set to m.
+> Changelog:
+> ==========
+> v5->v6:
+> - fix compile error reported by kbuild test robot;
 >
-> This means that it's not possible for me to set HW_RANDOM_VIRTIO=y using
-> oldconfig without setting an VIRTIO-selecting option I don't need, but
-> that is prompted for _before_ HW_RANDOM_VIRTIO.  One such option that I
-> have identified so far is VOP.  It is prompted for before
-> HW_RANDOM_VIRTIO, and so if I set VOP=y it is now possible to set
-> HW_RANDOM_VIRTIO.
+> v4->v5:
+> - replace sort with qsort, suggested by Andy Lutomirski <luto@amacapital.net>;
+> - add error handling in link scripts;
+> - fixed some review findings;
+> https://lore.kernel.org/lkml/20191128110206.2107-1-shile.zhang@linux.alibaba.com/
 >
-> When using menuconfig on a config file generated with oldconfig, that
-> does not have HW_RANDOM_VIRTIO enabled, I am able to set HW_RANDOM=y and
-> HW_RANDOM_VIRTIO=y, and after saving I can confirm that no other changes
-> have been made to the configuration file.  This tells me that there's no
-> need for a dependency on e.g. VOP, except when using oldconfig.
-
-OK, you are right.
-
-Actually, the oldconfig restarts when it finds a newly-visible option.
-For example, when VIRTIO is changed from n to y,
-oldconfig restarts the menu and shows a prompt for HW_RANDOM_VIRTIO.
-
-But, this does not happen when VIRTIO is changed from m to y.
-
-> So, I think there is an ordering issue here, and that oldconfig
-> should not prompt for HW_RANDOM_VIRTIO until after any option that might
-> select VIRTIO=y.
+> v3->v4:
+> - Code refactored for Peter's review findings and suggestions.
+> https://lore.kernel.org/lkml/20191115164539.57930-1-shile.zhang@linux.alibaba.com/
 >
-> I would be happy to try to submit or test a patch to fix this, but I
-> don't know where to go from here.
+> v2->v3:
+> - Discard new added sortorctable tool and related Kconfig changes.
+> - Refactored sortextable, makes it more readable and extendable.
+> - Rename 'sortextable' to 'sorttable', for more kernel tables extend.
+> - Add ORC unwind tables sort into sorttable.
+> - Remove the runtime ORC tables sort.
+> https://lore.kernel.org/lkml/20191115064750.47888-1-shile.zhang@linux.alibaba.com/
+>
+> v1->v2:
+> - Removed new added Kconfig and runtime sort code, advised by Josh Poimboeuf.
+> - Some minor refactoring.
+> https://lore.kernel.org/lkml/20191108071108.72132-1-shile.zhang@linux.alibaba.com/
+>
+> v1:
+> - Added a new sortorctable tool to sort ORC unwind tables at build time,
+>    same as sortextable.
+> - Add a new Kconfigure to control if ORC unwind tables sort at build
+>    time.
+> https://lore.kernel.org/lkml/20191107143205.206606-1-shile.zhang@linux.alibaba.com/
+>
+> Shile Zhang (7):
+>    scripts/sortextable: Rewrite error/success handling
+>    scripts/sortextable: kernel coding style formating
+>    scripts/sortextable: Remove dead code
+>    scripts/sortextable: refactor do_func() function
+>    scripts/sorttable: rename sortextable to sorttable
+>    scripts/sorttable: Add ORC unwind tables sort concurrently
+>    x86/unwind/orc: remove run-time ORC unwind tables sort
+>
+>   arch/arc/Kconfig                       |   2 +-
+>   arch/arm/Kconfig                       |   2 +-
+>   arch/arm64/Kconfig                     |   2 +-
+>   arch/microblaze/Kconfig                |   2 +-
+>   arch/mips/Kconfig                      |   2 +-
+>   arch/parisc/Kconfig                    |   2 +-
+>   arch/powerpc/Kconfig                   |   2 +-
+>   arch/s390/Kconfig                      |   2 +-
+>   arch/x86/Kconfig                       |   2 +-
+>   arch/x86/kernel/unwind_orc.c           |   8 +-
+>   arch/xtensa/Kconfig                    |   2 +-
+>   init/Kconfig                           |   2 +-
+>   scripts/.gitignore                     |   2 +-
+>   scripts/Makefile                       |  13 +-
+>   scripts/link-vmlinux.sh                |  13 +-
+>   scripts/sortextable.h                  | 209 --------------
+>   scripts/{sortextable.c => sorttable.c} | 305 +++++++++-----------
+>   scripts/sorttable.h                    | 380 +++++++++++++++++++++++++
+>   18 files changed, 557 insertions(+), 395 deletions(-)
+>   delete mode 100644 scripts/sortextable.h
+>   rename scripts/{sortextable.c => sorttable.c} (67%)
+>   create mode 100644 scripts/sorttable.h
+>
 
-Perhaps check_conf() could be fixed, though I have not looked into it yet.
-
-
--- 
-Best Regards
-Masahiro Yamada
