@@ -2,127 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5455E11DE16
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2019 07:03:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA4A311E168
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Dec 2019 11:02:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731552AbfLMGDw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Dec 2019 01:03:52 -0500
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:49205 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727474AbfLMGDw (ORCPT
+        id S1725989AbfLMKCu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Dec 2019 05:02:50 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:38302 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfLMKCt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Dec 2019 01:03:52 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R991e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0Tkm5YRB_1576217015;
-Received: from ali-6c96cfdd1403.local(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0Tkm5YRB_1576217015)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 13 Dec 2019 14:03:46 +0800
-Subject: Re: [RFC PATCH v6 0/7] Speed booting by sorting ORC unwind tables at
- build time
-To:     Peter Zijlstra <peterz@infradead.org>,
+        Fri, 13 Dec 2019 05:02:49 -0500
+Received: by mail-wm1-f66.google.com with SMTP id u2so895918wmc.3;
+        Fri, 13 Dec 2019 02:02:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=heH4dTiMUIFooIBwaQ6i3JzjaVeq4HwrKlA/mTsplxw=;
+        b=Jm5yq2Itp4/ZeHmuxdzZvHbSZ3YG7F4690gjxj4AzA72Zh/1ofkI3g/3ya8TJbJYaR
+         Pp/vTUgbCtdC56b/ADygMA3rv797YDBUNTUlq9mRWNHru1BTDJQBXOSUFYD9sbTCmuYX
+         eT1SnuZ5pQgn/jqtPC0HCQgq5VgjrwbvdaiwvJb1hGtiA0tBJbTf7bwLbfjvot2iwc96
+         asYkjor8KMLad5V1f268yV+Xaq251plC7i9yX+ERKYfFWE0Jc+QgytoYmZqySM5bzDIE
+         MafrxRk+x7lF9k+ld2gHyu4SUyj1ncRPhGzx7UxOYOvRZs2iF7IJ5Qna9QVUdL1LKjhe
+         yswQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=heH4dTiMUIFooIBwaQ6i3JzjaVeq4HwrKlA/mTsplxw=;
+        b=oZV6JKwyCEmseRyWb9sIClVIZ+KJA5c2SxQ1eJYWCIKamyirvGMwdafuLd/m6AHXlY
+         4qJTCcOXT8+XbEwiaacUwZ3V5Jtcaltz6tiPXWk8XfZQgDT/K4XOR8iMfNfuD3wn90MG
+         V7sQEyyCNR/lanaWZyDk6QuCTCGXdAjHcqXeyWpu/1fSJHdjU9DjvHlf/14VLMccyah4
+         9LY+rBplfASWi2Fv7XG9UFj+J/rASmUzd3zm7HXtG21DJghzEm0LavktQoD4GutT5A/T
+         PPCEU7ClAEic8jOSNXOxWbhHbuutQRjtA++LyEIbkzQSGLIkV3gjsJcY6+8peU/JGj11
+         UunQ==
+X-Gm-Message-State: APjAAAXqCCzO5LgHqsxlvgzsIzeUBP2amIH2VwzBZ+8OC4EDctPirH+o
+        RPsy5GvR2fGQEQ6QN9kPuWs=
+X-Google-Smtp-Source: APXvYqxZeF+YTn/qxypgmq5Iun03Cc2jLm0jlGtv3L2kyb4EOrVqqwrxdaKFTA+sRVn2Qyzk26yLwA==
+X-Received: by 2002:a1c:9cce:: with SMTP id f197mr11699117wme.133.1576231367445;
+        Fri, 13 Dec 2019 02:02:47 -0800 (PST)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id r68sm4508488wmr.43.2019.12.13.02.02.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2019 02:02:46 -0800 (PST)
+Date:   Fri, 13 Dec 2019 11:02:44 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Shile Zhang <shile.zhang@linux.alibaba.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
         Josh Poimboeuf <jpoimboe@redhat.com>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org
-Cc:     "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
+        Andy Lutomirski <luto@amacapital.net>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org,
         linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH v6 0/7] Speed booting by sorting ORC unwind tables at
+ build time
+Message-ID: <20191213100244.GB113121@gmail.com>
 References: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
-From:   Shile Zhang <shile.zhang@linux.alibaba.com>
-Message-ID: <7578e83f-0e90-88c3-e07d-4719e907e93a@linux.alibaba.com>
-Date:   Fri, 13 Dec 2019 14:03:52 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20191204004633.88660-1-shile.zhang@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Peter, Ingo,
 
-Sorry for ping,
-but how about this series? or what can I do next?
+* Shile Zhang <shile.zhang@linux.alibaba.com> wrote:
 
-Thanks!
-
-On 2019/12/4 08:46, Shile Zhang wrote:
 > Hi,
->
+> 
 > Sorry, update for compile error fix, reported by Intel's kbuild test robot.
 > Any comments or suggestions are welcome!
->
-> Thanks!
->
-> Changelog:
-> ==========
-> v5->v6:
-> - fix compile error reported by kbuild test robot;
->
-> v4->v5:
-> - replace sort with qsort, suggested by Andy Lutomirski <luto@amacapital.net>;
-> - add error handling in link scripts;
-> - fixed some review findings;
-> https://lore.kernel.org/lkml/20191128110206.2107-1-shile.zhang@linux.alibaba.com/
->
-> v3->v4:
-> - Code refactored for Peter's review findings and suggestions.
-> https://lore.kernel.org/lkml/20191115164539.57930-1-shile.zhang@linux.alibaba.com/
->
-> v2->v3:
-> - Discard new added sortorctable tool and related Kconfig changes.
-> - Refactored sortextable, makes it more readable and extendable.
-> - Rename 'sortextable' to 'sorttable', for more kernel tables extend.
-> - Add ORC unwind tables sort into sorttable.
-> - Remove the runtime ORC tables sort.
-> https://lore.kernel.org/lkml/20191115064750.47888-1-shile.zhang@linux.alibaba.com/
->
-> v1->v2:
-> - Removed new added Kconfig and runtime sort code, advised by Josh Poimboeuf.
-> - Some minor refactoring.
-> https://lore.kernel.org/lkml/20191108071108.72132-1-shile.zhang@linux.alibaba.com/
->
-> v1:
-> - Added a new sortorctable tool to sort ORC unwind tables at build time,
->    same as sortextable.
-> - Add a new Kconfigure to control if ORC unwind tables sort at build
->    time.
-> https://lore.kernel.org/lkml/20191107143205.206606-1-shile.zhang@linux.alibaba.com/
->
-> Shile Zhang (7):
->    scripts/sortextable: Rewrite error/success handling
->    scripts/sortextable: kernel coding style formating
->    scripts/sortextable: Remove dead code
->    scripts/sortextable: refactor do_func() function
->    scripts/sorttable: rename sortextable to sorttable
->    scripts/sorttable: Add ORC unwind tables sort concurrently
->    x86/unwind/orc: remove run-time ORC unwind tables sort
->
->   arch/arc/Kconfig                       |   2 +-
->   arch/arm/Kconfig                       |   2 +-
->   arch/arm64/Kconfig                     |   2 +-
->   arch/microblaze/Kconfig                |   2 +-
->   arch/mips/Kconfig                      |   2 +-
->   arch/parisc/Kconfig                    |   2 +-
->   arch/powerpc/Kconfig                   |   2 +-
->   arch/s390/Kconfig                      |   2 +-
->   arch/x86/Kconfig                       |   2 +-
->   arch/x86/kernel/unwind_orc.c           |   8 +-
->   arch/xtensa/Kconfig                    |   2 +-
->   init/Kconfig                           |   2 +-
->   scripts/.gitignore                     |   2 +-
->   scripts/Makefile                       |  13 +-
->   scripts/link-vmlinux.sh                |  13 +-
->   scripts/sortextable.h                  | 209 --------------
->   scripts/{sortextable.c => sorttable.c} | 305 +++++++++-----------
->   scripts/sorttable.h                    | 380 +++++++++++++++++++++++++
->   18 files changed, 557 insertions(+), 395 deletions(-)
->   delete mode 100644 scripts/sortextable.h
->   rename scripts/{sortextable.c => sorttable.c} (67%)
->   create mode 100644 scripts/sorttable.h
->
 
+Could you please send a delta patch to fix these new build warnings on 
+64-bit allnoconfig kernels:
+
+  arch/x86/kernel/unwind_orc.c:210:12: warning: ‘orc_sort_cmp’ defined but not used [-Wunused-function]
+  arch/x86/kernel/unwind_orc.c:190:13: warning: ‘orc_sort_swap’ defined but not used [-Wunused-function]
+
+Thanks,
+
+	Ingo
