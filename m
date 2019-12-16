@@ -2,52 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEB0011FDAB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Dec 2019 05:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1DCF11FDAF
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Dec 2019 05:53:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbfLPEuA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 15 Dec 2019 23:50:00 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:36044 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbfLPEuA (ORCPT
+        id S1726437AbfLPEvq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 15 Dec 2019 23:51:46 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:21257 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726739AbfLPEvq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 15 Dec 2019 23:50:00 -0500
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id xBG4nstr010686;
-        Mon, 16 Dec 2019 13:49:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com xBG4nstr010686
+        Sun, 15 Dec 2019 23:51:46 -0500
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id xBG4pRWG032169;
+        Mon, 16 Dec 2019 13:51:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xBG4pRWG032169
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576471795;
-        bh=5/7EtpYysHXSpkosM3HRCkSpxTMVEjj1QJPpob2x148=;
+        s=dec2015msa; t=1576471888;
+        bh=6LB9JX5u9pNojk2+Km2rVNYq+Xn8ESikPl8Zon4CPgg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=UkWkxvBEaIfR2P9nc9Rn4RGtqDGe+VvgoxSnvfANZoYzMkLtcXjfVVK/fsVDHDeEu
-         3vBMLZROVuiftulpUeCgZR09Q8RvCs/cMORXilEs/HGgZlVue7Wq2/2li6PC3fuwDu
-         IYUpa2xE99GixAgVU+dKlmC/JUp35VOIuBSvZ/MCWZyghCJC6hUN/mkDZbYXr3+nG7
-         KVc/CE7i0PI6DlzAVsSKBYJGbbqnAVPYyoLPz3zHusfRdd6sJwIEgC5Dso3Ki98BsS
-         C35t5zMOShRJLfakDWjhn4dwOdPP+/9/I38DgOjNO1lNs4C+COcjAfAgljjU+obR4K
-         kUM/oU15dD1Ow==
-X-Nifty-SrcIP: [209.85.221.178]
-Received: by mail-vk1-f178.google.com with SMTP id d17so901295vke.5;
-        Sun, 15 Dec 2019 20:49:54 -0800 (PST)
-X-Gm-Message-State: APjAAAWBhP2JcZpO00qx/vI0gr/QvxOtiUOx8xghPTCPIP/Hn6vpd4vA
-        uXgIomOFuZeXj3CyZWmrfdqaoZeZ1nP5VlG0S7I=
-X-Google-Smtp-Source: APXvYqz35kOLUZ2z+OuiTtbn2CHp56wPlFE2bzoPB78j9pXor4kPi41IeSe4cHug5H0b0brmIToB41xZkiyYqevu5m0=
-X-Received: by 2002:a1f:72c3:: with SMTP id n186mr10233164vkc.12.1576471793202;
- Sun, 15 Dec 2019 20:49:53 -0800 (PST)
+        b=e7VDOjpeBricUP/3td5eqDEasGLNdbXilA3H5/tSY2XaddDGa6w5dXE23R5YfXowN
+         nULVPfiXSjY1pIkRk+PECpHejIPdI69wfkWO0AnzZL8mc//bAF1Jm6FMGkeu90CrdM
+         rj+zAHcZ5LJANvySkZHwyBwCEfeb4fPBfSO9AcEeshXYbkmP2+raeJWgq/UNCwrbZw
+         0SWOsZScyFPfk+zA9aTfNj6LvnqELtHisjWEfeJFePe+qYhlaziZXXvyj83E7hjYA6
+         kPzKAX6BLxmvvcu3iDzU4Ss1qZoDy519gNAkhNMODphH4Rc6OfHtR2CWyzyGsOYUZG
+         H8my0ikK1YaVg==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id p6so3313589vsj.11;
+        Sun, 15 Dec 2019 20:51:28 -0800 (PST)
+X-Gm-Message-State: APjAAAXj0p0nQm1Y4X9VSkJtCdSomBuv2lP0daUxkCoDnuV+bSL5/343
+        VjS93hw4/8unl5K0iOOcp1YMZgKr1/rZ1Dsc8oA=
+X-Google-Smtp-Source: APXvYqyKu66A8VDllEdF/QRMjRmV9/NzixNZFUU1mkroxmDMqBPCkVdsyXl/FGBozMrbhcSwAZ95oAxKfSa2b1sJphM=
+X-Received: by 2002:a67:b648:: with SMTP id e8mr14104264vsm.54.1576471887217;
+ Sun, 15 Dec 2019 20:51:27 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1575879069.git.tommyhebb@gmail.com> <1eaa4143fdb000563cde114bb7e0166b1fc229bf.1575879069.git.tommyhebb@gmail.com>
-In-Reply-To: <1eaa4143fdb000563cde114bb7e0166b1fc229bf.1575879069.git.tommyhebb@gmail.com>
+References: <cover.1575879069.git.tommyhebb@gmail.com> <9d43c96787ecbe2a3f2917483bbc61e378a1a7cf.1575879069.git.tommyhebb@gmail.com>
+In-Reply-To: <9d43c96787ecbe2a3f2917483bbc61e378a1a7cf.1575879069.git.tommyhebb@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 16 Dec 2019 13:49:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARHuMaKUtsX8qJx2XiH+OciNFo+w_WBqZHKHV+ZQSvAwg@mail.gmail.com>
-Message-ID: <CAK7LNARHuMaKUtsX8qJx2XiH+OciNFo+w_WBqZHKHV+ZQSvAwg@mail.gmail.com>
-Subject: Re: [PATCH 1/4] kconfig: list all definitions of a symbol in help text
+Date:   Mon, 16 Dec 2019 13:50:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARSJ7kgmcLed7tFj774Lpn7hp94273h71Y8xrTvGoRY+A@mail.gmail.com>
+Message-ID: <CAK7LNARSJ7kgmcLed7tFj774Lpn7hp94273h71Y8xrTvGoRY+A@mail.gmail.com>
+Subject: Re: [PATCH 3/4] kconfig: distinguish between dependencies and
+ visibility in help text
 To:     Thomas Hebb <tommyhebb@gmail.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
@@ -56,118 +54,177 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, Dec 9, 2019 at 5:19 PM Thomas Hebb <tommyhebb@gmail.com> wrote:
 >
-> In Kconfig, each symbol (representing a config option) can be defined in
-> multiple places. Each definition may or may not have a prompt, which
-> allows the option to be set via an interface like menuconfig. Each
-> definition has a set of dependencies, which determine whether its prompt
-> is visible and whether other pieces of the definition, like a default
-> value, take effect.
+> Kconfig makes a distinction between dependencies (defined by "depends
+> on" expressions and enclosing "if" blocks) and visibility (which
+> includes all dependencies, but also includes inline "if" expressions of
+> individual properties as well as, for prompts, "visible if" expressions
+> of enclosing menus).
 >
-> Historically, a symbol's help text (i.e. what's shown when a user
-> presses '?' in menuconfig) contained some symbol-wide information not
-> tied to any particular definition (e.g. what other symbols it selects)
-> as well as the location (file name and line number) and dependencies of
-> each prompt. Notably, the help text did not show the location or
-> dependencies of definitions without prompts.
+> Before bcdedcc1afd6 ("menuconfig: print more info for symbol without
+> prompts", the "Depends on" lines of a symbol's help text indicated the
+> visibility of the prompt property they appeared under. After
+> bcdedcc1afd, there was always only a single "Depends on" line, which
+> indicated the visibility of the first P_SYMBOL property of the symbol.
+> Since P_SYMBOLs never have inline if expressions, this was in effect the
+> same as the dependencies of the menu item that the P_SYMBOL was attached
+> to.
 >
-> Because this made it hard to reason about symbols that had no prompts,
-> bcdedcc1afd6 ("menuconfig: print more info for symbol without prompts")
-> changed the help text so that, instead of containing the location and
-> dependencies of each prompt, it contained the location and dependencies
-> of the symbol's first definition, regardless of whether or not that
-> definition had a prompt.
->
-> For symbols with only one definition, that change makes sense. However,
-> it breaks down for symbols with multiple definitions: each definition
-> has its own set of dependencies (the `dep` field of `struct menu`), and
-> those dependencies are ORed together to get the symbol's dependency list
-> (the `dir_dep` field of `struct symbol`). By printing only the
-> dependencies of the first definition, the help text misleads users into
-> believing that an option is more narrowly-applicable than it actually
-> is.
->
-> For an extreme example of this, we can look at the SYS_TEXT_BASE symbol
-> in the Das U-Boot project, which also uses Kconfig. (I could not find an
+> Neither of these situations accurately conveyed the dependencies of a
+> symbol--the first because it was actually the visibility, and the second
+> because it only showed the dependencies from a single definition.
 
-"Das U-Boot" is a moving reference.
+Hmm, OK.
 
-Could you explicitly say the release version (e.g. v2019.10)
-from which you took the example?
+Commit bcdedcc1afd6 seemed to fix it as a side-effect,
+but you broke it by 1/4, then fixed it again by 3/4.
 
 
-> illustrative example in the Linux source, unfortunately). This config
-> option specifies the load address of the built binary and, as such, is
-> applicable to basically every configuration possible. And yet, without
-> this patch, its help text is as follows:
+Sample code:
+
+menu "bar"
+       visible if BAR
+       depends on BAZ
+
+config FOO
+       bool "foo"
+
+endmenu
+
+
+Help of FOO:
+
+Before bcdedcc1afd6  ->Depends on: BAZ && BAR
+After    bcdedcc1afd6 -> Depends on: BAZ
+After   1/4                   -> Depends on: BAZ && BAR
+After   3/4                   -> Depends on: BAZ
+
+
+
+I think "Depends on BAZ" is correct
+since BAR only affects the visibility of the prompt.
+
+
+In order to not break anything,
+maybe, does it make sense to re-order, like this?
+
+2/4, 3/4, 1/4, 4/4
+
+
+
+> Now that we print a "Depends on" line for every definition (regardless
+> of whether or not it has a prompt), we can do better: this patch
+> switches the "Depends on" line for prompts to show the real dependencies
+> of the corresponding menu item and additionally adds a "Visible if" line
+> that shows the visibility only if the visibility is different from the
+> dependencies (which it isn't for most prompts in Linux).
 >
->   Symbol: SYS_TEXT_BASE [=0x00200000]
->   Type  : hex
->   Prompt: Text Base
+> Before:
+>
+>   Symbol: THUMB2_KERNEL [=n]
+>   Type  : bool
+>   Defined with prompt at arch/arm/Kconfig:1417
+>     Prompt: Compile the kernel in Thumb-2 mode
+>     Depends on: (CPU_V7 [=y] || CPU_V7M [=n]) && !CPU_V6 [=n] && !CPU_V6K [=n] && !CPU_THUMBONLY [=n]
 >     Location:
->       -> Boot images
->     Defined at arch/arm/mach-aspeed/Kconfig:9
->     Depends on: ARM [=y] && ARCH_ASPEED [=n]
+>       -> Kernel Features
+>     Selects: ARM_UNWIND [=n]
 >
-> The help text indicates that the option only applicable for a specific
-> unselected architecture (aspeed), because that architecture's promptless
-> definition (which just sets a default value), happens to be the first
-> one seen.
+> After:
 >
-> Because source locations and dependencies are fundamentally properties
-> of definitions and not of symbols, we should treat them as such. This
-> patch brings back the pre-bcdedcc1afd6 behavior for definitions with
-> prompts but also separately prints the location and dependencies of
-> those without prompts, solving the original problem in a different way.
-> With this change, our SYS_TEXT_BASE example becomes
+>    Symbol: THUMB2_KERNEL [=n]
+>    Type  : bool
+>    Defined with prompt at arch/arm/Kconfig:1417
+>      Prompt: Compile the kernel in Thumb-2 mode
+>      Depends on: (CPU_V7 [=y] || CPU_V7M [=n]) && !CPU_V6 [=n] && !CPU_V6K [=n]
+>      Visible if: (CPU_V7 [=y] || CPU_V7M [=n]) && !CPU_V6 [=n] && !CPU_V6K [=n] && !CPU_THUMBONLY [=n]
+>      Location:
+>        -> Kernel Features
+>      Selects: ARM_UNWIND [=n]
 >
->   Symbol: SYS_TEXT_BASE [=0x00200000]
->   Type  : hex
->   Defined with prompt at Kconfig:548
->     Prompt: Text Base
->     Depends on: !NIOS2 [=n] && !XTENSA [=n] && !EFI_APP [=n]
->     Location:
->       -> Boot images
->   Defined without prompt at arch/arm/mach-aspeed/Kconfig:9
->     Depends on: ARM [=y] && ARCH_ASPEED [=n]
->   Defined without prompt at arch/arm/mach-socfpga/Kconfig:28
->     Depends on: ARM [=y] && ARCH_SOCFPGA [=n]
->   <snip>
->   Defined without prompt at board/sifive/fu540/Kconfig:15
->     Depends on: RISCV [=n] && TARGET_SIFIVE_FU540 [=n]
+> Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
+> ---
+>  scripts/kconfig/expr.c |  3 +--
+>  scripts/kconfig/expr.h |  1 +
+>  scripts/kconfig/menu.c | 12 +++++++++++-
+>  3 files changed, 13 insertions(+), 3 deletions(-)
 >
-> which is a much more accurate representation.
+> diff --git a/scripts/kconfig/expr.c b/scripts/kconfig/expr.c
+> index 8284444cc3fa..849c574a28d5 100644
+> --- a/scripts/kconfig/expr.c
+> +++ b/scripts/kconfig/expr.c
+> @@ -13,7 +13,6 @@
+>
+>  #define DEBUG_EXPR     0
+>
+> -static int expr_eq(struct expr *e1, struct expr *e2);
+>  static struct expr *expr_eliminate_yn(struct expr *e);
+>
+>  struct expr *expr_alloc_symbol(struct symbol *sym)
+> @@ -250,7 +249,7 @@ void expr_eliminate_eq(struct expr **ep1, struct expr **ep2)
+>   * equals some operand in the other (operands do not need to appear in the same
+>   * order), recursively.
+>   */
+> -static int expr_eq(struct expr *e1, struct expr *e2)
+> +int expr_eq(struct expr *e1, struct expr *e2)
+>  {
+>         int res, old_count;
+>
+> diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+> index 017843c9a4f4..d0f17bc9c4ef 100644
+> --- a/scripts/kconfig/expr.h
+> +++ b/scripts/kconfig/expr.h
+> @@ -301,6 +301,7 @@ struct expr *expr_alloc_or(struct expr *e1, struct expr *e2);
+>  struct expr *expr_copy(const struct expr *org);
+>  void expr_free(struct expr *e);
+>  void expr_eliminate_eq(struct expr **ep1, struct expr **ep2);
+> +int expr_eq(struct expr *e1, struct expr *e2);
+>  tristate expr_calc_value(struct expr *e);
+>  struct expr *expr_trans_bool(struct expr *e);
+>  struct expr *expr_eliminate_dups(struct expr *e);
+> diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+> index 59fead4b8823..4d0542875d70 100644
+> --- a/scripts/kconfig/menu.c
+> +++ b/scripts/kconfig/menu.c
+> @@ -718,7 +718,17 @@ static void get_prompt_str(struct gstr *r, struct property *prop,
+>                    prop->menu->file->name, prop->menu->lineno);
+>         str_printf(r, "  Prompt: %s\n", prop->text);
+>
+> -       get_dep_str(r, prop->visible.expr, "  Depends on: ");
+> +       get_dep_str(r, prop->menu->dep, "  Depends on: ");
+> +       /* Most prompts in Linux have visibility that exactly matches their
+> +        * dependencies. For these, we print only the dependencies to improve
+> +        * readability. However, prompts with inline "if" expressions and
+> +        * prompts with a parent that has a "visible if" expression have
+> +        * differing dependencies and visibility. In these rare cases, we
+> +        * print both. */
+> +       if (!expr_eq(prop->menu->dep, prop->visible.expr)) {
+> +               get_dep_str(r, prop->visible.expr, "  Visible if: ");
+> +       }
+> +
 
-This is nice improvement (fix).
 
-Just a nit about the help format.
-I think "with prompt" / "without prompt" is redundant information,
-and a bit annoying.
+The code looks correct to me.
 
-For the definition "with prompt",
-the next line is always " Prompt: ... ".
-
-For the definition "without prompt",
-the " Prompt: ... " line is missing.
-
-So, we can know the presence of the prompt, anyway.
+Just a nit: could you fix up the block comment style?
 
 
-To simplify the for-loop, how about the code like this?
-
-        /* Print the definitions with prompts before the ones without */
-        for_all_properties(sym, prop, P_SYMBOL) {
-                str_printf(r, "Defined at %s:%d\n",
-                                prop->menu->file->name, prop->menu->lineno);
-
-                if (prop->menu->prompt)
-                        get_prompt_str(r, prop->menu->prompt, head);
-                else
-                        get_dep_str(r, prop->menu->dep, "  Depends on: ");
-        }
+    /*
+     *  Blah, blah...
+     *  Blah, blah...
+     */
 
 
+
+
+>         menu = prop->menu->parent;
+>         for (i = 0; menu != &rootmenu && i < 8; menu = menu->parent) {
+>                 bool accessible = menu_is_visible(menu);
+> --
+> 2.24.0
+>
 
 
 --
 Best Regards
+
 Masahiro Yamada
