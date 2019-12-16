@@ -2,97 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A0E711FDBB
-	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Dec 2019 05:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B626A120036
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Dec 2019 09:48:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbfLPE6O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 15 Dec 2019 23:58:14 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:48195 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbfLPE6O (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 15 Dec 2019 23:58:14 -0500
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id xBG4vxJo014459;
-        Mon, 16 Dec 2019 13:58:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com xBG4vxJo014459
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576472280;
-        bh=Dq88weXkzpxSO5QZBRSpaBLmC889uRll48tmSqUd+dI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ISSFpAE83YjJuao9B9hmKcViGQrZHFKHU+7NJKWH/x3SjUXVPyELSSuJPNr8E4ZRt
-         VTehOLYPmQ72hdgEKx9elwdROWzYPAlh8nBfEc+SNez3m/xrqcbIAGFiHhR+jFaH2/
-         gwWWX25jO/aUxclHWzuE5YgUjRbd6G/B5y+MwmX88eZjrKd0/QlP17sO9Q8ofbQbYv
-         lMk0rAnXP6Et5deFG2kHQcSRM9FZzmZUkrgJLAVQbGHnvCHYZmi98pVSZsVTZWp935
-         mahec60Wn1374Oi5xSaVxoy9bWJrLWIe5ljpiCkdwlUOlfJJCtkAbxgHXhAguyc4NS
-         ddw6qsWkitgIw==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id o42so1619960uad.10;
-        Sun, 15 Dec 2019 20:58:00 -0800 (PST)
-X-Gm-Message-State: APjAAAWRLWX0V6BWCgiatx89s/fsz/pMxGE+rzBZgMMkrv3//yrLFmco
-        FZn/zwr/kMqrOA6pQPOnMiaxZFf2dfCHghxI3FA=
-X-Google-Smtp-Source: APXvYqxuSu6UowRbWZfICDzasoVnUy8YTI38SoCo1hsIG/HEjPxaMfDL5kwzOdOdrq588Hlg2yXBrCCQjD9M7jia+zQ=
-X-Received: by 2002:ab0:63c7:: with SMTP id i7mr20713722uap.109.1576472279037;
- Sun, 15 Dec 2019 20:57:59 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1575879069.git.tommyhebb@gmail.com>
-In-Reply-To: <cover.1575879069.git.tommyhebb@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 16 Dec 2019 13:57:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQFevjOu6bVhcfUwxCVH81WKs9O7fUH-Wa=7dF=cgwE2w@mail.gmail.com>
-Message-ID: <CAK7LNAQFevjOu6bVhcfUwxCVH81WKs9O7fUH-Wa=7dF=cgwE2w@mail.gmail.com>
-Subject: Re: [PATCH 0/4] kconfig: rework symbol help text
-To:     Thomas Hebb <tommyhebb@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726840AbfLPIsl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Dec 2019 03:48:41 -0500
+Received: from foss.arm.com ([217.140.110.172]:45594 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726808AbfLPIsl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Dec 2019 03:48:41 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 86B461007;
+        Mon, 16 Dec 2019 00:48:38 -0800 (PST)
+Received: from a075553-lin.blr.arm.com (a075553-lin.blr.arm.com [10.162.0.144])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0DE0B3F6CF;
+        Mon, 16 Dec 2019 00:51:48 -0800 (PST)
+From:   Amit Daniel Kachhap <amit.kachhap@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
+        Kristina Martsenko <kristina.martsenko@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Amit Daniel Kachhap <amit.kachhap@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
+        Mark Brown <Mark.Brown@arm.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH v3 14/16] kconfig: Add support for 'as-option'
+Date:   Mon, 16 Dec 2019 14:17:16 +0530
+Message-Id: <1576486038-9899-15-git-send-email-amit.kachhap@arm.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1576486038-9899-1-git-send-email-amit.kachhap@arm.com>
+References: <1576486038-9899-1-git-send-email-amit.kachhap@arm.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Dec 9, 2019 at 5:19 PM Thomas Hebb <tommyhebb@gmail.com> wrote:
->
-> This series fixes several issues with help text generated by Kconfig,
-> mainly affecting symbols that are defined in multiple places. Although
-> results of these patches are somewhat visible for the symbols in Linux,
-> what prompted me to write the series was working on U-Boot, which also
-> uses Kconfig and makes very heavy use of multiple definitions (e.g. for
-> overriding defaults). I have provided Linux examples where I could find
-> them, but the example for the biggest patch (the first one) is taken
-> from U-Boot because it was more illustrative than anything I could find
-> in Linux.
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Nice patch set.
-Thanks for sending it to kbuild ML first
-(then you or somebody else will backport it to U-Boot)
+Currently kconfig does not have a feature that allows to detect if the
+used assembler supports a specific compilation option.
 
+Introduce 'as-option' to serve this purpose in the context of Kconfig:
 
-BTW, talking about U-Boot, it abuses the multi-definition feature too much.
-This always causes broken dependency when U-Boot migrate
-CONFIG options to Kconfig.  :-/
+	config X
+		def_bool $(as-option,...)
 
-For my arm64 boards, I used CONFIG_POSITION_INDEPENDENT
-instead of coping with CONFIG_SYS_TEXT_BASE mess...
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: linux-kbuild@vger.kernel.org
+Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Signed-off-by: Amit Daniel Kachhap <amit.kachhap@arm.com>
+---
+Changes since last version:
+* None.
 
+ scripts/Kconfig.include | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-
-> Thomas Hebb (4):
->   kconfig: list all definitions of a symbol in help text
->   kconfig: don't crash on NULL expressions in expr_eq()
->   kconfig: distinguish between dependencies and visibility in help text
->   kconfig: fix nesting of symbol help text
->
->  scripts/kconfig/expr.c |  8 +++--
->  scripts/kconfig/expr.h |  1 +
->  scripts/kconfig/menu.c | 75 ++++++++++++++++++++++++------------------
->  3 files changed, 50 insertions(+), 34 deletions(-)
->
-> --
-> 2.24.0
->
-
-
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index d4adfbe..cc465dd 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -31,6 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /de
+ # Return y if the linker supports <flag>, n otherwise
+ ld-option = $(success,$(LD) -v $(1))
+ 
++# $(as-option,<flag>)
++# Return y if the assembler supports <flag>, n otherwise
++as-option = $(success, $(CC) $(CLANG_FLAGS) $(1) -E -x assembler /dev/null -o /dev/null)
++
+ # check if $(CC) and $(LD) exist
+ $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
+ $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
 -- 
-Best Regards
-Masahiro Yamada
+2.7.4
+
