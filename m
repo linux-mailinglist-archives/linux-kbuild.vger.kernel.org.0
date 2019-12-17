@@ -2,79 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A301D122AA2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 12:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6335A122D2B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 14:42:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727729AbfLQLwd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Dec 2019 06:52:33 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:29448 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbfLQLwc (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Dec 2019 06:52:32 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id xBHBpwpM016333;
-        Tue, 17 Dec 2019 20:51:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com xBHBpwpM016333
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576583519;
-        bh=a+hfI4JORzXhpsCVcvfC7LTXQBulUva6+4DpZgrovXU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lrEFZnVSRjXeMh9fEwvw/xmNHZpuarjJTBDtaj2Wc8veQzxEUncv1CToyU4pGugnv
-         v9hef7f0ewG04UQoIKzE121VfJbNB42/3FvbJsCCTb3qfMDQ36x1+bEUqLpsG4Gqud
-         FxBaYqL9sHa5ekvFU7kqpXP9zORpsPjPIcZPz3r2UHRHsfF8eU260cpdGFB4XBJ48l
-         DMMDfBGIn3P0FSoGriBNxtCH0fKNETcl54A7DiyMHgNKfwOV/aaO+LPQIco1yui6eZ
-         F9fLyif0n2NbZuQ8ELzSYaPyhw7YvVWhc56r3aIRibk7qz7xF7FKcmN7NAECJq3E4x
-         R2M8nilKL0x4Q==
-X-Nifty-SrcIP: [126.93.102.113]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Ulf Magnusson <ulfalizer@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S1728309AbfLQNmj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Dec 2019 08:42:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39874 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727962AbfLQNmi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Dec 2019 08:42:38 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E1AB220717;
+        Tue, 17 Dec 2019 13:42:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576590158;
+        bh=gJ8rVUCztw8szvbFFB6ChRg1w1nBW7WHuA2nM6G+gEg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=G/7OlukgjIYXWMiAYP+RpVQ09G0T4Q8OBkrDufcj6C3MhUQI7k0M+is1IKfT6hRuI
+         g+L3m5nUdyPYYnXvzPiYC7JW4JgcPFiWzKaewa/LFUhaA01Z3O1LIihKH/z5/Ibwkp
+         aNNCv2Zl4a/r5cDzC7vNR3oAxLTd8Cg2HRo59PNI=
+Date:   Tue, 17 Dec 2019 14:42:36 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jiri Slaby <jslaby@suse.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: remove ---help--- from documentation
-Date:   Tue, 17 Dec 2019 20:51:51 +0900
-Message-Id: <20191217115151.12465-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] tty: vt: move conmakehash to drivers/tty/vt/ from
+ scripts/
+Message-ID: <20191217134236.GA3365333@kroah.com>
+References: <20191217110633.8796-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191217110633.8796-1-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 84af7a6194e4 ("checkpatch: kconfig: prefer 'help' over
-'---help---'"), scripts/checkpatch.pl warns the use of ---help---.
+On Tue, Dec 17, 2019 at 08:06:33PM +0900, Masahiro Yamada wrote:
+> scripts/conmakehash is only used for generating
+> drivers/tty/vt/consolemap_deftbl.c
+> 
+> Move it to the related directory.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  drivers/tty/vt/.gitignore                 | 1 +
+>  drivers/tty/vt/Makefile                   | 6 ++++--
+>  {scripts => drivers/tty/vt}/conmakehash.c | 0
+>  scripts/.gitignore                        | 1 -
+>  scripts/Makefile                          | 3 ---
+>  5 files changed, 5 insertions(+), 6 deletions(-)
+>  rename {scripts => drivers/tty/vt}/conmakehash.c (100%)
 
-This still exists, but new code should avoid using it.
-Let's stop advertising it in documentation.
+I thought we wanted scripts to be in the scripts directory :)
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Anyway, this is fine, I'll take it in my tree.
 
- Documentation/kbuild/kconfig-language.rst | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+thanks,
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 74bef19f69f0..231e6a64957f 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -196,14 +196,11 @@ applicable everywhere (see syntax).
-   or equal to the first symbol and smaller than or equal to the second
-   symbol.
- 
--- help text: "help" or "---help---"
-+- help text: "help"
- 
-   This defines a help text. The end of the help text is determined by
-   the indentation level, this means it ends at the first line which has
-   a smaller indentation than the first line of the help text.
--  "---help---" and "help" do not differ in behaviour, "---help---" is
--  used to help visually separate configuration logic from help within
--  the file as an aid to developers.
- 
- - misc options: "option" <symbol>[=<value>]
- 
--- 
-2.17.1
-
+greg k-h
