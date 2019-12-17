@@ -2,112 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DE5C1228BC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 11:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE014122983
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 12:07:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbfLQKb6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Dec 2019 05:31:58 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38269 "EHLO
-        new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725940AbfLQKb5 (ORCPT
+        id S1726383AbfLQLHU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Dec 2019 06:07:20 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:30524 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726487AbfLQLHU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Dec 2019 05:31:57 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id CBD7B6C1D;
-        Tue, 17 Dec 2019 05:31:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 17 Dec 2019 05:31:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=WVOKI5Xa8ynfxOHUH8uTfezXeuU
-        ofMPbouYAeeiBwfo=; b=bmijsgR9pBP2Ebh5XRA1uJIvaotKaT0uunVjVlY8l1C
-        aoxODXf2Z/oIfgaiOn3GfxvN12hOlmxSVrt/DaUn2ui5y4YWSoDc09CpwSTSPvtv
-        EpCAVbR4ENthlY2tusERvGdA4V9WukWKml4U8LbisXwsFqGk1MgOy+dKLHjxHdSZ
-        tyhvxw41ZOLsopmAjnd9nL0d0uAsWaB51tldwy0lqX74f4dbGKrZ/mRVPrNLxV+M
-        svbfpDgHzf/aKOcs6RlMmOlKIh1N8lDoWOt+0RBjBAS6nPLpU/KfKRRvelNIHB04
-        GM/lHpfosT7/ny01Wzi9gelg9d+2McwmJLd6HiJHazw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WVOKI5
-        Xa8ynfxOHUH8uTfezXeuUofMPbouYAeeiBwfo=; b=JQpNJtE7YDoUUklw9zvFjP
-        wZ9Ih3qPBkDVD9rCoT5gWFxZZMwAusismfQXbuYWFxuPirAhMF5u+liubo54g2f9
-        VSPkmDIF7Z97Skk7gKtoH/EFJbwhbIq5myFJfZ1wZMfnXUVwYdTnTdbRYh7eeVJZ
-        gJr09v+76QbaX2xWEI3SPIzQs13zYK+p0ljuNvrE/AQuYI3MW6dLZmiD5Z7rxO48
-        XkEdENERvqJHzLTz0PGGUNfi9qhPrrHD1byP+9dNJtTDnPd2NMWkBFlCPwUsYFit
-        JZjF92wtLbfZEF63mps1svac1aKgx7nquB1ubhn+c8c1T9KtwpDHE9SUMhQ+u0pA
-        ==
-X-ME-Sender: <xms:mq74XbTn4Mg9VZkNfMUDm5tvQnvEyJ2uURgkgoUYXKa8WCLK8XbTTw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtjedgudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necukfhppeekfedrkeeirdekledruddtjeenucfrrghrrghmpehmrghilhhfrhhomhepgh
-    hrvghgsehkrhhorghhrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:mq74XU4x3XQ7_I5tSP0AKITnKCi65jdaYkOmpNjBtanvDdZYLiOoiQ>
-    <xmx:mq74XQUg-13Hasut9Vfn0iVM61swGMfn27ddmuXCObXilt8-pdnw2g>
-    <xmx:mq74Xa-et88YfpMZI-Zc-HV_sTQU6ySLnoywFpS3bcb4zJHuXMgkdg>
-    <xmx:m674Xe8EJYjeh9FVPEltY81zCiKvaT4ZKJ8GAjBTR6L8hMaNwuJDaQ>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 4E5FF8005C;
-        Tue, 17 Dec 2019 05:31:54 -0500 (EST)
-Date:   Tue, 17 Dec 2019 11:31:52 +0100
-From:   Greg KH <greg@kroah.com>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, dmitry.torokhov@gmail.com,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        arnd@arndb.de, masahiroy@kernel.org, michal.lkml@markovi.net,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH] RFC: platform driver registering via initcall tables
-Message-ID: <20191217103152.GB2914497@kroah.com>
-References: <20191217102219.29223-1-info@metux.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191217102219.29223-1-info@metux.net>
+        Tue, 17 Dec 2019 06:07:20 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id xBHB6l1c018451;
+        Tue, 17 Dec 2019 20:06:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xBHB6l1c018451
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576580808;
+        bh=6qvlDUrtWHR5iRY7MwCqOb/BgmSMacVut2XSBVbDiUA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EslFmkfoCiIQMSUBtsXkFDdCeJ07T0wN5jC+mCBYQU8B2JKNCFR5NiXaSuX/GHfCG
+         VtnhxpEj8+PYEmfeZvSLys0G4AZhE/Q9gYb8QdSbhcpnpsXRolv9db1+AFirojsYz3
+         nLML40t020ItjnYuWkAsFdFr7FGQgGpHTxcZ5ZKe1Qs5dbpvi5LQejuQv4HB9fgPVO
+         A5hDSyG7xQunBIofLh1o/CFbX/TmOeMYZDFGX8QftCNZbq30iod6mPoGzkxf7MkoBe
+         KLwBHO5UQkkiZ3tl0wkMVBMexB4Ji1uKrlEm8Ple7WCEAfeaLR/84/aLo1BTe8mhwY
+         Tni3LK/HGPZwA==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] tty: vt: move conmakehash to drivers/tty/vt/ from scripts/
+Date:   Tue, 17 Dec 2019 20:06:33 +0900
+Message-Id: <20191217110633.8796-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 11:22:19AM +0100, Enrico Weigelt, metux IT consult wrote:
-> A large portion of platform drivers doesn't need their own init/exit
-> functions. At source level, the boilerplate is already replaced by
-> module_platform_driver() macro call, which creates this code under
-> the hood. But in the binary, the code is still there.
-> 
-> This patch is an attempt to remove them it, by the same approach
-> already used for the init functions: collect pointers to the driver
-> structs in special sections, which are then processed by the init
-> code which already calls the init function vectors. For each level,
-> the structs are processed right after the init funcs, so we guarantee
-> the existing order, and explicit inits always come before the automatic
-> registering.
+scripts/conmakehash is only used for generating
+drivers/tty/vt/consolemap_deftbl.c
 
-No, what is so "special" about platform drivers that they require this?
+Move it to the related directory.
 
-If anything, we should be moving _AWAY_ from platform drivers and use
-real bus drivers instead.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> Downside of apprach: cluttering init code w/ a little bit knowledge
-> about driver related stuff (calls to platform_driver_register(), etc).
+ drivers/tty/vt/.gitignore                 | 1 +
+ drivers/tty/vt/Makefile                   | 6 ++++--
+ {scripts => drivers/tty/vt}/conmakehash.c | 0
+ scripts/.gitignore                        | 1 -
+ scripts/Makefile                          | 3 ---
+ 5 files changed, 5 insertions(+), 6 deletions(-)
+ rename {scripts => drivers/tty/vt}/conmakehash.c (100%)
 
-Exactly, don't.
+diff --git a/drivers/tty/vt/.gitignore b/drivers/tty/vt/.gitignore
+index 9b38b85f9d9a..3ecf42234d89 100644
+--- a/drivers/tty/vt/.gitignore
++++ b/drivers/tty/vt/.gitignore
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
++conmakehash
+ consolemap_deftbl.c
+ defkeymap.c
+diff --git a/drivers/tty/vt/Makefile b/drivers/tty/vt/Makefile
+index edbbe0ccdb83..329ca336b8ee 100644
+--- a/drivers/tty/vt/Makefile
++++ b/drivers/tty/vt/Makefile
+@@ -12,10 +12,12 @@ obj-$(CONFIG_HW_CONSOLE)		+= vt.o defkeymap.o
+ # Files generated that shall be removed upon make clean
+ clean-files := consolemap_deftbl.c defkeymap.c
+ 
++hostprogs-y += conmakehash
++
+ quiet_cmd_conmk = CONMK   $@
+-      cmd_conmk = scripts/conmakehash $< > $@
++      cmd_conmk = $(obj)/conmakehash $< > $@
+ 
+-$(obj)/consolemap_deftbl.c: $(src)/$(FONTMAPFILE)
++$(obj)/consolemap_deftbl.c: $(src)/$(FONTMAPFILE) $(obj)/conmakehash
+ 	$(call cmd,conmk)
+ 
+ $(obj)/defkeymap.o:  $(obj)/defkeymap.c
+diff --git a/scripts/conmakehash.c b/drivers/tty/vt/conmakehash.c
+similarity index 100%
+rename from scripts/conmakehash.c
+rename to drivers/tty/vt/conmakehash.c
+diff --git a/scripts/.gitignore b/scripts/.gitignore
+index 4aa1806c59c2..fcbc81f7c3d4 100644
+--- a/scripts/.gitignore
++++ b/scripts/.gitignore
+@@ -2,7 +2,6 @@
+ # Generated files
+ #
+ bin2c
+-conmakehash
+ kallsyms
+ unifdef
+ recordmcount
+diff --git a/scripts/Makefile b/scripts/Makefile
+index 00c47901cb06..96f155b582dd 100644
+--- a/scripts/Makefile
++++ b/scripts/Makefile
+@@ -4,14 +4,11 @@
+ # the kernel for the build process.
+ # ---------------------------------------------------------------------------
+ # kallsyms:      Find all symbols in vmlinux
+-# conmakehash:   Create chartable
+-# conmakehash:	 Create arrays for initializing the kernel console tables
+ 
+ HOST_EXTRACFLAGS += -I$(srctree)/tools/include
+ 
+ hostprogs-$(CONFIG_BUILD_BIN2C)  += bin2c
+ hostprogs-$(CONFIG_KALLSYMS)     += kallsyms
+-hostprogs-$(CONFIG_VT)           += conmakehash
+ hostprogs-$(BUILD_C_RECORDMCOUNT) += recordmcount
+ hostprogs-$(CONFIG_BUILDTIME_EXTABLE_SORT) += sortextable
+ hostprogs-$(CONFIG_ASN1)	 += asn1_compiler
+-- 
+2.17.1
 
-> For now, only implemented for the built-in case (modules still go the
-> old route). The module case is a little bit trickier: either we have to
-> extend the module header (and modpost tool) or do some dynamic symbol
-> lookup.
-> 
-> This patch is just a PoC for further discussions, not ready for mainline.
-> It also changes a few drivers, just for illustration. In case the general
-> approach is accepted, it will be cleaned up and splitted.
-
-Please no, I don't see why this is even needed.
-
-greg k-h
