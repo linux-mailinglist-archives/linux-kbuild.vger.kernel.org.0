@@ -2,103 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B9E122F3F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 15:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BF9B1231E8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 17:18:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727868AbfLQOuJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Dec 2019 09:50:09 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:42573 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727127AbfLQOuI (ORCPT
+        id S1729010AbfLQQPw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Dec 2019 11:15:52 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:38764 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728996AbfLQQPv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Dec 2019 09:50:08 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id A9CCD6395;
-        Tue, 17 Dec 2019 09:50:07 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 17 Dec 2019 09:50:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=4cIp2F9GZx6Q23WhgNIogqD6bW4
-        O5qNKgcTSyASlC+E=; b=Gi07bExCvjAN5nuKqBLZG/2jy5AaWcQ5uMg2TpS9idd
-        f2DZOM9lxNYv9Q2HIyHURhjyE3bAdY+wNeNSry5kiy6k0sqTi+z5AZTF46LMqSZI
-        9geI4AMMqQVK3ZxvSsg05x/u8nASRNEIpLq9mLRPJg3p5+cggr7QAiqegfRs6fm7
-        QNrXkJo64FxdVy+rT1GyGWzoLbQMBkEWBRUQKJe9PPynJIyOuNa/nyMn3TAqAUOO
-        /HDqWXqb5F8beAz6aLOSOmQzj/CwcM1Ll4HQspIBcdb/mrRcDGr6Dy8Bwjt/Qhjb
-        7y6nAjOfqn6c5TQ3KObMY0LG9RukN00NgofzHxBAQRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4cIp2F
-        9GZx6Q23WhgNIogqD6bW4O5qNKgcTSyASlC+E=; b=IN/hScjOmdr2LXAzMFThmY
-        ftq7zHz6ZA/FdebKUxQpUUk+NucUKkdRie8EoGP0M6ZXK/hNJubRrah3mU+7DDYg
-        ji4QQvChsgXOd/FpV+sNZLWb2utwe3vJM0y7SYtbccJCiZtCczioOyLW9a6exeTL
-        Da9qBZwlaFSDKmxdnCL+kyqVNOd/AGS345lkeQfvWpHWq/PwZ3Lco3xvNx9p5nLj
-        qeTNhJe49U0HM+oSy2ZX6o+I/VFCCodJpCyqAt2BCuF6iwCupzhdfU6LRGFZeq5k
-        N2eOivd26k9D5AuLw2hcmzu8H1TOzA3wwImkNZg9tj5EhQLLz4Du8WxkBA5nDnqA
-        ==
-X-ME-Sender: <xms:Huv4XaE6IPHj7TGEPCGQcFoOIxspKi3_l63oR-zCZNwWF1JLdQyXhQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddtjedgieekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
-    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
-    necukfhppeekfedrkeeirdekledruddtjeenucfrrghrrghmpehmrghilhhfrhhomhepgh
-    hrvghgsehkrhhorghhrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:Huv4XWeD6OmVXRDK67xOb7vsMpbu-4WODJ4MAJ2mFsAWOc43DngMKA>
-    <xmx:Huv4XbBgeDOnz5WCr93LDCx1d_VmpipmdFnHavoE60aJzEf4rE5JLw>
-    <xmx:Huv4XZZ54qRO_THZMvYkAtsSmgxGaFQtetIlonFHtaXeRd7O1TVp9g>
-    <xmx:H-v4XX43xI83jWx_a8WhLOU7T4gfG6swGrFd7heNb0ixK98hQnvaMQ>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 25BD880064;
-        Tue, 17 Dec 2019 09:50:05 -0500 (EST)
-Date:   Tue, 17 Dec 2019 15:50:03 +0100
-From:   Greg KH <greg@kroah.com>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
-        linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, dmitry.torokhov@gmail.com,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        arnd@arndb.de, masahiroy@kernel.org, michal.lkml@markovi.net,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Subject: Re: [PATCH] RFC: platform driver registering via initcall tables
-Message-ID: <20191217145003.GB3639802@kroah.com>
-References: <20191217102219.29223-1-info@metux.net>
- <20191217103152.GB2914497@kroah.com>
- <6422bc88-6d0a-7b51-aaa7-640c6961b177@metux.net>
- <20191217140646.GC3489463@kroah.com>
- <d938b8e1-d9ce-9ad6-4178-86219e99d4df@metux.net>
+        Tue, 17 Dec 2019 11:15:51 -0500
+Received: by mail-pl1-f194.google.com with SMTP id f20so4551128plj.5;
+        Tue, 17 Dec 2019 08:15:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CZrp8UQQ+bj1ts8a/GF/7XEl3PQrDG+nT1WZvWpq3rU=;
+        b=ElECYMtBZrjFvxUHRBwyhYr5cB2bkw1bFyOwZFb0Co8YbMQh1sOaOIWqnnAufDE3iN
+         zuUHWh27aaD86ekJA8WIqAVyJ+MhhEXpIYhymS8vUsjkuABzSXFR+wS47PnqxgpZ4i/1
+         Lv6MpQzcUayUOX/m6RgVbqKZB26xKyv2OBmimMy3dzXWkw0o30zzQ97opWZ3h5ULU0ZE
+         iPVwg/WHbTgScdQb8xnitqtLzV3RzMTQ2J2IMHPrBt7WNa9HD3ZYuOh0N79qR16jRSwZ
+         Zxdh5E6l61Fk+dzWCsgdwaBHtAlFqVrx7Wb/VJBXvcDNgEBFjcbyjDWShvNPCqdv7ZK8
+         enuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CZrp8UQQ+bj1ts8a/GF/7XEl3PQrDG+nT1WZvWpq3rU=;
+        b=iv1QN7db1pHP2hlxQWnW0bzRnBv//XnUr01uBTQ6o23yc2QTVnHO57Sta8JouGV/dR
+         sSQSDj2ZNgE17MMC3m93JERaguY/ZU6HsC+6Wn1hwTCzcWxhYi5/FVTf6SY5raGp7zrh
+         nvSQW5uPefvbFy6Hljy8AM/wMJ2jzKdVQ+Cc6GwZRcTuxuPV9RhOeq6uTodseWTtC4Vu
+         X5lUzTdkPAmVdsMiDmpcmFOlTw9+ANOAhjyY0+DaOud9GP8n2rmwISM+0u24C39mQJv1
+         lE4ETMubw4OUzBVqTRPO+4fmxX/c93e9IdNIXFfZ7qgNvPk4BgB/uKEzLd9OgfBaYxZK
+         DIdQ==
+X-Gm-Message-State: APjAAAVm7xo+lrmKAgqLPsZya21kvSb4IpQry0JbutWED6A5FM0DfdnA
+        7KBHA2Qe6WTkS9DrF6fXcPwu4p6cwDg=
+X-Google-Smtp-Source: APXvYqyIekrKyUdm7+MOpp/lryRy6OV5UID6PpLqjzjTibQ1QruJuc89eTrWbhjtW8+MHpFU6P8mzQ==
+X-Received: by 2002:a17:902:6b09:: with SMTP id o9mr13938481plk.209.1576599349747;
+        Tue, 17 Dec 2019 08:15:49 -0800 (PST)
+Received: from glados.lan ([2601:647:4c01:6541:fa16:54ff:fed1:1bd6])
+        by smtp.gmail.com with ESMTPSA id k15sm27704122pfg.37.2019.12.17.08.15.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2019 08:15:48 -0800 (PST)
+From:   Thomas Hebb <tommyhebb@gmail.com>
+To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Thomas Hebb <tommyhebb@gmail.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        linux-riscv@lists.infradead.org
+Subject: [PATCH v2 0/3] kconfig: rework symbol help text
+Date:   Tue, 17 Dec 2019 08:15:42 -0800
+Message-Id: <cover.1576599202.git.tommyhebb@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d938b8e1-d9ce-9ad6-4178-86219e99d4df@metux.net>
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 03:43:56PM +0100, Enrico Weigelt, metux IT consult wrote:
-> On 17.12.19 15:06, Greg KH wrote:
-> 
-> > That's not needed, and you are going to break the implicit ordering we
-> > already have with link order.  
-> 
-> Ups, 10 points for you - I didn't consider that.
-> 
-> > You are going to have to figure out what
-> > bus type the driver is, to determine what segment it was in, to figure
-> > out what was loaded before what.
-> 
-> hmm, if it's just the ordering by bus type (but not within one bus
-> type), then it shouldn't be the big deal to fix, as I'll need one table
-> and register-loop per bus-type anyways.
-> 
-> By the way: how is there init order ensured with dynamically loaded
-> modules ? (for cases where there aren't explicit symbol dependencies)
+This series fixes several issues with help text generated by Kconfig,
+mainly affecting symbols that are defined in multiple places. Although
+results of these patches are somewhat visible for the symbols in Linux,
+what prompted me to write the series was working on U-Boot, which also
+uses Kconfig and makes very heavy use of multiple definitions (e.g. for
+overriding defaults). I have provided Linux examples where I could find
+them, but the example for the biggest patch (the first one) is taken
+from U-Boot because it was more illustrative than anything I could find
+in Linux.
 
-See the recent work in the driver core for DT fixes for that very issue.
+Changes in v2:
+- Added explicit U-Boot version in commit message + other rewordings
+- Made the new "Depends on:" line print actual dependencies instead of
+  visibility to avoid an intra-series regression, and noted that in the
+  commit message.
+- Get rid of redundant "with prompt" and "without prompt" notes in
+  definition text, but continue to ensure that definitions with prompts
+  are printed before ones without.
+- Fixed checkpatch issues
+- Omit already-merged patch "kconfig: don't crash on NULL expressions in
+  expr_eq()"
 
-greg k-h
+Thomas Hebb (3):
+  kconfig: list all definitions of a symbol in help text
+  kconfig: distinguish between dependencies and visibility in help text
+  kconfig: fix nesting of symbol help text
+
+ scripts/kconfig/expr.c |  3 +-
+ scripts/kconfig/expr.h |  1 +
+ scripts/kconfig/menu.c | 82 +++++++++++++++++++++++++-----------------
+ 3 files changed, 52 insertions(+), 34 deletions(-)
+
+-- 
+2.24.1
+
