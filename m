@@ -2,97 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6269D122D39
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 14:45:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE08D122D94
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 14:56:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbfLQNpa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Dec 2019 08:45:30 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:50523 "EHLO
+        id S1728380AbfLQN4V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Dec 2019 08:56:21 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:43689 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726164AbfLQNpa (ORCPT
+        with ESMTP id S1726164AbfLQN4V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Dec 2019 08:45:30 -0500
-Received: from [192.168.1.155] ([95.114.21.161]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MfYgC-1i1FZn1CtU-00fzgB; Tue, 17 Dec 2019 14:45:11 +0100
-Subject: Re: [PATCH] RFC: platform driver registering via initcall tables
-To:     Greg KH <greg@kroah.com>,
-        "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, dmitry.torokhov@gmail.com,
-        jacek.anaszewski@gmail.com, pavel@ucw.cz, dmurphy@ti.com,
-        arnd@arndb.de, masahiroy@kernel.org, michal.lkml@markovi.net,
-        kafai@fb.com, songliubraving@fb.com, yhs@fb.com, andriin@fb.com,
-        linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-References: <20191217102219.29223-1-info@metux.net>
- <20191217103152.GB2914497@kroah.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <6422bc88-6d0a-7b51-aaa7-640c6961b177@metux.net>
-Date:   Tue, 17 Dec 2019 14:44:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191217103152.GB2914497@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:UIxsKeF+t4AJ8q6DRnqSCsifxsav8JqTSzPbvflDT49nTCN38N2
- kn8QUDipr/KlL5RzF2fLtyOuCzxNjxUSI4UZqAlp6xIsJjV2bywjnE+BMyjssnPF9+oH6ww
- j5NFvhGrB1pzGK+XoSpXibonoL3JFM9dGJqe8hfLnfeBH94z62AKKyID1MFmz2D/kfr9ua1
- +I6P+xiT9RjL5BBgRigTg==
+        Tue, 17 Dec 2019 08:56:21 -0500
+Received: from orion.localdomain ([95.114.21.161]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MeTsQ-1i8yVi3lOG-00aWiV; Tue, 17 Dec 2019 14:56:11 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        linux-kbuild@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [PATCH v2] scripts: package: mkdebian: add missing rsync dependency
+Date:   Tue, 17 Dec 2019 14:55:39 +0100
+Message-Id: <20191217135539.17157-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:WUPSATQufwv3g8sriCrzFFny9krz3puHsUsVhC/8qZCoO8QvHna
+ pcDXn1rS776PGDUel6/bOG0/+NOXCUi2FtJwRiCp3RFiPENrDV3ByJxTMEXhjHxWSP7D614
+ r080F0CHrFXg2C6rt3G1UhEueRdXw1uUmK8fSeWTUre4BMxuKFKSGezkv6DWc4Uax9sXT6S
+ xHb/wFVa4HCiOcM5MuFxA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:nhzDFcqFHhI=:Tt4Fe7MEEtN81vc41C7AoZ
- wctLg7SjkItjTD1J3EE0wIIRp68zGRkICb7akDkm7TzGVY/Jv10cHWbbYxhEfiW4whMmm7gx1
- calgbAvlJfzZju7vWqVRx24cZKnsPXbGGNQI6AltrredEl0JuONWHGFccnaBRDzW2rH1MKxpx
- 7guijvh0tF+MuaZMsUVm1dIggOl4cQFDElahLOqvviCWwKyID5OeS4sL9WhPMRRYqxAHM9q5O
- uPRf4lICI04o5CkAW0vu/jJU2fDAqqn8VRS8aZfQZtuRhCtoDTvZTEoOMN/icN7ljMBCxrxzO
- jKVvHCAs/ZD0+MWmVOPS6sdGZYhKGJfOrGUMZTIo07lGNMYuMdb6Mvx7qAuFP3Yttazz361XR
- WOiEbrlEia6jOwJTx0JGQiUkJqwUMutPSCYqHT+ZlswBl3PcXs2kTDeEimiMTkTWcs6cnQ5YJ
- 0Ev+Ibgd1aJ5uVBqPmFfJs821dyrQ/nj2kpivSX944s+JlT5J79FdHn3yG5tlk4NsXcGYZpDb
- +Su81EDqspIcaHEsqNYqm4wHR4C4MRln/yQ/qEtoFPV/rx6N17k0IIo+d/DbjDUJ5PoLA6scG
- u5HIncBDs/JHZGLSftyL04NMt7m/WCxdQ6vh4pOOgJ+pBlIOtaNs/sr2RGvaMd1drejh8xN8T
- oVqTHasq/lYf0bopjmsmrUnoodoESr4GakdnC5EivRzMSeLiz11uVTbijiJ6z5hpZxZEUXDoy
- GSj9nLs8W6dvwEJKDzhLDRZdwjHLl6WE/XxOcwxG3eQ2N/ab5WauSh8y5djcp7H16KpJZ6A69
- pcY7K1TMdNUlig8lhlUX+Ij4IEaClVQj0yKqknPNhhHZTCef462eFxVdARrJ0sbaH1PRWpIfH
- buhiRZ+mDZotLHFEAKJ93oZ2o67FNflSKVDFquVEZb6lab6XoEveVJVdH6nxtOBexbBLcxxXW
- ARVod/u0vtgm8aj0oa/n+a8Xz6kwOYwTrei/SbYDwnKT6YuTO5xQd
+X-UI-Out-Filterresults: notjunk:1;V03:K0:akmmA8gGnfA=:gadcc7LVAR0Su+9V+MKzLc
+ PPWOhg5p2ou9NQ1kL8GR4JDM6/n/Ea7aMJrX6RA64ny8ARrQr5qQ1GOJeDqNL6AXQ8KU5xbC6
+ wKGIvoOUqEKLQsPW2a6C1CcRgJzZEkKMZSQCYOMJlFIvVD534smOJvxZe1WSXT6kraaAPNZnT
+ yX2Fcj1AbZmXR4m+gq/TmRxXS7rBzqRx5Tv1Ud1q9NMrmoopN87B/DT7aYq5T2ybFdUFbcvFS
+ 0LWhTuc+tGaoopq/yDLGXNBTQrZbPjpxc/Z4ysA1UAuA5N6PT4lapB5MLYGza04BqR43sPjPx
+ 2+kb9rcHA1skoadqOoD7f0TUqxUursjfxmMocZiPAC3dYOy467gw/6ci8qepH+fVpLSzwE212
+ m8i3PxqFn/HWDOCiGv8alZKy7m0fM+4BrJGiuity7N0j21ZfuX4KrKxMKwBQEN1IFwR0L/KDw
+ Zqed4ehrbW5tdFFe+KqMWJrPJ7rOS79T39PffLiqUAubZTBWA0gkjqJ5EmsS4pxzWpGftzsdC
+ EC6t032IC7/VD8//MkIcHCXf6IOtJ9b6u5BrN2qGfBv22BBxESN3zEqeDyUNzJTB/aghmqsuA
+ 26wpLNBrFwTDOMGGqF021X7n4N474+P1WIpb5xkrL14FkAx27M6sOYOvfQa47mSgou9wBsOz8
+ 9gK5Eus47BXB3IPGIF1M61rQEZpQ5pFkHyQOgcRjI/HUcI3wXnnuiKYwPHtfP/VOBCh6RiJPC
+ OSZDGCSnTy9858bEi725NL8ZjbMMRkAOk7z8Pz+jwP3M64C0v6nom9cyRnelx7AVRTUSb7LVS
+ neW8I2kQKR89MrnXepuAnmXO74YUJ/a6HhU/CDvL8LLVJyAghLA3eGiqybEVbnjbGmCobqX+k
+ bhgflO3FhirHN9ARfrRw==
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 17.12.19 11:31, Greg KH wrote:
+We've missed the dependency to rsync, so build fails on
+minimal containers.
 
-Hi,
-
-> No, what is so "special" about platform drivers that they require this?
-
-Nothing, of course ;-)
-
-It's the the starting point for this PoC. The idea actually is doing
-this for all other driver types, too (eg. spi, pci, usb, ...). But
-they'll need their own tables, as different *_register() functions have
-to be called - just haven't implemented that yet.
-
-> If anything, we should be moving _AWAY_ from platform drivers and use
-> real bus drivers instead.
-
-That would be nice, but, unfortunately, we have lots of devices which
-aren't attached to any (probing-capable) bus. That's why we have things
-like oftree, etc.
-
-> Please no, I don't see why this is even needed.
-
-The idea is getting rid of all the init code, which all just does the
-same, just calls some *_register() function.
-
-
---mtx
-
+Fixes: 59b2bd05f5f4 ("kbuild: add 'headers' target to build up uapi headers in usr/include")
+Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
 ---
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+ scripts/package/mkdebian | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index e0750b70453f..7c230016b08d 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -174,7 +174,7 @@ Source: $sourcename
+ Section: kernel
+ Priority: optional
+ Maintainer: $maintainer
+-Build-Depends: bc, kmod, cpio, bison, flex | flex:native $extra_build_depends
++Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_build_depends
+ Homepage: http://www.kernel.org/
+ 
+ Package: $packagename
+-- 
+2.11.0
+
