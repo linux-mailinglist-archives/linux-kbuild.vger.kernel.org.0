@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CEDE12225D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 04:08:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C7B9122262
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Dec 2019 04:09:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbfLQDHQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Dec 2019 22:07:16 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:17117 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbfLQDHQ (ORCPT
+        id S1726880AbfLQDJG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Dec 2019 22:09:06 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:52790 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbfLQDJG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Dec 2019 22:07:16 -0500
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id xBH375bO008091;
-        Tue, 17 Dec 2019 12:07:05 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xBH375bO008091
+        Mon, 16 Dec 2019 22:09:06 -0500
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id xBH391vL025060;
+        Tue, 17 Dec 2019 12:09:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com xBH391vL025060
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576552026;
-        bh=ZhOcBgDSv8Hn1El6HF4muJCBjTHKz+oJ4fyRLFMkLLE=;
+        s=dec2015msa; t=1576552142;
+        bh=4t1lCV0uWZvKt43orN1gNW8W91nH0lua6ZWQXcaYvuY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rqOJJ85K6CnWdEJYWWO0P4r8X9FyJrVU4m6wPXIwbJft4ahV4MSuiyqDVMC0u0iMo
-         h/xSDQiLASw9tP9HTnA1ejHpDhmLG8dxdEeTmtWvjjBLdy8CyOqNOsjDR7xkGPRwBO
-         a7Yjw2S0oFEF5rZcgWyEOs1WFvT5oGNFMJ4bB4c60akwb+kUu0/FR4WpQ3x63jxQMy
-         edL+jENzz+qgUMyAUZFA+adkfw4h4XEW/Z6FuqmBWBu47MGy/Yw2094YksI62FOaka
-         nTPSIMQmrNi2FuYSfLVHkzLhv5cLjyNqymsjuc9koPQ2SJ9wyCin4OLY/Di+2htiE6
-         8db7yD4dYXe9w==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id f8so5556239vsq.8;
-        Mon, 16 Dec 2019 19:07:05 -0800 (PST)
-X-Gm-Message-State: APjAAAXEw3RnpUnYQpM9j+B+LemvNuonkTRMsspw3AR9NL8LrOGY7oqK
-        Q8QfyZ+VdLs7+3QKm8JYSArESHKkQJWvK2ZGzl8=
-X-Google-Smtp-Source: APXvYqw2xitO9pwMZ6r85qIc8vitKa7NvLz0X5hNFTgzj0IsuLeRUcKkvHmMGWgd1nGYfruahJVR4hf8o63tn/AUm7w=
-X-Received: by 2002:a67:7904:: with SMTP id u4mr1438775vsc.155.1576552024754;
- Mon, 16 Dec 2019 19:07:04 -0800 (PST)
+        b=Okp9a2bsp2PE72C9azsPCEhDvyTKuZzrLL9qYM4UOUvM9Lqq7GDc6koCQy2LAW3p+
+         BwekroqObQIlECBE9QGr1guw59AoB5EFvRS8JsUIbL6OoM9xuzmhlhPrG7gnRgSVZW
+         +3T6oCTNAXxh/QmepGVH2gC0UwgljFv/nChErL1BxdxCdPcmGbzw1oEA91MaV0PbwI
+         03DOlkW3O9lN6Am2MIZzbOzFodeeRZZgLQx4JMP5bLLJBAdd8EYqB+JIXyMOQKawIU
+         VpBbvPxCOAhmms+zsTqxpndgP7PGGcLhQWCSdXYpFKmbvklTfm6F7yTUGdou9Arhbo
+         YTOD/KskdfLKA==
+X-Nifty-SrcIP: [209.85.217.54]
+Received: by mail-vs1-f54.google.com with SMTP id p21so5560532vsq.6;
+        Mon, 16 Dec 2019 19:09:01 -0800 (PST)
+X-Gm-Message-State: APjAAAWVOvrD6JeUYyR6wMYeAFRa4O/exZQuQeEvShSMWmQu1W3+kgv1
+        JIFLw1Xt05+kvmEgu/fldZbmS4qAKfagw/7wO1w=
+X-Google-Smtp-Source: APXvYqyxsQBhb4rqdB6hYYCI8STz/7ZBGLNUTopGUs82CcGBl57Zvd0YwyiZlj3ZcI5buNlmMDb+RJY4DfSApGLxRYs=
+X-Received: by 2002:a67:7ac4:: with SMTP id v187mr1511012vsc.181.1576552140771;
+ Mon, 16 Dec 2019 19:09:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20191206130302.11473-1-masahiroy@kernel.org> <20191206130302.11473-2-masahiroy@kernel.org>
-In-Reply-To: <20191206130302.11473-2-masahiroy@kernel.org>
+References: <20191209035148.17048-1-masahiroy@kernel.org>
+In-Reply-To: <20191209035148.17048-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 17 Dec 2019 12:06:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARF5WzJhX2HS8U7uGX3D8D5aDi_ah1JUaM27iS49xYMAA@mail.gmail.com>
-Message-ID: <CAK7LNARF5WzJhX2HS8U7uGX3D8D5aDi_ah1JUaM27iS49xYMAA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mkcompile_h: use printf for LINUX_COMPILE_BY
+Date:   Tue, 17 Dec 2019 12:08:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATWqr_kJhCs7Eohxe-QSU3A+Ebh7w88zXjYK_=V6xG8Pg@mail.gmail.com>
+Message-ID: <CAK7LNATWqr_kJhCs7Eohxe-QSU3A+Ebh7w88zXjYK_=V6xG8Pg@mail.gmail.com>
+Subject: Re: [PATCH] scripts/kallsyms: fix offset overflow of kallsyms_relative_base
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+Cc:     Olof Johansson <olof@lixom.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -51,58 +51,108 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Dec 6, 2019 at 10:03 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Dec 9, 2019 at 12:52 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Commit 858805b336be ("kbuild: add $(BASH) to run scripts with
-> bash-extension") shed light on portability issues. Here is another one.
+> Since commit 5e5c4fa78745 ("scripts/kallsyms: shrink table before
+> sorting it"), kallsyms_relative_base can be larger than _text, which
+> causes overflow when building the 32-bit kernel.
 >
-> Since commit f07726048d59 ("Fix handling of backlash character in
-> LINUX_COMPILE_BY name"), we must escape a backslash contained in
-> LINUX_COMPILE_BY. This is not working on distros like Ubuntu.
+> https://lkml.org/lkml/2019/12/7/156
 >
-> As the POSIX spec [1] says, if any of the operands contain a backslash
-> ( '\' ) character, the results are implementation-defined.
+> This is because _text is, unless --all-symbols is specified, now
+> trimmed from the symbol table before record_relative_base() is called.
 >
-> The actual shell of /bin/sh could be bash, dash depending on distros,
-> and the behavior of builtin echo command is different among them.
+> Handle the offset signedness also for kallsyms_relative_base. Introduce
+> a new helper, output_address(), to reduce the code duplication.
 >
-> The bash builtin echo, unless -e is given, copies the arguments to
-> output without expanding escape sequences (BSD-like behavior).
->
-> The dash builtin echo, in contrast, adopts System V behavior, which
-> does expand escape sequences without any option.
->
-> Even non-builtin /bin/echo behaves differently depending on the system.
-> Due to these variations, echo is considered as a non-portable command.
-> Using printf is the common solution to avoid the portability issue.
->
-> [1] https://pubs.opengroup.org/onlinepubs/009695399/utilities/echo.html
->
-> Fixes: 858805b336be ("kbuild: add $(BASH) to run scripts with bash-extension")
-> Reported-by: XXing Wei <xxing.wei@unisoc.com>
+> Fixes: 5e5c4fa78745 ("scripts/kallsyms: shrink table before sorting it")
+> Reported-by: Olof Johansson <olof@lixom.net>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
+>
 
 Applied to linux-kbuid.
 
-
+>  scripts/kallsyms.c | 38 ++++++++++++++++++--------------------
+>  1 file changed, 18 insertions(+), 20 deletions(-)
 >
->  scripts/mkcompile_h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+> index fb55f262f42d..94153732ec00 100644
+> --- a/scripts/kallsyms.c
+> +++ b/scripts/kallsyms.c
+> @@ -310,6 +310,15 @@ static void output_label(const char *label)
+>         printf("%s:\n", label);
+>  }
 >
-> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-> index 3097fec1756a..3a5a4b210c86 100755
-> --- a/scripts/mkcompile_h
-> +++ b/scripts/mkcompile_h
-> @@ -69,7 +69,7 @@ UTS_VERSION="$(echo $UTS_VERSION $CONFIG_FLAGS $TIMESTAMP | cut -b -$UTS_LEN)"
+> +/* Provide proper symbols relocatability by their '_text' relativeness. */
+> +static void output_address(unsigned long long addr)
+> +{
+> +       if (_text <= addr)
+> +               printf("\tPTR\t_text + %#llx\n", addr - _text);
+> +       else
+> +               printf("\tPTR\t_text - %#llx\n", _text - addr);
+> +}
+> +
+>  /* uncompress a compressed symbol. When this function is called, the best table
+>   * might still be compressed itself, so the function needs to be recursive */
+>  static int expand_symbol(const unsigned char *data, int len, char *result)
+> @@ -360,19 +369,6 @@ static void write_src(void)
 >
->    echo \#define UTS_VERSION \"$UTS_VERSION\"
+>         printf("\t.section .rodata, \"a\"\n");
 >
-> -  echo \#define LINUX_COMPILE_BY \"$LINUX_COMPILE_BY\"
-> +  printf '#define LINUX_COMPILE_BY "%s"\n' "$LINUX_COMPILE_BY"
->    echo \#define LINUX_COMPILE_HOST \"$LINUX_COMPILE_HOST\"
+> -       /* Provide proper symbols relocatability by their relativeness
+> -        * to a fixed anchor point in the runtime image, either '_text'
+> -        * for absolute address tables, in which case the linker will
+> -        * emit the final addresses at build time. Otherwise, use the
+> -        * offset relative to the lowest value encountered of all relative
+> -        * symbols, and emit non-relocatable fixed offsets that will be fixed
+> -        * up at runtime.
+> -        *
+> -        * The symbol names cannot be used to construct normal symbol
+> -        * references as the list of symbols contains symbols that are
+> -        * declared static and are private to their .o files.  This prevents
+> -        * .tmp_kallsyms.o or any other object from referencing them.
+> -        */
+>         if (!base_relative)
+>                 output_label("kallsyms_addresses");
+>         else
+> @@ -380,6 +376,13 @@ static void write_src(void)
 >
->    echo \#define LINUX_COMPILER \"`$CC -v 2>&1 | grep ' version ' | sed 's/[[:space:]]*$//'`\"
+>         for (i = 0; i < table_cnt; i++) {
+>                 if (base_relative) {
+> +                       /*
+> +                        * Use the offset relative to the lowest value
+> +                        * encountered of all relative symbols, and emit
+> +                        * non-relocatable fixed offsets that will be fixed
+> +                        * up at runtime.
+> +                        */
+> +
+>                         long long offset;
+>                         int overflow;
+>
+> @@ -402,12 +405,7 @@ static void write_src(void)
+>                         }
+>                         printf("\t.long\t%#x\n", (int)offset);
+>                 } else if (!symbol_absolute(&table[i])) {
+> -                       if (_text <= table[i].addr)
+> -                               printf("\tPTR\t_text + %#llx\n",
+> -                                       table[i].addr - _text);
+> -                       else
+> -                               printf("\tPTR\t_text - %#llx\n",
+> -                                       _text - table[i].addr);
+> +                       output_address(table[i].addr);
+>                 } else {
+>                         printf("\tPTR\t%#llx\n", table[i].addr);
+>                 }
+> @@ -416,7 +414,7 @@ static void write_src(void)
+>
+>         if (base_relative) {
+>                 output_label("kallsyms_relative_base");
+> -               printf("\tPTR\t_text - %#llx\n", _text - relative_base);
+> +               output_address(relative_base);
+>                 printf("\n");
+>         }
+>
 > --
 > 2.17.1
 >
