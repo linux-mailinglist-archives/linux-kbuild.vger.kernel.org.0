@@ -2,94 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FEEF124B0F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 16:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCD2C124BCC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 16:35:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727324AbfLRPNz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Dec 2019 10:13:55 -0500
-Received: from mail-il1-f196.google.com ([209.85.166.196]:39185 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727323AbfLRPNz (ORCPT
+        id S1726985AbfLRPf0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Dec 2019 10:35:26 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:50784 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726921AbfLRPfZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Dec 2019 10:13:55 -0500
-Received: by mail-il1-f196.google.com with SMTP id x5so1983701ila.6
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2019 07:13:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
-        b=Q3vp2fJ40VWpq9rX2ikiWTUrhuiQJXzCeUu43e1oIIOk8rzGCPMljco+W3g3Sdt7mK
-         0zMp27lNXT81ott0dYeyE6wCdI4c1wfi5qCqRmoGIMvdtgle/6NMWI0GJrkD30CBojRq
-         hZbdgtbn9F/6uhvfSLkMdN7NhUpQoMVScRn9uDFKZJxofy0MWDF6kZw53YXeVt8sjWjA
-         Dd9TBzj4Ogplv/txGap2r0I252pQP7l7XSY4YOVhZ7qL539zlqhtO9W4mad505PIZ9Xp
-         yYy+XyL34oyC2pvEIWTDP8EMj+Gj6Cu0eHyc7GTPTD7Enq1rjLHU3JyAyX8LQzaLW/WP
-         +a+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
-        b=oxreFLXFFip+H095FQQBGiSdANQCfgVzfxRWKx8ksziiVXNuyzz0AB9XPW0vEyRb+Q
-         X6RgKt73ZahjmwhUwQ6NO3m2TPZMJCe1gT+4bcGW6Tq/zy+t3p0muS5WpQlNO5+CPquQ
-         f9nFBegy7nA7UlBQ7DH7Qo9iT5nJAgNyTPEyialD7cwTf0zDirojM8edvcnAOlFS/z+A
-         JVWoGX4euGJ23ymyp+VhAlqG+oEOSBHEgxJUsk3O7zQCaOfY2MTgK0pdt0zgmn38ME65
-         QLAnaT9I0GwITtmhgZgEoGFmL1tDzWcKUSpMqckhIC4+i3JA4/OlhGUoRZKoQE3bN1yu
-         zrLw==
-X-Gm-Message-State: APjAAAX2ZzuVsslCCpz3TSxfe0nFXJmnf46sbXh0CEzgz7ivTgjkueYw
-        ghrgJ0EOaLXIRoxmSj/FDmPeqUaWCHnn3v25zw==
-X-Google-Smtp-Source: APXvYqzpDMY1kfzvQTGFYFDuSf5Wkv4RFsY3uCP+mpqq6wLn7kqjCTzLCYufYBbbmMCBsVo5PHwr9dpQEEDI7K8RY00=
-X-Received: by 2002:a92:cc90:: with SMTP id x16mr2363556ilo.269.1576682033220;
- Wed, 18 Dec 2019 07:13:53 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:13:52
- -0800 (PST)
-Reply-To: dhl.expresscourier102156@outlook.fr
-From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
-Date:   Wed, 18 Dec 2019 16:13:52 +0100
-Message-ID: <CABHzvrnY8Lhdw4Y2q97jvAVrRpM9CVLFkw=Ved7y1GhGqHiAdw@mail.gmail.com>
-Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 18 Dec 2019 10:35:25 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id xBIFYQjT027260;
+        Thu, 19 Dec 2019 00:34:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xBIFYQjT027260
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576683267;
+        bh=vr+kfw+UdhSf2hUfOR0RaGQx/oD7qidfiBWZc/GiY68=;
+        h=From:To:Cc:Subject:Date:From;
+        b=tXl4szyoWcZKl0uD0jpCwfnubNbnCCUMflulOTsL+7Jb58kjwPt+KnWsIu3EYNgnO
+         dNyXt+Gq9iT4WcdC4yMcvmBIl+UKbq4gPWy/dumFo1MRwP2GnO7iIcSulcdMR8uYTi
+         PwUzwylO07qX1qJ6MCF+G833WanqKOmA/Ue1RkFq7yQJ7Py061s59IaH3+ChK7l3+U
+         4U7036+McnvaCAfHtArAvWngkaMNwkA3rCF2Hfip9nZKW2Y9g6rz+i5Zi0ugzQb4nb
+         xObewx8Opxy/vQAYrSlGZ1RdU8YzzQZWAM0yMJcz1H78XjpiMM2S7ezYsF5WZiHCi+
+         dlGDgG7t/WAzw==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: detect missing include guard for exported headers
+Date:   Thu, 19 Dec 2019 00:34:21 +0900
+Message-Id: <20191218153422.14557-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Attn Dear.
+Adding an include guard to every header file is good practice in case
+it is included multiple times.
 
-Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
-ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
-=9900, as
-approved this morning, Date, 18/12/2019. Through the Intruction from
-INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
+Exported headers are compile-tested for the comprehensive sanity checks.
+Let's include the same header twice. If an include guard is missing,
+the header will fail to build due to redefinition of something.
 
-REGISTRATION NO :EG58945
-PARCEL NUMBER: 140479
-Delivery Schuleded now,
-Finally all we required from you is your ATM Card Proccessing Delivery
-fees $19.00 only which you must send to this DHL service to enable us
-dispatch the parcel to your destination today.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+---
 
-Here is our receiving payment details.
-You are advised to send it Via Money Gram Service.
+ usr/include/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Receiver's Name--------Alan Ude
-Country-------Benin Republic.
-City/ Address--------Cotonou
-Test Question--------In God
-Answer-------We Trust
-Amount------------$US19.00 only
-Mtcn-------------
-Sender's Name-------
+diff --git a/usr/include/Makefile b/usr/include/Makefile
+index 84598469e6ff..e90f5f7903bb 100644
+--- a/usr/include/Makefile
++++ b/usr/include/Makefile
+@@ -93,10 +93,11 @@ header-test- += asm-generic/%
+ 
+ extra-y := $(patsubst $(obj)/%.h,%.hdrtest, $(shell find $(obj) -name '*.h' 2>/dev/null))
+ 
++# Include the header to detect missing include guard.
+ quiet_cmd_hdrtest = HDRTEST $<
+       cmd_hdrtest = \
+ 		$(CC) $(c_flags) -S -o /dev/null -x c /dev/null \
+-			$(if $(filter-out $(header-test-), $*.h), -include $<); \
++			$(if $(filter-out $(header-test-), $*.h), -include $< -include $<); \
+ 		$(PERL) $(srctree)/scripts/headers_check.pl $(obj) $(SRCARCH) $<; \
+ 		touch $@
+ 
+-- 
+2.17.1
 
-Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
-Is Due for delivery to your address today upon confirmation of
-required fee from you asap.
-
-Call us on this phone number for any inquiry. +229 62819378
-Awaiting your urgent response.
-
-MS. MARYANNA B. THOMASON, Shipment director, DHL Express
-Courier Company-Benin
