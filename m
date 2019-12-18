@@ -2,101 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 255BE124943
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 15:17:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FEEF124B0F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 16:13:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727001AbfLRORQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Dec 2019 09:17:16 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:17557 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726932AbfLRORQ (ORCPT
+        id S1727324AbfLRPNz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Dec 2019 10:13:55 -0500
+Received: from mail-il1-f196.google.com ([209.85.166.196]:39185 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727323AbfLRPNz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Dec 2019 09:17:16 -0500
-X-Greylist: delayed 95084 seconds by postgrey-1.27 at vger.kernel.org; Wed, 18 Dec 2019 09:17:15 EST
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id xBIEGjfI021877;
-        Wed, 18 Dec 2019 23:16:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com xBIEGjfI021877
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576678606;
-        bh=qmHvB4juxMPU3zIuVI2Brd26weLsZ6/2g5Iqv2+p7W0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PlMB2e7Pe4segIaQQANKREfkxM4abkGhBdOT9ubs8R2TAUALxN2Dd2c2kWGllC8YU
-         MJs6+wUTYcQGGc3suk0E1jrf+uEoDLbiHLN26mW9SHtAL0/KMSXvdvfZw6bFChsfLk
-         dFgvfGp9lOhvuZ/BmmZWAKENRX/qh0+Id4EHKXCppJoQ4hbYpKEpa3slfLdnqTigpI
-         aUtLAx0BmzGvMpn6gIPLPKfjibEq0xDmEa/PjWSLDmXEeCEQci7jci/YGBk/mZEso7
-         vCajyN8Ij6WBMF9HFdKZo6DxG9ADiG5y5mT09r8F/Jb6T9YITyTsJQmQuXU9yqio/+
-         s6WyCTNcrK4Ew==
-X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id u14so1474134vsu.3;
-        Wed, 18 Dec 2019 06:16:45 -0800 (PST)
-X-Gm-Message-State: APjAAAWBwFtBwiez2OLd2S7Xb6D3g+UfTejFCa2xjHrV8d+u22ekKQEk
-        sCrXLIs8hWepwZcQBmxh6Nj7+gCq6XBjMaHwakE=
-X-Google-Smtp-Source: APXvYqxMRyzTjfqlEpXcNMIZydJI68nPt3I8yfvImlkDJE7pX8UDC+Xba8CQeMVSUXXDVjStScD7bmst/DsXb6G7tx8=
-X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr1515570vsh.179.1576678604346;
- Wed, 18 Dec 2019 06:16:44 -0800 (PST)
+        Wed, 18 Dec 2019 10:13:55 -0500
+Received: by mail-il1-f196.google.com with SMTP id x5so1983701ila.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Dec 2019 07:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=Q3vp2fJ40VWpq9rX2ikiWTUrhuiQJXzCeUu43e1oIIOk8rzGCPMljco+W3g3Sdt7mK
+         0zMp27lNXT81ott0dYeyE6wCdI4c1wfi5qCqRmoGIMvdtgle/6NMWI0GJrkD30CBojRq
+         hZbdgtbn9F/6uhvfSLkMdN7NhUpQoMVScRn9uDFKZJxofy0MWDF6kZw53YXeVt8sjWjA
+         Dd9TBzj4Ogplv/txGap2r0I252pQP7l7XSY4YOVhZ7qL539zlqhtO9W4mad505PIZ9Xp
+         yYy+XyL34oyC2pvEIWTDP8EMj+Gj6Cu0eHyc7GTPTD7Enq1rjLHU3JyAyX8LQzaLW/WP
+         +a+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=oxreFLXFFip+H095FQQBGiSdANQCfgVzfxRWKx8ksziiVXNuyzz0AB9XPW0vEyRb+Q
+         X6RgKt73ZahjmwhUwQ6NO3m2TPZMJCe1gT+4bcGW6Tq/zy+t3p0muS5WpQlNO5+CPquQ
+         f9nFBegy7nA7UlBQ7DH7Qo9iT5nJAgNyTPEyialD7cwTf0zDirojM8edvcnAOlFS/z+A
+         JVWoGX4euGJ23ymyp+VhAlqG+oEOSBHEgxJUsk3O7zQCaOfY2MTgK0pdt0zgmn38ME65
+         QLAnaT9I0GwITtmhgZgEoGFmL1tDzWcKUSpMqckhIC4+i3JA4/OlhGUoRZKoQE3bN1yu
+         zrLw==
+X-Gm-Message-State: APjAAAX2ZzuVsslCCpz3TSxfe0nFXJmnf46sbXh0CEzgz7ivTgjkueYw
+        ghrgJ0EOaLXIRoxmSj/FDmPeqUaWCHnn3v25zw==
+X-Google-Smtp-Source: APXvYqzpDMY1kfzvQTGFYFDuSf5Wkv4RFsY3uCP+mpqq6wLn7kqjCTzLCYufYBbbmMCBsVo5PHwr9dpQEEDI7K8RY00=
+X-Received: by 2002:a92:cc90:: with SMTP id x16mr2363556ilo.269.1576682033220;
+ Wed, 18 Dec 2019 07:13:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20191217115151.12465-1-masahiroy@kernel.org>
-In-Reply-To: <20191217115151.12465-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Dec 2019 23:16:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQj3Hsv7Nbd3qVj-ie2z+DsPmBseh4tS9hfk+6mg4PpYw@mail.gmail.com>
-Message-ID: <CAK7LNAQj3Hsv7Nbd3qVj-ie2z+DsPmBseh4tS9hfk+6mg4PpYw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: remove ---help--- from documentation
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Ulf Magnusson <ulfalizer@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:13:52
+ -0800 (PST)
+Reply-To: dhl.expresscourier102156@outlook.fr
+From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
+Date:   Wed, 18 Dec 2019 16:13:52 +0100
+Message-ID: <CABHzvrnY8Lhdw4Y2q97jvAVrRpM9CVLFkw=Ved7y1GhGqHiAdw@mail.gmail.com>
+Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 17, 2019 at 8:52 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Commit 84af7a6194e4 ("checkpatch: kconfig: prefer 'help' over
-> '---help---'"), scripts/checkpatch.pl warns the use of ---help---.
->
-> This still exists, but new code should avoid using it.
-> Let's stop advertising it in documentation.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+Attn Dear.
 
-Applied to linux-kbuild.
+Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
+ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
+=9900, as
+approved this morning, Date, 18/12/2019. Through the Intruction from
+INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
 
->
->  Documentation/kbuild/kconfig-language.rst | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 74bef19f69f0..231e6a64957f 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -196,14 +196,11 @@ applicable everywhere (see syntax).
->    or equal to the first symbol and smaller than or equal to the second
->    symbol.
->
-> -- help text: "help" or "---help---"
-> +- help text: "help"
->
->    This defines a help text. The end of the help text is determined by
->    the indentation level, this means it ends at the first line which has
->    a smaller indentation than the first line of the help text.
-> -  "---help---" and "help" do not differ in behaviour, "---help---" is
-> -  used to help visually separate configuration logic from help within
-> -  the file as an aid to developers.
->
->  - misc options: "option" <symbol>[=<value>]
->
-> --
-> 2.17.1
->
+REGISTRATION NO :EG58945
+PARCEL NUMBER: 140479
+Delivery Schuleded now,
+Finally all we required from you is your ATM Card Proccessing Delivery
+fees $19.00 only which you must send to this DHL service to enable us
+dispatch the parcel to your destination today.
 
+Here is our receiving payment details.
+You are advised to send it Via Money Gram Service.
 
--- 
-Best Regards
-Masahiro Yamada
+Receiver's Name--------Alan Ude
+Country-------Benin Republic.
+City/ Address--------Cotonou
+Test Question--------In God
+Answer-------We Trust
+Amount------------$US19.00 only
+Mtcn-------------
+Sender's Name-------
+
+Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
+Is Due for delivery to your address today upon confirmation of
+required fee from you asap.
+
+Call us on this phone number for any inquiry. +229 62819378
+Awaiting your urgent response.
+
+MS. MARYANNA B. THOMASON, Shipment director, DHL Express
+Courier Company-Benin
