@@ -2,115 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 390A01248C7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 14:54:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2AE112491E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 15:10:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbfLRNyJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Dec 2019 08:54:09 -0500
-Received: from mout.gmx.net ([212.227.17.22]:47233 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726998AbfLRNyI (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Dec 2019 08:54:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1576677243;
-        bh=ZhcDDcNfsfafFdvs1JQcGHU/hpgdybDLx7pCjlP+xVM=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=XK1rBebkH++Y1QL+eER5du3AZsBxW6t/Gmc0yw30HIR8Ck6ty8siCmjRLlOq9VY1S
-         f8rK3dtAYf2lALCFwZTzrT19Ta+gh/R3TXxQVzHJ4y4/aR7iCZsrdSjHMZwbjGYCxn
-         thnuBI7n/Zcm9BWdNvE8KzRYSOm8dLYgdLfUnFVU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [185.76.99.135] ([185.76.99.135]) by web-mail.gmx.net
- (3c-app-gmx-bap62.server.lan [172.19.172.132]) (via HTTP); Wed, 18 Dec 2019
- 14:54:03 +0100
+        id S1726856AbfLROKQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Dec 2019 09:10:16 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:43634 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727034AbfLROKQ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 18 Dec 2019 09:10:16 -0500
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id xBIE9xc1002895;
+        Wed, 18 Dec 2019 23:10:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xBIE9xc1002895
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576678200;
+        bh=sK0Y524wx5hTvDQvfkikiU6FvAcdXV1HieXZce1m0oY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=CSWsiFWl4hNytsEwVdoam4tV0utXMKiNzfUBJQ+/TJxh/aZLGebehNEK3fZb3xvfn
+         Xj98jOMxDT/HhqiJAAZ+1N3/RT0OjqCmOw8kcSV2pafhlhGH8af/RCI0CHLtBbg8yI
+         oy+gjIxYzdvTXy9PA4KBR1tOoCRASBSaBhXtYXlDjNEbJdEp6jh25v396vO/YXeZ2F
+         ViupeXq1tg/p/NBxrsLD9EE6ketgS2yywrktuMT7xzLCtzDyn3aYchnOUfk2opZ4Ui
+         rp6fGIOcLTZVeqzYuVbT2vdRwOp0CogA6ia5qsXhwXsHdZlMVi8VtiZTrT8gNqEVJA
+         2ammzjWoVjrHA==
+X-Nifty-SrcIP: [209.85.222.45]
+Received: by mail-ua1-f45.google.com with SMTP id d6so663895uam.11;
+        Wed, 18 Dec 2019 06:09:59 -0800 (PST)
+X-Gm-Message-State: APjAAAWZzvlUrstMxLDKAN9LB80hR3Gf6APAA1/n50gt8yDJ3vMEy28E
+        dJ8O4oA9QiSTDGzIsFTU2wqAJy/Pb191sa2q81w=
+X-Google-Smtp-Source: APXvYqxj/VVIXI6U17IvS2b1hvsjfikDP+/ho6hEvii+xPz6k15U/LpW0YHSFxyWudL1l727MKUmI6SeuX7p8+rBGCw=
+X-Received: by 2002:ab0:3487:: with SMTP id c7mr1453419uar.25.1576678198490;
+ Wed, 18 Dec 2019 06:09:58 -0800 (PST)
 MIME-Version: 1.0
-Message-ID: <trinity-d7a098bf-51a2-4579-93c9-963826ed2895-1576677243636@3c-app-gmx-bap62>
-From:   "Frank Wunderlich" <frank-w@public-files.de>
-To:     "Masahiro Yamada" <masahiroy@kernel.org>
-Cc:     "Linux Kbuild mailing list" <linux-kbuild@vger.kernel.org>,
-        "Michal Marek" <michal.lkml@markovi.net>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "Rob Herring" <robh+dt@kernel.org>,
-        "Frank Rowand" <frowand.list@gmail.com>,
-        DTML <devicetree@vger.kernel.org>
-Subject: Aw: Re: [PATCH] kbuild: Add DTC_CPP_FLAGS
-Content-Type: text/plain; charset=UTF-8
-Date:   Wed, 18 Dec 2019 14:54:03 +0100
-Importance: normal
-Sensitivity: Normal
-In-Reply-To: <CAK7LNARWYE4-4Qp-YfTrrt1YCZ68b28FDoE45cDJkZTqUyXNUw@mail.gmail.com>
-References: <20191218114625.28438-1-frank-w@public-files.de>
- <CAK7LNARWYE4-4Qp-YfTrrt1YCZ68b28FDoE45cDJkZTqUyXNUw@mail.gmail.com>
-X-UI-Message-Type: mail
-X-Priority: 3
-X-Provags-ID: V03:K1:IPEYO5erNR3VIgkP26Ywy22WTWQkOf9vN8fjbS56GYJQF0o6de1mtWEGI8IjV1m+jU8TF
- 3k76khgIJtZ6dmgLTKOuR3djzyaqRsERlxXcPq/ov0DxOQv0xSq740gNPqZBhdffYA5EuukAokko
- 9boOvproSK4KWQ/MY5/YNELjGh8WGFILYQtgAJM0rnQZPujUhB89vhNWl6xIf3e33yDAHa+YantC
- ntLllE7GdbDVNceTMN+7KG3qbfzvb9AMflXfOijv8HQoWnCZ1eD6HMRKRIbR6Sononw2Qimr1P0u
- d4=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:s4mPEd+k28k=:K9yIMO1inLEXGbGxzMcLZt
- kxi2OI5xu/PLSRGCYa8rgEvelPZvFG7ScNxj59El6atgpkLps4J0J7OpDTmk0DqTMQu4ILPw5
- RcKuYnhTiRK8D/TZ1ooLUXG/OFLEsEPy2Cent4kgR3+zNwGQwVlC4cxkpyiRemeJcfln89kP7
- wo/BTXQ8x5XxKFY7NhHxIubfgXowzLfpfkJnZYJSBBR3Ny35Axt9/yl0gh6CGxNP9WocpO7pC
- 9+q2fUe9mYfJiLX8+yVD9wG+iyZfEw7kgf/+E9jMpT7gcwaOtKt4qz2PiME2k6wMoT6cpuLcq
- wODlqkagwlWUt7eq0XpfmUp6fVKUPjN2DYh6TyILnRD8pOH6MGdCOvw26bftMKK9QyYD2NWxZ
- MNs3FwOddJjd1ql/0Y/oE9lyRW2MEqML3jGaoJmShuNw7JNjVd+qDi5J1+lMEIA8Lf0CMWMRp
- LIpz6NYKTkMle2hSM7CDpeuSvK3T5Wob+ixDutg8V7vlFNjhW8MUX5PFbIUi2iZmKwR6QGH+v
- BhCVRYf7TOVz30C7SSYQ4NMz/clRBkLC/n5el1BDLAzq+bUQ2gEXqPs+zpXd+XNIDUrUfvNOT
- 9o5putGwzFXN9OY/WF4BwtO3LVSBI13XxV7O1Tloc0gIinlyVefrutQpB/mx4/ECohe/UbI8l
- Igq3b96srX3rzn9vSNoKrXOFnbBu9pbrQJBINL6aOB7Ao8qBBPV9hs4sDC33HQpgHlKw=
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1576599202.git.tommyhebb@gmail.com>
+In-Reply-To: <cover.1576599202.git.tommyhebb@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 18 Dec 2019 23:09:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQgG45XRfQEKBJFt-knZ0L7se5eMH6Kvo-3L_gW6wcA1g@mail.gmail.com>
+Message-ID: <CAK7LNAQgG45XRfQEKBJFt-knZ0L7se5eMH6Kvo-3L_gW6wcA1g@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] kconfig: rework symbol help text
+To:     Thomas Hebb <tommyhebb@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
-
-thank you for your answer... i waited for this argument ;) so here an exam=
-ple (don't wanted to add in patch itself):
-
-i have 2 different Bananapi-r64 boards with different switch-chips (v0.x r=
-tl8367,v1.x xmt7531). for 1 of the switches (mt7531) there are 2 drivers (=
-phy-driver + dsa driver) available and so i have 3 different configs in DT=
-S.
-
-Imho dtsi should contain only config for 1 chip, but the board has only 1 =
-dts. Till now i have copied the whole dts twice, so i have 3 independent d=
-ts. if i Patch any other in one like for bluetooth, wifi, which is same on=
- each board i have to do it on all 3 dts files.
-
-so i tried to make the switch-part conditionally, include the right dtsi f=
-or switch to 1 bpi-r64 dts based on -D param passed to the build-chain.
-
-#ifdef __SWITCH_RTL8367__
-       #include "rtl8367.dtsi"
-#endif
-#ifdef __SWITCH_MT7531_DSA__
-       #include "mt7531.dtsi"
-#endif
-
-imho i can/should not include a dtsi to a dtsi and no dts to dts, so i can=
-not have a small dts (with the switch-config) including the whole r64 boar=
-d. Am i right?
-
-and this change should be less interferring than other ideas i'm thinking =
-about.
-
-Another example: I had tried adding the include/generated/autoconf.h to dt=
-si (same reason) which needs a change in scripts/dtc/include-prefixes/ (ad=
-d symlink) or an odd include in the dtsi (#include "../../../../../include=
-/generated/autoconf.h"). Both ways not nice...
-
-regards Frank
-
-
-> Gesendet: Mittwoch, 18. Dezember 2019 um 14:31 Uhr
-> Von: "Masahiro Yamada" <masahiroy@kernel.org>
-> I think this is questionable
-> since DT is supposed to describe hardware.
-> Does it depends on #ifdef or some external defines?
+On Wed, Dec 18, 2019 at 1:15 AM Thomas Hebb <tommyhebb@gmail.com> wrote:
 >
-> If you want to add variations,
-> you can add a new DTS which includes other DTS(I) files.
+> This series fixes several issues with help text generated by Kconfig,
+> mainly affecting symbols that are defined in multiple places. Although
+> results of these patches are somewhat visible for the symbols in Linux,
+> what prompted me to write the series was working on U-Boot, which also
+> uses Kconfig and makes very heavy use of multiple definitions (e.g. for
+> overriding defaults). I have provided Linux examples where I could find
+> them, but the example for the biggest patch (the first one) is taken
+> from U-Boot because it was more illustrative than anything I could find
+> in Linux.
+>
+> Changes in v2:
+> - Added explicit U-Boot version in commit message + other rewordings
+> - Made the new "Depends on:" line print actual dependencies instead of
+>   visibility to avoid an intra-series regression, and noted that in the
+>   commit message.
+> - Get rid of redundant "with prompt" and "without prompt" notes in
+>   definition text, but continue to ensure that definitions with prompts
+>   are printed before ones without.
+> - Fixed checkpatch issues
+> - Omit already-merged patch "kconfig: don't crash on NULL expressions in
+>   expr_eq()"
+>
+> Thomas Hebb (3):
+>   kconfig: list all definitions of a symbol in help text
+>   kconfig: distinguish between dependencies and visibility in help text
+>   kconfig: fix nesting of symbol help text
 
+All applied to linux-kbuild. Thanks.
+
+
+>  scripts/kconfig/expr.c |  3 +-
+>  scripts/kconfig/expr.h |  1 +
+>  scripts/kconfig/menu.c | 82 +++++++++++++++++++++++++-----------------
+>  3 files changed, 52 insertions(+), 34 deletions(-)
+>
+> --
+> 2.24.1
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
