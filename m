@@ -2,51 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2AE112491E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 15:10:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E68112492A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Dec 2019 15:10:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726856AbfLROKQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Dec 2019 09:10:16 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:43634 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727034AbfLROKQ (ORCPT
+        id S1727189AbfLROK6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Dec 2019 09:10:58 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:49692 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727001AbfLROK6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Dec 2019 09:10:16 -0500
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id xBIE9xc1002895;
-        Wed, 18 Dec 2019 23:10:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com xBIE9xc1002895
+        Wed, 18 Dec 2019 09:10:58 -0500
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id xBIEAaqO031760;
+        Wed, 18 Dec 2019 23:10:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com xBIEAaqO031760
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576678200;
-        bh=sK0Y524wx5hTvDQvfkikiU6FvAcdXV1HieXZce1m0oY=;
+        s=dec2015msa; t=1576678237;
+        bh=ZtHoWzlWv4Nggpiz4JYJ0ktQQgL8zQr082eHKmhq0sA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CSWsiFWl4hNytsEwVdoam4tV0utXMKiNzfUBJQ+/TJxh/aZLGebehNEK3fZb3xvfn
-         Xj98jOMxDT/HhqiJAAZ+1N3/RT0OjqCmOw8kcSV2pafhlhGH8af/RCI0CHLtBbg8yI
-         oy+gjIxYzdvTXy9PA4KBR1tOoCRASBSaBhXtYXlDjNEbJdEp6jh25v396vO/YXeZ2F
-         ViupeXq1tg/p/NBxrsLD9EE6ketgS2yywrktuMT7xzLCtzDyn3aYchnOUfk2opZ4Ui
-         rp6fGIOcLTZVeqzYuVbT2vdRwOp0CogA6ia5qsXhwXsHdZlMVi8VtiZTrT8gNqEVJA
-         2ammzjWoVjrHA==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id d6so663895uam.11;
-        Wed, 18 Dec 2019 06:09:59 -0800 (PST)
-X-Gm-Message-State: APjAAAWZzvlUrstMxLDKAN9LB80hR3Gf6APAA1/n50gt8yDJ3vMEy28E
-        dJ8O4oA9QiSTDGzIsFTU2wqAJy/Pb191sa2q81w=
-X-Google-Smtp-Source: APXvYqxj/VVIXI6U17IvS2b1hvsjfikDP+/ho6hEvii+xPz6k15U/LpW0YHSFxyWudL1l727MKUmI6SeuX7p8+rBGCw=
-X-Received: by 2002:ab0:3487:: with SMTP id c7mr1453419uar.25.1576678198490;
- Wed, 18 Dec 2019 06:09:58 -0800 (PST)
+        b=Y8IH6ikPKkZ91TfmMDmbLnCku2cKcFxE58DmglIwpn99HQzVP0ZgoP1YHXWG4K9tq
+         Mt454eRcKY4Lo4HjJxr/lsGyAEMsFxOEZgakqmzincCPM7nmXAvOfJYHzciHJE8s2e
+         6//kBXRQkxo/BuWPUiPDbkFb/5/l7rF8HHWJ0T6WtfnScNDNLfCGe4MXlpbYcNuDI0
+         dTOvC3rlM1AGNbPHRWJO8KHLUzGxH+oOk4YN/Bn+nPwCWsMj1Ere+y+1uy5zDupZIm
+         aBjpFvxpDPxs9QFY7/Ya4O8wJhWLEBgPbxqG/9/1Tgh8PRiSacy2R7I5qzMWgXxJkN
+         9HWIChs8b86sQ==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id v18so668237uaq.7;
+        Wed, 18 Dec 2019 06:10:36 -0800 (PST)
+X-Gm-Message-State: APjAAAUH6tqw3rjpz5c1wjBiVbmiVdGACLsouF7QC5GsNcbNkvzk5+/v
+        d3eTzE9a5HM1Q9c3tmroOS+5+gUtzyYNgUMAacs=
+X-Google-Smtp-Source: APXvYqw9cT8Od3W7kctCPwiC5X53fct0hh2cQ9AwQ0K101fOwa4G9Y/YaVZbIWbz6ZgR4YnRDQddC6j+idk0VSoEamk=
+X-Received: by 2002:ab0:63c7:: with SMTP id i7mr1393678uap.109.1576678235726;
+ Wed, 18 Dec 2019 06:10:35 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1576599202.git.tommyhebb@gmail.com>
-In-Reply-To: <cover.1576599202.git.tommyhebb@gmail.com>
+References: <20191217135539.17157-1-info@metux.net>
+In-Reply-To: <20191217135539.17157-1-info@metux.net>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 18 Dec 2019 23:09:22 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQgG45XRfQEKBJFt-knZ0L7se5eMH6Kvo-3L_gW6wcA1g@mail.gmail.com>
-Message-ID: <CAK7LNAQgG45XRfQEKBJFt-knZ0L7se5eMH6Kvo-3L_gW6wcA1g@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] kconfig: rework symbol help text
-To:     Thomas Hebb <tommyhebb@gmail.com>
+Date:   Wed, 18 Dec 2019 23:09:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASVmO3i3BVSHHLAE3p10E5+POhBn9m9HpYqG5VeR1_NAw@mail.gmail.com>
+Message-ID: <CAK7LNASVmO3i3BVSHHLAE3p10E5+POhBn9m9HpYqG5VeR1_NAw@mail.gmail.com>
+Subject: Re: [PATCH v2] scripts: package: mkdebian: add missing rsync dependency
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
         "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -54,45 +53,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 1:15 AM Thomas Hebb <tommyhebb@gmail.com> wrote:
+On Tue, Dec 17, 2019 at 10:56 PM Enrico Weigelt, metux IT consult
+<info@metux.net> wrote:
 >
-> This series fixes several issues with help text generated by Kconfig,
-> mainly affecting symbols that are defined in multiple places. Although
-> results of these patches are somewhat visible for the symbols in Linux,
-> what prompted me to write the series was working on U-Boot, which also
-> uses Kconfig and makes very heavy use of multiple definitions (e.g. for
-> overriding defaults). I have provided Linux examples where I could find
-> them, but the example for the biggest patch (the first one) is taken
-> from U-Boot because it was more illustrative than anything I could find
-> in Linux.
+> We've missed the dependency to rsync, so build fails on
+> minimal containers.
 >
-> Changes in v2:
-> - Added explicit U-Boot version in commit message + other rewordings
-> - Made the new "Depends on:" line print actual dependencies instead of
->   visibility to avoid an intra-series regression, and noted that in the
->   commit message.
-> - Get rid of redundant "with prompt" and "without prompt" notes in
->   definition text, but continue to ensure that definitions with prompts
->   are printed before ones without.
-> - Fixed checkpatch issues
-> - Omit already-merged patch "kconfig: don't crash on NULL expressions in
->   expr_eq()"
->
-> Thomas Hebb (3):
->   kconfig: list all definitions of a symbol in help text
->   kconfig: distinguish between dependencies and visibility in help text
->   kconfig: fix nesting of symbol help text
+> Fixes: 59b2bd05f5f4 ("kbuild: add 'headers' target to build up uapi headers in usr/include")
+> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+> ---
 
-All applied to linux-kbuild. Thanks.
+Applied to linux-kbuild .Thanks.
 
-
->  scripts/kconfig/expr.c |  3 +-
->  scripts/kconfig/expr.h |  1 +
->  scripts/kconfig/menu.c | 82 +++++++++++++++++++++++++-----------------
->  3 files changed, 52 insertions(+), 34 deletions(-)
+>  scripts/package/mkdebian | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index e0750b70453f..7c230016b08d 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -174,7 +174,7 @@ Source: $sourcename
+>  Section: kernel
+>  Priority: optional
+>  Maintainer: $maintainer
+> -Build-Depends: bc, kmod, cpio, bison, flex | flex:native $extra_build_depends
+> +Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_build_depends
+>  Homepage: http://www.kernel.org/
+>
+>  Package: $packagename
 > --
-> 2.24.1
+> 2.11.0
 >
 
 
