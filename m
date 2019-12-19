@@ -2,125 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B818D125C77
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 09:18:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0708125CC4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 09:34:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726463AbfLSISV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Dec 2019 03:18:21 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35503 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbfLSISU (ORCPT
+        id S1726801AbfLSIeg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Dec 2019 03:34:36 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:36831 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726463AbfLSIeg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Dec 2019 03:18:20 -0500
-Received: by mail-lf1-f66.google.com with SMTP id 15so3710764lfr.2;
-        Thu, 19 Dec 2019 00:18:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=lyRx4LhgT45X7mR4qaC6NB0RAe9XsPHCBgrwE/KgqOw=;
-        b=MItNcs6ekz4Yu/YdXKvMt2RgHOg8Yk2x2RsADK2l/1WgfNaw4BQT9CVXVZ0zoYhaGu
-         /D9nCrHIJj1oLVUK7e2xrbOhNuicUtCva5j1LLWf811BDB+etJ5nIEuDsLwbbjviicmt
-         kqP2vJ6sYft+jZXlhf3K+NkEiNXaBI/TlB8daSQvvv3NcDjXrbsChH79r9qCwIfyM874
-         4TzpLsQwW6aXHidU9Us9+ot/qnS3KP0EDqZ1TONfm7GabVd1WxlqXqwUQNuamEPKQxpy
-         DFIiXev11M2rhGt+A9hSeKUFGgu9LMDAYR4mOsGXgQdndX5HgnPOAVNZNqJR4WtyRB7N
-         damg==
-X-Gm-Message-State: APjAAAWd/1SKJsRIo7uQEh3J4o+va2waLOu31wdM36IKIoJWAhrLk5WC
-        FeQUFbznwCUvsgH6K2jYk3E=
-X-Google-Smtp-Source: APXvYqwt1Uhyezg2/wwiQ1u+1vKKuE4R+kFpQJA9QKAFB+ocPpQgLulCZVV8HI2dV4nKMf8Bqjx/3g==
-X-Received: by 2002:a19:dc1e:: with SMTP id t30mr4644623lfg.34.1576743498552;
-        Thu, 19 Dec 2019 00:18:18 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id s22sm2390789ljm.41.2019.12.19.00.18.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2019 00:18:17 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1ihr0g-0003mF-2w; Thu, 19 Dec 2019 09:18:14 +0100
-Date:   Thu, 19 Dec 2019 09:18:14 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
+        Thu, 19 Dec 2019 03:34:36 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id xBJ8XVeB026051;
+        Thu, 19 Dec 2019 17:33:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com xBJ8XVeB026051
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576744412;
+        bh=qI5mMd1cAwycq3B8kLudFXZgwvG5Ji5YZpa3DkyTil0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=G53E+sLqx0KukWN7HDXX4hwLlfe5erHOz4O8LADMWlDcIYtkBmHrrWEk2J/JTd500
+         fzEaMzqAtjfXuv4Ipq57ovnkCU3opY/rmKde7nfKtF3KAJ5f7LQSuCWxui3kjAFFEq
+         dfeNIJ5g+6KNgWs7xgxUrM7t42TGCgAPm2prs9XZvUC7GFazrm+2KQFiKsbc9tWLPU
+         212tZIiRia5zCDhV/kPtatDoZ2jGFnvUgGetoiaoKoqoQMEN/71wYDENpJkchbusPW
+         axlHcBgpUJIN4S9ofRUcFrCIrVQAoMMe7aD3kEgI9X+jJqkR1OPqCsL+dHIHwkL8oB
+         dHuZel67E0BvQ==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, Rob Herring <robh@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        kbuild test robot <lkp@intel.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: kbuild obj-m directory descend (was: Re: [PATCH] serdev: fix
- builds with CONFIG_SERIAL_DEV_BUS=m)
-Message-ID: <20191219081814.GP22665@localhost>
-References: <201912181000.82Z7czbN%lkp@intel.com>
- <20191218083842.14882-1-u.kleine-koenig@pengutronix.de>
- <20191218172353.GO22665@localhost>
- <CAK7LNATztV-a3maL+vqQhbVsLBD_dsy+wbOZQ5ofQfbZQGGuLA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATztV-a3maL+vqQhbVsLBD_dsy+wbOZQ5ofQfbZQGGuLA@mail.gmail.com>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] kbuild: generate modules.builtin without Makefile.modbuiltin or tristate.conf
+Date:   Thu, 19 Dec 2019 17:33:26 +0900
+Message-Id: <20191219083329.5926-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 11:00:15AM +0900, Masahiro Yamada wrote:
-> Hi.
-> 
-> On Thu, Dec 19, 2019 at 2:23 AM Johan Hovold <johan@kernel.org> wrote:
 
-> > The offending patch is broken since it effectively makes
-> > CONFIG_SERIAL_DEV_BUS bool (built-in or disabled), but for some reason
-> > those symbols do not end up in vmlinux (despite being compiled) when you
-> > add a built-in object goal under a directory that was entered using
-> > obj-m.
-> >
-> > That seems like a bug to me and contradicts the kbuild documentation
-> > (3.6):
-> >
-> >         Example:
-> >
-> >         #fs/Makefile
-> >         obj-$(CONFIG_EXT2_FS) += ext2/
-> >
-> >         If CONFIG_EXT2_FS is set to either ‘y’ (built-in) or ‘m’
-> >         (modular) the corresponding obj- variable will be set, and
-> >         kbuild will descend down in the ext2 directory. Kbuild only uses
-> >         this information to decide that it needs to visit the directory,
-> >         it is the Makefile in the subdirectory that specifies what is
-> >         modular and what is built-in.
-> >
-> > I tried adding other targets to obj-y directly and they are also are not
-> > included, seemingly since the directory was entered using obj-m.
-> >
-> > Masahiro or Michal, can you shed some light?
+This series re-implements the way of generating modules.builtin
 
-> I saw similar questions in ML in the past.
-> Yes, this is how Kbuild works;
-> Kbuild only links objects in Makefiles visited by obj-y.
-> 
-> If you use
->     obj-m += serdev/
-> all objects in serdev/ are considered as modular.
+Current approach:
+   Collect all CONFIG options with 'tristate' type into tristate.conf,
+   and parse Makefiles to get the list of builtin modules.
 
-Well, any objects in serdev/ specified in obj-y would currently be built
-but never included in either built-in.a or any module.
+New approach:
+   Use MODULE_LICENSE() tags that compiled into vmlinux.
+   This information appears in modules.builtin.info,
+   but trimmed from vmlinux itself. So the image size does
+   not change.
 
-> I think it is better to make the document
-> clarify this.
+This slightly speeds up builds because Kbuild no longer needs
+to traverse the source tree twice.
 
-Yeah, I don't have a use case for this, but the documentation would need
-to be updated to not have more people look into this.
+Also, the code diff is appealing:
+ 8 files changed, 35 insertions(+), 135 deletions(-)
 
-And at least this behaviour allowed us to catch this bug, but only
-because we had dependent modules that failed to build. I see now that
-you posted a patch adding a general warning about obj-y under obj-m last
-fall, but that was apparently never merged.
+I think this is OK, but I hope module people can check it.
 
-But when was this behaviour changed? And was that done on purpose?
 
-Johan
+
+Masahiro Yamada (3):
+  kbuild: add stringify helper to quote a string passed to C files
+  kbuild: pass KBUILD_MODFILE when compiling builtin objects
+  kbuild: create modules.builtin without Makefile.modbuiltin or
+    tristate.conf
+
+ Documentation/kbuild/kconfig.rst |  5 ---
+ Makefile                         | 21 +++---------
+ include/linux/module.h           | 12 ++++++-
+ scripts/Kbuild.include           | 10 +++---
+ scripts/Makefile.lib             | 17 ++++++----
+ scripts/Makefile.modbuiltin      | 57 --------------------------------
+ scripts/kconfig/confdata.c       | 45 ++-----------------------
+ scripts/link-vmlinux.sh          |  4 +++
+ 8 files changed, 36 insertions(+), 135 deletions(-)
+ delete mode 100644 scripts/Makefile.modbuiltin
+
+-- 
+2.17.1
+
