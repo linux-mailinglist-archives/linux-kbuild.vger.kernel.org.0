@@ -2,162 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E04C0125E0D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 10:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE6F8125EC4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 11:22:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbfLSJtI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Dec 2019 04:49:08 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37602 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726599AbfLSJtI (ORCPT
+        id S1726656AbfLSKWs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Dec 2019 05:22:48 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:23534 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbfLSKWr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Dec 2019 04:49:08 -0500
-Received: by mail-lj1-f195.google.com with SMTP id u17so5502873lja.4;
-        Thu, 19 Dec 2019 01:49:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ZjgDeshjeiNQm7U2IpWlnWn/GpLHmcq5Ng4N0RI+hO8=;
-        b=udyjswlzrxiUIOp68/+yhqYl1HMspJgplTMw7wlV4tqSYpSUaNdO+DjXQoD0Lofpj1
-         GqIBUB1xfA7epXZCQM96pJ3pMDvNOxNS1GZeRymBXfKWg/J4XvZwJgsmxMKBPSqtj65V
-         rzFStUubgjlgPhIEjel/E2xWcS2Hx/DlVB4TId6c5gxasUr6Yb8nWSHjUrSThQZp0knj
-         SsI710IVReclOi8eG5JoQgAhZKvI2gfXH5O2X4Y+RgHv8pSvwfsrkPYITE5oeWLutaO+
-         Sq11ay4leBu3PUDfSBBE1L5FLs1AABaxiaqmQk+SgrLh+NS3Xn0lK7f+BY5KSbtPXmE7
-         AtCQ==
-X-Gm-Message-State: APjAAAVmmzhkNXEVIFlQ2ciMF8VoQQOBJYXGQpKkGyo1yIbuXnZLp4el
-        QG97SzC+zrf2umRVhhUiU1o=
-X-Google-Smtp-Source: APXvYqxLP93hcgwGaARbYpfHGfs84f8VXAhmPaqSxR5gy3xFKIp28pllD2Eav4/aLA4gQno70JWQfA==
-X-Received: by 2002:a2e:a361:: with SMTP id i1mr5053198ljn.29.1576748945700;
-        Thu, 19 Dec 2019 01:49:05 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id q27sm2423048ljm.25.2019.12.19.01.49.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2019 01:49:04 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1ihsQX-00048r-9A; Thu, 19 Dec 2019 10:49:01 +0100
-Date:   Thu, 19 Dec 2019 10:49:01 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, Rob Herring <robh@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        kbuild test robot <lkp@intel.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: kbuild obj-m directory descend (was: Re: [PATCH] serdev: fix
- builds with CONFIG_SERIAL_DEV_BUS=m)
-Message-ID: <20191219094901.GR22665@localhost>
-References: <201912181000.82Z7czbN%lkp@intel.com>
- <20191218083842.14882-1-u.kleine-koenig@pengutronix.de>
- <20191218172353.GO22665@localhost>
- <CAK7LNATztV-a3maL+vqQhbVsLBD_dsy+wbOZQ5ofQfbZQGGuLA@mail.gmail.com>
- <20191219081814.GP22665@localhost>
- <CAK7LNASHZ9HsYj+sncDqOBWRV+YoFNTciKOxfeYrA7MtBJ9T7A@mail.gmail.com>
+        Thu, 19 Dec 2019 05:22:47 -0500
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id xBJAMbgO005908
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2019 19:22:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com xBJAMbgO005908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1576750958;
+        bh=lcfQLiyfrWhUgt2h6E2DAdopwz5Jk3IYzKOWCEPlscs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OQqX5yH5R0ezgrEynlrPxPbb201MDX31yr2cMYeg6mEgJnVaLCNvCbkDAOrSOtPrh
+         fGKNuBCI9EuNVsWSdXnQRdfNjpLCxQNrGFPh4gKeAFKOYvr2yibU3gIBw/WL2kPFnq
+         zMPLH3SNQMPanJwjFfsRM/OX370f6bqT0/R/1VJQdUidZOK5UQIcMkWBbacmlvjULZ
+         f0wJUqizcfgS3aeOAltFv8J15f9a9jnlB1vMnFBRWnW1NqbCHUeLvQEIMqbfxe0SIx
+         LzBOTOD3udHTBpDGFViAeboB0rjBInPCVGnyoMj3AVR7P+bImLLhbjXEJcngcoFQsf
+         gYxvVj+Umm3Jw==
+X-Nifty-SrcIP: [209.85.217.52]
+Received: by mail-vs1-f52.google.com with SMTP id t12so3414125vso.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2019 02:22:37 -0800 (PST)
+X-Gm-Message-State: APjAAAV8KhbMsdui9RTr4uXUl+FnabIX3q+xQEqOHixwS2qdpfNOT9fS
+        qWn2E8OVk7V58Bu0Ycp61UlEgxBu1JqeFCeSoFI=
+X-Google-Smtp-Source: APXvYqwHGmF7K1VyZmZfKHBFDkyXWt8qH21GMQNnOU/zLto4XvqtGFi1tWiMos12dutyHv9zJTJu+RkaJ3uizIEY3VE=
+X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr4587969vsh.179.1576750956854;
+ Thu, 19 Dec 2019 02:22:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASHZ9HsYj+sncDqOBWRV+YoFNTciKOxfeYrA7MtBJ9T7A@mail.gmail.com>
+References: <7e0f4a74-63c5-ad62-c619-c6277c4bc791@oracle.com>
+ <20191210174826.5433-1-eugene.loh@oracle.com> <2a535000-e71e-fab9-cf6a-e7e5fb8053d8@oracle.com>
+ <20191218222931.76131c6a@rorschach.local.home> <CAK7LNATJZCekCoj0ruPUGRv7sH_hcJP-dFPd-3_EOR5hFNW-Xg@mail.gmail.com>
+In-Reply-To: <CAK7LNATJZCekCoj0ruPUGRv7sH_hcJP-dFPd-3_EOR5hFNW-Xg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 19 Dec 2019 19:22:00 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ3ojOWTRXQBvkcuPmuJccZZ=a24eWxa5-0efQVXU8Sug@mail.gmail.com>
+Message-ID: <CAK7LNAQ3ojOWTRXQBvkcuPmuJccZZ=a24eWxa5-0efQVXU8Sug@mail.gmail.com>
+Subject: Re: [PATCH v4] kallsyms: add names of built-in modules
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Eugene Loh <eugene.loh@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jessica Yu <jeyu@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Song Liu <songliubraving@fb.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Keller, Jacob E" <jacob.e.keller@intel.com>,
+        Kris Van Hees <kris.van.hees@oracle.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Nick Alcock <nick.alcock@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 05:55:54PM +0900, Masahiro Yamada wrote:
-> On Thu, Dec 19, 2019 at 5:18 PM Johan Hovold <johan@kernel.org> wrote:
+On Thu, Dec 19, 2019 at 1:28 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Thu, Dec 19, 2019 at 12:29 PM Steven Rostedt <rostedt@goodmis.org> wrote:
 > >
-> > On Thu, Dec 19, 2019 at 11:00:15AM +0900, Masahiro Yamada wrote:
-> > > Hi.
-> > >
-> > > On Thu, Dec 19, 2019 at 2:23 AM Johan Hovold <johan@kernel.org> wrote:
+> > On Wed, 18 Dec 2019 15:55:18 -0800
+> > Eugene Loh <eugene.loh@oracle.com> wrote:
 > >
-> > > > The offending patch is broken since it effectively makes
-> > > > CONFIG_SERIAL_DEV_BUS bool (built-in or disabled), but for some reason
-> > > > those symbols do not end up in vmlinux (despite being compiled) when you
-> > > > add a built-in object goal under a directory that was entered using
-> > > > obj-m.
-> > > >
-> > > > That seems like a bug to me and contradicts the kbuild documentation
-> > > > (3.6):
-> > > >
-> > > >         Example:
-> > > >
-> > > >         #fs/Makefile
-> > > >         obj-$(CONFIG_EXT2_FS) += ext2/
-> > > >
-> > > >         If CONFIG_EXT2_FS is set to either ‘y’ (built-in) or ‘m’
-> > > >         (modular) the corresponding obj- variable will be set, and
-> > > >         kbuild will descend down in the ext2 directory. Kbuild only uses
-> > > >         this information to decide that it needs to visit the directory,
-> > > >         it is the Makefile in the subdirectory that specifies what is
-> > > >         modular and what is built-in.
-> > > >
-> > > > I tried adding other targets to obj-y directly and they are also are not
-> > > > included, seemingly since the directory was entered using obj-m.
-> > > >
-> > > > Masahiro or Michal, can you shed some light?
+> > > Ping.
 > >
-> > > I saw similar questions in ML in the past.
-> > > Yes, this is how Kbuild works;
-> > > Kbuild only links objects in Makefiles visited by obj-y.
-> > >
-> > > If you use
-> > >     obj-m += serdev/
-> > > all objects in serdev/ are considered as modular.
+> > Couple of notes:
 > >
-> > Well, any objects in serdev/ specified in obj-y would currently be built
-> > but never included in either built-in.a or any module.
-> 
-> Right.
-> 
-> > > I think it is better to make the document
-> > > clarify this.
+> > 1) this affects code that doesn't really have a maintainer. I could
+> > take it in my tree, but I would like to have acks from other
+> > maintainers. Perhaps Jessica Yu (Module maintainer), and probably one
+> > from Linus himself.
 > >
-> > Yeah, I don't have a use case for this, but the documentation would need
-> > to be updated to not have more people look into this.
+> > 2) Do not send new versions of a patch as a reply to the old version. I
+> > and many other maintainers sort our inbox by threads, and I look at the
+> > top of the thread for patches. That is, if there's another version of a
+> > patch that is a reply to a previous version, it is basically off my
+> > radar, unless I happen to notice it by chance (which I did with this
+> > email).
 > >
-> > And at least this behaviour allowed us to catch this bug, but only
-> > because we had dependent modules that failed to build. I see now that
-> > you posted a patch adding a general warning about obj-y under obj-m last
-> > fall, but that was apparently never merged.
-> 
-> This one?
-> 
-> https://lore.kernel.org/patchwork/patch/1126959/
+> > You can send your v4 patch again, but please send it as its own thread,
+> > that way it will be on the radar of other maintainers. Hopefully we can
+> > get some acks on this as well.
+> >
+> > -- Steve
+>
+>
+> I do not like this patch.
+>
+> scripts/Makefile.modbuiltin is really ugly.
+> It traverses all the directories once again.
+>
+> This patch makes it even worse,
+> Kbuild would traverse the
+> whole directories three times.
+>
+> I was thinking to remove scripts/Makefile.modbuiltin
+> and Kconfig's tristate.conf entirely
+> because it is possible to generate modules.builtin more simply.
 
-Yep, that's the one I meant.
- 
-> This patch detected several Makefile/Kconfig bugs,
-> and it is good.
-> 
-> But, it also turned out to cause false positive warnings
-> on some architectures.
-> I thought it was not so easy to fix it.
-> So, I decided to postpone it.
+FYI: This is the idea I had in my mind:
+https://lore.kernel.org/patchwork/project/lkml/list/?series=423205
 
-Ok.
 
-> > But when was this behaviour changed? And was that done on purpose?
-> 
-> No. Not changed at all.
-> 
-> In my understanding, the current behavior has been kept
-> from the beginning.
 
-Ok, thanks for confirming. The contradicting documentation I refer to
-above has been there since before git at least however.
-
-Here's a random example of someone being bit by this five years ago:
-
-	https://www.spinics.net/lists/linux-kbuild/msg10887.html
-
-Would you mind taking a stab at updating the docs?
-
-Johan
+--
+Best Regards
+Masahiro Yamada
