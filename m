@@ -2,123 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30458126794
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 18:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 143EF126E40
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 20:53:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727011AbfLSRCP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Dec 2019 12:02:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56858 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726760AbfLSRCP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Dec 2019 12:02:15 -0500
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E449124672;
-        Thu, 19 Dec 2019 17:02:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576774934;
-        bh=Gf6fKzJZuUvXAHQkWvxm55YxdWNDzJNdosA6mUGKHjA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TQSEStuFgF7/JuT7Nq1X2HLaXZOiPmH15GI9c3S5NciCRZgcu5ua6eFxscAd1vxoY
-         EdgjxJzrKnIySNbcSpK0IFtvqkoc7XnQGZvin7Di/w1GBEQqrIhjtK4sBdUQnnIBtm
-         fR99zovTezoaed3BLXJsuvAzjSHYyOeL+svDUu2E=
-Received: by mail-qk1-f173.google.com with SMTP id x1so5181803qkl.12;
-        Thu, 19 Dec 2019 09:02:13 -0800 (PST)
-X-Gm-Message-State: APjAAAWvCHVTdrPKnNkbBKyObKgdmcF0A4i0Q8yTLIOF8hNHDYaXeV0y
-        S2l43uR9OZz4Y8jFSTl1h1BBgM6bglje+lHE0A==
-X-Google-Smtp-Source: APXvYqxfo/7e9wzlMy580Vd/102R/rWBP0PwZ//fNoQ8yxxiQhL+I/hOaEas3Y+kT2x51tzh7mSZJnDkNL/eoDWO7/0=
-X-Received: by 2002:a05:620a:135b:: with SMTP id c27mr8421615qkl.119.1576774933015;
- Thu, 19 Dec 2019 09:02:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20191218114625.28438-1-frank-w@public-files.de>
- <CAK7LNARWYE4-4Qp-YfTrrt1YCZ68b28FDoE45cDJkZTqUyXNUw@mail.gmail.com>
- <CAL_Jsq+we-0c25Hn+eGDTsyTDwKEvs9LWV9QtLX1+8V3DmtFtg@mail.gmail.com> <trinity-76f78a91-fc1f-479c-bd38-a7b989b28234-1576757117258@3c-app-gmx-bap68>
-In-Reply-To: <trinity-76f78a91-fc1f-479c-bd38-a7b989b28234-1576757117258@3c-app-gmx-bap68>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 19 Dec 2019 11:02:01 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL9gZbVC5X3gwYWpYc9-Geb4FvUP0cED8NC_MCEGQCy3g@mail.gmail.com>
-Message-ID: <CAL_JsqL9gZbVC5X3gwYWpYc9-Geb4FvUP0cED8NC_MCEGQCy3g@mail.gmail.com>
-Subject: Re: Re: [PATCH] kbuild: Add DTC_CPP_FLAGS
-To:     Frank Wunderlich <frank-w@public-files.de>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        id S1726911AbfLSTxF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Dec 2019 14:53:05 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:47976 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726906AbfLSTxF (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 19 Dec 2019 14:53:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=qJw64LD7zJyT8BUXk7jEe7SP15JODV5psaJwB35+yl8=; b=M7RH+lIClBp3oVqj9u9ThFnLk
+        Zn1ewN8entymF3LEt5wzeCLjFvy3RIAPabxVcUZevXG/5zig7Kp1GpYdwqqNH0gckDP6VnFKl+pA2
+        jmmlt1VjPv+jPSdRphxADDGFyBfH0KxYeWaP9MOFjFNSdPrFRsoMyMxTqKu7yMEnJir/IyKhabZhN
+        WGpX9A6gshFyZIrhsvqKkoHi6govGD29KUukNrWsIC2GuVepjqE/0pS/xM5JR0f5fm9IA1UmqkUF6
+        WwsprIPUsmh5RLjwHTPwfoW29EtBKV9fUMY5I9LYFgO3ly+vmgDIqAJPPu6CGotg9knwbZJuHwRa9
+        1h8k9bv8w==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ii1r4-00054h-Hl; Thu, 19 Dec 2019 19:53:02 +0000
+Date:   Thu, 19 Dec 2019 11:53:02 -0800
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Johan Hovold <johan@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        DTML <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: clarify the difference between obj-y and obj-m
+ w.r.t. descending
+Message-ID: <20191219195302.GG32169@bombadil.infradead.org>
+References: <20191219115100.958-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191219115100.958-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 6:05 AM Frank Wunderlich
-<frank-w@public-files.de> wrote:
->
-> Hi Rob,
->
-> so the way you prefer is this one (use new file for additions and including the board dts):
+On Thu, Dec 19, 2019 at 08:51:00PM +0900, Masahiro Yamada wrote:
+> Kbuild descends into a directory by either 'y' or 'm', but there is an
+> important difference.
+> 
+> Kbuild combines the built-in objects into built-in.a in each directory.
+> The built-in.a in the directory visited by obj-y is merged into the
+> built-in.a in the parent directory. This merge happens recursively when
+> Kbuild is ascending back towards the top directory, so built-in objects
+> are linked into vmlinux eventually. This works properly only when the
+> Makefile that specifies obj-y is reachable by the chain of obj-y.
+> 
+> On the other hand, Kbuild does not take built-in.a from the directory
+> visited by obj-m. This it, all the objects in that directory are supposed
+> to be modular. If Kbuild descends into a directory by obj-m, but the
+> Makefile in the sub-directory specifies obj-y, those objects are just
+> left orphan.
+> 
+> The current statement "Kbuild only uses this information to decide that
+> it needs to visit the directory" is misleading. Clarify the difference.
 
-Yes, or you could use an overlay, but that will raise other issues
-(current lack of support building them in the kernel).
+> +	Kbuild uses this information not only to decide that it needs to visit
+> +	the directory, but also to decide whether or not to link objects from
+> +	the directory into vmlinux.
+> +
+> +	When Kbuild descends into the directory with 'y', all built-in objects
+> +	from that directory are combined into the built-in.a, which will be
+> +	eventually linked into vmlinux.
+> +
+> +	When Kbuild descends into the directory with 'm', in contrast, nothing
+> +	from that directory will be linked into vmlinux. If the Makefile in
+> +	that directory specifies obj-y, those objects will be left orphan.
+> +	It is very likely a bug of the Makefile or of dependencies in Kconfig.
 
-> arch/arm64/boot/dts/mediatek/mt7622-bpi-r64-mt7531.dts (example for mt7531-phy)
->
-> /*
->  * Copyright (c) 2018 MediaTek Inc.
->  * Author:
->  *
->  * SPDX-License-Identifier: (GPL-2.0 OR MIT)
->  */
->
-> /dts-v1/;
->
-> #include "mt7622-bananapi-bpi-r64.dts"
->
-> / {
->         gsw: gsw@0 {
->                 compatible = "mediatek,mt753x";
->                 mediatek,ethsys = <&ethsys>;
->                 #address-cells = <1>;
->                 #size-cells = <0>;
->         };
-> };
->
-> &gsw {
->         mediatek,mdio = <&mdio>;
->         mediatek,portmap = "wllll";
->         mediatek,mdio_master_pinmux = <0>;
->         reset-gpios = <&pio 54 0>;
->         interrupt-parent = <&pio>;
->         interrupts = <53 IRQ_TYPE_LEVEL_HIGH>;
->         status = "okay";
->
->         port5: port@5 {
->                 compatible = "mediatek,mt753x-port";
->                 reg = <5>;
->                 phy-mode = "rgmii";
->                 fixed-link {
->                         speed = <1000>;
->                         full-duplex;
->                 };
->         };
->
->         port6: port@6 {
->                 compatible = "mediatek,mt753x-port";
->                 reg = <6>;
->                 phy-mode = "2500base-x";
->                 fixed-link {
->                         speed = <2500>;
->                         full-duplex;
->                 };
->         };
-> };
->
-> at least it compiles and after decompile the new nodes are visible...
->
-> is there any way to drop nodes (in case dsa-driver gets merged i don't need it in the other 2)? i can disable them, but they will be present.
-
-Yes, use '/delete-node/'.
-
-Rob
+Perhaps the implementation should be changed to match the documentation?
+This seems like a very subtle point for people to know.
