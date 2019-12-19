@@ -2,115 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE6F8125EC4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 11:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E62BA126145
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Dec 2019 12:52:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbfLSKWs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Dec 2019 05:22:48 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:23534 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726636AbfLSKWr (ORCPT
+        id S1726741AbfLSLwX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Dec 2019 06:52:23 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:53153 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726730AbfLSLwX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Dec 2019 05:22:47 -0500
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id xBJAMbgO005908
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2019 19:22:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com xBJAMbgO005908
+        Thu, 19 Dec 2019 06:52:23 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id xBJBpA5E025113;
+        Thu, 19 Dec 2019 20:51:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com xBJBpA5E025113
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1576750958;
-        bh=lcfQLiyfrWhUgt2h6E2DAdopwz5Jk3IYzKOWCEPlscs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OQqX5yH5R0ezgrEynlrPxPbb201MDX31yr2cMYeg6mEgJnVaLCNvCbkDAOrSOtPrh
-         fGKNuBCI9EuNVsWSdXnQRdfNjpLCxQNrGFPh4gKeAFKOYvr2yibU3gIBw/WL2kPFnq
-         zMPLH3SNQMPanJwjFfsRM/OX370f6bqT0/R/1VJQdUidZOK5UQIcMkWBbacmlvjULZ
-         f0wJUqizcfgS3aeOAltFv8J15f9a9jnlB1vMnFBRWnW1NqbCHUeLvQEIMqbfxe0SIx
-         LzBOTOD3udHTBpDGFViAeboB0rjBInPCVGnyoMj3AVR7P+bImLLhbjXEJcngcoFQsf
-         gYxvVj+Umm3Jw==
-X-Nifty-SrcIP: [209.85.217.52]
-Received: by mail-vs1-f52.google.com with SMTP id t12so3414125vso.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Dec 2019 02:22:37 -0800 (PST)
-X-Gm-Message-State: APjAAAV8KhbMsdui9RTr4uXUl+FnabIX3q+xQEqOHixwS2qdpfNOT9fS
-        qWn2E8OVk7V58Bu0Ycp61UlEgxBu1JqeFCeSoFI=
-X-Google-Smtp-Source: APXvYqwHGmF7K1VyZmZfKHBFDkyXWt8qH21GMQNnOU/zLto4XvqtGFi1tWiMos12dutyHv9zJTJu+RkaJ3uizIEY3VE=
-X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr4587969vsh.179.1576750956854;
- Thu, 19 Dec 2019 02:22:36 -0800 (PST)
-MIME-Version: 1.0
-References: <7e0f4a74-63c5-ad62-c619-c6277c4bc791@oracle.com>
- <20191210174826.5433-1-eugene.loh@oracle.com> <2a535000-e71e-fab9-cf6a-e7e5fb8053d8@oracle.com>
- <20191218222931.76131c6a@rorschach.local.home> <CAK7LNATJZCekCoj0ruPUGRv7sH_hcJP-dFPd-3_EOR5hFNW-Xg@mail.gmail.com>
-In-Reply-To: <CAK7LNATJZCekCoj0ruPUGRv7sH_hcJP-dFPd-3_EOR5hFNW-Xg@mail.gmail.com>
+        s=dec2015msa; t=1576756271;
+        bh=13lrGAJJ2x/6FuBvyBEwfGd2aNby5ZIL20FfDY8lhqI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=b7IHOHfY0A0wMqmrhiyzNrbSEJOen74MGyrMd7xy6fRQ1TpVOpyYLshSMpw8sRqAM
+         VKirQRVgkBjDthaeqrpOW5bc0D2Xeliw5wHcx7hRneRSfWyB3ovVIFwAbnz54hnvzn
+         CjJRFv7SCSy769UzDCXBQjBE3LWXAKc5B2owJsXtOvbyZKCEfz3wsCNaWY9eHJreFV
+         SyLATB43U+HCCA2k7cVrh7Q46BW8FTDmmyEUDa7SpyUOUC8tnnJvHXDskXOtjpbW3b
+         GHZLGy9ME2FniUai6YL0m30AksBpwv0PpmWh2FoRshDz96BpVZjpUrOvyRha7JNDkw
+         mPsg99rnxkWsQ==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 19 Dec 2019 19:22:00 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ3ojOWTRXQBvkcuPmuJccZZ=a24eWxa5-0efQVXU8Sug@mail.gmail.com>
-Message-ID: <CAK7LNAQ3ojOWTRXQBvkcuPmuJccZZ=a24eWxa5-0efQVXU8Sug@mail.gmail.com>
-Subject: Re: [PATCH v4] kallsyms: add names of built-in modules
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Eugene Loh <eugene.loh@oracle.com>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Johan Hovold <johan@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        Jessica Yu <jeyu@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Keller, Jacob E" <jacob.e.keller@intel.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Nick Alcock <nick.alcock@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: clarify the difference between obj-y and obj-m w.r.t. descending
+Date:   Thu, 19 Dec 2019 20:51:00 +0900
+Message-Id: <20191219115100.958-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 19, 2019 at 1:28 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Thu, Dec 19, 2019 at 12:29 PM Steven Rostedt <rostedt@goodmis.org> wrote:
-> >
-> > On Wed, 18 Dec 2019 15:55:18 -0800
-> > Eugene Loh <eugene.loh@oracle.com> wrote:
-> >
-> > > Ping.
-> >
-> > Couple of notes:
-> >
-> > 1) this affects code that doesn't really have a maintainer. I could
-> > take it in my tree, but I would like to have acks from other
-> > maintainers. Perhaps Jessica Yu (Module maintainer), and probably one
-> > from Linus himself.
-> >
-> > 2) Do not send new versions of a patch as a reply to the old version. I
-> > and many other maintainers sort our inbox by threads, and I look at the
-> > top of the thread for patches. That is, if there's another version of a
-> > patch that is a reply to a previous version, it is basically off my
-> > radar, unless I happen to notice it by chance (which I did with this
-> > email).
-> >
-> > You can send your v4 patch again, but please send it as its own thread,
-> > that way it will be on the radar of other maintainers. Hopefully we can
-> > get some acks on this as well.
-> >
-> > -- Steve
->
->
-> I do not like this patch.
->
-> scripts/Makefile.modbuiltin is really ugly.
-> It traverses all the directories once again.
->
-> This patch makes it even worse,
-> Kbuild would traverse the
-> whole directories three times.
->
-> I was thinking to remove scripts/Makefile.modbuiltin
-> and Kconfig's tristate.conf entirely
-> because it is possible to generate modules.builtin more simply.
+Kbuild descends into a directory by either 'y' or 'm', but there is an
+important difference.
 
-FYI: This is the idea I had in my mind:
-https://lore.kernel.org/patchwork/project/lkml/list/?series=423205
+Kbuild combines the built-in objects into built-in.a in each directory.
+The built-in.a in the directory visited by obj-y is merged into the
+built-in.a in the parent directory. This merge happens recursively when
+Kbuild is ascending back towards the top directory, so built-in objects
+are linked into vmlinux eventually. This works properly only when the
+Makefile that specifies obj-y is reachable by the chain of obj-y.
 
+On the other hand, Kbuild does not take built-in.a from the directory
+visited by obj-m. This it, all the objects in that directory are supposed
+to be modular. If Kbuild descends into a directory by obj-m, but the
+Makefile in the sub-directory specifies obj-y, those objects are just
+left orphan.
 
+The current statement "Kbuild only uses this information to decide that
+it needs to visit the directory" is misleading. Clarify the difference.
 
---
-Best Regards
-Masahiro Yamada
+Reported-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Documentation/kbuild/makefiles.rst | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index b9b50553bfc5..d7e6534a8505 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -297,9 +297,19 @@ more details, with real examples.
+ 	If CONFIG_EXT2_FS is set to either 'y' (built-in) or 'm' (modular)
+ 	the corresponding obj- variable will be set, and kbuild will descend
+ 	down in the ext2 directory.
+-	Kbuild only uses this information to decide that it needs to visit
+-	the directory, it is the Makefile in the subdirectory that
+-	specifies what is modular and what is built-in.
++
++	Kbuild uses this information not only to decide that it needs to visit
++	the directory, but also to decide whether or not to link objects from
++	the directory into vmlinux.
++
++	When Kbuild descends into the directory with 'y', all built-in objects
++	from that directory are combined into the built-in.a, which will be
++	eventually linked into vmlinux.
++
++	When Kbuild descends into the directory with 'm', in contrast, nothing
++	from that directory will be linked into vmlinux. If the Makefile in
++	that directory specifies obj-y, those objects will be left orphan.
++	It is very likely a bug of the Makefile or of dependencies in Kconfig.
+ 
+ 	It is good practice to use a `CONFIG_` variable when assigning directory
+ 	names. This allows kbuild to totally skip the directory if the
+-- 
+2.17.1
+
