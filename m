@@ -2,54 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59A12128AEB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Dec 2019 19:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0541129F12
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Dec 2019 09:37:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbfLUSzK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 Dec 2019 13:55:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39172 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726648AbfLUSzK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 Dec 2019 13:55:10 -0500
-Subject: Re: [GIT PULL] Kbuild fixes for v5.5-rc3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576954509;
-        bh=xTaS9ljGbkneGH+HxVh7wkuPZcg4MWFDbvxKjzmzSpA=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=zeGiwKNRzfe6WdqxMxtNfnFHKUKeBXIcj0645+XFsKvsOTYGGtu1zqPNqrFn0qUkQ
-         V62XOIPkaVFBRiU2FLLRbS94kr8qx9qpiitJFBGhgqPl8kEEvBPMvS0lkprvdHIXbt
-         71bcfVzFlxQ6wzgTrIGXWZ+JIeeU1JlviJ+oGpTA=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAQG3Tp=q8XWABfopHgQ8nTa2OhKf=msy0m6SbgcyS67OQ@mail.gmail.com>
-References: <CAK7LNAQG3Tp=q8XWABfopHgQ8nTa2OhKf=msy0m6SbgcyS67OQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAQG3Tp=q8XWABfopHgQ8nTa2OhKf=msy0m6SbgcyS67OQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- tags/kbuild-fixes-v5.5
-X-PR-Tracked-Commit-Id: 28f94a44298c99c0db85539874b62f21d94fcaa7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 6c1c79a5f4eead27465d4d1d97ce230163772a78
-Message-Id: <157695450983.26122.3551174595058090770.pr-tracker-bot@kernel.org>
-Date:   Sat, 21 Dec 2019 18:55:09 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        id S1726201AbfLXIhU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Dec 2019 03:37:20 -0500
+Received: from mail-il1-f195.google.com ([209.85.166.195]:34610 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbfLXIhU (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 24 Dec 2019 03:37:20 -0500
+Received: by mail-il1-f195.google.com with SMTP id s15so16122903iln.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=VlyE5hkjIlVtebFVtbJSUDG1nq6yxqsP+CXAAvK16kEDCa9/FIjqePwKOUOUFxUPGI
+         IobnBKqUZtvWs9liflZ3kccv66QhBRcGlV0NLmY+Uo4N83fE4acq5fKevjm3GVqyORPq
+         V25kDNfLb/u3NDc8qTILa6U172uqigqrULaJBwbLq67hwZ4izN64H1YClKD775qzZNF9
+         0l4JMYDmF4urkgDiYDNvOqEpGdvq+E73I4yTDC9aWLwqkTeAHCJ4Ixn//xPq6JLVBBNn
+         aamV2t3zoMGAP8AF+RdWv4cRolj9/iVR4FvRYYpwL/EkEZCm6WUSjJi89kMXjGu5nUwC
+         ihKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
+        b=gckC69Q6g8wL08HrCMbe3vZQetq90SVm1OSfwLdtrI/H7JUeF5Co6rlviG9K06DenY
+         6zekRnP71n/kKXS5ODGrzvzrLhcgAPwyfM7iZHlLLW6tZsekq6DL867I/H1iJ+RV0H6x
+         f4AI1wA0O3u7US84aP1xJzsdfxtdHsUV6SjCeiioezshqX2yJf2GZIox1bpIncrgoaXJ
+         1mPb4JkiyaxrApeNis4elunSjForvEjuoiNIlu5N4HZTKK3eGU8XAvNptoFaPj0e9e8u
+         Z2O2mP5dubhcDGg/Cuy/QMuCeze4+9wO7sZBZpgIJw+9PrW2tbqLy4Q/VgYNdQJwwXIU
+         qeQQ==
+X-Gm-Message-State: APjAAAU2VtaGQUg9Kgs3MiLtdXZF7+65q1+mN/WxyepJfSwRpqDdleJV
+        DmmZHPL+nRxiX1gsRZTK/IgF4GzP0icHhSa61mk=
+X-Google-Smtp-Source: APXvYqxLrvnOpR+O6ofXnSEOnwrvGziUPmMlJTtG0DR2NirldWli2cXJyiYqfAfUdIRDZDD83uetmfvXHC6vAEF7nxQ=
+X-Received: by 2002:a92:c50e:: with SMTP id r14mr29396039ilg.52.1577176639205;
+ Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+MIME-Version: 1.0
+Received: by 2002:a5e:c244:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:37:18
+ -0800 (PST)
+Reply-To: bethnatividad9@gmail.com
+From:   Beth Nat <am19040@gmail.com>
+Date:   Tue, 24 Dec 2019 08:37:18 +0000
+Message-ID: <CAEgaL+akE_7uuR+QBv+=W5npZ3Bg=jguaB4zU63CGVjztQeQyg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 22 Dec 2019 00:37:03 +0900:
-
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.5
-
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/6c1c79a5f4eead27465d4d1d97ce230163772a78
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+How are you today my dear? i saw your profile and it interests me, i
+am a Military nurse from USA. Can we be friend? I want to know more
+about you.
