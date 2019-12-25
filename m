@@ -2,59 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0541129F12
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Dec 2019 09:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DBBD12A63D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Dec 2019 06:58:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbfLXIhU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Dec 2019 03:37:20 -0500
-Received: from mail-il1-f195.google.com ([209.85.166.195]:34610 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726222AbfLXIhU (ORCPT
+        id S1725869AbfLYF6K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Dec 2019 00:58:10 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:42955 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725847AbfLYF6K (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Dec 2019 03:37:20 -0500
-Received: by mail-il1-f195.google.com with SMTP id s15so16122903iln.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Dec 2019 00:37:19 -0800 (PST)
+        Wed, 25 Dec 2019 00:58:10 -0500
+Received: by mail-pg1-f193.google.com with SMTP id s64so11274354pgb.9;
+        Tue, 24 Dec 2019 21:58:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
-        b=VlyE5hkjIlVtebFVtbJSUDG1nq6yxqsP+CXAAvK16kEDCa9/FIjqePwKOUOUFxUPGI
-         IobnBKqUZtvWs9liflZ3kccv66QhBRcGlV0NLmY+Uo4N83fE4acq5fKevjm3GVqyORPq
-         V25kDNfLb/u3NDc8qTILa6U172uqigqrULaJBwbLq67hwZ4izN64H1YClKD775qzZNF9
-         0l4JMYDmF4urkgDiYDNvOqEpGdvq+E73I4yTDC9aWLwqkTeAHCJ4Ixn//xPq6JLVBBNn
-         aamV2t3zoMGAP8AF+RdWv4cRolj9/iVR4FvRYYpwL/EkEZCm6WUSjJi89kMXjGu5nUwC
-         ihKg==
+        h=from:to:cc:subject:date:message-id;
+        bh=AiPV7qSVZembCeJ1CduQaJCxTlT3uNWRUvbKg0FP3WY=;
+        b=IYYuuw+kCm70ZYOQqrqh/2XBK+bw5cAXyTSbWqZ69OYV3XNOaZhdGbyB/sK3j02MnM
+         1TvH815lM4paFfO2sbvk1EObeHX2X7m+0/buJqMZsYwUBn4TVlS29fkSmcxbFCP39J6D
+         1R/KdXXpIooTvcNa97GvFOI9LO/1owa0NC6ZV/NNIoT1nVHBm8Z8EtGsom324QwAbQZ3
+         ft5un86HEDmIFTzqn5+2uQ5aCZanEym395+OPegR3kRzEmKROAOJ2zdg+KAGwiTn6QJQ
+         fdjqeftDUoDkFj5uxJoB62aScynY07g08U8YFITMc5ykadIK/BaIySgdoEL1NNGlR2zE
+         DDNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=LcGU1mt+nAQIi3eKcWZpiy7DqrkNG23tK1MNYV9CB+M=;
-        b=gckC69Q6g8wL08HrCMbe3vZQetq90SVm1OSfwLdtrI/H7JUeF5Co6rlviG9K06DenY
-         6zekRnP71n/kKXS5ODGrzvzrLhcgAPwyfM7iZHlLLW6tZsekq6DL867I/H1iJ+RV0H6x
-         f4AI1wA0O3u7US84aP1xJzsdfxtdHsUV6SjCeiioezshqX2yJf2GZIox1bpIncrgoaXJ
-         1mPb4JkiyaxrApeNis4elunSjForvEjuoiNIlu5N4HZTKK3eGU8XAvNptoFaPj0e9e8u
-         Z2O2mP5dubhcDGg/Cuy/QMuCeze4+9wO7sZBZpgIJw+9PrW2tbqLy4Q/VgYNdQJwwXIU
-         qeQQ==
-X-Gm-Message-State: APjAAAU2VtaGQUg9Kgs3MiLtdXZF7+65q1+mN/WxyepJfSwRpqDdleJV
-        DmmZHPL+nRxiX1gsRZTK/IgF4GzP0icHhSa61mk=
-X-Google-Smtp-Source: APXvYqxLrvnOpR+O6ofXnSEOnwrvGziUPmMlJTtG0DR2NirldWli2cXJyiYqfAfUdIRDZDD83uetmfvXHC6vAEF7nxQ=
-X-Received: by 2002:a92:c50e:: with SMTP id r14mr29396039ilg.52.1577176639205;
- Tue, 24 Dec 2019 00:37:19 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a5e:c244:0:0:0:0:0 with HTTP; Tue, 24 Dec 2019 00:37:18
- -0800 (PST)
-Reply-To: bethnatividad9@gmail.com
-From:   Beth Nat <am19040@gmail.com>
-Date:   Tue, 24 Dec 2019 08:37:18 +0000
-Message-ID: <CAEgaL+akE_7uuR+QBv+=W5npZ3Bg=jguaB4zU63CGVjztQeQyg@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=AiPV7qSVZembCeJ1CduQaJCxTlT3uNWRUvbKg0FP3WY=;
+        b=Vx2IA5fg59c50EUj22PlHB7PAeASQXo2h6ARxKsqNAeZuArNBQ8xpAtWUJxYWDGe1/
+         MRESKSFmXwSZ7D+KvOPzu7mcmLN5I7MntkF22T8XpplOx7aoZXdmzbTPLUfZBr/UqzJA
+         oJmSqLOE/TXq0sHw4Zo4mFFuCtArdX8eqdOXW9dbUTTzfPU8BgfCJd/9tl9WSnwIqc+e
+         BmgCqa56i0QRCyd0eLRdO2K/b+aq7N5wmg2UbTIGgxhtCA+6FgjCFKleqW72ahp6nlWS
+         QnvqQWaDlQePpAbGNe7X3imgRl4cRwQNlgiGQuOjk+fXsN1UqAe9QQqQgCohzMs07XsK
+         3Eug==
+X-Gm-Message-State: APjAAAUzIfXpHGPIZAyDvmgop+DzNeq6uIEq6r5dmyfT55NciQNaN1sT
+        WXgnEOy2QSQu+swYTA3Kd1s=
+X-Google-Smtp-Source: APXvYqzPFFJB/OGExgKE32erZv+/D2GHd8RkQ9LPLv7p++7GmyWpLYMR7/hCVxxLwQLYs/dg3dIYFQ==
+X-Received: by 2002:a63:31d1:: with SMTP id x200mr38674413pgx.405.1577253489698;
+        Tue, 24 Dec 2019 21:58:09 -0800 (PST)
+Received: from bj10083pcu01.spreadtrum.com ([117.18.48.82])
+        by smtp.gmail.com with ESMTPSA id t23sm33155331pfq.106.2019.12.24.21.58.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 24 Dec 2019 21:58:09 -0800 (PST)
+From:   Liangcai Fan <fanliangcai9@gmail.com>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        zhang.lyra@gmail.com, gengcixi@gmail.com, orson.zhai@unisoc.com,
+        Liangcai Fan <liangcai.fan@unisoc.com>,
+        Liangcai Fan <fanliangcai9@gmail.com>
+Subject: [PATCH] use bash instead of sh to run mkcompile_h
+Date:   Wed, 25 Dec 2019 13:58:03 +0800
+Message-Id: <1577253483-24358-1-git-send-email-fanliangcai9@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-How are you today my dear? i saw your profile and it interests me, i
-am a Military nurse from USA. Can we be friend? I want to know more
-about you.
+From: Liangcai Fan <liangcai.fan@unisoc.com>
+
+Use sh to run mkcompile_h, compilation would fail if whoami contains
+backslash, since sh uses dash. The reason is that the echo command would
+interpret backslash to escapes, so the LINUX_COMPILE_BY definition was
+incorrect.
+
+Parse mkcompile_h with bash, the echo command would not see backslash as
+escapes, then there is no error with the definition of LINUX_COMPILE_BY.
+
+Signed-off-by: Liangcai Fan <liangcai.fan@unisoc.com>
+Signed-off-by: Liangcai Fan <fanliangcai9@gmail.com>
+---
+ init/Makefile       | 2 +-
+ scripts/mkcompile_h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/init/Makefile b/init/Makefile
+index 6246a06..9348d17 100644
+--- a/init/Makefile
++++ b/init/Makefile
+@@ -33,6 +33,6 @@ $(obj)/version.o: include/generated/compile.h
+ silent_chk_compile.h = :
+ include/generated/compile.h: FORCE
+ 	@$($(quiet)chk_compile.h)
+-	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
++	$(Q)$(BASH) $(srctree)/scripts/mkcompile_h $@	\
+ 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
+ 	"$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 3a5a4b2..cfc2e2a 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ TARGET=$1
+-- 
+1.9.1
+
