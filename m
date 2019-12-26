@@ -2,101 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DBBD12A63D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Dec 2019 06:58:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88AC12AB3A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Dec 2019 10:26:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725869AbfLYF6K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Dec 2019 00:58:10 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:42955 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725847AbfLYF6K (ORCPT
+        id S1726109AbfLZJ0F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Dec 2019 04:26:05 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:63699 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbfLZJ0E (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Dec 2019 00:58:10 -0500
-Received: by mail-pg1-f193.google.com with SMTP id s64so11274354pgb.9;
-        Tue, 24 Dec 2019 21:58:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=AiPV7qSVZembCeJ1CduQaJCxTlT3uNWRUvbKg0FP3WY=;
-        b=IYYuuw+kCm70ZYOQqrqh/2XBK+bw5cAXyTSbWqZ69OYV3XNOaZhdGbyB/sK3j02MnM
-         1TvH815lM4paFfO2sbvk1EObeHX2X7m+0/buJqMZsYwUBn4TVlS29fkSmcxbFCP39J6D
-         1R/KdXXpIooTvcNa97GvFOI9LO/1owa0NC6ZV/NNIoT1nVHBm8Z8EtGsom324QwAbQZ3
-         ft5un86HEDmIFTzqn5+2uQ5aCZanEym395+OPegR3kRzEmKROAOJ2zdg+KAGwiTn6QJQ
-         fdjqeftDUoDkFj5uxJoB62aScynY07g08U8YFITMc5ykadIK/BaIySgdoEL1NNGlR2zE
-         DDNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=AiPV7qSVZembCeJ1CduQaJCxTlT3uNWRUvbKg0FP3WY=;
-        b=Vx2IA5fg59c50EUj22PlHB7PAeASQXo2h6ARxKsqNAeZuArNBQ8xpAtWUJxYWDGe1/
-         MRESKSFmXwSZ7D+KvOPzu7mcmLN5I7MntkF22T8XpplOx7aoZXdmzbTPLUfZBr/UqzJA
-         oJmSqLOE/TXq0sHw4Zo4mFFuCtArdX8eqdOXW9dbUTTzfPU8BgfCJd/9tl9WSnwIqc+e
-         BmgCqa56i0QRCyd0eLRdO2K/b+aq7N5wmg2UbTIGgxhtCA+6FgjCFKleqW72ahp6nlWS
-         QnvqQWaDlQePpAbGNe7X3imgRl4cRwQNlgiGQuOjk+fXsN1UqAe9QQqQgCohzMs07XsK
-         3Eug==
-X-Gm-Message-State: APjAAAUzIfXpHGPIZAyDvmgop+DzNeq6uIEq6r5dmyfT55NciQNaN1sT
-        WXgnEOy2QSQu+swYTA3Kd1s=
-X-Google-Smtp-Source: APXvYqzPFFJB/OGExgKE32erZv+/D2GHd8RkQ9LPLv7p++7GmyWpLYMR7/hCVxxLwQLYs/dg3dIYFQ==
-X-Received: by 2002:a63:31d1:: with SMTP id x200mr38674413pgx.405.1577253489698;
-        Tue, 24 Dec 2019 21:58:09 -0800 (PST)
-Received: from bj10083pcu01.spreadtrum.com ([117.18.48.82])
-        by smtp.gmail.com with ESMTPSA id t23sm33155331pfq.106.2019.12.24.21.58.06
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 24 Dec 2019 21:58:09 -0800 (PST)
-From:   Liangcai Fan <fanliangcai9@gmail.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Thu, 26 Dec 2019 04:26:04 -0500
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id xBQ9Pmps017029;
+        Thu, 26 Dec 2019 18:25:49 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com xBQ9Pmps017029
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1577352349;
+        bh=868LF5fNBXon+/YosLXXxXjPrjEeuTbjvxkdaXVg3Co=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fC1URGiluF5mlCioABfUtftvhc+bJ9u4V0PsXm6trRS0vDmGblenFFChJAoZ0Woau
+         sBN8aZnfmCz+eYgu/G4SB2/d3UexJXeMLTXWmZDLNKFx7c/1uUKBKyTXv+eIbsiOio
+         1ah3aUyrMkA4k9MUF9IqoiMF6FhaBzttEO3aOe4gkInIrm7UYIX5sqFlnwXo+juDUs
+         EUcSJd5GLm9y1PT6XwE9qI8+QPIZcF+ZfD5CHnxah54s1EeP6bO+k2KC1IAI1oZrbA
+         2/wvsWYndh7E3v4Rnhx0UFac1YFTQTpfo7GeMDqvkNEqncgotN+PJTfqDdSlPFV4D7
+         FEhmeVWh82DHQ==
+X-Nifty-SrcIP: [209.85.222.51]
+Received: by mail-ua1-f51.google.com with SMTP id l6so7943205uap.13;
+        Thu, 26 Dec 2019 01:25:49 -0800 (PST)
+X-Gm-Message-State: APjAAAUutp03WaH1X9ekGXpbpHrgf6wDTLBBg+K4Ipmfo/4wVWtd9XhT
+        xac6+oSnNQ0uUlATGFkCK4Ls2cAZWPxUFmf0Kj4=
+X-Google-Smtp-Source: APXvYqz0nxjWQitx7QkPZHc72SdzkOWCKHkNjPH4uzJ7hLCNMenchXdd06VG3c71nSE+uiSxMyqQTpPicv26w+pbO7g=
+X-Received: by 2002:ab0:63c7:: with SMTP id i7mr24728717uap.109.1577352348035;
+ Thu, 26 Dec 2019 01:25:48 -0800 (PST)
+MIME-Version: 1.0
+References: <1577253483-24358-1-git-send-email-fanliangcai9@gmail.com>
+In-Reply-To: <1577253483-24358-1-git-send-email-fanliangcai9@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 26 Dec 2019 18:25:12 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS7Jj0=abxAH4K41BkBfrOLjygBo0KvXyVUO2b240bCww@mail.gmail.com>
+Message-ID: <CAK7LNAS7Jj0=abxAH4K41BkBfrOLjygBo0KvXyVUO2b240bCww@mail.gmail.com>
+Subject: Re: [PATCH] use bash instead of sh to run mkcompile_h
+To:     Liangcai Fan <fanliangcai9@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         zhang.lyra@gmail.com, gengcixi@gmail.com, orson.zhai@unisoc.com,
-        Liangcai Fan <liangcai.fan@unisoc.com>,
-        Liangcai Fan <fanliangcai9@gmail.com>
-Subject: [PATCH] use bash instead of sh to run mkcompile_h
-Date:   Wed, 25 Dec 2019 13:58:03 +0800
-Message-Id: <1577253483-24358-1-git-send-email-fanliangcai9@gmail.com>
-X-Mailer: git-send-email 1.9.1
+        Liangcai Fan <liangcai.fan@unisoc.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Liangcai Fan <liangcai.fan@unisoc.com>
+On Wed, Dec 25, 2019 at 2:58 PM Liangcai Fan <fanliangcai9@gmail.com> wrote:
+>
+> From: Liangcai Fan <liangcai.fan@unisoc.com>
+>
+> Use sh to run mkcompile_h, compilation would fail if whoami contains
+> backslash, since sh uses dash. The reason is that the echo command would
+> interpret backslash to escapes, so the LINUX_COMPILE_BY definition was
+> incorrect.
+>
+> Parse mkcompile_h with bash, the echo command would not see backslash as
+> escapes, then there is no error with the definition of LINUX_COMPILE_BY.
+>
+> Signed-off-by: Liangcai Fan <liangcai.fan@unisoc.com>
+> Signed-off-by: Liangcai Fan <fanliangcai9@gmail.com>
+> ---
 
-Use sh to run mkcompile_h, compilation would fail if whoami contains
-backslash, since sh uses dash. The reason is that the echo command would
-interpret backslash to escapes, so the LINUX_COMPILE_BY definition was
-incorrect.
+This problem was fixed by
+commit c8f3dea90e38194dae542c5d56e05d30447e58cb
 
-Parse mkcompile_h with bash, the echo command would not see backslash as
-escapes, then there is no error with the definition of LINUX_COMPILE_BY.
 
-Signed-off-by: Liangcai Fan <liangcai.fan@unisoc.com>
-Signed-off-by: Liangcai Fan <fanliangcai9@gmail.com>
----
- init/Makefile       | 2 +-
- scripts/mkcompile_h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/init/Makefile b/init/Makefile
-index 6246a06..9348d17 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -33,6 +33,6 @@ $(obj)/version.o: include/generated/compile.h
- silent_chk_compile.h = :
- include/generated/compile.h: FORCE
- 	@$($(quiet)chk_compile.h)
--	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
-+	$(Q)$(BASH) $(srctree)/scripts/mkcompile_h $@	\
- 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
- 	"$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 3a5a4b2..cfc2e2a 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -1,4 +1,4 @@
--#!/bin/sh
-+#!/bin/bash
- # SPDX-License-Identifier: GPL-2.0
- 
- TARGET=$1
 -- 
-1.9.1
-
+Best Regards
+Masahiro Yamada
