@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F285312BA53
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Dec 2019 19:18:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB01D12BA22
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Dec 2019 19:16:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727260AbfL0SSB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Dec 2019 13:18:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39856 "EHLO mail.kernel.org"
+        id S1728318AbfL0SQN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Dec 2019 13:16:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41366 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727823AbfL0SPK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Dec 2019 13:15:10 -0500
+        id S1728309AbfL0SQN (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 27 Dec 2019 13:16:13 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD10321744;
-        Fri, 27 Dec 2019 18:15:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D8DE421582;
+        Fri, 27 Dec 2019 18:16:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577470510;
+        s=default; t=1577470572;
         bh=CML4ynmYXN0xB1zt3WrGElGGQONxilXaUfFuXX/uags=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=s3ANMi6aVlcBS3TlycoLbkrtvSYyys6htic8hDnBCEcSSSNcOk8JtKYNeKZIuY9tC
-         6e3C5UTfR05pCVwjmVGHYkXokzfHv5i/MQuYFKXBGuuK4OaLIYyRaFHX8Rhdyz3Nhu
-         m6I7iWgsSp0QLZfU/QRatkois9WfJGog2R2uvJiM=
+        b=x9Vu0wV5WdDPE8Xh6k2e/Qo4EzlnGs9Z1K//SwN06HKsUsl4N0+CfuqkVsge813/X
+         gsS2fkJLG9II4WEyUq0hTyuYkhy32h/L7ZaC8oncX/+iVFEyhY25SNZhcaYs0BmgDy
+         RcL4FgoTVe2rKZim6J1H/A+BnOCSFjskOKjlGX7A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thomas Hebb <tommyhebb@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 28/38] kconfig: don't crash on NULL expressions in expr_eq()
-Date:   Fri, 27 Dec 2019 13:14:25 -0500
-Message-Id: <20191227181435.7644-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 19/25] kconfig: don't crash on NULL expressions in expr_eq()
+Date:   Fri, 27 Dec 2019 13:15:43 -0500
+Message-Id: <20191227181549.8040-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191227181435.7644-1-sashal@kernel.org>
-References: <20191227181435.7644-1-sashal@kernel.org>
+In-Reply-To: <20191227181549.8040-1-sashal@kernel.org>
+References: <20191227181549.8040-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
