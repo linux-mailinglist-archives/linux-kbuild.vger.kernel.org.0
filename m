@@ -2,39 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B7B12FBE5
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 18:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B00A12FBED
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 19:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728225AbgACR7j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jan 2020 12:59:39 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:64712 "EHLO
+        id S1728299AbgACR7n (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jan 2020 12:59:43 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:64707 "EHLO
         conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728215AbgACR7j (ORCPT
+        with ESMTP id S1728223AbgACR7k (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jan 2020 12:59:39 -0500
+        Fri, 3 Jan 2020 12:59:40 -0500
 Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 003HxSJ7022724;
-        Sat, 4 Jan 2020 02:59:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 003HxSJ7022724
+        by conuserg-07.nifty.com with ESMTP id 003HxSJB022724;
+        Sat, 4 Jan 2020 02:59:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 003HxSJB022724
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578074372;
-        bh=lCI2C0HKijtxw/L++AnPUMRqL4ioNQYvaRVeKU0+Ujc=;
+        s=dec2015msa; t=1578074374;
+        bh=IixOZfomVhBc53dTdWlB8Lij+8LbaLBdC9mPIGrpvkM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OKs8HuJLubLRXqwBVJ+RXENL44jC8tBQJKPXnBMbawLw5KCofF4mUkwDEX6BOFaYE
-         Acy0/RygIoA8MKHLmuW/CVrLlmcpbEBFuz5t+wvwtiwQfRMe1kbN/0sgBwJWR0s7Ph
-         F8wVoOd/s6SlZs/kSXV1PTK60u/AUtf028PX9gJH/g5SU3B3RRyJiz1XUFQ3zrnjwH
-         t+WnN0mDnDInSEUwld+H8CUH0/i8UDNqlFsNzecP9djcJKS+MmAxnigNI+1kiSOWyB
-         yI8GxfdAW+sQ2zHk/YBXZLGgNLjxOkdUF1nupAVHF+mcoqGIAs/v4rKmocBQmmcPFR
-         jB1z16i6Jyv1Q==
+        b=0gVEWqJ5DZXHLuErJd43XABaQ/TvJCjwjAmVRPl1WWoWODwGI/aZKM1hY7gQ/cNHv
+         NF+UGMjSn8IJRQFHpZp+PnRYC0wUvKOOGTmVlbubFZPs7RYqi0wzwgqmEXo8klzz1o
+         a3YO5J1cul0dONVb3IZEnjm7bLVI0YSYru0HBzTQWHNBfnvxUO22XtubxwWVLAiDKd
+         o76OnNQrfBTsQ199SJsrPBvT8h/kTxIgGe7sVqR95n3PO4pjVLQhRvf6X5jwcfn5ja
+         5G21J5gIDk/i8Kd0N4QiX5CVfGMfbVvx/DEi2ioXMGXNdC+QiCO6ZfQ71G4tOx5nPp
+         zwn/YhrTlNqFg==
 X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 06/12] initramfs: make initramfs compression choice non-optional
-Date:   Sat,  4 Jan 2020 02:59:09 +0900
-Message-Id: <20200103175915.26663-7-masahiroy@kernel.org>
+Subject: [PATCH 10/12] gen_initramfs.sh: always output cpio even without -o option
+Date:   Sat,  4 Jan 2020 02:59:13 +0900
+Message-Id: <20200103175915.26663-11-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200103175915.26663-1-masahiroy@kernel.org>
 References: <20200103175915.26663-1-masahiroy@kernel.org>
@@ -43,41 +42,138 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, the choice of the initramfs compression mode is too complex
-because users are allowed to not specify the compression mode at all.
+Currently, this script outputs a cpio file when -o option is
+given, but otherwise a text file in the format recognized by
+gen_init_cpio.
 
-I think it makes more sense to require users to choose the compression
-explicitly, and delete the fallback defaults of INITRAMFS_COMPRESSION.
+This behavior is unclear. Make it always output a cpio file.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- usr/Kconfig | 8 --------
- 1 file changed, 8 deletions(-)
+ usr/gen_initramfs.sh | 58 +++++++++++++++++++++-----------------------
+ 1 file changed, 27 insertions(+), 31 deletions(-)
 
-diff --git a/usr/Kconfig b/usr/Kconfig
-index 43934c128010..ab61e81165e0 100644
---- a/usr/Kconfig
-+++ b/usr/Kconfig
-@@ -102,7 +102,6 @@ config RD_LZ4
+diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
+index e6808a8c3b2b..1efb87bda545 100755
+--- a/usr/gen_initramfs.sh
++++ b/usr/gen_initramfs.sh
+@@ -6,7 +6,6 @@
+ #
+ # Generate a cpio packed initramfs. It uses gen_init_cpio to generate
+ # the cpio archive, and then compresses it.
+-# The script may also be used to generate the inputfile used for gen_init_cpio
+ # This script assumes that gen_init_cpio is located in usr/ directory
  
- choice
- 	prompt "Built-in initramfs compression mode"
--	optional
- 	help
- 	  This option allows you to decide by which algorithm the builtin
- 	  initramfs will be compressed.  Several compression algorithms are
-@@ -218,10 +217,3 @@ config INITRAMFS_COMPRESSION
- 	default ".xz"   if INITRAMFS_COMPRESSION_XZ
- 	default ".lzo"  if INITRAMFS_COMPRESSION_LZO
- 	default ".lz4"  if INITRAMFS_COMPRESSION_LZ4
--	default ".gz"   if RD_GZIP
--	default ".lz4"  if RD_LZ4
--	default ".lzo"  if RD_LZO
--	default ".xz"   if RD_XZ
--	default ".lzma" if RD_LZMA
--	default ".bz2"  if RD_BZIP2
--	default ""
+ # error out on errors
+@@ -71,8 +70,8 @@ print_mtime() {
+ 		my_mtime=$(find "$1" -printf "%T@\n" | sort -r | head -n 1)
+ 	fi
+ 
+-	echo "# Last modified: ${my_mtime}" >> ${output}
+-	echo "" >> ${output}
++	echo "# Last modified: ${my_mtime}" >> $cpio_list
++	echo "" >> $cpio_list
+ }
+ 
+ list_parse() {
+@@ -125,7 +124,7 @@ parse() {
+ 			;;
+ 	esac
+ 
+-	echo "${str}" >> ${output}
++	echo "${str}" >> $cpio_list
+ 
+ 	return 0
+ }
+@@ -141,7 +140,7 @@ unknown_option() {
+ }
+ 
+ header() {
+-	printf "\n#####################\n# $1\n" >> ${output}
++	printf "\n#####################\n# $1\n" >> $cpio_list
+ }
+ 
+ # process one directory (incl sub-directories)
+@@ -177,8 +176,8 @@ input_file() {
+ 			[ -n "$dep_list" ] && echo "$1" >> $dep_list
+ 			return 0
+ 		fi
+-		print_mtime "$1" >> ${output}
+-		cat "$1"         >> ${output}
++		print_mtime "$1" >> $cpio_list
++		cat "$1"         >> $cpio_list
+ 		if [ -n "$dep_list" ]; then
+ 		        echo "$1 \\"  >> $dep_list
+ 			cat "$1" | while read type dir file perm ; do
+@@ -200,9 +199,9 @@ root_uid=0
+ root_gid=0
+ dep_list=
+ cpio_file=
+-cpio_list=
++cpio_list=$(mktemp ${TMPDIR:-/tmp}/cpiolist.XXXXXX)
+ output="/dev/stdout"
+-output_file=""
++output_file="/dev/stdout"
+ is_cpio_compressed=
+ compr="gzip -n -9 -f"
+ 
+@@ -217,8 +216,7 @@ while [ $# -gt 0 ]; do
+ 			;;
+ 		"-o")	# generate compressed cpio image named $1
+ 			output_file="$1"
+-			cpio_list="$(mktemp ${TMPDIR:-/tmp}/cpiolist.XXXXXX)"
+-			output=${cpio_list}
++			output=$cpio_list
+ 			echo "$output_file" | grep -q "\.gz$" \
+ 			&& [ -x "`which gzip 2> /dev/null`" ] \
+ 			&& compr="gzip -n -9 -f"
+@@ -269,27 +267,25 @@ done
+ 
+ # If output_file is set we will generate cpio archive and compress it
+ # we are careful to delete tmp files
+-if [ ! -z ${output_file} ]; then
+-	if [ -z ${cpio_file} ]; then
+-		timestamp=
+-		if test -n "$KBUILD_BUILD_TIMESTAMP"; then
+-			timestamp="$(date -d"$KBUILD_BUILD_TIMESTAMP" +%s || :)"
+-			if test -n "$timestamp"; then
+-				timestamp="-t $timestamp"
+-			fi
++if [ -z ${cpio_file} ]; then
++	timestamp=
++	if test -n "$KBUILD_BUILD_TIMESTAMP"; then
++		timestamp="$(date -d"$KBUILD_BUILD_TIMESTAMP" +%s || :)"
++		if test -n "$timestamp"; then
++			timestamp="-t $timestamp"
+ 		fi
+-		cpio_tfile="$(mktemp ${TMPDIR:-/tmp}/cpiofile.XXXXXX)"
+-		usr/gen_init_cpio $timestamp ${cpio_list} > ${cpio_tfile}
+-	else
+-		cpio_tfile=${cpio_file}
+-	fi
+-	rm ${cpio_list}
+-	if [ "${is_cpio_compressed}" = "compressed" ]; then
+-		cat ${cpio_tfile} > ${output_file}
+-	else
+-		(cat ${cpio_tfile} | ${compr}  - > ${output_file}) \
+-		|| (rm -f ${output_file} ; false)
+ 	fi
+-	[ -z ${cpio_file} ] && rm ${cpio_tfile}
++	cpio_tfile="$(mktemp ${TMPDIR:-/tmp}/cpiofile.XXXXXX)"
++	usr/gen_init_cpio $timestamp ${cpio_list} > ${cpio_tfile}
++else
++	cpio_tfile=${cpio_file}
++fi
++rm ${cpio_list}
++if [ "${is_cpio_compressed}" = "compressed" ]; then
++	cat ${cpio_tfile} > ${output_file}
++else
++	(cat ${cpio_tfile} | ${compr}  - > ${output_file}) \
++	|| (rm -f ${output_file} ; false)
+ fi
++[ -z ${cpio_file} ] && rm ${cpio_tfile}
+ exit 0
 -- 
 2.17.1
 
