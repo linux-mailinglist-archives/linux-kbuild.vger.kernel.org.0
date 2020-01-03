@@ -2,54 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E568212FCF9
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 20:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA0A112FD40
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 20:52:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728543AbgACTZS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jan 2020 14:25:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44724 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728550AbgACTZJ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jan 2020 14:25:09 -0500
-Subject: Re: [GIT PULL] Kbuild fixes for v5.5-rc5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578079509;
-        bh=lx1bfBQGzFpSyQGdwAcBBNmZ/I2xtfwj30gPs7sNi3s=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=imTkYoDNvtbzNEKuWpBMTGUjZ9iHf7mFXVD29edl6Ms3ZfP0+qrFpk/cThe4l7a55
-         XhzYPLhcCQ1UzjzYG4HtH23OjHRXGOlU+qopez+DgbBp8wkYOWsFAiixe0TLO4Fgx0
-         uBi22JprNgCPXQVfbFnRi7IOAZnq6ZTkIA1WwgmI=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNATRUHZSvrhzm8MkGhHO1G4L=ZbTjo+8m4tmXSZcEE_8bg@mail.gmail.com>
-References: <CAK7LNATRUHZSvrhzm8MkGhHO1G4L=ZbTjo+8m4tmXSZcEE_8bg@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNATRUHZSvrhzm8MkGhHO1G4L=ZbTjo+8m4tmXSZcEE_8bg@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- tags/kbuild-fixes-v5.5-2
-X-PR-Tracked-Commit-Id: 8ffdc54b6f4cd718a45802e645bb853e3a46a078
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: bed723519a72c0f68fbfaf68ed5bf55d04e46566
-Message-Id: <157807950938.16643.2435758738520592275.pr-tracker-bot@kernel.org>
-Date:   Fri, 03 Jan 2020 19:25:09 +0000
+        id S1728549AbgACTwI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jan 2020 14:52:08 -0500
+Received: from asavdk3.altibox.net ([109.247.116.14]:60212 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728546AbgACTwI (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 3 Jan 2020 14:52:08 -0500
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id C48DF20026;
+        Fri,  3 Jan 2020 20:52:06 +0100 (CET)
+Date:   Fri, 3 Jan 2020 20:52:05 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Thelen <gthelen@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 11/12] initramfs: refactor the initramfs build rules
+Message-ID: <20200103195205.GC21515@ravnborg.org>
+References: <20200103175915.26663-1-masahiroy@kernel.org>
+ <20200103175915.26663-12-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200103175915.26663-12-masahiroy@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+        a=WVVD8NIdMxo9nYlgdXoA:9 a=CjuIK1q_8ugA:10
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sat, 4 Jan 2020 00:09:02 +0900:
+Hi Mashahiro.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.5-2
+I just browsed this fine patchset and noticed...
+>  
+> -#####
+> -# Generate the initramfs cpio archive
+> +ramfs-input := $(shell echo $(CONFIG_INITRAMFS_SOURCE))
+> +cpio-data :=
+> +
+> +ifeq ($(words $(ramfs-input)),0)
+> +
+> +# If CONFIG_INITRAMFS_SOURCE is empty, generate a small initramfs with the
+> +# default contents.
+> +ramfs-input := $(srctree)/$(src)/default_cpio_list
+> +
+> +else ifeq ($(words $(ramfs-input)),1)
+> +# If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+> +# .cpio or .cpio.*, use it directly as an initramfs.
+> +ifneq ($(filter %.cpio,$(ramfs-input)),)
+> +cpio-data := $(ramfs-input)
+> +endif
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/bed723519a72c0f68fbfaf68ed5bf55d04e46566
+This part will now work if the file is named foo.cpio.bar.
+$(findstring .cpio, should be used and not $(filter %.cpio
+At least if the comment describes the intended behaviour.
 
-Thank you!
+> +
+> +ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
+> +cpio-data := $(ramfs-input)
+> +# If the specified archive is suffixed with .cpio.* (i.e. already compressed),
+> +# we do not double-compress it.
+> +compress-y := shipped
+> +endif
+> +
+> +endif
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+
+	Sam
