@@ -2,75 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E7F912FBF1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 19:00:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5663C12FBFF
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 19:01:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728346AbgACR7y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jan 2020 12:59:54 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:64930 "EHLO
+        id S1728407AbgACSAi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jan 2020 13:00:38 -0500
+Received: from conuserg-07.nifty.com ([210.131.2.74]:16482 "EHLO
         conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728344AbgACR7y (ORCPT
+        with ESMTP id S1728238AbgACSAh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jan 2020 12:59:54 -0500
+        Fri, 3 Jan 2020 13:00:37 -0500
 Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 003HxSJD022724;
-        Sat, 4 Jan 2020 02:59:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 003HxSJD022724
+        by conuserg-07.nifty.com with ESMTP id 003HxSJ1022724;
+        Sat, 4 Jan 2020 02:59:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 003HxSJ1022724
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578074376;
-        bh=/afvTso/ONcbcPbguDu7doM3beXBGjZKCYuIlhp0xDk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Br4rfbRu5i0gbvU0nzBOzM4der3Qvjcbms4s5AqAy0sws3+s5DJYzqQN4ga7SUmBh
-         W4oBcIiUZi1szC+IrjLCglukha9lum7QeLjDHrZhKngvJKVi7fAIyWcCMYDwneWwMH
-         VGjxzAv7lgQ3osY8CHPpxollowRMWpACJjwap19wA639Nfs2rPJ0aOF8agtLla5aOZ
-         W5rkf8MpvpJw7f4LaSWwl8j76rxRHuzlLamxLvMNWdpkvuaRRMLBZbBvnDDkdiJwgt
-         eSUc04v4HQ0mw7tMg6y//l8JYnkk2PYS5lve2V9Y3hxiutclNGixOTCxxQxqWTbl8o
-         qozQrpG1E9Nag==
+        s=dec2015msa; t=1578074369;
+        bh=twjIgVjn2qzixnz2uckFK3hI7u2Oei2bObIaIGzNhH8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=kw80uQ/4X6Ez5bNC7+m1RZPzrKNvWCnEP/hrZb/axVf6eeuOnlfYFOuUZ9PNfD+y2
+         UP39mmaVR0p+OMIPW0rbZVEWB2A4UPxidGdSV5MTFxIGc4ZXm7TUkBEQFwbtznV9jh
+         y+7FOoOmS3rS/F1OVEIwc/P4DY05sL1W5WWUPstk3mOz+cirnr4gPqIgi6Bxw/i7Qf
+         gEbK0hxGsXra4Du/17b0vUduN1vT0sX5bsm4bPQyCjVHPlHsPDpFBo780sBijby3s+
+         6J9PEcX5jxRK2yn0SzVS21l4bm6NV4O5fv912uGYJoPHjR5eThg27cDN45jmXeBSEy
+         NjVGQpS1SKUAw==
 X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 12/12] gen_initramfs.sh: remove intermediate cpio_list on errors
-Date:   Sat,  4 Jan 2020 02:59:15 +0900
-Message-Id: <20200103175915.26663-13-masahiroy@kernel.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Thelen <gthelen@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 00/12] initramfs: a lot of cleanups
+Date:   Sat,  4 Jan 2020 02:59:03 +0900
+Message-Id: <20200103175915.26663-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200103175915.26663-1-masahiroy@kernel.org>
-References: <20200103175915.26663-1-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This script sets the -e option, so it exits on any error, in which
-case it exits without cleaning up the intermediate cpio_list.
+Masahiro Yamada (12):
+  gen_initramfs_list.sh: remove unused variable 'default_list'
+  gen_initramfs_list.sh: fix the tool name in the comment
+  initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh
+  initramfs: remove redundant dependency on BLK_DEV_INITRD
+  initramfs: make compression options not depend on INITRAMFS_SOURCE
+  initramfs: make initramfs compression choice non-optional
+  initramfs: specify $(src)/gen_initramfs.sh as a prerequisite in
+    Makefile
+  initramfs: generate dependency list and cpio at the same time
+  initramfs: add default_cpio_list, and delete -d option support
+  gen_initramfs.sh: always output cpio even without -o option
+  initramfs: refactor the initramfs build rules
+  gen_initramfs.sh: remove intermediate cpio_list on errors
 
-Make sure to delete it on exit.
+ usr/.gitignore                                |   8 +-
+ usr/Kconfig                                   |  26 ---
+ usr/Makefile                                  |  92 ++++++----
+ usr/default_cpio_list                         |   6 +
+ ...gen_initramfs_list.sh => gen_initramfs.sh} | 167 +++++-------------
+ usr/initramfs_data.S                          |   5 +-
+ 6 files changed, 111 insertions(+), 193 deletions(-)
+ create mode 100644 usr/default_cpio_list
+ rename usr/{gen_initramfs_list.sh => gen_initramfs.sh} (53%)
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- usr/gen_initramfs.sh | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/usr/gen_initramfs.sh b/usr/gen_initramfs.sh
-index 4e6715f8ff7f..8ae831657e5d 100755
---- a/usr/gen_initramfs.sh
-+++ b/usr/gen_initramfs.sh
-@@ -193,6 +193,8 @@ dep_list=
- cpio_list=$(mktemp ${TMPDIR:-/tmp}/cpiolist.XXXXXX)
- output="/dev/stdout"
- 
-+trap "rm -f $cpio_list" EXIT
-+
- while [ $# -gt 0 ]; do
- 	arg="$1"
- 	shift
-@@ -243,4 +245,3 @@ if test -n "$KBUILD_BUILD_TIMESTAMP"; then
- 	fi
- fi
- usr/gen_init_cpio $timestamp $cpio_list > $output
--rm $cpio_list
 -- 
 2.17.1
 
