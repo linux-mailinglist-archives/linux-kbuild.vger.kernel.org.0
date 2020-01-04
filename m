@@ -2,88 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4876C130291
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 15:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C42721302E2
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 16:04:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgADOQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Jan 2020 09:16:28 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:40680 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725924AbgADOQ2 (ORCPT
+        id S1727170AbgADPEF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Jan 2020 10:04:05 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:54710 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726292AbgADPDy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Jan 2020 09:16:28 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id A7A1B2002B;
-        Sat,  4 Jan 2020 15:16:24 +0100 (CET)
-Date:   Sat, 4 Jan 2020 15:16:23 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Sat, 4 Jan 2020 10:03:54 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 004F2gcQ018492;
+        Sun, 5 Jan 2020 00:02:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 004F2gcQ018492
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1578150163;
+        bh=+Ym/FObftlApE4ehJPoyk8sOyxo8gIw2RqfNnfV/RE8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=wMH38s3KOQQqZomKMm9xreZUT3T5uv077cd6fVWk6nxxMS8t1X8KpdjbV/MPapROV
+         WuGHzLgrMDR3zU9UczvasLaEFmqH4XR34AHL0+qnz8b9hL2YqYr/qcwygDNUyk6Olq
+         JXvI9ayW8h0XIoCs9FgXtVlOgcC7/L676JIUUuvpd+uGUYEhk0ZCdSqM0osNj0EVEL
+         xr9WZ9wUi8VJVDw+08V4dm0tAC7spCUIZPnjzvhDi3jcXIkd1DQuyOFU5Zmcetwwjl
+         gDUvs25OjjVRVgk7hgrJ5zul5DzN2sy12eqzOaLxq+r1WtWRNob4OruAysN8mqc3tC
+         DWLXwW6V7UT0g==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg Thelen <gthelen@google.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 11/12] initramfs: refactor the initramfs build rules
-Message-ID: <20200104141623.GB17768@ravnborg.org>
-References: <20200103175915.26663-1-masahiroy@kernel.org>
- <20200103175915.26663-12-masahiroy@kernel.org>
- <20200103195205.GC21515@ravnborg.org>
- <CAK7LNAQXx0RGutdOe4JFLTbjm7=cx9aEKQ-823-irED4SyCmMA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQXx0RGutdOe4JFLTbjm7=cx9aEKQ-823-irED4SyCmMA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=Kv6UVFhzZyljNNiE3VoA:9 a=CjuIK1q_8ugA:10
+        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/13] initramfs: a lot of cleanups
+Date:   Sun,  5 Jan 2020 00:02:25 +0900
+Message-Id: <20200104150238.19834-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro.
 
-> > > +else ifeq ($(words $(ramfs-input)),1)
-> > > +# If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
-> > > +# .cpio or .cpio.*, use it directly as an initramfs.
-> > > +ifneq ($(filter %.cpio,$(ramfs-input)),)
-> > > +cpio-data := $(ramfs-input)
-> > > +endif
-> >
-> > This part will now work if the file is named foo.cpio.bar.
-> > $(findstring .cpio, should be used and not $(filter %.cpio
-> > At least if the comment describes the intended behaviour.
-> 
-> 
-> The 'foo.cpio.bar' is taken care of
-> by ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
-Clever, I only now realized how this worked.
-> 
-> I admit the comment was confusing.
-> 
-> 
-> I will clarify the comments as follows:
-> 
-> 
-> 
-> # If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
-> # .cpio, use it directly as an initramfs.
-> ifneq ($(filter %.cpio,$(ramfs-input)),)
-> cpio-data := $(ramfs-input)
-> endif
-> 
-> # If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
-> # .cpio.*, use it directly as an initramfs, and avoid double compression.
-> ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
-> cpio-data := $(ramfs-input)
-> compress-y := shipped
-> endif
 
-Looks good.
+Masahiro Yamada (13):
+  initramfs: replace klibcdirs in Makefile with FORCE
+  gen_initramfs_list.sh: remove unused variable 'default_list'
+  gen_initramfs_list.sh: fix the tool name in the comment
+  initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh
+  initramfs: remove redundant dependency on BLK_DEV_INITRD
+  initramfs: make compression options not depend on INITRAMFS_SOURCE
+  initramfs: make initramfs compression choice non-optional
+  initramfs: specify $(src)/gen_initramfs.sh as a prerequisite in
+    Makefile
+  initramfs: generate dependency list and cpio at the same time
+  initramfs: add default_cpio_list, and delete -d option support
+  gen_initramfs.sh: always output cpio even without -o option
+  initramfs: refactor the initramfs build rules
+  gen_initramfs.sh: remove intermediate cpio_list on errors
 
-	Sam
+ usr/.gitignore                                |   8 +-
+ usr/Kconfig                                   |  26 ---
+ usr/Makefile                                  |  97 ++++++----
+ usr/default_cpio_list                         |   6 +
+ ...gen_initramfs_list.sh => gen_initramfs.sh} | 167 +++++-------------
+ usr/initramfs_data.S                          |   5 +-
+ 6 files changed, 112 insertions(+), 197 deletions(-)
+ create mode 100644 usr/default_cpio_list
+ rename usr/{gen_initramfs_list.sh => gen_initramfs.sh} (53%)
+
+-- 
+2.17.1
+
