@@ -2,74 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1782F1301AE
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 10:56:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4876C130291
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 15:16:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgADJz7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Jan 2020 04:55:59 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:17501 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726252AbgADJz7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Jan 2020 04:55:59 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47qcbc3c0QzqH;
-        Sat,  4 Jan 2020 10:55:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1578131756; bh=rkH40E0INVXlvDKfacAUiba88ww3D5Wjqs50yFTBFh0=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=HaIJ1JwyGdZCD+RpHddHeEQww41T9ImFOWZfFLDjVohqGTderBEs/96v1Lq0sWbQo
-         icblhN1uTGppxrFfhULFauUpCCOo7+dze2uhRLHUKivfKxBKqht5ywyTatfAOvSXJ3
-         haaL5xMhyDVljiQTEgCjGmfRFurJIUoW7TNEJye1Rp8Xld07hjt2GAn5f1SY9xg3AW
-         Q07OMUPwVBqvm7bk65MQTANyTjP+pYsuEG23XZ4ddqqNIdp4muDuwbNN0mm7sTHFPt
-         Ruz7sWz8Or4qWP4RCcqzvgwZgOizMi4jaaDqlOGY5T/bAvr44ual83eLeV5xspn0pW
-         eCEPfYkguR5fg==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Sat, 04 Jan 2020 10:55:56 +0100
-Message-Id: <081640c81d3c89707fdbb8869ae5f54aaea5064e.1578131485.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <09f5b36d9c64b4e6d1d235f84a7333b7802b2866.1578131485.git.mirq-linux@rere.qmqm.pl>
-References: <09f5b36d9c64b4e6d1d235f84a7333b7802b2866.1578131485.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH 2/2] builddeb: make headers package thinner
+        id S1725928AbgADOQ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Jan 2020 09:16:28 -0500
+Received: from asavdk3.altibox.net ([109.247.116.14]:40680 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725924AbgADOQ2 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 4 Jan 2020 09:16:28 -0500
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id A7A1B2002B;
+        Sat,  4 Jan 2020 15:16:24 +0100 (CET)
+Date:   Sat, 4 Jan 2020 15:16:23 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Thelen <gthelen@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 11/12] initramfs: refactor the initramfs build rules
+Message-ID: <20200104141623.GB17768@ravnborg.org>
+References: <20200103175915.26663-1-masahiroy@kernel.org>
+ <20200103175915.26663-12-masahiroy@kernel.org>
+ <20200103195205.GC21515@ravnborg.org>
+ <CAK7LNAQXx0RGutdOe4JFLTbjm7=cx9aEKQ-823-irED4SyCmMA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQXx0RGutdOe4JFLTbjm7=cx9aEKQ-823-irED4SyCmMA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
+        a=Kv6UVFhzZyljNNiE3VoA:9 a=CjuIK1q_8ugA:10
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Remove a bunch of files not used during external module builds:
- - foreign architecture headers
- - subtree Makefiles
- - Kconfig files
- - perl scripts
+Hi Masahiro.
 
-On amd64 system this looses a third of the resulting .deb size.
+> > > +else ifeq ($(words $(ramfs-input)),1)
+> > > +# If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+> > > +# .cpio or .cpio.*, use it directly as an initramfs.
+> > > +ifneq ($(filter %.cpio,$(ramfs-input)),)
+> > > +cpio-data := $(ramfs-input)
+> > > +endif
+> >
+> > This part will now work if the file is named foo.cpio.bar.
+> > $(findstring .cpio, should be used and not $(filter %.cpio
+> > At least if the comment describes the intended behaviour.
+> 
+> 
+> The 'foo.cpio.bar' is taken care of
+> by ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
+Clever, I only now realized how this worked.
+> 
+> I admit the comment was confusing.
+> 
+> 
+> I will clarify the comments as follows:
+> 
+> 
+> 
+> # If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+> # .cpio, use it directly as an initramfs.
+> ifneq ($(filter %.cpio,$(ramfs-input)),)
+> cpio-data := $(ramfs-input)
+> endif
+> 
+> # If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+> # .cpio.*, use it directly as an initramfs, and avoid double compression.
+> ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
+> cpio-data := $(ramfs-input)
+> compress-y := shipped
+> endif
 
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
----
- scripts/package/builddeb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Looks good.
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index d289c4ebc891..fb68916d5898 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -165,8 +165,8 @@ EOF
- done
- 
- # Build kernel header package
--(cd $srctree; find . -name Makefile\* -o -name Kconfig\* -o -name \*.pl) > "$objtree/debian/hdrsrcfiles"
--(cd $srctree; find arch/*/include include scripts -type f -o -type l) >> "$objtree/debian/hdrsrcfiles"
-+(cd $srctree; find . arch/$SRCARCH -maxdepth 1 -name Makefile\*) > "$objtree/debian/hdrsrcfiles"
-+(cd $srctree; find include scripts -type f -o -type l) >> "$objtree/debian/hdrsrcfiles"
- (cd $srctree; find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name Platform) >> "$objtree/debian/hdrsrcfiles"
- (cd $srctree; find $(find arch/$SRCARCH -name include -o -name scripts -type d) -type f) >> "$objtree/debian/hdrsrcfiles"
- if is_enabled CONFIG_STACK_VALIDATION; then
--- 
-2.20.1
-
+	Sam
