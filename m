@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8121302C6
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 16:03:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B0A1302D0
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 16:03:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726143AbgADPDB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Jan 2020 10:03:01 -0500
-Received: from conuserg-10.nifty.com ([210.131.2.77]:53563 "EHLO
+        id S1726101AbgADPDR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Jan 2020 10:03:17 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:53560 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726135AbgADPDA (ORCPT
+        with ESMTP id S1726083AbgADPDB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Jan 2020 10:03:00 -0500
+        Sat, 4 Jan 2020 10:03:01 -0500
 Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 004F2gcW018492;
-        Sun, 5 Jan 2020 00:02:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 004F2gcW018492
+        by conuserg-10.nifty.com with ESMTP id 004F2gcX018492;
+        Sun, 5 Jan 2020 00:02:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 004F2gcX018492
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578150166;
-        bh=BflCds3eDfZKKkb79ngQRy2WmRBR4w8cbD1yLoBTetY=;
+        s=dec2015msa; t=1578150167;
+        bh=Ds0+VtuhBD3d3jLcnJM/gKsN6b9rI46kgvvBCTFzsDE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u0W+BeWxwmpgJoaJCKv644PAmFlZKKPxRKKj5DtfjAAH6ozoptNbKkh7SjP8Iki3G
-         EGpwga3ewU6nG+c04MU5dClubeoxgU1eJydXnbtfyStbJrhYo7A4iKwN3TU7bAWKQe
-         3D54nbHKIDMxsg7DEe8EVfhNj8vQ7E2zpLSU5lJ+04aJC4MbLwr5GAIdIkHglQnDf6
-         jdI3OI5eduAOJC1NpYD0p1WGDJt3xnIIDEDofKQ7Yp7XGbtOi5L+0P5z0ipup++qv4
-         sNosRY3bLjkJogUuWqDpvyrs8nsPRYKHKCku6VBm5oa9eeETua/PLOSIV2rCGUAzSn
-         DK017OKWvJ+9w==
+        b=xey2FSI/Ddi4dSKw72YJoJjpFHdKZvBdE76fBZSDwy9Q6YbaAMSqM3NlL9w+LZsAP
+         kYwsbYSBX7FxJeh2PkAN0LEm1li63XVTaNWeFuVwzimF/tDOski6/b3o08xQgvN5Ne
+         YzY54Z9e63cd55eVNO1Gc0p4vz4N8dYlGeY/er63bzJnTqUwKouZU2Y/kAP3d/DIO3
+         40RPTCP+Ov3mPZl3NxQsfljkCjTFqtxQywcifwRHU+EtCm2/cSyn+NY3dDbWE08sSR
+         qVb4sTm/g9pd0nRSEHgDrXLmkCAK4fuytBpPxAlv/2LPfTbtvAhvehZ0C8HgSErMY4
+         Grgbh4u6CJjLQ==
 X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/13] initramfs: make compression options not depend on INITRAMFS_SOURCE
-Date:   Sun,  5 Jan 2020 00:02:31 +0900
-Message-Id: <20200104150238.19834-7-masahiroy@kernel.org>
+Subject: [PATCH v2 07/13] initramfs: make initramfs compression choice non-optional
+Date:   Sun,  5 Jan 2020 00:02:32 +0900
+Message-Id: <20200104150238.19834-8-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200104150238.19834-1-masahiroy@kernel.org>
 References: <20200104150238.19834-1-masahiroy@kernel.org>
@@ -43,40 +43,43 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Even if INITRAMFS_SOURCE is empty, usr/gen_initramfs.sh generates a
-tiny default initramfs, which is embedded in vmlinux.
+Currently, the choice of the initramfs compression mode is too complex
+because users are allowed to not specify the compression mode at all.
 
-So, defining INITRAMFS_COMPRESSION* options should be valid irrespective
-of INITRAMFS_SOURCE.
+I think it makes more sense to require users to choose the compression
+explicitly, and delete the fallback defaults of INITRAMFS_COMPRESSION.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 Changes in v2: None
 
- usr/Kconfig | 2 --
- 1 file changed, 2 deletions(-)
+ usr/Kconfig | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/usr/Kconfig b/usr/Kconfig
-index 72f50a21c051..43934c128010 100644
+index 43934c128010..ab61e81165e0 100644
 --- a/usr/Kconfig
 +++ b/usr/Kconfig
 @@ -102,7 +102,6 @@ config RD_LZ4
  
  choice
  	prompt "Built-in initramfs compression mode"
--	depends on INITRAMFS_SOURCE!=""
- 	optional
+-	optional
  	help
  	  This option allows you to decide by which algorithm the builtin
-@@ -211,7 +210,6 @@ config INITRAMFS_COMPRESSION_LZ4
- endchoice
- 
- config INITRAMFS_COMPRESSION
--	depends on INITRAMFS_SOURCE!=""
- 	string
- 	default ""      if INITRAMFS_COMPRESSION_NONE
- 	default ".gz"   if INITRAMFS_COMPRESSION_GZIP
+ 	  initramfs will be compressed.  Several compression algorithms are
+@@ -218,10 +217,3 @@ config INITRAMFS_COMPRESSION
+ 	default ".xz"   if INITRAMFS_COMPRESSION_XZ
+ 	default ".lzo"  if INITRAMFS_COMPRESSION_LZO
+ 	default ".lz4"  if INITRAMFS_COMPRESSION_LZ4
+-	default ".gz"   if RD_GZIP
+-	default ".lz4"  if RD_LZ4
+-	default ".lzo"  if RD_LZO
+-	default ".xz"   if RD_XZ
+-	default ".lzma" if RD_LZMA
+-	default ".bz2"  if RD_BZIP2
+-	default ""
 -- 
 2.17.1
 
