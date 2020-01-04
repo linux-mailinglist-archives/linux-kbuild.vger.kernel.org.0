@@ -2,101 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DAC212FD97
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jan 2020 21:19:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5520B13006B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 04:37:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728676AbgACUTw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jan 2020 15:19:52 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:44557 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728611AbgACUTr (ORCPT
+        id S1727421AbgADDg0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jan 2020 22:36:26 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:32061 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727274AbgADDg0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jan 2020 15:19:47 -0500
-Received: by mail-pf1-f193.google.com with SMTP id 195so23122250pfw.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Jan 2020 12:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=AWCc/ylFmQ91zZEJrbKovcmODhKduqUVkKGxHK8uCtVvWppAnjCzAVhlqtuTB6Zv3H
-         fwGfadWPG5OWx3vtouAanI9rAb4+nCSTS9ougZHH94RmFVRXusGOhSeq6LcZbXUbpYke
-         LecHuReAxOHZIAlNr0puF8IN10taJseJbu/8dZmgE65qy44VHc90CsjCbMPz9YIW56uc
-         KAocddCq9fbTe+4eLEe4ukQAx3KuF/S8Bs/5ss0PU18bAsmodPObJCziaNGvW+fW97nj
-         vqPpR6NvW2UHqccwDYrcuioTdRRCTX8F5vGOe97A6Uj5iUQG4sbm5c76feOsNIPb/J8O
-         nOKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=nJ7N352r3KHDsMELr4b6bFie3YiI47jvFtbZwtq4v/XROhqf/6MwEMDGl4y/s84btZ
-         DhoYvCQAUZlOGszK+/xjVLBv7/8EBGbBv0vcm1tpSZ7BOOcIJ4VyQGiTPHp2whsJkzzp
-         6vYAdi9vEMniaIBKY6/o/PAahdDHmfnFVgszcr12ipA2ydvDDkWsvOXppgVZXbbM5OEO
-         B0Xd61NOoVQ8vtfeNrbnbHAnM8K7KuQyuX7DElQEejFZgSFygSuR60amJ3mcMMEeWsBZ
-         n1goeO/Zoin+LPP8dDSkGYC4GBF8f6uFJex3Xydq60E9noMTwIkp0UQkSxPZZS40Lg/5
-         IYig==
-X-Gm-Message-State: APjAAAVYtEk+AWZtj3Be8mTwpKPkzB8Fyh/M+peaus4bgs/5JD6mAoc2
-        Tlc3oCWWTHsFlxfKHbMEuc9wCzt8KeEYpUQVZx7etvyOiWA=
-X-Google-Smtp-Source: APXvYqwTD0MzQRfSqMjBdpNUeZAJzfDvhrEGhXGCrMyvXGb//+N8M9ASxsqTbkQfP5NbaV7n6hKI5gEfY+hOjDS6Fyg=
-X-Received: by 2002:ad4:478b:: with SMTP id z11mr69635758qvy.185.1578082785331;
- Fri, 03 Jan 2020 12:19:45 -0800 (PST)
+        Fri, 3 Jan 2020 22:36:26 -0500
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 0043aDh2023619;
+        Sat, 4 Jan 2020 12:36:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0043aDh2023619
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1578108974;
+        bh=E7v6OsSDfr6V815FU2MY7OtZnfPcFmRdIvSTyf6A5q8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=M2Yv2C4BCcLEiA+O/utwZa5WrRwTqIxLFxjRiKwkX7G+1GJVIp7G/T0t09moraU0O
+         8dBsLLVKwOLGoHuSfnJ7M6wO3+sbLlYb5k5qeEW0JfaZgR6KQWoiYcVkeqsCKt5dMF
+         D9KQGCWxmzXjHlDfIJPYpaYJSkg98zWhLFOzPKdYksMblnl/ZvwCyORqWR+eBzPZmO
+         wuN/jQIiKPAiiTjmRlDFiDfHBra9ftCky5hhIcHMUkRUvG4Z+VAK4vJzjflpfQUBpA
+         TiBaTxZLuJR8VaF/sVuMcGmk+QjmRhyRbO4ES7DFLpZF453IYxRCduPxe3RaM8Lqtr
+         /Q+p0xXDSDOqg==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id c129so11222716vkh.7;
+        Fri, 03 Jan 2020 19:36:14 -0800 (PST)
+X-Gm-Message-State: APjAAAVUFwwOtfXLt7Fp93ZV5hWE/Qd3gSq8DbQbo+DFMbweK5KLamyu
+        5OVgDt1wSEH9BzTSeVgSMzj3j3l989yFTaT+mm8=
+X-Google-Smtp-Source: APXvYqwFrX0S6OIqke8PQUsgzrJ85FumVCcPzymZOA5sJCiSerQ6OnjY8DABR6LmjjZSqaQZJWGUxu05TfzGAAs3kTw=
+X-Received: by 2002:a1f:6344:: with SMTP id x65mr52196094vkb.26.1578108973033;
+ Fri, 03 Jan 2020 19:36:13 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ac8:4410:0:0:0:0:0 with HTTP; Fri, 3 Jan 2020 12:19:45 -0800 (PST)
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
-        <westernunion.benin982@gmail.com>
-Date:   Fri, 3 Jan 2020 21:19:45 +0100
-Message-ID: <CAP=nHBKxfmbdRg7q4-1jdSUL6+zok9agasMSrXV5CsEJEmZz3A@mail.gmail.com>
-Subject: I promise you must be happy today, God has uplifted you and your
- family ok
-To:     undisclosed-recipients:;
+References: <20200103175915.26663-1-masahiroy@kernel.org> <20200103175915.26663-12-masahiroy@kernel.org>
+ <20200103195205.GC21515@ravnborg.org>
+In-Reply-To: <20200103195205.GC21515@ravnborg.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 4 Jan 2020 12:35:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQXx0RGutdOe4JFLTbjm7=cx9aEKQ-823-irED4SyCmMA@mail.gmail.com>
+Message-ID: <CAK7LNAQXx0RGutdOe4JFLTbjm7=cx9aEKQ-823-irED4SyCmMA@mail.gmail.com>
+Subject: Re: [PATCH 11/12] initramfs: refactor the initramfs build rules
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Thelen <gthelen@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear Friend
+Hi Sam,
 
-i hope all is well with you,if so, glory be to God almighty. I'm very
-happy to inform you, about my success in getting payment funds under
-the cooperation of a new partner from United States of
-America.Presently I am in uk for investment projects with my own share
-of the total sum. I didn't forget your past efforts. IMF finally
-approved your compensation payment funds this morning by prepaid (ATM)
-Debit card of US$12,500.000.00Million Dollars, Since you not received
-this payment yet, I was not certified
-but it is not your fault and not my fault, I hold nothing against
-you.than bank official whom has been detaining the transfer in the
-bank, trying to claim your funds by themselves.
+On Sat, Jan 4, 2020 at 4:52 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Mashahiro.
+>
+> I just browsed this fine patchset and noticed...
+> >
+> > -#####
+> > -# Generate the initramfs cpio archive
+> > +ramfs-input := $(shell echo $(CONFIG_INITRAMFS_SOURCE))
+> > +cpio-data :=
+> > +
+> > +ifeq ($(words $(ramfs-input)),0)
+> > +
+> > +# If CONFIG_INITRAMFS_SOURCE is empty, generate a small initramfs with the
+> > +# default contents.
+> > +ramfs-input := $(srctree)/$(src)/default_cpio_list
+> > +
+> > +else ifeq ($(words $(ramfs-input)),1)
+> > +# If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+> > +# .cpio or .cpio.*, use it directly as an initramfs.
+> > +ifneq ($(filter %.cpio,$(ramfs-input)),)
+> > +cpio-data := $(ramfs-input)
+> > +endif
+>
+> This part will now work if the file is named foo.cpio.bar.
+> $(findstring .cpio, should be used and not $(filter %.cpio
+> At least if the comment describes the intended behaviour.
 
-Therefore, in appreciation of your effort I have raised an
-International prepaid (ATM) Debit card of US$12,500.000.00 in your
-favor as compensation to you.
 
-Now, i want you to contact my Diplomatic Agent, His name is Mike Benz
-on His  e-mail Address (mikebenz550@aol.com
+The 'foo.cpio.bar' is taken care of
+by ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
 
-ask Him to send the Prepaid (ATM) Debit card to you. Bear in mind that
-the money is in Prepaid (ATM) Debit card, not cash, so you need to
-send to him,
-your full name
-address  where the prepaid (ATM) Debit card will be delivered to you,
-including your cell phone number. Finally, I left explicit
-instructions with him, on how to send the (ATM CARD) to you.
+I admit the comment was confusing.
 
-The Prepaid (ATM) Debit card, will be send to you through my
-Diplomatic Agent Mr. Mike Benz immediately you contact him. So contact
-my Diplomatic Agent Mr. Mike Benz immediately you receive this letter.
-Below is his contact information:
 
-NAME : MIKE BENZ
-EMAIL ADDRESS: mikebenz550@aol.com
-Text Him, (256) 284-4886
+I will clarify the comments as follows:
 
-Request for Delivery of the Prepaid (ATM) Debit card  to you today.
-Note, please I have paid for the whole service fees for you, so the
-only money you will send to my Diplomatic Agent Mr. Mike Benz is
-$50.00 for your prepaid (ATM) Debit card DELIVERY FEE to your address
-ok.
-Let me know once you receive this Card at your address.
-Best regards,
-Rev.Dr, George Adadar
+
+
+# If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+# .cpio, use it directly as an initramfs.
+ifneq ($(filter %.cpio,$(ramfs-input)),)
+cpio-data := $(ramfs-input)
+endif
+
+# If CONFIG_INITRAMFS_SOURCE specifies a single file, and it is suffixed with
+# .cpio.*, use it directly as an initramfs, and avoid double compression.
+ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
+cpio-data := $(ramfs-input)
+compress-y := shipped
+endif
+
+
+
+
+
+
+> > +
+> > +ifeq ($(words $(subst .cpio.,$(space),$(ramfs-input))),2)
+> > +cpio-data := $(ramfs-input)
+> > +# If the specified archive is suffixed with .cpio.* (i.e. already compressed),
+> > +# we do not double-compress it.
+> > +compress-y := shipped
+> > +endif
+> > +
+> > +endif
+>
+>
+>         Sam
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
