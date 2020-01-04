@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D40D11302C9
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 16:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8121302C6
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 16:03:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbgADPDC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Jan 2020 10:03:02 -0500
-Received: from conuserg-10.nifty.com ([210.131.2.77]:53558 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726118AbgADPDB (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
+        id S1726143AbgADPDB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Sat, 4 Jan 2020 10:03:01 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:53563 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726135AbgADPDA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 4 Jan 2020 10:03:00 -0500
 Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 004F2gcV018492;
+        by conuserg-10.nifty.com with ESMTP id 004F2gcW018492;
         Sun, 5 Jan 2020 00:02:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 004F2gcV018492
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 004F2gcW018492
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1578150166;
-        bh=m+QNw9lJ1lLT2KZMs68ll6UoAC70qCeAUczCTb6/mWA=;
+        bh=BflCds3eDfZKKkb79ngQRy2WmRBR4w8cbD1yLoBTetY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DGH3kX4WJdQwfpbNa4BApSJsWxpSuB/GaVrQ0YrCsnW6BDjoH8vbbySP1ctZf3hmV
-         xAuSU6YrwMjH/fxhRl8F+AJLs4uPr1zH29ofqi6/Im9LXG2bhBSHNREGssSH+feuZV
-         DlPabRXo3OSX1yof1Zj0kQZiuJsX5W/ZHlAi3WJJ9bo7bzc+tgY656dRwxv1CAtejt
-         +s6jDpaQ0Edsm1Luq+xvXR4fXRZsgigfs9JWMXRlVuKtIdnyi+lj42EWbsGhAyu/a6
-         K2rtm7yY2qKhi+KO0HGieTUUNkBG8HU5/ZgS5IzSpzlKzgafvvDGrYdAkEKOQaqUsm
-         9foIxN/3AZbSQ==
+        b=u0W+BeWxwmpgJoaJCKv644PAmFlZKKPxRKKj5DtfjAAH6ozoptNbKkh7SjP8Iki3G
+         EGpwga3ewU6nG+c04MU5dClubeoxgU1eJydXnbtfyStbJrhYo7A4iKwN3TU7bAWKQe
+         3D54nbHKIDMxsg7DEe8EVfhNj8vQ7E2zpLSU5lJ+04aJC4MbLwr5GAIdIkHglQnDf6
+         jdI3OI5eduAOJC1NpYD0p1WGDJt3xnIIDEDofKQ7Yp7XGbtOi5L+0P5z0ipup++qv4
+         sNosRY3bLjkJogUuWqDpvyrs8nsPRYKHKCku6VBm5oa9eeETua/PLOSIV2rCGUAzSn
+         DK017OKWvJ+9w==
 X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/13] initramfs: remove redundant dependency on BLK_DEV_INITRD
-Date:   Sun,  5 Jan 2020 00:02:30 +0900
-Message-Id: <20200104150238.19834-6-masahiroy@kernel.org>
+Subject: [PATCH v2 06/13] initramfs: make compression options not depend on INITRAMFS_SOURCE
+Date:   Sun,  5 Jan 2020 00:02:31 +0900
+Message-Id: <20200104150238.19834-7-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200104150238.19834-1-masahiroy@kernel.org>
 References: <20200104150238.19834-1-masahiroy@kernel.org>
@@ -43,79 +43,40 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-init/Kconfig includes usr/Kconfig inside the "if BLK_DEV_INITRD" ...
-"endif" block:
+Even if INITRAMFS_SOURCE is empty, usr/gen_initramfs.sh generates a
+tiny default initramfs, which is embedded in vmlinux.
 
-    if BLK_DEV_INITRD
-
-    source "usr/Kconfig"
-
-    endif
-
-Hence, all the defines in usr/Kconfig depend on BLK_DEV_INITRD.
-
-Remove the redundant "depends on BLK_DEV_INITRD".
+So, defining INITRAMFS_COMPRESSION* options should be valid irrespective
+of INITRAMFS_SOURCE.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 Changes in v2: None
 
- usr/Kconfig | 6 ------
- 1 file changed, 6 deletions(-)
+ usr/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/usr/Kconfig b/usr/Kconfig
-index a6b68503d177..72f50a21c051 100644
+index 72f50a21c051..43934c128010 100644
 --- a/usr/Kconfig
 +++ b/usr/Kconfig
-@@ -54,7 +54,6 @@ config INITRAMFS_ROOT_GID
+@@ -102,7 +102,6 @@ config RD_LZ4
  
- config RD_GZIP
- 	bool "Support initial ramdisk/ramfs compressed using gzip"
--	depends on BLK_DEV_INITRD
- 	default y
- 	select DECOMPRESS_GZIP
+ choice
+ 	prompt "Built-in initramfs compression mode"
+-	depends on INITRAMFS_SOURCE!=""
+ 	optional
  	help
-@@ -64,7 +63,6 @@ config RD_GZIP
- config RD_BZIP2
- 	bool "Support initial ramdisk/ramfs compressed using bzip2"
- 	default y
--	depends on BLK_DEV_INITRD
- 	select DECOMPRESS_BZIP2
- 	help
- 	  Support loading of a bzip2 encoded initial ramdisk or cpio buffer
-@@ -73,7 +71,6 @@ config RD_BZIP2
- config RD_LZMA
- 	bool "Support initial ramdisk/ramfs compressed using LZMA"
- 	default y
--	depends on BLK_DEV_INITRD
- 	select DECOMPRESS_LZMA
- 	help
- 	  Support loading of a LZMA encoded initial ramdisk or cpio buffer
-@@ -81,7 +78,6 @@ config RD_LZMA
+ 	  This option allows you to decide by which algorithm the builtin
+@@ -211,7 +210,6 @@ config INITRAMFS_COMPRESSION_LZ4
+ endchoice
  
- config RD_XZ
- 	bool "Support initial ramdisk/ramfs compressed using XZ"
--	depends on BLK_DEV_INITRD
- 	default y
- 	select DECOMPRESS_XZ
- 	help
-@@ -91,7 +87,6 @@ config RD_XZ
- config RD_LZO
- 	bool "Support initial ramdisk/ramfs compressed using LZO"
- 	default y
--	depends on BLK_DEV_INITRD
- 	select DECOMPRESS_LZO
- 	help
- 	  Support loading of a LZO encoded initial ramdisk or cpio buffer
-@@ -100,7 +95,6 @@ config RD_LZO
- config RD_LZ4
- 	bool "Support initial ramdisk/ramfs compressed using LZ4"
- 	default y
--	depends on BLK_DEV_INITRD
- 	select DECOMPRESS_LZ4
- 	help
- 	  Support loading of a LZ4 encoded initial ramdisk or cpio buffer
+ config INITRAMFS_COMPRESSION
+-	depends on INITRAMFS_SOURCE!=""
+ 	string
+ 	default ""      if INITRAMFS_COMPRESSION_NONE
+ 	default ".gz"   if INITRAMFS_COMPRESSION_GZIP
 -- 
 2.17.1
 
