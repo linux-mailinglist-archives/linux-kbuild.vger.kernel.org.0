@@ -2,91 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2A30130356
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jan 2020 16:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E823130C83
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2020 04:23:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbgADPho (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 4 Jan 2020 10:37:44 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:45754 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbgADPhn (ORCPT
+        id S1727405AbgAFDXx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Jan 2020 22:23:53 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:28701 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727307AbgAFDXx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 4 Jan 2020 10:37:43 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 004Faw61022777;
-        Sun, 5 Jan 2020 00:36:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 004Faw61022777
+        Sun, 5 Jan 2020 22:23:53 -0500
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 0063NPRQ000672;
+        Mon, 6 Jan 2020 12:23:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0063NPRQ000672
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578152219;
-        bh=tV/KSjNMmwmjEzyTu+uQ7dm3w/eBbGsBUx5SRxF+k+8=;
+        s=dec2015msa; t=1578281006;
+        bh=wvIIht9IjcI1sfB8BY3Nr3IRwO3XwvIvbn+5CR6Dbh8=;
         h=From:To:Cc:Subject:Date:From;
-        b=oubbIxWAEu95j2GDVXf1eMJHA0m5QzAW7Smau+6TPjB1EKpBkVMvEXoKpgfogGjem
-         rcprW5oVfaPtcSDLvvhzxiQk+0Mfk5LNmrar4fEqkNknrkzWhQX2sDeDX2d8pKJwqB
-         yv/VwEGN46tJU2bUFCcCPd8JMiwOPw+ssIF+65bT1Gh04uJxw0zNJXWXnfUgJy8HFL
-         b4g4i5EyoyaA9eSbEm5eORG80lqcfY/nYfln2buxqVaAUmk6bnOB4kRbTvf+Kc9xSs
-         kaElh4r5d32wNq6VP+aOa+f7LPBkaNu86VZAxIKKtjUiw1ZMEyM1m4a9kz/0JpicZ3
-         AxNqEFZN8cMSw==
-X-Nifty-SrcIP: [126.93.102.113]
+        b=Mpe2P6BY3kQ6AOThh2zkWSMu9ApwJEKLqNjXJsdeEnvIXrt61xJyzxt9gH+HS1otj
+         Xgop6EHssamcdbnSFCr7RvCYuLlIDchF3VHuw2ni9NJL42OGbw07nycOgOYg9ZYxSX
+         oSGOKN8p7TFabK1WYddM6pSUf5Cx+He+w3NEhYkHhpWwdPKYaONVD+S0QKKM0NQE1g
+         ViEj1s4PuFA6HcRfGyYGU3CbWwPy6zYyUJ6qsCS9SSbLGZK44vK8/s6gTyvqBll1dX
+         ePacfiyDTEXWYsCpyfqN3R/NrzFJeXwmZMgsMeC+o+b8k32LaJFey+tHJ0NcdPhM27
+         RePHblFXsYpAw==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        sparclinux@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Ben Colline <bcollins@debian.org>,
+Cc:     Fumiya Shigemitsu <shfy1014@gmail.com>,
+        Yongxin Liu <yongxin.liu@windriver.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] modpost: assume STT_SPARC_REGISTER is defined
-Date:   Sun,  5 Jan 2020 00:36:51 +0900
-Message-Id: <20200104153651.2258-1-masahiroy@kernel.org>
+Subject: [PATCH] kbuild: allow modules to link *.a archives
+Date:   Mon,  6 Jan 2020 12:23:24 +0900
+Message-Id: <20200106032324.3147-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 8d5290149ee1 ("[SPARC]: Deal with glibc changing macro names in
-modpost.c") was more than 14 years ago. STT_SPARC_REGISTER is hopefully
-defined in elf.h of recent C libraries.
+Since commit 69ea912fda74 ("kbuild: remove unneeded link_multi_deps"),
+modules cannot link *.a archives.
 
+I do not see such a usecase in the upstream code, but multiple people
+reported this issue, so it seems to be a desired feature for external
+modules.
+
+For example, libfoo.a is not linked in the following test case:
+
+    obj-m := foo.o
+    foo-objs := foo1.o libfoo.a
+
+Instead of reverting the offending commit, I wrote slightly cleaner code.
+I added multi-m-prereqs to avoid code duplication.
+
+Reported-by: Fumiya Shigemitsu <shfy1014@gmail.com>
+Reported-by: Yongxin Liu <yongxin.liu@windriver.com>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/mod/modpost.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ scripts/Makefile.build | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 6e892c93d104..7edfdb2f4497 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -12,6 +12,7 @@
-  */
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index b734ac8a654e..a8481b765ea8 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -265,8 +265,10 @@ $(obj)/%.o: $(src)/%.c $(recordmcount_source) $(objtool_dep) FORCE
+ 	$(call cmd,force_checksrc)
+ 	$(call if_changed_rule,cc_o_c)
  
- #define _GNU_SOURCE
-+#include <elf.h>
- #include <stdio.h>
- #include <ctype.h>
- #include <string.h>
-@@ -729,12 +730,6 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
- 			break;
- 		if (ignore_undef_symbol(info, symname))
- 			break;
--/* cope with newer glibc (2.3.4 or higher) STT_ definition in elf.h */
--#if defined(STT_REGISTER) || defined(STT_SPARC_REGISTER)
--/* add compatibility with older glibc */
--#ifndef STT_SPARC_REGISTER
--#define STT_SPARC_REGISTER STT_REGISTER
--#endif
- 		if (info->hdr->e_machine == EM_SPARC ||
- 		    info->hdr->e_machine == EM_SPARCV9) {
- 			/* Ignore register directives. */
-@@ -747,7 +742,6 @@ static void handle_symbol(struct module *mod, struct elf_info *info,
- 				symname = munged;
- 			}
- 		}
--#endif
++multi-m-prereqs = $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m))
++
+ cmd_mod = { \
+-	echo $(if $($*-objs)$($*-y)$($*-m), $(addprefix $(obj)/, $($*-objs) $($*-y) $($*-m)), $(@:.mod=.o)); \
++	echo $(if $(multi-m-prereqs), $(multi-m-prereqs), $(@:.mod=.o)); \
+ 	$(cmd_undef_syms); \
+ 	} > $@
  
- 		mod->unres = alloc_symbol(symname,
- 					  ELF_ST_BIND(sym->st_info) == STB_WEAK,
+@@ -427,13 +429,13 @@ targets += $(obj)/lib-ksyms.o
+ endif
+ 
+ # NOTE:
+-# Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
++# Do not replace $(multi-m-prereqs) with $(real-prereqs). When a single object
+ # module is turned into a multi object module, $^ will contain header file
+ # dependencies recorded in the .*.cmd file.
+ quiet_cmd_link_multi-m = LD [M]  $@
+-      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
++      cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(multi-m-prereqs)
+ 
+-$(multi-used-m): FORCE
++$(multi-used-m): $(obj)/%.o: FORCE
+ 	$(call if_changed,link_multi-m)
+ $(call multi_depend, $(multi-used-m), .o, -objs -y -m)
+ 
 -- 
 2.17.1
 
