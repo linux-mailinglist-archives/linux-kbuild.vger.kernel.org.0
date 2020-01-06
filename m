@@ -2,105 +2,156 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 526B9130F4B
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2020 10:18:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7E1F13108B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2020 11:27:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgAFJSv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Jan 2020 04:18:51 -0500
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2228 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725996AbgAFJSv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Jan 2020 04:18:51 -0500
-Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.108])
-        by Forcepoint Email with ESMTP id 6D602A401906294B73BE;
-        Mon,  6 Jan 2020 09:18:49 +0000 (GMT)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 6 Jan 2020 09:18:49 +0000
-Received: from [127.0.0.1] (10.202.226.43) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 6 Jan 2020
- 09:18:48 +0000
-Subject: Re: [PATCH] merge_config.sh: Add option for allmodconfig
-To:     <masahiroy@kernel.org>
-CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <anders.roxell@linaro.org>
-References: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <7e769634-eb22-5827-e2d8-df68134056c0@huawei.com>
-Date:   Mon, 6 Jan 2020 09:18:47 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+        id S1726080AbgAFK1I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Jan 2020 05:27:08 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:60795 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgAFK1I (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 6 Jan 2020 05:27:08 -0500
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 006AQxd8031185;
+        Mon, 6 Jan 2020 19:27:00 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 006AQxd8031185
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1578306420;
+        bh=8PkpWVUdySY51bUMOM4KhlKE4NHl+5/7vU1rEUIqJ74=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t1xERg3M5OoLY8eI1HE1qeopn4zm+lDun8hAHIoNqc9Z/hSPLdU3iR75gK1mF0+/a
+         NTo0YC5YG+e5yOwbtfBuQpfjSiU1dQffQVJtRDsK6ZaPoKiJojI66MKR9lbEhGC3Cs
+         235PXWqYr2R+Z2ae8FTKbvArkKY6eaNRpvsTp0HrlTfd19t4KJkzzJ1JXSy+IWlXSi
+         MTkkP/p3d7lwPbCnHBqEY8Np0AS8QAQXyTgizJzjkLsXBouRsowZP6cxyoyW6BWBkP
+         /0HgC+zWk+5hfOwhwE6lutwpK1WZR/rWdTerM969zfjZ7AfMKCVAbsoHpKHU6svg1R
+         Z9C8bijSGb4pw==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id c7so13949644uaf.5;
+        Mon, 06 Jan 2020 02:26:59 -0800 (PST)
+X-Gm-Message-State: APjAAAX5aOjrTGuJQ7FpEio/XLMRpwsuGqal5dL+FPud11tXhdXSglQB
+        QejvO11T7N/8eSxSbxOMK4G9G3tlfPCvSdjTyN0=
+X-Google-Smtp-Source: APXvYqxgU3jMDo9bKZjHgpqMc+GLjt6jxilfwf2oNo2fDwQPFlGVv3FnjZk4Uygr+k8RNOj2/thH79yiUnmAOA0MjvY=
+X-Received: by 2002:ab0:14ea:: with SMTP id f39mr49189518uae.40.1578306418628;
+ Mon, 06 Jan 2020 02:26:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.43]
-X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+References: <20200104150238.19834-1-masahiroy@kernel.org> <20200104150238.19834-5-masahiroy@kernel.org>
+ <xr93ftgt6ndv.fsf@gthelen.svl.corp.google.com>
+In-Reply-To: <xr93ftgt6ndv.fsf@gthelen.svl.corp.google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 6 Jan 2020 19:26:22 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT2ai=-wbLmU2hqihbzVy7kKCGg=ipOK09XtSWiDYMW1Q@mail.gmail.com>
+Message-ID: <CAK7LNAT2ai=-wbLmU2hqihbzVy7kKCGg=ipOK09XtSWiDYMW1Q@mail.gmail.com>
+Subject: Re: [PATCH v2 04/13] initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh
+To:     Greg Thelen <gthelen@google.com>,
+        Ben Hutchings <ben@decadent.org.uk>,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10/12/2019 12:09, John Garry wrote:
+(+CC Ben Hutchings, H. Peter Anvin)
 
-Hi Masahiro,
+In my understanding, the klibc build system is standalone.
+So, the change in Linux kernel does not affect klibc at all.
+Only the depending part is UAPI headers (make headers_install).
 
-Could you please consider this patch?
+So, this patch
+(https://lore.kernel.org/patchwork/patch/1175336/)
+should be OK.
 
-Thanks,
-John
+Please correct me if I am wrong.
 
-> Recently there has been some work in reporting and fixing bugs in booting
-> an allmodconfig kernel - here are a few examples:
-> 
-> https://lore.kernel.org/linux-edac/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com/T/#t
-> https://lore.kernel.org/linux-ide/bdf02e03-86a1-3d35-2908-28187f504495@huawei.com/T/#t
-> https://lore.kernel.org/netdev/CADYN=9LCPfbpwdTWKw03B22-y3Text=RWXW7XP7wJBHYsMOgrA@mail.gmail.com/
-> https://sourceforge.net/p/openipmi/mailman/message/36871567/
-> 
-> If we want to boot an allmodconfig kernel we may still want to force some
-> loadable modules built-in, like UART drivers. Or just still turn off some
-> configs.
-> 
-> So add an option to add add fragments to an allmodconfig kernel.
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> 
-> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
-> index 63c8565206a4..01697fb6dfbe 100755
-> --- a/scripts/kconfig/merge_config.sh
-> +++ b/scripts/kconfig/merge_config.sh
-> @@ -23,6 +23,7 @@ clean_up() {
->   usage() {
->   	echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
->   	echo "  -h    display this help text"
-> +	echo "  -a    use allmodconfig instead of alldefconfig"
->   	echo "  -m    only merge the fragments, do not execute the make command"
->   	echo "  -n    use allnoconfig instead of alldefconfig"
->   	echo "  -r    list redundant entries when merging fragments"
-> @@ -41,6 +42,11 @@ CONFIG_PREFIX=${CONFIG_-CONFIG_}
->   
->   while true; do
->   	case $1 in
-> +	"-a")
-> +		ALLTARGET=allmodconfig
-> +		shift
-> +		continue
-> +		;;
->   	"-n")
->   		ALLTARGET=allnoconfig
->   		shift
-> @@ -171,6 +177,7 @@ fi
->   
->   # Use the merged file as the starting point for:
->   # alldefconfig: Fills in any missing symbols with Kconfig default
-> +# allmodconfig: Fills in any missing symbols with =m when loadable
->   # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
->   make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
->   
-> 
 
+On Mon, Jan 6, 2020 at 4:43 PM Greg Thelen <gthelen@google.com> wrote:
+>
+> Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> > The comments in usr/Makefile wrongly refer to the script name (twice).
+> >
+> > Line 37:
+> >     # The dependency list is generated by gen_initramfs.sh -l
+> >
+> > Line 54:
+> >     # 4) Arguments to gen_initramfs.sh changes
+> >
+> > There does not exist such a script.
+> >
+> > I was going to fix the comments, but after some consideration, I thought
+> > "gen_initramfs.sh" would be more suitable than "gen_initramfs_list.sh"
+> > because it generates an initramfs image in the common usage.
+> >
+> > The script generates a list that can be fed to gen_init_cpio only when
+> > it is directly run without -o or -l option.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2: None
+> >
+> >  usr/Makefile                                    | 2 +-
+> >  usr/{gen_initramfs_list.sh => gen_initramfs.sh} | 0
+> >  2 files changed, 1 insertion(+), 1 deletion(-)
+> >  rename usr/{gen_initramfs_list.sh => gen_initramfs.sh} (100%)
+>
+> Will this break klibc?  It might have a ref to the old name.
+> https://git.kernel.org/pub/scm/libs/klibc/klibc.git/tree/usr/Kbuild#n55
+
+I do not think so.
+
+As I stated above, the klibc build system is independent of
+any script in the Linux kernel.
+
+The klibc Makefile refers to
+scripts/gen_initramfs_list.sh, which does not exist.
+
+My path is renaming
+usr/gen_initramfs_list.sh to usr/gen_initramfs.sh
+
+
+If the renaming had been problematic for klibc,
+commit f6f57a46435d7253a52a1a07a58183678ad266a0
+("initramfs: move gen_initramfs_list.sh from scripts/ to usr/")
+would have already caused a problem.
+
+
+
+Ben, Hans,
+Is usr/Kbuild in klibc used?
+If it is not used, is it better to delete it to avoid confusion?
+
+
+Masahiro Yamada
+
+
+
+
+> > diff --git a/usr/Makefile b/usr/Makefile
+> > index 55c942da01cd..e44a66b8c051 100644
+> > --- a/usr/Makefile
+> > +++ b/usr/Makefile
+> > @@ -24,7 +24,7 @@ $(obj)/initramfs_data.o: $(obj)/$(datafile_y) FORCE
+> >  # Generate the initramfs cpio archive
+> >
+> >  hostprogs-y := gen_init_cpio
+> > -initramfs   := $(CONFIG_SHELL) $(srctree)/$(src)/gen_initramfs_list.sh
+> > +initramfs   := $(CONFIG_SHELL) $(srctree)/$(src)/gen_initramfs.sh
+> >  ramfs-input := $(if $(filter-out "",$(CONFIG_INITRAMFS_SOURCE)), \
+> >                       $(shell echo $(CONFIG_INITRAMFS_SOURCE)),-d)
+> >  ramfs-args  := \
+> > diff --git a/usr/gen_initramfs_list.sh b/usr/gen_initramfs.sh
+> > similarity index 100%
+> > rename from usr/gen_initramfs_list.sh
+> > rename to usr/gen_initramfs.sh
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
