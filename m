@@ -2,74 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48180130EBC
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2020 09:37:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 526B9130F4B
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jan 2020 10:18:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725887AbgAFIgz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Jan 2020 03:36:55 -0500
-Received: from conuserg-12.nifty.com ([210.131.2.79]:62462 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725821AbgAFIgz (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Jan 2020 03:36:55 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0068ah5N023567;
-        Mon, 6 Jan 2020 17:36:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0068ah5N023567
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578299803;
-        bh=63DWN+a4Yo9AmdvEMwN7wE/TiezfFvD6A8r16STUDlo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=viSyq6hNHnf63oBSIkcLIe2NrRniEqlZv9hvaNgCc2EZI0WRP9lNWR1a/5LVyd/wp
-         ruzaL4iMgwa+OTzFLJgJvx2auNy+GRiylRNnJsxb++d1+9NXjXWaGoP7JDYpLPnXsZ
-         gH+gi1c+p0drSl2CKUjtXPV6jJNL30KbT1K/iBMheoKEKPDA628ILRQe9wuMhVHIYb
-         VzAyvhytzKJW3rVTmzRVuRfJ8ySLmLs/O7jk5OzOgjDLqE9IpeYFcl2ZxFP1Hx56la
-         V1l0RafYHEXLwQgYTJvrCH0XNyk1L6fC77uvY7+4kbS6k5fKGN/v3eXJ8MhIvtxLHB
-         c4CICKpHfLAwA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: remove PYTHON2 variable
-Date:   Mon,  6 Jan 2020 17:36:28 +0900
-Message-Id: <20200106083628.29729-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726050AbgAFJSv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Jan 2020 04:18:51 -0500
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2228 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725996AbgAFJSv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 6 Jan 2020 04:18:51 -0500
+Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.108])
+        by Forcepoint Email with ESMTP id 6D602A401906294B73BE;
+        Mon,  6 Jan 2020 09:18:49 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml703-cah.china.huawei.com (10.201.108.44) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 6 Jan 2020 09:18:49 +0000
+Received: from [127.0.0.1] (10.202.226.43) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Mon, 6 Jan 2020
+ 09:18:48 +0000
+Subject: Re: [PATCH] merge_config.sh: Add option for allmodconfig
+To:     <masahiroy@kernel.org>
+CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <anders.roxell@linaro.org>
+References: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <7e769634-eb22-5827-e2d8-df68134056c0@huawei.com>
+Date:   Mon, 6 Jan 2020 09:18:47 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
+MIME-Version: 1.0
+In-Reply-To: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.43]
+X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Python 2 has retired. There is no user of this variable.
+On 10/12/2019 12:09, John Garry wrote:
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Hi Masahiro,
 
- Makefile | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Could you please consider this patch?
 
-diff --git a/Makefile b/Makefile
-index 4f01de6cd43c..4a0796b05324 100644
---- a/Makefile
-+++ b/Makefile
-@@ -423,7 +423,6 @@ INSTALLKERNEL  := installkernel
- DEPMOD		= /sbin/depmod
- PERL		= perl
- PYTHON		= python
--PYTHON2		= python2
- PYTHON3		= python3
- CHECK		= sparse
- BASH		= bash
-@@ -474,7 +473,7 @@ CLANG_FLAGS :=
- 
- export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE AS LD CC
- export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
--export PERL PYTHON PYTHON2 PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-+export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
- export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
- 
- export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
--- 
-2.17.1
+Thanks,
+John
+
+> Recently there has been some work in reporting and fixing bugs in booting
+> an allmodconfig kernel - here are a few examples:
+> 
+> https://lore.kernel.org/linux-edac/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com/T/#t
+> https://lore.kernel.org/linux-ide/bdf02e03-86a1-3d35-2908-28187f504495@huawei.com/T/#t
+> https://lore.kernel.org/netdev/CADYN=9LCPfbpwdTWKw03B22-y3Text=RWXW7XP7wJBHYsMOgrA@mail.gmail.com/
+> https://sourceforge.net/p/openipmi/mailman/message/36871567/
+> 
+> If we want to boot an allmodconfig kernel we may still want to force some
+> loadable modules built-in, like UART drivers. Or just still turn off some
+> configs.
+> 
+> So add an option to add add fragments to an allmodconfig kernel.
+> 
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> 
+> diff --git a/scripts/kconfig/merge_config.sh b/scripts/kconfig/merge_config.sh
+> index 63c8565206a4..01697fb6dfbe 100755
+> --- a/scripts/kconfig/merge_config.sh
+> +++ b/scripts/kconfig/merge_config.sh
+> @@ -23,6 +23,7 @@ clean_up() {
+>   usage() {
+>   	echo "Usage: $0 [OPTIONS] [CONFIG [...]]"
+>   	echo "  -h    display this help text"
+> +	echo "  -a    use allmodconfig instead of alldefconfig"
+>   	echo "  -m    only merge the fragments, do not execute the make command"
+>   	echo "  -n    use allnoconfig instead of alldefconfig"
+>   	echo "  -r    list redundant entries when merging fragments"
+> @@ -41,6 +42,11 @@ CONFIG_PREFIX=${CONFIG_-CONFIG_}
+>   
+>   while true; do
+>   	case $1 in
+> +	"-a")
+> +		ALLTARGET=allmodconfig
+> +		shift
+> +		continue
+> +		;;
+>   	"-n")
+>   		ALLTARGET=allnoconfig
+>   		shift
+> @@ -171,6 +177,7 @@ fi
+>   
+>   # Use the merged file as the starting point for:
+>   # alldefconfig: Fills in any missing symbols with Kconfig default
+> +# allmodconfig: Fills in any missing symbols with =m when loadable
+>   # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
+>   make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+>   
+> 
 
