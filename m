@@ -2,166 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA03B131DE9
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jan 2020 04:22:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1BFE13222A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jan 2020 10:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727377AbgAGDWK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Jan 2020 22:22:10 -0500
-Received: from terminus.zytor.com ([198.137.202.136]:48745 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727295AbgAGDWK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Jan 2020 22:22:10 -0500
-Received: from [IPv6:2601:646:8600:3281:b19f:287a:bb58:115c] ([IPv6:2601:646:8600:3281:b19f:287a:bb58:115c])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 0073LmUi3203176
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-        Mon, 6 Jan 2020 19:21:50 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 0073LmUi3203176
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2019122001; t=1578367311;
-        bh=/FJWxFmnQWfWatyrgKd0gVo3/yEc0bk99NQ6Gk5bK1U=;
-        h=Date:In-Reply-To:References:Subject:To:CC:From:From;
-        b=uKWJDe1iemuHyEAzEU7Zf6bM5XhZk28w7prAkAj/A2n2tHCYWkySM3F5o7ldhQGx2
-         Q5U19RjwUQDEtwD04YoUiwRUdHUYdy4GqZ2i3SKt5hvSWOn7vaDgcOF9oUxvc/sihC
-         ziAdaKTiqUV7eHWBuK9Rozb2T3cXTcA/gQSfs+bdm34V+KbgwzdhAxlAwRy/jjo1QM
-         MwcIop9OosyJpzV79+sMJR03eoQBogoLSeuA0GhLI0fdWe2ZKHfgJQn3PpEugVljPv
-         XUa8SFWgej4Ipa+KGD/9nSmP6UXc5fAcBOkAaXNnJRRSCWZvgL3dRESJQ2wwWv40H4
-         fAS/gzqHI75Kw==
-Date:   Mon, 06 Jan 2020 19:21:40 -0800
-User-Agent: K-9 Mail for Android
-In-Reply-To: <CAK7LNAT2ai=-wbLmU2hqihbzVy7kKCGg=ipOK09XtSWiDYMW1Q@mail.gmail.com>
-References: <20200104150238.19834-1-masahiroy@kernel.org> <20200104150238.19834-5-masahiroy@kernel.org> <xr93ftgt6ndv.fsf@gthelen.svl.corp.google.com> <CAK7LNAT2ai=-wbLmU2hqihbzVy7kKCGg=ipOK09XtSWiDYMW1Q@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 04/13] initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Greg Thelen <gthelen@google.com>,
-        Ben Hutchings <ben@decadent.org.uk>
+        id S1726565AbgAGJTz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jan 2020 04:19:55 -0500
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2232 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726327AbgAGJTz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 7 Jan 2020 04:19:55 -0500
+Received: from lhreml706-cah.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 0BE4F60C090931229475;
+        Tue,  7 Jan 2020 09:19:54 +0000 (GMT)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ lhreml706-cah.china.huawei.com (10.201.108.47) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 7 Jan 2020 09:19:53 +0000
+Received: from [127.0.0.1] (10.202.226.43) by lhreml724-chm.china.huawei.com
+ (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 7 Jan 2020
+ 09:19:53 +0000
+Subject: Re: [PATCH] merge_config.sh: Add option for allmodconfig
+To:     Masahiro Yamada <masahiroy@kernel.org>
 CC:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-From:   hpa@zytor.com
-Message-ID: <AB861F14-0F89-4A9B-AC24-34D86DDCB935@zytor.com>
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        Anders Roxell <anders.roxell@linaro.org>
+References: <1575979754-184896-1-git-send-email-john.garry@huawei.com>
+ <7e769634-eb22-5827-e2d8-df68134056c0@huawei.com>
+ <CAK7LNAS+XHGete9u2SV7fTj3HpROQmzfuJhV8tXW_xXkoPOYvg@mail.gmail.com>
+From:   John Garry <john.garry@huawei.com>
+Message-ID: <538733b2-19af-9a66-f8d2-03e0f6ca7b25@huawei.com>
+Date:   Tue, 7 Jan 2020 09:19:52 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.2
+MIME-Version: 1.0
+In-Reply-To: <CAK7LNAS+XHGete9u2SV7fTj3HpROQmzfuJhV8tXW_xXkoPOYvg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.43]
+X-ClientProxiedBy: lhreml729-chm.china.huawei.com (10.201.108.80) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On January 6, 2020 2:26:22 AM PST, Masahiro Yamada <masahiroy@kernel=2Eorg>=
- wrote:
->(+CC Ben Hutchings, H=2E Peter Anvin)
->
->In my understanding, the klibc build system is standalone=2E
->So, the change in Linux kernel does not affect klibc at all=2E
->Only the depending part is UAPI headers (make headers_install)=2E
->
->So, this patch
->(https://lore=2Ekernel=2Eorg/patchwork/patch/1175336/)
->should be OK=2E
->
->Please correct me if I am wrong=2E
->
->
->On Mon, Jan 6, 2020 at 4:43 PM Greg Thelen <gthelen@google=2Ecom> wrote:
+On 06/01/2020 18:04, Masahiro Yamada wrote:
+> On Mon, Jan 6, 2020 at 6:18 PM John Garry <john.garry@huawei.com> wrote:
 >>
->> Masahiro Yamada <masahiroy@kernel=2Eorg> wrote:
+>> On 10/12/2019 12:09, John Garry wrote:
 >>
->> > The comments in usr/Makefile wrongly refer to the script name
->(twice)=2E
->> >
->> > Line 37:
->> >     # The dependency list is generated by gen_initramfs=2Esh -l
->> >
->> > Line 54:
->> >     # 4) Arguments to gen_initramfs=2Esh changes
->> >
->> > There does not exist such a script=2E
->> >
->> > I was going to fix the comments, but after some consideration, I
->thought
->> > "gen_initramfs=2Esh" would be more suitable than
->"gen_initramfs_list=2Esh"
->> > because it generates an initramfs image in the common usage=2E
->> >
->> > The script generates a list that can be fed to gen_init_cpio only
->when
->> > it is directly run without -o or -l option=2E
->> >
->> > Signed-off-by: Masahiro Yamada <masahiroy@kernel=2Eorg>
->> > ---
->> >
->> > Changes in v2: None
->> >
->> >  usr/Makefile                                    | 2 +-
->> >  usr/{gen_initramfs_list=2Esh =3D> gen_initramfs=2Esh} | 0
->> >  2 files changed, 1 insertion(+), 1 deletion(-)
->> >  rename usr/{gen_initramfs_list=2Esh =3D> gen_initramfs=2Esh} (100%)
+>> Hi Masahiro,
 >>
->> Will this break klibc?  It might have a ref to the old name=2E
+>> Could you please consider this patch?
 >>
->https://git=2Ekernel=2Eorg/pub/scm/libs/klibc/klibc=2Egit/tree/usr/Kbuild=
-#n55
->
->I do not think so=2E
->
->As I stated above, the klibc build system is independent of
->any script in the Linux kernel=2E
->
->The klibc Makefile refers to
->scripts/gen_initramfs_list=2Esh, which does not exist=2E
->
->My path is renaming
->usr/gen_initramfs_list=2Esh to usr/gen_initramfs=2Esh
->
->
->If the renaming had been problematic for klibc,
->commit f6f57a46435d7253a52a1a07a58183678ad266a0
->("initramfs: move gen_initramfs_list=2Esh from scripts/ to usr/")
->would have already caused a problem=2E
->
->
->
->Ben, Hans,
->Is usr/Kbuild in klibc used?
->If it is not used, is it better to delete it to avoid confusion?
->
->
->Masahiro Yamada
->
->
->
->
->> > diff --git a/usr/Makefile b/usr/Makefile
->> > index 55c942da01cd=2E=2Ee44a66b8c051 100644
->> > --- a/usr/Makefile
->> > +++ b/usr/Makefile
->> > @@ -24,7 +24,7 @@ $(obj)/initramfs_data=2Eo: $(obj)/$(datafile_y)
->FORCE
->> >  # Generate the initramfs cpio archive
->> >
->> >  hostprogs-y :=3D gen_init_cpio
->> > -initramfs   :=3D $(CONFIG_SHELL)
->$(srctree)/$(src)/gen_initramfs_list=2Esh
->> > +initramfs   :=3D $(CONFIG_SHELL) $(srctree)/$(src)/gen_initramfs=2Es=
-h
->> >  ramfs-input :=3D $(if $(filter-out "",$(CONFIG_INITRAMFS_SOURCE)), \
->> >                       $(shell echo $(CONFIG_INITRAMFS_SOURCE)),-d)
->> >  ramfs-args  :=3D \
->> > diff --git a/usr/gen_initramfs_list=2Esh b/usr/gen_initramfs=2Esh
->> > similarity index 100%
->> > rename from usr/gen_initramfs_list=2Esh
->> > rename to usr/gen_initramfs=2Esh
+>> Thanks,
+>> John
+>>
+>>> Recently there has been some work in reporting and fixing bugs in booting
+>>> an allmodconfig kernel - here are a few examples:
+>>>
+>>> https://lore.kernel.org/linux-edac/304df85b-8b56-b77e-1a11-aa23769f2e7c@huawei.com/T/#t
+>>> https://lore.kernel.org/linux-ide/bdf02e03-86a1-3d35-2908-28187f504495@huawei.com/T/#t
+>>> https://lore.kernel.org/netdev/CADYN=9LCPfbpwdTWKw03B22-y3Text=RWXW7XP7wJBHYsMOgrA@mail.gmail.com/
+>>> https://sourceforge.net/p/openipmi/mailman/message/36871567/
+>>>
+>>> If we want to boot an allmodconfig kernel we may still want to force some
+>>> loadable modules built-in, like UART drivers. Or just still turn off some
+>>> configs.
+> 
+> 
+> I do not understand why you need to use merge_config.sh
+> for this purpose.
+> 
+> KCONFIG_ALLCONFIG=<path-to-your-config-fragment> make allmodconfig
+> 
+> should work.
+> 
+> 
 
-That is correct=2E
+Right, I could use that. But generally some people like to use 
+merge_config.sh directly:
 
-The klibc integration work was mainly fine in an actual kernel tree, which=
- pulled the klibc tree=2E
+./scripts/kconfig/merge_config.sh [-a] fragment
 
-It has obviously bitrotted somewhat, but it wouldn't be all that hard to r=
-esurrect it if there is ever interest=2E
+so nice to have -a option for completeness.
 
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+Thanks,
+john
+
