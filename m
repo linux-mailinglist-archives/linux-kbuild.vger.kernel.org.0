@@ -2,93 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 384AD133FA5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2020 11:48:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B52B3134680
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jan 2020 16:44:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726533AbgAHKsf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jan 2020 05:48:35 -0500
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:42830 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726462AbgAHKsf (ORCPT
+        id S1727856AbgAHPoI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jan 2020 10:44:08 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:32772 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbgAHPoI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jan 2020 05:48:35 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=shile.zhang@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0Tn9hx8y_1578480506;
-Received: from ali-6c96cfdd1403.local(mailfrom:shile.zhang@linux.alibaba.com fp:SMTPD_---0Tn9hx8y_1578480506)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 08 Jan 2020 18:48:27 +0800
-Subject: Re: [PATCH] x86: orc: fix unused-function warning
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@kernel.org>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Jann Horn <jannh@google.com>, linux-kernel@vger.kernel.org
-References: <20200107213127.209139-1-arnd@arndb.de>
-From:   Shile Zhang <shile.zhang@linux.alibaba.com>
-Message-ID: <b977064f-f187-dfba-2765-cd9cafe1cdf2@linux.alibaba.com>
-Date:   Wed, 8 Jan 2020 18:48:26 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.1
+        Wed, 8 Jan 2020 10:44:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=RYC0L/1SMwgYk6wXk0aDr7brdNKcxmstrJntjhD4+po=; b=IxLb/HbkOja5rnvJTVbrCpF65
+        UgSiv47EmvwEQ9whZz+A/GU/irB5t84FnikD/saJaoUABMWOm6LyT313C2OWECNWPNF7FSIlgwNTi
+        PsgG0+APuZ7t8P3fP3tevBbGcoTW+aMtXOwjZY9f9AlmmXDaQ0Zz/P+m8Urx6jFGcNIUZ4Jn+qrnn
+        sYPp7Qj1WGvqrgLmU7NgkO6zW3WmyJ1ApH6v63mdwbIUljLsln1+EkZuQ4xIWU1sX5yLe+2z3nkNU
+        rhAcefyk8A7zRNq1SjLaVxGXG7+UFpftPRpX4yFxV/gC8fkMuU0JXQPw3KfFN/5fWBiUBndfLp9Nf
+        JyE+kOekw==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ipDV8-0006SP-Ol; Wed, 08 Jan 2020 15:44:06 +0000
+Date:   Wed, 8 Jan 2020 07:44:06 -0800
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Fumiya Shigemitsu <shfy1014@gmail.com>,
+        Yongxin Liu <yongxin.liu@windriver.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] kbuild: allow modules to link *.a archives
+Message-ID: <20200108154406.GA21695@infradead.org>
+References: <20200106032324.3147-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20200107213127.209139-1-arnd@arndb.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200106032324.3147-1-masahiroy@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Arnd,
+On Mon, Jan 06, 2020 at 12:23:24PM +0900, Masahiro Yamada wrote:
+> Since commit 69ea912fda74 ("kbuild: remove unneeded link_multi_deps"),
+> modules cannot link *.a archives.
+> 
+> I do not see such a usecase in the upstream code, but multiple people
+> reported this issue, so it seems to be a desired feature for external
+> modules.
 
-Thanks for you work!
-But sorry for I have been fix this warning via a delta-patch as following:
-https://lore.kernel.org/lkml/157838258393.30329.5371781726464192052.tip-bot2@tip-bot2/
-
-FYI.
-
-BRs
-Shile
-
-On 2020/1/8 05:31, Arnd Bergmann wrote:
-> The orc unwinder contains a new warning:
->
-> arch/x86/kernel/unwind_orc.c:210:12: error: 'orc_sort_cmp' defined but not used [-Werror=unused-function]
->   static int orc_sort_cmp(const void *_a, const void *_b)
->              ^~~~~~~~~~~~
-> arch/x86/kernel/unwind_orc.c:190:13: error: 'orc_sort_swap' defined but not used [-Werror=unused-function]
->   static void orc_sort_swap(void *_a, void *_b, int size)
->               ^~~~~~~~~~~~~
->
-> Move the #ifdef to hide the now unused functions.
->
-> Fixes: f14bf6a350df ("x86/unwind/orc: Remove boot-time ORC unwind tables sorting")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   arch/x86/kernel/unwind_orc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_orc.c
-> index abdf8911a1fb..538152cca46b 100644
-> --- a/arch/x86/kernel/unwind_orc.c
-> +++ b/arch/x86/kernel/unwind_orc.c
-> @@ -187,6 +187,7 @@ static struct orc_entry *orc_find(unsigned long ip)
->   	return orc_ftrace_find(ip);
->   }
->   
-> +#ifdef CONFIG_MODULES
->   static void orc_sort_swap(void *_a, void *_b, int size)
->   {
->   	struct orc_entry *orc_a, *orc_b;
-> @@ -229,7 +230,6 @@ static int orc_sort_cmp(const void *_a, const void *_b)
->   	return orc_a->sp_reg == ORC_REG_UNDEFINED && !orc_a->end ? -1 : 1;
->   }
->   
-> -#ifdef CONFIG_MODULES
->   void unwind_module_init(struct module *mod, void *_orc_ip, size_t orc_ip_size,
->   			void *_orc, size_t orc_size)
->   {
-
+Kernel policy is to not keep around infrastructure not used upstream.
+And linking archives in the kernel doesn't really make any sense, so
+this shouldn't go in in any form.
