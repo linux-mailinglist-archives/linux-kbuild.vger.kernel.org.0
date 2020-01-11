@@ -2,123 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 275A1137C0C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jan 2020 08:19:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF32137C10
+	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jan 2020 08:21:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728507AbgAKHTI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Jan 2020 02:19:08 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:45449 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728501AbgAKHTI (ORCPT
+        id S1728506AbgAKHVp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 11 Jan 2020 02:21:45 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:48559 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728501AbgAKHVp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Jan 2020 02:19:08 -0500
+        Sat, 11 Jan 2020 02:21:45 -0500
 Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 00B7IcjR030312;
-        Sat, 11 Jan 2020 16:18:39 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 00B7IcjR030312
+        by conssluserg-03.nifty.com with ESMTP id 00B7LeVi022965;
+        Sat, 11 Jan 2020 16:21:41 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 00B7LeVi022965
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578727119;
-        bh=sHgd8AShfibMn801gDdKF5ofxgr2mTmtOU0IywJZBdY=;
+        s=dec2015msa; t=1578727301;
+        bh=3vETektI0YDiqAdPfJor9k69rygp1blybs+5Rx/5jok=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=sj/F5cjD6t6cuqCPWU9JHwg+wjXMM97qiKIyUY/1+BUz7mtCmv2qWXNYUffVogmej
-         IFL+1KOG1av0DKkKht2hzMfAnT/WafrecL+/uzjH3O9JVmQYN13RgWfpIlYm/AMj4r
-         mBxUsLocebEr51w+KF+08S3/bjyjbfDi3DY5Kyz3o4qj91BaxKAF+ENerxIJR9uz52
-         JveP2FfXoH9jwWamHD+CeYa3raj+R4okgZmmV9f0hImwbBc/5S/sLcBfPBVdC7K0rO
-         ifkHZze+h+oeLRZSuT2mYcv0KzyLLT0fLYdB5+40Cg363HV00GupcLmYd4w5bhzMcO
-         I2jpOLxJ1bWPg==
+        b=PFJmnRVDK9PSHUTsX4/drj/vVRoyM+72czBkfUzC9sh0grXF7KcE7tx3i8go6OQKk
+         MY2l0/dGs51DXBToSvT4KpA4fxj4HEQX2s6qiaKPYDnOGMH0MwY+Tec8WBhGDOnP+a
+         PWOKL8j8xeyaUIOTSJhyPeVIY2gNurB16MpNg+TRoL1RHqo7PI4dfI4NUf7SKRT0xf
+         H7g0Y6xhcdzjE2QnM/qJXafVvcAxzsSJ8dLCoX3SD0K5LVz72Lv4qFzKDtiBQdFh8h
+         5X3DwV6FJyklKN8h3wLIPxjF7+UNjsFFWHbKvchRYpShFdRvZHJQck9MLCYajduBlw
+         +CPo6IJwedEsg==
 X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id s16so2734096vsc.10;
-        Fri, 10 Jan 2020 23:18:38 -0800 (PST)
-X-Gm-Message-State: APjAAAV1kT8Vgc9fkWYyF21/U/Wg45UBHfMZ/X6MAgXmdDPP6M7L0RPK
-        ffBlclIcl3mIkIbBxvj0kOrJ4Ptt4jFm3K52noU=
-X-Google-Smtp-Source: APXvYqyUSajUsywX5gA06H08LwqxMlYLf9nEkCwF8h7cqZe+koZ7gGRcU99VQaSxykyTf3WFQfpNX9X51TlQmoUZU44=
-X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr1335679vsh.179.1578727117672;
- Fri, 10 Jan 2020 23:18:37 -0800 (PST)
+Received: by mail-vs1-f42.google.com with SMTP id k188so2748041vsc.8;
+        Fri, 10 Jan 2020 23:21:41 -0800 (PST)
+X-Gm-Message-State: APjAAAXEFfRZTCAXQDkjN9MyFR+UiVeMdhc6sjhKOW7G5YOfw5TEampi
+        iTsDJmxN6rn/V44O3Nr8rgFUpHNyH+xz4RSBc5M=
+X-Google-Smtp-Source: APXvYqzPyaubez0e5DOcJPsB9K80w3P1t/cZXcJDEcG9Xgn5XgVIWvuW8+Dsv9lx92ahRfyX3qHcmVEnhwf0cr2QYX0=
+X-Received: by 2002:a67:f8ca:: with SMTP id c10mr1448922vsp.54.1578727300461;
+ Fri, 10 Jan 2020 23:21:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20200109161724.9546-1-brgl@bgdev.pl> <CAK7LNAQQcGLq46QOhqHArQvQG8DP2uQDtpn8XoUthNhwu8Aiyg@mail.gmail.com>
- <CAMpxmJUp_sEzf7sO1m=A+16eAhMJtu2Z_O2cZk7XCQeSjNj9+A@mail.gmail.com>
-In-Reply-To: <CAMpxmJUp_sEzf7sO1m=A+16eAhMJtu2Z_O2cZk7XCQeSjNj9+A@mail.gmail.com>
+References: <20200106083628.29729-1-masahiroy@kernel.org>
+In-Reply-To: <20200106083628.29729-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 11 Jan 2020 16:18:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT8ZgeMRgm1jjnj6P+UPWF-uuJtJj8hmgCsx6JRD2h5rg@mail.gmail.com>
-Message-ID: <CAK7LNAT8ZgeMRgm1jjnj6P+UPWF-uuJtJj8hmgCsx6JRD2h5rg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: ignore temporary generated files
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Sat, 11 Jan 2020 16:21:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAST-9NUg0zeUny7YU+ihjNMihYAxAUfJy7MU2v11OMFhQ@mail.gmail.com>
+Message-ID: <CAK7LNAST-9NUg0zeUny7YU+ihjNMihYAxAUfJy7MU2v11OMFhQ@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove PYTHON2 variable
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 1:38 AM Bartosz Golaszewski
-<bgolaszewski@baylibre.com> wrote:
+On Mon, Jan 6, 2020 at 5:36 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> czw., 9 sty 2020 o 17:36 Masahiro Yamada <masahiroy@kernel.org> napisa=C5=
-=82(a):
-> >
-> > On Fri, Jan 10, 2020 at 1:17 AM Bartosz Golaszewski <brgl@bgdev.pl> wro=
-te:
-> > >
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > >
-> > > If building gconfig fails, a temporary gtk config file is left in the
-> > > kconfig directory and is not ignored by git. Add an appropriate patte=
-rn
-> > > to .gitignore.
-> > >
-> > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > ---
-> > >  scripts/kconfig/.gitignore | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/scripts/kconfig/.gitignore b/scripts/kconfig/.gitignore
-> > > index b5bf92f66d11..d22e6753397d 100644
-> > > --- a/scripts/kconfig/.gitignore
-> > > +++ b/scripts/kconfig/.gitignore
-> > > @@ -3,6 +3,7 @@
-> > >  #
-> > >  *.moc
-> > >  *conf-cfg
-> > > +*conf-cfg.tmp
-> >
-> > I have no idea in which situation this pattern is left.
-> >
-> > Could you tell me the way to reproduce it?
+> Python 2 has retired. There is no user of this variable.
 >
-> Sure:
->
-> 1. Don't have gtk+ development files installed.
-> 2. Run `make gconfig`.
-> 3. Watch it fail with the following error message:
->
-> ---
-> $ make gconfig
-> *
-> * Unable to find the GTK+ installation. Please make sure that
-> * the GTK+ 2.0 development package is correctly installed.
-> * You need gtk+-2.0 gmodule-2.0 libglade-2.0
-> *
-> make[1]: *** [scripts/kconfig/Makefile:212: scripts/kconfig/gconf-cfg] Er=
-ror 1
-> make: *** [Makefile:568: gconfig] Error 2
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+Applied to linux-kbuild.
+
+
 > ---
 >
-> 4. See the file `gconf-cfg.tmp` under scripts/kconfig.
+>  Makefile | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> Bart
+> diff --git a/Makefile b/Makefile
+> index 4f01de6cd43c..4a0796b05324 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -423,7 +423,6 @@ INSTALLKERNEL  := installkernel
+>  DEPMOD         = /sbin/depmod
+>  PERL           = perl
+>  PYTHON         = python
+> -PYTHON2                = python2
+>  PYTHON3                = python3
+>  CHECK          = sparse
+>  BASH           = bash
+> @@ -474,7 +473,7 @@ CLANG_FLAGS :=
+>
+>  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE AS LD CC
+>  export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
+> -export PERL PYTHON PYTHON2 PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+> +export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+>  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+>
+>  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+> --
+> 2.17.1
+>
 
-Thanks for this info.
 
-This seems a kbuild bug, so I fixed the root cause
-instead of hiding the garbage files.
-
-https://patchwork.kernel.org/patch/11326631/
-
-
---=20
+-- 
 Best Regards
 Masahiro Yamada
