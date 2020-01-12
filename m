@@ -2,75 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C03DB137C16
-	for <lists+linux-kbuild@lfdr.de>; Sat, 11 Jan 2020 08:26:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4944113857F
+	for <lists+linux-kbuild@lfdr.de>; Sun, 12 Jan 2020 09:21:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728507AbgAKH0y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 11 Jan 2020 02:26:54 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:19034 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728500AbgAKH0x (ORCPT
+        id S1732377AbgALIVq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 12 Jan 2020 03:21:46 -0500
+Received: from mail3.iservicesmail.com ([217.130.24.75]:17620 "EHLO
+        mail3.iservicesmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732369AbgALIVq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 11 Jan 2020 02:26:53 -0500
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 00B7Qkqn019522;
-        Sat, 11 Jan 2020 16:26:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 00B7Qkqn019522
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1578727606;
-        bh=Oez0PWkvJzbirGu9XUv5GpDknxpE3iT4wQ/WGTnEZGk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OU9VyRCAg63hXHlPj7fZjZnHsl+P3BkEMahAtPeWhzL/R1IZjBlQ3QagqhAqCUise
-         fWCzryK8QNRlChSpBKzL4Nk5LfV4rw4+opIGEQzjBcC8umw4Lvtt8Hb7gKz4CTlsc6
-         CH4LtfhzkL96GlvoAq1UCkLGHPfbomOAc1ot1qAtna8iJFBTzIMuvhyNSxWFd14xTw
-         WmgckwYMpRzwIOcsZrNTpI8ztFSh5N6id6Yet/YUrkKh7wendZVsL6QegPA9ivjk8G
-         1emxX8rvyi7xqCCLT9lgRy2uBz0G6VROMn/UsS1G/Q3o+FxX5W5X2FvIpw9bM4VmSm
-         yWLUWJ73+GmFA==
-X-Nifty-SrcIP: [209.85.217.50]
-Received: by mail-vs1-f50.google.com with SMTP id n27so2772127vsa.0;
-        Fri, 10 Jan 2020 23:26:46 -0800 (PST)
-X-Gm-Message-State: APjAAAWJ5Q36dKZEV6EETNc7Efe6JYEgNKZLiMEOIQSr4TIDO1dqy9Mf
-        K7QocBnfX2oAKqi+AMQGSjh8MUevkf1t0AIMP+g=
-X-Google-Smtp-Source: APXvYqySGvEmaVJEV6CA9jXihO26Mjnu9i7UKdrtysB9lRCJ4u643fD/6pElVAeDnNEu2QzhOVz4inVeQ+YeDU8+D9Y=
-X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr1343996vsh.179.1578727605332;
- Fri, 10 Jan 2020 23:26:45 -0800 (PST)
+        Sun, 12 Jan 2020 03:21:46 -0500
+IronPort-SDR: QSZ7tqNlglze8kkwKObX1/m/AzBigizxtoniKzlRdBqZbjmfUxfHjLqLp08G6SekIjcJs95qsW
+ B8upzwP4sbtw==
+IronPort-PHdr: =?us-ascii?q?9a23=3AVfmWEBynM2ERUwDXCy+O+j09IxM/srCxBDY+r6?=
+ =?us-ascii?q?Qd2+MQIJqq85mqBkHD//Il1AaPAdyAraga1KGO7+jJYi8p2d65qncMcZhBBV?=
+ =?us-ascii?q?cuqP49uEgeOvODElDxN/XwbiY3T4xoXV5h+GynYwAOQJ6tL1LdrWev4jEMBx?=
+ =?us-ascii?q?7xKRR6JvjvGo7Vks+7y/2+94fcbglVijexe61+IRS0oAneqsUbjpZpJ7osxB?=
+ =?us-ascii?q?fOvnZGYfldy3lyJVKUkRb858Ow84Bm/i9Npf8v9NNOXLvjcaggQrNWEDopM2?=
+ =?us-ascii?q?Yu5M32rhbDVheA5mEdUmoNjBVFBRXO4QzgUZfwtiv6sfd92DWfMMbrQ704RS?=
+ =?us-ascii?q?iu4qF2QxPujysJKiI2/3vSis1wla5WvhWhpwZnw47TeoGaLuZ+cb3EcdwEQ2?=
+ =?us-ascii?q?pNR9pcVzBdAoymc4QPD/QOPeNGoIn7u1sCtAWxBQ+1CO3ozT9IgGH53K0j3+?=
+ =?us-ascii?q?s/FwHNwQgsEtwSvHjIqdn4MroZX+Kow6nS1TjNYfNY2S3j5obLbx4uru2DU7?=
+ =?us-ascii?q?1rfMrNy0QgCx/JgkmMpYD7OT6ey+QDs3Kc7+plTe+hkXAoqx1vrTi128wjio?=
+ =?us-ascii?q?7JhoQaylvZ8ih52Jg6JcGmR05hb9+kF51Qty6BOot2WcMtWH1ntDwmxb0BvJ?=
+ =?us-ascii?q?63ZigKyJc+yhPZdveJcJCI7wr9WOqMIzp0nm9pdbyjixqo70StxffwW8e03V?=
+ =?us-ascii?q?tMsyFLiMPDtmoX2BzW8sWHT/x98Vq/1juXzADT7/1EIVgzlarGN54t2r4wmY?=
+ =?us-ascii?q?QXsUTEBiL2nV/5jK6SdkU+5Oeo7/jrb7r8qp+CMI97lxvxMqopmsy5H+s0KB?=
+ =?us-ascii?q?YBX3OD9eS90r3s41H5Ta1UgvErkKTVqo3WKMoHqqKjHQNY3Zwv5hi/Aju+1d?=
+ =?us-ascii?q?QXh3gHLFZLeBKdiIjpPknDIOjmAvejnVusijlqx/fAPr3uGZjNLmPDn6z9cr?=
+ =?us-ascii?q?pn90Fczw8zwcpf55JXEr0BOu78WlfttNzECR80Kwi0w+fhCNVg2YISQGGPDb?=
+ =?us-ascii?q?SEMKPTtV+H+/kiI/eDZIALojbxMfsl6OD0jX8/h1AdebOl3ZwNaHC3TbxaJB?=
+ =?us-ascii?q?CdYHzxkpICG3oLugYWUuPnkhuBXCRVanL0WLgztQs2EIa3MYCWfo2xjabJ4y?=
+ =?us-ascii?q?C9EdUCfm1aB0qTFnHnd4aEQP0HQC2XK85l1DcDUO7yZZUm0ESWuRP30fJYKe?=
+ =?us-ascii?q?zbsnkAuI7uzsdy4eL7lQo4/np/CMHb02LbHDI8pX8BWzJjhfM3mkd60FrWiv?=
+ =?us-ascii?q?Agjg=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GeAgAOwxpelyMYgtlNGBoBAQEBAQE?=
+ =?us-ascii?q?BAQEDAQEBAREBAQECAgEBAQGBaAQBAQEBCwEBGwgBgSWBTVIgEpNQgU0fg0O?=
+ =?us-ascii?q?LY4EAgx4VhgcUDIFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQE?=
+ =?us-ascii?q?FBAEBAhABAQEBAQYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVO?=
+ =?us-ascii?q?DBIJLAQEznXsBjQQNDQKFHYJEBAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ?=
+ =?us-ascii?q?/ARIBbIJIglkEjUISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAO?=
+ =?us-ascii?q?EToF9ozdXdAGBHnEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
+X-IPAS-Result: =?us-ascii?q?A2GeAgAOwxpelyMYgtlNGBoBAQEBAQEBAQEDAQEBAREBA?=
+ =?us-ascii?q?QECAgEBAQGBaAQBAQEBCwEBGwgBgSWBTVIgEpNQgU0fg0OLY4EAgx4VhgcUD?=
+ =?us-ascii?q?IFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQEFBAEBAhABAQEBA?=
+ =?us-ascii?q?QYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVODBIJLAQEznXsBj?=
+ =?us-ascii?q?QQNDQKFHYJEBAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ/ARIBbIJIglkEj?=
+ =?us-ascii?q?UISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAOEToF9ozdXdAGBH?=
+ =?us-ascii?q?nEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
+X-IronPort-AV: E=Sophos;i="5.69,424,1571695200"; 
+   d="scan'208";a="303998018"
+Received: from mailrel04.vodafone.es ([217.130.24.35])
+  by mail01.vodafone.es with ESMTP; 12 Jan 2020 07:59:51 +0100
+Received: (qmail 24893 invoked from network); 12 Jan 2020 05:00:24 -0000
+Received: from unknown (HELO 192.168.1.3) (quesosbelda@[217.217.179.17])
+          (envelope-sender <peterwong@hsbc.com.hk>)
+          by mailrel04.vodafone.es (qmail-ldap-1.03) with SMTP
+          for <linux-kbuild@vger.kernel.org>; 12 Jan 2020 05:00:24 -0000
+Date:   Sun, 12 Jan 2020 06:00:19 +0100 (CET)
+From:   Peter Wong <peterwong@hsbc.com.hk>
+Reply-To: Peter Wong <peterwonghkhsbc@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Message-ID: <31612984.460939.1578805223956.JavaMail.cash@217.130.24.55>
+Subject: Investment opportunity
 MIME-Version: 1.0
-References: <20200104153651.2258-1-masahiroy@kernel.org> <20200106.133336.719905028750983361.davem@redhat.com>
-In-Reply-To: <20200106.133336.719905028750983361.davem@redhat.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 11 Jan 2020 16:26:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASGJvim3Mfp3LqLd2kKR-HLM0vwwx81fSAQtWZHuqYsFw@mail.gmail.com>
-Message-ID: <CAK7LNASGJvim3Mfp3LqLd2kKR-HLM0vwwx81fSAQtWZHuqYsFw@mail.gmail.com>
-Subject: Re: [PATCH] modpost: assume STT_SPARC_REGISTER is defined
-To:     David Miller <davem@redhat.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, bcollins@debian.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 7, 2020 at 6:33 AM David Miller <davem@redhat.com> wrote:
->
-> From: Masahiro Yamada <masahiroy@kernel.org>
-> Date: Sun,  5 Jan 2020 00:36:51 +0900
->
-> > Commit 8d5290149ee1 ("[SPARC]: Deal with glibc changing macro names in
-> > modpost.c") was more than 14 years ago. STT_SPARC_REGISTER is hopefully
-> > defined in elf.h of recent C libraries.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Acked-by: David S. Miller <davem@davemloft.net>
->
-
-Applied to linux-kbuild.
+Greetings,
+Please read the attached investment proposal and reply for more details.
+Are you interested in loan?
+Sincerely: Peter Wong
 
 
--- 
-Best Regards
-Masahiro Yamada
+
+
+----------------------------------------------------
+This email was sent by the shareware version of Postman Professional.
+
