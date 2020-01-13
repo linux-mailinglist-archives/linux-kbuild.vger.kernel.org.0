@@ -2,151 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C51913976C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2020 18:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1613D1398A9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jan 2020 19:17:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728669AbgAMRVw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jan 2020 12:21:52 -0500
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:48996 "EHLO
-        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727331AbgAMRVw (ORCPT
+        id S1728920AbgAMSQw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Jan 2020 13:16:52 -0500
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:4750 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728760AbgAMSQv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jan 2020 12:21:52 -0500
-Received: from [167.98.27.226] (helo=deadeye)
-        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1ir3PQ-0003Wh-7G; Mon, 13 Jan 2020 17:21:48 +0000
-Received: from ben by deadeye with local (Exim 4.93)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1ir3PP-0006Hu-53; Mon, 13 Jan 2020 17:21:47 +0000
-Message-ID: <7da5750c40489dcb6cd8eef0307ee8d8df2e134e.camel@decadent.org.uk>
-Subject: Re: [PATCH 4/7] builddeb: avoid invoking sub-shells where possible
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Riku Voipio <riku.voipio@linaro.org>,
+        Mon, 13 Jan 2020 13:16:51 -0500
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 00DICkhe015025;
+        Mon, 13 Jan 2020 19:16:33 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=WEGaEwx/ta6sY7T0Fd98KdzWPvWPmF9vLPRCHL2k/9I=;
+ b=OCTJgx0Tfaj0GjPrU4PzpoUKJq+f9AD5dJ11hx8xMjbCCgJc1+Xzae8q+YhUaLFRsuV2
+ 9b6RFfWG0grpGsgs3gz9i6jbiECabhOi295sXa3DPeSDLmwwAPO3zTdPgPb3Cy9GMmFy
+ tob1X6sR8Swk5Y+tRtVqX/8O4UgXMuf1165oookhx2xvGPdaLlcjoHiVPhnRthLxXbRK
+ UTjPht3U9VTA+dMrCdt7135Ro1yFN78GhHtPA8+2M+4K2GCF+N1F6f/rNXrsLdDrnfO3
+ Wdz4glfXovHztMfRCFh3FclrABChbfkKQ5f7bOtsucUMyaZ2hCvU1Qinfxwuc70reh60 lg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2xf7fnhg6a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 13 Jan 2020 19:16:33 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C3064100038;
+        Mon, 13 Jan 2020 19:16:28 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B06FF2B1881;
+        Mon, 13 Jan 2020 19:16:28 +0100 (CET)
+Received: from localhost (10.75.127.49) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 13 Jan 2020 19:16:28
+ +0100
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+To:     <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 13 Jan 2020 17:21:42 +0000
-In-Reply-To: <20200113064841.3946-4-masahiroy@kernel.org>
-References: <20200113064841.3946-1-masahiroy@kernel.org>
-         <20200113064841.3946-4-masahiroy@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-5xTkXbuWkzmw9uzJDDqI"
-User-Agent: Evolution 3.34.1-2+b1 
+        <david@gibson.dropbear.id.au>, <sjg@chromium.org>
+CC:     <devicetree@vger.kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <devicetree-compiler@vger.kernel.org>
+Subject: [RFC PATCH 0/3] Add device tree build information
+Date:   Mon, 13 Jan 2020 19:16:22 +0100
+Message-ID: <20200113181625.3130-1-alexandre.torgue@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 167.98.27.226
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG4NODE1.st.com (10.75.127.10) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-01-13_06:2020-01-13,2020-01-13 signatures=0
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi,
 
---=-5xTkXbuWkzmw9uzJDDqI
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The goal of this series is to add device tree build information in dtb.
+This information can be dtb build date, where devicetree files come from,
+who built the dtb ... Actually, same kind of information that you can find
+in the Linux banner which is printout during kernel boot. Having the same
+kind of information for device tree is useful for debugging and maintenance.
 
-On Mon, 2020-01-13 at 15:48 +0900, Masahiro Yamada wrote:
-[...]
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -165,21 +165,34 @@ EOF
->  done
-> =20
->  # Build kernel header package
-> -(cd $srctree; find . arch/$SRCARCH -maxdepth 1 -name Makefile\*) > debia=
-n/hdrsrcfiles
-> -(cd $srctree; find include scripts -type f -o -type l) >> debian/hdrsrcf=
-iles
-> -(cd $srctree; find arch/$SRCARCH -name module.lds -o -name Kbuild.platfo=
-rms -o -name Platform) >> debian/hdrsrcfiles
-> -(cd $srctree; find $(find arch/$SRCARCH -name include -o -name scripts -=
-type d) -type f) >> debian/hdrsrcfiles
-> -if is_enabled CONFIG_STACK_VALIDATION; then
-> -	echo tools/objtool/objtool >> debian/hdrobjfiles
-> -fi
-> -find arch/$SRCARCH/include Module.symvers include scripts -type f >> deb=
-ian/hdrobjfiles
-> -if is_enabled CONFIG_GCC_PLUGINS; then
-> -	find scripts/gcc-plugins -name \*.so >> debian/hdrobjfiles
-> -fi
-> +(
-> +	cd $srctree
-> +	find . arch/$SRCARCH -maxdepth 1 -name Makefile\*
-> +	find include scripts -type f -o -type l
-> +	find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name =
-Platform
-> +	find arch/$SRCARCH -name include -type f
+To achieve that a new option "-B" (using an argument) is added to dtc. 
+The argument is a file containing a string with build information
+(e.g., From Linux 5.5.0-rc1 by alex the Mon Jan 13 18:25:38 CET 2020).
+DTC use it to append dts file with a new string property "Build-info".
 
-This command is wrong.  We currently find all files under all
-directories named "include" under arch/$SRCARCH.  (arc, arm and xtensa
-have some per-platform include directories in additional to the per-
-architecture include directory.)
+of/fdt.c is modified to printout "Build-info" property during Kernel boot and 
+scripts/Makefile.lib is modified to use dtc -B option during kernel make (this
+last part could be improved for sure).
 
-> +
-> +	if [ -d arch/$SRCARCH/scripts ]; then
-> +		find arch/$SRCARCH/scripts -type f
-> +	fi
-> +) > debian/hdrsrcfiles
-> +
-> +{
-> +	if is_enabled CONFIG_STACK_VALIDATION; then
-> +		find tools/objtool -type f -executable
-> +	fi
-> +
-> +	find arch/$SRCARCH/include Module.symvers include scripts -type f
-> +
-> +	if is_enabled CONFIG_GCC_PLUGINS; then
-> +		find scripts/gcc-plugins -name \*.so -o -name gcc-common.h
-> +	fi
+Regards
+Alex
 
-This is reverting patch 1.
+Alexandre Torgue (3):
+  dtc: Add dtb build information option
+  of: fdt: print dtb build information
+  scripts: Use -B dtc option to generate dtb build information.
 
-Ben.
+ drivers/of/fdt.c           |  9 +++++++
+ scripts/Makefile.lib       | 11 +++++---
+ scripts/dtc/dtc.c          | 55 +++++++++++++++++++++++++++++++++-----
+ scripts/gen_dtb_build_info | 11 ++++++++
+ 4 files changed, 76 insertions(+), 10 deletions(-)
+ create mode 100755 scripts/gen_dtb_build_info
 
-> +} > debian/hdrobjfiles
-> +
->  destdir=3D$kernel_headers_dir/usr/src/linux-headers-$version
->  mkdir -p "$destdir"
-> -(cd $srctree; tar -c -f - -T -) < debian/hdrsrcfiles | (cd $destdir; tar=
- -xf -)
-> -tar -c -f - -T - < debian/hdrobjfiles | (cd $destdir; tar -xf -)
-> +tar -c -f - -C $srctree -T debian/hdrsrcfiles | tar -xf - -C $destdir
-> +tar -c -f - -T debian/hdrobjfiles | tar -xf - -C $destdir
->  cp $KCONFIG_CONFIG $destdir/.config # copy .config manually to be where =
-it's expected to be
->  ln -sf "/usr/src/linux-headers-$version" "$kernel_headers_dir/lib/module=
-s/$version/build"
->  rm -f debian/hdrsrcfiles debian/hdrobjfiles
---=20
-Ben Hutchings
-Unix is many things to many people,
-but it's never been everything to anybody.
+-- 
+2.17.1
 
-
-
---=-5xTkXbuWkzmw9uzJDDqI
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl4cpyYACgkQ57/I7JWG
-EQn8RA/+MvFILc/TXIuAD7Q0354QjqwAlnNjJfOYuXMF9FssZmeonWq1noeukziT
-NARCC+pwcwfuI+ExMNZfNM4Ex82RPsUy2AaFfBCUsgkBmkgSEHw6G+LODkP1b6xz
-DJewH4O0ZSI1hFktFGyPc85bBnFwD9JqM3FItJ5JkvTeWfo79MP+khFStlh7VfrM
-eDn2GNy6RwkxDJO4x0rrIwycBZ27nB2ZVZccDiEmnLZ3jjX0T61nNj8t6yztK0OZ
-onBGfUUW9Hlr3scxWqu3sJc52WJV9iZRy9nuNi3o7aA+dTDqCkm8AKrIpKq7P8QJ
-le9A5O/BEXxuDQnXG7KkD/Ur2RFu6HK8L0wA6yS7ejfGoIIlg9iRwJM8NH1bXcu6
-YwSyDvexYp26hD+DyFT+jsyQSlvegqBJj1Ii0mf79/cFggALAFuGzjuRSuv/W/Cw
-z+Cav+a1DmsmE8aRqOLYJV+Z3ZUuuGh2UJa4o742jxn5bUZvr8kXysmQ7cQ/8xpd
-q2sHNdgFOYCwAF5HbVx6KFDDw6EXcB64GGKhVpmX58ufVDEttKdNdn90mhb8hHS9
-O6kn87ru8Kl+oJ4SMNeUVci34CF3JBggWFWOlqMDf96JVSqVcPC9n3tNGEONw//0
-N+uh/C8MkKMyQ1x3v8bADQ2fhTulH7xcACXSCKEclyFFK09KMmI=
-=4FCT
------END PGP SIGNATURE-----
-
---=-5xTkXbuWkzmw9uzJDDqI--
