@@ -2,84 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EF7B139D2C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2020 00:22:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A6F213A276
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jan 2020 09:05:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728885AbgAMXWY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jan 2020 18:22:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59698 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727382AbgAMXWY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jan 2020 18:22:24 -0500
-Received: from localhost (mobile-166-170-223-177.mycingular.net [166.170.223.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 58B2720678;
-        Mon, 13 Jan 2020 23:22:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578957743;
-        bh=xEznJFqeeT1ImYVestHD9WJ/EAJX/f+/Jfxd/hiidPU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=daua9Jq07fRQqwZodxe9/EgTVJnWHewSuOyf2G5ys0ufJN0Q1FKIU04oMNEkxukw2
-         lSODtmcSmGhz3/tGebILdUN+fL+eJpalAge5yQ4AxeSAcTfIbrjNXRCRZkN2mB7wzN
-         uWiKRBvAUMby99yeUIwvBERuvytYyElYrFKrFaS4=
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>
-Subject: [PATCH] kconfig: fix documentation typos
-Date:   Mon, 13 Jan 2020 17:22:11 -0600
-Message-Id: <20200113232212.138327-1-helgaas@kernel.org>
-X-Mailer: git-send-email 2.25.0.rc1.283.g88dfdc4193-goog
+        id S1728901AbgANIFL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 Jan 2020 03:05:11 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:61739 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728682AbgANIFL (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 14 Jan 2020 03:05:11 -0500
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 00E84k4r023665;
+        Tue, 14 Jan 2020 17:04:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 00E84k4r023665
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1578989086;
+        bh=zqtq7IkCW0id1F79otkq2+3zhL0Fqy1TdiL18Qrl+go=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=PGMJ4GR8yXY0XFl7WeuL8GsoMC9mwzswUAhGBUp03qVUOut1FPZT38sH4zKo0m1Ta
+         Q/6OKFqhSlG91gvqrQxtkmMativVX78yjntMkR2FSkuvdJq+tjaKsboRowajPTZ3aY
+         eKLd0i8bf4i/dmnzE6LGyqe5mDVEuxwnBI5gweaLpu9Df/weFOLWLv71VoMFLTa4Z8
+         LNIgICa0C/DaHLG8Bn27+j6hrrMVoLIUi3WwjivDdX0Xvg93Ro/q9lUXzDwwM1eS/4
+         MDYm5kzLK4ZCDaFNcsuFM+z+Yyv8aCA563qvVwQg5dcp+IL1LY2c5CbsDpf0/tBUyD
+         UeIE0VvsfVLwQ==
+X-Nifty-SrcIP: [209.85.222.44]
+Received: by mail-ua1-f44.google.com with SMTP id y23so4436379ual.2;
+        Tue, 14 Jan 2020 00:04:46 -0800 (PST)
+X-Gm-Message-State: APjAAAUdg9v5S3EZKt8HBI6ODLMWjCTeCP697WXp3JA8UQfgpnda+Jdj
+        NT0XfIRfhp0OSIJlRCKv461EOLbFyKRa+HufGx8=
+X-Google-Smtp-Source: APXvYqxACHfBMoAc+LfpdScWVrlt7n/Wtwl7tQFYgbXxfF+CTJmEFF/P0ykqAGDjiJK626yMtn+wvRqVclE4WoYQdIY=
+X-Received: by 2002:ab0:2ea6:: with SMTP id y6mr9924613uay.25.1578989085420;
+ Tue, 14 Jan 2020 00:04:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200113064841.3946-1-masahiroy@kernel.org> <20200113064841.3946-4-masahiroy@kernel.org>
+ <7da5750c40489dcb6cd8eef0307ee8d8df2e134e.camel@decadent.org.uk>
+In-Reply-To: <7da5750c40489dcb6cd8eef0307ee8d8df2e134e.camel@decadent.org.uk>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 14 Jan 2020 17:04:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR3fL-RQM412LJmJD6v81JTJ+s0A5vcS4O=Y_=kNO4DUA@mail.gmail.com>
+Message-ID: <CAK7LNAR3fL-RQM412LJmJD6v81JTJ+s0A5vcS4O=Y_=kNO4DUA@mail.gmail.com>
+Subject: Re: [PATCH 4/7] builddeb: avoid invoking sub-shells where possible
+To:     Ben Hutchings <ben@decadent.org.uk>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Riku Voipio <riku.voipio@linaro.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Bjorn Helgaas <bhelgaas@google.com>
+Hi Ben,
 
-Fix a couple typos in kconfig-language documentation.
+On Tue, Jan 14, 2020 at 2:21 AM Ben Hutchings <ben@decadent.org.uk> wrote:
+> > +(
+> > +     cd $srctree
+> > +     find . arch/$SRCARCH -maxdepth 1 -name Makefile\*
+> > +     find include scripts -type f -o -type l
+> > +     find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name Platform
+> > +     find arch/$SRCARCH -name include -type f
+>
+> This command is wrong.  We currently find all files under all
+> directories named "include" under arch/$SRCARCH.  (arc, arm and xtensa
+> have some per-platform include directories in additional to the per-
+> architecture include directory.)
+>
+> > +
+> > +     if [ -d arch/$SRCARCH/scripts ]; then
+> > +             find arch/$SRCARCH/scripts -type f
+> > +     fi
+> > +) > debian/hdrsrcfiles
+> > +
+> > +{
+> > +     if is_enabled CONFIG_STACK_VALIDATION; then
+> > +             find tools/objtool -type f -executable
+> > +     fi
+> > +
+> > +     find arch/$SRCARCH/include Module.symvers include scripts -type f
+> > +
+> > +     if is_enabled CONFIG_GCC_PLUGINS; then
+> > +             find scripts/gcc-plugins -name \*.so -o -name gcc-common.h
+> > +     fi
+>
+> This is reverting patch 1.
+>
+> Ben.
 
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
----
- Documentation/kbuild/kconfig-language.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thank you for catching these.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 74bef19f69f0..f547720bd82d 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -594,7 +594,7 @@ The two different resolutions for b) can be tested in the sample Kconfig file
- Documentation/kbuild/Kconfig.recursion-issue-02.
- 
- Below is a list of examples of prior fixes for these types of recursive issues;
--all errors appear to involve one or more select's and one or more "depends on".
-+all errors appear to involve one or more "selects" and one or more "depends on".
- 
- ============    ===================================
- commit          fix
-@@ -656,7 +656,7 @@ the use of the xconfig configurator [1]_. Work should be done to confirm if
- the deduced semantics matches our intended Kconfig design goals.
- 
- Having well defined semantics can be useful for tools for practical
--evaluation of depenencies, for instance one such use known case was work to
-+evaluation of dependencies, for instance one such case was work to
- express in boolean abstraction of the inferred semantics of Kconfig to
- translate Kconfig logic into boolean formulas and run a SAT solver on this to
- find dead code / features (always inactive), 114 dead features were found in
-@@ -683,7 +683,7 @@ abstraction the inferred semantics of Kconfig to translate Kconfig logic into
- boolean formulas and run a SAT solver on it [5]_. Another known related project
- is CADOS [6]_ (former VAMOS [7]_) and the tools, mainly undertaker [8]_, which
- has been introduced first with [9]_.  The basic concept of undertaker is to
--exract variability models from Kconfig, and put them together with a
-+extract variability models from Kconfig and put them together with a
- propositional formula extracted from CPP #ifdefs and build-rules into a SAT
- solver in order to find dead code, dead files, and dead symbols. If using a SAT
- solver is desirable on Kconfig one approach would be to evaluate repurposing
+I made a mistake somehow
+when I inserted the patch 1, and then
+rebased the others on top of it.
+
+I will fix it in v2.
+
+
 -- 
-2.25.0.rc1.283.g88dfdc4193-goog
-
+Best Regards
+Masahiro Yamada
