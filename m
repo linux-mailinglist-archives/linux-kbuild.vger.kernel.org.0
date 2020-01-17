@@ -2,85 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82EF9140FB3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2020 18:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41E1214103B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2020 18:52:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726684AbgAQRQG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jan 2020 12:16:06 -0500
-Received: from conuserg-08.nifty.com ([210.131.2.75]:20894 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgAQRQG (ORCPT
+        id S1726935AbgAQRwZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Jan 2020 12:52:25 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:51303 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726603AbgAQRwZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jan 2020 12:16:06 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 00HHFttT008842;
-        Sat, 18 Jan 2020 02:15:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 00HHFttT008842
+        Fri, 17 Jan 2020 12:52:25 -0500
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 00HHq8Bx003701
+        for <linux-kbuild@vger.kernel.org>; Sat, 18 Jan 2020 02:52:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 00HHq8Bx003701
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1579281356;
-        bh=o7UmDXEbY6/lJKfSeZ85C9oBWx5szmcnLgIbcjg4jwE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pfbXG7yDEesfxclBm+SA9LWzBKBD+to/PSmABzTePJweZBrag8DVKtOWGj8K2Y5+Y
-         yN1Uhn12/DOL4eDui1eI58L6kh8rTZQG8iHm338amnjhHMgFsxYbbbKCnMmWvXdRtr
-         ofbRT7vs6t6Wsn/KllB7DNe95UDVr+eh/OwN5lDFtbDwXWqzyLS8vaJ0QYogNEZyrn
-         zBOmHl3n2IJxnrg5BPBbxb9tRu8vjK6zghs8jCnVbfVWIchwA6ZlLKO8SJ3/qE1oqA
-         z/stZDJTGH7D8svrU/7k3MhBtf3r91KAWAJKoOET2itp1GGE45nMc9cvfbn3YY8nq8
-         5oU954z9pb34A==
-X-Nifty-SrcIP: [126.93.102.113]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: use -S instead of -E for precise cc-option test in Kconfig
-Date:   Sat, 18 Jan 2020 02:14:35 +0900
-Message-Id: <20200117171435.11591-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        s=dec2015msa; t=1579283529;
+        bh=hivT4wSA3iwY78RH28O8O0J0M5irsVyD9yX51K5G7Gk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=GqNZ1Z3sOdusfHpGUTxC0nYG0UKTf31y+ud/sKICyjO7BxjxjLNiZbieXKAeRfSJ3
+         rGk6zrVzdhOrkbJfGgYpwB+H1ZyMaqMcdHwJen98AUYpKsmpSkB9bbCQjWMkODtzzP
+         nvoULCffNVQ38Hw25m6tHq4WfMvpnKIiHyHGG/Ocbt+W96KetQE0FOEfhH8ufAeWH6
+         H1nxlGo3SbrdzPT3h5Z9d6aE9sH4xvv+iubBR6+92cSPtmPO1eLo2FaRI45aCsuyNE
+         jF2NclASR79LUUXetZJuc/1QNIodc7IQvRYSNrzC+ZCGTHGgVDxx0Zo7czrAgOBsDm
+         Y/Lk/Rp6W5IGw==
+X-Nifty-SrcIP: [209.85.217.44]
+Received: by mail-vs1-f44.google.com with SMTP id t12so15326943vso.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jan 2020 09:52:08 -0800 (PST)
+X-Gm-Message-State: APjAAAVVc54PUSfyM0cwKQm8sCSS/gsuaXGEi6+ePfMLlesxautDR7c8
+        otc/37aBy3wPA4U2IQxHiasLHwIwlwjz6+3gU+o=
+X-Google-Smtp-Source: APXvYqyKvN3mcvVZNtBBJUUlIRvc8qNb1u6qte38CldDocLzGjTiUwInBSRZoKg9w+f4fHovaEvv3/20g2rDKzsaMuU=
+X-Received: by 2002:a05:6102:48b:: with SMTP id n11mr5781677vsa.181.1579283527448;
+ Fri, 17 Jan 2020 09:52:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <1576486038-9899-1-git-send-email-amit.kachhap@arm.com>
+ <1576486038-9899-15-git-send-email-amit.kachhap@arm.com> <20200117113351.GF26090@arrakis.emea.arm.com>
+In-Reply-To: <20200117113351.GF26090@arrakis.emea.arm.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 18 Jan 2020 02:51:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASyrra9Xxvk+aG5OspbxmenDvohBVfusokD0RHy4CvqFg@mail.gmail.com>
+Message-ID: <CAK7LNASyrra9Xxvk+aG5OspbxmenDvohBVfusokD0RHy4CvqFg@mail.gmail.com>
+Subject: Re: [PATCH v3 14/16] kconfig: Add support for 'as-option'
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Amit Daniel Kachhap <amit.kachhap@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
+        Kristina Martsenko <kristina.martsenko@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
+        Mark Brown <Mark.Brown@arm.com>,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, -E (stop after the preprocessing stage) is used to check
-whether the given compiler flag is supported.
+On Fri, Jan 17, 2020 at 8:33 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+>
+> On Mon, Dec 16, 2019 at 02:17:16PM +0530, Amit Daniel Kachhap wrote:
+> > diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> > index d4adfbe..cc465dd 100644
+> > --- a/scripts/Kconfig.include
+> > +++ b/scripts/Kconfig.include
+> > @@ -31,6 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /de
+> >  # Return y if the linker supports <flag>, n otherwise
+> >  ld-option = $(success,$(LD) -v $(1))
+> >
+> > +# $(as-option,<flag>)
+> > +# Return y if the assembler supports <flag>, n otherwise
+> > +as-option = $(success, $(CC) $(CLANG_FLAGS) $(1) -E -x assembler /dev/null -o /dev/null)
+>
+> I had different experiments with this for MTE and noticed that clang
+> does not honour the -Wa, option (which you use in a subsequent patch).
+> So not sure how useful as-option is.
 
-While it is faster than -S (or -c), it can be false-positive. You need
-to run the compilation proper to check the flag more precisely.
 
-For example, when testing "--param asan-instrument-allocas=1", my gcc
-gives a different result for -E vs -S.
+I think this is because it uses '-E' option.
 
-$ gcc -Werror --param asan-instrument-allocas=1 -E -x c /dev/null -o /dev/null
-$ echo $?
-0
+To invoke the assembler, -c is needed.
 
-$ gcc -Werror --param asan-instrument-allocas=1 -S -x c /dev/null -o /dev/null
-cc1: error: invalid --param name ‘asan-instrument-allocas’; did you mean ‘asan-instrument-writes’?
-$ echo $?
-1
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I replaced -E with -c, and tested it.
+It seems working for both gcc and clang.
 
- scripts/Kconfig.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index d4adfbe42690..bfb44b265a94 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -25,7 +25,7 @@ failure = $(if-success,$(1),n,y)
- 
- # $(cc-option,<flag>)
- # Return y if the compiler supports <flag>, n otherwise
--cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /dev/null)
-+cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -S -x c /dev/null -o /dev/null)
- 
- # $(ld-option,<flag>)
- # Return y if the linker supports <flag>, n otherwise
+
+I noticed a similar case for cc-option:
+https://patchwork.kernel.org/patch/11339567/
+
+
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
