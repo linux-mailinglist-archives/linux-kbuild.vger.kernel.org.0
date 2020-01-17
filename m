@@ -2,101 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41E1214103B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2020 18:52:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BDA014105C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2020 19:01:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbgAQRwZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jan 2020 12:52:25 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:51303 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgAQRwZ (ORCPT
+        id S1727115AbgAQSBl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Jan 2020 13:01:41 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:19545 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726603AbgAQSBl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jan 2020 12:52:25 -0500
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 00HHq8Bx003701
-        for <linux-kbuild@vger.kernel.org>; Sat, 18 Jan 2020 02:52:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 00HHq8Bx003701
+        Fri, 17 Jan 2020 13:01:41 -0500
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 00HI1L4N031520
+        for <linux-kbuild@vger.kernel.org>; Sat, 18 Jan 2020 03:01:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 00HI1L4N031520
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1579283529;
-        bh=hivT4wSA3iwY78RH28O8O0J0M5irsVyD9yX51K5G7Gk=;
+        s=dec2015msa; t=1579284082;
+        bh=ecjXaI7QeyvByIxO4lFFZF516lo++S3ClxUq0a6KQMo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GqNZ1Z3sOdusfHpGUTxC0nYG0UKTf31y+ud/sKICyjO7BxjxjLNiZbieXKAeRfSJ3
-         rGk6zrVzdhOrkbJfGgYpwB+H1ZyMaqMcdHwJen98AUYpKsmpSkB9bbCQjWMkODtzzP
-         nvoULCffNVQ38Hw25m6tHq4WfMvpnKIiHyHGG/Ocbt+W96KetQE0FOEfhH8ufAeWH6
-         H1nxlGo3SbrdzPT3h5Z9d6aE9sH4xvv+iubBR6+92cSPtmPO1eLo2FaRI45aCsuyNE
-         jF2NclASR79LUUXetZJuc/1QNIodc7IQvRYSNrzC+ZCGTHGgVDxx0Zo7czrAgOBsDm
-         Y/Lk/Rp6W5IGw==
-X-Nifty-SrcIP: [209.85.217.44]
-Received: by mail-vs1-f44.google.com with SMTP id t12so15326943vso.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jan 2020 09:52:08 -0800 (PST)
-X-Gm-Message-State: APjAAAVVc54PUSfyM0cwKQm8sCSS/gsuaXGEi6+ePfMLlesxautDR7c8
-        otc/37aBy3wPA4U2IQxHiasLHwIwlwjz6+3gU+o=
-X-Google-Smtp-Source: APXvYqyKvN3mcvVZNtBBJUUlIRvc8qNb1u6qte38CldDocLzGjTiUwInBSRZoKg9w+f4fHovaEvv3/20g2rDKzsaMuU=
-X-Received: by 2002:a05:6102:48b:: with SMTP id n11mr5781677vsa.181.1579283527448;
- Fri, 17 Jan 2020 09:52:07 -0800 (PST)
+        b=ZctB2BeSMYsDwJsPxDGZG9sYIDlYkHxxPO2XZIxA3CybIN5wzjsxC1G+Lk7T1Sk06
+         RYcr0uiHkBVNFMYCOFeSGRDJhhhEhvzUEwHatiwHOJ/35LmJTIrA1Twtm36k0VuzTX
+         ocVkbSuM1tyxl80Tp/hicnYbSHG0/hmaxULSSa6C9Ibprsi7KaNaY+olY9ZzhrwwYR
+         J61TfRgH/9MWQlR9XwH3eqyNulxIgZE7XExwFgIVZTkJ2Tgk/0Y8Jw8hHZ9vKNY2SE
+         x6ye8+Joagc0ChXGP1nu9ZJVVN751WdHQJLMfInSd+om1/byPeWflygz6B2cmlkTIh
+         cPZWPvxo4WQPw==
+X-Nifty-SrcIP: [209.85.217.46]
+Received: by mail-vs1-f46.google.com with SMTP id x18so15380739vsq.4
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jan 2020 10:01:21 -0800 (PST)
+X-Gm-Message-State: APjAAAWBJsM1FkZpenZxNpO8UdFsEi6QQyeo/Rfs0lMsrT5eZiiFAVHR
+        2Z9l3wYfl90rbjWJugYsX57T5y+USz4EF0vBCjo=
+X-Google-Smtp-Source: APXvYqwKvC1D41otNjZJVp9uz6rlwbul6bvgpYp3sLyUy8oh2YDjcouN4/+UyKNlnJc/YqANr+wpUhLP9fdcX9nllik=
+X-Received: by 2002:a05:6102:2334:: with SMTP id b20mr5578692vsa.155.1579284080541;
+ Fri, 17 Jan 2020 10:01:20 -0800 (PST)
 MIME-Version: 1.0
-References: <1576486038-9899-1-git-send-email-amit.kachhap@arm.com>
- <1576486038-9899-15-git-send-email-amit.kachhap@arm.com> <20200117113351.GF26090@arrakis.emea.arm.com>
-In-Reply-To: <20200117113351.GF26090@arrakis.emea.arm.com>
+References: <20200115115249.27774-1-ilie.halip@gmail.com> <CAKwvOdkdD9VF1k==G4vMeo4bBLarYz8gPvWfv6+N2kejeoXfjA@mail.gmail.com>
+In-Reply-To: <CAKwvOdkdD9VF1k==G4vMeo4bBLarYz8gPvWfv6+N2kejeoXfjA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 18 Jan 2020 02:51:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASyrra9Xxvk+aG5OspbxmenDvohBVfusokD0RHy4CvqFg@mail.gmail.com>
-Message-ID: <CAK7LNASyrra9Xxvk+aG5OspbxmenDvohBVfusokD0RHy4CvqFg@mail.gmail.com>
-Subject: Re: [PATCH v3 14/16] kconfig: Add support for 'as-option'
-To:     Catalin Marinas <catalin.marinas@arm.com>
-Cc:     Amit Daniel Kachhap <amit.kachhap@arm.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
-        Kristina Martsenko <kristina.martsenko@arm.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        James Morse <james.morse@arm.com>,
-        Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
-        Mark Brown <Mark.Brown@arm.com>,
-        Richard Henderson <richard.henderson@linaro.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Sat, 18 Jan 2020 03:00:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ1pS0nK7JoUbgOn0aMtaYH69XukjNELZNxTtV_iMmR1Q@mail.gmail.com>
+Message-ID: <CAK7LNAQ1pS0nK7JoUbgOn0aMtaYH69XukjNELZNxTtV_iMmR1Q@mail.gmail.com>
+Subject: Re: [RFC PATCH] lib: move memcat_p.o to obj-y
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Ilie Halip <ilie.halip@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 17, 2020 at 8:33 PM Catalin Marinas <catalin.marinas@arm.com> wrote:
+On Fri, Jan 17, 2020 at 7:30 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> On Mon, Dec 16, 2019 at 02:17:16PM +0530, Amit Daniel Kachhap wrote:
-> > diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-> > index d4adfbe..cc465dd 100644
-> > --- a/scripts/Kconfig.include
-> > +++ b/scripts/Kconfig.include
-> > @@ -31,6 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /de
-> >  # Return y if the linker supports <flag>, n otherwise
-> >  ld-option = $(success,$(LD) -v $(1))
+> On Wed, Jan 15, 2020 at 3:53 AM Ilie Halip <ilie.halip@gmail.com> wrote:
 > >
-> > +# $(as-option,<flag>)
-> > +# Return y if the assembler supports <flag>, n otherwise
-> > +as-option = $(success, $(CC) $(CLANG_FLAGS) $(1) -E -x assembler /dev/null -o /dev/null)
+> > The semantics of `--undefined` differ between ld.bfd and ld.lld:
+> >     $ echo | gcc -x c -c - -o a.o
+> >     $ echo "EXTERN(test)" > a.lds
+> >     $ ld.bfd a.o -t a.lds -o - 2>/dev/null && objdump -t | grep test
+> >     0000000000000000         *UND*      0000000000000000 test
+> >     $ ld.lld a.o -t a.lds -o - 2>/dev/null && objdump -t | grep test
+> >     $
+> >
+> > When building with CONFIG_STM=m, there are no in-kernel users of memcat_p()
+> > and ld.lld discards this symbol because it's linked in via --no-whole-archive.
+> > It's marked as undefined by a linker script but ld.lld discards it anyway (as
+> > seen in the above snippet).
+> >
+> > Work around the ld.lld behavior by moving the object file to obj-y.
+> >
+> > Signed-off-by: Ilie Halip <ilie.halip@gmail.com>
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/515
 >
-> I had different experiments with this for MTE and noticed that clang
-> does not honour the -Wa, option (which you use in a subsequent patch).
-> So not sure how useful as-option is.
+> Thanks for the patch.  This solves the observed linkage failure.
+> Maybe Masahiro has more input based on the discussion in the above
+> Link?
+
+Sorry, I did not notice that thread until now.
+I will take a look at it when I have time.
 
 
-I think this is because it uses '-E' option.
+This patch does not seem to be a proper fix.
 
-To invoke the assembler, -c is needed.
-
-
-I replaced -E with -c, and tested it.
-It seems working for both gcc and clang.
+If this fix-up were acceptable, theoretically,
+all objects that contain EXPORTED_SYMBOL
+would need to be turned into obj-y from lib-y ?
 
 
 
-I noticed a similar case for cc-option:
-https://patchwork.kernel.org/patch/11339567/
+
+
+
+
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+
+
+
+
+
 
 
 -- 
