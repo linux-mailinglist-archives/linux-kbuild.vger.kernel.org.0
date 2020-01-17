@@ -2,122 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 106001401BD
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2020 03:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 919941401E8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jan 2020 03:28:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729138AbgAQCSM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 16 Jan 2020 21:18:12 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:19373 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726726AbgAQCSM (ORCPT
+        id S2388867AbgAQC2z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Jan 2020 21:28:55 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:17483 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388334AbgAQC2z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 16 Jan 2020 21:18:12 -0500
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 00H2HqMP010111;
-        Fri, 17 Jan 2020 11:17:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 00H2HqMP010111
+        Thu, 16 Jan 2020 21:28:55 -0500
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 00H2SZbI032140;
+        Fri, 17 Jan 2020 11:28:36 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 00H2SZbI032140
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1579227473;
-        bh=8ybG8LjXBlt8T0MqbW/EKhRw7vw4GK5v/Kz9EhLSiY0=;
+        s=dec2015msa; t=1579228116;
+        bh=hqIiFv0vlbk8v+McocbQfQ5XPxeoUcGd8URuFu7Q58Y=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=F35/WcRvhA1a/o5pzi3b7XEcrkYuaJ9HjJR4tSAZQzHyl0nNPSC4nULLCaydo7oir
-         S3xRpZEhGYcn32Dkj6Yyn39G2HxOjMDcxrI+iSGRuvaOcs2MBai+ClrieZiuzJCntF
-         L9r4UOoP25mIv5LzUM1+/ioVO+HGBOTVptw88Ed5touScLztlXdDAp9tSqksw/IKX+
-         H9GjhA2gCNkaTA6sPXS76lcuPJLf9ymx1Y5lqGftbgHEkrnDsKdtDh5sPcB7/mrsmM
-         GhG1DfiTJGrTS0YPyy316J6sv8bARzpkYAsC0oaKLZpmqsTudgXNqy+LVN0KfXG8cU
-         RBizO/H0l2sKg==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id h13so6266761vkn.10;
-        Thu, 16 Jan 2020 18:17:52 -0800 (PST)
-X-Gm-Message-State: APjAAAWhpsyZV3ciMCOs9UJ9oZIi1a3Lox6L3UKvbGi75bK5EQA+jn+Q
-        xfnj0XP2K+GabScy4wstve27lu5pX3hoqilusDk=
-X-Google-Smtp-Source: APXvYqxamBGY9Xjvh/06M1RPyeCEPFEdU4pr1Pslrd08CuggEi5cr4/SLwz18imIp0B/VXH59K8k/Vym1YLZr2jWIfw=
-X-Received: by 2002:a1f:72c3:: with SMTP id n186mr22174033vkc.12.1579227471741;
- Thu, 16 Jan 2020 18:17:51 -0800 (PST)
+        b=UryCtISmpl6ZveBO5j2rBQqorginb3L64L2Dl8IzEG1fkHySHZYmgq8j5mcHAnW/u
+         mqgLT6na5kDRgEzxtWXWYvJGdwAuNLwrbUKEFjiI2IV1T7vhZN9Tzk5jMm5PlGgEEo
+         BK7ud2aq9T2CNt9qWankSN0dhJx8Ywp/1YQBVIc6k56fyOqJHHY4xs23+nnS/ZG74P
+         kiNtcuz+nGTXkJd5n8+FIEWhx7y7RE3QQzU2lCJ849K++2VdQwIc1i4X2W5EjEBsLz
+         Tj1eLac6/LgyLVY7qClcfW9VfnYtvliIz6MAF1X0+f2/CQ6QmSkpIzONYg2n1bCRFL
+         Hv8Td0npQmZGw==
+X-Nifty-SrcIP: [209.85.221.174]
+Received: by mail-vk1-f174.google.com with SMTP id d17so6259178vke.5;
+        Thu, 16 Jan 2020 18:28:35 -0800 (PST)
+X-Gm-Message-State: APjAAAUJ3u+Oe4uYahJjvFP93wj0D1vtbfHT8HvxCf7M/E69vbiDt5rP
+        g9bd3kBtnd7nZjY+ddAabouN2hqFnSFnmVe+CYU=
+X-Google-Smtp-Source: APXvYqwWZbIDWqll+Cx58kBUpBqVexGuN4IKXN1PvpIpSjaTkK0d/oE+iO4nLo5BNsIrbQGNEZc/51CY2BPdQui+sH4=
+X-Received: by 2002:a1f:252:: with SMTP id 79mr23167280vkc.96.1579228114985;
+ Thu, 16 Jan 2020 18:28:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20200113232212.138327-1-helgaas@kernel.org>
-In-Reply-To: <20200113232212.138327-1-helgaas@kernel.org>
+References: <20200113232212.138327-1-helgaas@kernel.org> <20200116125255.56eba406@lwn.net>
+In-Reply-To: <20200116125255.56eba406@lwn.net>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 17 Jan 2020 11:17:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASYynBVaaGROEjy1PC7+9xatO7gf2LTRGG1UOpiXtzENw@mail.gmail.com>
-Message-ID: <CAK7LNASYynBVaaGROEjy1PC7+9xatO7gf2LTRGG1UOpiXtzENw@mail.gmail.com>
+Date:   Fri, 17 Jan 2020 11:27:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARRg+DYRuRbbWMz+++BNhM==omTK26tTC1bBXQUNiMK9w@mail.gmail.com>
+Message-ID: <CAK7LNARRg+DYRuRbbWMz+++BNhM==omTK26tTC1bBXQUNiMK9w@mail.gmail.com>
 Subject: Re: [PATCH] kconfig: fix documentation typos
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>
+        Bjorn Helgaas <bhelgaas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 14, 2020 at 8:22 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+On Fri, Jan 17, 2020 at 4:52 AM Jonathan Corbet <corbet@lwn.net> wrote:
 >
-> From: Bjorn Helgaas <bhelgaas@google.com>
+> On Mon, 13 Jan 2020 17:22:11 -0600
+> Bjorn Helgaas <helgaas@kernel.org> wrote:
 >
-> Fix a couple typos in kconfig-language documentation.
+> > From: Bjorn Helgaas <bhelgaas@google.com>
+> >
+> > Fix a couple typos in kconfig-language documentation.
+> >
+> > Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+> > ---
+> >  Documentation/kbuild/kconfig-language.rst | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
-> ---
->  Documentation/kbuild/kconfig-language.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Looks good to me; Masahiro I assume you'll be taking this one?
 >
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 74bef19f69f0..f547720bd82d 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -594,7 +594,7 @@ The two different resolutions for b) can be tested in the sample Kconfig file
->  Documentation/kbuild/Kconfig.recursion-issue-02.
+> Thanks,
 >
->  Below is a list of examples of prior fixes for these types of recursive issues;
-> -all errors appear to involve one or more select's and one or more "depends on".
-> +all errors appear to involve one or more "selects" and one or more "depends on".
+> jon
 
 
-I think "selects" is strange here.
+I can pick this up, but I commented on the first paragraph.
 
-"select" is a Kconfig keyword.
-select's is intentional, I guess.
-
-
-Keep it as-is, or perhaps change it into "select" (singular) ?
+(I do not know what is the best way to describe the
+plural form of a special keyword...)
 
 
 
 
 
 
->
->  ============    ===================================
->  commit          fix
-> @@ -656,7 +656,7 @@ the use of the xconfig configurator [1]_. Work should be done to confirm if
->  the deduced semantics matches our intended Kconfig design goals.
->
->  Having well defined semantics can be useful for tools for practical
-> -evaluation of depenencies, for instance one such use known case was work to
-> +evaluation of dependencies, for instance one such case was work to
->  express in boolean abstraction of the inferred semantics of Kconfig to
->  translate Kconfig logic into boolean formulas and run a SAT solver on this to
->  find dead code / features (always inactive), 114 dead features were found in
-> @@ -683,7 +683,7 @@ abstraction the inferred semantics of Kconfig to translate Kconfig logic into
->  boolean formulas and run a SAT solver on it [5]_. Another known related project
->  is CADOS [6]_ (former VAMOS [7]_) and the tools, mainly undertaker [8]_, which
->  has been introduced first with [9]_.  The basic concept of undertaker is to
-> -exract variability models from Kconfig, and put them together with a
-> +extract variability models from Kconfig and put them together with a
->  propositional formula extracted from CPP #ifdefs and build-rules into a SAT
->  solver in order to find dead code, dead files, and dead symbols. If using a SAT
->  solver is desirable on Kconfig one approach would be to evaluate repurposing
-> --
-> 2.25.0.rc1.283.g88dfdc4193-goog
->
 
-
--- 
+--
 Best Regards
 Masahiro Yamada
