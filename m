@@ -2,135 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A05DC142F6A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Jan 2020 17:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6204214315F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Jan 2020 19:18:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgATQQI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Jan 2020 11:16:08 -0500
-Received: from mail-yw1-f66.google.com ([209.85.161.66]:33416 "EHLO
-        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726876AbgATQQH (ORCPT
+        id S1726942AbgATSSH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Jan 2020 13:18:07 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55221 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726982AbgATSSG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Jan 2020 11:16:07 -0500
-Received: by mail-yw1-f66.google.com with SMTP id 192so74235ywy.0;
-        Mon, 20 Jan 2020 08:16:07 -0800 (PST)
+        Mon, 20 Jan 2020 13:18:06 -0500
+Received: by mail-wm1-f65.google.com with SMTP id b19so278900wmj.4
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Jan 2020 10:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=dMR2QJBU8mwguXzF24MAtQqBj4xzoWj1UhHfZ6DEbQU=;
-        b=l6vSuXn0iQNJtBxu529TjmBhwLNJihjMleP6uAWGtww6EEirV0ECyzCD+JyhDY8l/h
-         kgr7jaJqqHkvG7jN8Ry3cAW0p9xmmWnH+PRyvapw0Zzbre3M9luzSErDmil5ltMWqkQj
-         89lHeyacBjV5dLQ74tP4dU1g/hgOO2zoptyv+6bCoHgv7wXweeMTtwmTy9LTRRj9R4tE
-         /AdvK2RoTJS85dloI5jhYngyrZxKaYdwTQ3RNtH3f9PEWudTFCIke7dafsTBAZR1ZHnJ
-         OOs5ZRZ+3A/c82goic1SvVXZyTZtlm7XawaUj9tePNAaEFmN82GduiaywpJ35hXHlanY
-         JhsQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ueFhoq0888bObMU/MyWNjalID6TVX62BYMUk86CN9sY=;
+        b=URqlkO1HRRK4JEksGOMOKBeLeUw2xDoWJkLqihkgtjh2adEvHnEmR5yDIn4unCT45S
+         aFI8umb1/wYVs0ip9chXxIwjwYTv8fb+Lo9xbBt67VEjKe71syIiJEjSf+avDIUlgkMm
+         nR2TS/uAT9ysoaxOMFy3QHwy/79RTB8MB9eBRgdpfovmPUGEEmNuxqyf6trbybXWs7U5
+         6MVZwQ1HJ3tg5qIIDFq+SGn+dJsFh7VKygE4O/gkq9Trlit+pEb6pqGuCWb+a/PO4DdN
+         j30va57due0cY8AGVnhpGRp/pSPv9uepqdnyuBhF72i5RG3ZbdrxQY3eRtfEUYeyHjsR
+         OOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=dMR2QJBU8mwguXzF24MAtQqBj4xzoWj1UhHfZ6DEbQU=;
-        b=OqmeWCYv+UFt1kVIBcWY3AsbQLNduEvRv/ApYkwEmsNUQzR7XIK44AQWCq25J2f8+9
-         xZfADq6WeVco2VaJCoPym4czoWQc05cLxhLk7sEWB7fmaqcirqrVrdg+NscgkpzDSMeM
-         5xm/clxeaDFRnp5d76wp14rMDzYsdTbz2dxPgsUZrBJRVCc35AwUiuIERPutTYgazCvf
-         pPNI1g3Xru52rO182vm7u3g/l8bVvwD8s9GPtPilqThjN9t0EgaKCKhJ5ptAOQLVXvc+
-         JuvpFGKjONyz4xTV1+5NiRBlGYBKtG1OiTgKPdU4pKiKXck+8XDrSFn24k75FSvpuDci
-         982w==
-X-Gm-Message-State: APjAAAXPmt4EdAZ7rwNrk/WkVxrpOT2BBfzefwm/sL0KzGyE1HnTYJHt
-        axDhYnVj5+eO+mxUbiE2OlI=
-X-Google-Smtp-Source: APXvYqwMpDjDDEtNiDqpnf1C9x4lDmRnx9+4m89tTbXV9PL6UBk55W99RfoijHH264iLsM1tTIxm2w==
-X-Received: by 2002:a0d:fb46:: with SMTP id l67mr42006467ywf.38.1579536966644;
-        Mon, 20 Jan 2020 08:16:06 -0800 (PST)
-Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
-        by smtp.gmail.com with ESMTPSA id f138sm16113793ywb.99.2020.01.20.08.16.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 Jan 2020 08:16:06 -0800 (PST)
-Subject: Re: [RFC PATCH 3/3] scripts: Use -B dtc option to generate dtb build
- information.
-To:     Alexandre Torgue <alexandre.torgue@st.com>, robh+dt@kernel.org,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ueFhoq0888bObMU/MyWNjalID6TVX62BYMUk86CN9sY=;
+        b=MdFQV9xziffrSgzgYhPVezLw9Ii6c1hCIQlQfmCmobOQW9UJZTniFXSgx90HgZWrm+
+         eP8xc2i9mnz1xajkvCVBAWh334P66D3/CGMefaHQO2ZTwUx/+a0rz0Gp4cBcwfc5hXvW
+         sWFA2LIKriTjC3cKG1Pr2D9vhrXiFwGuYz1+jEK//+7z13t8tVYEZq7YjG6g47eWKeM4
+         7dLTDmDjtrY6jjPo+D6hk4W2F2x8l1k+04B0A6n/CiO4aCQdG1nB/yBwpEZz1ZkMjBZg
+         l/tjWiAIOPxTDp/hKzxb1kJ46rHO56kd1XrxWLStJNrFvzbwElDyDBgUz1vwAYofz4mr
+         ZADg==
+X-Gm-Message-State: APjAAAXJb7Jpdvgnv7gMC4BHIdakdfD3ohd+P0RYpHQSa+WpIUq2fefz
+        3P9NK7uZHNC3Sc8kFP0U/NrApg==
+X-Google-Smtp-Source: APXvYqwhBmzOsrIOPrRrZOZmMA2xlzfmjsCTPyWP8T4P9O74PDIhglC7uHXDKLHNFKMef4S3xh3WHQ==
+X-Received: by 2002:a1c:f407:: with SMTP id z7mr180451wma.72.1579544283637;
+        Mon, 20 Jan 2020 10:18:03 -0800 (PST)
+Received: from cheddar.halon.org.uk (cheddar.halon.org.uk. [93.93.131.118])
+        by smtp.gmail.com with ESMTPSA id u84sm305253wmg.10.2020.01.20.10.18.02
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 20 Jan 2020 10:18:02 -0800 (PST)
+Received: from bsmtp by cheddar.halon.org.uk with local-bsmtp (Exim 4.89)
+        (envelope-from <steve.mcintyre@linaro.org>)
+        id 1itbcg-0002Fz-0e; Mon, 20 Jan 2020 18:18:02 +0000
+Received: from stemci01 by c30-smcintyre.einval.org with local (Exim 4.92)
+        (envelope-from <steve.mcintyre@linaro.org>)
+        id 1itbbu-0000zW-8O; Mon, 20 Jan 2020 18:17:14 +0000
+Date:   Mon, 20 Jan 2020 18:17:14 +0000
+From:   Steve McIntyre <steve.mcintyre@linaro.org>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     David Gibson <david@gibson.dropbear.id.au>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Frank Rowand <frowand.list@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        david@gibson.dropbear.id.au, sjg@chromium.org
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, devicetree-compiler@vger.kernel.org
+        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Devicetree Compiler <devicetree-compiler@vger.kernel.org>
+Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
+Message-ID: <20200120181708.GN3697@linaro.org>
 References: <20200113181625.3130-1-alexandre.torgue@st.com>
- <20200113181625.3130-4-alexandre.torgue@st.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <5b5a40b5-6954-05aa-5c7f-5ae8100aa1ee@gmail.com>
-Date:   Mon, 20 Jan 2020 10:16:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ <20200113181625.3130-2-alexandre.torgue@st.com>
+ <20200116005741.GB54439@umbus>
+ <d2594b79-a45d-dcac-3642-90016a1408b8@st.com>
+ <20200117090937.GU54439@umbus>
+ <CAL_JsqKTsX9efYDMjGahFDxj0cEfzozeNrY1Nq1bECzgOZGqdQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200113181625.3130-4-alexandre.torgue@st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAL_JsqKTsX9efYDMjGahFDxj0cEfzozeNrY1Nq1bECzgOZGqdQ@mail.gmail.com>
+X-attached: none
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-wibble: sender_address steve.mcintyre@linaro.org
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 1/13/20 12:16 PM, Alexandre Torgue wrote:
-> This commit adds a new script to create a string in tmp file with
-> some information (date, linux version, user). This file is then used by
-> dtc with -B option to append dts file with a new property.
-> During kernel boot it will then be possible to printout DTB build
-> information (date, linux version used, user).
-> 
-> Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
-> 
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 3fa32f83b2d7..6a98eac1e56d 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -235,6 +235,7 @@ quiet_cmd_gzip = GZIP    $@
->  # DTC
->  # ---------------------------------------------------------------------------
->  DTC ?= $(objtree)/scripts/dtc/dtc
-> +DTB_GEN_INFO ?= $(objtree)/scripts/gen_dtb_build_info
->  
->  # Disable noisy checks by default
->  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
-> @@ -275,11 +276,13 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
->  
->  quiet_cmd_dtc = DTC     $@
->  cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
-> -	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
-> -	$(DTC) -O $(2) -o $@ -b 0 \
-> +       $(DTB_GEN_INFO) $(@).info ;\
-> +       $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
-> +       $(DTC) -O $(2) -o $@ -b 0 -B $(@).info\
->  		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
-> -		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
-> -	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
-> +               -d $(depfile).dtc.tmp $(dtc-tmp) ; \
-> +       rm $(@).info ; \
-> +       cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+On Fri, Jan 17, 2020 at 08:43:23AM -0600, Rob Herring wrote:
+>On Fri, Jan 17, 2020 at 6:26 AM David Gibson
+><david@gibson.dropbear.id.au> wrote:
 
-The indentation should be tabs instead of spaces.
+...
 
--Frank
+>> What might be better would be to have a dtc option which force appends
+>> an extra .dts to the mail .dts compiled.  You can then put an overlay
+>> template in that file, something like:
+>>
+>> &{/} {
+>>         linux,build-info = /incbin/ "build-info.txt;
+>> }
+>
+>I like this suggestion either as an include another dts file or an
+>overlay. The latter could be useful as a way to maintain current dtb
+>files while splitting the source files into base and overlay dts
+>files.
 
->  
->  $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
->  	$(call if_changed_dep,dtc,dtb)
-> diff --git a/scripts/gen_dtb_build_info b/scripts/gen_dtb_build_info
-> new file mode 100755
-> index 000000000000..30cf7506b9d5
-> --- /dev/null
-> +++ b/scripts/gen_dtb_build_info
-> @@ -0,0 +1,11 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +DTB_TARGET=$@
-> +COMPILE_BY=$(whoami | sed 's/\\/\\\\/')
-> +
-> +touch $DTB_TARGET
-> +
-> +{
-> +  echo From Linux $KERNELRELEASE by $COMPILE_BY the $(date).
-> +} > $DTB_TARGET
-> 
+ACK, that sounds like it could be helpful.
+
+>But no, let's not prepend this with 'linux'. It's not a property
+>specific for Linux to consume.
+
+Right. We might be seeing the data coming through from U-Boot (or any
+other random bootloader) too.
+
+Cheers,
+-- 
+Steve McIntyre                                steve.mcintyre@linaro.org
+<http://www.linaro.org/> Linaro.org | Open source software for ARM SoCs
 
