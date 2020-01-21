@@ -2,96 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48C4414412F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2020 17:02:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 928941442CE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2020 18:11:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728829AbgAUQAz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jan 2020 11:00:55 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:65434 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727817AbgAUQAz (ORCPT
+        id S1728904AbgAURLO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jan 2020 12:11:14 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45315 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728852AbgAURLO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jan 2020 11:00:55 -0500
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 00LG0WWL004396;
-        Wed, 22 Jan 2020 01:00:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 00LG0WWL004396
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1579622433;
-        bh=UkZRS9NcTgc/pE2ZU+XPobTZ8euQfmozs1NIKmVtgB8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pqq079j450i4kskTg34a6jXtvAm6UrFOje8O2rL51BsamArKYevluCjjjrjrwo4MO
-         IdcRHNUesdrL1bktgbNyc69Qh9Df1rUE4l62+CEoKSHWHeTtqtSzYvU+ZUvS1mWarO
-         gfGSKDFwX9553uC4fPsjIltwnKAPIuoFVfEGVgvlCnZEj6aZW18s3a6ScpwotBSGql
-         SS7vn54wOVxV1OCgldGwlYq+NqPi576XhRy3741pIRUg12KBrlbgguOCQNelbvxwDk
-         GaROZmNovid+1tJ3dWNAPrWJjXwzSX0Q6KLLC/dXrToTA4YDB/dhDN6l9rwyt41kKb
-         6xeDE7GO3ZTGw==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id g15so2151976vsf.1;
-        Tue, 21 Jan 2020 08:00:32 -0800 (PST)
-X-Gm-Message-State: APjAAAULUAB/d01SzMMU2ZibxaLqnvaF4iS9DwIC/Hvr1P1EAFEZvDiK
-        MTpSpKdrcii59YDZTjlC4qQkftlNeqsTy0l662U=
-X-Google-Smtp-Source: APXvYqw5/xpKMwJ3Dni5RStdI/powNXLAkzCtS2BwVu0JOoQYeux1KW50NlZujdmVRzGgkinqYdNY6Sz30xA7gfj8lY=
-X-Received: by 2002:a67:f8ca:: with SMTP id c10mr3210302vsp.54.1579622431647;
- Tue, 21 Jan 2020 08:00:31 -0800 (PST)
+        Tue, 21 Jan 2020 12:11:14 -0500
+Received: by mail-wr1-f65.google.com with SMTP id j42so4075569wrj.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jan 2020 09:11:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZGs+4DUJDSvBqJ//fVqMbttGqRoxAKV0f+ErvAbm5L8=;
+        b=EBsH58uX53UDW9/nRW8udKKKe06jKEr+n8gx6G9QSL2/NkKdjeoB1bVKUP6O/x3ouq
+         cTuUJxlAHY5gB1+bQaH0jRnZtsfVFtunbtbfIspa/qvNnhkdCnLlq/zmIMUQN05k1DDG
+         q+2M++veTbrYCoMSPp8GUjGatjIR2yq4peoPTH1U3X1y5nbegNcANqKY37WwRQM90+6M
+         xu2TVvJo6hrsAneOloOPEw01LAQk3lB+2RXhKTeZmVGrV5j7dNi+GjcilaACOkvK+ac9
+         SheTyjSLBZEoulkJdX9aGjip+T9fcLoaOtpf1XiEsfb9T0+56H8sqtuUxEdhNfUO8TmB
+         kACQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZGs+4DUJDSvBqJ//fVqMbttGqRoxAKV0f+ErvAbm5L8=;
+        b=ErWfqrGa9H4NLmt0pmXeYjmV3uEVJFTV/RgTAFzXVEfdoC+03nJwrHPzf+PUAZW08b
+         e+koaYlca9dvgLnFmuW6Kc0XiVPEgi9qvEA9sMJ4YC7xQqWobO2s4vz+PbsgvxJ3mY+d
+         X0/7VBG5V8BuP6C5oGIlsrlfp/ZrvWOn+Vn6DBOjVlwueR970tlhXTCAgWTIQtAzn9G/
+         1wVJzOo5nt0oAJdfYNtHqL3jrvve3ghCdlOprqHzU0pNSXjF8qR4i+lrXHrNd8+9Jb72
+         TABV8yx/TuCXUf3A1dkuXkSSsocCq7n8zYP6I8YMD4Hi/jCRDt7+SzHUDDcD2g/tcOwJ
+         W9cQ==
+X-Gm-Message-State: APjAAAUy1VRlzk2VR4e3o37+EAdMRAldVXSoDegADQ6wB9BXpvGfq6zq
+        ElV7jtjtaJRjrCRbBTaPMBvAdA==
+X-Google-Smtp-Source: APXvYqxOw+/RCexAIK0/PEftnp59kp31SffdYzOIBv9fhO0Pd8QkKlcd4t1De7O+sOSBJ2kmnvIsaQ==
+X-Received: by 2002:a5d:5491:: with SMTP id h17mr6324330wrv.374.1579626671678;
+        Tue, 21 Jan 2020 09:11:11 -0800 (PST)
+Received: from cheddar.halon.org.uk (cheddar.halon.org.uk. [93.93.131.118])
+        by smtp.gmail.com with ESMTPSA id z83sm33634wmg.2.2020.01.21.09.11.11
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 21 Jan 2020 09:11:11 -0800 (PST)
+Received: from bsmtp by cheddar.halon.org.uk with local-bsmtp (Exim 4.89)
+        (envelope-from <steve.mcintyre@linaro.org>)
+        id 1itx3W-000263-Qo; Tue, 21 Jan 2020 17:11:10 +0000
+Received: from steve by tack.einval.org with local (Exim 4.92)
+        (envelope-from <steve.mcintyre@linaro.org>)
+        id 1itx3I-0001fB-Ld; Tue, 21 Jan 2020 17:10:56 +0000
+Date:   Tue, 21 Jan 2020 17:10:56 +0000
+From:   Steve McIntyre <steve.mcintyre@linaro.org>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Alexandre Torgue <alexandre.torgue@st.com>, robh+dt@kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        david@gibson.dropbear.id.au, sjg@chromium.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, devicetree-compiler@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [RFC PATCH 0/3] Add device tree build information
+Message-ID: <20200121171048.GF6796@tack.einval.com>
+References: <20200113181625.3130-1-alexandre.torgue@st.com>
+ <f21ad44d-f119-2035-b4ee-16b3619879af@gmail.com>
+ <233e0a5f-d38f-908c-5ca7-66ee87d0fcae@st.com>
+ <7cfd0bc0-13fd-98ea-9bfd-6cfbbfd77b6d@gmail.com>
+ <220e3aea-b273-417a-69c9-059236c888af@st.com>
+ <a1233cd8-e73a-82d7-74bf-69109d1a0a07@gmail.com>
+ <20200120182837.GO3697@linaro.org>
+ <f09ce50c-6721-c9d3-4f27-3f98a2d0b183@gmail.com>
 MIME-Version: 1.0
-References: <20200104150238.19834-1-masahiroy@kernel.org>
-In-Reply-To: <20200104150238.19834-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 22 Jan 2020 00:59:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATS33-TfoGajRCT3nAAZ+AcfVmO4GorxRTNPk9z8mBcHA@mail.gmail.com>
-Message-ID: <CAK7LNATS33-TfoGajRCT3nAAZ+AcfVmO4GorxRTNPk9z8mBcHA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] initramfs: a lot of cleanups
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Greg Thelen <gthelen@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f09ce50c-6721-c9d3-4f27-3f98a2d0b183@gmail.com>
+X-attached: none
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-wibble: sender_address steve.mcintyre@linaro.org
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 5, 2020 at 12:03 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->
->
-> Masahiro Yamada (13):
->   initramfs: replace klibcdirs in Makefile with FORCE
->   gen_initramfs_list.sh: remove unused variable 'default_list'
->   gen_initramfs_list.sh: fix the tool name in the comment
->   initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh
->   initramfs: remove redundant dependency on BLK_DEV_INITRD
->   initramfs: make compression options not depend on INITRAMFS_SOURCE
->   initramfs: make initramfs compression choice non-optional
->   initramfs: specify $(src)/gen_initramfs.sh as a prerequisite in
->     Makefile
->   initramfs: generate dependency list and cpio at the same time
->   initramfs: add default_cpio_list, and delete -d option support
->   gen_initramfs.sh: always output cpio even without -o option
->   initramfs: refactor the initramfs build rules
->   gen_initramfs.sh: remove intermediate cpio_list on errors
+[ Adding lakml to the CC list ]
 
-All, applied to linux-kbuild.
-
-
->  usr/.gitignore                                |   8 +-
->  usr/Kconfig                                   |  26 ---
->  usr/Makefile                                  |  97 ++++++----
->  usr/default_cpio_list                         |   6 +
->  ...gen_initramfs_list.sh => gen_initramfs.sh} | 167 +++++-------------
->  usr/initramfs_data.S                          |   5 +-
->  6 files changed, 112 insertions(+), 197 deletions(-)
->  create mode 100644 usr/default_cpio_list
->  rename usr/{gen_initramfs_list.sh => gen_initramfs.sh} (53%)
+On Mon, Jan 20, 2020 at 09:20:55PM -0600, Frank Rowand wrote:
+>On 1/20/20 12:28 PM, Steve McIntyre wrote:
+>> On Mon, Jan 20, 2020 at 10:14:22AM -0600, Frank Rowand wrote:
+>>> On 1/20/20 4:56 AM, Alexandre Torgue wrote:
+>>>
+>>> Here is an example of the info from one of my builds:
+>>>
+>>>   From Linux 5.5.0-rc2-dirty by frowand the Mon Jan 20 09:50:58 CST 2020.
+>>>
+>>> The information 'Linux 5.5.0-rc2-dirty' is precisely what was most objected
+>>> to in my proposal.
+>> 
+>> ACK. :-( I'm surprised to see so much push-back on what looks like a
+>> simple piece of information here.
 >
-> --
-> 2.17.1
+>Me too.
+
+So, looking at the comments back on the old thread...
+
+Alexandre is proposing somthing slightly different here: a patch to
+add a simple string to allow for a description of where the DTB came
+from. The particular example he uses here fills in build details from
+the Linux repo, but it could just as easily be filled in as part of a
+U-Boot build, or the build of a DTB included with EDK2, or whatever
+other firmware might include it. It might be useful to also add
+similar debug output into U-Boot, or for that matter any other
+DT-using project.
+
+As Rob says later, it's simply information for humans to help identify
+where a DTB came from. Nothing more.
+
+>> I've had users *specifically* asking for this kind of identification
+>> so that they can verify the version of the DTB they're using at
+>> runtime. Right now it can be a guessing game, which does not help
+>> people trying to debug problems.
 >
+>If the information was reported as debug information via pr_debug(),
+>would that work for your use case?  Or would the users' kernels
+>not have debug enabled in the configuration?
 
+Quite possibly not - I'm not 100% sure to be honest. :-/
 
---
-Best Regards
-Masahiro Yamada
+-- 
+Steve McIntyre                                steve.mcintyre@linaro.org
+<http://www.linaro.org/> Linaro.org | Open source software for ARM SoCs
+
