@@ -2,115 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 708C31442FA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2020 18:19:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 128D61444F9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2020 20:21:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729293AbgAURTO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jan 2020 12:19:14 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36626 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728904AbgAURTN (ORCPT
+        id S1726926AbgAUTVv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jan 2020 14:21:51 -0500
+Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:48314 "EHLO
+        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726229AbgAUTVv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jan 2020 12:19:13 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p17so4031766wma.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 21 Jan 2020 09:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=haPd6HRvqtRLXCPbKwJIqyrzbzZjxA8VnTnctWQzHDQ=;
-        b=V3RDjf48Ukt0EGvEB2uID5QG+IuQGdlsKsBAVfkHlSYnb1Xv93A92YrzpguYKFALWI
-         UwIZfxIyimaFSUW5d1y+/EfTV74zGVbxhVkaqVP5s3Dj/Fp8aGAV14uIUA1uxF1DcH0t
-         IKMswMCWnZZAho3mplkrBDA4RWxs+38kvWH7rLKoCuTPmacKNYUmYy8IN5WbvoHEQ4Ne
-         vOeM+eEFSyArJLkgVd9mSSrMIDM7q0j/H19ogL07dQcQxb+61IbdnpGi5L5TCbumgBeT
-         wVFOsETaP1NSsMRYE1RFOxbzKT+JBGaWUwNML4Qw26nxXiXxeOwzaZCRpHX5g2POwMzA
-         Op6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=haPd6HRvqtRLXCPbKwJIqyrzbzZjxA8VnTnctWQzHDQ=;
-        b=e0FCcp83lG/gJwqxzdUYFlqnWzUr0tmbbAVi0Honq/BhEc8PhzIzptQiCxpfp4vwRE
-         B8KYHEjjzc3lsu1UFub17OhktyS1fDjTFkrHuxpT240vrGXPul9Le/+u6x6i62SiHv0S
-         ROKUVYveSw3L+Z9m8ZZ8an65bMANOTVJB3GYYBPFgGesElp5lDlz0MHy5V1qkh9uDGOZ
-         f7fz5URr5bHUTFnTClx2NMqLaDbVhh0p36wGSGZ1bhRbXgVXLtaSKj5z7M8AZuBS0YNW
-         vOiTLr+M8blXN/e1rWPI0lAfl3E5OtJhn46wUGUQpmuNsVn/onivXNmtDADJIR3fS7Bw
-         KrMQ==
-X-Gm-Message-State: APjAAAVmTG3/4sTsF2Gn6l6R5R39L3yxwkXcKo0xmdzRJkLDtq/I9wem
-        BSHbAp3yDRULTH+OQQMEsZZdWw==
-X-Google-Smtp-Source: APXvYqybAtRFD3tR6SvMFsaIZbOuse1eNvM1AEYQtBuLj9xMw29hn5KAlx1+3UIYOJMKj8S9Vnb+hw==
-X-Received: by 2002:a7b:cd86:: with SMTP id y6mr159546wmj.5.1579627151673;
-        Tue, 21 Jan 2020 09:19:11 -0800 (PST)
-Received: from cheddar.halon.org.uk (cheddar.halon.org.uk. [93.93.131.118])
-        by smtp.gmail.com with ESMTPSA id b16sm55167860wrj.23.2020.01.21.09.19.10
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 21 Jan 2020 09:19:11 -0800 (PST)
-Received: from bsmtp by cheddar.halon.org.uk with local-bsmtp (Exim 4.89)
-        (envelope-from <steve.mcintyre@linaro.org>)
-        id 1itxBG-0002ib-Nt; Tue, 21 Jan 2020 17:19:10 +0000
-Received: from steve by tack.einval.org with local (Exim 4.92)
-        (envelope-from <steve.mcintyre@linaro.org>)
-        id 1itxAl-0003E3-KQ; Tue, 21 Jan 2020 17:18:39 +0000
-Date:   Tue, 21 Jan 2020 17:18:39 +0000
-From:   Steve McIntyre <steve.mcintyre@linaro.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     David Gibson <david@gibson.dropbear.id.au>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Tue, 21 Jan 2020 14:21:51 -0500
+Received: from [167.98.27.226] (helo=deadeye)
+        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1itz5u-0006e1-KM; Tue, 21 Jan 2020 19:21:46 +0000
+Received: from ben by deadeye with local (Exim 4.93)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1itz5t-000s5J-IG; Tue, 21 Jan 2020 19:21:45 +0000
+Message-ID: <cea3ceee6be7c9554f139db6e96c99f2a5b93be2.camel@decadent.org.uk>
+Subject: Re: [PATCH v2 4/7] builddeb: avoid invoking sub-shells where
+ possible
+From:   Ben Hutchings <ben@decadent.org.uk>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     Riku Voipio <riku.voipio@linaro.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Devicetree Compiler <devicetree-compiler@vger.kernel.org>
-Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
-Message-ID: <20200121171833.GG6796@tack.einval.com>
-References: <20200113181625.3130-1-alexandre.torgue@st.com>
- <20200113181625.3130-2-alexandre.torgue@st.com>
- <20200116005741.GB54439@umbus>
- <d2594b79-a45d-dcac-3642-90016a1408b8@st.com>
- <20200117090937.GU54439@umbus>
- <CAL_JsqKTsX9efYDMjGahFDxj0cEfzozeNrY1Nq1bECzgOZGqdQ@mail.gmail.com>
- <20200119063916.GD54439@umbus>
- <CAL_Jsq+-O0cpw9YtVGAjFWstu-=uXVgK0ccgyRj+bjR93gPriw@mail.gmail.com>
+        linux-kernel@vger.kernel.org
+Date:   Tue, 21 Jan 2020 19:21:40 +0000
+In-Reply-To: <20200115162529.11089-4-masahiroy@kernel.org>
+References: <20200115162529.11089-1-masahiroy@kernel.org>
+         <20200115162529.11089-4-masahiroy@kernel.org>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-c0jm8Kxk4TXRWPcuaVA9"
+User-Agent: Evolution 3.34.1-2+b1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+-O0cpw9YtVGAjFWstu-=uXVgK0ccgyRj+bjR93gPriw@mail.gmail.com>
-X-attached: none
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-wibble: sender_address steve.mcintyre@linaro.org
+X-SA-Exim-Connect-IP: 167.98.27.226
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 09:59:44AM -0600, Rob Herring wrote:
->On Sun, Jan 19, 2020 at 12:41 AM David Gibson
-><david@gibson.dropbear.id.au> wrote:
->>
->> It's not really about who consumes it.  It's about defining a
->> namespace for the new property to exist in, since it's not part of a
->> relevant standard (if we wanted to make it such, we should pin down
->> what goes in there with much more precision).
->
->I can't think of any cases of the 'linux' prefix not being about who
->consumes it. And we often end up dropping 'linux' because it turns out
->to not be Linux specific. I don't care to see u-boot,build-info,
->freebsd,build-info, etc. when a given dtb can only have 1 of those.
 
-Yes, exactly. What would happen if somebody (tried to) fill in more
-than one of XXXX.build-info? It makes no sense.
+--=-c0jm8Kxk4TXRWPcuaVA9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->My intent is this property name is added to the DT spec, but I don't
->agree we should define what's in it beyond a string. It is information
->that is useful for humans identifying what the dtb was built from.
+On Thu, 2020-01-16 at 01:25 +0900, Masahiro Yamada wrote:
+> The commands surrounded by ( ... ) is run in a sub-shell, but you do
+> not have to spawn a sub-shell for every single line.
+>=20
+> Use just one ( ... ) for creating debian/hdrsrcfiles.
+>=20
+> For tar, use -C option instead.
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>=20
+> Changes in v2:
+>  - fix misconversion pointed out by Ben
+>=20
+>  scripts/package/builddeb | 39 ++++++++++++++++++++++++++-------------
+>  1 file changed, 26 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> index 9b92745bf13a..7d7e0abe62b6 100755
+> --- a/scripts/package/builddeb
+> +++ b/scripts/package/builddeb
+> @@ -165,21 +165,34 @@ EOF
+>  done
+> =20
+>  # Build kernel header package
+> -(cd $srctree; find . arch/$SRCARCH -maxdepth 1 -name Makefile\*) > debia=
+n/hdrsrcfiles
+> -(cd $srctree; find include scripts -type f -o -type l) >> debian/hdrsrcf=
+iles
+> -(cd $srctree; find arch/$SRCARCH -name module.lds -o -name Kbuild.platfo=
+rms -o -name Platform) >> debian/hdrsrcfiles
+> -(cd $srctree; find $(find arch/$SRCARCH -name include -o -name scripts -=
+type d) -type f) >> debian/hdrsrcfiles
+> -if is_enabled CONFIG_STACK_VALIDATION; then
+> -	echo tools/objtool/objtool >> debian/hdrobjfiles
+> -fi
+> -find arch/$SRCARCH/include Module.symvers include scripts -type f >> deb=
+ian/hdrobjfiles
+> -if is_enabled CONFIG_GCC_PLUGINS; then
+> -	find scripts/gcc-plugins -name \*.so >> debian/hdrobjfiles
+> -fi
+> +(
+> +	cd $srctree
+> +	find . arch/$SRCARCH -maxdepth 1 -name Makefile\*
+> +	find include scripts -type f -o -type l
+> +	find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name =
+Platform
+> +	find arch/$SRCARCH/include -type f
+[...]
 
-Nod - defining this as a free-form string lets people put their own
-information in, without us having to try and agree on a full spec
-which we'll need to update as ideas change.
+This last command is still wrong as I commented on v1.  I think it
+should be:
 
--- 
-Steve McIntyre                                steve.mcintyre@linaro.org
-<http://www.linaro.org/> Linaro.org | Open source software for ARM SoCs
+	find $(find arch/$SRCARCH -name include -type d) -type f
 
+Ben.
+
+--=20
+Ben Hutchings
+If God had intended Man to program,
+we'd have been born with serial I/O ports.
+
+
+--=-c0jm8Kxk4TXRWPcuaVA9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl4nT0UACgkQ57/I7JWG
+EQnMOBAArgnep2r0QD4Res2c+lz3YeICSSIRvzCHX2c9rK8QwcvZGAUp+CZNO+hR
+4vzKq1PABowe89AlIby9wpHG7MXcdl2DagA0Q70FiFnaG3rve3DlngPglXhY8Ytf
+Zp/UfnyJ2LoUI9Ge9W1SnHdQOMbJy/VwJFiXXmtU5AnOvlB0J8t08h0fKx7BNGOe
+7kvjnejvAqHV+HFGZuzN3ccawcGrHAp7DLyX7luTJjRDsrnH7wtIF/6MHT23RvxK
+rzOuQGZXVil8D80YkbwvldPqJe/LwMmTiu6p5JXkExxI7nv6Euvk1dqftnPsFWin
+gIsYlkdxNXyDGMgOpwz3z+KEZJ3QOLcRRZCljFgwn12A/wjBaRgWITZz0Q65ejyT
+thTOP/8gyNsOQJhvwt6zeE52cBnkhkLwDznzUeRijluVWyq8flWAGfdiD10EwgGT
+7kC7c6IFN5JpEzLrfMVsTpkLvYZ1b5qBlZ18dRl5HIkHwN88XPEeLunNfeRotfnb
+YGJ6e4EQtKWJ+mzUVDdFCiLBZS2gHhMXdc9tBV+iWjMeFlUqbsBJamhyc/i/3scA
+Y2bZEoaKd7BKLjSHD6SljmXhXMlm6V2cwCLLEBs/d7auIsuXl6uVcPxXqyK5UgJI
+2iAeYMZtXPy1h/vTyXLPtIpoUpIzf9CQBFlMS4sz4i0S46V4Mi8=
+=+ysJ
+-----END PGP SIGNATURE-----
+
+--=-c0jm8Kxk4TXRWPcuaVA9--
