@@ -2,163 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C72AD14411E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2020 17:00:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C4414412F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jan 2020 17:02:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729043AbgAUP77 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jan 2020 10:59:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40928 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728852AbgAUP77 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jan 2020 10:59:59 -0500
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ADE6B21569;
-        Tue, 21 Jan 2020 15:59:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579622397;
-        bh=ryf1s+gQkLfUmVXGBywSimmGcdpJgK+HxZZJfSBIFhA=;
+        id S1728829AbgAUQAz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jan 2020 11:00:55 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:65434 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727817AbgAUQAz (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 21 Jan 2020 11:00:55 -0500
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 00LG0WWL004396;
+        Wed, 22 Jan 2020 01:00:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 00LG0WWL004396
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1579622433;
+        bh=UkZRS9NcTgc/pE2ZU+XPobTZ8euQfmozs1NIKmVtgB8=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EhsEHuxDhVOLCiO1c7kh12A+l2iwiN/13+hO4LTeGIvXKRDRuaxsOicJ6oOPUFfDb
-         Glz7zIZlaURfw/ONUFMCKP7zO2FoHAQCimn+hedNDRiHqGoQWze21cK/nOR8vFdKAN
-         Rhg8ITcOa+hLH7VCYmc7rARBIcyb3veYEq5gycIA=
-Received: by mail-qt1-f172.google.com with SMTP id c24so3002255qtp.5;
-        Tue, 21 Jan 2020 07:59:57 -0800 (PST)
-X-Gm-Message-State: APjAAAV3NSd3hGwoIkkfpmk9ubk9fpbIfmKn96JivlCPEpZFkvfWxAQz
-        2jSeT7p2f1zJfQoi58LB8shVYWx9Cu6tZzMoyw==
-X-Google-Smtp-Source: APXvYqyhEHRvR0Nvy8KWtOPte04rNrGpogJKTbMYfC57yAr3m8dtvfb8qRkQZAniz9MpperHjlzEEBK/uxyyndNsOTI=
-X-Received: by 2002:ac8:1415:: with SMTP id k21mr5218660qtj.300.1579622396814;
- Tue, 21 Jan 2020 07:59:56 -0800 (PST)
+        b=pqq079j450i4kskTg34a6jXtvAm6UrFOje8O2rL51BsamArKYevluCjjjrjrwo4MO
+         IdcRHNUesdrL1bktgbNyc69Qh9Df1rUE4l62+CEoKSHWHeTtqtSzYvU+ZUvS1mWarO
+         gfGSKDFwX9553uC4fPsjIltwnKAPIuoFVfEGVgvlCnZEj6aZW18s3a6ScpwotBSGql
+         SS7vn54wOVxV1OCgldGwlYq+NqPi576XhRy3741pIRUg12KBrlbgguOCQNelbvxwDk
+         GaROZmNovid+1tJ3dWNAPrWJjXwzSX0Q6KLLC/dXrToTA4YDB/dhDN6l9rwyt41kKb
+         6xeDE7GO3ZTGw==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id g15so2151976vsf.1;
+        Tue, 21 Jan 2020 08:00:32 -0800 (PST)
+X-Gm-Message-State: APjAAAULUAB/d01SzMMU2ZibxaLqnvaF4iS9DwIC/Hvr1P1EAFEZvDiK
+        MTpSpKdrcii59YDZTjlC4qQkftlNeqsTy0l662U=
+X-Google-Smtp-Source: APXvYqw5/xpKMwJ3Dni5RStdI/powNXLAkzCtS2BwVu0JOoQYeux1KW50NlZujdmVRzGgkinqYdNY6Sz30xA7gfj8lY=
+X-Received: by 2002:a67:f8ca:: with SMTP id c10mr3210302vsp.54.1579622431647;
+ Tue, 21 Jan 2020 08:00:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20200113181625.3130-1-alexandre.torgue@st.com>
- <20200113181625.3130-2-alexandre.torgue@st.com> <20200116005741.GB54439@umbus>
- <d2594b79-a45d-dcac-3642-90016a1408b8@st.com> <20200117090937.GU54439@umbus>
- <CAL_JsqKTsX9efYDMjGahFDxj0cEfzozeNrY1Nq1bECzgOZGqdQ@mail.gmail.com> <20200119063916.GD54439@umbus>
-In-Reply-To: <20200119063916.GD54439@umbus>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 21 Jan 2020 09:59:44 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+-O0cpw9YtVGAjFWstu-=uXVgK0ccgyRj+bjR93gPriw@mail.gmail.com>
-Message-ID: <CAL_Jsq+-O0cpw9YtVGAjFWstu-=uXVgK0ccgyRj+bjR93gPriw@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
-To:     David Gibson <david@gibson.dropbear.id.au>
-Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Devicetree Compiler <devicetree-compiler@vger.kernel.org>,
-        Steve McIntyre <steve.mcintyre@linaro.org>
+References: <20200104150238.19834-1-masahiroy@kernel.org>
+In-Reply-To: <20200104150238.19834-1-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 22 Jan 2020 00:59:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATS33-TfoGajRCT3nAAZ+AcfVmO4GorxRTNPk9z8mBcHA@mail.gmail.com>
+Message-ID: <CAK7LNATS33-TfoGajRCT3nAAZ+AcfVmO4GorxRTNPk9z8mBcHA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] initramfs: a lot of cleanups
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Greg Thelen <gthelen@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jan 19, 2020 at 12:41 AM David Gibson
-<david@gibson.dropbear.id.au> wrote:
+On Sun, Jan 5, 2020 at 12:03 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Fri, Jan 17, 2020 at 08:43:23AM -0600, Rob Herring wrote:
-> > On Fri, Jan 17, 2020 at 6:26 AM David Gibson
-> > <david@gibson.dropbear.id.au> wrote:
-> > >
-> > > On Thu, Jan 16, 2020 at 09:58:23AM +0100, Alexandre Torgue wrote:
-> > > > Hi David
-> > > >
-> > > > On 1/16/20 1:57 AM, David Gibson wrote:
-> > > > > On Mon, Jan 13, 2020 at 07:16:23PM +0100, Alexandre Torgue wrote:
-> > > > > > This commit adds the possibility to add build information for a DTB.
-> > > > > > Build information can be: build date, DTS version, "who built the DTB"
-> > > > > > (same kind of information that we get in Linux with the Linux banner).
-> > > > > >
-> > > > > > To do this, an extra option "-B" using an information file as argument
-> > > > > > has been added. If this option is used, input device tree is appended with
-> > > > > > a new string property "Build-info". This property is built with information
-> > > > > > found in information file given as argument. This file has to be generated
-> > > > > > by user and shouldn't exceed 256 bytes.
-> > > > > >
-> > > > > > Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
-> > > > >
-> > > > > At the very least, this patch of the series will need to be sent to
-> > > > > upstream dtc first.
-> > > >
-> > > > Ok sorry. I thought that sending all the series would give more
-> > > > information.
-> > >
-> > > That's fair enough, but in order to merge, you'll need to post against
-> > > upstream dtc.
-> > >
-> > > > > I'm also not terribly clear on what you're trying to accomplish here,
-> > > > > and why it's useful.
-> > > >
-> > > > Let's take Kernel boot at example (but could be extend to other DTB "users"
-> > > > like U-Boot). When Linux kernel booting we get a log that gives useful
-> > > > information about kernel image: source version, build date, people who built
-> > > > the kernel image, compiler version. This information is useful for debug and
-> > > > support. The aim is to get same kind of information but for the DTB.
-> > > >
-> > > > > Since you're doing this specifically for use with dtbs built in the
-> > > > > kernel build, could you just use a:
-> > > > >     Build-info = /incbin/ "build-info.txt";
-> > > > > in each of the in-kernel .dts files?
-> > > >
-> > > > My first idea was to not modify all existing .dts files. Adding an extra
-> > > > option in dtc is (for me) the softer way to do it. I mean, compile
-> > > > information should come through compiler without modify .dts files outside
-> > > > from dtc. In this way it will be easy to everybody using dtc (inside our
-> > > > outside Linux tree) to add dtb build info (even if they don't how to write a
-> > > > dts file).
-> > >
-> > > But you're not really having this information coming from the
-> > > compiler.  Instead you're adding a compiler option that just force
-> > > includes another file into the generated tree, and it's up to your
-> > > build scripts to put something useful into that file.
-> > >
-> > > I don't really see that as preferable to modifying the .dts files.
-> > >
-> > > I also dislike the fact that the option as proposed is much more
-> > > general than the name suggests, but also very similar too, but much
-> > > more specific than the existing /incbin/ option.
-> > >
-> > > What might be better would be to have a dtc option which force appends
-> > > an extra .dts to the mail .dts compiled.  You can then put an overlay
-> > > template in that file, something like:
-> > >
-> > > &{/} {
-> > >         linux,build-info = /incbin/ "build-info.txt;
-> > > }
-> >
-> > I like this suggestion either as an include another dts file or an
-> > overlay.
 >
-> Sorry, to be clear what I'm talking about here is just including
-> another dts file, and using the compile-type overlay syntax.  This is
-> not the same as .dtbo style runtime overlays (though the final result
-> is about the same in this case).
-
-Ah, okay. That's probably easier to implement.
-
-> > The latter could be useful as a way to maintain current dtb
-> > files while splitting the source files into base and overlay dts
-> > files.
-> >
-> > But no, let's not prepend this with 'linux'. It's not a property
-> > specific for Linux to consume.
 >
-> It's not really about who consumes it.  It's about defining a
-> namespace for the new property to exist in, since it's not part of a
-> relevant standard (if we wanted to make it such, we should pin down
-> what goes in there with much more precision).
+> Masahiro Yamada (13):
+>   initramfs: replace klibcdirs in Makefile with FORCE
+>   gen_initramfs_list.sh: remove unused variable 'default_list'
+>   gen_initramfs_list.sh: fix the tool name in the comment
+>   initramfs: rename gen_initramfs_list.sh to gen_initramfs.sh
+>   initramfs: remove redundant dependency on BLK_DEV_INITRD
+>   initramfs: make compression options not depend on INITRAMFS_SOURCE
+>   initramfs: make initramfs compression choice non-optional
+>   initramfs: specify $(src)/gen_initramfs.sh as a prerequisite in
+>     Makefile
+>   initramfs: generate dependency list and cpio at the same time
+>   initramfs: add default_cpio_list, and delete -d option support
+>   gen_initramfs.sh: always output cpio even without -o option
+>   initramfs: refactor the initramfs build rules
+>   gen_initramfs.sh: remove intermediate cpio_list on errors
 
-I can't think of any cases of the 'linux' prefix not being about who
-consumes it. And we often end up dropping 'linux' because it turns out
-to not be Linux specific. I don't care to see u-boot,build-info,
-freebsd,build-info, etc. when a given dtb can only have 1 of those.
+All, applied to linux-kbuild.
 
-My intent is this property name is added to the DT spec, but I don't
-agree we should define what's in it beyond a string. It is information
-that is useful for humans identifying what the dtb was built from.
 
-Rob
+>  usr/.gitignore                                |   8 +-
+>  usr/Kconfig                                   |  26 ---
+>  usr/Makefile                                  |  97 ++++++----
+>  usr/default_cpio_list                         |   6 +
+>  ...gen_initramfs_list.sh => gen_initramfs.sh} | 167 +++++-------------
+>  usr/initramfs_data.S                          |   5 +-
+>  6 files changed, 112 insertions(+), 197 deletions(-)
+>  create mode 100644 usr/default_cpio_list
+>  rename usr/{gen_initramfs_list.sh => gen_initramfs.sh} (53%)
+>
+> --
+> 2.17.1
+>
+
+
+--
+Best Regards
+Masahiro Yamada
