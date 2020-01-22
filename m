@@ -2,106 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 419B5145B1D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2020 18:52:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0283145B41
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jan 2020 19:00:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725883AbgAVRwZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Jan 2020 12:52:25 -0500
-Received: from mail-lj1-f176.google.com ([209.85.208.176]:46175 "EHLO
-        mail-lj1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725802AbgAVRwY (ORCPT
+        id S1725970AbgAVSAz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Jan 2020 13:00:55 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:16218 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725802AbgAVSAz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Jan 2020 12:52:24 -0500
-Received: by mail-lj1-f176.google.com with SMTP id m26so7786307ljc.13
-        for <linux-kbuild@vger.kernel.org>; Wed, 22 Jan 2020 09:52:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=Kwfb980H2zFKYYbHaFvisTOICKVRfP4l7wqRW0yzW7k=;
-        b=YqqjYCS469tBGefnBZCHaLOnvCEU6RwmU1Ym07beUKu4bL09uWTNZ1nt968GsPQoOq
-         hbv2BR2GZt2/EJClXZnd1ehzVW5dPVI+a/fu8bRIymQ4uovVqAAAT6xartThfhLh7E7X
-         6S9Zvq6eJl2OlyLkBfi1N/AcYSjc/JsxYa8N4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=Kwfb980H2zFKYYbHaFvisTOICKVRfP4l7wqRW0yzW7k=;
-        b=o2SINHGjJL9fV4PjXRjgv/sfpfzLHfJ93/mng1TqOOY69AiksvI28OKodjeXcb+2oh
-         Yag8YEpG2uo4lu+mk56k4cugJ8hii+z9lqpzSAk2olicAWu/D26j7Rlul3hIyFVgKx3p
-         85udgqr8wXvPevncj9La1yf+hYnpuKGlMr4InwdIO1HW96ou+rwJ7PijWDiiO+CAIBG/
-         unC6iP/pSWhxUHfgKrmmAy50p4tx5W3MbnhbbsENcQVkeUiKfwjsm6P//w5B0NlM807Z
-         vVO79eGLkrG+bl6oQCjP8FkS0dK+TnrT2jq7gwD52Joahi536jzP5daWs0+OT4t1X/ci
-         zn4g==
-X-Gm-Message-State: APjAAAW2ZiPrdBBoulaIbGI4tE6FhO1eIuZdPV0mfWEq/D84M4OJ/29f
-        IGA7J1wvPPRGpE/5A7NlTaggQ5Z2LoIGoX/y
-X-Google-Smtp-Source: APXvYqzjSckBf1b85YfqGd+aDBBQkbREIKg8UrhShurtzZaYsPKOvuFLad0ZOZ/cNOpPlfEgL2IiHg==
-X-Received: by 2002:a2e:8595:: with SMTP id b21mr18485013lji.219.1579715542683;
-        Wed, 22 Jan 2020 09:52:22 -0800 (PST)
-Received: from [172.16.11.50] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id f16sm20549672ljn.17.2020.01.22.09.52.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jan 2020 09:52:22 -0800 (PST)
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: vmlinux ELF header sometimes corrupt
-Message-ID: <71aa76d0-a3b8-b4f3-a7c3-766cfb75412f@rasmusvillemoes.dk>
-Date:   Wed, 22 Jan 2020 18:52:21 +0100
+        Wed, 22 Jan 2020 13:00:55 -0500
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 00MI0I9Z015380;
+        Wed, 22 Jan 2020 19:00:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=FD3TOxxOgAtCMT+1BxBtntOt5Z7oR4wttkJhsEbfDwY=;
+ b=QSnkPW9EQAL047il27ei1fTP2oMQjoFJPVoppePLs5mUE+D/Wu9jQ4DnvP/0jzwponSP
+ LC0GftePNu91R42x9cQpb2ejYdi3DMQM8xt9K13XTXfYlOQxp/6/nU5rU2yPFQvAj7Vk
+ QiPV00jZHj5Al3TMe4LTZVmlisryZsmpYdnVHqJCBI+I4mD4RPpKSb4YNEqI6hwrLjP1
+ OSae02ppyQdFSAi+V1bueMdhHWx1XVNWaL8zO5Py/8OPlr0ELqD0NKbq+so0FwcAT/da
+ s4ub8DhaReZnhA88dESmwvKko8PS3srlJY6LuzwPIoR7kewMNFB91wYhYZxqDZQIYmWX Ug== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2xkr1e5wn3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 22 Jan 2020 19:00:25 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AC8CE10002A;
+        Wed, 22 Jan 2020 19:00:19 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 93D422A52DC;
+        Wed, 22 Jan 2020 19:00:19 +0100 (CET)
+Received: from lmecxl0912.lme.st.com (10.75.127.48) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 22 Jan
+ 2020 19:00:18 +0100
+Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
+To:     Steve McIntyre <steve.mcintyre@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Frank Rowand <frowand.list@gmail.com>, <ian@freebsd.org>
+CC:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Simon Glass <sjg@chromium.org>, <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Devicetree Compiler <devicetree-compiler@vger.kernel.org>
+References: <20200113181625.3130-1-alexandre.torgue@st.com>
+ <20200113181625.3130-2-alexandre.torgue@st.com>
+ <20200116005741.GB54439@umbus> <d2594b79-a45d-dcac-3642-90016a1408b8@st.com>
+ <20200117090937.GU54439@umbus>
+ <CAL_JsqKTsX9efYDMjGahFDxj0cEfzozeNrY1Nq1bECzgOZGqdQ@mail.gmail.com>
+ <20200120181708.GN3697@linaro.org>
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <9d83a36c-78c5-3452-bb48-209d68c46038@st.com>
+Date:   Wed, 22 Jan 2020 19:00:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20200120181708.GN3697@linaro.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG4NODE3.st.com (10.75.127.12) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-01-22_07:2020-01-22,2020-01-22 signatures=0
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I'm building for a ppc32 (mpc8309) target using Yocto, and I'm hitting a
-very hard to debug problem that maybe someone else has encountered. This
-doesn't happen always, perhaps 1 in 8 times or something like that.
+Hi
 
-The issue is that when the build gets to do "${CROSS}objcopy -O binary
-... vmlinux", vmlinux is not (no longer) a proper ELF file, so naturally
-that fails with
+On 1/20/20 7:17 PM, Steve McIntyre wrote:
+> On Fri, Jan 17, 2020 at 08:43:23AM -0600, Rob Herring wrote:
+>> On Fri, Jan 17, 2020 at 6:26 AM David Gibson
+>> <david@gibson.dropbear.id.au> wrote:
+> 
+> ...
+> 
+>>> What might be better would be to have a dtc option which force appends
+>>> an extra .dts to the mail .dts compiled.  You can then put an overlay
+>>> template in that file, something like:
+>>>
+>>> &{/} {
+>>>          linux,build-info = /incbin/ "build-info.txt;
+>>> }
+>>
+>> I like this suggestion either as an include another dts file or an
+>> overlay. The latter could be useful as a way to maintain current dtb
+>> files while splitting the source files into base and overlay dts
+>> files.
+> 
+> ACK, that sounds like it could be helpful.
+> 
+>> But no, let's not prepend this with 'linux'. It's not a property
+>> specific for Linux to consume.
+> 
+> Right. We might be seeing the data coming through from U-Boot (or any
+> other random bootloader) too.
+> 
+> Cheers,
+> 
 
-  powerpc-oe-linux-objcopy:vmlinux: file format not recognized
+Thanks for reviews. I gonna prepare a V2 with David proposition (to use 
+overlay format) by keeping in mind not to modify existing dts(i) files.
 
-So I hacked link-vmlinux.sh to stash copies of vmlinux before and after
-sortextable vmlinux. Both of those are proper ELF files, and comparing
-the corrupted vmlinux to vmlinux.after_sort they are identical after the
-first 52 bytes; in vmlinux, those first 52 bytes are all 0.
+Remaining questions are:
 
-I also saved stat(1) info to see if vmlinux is being replaced or
-modified in-place.
+1- "build-info" or "linux,build-info"? IMO, If information is "generic" 
+then first one should be used.
 
-$ cat vmlinux.stat.after_sort
-  File: 'vmlinux'
-  Size: 8608456     Blocks: 16696      IO Block: 4096   regular file
-Device: 811h/2065d  Inode: 21919132    Links: 1
-Access: (0755/-rwxr-xr-x)  Uid: ( 1000/    user)   Gid: ( 1001/    user)
-Access: 2020-01-22 10:52:38.946703081 +0000
-Modify: 2020-01-22 10:52:38.954703105 +0000
-Change: 2020-01-22 10:52:38.954703105 +0000
+2- Looking at Franck proposition[1] some years ago and objections on it, 
+do you think that this one could accepted ?
 
-$ stat vmlinux
-  File: 'vmlinux'
-  Size: 8608456         Blocks: 16688      IO Block: 4096   regular file
-Device: 811h/2065d      Inode: 21919132    Links: 1
-Access: (0755/-rwxr-xr-x)  Uid: ( 1000/    user)   Gid: ( 1001/    user)
-Access: 2020-01-22 17:20:00.650379057 +0000
-Modify: 2020-01-22 10:52:38.954703105 +0000
-Change: 2020-01-22 10:52:38.954703105 +0000
+regards
+Alex
 
-So the inode number and mtime/ctime are exactly the same, but for some
-reason Blocks: has changed? This is on an ext4 filesystem, but I don't
-suspect the filesystem to be broken, because it's always just vmlinux
-that ends up corrupt, and always in exactly this way with the first 52
-bytes having been wiped.
+[1] https://lore.kernel.org/linux-arm-kernel/550A42AC.8060104@gmail.com/
 
-Any ideas?
 
-Rasmus
+
+
