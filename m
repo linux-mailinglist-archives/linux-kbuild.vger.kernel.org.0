@@ -2,190 +2,263 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F666148D88
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jan 2020 19:09:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2531148EF8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jan 2020 20:59:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391307AbgAXSJv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Jan 2020 13:09:51 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:52992 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388558AbgAXSJv (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Jan 2020 13:09:51 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OI2u2G071912;
-        Fri, 24 Jan 2020 18:08:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2019-08-05;
- bh=PZ4YA1PJ36hu0C8Tg45keQpYsThJkCnvSMmzSo33pkg=;
- b=pfIQ0pN3cxlJ6J3Qm815tBplu2lHb/HJUV5hU4++IKahuI7SfFt0UKwJ12XtdV8g+6bM
- a8B2Uy8CFJDS0TnO331yXJd+y7bCwz3FwvcrGeRm6SUtkzGgggA6Fw8oC15iAJhEIvBu
- tiUWkugGfWAKwRi0e1nKGIzAm/3ZeUcx8CkVHc9CecE9fBhunt2i4MEAqqLB3rhp0pue
- 0Qtteg7tuQuurRtks4dxNXAv948Tp7YvZhmFVWWD9kiuKpgXk0E9KBzU3oDO3IddsR/C
- TUgu10cB7zArOKWU8jS2pW+HL/thyM1LBF95NE3quwPWUjyIBc9gN2gByBCC9TsFFR/e 4g== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 2xksev2p1u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 24 Jan 2020 18:08:40 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OI3G5T079508;
-        Fri, 24 Jan 2020 18:08:39 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 2xr2yhhy84-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 24 Jan 2020 18:08:39 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 00OI8Y1U030521;
-        Fri, 24 Jan 2020 18:08:35 GMT
-Received: from [10.211.15.86] (/10.211.15.86)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 24 Jan 2020 10:08:34 -0800
-Subject: Re: [PATCH v4] kallsyms: add names of built-in modules
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jessica Yu <jeyu@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Song Liu <songliubraving@fb.com>,
+        id S2389024AbgAXT7E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Jan 2020 14:59:04 -0500
+Received: from mga05.intel.com ([192.55.52.43]:12968 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388974AbgAXT7E (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 24 Jan 2020 14:59:04 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jan 2020 11:59:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,358,1574150400"; 
+   d="scan'208";a="260351273"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2020 11:59:01 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 40B2C107; Fri, 24 Jan 2020 21:58:59 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Michal Simek <monstr@monstr.eu>, linux-kernel@vger.kernel.org,
         Thomas Gleixner <tglx@linutronix.de>,
-        "Keller, Jacob E" <jacob.e.keller@intel.com>,
-        Kris Van Hees <kris.van.hees@oracle.com>,
-        Nick Alcock <nick.alcock@oracle.com>
-References: <7e0f4a74-63c5-ad62-c619-c6277c4bc791@oracle.com>
- <20191210174826.5433-1-eugene.loh@oracle.com>
- <2a535000-e71e-fab9-cf6a-e7e5fb8053d8@oracle.com>
- <20191218222931.76131c6a@rorschach.local.home>
- <CAK7LNATJZCekCoj0ruPUGRv7sH_hcJP-dFPd-3_EOR5hFNW-Xg@mail.gmail.com>
- <aa165beb-a92c-c3b9-d57a-4046ba91f677@oracle.com>
- <CAK7LNATnYNpNXYF+Ttv9y6AcE85f1uN2USrR0+FnUffp40MKkw@mail.gmail.com>
-From:   Eugene Loh <eugene.loh@oracle.com>
-Message-ID: <ec2e9f63-f54b-f156-e1a8-f5367e7ee0fa@oracle.com>
-Date:   Fri, 24 Jan 2020 10:08:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.1.0
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1] kbuild: Fix off-by-one error when generate a new version
+Date:   Fri, 24 Jan 2020 21:58:59 +0200
+Message-Id: <20200124195859.86991-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNATnYNpNXYF+Ttv9y6AcE85f1uN2USrR0+FnUffp40MKkw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9510 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911140001 definitions=main-2001240149
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9510 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
- definitions=main-2001240149
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 01/19/2020 10:37 PM, Masahiro Yamada wrote:
+When build on, for example, x86 using `make O=... -j64` the version
+in the built kernel comes from include/generated/compile.h, which is:
 
-> Hi Eugene,
->
-> On Thu, Jan 9, 2020 at 3:32 AM Eugene Loh <eugene.loh@oracle.com> wrote:
->> On 12/18/2019 08:28 PM, Masahiro Yamada wrote:
->>
->>> On Thu, Dec 19, 2019 at 12:29 PM Steven Rostedt <rostedt@goodmis.org> wrote:
->>>> Couple of notes:
->>>> 1) this affects code that doesn't really have a maintainer. I could
->>>> take it in my tree, but I would like to have acks from other
->>>> maintainers. Perhaps Jessica Yu (Module maintainer), and probably one
->>>> from Linus himself.
->>>>
->>>> 2) Do not send new versions of a patch as a reply to the old version. I
->>>> and many other maintainers sort our inbox by threads, and I look at the
->>>> top of the thread for patches. That is, if there's another version of a
->>>> patch that is a reply to a previous version, it is basically off my
->>>> radar, unless I happen to notice it by chance (which I did with this
->>>> email).
->>>>
->>>> You can send your v4 patch again, but please send it as its own thread,
->>>> that way it will be on the radar of other maintainers. Hopefully we can
->>>> get some acks on this as well.
->> Sorry.  I misunderstood some process doc.  But before I resend...
->>
->>> I do not like this patch.
->>>
->>> scripts/Makefile.modbuiltin is really ugly.
->>> It traverses all the directories once again.
->>>
->>> This patch makes it even worse,
->>> Kbuild would traverse the
->>> whole directories three times.
->>>
->>> I was thinking to remove scripts/Makefile.modbuiltin
->>> and Kconfig's tristate.conf entirely
->>> because it is possible to generate modules.builtin more simply.
->> Sorry about the delayed response, due in part to holidays.  Thank you
->> for your on-going review and the pointer to
->> https://lore.kernel.org/patchwork/project/lkml/list/?series=423205
->>
->> I agree your proposed patch simplifies some build code, but this is
->> long-standing code.  Also, the build time -- either that would be saved
->> by your patch or that would be incurred by a third traversal -- is
->> miniscule.
->>
->> Further, I do not see how to add object-to-module information to your
->> proposed scheme.  Can you suggest something?  If not, then it seems the
->> proposed code simplification is limiting functionality.
->
-> The object-to-module information can be retrieved by a similar
-> way as I did in
-> https://lore.kernel.org/patchwork/project/lkml/list/?series=423205
+	#define UTS_VERSION "#351 SMP Fri Jan 24 18:46:34 EET 2020"
 
-Thanks again for that pointer.  I'm looking at how that approach can be 
-generalized to the functionality we need for the object-to-module mapping.
+While at the end the x86 specific Makefile prints the contents of
+the .version file:
 
-> But, even if modules_think.builtin is produced in a new way,
-> there would make no difference in the fact that
-> the build system needs to generate modules_think.builtin and
-> .tmp_vmlinux.range, and kallsyms must integrate a big
-> parser of them.
->
-> So, I think this patch lacks the taste as overall.
+	Kernel: arch/x86/boot/bzImage is ready  (#352)
 
-Unfortunately we need to get the information from somewhere.  I'll work 
-on streamlining the implementation more, and prepare an updated patch.
+Obviously the latter is not true. This happens because we first
+check compile.h and update it and then generate new version, which is
+incorrect flow:
 
->>> As I said, the name of builtin module is not fixed info.
->>> And, this makes kallsyms fat just for less important info.
->> The name of the builtin module can be ambiguous in some cases, but in
->> most cases it is not.  Indeed, the extra information is typically
->> useful, and comments from, e.g., Linus and Steve were positive about
->> adding that information to kallsyms.  Further, we have even heard
->> favorable feedback for adding such built-in-module information to
->> available_filter_functions as well.
-> In my opinion, this should be determined by the balance
-> between the added value and the ugliness of the code.
->
-> (Real) module names are obvious, but as I stated,
-> built-in module names are somewhat subtle, so I do not
-> like to extend it too much.
->
-> Perhaps, I was the only person who reviewed the code in detail.
-> After looking at how this feature is integrated,
-> I do not believe this should go in. Sorry.
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  ...
+  GEN     .version
 
-Thanks for the review.  In light of the value of the functionality and the
-expressed interest in this feature, I'll work towards an updated patch for
-further review.
+In order to fix this, move the version generation from link-vmlinux.sh
+to scripts/version.sh and re-use it in init/Makefile.
 
->>>>> On 12/10/2019 09:48 AM, eugene.loh@oracle.com wrote:
->>>>>> From: Eugene Loh <eugene.loh@oracle.com>
->>>>>>
->>>>>> /proc/kallsyms is very useful for tracers and other tools that need
->>>>>> to map kernel symbols to addresses.
->>>>>>
->>>>>> It would be useful if there were a mapping between kernel symbol and
->>>>>> module name that only changed when the kernel source code is changed.
->>>>>> This mapping should not vanish simply because a module becomes built
->>>>>> into the kernel.
+Additionally provide a unified way to get the current version of the build
+and use this in few callers. This will respect the KBUILD_BUILD_VERSION
+in case it's provided.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ arch/microblaze/Makefile |  4 ++--
+ arch/x86/boot/Makefile   |  2 +-
+ init/Makefile            |  8 ++++++-
+ scripts/kversion.sh      | 45 ++++++++++++++++++++++++++++++++++++++++
+ scripts/link-vmlinux.sh  | 10 ---------
+ scripts/mkcompile_h      |  9 +++-----
+ scripts/package/mkdebian |  2 +-
+ scripts/package/mkspec   |  2 +-
+ 8 files changed, 60 insertions(+), 22 deletions(-)
+ create mode 100755 scripts/kversion.sh
+
+diff --git a/arch/microblaze/Makefile b/arch/microblaze/Makefile
+index 7b340a35b194..eead2533e2b7 100644
+--- a/arch/microblaze/Makefile
++++ b/arch/microblaze/Makefile
+@@ -87,12 +87,12 @@ linux.bin.ub linux.bin.gz: linux.bin
+ linux.bin: vmlinux
+ linux.bin linux.bin.gz linux.bin.ub:
+ 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
+-	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`cat .version`')'
++	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`$(srctree)/scripts/kversion.sh --show`')'
+ 
+ PHONY += simpleImage.$(DTB)
+ simpleImage.$(DTB): vmlinux
+ 	$(Q)$(MAKE) $(build)=$(boot) $(addprefix $(boot)/$@., ub unstrip strip)
+-	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`cat .version`')'
++	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`$(srctree)/scripts/kversion.sh --show`')'
+ 
+ define archhelp
+   echo '* linux.bin    - Create raw binary'
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index 9ba7557863e7..2ff13d835cb8 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -82,7 +82,7 @@ cmd_image = $(obj)/tools/build $(obj)/setup.bin $(obj)/vmlinux.bin \
+ 
+ $(obj)/bzImage: $(obj)/setup.bin $(obj)/vmlinux.bin $(obj)/tools/build FORCE
+ 	$(call if_changed,image)
+-	@$(kecho) 'Kernel: $@ is ready' ' (#'`cat .version`')'
++	@$(kecho) 'Kernel: $@ is ready' ' (#'`$(srctree)/scripts/kversion.sh --show`')'
+ 
+ OBJCOPYFLAGS_vmlinux.bin := -O binary -R .note -R .comment -S
+ $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
+diff --git a/init/Makefile b/init/Makefile
+index 6246a06364d0..f544aeb27901 100644
+--- a/init/Makefile
++++ b/init/Makefile
+@@ -31,8 +31,14 @@ $(obj)/version.o: include/generated/compile.h
+        chk_compile.h = :
+  quiet_chk_compile.h = echo '  CHK     $@'
+ silent_chk_compile.h = :
+-include/generated/compile.h: FORCE
++include/generated/compile.h: kversion FORCE
+ 	@$($(quiet)chk_compile.h)
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
+ 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
+ 	"$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
++
++quiet_cmd_kversion = CALL    $<
++      cmd_kversion = $(CONFIG_SHELL) $< --update
++
++kversion: $(srctree)/scripts/kversion.sh FORCE
++	$(call cmd,kversion)
+diff --git a/scripts/kversion.sh b/scripts/kversion.sh
+new file mode 100755
+index 000000000000..8d9000cd5b62
+--- /dev/null
++++ b/scripts/kversion.sh
+@@ -0,0 +1,45 @@
++#!/bin/sh -e
++
++show_version() {
++	local dotversion="$1"; shift
++
++	# Check if special build version is requested
++	if [ -n "$KBUILD_BUILD_VERSION" ]; then
++		echo "$KBUILD_BUILD_VERSION"
++	else
++		cat $dotversion 2>/dev/null || echo 1
++	fi
++}
++
++update_version() {
++	local dotversion="$1"; shift
++
++	# Don't update local version if special build version is requested
++	if [ -n "$KBUILD_BUILD_VERSION" ]; then return; fi
++
++	if [ -r $dotversion ]; then
++		local version="$(expr 0$(cat $dotversion) + 1)"
++		echo "$version" > $dotversion
++	else
++		rm -f $dotversion
++		echo "1" > $dotversion
++	fi
++}
++
++VERSION_FILE_NAME=".version"
++
++show=
++update=
++while [ "$#" -ge "1" ]; do
++	case "$1" in
++		--show) show=1 ;;
++		--update) update=1 ;;
++		--) break ;;
++	esac
++	shift
++done
++
++if [ -n "$1" ]; then VERSION_FILE_NAME="$1"; fi
++
++if [ -n "$show" ]; then show_version "$VERSION_FILE_NAME"; fi
++if [ -n "$update" ]; then update_version "$VERSION_FILE_NAME"; fi
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 1919c311c149..c9a1b4f44f47 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -228,16 +228,6 @@ fi
+ # We need access to CONFIG_ symbols
+ . include/config/auto.conf
+ 
+-# Update version
+-info GEN .version
+-if [ -r .version ]; then
+-	VERSION=$(expr 0$(cat .version) + 1)
+-	echo $VERSION > .version
+-else
+-	rm -f .version
+-	echo 1 > .version
+-fi;
+-
+ # final build of init/
+ ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init
+ 
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 3a5a4b210c86..ef9085a63a04 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -28,12 +28,6 @@ set -f
+ LC_ALL=C
+ export LC_ALL
+ 
+-if [ -z "$KBUILD_BUILD_VERSION" ]; then
+-	VERSION=$(cat .version 2>/dev/null || echo 1)
+-else
+-	VERSION=$KBUILD_BUILD_VERSION
+-fi
+-
+ if [ -z "$KBUILD_BUILD_TIMESTAMP" ]; then
+ 	TIMESTAMP=`date`
+ else
+@@ -50,7 +44,10 @@ else
+ 	LINUX_COMPILE_HOST=$KBUILD_BUILD_HOST
+ fi
+ 
++VERSION=$($srctree/scripts/kversion.sh --show)
++
+ UTS_VERSION="#$VERSION"
++
+ CONFIG_FLAGS=""
+ if [ -n "$SMP" ] ; then CONFIG_FLAGS="SMP"; fi
+ if [ -n "$PREEMPT" ] ; then CONFIG_FLAGS="$CONFIG_FLAGS PREEMPT"; fi
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index 357dc56bcf30..a4ef9c6c7d35 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -90,7 +90,7 @@ if [ -n "$KDEB_PKGVERSION" ]; then
+ 	packageversion=$KDEB_PKGVERSION
+ 	revision=${packageversion##*-}
+ else
+-	revision=$(cat .version 2>/dev/null||echo 1)
++	revision=$($srctree/scripts/kversion.sh --show)
+ 	packageversion=$version-$revision
+ fi
+ sourcename=$KDEB_SOURCENAME
+diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+index 8640c278f1aa..0039eb9d62bd 100755
+--- a/scripts/package/mkspec
++++ b/scripts/package/mkspec
+@@ -42,7 +42,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+ 	Name: kernel
+ 	Summary: The Linux Kernel
+ 	Version: $__KERNELRELEASE
+-	Release: $(cat .version 2>/dev/null || echo 1)
++	Release: $($srctree/scripts/kversion.sh --show)
+ 	License: GPL
+ 	Group: System Environment/Kernel
+ 	Vendor: The Linux Community
+-- 
+2.24.1
+
