@@ -2,81 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3260414933F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Jan 2020 05:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A53E149350
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Jan 2020 05:14:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728797AbgAYEGz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Jan 2020 23:06:55 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:39206 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbgAYEGz (ORCPT
+        id S1727590AbgAYEN1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Jan 2020 23:13:27 -0500
+Received: from conuserg-09.nifty.com ([210.131.2.76]:28179 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725747AbgAYENM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Jan 2020 23:06:55 -0500
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 00P46fpI019106;
-        Sat, 25 Jan 2020 13:06:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 00P46fpI019106
+        Fri, 24 Jan 2020 23:13:12 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 00P4CcjR032210;
+        Sat, 25 Jan 2020 13:12:38 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 00P4CcjR032210
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1579925202;
-        bh=yXBN9giGGVP8YFLjCvd9y2Y4psaEk7MMrDKaFu70VXE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=u5f/FDcnvvkrhKYyemiOe6acQtqrzHzb9mWpwmZQBMK0fRZ/cB4SVXydneD97r2c5
-         3VmUofbpAabpQe6+/pZoInvUZSsOXSyw2nIfRATA+BPEOADmITAC0lQEfzy0Ha2rPh
-         a29wj5sJjTfjU6XDc7byr+nHwt95SxjWCTbkpBTHBnLbN9INzjgbp6ZZNDqndbxb2e
-         +6dPmICfy1FkDJBDKKyzOIZW0YAk7e5EwGdv2KWbMbhrARbGRXExAxzowetjzkr9ST
-         uPCYQRvBn3htD3NewYb/PcdnAFbRQW45oNMGwvBVgpXcyYFfKSzlrs4ao1gkI5VuHX
-         U6zRRFjQNkfMQ==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id o42so1570307uad.10;
-        Fri, 24 Jan 2020 20:06:42 -0800 (PST)
-X-Gm-Message-State: APjAAAUcOML2lHbzvb0HkUfebpWephOOEmw738xaayzkZAm+Agl445qR
-        bnXHQZMcDLGrIqK70sD4kDvfRv84ucAui3xmfNk=
-X-Google-Smtp-Source: APXvYqxkyrEJyZiENeFonfdlrdo6tmVzVX2f6OzQrNtsYHF8t0mWlvnE74i51eRlRaiR9/Frba/4vkqC3a3Sb4qJD94=
-X-Received: by 2002:ab0:2881:: with SMTP id s1mr3744433uap.95.1579925201134;
- Fri, 24 Jan 2020 20:06:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20200115162529.11089-1-masahiroy@kernel.org> <20200115162529.11089-4-masahiroy@kernel.org>
- <2bedc86669d33dd2e9f3b97954710f1a8139be19.camel@decadent.org.uk>
-In-Reply-To: <2bedc86669d33dd2e9f3b97954710f1a8139be19.camel@decadent.org.uk>
+        s=dec2015msa; t=1579925559;
+        bh=3vvOuD9IzieNaW/plXSSiBRcrjm3RzM1ZdcZ0+Z2l48=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Pf8V87+KzHTlWdbHpFggBOLCnT6DP0dC9yyZaHqVL/yn69CdToNPw4XhZa15tMWYy
+         yUIqbEQZhWf2aHIcMD9qgyfSmDXTf3IA0DXzAOF7kirlkTYzcwubfbDl59CncSONjO
+         WUzgufDocufbNl27Sdx2n3fVkFANWyY4a4F5Bn4stV8I2MimhwO27/UvhNOr8GfP7R
+         I4xYEIRz0wtbFtK5TOfSNiPpYupPYwREKP+T4Ep/E/hzU7aCa2v9McfX22Fix9BRgD
+         sGWsT9LYahTxvAOWuA3RJEClxXcweMleR6oC+PRugFuLkPKHAXirCODUe/z7gtQPXr
+         40si5H3hUuWWQ==
+X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 25 Jan 2020 13:06:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASmgxQEOdpbbdBxPU58+QZ5Rz6UZpe+1TYJLaHg8pER7g@mail.gmail.com>
-Message-ID: <CAK7LNASmgxQEOdpbbdBxPU58+QZ5Rz6UZpe+1TYJLaHg8pER7g@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] builddeb: avoid invoking sub-shells where possible
-To:     Ben Hutchings <ben@decadent.org.uk>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Ben Hutchings <ben@decadent.org.uk>,
         Riku Voipio <riku.voipio@linaro.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v3 1/7] builddeb: remove unneeded files in hdrobjfiles for headers package
+Date:   Sat, 25 Jan 2020 13:12:29 +0900
+Message-Id: <20200125041235.8856-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Ben,
+ - We do not need tools/objtool/fixdep or tools/objtool/sync-check.sh
+   for building external modules. Including tools/objtool/objtool is
+   enough.
 
-On Wed, Jan 22, 2020 at 4:24 AM Ben Hutchings <ben@decadent.org.uk> wrote:
->
-> On Thu, 2020-01-16 at 01:25 +0900, Masahiro Yamada wrote:
-> [...]
-> > -if is_enabled CONFIG_STACK_VALIDATION; then
-> > -     echo tools/objtool/objtool >> debian/hdrobjfiles
-> > -fi
-> [...]
-> > +{
-> > +     if is_enabled CONFIG_STACK_VALIDATION; then
-> > +             find tools/objtool -type f -executable
-> > +     fi
-> [...]
->
-> And this is still undoing part of patch 1.
->
+ - gcc-common.h is a check-in file. I do not see any point to search
+   for it in objtree.
 
-You are right. I will fix it.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+Changes in v3: None
+Changes in v2: None
 
+ scripts/package/builddeb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index f903ba947daf..d4bb28fbd3de 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -170,11 +170,11 @@ done
+ (cd $srctree; find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name Platform) >> "$objtree/debian/hdrsrcfiles"
+ (cd $srctree; find $(find arch/$SRCARCH -name include -o -name scripts -type d) -type f) >> "$objtree/debian/hdrsrcfiles"
+ if is_enabled CONFIG_STACK_VALIDATION; then
+-	(cd $objtree; find tools/objtool -type f -executable) >> "$objtree/debian/hdrobjfiles"
++	echo tools/objtool/objtool >> "$objtree/debian/hdrobjfiles"
+ fi
+ (cd $objtree; find arch/$SRCARCH/include Module.symvers include scripts -type f) >> "$objtree/debian/hdrobjfiles"
+ if is_enabled CONFIG_GCC_PLUGINS; then
+-	(cd $objtree; find scripts/gcc-plugins -name \*.so -o -name gcc-common.h) >> "$objtree/debian/hdrobjfiles"
++	(cd $objtree; find scripts/gcc-plugins -name \*.so) >> "$objtree/debian/hdrobjfiles"
+ fi
+ destdir=$kernel_headers_dir/usr/src/linux-headers-$version
+ mkdir -p "$destdir"
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
