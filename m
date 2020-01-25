@@ -2,263 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2531148EF8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jan 2020 20:59:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1432914933D
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Jan 2020 05:06:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389024AbgAXT7E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Jan 2020 14:59:04 -0500
-Received: from mga05.intel.com ([192.55.52.43]:12968 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388974AbgAXT7E (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Jan 2020 14:59:04 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Jan 2020 11:59:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,358,1574150400"; 
-   d="scan'208";a="260351273"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2020 11:59:01 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 40B2C107; Fri, 24 Jan 2020 21:58:59 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Michal Simek <monstr@monstr.eu>, linux-kernel@vger.kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] kbuild: Fix off-by-one error when generate a new version
-Date:   Fri, 24 Jan 2020 21:58:59 +0200
-Message-Id: <20200124195859.86991-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
+        id S1725765AbgAYEG0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Jan 2020 23:06:26 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:38538 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725747AbgAYEG0 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 24 Jan 2020 23:06:26 -0500
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 00P465BF018935;
+        Sat, 25 Jan 2020 13:06:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 00P465BF018935
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1579925166;
+        bh=eGpcqbmih5kZxicSNdfArIzaE8bVOZLitMYHalTL4mY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vEmC/hDeI8/Q+sreQ5DuFODKkQM1xmVRug5tpjQBRhe9c8vl56TXyrWdTm3HnrXzI
+         xmo0HuLx4Vul1yYNf1Nz9XP0mQkKqaGQe/u9DZIXl0hUhV5n+1P7dprsb4Jiyij6CS
+         3XK1hoX/KKPRRQCfFxgiyLYnZigjeIlr6Vu8oXs3pwWuMZUryPKLqLY7C7DuQGPFOt
+         vYpBS1+y0AIyb5SY73tW6U3vJ7UWZbA+hH20W/zuBJy/3eh3ATlNVsaj84X1Xqmhag
+         kxnaG7rKMkSbb5uuuqs7nF8bcKTqy3FIKikHLezTwEkHU+R0l8Iy5E7BsdST/28G0G
+         ax+rHs2lTM42g==
+X-Nifty-SrcIP: [209.85.217.52]
+Received: by mail-vs1-f52.google.com with SMTP id x123so2578635vsc.2;
+        Fri, 24 Jan 2020 20:06:05 -0800 (PST)
+X-Gm-Message-State: APjAAAX2JGHzanpdtTDqveAOsWTtazz+u4lPuxThp+HQG6amO+VanV76
+        RNFGvcaIpgwPaeBghCqOU+vC8mb88ue3yOrBk0s=
+X-Google-Smtp-Source: APXvYqwv1fZ5L0C0PFrVlTZlYa0udBGpWqCCKy3BYBt1Q9lg8bK00C+pFTibP53AUjy/8zQ+3MiEWSAWtEzFXTScH/0=
+X-Received: by 2002:a05:6102:190:: with SMTP id r16mr4254678vsq.215.1579925164899;
+ Fri, 24 Jan 2020 20:06:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200115162529.11089-1-masahiroy@kernel.org> <20200115162529.11089-4-masahiroy@kernel.org>
+ <cea3ceee6be7c9554f139db6e96c99f2a5b93be2.camel@decadent.org.uk>
+In-Reply-To: <cea3ceee6be7c9554f139db6e96c99f2a5b93be2.camel@decadent.org.uk>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 25 Jan 2020 13:05:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDRakOYQKLjCDkLz=SY3jPG8OSY5KZCvreKC+JfDW0yA@mail.gmail.com>
+Message-ID: <CAK7LNATDRakOYQKLjCDkLz=SY3jPG8OSY5KZCvreKC+JfDW0yA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/7] builddeb: avoid invoking sub-shells where possible
+To:     Ben Hutchings <ben@decadent.org.uk>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Riku Voipio <riku.voipio@linaro.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When build on, for example, x86 using `make O=... -j64` the version
-in the built kernel comes from include/generated/compile.h, which is:
+Hi Ben,
 
-	#define UTS_VERSION "#351 SMP Fri Jan 24 18:46:34 EET 2020"
+On Wed, Jan 22, 2020 at 4:21 AM Ben Hutchings <ben@decadent.org.uk> wrote:
+>
+> On Thu, 2020-01-16 at 01:25 +0900, Masahiro Yamada wrote:
+> > The commands surrounded by ( ... ) is run in a sub-shell, but you do
+> > not have to spawn a sub-shell for every single line.
+> >
+> > Use just one ( ... ) for creating debian/hdrsrcfiles.
+> >
+> > For tar, use -C option instead.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> > Changes in v2:
+> >  - fix misconversion pointed out by Ben
+> >
+> >  scripts/package/builddeb | 39 ++++++++++++++++++++++++++-------------
+> >  1 file changed, 26 insertions(+), 13 deletions(-)
+> >
+> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> > index 9b92745bf13a..7d7e0abe62b6 100755
+> > --- a/scripts/package/builddeb
+> > +++ b/scripts/package/builddeb
+> > @@ -165,21 +165,34 @@ EOF
+> >  done
+> >
+> >  # Build kernel header package
+> > -(cd $srctree; find . arch/$SRCARCH -maxdepth 1 -name Makefile\*) > debian/hdrsrcfiles
+> > -(cd $srctree; find include scripts -type f -o -type l) >> debian/hdrsrcfiles
+> > -(cd $srctree; find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name Platform) >> debian/hdrsrcfiles
+> > -(cd $srctree; find $(find arch/$SRCARCH -name include -o -name scripts -type d) -type f) >> debian/hdrsrcfiles
+> > -if is_enabled CONFIG_STACK_VALIDATION; then
+> > -     echo tools/objtool/objtool >> debian/hdrobjfiles
+> > -fi
+> > -find arch/$SRCARCH/include Module.symvers include scripts -type f >> debian/hdrobjfiles
+> > -if is_enabled CONFIG_GCC_PLUGINS; then
+> > -     find scripts/gcc-plugins -name \*.so >> debian/hdrobjfiles
+> > -fi
+> > +(
+> > +     cd $srctree
+> > +     find . arch/$SRCARCH -maxdepth 1 -name Makefile\*
+> > +     find include scripts -type f -o -type l
+> > +     find arch/$SRCARCH -name module.lds -o -name Kbuild.platforms -o -name Platform
+> > +     find arch/$SRCARCH/include -type f
+> [...]
+>
+> This last command is still wrong as I commented on v1.  I think it
+> should be:
+>
+>         find $(find arch/$SRCARCH -name include -type d) -type f
+>
+> Ben.
 
-While at the end the x86 specific Makefile prints the contents of
-the .version file:
 
-	Kernel: arch/x86/boot/bzImage is ready  (#352)
+Sorry, I missed your comment in v1.
 
-Obviously the latter is not true. This happens because we first
-check compile.h and update it and then generate new version, which is
-incorrect flow:
+I will keep the original code here.
 
-  CHK     include/generated/compile.h
-  UPD     include/generated/compile.h
-  ...
-  GEN     .version
 
-In order to fix this, move the version generation from link-vmlinux.sh
-to scripts/version.sh and re-use it in init/Makefile.
 
-Additionally provide a unified way to get the current version of the build
-and use this in few callers. This will respect the KBUILD_BUILD_VERSION
-in case it's provided.
-
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- arch/microblaze/Makefile |  4 ++--
- arch/x86/boot/Makefile   |  2 +-
- init/Makefile            |  8 ++++++-
- scripts/kversion.sh      | 45 ++++++++++++++++++++++++++++++++++++++++
- scripts/link-vmlinux.sh  | 10 ---------
- scripts/mkcompile_h      |  9 +++-----
- scripts/package/mkdebian |  2 +-
- scripts/package/mkspec   |  2 +-
- 8 files changed, 60 insertions(+), 22 deletions(-)
- create mode 100755 scripts/kversion.sh
-
-diff --git a/arch/microblaze/Makefile b/arch/microblaze/Makefile
-index 7b340a35b194..eead2533e2b7 100644
---- a/arch/microblaze/Makefile
-+++ b/arch/microblaze/Makefile
-@@ -87,12 +87,12 @@ linux.bin.ub linux.bin.gz: linux.bin
- linux.bin: vmlinux
- linux.bin linux.bin.gz linux.bin.ub:
- 	$(Q)$(MAKE) $(build)=$(boot) $(boot)/$@
--	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`cat .version`')'
-+	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`$(srctree)/scripts/kversion.sh --show`')'
- 
- PHONY += simpleImage.$(DTB)
- simpleImage.$(DTB): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(addprefix $(boot)/$@., ub unstrip strip)
--	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`cat .version`')'
-+	@echo 'Kernel: $(boot)/$@ is ready' ' (#'`$(srctree)/scripts/kversion.sh --show`')'
- 
- define archhelp
-   echo '* linux.bin    - Create raw binary'
-diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-index 9ba7557863e7..2ff13d835cb8 100644
---- a/arch/x86/boot/Makefile
-+++ b/arch/x86/boot/Makefile
-@@ -82,7 +82,7 @@ cmd_image = $(obj)/tools/build $(obj)/setup.bin $(obj)/vmlinux.bin \
- 
- $(obj)/bzImage: $(obj)/setup.bin $(obj)/vmlinux.bin $(obj)/tools/build FORCE
- 	$(call if_changed,image)
--	@$(kecho) 'Kernel: $@ is ready' ' (#'`cat .version`')'
-+	@$(kecho) 'Kernel: $@ is ready' ' (#'`$(srctree)/scripts/kversion.sh --show`')'
- 
- OBJCOPYFLAGS_vmlinux.bin := -O binary -R .note -R .comment -S
- $(obj)/vmlinux.bin: $(obj)/compressed/vmlinux FORCE
-diff --git a/init/Makefile b/init/Makefile
-index 6246a06364d0..f544aeb27901 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -31,8 +31,14 @@ $(obj)/version.o: include/generated/compile.h
-        chk_compile.h = :
-  quiet_chk_compile.h = echo '  CHK     $@'
- silent_chk_compile.h = :
--include/generated/compile.h: FORCE
-+include/generated/compile.h: kversion FORCE
- 	@$($(quiet)chk_compile.h)
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
- 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
- 	"$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
-+
-+quiet_cmd_kversion = CALL    $<
-+      cmd_kversion = $(CONFIG_SHELL) $< --update
-+
-+kversion: $(srctree)/scripts/kversion.sh FORCE
-+	$(call cmd,kversion)
-diff --git a/scripts/kversion.sh b/scripts/kversion.sh
-new file mode 100755
-index 000000000000..8d9000cd5b62
---- /dev/null
-+++ b/scripts/kversion.sh
-@@ -0,0 +1,45 @@
-+#!/bin/sh -e
-+
-+show_version() {
-+	local dotversion="$1"; shift
-+
-+	# Check if special build version is requested
-+	if [ -n "$KBUILD_BUILD_VERSION" ]; then
-+		echo "$KBUILD_BUILD_VERSION"
-+	else
-+		cat $dotversion 2>/dev/null || echo 1
-+	fi
-+}
-+
-+update_version() {
-+	local dotversion="$1"; shift
-+
-+	# Don't update local version if special build version is requested
-+	if [ -n "$KBUILD_BUILD_VERSION" ]; then return; fi
-+
-+	if [ -r $dotversion ]; then
-+		local version="$(expr 0$(cat $dotversion) + 1)"
-+		echo "$version" > $dotversion
-+	else
-+		rm -f $dotversion
-+		echo "1" > $dotversion
-+	fi
-+}
-+
-+VERSION_FILE_NAME=".version"
-+
-+show=
-+update=
-+while [ "$#" -ge "1" ]; do
-+	case "$1" in
-+		--show) show=1 ;;
-+		--update) update=1 ;;
-+		--) break ;;
-+	esac
-+	shift
-+done
-+
-+if [ -n "$1" ]; then VERSION_FILE_NAME="$1"; fi
-+
-+if [ -n "$show" ]; then show_version "$VERSION_FILE_NAME"; fi
-+if [ -n "$update" ]; then update_version "$VERSION_FILE_NAME"; fi
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 1919c311c149..c9a1b4f44f47 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -228,16 +228,6 @@ fi
- # We need access to CONFIG_ symbols
- . include/config/auto.conf
- 
--# Update version
--info GEN .version
--if [ -r .version ]; then
--	VERSION=$(expr 0$(cat .version) + 1)
--	echo $VERSION > .version
--else
--	rm -f .version
--	echo 1 > .version
--fi;
--
- # final build of init/
- ${MAKE} -f "${srctree}/scripts/Makefile.build" obj=init
- 
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 3a5a4b210c86..ef9085a63a04 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -28,12 +28,6 @@ set -f
- LC_ALL=C
- export LC_ALL
- 
--if [ -z "$KBUILD_BUILD_VERSION" ]; then
--	VERSION=$(cat .version 2>/dev/null || echo 1)
--else
--	VERSION=$KBUILD_BUILD_VERSION
--fi
--
- if [ -z "$KBUILD_BUILD_TIMESTAMP" ]; then
- 	TIMESTAMP=`date`
- else
-@@ -50,7 +44,10 @@ else
- 	LINUX_COMPILE_HOST=$KBUILD_BUILD_HOST
- fi
- 
-+VERSION=$($srctree/scripts/kversion.sh --show)
-+
- UTS_VERSION="#$VERSION"
-+
- CONFIG_FLAGS=""
- if [ -n "$SMP" ] ; then CONFIG_FLAGS="SMP"; fi
- if [ -n "$PREEMPT" ] ; then CONFIG_FLAGS="$CONFIG_FLAGS PREEMPT"; fi
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 357dc56bcf30..a4ef9c6c7d35 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -90,7 +90,7 @@ if [ -n "$KDEB_PKGVERSION" ]; then
- 	packageversion=$KDEB_PKGVERSION
- 	revision=${packageversion##*-}
- else
--	revision=$(cat .version 2>/dev/null||echo 1)
-+	revision=$($srctree/scripts/kversion.sh --show)
- 	packageversion=$version-$revision
- fi
- sourcename=$KDEB_SOURCENAME
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index 8640c278f1aa..0039eb9d62bd 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -42,7 +42,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
- 	Name: kernel
- 	Summary: The Linux Kernel
- 	Version: $__KERNELRELEASE
--	Release: $(cat .version 2>/dev/null || echo 1)
-+	Release: $($srctree/scripts/kversion.sh --show)
- 	License: GPL
- 	Group: System Environment/Kernel
- 	Vendor: The Linux Community
 -- 
-2.24.1
-
+Best Regards
+Masahiro Yamada
