@@ -2,129 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77F6614934E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Jan 2020 05:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45D32149B2C
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Jan 2020 15:46:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbgAYENW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Jan 2020 23:13:22 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:28258 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727590AbgAYENN (ORCPT
+        id S1725838AbgAZOqW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 26 Jan 2020 09:46:22 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:16417 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725773AbgAZOqW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Jan 2020 23:13:13 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 00P4CcjX032210;
-        Sat, 25 Jan 2020 13:12:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 00P4CcjX032210
+        Sun, 26 Jan 2020 09:46:22 -0500
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 00QEk7qU023044
+        for <linux-kbuild@vger.kernel.org>; Sun, 26 Jan 2020 23:46:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 00QEk7qU023044
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1579925563;
-        bh=Ru4RO9PKJOZis0APDfihMYPE7fsaicItemyL6M7oN+Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FS8EhjVCq9yLkCuXeVC2bJXm3D5HHa7RhlFTflpittdcMQkz7xBs+khyyBF9YMWo3
-         6KU9s4c1TXHJVxiVuUfOunxCHsTJK+5aJOXTQ9bE+PKbDW7vE7GM5Ot6a5/1plLDQM
-         hhgq4ls2oiiRVKWXnoon0+sxgt1zhC/rjXKA8mhydeXVMTEDOnJvw+kQdPpZMvg2vh
-         y5RhAUq878+HQ20XzKJG1+zyFFZgG30+h6DQdFSAI6TQqm1RI7Sj16eI6+lquxUqk8
-         6SDl8n198DZZLhgynVrq91Hj6QcVHTOTGkIhWmt5BfgDW8URUTzuFPMB1ded5ZRYDN
-         BEZZVhSA6Rxig==
-X-Nifty-SrcIP: [126.93.102.113]
+        s=dec2015msa; t=1580049968;
+        bh=fCthRo0/YJRQgvkizewWNyrw0PVZqlII4545je2IhAU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=UfObZ6aaBOvpQxUV4HCStJkY7mlysX6K+nF718dbWIsek4AQ76PzZVggi9PcfEfSM
+         5wkFtIxojJGLmnM61SqYZlxmaSSa1egQvMOD/QHabeBITqAPy9Su4LgdvU7g5XfV1V
+         K2kQqLtU/NXZ4r8+mFuRD9IHA3rxbdoheGAINnz5+KwIHnEQZgOjVuA6kTzvBsL5sS
+         9McBMD9XfHGBoGg9ZH04h897UemIpHh8o+JnSvdJCn6jHw1Vhfdr+MhHFqci8K/LLO
+         Y/78qqReBIA0T7T88xoBELZ10ykODEooO2P4d0dwmj1Hsu2ZNRtAWel93pyr4EqpEN
+         anlY0xFOW6SSA==
+X-Nifty-SrcIP: [209.85.217.53]
+Received: by mail-vs1-f53.google.com with SMTP id e188so3903123vse.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 26 Jan 2020 06:46:07 -0800 (PST)
+X-Gm-Message-State: APjAAAWNmOqq+gM3a9L/yMt7+aLlsn2AeXnm/lULfeLdfoSuBjyGpNJN
+        ABnRC4UZ4f0mb/HLyT9dBeogwIZvnyZNnmK1QWE=
+X-Google-Smtp-Source: APXvYqzSQrV5PfcGwsfFavYwzivPXa1mG8tgMLvyHTUINQEiUPNfOKGj8QrkpK9+OfdNYYr1Xa+PbTjLiPDyGN7EdTI=
+X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr7469669vsh.179.1580049966609;
+ Sun, 26 Jan 2020 06:46:06 -0800 (PST)
+MIME-Version: 1.0
+References: <1579774839-19562-1-git-send-email-amit.kachhap@arm.com>
+ <1579774839-19562-16-git-send-email-amit.kachhap@arm.com> <CAKv+Gu-r4d1bBNJK0BZAX=b2+SDqMztAHx+cpq1dxB2q8O1YJA@mail.gmail.com>
+ <0640c3c6-8b5f-8c29-692c-a9acdda01a6c@arm.com>
+In-Reply-To: <0640c3c6-8b5f-8c29-692c-a9acdda01a6c@arm.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Ben Hutchings <ben@decadent.org.uk>,
-        Riku Voipio <riku.voipio@linaro.org>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH v3 7/7] builddeb: split libc headers deployment out into a function
-Date:   Sat, 25 Jan 2020 13:12:35 +0900
-Message-Id: <20200125041235.8856-7-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200125041235.8856-1-masahiroy@kernel.org>
-References: <20200125041235.8856-1-masahiroy@kernel.org>
+Date:   Sun, 26 Jan 2020 23:45:30 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAShhOCpdoVveQ1C1VupDEYOv2UJp4iSTnyyFQ=eTko+uw@mail.gmail.com>
+Message-ID: <CAK7LNAShhOCpdoVveQ1C1VupDEYOv2UJp4iSTnyyFQ=eTko+uw@mail.gmail.com>
+Subject: Re: [PATCH v4 15/17] kconfig: Add support for 'as-option'
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Amit Daniel Kachhap <amit.kachhap@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
+        Kristina Martsenko <kristina.martsenko@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Deploy user-space headers (linux-libc-dev package) in a separate
-function for readability.
+On Thu, Jan 23, 2020 at 7:52 PM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> On 23/01/2020 10:30, Ard Biesheuvel wrote:
+> > On Thu, 23 Jan 2020 at 11:22, Amit Daniel Kachhap <amit.kachhap@arm.com> wrote:
+> >>
+> >> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> >>
+> >> Currently kconfig does not have a feature that allows to detect if the
+> >> used assembler supports a specific compilation option.
+> >>
+> >> Introduce 'as-option' to serve this purpose in the context of Kconfig:
+> >>
+> >>         config X
+> >>                 def_bool $(as-option,...)
+> >>
+> >> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> >> Cc: linux-kbuild@vger.kernel.org
+> >> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+> >> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> >> Signed-off-by: Amit Daniel Kachhap <amit.kachhap@arm.com>
+> >> ---
+> >> Changes since v3:
+> >> *) Changed the assembler option to -c instead of earlier -E.
+> >> *) Added Masahiro Acked-by.
+> >>
+> >>  scripts/Kconfig.include | 4 ++++
+> >>  1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> >> index d4adfbe..c4b4424 100644
+> >> --- a/scripts/Kconfig.include
+> >> +++ b/scripts/Kconfig.include
+> >> @@ -31,6 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -E -x c /dev/null -o /de
+> >>  # Return y if the linker supports <flag>, n otherwise
+> >>  ld-option = $(success,$(LD) -v $(1))
+> >>
+> >> +# $(as-option,<flag>)
+> >> +# Return y if the assembler supports <flag>, n otherwise
+> >> +as-option = $(success, $(CC) $(CLANG_FLAGS) $(1) -c -x assembler /dev/null -o /dev/zero)
+> >
+> > Did you mean '-o /dev/null' here?
+> >
+>
+> No /dev/zero because otherwise I get a warning that says that I am trying to
+> compile an object into the same file.
+>
+> If I invert /dev/zero and /dev/null this trashes the compilation. It took me a
+> while to get the right combination.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-Changes in v3: None
-Changes in v2: None
+What compiler produces such a warning?
+GCC? Clang?
 
- scripts/package/builddeb | 32 ++++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 14 deletions(-)
 
-diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-index c9287e57d398..6df3c9f8b2da 100755
---- a/scripts/package/builddeb
-+++ b/scripts/package/builddeb
-@@ -84,12 +84,25 @@ deploy_kernel_headers () {
- 	ln -s /usr/src/linux-headers-$version $pdir/lib/modules/$version/build
- }
- 
-+deploy_libc_headers () {
-+	pdir=$1
-+
-+	rm -rf $pdir
-+
-+	$MAKE -f $srctree/Makefile headers
-+	$MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH=$pdir/usr
-+
-+	# move asm headers to /usr/include/<libc-machine>/asm to match the structure
-+	# used by Debian-based distros (to support multi-arch)
-+	host_arch=$(dpkg-architecture -a$(cat debian/arch) -qDEB_HOST_MULTIARCH)
-+	mkdir $pdir/usr/include/$host_arch
-+	mv $pdir/usr/include/asm $pdir/usr/include/$host_arch/
-+}
-+
- version=$KERNELRELEASE
- tmpdir=debian/linux-image
--libc_headers_dir=debian/linux-libc-dev
- dbg_dir=debian/linux-image-dbg
- packagename=linux-image-$version
--libc_headers_packagename=linux-libc-dev
- dbg_packagename=$packagename-dbg
- 
- if [ "$ARCH" = "um" ] ; then
-@@ -113,7 +126,7 @@ esac
- BUILD_DEBUG=$(if_enabled_echo CONFIG_DEBUG_INFO Yes)
- 
- # Setup the directory structure
--rm -rf "$tmpdir" "$libc_headers_dir" "$dbg_dir" debian/files
-+rm -rf "$tmpdir" "$dbg_dir" debian/files
- mkdir -m 755 -p "$tmpdir/DEBIAN"
- mkdir -p "$tmpdir/lib" "$tmpdir/boot"
- 
-@@ -163,16 +176,6 @@ if is_enabled CONFIG_MODULES; then
- 	fi
- fi
- 
--if [ "$ARCH" != "um" ]; then
--	$MAKE -f $srctree/Makefile headers
--	$MAKE -f $srctree/Makefile headers_install INSTALL_HDR_PATH="$libc_headers_dir/usr"
--	# move asm headers to /usr/include/<libc-machine>/asm to match the structure
--	# used by Debian-based distros (to support multi-arch)
--	host_arch=$(dpkg-architecture -a$(cat debian/arch) -qDEB_HOST_MULTIARCH)
--	mkdir $libc_headers_dir/usr/include/$host_arch
--	mv $libc_headers_dir/usr/include/asm $libc_headers_dir/usr/include/$host_arch/
--fi
--
- # Install the maintainer scripts
- # Note: hook scripts under /etc/kernel are also executed by official Debian
- # kernel packages, as well as kernel packages built using make-kpkg.
-@@ -202,7 +205,8 @@ if [ "$ARCH" != "um" ]; then
- 	deploy_kernel_headers debian/linux-headers
- 	create_package linux-headers-$version debian/linux-headers
- 
--	create_package "$libc_headers_packagename" "$libc_headers_dir"
-+	deploy_libc_headers debian/linux-libc-dev
-+	create_package linux-libc-dev debian/linux-libc-dev
- fi
- 
- create_package "$packagename" "$tmpdir"
--- 
-2.17.1
 
+
+--
+Best Regards
+Masahiro Yamada
