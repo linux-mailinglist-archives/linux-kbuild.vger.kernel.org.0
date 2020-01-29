@@ -2,126 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB91614CCF1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jan 2020 16:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6574614CF54
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jan 2020 18:11:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbgA2PGS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Jan 2020 10:06:18 -0500
-Received: from mail-wm1-f73.google.com ([209.85.128.73]:56115 "EHLO
-        mail-wm1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726271AbgA2PGR (ORCPT
+        id S1727024AbgA2RLT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Jan 2020 12:11:19 -0500
+Received: from pb-smtp20.pobox.com ([173.228.157.52]:52474 "EHLO
+        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726647AbgA2RLT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Jan 2020 10:06:17 -0500
-Received: by mail-wm1-f73.google.com with SMTP id p26so2794081wmg.5
-        for <linux-kbuild@vger.kernel.org>; Wed, 29 Jan 2020 07:06:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=uCpdzEHc8A3bUPd0dC/9LcWhiifeT6vJeqIWIxSo4hE=;
-        b=d9whXo4z/rPrHEhtFwgiufARTCatr3EbDq+0gz1Ge/+H8QTU5ZhQqkQlbbE4eE4iOh
-         gAa8I0vaY7KwadF8OajtS5tM0vxSiIRsIHI5HE8OT5xYAoUgAG6UKoalS4ihglgTd3d8
-         ssDJRIgGNv1SwUNDQP2bp7/I6pFiskWBFz46b+Qs0Jrf5CsHvca/sejydLpPuRG54+SP
-         0ZV3+t8b0kGPYyxoPMOuJVI77sR4jRpPITke75Mo4SHZkY272PgFmLc+B2vMpEdAcuI7
-         yvbOJMlBXeR9S8KnzV4pejs88wByZHJOKyWThFFWjphyIyJwlR4+R5/Yagpa30/TWC9L
-         oXDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=uCpdzEHc8A3bUPd0dC/9LcWhiifeT6vJeqIWIxSo4hE=;
-        b=nJz7fodHP7JmSbGIC76/d13yupeo9Oxf0pw9LR6xidGCvsKN0e4kHe74Bc0YC1tlt0
-         iETgF5/WKeaDYp0MQJ0LNyv13JMfXWMV4+WKkNBrur63j8KPG16yRjlv8d8T/8dO1D1y
-         x7igY2yz1haAFKA8+Ja31Hog/QOVl2za2093kVwKhubmTg1vzaqX4OumnO8QqXw7e94A
-         UNvBZMg3LFFhT5RVPwRYIKLdBtzauKvAxr65B0mrkIT2TVXbffd6R3teL4JAzZ/Q4mrl
-         IEWTJ+nhjVAJex4UIYfHJ78DCEsRqo95Avb9HSIPDHj61oqk/5q2E7VAUUFG0cXZVNhg
-         IR5w==
-X-Gm-Message-State: APjAAAWFDI8WZ12AvISE+k6dhXsRlIoT/TDjCmhrgROm6m84H1p8ulj2
-        GvUz1ru9XkJkkFjoYDBYMsz4R+7rh975
-X-Google-Smtp-Source: APXvYqzyXoInm3l0njOq44y5o7xliwDXBgC2/8u5zICqd2UgK2H9m/XHByx5BI0zHDixEzjUd+eJOBcmEMXF
-X-Received: by 2002:adf:ce87:: with SMTP id r7mr35598404wrn.245.1580310375660;
- Wed, 29 Jan 2020 07:06:15 -0800 (PST)
-Date:   Wed, 29 Jan 2020 15:06:12 +0000
-Message-Id: <20200129150612.19200-1-qperret@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH] kbuild: allow symbol whitelisting with TRIM_UNUSED_KSYMS
-From:   Quentin Perret <qperret@google.com>
-To:     masahiroy@kernel.org, nico@fluxnic.net
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        maennich@google.com, kernel-team@android.com, qperret@google.com
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 29 Jan 2020 12:11:19 -0500
+Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id 4FBA4B7BF5;
+        Wed, 29 Jan 2020 12:11:17 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=yhpprhRgYxzLs+VKpBm5f0Z6eus=; b=WVZsbj
+        ymcLJjf3ZB9GMSGBhB6rfJdNgHo71cWLjttm4HZ6t/V93kD+p3aAqKP+H27y06h8
+        mbDK3a+/p52ByA3lOwkN0x6PEx8TnAv3TTgMK3NFKfC2chAv7LFW89Lnjn2FTj4V
+        Yna4h5LICSO4yyy6QhLo9jp/Ur9chpID+cQT0=
+Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp20.pobox.com (Postfix) with ESMTP id 48010B7BF4;
+        Wed, 29 Jan 2020 12:11:17 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=9iQOHCEK505gx5TM5IZMQO697Nr7FynB48JFpUkroME=; b=YpLyGfzmEhwRoF8A3FbVzcF1Ft0fW4SDDazy4+2dtpaxEaFHx8Qm30GEnVpiOqfVkDJWH2hKQSbAxQ3hKT3chHLKOBiHpap4yfKEhGALHeWen54EyBmCJw1242ODfSoqRbbygUyCG/K6nhJ1ln6sZV+NQjIemzvTpTKcaTe+8cY=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 36C85B7BF3;
+        Wed, 29 Jan 2020 12:11:14 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 608852DA013B;
+        Wed, 29 Jan 2020 12:11:12 -0500 (EST)
+Date:   Wed, 29 Jan 2020 12:11:12 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Quentin Perret <qperret@google.com>
+cc:     masahiroy@kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, maennich@google.com,
+        kernel-team@android.com
+Subject: Re: [PATCH] kbuild: allow symbol whitelisting with
+ TRIM_UNUSED_KSYMS
+In-Reply-To: <20200129150612.19200-1-qperret@google.com>
+Message-ID: <nycvar.YSQ.7.76.2001291152540.1655@knanqh.ubzr>
+References: <20200129150612.19200-1-qperret@google.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: 5AC4AC00-42BA-11EA-95E9-B0405B776F7B-78420484!pb-smtp20.pobox.com
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-CONFIG_TRIM_UNUSED_KSYMS currently removes all unused exported symbols
-from ksymtab. This works really well when using in-tree drivers, but
-cannot be used in its current form if some of them are out-of-tree.
+On Wed, 29 Jan 2020, Quentin Perret wrote:
 
-Indeed, even if the list of symbols required by out-of-tree drivers is
-known at compile time, the only solution today to guarantee these don't
-get trimmed is to set CONFIG_TRIM_UNUSED_KSYMS=n. This not only wastes
-space, but also makes it difficult to control the ABI usable by vendor
-modules in distribution kernels such as Android. Being able to control
-the kernel ABI surface is particularly useful to ship a unique Generic
-Kernel Image (GKI) for all vendors.
+> CONFIG_TRIM_UNUSED_KSYMS currently removes all unused exported symbols
+> from ksymtab. This works really well when using in-tree drivers, but
+> cannot be used in its current form if some of them are out-of-tree.
+> 
+> Indeed, even if the list of symbols required by out-of-tree drivers is
+> known at compile time, the only solution today to guarantee these don't
+> get trimmed is to set CONFIG_TRIM_UNUSED_KSYMS=n. This not only wastes
+> space, but also makes it difficult to control the ABI usable by vendor
+> modules in distribution kernels such as Android. Being able to control
+> the kernel ABI surface is particularly useful to ship a unique Generic
+> Kernel Image (GKI) for all vendors.
+> 
+> As such, attempt to improve the situation by enabling users to specify a
+> symbol 'whitelist' at compile time. Any symbol specified in this
+> whitelist will be kept exported when CONFIG_TRIM_UNUSED_KSYMS is set,
+> even if it has no in-tree user. The whitelist is defined as a simple
+> text file, listing symbols, one per line.
 
-As such, attempt to improve the situation by enabling users to specify a
-symbol 'whitelist' at compile time. Any symbol specified in this
-whitelist will be kept exported when CONFIG_TRIM_UNUSED_KSYMS is set,
-even if it has no in-tree user. The whitelist is defined as a simple
-text file, listing symbols, one per line.
+The idea is sound to me. But...
 
-Signed-off-by: Quentin Perret <qperret@google.com>
+> diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
+> index a904bf1f5e67..1a6f7f377230 100755
+> --- a/scripts/adjust_autoksyms.sh
+> +++ b/scripts/adjust_autoksyms.sh
+> @@ -48,6 +48,7 @@ cat > "$new_ksyms_file" << EOT
+>  EOT
+>  sed 's/ko$/mod/' modules.order |
+>  xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
+> +cat - $CONFIG_UNUSED_KSYMS_WHITELIST |
 
----
+This is a nice trick, however it'll fail if the file path contains 
+spaces or other shell special characters. You could try something like 
+this:
 
-Not sure if this was relevant for the commit message so I'll put it
-here: more context about the GKI effort in Android can found in these
-talk at LPC2018 [1] and LPC2019 [2].
+[ -z "$CONFIG_UNUSED_KSYMS_WHITELIST" ] \
+	&& whitelist= \
+	|| whitelist="\"$CONFIG_UNUSED_KSYMS_WHITELIST\""
 
-[1] https://linuxplumbersconf.org/event/2/contributions/61/
-[2] https://linuxplumbersconf.org/event/4/contributions/401/
----
- init/Kconfig                | 12 ++++++++++++
- scripts/adjust_autoksyms.sh |  1 +
- 2 files changed, 13 insertions(+)
+And then...
 
-diff --git a/init/Kconfig b/init/Kconfig
-index a34064a031a5..d9c977ef7de5 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2180,6 +2180,18 @@ config TRIM_UNUSED_KSYMS
- 
- 	  If unsure, or if you need to build out-of-tree modules, say N.
- 
-+config UNUSED_KSYMS_WHITELIST
-+	string "Whitelist of symbols to keep in ksymtab"
-+	depends on TRIM_UNUSED_KSYMS
-+	help
-+	  By default, all unused exported symbols will be trimmed from the
-+	  build when TRIM_UNUSED_KSYMS is selected.
-+
-+	  UNUSED_KSYMS_WHITELIST allows to whitelist symbols that must be kept
-+	  exported at all times, even in absence of in-tree users. The value to
-+	  set here is the path to a text file containing the list of symbols,
-+	  one per line.
-+
- endif # MODULES
- 
- config MODULES_TREE_LOOKUP
-diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
-index a904bf1f5e67..1a6f7f377230 100755
---- a/scripts/adjust_autoksyms.sh
-+++ b/scripts/adjust_autoksyms.sh
-@@ -48,6 +48,7 @@ cat > "$new_ksyms_file" << EOT
- EOT
- sed 's/ko$/mod/' modules.order |
- xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
-+cat - $CONFIG_UNUSED_KSYMS_WHITELIST |
- sort -u |
- sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
- 
--- 
-2.25.0.341.g760bfbb309-goog
+  eval cat - $whitelist | ...
 
+This way, if $CONFIG_UNUSED_KSYMS_WHITELIST is non empty, it'll get 
+quoted.
+
+
+Nicolas
