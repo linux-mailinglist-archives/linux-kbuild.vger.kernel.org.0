@@ -2,172 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BCE314DF04
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2020 17:23:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1233714DF8D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jan 2020 18:01:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727241AbgA3QXq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Jan 2020 11:23:46 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:40963 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbgA3QXq (ORCPT
+        id S1727191AbgA3RBu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Jan 2020 12:01:50 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:40406 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727224AbgA3RBt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Jan 2020 11:23:46 -0500
-Received: by mail-io1-f68.google.com with SMTP id m25so4653020ioo.8;
-        Thu, 30 Jan 2020 08:23:46 -0800 (PST)
+        Thu, 30 Jan 2020 12:01:49 -0500
+Received: by mail-wr1-f65.google.com with SMTP id j104so4984717wrj.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 30 Jan 2020 09:01:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2gREjzEu+n1RGwcI4Ki/0u5ITWrtl7Q643uPluzcC6Q=;
-        b=Jrv0WHN7yRVxfBnyMJ72ZzWz6N5sC8I1J6CH3a++mf5Dedod2NjdUrkqUU6KrccI6h
-         5xg/WqoB11z2trhDWikP2SxkNlMgZu2MjbbFqmg7QKquqqa7iUHYke0qa2AU39FRx2hD
-         XzxM/Bof/YO9jGjxnwu0McGA8WAYbSgfZ0Qvos+A8e9pAvVUgG6uUONoBDSCU+zbAUNu
-         37TgqEtZEyv51BYDyEp5FO4LZeB7zpmZPf0Ow4dRC1aUiTq+wtFUkCziCj91ENmsTQtp
-         UaoEe5highcynG0TZzsUYySaePbWu6B6IDTYtvuu1gAS37+peP54GXNchSBenEkvBwK+
-         F22A==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=guwyI7qgekZu8i8afObSu1LIGKaCue9jEjiigz8FV7o=;
+        b=cOBH5rPimr2xIplZwH+uFIcSC3HVf/IyQsPBV/6E57BiZZ3lI1PG5HktyBYxWDy74W
+         PAxijbtRNyBHzMdIhIApwVSzMmiQCGe44O6xqX2W9nj1D6PzilB8/yrWquPweD0i+aeq
+         LEcPJCWmpYryMGqp11YAka6QJQ7iqb09HVMkWuDbyX5IW5edZo2zzlb5dsVtzFj0I+UI
+         ZkGeptyaqGyB3a6rZ0Ik1vjthMsJXVcQx6km3eYFiGWMxK4Qoz1IlXolqQ8zST8mxMuG
+         7BzIyn/kvUEOZmv6q5KR9pYJFfeqigwfn+7i5aZvM+wEQrwMa1CsQWiSqMIBa3k57haQ
+         2Q5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2gREjzEu+n1RGwcI4Ki/0u5ITWrtl7Q643uPluzcC6Q=;
-        b=VQjXFPand3XQmtWkg8Q1GZT3vZpkcBchokrBpWUp3DvIdGhyADsizQIMAq1xLfJ9MB
-         kogJhdaWq+aXl0WXA+1UwBYLOAWcs1D+s4tXgcV54X6XhnZVHk5RcZUzmiFgbgbb+72K
-         cH6wrcSBf0ILfETR+JNSE0psDex8PcACdE98xjRua7CZrvH7h370IlZq7U9DnlEfbZNx
-         ASl4TC0n7t3jI/EbGEZDVUnfhZdTGQLjV+8Nq9e+q+uYTrh9NEcknj6rK/fuNxE6zyLd
-         E1A4aECo8xRfbGtl7zcWagyyncf/5aNQJxqgt4XgGBnb1C/PEyBiJ2g6NmD76WQ1EkQj
-         QRMA==
-X-Gm-Message-State: APjAAAV/BCjUy4q7p4NJKD8AylTbbvRI4oB/jh//8bl6nvAjrzx9DU8f
-        CMaKpaMpDCZ4JyqgjaM68Ek=
-X-Google-Smtp-Source: APXvYqz2qktLCVw9l/mhVDz/5QkWJ7tkyH5WkN+czNFtmkH1J24j8E2eAjpJybZ0EJppbz/k4sk6Mw==
-X-Received: by 2002:a5e:8a03:: with SMTP id d3mr4837467iok.269.1580401425755;
-        Thu, 30 Jan 2020 08:23:45 -0800 (PST)
-Received: from localhost.localdomain ([216.249.49.11])
-        by smtp.googlemail.com with ESMTPSA id l2sm2035951ilo.6.2020.01.30.08.23.44
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=guwyI7qgekZu8i8afObSu1LIGKaCue9jEjiigz8FV7o=;
+        b=pw9oBqqVhXvkEbjPZFDk4kLpSPo5L+QKLQhtk7tZeaOh+TFOXcBdfdPJmXVM5QZivE
+         1bTJXleOZbildjHszy92Jj/cdNFspVvBO4YMtFRuR+NopLI9ZyxZWeMxE7CXEzk6bzdc
+         ahvkAowLltkXne7JCx8hTGWb42i60ZFtbveoLaALFRPgKWnLUQbEs0ZoJpDZd+67wUyd
+         Xui8oPI0lLNFMPDBWHDt84TL15BjbJXJWTjUt+DS5g8P6CWsS6sP/nqcgPrEzlqX1ldO
+         jTVSb0CwZhjviHD4gRywfTBteF1hfZUr/YMfAgWtfu69SGHCT0wavxTAxEHeLiexiaoo
+         5slQ==
+X-Gm-Message-State: APjAAAVhn56Mjae6X2DGKf65Wb33BigybFC8OoY+/z0ITonIt69um86i
+        WEWZaX87vI1iP4QcLKQr9cW/hQ==
+X-Google-Smtp-Source: APXvYqzWhCWkLPvBVQPtHwccNZiiWYwXr8Q2E99gdO5pqrj0Rft27YWkPuhhXR1trWLNGnB9nNGgYw==
+X-Received: by 2002:adf:fac8:: with SMTP id a8mr7069699wrs.81.1580403705987;
+        Thu, 30 Jan 2020 09:01:45 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
+        by smtp.gmail.com with ESMTPSA id s16sm8308922wrn.78.2020.01.30.09.01.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jan 2020 08:23:45 -0800 (PST)
-From:   Ethan Sommer <e5ten.arch@gmail.com>
-Cc:     Ethan Sommer <e5ten.arch@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] make yacc usage POSIX-compliant
-Date:   Thu, 30 Jan 2020 11:23:11 -0500
-Message-Id: <20200130162314.31449-1-e5ten.arch@gmail.com>
-X-Mailer: git-send-email 2.24.1
+        Thu, 30 Jan 2020 09:01:44 -0800 (PST)
+Date:   Thu, 30 Jan 2020 17:01:41 +0000
+From:   Quentin Perret <qperret@google.com>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     masahiroy@kernel.org, nico@fluxnic.net,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        maennich@google.com, kernel-team@android.com
+Subject: Re: [PATCH] kbuild: allow symbol whitelisting with TRIM_UNUSED_KSYMS
+Message-ID: <20200130170141.GA136787@google.com>
+References: <20200129150612.19200-1-qperret@google.com>
+ <20200130154530.GA7452@infradead.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200130154530.GA7452@infradead.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-use -b and -d to generate correctly named source and header files,
-instead of bison-specific --defines and non-POSIX -o
-check that YACC command is found in path or is an executable file,
-instead of using bison-specific --version flag to display an error when
-it is missing
-explicitly define yyltype in scripts/genksyms/lex.l, instead of relying
-on bison automatically defining it
-replace bison-specific %destructor use in scripts/kconfig/parser.y
-dtc's yacc usage is not covered here, as its use of bison-specific
-features is much greater, and it is only built on certain architectures,
-unlike kconfig and genksyms
+On Thursday 30 Jan 2020 at 07:45:30 (-0800), Christoph Hellwig wrote:
+> On Wed, Jan 29, 2020 at 03:06:12PM +0000, Quentin Perret wrote:
+> > CONFIG_TRIM_UNUSED_KSYMS currently removes all unused exported symbols
+> > from ksymtab. This works really well when using in-tree drivers, but
+> > cannot be used in its current form if some of them are out-of-tree.
+> 
+> NAK.  The state policy is that we don't care for out of tree modules,
+> and this is useful for nothing but.
 
-Signed-off-by: Ethan Sommer <e5ten.arch@gmail.com>
----
- scripts/Makefile.host     |  2 +-
- scripts/genksyms/Makefile |  6 ++++--
- scripts/genksyms/lex.l    |  2 ++
- scripts/kconfig/parser.y  | 14 +++++++-------
- 4 files changed, 14 insertions(+), 10 deletions(-)
+That is correct. Now, I clearly failed to explain this patch properly,
+but the long term goal here _is_ to get vendors to contribute more code
+upstream, and have a lot less code downstream / out-of-tree. And I hope
+we can agree this would be a good thing. So let me try again, and sorry
+if I missed the mark the first time.
 
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 4c51c95d40f4..64e98e1d4825 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -11,7 +11,7 @@ $(obj)/%.lex.c: $(src)/%.l FORCE
- # YACC
- # ---------------------------------------------------------------------------
- quiet_cmd_bison = YACC    $(basename $@).[ch]
--      cmd_bison = $(YACC) -o $(basename $@).c --defines=$(basename $@).h -t -l $<
-+      cmd_bison = $(YACC) -b $(basename $(basename $@)) -d -t -l $<
- 
- $(obj)/%.tab.c $(obj)/%.tab.h: $(src)/%.y FORCE
- 	$(call if_changed,bison)
-diff --git a/scripts/genksyms/Makefile b/scripts/genksyms/Makefile
-index 78629f515e78..1e120328fa88 100644
---- a/scripts/genksyms/Makefile
-+++ b/scripts/genksyms/Makefile
-@@ -14,9 +14,11 @@ genksyms-objs	:= genksyms.o parse.tab.o lex.lex.o
- # so that 'bison: not found' will be displayed if it is missing.
- ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
- 
-+ifeq ($(shell command -v $(YACC) || [ -x $(YACC) ] && echo y),)
-+  $(error command not found: $(YACC))
-+endif
- quiet_cmd_bison_no_warn = $(quiet_cmd_bison)
--      cmd_bison_no_warn = $(YACC) --version >/dev/null; \
--			  $(cmd_bison) 2>/dev/null
-+      cmd_bison_no_warn = $(cmd_bison) 2>/dev/null
- 
- $(obj)/pars%.tab.c $(obj)/pars%.tab.h: $(src)/pars%.y FORCE
- 	$(call if_changed,bison_no_warn)
-diff --git a/scripts/genksyms/lex.l b/scripts/genksyms/lex.l
-index e265c5d96861..0580c088527f 100644
---- a/scripts/genksyms/lex.l
-+++ b/scripts/genksyms/lex.l
-@@ -19,6 +19,8 @@
- #include "genksyms.h"
- #include "parse.tab.h"
- 
-+extern YYSTYPE yylval;
-+
- /* We've got a two-level lexer here.  We let flex do basic tokenization
-    and then we categorize those basic tokens in the second stage.  */
- #define YY_DECL		static int yylex1(void)
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index b3eff9613cf8..9eb9a94a68e0 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -20,6 +20,8 @@
- 
- int cdebug = PRINTD;
- 
-+int yynerrs = 0;
-+
- static void yyerror(const char *err);
- static void zconfprint(const char *err, ...);
- static void zconf_error(const char *err, ...);
-@@ -101,13 +103,6 @@ static struct menu *current_menu, *current_entry;
- %type <string> word_opt assign_val
- %type <flavor> assign_op
- 
--%destructor {
--	fprintf(stderr, "%s:%d: missing end statement for this entry\n",
--		$$->file->name, $$->lineno);
--	if (current_menu == $$)
--		menu_end_menu();
--} if_entry menu_entry choice_entry
--
- %%
- input: mainmenu_stmt stmt_list | stmt_list;
- 
-@@ -529,6 +524,11 @@ static bool zconf_endtoken(const char *tokenname,
- 	if (strcmp(tokenname, expected_tokenname)) {
- 		zconf_error("unexpected '%s' within %s block",
- 			    tokenname, expected_tokenname);
-+		if (!strcmp(tokenname, "if") || !strcmp(tokenname, "menu") ||
-+			!strcmp(tokenname, "choice"))
-+			fprintf(stderr, "%s:%d: missing end statement for this entry\n",
-+				current_menu->file->name, current_menu->lineno);
-+		menu_end_menu();
- 		yynerrs++;
- 		return false;
- 	}
--- 
-2.25.0
+As you probably know, the current norm on Android and many other systems
+is for vendors to introduce significant changes to their downstream
+kernels, and to contribute very little (if any) code back upstream.
 
+One of the goals of the Generic Kernel Image (GKI) project together with
+updatability and such is to close the gap between vendor-specific
+downstream kernels and upstream. Having one unique kernel for all android
+devices of the same architecture regardless of the vendor will
+mechanically force all interested parties to agree on a common solution.
+And we _are_ pushing for all this to reach upstream and be available to
+use by the wider community.
+
+The kernel-to-drivers ABI on Android devices varies significantly from
+one vendor kernel to another today (because of changes to exported
+symbols, dependencies on vendor symbols, and surely other things). The
+first step for GKI is to try and put some order into this by agreeing on
+one version of the ABI that works for everybody.
+
+For practical reasons, we need to reduce the ABI surface to a subset of
+the exported symbols, simply to make the problem realistically solvable.
+Hence this patch.
+
+I understand your point of view, and quite frankly agree with the
+message. But I think this patch pushes in the right direction. As I see
+it, things like GKI really are significant improvements, so preventing
+them from happening by refusing trivial patches such as this one will,
+in the long term, do more harm than good to the cause.
+
+Thank you for your time,
+Quentin
