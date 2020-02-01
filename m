@@ -2,126 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31E6914F16C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jan 2020 18:41:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C55314F5F9
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2020 04:13:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbgAaRlB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 31 Jan 2020 12:41:01 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45211 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726712AbgAaRlB (ORCPT
+        id S1726561AbgBADN1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 31 Jan 2020 22:13:27 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:55760 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726548AbgBADN1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 31 Jan 2020 12:41:01 -0500
-Received: by mail-wr1-f65.google.com with SMTP id a6so9585006wrx.12
-        for <linux-kbuild@vger.kernel.org>; Fri, 31 Jan 2020 09:41:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dB53pippwc9Cw99NKYUYznHPUB2hFZaxJZFvVBO7aqs=;
-        b=qpA5X10BTpYcTnqANydfOePRDFfM5juSOr2qFtgr27XSiXpOSD0IScgAJEwmmd3JpW
-         DUGpMKZH52zTS/SqVObyGMJamkdBaepDzrxfRSKKSx70INGNrdfrqBEybgcz3N3+Trxb
-         tprd/87tUYHn7uS2VA4tKsORGaWUnAvXKEJKYKxc4Keq+CSauqjMeo6m+Ah09LWtRfGp
-         jqBpJXT8XRN08SMdk8ZdtzHdPYWtsi45xHulVXlPB0Tjx/IrgEpbLeCDeFV61E5iHvvd
-         GBTg+gJbhlZtRsq9tomfDlWJ+vJYk2QLTg7E53cAy6ahljt/PvLoiQaWmO/vUtJdyMqU
-         ZXqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dB53pippwc9Cw99NKYUYznHPUB2hFZaxJZFvVBO7aqs=;
-        b=Tm2W1ZWeP22Sd1CIyqG7KsswhSJw9+F+ZP4fcXAN8oqoAbOyLBmo30ozSgidHoGQlF
-         pPxtiScfO/VxOihbyoe2VxhjDrDjtp/nmINIFRW0Q3wqVtLBxnSutuXyA6TjKyFfoGMQ
-         /yXQ3i0KXtXwsmZi+mq1JWWxtTIQy/j8OaiBRG+PWeyn+p7nOB4Ozc3gfw6GhNGx/gUg
-         ptPO0b1Q1FhbHyZpwTeibGf9+OiFwwgbR8dmYdOB3Vo10+s2GDL8BbPT3Vni2vBJHT5d
-         qJyx7Cnub0Bn29qewJkJyYbYL+MWuRENVUFF0QeXZcRA7Ic8jT2ec7jPznbhCgLqGb4A
-         PScw==
-X-Gm-Message-State: APjAAAUO3ul8DXYeVHvvSSC/oVL+Qvd0oeoWyJRP1rDBidnQdmr1O9Sg
-        l7cp+t/NH/IMd0P6wuOF/uz11Q==
-X-Google-Smtp-Source: APXvYqzMltOxjDFTZz0aISvCEPIjrr/aWK4KPPg5Rh3wcZVfSUAn0hFXxfBWGM5eTwW2w3A8GqAKDA==
-X-Received: by 2002:a5d:6a52:: with SMTP id t18mr13205891wrw.391.1580492459005;
-        Fri, 31 Jan 2020 09:40:59 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
-        by smtp.gmail.com with ESMTPSA id 21sm11359594wmo.8.2020.01.31.09.40.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jan 2020 09:40:58 -0800 (PST)
-Date:   Fri, 31 Jan 2020 17:40:55 +0000
-From:   Quentin Perret <qperret@google.com>
-To:     Matthias Maennich <maennich@google.com>
-Cc:     masahiroy@kernel.org, nico@fluxnic.net,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com, jeyu@kernel.org
-Subject: Re: [PATCH v2] kbuild: allow symbol whitelisting with
- TRIM_UNUSED_KSYMS
-Message-ID: <20200131174055.GA8425@google.com>
-References: <20200129181541.105335-1-qperret@google.com>
- <20200131131508.GH102066@google.com>
+        Fri, 31 Jan 2020 22:13:27 -0500
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 0113DLDm009510;
+        Sat, 1 Feb 2020 12:13:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0113DLDm009510
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1580526802;
+        bh=ksQtQURl2x42JI5HQi3g0Y259IHl4s45ZmZXBUB6zak=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BKn59/y8oLy5s+zElQZstrBnxuRT/En4Uk0ewz0YHhUghhiOGwcpbXzudpVR7Vghr
+         9mKewyp/X4WHlbPEWYTGfpCZ2T14ZhmHX1irTSz9egdZ5eebHprlCAN2P7O6CfrvcP
+         6WDqeMTJ8c2ig+6pmylzHhD1CwfOnypLbTJuBy+MXAddCtE8PNIBeWboVa1mJK5I7E
+         5vdWhuIzXa/RslVDdVlbMY4HbIaSN74abqGyxg4Y747RXhTvTYBIzNCqMUT9C7VVYC
+         yzfM6u3lQJ0KkAKV5yo8NfS2XlcwaRIdO0awMeLQENwXM2OTthyiBNE63a+loJNewK
+         b4ooOb2jVBTeQ==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id g23so5658323vsr.7;
+        Fri, 31 Jan 2020 19:13:21 -0800 (PST)
+X-Gm-Message-State: APjAAAWqv52asO21QBX8wHc1l7J2SCU/sodCq8AS9cmF697eCsfz3etq
+        +w/y71+DcgBq7jHipnyXc06V/MeoVnr2kin84eM=
+X-Google-Smtp-Source: APXvYqzdoalu+SqrZSQ+9JZSGhwOlYChlO7/PUp3X0NlVSrxUrHnl+0z0oyYRupVB2AZWxU3Qsw1wHGmnNQbqIxUzi0=
+X-Received: by 2002:a05:6102:3102:: with SMTP id e2mr8819451vsh.179.1580526800711;
+ Fri, 31 Jan 2020 19:13:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200131131508.GH102066@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200122100344.50751-1-vincenzo.frascino@arm.com>
+In-Reply-To: <20200122100344.50751-1-vincenzo.frascino@arm.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 1 Feb 2020 12:12:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
+Message-ID: <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Sanitize make randconfig generated .config
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Friday 31 Jan 2020 at 13:15:08 (+0000), 'Matthias Maennich' via kernel-team wrote:
-> On Wed, Jan 29, 2020 at 06:15:41PM +0000, Quentin Perret wrote:
-> > diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
-> > index a904bf1f5e67..8e1b7f70e800 100755
-> > --- a/scripts/adjust_autoksyms.sh
-> > +++ b/scripts/adjust_autoksyms.sh
-> > @@ -48,6 +48,7 @@ cat > "$new_ksyms_file" << EOT
-> > EOT
-> > sed 's/ko$/mod/' modules.order |
-> > xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
-> > +cat - "${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}" |
-> 
-> This handles absolute paths very well. I wonder whether we can make this
-> more useful for folks that want to maintain such a whitelist in their
-> copy of the tree. Lets say, I have in my sources
-> arch/x86/configs/x86_64_symbol_whitelist and in my config I have
-> CONFIG_UNUSED_KSYMS_WHITELIST="arch/x86/configs/x86_64_symbol_whitelist".
-> 
-> If I see it correctly, UNUSED_KSYMS_WHITELIST is currently either an
-> absolute path or a relative path to the current build directory. I would
-> prefer if relative paths would be relative to the source directory to
-> support the above use case. (Note, that scenario above works if I build
-> directly in the sources, but fails if I build O=/somewhere/else.)
+Hi.
 
-Right, that is an interesting use case. I suppose something like the
-below should work (with appropriate documentation of the config option).
 
----8<---
-diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
-index 8e1b7f70e800..d37803fd75ce 100755
---- a/scripts/adjust_autoksyms.sh
-+++ b/scripts/adjust_autoksyms.sh
-@@ -38,6 +38,12 @@ esac
- # We need access to CONFIG_ symbols
- . include/config/auto.conf
- 
-+ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
-+# If the path is relative, it must be relative to the source tree
-+if [ "$ksym_wl" == "${ksym_wl#/}" ]; then
-+       ksym_wl="$abs_srctree/$ksym_wl"
-+fi
-+
- # Generate a new ksym list file with symbols needed by the current
- # set of modules.
- cat > "$new_ksyms_file" << EOT
-@@ -48,7 +54,7 @@ cat > "$new_ksyms_file" << EOT
- EOT
- sed 's/ko$/mod/' modules.order |
- xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
--cat - "${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}" |
-+cat - "$ksym_wl" |
- sort -u |
- sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
---->8---
+On Wed, Jan 22, 2020 at 7:03 PM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> "make randconfig" calculates the probability of a tristate option (yes,
+> mod, no) based on srand()/rand() and can be fed with a seed.
+> At the last step of randconfig some option are chosen randomly and their
+> tristate set based on similar mechanism.
+> After this passage the resulting .config is not sanitized, hence it
+> might result in an inconsistent set of options being selected.
+>
+> This was noticed on arm64 using KCONFIG_SEED=0x40C5E904. During
+> randomize_choice_values() CONFIG_BIG_ENDIAN is enabled. Since CONFIG_EFI
+> was enabled at a previous step, and depends on !CONFIG_BIG_ENDIAN the
+> resulting .config is inconsistent.
+>
+> Fix the issue making sure that randconfig sanitizes the generated
+> .config as a last step.
+>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> ---
+>  scripts/kconfig/conf.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> index 1f89bf1558ce..c0fcaa4e9762 100644
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -654,6 +654,11 @@ int main(int ac, char **av)
+>         case randconfig:
+>                 /* Really nothing to do in this loop */
+>                 while (conf_set_all_new_symbols(def_random)) ;
+> +               /*
+> +                * .config at this point might contain
+> +                * incompatible options. Sanitize it.
+> +                */
+> +               sym_clear_all_valid();
 
-Thoughts ?
+Thanks for the report, but clearing
+all the valid flags is a big hammer.
+I do not think it is a proper fix.
 
-Thanks,
-Quentin
+
+I checked the code, and I noticed the root cause of
+this bug.
+
+I will send a different patch later.
+
+
+
+
+>                 break;
+>         case defconfig:
+>                 conf_set_all_new_symbols(def_default);
+> --
+> 2.25.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
