@@ -2,113 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A4A014F68B
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2020 06:16:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BEF214F6E1
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2020 07:25:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725956AbgBAFQs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Feb 2020 00:16:48 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:26548 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbgBAFQs (ORCPT
+        id S1726044AbgBAGZL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Feb 2020 01:25:11 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44694 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726038AbgBAGZL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Feb 2020 00:16:48 -0500
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 0115GSwg014871;
-        Sat, 1 Feb 2020 14:16:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0115GSwg014871
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1580534189;
-        bh=EOo269sVB5Uni2uD53XMCBzvrOWKyeudbnpYYN1nMiY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ml66T7N9A7y6yKylZyhluyiveOEoNz52By1g85g4qvkSDFxTzFjNb7GFWdEN+9C0j
-         rJPnld7g112VEjr/qD2RgcdzPLrSe7O2/dErafv/owgMKyIMzzMa5L3H2afcIDsCzD
-         /l0PqNB8USff1oa9Q+UuLHIDdqMyNgoE4qmp8bA969A2WvQVWRaZbNoy6RI5x+28cj
-         esBbk0FlM5HfsJA1maOV9B1sKizcmblgmRiy8y1n1w5dfFo7v/XPwnrv613Fh87VoK
-         kwzs1CMKopsuPAV2/0powBnGxjA5TYcS7kn6lB8YkrQdhYL3y0QYXJq86wyRNNW35x
-         Wb8szQ8NZ8mHA==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id n27so5792846vsa.0;
-        Fri, 31 Jan 2020 21:16:29 -0800 (PST)
-X-Gm-Message-State: APjAAAVWkLxjmdIVM9T1jSV0AL8CrYU7xAqTXIrnM05DElYg0dmBtdWL
-        KU0XRy7X3aE5DKbPcmohJcEUtkAbwwL/iQ1DspA=
-X-Google-Smtp-Source: APXvYqzWBNOWLNT7IOC7dssAF7uFRcUhn9ZP9sT1WohMsnJL+AQDdF4pundz9bFCRTrV7s24L6v8dOvZVdygGP9g8W8=
-X-Received: by 2002:a05:6102:1174:: with SMTP id k20mr6520889vsg.155.1580534187978;
- Fri, 31 Jan 2020 21:16:27 -0800 (PST)
+        Sat, 1 Feb 2020 01:25:11 -0500
+Received: by mail-pg1-f195.google.com with SMTP id x7so4751243pgl.11;
+        Fri, 31 Jan 2020 22:25:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kIoryQNxUONJRGtWLKxPO60ZclmbdJRMXHgfMgH0QP0=;
+        b=a8HWqdZZWAZLkD+sZxA1kKSsILlD5gmRvsj9U3v+N6blQBaQ+8VsYkBRyN7xZV/Zj4
+         7e+42qi6iFLM4tVW1fKuZqOFhF+3c0y7S/NOgM2K3ygTBYFWrXRjdIj8e6L+Qj2luhCd
+         6MPtjjhO85yBkBKTyI5eVqUUgLgmg1DnxeaIbYTmlJmlMrH4PZIzQ/ZUHJiK+1RaaZ7B
+         FLkJfGm0ziM2b/vVZDfB0ksKtHzSyx8kLGiHsqpZSPbVpQMmRL7tf4xD8y8cVDSkgTK7
+         pt53OK/25Adx6fP4LRYldqspO0DzKHwCz/Ssc/WTYbEbioyrSCU4Tfwcu+PRP/d4bd2O
+         sf1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kIoryQNxUONJRGtWLKxPO60ZclmbdJRMXHgfMgH0QP0=;
+        b=kgvk68jHXDCYIaUCfh8WlDZBE9ByD3EBgi5H8JQ8LmTsCJErnU8SPZCVhXdTS8Je5v
+         JjplsCZ3DoDcENxQ1uaJx7D6/uewFwKvt0oRxDXf3V27FAy3jH1q6tOQqU8lLNd5bXyH
+         k7olLJiE0MyMAd6dcmhreh3lvdw72uUCEdxcpoUCUcmmdCHpRzY/qE9kxx4uMGia1Iy4
+         /VhKP4P2MGZvfsQb8jXcjWM+ps5+x+sxHnMqeTKgQg2+4i3L9XJBQUWe0vktElijGv2/
+         fVKSiXZR4sqXPScMpGRwG4LGeZzSDZ/tV7X+2gdQ1Z4hMWiyPh65tfmXBOEXr8fcsXra
+         C0Qw==
+X-Gm-Message-State: APjAAAXdgCEoHJqOG4T4r2jdTirc+OtsDikjQ68QnVkDezyuAeiTqWyT
+        /DWqAURugH8Erch2qqItrOo=
+X-Google-Smtp-Source: APXvYqwxlkeYW4dDNOTkF37a/kTlbvpnPY0f7epfd8y8ApICp5cCAtiaLNv739Lg/+BCp8U9ypEpzg==
+X-Received: by 2002:a63:214e:: with SMTP id s14mr14017609pgm.428.1580538310445;
+        Fri, 31 Jan 2020 22:25:10 -0800 (PST)
+Received: from localhost.localdomain ([149.248.18.167])
+        by smtp.gmail.com with ESMTPSA id v4sm13191971pgo.63.2020.01.31.22.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 Jan 2020 22:25:09 -0800 (PST)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Andrey Ryabinin <aryabinin@virtuozzo.com>
+Cc:     Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        hpa@zytor.com, x86@kernel.org, Andy Lutomirski <luto@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH 0/2] Add SANITIZE_xx.o & SANITIZE and apply them to x86
+Date:   Sat,  1 Feb 2020 14:24:57 +0800
+Message-Id: <20200201062459.7150-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20200122100344.50751-1-vincenzo.frascino@arm.com> <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
-In-Reply-To: <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 1 Feb 2020 14:15:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATmVaxdMrJqeNEZ0cNHYXrL06Va7v2hFzEY=j1i=gGCdw@mail.gmail.com>
-Message-ID: <CAK7LNATmVaxdMrJqeNEZ0cNHYXrL06Va7v2hFzEY=j1i=gGCdw@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: Sanitize make randconfig generated .config
-To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 1, 2020 at 12:12 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Hi.
->
->
-> On Wed, Jan 22, 2020 at 7:03 PM Vincenzo Frascino
-> <vincenzo.frascino@arm.com> wrote:
-> >
-> > "make randconfig" calculates the probability of a tristate option (yes,
-> > mod, no) based on srand()/rand() and can be fed with a seed.
-> > At the last step of randconfig some option are chosen randomly and their
-> > tristate set based on similar mechanism.
-> > After this passage the resulting .config is not sanitized, hence it
-> > might result in an inconsistent set of options being selected.
-> >
-> > This was noticed on arm64 using KCONFIG_SEED=0x40C5E904. During
-> > randomize_choice_values() CONFIG_BIG_ENDIAN is enabled. Since CONFIG_EFI
-> > was enabled at a previous step, and depends on !CONFIG_BIG_ENDIAN the
-> > resulting .config is inconsistent.
-> >
-> > Fix the issue making sure that randconfig sanitizes the generated
-> > .config as a last step.
-> >
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> > ---
-> >  scripts/kconfig/conf.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-> > index 1f89bf1558ce..c0fcaa4e9762 100644
-> > --- a/scripts/kconfig/conf.c
-> > +++ b/scripts/kconfig/conf.c
-> > @@ -654,6 +654,11 @@ int main(int ac, char **av)
-> >         case randconfig:
-> >                 /* Really nothing to do in this loop */
-> >                 while (conf_set_all_new_symbols(def_random)) ;
-> > +               /*
-> > +                * .config at this point might contain
-> > +                * incompatible options. Sanitize it.
-> > +                */
-> > +               sym_clear_all_valid();
->
-> Thanks for the report, but clearing
-> all the valid flags is a big hammer.
-> I do not think it is a proper fix.
->
->
-> I checked the code, and I noticed the root cause of
-> this bug.
->
-> I will send a different patch later.
+These two patches add SANITIZE_xx.o and SANITIZE to disable all sanitizers for
+specific files, and apply them to x86 booting code.
 
+We need to disable UBSAN for some of ealy stage code:
+ o For code which could operate in one-one mapping mode. In this case,
+   kernel would crash at accessing data parameter when invoking UBSAN
+   handlers.
+ o Since UBSAN handlers are instrumented by KASAN, so invoking UBSAN
+   handlers before KASAN is initiated also is not allowed.
 
-I think this is a more correct fix-up:
-https://patchwork.kernel.org/patch/11360945/
+Changbin Du (2):
+  sanitize: Add SANITIZE_xx.o and SANITIZE to disable all sanitizers for
+    specific files
+  x86: Disable both KASAN and UBSAN for some booting code
 
+ Documentation/dev-tools/kasan.rst | 12 ++++++++++++
+ arch/x86/boot/Makefile            |  2 +-
+ arch/x86/boot/compressed/Makefile |  2 +-
+ arch/x86/entry/vdso/Makefile      |  3 +--
+ arch/x86/kernel/Makefile          | 10 +++++-----
+ arch/x86/lib/Makefile             |  2 +-
+ arch/x86/mm/Makefile              |  4 ++--
+ arch/x86/realmode/Makefile        |  2 +-
+ arch/x86/realmode/rm/Makefile     |  2 +-
+ scripts/Makefile.lib              |  4 ++--
+ 10 files changed, 27 insertions(+), 16 deletions(-)
 
 -- 
-Best Regards
-Masahiro Yamada
+2.24.0
+
