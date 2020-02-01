@@ -2,75 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 21F0A14F961
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2020 19:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD2F614F970
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Feb 2020 19:30:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbgBAS2X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Feb 2020 13:28:23 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42040 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726354AbgBAS2X (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Feb 2020 13:28:23 -0500
-Received: by mail-lj1-f196.google.com with SMTP id d10so10462225ljl.9
-        for <linux-kbuild@vger.kernel.org>; Sat, 01 Feb 2020 10:28:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5IZAnCMpe8DW4khvlse83k3bVZJhm44NmP/u82ve7Vg=;
-        b=N6WC6YbLEkYpGK90chX8z0G9lK4WcDblSzCh5VurtZtsJhEf3zIu29kgqCw1IWPMS9
-         dMfaHr3I7HyMTWSkKGqK2Rdc6Uc6m307lrzA6BY+4we7tol7x7i0C2gba2oNsDxXmsK9
-         oqiaQzWnez0t+y/f1iVkzxzs7TmiOtXC2cvg0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5IZAnCMpe8DW4khvlse83k3bVZJhm44NmP/u82ve7Vg=;
-        b=MOj8LhAR+a91WMG12NVa9qrDZ+6ZrU4FQhvJF8hYJML0xA5KPvtBuiNAnttf9Ik6Ta
-         Ich21bGIIw0E5O3J7FwtbVigl/2IT3tsvakGgVZzt/StNty+HyaLX4ir8t9f7Db/kL/e
-         kg5w2zygZ99nmC08L+qV982z0uxAPWPkjROdX4bvUNgqd03L1f30PFNXrtNymK+Q8sgx
-         8Z2cqivbLGgB4EoSYaiO2JP6QDfmAsdqZbDE7FXztILWK2WQaWfwPkmj1/ekNw1N91G1
-         hKkAp0oqsGa0zDS17cRuSOFtjWLcXLQblShvmGvBzqJ+bvC8Hf8IURIB+hak3KX1d532
-         wFBQ==
-X-Gm-Message-State: APjAAAXs/nHt0f+ubpkJmK2cfWlYRAF7ExoHib4uPRyP6kkXTntF19+n
-        zsPUOxcr+DU6LcGzXeKTHg+lCnH1o+M=
-X-Google-Smtp-Source: APXvYqzvCi8Y+GKlCv6IFTpiuQYW9gAA1DSYlbI85RIlneT9Mks1JurhWte4T1KN/D4DkXaI6C7kSQ==
-X-Received: by 2002:a2e:3619:: with SMTP id d25mr9128610lja.231.1580581700620;
-        Sat, 01 Feb 2020 10:28:20 -0800 (PST)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
-        by smtp.gmail.com with ESMTPSA id w29sm8298824ljd.99.2020.02.01.10.28.19
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Feb 2020 10:28:19 -0800 (PST)
-Received: by mail-lf1-f41.google.com with SMTP id t23so7021609lfk.6
-        for <linux-kbuild@vger.kernel.org>; Sat, 01 Feb 2020 10:28:19 -0800 (PST)
-X-Received: by 2002:a19:c7d8:: with SMTP id x207mr8314743lff.142.1580581699074;
- Sat, 01 Feb 2020 10:28:19 -0800 (PST)
-MIME-Version: 1.0
-References: <CAK7LNAT2Z=_ig0CnCcCS-=MVN409XrPay5-62LhVRRtvOPshTA@mail.gmail.com>
-In-Reply-To: <CAK7LNAT2Z=_ig0CnCcCS-=MVN409XrPay5-62LhVRRtvOPshTA@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 1 Feb 2020 10:28:03 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wj1K6DR65Vg0-KreeRdK7AKhJ3XwbJ7Gqk5L0=QkKfvDg@mail.gmail.com>
-Message-ID: <CAHk-=wj1K6DR65Vg0-KreeRdK7AKhJ3XwbJ7Gqk5L0=QkKfvDg@mail.gmail.com>
-Subject: Re: [GIT PULL 2/2] Kconfig updates for v5.6-rc1
+        id S1726885AbgBASaR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Feb 2020 13:30:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60750 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726270AbgBASaQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 1 Feb 2020 13:30:16 -0500
+Subject: Re: [GIT PULL 1/2] Kbuild updates for v5.6-rc1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580581816;
+        bh=oY4JjYsBkM4oaf5Qo8IqnuwCWWbNz5S4SGHZr8L0TRo=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=Yq+E+5CnAxo36Zjp4eu1DYWFdvxZGmTe4m/olwhSO8LoqQyA12NjG3UJFJVN0fdxh
+         dnnptu6Hs4WGmmKmmWKwdMTgpg5Yo5HgYpYpCWRG817Y6XV1Rev9DrFAV+vNq/2ufg
+         uJdSj3fPJFMWG9TBVmjjFUps7UzUxYaBIaTnmngY=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAS625YwKpv4wfKO78+Rexe2fP5pLDbMD4r71wwiQfN0Ng@mail.gmail.com>
+References: <CAK7LNAS625YwKpv4wfKO78+Rexe2fP5pLDbMD4r71wwiQfN0Ng@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAS625YwKpv4wfKO78+Rexe2fP5pLDbMD4r71wwiQfN0Ng@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ tags/kbuild-v5.6
+X-PR-Tracked-Commit-Id: 451dff37f0752cc8ad6f1bb82081a98d7b760310
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 368d060bb497775e42e323b9f676c45e2011da27
+Message-Id: <158058181620.4504.1255517678258543821.pr-tracker-bot@kernel.org>
+Date:   Sat, 01 Feb 2020 18:30:16 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 31, 2020 at 8:06 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->  - add 'yes2modconfig' and 'mod2yesconfig' targets
+The pull request you sent on Sat, 1 Feb 2020 13:05:32 +0900:
 
-It would have been appreciated if you'd explain what the point of those are.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.6
 
-Yes, I looked into the individual commits to check, but it wasn't
-exactly obvious why anybody would ever use this.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/368d060bb497775e42e323b9f676c45e2011da27
 
-                    Linus
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
