@@ -2,104 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FC87150E17
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2020 17:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F864150EA4
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2020 18:33:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728647AbgBCQsx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Feb 2020 11:48:53 -0500
-Received: from conuserg-07.nifty.com ([210.131.2.74]:39669 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728725AbgBCQst (ORCPT
+        id S1728508AbgBCRd3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Feb 2020 12:33:29 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39188 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727148AbgBCRd2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Feb 2020 11:48:49 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 013GlTEe023349;
-        Tue, 4 Feb 2020 01:47:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 013GlTEe023349
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1580748450;
-        bh=8mL42oRIQaZwSHKJpmCbjvxiZ9pQrs0tUPVRqgWsB3g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Xf6D5Pz8FLxjB0pUEniUL8d6Ed4jC+q9Ida4tAqk5kb10+teGeZ49/u/IwWsuhhWV
-         M/jQKoFfkD3fUlYD7ld7oAddTE1/mdPlB0vR/m219WPjLBWMDKeswDdUSZdZlUxx+z
-         zZNmN8u9dAXQUksICYcG3dyvsjL8tLXLcKvJT6wM2vTUqxqEhVE89ca1FfJOo7a9bU
-         kA8DM2IulFoQrKjEqApSdSgHVSVwFipB/9af0t7BPeOlTUcxLz66xcD01EZgnbn4ZB
-         9I2QGjGI6505eg5Qqfi6P7ykfS8FEg8DnRPw3qWP21dchYjW+eOUEjGaQLk0tP11de
-         81KZ+ijPKQS0g==
-X-Nifty-SrcIP: [126.93.102.113]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 3 Feb 2020 12:33:28 -0500
+Received: by mail-lj1-f195.google.com with SMTP id o15so9990040ljg.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Feb 2020 09:33:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4hbE/x+sKgUAgdZy5iD1MgArPOja0ET3H9jzYkhb1ns=;
+        b=WYFHmu8BI34dQPDYIAU9HVfivXkiWKo8NGvuEy7B6TsaQmEE8aTI4n0VwoxW+lgt2V
+         kkDCpnuh98u9bEorsiDtOuKYAOPlNmacBmM21claXHAv5AtJRqeQyw4gS4hRyWLexsc5
+         mW7oNEJYTcmOIHR+e6ixQIiRFZbZEzwujp5lc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4hbE/x+sKgUAgdZy5iD1MgArPOja0ET3H9jzYkhb1ns=;
+        b=cpWH+RM58EbmaKuyt3PTl8Pnkm1vCMRWsii0tXNoeQCxMZOHkp+c45c+/xvopMs0Xj
+         +cz3qV5G0Htj2wZ5+Z2ZT/t8Vp33/5zmsWWzE7LSa4f2J3k3bhQ6OxLzc21obWe/grVF
+         9/1OIS03Y2tsVs+P9WgtfsmNqTH/pgLbYJVP1BhTQjPF8sHeXcWurGBXL1sExZlFFBUG
+         7klx9n8dxtBoagqpgMyNcVlRYATz9AnuIRj9tToHgP6TNWbIj2yDqYqLhmSOFgY6kfiR
+         q4R8+BeU9KWouxNEVW+RJtxsqeaonJznPRrtdSBkO6ileVg7eiZghX0L63wIzej9bQ+I
+         Ad+g==
+X-Gm-Message-State: APjAAAWXhGuqjXtejf71iJ8l70FgpYi6etsGtGMsxU8b1BWOVgQ/LjUz
+        7Xy+HDQvf018n5IKF+X+JtafRWM7aPmugA==
+X-Google-Smtp-Source: APXvYqzU5EfclhFpaN1fH3hKK1l7RiJUsWbxowUMF5IJw28EfmGxFR3SVday2uBQzQ1L7w/DkW1pMQ==
+X-Received: by 2002:a2e:9e16:: with SMTP id e22mr15305646ljk.220.1580751204465;
+        Mon, 03 Feb 2020 09:33:24 -0800 (PST)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id m8sm9376342lfp.4.2020.02.03.09.33.23
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Feb 2020 09:33:23 -0800 (PST)
+Received: by mail-lf1-f53.google.com with SMTP id 9so10266582lfq.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 03 Feb 2020 09:33:23 -0800 (PST)
+X-Received: by 2002:a19:c82:: with SMTP id 124mr12455037lfm.152.1580751202962;
+ Mon, 03 Feb 2020 09:33:22 -0800 (PST)
+MIME-Version: 1.0
+References: <20200203164708.17478-1-masahiroy@kernel.org>
+In-Reply-To: <20200203164708.17478-1-masahiroy@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Mon, 3 Feb 2020 17:33:06 +0000
+X-Gmail-Original-Message-ID: <CAHk-=whHRjzeTRsPta3VY3pnT_NRPXgCqPgmm=midXevHjGZEg@mail.gmail.com>
+Message-ID: <CAHk-=whHRjzeTRsPta3VY3pnT_NRPXgCqPgmm=midXevHjGZEg@mail.gmail.com>
+Subject: Re: [PATCH] initramfs: do not show compression mode choice if
+ INITRAMFS_SOURCE is empty
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Greg Thelen <gthelen@google.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] initramfs: do not show compression mode choice if INITRAMFS_SOURCE is empty
-Date:   Tue,  4 Feb 2020 01:47:08 +0900
-Message-Id: <20200203164708.17478-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit ddd09bcc899f ("initramfs: make compression options not
-depend on INITRAMFS_SOURCE"), Kconfig asks the compression mode for
-the built-in initramfs regardless of INITRAMFS_SOURCE.
+On Mon, Feb 3, 2020 at 4:47 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Will you directly pick up this if you are OK with it?
 
-It is technically simpler, but pointless from a UI perspective,
-Linus says [1].
+Done. Thanks,
 
-When INITRAMFS_SOURCE is empty, usr/Makefile creates a tiny default
-cpio, which is so small that nobody cares about the compression.
-
-This commit hides the Kconfig choice in that case. The default cpio
-is embedded without compression, which was the original behavior.
-
-[1]: https://lkml.org/lkml/2020/2/1/160
-
-Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-Linus,
-
-Will you directly pick up this if you are OK with it?
-
-
-
- usr/Kconfig  | 1 +
- usr/Makefile | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/usr/Kconfig b/usr/Kconfig
-index 529caab1a328..bdf5bbd40727 100644
---- a/usr/Kconfig
-+++ b/usr/Kconfig
-@@ -102,6 +102,7 @@ config RD_LZ4
- 
- choice
- 	prompt "Built-in initramfs compression mode"
-+	depends on INITRAMFS_SOURCE != ""
- 	help
- 	  This option allows you to decide by which algorithm the builtin
- 	  initramfs will be compressed.  Several compression algorithms are
-diff --git a/usr/Makefile b/usr/Makefile
-index 18aed2ab98da..c12e6b15ce72 100644
---- a/usr/Makefile
-+++ b/usr/Makefile
-@@ -8,7 +8,7 @@
- # with unpack_to_rootfs(). Make size_append no-op.
- override size_append := :
- 
--compress-$(CONFIG_INITRAMFS_COMPRESSION_NONE)	:= shipped
-+compress-y					:= shipped
- compress-$(CONFIG_INITRAMFS_COMPRESSION_GZIP)	:= gzip
- compress-$(CONFIG_INITRAMFS_COMPRESSION_BZIP2)	:= bzip2
- compress-$(CONFIG_INITRAMFS_COMPRESSION_LZMA)	:= lzma
--- 
-2.17.1
-
+              Linus
