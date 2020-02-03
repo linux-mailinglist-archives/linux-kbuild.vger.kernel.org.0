@@ -2,92 +2,143 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67BEB150128
-	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2020 06:20:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B3001504C5
+	for <lists+linux-kbuild@lfdr.de>; Mon,  3 Feb 2020 12:00:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbgBCFUG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Feb 2020 00:20:06 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:46625 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbgBCFUG (ORCPT
+        id S1727149AbgBCLAR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Feb 2020 06:00:17 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36183 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726527AbgBCLAR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Feb 2020 00:20:06 -0500
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 0135JhAi023689;
-        Mon, 3 Feb 2020 14:19:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0135JhAi023689
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1580707184;
-        bh=R8kzJf9J/bk6QzTc3zwFEeBvlSpMMeb6GRnS58I25Hc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GQSkoqUT7cplJ/wXPyA1d1u+d8wPOImQFu0SZBMf0OynqlkJLXNsaTinPjzQcHKeD
-         vXTz7NAZVqSPn/cY3elZG5pe26Moi/Qo71+eLGDmSWykFNDWn4j30SocFci0PemWPZ
-         FS0eYKEMomYmsLmDRIPANfcEe4Rpvb1sOfCXWrLqd1U3Qutpuuf0yUYgCRHMH1wsfZ
-         fbqOQ6um91roMnfKiHb6MM4wI8W/izSQBtt5KGZNcsTdIU3Z+M8zMGO6Cb7W154T+X
-         nRAE3Yxerh6Ct6L8ABvwbDS14VYeW16BnxbKL/kHInW5p9w6Y1umex8JZ9ObGulA2f
-         JiYU7mZonNhVQ==
-X-Nifty-SrcIP: [209.85.217.51]
-Received: by mail-vs1-f51.google.com with SMTP id g15so8166693vsf.1;
-        Sun, 02 Feb 2020 21:19:44 -0800 (PST)
-X-Gm-Message-State: APjAAAUTWFS5Y1xQN7PI5SUkshEms2/Cu4jzZDEq7zTrZ6TpQ0DedguV
-        Ky1OgKWlZrw6/LUuVphRAVO03mvG3KDLvQ6saiE=
-X-Google-Smtp-Source: APXvYqxcQM6p6tR0N8S+zmXJx/zC8ZCy5mVhBsqvx8kWMeB6kjuvHyZcIQDRKcnuAjcZLZYdO62sUG9u8fNw/IYfhmI=
-X-Received: by 2002:a67:6485:: with SMTP id y127mr13978433vsb.54.1580707182954;
- Sun, 02 Feb 2020 21:19:42 -0800 (PST)
+        Mon, 3 Feb 2020 06:00:17 -0500
+Received: by mail-ot1-f66.google.com with SMTP id j20so4748474otq.3;
+        Mon, 03 Feb 2020 03:00:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HSvHNN+8r5amtyKmUg8emtWtzRdpFVJ7MMDiOIdoqoo=;
+        b=LxNXUWdVPZ2zLmfQ7Pg53uu6Xy5JwPIBL2+3M6wV8VUu7ZySEi4Gpt+jZMm6Qn+0Px
+         s8hFaGZ7r+TO7jxs1QKy1wzaxmIQJuQWOCUPU4bK+sk6qMDJPZMmWR4txAwi/OAZVjYu
+         fKKpG3uvqg5lxhSNLHyUr3N3UR+U071xMS3Mp1pTNmAkIblJNwGvbqpBeFFGAvKYURk2
+         slGU1cGjA8LrapNJHYKymS+qwXRdAcWblv6SGzQYM5cO0se2WphoD1zTvzztm2yNgEXu
+         XdOjn1/wUjhROcs1fDS1TzBt7w1F91Clqa/qKsi7KL/joIIQl0W0BO0SCFz0CfYBy1U0
+         CxOg==
+X-Gm-Message-State: APjAAAW+k8cZWRg2LkWK4BzzkrmL84H6zdKXo4HD5PbcYLqMCoqjeOpR
+        VG+4CmBpJpDcO6bS07kUzlPJCfAHbMxWmsgn7q4=
+X-Google-Smtp-Source: APXvYqzIgEOEaL8DuU6yXLdqdxv9NXwCp/3gdAFi0sFpJIv6us2mrWb0MONCGISYKLRdjNXpciySPXw9HvYAXx4melE=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr17372599ots.250.1580727615977;
+ Mon, 03 Feb 2020 03:00:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20200202050922.12402-1-masahiroy@kernel.org> <20200202050922.12402-3-masahiroy@kernel.org>
- <CAMrEMU9ZBAwOPsqeKw0sUF0EWnfO1-UtOKROD6T1AjYX_tWLXA@mail.gmail.com>
-In-Reply-To: <CAMrEMU9ZBAwOPsqeKw0sUF0EWnfO1-UtOKROD6T1AjYX_tWLXA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 3 Feb 2020 14:19:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASqGiYHJTsRFdanfxCXe7JYB7+qf=GmvnO3UcJ-uDsatw@mail.gmail.com>
-Message-ID: <CAK7LNASqGiYHJTsRFdanfxCXe7JYB7+qf=GmvnO3UcJ-uDsatw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] kallsyms: fix type of kallsyms_token_table[]
-To:     Justin Capella <justincapella@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <CAK7LNAS625YwKpv4wfKO78+Rexe2fP5pLDbMD4r71wwiQfN0Ng@mail.gmail.com>
+ <CAHk-=wiTEVwmj-PH98reZTibx+C_GLwAmXO0RFmJa9weZcg70g@mail.gmail.com> <CAK7LNAQwJVnVti4cX2GHdekD0mx1Kc2A3xvsE63WhHAGvgW2QA@mail.gmail.com>
+In-Reply-To: <CAK7LNAQwJVnVti4cX2GHdekD0mx1Kc2A3xvsE63WhHAGvgW2QA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 3 Feb 2020 12:00:04 +0100
+Message-ID: <CAMuHMdWerVTn-RvUOzHzGurY71NP9fNj+24EjnVkxnmp5g94jw@mail.gmail.com>
+Subject: Re: [GIT PULL 1/2] Kbuild updates for v5.6-rc1
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 3, 2020 at 12:26 PM Justin Capella <justincapella@gmail.com> wrote:
+Hi Yamada-san,
+
+On Mon, Feb 3, 2020 at 2:28 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Sun, Feb 2, 2020 at 3:45 AM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> > On Fri, Jan 31, 2020 at 8:06 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > >  - simplify built-in initramfs creation
+> >
+> > Hmm.
+> >
+> > This may simplify it from a _technical_ angle, but it seems to be a
+> > fairly annoying step backwards from a UI perspective.
+> >
+> > Now Kconfig asks a completely pointless question that most people have
+> > absolutely zero interest in. The old situation was better, I feel.
+> >
+> > Basically, I feel that from a "get normal users to test development
+> > kernels", our Kconfig pain ends up being the biggest hurdle by far.
+> >
+> > The kernel is easy to build and doesn't really require all that much
+> > infrastructure, but generating the config - particularly when it
+> > changes over time and you can't just say "just use the distro config"
+> > - is a big step for people.
+> >
+> > So honestly, while I've pulled this, I feel that this kind of change
+> > is going _exactly_ the wrong way when it asks people questions that
+> > they don't care one whit about.
+> >
+> > If I as a kernel developer can't find it in myself to care and go "why
+> > does it ask this new question", then that should tell you something.
+> >
+> > Why do we have this choice in the first place?
 >
-> unsigned char maybe? I understand printable chars unlikely to cause
-> any trouble and probably a non issue, but the domain is different for
-> char, and while I don't know of supported implementations where sizeof
-> char isn't a byte, I think it's a possibility and perhaps why u8 was
-> in use?
+> Generally, initramfs is passed from a boot-loader,
+> but some architectures embed initramfs into vmlinux
+> (perhaps due to poor boot-loader support??)
+>
+> arch/arc/configs/tb10x_defconfig:CONFIG_INITRAMFS_SOURCE="../tb10x-rootfs.cpio"
+> arch/unicore32/configs/defconfig:#CONFIG_INITRAMFS_SOURCE="arch/unicore/ramfs/ramfs_config"
+> arch/xtensa/configs/cadence_csp_defconfig:CONFIG_INITRAMFS_SOURCE="$$KERNEL_INITRAMFS_SOURCE"
 
+Note that the above are examples that do not actually work, as the files
+referred to are not present in mainline (read below[1] why I have just
+checked that ;-).
 
-As I said in the commit description,
-this only contains ASCII, which is 7-bit code.
+> So, data-compression is useful - that's is what I understand.
 
-We do not care the signed-ness of char.
+Yes it is, depending on your config.
 
+> For major architectures, vmlinux embeds a tiny initramfs,
+> which is generated based on usr/default_cpio_list.
+>
+> We do not need data-compression for such a small cpio,
+> but handling it in a consistent way is sensible.
+> This is annoying from the users' PoV, I admit.
 
-kallsyms_names[] has been u8 since the
-following old commit:
+I was also confused by this question, as by default you have
+    CONFIG_RD_GZIP=y
+    CONFIG_RD_BZIP2=y
+    CONFIG_RD_LZMA=y
+    CONFIG_RD_XZ=y
+    CONFIG_RD_LZO=y
+    CONFIG_RD_LZ4=y
+so the old 'default ".gz" if RD_GZIP' looked like it would use gzip.
+However, the tiny default initramfs ended up being uncompressed anyway
+before, as until commit ddd09bcc899fd374 ("initramfs: make compression
+options not depend on INITRAMFS_SOURCE"), INITRAMFS_COMPRESSION wasn't
+taken into account for the default tiny initramfs...
 
+So INITRAMFS_COMPRESSION_NONE is the right answer to retain the
+old behavior? One might question why not to use gzip anyway, as
+CONFIG_RD_GZIP=y is enabled by default, and would give a (small)
+improvement of ca. 350 bytes ;-)
+Hence there is some area for improvement...
 
-commit e10392112d315c45f054c22c862e3a7ae27d17d4
-Author: Paulo Marques <pmarques@grupopie.com>
-Date:   Mon Oct 18 17:59:03 2004 -0700
+Thanks!
 
-    [PATCH] kallsyms data size reduction / lookup speedup
+[1] I'm still carrying a local patch for handling relative initramfs
+    paths with O=, but it's been a while I actually used it.  Due to your
+    recent changes, it no longer applies, and needs to be updated.
+    But of course that is only useful if there are some real users...
+    https://lore.kernel.org/lkml/1384467283-14806-1-git-send-email-geert@linux-m68k.org/
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
-Probably, this is just coding mistake.
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
-
--- 
-Best Regards
-Masahiro Yamada
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
