@@ -2,135 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D68E151C75
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2020 15:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91454151E4F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2020 17:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbgBDOoT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Feb 2020 09:44:19 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33204 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727257AbgBDOoT (ORCPT
+        id S1727297AbgBDQ3V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Feb 2020 11:29:21 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:38078 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727307AbgBDQ3U (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Feb 2020 09:44:19 -0500
-Received: by mail-wm1-f68.google.com with SMTP id m10so2368105wmc.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 04 Feb 2020 06:44:17 -0800 (PST)
+        Tue, 4 Feb 2020 11:29:20 -0500
+Received: by mail-qk1-f195.google.com with SMTP id 21so1431318qki.5;
+        Tue, 04 Feb 2020 08:29:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=1IXHtRUMShcVj0I7kyO/iiIdumIO9Jb0cIQ8fggcE/4=;
-        b=GASTvG1JvEAbAvzsvUyAnc3ILW1Gx+26xA3ilwVyNL7T33tvt+Lz5T2gHkQPZXm+kq
-         M1TPCQg4XHeftf3cfLN8TJFcwJsa+OXXLIlgNSpQNM36YUFxwfDnsFfmz7GtEi8tPzYA
-         rlqjkZUaW7PWBT3yBPOPhJheNAmu0zqG5S5P9Eo49PSjSVTv5QF/hqWT+5nXzlw7u8ky
-         EvBF2KfkLmhLnfxJ1wiqTQA6OCdxfx0ADM4CDYsfMGiw443gGHSHkTWTTTUzj5g0GUyq
-         7kZfvBkoMdsBz0BmnkdIGi8R30GNOZpJs+LZXbdwrii7WtNsp6N+s30vOjRbyc6xz05e
-         1skA==
+        bh=VZqxpmTLq7ANIHnvv08b9chlQb5uC3TxYbMtrp/5w/o=;
+        b=P7mC3YM7jj2f3uNL632XGxBaFJJoe0ox5kkHZscoXgKtvKasu0s6SLFHyY8s+P8fmY
+         ipfpYQE4vICNNdNe31JjXaxmFzQrQGyy9Le9fpIsB4jI3doRTLqxhwBSjL4q55bslykQ
+         Jb6rAYUbQ7+PNDdntPG6PsUh+qcIc0Czq825LlDuj6J8UnXcT1iqQ6T6NneFYiWduYvd
+         UPGIGnbQbYhqMkzzqz3lltKABNKIN1Sa0Gijnbrh6+GOPf+65KqOqsoY3y6Iwy0AOl2o
+         XKkvZ/Re1uk3p6T1qJ9LImqdjCW9iDKWjCajN54KxLqmIYnWVV6gN4inySNvW2BXXEuV
+         L+HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1IXHtRUMShcVj0I7kyO/iiIdumIO9Jb0cIQ8fggcE/4=;
-        b=XCmbcbQCb1CfnOl6XeXocRC9qzexC6f8jXaiTxMhTYpnXi/hgM1aQqCSkosaFIoYsp
-         XU6kVkuPBMljdA32il2z8AULMeZL8XjvEOb2fqnBmh+lb1c5vMXJ1z+ZR/+QEzyfvDAF
-         on1ZXaRwKDZRPoUGFnOuOFk9uUgo+zOEridDkIRIHBSXnt+Bvkf1zA6BppirZR6vbHhe
-         46QM+HacZSfLHLgGvdlum1utjwVbgLK8B/9RU3064c0qPYT736IcR8wMAGh5VqWAhJOU
-         DnYQvhXqOnTcoEzUHKSh7MHkP9qq++DquZ+bfAyP/WE3YGoHap8HRN8/OMfDWs6/YMy3
-         ncBQ==
-X-Gm-Message-State: APjAAAVDuvbKXeJKxiZBC9NmCOrXg0MVhgic2WTZyhYIDXspuq6X3eoK
-        ivafOYw5CjRjHhBSqnQx0cknjA==
-X-Google-Smtp-Source: APXvYqzVi62MG4N9AgDN5RDsH5ZMtz54CCua+ACBsaV+ksCH9ExoaI8R+1bNIuPw67s5CtrWxt1jAQ==
-X-Received: by 2002:a7b:c759:: with SMTP id w25mr6083222wmk.15.1580827456175;
-        Tue, 04 Feb 2020 06:44:16 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id c9sm3962843wmc.47.2020.02.04.06.44.15
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=VZqxpmTLq7ANIHnvv08b9chlQb5uC3TxYbMtrp/5w/o=;
+        b=rafAfEWcde6/YAv2m3PbTAaBhzCscYozFPYyiDWqq6CooqlMhed3EF2C4nl59V76fR
+         4JJGDmLBHzmY4UH00MNTspn5aBdbpSoTUI9dYqoPZe8yF28MWS5bfcFOlgItA8lBwV4S
+         e8jR5aSjVu436EVATfaE1JLRPUO4WZCzaAP4GHkn6RykrEO4eHpZYLm+CtGUd+Cv8DaT
+         mJzGGoe13fDulOhV67tYuIFUqUACW8jqOA2d4STPbtYlkCoC2Sb9TPqP/Waa439nEnQO
+         uVJsLLf8DTSIM4VFm6KaKCfddHOR6BBwSSjfLJQkwZHosZjPidhMEP0qHHLADyA2lfha
+         IKNA==
+X-Gm-Message-State: APjAAAUPx5nUgusikNNMrYKsRL1PgLp7XiEp5LsbB9lLi2sPiiXK+xwF
+        zGix2NAXF1sF5CSXo+QjUDk=
+X-Google-Smtp-Source: APXvYqxGCq/00mpT8oEFtbR3y+FwAI8o4XxX+HqIN4I8TuP7bhFs05wjJkEcL3lgRs4M3OZRRyKBwA==
+X-Received: by 2002:a05:620a:16a4:: with SMTP id s4mr28708125qkj.488.1580833759694;
+        Tue, 04 Feb 2020 08:29:19 -0800 (PST)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id w134sm11606629qka.127.2020.02.04.08.29.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2020 06:44:15 -0800 (PST)
-Date:   Tue, 4 Feb 2020 14:44:15 +0000
-From:   Matthias Maennich <maennich@google.com>
-To:     Quentin Perret <qperret@google.com>
-Cc:     masahiroy@kernel.org, nico@fluxnic.net,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com, jeyu@kernel.org
-Subject: Re: [PATCH v2] kbuild: allow symbol whitelisting with
- TRIM_UNUSED_KSYMS
-Message-ID: <20200204144415.GC42496@google.com>
-References: <20200129181541.105335-1-qperret@google.com>
- <20200131131508.GH102066@google.com>
- <20200131174055.GA8425@google.com>
+        Tue, 04 Feb 2020 08:29:19 -0800 (PST)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Tue, 4 Feb 2020 11:29:17 -0500
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Thelen <gthelen@google.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH] initramfs: don't double-compress built-in initramfs if
+ the kernel is compressed
+Message-ID: <20200204162917.GA1772390@rani.riverdale.lan>
+References: <20200203200656.GA455151@rani.riverdale.lan>
+ <20200203211644.39847-1-nivedita@alum.mit.edu>
+ <CAK7LNAQq7ah1yLOr-fgH-Oo7_NHzvYiy6huY1=4DxJoCGi+cmw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200131174055.GA8425@google.com>
+In-Reply-To: <CAK7LNAQq7ah1yLOr-fgH-Oo7_NHzvYiy6huY1=4DxJoCGi+cmw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jan 31, 2020 at 05:40:55PM +0000, Quentin Perret wrote:
->On Friday 31 Jan 2020 at 13:15:08 (+0000), 'Matthias Maennich' via kernel-team wrote:
->> On Wed, Jan 29, 2020 at 06:15:41PM +0000, Quentin Perret wrote:
->> > diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
->> > index a904bf1f5e67..8e1b7f70e800 100755
->> > --- a/scripts/adjust_autoksyms.sh
->> > +++ b/scripts/adjust_autoksyms.sh
->> > @@ -48,6 +48,7 @@ cat > "$new_ksyms_file" << EOT
->> > EOT
->> > sed 's/ko$/mod/' modules.order |
->> > xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
->> > +cat - "${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}" |
->>
->> This handles absolute paths very well. I wonder whether we can make this
->> more useful for folks that want to maintain such a whitelist in their
->> copy of the tree. Lets say, I have in my sources
->> arch/x86/configs/x86_64_symbol_whitelist and in my config I have
->> CONFIG_UNUSED_KSYMS_WHITELIST="arch/x86/configs/x86_64_symbol_whitelist".
->>
->> If I see it correctly, UNUSED_KSYMS_WHITELIST is currently either an
->> absolute path or a relative path to the current build directory. I would
->> prefer if relative paths would be relative to the source directory to
->> support the above use case. (Note, that scenario above works if I build
->> directly in the sources, but fails if I build O=/somewhere/else.)
->
->Right, that is an interesting use case. I suppose something like the
->below should work (with appropriate documentation of the config option).
->
->---8<---
->diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
->index 8e1b7f70e800..d37803fd75ce 100755
->--- a/scripts/adjust_autoksyms.sh
->+++ b/scripts/adjust_autoksyms.sh
->@@ -38,6 +38,12 @@ esac
-> # We need access to CONFIG_ symbols
-> . include/config/auto.conf
->
->+ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
->+# If the path is relative, it must be relative to the source tree
->+if [ "$ksym_wl" == "${ksym_wl#/}" ]; then
->+       ksym_wl="$abs_srctree/$ksym_wl"
->+fi
->+
-> # Generate a new ksym list file with symbols needed by the current
-> # set of modules.
-> cat > "$new_ksyms_file" << EOT
->@@ -48,7 +54,7 @@ cat > "$new_ksyms_file" << EOT
-> EOT
-> sed 's/ko$/mod/' modules.order |
-> xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
->-cat - "${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}" |
->+cat - "$ksym_wl" |
-> sort -u |
-> sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
->--->8---
->
->Thoughts ?
+On Tue, Feb 04, 2020 at 11:22:19AM +0900, Masahiro Yamada wrote:
+> Hi.
+> 
+> On Tue, Feb 4, 2020 at 6:16 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
+> >
+> > If the kernel is going to be compressed anyway, there is no point in
+> > double-compressing the built-in initramfs. Hide the built-in initramfs
+> > compression choice in this case.
+> >
+> > Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
+> 
+> 
+> Double-compression slightly reduces the data size.
+> And, keeping the bare vmlinux small is beneficial, IMHO.
+> 
 
-That definitely looks like I would expect that config option to work.
-Thanks for looking into that!
+Ok. In my setup (kernel is compressed by xz), none for the builtin
+initramfs is optimal by a measurable amount, but I that will depend on
+config/initramfs contents/compression methods, so might well not be true
+in general. Maybe add a note to the help text?
 
-Cheers,
-Matthias
+none    7030816 arch/x86/boot/bzImage
+gz      7382144 arch/x86/boot/bzImage
+bz2     7353696 arch/x86/boot/bzImage
+lzma    7118176 arch/x86/boot/bzImage
+xz      7126400 arch/x86/boot/bzImage
+lzo     7379360 arch/x86/boot/bzImage
+lz4     7335712 arch/x86/boot/bzImage
 
->
->Thanks,
->Quentin
+
+diff --git a/usr/Kconfig b/usr/Kconfig
+index a6b68503d177..b68910b225fc 100644
+--- a/usr/Kconfig
++++ b/usr/Kconfig
+@@ -125,6 +125,12 @@ choice
+ 	  low on RAM, since it reduces the memory consumption during
+ 	  boot.
+ 
++	  Note that if the kernel itself is compressed, the builtin initramfs
++	  will be compressed twice, first by the algorithm selected here, and
++	  then by the kernel compression method chosen. This may increase the
++	  final image size, so you should test whether compressing the builtin
++	  initramfs provides any savings.
++
+ 	  Keep in mind that your build system needs to provide the appropriate
+ 	  compression tool to compress the generated initram cpio file for
+ 	  embedding.
