@@ -2,164 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1C315142A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2020 03:23:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEB681514DC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2020 05:09:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726924AbgBDCXV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 3 Feb 2020 21:23:21 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:30282 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbgBDCXV (ORCPT
+        id S1726930AbgBDEJI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 3 Feb 2020 23:09:08 -0500
+Received: from www262.sakura.ne.jp ([202.181.97.72]:51114 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726924AbgBDEJH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Feb 2020 21:23:21 -0500
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 0142MuYg018302;
-        Tue, 4 Feb 2020 11:22:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0142MuYg018302
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1580782977;
-        bh=SYP8mvlfp4LCPh04gPtjz20E46u6IAmKwTPA0CfKfIg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jrLmykN6mxtJ2Yiw5lxGloq0DJZsOChCO2Q8riNsOhvk9hDZTKz32eGG2bDpnzroi
-         rat2PzTluadDcT5oR4WCQ+PXYv6KW50pfmlYuk+UQ9QcmDx2t3EKoJUZNAjjrDdoaZ
-         qg2wsVzgqq/uqYYDZyElMnvA7IDmUqihTeXMTPzH7UR1/PCgYjkW08vKlmezfKQ9gQ
-         fVQyeIDp41HcStofal8ProdtEhlTkvM99gdlvxFiLa3qy6fnwCDvEn8NNiZ84yx75K
-         wzVd/14HsFe/hma+UXPDtyJw0nImiaGywSnqXM2uS2daLtQYWg7Rd2Cgy941FVDHzy
-         fCCkYywnQGI4w==
-X-Nifty-SrcIP: [209.85.221.181]
-Received: by mail-vk1-f181.google.com with SMTP id g7so4735061vkl.12;
-        Mon, 03 Feb 2020 18:22:57 -0800 (PST)
-X-Gm-Message-State: APjAAAWxZD1yEZt6R8CmX0vUSrb7xi1XJVa07dPRQ3OvcZ2GXnwqtqq6
-        zWJDsOFcVR/nDx2WsIjDGTYBsegI9JH0V4Snme8=
-X-Google-Smtp-Source: APXvYqwe3zxe9hfuDke5qn1vv3ofqQynPyNCI/LCnIO5Ligc29RBUCW4iDTumBajiO3sMQze/jhP7vGscjlIqr5vvns=
-X-Received: by 2002:a1f:8cd5:: with SMTP id o204mr15815541vkd.66.1580782975866;
- Mon, 03 Feb 2020 18:22:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20200203200656.GA455151@rani.riverdale.lan> <20200203211644.39847-1-nivedita@alum.mit.edu>
-In-Reply-To: <20200203211644.39847-1-nivedita@alum.mit.edu>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 4 Feb 2020 11:22:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQq7ah1yLOr-fgH-Oo7_NHzvYiy6huY1=4DxJoCGi+cmw@mail.gmail.com>
-Message-ID: <CAK7LNAQq7ah1yLOr-fgH-Oo7_NHzvYiy6huY1=4DxJoCGi+cmw@mail.gmail.com>
-Subject: Re: [PATCH] initramfs: don't double-compress built-in initramfs if
- the kernel is compressed
-To:     Arvind Sankar <nivedita@alum.mit.edu>
+        Mon, 3 Feb 2020 23:09:07 -0500
+Received: from fsav102.sakura.ne.jp (fsav102.sakura.ne.jp [27.133.134.229])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 01448i66013873;
+        Tue, 4 Feb 2020 13:08:45 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav102.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav102.sakura.ne.jp);
+ Tue, 04 Feb 2020 13:08:44 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav102.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 01448ibp013869;
+        Tue, 4 Feb 2020 13:08:44 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: (from i-love@localhost)
+        by www262.sakura.ne.jp (8.15.2/8.15.2/Submit) id 01448ioc013868;
+        Tue, 4 Feb 2020 13:08:44 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Message-Id: <202002040408.01448ioc013868@www262.sakura.ne.jp>
+X-Authentication-Warning: www262.sakura.ne.jp: i-love set sender to penguin-kernel@i-love.sakura.ne.jp using -f
+Subject: [PATCH] kconfig: Invalidate all symbols after changing to y or m.
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Thelen <gthelen@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dmitry Vyukov <dvyukov@google.com>
+MIME-Version: 1.0
+Date:   Tue, 04 Feb 2020 13:08:44 +0900
+References: <ced8ab1c-9c35-c7b0-6b9e-bcee7ffdf469@i-love.sakura.ne.jp> <CAK7LNATNY1oP5XgFH3+fuUU=Z7pEz7Sqz0vKCzvhM4Kem7RkOg@mail.gmail.com>
+In-Reply-To: <CAK7LNATNY1oP5XgFH3+fuUU=Z7pEz7Sqz0vKCzvhM4Kem7RkOg@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-2022-JP"
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi.
+Since commit 89b9060987d98833 ("kconfig: Add yes2modconfig and
+mod2yesconfig targets.") forgot to clear SYMBOL_VALID bit after
+changing to y or m, these targets did not save the changes.
+Call sym_clear_all_valid() so that all symbols are revalidated.
 
-On Tue, Feb 4, 2020 at 6:16 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
->
-> If the kernel is going to be compressed anyway, there is no point in
-> double-compressing the built-in initramfs. Hide the built-in initramfs
-> compression choice in this case.
->
-> Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ scripts/kconfig/confdata.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-
-Double-compression slightly reduces the data size.
-And, keeping the bare vmlinux small is beneficial, IMHO.
-
-
-
-
-> ---
->  init/Kconfig | 9 +++++++++
->  usr/Kconfig  | 2 +-
->  2 files changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 24b23d843df1..88da0976bbfa 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -176,6 +176,9 @@ config HAVE_KERNEL_LZ4
->  config HAVE_KERNEL_UNCOMPRESSED
->         bool
->
-> +config KERNEL_COMPRESSED
-> +       bool
-> +
->  choice
->         prompt "Kernel compression mode"
->         default KERNEL_GZIP
-> @@ -201,6 +204,7 @@ choice
->  config KERNEL_GZIP
->         bool "Gzip"
->         depends on HAVE_KERNEL_GZIP
-> +       select KERNEL_COMPRESSED
->         help
->           The old and tried gzip compression. It provides a good balance
->           between compression ratio and decompression speed.
-> @@ -208,6 +212,7 @@ config KERNEL_GZIP
->  config KERNEL_BZIP2
->         bool "Bzip2"
->         depends on HAVE_KERNEL_BZIP2
-> +       select KERNEL_COMPRESSED
->         help
->           Its compression ratio and speed is intermediate.
->           Decompression speed is slowest among the choices.  The kernel
-> @@ -218,6 +223,7 @@ config KERNEL_BZIP2
->  config KERNEL_LZMA
->         bool "LZMA"
->         depends on HAVE_KERNEL_LZMA
-> +       select KERNEL_COMPRESSED
->         help
->           This compression algorithm's ratio is best.  Decompression speed
->           is between gzip and bzip2.  Compression is slowest.
-> @@ -226,6 +232,7 @@ config KERNEL_LZMA
->  config KERNEL_XZ
->         bool "XZ"
->         depends on HAVE_KERNEL_XZ
-> +       select KERNEL_COMPRESSED
->         help
->           XZ uses the LZMA2 algorithm and instruction set specific
->           BCJ filters which can improve compression ratio of executable
-> @@ -241,6 +248,7 @@ config KERNEL_XZ
->  config KERNEL_LZO
->         bool "LZO"
->         depends on HAVE_KERNEL_LZO
-> +       select KERNEL_COMPRESSED
->         help
->           Its compression ratio is the poorest among the choices. The kernel
->           size is about 10% bigger than gzip; however its speed
-> @@ -249,6 +257,7 @@ config KERNEL_LZO
->  config KERNEL_LZ4
->         bool "LZ4"
->         depends on HAVE_KERNEL_LZ4
-> +       select KERNEL_COMPRESSED
->         help
->           LZ4 is an LZ77-type compressor with a fixed, byte-oriented encoding.
->           A preliminary version of LZ4 de/compression tool is available at
-> diff --git a/usr/Kconfig b/usr/Kconfig
-> index bdf5bbd40727..f39eeb9ea2e3 100644
-> --- a/usr/Kconfig
-> +++ b/usr/Kconfig
-> @@ -102,7 +102,7 @@ config RD_LZ4
->
->  choice
->         prompt "Built-in initramfs compression mode"
-> -       depends on INITRAMFS_SOURCE != ""
-> +       depends on INITRAMFS_SOURCE != "" && !KERNEL_COMPRESSED
->         help
->           This option allows you to decide by which algorithm the builtin
->           initramfs will be compressed.  Several compression algorithms are
-> --
-> 2.24.1
->
-
-
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 11f6c72c2eee..aa70360f27c1 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -1331,9 +1331,8 @@ void conf_rewrite_mod_or_yes(enum conf_def_mode mode)
+ 
+ 	for_all_symbols(i, sym) {
+ 		if (sym_get_type(sym) == S_TRISTATE &&
+-		    sym->def[S_DEF_USER].tri == old_val) {
++		    sym->def[S_DEF_USER].tri == old_val)
+ 			sym->def[S_DEF_USER].tri = new_val;
+-			sym_add_change_count(1);
+-		}
+ 	}
++	sym_clear_all_valid();
+ }
 -- 
-Best Regards
-Masahiro Yamada
+2.11.0
+
