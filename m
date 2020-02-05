@@ -2,122 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91454151E4F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Feb 2020 17:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3197E1525A5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Feb 2020 05:42:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727297AbgBDQ3V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 4 Feb 2020 11:29:21 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:38078 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727307AbgBDQ3U (ORCPT
+        id S1727873AbgBEEms (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Feb 2020 23:42:48 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:51574 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727884AbgBEEms (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 4 Feb 2020 11:29:20 -0500
-Received: by mail-qk1-f195.google.com with SMTP id 21so1431318qki.5;
-        Tue, 04 Feb 2020 08:29:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VZqxpmTLq7ANIHnvv08b9chlQb5uC3TxYbMtrp/5w/o=;
-        b=P7mC3YM7jj2f3uNL632XGxBaFJJoe0ox5kkHZscoXgKtvKasu0s6SLFHyY8s+P8fmY
-         ipfpYQE4vICNNdNe31JjXaxmFzQrQGyy9Le9fpIsB4jI3doRTLqxhwBSjL4q55bslykQ
-         Jb6rAYUbQ7+PNDdntPG6PsUh+qcIc0Czq825LlDuj6J8UnXcT1iqQ6T6NneFYiWduYvd
-         UPGIGnbQbYhqMkzzqz3lltKABNKIN1Sa0Gijnbrh6+GOPf+65KqOqsoY3y6Iwy0AOl2o
-         XKkvZ/Re1uk3p6T1qJ9LImqdjCW9iDKWjCajN54KxLqmIYnWVV6gN4inySNvW2BXXEuV
-         L+HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VZqxpmTLq7ANIHnvv08b9chlQb5uC3TxYbMtrp/5w/o=;
-        b=rafAfEWcde6/YAv2m3PbTAaBhzCscYozFPYyiDWqq6CooqlMhed3EF2C4nl59V76fR
-         4JJGDmLBHzmY4UH00MNTspn5aBdbpSoTUI9dYqoPZe8yF28MWS5bfcFOlgItA8lBwV4S
-         e8jR5aSjVu436EVATfaE1JLRPUO4WZCzaAP4GHkn6RykrEO4eHpZYLm+CtGUd+Cv8DaT
-         mJzGGoe13fDulOhV67tYuIFUqUACW8jqOA2d4STPbtYlkCoC2Sb9TPqP/Waa439nEnQO
-         uVJsLLf8DTSIM4VFm6KaKCfddHOR6BBwSSjfLJQkwZHosZjPidhMEP0qHHLADyA2lfha
-         IKNA==
-X-Gm-Message-State: APjAAAUPx5nUgusikNNMrYKsRL1PgLp7XiEp5LsbB9lLi2sPiiXK+xwF
-        zGix2NAXF1sF5CSXo+QjUDk=
-X-Google-Smtp-Source: APXvYqxGCq/00mpT8oEFtbR3y+FwAI8o4XxX+HqIN4I8TuP7bhFs05wjJkEcL3lgRs4M3OZRRyKBwA==
-X-Received: by 2002:a05:620a:16a4:: with SMTP id s4mr28708125qkj.488.1580833759694;
-        Tue, 04 Feb 2020 08:29:19 -0800 (PST)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id w134sm11606629qka.127.2020.02.04.08.29.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2020 08:29:19 -0800 (PST)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 4 Feb 2020 11:29:17 -0500
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Thelen <gthelen@google.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH] initramfs: don't double-compress built-in initramfs if
- the kernel is compressed
-Message-ID: <20200204162917.GA1772390@rani.riverdale.lan>
-References: <20200203200656.GA455151@rani.riverdale.lan>
- <20200203211644.39847-1-nivedita@alum.mit.edu>
- <CAK7LNAQq7ah1yLOr-fgH-Oo7_NHzvYiy6huY1=4DxJoCGi+cmw@mail.gmail.com>
+        Tue, 4 Feb 2020 23:42:48 -0500
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 0154giSx014546;
+        Wed, 5 Feb 2020 13:42:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0154giSx014546
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1580877764;
+        bh=6CPRqOD/Fe7zoq1RGimJL9B88AgPymJVLA5R5fTkxsc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=zHHB/p6KmM0Kk6RP1vVPyCTW1hHBx0Vo9nCpLCtpaDHuCGacAbM8PLprep1c879Hz
+         W2iYS9jHiZMfjIBLgAAaPonzUCmX8jDNoV54W62IiF57f0CfwcpgEl+io4ecX2b4QI
+         pHoKd/ABAo9RqNH4WjRMZo1YB1y1qV6k074SKsJYWXO44Njrsj7dHAnD6r9KlmLwDz
+         W0YZETUkjPf/Z920ZtMaTrmCDagISAhVcDevy0QuyM2Ufl83+L0iFbDdGG4Ce2pMZf
+         FrTfmvZqrxjF4plzs07j3D3fGOBsLgkw7Zdn+yBtfgREyTx7Odnw7V3Q5u/0lKlFjH
+         hvgI2+Rj1jCvw==
+X-Nifty-SrcIP: [209.85.222.44]
+Received: by mail-ua1-f44.google.com with SMTP id o42so368713uad.10;
+        Tue, 04 Feb 2020 20:42:44 -0800 (PST)
+X-Gm-Message-State: APjAAAX7ZbF9w1CYxaU2mExOwMrY4GxvCnZ3DGwA4caPw6pl7Erlppnf
+        2POka23Rra4i7VJhfMwWPqFeL18dn2Vm88WA48Y=
+X-Google-Smtp-Source: APXvYqxcekY6tR906J3p0JD4gnkPGtQ9DyvPxOsISnJIV+Cw5/8zojyJV8B6RF3T6mUxbEfJQ5YSNrfZEb4mu614T60=
+X-Received: by 2002:ab0:2ea6:: with SMTP id y6mr19620371uay.25.1580877763433;
+ Tue, 04 Feb 2020 20:42:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQq7ah1yLOr-fgH-Oo7_NHzvYiy6huY1=4DxJoCGi+cmw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <ced8ab1c-9c35-c7b0-6b9e-bcee7ffdf469@i-love.sakura.ne.jp>
+ <CAK7LNATNY1oP5XgFH3+fuUU=Z7pEz7Sqz0vKCzvhM4Kem7RkOg@mail.gmail.com> <202002040408.01448ioc013868@www262.sakura.ne.jp>
+In-Reply-To: <202002040408.01448ioc013868@www262.sakura.ne.jp>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 5 Feb 2020 13:42:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATD1p6KDYNLYmb+UZpVNOaLdFEp-QRm1waDX_v-sSZ1=w@mail.gmail.com>
+Message-ID: <CAK7LNATD1p6KDYNLYmb+UZpVNOaLdFEp-QRm1waDX_v-sSZ1=w@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: Invalidate all symbols after changing to y or m.
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 04, 2020 at 11:22:19AM +0900, Masahiro Yamada wrote:
-> Hi.
-> 
-> On Tue, Feb 4, 2020 at 6:16 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
-> >
-> > If the kernel is going to be compressed anyway, there is no point in
-> > double-compressing the built-in initramfs. Hide the built-in initramfs
-> > compression choice in this case.
-> >
-> > Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
-> 
-> 
-> Double-compression slightly reduces the data size.
-> And, keeping the bare vmlinux small is beneficial, IMHO.
-> 
+Hi.
 
-Ok. In my setup (kernel is compressed by xz), none for the builtin
-initramfs is optimal by a measurable amount, but I that will depend on
-config/initramfs contents/compression methods, so might well not be true
-in general. Maybe add a note to the help text?
-
-none    7030816 arch/x86/boot/bzImage
-gz      7382144 arch/x86/boot/bzImage
-bz2     7353696 arch/x86/boot/bzImage
-lzma    7118176 arch/x86/boot/bzImage
-xz      7126400 arch/x86/boot/bzImage
-lzo     7379360 arch/x86/boot/bzImage
-lz4     7335712 arch/x86/boot/bzImage
+On Tue, Feb 4, 2020 at 1:09 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> Since commit 89b9060987d98833 ("kconfig: Add yes2modconfig and
+> mod2yesconfig targets.") forgot to clear SYMBOL_VALID bit after
+> changing to y or m, these targets did not save the changes.
+> Call sym_clear_all_valid() so that all symbols are revalidated.
+>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
 
-diff --git a/usr/Kconfig b/usr/Kconfig
-index a6b68503d177..b68910b225fc 100644
---- a/usr/Kconfig
-+++ b/usr/Kconfig
-@@ -125,6 +125,12 @@ choice
- 	  low on RAM, since it reduces the memory consumption during
- 	  boot.
- 
-+	  Note that if the kernel itself is compressed, the builtin initramfs
-+	  will be compressed twice, first by the algorithm selected here, and
-+	  then by the kernel compression method chosen. This may increase the
-+	  final image size, so you should test whether compressing the builtin
-+	  initramfs provides any savings.
-+
- 	  Keep in mind that your build system needs to provide the appropriate
- 	  compression tool to compress the generated initram cpio file for
- 	  embedding.
+My previous comment:
+"sym_add_change_count(1); seems the convention way
+to inform kconfig of some options being updated."
+was misleading. Sorry.
+
+
+conf_write() skips symbol invalidation
+when conf_get_change() returns non-zero value.
+
+        if (!conf_get_changed())
+                sym_clear_all_valid();
+
+I do not know why this if-conditional exists here...
+
+Anyway, this patch fixes the issue.
+
+Applied. Thanks.
+
+
+
+> ---
+>  scripts/kconfig/confdata.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index 11f6c72c2eee..aa70360f27c1 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -1331,9 +1331,8 @@ void conf_rewrite_mod_or_yes(enum conf_def_mode mode)
+>
+>         for_all_symbols(i, sym) {
+>                 if (sym_get_type(sym) == S_TRISTATE &&
+> -                   sym->def[S_DEF_USER].tri == old_val) {
+> +                   sym->def[S_DEF_USER].tri == old_val)
+>                         sym->def[S_DEF_USER].tri = new_val;
+> -                       sym_add_change_count(1);
+> -               }
+>         }
+> +       sym_clear_all_valid();
+>  }
+> --
+> 2.11.0
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
