@@ -2,108 +2,188 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 816CC153F0D
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Feb 2020 08:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1214A1543DE
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Feb 2020 13:16:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727768AbgBFHEq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Feb 2020 02:04:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43902 "EHLO mail.kernel.org"
+        id S1727835AbgBFMQl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Feb 2020 07:16:41 -0500
+Received: from mx2.suse.de ([195.135.220.15]:53050 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727358AbgBFHEp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Feb 2020 02:04:45 -0500
-Received: from localhost (unknown [213.123.58.114])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BBF4D206CC;
-        Thu,  6 Feb 2020 07:04:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1580972684;
-        bh=4ysceoC63lI7xZahrtI8MfuoiltYgZmmut3aPCCS7QM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UGLqbwHFmGySWcxx4pWEb8R7MFA16FMLf3OizEgIAo77WwycU9zgScTRvIn3RyZh6
-         s8jfUnt+nBAZ2HDLP1MJeEDzyhwl6LZv07NdamLUT6SOWAy58tBxzn+IUqc8saCYJZ
-         BYydv0KBEYtSF6UoQDZ7VA38WQ/pHoksW2yWkohc=
-Date:   Thu, 6 Feb 2020 07:04:41 +0000
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Olof Johansson <olof@lixom.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S1727111AbgBFMQl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 6 Feb 2020 07:16:41 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id A79BEB1FA;
+        Thu,  6 Feb 2020 12:16:38 +0000 (UTC)
+Date:   Thu, 6 Feb 2020 13:16:30 +0100
+From:   Jean Delvare <jdelvare@suse.de>
+To:     Erwan Velu <erwanaliasr1@gmail.com>
+Cc:     Erwan Velu <e.velu@criteo.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tejun Heo <tj@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Patrick Bellasi <patrick.bellasi@arm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Revert kheaders feature
-Message-ID: <20200206070441.GB3265390@kroah.com>
-References: <20200205154629.GA1257054@kroah.com>
- <20200205160250.GG142103@google.com>
- <CAOesGMj7Z9JoEYrnQaiHrHsjG7cv9ebEbyZM-QFWN2HJDa=UGA@mail.gmail.com>
- <20200205171353.GI142103@google.com>
- <20200205213354.GB1465126@kroah.com>
- <CAEXW_YSU_Zm24R2TYFQd42CfXyotowv42BbvbvKfSFbZGUqOHQ@mail.gmail.com>
- <20200205214841.GB1468203@kroah.com>
- <CAEXW_YST9qj91=TbJ9j4boQgV=k=8E6fSQZB-iojRBLwGXSOag@mail.gmail.com>
+        Mattias Jacobsson <2pi@mok.nu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Changbin Du <changbin.du@intel.com>,
+        "Robert P. J. Day" <rpjday@crashcourse.ca>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 1/2] firmware/dmi: Report DMI Bios release
+Message-ID: <20200206131630.4b18472e@endymion>
+In-Reply-To: <20191127150729.860625-1-e.velu@criteo.com>
+References: <20190918094323.17515-1-e.velu@criteo.com>
+        <20191127150729.860625-1-e.velu@criteo.com>
+Organization: SUSE Linux
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEXW_YST9qj91=TbJ9j4boQgV=k=8E6fSQZB-iojRBLwGXSOag@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 05, 2020 at 01:53:15PM -0800, Joel Fernandes wrote:
-> On Wed, Feb 5, 2020 at 1:48 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Wed, Feb 05, 2020 at 01:35:56PM -0800, Joel Fernandes wrote:
-> > > On Wed, Feb 5, 2020 at 1:33 PM Greg Kroah-Hartman
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > [snip]
-> > > > > > like the BTF approach is significantly better and said users are
-> > > > > > hopefully moving forward to it quickly, and if they can't move
-> > > > > > forward, then they're likely also not going to move forward to newer
-> > > > > > kernels either?
-> > > > >
-> > > > > I think BCC runs on a lot of upstream machines. I think the migration
-> > > > > strategy is a matter of opinion, one way is to take it out and cause some
-> > > > > pain in the hope that users/tools will migrate soon (while probably carrying
-> > > > > the reverted patches out of tree). Another is to migrate the tools first and
-> > > > > then take it out (which has its own disadvantages such as introducing even
-> > > > > more users of it while it is still upstream).
-> > > >
-> > > > Do we "know" what tools today require this, and what needs to be done to
-> > > > "fix" them?  If we don't know that, then there's no way to drop this,
-> > > > pretty much ever :(
-> > >
-> > > Is there a real reason to drop it or a problem dropping this solves though?
-> >
-> > Olof had some reasons, but as we were drinking at the time when it came
-> > up last night, I can't really remember them specifically.  Hopefully he
-> > does :)
-> > But that didn't answer my question of "who is still using this"?  I was
-> > hoping we actually knew this given it was created for specific users.
+Hi Erwan,
+
+Once again, sorry for the late answer.
+
+On Wed, 27 Nov 2019 16:07:25 +0100, Erwan Velu wrote:
+> Some vendors like HPe or Dell, encode the release version of their BIOS
+> in the "System BIOS {Major|Minor} Release" fields of Type 0.
 > 
-> I think I mentioned this in a previous thread of this email. Several
-> BCC tools are using it - see for example the criticalstat BCC tool
-> which includes linux/sched.h :
-> https://github.com/iovisor/bcc/blob/master/tools/criticalstat.py#L73
-> , or filetop BCC tool which uses struct dentry :
-> https://github.com/iovisor/bcc/blob/master/tools/filetop.py#L101
+> This information is used to know which bios release actually runs.
+> It could be used for some quirks, debugging sessions or inventory tasks.
 > 
-> These would break without kernel headers either on the host or via
-> CONFIG_IKHEADERS.
+> A typical output for a Dell system running the 65.27 bios is :
+> 
+> 	[root@t1700 ~]# cat /sys/devices/virtual/dmi/id/bios_release
+> 	65.27
+> 	[root@t1700 ~]#
+> 
+> This commit add  dmi_save_release() function have the logic to
+> check if the field is valid. If so, it reports the actual value.
+> 
+> Signed-off-by: Erwan Velu <e.velu@criteo.com>
+> ---
+>  drivers/firmware/dmi-id.c       |  3 +++
+>  drivers/firmware/dmi_scan.c     | 29 +++++++++++++++++++++++++++++
+>  include/linux/mod_devicetable.h |  1 +
+>  scripts/mod/file2alias.c        |  1 +
+>  4 files changed, 34 insertions(+)
+> 
+> diff --git a/drivers/firmware/dmi-id.c b/drivers/firmware/dmi-id.c
+> index ff39f64f2aae..a2aac65ff771 100644
+> --- a/drivers/firmware/dmi-id.c
+> +++ b/drivers/firmware/dmi-id.c
+> @@ -42,6 +42,7 @@ DEFINE_DMI_ATTR_WITH_SHOW(bios_vendor,		0444, DMI_BIOS_VENDOR);
+>  DEFINE_DMI_ATTR_WITH_SHOW(bios_version,		0444, DMI_BIOS_VERSION);
+>  DEFINE_DMI_ATTR_WITH_SHOW(bios_date,		0444, DMI_BIOS_DATE);
+>  DEFINE_DMI_ATTR_WITH_SHOW(sys_vendor,		0444, DMI_SYS_VENDOR);
+> +DEFINE_DMI_ATTR_WITH_SHOW(bios_release,         0444, DMI_BIOS_RELEASE);
+>  DEFINE_DMI_ATTR_WITH_SHOW(product_name,		0444, DMI_PRODUCT_NAME);
+>  DEFINE_DMI_ATTR_WITH_SHOW(product_version,	0444, DMI_PRODUCT_VERSION);
+>  DEFINE_DMI_ATTR_WITH_SHOW(product_serial,	0400, DMI_PRODUCT_SERIAL);
+> @@ -78,6 +79,7 @@ static ssize_t get_modalias(char *buffer, size_t buffer_size)
+>  		{ "bvn", DMI_BIOS_VENDOR },
+>  		{ "bvr", DMI_BIOS_VERSION },
+>  		{ "bd",  DMI_BIOS_DATE },
+> +		{ "br",  DMI_BIOS_RELEASE },
+>  		{ "svn", DMI_SYS_VENDOR },
+>  		{ "pn",  DMI_PRODUCT_NAME },
+>  		{ "pvr", DMI_PRODUCT_VERSION },
+> @@ -187,6 +189,7 @@ static void __init dmi_id_init_attr_table(void)
+>  	ADD_DMI_ATTR(bios_vendor,       DMI_BIOS_VENDOR);
+>  	ADD_DMI_ATTR(bios_version,      DMI_BIOS_VERSION);
+>  	ADD_DMI_ATTR(bios_date,         DMI_BIOS_DATE);
+> +	ADD_DMI_ATTR(bios_release,      DMI_BIOS_RELEASE);
+>  	ADD_DMI_ATTR(sys_vendor,        DMI_SYS_VENDOR);
+>  	ADD_DMI_ATTR(product_name,      DMI_PRODUCT_NAME);
+>  	ADD_DMI_ATTR(product_version,   DMI_PRODUCT_VERSION);
+> diff --git a/drivers/firmware/dmi_scan.c b/drivers/firmware/dmi_scan.c
+> index 1e21fc3e9851..d010c915c1ab 100644
+> --- a/drivers/firmware/dmi_scan.c
+> +++ b/drivers/firmware/dmi_scan.c
+> @@ -181,6 +181,34 @@ static void __init dmi_save_ident(const struct dmi_header *dm, int slot,
+>  	dmi_ident[slot] = p;
+>  }
+>  
+> +static void __init dmi_save_release(const struct dmi_header *dm, int slot,
+> +		int index)
+> +{
+> +	const u8 *minor, *major;
+> +	char *s;
+> +
+> +	/* If the table doesn't have the field, let's return */
+> +	if (dmi_ident[slot] || dm->length < index)
+> +		return;
+> +
+> +	minor = (u8 *) dm + index;
+> +	major = (u8 *) dm + index - 1;
+> +
+> +	/* As per the spec, if the system doesn't support this field,
+> +	 * the value is FF
+> +	 */
+> +	if (major[0] == 0xFF && minor[0] == 0xFF)
 
-Ah, ok, then this can't work just yet.  If those get fixed up, then we
-can do this.
+When using a pointer to a single entity, the common practice is to use
+*major rather than major[0].
 
-thanks for the info, nevermind about this patch :(
+> +		return;
+> +
+> +	s = dmi_alloc(4);
 
-greg k-h
+4 bytes (3 + 1) were enough when you encoded a single byte. Now that you
+encode 2 bytes separates by a dot, you need 8 (3 + 1 + 3 + 1).
+
+> +	if (!s)
+> +		return;
+> +
+> +	sprintf(s, "%u.%u", major[0], minor[0]);
+
+Here too, *major would be preferred.
+
+> +
+> +	dmi_ident[slot] = s;
+> +}
+> +
+>  static void __init dmi_save_uuid(const struct dmi_header *dm, int slot,
+>  		int index)
+>  {
+> @@ -438,6 +466,7 @@ static void __init dmi_decode(const struct dmi_header *dm, void *dummy)
+>  		dmi_save_ident(dm, DMI_BIOS_VENDOR, 4);
+>  		dmi_save_ident(dm, DMI_BIOS_VERSION, 5);
+>  		dmi_save_ident(dm, DMI_BIOS_DATE, 8);
+> +		dmi_save_release(dm, DMI_BIOS_RELEASE, 21);
+>  		break;
+>  	case 1:		/* System Information */
+>  		dmi_save_ident(dm, DMI_SYS_VENDOR, 4);
+> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+> index 5714fd35a83c..618933d770e6 100644
+> --- a/include/linux/mod_devicetable.h
+> +++ b/include/linux/mod_devicetable.h
+> @@ -532,6 +532,7 @@ enum dmi_field {
+>  	DMI_BIOS_VENDOR,
+>  	DMI_BIOS_VERSION,
+>  	DMI_BIOS_DATE,
+> +	DMI_BIOS_RELEASE,
+>  	DMI_SYS_VENDOR,
+>  	DMI_PRODUCT_NAME,
+>  	DMI_PRODUCT_VERSION,
+> diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+> index c91eba751804..cc48930cc02a 100644
+> --- a/scripts/mod/file2alias.c
+> +++ b/scripts/mod/file2alias.c
+> @@ -936,6 +936,7 @@ static const struct dmifield {
+>  	{ "bvn", DMI_BIOS_VENDOR },
+>  	{ "bvr", DMI_BIOS_VERSION },
+>  	{ "bd",  DMI_BIOS_DATE },
+> +	{ "br",  DMI_BIOS_RELEASE },
+>  	{ "svn", DMI_SYS_VENDOR },
+>  	{ "pn",  DMI_PRODUCT_NAME },
+>  	{ "pvr", DMI_PRODUCT_VERSION },
+
+
+-- 
+Jean Delvare
+SUSE L3 Support
