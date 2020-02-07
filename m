@@ -2,37 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF11B1555EB
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2020 11:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46F7D1555F3
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2020 11:41:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgBGKkS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Feb 2020 05:40:18 -0500
-Received: from foss.arm.com ([217.140.110.172]:38662 "EHLO foss.arm.com"
+        id S1727047AbgBGKlh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Feb 2020 05:41:37 -0500
+Received: from foss.arm.com ([217.140.110.172]:38696 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726827AbgBGKkR (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Feb 2020 05:40:17 -0500
+        id S1726798AbgBGKlh (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 7 Feb 2020 05:41:37 -0500
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7974330E;
-        Fri,  7 Feb 2020 02:40:16 -0800 (PST)
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B429B30E;
+        Fri,  7 Feb 2020 02:41:35 -0800 (PST)
 Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E19253F52E;
-        Fri,  7 Feb 2020 02:40:15 -0800 (PST)
-Subject: Re: [PATCH] kconfig: Sanitize make randconfig generated .config
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200122100344.50751-1-vincenzo.frascino@arm.com>
- <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 261E43F52E;
+        Fri,  7 Feb 2020 02:41:35 -0800 (PST)
+Subject: Re: [PATCH] kconfig: fix broken dependency in randconfig-generated
+ .config
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200201050311.3458-1-masahiroy@kernel.org>
+ <CAK7LNATTZGrJmh0CsR8eJUo3b13T9sjZPV4dh+2fCSZ9F4U0YA@mail.gmail.com>
 From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
 X-Pep-Version: 2.0
-Message-ID: <809349aa-2150-da9f-1efb-a257fb60aaf5@arm.com>
-Date:   Fri, 7 Feb 2020 10:40:14 +0000
+Message-ID: <c5c1a416-5e90-edf6-8f35-93776f7a1d1b@arm.com>
+Date:   Fri, 7 Feb 2020 10:41:33 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
+In-Reply-To: <CAK7LNATTZGrJmh0CsR8eJUo3b13T9sjZPV4dh+2fCSZ9F4U0YA@mail.gmail.com>
 Content-Type: multipart/mixed;
- boundary="------------683FC0DCBDE21EB0061039DB"
+ boundary="------------C3CF9AF269905A6163B086AF"
 Content-Language: en-US
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
@@ -40,81 +41,68 @@ List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 This is a multi-part message in MIME format.
---------------683FC0DCBDE21EB0061039DB
+--------------C3CF9AF269905A6163B086AF
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 01/02/2020 03:12, Masahiro Yamada wrote:
-> Hi.
->=20
->=20
-> On Wed, Jan 22, 2020 at 7:03 PM Vincenzo Frascino
-> <vincenzo.frascino@arm.com> wrote:
+On 01/02/2020 05:11, Masahiro Yamada wrote:
+> On Sat, Feb 1, 2020 at 2:03 PM Masahiro Yamada <masahiroy@kernel.org> w=
+rote:
 >>
->> "make randconfig" calculates the probability of a tristate option (yes=
+>> Running randconfig on arm64 using KCONFIG_SEED=3D0x40C5E904 (e.g. on v=
+5.5)
+>> produces the .config with CONFIG_EFI=3Dy and CONFIG_CPU_BIG_ENDIAN=3Dy=
 ,
->> mod, no) based on srand()/rand() and can be fed with a seed.
->> At the last step of randconfig some option are chosen randomly and the=
-ir
->> tristate set based on similar mechanism.
->> After this passage the resulting .config is not sanitized, hence it
->> might result in an inconsistent set of options being selected.
+>> which does not meet the !CONFIG_CPU_BIG_ENDIAN dependency.
 >>
->> This was noticed on arm64 using KCONFIG_SEED=3D0x40C5E904. During
->> randomize_choice_values() CONFIG_BIG_ENDIAN is enabled. Since CONFIG_E=
-FI
->> was enabled at a previous step, and depends on !CONFIG_BIG_ENDIAN the
->> resulting .config is inconsistent.
+>> This is because the user choice for CONFIG_CPU_LITTLE_ENDIAN vs
+>> CONFIG_CPU_BIG_ENDIAN is set by randomize_choice_values() after the
+>> value of CONFIG_EFI is calculated.
 >>
->> Fix the issue making sure that randconfig sanitizes the generated
->> .config as a last step.
+>> When this happens, the has_changed flag should be set.
 >>
->> Cc: Masahiro Yamada <masahiroy@kernel.org>
->> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> Currently, it takes the result from the last iteration. It should
+>> accumulate all the results of the loop.
+>>
+>> Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 >> ---
->>  scripts/kconfig/conf.c | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
->> index 1f89bf1558ce..c0fcaa4e9762 100644
->> --- a/scripts/kconfig/conf.c
->> +++ b/scripts/kconfig/conf.c
->> @@ -654,6 +654,11 @@ int main(int ac, char **av)
->>         case randconfig:
->>                 /* Really nothing to do in this loop */
->>                 while (conf_set_all_new_symbols(def_random)) ;
->> +               /*
->> +                * .config at this point might contain
->> +                * incompatible options. Sanitize it.
->> +                */
->> +               sym_clear_all_valid();
 >=20
-> Thanks for the report, but clearing
-> all the valid flags is a big hammer.
-> I do not think it is a proper fix.
+> Maybe, this could be tagged:
+>=20
+> Fixes: 3b9a19e08960 ("kconfig: loop as long as we changed some symbols
+> in randconfig")
+>=20
 >=20
 >
 
-Ok, it is fine by me to find a better solution in this case. Not being on=
- the
-critical path of execution it did not look like to me very heavy but my
-experience with the tool code is limited :)
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-> I checked the code, and I noticed the root cause of
-> this bug.
->=20
-> I will send a different patch later.
 >=20
 >=20
->=20
->=20
->>                 break;
->>         case defconfig:
->>                 conf_set_all_new_symbols(def_default);
+>>  scripts/kconfig/confdata.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+>> index 99f2418baa6c..eb1efa3abdee 100644
+>> --- a/scripts/kconfig/confdata.c
+>> +++ b/scripts/kconfig/confdata.c
+>> @@ -1353,7 +1353,7 @@ bool conf_set_all_new_symbols(enum conf_def_mode=
+ mode)
+>>
+>>                 sym_calc_value(csym);
+>>                 if (mode =3D=3D def_random)
+>> -                       has_changed =3D randomize_choice_values(csym);=
+
+>> +                       has_changed |=3D randomize_choice_values(csym)=
+;
+>>                 else {
+>>                         set_all_choice_values(csym);
+>>                         has_changed =3D true;
 >> --
->> 2.25.0
+>> 2.17.1
 >>
 >=20
 >=20
@@ -123,7 +111,7 @@ experience with the tool code is limited :)
 Regards,
 Vincenzo
 
---------------683FC0DCBDE21EB0061039DB
+--------------C3CF9AF269905A6163B086AF
 Content-Type: application/pgp-keys;
  name="pEpkey.asc"
 Content-Transfer-Encoding: quoted-printable
@@ -351,4 +339,4 @@ GrFxzNOCDuNG1w=3D=3D
 =3DVSiF
 -----END PGP PUBLIC KEY BLOCK-----
 
---------------683FC0DCBDE21EB0061039DB--
+--------------C3CF9AF269905A6163B086AF--
