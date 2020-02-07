@@ -2,105 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37CAA155D65
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2020 19:08:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F6FF155DD9
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2020 19:22:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbgBGSIX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Feb 2020 13:08:23 -0500
-Received: from mail-wr1-f74.google.com ([209.85.221.74]:36358 "EHLO
-        mail-wr1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727129AbgBGSIJ (ORCPT
+        id S1727009AbgBGSWT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Feb 2020 13:22:19 -0500
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:55140 "EHLO
+        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726900AbgBGSWT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Feb 2020 13:08:09 -0500
-Received: by mail-wr1-f74.google.com with SMTP id t6so54754wru.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 07 Feb 2020 10:08:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=Wx4Lk/qcxkAc1kcfbOM2JJx2GgJH5oSaDPZKdVYKXDQ=;
-        b=hsaTlcgJklMNfzJzHRvB7XaB+Bo8T0xIMM7/acRqZePCPIKvupjLpYefjqxv9yoFO6
-         WWiTwjuMre7mvLufstCGVegdG6Aj+4LcNyaePrMvemmZWU1G++lXYPVvZ7I9uwMOEz/H
-         tEJ32T7SwGkHfktmjDK+BUOPHj0o5Q9YDdefdBJrpfsf6D8suxdXEMRC5HDIQWgzCYyQ
-         U35j+tIlY1gOzgnZjn/gv5S9dKbVG1nz0Y7iNE1t0AwhHb8zVb22XlytQDFTBIV6GB+o
-         CAPI45vnT/YOqcP+luRy1W9yjxhSYcQN8hLJrszPQt91NXkUgQwZN0ao2jLoFBXt3LQN
-         FctQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=Wx4Lk/qcxkAc1kcfbOM2JJx2GgJH5oSaDPZKdVYKXDQ=;
-        b=ME3jcyVn9DTyeZ5gMq+BXpgPLPAMGen2ZUDGoao8hT06V5SRgfzVwbRdO5O/t4OX2y
-         Zbw9owzG63AxN4oWhJknMb433MHzWX+BL3ODBv4lFKVaHw6v0PSogrulpGmGcMZ0KvV3
-         iAeI9ZPd/89iSIxjAyUTn4+Js5kF/9Xrn6gMZyU98NymidKaFrxt2RohpvNA78uBCR49
-         LbXL0dP1r5iHmWgiwUhNZhZUHyquoIrT48e5JWM/JGzpXvJznSuvUcqh0JpLPu+J8Dfh
-         HAmboW8TqKm7XPKXKGAtjFnFJYP/rz10mfwpiQbQ9Rvf49D9bruxDYjrZwUcF0YoXmSr
-         KpGg==
-X-Gm-Message-State: APjAAAX/bLCECeGfeG9Vr/tZCz7FBcha7TBkDozvxsUxZG4RhknwKlzw
-        WVTupDw43FvwpP38yATf5WPKUGKiFqjX
-X-Google-Smtp-Source: APXvYqw7vu25vWGiGIY5yFYv+rMDZzcvNB415zRBWFXZSdBTPzshF4TUzrsyGehmj5mQoi6NoShI7HArFZlm
-X-Received: by 2002:a5d:540f:: with SMTP id g15mr258451wrv.86.1581098887238;
- Fri, 07 Feb 2020 10:08:07 -0800 (PST)
-Date:   Fri,  7 Feb 2020 18:07:55 +0000
-In-Reply-To: <20200207180755.100561-1-qperret@google.com>
-Message-Id: <20200207180755.100561-4-qperret@google.com>
-Mime-Version: 1.0
-References: <20200207180755.100561-1-qperret@google.com>
-X-Mailer: git-send-email 2.25.0.341.g760bfbb309-goog
-Subject: [PATCH v3 3/3] kbuild: generate autoksyms.h early
-From:   Quentin Perret <qperret@google.com>
-To:     masahiroy@kernel.org, nico@fluxnic.net
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        maennich@google.com, kernel-team@android.com, jeyu@kernel.org,
-        hch@infradead.org, qperret@google.com
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 7 Feb 2020 13:22:19 -0500
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 5208054BE5;
+        Fri,  7 Feb 2020 13:22:14 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=9WMxIP/6iHc0Gn3chTdRzQ3KxHU=; b=FEpwoc
+        I41pCIqAxDwVR86rLcehMVcqkyEXcM10jHEuTCdObNSYtEsbaQqITX1o40c63rti
+        vOznHwvsVf3ljZ05dhXNhiZHn/X5YgTvkQT8LWGWXnmjHqOtQP88cbBYOu/os2o3
+        65KqrgZzMNl6AH7bWvpp5KljMyR0bd7IcKRv0=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id 4911754BE4;
+        Fri,  7 Feb 2020 13:22:14 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=bjuIsYXrSyPas58NLMHos31uoWzRJgrzhJvJZEoIqKc=; b=Vw7oQVfScGIdW3D2Et32jFVqLSKE8uiAmdnnSax66r/GiJuQxfKmAGC7VTHZ3wQfGDw7vKta4bJThg3rMHHPcExE0jRL1lyGqODtmpDSnHAQCHLI24nCpe2VZa+5Lyf1UwlL4QO5/H6oK8T+2QJBNH9z1P9s7DOSq/ql7uBKuSY=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id BCBF854BE3;
+        Fri,  7 Feb 2020 13:22:13 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id E72BD2DA095A;
+        Fri,  7 Feb 2020 13:22:12 -0500 (EST)
+Date:   Fri, 7 Feb 2020 13:22:12 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Quentin Perret <qperret@google.com>
+cc:     masahiroy@kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, maennich@google.com,
+        kernel-team@android.com, jeyu@kernel.org, hch@infradead.org
+Subject: Re: [PATCH v3 1/3] kbuild: allow symbol whitelisting with
+ TRIM_UNUSED_KSYMS
+In-Reply-To: <20200207180755.100561-2-qperret@google.com>
+Message-ID: <nycvar.YSQ.7.76.2002071319200.1559@knanqh.ubzr>
+References: <20200207180755.100561-1-qperret@google.com> <20200207180755.100561-2-qperret@google.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: C36052A0-49D6-11EA-A75E-C28CBED8090B-78420484!pb-smtp1.pobox.com
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When doing a cold build, autoksyms.h starts empty, and is updated late
-in the build process to have visibility over the symbols used by in-tree
-drivers. But since the symbol whitelist is known upfront, it can be used
-to pre-populate autoksyms.h and maximize the amount of code that can be
-compiled to its final state in a single pass, hence reducing build time.
+On Fri, 7 Feb 2020, Quentin Perret wrote:
 
-Do this by using gen_autoksyms.sh to initialize autoksyms.h instead of
-creating an empty file.
+> @Nicolas: I left your Reviewed-by behind as the code has changed a bit
+> but let me know what you think
+> ---
+>  init/Kconfig                | 13 +++++++++++++
+>  scripts/adjust_autoksyms.sh |  5 +++++
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/init/Kconfig b/init/Kconfig
+> index a34064a031a5..79fd976ce031 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -2180,6 +2180,19 @@ config TRIM_UNUSED_KSYMS
+>  
+>  	  If unsure, or if you need to build out-of-tree modules, say N.
+>  
+> +config UNUSED_KSYMS_WHITELIST
+> +	string "Whitelist of symbols to keep in ksymtab"
+> +	depends on TRIM_UNUSED_KSYMS
+> +	help
+> +	  By default, all unused exported symbols will be un-exported from the
+> +	  build when TRIM_UNUSED_KSYMS is selected.
+> +
+> +	  UNUSED_KSYMS_WHITELIST allows to whitelist symbols that must be kept
+> +	  exported at all times, even in absence of in-tree users. The value to
+> +	  set here is the path to a text file containing the list of symbols,
+> +	  one per line. The path can be absolute, or relative to the kernel
+> +	  source tree.
+> +
+>  endif # MODULES
+>  
+>  config MODULES_TREE_LOOKUP
+> diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
+> index a904bf1f5e67..58335eee4b38 100755
+> --- a/scripts/adjust_autoksyms.sh
+> +++ b/scripts/adjust_autoksyms.sh
+> @@ -38,6 +38,10 @@ esac
+>  # We need access to CONFIG_ symbols
+>  . include/config/auto.conf
+>  
+> +# The symbol whitelist, relative to the source tree
+> +eval ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
+> +[[ "$ksym_wl" =~ ^/ ]] || ksym_wl="$abs_srctree/$ksym_wl"
 
-Signed-off-by: Quentin Perret <qperret@google.com>
----
- Makefile                 | 2 +-
- scripts/gen_autoksyms.sh | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+This "[[ ]]" is a bashism. I think there was an effort not to depend on 
+bash for the build system. So either this needs to be changed to basic 
+bourne shell, or the interpretor has to be /bin/bash not /bin/sh.
 
-diff --git a/Makefile b/Makefile
-index 6a01b073915e..e5c389d189f7 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1065,7 +1065,7 @@ autoksyms_h := $(if $(CONFIG_TRIM_UNUSED_KSYMS), include/generated/autoksyms.h)
- 
- $(autoksyms_h):
- 	$(Q)mkdir -p $(dir $@)
--	$(Q)touch $@
-+	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/gen_autoksyms.sh $@
- 
- ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
- 
-diff --git a/scripts/gen_autoksyms.sh b/scripts/gen_autoksyms.sh
-index ce0919c3791a..ae033ab03a4a 100755
---- a/scripts/gen_autoksyms.sh
-+++ b/scripts/gen_autoksyms.sh
-@@ -32,7 +32,8 @@ cat > "$output_file" << EOT
- 
- EOT
- 
--sed 's/ko$/mod/' modules.order |
-+[[ -f modules.order ]] && modlist=modules.order || modlist=/dev/null
-+sed 's/ko$/mod/' $modlist |
- xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
- cat - "$ksym_wl" |
- sort -u |
--- 
-2.25.0.341.g760bfbb309-goog
 
+Nicolas
