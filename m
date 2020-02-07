@@ -2,627 +2,353 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12A12155455
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2020 10:13:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF11B1555EB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Feb 2020 11:40:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbgBGJN6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Feb 2020 04:13:58 -0500
-Received: from andre.telenet-ops.be ([195.130.132.53]:60040 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726451AbgBGJN6 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Feb 2020 04:13:58 -0500
-Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id zlDt2100S5USYZQ01lDtP9; Fri, 07 Feb 2020 10:13:53 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1izzhx-0000wB-GT; Fri, 07 Feb 2020 10:13:53 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1izzhx-0004jC-EF; Fri, 07 Feb 2020 10:13:53 +0100
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     alsa-devel@alsa-project.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] [RFC] ASoC: Use imply for SND_SOC_ALL_CODECS
-Date:   Fri,  7 Feb 2020 10:13:51 +0100
-Message-Id: <20200207091351.18133-1-geert@linux-m68k.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726901AbgBGKkS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Feb 2020 05:40:18 -0500
+Received: from foss.arm.com ([217.140.110.172]:38662 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726827AbgBGKkR (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 7 Feb 2020 05:40:17 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7974330E;
+        Fri,  7 Feb 2020 02:40:16 -0800 (PST)
+Received: from [10.1.196.72] (e119884-lin.cambridge.arm.com [10.1.196.72])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E19253F52E;
+        Fri,  7 Feb 2020 02:40:15 -0800 (PST)
+Subject: Re: [PATCH] kconfig: Sanitize make randconfig generated .config
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200122100344.50751-1-vincenzo.frascino@arm.com>
+ <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
+From:   Vincenzo Frascino <vincenzo.frascino@arm.com>
+X-Pep-Version: 2.0
+Message-ID: <809349aa-2150-da9f-1efb-a257fb60aaf5@arm.com>
+Date:   Fri, 7 Feb 2020 10:40:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAK7LNATxbGWGW19N9H-HAiSY0AL0iFs8D_H0DEKmEfTGTT88iA@mail.gmail.com>
+Content-Type: multipart/mixed;
+ boundary="------------683FC0DCBDE21EB0061039DB"
+Content-Language: en-US
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently SND_SOC_ALL_CODECS selects the config symbols for all codec
-drivers.  As "select" bypasses dependencies, lots of "select" statements
-need explicit dependencies, which are hard to get right, and hard to
-maintain[*].
+This is a multi-part message in MIME format.
+--------------683FC0DCBDE21EB0061039DB
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Fix this by using "imply" instead, which is a weak version of "select",
-and which obeys dependencies of target symbols.
 
-Add dependencies to invisible symbols that are currently selected only
-if their dependencies are fulfilled.
 
-[*] See e.g. commit 13426feaf46c48fc ("ASoC: wcd934x: Add missing
-    COMMON_CLK dependency to SND_SOC_ALL_CODECS").
+On 01/02/2020 03:12, Masahiro Yamada wrote:
+> Hi.
+>=20
+>=20
+> On Wed, Jan 22, 2020 at 7:03 PM Vincenzo Frascino
+> <vincenzo.frascino@arm.com> wrote:
+>>
+>> "make randconfig" calculates the probability of a tristate option (yes=
+,
+>> mod, no) based on srand()/rand() and can be fed with a seed.
+>> At the last step of randconfig some option are chosen randomly and the=
+ir
+>> tristate set based on similar mechanism.
+>> After this passage the resulting .config is not sanitized, hence it
+>> might result in an inconsistent set of options being selected.
+>>
+>> This was noticed on arm64 using KCONFIG_SEED=3D0x40C5E904. During
+>> randomize_choice_values() CONFIG_BIG_ENDIAN is enabled. Since CONFIG_E=
+FI
+>> was enabled at a previous step, and depends on !CONFIG_BIG_ENDIAN the
+>> resulting .config is inconsistent.
+>>
+>> Fix the issue making sure that randconfig sanitizes the generated
+>> .config as a last step.
+>>
+>> Cc: Masahiro Yamada <masahiroy@kernel.org>
+>> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+>> ---
+>>  scripts/kconfig/conf.c | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+>> index 1f89bf1558ce..c0fcaa4e9762 100644
+>> --- a/scripts/kconfig/conf.c
+>> +++ b/scripts/kconfig/conf.c
+>> @@ -654,6 +654,11 @@ int main(int ac, char **av)
+>>         case randconfig:
+>>                 /* Really nothing to do in this loop */
+>>                 while (conf_set_all_new_symbols(def_random)) ;
+>> +               /*
+>> +                * .config at this point might contain
+>> +                * incompatible options. Sanitize it.
+>> +                */
+>> +               sym_clear_all_valid();
+>=20
+> Thanks for the report, but clearing
+> all the valid flags is a big hammer.
+> I do not think it is a proper fix.
+>=20
+>
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
-Does this sound like a good solution?
-Anything I'm missing w.r.t. the "imply" semantics?
-FIXME Nothing but SND_SOC_ALL_CODECS selects SND_SOC_WM8400!
+Ok, it is fine by me to find a better solution in this case. Not being on=
+ the
+critical path of execution it did not look like to me very heavy but my
+experience with the tool code is limited :)
 
-Tested with m68k/allmodconfig and m68k/allyesconfig only.
-Hence some other invisible symbols may still have missing dependencies.
----
- sound/soc/codecs/Kconfig | 520 ++++++++++++++++++++-------------------
- 1 file changed, 263 insertions(+), 257 deletions(-)
+> I checked the code, and I noticed the root cause of
+> this bug.
+>=20
+> I will send a different patch later.
+>=20
+>=20
+>=20
+>=20
+>>                 break;
+>>         case defconfig:
+>>                 conf_set_all_new_symbols(def_default);
+>> --
+>> 2.25.0
+>>
+>=20
+>=20
 
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 7e90f5d830971309..7a14b1c416b55e46 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -14,262 +14,262 @@ menu "CODEC drivers"
- config SND_SOC_ALL_CODECS
- 	tristate "Build all ASoC CODEC drivers"
- 	depends on COMPILE_TEST
--	select SND_SOC_88PM860X if MFD_88PM860X
--	select SND_SOC_L3
--	select SND_SOC_AB8500_CODEC if ABX500_CORE
--	select SND_SOC_AC97_CODEC
--	select SND_SOC_AD1836 if SPI_MASTER
--	select SND_SOC_AD193X_SPI if SPI_MASTER
--	select SND_SOC_AD193X_I2C if I2C
--	select SND_SOC_AD1980 if SND_SOC_AC97_BUS
--	select SND_SOC_AD73311
--	select SND_SOC_ADAU1373 if I2C
--	select SND_SOC_ADAU1761_I2C if I2C
--	select SND_SOC_ADAU1761_SPI if SPI
--	select SND_SOC_ADAU1781_I2C if I2C
--	select SND_SOC_ADAU1781_SPI if SPI
--	select SND_SOC_ADAV801 if SPI_MASTER
--	select SND_SOC_ADAV803 if I2C
--	select SND_SOC_ADAU1977_SPI if SPI_MASTER
--	select SND_SOC_ADAU1977_I2C if I2C
--	select SND_SOC_ADAU1701 if I2C
--	select SND_SOC_ADAU7002
--	select SND_SOC_ADAU7118_I2C if I2C
--	select SND_SOC_ADAU7118_HW
--	select SND_SOC_ADS117X
--	select SND_SOC_AK4104 if SPI_MASTER
--	select SND_SOC_AK4118 if I2C
--	select SND_SOC_AK4458 if I2C
--	select SND_SOC_AK4535 if I2C
--	select SND_SOC_AK4554
--	select SND_SOC_AK4613 if I2C
--	select SND_SOC_AK4641 if I2C
--	select SND_SOC_AK4642 if I2C
--	select SND_SOC_AK4671 if I2C
--	select SND_SOC_AK5386
--	select SND_SOC_AK5558 if I2C
--	select SND_SOC_ALC5623 if I2C
--	select SND_SOC_ALC5632 if I2C
--	select SND_SOC_BT_SCO
--	select SND_SOC_BD28623
--	select SND_SOC_CQ0093VC
--	select SND_SOC_CROS_EC_CODEC if CROS_EC
--	select SND_SOC_CS35L32 if I2C
--	select SND_SOC_CS35L33 if I2C
--	select SND_SOC_CS35L34 if I2C
--	select SND_SOC_CS35L35 if I2C
--	select SND_SOC_CS35L36 if I2C
--	select SND_SOC_CS42L42 if I2C
--	select SND_SOC_CS42L51_I2C if I2C
--	select SND_SOC_CS42L52 if I2C && INPUT
--	select SND_SOC_CS42L56 if I2C && INPUT
--	select SND_SOC_CS42L73 if I2C
--	select SND_SOC_CS4265 if I2C
--	select SND_SOC_CS4270 if I2C
--	select SND_SOC_CS4271_I2C if I2C
--	select SND_SOC_CS4271_SPI if SPI_MASTER
--	select SND_SOC_CS42XX8_I2C if I2C
--	select SND_SOC_CS43130 if I2C
--	select SND_SOC_CS4341 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_CS4349 if I2C
--	select SND_SOC_CS47L15 if MFD_CS47L15
--	select SND_SOC_CS47L24 if MFD_CS47L24
--	select SND_SOC_CS47L35 if MFD_CS47L35
--	select SND_SOC_CS47L85 if MFD_CS47L85
--	select SND_SOC_CS47L90 if MFD_CS47L90
--	select SND_SOC_CS47L92 if MFD_CS47L92
--	select SND_SOC_CS53L30 if I2C
--	select SND_SOC_CX20442 if TTY
--	select SND_SOC_CX2072X if I2C
--	select SND_SOC_DA7210 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_DA7213 if I2C
--	select SND_SOC_DA7218 if I2C
--	select SND_SOC_DA7219 if I2C
--	select SND_SOC_DA732X if I2C
--	select SND_SOC_DA9055 if I2C
--	select SND_SOC_DMIC if GPIOLIB
--	select SND_SOC_ES8316 if I2C
--	select SND_SOC_ES8328_SPI if SPI_MASTER
--	select SND_SOC_ES8328_I2C if I2C
--	select SND_SOC_ES7134
--	select SND_SOC_ES7241
--	select SND_SOC_GTM601
--	select SND_SOC_HDAC_HDMI
--	select SND_SOC_HDAC_HDA
--	select SND_SOC_ICS43432
--	select SND_SOC_INNO_RK3036
--	select SND_SOC_ISABELLE if I2C
--	select SND_SOC_JZ4740_CODEC
--	select SND_SOC_JZ4725B_CODEC
--	select SND_SOC_JZ4770_CODEC
--	select SND_SOC_LM4857 if I2C
--	select SND_SOC_LM49453 if I2C
--	select SND_SOC_LOCHNAGAR_SC if MFD_LOCHNAGAR
--	select SND_SOC_MAX98088 if I2C
--	select SND_SOC_MAX98090 if I2C
--	select SND_SOC_MAX98095 if I2C
--	select SND_SOC_MAX98357A if GPIOLIB
--	select SND_SOC_MAX98371 if I2C
--	select SND_SOC_MAX98504 if I2C
--	select SND_SOC_MAX9867 if I2C
--	select SND_SOC_MAX98925 if I2C
--	select SND_SOC_MAX98926 if I2C
--	select SND_SOC_MAX98927 if I2C
--	select SND_SOC_MAX98373 if I2C
--	select SND_SOC_MAX9850 if I2C
--	select SND_SOC_MAX9860 if I2C
--	select SND_SOC_MAX9759
--	select SND_SOC_MAX9768 if I2C
--	select SND_SOC_MAX9877 if I2C
--	select SND_SOC_MC13783 if MFD_MC13XXX
--	select SND_SOC_ML26124 if I2C
--	select SND_SOC_MT6351 if MTK_PMIC_WRAP
--	select SND_SOC_MT6358 if MTK_PMIC_WRAP
--	select SND_SOC_MT6660 if I2C
--	select SND_SOC_NAU8540 if I2C
--	select SND_SOC_NAU8810 if I2C
--	select SND_SOC_NAU8822 if I2C
--	select SND_SOC_NAU8824 if I2C
--	select SND_SOC_NAU8825 if I2C
--	select SND_SOC_HDMI_CODEC
--	select SND_SOC_PCM1681 if I2C
--	select SND_SOC_PCM1789_I2C if I2C
--	select SND_SOC_PCM179X_I2C if I2C
--	select SND_SOC_PCM179X_SPI if SPI_MASTER
--	select SND_SOC_PCM186X_I2C if I2C
--	select SND_SOC_PCM186X_SPI if SPI_MASTER
--	select SND_SOC_PCM3008
--	select SND_SOC_PCM3060_I2C if I2C
--	select SND_SOC_PCM3060_SPI if SPI_MASTER
--	select SND_SOC_PCM3168A_I2C if I2C
--	select SND_SOC_PCM3168A_SPI if SPI_MASTER
--	select SND_SOC_PCM5102A
--	select SND_SOC_PCM512x_I2C if I2C
--	select SND_SOC_PCM512x_SPI if SPI_MASTER
--	select SND_SOC_RK3328
--	select SND_SOC_RT274 if I2C
--	select SND_SOC_RT286 if I2C
--	select SND_SOC_RT298 if I2C
--	select SND_SOC_RT1011 if I2C
--	select SND_SOC_RT1015 if I2C
--	select SND_SOC_RT1305 if I2C
--	select SND_SOC_RT1308 if I2C
--	select SND_SOC_RT5514 if I2C
--	select SND_SOC_RT5616 if I2C
--	select SND_SOC_RT5631 if I2C
--	select SND_SOC_RT5640 if I2C
--	select SND_SOC_RT5645 if I2C
--	select SND_SOC_RT5651 if I2C
--	select SND_SOC_RT5659 if I2C
--	select SND_SOC_RT5660 if I2C
--	select SND_SOC_RT5663 if I2C
--	select SND_SOC_RT5665 if I2C
--	select SND_SOC_RT5668 if I2C
--	select SND_SOC_RT5670 if I2C
--	select SND_SOC_RT5677 if I2C && SPI_MASTER
--	select SND_SOC_RT5682 if I2C
--	select SND_SOC_RT700_SDW if SOUNDWIRE
--	select SND_SOC_RT711_SDW if SOUNDWIRE
--	select SND_SOC_RT715_SDW if SOUNDWIRE
--	select SND_SOC_RT1308_SDW if SOUNDWIRE
--	select SND_SOC_SGTL5000 if I2C
--	select SND_SOC_SI476X if MFD_SI476X_CORE
--	select SND_SOC_SIMPLE_AMPLIFIER
--	select SND_SOC_SIRF_AUDIO_CODEC
--	select SND_SOC_SPDIF
--	select SND_SOC_SSM2305
--	select SND_SOC_SSM2518 if I2C
--	select SND_SOC_SSM2602_SPI if SPI_MASTER
--	select SND_SOC_SSM2602_I2C if I2C
--	select SND_SOC_SSM4567 if I2C
--	select SND_SOC_STA32X if I2C
--	select SND_SOC_STA350 if I2C
--	select SND_SOC_STA529 if I2C
--	select SND_SOC_STAC9766 if SND_SOC_AC97_BUS
--	select SND_SOC_STI_SAS
--	select SND_SOC_TAS2552 if I2C
--	select SND_SOC_TAS2562 if I2C
--	select SND_SOC_TAS2770 if I2C
--	select SND_SOC_TAS5086 if I2C
--	select SND_SOC_TAS571X if I2C
--	select SND_SOC_TAS5720 if I2C
--	select SND_SOC_TAS6424 if I2C
--	select SND_SOC_TDA7419 if I2C
--	select SND_SOC_TFA9879 if I2C
--	select SND_SOC_TLV320AIC23_I2C if I2C
--	select SND_SOC_TLV320AIC23_SPI if SPI_MASTER
--	select SND_SOC_TLV320AIC26 if SPI_MASTER
--	select SND_SOC_TLV320AIC31XX if I2C
--	select SND_SOC_TLV320AIC32X4_I2C if I2C && COMMON_CLK
--	select SND_SOC_TLV320AIC32X4_SPI if SPI_MASTER && COMMON_CLK
--	select SND_SOC_TLV320AIC3X if I2C
--	select SND_SOC_TPA6130A2 if I2C
--	select SND_SOC_TLV320DAC33 if I2C
--	select SND_SOC_TSCS42XX if I2C
--	select SND_SOC_TSCS454 if I2C
--	select SND_SOC_TS3A227E if I2C
--	select SND_SOC_TWL4030 if TWL4030_CORE
--	select SND_SOC_TWL6040 if TWL6040_CORE
--	select SND_SOC_UDA1334 if GPIOLIB
--	select SND_SOC_UDA134X
--	select SND_SOC_UDA1380 if I2C
--	select SND_SOC_WCD9335 if SLIMBUS
--	select SND_SOC_WCD934X if MFD_WCD934X && COMMON_CLK
--	select SND_SOC_WL1273 if MFD_WL1273_CORE
--	select SND_SOC_WM0010 if SPI_MASTER
--	select SND_SOC_WM1250_EV1 if I2C
--	select SND_SOC_WM2000 if I2C
--	select SND_SOC_WM2200 if I2C
--	select SND_SOC_WM5100 if I2C
--	select SND_SOC_WM5102 if MFD_WM5102
--	select SND_SOC_WM5110 if MFD_WM5110
--	select SND_SOC_WM8350 if MFD_WM8350
--	select SND_SOC_WM8400 if MFD_WM8400
--	select SND_SOC_WM8510 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8523 if I2C
--	select SND_SOC_WM8524 if GPIOLIB
--	select SND_SOC_WM8580 if I2C
--	select SND_SOC_WM8711 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8727
--	select SND_SOC_WM8728 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8731 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8737 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8741 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8750 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8753 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8770 if SPI_MASTER
--	select SND_SOC_WM8776 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8782
--	select SND_SOC_WM8804_I2C if I2C
--	select SND_SOC_WM8804_SPI if SPI_MASTER
--	select SND_SOC_WM8900 if I2C
--	select SND_SOC_WM8903 if I2C
--	select SND_SOC_WM8904 if I2C
--	select SND_SOC_WM8940 if I2C
--	select SND_SOC_WM8955 if I2C
--	select SND_SOC_WM8960 if I2C
--	select SND_SOC_WM8961 if I2C
--	select SND_SOC_WM8962 if I2C && INPUT
--	select SND_SOC_WM8971 if I2C
--	select SND_SOC_WM8974 if I2C
--	select SND_SOC_WM8978 if I2C
--	select SND_SOC_WM8983 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8985 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8988 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8990 if I2C
--	select SND_SOC_WM8991 if I2C
--	select SND_SOC_WM8993 if I2C
--	select SND_SOC_WM8994 if MFD_WM8994
--	select SND_SOC_WM8995 if SND_SOC_I2C_AND_SPI
--	select SND_SOC_WM8996 if I2C
--	select SND_SOC_WM8997 if MFD_WM8997
--	select SND_SOC_WM8998 if MFD_WM8998
--	select SND_SOC_WM9081 if I2C
--	select SND_SOC_WM9090 if I2C
--	select SND_SOC_WM9705 if (SND_SOC_AC97_BUS || SND_SOC_AC97_BUS_NEW)
--	select SND_SOC_WM9712 if (SND_SOC_AC97_BUS || SND_SOC_AC97_BUS_NEW)
--	select SND_SOC_WM9713 if (SND_SOC_AC97_BUS || SND_SOC_AC97_BUS_NEW)
--	select SND_SOC_WSA881X if SOUNDWIRE
-+	imply SND_SOC_88PM860X
-+	imply SND_SOC_L3
-+	imply SND_SOC_AB8500_CODEC
-+	imply SND_SOC_AC97_CODEC
-+	imply SND_SOC_AD1836
-+	imply SND_SOC_AD193X_SPI
-+	imply SND_SOC_AD193X_I2C
-+	imply SND_SOC_AD1980
-+	imply SND_SOC_AD73311
-+	imply SND_SOC_ADAU1373
-+	imply SND_SOC_ADAU1761_I2C
-+	imply SND_SOC_ADAU1761_SPI
-+	imply SND_SOC_ADAU1781_I2C
-+	imply SND_SOC_ADAU1781_SPI
-+	imply SND_SOC_ADAV801
-+	imply SND_SOC_ADAV803
-+	imply SND_SOC_ADAU1977_SPI
-+	imply SND_SOC_ADAU1977_I2C
-+	imply SND_SOC_ADAU1701
-+	imply SND_SOC_ADAU7002
-+	imply SND_SOC_ADAU7118_I2C
-+	imply SND_SOC_ADAU7118_HW
-+	imply SND_SOC_ADS117X
-+	imply SND_SOC_AK4104
-+	imply SND_SOC_AK4118
-+	imply SND_SOC_AK4458
-+	imply SND_SOC_AK4535
-+	imply SND_SOC_AK4554
-+	imply SND_SOC_AK4613
-+	imply SND_SOC_AK4641
-+	imply SND_SOC_AK4642
-+	imply SND_SOC_AK4671
-+	imply SND_SOC_AK5386
-+	imply SND_SOC_AK5558
-+	imply SND_SOC_ALC5623
-+	imply SND_SOC_ALC5632
-+	imply SND_SOC_BT_SCO
-+	imply SND_SOC_BD28623
-+	imply SND_SOC_CQ0093VC
-+	imply SND_SOC_CROS_EC_CODEC
-+	imply SND_SOC_CS35L32
-+	imply SND_SOC_CS35L33
-+	imply SND_SOC_CS35L34
-+	imply SND_SOC_CS35L35
-+	imply SND_SOC_CS35L36
-+	imply SND_SOC_CS42L42
-+	imply SND_SOC_CS42L51_I2C
-+	imply SND_SOC_CS42L52
-+	imply SND_SOC_CS42L56
-+	imply SND_SOC_CS42L73
-+	imply SND_SOC_CS4265
-+	imply SND_SOC_CS4270
-+	imply SND_SOC_CS4271_I2C
-+	imply SND_SOC_CS4271_SPI
-+	imply SND_SOC_CS42XX8_I2C
-+	imply SND_SOC_CS43130
-+	imply SND_SOC_CS4341
-+	imply SND_SOC_CS4349
-+	imply SND_SOC_CS47L15
-+	imply SND_SOC_CS47L24
-+	imply SND_SOC_CS47L35
-+	imply SND_SOC_CS47L85
-+	imply SND_SOC_CS47L90
-+	imply SND_SOC_CS47L92
-+	imply SND_SOC_CS53L30
-+	imply SND_SOC_CX20442
-+	imply SND_SOC_CX2072X
-+	imply SND_SOC_DA7210
-+	imply SND_SOC_DA7213
-+	imply SND_SOC_DA7218
-+	imply SND_SOC_DA7219
-+	imply SND_SOC_DA732X
-+	imply SND_SOC_DA9055
-+	imply SND_SOC_DMIC
-+	imply SND_SOC_ES8316
-+	imply SND_SOC_ES8328_SPI
-+	imply SND_SOC_ES8328_I2C
-+	imply SND_SOC_ES7134
-+	imply SND_SOC_ES7241
-+	imply SND_SOC_GTM601
-+	imply SND_SOC_HDAC_HDMI
-+	imply SND_SOC_HDAC_HDA
-+	imply SND_SOC_ICS43432
-+	imply SND_SOC_INNO_RK3036
-+	imply SND_SOC_ISABELLE
-+	imply SND_SOC_JZ4740_CODEC
-+	imply SND_SOC_JZ4725B_CODEC
-+	imply SND_SOC_JZ4770_CODEC
-+	imply SND_SOC_LM4857
-+	imply SND_SOC_LM49453
-+	imply SND_SOC_LOCHNAGAR_SC
-+	imply SND_SOC_MAX98088
-+	imply SND_SOC_MAX98090
-+	imply SND_SOC_MAX98095
-+	imply SND_SOC_MAX98357A
-+	imply SND_SOC_MAX98371
-+	imply SND_SOC_MAX98504
-+	imply SND_SOC_MAX9867
-+	imply SND_SOC_MAX98925
-+	imply SND_SOC_MAX98926
-+	imply SND_SOC_MAX98927
-+	imply SND_SOC_MAX98373
-+	imply SND_SOC_MAX9850
-+	imply SND_SOC_MAX9860
-+	imply SND_SOC_MAX9759
-+	imply SND_SOC_MAX9768
-+	imply SND_SOC_MAX9877
-+	imply SND_SOC_MC13783
-+	imply SND_SOC_ML26124
-+	imply SND_SOC_MT6351
-+	imply SND_SOC_MT6358
-+	imply SND_SOC_MT6660
-+	imply SND_SOC_NAU8540
-+	imply SND_SOC_NAU8810
-+	imply SND_SOC_NAU8822
-+	imply SND_SOC_NAU8824
-+	imply SND_SOC_NAU8825
-+	imply SND_SOC_HDMI_CODEC
-+	imply SND_SOC_PCM1681
-+	imply SND_SOC_PCM1789_I2C
-+	imply SND_SOC_PCM179X_I2C
-+	imply SND_SOC_PCM179X_SPI
-+	imply SND_SOC_PCM186X_I2C
-+	imply SND_SOC_PCM186X_SPI
-+	imply SND_SOC_PCM3008
-+	imply SND_SOC_PCM3060_I2C
-+	imply SND_SOC_PCM3060_SPI
-+	imply SND_SOC_PCM3168A_I2C
-+	imply SND_SOC_PCM3168A_SPI
-+	imply SND_SOC_PCM5102A
-+	imply SND_SOC_PCM512x_I2C
-+	imply SND_SOC_PCM512x_SPI
-+	imply SND_SOC_RK3328
-+	imply SND_SOC_RT274
-+	imply SND_SOC_RT286
-+	imply SND_SOC_RT298
-+	imply SND_SOC_RT1011
-+	imply SND_SOC_RT1015
-+	imply SND_SOC_RT1305
-+	imply SND_SOC_RT1308
-+	imply SND_SOC_RT5514
-+	imply SND_SOC_RT5616
-+	imply SND_SOC_RT5631
-+	imply SND_SOC_RT5640
-+	imply SND_SOC_RT5645
-+	imply SND_SOC_RT5651
-+	imply SND_SOC_RT5659
-+	imply SND_SOC_RT5660
-+	imply SND_SOC_RT5663
-+	imply SND_SOC_RT5665
-+	imply SND_SOC_RT5668
-+	imply SND_SOC_RT5670
-+	imply SND_SOC_RT5677
-+	imply SND_SOC_RT5682
-+	imply SND_SOC_RT700_SDW
-+	imply SND_SOC_RT711_SDW
-+	imply SND_SOC_RT715_SDW
-+	imply SND_SOC_RT1308_SDW
-+	imply SND_SOC_SGTL5000
-+	imply SND_SOC_SI476X
-+	imply SND_SOC_SIMPLE_AMPLIFIER
-+	imply SND_SOC_SIRF_AUDIO_CODEC
-+	imply SND_SOC_SPDIF
-+	imply SND_SOC_SSM2305
-+	imply SND_SOC_SSM2518
-+	imply SND_SOC_SSM2602_SPI
-+	imply SND_SOC_SSM2602_I2C
-+	imply SND_SOC_SSM4567
-+	imply SND_SOC_STA32X
-+	imply SND_SOC_STA350
-+	imply SND_SOC_STA529
-+	imply SND_SOC_STAC9766
-+	imply SND_SOC_STI_SAS
-+	imply SND_SOC_TAS2552
-+	imply SND_SOC_TAS2562
-+	imply SND_SOC_TAS2770
-+	imply SND_SOC_TAS5086
-+	imply SND_SOC_TAS571X
-+	imply SND_SOC_TAS5720
-+	imply SND_SOC_TAS6424
-+	imply SND_SOC_TDA7419
-+	imply SND_SOC_TFA9879
-+	imply SND_SOC_TLV320AIC23_I2C
-+	imply SND_SOC_TLV320AIC23_SPI
-+	imply SND_SOC_TLV320AIC26
-+	imply SND_SOC_TLV320AIC31XX
-+	imply SND_SOC_TLV320AIC32X4_I2C
-+	imply SND_SOC_TLV320AIC32X4_SPI
-+	imply SND_SOC_TLV320AIC3X
-+	imply SND_SOC_TPA6130A2
-+	imply SND_SOC_TLV320DAC33
-+	imply SND_SOC_TSCS42XX
-+	imply SND_SOC_TSCS454
-+	imply SND_SOC_TS3A227E
-+	imply SND_SOC_TWL4030
-+	imply SND_SOC_TWL6040
-+	imply SND_SOC_UDA1334
-+	imply SND_SOC_UDA134X
-+	imply SND_SOC_UDA1380
-+	imply SND_SOC_WCD9335
-+	imply SND_SOC_WCD934X
-+	imply SND_SOC_WL1273
-+	imply SND_SOC_WM0010
-+	imply SND_SOC_WM1250_EV1
-+	imply SND_SOC_WM2000
-+	imply SND_SOC_WM2200
-+	imply SND_SOC_WM5100
-+	imply SND_SOC_WM5102
-+	imply SND_SOC_WM5110
-+	imply SND_SOC_WM8350
-+	imply SND_SOC_WM8400
-+	imply SND_SOC_WM8510
-+	imply SND_SOC_WM8523
-+	imply SND_SOC_WM8524
-+	imply SND_SOC_WM8580
-+	imply SND_SOC_WM8711
-+	imply SND_SOC_WM8727
-+	imply SND_SOC_WM8728
-+	imply SND_SOC_WM8731
-+	imply SND_SOC_WM8737
-+	imply SND_SOC_WM8741
-+	imply SND_SOC_WM8750
-+	imply SND_SOC_WM8753
-+	imply SND_SOC_WM8770
-+	imply SND_SOC_WM8776
-+	imply SND_SOC_WM8782
-+	imply SND_SOC_WM8804_I2C
-+	imply SND_SOC_WM8804_SPI
-+	imply SND_SOC_WM8900
-+	imply SND_SOC_WM8903
-+	imply SND_SOC_WM8904
-+	imply SND_SOC_WM8940
-+	imply SND_SOC_WM8955
-+	imply SND_SOC_WM8960
-+	imply SND_SOC_WM8961
-+	imply SND_SOC_WM8962
-+	imply SND_SOC_WM8971
-+	imply SND_SOC_WM8974
-+	imply SND_SOC_WM8978
-+	imply SND_SOC_WM8983
-+	imply SND_SOC_WM8985
-+	imply SND_SOC_WM8988
-+	imply SND_SOC_WM8990
-+	imply SND_SOC_WM8991
-+	imply SND_SOC_WM8993
-+	imply SND_SOC_WM8994
-+	imply SND_SOC_WM8995
-+	imply SND_SOC_WM8996
-+	imply SND_SOC_WM8997
-+	imply SND_SOC_WM8998
-+	imply SND_SOC_WM9081
-+	imply SND_SOC_WM9090
-+	imply SND_SOC_WM9705
-+	imply SND_SOC_WM9712
-+	imply SND_SOC_WM9713
-+	imply SND_SOC_WSA881X
- 	help
- 	  Normally ASoC codec drivers are only built if a machine driver which
- 	  uses them is also built since they are only usable with a machine
-@@ -283,6 +283,7 @@ config SND_SOC_ALL_CODECS
- 
- config SND_SOC_88PM860X
- 	tristate
-+	depends on MFD_88PM860X
- 
- config SND_SOC_ARIZONA
- 	tristate
-@@ -1301,11 +1302,13 @@ config SND_SOC_TSCS454
- 	  Add support for Tempo Semiconductor's TSCS454 audio CODEC.
- 
- config SND_SOC_TWL4030
--	select MFD_TWL4030_AUDIO
- 	tristate
-+	depends on TWL4030_CORE
-+	select MFD_TWL4030_AUDIO
- 
- config SND_SOC_TWL6040
- 	tristate
-+	depends on TWL6040_CORE
- 
- config SND_SOC_UDA1334
- 	tristate "NXP UDA1334 DAC"
-@@ -1366,9 +1369,12 @@ config SND_SOC_WM5110
- 
- config SND_SOC_WM8350
- 	tristate
-+	depends on MFD_WM8350
- 
- config SND_SOC_WM8400
- 	tristate
-+	# FIXME nothing selects SND_SOC_WM8400??
-+	depends on MFD_WM8400
- 
- config SND_SOC_WM8510
- 	tristate "Wolfson Microelectronics WM8510 CODEC"
--- 
-2.17.1
+--=20
+Regards,
+Vincenzo
 
+--------------683FC0DCBDE21EB0061039DB
+Content-Type: application/pgp-keys;
+ name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="pEpkey.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+OYXvLNoskiekAsw77EBPeBrrsMg88G/AtWUvyT3i2x0mIlbTDESk0WiL2ksdzcRW
+AtZuC/55Ix7zMb0NrMC0eaLaP93+FSAnTiX7kUMQSbz9iAHak4xbzJNEg4+fNh63
+vFvWNazfnnSKXMlZ0exYWZGUswxdqsg/p+zRcFwrKp2IrLxMXBTRMB5Pdtr9PvOI
+TFa3jV1SfFp6CUCY1yOBG3Jvwxx7yUTis4Ap3qaTy0uQNgHbXvlP5CW0xL5GpBw0
+W6gUwBeHtnquzJwO203qds37uq3V+U2jR4Zs0KcTBFpMRPBX+kwm2gwR8tkRpqtQ
+zMgwjvz9VM+1pUoufUG3Gy/UBZRCamw84zKxkZS5/yIWQiTm7IMPUofgMe6P8Zk0
+1pyna1ld4iURBrXlpfUaOn3sjmt6C2WOmud+WJMBeYmJHAF0Th0GQ0uijxM6sEGV
+/8FYGnjWs8pFYNM4NcKJAjMEEAEKAB0WIQSf1RxT4LVjGP2VnD0j0NC60T16QwUC
+XW0xNgAKCRAj0NC60T16Q/TDEADEKTdkGD+bR752abN0raUI6UZwH1D2sXIwiZhE
+ezrwDoIe3ETAsV7Jh05yPOunWTBkDcjd3Xrf0ILwfIa76QWu1599AXl4nR62IBzM
+4gkRcdNV5lzRrBLkG/e6drB36DTATUxgmDy6fCEjuhSMfHApi/9k1CcU/h+tCEES
+sA/aS8TRbWbxSZb6MgUI1gNrAKzyEs/L8imvPbKR0JNc7IaK9oYSkhM4CXb6c+cx
+/iNehNegf2LaOBBvmjbHXsT8HEnqU3QWSiV3JXDjZCvwkXOD4uJGbbGNpWj0/EJj
+WC1c6FmzcXXq/6cnHNC6FlR0i8Au0eNEgDOUWPPL9hGv0Co3mT4++9QJwVtMY995
+/DKBdgVFlvZ9w3RwUjKkzCQV6AsI3dTS3c7YEE/rjdQacZ28X5hJ3ySHYoMuQktI
+72LluzC3YsHdfpgt4O6rtn1AE+oyVPRT2/3A8Axnd3PPEabIi4g2ROcU4fYjISh5
+iP3hrl7F7jPe05NdfJ/Rn4dSWdrapdzbnuDY4wV9dTCVjXYHZLGeFc0TeamafUJQ
+HOswZSorU2wt94/HGLb+Ps9PMpO1YD+TGwGWnJoGRwrXCpuxxDUB63twLyHU+zq6
+PSq0MMza6Ssq5qHT96xbyED+MDJER5Lbtc7bTPbeb1xKzwlrUHHDYXOkrT1rpV13
+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
+GrFxzNOCDuNG1w=3D=3D
+=3DVSiF
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------683FC0DCBDE21EB0061039DB--
