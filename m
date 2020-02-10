@@ -2,54 +2,66 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4680E156D1E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2020 01:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35BBB156E99
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2020 06:15:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727830AbgBJAKZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 9 Feb 2020 19:10:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52612 "EHLO mail.kernel.org"
+        id S1726167AbgBJFPE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Feb 2020 00:15:04 -0500
+Received: from ozlabs.org ([203.11.71.1]:53503 "EHLO ozlabs.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726915AbgBJAKY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 9 Feb 2020 19:10:24 -0500
-Subject: Re: [GIT PULL] more Kbuild updates for v5.6-rc1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581293424;
-        bh=140zUBpxxk4wiGsnmF/irmYN0fv0NTAH2kX6HfvOMQE=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=Lol2vXdzJ2svIgzXjvBse+MfFIPCu612rvvSC9HaAz7G7O/cDq38PJZ82w3xPqYJV
-         cICmDD066cFQjyMdWYz6veDwl8FFOeY0RGT7NoWAxegYS1KcXG6tpo3e+Gd/+CqahQ
-         kf2C+96iOh5gXQ7YMUkC325h3sNFVxxXXHhAZHVw=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAQs-KVCM7xXqJchQrMG+nnajPFRMB2Z+RJ9VTsg7XGRAQ@mail.gmail.com>
-References: <CAK7LNAQs-KVCM7xXqJchQrMG+nnajPFRMB2Z+RJ9VTsg7XGRAQ@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAQs-KVCM7xXqJchQrMG+nnajPFRMB2Z+RJ9VTsg7XGRAQ@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
- tags/kbuild-v5.6-2
-X-PR-Tracked-Commit-Id: f566e1fbadb686e28f1c307e356114b2865ef588
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 89a47dd1af8fdda667938ec190d9595d55d7ec6f
-Message-Id: <158129342420.32523.4154436213451712314.pr-tracker-bot@kernel.org>
-Date:   Mon, 10 Feb 2020 00:10:24 +0000
+        id S1726103AbgBJFPE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 10 Feb 2020 00:15:04 -0500
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 48GDcQ0QD1z9sRh;
+        Mon, 10 Feb 2020 16:15:02 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
+        s=201909; t=1581311702;
+        bh=yzhpv6cmYCssx98FCBFW0NRxmjLDSaHLcTLAs/tkAiw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=E4Fhbwnpy8Je0T0muvYIi74Ntr5CJ40lNmhsZmH8iYN6/ySF8IncCnbO4oDwNsH7b
+         6pOG5iXd4pxacmh7I6cHkPI1rWeH3Ox8jrYkHOePL434X/HLn/lkM3T9SfCWNFxdGp
+         aqHxTjO3hV6TcKUZdZRnYmcbv3D87xcfEHfVJYe8+/B412FUO4m8ar8wFdSzqK6duE
+         XP+lfE+15rCNh24XvNIvdRJWAI2fMEoI6HVq5w3YxUWzmUvD/lpYngWWK/MHGsM1oc
+         zAoAFcqoo+3qGgfb1nRNZO1RpvS4kY8e0ElH99T4UNZSW+DDLLOVk0QKPljb1bDGQm
+         qA5TNMsMN9wfw==
+From:   Michael Ellerman <mpe@ellerman.id.au>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: install is no longer PHONY?
+Date:   Mon, 10 Feb 2020 16:14:58 +1100
+Message-ID: <874kvz10rx.fsf@mpe.ellerman.id.au>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 9 Feb 2020 06:45:18 +0100:
+Hi Masahiro,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.6-2
+I noticed that "install" seems to be no longer PHONY, or at least if I
+have a file/directory called install then the build doesn't run.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/89a47dd1af8fdda667938ec190d9595d55d7ec6f
+eg:
+  $ touch install
+  $ make install
+  make: 'install' is up to date.
+  $ rm install
+  $ make install
+    LDS     arch/powerpc/boot/zImage.lds
+    WRAP    arch/powerpc/boot/zImage.pseries
+    WRAP    arch/powerpc/boot/zImage.epapr
 
-Thank you!
+In the past the presence of an install file/directory didn't have any
+affect.
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+It seems this changed in:
+  d79424137a73 ("kbuild: do not update config when running install targets")
+
+Was that expected?
+
+cheers
