@@ -2,48 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2EB415842A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2020 21:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6E38158433
+	for <lists+linux-kbuild@lfdr.de>; Mon, 10 Feb 2020 21:23:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727437AbgBJUOZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 10 Feb 2020 15:14:25 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:61808 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726563AbgBJUOZ (ORCPT
+        id S1727056AbgBJUXR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 10 Feb 2020 15:23:17 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33928 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726563AbgBJUXR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 10 Feb 2020 15:14:25 -0500
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 01AKEG8v025443;
-        Tue, 11 Feb 2020 05:14:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 01AKEG8v025443
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1581365657;
-        bh=OIC2IL6NAo1TCjyWmce0RFIqaE9MA3FUoGaflhN9R74=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RVBvgi66rTbLqDDAr+h0VSt/geuoej2xlRxd5CYWKXDDP+9lixWgWVjUevd/rdara
-         TL9v0dqG7PtZiyJ9OwSNXLu4/YRINqyM+G1NJdFB5FJiOuD6eZs1tOjVO/7sfJw8tn
-         4yN36qZppsFN3Ano3cwTTdCv+im0RoZhCZk/9BGzDffJ+7mNUZq+T/kM4tJP1MJ6xX
-         Gw/HW8Jm2zdF9U79FpMQZp7ScXn4heCDsl7di0yzdw5y0aLlhCK/wcGsPyR5BpWjpc
-         AJ4L30Z/1M4EbLcf2IVlIuSjp3EUxgz22z3hjmT85kLeV5RT8K3xSzt+1nD16SQQtA
-         +X2ZpvMkUEuFg==
-X-Nifty-SrcIP: [209.85.221.181]
-Received: by mail-vk1-f181.google.com with SMTP id i4so2190103vkc.3;
-        Mon, 10 Feb 2020 12:14:17 -0800 (PST)
-X-Gm-Message-State: APjAAAXcBREuB0uFRnPO+pEoIm+Zux9wqZjMdtNxMPT+rL8Z2jGxRGbR
-        m8L/IK3fx6n9KHc+7VX4JzbLAHk7DbPOYC+2cX8=
-X-Google-Smtp-Source: APXvYqzJS4naQg52GQccTG72db3gni8J+ICEApHBL4C4bI54ORpCd0l3/5uKjLBvJKi1cb4UFzilAV86gj16RQ7U0/g=
-X-Received: by 2002:a1f:bfc2:: with SMTP id p185mr1867956vkf.73.1581365655864;
- Mon, 10 Feb 2020 12:14:15 -0800 (PST)
+        Mon, 10 Feb 2020 15:23:17 -0500
+Received: by mail-pl1-f194.google.com with SMTP id j7so3283137plt.1;
+        Mon, 10 Feb 2020 12:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3ZPyNdRMzlZA/EgPtOW/ashyr+RclR1MRUMFzXcbDPs=;
+        b=Zwx8F06AJDFTR9u5SVMf3uPQdRAHoVgU8Vpz+CNJxuiB7/UP/rj6vi1x6Au32l4VyD
+         s5ApUEWaYHW5CsdqsS7u+2Og1lvB1oafH2P3jUSOF7UkMu0869G9206N/il96kMjW38Q
+         floIZR1P7Xk3TP4xu9rGToPzJZvS7ru6d9r70yrTmGScHg/YuOcrZcr85wfJCFlhhcpA
+         6Fqe+HulrPchEDo6COmF+mmQWaIHPJndDTWHTTo3F9faqWR/sfNnlFWlxAOr/EhI83mW
+         Mb86LfGofMrJZtOzkYGJd/ohWWPdGpM6cAdsOKuTvv4AHfahQWbXB8xv0W+pxfVGajtk
+         pw7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3ZPyNdRMzlZA/EgPtOW/ashyr+RclR1MRUMFzXcbDPs=;
+        b=gaT2kAI1MZPn8n+8q7+vO2EICJcSbLVxtz8/Lw2/Ah9S+w/E3JBG6fT7089fQo69WL
+         Y49r3sKGS4Fw0niPYYuvFzi8OK51T80yzXpmzRfuAdXDPfUbrKCJ0XiXaLS2MQx3oxff
+         CBFmgC8GHwu8qOPLz1oy0o9jBo4RPQfzuetvawjuHlFmAdxYtkbjAAddU+k0QVVBQTnb
+         UU0eXg/1fbWWoG/YPBOCsOFGoADBvpClUHe0/8r3McfbD4B/tpy9LaiZAgyFZ6Q82tQW
+         Re7wbrns0fGMDtV+Hk50wPL9UJ+qI0QmMkYIUB7jwcCIDQD5uEAvwgFriFlc8SJOYHw/
+         m4Qg==
+X-Gm-Message-State: APjAAAViWkLV0FSmPDrahiXtYz1+xgGhE0aJBFjvT5DGQhZmir8aVjtv
+        +zyfEpydLrGPaXLm9v0FZVNvjZSB/mGUJD4CPSmXoOTDLo4=
+X-Google-Smtp-Source: APXvYqwEi9X99EJBtc/g6cRAH4bES3VyrVA/HRQvk9tMM3fuXa2X6DrFV6E4KZ4SGKucr0ykRdhxcNqshoX+YSMBQz8=
+X-Received: by 2002:a17:902:b598:: with SMTP id a24mr14172248pls.262.1581366195601;
+ Mon, 10 Feb 2020 12:23:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20200124195859.86991-1-andriy.shevchenko@linux.intel.com> <20200127100542.GV32742@smile.fi.intel.com>
-In-Reply-To: <20200127100542.GV32742@smile.fi.intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 11 Feb 2020 05:13:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQkKOheXLVq+sjjmBMzREBZYN8XkxzcVmkkVpN4OjjRGQ@mail.gmail.com>
-Message-ID: <CAK7LNAQkKOheXLVq+sjjmBMzREBZYN8XkxzcVmkkVpN4OjjRGQ@mail.gmail.com>
+References: <20200124195859.86991-1-andriy.shevchenko@linux.intel.com>
+ <20200127100542.GV32742@smile.fi.intel.com> <CAK7LNAQkKOheXLVq+sjjmBMzREBZYN8XkxzcVmkkVpN4OjjRGQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQkKOheXLVq+sjjmBMzREBZYN8XkxzcVmkkVpN4OjjRGQ@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 10 Feb 2020 22:23:04 +0200
+Message-ID: <CAHp75VcWamYQGg8dWdgTWV5ShV_DT9bfcv0b+WKyPHK7PsVS5w@mail.gmail.com>
 Subject: Re: [PATCH v1] kbuild: Fix off-by-one error when generate a new version
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Michal Simek <monstr@monstr.eu>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Michal Simek <monstr@monstr.eu>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -56,56 +64,34 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Andy,
+On Mon, Feb 10, 2020 at 10:15 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Mon, Jan 27, 2020 at 7:05 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Fri, Jan 24, 2020 at 09:58:59PM +0200, Andy Shevchenko wrote:
 
-On Mon, Jan 27, 2020 at 7:05 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+...
+
+> > > Additionally provide a unified way to get the current version of the build
+> > > and use this in few callers. This will respect the KBUILD_BUILD_VERSION
+> > > in case it's provided.
+
+I still think there is second part in my patch to be considered, i.e. see above.
+
+...
+
+> I remember I was also hit by this one month ago or so.
 >
-> On Fri, Jan 24, 2020 at 09:58:59PM +0200, Andy Shevchenko wrote:
-> > When build on, for example, x86 using `make O=... -j64` the version
-> > in the built kernel comes from include/generated/compile.h, which is:
-> >
-> >       #define UTS_VERSION "#351 SMP Fri Jan 24 18:46:34 EET 2020"
-> >
-> > While at the end the x86 specific Makefile prints the contents of
-> > the .version file:
-> >
-> >       Kernel: arch/x86/boot/bzImage is ready  (#352)
-> >
-> > Obviously the latter is not true. This happens because we first
-> > check compile.h and update it and then generate new version, which is
-> > incorrect flow:
-> >
-> >   CHK     include/generated/compile.h
-> >   UPD     include/generated/compile.h
-> >   ...
-> >   GEN     .version
-> >
-> > In order to fix this, move the version generation from link-vmlinux.sh
-> > to scripts/version.sh and re-use it in init/Makefile.
-> >
-> > Additionally provide a unified way to get the current version of the build
-> > and use this in few callers. This will respect the KBUILD_BUILD_VERSION
-> > in case it's provided.
+> I did not dig into it at that time
+> because the problem disappeared after doing something.
 >
-> Hmm... It looks like a mess in my build tree.
-> I have to setup more experiments here.
+> Today, I took a look at this again.
+> This is a regression caused by 56d589361572
 >
+> This patch should fix it:
+> https://patchwork.kernel.org/patch/11374047/
 
-
-Sorry for the late reply.
-
-I remember I was also hit by this one month ago or so.
-
-I did not dig into it at that time
-because the problem disappeared after doing something.
-
-Today, I took a look at this again.
-This is a regression caused by 56d589361572
-
-This patch should fix it:
-https://patchwork.kernel.org/patch/11374047/
+Thank you.
 
 -- 
-Best Regards
-Masahiro Yamada
+With Best Regards,
+Andy Shevchenko
