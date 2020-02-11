@@ -2,73 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8A5515883E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2020 03:36:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1041589B1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2020 06:41:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727655AbgBKCgz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 10 Feb 2020 21:36:55 -0500
-Received: from mail-vk1-f193.google.com ([209.85.221.193]:32815 "EHLO
-        mail-vk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727493AbgBKCgz (ORCPT
+        id S1727716AbgBKFlt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Feb 2020 00:41:49 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51389 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727045AbgBKFls (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 10 Feb 2020 21:36:55 -0500
-Received: by mail-vk1-f193.google.com with SMTP id i78so2575067vke.0;
-        Mon, 10 Feb 2020 18:36:55 -0800 (PST)
+        Tue, 11 Feb 2020 00:41:48 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t23so1867990wmi.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Feb 2020 21:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QZyEZ/pOjni03p5CJTGQn4guDmrGEy4H+FIPKHmUfqQ=;
-        b=j+wTX9ekCsz4lQTnO0o6YxQi/RDcxchwLDOWZo4TPaHsdvF7K5p8X94r6dlDcmtcqI
-         /sblqfvf0sqSKjK4oso+oLJOTuEb7h+rLHywG/UayM06GscdwWZaC5qY2IypSREHgcRZ
-         4PyRx/KHuc0d+GbFFdXPwmJdrJ374Jv1ehxoFOA5n4uAXUHtqQfEvPn82qd+Q8JtnZXR
-         8Lzp/PpQnT8AuutrReg28yEES2eALdZRm1PfksB15RAyr+4MmH+3bi7Uq8SqGGS+Nn0o
-         S6J1mrajpCSZ11gT/tpZKfz2wKEvA7XjNfroVEFYbUebFq+R5g0fZtjt+PUf30gh35ni
-         oLzg==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=9UK8yCk7FMXMntmDZhQuX49VM4DX5p92KAX3l/ustiY=;
+        b=H8vNyXhwBS2DWZmEwPfkyw164EyOQ8GfzYO1h4eS0UeEyPeRFaW3yrp0z/s5H/ZljR
+         8t9T+X+MRiYFXp0kFkJzGdWJLUVSgal8LF1T2P45tvvNY8qYiZMqx1ZKg0YIdDLpi2Dh
+         a2dN1n/FajoVXT8UgM+6n39OuxDGCxNrG5ZjxmB5QXtIzy6cTOtQN2/rfwdSSnZDe2Le
+         Dd8K9w3il1vQICt7JjvOk4tdRHmr04Y2+VXQN1LNwwDARCPuvNfCqIoYXVIV9N2oiSwo
+         zty4UCsjc9hdwLI8kCnWqyj29PlhqZnr0fLcIs14nlypza9TD91AnKK6tA1CUfznbfSN
+         XMmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QZyEZ/pOjni03p5CJTGQn4guDmrGEy4H+FIPKHmUfqQ=;
-        b=bhU+jfc3sG64trKs0nEa99sk/Cfv9gdOQ9r8EkGYQSwHqF0SZMsLqtIKvOonFUjeWb
-         BDcByb6BWup7hPggqDg4Gc9mpeYyS9KyWYtVYAy5zmaxTzeXnqcGXo+AGCnjO5TQbZOi
-         gaJWYervQV1J8mprsSiQgIt3sYTvzT8wQEUHiDGqQYBHEiogiocw11jtbTOyr1rm/fye
-         xkJKNkV7YITmZQm/KWQC6FP2HI65Cg/lUmeFmRa9rM+lRiHydkZQR3TCzcZM6L25AVDt
-         w4HrQzjAu+cjIBr2GNKk0LZx+yURwSN7tvudUr6YZPE35RQvuLs0J16dTtk0j28YBvzw
-         ft0w==
-X-Gm-Message-State: APjAAAVNDp4pYEmC1HrBnykqoQd/fGlNgPaWQgIvBWRj48CR2FVeFNgm
-        6PbJcX6FUE8SGR4TKNrdW/05yOCaCvazwbGrfGM=
-X-Google-Smtp-Source: APXvYqzNthuHBqnZYTmdg3NvBxLgugDSi3V5pUPPaK8A7N4L+PlzM2HP6iayI64KIILpcBhpLy2smq7bC6xh2hWKFBI=
-X-Received: by 2002:a1f:b6d7:: with SMTP id g206mr3682850vkf.8.1581388614515;
- Mon, 10 Feb 2020 18:36:54 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=9UK8yCk7FMXMntmDZhQuX49VM4DX5p92KAX3l/ustiY=;
+        b=QRC21KVdVNnSDHOuCVq/F+7qs9fjjFIQPb7/D0IWRY2Dp8xf2eNwL1kPB0QQ0D2Mki
+         ZmxW2AqE7FgV2WRju9Hk34TpIoGfIxhegJDb0JXJbbwU5Nl3/W3aUyFxRW49YDzFD2np
+         7mEfMx627e8tpZm5nOyCys++jBKanlSN6B5ook1/7lplN+KL+UWz8c9dya2BGCPgHrJW
+         AB1cE4rzzt07aBRA/3rq/BeyAGe+W0APl9Bx1zM8UC2+EulfStD3wIOxI4vEbV2o0sI/
+         9lwjL9sMrUNTqUqNR7C19APFIZAuVPDMMzinH1PeYx3xKrsyj3CvoenqJYZp6iGka/jx
+         htQA==
+X-Gm-Message-State: APjAAAWZhWH+Vwz43CGakqrJAy6V/VsZjZmbii5sPMF9li31NfbOziGO
+        aKm81u0N7xUwWmKuM2oiXx1UOw==
+X-Google-Smtp-Source: APXvYqzWL47c/XrOYh04oWDmglEsCxiVO1YA10IZl3NHlV8ZfRlSJTCaKhyMiPXlcF4uoaFIFjc0oA==
+X-Received: by 2002:a1c:6389:: with SMTP id x131mr3427409wmb.155.1581399706531;
+        Mon, 10 Feb 2020 21:41:46 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
+        by smtp.gmail.com with ESMTPSA id r15sm2186535wmh.21.2020.02.10.21.41.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2020 21:41:45 -0800 (PST)
+Date:   Tue, 11 Feb 2020 05:41:42 +0000
+From:   Quentin Perret <qperret@google.com>
+To:     Nicolas Pitre <nico@fluxnic.net>
+Cc:     masahiroy@kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, maennich@google.com,
+        kernel-team@android.com, jeyu@kernel.org, hch@infradead.org
+Subject: Re: [PATCH v3 1/3] kbuild: allow symbol whitelisting with
+ TRIM_UNUSED_KSYMS
+Message-ID: <20200211054142.GA72419@google.com>
+References: <20200207180755.100561-1-qperret@google.com>
+ <20200207180755.100561-2-qperret@google.com>
+ <nycvar.YSQ.7.76.2002071319200.1559@knanqh.ubzr>
 MIME-Version: 1.0
-References: <20200210161852.842-1-masahiroy@kernel.org>
-In-Reply-To: <20200210161852.842-1-masahiroy@kernel.org>
-From:   Justin Capella <justincapella@gmail.com>
-Date:   Mon, 10 Feb 2020 18:36:42 -0800
-Message-ID: <CAMrEMU86jmds8LMmbdVk=54h+ziY=6MHwyzHxVRXy5dLGFTmGA@mail.gmail.com>
-Subject: Re: [PATCH] scripts/kallsyms: fix memory corruption caused by write over-run
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        youling257 <youling257@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nycvar.YSQ.7.76.2002071319200.1559@knanqh.ubzr>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Looks like len is already +1, maybe it shouldn't be?
+On Friday 07 Feb 2020 at 13:22:12 (-0500), Nicolas Pitre wrote:
+> This "[[ ]]" is a bashism. I think there was an effort not to depend on 
+> bash for the build system.
 
->         len = strlen(name) + 1;
->
-> -       sym = malloc(sizeof(*sym) + len);
-> +       sym = malloc(sizeof(*sym) + len + 1);
+OK, I see.
 
+> So either this needs to be changed to basic 
+> bourne shell, or the interpretor has to be /bin/bash not /bin/sh.
 
-Maybe strlcpy or if len wasn't incremented?
+So, as per the above, the basic bourne shell option sounds preferable,
+I'll go fix this for v4.
 
->
-> -       memcpy(sym_name(sym), name, len);
-> +       strcpy(sym_name(sym), name);
->
+Thanks,
+Quentin
