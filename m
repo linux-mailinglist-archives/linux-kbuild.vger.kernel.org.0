@@ -2,82 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD1041589B1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2020 06:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B541589B7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 11 Feb 2020 06:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbgBKFlt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 11 Feb 2020 00:41:49 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51389 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727045AbgBKFls (ORCPT
+        id S1727952AbgBKFoj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 11 Feb 2020 00:44:39 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:37294 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727806AbgBKFoj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 11 Feb 2020 00:41:48 -0500
-Received: by mail-wm1-f68.google.com with SMTP id t23so1867990wmi.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 10 Feb 2020 21:41:47 -0800 (PST)
+        Tue, 11 Feb 2020 00:44:39 -0500
+Received: by mail-wr1-f67.google.com with SMTP id w15so10650111wru.4
+        for <linux-kbuild@vger.kernel.org>; Mon, 10 Feb 2020 21:44:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=9UK8yCk7FMXMntmDZhQuX49VM4DX5p92KAX3l/ustiY=;
-        b=H8vNyXhwBS2DWZmEwPfkyw164EyOQ8GfzYO1h4eS0UeEyPeRFaW3yrp0z/s5H/ZljR
-         8t9T+X+MRiYFXp0kFkJzGdWJLUVSgal8LF1T2P45tvvNY8qYiZMqx1ZKg0YIdDLpi2Dh
-         a2dN1n/FajoVXT8UgM+6n39OuxDGCxNrG5ZjxmB5QXtIzy6cTOtQN2/rfwdSSnZDe2Le
-         Dd8K9w3il1vQICt7JjvOk4tdRHmr04Y2+VXQN1LNwwDARCPuvNfCqIoYXVIV9N2oiSwo
-         zty4UCsjc9hdwLI8kCnWqyj29PlhqZnr0fLcIs14nlypza9TD91AnKK6tA1CUfznbfSN
-         XMmA==
+        bh=VF1bXPK5oEmTt3ZiFcaHZFV+yxaXGNeTcRvRNXdxka0=;
+        b=KMH574uU0/our/bWIDk7tjF0CUOpdqEXUyxAO0039Q/ScMEEx/kWVTsxYYA62OIBMJ
+         D16sPI+yXivoWONcUrA3xZdL1rUTPPpeYcz3nbmI9zgy/a73ecyPFyXmZCLaAdcXYB69
+         i3a0KOmy8IF5CZWW3RTO97fleUVR86S00gILgYTZX8Tf5owMYqqc1uN/yKx5RdUKC0Fe
+         sb9V24tq0qXoUhCWeN/C7meMGS5QYDDdZEvzasbVecYNr5jCa7daRa85QkGFi7cxwFSv
+         6NmstJd1m3eGbo0YNpZRAAtB8eQtI/59xiKQRLGkXIJKl+7MqDuqQ3uCwYQzRC6W5vIK
+         o3sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=9UK8yCk7FMXMntmDZhQuX49VM4DX5p92KAX3l/ustiY=;
-        b=QRC21KVdVNnSDHOuCVq/F+7qs9fjjFIQPb7/D0IWRY2Dp8xf2eNwL1kPB0QQ0D2Mki
-         ZmxW2AqE7FgV2WRju9Hk34TpIoGfIxhegJDb0JXJbbwU5Nl3/W3aUyFxRW49YDzFD2np
-         7mEfMx627e8tpZm5nOyCys++jBKanlSN6B5ook1/7lplN+KL+UWz8c9dya2BGCPgHrJW
-         AB1cE4rzzt07aBRA/3rq/BeyAGe+W0APl9Bx1zM8UC2+EulfStD3wIOxI4vEbV2o0sI/
-         9lwjL9sMrUNTqUqNR7C19APFIZAuVPDMMzinH1PeYx3xKrsyj3CvoenqJYZp6iGka/jx
-         htQA==
-X-Gm-Message-State: APjAAAWZhWH+Vwz43CGakqrJAy6V/VsZjZmbii5sPMF9li31NfbOziGO
-        aKm81u0N7xUwWmKuM2oiXx1UOw==
-X-Google-Smtp-Source: APXvYqzWL47c/XrOYh04oWDmglEsCxiVO1YA10IZl3NHlV8ZfRlSJTCaKhyMiPXlcF4uoaFIFjc0oA==
-X-Received: by 2002:a1c:6389:: with SMTP id x131mr3427409wmb.155.1581399706531;
-        Mon, 10 Feb 2020 21:41:46 -0800 (PST)
+        bh=VF1bXPK5oEmTt3ZiFcaHZFV+yxaXGNeTcRvRNXdxka0=;
+        b=i0WidZe/LmrUFqyXwqtZbQemQ7yaRk+/Gw4LrqyTQEd/lWtYhsXOKsZ+gdSDnKx1Os
+         KQpMe8wROVgnJ+VvAhlcmq4BpZN8IVRjihdc2y74V/Q030fn71/F0+pWJVhVrpf4nXkN
+         0IwEkTwjPwD1aSSuQH4eZXMrI9SKNbi+hoI7k8T/kDSocB2+uH52hcM6uEuQcARFLDdi
+         CT0e8R2I0wkdfCgM5gKskxjwaY3N4eTHc9S0VNFsP9Ov13C+ZJ/OxFLY/ZDdD80oXUzH
+         UAAN9SEFXc7UohyjqgYGL7jQDGRn5Cx2FCggtn38cMIMArHdAjSbUF4m/cAicZHFRij7
+         A1lA==
+X-Gm-Message-State: APjAAAV6qDBSyv79MqPSQj2DGmXJ0aHoeUcxpKj4cEUNGcJbTREUsP1A
+        J+0RWRrDPNrZiiSq0WUfE0P7lQ==
+X-Google-Smtp-Source: APXvYqwAHVf5Ta/OFH/ILekJE7pefp/yafQSgOec2ohu/cK71immVVEQjkV4APbEK3wz/hDLs6Eegw==
+X-Received: by 2002:adf:cd11:: with SMTP id w17mr6669549wrm.66.1581399877026;
+        Mon, 10 Feb 2020 21:44:37 -0800 (PST)
 Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
-        by smtp.gmail.com with ESMTPSA id r15sm2186535wmh.21.2020.02.10.21.41.45
+        by smtp.gmail.com with ESMTPSA id h10sm2283730wml.18.2020.02.10.21.44.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2020 21:41:45 -0800 (PST)
-Date:   Tue, 11 Feb 2020 05:41:42 +0000
+        Mon, 10 Feb 2020 21:44:36 -0800 (PST)
+Date:   Tue, 11 Feb 2020 05:44:33 +0000
 From:   Quentin Perret <qperret@google.com>
-To:     Nicolas Pitre <nico@fluxnic.net>
-Cc:     masahiroy@kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, maennich@google.com,
-        kernel-team@android.com, jeyu@kernel.org, hch@infradead.org
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nicolas Pitre <nico@fluxnic.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Jessica Yu <jeyu@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>
 Subject: Re: [PATCH v3 1/3] kbuild: allow symbol whitelisting with
  TRIM_UNUSED_KSYMS
-Message-ID: <20200211054142.GA72419@google.com>
+Message-ID: <20200211054433.GB72419@google.com>
 References: <20200207180755.100561-1-qperret@google.com>
  <20200207180755.100561-2-qperret@google.com>
- <nycvar.YSQ.7.76.2002071319200.1559@knanqh.ubzr>
+ <CAK7LNASMeXjxaj2Hbh420bxBZqVUoa87PtBuu38+fB6aZgJTXg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <nycvar.YSQ.7.76.2002071319200.1559@knanqh.ubzr>
+In-Reply-To: <CAK7LNASMeXjxaj2Hbh420bxBZqVUoa87PtBuu38+fB6aZgJTXg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Friday 07 Feb 2020 at 13:22:12 (-0500), Nicolas Pitre wrote:
-> This "[[ ]]" is a bashism. I think there was an effort not to depend on 
-> bash for the build system.
+On Saturday 08 Feb 2020 at 06:05:02 (+0100), Masahiro Yamada wrote:
+> On Fri, Feb 7, 2020 at 7:08 PM Quentin Perret <qperret@google.com> wrote:
+> > diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
+> > index a904bf1f5e67..58335eee4b38 100755
+> > --- a/scripts/adjust_autoksyms.sh
+> > +++ b/scripts/adjust_autoksyms.sh
+> > @@ -38,6 +38,10 @@ esac
+> >  # We need access to CONFIG_ symbols
+> >  . include/config/auto.conf
+> >
+> > +# The symbol whitelist, relative to the source tree
+> > +eval ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
+> 
+> What is this 'eval' needed for?
+> 
+> This worked for me without it.
 
-OK, I see.
-
-> So either this needs to be changed to basic 
-> bourne shell, or the interpretor has to be /bin/bash not /bin/sh.
-
-So, as per the above, the basic bourne shell option sounds preferable,
-I'll go fix this for v4.
+Right, it is there to expand the path in cases where the user sets the
+option to "~/my_whitelist" for instance. That could most certainly use a
+comment, though.
 
 Thanks,
 Quentin
