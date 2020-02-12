@@ -2,103 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 143CC15A481
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Feb 2020 10:21:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF55215A928
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Feb 2020 13:29:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728716AbgBLJVc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Feb 2020 04:21:32 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:59506 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728530AbgBLJVb (ORCPT
+        id S1727439AbgBLM2y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Feb 2020 07:28:54 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:38362 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726775AbgBLM2y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Feb 2020 04:21:31 -0500
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 01C9LI33008124;
-        Wed, 12 Feb 2020 18:21:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 01C9LI33008124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1581499279;
-        bh=iYzD7pdsLyiDZ36c5d6tg+M16G3Z0A4Qkle2y21WmO4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MEkMO8qWqvGOB6YbA98tAicKNmVYCmEEF0+jvnZcP9vwWz5Z/XT1+Xds25vCvvshA
-         5zE/p5kLAorYZHqVYD3jmzJ4w1LdUJ19ZmdnBjhI+wpKbN7Bxewt9kHhIeqvk2oXrO
-         csk23G4fdJ9OyKsaInvXj3jS8QpaPywXcU7+J7r6IuUY/0vjSNO86L3UEQPL5+fyO0
-         McohvztsbamEnjn7UDDplfhbzJYR+CcDXCwrjntBrOdcqrs7GGjA50LIRmMtMwfqzN
-         uaV/zXL/Owwfi5xlN8GBD3pk4VFGr3t+TJJ02HiOQsYBWTqIf1HbBpz+bD+r8Fmr66
-         p3qp8l6RgZaIg==
-X-Nifty-SrcIP: [209.85.222.53]
-Received: by mail-ua1-f53.google.com with SMTP id w15so607239uap.0;
-        Wed, 12 Feb 2020 01:21:19 -0800 (PST)
-X-Gm-Message-State: APjAAAXrZYjw0vBK9T4UBABLZ00khLEbbLJ7rX/aVG4l0NH8cb3RVZjv
-        w8bauO4iyAnt9uq08LyBp1GdEUTGMrZMBPF6PiI=
-X-Google-Smtp-Source: APXvYqy0urxDpzGsbsHT8k8GTdNCXZuHMc0izqqATD6WqiS7hOqQJCh10Wqi+8y2ehLGEvej4sCWBmfUkqTYRP0+RJ8=
-X-Received: by 2002:ab0:2881:: with SMTP id s1mr3947693uap.95.1581499278141;
- Wed, 12 Feb 2020 01:21:18 -0800 (PST)
+        Wed, 12 Feb 2020 07:28:54 -0500
+Received: by mail-pj1-f66.google.com with SMTP id j17so837564pjz.3;
+        Wed, 12 Feb 2020 04:28:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=o6YHmTmd7GelSUnBu81RYSqne6glWPQqZ5iKt8T5eF4=;
+        b=g8U/Fx8wOh6YZnfn4GfBs3/ZWT2ZsOkiSx4Nu6I52ueuzKY7+C1AXLqU76GHn/94m5
+         LF2VLfB41JcZzqs/NGHZJ2sJA5AQXB4sX0BLdBgcHGlClGEDdGIZWubiXmzrUXlo4rZd
+         f/qaXOcpAhvE2H8vhUf4c5PqVMXigYkrzctJupL+ki3oqng1TuEq6g33S73SlrUktME1
+         0Dio3bUBb7OIX7AjywQTfHqt1c4b1sZPhNn/C2LQu5MEfFG7VTJYD8oCY75qVth8J7lZ
+         kdzfPqXd/X8EI7CmIMr94e92/0BDUmta8Zh9PD5HgFVMhB1jDIirP0EjLUyEXiuPlGof
+         4ljQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=o6YHmTmd7GelSUnBu81RYSqne6glWPQqZ5iKt8T5eF4=;
+        b=kL2ZoXL6azH5cARflJTpKkcVlIkls3wi7bQVQG9O7rOPeF59cGhtJawEoROSltvtX2
+         t+tWizx876L9FyARtcxNyOfltaYkoTYF0KO65VEt1j+u6mm6mwReuhlTUJY8/12udYX+
+         lr81MjhQb3kjqOUOSRRZLetvUB46UShrM/bMCeYXyCD5CDPW6KAgilmoqpWQ4Urp04kR
+         77suFssTNI+rRypnS6+h0LEvTERD3EnnWoqN9PQGTw91avKwr93oeQ2Esru55W56Ug/x
+         bDmkj4ujr/KurIQAO5tn9rM6y7TZ2t1f+yG/gNjspl3bOp25xYxrL2M3gt04Muj5sOAQ
+         T2Sw==
+X-Gm-Message-State: APjAAAXadDAK/WVRb887ObxuQy4HPEqHLKTVko4eQdjG9pWkwjxlFH4u
+        XX5d87fk0NSNZt6mtS/XXgpY0+LCIBndyA==
+X-Google-Smtp-Source: APXvYqzgDNJ68+G9or86b3sOYFLL0hLe5xSeJtl038OZMcSSm/cPagZ7IYU+SZkzkwUUaqYtLRY/HA==
+X-Received: by 2002:a17:90a:de05:: with SMTP id m5mr5540219pjv.10.1581510533922;
+        Wed, 12 Feb 2020 04:28:53 -0800 (PST)
+Received: from mail.google.com ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id y1sm293953pgi.56.2020.02.12.04.28.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2020 04:28:50 -0800 (PST)
+Date:   Wed, 12 Feb 2020 20:28:42 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        hpa@zytor.com, x86@kernel.org, Andy Lutomirski <luto@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 0/2] Add SANITIZE_xx.o & SANITIZE and apply them to x86
+Message-ID: <20200212122840.5p3kvijii3qboltt@mail.google.com>
+References: <20200201062459.7150-1-changbin.du@gmail.com>
 MIME-Version: 1.0
-References: <20200210161852.842-1-masahiroy@kernel.org>
-In-Reply-To: <20200210161852.842-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 12 Feb 2020 18:20:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATLCAnrtqR8vv=jWiDcODGchMekOGMbSNvEQtnb3JqTDQ@mail.gmail.com>
-Message-ID: <CAK7LNATLCAnrtqR8vv=jWiDcODGchMekOGMbSNvEQtnb3JqTDQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts/kallsyms: fix memory corruption caused by write over-run
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     youling257 <youling257@gmail.com>, Pavel Machek <pavel@ucw.cz>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200201062459.7150-1-changbin.du@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 1:19 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> scripts/kallsyms crashes because memcpy() writes one more byte than
-> allocated.
->
-> Fixes: 8d60526999aa ("scripts/kallsyms: change table to store (strcut sym_entry *)")
-> Reported-by: youling257 <youling257@gmail.com>
-> Reported-by: Pavel Machek <pavel@ucw.cz>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+Hello, Any comments? Thanks.
 
-Applied.
-I will send a pull request shortly
-because many people are tripping over this bug.
-
-
-
-
->  scripts/kallsyms.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index a566d8201b56..0133dfaaf352 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -210,7 +210,7 @@ static struct sym_entry *read_symbol(FILE *in)
->
->         len = strlen(name) + 1;
->
-> -       sym = malloc(sizeof(*sym) + len);
-> +       sym = malloc(sizeof(*sym) + len + 1);
->         if (!sym) {
->                 fprintf(stderr, "kallsyms failure: "
->                         "unable to allocate required amount of memory\n");
-> @@ -219,7 +219,7 @@ static struct sym_entry *read_symbol(FILE *in)
->         sym->addr = addr;
->         sym->len = len;
->         sym->sym[0] = type;
-> -       memcpy(sym_name(sym), name, len);
-> +       strcpy(sym_name(sym), name);
->         sym->percpu_absolute = 0;
->
->         return sym;
-> --
-> 2.17.1
->
-
+On Sat, Feb 01, 2020 at 02:24:57PM +0800, Changbin Du wrote:
+> These two patches add SANITIZE_xx.o and SANITIZE to disable all sanitizers for
+> specific files, and apply them to x86 booting code.
+> 
+> We need to disable UBSAN for some of ealy stage code:
+>  o For code which could operate in one-one mapping mode. In this case,
+>    kernel would crash at accessing data parameter when invoking UBSAN
+>    handlers.
+>  o Since UBSAN handlers are instrumented by KASAN, so invoking UBSAN
+>    handlers before KASAN is initiated also is not allowed.
+> 
+> Changbin Du (2):
+>   sanitize: Add SANITIZE_xx.o and SANITIZE to disable all sanitizers for
+>     specific files
+>   x86: Disable both KASAN and UBSAN for some booting code
+> 
+>  Documentation/dev-tools/kasan.rst | 12 ++++++++++++
+>  arch/x86/boot/Makefile            |  2 +-
+>  arch/x86/boot/compressed/Makefile |  2 +-
+>  arch/x86/entry/vdso/Makefile      |  3 +--
+>  arch/x86/kernel/Makefile          | 10 +++++-----
+>  arch/x86/lib/Makefile             |  2 +-
+>  arch/x86/mm/Makefile              |  4 ++--
+>  arch/x86/realmode/Makefile        |  2 +-
+>  arch/x86/realmode/rm/Makefile     |  2 +-
+>  scripts/Makefile.lib              |  4 ++--
+>  10 files changed, 27 insertions(+), 16 deletions(-)
+> 
+> -- 
+> 2.24.0
+> 
 
 -- 
-Best Regards
-Masahiro Yamada
+Cheers,
+Changbin Du
