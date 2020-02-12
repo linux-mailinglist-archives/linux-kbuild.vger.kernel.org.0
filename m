@@ -2,119 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A325915B16A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Feb 2020 20:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 620BE15B1B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 12 Feb 2020 21:21:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbgBLT4g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Feb 2020 14:56:36 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51275 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727361AbgBLT4f (ORCPT
+        id S1727548AbgBLUVp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 12 Feb 2020 15:21:45 -0500
+Received: from mail-wm1-f74.google.com ([209.85.128.74]:56877 "EHLO
+        mail-wm1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728226AbgBLUVp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Feb 2020 14:56:35 -0500
-Received: by mail-wm1-f65.google.com with SMTP id t23so3722790wmi.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 12 Feb 2020 11:56:33 -0800 (PST)
+        Wed, 12 Feb 2020 15:21:45 -0500
+Received: by mail-wm1-f74.google.com with SMTP id g26so1192126wmk.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 12 Feb 2020 12:21:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qQ41iYMZO33MrUoyEW3Beg7Vzzsi5jGTe9Ra4Gt4eOs=;
-        b=wCji2WQ1ILTnUjjzJRUz4oCz7XrV3NIrWY98W9S4feK3Hf3Gb7UzVvUMTQLGLQarhA
-         Z71iDX5l+F6H0VteLOBcg5HtBY9V8U3aGfl0HftoKglz8RVxJIJ/v9h+AYYBS+cwtiGU
-         ATv5gQtBTkukhhWvrOkoT+n4RX43Hvj/QBrCrzD9+fI3wGKBNDll1Ay90I52QtGEp5oa
-         +2M1H6Jcq2pjVceTCsPUe8Oz3d+csREdnXV5Qm5S1GznGt8kP8T+vq1TFC8CmtZvAXx+
-         +856xkwVgJqdGI9ZTnqPIr0t8ewOsNdmdXuzBa011faQw3rJ4E9D/kj5S/prQGPUrMA1
-         28/g==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=LMPJhMzPfaYAiOg4KXDrtaLoPSxo0Q5MCJWGzcuAkns=;
+        b=tzczW4OxIUhqBMrvE/nen0aHH88YpFYcx4mkz4K+J00oXDgZWpYIlehNq1KXrUcdXE
+         ZjvvpNlWXIUVWlYmeH+pG1Nbz5z7xBsykvNEmAUoqsBPnLfp9VDoNmWqxau0HD10IWoE
+         /j3V016+VVB7P47+/dbVQ9jI1pOLE1z8Z8ohZ4mhu+QTRgprf9J1kjsrPE7lQyvr146n
+         zpYzgp4KP2I5d2/k5uX9LdBPslPkdXbaWF1D5B60FfK3shdxfPJ6pT7PXkqXN6OeHEKH
+         Wv9HLNEDRcXCmPCGxkd10VhDFLy50/h5adTdKbShuEHQkOiwgM7oyZNcwVvu5X/SoJZe
+         oZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qQ41iYMZO33MrUoyEW3Beg7Vzzsi5jGTe9Ra4Gt4eOs=;
-        b=GEKDNG1qDQ2GCmCCyjKQN28CPxXkT6KHT3B9oohquP5Ts2KsjQ2cJWr0McXGRlpp29
-         0U9O+XYrUSCdpeorH3icvv6uKCk4ZzDuhorr1Ymm0VsKjkuht4blotmjm/Q53mhZWwHw
-         JMHXqODwEmidt3pWzVLcxJvF4EY6BqawP1JWK37m3GEsTbnrTqb7s2U8qMVaGm0g2C5N
-         2pA2QVWYdAq3d7Ac515NOMg1tIcns+9sAHaMmTInKdBE4f9mr/eTpzug0hb+NkAIv4HS
-         sMJTaPqNEPdWqznSanH/Dlnee/O92eeYcFY0ZRXgC0g+YSjP3qOn+d+hqIrOXhjaqZAH
-         uaFQ==
-X-Gm-Message-State: APjAAAVBg2rj9phKsWk5HLi7Qwgea2davrv1aFR8Gi7DLzoYklivwhoj
-        f1Yw9ZYkNNiJgaKKRo7fPxOQ8Q==
-X-Google-Smtp-Source: APXvYqwEl9cQngn/7oDlMn7bWea1TxMCkOAElS0ziVIFCzxa+Eol6iOxsuuvkqztF8uDox/Brt/9lQ==
-X-Received: by 2002:a7b:cbc9:: with SMTP id n9mr720068wmi.89.1581537392650;
-        Wed, 12 Feb 2020 11:56:32 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
-        by smtp.gmail.com with ESMTPSA id o4sm1846268wrx.25.2020.02.12.11.56.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2020 11:56:32 -0800 (PST)
-Date:   Wed, 12 Feb 2020 19:56:28 +0000
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=LMPJhMzPfaYAiOg4KXDrtaLoPSxo0Q5MCJWGzcuAkns=;
+        b=a9Hhu1jH//deOenU4rj/uqIEZAEWtgTEq2g7XYYBekjNUohULbm6Q+pd8j0q6l78Q7
+         eXdqHW/FIHTOQ+eTIEiWzQlDg42sVzba9ifrK4HElWe5yoYT98sq+9upqAOpgu+dNhGp
+         E5N23V3id9zuI7Z9v2/k5gzyn2rkEBL55sqlEEaWXPeFfj/SBsiiIRwbXrL7KznrYme1
+         7Le8Akn6H+dd4X2IMWT3nzh1rppSnEgWr7xwtZi8cNNileh2HKCJu8VWUs/GS2yHD6wn
+         NNF4WO+eA/O3UOVzrFEhU47GB4jEW18fO50x4OFbNi1tLqWWJTQyIl/7V7CB3ceM0Wai
+         D0xw==
+X-Gm-Message-State: APjAAAX81wmz8puALSuWetOrNwMuO+bjSDYQTzxCoOS8E1RpLzFvl1LM
+        80894meKUvlDKjHHX0xJfE6NP1R0Xycy
+X-Google-Smtp-Source: APXvYqy1AvDaWXYpUYfPuOgo7uvLIzY5UNgMyOPVQkKU4eiIhkbt+TrZSsYZIeLBvPq5LBAF9kA7rVCCYF8O
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr16957213wrp.1.1581538903144;
+ Wed, 12 Feb 2020 12:21:43 -0800 (PST)
+Date:   Wed, 12 Feb 2020 20:21:37 +0000
+Message-Id: <20200212202140.138092-1-qperret@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0.225.g125e21ebc7-goog
+Subject: [PATCH v4 0/3] kbuild: allow symbol whitelisting with TRIM_UNUSED_KSYM
 From:   Quentin Perret <qperret@google.com>
-To:     kbuild test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org, masahiroy@kernel.org, nico@fluxnic.net,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+To:     masahiroy@kernel.org, nico@fluxnic.net
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         maennich@google.com, kernel-team@android.com, jeyu@kernel.org,
-        hch@infradead.org
-Subject: Re: [PATCH v3 3/3] kbuild: generate autoksyms.h early
-Message-ID: <20200212195628.GA120870@google.com>
-References: <20200207180755.100561-4-qperret@google.com>
- <202002111002.wXBhAK5H%lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202002111002.wXBhAK5H%lkp@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        hch@infradead.org, qperret@google.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tuesday 11 Feb 2020 at 10:14:14 (+0800), kbuild test robot wrote:
-> Hi Quentin,
-> 
-> Thank you for the patch! Yet something to improve:
-> 
-> [auto build test ERROR on kbuild/for-next]
-> [also build test ERROR on linux/master linus/master v5.6-rc1 next-20200210]
-> [if your patch is applied to the wrong git tree, please drop us a note to help
-> improve the system. BTW, we also suggest to use '--base' option to specify the
-> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Quentin-Perret/kbuild-allow-symbol-whitelisting-with-TRIM_UNUSED_KSYM/20200211-020659
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-> config: i386-randconfig-c002-20200211 (attached as .config)
-> compiler: gcc-7 (Debian 7.5.0-4) 7.5.0
-> reproduce:
->         # save the attached .config to linux build tree
->         make ARCH=i386 
-> 
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> ERROR: "trace_event_raw_init" [lib/objagg.ko] undefined!
-> >> ERROR: "trace_event_reg" [lib/objagg.ko] undefined!
-> >> ERROR: "ida_destroy" [lib/objagg.ko] undefined!
-> >> ERROR: "rhashtable_destroy" [lib/objagg.ko] undefined!
-> >> ERROR: "kmalloc_order_trace" [lib/objagg.ko] undefined!
-> >> ERROR: "sort" [lib/objagg.ko] undefined!
-> >> ERROR: "__raw_spin_lock_init" [lib/objagg.ko] undefined!
-> >> ERROR: "rhashtable_init" [lib/objagg.ko] undefined!
-> >> ERROR: "rht_bucket_nested" [lib/objagg.ko] undefined!
-> >> ERROR: "__list_del_entry_valid" [lib/objagg.ko] undefined!
-> >> ERROR: "__rht_bucket_nested" [lib/objagg.ko] undefined!
-> >> ERROR: "kmem_cache_alloc_trace" [lib/objagg.ko] undefined!
-> >> ERROR: "kmalloc_caches" [lib/objagg.ko] undefined!
-> >> ERROR: "queue_work_on" [lib/objagg.ko] undefined!
-> >> ERROR: "system_wq" [lib/objagg.ko] undefined!
-> >> ERROR: "kfree" [lib/objagg.ko] undefined!
-> >> ERROR: "__list_add_valid" [lib/objagg.ko] undefined!
-> >> ERROR: "lockdep_rht_bucket_is_held" [lib/objagg.ko] undefined!
-> >> ERROR: "rhashtable_insert_slow" [lib/objagg.ko] undefined!
-> >> ERROR: "__local_bh_enable_ip" [lib/objagg.ko] undefined!
+The current norm on Android and many other systems is for vendors to
+introduce significant changes to their downstream kernels, and to
+contribute very little (if any) code back upstream. The Generic Kernel
+Image (GKI) project in Android attempts to improve the status-quo by
+having a unique kernel for all android devices of the same architecture,
+regardless of the SoC vendor. The key idea is to make all interested
+parties agree on a common solution, and contribute their code upstream
+to make it available to use by the wider community.
 
-I find myself unable to reproduce this error on my box. Could you please
-provide the full build log ?
+The kernel-to-drivers ABI on Android devices varies significantly from
+one vendor kernel to another today because of changes to exported
+symbols, dependencies on vendor symbols, and surely other things. The
+first step for GKI is to try and put some order into this by agreeing on
+one version of the ABI that works for everybody.
 
-In the meantime I'll proceed to send a v4.
+For practical reasons, we need to reduce the ABI surface to a subset of
+the exported symbols, simply to make the problem realistically solvable,
+but there is currently no upstream support for this use-case.
 
-Thanks,
-Quentin
+As such, this series attempts to improve the situation by enabling users
+to specify a symbol 'whitelist' at compile time. Any symbol specified in
+this whitelist will be kept exported when CONFIG_TRIM_UNUSED_KSYMS is
+set, even if it has no in-tree user. The whitelist is defined as a
+simple text file, listing symbols, one per line.
+
+v4:
+ - removed [[]] bash-specific pattern from the scripts (Nicolas)
+ - use $CONFIG_SHELL consistently in all patches (Masahiro)
+ - added shortlog for initial generation of autoksyms.h (Masahiro)
+ - added comment on how 'eval' expands the whitelist path (Masahiro)
+
+v3:
+ - added a cover letter to explain why this is in fact an attempt to
+   help upstream in the long term (Christoph)
+ - made path relative to the kernel source tree (Matthias)
+ - made the Kconfig help text less confusing (Jessica)
+ - added patch 02 and 03 to optimize build time when a whitelist is
+   provided
+
+v2:
+ - make sure to quote the whitelist path properly (Nicolas)
+
+Quentin Perret (3):
+  kbuild: allow symbol whitelisting with TRIM_UNUSED_KSYMS
+  kbuild: split adjust_autoksyms.sh in two parts
+  kbuild: generate autoksyms.h early
+
+ Makefile                    |  7 ++++--
+ init/Kconfig                | 13 +++++++++++
+ scripts/adjust_autoksyms.sh | 24 ++++----------------
+ scripts/gen_autoksyms.sh    | 45 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 67 insertions(+), 22 deletions(-)
+ create mode 100755 scripts/gen_autoksyms.sh
+
+-- 
+2.25.0.225.g125e21ebc7-goog
+
