@@ -2,83 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7819B15BE61
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2020 13:25:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E084C15C846
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Feb 2020 17:33:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729532AbgBMMZX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 13 Feb 2020 07:25:23 -0500
-Received: from conuserg-11.nifty.com ([210.131.2.78]:46825 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729428AbgBMMZX (ORCPT
+        id S1728104AbgBMQdH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Feb 2020 11:33:07 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:38207 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727868AbgBMQdF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 13 Feb 2020 07:25:23 -0500
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 01DCOMZL025517;
-        Thu, 13 Feb 2020 21:24:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 01DCOMZL025517
+        Thu, 13 Feb 2020 11:33:05 -0500
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 01DGWokT002501;
+        Fri, 14 Feb 2020 01:32:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 01DGWokT002501
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1581596663;
-        bh=rQmwN5cWJQbpc39YRPGbcHf4QKGfkTR21bK6Myswez8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HXJyoP3VfUiao9FilYZL3qHAzts0YcWEhCCsDPGxxwzSPQH98PDUWQO6i0fNiYrbd
-         Z9Co1RiXOl+L/FCDZl/3h4SI2TjNtLR1ZfOMZs5eV6p1PAsOQXS6VjAAxGK+A2HrjR
-         OrUtetibC6LyhIHylAhb9MAa8OAqU++C+5cN43jwNxigYj76gU0FHRLO3XMcndzqNq
-         dw7b4D7m7FMxHdXoKYjy4Rav2jIrtjqizGUoSB8ZnUQHdhkW9+anG8hP1GDQKYH5es
-         So972K1R8HDBwyW5iNdvsFr8Oz9EZlfeA/9JKjALTdqJ+xwaZr627LgehFrrTgXG8s
-         Z+EY4LSWXSqBg==
-X-Nifty-SrcIP: [153.142.97.92]
+        s=dec2015msa; t=1581611571;
+        bh=wKRP4PMiJ2IIqnmJRC2UTIJLpaMd+XxtGPhf3FJKZ/M=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=yTtGgtPhBnuwpwkCH17hBCIM/rKPC+8pFUpGEoYdZxLF2GAX7vg/feqOAgufcIm3J
+         zieohZHNp+W4Ych43SSR8jeYVQwBzbBmADqzVG4DDZ+PN4XqoSTgLYm+V0DDHpCk3B
+         Vq/FfOzZB9F6NOlkBOKRRCBnHDb8A7UITXpLWC9hjUHM2/LDjRzeBNPA3CqS1wIDcC
+         tP4OdrrmDTE0GW2Lvhrh/wc3IOqpV+zYpu3Kyq9ZRyxQjNCA+bAQhEEu0klMRp+NJc
+         NIdAeUynpXcCmTG3/X7dKVM9d8fYxKeItU6YguZnp8/HsR8fuojBQ0WDmDrvvkA1jw
+         f5PdY9EKtwx0g==
+X-Nifty-SrcIP: [209.85.217.50]
+Received: by mail-vs1-f50.google.com with SMTP id 7so3974344vsr.10;
+        Thu, 13 Feb 2020 08:32:51 -0800 (PST)
+X-Gm-Message-State: APjAAAWKsZ/ZYh5Eh/DI1sgSfX1QnXlGOgk2D08N91yc3z4ZBVSl9L+G
+        /xvTvMAUQZhWfJhloYaZccVtqj456tlDM/KE5s4=
+X-Google-Smtp-Source: APXvYqwEsintGgJNmjOFlGSj4kj9cN649OMLNc21RvW/X1xvDkZiYgRkUpxRjlwZdbJXJ05zElgZel71AjYYWxgMxwE=
+X-Received: by 2002:a05:6102:190:: with SMTP id r16mr2524000vsq.215.1581611569913;
+ Thu, 13 Feb 2020 08:32:49 -0800 (PST)
+MIME-Version: 1.0
+References: <874kvz10rx.fsf@mpe.ellerman.id.au>
+In-Reply-To: <874kvz10rx.fsf@mpe.ellerman.id.au>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] gcc-plugins: fix gcc-plugins directory path in documentation
-Date:   Thu, 13 Feb 2020 21:24:10 +0900
-Message-Id: <20200213122410.1605-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Date:   Fri, 14 Feb 2020 01:32:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASePHZ78O6fnScU_fVHkDOKJEgT+B+OC7NPxkW+tb7q1Q@mail.gmail.com>
+Message-ID: <CAK7LNASePHZ78O6fnScU_fVHkDOKJEgT+B+OC7NPxkW+tb7q1Q@mail.gmail.com>
+Subject: Re: install is no longer PHONY?
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Fix typos "plgins" -> "plugins".
+Hi Michael,
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+On Mon, Feb 10, 2020 at 2:15 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
+>
+> Hi Masahiro,
+>
+> I noticed that "install" seems to be no longer PHONY, or at least if I
+> have a file/directory called install then the build doesn't run.
+>
+> eg:
+>   $ touch install
+>   $ make install
+>   make: 'install' is up to date.
+>   $ rm install
+>   $ make install
+>     LDS     arch/powerpc/boot/zImage.lds
+>     WRAP    arch/powerpc/boot/zImage.pseries
+>     WRAP    arch/powerpc/boot/zImage.epapr
 
- Documentation/kbuild/reproducible-builds.rst | 2 +-
- scripts/gcc-plugins/Kconfig                  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index 503393854e2e..3b25655e441b 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -101,7 +101,7 @@ Structure randomisation
- 
- If you enable ``CONFIG_GCC_PLUGIN_RANDSTRUCT``, you will need to
- pre-generate the random seed in
--``scripts/gcc-plgins/randomize_layout_seed.h`` so the same value
-+``scripts/gcc-plugins/randomize_layout_seed.h`` so the same value
- is used in rebuilds.
- 
- Debug info conflicts
-diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-index e3569543bdac..7b63c819610c 100644
---- a/scripts/gcc-plugins/Kconfig
-+++ b/scripts/gcc-plugins/Kconfig
-@@ -86,7 +86,7 @@ config GCC_PLUGIN_RANDSTRUCT
- 	  source tree isn't cleaned after kernel installation).
- 
- 	  The seed used for compilation is located at
--	  scripts/gcc-plgins/randomize_layout_seed.h.  It remains after
-+	  scripts/gcc-plugins/randomize_layout_seed.h.  It remains after
- 	  a make clean to allow for external modules to be compiled with
- 	  the existing seed and will be removed by a make mrproper or
- 	  make distclean.
+I think the reason is
+'install' is not specified as a phony target.
+
+
+You can add 'PHONY += install' to fix it.
+
+
+
+PHONY += install    # please add this!
+install:
+        $(Q)$(MAKE) $(build)=$(boot) install
+
+
+Please do so in both arch/powerpc/Makefile and
+arch/powerpc/boot/Makefile.
+
+
+
+
+> In the past the presence of an install file/directory didn't have any
+> affect.
+>
+> It seems this changed in:
+>   d79424137a73 ("kbuild: do not update config when running install targets")
+>
+> Was that expected?
+>
+> cheers
+
+
+I do not think commit is related.
+
+Prior to this commit, I still see the same issue.
+
+
+$ git checkout d7942413^
+$ touch install
+$ make -s ARCH=powerpc allnoconfig
+$ make  ARCH=powerpc install
+make: 'install' is up to date.
+
+
+
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
