@@ -2,40 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A15015EBC9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 18:23:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 129B015EA42
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 18:13:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391828AbgBNRWo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Feb 2020 12:22:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34760 "EHLO mail.kernel.org"
+        id S2403812AbgBNQMz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Feb 2020 11:12:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40766 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391355AbgBNQJt (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:09:49 -0500
+        id S2403805AbgBNQMz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:12:55 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1DFCA24650;
-        Fri, 14 Feb 2020 16:09:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0C7002469B;
+        Fri, 14 Feb 2020 16:12:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696589;
-        bh=1xCCUDJRyOV29jDvyw2qulGXTvVC0OZvGv+a2Mz9d4o=;
+        s=default; t=1581696774;
+        bh=7QwKu48rTW7DyloprWO1AAPsyDknOf+fsoZ+N/79z+w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FHWLK4p8Jt15Zx8aHtKYrxL5JFG57ycOhTISW5DeUqdFC00BLWeuir10UmL6bha6c
-         EV8+kYjYwziLEKiclPyL6ZBuVwSoXK2IVGjSxQ/Rr89B752iJD7fgQrnjC7pwfnBLJ
-         D1HqpQOuVuEHFq0da9SaBR/t7naO176LgSRAHlIY=
+        b=E9zxyvD6cKdFvJbMy/fpwDt4hFDokAecVr9oKlq7/xoArQ1Rd3jQMU0/OcXioNhkt
+         mnMUTnLGQeT9sFpD5M9cer8+7K7/fH5htm5V/DNiMePi5AQUd08qNPIzJnFJvDL724
+         LuYSlAjuD7oQXKnlRDeUZ79B6sJY1U2VTqBfUuSk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Down <chris@chrisdown.name>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 376/459] bpf, btf: Always output invariant hit in pahole DWARF to BTF transform
-Date:   Fri, 14 Feb 2020 11:00:26 -0500
-Message-Id: <20200214160149.11681-376-sashal@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 052/252] kconfig: fix broken dependency in randconfig-generated .config
+Date:   Fri, 14 Feb 2020 11:08:27 -0500
+Message-Id: <20200214161147.15842-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
-References: <20200214160149.11681-1-sashal@kernel.org>
+In-Reply-To: <20200214161147.15842-1-sashal@kernel.org>
+References: <20200214161147.15842-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,58 +43,44 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Chris Down <chris@chrisdown.name>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 2a67a6ccb01f21b854715d86ff6432a18b97adb3 ]
+[ Upstream commit c8fb7d7e48d11520ad24808cfce7afb7b9c9f798 ]
 
-When trying to compile with CONFIG_DEBUG_INFO_BTF enabled, I got this
-error:
+Running randconfig on arm64 using KCONFIG_SEED=0x40C5E904 (e.g. on v5.5)
+produces the .config with CONFIG_EFI=y and CONFIG_CPU_BIG_ENDIAN=y,
+which does not meet the !CONFIG_CPU_BIG_ENDIAN dependency.
 
-    % make -s
-    Failed to generate BTF for vmlinux
-    Try to disable CONFIG_DEBUG_INFO_BTF
-    make[3]: *** [vmlinux] Error 1
+This is because the user choice for CONFIG_CPU_LITTLE_ENDIAN vs
+CONFIG_CPU_BIG_ENDIAN is set by randomize_choice_values() after the
+value of CONFIG_EFI is calculated.
 
-Compiling again without -s shows the true error (that pahole is
-missing), but since this is fatal, we should show the error
-unconditionally on stderr as well, not silence it using the `info`
-function. With this patch:
+When this happens, the has_changed flag should be set.
 
-    % make -s
-    BTF: .tmp_vmlinux.btf: pahole (pahole) is not available
-    Failed to generate BTF for vmlinux
-    Try to disable CONFIG_DEBUG_INFO_BTF
-    make[3]: *** [vmlinux] Error 1
+Currently, it takes the result from the last iteration. It should
+accumulate all the results of the loop.
 
-Signed-off-by: Chris Down <chris@chrisdown.name>
-Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
-Acked-by: Andrii Nakryiko <andriin@fb.com>
-Link: https://lore.kernel.org/bpf/20200122000110.GA310073@chrisdown.name
+Fixes: 3b9a19e08960 ("kconfig: loop as long as we changed some symbols in randconfig")
+Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/link-vmlinux.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/kconfig/confdata.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 4363799403561..408b5c0b99b1b 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -108,13 +108,13 @@ gen_btf()
- 	local bin_arch
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index 0dde19cf74865..2caf5fac102a2 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -1314,7 +1314,7 @@ bool conf_set_all_new_symbols(enum conf_def_mode mode)
  
- 	if ! [ -x "$(command -v ${PAHOLE})" ]; then
--		info "BTF" "${1}: pahole (${PAHOLE}) is not available"
-+		echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
- 		return 1
- 	fi
- 
- 	pahole_ver=$(${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
- 	if [ "${pahole_ver}" -lt "113" ]; then
--		info "BTF" "${1}: pahole version $(${PAHOLE} --version) is too old, need at least v1.13"
-+		echo >&2 "BTF: ${1}: pahole version $(${PAHOLE} --version) is too old, need at least v1.13"
- 		return 1
- 	fi
- 
+ 		sym_calc_value(csym);
+ 		if (mode == def_random)
+-			has_changed = randomize_choice_values(csym);
++			has_changed |= randomize_choice_values(csym);
+ 		else {
+ 			set_all_choice_values(csym);
+ 			has_changed = true;
 -- 
 2.20.1
 
