@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93A9C15E44A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 17:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA9C15EC43
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 18:26:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406004AbgBNQfI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Feb 2020 11:35:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33676 "EHLO mail.kernel.org"
+        id S2391855AbgBNR0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Feb 2020 12:26:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60704 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405991AbgBNQYt (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:24:49 -0500
+        id S2390632AbgBNQIj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:08:39 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F8FD247A4;
-        Fri, 14 Feb 2020 16:24:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D6B7922314;
+        Fri, 14 Feb 2020 16:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581697489;
-        bh=kcfgrw3PNdU/twejlFjSLK43cf95MDmdZpYWgDPZszM=;
+        s=default; t=1581696518;
+        bh=O0EmmN79xtYNYNAQcnXgYG80Tt6C1Uos6QaRz7lY4HE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rG0fup8D8P3HGQ73nRT84OJvqKOQGCa00b/+dTizXmn9fABXKavQckTNS/PMT1PsK
-         lZyLhqTKcOS0S9T6BbKovfsmjJv3voHFvdo8hmhd9C1bN8kCVAGwJBGSQ0Hp4ZSXqH
-         c34TsKf7Hg75HTJVhCiUkirwcURzbs02dJGkRr6U=
+        b=X+Iwc8BySkWRWp4JoUYrZ/lIaq3/rIlt9Qqpf+CNl90q6CJO9O21VPJxLVpJ/B43P
+         V60moIHFg1ZFlgTZXxs2Sho+9kV9RNYwO5AZLjuvluI0DzUX7afkxXlmKKnBhmbCF+
+         FEONKXnyYjgAaPRNq36YsceVytEyogXxJKHZf48c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 019/100] kconfig: fix broken dependency in randconfig-generated .config
-Date:   Fri, 14 Feb 2020 11:23:03 -0500
-Message-Id: <20200214162425.21071-19-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 319/459] kbuild: remove *.tmp file when filechk fails
+Date:   Fri, 14 Feb 2020 10:59:29 -0500
+Message-Id: <20200214160149.11681-319-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214162425.21071-1-sashal@kernel.org>
-References: <20200214162425.21071-1-sashal@kernel.org>
+In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
+References: <20200214160149.11681-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,42 +45,79 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit c8fb7d7e48d11520ad24808cfce7afb7b9c9f798 ]
+[ Upstream commit 88fe89a47153facd8cb2d06d5c8727f7224c43c2 ]
 
-Running randconfig on arm64 using KCONFIG_SEED=0x40C5E904 (e.g. on v5.5)
-produces the .config with CONFIG_EFI=y and CONFIG_CPU_BIG_ENDIAN=y,
-which does not meet the !CONFIG_CPU_BIG_ENDIAN dependency.
+Bartosz Golaszewski reports that when "make {menu,n,g,x}config" fails
+due to missing packages, a temporary file is left over, which is not
+ignored by git.
 
-This is because the user choice for CONFIG_CPU_LITTLE_ENDIAN vs
-CONFIG_CPU_BIG_ENDIAN is set by randomize_choice_values() after the
-value of CONFIG_EFI is calculated.
+For example, if GTK+ is not installed:
 
-When this happens, the has_changed flag should be set.
+  $ make gconfig
+  *
+  * Unable to find the GTK+ installation. Please make sure that
+  * the GTK+ 2.0 development package is correctly installed.
+  * You need gtk+-2.0 gmodule-2.0 libglade-2.0
+  *
+  scripts/kconfig/Makefile:208: recipe for target 'scripts/kconfig/gconf-cfg' failed
+  make[1]: *** [scripts/kconfig/gconf-cfg] Error 1
+  Makefile:567: recipe for target 'gconfig' failed
+  make: *** [gconfig] Error 2
+  $ git status
+  HEAD detached at v5.4
+  Untracked files:
+    (use "git add <file>..." to include in what will be committed)
 
-Currently, it takes the result from the last iteration. It should
-accumulate all the results of the loop.
+          scripts/kconfig/gconf-cfg.tmp
 
-Fixes: 3b9a19e08960 ("kconfig: loop as long as we changed some symbols in randconfig")
-Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+  nothing added to commit but untracked files present (use "git add" to track)
+
+This is because the check scripts are run with filechk, which misses
+to clean up the temporary file on failure.
+
+When the line
+
+  { $(filechk_$(1)); } > $@.tmp;
+
+... fails, it exits immediately due to the 'set -e'. Use trap to make
+sure to delete the temporary file on exit.
+
+For extra safety, I replaced $@.tmp with $(dot-target).tmp to make it
+a hidden file.
+
+Reported-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/kconfig/confdata.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/Kbuild.include | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 138d7f100f7e8..4216940e875df 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -1236,7 +1236,7 @@ bool conf_set_all_new_symbols(enum conf_def_mode mode)
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 10ba926ae2924..d1dd4a6b6adb6 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -55,14 +55,13 @@ kecho := $($(quiet)kecho)
+ # - stdin is piped in from the first prerequisite ($<) so one has
+ #   to specify a valid file as first prerequisite (often the kbuild file)
+ define filechk
+-	$(Q)set -e;				\
+-	mkdir -p $(dir $@);			\
+-	{ $(filechk_$(1)); } > $@.tmp;		\
+-	if [ -r $@ ] && cmp -s $@ $@.tmp; then	\
+-		rm -f $@.tmp;			\
+-	else					\
+-		$(kecho) '  UPD     $@';	\
+-		mv -f $@.tmp $@;		\
++	$(Q)set -e;						\
++	mkdir -p $(dir $@);					\
++	trap "rm -f $(dot-target).tmp" EXIT;			\
++	{ $(filechk_$(1)); } > $(dot-target).tmp;		\
++	if [ ! -r $@ ] || ! cmp -s $@ $(dot-target).tmp; then	\
++		$(kecho) '  UPD     $@';			\
++		mv -f $(dot-target).tmp $@;			\
+ 	fi
+ endef
  
- 		sym_calc_value(csym);
- 		if (mode == def_random)
--			has_changed = randomize_choice_values(csym);
-+			has_changed |= randomize_choice_values(csym);
- 		else {
- 			set_all_choice_values(csym);
- 			has_changed = true;
 -- 
 2.20.1
 
