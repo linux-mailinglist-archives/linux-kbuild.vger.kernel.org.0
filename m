@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54BC815EE57
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 18:40:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D0715F3DB
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 19:22:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389882AbgBNQEQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Feb 2020 11:04:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52206 "EHLO mail.kernel.org"
+        id S2404587AbgBNSP7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Feb 2020 13:15:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56814 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389878AbgBNQEQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:04:16 -0500
+        id S1729889AbgBNPvm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:51:42 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 97CBA2067D;
-        Fri, 14 Feb 2020 16:04:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B9568222C4;
+        Fri, 14 Feb 2020 15:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696255;
+        s=default; t=1581695501;
         bh=j10t5HO3W2ltOm3+De7grvLgQUA7DCKNukRC3XW6FKE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rxekAY//VSeIxkmZLugavn6R5Bb+P2NAnY86mAAamx/qo893OonWeg6wjUb2WDuRW
-         6WQKJaslOIfIDH9aUR0cnufeyZO+FhwRVSepSYNjnTpHLu7z3XAlgplQCHNT2zn0Cv
-         O4L52NHuz/IVH0RBZ4pu7crO5t3KjzVou3/yWWB8=
+        b=Y1itsk1u3J3rb/vKd0fpOfSGZpj01BqONso9n8Nej7PhpLNSVEX00+USXfKr4iUe6
+         2gunLXJO7UMhBrplEjonQeLk0REQDgPuAAFqHqBZp+3yPkrgxx1v3m6A2++6WHuEHq
+         DRmf6AaC76ihkH+16ksrwG0haTRCvn7DrkEnXb5k=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 110/459] kconfig: fix broken dependency in randconfig-generated .config
-Date:   Fri, 14 Feb 2020 10:56:00 -0500
-Message-Id: <20200214160149.11681-110-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.5 128/542] kconfig: fix broken dependency in randconfig-generated .config
+Date:   Fri, 14 Feb 2020 10:42:00 -0500
+Message-Id: <20200214154854.6746-128-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
-References: <20200214160149.11681-1-sashal@kernel.org>
+In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
+References: <20200214154854.6746-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
