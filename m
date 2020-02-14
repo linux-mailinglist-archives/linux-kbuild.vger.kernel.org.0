@@ -2,35 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAA9C15EC43
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 18:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A15015EBC9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 18:23:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391855AbgBNR0G (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Feb 2020 12:26:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60704 "EHLO mail.kernel.org"
+        id S2391828AbgBNRWo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Feb 2020 12:22:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34760 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390632AbgBNQIj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:08:39 -0500
+        id S2391355AbgBNQJt (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:09:49 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D6B7922314;
-        Fri, 14 Feb 2020 16:08:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1DFCA24650;
+        Fri, 14 Feb 2020 16:09:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581696518;
-        bh=O0EmmN79xtYNYNAQcnXgYG80Tt6C1Uos6QaRz7lY4HE=;
+        s=default; t=1581696589;
+        bh=1xCCUDJRyOV29jDvyw2qulGXTvVC0OZvGv+a2Mz9d4o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X+Iwc8BySkWRWp4JoUYrZ/lIaq3/rIlt9Qqpf+CNl90q6CJO9O21VPJxLVpJ/B43P
-         V60moIHFg1ZFlgTZXxs2Sho+9kV9RNYwO5AZLjuvluI0DzUX7afkxXlmKKnBhmbCF+
-         FEONKXnyYjgAaPRNq36YsceVytEyogXxJKHZf48c=
+        b=FHWLK4p8Jt15Zx8aHtKYrxL5JFG57ycOhTISW5DeUqdFC00BLWeuir10UmL6bha6c
+         EV8+kYjYwziLEKiclPyL6ZBuVwSoXK2IVGjSxQ/Rr89B752iJD7fgQrnjC7pwfnBLJ
+         D1HqpQOuVuEHFq0da9SaBR/t7naO176LgSRAHlIY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 319/459] kbuild: remove *.tmp file when filechk fails
-Date:   Fri, 14 Feb 2020 10:59:29 -0500
-Message-Id: <20200214160149.11681-319-sashal@kernel.org>
+Cc:     Chris Down <chris@chrisdown.name>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 376/459] bpf, btf: Always output invariant hit in pahole DWARF to BTF transform
+Date:   Fri, 14 Feb 2020 11:00:26 -0500
+Message-Id: <20200214160149.11681-376-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200214160149.11681-1-sashal@kernel.org>
 References: <20200214160149.11681-1-sashal@kernel.org>
@@ -43,80 +45,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+From: Chris Down <chris@chrisdown.name>
 
-[ Upstream commit 88fe89a47153facd8cb2d06d5c8727f7224c43c2 ]
+[ Upstream commit 2a67a6ccb01f21b854715d86ff6432a18b97adb3 ]
 
-Bartosz Golaszewski reports that when "make {menu,n,g,x}config" fails
-due to missing packages, a temporary file is left over, which is not
-ignored by git.
+When trying to compile with CONFIG_DEBUG_INFO_BTF enabled, I got this
+error:
 
-For example, if GTK+ is not installed:
+    % make -s
+    Failed to generate BTF for vmlinux
+    Try to disable CONFIG_DEBUG_INFO_BTF
+    make[3]: *** [vmlinux] Error 1
 
-  $ make gconfig
-  *
-  * Unable to find the GTK+ installation. Please make sure that
-  * the GTK+ 2.0 development package is correctly installed.
-  * You need gtk+-2.0 gmodule-2.0 libglade-2.0
-  *
-  scripts/kconfig/Makefile:208: recipe for target 'scripts/kconfig/gconf-cfg' failed
-  make[1]: *** [scripts/kconfig/gconf-cfg] Error 1
-  Makefile:567: recipe for target 'gconfig' failed
-  make: *** [gconfig] Error 2
-  $ git status
-  HEAD detached at v5.4
-  Untracked files:
-    (use "git add <file>..." to include in what will be committed)
+Compiling again without -s shows the true error (that pahole is
+missing), but since this is fatal, we should show the error
+unconditionally on stderr as well, not silence it using the `info`
+function. With this patch:
 
-          scripts/kconfig/gconf-cfg.tmp
+    % make -s
+    BTF: .tmp_vmlinux.btf: pahole (pahole) is not available
+    Failed to generate BTF for vmlinux
+    Try to disable CONFIG_DEBUG_INFO_BTF
+    make[3]: *** [vmlinux] Error 1
 
-  nothing added to commit but untracked files present (use "git add" to track)
-
-This is because the check scripts are run with filechk, which misses
-to clean up the temporary file on failure.
-
-When the line
-
-  { $(filechk_$(1)); } > $@.tmp;
-
-... fails, it exits immediately due to the 'set -e'. Use trap to make
-sure to delete the temporary file on exit.
-
-For extra safety, I replaced $@.tmp with $(dot-target).tmp to make it
-a hidden file.
-
-Reported-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Chris Down <chris@chrisdown.name>
+Signed-off-by: Daniel Borkmann <daniel@iogearbox.net>
+Acked-by: Andrii Nakryiko <andriin@fb.com>
+Link: https://lore.kernel.org/bpf/20200122000110.GA310073@chrisdown.name
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/Kbuild.include | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ scripts/link-vmlinux.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 10ba926ae2924..d1dd4a6b6adb6 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -55,14 +55,13 @@ kecho := $($(quiet)kecho)
- # - stdin is piped in from the first prerequisite ($<) so one has
- #   to specify a valid file as first prerequisite (often the kbuild file)
- define filechk
--	$(Q)set -e;				\
--	mkdir -p $(dir $@);			\
--	{ $(filechk_$(1)); } > $@.tmp;		\
--	if [ -r $@ ] && cmp -s $@ $@.tmp; then	\
--		rm -f $@.tmp;			\
--	else					\
--		$(kecho) '  UPD     $@';	\
--		mv -f $@.tmp $@;		\
-+	$(Q)set -e;						\
-+	mkdir -p $(dir $@);					\
-+	trap "rm -f $(dot-target).tmp" EXIT;			\
-+	{ $(filechk_$(1)); } > $(dot-target).tmp;		\
-+	if [ ! -r $@ ] || ! cmp -s $@ $(dot-target).tmp; then	\
-+		$(kecho) '  UPD     $@';			\
-+		mv -f $(dot-target).tmp $@;			\
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index 4363799403561..408b5c0b99b1b 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -108,13 +108,13 @@ gen_btf()
+ 	local bin_arch
+ 
+ 	if ! [ -x "$(command -v ${PAHOLE})" ]; then
+-		info "BTF" "${1}: pahole (${PAHOLE}) is not available"
++		echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
+ 		return 1
  	fi
- endef
+ 
+ 	pahole_ver=$(${PAHOLE} --version | sed -E 's/v([0-9]+)\.([0-9]+)/\1\2/')
+ 	if [ "${pahole_ver}" -lt "113" ]; then
+-		info "BTF" "${1}: pahole version $(${PAHOLE} --version) is too old, need at least v1.13"
++		echo >&2 "BTF: ${1}: pahole version $(${PAHOLE} --version) is too old, need at least v1.13"
+ 		return 1
+ 	fi
  
 -- 
 2.20.1
