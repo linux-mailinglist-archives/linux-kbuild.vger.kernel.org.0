@@ -2,85 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D0715F3DB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Feb 2020 19:22:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A7815FD65
+	for <lists+linux-kbuild@lfdr.de>; Sat, 15 Feb 2020 08:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404587AbgBNSP7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 14 Feb 2020 13:15:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56814 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729889AbgBNPvm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:51:42 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B9568222C4;
-        Fri, 14 Feb 2020 15:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695501;
-        bh=j10t5HO3W2ltOm3+De7grvLgQUA7DCKNukRC3XW6FKE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Y1itsk1u3J3rb/vKd0fpOfSGZpj01BqONso9n8Nej7PhpLNSVEX00+USXfKr4iUe6
-         2gunLXJO7UMhBrplEjonQeLk0REQDgPuAAFqHqBZp+3yPkrgxx1v3m6A2++6WHuEHq
-         DRmf6AaC76ihkH+16ksrwG0haTRCvn7DrkEnXb5k=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+        id S1725880AbgBOHuf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 15 Feb 2020 02:50:35 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:26236 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbgBOHuf (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 15 Feb 2020 02:50:35 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 01F7oMA5009343;
+        Sat, 15 Feb 2020 16:50:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 01F7oMA5009343
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1581753023;
+        bh=NWZbgC0y+bTEGb9g9tWKLW6InUUuSS9tlsQWHxubZyk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aPmdRKCtbPHkqZtARaPt1YJ2L1SrIQMyz1IMqjBA+Yep3ocv6+8ULjoRA72cRF39C
+         vuZ+LNThnL272SZA8vglkWflwBbL+m60RUzgmYOUSLEYMXQeTLwI3Aks+8uquJwQfP
+         uQTTfj5hKjZ6tlrHwiGknXfklel64uPhf4dkw7aMpxD+hp185YdcZXBms12WfwOeck
+         cRCTI77LYo1LhxJd88fTqFzZ4hoPHRcxVnCJS25EgK9fUzsraP3xKq7yR+YTxENlnP
+         Bld1MAtzrnsVvRNAXrSo4ErPhZXpVfMaxOr6pjI8eroPJATh6HjWbRLfDADRCOsMx6
+         OpUQp+XNCjZXA==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 128/542] kconfig: fix broken dependency in randconfig-generated .config
-Date:   Fri, 14 Feb 2020 10:42:00 -0500
-Message-Id: <20200214154854.6746-128-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove the owner check in mkcompile_h
+Date:   Sat, 15 Feb 2020 16:50:20 +0900
+Message-Id: <20200215075020.10426-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+This reverts a very old commit, which dates back to the pre-git era:
 
-[ Upstream commit c8fb7d7e48d11520ad24808cfce7afb7b9c9f798 ]
+|commit 5d1cfb5b12f72145d30ba0f53c9f238144b122b8
+|Author: Kai Germaschewski <kai@tp1.ruhr-uni-bochum.de>
+|Date:   Sat Jul 27 02:53:19 2002 -0500
+|
+|    kbuild: Fix compiling/installing as different users
+|
+|    "make bzImage && sudo make install" had the problem that during
+|    the "sudo make install" the build system would notice that the information
+|    in include/linux/compile.h is not accurate (it says "compiled by <user>",
+|    but we are root), thus causing compile.h to be updated and leading to
+|    some recompiles.
+|
+|    We now only update "compile.h" if the current user is the owner of
+|    include/linux/autoconf.h, i.e. the user who did the "make *config". So the
+|    above sequence will correctly state "compiled by <user>".
+|
+|diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+|index 6313db96172..cd956380978 100755
+|--- a/scripts/mkcompile_h
+|+++ b/scripts/mkcompile_h
+|@@ -3,6 +3,17 @@ ARCH=$2
+| SMP=$3
+| CC=$4
+|
+|+# If compile.h exists already and we don't own autoconf.h
+|+# (i.e. we're not the same user who did make *config), don't
+|+# modify compile.h
+|+# So "sudo make install" won't change the "compiled by <user>"
+|+# do "compiled by root"
+|+
+|+if [ -r $TARGET -a ! -O ../include/linux/autoconf.h ]; then
+|+  echo ' (not modified)'
+|+  exit 0
+|+fi
+|+
+| if [ -r ../.version ]; then
+|   VERSION=`cat ../.version`
+| else
 
-Running randconfig on arm64 using KCONFIG_SEED=0x40C5E904 (e.g. on v5.5)
-produces the .config with CONFIG_EFI=y and CONFIG_CPU_BIG_ENDIAN=y,
-which does not meet the !CONFIG_CPU_BIG_ENDIAN dependency.
+The 'make bzImage && sudo make install' problem no longer happens
+because commit 1648e4f80506 ("x86, kbuild: make "make install" not
+depend on vmlinux") fixed the root cause.
 
-This is because the user choice for CONFIG_CPU_LITTLE_ENDIAN vs
-CONFIG_CPU_BIG_ENDIAN is set by randomize_choice_values() after the
-value of CONFIG_EFI is calculated.
+Commit 19514fc665ff ("arm, kbuild: make "make install" not depend on
+vmlinux") fixed the similar issue on ARM, with detailed explanation.
 
-When this happens, the has_changed flag should be set.
+So, the rule is that the installation targets should never trigger
+the builds of any build artifact. By following it, this check is
+unneeded.
 
-Currently, it takes the result from the last iteration. It should
-accumulate all the results of the loop.
-
-Fixes: 3b9a19e08960 ("kconfig: loop as long as we changed some symbols in randconfig")
-Reported-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/kconfig/confdata.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 3569d2dec37ce..17298239e3633 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -1353,7 +1353,7 @@ bool conf_set_all_new_symbols(enum conf_def_mode mode)
+ scripts/mkcompile_h | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 3a5a4b210c86..3ff26e5b2eac 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -10,17 +10,6 @@ CC=$6
  
- 		sym_calc_value(csym);
- 		if (mode == def_random)
--			has_changed = randomize_choice_values(csym);
-+			has_changed |= randomize_choice_values(csym);
- 		else {
- 			set_all_choice_values(csym);
- 			has_changed = true;
+ vecho() { [ "${quiet}" = "silent_" ] || echo "$@" ; }
+ 
+-# If compile.h exists already and we don't own autoconf.h
+-# (i.e. we're not the same user who did make *config), don't
+-# modify compile.h
+-# So "sudo make install" won't change the "compiled by <user>"
+-# do "compiled by root"
+-
+-if [ -r $TARGET -a ! -O include/generated/autoconf.h ]; then
+-  vecho "  SKIPPED $TARGET"
+-  exit 0
+-fi
+-
+ # Do not expand names
+ set -f
+ 
 -- 
-2.20.1
+2.17.1
 
