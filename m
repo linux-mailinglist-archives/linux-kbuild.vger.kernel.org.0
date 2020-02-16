@@ -2,190 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CD25160499
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 16:48:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B6187160616
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 20:55:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728358AbgBPPsl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Feb 2020 10:48:41 -0500
-Received: from conuserg-11.nifty.com ([210.131.2.78]:16681 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728361AbgBPPsl (ORCPT
+        id S1726059AbgBPTzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Feb 2020 14:55:46 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:34538 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgBPTzq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Feb 2020 10:48:41 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 01GFj6eR026453;
-        Mon, 17 Feb 2020 00:45:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 01GFj6eR026453
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1581867908;
-        bh=os9TnsjNHpEscmQ/pIjImR92ghmPlhtFserBXlIXFJQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=yt2PJNXS2jXuA2jslkc3CMA95DynuZt62vxxsh0mm0pLwhD+Cle/RxDx0WvakAUns
-         3L03ZOArSyhVFVY3pW5RYd1tl6wmGrzrkdGkU26yAC/9qdZrJNtrPg6mm+O9UWqC+A
-         0UBZkbRAbVRMZU5g7rHIMxDaN/i5IM5++7O+AGOfn2N90lb2r+uATEV+HSK199wIjG
-         oCaNRj3MbevSo/S5QUwfpyUV3wFEzDraNeNs8rvAs73pa57MbGm7YTRfdtfbEbNyYn
-         Mfb35c7ytnmcckc+WiZ42aa668ZHiOAniV9v/3sUPYhYjoQ90eOEnmlb+zPq+BwXwq
-         JuBx/z5uSY91g==
-X-Nifty-SrcIP: [126.93.102.113]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     x86@kernel.org, sparclinux@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>, Nick Hu <nickhu@andestech.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rich Felker <dalias@libc.org>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-riscv@lists.infradead.org
-Subject: [PATCH] kbuild: use KBUILD_DEFCONFIG as the fallback for DEFCONFIG_LIST
-Date:   Mon, 17 Feb 2020 00:45:02 +0900
-Message-Id: <20200216154502.26478-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        Sun, 16 Feb 2020 14:55:46 -0500
+Received: by mail-ot1-f66.google.com with SMTP id j16so14100607otl.1;
+        Sun, 16 Feb 2020 11:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5Gjyg7C/qUM1CPw+L63jimvH6kTtUlFR3Sqxw1W+p/o=;
+        b=lR6pcw+9IkkaedVHZLlA7oVkTg+GsqWW5pB1xSMF6JSyYJ0pPVGrJz3gJkpV20osiB
+         CQFDoxGbYgRHzyCivCOuetnZyJv8IqC7iD4ma0CxEvw/SoJthsQjg7a0b1P7I+Qg1HbN
+         ZhioTfJnICTDO4pMX3vbD0ay3YbcZFBlJqrB57pYCKlubSs7h2GR7UmiLrgTKwR4Oual
+         qf1pamjGGztGtePGjhHpl7aM8j2Ci8mVoSPSaxdeRFXqBzSqyLixYJ3autlNYBdIqHqy
+         TOWYmN79CZBZpLnJpmipdNG3oGoQ9jMUIlMOAFqCR8yAIehgjIuSV075b0Q+QgUkIYrQ
+         FZfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5Gjyg7C/qUM1CPw+L63jimvH6kTtUlFR3Sqxw1W+p/o=;
+        b=YCQb6+G3OEge2cS2zYBJVQFCiDgmlBa5xjCvRy5D5AwajkRNikVPDhA/0QMPzEUAwn
+         tUQsxSKVZOIh1TT+IaUsVqWiy+tEwkv3+iJtGgmqPLU7V30wPN65+GUJWRWkf+rdww0O
+         39tQCB8XG97pKxOY/AAL0pLm5j3hV8PcqSCIRov/irfpR74VAhUyx1LxYctdoQasOXoB
+         GzAxebBfcAKZ+wvwRZalrKqwrWGxi6zO20LU/hJy0v72k8O5gCUUHFH2m6Yvf5v9KUz3
+         M1KTdp3wMUcITYi4hLAPX2lckfYCA3M3X1qF6mV5ULv56EVEn9cS6x7NQpDgYCiZBhVt
+         Bvig==
+X-Gm-Message-State: APjAAAXtPxbiPb8yGTG+NZkIGcHCdTOrJdLCZRsqURDA1CfS9zMI7IxQ
+        EDyWnJ707nYr1Nuj0gvyS9uHY19H
+X-Google-Smtp-Source: APXvYqx6s6q6b1AkVg/zx6jWNgJ1f41CXRJ2F3ocrjbfEQFPemxCzbOdldPhiLlgtcRMMzxDXCVLnw==
+X-Received: by 2002:a9d:7305:: with SMTP id e5mr9359175otk.64.1581882945402;
+        Sun, 16 Feb 2020 11:55:45 -0800 (PST)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id t203sm4082674oig.39.2020.02.16.11.55.44
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 16 Feb 2020 11:55:44 -0800 (PST)
+Date:   Sun, 16 Feb 2020 12:55:43 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] kbuild: remove cc-option switch from -Wframe-larger-than=
+Message-ID: <20200216195543.GA54314@ubuntu-m2-xlarge-x86>
+References: <20200216151936.23778-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200216151936.23778-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Most of the Kconfig commands (except defconfig and all*config) read the
-.config file as a base set of CONFIG options.
+On Mon, Feb 17, 2020 at 12:19:36AM +0900, Masahiro Yamada wrote:
+> This CONFIG option was added by commit 35bb5b1e0e84 ("Add option to
+> enable -Wframe-larger-than= on gcc 4.4"). At that time, the cc-option
+> check was needed.
+> 
+> According to Documentation/process/changes.rst, the current minimal
+> supported version of GCC is 4.6, so you can assume GCC supports it.
+> Clang supports it as well.
+> 
+> Remove the cc-option switch and redundant comments.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-When it does not exist, the files in DEFCONFIG_LIST are searched in this
-order and loaded if found.
-
-I do not see much sense in the last two entries in DEFCONFIG_LIST.
-
-[1] ARCH_DEFCONFIG
-
-The entry for DEFCONFIG_LIST is guarded by 'depends on !UML'. So, the
-ARCH_DEFCONFIG definition in arch/x86/um/Kconfig is meaningless.
-
-arch/{sh,sparc,x86}/Kconfig define ARCH_DEFCONFIG depending on 32 or 64
-bit variant symbols. This is a little bit strange; ARCH_DEFCONFIG should
-be a fixed string because the base config file is loaded before the symbol
-evaluation stage.
-
-Using KBUILD_DEFCONFIG is saner because it is fixed before Kconfig is
-invoked. Fortunately, arch/{sh,sparc,x86}/Makefile define it in the
-same way, and it works as expected. Hence, replace ARCH_DEFCONFIG with
-"arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)".
-
-[2] arch/$(ARCH)/defconfig
-
-This file path is no longer valid. The defconfig files are always located
-in the arch configs/ directories.
-
-  $ find arch -name defconfig | sort
-  arch/alpha/configs/defconfig
-  arch/arm64/configs/defconfig
-  arch/csky/configs/defconfig
-  arch/nds32/configs/defconfig
-  arch/riscv/configs/defconfig
-  arch/s390/configs/defconfig
-  arch/unicore32/configs/defconfig
-
-The path arch/*/configs/defconfig is already covered by
-"arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)". So, this file path is
-not necessary.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- arch/sh/Kconfig     | 5 -----
- arch/sparc/Kconfig  | 5 -----
- arch/x86/Kconfig    | 5 -----
- arch/x86/um/Kconfig | 5 -----
- init/Kconfig        | 3 +--
- 5 files changed, 1 insertion(+), 22 deletions(-)
-
-diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-index 9ece111b0254..b4f0e37b83eb 100644
---- a/arch/sh/Kconfig
-+++ b/arch/sh/Kconfig
-@@ -87,11 +87,6 @@ config SUPERH64
- 	select HAVE_EXIT_THREAD
- 	select KALLSYMS
- 
--config ARCH_DEFCONFIG
--	string
--	default "arch/sh/configs/shx3_defconfig" if SUPERH32
--	default "arch/sh/configs/cayman_defconfig" if SUPERH64
--
- config GENERIC_BUG
- 	def_bool y
- 	depends on BUG && SUPERH32
-diff --git a/arch/sparc/Kconfig b/arch/sparc/Kconfig
-index c1dd6dd642f4..0de15380d1fc 100644
---- a/arch/sparc/Kconfig
-+++ b/arch/sparc/Kconfig
-@@ -95,11 +95,6 @@ config SPARC64
- 	select PCI_DOMAINS if PCI
- 	select ARCH_HAS_GIGANTIC_PAGE
- 
--config ARCH_DEFCONFIG
--	string
--	default "arch/sparc/configs/sparc32_defconfig" if SPARC32
--	default "arch/sparc/configs/sparc64_defconfig" if SPARC64
--
- config ARCH_PROC_KCORE_TEXT
- 	def_bool y
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index beea77046f9b..98935f4387f9 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -240,11 +240,6 @@ config OUTPUT_FORMAT
- 	default "elf32-i386" if X86_32
- 	default "elf64-x86-64" if X86_64
- 
--config ARCH_DEFCONFIG
--	string
--	default "arch/x86/configs/i386_defconfig" if X86_32
--	default "arch/x86/configs/x86_64_defconfig" if X86_64
--
- config LOCKDEP_SUPPORT
- 	def_bool y
- 
-diff --git a/arch/x86/um/Kconfig b/arch/x86/um/Kconfig
-index a8985e1f7432..95d26a69088b 100644
---- a/arch/x86/um/Kconfig
-+++ b/arch/x86/um/Kconfig
-@@ -27,11 +27,6 @@ config X86_64
- 	def_bool 64BIT
- 	select MODULES_USE_ELF_RELA
- 
--config ARCH_DEFCONFIG
--	string
--	default "arch/um/configs/i386_defconfig" if X86_32
--	default "arch/um/configs/x86_64_defconfig" if X86_64
--
- config 3_LEVEL_PGTABLES
- 	bool "Three-level pagetables" if !64BIT
- 	default 64BIT
-diff --git a/init/Kconfig b/init/Kconfig
-index 452bc1835cd4..6ccdb168dee5 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -6,8 +6,7 @@ config DEFCONFIG_LIST
- 	default "/lib/modules/$(shell,uname -r)/.config"
- 	default "/etc/kernel-config"
- 	default "/boot/config-$(shell,uname -r)"
--	default ARCH_DEFCONFIG
--	default "arch/$(ARCH)/defconfig"
-+	default "arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)"
- 
- config CC_IS_GCC
- 	def_bool $(success,$(CC) --version | head -n 1 | grep -q gcc)
--- 
-2.17.1
-
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
