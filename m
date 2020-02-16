@@ -2,212 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E22751601B5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 06:09:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A52EF16045D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 15:42:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725816AbgBPFJv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Feb 2020 00:09:51 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:40890 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725208AbgBPFJu (ORCPT
+        id S1728292AbgBPOmw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Feb 2020 09:42:52 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:30875 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728258AbgBPOmw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Feb 2020 00:09:50 -0500
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 01G59UFa010966;
-        Sun, 16 Feb 2020 14:09:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 01G59UFa010966
+        Sun, 16 Feb 2020 09:42:52 -0500
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 01GEgP9S010513;
+        Sun, 16 Feb 2020 23:42:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 01GEgP9S010513
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1581829771;
-        bh=rbqePs9IMaIcm8x3+kZKs+EYOftnr7m5qjep5xY5fxg=;
+        s=dec2015msa; t=1581864146;
+        bh=UoXPiVZxlWkvCqFNMcjAUwJQCoq8GSwZbx8UAZFUf+g=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iHwjX/+WCWjcDYod62PLrTAzcNoFWuxwh19HzVxrmayKtiJqNXexO6eakZPuuuusa
-         Hwb+sjrCHDPw7OFwmqaU/vTSglOS1gm/+I1DwLS+88mjkV6PrF5LZtwtPMdZqKxh1o
-         jDL+iXgvYJYNE5gXxSifLyRjXMzMbqwe0AX+xtQAFSpLfl7gPwj8tNbbonx8f3drdt
-         wOf46QJ9kdjZhSYl/iLIAhCDo/vzMq9covm8pM9RgloCwXt0yC+/4i1R4l5OyuBQVd
-         +w4iW2FBsLIwvSyessEQuE98HFAgF4iCF8YP17nXZ2/F3YD/TsmI/AASF30DKzznSi
-         FuoflP37LkpPA==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id a2so8719747vso.3;
-        Sat, 15 Feb 2020 21:09:30 -0800 (PST)
-X-Gm-Message-State: APjAAAWnfe57S+e+eO43BfrUbOfWINl7NodOgxyXY3F69txGm8mn12Iz
-        fERCumsv9WXyXXNM2DEoOWq2AKq10ZS81puHvIg=
-X-Google-Smtp-Source: APXvYqxBxTQIoI2VevLx1VLO3Y65QF4At1ZpLqEtvYMB0XvZ6WuTKop6V1O+rjOZsFgyrDYUrhIkJ3+PeQaqZ0Dysc4=
-X-Received: by 2002:a67:6485:: with SMTP id y127mr5539788vsb.54.1581829769328;
- Sat, 15 Feb 2020 21:09:29 -0800 (PST)
+        b=nQTrfunf3CEK7lzn82MaJMNvJWBlL3QKKGT7DWcph3+bEq24Zk2LPGStO1ShFxlBH
+         JY9bGiSr7SbvjnA+cdNoymfbVtTVqTrCRo/hU25CSwn+PzFGjn4M/CQoK5JrHHmq6t
+         I7JqXPc6ZkHqEIMD2vcn7ip94m6nVAkCJdIy0tQJ8hTgsD2fa6gScFcgmgi88jMii+
+         qgyxWnxrBZBdaJd/ijFAxlE20PfANCXoukWg3e9dVP0FZhbk4cX/VLiueK73qDpHXl
+         1uABnQZ16STKEouuynUnhP60/UoP9HH/a62wF7Cu6Dx41tF8itrEBM7ioEsg0TW1mX
+         cUAZlQ3GRVJoA==
+X-Nifty-SrcIP: [209.85.217.53]
+Received: by mail-vs1-f53.google.com with SMTP id x18so9108396vsq.4;
+        Sun, 16 Feb 2020 06:42:26 -0800 (PST)
+X-Gm-Message-State: APjAAAVGtXW7wfL6jc1dWWJOzatAZCqKuOtADvwF0mJI+tHV0+elWCnD
+        MxMqHrx4x0/ABBUzjeAyE2G5g0DD8UI+DIrFp+8=
+X-Google-Smtp-Source: APXvYqwW5HVWUuzDn0HmhcW/DFcMylTWOtCMGEgW2Ijo9vm/IhTP/HsMT4VTAuXnu2z7SG0GRxtxwnZsRfNlStQW5AY=
+X-Received: by 2002:a67:6485:: with SMTP id y127mr6263902vsb.54.1581864145392;
+ Sun, 16 Feb 2020 06:42:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20200130162314.31449-1-e5ten.arch@gmail.com>
-In-Reply-To: <20200130162314.31449-1-e5ten.arch@gmail.com>
+References: <a06194f0-3713-cc04-1673-c05b35c03242@infradead.org>
+In-Reply-To: <a06194f0-3713-cc04-1673-c05b35c03242@infradead.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 16 Feb 2020 14:08:53 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASxZ9_doDB_t6vFfgVUvh4hpi9RK7_QFU65az+j+JU84A@mail.gmail.com>
-Message-ID: <CAK7LNASxZ9_doDB_t6vFfgVUvh4hpi9RK7_QFU65az+j+JU84A@mail.gmail.com>
-Subject: Re: [PATCH] make yacc usage POSIX-compliant
-To:     Ethan Sommer <e5ten.arch@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Sun, 16 Feb 2020 23:41:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATQowM6w5TmHiqCeY7yae8j-qV==e9yw3HYD9=fABxjtg@mail.gmail.com>
+Message-ID: <CAK7LNATQowM6w5TmHiqCeY7yae8j-qV==e9yw3HYD9=fABxjtg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add comment for V=2 mode
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Ethan,
-
-On Fri, Jan 31, 2020 at 1:23 AM Ethan Sommer <e5ten.arch@gmail.com> wrote:
+On Thu, Feb 13, 2020 at 1:41 PM Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> use -b and -d to generate correctly named source and header files,
-> instead of bison-specific --defines and non-POSIX -o
-> check that YACC command is found in path or is an executable file,
-> instead of using bison-specific --version flag to display an error when
-> it is missing
-> explicitly define yyltype in scripts/genksyms/lex.l, instead of relying
-> on bison automatically defining it
-> replace bison-specific %destructor use in scripts/kconfig/parser.y
-> dtc's yacc usage is not covered here, as its use of bison-specific
-> features is much greater, and it is only built on certain architectures,
-> unlike kconfig and genksyms
-
-Please start each sentence with a capital letter,
-and end with a period.
-
+> From: Randy Dunlap <rdunlap@infradead.org>
 >
-> Signed-off-by: Ethan Sommer <e5ten.arch@gmail.com>
+> Complete the comments for valid values of KBUILD_VERBOSE,
+> specifically for KBUILD_VERBOSE=2.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+Applied to linux-kbuild. Thanks.
+
+
+
 > ---
->  scripts/Makefile.host     |  2 +-
->  scripts/genksyms/Makefile |  6 ++++--
->  scripts/genksyms/lex.l    |  2 ++
->  scripts/kconfig/parser.y  | 14 +++++++-------
->  4 files changed, 14 insertions(+), 10 deletions(-)
+>  Makefile |    1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-> index 4c51c95d40f4..64e98e1d4825 100644
-> --- a/scripts/Makefile.host
-> +++ b/scripts/Makefile.host
-> @@ -11,7 +11,7 @@ $(obj)/%.lex.c: $(src)/%.l FORCE
->  # YACC
->  # ---------------------------------------------------------------------------
->  quiet_cmd_bison = YACC    $(basename $@).[ch]
-> -      cmd_bison = $(YACC) -o $(basename $@).c --defines=$(basename $@).h -t -l $<
-> +      cmd_bison = $(YACC) -b $(basename $(basename $@)) -d -t -l $<
->
->  $(obj)/%.tab.c $(obj)/%.tab.h: $(src)/%.y FORCE
->         $(call if_changed,bison)
-> diff --git a/scripts/genksyms/Makefile b/scripts/genksyms/Makefile
-> index 78629f515e78..1e120328fa88 100644
-> --- a/scripts/genksyms/Makefile
-> +++ b/scripts/genksyms/Makefile
-> @@ -14,9 +14,11 @@ genksyms-objs        := genksyms.o parse.tab.o lex.lex.o
->  # so that 'bison: not found' will be displayed if it is missing.
->  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
->
-> +ifeq ($(shell command -v $(YACC) || [ -x $(YACC) ] && echo y),)
-> +  $(error command not found: $(YACC))
-> +endif
-
-
-Please do not check the presence of $(YACC)
-in the parse stage of Makefile.
-
-You would not be able to run 'make mrproper' or 'make distclean'
-without $(YACC), which is odd.
-
-
->  quiet_cmd_bison_no_warn = $(quiet_cmd_bison)
-> -      cmd_bison_no_warn = $(YACC) --version >/dev/null; \
-> -                         $(cmd_bison) 2>/dev/null
-> +      cmd_bison_no_warn = $(cmd_bison) 2>/dev/null
->
->  $(obj)/pars%.tab.c $(obj)/pars%.tab.h: $(src)/pars%.y FORCE
->         $(call if_changed,bison_no_warn)
-> diff --git a/scripts/genksyms/lex.l b/scripts/genksyms/lex.l
-> index e265c5d96861..0580c088527f 100644
-> --- a/scripts/genksyms/lex.l
-> +++ b/scripts/genksyms/lex.l
-> @@ -19,6 +19,8 @@
->  #include "genksyms.h"
->  #include "parse.tab.h"
->
-> +extern YYSTYPE yylval;
-> +
->  /* We've got a two-level lexer here.  We let flex do basic tokenization
->     and then we categorize those basic tokens in the second stage.  */
->  #define YY_DECL                static int yylex1(void)
-> diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-> index b3eff9613cf8..9eb9a94a68e0 100644
-> --- a/scripts/kconfig/parser.y
-> +++ b/scripts/kconfig/parser.y
-> @@ -20,6 +20,8 @@
->
->  int cdebug = PRINTD;
->
-> +int yynerrs = 0;
-> +
-
-Isn't yynerrs POSIX-compiliant?
-
-Both bison and byacc worked for me without this change.
-
-
-This patch is stricter than
-your previous 'make it work for byacc as well'.
-
-If this is a desired change,
-how can I test if the code is POSIX-compliant?
-
-
-
-But, I am still not convinced with this part:
-
-"dtc's yacc usage is not covered here, as its use of bison-specific
-features is much greater, and it is only built on certain architectures,
-unlike kconfig and genksyms"
-
-
-If DTC remains as an exceptional case that is bison-specific code,
-I do not get the point of merging this change.
-
-
-
-
-
->  static void yyerror(const char *err);
->  static void zconfprint(const char *err, ...);
->  static void zconf_error(const char *err, ...);
-> @@ -101,13 +103,6 @@ static struct menu *current_menu, *current_entry;
->  %type <string> word_opt assign_val
->  %type <flavor> assign_op
->
-> -%destructor {
-> -       fprintf(stderr, "%s:%d: missing end statement for this entry\n",
-> -               $$->file->name, $$->lineno);
-> -       if (current_menu == $$)
-> -               menu_end_menu();
-> -} if_entry menu_entry choice_entry
-> -
->  %%
->  input: mainmenu_stmt stmt_list | stmt_list;
->
-> @@ -529,6 +524,11 @@ static bool zconf_endtoken(const char *tokenname,
->         if (strcmp(tokenname, expected_tokenname)) {
->                 zconf_error("unexpected '%s' within %s block",
->                             tokenname, expected_tokenname);
-> +               if (!strcmp(tokenname, "if") || !strcmp(tokenname, "menu") ||
-> +                       !strcmp(tokenname, "choice"))
-> +                       fprintf(stderr, "%s:%d: missing end statement for this entry\n",
-> +                               current_menu->file->name, current_menu->lineno);
-> +               menu_end_menu();
->                 yynerrs++;
->                 return false;
->         }
-> --
-> 2.25.0
+> --- linux-next-20200206.orig/Makefile
+> +++ linux-next-20200206/Makefile
+> @@ -68,6 +68,7 @@ unexport GREP_OPTIONS
+>  #
+>  # If KBUILD_VERBOSE equals 0 then the above command will be hidden.
+>  # If KBUILD_VERBOSE equals 1 then the above command is displayed.
+> +# If KBUILD_VERBOSE equals 2 then give the reason why each target is rebuilt.
+>  #
+>  # To put more focus on warnings, be less verbose as default
+>  # Use 'make V=1' to see the full commands
 >
 
 
---
+-- 
 Best Regards
 Masahiro Yamada
