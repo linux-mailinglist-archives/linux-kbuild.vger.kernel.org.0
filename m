@@ -2,79 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6187160616
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 20:55:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9E7D16069D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 22:07:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726059AbgBPTzq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Feb 2020 14:55:46 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:34538 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgBPTzq (ORCPT
+        id S1726142AbgBPVHQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Feb 2020 16:07:16 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:53309 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbgBPVHQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Feb 2020 14:55:46 -0500
-Received: by mail-ot1-f66.google.com with SMTP id j16so14100607otl.1;
-        Sun, 16 Feb 2020 11:55:45 -0800 (PST)
+        Sun, 16 Feb 2020 16:07:16 -0500
+Received: by mail-pj1-f66.google.com with SMTP id n96so6240762pjc.3
+        for <linux-kbuild@vger.kernel.org>; Sun, 16 Feb 2020 13:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5Gjyg7C/qUM1CPw+L63jimvH6kTtUlFR3Sqxw1W+p/o=;
-        b=lR6pcw+9IkkaedVHZLlA7oVkTg+GsqWW5pB1xSMF6JSyYJ0pPVGrJz3gJkpV20osiB
-         CQFDoxGbYgRHzyCivCOuetnZyJv8IqC7iD4ma0CxEvw/SoJthsQjg7a0b1P7I+Qg1HbN
-         ZhioTfJnICTDO4pMX3vbD0ay3YbcZFBlJqrB57pYCKlubSs7h2GR7UmiLrgTKwR4Oual
-         qf1pamjGGztGtePGjhHpl7aM8j2Ci8mVoSPSaxdeRFXqBzSqyLixYJ3autlNYBdIqHqy
-         TOWYmN79CZBZpLnJpmipdNG3oGoQ9jMUIlMOAFqCR8yAIehgjIuSV075b0Q+QgUkIYrQ
-         FZfw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KhAM2IxlCEEPIX5FUelQ2p4r+M1/1BoV7HhLLv/Wars=;
+        b=DFUsTe4N9PeqrtCcAy98sLURhDACcBsq0vYO1OlQuWTTB4du7OIg6tfqXCR7IYTKlB
+         0SM8H3R1SEMYdm7PtY75xZ1sCBjeXfU01r1lCUCjKXusIx6MO+20Slsi59wajLU7ba76
+         5WE/XBpJ+goKDwXrWa8p0Ho/xclaGJtHl+HElU4qjjDyPFf0wyBhha1mm8SEYqmrqVLS
+         FNANhl8aVvReqg4jkWPZG4s1hc8JbelR895QR1ppq4Bka7nQmdrX4DAaydirBx/oCljg
+         J6+F896H3Sy6bwUfpfmSDIvRwga+KcBmg9X/RnqKZLM5FQ8SJwUExRhdodjVZ4gkFKZe
+         xr4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5Gjyg7C/qUM1CPw+L63jimvH6kTtUlFR3Sqxw1W+p/o=;
-        b=YCQb6+G3OEge2cS2zYBJVQFCiDgmlBa5xjCvRy5D5AwajkRNikVPDhA/0QMPzEUAwn
-         tUQsxSKVZOIh1TT+IaUsVqWiy+tEwkv3+iJtGgmqPLU7V30wPN65+GUJWRWkf+rdww0O
-         39tQCB8XG97pKxOY/AAL0pLm5j3hV8PcqSCIRov/irfpR74VAhUyx1LxYctdoQasOXoB
-         GzAxebBfcAKZ+wvwRZalrKqwrWGxi6zO20LU/hJy0v72k8O5gCUUHFH2m6Yvf5v9KUz3
-         M1KTdp3wMUcITYi4hLAPX2lckfYCA3M3X1qF6mV5ULv56EVEn9cS6x7NQpDgYCiZBhVt
-         Bvig==
-X-Gm-Message-State: APjAAAXtPxbiPb8yGTG+NZkIGcHCdTOrJdLCZRsqURDA1CfS9zMI7IxQ
-        EDyWnJ707nYr1Nuj0gvyS9uHY19H
-X-Google-Smtp-Source: APXvYqx6s6q6b1AkVg/zx6jWNgJ1f41CXRJ2F3ocrjbfEQFPemxCzbOdldPhiLlgtcRMMzxDXCVLnw==
-X-Received: by 2002:a9d:7305:: with SMTP id e5mr9359175otk.64.1581882945402;
-        Sun, 16 Feb 2020 11:55:45 -0800 (PST)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id t203sm4082674oig.39.2020.02.16.11.55.44
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 16 Feb 2020 11:55:44 -0800 (PST)
-Date:   Sun, 16 Feb 2020 12:55:43 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] kbuild: remove cc-option switch from -Wframe-larger-than=
-Message-ID: <20200216195543.GA54314@ubuntu-m2-xlarge-x86>
-References: <20200216151936.23778-1-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KhAM2IxlCEEPIX5FUelQ2p4r+M1/1BoV7HhLLv/Wars=;
+        b=Zmd86saHTAAKi/Byd1hRMLudKjE64BIm5ByECQIteht+HFDtSWUiAJiqw7OCNQP0fK
+         OBjGxr7QebsOXhckxc1CjA7zfLMjfvwEcfHOIKbBLwbOpSA6Wh6c8VSIueTD1n0pKsCm
+         Aa9d1DDQnUNfHRL7xsdAfRCI7NHa2WDa0v+iWMbWLqLIUAnfFE7ld3s1SAtBKo7LL8fg
+         jf50NUYCSjavqdCGQh7tcSNV21Lzg5V5iGGzy7+xG3IkgA/jg9J2fwXi0wBlzXUTnwdD
+         k1dtQYrRO+LU0fIPaHFfJ9F2F0g6a7X4bvicGo2EPtrzG0WRFiCYknLJfPdCTdF2IVcx
+         RnEw==
+X-Gm-Message-State: APjAAAXBeLwGSMjYiVAdFiKJ/+U9urqoDblOKcmXxGGSY93w51DlzHSj
+        IIgtcYdUCKbIN6hmYqEznJUhq6M+Fg+jnmnBYvQB/50V
+X-Google-Smtp-Source: APXvYqydNCUs83fM5DQQUkHwEQFte1dnvZ/0MM8PNv/aV/dD3TxsSAuG7YYMCh9fwmDimG4PGpc99Asw+D3/vhjE3NU=
+X-Received: by 2002:a17:90a:7784:: with SMTP id v4mr16473278pjk.134.1581887235046;
+ Sun, 16 Feb 2020 13:07:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200216151936.23778-1-masahiroy@kernel.org>
 In-Reply-To: <20200216151936.23778-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Sun, 16 Feb 2020 13:07:02 -0800
+Message-ID: <CAKwvOdkqZ2UpykUh-=axErZAVb8AjBGdPORSgVXqJtiv=tB05g@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove cc-option switch from -Wframe-larger-than=
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 12:19:36AM +0900, Masahiro Yamada wrote:
+On Sun, Feb 16, 2020 at 7:20 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
 > This CONFIG option was added by commit 35bb5b1e0e84 ("Add option to
 > enable -Wframe-larger-than= on gcc 4.4"). At that time, the cc-option
 > check was needed.
-> 
+
+Indeed, the oldest version of GCC 4.4 on godbolt.org; GCC 4.4.7 supports it.
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>
 > According to Documentation/process/changes.rst, the current minimal
 > supported version of GCC is 4.6, so you can assume GCC supports it.
 > Clang supports it as well.
-> 
+>
 > Remove the cc-option switch and redundant comments.
-> 
+>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  Makefile          | 2 +-
+>  lib/Kconfig.debug | 3 +--
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 84b71845c43f..8f15926b83bb 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -728,7 +728,7 @@ KBUILD_CFLAGS += $(call cc-option,-fno-reorder-blocks,) \
+>  endif
+>
+>  ifneq ($(CONFIG_FRAME_WARN),0)
+> -KBUILD_CFLAGS += $(call cc-option,-Wframe-larger-than=${CONFIG_FRAME_WARN})
+> +KBUILD_CFLAGS += -Wframe-larger-than=$(CONFIG_FRAME_WARN)
+>  endif
+>
+>  stackp-flags-$(CONFIG_CC_HAS_STACKPROTECTOR_NONE) := -fno-stack-protector
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 69def4a9df00..fb6b93ffdf77 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -266,7 +266,7 @@ config ENABLE_MUST_CHECK
+>           attribute warn_unused_result" messages.
+>
+>  config FRAME_WARN
+> -       int "Warn for stack frames larger than (needs gcc 4.4)"
+> +       int "Warn for stack frames larger than"
+>         range 0 8192
+>         default 2048 if GCC_PLUGIN_LATENT_ENTROPY
+>         default 1280 if (!64BIT && PARISC)
+> @@ -276,7 +276,6 @@ config FRAME_WARN
+>           Tell gcc to warn at build time for stack frames larger than this.
+>           Setting this too low will cause a lot of warnings.
+>           Setting it to 0 disables the warning.
+> -         Requires gcc 4.4
+>
+>  config STRIP_ASM_SYMS
+>         bool "Strip assembler-generated symbols during link"
+> --
+> 2.17.1
+>
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+-- 
+Thanks,
+~Nick Desaulniers
