@@ -2,86 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A52EF16045D
-	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 15:42:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC627160477
+	for <lists+linux-kbuild@lfdr.de>; Sun, 16 Feb 2020 16:20:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728292AbgBPOmw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 16 Feb 2020 09:42:52 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:30875 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728258AbgBPOmw (ORCPT
+        id S1728220AbgBPPUP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 16 Feb 2020 10:20:15 -0500
+Received: from conuserg-10.nifty.com ([210.131.2.77]:30575 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726171AbgBPPUO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 16 Feb 2020 09:42:52 -0500
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 01GEgP9S010513;
-        Sun, 16 Feb 2020 23:42:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 01GEgP9S010513
+        Sun, 16 Feb 2020 10:20:14 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 01GFJfJi012792;
+        Mon, 17 Feb 2020 00:19:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 01GFJfJi012792
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1581864146;
-        bh=UoXPiVZxlWkvCqFNMcjAUwJQCoq8GSwZbx8UAZFUf+g=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nQTrfunf3CEK7lzn82MaJMNvJWBlL3QKKGT7DWcph3+bEq24Zk2LPGStO1ShFxlBH
-         JY9bGiSr7SbvjnA+cdNoymfbVtTVqTrCRo/hU25CSwn+PzFGjn4M/CQoK5JrHHmq6t
-         I7JqXPc6ZkHqEIMD2vcn7ip94m6nVAkCJdIy0tQJ8hTgsD2fa6gScFcgmgi88jMii+
-         qgyxWnxrBZBdaJd/ijFAxlE20PfANCXoukWg3e9dVP0FZhbk4cX/VLiueK73qDpHXl
-         1uABnQZ16STKEouuynUnhP60/UoP9HH/a62wF7Cu6Dx41tF8itrEBM7ioEsg0TW1mX
-         cUAZlQ3GRVJoA==
-X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id x18so9108396vsq.4;
-        Sun, 16 Feb 2020 06:42:26 -0800 (PST)
-X-Gm-Message-State: APjAAAVGtXW7wfL6jc1dWWJOzatAZCqKuOtADvwF0mJI+tHV0+elWCnD
-        MxMqHrx4x0/ABBUzjeAyE2G5g0DD8UI+DIrFp+8=
-X-Google-Smtp-Source: APXvYqwW5HVWUuzDn0HmhcW/DFcMylTWOtCMGEgW2Ijo9vm/IhTP/HsMT4VTAuXnu2z7SG0GRxtxwnZsRfNlStQW5AY=
-X-Received: by 2002:a67:6485:: with SMTP id y127mr6263902vsb.54.1581864145392;
- Sun, 16 Feb 2020 06:42:25 -0800 (PST)
-MIME-Version: 1.0
-References: <a06194f0-3713-cc04-1673-c05b35c03242@infradead.org>
-In-Reply-To: <a06194f0-3713-cc04-1673-c05b35c03242@infradead.org>
+        s=dec2015msa; t=1581866382;
+        bh=KnP9tgxSHUQAMQklRwAiuVTY8xsRWN3iDCIditBPlOM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VSSaRQQnCyhooGy+l+0rFBVdYPtZmpJIVhDfCGS8K+CPuBE4zPviJ2iJplC/K1/nj
+         TEEQ7Tu0LcnQq3gb7E6rtGDLHWtHlpEluwsChPynxuK8fInLqnapNX3ZQf/l77rpZb
+         RmPzicA/+bOqAKDycAMj8v5E1YW97Qkmlrv0xi7cipMklS7k7441kgjtV4VBf3CUn1
+         Bcy8Os4cJwoRDr3Fo4mQTrJyYqhYsZjAaNWHk06tXIfNpdLXLZ4fn1pDaE7tYTta+a
+         1WQLpzpajkmYdho4B2AXUNlSRRLqqeRngfLWkNe41kHtCpTT3Lt1RYGSY3qYamvsL4
+         /XH3UhazFSn0A==
+X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 16 Feb 2020 23:41:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATQowM6w5TmHiqCeY7yae8j-qV==e9yw3HYD9=fABxjtg@mail.gmail.com>
-Message-ID: <CAK7LNATQowM6w5TmHiqCeY7yae8j-qV==e9yw3HYD9=fABxjtg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: add comment for V=2 mode
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH] kbuild: remove cc-option switch from -Wframe-larger-than=
+Date:   Mon, 17 Feb 2020 00:19:36 +0900
+Message-Id: <20200216151936.23778-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 1:41 PM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> From: Randy Dunlap <rdunlap@infradead.org>
->
-> Complete the comments for valid values of KBUILD_VERBOSE,
-> specifically for KBUILD_VERBOSE=2.
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+This CONFIG option was added by commit 35bb5b1e0e84 ("Add option to
+enable -Wframe-larger-than= on gcc 4.4"). At that time, the cc-option
+check was needed.
 
+According to Documentation/process/changes.rst, the current minimal
+supported version of GCC is 4.6, so you can assume GCC supports it.
+Clang supports it as well.
 
-Applied to linux-kbuild. Thanks.
+Remove the cc-option switch and redundant comments.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Makefile          | 2 +-
+ lib/Kconfig.debug | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-> ---
->  Makefile |    1 +
->  1 file changed, 1 insertion(+)
->
-> --- linux-next-20200206.orig/Makefile
-> +++ linux-next-20200206/Makefile
-> @@ -68,6 +68,7 @@ unexport GREP_OPTIONS
->  #
->  # If KBUILD_VERBOSE equals 0 then the above command will be hidden.
->  # If KBUILD_VERBOSE equals 1 then the above command is displayed.
-> +# If KBUILD_VERBOSE equals 2 then give the reason why each target is rebuilt.
->  #
->  # To put more focus on warnings, be less verbose as default
->  # Use 'make V=1' to see the full commands
->
-
-
+diff --git a/Makefile b/Makefile
+index 84b71845c43f..8f15926b83bb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -728,7 +728,7 @@ KBUILD_CFLAGS += $(call cc-option,-fno-reorder-blocks,) \
+ endif
+ 
+ ifneq ($(CONFIG_FRAME_WARN),0)
+-KBUILD_CFLAGS += $(call cc-option,-Wframe-larger-than=${CONFIG_FRAME_WARN})
++KBUILD_CFLAGS += -Wframe-larger-than=$(CONFIG_FRAME_WARN)
+ endif
+ 
+ stackp-flags-$(CONFIG_CC_HAS_STACKPROTECTOR_NONE) := -fno-stack-protector
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 69def4a9df00..fb6b93ffdf77 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -266,7 +266,7 @@ config ENABLE_MUST_CHECK
+ 	  attribute warn_unused_result" messages.
+ 
+ config FRAME_WARN
+-	int "Warn for stack frames larger than (needs gcc 4.4)"
++	int "Warn for stack frames larger than"
+ 	range 0 8192
+ 	default 2048 if GCC_PLUGIN_LATENT_ENTROPY
+ 	default 1280 if (!64BIT && PARISC)
+@@ -276,7 +276,6 @@ config FRAME_WARN
+ 	  Tell gcc to warn at build time for stack frames larger than this.
+ 	  Setting this too low will cause a lot of warnings.
+ 	  Setting it to 0 disables the warning.
+-	  Requires gcc 4.4
+ 
+ config STRIP_ASM_SYMS
+ 	bool "Strip assembler-generated symbols during link"
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
