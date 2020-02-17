@@ -2,192 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B7E416164D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2020 16:37:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24EB11616E1
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2020 17:00:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbgBQPhg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Feb 2020 10:37:36 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39362 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728124AbgBQPhg (ORCPT
+        id S1727958AbgBQQAn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Feb 2020 11:00:43 -0500
+Received: from pb-smtp1.pobox.com ([64.147.108.70]:55575 "EHLO
+        pb-smtp1.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727277AbgBQQAn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Feb 2020 10:37:36 -0500
-Received: by mail-wm1-f65.google.com with SMTP id c84so18965522wme.4
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2020 07:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Sj0ZG4VD+UjkrUGw8YOU5MleYJNCBmlw9yndN/QBHts=;
-        b=l4StWRaHLrA5bn34nbio/qg29dHV8tKN5ynUuV7Tzxc74GviFT5BMwS8/u+QzyjAeh
-         b5gXPpEdQHT2vzzNSMUfQIVaDMxOPBxfObCcVyg/5acV7G9Wi/WM+8IKtdQLzPXJgCP4
-         V480jjaTelup5A1e18NoOj2JPcSsI/8fXVAZgch3TOaJprNv2uiFoaBEi7TqKYUxkDcI
-         SOZDyLQLB/c0vYaMcPV6L+w7lH8qIfGf6fDstKLixi7GEDkc8fteESBDrhlyNSnQQxq+
-         MnhL26xfJY1ba9GeIWuHyn/pc4YC6eHXy3Dx6fz1smKWAAW4XPIqsY6NctmFMpjzAPXi
-         4NJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Sj0ZG4VD+UjkrUGw8YOU5MleYJNCBmlw9yndN/QBHts=;
-        b=bT85IJCnrlvb5uT4pPpQYkezWwlR+/60YPkObG7DfIqk+/Q9OaQJzHNAwEVeEXXSsO
-         gVbfEfmxXU4ReaW2A3dzNK3HNjlvfS8tbNEb8egXooB97a/fnYZNIzwgFZZWCyP2jxXE
-         7FWuTyjgejWnlfA5IjSvjDGci7p4h6L+c7flKxIHa250ynYW5YZieTo2ZeOT9DhL8hTW
-         3no/6SLhqn993cURlejctM3gQUkWAUYYeVkUgVT01SvbMs3N5Y4rCAUz+gdWCeRAjHIn
-         EGy6XCChEfZHDnlfP80NvbCgWtu8HUJ6Rm1aScmq/1mVdnnp4HO2KiJlzzj8V7HTaHaq
-         Wo4A==
-X-Gm-Message-State: APjAAAWfCytjfCLAe0/Oc4BJYA5zh8xVclvExC0xuaaCen/XF6+2wN/n
-        RwBXeKoae2SzQa9mj/G3TzpaYQ==
-X-Google-Smtp-Source: APXvYqzkuwM6cQc8NV3hZdCoZrFyoyWpoLQEoqsWKj5+azYt+uiWp9Bv+SLW6qNptB00WTjjalqVQw==
-X-Received: by 2002:a05:600c:2255:: with SMTP id a21mr23085737wmm.79.1581953853540;
-        Mon, 17 Feb 2020 07:37:33 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id g7sm1563737wrq.21.2020.02.17.07.37.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 07:37:33 -0800 (PST)
-Date:   Mon, 17 Feb 2020 15:37:32 +0000
-From:   Matthias Maennich <maennich@google.com>
+        Mon, 17 Feb 2020 11:00:43 -0500
+Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id EDC795CE84;
+        Mon, 17 Feb 2020 11:00:40 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=2CMqNie/jgw27GZLCTfFeu7CdIg=; b=B5+UnA
+        VhqAWU3+g3omzzdBVexEpAa+wKzJF+DQ73CPdMwDpjCMxleLkCkFcZEK5Nnqjz6E
+        Ukw8Yu901D2gPGF5dKgwbz/bCLmrV+ZoHK8Ot3D8u5qCR927mSctKW2jBLc+SM1D
+        7C5MtwPWqYdGG5WIXUfIt48/F6vjBeG0IKzKU=
+Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp1.pobox.com (Postfix) with ESMTP id E2F155CE83;
+        Mon, 17 Feb 2020 11:00:40 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=9oU7m/+N59y4UIzicilnkFO8xw/KIfHOdwGXAKP2J3U=; b=pj+Qrzbzi+EXyQElrTgV2eg6jl+bTwoWKCmw4Qqt+X92of6rUpK3Go8QdGr+0tAcp0NADL6GBQWzZZ236lKRjYbZaDeYhN1Stle+tMbCsXLuvMtNCd4lvuOuLqddest4ErCDDverKmfghtzA1WQr/Z6wqnN7TVJSrgcAQles/v8=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 594B05CE82;
+        Mon, 17 Feb 2020 11:00:40 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 83CC62DA01B8;
+        Mon, 17 Feb 2020 11:00:39 -0500 (EST)
+Date:   Mon, 17 Feb 2020 11:00:39 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
 To:     Quentin Perret <qperret@google.com>
-Cc:     masahiroy@kernel.org, nico@fluxnic.net,
+cc:     Matthias Maennich <maennich@google.com>, masahiroy@kernel.org,
         linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
         kernel-team@android.com, jeyu@kernel.org, hch@infradead.org
-Subject: Re: [PATCH v4 2/3] kbuild: split adjust_autoksyms.sh in two parts
-Message-ID: <20200217153732.GB48466@google.com>
-References: <20200212202140.138092-1-qperret@google.com>
- <20200212202140.138092-3-qperret@google.com>
+Subject: Re: [PATCH v4 1/3] kbuild: allow symbol whitelisting with
+ TRIM_UNUSED_KSYMS
+In-Reply-To: <20200217153023.GA71210@google.com>
+Message-ID: <nycvar.YSQ.7.76.2002171059230.1559@knanqh.ubzr>
+References: <20200212202140.138092-1-qperret@google.com> <20200212202140.138092-2-qperret@google.com> <20200217152201.GA48466@google.com> <20200217153023.GA71210@google.com>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200212202140.138092-3-qperret@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: A50A65BE-519E-11EA-992F-C28CBED8090B-78420484!pb-smtp1.pobox.com
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 12, 2020 at 08:21:39PM +0000, Quentin Perret wrote:
->In order to prepare the ground for a build-time optimization, split
->adjust_autoksyms.sh into two scripts: one that generates autoksyms.h
->based on all currently available information (whitelist, and .mod
->files), and the other to inspect the diff between two versions of
->autoksyms.h and trigger appropriate rebuilds.
->
->Signed-off-by: Quentin Perret <qperret@google.com>
+On Mon, 17 Feb 2020, Quentin Perret wrote:
 
-Reviewed-by: Matthias Maennich <maennich@google.com>
-Tested-by: Matthias Maennich <maennich@google.com>
+> On Monday 17 Feb 2020 at 15:22:01 (+0000), Matthias Maennich wrote:
+> > In case the whitelist file can't be found, the error message is
+> > 
+> >  cat: path/to/file: file not found
+> > 
+> > I wonder whether we can make this error message a bit more specific by
+> > telling the user that the KSYMS_WHITELIST is missing.
+> 
+> +1, that'd be really useful. I'll check the file existence in v5 (in a
+> POSIX-compliant way, I promise).
 
-Cheers,
-Matthias
+In fact, if you explicitly provide a file that is not there, then this 
+is arguably a good reason to even fail the build.
 
->---
-> scripts/adjust_autoksyms.sh | 29 ++++--------------------
-> scripts/gen_autoksyms.sh    | 44 +++++++++++++++++++++++++++++++++++++
-> 2 files changed, 48 insertions(+), 25 deletions(-)
-> create mode 100755 scripts/gen_autoksyms.sh
->
->diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
->index 93f4d10e66e6..2b366d945ccb 100755
->--- a/scripts/adjust_autoksyms.sh
->+++ b/scripts/adjust_autoksyms.sh
->@@ -1,14 +1,13 @@
-> #!/bin/sh
-> # SPDX-License-Identifier: GPL-2.0-only
->
->-# Script to create/update include/generated/autoksyms.h and dependency files
->+# Script to update include/generated/autoksyms.h and dependency files
-> #
-> # Copyright:	(C) 2016  Linaro Limited
-> # Created by:	Nicolas Pitre, January 2016
-> #
->
->-# Create/update the include/generated/autoksyms.h file from the list
->-# of all module's needed symbols as recorded on the second line of *.mod files.
->+# Update the include/generated/autoksyms.h file.
-> #
-> # For each symbol being added or removed, the corresponding dependency
-> # file's timestamp is updated to force a rebuild of the affected source
->@@ -38,28 +37,8 @@ esac
-> # We need access to CONFIG_ symbols
-> . include/config/auto.conf
->
->-# Use 'eval' to expand the whitelist path and check if it is relative
->-eval ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
->-[ "${ksym_wl:0:1}" = "/" ] || ksym_wl="$abs_srctree/$ksym_wl"
->-
->-# Generate a new ksym list file with symbols needed by the current
->-# set of modules.
->-cat > "$new_ksyms_file" << EOT
->-/*
->- * Automatically generated file; DO NOT EDIT.
->- */
->-
->-EOT
->-sed 's/ko$/mod/' modules.order |
->-xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
->-cat - "$ksym_wl" |
->-sort -u |
->-sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$new_ksyms_file"
->-
->-# Special case for modversions (see modpost.c)
->-if [ -n "$CONFIG_MODVERSIONS" ]; then
->-	echo "#define __KSYM_module_layout 1" >> "$new_ksyms_file"
->-fi
->+# Generate a new symbol list file
->+$CONFIG_SHELL $srctree/scripts/gen_autoksyms.sh "$new_ksyms_file"
->
-> # Extract changes between old and new list and touch corresponding
-> # dependency files.
->diff --git a/scripts/gen_autoksyms.sh b/scripts/gen_autoksyms.sh
->new file mode 100755
->index 000000000000..2cea433616a8
->--- /dev/null
->+++ b/scripts/gen_autoksyms.sh
->@@ -0,0 +1,44 @@
->+#!/bin/sh
->+# SPDX-License-Identifier: GPL-2.0-only
->+
->+# Create an autoksyms.h header file from the list of all module's needed symbols
->+# as recorded on the second line of *.mod files and the user-provided symbol
->+# whitelist.
->+
->+set -e
->+
->+output_file="$1"
->+
->+# Use "make V=1" to debug this script.
->+case "$KBUILD_VERBOSE" in
->+*1*)
->+	set -x
->+	;;
->+esac
->+
->+# We need access to CONFIG_ symbols
->+. include/config/auto.conf
->+
->+# Use 'eval' to expand the whitelist path and check if it is relative
->+eval ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
->+[ "${ksym_wl:0:1}" = "/" ] || ksym_wl="$abs_srctree/$ksym_wl"
->+
->+# Generate a new ksym list file with symbols needed by the current
->+# set of modules.
->+cat > "$output_file" << EOT
->+/*
->+ * Automatically generated file; DO NOT EDIT.
->+ */
->+
->+EOT
->+
->+sed 's/ko$/mod/' modules.order |
->+xargs -n1 sed -n -e '2{s/ /\n/g;/^$/!p;}' -- |
->+cat - "$ksym_wl" |
->+sort -u |
->+sed -e 's/\(.*\)/#define __KSYM_\1 1/' >> "$output_file"
->+
->+# Special case for modversions (see modpost.c)
->+if [ -n "$CONFIG_MODVERSIONS" ]; then
->+	echo "#define __KSYM_module_layout 1" >> "$output_file"
->+fi
->-- 
->2.25.0.225.g125e21ebc7-goog
->
+
+Nicolas
