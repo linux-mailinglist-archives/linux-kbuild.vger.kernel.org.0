@@ -2,117 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 171F2161008
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2020 11:29:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 320AC161474
+	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2020 15:23:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729175AbgBQK3B (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Feb 2020 05:29:01 -0500
-Received: from ozlabs.org ([203.11.71.1]:35505 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728698AbgBQK3B (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Feb 2020 05:29:01 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 48LgFQ6rZlz9sRJ;
-        Mon, 17 Feb 2020 21:28:58 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1581935339;
-        bh=nEmdpQuucobTW6rpdULzizRAsoI2rsTmZ9yAx2qGur4=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=NyHWaVkSyuF7cTzcZbwuW426SYGM0A8R3gWMojjCaz5LjwOgg7Rj3F1/oC7p/ONiy
-         fVOHT7y6qbWC1pZwURPjZjLVjYLufuM/MOBJjUcpFyZfZK6JinutuyMOw1UqFEftec
-         61qlu07DPFeSjZlL/reQfz30XSDIFdJtQ0XGzxqT5TOZgDC1+hNegOvEblHtkQ4pB7
-         nyISu8uHKRuOpfitYFzzCM9YwRrIAaLgrO8j+USQi57ZnbZWagEoPHlZFgY8kU4/km
-         cRciaA89kOerKA7VsFcU4egklotTxSym5pOge5YOCKwWSTj2xhz0CekhhPruKJuUFk
-         NUFzbkw0aJTdg==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: install is no longer PHONY?
-In-Reply-To: <CAK7LNASePHZ78O6fnScU_fVHkDOKJEgT+B+OC7NPxkW+tb7q1Q@mail.gmail.com>
-References: <874kvz10rx.fsf@mpe.ellerman.id.au> <CAK7LNASePHZ78O6fnScU_fVHkDOKJEgT+B+OC7NPxkW+tb7q1Q@mail.gmail.com>
-Date:   Mon, 17 Feb 2020 21:28:55 +1100
-Message-ID: <87d0adfqxk.fsf@mpe.ellerman.id.au>
+        id S1728091AbgBQOX2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Feb 2020 09:23:28 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34536 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726414AbgBQOX2 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 17 Feb 2020 09:23:28 -0500
+Received: by mail-wm1-f66.google.com with SMTP id s144so21180wme.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2020 06:23:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Y5MhYckXFi7E+U6LXNEiPSCxK67PLr+e99TA6/7sYAM=;
+        b=Rzzz/Sfn1uQgXNWGQGaIWsEyP8+93DXjBoaUqHAsAnl21gystvq7FmsEebbPlmneJ4
+         WPpaP8SSyqOfo8BKWzKhuiwyX1blJBmAEu3vlehSLUie8H2poU0YdqYVxJdrVIL3eSjN
+         yhclUTKN4cIiRjj6T+DTlTeV2x/r/yWx8v+S49mHT3saeSUZ0CS8pWMjgcrStEQCMZ6k
+         Cff6lwFkleSd8Wh2IesQnt5iaW9B/um4liCPAXtW4r5XPyXtrWmYCxWM0TPwKvhpqiBG
+         WSkGO5scwqCPmq3XG+lpG1Tc23A+Q4KMBm28ms7SJdd0Bmhr2PBg5ItoCbN0OKxhUHhC
+         v3pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Y5MhYckXFi7E+U6LXNEiPSCxK67PLr+e99TA6/7sYAM=;
+        b=HQs3+SxmF0P+y6qo9CszaQJmPgxZXDtAREycIpwQnH9W9BJuefrp6kV55Pgvy8Vbvv
+         BiBJkPtSEWsN7PkwnQ2JHFugjbveF5/nw54XD25Z8Q79PnZDXZkHEOwgp5yLIglcPDOC
+         tRFa1nW5u8g9O2foOhMri2szIAdHP7acEtDyEDNjahYDqKb8T80hiaAGeRacmyonKPh4
+         WL3Ta5PJQtTW/uBlI5GDzthnrgEWctRSa0TLNWjYgvL4phRhnOJsX99W1xh/5xVue4CO
+         gMNKXfZw4ZdJb/kl71+8p12L91a2zEDG1u2P6pwOEgSt3sRz9HBYWkjiJ+i1uws1dWBY
+         tPBw==
+X-Gm-Message-State: APjAAAVsyI5pkgZq3CoELf+bzm6x40zAA5GRCNvmpIzqC4fx8GBWsnpf
+        ExXWFqEblWakEHKphPtCPUQQqQ==
+X-Google-Smtp-Source: APXvYqxtx8O8cc/7sFx4a3FPrPBFBkfOU2HN+J+iaVebQNuJy0JLt7+fy9XZJ4eSs8byroNULYIKWw==
+X-Received: by 2002:a1c:4008:: with SMTP id n8mr22528670wma.121.1581949406315;
+        Mon, 17 Feb 2020 06:23:26 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:110:d6cc:2030:37c1:9964])
+        by smtp.gmail.com with ESMTPSA id q9sm1147425wrx.18.2020.02.17.06.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Feb 2020 06:23:25 -0800 (PST)
+Date:   Mon, 17 Feb 2020 14:23:22 +0000
+From:   Quentin Perret <qperret@google.com>
+To:     masahiroy@kernel.org, nico@fluxnic.net
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        maennich@google.com, kernel-team@android.com, jeyu@kernel.org,
+        hch@infradead.org
+Subject: Re: [PATCH v4 1/3] kbuild: allow symbol whitelisting with
+ TRIM_UNUSED_KSYMS
+Message-ID: <20200217142322.GA183353@google.com>
+References: <20200212202140.138092-1-qperret@google.com>
+ <20200212202140.138092-2-qperret@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200212202140.138092-2-qperret@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> writes:
-> Hi Michael,
->
-> On Mon, Feb 10, 2020 at 2:15 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
->>
->> Hi Masahiro,
->>
->> I noticed that "install" seems to be no longer PHONY, or at least if I
->> have a file/directory called install then the build doesn't run.
->>
->> eg:
->>   $ touch install
->>   $ make install
->>   make: 'install' is up to date.
->>   $ rm install
->>   $ make install
->>     LDS     arch/powerpc/boot/zImage.lds
->>     WRAP    arch/powerpc/boot/zImage.pseries
->>     WRAP    arch/powerpc/boot/zImage.epapr
->
->
-> I think the reason is
-> 'install' is not specified as a phony target.
->
-> You can add 'PHONY += install' to fix it.
->
->
-> PHONY += install    # please add this!
-> install:
->         $(Q)$(MAKE) $(build)=$(boot) install
->
->
-> Please do so in both arch/powerpc/Makefile and
-> arch/powerpc/boot/Makefile.
+On Wednesday 12 Feb 2020 at 20:21:38 (+0000), Quentin Perret wrote:
+> diff --git a/scripts/adjust_autoksyms.sh b/scripts/adjust_autoksyms.sh
+> index a904bf1f5e67..93f4d10e66e6 100755
+> --- a/scripts/adjust_autoksyms.sh
+> +++ b/scripts/adjust_autoksyms.sh
+> @@ -38,6 +38,10 @@ esac
+>  # We need access to CONFIG_ symbols
+>  . include/config/auto.conf
+>  
+> +# Use 'eval' to expand the whitelist path and check if it is relative
+> +eval ksym_wl="${CONFIG_UNUSED_KSYMS_WHITELIST:-/dev/null}"
+> +[ "${ksym_wl:0:1}" = "/" ] || ksym_wl="$abs_srctree/$ksym_wl"
 
-Oh lol, sorry I didn't realise install was in the arch Makefile.
+Our internal CI just informed me that this is *still* not quite POSIX
+compliant ... I believe that the following should (finally) solve this
+issue:
 
+  [ "${ksym_wl}" != "${ksym_wl#/}" ] || ksym_wl="$abs_srctree/$ksym_wl"
 
->> In the past the presence of an install file/directory didn't have any
->> affect.
->>
->> It seems this changed in:
->>   d79424137a73 ("kbuild: do not update config when running install targets")
->>
->> Was that expected?
->>
->> cheers
->
->
-> I do not think commit is related.
->
-> Prior to this commit, I still see the same issue.
->
->
-> $ git checkout d7942413^
-> $ touch install
-> $ make -s ARCH=powerpc allnoconfig
-> $ make  ARCH=powerpc install
-> make: 'install' is up to date.
+The above seems to work with bash, zsh, dash, posh and, IIUC, complies
+with https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html.
+I'll try other shells and stare at the doc some more, but if there is a
+preferred pattern in the kernel I'm happy to change it.
 
-Hmm weird. I did bisect it:
-
-  # bad: [d79424137a7312d381d131d707a462440c0e8df9] kbuild: do not update config when running install targets
-  git bisect bad d79424137a7312d381d131d707a462440c0e8df9
-  # good: [9c2af1c7377a8a6ef86e5cabf80978f3dbbb25c0] kbuild: add .DELETE_ON_ERROR special target
-  git bisect good 9c2af1c7377a8a6ef86e5cabf80978f3dbbb25c0
-  # first bad commit: [d79424137a7312d381d131d707a462440c0e8df9] kbuild: do not update config when running install targets
-
-But you're right. I must have messed something up while bisecting.
-
-Sorry for the noise.
-
-cheers
+Thanks,
+Quentin
