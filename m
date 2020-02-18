@@ -2,78 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86F46162647
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2020 13:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45362162FAC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2020 20:21:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgBRMlT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Feb 2020 07:41:19 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:57547 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726512AbgBRMlT (ORCPT
+        id S1726283AbgBRTVz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Feb 2020 14:21:55 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:46914 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726446AbgBRTVz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Feb 2020 07:41:19 -0500
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 01ICf2jT028318
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Feb 2020 21:41:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 01ICf2jT028318
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582029663;
-        bh=5WLyBNqBfdHbXYcVbM4zJouzFsvML+0yqJnzNVlR5y4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=bdjuPCCoRQrRKByanB4+c05cQY7zO0rPYRmM5kDyiwgJUB1y/K32drUDSu29u2/99
-         nCx5sGqi+siuBCbe+uxYTpqMipVw6akIrFfOcOVKEQNfZbhSmhfBSsDjCvJEgRnE7J
-         dpUOczs7kXzClHdHqj+vS/d7v2CQ6OFKmqblow3r8BppPW/zyEIafHObRBvNqBau63
-         l6Mlwszu/rom6DeDRjAOM7X5MZRk5nZohB42avIvq0M9OzTzU7LLduDPWPU5B4Ls0p
-         1By3oiCKYnTXbHBf6KtTvTWhDhRBGrq+8cKFbHg/ZgFZTCgvdhrfYNZEmXmcGSfg6d
-         rhJZtLf4gCnSw==
-X-Nifty-SrcIP: [209.85.222.52]
-Received: by mail-ua1-f52.google.com with SMTP id 73so7378391uac.6
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Feb 2020 04:41:03 -0800 (PST)
-X-Gm-Message-State: APjAAAVQ4KzU/KnBx/J8sjW6Sjeydq5kP53Z9Ycfdqz6EG9CjGS4x35y
-        EaokqDT6kQWNQBxze3X3MKeY9+dtWNb5MO8/clc=
-X-Google-Smtp-Source: APXvYqyOx0VaGjr3MLtfBXvQBCzxhxw/amncW9F7TWzMdPNiNjJ9e1zJFUwPiaYkCDZuL7Ij/S4cVsEv1be0B4hehF0=
-X-Received: by 2002:ab0:45c7:: with SMTP id u65mr9743531uau.109.1582029661933;
- Tue, 18 Feb 2020 04:41:01 -0800 (PST)
+        Tue, 18 Feb 2020 14:21:55 -0500
+Received: by mail-vs1-f65.google.com with SMTP id t12so13455467vso.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Feb 2020 11:21:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xSv9DDEnAlG2dciRnTneRn3tnidN19YOSB5toTxKafE=;
+        b=Pqb2yyN0w7qffNOmF++Klqty8EApZpt+vTpwO96CkBOthKTTbo2emX/pWMrHdTKxMQ
+         drBaf0GnvxUkz3hzxe1aR+BqD3IB2VsG7GAusv0C9E3H+AWb2uNZGef94zJ2Aui2P2B/
+         2Ep+Q6J4EJXbIhX6zkBpeoLaN5SnslzMzzylwmRPTL5juABDetEBBuvjrEGZ9n/MI7EN
+         6hMGF9ABvdprAulLQp2WpHVxbi+3rShlBKuOG178q03aURr+GleplGccFDHta3F5e+JL
+         6biVwIY8PU8dEXxeFZ2VlCbR/B8aypawHi7ZdCpsh3s8t9WvK4Jc0+rKaPdH6c7dUuEE
+         Okcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xSv9DDEnAlG2dciRnTneRn3tnidN19YOSB5toTxKafE=;
+        b=UPv8nIrREW4PwP5qbrNz+wlqcSsZupndSDIAw903gJAQhADEtO/hxW53tiNHwmxjYm
+         A8j6jV/B7zhqedbbPV72IA60UJWyylM5je+NarZcKIqWj8Rh7Ydvdihvjgkn0B8SamgH
+         1P5YC/Fhwf4zxhpA9py35rgI/Cao6akYcCxaUBoWQC4N1IIKkhCUEVcBowwflO1TgEiR
+         xW+FC2WRZ3CwOPuHbk82dDcUVoUxCEBwTAclHBEkDAQgDyEAQK5dTqB9WYJHeQZENCbV
+         p+CT9E6U3/x64HZSKkMAhY2BsxKuqitGDmwCmG5TFvr+KRr16YUqTKqnwWDLVsbLaLkf
+         5bwg==
+X-Gm-Message-State: APjAAAXLIXksOc1rKPl/zTyn3ot+/1XaBwzWh8FxHxUabvQaXuftwEYk
+        I+6vSyV9lzycWQO6z/Cq3k6H6aGw7Jw+VBvvKDW2YA==
+X-Google-Smtp-Source: APXvYqw1t26BaomMybNGSWcMJXnCM8vM+6jtUI37Hb+HSNC+M3powdpKva4u81iGu5oJIIda34VLX1xJl8LoLrNKA2c=
+X-Received: by 2002:a67:f4d2:: with SMTP id s18mr11783344vsn.15.1582053713770;
+ Tue, 18 Feb 2020 11:21:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20200218111842.1641-1-mpe@ellerman.id.au>
-In-Reply-To: <20200218111842.1641-1-mpe@ellerman.id.au>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 18 Feb 2020 21:40:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARM5nf4NhG=E7UZedDpm_Ndwa5zFCDF=XFM7gXBf5uVow@mail.gmail.com>
-Message-ID: <CAK7LNARM5nf4NhG=E7UZedDpm_Ndwa5zFCDF=XFM7gXBf5uVow@mail.gmail.com>
-Subject: Re: [PATCH] powerpc/Makefile: Mark phony targets as PHONY
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     linuxppc-dev@ozlabs.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20200210131925.145463-1-samitolvanen@google.com>
+ <CAK7LNAS7UchtP_+2m4AB-hJ=nMwsM-qpkJ+VHU1JGJrn8K1KPg@mail.gmail.com>
+ <CABCJKuemBAeySJQY6yxhzbxK=XGBtVSt+6J6WXpO=RoiVXH7GQ@mail.gmail.com> <CAK7LNARyYqmSByD3jQr+TPe1RHEj9CxqRE880AqxA5SU3yUk5A@mail.gmail.com>
+In-Reply-To: <CAK7LNARyYqmSByD3jQr+TPe1RHEj9CxqRE880AqxA5SU3yUk5A@mail.gmail.com>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Tue, 18 Feb 2020 11:21:42 -0800
+Message-ID: <CABCJKudcVo95FcYGJ4223dqVEnkQnQJLx7fVaj1jF21n+sYEcg@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: remove duplicate dependencies from .mod files
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 8:19 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
->
-> Some of our phony targets are not marked as such. This can lead to
-> confusing errors, eg:
->
->   $ make clean
->   $ touch install
->   $ make install
->   make: 'install' is up to date.
->   $
->
-> Fix it by adding them to the PHONY variable which is marked phony in
-> the top-level Makefile. In arch/powerpc/boot/Makefile we do it
-> manually.
+Hi Masahiro,
 
+On Sat, Feb 15, 2020 at 8:28 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> masahiro@grover:~/workspace/linux-kbuild$ llvm-nm
+> drivers/gpu/drm/nouveau/nouveau.o | sed -n 's/^  *U //p' | sort -u |
+> wc
+>     572     572   11478
 
-You can do likewise in arch/powerpc/boot/Makefile
-because it is marked phony in scripts/Makefile.build
+Thank you for testing this!
 
+> Does ACK do this differently?
 
+Yes, the difference is that we use LTO and after looking into this a
+bit more, it turns out that when the individual files in the thin
+archive are LLVM bitcode, llvm-nm behaves differently and prints out
+the symbols for each file separately.
 
+$ llvm-nm drivers/gpu/drm/nouveau/nouveau.o
+...
+nvif/client.o:
+---------------- W __cfi_check
+---------------- W __cfi_check_fail
+                 U __cfi_slowpath_diag
+                 U __ubsan_handle_cfi_check_fail
+---------------- T nvif_client_fini
+---------------- T nvif_client_init
+---------------- T nvif_client_ioctl
+---------------- T nvif_client_resume
+---------------- T nvif_client_suspend
+                 U nvif_object_fini
+                 U nvif_object_init
+                 U strncpy
 
+nvif/device.o:
+---------------- W __cfi_check
+---------------- W __cfi_check_fail
+                 U __ubsan_handle_cfi_check_fail
+                 U kfree
+---------------- T nvif_device_fini
+---------------- T nvif_device_init
+---------------- T nvif_device_time
+                 U nvif_object_fini
+                 U nvif_object_init
+                 U nvif_object_mthd
+                 U nvif_user_fini
+...
 
--- 
-Best Regards
-Masahiro Yamada
+While this output format still works for us, it does generate a lot of
+duplicates. Anyway, I think we can come back to this when LTO is
+closer to getting upstreamed.
+
+Sami
