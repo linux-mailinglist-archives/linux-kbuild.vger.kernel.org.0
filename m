@@ -2,95 +2,179 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AD9E16180D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Feb 2020 17:35:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C417D161E38
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Feb 2020 01:38:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729405AbgBQQfn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Feb 2020 11:35:43 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37708 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728969AbgBQQfn (ORCPT
+        id S1726107AbgBRAie (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Feb 2020 19:38:34 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:21053 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbgBRAid (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Feb 2020 11:35:43 -0500
-Received: by mail-wr1-f66.google.com with SMTP id w15so20525164wru.4
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2020 08:35:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=52jPAcnAoB9nyjNBUO8yybzpzXsdhabpDRivx/vqyIc=;
-        b=UUzhm7q1EVvdF1Pd6XLhsq/6MA/y1xrp8bBCv3aUs70L/SB+mVD+PPnxZxSYvQ90JB
-         habZdDrMlFUGlPZEspdHoOl1FN3HNbEa9eaXIk3OTxLHS7zBWOezzdlrQMPnpVfG53GP
-         6lpVCKlpBLuULKoT4lipuGr5cJ13bXi/W7sKxGmo0OlElT6DlPV0i1ogCy3ogJfj9n+Y
-         q+lNWpLjWG9TFE+IQGWUlARMjMjmXJMalkhlb9l1VtOIqPjkd08t15nc/Da5fehNM1as
-         ugGJrsLTzwklZlJDxJkoyDp5+PxlQNRq8CGt1JXZQZIjvepFR9S93/sJ8e8pH14kqKAX
-         vgdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=52jPAcnAoB9nyjNBUO8yybzpzXsdhabpDRivx/vqyIc=;
-        b=cuDOe6sJjTmJb1t2mpj/a7ygc5eX+l6ndIdaTHNtqbstPIlRa6JTPu/lKCSjc/Uoer
-         5mQRxK4ZfTakHjCjvOXDsAL6j1XTDY0/r9ov/h6c9JPSp7h1n9HtUVNw0hQdogEr3Kbi
-         u2tXr6AXi50klPpKTWGj54oooRLKoy7hxEkWQjB3RsVBXXZRLsnu5o2TS/9vB5+l5PJm
-         AhqeCAVpPAScf/ZHM5QEiyzl7XPRO2vdSyzoAzZdewHctiww1iG6VnaPHW/sPN1M7+rn
-         VgzvHpcYbh7YjG6xszpial2s9v8oY3fdqPRXDUlwcViORAQKby119YjN8Z4TAh6bOX8b
-         Jlcw==
-X-Gm-Message-State: APjAAAVsqYH2dQorDX952FT52Bux3m3Q5GHx8usJobjys36V1QeLbIL6
-        5dU9wtnRIVGWhmurpgEXEakqwwlQDhQ=
-X-Google-Smtp-Source: APXvYqwANjyM01+uFceFTRuN/F5AwPa51jyHgN/NDw+AGq5VKaoIAKf9kFJD3a2KrUDWQZ8Lx3dckA==
-X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr22888113wrt.253.1581957341244;
-        Mon, 17 Feb 2020 08:35:41 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id r6sm1633466wrp.95.2020.02.17.08.35.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2020 08:35:40 -0800 (PST)
-Date:   Mon, 17 Feb 2020 16:35:40 +0000
-From:   Matthias Maennich <maennich@google.com>
-To:     Nicolas Pitre <nico@fluxnic.net>
-Cc:     Quentin Perret <qperret@google.com>, masahiroy@kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com, jeyu@kernel.org, hch@infradead.org
-Subject: Re: [PATCH v4 1/3] kbuild: allow symbol whitelisting with
- TRIM_UNUSED_KSYMS
-Message-ID: <20200217163540.GD48466@google.com>
-References: <20200212202140.138092-1-qperret@google.com>
- <20200212202140.138092-2-qperret@google.com>
- <20200217152201.GA48466@google.com>
- <20200217153023.GA71210@google.com>
- <nycvar.YSQ.7.76.2002171059230.1559@knanqh.ubzr>
+        Mon, 17 Feb 2020 19:38:33 -0500
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 01I0c88x022532
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Feb 2020 09:38:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 01I0c88x022532
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1581986289;
+        bh=bXAWFIIjdJAenzl5qtU8X4SaqZRjl4s+1pBIgQ3Mwak=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZD4OIc9z8+KmZoxwuYLbRMyLrVlt4A0e4LuGQUeFnk3BJXfOFPk8zDxKJtOSVGSHV
+         EJSrFCCAG/VTkd7AtKl3VF/rGzCZI8MhKlGatseJY8iOvZo5rTgy6cs8UGU9TlgmlS
+         JvwOauPscnZFjTJiR6VDUHeWtT4VWJrkbASrZi5OEjctu9BR4RPS5s1TktCmgmG3fh
+         MzQgqE91HyE/gHkX5pp7neRcfFYoHZ2tB6bYrPhO9mKKHujNQAbrkSMJ5kAtng8WAI
+         Xmm3NH8SOgo4EdmBOpAss3zzHFyqGmgtocOTA97O5fdAxKhpoFpGnjwzKvWh+UP/sK
+         IcxSYUqirolMg==
+X-Nifty-SrcIP: [209.85.222.50]
+Received: by mail-ua1-f50.google.com with SMTP id o42so6816116uad.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Feb 2020 16:38:08 -0800 (PST)
+X-Gm-Message-State: APjAAAXiW8YL+Wzg8rD0C2QpvTEHmh6A2K6cQ/90Hzw4mPLUtPWOV+q7
+        tJZATXvJ3tea8SuaxdLv4EIjq+NSZ78P7BwtCUk=
+X-Google-Smtp-Source: APXvYqzOw1ovi899OwyLnlGE5fhlo6l0EDI8XKdkLBMX2ZcZO2qZvkDWaI/p+TlsSH24146JLZ93P8DJNlReV4uvcSI=
+X-Received: by 2002:ab0:2ea6:: with SMTP id y6mr9294241uay.25.1581986287690;
+ Mon, 17 Feb 2020 16:38:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <nycvar.YSQ.7.76.2002171059230.1559@knanqh.ubzr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1581931668-11559-1-git-send-email-amit.kachhap@arm.com>
+ <1581931668-11559-16-git-send-email-amit.kachhap@arm.com> <CAK7LNARTD88U1ZBxMU3fCDb1KxF=PavhgoUzqTt6ar9-+7eMQA@mail.gmail.com>
+ <7b2b8e5a-c276-4dfe-3fac-afc03cda4e3d@arm.com>
+In-Reply-To: <7b2b8e5a-c276-4dfe-3fac-afc03cda4e3d@arm.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 18 Feb 2020 09:37:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASELe0+MhpU-huL-jCmxsCofs-OKz_1xYYLgJtuM5bomg@mail.gmail.com>
+Message-ID: <CAK7LNASELe0+MhpU-huL-jCmxsCofs-OKz_1xYYLgJtuM5bomg@mail.gmail.com>
+Subject: Re: [PATCH v5 15/17] kconfig: Add support for 'as-option'
+To:     Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc:     Amit Daniel Kachhap <amit.kachhap@arm.com>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Ramana Radhakrishnan <ramana.radhakrishnan@arm.com>,
+        Kristina Martsenko <kristina.martsenko@arm.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        James Morse <james.morse@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 17, 2020 at 11:00:39AM -0500, Nicolas Pitre wrote:
->On Mon, 17 Feb 2020, Quentin Perret wrote:
->
->> On Monday 17 Feb 2020 at 15:22:01 (+0000), Matthias Maennich wrote:
->> > In case the whitelist file can't be found, the error message is
->> >
->> >  cat: path/to/file: file not found
->> >
->> > I wonder whether we can make this error message a bit more specific by
->> > telling the user that the KSYMS_WHITELIST is missing.
->>
->> +1, that'd be really useful. I'll check the file existence in v5 (in a
->> POSIX-compliant way, I promise).
->
->In fact, if you explicitly provide a file that is not there, then this
->is arguably a good reason to even fail the build.
+Hi,
 
-I agree, I would expect the build to fail in that case.
+On Mon, Feb 17, 2020 at 7:16 PM Vincenzo Frascino
+<vincenzo.frascino@arm.com> wrote:
+>
+> Hi,
+>
+> On 17/02/2020 09:39, Masahiro Yamada wrote:
+> > Hi.
+> >
+> > On Mon, Feb 17, 2020 at 6:29 PM Amit Daniel Kachhap
+> > <amit.kachhap@arm.com> wrote:
+> >>
+> >> From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> >>
+> >> Currently kconfig does not have a feature that allows to detect if the
+> >> used assembler supports a specific compilation option.
+> >>
+> >> Introduce 'as-option' to serve this purpose in the context of Kconfig:
+> >>
+> >>         config X
+> >>                 def_bool $(as-option,...)
+> >>
+> >> Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+> >> Cc: linux-kbuild@vger.kernel.org
+> >> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+> >> Signed-off-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> >> Signed-off-by: Amit Daniel Kachhap <amit.kachhap@arm.com>
+> >> ---
+> >>  scripts/Kconfig.include | 4 ++++
+> >>  1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> >> index 85334dc..374e251 100644
+> >> --- a/scripts/Kconfig.include
+> >> +++ b/scripts/Kconfig.include
+> >> @@ -35,6 +35,10 @@ ld-option = $(success,$(LD) -v $(1))
+> >>  # Return y if the assembler supports <instr>, n otherwise
+> >>  as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler -o /dev/null -)
+> >>
+> >> +# $(as-option,<flag>)
+> >> +# Return y if the assembler supports <flag>, n otherwise
+> >> +as-option =$(success, $(CC) $(CLANG_FLAGS) $(1) -c -x assembler /dev/null -o /dev/zero)
+> >> +
+> >
+> >
+> > I am still not convinced with using /dev/zero here.
+> >
+>
+> Could you please elaborate a bit more?
 
-Cheers,
-Matthias
+
+I am just not familiar with this usage of /dev/zero.
+
+
+The behavior of /dev/null is clear.
+The read/write to /dev/null is described in the standard:
+https://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap10.html
+
+I just do not know whether the write to /dev/zero is
+the defined-behavior or not.
+
+
+Masahiro Yamada
+
 
 >
+> >
+> > Does this work?
+> >
+> > as-option = $(success, cat /dev/null | $(CC) $(CLANG_FLAGS) $(1) -c -x
+> > assembler -o /dev/null -)
+> >
 >
->Nicolas
+> I will try and get back to you.
+
+
+
+Masahiro Yamada
+
+
+>
+> >
+> > [1] Could you insert as-option between ld-option and as-instr ?
+> >
+>
+> Sure, I will do it in the next version.
+>
+> > [2] Could you add some comments to explain why
+> >      /dev/null -o /dev/null does not work?
+> >
+> >
+>
+> Comments are always a good think :) I will do in the next version.
+>
+> >
+> >
+> >
+> >>  # check if $(CC) and $(LD) exist
+> >>  $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
+> >>  $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
+> >> --
+> >> 2.7.4
+> >>
+> >
+> >
+>
+> --
+> Regards,
+> Vincenzo
+--
+Best Regards
+Masahiro Yamada
