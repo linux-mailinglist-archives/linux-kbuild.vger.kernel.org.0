@@ -2,121 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 673021637F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Feb 2020 01:04:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60645163926
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Feb 2020 02:15:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726821AbgBSAEj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Feb 2020 19:04:39 -0500
-Received: from ozlabs.org ([203.11.71.1]:45959 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726641AbgBSAEj (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Feb 2020 19:04:39 -0500
-Received: by ozlabs.org (Postfix, from userid 1034)
-        id 48MdJ54Bddz9sRk; Wed, 19 Feb 2020 11:04:37 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1582070677;
-        bh=Mv6GHAx7R7ozUWxEOVr4jhO7uG4SlhIDpVyQSxenvS4=;
+        id S1727400AbgBSBPy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Feb 2020 20:15:54 -0500
+Received: from conuserg-12.nifty.com ([210.131.2.79]:49770 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726757AbgBSBPy (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 18 Feb 2020 20:15:54 -0500
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 01J1FOWs024252;
+        Wed, 19 Feb 2020 10:15:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 01J1FOWs024252
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1582074924;
+        bh=x5q5ov7Cw9u4udBCfk7SDYEcaEVCvCFCUa560+L2gIs=;
         h=From:To:Cc:Subject:Date:From;
-        b=rqIYKgRkqs1dPsPwa1dIRESd0qm4SIM73lWKrAhvv3LP2E92GXuXAQv07EjqXFQvd
-         RuMOd1KNA+0InEXuLKlvII+4tbW5u+L1C1FFSbbGjc6tTB7/wTONtbrsBydKZKWnA6
-         ky5EBcBsl8tCTeHSee6xsCtzxOVZ8xO+KZDj2Oi2MY5TXUOhDiRT2LO1gInTSVLzJt
-         KpIjjGmE/VsIBl1/g4iml1AOkelgPpohKFH5cYhUHzUpoPA5zaSnOEZd11mrfAwoaD
-         ennMqqSWY8k8vEu0qMv7SQJBstG8Ny8NHTnEWcCHBmbsz8GgfSM2pfDtW7EgObX8jH
-         7rdk2+mVpvJRg==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     linuxppc-dev@ozlabs.org
-Cc:     masahiroy@kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH v2] powerpc/Makefile: Mark phony targets as PHONY
-Date:   Wed, 19 Feb 2020 11:04:34 +1100
-Message-Id: <20200219000434.15872-1-mpe@ellerman.id.au>
-X-Mailer: git-send-email 2.21.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        b=eF5b7/rIckmhO2sOvwLQL9BB6SHnKop2wzh2JAeGOq/pgEGJcaJ3/Borx/3jcbezx
+         WMcIWG7EYsk74t+c3W3gf4SjFOFpEFYtjT/wvunZBZSW35zCQl4yTq7naU1LcOZJw+
+         J5y+3WDYgKwmxQmiQQMwXVKWwfx5sMVI06zs+bt/VV3XukBUZhxfizVgx67si5LoTe
+         8A8Jhqqo2DIjfNak/lVGGvUGcAh/uyDQmoNQ7q1CgVQnGcx0JLjlNnvXMMqhzM11kw
+         OntSOjubpo8yhLemFkY/5r9asuS0UxgGCGAJCV2cIAbasEXctcuZG4jtcXnNt/44Uw
+         uwHjJkrHXA8AA==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: remove wrong documentation about mandatory-y
+Date:   Wed, 19 Feb 2020 10:15:19 +0900
+Message-Id: <20200219011519.22148-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some of our phony targets are not marked as such. This can lead to
-confusing errors, eg:
+This sentence does not make sense in the section about mandatory-y.
 
-  $ make clean
-  $ touch install
-  $ make install
-  make: 'install' is up to date.
-  $
+This seems to be a copy-paste mistake of commit fcc8487d477a ("uapi:
+export all headers under uapi directories").
 
-Fix it by adding them to the PHONY variable which is marked phony in
-the top-level Makefile, or in scripts/Makefile.build for the boot
-Makefile.
+The correct description would be "The convention is to list one
+mandatory-y per line ...".
 
-Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
+I just removed it instead of fixing it. If such information is needed,
+it could be commented in include/asm-generic/Kbuild and
+include/uapi/asm-generic/Kbuild.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- arch/powerpc/Makefile      | 6 ++++++
- arch/powerpc/boot/Makefile | 2 ++
- 2 files changed, 8 insertions(+)
 
-v2: Use PHONY variable in boot/Makefile as well.
+ Documentation/kbuild/makefiles.rst | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index f35730548e42..cbe5ca4f0ee5 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -298,6 +298,7 @@ $(BOOT_TARGETS2): vmlinux
- 	$(Q)$(MAKE) $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
+diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+index 0e0eb2c8da7d..4018ad7c7a11 100644
+--- a/Documentation/kbuild/makefiles.rst
++++ b/Documentation/kbuild/makefiles.rst
+@@ -1379,9 +1379,6 @@ See subsequent chapter for the syntax of the Kbuild file.
+ 	in arch/$(ARCH)/include/(uapi/)/asm, Kbuild will automatically generate
+ 	a wrapper of the asm-generic one.
  
+-	The convention is to list one subdir per line and
+-	preferably in alphabetic order.
+-
+ 8 Kbuild Variables
+ ==================
  
-+PHONY += bootwrapper_install
- bootwrapper_install:
- 	$(Q)$(MAKE) $(build)=$(boot) $(patsubst %,$(boot)/%,$@)
- 
-@@ -403,9 +404,11 @@ define archhelp
-   @echo '  (minus the .dts extension).'
- endef
- 
-+PHONY += install
- install:
- 	$(Q)$(MAKE) $(build)=$(boot) install
- 
-+PHONY += vdso_install
- vdso_install:
- ifdef CONFIG_PPC64
- 	$(Q)$(MAKE) $(build)=arch/$(ARCH)/kernel/vdso64 $@
-@@ -425,6 +428,7 @@ archprepare: checkbin
- ifdef CONFIG_STACKPROTECTOR
- prepare: stack_protector_prepare
- 
-+PHONY += stack_protector_prepare
- stack_protector_prepare: prepare0
- ifdef CONFIG_PPC64
- 	$(eval KBUILD_CFLAGS += -mstack-protector-guard-offset=$(shell awk '{if ($$2 == "PACA_CANARY") print $$3;}' include/generated/asm-offsets.h))
-@@ -436,10 +440,12 @@ endif
- ifdef CONFIG_SMP
- prepare: task_cpu_prepare
- 
-+PHONY += task_cpu_prepare
- task_cpu_prepare: prepare0
- 	$(eval KBUILD_CFLAGS += -D_TASK_CPU=$(shell awk '{if ($$2 == "TASK_CPU") print $$3;}' include/generated/asm-offsets.h))
- endif
- 
-+PHONY += checkbin
- # Check toolchain versions:
- # - gcc-4.6 is the minimum kernel-wide version so nothing required.
- checkbin:
-diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
-index 0556bf4fc9e9..c53a1b8bba8b 100644
---- a/arch/powerpc/boot/Makefile
-+++ b/arch/powerpc/boot/Makefile
-@@ -445,6 +445,8 @@ install: $(CONFIGURE) $(addprefix $(obj)/, $(image-y))
- zInstall: $(CONFIGURE) $(addprefix $(obj)/, $(image-y))
- 	sh -x $(srctree)/$(src)/install.sh "$(KERNELRELEASE)" vmlinux System.map "$(INSTALL_PATH)" $^
- 
-+PHONY += install zInstall
-+
- # anything not in $(targets)
- clean-files += $(image-) $(initrd-) cuImage.* dtbImage.* treeImage.* \
- 	zImage zImage.initrd zImage.chrp zImage.coff zImage.holly \
 -- 
-2.21.1
+2.17.1
 
