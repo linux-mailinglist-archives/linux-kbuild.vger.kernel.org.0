@@ -2,55 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4957164F48
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Feb 2020 20:54:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F02C216519B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Feb 2020 22:32:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbgBSTy1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Feb 2020 14:54:27 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43796 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726648AbgBSTy0 (ORCPT
+        id S1726760AbgBSVcu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Feb 2020 16:32:50 -0500
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40956 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727171AbgBSVcu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Feb 2020 14:54:26 -0500
-Received: by mail-qt1-f195.google.com with SMTP id g21so1130651qtq.10
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Feb 2020 11:54:26 -0800 (PST)
+        Wed, 19 Feb 2020 16:32:50 -0500
+Received: by mail-pf1-f195.google.com with SMTP id b185so725157pfb.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Feb 2020 13:32:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GZ9YXuE15eVQ1m82XL11R20aCz4heFp3V/a8Xs8KTDk=;
-        b=ODVc7IEJfwpkmKIQUqFybHBw620ekiVwat/n9Ac5Pfspu1Q4DuB58gmJDIsLNVVBR7
-         EpgFHQfjMKK9d8IFitaDW17i9XWGMOavG4yOJnvYsg02g18N65AN1jFk1HcjJ57HAFxd
-         Srq5n3/4F5KJ984TW6fFo2kUw679IcjtmPWAcaOWdAcZSMUz+MUTctzRJjL6rDujJi/Y
-         EZ5twEFC1HpJvBQ4+fhBpkHpbsTIlkaMeDsXOufmgAI9ouoTt9BWBKfdT8kf7Xff3/mQ
-         zcrvJjierCEsOXBM6EBzIlWLE2Y6UQ4XbCxlvapTQbBcZKR3JvyWwjtYZpGRKgkQ/k9/
-         vfwA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EmqhwxfTOPH5Jwang1lE3QOy4zcv0gzG5lBl/plns9w=;
+        b=aAobjYpFklyAkqlSG70awWRHMtlHSvugns/9mnKxCnZbo5CBJsQf4GsGU2DC6SwVxM
+         PqCQwGEARKxeFBmbEdcjD4vQwtPfRz6yplo6lJvfbOvKffn7U//Av3nzUBjvTKIQA1SI
+         3rRlpdcbJ6/nTMZrkb86TdZfyolv0kDit/gwKe4Yw2DPTokH2zcFLvoCc46OIl/x/aHB
+         nLS5TEWP/iXmuWbKI4NopOwy54x337xvKNUJeEV6goeSU4DERoVDEYnQ6uruiyaODWt2
+         KjfY0l2/gfssEmO9emTMo66m1oaAYdh6bkuZvzRLFE9ZCl2+5QErp/rw6O16d+fE/Uim
+         MbIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GZ9YXuE15eVQ1m82XL11R20aCz4heFp3V/a8Xs8KTDk=;
-        b=eUIGvtUUrhLnYpgh1iYFjcD2genTMpAA/UiyVF8FRXPCrKAKkwABTcf2LYhKTyIxc9
-         OrKV0r0aZyu6OtwP+dAwgjomaA7nFRi6K+Ywv7T10u9eDyi7t+Ejfg3AWJges1e3z9GC
-         K5/FRmYm7RFQp7DevBpo9q5BzNjM/YC9Hitt2eFp3MY9L5499MWMG6MIqHV3C6/LckE7
-         u7FTPi8noRxD4fZ8jGJ5WU8mPQ3rm8yV/7cos09xwFX5AowVKgXNf9pFSDM9uMPZSipv
-         8+tfXP0eD8MPxUe92qiOyo8jVzkSCe+pjq/pozXcjHj2jGh+oQ0cvonkiS+57qEIXHXR
-         XN2w==
-X-Gm-Message-State: APjAAAVj8Oh6f5uxvnoo6wKQbpVyJ5M5glm+IlOk+LNdXEf/pw85BqYw
-        P9+p7mW4G/T1H5CR5NtqiqX6NA==
-X-Google-Smtp-Source: APXvYqwUhupndXBE09xsDkgUA7kwgC2NQShW8nuUAvL8wUSkyIakN42anJqBWpm/nMwac3dxI/meAg==
-X-Received: by 2002:aed:3fb7:: with SMTP id s52mr22354651qth.97.1582142065790;
-        Wed, 19 Feb 2020 11:54:25 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id p8sm490083qtn.71.2020.02.19.11.54.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 19 Feb 2020 11:54:25 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1j4VQO-0006DL-Tx; Wed, 19 Feb 2020 15:54:24 -0400
-Date:   Wed, 19 Feb 2020 15:54:24 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Nick Desaulniers <ndesaulniers@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EmqhwxfTOPH5Jwang1lE3QOy4zcv0gzG5lBl/plns9w=;
+        b=fUm4C1qIKXwO9hKLxu+Y/Pcbem0yhsy4RhtoQS/J8AvLo7OadSRb/HPT6UiseyaxxL
+         0kaBcyHGarG+MkL1ZNWWee9uBxOzORZD9P0i3WQM5gnTdNuE0deLk1aswFox58BRPLQl
+         qxXyDWRVxbxItW55jevjRHZOxY+sE7S21W8D5fL9kJNGIhzMmna1w8C+GRn2+0ZenbHy
+         vrXeGjFiCklqqvTZSLcOZPmj62CRCLsYzPnRJa7UbjrfbAdfo1B8QYikjrbbfQKpnOhj
+         adOiSAPrJLNb4ud6L6VItxsDyuBwZMEi+2Y2zm5Fe7P5dKBWWMhI5G+Q/ffKY/yylnLb
+         7K1g==
+X-Gm-Message-State: APjAAAWXK1QGKe+qxcFiu2ZQhyUKumd82OLCcZ/fEmX0We0VhLleu0am
+        cgR9PejEl9dI/VZdhD260+LYdVvLTxIv+RgRQ22moQ==
+X-Google-Smtp-Source: APXvYqxQilzonYgGRhT+QA+AwfuB+IZ31TKJHQheCGHzsJIF3F3Ns2HplQu/HPC/eZCCe/ALDkwRksUMLFmdHy1Hrik=
+X-Received: by 2002:a63:af52:: with SMTP id s18mr30581478pgo.263.1582147969204;
+ Wed, 19 Feb 2020 13:32:49 -0800 (PST)
+MIME-Version: 1.0
+References: <20200219045423.54190-1-natechancellor@gmail.com>
+ <20200219045423.54190-4-natechancellor@gmail.com> <20200219093445.386f1c09@gandalf.local.home>
+ <CAKwvOdm-N1iX0SMxGDV5Vf=qS5uHPdH3S-TRs-065BuSOdKt1w@mail.gmail.com>
+ <20200219181619.GV31668@ziepe.ca> <CAKwvOd=8vb5eOjiLg96zr25Xsq_Xge_Ym7RsNqKK8g+ZR9KWzA@mail.gmail.com>
+ <20200219195424.GW31668@ziepe.ca>
+In-Reply-To: <20200219195424.GW31668@ziepe.ca>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 19 Feb 2020 13:32:38 -0800
+Message-ID: <CAKwvOdktG0vZOZVtNJBk1COhOnLYv3MU5KNQ8Z40L4ph5QcnRg@mail.gmail.com>
+Subject: Re: [PATCH 3/6] tracing: Wrap section comparison in
+ tracer_alloc_buffers with COMPARE_SECTIONS
+To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         Steven Rostedt <rostedt@goodmis.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -64,44 +67,43 @@ Cc:     Nathan Chancellor <natechancellor@gmail.com>,
         linux-arch <linux-arch@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH 3/6] tracing: Wrap section comparison in
- tracer_alloc_buffers with COMPARE_SECTIONS
-Message-ID: <20200219195424.GW31668@ziepe.ca>
-References: <20200219045423.54190-1-natechancellor@gmail.com>
- <20200219045423.54190-4-natechancellor@gmail.com>
- <20200219093445.386f1c09@gandalf.local.home>
- <CAKwvOdm-N1iX0SMxGDV5Vf=qS5uHPdH3S-TRs-065BuSOdKt1w@mail.gmail.com>
- <20200219181619.GV31668@ziepe.ca>
- <CAKwvOd=8vb5eOjiLg96zr25Xsq_Xge_Ym7RsNqKK8g+ZR9KWzA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOd=8vb5eOjiLg96zr25Xsq_Xge_Ym7RsNqKK8g+ZR9KWzA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 11:11:19AM -0800, Nick Desaulniers wrote:
-> > Godbolt says clang is happy if it is written as:
+On Wed, Feb 19, 2020 at 11:54 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Feb 19, 2020 at 11:11:19AM -0800, Nick Desaulniers wrote:
+> > > Godbolt says clang is happy if it is written as:
+> > >
+> > >   if (&__stop___trace_bprintk_fmt[0] != &__start___trace_bprintk_fmt[0])
+> > >
+> > > Which is probably the best compromise. The type here is const char
+> > > *[], so it would be a shame to see it go.
 > >
-> >   if (&__stop___trace_bprintk_fmt[0] != &__start___trace_bprintk_fmt[0])
-> >
-> > Which is probably the best compromise. The type here is const char
-> > *[], so it would be a shame to see it go.
-> 
-> If the "address" is never dereferenced, but only used for arithmetic
-> (in a way that the the pointed to type is irrelevant), does the
-> pointed to type matter? 
+> > If the "address" is never dereferenced, but only used for arithmetic
+> > (in a way that the the pointed to type is irrelevant), does the
+> > pointed to type matter?
+>
+> The type is used here:
+>
+>         if (*pos < start_index)
+>                 return __start___trace_bprintk_fmt + *pos;
+>
+> The return expression should be a const char **
+>
+> Presumably the caller of find_next derferences it.
+>
+> Jason
 
-The type is used here:
+And the callers of find_next just return the return value from
+find_next, but suddenly as `void*` (find_next()'s return type is
+`char**`).  So it doesn't seem like the pointed to type matters, hence
+the recommendation of `void` and then address-of (&) used in
+comparison+arithmetic.
 
-        if (*pos < start_index)
-                return __start___trace_bprintk_fmt + *pos;
-
-The return expression should be a const char **
-
-Presumably the caller of find_next derferences it.
-
-Jason
+-- 
+Thanks,
+~Nick Desaulniers
