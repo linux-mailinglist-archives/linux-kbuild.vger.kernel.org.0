@@ -2,37 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B38B71682E8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2020 17:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB8A1682EE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2020 17:13:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbgBUQMy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1728487AbgBUQMy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Fri, 21 Feb 2020 11:12:54 -0500
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:23356 "EHLO
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:55331 "EHLO
         mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727699AbgBUQMu (ORCPT
+        by vger.kernel.org with ESMTP id S1727039AbgBUQMu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Fri, 21 Feb 2020 11:12:50 -0500
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01LG8Jq3004904;
-        Fri, 21 Feb 2020 17:12:22 +0100
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01LG83M6008257;
+        Fri, 21 Feb 2020 17:12:23 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=wyYPOWWqvxMyA8yamheASFhaGWBZka72p0D7m+Jb2mg=;
- b=gWdQ+kfFBGDIppLada7F/MEuu11knMSdCm8gz4zAoLIUbfoFkzVfd967I3O/PaLlgv6K
- UQtfetHL45aCBScZXvsh1BrxOzoHT3h4s+X/sqpY64dp0x4mhjpO16bzC0i79NxEVWe4
- d2FNpQrqy+wCAPdvn2GwVwwYN/7zR6r1JPv/xCu5VrQaWzf0Biufyv4F+V0Hg5y6hO89
- TSE1vDZKfcjJaiBHoyeA40xzc2txzB4ombldfJh30+CtfUbyt4Yej0R+8u+W7asNQlDz
- 1028S5A3gGcTl8WzTwZYSuoarUMUpoU25zqyUeL+WsNCaR1etXNNQw7Xte5DC01tyox5 7A== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=STMicroelectronics;
+ bh=84l2b91e/di7VUflYudfHEI8dwDeDuErqQcawADT30M=;
+ b=eJbIrsJYUQ2ZOSZ/PQkd/4nlZgrFvcK9JbFCrGcLZhnboFdyJRziUg7iyQc/HMnD+7+4
+ tiHe0B7gRQx4wom954tO7ehuk3/I0lBeqZpnHCL8I76+LB3J1ldZx0ngZlGj3eQMaTNr
+ XhCroGu8re8Q1j99sPeMQCjjYI/nc06ebb/snLCaYtRZ/oph6tKZjBoEMGQyaj0z92nd
+ 4nQuKbBAR27di/pTockDqlr5UUsLyOO8GG9oET+q5pXKHknUl0K01US6ZNnpBifinSTr
+ AVR/7zS0EafkNjYfKTNY1BsuUjW8sFgKy9evj+ECNZWZMZEYnmXqpd3GpKF3SiGvFTOJ ew== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2y8ub0g625-1
+        by mx07-00178001.pphosted.com with ESMTP id 2y8ub1r63v-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 21 Feb 2020 17:12:22 +0100
+        Fri, 21 Feb 2020 17:12:23 +0100
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 075AE100034;
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A96F310002A;
         Fri, 21 Feb 2020 17:12:20 +0100 (CET)
 Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E53742BE24A;
-        Fri, 21 Feb 2020 17:12:19 +0100 (CET)
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9C53E2BE24B;
+        Fri, 21 Feb 2020 17:12:20 +0100 (CET)
 Received: from localhost (10.75.127.48) by SFHDAG3NODE2.st.com (10.75.127.8)
  with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 21 Feb 2020 17:12:19
  +0100
@@ -45,10 +46,12 @@ CC:     <devicetree@vger.kernel.org>,
         Alexandre Torgue <alexandre.torgue@st.com>,
         <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
         <devicetree-compiler@vger.kernel.org>, Ian Lepore <ian@freebsd.org>
-Subject: [RFC PATCH v2 0/4] 
-Date:   Fri, 21 Feb 2020 17:12:13 +0100
-Message-ID: <20200221161217.20069-1-alexandre.torgue@st.com>
+Subject: [RFC PATCH v2 1/4] scripts: Add script to generate dtb build information
+Date:   Fri, 21 Feb 2020 17:12:14 +0100
+Message-ID: <20200221161217.20069-2-alexandre.torgue@st.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200221161217.20069-1-alexandre.torgue@st.com>
+References: <20200221161217.20069-1-alexandre.torgue@st.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.75.127.48]
@@ -61,53 +64,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+This commit adds a new script to create a file (in dts file directory) with
+some information (date, Linux version, user). This file could then be used
+to populate "build-info" property in every dts file that would use this
+build information:
 
-The goal of this series is to add device tree build information in dtb.
-This information can be dtb build date, where devicetree files come from,
-who built the dtb ... Actually, same kind of information that you can find
-in the Linux banner which is printout during kernel boot. Having the same
-kind of information for device tree is useful for debugging and maintenance.
+Example:
 
-A file (dtb-build.txt) containing a string with build information (e.g.,
-From Linux 5.5.0-rc1 by alex the Mon Jan 13 18:25:38 CET 2020) is generated by
-"gen_dtb_build_info.sh" script. 
+/ {
+	...
+	build-info = /incbin/("dtb-build.txt");
+	...
+};
 
-This file has to be included manually in each dts file that would like to use 
-this build information.
+Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
 
-of/fdt.c is modified to printout "build-info" property during Kernel boot and 
-scripts/Makefile.lib is modified to call "gen_dtb_build_info.sh" script.
-
-Patch 1 & 2 script and of/fdt.c updates
-Patch 3 is an example of use in stm32mp157c-dk2.dts file.
-Patch 4 is a tentative to make it automatic (not yet 100% functional).
-
-regards
-Alex
-
-Changes since v1;
- - Remove modification in dtc (no more -B option)
- - Generate a file containing build info which is directly included in dts
-   file.
-
-
-Regards
-Alex
-
-Alexandre Torgue (4):
-  scripts: Add script to generate dtb build information
-  of: fdt: print dtb build information
-  ARM: dts: stm32: Add dtb build information entry for stm32mp157c-dk2
-  script: make automatic dtb build info generation
-
- arch/arm/boot/dts/stm32mp157c-dk2.dts |  1 +
- drivers/of/fdt.c                      |  9 +++++++++
- scripts/Makefile.lib                  |  3 +++
- scripts/gen_dtb_build_info.sh         | 12 ++++++++++++
- 4 files changed, 25 insertions(+)
- create mode 100755 scripts/gen_dtb_build_info.sh
-
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index bae62549e3d2..a5af84ef4ffc 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -246,6 +246,7 @@ quiet_cmd_gzip = GZIP    $@
+ # DTC
+ # ---------------------------------------------------------------------------
+ DTC ?= $(objtree)/scripts/dtc/dtc
++DTB_GEN_INFO ?= $(objtree)/scripts/gen_dtb_build_info.sh
+ 
+ # Disable noisy checks by default
+ ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+@@ -286,6 +287,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+ 
+ quiet_cmd_dtc = DTC     $@
+ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
++	$(DTB_GEN_INFO) $(src) ; \
+ 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+ 	$(DTC) -O $(2) -o $@ -b 0 \
+ 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+diff --git a/scripts/gen_dtb_build_info.sh b/scripts/gen_dtb_build_info.sh
+new file mode 100755
+index 000000000000..0cd8bd98e410
+--- /dev/null
++++ b/scripts/gen_dtb_build_info.sh
+@@ -0,0 +1,10 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++
++set -o nounset
++
++DTB_DIR=$1
++DTB_COMPILE_BY=$(whoami | sed 's/\\/\\\\/')
++DTB_INFO="From Linux $KERNELRELEASE by $DTB_COMPILE_BY the $(date).\0"
++
++printf "$DTB_INFO" > "$DTB_DIR/dtb-build.txt"
 -- 
 2.17.1
 
