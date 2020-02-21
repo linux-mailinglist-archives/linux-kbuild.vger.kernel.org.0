@@ -2,112 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BBD716794D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2020 10:22:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B38B71682E8
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Feb 2020 17:13:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727152AbgBUJWw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Feb 2020 04:22:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38708 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726244AbgBUJWv (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Feb 2020 04:22:51 -0500
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4986C20722;
-        Fri, 21 Feb 2020 09:22:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582276971;
-        bh=ALN0VHctPPGg0pxI3Em/Or50WMnH8i03K/5ZLFgljvs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VB4dS6ni6nuf+jC6BMCt6gKplNkZ3/m5PBW3FkqeN4wgkGtpqn1bKsDBuvTrJ40nU
-         6u5Usn9f6Bb+NGwxZO6u6WWC0zmyIvY8frgCGmdSIdv9092Tc9Y8Xp9eXSIwjJ+A/a
-         JDLU9Wrx30hZjTJymghhADO8Axxbu7RlmHBDelVo=
-Date:   Fri, 21 Feb 2020 09:22:43 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        X86 ML <x86@kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linux-um@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Borislav Petkov <bp@alien8.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greentime Hu <green.hu@gmail.com>, Guo Ren <guoren@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Ingo Molnar <mingo@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>, Nick Hu <nickhu@andestech.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Rich Felker <dalias@libc.org>,
-        Richard Weinberger <richard@nod.at>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH] kbuild: use KBUILD_DEFCONFIG as the fallback for
- DEFCONFIG_LIST
-Message-ID: <20200221092242.GA11448@willie-the-truck>
-References: <CGME20200221085039eucas1p2b439c37eb04870cc020f452b7ad31929@eucas1p2.samsung.com>
- <20200216154502.26478-1-masahiroy@kernel.org>
- <e0212512-bc44-fc3a-a647-47eff86983b7@samsung.com>
- <CAK7LNAQqsLnZc4h_XEMifS2hX+E39-vxD-BL5C59Aj+TaQo+eA@mail.gmail.com>
+        id S1728550AbgBUQMy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Feb 2020 11:12:54 -0500
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:23356 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727699AbgBUQMu (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 21 Feb 2020 11:12:50 -0500
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 01LG8Jq3004904;
+        Fri, 21 Feb 2020 17:12:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=wyYPOWWqvxMyA8yamheASFhaGWBZka72p0D7m+Jb2mg=;
+ b=gWdQ+kfFBGDIppLada7F/MEuu11knMSdCm8gz4zAoLIUbfoFkzVfd967I3O/PaLlgv6K
+ UQtfetHL45aCBScZXvsh1BrxOzoHT3h4s+X/sqpY64dp0x4mhjpO16bzC0i79NxEVWe4
+ d2FNpQrqy+wCAPdvn2GwVwwYN/7zR6r1JPv/xCu5VrQaWzf0Biufyv4F+V0Hg5y6hO89
+ TSE1vDZKfcjJaiBHoyeA40xzc2txzB4ombldfJh30+CtfUbyt4Yej0R+8u+W7asNQlDz
+ 1028S5A3gGcTl8WzTwZYSuoarUMUpoU25zqyUeL+WsNCaR1etXNNQw7Xte5DC01tyox5 7A== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2y8ub0g625-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 21 Feb 2020 17:12:22 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 075AE100034;
+        Fri, 21 Feb 2020 17:12:20 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E53742BE24A;
+        Fri, 21 Feb 2020 17:12:19 +0100 (CET)
+Received: from localhost (10.75.127.48) by SFHDAG3NODE2.st.com (10.75.127.8)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 21 Feb 2020 17:12:19
+ +0100
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+To:     <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        <david@gibson.dropbear.id.au>, <sjg@chromium.org>
+CC:     <devicetree@vger.kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        <linux-kernel@vger.kernel.org>, <linux-kbuild@vger.kernel.org>,
+        <devicetree-compiler@vger.kernel.org>, Ian Lepore <ian@freebsd.org>
+Subject: [RFC PATCH v2 0/4] 
+Date:   Fri, 21 Feb 2020 17:12:13 +0100
+Message-ID: <20200221161217.20069-1-alexandre.torgue@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQqsLnZc4h_XEMifS2hX+E39-vxD-BL5C59Aj+TaQo+eA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.48]
+X-ClientProxiedBy: SFHDAG8NODE3.st.com (10.75.127.24) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
+ definitions=2020-02-21_05:2020-02-21,2020-02-21 signatures=0
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 21, 2020 at 06:18:50PM +0900, Masahiro Yamada wrote:
-> On Fri, Feb 21, 2020 at 5:50 PM Marek Szyprowski
-> <m.szyprowski@samsung.com> wrote:
-> > This patch landed in today's linux-next (next-20200221) and broke arm64
-> > builds:
-> >
-> > --->8---
-> >
-> > $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
-> > *** Default configuration is based on 'defconfig'
-> > #
-> > # configuration written to .config
-> > #
-> > $ make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image.gz
-> > scripts/kconfig/conf  --syncconfig Kconfig
-> > scripts/kconfig/conf  --syncconfig Kconfig
-> > scripts/kconfig/conf  --syncconfig Kconfig
-> > scripts/kconfig/conf  --syncconfig Kconfig
-> > scripts/kconfig/conf  --syncconfig Kconfig
-> > ...
-> >
-> > (endless loop)
-> >
-> > --->8---
-> >
-> > Reverting it fixes the issue:
-> 
-> 
-> 
-> My bad.
-> 
-> This is because arch/arm64/Makefile does not define
-> KBUILD_DEFCONFIG.
-> 
-> 
-> 
-> I will drop it.
-> 
-> Sorry about that.
+Hi,
 
-Thanks, Masahiro.
+The goal of this series is to add device tree build information in dtb.
+This information can be dtb build date, where devicetree files come from,
+who built the dtb ... Actually, same kind of information that you can find
+in the Linux banner which is printout during kernel boot. Having the same
+kind of information for device tree is useful for debugging and maintenance.
 
-Will
+A file (dtb-build.txt) containing a string with build information (e.g.,
+From Linux 5.5.0-rc1 by alex the Mon Jan 13 18:25:38 CET 2020) is generated by
+"gen_dtb_build_info.sh" script. 
+
+This file has to be included manually in each dts file that would like to use 
+this build information.
+
+of/fdt.c is modified to printout "build-info" property during Kernel boot and 
+scripts/Makefile.lib is modified to call "gen_dtb_build_info.sh" script.
+
+Patch 1 & 2 script and of/fdt.c updates
+Patch 3 is an example of use in stm32mp157c-dk2.dts file.
+Patch 4 is a tentative to make it automatic (not yet 100% functional).
+
+regards
+Alex
+
+Changes since v1;
+ - Remove modification in dtc (no more -B option)
+ - Generate a file containing build info which is directly included in dts
+   file.
+
+
+Regards
+Alex
+
+Alexandre Torgue (4):
+  scripts: Add script to generate dtb build information
+  of: fdt: print dtb build information
+  ARM: dts: stm32: Add dtb build information entry for stm32mp157c-dk2
+  script: make automatic dtb build info generation
+
+ arch/arm/boot/dts/stm32mp157c-dk2.dts |  1 +
+ drivers/of/fdt.c                      |  9 +++++++++
+ scripts/Makefile.lib                  |  3 +++
+ scripts/gen_dtb_build_info.sh         | 12 ++++++++++++
+ 4 files changed, 25 insertions(+)
+ create mode 100755 scripts/gen_dtb_build_info.sh
+
+-- 
+2.17.1
+
