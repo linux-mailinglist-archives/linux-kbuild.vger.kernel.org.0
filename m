@@ -2,118 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74381168DED
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Feb 2020 10:01:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9035168F4C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Feb 2020 15:24:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727115AbgBVJBW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Feb 2020 04:01:22 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:33864 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727134AbgBVJBV (ORCPT
+        id S1727619AbgBVOYV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Feb 2020 09:24:21 -0500
+Received: from sonic316-54.consmr.mail.gq1.yahoo.com ([98.137.69.30]:38108
+        "EHLO sonic316-54.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727115AbgBVOYV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Feb 2020 04:01:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=RpZcQI36sIpFnTJVOgXdjKqzqSFSCF+iUbjqElC6oQ8=; b=D8r9jsZVG3w8NN9fYw7zNPx1V
-        cQyNh68SZ0bYtwOrNm1q+b4jGCdcXW4AHcQ9IPKb6ALr76dS5xaXpPs1L9KAiRZf42xdl/WZBhFAM
-        k954f7ytWHsaBQtpmTGe+twZ3vwiP5iZR9AAY2Ea4gEPQclE+7Y+Svcuo+eIZqDcy9A2ktEsdK6le
-        Wu4FqYf4pxNsdpMcMYhde8qdFakzIJvxJvVfu29E4qRCCImvK7Ge4WfdN8yT8MaG7qkpU93DobGi/
-        h2hDAuyb2ZEbJ8jgIyd+pxkmedYdnIGVpRLZVwbBmImKHfet1it6ckLfqqxUum9PHQh7juga65zcl
-        oI40ec+HA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55348)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1j5Qew-0006np-QY; Sat, 22 Feb 2020 09:01:14 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1j5Qev-0004M9-A4; Sat, 22 Feb 2020 09:01:13 +0000
-Date:   Sat, 22 Feb 2020 09:01:13 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Sat, 22 Feb 2020 09:24:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1582381460; bh=liTe1C7UBRwJrfq2LfqWSrRW/RTFPmELB83A9NRLLsY=; h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject; b=ZfYsdNcypCF9yz5FwYNKx/LH5bJNdeKW3gV8elm9sIturkgLwhONj8KVWJuyLLup1eSJv3rEB14h0i1+cS8XzPRWSJe3ttKB0VyqZTCcwIZcWIKSqstEVaQHxjVuUyMepBp4Iwu2IDyFczBgyUNZnFs+EK9iLvwDGYTdrlHU8UGLCyT1GRrRcDqPsTT1Pek3mLpQEF2LjnyIGcDvkxVDnevGoatfKzdf8oXvlqtd7+5aSQ8h54bk8mjRC6cCSXUzOZTblR8AMKQT24jUrE1nBIKxc3Iz0atHWBCcbinOJrciBd1MbCRLQtBvdILfnTlbBnSu6vzI3JaOl2kcTKZqOw==
+X-YMail-OSG: VkqpVfQVM1lrJ.0Je7pBA9JWf08RYTMppv_B7f8gA.EGZGpAfpkIyc7e6zplYQN
+ UATTStDDNz6.n1dGoGqj1mC0USCP3p2eQAY0cVLCrp7S49ckR4w5jRrmKyv.Jf9yfAklKxQCdZU0
+ 1PtlDuVbrxNpfzpLecoH8owuF9E4WLt5uqgM3uGzG8S2y9BoUjtxHrEVxHAIFD5OGPlGWSTfu.zq
+ _UgCajlV5BZq_tDv0YMpYTotHaUuvJP9yPbC.ewyD9lK_4eELZsQdM411con._dEtrbaEOuRslAb
+ ZHciIla8N7bC9Wgh63W3Uz_HHVgs_LBYVu_Odeim2DRW4yr8.O1unzzqmwI9Zg6p1toj6SnjUl.O
+ cIc.rs5XiQhyxIG7OaF60dHD9k_Ymc8AG6HJb4NbtIDNlfHh_KNrGftR2D_bR0pTyECDpqxnZgLm
+ XcQA0qgNlUXkQ2hPfilmWuBjeYvuRUrU556p2hggieKU17MB_JGeoiMZWDzX9Z923nPqZbFDsV0L
+ jR8qCcfxCV2x3fiBdlWm1ypEcCIGGZe9oB1j1W0HV.9oXFjCzOjLPWIFsRNKkbgmng4WRXLcmYTp
+ UsQbzxyBFSdVK_oEmtJCWsh4cWuWdGVYYTXCcbIXQWGd4Z7y2WG1.WguXPolxGT20H64KMPxZ0Lg
+ esS6wtm74bvnnI9c0ihUoDZ..KbEuxLB9MbWIREegoYL39mNJ2GUYOTE_o9.wJ5gVJt3qxF_0GsA
+ gA6MFP__2eVzJrYWxmiFH2nv9hFpcRaicRj.HZMTl.kUd0r1iK65a2UFCaoR3OZWr5C29kQhnkvW
+ mhXAKzlPzBBt2xRlcZRJ6xMGC0s4nNborWL.RtNDoLf5tn4cfYXu4y43eNgUJ1biK6gEJ0DEDniZ
+ .ubxZhjwodt.frmEridyArcu9078lVQO6H5IL_jJJifuDmSo43q.BT5DOZ27MRJfFHjD2T3xfiby
+ lp97Q4wDrR4U95yuNxi39MUL48WPy83w8Q5PPhDIwOPVDQ_A7UKeZB5zuq_5U5YEsUj92ZkY_KNF
+ icdU1eqaQkl9IgKFFLM1SNRacuGigqCzCheq7nnkFB55Mmn7pB5PQTYB4E1OFFWezYLUsW0TQ69w
+ yeBmn3YS_AzsoaHaKGXsTG3mv0cGi1J5EcyRizNc24GJ.LiWJRJya7JFF78FRklgS.FQ7ZYxxdyP
+ 4ogwHnmStvMXpzTDX.wltiENJG52rvLQDdBq3voKDItdCMmwI1FHhH0LIZSu0qmXJZ8NKXdMmxT2
+ Um0i1YQOjziCwAsaqRuQPAI5DZCUeTNhvOOpi_4ZKHzaSBGTBjQY0fa07gK3xeF.cpnnlQ_MuwzW
+ 9KANdn0DTsGcVKywO_hgisaHLhT4GohrbwQmdPJYetJmVY6UDRAcgPvS_LysWHvUgMuwaTTuDC8A
+ xpsczsxVD
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic316.consmr.mail.gq1.yahoo.com with HTTP; Sat, 22 Feb 2020 14:24:20 +0000
+Received: by smtp401.mail.bf1.yahoo.com (Oath Hermes SMTP Server) with ESMTPA ID 08d9970ba44d42f11deb6bf6cb444e34;
+          Sat, 22 Feb 2020 14:24:17 +0000 (UTC)
+Date:   Sat, 22 Feb 2020 09:24:14 -0500
+From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
 Subject: Re: [PATCH] kbuild: move -pipe to global KBUILD_CFLAGS
-Message-ID: <20200222090113.GM25745@shell.armlinux.org.uk>
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Russell King <linux@armlinux.org.uk>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net
 References: <20200222003820.220854-1-alex_y_xu.ref@yahoo.ca>
- <20200222003820.220854-1-alex_y_xu@yahoo.ca>
- <CAK7LNARNEu2gVBVDpRtbha_n=RWWfcQu57LtO=CbLBXLU9Ds-g@mail.gmail.com>
+        <20200222003820.220854-1-alex_y_xu@yahoo.ca>
+        <20200222021619.GA51223@ubuntu-m2-xlarge-x86>
+        <1582341758.yo66djba3t.none@localhost>
+        <20200222080140.GA40311@ubuntu-m2-xlarge-x86>
+In-Reply-To: <20200222080140.GA40311@ubuntu-m2-xlarge-x86>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARNEu2gVBVDpRtbha_n=RWWfcQu57LtO=CbLBXLU9Ds-g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Message-Id: <1582381271.1karmgahx0.none@localhost>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.15302 hermes Apache-HttpAsyncClient/4.1.4 (Java/1.8.0_241)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 22, 2020 at 11:07:14AM +0900, Masahiro Yamada wrote:
-> On Sat, Feb 22, 2020 at 9:40 AM Alex Xu (Hello71) <alex_y_xu@yahoo.ca> wrote:
-> >
-> > -pipe reduces unnecessary disk wear for systems where /tmp is not a
-> > tmpfs, slightly increases compilation speed, and avoids leaving behind
-> > files when gcc crashes.
-> >
-> > According to the gcc manual, "this fails to work on some systems where
-> > the assembler is unable to read from a pipe; but the GNU assembler has
-> > no trouble". We already require GNU ld on all platforms, so this is not
-> > an additional dependency. LLVM as also supports pipes.
-> >
-> > -pipe has always been used for most architectures, this change
-> > standardizes it globally. Most notably, arm, arm64, riscv, and x86 are
-> > affected.
-> >
-> > Signed-off-by: Alex Xu (Hello71) <alex_y_xu@yahoo.ca>
-> 
-> <snip>
-> 
-> > diff --git a/arch/arc/Makefile b/arch/arc/Makefile
-> > index 20e9ab6cc521..b6a2f553771c 100644
-> > --- a/arch/arc/Makefile
-> > +++ b/arch/arc/Makefile
-> > @@ -9,7 +9,7 @@ ifeq ($(CROSS_COMPILE),)
-> >  CROSS_COMPILE := $(call cc-cross-prefix, arc-linux- arceb-linux-)
-> >  endif
-> >
-> > -cflags-y       += -fno-common -pipe -fno-builtin -mmedium-calls -D__linux__
-> > +cflags-y       += -fno-common -fno-builtin -mmedium-calls -D__linux__
-> >  cflags-$(CONFIG_ISA_ARCOMPACT) += -mA7
-> >  cflags-$(CONFIG_ISA_ARCV2)     += -mcpu=hs38
-> >
-> > diff --git a/arch/arm/Makefile b/arch/arm/Makefile
-> > index db857d07114f..7711467e0797 100644
-> > --- a/arch/arm/Makefile
-> > +++ b/arch/arm/Makefile
-> > @@ -21,7 +21,6 @@ KBUILD_LDS_MODULE     += $(srctree)/arch/arm/kernel/module.lds
-> >  endif
-> >
-> >  GZFLAGS                :=-9
-> > -#KBUILD_CFLAGS +=-pipe
-> 
-> 
-> This was commented out by a very old commit,
-> which is available in the historical git tree.
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=ce20ed858a20f6f04de475cae79e40d3697f4776
-> 
-> But, I could not parse the reason from the commit message.
-> Russell, do you remember why?
+Excerpts from Nathan Chancellor's message of February 22, 2020 3:01 am:
+> I used hyperfine [1] to run a quick benchmark with a freshly built
+> GCC 9.2.0 for x86 and aarch64 and here are the results:
+>=20
+> In both cases it seems like performance regresses (by 1% but still) but
+> maybe it is my machine, even though this benchmark was done on a
+> different machine than the one from my commit back in 2018.
+>=20
+> I am not sure I would write off these results, since I did the benchmark
+> 25 times on each one back to back, eliminating most of the variance that
+> you described.
+>=20
+> [1]: https://github.com/sharkdp/hyperfine
+>=20
+> Cheers,
+> Nathan
+>=20
 
--pipe may reduce the disk load but increases the CPU load, so it's an
-option that's up to the build environment.  One may wish to pass a
-lower parralellism when using -pipe to make to mitigate that, but both
-options are up to the build environment to decide upon.
-
-If we unconditionally add -pipe, then we take away choice.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+What kernel version are you running? Do you have the 5.6 pipe reworks?
