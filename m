@@ -2,133 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 300A216916D
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Feb 2020 20:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A3D7169A60
+	for <lists+linux-kbuild@lfdr.de>; Sun, 23 Feb 2020 23:01:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726895AbgBVTFA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Feb 2020 14:05:00 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:23060 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727025AbgBVTE7 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Feb 2020 14:04:59 -0500
-Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 01MJ4cZ7012807;
-        Sun, 23 Feb 2020 04:04:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 01MJ4cZ7012807
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582398282;
-        bh=+FVDFnLL298bgalkTSawbKe4OXpVDH31Bj+BPaPEFT0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d1YL5vpg+R4/voPIKhG+mWqnSEUKdufZNN0UNuCAAm8dpbCqJSOy/yk+uniwbGZde
-         Zy4blMojdzY32BqtqKd472LQgDCHCVMxUJrtcmiw4HB5zaDErCtBwe0cp4TF1Bv31Y
-         TIKeYB95nt9lvjql7zAiJfFHq/Mam7jkWIEDZW8GfjN88zg6XXHjqKzVBucrFcaiFE
-         r+UHfUZTNejNJyLEm0XQUarXL+XCimhiHljnzeFo8kXDT0b6T2Ffl0QN1NOgseidug
-         /qdPCR4hOUviBa4AyuU/orL15EtJKshu7dqttMQy80bZG+5X9KzIOU16dp+QWKzoRk
-         TGs6ABxjpYl2g==
-X-Nifty-SrcIP: [126.93.102.113]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        id S1727151AbgBWWBZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 23 Feb 2020 17:01:25 -0500
+Received: from ozlabs.org ([203.11.71.1]:35501 "EHLO ozlabs.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726302AbgBWWBZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 23 Feb 2020 17:01:25 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+        id 48QfKZ3rhhz9sR4; Mon, 24 Feb 2020 09:01:22 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+        d=gibson.dropbear.id.au; s=201602; t=1582495282;
+        bh=offKD/tuqL/DSDa2v25Jc0IM7BprqmjMf6LCeNiIZbE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=LwL/iptBEMCarj+f3q8Os3B2TZTfsaK9r0ubJJ13bhD5UKGSewVyTATKgRL6ybTw6
+         TZ6r3y3evxFJ2T7GHqr77PmlzWNZc74Q2JYKrMRZpOZtmz7niIl6Ti9OpZmYSBayjZ
+         TBuqRBuLuno8PmSPypNw+iutg3ImuBykUAEZ9CMI=
+Date:   Mon, 24 Feb 2020 08:59:36 +1100
+From:   David Gibson <david@gibson.dropbear.id.au>
+To:     Frank Rowand <frowand.list@gmail.com>
+Cc:     Alexandre Torgue <alexandre.torgue@st.com>, robh+dt@kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] kbuild: allow to run dt_binding_check and dtbs_check in a single command
-Date:   Sun, 23 Feb 2020 04:04:35 +0900
-Message-Id: <20200222190435.11767-5-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200222190435.11767-1-masahiroy@kernel.org>
-References: <20200222190435.11767-1-masahiroy@kernel.org>
+        Michal Marek <michal.lkml@markovi.net>, sjg@chromium.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, devicetree-compiler@vger.kernel.org,
+        Ian Lepore <ian@freebsd.org>
+Subject: Re: [RFC PATCH v2 1/4] scripts: Add script to generate dtb build
+ information
+Message-ID: <20200223215936.GB1751@umbus.fritz.box>
+References: <20200221161418.20225-1-alexandre.torgue@st.com>
+ <20200221161418.20225-2-alexandre.torgue@st.com>
+ <592e41a4-6115-474e-b6ce-eeb82f858a78@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="LZvS9be/3tNcYl/X"
+Content-Disposition: inline
+In-Reply-To: <592e41a4-6115-474e-b6ce-eeb82f858a78@gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Since commit 93512dad334d ("dt-bindings: Improve validation build error
-handling"), 'make dtbs_check' does not validate the schema fully.
 
-If you want to check everything, you need to run two commands.
+--LZvS9be/3tNcYl/X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  $ make ARCH=arm dt_binding_check
-  $ make ARCH=arm dtbs_check
+On Fri, Feb 21, 2020 at 11:52:34AM -0600, Frank Rowand wrote:
+> On 2/21/20 10:14 AM, Alexandre Torgue wrote:
+> > This commit adds a new script to create a file (in dts file directory) =
+with
+> > some information (date, Linux version, user). This file could then be u=
+sed
+> > to populate "build-info" property in every dts file that would use this
+> > build information:
+> >=20
+> > Example:
+> >=20
+> > / {
+> > 	...
+> > 	build-info =3D /incbin/("dtb-build.txt");
+>=20
+> s/.txt/.dtsi/
 
-You cannot do:
+I don't think that makes sense.  This is an /incbin/ not an /include/
+so the text file is *not* dts information.
 
-  $ make ARCH=arm dt_binding_check dtbs_check
+> and same wherever the file name is used.
+>=20
+>=20
+> > 	...
+> > };
+> >=20
+> > Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
+> >=20
+> > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> > index bae62549e3d2..a5af84ef4ffc 100644
+> > --- a/scripts/Makefile.lib
+> > +++ b/scripts/Makefile.lib
+> > @@ -246,6 +246,7 @@ quiet_cmd_gzip =3D GZIP    $@
+> >  # DTC
+> >  # --------------------------------------------------------------------=
+-------
+> >  DTC ?=3D $(objtree)/scripts/dtc/dtc
+> > +DTB_GEN_INFO ?=3D $(objtree)/scripts/gen_dtb_build_info.sh
+> > =20
+> >  # Disable noisy checks by default
+> >  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+> > @@ -286,6 +287,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+> > =20
+> >  quiet_cmd_dtc =3D DTC     $@
+> >  cmd_dtc =3D mkdir -p $(dir ${dtc-tmp}) ; \
+> > +	$(DTB_GEN_INFO) $(src) ; \
+> >  	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< =
+; \
+> >  	$(DTC) -O $(2) -o $@ -b 0 \
+> >  		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+> > diff --git a/scripts/gen_dtb_build_info.sh b/scripts/gen_dtb_build_info=
+=2Esh
+> > new file mode 100755
+> > index 000000000000..0cd8bd98e410
+> > --- /dev/null
+> > +++ b/scripts/gen_dtb_build_info.sh
+> > @@ -0,0 +1,10 @@
+> > +#!/bin/bash
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +
+> > +set -o nounset
+> > +
+> > +DTB_DIR=3D$1
+> > +DTB_COMPILE_BY=3D$(whoami | sed 's/\\/\\\\/')
+> > +DTB_INFO=3D"From Linux $KERNELRELEASE by $DTB_COMPILE_BY the $(date).\=
+0"
+>=20
+> I would remove the filler words "From", "by", "the", and the trailing
+> period ('.').
+>=20
+> <bikeshed>
+> You might consider using a format more like the Linux
+> kernel version line, which puts parenthesis around the
+> compiled by info.
+> </bikeshed>
+>=20
+> -Frank
+>=20
+> > +
+> > +printf "$DTB_INFO" > "$DTB_DIR/dtb-build.txt"
+> >=20
+>=20
 
-Because CHECK_DTBS is set, dt-doc-validate and dt-extract-example
-are skipped.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Making it work will be useful for schema writers.
+--LZvS9be/3tNcYl/X
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+-----BEGIN PGP SIGNATURE-----
 
- Documentation/devicetree/bindings/Makefile  | 6 ++----
- Documentation/devicetree/writing-schema.rst | 4 ++++
- Makefile                                    | 8 +++++---
- 3 files changed, 11 insertions(+), 7 deletions(-)
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl5S9cMACgkQbDjKyiDZ
+s5L+uA/+Ijah4iblw6QeplPNZ0j5P3vPdvAPrnFrpiCY6faeGB25BQpakMQSxYd7
+AUVpiyiW7OO5Re1VP7+A7M3RIeR2ZN8Yl7dQsb2Evpbs4cB4LyRfmZCLUebEkUuY
+lOSjFCIwLrM7InrWM2cS3Xim0i5jC9m1SB7TKAG+VQCT+ahF3rHSfoqKDADyoEov
+M6zVCPvPCnw8UF8JsciD3vn1ehO8MFNWDPxJmVl+FqXGn/woSD6CXqMRFOhkMILe
+qIThs0v1fGeKAKZgNnzfblAT8MHwOWIEq/uCDKktxsEFXe0Htb5m7O+jblm2jAyE
+XviDax1jJkzAn8LcJaguDZhekE5AbG4cimW2NV9Y4qYDqcKrUKxJlZxNC+7rAypV
+nlry93xwydvEHISHa2AB7zHOM0BTYlRBOYQRmFrwZO1uc9h4MV2K1P5LAtxRki/h
+gXnKoekE8bkqs6/9P0bTRQ9PpyKs/sYZpUcZmzezuwkopRjHLv1ohlJj/x6dZb9w
+X+FkHVdFs0cREO9nGTUeCvm/rfe+ntpnJzG9iBkOwIj1XVZQQu19CXBYoSAP5uX+
+vsxZH83B//jEMEj/oMYgdFbKxZqxoaFwJxBMRZSHFEHAQ9h+wCQS/tXmHqXvPTWJ
+ds7GSr5+Cv03afxPFENdyX69B1a3YFGT2qDKgln3YuRVs8Ww5no=
+=v1oI
+-----END PGP SIGNATURE-----
 
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-index 646cb3525373..6efa2094b95e 100644
---- a/Documentation/devicetree/bindings/Makefile
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -25,10 +25,8 @@ DT_DOCS = $(shell \
- 
- DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
- 
--ifeq ($(CHECK_DTBS),)
--extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
--extra-y += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
--endif
-+extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-+extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
- 
- $(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
- 	$(call if_changed,mk_schema)
-diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/writing-schema.rst
-index 7635ab230456..220cf464ed77 100644
---- a/Documentation/devicetree/writing-schema.rst
-+++ b/Documentation/devicetree/writing-schema.rst
-@@ -147,6 +147,10 @@ Note that ``dtbs_check`` will skip any binding schema files with errors. It is
- necessary to use ``dt_binding_check`` to get all the validation errors in the
- binding schema files.
- 
-+It is possible to run both in a single command::
-+
-+    make dt_binding_check dtbs_check
-+
- It is also possible to run checks with a single schema file by setting the
- ``DT_SCHEMA_FILES`` variable to a specific schema file.
- 
-diff --git a/Makefile b/Makefile
-index 83f9b8f6fbaf..59dd768a1c1e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1243,7 +1243,7 @@ dtbs dtbs_check: include/config/kernel.release scripts_dtc
- 	$(Q)$(MAKE) $(build)=$(dtstree)
- 
- dtbs_check: export CHECK_DTBS=1
--dtbs_check: dt_binding_check
-+dtbs_check: __dt_binding_check
- 
- dtbs_install:
- 	$(Q)$(MAKE) $(dtbinst)=$(dtstree)
-@@ -1258,8 +1258,10 @@ PHONY += scripts_dtc
- scripts_dtc: scripts_basic
- 	$(Q)$(MAKE) $(build)=scripts/dtc
- 
--PHONY += dt_binding_check
--dt_binding_check: scripts_dtc
-+PHONY += dt_binding_check __dt_binding_check
-+dt_binding_check: export CHECK_DT_BINDING=y
-+dt_binding_check: __dt_binding_check
-+__dt_binding_check: scripts_dtc
- 	$(Q)$(MAKE) $(build)=Documentation/devicetree/bindings
- 
- # ---------------------------------------------------------------------------
--- 
-2.17.1
-
+--LZvS9be/3tNcYl/X--
