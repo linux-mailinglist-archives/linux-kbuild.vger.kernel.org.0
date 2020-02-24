@@ -2,153 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34AB016ADF4
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2020 18:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12C8716B20B
+	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Feb 2020 22:20:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727854AbgBXRpv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Feb 2020 12:45:51 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:58605 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727474AbgBXRpv (ORCPT
+        id S1727249AbgBXVUe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Feb 2020 16:20:34 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:57134 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726722AbgBXVUe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Feb 2020 12:45:51 -0500
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 01OHjfA3000853;
-        Tue, 25 Feb 2020 02:45:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 01OHjfA3000853
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582566342;
-        bh=KVRS2dbwL2EdiX0y9rPIxU4NY6nXK8pE6d2zwnmUmHo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=utcxfWn0yW1TR7HUPR4KiWV58Gaubm+IlmcbfFTvs7khTCv3+srqLqWUigTxwOMAW
-         fQ0sxGGEmtUcYcUZtodqHN+aG8U/OtYFpSUP/4Yy3AUQxwp3luUh8HPG4b8rIFfeVd
-         JTsE5jPczaCQjzjiQKfPIki7yfWKJyaGU17Qk1ToIJmAWizk1EPl3nNf4CIoTFfMb1
-         VCRzVY771EG7It1BDHnSS3QGd71I0mvzHhJPKG8KJo5JqKNOZqZ1fwAEjCpeFkND+V
-         RcZ4+0QscM2VCECR4xlVFmPjksoPKbCu28UcjPd7pRNlM6gK6tZlTWXTR4VByIMj5H
-         04VV/MV6EEQYw==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id f7so3526417uaa.8;
-        Mon, 24 Feb 2020 09:45:42 -0800 (PST)
-X-Gm-Message-State: APjAAAWWHvhBHE9FwEc46IABL2xs0Hn32hpVpuh7eF7yUlTUnJMWf7Nw
-        dHIFPCnlY4czSaeRvCgxVSXTIGlluvAW7zyC/F8=
-X-Google-Smtp-Source: APXvYqwlCLCQ+M3lck07Ac8Pwt5C6uSZkqbVlTROHzLBQuirEVv/IHIaVRkYHLlxUpHC2CZkyNP9bUFgXloLazdfxxY=
-X-Received: by 2002:ab0:2ea6:: with SMTP id y6mr26088960uay.25.1582566341032;
- Mon, 24 Feb 2020 09:45:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20200221161217.20069-1-alexandre.torgue@st.com> <20200221161217.20069-2-alexandre.torgue@st.com>
-In-Reply-To: <20200221161217.20069-2-alexandre.torgue@st.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 25 Feb 2020 02:45:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATmJN-U2GNe2Qd7fS=h5URswe=aFgVJRaBTZt7pi374wg@mail.gmail.com>
-Message-ID: <CAK7LNATmJN-U2GNe2Qd7fS=h5URswe=aFgVJRaBTZt7pi374wg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/4] scripts: Add script to generate dtb build information
-To:     Alexandre Torgue <alexandre.torgue@st.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
+        Mon, 24 Feb 2020 16:20:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=fkY214yexK+t/F1pQbBsYjUG330mJqrxeclx5N+mhSA=; b=u5FEQU6iNG9BXLbfGM9AoiY4eL
+        9q1wRwvkvd8uW7q+TyHg3zcHSGnN2QHfRjDIF4Lw3z+vZBoQXVukEHGV06OegODzjJWbFTdD8d85c
+        ZUrdecPw1KZ76W1qRA5cOVqDNV5qGkz/7N5sXCbV3QsQZNauW98kr0ae9e3vj+Km4liWGw8YNnaAP
+        ieABjJOuHEB8XWJ2WkkLAxcPtl5sSwfag0SKdAhzgrZsqaXCeMr24XQRYytF1176ZZg4VJe23KUka
+        PV08s8xS+7ibt5AZCUpLg79NCXA6ZoGEXYvjo+ISMWtHmRgqQCc87xzIFeuewYR+88RMFJxsKrEJk
+        ce0/30YA==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1j6L9U-0007h1-9o; Mon, 24 Feb 2020 21:20:32 +0000
+Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/
+ Clang/LLVM
+To:     Nick Desaulniers <ndesaulniers@google.com>, corbet@lwn.net,
+        masahiroy@kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        David Gibson <david@gibson.dropbear.id.au>,
-        Simon Glass <sjg@chromium.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Devicetree Compiler <devicetree-compiler@vger.kernel.org>,
-        Ian Lepore <ian@freebsd.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+References: <20200224174129.2664-1-ndesaulniers@google.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <ab366833-3f9f-0311-3c06-d48b7dc9655f@infradead.org>
+Date:   Mon, 24 Feb 2020 13:20:30 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200224174129.2664-1-ndesaulniers@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi.
-
-On Sat, Feb 22, 2020 at 1:12 AM Alexandre Torgue
-<alexandre.torgue@st.com> wrote:
->
-> This commit adds a new script to create a file (in dts file directory) with
-> some information (date, Linux version, user). This file could then be used
-> to populate "build-info" property in every dts file that would use this
-> build information:
->
-> Example:
->
-> / {
->         ...
->         build-info = /incbin/("dtb-build.txt");
->         ...
-> };
->
-> Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
->
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index bae62549e3d2..a5af84ef4ffc 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -246,6 +246,7 @@ quiet_cmd_gzip = GZIP    $@
->  # DTC
->  # ---------------------------------------------------------------------------
->  DTC ?= $(objtree)/scripts/dtc/dtc
-> +DTB_GEN_INFO ?= $(objtree)/scripts/gen_dtb_build_info.sh
->
->  # Disable noisy checks by default
->  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
-> @@ -286,6 +287,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
->
->  quiet_cmd_dtc = DTC     $@
->  cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
-> +       $(DTB_GEN_INFO) $(src) ; \
->         $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
->         $(DTC) -O $(2) -o $@ -b 0 \
->                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
-> diff --git a/scripts/gen_dtb_build_info.sh b/scripts/gen_dtb_build_info.sh
-> new file mode 100755
-> index 000000000000..0cd8bd98e410
+On 2/24/20 9:41 AM, Nick Desaulniers wrote:
+> Added to kbuild documentation. Provides more official info on building
+> kernels with Clang and LLVM than our wiki.
+> 
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  Documentation/kbuild/index.rst |  1 +
+>  Documentation/kbuild/llvm.rst  | 80 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 81 insertions(+)
+>  create mode 100644 Documentation/kbuild/llvm.rst
+> 
+> diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
+> index 0f144fad99a6..3882bd5f7728 100644
+> --- a/Documentation/kbuild/index.rst
+> +++ b/Documentation/kbuild/index.rst
+> @@ -19,6 +19,7 @@ Kernel Build System
+>  
+>      issues
+>      reproducible-builds
+> +    llvm
+>  
+>  .. only::  subproject and html
+>  
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> new file mode 100644
+> index 000000000000..68ae022aebc0
 > --- /dev/null
-> +++ b/scripts/gen_dtb_build_info.sh
-> @@ -0,0 +1,10 @@
-> +#!/bin/bash
-> +# SPDX-License-Identifier: GPL-2.0
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -0,0 +1,80 @@
+> +==============================
+> +Building Linux with Clang/LLVM
+> +==============================
 > +
-> +set -o nounset
+> +This document covers how to build the Linux kernel with Clang and LLVM
+> +utilities.
 > +
-> +DTB_DIR=$1
-> +DTB_COMPILE_BY=$(whoami | sed 's/\\/\\\\/')
-> +DTB_INFO="From Linux $KERNELRELEASE by $DTB_COMPILE_BY the $(date).\0"
+> +About
+> +-----
 > +
-> +printf "$DTB_INFO" > "$DTB_DIR/dtb-build.txt"
-> --
-> 2.17.1
->
+> +The Linux kernel has always traditionally been compiled with GNU toolchains
+> +such as GCC and binutils. On going work has allowed for `Clang
+
+                             Ongoing
+
+> +<https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
+> +used as viable substitutes. Distributions such as `Android
+> +<https://www.android.com/>`_, `ChromeOS
+> +<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
+> +<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
+> +collection of toolchain components implemented in terms of C++ objects
+> +<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
+> +supports C and the GNU C extensions required by the kernel, and is pronounced
+> +"klang," not "see-lang."
 
 
-There are more than 1000 *.dts files
-in arch/arm/boot/dts/.
-
-So, with this patch, the build system will creates
-arch/arm/boot/dts/dtb-build.txt 1000 times.
-
-
-Does it work with parallel build ?
-
-Think about what would happen
-with 'make -j32 ARCH=arm  dtbs'
-
-
-The 32 threads will write to
-arch/arm/boot/dts/dtb-build.txt
-at the same time.
-
-Then, some of DTB would very likely to
-include the broken dtb-build.txt
-
-
-A list of missing parts in this approach:
-
- - make it work with parallel build
- - clean it up with 'make clean'
- - add it .gitignore  (and Documentation/dontdiff)
-
-
+Thanks for the info.
 
 -- 
-Best Regards
-Masahiro Yamada
+~Randy
+
