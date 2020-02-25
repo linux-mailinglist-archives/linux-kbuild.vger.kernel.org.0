@@ -2,188 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0305516F0CA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 22:03:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E3316F249
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 22:56:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728383AbgBYVC7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Feb 2020 16:02:59 -0500
-Received: from mail-qk1-f201.google.com ([209.85.222.201]:47760 "EHLO
-        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728618AbgBYVC7 (ORCPT
+        id S1729056AbgBYV4M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Feb 2020 16:56:12 -0500
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43091 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729004AbgBYV4M (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Feb 2020 16:02:59 -0500
-Received: by mail-qk1-f201.google.com with SMTP id h6so541266qkj.14
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Feb 2020 13:02:58 -0800 (PST)
+        Tue, 25 Feb 2020 16:56:12 -0500
+Received: by mail-pg1-f195.google.com with SMTP id u12so203356pgb.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Feb 2020 13:56:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=vWB3la6MZAcuUeVOqIcp281F5LSfjcobFajXxwkFi6A=;
-        b=az9/lEQ6wwXYJyI3Gy29nxJIfWaxkNA++/xMMPhGH9Bp55F58tIoAVd2evBeCT3IlI
-         KKgT00uOWJLWB6jM4tMv/BPZk2IBrtNGq1UX9hERFKv4CE6BDLW/6YKDNoqRugx0oOT1
-         JFEPhPT7z9F67zo+gQk9nVxt8J2a//vG9eP1UplMOqDnWzcoXl0qqUpUbhow29LFFsDn
-         reHM0SO7vQWbTfc/yOUJLSXO7dgd9DEpCrAc4RVQU0ltXVvkKgrYgYLltwqnerD/XmQS
-         /3lvr+TKKjaUhwe/wV9rXCo1vDnYLQPRPVlKZHfsvP2A00O5Bpk2Anzs0X1WZLoKap6w
-         wzAQ==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=P0m56hgWfY+fSgLqZHYe9e+4kClDl7jR0dEcmYtm2LE=;
+        b=fcql3YFvPmHGZI6Q8rQ5z40BgpbCCg+a/WSVyCNRZw82gO+QncFPhs+IByADEdVe9O
+         la8dw8lRoMszKoFcvQDeqEpOQQjNt7Som1vTVOmlymqqVGqsb9pyrojpyu9pO/fRbhOn
+         S9D7diL06Rjt+SATWhlkZEqem3mLI8ww6A2XM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=vWB3la6MZAcuUeVOqIcp281F5LSfjcobFajXxwkFi6A=;
-        b=iJPiyWfkcyhGUcZT8J+/ACHOBEKDZC9PZ6YkjztYeSTgBLS5ZVFTULeKvRnDLSEEzl
-         Pj9tCL01LTa4Dn4Nywe0T1TAg28rxAngm2OLXU0YY8KIfUPXs7mKUz31p/lUGbvrDjCb
-         WluSvIwahrL9DFbOjgN7gJuHEzYVQIXRx5n9pHXwsvkl8sQEFeYTnMqYxqzfgX3bdBZW
-         10OnotfShq1OlAkCdvk83iWFvrm9iiGMwP7uUeR4fRVSJd5fh9FNfe1mMZrydQ7nngrr
-         zdEGSnrisshCCYPLvj9aEsMDehxHVClr5ayZskiMkjSpf1GGHVIJLibpcp1qjGWQaoiz
-         GsXg==
-X-Gm-Message-State: APjAAAXfoCQrrX6JsK9i40f1rRshxPl5RW2q4Ls6KZyJgzQnmsNwS3aZ
-        XF/48PXLKjWpA6HjiI1VqhGDMKZ/YsI9/G/wY/U=
-X-Google-Smtp-Source: APXvYqw9j4SjKcqy0U3A0k0fMjgQj/y1SE9wLfZHXsZM0aTr3GyALCU9cgEB1u7akUo3JkjTfFIOLdEo4I2R8DIwtHE=
-X-Received: by 2002:ad4:48c6:: with SMTP id v6mr930719qvx.207.1582664577840;
- Tue, 25 Feb 2020 13:02:57 -0800 (PST)
-Date:   Tue, 25 Feb 2020 13:02:49 -0800
-In-Reply-To: <20200224174129.2664-1-ndesaulniers@google.com>
-Message-Id: <20200225210250.64366-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20200224174129.2664-1-ndesaulniers@google.com>
-X-Mailer: git-send-email 2.25.0.265.gbab2e86ba0-goog
-Subject: [PATCH v2] Documentation/llvm: add documentation on building w/ Clang/LLVM
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     corbet@lwn.net, masahiroy@kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=P0m56hgWfY+fSgLqZHYe9e+4kClDl7jR0dEcmYtm2LE=;
+        b=BLRdaai90SOMJ5BpZWxNHocpNhnhL2yQ5D0mUWMUdFFgFBAJcuWQ+MLY7uYxMJENx6
+         rgVJGbsJXzySFvROcpTXlmy2gbZGwYFD7ZmjWk1N2CKJtvXAwSxJdhFIsdIGvMwHE/YV
+         L3V3MHG4gLXeTERsZ8dDRjcJEpHusoM5FyFIAQKeiZfQAkhNyj1ml8SQaiGTyjifmlpn
+         Uhzn1yBj0+6gdZnSzngbPXsyCW763/G8ebZ7cTIspy8wbiviWtAHBborj6N1VP69R8vc
+         zL1PSBUme9cwKf1mRmxxtMLwoREZtpkDidVgQP/de8FMJUhlMyy/h0ztlABX8Fc6aSyC
+         3aJg==
+X-Gm-Message-State: APjAAAUhkvimx3azfWhjhBuqgnfrJ7r4NekoqIruTNstN0ndjdQQFl7m
+        bkEoC68CWVIULv6Smxy/vrVN+g==
+X-Google-Smtp-Source: APXvYqxj+J+PuaBuGfM3BsQalMWNQHuh15kFlAIJuvZpyf3cuDJJkvtochBwcj5obIr1O3qqDWizZA==
+X-Received: by 2002:a62:f251:: with SMTP id y17mr853017pfl.204.1582667771408;
+        Tue, 25 Feb 2020 13:56:11 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b12sm60452pfr.26.2020.02.25.13.56.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2020 13:56:10 -0800 (PST)
+Date:   Tue, 25 Feb 2020 13:56:09 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/
+ Clang/LLVM
+Message-ID: <202002251353.25A016CD@keescook>
+References: <20200224174129.2664-1-ndesaulniers@google.com>
+ <202002242003.870E5F80@keescook>
+ <20200225041643.GA17425@ubuntu-m2-xlarge-x86>
+ <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Added to kbuild documentation. Provides more official info on building
-kernels with Clang and LLVM than our wiki.
+On Tue, Feb 25, 2020 at 12:59:25PM -0800, Nick Desaulniers wrote:
+> On Mon, Feb 24, 2020 at 8:16 PM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> > > Should this also include an update to Documentation/process/changes.rst
+> > > with the minimum version required? (I would expect this to be "9" for Clang,
+> > > and "11" for ld.lld.)
+> >
+> > I think the clang one should be added in a separate patch that
+> > solidifies that in include/linux/compiler-clang.h with a CLANG_VERSION
+> > macro and version check, like in include/linux/compiler-gcc.h.
+> >
+> > ld.lld's minimum version should also be 9, what is the blocking issue
+> > that makes it 11?
+> 
+> I'm super hesitant to put a minimally required version of Clang, since
+> it really depends on the configs you're using.  Sure, clang-9 will
+> probably work better than clang-4 for some configs, but I would say
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes V1 -> V2:
-* s/On going/ongoing/
-* add Randy's Suggested-by
-* add Nathan and Sedat's Reviewed-by
-* Upgrade Kees' Sugguested-by to Reviewed-by
-* s/suffix/prefix/
+I think it's not unreasonable to say clang-9 due to x86 not building
+prior to clang-9. (Yes, other archs can build with earlier clang, but
+that's true for earlier gccs too.)
 
+> ToT clang built from source would be even better, as unrealistic as
+> that is for most people.  The question of "what's our support model"
+> hasn't realistically come up yet, so I don't really want to make a
+> decision on that right now and potentially pigeonhole us into some
+> support scheme that's theoretical or hypothetical.  We need to expand
+> out the CI more, and get more people to even care about Clang, before
+> we start to concern ourselves with providing an answer to the question
+> "what versions of clang are supported?"  But it's just a strong
+> opinion of mine, held loosely.
 
- Documentation/kbuild/index.rst |  1 +
- Documentation/kbuild/llvm.rst  | 80 ++++++++++++++++++++++++++++++++++
- 2 files changed, 81 insertions(+)
- create mode 100644 Documentation/kbuild/llvm.rst
+"Supported" is hand-wavey anyway. I would say, "this version is
+_expected_ to build the kernel", etc.
 
-diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.rst
-index 0f144fad99a6..3882bd5f7728 100644
---- a/Documentation/kbuild/index.rst
-+++ b/Documentation/kbuild/index.rst
-@@ -19,6 +19,7 @@ Kernel Build System
- 
-     issues
-     reproducible-builds
-+    llvm
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-new file mode 100644
-index 000000000000..d6c79eb4e23e
---- /dev/null
-+++ b/Documentation/kbuild/llvm.rst
-@@ -0,0 +1,80 @@
-+==============================
-+Building Linux with Clang/LLVM
-+==============================
-+
-+This document covers how to build the Linux kernel with Clang and LLVM
-+utilities.
-+
-+About
-+-----
-+
-+The Linux kernel has always traditionally been compiled with GNU toolchains
-+such as GCC and binutils. Ongoing work has allowed for `Clang
-+<https://clang.llvm.org/>`_ and `LLVM <https://llvm.org/>`_ utilities to be
-+used as viable substitutes. Distributions such as `Android
-+<https://www.android.com/>`_, `ChromeOS
-+<https://www.chromium.org/chromium-os>`_, and `OpenMandriva
-+<https://www.openmandriva.org/>`_ use Clang built kernels.  `LLVM is a
-+collection of toolchain components implemented in terms of C++ objects
-+<https://www.aosabook.org/en/llvm.html>`_. Clang is a front-end to LLVM that
-+supports C and the GNU C extensions required by the kernel, and is pronounced
-+"klang," not "see-lang."
-+
-+Clang
-+-----
-+
-+The compiler used can be swapped out via `CC=` command line argument to `make`.
-+`CC=` should be set when selecting a config and during a build.
-+
-+	make CC=clang defconfig
-+
-+	make CC=clang
-+
-+Cross Compiling
-+---------------
-+
-+A single Clang compiler binary will typically contain all supported backends,
-+which can help simplify cross compiling.
-+
-+	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-+
-+`CROSS_COMPILE` is not used to prefix the Clang compiler binary, instead
-+`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
-+example:
-+
-+	clang --target aarch64-linux-gnu foo.c
-+
-+LLVM Utilities
-+--------------
-+
-+LLVM has substitutes for GNU binutils utilities. These can be invoked as
-+additional parameters to `make`.
-+
-+	make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-+	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \\
-+	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-+	  HOSTLD=ld.lld
-+
-+Getting Help
-+------------
-+
-+- `Website <https://clangbuiltlinux.github.io/>`_
-+- `Mailing List <https://groups.google.com/forum/#!forum/clang-built-linux>`_: <clang-built-linux@googlegroups.com>
-+- `Issue Tracker <https://github.com/ClangBuiltLinux/linux/issues>`_
-+- IRC: #clangbuiltlinux on chat.freenode.net
-+- `Telegram <https://t.me/ClangBuiltLinux>`_: @ClangBuiltLinux
-+- `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
-+- `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
-+
-+Getting LLVM
-+-------------
-+
-+- http://releases.llvm.org/download.html
-+- https://github.com/llvm/llvm-project
-+- https://llvm.org/docs/GettingStarted.html
-+- https://llvm.org/docs/CMake.html
-+- https://apt.llvm.org/
-+- https://www.archlinux.org/packages/extra/x86_64/llvm/
-+- https://github.com/ClangBuiltLinux/tc-build
-+- https://github.com/ClangBuiltLinux/linux/wiki/Building-Clang-from-source
-+- https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
+> Either way, it can be done (or not) in a follow up patch.  I would
+> like to land some Documentation/ even if it's not perfect, we can go
+> from there.
+
+Sounds fine, but I think we should take a specific version stand as the
+"minimum" version. Being able to build x86 defconfig is a good minimum
+IMO.
+
 -- 
-2.25.0.265.gbab2e86ba0-goog
-
+Kees Cook
