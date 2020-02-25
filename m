@@ -2,115 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C3CA16EE7D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 19:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 131D216F096
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 21:52:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730774AbgBYS6b (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Feb 2020 13:58:31 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:33645 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728051AbgBYS6a (ORCPT
+        id S1728315AbgBYUw2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Feb 2020 15:52:28 -0500
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:40379 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728162AbgBYUw2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Feb 2020 13:58:30 -0500
-Received: by mail-pg1-f196.google.com with SMTP id 6so11034pgk.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Feb 2020 10:58:30 -0800 (PST)
+        Tue, 25 Feb 2020 15:52:28 -0500
+Received: by mail-pj1-f66.google.com with SMTP id 12so245843pjb.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Feb 2020 12:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Iv8nu0Tmrew9fnUnqPnKjAEYAPCBJwm2aHqQgQlHcXI=;
-        b=OTDHNKDTmnSxFLlKliRJJ9/P+0Gj67aV93Z9DkDKQSb5UBIv6Lf9hta72mOKzV7lCA
-         hgdCJGHTBdyOTlwFrBh3IP1/RsLtfWq4kGje6VP73W5eFbI6N6Io/NJxgJdkF05efPs5
-         m+mbix3wNRslURQ37RuZEZxFXo2t0g1SvssQ8=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GAoYW3jtAWCjdGaJXCm1P0l2hukH5ekAbYDVhrn3FCI=;
+        b=kJBKheySLFt0Q1njT7UpJ8+EDt27CVBBJHrvJ0UtSvuHFxIIjGi22GqBUgpH2nAHdI
+         JY5jrCDf3PIG9COk+pwYByEiwkOKxIApV/ovtrc9wrCaKya9UoDMEVp3Rz9kOWYFJgZ6
+         LFrubn4k0J3ci67mSNf1jdg3j0c2vRI3NMo0hVWrLh5JRtR2Ea45SlATQTxbUKChv5wX
+         4xOYXRcY5SQJ59KF+n2sYezpKSTZ/7kWy6dPhVgzAu1h6Pl5XBxt8qUPbxgM379BZ/Oa
+         /iM37C2zdp+gP8bAXtXgNbQc3SdKilus0OLnBjt0xT5I3zkOQcbj5sMbfKPzqlA7Sd0v
+         mZhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Iv8nu0Tmrew9fnUnqPnKjAEYAPCBJwm2aHqQgQlHcXI=;
-        b=gTye4fw60QZZ3bWvkDOGzbmSiZHa7hmEmObKEJZ84giOGN8jcGsT1BKEZs+RCrxqsB
-         AmMYg4tZWW99Ba1FK1sgzJEytQnDs5pRi+ZIJcW4qev00YT+TbnkLNFLiYAnhA8lYkYR
-         AIK1kGmz5UWOA8nvrjfWdJb80liFgvY2KGdafUOCiW1hKSOB7ok3F7wMV6psXJtnVZYY
-         ozLITx9y3xik89yTpk3GESepNqeh5Jk4Eb/GIyFB+MyxhMVxNNs8FbaiLXoFPSZM17Rk
-         AuOSr5kGyHDM0EMkkvNxnWA00HLeJROUpi0lMxZTqTLWFGR5SZVETPU3zzmAVsiQZuHf
-         /TPA==
-X-Gm-Message-State: APjAAAX+Xb6QiIMHk7T9qGzqiv8mWkvH3atrjWVHS47aH/Y8EC/u1YqU
-        CUOAaRg/k11G4jcb/m77amHTxwvE/8o=
-X-Google-Smtp-Source: APXvYqwlFhU6hPGfLFawa58hpajX7pM4HYhMZNF5+kHXg+q9Uo6O71/hbEkW5Dj1+zEZt+TbulmPgw==
-X-Received: by 2002:a63:ce03:: with SMTP id y3mr62064239pgf.427.1582657109996;
-        Tue, 25 Feb 2020 10:58:29 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id b18sm18196190pfd.63.2020.02.25.10.58.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 10:58:29 -0800 (PST)
-Date:   Tue, 25 Feb 2020 10:58:28 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        kernel-hardening@lists.openwall.com, linux-doc@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gcc-plugins: fix gcc-plugins directory path in
- documentation
-Message-ID: <202002251057.C4E397A@keescook>
-References: <20200213122410.1605-1-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GAoYW3jtAWCjdGaJXCm1P0l2hukH5ekAbYDVhrn3FCI=;
+        b=b2THmKzqnEDC/oq6WpCV3jfmSgdPINVkw0EhLaiIMogjYNi2KolDVwqTfDpGqW/SNt
+         82kJgyhwfLyFpM7KAT1xXdtHDuIFIaU45UlNQ/+EBp7IB6X8usjRyE5mpfQjN55U9Lq6
+         4tPUOtXQckt2tCNSdI62sB7s3knLu35wzlyjP7wqMDSYrhwNRjpXo770phUv7hGRzzod
+         /IahjUjsb1551AXlFNkw9o2Bu2ZuRZhcPr2Ad1NEBM+PAUBREvS8clIcdoB7pYP2YrM7
+         tFZdlXgIO8lAUo4PA+VcuNLyQuiX619sVSeh4wd0G6sNwjG3DuRUbpWLSb3+v5htB9WJ
+         zQ5Q==
+X-Gm-Message-State: APjAAAV8EQWfKqeiqAzLFXF1j9w2iNMpFnSv7uORaiHkW3rlVfUxcPPH
+        QlR/K/PkjnY5DZMBcDgctX1oJSbdTgpnjZtU+Rhpntjs
+X-Google-Smtp-Source: APXvYqwmB04vyduuyJu/HEN0PY3Yi4sOxYmfQoRVMJPmSpkr6VIiN9TCWrQH4VKDHGWrnSeq/vTIXr42Ie5xms8bARw=
+X-Received: by 2002:a17:902:8a88:: with SMTP id p8mr353457plo.179.1582663947479;
+ Tue, 25 Feb 2020 12:52:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200213122410.1605-1-masahiroy@kernel.org>
+References: <20200224174129.2664-1-ndesaulniers@google.com> <CAK7LNASNsOmyqFWYtJHB4UcHAed5C_isWvMJ4MKHu0O=yUy=8w@mail.gmail.com>
+In-Reply-To: <CAK7LNASNsOmyqFWYtJHB4UcHAed5C_isWvMJ4MKHu0O=yUy=8w@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 25 Feb 2020 12:52:16 -0800
+Message-ID: <CAKwvOd=mPg79CrYnDm8=z0iJpKL0FHm9J5qZF0_A6BFXBv8Dow@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/ Clang/LLVM
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 09:24:10PM +0900, Masahiro Yamada wrote:
-> Fix typos "plgins" -> "plugins".
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Mon, Feb 24, 2020 at 4:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Tue, Feb 25, 2020 at 2:41 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > Added to kbuild documentation. Provides more official info on building
+> > kernels with Clang and LLVM than our wiki.
+> >
+> > Suggested-by: Kees Cook <keescook@chromium.org>
+> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > ---
+>
+>
+> Perhaps, is it better to explicitly add it to MAINTAINERS?
+>
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4118,6 +4118,7 @@ W:        https://clangbuiltlinux.github.io/
+>  B:     https://github.com/ClangBuiltLinux/linux/issues
+>  C:     irc://chat.freenode.net/clangbuiltlinux
+>  S:     Supported
+> +F:     Documentation/kbuild/llvm.rst
+>  K:     \b(?i:clang|llvm)\b
 
-Thanks!
-
-Acked-by: Kees Cook <keescook@chromium.org>
-
-Jon, can you take this?
-
--Kees
-
-> ---
-> 
->  Documentation/kbuild/reproducible-builds.rst | 2 +-
->  scripts/gcc-plugins/Kconfig                  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> index 503393854e2e..3b25655e441b 100644
-> --- a/Documentation/kbuild/reproducible-builds.rst
-> +++ b/Documentation/kbuild/reproducible-builds.rst
-> @@ -101,7 +101,7 @@ Structure randomisation
->  
->  If you enable ``CONFIG_GCC_PLUGIN_RANDSTRUCT``, you will need to
->  pre-generate the random seed in
-> -``scripts/gcc-plgins/randomize_layout_seed.h`` so the same value
-> +``scripts/gcc-plugins/randomize_layout_seed.h`` so the same value
->  is used in rebuilds.
->  
->  Debug info conflicts
-> diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> index e3569543bdac..7b63c819610c 100644
-> --- a/scripts/gcc-plugins/Kconfig
-> +++ b/scripts/gcc-plugins/Kconfig
-> @@ -86,7 +86,7 @@ config GCC_PLUGIN_RANDSTRUCT
->  	  source tree isn't cleaned after kernel installation).
->  
->  	  The seed used for compilation is located at
-> -	  scripts/gcc-plgins/randomize_layout_seed.h.  It remains after
-> +	  scripts/gcc-plugins/randomize_layout_seed.h.  It remains after
->  	  a make clean to allow for external modules to be compiled with
->  	  the existing seed and will be removed by a make mrproper or
->  	  make distclean.
-> -- 
-> 2.17.1
-> 
+I'm happy to leave it to the maintainers of Documentation/.  Otherwise
+we have a file for which there is no MAINTAINER, which seems
+ambiguous.
 
 -- 
-Kees Cook
+Thanks,
+~Nick Desaulniers
