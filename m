@@ -2,91 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 426CD16B882
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 05:25:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E51C816B88D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 05:33:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728903AbgBYEZU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Feb 2020 23:25:20 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45896 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728866AbgBYEZU (ORCPT
+        id S1728880AbgBYEdu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Feb 2020 23:33:50 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:47025 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728725AbgBYEdu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Feb 2020 23:25:20 -0500
-Received: by mail-pf1-f196.google.com with SMTP id 2so6474024pfg.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 24 Feb 2020 20:25:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=V3nWmStnvPZrHNcjnbGk3TD16rtsFo3zS9ml9/tupfA=;
-        b=Os+w8rwORbsSvA9/rgOQxjk9S+07cf3g1CvGuWAM6uFAwhSWbDL7GHzGIaudmk2yf2
-         36n05PVA5rv0QjBX0cF2vNZ+wPMVub0+cIrLBXwOKMJToxcz0Q6KaSL8zXR1GIDslTJ/
-         2raWdrHck/2t57HY4PwnZ6fnNZy/Q/hQMZfEc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=V3nWmStnvPZrHNcjnbGk3TD16rtsFo3zS9ml9/tupfA=;
-        b=LIYDgCe5JVc//5+hNF1P+9A8LtuIF6T+3Or/md6rhxQ7gGvr3f52nvknq9+dlAhQ/J
-         mRsWsOOkezadugTXLocE/BD61vxQR6VfOMya4PsE6SiZ5UkFX6Ti8CSe8xbMu82TBEX6
-         cUAZvCysmxvRQRZ4BIYFYBYYJf0tedTOTAqkbk5AdW30tjGmkBeoUTjZSif7fxcptzdE
-         nLiZqNMGtbLmiprcsf2aBPiKGqu/kodR/sGRnvH8VyYxZOaMdXmLezNyHi/fIcwmZh9O
-         vAXRXJ9vmwJ37nWYEA5ehwRvdIvfh6Vp0w9692aaDpRcTNrssSvzHmweNMB/YFSY92F0
-         lBAQ==
-X-Gm-Message-State: APjAAAWKVZLO1Vqcsb/Jfn5ZiS8i9Ddz6ETWXeoEoMMNsTnkCu/VWSAx
-        92ux1XHk9PVdJyLPIRSMCDKD/Q==
-X-Google-Smtp-Source: APXvYqzUFoExhaYfwO6l6Dm9CbWXqNVrmAC1C4GQAZQIVOP0sF2hXsiJMAhOUZJQp9U5i4eYLsk5tw==
-X-Received: by 2002:a65:6718:: with SMTP id u24mr57085768pgf.289.1582604720027;
-        Mon, 24 Feb 2020 20:25:20 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x65sm15469700pfb.171.2020.02.24.20.25.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2020 20:25:18 -0800 (PST)
-Date:   Mon, 24 Feb 2020 20:25:17 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>, corbet@lwn.net,
-        masahiroy@kernel.org, Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/
- Clang/LLVM
-Message-ID: <202002242019.A9F519A33A@keescook>
-References: <20200224174129.2664-1-ndesaulniers@google.com>
- <202002242003.870E5F80@keescook>
- <20200225041643.GA17425@ubuntu-m2-xlarge-x86>
+        Mon, 24 Feb 2020 23:33:50 -0500
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 01P4XZED025736;
+        Tue, 25 Feb 2020 13:33:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 01P4XZED025736
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1582605216;
+        bh=Ng4ZmnLemNq5HjpNISMW41r8nXw0jtXn8ANbKHl6dz0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=I48WcS7sqWVKbe3yArFzR4syEgMwUwzgIN61iX3Yq1CNxXsQu1P8ZKz7oPbyjWRmp
+         zSP+HYOMYmByFELhHZcFAaimaEmvFcUBkZa3cjJY7F5xSR5K4FcOkZEmiEAvdLjvEk
+         NDoOjMPw1jrfomDehoBL9diyHDtaMkv3TgB7iP8b99GXlfUoBWj7u91jedKMZ2o0m4
+         r6gJCV55cTOIqknbLQH62BpRz3Amp+KsWNi2rrNHqRXX3j4naawVZVdjcd1zl6QtIf
+         YDrHV3Kiv5cUHU1rDJU6qWnC/HR7Ef+xkFYbDMBNzQu57oDMz6TfgQXyCVYg7YhPaF
+         VxNVNMrVNO8vw==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id b2so3149315vkk.4;
+        Mon, 24 Feb 2020 20:33:35 -0800 (PST)
+X-Gm-Message-State: APjAAAUWW5gs7clz/k8ablCltNc1/Sw6yIrn5chTRaQwK9wLu3JpLssp
+        6ac5HcGSezCgIEdazBic4s9NZtvACDI2O3Bg1Hs=
+X-Google-Smtp-Source: APXvYqy/vZEgOpeqqB8D4Pt8x5+U+blcwh6ycIWwV7z+ewuRUMKrQz/xrr83GFfUl4itdlwuCnUaS4R7PUtP0p5OO3Q=
+X-Received: by 2002:a1f:1bc3:: with SMTP id b186mr25874045vkb.96.1582605214678;
+ Mon, 24 Feb 2020 20:33:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200225041643.GA17425@ubuntu-m2-xlarge-x86>
+References: <20200222190435.11767-1-masahiroy@kernel.org> <20200224225253.GA27948@bogus>
+In-Reply-To: <20200224225253.GA27948@bogus>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 25 Feb 2020 13:32:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+iOAonhxN2BK4D8TSb8F-BqPxDGFU0AOv9fZ2So4iqA@mail.gmail.com>
+Message-ID: <CAK7LNAS+iOAonhxN2BK4D8TSb8F-BqPxDGFU0AOv9fZ2So4iqA@mail.gmail.com>
+Subject: Re: [PATCH 1/5] kbuild: fix DT binding schema rule to detect command
+ line changes
+To:     Rob Herring <robh@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Feb 24, 2020 at 09:16:43PM -0700, Nathan Chancellor wrote:
-> I think the clang one should be added in a separate patch that
-> solidifies that in include/linux/compiler-clang.h with a CLANG_VERSION
-> macro and version check, like in include/linux/compiler-gcc.h.
+Hi Rob,
 
-Sounds good.
+On Tue, Feb 25, 2020 at 7:52 AM Rob Herring <robh@kernel.org> wrote:
+>
+> On Sun, Feb 23, 2020 at 04:04:31AM +0900, Masahiro Yamada wrote:
+> > This if_change_rule is not working; it cannot detect any command line
+> > changes.
+> >
+> > The reason is because cmd-check in scripts/Kbuild.include compares
+> > $(cmd_$@) and $(cmd_$1), but cmd_dtc_dt_yaml does not exist here.
+> >
+> > For if_change_rule to work properly, the stem part of cmd_* and rule_*
+> > must match. Because this cmd_and_fixdep invokes cmd_dtc, this rule must
+> > be named rule_dtc.
+> >
+> > Fixes: 4f0e3a57d6eb ("kbuild: Add support for DT binding schema checks")
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
+> >
+> >  scripts/Makefile.lib | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> For the series,
+>
+> Acked-by: Rob Herring <robh@kernel.org>
+>
+> I'm assuming you will take these? If not, I can in the DT tree.
 
-> ld.lld's minimum version should also be 9, what is the blocking issue
-> that makes it 11?
+Yes, I will queue these to kbuild tree.
 
-I think I've mostly got future patches on my mind. lld before 11 will
-blow up on this:
-https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=build/link-time
-(but I haven't sent this patch yet since I didn't want to break lld
-until it was fixed, which it is now, but I got distracted by other
-stuff).
 
-Additionally there will be LTO, but LTO will be version-checked. Then I
-was thinking about the orphan section handling, and there is very
-clearly more work to be done there too... (i.e. the synthesized sections
-get reported by the orphan warning before they're actually processed by
-DISCARD is some cases -- I still need to isolate the behavior and open a
-bug.)
+
+
 
 -- 
-Kees Cook
+Best Regards
+Masahiro Yamada
