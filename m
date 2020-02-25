@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3339216BA7B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 08:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B1C16BC00
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Feb 2020 09:41:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726039AbgBYHRr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Feb 2020 02:17:47 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:41288 "EHLO
+        id S1729832AbgBYIlY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Feb 2020 03:41:24 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43628 "EHLO
         mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbgBYHRr (ORCPT
+        with ESMTP id S1729493AbgBYIlY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Feb 2020 02:17:47 -0500
-Received: by mail-ed1-f66.google.com with SMTP id c26so15056346eds.8
-        for <linux-kbuild@vger.kernel.org>; Mon, 24 Feb 2020 23:17:45 -0800 (PST)
+        Tue, 25 Feb 2020 03:41:24 -0500
+Received: by mail-ed1-f66.google.com with SMTP id dc19so15276267edb.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Feb 2020 00:41:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=c5nEnDVDR6pYCapociPclkbOTjM+Ed7I155p9otDygE=;
-        b=ee5OgUwocNH8xlS4bRWGYv6pe25BS25vRDrAMfBvO5zyOw326huMhhX6UpiGc2ia3H
-         sOttVRnRn7HeQYGT1pkJvxOyiTyEjwfs8DTpRItQZ4w86aweA2jWsEvV80MdRpM/5/12
-         0eb33OTceRuHUFXzgFSDaV8au7EQo8PcEZiqVwICkLRNHEiz/05M9Wkz327YreHf6KUe
-         CP/Z5DhTS/hiWgSITtkBQA99C8yMZEPGM6sXVIjVnEBbaLtjta1Avmxjs4lgQftcW+2T
-         RN4rTxTe3cU+EBnHNri6c5zqbfzcrFu4wtj4OpYhcc7tFNXfDbdmG89ZQFs5sYacfhq/
-         88UA==
+        bh=1mfyfYOxmHrk+OYgrhb9g87jdeP8stWF7POxUJoC6i8=;
+        b=ZZgaMXbTA8QScsJvz3/7TKVtHpKLKB5SFREOOU7Atbs9aZt7AFW+ws71Mw5x5q8vW8
+         T3i0Q0tsQszD9IftpDVvOoO7hj4fTRDw19yKIEmAQfmxlWrNU68NJKafb6amo54oEVWD
+         CHvz3Lz/Emh3w2vtDhNwUMxR3oA0x34PzK2BAZh75nStVL/NsCX6hQll9MGNoXRS7tCX
+         navInTiZFuUEWV+H+Sch50KY3dPVdKDe5Ro43jRM6TsETCTGsZnVK5e5w3y6mIVoiK2l
+         QxU8qD5auC7a5qPFaHBs2O2/UlmTZpZkV6b55lJ7p3EI70YFnRnmfbKNt5g5JcFOmta3
+         KcDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=c5nEnDVDR6pYCapociPclkbOTjM+Ed7I155p9otDygE=;
-        b=NBqNO7JIiYWQb3fZOJWG4l9lzt07MgF63DW+oA4kIzrxcv/TBlfKH43F+kxPHn2V2i
-         7lGgKSTIUcUCAZ58bfqdv8DqMlgkBRopV6oWV8wD08y6eWp5X5/PFvfjC5CRcPIFvJVF
-         kGJb2IkiGzCcdyh872c1Vc2lTT1nm22na064IuvRR9k6soPKfBCV7S1oqG2uU2NLEnbX
-         uEQ+vRGCAB0sXOJTtjkJc2ocGlo9DYIDC/1EE8a/pqtnjC3/WAswMQybZTLWU9ZEKlgx
-         JSpkQadC0wuU49mSowQfKXh4ahg28/abo6OVVtLOQ2WWsSG1lxxopyabUnDJ5vvgQap9
-         p7Tw==
-X-Gm-Message-State: APjAAAU8bdM6j2iQb9KkEq3IAl/VK+zypmUA7QkNGlu3qt7vt3CmHSUn
-        JzltyseIyFSkZKRtyH+EavVoYqx4qSZhXg1kiXk=
-X-Google-Smtp-Source: APXvYqyjU6dgFeWw1AgI7dnFDGxb7GDIiU46l1dMR3xG2FgJ5swOUeBGkdfbYxMJ7OR9xWWsUPL2aki7nd9/k2PG3oU=
-X-Received: by 2002:a17:906:648d:: with SMTP id e13mr51578523ejm.73.1582615064807;
- Mon, 24 Feb 2020 23:17:44 -0800 (PST)
+        bh=1mfyfYOxmHrk+OYgrhb9g87jdeP8stWF7POxUJoC6i8=;
+        b=GoYZJYZIAK/WGBx0gdNA7ypyF46Eg1QlgQfmXmMI9mQ+RktF4rxmeqnl6J2WsVZloe
+         W12Y1xRT8+CG2ERe5Pc6oXcYHHKwVWg44lMqa2EkVqDjsWUjCrnLkJ6mHg02RcfbAKHj
+         DQwPEhJJiAQ0ljfaJynShGrvpD4hXob64VWdFt674I5mZM8ihU/+t9CS3BYJP2jt7OYP
+         AG8hchjgxxrDF5RsbowqjmxhVZnfUTUVVqNYoQY362miyEKRpTvCWpTTWDzVyNAcmPFh
+         JQ870/NRQdF2n+UBLbg6awKKZP2/963NsY0EvL0Oww4ebXK2gBC6ZfRx6PSqMKqdDp7r
+         kmzg==
+X-Gm-Message-State: APjAAAUVOgnaMiJaFKIUSt3ueoyvRcyfipQgSzQUSKZAWGBkyKPLm4nT
+        djwVmNEoXafyl2x2BPRgUJCh6bbNTIWcXVUY2CM=
+X-Google-Smtp-Source: APXvYqyQuX1rDObfgshPtOEet+E0uyG/z2q/iovy8vUc6bmE1cDQ/Fs4Sp1f4B+MPVamNC6tIiQO8An9IvZpp8MYATs=
+X-Received: by 2002:a05:6402:13c6:: with SMTP id a6mr49021476edx.67.1582620081215;
+ Tue, 25 Feb 2020 00:41:21 -0800 (PST)
 MIME-Version: 1.0
 References: <CAGRSmLshZwKYEj=Mv3WfDh4=ihJf4r0naG_iKBtgR7CEqBCeEw@mail.gmail.com>
  <CAK7LNATyfWCso7XGjYpdc+h6rqoAZ399csr2ftK8-1+kQfJMkg@mail.gmail.com>
 In-Reply-To: <CAK7LNATyfWCso7XGjYpdc+h6rqoAZ399csr2ftK8-1+kQfJMkg@mail.gmail.com>
 From:   "David F." <df7729@gmail.com>
-Date:   Mon, 24 Feb 2020 23:17:33 -0800
-Message-ID: <CAGRSmLvEuUD0p9o3kCHfimFkEoaN3druk4HGy6Wr7LVXwtjFNA@mail.gmail.com>
+Date:   Tue, 25 Feb 2020 00:41:10 -0800
+Message-ID: <CAGRSmLv+7T8D1dSKO0r7vjzXrwwa+rnb3MZTSsysayKMHuGtgg@mail.gmail.com>
 Subject: Re: Moving from 4.x to 5.4.22 breaks custom module build.
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
@@ -57,23 +57,8 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Unreal, you mean someone broke it?  On that particular build, if I
-take out the obj-m reference it seems to work, but I was back here
-because now my driver itself has link failures.  The driver has about
-12 libraries amounting to 100's modules and 10's if not 100's of
-thousands of lines of code.  Some are specific to driver support (that
-build in the start of this thread), others are just built for several
-environments, from Windows Drivers, Linux Drivers, BIOS, UEFI, etc..
-From encryption, compression, complex data handling, etc.. The driver
-requires all that, no way I could just try to include the source
-somehow.  I'll look at the patch and if I want to move to this broken
-V5 version or just stick with 4.x forever (I already tried moving a
-block driver over to blk-mq, one I'm trying to build now to test, that
-was a surprise too, broken because old method taken out, not sure if I
-should still queue requests to my worker thread or now that is done
-for me?).
-
-Thanks for feedback.
+I applied your patch and everything worked.  Completed my project in
+30 seconds after I already wasted hours earlier today.  Thanks!!!!
 
 On Mon, Feb 24, 2020 at 6:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
