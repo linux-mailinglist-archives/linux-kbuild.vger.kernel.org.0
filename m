@@ -2,50 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 065A717067A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2020 18:48:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CAED170681
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2020 18:48:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbgBZRsF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Feb 2020 12:48:05 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:59514 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726920AbgBZRsF (ORCPT
+        id S1726151AbgBZRsh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Feb 2020 12:48:37 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:61027 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726979AbgBZRsg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Feb 2020 12:48:05 -0500
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 01QHlrqU018829;
-        Thu, 27 Feb 2020 02:47:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 01QHlrqU018829
+        Wed, 26 Feb 2020 12:48:36 -0500
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 01QHmCq9012021;
+        Thu, 27 Feb 2020 02:48:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 01QHmCq9012021
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582739274;
-        bh=SDaslj3im9eGGF3GWkYw29Ie5s/mrO4oXtYg61NAUmg=;
+        s=dec2015msa; t=1582739293;
+        bh=xgJl1blQU86umeJmNxilnyVsYxkgOlk7eA5gh9LCkvo=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TSAmf5YiR59vvSP5hW7HsQsk+UuON9lPxv8ggMkzklgJ60ttDBLTs80cPREFkVoCo
-         aC1SepTe/mFTxqWwQLcwBJmWJq0OZBh0S4OfNZDiHAiQy9nJLm/LN8+IggTn0ZYTZn
-         fKeUAF/4aYs2AQyohWL1Nb/AwLTqqnz5oub1NMBC1omVGHBSFRc424t6vRqtfgdlKt
-         nEIsb0Ono4KNO6VBNmXA2k/CihTCFh6915uvoiak1KmfzgsYZFV4wkcVNfGjHIGrqe
-         sdumET83GL/sPurNTyUFRx+59OsexvWo8vnYUqRw9c3disajhKarkba2tEMjv2GgHq
-         bjGD44GtVm7LA==
-X-Nifty-SrcIP: [209.85.221.170]
-Received: by mail-vk1-f170.google.com with SMTP id i4so1044069vkc.3;
-        Wed, 26 Feb 2020 09:47:54 -0800 (PST)
-X-Gm-Message-State: APjAAAVx71To1e0Pf6srG/mo5oE/3umRyVGvwn72FaEC1JpabV1lPHAK
-        RnRJzC7Dm8rP7qnSlBiwB1fZVoDWB2rUrgUylFE=
-X-Google-Smtp-Source: APXvYqzpehfk2yzFqtjIzlN57l6KrpJIDEr5QVAEBgcdOrwuouWmBqXYwTpOOjVHS2Vp3P09dydm2ACynKUaaC2vXyk=
-X-Received: by 2002:a1f:6344:: with SMTP id x65mr231703vkb.26.1582739273088;
- Wed, 26 Feb 2020 09:47:53 -0800 (PST)
+        b=CI/0ftnrcP1jDlvsNYqy1wCRmpqGS30HfCLQ7Ldgl60+0ftVjmYse9f0p8lMEPP3H
+         P/FJZLDmCUvZhxY7z2LrdO0phu3A48HkUwBXd3JCF81imCFH6sAsJkO5a6XkSgV+BY
+         gq4NRq/yR/PCB+gpqm4jlifnkhOX9eIEAwjbEqxT0gkRT+w/FK4G2Vgx1AfpDxgRv7
+         xH+LQjPiasLTdjSe/NRAA6AS0DNnyHdYLDDTnughlzYwJQnYn09QAWIwNeKwwfnxWM
+         /XlpvToOgxLXz+1qTzYmd5eVTft5ecy1iAWiexTyFk5FY9Y9aGPVzyw4jxW7Z/Fl7i
+         IF9OA1i2oPH1g==
+X-Nifty-SrcIP: [209.85.222.47]
+Received: by mail-ua1-f47.google.com with SMTP id f7so1277818uaa.8;
+        Wed, 26 Feb 2020 09:48:12 -0800 (PST)
+X-Gm-Message-State: APjAAAWdSjOAdxobVYbMQHrsQmyOumZAsv3niRoNImN09qmruu3V2h5i
+        Ggow8F4fUbtBw+J50NspFgvI/gNuXBnwbMvngvw=
+X-Google-Smtp-Source: APXvYqzpYiAGWcX0PZ9Cf1kXLn0Wj6iCVXsMhuHGUjBn2Nok9OJYYRHJXguuDnTCkK3RWGETDFPTxak9tpz21S+oYFo=
+X-Received: by 2002:ab0:14ea:: with SMTP id f39mr220178uae.40.1582739291939;
+ Wed, 26 Feb 2020 09:48:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20200222190435.11767-1-masahiroy@kernel.org> <20200224225253.GA27948@bogus>
- <CAK7LNAS+iOAonhxN2BK4D8TSb8F-BqPxDGFU0AOv9fZ2So4iqA@mail.gmail.com>
-In-Reply-To: <CAK7LNAS+iOAonhxN2BK4D8TSb8F-BqPxDGFU0AOv9fZ2So4iqA@mail.gmail.com>
+References: <20200222190435.11767-1-masahiroy@kernel.org> <20200222190435.11767-2-masahiroy@kernel.org>
+In-Reply-To: <20200222190435.11767-2-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 27 Feb 2020 02:47:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS-Ozq8kwa4HixNQ=r8d3ToehFnsbh0F0TgAcnemXantA@mail.gmail.com>
-Message-ID: <CAK7LNAS-Ozq8kwa4HixNQ=r8d3ToehFnsbh0F0TgAcnemXantA@mail.gmail.com>
-Subject: Re: [PATCH 1/5] kbuild: fix DT binding schema rule to detect command
- line changes
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Thu, 27 Feb 2020 02:47:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATMKS9vAOtKTncDYTN1kmx1iZN4LHBmP-XLPGBn9TmxaA@mail.gmail.com>
+Message-ID: <CAK7LNATMKS9vAOtKTncDYTN1kmx1iZN4LHBmP-XLPGBn9TmxaA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] kbuild: remove unneeded semicolon at the end of cmd_dtb_check
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         DTML <devicetree@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
@@ -55,44 +53,35 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Feb 25, 2020 at 1:32 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, Feb 23, 2020 at 4:04 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Hi Rob,
+> This trailing semicolon is unneeded.
 >
-> On Tue, Feb 25, 2020 at 7:52 AM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Sun, Feb 23, 2020 at 04:04:31AM +0900, Masahiro Yamada wrote:
-> > > This if_change_rule is not working; it cannot detect any command line
-> > > changes.
-> > >
-> > > The reason is because cmd-check in scripts/Kbuild.include compares
-> > > $(cmd_$@) and $(cmd_$1), but cmd_dtc_dt_yaml does not exist here.
-> > >
-> > > For if_change_rule to work properly, the stem part of cmd_* and rule_*
-> > > must match. Because this cmd_and_fixdep invokes cmd_dtc, this rule must
-> > > be named rule_dtc.
-> > >
-> > > Fixes: 4f0e3a57d6eb ("kbuild: Add support for DT binding schema checks")
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  scripts/Makefile.lib | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > For the series,
-> >
-> > Acked-by: Rob Herring <robh@kernel.org>
-> >
-> > I'm assuming you will take these? If not, I can in the DT tree.
->
-> Yes, I will queue these to kbuild tree.
->
->
-
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
 Applied with Rob's Ack.
 
 
+>  scripts/Makefile.lib | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 64b938c10039..752ff0a225a9 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -300,7 +300,7 @@ DT_BINDING_DIR := Documentation/devicetree/bindings
+>  DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
+>
+>  quiet_cmd_dtb_check =  CHECK   $@
+> -      cmd_dtb_check =  $(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@ ;
+> +      cmd_dtb_check =  $(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@
+>
+>  define rule_dtc
+>         $(call cmd_and_fixdep,dtc,yaml)
+> --
+> 2.17.1
+>
 
 
 -- 
