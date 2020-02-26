@@ -2,52 +2,73 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E241702F5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2020 16:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8262B17048E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2020 17:38:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728483AbgBZPpn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Feb 2020 10:45:43 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:44976 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726148AbgBZPpm (ORCPT
+        id S1727888AbgBZQio (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Feb 2020 11:38:44 -0500
+Received: from mail-yw1-f66.google.com ([209.85.161.66]:39885 "EHLO
+        mail-yw1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726905AbgBZQio (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Feb 2020 10:45:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=44++bZYwMLEcKWsWEdjH2TMBF93T+j8iNKdpvJ43O1c=; b=eNHjTAaAiO0uN1Hq0VhbkU3MfM
-        OJ/BukAcIMd/vz2VAp5dFX26CbeBlt/altF651kHn5siaSDa4lxIMXWtyWBGoqL6JoxlWowW3e3Vg
-        Ubl9VdHjYOtSfdNHVWl2jWT42wAVHBRH1e2Ztv5jDd0SwT+LRHvBCs+4K13YdiWYi6ClhHN+4h+dk
-        AkyKPgLkLnsnZ0+Vm5Ayn7LM4nKjPeYsJr7Ojkmtt5v+pI668Hp4HKzfLtA70MzRcv2TSz0sGuJlF
-        vkiChdLf3dHErobRul2XeqU3Hm+ezUQCqFQo8ooGSdsxnU1E684lQ5NE9sT3ask7Xh5iE+Qpqcb/D
-        HMRnGUGA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1j6ysW-0003sn-FG; Wed, 26 Feb 2020 15:45:40 +0000
-Subject: Re: [PATCH v2] Documentation/llvm: add documentation on building w/
- Clang/LLVM
+        Wed, 26 Feb 2020 11:38:44 -0500
+Received: by mail-yw1-f66.google.com with SMTP id x184so3652646ywd.6;
+        Wed, 26 Feb 2020 08:38:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=erd2mUrd075M8oO2yPj+tKoxoFziTJnQdLvZCm0QgxY=;
+        b=X9eERp8QG/tuKn6AKY+yJvRNdFHoS9pG+JMlUdxyQYPYSOzXWyPyebgUOFwJQwTnVg
+         4WNiomgsGWrQ0M0jMCaVVWJs7dlZlXLR/eX/6C+oeoKyGLE+jhdN32JS4BYUFo/TxxkK
+         VBegQxaPBHScmsO2HL1l0CyID+cPVJodQeGAqj5sC/1pZ7I+lkj0InOF6xAJuJ5w4/CQ
+         yuksL+0Y/WfH+iSin0lVK6OjOtzg9JxNw5xV8nsH2FQyD2zTZ7iStRxS+zUfqMg59gED
+         V0q+EO0lQnMJdfUJfvaVZ+f23YaZ4eL1wOFDU0GtLKgB08EKzym3aLaNH4VXUidqgdX6
+         7vtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=erd2mUrd075M8oO2yPj+tKoxoFziTJnQdLvZCm0QgxY=;
+        b=EGt4nEDOoWLAuG/caYoSDp3At8m0XlT3XFSj0rcwuhaaRJ5wXRsIDMKObrPPhSFRPE
+         evjs7lnZsggmKiDhMfHtgAAkx9sByYp/Aul4BpeVcRdTqtc+dox9YfYqlKExDc2cnTJN
+         7IZ5oDJS5G6EobkhT5OvzWR0tqdL2kA//pgR/Att/Lz//gJ1KK4dFp5/As5bDSrwAKga
+         5YM4u+MBhtySafppba5QBHQQj3iqHHZPGErF7O/UMabrSec2mBGBE5W5AQkObvGA1jzu
+         Dkx6RmmVexFIsRuLpPt1rP79twmpWJeP3h2uDGTA7HQ+SwKH54zSfwA+d5ghCJmaA8+j
+         9gBw==
+X-Gm-Message-State: APjAAAUEWqeBvdkAeiTmRskfqKHmmRmHxCxkYSJ61XpmUeDV09RZiby4
+        SuXMLzcoI0jB3PjVdgI6Xyo=
+X-Google-Smtp-Source: APXvYqxaNdTjgfv+K7BVwRT1yKLRVTPxR1B/ytKhSJaZCvCJMVXm6o1MFHd3qCmgA1+T5cVjqweqxw==
+X-Received: by 2002:a81:1054:: with SMTP id 81mr35605ywq.57.1582735121692;
+        Wed, 26 Feb 2020 08:38:41 -0800 (PST)
+Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
+        by smtp.gmail.com with ESMTPSA id h139sm1127231ywa.35.2020.02.26.08.38.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Feb 2020 08:38:41 -0800 (PST)
+Subject: Re: [RFC PATCH v2 1/4] scripts: Add script to generate dtb build
+ information
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        David Gibson <david@gibson.dropbear.id.au>,
+        Simon Glass <sjg@chromium.org>,
+        DTML <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-References: <20200224174129.2664-1-ndesaulniers@google.com>
- <20200225210250.64366-1-ndesaulniers@google.com>
- <CAK7LNAQJuF__26R+fEsdfYH1SAJuo3-8grGQAE4htjxzEG-nqw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <d70e7d82-4f08-0a30-e54b-8b0f225145df@infradead.org>
-Date:   Wed, 26 Feb 2020 07:45:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Devicetree Compiler <devicetree-compiler@vger.kernel.org>,
+        Ian Lepore <ian@freebsd.org>
+References: <20200221161217.20069-1-alexandre.torgue@st.com>
+ <20200221161217.20069-2-alexandre.torgue@st.com>
+ <CAK7LNATmJN-U2GNe2Qd7fS=h5URswe=aFgVJRaBTZt7pi374wg@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <e0b65cba-6e37-8937-897d-ae82973f34e8@gmail.com>
+Date:   Wed, 26 Feb 2020 10:38:40 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQJuF__26R+fEsdfYH1SAJuo3-8grGQAE4htjxzEG-nqw@mail.gmail.com>
+In-Reply-To: <CAK7LNATmJN-U2GNe2Qd7fS=h5URswe=aFgVJRaBTZt7pi374wg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -56,40 +77,105 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2/26/20 3:30 AM, Masahiro Yamada wrote:
+Hi Alexandre,
+
+On 2/24/20 11:45 AM, Masahiro Yamada wrote:
 > Hi.
 > 
-> 
-> On Wed, Feb 26, 2020 at 6:02 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
+> On Sat, Feb 22, 2020 at 1:12 AM Alexandre Torgue
+> <alexandre.torgue@st.com> wrote:
 >>
->> Added to kbuild documentation. Provides more official info on building
->> kernels with Clang and LLVM than our wiki.
+>> This commit adds a new script to create a file (in dts file directory) with
+>> some information (date, Linux version, user). This file could then be used
+>> to populate "build-info" property in every dts file that would use this
+>> build information:
 >>
->> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
->> Reviewed-by: Kees Cook <keescook@chromium.org>
->> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
->> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
->> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
->> ---
->> Changes V1 -> V2:
->> * s/On going/ongoing/
->> * add Randy's Suggested-by
+>> Example:
+>>
+>> / {
+>>         ...
+>>         build-info = /incbin/("dtb-build.txt");
+>>         ...
+>> };
+>>
+>> Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
+>>
+>> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+>> index bae62549e3d2..a5af84ef4ffc 100644
+>> --- a/scripts/Makefile.lib
+>> +++ b/scripts/Makefile.lib
+>> @@ -246,6 +246,7 @@ quiet_cmd_gzip = GZIP    $@
+>>  # DTC
+>>  # ---------------------------------------------------------------------------
+>>  DTC ?= $(objtree)/scripts/dtc/dtc
+>> +DTB_GEN_INFO ?= $(objtree)/scripts/gen_dtb_build_info.sh
+>>
+>>  # Disable noisy checks by default
+>>  ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+>> @@ -286,6 +287,7 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+>>
+>>  quiet_cmd_dtc = DTC     $@
+>>  cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+>> +       $(DTB_GEN_INFO) $(src) ; \
+>>         $(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+>>         $(DTC) -O $(2) -o $@ -b 0 \
+>>                 $(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+>> diff --git a/scripts/gen_dtb_build_info.sh b/scripts/gen_dtb_build_info.sh
+>> new file mode 100755
+>> index 000000000000..0cd8bd98e410
+>> --- /dev/null
+>> +++ b/scripts/gen_dtb_build_info.sh
+>> @@ -0,0 +1,10 @@
+>> +#!/bin/bash
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +
+>> +set -o nounset
+>> +
+>> +DTB_DIR=$1
+>> +DTB_COMPILE_BY=$(whoami | sed 's/\\/\\\\/')
+>> +DTB_INFO="From Linux $KERNELRELEASE by $DTB_COMPILE_BY the $(date).\0"
+>> +
+>> +printf "$DTB_INFO" > "$DTB_DIR/dtb-build.txt"
+>> --
+>> 2.17.1
+>>
 > 
 > 
-> I do not understand this tag update.
+> There are more than 1000 *.dts files
+> in arch/arm/boot/dts/.
 > 
-> As far as I saw the review process,
-> I do not think Randy deserves to have Suggested-by
-> because he just pointed out a typo (on going -> ongoing) :
-
-I agree.
-
-> https://patchwork.kernel.org/patch/11401189/#23179575
+> So, with this patch, the build system will creates
+> arch/arm/boot/dts/dtb-build.txt 1000 times.
 > 
-> (or, was there off-line activity I had missed?)
+> 
+> Does it work with parallel build ?
+> 
+> Think about what would happen
+> with 'make -j32 ARCH=arm  dtbs'
+> 
+> 
+> The 32 threads will write to
+> arch/arm/boot/dts/dtb-build.txt
+> at the same time.
+> 
+> Then, some of DTB would very likely to
+> include the broken dtb-build.txt
+> 
+> 
+> A list of missing parts in this approach:
+> 
+>  - make it work with parallel build
+>  - clean it up with 'make clean'
+>  - add it .gitignore  (and Documentation/dontdiff)
+> 
+> 
+> 
 
+You might be able to rework script 'version_dtb_increment_once' from my
+previous attempt at this concept.  I do not know if the build system
+has changed since 2015 in a way that would make the script incorrect
+or if it is still valid.
 
--- 
-~Randy
+https://lore.kernel.org/linux-arm-kernel/550A44A8.9090302@gmail.com/
 
+-Frank
