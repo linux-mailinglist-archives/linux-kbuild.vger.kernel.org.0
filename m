@@ -2,49 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C07316FE8E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2020 13:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEBE916FEE8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Feb 2020 13:26:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726592AbgBZMBf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Feb 2020 07:01:35 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:30600 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbgBZMBf (ORCPT
+        id S1726963AbgBZM0k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Feb 2020 07:26:40 -0500
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37979 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726187AbgBZM0k (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Feb 2020 07:01:35 -0500
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 01QC1CtU011814;
-        Wed, 26 Feb 2020 21:01:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 01QC1CtU011814
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582718473;
-        bh=eXTv3XS960d93mdHxhl8i6TVCJ/l9qSZuAjHESIHG2s=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RiBwv/nbo06+ybabZje9MLku45Btk+6OGVb0x+n8SbOsRq5wOgQeMxYIMddVUVaEy
-         /JH6ws7acdEX8lba97FEDcMat2KV3KLj/4JiNJrgQFhmDY0tUVswH3PS0Kc1GZVbFS
-         pKtJzRf1LSygraPW/jZk1rt2Hxsmd/ptzcS53n0c2h0nIx9G+ZR0OTovyE8HJLrNWP
-         SlcdFB0PV5KN1b0BId85rEDHqCls859/m3gOVXtn8FzUCZj9rP6DzOtkIn4kxQwxtx
-         OHOa2T8kqE7rIHOV9fXnqy/dozEHe5SWprLTTkSe6By3tBuf4js0wlrf2RauUUbExz
-         a+j8TT8sdb+wQ==
-X-Nifty-SrcIP: [209.85.217.51]
-Received: by mail-vs1-f51.google.com with SMTP id a2so1613631vso.3;
-        Wed, 26 Feb 2020 04:01:12 -0800 (PST)
-X-Gm-Message-State: APjAAAVEu2Ktc608rmrfnnZS8iwGiLuNc4pyH6+iVcTepwxBInWWTQuZ
-        eyOjAfvlvxfLNpv2hxqW00e3nlx7PmNKskWyfB0=
-X-Google-Smtp-Source: APXvYqx3LP0q+bkiPVV09PznkyGCTfst/gdYLLu7IP0hS6bM01tzLTzARRP6CwmtiftJ0tFjVgP7GdJLXugAuCGYN2g=
-X-Received: by 2002:a05:6102:190:: with SMTP id r16mr3585123vsq.215.1582718471427;
- Wed, 26 Feb 2020 04:01:11 -0800 (PST)
+        Wed, 26 Feb 2020 07:26:40 -0500
+Received: by mail-wm1-f66.google.com with SMTP id a9so2838492wmj.3;
+        Wed, 26 Feb 2020 04:26:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=V8gMewY634WDFQZep0rl6hNrs2zu+VbqsCL1SpOtlb0=;
+        b=IHFSmI4juYhHMRYVx8UOXXzqtfXiwhzFC7fuLYcWeRdzpm1yfNt6Vj1prjQdPvMauM
+         4k9EKV+jiOb39j6DdIGSvb5pXlbn1bq8GqT3+LErN1gTmJs8y3yj7OxdMnvvAz571F+e
+         wJRAdxNkBN9viXqrDaxGkI412mWjm2FKo5DRI1FN+YjKIt4bYbCrHXQ9XqPIAyzvEXPg
+         25O6rdrR7WjAlEAnXZHOVZizS3pRFp8TKDBPWJI4dKKh2xQvpJtOYWAiqahqwUrED96U
+         LI15mWGVV6Or8+OUWgTXPnaiXE5JweGr4sygwTpyWhB4IJpzv5z3HtkgqMDIYcVH2U/F
+         Ezyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=V8gMewY634WDFQZep0rl6hNrs2zu+VbqsCL1SpOtlb0=;
+        b=Sdi5QLS6HhoJz/5akBkwhdjlX6GIDDxrAgplSjPXKdtxAmB+Xp52/dY7U8fKRDUZja
+         D6ktpM1oUlxHJuZnBXyG9QxNEnqXGOVlCrBOtLuSTRHfDwA6Hf0ix0JHCZaecLYDR3Y0
+         27vsJKQdV14Vr3JZdTa1vRHHe89ZEZzgZ3QWLbmvPuzojUh5DRQemblZufyRJ2LgvKOW
+         1UaMG0KKYL7SlHXVB9rzKQ5aYuDZjVNmtjDJyLMNKMFbRH3nNKz52P7tUwN/yoTxy6jM
+         z+wAq6oLb8e6CD7SPwbRb0fxmbx5hb1eiytVxRsxRhYEjQ9C9kcpUiaD5LAoz+ruIAej
+         RHcQ==
+X-Gm-Message-State: APjAAAXDO+R5XDSGCvyHpNxQYNKC/Bgcbd7sFUSOLXwXbjxmMu+a/FvD
+        UgWW18HHmdyXMC0Q2EJiw4VVQ7JpOW2YzbkDQdI=
+X-Google-Smtp-Source: APXvYqwJSp6y5t6j/YDSKsw2/NttcfYRM0gx0AAnvvsYnMrceEUhwETgdXNNCRvQxdUejjKm2ZwCaS32bGDuwAKf2os=
+X-Received: by 2002:a05:600c:2285:: with SMTP id 5mr5218941wmf.64.1582719997984;
+ Wed, 26 Feb 2020 04:26:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20200224174129.2664-1-ndesaulniers@google.com>
- <CAK7LNASNsOmyqFWYtJHB4UcHAed5C_isWvMJ4MKHu0O=yUy=8w@mail.gmail.com> <CAKwvOd=mPg79CrYnDm8=z0iJpKL0FHm9J5qZF0_A6BFXBv8Dow@mail.gmail.com>
-In-Reply-To: <CAKwvOd=mPg79CrYnDm8=z0iJpKL0FHm9J5qZF0_A6BFXBv8Dow@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 Feb 2020 21:00:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ83rLAm1GcvrgJbinyAVPpM_SoxfO7RdOAfmXyg2tBdQ@mail.gmail.com>
-Message-ID: <CAK7LNAQ83rLAm1GcvrgJbinyAVPpM_SoxfO7RdOAfmXyg2tBdQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/ Clang/LLVM
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+ <20200225210250.64366-1-ndesaulniers@google.com> <CAK7LNAQJuF__26R+fEsdfYH1SAJuo3-8grGQAE4htjxzEG-nqw@mail.gmail.com>
+In-Reply-To: <CAK7LNAQJuF__26R+fEsdfYH1SAJuo3-8grGQAE4htjxzEG-nqw@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 26 Feb 2020 13:29:07 +0100
+Message-ID: <CA+icZUWcW3+9QdZcACCXP6Yun__Sm_s4+qM4rALdFf=hGBt3FQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation/llvm: add documentation on building w/ Clang/LLVM
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Kees Cook <keescook@chromium.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -58,54 +67,53 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 26, 2020 at 5:52 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Wed, Feb 26, 2020 at 12:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Mon, Feb 24, 2020 at 4:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Tue, Feb 25, 2020 at 2:41 AM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > Added to kbuild documentation. Provides more official info on building
-> > > kernels with Clang and LLVM than our wiki.
-> > >
-> > > Suggested-by: Kees Cook <keescook@chromium.org>
-> > > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > ---
-> >
-> >
-> > Perhaps, is it better to explicitly add it to MAINTAINERS?
-> >
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4118,6 +4118,7 @@ W:        https://clangbuiltlinux.github.io/
-> >  B:     https://github.com/ClangBuiltLinux/linux/issues
-> >  C:     irc://chat.freenode.net/clangbuiltlinux
-> >  S:     Supported
-> > +F:     Documentation/kbuild/llvm.rst
-> >  K:     \b(?i:clang|llvm)\b
+> Hi.
 >
-> I'm happy to leave it to the maintainers of Documentation/.  Otherwise
-> we have a file for which there is no MAINTAINER, which seems
-> ambiguous.
+>
+> On Wed, Feb 26, 2020 at 6:02 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > Added to kbuild documentation. Provides more official info on building
+> > kernels with Clang and LLVM than our wiki.
+> >
+> > Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> > Reviewed-by: Kees Cook <keescook@chromium.org>
+> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> > Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > ---
+> > Changes V1 -> V2:
+> > * s/On going/ongoing/
+> > * add Randy's Suggested-by
+>
+>
+> I do not understand this tag update.
+>
+> As far as I saw the review process,
+> I do not think Randy deserves to have Suggested-by
+> because he just pointed out a typo (on going -> ongoing) :
+> https://patchwork.kernel.org/patch/11401189/#23179575
+>
+> (or, was there off-line activity I had missed?)
+>
 
-It is common that MAINTAINERS lists per-file (per-driver) maintainers.
-It does not necessarily mean a person who picks up patches.
+Hi Masahiro,
 
-scripts/get_maintainer.pl lists maintainers that
-match any F:, N:, K: patterns.
-So, both Doc and Kbuild maintainers/ML will still be listed.
+I got some credits from Nick for a review by seeing a typo - not on a
+review of the code - and H. Peter Anvin asked why.
 
-Having said that, it is up to you. Either is fine with me.
-Another pattern 'K: \b(?i:clang|llvm)\b'  covers this file anyway.
+I am not sure what is here the correct credit to give.
+Depends a "Reviewed-by" and/or "Suggested-by" on a technical review?
 
+My POV: When people take time to look over patches they should get
+credits - sort of esteem.
 
-(BTW, I am also happy to see your name as the maintainer of this entry.)
+Regards,
+- Sedat -
 
+P.S.: Tipp: Use codespell to find typos :-).
 
-Thanks.
-
---
-Best Regards
-Masahiro Yamada
+[1] https://git.kernel.org/linus/0e2e160033283e20f688d8bad5b89460cc5bfcc4
+"x86/asm: Add _ASM_ARG* constants for argument registers to <asm/asm.h>"
