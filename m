@@ -2,138 +2,128 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29D0B170FB2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Feb 2020 05:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61062170FC1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Feb 2020 05:44:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728346AbgB0Eio (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Feb 2020 23:38:44 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37777 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728221AbgB0Eio (ORCPT
+        id S1728373AbgB0EoF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Feb 2020 23:44:05 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:39514 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728284AbgB0EoE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Feb 2020 23:38:44 -0500
-Received: by mail-oi1-f193.google.com with SMTP id q84so2025187oic.4;
-        Wed, 26 Feb 2020 20:38:44 -0800 (PST)
+        Wed, 26 Feb 2020 23:44:04 -0500
+Received: by mail-oi1-f195.google.com with SMTP id r16so369997oie.6;
+        Wed, 26 Feb 2020 20:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=ByzwXjxxAjc7Zga7QIoH1Dg/JplDufewPb/z1LrV5Dk=;
-        b=kdLDp3x1MIQtmih87WTkMiiMAbRpaovl8h89fbI87FYlWtGHlNSrClwC+2JubV/CXt
-         FZC3mMO7khvELquq9q1Xjri3l4atSrKdVSSH0vLq8UKqEPHpwOzXVUiyq3+JNMAA8WEy
-         pZZRo4es2IoL9UcvsQ1JFwIuph7aiOludae903qIlaZMJQNrZ2Ywlcy0wRimD6Um+vzU
-         nYMmupk37n5RH18CupKLJiLwlpFpui0lHn/9jSWqYY78CdOWwsPSazaeyi8hP/XsLRGM
-         OxwvQ83eQLfpTUY0cE5L5FHVQ+U8CSM8D+oZ58btk1SPCYFQJq7NP338I0jFoOeTZa4C
-         Clog==
+        bh=4RNB8wxWEzVJtgJjqldIaCI4XGfYsamNd1UsJb6gSog=;
+        b=Nol59jAChbbtZLwod/sooHhsr+dlxfsYpBLbyj/vCLX1ol55wVGURk64QiHeOYxFRX
+         mHK1+UiyAXvreMg4ZIkS2I0WQZ1et64pUap3FNaL9eX0mxqfndy619KzLjmxjReTU7du
+         5c2tcwQZaL1arGl9L1/vb11eBxLVzxJcoxNTHpwUiG3FiyR/J3jJSakwXSC7IIBZaNb7
+         Zuok8/WPd6UJ1zAQqwahT4PDOBKVrYqwXr9KpUZbe50+gZPJZubDY+VkHWj/rqM1TiNA
+         UuruIMllXhC/IEpSuyEHDMVirOHPuugk1m9JelYk7aBx4b2NE5KHgH3/7xrntSzh69v2
+         RAyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ByzwXjxxAjc7Zga7QIoH1Dg/JplDufewPb/z1LrV5Dk=;
-        b=iBT/Jq7Afua1HlC/E2BhIdjA1YwlYnr3s6yymaT+P7HTmRWTHGtjOSSSNxkEmy7PIp
-         Ba1MOnpGq9Dbaa6u0QJ7bIHrzZzgDmNaPfs8dW2Hri/M9vHk1bwpJAshc6febR75fkUF
-         7J81YD5Yxrz/5/I4V1z+Wpv8dEPLv6qhsa8bb9JgEwPa20IiZjp16IM/NNqQ66ZAYNb9
-         UG+xgW4ux2L9EEhrZYBLDeREQJ4pjBbQQl0jG68XknXnl0lwHh/IAgSN8XQbS3zIwnPe
-         9s7G9DFE4q3bAJbaSJcSQP+xbx8UygkvRGUciThRSh6RpRw8aaN5uft2nBD6+kIcIO6E
-         Gftw==
-X-Gm-Message-State: APjAAAXKMET6pPWWOn9eHN/fk3YcTsWpa1vAPTSg9nrz8wIpeXnLKZuF
-        rcS7SlqwUzF2HXsG+7XzNEKDW+6w
-X-Google-Smtp-Source: APXvYqxiBCcYOuupKnBfUUvrtLrDYRgnMgguiQOMiiK+c6TGX7tTNFpcXJyd1Oq3jTgVO2kbYmNtIw==
-X-Received: by 2002:aca:c3c2:: with SMTP id t185mr1990201oif.26.1582778323474;
-        Wed, 26 Feb 2020 20:38:43 -0800 (PST)
+        bh=4RNB8wxWEzVJtgJjqldIaCI4XGfYsamNd1UsJb6gSog=;
+        b=gnkJtJE5QU3csZjOW50MLP5kYPr7G4QdEdZn53x+U8639lBceCIfun7ep7TK2icUrO
+         WdCdxRL63aAfM2RdYU9yL/YN6ezKC4j+dZ3hrxw0M4owwTpbPc2Lsl9g4kyBCJT5gtPx
+         rfsF1+evtNcyiDYWx+T+4/ga5Qx59vPIJAh4sT3CTWb6zZ7zXw7FfUpd19Yhe3unw/15
+         xNnOp/6zg1YmKV2a/cKuN6aqvPJg3xWACYO5S+czrZ701RyTZSpfckMPiU1b3x36ckXv
+         bOyavPomqyFuMmkAaF81PxYVu5OWQvqcdpl2TdD9wqv+yY2FTgFOzUqMZ3316cHOLg1S
+         QfGA==
+X-Gm-Message-State: APjAAAWu63OaPXuOVxGMZbSG2WJTsY5GPzSs6qWObhjZjiBjdtPewc7/
+        3zefaqRQQTUx82w+anrz5dQ=
+X-Google-Smtp-Source: APXvYqzxek+4Hcli5Vv0AI34Ja9/izEaL50t0C1GUclI3TdvYYvnKtRy2i2vNYXrYdBllQG0UrR/rQ==
+X-Received: by 2002:a05:6808:289:: with SMTP id z9mr1908161oic.48.1582778643913;
+        Wed, 26 Feb 2020 20:44:03 -0800 (PST)
 Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id n25sm1592674oic.6.2020.02.26.20.38.42
+        by smtp.gmail.com with ESMTPSA id a14sm1585830otr.54.2020.02.26.20.44.03
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 26 Feb 2020 20:38:42 -0800 (PST)
-Date:   Wed, 26 Feb 2020 21:38:41 -0700
+        Wed, 26 Feb 2020 20:44:03 -0800 (PST)
+Date:   Wed, 26 Feb 2020 21:44:02 -0700
 From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
 Subject: Re: [PATCH] Documentation/llvm: add documentation on building w/
  Clang/LLVM
-Message-ID: <20200227043841.GA55684@ubuntu-m2-xlarge-x86>
+Message-ID: <20200227044402.GB55684@ubuntu-m2-xlarge-x86>
 References: <20200224174129.2664-1-ndesaulniers@google.com>
- <CAK7LNASNsOmyqFWYtJHB4UcHAed5C_isWvMJ4MKHu0O=yUy=8w@mail.gmail.com>
- <CAKwvOd=mPg79CrYnDm8=z0iJpKL0FHm9J5qZF0_A6BFXBv8Dow@mail.gmail.com>
- <CAK7LNAQ83rLAm1GcvrgJbinyAVPpM_SoxfO7RdOAfmXyg2tBdQ@mail.gmail.com>
- <CA+icZUWSQkYD2MzEY_8U1NMY8LO5NzD0CCuZ8+cH+dBndJm=yQ@mail.gmail.com>
+ <202002242003.870E5F80@keescook>
+ <20200225041643.GA17425@ubuntu-m2-xlarge-x86>
+ <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+icZUWSQkYD2MzEY_8U1NMY8LO5NzD0CCuZ8+cH+dBndJm=yQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdn0_EETGtBVhbRKMPqv2K04Z1N4PuOZDZ6++Ejbi9-B-w@mail.gmail.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 26, 2020 at 01:33:13PM +0100, Sedat Dilek wrote:
-> On Wed, Feb 26, 2020 at 1:01 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Feb 25, 2020 at 12:59:25PM -0800, Nick Desaulniers wrote:
+> On Mon, Feb 24, 2020 at 8:16 PM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> > > Should this also include an update to Documentation/process/changes.rst
+> > > with the minimum version required? (I would expect this to be "9" for Clang,
+> > > and "11" for ld.lld.)
 > >
-> > On Wed, Feb 26, 2020 at 5:52 AM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Mon, Feb 24, 2020 at 4:34 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > On Tue, Feb 25, 2020 at 2:41 AM Nick Desaulniers
-> > > > <ndesaulniers@google.com> wrote:
-> > > > >
-> > > > > Added to kbuild documentation. Provides more official info on building
-> > > > > kernels with Clang and LLVM than our wiki.
-> > > > >
-> > > > > Suggested-by: Kees Cook <keescook@chromium.org>
-> > > > > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > > > ---
-> > > >
-> > > >
-> > > > Perhaps, is it better to explicitly add it to MAINTAINERS?
-> > > >
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -4118,6 +4118,7 @@ W:        https://clangbuiltlinux.github.io/
-> > > >  B:     https://github.com/ClangBuiltLinux/linux/issues
-> > > >  C:     irc://chat.freenode.net/clangbuiltlinux
-> > > >  S:     Supported
-> > > > +F:     Documentation/kbuild/llvm.rst
-> > > >  K:     \b(?i:clang|llvm)\b
-> > >
-> > > I'm happy to leave it to the maintainers of Documentation/.  Otherwise
-> > > we have a file for which there is no MAINTAINER, which seems
-> > > ambiguous.
+> > I think the clang one should be added in a separate patch that
+> > solidifies that in include/linux/compiler-clang.h with a CLANG_VERSION
+> > macro and version check, like in include/linux/compiler-gcc.h.
 > >
-> > It is common that MAINTAINERS lists per-file (per-driver) maintainers.
-> > It does not necessarily mean a person who picks up patches.
-> >
-> > scripts/get_maintainer.pl lists maintainers that
-> > match any F:, N:, K: patterns.
-> > So, both Doc and Kbuild maintainers/ML will still be listed.
-> >
-> > Having said that, it is up to you. Either is fine with me.
-> > Another pattern 'K: \b(?i:clang|llvm)\b'  covers this file anyway.
-> >
-> >
-> > (BTW, I am also happy to see your name as the maintainer of this entry.)
-> >
+> > ld.lld's minimum version should also be 9, what is the blocking issue
+> > that makes it 11?
 > 
-> +1 (Please drop the BTW - This was suggested in the brainstorming
-> session on the ClangBuiltLinux Meetup in Zurich).
+> I'm super hesitant to put a minimally required version of Clang, since
+> it really depends on the configs you're using.  Sure, clang-9 will
+> probably work better than clang-4 for some configs, but I would say
+> ToT clang built from source would be even better, as unrealistic as
+> that is for most people.  The question of "what's our support model"
+> hasn't realistically come up yet, so I don't really want to make a
+> decision on that right now and potentially pigeonhole us into some
+> support scheme that's theoretical or hypothetical.  We need to expand
+> out the CI more, and get more people to even care about Clang, before
+> we start to concern ourselves with providing an answer to the question
+> "what versions of clang are supported?"  But it's just a strong
+> opinion of mine, held loosely.
 > 
-> I suggest to add Nathan and Kees if they are willing to be responsible
-> for the maintainer job.
-> 
-> - Sedat -
+> Either way, it can be done (or not) in a follow up patch.  I would
+> like to land some Documentation/ even if it's not perfect, we can go
+> from there.
+> -- 
+> Thanks,
+> ~Nick Desaulniers
 
-I would not mind having my name added under this MAINTAINERS entry but I
-definitely think that is a conversation for a different thread.
+I think the question of support model is something that we are going to
+have to sit down and figure out sooner rather than later, especially if
+we are adding this file to the Documentation; we are saying that this IS
+supported in some fashion, we need to be able to answer how we are going
+to resolve issues and what versions can be adequately expect to work
+with the kernel.
+
+I think that being able to tell people to update is not unreasonable,
+given how efficient we are getting fixing into clang. However, clang's
+release model is definitely different from gcc's and that can make
+getting fixes into the hands of regular users harder, aside from asking
+them to build their own version, which again, is not that difficult and
+hard to do with something like tc-build.
+
+I agree this should happen in a follow up patch. I think starting with
+clang-9 and saying if anything older works, cool, otherwise update is
+probably a decent initial model.
 
 Cheers,
 Nathan
