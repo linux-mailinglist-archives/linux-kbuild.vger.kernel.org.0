@@ -2,134 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14A831744DB
-	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Feb 2020 05:17:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1D2D1744DE
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Feb 2020 05:26:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbgB2ERV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Feb 2020 23:17:21 -0500
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:37137 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbgB2ERV (ORCPT
+        id S1726674AbgB2E0E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Feb 2020 23:26:04 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:31730 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbgB2E0D (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Feb 2020 23:17:21 -0500
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 01T4H5gh014497;
-        Sat, 29 Feb 2020 13:17:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 01T4H5gh014497
+        Fri, 28 Feb 2020 23:26:03 -0500
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 01T4PpMx004086;
+        Sat, 29 Feb 2020 13:25:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 01T4PpMx004086
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1582949826;
-        bh=ozwqPj1PB8R+TkXvQLc4SA7la0S/SMRrpEdge2Jd6EE=;
+        s=dec2015msa; t=1582950353;
+        bh=IoW+eWHMQIv4qeexNIpztdRvxWoV2yvFt4Xxd6pxnEg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=C0f+gqaIYxm/M4FDVvtxabgINNq2ru4vGIdrQS87Bw+C1EFl1L5pJQEgq2D1xPIgQ
-         ySE9fJzNowhf01v9FDOEQQjaxpzrYGvEnA1EK/EbnlOdYHL0mBET2XpHkb2pKSZqIA
-         HTdPCldAnbXgGB48ZcTX28KpMKlvwDIXNv37uhos1P8Px3LOy7uPPb1v0hpI/XocQj
-         jS9pZeDmExUsRVvyeMOft6cPgqJr/I5GLVqILQCgSJMmJ3096HXBBf1ukjp8gCkZiF
-         JHICZiK9Amsldkt4zLrRpkLpIGC9btsgeWCTC9D7WenYvrYcfJrXRuo/RgJGTOlLKa
-         SeXbbI7BA0VUQ==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id 7so3291745vsr.10;
-        Fri, 28 Feb 2020 20:17:06 -0800 (PST)
-X-Gm-Message-State: ANhLgQ1BxaRSZVts7r5502XmUUC9cBE++oACMqqvGpJFyfqV7ejqVBLm
-        JqwwgbkqiqqNrJIQomlLJ91IkZChl+OUIXFkAAA=
-X-Google-Smtp-Source: ADFU+vsRHPSCrxOxF68PVThJanUZMU17UddC9LE+Qr2pjcyoxlmDlBY/PGEML7CKt5w5N7u4kIj9uhEGoEx/82zjNv4=
-X-Received: by 2002:a67:fa4b:: with SMTP id j11mr4366136vsq.155.1582949825234;
- Fri, 28 Feb 2020 20:17:05 -0800 (PST)
+        b=a24IZ3FmtPkRvMlA580GkGNfecBc++M/1F753ktfq4ZOXc+XBet2zImjZNvbeOiZl
+         ZGbtUK3UOWyViI+pGXur2qRCmDV3DdVJ2AuOKOrkUKV8v7o7vKurgVW26WEWybZ0G/
+         s0xyCHNeWWGe8Wpss351fvzAIt3L0E00GEk3uV4b/zifDknZhhZ1BlnHH+5MSEcJfn
+         fKPag6ci6seFXxtou7gIeFfLtDxyNDKpfGkJGx3BVqp0GqX+aplQamfeqeVXYiAOM/
+         fTlYqglhOjDG4r9kowFEBWFBmkSU+HfzNNp1qP+4ROljJFCSeW3sMZ23aZ8YMUiGgM
+         SAW+G3mh94Hkw==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id c7so1763810uaf.5;
+        Fri, 28 Feb 2020 20:25:52 -0800 (PST)
+X-Gm-Message-State: ANhLgQ1zgtQ0ADMioQJ7M0J1wLeo88cTy87Q2/J4KUQOjy1gCZqoVOCm
+        qeYBI7aR4Wtjwn+Bvh3kQffqGWXQW6/KZeOnRuw=
+X-Google-Smtp-Source: ADFU+vv6FqcwXbKV/S2bf6lXPsmnVyBfNhCNJiLTJArUffmmJYpHaoH4zAWx4RoeSQwio4rXep+GLhYhIK8qmhyUs5g=
+X-Received: by 2002:ab0:2881:: with SMTP id s1mr3730478uap.95.1582950351005;
+ Fri, 28 Feb 2020 20:25:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20200228172015.44369-1-qperret@google.com>
-In-Reply-To: <20200228172015.44369-1-qperret@google.com>
+References: <20200229003731.2728-1-robh@kernel.org>
+In-Reply-To: <20200229003731.2728-1-robh@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 29 Feb 2020 13:16:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQniztgAbF8N_OK+BJmaVUTVzhYmnY0-u1R_VsfEdOkTA@mail.gmail.com>
-Message-ID: <CAK7LNAQniztgAbF8N_OK+BJmaVUTVzhYmnY0-u1R_VsfEdOkTA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] kbuild: allow symbol whitelisting with TRIM_UNUSED_KSYM
-To:     Quentin Perret <qperret@google.com>
-Cc:     Nicolas Pitre <nico@fluxnic.net>,
+Date:   Sat, 29 Feb 2020 13:25:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQUbfVvYYSuMNnB2OyNbuYZkzY0gsKRybe-0P9GuYZN2w@mail.gmail.com>
+Message-ID: <CAK7LNAQUbfVvYYSuMNnB2OyNbuYZkzY0gsKRybe-0P9GuYZN2w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: Always validate DT binding examples
+To:     Rob Herring <robh@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jessica Yu <jeyu@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Feb 29, 2020 at 2:20 AM Quentin Perret <qperret@google.com> wrote:
+Hi Rob,
+
+On Sat, Feb 29, 2020 at 9:37 AM Rob Herring <robh@kernel.org> wrote:
 >
-> The current norm on Android and many other systems is for vendors to
-> introduce significant changes to their downstream kernels, and to
-> contribute very little (if any) code back upstream. The Generic Kernel
-> Image (GKI) project in Android attempts to improve the status-quo by
-> having a unique kernel for all android devices of the same architecture,
-> regardless of the SoC vendor. The key idea is to make all interested
-> parties agree on a common solution, and contribute their code upstream
-> to make it available to use by the wider community.
+> Most folks only run dt_binding_check on the single schema they care about
+> by setting DT_SCHEMA_FILES. That means example is only checked against
+> that one schema which is not always sufficient.
 >
-> The kernel-to-drivers ABI on Android devices varies significantly from
-> one vendor kernel to another today because of changes to exported
-> symbols, dependencies on vendor symbols, and surely other things. The
-> first step for GKI is to try and put some order into this by agreeing on
-> one version of the ABI that works for everybody.
+> Let's address this by splitting processed-schema.yaml into 2 files: one
+> that's always all schemas for the examples and one that's just the schema
+> in DT_SCHEMA_FILES for dtbs.
 >
-> For practical reasons, we need to reduce the ABI surface to a subset of
-> the exported symbols, simply to make the problem realistically solvable,
-> but there is currently no upstream support for this use-case.
->
-> As such, this series attempts to improve the situation by enabling users
-> to specify a symbol 'whitelist' at compile time. Any symbol specified in
-> this whitelist will be kept exported when CONFIG_TRIM_UNUSED_KSYMS is
-> set, even if it has no in-tree user. The whitelist is defined as a
-> simple text file, listing symbols, one per line.
+> Cc: Michal Marek <michal.lkml@markovi.net>
+> Cc: linux-kbuild@vger.kernel.org
+> Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> Masahiro, given you pretty much re-wrote this, I added you as
+> Co-developed-by.
 
 
-Series, applied to linux-kbuild.
+
+I can apply both to my kbuild tree.
+
+Or, if you want to apply them to your tree,
+please add my
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+Either way is fine.
 
 Thanks.
 
 
-> v6:
->  - made permission checks on the whitelist file more robust (Masahiro)
->  - better style/identation in Makefile (Masahiro)
+
 >
-> v5:
->  - made sure to be POSIX-compliant (+ tested with dash and posh)
->  - added failure path if the whitelist path is incorrect (Matthias,
->    Nicolas)
->  - collected Acked-By (and other) tags from Nicolas and Matthias
+> Based on next/master
 >
-> v4:
->  - removed [[]] bash-specific pattern from the scripts (Nicolas)
->  - use $CONFIG_SHELL consistently in all patches (Masahiro)
->  - added shortlog for initial generation of autoksyms.h (Masahiro)
->  - added comment on how 'eval' expands the whitelist path (Masahiro)
+>  Documentation/devicetree/bindings/.gitignore |  2 +-
+>  Documentation/devicetree/bindings/Makefile   | 22 +++++++++++++-------
+>  scripts/Makefile.lib                         |  3 ++-
+>  3 files changed, 17 insertions(+), 10 deletions(-)
 >
-> v3:
->  - added a cover letter to explain why this is in fact an attempt to
->    help upstream in the long term (Christoph)
->  - made path relative to the kernel source tree (Matthias)
->  - made the Kconfig help text less confusing (Jessica)
->  - added patch 02 and 03 to optimize build time when a whitelist is
->    provided
+> diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
+> index ef82fcfcccab..57afa1533a5f 100644
+> --- a/Documentation/devicetree/bindings/.gitignore
+> +++ b/Documentation/devicetree/bindings/.gitignore
+> @@ -1,2 +1,2 @@
+>  *.example.dts
+> -processed-schema.yaml
+> +processed-schema*.yaml
+> diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
+> index 646cb3525373..7c40d5ba1b51 100644
+> --- a/Documentation/devicetree/bindings/Makefile
+> +++ b/Documentation/devicetree/bindings/Makefile
+> @@ -2,7 +2,6 @@
+>  DT_DOC_CHECKER ?= dt-doc-validate
+>  DT_EXTRACT_EX ?= dt-extract-example
+>  DT_MK_SCHEMA ?= dt-mk-schema
+> -DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
 >
-> v2:
->  - make sure to quote the whitelist path properly (Nicolas)
+>  quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
+>        cmd_chk_binding = $(DT_DOC_CHECKER) -u $(srctree)/$(src) $< ; \
+> @@ -11,26 +10,33 @@ quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
+>  $(obj)/%.example.dts: $(src)/%.yaml FORCE
+>         $(call if_changed,chk_binding)
 >
-> Quentin Perret (3):
->   kbuild: allow symbol whitelisting with TRIM_UNUSED_KSYMS
->   kbuild: split adjust_autoksyms.sh in two parts
->   kbuild: generate autoksyms.h early
+> -DT_TMP_SCHEMA := processed-schema.yaml
+> +# Use full schemas when checking %.example.dts
+> +DT_TMP_SCHEMA := $(obj)/processed-schema-examples.yaml
 >
->  Makefile                    |  7 +++--
->  init/Kconfig                | 13 ++++++++++
->  scripts/adjust_autoksyms.sh | 24 +++--------------
->  scripts/gen_autoksyms.sh    | 52 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 74 insertions(+), 22 deletions(-)
->  create mode 100755 scripts/gen_autoksyms.sh
+>  quiet_cmd_mk_schema = SCHEMA  $@
+>        cmd_mk_schema = $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(real-prereqs)
 >
+> -DT_DOCS = $(shell \
+> +DT_DOCS = $(addprefix $(src)/, \
+> +       $(shell \
+>         cd $(srctree)/$(src) && \
+>         find * \( -name '*.yaml' ! \
+> -               -name $(DT_TMP_SCHEMA) ! \
+> +               -name 'processed-schema*' ! \
+>                 -name '*.example.dt.yaml' \) \
+> -       )
+> +       ))
+>
+> -DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
+> +DT_SCHEMA_FILES ?= $(DT_DOCS)
+>
+>  ifeq ($(CHECK_DTBS),)
+>  extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+>  extra-y += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
+> +extra-y += processed-schema-examples.yaml
+> +
+> +$(obj)/processed-schema-examples.yaml: $(DT_DOCS) FORCE
+> +       $(call if_changed,mk_schema)
+>  endif
+>
+> -$(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
+> +$(obj)/processed-schema.yaml: DT_MK_SCHEMA_FLAGS := -u
+> +$(obj)/processed-schema.yaml: $(DT_SCHEMA_FILES) FORCE
+>         $(call if_changed,mk_schema)
+>
+> -extra-y += $(DT_TMP_SCHEMA)
+> +extra-y += processed-schema.yaml
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index f5ff506e4a24..b12dd5ba4896 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -307,7 +307,8 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+>
+>  DT_CHECKER ?= dt-validate
+>  DT_BINDING_DIR := Documentation/devicetree/bindings
+> -DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
+> +# DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
+> +DT_TMP_SCHEMA ?= $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
+>
+>  quiet_cmd_dtb_check =  CHECK   $@
+>        cmd_dtb_check =  $(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@
 > --
-> 2.25.1.481.gfbce0eb801-goog
+> 2.20.1
 >
 
 
