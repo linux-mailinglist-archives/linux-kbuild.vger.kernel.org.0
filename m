@@ -2,288 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B3621755DF
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2020 09:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 382DA1758BD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2020 11:56:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbgCBIWd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Mar 2020 03:22:33 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:31050 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726953AbgCBIWd (ORCPT
+        id S1727030AbgCBK4J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Mar 2020 05:56:09 -0500
+Received: from mail-lj1-f173.google.com ([209.85.208.173]:43120 "EHLO
+        mail-lj1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726654AbgCBK4J (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Mar 2020 03:22:33 -0500
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0228MRcA017331;
-        Mon, 2 Mar 2020 17:22:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0228MRcA017331
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583137348;
-        bh=0NFqNxJyxan6aRmOhiOYfjzVH/cuDJuR1BoBM2znMoI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=D3uBq8wmBHFaLItBjkFFC8Z01rN7LdpebGuiK4KU6oHMXE91CaUyW3KfUyVybfSJe
-         t1SbP526w1Ets2u1kT8iq+zNlMIyRqPm4BV8WqiQm8iBMJriVNMwxhAFRIhHMHEyzv
-         0PtBtIZIf0Oj7PQc3er3p8yRDtqe9qnZwh8M20Jx75EC7LptD3Xy/vqMUOXsVpzq9/
-         ZaGunzLrpMf2zWdszPteVcBpKop0eXNGJXr0TySyqVp9M0kIsUW+nb9DEbM8C2w8fO
-         5hR6qQ3rKuMkdMgePwHLdoa+sWvdTRinas5jPij5pcXJbiMptXDohD4tS6PH34baJe
-         YmPu61g9FXLcg==
-X-Nifty-SrcIP: [209.85.222.50]
-Received: by mail-ua1-f50.google.com with SMTP id y3so3302012uae.3;
-        Mon, 02 Mar 2020 00:22:28 -0800 (PST)
-X-Gm-Message-State: ANhLgQ3u84tO0g5Bm3RlzOoez9I0B+uPM7gNb0Pyy/vZCqbjo3L34MaQ
-        hoES2BjI3JT4qCuNsozi196vzoGTE7/C2G/499E=
-X-Google-Smtp-Source: ADFU+vt4TH9XlZghKnEnQCXPSJgYjYvMJZ4r+dBC2Zmb2bsqxJAoGOGBeuSmm17BXzmE+2c2sdMlesfZVbA/nrh1CSY=
-X-Received: by 2002:ab0:2414:: with SMTP id f20mr7620189uan.121.1583137347176;
- Mon, 02 Mar 2020 00:22:27 -0800 (PST)
+        Mon, 2 Mar 2020 05:56:09 -0500
+Received: by mail-lj1-f173.google.com with SMTP id e3so11192183lja.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2020 02:56:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=nqMVuyS4CFOxlIAUHG8LbizmYBcid9hPW+nTGezNsFY=;
+        b=PPIU/iwx8iRLuwOH+7C44gxAISsC3e13p6cXyZ4WlrwcTcSTY83YNmjvhQ+005D7LK
+         MBW8hWONjaCZqMq3ippgKLQDW/eR3CWtL3H1azXkh8T0cIJOxnyrwhWvy9VKLu5PbE2L
+         0pVWiQjom66WsaHJs6EBoaj5Y2TRT7GiJATUQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=nqMVuyS4CFOxlIAUHG8LbizmYBcid9hPW+nTGezNsFY=;
+        b=TGEJcftArRczN28cqU4SYuJAkKrlnuQIXNR/Q910wHEaQ8c1qkKUMZ0K210vDwiapX
+         lvny2tnQhBw/Q7h4+jNtK/1PWfrPzVOgkitzatPpJbkg/hMU9IrLbmi9hhSD1T+Fpo6y
+         N3R0scmLzBriIIXSZ/8Tm4Y+jF4qHEKExjxEwm3VfoX6wBYd/ciQhr7cv1hiVD0UGSsQ
+         ANzkJwX0uaztNQ1K+qUPEnYU5O+GZ7Hu5KD3BHjAY0QfRPtaMUEvps83htadYU1UP93O
+         0n87iex2/HAF7s9prw6M7hOYcA446XeRA3T47vfEfKLku8par3tTnpLBj3TRfhQp3nCP
+         cd8Q==
+X-Gm-Message-State: ANhLgQ14qq2M0JYT6tFSczEFTF8ulLr+9LLqB69VQ1HU3GjVbWQfZvsy
+        Vzor3CWTNC//nMO69CoSriC2lg==
+X-Google-Smtp-Source: ADFU+vvItV4F44Kw96WD2QVFnEnYHkQqMrFYjSTlprO9G/f4U91MWBiMRQudjTiTkIKk+2eijAutgg==
+X-Received: by 2002:a2e:a58c:: with SMTP id m12mr10192159ljp.141.1583146566633;
+        Mon, 02 Mar 2020 02:56:06 -0800 (PST)
+Received: from [172.16.11.50] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id 67sm7213458ljj.31.2020.03.02.02.56.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Mar 2020 02:56:06 -0800 (PST)
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: eh_frame confusion
+Message-ID: <3b00b45f-74b5-13e3-9a98-c3d6b3bb7286@rasmusvillemoes.dk>
+Date:   Mon, 2 Mar 2020 11:56:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200219074950.23344-1-masahiroy@kernel.org> <CAMuHMdU7=jRNCWvtiFhJwUM6P4xNmqwXdPX14qvE=6by1V7APA@mail.gmail.com>
- <CAK7LNATKh9Y_QmO19iPw+zXT8RG-HfXBFY5bvpX0YSyOO-=NGA@mail.gmail.com> <CAMuHMdWNhd3kwqQ2OYOscq3VFDjip_FZtt8w6PVCenz095kCZg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWNhd3kwqQ2OYOscq3VFDjip_FZtt8w6PVCenz095kCZg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 2 Mar 2020 17:21:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
-Message-ID: <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        John Stultz <john.stultz@linaro.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Mark Brown <broonie@kernel.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Geert,
+I'm building a ppc32 kernel, and noticed that after upgrading from gcc-7
+to gcc-8 all object files now end up having .eh_frame section. For
+vmlinux, that's not a problem, because they all get discarded in
+arch/powerpc/kernel/vmlinux.lds.S . However, they stick around in
+modules, which doesn't seem to be useful - given that everything worked
+just fine with gcc-7, and I don't see anything in the module loader that
+handles .eh_frame.
 
+The reason I care is that my target has a rather tight rootfs budget,
+and the .eh_frame section seem to occupy 10-30% of the file size
+(obviously very depending on the particular module).
 
-On Wed, Feb 19, 2020 at 6:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Yamada-san,
->
-> On Wed, Feb 19, 2020 at 10:24 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > On Wed, Feb 19, 2020 at 5:42 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Wed, Feb 19, 2020 at 8:51 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > > The 'imply' statement may create unmet direct dependency when the
-> > > > implied symbol depends on m.
-> > > >
-> > > > [Test Code]
-> > > >
-> > > >   config FOO
-> > > >           tristate "foo"
-> > > >           imply BAZ
-> > > >
-> > > >   config BAZ
-> > > >           tristate "baz"
-> > > >           depends on BAR
-> > > >
-> > > >   config BAR
-> > > >           def_tristate m
-> > > >
-> > > >   config MODULES
-> > > >           def_bool y
-> > > >           option modules
-> > > >
-> > > > If you set FOO=y, BAZ is also promoted to y, which results in the
-> > > > following .config file:
-> > > >
-> > > >   CONFIG_FOO=y
-> > > >   CONFIG_BAZ=y
-> > > >   CONFIG_BAR=m
-> > > >   CONFIG_MODULES=y
-> > > >
-> > > > This ignores the dependency "BAZ depends on BAR".
-> > > >
-> > > > Unlike 'select', what is worse, Kconfig never shows the
-> > > > "WARNING: unmet direct dependencies detected for ..." for this case.
-> > > >
-> > > > Because 'imply' should be weaker than 'depends on', Kconfig should
-> > > > take the direct dependency into account.
-> > > >
-> > > > Describe this case in Documentation/kbuild/kconfig-language.rst for
-> > > > clarification.
-> > > >
-> > > > Commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword") says that
-> > > > a symbol implied by y is restricted to y or n, excluding m.
-> > > >
-> > > > As for the combination of FOO=y and BAR=m, the case of BAZ=m is excluded
-> > > > by the 'imply', and BAZ=y is also excluded by 'depends on'. So, only the
-> > > > possible value is BAZ=n.
-> > > >
-> > > > Having said that, this case was probably "We don't care" at that time
-> > > > because Kconfig did not handle 'depends on m' correctly until
-> > > > commit f622f8279581 ("kconfig: warn unmet direct dependency of tristate
-> > > > symbols selected by y") fixed it.
-> > > >
-> > > > Backporting this to 4.19+ will probably be fine. If you care this
-> > > > problem on 4.14.x, you need to backport f622f8279581 as well.
-> > > >
-> > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > >
-> > > Thanks a lot! This fixes the build issues in
-> > > https://lore.kernel.org/alsa-devel/CAMuHMdW8SvDgQJyenTtEm4Xn2Ma6PK9pfwKR2_gn60t2AqNWXg@mail.gmail.com/
-> > >
-> > > Tested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> >
-> > Even if this patch fixes the build issues,
-> > the result may not be what you expect.
-> >
-> > The very subtle part of 'imply' is that
-> > symbols implied by 'y' cannot be 'm'.
-> >
-> > When CONFIG_SND_SOC_ALL_CODECS=y,
-> > the select'ed drivers were previously able to be 'm'.
-> >
-> > After ea00d95200d02, drivers that were previously
-> > 'm' are now 'n'.
-> >
-> > Probably, it shrunk the test-coverage.
-> >
-> > I'd recommend to compare the .config file.
->
-> I always do, when running make oldconfig ;-)
->
-> I only see expected changes from y to m.
-> I don't see any unexpected changes from m to n.
+Comparing the .foo.o.cmd files, I don't see change in options that might
+explain this (there's a bunch of new -Wno-*, and the -mspe=no spelling
+is apparently no longer supported in gcc-8). Both before and after, there's
 
+-fno-dwarf2-cfi-asm
 
-This is because you used oldconfig.
+about which gcc's documentation says
 
-The 'imply' keyword defines the default
-of symbols _without_ user-defined values.
+'-fno-dwarf2-cfi-asm'
+     Emit DWARF unwind info as compiler generated '.eh_frame' section
+     instead of using GAS '.cfi_*' directives.
 
-oldconfig loads the .config file,
-which contains the user-defined values.
+Looking into where that comes from got me even more confused, because
+both arm and unicore32 say
 
-When you test the 'imply' keyword,
-you must start Kconfig from a pristine state
-(e.g. 'make defconfig')
+# Never generate .eh_frame
+KBUILD_CFLAGS           += $(call cc-option,-fno-dwarf2-cfi-asm)
 
+while the ppc32 case at hand says
 
+# FIXME: the module load should be taught about the additional relocs
+# generated by this.
+# revert to pre-gcc-4.4 behaviour of .eh_frame
 
-Compare the difference between v5.6-rc4 and
-v5.6-rc4 + the following two patches.
+but prior to gcc-8, .eh_frame didn't seem to get generated anyway.
 
-https://lore.kernel.org/patchwork/patch/1190445/
-https://lore.kernel.org/patchwork/patch/1196514/
+Can .eh_frame sections be discarded for modules (on ppc32 at least), or
+is there some magic that makes them necessary when building with gcc-8?
 
-
-
-[How to reproduce]
-
-Tweak x86_64_defconfig as follows, then
-compare the result of 'make defconfig'.
-
-
-
-masahiro@pug:~/ref/linux$ git diff
-diff --git a/arch/x86/configs/x86_64_defconfig
-b/arch/x86/configs/x86_64_defconfig
-index 0b9654c7a05c..e102d75d3707 100644
---- a/arch/x86/configs/x86_64_defconfig
-+++ b/arch/x86/configs/x86_64_defconfig
-@@ -194,7 +194,7 @@ CONFIG_WATCHDOG=y
- CONFIG_AGP=y
- CONFIG_AGP_AMD64=y
- CONFIG_AGP_INTEL=y
--CONFIG_DRM=y
-+# CONFIG_DRM is not set
- CONFIG_DRM_I915=y
- CONFIG_FB_MODE_HELPERS=y
- CONFIG_FB_TILEBLITTING=y
-@@ -296,3 +296,11 @@ CONFIG_SECURITY_SELINUX_DISABLE=y
- CONFIG_EFI_STUB=y
- CONFIG_EFI_MIXED=y
- CONFIG_ACPI_BGRT=y
-+CONFIG_EXPERT=y
-+# CONFIG_TTY is not set
-+CONFIG_INPUT=m
-+CONFIG_I2C=y
-+CONFIG_SPI=y
-+CONFIG_COMPILE_TEST=y
-+CONFIG_SND_SOC=y
-+CONFIG_SND_SOC_ALL_CODECS=y
-
-
-masahiro@pug:~/ref/linux$ git checkout v5.6-rc4
-M arch/x86/configs/x86_64_defconfig
-Note: checking out 'v5.6-rc4'.
-
-You are in 'detached HEAD' state. You can look around, make experimental
-changes and commit them, and you can discard any commits you make in this
-state without impacting any branches by performing another checkout.
-
-If you want to create a new branch to retain commits you create, you may
-do so (now or later) by using -b with the checkout command again. Example:
-
-  git checkout -b <new-branch-name>
-
-HEAD is now at 98d54f81e36b Linux 5.6-rc4
-masahiro@pug:~/ref/linux$ git log --oneline  -1
-98d54f81e36b (HEAD, tag: v5.6-rc4, origin/master, origin/HEAD, master)
-Linux 5.6-rc4
-masahiro@pug:~/ref/linux$ make -s O=before   defconfig
-M arch/x86/configs/x86_64_defconfig
-Previous HEAD position was 98d54f81e36b Linux 5.6-rc4
-Switched to branch 'geert'
-masahiro@pug:~/ref/linux$ git log --oneline  -3
-231be9523aee (HEAD -> geert) kconfig: make 'imply' obey the direct dependency
-4132db11c62e ASoC: Use imply for SND_SOC_ALL_CODECS
-98d54f81e36b (tag: v5.6-rc4, origin/master, origin/HEAD, master) Linux 5.6-rc4
-masahiro@pug:~/ref/linux$ make -s O=after   defconfig
-masahiro@pug:~/ref/linux$ ./scripts/diffconfig  before/.config after/.config
- SND_SOC_CS42L52 m -> n
- SND_SOC_CS42L56 m -> n
- SND_SOC_MT6351 n -> y
- SND_SOC_MT6358 n -> y
- SND_SOC_WM8962 m -> n
-+SND_SOC_88PM860X n
-+SND_SOC_ARIZONA y
-+SND_SOC_CROS_EC_CODEC n
-+SND_SOC_CS47L15 y
-+SND_SOC_CS47L24 y
-+SND_SOC_CS47L35 y
-+SND_SOC_CS47L85 y
-+SND_SOC_CS47L90 y
-+SND_SOC_CS47L92 y
-+SND_SOC_CX20442 n
-+SND_SOC_LOCHNAGAR_SC n
-+SND_SOC_MADERA y
-+SND_SOC_MC13783 y
-+SND_SOC_RT1308_SDW n
-+SND_SOC_RT700_SDW n
-+SND_SOC_RT711_SDW n
-+SND_SOC_RT715_SDW n
-+SND_SOC_SI476X y
-+SND_SOC_TWL4030 n
-+SND_SOC_TWL6040 n
-+SND_SOC_WCD9335 n
-+SND_SOC_WCD934X n
-+SND_SOC_WL1273 y
-+SND_SOC_WM5102 y
-+SND_SOC_WM5110 y
-+SND_SOC_WM8350 n
-+SND_SOC_WM8400 n
-+SND_SOC_WM8994 y
-+SND_SOC_WM8997 y
-+SND_SOC_WM8998 y
-+SND_SOC_WSA881X n
-
-
-
-SND_SOC_CS42L52, SND_SOC_CS42L56 and SND_SOC_WM8962
-were previously m, but now disabled.
-
-
---
-Best Regards
-Masahiro Yamada
+Rasmus
