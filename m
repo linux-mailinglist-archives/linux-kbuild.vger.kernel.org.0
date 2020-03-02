@@ -2,181 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7566E175B03
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2020 13:56:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E945175B71
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2020 14:21:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727989AbgCBM4c (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Mar 2020 07:56:32 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:51444 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727734AbgCBM4b (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Mar 2020 07:56:31 -0500
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 022Crv3c009358;
-        Mon, 2 Mar 2020 13:55:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=STMicroelectronics;
- bh=QR9by0y6+s6+BJpgqoy6IRatITNZ3Ur80DMO1uUZ41M=;
- b=udVb852b0hDrg3p/dn9+nGQdHGcCd+sQ/u+zWH5tTiem3bP4pQ/Dz1kcSHf6jfNz1U4Q
- gss/aU0aepwbZU7POktDo6iD4CdBUcO7Gcay8Arrs4FWFMpls69Emjn6S6WwFwDXJSUe
- GbjImbWXnUBP25+7rqWmPSRy19hO9Wq2dcwJjiJwirXc6sQF2Vylm3zB/rB+nyn6dx8t
- T/fG/dPwI3Qynrjo25rtRCTYNP1GvrvcUlA2E6WamgkAcwfFBWPNjPWQDMi4zQGD/AQR
- iLcHXLmjWBnuzPu6OwCrM97qF/u5d2hxP/b6sAugV4lxl5uInewdzRHiP3NcjlrhQFZg vw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2yffqpkfrc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 02 Mar 2020 13:55:59 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F27E9100038;
-        Mon,  2 Mar 2020 13:55:56 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id DC7B52D3777;
-        Mon,  2 Mar 2020 13:55:56 +0100 (CET)
-Received: from lmecxl0912.lme.st.com (10.75.127.49) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 2 Mar
- 2020 13:55:55 +0100
-Subject: Re: [RFC PATCH v2 0/4] Add device tree build information
-To:     Frank Rowand <frowand.list@gmail.com>, <robh+dt@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S1727421AbgCBNV6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Mar 2020 08:21:58 -0500
+Received: from foss.arm.com ([217.140.110.172]:60728 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727334AbgCBNV6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 2 Mar 2020 08:21:58 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDC762F;
+        Mon,  2 Mar 2020 05:21:57 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 32FEA3F534;
+        Mon,  2 Mar 2020 05:21:57 -0800 (PST)
+Date:   Mon, 2 Mar 2020 13:21:55 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        John Stultz <john.stultz@linaro.org>,
+        Josh Triplett <josh@joshtriplett.org>,
+        Ulf Magnusson <ulfalizer@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        <david@gibson.dropbear.id.au>, <sjg@chromium.org>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-kbuild@vger.kernel.org>,
-        <devicetree-compiler@vger.kernel.org>, Ian Lepore <ian@freebsd.org>
-References: <20200221161418.20225-1-alexandre.torgue@st.com>
- <1b946fcf-47a9-012d-1b04-f4bbd2682607@gmail.com>
- <67d75f0c-7478-23b0-8619-746cf83cedb5@gmail.com>
-From:   Alexandre Torgue <alexandre.torgue@st.com>
-Message-ID: <dba17be2-067f-8221-f313-7a3edcf61511@st.com>
-Date:   Mon, 2 Mar 2020 13:55:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kconfig: make 'imply' obey the direct dependency
+Message-ID: <20200302132155.GF4166@sirena.org.uk>
+References: <20200219074950.23344-1-masahiroy@kernel.org>
+ <CAMuHMdU7=jRNCWvtiFhJwUM6P4xNmqwXdPX14qvE=6by1V7APA@mail.gmail.com>
+ <CAK7LNATKh9Y_QmO19iPw+zXT8RG-HfXBFY5bvpX0YSyOO-=NGA@mail.gmail.com>
+ <CAMuHMdWNhd3kwqQ2OYOscq3VFDjip_FZtt8w6PVCenz095kCZg@mail.gmail.com>
+ <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <67d75f0c-7478-23b0-8619-746cf83cedb5@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.49]
-X-ClientProxiedBy: SFHDAG3NODE2.st.com (10.75.127.8) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-03-02_04:2020-03-02,2020-03-02 signatures=0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="rMWmSaSbD7nr+du9"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAQNb-5RdivSwMONVT_YCXohR-0NMJW5ceVrJPxWUGF+Lg@mail.gmail.com>
+X-Cookie: Whistler's mother is off her rocker.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Franck
 
-On 2/28/20 6:47 PM, Frank Rowand wrote:
-> Hi Alexandred,
-> 
-> Ping.
-> 
+--rMWmSaSbD7nr+du9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Sorry I was off last week.
+On Mon, Mar 02, 2020 at 05:21:51PM +0900, Masahiro Yamada wrote:
+> On Wed, Feb 19, 2020 at 6:54 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-> -Frank
-> 
-> 
-> On 2/21/20 11:47 AM, Frank Rowand wrote:
->> On 2/21/20 10:14 AM, Alexandre Torgue wrote:
->>> (with title it's better ;)
->>>
->>> Hi,
->>>
->>> The goal of this series is to add device tree build information in dtb.
->>> This information can be dtb build date, where devicetree files come from,
->>> who built the dtb ... Actually, same kind of information that you can find
->>> in the Linux banner which is printout during kernel boot. Having the same
->>> kind of information for device tree is useful for debugging and maintenance.
->>>
->>> A file (dtb-build.txt) containing a string with build information (e.g.,
->>> >From Linux 5.5.0-rc1 by alex the Mon Jan 13 18:25:38 CET 2020) is generated by
->>> "gen_dtb_build_info.sh" script.
->>>
->>> This file has to be included manually in each dts file that would like to use
->>> this build information.
->>
->> In the RFC series, you said:
->>
->>    "I gonna prepare a V2 with David proposition (to use overlay format) by
->>     keeping in mind not to modify existing dts(i) files."
->>
->>     https://lore.kernel.org/linux-devicetree/9d83a36c-78c5-3452-bb48-209d68c46038@st.com/
->>
->> But here in v2 instead requires including dtb-build.txt.
->>
->> This would require modifying every single main .dts file to get the build info
->> I would prefer the method that Ian and David came up with (sorry, no lore link,
->> it did not go to lkml).  Extract from David's email:
->>
->>     Date:   Tue, 21 Jan 2020 13:05:25 +1100
->>     From:   David Gibson <david@gibson.dropbear.id.au>
->>     Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
->>
->>     > Given that dts files are run through the C preprocessor before being
->>     > fed to dtc, the build script could use the '-include' flag to force-
->>     > include a fragment containing generated build info without any need to
->>     > modify existing dts files.
->>
->>     Uh... maybe.  -include will essentially prepend the forced file, which
->>     is a bit awkward for our purposes.  It means that the prepended file
->>     would need the /dts-v1/ tag, and we couldn't have it in the main files
->>     which would be a bit confusing.  I think it would also cause problems
->>     with any /memreserve/ tags and means that the main tree could in
->>     theory overwrite the build information which we don't necessarily
->>     want.
->>
->>     I guess we could build things the other way around: have the main .dts
->>     file specified with -include and have the dts on the dtc commandline
->>     be a fixed one with the build information.  It'd be a little weird,
->>     though.
->>
->> -Frank
+> > I always do, when running make oldconfig ;-)
 
-Yes. I try briefly this idea but I got issues with dts-v1 tag. I agree, 
-it is cleaner to not modify input dts file. I can rework int this way.
+> > I only see expected changes from y to m.
+> > I don't see any unexpected changes from m to n.
 
-regards
-Alex
+> This is because you used oldconfig.
 
->>
->>>
->>> of/fdt.c is modified to printout "build-info" property during Kernel boot and
->>> scripts/Makefile.lib is modified to call "gen_dtb_build_info.sh" script.
->>>
->>> Patch 1 & 2 script and of/fdt.c updates
->>> Patch 3 is an example of use in stm32mp157c-dk2.dts file.
->>> Patch 4 is a tentative to make it automatic (not yet 100% functional).
->>>
->>> regards
->>> Alex
->>>
->>> Changes since v1;
->>>   - Remove modification in dtc (no more -B option)
->>>   - Generate a file containing build info which is directly included in dts
->>>     file.
->>>
->>>
->>> Regards
->>> Alex
->>>
->>> Alexandre Torgue (4):
->>>    scripts: Add script to generate dtb build information
->>>    of: fdt: print dtb build information
->>>    ARM: dts: stm32: Add dtb build information entry for stm32mp157c-dk2
->>>    script: make automatic dtb build info generation
->>>
->>>   arch/arm/boot/dts/stm32mp157c-dk2.dts |  1 +
->>>   drivers/of/fdt.c                      |  9 +++++++++
->>>   scripts/Makefile.lib                  |  3 +++
->>>   scripts/gen_dtb_build_info.sh         | 12 ++++++++++++
->>>   4 files changed, 25 insertions(+)
->>>   create mode 100755 scripts/gen_dtb_build_info.sh
->>>
->>
->>
-> 
+> The 'imply' keyword defines the default
+> of symbols _without_ user-defined values.
+
+This is going to make the behaviour of imply statements a bit
+inconsistent which doesn't seem ideal though it's *probably* fine for
+the SND_SOC_ALL_CODECS case.
+
+--rMWmSaSbD7nr+du9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl5dCHIACgkQJNaLcl1U
+h9D7iAf+PCYi3hwZfSI7GUn9mnmz3xVd890KXV1oVj/Ydpqg88/cMNF99lnezlzV
+MF4B10UmHMv02hHHRxFuX4J7sYecAU6E8cNs3fnrraA5ykrW6hXq83DFprv4PqYi
+X0EyO1dj3jEMxRRE7Q2wESspE9QFg/EoHz+fej7B1LU7Os3YVYMfDISUjZkWbl3y
+l566hoDDN2XfcrP/k+tpv/qFQ5xc2kHjBliUH2F8PCETePWYVN0qXBE6UdfIuKar
+Gyj7JIZEXtZzU8BauE1QGQ1SXYFB5C8ezu75MfxX9sXtzvr3UR3eO8A9AtqsCItx
+u6DiWozVeV+kWjI0V7F0EXdCCD6mKw==
+=rptL
+-----END PGP SIGNATURE-----
+
+--rMWmSaSbD7nr+du9--
