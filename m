@@ -2,111 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2455B177427
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 11:28:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 356151777A6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 14:46:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbgCCK2a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Mar 2020 05:28:30 -0500
-Received: from ozlabs.org ([203.11.71.1]:56809 "EHLO ozlabs.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726661AbgCCK2a (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Mar 2020 05:28:30 -0500
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 48WtWt5nQLz9sPg;
-        Tue,  3 Mar 2020 21:28:26 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ellerman.id.au;
-        s=201909; t=1583231306;
-        bh=rR0PX/PIXpmUWEvsjz0jV6bq6v4H0L8THPuMSsBWOU8=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=e2hwoNpcmZ8jxUWgWgFC8ksw5tR4ti8FJluJ33yhtXFlL103gKneQZTP+0Y8BQ61H
-         N719f7pQJa0nAvjekPYniWU6o7PlJ2DN2PXEIrbeNb1dLA8F409L1QX+xVs58OnhxA
-         z/2sMLice1M1cF1+EKH9YfGoNWbHcVw2raEcIsXYHBefoQacpH9zw9kcba5rjTEMpR
-         iN+uJPL3hWW6sJWLfe++SwJG1aRnLXdS3I7SCM+uiSbdpETdDFI/RMKCD6qAn7qzPa
-         YrJ1axUSSaXC7qDa9WtbIwNqoJPChWG+hwygJUgiSNOzuhqL96D8lJ4sAB3tShx4D/
-         Rj/SlH5DAZzTA==
-From:   Michael Ellerman <mpe@ellerman.id.au>
-To:     "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev\@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: eh_frame confusion
-In-Reply-To: <1583168442.ovqnxu16tp.naveen@linux.ibm.com>
-References: <3b00b45f-74b5-13e3-9a98-c3d6b3bb7286@rasmusvillemoes.dk> <1583168442.ovqnxu16tp.naveen@linux.ibm.com>
-Date:   Tue, 03 Mar 2020 21:28:25 +1100
-Message-ID: <877e01spfa.fsf@mpe.ellerman.id.au>
+        id S1728157AbgCCNqc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Mar 2020 08:46:32 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:38270 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727167AbgCCNqc (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 3 Mar 2020 08:46:32 -0500
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 023DkNuj001527;
+        Tue, 3 Mar 2020 22:46:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 023DkNuj001527
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583243184;
+        bh=I0dB0E0Ppgz9TfglvmGFKRBJvWtxB1020ETEw+zES8k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=r8faXJ+BlS6Qk+t3Ed1/ouhSRxGoBFaiF3DCRJ25taCMU7nJDnr+svsg8p3eaXn2r
+         g9BYXlTOmA5MbqSfx+e4QRvyFdJQwqyaVx3+h/2O4V4ZhgE0uRpdd0xQq8iqgr5Dn/
+         moY4CpHlo+ip6adRt843TeyP2hQU+psGsVqQLeMiov/uEweC4zIDD+SfU1Yo+CTK3W
+         LUHPuOKsZE25mE+t/IkFyBA+dQDZdrz6VB1JBbSC5Q89dSDl6Cgikzf09kYKLQGp+H
+         6ZgiwtdWDmdQaAU/Z/qcGoo4dmQeQ2VRYlGEiWFJV7qX4M9LNVCzK3eg42X74ppr8W
+         7g9nY8pNNlmUw==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id w142so2352836vsw.9;
+        Tue, 03 Mar 2020 05:46:24 -0800 (PST)
+X-Gm-Message-State: ANhLgQ0xII2jz37IHuddeWaFM0hKABhW8mm+Oz4AyHMpqGAsRH769vMz
+        XSTMcEzRYvvG3vDNS3XNSdvuWVT380W+vpHclik=
+X-Google-Smtp-Source: ADFU+vsjmSig+hI85BfC9o+2I1Nt3rsoH9lkQysVJ+WWf8bKa68CI2DD2CprMOpxEX7H5tqzk/VJC2tBrHCTfTlcbI0=
+X-Received: by 2002:a67:bc0c:: with SMTP id t12mr2269458vsn.215.1583243183172;
+ Tue, 03 Mar 2020 05:46:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200229003731.2728-1-robh@kernel.org> <CAK7LNAQUbfVvYYSuMNnB2OyNbuYZkzY0gsKRybe-0P9GuYZN2w@mail.gmail.com>
+ <CAL_JsqLqZYZXGg8-FnoV8EFKSK8moQjEWe93+FazEbh9GTxQpw@mail.gmail.com>
+In-Reply-To: <CAL_JsqLqZYZXGg8-FnoV8EFKSK8moQjEWe93+FazEbh9GTxQpw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 3 Mar 2020 22:45:47 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATr5TX+CnxHhoa5qcNes6mTp9h0TJ_5=0fGzzq3M8FKxg@mail.gmail.com>
+Message-ID: <CAK7LNATr5TX+CnxHhoa5qcNes6mTp9h0TJ_5=0fGzzq3M8FKxg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: Always validate DT binding examples
+To:     Rob Herring <robh@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-"Naveen N. Rao" <naveen.n.rao@linux.ibm.com> writes:
-> Rasmus Villemoes wrote:
->> I'm building a ppc32 kernel, and noticed that after upgrading from gcc-7
->> to gcc-8 all object files now end up having .eh_frame section. For
->> vmlinux, that's not a problem, because they all get discarded in
->> arch/powerpc/kernel/vmlinux.lds.S . However, they stick around in
->> modules, which doesn't seem to be useful - given that everything worked
->> just fine with gcc-7, and I don't see anything in the module loader that
->> handles .eh_frame.
->> 
->> The reason I care is that my target has a rather tight rootfs budget,
->> and the .eh_frame section seem to occupy 10-30% of the file size
->> (obviously very depending on the particular module).
->> 
->> Comparing the .foo.o.cmd files, I don't see change in options that might
->> explain this (there's a bunch of new -Wno-*, and the -mspe=no spelling
->> is apparently no longer supported in gcc-8). Both before and after, there's
->> 
->> -fno-dwarf2-cfi-asm
->> 
->> about which gcc's documentation says
->> 
->> '-fno-dwarf2-cfi-asm'
->>      Emit DWARF unwind info as compiler generated '.eh_frame' section
->>      instead of using GAS '.cfi_*' directives.
->> 
->> Looking into where that comes from got me even more confused, because
->> both arm and unicore32 say
->> 
->> # Never generate .eh_frame
->> KBUILD_CFLAGS           += $(call cc-option,-fno-dwarf2-cfi-asm)
->> 
->> while the ppc32 case at hand says
->> 
->> # FIXME: the module load should be taught about the additional relocs
->> # generated by this.
->> # revert to pre-gcc-4.4 behaviour of .eh_frame
+On Tue, Mar 3, 2020 at 1:06 AM Rob Herring <robh@kernel.org> wrote:
 >
-> Michael opened a task to look into this recently and I had spent some 
-> time last week on this. The original commit/discussion adding 
-> -fno-dwarf2-cfi-asm refers to R_PPC64_REL32 relocations not being 
-> handled by our module loader:
-> http://lkml.kernel.org/r/20090224065112.GA6690@bombadil.infradead.org
+> On Fri, Feb 28, 2020 at 10:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > Hi Rob,
+> >
+> > On Sat, Feb 29, 2020 at 9:37 AM Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > Most folks only run dt_binding_check on the single schema they care about
+> > > by setting DT_SCHEMA_FILES. That means example is only checked against
+> > > that one schema which is not always sufficient.
+> > >
+> > > Let's address this by splitting processed-schema.yaml into 2 files: one
+> > > that's always all schemas for the examples and one that's just the schema
+> > > in DT_SCHEMA_FILES for dtbs.
+> > >
+> > > Cc: Michal Marek <michal.lkml@markovi.net>
+> > > Cc: linux-kbuild@vger.kernel.org
+> > > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > Signed-off-by: Rob Herring <robh@kernel.org>
+> > > ---
+> > > Masahiro, given you pretty much re-wrote this, I added you as
+> > > Co-developed-by.
+> >
+> >
+> >
+> > I can apply both to my kbuild tree.
+>
+> Please apply to your tree.
 
-I opened that issue purely based on noticing the wart in the Makefile,
-not because I'd actually tested it.
 
-> However, that is now handled thanks to commit 9f751b82b491d:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9f751b82b491d
+Done.
+Thanks.
 
-Haha, written by me, what an idiot.
 
-So the Makefile hack can presumably be dropped, because the module
-loader can handle the relocations.
-
-And then maybe we also want to turn off the unwind tables, but that
-would be a separate patch.
-
-> I did a test build and a simple module loaded fine, so I think 
-> -fno-dwarf2-cfi-asm is not required anymore, unless Michael has seen 
-> some breakages with it. Michael?
-
-No, as I said above it was just reading the Makefile.
-
-cheers
+-- 
+Best Regards
+Masahiro Yamada
