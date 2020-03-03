@@ -2,184 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED4B2176116
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Mar 2020 18:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D917176E13
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 05:33:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbgCBRcw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Mon, 2 Mar 2020 12:32:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42120 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727000AbgCBRcw (ORCPT
+        id S1727388AbgCCEcy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Mar 2020 23:32:54 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:44481 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726928AbgCCEcy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Mar 2020 12:32:52 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 022HLmA0111489
-        for <linux-kbuild@vger.kernel.org>; Mon, 2 Mar 2020 12:32:51 -0500
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2yfhqpwgk2-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2020 12:32:51 -0500
-Received: from localhost
-        by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-kbuild@vger.kernel.org> from <naveen.n.rao@linux.ibm.com>;
-        Mon, 2 Mar 2020 17:32:49 -0000
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 2 Mar 2020 17:32:45 -0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 022HWiiV45220140
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 2 Mar 2020 17:32:44 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 31EB34C040;
-        Mon,  2 Mar 2020 17:32:44 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C1ECB4C04A;
-        Mon,  2 Mar 2020 17:32:43 +0000 (GMT)
-Received: from localhost (unknown [9.199.48.41])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Mon,  2 Mar 2020 17:32:43 +0000 (GMT)
-Date:   Mon, 02 Mar 2020 23:02:42 +0530
-From:   "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>
-Subject: eh_frame confusion
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Michael Ellerman <mpe@ellerman.id.au>
-References: <3b00b45f-74b5-13e3-9a98-c3d6b3bb7286@rasmusvillemoes.dk>
-        <1583168442.ovqnxu16tp.naveen@linux.ibm.com>
-In-Reply-To: <1583168442.ovqnxu16tp.naveen@linux.ibm.com>
+        Mon, 2 Mar 2020 23:32:54 -0500
+Received: by mail-pl1-f193.google.com with SMTP id d9so712989plo.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2020 20:32:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PAeuIw+hEri4xfaGtdCge6RjFwR9k/M6VeehKKOz2Zg=;
+        b=ZO61SxyiPLNPpW1EXlXI4x/HWOeu8rffpoS2+/Bt7b2ua54SalZEEkqudi6diZIkXh
+         cHuWJrfIFBFUMQECEu4k0LXTwfeayiwHTSI1Fd//oRS+ft8IegW8BxZ6m+yG/+KLbXEF
+         rCmTGOMC5dQjrfF/eviJrA/wJr34l+fzh5k2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PAeuIw+hEri4xfaGtdCge6RjFwR9k/M6VeehKKOz2Zg=;
+        b=bW9jBRyQ6yDjxWR5tAKawAiyrILgryUQPrI2Yx82P4VcVvupBblAlqQkKuSsgj5wK7
+         gPCvxhmaL/9M1FC5g76iu34wBKbgADVn31DBx1/M4uNcI0eUEBCU1bovu655JRXlCFqf
+         kzAuQPRd4H9tRjpXkyeKc+0/rTqA85ilJ41EIzKhZWJ7EA5UJVQyMCZ3rT77e4tpVD8s
+         OvOqC0T1FFtKnnQzuTItN2iXydqvFRWfNEsGkRVMiKw0B+A1JOhZ0wDr5PyzhpazZZM5
+         xQCZRaV7hx14bllkmwtaVT0g1Ez+tGTK1jPLF+cKmNp9eb6fT8MdmoeaPXzZKi9BubJZ
+         ijnA==
+X-Gm-Message-State: ANhLgQ1YOV9pGHwX5vZvNi28bDOmK1M8jE5WmQjdfg9LQlJF22x9ArQf
+        eex37bRg7SaWlXv1Xj4fTAov/g==
+X-Google-Smtp-Source: ADFU+vuu87r1SlcNGnctFE2kHHSUxB6qWqCEisCd/TiEgwd8JkcqMCC9rIaYFVZCii+GL+ZBtK9QSw==
+X-Received: by 2002:a17:90a:be04:: with SMTP id a4mr2011764pjs.73.1583209973125;
+        Mon, 02 Mar 2020 20:32:53 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id f127sm23298618pfa.112.2020.03.02.20.32.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 20:32:52 -0800 (PST)
+Date:   Mon, 2 Mar 2020 20:32:51 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Borislav Petkov <bp@suse.de>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Peter Collingbourne <pcc@google.com>,
+        James Morse <james.morse@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/9] Enable orphan section warning
+Message-ID: <202003022029.B549AA3@keescook>
+References: <20200228002244.15240-1-keescook@chromium.org>
+ <CA+icZUVRnjOWKZynAGDniXD_H9KRccONmeKHs25DPPU1c8ZcGg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: astroid/v0.15-13-gb675b421
- (https://github.com/astroidmail/astroid)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-TM-AS-GCONF: 00
-x-cbid: 20030217-0016-0000-0000-000002EC5DC4
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20030217-0017-0000-0000-0000334FA18A
-Message-Id: <1583169883.zo43kx69lm.naveen@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-03-02_06:2020-03-02,2020-03-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 bulkscore=0
- impostorscore=0 malwarescore=0 mlxscore=0 suspectscore=0 mlxlogscore=999
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2001150001 definitions=main-2003020116
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+icZUVRnjOWKZynAGDniXD_H9KRccONmeKHs25DPPU1c8ZcGg@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Naveen N. Rao wrote:
-> Rasmus Villemoes wrote:
->> I'm building a ppc32 kernel, and noticed that after upgrading from gcc-7
->> to gcc-8 all object files now end up having .eh_frame section. For
->> vmlinux, that's not a problem, because they all get discarded in
->> arch/powerpc/kernel/vmlinux.lds.S . However, they stick around in
->> modules, which doesn't seem to be useful - given that everything worked
->> just fine with gcc-7, and I don't see anything in the module loader that
->> handles .eh_frame.
->> 
->> The reason I care is that my target has a rather tight rootfs budget,
->> and the .eh_frame section seem to occupy 10-30% of the file size
->> (obviously very depending on the particular module).
->> 
->> Comparing the .foo.o.cmd files, I don't see change in options that might
->> explain this (there's a bunch of new -Wno-*, and the -mspe=no spelling
->> is apparently no longer supported in gcc-8). Both before and after, there's
->> 
->> -fno-dwarf2-cfi-asm
->> 
->> about which gcc's documentation says
->> 
->> '-fno-dwarf2-cfi-asm'
->>      Emit DWARF unwind info as compiler generated '.eh_frame' section
->>      instead of using GAS '.cfi_*' directives.
->> 
->> Looking into where that comes from got me even more confused, because
->> both arm and unicore32 say
->> 
->> # Never generate .eh_frame
->> KBUILD_CFLAGS           += $(call cc-option,-fno-dwarf2-cfi-asm)
->> 
->> while the ppc32 case at hand says
->> 
->> # FIXME: the module load should be taught about the additional relocs
->> # generated by this.
->> # revert to pre-gcc-4.4 behaviour of .eh_frame
+On Fri, Feb 28, 2020 at 07:51:21AM +0100, Sedat Dilek wrote:
+> On Fri, Feb 28, 2020 at 1:22 AM Kees Cook <keescook@chromium.org> wrote:
+> > This series depends on tip/x86/boot (where recent .eh_frame fixes[3]
+> > landed), and has a minor conflict[4] with the ARM tree (related to
+> > the earlier mentioned bug). As it uses refactorings in the asm-generic
+> > linker script, and makes changes to kbuild, I think the cleanest place
+> > for this series to land would also be through -tip. Once again (like
+> > my READ_IMPLIES_EXEC series), I'm looking to get maintainer Acks so
+> > this can go all together with the least disruption. Splitting it up by
+> > architecture seems needlessly difficult.
 > 
-> Michael opened a task to look into this recently and I had spent some 
-> time last week on this. The original commit/discussion adding 
-> -fno-dwarf2-cfi-asm refers to R_PPC64_REL32 relocations not being 
-> handled by our module loader:
-> http://lkml.kernel.org/r/20090224065112.GA6690@bombadil.infradead.org
+> Hi Kees,
 > 
-> However, that is now handled thanks to commit 9f751b82b491d:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=9f751b82b491d
+> is this an updated version of what you have in your
+> kees/linux.git#linker/orphans/x86-arm Git branch?
+
+Hi; yes indeed.
+
+> Especially, I saw a difference in [2] and "[PATCH 4/9] x86/boot: Warn
+> on orphan section placement"
 > 
-> I did a test build and a simple module loaded fine, so I think 
-> -fno-dwarf2-cfi-asm is not required anymore, unless Michael has seen 
-> some breakages with it. Michael?
+> [ arch/x86/boot/compressed/Makefile ]
 > 
->> 
->> but prior to gcc-8, .eh_frame didn't seem to get generated anyway.
->> 
->> Can .eh_frame sections be discarded for modules (on ppc32 at least), or
->> is there some magic that makes them necessary when building with gcc-8?
+> +KBUILD_LDFLAGS += --no-ld-generated-unwind-info
 > 
-> As Segher points out, it looks like we need to add 
-> -fno-asynchronous-unwind-tables. Most other architectures seem to use 
-> that too.
+> Can you comment on why this KBUILD_LDFLAGS was added/needed?
 
-Can you check if the below patch works? I am yet to test this in more 
-detail, but would be good to know the implications for ppc32.
+It looks like the linker decided to add .eh_frame sections even when all
+the .o files lacked it. Adding this flag solved it (which I prefer over
+adding it to DISCARD).
 
-- Naveen
+> I like when people offer their work in a Git branch.
+> Do you plan to do that?
 
+Since it was based on a -tip sub-branch I didn't push a
+copy, but since you asked here it is:
+https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=orphans/tip/x86/boot
 
----
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index f35730548e42..5b5bf98b8217 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -239,10 +239,7 @@ KBUILD_CFLAGS += $(call cc-option,-mno-vsx)
- KBUILD_CFLAGS += $(call cc-option,-mno-spe)
- KBUILD_CFLAGS += $(call cc-option,-mspe=no)
- 
--# FIXME: the module load should be taught about the additional relocs
--# generated by this.
--# revert to pre-gcc-4.4 behaviour of .eh_frame
--KBUILD_CFLAGS  += $(call cc-option,-fno-dwarf2-cfi-asm)
-+KBUILD_CFLAGS  += $(call cc-option,-fno-asynchronous-unwind-tables)
- 
- # Never use string load/store instructions as they are
- # often slow when they are implemented at all
-diff --git a/arch/powerpc/kernel/vdso32/Makefile b/arch/powerpc/kernel/vdso32/Makefile
-index e147bbdc12cd..d43b0b18137c 100644
---- a/arch/powerpc/kernel/vdso32/Makefile
-+++ b/arch/powerpc/kernel/vdso32/Makefile
-@@ -25,6 +25,7 @@ KCOV_INSTRUMENT := n
- UBSAN_SANITIZE := n
- 
- ccflags-y := -shared -fno-common -fno-builtin -nostdlib \
-+       -fasynchronous-unwind-tables \
-        -Wl,-soname=linux-vdso32.so.1 -Wl,--hash-style=both
- asflags-y := -D__VDSO32__ -s
- 
-diff --git a/arch/powerpc/kernel/vdso64/Makefile b/arch/powerpc/kernel/vdso64/Makefile
-index 32ebb3522ea1..b2cbb5c49bad 100644
---- a/arch/powerpc/kernel/vdso64/Makefile
-+++ b/arch/powerpc/kernel/vdso64/Makefile
-@@ -13,6 +13,7 @@ KCOV_INSTRUMENT := n
- UBSAN_SANITIZE := n
- 
- ccflags-y := -shared -fno-common -fno-builtin -nostdlib \
-+       -fasynchronous-unwind-tables \
-        -Wl,-soname=linux-vdso64.so.1 -Wl,--hash-style=both
- asflags-y := -D__VDSO64__ -s
- 
- 
+And this email can serve as a "ping" to the arch maintainers too...
+does this all look okay to you? I think it'd be a nice improvement. :)
 
+Thanks!
+
+-Kees
+
+> Thanks.
+> 
+> Regards,
+> - Sedat -
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=linker/orphans/x86-arm
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=linker/orphans/x86-arm&id=e43aa77956c40b9b6db0b37b3780423aa2e661ad
+> 
+> 
+> 
+> > H.J. Lu (1):
+> >   Add RUNTIME_DISCARD_EXIT to generic DISCARDS
+> >
+> > Kees Cook (8):
+> >   scripts/link-vmlinux.sh: Delay orphan handling warnings until final
+> >     link
+> >   vmlinux.lds.h: Add .gnu.version* to DISCARDS
+> >   x86/build: Warn on orphan section placement
+> >   x86/boot: Warn on orphan section placement
+> >   arm64/build: Use common DISCARDS in linker script
+> >   arm64/build: Warn on orphan section placement
+> >   arm/build: Warn on orphan section placement
+> >   arm/boot: Warn on orphan section placement
+> >
+> >  arch/arm/Makefile                             |  4 ++++
+> >  arch/arm/boot/compressed/Makefile             |  2 ++
+> >  arch/arm/boot/compressed/vmlinux.lds.S        | 17 ++++++--------
+> >  .../arm/{kernel => include/asm}/vmlinux.lds.h | 22 ++++++++++++++-----
+> >  arch/arm/kernel/vmlinux-xip.lds.S             |  5 ++---
+> >  arch/arm/kernel/vmlinux.lds.S                 |  5 ++---
+> >  arch/arm64/Makefile                           |  4 ++++
+> >  arch/arm64/kernel/vmlinux.lds.S               | 13 +++++------
+> >  arch/x86/Makefile                             |  4 ++++
+> >  arch/x86/boot/compressed/Makefile             |  3 ++-
+> >  arch/x86/boot/compressed/vmlinux.lds.S        | 13 +++++++++++
+> >  arch/x86/kernel/vmlinux.lds.S                 |  7 ++++++
+> >  include/asm-generic/vmlinux.lds.h             | 11 ++++++++--
+> >  scripts/link-vmlinux.sh                       |  6 +++++
+> >  14 files changed, 85 insertions(+), 31 deletions(-)
+> >  rename arch/arm/{kernel => include/asm}/vmlinux.lds.h (92%)
+
+-- 
+Kees Cook
