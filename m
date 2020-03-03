@@ -2,160 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D917176E13
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 05:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EA6B176E2B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 05:49:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727388AbgCCEcy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Mar 2020 23:32:54 -0500
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44481 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726928AbgCCEcy (ORCPT
+        id S1726974AbgCCEtB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Mar 2020 23:49:01 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36769 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726859AbgCCEtA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Mar 2020 23:32:54 -0500
-Received: by mail-pl1-f193.google.com with SMTP id d9so712989plo.11
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2020 20:32:53 -0800 (PST)
+        Mon, 2 Mar 2020 23:49:00 -0500
+Received: by mail-pf1-f193.google.com with SMTP id i13so827472pfe.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Mar 2020 20:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=PAeuIw+hEri4xfaGtdCge6RjFwR9k/M6VeehKKOz2Zg=;
-        b=ZO61SxyiPLNPpW1EXlXI4x/HWOeu8rffpoS2+/Bt7b2ua54SalZEEkqudi6diZIkXh
-         cHuWJrfIFBFUMQECEu4k0LXTwfeayiwHTSI1Fd//oRS+ft8IegW8BxZ6m+yG/+KLbXEF
-         rCmTGOMC5dQjrfF/eviJrA/wJr34l+fzh5k2I=
+        bh=Sics0B7EoHCtat3/CO1pwyp/swYRXD7UJx80Cjp454c=;
+        b=iHnPg7BcPecEdHYB95AV1YGmFaTE8e6ruVjUoK73IQbKQmU1NJROEx6/7ho6yrgcVX
+         plBRasUX+u9rqCk4siHPbGty2/YnfeBVzIAx+ckfm8TTZvumSLIIwdkS9803ZCkUgIZz
+         OPdz/MnVjYzXW3pMqrOU9QbDB7LjmXePfmKgs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=PAeuIw+hEri4xfaGtdCge6RjFwR9k/M6VeehKKOz2Zg=;
-        b=bW9jBRyQ6yDjxWR5tAKawAiyrILgryUQPrI2Yx82P4VcVvupBblAlqQkKuSsgj5wK7
-         gPCvxhmaL/9M1FC5g76iu34wBKbgADVn31DBx1/M4uNcI0eUEBCU1bovu655JRXlCFqf
-         kzAuQPRd4H9tRjpXkyeKc+0/rTqA85ilJ41EIzKhZWJ7EA5UJVQyMCZ3rT77e4tpVD8s
-         OvOqC0T1FFtKnnQzuTItN2iXydqvFRWfNEsGkRVMiKw0B+A1JOhZ0wDr5PyzhpazZZM5
-         xQCZRaV7hx14bllkmwtaVT0g1Ez+tGTK1jPLF+cKmNp9eb6fT8MdmoeaPXzZKi9BubJZ
-         ijnA==
-X-Gm-Message-State: ANhLgQ1YOV9pGHwX5vZvNi28bDOmK1M8jE5WmQjdfg9LQlJF22x9ArQf
-        eex37bRg7SaWlXv1Xj4fTAov/g==
-X-Google-Smtp-Source: ADFU+vuu87r1SlcNGnctFE2kHHSUxB6qWqCEisCd/TiEgwd8JkcqMCC9rIaYFVZCii+GL+ZBtK9QSw==
-X-Received: by 2002:a17:90a:be04:: with SMTP id a4mr2011764pjs.73.1583209973125;
-        Mon, 02 Mar 2020 20:32:53 -0800 (PST)
+        bh=Sics0B7EoHCtat3/CO1pwyp/swYRXD7UJx80Cjp454c=;
+        b=dDN+rPSy4whQrLek62/2DN0gkKX1repWvkqqUeCdY9hel9OsiYJzJAKtoPriglQq1E
+         yQ4qyg6FjC3gkrj0Ccc+TuSRVXP+gdeVgBSVpIe3F8U6Yu5MoER1JslFE7suSwIZ5KiM
+         rUhf2zRAskaZtRNubVqZceczQWpsyr4UIusw7wEc8VY16jR2EvgW9vGhXb+mbTt1EjP6
+         ltRddFIY0oB6WUeESb06AF37hnTsL+Q9RrOxO6UZooDR82BeESjxLkqT7Tq9YIue6jEa
+         X+R8iJvYRgJfMmImRtklCS5Yr8H48e8FTQVQfWRhqtYnA/9ETs++ZWJbQ4ooOZ/tX9bb
+         s6Cw==
+X-Gm-Message-State: ANhLgQ0v53HOk+AXJUU5JS4jeBZCYpkHIcg+VRWLLomMNabRMQihQMJf
+        Tgd1HcJrnMjl9Szpmwu72c6MXw==
+X-Google-Smtp-Source: ADFU+vt2+qrCj2iXmaEVSCgXbvrK/ZVYtlXXb3TycWpDX8A69+F5QF37dyu0h7y6sOHRsE/xRKnU4A==
+X-Received: by 2002:a62:342:: with SMTP id 63mr2377981pfd.19.1583210938225;
+        Mon, 02 Mar 2020 20:48:58 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f127sm23298618pfa.112.2020.03.02.20.32.51
+        by smtp.gmail.com with ESMTPSA id q3sm13264664pgj.92.2020.03.02.20.48.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 20:32:52 -0800 (PST)
-Date:   Mon, 2 Mar 2020 20:32:51 -0800
+        Mon, 02 Mar 2020 20:48:57 -0800 (PST)
+Date:   Mon, 2 Mar 2020 20:48:56 -0800
 From:   Kees Cook <keescook@chromium.org>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Borislav Petkov <bp@suse.de>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        James Morse <james.morse@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] Enable orphan section warning
-Message-ID: <202003022029.B549AA3@keescook>
-References: <20200228002244.15240-1-keescook@chromium.org>
- <CA+icZUVRnjOWKZynAGDniXD_H9KRccONmeKHs25DPPU1c8ZcGg@mail.gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>, bpf@vger.kernel.org
+Subject: Re: [PATCH] kbuild: Remove debug info from kallsyms linking
+Message-ID: <202003022046.4185359A@keescook>
+References: <202002242114.CBED7F1@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+icZUVRnjOWKZynAGDniXD_H9KRccONmeKHs25DPPU1c8ZcGg@mail.gmail.com>
+In-Reply-To: <202002242114.CBED7F1@keescook>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 28, 2020 at 07:51:21AM +0100, Sedat Dilek wrote:
-> On Fri, Feb 28, 2020 at 1:22 AM Kees Cook <keescook@chromium.org> wrote:
-> > This series depends on tip/x86/boot (where recent .eh_frame fixes[3]
-> > landed), and has a minor conflict[4] with the ARM tree (related to
-> > the earlier mentioned bug). As it uses refactorings in the asm-generic
-> > linker script, and makes changes to kbuild, I think the cleanest place
-> > for this series to land would also be through -tip. Once again (like
-> > my READ_IMPLIES_EXEC series), I'm looking to get maintainer Acks so
-> > this can go all together with the least disruption. Splitting it up by
-> > architecture seems needlessly difficult.
+On Mon, Feb 24, 2020 at 09:16:17PM -0800, Kees Cook wrote:
+> When CONFIG_DEBUG_INFO is enabled, the two kallsyms linking steps spend
+> time collecting and writing the dwarf sections to the temporary output
+> files. kallsyms does not need this information, and leaving it off
+> halves their linking time. This is especially noticeable without
+> CONFIG_DEBUG_INFO_REDUCED. The BTF linking stage, however, does still
+> need those details.
 > 
-> Hi Kees,
+> Refactor the BTF and kallsyms generation stages slightly for more
+> regularized temporary names. Skip debug during kallsyms links.
 > 
-> is this an updated version of what you have in your
-> kees/linux.git#linker/orphans/x86-arm Git branch?
-
-Hi; yes indeed.
-
-> Especially, I saw a difference in [2] and "[PATCH 4/9] x86/boot: Warn
-> on orphan section placement"
+> For a full debug info build with BTF, my link time goes from 1m06s to
+> 0m54s, saving about 12 seconds, or 18%.
 > 
-> [ arch/x86/boot/compressed/Makefile ]
-> 
-> +KBUILD_LDFLAGS += --no-ld-generated-unwind-info
-> 
-> Can you comment on why this KBUILD_LDFLAGS was added/needed?
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-It looks like the linker decided to add .eh_frame sections even when all
-the .o files lacked it. Adding this flag solved it (which I prefer over
-adding it to DISCARD).
-
-> I like when people offer their work in a Git branch.
-> Do you plan to do that?
-
-Since it was based on a -tip sub-branch I didn't push a
-copy, but since you asked here it is:
-https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=orphans/tip/x86/boot
-
-And this email can serve as a "ping" to the arch maintainers too...
-does this all look okay to you? I think it'd be a nice improvement. :)
-
-Thanks!
+Ping. Masahiro what do you think of this? It saves me a fair bit of time
+on the link stage... I bet the BPF folks would be interested too. :)
 
 -Kees
 
-> Thanks.
+> ---
+>  scripts/link-vmlinux.sh | 28 +++++++++++++++++++---------
+>  1 file changed, 19 insertions(+), 9 deletions(-)
 > 
-> Regards,
-> - Sedat -
+> diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+> index dd484e92752e..ac569e197bfa 100755
+> --- a/scripts/link-vmlinux.sh
+> +++ b/scripts/link-vmlinux.sh
+> @@ -63,12 +63,18 @@ vmlinux_link()
+>  	local lds="${objtree}/${KBUILD_LDS}"
+>  	local output=${1}
+>  	local objects
+> +	local strip_debug
+>  
+>  	info LD ${output}
+>  
+>  	# skip output file argument
+>  	shift
+>  
+> +	# The kallsyms linking does not need debug symbols included.
+> +	if [ "$output" != "${output#.tmp_vmlinux.kallsyms}" ] ; then
+> +		strip_debug=-Wl,--strip-debug
+> +	fi
+> +
+>  	if [ "${SRCARCH}" != "um" ]; then
+>  		objects="--whole-archive			\
+>  			${KBUILD_VMLINUX_OBJS}			\
+> @@ -79,6 +85,7 @@ vmlinux_link()
+>  			${@}"
+>  
+>  		${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}	\
+> +			${strip_debug#-Wl,}			\
+>  			-o ${output}				\
+>  			-T ${lds} ${objects}
+>  	else
+> @@ -91,6 +98,7 @@ vmlinux_link()
+>  			${@}"
+>  
+>  		${CC} ${CFLAGS_vmlinux}				\
+> +			${strip_debug}				\
+>  			-o ${output}				\
+>  			-Wl,-T,${lds}				\
+>  			${objects}				\
+> @@ -106,6 +114,8 @@ gen_btf()
+>  {
+>  	local pahole_ver
+>  	local bin_arch
+> +	local bin_format
+> +	local bin_file
+>  
+>  	if ! [ -x "$(command -v ${PAHOLE})" ]; then
+>  		echo >&2 "BTF: ${1}: pahole (${PAHOLE}) is not available"
+> @@ -118,8 +128,9 @@ gen_btf()
+>  		return 1
+>  	fi
+>  
+> -	info "BTF" ${2}
+>  	vmlinux_link ${1}
+> +
+> +	info "BTF" ${2}
+>  	LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${1}
+>  
+>  	# dump .BTF section into raw binary file to link with final vmlinux
+> @@ -127,11 +138,12 @@ gen_btf()
+>  		cut -d, -f1 | cut -d' ' -f2)
+>  	bin_format=$(LANG=C ${OBJDUMP} -f ${1} | grep 'file format' | \
+>  		awk '{print $4}')
+> +	bin_file=.btf.vmlinux.bin
+>  	${OBJCOPY} --change-section-address .BTF=0 \
+>  		--set-section-flags .BTF=alloc -O binary \
+> -		--only-section=.BTF ${1} .btf.vmlinux.bin
+> +		--only-section=.BTF ${1} $bin_file
+>  	${OBJCOPY} -I binary -O ${bin_format} -B ${bin_arch} \
+> -		--rename-section .data=.BTF .btf.vmlinux.bin ${2}
+> +		--rename-section .data=.BTF $bin_file ${2}
+>  }
+>  
+>  # Create ${2} .o file with all symbols from the ${1} object file
+> @@ -166,8 +178,8 @@ kallsyms()
+>  kallsyms_step()
+>  {
+>  	kallsymso_prev=${kallsymso}
+> -	kallsymso=.tmp_kallsyms${1}.o
+> -	kallsyms_vmlinux=.tmp_vmlinux${1}
+> +	kallsyms_vmlinux=.tmp_vmlinux.kallsyms${1}
+> +	kallsymso=${kallsyms_vmlinux}.o
+>  
+>  	vmlinux_link ${kallsyms_vmlinux} "${kallsymso_prev}" ${btf_vmlinux_bin_o}
+>  	kallsyms ${kallsyms_vmlinux} ${kallsymso}
+> @@ -190,7 +202,6 @@ cleanup()
+>  {
+>  	rm -f .btf.*
+>  	rm -f .tmp_System.map
+> -	rm -f .tmp_kallsyms*
+>  	rm -f .tmp_vmlinux*
+>  	rm -f System.map
+>  	rm -f vmlinux
+> @@ -257,9 +268,8 @@ tr '\0' '\n' < modules.builtin.modinfo | sed -n 's/^[[:alnum:]:_]*\.file=//p' |
+>  
+>  btf_vmlinux_bin_o=""
+>  if [ -n "${CONFIG_DEBUG_INFO_BTF}" ]; then
+> -	if gen_btf .tmp_vmlinux.btf .btf.vmlinux.bin.o ; then
+> -		btf_vmlinux_bin_o=.btf.vmlinux.bin.o
+> -	else
+> +	btf_vmlinux_bin_o=.btf.vmlinux.bin.o
+> +	if ! gen_btf .tmp_vmlinux.btf $btf_vmlinux_bin_o ; then
+>  		echo >&2 "Failed to generate BTF for vmlinux"
+>  		echo >&2 "Try to disable CONFIG_DEBUG_INFO_BTF"
+>  		exit 1
+> -- 
+> 2.20.1
 > 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/log/?h=linker/orphans/x86-arm
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git/commit/?h=linker/orphans/x86-arm&id=e43aa77956c40b9b6db0b37b3780423aa2e661ad
 > 
-> 
-> 
-> > H.J. Lu (1):
-> >   Add RUNTIME_DISCARD_EXIT to generic DISCARDS
-> >
-> > Kees Cook (8):
-> >   scripts/link-vmlinux.sh: Delay orphan handling warnings until final
-> >     link
-> >   vmlinux.lds.h: Add .gnu.version* to DISCARDS
-> >   x86/build: Warn on orphan section placement
-> >   x86/boot: Warn on orphan section placement
-> >   arm64/build: Use common DISCARDS in linker script
-> >   arm64/build: Warn on orphan section placement
-> >   arm/build: Warn on orphan section placement
-> >   arm/boot: Warn on orphan section placement
-> >
-> >  arch/arm/Makefile                             |  4 ++++
-> >  arch/arm/boot/compressed/Makefile             |  2 ++
-> >  arch/arm/boot/compressed/vmlinux.lds.S        | 17 ++++++--------
-> >  .../arm/{kernel => include/asm}/vmlinux.lds.h | 22 ++++++++++++++-----
-> >  arch/arm/kernel/vmlinux-xip.lds.S             |  5 ++---
-> >  arch/arm/kernel/vmlinux.lds.S                 |  5 ++---
-> >  arch/arm64/Makefile                           |  4 ++++
-> >  arch/arm64/kernel/vmlinux.lds.S               | 13 +++++------
-> >  arch/x86/Makefile                             |  4 ++++
-> >  arch/x86/boot/compressed/Makefile             |  3 ++-
-> >  arch/x86/boot/compressed/vmlinux.lds.S        | 13 +++++++++++
-> >  arch/x86/kernel/vmlinux.lds.S                 |  7 ++++++
-> >  include/asm-generic/vmlinux.lds.h             | 11 ++++++++--
-> >  scripts/link-vmlinux.sh                       |  6 +++++
-> >  14 files changed, 85 insertions(+), 31 deletions(-)
-> >  rename arch/arm/{kernel => include/asm}/vmlinux.lds.h (92%)
+> -- 
+> Kees Cook
 
 -- 
 Kees Cook
