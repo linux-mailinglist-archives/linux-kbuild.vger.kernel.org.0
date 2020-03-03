@@ -2,110 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 679D31777B7
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 14:50:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30881178196
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Mar 2020 20:02:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727322AbgCCNsU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Mar 2020 08:48:20 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:17398 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726890AbgCCNsU (ORCPT
+        id S2388098AbgCCSDw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Mar 2020 13:03:52 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:46567 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388027AbgCCSDw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Mar 2020 08:48:20 -0500
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 023DmF3Q024927;
-        Tue, 3 Mar 2020 22:48:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 023DmF3Q024927
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583243296;
-        bh=xTxEoE0DqYqg792ecc95uiMjXvkkzaqownbqCwALg+w=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=265LoLA2SezrWcr3PUYz0KDYjQC6dNQeOp7xBBiptKIlo5DGo4nO+4R1fveYDvrXH
-         duXNhB4ay7CGmgVufSJD1tyoHnKyyNlsLHeXl50HoAn+Isj5a/GkF8+ntrY1i4XKoM
-         2q72e0yvnC+mvWK5NXvIcd0e2jhgmhlhVFdMMi4uw7fQ4M0lryJy15opX6w+1xejjQ
-         OHS5ssayNNQux9RBsnnzozutuOh7df1pI+ZIV0BvglOL2NX/Sso3sJr63AjKOWbKzF
-         YbR7PQ66efTqSdj37cYQ7R/zx4n+zmY1l5c+IB6dldQLVCE8bukGQ6rFuJMnY82y4J
-         NokNQV+gqaVWQ==
-X-Nifty-SrcIP: [209.85.221.174]
-Received: by mail-vk1-f174.google.com with SMTP id x62so868675vkg.11;
-        Tue, 03 Mar 2020 05:48:16 -0800 (PST)
-X-Gm-Message-State: ANhLgQ3CZgbM2DJBEc3/pkMoVoIsAUWEjVIAN+pQg4V2KEtT+LIKUSgH
-        iL2YkozVM2Bx4MBuUwStMd58acHoop4kHYoSdVo=
-X-Google-Smtp-Source: ADFU+vtXBk0momfM4duMHdkHroEOqDdFo7/vIJTOegKIurOSydDddzPRY//2dkZbcFzZmOWMb4KFV2ITAFYULGGJFGw=
-X-Received: by 2002:a1f:b401:: with SMTP id d1mr2769067vkf.26.1583243294990;
- Tue, 03 Mar 2020 05:48:14 -0800 (PST)
+        Tue, 3 Mar 2020 13:03:52 -0500
+Received: by mail-il1-f194.google.com with SMTP id e8so3534634ilc.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Mar 2020 10:03:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=RWZQeIL0G4T29AMwn81/jYklvI6cY3yAxn8RcOSfyHi66WVG1FrxiIYe6/N3tGrujT
+         L16ZuvBVe5nJgPZc/M6p7ETio8YLmxM5elTnmveqLus9xEeEW3PrtwnYQzXrej2LPOqS
+         ePTSSUdbBIm1PTkIuxJ23icCchfYgHoFVZnGxEwBDDbn5CiMYC5g0nuT+6YUHOTcICQn
+         MCu3svyVajBya/Ly+HeQpDAY+/Kt/om9XuOE60zvc+62Yc/sRiP9UGAKdhEXqmdXnYj3
+         hh9LmjmCUop5tSVO6wo/sWyW6vDXiEeRbS08tse4l9F+B4CRPpuwMAIuoCBkDAXjLi61
+         cJnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=pqT6T1gNMNBL3wJECVt6X8hE4xOJQKmlIsXBWCpu/RLJlzUv7FFVXHkCttSqDNB88U
+         hoJanCVFXkAUQ9in++WLmsATAcUsoOALPHQB9Fcf9jQ5Z5Logr7axuakopVp44GNOirP
+         6zQu5fppy7V0YYbl5zbLLqr1aZ30HgwI5bWulG8eU7ecFQIKLSo8dAmwFxLe/Y/SGb5B
+         4zWLNM+4E4WhG2YPaeClALcju95xKWayyirpqujrjSnCW0c0rhyjB6MndfDcgQAPKcUW
+         ZeVO6GgXQc8ty2tRbJgxSVaTpV+SuWO3PBVH1jdSgYVVeyzHRmsKlmp91r4JrVCl5HCx
+         gJXA==
+X-Gm-Message-State: ANhLgQ24UqSe/Nq5QiVYrMX1DHTR5ULF50ojiKNGN6t881X8uSn+ZPF4
+        wnTrquD1abpeCCxWrlIS9hqtmIhgzIuRmd1hCrs=
+X-Google-Smtp-Source: ADFU+vtxCaxhzOdKDfyUMsukNtF9i7FsxURwvPDfAGfWZHOsYBIIDNeFLrWifUx6i3WVVTUJTC+kfBCnu5tKsYwnsOU=
+X-Received: by 2002:a92:9c57:: with SMTP id h84mr5678517ili.94.1583258631938;
+ Tue, 03 Mar 2020 10:03:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20200226175325.8787-1-masahiroy@kernel.org>
-In-Reply-To: <20200226175325.8787-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 3 Mar 2020 22:47:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARVX6bJPO0yPo7k_ateDNmk_bXGfoR8nmkEUbkCVtJTLw@mail.gmail.com>
-Message-ID: <CAK7LNARVX6bJPO0yPo7k_ateDNmk_bXGfoR8nmkEUbkCVtJTLw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: remove trailing slash from devicetree/binding/
- for descending
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Received: by 2002:a02:9f04:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:03:51 -0800 (PST)
+Reply-To: dr.challynoah@gmail.com
+From:   DR CHALLY NOAH <mayorabrahamedge404@gmail.com>
+Date:   Tue, 3 Mar 2020 19:03:51 +0100
+Message-ID: <CALqVJWei9Umiw3V9aBt=DD1yV36_Nnu3F8RkmHvA_o5pvKCc1A@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 2:53 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> obj-* needs a trailing slash for a directory, but subdir-* does not
-> because it already implies a directory.
->
-> Also, change subdir-y to subdir- to ensure this is effective only
-> for cleaning targets.
->
-> This makes the cleaning log consistent. (no trailing slash)
->
-> Before:
->
->   $ make clean
->   CLEAN   Documentation/devicetree/bindings/
->
-> After:
->
->   $ make clean
->   CLEAN   Documentation/devicetree/bindings
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-
-
-Applied to linux-kbuild.
-
-
-
->
->  Documentation/Makefile | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index d77bb607aea4..39569a2e1953 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -2,7 +2,8 @@
->  # Makefile for Sphinx documentation
->  #
->
-> -subdir-y := devicetree/bindings/
-> +# for cleaning
-> +subdir- := devicetree/bindings
->
->  # Check for broken documentation file references
->  ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
-> --
-> 2.17.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+Hello Dear,
+What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
+This said fund was issued out by the UNITED NATIONS To compensate
+you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
+at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
+fund (award)release to you or better still reply back Immediately You
+Receive This Information For An Urgent Confirmation And Release Of Your
+Fund To You Without Delays, as your email was listed among those to be
+compensated this year.Congratulations..
+Best Regards,
+Dr Chally Noah.
+Minister Of Finance On Foreign Remittance:
