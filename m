@@ -2,132 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DBE1E178988
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Mar 2020 05:29:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7940B1789CD
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Mar 2020 06:00:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgCDE3w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Mar 2020 23:29:52 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:46759 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725877AbgCDE3w (ORCPT
+        id S1725283AbgCDFAS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 4 Mar 2020 00:00:18 -0500
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:35509 "EHLO
+        mail-pj1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725271AbgCDFAS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Mar 2020 23:29:52 -0500
-Received: by mail-qk1-f195.google.com with SMTP id u124so344048qkh.13;
-        Tue, 03 Mar 2020 20:29:51 -0800 (PST)
+        Wed, 4 Mar 2020 00:00:18 -0500
+Received: by mail-pj1-f65.google.com with SMTP id s8so376220pjq.0
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Mar 2020 21:00:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=t1NqEPmPFW/DQNPAWKwqQ6I4sp3jdBpQkWn1PXctu8E=;
-        b=DXgwLsqDtpKJ4F4VO/7EJnfi3ZX4uTj2MWLSzNtUxeZvEW+nIYtmQaoVbZ6HYvy9UH
-         hf6mjQCLaWx+PqnNLgCe3TU6Pb77Z+9iIjncAVa32xBFhTlbXsdYDJHr42HHRvjDoRm3
-         zi8TsBUyVwHZdsCdQ77HIW/TwpxpP3m4PHxJxVVaAdLlrpheevBptJijdw6BdofsCE9h
-         XjzcVUgrQP04zgYKTtYT9MGIdp7rsfiyqJ8Y5YV4Ed/3V9qMv0B/fPnWr9trCtAoEFnQ
-         D5RGBnKHj+SRVpJDCCUsBo7WD5zQG8z/nBhMlQwywXU0dBM5gCPU6NaFoa8BNUlAR8An
-         0WBg==
+        bh=fWqhM71qdeipb2iv8w287UkX52XUZx5tSHx/mc0k7rs=;
+        b=fXXaNqoiPncoYjCuFf9WkuZi+IMWgU1bnSRWKawHHq2oxTa7/Wl8h0CyLgP9hvnVXb
+         BYZBk3nQUkQjp5/O1xWhQTOnb/G7yk6Nyb4TYkjVdhU7uDJvih1ZuZXEd+ml+8EQBtMz
+         EnuXhBSCUag+yM071GYeq6KEWY83i8aX8mXNgHok0VORiuvnxNMZ4QQmZOSxkolPmG/v
+         wM9CIfLQctAxd4P7g5d57AE/oFjAMVeWaNpUOOd4cd1AU47GVu5fLbQRyxLkqx+4IU1o
+         cP0TGnnGEU30qHHQYV3Nv7bMnH128LVxnL605M4OMpRbWYmLAXz8WiSmvnkibPfq8Et+
+         ZTGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=t1NqEPmPFW/DQNPAWKwqQ6I4sp3jdBpQkWn1PXctu8E=;
-        b=mgvB/lhXN7UnXBqzwIWpjzMWfVLeIEdO9mSlTsAVY3w0rZKuUSMq9otw9f90YEjSPL
-         iaVfh7833k4S2Sw0DzklK0ZtU6vp1CtTHiI1Mg8oiRnqSsJQgIpX923lYhPtAycu9ldj
-         1y8wiUrYgG1ix18qSg40FduZQ8i9uAH/2v0Zabb/AnAE2nCOtc4smhxdfWT+jh7X/2uT
-         CG6BfMZSxRGJZSehYarvusZrj5a0zQD23bmnMZZASKcDyo3JPtVGUL2PpYBIvJtYxalV
-         IWXpxDTPVzNcLrZD0sre89XjGx1HD5Az5hzZaneElWQJ1Vy0+GwykbGxky8VwFxZEff6
-         5w1Q==
-X-Gm-Message-State: ANhLgQ05ixYNdcbH2ILoDRqG0BHpaneexPNm3AsD5k60Tj2zJHw84KwA
-        krasnjx4YdA1dIa82yapCMaplYUNuxaZozfm87KeOlU0CCo=
-X-Google-Smtp-Source: ADFU+vuZFxFnIIMAjlmtqfuIcb7FLGdjsdyyJ54YCoOI+LDTc/E2ZLGK6WHe7Skm6Ar1AL6PvzXr2IZGnIOVMxMYcrk=
-X-Received: by 2002:a05:620a:99d:: with SMTP id x29mr1243671qkx.39.1583296190999;
- Tue, 03 Mar 2020 20:29:50 -0800 (PST)
+        bh=fWqhM71qdeipb2iv8w287UkX52XUZx5tSHx/mc0k7rs=;
+        b=AkneU9VfDEeDWJ2BpPwY9CjEUxvOqOJdQNJz9poUDFZ1gvmTN+AjiYrGzzCuEg6yHP
+         gmV9rdNlWNvbFbUHYPX7VnXWLxENXdL8jnPi1EKQ7ETLKvtlhwDET75x7esnTSOOK6lE
+         TlycC8MMMUT0aTQxHL1VhGgBH2N0MRGM8iMGeeIcejuSN8zskEc7EdvN5ijQPKlzGAZa
+         y1ncZdgQWdvfPxRd77SFKy89YXpKP7RD9A0jmfLynVCOXloXQKfhIoTcR6SFMF3Cn7Bl
+         mXJIwbxXFuu6p19If7DQ+4co6Zo6tChp/nTnJrBI4SX6W7s+PpUz3QvIpsJ5XQZz8nnQ
+         sVHA==
+X-Gm-Message-State: ANhLgQ387aMH2M7TyjWRlEGYHvqgwFZAla9uEIlG5EPUvC2YqBW3qJEf
+        JrcNWW860W4q8opXvc8UQQO67gO74ZVFmA4vR6Vv0B953J0=
+X-Google-Smtp-Source: ADFU+vtrwJGhgHjtw7Z6vOhj33JZhaWGUTizaDfIWmRUZ0NF65RL2MDvJX4RNBrZ/Ey7huEANg0F5atX5TitxH74qCQ=
+X-Received: by 2002:a17:90a:bc4c:: with SMTP id t12mr1211341pjv.138.1583298015616;
+ Tue, 03 Mar 2020 21:00:15 -0800 (PST)
 MIME-Version: 1.0
-References: <202002242114.CBED7F1@keescook> <CAEf4BzYrBoQJ1tPMRMQ_-G6e76=zj4zyC=HrY-mxH_9QK65oqg@mail.gmail.com>
- <202003031301.083CF048C2@keescook> <CAEf4BzbX-Eo3+DCG4zBMhJtLSZrtp48Z-8SvA8qy-WXA5kjR6A@mail.gmail.com>
- <202003031758.AE8FEB7@keescook>
-In-Reply-To: <202003031758.AE8FEB7@keescook>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Tue, 3 Mar 2020 20:29:39 -0800
-Message-ID: <CAEf4Bza31J_3Puwf7gnq0jDYRH2_JkRM9L+PO8dFrCzp+==8Lg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Remove debug info from kallsyms linking
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <20200115115249.27774-1-ilie.halip@gmail.com> <CAKwvOdkdD9VF1k==G4vMeo4bBLarYz8gPvWfv6+N2kejeoXfjA@mail.gmail.com>
+ <CAK7LNAQ1pS0nK7JoUbgOn0aMtaYH69XukjNELZNxTtV_iMmR1Q@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ1pS0nK7JoUbgOn0aMtaYH69XukjNELZNxTtV_iMmR1Q@mail.gmail.com>
+From:   =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
+Date:   Tue, 3 Mar 2020 21:00:04 -0800
+Message-ID: <CAFP8O3+cEinopXVP5yKWG2WBP=TOdudxUnVikfh90SF7muEcSA@mail.gmail.com>
+Subject: Re: [RFC PATCH] lib: move memcat_p.o to obj-y
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Ilie Halip <ilie.halip@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 3, 2020 at 6:11 PM Kees Cook <keescook@chromium.org> wrote:
+On Fri, Jan 17, 2020 at 10:01 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Tue, Mar 03, 2020 at 01:50:52PM -0800, Andrii Nakryiko wrote:
-> > On Tue, Mar 3, 2020 at 1:06 PM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > On Mon, Mar 02, 2020 at 10:55:04PM -0800, Andrii Nakryiko wrote:
-> > > > On Mon, Feb 24, 2020 at 9:17 PM Kees Cook <keescook@chromium.org> wrote:
-> > > > > [...]
-> > > > > @@ -118,8 +128,9 @@ gen_btf()
-> > > > >                 return 1
-> > > > >         fi
-> > > > >
-> > > > > -       info "BTF" ${2}
-> > > > >         vmlinux_link ${1}
-> > > > > +
-> > > > > +       info "BTF" ${2}
-> > > >
-> > > > Any reason to exclude linking from "BTF" step? It's still a part of
-> > > > BTF generation, so seems fair to have BTF encompass both vmlinux
-> > > > linking and BTF generation/deduplication?
-> > >
-> > > I'm not sure I'm following what you're saying here. If you're asking why
-> > > BTF linking is separate from the final vmlinux link, it's because of how
-> > > kallsyms is generated. Currently it's using a rather brute-force
+> On Fri, Jan 17, 2020 at 7:30 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > No, I meant that you moved `info "BTF"` to after `vmlinux_link` call,
-> > which will make it appear (from make output) as if BTF generation
-> > phase is shorter than it is. No big deal, was just wondering if it was
-> > done on purpose.
->
-> Oh! Yes. I changed the reporting in commit 8959e39272d6 ("kbuild:
-> Parameterize kallsyms generation and correct reporting") so that
-> vmlinux_link reports the "info LD ..." line instead of each of the callers.
->
-> This current patch adjusts it so "info BTF ..." is reported for the BTF
-> generation stage (right now there's no delay between "info BTF ..." and
-> "info LD ...", and it looks like the "info LD" stages takes way too
-> long. ;)
-
-Ah, I see, got it!
-
->
-> > > approach to figure out exactly where everything is going to be in the
-> > > final link, and for that it need to have both the BTF symbols present
-> > > and the kallysms symbols present. So, unfortunately, each needs to be a
-> > > separate step. I spent some time trying to merge BTF and kallsyms phase
-> > > 1, but I didn't find a viable solution. I'm *sure* there is a better way
-> > > to handle kallsyms, but I haven't had the time to really investigate it.
-> > > I think it would require some close coordination with linker behavior
-> > > changes...
+> > On Wed, Jan 15, 2020 at 3:53 AM Ilie Halip <ilie.halip@gmail.com> wrote:
 > > >
-> > > >
-> > > > >         LLVM_OBJCOPY=${OBJCOPY} ${PAHOLE} -J ${1}
-> > > > >
-> > > > >         # dump .BTF section into raw binary file to link with final vmlinux
+> > > The semantics of `--undefined` differ between ld.bfd and ld.lld:
+> > >     $ echo | gcc -x c -c - -o a.o
+> > >     $ echo "EXTERN(test)" > a.lds
+> > >     $ ld.bfd a.o -t a.lds -o - 2>/dev/null && objdump -t | grep test
+> > >     0000000000000000         *UND*      0000000000000000 test
+> > >     $ ld.lld a.o -t a.lds -o - 2>/dev/null && objdump -t | grep test
+> > >     $
 > > >
-> > > BTW, in looking at BTF generation, why is this cut up into three steps:
-> > > pahole, objcopy, objcopy... shouldn't pahole just gross an output method
-> > > to dump the final .o file? That would be MUCH nicer. Especially since
-> > > the first step ends up rewriting (?!) the original ELF. This is a lot of
-> > > needless IO...
+> > > When building with CONFIG_STM=m, there are no in-kernel users of memcat_p()
+> > > and ld.lld discards this symbol because it's linked in via --no-whole-archive.
+> > > It's marked as undefined by a linker script but ld.lld discards it anyway (as
+> > > seen in the above snippet).
+> > >
+> > > Work around the ld.lld behavior by moving the object file to obj-y.
+> > >
+> > > Signed-off-by: Ilie Halip <ilie.halip@gmail.com>
+> > > Link: https://github.com/ClangBuiltLinux/linux/issues/515
 > >
-> > Just mostly historical reasons, that was the interface pahole already
-> > supported. I agree that it's a good idea to teach pahole to just emit
-> > a binary BTF section dump.
+> > Thanks for the patch.  This solves the observed linkage failure.
+> > Maybe Masahiro has more input based on the discussion in the above
+> > Link?
 >
-> /me adds it to giant TODO list ;)
+> Sorry, I did not notice that thread until now.
+> I will take a look at it when I have time.
 >
-> --
-> Kees Cook
+>
+> This patch does not seem to be a proper fix.
+>
+> If this fix-up were acceptable, theoretically,
+> all objects that contain EXPORTED_SYMBOL
+> would need to be turned into obj-y from lib-y ?
+>
+> > Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+
+Hi Masahiro,
+
+lld ELF maintainer here. This seems to the only blocker of `LD=ld.lld
+allmodconfig` (https://github.com/ClangBuiltLinux/linux/issues/839).
+Hope you can help if you think there is a more complete fix.
+
+Below is some (probably obscure) explanation why I think the GNU ld -u
+behavior is not consistent and lld should not match:
+
+If a.o has an undefined symbol foo, `{ld.bfd,ld.lld} -shared a.o` will
+place foo in .dynsym .
+
+GNU ld's EXTERN(foo) and -u foo behavior is consistent with its
+documentation with regard to .symtab, but it is not consistent with
+regard to .dynsym.
+`ld.bfd -shared -u test a.o` does not place test in .dynsym. So an
+undefined symbol added by -u is different from a regular undefined
+symbol.
+
+The different behavior for .dynsym is understandable: if GNU ld places
+foo in .dynsym, the shared object will likely have an unresolved
+reference at run time and will thus be rejected by ld.so.
+So for .dynsym, GNU ld's behavior is actually similar to lld's: -u foo
+triggers linking of an archive (if the archive defines foo).
+
+Additionally, lld has an extension --undefined-glob=<pattern>, which
+is similar to multiple -u. The only reasonable behavior for a pattern
+argument is to trigger linking of archive definitions. This is
+consistent with lld's current interpretation of -u.
+
+
+Reviewed-by: Fangrui Song <maskray@google.com>
