@@ -2,191 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FFA17C46F
-	for <lists+linux-kbuild@lfdr.de>; Fri,  6 Mar 2020 18:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C767617D0E5
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2020 03:19:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726194AbgCFRb1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 6 Mar 2020 12:31:27 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:18802 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbgCFRb1 (ORCPT
+        id S1726138AbgCHCTd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 7 Mar 2020 21:19:33 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:33242 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726116AbgCHCTd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 6 Mar 2020 12:31:27 -0500
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 026HV6oi001632;
-        Sat, 7 Mar 2020 02:31:06 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 026HV6oi001632
+        Sat, 7 Mar 2020 21:19:33 -0500
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 0282JHfY013317;
+        Sun, 8 Mar 2020 11:19:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0282JHfY013317
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583515867;
-        bh=KT599rkyWLusuHqT7BO2ezdKg1m426AwRnfM8VKsKqk=;
+        s=dec2015msa; t=1583633958;
+        bh=MRiJFfd4XzN50K790XI9lYLTj9Bp98INNHajUe+6r64=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=udcIZPKDCeg3PuCNRSmVaANnPTiZQpho153UftbhrnoPQgtwa0FZHxUEGFqsZ0etP
-         KZRnhuzvD6+ba6oy8rN3TERnzXsiW8tx97dFIakjznyByAh5EmTXAfJad4XnOso9d3
-         ZQDWcqUJ59J3gGq8agggDZvP47whcSEKodBNXZLQxXHYG4jLDSMSYfPp3St84TICvB
-         GJ5do0rCBCMn/HmH/Bh4STKg7qhwDPhiWE6bwMi6mSpr1viUGcHmeGLQf8YcuuHtPX
-         +C0Iu3Mh9wjZXBmNrfjffEzVhO85jUKT1ZuEAYyyasKhWhukZ8BqGq0kMPJJI+vwy/
-         OS4tif5Db30lQ==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id k188so2018995vsc.8;
-        Fri, 06 Mar 2020 09:31:06 -0800 (PST)
-X-Gm-Message-State: ANhLgQ3BhNus7ROF4xakhkQBVwb0G7J0CW16ErUfbdNwOm/sJ7cvgOSs
-        XbRBzgQe+kt5Ub3lnhUc56gp9s7qkv6BYxMSmzs=
-X-Google-Smtp-Source: ADFU+vuEHyMmRkQKO1zvD+aF7U3nqZofouIuoJgp3M8VE/3bSpiUKcO3DWbqdEJwQZh+nf+XDeAIzboKLo4z5YkFIHY=
-X-Received: by 2002:a67:8c44:: with SMTP id o65mr2819402vsd.181.1583515865221;
- Fri, 06 Mar 2020 09:31:05 -0800 (PST)
+        b=CSRFkM+LvCiVVJMAKnKNKED4Bi4v4qwdh2AY46W/45w1GrIJCABBjXmRPJpRlubT4
+         5LkpYPXWSOt9KidwivW0GffaSyEIXPlEnHTdmkZMqwkSh9P6Ng2HxSW/dDpC+gUoJu
+         OPUcVZ7eT/w7xr+LfEQeUImZYeIW61Na3duvbr/2WPXq+SdpZGjMHp+yv6kDAFbM/X
+         tYWdiDJ0oKEAOSGUOcJeLbPF+8tlv7CcGsNZnGgWc0+xl0bMVsLhxcbEF9nyVB9uUW
+         mZWWvqJhTsGOCT/DFHdlTbevxIuXMKrHBPjXg732gEXEeIp/WRmvn2NoevmfntXoqw
+         pHZN1cO87Y7YQ==
+X-Nifty-SrcIP: [209.85.222.51]
+Received: by mail-ua1-f51.google.com with SMTP id h22so2095172uap.13;
+        Sat, 07 Mar 2020 18:19:18 -0800 (PST)
+X-Gm-Message-State: ANhLgQ1uyaO9WHt4NMEtb8H3CMtmOJuq0dxbz6KgpUuz1U/WFgHhfECC
+        5Clg2NYtgWBXWhjvPnN3MfTC9SlnCOMn8uvifdY=
+X-Google-Smtp-Source: ADFU+vsU5zfX/fbI+PZJ18ZCecEFu4G8aaymDTDagTkIOLYMu7EWSvEB1LjcowfG/2EWb+GKR6g/DiftGunXkHPiUTY=
+X-Received: by 2002:a9f:2828:: with SMTP id c37mr5344910uac.25.1583633957239;
+ Sat, 07 Mar 2020 18:19:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20200302062340.21453-1-masahiroy@kernel.org> <nycvar.YSQ.7.76.2003021024370.1559@knanqh.ubzr>
-In-Reply-To: <nycvar.YSQ.7.76.2003021024370.1559@knanqh.ubzr>
+References: <20200304032038.14424-1-masahiroy@kernel.org> <20200304032038.14424-3-masahiroy@kernel.org>
+ <20200304055520.GA28911@ravnborg.org> <CAL_JsqLA7yq8rnVhM210sLt788yeu2xxFd94Fe0K_CGZw-mqSA@mail.gmail.com>
+In-Reply-To: <CAL_JsqLA7yq8rnVhM210sLt788yeu2xxFd94Fe0K_CGZw-mqSA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 7 Mar 2020 02:30:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQVsOoNgSCUj1EwHgPKrGrwWduzrtQbrtOWa=2EA+hTfg@mail.gmail.com>
-Message-ID: <CAK7LNAQVsOoNgSCUj1EwHgPKrGrwWduzrtQbrtOWa=2EA+hTfg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kconfig: allow symbols implied by y to become m
-To:     Nicolas Pitre <nico@fluxnic.net>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ulf Magnusson <ulfalizer@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Date:   Sun, 8 Mar 2020 11:18:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATmnfjo2A0x6ytLNeo_rjv1_e9RFyxCnB-K1E1O=fw9jQ@mail.gmail.com>
+Message-ID: <CAK7LNATmnfjo2A0x6ytLNeo_rjv1_e9RFyxCnB-K1E1O=fw9jQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] kbuild: allow to run dt_binding_check and dtbs_check
+ in a single command
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Sam Ravnborg <sam@ravnborg.org>, DTML <devicetree@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nicolas,
+Hi Sam, Rob,
 
-On Tue, Mar 3, 2020 at 12:31 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+On Thu, Mar 5, 2020 at 12:19 AM Rob Herring <robh+dt@kernel.org> wrote:
 >
-> On Mon, 2 Mar 2020, Masahiro Yamada wrote:
+> On Tue, Mar 3, 2020 at 11:55 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+> >
+> > Hi Masahiro
+> >
+> > Thanks for the nice improvements to the dt infrastructure.
+> >
+> > Stealing a thread here..
+> >
+> > >  It is also possible to run checks with a single schema file by setting the
+> > >  ``DT_SCHEMA_FILES`` variable to a specific schema file.
+> > Would it be simple to enable the use of dirs for DT_SCHEMA_FILES?
 >
-> > The 'imply' keyword restricts a symbol to y or n, excluding m
-> > when it is implied by y. This is the original behavior since
-> > commit 237e3ad0f195 ("Kconfig: Introduce the "imply" keyword").
-> >
-> > However, the author of the 'imply' keyword, Nicolas Pitre, stated
-> > that the 'imply' keyword should not impose any restrictions. [1]
-> >
-> > I agree, and want to get rid of this tricky behavior.
-> >
-> > [1]: https://lkml.org/lkml/2020/2/19/714
-> >
-> > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> I did name that with the intent of supporting more than one file.
 >
-> Acked-by: Nicolas Pitre <nico@fluxnic.net>
+> > So I for example could do:
+> >
+> > make dt_bindings_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/
 >
-> In addition to the IS_REACHABLE() note, it might be a good idea to
-> suggest adding an "imply" reference to the dependency if the feature
-> provided by BAZ is highli desirable, e.g.:
+> Does this work?:
 >
-> config FOO
->         tristate
->         imply BAR
->         imply BAZ
+> make dt_bindings_check DT_SCHEMA_FILES="$(find
+> Documentation/devicetree/bindings/display/panel/ -name '*.yaml' |
+> xargs)"
 >
+> Rob
 
 
-OK, this info is more relevant to the 2nd patch.
+Rob proposed a solution, so
+I do not think we should extend this too much.
 
-I folded this following to 2/2.
 
-diff --git a/Documentation/kbuild/kconfig-language.rst
-b/Documentation/kbuild/kconfig-language.rst
-index 68719e78ff85..a1601ec3317b 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -194,6 +194,14 @@ applicable everywhere (see syntax).
-                ...
-        }
+BTW, there is a limitation that
+DT_SCHEMA_FILES must point to file(s)
+in Documentation/devicetree/bindings/.
 
-+  Note: If the feature provided by BAZ is highly desirable for FOO,
-+  FOO should imply not only BAZ, but also its dependency BAR::
-+
-+    config FOO
-+       tristate "foo"
-+       imply BAR
-+       imply BAZ
-+
- - limiting menu display: "visible if" <expr>
 
-   This attribute is only applicable to menu blocks, if the condition is
+$ cp  Documentation/devicetree/bindings/arm/psci.yaml   ./
+$ make  dt_binding_check  DT_SCHEMA_FILES=psci.yaml
+  SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+make[1]: *** No rule to make target
+'Documentation/devicetree/bindings/psci.yaml', needed by '__build'.
+Stop.
+make: *** [Makefile:1278: dt_binding_check] Error 2
 
 
 
+$(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
+does not work if DT_SCHEMA_FILES is outside of
+Documentation/devicetree/bindings/, but I have no
+solution for this.
 
-Both applied.
-
-
-
-> > ---
-> >
-> >  Documentation/kbuild/kconfig-language.rst | 12 +++++++++++-
-> >  scripts/kconfig/symbol.c                  |  5 +----
-> >  2 files changed, 12 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> > index d0111dd26410..d4d988aea679 100644
-> > --- a/Documentation/kbuild/kconfig-language.rst
-> > +++ b/Documentation/kbuild/kconfig-language.rst
-> > @@ -173,7 +173,7 @@ applicable everywhere (see syntax).
-> >       ===             ===             =============   ==============
-> >       n               y               n               N/m/y
-> >       m               y               m               M/y/n
-> > -     y               y               y               Y/n
-> > +     y               y               y               Y/m/n
-> >       y               n               *               N
-> >       ===             ===             =============   ==============
-> >
-> > @@ -181,6 +181,16 @@ applicable everywhere (see syntax).
-> >    ability to hook into a secondary subsystem while allowing the user to
-> >    configure that subsystem out without also having to unset these drivers.
-> >
-> > +  Note: If the combination of FOO=y and BAR=m causes a link error,
-> > +  you can guard the function call with IS_REACHABLE()::
-> > +
-> > +     foo_init()
-> > +     {
-> > +             if (IS_REACHABLE(CONFIG_BAZ))
-> > +                     baz_register(&foo);
-> > +             ...
-> > +     }
-> > +
-> >  - limiting menu display: "visible if" <expr>
-> >
-> >    This attribute is only applicable to menu blocks, if the condition is
-> > diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> > index 8d38b700b314..b101ef3c377a 100644
-> > --- a/scripts/kconfig/symbol.c
-> > +++ b/scripts/kconfig/symbol.c
-> > @@ -401,8 +401,7 @@ void sym_calc_value(struct symbol *sym)
-> >                               sym_warn_unmet_dep(sym);
-> >                       newval.tri = EXPR_OR(newval.tri, sym->rev_dep.tri);
-> >               }
-> > -             if (newval.tri == mod &&
-> > -                 (sym_get_type(sym) == S_BOOLEAN || sym->implied.tri == yes))
-> > +             if (newval.tri == mod && sym_get_type(sym) == S_BOOLEAN)
-> >                       newval.tri = yes;
-> >               break;
-> >       case S_STRING:
-> > @@ -484,8 +483,6 @@ bool sym_tristate_within_range(struct symbol *sym, tristate val)
-> >               return false;
-> >       if (sym->visible <= sym->rev_dep.tri)
-> >               return false;
-> > -     if (sym->implied.tri == yes && val == mod)
-> > -             return false;
-> >       if (sym_is_choice_value(sym) && sym->visible == yes)
-> >               return val == yes;
-> >       return val >= sym->rev_dep.tri && val <= sym->visible;
-> > --
-> > 2.17.1
-> >
-> >
-
-
-
--- 
+--
 Best Regards
 Masahiro Yamada
