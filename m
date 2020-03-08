@@ -2,116 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C767617D0E5
-	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2020 03:19:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34CE817D243
+	for <lists+linux-kbuild@lfdr.de>; Sun,  8 Mar 2020 08:34:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726138AbgCHCTd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 7 Mar 2020 21:19:33 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:33242 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726116AbgCHCTd (ORCPT
+        id S1726303AbgCHHei (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Mar 2020 03:34:38 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:37394 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbgCHHeh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 7 Mar 2020 21:19:33 -0500
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 0282JHfY013317;
-        Sun, 8 Mar 2020 11:19:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0282JHfY013317
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583633958;
-        bh=MRiJFfd4XzN50K790XI9lYLTj9Bp98INNHajUe+6r64=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CSRFkM+LvCiVVJMAKnKNKED4Bi4v4qwdh2AY46W/45w1GrIJCABBjXmRPJpRlubT4
-         5LkpYPXWSOt9KidwivW0GffaSyEIXPlEnHTdmkZMqwkSh9P6Ng2HxSW/dDpC+gUoJu
-         OPUcVZ7eT/w7xr+LfEQeUImZYeIW61Na3duvbr/2WPXq+SdpZGjMHp+yv6kDAFbM/X
-         tYWdiDJ0oKEAOSGUOcJeLbPF+8tlv7CcGsNZnGgWc0+xl0bMVsLhxcbEF9nyVB9uUW
-         mZWWvqJhTsGOCT/DFHdlTbevxIuXMKrHBPjXg732gEXEeIp/WRmvn2NoevmfntXoqw
-         pHZN1cO87Y7YQ==
-X-Nifty-SrcIP: [209.85.222.51]
-Received: by mail-ua1-f51.google.com with SMTP id h22so2095172uap.13;
-        Sat, 07 Mar 2020 18:19:18 -0800 (PST)
-X-Gm-Message-State: ANhLgQ1uyaO9WHt4NMEtb8H3CMtmOJuq0dxbz6KgpUuz1U/WFgHhfECC
-        5Clg2NYtgWBXWhjvPnN3MfTC9SlnCOMn8uvifdY=
-X-Google-Smtp-Source: ADFU+vsU5zfX/fbI+PZJ18ZCecEFu4G8aaymDTDagTkIOLYMu7EWSvEB1LjcowfG/2EWb+GKR6g/DiftGunXkHPiUTY=
-X-Received: by 2002:a9f:2828:: with SMTP id c37mr5344910uac.25.1583633957239;
- Sat, 07 Mar 2020 18:19:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20200304032038.14424-1-masahiroy@kernel.org> <20200304032038.14424-3-masahiroy@kernel.org>
- <20200304055520.GA28911@ravnborg.org> <CAL_JsqLA7yq8rnVhM210sLt788yeu2xxFd94Fe0K_CGZw-mqSA@mail.gmail.com>
-In-Reply-To: <CAL_JsqLA7yq8rnVhM210sLt788yeu2xxFd94Fe0K_CGZw-mqSA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 8 Mar 2020 11:18:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATmnfjo2A0x6ytLNeo_rjv1_e9RFyxCnB-K1E1O=fw9jQ@mail.gmail.com>
-Message-ID: <CAK7LNATmnfjo2A0x6ytLNeo_rjv1_e9RFyxCnB-K1E1O=fw9jQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] kbuild: allow to run dt_binding_check and dtbs_check
- in a single command
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>, DTML <devicetree@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
+        Sun, 8 Mar 2020 03:34:37 -0400
+Received: by mail-ot1-f67.google.com with SMTP id b3so6617631otp.4;
+        Sat, 07 Mar 2020 23:34:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kZXL8stbtWpHPkKS7EK+cyY0hozJba2aSAxakIiEy5g=;
+        b=igl0JmZvPN2HJh0JviZsAzX2atyk0nTBX3LG0bNz6q5R9UhUR4cPYHRTut6zEdDy1W
+         mfRwzP6Iu1v71DbKO5fR70giDePF7/9QeqPsAbR4e3KakOjRa6U8lmKlfVf6Dt4jnX+8
+         4EZriKDQU3S15HWTmb/GvGASL08m//H4fcRfW1xyJHe1nJbAEX98WKkou1B55yoAKgxE
+         e7XS5ICiWoWj3HKWPRP5lCMLE7OR5qkZjdHrKYn/ieTrjggDvI2hdf+s6+caVdSbWQ61
+         Jxjias+4G/O8alolOCoLa90u2WVa7kIy8IPnd5jm0Y5x85kf+7MJqKO9jtjk5tMK3LYS
+         pLsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kZXL8stbtWpHPkKS7EK+cyY0hozJba2aSAxakIiEy5g=;
+        b=RhLEM0CVfayZWG28dliRcTVsLwRocIFfSv0DsVnnboS3iVgg8MzWdoULr6wlMzBFIz
+         XPwHlJAlwoewAMt72IZ7xoC0lbqN081GIy/XjNaVXadEzlpy2is44oBXexHbqJOwKJ2l
+         lrPPM1pls0BPLyt1cXY0Teo51JWqDc+9oljdQvZbvxkrfZV535Yt8Jj2Dyn/x6AYiIfS
+         ukDwP25T6U6xhdVjChCAFinv4lkogoA/eGlb76PIYdVirBMun9cQrk7bY/CykCGDMD7B
+         up+4Sp21Q1pXHA8nl+/C0fMfJHJqnva9s7xdSxM5urB5V82Q7FT7wZ7bVJ4MrgJ2y8ih
+         EQRQ==
+X-Gm-Message-State: ANhLgQ1sxHUXzo3YuPw0b/MWfodGogJ51t9nboY6xU19gJbPeD+Mpzzt
+        +2K++Ann8OvrOLAjZRqWv7I=
+X-Google-Smtp-Source: ADFU+vtJBYaHte1ffc6z2hmE6RbIWqvLdUc+MID7snSN1qteU2OXj8z5Lcxn94yg2vhYLQ3dafiVlQ==
+X-Received: by 2002:a05:6830:19:: with SMTP id c25mr8515454otp.349.1583652876964;
+        Sat, 07 Mar 2020 23:34:36 -0800 (PST)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id 2sm12812677otj.41.2020.03.07.23.34.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Mar 2020 23:34:36 -0800 (PST)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        stable@vger.kernel.org
+Subject: [PATCH] kbuild: Disable -Wpointer-to-enum-cast
+Date:   Sun,  8 Mar 2020 00:34:00 -0700
+Message-Id: <20200308073400.23398-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Sam, Rob,
+Clang's -Wpointer-to-int-cast deviates from GCC in that it warns when
+casting to enums. The kernel does this in certain places, such as device
+tree matches to set the version of the device being used, which allows
+the kernel to avoid using a gigantic union.
 
-On Thu, Mar 5, 2020 at 12:19 AM Rob Herring <robh+dt@kernel.org> wrote:
->
-> On Tue, Mar 3, 2020 at 11:55 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> >
-> > Hi Masahiro
-> >
-> > Thanks for the nice improvements to the dt infrastructure.
-> >
-> > Stealing a thread here..
-> >
-> > >  It is also possible to run checks with a single schema file by setting the
-> > >  ``DT_SCHEMA_FILES`` variable to a specific schema file.
-> > Would it be simple to enable the use of dirs for DT_SCHEMA_FILES?
->
-> I did name that with the intent of supporting more than one file.
->
-> > So I for example could do:
-> >
-> > make dt_bindings_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/panel/
->
-> Does this work?:
->
-> make dt_bindings_check DT_SCHEMA_FILES="$(find
-> Documentation/devicetree/bindings/display/panel/ -name '*.yaml' |
-> xargs)"
->
-> Rob
+https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L428
+https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L402
+https://elixir.bootlin.com/linux/v5.5.8/source/include/linux/mod_devicetable.h#L264
 
+To avoid a ton of false positive warnings, disable this particular part
+of the warning, which has been split off into a separate diagnostic so
+that the entire warning does not need to be turned off for clang.
 
-Rob proposed a solution, so
-I do not think we should extend this too much.
+Cc: stable@vger.kernel.org
+Link: https://github.com/ClangBuiltLinux/linux/issues/887
+Link: https://github.com/llvm/llvm-project/commit/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+ Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/Makefile b/Makefile
+index 86035d866f2c..90e56d5657c9 100644
+--- a/Makefile
++++ b/Makefile
+@@ -748,6 +748,10 @@ KBUILD_CFLAGS += -Wno-tautological-compare
+ # source of a reference will be _MergedGlobals and not on of the whitelisted names.
+ # See modpost pattern 2
+ KBUILD_CFLAGS += -mno-global-merge
++# clang's -Wpointer-to-int-cast warns when casting to enums, which does not match GCC.
++# Disable that part of the warning because it is very noisy across the kernel and does
++# not point out any real bugs.
++KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+ else
+ 
+ # These warnings generated too much noise in a regular build.
+-- 
+2.25.1
 
-BTW, there is a limitation that
-DT_SCHEMA_FILES must point to file(s)
-in Documentation/devicetree/bindings/.
-
-
-$ cp  Documentation/devicetree/bindings/arm/psci.yaml   ./
-$ make  dt_binding_check  DT_SCHEMA_FILES=psci.yaml
-  SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
-make[1]: *** No rule to make target
-'Documentation/devicetree/bindings/psci.yaml', needed by '__build'.
-Stop.
-make: *** [Makefile:1278: dt_binding_check] Error 2
-
-
-
-$(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-does not work if DT_SCHEMA_FILES is outside of
-Documentation/devicetree/bindings/, but I have no
-solution for this.
-
---
-Best Regards
-Masahiro Yamada
