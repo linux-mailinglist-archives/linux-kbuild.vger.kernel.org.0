@@ -2,129 +2,185 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE9FF17D80D
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2020 03:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28D7017D832
+	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Mar 2020 03:40:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726960AbgCICLs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 8 Mar 2020 22:11:48 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:37180 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726958AbgCICLr (ORCPT
+        id S1726427AbgCICkM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 8 Mar 2020 22:40:12 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:36890 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726363AbgCICkM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 8 Mar 2020 22:11:47 -0400
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0292Bg27013094;
-        Mon, 9 Mar 2020 11:11:43 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0292Bg27013094
+        Sun, 8 Mar 2020 22:40:12 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 0292dL7g029360;
+        Mon, 9 Mar 2020 11:39:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0292dL7g029360
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583719903;
-        bh=cjFzylmuOvPTqSk4AfYJnlN1AXZVcRsUD5oy7paosWc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=brn1anuSdORCiRuJ9lSE0AjZagjqXtvR78d4vUb4hzdQ3qgfS1br2sLhX7GzyPqlT
-         p3l3ejD5C0rs0lC+i4sYwEQArXxb29y0fDK81OflaZ9ayhVlalbIIrlpH7YIDSX9+a
-         XF6OcCo8tBLaW4JxDs/wz0lR8OBmgxY8R7Gb7Fp1qmebHzC4afuZbBxUqdbl3Gj28Y
-         ryJULcB39Zn6D16L5AoeDkh9mKItEhZEUTCWXjg9vA6iLlV//dub4Y8bW/yMaIHBBI
-         REt2gO+kd7fnwNaBZuyZAWX9tWMWw4oL7hARL1V2m0n3wya2JHPIPELc1sbdXPInYY
-         nrMf/BuB5o9ag==
-X-Nifty-SrcIP: [209.85.221.177]
-Received: by mail-vk1-f177.google.com with SMTP id t129so2143326vkg.6;
-        Sun, 08 Mar 2020 19:11:43 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ31sIp2v5D70BxhMUDm1+Nrhi6FR0z0/6JqnCLbPA7aqRB6/eW2
-        3e2mPH9tOgB0BCuzc86u8+29LwVAWHAcLBD3gKo=
-X-Google-Smtp-Source: ADFU+vvt/JkrJjzd0deT/8rILIY+sbXN6h9yfSM2dN5SefnMYnQGmDsYiOXIbi9AgSGUBU5LhPzl8FfgiRG9piZrc3o=
-X-Received: by 2002:a1f:8cd5:: with SMTP id o204mr7525937vkd.66.1583719902032;
- Sun, 08 Mar 2020 19:11:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200308073400.23398-1-natechancellor@gmail.com>
-In-Reply-To: <20200308073400.23398-1-natechancellor@gmail.com>
+        s=dec2015msa; t=1583721562;
+        bh=x8rj79kPynZM9/V603rL/WARuM62A6eFpkOiK9ry+jE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Q5WCH5hwrb95d7+ahEeBYpB5DcFZpvOLjpy/r1xv/mew+Zw90kaBNFMYDD3DQYQ4H
+         6n1KZSePYAFw3NfOvh2Ttlmfmb11kGRSAPldNPgriCyh9d1BStni4NqjI06ALMYYRO
+         4Yxc/ZrxoSt+3Pi0/8TjPXeNXJuht4cHdqIIZbX696k6DzX3pSI8FuOwllZZtDiIkk
+         SFgDKGWPREfT7A6N1aelMUonFTOJoeb3a23NvG7qa6kpdzAop1rx98Nf2l//y+Hhs5
+         r5L3AKcqEqTpnVoFIDhd5G3MK2gwrmRFqHIbmc8C02CDw4W1tp6mZT8oisRvIOSYb1
+         mLpy0NTipg6FA==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 9 Mar 2020 11:11:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARcTHpd8fzrAhFVB_AR7NoBgenX64de0eS2uN8g0by9PQ@mail.gmail.com>
-Message-ID: <CAK7LNARcTHpd8fzrAhFVB_AR7NoBgenX64de0eS2uN8g0by9PQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Disable -Wpointer-to-enum-cast
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>,
+        clang-built-linux@googlegroups.com,
+        =?UTF-8?q?F=8F=AB=A7ng-ru=8F=AB=C0=20S=8F=AB=D2ng?= 
+        <maskray@google.com>, Ilie Halip <ilie.halip@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH] kbuild: link lib-y objects to vmlinux forcibly when CONFIG_MODULES=y
+Date:   Mon,  9 Mar 2020 11:39:10 +0900
+Message-Id: <20200309023910.25370-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nathan,
+Kbuild supports not only obj-y but also lib-y to list objects linked to
+vmlinux.
 
-On Sun, Mar 8, 2020 at 4:34 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> Clang's -Wpointer-to-int-cast deviates from GCC in that it warns when
-> casting to enums. The kernel does this in certain places, such as device
-> tree matches to set the version of the device being used, which allows
-> the kernel to avoid using a gigantic union.
->
-> https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L428
-> https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L402
-> https://elixir.bootlin.com/linux/v5.5.8/source/include/linux/mod_devicetable.h#L264
->
-> To avoid a ton of false positive warnings, disable this particular part
-> of the warning, which has been split off into a separate diagnostic so
-> that the entire warning does not need to be turned off for clang.
->
-> Cc: stable@vger.kernel.org
-> Link: https://github.com/ClangBuiltLinux/linux/issues/887
-> Link: https://github.com/llvm/llvm-project/commit/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> ---
->  Makefile | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index 86035d866f2c..90e56d5657c9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -748,6 +748,10 @@ KBUILD_CFLAGS += -Wno-tautological-compare
->  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
->  # See modpost pattern 2
->  KBUILD_CFLAGS += -mno-global-merge
-> +# clang's -Wpointer-to-int-cast warns when casting to enums, which does not match GCC.
-> +# Disable that part of the warning because it is very noisy across the kernel and does
-> +# not point out any real bugs.
-> +KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
->  else
+The difference between them is that all the objects from obj-y are
+forcibly linked to vmlinux by using --whole-archive, whereas the objects
+from lib-y are linked as needed; if there is no user of a lib-y object,
+it is not linked.
 
+lib-y is intended to list utility functions that may be called from all
+over the place (and may be unused at all), but it is a problem for
+EXPORT_SYMBOL(). Even if there is no call-site in the vmlinux, we need
+to keep exported symbols for the use from loadable modules.
 
+Commit 7f2084fa55e6 ("[kbuild] handle exports in lib-y objects reliably")
+worked around it by linking a dummy object, lib-ksyms.o, which contains
+references to all the symbols exported from lib.a in that directory.
+It uses the linker script command, EXTERN. Unfortunately, the meaning of
+EXTERN of ld.lld is different from that of ld.bfd. Therefore, this does
+not work with LD=ld.lld (CBL issue #515).
 
-I'd rather want to fix all the call-sites (97 drivers?)
-instead of having -Wno-pointer-to-enum-cast forever.
+Anyway, the build rule of lib-ksyms.o is somewhat tricky. So, I want to
+get rid of it.
 
-If it is tedious to fix them all for now, can we add it
-into scripts/Makefile.extrawarn so that this is disabled
-by default, but shows up with W=1 builds?
+At first, I was thinking of accumulating lib-y objects into obj-y
+(or even replacing lib-y with obj-y entirely), but the lib-y syntax
+is used beyond the ordinary use in lib/ and arch/*/lib/.
 
-(When we fix most of them, we will be able to
-make it a real warning.)
+Examples:
 
+ - drivers/firmware/efi/libstub/Makefile builds lib.a, which is linked
+   into vmlinux in the own way (arm64), or linked to the decompressor
+   (arm, x86).
 
-What do you think?
+ - arch/alpha/lib/Makefile builds lib.a which is linked not only to
+   vmlinux, but also to bootloaders in arch/alpha/boot/Makefile.
 
-Thanks.
+ - arch/xtensa/boot/lib/Makefile builds lib.a for use from
+   arch/xtensa/boot/boot-redboot/Makefile.
 
+One more thing, adding everything to obj-y would increase the vmlinux
+size of allnoconfig (or tinyconfig).
 
+For less impact, I tweaked the destination of lib.a at the top Makefile;
+when CONFIG_MODULES=y, lib.a goes to KBUILD_VMLINUX_OBJS, which is
+forcibly linked to vmlinux, otherwise lib.a goes to KBUILD_VMLINUX_LIBS
+as before.
 
+The size impact for normal usecases is quite small since at lease one
+symbol in every lib-y object is eventually called by someone. In case
+you are intrested, here are the figures.
 
->  # These warnings generated too much noise in a regular build.
-> --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200308073400.23398-1-natechancellor%40gmail.com.
+x86_64_defconfig:
 
+   text	   data	    bss	    dec	    hex	filename
+19566602 5422072 1589328 26578002 1958c52 vmlinux.before
+19566932 5422104 1589328 26578364 1958dbc vmlinux.after
 
+The case with the biggest impact is allnoconfig + CONFIG_MODULES=y.
 
+ARCH=x86 allnoconfig + CONFIG_MODULES=y:
+
+   text	   data	    bss	    dec	    hex	filename
+1175162	 254740	1220608	2650510	 28718e	vmlinux.before
+1177974	 254836	1220608	2653418	 287cea	vmlinux.after
+
+Hopefully this is still not a big deal. The per-file trimming with the
+static library is not so effective after all.
+
+If fine-grained optimization is desired, some architectures support
+CONFIG_LD_DEAD_CODE_DATA_ELIMINATION, which trims dead code per-symbol
+basis. When LTO is supported in mainline, even better optimization will
+be possible.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/515
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Makefile               |  7 ++++++-
+ scripts/Makefile.build | 17 -----------------
+ 2 files changed, 6 insertions(+), 18 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 86035d866f2c..07f89d2a581a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1031,8 +1031,13 @@ init-y		:= $(patsubst %/, %/built-in.a, $(init-y))
+ core-y		:= $(patsubst %/, %/built-in.a, $(core-y))
+ drivers-y	:= $(patsubst %/, %/built-in.a, $(drivers-y))
+ net-y		:= $(patsubst %/, %/built-in.a, $(net-y))
++libs-y2		:= $(patsubst %/, %/built-in.a, $(filter %/, $(libs-y)))
++ifdef CONFIG_MODULES
++libs-y1		:= $(filter-out %/, $(libs-y))
++libs-y2		+= $(patsubst %/, %/lib.a, $(filter %/, $(libs-y)))
++else
+ libs-y1		:= $(patsubst %/, %/lib.a, $(libs-y))
+-libs-y2		:= $(patsubst %/, %/built-in.a, $(filter-out %.a, $(libs-y)))
++endif
+ virt-y		:= $(patsubst %/, %/built-in.a, $(virt-y))
+ 
+ # Externally visible symbols (used by link-vmlinux.sh)
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index a1730d42e5f3..356601994f3a 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -65,7 +65,6 @@ endif
+ 
+ ifneq ($(strip $(lib-y) $(lib-m) $(lib-)),)
+ lib-target := $(obj)/lib.a
+-real-obj-y += $(obj)/lib-ksyms.o
+ endif
+ 
+ ifdef need-builtin
+@@ -410,22 +409,6 @@ $(lib-target): $(lib-y) FORCE
+ 
+ targets += $(lib-target)
+ 
+-dummy-object = $(obj)/.lib_exports.o
+-ksyms-lds = $(dot-target).lds
+-
+-quiet_cmd_export_list = EXPORTS $@
+-cmd_export_list = $(OBJDUMP) -h $< | \
+-	sed -ne '/___ksymtab/s/.*+\([^ ]*\).*/EXTERN(\1)/p' >$(ksyms-lds);\
+-	rm -f $(dummy-object);\
+-	echo | $(CC) $(a_flags) -c -o $(dummy-object) -x assembler -;\
+-	$(LD) $(ld_flags) -r -o $@ -T $(ksyms-lds) $(dummy-object);\
+-	rm $(dummy-object) $(ksyms-lds)
+-
+-$(obj)/lib-ksyms.o: $(lib-target) FORCE
+-	$(call if_changed,export_list)
+-
+-targets += $(obj)/lib-ksyms.o
+-
+ endif
+ 
+ # NOTE:
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
