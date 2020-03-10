@@ -2,143 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9964B17EDF9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 02:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9821517F4A8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 11:13:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbgCJBZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Mar 2020 21:25:48 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39141 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgCJBZs (ORCPT
+        id S1726202AbgCJKNR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Mar 2020 06:13:17 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:24944 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbgCJKNR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Mar 2020 21:25:48 -0400
-Received: by mail-ot1-f67.google.com with SMTP id a9so5423329otl.6;
-        Mon, 09 Mar 2020 18:25:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=cmN98IWbXYyX8O2K4XgYM3Py4nvl6j5+94LDp5dV7Vg=;
-        b=jvlcjXMjPstzI1Okjh/O3QUZAvEZ/Kfyu5rZtN85X3RDxZIoT+I3FhiQfszFnUr3PB
-         rjmvnd3BYoxcsbifr59TRJioEiue9ZjkbeBNvPZfMCho+uGrn0i70dBK7SeX80CSg08J
-         qZudc2nOaAdJa6DnlqPdlb0Fw9gRC0AvYtjXPYqHfy/pjB90OkMLJddiXIHwolBk6BCY
-         0fQra8IBoVitfNhdkmYs5L0+NUEwn79eHP1V+OUpTDiHzQ0aRNZ3zjxjdrEQsRiJyeN7
-         QDz9KkAQqZ5cxRTxp7yd2Uy1kiTtNbYk4I3/6/QL5n60RlOwHHJEnxEsrwCywKRVZCDQ
-         gefw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=cmN98IWbXYyX8O2K4XgYM3Py4nvl6j5+94LDp5dV7Vg=;
-        b=pGcVz32P31Uxg6h5kl4mGcT144Le69mboQt8ivJIWR5guJiHD7zt/434XIP0QXS8Z7
-         Y0zx2JZIeC23w1ezrE62MaN5mK2RLuomAkE/N7qtxvdnimLplj8SHT3J3l1BFtC9jdJf
-         fQAf0yps/UEIILa4gXk11s1T23rPzc2S7KSxgUdmoZKpsMtLzUlT2lPEMVh4lge2tW1z
-         +pMFQyYLaaMESVbICgfA2/b2IwZ7pADSBUs1cUL5u9RjMsvkGoBT1PO72LRTHfePxFt2
-         AtwEbMuBTzz9uTlZIc05zedwOP1U9QFWnOzgyi6+/rAe0rsZeS1XdmpWhY2npPKF6rbO
-         5Ehw==
-X-Gm-Message-State: ANhLgQ0cpewjBQyxtqvNLKEi9E25Gn6BOr+Xt6lchJnqx2OtyHGdMc7e
-        DgR5fmEFcOYJzagh0ZBu65XigpEa
-X-Google-Smtp-Source: ADFU+vsxGNApGisVXD3NVMh8XI7wrg8LefHd5C3x98L4l2FQ2Gua3VLLXwZCRmR0sWFzd+7I9aIcXA==
-X-Received: by 2002:a9d:3de4:: with SMTP id l91mr15681122otc.35.1583803547733;
-        Mon, 09 Mar 2020 18:25:47 -0700 (PDT)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id e15sm3769314oie.3.2020.03.09.18.25.47
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 09 Mar 2020 18:25:47 -0700 (PDT)
-Date:   Mon, 9 Mar 2020 18:25:45 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        stable <stable@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: Disable -Wpointer-to-enum-cast
-Message-ID: <20200310012545.GA16822@ubuntu-m2-xlarge-x86>
-References: <20200308073400.23398-1-natechancellor@gmail.com>
- <CAK7LNARcTHpd8fzrAhFVB_AR7NoBgenX64de0eS2uN8g0by9PQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARcTHpd8fzrAhFVB_AR7NoBgenX64de0eS2uN8g0by9PQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Tue, 10 Mar 2020 06:13:17 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 02AACqfU019796;
+        Tue, 10 Mar 2020 19:12:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02AACqfU019796
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583835173;
+        bh=9xOpIGGc+JZ3lbYb04or905H1Kt+yrULBMXg/tSCO2w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=1J0xfzflFFAWxFgLAoJOJ8bqxm6qeEDK5W2TF1DawP6X+gFXY0I4Y1HKBT9eCvVIk
+         59IvBs41Da7sDJRILCtx5upsUMhWTvsuVzK8/1jUE81a/2SvvxndXZIu5fzPm8FJP7
+         3GVRgtVGE9hZXruEw2mqcYh6zeUs9INrt8UgNHhZzoyKZNGZM1U96s7o5CqQ+o3Tg6
+         xfoc8vwEhnSD2IlBJ2HaJQ7pM9CJcdTLgUxi8Ej0lzU30BGRHESOapDi24ScvVvCO7
+         nAzNd5Q5Uz0rC1Ribh9fiKZXAYOQ2m1L1QdKfJROkvFFYUK39mKu+r2prxtShkqws+
+         Wr6Fnf1NaNFvg==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Ard Biesheuvel <ardb@kernel.org>, George Spelvin <lkml@sdf.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kconfig: introduce m32-flag and m64-flag
+Date:   Tue, 10 Mar 2020 19:12:49 +0900
+Message-Id: <20200310101250.22374-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 09, 2020 at 11:11:05AM +0900, Masahiro Yamada wrote:
-> Hi Nathan,
-> 
-> On Sun, Mar 8, 2020 at 4:34 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > Clang's -Wpointer-to-int-cast deviates from GCC in that it warns when
-> > casting to enums. The kernel does this in certain places, such as device
-> > tree matches to set the version of the device being used, which allows
-> > the kernel to avoid using a gigantic union.
-> >
-> > https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L428
-> > https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L402
-> > https://elixir.bootlin.com/linux/v5.5.8/source/include/linux/mod_devicetable.h#L264
-> >
-> > To avoid a ton of false positive warnings, disable this particular part
-> > of the warning, which has been split off into a separate diagnostic so
-> > that the entire warning does not need to be turned off for clang.
-> >
-> > Cc: stable@vger.kernel.org
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/887
-> > Link: https://github.com/llvm/llvm-project/commit/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > ---
-> >  Makefile | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 86035d866f2c..90e56d5657c9 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -748,6 +748,10 @@ KBUILD_CFLAGS += -Wno-tautological-compare
-> >  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
-> >  # See modpost pattern 2
-> >  KBUILD_CFLAGS += -mno-global-merge
-> > +# clang's -Wpointer-to-int-cast warns when casting to enums, which does not match GCC.
-> > +# Disable that part of the warning because it is very noisy across the kernel and does
-> > +# not point out any real bugs.
-> > +KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
-> >  else
-> 
-> 
-> 
-> I'd rather want to fix all the call-sites (97 drivers?)
-> instead of having -Wno-pointer-to-enum-cast forever.
+When a compiler supports multiple architectures, some compiler features
+can be dependent on the target architecture.
 
-Yes, there are 97 unique warnings across my builds, which are mainly
-arm, arm64, and x86_64 defconfig/allmodconfig/allyesconfig:
+This is typical for Clang, which supports multiple LLVM backends.
+Even for GCC, we need to take care of biarch compiler cases.
 
-https://github.com/ClangBuiltLinux/linux/issues/887#issuecomment-587938406
+It is not a problem when we evaluate cc-option in Makefiles because
+cc-option is tested against the flag in question + $(KBUILD_CFLAGS).
 
-> If it is tedious to fix them all for now, can we add it
-> into scripts/Makefile.extrawarn so that this is disabled
-> by default, but shows up with W=1 builds?
+The cc-option in Kconfig, on the other hand, does not accumulate
+tested flags. Due to this simplification, it could potentially test
+cc-option against a different target.
 
-Sure, I can send v2 to do that but I think that sending 97 patches just
-casting the small values (usually less than twenty) to unsigned long
-then to the enum is rather frivolous. I audited at least ten to fifteen
-of these call sites when creating the clang patch and they are all
-basically false positives.
+At first, Kconfig always evaluated cc-option against the host
+architecture.
 
-I believe Nick discussed this with some other developers off list, maybe
-he has some other feedback to give. I'll wait to send a v2 until
-tomorrow in case anyone else has further comments.
+Since commit e8de12fb7cde ("kbuild: Check for unknown options with
+cc-option usage in Kconfig and clang"), in case of cross-compiling
+with Clang, the target triple is correctly passed to Kconfig.
 
-> (When we fix most of them, we will be able to
-> make it a real warning.)
-> 
-> 
-> What do you think?
-> 
-> Thanks.
+The case with biarch GCC (and native build with Clang) is still not
+handled properly. We need to pass some flags to specify the target
+machine bit.
 
-Cheers,
-Nathan
+Due to the design, all the macros in Kconfig are expanded in the
+parse stage, where we do not know the target bit size yet.
+
+For example, arch/x86/Kconfig allows a user to toggle CONFIG_64BIT.
+If a compiler flag -foo depends on the machine bit, it must be tested
+twice, one with -m32 and the other with -m64.
+
+However, -m32/-m64 are not always recognized. So, this commits adds
+m64-flag and m32-flag macros. They expand to -m32, -m64, respectively
+if supported. Or, they expand to an empty string if unsupported.
+
+The typical usage is like this:
+
+  config FOO
+          bool
+          default $(cc-option,$(m64-flag) -foo) if 64BIT
+          default $(cc-option,$(m32-flag) -foo)
+
+This is clumsy, but there is no elegant way to handle this in the
+current static macro expansion.
+
+There was discussion for static functions vs dynamic functions.
+The consensus was to go as far as possible with the static functions.
+(https://lkml.org/lkml/2018/3/2/22)
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Kconfig.include | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 85334dc8c997..496d11c92c97 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -44,3 +44,10 @@ $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supporte
+ 
+ # gcc version including patch level
+ gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
++
++# machine bit flags
++#  $(m32-flag): -m32 if the compiler supports it, or an empty string otherwise.
++#  $(m64-flag): -m64 if the compiler supports it, or an empty string otherwise.
++cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
++m32-flag := $(cc-option-bit,-m32)
++m64-flag := $(cc-option-bit,-m64)
+-- 
+2.17.1
+
