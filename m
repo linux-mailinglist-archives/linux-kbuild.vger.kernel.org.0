@@ -2,148 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80BA11801E0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 16:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C33618023D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 16:46:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727619AbgCJPbj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Mar 2020 11:31:39 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:46015 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726420AbgCJPbj (ORCPT
+        id S1726582AbgCJPqj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Mar 2020 11:46:39 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41021 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726504AbgCJPqj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Mar 2020 11:31:39 -0400
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 02AFVYF4029019;
-        Wed, 11 Mar 2020 00:31:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02AFVYF4029019
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583854295;
-        bh=cU9zGQWEYLmKu3ABbJP9fWNhvET72vVMMuEoK2xZbeA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uBFbZowblEtMMMtmmPl1g2DHYesZd0O3dcspp/C1j7pYuuZiW7+A/50a8OxAD9sGX
-         3LR/6esVVadbdu8bba9C/iyNdz3dcV1XCPR8GGy8utGuvugcaQ3MEfylMfUIJDhMlc
-         NG5vO76Han+PqEgbLSWPcOmKIEPTutMTSJ6dyhq7dpIkAXIgNcot9dq/L918KUFXBu
-         q9NuQO9PRXoSuGMXGCJbNN9TfnWlWmC97te5FfbTjQxdYauJy0Gw7S/20R3mgtEzV3
-         16OaLPqNErNEHNFQgVtuKtUqoV+aSA0TJIcw56ttliWlmuWvG/pJxx/tbqL5XKtYis
-         myG5OlrsN218A==
-X-Nifty-SrcIP: [209.85.221.181]
-Received: by mail-vk1-f181.google.com with SMTP id i78so3679380vke.0;
-        Tue, 10 Mar 2020 08:31:34 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3vCFmusR8luwcYaMMcsI3mZ2mG7fV4UiJqXUPY8wbCJC5dlOnf
-        zMTXqPz5XlTk+nd2QFV2Ims2XOVspzBgT7y5L3k=
-X-Google-Smtp-Source: ADFU+vshzsYrewZL9/qV8QBmAcUvMQcoFa4yNoeetgkikl+9ovLz5Pmn2O39v6n04YVWO2hgbFnjooVJIw0mOh6UFtA=
-X-Received: by 2002:a1f:900c:: with SMTP id s12mr2563486vkd.96.1583854293448;
- Tue, 10 Mar 2020 08:31:33 -0700 (PDT)
+        Tue, 10 Mar 2020 11:46:39 -0400
+Received: by mail-ot1-f67.google.com with SMTP id s15so5357307otq.8;
+        Tue, 10 Mar 2020 08:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=oAoaOcfKFLCJ0nOY8c3/piOO/zUeoRHQO/N6WrhcgWU=;
+        b=etnEvI74yEK5vkZRP14Lb1HLwlj0y6enD0GjUQc/PYmFYYpeNHdCLwMh1sAP4bgaVk
+         T6TGxwW19BpreGXZy4V2mGzXYWIiCJu6X41TfpL3iJBxK0KjkhLg1mn2sR6w0qKz8/Nc
+         IClt1AiO1XDPJCwbzNRui+PzCYEiOJYjgdvIqW2GVnXm7n9OTs0fdsmX2K4HmakfLz4a
+         Bezhh2WQDHkuo7EUbvtjXrFmLjLMrGrRVcwJ/8doEJRY/KXlaOvdWeQL6+orOABbeu3K
+         TA8N3/8sOofCXnyJrhoJIGt5xCAqdOQlsWj0AbrHxbwwkF0YHp7ibPRpgh4amSXeTYrS
+         OvxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oAoaOcfKFLCJ0nOY8c3/piOO/zUeoRHQO/N6WrhcgWU=;
+        b=fp0VNjx34Ro33GkTD4BG7QpAw93m/uCstmxeJdEmh+q1w7xjEfAjkZXg5QrsOAtdOs
+         OzUW7XDPLa9UZK4CfOXvsHYdPE9LCrrFnz3caAU9Ysg1xCSOI0whgECp2/OmYMxQIw5A
+         OUAqVv29DV8XDFMYkonYjcmndt/xsR8egcHlgXlY8aAnwVxtJeV2myORDg4yVP5H17yi
+         0zObIEItCCaawM2iTMBccA9HE2vtZ2/B0hPr/i/CZByTJYZZJRgh3HzutgoJdkPs2wA7
+         8LwsKcBWJzEGR1/TaLh5ttc4qnei1yhFrEBAVbjOdBb9tajIDRkjEhKckSFBeg5w6BHb
+         ufCg==
+X-Gm-Message-State: ANhLgQ3/Pl1+t7MdLN4xA65pGXMsmRyLHHxpCXWwm/MyEBzK8O4X3XQr
+        HxGX8chAXD/r5lPTijBEDEMp3u2NFHE=
+X-Google-Smtp-Source: ADFU+vv9nOlKV1/TZjUbSqBUA3fOw2xujdKfOY8jbNz+gMBBvwN9774g/GhGVMGWg1Nu4YwvKYcDJA==
+X-Received: by 2002:a05:6830:2009:: with SMTP id e9mr18014608otp.296.1583855197829;
+        Tue, 10 Mar 2020 08:46:37 -0700 (PDT)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id c12sm4411577oic.27.2020.03.10.08.46.37
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 10 Mar 2020 08:46:37 -0700 (PDT)
+Date:   Tue, 10 Mar 2020 08:46:36 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+        George Spelvin <lkml@sdf.org>,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] kconfig: introduce m32-flag and m64-flag
+Message-ID: <20200310154636.GA24694@ubuntu-m2-xlarge-x86>
+References: <20200310101250.22374-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <20200308073400.23398-1-natechancellor@gmail.com>
- <CAK7LNARcTHpd8fzrAhFVB_AR7NoBgenX64de0eS2uN8g0by9PQ@mail.gmail.com>
- <20200310012545.GA16822@ubuntu-m2-xlarge-x86> <c2a687d065c1463d8eea9947687b3b05@AcuMS.aculab.com>
-In-Reply-To: <c2a687d065c1463d8eea9947687b3b05@AcuMS.aculab.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 11 Mar 2020 00:30:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARMsO0AeO8-kH4czMuW0Y_=dN+ZhtXNdRE7CWGvU2PNvA@mail.gmail.com>
-Message-ID: <CAK7LNARMsO0AeO8-kH4czMuW0Y_=dN+ZhtXNdRE7CWGvU2PNvA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Disable -Wpointer-to-enum-cast
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200310101250.22374-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 8:31 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Nathan Chancellor
-> > Sent: 10 March 2020 01:26
-> ...
-> > Sure, I can send v2 to do that but I think that sending 97 patches just
-> > casting the small values (usually less than twenty) to unsigned long
-> > then to the enum is rather frivolous. I audited at least ten to fifteen
-> > of these call sites when creating the clang patch and they are all
-> > basically false positives.
->
-> Such casts just make the code hard to read.
-> If misused casts can hide horrid bugs.
-> IMHO sprinkling the code with casts just to remove
-> compiler warnings will bite back one day.
->
+On Tue, Mar 10, 2020 at 07:12:49PM +0900, Masahiro Yamada wrote:
+> When a compiler supports multiple architectures, some compiler features
+> can be dependent on the target architecture.
+> 
+> This is typical for Clang, which supports multiple LLVM backends.
+> Even for GCC, we need to take care of biarch compiler cases.
+> 
+> It is not a problem when we evaluate cc-option in Makefiles because
+> cc-option is tested against the flag in question + $(KBUILD_CFLAGS).
+> 
+> The cc-option in Kconfig, on the other hand, does not accumulate
+> tested flags. Due to this simplification, it could potentially test
+> cc-option against a different target.
+> 
+> At first, Kconfig always evaluated cc-option against the host
+> architecture.
+> 
+> Since commit e8de12fb7cde ("kbuild: Check for unknown options with
+> cc-option usage in Kconfig and clang"), in case of cross-compiling
+> with Clang, the target triple is correctly passed to Kconfig.
+> 
+> The case with biarch GCC (and native build with Clang) is still not
+> handled properly. We need to pass some flags to specify the target
+> machine bit.
+> 
+> Due to the design, all the macros in Kconfig are expanded in the
+> parse stage, where we do not know the target bit size yet.
+> 
+> For example, arch/x86/Kconfig allows a user to toggle CONFIG_64BIT.
+> If a compiler flag -foo depends on the machine bit, it must be tested
+> twice, one with -m32 and the other with -m64.
+> 
+> However, -m32/-m64 are not always recognized. So, this commits adds
+> m64-flag and m32-flag macros. They expand to -m32, -m64, respectively
+> if supported. Or, they expand to an empty string if unsupported.
+> 
+> The typical usage is like this:
+> 
+>   config FOO
+>           bool
+>           default $(cc-option,$(m64-flag) -foo) if 64BIT
+>           default $(cc-option,$(m32-flag) -foo)
+> 
+> This is clumsy, but there is no elegant way to handle this in the
+> current static macro expansion.
+> 
+> There was discussion for static functions vs dynamic functions.
+> The consensus was to go as far as possible with the static functions.
+> (https://lkml.org/lkml/2018/3/2/22)
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  scripts/Kconfig.include | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+> index 85334dc8c997..496d11c92c97 100644
+> --- a/scripts/Kconfig.include
+> +++ b/scripts/Kconfig.include
+> @@ -44,3 +44,10 @@ $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supporte
+>  
+>  # gcc version including patch level
+>  gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
+> +
+> +# machine bit flags
+> +#  $(m32-flag): -m32 if the compiler supports it, or an empty string otherwise.
+> +#  $(m64-flag): -m64 if the compiler supports it, or an empty string otherwise.
+> +cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
+> +m32-flag := $(cc-option-bit,-m32)
+> +m64-flag := $(cc-option-bit,-m64)
+> -- 
+> 2.17.1
 
-I agree that too much casts make the code hard to read,
-but irrespective of this patch, there is no difference
-in the fact that we need a cast to convert
-(const void *) to a non-pointer value.
-
-The difference is whether we use
-(uintptr_t) or (enum foo).
-
-
-
-
-If we want to avoid casts completely,
-we could use union in struct of_device_id
-although this might be rejected.
-
-
-FWIW:
-
-diff --git a/drivers/ata/ahci_brcm.c b/drivers/ata/ahci_brcm.c
-index 6853dbb4131d..534170bea134 100644
---- a/drivers/ata/ahci_brcm.c
-+++ b/drivers/ata/ahci_brcm.c
-@@ -415,11 +415,11 @@ static struct scsi_host_template ahci_platform_sht = {
- };
-
- static const struct of_device_id ahci_of_match[] = {
--       {.compatible = "brcm,bcm7425-ahci", .data = (void *)BRCM_SATA_BCM7425},
--       {.compatible = "brcm,bcm7445-ahci", .data = (void *)BRCM_SATA_BCM7445},
--       {.compatible = "brcm,bcm63138-ahci", .data = (void *)BRCM_SATA_BCM7445},
--       {.compatible = "brcm,bcm-nsp-ahci", .data = (void *)BRCM_SATA_NSP},
--       {.compatible = "brcm,bcm7216-ahci", .data = (void *)BRCM_SATA_BCM7216},
-+       {.compatible = "brcm,bcm7425-ahci", .data2 = BRCM_SATA_BCM7425},
-+       {.compatible = "brcm,bcm7445-ahci", .data2 = BRCM_SATA_BCM7445},
-+       {.compatible = "brcm,bcm63138-ahci", .data2 = BRCM_SATA_BCM7445},
-+       {.compatible = "brcm,bcm-nsp-ahci", .data2 = BRCM_SATA_NSP},
-+       {.compatible = "brcm,bcm7216-ahci", .data2 = BRCM_SATA_BCM7216},
-        {},
- };
- MODULE_DEVICE_TABLE(of, ahci_of_match);
-@@ -442,7 +442,7 @@ static int brcm_ahci_probe(struct platform_device *pdev)
-        if (!of_id)
-                return -ENODEV;
-
--       priv->version = (enum brcm_ahci_version)of_id->data;
-+       priv->version = of_id->data2;
-        priv->dev = dev;
-
-        res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "top-ctrl");
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index e3596db077dc..98d44ebf146a 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -261,7 +261,10 @@ struct of_device_id {
-        char    name[32];
-        char    type[32];
-        char    compatible[128];
--       const void *data;
-+       union {
-+               const void *data;
-+               unsigned long data2;
-+       };
- };
-
- /* VIO */
-
-
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
