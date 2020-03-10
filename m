@@ -2,75 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16CDB17F864
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 13:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80BA11801E0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 16:31:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727390AbgCJMrd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Mar 2020 08:47:33 -0400
-Received: from mail.11d01.mspz7.gob.ec ([190.152.145.91]:40630 "EHLO
-        mail.11d01.mspz7.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727901AbgCJMrc (ORCPT
+        id S1727619AbgCJPbj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 10 Mar 2020 11:31:39 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:46015 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbgCJPbj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Mar 2020 08:47:32 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 9163B2F7143D;
-        Tue, 10 Mar 2020 04:53:39 -0500 (-05)
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Gw2uzpdWflGm; Tue, 10 Mar 2020 04:53:39 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTP id 46C8B2F64C29;
-        Tue, 10 Mar 2020 04:14:37 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.9.2 mail.11d01.mspz7.gob.ec 46C8B2F64C29
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=11d01.mspz7.gob.ec;
-        s=50CBC7E4-8BED-11E9-AF6C-F1A741A224D3; t=1583831678;
-        bh=o+H3O7n1+zJcXo0FhJs7spyf8HmE4ClnBa/Y2Gk0DL0=;
-        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
-         From:Date:Reply-To:Message-Id;
-        b=fUNJ4fob4bauZihMXt190D4wM/FDvK4+DNgaGo+Eq3fkWurEbqSMZQqY9/nNZYSsR
-         L2nEd8bJr3IyJH/RyGt89vQx+x5H12AaAdjk06iJLxh0e75VSblgioGsbn3N1B6IPz
-         LWh0xrM6b2EjFI+7Uf4Y0nlRk2H1lmRIQtlwS03s=
-X-Virus-Scanned: amavisd-new at 11d01.mspz7.gob.ec
-Received: from mail.11d01.mspz7.gob.ec ([127.0.0.1])
-        by localhost (mail.11d01.mspz7.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ad1oc8jo1IXf; Tue, 10 Mar 2020 04:14:37 -0500 (-05)
-Received: from [10.19.167.32] (unknown [105.0.4.171])
-        by mail.11d01.mspz7.gob.ec (Postfix) with ESMTPSA id 1A8A02F6FC1E;
-        Tue, 10 Mar 2020 03:35:55 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        Tue, 10 Mar 2020 11:31:39 -0400
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 02AFVYF4029019;
+        Wed, 11 Mar 2020 00:31:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02AFVYF4029019
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583854295;
+        bh=cU9zGQWEYLmKu3ABbJP9fWNhvET72vVMMuEoK2xZbeA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uBFbZowblEtMMMtmmPl1g2DHYesZd0O3dcspp/C1j7pYuuZiW7+A/50a8OxAD9sGX
+         3LR/6esVVadbdu8bba9C/iyNdz3dcV1XCPR8GGy8utGuvugcaQ3MEfylMfUIJDhMlc
+         NG5vO76Han+PqEgbLSWPcOmKIEPTutMTSJ6dyhq7dpIkAXIgNcot9dq/L918KUFXBu
+         q9NuQO9PRXoSuGMXGCJbNN9TfnWlWmC97te5FfbTjQxdYauJy0Gw7S/20R3mgtEzV3
+         16OaLPqNErNEHNFQgVtuKtUqoV+aSA0TJIcw56ttliWlmuWvG/pJxx/tbqL5XKtYis
+         myG5OlrsN218A==
+X-Nifty-SrcIP: [209.85.221.181]
+Received: by mail-vk1-f181.google.com with SMTP id i78so3679380vke.0;
+        Tue, 10 Mar 2020 08:31:34 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3vCFmusR8luwcYaMMcsI3mZ2mG7fV4UiJqXUPY8wbCJC5dlOnf
+        zMTXqPz5XlTk+nd2QFV2Ims2XOVspzBgT7y5L3k=
+X-Google-Smtp-Source: ADFU+vshzsYrewZL9/qV8QBmAcUvMQcoFa4yNoeetgkikl+9ovLz5Pmn2O39v6n04YVWO2hgbFnjooVJIw0mOh6UFtA=
+X-Received: by 2002:a1f:900c:: with SMTP id s12mr2563486vkd.96.1583854293448;
+ Tue, 10 Mar 2020 08:31:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <ronald.pena@11d01.mspz7.gob.ec>
-From:   ''Michael weirsky'' <ronald.pena@11d01.mspz7.gob.ec>
-Date:   Tue, 10 Mar 2020 11:05:24 +0200
-Reply-To: mikeweirskyspende@gmail.com
-Message-Id: <20200310083556.1A8A02F6FC1E@mail.11d01.mspz7.gob.ec>
+References: <20200308073400.23398-1-natechancellor@gmail.com>
+ <CAK7LNARcTHpd8fzrAhFVB_AR7NoBgenX64de0eS2uN8g0by9PQ@mail.gmail.com>
+ <20200310012545.GA16822@ubuntu-m2-xlarge-x86> <c2a687d065c1463d8eea9947687b3b05@AcuMS.aculab.com>
+In-Reply-To: <c2a687d065c1463d8eea9947687b3b05@AcuMS.aculab.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 11 Mar 2020 00:30:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARMsO0AeO8-kH4czMuW0Y_=dN+ZhtXNdRE7CWGvU2PNvA@mail.gmail.com>
+Message-ID: <CAK7LNARMsO0AeO8-kH4czMuW0Y_=dN+ZhtXNdRE7CWGvU2PNvA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Disable -Wpointer-to-enum-cast
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Lieber Freund,
+On Tue, Mar 10, 2020 at 8:31 PM David Laight <David.Laight@aculab.com> wrote:
+>
+> From: Nathan Chancellor
+> > Sent: 10 March 2020 01:26
+> ...
+> > Sure, I can send v2 to do that but I think that sending 97 patches just
+> > casting the small values (usually less than twenty) to unsigned long
+> > then to the enum is rather frivolous. I audited at least ten to fifteen
+> > of these call sites when creating the clang patch and they are all
+> > basically false positives.
+>
+> Such casts just make the code hard to read.
+> If misused casts can hide horrid bugs.
+> IMHO sprinkling the code with casts just to remove
+> compiler warnings will bite back one day.
+>
 
-Ich bin Herr Mike Weirsky, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 273million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen.
-Das ist dein Spendencode: [MW530342019]
-www.youtube.com/watch?v=3Dun8yRTmrYMY
+I agree that too much casts make the code hard to read,
+but irrespective of this patch, there is no difference
+in the fact that we need a cast to convert
+(const void *) to a non-pointer value.
 
-Antworten Sie mit dem SPENDE-CODE an diese =
+The difference is whether we use
+(uintptr_t) or (enum foo).
 
 
-E-Mail:mikeweirskyspende@gmail.com
 
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
 
-Gr=C3=BC=C3=9Fe
-Herr Mike Weirsky
+If we want to avoid casts completely,
+we could use union in struct of_device_id
+although this might be rejected.
+
+
+FWIW:
+
+diff --git a/drivers/ata/ahci_brcm.c b/drivers/ata/ahci_brcm.c
+index 6853dbb4131d..534170bea134 100644
+--- a/drivers/ata/ahci_brcm.c
++++ b/drivers/ata/ahci_brcm.c
+@@ -415,11 +415,11 @@ static struct scsi_host_template ahci_platform_sht = {
+ };
+
+ static const struct of_device_id ahci_of_match[] = {
+-       {.compatible = "brcm,bcm7425-ahci", .data = (void *)BRCM_SATA_BCM7425},
+-       {.compatible = "brcm,bcm7445-ahci", .data = (void *)BRCM_SATA_BCM7445},
+-       {.compatible = "brcm,bcm63138-ahci", .data = (void *)BRCM_SATA_BCM7445},
+-       {.compatible = "brcm,bcm-nsp-ahci", .data = (void *)BRCM_SATA_NSP},
+-       {.compatible = "brcm,bcm7216-ahci", .data = (void *)BRCM_SATA_BCM7216},
++       {.compatible = "brcm,bcm7425-ahci", .data2 = BRCM_SATA_BCM7425},
++       {.compatible = "brcm,bcm7445-ahci", .data2 = BRCM_SATA_BCM7445},
++       {.compatible = "brcm,bcm63138-ahci", .data2 = BRCM_SATA_BCM7445},
++       {.compatible = "brcm,bcm-nsp-ahci", .data2 = BRCM_SATA_NSP},
++       {.compatible = "brcm,bcm7216-ahci", .data2 = BRCM_SATA_BCM7216},
+        {},
+ };
+ MODULE_DEVICE_TABLE(of, ahci_of_match);
+@@ -442,7 +442,7 @@ static int brcm_ahci_probe(struct platform_device *pdev)
+        if (!of_id)
+                return -ENODEV;
+
+-       priv->version = (enum brcm_ahci_version)of_id->data;
++       priv->version = of_id->data2;
+        priv->dev = dev;
+
+        res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "top-ctrl");
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index e3596db077dc..98d44ebf146a 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -261,7 +261,10 @@ struct of_device_id {
+        char    name[32];
+        char    type[32];
+        char    compatible[128];
+-       const void *data;
++       union {
++               const void *data;
++               unsigned long data2;
++       };
+ };
+
+ /* VIO */
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
