@@ -2,149 +2,225 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3623F18093B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Mar 2020 21:34:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53452181038
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 06:51:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbgCJUeM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Mar 2020 16:34:12 -0400
-Received: from mail-eopbgr60074.outbound.protection.outlook.com ([40.107.6.74]:41383
-        "EHLO EUR04-DB3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726480AbgCJUeM (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Mar 2020 16:34:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XJSua2I7sMmk4o5NJhdqZxr86nygnrj2O9ayJl0gl1YqZTlgNdwRYQXNjC3uiX3dEKnI2Ye5gXoqlbmlFPxkyO3FkJSJHUKRfgnwmxHgH1RjnAu58LrWP2nnqqkWkTkSpH8d/ic+qCMXl7fcrRemPD6rVxxg9mICtfXdCYbnKghCC9sE1VVxQos3ksZqv3l62PgN7vMpfYS4HVx4Y+xsdsLIx0s1H//CpBLGvxrKaudsbc12Qi4EbNI2b1Pv/cLd4JTLoG/OO/rhkHeKrX2gLEeCLHuvxBLw4A8/YU/0tg/ZulA9d9k9XWGgQ9zd/y/SxUTPbQKByfEExH99aqKc6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pFVVFWM4bpRmlnu0kI1srXcCkrsmplopNk5lWS41XM0=;
- b=HOSAIBV+nc7njdz5wfsq2s3DLpakgJgjV0pq+c/fuxjKBY+i5elOH/Jyu2MDhEwlrCVWIvJhk1o5kx4OGI14plXIyLGYax6ipXbEdNYe8n3SIqc+7pnVoiMPGUYDpQ8sASYiAJbVE2pq8aXY9b/lmRkTUJ5rdRWex9fKxMC4ac+j0JsyOOBCVurHyCESLM7hEYJnq0xf3j777RLqnbLtoQFuNmn1/cfKr3WNmz+uPbnMnsYBu5svB6BETJYYWPIh3F2PJ6lyPJspNRvIYbIfww9Ub53xNE536E3kpeZMn9yMr/OhN4p3pMupgs2PC/S3C8aemuLW2UYu2icC9+GlNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mir.dev; dmarc=pass action=none header.from=mir.dev; dkim=pass
- header.d=mir.dev; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=astrosoftrus.onmicrosoft.com; s=selector2-astrosoftrus-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pFVVFWM4bpRmlnu0kI1srXcCkrsmplopNk5lWS41XM0=;
- b=pwReX8ag723OFzH9J0cb+5iEZH97ACgDNnsd7ZD+uCnqvvot5mq6ZOcILdS8eLJCT04ORROTVTrHNW/6KLDyf5QgAeKfBb285LLiwdABl3oHWv/pdzn0RUdT8jlCqMzAivkPCI1M6f27fJLKKcz+6RlsLfWFuWKylDWBzvfmw8A=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Mikhail.Petrov@mir.dev; 
-Received: from AM0PR03MB4881.eurprd03.prod.outlook.com (20.178.22.75) by
- AM0PR03MB5523.eurprd03.prod.outlook.com (20.179.255.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.16; Tue, 10 Mar 2020 20:34:10 +0000
-Received: from AM0PR03MB4881.eurprd03.prod.outlook.com
- ([fe80::e167:721c:978d:4f3e]) by AM0PR03MB4881.eurprd03.prod.outlook.com
- ([fe80::e167:721c:978d:4f3e%7]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 20:34:10 +0000
-From:   Mikhail Petrov <Mikhail.Petrov@mir.dev>
-Subject: [PATCH] scripts/kallsyms: fix wrong kallsyms_relative_base with
- CONFIG_KALLSYMS_BASE_RELATIVE
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Message-ID: <da22e0ac-8da8-8a16-e8dd-b7065752cb4d@mir.dev>
-Date:   Tue, 10 Mar 2020 23:34:03 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1PR07CA0038.eurprd07.prod.outlook.com
- (2603:10a6:7:66::24) To AM0PR03MB4881.eurprd03.prod.outlook.com
- (2603:10a6:208:100::11)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.103] (62.118.145.210) by HE1PR07CA0038.eurprd07.prod.outlook.com (2603:10a6:7:66::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.9 via Frontend Transport; Tue, 10 Mar 2020 20:34:09 +0000
-X-Originating-IP: [62.118.145.210]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 21a3f1a1-7ac8-4c33-d1eb-08d7c5326318
-X-MS-TrafficTypeDiagnostic: AM0PR03MB5523:
-X-Microsoft-Antispam-PRVS: <AM0PR03MB5523E45741ACF9E0E0F1F86592FF0@AM0PR03MB5523.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-Forefront-PRVS: 033857D0BD
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(39840400004)(346002)(376002)(136003)(366004)(396003)(189003)(199004)(6486002)(26005)(66476007)(66556008)(5660300002)(86362001)(16526019)(186003)(2906002)(66946007)(81166006)(81156014)(16576012)(8936002)(6666004)(8676002)(31686004)(508600001)(956004)(2616005)(36756003)(31696002)(316002)(52116002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR03MB5523;H:AM0PR03MB4881.eurprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-Received-SPF: None (protection.outlook.com: mir.dev does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S7tUG9J29LvL//23i3uxmwrTmPxJL25M/5+Kv9ZV5pxs76olPX75fs8JcuNKa5qZ4Ke25he4HQvsTfd9Rapi1Touqy8sMyDG4a/699zKRqd2QikkVzbkcpeajhMMuUTaC025UzlXuKuuIaEEBzeD2RVicXuIqe1oLhXp++GL4LWHVBbMfse7SISg1O9Yq9Lsuk/CbIWJ/bbxswPuR/gjRCMEKnKl4OfNHL5LTPC5uJeGW0Hxj1W5trBfuzCzR+Sz8xg8B2ryNiTtdkucF9BKTfzZ+T+JWQt3en0fSn+waHibJarMaANh9zDos8FtdCtwQf25lfOtIpoFc8mdf7YJjkiEUYnAeXNC+ffErD+EuTVCqCYnTazuenWIymZJfbnvY2ZQXTI/ZgFZ78BcXFCcPE0i+hiws1sM5LTePLGs3gaB0IcUhQ3FcZDq9Oefeyy5
-X-MS-Exchange-AntiSpam-MessageData: Zbtl4x72Jrj22urn+YBAHHBM6M7D0nS31zeF96X6zbeta9BQb3zKb/MUDlZPPYkqysOPFDSwp6d9AhgN6BFTyPHexxGyPn1GIi271t45qz4X/s8x6dcwY1laUM/NRavTNafx558oBJaqSMZHeES4gQ==
-X-OriginatorOrg: mir.dev
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21a3f1a1-7ac8-4c33-d1eb-08d7c5326318
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2020 20:34:09.9141
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e87efa3-43e9-482d-a930-52632921709f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lg7fIF9xSYihWfN9rS4dBEmR4zuH4tzfhjB9f9TpQePg7cOn9a5g18z7Q/RH9NTiXHzKhCSdKXoJfbm8aCpKZe+2lkl2o8OsVRDufRKAYQQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB5523
+        id S1726881AbgCKFvw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Mar 2020 01:51:52 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:43733 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725813AbgCKFvw (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 11 Mar 2020 01:51:52 -0400
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 02B5nsuH014142;
+        Wed, 11 Mar 2020 14:49:55 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 02B5nsuH014142
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583905796;
+        bh=5Jc1qPKc/LTqMzP9XLekz19E/apKl3IBuLq7/cwJG8I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qKIo3vnRkKNIGbUBiV1sBODVoHVXID/IcuZaQCzQHn1gLgiWbpcJkF8Df6wTAsw00
+         p+IP9mJLMw3dr4JEaNZflZpCVdkfONLcYtpDVDyxP/1dAVZ+Of2GWyFA09Zul4/bU4
+         QMOYyjoqJ4qNJzm6y1l+r75G3hT9PG/gtEbXInWt44kj0i/fPiz2GUGlqA98eeGYsA
+         WKB8/wUBbIphBZ3sMuZx5eRhwGHYYM6oF6LVVq6MUdBOJrvj8aSjV8LcCyaLUNiDR0
+         hzpwV6VAGHAtiAULkZZniYp0lHm/VrlOZilt3wE4HxIzRVW72+szP5/jEICp1wNKlU
+         oUcN6SCGIMzOg==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Neil Horman <nhorman@tuxdriver.com>, netdev@vger.kernel.org,
+        "David S . Miller" <davem@davemloft.net>
+Cc:     Ido Schimmel <idosch@mellanox.com>, Jiri Pirko <jiri@mellanox.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Nicolas Pitre <nico@fluxnic.net>, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] net: drop_monitor: make drop_monitor built-in
+Date:   Wed, 11 Mar 2020 14:49:53 +0900
+Message-Id: <20200311054953.11956-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is the code in the read_symbol function in 'scripts/kallsyms.c':
+In net/Kconfig, NET_DEVLINK implies NET_DROP_MONITOR.
 
-	if (is_ignored_symbol(name, type))
-		return NULL;
+The original behavior of the 'imply' keyword prevents NET_DROP_MONITOR
+from being 'm' when NET_DEVLINK=y.
 
-	/* Ignore most absolute/undefined (?) symbols. */
-	if (strcmp(name, "_text") == 0)
-		_text = addr;
+With the planned Kconfig change that relaxes the 'imply', the
+combination of NET_DEVLINK=y and NET_DROP_MONITOR=m would be allowed,
+causing a link error of vmlinux.
 
-But the is_ignored_symbol function returns true for name="_text" and type='a'. So the next condition is not executed and the _text variable is always zero.
+As far as I see the mainline code, NET_DROP_MONITOR=m does not provide
+any useful case.
 
-It makes the wrong kallsyms_relative_base symbol as a result of the code:
+The call-site of net_dm_hw_report() only exists in net/core/devlink.c,
+which is always built-in since NET_DEVLINK is a bool type option.
 
-	if (base_relative) {
-		output_label("kallsyms_relative_base");
-		output_address(relative_base);
-		printf("\n");
-	}
+So, NET_DROP_MONITOR=m causes a build error, or creates an unused
+module at best.
 
-Because the output_address function uses the _text variable.
+Make NET_DROP_MONITOR a bool option, and remove the module exit code.
+I also unexported net_dm_hw_report because I see no other call-site
+in upstream.
 
-So the kallsyms_lookup function and all related functions in the kernel do not work properly. For example, the stack trace in oops:
-
-	Call Trace:
-	[aa095e58] [809feab8] kobj_ns_ops_tbl+0x7ff09ac8/0x7ff1c1c4 (unreliable)
-	[aa095e98] [80002b64] kobj_ns_ops_tbl+0x7f50db74/0x80000010
-	[aa095ef8] [809c3d24] kobj_ns_ops_tbl+0x7feced34/0x7ff1c1c4
-	[aa095f28] [80002ed0] kobj_ns_ops_tbl+0x7f50dee0/0x80000010
-	[aa095f38] [8000f238] kobj_ns_ops_tbl+0x7f51a248/0x80000010
-
-The right stack trace:
-
-	Call Trace:
-	[aa095e58] [809feab8] module_vdu_video_init+0x2fc/0x3bc (unreliable)
-	[aa095e98] [80002b64] do_one_initcall+0x40/0x1f0
-	[aa095ef8] [809c3d24] kernel_init_freeable+0x164/0x1d8
-	[aa095f28] [80002ed0] kernel_init+0x14/0x124
-	[aa095f38] [8000f238] ret_from_kernel_thread+0x14/0x1c
-
-Signed-off-by: Mikhail Petrov <Mikhail.Petrov@mir.dev>
-
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index 0133dfaaf352..3e8dea6e0a95 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -195,13 +195,13 @@ static struct sym_entry *read_symbol(FILE *in)
- 		return NULL;
- 	}
+This build error was reported in linux-next.
+https://lkml.org/lkml/2020/3/10/1936
+
+A less invasive change would be to change
+IS_ENABLED(CONFIG_NET_DROP_MONITOR) in include/net/drop_monitor.h
+to IS_REACHABLE(CONFIG_NET_DROP_MONITOR).
+
+If you want to keep this modular, it is fine too.
+
+If this patch is acceptable,
+I'd like to get Ack from the maintainers,
+and insert this patch before my Kconfig change.
+
+
+ include/net/drop_monitor.h |  2 +-
+ net/Kconfig                |  2 +-
+ net/core/drop_monitor.c    | 56 ++------------------------------------
+ 3 files changed, 4 insertions(+), 56 deletions(-)
+
+diff --git a/include/net/drop_monitor.h b/include/net/drop_monitor.h
+index 2ab668461463..aa775f243b61 100644
+--- a/include/net/drop_monitor.h
++++ b/include/net/drop_monitor.h
+@@ -19,7 +19,7 @@ struct net_dm_hw_metadata {
+ 	struct net_device *input_dev;
+ };
  
--	if (is_ignored_symbol(name, type))
--		return NULL;
+-#if IS_ENABLED(CONFIG_NET_DROP_MONITOR)
++#ifdef CONFIG_NET_DROP_MONITOR
+ void net_dm_hw_report(struct sk_buff *skb,
+ 		      const struct net_dm_hw_metadata *hw_metadata);
+ #else
+diff --git a/net/Kconfig b/net/Kconfig
+index 2eeb0e55f7c9..6ad5d3e95be6 100644
+--- a/net/Kconfig
++++ b/net/Kconfig
+@@ -347,7 +347,7 @@ config NET_PKTGEN
+ 	  module will be called pktgen.
+ 
+ config NET_DROP_MONITOR
+-	tristate "Network packet drop alerting service"
++	bool "Network packet drop alerting service"
+ 	depends on INET && TRACEPOINTS
+ 	---help---
+ 	  This feature provides an alerting service to userspace in the
+diff --git a/net/core/drop_monitor.c b/net/core/drop_monitor.c
+index 31700e0c3928..25466b7a0176 100644
+--- a/net/core/drop_monitor.c
++++ b/net/core/drop_monitor.c
+@@ -13,6 +13,7 @@
+ #include <linux/if_arp.h>
+ #include <linux/inetdevice.h>
+ #include <linux/inet.h>
++#include <linux/init.h>
+ #include <linux/interrupt.h>
+ #include <linux/netpoll.h>
+ #include <linux/sched.h>
+@@ -25,7 +26,6 @@
+ #include <linux/timer.h>
+ #include <linux/bitops.h>
+ #include <linux/slab.h>
+-#include <linux/module.h>
+ #include <net/drop_monitor.h>
+ #include <net/genetlink.h>
+ #include <net/netevent.h>
+@@ -962,7 +962,6 @@ void net_dm_hw_report(struct sk_buff *skb,
+ out:
+ 	rcu_read_unlock();
+ }
+-EXPORT_SYMBOL_GPL(net_dm_hw_report);
+ 
+ static int net_dm_hw_monitor_start(struct netlink_ext_ack *extack)
+ {
+@@ -1581,11 +1580,6 @@ static void __net_dm_cpu_data_init(struct per_cpu_dm_data *data)
+ 	u64_stats_init(&data->stats.syncp);
+ }
+ 
+-static void __net_dm_cpu_data_fini(struct per_cpu_dm_data *data)
+-{
+-	WARN_ON(!skb_queue_empty(&data->drop_queue));
+-}
 -
--	/* Ignore most absolute/undefined (?) symbols. */
- 	if (strcmp(name, "_text") == 0)
- 		_text = addr;
+ static void net_dm_cpu_data_init(int cpu)
+ {
+ 	struct per_cpu_dm_data *data;
+@@ -1594,18 +1588,6 @@ static void net_dm_cpu_data_init(int cpu)
+ 	__net_dm_cpu_data_init(data);
+ }
  
-+	/* Ignore most absolute/undefined (?) symbols. */
-+	if (is_ignored_symbol(name, type))
-+		return NULL;
-+
- 	check_symbol_range(name, addr, text_ranges, ARRAY_SIZE(text_ranges));
- 	check_symbol_range(name, addr, &percpu_range, 1);
+-static void net_dm_cpu_data_fini(int cpu)
+-{
+-	struct per_cpu_dm_data *data;
+-
+-	data = &per_cpu(dm_cpu_data, cpu);
+-	/* At this point, we should have exclusive access
+-	 * to this struct and can free the skb inside it.
+-	 */
+-	consume_skb(data->skb);
+-	__net_dm_cpu_data_fini(data);
+-}
+-
+ static void net_dm_hw_cpu_data_init(int cpu)
+ {
+ 	struct per_cpu_dm_data *hw_data;
+@@ -1614,15 +1596,6 @@ static void net_dm_hw_cpu_data_init(int cpu)
+ 	__net_dm_cpu_data_init(hw_data);
+ }
  
+-static void net_dm_hw_cpu_data_fini(int cpu)
+-{
+-	struct per_cpu_dm_data *hw_data;
+-
+-	hw_data = &per_cpu(dm_hw_cpu_data, cpu);
+-	kfree(hw_data->hw_entries);
+-	__net_dm_cpu_data_fini(hw_data);
+-}
+-
+ static int __init init_net_drop_monitor(void)
+ {
+ 	int cpu, rc;
+@@ -1661,29 +1634,4 @@ static int __init init_net_drop_monitor(void)
+ out:
+ 	return rc;
+ }
+-
+-static void exit_net_drop_monitor(void)
+-{
+-	int cpu;
+-
+-	BUG_ON(unregister_netdevice_notifier(&dropmon_net_notifier));
+-
+-	/*
+-	 * Because of the module_get/put we do in the trace state change path
+-	 * we are guarnateed not to have any current users when we get here
+-	 */
+-
+-	for_each_possible_cpu(cpu) {
+-		net_dm_hw_cpu_data_fini(cpu);
+-		net_dm_cpu_data_fini(cpu);
+-	}
+-
+-	BUG_ON(genl_unregister_family(&net_drop_monitor_family));
+-}
+-
+-module_init(init_net_drop_monitor);
+-module_exit(exit_net_drop_monitor);
+-
+-MODULE_LICENSE("GPL v2");
+-MODULE_AUTHOR("Neil Horman <nhorman@tuxdriver.com>");
+-MODULE_ALIAS_GENL_FAMILY("NET_DM");
++device_initcall(init_net_drop_monitor);
+-- 
+2.17.1
+
