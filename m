@@ -2,152 +2,201 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8278182356
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 21:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B934D182391
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 21:57:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbgCKUhS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Mar 2020 16:37:18 -0400
-Received: from mail-eopbgr50070.outbound.protection.outlook.com ([40.107.5.70]:26787
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726684AbgCKUhS (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Mar 2020 16:37:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bOAxsEoh/3yc7rN+S3fAgYQ2OTwjNa79tBzZPQUiBowQV+oBp3SPHMOBPm12L45lKYmPJpSI0S+fTeMvgbAd6WnXX8giYZa39hs2hkKFpiGhS4MHsqxzhedhtVw0e4giAKCJL7S1dCziwvt0bo8cyFiuyTsVdiSmOV2g7NHoqGwThJlGeV0/KGIRRByCxAC+OK1wwlKCVSuAFtpvJFFh8qT4XboZPT04Vd+Sq+z0r+S+nOkxrca51nQ+VnJIonUpWCvSjS7uxUVW9azac9sS3MQVpXarcc66XPoYS/5RgACmSx52TR+dh/jbvffMoX7EU9m7XsgduMtiOthqbhz5Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fZBV+iXZycVHe4c0m7c6H/2nuzu4h3WBS8/zFe8ZLD8=;
- b=axIwkcSjrepH5s6+Q+6p4CZh1e8C3mB2PSA7mUQniaMWook3Tfy9zYOxPMi2BkApJRLXbtjHAyk2IbT6NvE5Ecf1q+RALJvrSO6wfy6NFtEPvoank/QVktm5OQaK6AqkLPwFkmCfKXNUPS23vv23EeIUQJIBwl/EdVIG7JKxQ81GAjYFrEA6l2xhBC0aoSAUOaBYLyVDsRsSdRFF3qADE5ePiLOYcDajCOhpb90wPNDFE2V2C87xHTRVTf0d5U7fm0/90X1nU6gmB3g6fpMaqK6cJ6k4zuwbSi3ic5KEAPo14kbyPKLd1P+QhgMKOGFgTHmceAwt6sXbHhhQeIp+iQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mir.dev; dmarc=pass action=none header.from=mir.dev; dkim=pass
- header.d=mir.dev; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=astrosoftrus.onmicrosoft.com; s=selector2-astrosoftrus-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fZBV+iXZycVHe4c0m7c6H/2nuzu4h3WBS8/zFe8ZLD8=;
- b=WfjwDMmIvoK1UGZFQJEOS59J4Djkbi2gu/bbzLmOeAe8oUaCRLGHlygGjoPMVxn5TchHQ1CEP4BN0OAMttTjrPUWSnF4vHT/mCX0oPBO+R5kQTC2S1xZYZWjAY4/opUAbxNHhGcF6ZJ4b+n2s0KEUB8etqITQNtnKqhEXzum2As=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Mikhail.Petrov@mir.dev; 
-Received: from AM0PR03MB4881.eurprd03.prod.outlook.com (20.178.22.75) by
- AM0PR03MB5043.eurprd03.prod.outlook.com (20.178.82.75) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Wed, 11 Mar 2020 20:37:14 +0000
-Received: from AM0PR03MB4881.eurprd03.prod.outlook.com
- ([fe80::e167:721c:978d:4f3e]) by AM0PR03MB4881.eurprd03.prod.outlook.com
- ([fe80::e167:721c:978d:4f3e%7]) with mapi id 15.20.2793.013; Wed, 11 Mar 2020
- 20:37:14 +0000
-From:   Mikhail Petrov <Mikhail.Petrov@mir.dev>
-Subject: [PATCH v2] scripts/kallsyms: fix wrong kallsyms_relative_base
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Message-ID: <306f76fc-c445-6578-d4fe-5e462861920c@mir.dev>
-Date:   Wed, 11 Mar 2020 23:37:09 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: HE1PR08CA0059.eurprd08.prod.outlook.com
- (2603:10a6:7:2a::30) To AM0PR03MB4881.eurprd03.prod.outlook.com
- (2603:10a6:208:100::11)
+        id S1726684AbgCKU5d (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Mar 2020 16:57:33 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:44784 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726579AbgCKU5d (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 11 Mar 2020 16:57:33 -0400
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 02BKvJcp023652
+        for <linux-kbuild@vger.kernel.org>; Thu, 12 Mar 2020 05:57:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02BKvJcp023652
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1583960240;
+        bh=s/lTPfF/9Td3gM2y8OPktONIp8u1hvau5QxY5V9vnAc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MF6XJ48QXTqCIHccn43DAUG950ImDgxVRZ2RTjtPQVbuPPXvKQeXi3iOYOQ0J8nOC
+         I7mkiV+aO/Z61b+zKQbaFVTB7p7awG5nBhT10JrMOFifVxf6TFGTTeIjM7WBRzzxnx
+         fkher4yAHCkhY9S46psICZtkqn94Mpgg02DQeK1Jn0yQFA8dyS9mAYEFjzVb5fBVce
+         BOQ3MMKfMnVdcXVgPOUXoGQNdctAd0Z2LF1d1Ul5lqUi+k/L3kFoVDClIXvQvHTrnN
+         LrWSurM9Ot/n+ZpnocCgIhzU/IjDn5OZsz0/cWVDMDTjBBzbiW8ghkaaxdWre8Bifg
+         CtSu022e/oz2Q==
+X-Nifty-SrcIP: [209.85.221.177]
+Received: by mail-vk1-f177.google.com with SMTP id a1so960302vkg.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Mar 2020 13:57:19 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ00OS/7kFU6pjP4m4Tc0K8XXIIRkAM57lF3G1me7IySSc6AGY8q
+        cxpn3a3fp9WrJp/TYoGg/8iKTkgYLtntnB4VaO8=
+X-Google-Smtp-Source: ADFU+vuVF6/XkexAwjcOaoQ0wH/a6BYvzBe6+J7u9/4SigppWWmGQBcjYpbTx3Haly+CU2s64HHd+vd6AAhrtM3nqPk=
+X-Received: by 2002:a1f:b401:: with SMTP id d1mr3195100vkf.26.1583960238397;
+ Wed, 11 Mar 2020 13:57:18 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.103] (62.118.145.210) by HE1PR08CA0059.eurprd08.prod.outlook.com (2603:10a6:7:2a::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Wed, 11 Mar 2020 20:37:14 +0000
-X-Originating-IP: [62.118.145.210]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1f11e017-bccd-475a-6dca-08d7c5fbfb7e
-X-MS-TrafficTypeDiagnostic: AM0PR03MB5043:
-X-Microsoft-Antispam-PRVS: <AM0PR03MB50430D7DAC6169CCDE0044FB92FC0@AM0PR03MB5043.eurprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-Forefront-PRVS: 0339F89554
-X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(39850400004)(346002)(376002)(396003)(366004)(136003)(199004)(110136005)(86362001)(508600001)(36756003)(16526019)(186003)(956004)(2906002)(2616005)(81156014)(8936002)(31696002)(26005)(8676002)(81166006)(31686004)(16576012)(66946007)(66556008)(5660300002)(66476007)(52116002)(6666004)(316002)(6486002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR03MB5043;H:AM0PR03MB4881.eurprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-Received-SPF: None (protection.outlook.com: mir.dev does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MNH+u1zOU4QOd4EGBV2OrhGOIZFGgkcPA2DB/plH9If8fPXWTXJ0oopSAjbbnzafgRIoWUILdyi94j+yiMnNhznFEgr8lOmlhMlnI1FuCL+WQdHlfkQ0S81JsuGNMF8o33CJU4QMkvZKsZRJVKcSm/uCB9jI5PX5Xl3Zv/KSTMOieR6El54oZf8Ja7zhskell+XzgxKtvEewyKDU/J6otT3lVNtjwCBnBZDRj2S2Deg2u+S7xg05tdgHKEUonM4NBEPrX3ioE8pDTGdA8O9chSekS516OPnXdMKGOueqXZMNiZilt09m8A6Ipls31jGXnZ9glPwBRydcn97QILFNTULKTHxU5B8dN3c2/iseEf/PNYQUMOLGEFTievKRosWpyGsRyz5oczpRl1fzKJ0t9HrsdeCRZuXy+O4KV6C2+n7ji9e4QlXeYVgoZkSueoSt
-X-MS-Exchange-AntiSpam-MessageData: Lf/7S3VQLe2LkAcLD6JRze5QahKNWdPnlfIS+zh2qo4rG7SXiAZL1yx5Ey4rGZkDzooTnvKJGpgBehA8Blfnx4LAG332cJJ6EMZf161tCN5X1K4Ih7nXGvz5Ywa2si0SvfBZCn5SmGnisbPN8GONSA==
-X-OriginatorOrg: mir.dev
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f11e017-bccd-475a-6dca-08d7c5fbfb7e
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 20:37:14.4623
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e87efa3-43e9-482d-a930-52632921709f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ecQSjAVpjvYDW3mddUhm/0g4/6699ZkgX5o1zkTKORcrl3xxDIYMIWtQLKRC6TKnSWx4Ye8ruPTpPvAtwUPD9l5/oZSilw4/kMKDJW1qCTM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB5043
+References: <da22e0ac-8da8-8a16-e8dd-b7065752cb4d@mir.dev> <CAK7LNASput9F2XhAi4NUT7jx1z+-mSJXUDnqCfKGtXq_SNbohQ@mail.gmail.com>
+ <bd6dc9fb-3171-c12d-6d80-31a52eb9eb0a@mir.dev>
+In-Reply-To: <bd6dc9fb-3171-c12d-6d80-31a52eb9eb0a@mir.dev>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 12 Mar 2020 05:56:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASOHOkBPFTKQH2jPc522E=bBJ2wtK8q1PVrqMVhMChghQ@mail.gmail.com>
+Message-ID: <CAK7LNASOHOkBPFTKQH2jPc522E=bBJ2wtK8q1PVrqMVhMChghQ@mail.gmail.com>
+Subject: Re: [PATCH] scripts/kallsyms: fix wrong kallsyms_relative_base with CONFIG_KALLSYMS_BASE_RELATIVE
+To:     Mikhail Petrov <Mikhail.Petrov@mir.dev>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is the code in the read_symbol function in 'scripts/kallsyms.c':
+On Thu, Mar 12, 2020 at 3:18 AM Mikhail Petrov <Mikhail.Petrov@mir.dev> wrote:
+>
+> Hi Masahiro,
+>
+> On 11.03.2020 9:06, Masahiro Yamada wrote:
+> > Hi Mikhail,
+> >
+> > On Wed, Mar 11, 2020 at 5:34 AM Mikhail Petrov <Mikhail.Petrov@mir.dev> wrote:
+> >>
+> >> There is the code in the read_symbol function in 'scripts/kallsyms.c':
+> >>
+> >>         if (is_ignored_symbol(name, type))
+> >>                 return NULL;
+> >>
+> >>         /* Ignore most absolute/undefined (?) symbols. */
+> >>         if (strcmp(name, "_text") == 0)
+> >>                 _text = addr;
+> >>
+> >> But the is_ignored_symbol function returns true for name="_text" and type='a'. So the next condition is not executed and the _text variable is always zero.
+> >>
+> >> It makes the wrong kallsyms_relative_base symbol as a result of the code:
+> >>
+> >>         if (base_relative) {
+> >>                 output_label("kallsyms_relative_base");
+> >>                 output_address(relative_base);
+> >>                 printf("\n");
+> >>         }
+> >>
+> >> Because the output_address function uses the _text variable.
+> >>
+> >> So the kallsyms_lookup function and all related functions in the kernel do not work properly. For example, the stack trace in oops:
+> >>
+> >>         Call Trace:
+> >>         [aa095e58] [809feab8] kobj_ns_ops_tbl+0x7ff09ac8/0x7ff1c1c4 (unreliable)
+> >>         [aa095e98] [80002b64] kobj_ns_ops_tbl+0x7f50db74/0x80000010
+> >>         [aa095ef8] [809c3d24] kobj_ns_ops_tbl+0x7feced34/0x7ff1c1c4
+> >>         [aa095f28] [80002ed0] kobj_ns_ops_tbl+0x7f50dee0/0x80000010
+> >>         [aa095f38] [8000f238] kobj_ns_ops_tbl+0x7f51a248/0x80000010
+> >>
+> >> The right stack trace:
+> >>
+> >>         Call Trace:
+> >>         [aa095e58] [809feab8] module_vdu_video_init+0x2fc/0x3bc (unreliable)
+> >>         [aa095e98] [80002b64] do_one_initcall+0x40/0x1f0
+> >>         [aa095ef8] [809c3d24] kernel_init_freeable+0x164/0x1d8
+> >>         [aa095f28] [80002ed0] kernel_init+0x14/0x124
+> >>         [aa095f38] [8000f238] ret_from_kernel_thread+0x14/0x1c
+> >>
+> >> Signed-off-by: Mikhail Petrov <Mikhail.Petrov@mir.dev>
+> >>
+> >> ---
+> >
+> >
+> > Thanks for the patch.
+> >
+> > Just for curiosity, on which architecrure
+> > did you see  name="_text" and type='a' case ?
+>
+> Actually 'a' is 'A' (my mistake). The architecture is PowerPC - core PPC476FS.
+>
+> nm -n .tmp_vmlinux1 looks like:
+>
+> ...
+>          w kallsyms_token_table
+>          w mach_powermac
+> 00000007 a LG_CACHELINE_BYTES
+> 00000007 a LG_CACHELINE_BYTES
+> 00000007 a LG_CACHELINE_BYTES
+> 00000020 a reg
+> 0000007f a CACHELINE_MASK
+> 0000007f a CACHELINE_MASK
+> 0000007f a CACHELINE_MASK
+> 00000080 a CACHELINE_BYTES
+> 00000080 a CACHELINE_BYTES
+> 00000080 a CACHELINE_BYTES
+> 00000400 a dcr
+> 80000000 T _start
+> 80000000 A _stext
+> 80000000 A _text
 
-	if (is_ignored_symbol(name, type))
-		return NULL;
 
-	/* Ignore most absolute/undefined (?) symbols. */
-	if (strcmp(name, "_text") == 0)
-		_text = addr;
+Hmm, I am still not able to reproduce this.
 
-But the is_ignored_symbol function returns true for name="_text" and
-type='A'. So the next condition is not executed and the _text variable
-is always zero.
+I compiled ARCH=powerpc, but
+'powerpc-linux-nm -n .tmp_vmlinux1' got this.
 
-It makes the wrong kallsyms_relative_base symbol as a result of the code
-(CONFIG_KALLSYMS_BASE_RELATIVE is defined):
 
-	if (base_relative) {
-		output_label("kallsyms_relative_base");
-		output_address(relative_base);
-		printf("\n");
-	}
+0000007f a CACHELINE_MASK
+0000007f a CACHELINE_MASK
+0000007f a CACHELINE_MASK
+00000080 a CACHELINE_BYTES
+00000080 a CACHELINE_BYTES
+00000080 a CACHELINE_BYTES
+00000400 a dcr
+c0000000 T _start
+c0000000 T _stext
+c0000000 T _text
+c00000b8 t interrupt_base
+c00000c0 t CriticalInput
+c00001a0 t MachineCheck
+c0000280 t MachineCheckA
 
-Because the output_address function uses the _text variable.
 
-So the kallsyms_lookup function and all related functions in the kernel
-do not work properly. For example, the stack trace in oops:
 
- Call Trace:
- [aa095e58] [809feab8] kobj_ns_ops_tbl+0x7ff09ac8/0x7ff1c1c4 (unreliable)
- [aa095e98] [80002b64] kobj_ns_ops_tbl+0x7f50db74/0x80000010
- [aa095ef8] [809c3d24] kobj_ns_ops_tbl+0x7feced34/0x7ff1c1c4
- [aa095f28] [80002ed0] kobj_ns_ops_tbl+0x7f50dee0/0x80000010
- [aa095f38] [8000f238] kobj_ns_ops_tbl+0x7f51a248/0x80000010
 
-The right stack trace:
+Which defconfig did you use?
 
- Call Trace:
- [aa095e58] [809feab8] module_vdu_video_init+0x2fc/0x3bc (unreliable)
- [aa095e98] [80002b64] do_one_initcall+0x40/0x1f0
- [aa095ef8] [809c3d24] kernel_init_freeable+0x164/0x1d8
- [aa095f28] [80002ed0] kernel_init+0x14/0x124
- [aa095f38] [8000f238] ret_from_kernel_thread+0x14/0x1c
 
-Signed-off-by: Mikhail Petrov <Mikhail.Petrov@mir.dev>
+(I also CCed the ppc maintainer,
+I am just curious what makes _text absolute.)
 
----
 
-diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-index 0133dfaaf352..3e8dea6e0a95 100644
---- a/scripts/kallsyms.c
-+++ b/scripts/kallsyms.c
-@@ -195,13 +195,13 @@ static struct sym_entry *read_symbol(FILE *in)
- 		return NULL;
- 	}
- 
--	if (is_ignored_symbol(name, type))
--		return NULL;
--
--	/* Ignore most absolute/undefined (?) symbols. */
- 	if (strcmp(name, "_text") == 0)
- 		_text = addr;
- 
-+	/* Ignore most absolute/undefined (?) symbols. */
-+	if (is_ignored_symbol(name, type))
-+		return NULL;
-+
- 	check_symbol_range(name, addr, text_ranges, ARRAY_SIZE(text_ranges));
- 	check_symbol_range(name, addr, &percpu_range, 1);
- 
+
+
+
+
+
+> 80000088 t interrupt_base
+> 800000a0 t CriticalInput
+> 80000180 t MachineCheck
+> 80000260 t MachineCheckA
+> 80000360 t DataStorage
+> 80000420 t InstructionStorage
+> 80000500 t ExternalInput
+> 800005c0 t Alignment
+> 80000680 t Program
+> 80000740 t FloatingPointUnavailable
+> 80000820 t SystemCall
+> 80000900 t AuxillaryProcessorUnavailable
+> ...
+>
+>
+> > Could you wrap the commit log to avoid
+> > this checkpatch warning?
+> > WARNING: Possible unwrapped commit description (prefer a maximum 75
+> > chars per line)
+> >
+> > Also, could you shorten the patch subject
+> > to make it fit in this limit?
+>
+> Sorry for that. Now I know about scripts/checkpatch.pl. I will improve and resubmit the patch soon.
+>
+> Thanks.
+
+
+--
+Best Regards
+Masahiro Yamada
