@@ -2,108 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54D741823D5
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 22:27:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C65BB18250B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 23:38:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729394AbgCKV1a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Mar 2020 17:27:30 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:25270 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726684AbgCKV1a (ORCPT
+        id S1729997AbgCKWij (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Mar 2020 18:38:39 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:26360 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729881AbgCKWij (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Mar 2020 17:27:30 -0400
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 02BLRBlU030179;
-        Thu, 12 Mar 2020 06:27:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 02BLRBlU030179
+        Wed, 11 Mar 2020 18:38:39 -0400
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 02BMbYqf019805;
+        Thu, 12 Mar 2020 07:37:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 02BMbYqf019805
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583962032;
-        bh=kbWqPD/5BVvh1Qw3PprVads8y98YV6jmA2+olTbwLms=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=18Say0DVwJzy3gpsxMTKW5SkOv+13lGEM7tgb+0qmFhEIyEkRf84WpHoZuotGExam
-         l28CjbWiBsjOYYXTXVorUHVhMrd7MzH9Q32umpYDelnuV0sU4A8VADqP1ALhjFP4G0
-         mRsBJ5/NDhplezTHmOFa9ArTTcj/4Lg7ADJoKM4fs4JVIMP+8M2AzRfdnusdbRg4hW
-         Uy3sDgiK0Zzi9/OYCXPEN273qR3jrQDjsuOQh307z9hswIZ26qEdFPEfVQTPiEGT3R
-         5DrFo5wwbv+b6l/JJfDmNeDWI5Rk5H3kl1HLU7aBLvf/0JkU66+W6clD8/mhlFKXD7
-         GVevVj14Bht7A==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id v16so228158ual.9;
-        Wed, 11 Mar 2020 14:27:12 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3yK2KfmUhOoNwwSbvDgEtB/IG0gXSlwyl6pE9+rO5fgdBTm2xW
-        qvvXoRSvmkeh0tB3pNYPcBZMNMJ5gf05C9EIpQo=
-X-Google-Smtp-Source: ADFU+vthn3wrUbYgxaw18lalX3Fw7yiaP0FsvMtzVrj2ofhcX57g6NmsivMdiollhWbVip3FO3S0/MuqENwOOl0kuY8=
-X-Received: by 2002:ab0:28d8:: with SMTP id g24mr1754195uaq.121.1583962030875;
- Wed, 11 Mar 2020 14:27:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200311062925.5163-1-masahiroy@kernel.org> <20200311093143.GB279080@splinter>
- <20200311104756.GA1972672@hmswarspite.think-freely.org> <20200311112833.GA284417@splinter>
- <20200311173053.GB1972672@hmswarspite.think-freely.org>
-In-Reply-To: <20200311173053.GB1972672@hmswarspite.think-freely.org>
+        s=dec2015msa; t=1583966255;
+        bh=tiAHJid7/WA3U3683+xwU6rGIWKb4aM8B2wj4c+paIQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MV/GMLbmCnGT0J0XdohjNCc2KP58qmnj+qvhKNL/fsrbcvMC3bDunxeqpcOOSGB8o
+         VbnlRGNVZq/4ekRn0VrO25hw3SeikvzgF4LyU555iQJQARlhH/4CJ+K3ktLCLeWAZh
+         DvuWDq1y84t2/htCFsT276osv+/7n3tzeMhNFoQ2/WowYBRwz+rh7Oj5GxqtcRdkXM
+         glOUVtqjY6M1oG7sHZBcwkHNEbx76LVuBZXdzqA2t9HguwSHrbxrkL2eGLCOFmz4kg
+         eJAPbpJ31cLQw2R2QwAUfWSeMK1Fy8XyU80HYst1ZavOuRrXfS+8ujd9GrA8AkyjuU
+         KsFGU67GeGA3w==
+X-Nifty-SrcIP: [126.93.102.113]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 12 Mar 2020 06:26:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARSbP-DY5wdXtB0cxHfwgmFYE0QvxYACk8GuMQhTvj_WQ@mail.gmail.com>
-Message-ID: <CAK7LNARSbP-DY5wdXtB0cxHfwgmFYE0QvxYACk8GuMQhTvj_WQ@mail.gmail.com>
-Subject: Re: [PATCH] net: drop_monitor: use IS_REACHABLE() to guard net_dm_hw_report()
-To:     Neil Horman <nhorman@tuxdriver.com>
-Cc:     Ido Schimmel <idosch@mellanox.com>, Jiri Pirko <jiri@mellanox.com>,
-        Networking <netdev@vger.kernel.org>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     sparclinux@vger.kernel.org,
         "David S . Miller" <davem@davemloft.net>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux@googlegroups.com,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Ilie Halip <ilie.halip@gmail.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 1/2] sparc: revive __HAVE_ARCH_STRLEN for 32bit sparc
+Date:   Thu, 12 Mar 2020 07:37:24 +0900
+Message-Id: <20200311223725.27662-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 2:31 AM Neil Horman <nhorman@tuxdriver.com> wrote:
->
-> On Wed, Mar 11, 2020 at 01:28:33PM +0200, Ido Schimmel wrote:
-> > On Wed, Mar 11, 2020 at 06:47:56AM -0400, Neil Horman wrote:
-> > > On Wed, Mar 11, 2020 at 11:31:43AM +0200, Ido Schimmel wrote:
-> > > > On Wed, Mar 11, 2020 at 03:29:25PM +0900, Masahiro Yamada wrote:
-> > > > > In net/Kconfig, NET_DEVLINK implies NET_DROP_MONITOR.
-> > > > >
-> > > > > The original behavior of the 'imply' keyword prevents NET_DROP_MONITOR
-> > > > > from being 'm' when NET_DEVLINK=y.
-> > > > >
-> > > > > With the planned Kconfig change that relaxes the 'imply', the
-> > > > > combination of NET_DEVLINK=y and NET_DROP_MONITOR=m would be allowed.
-> > > > >
-> > > > > Use IS_REACHABLE() to avoid the vmlinux link error for this case.
-> > > > >
-> > > > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > >
-> > > > Thanks, Masahiro.
-> > > >
-> > > > Neil, Jiri, another option (long term) is to add a raw tracepoint (not
-> > > > part of ABI) in devlink and have drop monitor register its probe on it
-> > > > when monitoring.
-> > > >
-> > > > Two advantages:
-> > > > 1. Consistent with what drop monitor is already doing with kfree_skb()
-> > > > tracepoint
-> > > > 2. We can remove 'imply NET_DROP_MONITOR' altogether
-> > > >
-> > > > What do you think?
-> > > >
-> > > Agreed, I think I like this implementation better.
-> >
-> > OK, but I don't want to block Masahiro. I think we can go with his patch
-> > and then I'll add the raw tracepoint in the next release.
-> >
-> Yeah, ok, I can agree with that
-> Acked-by: Neil Horman <nhorman@tuxdriver.com>
+Prior to commit 70a6fcf3283a ("[sparc] unify 32bit and 64bit string.h"),
+__HAVE_ARCH_STRLEN was defined in both of string_32.h and string_64.h
 
+It did not unify __HAVE_ARCH_STRLEN, but deleted it from string_32.h
 
-Thanks, I will insert this patch before the kconfig change
-with your Ack.
+This issue was reported by the kbuild test robot in the trial of
+forcible linking of $(lib-y) to vmlinux.
 
+Fixes: 70a6fcf3283a ("[sparc] unify 32bit and 64bit string.h")
+Reported-by: kbuild test robot <lkp@intel.com>
+Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+Changes in v2:
+  - Insert a new patch to avoid sparc32 build error
+
+ arch/sparc/include/asm/string.h    | 4 ++++
+ arch/sparc/include/asm/string_64.h | 4 ----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/sparc/include/asm/string.h b/arch/sparc/include/asm/string.h
+index 3d9cd082716b..001a17baf2d5 100644
+--- a/arch/sparc/include/asm/string.h
++++ b/arch/sparc/include/asm/string.h
+@@ -37,6 +37,10 @@ void *memmove(void *, const void *, __kernel_size_t);
+ #define __HAVE_ARCH_MEMCMP
+ int memcmp(const void *,const void *,__kernel_size_t);
+ 
++/* Now the str*() stuff... */
++#define __HAVE_ARCH_STRLEN
++__kernel_size_t strlen(const char *);
++
+ #define __HAVE_ARCH_STRNCMP
+ int strncmp(const char *, const char *, __kernel_size_t);
+ 
+diff --git a/arch/sparc/include/asm/string_64.h b/arch/sparc/include/asm/string_64.h
+index ee9ba67321bd..d5c563058a5b 100644
+--- a/arch/sparc/include/asm/string_64.h
++++ b/arch/sparc/include/asm/string_64.h
+@@ -12,8 +12,4 @@
+ 
+ #include <asm/asi.h>
+ 
+-/* Now the str*() stuff... */
+-#define __HAVE_ARCH_STRLEN
+-__kernel_size_t strlen(const char *);
+-
+ #endif /* !(__SPARC64_STRING_H__) */
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
