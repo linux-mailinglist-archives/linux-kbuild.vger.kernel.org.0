@@ -2,110 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F8D1822AA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 20:41:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8278182356
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 21:37:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731057AbgCKTl1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Mar 2020 15:41:27 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36867 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730705AbgCKTl0 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Mar 2020 15:41:26 -0400
-Received: by mail-oi1-f194.google.com with SMTP id w13so3101583oih.4;
-        Wed, 11 Mar 2020 12:41:26 -0700 (PDT)
+        id S1726713AbgCKUhS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Mar 2020 16:37:18 -0400
+Received: from mail-eopbgr50070.outbound.protection.outlook.com ([40.107.5.70]:26787
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726684AbgCKUhS (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 11 Mar 2020 16:37:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bOAxsEoh/3yc7rN+S3fAgYQ2OTwjNa79tBzZPQUiBowQV+oBp3SPHMOBPm12L45lKYmPJpSI0S+fTeMvgbAd6WnXX8giYZa39hs2hkKFpiGhS4MHsqxzhedhtVw0e4giAKCJL7S1dCziwvt0bo8cyFiuyTsVdiSmOV2g7NHoqGwThJlGeV0/KGIRRByCxAC+OK1wwlKCVSuAFtpvJFFh8qT4XboZPT04Vd+Sq+z0r+S+nOkxrca51nQ+VnJIonUpWCvSjS7uxUVW9azac9sS3MQVpXarcc66XPoYS/5RgACmSx52TR+dh/jbvffMoX7EU9m7XsgduMtiOthqbhz5Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fZBV+iXZycVHe4c0m7c6H/2nuzu4h3WBS8/zFe8ZLD8=;
+ b=axIwkcSjrepH5s6+Q+6p4CZh1e8C3mB2PSA7mUQniaMWook3Tfy9zYOxPMi2BkApJRLXbtjHAyk2IbT6NvE5Ecf1q+RALJvrSO6wfy6NFtEPvoank/QVktm5OQaK6AqkLPwFkmCfKXNUPS23vv23EeIUQJIBwl/EdVIG7JKxQ81GAjYFrEA6l2xhBC0aoSAUOaBYLyVDsRsSdRFF3qADE5ePiLOYcDajCOhpb90wPNDFE2V2C87xHTRVTf0d5U7fm0/90X1nU6gmB3g6fpMaqK6cJ6k4zuwbSi3ic5KEAPo14kbyPKLd1P+QhgMKOGFgTHmceAwt6sXbHhhQeIp+iQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mir.dev; dmarc=pass action=none header.from=mir.dev; dkim=pass
+ header.d=mir.dev; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dI6sJcdtz7nc50Bt/3fFcsotsOXM7BkdNH0XrYOC1w0=;
-        b=SehN6XSBNOQwcDg+tUtHwa4z9mz9AKT2G4MyjvG9P/Njven5E6k/+A7jTHT0fsbIZX
-         lq1MLTmaPi7/b8Ywj3yEvI0YzFJtG156VCEtUj40e0b5d7/8lupkyNFWYwIpPt2/loEC
-         Zf4HWeGBHoxunIf/knTwmVCmjdB9K9dIgscInoJGZiemQlEt5lDL9cNi/qThD5t2Tdp4
-         4DVuVEv7NkHPOf6N0RE+QKpuH+SVc4x2iGrvFlzslkG3S2l9D7LUBUOUGttIw82ZN3IP
-         KPBwYquOsu3Q/h7vj/lb56SdtvDeCglDuJZT5nhU6mEwjg2dPKb35mXDxjizci1Z2uvC
-         VHIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dI6sJcdtz7nc50Bt/3fFcsotsOXM7BkdNH0XrYOC1w0=;
-        b=kNqzEdbrQQbS3d0HYihsMwmDCEDlGOaprtUiC3qBDNMFIGYj91rwz25fEi6mDgnBoL
-         9teSRnw34t04M0s0JRZnM0Gwc/RXpBvUC6YwIr49v99hCFwkhOHDIjDCI+ITh8AO72U4
-         TPkUQmunKomWY8v0Cqhx3cbBbhEHYjKzeSb56YaJuLGe3JI1X729hx9hU2Obxge9aJzb
-         cikrkuVqm8ryIQsDXWAmVgVaJEhI6rIFQh7KLV34Ah42Gkii5780buI/dZ4T42GR6ZyS
-         66nFS3GswuWmbJ2FQOwcb0Ldoxc1X2IbIyiBr1INiMSMxCLefVLR9So0knZBiVM6BgJp
-         eU9g==
-X-Gm-Message-State: ANhLgQ19RRbidOZj8oqA6rXJ2Z1xX3ONlGOBVll9fLxHltk+HS+Y+tqg
-        Jea7W9kzEN230i9bcC1RlPrRNLYTTGI=
-X-Google-Smtp-Source: ADFU+vtzYTnJDvxK3gb2rD75KnJUGe55yv0DIIhmKiswyMDrFoILdSz87k7h9AgbWJhsFx+vO/bAgQ==
-X-Received: by 2002:aca:db56:: with SMTP id s83mr192818oig.171.1583955686120;
-        Wed, 11 Mar 2020 12:41:26 -0700 (PDT)
-Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id c3sm4520955otl.81.2020.03.11.12.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2020 12:41:25 -0700 (PDT)
-From:   Nathan Chancellor <natechancellor@gmail.com>
+ d=astrosoftrus.onmicrosoft.com; s=selector2-astrosoftrus-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fZBV+iXZycVHe4c0m7c6H/2nuzu4h3WBS8/zFe8ZLD8=;
+ b=WfjwDMmIvoK1UGZFQJEOS59J4Djkbi2gu/bbzLmOeAe8oUaCRLGHlygGjoPMVxn5TchHQ1CEP4BN0OAMttTjrPUWSnF4vHT/mCX0oPBO+R5kQTC2S1xZYZWjAY4/opUAbxNHhGcF6ZJ4b+n2s0KEUB8etqITQNtnKqhEXzum2As=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Mikhail.Petrov@mir.dev; 
+Received: from AM0PR03MB4881.eurprd03.prod.outlook.com (20.178.22.75) by
+ AM0PR03MB5043.eurprd03.prod.outlook.com (20.178.82.75) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.17; Wed, 11 Mar 2020 20:37:14 +0000
+Received: from AM0PR03MB4881.eurprd03.prod.outlook.com
+ ([fe80::e167:721c:978d:4f3e]) by AM0PR03MB4881.eurprd03.prod.outlook.com
+ ([fe80::e167:721c:978d:4f3e%7]) with mapi id 15.20.2793.013; Wed, 11 Mar 2020
+ 20:37:14 +0000
+From:   Mikhail Petrov <Mikhail.Petrov@mir.dev>
+Subject: [PATCH v2] scripts/kallsyms: fix wrong kallsyms_relative_base
 To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        stable@vger.kernel.org
-Subject: [PATCH v2] kbuild: Disable -Wpointer-to-enum-cast
-Date:   Wed, 11 Mar 2020 12:41:21 -0700
-Message-Id: <20200311194121.38047-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.26.0.rc1
-In-Reply-To: <20200308073400.23398-1-natechancellor@gmail.com>
-References: <20200308073400.23398-1-natechancellor@gmail.com>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Message-ID: <306f76fc-c445-6578-d4fe-5e462861920c@mir.dev>
+Date:   Wed, 11 Mar 2020 23:37:09 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1PR08CA0059.eurprd08.prod.outlook.com
+ (2603:10a6:7:2a::30) To AM0PR03MB4881.eurprd03.prod.outlook.com
+ (2603:10a6:208:100::11)
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.103] (62.118.145.210) by HE1PR08CA0059.eurprd08.prod.outlook.com (2603:10a6:7:2a::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2793.15 via Frontend Transport; Wed, 11 Mar 2020 20:37:14 +0000
+X-Originating-IP: [62.118.145.210]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1f11e017-bccd-475a-6dca-08d7c5fbfb7e
+X-MS-TrafficTypeDiagnostic: AM0PR03MB5043:
+X-Microsoft-Antispam-PRVS: <AM0PR03MB50430D7DAC6169CCDE0044FB92FC0@AM0PR03MB5043.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Forefront-PRVS: 0339F89554
+X-Forefront-Antispam-Report: SFV:NSPM;SFS:(10009020)(4636009)(39850400004)(346002)(376002)(396003)(366004)(136003)(199004)(110136005)(86362001)(508600001)(36756003)(16526019)(186003)(956004)(2906002)(2616005)(81156014)(8936002)(31696002)(26005)(8676002)(81166006)(31686004)(16576012)(66946007)(66556008)(5660300002)(66476007)(52116002)(6666004)(316002)(6486002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR03MB5043;H:AM0PR03MB4881.eurprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+Received-SPF: None (protection.outlook.com: mir.dev does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MNH+u1zOU4QOd4EGBV2OrhGOIZFGgkcPA2DB/plH9If8fPXWTXJ0oopSAjbbnzafgRIoWUILdyi94j+yiMnNhznFEgr8lOmlhMlnI1FuCL+WQdHlfkQ0S81JsuGNMF8o33CJU4QMkvZKsZRJVKcSm/uCB9jI5PX5Xl3Zv/KSTMOieR6El54oZf8Ja7zhskell+XzgxKtvEewyKDU/J6otT3lVNtjwCBnBZDRj2S2Deg2u+S7xg05tdgHKEUonM4NBEPrX3ioE8pDTGdA8O9chSekS516OPnXdMKGOueqXZMNiZilt09m8A6Ipls31jGXnZ9glPwBRydcn97QILFNTULKTHxU5B8dN3c2/iseEf/PNYQUMOLGEFTievKRosWpyGsRyz5oczpRl1fzKJ0t9HrsdeCRZuXy+O4KV6C2+n7ji9e4QlXeYVgoZkSueoSt
+X-MS-Exchange-AntiSpam-MessageData: Lf/7S3VQLe2LkAcLD6JRze5QahKNWdPnlfIS+zh2qo4rG7SXiAZL1yx5Ey4rGZkDzooTnvKJGpgBehA8Blfnx4LAG332cJJ6EMZf161tCN5X1K4Ih7nXGvz5Ywa2si0SvfBZCn5SmGnisbPN8GONSA==
+X-OriginatorOrg: mir.dev
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f11e017-bccd-475a-6dca-08d7c5fbfb7e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2020 20:37:14.4623
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e87efa3-43e9-482d-a930-52632921709f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ecQSjAVpjvYDW3mddUhm/0g4/6699ZkgX5o1zkTKORcrl3xxDIYMIWtQLKRC6TKnSWx4Ye8ruPTpPvAtwUPD9l5/oZSilw4/kMKDJW1qCTM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR03MB5043
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Clang's -Wpointer-to-int-cast deviates from GCC in that it warns when
-casting to enums. The kernel does this in certain places, such as device
-tree matches to set the version of the device being used, which allows
-the kernel to avoid using a gigantic union.
+There is the code in the read_symbol function in 'scripts/kallsyms.c':
 
-https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L428
-https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L402
-https://elixir.bootlin.com/linux/v5.5.8/source/include/linux/mod_devicetable.h#L264
+	if (is_ignored_symbol(name, type))
+		return NULL;
 
-To avoid a ton of false positive warnings, disable this particular part
-of the warning, which has been split off into a separate diagnostic so
-that the entire warning does not need to be turned off for clang. It
-will be visible under W=1 in case people want to go about fixing these
-easily and enabling the warning treewide.
+	/* Ignore most absolute/undefined (?) symbols. */
+	if (strcmp(name, "_text") == 0)
+		_text = addr;
 
-Cc: stable@vger.kernel.org
-Link: https://github.com/ClangBuiltLinux/linux/issues/887
-Link: https://github.com/llvm/llvm-project/commit/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+But the is_ignored_symbol function returns true for name="_text" and
+type='A'. So the next condition is not executed and the _text variable
+is always zero.
+
+It makes the wrong kallsyms_relative_base symbol as a result of the code
+(CONFIG_KALLSYMS_BASE_RELATIVE is defined):
+
+	if (base_relative) {
+		output_label("kallsyms_relative_base");
+		output_address(relative_base);
+		printf("\n");
+	}
+
+Because the output_address function uses the _text variable.
+
+So the kallsyms_lookup function and all related functions in the kernel
+do not work properly. For example, the stack trace in oops:
+
+ Call Trace:
+ [aa095e58] [809feab8] kobj_ns_ops_tbl+0x7ff09ac8/0x7ff1c1c4 (unreliable)
+ [aa095e98] [80002b64] kobj_ns_ops_tbl+0x7f50db74/0x80000010
+ [aa095ef8] [809c3d24] kobj_ns_ops_tbl+0x7feced34/0x7ff1c1c4
+ [aa095f28] [80002ed0] kobj_ns_ops_tbl+0x7f50dee0/0x80000010
+ [aa095f38] [8000f238] kobj_ns_ops_tbl+0x7f51a248/0x80000010
+
+The right stack trace:
+
+ Call Trace:
+ [aa095e58] [809feab8] module_vdu_video_init+0x2fc/0x3bc (unreliable)
+ [aa095e98] [80002b64] do_one_initcall+0x40/0x1f0
+ [aa095ef8] [809c3d24] kernel_init_freeable+0x164/0x1d8
+ [aa095f28] [80002ed0] kernel_init+0x14/0x124
+ [aa095f38] [8000f238] ret_from_kernel_thread+0x14/0x1c
+
+Signed-off-by: Mikhail Petrov <Mikhail.Petrov@mir.dev>
+
 ---
 
-v1 -> v2:
-
-* Move under scripts/Makefile.extrawarn, as requested by Masahiro
-
- scripts/Makefile.extrawarn | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index ecddf83ac142..ca08f2fe7c34 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -48,6 +48,7 @@ KBUILD_CFLAGS += -Wno-initializer-overrides
- KBUILD_CFLAGS += -Wno-format
- KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += -Wno-format-zero-length
-+KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
- endif
+diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+index 0133dfaaf352..3e8dea6e0a95 100644
+--- a/scripts/kallsyms.c
++++ b/scripts/kallsyms.c
+@@ -195,13 +195,13 @@ static struct sym_entry *read_symbol(FILE *in)
+ 		return NULL;
+ 	}
  
- endif
--- 
-2.26.0.rc1
-
+-	if (is_ignored_symbol(name, type))
+-		return NULL;
+-
+-	/* Ignore most absolute/undefined (?) symbols. */
+ 	if (strcmp(name, "_text") == 0)
+ 		_text = addr;
+ 
++	/* Ignore most absolute/undefined (?) symbols. */
++	if (is_ignored_symbol(name, type))
++		return NULL;
++
+ 	check_symbol_range(name, addr, text_ranges, ARRAY_SIZE(text_ranges));
+ 	check_symbol_range(name, addr, &percpu_range, 1);
+ 
