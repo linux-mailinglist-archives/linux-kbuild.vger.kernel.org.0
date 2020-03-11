@@ -2,120 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F61B181064
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 07:07:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7401D1810B8
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Mar 2020 07:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgCKGHM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Mar 2020 02:07:12 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:62943 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726160AbgCKGHM (ORCPT
+        id S1728237AbgCKGbQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Mar 2020 02:31:16 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:49549 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726387AbgCKGbQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Mar 2020 02:07:12 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 02B673Bu028416
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Mar 2020 15:07:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02B673Bu028416
+        Wed, 11 Mar 2020 02:31:16 -0400
+X-Greylist: delayed 2365 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Mar 2020 02:31:15 EDT
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 02B6TRrY029044;
+        Wed, 11 Mar 2020 15:29:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 02B6TRrY029044
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1583906824;
-        bh=9N9Y5sJTikYf5ukH0YyMGV4hMZypLsfAeRdTRFCzvLE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=r6TE7qhSznpwhBmWk7vdaHRtij6BTxrcZ3ci+ExFWgJPvUvstLVgjWtNg2P6seaY7
-         bDab8litNfTgaKOUaiQDAZlZqqJi+qDKcHX0nEwmgXr4rf/VaSV+UqdgoZnTX4Mwol
-         81KyEMpGNNBXAuxtW+CwuTJTvrr7eFFqjut4Z2ycXXLIBow4WwxaS8IvWWM9BrXY0o
-         S8b3pI4gFD3WPHkOUOZ8E9VHab9AsbXSaIo7AnwyS+xZw940a/epYPC2Gh2SMzR/40
-         2gwTkEeQLaWyApCcpRiGS6oXfPajAalYuG2+hFysrvaVETsSnk4DQl3iw0/IyFTAtB
-         ZH4jXonzktygQ==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id n6so581307vsc.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Mar 2020 23:07:04 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2WKhaNSGqh5u+G71VuTj5ir8cDxll/ZB6MHLmEAzSo9vm9b/VA
-        nXWZyLIuRi1DI8zwzXgQXkYAoEyHkyDSvBhKmPA=
-X-Google-Smtp-Source: ADFU+vtoabjQiHvtNqcMrnRFxkYxEb5rF9kfWJXo0hAtqfPjDe0O6dY+/f1IfU+Mw6r4P4C/A9/XwnxnTX+Sx9FHyTk=
-X-Received: by 2002:a67:f8d1:: with SMTP id c17mr968543vsp.179.1583906822909;
- Tue, 10 Mar 2020 23:07:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <da22e0ac-8da8-8a16-e8dd-b7065752cb4d@mir.dev>
-In-Reply-To: <da22e0ac-8da8-8a16-e8dd-b7065752cb4d@mir.dev>
+        s=dec2015msa; t=1583908169;
+        bh=LNe3hvgyxkqOgtMP39KHBSlFvsuDIP1M2ZSJ4/uygew=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pQ78yNELMBLF7QjXDLteBATDFgKPmsdH5/A6TLtLGZgBxh15kdpp2x5o0/Mipr7lR
+         PBAbQ59hfEN4wgZyWhPkVc9j3hIp+lP8z/XpV8IFpBmGwcfX9jUb54LUeokw5Tm31M
+         D2jn/EYj1oAT/AV/vWs8uzkq1UHPTn3ZItSOcjSod6sh2xSAGgDsOkK9AyUCFUEsU2
+         vTt50UXcXyVM9YndjEppLPkyXdx9+nZEwpMzESjz2566oitfaEWtGMHuEUloJXFmUI
+         bb4PurPwX7S7uvXM2s17YvvyHhHEnxfGo80C/v+CNRN7pzja1S9mWeX+9MoeggNbL1
+         JNg3Zy9d90lfw==
+X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 11 Mar 2020 15:06:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASput9F2XhAi4NUT7jx1z+-mSJXUDnqCfKGtXq_SNbohQ@mail.gmail.com>
-Message-ID: <CAK7LNASput9F2XhAi4NUT7jx1z+-mSJXUDnqCfKGtXq_SNbohQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts/kallsyms: fix wrong kallsyms_relative_base with CONFIG_KALLSYMS_BASE_RELATIVE
-To:     Mikhail Petrov <Mikhail.Petrov@mir.dev>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Neil Horman <nhorman@tuxdriver.com>, netdev@vger.kernel.org,
+        "David S . Miller" <davem@davemloft.net>
+Cc:     Ido Schimmel <idosch@mellanox.com>, Jiri Pirko <jiri@mellanox.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Nicolas Pitre <nico@fluxnic.net>, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] net: drop_monitor: use IS_REACHABLE() to guard net_dm_hw_report()
+Date:   Wed, 11 Mar 2020 15:29:25 +0900
+Message-Id: <20200311062925.5163-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Mikhail,
+In net/Kconfig, NET_DEVLINK implies NET_DROP_MONITOR.
 
-On Wed, Mar 11, 2020 at 5:34 AM Mikhail Petrov <Mikhail.Petrov@mir.dev> wrote:
->
-> There is the code in the read_symbol function in 'scripts/kallsyms.c':
->
->         if (is_ignored_symbol(name, type))
->                 return NULL;
->
->         /* Ignore most absolute/undefined (?) symbols. */
->         if (strcmp(name, "_text") == 0)
->                 _text = addr;
->
-> But the is_ignored_symbol function returns true for name="_text" and type='a'. So the next condition is not executed and the _text variable is always zero.
->
-> It makes the wrong kallsyms_relative_base symbol as a result of the code:
->
->         if (base_relative) {
->                 output_label("kallsyms_relative_base");
->                 output_address(relative_base);
->                 printf("\n");
->         }
->
-> Because the output_address function uses the _text variable.
->
-> So the kallsyms_lookup function and all related functions in the kernel do not work properly. For example, the stack trace in oops:
->
->         Call Trace:
->         [aa095e58] [809feab8] kobj_ns_ops_tbl+0x7ff09ac8/0x7ff1c1c4 (unreliable)
->         [aa095e98] [80002b64] kobj_ns_ops_tbl+0x7f50db74/0x80000010
->         [aa095ef8] [809c3d24] kobj_ns_ops_tbl+0x7feced34/0x7ff1c1c4
->         [aa095f28] [80002ed0] kobj_ns_ops_tbl+0x7f50dee0/0x80000010
->         [aa095f38] [8000f238] kobj_ns_ops_tbl+0x7f51a248/0x80000010
->
-> The right stack trace:
->
->         Call Trace:
->         [aa095e58] [809feab8] module_vdu_video_init+0x2fc/0x3bc (unreliable)
->         [aa095e98] [80002b64] do_one_initcall+0x40/0x1f0
->         [aa095ef8] [809c3d24] kernel_init_freeable+0x164/0x1d8
->         [aa095f28] [80002ed0] kernel_init+0x14/0x124
->         [aa095f38] [8000f238] ret_from_kernel_thread+0x14/0x1c
->
-> Signed-off-by: Mikhail Petrov <Mikhail.Petrov@mir.dev>
->
-> ---
+The original behavior of the 'imply' keyword prevents NET_DROP_MONITOR
+from being 'm' when NET_DEVLINK=y.
+
+With the planned Kconfig change that relaxes the 'imply', the
+combination of NET_DEVLINK=y and NET_DROP_MONITOR=m would be allowed.
+
+Use IS_REACHABLE() to avoid the vmlinux link error for this case.
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+This build error was reported in linux-next.
+https://lkml.org/lkml/2020/3/10/1936
+
+If this patch is acceptable,
+I'd like to get Ack from the maintainers,
+and insert this patch before my Kconfig change.
 
 
-Thanks for the patch.
+ include/net/drop_monitor.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Just for curiosity, on which architecrure
-did you see  name="_text" and type='a' case ?
-
-
-Could you wrap the commit log to avoid
-this checkpatch warning?
-WARNING: Possible unwrapped commit description (prefer a maximum 75
-chars per line)
-
-
-Also, could you shorten the patch subject
-to make it fit in this limit?
-
-Thanks.
-
-
+diff --git a/include/net/drop_monitor.h b/include/net/drop_monitor.h
+index 2ab668461463..f68bc373544a 100644
+--- a/include/net/drop_monitor.h
++++ b/include/net/drop_monitor.h
+@@ -19,7 +19,7 @@ struct net_dm_hw_metadata {
+ 	struct net_device *input_dev;
+ };
+ 
+-#if IS_ENABLED(CONFIG_NET_DROP_MONITOR)
++#if IS_REACHABLE(CONFIG_NET_DROP_MONITOR)
+ void net_dm_hw_report(struct sk_buff *skb,
+ 		      const struct net_dm_hw_metadata *hw_metadata);
+ #else
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
