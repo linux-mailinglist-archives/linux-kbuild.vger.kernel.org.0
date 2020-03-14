@@ -2,133 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 667361853D7
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2020 02:30:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBE6F1853DD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2020 02:33:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726893AbgCNBaE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Mar 2020 21:30:04 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:40396 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbgCNBaE (ORCPT
+        id S1726860AbgCNBdJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Mar 2020 21:33:09 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:59928 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726853AbgCNBdJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Mar 2020 21:30:04 -0400
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 02E1TwYt031818;
-        Sat, 14 Mar 2020 10:29:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 02E1TwYt031818
+        Fri, 13 Mar 2020 21:33:09 -0400
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 02E1Wspc029135;
+        Sat, 14 Mar 2020 10:32:54 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02E1Wspc029135
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584149399;
-        bh=s+MLlPHJBKXrpuiK/f0t8GUAtsMBrB5F071oJPbl8vI=;
+        s=dec2015msa; t=1584149575;
+        bh=aecj5qoz+QO3oCVXQl613LJGjLAsLDhInCVgRky/Qn4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ED+w/hULkW6n1anfIyoGOTMM/5oIAJDxoVFphJoOi1Ia95t/7M8QFVXKBjoVSUYBF
-         loBRrmRtNKr6XnDGhCEO7/65FnYD2PrFkBlwQNKQcQXZ85i5A14dCRwWrYad1M5Xaj
-         7XyHagz14YQp8qxYIXh0qNWseSY8Vd1ZI3I+OK4ioPMJZ6+/LzhBuLXB94XZ+EoBHT
-         NCAA1ncM1sonPjQR4d8/NWjXuqAOs5bpXnzYp3kiUKcltWpWXtDub4am//bmrUmoir
-         NKLyJ89rrqzEYH1EQq+jexYR8PjoweRD8PWhF28/ZObc4Q1D3uX18Vse8Hw9Rbprgv
-         sdRKKfp3/8zeg==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id c18so7591989vsq.7;
-        Fri, 13 Mar 2020 18:29:58 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2TfjCspXjzvMF5+QGGYLdo3rvU42rYiKTDWtNOlksXgj4E4z/l
-        ILZeTQ1hKEqWtzC/ljGij0QNVxjNXP+ZM7H4txI=
-X-Google-Smtp-Source: ADFU+vs+Ei+coS5nmQYJ3m/p8jpM2R7rWBOFjjjJU8mvIZotzPAjx5d+zMNUiyTqlzLFL88Xz3l+0c7SsV0WqGBk52I=
-X-Received: by 2002:a67:2d55:: with SMTP id t82mr2322834vst.215.1584149397781;
- Fri, 13 Mar 2020 18:29:57 -0700 (PDT)
+        b=e8UJRae1OkDD8N1p4kaFVrZD8m2Rhoj46ZtgkpNKOr8m3DsOtRM40jgTFcXBwJVlN
+         rpsHbLd0sr6mWBPexB0/dUnKvmD+nrT1x0ydtRDqShK5cZoJXnrK+Z2SlUEQ91F9A4
+         Y7Ur5f9nACLtjq5uZqsdV0Yt3aaKEsat2iBuIoZrj4mDld89undcenDhAetZT55nM6
+         i2Z3EHgSomTgbheZFEn3ktQ/AXxdu9mfKgNfsH69ybXMkeXBlYu5HEeAvLyoarv1KH
+         I9gHPZeWnAw2AD2hLHI/GcKTXRqOU0FCkT5YU0MKn/fhgWvXccQwIe7Xd1a5knOZS3
+         tsO2DmDTsXQXQ==
+X-Nifty-SrcIP: [209.85.222.44]
+Received: by mail-ua1-f44.google.com with SMTP id o16so4373273uap.6;
+        Fri, 13 Mar 2020 18:32:54 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ0bmionYd3wGZ5L0uHb0Wsd1fMShCnvTv+IEzQjtsdKyzVdJoja
+        rNvuEicScyULXL4XQVo4ibk6gduxk3RkQVlZ99U=
+X-Google-Smtp-Source: ADFU+vuhkX/B0QFmFUHk6fw4un08xfDVdxVGrjON9vYm2FvfthDPaom+E25E07SlC8TXdF936i2sfALZjqc6u7Yxj2Q=
+X-Received: by 2002:ab0:25c8:: with SMTP id y8mr10653606uan.95.1584149573443;
+ Fri, 13 Mar 2020 18:32:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200311225044.29502-1-masahiroy@kernel.org>
-In-Reply-To: <20200311225044.29502-1-masahiroy@kernel.org>
+References: <20200308073400.23398-1-natechancellor@gmail.com> <20200311194121.38047-1-natechancellor@gmail.com>
+In-Reply-To: <20200311194121.38047-1-natechancellor@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 14 Mar 2020 10:29:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ=AVRwXxErOvs=2iK2vKYU3GrF_am7JUUFBiVGPchWXw@mail.gmail.com>
-Message-ID: <CAK7LNAQ=AVRwXxErOvs=2iK2vKYU3GrF_am7JUUFBiVGPchWXw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix references to other documents
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Date:   Sat, 14 Mar 2020 10:32:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASdzfR6iewpZY8z4Ln8tN8GxNxgnzk2tPsOBn2v4ZJvwg@mail.gmail.com>
+Message-ID: <CAK7LNASdzfR6iewpZY8z4Ln8tN8GxNxgnzk2tPsOBn2v4ZJvwg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Disable -Wpointer-to-enum-cast
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        stable <stable@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 7:50 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Mar 12, 2020 at 4:41 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> All the files in Documentation/kbuild/ were converted to reST.
+> Clang's -Wpointer-to-int-cast deviates from GCC in that it warns when
+> casting to enums. The kernel does this in certain places, such as device
+> tree matches to set the version of the device being used, which allows
+> the kernel to avoid using a gigantic union.
 >
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L428
+> https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L402
+> https://elixir.bootlin.com/linux/v5.5.8/source/include/linux/mod_devicetable.h#L264
+>
+> To avoid a ton of false positive warnings, disable this particular part
+> of the warning, which has been split off into a separate diagnostic so
+> that the entire warning does not need to be turned off for clang. It
+> will be visible under W=1 in case people want to go about fixing these
+> easily and enabling the warning treewide.
+>
+> Cc: stable@vger.kernel.org
+> Link: https://github.com/ClangBuiltLinux/linux/issues/887
+> Link: https://github.com/llvm/llvm-project/commit/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 > ---
 
+
 Applied to linux-kbuild.
+Thanks.
 
 
 >
->  Documentation/kbuild/kbuild.rst                 | 2 +-
->  Documentation/kbuild/kconfig-macro-language.rst | 2 +-
->  Documentation/kbuild/makefiles.rst              | 6 +++---
->  3 files changed, 5 insertions(+), 5 deletions(-)
+> v1 -> v2:
 >
-> diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> index f1e5dce86af7..510f38d7e78a 100644
-> --- a/Documentation/kbuild/kbuild.rst
-> +++ b/Documentation/kbuild/kbuild.rst
-> @@ -237,7 +237,7 @@ This is solely useful to speed up test compiles.
->  KBUILD_EXTRA_SYMBOLS
->  --------------------
->  For modules that use symbols from other modules.
-> -See more details in modules.txt.
-> +See more details in modules.rst.
+> * Move under scripts/Makefile.extrawarn, as requested by Masahiro
 >
->  ALLSOURCE_ARCHS
->  ---------------
-> diff --git a/Documentation/kbuild/kconfig-macro-language.rst b/Documentation/kbuild/kconfig-macro-language.rst
-> index 35b3263b7e40..8b413ef9603d 100644
-> --- a/Documentation/kbuild/kconfig-macro-language.rst
-> +++ b/Documentation/kbuild/kconfig-macro-language.rst
-> @@ -44,7 +44,7 @@ intermediate::
->              def_bool y
+>  scripts/Makefile.extrawarn | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  Then, Kconfig moves onto the evaluation stage to resolve inter-symbol
-> -dependency as explained in kconfig-language.txt.
-> +dependency as explained in kconfig-language.rst.
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index ecddf83ac142..ca08f2fe7c34 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -48,6 +48,7 @@ KBUILD_CFLAGS += -Wno-initializer-overrides
+>  KBUILD_CFLAGS += -Wno-format
+>  KBUILD_CFLAGS += -Wno-sign-compare
+>  KBUILD_CFLAGS += -Wno-format-zero-length
+> +KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
+>  endif
 >
->
->  Variables
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 6bc126a14b3d..04d5c01a2e99 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -924,7 +924,7 @@ When kbuild executes, the following steps are followed (roughly):
->         $(KBUILD_AFLAGS_MODULE) is used to add arch-specific options that
->         are used for assembler.
->
-> -       From commandline AFLAGS_MODULE shall be used (see kbuild.txt).
-> +       From commandline AFLAGS_MODULE shall be used (see kbuild.rst).
->
->      KBUILD_CFLAGS_KERNEL
->         $(CC) options specific for built-in
-> @@ -937,7 +937,7 @@ When kbuild executes, the following steps are followed (roughly):
->
->         $(KBUILD_CFLAGS_MODULE) is used to add arch-specific options that
->         are used for $(CC).
-> -       From commandline CFLAGS_MODULE shall be used (see kbuild.txt).
-> +       From commandline CFLAGS_MODULE shall be used (see kbuild.rst).
->
->      KBUILD_LDFLAGS_MODULE
->         Options for $(LD) when linking modules
-> @@ -945,7 +945,7 @@ When kbuild executes, the following steps are followed (roughly):
->         $(KBUILD_LDFLAGS_MODULE) is used to add arch-specific options
->         used when linking modules. This is often a linker script.
->
-> -       From commandline LDFLAGS_MODULE shall be used (see kbuild.txt).
-> +       From commandline LDFLAGS_MODULE shall be used (see kbuild.rst).
->
->      KBUILD_LDS
+>  endif
+> --
+> 2.26.0.rc1
 >
 > --
-> 2.17.1
->
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200311194121.38047-1-natechancellor%40gmail.com.
+
 
 
 -- 
