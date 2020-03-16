@@ -2,117 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBE6F1853DD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Mar 2020 02:33:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28104186AF0
+	for <lists+linux-kbuild@lfdr.de>; Mon, 16 Mar 2020 13:33:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726860AbgCNBdJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Mar 2020 21:33:09 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:59928 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbgCNBdJ (ORCPT
+        id S1730956AbgCPMdl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Mar 2020 08:33:41 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:22833 "EHLO
+        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730878AbgCPMdk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Mar 2020 21:33:09 -0400
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 02E1Wspc029135;
-        Sat, 14 Mar 2020 10:32:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02E1Wspc029135
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584149575;
-        bh=aecj5qoz+QO3oCVXQl613LJGjLAsLDhInCVgRky/Qn4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=e8UJRae1OkDD8N1p4kaFVrZD8m2Rhoj46ZtgkpNKOr8m3DsOtRM40jgTFcXBwJVlN
-         rpsHbLd0sr6mWBPexB0/dUnKvmD+nrT1x0ydtRDqShK5cZoJXnrK+Z2SlUEQ91F9A4
-         Y7Ur5f9nACLtjq5uZqsdV0Yt3aaKEsat2iBuIoZrj4mDld89undcenDhAetZT55nM6
-         i2Z3EHgSomTgbheZFEn3ktQ/AXxdu9mfKgNfsH69ybXMkeXBlYu5HEeAvLyoarv1KH
-         I9gHPZeWnAw2AD2hLHI/GcKTXRqOU0FCkT5YU0MKn/fhgWvXccQwIe7Xd1a5knOZS3
-         tsO2DmDTsXQXQ==
-X-Nifty-SrcIP: [209.85.222.44]
-Received: by mail-ua1-f44.google.com with SMTP id o16so4373273uap.6;
-        Fri, 13 Mar 2020 18:32:54 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ0bmionYd3wGZ5L0uHb0Wsd1fMShCnvTv+IEzQjtsdKyzVdJoja
-        rNvuEicScyULXL4XQVo4ibk6gduxk3RkQVlZ99U=
-X-Google-Smtp-Source: ADFU+vuhkX/B0QFmFUHk6fw4un08xfDVdxVGrjON9vYm2FvfthDPaom+E25E07SlC8TXdF936i2sfALZjqc6u7Yxj2Q=
-X-Received: by 2002:ab0:25c8:: with SMTP id y8mr10653606uan.95.1584149573443;
- Fri, 13 Mar 2020 18:32:53 -0700 (PDT)
+        Mon, 16 Mar 2020 08:33:40 -0400
+X-IronPort-AV: E=Sophos;i="5.70,560,1574092800"; 
+   d="scan'208";a="86408493"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 16 Mar 2020 20:33:36 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+        by cn.fujitsu.com (Postfix) with ESMTP id 9FD3E50A9967;
+        Mon, 16 Mar 2020 20:23:29 +0800 (CST)
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.85) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 16 Mar 2020 20:33:32 +0800
+Received: from Fedora-30.g08.fujitsu.local (10.167.220.106) by
+ G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ id 14.3.439.0; Mon, 16 Mar 2020 20:33:32 +0800
+From:   Xiao Yang <yangx.jy@cn.fujitsu.com>
+To:     <yamada.masahiro@socionext.com>, <michal.lkml@markovi.net>
+CC:     <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Xiao Yang <yangx.jy@cn.fujitsu.com>
+Subject: [PATCH] modpost: Get proper section index by get_secindex() instead of st_shndx
+Date:   Mon, 16 Mar 2020 20:28:20 +0800
+Message-ID: <20200316122820.11032-1-yangx.jy@cn.fujitsu.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20200308073400.23398-1-natechancellor@gmail.com> <20200311194121.38047-1-natechancellor@gmail.com>
-In-Reply-To: <20200311194121.38047-1-natechancellor@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 14 Mar 2020 10:32:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASdzfR6iewpZY8z4Ln8tN8GxNxgnzk2tPsOBn2v4ZJvwg@mail.gmail.com>
-Message-ID: <CAK7LNASdzfR6iewpZY8z4Ln8tN8GxNxgnzk2tPsOBn2v4ZJvwg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Disable -Wpointer-to-enum-cast
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        stable <stable@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-yoursite-MailScanner-ID: 9FD3E50A9967.AA9D8
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: yangx.jy@cn.fujitsu.com
+X-Spam-Status: No
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 4:41 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> Clang's -Wpointer-to-int-cast deviates from GCC in that it warns when
-> casting to enums. The kernel does this in certain places, such as device
-> tree matches to set the version of the device being used, which allows
-> the kernel to avoid using a gigantic union.
->
-> https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L428
-> https://elixir.bootlin.com/linux/v5.5.8/source/drivers/ata/ahci_brcm.c#L402
-> https://elixir.bootlin.com/linux/v5.5.8/source/include/linux/mod_devicetable.h#L264
->
-> To avoid a ton of false positive warnings, disable this particular part
-> of the warning, which has been split off into a separate diagnostic so
-> that the entire warning does not need to be turned off for clang. It
-> will be visible under W=1 in case people want to go about fixing these
-> easily and enabling the warning treewide.
->
-> Cc: stable@vger.kernel.org
-> Link: https://github.com/ClangBuiltLinux/linux/issues/887
-> Link: https://github.com/llvm/llvm-project/commit/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> ---
+(uint16_t) st_shndx is limited to 65535(i.e. SHN_XINDEX) so sym_get_data() gets
+wrong section index by st_shndx if object file(e.g. vmlinux.o) has more than
+65535 sessions.  In this case, we need to get proper section index by .symtab_shndx
+section.
 
+Module.symvers generated by building kernel with "-ffunction-sections -fdata-sections"
+shows the issue(i.e. cannot get 89902 by st_shndx):
+-------------------------------------------------------------------
+[root@Fedora-30 linux]# file Module.symvers
+Module.symvers: data
+[root@Fedora-30 linux]# head -n1 Module.symvers
+0x5caf3011      ipv6_chk_custom_prefix  ▒▒▒▒▒▒▒▒        vmlinux EXPORT_SYMBOL
+...
+[root@Fedora-30 linux]# readelf -s -W vmlinux.o | grep __kstrtabns_ipv6_chk_custom_prefix
+199174: 0000000000032578     1 OBJECT  LOCAL  DEFAULT 89902 __kstrtabns_ipv6_chk_custom_prefix
+[root@Fedora-30 linux]# readelf -S -W vmlinux.o | grep 89902
+  [89902] __ksymtab_strings PROGBITS        0000000000000000 a94e00 0345a2 00   A  0   0  1
+-------------------------------------------------------------------
 
-Applied to linux-kbuild.
-Thanks.
+Fixes: afa0459daa7b ("modpost: add a helper to get data pointed by a symbol")
+Fixes: 5545322c86d9 ("modpost: refactor namespace_from_kstrtabns() to not hard-code section name")
+Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
+---
+ scripts/mod/modpost.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
->
-> v1 -> v2:
->
-> * Move under scripts/Makefile.extrawarn, as requested by Masahiro
->
->  scripts/Makefile.extrawarn | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index ecddf83ac142..ca08f2fe7c34 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -48,6 +48,7 @@ KBUILD_CFLAGS += -Wno-initializer-overrides
->  KBUILD_CFLAGS += -Wno-format
->  KBUILD_CFLAGS += -Wno-sign-compare
->  KBUILD_CFLAGS += -Wno-format-zero-length
-> +KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
->  endif
->
->  endif
-> --
-> 2.26.0.rc1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200311194121.38047-1-natechancellor%40gmail.com.
-
-
-
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index d9418c58a8c0..c1fec8cac257 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -310,7 +310,8 @@ static const char *sec_name(struct elf_info *elf, int secindex)
+ 
+ static void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym)
+ {
+-	Elf_Shdr *sechdr = &info->sechdrs[sym->st_shndx];
++	unsigned int secindex = get_secindex(info, sym);
++	Elf_Shdr *sechdr = &info->sechdrs[secindex];
+ 	unsigned long offset;
+ 
+ 	offset = sym->st_value;
 -- 
-Best Regards
-Masahiro Yamada
+2.21.0
+
+
+
