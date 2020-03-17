@@ -2,74 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1BD01876A1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 01:11:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94744187711
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 01:48:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733067AbgCQALn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Mar 2020 20:11:43 -0400
-Received: from mail.uic.edu.hk ([61.143.62.86]:48979 "EHLO umgp.uic.edu.hk"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1733047AbgCQALn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Mar 2020 20:11:43 -0400
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; 
-   d="scan'208";a="17243176"
-Received: from unknown (HELO zpmail.uic.edu.hk) ([192.168.111.249])
-  by umgp.uic.edu.hk with ESMTP; 17 Mar 2020 08:11:35 +0800
-Received: from zpmail.uic.edu.hk (localhost [127.0.0.1])
-        by zpmail.uic.edu.hk (Postfix) with ESMTPS id D96D941C05A3;
-        Tue, 17 Mar 2020 08:11:32 +0800 (CST)
-Received: from localhost (localhost [127.0.0.1])
-        by zpmail.uic.edu.hk (Postfix) with ESMTP id D554341C0957;
-        Tue, 17 Mar 2020 08:11:31 +0800 (CST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zpmail.uic.edu.hk D554341C0957
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uic.edu.hk;
-        s=6465647E-9D7B-11E8-B17B-42130C7FA3B9; t=1584403892;
-        bh=Wn2BcVyAdGxyDvB/5AnVfCr/iJTzisyuX4dwKssec6E=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=N1pNhkd2l8zz69kDtEsPH5n7SDL70Ak/Rgb/NYqC0+ZCBZFg/G0QkldxXmMRPmztz
-         HwkJ6HHAibMur3rytYhnqKeG349hpGDQCbhvoJdZWkvkFCa93STWbitRqMynzR+Wj5
-         wLEdN7i9CyVDDhspocQMykx6lSGq645dTckJSCrsFHg+uR95rTW6kz2/3F5tST7+Uo
-         ELvvW8oTRw+C3DdE82L8ao85KfwNAx6BRhhB+sNBssPbo3CqQ69/PO1/J9gy3aGO+s
-         FwDrxpCEm2RIo68N7oaYrAjY/FUGCbKk/MsqrV+VDqizldOqfTDFamlvQc82rVkjYy
-         rx6v80NBgwdtg==
-Received: from zpmail.uic.edu.hk ([127.0.0.1])
-        by localhost (zpmail.uic.edu.hk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id gCmMIXxwS0HE; Tue, 17 Mar 2020 08:11:31 +0800 (CST)
-Received: from zpmail.uic.edu.hk (zpmail.uic.edu.hk [192.168.111.249])
-        by zpmail.uic.edu.hk (Postfix) with ESMTP id 1549641C058D;
-        Tue, 17 Mar 2020 08:11:27 +0800 (CST)
-Date:   Tue, 17 Mar 2020 08:11:26 +0800 (CST)
-From:   David Ibe <ylawrence@uic.edu.hk>
-Reply-To: David Ibe <davidibe718@gmail.com>
-Message-ID: <2065446646.63699156.1584403886963.JavaMail.zimbra@uic.edu.hk>
-Subject: 
+        id S1733005AbgCQAsi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Mar 2020 20:48:38 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:48091 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733152AbgCQAsi (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Mar 2020 20:48:38 -0400
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 02H0mQWT012973
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Mar 2020 09:48:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 02H0mQWT012973
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1584406107;
+        bh=kLX0by3CZi+zeC1hcZEY7sLahFeV0xNt94EUOmF2mFc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DUqf9B0RiTge3n0eraW+o/mty/YSZMpYlhmY2H/TbdnLquqLJ0RSS3kLBJlDjwAns
+         rGC/i48u4AOnoW8EKzZQZtqHVDC87kFBt6Jk5Zy8cIIuD44YNkE6Bh/yF/Qz2B8Csa
+         lgjlJ/NzWBFYEij9Uncfk34bdm3J3EfgmEniZYXuooxcewJ92tgBMHg7JBsTjxqGY2
+         ah/4ZLndiaF+x67H4EIq1WZAZAfRndPr907ujhrebKty21DNVnCYRpVRkm8PniIP87
+         oFKzTKS50QUgohUO9c5pckEbb/okX6EY51lrJKivGO5tyr7hGtNGZPtXSmm/cPfqqz
+         VTwhSuTsatJcg==
+X-Nifty-SrcIP: [209.85.222.49]
+Received: by mail-ua1-f49.google.com with SMTP id 9so6846212uav.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 16 Mar 2020 17:48:27 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ1IK8KeAeIFTM6o+nyJCvCsbLgZPm6DWeJ/B/Dmpz7SlBFqaAvQ
+        w+zl7mT80m7tpFXE85YLWFDzmPwb0qhMyytjD4A=
+X-Google-Smtp-Source: ADFU+vvtpmwd4ztfxCbiy6p8V4dqg2z9mUizLdWEQDAf3TSl8YhRP96Zb4Ebg2nmxSAYmxiRdOOLY3PxUcUvFgDNa5Y=
+X-Received: by 2002:a9f:32da:: with SMTP id f26mr2131441uac.40.1584406105799;
+ Mon, 16 Mar 2020 17:48:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [192.168.111.160]
-X-Mailer: Zimbra 8.8.15_GA_3829 (ZimbraWebClient - GC80 (Win)/8.8.15_GA_3829)
-Thread-Index: 8IMjdxPQWBZshE+F+QJEttpRaFVxcQ==
-Thread-Topic: 
-To:     unlisted-recipients:; (no To-header on input)
+References: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+In-Reply-To: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 17 Mar 2020 09:47:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
+Message-ID: <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
+Subject: Re: linux-kbuild missing from lore?
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Nick,
+
+On Tue, Mar 17, 2020 at 8:22 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Hi Masahiro,
+> I noticed that linux-kbuild@vger.kernel.org seems to be missing from
+> https://lore.kernel.org/lists.html.  Is that intentional or
+> accidental?
+> --
+> Thanks,
+> ~Nick Desaulniers
 
 
-Good Day,                
+Thanks for letting me know this.
+I guess it is accidental.
 
-I am Mr. David Ibe, I work with the International Standards on Auditing, I have seen on records, that several times people has divert your funds into their own personal accounts.
+In fact, I do not know what to do
+to take good care of the kbuild ML.
 
-Now I am writing to you in respect of the amount which I have been able to send to you through our International United Nations accredited and approved Diplomat, who has arrived Africa, I want you to know that the diplomat would deliver the funds which I have packaged as a diplomatic compensation to you and the amount in the consignment is  $10,000,000.00 United State Dollars.
 
-I did not disclose the contents to the diplomat, but I told him that it is your compensation from the Auditing Corporate Governance and Stewardship, Auditing and Assurance Standards Board. I want you to know that these funds would help with your financial status as I have seen in records that you have spent a lot trying to receive these funds and I am not demanding so much from you but only 30% for my stress and logistics.
-
-I would like you to get back to me with your personal contact details, so that I can give you the contact information's of the diplomat who has arrived Africa and has been waiting to get your details so that he can proceed with the delivery to you.
-
-Yours Sincerely,
-Kindly forward your details to: mrdavidibe966@gmail.com
-Mr. David Ibe
-International Auditor,
-Corporate Governance and Stewardship
+--
+Best Regards
+Masahiro Yamada
