@@ -2,369 +2,503 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F961188FEF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 22:00:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62344188FFB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 22:02:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726834AbgCQVAc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Mar 2020 17:00:32 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:46482 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726761AbgCQVAc (ORCPT
+        id S1726735AbgCQVCk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Mar 2020 17:02:40 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:43640 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726730AbgCQVCk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Mar 2020 17:00:32 -0400
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 02HKsPpn030030;
-        Tue, 17 Mar 2020 14:00:26 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=67AaUNZHe8W6hwF1EQmTH4wA1iy7uWrw8SfBlU3mHa0=;
- b=adWRsa9slmdxXtofLkXzxftiAgQbh4avhISpOyimpX293LUjdZ22+yet9LyCKn9UBZIK
- i5oui7cNcRQAByzH+P0w6SAvBTbxbyaQkJBNs4sZ2GvMRoBx0h091k+b5r0fL54k/Md+
- CA1GvVOs+g/Fxz/KOBUmbkZfY/mXXGTGjGg= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com with ESMTP id 2ysexx4bee-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 17 Mar 2020 14:00:25 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1847.3; Tue, 17 Mar 2020 14:00:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l8+almCv4E76kOtHmz6UinmErM1svM+JX15t5oHS6AZeC+eHfJfCRJKxZmK/jj5Izgx2YMw2L5NyJR7JWob8nMi9tqawKVUEvyOmMd24BjtxuH520ZeuLoWKk8oUp+eMpMCRbgX87jnmHsgNXWUuZ7fLGBqWB1i4whZmi4H6c3Sr2Jih1w8C4H4XT3bsoUo4edEF4cw6RIJnE+dLMrBAeVckD18c86Q1RWWCCUBYzX0kmTA+rq1jWR9FuLXepHpfBE/y4wAMqC+mI3j0KcCrnHvds987oIrC3U+MkP2n2oRY5hEh28vxX71+PTA2tFJZfuGEUJHUY2UmRxnLTBPipQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=67AaUNZHe8W6hwF1EQmTH4wA1iy7uWrw8SfBlU3mHa0=;
- b=S4la6l+XrYDTJjzJGheoJy9BYjfKWdj13HpH1urq0iK2hIHc1w4BfxP3cbnyzloawzPsXlFvIDtiz4iMZBUFcSb+KBBjzz3otPCHGNvUF11MV2Jru7OQeGSUarx/iiJY2d7bQ90AEnkZvWvyLPLWB3WioLwUxYD8xoKVi1MtD2akrgSidrmK9Q/NbSp9vaZvCuKw9ky61SMphUZiYr/5nuNGOXKuvQlmj7p6xgcGbdyXjZnNXZP20DA1tBcgWecXiEde0CpMM2aE+BTlSotLCzOTQnyb10d/VjRoSZWfSgGhHGc02mCI3XPUk/Y73oZ4lSX5lXz9JHGKD9EB9m7Vqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=67AaUNZHe8W6hwF1EQmTH4wA1iy7uWrw8SfBlU3mHa0=;
- b=kxaxKGU3JfdRmZZNSChxH3FO49Qjk15Kq4pZuh/7317DG5nWUn3r18bL1fjuhYxo3V4YZIx1aS/fF8t3ORHP9vFo+OrPKLsXsGQdUPcRKee8nrlOLO1BvNTa6tKItHO6EyfHEF4CSyVWKJgk0VSptqcRlf8VuPWCQULZ9s1FXrU=
-Received: from MW3PR15MB3753.namprd15.prod.outlook.com (2603:10b6:303:50::17)
- by MW3PR15MB3868.namprd15.prod.outlook.com (2603:10b6:303:40::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.18; Tue, 17 Mar
- 2020 21:00:23 +0000
-Received: from MW3PR15MB3753.namprd15.prod.outlook.com
- ([fe80::5956:e4d6:26a3:343e]) by MW3PR15MB3753.namprd15.prod.outlook.com
- ([fe80::5956:e4d6:26a3:343e%7]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
- 21:00:23 +0000
-From:   Nick Terrell <terrelln@fb.com>
+        Tue, 17 Mar 2020 17:02:40 -0400
+Received: by mail-pg1-f194.google.com with SMTP id u12so12382061pgb.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Mar 2020 14:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=VpAH1nTsORIFBJ2j88++YPp932qudNNLlOrjlZw97gI=;
+        b=aIZPh+scRVcJ8m4w36NDNP1PJAaeE4h60Zu3cXZzWJ4X7+RRUooKQGe/uvk7n0hpZz
+         bDMMd+3WQDVBpDjlva4FxVem4reQQnFDyv9VgSYgXAbyi7eZXl0KCjuHheQWvU02J3vR
+         9yV52Ymf3LOvEzxprJdda3LufBLWyoGzymik4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=VpAH1nTsORIFBJ2j88++YPp932qudNNLlOrjlZw97gI=;
+        b=XYGp3YpgSR9DkvGgzLhLozoxKI5O2WwnYj1VpNVcHyC9HjeApPS82cSUmHcBsvhomG
+         +FjrSdeWrJDQIGdNACK5C/Fe3u7G7bPPeAYClbj3Lb5y0PJRvrXyInG22pqZ9DZe5Kg0
+         wK1wyiAGk8q9w+lPZMWwqDJIFG+C6uIXEz6i7muQUT0siVZZareD4oH2gQb3Hse+8jf7
+         /9bfUy++dOrdhM+P8Qg+VfBdU75w0LjRCwW8SGUN9jxhO7m+sdt5iX6TehqnPN93E44g
+         Q9H8CLjeajN2Qt0ZVzwyOtbTucMoTBZERfHnfu0UQ0PKgLOr4JW0CTge5TZx0PmmODTy
+         gDqw==
+X-Gm-Message-State: ANhLgQ0k95fXaBxkJzAVkFUtLWn68YIiZafCBeu2Vlk55EgktcyBrNSi
+        CVmuPQ3FY8ukFv7rIn3JLPUT5ksd71E=
+X-Google-Smtp-Source: ADFU+vs3/CvdwQVEg0hOS4uORK1iBXqmfBdTN508v4ONAcyX6BRdQnETKMpSfZmdnyNVUxhPU2n9+A==
+X-Received: by 2002:a62:2e86:: with SMTP id u128mr754321pfu.68.1584478958453;
+        Tue, 17 Mar 2020 14:02:38 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q6sm262037pja.34.2020.03.17.14.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 14:02:37 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 14:02:36 -0700
+From:   Kees Cook <keescook@chromium.org>
 To:     Petr Malat <oss@malat.biz>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>, Chris Mason <clm@fb.com>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "keescook@chromium.org" <keescook@chromium.org>
-Subject: Re: [PATCH 1/2] lib: add support for ZSTD-compressed kernel
-Thread-Topic: [PATCH 1/2] lib: add support for ZSTD-compressed kernel
-Thread-Index: AQHV+5n0m3HnHdZApEGhA1O62UMcwqhNRvCA
-Date:   Tue, 17 Mar 2020 21:00:23 +0000
-Message-ID: <37226A5E-4544-4118-AAE7-1142BC1F3E9A@fb.com>
-References: <20200316135025.7579-1-oss@malat.biz>
-In-Reply-To: <20200316135025.7579-1-oss@malat.biz>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [2620:10d:c090:400::5:662a]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 165fddd0-e4cb-4514-6cdf-08d7cab635db
-x-ms-traffictypediagnostic: MW3PR15MB3868:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW3PR15MB3868F1C689222463AA55AF63ABF60@MW3PR15MB3868.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0345CFD558
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(396003)(136003)(39860400002)(346002)(376002)(199004)(2616005)(6512007)(66946007)(5660300002)(6916009)(76116006)(4326008)(66476007)(66446008)(64756008)(2906002)(66556008)(966005)(478600001)(6486002)(8936002)(81156014)(81166006)(36756003)(86362001)(71200400001)(33656002)(8676002)(186003)(316002)(53546011)(54906003)(30864003)(6506007);DIR:OUT;SFP:1102;SCL:1;SRVR:MW3PR15MB3868;H:MW3PR15MB3753.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-received-spf: None (protection.outlook.com: fb.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: KivY3Vu1CqQLEEBvbex+KIsrnc8x/2gtAuNyqZEAJsc1mpSNnwhk7sPDBDP1XsHFZFq3epr081t4w43TVHdZUxNoQSpqQ8IMOAzVTy+C8CZBtRo9H+XBUtYA5QpSQQMvOFU/iK+U0SbPqVLhqDvbSe2ZqAqFlr5y5Ur+GhMQoXAwpgn/Af9idSC2YwUtGYYMiYbS+AZX5BE73D9C2NiLpAPyWuLYK753H04+4fRN7Cc6JmkUBlsx8Ov7vVyJAwC7QXEheeP7+bKNv+MRjoVkM4Ln+r4xL0aSag3YCYYrz1Ouzl/6QQUdezrXl0EX1ae+ajj679auAVDGxstNADYvj32kUuZkk9WJ4U2IMbgDMucT7UyTIjryXN9Q4QZdvtsyzkBNAKDkZGYTv+0NhFjMT0aVLbuSY/841UPPhog4tdUBl/gK7UCi7AFSZGb5LEC8cQUOjctCFy5u056GkmuzFu62wniLKPNT7jO7KLztGKW2oKlnhmJLlufSojmrgpxYhqT7A/1UW+k15LkqiBCu6w==
-x-ms-exchange-antispam-messagedata: 933527gR9PReaKmt6GXnnPf+Bfobhsizi+CyqGnI89ksxmE6DQG+gfBO64sta3fHSoT/P16XIZ+/VzCmBOOSfBGks/a6L88u7Kae+4RKx40v5pYBLjh3LlG1VtYgbsPE6ub347oNlSIilD2keE96xZUyUvbtWeStC6+6qbEQ7LnugvKJJNYvcPZlvfi3PkC3
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1585F0EE575C9647BC65D4421C3C9346@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        x86@kernel.org, terrelln@fb.com, clm@fb.com,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH v2 1/2] lib: add support for ZSTD-compressed kernel
+Message-ID: <202003171355.C5A35188@keescook>
+References: <20200316140745.GB4041840@kroah.com>
+ <20200316143018.1366-1-oss@malat.biz>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 165fddd0-e4cb-4514-6cdf-08d7cab635db
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2020 21:00:23.0415
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Jk8rLY8bRRogd+wjEevPbqxq0A9MT8IZIqcL/OnSrhNOWUxlBCHuEX3T3OaDryQm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR15MB3868
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.645
- definitions=2020-03-17_09:2020-03-17,2020-03-17 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0 phishscore=0
- spamscore=0 malwarescore=0 impostorscore=0 clxscore=1011 mlxscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003170079
-X-FB-Internal: deliver
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200316143018.1366-1-oss@malat.biz>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-PiBPbiBNYXIgMTYsIDIwMjAsIGF0IDY6NTAgQU0sIFBldHIgTWFsYXQgPG9zc0BtYWxhdC5iaXo+
-IHdyb3RlOg0KPiANCj4gQWRkIHN1cHBvcnQgZm9yIGV4dHJhY3RpbmcgWlNURC1jb21wcmVzc2Vk
-IGtlcm5lbCBpbWFnZXMsIGFzIHdlbGwgYXMNCj4gWlNURC1jb21wcmVzc2VkIGluaXRyYW1mcy4N
-Cg0KSGkgUGV0ciwNCg0KVGhhbmtzIGZvciBwdXR0aW5nIHVwIHRoaXMgcGF0Y2ghDQoNCkluIHRo
-ZSBsYXN0IG1vbnRoIEkgcmViYXNlZCwgcmV0ZXN0ZWQsIGFuZCByZWZhY3RvcmVkIG15IHBhdGNo
-ZXMgWzBdWzFdLCBiZWNhdXNlDQp3ZSBoYWQgYSBuZXcgdXNlIGNhc2UgZm9yIGEgenN0ZCBjb21w
-cmVzc2VkIGluaXRyYW1mcy4gV2UgaGF2ZSBiZWVuIHVzaW5nDQp0aGUgcGF0Y2hlcyBJIHB1dCB1
-cCBmb3IgcXVpdGUgc29tZSB0aW1lIGludGVybmFsbHksIHNvIHdlIGtub3cgdGhleSB3b3JrIHdl
-bGwuDQoNCkkgd2lsbCByZS1zdWJtaXQgbXkgcGF0Y2hlcyB0b2RheSwgb25jZSBJIHdyaXRlIGFs
-bCB0aGUgY29tbWl0IHN1bW1hcmllcyBhbmQgYQ0KbmV3IGNvdmVyIGxldHRlci4gVGhhbmtzIGZv
-ciB0aGUga2ljayBpbiB0aGUgYnV0dCB0byByZXN1Ym1pdCBpdC4NCg0KWW91ciBwYXRjaGVzIGFy
-ZSBtaXNzaW5nIHNldmVyYWwgdGhpbmdzIHRoYXQgSSBoYXZlIGluY2x1ZGVkIGluIG15IHBhdGNo
-ZXMgWzBdWzFdOg0KKiBJbnZvY2F0aW9ucyBvZiBFWFBPUlRfU1lNQk9MKCkgYW5kIE1PRFVMRV9M
-SUNFTlNFKCkgaW4gdGhlIHByZS1ib290DQogIGVpdGhlciBlbWl0dGVkIHdhcm5pbmdzIG9yIGRp
-ZG7igJl0IHdvcmsgaW4gdGhlIHByZS1ib290IGVudmlyb25tZW50LCB1bmxlc3MgdGhhdA0KICBo
-YXMgY2hhbmdlZC4NCiogVGhlIG1lbWNweSgpIGluc2lkZSBvZiBaU1REX2NvcHk4KCkgd2hpY2gg
-aXMgdGhlIGNvcmUgb2YgenN0ZOKAmXMgaG90IGxvb3AgZ2V0cw0KICBvdXRsaW5lZCBpbiB0aGUg
-eDg2IHByZWJvb3QgZW52aXJvbm1lbnQgdW5sZXNzIHlvdSB1c2UgX19idWlsdGluX21lbWNweSgp
-Lg0KICBUaGlzIGRlc3Ryb3lzIGRlY29tcHJlc3Npb24gc3BlZWQuDQoqIHVuenN0ZCgpIGNhbiB1
-c2UgbGVzcyBtZW1vcnkgd2hlbiBmaWxsICYgZmx1c2ggYXJlIGJvdGggTlVMTCBieSBjYWxsaW5n
-DQogIFpTVERfZGVjb21wcmVzc0RDdHgoKS4NCiogWk9fel9leHRyYV9ieXRlcyBuZWVkcyB0byBi
-ZSBidW1wZWQgYmVjYXVzZSB6c3RkIGNhbiBvdmVybGFwIG1vcmUgdGhhbg0KICBPdGhlciBjb21w
-cmVzc29ycy4gSWYgaXQgaXNu4oCZdCB5b3UgY291bGQgY29ycnVwdCB0aGUga2VybmVsLg0KDQpJ
-IHRoaW5rIGl0IHdvdWxkIGJlIGJldHRlciB0byBnbyB3aXRoIG15IHBhdGNoZXMuIFRoZXkgaGF2
-ZSBhbHJlYWR5IGJlZW4gdGVzdGVkDQppbiBwcm9kdWN0aW9uIGZvciBib3RoIGNvcnJlY3RuZXNz
-IGFuZCBwZXJmb3JtYW5jZSwgYW5kIEkgaGF2ZSBib290IHRlc3RlZCBvbg0KeDg2LCBhcm0sIGFu
-ZCBhYXJjaDY0LiBJIHdpbGwgbWFrZSBteSBjYXNlIGZ1bGx5IHdoZW4gSSByZXN1Ym1pdCBteSBw
-YXRjaGVzLg0KDQpUaGFua3MgYWdhaW4gZm9yIHN1Ym1pdHRpbmcgdGhpcywgYmVjYXVzZSBJIGhh
-dmUgYmVlbiBkYXdkbGluZyENCk5pY2sNCg0KWzBdIGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3Bh
-dGNod29yay9wYXRjaC84Mzk2NzQvDQpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvcGF0Y2h3
-b3JrL3BhdGNoLzgzOTY3NS8NCg0KPiBTaWduZWQtb2ZmLWJ5OiBQZXRyIE1hbGF0IDxvc3NAbWFs
-YXQuYml6Pg0KPiAtLS0NCj4gaW5jbHVkZS9saW51eC9kZWNvbXByZXNzL3VuenN0ZC5oIHwgIDEy
-ICsrKw0KPiBpbml0L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgfCAgMTUgKystDQo+IGxp
-Yi9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICB8ICAgNCArDQo+IGxpYi9NYWtlZmlsZSAg
-ICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+IGxpYi9kZWNvbXByZXNzLmMgICAgICAgICAg
-ICAgICAgICB8ICAgNSArDQo+IGxpYi9kZWNvbXByZXNzX3VuenN0ZC5jICAgICAgICAgICB8IDE1
-OSArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gbGliL3pzdGQvZGVjb21wcmVzcy5j
-ICAgICAgICAgICAgIHwgICAyICsNCj4gbGliL3pzdGQvZnNlX2RlY29tcHJlc3MuYyAgICAgICAg
-IHwgICA0ICstDQo+IHNjcmlwdHMvTWFrZWZpbGUubGliICAgICAgICAgICAgICB8ICAgMyArDQo+
-IHVzci9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICB8ICAyNCArKysrKw0KPiAxMCBmaWxl
-cyBjaGFuZ2VkLCAyMjcgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGluY2x1ZGUvbGludXgvZGVjb21wcmVzcy91bnpzdGQuaA0KPiBjcmVhdGUgbW9k
-ZSAxMDA2NDQgbGliL2RlY29tcHJlc3NfdW56c3RkLmMNCj4gDQo+IGRpZmYgLS1naXQgYS9pbmNs
-dWRlL2xpbnV4L2RlY29tcHJlc3MvdW56c3RkLmggYi9pbmNsdWRlL2xpbnV4L2RlY29tcHJlc3Mv
-dW56c3RkLmgNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi5k
-ZDJjNDlkNDc0NTYNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L2RlY29t
-cHJlc3MvdW56c3RkLmgNCj4gQEAgLTAsMCArMSwxMiBAQA0KPiArLyogU1BEWC1MaWNlbnNlLUlk
-ZW50aWZpZXI6IEdQTC0yLjAgKi8NCj4gKyNpZm5kZWYgREVDT01QUkVTU19VTlpTVERfSA0KPiAr
-I2RlZmluZSBERUNPTVBSRVNTX1VOWlNURF9IDQo+ICsNCj4gK2ludCB1bnpzdGQodW5zaWduZWQg
-Y2hhciAqaW5idWYsIGxvbmcgbGVuLA0KPiArCWxvbmcgKCpmaWxsKSh2b2lkKiwgdW5zaWduZWQg
-bG9uZyksDQo+ICsJbG9uZyAoKmZsdXNoKSh2b2lkKiwgdW5zaWduZWQgbG9uZyksDQo+ICsJdW5z
-aWduZWQgY2hhciAqb3V0cHV0LA0KPiArCWxvbmcgKnBvcywNCj4gKwl2b2lkICgqZXJyb3IpKGNo
-YXIgKngpKTsNCj4gKyNlbmRpZg0KPiArDQo+IGRpZmYgLS1naXQgYS9pbml0L0tjb25maWcgYi9p
-bml0L0tjb25maWcNCj4gaW5kZXggYTM0MDY0YTAzMWE1Li42MjhlYjNjMjkwYTIgMTAwNjQ0DQo+
-IC0tLSBhL2luaXQvS2NvbmZpZw0KPiArKysgYi9pbml0L0tjb25maWcNCj4gQEAgLTE3MiwxMyAr
-MTcyLDE2IEBAIGNvbmZpZyBIQVZFX0tFUk5FTF9MWk8NCj4gY29uZmlnIEhBVkVfS0VSTkVMX0xa
-NA0KPiAJYm9vbA0KPiANCj4gK2NvbmZpZyBIQVZFX0tFUk5FTF9aU1REDQo+ICsJYm9vbA0KPiAr
-DQo+IGNvbmZpZyBIQVZFX0tFUk5FTF9VTkNPTVBSRVNTRUQNCj4gCWJvb2wNCj4gDQo+IGNob2lj
-ZQ0KPiAJcHJvbXB0ICJLZXJuZWwgY29tcHJlc3Npb24gbW9kZSINCj4gCWRlZmF1bHQgS0VSTkVM
-X0daSVANCj4gLQlkZXBlbmRzIG9uIEhBVkVfS0VSTkVMX0daSVAgfHwgSEFWRV9LRVJORUxfQlpJ
-UDIgfHwgSEFWRV9LRVJORUxfTFpNQSB8fCBIQVZFX0tFUk5FTF9YWiB8fCBIQVZFX0tFUk5FTF9M
-Wk8gfHwgSEFWRV9LRVJORUxfTFo0IHx8IEhBVkVfS0VSTkVMX1VOQ09NUFJFU1NFRA0KPiArCWRl
-cGVuZHMgb24gSEFWRV9LRVJORUxfR1pJUCB8fCBIQVZFX0tFUk5FTF9CWklQMiB8fCBIQVZFX0tF
-Uk5FTF9MWk1BIHx8IEhBVkVfS0VSTkVMX1haIHx8IEhBVkVfS0VSTkVMX0xaTyB8fCBIQVZFX0tF
-Uk5FTF9MWjQgfHwgSEFWRV9LRVJORUxfWlNURCB8fCBIQVZFX0tFUk5FTF9VTkNPTVBSRVNTRUQN
-Cj4gCWhlbHANCj4gCSAgVGhlIGxpbnV4IGtlcm5lbCBpcyBhIGtpbmQgb2Ygc2VsZi1leHRyYWN0
-aW5nIGV4ZWN1dGFibGUuDQo+IAkgIFNldmVyYWwgY29tcHJlc3Npb24gYWxnb3JpdGhtcyBhcmUg
-YXZhaWxhYmxlLCB3aGljaCBkaWZmZXINCj4gQEAgLTI1Nyw2ICsyNjAsMTYgQEAgY29uZmlnIEtF
-Uk5FTF9MWjQNCj4gCSAgaXMgYWJvdXQgOCUgYmlnZ2VyIHRoYW4gTFpPLiBCdXQgdGhlIGRlY29t
-cHJlc3Npb24gc3BlZWQgaXMNCj4gCSAgZmFzdGVyIHRoYW4gTFpPLg0KPiANCj4gK2NvbmZpZyBL
-RVJORUxfWlNURA0KPiArCWJvb2wgIlpTVEQiDQo+ICsJZGVwZW5kcyBvbiBIQVZFX0tFUk5FTF9a
-U1REDQo+ICsJaGVscA0KPiArCSAgSXRzIGNvbXByZXNzaW9uIHJhdGlvIGlzIHJvdWdobHkgMTAl
-IHdvcnN0IHRoYW4geHosIGJ1dCB0aGUNCj4gKwkgIGRlY29tcHJlc3Npb24gaXMgMTB4IGZhc3Rl
-ci4gQ3VycmVudGx5LCB0aGlzIGlzIG9uZSBvZiB0aGUgb3B0aW1hbA0KPiArCSAgYWxnb3JpdGht
-cyBhdmFpbGFibGUgaW4gdGhlIGtlcm5lbCwgYXMgdGhlcmUgaXNuJ3QgYW4gYWxnb3JpdGhtLA0K
-PiArCSAgd2hpY2ggd291bGQgcHJvdmlkZSBhIGJldHRlciBjb21wcmVzc2lvbiByYXRpbyBhbmQg
-YSBzaG9ydGVyDQo+ICsJICBkZWNvbXByZXNzaW9uIHRpbWUuDQo+ICsNCj4gY29uZmlnIEtFUk5F
-TF9VTkNPTVBSRVNTRUQNCj4gCWJvb2wgIk5vbmUiDQo+IAlkZXBlbmRzIG9uIEhBVkVfS0VSTkVM
-X1VOQ09NUFJFU1NFRA0KPiBkaWZmIC0tZ2l0IGEvbGliL0tjb25maWcgYi9saWIvS2NvbmZpZw0K
-PiBpbmRleCA2ZTc5MGRjNTVjNWIuLmRmMzAxYmQ4ODhkNyAxMDA2NDQNCj4gLS0tIGEvbGliL0tj
-b25maWcNCj4gKysrIGIvbGliL0tjb25maWcNCj4gQEAgLTMyOSw2ICszMjksMTAgQEAgY29uZmln
-IERFQ09NUFJFU1NfTFo0DQo+IAlzZWxlY3QgTFo0X0RFQ09NUFJFU1MNCj4gCXRyaXN0YXRlDQo+
-IA0KPiArY29uZmlnIERFQ09NUFJFU1NfWlNURA0KPiArCXNlbGVjdCBaU1REX0RFQ09NUFJFU1MN
-Cj4gKwl0cmlzdGF0ZQ0KPiArDQo+ICMNCj4gIyBHZW5lcmljIGFsbG9jYXRvciBzdXBwb3J0IGlz
-IHNlbGVjdGVkIGlmIG5lZWRlZA0KPiAjDQo+IGRpZmYgLS1naXQgYS9saWIvTWFrZWZpbGUgYi9s
-aWIvTWFrZWZpbGUNCj4gaW5kZXggOTMyMTdkNDQyMzdmLi4zYWI5ZjRjMzFmOGIgMTAwNjQ0DQo+
-IC0tLSBhL2xpYi9NYWtlZmlsZQ0KPiArKysgYi9saWIvTWFrZWZpbGUNCj4gQEAgLTE1OCw2ICsx
-NTgsNyBAQCBsaWItJChDT05GSUdfREVDT01QUkVTU19MWk1BKSArPSBkZWNvbXByZXNzX3VubHpt
-YS5vDQo+IGxpYi0kKENPTkZJR19ERUNPTVBSRVNTX1haKSArPSBkZWNvbXByZXNzX3VueHoubw0K
-PiBsaWItJChDT05GSUdfREVDT01QUkVTU19MWk8pICs9IGRlY29tcHJlc3NfdW5sem8ubw0KPiBs
-aWItJChDT05GSUdfREVDT01QUkVTU19MWjQpICs9IGRlY29tcHJlc3NfdW5sejQubw0KPiArbGli
-LSQoQ09ORklHX0RFQ09NUFJFU1NfWlNURCkgKz0gZGVjb21wcmVzc191bnpzdGQubw0KPiANCj4g
-b2JqLSQoQ09ORklHX1RFWFRTRUFSQ0gpICs9IHRleHRzZWFyY2gubw0KPiBvYmotJChDT05GSUdf
-VEVYVFNFQVJDSF9LTVApICs9IHRzX2ttcC5vDQo+IGRpZmYgLS1naXQgYS9saWIvZGVjb21wcmVz
-cy5jIGIvbGliL2RlY29tcHJlc3MuYw0KPiBpbmRleCA4NTdhYjFhZjFlZjMuLmFiM2ZjOTBmZmM2
-NCAxMDA2NDQNCj4gLS0tIGEvbGliL2RlY29tcHJlc3MuYw0KPiArKysgYi9saWIvZGVjb21wcmVz
-cy5jDQo+IEBAIC0xMyw2ICsxMyw3IEBADQo+ICNpbmNsdWRlIDxsaW51eC9kZWNvbXByZXNzL2lu
-ZmxhdGUuaD4NCj4gI2luY2x1ZGUgPGxpbnV4L2RlY29tcHJlc3MvdW5sem8uaD4NCj4gI2luY2x1
-ZGUgPGxpbnV4L2RlY29tcHJlc3MvdW5sejQuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9kZWNvbXBy
-ZXNzL3VuenN0ZC5oPg0KPiANCj4gI2luY2x1ZGUgPGxpbnV4L3R5cGVzLmg+DQo+ICNpbmNsdWRl
-IDxsaW51eC9zdHJpbmcuaD4NCj4gQEAgLTM3LDYgKzM4LDkgQEANCj4gI2lmbmRlZiBDT05GSUdf
-REVDT01QUkVTU19MWjQNCj4gIyBkZWZpbmUgdW5sejQgTlVMTA0KPiAjZW5kaWYNCj4gKyNpZm5k
-ZWYgQ09ORklHX0RFQ09NUFJFU1NfWlNURA0KPiArIyBkZWZpbmUgdW56c3RkIE5VTEwNCj4gKyNl
-bmRpZg0KPiANCj4gc3RydWN0IGNvbXByZXNzX2Zvcm1hdCB7DQo+IAl1bnNpZ25lZCBjaGFyIG1h
-Z2ljWzJdOw0KPiBAQCAtNTIsNiArNTYsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGNvbXByZXNz
-X2Zvcm1hdCBjb21wcmVzc2VkX2Zvcm1hdHNbXSBfX2luaXRjb25zdCA9IHsNCj4gCXsgezB4ZmQs
-IDB4Mzd9LCAieHoiLCB1bnh6IH0sDQo+IAl7IHsweDg5LCAweDRjfSwgImx6byIsIHVubHpvIH0s
-DQo+IAl7IHsweDAyLCAweDIxfSwgImx6NCIsIHVubHo0IH0sDQo+ICsJeyB7MHgyOCwgMHhiNX0s
-ICJ6c3RkIiwgdW56c3RkIH0sDQo+IAl7IHswLCAwfSwgTlVMTCwgTlVMTCB9DQo+IH07DQo+IA0K
-PiBkaWZmIC0tZ2l0IGEvbGliL2RlY29tcHJlc3NfdW56c3RkLmMgYi9saWIvZGVjb21wcmVzc191
-bnpzdGQuYw0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjVh
-ZjY0N2E0OTg4NQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL2xpYi9kZWNvbXByZXNzX3VuenN0
-ZC5jDQo+IEBAIC0wLDAgKzEsMTU5IEBADQo+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjog
-R1BMLTIuMC1vbmx5DQo+ICsvKg0KPiArICogV3JhcHBlciBmb3IgZGVjb21wcmVzc2luZyBaU1RE
-LWNvbXByZXNzZWQga2VybmVsLCBpbml0cmFtZnMsIGFuZCBpbml0cmQNCj4gKyAqIEJhc2VkIG9u
-IGRlY29tcHJlc3NfdW5sejQuYw0KPiArICoNCj4gKyAqIENvcHlyaWdodCAoQykgMjAyMCwgUGV0
-ciBNYWxhdCA8b3NzQG1hbGF0LmJpej4NCj4gKyAqLw0KPiArDQo+ICsjaWZkZWYgU1RBVElDDQo+
-ICsjZGVmaW5lIFBSRUJPT1QNCj4gKyNpbmNsdWRlICJ6c3RkL3pzdGRfaW50ZXJuYWwuaCINCj4g
-KyNpbmNsdWRlICJ6c3RkL2h1Zl9kZWNvbXByZXNzLmMiDQo+ICsjaW5jbHVkZSAienN0ZC9lbnRy
-b3B5X2NvbW1vbi5jIg0KPiArI2luY2x1ZGUgInpzdGQvZnNlX2RlY29tcHJlc3MuYyINCj4gKyNp
-bmNsdWRlICJ6c3RkL3pzdGRfY29tbW9uLmMiDQo+ICsjaW5jbHVkZSAienN0ZC9kZWNvbXByZXNz
-LmMiDQo+ICsjaW5jbHVkZSAieHhoYXNoLmMiDQo+ICsjZWxzZQ0KPiArI2luY2x1ZGUgPGxpbnV4
-L2RlY29tcHJlc3MvdW56c3RkLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvenN0ZC5oPg0KPiArI2Vu
-ZGlmDQo+ICsjaW5jbHVkZSA8bGludXgvdHlwZXMuaD4NCj4gKyNpbmNsdWRlIDxsaW51eC9kZWNv
-bXByZXNzL21tLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvY29tcGlsZXIuaD4NCj4gKw0KPiArU1RB
-VElDIGlubGluZSBpbnQgSU5JVCB1bnpzdGQodTggKmlucHV0LCBsb25nIGluX2xlbiwNCj4gKwkJ
-CQlsb25nICgqZmlsbCkodm9pZCAqLCB1bnNpZ25lZCBsb25nKSwNCj4gKwkJCQlsb25nICgqZmx1
-c2gpKHZvaWQgKiwgdW5zaWduZWQgbG9uZyksDQo+ICsJCQkJdTggKm91dHB1dCwgbG9uZyAqcG9z
-cCwNCj4gKwkJCQl2b2lkICgqZXJyb3IpKGNoYXIgKngpKQ0KPiArew0KPiArCWludCByZXQgPSAt
-MSwgd3MgPSAxIDw8IFpTVERfV0lORE9XTE9HX01BWDsNCj4gKwl1OCAqaW5wLCAqb3V0cDsNCj4g
-KwlaU1REX0RTdHJlYW0gKnpzdGQ7DQo+ICsJdm9pZCAqd29ya3NwYWNlOw0KPiArCXNpemVfdCB3
-b3Jrc3BhY2Vfc2l6ZTsNCj4gKwlaU1REX291dEJ1ZmZlciBvdXQ7DQo+ICsJWlNURF9pbkJ1ZmZl
-ciBpbjsNCj4gKwl1bnNpZ25lZCBsb25nIG91dF9sZW47DQo+ICsJdW5zaWduZWQgbG9uZyBwb3M7
-DQo+ICsNCj4gKwlpZiAob3V0cHV0KSB7DQo+ICsJCW91dF9sZW4gPSBVTE9OR19NQVg7IC8vIENh
-bGxlciBrbm93cyBkYXRhIHdpbGwgZml0DQo+ICsJCW91dHAgPSBvdXRwdXQ7DQo+ICsJfSBlbHNl
-IGlmICghZmx1c2gpIHsNCj4gKwkJZXJyb3IoIk5VTEwgb3V0cHV0IHBvaW50ZXIgYW5kIG5vIGZs
-dXNoIGZ1bmN0aW9uIHByb3ZpZGVkIik7DQo+ICsJCWdvdG8gZXhpdF8wOw0KPiArCX0gZWxzZSB7
-DQo+ICsJCW91dF9sZW4gPSBaU1REX0RTdHJlYW1PdXRTaXplKCk7DQo+ICsJCW91dHAgPSBsYXJn
-ZV9tYWxsb2Mob3V0X2xlbik7DQo+ICsJCWlmICghb3V0cCkgew0KPiArCQkJZXJyb3IoIkNvdWxk
-IG5vdCBhbGxvY2F0ZSBvdXRwdXQgYnVmZmVyIik7DQo+ICsJCQlnb3RvIGV4aXRfMDsNCj4gKwkJ
-fQ0KPiArCX0NCj4gKw0KPiArCWlmIChpbnB1dCAmJiBmaWxsKSB7DQo+ICsJCWVycm9yKCJCb3Ro
-IGlucHV0IHBvaW50ZXIgYW5kIGZpbGwgZnVuY3Rpb24gcHJvdmlkZWQsIik7DQo+ICsJCWdvdG8g
-ZXhpdF8xOw0KPiArCX0gZWxzZSBpZiAoaW5wdXQpIHsNCj4gKwkJWlNURF9mcmFtZVBhcmFtcyBw
-Ow0KPiArDQo+ICsJCWlucCA9IGlucHV0Ow0KPiArCQlpZiAoIVpTVERfZ2V0RnJhbWVQYXJhbXMo
-JnAsIGlucHV0LCBpbl9sZW4pKQ0KPiArCQkJd3MgPSBwLndpbmRvd1NpemU7DQo+ICsJfSBlbHNl
-IGlmICghZmlsbCkgew0KPiArCQllcnJvcigiTlVMTCBpbnB1dCBwb2ludGVyIGFuZCBtaXNzaW5n
-IGZpbGwgZnVuY3Rpb24iKTsNCj4gKwkJZ290byBleGl0XzE7DQo+ICsJfSBlbHNlIHsNCj4gKwkJ
-aW5fbGVuID0gWlNURF9EU3RyZWFtSW5TaXplKCk7DQo+ICsJCWlucCA9IGxhcmdlX21hbGxvYyhp
-bl9sZW4pOw0KPiArCQlpZiAoIWlucCkgew0KPiArCQkJZXJyb3IoIkNvdWxkIG5vdCBhbGxvY2F0
-ZSBpbnB1dCBidWZmZXIiKTsNCj4gKwkJCWdvdG8gZXhpdF8xOw0KPiArCQl9DQo+ICsJfQ0KPiAr
-DQo+ICsJd29ya3NwYWNlX3NpemUgPSBaU1REX0RTdHJlYW1Xb3Jrc3BhY2VCb3VuZCh3cyk7DQo+
-ICsJd29ya3NwYWNlID0gbGFyZ2VfbWFsbG9jKHdvcmtzcGFjZV9zaXplKTsNCj4gKwlpZiAoIXdv
-cmtzcGFjZSkgew0KPiArCQllcnJvcigiQ291bGQgbm90IGFsbG9jYXRlIHdvcmtzcGFjZSIpOw0K
-PiArCQlnb3RvIGV4aXRfMjsNCj4gKwl9DQo+ICsNCj4gKwl6c3RkID0gWlNURF9pbml0RFN0cmVh
-bSh3cywgd29ya3NwYWNlLCB3b3Jrc3BhY2Vfc2l6ZSk7DQo+ICsJaWYgKCF6c3RkKSB7DQo+ICsJ
-CWVycm9yKCJDb3VsZCBub3QgaW5pdGlhbGl6ZSBaU1REIik7DQo+ICsJCWdvdG8gZXhpdF8zOw0K
-PiArCX0NCj4gKw0KPiArCWluLnNyYyA9IGlucDsNCj4gKwlpbi5zaXplID0gaW5fbGVuOw0KPiAr
-CWluLnBvcyA9IDA7DQo+ICsJaWYgKHBvc3ApDQo+ICsJCSpwb3NwID0gMDsNCj4gKw0KPiArCWZv
-ciAoOzspIHsNCj4gKwkJaWYgKGZpbGwpIHsNCj4gKwkJCWluLnNpemUgPSBmaWxsKGlucCwgaW5f
-bGVuKTsNCj4gKwkJCWlmIChpbi5zaXplID09IDApDQo+ICsJCQkJYnJlYWs7DQo+ICsJCX0gZWxz
-ZSBpZiAoaW4uc2l6ZSA9PSBpbi5wb3MpIHsNCj4gKwkJCWJyZWFrOw0KPiArCQl9DQo+ICtpbml0
-OgkJb3V0LmRzdCA9IG91dHA7DQo+ICsJCW91dC5zaXplID0gb3V0X2xlbjsNCj4gKwkJb3V0LnBv
-cyA9IDA7DQo+ICsJCXBvcyA9IGluLnBvczsNCj4gKw0KPiArCQlyZXQgPSBaU1REX2RlY29tcHJl
-c3NTdHJlYW0oenN0ZCwgJm91dCwgJmluKTsNCj4gKwkJaWYgKHBvc3ApDQo+ICsJCQkqcG9zcCAr
-PSBpbi5wb3MgLSBwb3M7DQo+ICsJCWlmIChaU1REX2lzRXJyb3IocmV0KSkgew0KPiArCQkJZXJy
-b3IoIkRlY29tcHJlc3Npb24gZmFpbGVkIik7DQo+ICsJCQlyZXQgPSAtRUlPOw0KPiArCQkJZ290
-byBleGl0XzM7DQo+ICsJCX0NCj4gKw0KPiArCQlpZiAoZmx1c2ggJiYgb3V0LnBvcykgew0KPiAr
-CQkJaWYgKGZsdXNoKG91dC5kc3QsIG91dC5wb3MpICE9IG91dC5wb3MpIHsNCj4gKwkJCQlyZXQg
-PSAtRUlPOw0KPiArCQkJCWdvdG8gZXhpdF8zOw0KPiArCQkJfQ0KPiArCQkJZ290byBpbml0Ow0K
-PiArCQl9DQo+ICsNCj4gKwkJaWYgKHJldCA9PSAwKSB7DQo+ICsJCQlyZXQgPSBaU1REX3Jlc2V0
-RFN0cmVhbSh6c3RkKTsNCj4gKwkJCWlmIChaU1REX2lzRXJyb3IocmV0KSkgew0KPiArCQkJCXJl
-dCA9IC1FSU87DQo+ICsJCQkJZ290byBleGl0XzM7DQo+ICsJCQl9DQo+ICsJCX0NCj4gKwkJaWYg
-KGluLnBvcyA8IGluLnNpemUpDQo+ICsJCQlnb3RvIGluaXRfb3V0Ow0KPiArCX0NCj4gKw0KPiAr
-CXJldCA9IDA7DQo+ICsNCj4gK2V4aXRfMzoJbGFyZ2VfZnJlZSh3b3Jrc3BhY2UpOw0KPiArZXhp
-dF8yOglpZiAoIWlucHV0KQ0KPiArCQlsYXJnZV9mcmVlKGlucCk7DQo+ICtleGl0XzE6CWlmICgh
-b3V0cHV0KQ0KPiArCQlsYXJnZV9mcmVlKG91dHApOw0KPiArZXhpdF8wOglyZXR1cm4gcmV0Ow0K
-PiArfQ0KPiArDQo+ICsjaWZkZWYgUFJFQk9PVA0KPiArU1RBVElDIGludCBJTklUIF9fZGVjb21w
-cmVzcyh1bnNpZ25lZCBjaGFyICpidWYsIGxvbmcgaW5fbGVuLA0KPiArCQkJICAgICAgbG9uZyAo
-KmZpbGwpKHZvaWQqLCB1bnNpZ25lZCBsb25nKSwNCj4gKwkJCSAgICAgIGxvbmcgKCpmbHVzaCko
-dm9pZCosIHVuc2lnbmVkIGxvbmcpLA0KPiArCQkJICAgICAgdW5zaWduZWQgY2hhciAqb3V0cHV0
-LCBsb25nIG91dF9sZW4sDQo+ICsJCQkgICAgICBsb25nICpwb3NwLA0KPiArCQkJICAgICAgdm9p
-ZCAoKmVycm9yKShjaGFyICp4KQ0KPiArCSkNCj4gK3sNCj4gKwlyZXR1cm4gdW56c3RkKGJ1Ziwg
-aW5fbGVuLCBmaWxsLCBmbHVzaCwgb3V0cHV0LCBwb3NwLCBlcnJvcik7DQo+ICt9DQo+ICsjZW5k
-aWYNCj4gZGlmZiAtLWdpdCBhL2xpYi96c3RkL2RlY29tcHJlc3MuYyBiL2xpYi96c3RkL2RlY29t
-cHJlc3MuYw0KPiBpbmRleCAyNjllZTlhNzk2YzEuLjZhNWUxY2UyMjcxOSAxMDA2NDQNCj4gLS0t
-IGEvbGliL3pzdGQvZGVjb21wcmVzcy5jDQo+ICsrKyBiL2xpYi96c3RkL2RlY29tcHJlc3MuYw0K
-PiBAQCAtNDIsOSArNDIsMTEgQEANCj4gLyotKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKg0KPiAqICBNYWNyb3MNCj4gKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqLw0KPiArI2lmbmRlZiBQUkVCT09UDQo+ICNkZWZpbmUgWlNURF9pc0Vycm9yIEVSUl9p
-c0Vycm9yIC8qIGZvciBpbmxpbmluZyAqLw0KPiAjZGVmaW5lIEZTRV9pc0Vycm9yIEVSUl9pc0Vy
-cm9yDQo+ICNkZWZpbmUgSFVGX2lzRXJyb3IgRVJSX2lzRXJyb3INCj4gKyNlbmRpZg0KPiANCj4g
-LypfKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-Kg0KPiAqICBNZW1vcnkgb3BlcmF0aW9ucw0KPiBkaWZmIC0tZ2l0IGEvbGliL3pzdGQvZnNlX2Rl
-Y29tcHJlc3MuYyBiL2xpYi96c3RkL2ZzZV9kZWNvbXByZXNzLmMNCj4gaW5kZXggYTg0MzAwZTVh
-MDEzLi5iZDRlOWM4OTFkOTYgMTAwNjQ0DQo+IC0tLSBhL2xpYi96c3RkL2ZzZV9kZWNvbXByZXNz
-LmMNCj4gKysrIGIvbGliL3pzdGQvZnNlX2RlY29tcHJlc3MuYw0KPiBAQCAtNTQsMTIgKzU0LDEz
-IEBADQo+IC8qICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqDQo+ICogIEVycm9yIE1hbmFnZW1lbnQNCj4gKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKi8NCj4gLSNk
-ZWZpbmUgRlNFX2lzRXJyb3IgRVJSX2lzRXJyb3INCj4gI2RlZmluZSBGU0VfU1RBVElDX0FTU0VS
-VChjKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KPiAJeyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwNCj4gCQllbnVtIHsg
-RlNFX3N0YXRpY19hc3NlcnQgPSAxIC8gKGludCkoISEoYykpIH07IFwNCj4gCX0gLyogdXNlIG9u
-bHkgKmFmdGVyKiB2YXJpYWJsZSBkZWNsYXJhdGlvbnMgKi8NCj4gDQo+ICsjaWZuZGVmIFBSRUJP
-T1QNCj4gKyNkZWZpbmUgRlNFX2lzRXJyb3IgRVJSX2lzRXJyb3INCj4gLyogY2hlY2sgYW5kIGZv
-cndhcmQgZXJyb3IgY29kZSAqLw0KPiAjZGVmaW5lIENIRUNLX0YoZikgICAgICAgICAgICAgICAg
-ICBcDQo+IAl7ICAgICAgICAgICAgICAgICAgICAgICAgICAgXA0KPiBAQCAtNjcsNiArNjgsNyBA
-QA0KPiAJCWlmIChGU0VfaXNFcnJvcihlKSkgXA0KPiAJCQlyZXR1cm4gZTsgICBcDQo+IAl9DQo+
-ICsjZW5kaWYNCj4gDQo+IC8qICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqDQo+ICogIFRlbXBsYXRlcw0KPiBkaWZmIC0tZ2l0IGEv
-c2NyaXB0cy9NYWtlZmlsZS5saWIgYi9zY3JpcHRzL01ha2VmaWxlLmxpYg0KPiBpbmRleCAzZmEz
-MmY4M2IyZDcuLjFjMmYyZGM1MjhkYyAxMDA2NDQNCj4gLS0tIGEvc2NyaXB0cy9NYWtlZmlsZS5s
-aWINCj4gKysrIGIvc2NyaXB0cy9NYWtlZmlsZS5saWINCj4gQEAgLTMzNyw2ICszMzcsOSBAQCBx
-dWlldF9jbWRfbHo0ID0gTFo0ICAgICAkQA0KPiAgICAgICBjbWRfbHo0ID0geyBjYXQgJChyZWFs
-LXByZXJlcXMpIHwgbHo0YyAtbCAtYzEgc3RkaW4gc3Rkb3V0OyBcDQo+ICAgICAgICAgICAgICAg
-ICAgICQoc2l6ZV9hcHBlbmQpOyB9ID4gJEANCj4gDQo+ICtxdWlldF9jbWRfenN0ZCA9IFpTVEQg
-ICAgJEANCj4gKyAgICAgIGNtZF96c3RkID0geyBjYXQgJChyZWFsLXByZXJlcXMpIHwgenN0ZCAt
-MTkgLS16c3RkPXdsb2c9MjE7ICQoc2l6ZV9hcHBlbmQpOyB9ID4gJEANCj4gKw0KPiAjIFUtQm9v
-dCBta2ltYWdlDQo+ICMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+IA0KPiBkaWZmIC0tZ2l0IGEvdXNy
-L0tjb25maWcgYi91c3IvS2NvbmZpZw0KPiBpbmRleCBhNmI2ODUwM2QxNzcuLjg5MmViMTU5NTdk
-YiAxMDA2NDQNCj4gLS0tIGEvdXNyL0tjb25maWcNCj4gKysrIGIvdXNyL0tjb25maWcNCj4gQEAg
-LTEwNiw2ICsxMDYsMTUgQEAgY29uZmlnIFJEX0xaNA0KPiAJICBTdXBwb3J0IGxvYWRpbmcgb2Yg
-YSBMWjQgZW5jb2RlZCBpbml0aWFsIHJhbWRpc2sgb3IgY3BpbyBidWZmZXINCj4gCSAgSWYgdW5z
-dXJlLCBzYXkgTi4NCj4gDQo+ICtjb25maWcgUkRfWlNURA0KPiArCWJvb2wgIlN1cHBvcnQgaW5p
-dGlhbCByYW1kaXNrL3JhbWZzIGNvbXByZXNzZWQgdXNpbmcgWlNURCINCj4gKwlkZWZhdWx0IHkN
-Cj4gKwlkZXBlbmRzIG9uIEJMS19ERVZfSU5JVFJEDQo+ICsJc2VsZWN0IERFQ09NUFJFU1NfWlNU
-RA0KPiArCWhlbHANCj4gKwkgIFN1cHBvcnQgbG9hZGluZyBvZiBhIFpTVEQgZW5jb2RlZCBpbml0
-aWFsIHJhbWRpc2sgb3IgY3BpbyBidWZmZXINCj4gKwkgIElmIHVuc3VyZSwgc2F5IE4uDQo+ICsN
-Cj4gY2hvaWNlDQo+IAlwcm9tcHQgIkJ1aWx0LWluIGluaXRyYW1mcyBjb21wcmVzc2lvbiBtb2Rl
-Ig0KPiAJZGVwZW5kcyBvbiBJTklUUkFNRlNfU09VUkNFIT0iIg0KPiBAQCAtMjE0LDYgKzIyMywx
-OSBAQCBjb25maWcgSU5JVFJBTUZTX0NPTVBSRVNTSU9OX0xaNA0KPiAJICBJZiB5b3UgY2hvb3Nl
-IHRoaXMsIGtlZXAgaW4gbWluZCB0aGF0IG1vc3QgZGlzdHJvcyBkb24ndCBwcm92aWRlIGx6NA0K
-PiAJICBieSBkZWZhdWx0IHdoaWNoIGNvdWxkIGNhdXNlIGEgYnVpbGQgZmFpbHVyZS4NCj4gDQo+
-ICtjb25maWcgSU5JVFJBTUZTX0NPTVBSRVNTSU9OX1pTVEQNCj4gKwlib29sICJaU1REIg0KPiAr
-CWRlcGVuZHMgb24gUkRfWlNURA0KPiArCWhlbHANCj4gKwkgIEl0cyBjb21wcmVzc2lvbiByYXRp
-byBpcyByb3VnaGx5IDEwJSB3b3JzdCB0aGFuIHh6LCBidXQgdGhlDQo+ICsJICBkZWNvbXByZXNz
-aW9uIGlzIDEweCBmYXN0ZXIuIEN1cnJlbnRseSwgdGhpcyBpcyBvbmUgb2YgdGhlIG9wdGltYWwN
-Cj4gKwkgIGFsZ29yaXRobXMgYXZhaWxhYmxlIGluIHRoZSBrZXJuZWwsIGFzIHRoZXJlIGlzbid0
-IGFuIGFsZ29yaXRobSwNCj4gKwkgIHdoaWNoIHdvdWxkIHByb3ZpZGUgYSBiZXR0ZXIgY29tcHJl
-c3Npb24gcmF0aW8gYW5kIGEgc2hvcnRlcg0KPiArCSAgZGVjb21wcmVzc2lvbiB0aW1lLg0KPiAr
-DQo+ICsJICBJZiB5b3UgY2hvb3NlIHRoaXMsIGtlZXAgaW4gbWluZCB0aGF0IHlvdSBtYXkgbmVl
-ZCB0byBpbnN0YWxsIHRoZSB6c3RkDQo+ICsJICB0b29sIHRvIGJlIGFibGUgdG8gY29tcHJlc3Mg
-dGhlIGluaXRyYW0uDQo+ICsNCj4gZW5kY2hvaWNlDQo+IA0KPiBjb25maWcgSU5JVFJBTUZTX0NP
-TVBSRVNTSU9ODQo+IEBAIC0yMjYsMTAgKzI0OCwxMiBAQCBjb25maWcgSU5JVFJBTUZTX0NPTVBS
-RVNTSU9ODQo+IAlkZWZhdWx0ICIueHoiICAgaWYgSU5JVFJBTUZTX0NPTVBSRVNTSU9OX1haDQo+
-IAlkZWZhdWx0ICIubHpvIiAgaWYgSU5JVFJBTUZTX0NPTVBSRVNTSU9OX0xaTw0KPiAJZGVmYXVs
-dCAiLmx6NCIgIGlmIElOSVRSQU1GU19DT01QUkVTU0lPTl9MWjQNCj4gKwlkZWZhdWx0ICIuenN0
-IiAgaWYgSU5JVFJBTUZTX0NPTVBSRVNTSU9OX1pTVEQNCj4gCWRlZmF1bHQgIi5neiIgICBpZiBS
-RF9HWklQDQo+IAlkZWZhdWx0ICIubHo0IiAgaWYgUkRfTFo0DQo+IAlkZWZhdWx0ICIubHpvIiAg
-aWYgUkRfTFpPDQo+IAlkZWZhdWx0ICIueHoiICAgaWYgUkRfWFoNCj4gCWRlZmF1bHQgIi5sem1h
-IiBpZiBSRF9MWk1BDQo+IAlkZWZhdWx0ICIuYnoyIiAgaWYgUkRfQlpJUDINCj4gKwlkZWZhdWx0
-ICIuenN0IiAgaWYgUkRfWlNURA0KPiAJZGVmYXVsdCAiIg0KPiAtLSANCj4gMi4yMC4xDQo+IA0K
-DQo=
+On Mon, Mar 16, 2020 at 03:30:16PM +0100, Petr Malat wrote:
+> Add support for extracting ZSTD-compressed kernel images, as well as
+> ZSTD-compressed initramfs.
+> 
+> ZSTD compression ratio is roughly 10% worst than xz, but the
+> decompression is 10x faster. Currently, this is one of the optimal
+> algorithms available in the kernel, as there isn't an algorithm,
+> which would provide a better compression ratio and a shorter
+> decompression time.
+
+It might be worth splitting this patch into 2 pieces: one to extract the
+logic (which is most of the patch and the description), and then a
+separate one to add the initrd support (since that touches logically
+separate things like a new Makefile cmd, etc etc). That patch
+description could talk about requiring the "zstd" command line tool,
+etc. (Which should likely be mentioned in the Kconfig description too.
+
+More notes below...
+
+> 
+> Signed-off-by: Petr Malat <oss@malat.biz>
+> ---
+>  include/linux/decompress/unzstd.h |  12 +++
+>  init/Kconfig                      |  15 ++-
+>  lib/Kconfig                       |   4 +
+>  lib/Makefile                      |   1 +
+>  lib/decompress.c                  |   5 +
+>  lib/decompress_unzstd.c           | 159 ++++++++++++++++++++++++++++++
+>  lib/zstd/decompress.c             |   2 +
+>  lib/zstd/fse_decompress.c         |   4 +-
+>  scripts/Makefile.lib              |   3 +
+>  usr/Kconfig                       |  24 +++++
+>  10 files changed, 227 insertions(+), 2 deletions(-)
+>  create mode 100644 include/linux/decompress/unzstd.h
+>  create mode 100644 lib/decompress_unzstd.c
+> 
+> diff --git a/include/linux/decompress/unzstd.h b/include/linux/decompress/unzstd.h
+> new file mode 100644
+> index 000000000000..dd2c49d47456
+> --- /dev/null
+> +++ b/include/linux/decompress/unzstd.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef DECOMPRESS_UNZSTD_H
+> +#define DECOMPRESS_UNZSTD_H
+> +
+> +int unzstd(unsigned char *inbuf, long len,
+> +	long (*fill)(void*, unsigned long),
+> +	long (*flush)(void*, unsigned long),
+> +	unsigned char *output,
+> +	long *pos,
+> +	void (*error)(char *x));
+> +#endif
+> +
+> diff --git a/init/Kconfig b/init/Kconfig
+> index a34064a031a5..628eb3c290a2 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -172,13 +172,16 @@ config HAVE_KERNEL_LZO
+>  config HAVE_KERNEL_LZ4
+>  	bool
+>  
+> +config HAVE_KERNEL_ZSTD
+> +	bool
+
+The HAVE_KERNEL_ZSTD changes should be put in the kernel enablement patch.
+
+> +
+>  config HAVE_KERNEL_UNCOMPRESSED
+>  	bool
+>  
+>  choice
+>  	prompt "Kernel compression mode"
+>  	default KERNEL_GZIP
+> -	depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNEL_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERNEL_UNCOMPRESSED
+> +	depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNEL_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERNEL_ZSTD || HAVE_KERNEL_UNCOMPRESSED
+>  	help
+>  	  The linux kernel is a kind of self-extracting executable.
+>  	  Several compression algorithms are available, which differ
+> @@ -257,6 +260,16 @@ config KERNEL_LZ4
+>  	  is about 8% bigger than LZO. But the decompression speed is
+>  	  faster than LZO.
+>  
+> +config KERNEL_ZSTD
+> +	bool "ZSTD"
+> +	depends on HAVE_KERNEL_ZSTD
+> +	help
+> +	  Its compression ratio is roughly 10% worst than xz, but the
+> +	  decompression is 10x faster. Currently, this is one of the optimal
+> +	  algorithms available in the kernel, as there isn't an algorithm,
+> +	  which would provide a better compression ratio and a shorter
+> +	  decompression time.
+> +
+>  config KERNEL_UNCOMPRESSED
+>  	bool "None"
+>  	depends on HAVE_KERNEL_UNCOMPRESSED
+> diff --git a/lib/Kconfig b/lib/Kconfig
+> index 6e790dc55c5b..df301bd888d7 100644
+> --- a/lib/Kconfig
+> +++ b/lib/Kconfig
+> @@ -329,6 +329,10 @@ config DECOMPRESS_LZ4
+>  	select LZ4_DECOMPRESS
+>  	tristate
+>  
+> +config DECOMPRESS_ZSTD
+> +	select ZSTD_DECOMPRESS
+> +	tristate
+> +
+>  #
+>  # Generic allocator support is selected if needed
+>  #
+> diff --git a/lib/Makefile b/lib/Makefile
+> index 93217d44237f..3ab9f4c31f8b 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -158,6 +158,7 @@ lib-$(CONFIG_DECOMPRESS_LZMA) += decompress_unlzma.o
+>  lib-$(CONFIG_DECOMPRESS_XZ) += decompress_unxz.o
+>  lib-$(CONFIG_DECOMPRESS_LZO) += decompress_unlzo.o
+>  lib-$(CONFIG_DECOMPRESS_LZ4) += decompress_unlz4.o
+> +lib-$(CONFIG_DECOMPRESS_ZSTD) += decompress_unzstd.o
+>  
+>  obj-$(CONFIG_TEXTSEARCH) += textsearch.o
+>  obj-$(CONFIG_TEXTSEARCH_KMP) += ts_kmp.o
+> diff --git a/lib/decompress.c b/lib/decompress.c
+> index 857ab1af1ef3..ab3fc90ffc64 100644
+> --- a/lib/decompress.c
+> +++ b/lib/decompress.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/decompress/inflate.h>
+>  #include <linux/decompress/unlzo.h>
+>  #include <linux/decompress/unlz4.h>
+> +#include <linux/decompress/unzstd.h>
+>  
+>  #include <linux/types.h>
+>  #include <linux/string.h>
+> @@ -37,6 +38,9 @@
+>  #ifndef CONFIG_DECOMPRESS_LZ4
+>  # define unlz4 NULL
+>  #endif
+> +#ifndef CONFIG_DECOMPRESS_ZSTD
+> +# define unzstd NULL
+> +#endif
+>  
+>  struct compress_format {
+>  	unsigned char magic[2];
+> @@ -52,6 +56,7 @@ static const struct compress_format compressed_formats[] __initconst = {
+>  	{ {0xfd, 0x37}, "xz", unxz },
+>  	{ {0x89, 0x4c}, "lzo", unlzo },
+>  	{ {0x02, 0x21}, "lz4", unlz4 },
+> +	{ {0x28, 0xb5}, "zstd", unzstd },
+>  	{ {0, 0}, NULL, NULL }
+>  };
+>  
+> diff --git a/lib/decompress_unzstd.c b/lib/decompress_unzstd.c
+> new file mode 100644
+> index 000000000000..b8be89250033
+> --- /dev/null
+> +++ b/lib/decompress_unzstd.c
+> @@ -0,0 +1,159 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Wrapper for decompressing ZSTD-compressed kernel, initramfs, and initrd
+> + * Based on decompress_unlz4.c
+> + *
+> + * Copyright (C) 2020, Petr Malat <oss@malat.biz>
+> + */
+> +
+> +#ifdef STATIC
+> +#define PREBOOT
+
+Can you please namespace PREBOOT (as done for other decompressors),
+as maybe ZSTD_PREBOOT?
+
+> +#include "zstd/zstd_internal.h"
+> +#include "zstd/huf_decompress.c"
+> +#include "zstd/entropy_common.c"
+> +#include "zstd/fse_decompress.c"
+> +#include "zstd/zstd_common.c"
+> +#include "zstd/decompress.c"
+> +#include "xxhash.c"
+> +#else
+> +#include <linux/decompress/unzstd.h>
+> +#include <linux/zstd.h>
+> +#endif
+> +#include <linux/types.h>
+> +#include <linux/decompress/mm.h>
+> +#include <linux/compiler.h>
+> +
+> +STATIC inline int INIT unzstd(u8 *input, long in_len,
+> +				long (*fill)(void *, unsigned long),
+> +				long (*flush)(void *, unsigned long),
+> +				u8 *output, long *posp,
+> +				void (*error)(char *x))
+> +{
+> +	int ret = -1, ws = 1 << ZSTD_WINDOWLOG_MAX;
+> +	u8 *inp, *outp;
+> +	ZSTD_DStream *zstd;
+> +	void *workspace;
+> +	size_t workspace_size;
+> +	ZSTD_outBuffer out;
+> +	ZSTD_inBuffer in;
+> +	unsigned long out_len;
+> +	unsigned long pos;
+> +
+> +	if (output) {
+> +		out_len = ULONG_MAX; // Caller knows data will fit
+> +		outp = output;
+> +	} else if (!flush) {
+> +		error("NULL output pointer and no flush function provided");
+> +		goto exit_0;
+> +	} else {
+> +		out_len = ZSTD_DStreamOutSize();
+> +		outp = large_malloc(out_len);
+> +		if (!outp) {
+> +			error("Could not allocate output buffer");
+> +			goto exit_0;
+> +		}
+> +	}
+> +
+> +	if (input && fill) {
+> +		error("Both input pointer and fill function provided,");
+> +		goto exit_1;
+> +	} else if (input) {
+> +		ZSTD_frameParams p;
+> +
+> +		inp = input;
+> +		if (!ZSTD_getFrameParams(&p, input, in_len))
+> +			ws = p.windowSize;
+> +	} else if (!fill) {
+> +		error("NULL input pointer and missing fill function");
+> +		goto exit_1;
+> +	} else {
+> +		in_len = ZSTD_DStreamInSize();
+> +		inp = large_malloc(in_len);
+> +		if (!inp) {
+> +			error("Could not allocate input buffer");
+> +			goto exit_1;
+> +		}
+> +	}
+> +
+> +	workspace_size = ZSTD_DStreamWorkspaceBound(ws);
+> +	workspace = large_malloc(workspace_size);
+> +	if (!workspace) {
+> +		error("Could not allocate workspace");
+> +		goto exit_2;
+> +	}
+> +
+> +	zstd = ZSTD_initDStream(ws, workspace, workspace_size);
+> +	if (!zstd) {
+> +		error("Could not initialize ZSTD");
+> +		goto exit_3;
+> +	}
+> +
+> +	in.src = inp;
+> +	in.size = in_len;
+> +	in.pos = 0;
+> +	if (posp)
+> +		*posp = 0;
+> +
+> +	for (;;) {
+> +		if (fill) {
+> +			in.size = fill(inp, in_len);
+> +			if (in.size == 0)
+> +				break;
+> +		} else if (in.size == in.pos) {
+> +			break;
+> +		}
+> +init:		out.dst = outp;
+> +		out.size = out_len;
+> +		out.pos = 0;
+> +		pos = in.pos;
+> +
+> +		ret = ZSTD_decompressStream(zstd, &out, &in);
+> +		if (posp)
+> +			*posp += in.pos - pos;
+> +		if (ZSTD_isError(ret)) {
+> +			error("Decompression failed");
+> +			ret = -EIO;
+> +			goto exit_3;
+> +		}
+> +
+> +		if (flush && out.pos) {
+> +			if (flush(out.dst, out.pos) != out.pos) {
+> +				ret = -EIO;
+> +				goto exit_3;
+> +			}
+> +			goto init;
+> +		}
+> +
+> +		if (ret == 0) {
+> +			ret = ZSTD_resetDStream(zstd);
+> +			if (ZSTD_isError(ret)) {
+> +				ret = -EIO;
+> +				goto exit_3;
+> +			}
+> +		}
+> +		if (in.pos < in.size)
+> +			goto init;
+> +	}
+> +
+> +	ret = 0;
+> +
+> +exit_3:	large_free(workspace);
+> +exit_2:	if (!input)
+> +		large_free(inp);
+> +exit_1:	if (!output)
+> +		large_free(outp);
+> +exit_0:	return ret;
+> +}
+> +
+> +#ifdef PREBOOT
+> +STATIC int INIT __decompress(unsigned char *buf, long in_len,
+> +			      long (*fill)(void*, unsigned long),
+> +			      long (*flush)(void*, unsigned long),
+> +			      unsigned char *output, long out_len,
+> +			      long *posp,
+> +			      void (*error)(char *x)
+> +	)
+> +{
+> +	return unzstd(buf, in_len, fill, flush, output, posp, error);
+> +}
+> +#endif
+> diff --git a/lib/zstd/decompress.c b/lib/zstd/decompress.c
+> index 269ee9a796c1..6a5e1ce22719 100644
+> --- a/lib/zstd/decompress.c
+> +++ b/lib/zstd/decompress.c
+> @@ -42,9 +42,11 @@
+>  /*-*************************************
+>  *  Macros
+>  ***************************************/
+> +#ifndef PREBOOT
+>  #define ZSTD_isError ERR_isError /* for inlining */
+>  #define FSE_isError ERR_isError
+>  #define HUF_isError ERR_isError
+> +#endif
+>  
+>  /*_*******************************************************
+>  *  Memory operations
+> diff --git a/lib/zstd/fse_decompress.c b/lib/zstd/fse_decompress.c
+> index a84300e5a013..bd4e9c891d96 100644
+> --- a/lib/zstd/fse_decompress.c
+> +++ b/lib/zstd/fse_decompress.c
+> @@ -54,12 +54,13 @@
+>  /* **************************************************************
+>  *  Error Management
+>  ****************************************************************/
+> -#define FSE_isError ERR_isError
+>  #define FSE_STATIC_ASSERT(c)                                   \
+>  	{                                                      \
+>  		enum { FSE_static_assert = 1 / (int)(!!(c)) }; \
+>  	} /* use only *after* variable declarations */
+>  
+> +#ifndef PREBOOT
+> +#define FSE_isError ERR_isError
+>  /* check and forward error code */
+>  #define CHECK_F(f)                  \
+>  	{                           \
+> @@ -67,6 +68,7 @@
+>  		if (FSE_isError(e)) \
+>  			return e;   \
+>  	}
+> +#endif
+>  
+>  /* **************************************************************
+>  *  Templates
+> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+> index 3fa32f83b2d7..1c2f2dc528dc 100644
+> --- a/scripts/Makefile.lib
+> +++ b/scripts/Makefile.lib
+> @@ -337,6 +337,9 @@ quiet_cmd_lz4 = LZ4     $@
+>        cmd_lz4 = { cat $(real-prereqs) | lz4c -l -c1 stdin stdout; \
+>                    $(size_append); } > $@
+>  
+> +quiet_cmd_zstd = ZSTD    $@
+> +      cmd_zstd = { cat $(real-prereqs) | zstd -19 --zstd=wlog=21; $(size_append); } > $@
+> +
+>  # U-Boot mkimage
+>  # ---------------------------------------------------------------------------
+>  
+> diff --git a/usr/Kconfig b/usr/Kconfig
+> index a6b68503d177..892eb15957db 100644
+> --- a/usr/Kconfig
+> +++ b/usr/Kconfig
+> @@ -106,6 +106,15 @@ config RD_LZ4
+>  	  Support loading of a LZ4 encoded initial ramdisk or cpio buffer
+>  	  If unsure, say N.
+>  
+> +config RD_ZSTD
+> +	bool "Support initial ramdisk/ramfs compressed using ZSTD"
+> +	default y
+> +	depends on BLK_DEV_INITRD
+> +	select DECOMPRESS_ZSTD
+> +	help
+> +	  Support loading of a ZSTD encoded initial ramdisk or cpio buffer
+> +	  If unsure, say N.
+> +
+>  choice
+>  	prompt "Built-in initramfs compression mode"
+>  	depends on INITRAMFS_SOURCE!=""
+> @@ -214,6 +223,19 @@ config INITRAMFS_COMPRESSION_LZ4
+>  	  If you choose this, keep in mind that most distros don't provide lz4
+>  	  by default which could cause a build failure.
+>  
+> +config INITRAMFS_COMPRESSION_ZSTD
+> +	bool "ZSTD"
+> +	depends on RD_ZSTD
+> +	help
+> +	  Its compression ratio is roughly 10% worst than xz, but the
+> +	  decompression is 10x faster. Currently, this is one of the optimal
+> +	  algorithms available in the kernel, as there isn't an algorithm,
+> +	  which would provide a better compression ratio and a shorter
+> +	  decompression time.
+> +
+> +	  If you choose this, keep in mind that you may need to install the zstd
+> +	  tool to be able to compress the initram.
+> +
+>  endchoice
+>  
+>  config INITRAMFS_COMPRESSION
+> @@ -226,10 +248,12 @@ config INITRAMFS_COMPRESSION
+>  	default ".xz"   if INITRAMFS_COMPRESSION_XZ
+>  	default ".lzo"  if INITRAMFS_COMPRESSION_LZO
+>  	default ".lz4"  if INITRAMFS_COMPRESSION_LZ4
+> +	default ".zst"  if INITRAMFS_COMPRESSION_ZSTD
+>  	default ".gz"   if RD_GZIP
+>  	default ".lz4"  if RD_LZ4
+>  	default ".lzo"  if RD_LZO
+>  	default ".xz"   if RD_XZ
+>  	default ".lzma" if RD_LZMA
+>  	default ".bz2"  if RD_BZIP2
+> +	default ".zst"  if RD_ZSTD
+>  	default ""
+> -- 
+> 2.20.1
+> 
+
+The rest looks good (though as mentioned, I think splitting this from
+initrd enablement makes sense).
+
+-- 
+Kees Cook
