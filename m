@@ -2,100 +2,228 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFF901890C8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 22:53:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3BE71890DC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 22:55:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbgCQVxF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Mar 2020 17:53:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57516 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726476AbgCQVxF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Mar 2020 17:53:05 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F25DB20724;
-        Tue, 17 Mar 2020 21:53:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584481984;
-        bh=4fpXMStLT3ChZUSNNoR5DM0vAh+pn633V+leBozCyWA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j9izuxAJEYWfwOlyHm+dzHMrstapzlPoXAEYb7DfotjV7f8+lIrKsh/8yjOmRey35
-         G6BkqEvgCCE0/nxL4u9SrTR3Ai5Q51DCYkWMsq7w+HwzxaZHlQeiS4oaslEAOKqBXs
-         HfHocYpm5b4/XhOJrKH+WzAynGxE3ddRp080wgDc=
-Date:   Tue, 17 Mar 2020 21:52:57 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Borislav Petkov <bp@suse.de>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        James Morse <james.morse@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/9] arm64/build: Use common DISCARDS in linker script
-Message-ID: <20200317215256.GA20788@willie-the-truck>
-References: <20200228002244.15240-1-keescook@chromium.org>
- <20200228002244.15240-7-keescook@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200228002244.15240-7-keescook@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727141AbgCQVze (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Mar 2020 17:55:34 -0400
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:42044 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727140AbgCQVze (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 17 Mar 2020 17:55:34 -0400
+Received: by mail-pg1-f202.google.com with SMTP id m29so15533264pgd.9
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Mar 2020 14:55:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=WT+AG0Sk/ZjsbVAj6df3wOLFgqAmNIj4Zm/1cV4P1Vo=;
+        b=f/XQqAF7rikS+kq72JE96CoyURVBBkA9s+VD784GcFuscAQMEqT8BZsDvwgn2K72z+
+         70QiXn9KQ4vrw+pm00jqwgc5PY2bzKMS79F7+Vr/r7QXpYNYlaQdXdu4MSn52eIlFuiv
+         tAra9AVXCtfla+Q3fOoOE398G9fl6X9D6pBOrxoyVs2RpASinrNAPptpnFDU0yHqD8bX
+         7hjwr5PQzajDODElLYdAxENT2Ei+qL0rYOQrBLqjLknkIyPVCIVCCCQ6jLK9ofrG5sdn
+         DmcVPFHpRGVQwzUT6rFeW86Le6CHm32yNUjyl0/pxOzRhTV5wfsNJxCm8nY4IYhMX+O4
+         GuHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=WT+AG0Sk/ZjsbVAj6df3wOLFgqAmNIj4Zm/1cV4P1Vo=;
+        b=hBcE3wdL+68OTmkLsexkA6O40eQY/0ayfjcS9aBNV7pCb1uUoovBkD5nLn9PdOI2lD
+         qvp7D2ZHC9e4b2zxdcURzD1GjcYHSJf9mWdavFu3JzpZbk/siVRrXXUB/phnkQQTeE/L
+         mNM21p+qWgozxV/bsJCLWBugGmaGpvoXUJYsIRmf4H0IOmdY2p07mYzzYiFUyC+9QdAh
+         ZBJ2CT4tRd6KuSroHeeIIi4qlt4cCjScZZixPV2BFxpneAZOHnoeofGldUz1Y88QLclP
+         VJOKOuviikNanIUtuSagLIKtmI+N47apx+eOYBk0YKb2J4YKCVtE1uMUvoOt2oBTmKL5
+         PwBQ==
+X-Gm-Message-State: ANhLgQ1OAcjwnMSfZliZVoqB81Pi5kaXEqOAHXoR3TQG7dSg/7Ds8BBo
+        BZOFlYFeUv/yElG48vE9PHXFE7FHk43ysjMTS60=
+X-Google-Smtp-Source: ADFU+vuS0xWonKi4Fp4I1Q3iMtryayPwyc0mg4labRC0loGqDWERH8FWGZK3rp+BQl1e2GOre8x2IEv+J54qqrZK0/A=
+X-Received: by 2002:a17:90a:a511:: with SMTP id a17mr1330073pjq.178.1584482133186;
+ Tue, 17 Mar 2020 14:55:33 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 14:55:15 -0700
+In-Reply-To: <20200317202404.GA20746@ubuntu-m2-xlarge-x86>
+Message-Id: <20200317215515.226917-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+References: <20200317202404.GA20746@ubuntu-m2-xlarge-x86>
+X-Mailer: git-send-email 2.25.1.481.gfbce0eb801-goog
+Subject: [PATCH v2] Makefile.llvm: simplify LLVM build
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     masahiroy@kernel.org, natechancellor@gmail.com
+Cc:     clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 04:22:41PM -0800, Kees Cook wrote:
-> Use the common DISCARDS rule for the linker script in an effort to
-> regularize the linker script to prepare for warning on orphaned
-> sections.
-> 
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/arm64/kernel/vmlinux.lds.S | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/arch/arm64/kernel/vmlinux.lds.S b/arch/arm64/kernel/vmlinux.lds.S
-> index 497f9675071d..c61d9ab3211c 100644
-> --- a/arch/arm64/kernel/vmlinux.lds.S
-> +++ b/arch/arm64/kernel/vmlinux.lds.S
-> @@ -6,6 +6,7 @@
->   */
->  
->  #define RO_EXCEPTION_TABLE_ALIGN	8
-> +#define RUNTIME_DISCARD_EXIT
->  
->  #include <asm-generic/vmlinux.lds.h>
->  #include <asm/cache.h>
-> @@ -19,7 +20,6 @@
->  
->  /* .exit.text needed in case of alternative patching */
->  #define ARM_EXIT_KEEP(x)	x
-> -#define ARM_EXIT_DISCARD(x)
->  
->  OUTPUT_ARCH(aarch64)
->  ENTRY(_text)
-> @@ -94,12 +94,8 @@ SECTIONS
->  	 * matching the same input section name.  There is no documented
->  	 * order of matching.
->  	 */
-> +	DISCARDS
->  	/DISCARD/ : {
-> -		ARM_EXIT_DISCARD(EXIT_TEXT)
-> -		ARM_EXIT_DISCARD(EXIT_DATA)
-> -		EXIT_CALL
-> -		*(.discard)
-> -		*(.discard.*)
->  		*(.interp .dynamic)
->  		*(.dynsym .dynstr .hash .gnu.hash)
->  		*(.eh_frame)
+Prior to this patch, building the Linux kernel with Clang
+looked like:
 
-Acked-by: Will Deacon <will@kernel.org>
+$ make CC=clang
 
-Will
+or when cross compiling:
+
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make CC=clang
+
+which got very verbose and unwieldy when using all of LLVM's substitutes
+for GNU binutils:
+
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make CC=clang AS=clang \
+  LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \
+  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
+  HOSTLD=ld.lld
+
+This change adds a new Makefile under scripts/ which will be included in
+the top level Makefile AFTER CC and friends are set, in order to make
+the use of LLVM utilities when building a Linux kernel more ergonomic.
+
+With this patch, the above now looks like:
+
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=y
+
+Then you can "opt out" of certain LLVM utilities explicitly:
+
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=y AS=as
+
+will instead invoke arm-linux-gnueabihf-as in place of clang for AS.
+
+Or when not cross compiling:
+
+$ make LLVM=y AS=as
+
+This would make it more verbose to opt into just one tool from LLVM, but
+this patch doesn't actually break the old style; just leave off LLVM=y.
+Also, LLVM=y CC=clang would wind up prefixing clang with $CROSS_COMPILE.
+In that case, it's recommended to just drop LLVM=y and use the old
+style. So LLVM=y can be thought of as default to LLVM with explicit opt
+ins for GNU, vs the current case of default to GNU and opt in for LLVM.
+
+A key part of the design of this patch is to be minimally invasive to
+the top level Makefile and not break existing workflows. We could get
+more aggressive, but I'd prefer to save larger refactorings for another
+day.
+
+Finally, some linux distributions package specific versions of LLVM
+utilities with naming conventions that use the version as a suffix, ie.
+clang-11.  In that case, you can use LLVM=<number> and that number will
+be used as a suffix. Example:
+
+$ make LLVM=11
+
+will invoke clang-11, ld.lld-11, llvm-objcopy-11, etc.
+
+About the script:
+The pattern used in the script is in the form:
+
+ifeq "$(origin $(CC))" "file"
+$(CC) := $(clang)
+else
+override $(CC) := $(CROSS_COMPILE)$(CC)
+endif
+
+"Metaprogramming" (eval) is used to template the above to make it more
+concise for specifying all of the substitutions.
+
+The "origin" of a variable tracks whether a variable was explicitly set
+via "command line", "environment", was defined earlier via Makefile
+"file", was provided by "default", or was "undefined".
+
+Variable assignment in GNU Make has some special and complicated rules.
+
+If the variable was set earlier explicitly in the Makefile, we can
+simply reassign a new value to it. If a variable was unspecified, then
+earlier assignments were executed and change the origin to file.
+Otherwise, the variable was explicitly specified.
+
+If a variable's "origin" was "command line" or "environment",
+non-"override" assignments are not executed. The "override" directive
+forces the assignment regardless of "origin".
+
+Some tips I found useful for debugging for future travelers:
+
+$(info $$origin of $$CC is $(origin CC))
+
+at the start of the new script for all of the variables can help you
+understand "default" vs "undefined" variable origins.
+
+$(info $$CC is [${CC}])
+
+in the top level Makefile after including the new script, for all of the
+variables can help you check that they're being set as expected.
+
+Link: https://www.gnu.org/software/make/manual/html_node/Eval-Function.html
+Link: https://www.gnu.org/software/make/manual/html_node/Origin-Function.html
+Link: https://www.gnu.org/software/make/manual/html_node/Implicit-Variables.html
+Link: https://www.gnu.org/software/make/manual/html_node/Override-Directive.html
+Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Changes V1 -> V2:
+* Rather than LLVM=1, use LLVM=y to enable all.
+* LLVM=<anything other than y> becomes a suffix, LLVM_SUFFIX.
+* strip has to be used on the LLVM_SUFFIX to avoid an extra whitespace.
+
+
+ Makefile              |  4 ++++
+ scripts/Makefile.llvm | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 scripts/Makefile.llvm
+
+diff --git a/Makefile b/Makefile
+index 402f276da062..72ec9dfea15e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -475,6 +475,10 @@ KBUILD_LDFLAGS :=
+ GCC_PLUGINS_CFLAGS :=
+ CLANG_FLAGS :=
+ 
++ifneq ($(LLVM),)
++include scripts/Makefile.llvm
++endif
++
+ export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE AS LD CC
+ export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
+ export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+diff --git a/scripts/Makefile.llvm b/scripts/Makefile.llvm
+new file mode 100644
+index 000000000000..0bab45a100a3
+--- /dev/null
++++ b/scripts/Makefile.llvm
+@@ -0,0 +1,30 @@
++LLVM_SUFFIX=
++
++ifneq ($(LLVM),y)
++LLVM_SUFFIX += -$(LLVM)
++endif
++
++define META_set =
++ifeq "$(origin $(1))" "file"
++$(1) := $(2)$(strip $(LLVM_SUFFIX))
++else
++override $(1) := $(CROSS_COMPILE)$($(1))
++endif
++endef
++
++$(eval $(call META_set,CC,clang))
++$(eval $(call META_set,AS,clang))
++$(eval $(call META_set,LD,ld.lld))
++$(eval $(call META_set,AR,llvm-ar))
++$(eval $(call META_set,NM,llvm-nm))
++$(eval $(call META_set,STRIP,llvm-strip))
++$(eval $(call META_set,OBJCOPY,llvm-objcopy))
++$(eval $(call META_set,OBJDUMP,llvm-objdump))
++$(eval $(call META_set,OBJSIZE,llvm-objsize))
++$(eval $(call META_set,READELF,llvm-readelf))
++$(eval $(call META_set,HOSTCC,clang))
++$(eval $(call META_set,HOSTCXX,clang++))
++$(eval $(call META_set,HOSTAR,llvm-ar))
++$(eval $(call META_set,HOSTLD,ld.lld))
++
++## TODO: HOSTAR, HOSTLD in tools/objtool/Makefile
+-- 
+2.25.1.481.gfbce0eb801-goog
+
