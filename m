@@ -2,60 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FBDC18762E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 00:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5641187681
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Mar 2020 01:07:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732859AbgCPXWW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Mar 2020 19:22:22 -0400
-Received: from mail-pf1-f169.google.com ([209.85.210.169]:46048 "EHLO
-        mail-pf1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732855AbgCPXWW (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Mar 2020 19:22:22 -0400
-Received: by mail-pf1-f169.google.com with SMTP id 2so10790521pfg.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 16 Mar 2020 16:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=XCsQ/k1gBV/18LYol3ef0MZv3s43qrFq6lqu27zJX+I=;
-        b=nK7Ie9XJw5v26Hn9++3q2cCgjfpDc16bcWQYnYDxyhNE5zvUaZV7qjljZLcIOAbUyl
-         HtwJE+U1eNM0hUxrOPrMXifvCobhjp7TtWJB/hNtku3RA3V6wA0knNMiD+dGwKZA8tox
-         BU7DFPmC420FHqkQY3BsDpqVrwAPZP86fwWvrp5oTtw5kNq7/z7ArhSikyS3QajkDbnV
-         CgC5uTEQT/RPlGMzaVazrIoUgUvXrbTguZa4JPS6DB16OIDT+pOOU9GDQu+lP4Xip2vm
-         ZsvO19S6fvzYwzvkGK4AOPABsDWJxMe1aGdjV3abZcV1CrNM/0oPALIXNwSrsRCao8mL
-         GB6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=XCsQ/k1gBV/18LYol3ef0MZv3s43qrFq6lqu27zJX+I=;
-        b=ZdpusSW7ohbLI8zW5/pi4prtzuoHKif/iqm5I/1CqHIzVI2UuISyEHCOzsVWpOzqKU
-         ehtbqkBuPS+5vYbcpUN+zjWCjBflCoRqk5eqCrTyOi6iah5Enlo78liYKq6zT6MrZV/5
-         HbyBpEK3OTc5LMw0Ffm3c1Pd0iVLYG+BXWpOJSrLIQQW2ek2OxXwPdhTpBwN6u4tqvUt
-         awLwMSnB+Sgi8uHK9fShvnngbrmj9KniwGeER4TcvBv8V2wyDwHOxDDHQw1t9xB63bA/
-         bExfs2MNZNrmKC+JAcewiS8p4U1e0/vdYUGM2A3dKMMc5jLRziTj890AikvC6c+VGHmz
-         zJUg==
-X-Gm-Message-State: ANhLgQ0wujHwQTDtfgIHmMp8jtoh2878v7AM89CNULTknStYanuYd3eZ
-        Yr1DQQhCsbcNKolV+VYaf1DS//PDjJnQN3wv4vw9wncJ96w=
-X-Google-Smtp-Source: ADFU+vu3N/KUY4EcoPRaTNAyktCTID8158oP7/THa6w63HmLnfuCgJBgaRiyNBfkiY/3TGCpfFzjs2k29YTN6CUh1yg=
-X-Received: by 2002:a05:6a00:42:: with SMTP id i2mr2085389pfk.108.1584400941220;
- Mon, 16 Mar 2020 16:22:21 -0700 (PDT)
+        id S1732989AbgCQAHd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 16 Mar 2020 20:07:33 -0400
+Received: from smtp.gentoo.org ([140.211.166.183]:53156 "EHLO smtp.gentoo.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732932AbgCQAHd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 16 Mar 2020 20:07:33 -0400
+Received: from sf.home (host86-151-215-168.range86-151.btcentralplus.com [86.151.215.168])
+        (using TLSv1 with cipher ECDHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: slyfox)
+        by smtp.gentoo.org (Postfix) with ESMTPSA id EAB9C34F213;
+        Tue, 17 Mar 2020 00:07:31 +0000 (UTC)
+Received: by sf.home (Postfix, from userid 1000)
+        id 128085A22061; Tue, 17 Mar 2020 00:07:27 +0000 (GMT)
+From:   Sergei Trofimovich <slyfox@gentoo.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Sergei Trofimovich <slyfox@gentoo.org>,
+        Jiri Kosina <jkosina@suse.cz>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: disallow data races on gcc-10 as well
+Date:   Tue, 17 Mar 2020 00:07:18 +0000
+Message-Id: <20200317000718.177637-1-slyfox@gentoo.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 16 Mar 2020 16:22:10 -0700
-Message-ID: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
-Subject: linux-kbuild missing from lore?
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
-I noticed that linux-kbuild@vger.kernel.org seems to be missing from
-https://lore.kernel.org/lists.html.  Is that intentional or
-accidental?
+gcc-10 will rename --param=allow-store-data-races=0
+to -fno-allow-store-data-races.
+
+The flag change happened at https://gcc.gnu.org/PR92046.
+
+CC: Jiri Kosina <jkosina@suse.cz>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Michal Marek <michal.lkml@markovi.net>
+CC: linux-kbuild@vger.kernel.org
+Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+---
+ Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Makefile b/Makefile
+index 171f2b004c8a..9696eb2cd5a1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -714,6 +714,7 @@ endif
+ 
+ # Tell gcc to never replace conditional load with a non-conditional one
+ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
++KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
+ 
+ include scripts/Makefile.kcov
+ include scripts/Makefile.gcc-plugins
 -- 
-Thanks,
-~Nick Desaulniers
+2.25.1
+
