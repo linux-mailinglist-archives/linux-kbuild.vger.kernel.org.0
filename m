@@ -2,81 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 923F8189996
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2020 11:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A1E18A0D3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2020 17:46:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726933AbgCRKj1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Mar 2020 06:39:27 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:59251 "EHLO
-        heian.cn.fujitsu.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726486AbgCRKj1 (ORCPT
+        id S1726735AbgCRQqw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Mar 2020 12:46:52 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:26361 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726623AbgCRQqw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Mar 2020 06:39:27 -0400
-X-IronPort-AV: E=Sophos;i="5.70,566,1574092800"; 
-   d="scan'208";a="86539283"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 18 Mar 2020 18:39:22 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-        by cn.fujitsu.com (Postfix) with ESMTP id 4F58D49DF126;
-        Wed, 18 Mar 2020 18:29:17 +0800 (CST)
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.85) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 18 Mar 2020 18:39:22 +0800
-Received: from Fedora-30.g08.fujitsu.local (10.167.220.106) by
- G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- id 14.3.439.0; Wed, 18 Mar 2020 18:39:22 +0800
-From:   Xiao Yang <yangx.jy@cn.fujitsu.com>
-To:     <masahiroy@kernel.org>
-CC:     <michal.lkml@markovi.net>, <linux-kbuild@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Xiao Yang <yangx.jy@cn.fujitsu.com>
-Subject: [PATCH v2] modpost: Get proper section index by get_secindex() instead of st_shndx
-Date:   Wed, 18 Mar 2020 18:34:16 +0800
-Message-ID: <20200318103416.29067-1-yangx.jy@cn.fujitsu.com>
-X-Mailer: git-send-email 2.21.0
+        Wed, 18 Mar 2020 12:46:52 -0400
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 02IGkKke007213;
+        Thu, 19 Mar 2020 01:46:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02IGkKke007213
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1584549981;
+        bh=ZIyPyMCFN95hAks0AnT9gItSXBj23EHbKCT5HL+/mr4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Y6lt+gUtzQD0ptN4+XSv6AAPsoY3wL2eoCMFeIYsUJJ7I8xrz2qpTW0R7GoOfyZge
+         9EReA0ZtkwrhezpeBWlGydBc2qkj4+i6Kfa2UmPbXRW8y5iVHwEFzsu6WxV3M3kuQQ
+         zIJnlPUptK3PkfhVaTLv7d+Y9G5C+inTBhoVDMVZbDF9FTlWAH/mwc83KfAEsKLt03
+         GbY+qs2Oh/XM9tZ4hycFHpjc+sVv9959QW+296nYm8GBsIgQCN6PExMY7FEndvZuCU
+         tS0nc5trCqY77m7HUpEYB6hRrLipZt2SxW7MPplJrdj65FrGf8ukh+gYLcwajuZYpV
+         R6FBWmKrZswYg==
+X-Nifty-SrcIP: [209.85.221.169]
+Received: by mail-vk1-f169.google.com with SMTP id k63so7263284vka.7;
+        Wed, 18 Mar 2020 09:46:20 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ08fBydaLFAhQV2svTYFrczCHCTgVMphEOUVw4nhLNyvEX4U04d
+        fPO9G1S5RTVRW2BaX7AZrsDIDCSCrqpCtXZH5Ow=
+X-Google-Smtp-Source: ADFU+vskxkxaLQzDACLuAo9WpP/KcvhIZDNPG0hj7I7WrJKoJueWHAXQzcHS75fKDztyW2M+2jAeBvLNKmRbSNLY+XA=
+X-Received: by 2002:a1f:8cce:: with SMTP id o197mr4151405vkd.66.1584549979672;
+ Wed, 18 Mar 2020 09:46:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-yoursite-MailScanner-ID: 4F58D49DF126.AB52A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: yangx.jy@cn.fujitsu.com
-X-Spam-Status: No
+References: <20200318103416.29067-1-yangx.jy@cn.fujitsu.com>
+In-Reply-To: <20200318103416.29067-1-yangx.jy@cn.fujitsu.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 19 Mar 2020 01:45:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASHOuzZ5aU3fJRyODchDk1FUPrXFW-j_zDxNcviELnGeg@mail.gmail.com>
+Message-ID: <CAK7LNASHOuzZ5aU3fJRyODchDk1FUPrXFW-j_zDxNcviELnGeg@mail.gmail.com>
+Subject: Re: [PATCH v2] modpost: Get proper section index by get_secindex()
+ instead of st_shndx
+To:     Xiao Yang <yangx.jy@cn.fujitsu.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(uint16_t) st_shndx is limited to 65535(i.e. SHN_XINDEX) so sym_get_data() gets
-wrong section index by st_shndx if requested symbol contains extended section
-index that is more than 65535.  In this case, we need to get proper section index
-by .symtab_shndx section.
+On Wed, Mar 18, 2020 at 7:39 PM Xiao Yang <yangx.jy@cn.fujitsu.com> wrote:
+>
+> (uint16_t) st_shndx is limited to 65535(i.e. SHN_XINDEX) so sym_get_data() gets
+> wrong section index by st_shndx if requested symbol contains extended section
+> index that is more than 65535.  In this case, we need to get proper section index
+> by .symtab_shndx section.
+>
+> Module.symvers generated by building kernel with "-ffunction-sections -fdata-sections"
+> shows the issue.
+>
+> Fixes: 56067812d5b0 ("kbuild: modversions: add infrastructure for emitting relative CRCs")
+> Fixes: e84f9fbbece1 ("modpost: refactor namespace_from_kstrtabns() to not hard-code section name")
+> Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
+> ---
 
-Module.symvers generated by building kernel with "-ffunction-sections -fdata-sections"
-shows the issue.
+Applied to linux-kbuild/fixes.
+Thanks.
 
-Fixes: 56067812d5b0 ("kbuild: modversions: add infrastructure for emitting relative CRCs")
-Fixes: e84f9fbbece1 ("modpost: refactor namespace_from_kstrtabns() to not hard-code section name")
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
----
- scripts/mod/modpost.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 7edfdb2f4497..1ce22896f3d8 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -308,7 +308,8 @@ static const char *sec_name(struct elf_info *elf, int secindex)
- 
- static void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym)
- {
--	Elf_Shdr *sechdr = &info->sechdrs[sym->st_shndx];
-+	unsigned int secindex = get_secindex(info, sym);
-+	Elf_Shdr *sechdr = &info->sechdrs[secindex];
- 	unsigned long offset;
- 
- 	offset = sym->st_value;
+
+
+>  scripts/mod/modpost.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 7edfdb2f4497..1ce22896f3d8 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -308,7 +308,8 @@ static const char *sec_name(struct elf_info *elf, int secindex)
+>
+>  static void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym)
+>  {
+> -       Elf_Shdr *sechdr = &info->sechdrs[sym->st_shndx];
+> +       unsigned int secindex = get_secindex(info, sym);
+> +       Elf_Shdr *sechdr = &info->sechdrs[secindex];
+>         unsigned long offset;
+>
+>         offset = sym->st_value;
+> --
+> 2.21.0
+>
+>
+>
+
+
 -- 
-2.21.0
-
-
-
+Best Regards
+Masahiro Yamada
