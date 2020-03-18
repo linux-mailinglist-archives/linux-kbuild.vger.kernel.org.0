@@ -2,103 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81A1E18A0D3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2020 17:46:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D8B118A88C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Mar 2020 23:46:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbgCRQqw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Mar 2020 12:46:52 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:26361 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbgCRQqw (ORCPT
+        id S1726704AbgCRWp4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Mar 2020 18:45:56 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:35627 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727095AbgCRWpz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Mar 2020 12:46:52 -0400
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 02IGkKke007213;
-        Thu, 19 Mar 2020 01:46:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02IGkKke007213
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584549981;
-        bh=ZIyPyMCFN95hAks0AnT9gItSXBj23EHbKCT5HL+/mr4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y6lt+gUtzQD0ptN4+XSv6AAPsoY3wL2eoCMFeIYsUJJ7I8xrz2qpTW0R7GoOfyZge
-         9EReA0ZtkwrhezpeBWlGydBc2qkj4+i6Kfa2UmPbXRW8y5iVHwEFzsu6WxV3M3kuQQ
-         zIJnlPUptK3PkfhVaTLv7d+Y9G5C+inTBhoVDMVZbDF9FTlWAH/mwc83KfAEsKLt03
-         GbY+qs2Oh/XM9tZ4hycFHpjc+sVv9959QW+296nYm8GBsIgQCN6PExMY7FEndvZuCU
-         tS0nc5trCqY77m7HUpEYB6hRrLipZt2SxW7MPplJrdj65FrGf8ukh+gYLcwajuZYpV
-         R6FBWmKrZswYg==
-X-Nifty-SrcIP: [209.85.221.169]
-Received: by mail-vk1-f169.google.com with SMTP id k63so7263284vka.7;
-        Wed, 18 Mar 2020 09:46:20 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ08fBydaLFAhQV2svTYFrczCHCTgVMphEOUVw4nhLNyvEX4U04d
-        fPO9G1S5RTVRW2BaX7AZrsDIDCSCrqpCtXZH5Ow=
-X-Google-Smtp-Source: ADFU+vskxkxaLQzDACLuAo9WpP/KcvhIZDNPG0hj7I7WrJKoJueWHAXQzcHS75fKDztyW2M+2jAeBvLNKmRbSNLY+XA=
-X-Received: by 2002:a1f:8cce:: with SMTP id o197mr4151405vkd.66.1584549979672;
- Wed, 18 Mar 2020 09:46:19 -0700 (PDT)
+        Wed, 18 Mar 2020 18:45:55 -0400
+Received: by mail-pl1-f195.google.com with SMTP id g6so154823plt.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Mar 2020 15:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RlVpbAqk1yQthUW1FDAPeEGC6CQLUUbwnQv5Sk9EL1c=;
+        b=gYmpZA5SMHDb3Uuue7+1Jqm2yc8BvcNrAIPwTiJW+0oK/k8ci9/9UsGXZU9JqjQbRq
+         sPPXxQQHs6zM6T8zDQeZ022gmfva913UpO9T2IJz9kYY23VE3IC2BYsY5apaKj129bdE
+         4VPojihUubgeEt3URmVmfYhgSYeCJKSTxi5B0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RlVpbAqk1yQthUW1FDAPeEGC6CQLUUbwnQv5Sk9EL1c=;
+        b=a/hz+UcBFRREOI/gXch5kbrLWYDxAEzzfvL7e7lrNVugoOwlLp7iy0AE1Yexq+kcOW
+         d4hqnMuIqm3YUlOx45v+Ei/wVOUGzyq2vPoFwD2CU6XKSmUCKSXUCjrsBIrRaZ99BG2C
+         dywzvfc7iL2y/TPPyBZPL4fhqRzcwp7KTLcM4hda2f7H+TydpBEYcCnCdVR8Pjr6ihEs
+         2wLVkyyXnlW9YR2WU7TmwRmuGRE+MbkuKGLuK7eK5alMSwKUqkTSmdKOBEgAqaE9qv8S
+         Se1cf454vkqIqOzsv/VnhEEFgNOPr5BGgnB6yEMt9FUqk06F1Sl2wNVQtIgrsDEL9khf
+         /8sg==
+X-Gm-Message-State: ANhLgQ22R404RCdv8N3PCoTOf7vtvqUvsKFjDXbJFQogUqioLF+9Axbv
+        UFm3bOnmNUTEezqOyNKlCljHRA==
+X-Google-Smtp-Source: ADFU+vseJzJ5szglQN189hPrBR0PfveN63RDvDCfTnjOhyzUg0btNT+Ba9IpSElqh09WRn9nAY6l0Q==
+X-Received: by 2002:a17:90a:2109:: with SMTP id a9mr520219pje.12.1584571553736;
+        Wed, 18 Mar 2020 15:45:53 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id gn11sm35848pjb.42.2020.03.18.15.45.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2020 15:45:52 -0700 (PDT)
+Date:   Wed, 18 Mar 2020 15:45:51 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Nick Terrell <terrelln@fb.com>
+Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kernel Team <Kernel-team@fb.com>,
+        Nick Terrell <nickrterrell@gmail.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org
+Subject: Re: [PATCH v2 2/7] lib: prepare xxhash for preboot environment
+Message-ID: <202003181545.B6CBE5FD@keescook>
+References: <20200318002303.977158-1-terrelln@fb.com>
+ <20200318002303.977158-3-terrelln@fb.com>
 MIME-Version: 1.0
-References: <20200318103416.29067-1-yangx.jy@cn.fujitsu.com>
-In-Reply-To: <20200318103416.29067-1-yangx.jy@cn.fujitsu.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 19 Mar 2020 01:45:43 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASHOuzZ5aU3fJRyODchDk1FUPrXFW-j_zDxNcviELnGeg@mail.gmail.com>
-Message-ID: <CAK7LNASHOuzZ5aU3fJRyODchDk1FUPrXFW-j_zDxNcviELnGeg@mail.gmail.com>
-Subject: Re: [PATCH v2] modpost: Get proper section index by get_secindex()
- instead of st_shndx
-To:     Xiao Yang <yangx.jy@cn.fujitsu.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200318002303.977158-3-terrelln@fb.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 18, 2020 at 7:39 PM Xiao Yang <yangx.jy@cn.fujitsu.com> wrote:
->
-> (uint16_t) st_shndx is limited to 65535(i.e. SHN_XINDEX) so sym_get_data() gets
-> wrong section index by st_shndx if requested symbol contains extended section
-> index that is more than 65535.  In this case, we need to get proper section index
-> by .symtab_shndx section.
->
-> Module.symvers generated by building kernel with "-ffunction-sections -fdata-sections"
-> shows the issue.
->
-> Fixes: 56067812d5b0 ("kbuild: modversions: add infrastructure for emitting relative CRCs")
-> Fixes: e84f9fbbece1 ("modpost: refactor namespace_from_kstrtabns() to not hard-code section name")
-> Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Xiao Yang <yangx.jy@cn.fujitsu.com>
+On Tue, Mar 17, 2020 at 05:22:58PM -0700, Nick Terrell wrote:
+> Don't export symbols if PREBOOT is defined.
+> 
+> This change is necessary to get xxhash to work in a preboot environment,
+> which is needed to support zstd-compressed kernels.
+
+Hmm, I thought using this:
+
+#define __DISABLE_EXPORTS
+
+before the #include of the .c files solved this?
+
+-Kees
+
+> 
+> Signed-off-by: Nick Terrell <terrelln@fb.com>
 > ---
-
-Applied to linux-kbuild/fixes.
-Thanks.
-
-
-
-
->  scripts/mod/modpost.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 7edfdb2f4497..1ce22896f3d8 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -308,7 +308,8 @@ static const char *sec_name(struct elf_info *elf, int secindex)
->
->  static void *sym_get_data(const struct elf_info *info, const Elf_Sym *sym)
+>  lib/xxhash.c | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
+> 
+> diff --git a/lib/xxhash.c b/lib/xxhash.c
+> index aa61e2a3802f..7f1d3cb01729 100644
+> --- a/lib/xxhash.c
+> +++ b/lib/xxhash.c
+> @@ -80,13 +80,11 @@ void xxh32_copy_state(struct xxh32_state *dst, const struct xxh32_state *src)
 >  {
-> -       Elf_Shdr *sechdr = &info->sechdrs[sym->st_shndx];
-> +       unsigned int secindex = get_secindex(info, sym);
-> +       Elf_Shdr *sechdr = &info->sechdrs[secindex];
->         unsigned long offset;
->
->         offset = sym->st_value;
-> --
-> 2.21.0
->
->
->
-
+>  	memcpy(dst, src, sizeof(*dst));
+>  }
+> -EXPORT_SYMBOL(xxh32_copy_state);
+>  
+>  void xxh64_copy_state(struct xxh64_state *dst, const struct xxh64_state *src)
+>  {
+>  	memcpy(dst, src, sizeof(*dst));
+>  }
+> -EXPORT_SYMBOL(xxh64_copy_state);
+>  
+>  /*-***************************
+>   * Simple Hash Functions
+> @@ -151,7 +149,6 @@ uint32_t xxh32(const void *input, const size_t len, const uint32_t seed)
+>  
+>  	return h32;
+>  }
+> -EXPORT_SYMBOL(xxh32);
+>  
+>  static uint64_t xxh64_round(uint64_t acc, const uint64_t input)
+>  {
+> @@ -234,7 +231,6 @@ uint64_t xxh64(const void *input, const size_t len, const uint64_t seed)
+>  
+>  	return h64;
+>  }
+> -EXPORT_SYMBOL(xxh64);
+>  
+>  /*-**************************************************
+>   * Advanced Hash Functions
+> @@ -251,7 +247,6 @@ void xxh32_reset(struct xxh32_state *statePtr, const uint32_t seed)
+>  	state.v4 = seed - PRIME32_1;
+>  	memcpy(statePtr, &state, sizeof(state));
+>  }
+> -EXPORT_SYMBOL(xxh32_reset);
+>  
+>  void xxh64_reset(struct xxh64_state *statePtr, const uint64_t seed)
+>  {
+> @@ -265,7 +260,6 @@ void xxh64_reset(struct xxh64_state *statePtr, const uint64_t seed)
+>  	state.v4 = seed - PRIME64_1;
+>  	memcpy(statePtr, &state, sizeof(state));
+>  }
+> -EXPORT_SYMBOL(xxh64_reset);
+>  
+>  int xxh32_update(struct xxh32_state *state, const void *input, const size_t len)
+>  {
+> @@ -334,7 +328,6 @@ int xxh32_update(struct xxh32_state *state, const void *input, const size_t len)
+>  
+>  	return 0;
+>  }
+> -EXPORT_SYMBOL(xxh32_update);
+>  
+>  uint32_t xxh32_digest(const struct xxh32_state *state)
+>  {
+> @@ -372,7 +365,6 @@ uint32_t xxh32_digest(const struct xxh32_state *state)
+>  
+>  	return h32;
+>  }
+> -EXPORT_SYMBOL(xxh32_digest);
+>  
+>  int xxh64_update(struct xxh64_state *state, const void *input, const size_t len)
+>  {
+> @@ -439,7 +431,6 @@ int xxh64_update(struct xxh64_state *state, const void *input, const size_t len)
+>  
+>  	return 0;
+>  }
+> -EXPORT_SYMBOL(xxh64_update);
+>  
+>  uint64_t xxh64_digest(const struct xxh64_state *state)
+>  {
+> @@ -494,7 +485,19 @@ uint64_t xxh64_digest(const struct xxh64_state *state)
+>  
+>  	return h64;
+>  }
+> +
+> +#ifndef PREBOOT
+> +EXPORT_SYMBOL(xxh32_copy_state);
+> +EXPORT_SYMBOL(xxh64_copy_state);
+> +EXPORT_SYMBOL(xxh32);
+> +EXPORT_SYMBOL(xxh64);
+> +EXPORT_SYMBOL(xxh32_reset);
+> +EXPORT_SYMBOL(xxh64_reset);
+> +EXPORT_SYMBOL(xxh32_update);
+> +EXPORT_SYMBOL(xxh32_digest);
+> +EXPORT_SYMBOL(xxh64_update);
+>  EXPORT_SYMBOL(xxh64_digest);
+>  
+>  MODULE_LICENSE("Dual BSD/GPL");
+>  MODULE_DESCRIPTION("xxHash");
+> +#endif
+> -- 
+> 2.25.1
+> 
 
 -- 
-Best Regards
-Masahiro Yamada
+Kees Cook
