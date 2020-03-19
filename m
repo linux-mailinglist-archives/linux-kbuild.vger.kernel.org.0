@@ -2,146 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB68718AE33
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 09:16:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD1CB18BAFD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 16:23:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726603AbgCSIQD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Mar 2020 04:16:03 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:58816 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727014AbgCSIQD (ORCPT
+        id S1727395AbgCSPXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Mar 2020 11:23:06 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:62303 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727356AbgCSPXG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Mar 2020 04:16:03 -0400
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 02J8FtlK011028
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Mar 2020 17:15:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02J8FtlK011028
+        Thu, 19 Mar 2020 11:23:06 -0400
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 02JFMkBx018431;
+        Fri, 20 Mar 2020 00:22:47 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 02JFMkBx018431
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584605756;
-        bh=tRaRYCa+I5NGfhdtCP46IcnjdheIQectFyEVwKEcAg4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nw232Ihop7KigQUlfHzgif8CK5ReZUh1ArOCCSv+6h5Dqmp0yycbi4Mfjk00Va/TG
-         E0i11cS/xtLXvgkzZKbTYS9BNG5EsczOOnXEqobyXO8c4JzLoUxH//koyR5Xc9lulx
-         EwrjP3CVprTkwSrBAjbEsn6aJIVxQXWvf7IktpxzEkZvZY6G/atzXLpBPZYjxV4UWg
-         CoKbiyd5kkIO1k1z8EdErRAh4hxGxuzrQPcMCKynWzSybLLuvfB4TbEIDPzYt/I7f7
-         Zh4Q4OH75LU0U+qEaTs2YSPRjrnRCQ+NKjSjqATzTK1TRA1Olae8phMOOzAJEPgeLj
-         aoiMmn5gn+HrA==
-X-Nifty-SrcIP: [209.85.221.175]
-Received: by mail-vk1-f175.google.com with SMTP id q8so464976vka.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 19 Mar 2020 01:15:56 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2/G6BL0owzncp1JC/tCMXhhP+HzrZSz0Ze19Oz+UZMfDrvIi/O
-        a8zgiAhe2OqaXKi6FGIvPo3TdBqGc2EEt0/bwdI=
-X-Google-Smtp-Source: ADFU+vsALxsOnVyjXCXtSvGp/PakmoBIDf1u1Wo7HNgKMpO+iRWaZzW7FyCbhETxYAJ9PD+XTP6vOhXa/Mk8xF/gpIM=
-X-Received: by 2002:a1f:32cf:: with SMTP id y198mr1493218vky.96.1584605755219;
- Thu, 19 Mar 2020 01:15:55 -0700 (PDT)
+        s=dec2015msa; t=1584631367;
+        bh=Tu2djgmKkAF8RYObtpeLT7Ttw9jLZvbbIJmApmRreD0=;
+        h=From:Date:Subject:To:Cc:From;
+        b=LRCjykCyVBAJvUCb6ajcQ+J4yAo1Luz0uuAUATklkclcu0fG7IP/A432OiBzK4naU
+         21fS22cQTvtl6HGxUeCi+6u63BJqWNDXXKtcCKEi+P5Qrrn1jaC8ry64GKY0b+iPpH
+         5900rfcdbp1v5OLZPSuOEot6K/GlYT/MtVYPf1e0HkY3WumWWMFvNlnJY79vVNs8YJ
+         P65gOQ6dOshgpyFhL9X0czw1EXEd1Kk3UNrvEVtAnQRvnI8CmgIaNKdJy/Tzo9SAHP
+         xlfNARNquflYbDt9yynKHGuPaymGKIJOs9y72MN9hxMzxnvrjnLfei+IaHLlBixHFl
+         lRqtdSlplJEnw==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id r47so897672uad.11;
+        Thu, 19 Mar 2020 08:22:47 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ2U8IS2cjA4ImJpDDHitPRAWGNFxpGfOfCUXOxf9SoX9XNwMmIi
+        TS+SzouFWtT4jxRJMzGctmYpt1XmxNc0RqvLWjA=
+X-Google-Smtp-Source: ADFU+vuhm04AxBGx6dccv3oM51vQOCjxZbw1TUdNd2347ssYWgwR6Gk9KJUrX3UXpvAgfP2p1oTj13v3diMBQgPrRJI=
+X-Received: by 2002:ab0:28d8:: with SMTP id g24mr2169125uaq.121.1584631365859;
+ Thu, 19 Mar 2020 08:22:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <306f76fc-c445-6578-d4fe-5e462861920c@mir.dev>
-In-Reply-To: <306f76fc-c445-6578-d4fe-5e462861920c@mir.dev>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 19 Mar 2020 17:15:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASO=52Vr+agnxBqAGDBcZeYF1q4xYiiSZaDQsviD4kp4g@mail.gmail.com>
-Message-ID: <CAK7LNASO=52Vr+agnxBqAGDBcZeYF1q4xYiiSZaDQsviD4kp4g@mail.gmail.com>
-Subject: Re: [PATCH v2] scripts/kallsyms: fix wrong kallsyms_relative_base
-To:     Mikhail Petrov <Mikhail.Petrov@mir.dev>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Fri, 20 Mar 2020 00:22:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
+Message-ID: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.6-rc7
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 5:37 AM Mikhail Petrov <Mikhail.Petrov@mir.dev> wrote:
->
-> There is the code in the read_symbol function in 'scripts/kallsyms.c':
->
->         if (is_ignored_symbol(name, type))
->                 return NULL;
->
->         /* Ignore most absolute/undefined (?) symbols. */
->         if (strcmp(name, "_text") == 0)
->                 _text = addr;
->
-> But the is_ignored_symbol function returns true for name="_text" and
-> type='A'. So the next condition is not executed and the _text variable
-> is always zero.
->
-> It makes the wrong kallsyms_relative_base symbol as a result of the code
-> (CONFIG_KALLSYMS_BASE_RELATIVE is defined):
->
->         if (base_relative) {
->                 output_label("kallsyms_relative_base");
->                 output_address(relative_base);
->                 printf("\n");
->         }
->
-> Because the output_address function uses the _text variable.
->
-> So the kallsyms_lookup function and all related functions in the kernel
-> do not work properly. For example, the stack trace in oops:
->
->  Call Trace:
->  [aa095e58] [809feab8] kobj_ns_ops_tbl+0x7ff09ac8/0x7ff1c1c4 (unreliable)
->  [aa095e98] [80002b64] kobj_ns_ops_tbl+0x7f50db74/0x80000010
->  [aa095ef8] [809c3d24] kobj_ns_ops_tbl+0x7feced34/0x7ff1c1c4
->  [aa095f28] [80002ed0] kobj_ns_ops_tbl+0x7f50dee0/0x80000010
->  [aa095f38] [8000f238] kobj_ns_ops_tbl+0x7f51a248/0x80000010
->
-> The right stack trace:
->
->  Call Trace:
->  [aa095e58] [809feab8] module_vdu_video_init+0x2fc/0x3bc (unreliable)
->  [aa095e98] [80002b64] do_one_initcall+0x40/0x1f0
->  [aa095ef8] [809c3d24] kernel_init_freeable+0x164/0x1d8
->  [aa095f28] [80002ed0] kernel_init+0x14/0x124
->  [aa095f38] [8000f238] ret_from_kernel_thread+0x14/0x1c
->
-> Signed-off-by: Mikhail Petrov <Mikhail.Petrov@mir.dev>
+Hi Linus,
 
-
-
-Applied with the following info:
-
-[masahiroy@kernel.org
-This issue happens on binutils <= 2.22
-The following commit fixed it:
-https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=d2667025dd30611514810c28bee9709e4623012a
-
-The symbol type is 'T' on binutils >= 2.23
-The current minimal supported binutils version is 2.21
-]
-
-
-
+Please pull more Kbuild fixes.
 Thanks.
 
 
 
-> ---
->
-> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
-> index 0133dfaaf352..3e8dea6e0a95 100644
-> --- a/scripts/kallsyms.c
-> +++ b/scripts/kallsyms.c
-> @@ -195,13 +195,13 @@ static struct sym_entry *read_symbol(FILE *in)
->                 return NULL;
->         }
->
-> -       if (is_ignored_symbol(name, type))
-> -               return NULL;
-> -
-> -       /* Ignore most absolute/undefined (?) symbols. */
->         if (strcmp(name, "_text") == 0)
->                 _text = addr;
->
-> +       /* Ignore most absolute/undefined (?) symbols. */
-> +       if (is_ignored_symbol(name, type))
-> +               return NULL;
-> +
->         check_symbol_range(name, addr, text_ranges, ARRAY_SIZE(text_ranges));
->         check_symbol_range(name, addr, &percpu_range, 1);
->
+The following changes since commit 98d54f81e36ba3bf92172791eba5ca5bd813989b=
+:
+
+  Linux 5.6-rc4 (2020-03-01 16:38:46 -0600)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.6-3
+
+for you to fetch changes up to 7883a14339299773b2ce08dcfd97c63c199a9289:
+
+  scripts/kallsyms: fix wrong kallsyms_relative_base (2020-03-19 23:40:20 +=
+0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v5.6 (3rd)
+
+ - fix __uint128_t capability test in Kconfig when GCC that defaults
+   to 32-bit is used to build the 64-bit kernel
+
+ - suppress new noisy Clang warnings -Wpointer-to-enum-cast
+
+ - move the namespace field in Module.symvers for the backward
+   compatibility reason for the depmod tool
+
+ - use available compression for initramdisk when INTRAMFS_SOURCE
+   is defined, which was the original behavior
+
+ - fix modpost to handle correct large section numbers when it refers
+   to modversion CRCs and module namespaces
+
+ - fix comments and documents
+
+----------------------------------------------------------------
+Eugeniy Paltsev (1):
+      initramfs: restore default compression behavior
+
+Jessica Yu (1):
+      modpost: move the namespace field in Module.symvers last
+
+Masahiro Yamada (3):
+      kconfig: introduce m32-flag and m64-flag
+      int128: fix __uint128_t compiler test in Kconfig
+      kbuild: doc: fix references to other documents
+
+Mikhail Petrov (1):
+      scripts/kallsyms: fix wrong kallsyms_relative_base
+
+Nathan Chancellor (1):
+      kbuild: Disable -Wpointer-to-enum-cast
+
+SZ Lin (=E6=9E=97=E4=B8=8A=E6=99=BA) (1):
+      kbuild: Fix inconsistent comment
+
+Xiao Yang (1):
+      modpost: Get proper section index by get_secindex() instead of st_shn=
+dx
+
+ Documentation/kbuild/kbuild.rst                 |  2 +-
+ Documentation/kbuild/kconfig-macro-language.rst |  2 +-
+ Documentation/kbuild/makefiles.rst              |  6 +++---
+ Documentation/kbuild/modules.rst                |  4 ++--
+ Makefile                                        |  2 +-
+ init/Kconfig                                    |  3 +--
+ scripts/Kconfig.include                         |  7 ++++++
+ scripts/Makefile.extrawarn                      |  1 +
+ scripts/export_report.pl                        |  2 +-
+ scripts/kallsyms.c                              |  8 +++----
+ scripts/mod/modpost.c                           | 27 ++++++++++++---------=
+---
+ usr/Kconfig                                     | 22 +++++++++----------
+ 12 files changed, 47 insertions(+), 39 deletions(-)
 
 
---
+--=20
 Best Regards
 Masahiro Yamada
