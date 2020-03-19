@@ -2,49 +2,23 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CB2B18BB83
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 16:49:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08BFB18BDC9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 18:16:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgCSPtO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Mar 2020 11:49:14 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:42387 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727189AbgCSPtO (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:49:14 -0400
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 02JFmuqs029340;
-        Fri, 20 Mar 2020 00:48:57 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02JFmuqs029340
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584632937;
-        bh=8ePxFKbmCNPyEVXbZg9bxrLPtjJ0hIQvHoR+u5cuXlk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TWHYuVJqAJHGT2J/QN0ivaoF5RblRJztHn1gOuaI3JETl0zptVkq8T5+IXuCK4qj7
-         J89oQxTtEECTesBc5eApZqSSN4GdC62fWYMLAJTkoWV7+IHOEqftqrZ5NcBiwkhwBM
-         CxSC3NIpyv2BLiPHF0F6YJ6ea+sb138b1q+pSfQJl8gPsJbsU46roHObS5Zt/EYKoR
-         jH/q0j4XKsj4S6mt9Mo3OS5rPK96/XmRnxu5efm0jfFAwaydKqu2eDmic7ZYZjw0Jc
-         FeJt19pNG2spVwm5aNFlLXinGseNnLC5Lq40skmNx100yljF3Lzq9kKKlqEW/Ja1xD
-         kCiKka1weSc7A==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id m9so1953761vso.2;
-        Thu, 19 Mar 2020 08:48:57 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ0uhvPfo7XoYRjUcAUEanC2Gx95ToKSplt7/0UBhgFBqtNE6d7A
-        o52kYKPOpOZ9Af3Q01wRBBbs6q5pPj7pcvw3PfQ=
-X-Google-Smtp-Source: ADFU+vuE+c3n/dpA4yyF3d1WQF2dPe5+qKC0jhqbTt6w2aU3d4Li83bNqcwgm5RvBt3ESyOremdAfr8BAiJJv9QTriU=
-X-Received: by 2002:a67:33cb:: with SMTP id z194mr2807732vsz.155.1584632936269;
- Thu, 19 Mar 2020 08:48:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200311223725.27662-2-masahiroy@kernel.org> <202003121230.lys3M8E8%lkp@intel.com>
- <CAK7LNARwR5X2C_VzK_3RZo+30Cu3uPuiw-rFUut1j8azLhbxAA@mail.gmail.com> <20200312083943.GA7278@alpha.franken.de>
-In-Reply-To: <20200312083943.GA7278@alpha.franken.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 20 Mar 2020 00:48:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
-Message-ID: <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kbuild: link lib-y objects to vmlinux forcibly
- when CONFIG_MODULES=y
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+        id S1727706AbgCSRQb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Mar 2020 13:16:31 -0400
+Received: from elvis.franken.de ([193.175.24.41]:51419 "EHLO elvis.franken.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727446AbgCSRQb (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 19 Mar 2020 13:16:31 -0400
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1jEymJ-0004Hm-00; Thu, 19 Mar 2020 18:16:19 +0100
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id 5A023C026A; Thu, 19 Mar 2020 17:22:45 +0100 (CET)
+Date:   Thu, 19 Mar 2020 17:22:45 +0100
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-mips@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
         kbuild-all@lists.01.org,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
@@ -57,68 +31,66 @@ Cc:     linux-mips@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         kbuild test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v2 2/2] kbuild: link lib-y objects to vmlinux forcibly
+ when CONFIG_MODULES=y
+Message-ID: <20200319162245.GA19404@alpha.franken.de>
+References: <20200311223725.27662-2-masahiroy@kernel.org>
+ <202003121230.lys3M8E8%lkp@intel.com>
+ <CAK7LNARwR5X2C_VzK_3RZo+30Cu3uPuiw-rFUut1j8azLhbxAA@mail.gmail.com>
+ <20200312083943.GA7278@alpha.franken.de>
+ <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Thomas,
-
-On Thu, Mar 12, 2020 at 5:40 PM Thomas Bogendoerfer
-<tsbogend@alpha.franken.de> wrote:
->
-> On Thu, Mar 12, 2020 at 03:12:28PM +0900, Masahiro Yamada wrote:
-> > I got the following report from 0-day bot.
-> > Please advise me how to fix it.
+On Fri, Mar 20, 2020 at 12:48:20AM +0900, Masahiro Yamada wrote:
+> Hi Thomas,
+> 
+> On Thu, Mar 12, 2020 at 5:40 PM Thomas Bogendoerfer
+> <tsbogend@alpha.franken.de> wrote:
 > >
+> > On Thu, Mar 12, 2020 at 03:12:28PM +0900, Masahiro Yamada wrote:
+> > > I got the following report from 0-day bot.
+> > > Please advise me how to fix it.
+> > >
+> > >
+> > > I am not sure how multi-platform works in MIPS.
+> > >
+> > > The cavium-octeon platform has its own implementation
+> > > of various functions.
+> > >
+> > > So, vmlinux links different library routines
+> > > depending on whether CONFIG_CAVIUM_OCTEON_SOC, correct?
 > >
-> > I am not sure how multi-platform works in MIPS.
+> > for cavium memcpy is directly linked in via octeon-memcpy.o, while for
+> > every other platform it's coming from lib/lib.a(memcpy.o).
 > >
-> > The cavium-octeon platform has its own implementation
-> > of various functions.
+> > What have you changed, that this doesn't work anymore ?
 > >
-> > So, vmlinux links different library routines
-> > depending on whether CONFIG_CAVIUM_OCTEON_SOC, correct?
->
-> for cavium memcpy is directly linked in via octeon-memcpy.o, while for
-> every other platform it's coming from lib/lib.a(memcpy.o).
->
-> What have you changed, that this doesn't work anymore ?
->
-> Thomas.
+> > Thomas.
+> 
+> 
+> I want to change all objects from lib-y
+> to be linked to vmlinux (exactly like obj-y )
+> if CONFIG_MODULES is enabled.
 
+ic
 
-I want to change all objects from lib-y
-to be linked to vmlinux (exactly like obj-y )
-if CONFIG_MODULES is enabled.
+> So, annotating __weak is a good solution
+> (thanks Nick!).
+> 
+> If I send a patch, is it acceptable?
 
-https://patchwork.kernel.org/patch/11432969/
+sure.
 
-
-EXPORT_SYMBOL in libraries
-must be linked to vmlinux all the time,
-even if there is no call-site in vmlinux.
-I believe this is a good simplification because
-EXPORT_SYMBOL is interface to loadable modules.
-
-As it turned out, lib-y is (ab)used to avoid
-multiple definition errors.
-
-The 0-day detected a bug of 32-bit sparc:
-https://patchwork.kernel.org/patch/11432969/
-
-And, another is this one.
-
-MIPS relies on that
-arch/mips/lib/lib.a is weaker than octeon ones.
-
-So, annotating __weak is a good solution
-(thanks Nick!).
-
-If I send a patch, is it acceptable?
-
+Thomas.
 
 -- 
-Best Regards
-Masahiro Yamada
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
