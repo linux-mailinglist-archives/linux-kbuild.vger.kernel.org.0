@@ -2,101 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 666A318BB33
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 16:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CB2B18BB83
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 16:49:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727275AbgCSPfJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Mar 2020 11:35:09 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:21122 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727023AbgCSPfJ (ORCPT
+        id S1727470AbgCSPtO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Mar 2020 11:49:14 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:42387 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727189AbgCSPtO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:35:09 -0400
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 02JFYfKx010180;
-        Fri, 20 Mar 2020 00:34:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 02JFYfKx010180
+        Thu, 19 Mar 2020 11:49:14 -0400
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 02JFmuqs029340;
+        Fri, 20 Mar 2020 00:48:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02JFmuqs029340
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584632082;
-        bh=ZudRjw8d2mmE6Qh0MNmRmyStzy23KZnPj7KGn+JhVk4=;
+        s=dec2015msa; t=1584632937;
+        bh=8ePxFKbmCNPyEVXbZg9bxrLPtjJ0hIQvHoR+u5cuXlk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IO+hiNmLXYruFLdzoVMQNC5p4AT+C+SS2aDSDJHXJIZ1CW5COBIZshODKxYi69o6R
-         0m3CilCMjWrrxZOSBWkP6xZDUasCG2dmf1hxxVLDVFenfqTHZ8hxelBswxUb7uPZCJ
-         XZTjCrjZFlAfhJFwsoVUJe4g9VTbh0ckEijjPDL6joVoqv1hceqQocA/l0fvGxIsbw
-         lUPH7TFYsi+ZGUYt3uUD0bVXPnVetljYdIKLoKCSLOILuMxxmJZw9S8rBBdJ0vxy3l
-         2dv1776bkZ+3CudusR6j167fNy7+xF7h1iXlpbK0UNSOhcmNlJNG6fBmzFJHPv6Jqz
-         M2tqRv44NILXQ==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id j2so945647uak.9;
-        Thu, 19 Mar 2020 08:34:42 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3a6wlyeR3U1iBJMiz165v55xVGGe5Qhy98Akqz/3loRFQYS4Mr
-        SsfTjSjuf9pHnf/4R7xzCAuT9o/l+dFhbGMxf3c=
-X-Google-Smtp-Source: ADFU+vt3y1uz57wFaSIYffv4+/U5DMz8PYOgRl8m+08bn6AZbd9wh2PcZ8DWrvfAGgwXzg7GPW0S09jfOPg8WVuy0kw=
-X-Received: by 2002:ab0:3485:: with SMTP id c5mr2220678uar.109.1584632080969;
- Thu, 19 Mar 2020 08:34:40 -0700 (PDT)
+        b=TWHYuVJqAJHGT2J/QN0ivaoF5RblRJztHn1gOuaI3JETl0zptVkq8T5+IXuCK4qj7
+         J89oQxTtEECTesBc5eApZqSSN4GdC62fWYMLAJTkoWV7+IHOEqftqrZ5NcBiwkhwBM
+         CxSC3NIpyv2BLiPHF0F6YJ6ea+sb138b1q+pSfQJl8gPsJbsU46roHObS5Zt/EYKoR
+         jH/q0j4XKsj4S6mt9Mo3OS5rPK96/XmRnxu5efm0jfFAwaydKqu2eDmic7ZYZjw0Jc
+         FeJt19pNG2spVwm5aNFlLXinGseNnLC5Lq40skmNx100yljF3Lzq9kKKlqEW/Ja1xD
+         kCiKka1weSc7A==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id m9so1953761vso.2;
+        Thu, 19 Mar 2020 08:48:57 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ0uhvPfo7XoYRjUcAUEanC2Gx95ToKSplt7/0UBhgFBqtNE6d7A
+        o52kYKPOpOZ9Af3Q01wRBBbs6q5pPj7pcvw3PfQ=
+X-Google-Smtp-Source: ADFU+vuE+c3n/dpA4yyF3d1WQF2dPe5+qKC0jhqbTt6w2aU3d4Li83bNqcwgm5RvBt3ESyOremdAfr8BAiJJv9QTriU=
+X-Received: by 2002:a67:33cb:: with SMTP id z194mr2807732vsz.155.1584632936269;
+ Thu, 19 Mar 2020 08:48:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200317000718.177637-1-slyfox@gentoo.org> <nycvar.YFH.7.76.2003170154580.19500@cbobk.fhfr.pm>
- <nycvar.YFH.7.76.2003170240410.19500@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2003170240410.19500@cbobk.fhfr.pm>
+References: <20200311223725.27662-2-masahiroy@kernel.org> <202003121230.lys3M8E8%lkp@intel.com>
+ <CAK7LNARwR5X2C_VzK_3RZo+30Cu3uPuiw-rFUut1j8azLhbxAA@mail.gmail.com> <20200312083943.GA7278@alpha.franken.de>
+In-Reply-To: <20200312083943.GA7278@alpha.franken.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 20 Mar 2020 00:34:05 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKBjfYsqvaksDhSwhDHxLv0o6c8cLx=eWuVYGHCGZ_Sw@mail.gmail.com>
-Message-ID: <CAK7LNARKBjfYsqvaksDhSwhDHxLv0o6c8cLx=eWuVYGHCGZ_Sw@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: disallow data races on gcc-10 as well
-To:     Jiri Kosina <jikos@kernel.org>,
-        Sergei Trofimovich <slyfox@gentoo.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Fri, 20 Mar 2020 00:48:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
+Message-ID: <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] kbuild: link lib-y objects to vmlinux forcibly
+ when CONFIG_MODULES=y
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc:     linux-mips@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
+        kbuild-all@lists.01.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "sparclinux@vger.kernel.org, David S . Miller" <davem@davemloft.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Ilie Halip <ilie.halip@gmail.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        kbuild test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 10:41 AM Jiri Kosina <jikos@kernel.org> wrote:
+Hi Thomas,
+
+On Thu, Mar 12, 2020 at 5:40 PM Thomas Bogendoerfer
+<tsbogend@alpha.franken.de> wrote:
 >
-> On Tue, 17 Mar 2020, Jiri Kosina wrote:
->
-> > > The flag change happened at https://gcc.gnu.org/PR92046.
-> > >
-> > > CC: Jiri Kosina <jkosina@suse.cz>
-> > > CC: Masahiro Yamada <masahiroy@kernel.org>
-> > > CC: Michal Marek <michal.lkml@markovi.net>
-> > > CC: linux-kbuild@vger.kernel.org
-> > > Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
-> > > ---
-> > >  Makefile | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/Makefile b/Makefile
-> > > index 171f2b004c8a..9696eb2cd5a1 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -714,6 +714,7 @@ endif
-> > >
-> > >  # Tell gcc to never replace conditional load with a non-conditional one
-> > >  KBUILD_CFLAGS      += $(call cc-option,--param=allow-store-data-races=0)
-> > > +KBUILD_CFLAGS      += $(call cc-option,-fno-allow-store-data-races)
+> On Thu, Mar 12, 2020 at 03:12:28PM +0900, Masahiro Yamada wrote:
+> > I got the following report from 0-day bot.
+> > Please advise me how to fix it.
 > >
-> > I have to say I can't really read gcc sources without major cerebral pain,
-> > so let me me dense here: what happens to gcc<10 if you pass
-> > -fno-allow-store-data-races to it?
+> >
+> > I am not sure how multi-platform works in MIPS.
+> >
+> > The cavium-octeon platform has its own implementation
+> > of various functions.
+> >
+> > So, vmlinux links different library routines
+> > depending on whether CONFIG_CAVIUM_OCTEON_SOC, correct?
 >
-> Sorry, brainfart on my side, your patch is good :)
+> for cavium memcpy is directly linked in via octeon-memcpy.o, while for
+> every other platform it's coming from lib/lib.a(memcpy.o).
 >
->         Acked-by: Jiri Kosina <jkosina@suse.cz>
+> What have you changed, that this doesn't work anymore ?
 >
-> Thanks,
->
-> --
-> Jiri Kosina
-> SUSE Labs
->
+> Thomas.
 
-Applied to linux-kbuild with Jiri's Ack.
 
-Thanks.
+I want to change all objects from lib-y
+to be linked to vmlinux (exactly like obj-y )
+if CONFIG_MODULES is enabled.
+
+https://patchwork.kernel.org/patch/11432969/
+
+
+EXPORT_SYMBOL in libraries
+must be linked to vmlinux all the time,
+even if there is no call-site in vmlinux.
+I believe this is a good simplification because
+EXPORT_SYMBOL is interface to loadable modules.
+
+As it turned out, lib-y is (ab)used to avoid
+multiple definition errors.
+
+The 0-day detected a bug of 32-bit sparc:
+https://patchwork.kernel.org/patch/11432969/
+
+And, another is this one.
+
+MIPS relies on that
+arch/mips/lib/lib.a is weaker than octeon ones.
+
+So, annotating __weak is a good solution
+(thanks Nick!).
+
+If I send a patch, is it acceptable?
+
 
 -- 
 Best Regards
