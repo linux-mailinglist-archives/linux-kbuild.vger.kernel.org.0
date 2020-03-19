@@ -2,136 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1CB18BAFD
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 16:23:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 666A318BB33
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 16:35:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbgCSPXG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Mar 2020 11:23:06 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:62303 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727356AbgCSPXG (ORCPT
+        id S1727275AbgCSPfJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Mar 2020 11:35:09 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:21122 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727023AbgCSPfJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Mar 2020 11:23:06 -0400
+        Thu, 19 Mar 2020 11:35:09 -0400
 Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 02JFMkBx018431;
-        Fri, 20 Mar 2020 00:22:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 02JFMkBx018431
+        by conssluserg-05.nifty.com with ESMTP id 02JFYfKx010180;
+        Fri, 20 Mar 2020 00:34:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 02JFYfKx010180
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1584631367;
-        bh=Tu2djgmKkAF8RYObtpeLT7Ttw9jLZvbbIJmApmRreD0=;
-        h=From:Date:Subject:To:Cc:From;
-        b=LRCjykCyVBAJvUCb6ajcQ+J4yAo1Luz0uuAUATklkclcu0fG7IP/A432OiBzK4naU
-         21fS22cQTvtl6HGxUeCi+6u63BJqWNDXXKtcCKEi+P5Qrrn1jaC8ry64GKY0b+iPpH
-         5900rfcdbp1v5OLZPSuOEot6K/GlYT/MtVYPf1e0HkY3WumWWMFvNlnJY79vVNs8YJ
-         P65gOQ6dOshgpyFhL9X0czw1EXEd1Kk3UNrvEVtAnQRvnI8CmgIaNKdJy/Tzo9SAHP
-         xlfNARNquflYbDt9yynKHGuPaymGKIJOs9y72MN9hxMzxnvrjnLfei+IaHLlBixHFl
-         lRqtdSlplJEnw==
+        s=dec2015msa; t=1584632082;
+        bh=ZudRjw8d2mmE6Qh0MNmRmyStzy23KZnPj7KGn+JhVk4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=IO+hiNmLXYruFLdzoVMQNC5p4AT+C+SS2aDSDJHXJIZ1CW5COBIZshODKxYi69o6R
+         0m3CilCMjWrrxZOSBWkP6xZDUasCG2dmf1hxxVLDVFenfqTHZ8hxelBswxUb7uPZCJ
+         XZTjCrjZFlAfhJFwsoVUJe4g9VTbh0ckEijjPDL6joVoqv1hceqQocA/l0fvGxIsbw
+         lUPH7TFYsi+ZGUYt3uUD0bVXPnVetljYdIKLoKCSLOILuMxxmJZw9S8rBBdJ0vxy3l
+         2dv1776bkZ+3CudusR6j167fNy7+xF7h1iXlpbK0UNSOhcmNlJNG6fBmzFJHPv6Jqz
+         M2tqRv44NILXQ==
 X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id r47so897672uad.11;
-        Thu, 19 Mar 2020 08:22:47 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ2U8IS2cjA4ImJpDDHitPRAWGNFxpGfOfCUXOxf9SoX9XNwMmIi
-        TS+SzouFWtT4jxRJMzGctmYpt1XmxNc0RqvLWjA=
-X-Google-Smtp-Source: ADFU+vuhm04AxBGx6dccv3oM51vQOCjxZbw1TUdNd2347ssYWgwR6Gk9KJUrX3UXpvAgfP2p1oTj13v3diMBQgPrRJI=
-X-Received: by 2002:ab0:28d8:: with SMTP id g24mr2169125uaq.121.1584631365859;
- Thu, 19 Mar 2020 08:22:45 -0700 (PDT)
+Received: by mail-ua1-f41.google.com with SMTP id j2so945647uak.9;
+        Thu, 19 Mar 2020 08:34:42 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3a6wlyeR3U1iBJMiz165v55xVGGe5Qhy98Akqz/3loRFQYS4Mr
+        SsfTjSjuf9pHnf/4R7xzCAuT9o/l+dFhbGMxf3c=
+X-Google-Smtp-Source: ADFU+vt3y1uz57wFaSIYffv4+/U5DMz8PYOgRl8m+08bn6AZbd9wh2PcZ8DWrvfAGgwXzg7GPW0S09jfOPg8WVuy0kw=
+X-Received: by 2002:ab0:3485:: with SMTP id c5mr2220678uar.109.1584632080969;
+ Thu, 19 Mar 2020 08:34:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200317000718.177637-1-slyfox@gentoo.org> <nycvar.YFH.7.76.2003170154580.19500@cbobk.fhfr.pm>
+ <nycvar.YFH.7.76.2003170240410.19500@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2003170240410.19500@cbobk.fhfr.pm>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 20 Mar 2020 00:22:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
-Message-ID: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.6-rc7
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 20 Mar 2020 00:34:05 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARKBjfYsqvaksDhSwhDHxLv0o6c8cLx=eWuVYGHCGZ_Sw@mail.gmail.com>
+Message-ID: <CAK7LNARKBjfYsqvaksDhSwhDHxLv0o6c8cLx=eWuVYGHCGZ_Sw@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: disallow data races on gcc-10 as well
+To:     Jiri Kosina <jikos@kernel.org>,
+        Sergei Trofimovich <slyfox@gentoo.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Tue, Mar 17, 2020 at 10:41 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Tue, 17 Mar 2020, Jiri Kosina wrote:
+>
+> > > The flag change happened at https://gcc.gnu.org/PR92046.
+> > >
+> > > CC: Jiri Kosina <jkosina@suse.cz>
+> > > CC: Masahiro Yamada <masahiroy@kernel.org>
+> > > CC: Michal Marek <michal.lkml@markovi.net>
+> > > CC: linux-kbuild@vger.kernel.org
+> > > Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+> > > ---
+> > >  Makefile | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index 171f2b004c8a..9696eb2cd5a1 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -714,6 +714,7 @@ endif
+> > >
+> > >  # Tell gcc to never replace conditional load with a non-conditional one
+> > >  KBUILD_CFLAGS      += $(call cc-option,--param=allow-store-data-races=0)
+> > > +KBUILD_CFLAGS      += $(call cc-option,-fno-allow-store-data-races)
+> >
+> > I have to say I can't really read gcc sources without major cerebral pain,
+> > so let me me dense here: what happens to gcc<10 if you pass
+> > -fno-allow-store-data-races to it?
+>
+> Sorry, brainfart on my side, your patch is good :)
+>
+>         Acked-by: Jiri Kosina <jkosina@suse.cz>
+>
+> Thanks,
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
 
-Please pull more Kbuild fixes.
+Applied to linux-kbuild with Jiri's Ack.
+
 Thanks.
 
-
-
-The following changes since commit 98d54f81e36ba3bf92172791eba5ca5bd813989b=
-:
-
-  Linux 5.6-rc4 (2020-03-01 16:38:46 -0600)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.6-3
-
-for you to fetch changes up to 7883a14339299773b2ce08dcfd97c63c199a9289:
-
-  scripts/kallsyms: fix wrong kallsyms_relative_base (2020-03-19 23:40:20 +=
-0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.6 (3rd)
-
- - fix __uint128_t capability test in Kconfig when GCC that defaults
-   to 32-bit is used to build the 64-bit kernel
-
- - suppress new noisy Clang warnings -Wpointer-to-enum-cast
-
- - move the namespace field in Module.symvers for the backward
-   compatibility reason for the depmod tool
-
- - use available compression for initramdisk when INTRAMFS_SOURCE
-   is defined, which was the original behavior
-
- - fix modpost to handle correct large section numbers when it refers
-   to modversion CRCs and module namespaces
-
- - fix comments and documents
-
-----------------------------------------------------------------
-Eugeniy Paltsev (1):
-      initramfs: restore default compression behavior
-
-Jessica Yu (1):
-      modpost: move the namespace field in Module.symvers last
-
-Masahiro Yamada (3):
-      kconfig: introduce m32-flag and m64-flag
-      int128: fix __uint128_t compiler test in Kconfig
-      kbuild: doc: fix references to other documents
-
-Mikhail Petrov (1):
-      scripts/kallsyms: fix wrong kallsyms_relative_base
-
-Nathan Chancellor (1):
-      kbuild: Disable -Wpointer-to-enum-cast
-
-SZ Lin (=E6=9E=97=E4=B8=8A=E6=99=BA) (1):
-      kbuild: Fix inconsistent comment
-
-Xiao Yang (1):
-      modpost: Get proper section index by get_secindex() instead of st_shn=
-dx
-
- Documentation/kbuild/kbuild.rst                 |  2 +-
- Documentation/kbuild/kconfig-macro-language.rst |  2 +-
- Documentation/kbuild/makefiles.rst              |  6 +++---
- Documentation/kbuild/modules.rst                |  4 ++--
- Makefile                                        |  2 +-
- init/Kconfig                                    |  3 +--
- scripts/Kconfig.include                         |  7 ++++++
- scripts/Makefile.extrawarn                      |  1 +
- scripts/export_report.pl                        |  2 +-
- scripts/kallsyms.c                              |  8 +++----
- scripts/mod/modpost.c                           | 27 ++++++++++++---------=
----
- usr/Kconfig                                     | 22 +++++++++----------
- 12 files changed, 47 insertions(+), 39 deletions(-)
-
-
---=20
+-- 
 Best Regards
 Masahiro Yamada
