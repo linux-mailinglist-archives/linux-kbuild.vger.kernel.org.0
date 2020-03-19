@@ -2,95 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08BFB18BDC9
-	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 18:16:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9377018BDEF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Mar 2020 18:25:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727706AbgCSRQb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 19 Mar 2020 13:16:31 -0400
-Received: from elvis.franken.de ([193.175.24.41]:51419 "EHLO elvis.franken.de"
+        id S1726934AbgCSRZJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 19 Mar 2020 13:25:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57374 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727446AbgCSRQb (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 19 Mar 2020 13:16:31 -0400
-Received: from uucp (helo=alpha)
-        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
-        id 1jEymJ-0004Hm-00; Thu, 19 Mar 2020 18:16:19 +0100
-Received: by alpha.franken.de (Postfix, from userid 1000)
-        id 5A023C026A; Thu, 19 Mar 2020 17:22:45 +0100 (CET)
-Date:   Thu, 19 Mar 2020 17:22:45 +0100
-From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+        id S1727146AbgCSRZH (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 19 Mar 2020 13:25:07 -0400
+Subject: Re: [GIT PULL] Kbuild fixes for v5.6-rc7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584638706;
+        bh=NfS59A8mHznDlIVDVb5fxZyORY84TtYTcQNxzuhgarc=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=0CdHN6IsLTgXeYgTBnKSsX78gVITpfl0UF+6FzjBHwL3uOrEMTgGxF4H+ZjXQB2hq
+         y+i8iojRIvGnFsqO/dzYsfkLy+8sFsbkY5xinKYdMhVODe2nmXW0HM0CEPDBZgPrhr
+         qdsj3/fKH2mq1+nHaFtpqWiZJSlmc0MkVBFVoWxQ=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
+References: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNASTxvF9AbddpkgABM2fAmvCP_bwCCrS9gmeDN0w-ZjfwA@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ tags/kbuild-fixes-v5.6-3
+X-PR-Tracked-Commit-Id: 7883a14339299773b2ce08dcfd97c63c199a9289
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 207f75c4543fcd34ed7ec84ede43479f1c08e7ca
+Message-Id: <158463870675.20508.344533080914750903.pr-tracker-bot@kernel.org>
+Date:   Thu, 19 Mar 2020 17:25:06 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-mips@vger.kernel.org, Paul Burton <paulburton@kernel.org>,
-        kbuild-all@lists.01.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "sparclinux@vger.kernel.org, David S . Miller" <davem@davemloft.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Ilie Halip <ilie.halip@gmail.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 2/2] kbuild: link lib-y objects to vmlinux forcibly
- when CONFIG_MODULES=y
-Message-ID: <20200319162245.GA19404@alpha.franken.de>
-References: <20200311223725.27662-2-masahiroy@kernel.org>
- <202003121230.lys3M8E8%lkp@intel.com>
- <CAK7LNARwR5X2C_VzK_3RZo+30Cu3uPuiw-rFUut1j8azLhbxAA@mail.gmail.com>
- <20200312083943.GA7278@alpha.franken.de>
- <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAT8AVh8PawDsUoStjYMsOq-DLJbW30SpX7hDDJHZNCd9g@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 20, 2020 at 12:48:20AM +0900, Masahiro Yamada wrote:
-> Hi Thomas,
-> 
-> On Thu, Mar 12, 2020 at 5:40 PM Thomas Bogendoerfer
-> <tsbogend@alpha.franken.de> wrote:
-> >
-> > On Thu, Mar 12, 2020 at 03:12:28PM +0900, Masahiro Yamada wrote:
-> > > I got the following report from 0-day bot.
-> > > Please advise me how to fix it.
-> > >
-> > >
-> > > I am not sure how multi-platform works in MIPS.
-> > >
-> > > The cavium-octeon platform has its own implementation
-> > > of various functions.
-> > >
-> > > So, vmlinux links different library routines
-> > > depending on whether CONFIG_CAVIUM_OCTEON_SOC, correct?
-> >
-> > for cavium memcpy is directly linked in via octeon-memcpy.o, while for
-> > every other platform it's coming from lib/lib.a(memcpy.o).
-> >
-> > What have you changed, that this doesn't work anymore ?
-> >
-> > Thomas.
-> 
-> 
-> I want to change all objects from lib-y
-> to be linked to vmlinux (exactly like obj-y )
-> if CONFIG_MODULES is enabled.
+The pull request you sent on Fri, 20 Mar 2020 00:22:09 +0900:
 
-ic
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.6-3
 
-> So, annotating __weak is a good solution
-> (thanks Nick!).
-> 
-> If I send a patch, is it acceptable?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/207f75c4543fcd34ed7ec84ede43479f1c08e7ca
 
-sure.
-
-Thomas.
+Thank you!
 
 -- 
-Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-good idea.                                                [ RFC1925, 2.3 ]
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
