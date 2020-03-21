@@ -2,124 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 482CC18D6C3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Mar 2020 19:24:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9646118DCCA
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Mar 2020 01:50:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbgCTSY0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Mar 2020 14:24:26 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:41036 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726878AbgCTSY0 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Mar 2020 14:24:26 -0400
-Received: by mail-pg1-f196.google.com with SMTP id b1so3494532pgm.8
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Mar 2020 11:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2xWVMcAkfq5ne45p4xyMZVZzHfwNqETngAro5lkreP4=;
-        b=egxARSlFh+gl8BSoKEBkPxmioi72UPPDmz+ssHOs8UemiCka73hYdGEersNQgdrjqn
-         c9iW1spOQ7Y1EaKd8/93ca30yRGiOpdG1LxIk06m6fckNrb3yNGJ1b0zsz3OwKkRoNSS
-         x85gCSRaoiqfjdrokwJmmZlkj+6L0Y12RifNA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2xWVMcAkfq5ne45p4xyMZVZzHfwNqETngAro5lkreP4=;
-        b=M6RVBII7RubkekUbWkceHinDc0LrAlm0wWfwSSguPqLv4tEd40m5UH5mMkUUp+Iqwf
-         SEA8slSaYRxO4DWPueEDUfP8AZ6dndelc2plFXvfFMH2bUez348bk/VAgzGNVQBg5MJA
-         jwT8mN05yIPgaj3hMiuPis1NpZE6kRo0HNsJSWRfdnq6ke+5gkMgoWrVEz9sgdMzRYLb
-         ySGXJRBN6yrwifUII9uhNd+1ogDKapvxpBHJ2qo4V5K5LoJNIsjOymV3psL1iUcnomsb
-         hry2FBe9QBRguy+xXtozUKuvBZYPWj8gzf9FiE/LVRf5ZynMyvtNpo0D2vyS8cvspXFB
-         cQVA==
-X-Gm-Message-State: ANhLgQ2HGuKy59P2XZjegbS04sdz1KbNZb2OUjIKzS59/DjfyqDkttyd
-        PD1BF8+rhp1u2zg8Piu6CpBimw==
-X-Google-Smtp-Source: ADFU+vvJ86QsFIReD0LB05B1a0McdUNTvZoxWG49MXWb/we6ziLuZVXT1lHzITCce8/XQ3hfd6rn8g==
-X-Received: by 2002:a63:b706:: with SMTP id t6mr9859014pgf.329.1584728664667;
-        Fri, 20 Mar 2020 11:24:24 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id w205sm6244774pfc.75.2020.03.20.11.24.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2020 11:24:23 -0700 (PDT)
-Date:   Fri, 20 Mar 2020 11:24:22 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Nicholas Piggin <npiggin@gmail.com>
-Cc:     Borislav Petkov <bp@suse.de>, Arnd Bergmann <arnd@arndb.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        clang-built-linux@googlegroups.com,
-        "H.J. Lu" <hjl.tools@gmail.com>, James Morse <james.morse@arm.com>,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Russell King <linux@armlinux.org.uk>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Will Deacon <will@kernel.org>, x86@kernel.org
-Subject: Re: [PATCH 1/9] scripts/link-vmlinux.sh: Delay orphan handling
- warnings until final link
-Message-ID: <202003201121.8CBD96451B@keescook>
-References: <20200228002244.15240-1-keescook@chromium.org>
- <20200228002244.15240-2-keescook@chromium.org>
- <1584672297.mudnpz3ir9.astroid@bobo.none>
+        id S1727717AbgCUAuF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Mar 2020 20:50:05 -0400
+Received: from frisell.zx2c4.com ([192.95.5.64]:35097 "EHLO frisell.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726851AbgCUAuF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 20 Mar 2020 20:50:05 -0400
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id cbecbc3c;
+        Sat, 21 Mar 2020 00:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=from:to:cc
+        :subject:date:message-id:in-reply-to:references:mime-version
+        :content-transfer-encoding; s=mail; bh=Z3HxzC8DAqUUz58mImbWRdz/i
+        nI=; b=rCTi7k5dgKJNTWBgynQrbbJZbtn2ELkfReb0IbecEEtRHplNSyqjkML3S
+        5DCrxR3ff1jWsZoKT7UbAjBEuwMnL3V3whlwmhHQbJmvQCwBgWz6HTrBOjcT/Y99
+        YpdyCzCJNIIH292vd+0Knd7MuOgLqbH2dffuYmCpX125iho4Om53xi3pllRh78lW
+        AmMbHcBKEdNQmsG4ki319LK/CPm+/YweiffUzSdbJRsd5JaphHFMytvXv/VGa2lS
+        JUm1PDEcS4H+KDj6wa4ccTQSnKOBUODiN6jRmkGCQVTHztsdCqpaEh8hkHtgaK/f
+        /hLxKpq5G/ld3quDAcS/G3bL7BKGw==
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c7db75ea (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
+        Sat, 21 Mar 2020 00:43:23 +0000 (UTC)
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        x86@kernel.org, linux-crypto@vger.kernel.org
+Subject: [PATCH RFC 0/3] x86: probe for assembler capabilities in Kconfig
+Date:   Fri, 20 Mar 2020 18:49:42 -0600
+Message-Id: <20200321004945.451497-1-Jason@zx2c4.com>
+In-Reply-To: <CAHk-=wjbTF2iw3EbKgfiRRq_keb4fHwLO8xJyRXbfK3Q7cscuQ@mail.gmail.com>
+References: <CAHk-=wjbTF2iw3EbKgfiRRq_keb4fHwLO8xJyRXbfK3Q7cscuQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1584672297.mudnpz3ir9.astroid@bobo.none>
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 20, 2020 at 12:47:54PM +1000, Nicholas Piggin wrote:
-> Kees Cook's on February 28, 2020 10:22 am:
-> > Right now, powerpc adds "--orphan-handling=warn" to LD_FLAGS_vmlinux
-> > to detect when there are unexpected sections getting added to the kernel
-> > image. There is no need to report these warnings more than once, so it
-> > can be removed until the final link stage.
-> > 
-> > This helps pave the way for other architectures to enable this, with the
-> > end goal of enabling this warning by default for vmlinux for all
-> > architectures.
-> > 
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  scripts/link-vmlinux.sh | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-> > index 1919c311c149..416968fea685 100755
-> > --- a/scripts/link-vmlinux.sh
-> > +++ b/scripts/link-vmlinux.sh
-> > @@ -255,6 +255,11 @@ info GEN modules.builtin
-> >  tr '\0' '\n' < modules.builtin.modinfo | sed -n 's/^[[:alnum:]:_]*\.file=//p' |
-> >  	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$/.ko/' > modules.builtin
-> >  
-> > +
-> > +# Do not warn about orphan sections until the final link stage.
-> > +saved_LDFLAGS_vmlinux="${LDFLAGS_vmlinux}"
-> > +LDFLAGS_vmlinux="$(echo "${LDFLAGS_vmlinux}" | sed -E 's/ --orphan-handling=warn( |$)/ /g')"
-> > +
-> >  btf_vmlinux_bin_o=""
-> >  if [ -n "${CONFIG_DEBUG_INFO_BTF}" ]; then
-> >  	if gen_btf .tmp_vmlinux.btf .btf.vmlinux.bin.o ; then
-> > @@ -306,6 +311,7 @@ if [ -n "${CONFIG_KALLSYMS}" ]; then
-> >  	fi
-> >  fi
-> >  
-> > +LDFLAGS_vmlinux="${saved_LDFLAGS_vmlinux}"
-> >  vmlinux_link vmlinux "${kallsymso}" ${btf_vmlinux_bin_o}
-> >  
-> >  if [ -n "${CONFIG_BUILDTIME_TABLE_SORT}" ]; then
-> 
-> That's ugly. Why not just enable it for all archs?
+Doing this probing inside of the Makefiles means we have a maze of
+ifdefs inside the source code and child Makefiles that need to make
+proper decisions on this too. Instead, we do it at Kconfig time, like
+many other compiler and assembler options, which allows us to set up the
+dependencies normally for full compilation units.
 
-It is ugly; I agree.
+This patchset might have weird implications, as things have relied on
+the old behavior for a long time. For example, it now means that
+environment changes need for Kconfig's defaults to be triggered again. I
+recently saw some patch on LKML that was doing a substring comparison on
+KBUILD_CFLAGS looking for -DCONFIG_AS_SOMETHING; things like that will
+have to change too.
 
-I can try to do this for all architectures, but I worry there are a
-bunch I can't test. But I guess it would stand out. ;)
+This RFC isn't super heavily tested, and I expect problems. Let me know
+what you think.
 
--Kees
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc: x86@kernel.org
+Cc: linux-crypto@vger.kernel.org
+
+Jason A. Donenfeld (3):
+  x86: probe assembler instead of kconfig instead of makefile
+  crypto: x86 - rework configuration based on Kconfig
+  crypto: curve25519 - do not pollute dispatcher based on assembler
+
+ arch/x86/Kconfig              |   2 +
+ arch/x86/Kconfig.assembler    |  36 ++++++++
+ arch/x86/Makefile             |  22 -----
+ arch/x86/crypto/Makefile      | 162 ++++++++++++++--------------------
+ crypto/Kconfig                |  28 +++---
+ drivers/gpu/drm/i915/Makefile |   3 -
+ include/crypto/curve25519.h   |   6 +-
+ lib/raid6/test/Makefile       |   9 --
+ 8 files changed, 120 insertions(+), 148 deletions(-)
+ create mode 100644 arch/x86/Kconfig.assembler
 
 -- 
-Kees Cook
+2.25.1
+
