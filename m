@@ -2,87 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4107B18FC84
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2020 19:17:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 065F71900BA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2020 22:58:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727196AbgCWSRy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Mar 2020 14:17:54 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:43514 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727011AbgCWSRy (ORCPT
+        id S1725990AbgCWV6Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Mar 2020 17:58:24 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:42945 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725897AbgCWV6Y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Mar 2020 14:17:54 -0400
-Received: by mail-qk1-f193.google.com with SMTP id o10so10589302qki.10;
-        Mon, 23 Mar 2020 11:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/iINQakXzdSaxtc+oBuB0CcXHSHh3PaVKS7Xnoq5BJg=;
-        b=hW6ry3XELpTQ9FArONRTT+1ABF3rH0TIBfP/dW57M5BkZn4/6VNvOVLGVX/r84j2yS
-         /8/qeIrFwuUR6QdA7xneRBwHFkZkKbJ+SsV2Wfz4Bj5jFyg8J6962AYCAAZYwLhJVJrm
-         6NcBIkbrogDU8Ll5Jk2tLHIZrsmJVSASOIK3AyDY9y656FGpvQ/wniPsPsP44KIGrGhp
-         GgOjmy/rnEkCTXldpXf30Tck8/MLODydaSalm88IVbKkcGKEPXFkiU6bDKptqsj8dcrw
-         W4EXJNoQARdPPWpClizMmvWYCl823IwNRmbVcmZe985WeIMURVHjo0fAuM7+x+kT9g3C
-         IVLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/iINQakXzdSaxtc+oBuB0CcXHSHh3PaVKS7Xnoq5BJg=;
-        b=VOBKGXOCXcOH22Vas/m/DEtormY+XmmHLF9MEjc4Qle99qVz45KM/QxXjrhhINtxYl
-         TW/PoCbDo76SlfdGp+CkzXUXoPuCt3EWjR0qmh/tW60m+4z4WrOUlv7P6T00Jhq50ozv
-         1wkSnnZ6ofRfMcSnnDSmld/ASraHAQGeH/NagKGRk6OX7SJOB7cBnaMBwxhZIkIXCMEi
-         jc2Tx10u5ITmqaO/jd8va1VSmOY1xjM2qGan0Ts+S5klDaYjR9DzU3KmJSrV3yoMuTZg
-         G7fBAQebXvrWvhFNFOfPeQo3ZDxlaqbXBWMHRjnsY1XGYaMuEDylo26gAKD34n958uvg
-         l+ug==
-X-Gm-Message-State: ANhLgQ3CG6ekHiocSDDSfpRlDZicYTBVcJuAYJsL8wbrMVxJdp4suofL
-        DvznDjapYINLK5qwRz+/oqh5BA0fbzk29dggKe5l81Z3
-X-Google-Smtp-Source: ADFU+vu54K/MLKIRzODRv1lzYlUn5Y0owG4WQEJmzgRAlHFITjSo/8KHMJeS/8AAOa/zl1xGbqn9cNtMLZ+rzea/jI0=
-X-Received: by 2002:a37:992:: with SMTP id 140mr22664483qkj.36.1584987473076;
- Mon, 23 Mar 2020 11:17:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHmME9ptzBzzn+jOo=azZagB=TTFbc2vzdcYurfsE0_1nvKF+g@mail.gmail.com>
- <50c6bd77-fb16-852a-adcc-3976550f6f81@fb.com> <CAHmME9r+anBCRihmhi-Jsy6o8bcZkbwiRRW2ZYytUd5uTrha-w@mail.gmail.com>
- <CAEf4BzYXN=xNu6qeYZR_fDu3NRw9hMB7-Ehs=diB+N_aYkOWmw@mail.gmail.com>
-In-Reply-To: <CAEf4BzYXN=xNu6qeYZR_fDu3NRw9hMB7-Ehs=diB+N_aYkOWmw@mail.gmail.com>
-From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Mon, 23 Mar 2020 11:17:42 -0700
-Message-ID: <CAEf4BzaGBNmtiGwn6uT29ipG+M9YL9J6miGEA0nn2utDsmpaNw@mail.gmail.com>
-Subject: Re: using libbpf in external projects
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
-        nicolas@serveur.io,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 23 Mar 2020 17:58:24 -0400
+Received: from grover.flets-west.jp (softbank126093102113.bbtec.net [126.93.102.113]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 02NLvX4u010884;
+        Tue, 24 Mar 2020 06:57:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02NLvX4u010884
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1585000654;
+        bh=QJRuxjA1adnz8HlTmZr3rif6p3iCZLo6NIxaBlhHutA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UohJXRGP+Ak+syMR8ZEtPtnc7gHFx+cgIXLCCtvkZ4sqr7LVcfQON6VZw2INRbYpu
+         NlkSSq7X78ynNVKQuOWznwpLaDqhJW2p60qUG4AYEdPSCr4KqmLxoK+hdDOAbhjNEw
+         GKK2aLGzQj1K164yTpqG5WYPyau6ZBeZuvQLT4CTe74m4i/hfxCK0vEqt+Wav0zF9z
+         mBHR2zFymc3y8SmQMPbC5VQ/qWb5/vFogjjztz/xengoF04Iy5iU9Dc4Rvjme9ydDR
+         8Rr6TotHgzjq4HYCLYQm88ipMf0P/V5ttz0MiTiEHv0Jf3gQ2yYw8jIwRxOtR7tfc+
+         h96Vmcv+4Znjg==
+X-Nifty-SrcIP: [126.93.102.113]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH] kconfig: allow to pass optional flag into as-instr macro
+Date:   Tue, 24 Mar 2020 06:57:31 +0900
+Message-Id: <20200323215732.13339-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 23, 2020 at 10:50 AM Andrii Nakryiko
-<andrii.nakryiko@gmail.com> wrote:
->
-> On Sun, Mar 22, 2020 at 11:00 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-> >
-> > Thanks! That's much nicer to use:
-> >
-> > https://git.zx2c4.com/netifexec/commit/?id=8a39f70c981264500d27e90bbd5e3baf8f2d10d3
->
->
-> You probably don't want to compile libbpf with your custom rules. See
-> BCC libbpf-tools [0] on how to do this when you use libbpf as a
-> submodule. The idea is to do a sub-make call and let libbpf's Makefile
-> deal with everything.
->
-> Having said that, though, libbpf is packaged properly for Fedora (and
-> I think maybe for OpenSUSE and Debian, but not sure), so if you can
-> rely on libbpf package, that would probably be easiest and best. If
-> Linux distribution(s) you are targeting doesn't have libbpf package
-> yet, we'd really appreciate you reaching out to packager and asking
-> them to follow Fedora and do it :) Would make everyone's job easier in
-> long term. Thanks!
+Commit 42d519e3d0c0 ("kbuild: Add support for 'as-instr' to be used in
+Kconfig files") introduced the Kconfig variant of as-instr.
 
-Just realized I didn't paste the link:
+It is currently used in arch/arm64/Kconfig.
 
-  [0] https://github.com/iovisor/bcc/tree/master/libbpf-tools
+arm and arm64 are simple cases because they are separated by directory,
+and GCC also provides a single architecture.
+
+Such architectures as x86, powerpc, sparc, etc. support both 32 and
+64 bit kernel in the unified arch directory, and GCC can be biarch.
+On such architectures, Kbuild passes -m32 / -m64 flag (or a proper
+target triple for Clang) to select the target machine bit.
+
+This commit adds the second parameter to as-instr so you can optionally
+pass a compiler flag to evaluate the instruction with.
+
+One example usage of this is for the conversion of the following code
+in arch/x86/Makefile:
+
+  adx_instr := $(call as-instr,adox %r10$(comma)%r10,-DCONFIG_AS_ADX=1)
+
+This instruction code should be evaluated by the 64-bit assembler
+(r10 is a 64-bit register).
+
+If you use compiler that defaults to 32-bit for building the 64-bit
+kernel, -m64 should be passed to invoke the 64-bit assembler.
+
+  config AS_ADX
+          def_bool $(as-instr,adox %r10$(comma)%r10,$(m64-flags))
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Kconfig.include | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index 496d11c92c97..9b8c98168ba9 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -31,9 +31,10 @@ cc-option = $(success,$(CC) -Werror $(CLANG_FLAGS) $(1) -S -x c /dev/null -o /de
+ # Return y if the linker supports <flag>, n otherwise
+ ld-option = $(success,$(LD) -v $(1))
+ 
+-# $(as-instr,<instr>)
++# $(as-instr,<instr>,[<flag>])
+ # Return y if the assembler supports <instr>, n otherwise
+-as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) -c -x assembler -o /dev/null -)
++# You can pass optional <flag> to evaluate <instr> with
++as-instr = $(success,printf "%b\n" "$(1)" | $(CC) $(CLANG_FLAGS) $(2) -c -x assembler -o /dev/null -)
+ 
+ # check if $(CC) and $(LD) exist
+ $(error-if,$(failure,command -v $(CC)),compiler '$(CC)' not found)
+-- 
+2.17.1
+
