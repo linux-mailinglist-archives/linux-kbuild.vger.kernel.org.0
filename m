@@ -2,52 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 518D318FBE5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2020 18:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4107B18FC84
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Mar 2020 19:17:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727647AbgCWRu4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Mar 2020 13:50:56 -0400
-Received: from mail-qv1-f67.google.com ([209.85.219.67]:40978 "EHLO
-        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727163AbgCWRu4 (ORCPT
+        id S1727196AbgCWSRy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Mar 2020 14:17:54 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:43514 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727011AbgCWSRy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Mar 2020 13:50:56 -0400
-Received: by mail-qv1-f67.google.com with SMTP id o7so5180617qvq.8;
-        Mon, 23 Mar 2020 10:50:54 -0700 (PDT)
+        Mon, 23 Mar 2020 14:17:54 -0400
+Received: by mail-qk1-f193.google.com with SMTP id o10so10589302qki.10;
+        Mon, 23 Mar 2020 11:17:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Zfv1TUEAfS2XlKM6dZdDXyRH3HlubwchhWDB9NapG4k=;
-        b=lVUXki8OmhFP0I0phFRcmLgSJRgmsAamD5VIe4londSRhr2G10LMj/Dxod0GCoDueY
-         gsv7vk/NQgRYaI3mQMBbkCevubomLViTDNMNYJyIUMNGVATqPhNVv++wJmhrxLMZiT2W
-         acOnqbadl53eO95o3HK4GokxU8NS6oot/V/Y+Cknjpr1/3kw01nTD5SPlbwMuZeBLMWI
-         hsi4MeEbGMGFUCYbbQ86i8AoiEms63IePTIjzpeULJLEQlK6HvYC5NRcrAxMy1CD0gTK
-         eeBkch84mWltMT96bBsC0sMkk2ZTHn0OPhguiIi+LdD8cTn1BMcKTybJtpInW37MC55B
-         o9Yw==
+        bh=/iINQakXzdSaxtc+oBuB0CcXHSHh3PaVKS7Xnoq5BJg=;
+        b=hW6ry3XELpTQ9FArONRTT+1ABF3rH0TIBfP/dW57M5BkZn4/6VNvOVLGVX/r84j2yS
+         /8/qeIrFwuUR6QdA7xneRBwHFkZkKbJ+SsV2Wfz4Bj5jFyg8J6962AYCAAZYwLhJVJrm
+         6NcBIkbrogDU8Ll5Jk2tLHIZrsmJVSASOIK3AyDY9y656FGpvQ/wniPsPsP44KIGrGhp
+         GgOjmy/rnEkCTXldpXf30Tck8/MLODydaSalm88IVbKkcGKEPXFkiU6bDKptqsj8dcrw
+         W4EXJNoQARdPPWpClizMmvWYCl823IwNRmbVcmZe985WeIMURVHjo0fAuM7+x+kT9g3C
+         IVLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Zfv1TUEAfS2XlKM6dZdDXyRH3HlubwchhWDB9NapG4k=;
-        b=raw79qJZDl+5LMe3iupGykEWjkJeyVND5iX7i8iDD32nbBqG/LrCuwprmkJIYqrBA/
-         zNeXEPStoLKviuQzuXTBbdOT3T0+QtvGsB0RLbXSlPcPBo70XpZKduLSJLm+TSfxPs+M
-         O42N+IJKKBCWSQMK96w6MVoa2qaXLgp4nZUb4ROtebo9VHSXj/uZRcCRovZ1gKLOdfWZ
-         /maEET5HTLVTAo5pUhi23adrFzqtJOqo5WKhaBIX5/tD5TQqDK2l6a5Gexl+2jHFXVGQ
-         WZpYqu77dDkY9ZX+k8clUMOemBqdXW2fQ8y7BXraeKHBZ1MlRdHAqVHVYgtGeVgI1Jje
-         zeZQ==
-X-Gm-Message-State: ANhLgQ39DbSBcCYb1qo/3JPXWRXNEeQwXsDpuyxpQGI3FrCanioiB+PW
-        r+AaX5rTz9g9fHH/lY1XnAPH0eX4Gpf2pIXzu9w=
-X-Google-Smtp-Source: ADFU+vvyaWRr5jf4VAHvSFtD018nPcsXUr1VAxnixMzmIlE44LfKtc2Ajs6Zb8xqwd2FpN0sV4KfCS5BTESOK9RbK2Q=
-X-Received: by 2002:ad4:4182:: with SMTP id e2mr1642935qvp.247.1584985853810;
- Mon, 23 Mar 2020 10:50:53 -0700 (PDT)
+        bh=/iINQakXzdSaxtc+oBuB0CcXHSHh3PaVKS7Xnoq5BJg=;
+        b=VOBKGXOCXcOH22Vas/m/DEtormY+XmmHLF9MEjc4Qle99qVz45KM/QxXjrhhINtxYl
+         TW/PoCbDo76SlfdGp+CkzXUXoPuCt3EWjR0qmh/tW60m+4z4WrOUlv7P6T00Jhq50ozv
+         1wkSnnZ6ofRfMcSnnDSmld/ASraHAQGeH/NagKGRk6OX7SJOB7cBnaMBwxhZIkIXCMEi
+         jc2Tx10u5ITmqaO/jd8va1VSmOY1xjM2qGan0Ts+S5klDaYjR9DzU3KmJSrV3yoMuTZg
+         G7fBAQebXvrWvhFNFOfPeQo3ZDxlaqbXBWMHRjnsY1XGYaMuEDylo26gAKD34n958uvg
+         l+ug==
+X-Gm-Message-State: ANhLgQ3CG6ekHiocSDDSfpRlDZicYTBVcJuAYJsL8wbrMVxJdp4suofL
+        DvznDjapYINLK5qwRz+/oqh5BA0fbzk29dggKe5l81Z3
+X-Google-Smtp-Source: ADFU+vu54K/MLKIRzODRv1lzYlUn5Y0owG4WQEJmzgRAlHFITjSo/8KHMJeS/8AAOa/zl1xGbqn9cNtMLZ+rzea/jI0=
+X-Received: by 2002:a37:992:: with SMTP id 140mr22664483qkj.36.1584987473076;
+ Mon, 23 Mar 2020 11:17:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAHmME9ptzBzzn+jOo=azZagB=TTFbc2vzdcYurfsE0_1nvKF+g@mail.gmail.com>
  <50c6bd77-fb16-852a-adcc-3976550f6f81@fb.com> <CAHmME9r+anBCRihmhi-Jsy6o8bcZkbwiRRW2ZYytUd5uTrha-w@mail.gmail.com>
-In-Reply-To: <CAHmME9r+anBCRihmhi-Jsy6o8bcZkbwiRRW2ZYytUd5uTrha-w@mail.gmail.com>
+ <CAEf4BzYXN=xNu6qeYZR_fDu3NRw9hMB7-Ehs=diB+N_aYkOWmw@mail.gmail.com>
+In-Reply-To: <CAEf4BzYXN=xNu6qeYZR_fDu3NRw9hMB7-Ehs=diB+N_aYkOWmw@mail.gmail.com>
 From:   Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date:   Mon, 23 Mar 2020 10:50:42 -0700
-Message-ID: <CAEf4BzYXN=xNu6qeYZR_fDu3NRw9hMB7-Ehs=diB+N_aYkOWmw@mail.gmail.com>
+Date:   Mon, 23 Mar 2020 11:17:42 -0700
+Message-ID: <CAEf4BzaGBNmtiGwn6uT29ipG+M9YL9J6miGEA0nn2utDsmpaNw@mail.gmail.com>
 Subject: Re: using libbpf in external projects
 To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
 Cc:     Yonghong Song <yhs@fb.com>, bpf <bpf@vger.kernel.org>,
@@ -59,22 +60,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Mar 22, 2020 at 11:00 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Mon, Mar 23, 2020 at 10:50 AM Andrii Nakryiko
+<andrii.nakryiko@gmail.com> wrote:
 >
-> Thanks! That's much nicer to use:
+> On Sun, Mar 22, 2020 at 11:00 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > Thanks! That's much nicer to use:
+> >
+> > https://git.zx2c4.com/netifexec/commit/?id=8a39f70c981264500d27e90bbd5e3baf8f2d10d3
 >
-> https://git.zx2c4.com/netifexec/commit/?id=8a39f70c981264500d27e90bbd5e3baf8f2d10d3
+>
+> You probably don't want to compile libbpf with your custom rules. See
+> BCC libbpf-tools [0] on how to do this when you use libbpf as a
+> submodule. The idea is to do a sub-make call and let libbpf's Makefile
+> deal with everything.
+>
+> Having said that, though, libbpf is packaged properly for Fedora (and
+> I think maybe for OpenSUSE and Debian, but not sure), so if you can
+> rely on libbpf package, that would probably be easiest and best. If
+> Linux distribution(s) you are targeting doesn't have libbpf package
+> yet, we'd really appreciate you reaching out to packager and asking
+> them to follow Fedora and do it :) Would make everyone's job easier in
+> long term. Thanks!
 
+Just realized I didn't paste the link:
 
-You probably don't want to compile libbpf with your custom rules. See
-BCC libbpf-tools [0] on how to do this when you use libbpf as a
-submodule. The idea is to do a sub-make call and let libbpf's Makefile
-deal with everything.
-
-Having said that, though, libbpf is packaged properly for Fedora (and
-I think maybe for OpenSUSE and Debian, but not sure), so if you can
-rely on libbpf package, that would probably be easiest and best. If
-Linux distribution(s) you are targeting doesn't have libbpf package
-yet, we'd really appreciate you reaching out to packager and asking
-them to follow Fedora and do it :) Would make everyone's job easier in
-long term. Thanks!
+  [0] https://github.com/iovisor/bcc/tree/master/libbpf-tools
