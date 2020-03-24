@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB09319083B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2020 09:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE16519083D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Mar 2020 09:52:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727494AbgCXIvh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Mar 2020 04:51:37 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:17904 "EHLO
+        id S1727498AbgCXIvi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Mar 2020 04:51:38 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:17988 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727388AbgCXIvc (ORCPT
+        with ESMTP id S1727467AbgCXIve (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Mar 2020 04:51:32 -0400
+        Tue, 24 Mar 2020 04:51:34 -0400
 Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 02O8mgsh011219;
-        Tue, 24 Mar 2020 17:48:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02O8mgsh011219
+        by conuserg-09.nifty.com with ESMTP id 02O8mgsi011219;
+        Tue, 24 Mar 2020 17:48:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 02O8mgsi011219
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585039737;
-        bh=EKZjb7DWYR4s7jGHGhFrynB+pQ1ESbu9YqfclUuLIXQ=;
+        s=dec2015msa; t=1585039738;
+        bh=JqtixBVE5LvKs0Tzf5JjzcEl4PHKG6BuoyaSQFvvj58=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RaI62uUSi+TuYSdITao9E3pXoHm2kJAxRS4RfxbanuNPHrpbByYoL80qrDDy7sGwN
-         X90uq2aHoq+UrCHqF/zRPDNyc2wcAi7eGIP9Za62TV1/Qk5WmUs0sivkGCQYemyS41
-         DuGp3FECM267nLNoF2k25NF4L/hRred/vjOCXO2A0G6iYvj4uNJPZwCVgshLTUcXJE
-         n9bb49Yjr5vOBpd6ANIxTfyZw6+JEmzr6/m1RkcqgwljDqtKPzM3Zinl1epQbBWZpN
-         qZDG0Ji5Nhyv8Q6+miY/EJuJdt7GGFe4hxi2NcSwqPNsH19b/IriHr/RQC9Dve7o3m
-         o1UOYoQEjzHOQ==
+        b=VT7u0p7jFX8rcAUgYEMLvfDun1br1MHBhbeua/d+C+39d4WsxGHO76aT3w95RqiNk
+         7xw79J9Q8VThK+U0QGRwUovrbUbWBLwp7ocgOirKqBVBG54afPcz62tZMTHYQuPZsi
+         WA/uA/+aHULGz9ptJNxGcIzBMMBkwPU7m360SCPMJsm9YAg46rOsnqgnFnnxQtpBYi
+         MLghhO2/qsDEzoll1AmUXrCPFmz8I9MoSYWBWG/3YidFnHa1ZClqVlpGdy7PcrT0h5
+         bLc21XxTv7MvSU4yXYXWRAy+GE6Kr8lJnv7FvUjm0NegsqhJudnvGPdLutlLehQPMy
+         Utz983OFQpHGw==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kernel@vger.kernel.org
@@ -40,16 +40,11 @@ Cc:     "David S . Miller" <davem@davemloft.net>,
         Peter Zijlstra <peterz@infradead.org>,
         "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
         linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-Subject: [PATCH 10/16] drm/i915: remove always-defined CONFIG_AS_MOVNTDQA
-Date:   Tue, 24 Mar 2020 17:48:15 +0900
-Message-Id: <20200324084821.29944-11-masahiroy@kernel.org>
+        "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH 11/16] x86: probe assembler capabilities via kconfig instead of makefile
+Date:   Tue, 24 Mar 2020 17:48:16 +0900
+Message-Id: <20200324084821.29944-12-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200324084821.29944-1-masahiroy@kernel.org>
 References: <20200324084821.29944-1-masahiroy@kernel.org>
@@ -58,63 +53,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-CONFIG_AS_MOVNTDQA was introduced by commit 0b1de5d58e19 ("drm/i915:
-Use SSE4.1 movntdqa to accelerate reads from WC memory").
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-We raise the minimal supported binutils version from time to time.
-The last bump was commit 1fb12b35e5ff ("kbuild: Raise the minimum
-required binutils version to 2.21").
+Doing this probing inside of the Makefiles means we have a maze of
+ifdefs inside the source code and child Makefiles that need to make
+proper decisions on this too. Instead, we do it at Kconfig time, like
+many other compiler and assembler options, which allows us to set up the
+dependencies normally for full compilation units. In the process, the
+ADX test changes to use %eax instead of %r10 so that it's valid in both
+32-bit and 64-bit mode.
 
-I confirmed the code in $(call as-instr,...) can be assembled by the
-binutils 2.21 assembler and also by LLVM integrated assembler.
-
-Remove CONFIG_AS_MOVNTDQA, which is always defined.
-
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
 
- drivers/gpu/drm/i915/Makefile      | 3 ---
- drivers/gpu/drm/i915/i915_memcpy.c | 5 -----
- 2 files changed, 8 deletions(-)
+ arch/x86/Kconfig           |  2 ++
+ arch/x86/Kconfig.assembler | 22 ++++++++++++++++++++++
+ arch/x86/Makefile          | 15 ---------------
+ 3 files changed, 24 insertions(+), 15 deletions(-)
+ create mode 100644 arch/x86/Kconfig.assembler
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index a1f2411aa21b..e559e53fc634 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -28,9 +28,6 @@ subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
- CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
- CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index beea77046f9b..707673227837 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2935,3 +2935,5 @@ config HAVE_ATOMIC_IOMAP
+ source "drivers/firmware/Kconfig"
  
--subdir-ccflags-y += \
--	$(call as-instr,movntdqa (%eax)$(comma)%xmm0,-DCONFIG_AS_MOVNTDQA)
+ source "arch/x86/kvm/Kconfig"
++
++source "arch/x86/Kconfig.assembler"
+diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+new file mode 100644
+index 000000000000..46868ec7b723
+--- /dev/null
++++ b/arch/x86/Kconfig.assembler
+@@ -0,0 +1,22 @@
++# SPDX-License-Identifier: GPL-2.0
++# Copyright (C) 2020 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
++
++# binutils >= 2.22
++config AS_AVX2
++	def_bool $(as-instr,vpbroadcastb %xmm0$(comma)%ymm1)
++
++# binutils >= 2.25
++config AS_AVX512
++	def_bool $(as-instr,vpmovm2b %k1$(comma)%zmm5)
++
++# binutils >= 2.24
++config AS_SHA1_NI
++	def_bool $(as-instr,sha1msg1 %xmm0$(comma)%xmm1)
++
++# binutils >= 2.24
++config AS_SHA256_NI
++	def_bool $(as-instr,sha256msg1 %xmm0$(comma)%xmm1)
++
++# binutils >= 2.23
++config AS_ADX
++	def_bool $(as-instr,adox %eax$(comma)%eax)
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index 4c57cb3018fb..b65ec63c7db7 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -177,21 +177,6 @@ ifeq ($(ACCUMULATE_OUTGOING_ARGS), 1)
+ 	KBUILD_CFLAGS += $(call cc-option,-maccumulate-outgoing-args,)
+ endif
+ 
+-# does binutils support specific instructions?
+-# binutils >= 2.22
+-avx2_instr :=$(call as-instr,vpbroadcastb %xmm0$(comma)%ymm1,-DCONFIG_AS_AVX2=1)
+-# binutils >= 2.25
+-avx512_instr :=$(call as-instr,vpmovm2b %k1$(comma)%zmm5,-DCONFIG_AS_AVX512=1)
+-# binutils >= 2.24
+-sha1_ni_instr :=$(call as-instr,sha1msg1 %xmm0$(comma)%xmm1,-DCONFIG_AS_SHA1_NI=1)
+-# binutils >= 2.24
+-sha256_ni_instr :=$(call as-instr,sha256msg1 %xmm0$(comma)%xmm1,-DCONFIG_AS_SHA256_NI=1)
+-# binutils >= 2.23
+-adx_instr := $(call as-instr,adox %r10$(comma)%r10,-DCONFIG_AS_ADX=1)
 -
- subdir-ccflags-y += -I$(srctree)/$(src)
+-KBUILD_AFLAGS += $(avx2_instr) $(avx512_instr) $(sha1_ni_instr) $(sha256_ni_instr) $(adx_instr)
+-KBUILD_CFLAGS += $(avx2_instr) $(avx512_instr) $(sha1_ni_instr) $(sha256_ni_instr) $(adx_instr)
+-
+ KBUILD_LDFLAGS := -m elf_$(UTS_MACHINE)
  
- # Please keep these build lists sorted!
-diff --git a/drivers/gpu/drm/i915/i915_memcpy.c b/drivers/gpu/drm/i915/i915_memcpy.c
-index fdd550405fd3..7b3b83bd5ab8 100644
---- a/drivers/gpu/drm/i915/i915_memcpy.c
-+++ b/drivers/gpu/drm/i915/i915_memcpy.c
-@@ -35,7 +35,6 @@
- 
- static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
- 
--#ifdef CONFIG_AS_MOVNTDQA
- static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
- {
- 	kernel_fpu_begin();
-@@ -93,10 +92,6 @@ static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
- 
- 	kernel_fpu_end();
- }
--#else
--static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len) {}
--static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len) {}
--#endif
- 
- /**
-  * i915_memcpy_from_wc: perform an accelerated *aligned* read from WC
+ #
 -- 
 2.17.1
 
