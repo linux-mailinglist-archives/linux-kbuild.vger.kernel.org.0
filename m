@@ -2,95 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9A5F191FD6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2020 04:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD874192047
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2020 05:59:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727275AbgCYDuc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Mar 2020 23:50:32 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:59891 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727259AbgCYDuc (ORCPT
+        id S1725907AbgCYE7s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Mar 2020 00:59:48 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45995 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbgCYE7r (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Mar 2020 23:50:32 -0400
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 02P3oNDZ010002;
-        Wed, 25 Mar 2020 12:50:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02P3oNDZ010002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585108224;
-        bh=B51d25RhLVLUEBZV9KWWRN6tXxZV+Ex93ixb/7dltgg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Le7+OZ8u8HnRmAwzMt4fHQZedJ35wfYmXP2hGXWJKEK8YjSO3HsHPDSNXh8GWcbCZ
-         qY8bddsN3m6MekkNLlj5yVU/clWjII23lFn6ZEpSFbFKuilzM1Pva8yYoA63f2lv/A
-         pLTtVDaRtEYnG5E2kmbzo6alZcoRTePRHoP9UcUQ97YL6w099Ve9ktMbTPVZk1Uav+
-         bQMRCVRL4ls/dY9vFMZQxqIpobL3VuEsYapC5Ws0YKEQBGJ/w5uied1rn4Fh3ALYFP
-         bLE9jbvCVfQWlnFeAteYO3FLQclv/oILidEZAHvWInDTkourXLCwVNSHOkphHMZETo
-         DK80A4KP0GG4g==
-X-Nifty-SrcIP: [209.85.221.171]
-Received: by mail-vk1-f171.google.com with SMTP id t3so303920vkm.10;
-        Tue, 24 Mar 2020 20:50:24 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ066tFI8VZJWFChRXfmw5Q6R1bZirzuw4ZMz+dPSZ2b7aMhtaSE
-        d76h81106MhepOQAsTnhmX72SbJJ14xaJt9oPxQ=
-X-Google-Smtp-Source: ADFU+vugUnmkSvll3RiJFbA2FTdNiomZtU7A9mupdJ/HuYxSm4m6xNGGuElIsoiBxSJi+JrdbLShk+BTp4vuo97bNMI=
-X-Received: by 2002:a1f:32cf:: with SMTP id y198mr781430vky.96.1585108223131;
- Tue, 24 Mar 2020 20:50:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200324161539.7538-1-masahiroy@kernel.org> <CAMuHMdWPNFRhUVGb0J27MZg2CrWWm06N9OQjQsGLMZkNXJktAg@mail.gmail.com>
-In-Reply-To: <CAMuHMdWPNFRhUVGb0J27MZg2CrWWm06N9OQjQsGLMZkNXJktAg@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 25 Mar 2020 12:49:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQFbcfK=q4eYW_dQUqe-sqbjpxSpQBeCkp0Vr4P3HJc7A@mail.gmail.com>
-Message-ID: <CAK7LNAQFbcfK=q4eYW_dQUqe-sqbjpxSpQBeCkp0Vr4P3HJc7A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] net: wan: wanxl: use $(CC68K) instead of $(AS68K) for
- rebuilding firmware
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Wed, 25 Mar 2020 00:59:47 -0400
+Received: by mail-wr1-f68.google.com with SMTP id t7so1225604wrw.12;
+        Tue, 24 Mar 2020 21:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=h4KOauMe4v1I9pCuRQdOG97Qu/heRc/6J7SU7o8yNwE=;
+        b=eym7r4h8AfIsMrgo04iccRS6vIxpRq/GGv4kov4LTgdKGrwEQ7NH5p96msOECxq/Km
+         PFH2vIUzNv06GEqB6wtynYt0kuEoT8qZihcaMl24tj6Tk2AOfzlAwPrvl42qfw4f+4BA
+         mwcxhRe6qd2i16ficvpLPTPPUAmI6dbtwnpkduuMnFQJMWXpnkJIG2YpPdAjQzG+7JD2
+         /LEVW3fOt4bpK1vkzUH2I7xJO0pGRlO83VAENk6A01kvSi5QthsmEOPPw1IAF2Pn84tP
+         Nn4vjTJJXt8B1LyLl6/HuK93OxneZMzcfL27zwzGfymxQnQYiRkIQ5350pLXWmGqam49
+         sR4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=h4KOauMe4v1I9pCuRQdOG97Qu/heRc/6J7SU7o8yNwE=;
+        b=M9403Qg7/9u+WJ0e36iclVCRaE/wtgRqwkpwC5N1FgkC9FdqsP0Gv4JrHHGgoFJ+/h
+         vdcY8fXznlCSR939a65fVCwvX4PVFL42PXnzD79ge37sx+F5xK/0UT06DLEA138LNqDa
+         gGdvxI3JJSG9UWezvXts3TdqJtS0BQBUpNWRLiY4Wt680XUaQkc+mBfx+AIajSpxolRS
+         +OVJrhOjTkij9WjNoqqGzrkU3mlEoWvFyvbmSvCegFYWW5rMxCZ2El4WB0THwRC7IM9A
+         2lGBTPoXAdIIp4I7225+wydWEx9aPwZbH/6zEyZQl6X6z3nm+zW4gMzZ0+rRoGANVqR+
+         ctQQ==
+X-Gm-Message-State: ANhLgQ3zxtqAF+vn5GLpxl5IlsJUs6pyFdMCtanvD/+lfAiS5Iy6/O2i
+        jnIxdJAHr6HlyVdjkhDAoq4=
+X-Google-Smtp-Source: ADFU+vsMr8RTd3Hle0zy0eB1BsZBBUecnZChYZPKh6yx0k9aeumjW3wG1yR68IBbypixPwr4XlixZw==
+X-Received: by 2002:a5d:474b:: with SMTP id o11mr1225073wrs.4.1585112383933;
+        Tue, 24 Mar 2020 21:59:43 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id p16sm7149295wmi.40.2020.03.24.21.59.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2020 21:59:43 -0700 (PDT)
+Date:   Wed, 25 Mar 2020 05:59:40 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
         "David S . Miller" <davem@davemloft.net>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux@googlegroups.com,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        linux-crypto@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jim Kukunas <james.t.kukunas@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>
+Subject: Re: [PATCH 00/16] x86, crypto: remove always-defined CONFIG_AS_* and
+ cosolidate Kconfig/Makefiles
+Message-ID: <20200325045940.GA24974@gmail.com>
+References: <20200324084821.29944-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200324084821.29944-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 2:47 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Yamada-san,
->
-> On Tue, Mar 24, 2020 at 5:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > As far as I understood from the Kconfig help text, this build rule is
-> > used to rebuild the driver firmware, which runs on the QUICC, m68k-based
-> > Motorola 68360.
-> >
-> > The firmware source, wanxlfw.S, is currently compiled by the combo of
-> > $(CPP) and $(AS68K). This is not what we usually do for compiling *.S
-> > files. In fact, this is the only user of $(AS) in the kernel build.
-> >
-> > Moreover, $(CPP) is not likely to be a m68k tool because wanxl.c is a
-> > PCI driver, but CONFIG_M68K does not select CONFIG_HAVE_PCI.
-> > Instead of combining $(CPP) and (AS) from different tool sets, using
-> > single $(CC68K) seems simpler, and saner.
-> >
-> > After this commit, the firmware rebuild will require cc68k instead of
-> > as68k. I do not know how many people care about this, though.
-> >
-> > I do not have cc68k/ld68k in hand, but I was able to build it by using
-> > the kernel.org m68k toolchain. [1]
->
-> Would this work with a "standard" m68k-linux-gnu-gcc toolchain, like
-> provided by Debian/Ubuntu, too?
->
 
-Yes, I did 'sudo apt install gcc-8-m68k-linux-gnu'
-It successfully compiled this firmware.
+* Masahiro Yamada <masahiroy@kernel.org> wrote:
 
-In my understanding, the difference is that
-the kernel.org ones lack libc,
-so cannot link userspace programs.
+> This series of cleanups was prompted by Linus:
+> https://lkml.org/lkml/2020/3/12/726
+> 
+> First, this series drop always-on CONFIG_AS_* options.
+> Some of those options were introduced in old days.
+> For example, the check for CONFIG_AS_CFI dates back to 2006.
+> 
+> We raise the minimal tool versions from time to time.
+> Currently, we require binutils 2.21
+> (and we plan to bump it to 2.23 for v5.7-rc1).
+> 
+> After cleaning away the old checks,
+> as-instr calls are moved to Kconfig from Makefiles.
+> (patch 11)
+> 
+> This allows more Kconfig / Makefile cleanups.
+> Patch 12 is complex, but I double-checked it does the equivalent.
+> 
+> Patch 14 bumps the binutils version to 2.23,
+> and patch 15 removes more CONFIG_AS_* options.
+> 
+> I folded all relevanet patches into this series,
+> as suggested by Jason A. Donenfeld.
+> 
+> If x86 maintainers take care of this series, that's good.
+> 
+> If it is OK to queue this up to Kbuild tree,
+> I will send a pull request to Linus.
+> 
+> Thank you.
 
-They do not make much difference for this case.
+LGTM. I've got these four from Jason A. Donenfeld queued up in 
+tip:WIP.x86/asm:
 
--- 
-Best Regards
-Masahiro Yamada
+ bd5b1283e41c: ("crypto: Curve25519 - do not pollute dispatcher based on assembler")
+ 829f32d78588: ("crypto: X86 - rework configuration, based on Kconfig")
+ 95ef9f80ed63: ("x86/build: Probe assembler from Kconfig instead of Kbuild")
+ 1651e700664b: ("x86: Fix bitops.h warning with a moved cast")
+
+I suppose these might interact (maybe even conflict), and are topically 
+related.
+
+Would you like to pull these into the kbuild tree? You can find them in:
+
+   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git WIP.x86/asm
+
+Thanks,
+
+	Ingo
