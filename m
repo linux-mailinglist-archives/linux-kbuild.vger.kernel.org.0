@@ -2,49 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F99719317E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2020 20:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D948193180
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Mar 2020 20:59:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbgCYT6v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Mar 2020 15:58:51 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:50447 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727374AbgCYT6v (ORCPT
+        id S1727374AbgCYT67 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Mar 2020 15:58:59 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:45218 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727328AbgCYT67 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Mar 2020 15:58:51 -0400
-Received: by mail-pj1-f68.google.com with SMTP id v13so1496836pjb.0;
-        Wed, 25 Mar 2020 12:58:48 -0700 (PDT)
+        Wed, 25 Mar 2020 15:58:59 -0400
+Received: by mail-pg1-f195.google.com with SMTP id o26so1664088pgc.12;
+        Wed, 25 Mar 2020 12:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ETlwul6zkRwxUkCnmQn64iOKCloAs9I+TWsDslPnyoQ=;
-        b=PaE3TzVm+jRXtuUtVerQtVB0lmeEa7qssaMwCZIAHk4QaBT4VSII2PqJrEds87jqtY
-         9RHlqKXIbKAVXWSgAtc3+hFciPMbxqFNb+CQ6ZHZwJbBpFdaqm7onxKpBfBAygoKZqcZ
-         LzLot3NmsiBWgs/Aq6lHDdfhNaa8E+TO13s5PIrwShi+fuViE9ajVmbCH240l8LEehg5
-         CjyqXahLMcFjJElD2ggrQwYNMrPkaR+bgHKdTSFTebXZj/2XBUsjDjLqQvz8+/1k4cx3
-         FItQgDWeZTCiNz1SsMUeH+P59H3lTGgDMw1fUSolXpaoPOkvaDKorB/pdSmB0xHjtnGa
-         jIMA==
+        bh=tgsFBU7ua+ofhJIc4y1nmCgDqFmMsh71Dy8BWRgKxwU=;
+        b=mDTWkVyXrJ+dB0S30kP8fqRyeCE0WOm6tT8ulZa/CACVIyAW/Yn+9d+cn0okKJY1Ji
+         yAxHX6S2a1WBRuxHgO1owIIZXl2xQmwWLFfxFPXduscRMFbG7lBnDLSgRmvVYFjih3ez
+         1Cr+QzS3Fg4CyFT++qGqPPyhmBXFUOvosHj+lg+X48t3YfSs3NcC/cghOOFAK5hZ2Lwa
+         UJo/37rekygpoub/A1zaR0F6eUI9j/iNjAhOAWw1nTR2gt7uslVtJJT88Zjy3irhYrIW
+         gZMo89CnBxcrlsNRyNfFjhx4snTrkJoVuFHxZhlRFcsDWciHy22jQCdYn4B6OeaE6OV+
+         Lo+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ETlwul6zkRwxUkCnmQn64iOKCloAs9I+TWsDslPnyoQ=;
-        b=nLSH6e/ZsiquDPTQ8/+E6Ghotv/Grl9EMUV1wNC2xKwWr/eFVEzJGSje3bcVS0b9cR
-         jbdw2AX6G/+18AeUzS9Ah2QqAc5fsa/yBTd9TU4ZetkfJF5EL7O3Whv/lw1sdNjNaNzj
-         d96atFWFb1R9u/ace04yNpIlZ6xQVdmQ/SN45+m8PlLjyuOgm4yTSPk6hszXeXnmYHxq
-         rS2UkcHnZTp2PVWyK3MoYefyeVnbC7ybeYY4JOGzQn56goSyhtyoGqoSRy6Y3GVbqxzq
-         3eJSEo4EQV/DfPR/u6uBZs0qrHPy+io/9Pl4455pTR59TuOdkPTFvo5q5DRfqsWwwn80
-         aEOQ==
-X-Gm-Message-State: ANhLgQ1GyLnevZGAlUFiD6d3iXZn4RAyjkOAWfMxPxQGOsLObAlNrX8n
-        xsbRWr0hkCSN9cQsdktzvWY=
-X-Google-Smtp-Source: ADFU+vuO8lt16ipQJi2esEIVCKmpwHQEYidsgJqWHDWTeICEg5Aef9E4juuJ2aOjaq4EIjsR1SfB9g==
-X-Received: by 2002:a17:90b:1985:: with SMTP id mv5mr5560470pjb.69.1585166327528;
-        Wed, 25 Mar 2020 12:58:47 -0700 (PDT)
+        bh=tgsFBU7ua+ofhJIc4y1nmCgDqFmMsh71Dy8BWRgKxwU=;
+        b=HqKzWRdyCDbDhpXuWlB6D+iYj/clAAtrU09LFKUud+LrI8PqHSNkx1/xy/dejpK4Po
+         cjanrEAYgiLT2Wm4D86ZdqhpisN4gOq1klImYfSHOMSDXDqcTb7ohlxlcAKUcXYgxq/K
+         MdU+ciiEuA4qUv9Bl0vgLnXOw0b9tNymZr9vrXuykml3ssvmINnagCY7qNPIVxc+tybn
+         IzjS7Kt1OZhFJPeMoN9uU6WVjXdXroFnLY1ip6hpJL2IL6nkS6ur/pIkZq/GL/yq2Jdm
+         UfUTo/wjMUXbwIbfDgT+HqRRJeGTo6xw4dMt8pduLU1RwPpe1QF96wi0d3z9qEOoCYoe
+         2ZFQ==
+X-Gm-Message-State: ANhLgQ2C5BidlZZDTeggtI4QHH5rBFwxBT8vs5uDX/rTWDdb13xVTX2j
+        rOsTibe3CVyu/K+KQ347YNY=
+X-Google-Smtp-Source: ADFU+vv/jvN5qExcwh5oIxjwZbg00mqzaaDAc0tJzuAHCYBDq+n2Ws+zk9HZXWS3zltTZotW5zPkSw==
+X-Received: by 2002:a62:1d1:: with SMTP id 200mr5429520pfb.8.1585166337564;
+        Wed, 25 Mar 2020 12:58:57 -0700 (PDT)
 Received: from nickserv.localdomain (c-67-188-225-242.hsd1.ca.comcast.net. [67.188.225.242])
-        by smtp.gmail.com with ESMTPSA id d7sm19341374pfr.17.2020.03.25.12.58.46
+        by smtp.gmail.com with ESMTPSA id d7sm19341374pfr.17.2020.03.25.12.58.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 12:58:46 -0700 (PDT)
+        Wed, 25 Mar 2020 12:58:56 -0700 (PDT)
 From:   Nick Terrell <nickrterrell@gmail.com>
 To:     Nick Terrell <terrelln@fb.com>
 Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
@@ -56,9 +56,9 @@ Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
         Adam Borowski <kilobyte@angband.pl>,
         Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
         mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>
-Subject: [PATCH v3 3/8] lib: add zstd support to decompress
-Date:   Wed, 25 Mar 2020 12:58:44 -0700
-Message-Id: <20200325195849.407900-4-nickrterrell@gmail.com>
+Subject: [PATCH v3 4/8] init: add support for zstd compressed kernel
+Date:   Wed, 25 Mar 2020 12:58:45 -0700
+Message-Id: <20200325195849.407900-5-nickrterrell@gmail.com>
 X-Mailer: git-send-email 2.26.0
 In-Reply-To: <20200325195849.407900-1-nickrterrell@gmail.com>
 References: <20200325195849.407900-1-nickrterrell@gmail.com>
@@ -71,445 +71,82 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Nick Terrell <terrelln@fb.com>
 
-* Add unzstd() and the zstd decompress interface.
-* Add zstd support to decompress_method().
+* Adds the zstd cmd to scripts/Makefile.lib
+* Adds the HAVE_KERNEL_ZSTD and KERNEL_ZSTD options
 
-The decompress_method() and unzstd() functions are used to decompress
-the initramfs and the initrd. The __decompress() function is used in
-the preboot environment to decompress a zstd compressed kernel.
-
-The zstd decompression function allows the input and output buffers to
-overlap because that is used by x86 kernel decompression.
+Architecture specific support is still needed for decompression.
 
 Signed-off-by: Nick Terrell <terrelln@fb.com>
 ---
- include/linux/decompress/unzstd.h |  11 +
- lib/Kconfig                       |   4 +
- lib/Makefile                      |   1 +
- lib/decompress.c                  |   5 +
- lib/decompress_unzstd.c           | 338 ++++++++++++++++++++++++++++++
- 5 files changed, 359 insertions(+)
- create mode 100644 include/linux/decompress/unzstd.h
- create mode 100644 lib/decompress_unzstd.c
+ init/Kconfig         | 15 ++++++++++++++-
+ scripts/Makefile.lib | 15 +++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/decompress/unzstd.h b/include/linux/decompress/unzstd.h
-new file mode 100644
-index 000000000000..56d539ae880f
---- /dev/null
-+++ b/include/linux/decompress/unzstd.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef LINUX_DECOMPRESS_UNZSTD_H
-+#define LINUX_DECOMPRESS_UNZSTD_H
-+
-+int unzstd(unsigned char *inbuf, long len,
-+	   long (*fill)(void*, unsigned long),
-+	   long (*flush)(void*, unsigned long),
-+	   unsigned char *output,
-+	   long *pos,
-+	   void (*error_fn)(char *x));
-+#endif
-diff --git a/lib/Kconfig b/lib/Kconfig
-index bc7e56370129..11de5fa09a52 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -336,6 +336,10 @@ config DECOMPRESS_LZ4
- 	select LZ4_DECOMPRESS
- 	tristate
+diff --git a/init/Kconfig b/init/Kconfig
+index 20a6ac33761c..9b646a25918e 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -173,13 +173,16 @@ config HAVE_KERNEL_LZO
+ config HAVE_KERNEL_LZ4
+ 	bool
  
-+config DECOMPRESS_ZSTD
-+	select ZSTD_DECOMPRESS
-+	tristate
++config HAVE_KERNEL_ZSTD
++	bool
 +
- #
- # Generic allocator support is selected if needed
- #
-diff --git a/lib/Makefile b/lib/Makefile
-index 611872c06926..09ad45ba6883 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -160,6 +160,7 @@ lib-$(CONFIG_DECOMPRESS_LZMA) += decompress_unlzma.o
- lib-$(CONFIG_DECOMPRESS_XZ) += decompress_unxz.o
- lib-$(CONFIG_DECOMPRESS_LZO) += decompress_unlzo.o
- lib-$(CONFIG_DECOMPRESS_LZ4) += decompress_unlz4.o
-+lib-$(CONFIG_DECOMPRESS_ZSTD) += decompress_unzstd.o
+ config HAVE_KERNEL_UNCOMPRESSED
+ 	bool
  
- obj-$(CONFIG_TEXTSEARCH) += textsearch.o
- obj-$(CONFIG_TEXTSEARCH_KMP) += ts_kmp.o
-diff --git a/lib/decompress.c b/lib/decompress.c
-index 857ab1af1ef3..ab3fc90ffc64 100644
---- a/lib/decompress.c
-+++ b/lib/decompress.c
-@@ -13,6 +13,7 @@
- #include <linux/decompress/inflate.h>
- #include <linux/decompress/unlzo.h>
- #include <linux/decompress/unlz4.h>
-+#include <linux/decompress/unzstd.h>
+ choice
+ 	prompt "Kernel compression mode"
+ 	default KERNEL_GZIP
+-	depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNEL_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERNEL_UNCOMPRESSED
++	depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNEL_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERNEL_ZSTD || HAVE_KERNEL_UNCOMPRESSED
+ 	help
+ 	  The linux kernel is a kind of self-extracting executable.
+ 	  Several compression algorithms are available, which differ
+@@ -258,6 +261,16 @@ config KERNEL_LZ4
+ 	  is about 8% bigger than LZO. But the decompression speed is
+ 	  faster than LZO.
  
- #include <linux/types.h>
- #include <linux/string.h>
-@@ -37,6 +38,9 @@
- #ifndef CONFIG_DECOMPRESS_LZ4
- # define unlz4 NULL
- #endif
-+#ifndef CONFIG_DECOMPRESS_ZSTD
-+# define unzstd NULL
-+#endif
++config KERNEL_ZSTD
++	bool "ZSTD"
++	depends on HAVE_KERNEL_ZSTD
++	help
++	  ZSTD is a compression algorithm targeting intermediate compression
++	  with fast decompression speed. It will compress better than GZIP and
++	  decompress around the same speed as LZO, but slower than LZ4. You
++	  will need at least 192 KB RAM or more for booting. The zstd command
++	  line tools is required for compression.
++
+ config KERNEL_UNCOMPRESSED
+ 	bool "None"
+ 	depends on HAVE_KERNEL_UNCOMPRESSED
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 752ff0a225a9..4b99893efa3d 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -394,6 +394,21 @@ quiet_cmd_xzkern = XZKERN  $@
+ quiet_cmd_xzmisc = XZMISC  $@
+       cmd_xzmisc = cat $(real-prereqs) | xz --check=crc32 --lzma2=dict=1MiB > $@
  
- struct compress_format {
- 	unsigned char magic[2];
-@@ -52,6 +56,7 @@ static const struct compress_format compressed_formats[] __initconst = {
- 	{ {0xfd, 0x37}, "xz", unxz },
- 	{ {0x89, 0x4c}, "lzo", unlzo },
- 	{ {0x02, 0x21}, "lz4", unlz4 },
-+	{ {0x28, 0xb5}, "zstd", unzstd },
- 	{ {0, 0}, NULL, NULL }
- };
++# ZSTD
++# ---------------------------------------------------------------------------
++# Appends the uncompressed size of the data using size_append. The .zst
++# format has the size information available at the beginning of the file too,
++# but it's in a more complex format and it's good to avoid changing the part
++# of the boot code that reads the uncompressed size.
++# Note that the bytes added by size_append will make the zstd tool think that
++# the file is corrupt. This is expected.
++
++quiet_cmd_zstd = ZSTD    $@
++cmd_zstd = (cat $(filter-out FORCE,$^) | \
++	zstd -19 && \
++        $(call size_append, $(filter-out FORCE,$^))) > $@ || \
++	(rm -f $@ ; false)
++
+ # ASM offsets
+ # ---------------------------------------------------------------------------
  
-diff --git a/lib/decompress_unzstd.c b/lib/decompress_unzstd.c
-new file mode 100644
-index 000000000000..a6b391b47ab8
---- /dev/null
-+++ b/lib/decompress_unzstd.c
-@@ -0,0 +1,338 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+/*
-+ * Important notes about in-place decompression
-+ *
-+ * At least on x86, the kernel is decompressed in place: the compressed data
-+ * is placed to the end of the output buffer, and the decompressor overwrites
-+ * most of the compressed data. There must be enough safety margin to
-+ * guarantee that the write position is always behind the read position.
-+ *
-+ * The safety margin for ZSTD with a 128 KB block size is calculated below.
-+ * Note that the margin with ZSTD is bigger than with GZIP or XZ!
-+ *
-+ * The worst case for in-place decompression is that the beginning of
-+ * the file is compressed extremely well, and the rest of the file is
-+ * uncompressible. Thus, we must look for worst-case expansion when the
-+ * compressor is encoding uncompressible data.
-+ *
-+ * The structure of the .zst file in case of a compresed kernel is as follows.
-+ * Maximum sizes (as bytes) of the fields are in parenthesis.
-+ *
-+ *    Frame Header: (18)
-+ *    Blocks: (N)
-+ *    Checksum: (4)
-+ *
-+ * The frame header and checksum overhead is at most 22 bytes.
-+ *
-+ * ZSTD stores the data in blocks. Each block has a header whose size is
-+ * a 3 bytes. After the block header, there is up to 128 KB of payload.
-+ * The maximum uncompressed size of the payload is 128 KB. The minimum
-+ * uncompressed size of the payload is never less than the payload size
-+ * (excluding the block header).
-+ *
-+ * The assumption, that the uncompressed size of the payload is never
-+ * smaller than the payload itself, is valid only when talking about
-+ * the payload as a whole. It is possible that the payload has parts where
-+ * the decompressor consumes more input than it produces output. Calculating
-+ * the worst case for this would be tricky. Instead of trying to do that,
-+ * let's simply make sure that the decompressor never overwrites any bytes
-+ * of the payload which it is currently reading.
-+ *
-+ * Now we have enough information to calculate the safety margin. We need
-+ *   - 22 bytes for the .zst file format headers;
-+ *   - 3 bytes per every 128 KiB of uncompressed size (one block header per
-+ *     block); and
-+ *   - 128 KiB (biggest possible zstd block size) to make sure that the
-+ *     decompressor never overwrites anything from the block it is currently
-+ *     reading.
-+ *
-+ * We get the following formula:
-+ *
-+ *    safety_margin = 22 + uncompressed_size * 3 / 131072 + 131072
-+ *                 <= 22 + (uncompressed_size >> 15) + 131072
-+ */
-+
-+/*
-+ * Preboot environments #include "path/to/decompress_unzstd.c".
-+ * All of the source files we depend on must be #included.
-+ * zstd's only source dependeny is xxhash, which has no source
-+ * dependencies.
-+ *
-+ * zstd and xxhash avoid declaring themselves as modules
-+ * when ZSTD_PREBOOT and XXH_PREBOOT are defined.
-+ */
-+#ifdef STATIC
-+# define ZSTD_PREBOOT
-+# define XXH_PREBOOT
-+# include "xxhash.c"
-+# include "zstd/entropy_common.c"
-+# include "zstd/fse_decompress.c"
-+# include "zstd/huf_decompress.c"
-+# include "zstd/zstd_common.c"
-+# include "zstd/decompress.c"
-+#endif
-+
-+#include <linux/decompress/mm.h>
-+#include <linux/kernel.h>
-+#include <linux/zstd.h>
-+
-+/* 8 MB maximum window size */
-+#define ZSTD_WINDOWSIZE_MAX	(1 << 23)
-+/* Size of the input and output buffers in multi-call mdoe */
-+#define ZSTD_IOBUF_SIZE		4096
-+
-+static int INIT handle_zstd_error(size_t ret, void (*error)(char *x))
-+{
-+	const int err = ZSTD_getErrorCode(ret);
-+
-+	if (!ZSTD_isError(ret))
-+		return 0;
-+
-+	switch (err) {
-+	case ZSTD_error_memory_allocation:
-+		error("ZSTD decompressor ran out of memory");
-+		break;
-+	case ZSTD_error_prefix_unknown:
-+		error("Input is not in the ZSTD format (wrong magic bytes)");
-+		break;
-+	case ZSTD_error_dstSize_tooSmall:
-+	case ZSTD_error_corruption_detected:
-+	case ZSTD_error_checksum_wrong:
-+		error("ZSTD-compressed data is corrupt");
-+		break;
-+	default:
-+		error("ZSTD-compressed data is probably corrupt");
-+		break;
-+	}
-+	return -1;
-+}
-+
-+/*
-+ * Handle the case where we have the entire input and output in one segment.
-+ * We can allocate less memory (no circular buffer for the sliding window),
-+ * and avoid some memcpy() calls.
-+ */
-+static int INIT decompress_single(const u8 *in_buf, long in_len, u8 *out_buf,
-+				  long out_len, long *in_pos,
-+				  void (*error)(char *x))
-+{
-+	const size_t wksp_size = ZSTD_DCtxWorkspaceBound();
-+	void *wksp = large_malloc(wksp_size);
-+	ZSTD_DCtx *dctx = ZSTD_initDCtx(wksp, wksp_size);
-+	int err;
-+	size_t ret;
-+
-+	if (dctx == NULL) {
-+		error("Out of memory while allocating ZSTD_DCtx");
-+		err = -1;
-+		goto out;
-+	}
-+	/*
-+	 * Find out how large the frame actually is, there may be junk at
-+	 * the end of the frame that ZSTD_decompressDCtx() can't handle.
-+	 */
-+	ret = ZSTD_findFrameCompressedSize(in_buf, in_len);
-+	err = handle_zstd_error(ret, error);
-+	if (err)
-+		goto out;
-+	in_len = (long)ret;
-+
-+	ret = ZSTD_decompressDCtx(dctx, out_buf, out_len, in_buf, in_len);
-+	err = handle_zstd_error(ret, error);
-+	if (err)
-+		goto out;
-+
-+	if (in_pos != NULL)
-+		*in_pos = in_len;
-+
-+	err = 0;
-+out:
-+	if (wksp != NULL)
-+		large_free(wksp);
-+	return err;
-+}
-+
-+static int INIT __unzstd(unsigned char *in_buf, long in_len,
-+			 long (*fill)(void*, unsigned long),
-+			 long (*flush)(void*, unsigned long),
-+			 unsigned char *out_buf, long out_len,
-+			 long *in_pos,
-+			 void (*error)(char *x))
-+{
-+	ZSTD_inBuffer in;
-+	ZSTD_outBuffer out;
-+	ZSTD_frameParams params;
-+	void *in_allocated = NULL;
-+	void *out_allocated = NULL;
-+	void *wksp = NULL;
-+	size_t wksp_size;
-+	ZSTD_DStream *dstream;
-+	int err;
-+	size_t ret;
-+
-+	if (out_len == 0)
-+		out_len = LONG_MAX; /* no limit */
-+
-+	if (fill == NULL && flush == NULL)
-+		/*
-+		 * We can decompress faster and with less memory when we have a
-+		 * single chunk.
-+		 */
-+		return decompress_single(in_buf, in_len, out_buf, out_len,
-+					 in_pos, error);
-+
-+	/*
-+	 * If in_buf is not provided, we must be using fill(), so allocate
-+	 * a large enough buffer. If it is provided, it must be at least
-+	 * ZSTD_IOBUF_SIZE large.
-+	 */
-+	if (in_buf == NULL) {
-+		in_allocated = malloc(ZSTD_IOBUF_SIZE);
-+		if (in_allocated == NULL) {
-+			error("Out of memory while allocating input buffer");
-+			err = -1;
-+			goto out;
-+		}
-+		in_buf = in_allocated;
-+		in_len = 0;
-+	}
-+	/* Read the first chunk, since we need to decode the frame header. */
-+	if (fill != NULL)
-+		in_len = fill(in_buf, ZSTD_IOBUF_SIZE);
-+	if (in_len < 0) {
-+		error("ZSTD-compressed data is truncated");
-+		err = -1;
-+		goto out;
-+	}
-+	/* Set the first non-empty input buffer. */
-+	in.src = in_buf;
-+	in.pos = 0;
-+	in.size = in_len;
-+	/* Allocate the output buffer if we are using flush(). */
-+	if (flush != NULL) {
-+		out_allocated = malloc(ZSTD_IOBUF_SIZE);
-+		if (out_allocated == NULL) {
-+			error("Out of memory while allocating output buffer");
-+			err = -1;
-+			goto out;
-+		}
-+		out_buf = out_allocated;
-+		out_len = ZSTD_IOBUF_SIZE;
-+	}
-+	/* Set the output buffer. */
-+	out.dst = out_buf;
-+	out.pos = 0;
-+	out.size = out_len;
-+
-+	/*
-+	 * We need to know the window size to allocate the ZSTD_DStream.
-+	 * Since we are streaming, we need to allocate a buffer for the sliding
-+	 * window. The window size varies from 1 KB to ZSTD_WINDOWSIZE_MAX
-+	 * (8 MB), so it is important to use the actual value so as not to
-+	 * waste memory when it is smaller.
-+	 */
-+	ret = ZSTD_getFrameParams(&params, in.src, in.size);
-+	err = handle_zstd_error(ret, error);
-+	if (err)
-+		goto out;
-+	if (ret != 0) {
-+		error("ZSTD-compressed data has an incomplete frame header");
-+		err = -1;
-+		goto out;
-+	}
-+	if (params.windowSize > ZSTD_WINDOWSIZE_MAX) {
-+		error("ZSTD-compressed data has too large a window size");
-+		err = -1;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Allocate the ZSTD_DStream now that we know how much memory is
-+	 * required.
-+	 */
-+	wksp_size = ZSTD_DStreamWorkspaceBound(params.windowSize);
-+	wksp = large_malloc(wksp_size);
-+	dstream = ZSTD_initDStream(params.windowSize, wksp, wksp_size);
-+	if (dstream == NULL) {
-+		error("Out of memory while allocating ZSTD_DStream");
-+		err = -1;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Decompression loop:
-+	 * Read more data if necessary (error if no more data can be read).
-+	 * Call the decompression function, which returns 0 when finished.
-+	 * Flush any data produced if using flush().
-+	 */
-+	if (in_pos != NULL)
-+		*in_pos = 0;
-+	do {
-+		/*
-+		 * If we need to reload data, either we have fill() and can
-+		 * try to get more data, or we don't and the input is truncated.
-+		 */
-+		if (in.pos == in.size) {
-+			if (in_pos != NULL)
-+				*in_pos += in.pos;
-+			in_len = fill ? fill(in_buf, ZSTD_IOBUF_SIZE) : -1;
-+			if (in_len < 0) {
-+				error("ZSTD-compressed data is truncated");
-+				err = -1;
-+				goto out;
-+			}
-+			in.pos = 0;
-+			in.size = in_len;
-+		}
-+		/* Returns zero when the frame is complete. */
-+		ret = ZSTD_decompressStream(dstream, &out, &in);
-+		err = handle_zstd_error(ret, error);
-+		if (err)
-+			goto out;
-+		/* Flush all of the data produced if using flush(). */
-+		if (flush != NULL && out.pos > 0) {
-+			if (out.pos != flush(out.dst, out.pos)) {
-+				error("Failed to flush()");
-+				err = -1;
-+				goto out;
-+			}
-+			out.pos = 0;
-+		}
-+	} while (ret != 0);
-+
-+	if (in_pos != NULL)
-+		*in_pos += in.pos;
-+
-+	err = 0;
-+out:
-+	if (in_allocated != NULL)
-+		free(in_allocated);
-+	if (out_allocated != NULL)
-+		free(out_allocated);
-+	if (wksp != NULL)
-+		large_free(wksp);
-+	return err;
-+}
-+
-+#ifndef ZSTD_PREBOOT
-+STATIC int INIT unzstd(unsigned char *buf, long len,
-+		       long (*fill)(void*, unsigned long),
-+		       long (*flush)(void*, unsigned long),
-+		       unsigned char *out_buf,
-+		       long *pos,
-+		       void (*error)(char *x))
-+{
-+	return __unzstd(buf, len, fill, flush, out_buf, 0, pos, error);
-+}
-+#else
-+STATIC int INIT __decompress(unsigned char *buf, long len,
-+			     long (*fill)(void*, unsigned long),
-+			     long (*flush)(void*, unsigned long),
-+			     unsigned char *out_buf, long out_len,
-+			     long *pos,
-+			     void (*error)(char *x))
-+{
-+	return __unzstd(buf, len, fill, flush, out_buf, out_len, pos, error);
-+}
-+#endif
 -- 
 2.25.1
 
