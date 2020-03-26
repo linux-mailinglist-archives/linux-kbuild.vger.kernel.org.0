@@ -2,53 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B25F19495F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 21:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0ED9194964
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 21:46:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbgCZUoH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 16:44:07 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:19131 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726034AbgCZUoG (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:44:06 -0400
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 02QKhtES030568;
-        Fri, 27 Mar 2020 05:43:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02QKhtES030568
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585255436;
-        bh=6HJwRTaLrQez1RAJvnsU1ylf9hNXRZ8k4BSgYFgJ22k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=T0Y1kMBwFGoCVnrYmgbljc8dGfYYmNn1y5912DRfmdrZ52tovyg2MebhB9htlrcek
-         EBCBHT4EkxUxjtN+Pocobt56tKzjylF44IAR3wNgt+rElQrG49wtEG/SGzDIh07Nmb
-         1vD0ZIWdhyCGUMFZyWwXA/liOP3cPEIwOQNV/ZH/tKdrUzOGWGbsYwxKYVkTJGBksY
-         ohv/3vYXBVSBzbzyhVspvaJ8oVdHuojxS2Ka7r7osBRYu0OeTcH+dYykPSI9i3CLRo
-         cMuBpo8cWrm0kOxa58lZQpGC0tzA3oZc6DzUSx7qeiYiQkY8PxkZbMDdKLCG6egLsJ
-         1ab1uBfbtdgkw==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id a6so2697308uao.2;
-        Thu, 26 Mar 2020 13:43:55 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3ZkfJGNvKRUqQ9Kgx0WY+xnzpjvl4wYdsBbG5sIPfyFw4KCm0o
-        bZqEzMlWiSpzfMMJoQUKNtkaZfzgr/P+GSvIGzc=
-X-Google-Smtp-Source: ADFU+vtsUXD+aSP8lpvYCbKxZbqHSpDlYx8uyE46+TTsrnTO4BDwceM64UJEqOELPHKlfLTGso2KU8OCkIQLa5hZG1I=
-X-Received: by 2002:ab0:2085:: with SMTP id r5mr8287832uak.95.1585255434710;
- Thu, 26 Mar 2020 13:43:54 -0700 (PDT)
+        id S1726296AbgCZUqT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 16:46:19 -0400
+Received: from frisell.zx2c4.com ([192.95.5.64]:55227 "EHLO frisell.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726034AbgCZUqT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 16:46:19 -0400
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 47980eb8;
+        Thu, 26 Mar 2020 20:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
+        :references:in-reply-to:from:date:message-id:subject:to:cc
+        :content-type; s=mail; bh=CGWgvRHoerDqIX2HYCZh8ogjklM=; b=GBtBK3
+        BM2+T4Ws/EMMmKx8xvhiALt29uM1uW06kXm0UO5HEOi/oX/4uMSMuhmHx3CDbfUm
+        pOKstqAfjRFNInrLfIdLa/VU+DUH++J3XBnMA6ZuRat0YL9IrIaB3IOVuN61o9JN
+        SUJu1V8K12yus5RxdGfSo5lP9YUw13A2NzySstKJQKkJrh/yFRfTfhP59J87jlNj
+        txM2LCLNLVxYcwcPgkAdBuJvINRW8AdY1B3EEADHC/6TjfEOjXe6k3HL3itbwiiN
+        N34waeT/X6NafeE+6DjKW+K7vb5rssHXmmoZlmDF1rLumFai7ZPbHjVfSnC+oLP2
+        SdpMndirMIef9UkQ==
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9e0ddec9 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
+        Thu, 26 Mar 2020 20:38:51 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id m15so7614691iob.5;
+        Thu, 26 Mar 2020 13:46:16 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ1uW/EDSqc7juyVByB0cEu/+IMyOehdcuekgoQe5Fuo+pcYMmmh
+        4J7ACSEdrr9K9ge+cEJRIifJILXxeEURQbU1WbI=
+X-Google-Smtp-Source: ADFU+vsT1lxBNZU6tEYaINxARGEDLm5sHLmSYnbnU2+V88Os9Y74T/ah4HXpvKNpS1pgTAFg8rIzXNts4PyzMfoHxm4=
+X-Received: by 2002:a02:2714:: with SMTP id g20mr9513089jaa.95.1585255574785;
+ Thu, 26 Mar 2020 13:46:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200326080104.27286-1-masahiroy@kernel.org> <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
- <20200326092213.GA100918@gmail.com>
-In-Reply-To: <20200326092213.GA100918@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 27 Mar 2020 05:43:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
-Message-ID: <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
+ <20200326092213.GA100918@gmail.com> <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Thu, 26 Mar 2020 14:46:03 -0600
+X-Gmail-Original-Message-ID: <CAHmME9qnWWYV+eWVmx2yoADB9oecZKj=UgLkdSHe_=MnxedtSQ@mail.gmail.com>
+Message-ID: <CAHmME9qnWWYV+eWVmx2yoADB9oecZKj=UgLkdSHe_=MnxedtSQ@mail.gmail.com>
 Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
  and cosolidate Kconfig/Makefiles
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Ingo Molnar <mingo@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
         Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
         "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
@@ -75,45 +72,11 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi all,
-
-On Thu, Mar 26, 2020 at 6:22 PM Ingo Molnar <mingo@kernel.org> wrote:
+On Thu, Mar 26, 2020 at 2:44 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> I collected more Reviewed-by and Acked-by,
+> then pushed this series to
 >
->
-> * Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> > Very little has changed from last time, and this whole series still
-> > looks good to me. I think I already ack'd most packages, but in case
-> > it helps:
-> >
-> > Reviewed-by: Jason A. Donenfeld <Jason@zx2c4.com>
->
-> Acked-by: Ingo Molnar <mingo@kernel.org>
->
-> > Since this touches a lot of stuff, it might be best to get it in as
-> > early as possible during the merge window, as I imagine new code being
-> > added is going to want to be touching those makefiles too.
->
-> I'd argue the opposite: please merge this later in the merge window, to
-> not disrupt the vast body of other stuff that has already been lined up
-> and has been tested, and to give time for these new bits to get tested
-> some more.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+> kbuild-asinstr
 
-I agree.
-
-
-> Also, please get it into -next ASAP, today would be ideal for test
-> coverage ...
-
-I collected more Reviewed-by and Acked-by,
-then pushed this series to
-
-git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-kbuild-asinstr
-
-It will show up in -next soon.
-
-
--- 
-Best Regards
-Masahiro Yamada
+But not the version of the penultimate patch that Nick ack'd....
