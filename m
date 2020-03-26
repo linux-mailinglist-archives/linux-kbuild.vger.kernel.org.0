@@ -2,88 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF72D193A48
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 09:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AEA1193AB0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 09:18:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727898AbgCZIEL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 04:04:11 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:19272 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727890AbgCZIEK (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:04:10 -0400
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 02Q81Wpj002183;
-        Thu, 26 Mar 2020 17:01:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 02Q81Wpj002183
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585209720;
-        bh=hIsNK2mlczhM03FNvMHtWUtfrXi/KhhBhq2867qeZmE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GvWqaSzD9xT5uODtdnr/882na6kKn1QBAVOILiFIQlVX6kWqUB22RnovMTt7ZxJ84
-         ESb8TfYOBqsEC1BYm6Cx94QPQ6O3YKc1TD6aud7FQkcRcJeFq/Tn3AMGq3YwpfOOyD
-         pLhb2xNBormTFeuq8HCJ1EdhTPzp/Z4ZyXZC4acOMdRUKj4gnl85IhE0xfIz1t27s2
-         NQR5GpEYbGmUVA7dUHt9/ilX4A3SCo1Yi3Pz2t5yk0DplehZK1KCszO9EkloGrBDIh
-         GvPffDTyG4lUIfs5anCV4982lrT0ZoOT0ruFNb9YWeaBzVqDFjq+Gpn91Sb782Ox0F
-         s3l8D/rgxJzBA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        id S1727852AbgCZISJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 04:18:09 -0400
+Received: from frisell.zx2c4.com ([192.95.5.64]:35275 "EHLO frisell.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727821AbgCZISJ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 04:18:09 -0400
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 293077ea;
+        Thu, 26 Mar 2020 08:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
+        :references:in-reply-to:from:date:message-id:subject:to:cc
+        :content-type; s=mail; bh=z54i3Rpd8bQwLDnVNFV/yezuxLU=; b=boOyqs
+        mCdG+80LeYcjASWpkQ1zMThj2uZPRyQj63aULJ1eho1PEeJxY053blYBVEDv/+X7
+        OBQ/dBvu36pqu+6GHtzv5FnIDYJ8+m+UpNZddescE9+TJew8ZdyolfWdn7qCgNwm
+        hCDQQZZIBJP70J+3MGGaus93N2IUKDn1UavfBtBSFRk4AtjJCPc/vVInIjmHn4rp
+        9nXPZ9Perj3Rk83uKKf3OPmeCafWNMnHZ2UW709Lpc/xjEXipaADr7IcjmiVm9Er
+        qA90IZHHNfiJD+f6KrFTRwRM8Vhig7u1XfQF2UZX5KM4Hl2qhbUe96EyxkSi5RwR
+        yE1MyvOm+wrsj6Vw==
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f22236e6 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
+        Thu, 26 Mar 2020 08:10:45 +0000 (UTC)
+Received: by mail-io1-xd36.google.com with SMTP id k9so5139001iov.7;
+        Thu, 26 Mar 2020 01:18:06 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3XXTfJD2Ff639k67Y0c3BAp/U3FUB4V5ieGUaWa70y8GQopE/p
+        x7aUHw6BxH3iMuvq1jZNZ1glMxnQZEqeTiVu7ag=
+X-Google-Smtp-Source: ADFU+vsTJTCXcFJHQUwui8dbQzcKfWOUCgQIPLG0bwuItksw1ry6Mg259oUoldQgsVo9bcGoroXnNzuIzCxg8dcm+jA=
+X-Received: by 2002:a02:2a4a:: with SMTP id w71mr6759564jaw.75.1585210385536;
+ Thu, 26 Mar 2020 01:13:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200326080104.27286-1-masahiroy@kernel.org>
+In-Reply-To: <20200326080104.27286-1-masahiroy@kernel.org>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Thu, 26 Mar 2020 02:12:54 -0600
+X-Gmail-Original-Message-ID: <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
+Message-ID: <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
+ and cosolidate Kconfig/Makefiles
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        clang-built-linux@googlegroups.com,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
         "David S. Miller" <davem@davemloft.net>,
         Herbert Xu <herbert@gondor.apana.org.au>,
-        Ingo Molnar <mingo@redhat.com>, linux-crypto@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 16/16] crypto: x86 - clean up poly1305-x86_64-cryptogams.S by 'make clean'
-Date:   Thu, 26 Mar 2020 17:01:04 +0900
-Message-Id: <20200326080104.27286-17-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200326080104.27286-1-masahiroy@kernel.org>
-References: <20200326080104.27286-1-masahiroy@kernel.org>
+        Ingo Molnar <mingo@redhat.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Jim Kukunas <james.t.kukunas@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-poly1305-x86_64-cryptogams.S is a generated file, so it should be
-cleaned up by 'make clean'.
+Very little has changed from last time, and this whole series still
+looks good to me. I think I already ack'd most packages, but in case
+it helps:
 
-Assigning it to the variable 'targets' teaches Kbuild that it is a
-generated file. However, this line is not evaluated while cleaning
-because scripts/Makefile.clean does not include include/config/auto.conf.
+Reviewed-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Removing the ifneq-conditional, so this file is correctly cleaned up.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Herbert Xu <herbert@gondor.apana.org.au>
----
-
-Changes in v2: None
-
- arch/x86/crypto/Makefile | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
-index 928aad453c72..a31de0c6ccde 100644
---- a/arch/x86/crypto/Makefile
-+++ b/arch/x86/crypto/Makefile
-@@ -83,9 +83,7 @@ crct10dif-pclmul-y := crct10dif-pcl-asm_64.o crct10dif-pclmul_glue.o
- 
- obj-$(CONFIG_CRYPTO_POLY1305_X86_64) += poly1305-x86_64.o
- poly1305-x86_64-y := poly1305-x86_64-cryptogams.o poly1305_glue.o
--ifneq ($(CONFIG_CRYPTO_POLY1305_X86_64),)
- targets += poly1305-x86_64-cryptogams.S
--endif
- 
- obj-$(CONFIG_CRYPTO_NHPOLY1305_SSE2) += nhpoly1305-sse2.o
- nhpoly1305-sse2-y := nh-sse2-x86_64.o nhpoly1305-sse2-glue.o
--- 
-2.17.1
-
+Since this touches a lot of stuff, it might be best to get it in as
+early as possible during the merge window, as I imagine new code being
+added is going to want to be touching those makefiles too.
