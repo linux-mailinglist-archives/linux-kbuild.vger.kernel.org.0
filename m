@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C71D91945CC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 18:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3A641945D3
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 18:50:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727026AbgCZRtt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 13:49:49 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:45856 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbgCZRtt (ORCPT
+        id S1728214AbgCZRuo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 13:50:44 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:36549 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbgCZRuo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 13:49:49 -0400
-Received: by mail-pg1-f194.google.com with SMTP id o26so3234626pgc.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 10:49:48 -0700 (PDT)
+        Thu, 26 Mar 2020 13:50:44 -0400
+Received: by mail-pg1-f195.google.com with SMTP id j29so3254207pgl.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 10:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6CVzG402jrx7Vd35GjafKVyfM1rK8OmiRNaJdvsplVw=;
-        b=tWtR8S5N8i7CSQpF75RdTJqrclnkHBzrTkFsobGRb5RvayOAGjvnYX7e5Jiwqi0e1F
-         DKsr/8FXlyN5QwtNU4WQSgxvFGKXvhyqrMRf553H7qvySX3rnhOEDf1jKoQ20GfJd1KM
-         +iyCLvH1gfZ2Tm2oCepNd1p1bbogOtYTwlphX7TlRWHddaosKgrnT1nZ7yd2QGWQwM4M
-         XDjLh7Bt17MbXDtsbJwohlH0UBjKCZA3XfKHLZhpz+PC4wDm5fCmef8szKKgaqNRJOcb
-         43xnlOZIpPevDHpbw/2hB79ebTG3VmXhu6iPZJFMEIYyOwlOEKTUb/9tSL9d1OjP2S2G
-         +YWQ==
+        bh=cVhUI8kuQt6IgMPqeY7HijNVaAh3KiroMym2JdHvBYQ=;
+        b=brsAwQH29iSE8mshBIMEsiJaEJF+MtC9co7LTYM1s5iPoWfOYvOIqiYqjH3sBuZOf3
+         aqds8K3ipNIbPBdAadLcYagS/lTtdbVlhTUmrIBZ9mbDJeONgOv1vCWhB5tI+4Aw+/Pi
+         ot1xySrBGpzLiofvPdq7upFm4UOmM7bPls6Q3hPSIKH1C7D/h3F1h6uyB+NwBPWo3ylv
+         vmazfw07csCTogMxGj5mLULnk1IQzywQQIDkM7rGQQmKlBoXRkuQ1KmGjjn/jc8Bew1c
+         HJpG6xjrI35S1PYv8QsHru2S9u8+pEsACI1sA0tWL8Bv8i1MpKyJywC0yUpmTwWtFADV
+         QLYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6CVzG402jrx7Vd35GjafKVyfM1rK8OmiRNaJdvsplVw=;
-        b=VSc1jTJVnXHL8kxeWItR4Id4X4uaDtFksxv+DNhMGU45M++KI9OENE/rco7zpvJoT9
-         au1oyNLqzOJ8i5vWOcLmAQrukD8XSeNZi4Up5Dlej0YpTMRd1xiI/NU2GIPCw6fLq2+P
-         dYW4QNdTEIfd9MCcM+hSxN7fr3tEC+X3ku4sGg/OF6bt3Neci/v6N+4x3EQVPn3UsKFP
-         CJcpg3U7kwy1YDrOXzV29r+RKk+KXt9phoNqBqqPdkveS9203iCwUo62HCIelqIRIcO5
-         DaR5y8ddcfnoR4FpgDc+MaQo5cKnGijwyWY47OCoa/jPqSILeuYYEmCF7MUZaxcwPyJN
-         TyKw==
-X-Gm-Message-State: ANhLgQ0shE2lm8QVn0ySlhR2uMt23bRGDN2ARaZhLKLG62iQOOtY+u+L
-        KLrY97fMQKTEa82ph7nrkHUYu2aRYeLnFeSeHFl2VA==
-X-Google-Smtp-Source: ADFU+vv5oWbBE0yh4vdP3Fh5MNHR5ig5PyKcuy01rreCKcHqUoWvJwRpjYTpYiMFUB1ttRrBSIrAQ0fA6ehNlAbQaXA=
-X-Received: by 2002:a05:6a00:42:: with SMTP id i2mr10055970pfk.108.1585244987994;
- Thu, 26 Mar 2020 10:49:47 -0700 (PDT)
+        bh=cVhUI8kuQt6IgMPqeY7HijNVaAh3KiroMym2JdHvBYQ=;
+        b=rk8YnW9pUd431dnqt0LAoTPCX0bx4H29ZKbkYqbhDeZn6tKFs3/zYrlSqWYshX1ywB
+         H2hD6aPGnoy+Nfhyi76YMBUlRKQf+McoOXTh4NL9PXxr5t1bdCvpNEhGdsnQ6QpvKYEs
+         02U+TEcLlsXslnTp8Qg7wHP23VrOfJYgj5RHf9ePGGxavbighUhOcjC4CZDtXmann3qs
+         BxJJKeNuUUymoKNtQ88Z/UmwQJS6gO4LMNTtfY6+DM0frqXoW7evK+gk8CbcuK5FmZ49
+         eUujfC2YjRTSIJS3CtyB+auNFY/XXQsd8SSIqgGMaUyCJwZNBzk/7q6dp6mpQbEIrlU8
+         qRzw==
+X-Gm-Message-State: ANhLgQ0qf2ySMdx4exJu78q70T/gt2/ihbPHP+emrcnoXHaWaD0lEQ7D
+        viRDpKzZDah2XUz6cqHSQL9HqbVtTNCBctehG0iHQg==
+X-Google-Smtp-Source: ADFU+vv6mvUpG3SoGM36A9hiSxDUzQIQRzXI7YPfyK/2v9UhaSb0YZ1BviJKZdV84glpZdJUYol+/IfpWD7nc7hqWTs=
+X-Received: by 2002:a63:4e22:: with SMTP id c34mr9894991pgb.263.1585245029988;
+ Thu, 26 Mar 2020 10:50:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-11-masahiroy@kernel.org>
-In-Reply-To: <20200326080104.27286-11-masahiroy@kernel.org>
+References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-12-masahiroy@kernel.org>
+In-Reply-To: <20200326080104.27286-12-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 26 Mar 2020 10:49:35 -0700
-Message-ID: <CAKwvOdk=MCePWHD=Kj3K7fD0y8TBZfiFLB0X+gnhPUd=RnrH6A@mail.gmail.com>
-Subject: Re: [PATCH v2 10/16] x86: probe assembler capabilities via kconfig
- instead of makefile
+Date:   Thu, 26 Mar 2020 10:50:17 -0700
+Message-ID: <CAKwvOd=3APTxrLD7U+hhMYoQm_ZTktckk-jurpwundm=w-pqKw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/16] x86: add comments about the binutils version to
+ support code in as-instr
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -68,86 +68,62 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Thu, Mar 26, 2020 at 1:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+> We raise the minimal supported binutils version from time to time.
+> The last bump was commit 1fb12b35e5ff ("kbuild: Raise the minimum
+> required binutils version to 2.21").
 >
-> Doing this probing inside of the Makefiles means we have a maze of
-> ifdefs inside the source code and child Makefiles that need to make
-> proper decisions on this too. Instead, we do it at Kconfig time, like
-> many other compiler and assembler options, which allows us to set up the
-> dependencies normally for full compilation units. In the process, the
-> ADX test changes to use %eax instead of %r10 so that it's valid in both
-> 32-bit and 64-bit mode.
-
-Does KConfig generate -D<foo> flags for KBUILD_CFLAGS and KBUILD_AFLAGS?
-Looks like lib/raid6/test/Makefile also generates some of these?
-
+> We need to keep these as-instr checks because binutils 2.21 does not
+> support them.
 >
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> I hope this will be a good hint which one can be dropped when we
+> bump the minimal binutils version next time.
+>
+> As for the Clang/LLVM builds, we require very new LLVM version,
+> so the LLVM integrated assembler supports all of them.
+>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
+
+Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+
 > ---
 >
-> Changes in v2: None
+> Changes in v2:
+>   - Change the patch order and rebase
 >
->  arch/x86/Kconfig           |  2 ++
->  arch/x86/Kconfig.assembler | 17 +++++++++++++++++
->  arch/x86/Makefile          | 10 ----------
->  3 files changed, 19 insertions(+), 10 deletions(-)
->  create mode 100644 arch/x86/Kconfig.assembler
+>  arch/x86/Kconfig.assembler | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index beea77046f9b..707673227837 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -2935,3 +2935,5 @@ config HAVE_ATOMIC_IOMAP
->  source "drivers/firmware/Kconfig"
->
->  source "arch/x86/kvm/Kconfig"
-> +
-> +source "arch/x86/Kconfig.assembler"
 > diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-> new file mode 100644
-> index 000000000000..91230bf11a14
-> --- /dev/null
+> index 91230bf11a14..a5a1d2766b3a 100644
+> --- a/arch/x86/Kconfig.assembler
 > +++ b/arch/x86/Kconfig.assembler
-> @@ -0,0 +1,17 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (C) 2020 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-> +
-> +config AS_AVX2
-> +       def_bool $(as-instr,vpbroadcastb %xmm0$(comma)%ymm1)
-> +
-> +config AS_AVX512
-> +       def_bool $(as-instr,vpmovm2b %k1$(comma)%zmm5)
-> +
-> +config AS_SHA1_NI
-> +       def_bool $(as-instr,sha1msg1 %xmm0$(comma)%xmm1)
-> +
-> +config AS_SHA256_NI
-> +       def_bool $(as-instr,sha256msg1 %xmm0$(comma)%xmm1)
-> +
-> +config AS_ADX
-> +       def_bool $(as-instr,adox %eax$(comma)%eax)
-> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-> index f32ef7b8d5ca..b65ec63c7db7 100644
-> --- a/arch/x86/Makefile
-> +++ b/arch/x86/Makefile
-> @@ -177,16 +177,6 @@ ifeq ($(ACCUMULATE_OUTGOING_ARGS), 1)
->         KBUILD_CFLAGS += $(call cc-option,-maccumulate-outgoing-args,)
->  endif
+> @@ -3,15 +3,25 @@
 >
-> -# does binutils support specific instructions?
-> -avx2_instr :=$(call as-instr,vpbroadcastb %xmm0$(comma)%ymm1,-DCONFIG_AS_AVX2=1)
-> -avx512_instr :=$(call as-instr,vpmovm2b %k1$(comma)%zmm5,-DCONFIG_AS_AVX512=1)
-> -sha1_ni_instr :=$(call as-instr,sha1msg1 %xmm0$(comma)%xmm1,-DCONFIG_AS_SHA1_NI=1)
-> -sha256_ni_instr :=$(call as-instr,sha256msg1 %xmm0$(comma)%xmm1,-DCONFIG_AS_SHA256_NI=1)
-> -adx_instr := $(call as-instr,adox %r10$(comma)%r10,-DCONFIG_AS_ADX=1)
-> -
-> -KBUILD_AFLAGS += $(avx2_instr) $(avx512_instr) $(sha1_ni_instr) $(sha256_ni_instr) $(adx_instr)
-> -KBUILD_CFLAGS += $(avx2_instr) $(avx512_instr) $(sha1_ni_instr) $(sha256_ni_instr) $(adx_instr)
-> -
->  KBUILD_LDFLAGS := -m elf_$(UTS_MACHINE)
+>  config AS_AVX2
+>         def_bool $(as-instr,vpbroadcastb %xmm0$(comma)%ymm1)
+> +       help
+> +         Supported by binutils >= 2.22 and LLVM integrated assembler
 >
->  #
+>  config AS_AVX512
+>         def_bool $(as-instr,vpmovm2b %k1$(comma)%zmm5)
+> +       help
+> +         Supported by binutils >= 2.25 and LLVM integrated assembler
+>
+>  config AS_SHA1_NI
+>         def_bool $(as-instr,sha1msg1 %xmm0$(comma)%xmm1)
+> +       help
+> +         Supported by binutils >= 2.24 and LLVM integrated assembler
+>
+>  config AS_SHA256_NI
+>         def_bool $(as-instr,sha256msg1 %xmm0$(comma)%xmm1)
+> +       help
+> +         Supported by binutils >= 2.24 and LLVM integrated assembler
+>
+>  config AS_ADX
+>         def_bool $(as-instr,adox %eax$(comma)%eax)
+> +       help
+> +         Supported by binutils >= 2.23 and LLVM integrated assembler
 > --
 > 2.17.1
 >
