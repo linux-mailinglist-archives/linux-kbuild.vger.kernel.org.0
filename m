@@ -2,81 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0ED9194964
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 21:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A535A194993
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 21:51:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbgCZUqT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 16:46:19 -0400
-Received: from frisell.zx2c4.com ([192.95.5.64]:55227 "EHLO frisell.zx2c4.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726034AbgCZUqT (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:46:19 -0400
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 47980eb8;
-        Thu, 26 Mar 2020 20:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
-        :references:in-reply-to:from:date:message-id:subject:to:cc
-        :content-type; s=mail; bh=CGWgvRHoerDqIX2HYCZh8ogjklM=; b=GBtBK3
-        BM2+T4Ws/EMMmKx8xvhiALt29uM1uW06kXm0UO5HEOi/oX/4uMSMuhmHx3CDbfUm
-        pOKstqAfjRFNInrLfIdLa/VU+DUH++J3XBnMA6ZuRat0YL9IrIaB3IOVuN61o9JN
-        SUJu1V8K12yus5RxdGfSo5lP9YUw13A2NzySstKJQKkJrh/yFRfTfhP59J87jlNj
-        txM2LCLNLVxYcwcPgkAdBuJvINRW8AdY1B3EEADHC/6TjfEOjXe6k3HL3itbwiiN
-        N34waeT/X6NafeE+6DjKW+K7vb5rssHXmmoZlmDF1rLumFai7ZPbHjVfSnC+oLP2
-        SdpMndirMIef9UkQ==
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9e0ddec9 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
-        Thu, 26 Mar 2020 20:38:51 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id m15so7614691iob.5;
-        Thu, 26 Mar 2020 13:46:16 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ1uW/EDSqc7juyVByB0cEu/+IMyOehdcuekgoQe5Fuo+pcYMmmh
-        4J7ACSEdrr9K9ge+cEJRIifJILXxeEURQbU1WbI=
-X-Google-Smtp-Source: ADFU+vsT1lxBNZU6tEYaINxARGEDLm5sHLmSYnbnU2+V88Os9Y74T/ah4HXpvKNpS1pgTAFg8rIzXNts4PyzMfoHxm4=
-X-Received: by 2002:a02:2714:: with SMTP id g20mr9513089jaa.95.1585255574785;
- Thu, 26 Mar 2020 13:46:14 -0700 (PDT)
+        id S1727661AbgCZUvf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 16:51:35 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:60039 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbgCZUvf (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 16:51:35 -0400
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 02QKpB37016411;
+        Fri, 27 Mar 2020 05:51:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 02QKpB37016411
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1585255872;
+        bh=zRQ7nCLtjVIU1Jq1HUXWonwpqrxN+T1KGJqxECEbYQM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WTuGQjp7kChJ1ST2JqdmXuS0WEo1zexYQsX/JqecibFcS4AiJIxr1dTwJjMrEqx7o
+         U2B6CQ1NPFtPxw56un3S/xdeZcxhX2s36uh8nQU3BXB0voh6SWC9MBWv8wv8Xd9FeT
+         DdW8Busb1dTeisI3Mbu4XlyDpvt4bxNyWcVJkrqOVFft3TZFoOVH4+3jPZZTZKsuOe
+         qR0ts1dbukFHyL6M8Njg8XtAKx5N/wu60vbcGBBsKi4jzMKjgx9f7qFuy1UrMWrwjT
+         Vk8j2OFe0r6rPp3SycnhhhPENmdQ+MIbLNjzYhDf3cYQX6qTI6qWgIOoY7rSjQ4DmM
+         HDTttTA034q2w==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id o15so2711254ual.3;
+        Thu, 26 Mar 2020 13:51:11 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ3rk2jXwAW9W/+cFn57cIRJ4a6TQJFUBdJkK4eOWO7PU+56a1GO
+        LNbKBgYILLsaJ1hTFV+pqQxgETwa3Ep2qOYpZJw=
+X-Google-Smtp-Source: ADFU+vulKPchjBB+wJWyQk8duaib49GFM1PSH3O5Tu2zolCDCTk/AuA/mB2ZDNQX+Mpj+8VI/7zef+V9swnyXsYSkRk=
+X-Received: by 2002:a9f:28c5:: with SMTP id d63mr8445238uad.25.1585255870618;
+ Thu, 26 Mar 2020 13:51:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200326080104.27286-1-masahiroy@kernel.org> <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
- <20200326092213.GA100918@gmail.com> <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAQ7-wpm+g=cXeJ01vGrO1nVjfP-ornKm=SXoDEn4x+DjQ@mail.gmail.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Thu, 26 Mar 2020 14:46:03 -0600
-X-Gmail-Original-Message-ID: <CAHmME9qnWWYV+eWVmx2yoADB9oecZKj=UgLkdSHe_=MnxedtSQ@mail.gmail.com>
-Message-ID: <CAHmME9qnWWYV+eWVmx2yoADB9oecZKj=UgLkdSHe_=MnxedtSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
- and cosolidate Kconfig/Makefiles
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+References: <CAKwvOdmLWqVq_EQk2S4FUSUCU7yoppYD4oiL+P7taWoDTyrb9w@mail.gmail.com>
+ <20200326202600.7086-1-Jason@zx2c4.com>
+In-Reply-To: <20200326202600.7086-1-Jason@zx2c4.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 27 Mar 2020 05:50:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASVciXgqwfaEbH5i2GT++hHhbjabtzN_s=tzXh4up93ZA@mail.gmail.com>
+Message-ID: <CAK7LNASVciXgqwfaEbH5i2GT++hHhbjabtzN_s=tzXh4up93ZA@mail.gmail.com>
+Subject: Re: [PATCH] x86: update AS_* macros to binutils >=2.23, supporting
+ ADX and AVX2
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        "David S. Miller" <davem@davemloft.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        intel-gfx@lists.freedesktop.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 2:44 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> I collected more Reviewed-by and Acked-by,
-> then pushed this series to
+On Fri, Mar 27, 2020 at 5:26 AM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
 >
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-> kbuild-asinstr
+> Now that the kernel specifies binutils 2.23 as the minimum version, we
+> can remove ifdefs for AVX2 and ADX throughout.
+>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>
+>
+> Masahiro - here's an updated patch based on -next, as Nick requested.
+> Whether or not you'd prefer this one to the other one based on Linus'
+> tree is up to you, but here it is in case it's helpful.
 
-But not the version of the penultimate patch that Nick ack'd....
+
+Thanks.
+
+When the netfilter PR is pulled,
+I will rebase on top of Linus' tree.
+
+
+> diff --git a/net/netfilter/Makefile b/net/netfilter/Makefile
+> index 292e71dc7ba4..cd0d6ad48650 100644
+> --- a/net/netfilter/Makefile
+> +++ b/net/netfilter/Makefile
+> @@ -83,10 +83,8 @@ nf_tables-objs := nf_tables_core.o nf_tables_api.o nft_chain_filter.o \
+>                   nft_set_pipapo.o
+>
+>  ifdef CONFIG_X86_64
+> -ifneq (,$(findstring -DCONFIG_AS_AVX2=1,$(KBUILD_CFLAGS)))
+>  nf_tables-objs += nft_set_pipapo_avx2.o
+>  endif
+> -endif
+
+
+This hunk should go to:
+
+[v2,10/16] x86: probe assembler capabilities via kconfig instead of makefile
+
+
+I will try my best to remember this.
+
+
+--
+Best Regards
+Masahiro Yamada
