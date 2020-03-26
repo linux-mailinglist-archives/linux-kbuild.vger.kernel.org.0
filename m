@@ -2,40 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3CF4194D14
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2020 00:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5064194D06
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2020 00:28:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727890AbgCZXY0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 19:24:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44034 "EHLO mail.kernel.org"
+        id S1727766AbgCZX2Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 19:28:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44450 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727879AbgCZXYZ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 19:24:25 -0400
+        id S1727966AbgCZXYh (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 19:24:37 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C06A2077D;
-        Thu, 26 Mar 2020 23:24:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 24CF220714;
+        Thu, 26 Mar 2020 23:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585265064;
-        bh=Mq8XZp3oxdegVK/AR4yoqDQJKIhsfYHXvEdCtjjFlkY=;
+        s=default; t=1585265077;
+        bh=JzE8QSLBSji/fwbdetznn6wuAkvze4RHNwUOhEGZU9c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kKFVNLem5oipBDeKya5Uba/fFIDlWTvgZKtiB3dzcS0LvsQYDKDyQfO3nccHuDPSZ
-         2OVqTicJQBleOR630w6Bv0qII52ztTxh852b9UMLMsG1YV7aDp4Ef9UjmlhrnidQML
-         QIOF2dQ9vHrJrZsuBichHPwUHMA0u+4TUuxzy/5M=
+        b=LqtcyPkLQSKdP/jnrTvMYorZ+/X2VotS10SEvaIiTUlgf/+9d5DJ8+aGThDIgilOa
+         ETBF7xeulRDWw7RwdkOnyA910EjwP7/A254GV3UJuxAaGKX4m55wUAfRVgFMONOkOd
+         Ok8JTwb6PmQeJMx1+1+Hp482l2E1JiYAxlWy6zGw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 23/28] kconfig: Add yes2modconfig and mod2yesconfig targets.
-Date:   Thu, 26 Mar 2020 19:23:52 -0400
-Message-Id: <20200326232357.7516-23-sashal@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        George Spelvin <lkml@sdf.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH AUTOSEL 5.4 04/19] kconfig: introduce m32-flag and m64-flag
+Date:   Thu, 26 Mar 2020 19:24:16 -0400
+Message-Id: <20200326232431.7816-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200326232357.7516-1-sashal@kernel.org>
-References: <20200326232357.7516-1-sashal@kernel.org>
+In-Reply-To: <20200326232431.7816-1-sashal@kernel.org>
+References: <20200326232431.7816-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,167 +45,82 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+From: Masahiro Yamada <masahiroy@kernel.org>
 
-[ Upstream commit 89b9060987d988333de59dd218c9666bd7ee95a5 ]
+[ Upstream commit 8cc4fd73501d9f1370c3eebb70cfe8cc9e24062b ]
 
-Since kernel configs provided by syzbot are close to "make allyesconfig",
-it takes long time to rebuild. This is especially waste of time when we
-need to rebuild for many times (e.g. doing manual printk() inspection,
-bisect operations).
+When a compiler supports multiple architectures, some compiler features
+can be dependent on the target architecture.
 
-We can save time if we can exclude modules which are irrelevant to each
-problem. But "make localmodconfig" cannot exclude modules which are built
-into vmlinux because /sbin/lsmod output is used as the source of modules.
+This is typical for Clang, which supports multiple LLVM backends.
+Even for GCC, we need to take care of biarch compiler cases.
 
-Therefore, this patch adds "make yes2modconfig" which converts from =y
-to =m if possible. After confirming that the interested problem is still
-reproducible, we can try "make localmodconfig" (and/or manually tune
-based on "Modules linked in:" line) in order to exclude modules which are
-irrelevant to the interested problem. While we are at it, this patch also
-adds "make mod2yesconfig" which converts from =m to =y in case someone
-wants to convert from =m to =y after "make localmodconfig".
+It is not a problem when we evaluate cc-option in Makefiles because
+cc-option is tested against the flag in question + $(KBUILD_CFLAGS).
 
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Cc: Dmitry Vyukov <dvyukov@google.com>
+The cc-option in Kconfig, on the other hand, does not accumulate
+tested flags. Due to this simplification, it could potentially test
+cc-option against a different target.
+
+At first, Kconfig always evaluated cc-option against the host
+architecture.
+
+Since commit e8de12fb7cde ("kbuild: Check for unknown options with
+cc-option usage in Kconfig and clang"), in case of cross-compiling
+with Clang, the target triple is correctly passed to Kconfig.
+
+The case with biarch GCC (and native build with Clang) is still not
+handled properly. We need to pass some flags to specify the target
+machine bit.
+
+Due to the design, all the macros in Kconfig are expanded in the
+parse stage, where we do not know the target bit size yet.
+
+For example, arch/x86/Kconfig allows a user to toggle CONFIG_64BIT.
+If a compiler flag -foo depends on the machine bit, it must be tested
+twice, one with -m32 and the other with -m64.
+
+However, -m32/-m64 are not always recognized. So, this commits adds
+m64-flag and m32-flag macros. They expand to -m32, -m64, respectively
+if supported. Or, they expand to an empty string if unsupported.
+
+The typical usage is like this:
+
+  config FOO
+          bool
+          default $(cc-option,$(m64-flag) -foo) if 64BIT
+          default $(cc-option,$(m32-flag) -foo)
+
+This is clumsy, but there is no elegant way to handle this in the
+current static macro expansion.
+
+There was discussion for static functions vs dynamic functions.
+The consensus was to go as far as possible with the static functions.
+(https://lkml.org/lkml/2018/3/2/22)
+
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Tested-by: George Spelvin <lkml@sdf.org>
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/kconfig/Makefile   |  4 +++-
- scripts/kconfig/conf.c     | 16 ++++++++++++++++
- scripts/kconfig/confdata.c | 16 ++++++++++++++++
- scripts/kconfig/lkc.h      |  3 +++
- 4 files changed, 38 insertions(+), 1 deletion(-)
+ scripts/Kconfig.include | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 2f1a59fa51694..811fb930b93bc 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -67,7 +67,7 @@ localyesconfig localmodconfig: $(obj)/conf
- #  deprecated for external use
- simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
- 	alldefconfig randconfig listnewconfig olddefconfig syncconfig \
--	helpnewconfig
-+	helpnewconfig yes2modconfig mod2yesconfig
+diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
+index bfb44b265a948..77a69ba9cd198 100644
+--- a/scripts/Kconfig.include
++++ b/scripts/Kconfig.include
+@@ -40,3 +40,10 @@ $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supporte
  
- PHONY += $(simple-targets)
- 
-@@ -135,6 +135,8 @@ help:
- 	@echo  '  allmodconfig	  - New config selecting modules when possible'
- 	@echo  '  alldefconfig    - New config with all symbols set to default'
- 	@echo  '  randconfig	  - New config with random answer to all options'
-+	@echo  '  yes2modconfig	  - Change answers from yes to mod if possible'
-+	@echo  '  mod2yesconfig	  - Change answers from mod to yes if possible'
- 	@echo  '  listnewconfig   - List new options'
- 	@echo  '  helpnewconfig   - List new options and help text'
- 	@echo  '  olddefconfig	  - Same as oldconfig but sets new symbols to their'
-diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
-index 1f89bf1558ce2..f6e548b8f7955 100644
---- a/scripts/kconfig/conf.c
-+++ b/scripts/kconfig/conf.c
-@@ -34,6 +34,8 @@ enum input_mode {
- 	listnewconfig,
- 	helpnewconfig,
- 	olddefconfig,
-+	yes2modconfig,
-+	mod2yesconfig,
- };
- static enum input_mode input_mode = oldaskconfig;
- 
-@@ -467,6 +469,8 @@ static struct option long_opts[] = {
- 	{"listnewconfig",   no_argument,       NULL, listnewconfig},
- 	{"helpnewconfig",   no_argument,       NULL, helpnewconfig},
- 	{"olddefconfig",    no_argument,       NULL, olddefconfig},
-+	{"yes2modconfig",   no_argument,       NULL, yes2modconfig},
-+	{"mod2yesconfig",   no_argument,       NULL, mod2yesconfig},
- 	{NULL, 0, NULL, 0}
- };
- 
-@@ -489,6 +493,8 @@ static void conf_usage(const char *progname)
- 	printf("  --allmodconfig          New config where all options are answered with mod\n");
- 	printf("  --alldefconfig          New config with all symbols set to default\n");
- 	printf("  --randconfig            New config with random answer to all options\n");
-+	printf("  --yes2modconfig         Change answers from yes to mod if possible\n");
-+	printf("  --mod2yesconfig         Change answers from mod to yes if possible\n");
- }
- 
- int main(int ac, char **av)
-@@ -553,6 +559,8 @@ int main(int ac, char **av)
- 		case listnewconfig:
- 		case helpnewconfig:
- 		case olddefconfig:
-+		case yes2modconfig:
-+		case mod2yesconfig:
- 			break;
- 		case '?':
- 			conf_usage(progname);
-@@ -587,6 +595,8 @@ int main(int ac, char **av)
- 	case listnewconfig:
- 	case helpnewconfig:
- 	case olddefconfig:
-+	case yes2modconfig:
-+	case mod2yesconfig:
- 		conf_read(NULL);
- 		break;
- 	case allnoconfig:
-@@ -660,6 +670,12 @@ int main(int ac, char **av)
- 		break;
- 	case savedefconfig:
- 		break;
-+	case yes2modconfig:
-+		conf_rewrite_mod_or_yes(def_y2m);
-+		break;
-+	case mod2yesconfig:
-+		conf_rewrite_mod_or_yes(def_m2y);
-+		break;
- 	case oldaskconfig:
- 		rootEntry = &rootmenu;
- 		conf(&rootmenu);
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 17298239e3633..eb1efa3abdee6 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -1362,3 +1362,19 @@ bool conf_set_all_new_symbols(enum conf_def_mode mode)
- 
- 	return has_changed;
- }
+ # gcc version including patch level
+ gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
 +
-+void conf_rewrite_mod_or_yes(enum conf_def_mode mode)
-+{
-+	struct symbol *sym;
-+	int i;
-+	tristate old_val = (mode == def_y2m) ? yes : mod;
-+	tristate new_val = (mode == def_y2m) ? mod : yes;
-+
-+	for_all_symbols(i, sym) {
-+		if (sym_get_type(sym) == S_TRISTATE &&
-+		    sym->def[S_DEF_USER].tri == old_val) {
-+			sym->def[S_DEF_USER].tri = new_val;
-+			sym_add_change_count(1);
-+		}
-+	}
-+}
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index 4fb16f3166268..2bcc7bde6a338 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -34,6 +34,8 @@ enum conf_def_mode {
- 	def_default,
- 	def_yes,
- 	def_mod,
-+	def_y2m,
-+	def_m2y,
- 	def_no,
- 	def_random
- };
-@@ -52,6 +54,7 @@ const char *conf_get_configname(void);
- void sym_set_change_count(int count);
- void sym_add_change_count(int count);
- bool conf_set_all_new_symbols(enum conf_def_mode mode);
-+void conf_rewrite_mod_or_yes(enum conf_def_mode mode);
- void set_all_choice_values(struct symbol *csym);
- 
- /* confdata.c and expr.c */
++# machine bit flags
++#  $(m32-flag): -m32 if the compiler supports it, or an empty string otherwise.
++#  $(m64-flag): -m64 if the compiler supports it, or an empty string otherwise.
++cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
++m32-flag := $(cc-option-bit,-m32)
++m64-flag := $(cc-option-bit,-m64)
 -- 
 2.20.1
 
