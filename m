@@ -2,41 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF94D193841
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 06:58:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB3F719383F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 06:58:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbgCZF60 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 01:58:26 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:47754 "EHLO
+        id S1726259AbgCZF6N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 01:58:13 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:47422 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbgCZF60 (ORCPT
+        with ESMTP id S1725854AbgCZF6N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 01:58:26 -0400
+        Thu, 26 Mar 2020 01:58:13 -0400
 Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 02Q5ve96008573;
-        Thu, 26 Mar 2020 14:57:41 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 02Q5ve96008573
+        by conuserg-10.nifty.com with ESMTP id 02Q5ve97008573;
+        Thu, 26 Mar 2020 14:57:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 02Q5ve97008573
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585202262;
-        bh=RjmAIJifJD5EjYLBPngifFMr8SyoOw1VRH4zJbCaW44=;
+        s=dec2015msa; t=1585202263;
+        bh=C9kzZXmIKqsEqPxkq+FbEJxlP3ux1NGhl1py0BoTGlk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0npEybbV/z2lQiHwEs9TcPf5+poHUosRxXgwWfTNlY0D593Lc5sxgg3TW8bgnxjmY
-         7hX43Es4EaTmdEOf4fzkcusWx/1+rz6MrwYd6v+Sgx5BafCADuzRTM9ELLBUC7o/V0
-         p0CChm95KUAbSKBF8tUVnBi2vopRnHPeWX6kc4ikco8XHPW2fuRYfqS5ef6B5L67yx
-         l82dEkMArUHtg2RAAgAAkB68/UWwxidScmcuTX1Jrgch3QVGFzcj0jzOKZLW6EaLJB
-         DWXLqcaQCOUX5TqMRC+xe0gQ8t3tlF3zs+s5tPdGhdAB4j9vo6qHcv2R1J7YOvSgkh
-         mP0gwu3qrBwjA==
+        b=AHhLn/XRtP8sD0q07kdk58SES4vmIs1eXRovc6LDLMQ5MO562Uc5dbWRykxdNbghp
+         bURcmlECASN65vcqh8B3E0hWQJk8OFtulL9qrnRlAUGFb+m81eBADDxE5p7phXMGyp
+         C2+60u4hm5nNijZVoWOjwdgtJeeRw4vOg14ZQy0wG+fFFup3mmbf2tm/ujQ/11RMnY
+         I6P+9XOLRd2uY0j4v4kVH6OmyoPWk793sJTagWTxgdQ57/K41ciEbhh4mgDvKF+gAP
+         wBfpfTAfVvoCQjDqUEZ/XrJhfRVGqMbCBpuP0wS2rSfqS5+4EbjYaX+lmAt70YzLnO
+         jdDVmeEl1pUog==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     clang-built-linux@googlegroups.com,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v2 3/4] net: wan: wanxl: refactor the firmware rebuild rule
-Date:   Thu, 26 Mar 2020 14:57:17 +0900
-Message-Id: <20200326055719.16755-3-masahiroy@kernel.org>
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/4] kbuild: remove AS variable
+Date:   Thu, 26 Mar 2020 14:57:18 +0900
+Message-Id: <20200326055719.16755-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326055719.16755-1-masahiroy@kernel.org>
 References: <20200326055719.16755-1-masahiroy@kernel.org>
@@ -45,62 +45,48 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Split the big recipe into 3 stages, compile, link, and hexdump.
+As commit 5ef872636ca7 ("kbuild: get rid of misleading $(AS) from
+documents") noted, we rarely use $(AS) directly in the kernel build.
 
-After this commit, the build log with CONFIG_WANXL_BUILD_FIRMWARE
-will look like this:
+Now that the only/last user of $(AS) in drivers/net/wan/Makefile was
+converted to $(CC), $(AS) is no longer used in the build process.
 
-  M68KAS  drivers/net/wan/wanxlfw.o
-  M68KLD  drivers/net/wan/wanxlfw.bin
-  BLDFW   drivers/net/wan/wanxlfw.inc
-  CC [M]  drivers/net/wan/wanxl.o
+You can still pass in AS=clang, which is just a switch to turn on
+the LLVM integrated assembler.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
 
-Changes in v2: None
+Changes in v2:
+  - Fix breakage of CC=clang build
 
- drivers/net/wan/Makefile | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+ Makefile | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/net/wan/Makefile b/drivers/net/wan/Makefile
-index cf7a0a65aae8..380271a011e4 100644
---- a/drivers/net/wan/Makefile
-+++ b/drivers/net/wan/Makefile
-@@ -47,14 +47,23 @@ else
-   M68KLD = $(CROSS_COMPILE_M68K)ld
- endif
+diff --git a/Makefile b/Makefile
+index fcec84681e4e..2e12fa1cc8f3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -405,7 +405,6 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
+ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
  
--quiet_cmd_build_wanxlfw = BLD FW  $@
--      cmd_build_wanxlfw = \
--	$(M68KCC) -D__ASSEMBLY__ -Wp,-MD,$(depfile) -I$(srctree)/include/uapi -c -o $(obj)/wanxlfw.o $<; \
--	$(M68KLD) --oformat binary -Ttext 0x1000 $(obj)/wanxlfw.o -o $(obj)/wanxlfw.bin; \
--	hexdump -ve '"\n" 16/1 "0x%02X,"' $(obj)/wanxlfw.bin | sed 's/0x  ,//g;1s/^/static const u8 firmware[]={/;$$s/,$$/\n};\n/' >$(obj)/wanxlfw.inc; \
--	rm -f $(obj)/wanxlfw.bin $(obj)/wanxlfw.o
--
--$(obj)/wanxlfw.inc:	$(src)/wanxlfw.S
--	$(call if_changed_dep,build_wanxlfw)
--targets += wanxlfw.inc
-+quiet_cmd_build_wanxlfw = BLDFW   $@
-+      cmd_build_wanxlfw = hexdump -ve '"\n" 16/1 "0x%02X,"' $< | \
-+	sed 's/0x  ,//g;1s/^/static const u8 firmware[]={/;$$s/,$$/\n};\n/' > $@
-+
-+$(obj)/wanxlfw.inc: $(obj)/wanxlfw.bin FORCE
-+	$(call if_changed,build_wanxlfw)
-+
-+quiet_cmd_m68kld_bin_o = M68KLD  $@
-+      cmd_m68kld_bin_o = $(M68KLD) --oformat binary -Ttext 0x1000 $< -o $@
-+
-+$(obj)/wanxlfw.bin: $(obj)/wanxlfw.o FORCE
-+	$(call if_changed,m68kld_bin_o)
-+
-+quiet_cmd_m68kas_o_S = M68KAS  $@
-+      cmd_m68kas_o_S = $(M68KCC) -D__ASSEMBLY__ -Wp,-MD,$(depfile) -I$(srctree)/include/uapi -c -o $@ $<
-+
-+$(obj)/wanxlfw.o: $(src)/wanxlfw.S FORCE
-+	$(call if_changed_dep,m68kas_o_S)
+ # Make variables (CC, etc...)
+-AS		= $(CROSS_COMPILE)as
+ LD		= $(CROSS_COMPILE)ld
+ CC		= $(CROSS_COMPILE)gcc
+ CPP		= $(CC) -E
+@@ -535,7 +534,7 @@ endif
+ ifneq ($(GCC_TOOLCHAIN),)
+ CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
  endif
-+targets += wanxlfw.inc wanxlfw.bin wanxlfw.o
+-ifeq ($(shell $(AS) --version 2>&1 | head -n 1 | grep clang),)
++ifeq ($(if $(AS),$(shell $(AS) --version 2>&1 | head -n 1 | grep clang)),)
+ CLANG_FLAGS	+= -no-integrated-as
+ endif
+ CLANG_FLAGS	+= -Werror=unknown-warning-option
 -- 
 2.17.1
 
