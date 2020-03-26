@@ -2,91 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB3F719383F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 06:58:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E908D193866
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 07:14:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbgCZF6N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 01:58:13 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:47422 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbgCZF6N (ORCPT
+        id S1726289AbgCZGOu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 02:14:50 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:62855 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726213AbgCZGOu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 01:58:13 -0400
-Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 02Q5ve97008573;
-        Thu, 26 Mar 2020 14:57:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 02Q5ve97008573
+        Thu, 26 Mar 2020 02:14:50 -0400
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 02Q6ERNC010464;
+        Thu, 26 Mar 2020 15:14:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 02Q6ERNC010464
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585202263;
-        bh=C9kzZXmIKqsEqPxkq+FbEJxlP3ux1NGhl1py0BoTGlk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AHhLn/XRtP8sD0q07kdk58SES4vmIs1eXRovc6LDLMQ5MO562Uc5dbWRykxdNbghp
-         bURcmlECASN65vcqh8B3E0hWQJk8OFtulL9qrnRlAUGFb+m81eBADDxE5p7phXMGyp
-         C2+60u4hm5nNijZVoWOjwdgtJeeRw4vOg14ZQy0wG+fFFup3mmbf2tm/ujQ/11RMnY
-         I6P+9XOLRd2uY0j4v4kVH6OmyoPWk793sJTagWTxgdQ57/K41ciEbhh4mgDvKF+gAP
-         wBfpfTAfVvoCQjDqUEZ/XrJhfRVGqMbCBpuP0wS2rSfqS5+4EbjYaX+lmAt70YzLnO
-         jdDVmeEl1pUog==
-X-Nifty-SrcIP: [153.142.97.92]
+        s=dec2015msa; t=1585203268;
+        bh=9JvGFXDbXf0WHwUuU/6/XuO+PW6RcH+NvJKjNlcv4ZM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=De9gZQ+3D+HbdIRAHlgDjfw4T2JvNYMxXm9IlpEJy1cYv/ooP/3e8iMk2RZdOc2x4
+         mLD92alU8mMLzIEt/ceThq8ZNHs6RiiEaszrxCC0LcLDXGGVc+0Wcd5VO+es2m5EXl
+         Ci71pbZZQzNnfaOHVNB2RkH8dighd+JP4B48cHPkTaq5iPnYTFuZjtAQWfPj56/bC3
+         xN6/rnG9V2/ZBgoyJUJA7zXkWMI8alq+0W94adSNYqQLmln/ZTnMGDK8dpFBdsFqaw
+         USQF4J4/ArsRS/f29dOdyzBGHm+B5qynMmscRX6HBi3iqHLtW9q26/HvbQagwftIlX
+         neFkPfwtjpvRw==
+X-Nifty-SrcIP: [209.85.221.181]
+Received: by mail-vk1-f181.google.com with SMTP id p123so1400484vkg.1;
+        Wed, 25 Mar 2020 23:14:27 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ285ry1bZZ69SW2N9QpArMN5/EL0PGSwfCVbX0GmSjJGrT8HMRB
+        B6fGqXGNyh1cZv6vnco4qvEJ+ELM8Wfl9CoF9bQ=
+X-Google-Smtp-Source: ADFU+vtR1PkThEG5fof0BkpvSUODBLIJyFZ5IQflhtz2NMxdF8WuPUa/n0iZ8kRCvUgyaSGgVqW4CH7K0FGWSteFi80=
+X-Received: by 2002:a1f:3649:: with SMTP id d70mr3829330vka.12.1585203266653;
+ Wed, 25 Mar 2020 23:14:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200324161539.7538-1-masahiroy@kernel.org> <20200324161539.7538-3-masahiroy@kernel.org>
+ <CAKwvOdkjiyyt8Ju2j2O4cm1sB34rb_FTgjCRzEiXM6KL4muO_w@mail.gmail.com> <CAKwvOdmWqAUhL5DRg9oQPXzFtogK-0Q-VZ=FWf=Cjm-RJgR4sw@mail.gmail.com>
+In-Reply-To: <CAKwvOdmWqAUhL5DRg9oQPXzFtogK-0Q-VZ=FWf=Cjm-RJgR4sw@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     clang-built-linux@googlegroups.com,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Date:   Thu, 26 Mar 2020 15:13:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+3gq-uL6HF=o2NbZ2udkr+dqAhsvs-XxFs0M9wShJbw@mail.gmail.com>
+Message-ID: <CAK7LNAS+3gq-uL6HF=o2NbZ2udkr+dqAhsvs-XxFs0M9wShJbw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] kbuild: remove AS variable
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Network Development <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] kbuild: remove AS variable
-Date:   Thu, 26 Mar 2020 14:57:18 +0900
-Message-Id: <20200326055719.16755-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200326055719.16755-1-masahiroy@kernel.org>
-References: <20200326055719.16755-1-masahiroy@kernel.org>
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-As commit 5ef872636ca7 ("kbuild: get rid of misleading $(AS) from
-documents") noted, we rarely use $(AS) directly in the kernel build.
+Hi Nick,
 
-Now that the only/last user of $(AS) in drivers/net/wan/Makefile was
-converted to $(CC), $(AS) is no longer used in the build process.
 
-You can still pass in AS=clang, which is just a switch to turn on
-the LLVM integrated assembler.
+On Wed, Mar 25, 2020 at 4:59 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Tue, Mar 24, 2020 at 12:38 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> > consistent in this regard (and not using the compiler as the driver),
+>
+> Ah, the preprocessor; we need to preprocess the .S files, .s files are
+> fine (though we have .lds.S files that are not `-x
+> assembler-with-cpp`)
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
----
 
-Changes in v2:
-  - Fix breakage of CC=clang build
+Right, there is no '*.s' source file in the kernel tree.
 
- Makefile | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+If we want to de-couple $(AS), we must the compilation
+before the assemble stage   ( $(CC) -S ), but
+doing so does not buy us.
 
-diff --git a/Makefile b/Makefile
-index fcec84681e4e..2e12fa1cc8f3 100644
---- a/Makefile
-+++ b/Makefile
-@@ -405,7 +405,6 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
- KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
- 
- # Make variables (CC, etc...)
--AS		= $(CROSS_COMPILE)as
- LD		= $(CROSS_COMPILE)ld
- CC		= $(CROSS_COMPILE)gcc
- CPP		= $(CC) -E
-@@ -535,7 +534,7 @@ endif
- ifneq ($(GCC_TOOLCHAIN),)
- CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
- endif
--ifeq ($(shell $(AS) --version 2>&1 | head -n 1 | grep clang),)
-+ifeq ($(if $(AS),$(shell $(AS) --version 2>&1 | head -n 1 | grep clang)),)
- CLANG_FLAGS	+= -no-integrated-as
- endif
- CLANG_FLAGS	+= -Werror=unknown-warning-option
+So, $(CC) always works as the front-end
+for compiling both .c and .S files.
+
+
+You can see the internal database by
+'make --print-data-base'.
+
+I see the following for  *.S -> *.o rule.
+
+# default
+COMPILE.S = $(CC) $(ASFLAGS) $(CPPFLAGS) $(TARGET_MACH) -c
+
+
+So, using $(CC) is the right thing.
+
+
+Even if we keep AS, we cannot do like AS=llvm-as
+since llvm-as is a different kind of tool
+that processes LLVM assembly (.ll) .
+
+
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
