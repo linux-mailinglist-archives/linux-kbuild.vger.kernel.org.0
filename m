@@ -2,134 +2,74 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30F031947A2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 20:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AA501947D7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 20:48:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727541AbgCZTmV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 15:42:21 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36742 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727354AbgCZTmV (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 15:42:21 -0400
-Received: by mail-ot1-f67.google.com with SMTP id l23so7257859otf.3;
-        Thu, 26 Mar 2020 12:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NAO+A7y/DjbsbhI8P0r25mk2n531NNa6uqK4EPh5TpQ=;
-        b=YJyeQZuE88tXwIGESRzyCScKjxwzZInWYCOPgHKZB9iAtDqXwGNEmvXT3F7hHDN/7S
-         2nxj06plwFSBAqdNAjeTcntrQ9YwQfyDuWuoS4cv6yWLEVWOnPlcW7gOPo8sIPN9RS9e
-         WdAaWvPUeW8Dt+iIOpELi38MstOw39XI7EJolASmUkbBcfsXg6Wcp+d9fnF2s7XYHu6m
-         5gPKVsMcSA6PNRErY1fPZuE2BAKi6lxq84i05+UkGHkP6oqSSsAX51jegFmIOjU8Oq2q
-         xmCdLVPOGPRFp0IatVDPcWj8T3IVApSAyZvU9jlPMbp9I3EJUw0qkRDr1AFsS7cWsBM2
-         tIXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NAO+A7y/DjbsbhI8P0r25mk2n531NNa6uqK4EPh5TpQ=;
-        b=VbanNDR9SeBViRdoYmW2wpa0Cg3CaHY0f15UVInOB20zxy46BrRD+GIVQ/M6NUVT7y
-         PLibhKFjlMumZLse1kUoZZyNsgZ8diO4olMiFyQCBJX4q9iq2ANY33abipuR0gIrnzZa
-         5432YpDUCUE5nQ7UZ5UoZP6FmmkJn4IPNoBI1ZF+u1ALSWz9v1OwrSKm9mPCN0nRzfNU
-         hu95/uhU53ba8WrcOEWr3nsaKAZl/X8wH059cXSGJa4BoP+94yBlnSGfPv1Ayjq9DV3C
-         nFEOArPrDKoB2WBJmhkNOwRpu1m3gYlpoaVXbZjhEKiuABF6jLqzZyqW1mThtMqGrmjk
-         HSzw==
-X-Gm-Message-State: ANhLgQ1cQaLiJL2xFF66ZOajNAqPx1m1cGEF8glPOYxnhdp2n3u0SmE9
-        feBGgd0rLmR9lL8JGvmaASE=
-X-Google-Smtp-Source: ADFU+vuiMcq46oUmXHR2bMnV/CwmiktOve7dTS+rU24ap8MFGJusIKF7ghKNqLB97FpXujgF6amFWw==
-X-Received: by 2002:a05:6830:91:: with SMTP id a17mr102414oto.240.1585251740119;
-        Thu, 26 Mar 2020 12:42:20 -0700 (PDT)
-Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id l1sm851058otd.35.2020.03.26.12.42.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 12:42:19 -0700 (PDT)
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Nathan Chancellor <natechancellor@gmail.com>
-Subject: [PATCH v2] kbuild: Enable -Wtautological-compare
-Date:   Thu, 26 Mar 2020 12:41:55 -0700
-Message-Id: <20200326194155.29107-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        id S1727541AbgCZTsm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 15:48:42 -0400
+Received: from frisell.zx2c4.com ([192.95.5.64]:40083 "EHLO frisell.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726067AbgCZTsm (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 15:48:42 -0400
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id b86917c3;
+        Thu, 26 Mar 2020 19:41:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
+        :references:in-reply-to:from:date:message-id:subject:to:cc
+        :content-type; s=mail; bh=i1Ecy+SbHhe+7cdHbf2qrrbPYjU=; b=J0fGwC
+        6M53fw1muJ2q5jritKZo3X4sjyIs9VAdPO6ktC+dnet4/NH0/xkO74ccuT/uCmBH
+        ke012hoycOoUr5pRlyre24ICid0Dwid7xN5/gCwCrY9r7Yu+E6p8WPC+v6854gVJ
+        2Ong6qTb/A8JJ+aPa8F7eINbK3dXyZWzYZiJTfqQdCFwwzWwVf3pV0gkWaS8KH23
+        GnkCw+Y5LFA5fAvFmjdszXoItPpFXD/tdRJH9u68Lx5c/NCPRopsH2Dk5BLKqPc/
+        lD16Em8aprMX2AMc4uhbHCqf0uWHHnP9oy+ybPHsBaQil62RPNlTHFapjV2txqJ1
+        OLPg4KUPGugnF24g==
+Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d6d6ba66 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
+        Thu, 26 Mar 2020 19:41:14 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id q9so7434657iod.4;
+        Thu, 26 Mar 2020 12:48:39 -0700 (PDT)
+X-Gm-Message-State: ANhLgQ2DJPP8nlqJbDxXTxoUNUgjxjRO0+aRn76GfRDWf8I1iJ9ejDMA
+        q1nUzCBhwsXKPhWzPLjAJIgLN7ME2tRHbEPUs30=
+X-Google-Smtp-Source: ADFU+vuKHsBA2DJck9vjtxQQlzpQrEEemrhzFUhdOt5x4tIfSg3P4dh72sKsIDBOeS2Lq1BWtwmgRF1TMvrMFxeMiTY=
+X-Received: by 2002:a6b:d012:: with SMTP id x18mr3320426ioa.80.1585252118168;
+ Thu, 26 Mar 2020 12:48:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-16-masahiroy@kernel.org>
+ <CAKwvOdnG4F6+Ndfj+=BoV6OidJjWS_dYtjvyCEJ6nyxkSQc3rg@mail.gmail.com>
+In-Reply-To: <CAKwvOdnG4F6+Ndfj+=BoV6OidJjWS_dYtjvyCEJ6nyxkSQc3rg@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Thu, 26 Mar 2020 13:48:27 -0600
+X-Gmail-Original-Message-ID: <CAHmME9p_N2cpMt20Gf1kWTRnj36nwrceFxEui2MU0kFu3WOdww@mail.gmail.com>
+Message-ID: <CAHmME9p_N2cpMt20Gf1kWTRnj36nwrceFxEui2MU0kFu3WOdww@mail.gmail.com>
+Subject: Re: [PATCH v2 15/16] x86: update AS_* macros to binutils >=2.23,
+ supporting ADX and AVX2
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Ingo Molnar <mingo@redhat.com>,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, we disable -Wtautological-compare, which in turn disables a
-bunch of more specific tautological comparison warnings that are useful
-for the kernel such as -Wtautological-bitwise-compare. See clang's
-documentation below for the other warnings that are suppressed by
--Wtautological-compare. Now that all of the major/noisy warnings have
-been fixed, enable -Wtautological-compare so that more issues can be
-caught at build time by various continuous integration setups.
+On Thu, Mar 26, 2020 at 11:55 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+> I see four checks for CONFIG_AS_AVX2 in:
+> net/netfilter/nft_set_pipapo.c
+> net/netfilter/nf_tables_api.c
+> net/netfilter/Makefile
+> net/netfilter/nft_set_pipapo_avx2.h
 
--Wtautological-constant-out-of-range-compare is kept disabled under a
-normal build but visible at W=1 because there are places in the kernel
-where a constant or variable size can change based on the kernel
-configuration. These are not fixed in a clean/concise way and the ones
-I have audited so far appear to be harmless. It is not a subgroup but
-rather just one warning so we do not lose out on much coverage by
-default.
-
-Link: https://github.com/ClangBuiltLinux/linux/issues/488
-Link: http://releases.llvm.org/10.0.0/tools/clang/docs/DiagnosticsReference.html#wtautological-compare
-Link: https://bugs.llvm.org/show_bug.cgi?id=42666
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
-
-v1 -> v2: https://lore.kernel.org/lkml/20200219045423.54190-7-natechancellor@gmail.com/
-
-* Expand commit message a bit by adding more reasoning behind change.
-* Disable -Wtautological-constant-out-of-range-compare under a normal
-  build but allow it to show up at W=1 for easy auditing.
-
-I hope this can be accepted for 5.7. There are two warnings that I see
-still across a bunch of allyesconfig/allmodconfig builds that have
-patches sent but not accepted. I will ping them today.
-
-* https://lore.kernel.org/lkml/20191023002014.22571-1-natechancellor@gmail.com/
-* https://lore.kernel.org/lkml/20200220051011.26113-1-natechancellor@gmail.com/
-
- Makefile                   | 2 --
- scripts/Makefile.extrawarn | 1 +
- 2 files changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index db442a9ee6b2..05f9f50dda3e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -746,8 +746,6 @@ ifdef CONFIG_CC_IS_CLANG
- KBUILD_CPPFLAGS += -Qunused-arguments
- KBUILD_CFLAGS += -Wno-format-invalid-specifier
- KBUILD_CFLAGS += -Wno-gnu
--# Quiet clang warning: comparison of unsigned expression < 0 is always false
--KBUILD_CFLAGS += -Wno-tautological-compare
- # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
- # source of a reference will be _MergedGlobals and not on of the whitelisted names.
- # See modpost pattern 2
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index ca08f2fe7c34..4aea7cf71d11 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -49,6 +49,7 @@ KBUILD_CFLAGS += -Wno-format
- KBUILD_CFLAGS += -Wno-sign-compare
- KBUILD_CFLAGS += -Wno-format-zero-length
- KBUILD_CFLAGS += $(call cc-disable-warning, pointer-to-enum-cast)
-+KBUILD_CFLAGS += -Wno-tautological-constant-out-of-range-compare
- endif
- 
- endif
--- 
-2.26.0
-
+That code isn't in Linus' tree right now is it? Does it make sense for
+us to see which subsystem trees (crypto, netfilter, raid, etc) are
+submitted to 5.7? Or would you rather this patchset be rebased now on
+next?
