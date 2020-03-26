@@ -2,542 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 523F21945E3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 18:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06D121946C8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 19:51:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbgCZRzZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 13:55:25 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:35349 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727495AbgCZRzY (ORCPT
+        id S1725994AbgCZSv1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 14:51:27 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:10644 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726340AbgCZSv0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 13:55:24 -0400
-Received: by mail-pf1-f193.google.com with SMTP id u68so3165804pfb.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 10:55:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DCauf6UzeM0EGa6Rjr2Ei8nconXomjrPPNEKVAQgfxg=;
-        b=cE4h7W19tWkr0w9dP/mzT4QXpEH/NkoO8Vp4vjNhcuyYtFGk3mCtLXaiBx8RF1sVSz
-         zV4P3v7JD59Gn/wIjyNm+q6rc/zUYW8br4MveqGlr3hAJVE/eXFyQSnzOERoJnpSIsMP
-         4pNxnJbw47H8ZAJwivjuQ0jZn99N/x00Cb8pPury5JMBcO15btIrmTUdO/NM1boBfSWa
-         qLTEYiyLAkkDPoUPe3Z7YCyBvAaTvTgre8/wCbpWAE1X5uNmp97dECEfXVxmo9FPbdnf
-         mBql12oXE5UVcBf7LqZTqV76zBCGrtL/zIDbgNdHVaTqX9bIM4chYXcc9BOTMgbtuA89
-         GaRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DCauf6UzeM0EGa6Rjr2Ei8nconXomjrPPNEKVAQgfxg=;
-        b=QEozvWO1zo5ODT5BgC0vARIYJdDmMfwFYQVJTPp61TkI1aKeEmfWa7weOKAUZjyWlJ
-         TnpPLUjw/zarGS4CxnU1GK1H54v0B4hEWu0cXPixMd52zvDukz3kLK00lZIRGOUOu5SE
-         921+AqjqclnRiCLnDASjuBsXtMrwkFj7CT23MtWUa5eUV0hMGzXKVCEFtDusSmK77BkH
-         1MQdSCM8yMbdohrayzZ0Yz5gofMUzi3FFkNp6jqsMXwvhNMd7pfwI5Z6JxwNEtgdVVtK
-         u6fyiLRnZ+5SlqIBjhPrHDia4ZZ3A9Ngdr4afM1OkrkG6v4ioeLHJjoY8jd8xCmTcPed
-         97DQ==
-X-Gm-Message-State: ANhLgQ1von62RQlIkTDLmP2zal0QBqr8FXC2wCQEYj/9tBe9vWCh/m8u
-        knWGV0SsubSmoU9O5IgXvHqELfj5OCqszh/4IWbg2g==
-X-Google-Smtp-Source: ADFU+vtIA8Gi0brSNndjjkasB9zM5C9zRtxAJusHF7CsaG9hGPlRLnE6mpwOqPqokvszQ8rjdMAbbTs2rbQMevwZdVk=
-X-Received: by 2002:a63:4453:: with SMTP id t19mr9148432pgk.381.1585245322018;
- Thu, 26 Mar 2020 10:55:22 -0700 (PDT)
+        Thu, 26 Mar 2020 14:51:26 -0400
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 02QIpDCU026982;
+        Thu, 26 Mar 2020 11:51:13 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=facebook;
+ bh=2ZHg8VpURs06PNBbFTWnGmynoQfZVRO7NLx7UXn59f4=;
+ b=CSUINLNY3aGWBl8oZ7O0uuE34JqxYx5P7UkbFbFt07j6pvm/pLQDyb/glDd0LcIoheqt
+ Wn5HFsgzwoDbYnzhglCflnudOfzpO1w9n3UbEBBMdVfEZJfBGsMz9qbDcmsD0JVO3XCl
+ 6aQ7wH0i9IAScH20+XqopZHPOPwQIpwM5Qc= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by mx0a-00082601.pphosted.com with ESMTP id 2yx2xpa20t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 26 Mar 2020 11:51:13 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.228) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1847.3; Thu, 26 Mar 2020 11:50:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=De4ZgTFLySliRomqM6fVj0ZRfd3k/S7Pb2HLNM8UKF3qFf6RpMwhRZndZHggaFxyQL8EX9bpICNexxDpz5CH9dIH0/y6nbK4JzBcc1/Bm2EowaWvilcw3lmty+EnAFgzWhjv49BK6zriJv0c6W34zkjzVYqsWDlQ+GsmUr+ghpCLjjrX+ptGT2oEmt+TEfrcBSuzWNUfq+5oboczwu62UUfABQkQL/XCan3nZhQzXNO5SP5NWELgqVqKaJrYV6qBvm1wdoi9Mdmms1Ysg8I6fRIVAHMFJkOxPzi4+ZEnaEg6M/v+4Vhnb+X4ujIyWS5lPKSRq5oTbisbEAQxN5+FJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2ZHg8VpURs06PNBbFTWnGmynoQfZVRO7NLx7UXn59f4=;
+ b=RMB+8UWRfjvz+SZzmHqdCN1z/dv9muDRg44TaHBn1M9/c7rB/PD4C3Aq5lyem1BVeIhNQCGm59zXgO9x31S6AVA0hhuaCxu5N5RgHLRxuLk07+OFly3PXkkY6bxlWnLNF2evXYAr0jL2Vyr8GNrumgZdDakNumMlkP6JZha+LaFQ0vuzmFnLDH8/nHfJoyF/2ockb5Iqc8T4hpxAxFbK3zRSWGNlZpnTvVnyLKln7kRe+LVi2jTTHMGIMWUs72Y8cPz2lWD5Vv7pzA6dJM4g6+rI4/HBggao83GULdm53wA39AGNtR5ra+/7CJL6bOkUTrVYsMXLxb4NLmqHrQ0Yzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
+ s=selector2-fb-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2ZHg8VpURs06PNBbFTWnGmynoQfZVRO7NLx7UXn59f4=;
+ b=Jl2nJrDCxRBMeXTEPNYbQe3bKKCnKQVxyxkHO0rZbZBndMtlBUa20ZCCk7Zh8vWFrxktLAD8p0CEGXC8urqRo6uAg62f+9xUd+Ddju3JsAIE2B4PDPLn7tuE6bk/uoxRK/WQfumPqTrYkInmlAODUTESRWYe5Ci1fvnPGrcY5sQ=
+Received: from MW3PR15MB3753.namprd15.prod.outlook.com (2603:10b6:303:50::17)
+ by MW3PR15MB3929.namprd15.prod.outlook.com (2603:10b6:303:4a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.20; Thu, 26 Mar
+ 2020 18:50:43 +0000
+Received: from MW3PR15MB3753.namprd15.prod.outlook.com
+ ([fe80::3517:e69:6e78:4f7c]) by MW3PR15MB3753.namprd15.prod.outlook.com
+ ([fe80::3517:e69:6e78:4f7c%7]) with mapi id 15.20.2856.019; Thu, 26 Mar 2020
+ 18:50:43 +0000
+From:   Nick Terrell <terrelln@fb.com>
+To:     Petr Malat <oss@malat.biz>
+CC:     Nick Terrell <nickrterrell@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Chris Mason <clm@fb.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>,
+        Michael van der Westhuizen <rmikey@fb.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        Patrick Williams <patrick@stwcx.xyz>
+Subject: Re: [PATCH v3 1/8] lib: prepare zstd for preboot environment
+Thread-Topic: [PATCH v3 1/8] lib: prepare zstd for preboot environment
+Thread-Index: AQHWAt/TFdKoAeUM4EKl5IiyBgLU06hbBAsAgAA1HIA=
+Date:   Thu, 26 Mar 2020 18:50:43 +0000
+Message-ID: <40FFD6B5-8353-4126-9F89-B8F21A400EB3@fb.com>
+References: <20200325195849.407900-1-nickrterrell@gmail.com>
+ <20200325195849.407900-2-nickrterrell@gmail.com>
+ <20200326154038.GA21231@ntb.petris.klfree.czf>
+In-Reply-To: <20200326154038.GA21231@ntb.petris.klfree.czf>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [67.188.225.242]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 83a129e4-fb93-4f7b-2559-08d7d1b696b7
+x-ms-traffictypediagnostic: MW3PR15MB3929:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MW3PR15MB3929AE745951653F0E486C9FABCF0@MW3PR15MB3929.namprd15.prod.outlook.com>
+x-fb-source: Internal
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0354B4BED2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(39860400002)(366004)(346002)(136003)(376002)(81156014)(5660300002)(2616005)(66446008)(6916009)(76116006)(66556008)(66946007)(64756008)(66476007)(91956017)(4326008)(86362001)(81166006)(26005)(8936002)(186003)(8676002)(316002)(54906003)(478600001)(53546011)(2906002)(33656002)(6512007)(7416002)(71200400001)(36756003)(6486002)(6506007);DIR:OUT;SFP:1102;SCL:1;SRVR:MW3PR15MB3929;H:MW3PR15MB3753.namprd15.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;
+received-spf: None (protection.outlook.com: fb.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kiURwWH9WzfuNqkFNmTUuaVxGycDYXt9bEpQzhKiFnSrrLeTLaA2Jc81XgUuK+5OilFGP9irySE6vSJ/Omtoku6ZfodnsKHAadoNvv0GZTwEzi84kokv4XLOzrRf+KRtsiFcFp/oP+EiyJjjpByOUMlqVL+Wh9noFEfbqJsZaLG0MOybkOdV9P0JTlD1DMle+hESLghQ4BY2j9HUKFgJpNNI1xZvUx9RYkDLbbn+3+DANEEk9Z64bBUGp2TpPwZFwbUeQwi+StJm1nwipMdDJSKs7+kJ9fU4oHM4UNzzkqHJfRkNCSUHlYg7eYTkB3KW3t7XLlcUVnr4zz1hNPAfJl7tOrxemmiantFIaK7ESk6oIpOP/qoHb1omfA14f1pRHdoutQc0MK4Sb4REJYlWBcy0Ts8Lkd3s62wjco07XmeK8x2Fhbfv40+3deq1/5zR
+x-ms-exchange-antispam-messagedata: cP34SYUB8MtM+4kEH1GVPI5Mm3wa+0tcFAlBEOyOp1V5JUXZwT+cEmEAJxAwrhrbQNN5D/Hs+m6AzitXFBT9ix/W6GWF7S2OdaO+uuwLDLLguKSY0pS/FaKzPk/K1Xt7eyemkvpQMqyJXTov0lmAHg==
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D7C6279926EAF149A94698AD0AFBD329@namprd15.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-16-masahiroy@kernel.org>
-In-Reply-To: <20200326080104.27286-16-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 26 Mar 2020 10:55:09 -0700
-Message-ID: <CAKwvOdnG4F6+Ndfj+=BoV6OidJjWS_dYtjvyCEJ6nyxkSQc3rg@mail.gmail.com>
-Subject: Re: [PATCH v2 15/16] x86: update AS_* macros to binutils >=2.23,
- supporting ADX and AVX2
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Ingo Molnar <mingo@redhat.com>,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83a129e4-fb93-4f7b-2559-08d7d1b696b7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Mar 2020 18:50:43.7210
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: kwSq8Qi+AHEKRTHGtFh8KEwxRh0sW7WWe/BxWgIqsC4OQfqyyB9Z9EO7p9y0rOo5
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR15MB3929
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.645
+ definitions=2020-03-26_10:2020-03-26,2020-03-26 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 mlxlogscore=653
+ spamscore=0 impostorscore=0 malwarescore=0 clxscore=1011 adultscore=0
+ bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003260141
+X-FB-Internal: deliver
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 1:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
->
-> Now that the kernel specifies binutils 2.23 as the minimum version, we
-> can remove ifdefs for AVX2 and ADX throughout.
->
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
-> Changes in v2: None
->
->  arch/x86/Kconfig.assembler                    | 10 ----------
->  arch/x86/crypto/Makefile                      |  6 ++----
->  arch/x86/crypto/aesni-intel_avx-x86_64.S      |  3 ---
->  arch/x86/crypto/aesni-intel_glue.c            |  7 -------
->  arch/x86/crypto/chacha_glue.c                 |  6 ++----
->  arch/x86/crypto/poly1305-x86_64-cryptogams.pl |  8 --------
->  arch/x86/crypto/poly1305_glue.c               |  5 ++---
->  arch/x86/crypto/sha1_ssse3_glue.c             |  6 ------
->  arch/x86/crypto/sha256-avx2-asm.S             |  3 ---
->  arch/x86/crypto/sha256_ssse3_glue.c           |  6 ------
->  arch/x86/crypto/sha512-avx2-asm.S             |  3 ---
->  arch/x86/crypto/sha512_ssse3_glue.c           |  5 -----
->  crypto/Kconfig                                |  8 ++++----
->  lib/raid6/algos.c                             |  6 ------
->  lib/raid6/avx2.c                              |  4 ----
->  lib/raid6/recov_avx2.c                        |  6 ------
->  lib/raid6/test/Makefile                       |  3 ---
-
-I see four checks for CONFIG_AS_AVX2 in:
-net/netfilter/nft_set_pipapo.c
-net/netfilter/nf_tables_api.c
-net/netfilter/Makefile
-net/netfilter/nft_set_pipapo_avx2.h
-
-Can changes for those be added to this?
-
->  17 files changed, 10 insertions(+), 85 deletions(-)
->
-> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-> index a5a1d2766b3a..13de0db38d4e 100644
-> --- a/arch/x86/Kconfig.assembler
-> +++ b/arch/x86/Kconfig.assembler
-> @@ -1,11 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  # Copyright (C) 2020 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
->
-> -config AS_AVX2
-> -       def_bool $(as-instr,vpbroadcastb %xmm0$(comma)%ymm1)
-> -       help
-> -         Supported by binutils >= 2.22 and LLVM integrated assembler
-> -
->  config AS_AVX512
->         def_bool $(as-instr,vpmovm2b %k1$(comma)%zmm5)
->         help
-> @@ -20,8 +15,3 @@ config AS_SHA256_NI
->         def_bool $(as-instr,sha256msg1 %xmm0$(comma)%xmm1)
->         help
->           Supported by binutils >= 2.24 and LLVM integrated assembler
-> -
-> -config AS_ADX
-> -       def_bool $(as-instr,adox %eax$(comma)%eax)
-> -       help
-> -         Supported by binutils >= 2.23 and LLVM integrated assembler
-> diff --git a/arch/x86/crypto/Makefile b/arch/x86/crypto/Makefile
-> index 2f23f08fdd4b..928aad453c72 100644
-> --- a/arch/x86/crypto/Makefile
-> +++ b/arch/x86/crypto/Makefile
-> @@ -47,8 +47,7 @@ obj-$(CONFIG_CRYPTO_AEGIS128_AESNI_SSE2) += aegis128-aesni.o
->  aegis128-aesni-y := aegis128-aesni-asm.o aegis128-aesni-glue.o
->
->  obj-$(CONFIG_CRYPTO_CHACHA20_X86_64) += chacha-x86_64.o
-> -chacha-x86_64-y := chacha-ssse3-x86_64.o chacha_glue.o
-> -chacha-x86_64-$(CONFIG_AS_AVX2) += chacha-avx2-x86_64.o
-> +chacha-x86_64-y := chacha-avx2-x86_64.o chacha-ssse3-x86_64.o chacha_glue.o
->  chacha-x86_64-$(CONFIG_AS_AVX512) += chacha-avx512vl-x86_64.o
->
->  obj-$(CONFIG_CRYPTO_AES_NI_INTEL) += aesni-intel.o
-> @@ -56,8 +55,7 @@ aesni-intel-y := aesni-intel_asm.o aesni-intel_glue.o
->  aesni-intel-$(CONFIG_64BIT) += aesni-intel_avx-x86_64.o aes_ctrby8_avx-x86_64.o
->
->  obj-$(CONFIG_CRYPTO_SHA1_SSSE3) += sha1-ssse3.o
-> -sha1-ssse3-y := sha1_ssse3_asm.o sha1_ssse3_glue.o
-> -sha1-ssse3-$(CONFIG_AS_AVX2) += sha1_avx2_x86_64_asm.o
-> +sha1-ssse3-y := sha1_avx2_x86_64_asm.o sha1_ssse3_asm.o sha1_ssse3_glue.o
->  sha1-ssse3-$(CONFIG_AS_SHA1_NI) += sha1_ni_asm.o
->
->  obj-$(CONFIG_CRYPTO_SHA256_SSSE3) += sha256-ssse3.o
-> diff --git a/arch/x86/crypto/aesni-intel_avx-x86_64.S b/arch/x86/crypto/aesni-intel_avx-x86_64.S
-> index cc56ee43238b..0cea33295287 100644
-> --- a/arch/x86/crypto/aesni-intel_avx-x86_64.S
-> +++ b/arch/x86/crypto/aesni-intel_avx-x86_64.S
-> @@ -1868,7 +1868,6 @@ key_256_finalize:
->          ret
->  SYM_FUNC_END(aesni_gcm_finalize_avx_gen2)
->
-> -#ifdef CONFIG_AS_AVX2
->  ###############################################################################
->  # GHASH_MUL MACRO to implement: Data*HashKey mod (128,127,126,121,0)
->  # Input: A and B (128-bits each, bit-reflected)
-> @@ -2836,5 +2835,3 @@ key_256_finalize4:
->          FUNC_RESTORE
->          ret
->  SYM_FUNC_END(aesni_gcm_finalize_avx_gen4)
-> -
-> -#endif /* CONFIG_AS_AVX2 */
-> diff --git a/arch/x86/crypto/aesni-intel_glue.c b/arch/x86/crypto/aesni-intel_glue.c
-> index e0f54e00edfd..c7f8c4d7f670 100644
-> --- a/arch/x86/crypto/aesni-intel_glue.c
-> +++ b/arch/x86/crypto/aesni-intel_glue.c
-> @@ -233,7 +233,6 @@ static const struct aesni_gcm_tfm_s aesni_gcm_tfm_avx_gen2 = {
->         .finalize = &aesni_gcm_finalize_avx_gen2,
->  };
->
-> -#ifdef CONFIG_AS_AVX2
->  /*
->   * asmlinkage void aesni_gcm_init_avx_gen4()
->   * gcm_data *my_ctx_data, context data
-> @@ -276,8 +275,6 @@ static const struct aesni_gcm_tfm_s aesni_gcm_tfm_avx_gen4 = {
->         .finalize = &aesni_gcm_finalize_avx_gen4,
->  };
->
-> -#endif
-> -
->  static inline struct
->  aesni_rfc4106_gcm_ctx *aesni_rfc4106_gcm_ctx_get(struct crypto_aead *tfm)
->  {
-> @@ -706,10 +703,8 @@ static int gcmaes_crypt_by_sg(bool enc, struct aead_request *req,
->         if (!enc)
->                 left -= auth_tag_len;
->
-> -#ifdef CONFIG_AS_AVX2
->         if (left < AVX_GEN4_OPTSIZE && gcm_tfm == &aesni_gcm_tfm_avx_gen4)
->                 gcm_tfm = &aesni_gcm_tfm_avx_gen2;
-> -#endif
->         if (left < AVX_GEN2_OPTSIZE && gcm_tfm == &aesni_gcm_tfm_avx_gen2)
->                 gcm_tfm = &aesni_gcm_tfm_sse;
->
-> @@ -1069,12 +1064,10 @@ static int __init aesni_init(void)
->         if (!x86_match_cpu(aesni_cpu_id))
->                 return -ENODEV;
->  #ifdef CONFIG_X86_64
-> -#ifdef CONFIG_AS_AVX2
->         if (boot_cpu_has(X86_FEATURE_AVX2)) {
->                 pr_info("AVX2 version of gcm_enc/dec engaged.\n");
->                 aesni_gcm_tfm = &aesni_gcm_tfm_avx_gen4;
->         } else
-> -#endif
->         if (boot_cpu_has(X86_FEATURE_AVX)) {
->                 pr_info("AVX version of gcm_enc/dec engaged.\n");
->                 aesni_gcm_tfm = &aesni_gcm_tfm_avx_gen2;
-> diff --git a/arch/x86/crypto/chacha_glue.c b/arch/x86/crypto/chacha_glue.c
-> index 68a74953efaf..b412c21ee06e 100644
-> --- a/arch/x86/crypto/chacha_glue.c
-> +++ b/arch/x86/crypto/chacha_glue.c
-> @@ -79,8 +79,7 @@ static void chacha_dosimd(u32 *state, u8 *dst, const u8 *src,
->                 }
->         }
->
-> -       if (IS_ENABLED(CONFIG_AS_AVX2) &&
-> -           static_branch_likely(&chacha_use_avx2)) {
-> +       if (static_branch_likely(&chacha_use_avx2)) {
->                 while (bytes >= CHACHA_BLOCK_SIZE * 8) {
->                         chacha_8block_xor_avx2(state, dst, src, bytes, nrounds);
->                         bytes -= CHACHA_BLOCK_SIZE * 8;
-> @@ -288,8 +287,7 @@ static int __init chacha_simd_mod_init(void)
->
->         static_branch_enable(&chacha_use_simd);
->
-> -       if (IS_ENABLED(CONFIG_AS_AVX2) &&
-> -           boot_cpu_has(X86_FEATURE_AVX) &&
-> +       if (boot_cpu_has(X86_FEATURE_AVX) &&
->             boot_cpu_has(X86_FEATURE_AVX2) &&
->             cpu_has_xfeatures(XFEATURE_MASK_SSE | XFEATURE_MASK_YMM, NULL)) {
->                 static_branch_enable(&chacha_use_avx2);
-> diff --git a/arch/x86/crypto/poly1305-x86_64-cryptogams.pl b/arch/x86/crypto/poly1305-x86_64-cryptogams.pl
-> index 5bac2d533104..137edcf038cb 100644
-> --- a/arch/x86/crypto/poly1305-x86_64-cryptogams.pl
-> +++ b/arch/x86/crypto/poly1305-x86_64-cryptogams.pl
-> @@ -1514,10 +1514,6 @@ ___
->
->  if ($avx>1) {
->
-> -if ($kernel) {
-> -       $code .= "#ifdef CONFIG_AS_AVX2\n";
-> -}
-> -
->  my ($H0,$H1,$H2,$H3,$H4, $MASK, $T4,$T0,$T1,$T2,$T3, $D0,$D1,$D2,$D3,$D4) =
->      map("%ymm$_",(0..15));
->  my $S4=$MASK;
-> @@ -2808,10 +2804,6 @@ ___
->  poly1305_blocks_avxN(0);
->  &end_function("poly1305_blocks_avx2");
->
-> -if($kernel) {
-> -       $code .= "#endif\n";
-> -}
-> -
->  #######################################################################
->  if ($avx>2) {
->  # On entry we have input length divisible by 64. But since inner loop
-> diff --git a/arch/x86/crypto/poly1305_glue.c b/arch/x86/crypto/poly1305_glue.c
-> index 4a6226e1d15e..6dfec19f7d57 100644
-> --- a/arch/x86/crypto/poly1305_glue.c
-> +++ b/arch/x86/crypto/poly1305_glue.c
-> @@ -108,7 +108,7 @@ static void poly1305_simd_blocks(void *ctx, const u8 *inp, size_t len,
->                 kernel_fpu_begin();
->                 if (IS_ENABLED(CONFIG_AS_AVX512) && static_branch_likely(&poly1305_use_avx512))
->                         poly1305_blocks_avx512(ctx, inp, bytes, padbit);
-> -               else if (IS_ENABLED(CONFIG_AS_AVX2) && static_branch_likely(&poly1305_use_avx2))
-> +               else if (static_branch_likely(&poly1305_use_avx2))
->                         poly1305_blocks_avx2(ctx, inp, bytes, padbit);
->                 else
->                         poly1305_blocks_avx(ctx, inp, bytes, padbit);
-> @@ -264,8 +264,7 @@ static int __init poly1305_simd_mod_init(void)
->         if (boot_cpu_has(X86_FEATURE_AVX) &&
->             cpu_has_xfeatures(XFEATURE_MASK_SSE | XFEATURE_MASK_YMM, NULL))
->                 static_branch_enable(&poly1305_use_avx);
-> -       if (IS_ENABLED(CONFIG_AS_AVX2) && boot_cpu_has(X86_FEATURE_AVX) &&
-> -           boot_cpu_has(X86_FEATURE_AVX2) &&
-> +       if (boot_cpu_has(X86_FEATURE_AVX) && boot_cpu_has(X86_FEATURE_AVX2) &&
->             cpu_has_xfeatures(XFEATURE_MASK_SSE | XFEATURE_MASK_YMM, NULL))
->                 static_branch_enable(&poly1305_use_avx2);
->         if (IS_ENABLED(CONFIG_AS_AVX512) && boot_cpu_has(X86_FEATURE_AVX) &&
-> diff --git a/arch/x86/crypto/sha1_ssse3_glue.c b/arch/x86/crypto/sha1_ssse3_glue.c
-> index 275b65dd30c9..a801ffc10cbb 100644
-> --- a/arch/x86/crypto/sha1_ssse3_glue.c
-> +++ b/arch/x86/crypto/sha1_ssse3_glue.c
-> @@ -174,7 +174,6 @@ static void unregister_sha1_avx(void)
->                 crypto_unregister_shash(&sha1_avx_alg);
->  }
->
-> -#if defined(CONFIG_AS_AVX2)
->  #define SHA1_AVX2_BLOCK_OPTSIZE        4       /* optimal 4*64 bytes of SHA1 blocks */
->
->  asmlinkage void sha1_transform_avx2(struct sha1_state *state,
-> @@ -246,11 +245,6 @@ static void unregister_sha1_avx2(void)
->                 crypto_unregister_shash(&sha1_avx2_alg);
->  }
->
-> -#else
-> -static inline int register_sha1_avx2(void) { return 0; }
-> -static inline void unregister_sha1_avx2(void) { }
-> -#endif
-> -
->  #ifdef CONFIG_AS_SHA1_NI
->  asmlinkage void sha1_ni_transform(struct sha1_state *digest, const u8 *data,
->                                   int rounds);
-> diff --git a/arch/x86/crypto/sha256-avx2-asm.S b/arch/x86/crypto/sha256-avx2-asm.S
-> index 499d9ec129de..11ff60c29c8b 100644
-> --- a/arch/x86/crypto/sha256-avx2-asm.S
-> +++ b/arch/x86/crypto/sha256-avx2-asm.S
-> @@ -48,7 +48,6 @@
->  # This code schedules 2 blocks at a time, with 4 lanes per block
->  ########################################################################
->
-> -#ifdef CONFIG_AS_AVX2
->  #include <linux/linkage.h>
->
->  ## assume buffers not aligned
-> @@ -767,5 +766,3 @@ _SHUF_00BA:
->  .align 32
->  _SHUF_DC00:
->         .octa 0x0b0a090803020100FFFFFFFFFFFFFFFF,0x0b0a090803020100FFFFFFFFFFFFFFFF
-> -
-> -#endif
-> diff --git a/arch/x86/crypto/sha256_ssse3_glue.c b/arch/x86/crypto/sha256_ssse3_glue.c
-> index 8bdc3be31f64..6394b5fe8db6 100644
-> --- a/arch/x86/crypto/sha256_ssse3_glue.c
-> +++ b/arch/x86/crypto/sha256_ssse3_glue.c
-> @@ -220,7 +220,6 @@ static void unregister_sha256_avx(void)
->                                 ARRAY_SIZE(sha256_avx_algs));
->  }
->
-> -#if defined(CONFIG_AS_AVX2)
->  asmlinkage void sha256_transform_rorx(struct sha256_state *state,
->                                       const u8 *data, int blocks);
->
-> @@ -295,11 +294,6 @@ static void unregister_sha256_avx2(void)
->                                 ARRAY_SIZE(sha256_avx2_algs));
->  }
->
-> -#else
-> -static inline int register_sha256_avx2(void) { return 0; }
-> -static inline void unregister_sha256_avx2(void) { }
-> -#endif
-> -
->  #ifdef CONFIG_AS_SHA256_NI
->  asmlinkage void sha256_ni_transform(struct sha256_state *digest,
->                                     const u8 *data, int rounds);
-> diff --git a/arch/x86/crypto/sha512-avx2-asm.S b/arch/x86/crypto/sha512-avx2-asm.S
-> index 3dd886b14e7d..3a44bdcfd583 100644
-> --- a/arch/x86/crypto/sha512-avx2-asm.S
-> +++ b/arch/x86/crypto/sha512-avx2-asm.S
-> @@ -49,7 +49,6 @@
->  # This code schedules 1 blocks at a time, with 4 lanes per block
->  ########################################################################
->
-> -#ifdef CONFIG_AS_AVX2
->  #include <linux/linkage.h>
->
->  .text
-> @@ -749,5 +748,3 @@ PSHUFFLE_BYTE_FLIP_MASK:
->  MASK_YMM_LO:
->         .octa 0x00000000000000000000000000000000
->         .octa 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-> -
-> -#endif
-> diff --git a/arch/x86/crypto/sha512_ssse3_glue.c b/arch/x86/crypto/sha512_ssse3_glue.c
-> index 75214982a633..82cc1b3ced1d 100644
-> --- a/arch/x86/crypto/sha512_ssse3_glue.c
-> +++ b/arch/x86/crypto/sha512_ssse3_glue.c
-> @@ -218,7 +218,6 @@ static void unregister_sha512_avx(void)
->                         ARRAY_SIZE(sha512_avx_algs));
->  }
->
-> -#if defined(CONFIG_AS_AVX2)
->  asmlinkage void sha512_transform_rorx(struct sha512_state *state,
->                                       const u8 *data, int blocks);
->
-> @@ -293,10 +292,6 @@ static void unregister_sha512_avx2(void)
->                 crypto_unregister_shashes(sha512_avx2_algs,
->                         ARRAY_SIZE(sha512_avx2_algs));
->  }
-> -#else
-> -static inline int register_sha512_avx2(void) { return 0; }
-> -static inline void unregister_sha512_avx2(void) { }
-> -#endif
->
->  static int __init sha512_ssse3_mod_init(void)
->  {
-> diff --git a/crypto/Kconfig b/crypto/Kconfig
-> index 49aae167e75c..c24a47406f8f 100644
-> --- a/crypto/Kconfig
-> +++ b/crypto/Kconfig
-> @@ -267,7 +267,7 @@ config CRYPTO_CURVE25519
->
->  config CRYPTO_CURVE25519_X86
->         tristate "x86_64 accelerated Curve25519 scalar multiplication library"
-> -       depends on X86 && 64BIT && AS_ADX
-> +       depends on X86 && 64BIT
->         select CRYPTO_LIB_CURVE25519_GENERIC
->         select CRYPTO_ARCH_HAVE_LIB_CURVE25519
->
-> @@ -465,7 +465,7 @@ config CRYPTO_NHPOLY1305_SSE2
->
->  config CRYPTO_NHPOLY1305_AVX2
->         tristate "NHPoly1305 hash function (x86_64 AVX2 implementation)"
-> -       depends on X86 && 64BIT && AS_AVX2
-> +       depends on X86 && 64BIT
->         select CRYPTO_NHPOLY1305
->         help
->           AVX2 optimized implementation of the hash function used by the
-> @@ -1303,7 +1303,7 @@ config CRYPTO_CAMELLIA_AESNI_AVX_X86_64
->
->  config CRYPTO_CAMELLIA_AESNI_AVX2_X86_64
->         tristate "Camellia cipher algorithm (x86_64/AES-NI/AVX2)"
-> -       depends on X86 && 64BIT && AS_AVX2
-> +       depends on X86 && 64BIT
->         depends on CRYPTO
->         select CRYPTO_CAMELLIA_AESNI_AVX_X86_64
->         help
-> @@ -1573,7 +1573,7 @@ config CRYPTO_SERPENT_AVX_X86_64
->
->  config CRYPTO_SERPENT_AVX2_X86_64
->         tristate "Serpent cipher algorithm (x86_64/AVX2)"
-> -       depends on X86 && 64BIT && AS_AVX2
-> +       depends on X86 && 64BIT
->         select CRYPTO_SERPENT_AVX_X86_64
->         help
->           Serpent cipher algorithm, by Anderson, Biham & Knudsen.
-> diff --git a/lib/raid6/algos.c b/lib/raid6/algos.c
-> index b5a02326cfb7..2dc010be793e 100644
-> --- a/lib/raid6/algos.c
-> +++ b/lib/raid6/algos.c
-> @@ -34,10 +34,8 @@ const struct raid6_calls * const raid6_algos[] = {
->         &raid6_avx512x2,
->         &raid6_avx512x1,
->  #endif
-> -#ifdef CONFIG_AS_AVX2
->         &raid6_avx2x2,
->         &raid6_avx2x1,
-> -#endif
->         &raid6_sse2x2,
->         &raid6_sse2x1,
->         &raid6_sse1x2,
-> @@ -51,11 +49,9 @@ const struct raid6_calls * const raid6_algos[] = {
->         &raid6_avx512x2,
->         &raid6_avx512x1,
->  #endif
-> -#ifdef CONFIG_AS_AVX2
->         &raid6_avx2x4,
->         &raid6_avx2x2,
->         &raid6_avx2x1,
-> -#endif
->         &raid6_sse2x4,
->         &raid6_sse2x2,
->         &raid6_sse2x1,
-> @@ -101,9 +97,7 @@ const struct raid6_recov_calls *const raid6_recov_algos[] = {
->  #ifdef CONFIG_AS_AVX512
->         &raid6_recov_avx512,
->  #endif
-> -#ifdef CONFIG_AS_AVX2
->         &raid6_recov_avx2,
-> -#endif
->         &raid6_recov_ssse3,
->  #endif
->  #ifdef CONFIG_S390
-> diff --git a/lib/raid6/avx2.c b/lib/raid6/avx2.c
-> index 87184b6da28a..f299476e1d76 100644
-> --- a/lib/raid6/avx2.c
-> +++ b/lib/raid6/avx2.c
-> @@ -13,8 +13,6 @@
->   *
->   */
->
-> -#ifdef CONFIG_AS_AVX2
-> -
->  #include <linux/raid/pq.h>
->  #include "x86.h"
->
-> @@ -470,5 +468,3 @@ const struct raid6_calls raid6_avx2x4 = {
->         1                       /* Has cache hints */
->  };
->  #endif
-> -
-> -#endif /* CONFIG_AS_AVX2 */
-> diff --git a/lib/raid6/recov_avx2.c b/lib/raid6/recov_avx2.c
-> index 7a3b5e7f66ee..4e8095403ee2 100644
-> --- a/lib/raid6/recov_avx2.c
-> +++ b/lib/raid6/recov_avx2.c
-> @@ -4,8 +4,6 @@
->   * Author: Jim Kukunas <james.t.kukunas@linux.intel.com>
->   */
->
-> -#ifdef CONFIG_AS_AVX2
-> -
->  #include <linux/raid/pq.h>
->  #include "x86.h"
->
-> @@ -313,7 +311,3 @@ const struct raid6_recov_calls raid6_recov_avx2 = {
->  #endif
->         .priority = 2,
->  };
-> -
-> -#else
-> -#warning "your version of binutils lacks AVX2 support"
-> -#endif
-> diff --git a/lib/raid6/test/Makefile b/lib/raid6/test/Makefile
-> index 60021319ac78..a4c7cd74cff5 100644
-> --- a/lib/raid6/test/Makefile
-> +++ b/lib/raid6/test/Makefile
-> @@ -35,9 +35,6 @@ endif
->  ifeq ($(IS_X86),yes)
->          OBJS   += mmx.o sse1.o sse2.o avx2.o recov_ssse3.o recov_avx2.o avx512.o recov_avx512.o
->          CFLAGS += -DCONFIG_X86
-> -        CFLAGS += $(shell echo "vpbroadcastb %xmm0, %ymm1" |   \
-> -                    gcc -c -x assembler - >/dev/null 2>&1 &&   \
-> -                    rm ./-.o && echo -DCONFIG_AS_AVX2=1)
->         CFLAGS += $(shell echo "vpmovm2b %k1, %zmm5" |          \
->                     gcc -c -x assembler - >/dev/null 2>&1 &&    \
->                     rm ./-.o && echo -DCONFIG_AS_AVX512=1)
-> --
-> 2.17.1
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+DQoNCj4gT24gTWFyIDI2LCAyMDIwLCBhdCA4OjQwIEFNLCBQZXRyIE1hbGF0IDxvc3NAbWFsYXQu
+Yml6PiB3cm90ZToNCj4gDQo+IEhpIE5pY2ssDQo+IEkgZmluYWxseSBnb3Qgc29tZSB0aW1lIHRv
+IHJldmlldyB5b3VyIHBhdGNoLCBoZXJlIGFyZSBteSBjb21tZW50czoNCj4gDQo+IE9uIFdlZCwg
+TWFyIDI1LCAyMDIwIGF0IDEyOjU4OjQyUE0gLTA3MDAsIE5pY2sgVGVycmVsbCB3cm90ZToNCj4+
+ICogRG9uJ3QgZXhwb3J0IHN5bWJvbHMgaWYgWlNURF9QUkVCT09UIGlzIGRlZmluZWQuDQo+IEkn
+bSBub3Qgc3VyZSBpZiB0aGlzIGlzIG5lZWRlZC4gV2hlbiBJIHdvcmtlZCBvbiBteSBwYXRjaCwg
+SSBoYXZlIGZvdW5kIHRoYXQNCj4gYWxsIGV4cG9ydGluZyBhbmQgbW9kaW5mbyBtYWNyb3MgZ2Vu
+ZXJhdGUgc3ltYm9scyBpbiBtb2RpbmZvIGFuZCBkaXNjYXJkLmtzeW0NCj4gc2VjdGlvbnMsIHdo
+aWNoIGFyZSB0aGVuIGRyb3BwZWQgYnkgdGhlIHZtbGludXggbGlua2VyIHNjcmlwdCwgdGh1cyBv
+bmUNCj4gd2lsbCBnZXQgdGhlIHNhbWUgYmluYXJ5IGluZGVwZW5kZW50bHkgaWYgaGUgcHV0cyB0
+aGlzIGNoYW5nZSBpbiBvciBub3QuDQo+IA0KPiBJJ20gbm90IHN1cmUgaWYgdGhpcyBpcyBpbnRl
+bnRpb25hbCBhcyB0aGVyZSBpcyBhbHNvIF9fRElTQUJMRV9FWFBPUlRTIGRlZmluZSwNCj4gd2hp
+Y2ggc2hvdWxkIGJlIHVzZWQgYnkgYSBkZWNvbXByZXNzb3IgKGFjY29yZGluZyB0byBjb21tZW50
+cyBpbiBleHBvcnQuaCkuDQoNClRoaXMgaXMgbm90IG15IGFyZWEgb2YgZXhwZXJ0aXNlLCBJ4oCZ
+bSBhIHpzdGQgZGV2ZWxvcGVyIG5vdCBhIGtlcm5lbCBkZXZlbG9wZXIuDQpGb3IgdGhhdCByZWFz
+b24gSSB3YW50ZWQgdG8gcGljayB0aGUgc2FmZSByb3V0ZSBvZiBkaXNhYmxpbmcgdGhlIGV4cG9y
+dHMgZXhwbGljaXRseSwNCnNpbmNlIHRoYXQgaXMgd2hhdCB0aGUgb3RoZXIgZGVjb21wcmVzc29y
+cyBkbywgc28gSSBrbm93IGl0IHdvcmtzLg0KDQpJZiB5b3XigJlyZSBjb25maWRlbnQgdGhhdCBp
+dCBpc27igJl0IG5lY2Vzc2FyeSwgSSBjYW4gZHJvcCB0aGUgbW9kaWZpY2F0aW9uLiBCdXQsIEkg
+ZG8NCnByZWZlciB0aGlzIGFwcHJvYWNoLCBiZWNhdXNlIHRoZXJlIGlzIG5vIG1hZ2ljIGludm9s
+dmVkLiBJIGNhbiBzZWUgd2hhdCBpcw0KaGFwcGVuaW5nIGNsZWFybHkganVzdCBieSBsb29raW5n
+IGF0IHRoZSBkZWNvbXByZXNzX3VuenN0ZC5jIGNvZGUuDQoNClRoYW5rcyBmb3IgdGhlIHJldmll
+dywNCk5pY2sNCg0K
