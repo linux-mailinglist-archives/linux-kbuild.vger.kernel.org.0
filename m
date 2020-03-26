@@ -2,159 +2,156 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 034A919456F
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 18:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C71D91945CC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 18:49:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727763AbgCZR1q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 13:27:46 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:36619 "EHLO
+        id S1727026AbgCZRtt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 13:49:49 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45856 "EHLO
         mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727495AbgCZR1q (ORCPT
+        with ESMTP id S1726163AbgCZRtt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 13:27:46 -0400
-Received: by mail-pg1-f194.google.com with SMTP id j29so3219628pgl.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 10:27:45 -0700 (PDT)
+        Thu, 26 Mar 2020 13:49:49 -0400
+Received: by mail-pg1-f194.google.com with SMTP id o26so3234626pgc.12
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 10:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4NpphCo6vE9dSdPy5tXFH6AEvJXO9V2xgWr809lDT+E=;
-        b=vk5A2110hpX8Vi2G7l4CelrZ0PBKZxzXuC+ocVVr0YAJSJ+NV9SiEaG2QyVLsJarm4
-         Ko9bvreoYNuKaZFdgG2YhPT53ncz9hlXKukNiqCVb8UKtyOb82zO5cqpqCEBesg5oID0
-         fuwbqtW1njapxdxpGkCj39MIYKtnKXDqROO+Nf4V5JS+Q5QcnkcbYK+3UzcqFuKUwpdw
-         +MnDrKcivQ7Ht+j/digPFASfivaJqZguRGJRPy6IVW51jKwCeWL17CZNQE5tUXljreys
-         lrcAdAILbwZvmzi1KAgpQhUpiB/mEfhAlAK+NxJ7qFuOq/a2L4/zHI2w6dZZ6GG3CJjb
-         gkSA==
+        bh=6CVzG402jrx7Vd35GjafKVyfM1rK8OmiRNaJdvsplVw=;
+        b=tWtR8S5N8i7CSQpF75RdTJqrclnkHBzrTkFsobGRb5RvayOAGjvnYX7e5Jiwqi0e1F
+         DKsr/8FXlyN5QwtNU4WQSgxvFGKXvhyqrMRf553H7qvySX3rnhOEDf1jKoQ20GfJd1KM
+         +iyCLvH1gfZ2Tm2oCepNd1p1bbogOtYTwlphX7TlRWHddaosKgrnT1nZ7yd2QGWQwM4M
+         XDjLh7Bt17MbXDtsbJwohlH0UBjKCZA3XfKHLZhpz+PC4wDm5fCmef8szKKgaqNRJOcb
+         43xnlOZIpPevDHpbw/2hB79ebTG3VmXhu6iPZJFMEIYyOwlOEKTUb/9tSL9d1OjP2S2G
+         +YWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4NpphCo6vE9dSdPy5tXFH6AEvJXO9V2xgWr809lDT+E=;
-        b=E5tiMgAe4D4aVMfVrKzgWLNGoCmwzRcRlqswlq8tEmH1BVhknRAFPqQgjdMNpkXGmt
-         Bnh0r2Kiu7tFhMsPB9ZO281+fCb5qsl8C7PU1m3HyHHgY1R/iz/mve5HT9P9hcPDv71q
-         +tPXUAsoKrWikoBIAavK5nj8rnpTSe03HDRi/Ebes7rvbLVcoLlFCgFsPRPGnJYSdQS5
-         6VnOP4ctA6DfElTJfIN69vUVXFhX96cbCe6rVclat7af8mSKzFMxVmImrUkYri3dHkA8
-         dpR6NPjyDcZ04mkYFCKpdzArgYU9U6oNy4/tAeZtjRFnLpdVX7XtUo7EPqqxZAtJXDa3
-         12bw==
-X-Gm-Message-State: ANhLgQ0P1wFnoqtN7/FZUQJwqy4FV6yi/8O+ajdThF9cDJJIN3d17i/o
-        y1Dk3CTvzjA/kKP3kY+YCk4fwJ5VWSZr2GP0fcQ7cw==
-X-Google-Smtp-Source: ADFU+vsiPeXQcElObWb2nGl0HCkVtxk6f4mwf/y/m6oZlpernVWbNYrxUPYeukJrSSe7jeBfXaslhnuTzW2nqXvmWwE=
-X-Received: by 2002:a05:6a00:42:: with SMTP id i2mr9962966pfk.108.1585243664874;
- Thu, 26 Mar 2020 10:27:44 -0700 (PDT)
+        bh=6CVzG402jrx7Vd35GjafKVyfM1rK8OmiRNaJdvsplVw=;
+        b=VSc1jTJVnXHL8kxeWItR4Id4X4uaDtFksxv+DNhMGU45M++KI9OENE/rco7zpvJoT9
+         au1oyNLqzOJ8i5vWOcLmAQrukD8XSeNZi4Up5Dlej0YpTMRd1xiI/NU2GIPCw6fLq2+P
+         dYW4QNdTEIfd9MCcM+hSxN7fr3tEC+X3ku4sGg/OF6bt3Neci/v6N+4x3EQVPn3UsKFP
+         CJcpg3U7kwy1YDrOXzV29r+RKk+KXt9phoNqBqqPdkveS9203iCwUo62HCIelqIRIcO5
+         DaR5y8ddcfnoR4FpgDc+MaQo5cKnGijwyWY47OCoa/jPqSILeuYYEmCF7MUZaxcwPyJN
+         TyKw==
+X-Gm-Message-State: ANhLgQ0shE2lm8QVn0ySlhR2uMt23bRGDN2ARaZhLKLG62iQOOtY+u+L
+        KLrY97fMQKTEa82ph7nrkHUYu2aRYeLnFeSeHFl2VA==
+X-Google-Smtp-Source: ADFU+vv5oWbBE0yh4vdP3Fh5MNHR5ig5PyKcuy01rreCKcHqUoWvJwRpjYTpYiMFUB1ttRrBSIrAQ0fA6ehNlAbQaXA=
+X-Received: by 2002:a05:6a00:42:: with SMTP id i2mr10055970pfk.108.1585244987994;
+ Thu, 26 Mar 2020 10:49:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200324084821.29944-1-masahiroy@kernel.org> <20200324084821.29944-2-masahiroy@kernel.org>
- <CAKwvOd=AXnAjoa0iOhPc4S49ZpDDX9BYB-BZQc=6Z0dygVYLPA@mail.gmail.com> <CAK7LNATXz=x7M-HOfWLf1fc_km5qBYa5u1i3Bj30C7aoJPGjSA@mail.gmail.com>
-In-Reply-To: <CAK7LNATXz=x7M-HOfWLf1fc_km5qBYa5u1i3Bj30C7aoJPGjSA@mail.gmail.com>
+References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-11-masahiroy@kernel.org>
+In-Reply-To: <20200326080104.27286-11-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 26 Mar 2020 10:27:33 -0700
-Message-ID: <CAKwvOdmGLmbghDAguisUZFUvGiBQVnfEogAFCtXaDLPxOLVYmA@mail.gmail.com>
-Subject: Re: [PATCH 01/16] lib/raid6/test: fix build on distros whose /bin/sh
- is not bash
+Date:   Thu, 26 Mar 2020 10:49:35 -0700
+Message-ID: <CAKwvOdk=MCePWHD=Kj3K7fD0y8TBZfiFLB0X+gnhPUd=RnrH6A@mail.gmail.com>
+Subject: Re: [PATCH v2 10/16] x86: probe assembler capabilities via kconfig
+ instead of makefile
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        "David S . Miller" <davem@davemloft.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>, Ingo Molnar <mingo@redhat.com>,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
-        NeilBrown <neilb@suse.de>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 11:49 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Thu, Mar 26, 2020 at 1:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed, Mar 25, 2020 at 1:36 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Tue, Mar 24, 2020 at 1:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > You can test raid6 library code from user-space, like this:
-> > >
-> > >   $ cd lib/raid6/test
-> > >   $ make
-> > >
-> > > The command in $(shell ...) function is evaluated by /bin/sh by default.
-> > > (or, you can change the default shell by setting 'SHELL' in Makefile)
-> > >
-> > > Currently '>&/dev/null' is used to sink both stdout and stderr. Because
-> > > this code is bash-ism, it only works when /bin/sh is a symbolic link to
-> > > bash (this is the case on RHEL etc.)
-> > >
-> > > This does not work on Ubuntu where /bin/sh is a symbolic link to dash.
-> > >
-> > > I see lots of
-> > >
-> > >   /bin/sh: 1: Syntax error: Bad fd number
-> > >
-> > > and
-> > >
-> > >   warning "your version of binutils lacks ... support"
-> > >
-> > > Replace it with portable '>/dev/null 2>&1'.
-> > >
-> > > Fixes: 4f8c55c5ad49 ("lib/raid6: build proper files on corresponding arch")
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > Acked-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-> > > ---
-> > >
-> > >  lib/raid6/test/Makefile | 6 +++---
-> > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/lib/raid6/test/Makefile b/lib/raid6/test/Makefile
-> > > index 3ab8720aa2f8..b9e6c3648be1 100644
-> > > --- a/lib/raid6/test/Makefile
-> > > +++ b/lib/raid6/test/Makefile
-> > > @@ -35,13 +35,13 @@ endif
-> > >  ifeq ($(IS_X86),yes)
-> > >          OBJS   += mmx.o sse1.o sse2.o avx2.o recov_ssse3.o recov_avx2.o avx512.o recov_avx512.o
-> > >          CFLAGS += $(shell echo "pshufb %xmm0, %xmm0" |         \
-> > > -                    gcc -c -x assembler - >&/dev/null &&       \
-> > > +                    gcc -c -x assembler - >/dev/null 2>&1 &&   \
-> > >                      rm ./-.o && echo -DCONFIG_AS_SSSE3=1)
-> > >          CFLAGS += $(shell echo "vpbroadcastb %xmm0, %ymm1" |   \
-> > > -                    gcc -c -x assembler - >&/dev/null &&       \
-> > > +                    gcc -c -x assembler - >/dev/null 2>&1 &&   \
-> > >                      rm ./-.o && echo -DCONFIG_AS_AVX2=1)
-> > >         CFLAGS += $(shell echo "vpmovm2b %k1, %zmm5" |          \
-> > > -                   gcc -c -x assembler - >&/dev/null &&        \
-> > > +                   gcc -c -x assembler - >/dev/null 2>&1 &&    \
-> >
-> > These should all use $(CC) rather than hardcode gcc.
+> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 >
->
-> Right, I had noticed this.
->
-> We often fall between
-> "let's fix this too while we are here"
-> vs
-> "do not do multiple things in a single patch"
->
->
-> If we replace gcc -> $(CC),
-> we also need to touch line 51 for consistency:
->
->        gcc -c -x c - >/dev/null && rm ./-.o && echo yes)
->
-> ..., which is not our main interest now.
->
-> So, I leave it to a follow-up patch
-> if somebody has interest in it.
+> Doing this probing inside of the Makefiles means we have a maze of
+> ifdefs inside the source code and child Makefiles that need to make
+> proper decisions on this too. Instead, we do it at Kconfig time, like
+> many other compiler and assembler options, which allows us to set up the
+> dependencies normally for full compilation units. In the process, the
+> ADX test changes to use %eax instead of %r10 so that it's valid in both
+> 32-bit and 64-bit mode.
 
-Haha, ok, no worries.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Does KConfig generate -D<foo> flags for KBUILD_CFLAGS and KBUILD_AFLAGS?
+Looks like lib/raid6/test/Makefile also generates some of these?
+
+>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+> Changes in v2: None
+>
+>  arch/x86/Kconfig           |  2 ++
+>  arch/x86/Kconfig.assembler | 17 +++++++++++++++++
+>  arch/x86/Makefile          | 10 ----------
+>  3 files changed, 19 insertions(+), 10 deletions(-)
+>  create mode 100644 arch/x86/Kconfig.assembler
+>
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index beea77046f9b..707673227837 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -2935,3 +2935,5 @@ config HAVE_ATOMIC_IOMAP
+>  source "drivers/firmware/Kconfig"
+>
+>  source "arch/x86/kvm/Kconfig"
+> +
+> +source "arch/x86/Kconfig.assembler"
+> diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
+> new file mode 100644
+> index 000000000000..91230bf11a14
+> --- /dev/null
+> +++ b/arch/x86/Kconfig.assembler
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (C) 2020 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+> +
+> +config AS_AVX2
+> +       def_bool $(as-instr,vpbroadcastb %xmm0$(comma)%ymm1)
+> +
+> +config AS_AVX512
+> +       def_bool $(as-instr,vpmovm2b %k1$(comma)%zmm5)
+> +
+> +config AS_SHA1_NI
+> +       def_bool $(as-instr,sha1msg1 %xmm0$(comma)%xmm1)
+> +
+> +config AS_SHA256_NI
+> +       def_bool $(as-instr,sha256msg1 %xmm0$(comma)%xmm1)
+> +
+> +config AS_ADX
+> +       def_bool $(as-instr,adox %eax$(comma)%eax)
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index f32ef7b8d5ca..b65ec63c7db7 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -177,16 +177,6 @@ ifeq ($(ACCUMULATE_OUTGOING_ARGS), 1)
+>         KBUILD_CFLAGS += $(call cc-option,-maccumulate-outgoing-args,)
+>  endif
+>
+> -# does binutils support specific instructions?
+> -avx2_instr :=$(call as-instr,vpbroadcastb %xmm0$(comma)%ymm1,-DCONFIG_AS_AVX2=1)
+> -avx512_instr :=$(call as-instr,vpmovm2b %k1$(comma)%zmm5,-DCONFIG_AS_AVX512=1)
+> -sha1_ni_instr :=$(call as-instr,sha1msg1 %xmm0$(comma)%xmm1,-DCONFIG_AS_SHA1_NI=1)
+> -sha256_ni_instr :=$(call as-instr,sha256msg1 %xmm0$(comma)%xmm1,-DCONFIG_AS_SHA256_NI=1)
+> -adx_instr := $(call as-instr,adox %r10$(comma)%r10,-DCONFIG_AS_ADX=1)
+> -
+> -KBUILD_AFLAGS += $(avx2_instr) $(avx512_instr) $(sha1_ni_instr) $(sha256_ni_instr) $(adx_instr)
+> -KBUILD_CFLAGS += $(avx2_instr) $(avx512_instr) $(sha1_ni_instr) $(sha256_ni_instr) $(adx_instr)
+> -
+>  KBUILD_LDFLAGS := -m elf_$(UTS_MACHINE)
+>
+>  #
+> --
+> 2.17.1
+>
+
 
 -- 
 Thanks,
