@@ -2,134 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DFB0193593
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 03:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70B71193846
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 06:59:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbgCZCGf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Mar 2020 22:06:35 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:34942 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727564AbgCZCGe (ORCPT
+        id S1727695AbgCZF61 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 01:58:27 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:47768 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727575AbgCZF61 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Mar 2020 22:06:34 -0400
-Received: by mail-pg1-f196.google.com with SMTP id 7so2107436pgr.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Mar 2020 19:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uYQlUOBpCvYvOWq81vYWj8BjX92aUfuzlVBqw9QmtNs=;
-        b=jpWMLrecHH6IEFQVM8Dz7CE3drKGde9Flq7g8WENLKiy05FJ5Ox+VdyQQ7/eor7Ho8
-         5O8yPvQ5luFXcgN+uNHZe9jlbmNbgXaSP8WwBxByjm7OBtPMMW2Pruno0EQcHVNqmPxp
-         CNl9i/InueSAqWKYyo+Oy1EumDxQdm1VuEdis=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uYQlUOBpCvYvOWq81vYWj8BjX92aUfuzlVBqw9QmtNs=;
-        b=biMX4g+lEtWmPgS5DwUjZQAFfxF5PEbDxDcNKfM3BfP2oEFd14KVgDXC4+lNNa/i0B
-         wWgmsqcPKvm6yG1H6fJeacDqQ5xUuBqLohtgEGIowA2KLtRZxo00TFtVfYyqexrwtj/o
-         cme36mzWLOvVgUPDIhJOjBO7U1ge21VewZdmoLgjJnj/aD7YynhlRhU1kFkSP/hqWc6E
-         BTM4Vl/YOLhn38vrDSzkz7OiGuCJumhGtODEI98Cn1ugXJLyfcERXcY7q93zr5p3ujoE
-         CrROnE/JX8xDSsIVjK6XxcSYRa4RUMPZY9/nEB3rhmJsW1rSu2HzcvEGotK9BWOtnief
-         BPzQ==
-X-Gm-Message-State: ANhLgQ3KRpJohrAvPBD/LCoafkuex87lwuuEk++PQkaXSC+hGmAJz35b
-        EKmwf3Saeods+3Y+U0O+RyKExg==
-X-Google-Smtp-Source: ADFU+vtyHMwnZ0WOXPD0etbF8ofWdyYnDBq3cVX0KeXPYvpmhLbSGzBIQYI/Sqa44z3LYzft4soCUw==
-X-Received: by 2002:a63:2989:: with SMTP id p131mr6064326pgp.281.1585188392313;
-        Wed, 25 Mar 2020 19:06:32 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id j12sm375955pgs.0.2020.03.25.19.06.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2020 19:06:31 -0700 (PDT)
-Date:   Wed, 25 Mar 2020 19:06:30 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, kernel-hardening@lists.openwall.com,
-        Emese Revfy <re.emese@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] kbuild: add -Wall to KBUILD_HOSTCXXFLAGS
-Message-ID: <202003251906.973AD868@keescook>
-References: <20200325031433.28223-1-masahiroy@kernel.org>
- <20200325031433.28223-2-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200325031433.28223-2-masahiroy@kernel.org>
+        Thu, 26 Mar 2020 01:58:27 -0400
+Received: from pug.e01.socionext.com (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 02Q5ve94008573;
+        Thu, 26 Mar 2020 14:57:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 02Q5ve94008573
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1585202260;
+        bh=dX+mdRt8kcID48UqORTUMY5bdsGeWZDwRFh1lk4J+OY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=F+31nJQ4Cgf4gt9L3lAD0yTyZM6taU0HcwCkPUB81lu7qxiTtqk/tHtzkh/wAtjZ4
+         CF28DzVLBwEyskREvoR6rtnBx8mXTZBWq+C9GQPOET0lsVnrdIJzYYc7Mwy+J3+vPo
+         sAe7ySOYigImr3dYkXpLC7r2oa/fL48HjVwRCcUpTzCz38C5MBUGNEXpnrPl3LwCC/
+         wL+xhmfmA5VZEaIah5/GJP6AKqawr2QSCcnmWc7MOcELsG4uxWzU6MWRniddWyukwu
+         X8J5qiPn7XDM2rl5fMOAHkZSs1ow+LvVLFtQl7+EVuosUu0MJqcGIPwcOFq9Xax6en
+         epHo20x8scgLw==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     clang-built-linux@googlegroups.com,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH v2 1/4] net: wan: wanxl: use allow to pass CROSS_COMPILE_M68k for rebuilding firmware
+Date:   Thu, 26 Mar 2020 14:57:15 +0900
+Message-Id: <20200326055719.16755-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Mar 25, 2020 at 12:14:32PM +0900, Masahiro Yamada wrote:
-> Add -Wall to catch more warnings for C++ host programs.
-> 
-> When I submitted the previous version, the 0-day bot reported
-> -Wc++11-compat warnings for old GCC:
-> 
->   HOSTCXX -fPIC scripts/gcc-plugins/latent_entropy_plugin.o
-> In file included from /usr/lib/gcc/x86_64-linux-gnu/4.8/plugin/include/tm.h:28:0,
->                  from scripts/gcc-plugins/gcc-common.h:15,
->                  from scripts/gcc-plugins/latent_entropy_plugin.c:78:
-> /usr/lib/gcc/x86_64-linux-gnu/4.8/plugin/include/config/elfos.h:102:21: warning: C++11 requires a space between string literal and macro [-Wc++11-compat]
->     fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
->                      ^
-> /usr/lib/gcc/x86_64-linux-gnu/4.8/plugin/include/config/elfos.h:170:24: warning: C++11 requires a space between string literal and macro [-Wc++11-compat]
->        fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",  \
->                         ^
-> In file included from /usr/lib/gcc/x86_64-linux-gnu/4.8/plugin/include/tm.h:42:0,
->                  from scripts/gcc-plugins/gcc-common.h:15,
->                  from scripts/gcc-plugins/latent_entropy_plugin.c:78:
-> /usr/lib/gcc/x86_64-linux-gnu/4.8/plugin/include/defaults.h:126:24: warning: C++11 requires a space between string literal and macro [-Wc++11-compat]
->        fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",  \
->                         ^
-> 
-> The source of the warnings is in the plugin headers, so we have no
-> control of it. I just suppressed them by adding -Wno-c++11-compat to
-> scripts/gcc-plugins/Makefile.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+As far as I understood from the Kconfig help text, this build rule is
+used to rebuild the driver firmware, which runs on an old m68k-based
+chip. So, you need m68k tools for the firmware rebuild.
 
-Acked-by: Kees Cook <keescook@chromium.org>
+wanxl.c is a PCI driver, but CONFIG_M68K does not select CONFIG_HAVE_PCI.
+So, you cannot enable CONFIG_WANXL_BUILD_FIRMWARE for ARCH=m68k. In other
+words, ifeq ($(ARCH),m68k) is false here.
 
--Kees
+I am keeping the dead code for now, but rebuilding the firmware requires
+'as68k' and 'ld68k', which I do not have in hand.
 
-> ---
-> 
->  Makefile                     | 2 +-
->  scripts/gcc-plugins/Makefile | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 3b57ccab367b..593d8f1bbe90 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -400,7 +400,7 @@ HOSTCXX      = g++
->  KBUILD_HOSTCFLAGS   := -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 \
->  		-fomit-frame-pointer -std=gnu89 $(HOST_LFS_CFLAGS) \
->  		$(HOSTCFLAGS)
-> -KBUILD_HOSTCXXFLAGS := -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
-> +KBUILD_HOSTCXXFLAGS := -Wall -O2 $(HOST_LFS_CFLAGS) $(HOSTCXXFLAGS)
->  KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
->  KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
->  
-> diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
-> index f2ee8bd7abc6..efff00959a9c 100644
-> --- a/scripts/gcc-plugins/Makefile
-> +++ b/scripts/gcc-plugins/Makefile
-> @@ -10,7 +10,7 @@ else
->    HOSTLIBS := hostcxxlibs
->    HOST_EXTRACXXFLAGS += -I$(GCC_PLUGINS_DIR)/include -I$(src) -std=gnu++98 -fno-rtti
->    HOST_EXTRACXXFLAGS += -fno-exceptions -fasynchronous-unwind-tables -ggdb
-> -  HOST_EXTRACXXFLAGS += -Wno-narrowing -Wno-unused-variable
-> +  HOST_EXTRACXXFLAGS += -Wno-narrowing -Wno-unused-variable -Wno-c++11-compat
->    export HOST_EXTRACXXFLAGS
->  endif
->  
-> -- 
-> 2.17.1
-> 
+Instead, the kernel.org m68k GCC [1] successfully built it.
 
+Allowing a user to pass in CROSS_COMPILE_M68K= is handier.
+
+[1] https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/9.2.0/x86_64-gcc-9.2.0-nolibc-m68k-linux.tar.xz
+
+Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+Changes in v2:
+  - New patch
+
+ drivers/net/wan/Kconfig  |  2 +-
+ drivers/net/wan/Makefile | 12 ++++++------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/net/wan/Kconfig b/drivers/net/wan/Kconfig
+index 4530840e15ef..dbc0e3f7a3e2 100644
+--- a/drivers/net/wan/Kconfig
++++ b/drivers/net/wan/Kconfig
+@@ -200,7 +200,7 @@ config WANXL_BUILD_FIRMWARE
+ 	depends on WANXL && !PREVENT_FIRMWARE_BUILD
+ 	help
+ 	  Allows you to rebuild firmware run by the QUICC processor.
+-	  It requires as68k, ld68k and hexdump programs.
++	  It requires m68k toolchains and hexdump programs.
+ 
+ 	  You should never need this option, say N.
+ 
+diff --git a/drivers/net/wan/Makefile b/drivers/net/wan/Makefile
+index 701f5d2fe3b6..995277c657a1 100644
+--- a/drivers/net/wan/Makefile
++++ b/drivers/net/wan/Makefile
+@@ -40,17 +40,17 @@ $(obj)/wanxl.o:	$(obj)/wanxlfw.inc
+ 
+ ifeq ($(CONFIG_WANXL_BUILD_FIRMWARE),y)
+ ifeq ($(ARCH),m68k)
+-  AS68K = $(AS)
+-  LD68K = $(LD)
++  M68KAS = $(AS)
++  M68KLD = $(LD)
+ else
+-  AS68K = as68k
+-  LD68K = ld68k
++  M68KAS = $(CROSS_COMPILE_M68K)as
++  M68KLD = $(CROSS_COMPILE_M68K)ld
+ endif
+ 
+ quiet_cmd_build_wanxlfw = BLD FW  $@
+       cmd_build_wanxlfw = \
+-	$(CPP) -D__ASSEMBLY__ -Wp,-MD,$(depfile) -I$(srctree)/include/uapi $< | $(AS68K) -m68360 -o $(obj)/wanxlfw.o; \
+-	$(LD68K) --oformat binary -Ttext 0x1000 $(obj)/wanxlfw.o -o $(obj)/wanxlfw.bin; \
++	$(CPP) -D__ASSEMBLY__ -Wp,-MD,$(depfile) -I$(srctree)/include/uapi $< | $(M68KAS) -m68360 -o $(obj)/wanxlfw.o; \
++	$(M68KLD) --oformat binary -Ttext 0x1000 $(obj)/wanxlfw.o -o $(obj)/wanxlfw.bin; \
+ 	hexdump -ve '"\n" 16/1 "0x%02X,"' $(obj)/wanxlfw.bin | sed 's/0x  ,//g;1s/^/static const u8 firmware[]={/;$$s/,$$/\n};\n/' >$(obj)/wanxlfw.inc; \
+ 	rm -f $(obj)/wanxlfw.bin $(obj)/wanxlfw.o
+ 
 -- 
-Kees Cook
+2.17.1
+
