@@ -2,111 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7685419481E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 21:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08930194893
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 21:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727851AbgCZUAu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 16:00:50 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36169 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727446AbgCZUAu (ORCPT
+        id S1728671AbgCZUQy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 16:16:54 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40067 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728317AbgCZUQq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 16:00:50 -0400
-Received: by mail-pf1-f195.google.com with SMTP id i13so3338978pfe.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 13:00:49 -0700 (PDT)
+        Thu, 26 Mar 2020 16:16:46 -0400
+Received: by mail-wm1-f67.google.com with SMTP id a81so8994327wmf.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 13:16:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FlSVVlhlYYW7/x0OqEsezQf2BkVBpegKGjBAddfWNUk=;
-        b=KbididJgsGKs+7m9AR24gcfdwEmhINz+umf+OjZjPHpVHguqJjmfKqF0W2Ppac0tUg
-         4O+p7atIWuXQ8TY8fXVrVlvj16ut5wLWxJ1gT6QBG0cmcKoi+70H/isKgCJTd+dSCnlz
-         mmsJAbyd1UgA1qXQAnclG3S6swQ5rdWq4Yctw3LD3KoiEtptQcWExB7LZZ0wQCWuithI
-         MS3rZg4bZKs3xCCzHcYi76/N8JIFL18WJCCr47746skxpi3gJqAANiCnxuPtJGVzUx4Z
-         T0hMraWAOGAy9KWk5bczutZMbBNff6cPttZcNogY59lV+I4yYFwbRg3CPKZD1pJ7iAp3
-         jwJw==
+        d=malat-biz.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cJd2r32O8oRypAa5o9iHKon3qqroPaK9fKkWmlFzpvg=;
+        b=GcBMssEd0ac5CL77EZp4+xWSbdMvIA7rQ+IDlsfwUPunB3Al+xkaVD/ZQ08PXGiVUz
+         N9QqLz6Zm3QEwgwqLV+X+DwBitZjcnuq4E4IY7KThwDgDa+oA3W/MlfmMMWSxkcBt0ER
+         ETn/0kv81PAp2aHmOjGgvLg3JTO8oduA79SCk9TSwAJy2ODzV5ob3B+sAD0Ep4QQalOd
+         /w479MwXq9C+cD4iWPAcLqIaVROvxgKHY8QwyyLYh063OjDsVigWMyM19RhPKNtInDqO
+         87I8LC02kYHe8xc/xM3Vl2O2SkpLoMoNtLtBI1nfHvgzpuktufyYcigl6PqLqz1duLL0
+         wGwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FlSVVlhlYYW7/x0OqEsezQf2BkVBpegKGjBAddfWNUk=;
-        b=Yau25CJ+0QitawctHZzFMyRRWR/0wt+4qTmBmbEukrQ+uynVu9kIditGld+GQunC/f
-         VFOVB/5fXxRuUqda9jh02bykq+o9cpheG4WSVXSIQC4M7lExTKGQng+k32YSF/3hNM9z
-         ujIGYITpRL5hnQs4GoWDMbvuEF3f0FEke23V3Uj9jC0fOUNUFKOYwHN81uT9n92OnXiy
-         LJ7V+HUh//A0ZuPeq8diin/p4SEu2SY0dInlc7Q/D35UCOJdxEd8CVWdEF3oIcwj7cY+
-         tM4gfr+behUjjY82gDzkPqAEGTqlKPfw0/PQ5msc5Qpa7Y4EmyTqySumPyYT0uY3e6U3
-         GHJA==
-X-Gm-Message-State: ANhLgQ0hQ2veyRSQ5A4ua9xz1rbeauwC55mAiOwY0KGL0fatwe/rdCAb
-        wXE5kX2lgMsPow1Wn+3OhFh9kEn6O3bnLGeQMFqU8A==
-X-Google-Smtp-Source: ADFU+vsXlfYtpSptaeecY6E6uaFdB6/SfI28A8caF1H7oZVFDiixPQWN1SWCuskSTE+9lx5h2gjPX3DDnWzsl9+7Xnw=
-X-Received: by 2002:aa7:918e:: with SMTP id x14mr2179958pfa.39.1585252849021;
- Thu, 26 Mar 2020 13:00:49 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cJd2r32O8oRypAa5o9iHKon3qqroPaK9fKkWmlFzpvg=;
+        b=iv19ZxjkF3Hls+IHvnRPl3XZZQrbwVh5U01nSsePi44GL0UHy4zvJLFW91jElFoIdP
+         xRvyREf69r720voJAXUoXcYdQ5U1NHQD7eN311XOLqq5A3OP9Bxqs9s019kN4Wb/ShQe
+         ZjgbRL5q/oMEJCKVZOKs24aNw55SYcsyIuq52VebvJAdyq723v0SrvMrZBg4MU3wY+gL
+         wfLvrYrG8gV49koqCl8SoG5OH0rKRwfoSIzw3N3CT79TEDe323LSg8ns6Qomf5tctnSL
+         GS2VC80FBAklLu6ly/WN2gc2TcHiHI6evTzAwEU/UR1ys3kWYbhxHEy4yOzrfRbXSCn6
+         brmw==
+X-Gm-Message-State: ANhLgQ2mlIsUB7O9kkvKMcbPfkNgLFAV8+3WypOVfkSjTDHFlQrtC66a
+        gWrlnbqAwKQMnPyO4c9k3z+Vng==
+X-Google-Smtp-Source: ADFU+vszuKd0m2fN3U/Uyz8Hf/tvzHDDhcNFhWW7EHox8Ri8sV3k2X8NAUG10dVFupb4HqhRj3qg6w==
+X-Received: by 2002:a7b:ce9a:: with SMTP id q26mr1821977wmj.180.1585253803260;
+        Thu, 26 Mar 2020 13:16:43 -0700 (PDT)
+Received: from ntb.petris.klfree.czf (p5B36386E.dip0.t-ipconnect.de. [91.54.56.110])
+        by smtp.gmail.com with ESMTPSA id p16sm4774022wmi.40.2020.03.26.13.16.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 13:16:42 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 21:16:34 +0100
+From:   Petr Malat <oss@malat.biz>
+To:     Nick Terrell <terrelln@fb.com>
+Cc:     Nick Terrell <nickrterrell@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Chris Mason <clm@fb.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>,
+        Michael van der Westhuizen <rmikey@fb.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        Patrick Williams <patrick@stwcx.xyz>
+Subject: Re: [PATCH v3 3/8] lib: add zstd support to decompress
+Message-ID: <20200326201634.GA9948@ntb.petris.klfree.czf>
+References: <20200325195849.407900-1-nickrterrell@gmail.com>
+ <20200325195849.407900-4-nickrterrell@gmail.com>
+ <20200326164732.GA17157@ntb.petris.klfree.czf>
+ <611A224B-1CB3-4283-9783-87C184C8983A@fb.com>
 MIME-Version: 1.0
-References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-11-masahiroy@kernel.org>
- <CAKwvOdk=MCePWHD=Kj3K7fD0y8TBZfiFLB0X+gnhPUd=RnrH6A@mail.gmail.com> <CAHmME9oD7DVSGVkWv2jAyr5eZUy2Ac+MWzss5dhKEmG3hq6AFg@mail.gmail.com>
-In-Reply-To: <CAHmME9oD7DVSGVkWv2jAyr5eZUy2Ac+MWzss5dhKEmG3hq6AFg@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 26 Mar 2020 13:00:35 -0700
-Message-ID: <CAKwvOdmG4hRnG+R_ASLULdEVm31XkEo4vih7GxpNWK9f6xtCng@mail.gmail.com>
-Subject: Re: [PATCH v2 10/16] x86: probe assembler capabilities via kconfig
- instead of makefile
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <611A224B-1CB3-4283-9783-87C184C8983A@fb.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Mar 26, 2020 at 12:54 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+Hi!
+On Thu, Mar 26, 2020 at 07:03:54PM +0000, Nick Terrell wrote:
+> >> * Add unzstd() and the zstd decompress interface.
+> > Here I do not understand why you limit the window size to 8MB even when
+> > you read a larger value from the header. I do not see a reason why there
+> > should be such a limitation at the first place and if there should be,
+> > why it differs from ZSTD_WINDOWLOG_MAX.
+> 
+> When we are doing streaming decompression (either flush or fill is provided)
+> we have to allocate memory proportional to the window size. We want to
+> bound that memory so we don't accidentally allocate too much memory.
+> When we are doing a single-pass decompression (neither flush nor fill
+> are provided) the window size doesn't matter, and we only have to allocate
+> a fixed amount of memory ~192 KB.
 >
-> On Thu, Mar 26, 2020 at 11:49 AM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > On Thu, Mar 26, 2020 at 1:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-> > >
-> > > Doing this probing inside of the Makefiles means we have a maze of
-> > > ifdefs inside the source code and child Makefiles that need to make
-> > > proper decisions on this too. Instead, we do it at Kconfig time, like
-> > > many other compiler and assembler options, which allows us to set up the
-> > > dependencies normally for full compilation units. In the process, the
-> > > ADX test changes to use %eax instead of %r10 so that it's valid in both
-> > > 32-bit and 64-bit mode.
-> >
-> > Does KConfig generate -D<foo> flags for KBUILD_CFLAGS and KBUILD_AFLAGS?
->
-> kconfig sticks everything it's got into include/generated/autoconf.h.
-> That's how you're able to use all those #ifdef CONFIG_* macros
-> already. This change moves things from a command line -D to the
-> autoconf.h file.
+> The zstd spec [0] specifies that all decoders should allow window sizes
+> up to 8 MB. Additionally, the zstd CLI won't produce window sizes greater
+> than 8 MB by default. The window size is controlled by the compression
+> level, and can be explicitly set.
+Yes, one needs to pass --ultra option to zstd to produce an incompatible
+archive, but that doesn't justify the reason to limit this in the kernel,
+especially if one is able to read the needed window size from the header
+when allocating the memory. At the time when initramfs is extracted,
+there usually is memory available as it's before any processes are
+started and this memory is reclaimed after the decompression.
 
-Cool, I wondered how that was wired up.  Though seeing the word
-"autoconf" brings on PTSD for me.
-Patch LGTM.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+If, on the other hand, an user makes an initramfs for a memory constrained
+system, he limits the window size while compressing the archive and
+the small window size will be announced in the header.
 
->
-> > Looks like lib/raid6/test/Makefile also generates some of these?
->
-> raid6 has its own crazy thing going on. The test directory compiles
-> that code for use in userspace. You might argue that its whole
-> situation is non-standard and weird and should be reworked
-> differently, but that seems like fodder for a different patchset on
-> the linux-raid list.
+The only scenario where using the hard-coded limit makes sense is in a
+case the window size is not available (I'm not sure if it's mandatory
+to provide it). That's how my code works - if the size is available,
+it uses the provided value, if not it uses 1 << ZSTD_WINDOWLOG_MAX.
 
+I would also agree a fixed limit would make a sense if a user (or network)
+provided data would be used, but in this case only the system owner is able
+to provide an initramfs. If one is able to change initramfs, he can render
+the system unusable simply by providing a corrupted file. He doesn't have
+to bother making the window bigger than the available memory.
 
+> I would expect larger window sizes to be beneficial for compression ratio,
+> though there is demising returns. I would expect that for kernel image
+> compression larger window sizes are beneficial, since it is decompressed
+> with a single pass. For initramfs decompression, I would expect that limiting
+> the window size could help decompression speed, since it uses streaming
+> compression, so unzstd() has to allocate a buffer of window size bytes.
+Yes, larger window improves the compression ratio, see here a comparison
+between level 19 and 22 on my testing x86-64 initramfs:
+  30775022 rootfs.cpio.zst-19
+  28755429 rootfs.cpio.zst-22
+These 7% can be noticeable when one has a slow storage, e.g. a flash memory
+on SPI bus. 
 
--- 
-Thanks,
-~Nick Desaulniers
+> > I removed that limitation to be able to test it in my environment and I
+> > found the performance is worst than with my patch by roughly 20% (on
+> > i7-3520M), which is a major drawback considering the main motivation
+> > to use zstd is the decompression speed. I will test on arm as well and
+> > share the result tomorrow.
+> >  Petr
+> 
+> What do you mean by that? Can you share with me the test you ran?
+> Is this for kernel decompression or initramfs decompression?
+Initramfs - you can apply my v2 patch on v5.5 and try with your test data.
+
+I have tested your patch also on ARMv7 platform and there the degradation
+was 8%.
+  Petr
