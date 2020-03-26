@@ -2,112 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C04EB193BAA
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 10:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8FDC194363
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 16:40:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726359AbgCZJWT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 05:22:19 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52544 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbgCZJWS (ORCPT
+        id S1727954AbgCZPkv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 11:40:51 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36391 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727670AbgCZPku (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 05:22:18 -0400
-Received: by mail-wm1-f68.google.com with SMTP id z18so5647108wmk.2;
-        Thu, 26 Mar 2020 02:22:17 -0700 (PDT)
+        Thu, 26 Mar 2020 11:40:50 -0400
+Received: by mail-wr1-f67.google.com with SMTP id 31so8378829wrs.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 08:40:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        d=malat-biz.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=FlDn5DLuAGFwOKbYCG6SBICMqVpoIS+lwTO53ZZDDjM=;
-        b=dnfFO30O8b3RHtisdF7O/LiOdkh/dGOet8uunkTrexLbVqPR+mk8mHCwRsw6tk7KLv
-         auq6wGbDAz0TCaH7hgT3AOV6cKXX7hHNpWE2HuusvvM73PietjLjxDKuuZOqmmQ//Ul1
-         jYXRonD3rZ/o40owKe3SUybXM+MEcOCrLrATCzJzVb4iH9/w+oTVltDAY8WDD19GP6PY
-         kt8GSCVtHsjJMZn/k+DnyW9lAo7OQxFDDTquFzauPzkbafYzNtb5rBgX6k+HHYeA7Wcz
-         y/Okk0gWNzvBzqlIHdWGI8cXCcwSCT7YlgNWhkUmWaXaLmi4gTEtwgXiUp4cqAD5niQM
-         w4Zg==
+        bh=XEACa47R1YYA9qHdOiFfEkBUAM/n215wAmRNcBN8QwY=;
+        b=Fdjop2Y7+L6YPRRq3UV/wtGW2NHguQSXMW9DdVOKRM4FI1a8TVD6RUBb0p2AL+YVLY
+         86uf2MCprux6gKpqMXQDyPrhgzrLd0BGo6ylK+XeCEcD/nguONB71GyxnKzUwL32llKH
+         8RRO+S/3awfwIojE86vdypyUtHq0HjV23+eovqI+vKi0BSfl190styxTnAoFZI4r/JtM
+         ZO2oYik9u03NDJGJ0jvgTAA8EF02O1EKG7Kt0n5Sp9xanFHBJcPXt/8+u4VVoJzlY17e
+         6MdsWQVcPMDqCqpsd8LwzihzaT70AI/h4QYoAVotXdBQjFaSPnDZDj11WzNtDEga5WnW
+         8jJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FlDn5DLuAGFwOKbYCG6SBICMqVpoIS+lwTO53ZZDDjM=;
-        b=grMH9n698ZdWvEoEyVsOTtjHzDS0mcQYMbqetBKMr79Ca1xn66q5zAk6u94q+gbY6c
-         kUZ6ePJpl9lmdxNNToFhnvow1tbQLyxxpYIhGTMAsLWcg/nYY9Ssyr97/0B0GFBBAwL2
-         msqGWz4O68TxC5dHiuX3hBMtW120e40G0MS79J5HoKjAW/QQUFjqpDzlo++SOCDp6/zF
-         /mJiv+WwXTlLPCDSS74FbU1pzW996sHE/ix3RxKv0Mh7hnD/oSgYyxKoiEKF7a9jtiFi
-         v1p1K37D6kO6tDBbe697HxYojGzRvxFQVN4Mccb2heY05dRt2Yehh5QHn8SUzSSYPge6
-         kvow==
-X-Gm-Message-State: ANhLgQ3jzLLn4ePZXj/tfHB+DXqj+pNK9REJHTijkb9MdEE1rLxkERWK
-        +A9R5ZacDwAD8xRUlhmUFqIbcShY
-X-Google-Smtp-Source: ADFU+vt9VB3BsFSpXR1BzUyvHfDJQ1tQSyYFNyjRyc3JUCaQ6kAKCPhCNBUEuy6J5/CKiAsmakOtXw==
-X-Received: by 2002:a05:600c:20a:: with SMTP id 10mr2201122wmi.135.1585214536655;
-        Thu, 26 Mar 2020 02:22:16 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id l8sm2728757wmj.2.2020.03.26.02.22.15
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XEACa47R1YYA9qHdOiFfEkBUAM/n215wAmRNcBN8QwY=;
+        b=kN/tdTZEkHreyz2ATu1VkUOtsWkJdJtATCJPmsyj+ocPWyA01iv40FKzg03YqGRvx7
+         RpB66z1O52yYUJQrS39LtWrK+vpFXyPXQDhfu7DjEalS/0AT+2zcsFxz5fs7NiZ06uvc
+         9SCmxE03zP7HyZyGsgi7zQkkPV1AoXhxS0qP2kyGXi3L4UkSYZDOa11MhojfR0dNaJDa
+         RsHfrMgVPlerAICGLGM1bZtNPVMk4wWuCNJvnUPLaQr9PKK2cbbv9sO4nSsKpLNPeD7D
+         6I/UuNRBUVLyU89Axj3x8/9zh2t06aZ2M3+XOdYAspjpaIRtJLoiHQNp7WwAP1oYLsKl
+         E/TQ==
+X-Gm-Message-State: ANhLgQ1wUJ3JF3qWHN59cQOmndSsh0LhtG6GcTSHWpA/3MIZoIVDDoLV
+        dw58xknCAfOp5YOfZo3T+8BP3g==
+X-Google-Smtp-Source: ADFU+vtop7dLCupf/5Cj0LJPXEZFIZb8nPl47px+m0Juh6AjaUQIZHhP5YiWzaS9s6aHc/n/JZymqQ==
+X-Received: by 2002:a05:6000:370:: with SMTP id f16mr10335036wrf.9.1585237249033;
+        Thu, 26 Mar 2020 08:40:49 -0700 (PDT)
+Received: from ntb.petris.klfree.czf (p5B36386E.dip0.t-ipconnect.de. [91.54.56.110])
+        by smtp.gmail.com with ESMTPSA id c5sm11522353wma.3.2020.03.26.08.40.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 02:22:16 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 10:22:13 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        "David S. Miller" <davem@davemloft.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
- and cosolidate Kconfig/Makefiles
-Message-ID: <20200326092213.GA100918@gmail.com>
-References: <20200326080104.27286-1-masahiroy@kernel.org>
- <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
+        Thu, 26 Mar 2020 08:40:47 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 16:40:38 +0100
+From:   Petr Malat <oss@malat.biz>
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Nick Terrell <terrelln@fb.com>, linux-kernel@vger.kernel.org,
+        Chris Mason <clm@fb.com>, linux-kbuild@vger.kernel.org,
+        x86@kernel.org, gregkh@linuxfoundation.org,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>
+Subject: Re: [PATCH v3 1/8] lib: prepare zstd for preboot environment
+Message-ID: <20200326154038.GA21231@ntb.petris.klfree.czf>
+References: <20200325195849.407900-1-nickrterrell@gmail.com>
+ <20200325195849.407900-2-nickrterrell@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
+In-Reply-To: <20200325195849.407900-2-nickrterrell@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Nick,
+I finally got some time to review your patch, here are my comments:
 
-* Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Wed, Mar 25, 2020 at 12:58:42PM -0700, Nick Terrell wrote:
+> * Don't export symbols if ZSTD_PREBOOT is defined.
+I'm not sure if this is needed. When I worked on my patch, I have found that
+all exporting and modinfo macros generate symbols in modinfo and discard.ksym
+sections, which are then dropped by the vmlinux linker script, thus one
+will get the same binary independently if he puts this change in or not.
 
-> Very little has changed from last time, and this whole series still
-> looks good to me. I think I already ack'd most packages, but in case
-> it helps:
-> 
-> Reviewed-by: Jason A. Donenfeld <Jason@zx2c4.com>
+I'm not sure if this is intentional as there is also __DISABLE_EXPORTS define,
+which should be used by a decompressor (according to comments in export.h).
 
-Acked-by: Ingo Molnar <mingo@kernel.org>
-
-> Since this touches a lot of stuff, it might be best to get it in as 
-> early as possible during the merge window, as I imagine new code being 
-> added is going to want to be touching those makefiles too.
-
-I'd argue the opposite: please merge this later in the merge window, to 
-not disrupt the vast body of other stuff that has already been lined up 
-and has been tested, and to give time for these new bits to get tested 
-some more.
-
-Also, please get it into -next ASAP, today would be ideal for test 
-coverage ...
-
-Thanks,
-
-	Ingo
+> * Remove a double definition of the CHECK_F macro when the zstd
+>   library is amalgamated.
+> * Switch ZSTD_copy8() to __builtin_memcpy(), because in the preboot
+>   environment on x86 gcc can't inline `memcpy()` otherwise.
+> * Limit the gcc hack in ZSTD_wildcopy() to the broken gcc version. See
+>   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81388.
+No comments to the rest.
+  Petr
