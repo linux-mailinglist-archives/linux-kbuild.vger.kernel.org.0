@@ -2,78 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AEA1193AB0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 09:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81CB8193AC2
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 09:24:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbgCZISJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 04:18:09 -0400
-Received: from frisell.zx2c4.com ([192.95.5.64]:35275 "EHLO frisell.zx2c4.com"
+        id S1727738AbgCZIYP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 04:24:15 -0400
+Received: from mga11.intel.com ([192.55.52.93]:57886 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727821AbgCZISJ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 04:18:09 -0400
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 293077ea;
-        Thu, 26 Mar 2020 08:10:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
-        :references:in-reply-to:from:date:message-id:subject:to:cc
-        :content-type; s=mail; bh=z54i3Rpd8bQwLDnVNFV/yezuxLU=; b=boOyqs
-        mCdG+80LeYcjASWpkQ1zMThj2uZPRyQj63aULJ1eho1PEeJxY053blYBVEDv/+X7
-        OBQ/dBvu36pqu+6GHtzv5FnIDYJ8+m+UpNZddescE9+TJew8ZdyolfWdn7qCgNwm
-        hCDQQZZIBJP70J+3MGGaus93N2IUKDn1UavfBtBSFRk4AtjJCPc/vVInIjmHn4rp
-        9nXPZ9Perj3Rk83uKKf3OPmeCafWNMnHZ2UW709Lpc/xjEXipaADr7IcjmiVm9Er
-        qA90IZHHNfiJD+f6KrFTRwRM8Vhig7u1XfQF2UZX5KM4Hl2qhbUe96EyxkSi5RwR
-        yE1MyvOm+wrsj6Vw==
-Received: by frisell.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f22236e6 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
-        Thu, 26 Mar 2020 08:10:45 +0000 (UTC)
-Received: by mail-io1-xd36.google.com with SMTP id k9so5139001iov.7;
-        Thu, 26 Mar 2020 01:18:06 -0700 (PDT)
-X-Gm-Message-State: ANhLgQ3XXTfJD2Ff639k67Y0c3BAp/U3FUB4V5ieGUaWa70y8GQopE/p
-        x7aUHw6BxH3iMuvq1jZNZ1glMxnQZEqeTiVu7ag=
-X-Google-Smtp-Source: ADFU+vsTJTCXcFJHQUwui8dbQzcKfWOUCgQIPLG0bwuItksw1ry6Mg259oUoldQgsVo9bcGoroXnNzuIzCxg8dcm+jA=
-X-Received: by 2002:a02:2a4a:: with SMTP id w71mr6759564jaw.75.1585210385536;
- Thu, 26 Mar 2020 01:13:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200326080104.27286-1-masahiroy@kernel.org>
-In-Reply-To: <20200326080104.27286-1-masahiroy@kernel.org>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Thu, 26 Mar 2020 02:12:54 -0600
-X-Gmail-Original-Message-ID: <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
-Message-ID: <CAHmME9pnAvgErYkcvvdakvfMY8ZGKfwHHNYzpVtJ913Tgp16CQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] x86, crypto: remove always-defined CONFIG_AS_*
- and cosolidate Kconfig/Makefiles
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S1727682AbgCZIYO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 04:24:14 -0400
+IronPort-SDR: S10lxP/O15Up24keMPS3juuvsFWH+ZQjuOsTnwKwpKIg/ZeiUoR0MZXdF9aimJlXJnLIJ5IzGc
+ EFL0Wc77VUYg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 01:24:14 -0700
+IronPort-SDR: 5SWx7LobP7Xk7vAZTAJX2qluD5fcl2KfCQrXaLbWi5S2WCQNBYGo4s5/hFX18gOYhnHfbYeuqC
+ pMs/3FbeTOdQ==
+X-IronPort-AV: E=Sophos;i="5.72,307,1580803200"; 
+   d="scan'208";a="393901243"
+Received: from mschuste-mobl3.ger.corp.intel.com (HELO localhost) ([10.252.32.130])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 01:24:07 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Borislav Petkov <bp@alien8.de>,
         Peter Zijlstra <peterz@infradead.org>,
-        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "H . Peter Anvin" <hpa@zytor.com>, x86@kernel.org,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        clang-built-linux@googlegroups.com,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Daniel Vetter <daniel@ffwll.ch>,
         David Airlie <airlied@linux.ie>,
-        "David S. Miller" <davem@davemloft.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Ingo Molnar <mingo@redhat.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jim Kukunas <james.t.kukunas@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
         Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        NeilBrown <neilb@suse.de>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Yuanhan Liu <yuanhan.liu@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
         dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 09/16] drm/i915: remove always-defined CONFIG_AS_MOVNTDQA
+In-Reply-To: <20200326080104.27286-10-masahiroy@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-10-masahiroy@kernel.org>
+Date:   Thu, 26 Mar 2020 10:24:04 +0200
+Message-ID: <87ftdvikwr.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Very little has changed from last time, and this whole series still
-looks good to me. I think I already ack'd most packages, but in case
-it helps:
+On Thu, 26 Mar 2020, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> CONFIG_AS_MOVNTDQA was introduced by commit 0b1de5d58e19 ("drm/i915:
+> Use SSE4.1 movntdqa to accelerate reads from WC memory").
+>
+> We raise the minimal supported binutils version from time to time.
+> The last bump was commit 1fb12b35e5ff ("kbuild: Raise the minimum
+> required binutils version to 2.21").
+>
+> I confirmed the code in $(call as-instr,...) can be assembled by the
+> binutils 2.21 assembler and also by LLVM integrated assembler.
+>
+> Remove CONFIG_AS_MOVNTDQA, which is always defined.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Reviewed-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Ack for merging this via whichever tree you see fit; please let me know
+if you want me to pick this up via drm-intel.
 
-Since this touches a lot of stuff, it might be best to get it in as
-early as possible during the merge window, as I imagine new code being
-added is going to want to be touching those makefiles too.
+BR,
+Jani.
+
+
+> ---
+>
+> Changes in v2: None
+>
+>  drivers/gpu/drm/i915/Makefile      | 3 ---
+>  drivers/gpu/drm/i915/i915_memcpy.c | 5 -----
+>  2 files changed, 8 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index a1f2411aa21b..e559e53fc634 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -28,9 +28,6 @@ subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
+>  CFLAGS_i915_pci.o = $(call cc-disable-warning, override-init)
+>  CFLAGS_display/intel_fbdev.o = $(call cc-disable-warning, override-init)
+>  
+> -subdir-ccflags-y += \
+> -	$(call as-instr,movntdqa (%eax)$(comma)%xmm0,-DCONFIG_AS_MOVNTDQA)
+> -
+>  subdir-ccflags-y += -I$(srctree)/$(src)
+>  
+>  # Please keep these build lists sorted!
+> diff --git a/drivers/gpu/drm/i915/i915_memcpy.c b/drivers/gpu/drm/i915/i915_memcpy.c
+> index fdd550405fd3..7b3b83bd5ab8 100644
+> --- a/drivers/gpu/drm/i915/i915_memcpy.c
+> +++ b/drivers/gpu/drm/i915/i915_memcpy.c
+> @@ -35,7 +35,6 @@
+>  
+>  static DEFINE_STATIC_KEY_FALSE(has_movntdqa);
+>  
+> -#ifdef CONFIG_AS_MOVNTDQA
+>  static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len)
+>  {
+>  	kernel_fpu_begin();
+> @@ -93,10 +92,6 @@ static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len)
+>  
+>  	kernel_fpu_end();
+>  }
+> -#else
+> -static void __memcpy_ntdqa(void *dst, const void *src, unsigned long len) {}
+> -static void __memcpy_ntdqu(void *dst, const void *src, unsigned long len) {}
+> -#endif
+>  
+>  /**
+>   * i915_memcpy_from_wc: perform an accelerated *aligned* read from WC
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
