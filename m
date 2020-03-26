@@ -2,125 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5064194D06
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2020 00:28:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71F08194D6D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2020 00:41:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727766AbgCZX2Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 19:28:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44450 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727966AbgCZXYh (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 19:24:37 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 24CF220714;
-        Thu, 26 Mar 2020 23:24:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1585265077;
-        bh=JzE8QSLBSji/fwbdetznn6wuAkvze4RHNwUOhEGZU9c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LqtcyPkLQSKdP/jnrTvMYorZ+/X2VotS10SEvaIiTUlgf/+9d5DJ8+aGThDIgilOa
-         ETBF7xeulRDWw7RwdkOnyA910EjwP7/A254GV3UJuxAaGKX4m55wUAfRVgFMONOkOd
-         Ok8JTwb6PmQeJMx1+1+Hp482l2E1JiYAxlWy6zGw=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        George Spelvin <lkml@sdf.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 5.4 04/19] kconfig: introduce m32-flag and m64-flag
-Date:   Thu, 26 Mar 2020 19:24:16 -0400
-Message-Id: <20200326232431.7816-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200326232431.7816-1-sashal@kernel.org>
-References: <20200326232431.7816-1-sashal@kernel.org>
+        id S1727345AbgCZXlj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 19:41:39 -0400
+Received: from www262.sakura.ne.jp ([202.181.97.72]:56868 "EHLO
+        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726363AbgCZXli (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Mar 2020 19:41:38 -0400
+Received: from fsav109.sakura.ne.jp (fsav109.sakura.ne.jp [27.133.134.236])
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 02QNfUR6064902;
+        Fri, 27 Mar 2020 08:41:30 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav109.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp);
+ Fri, 27 Mar 2020 08:41:30 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp)
+Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+        (authenticated bits=0)
+        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 02QNfUCc064896
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+        Fri, 27 Mar 2020 08:41:30 +0900 (JST)
+        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
+Subject: Re: [PATCH AUTOSEL 5.5 23/28] kconfig: Add yes2modconfig and
+ mod2yesconfig targets.
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+References: <20200326232357.7516-1-sashal@kernel.org>
+ <20200326232357.7516-23-sashal@kernel.org>
+From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Message-ID: <d4546302-2dd8-0930-f478-654bfbddb642@i-love.sakura.ne.jp>
+Date:   Fri, 27 Mar 2020 08:41:28 +0900
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200326232357.7516-23-sashal@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+Hello.
 
-[ Upstream commit 8cc4fd73501d9f1370c3eebb70cfe8cc9e24062b ]
+I'm fine with backporting this patch. But if you want to backport this patch, please also
+backport 089b7d890f972f6b ("kconfig: Invalidate all symbols after changing to y or m.")
+which actually makes this patch functional.
 
-When a compiler supports multiple architectures, some compiler features
-can be dependent on the target architecture.
-
-This is typical for Clang, which supports multiple LLVM backends.
-Even for GCC, we need to take care of biarch compiler cases.
-
-It is not a problem when we evaluate cc-option in Makefiles because
-cc-option is tested against the flag in question + $(KBUILD_CFLAGS).
-
-The cc-option in Kconfig, on the other hand, does not accumulate
-tested flags. Due to this simplification, it could potentially test
-cc-option against a different target.
-
-At first, Kconfig always evaluated cc-option against the host
-architecture.
-
-Since commit e8de12fb7cde ("kbuild: Check for unknown options with
-cc-option usage in Kconfig and clang"), in case of cross-compiling
-with Clang, the target triple is correctly passed to Kconfig.
-
-The case with biarch GCC (and native build with Clang) is still not
-handled properly. We need to pass some flags to specify the target
-machine bit.
-
-Due to the design, all the macros in Kconfig are expanded in the
-parse stage, where we do not know the target bit size yet.
-
-For example, arch/x86/Kconfig allows a user to toggle CONFIG_64BIT.
-If a compiler flag -foo depends on the machine bit, it must be tested
-twice, one with -m32 and the other with -m64.
-
-However, -m32/-m64 are not always recognized. So, this commits adds
-m64-flag and m32-flag macros. They expand to -m32, -m64, respectively
-if supported. Or, they expand to an empty string if unsupported.
-
-The typical usage is like this:
-
-  config FOO
-          bool
-          default $(cc-option,$(m64-flag) -foo) if 64BIT
-          default $(cc-option,$(m32-flag) -foo)
-
-This is clumsy, but there is no elegant way to handle this in the
-current static macro expansion.
-
-There was discussion for static functions vs dynamic functions.
-The consensus was to go as far as possible with the static functions.
-(https://lkml.org/lkml/2018/3/2/22)
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Tested-by: George Spelvin <lkml@sdf.org>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/Kconfig.include | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index bfb44b265a948..77a69ba9cd198 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -40,3 +40,10 @@ $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supporte
- 
- # gcc version including patch level
- gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
-+
-+# machine bit flags
-+#  $(m32-flag): -m32 if the compiler supports it, or an empty string otherwise.
-+#  $(m64-flag): -m64 if the compiler supports it, or an empty string otherwise.
-+cc-option-bit = $(if-success,$(CC) -Werror $(1) -E -x c /dev/null -o /dev/null,$(1))
-+m32-flag := $(cc-option-bit,-m32)
-+m64-flag := $(cc-option-bit,-m64)
--- 
-2.20.1
-
+On 2020/03/27 8:23, Sasha Levin wrote:
+> From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+> 
+> [ Upstream commit 89b9060987d988333de59dd218c9666bd7ee95a5 ]
+> 
+> Since kernel configs provided by syzbot are close to "make allyesconfig",
+> it takes long time to rebuild. This is especially waste of time when we
+> need to rebuild for many times (e.g. doing manual printk() inspection,
+> bisect operations).
+> 
+> We can save time if we can exclude modules which are irrelevant to each
+> problem. But "make localmodconfig" cannot exclude modules which are built
+> into vmlinux because /sbin/lsmod output is used as the source of modules.
+> 
+> Therefore, this patch adds "make yes2modconfig" which converts from =y
+> to =m if possible. After confirming that the interested problem is still
+> reproducible, we can try "make localmodconfig" (and/or manually tune
+> based on "Modules linked in:" line) in order to exclude modules which are
+> irrelevant to the interested problem. While we are at it, this patch also
+> adds "make mod2yesconfig" which converts from =m to =y in case someone
+> wants to convert from =m to =y after "make localmodconfig".
+> 
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
