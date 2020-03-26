@@ -2,50 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B8FDC194363
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 16:40:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 113BC194490
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Mar 2020 17:47:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727954AbgCZPkv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 11:40:51 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36391 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727670AbgCZPku (ORCPT
+        id S1726163AbgCZQrs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Mar 2020 12:47:48 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40220 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgCZQrr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 11:40:50 -0400
-Received: by mail-wr1-f67.google.com with SMTP id 31so8378829wrs.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 08:40:49 -0700 (PDT)
+        Thu, 26 Mar 2020 12:47:47 -0400
+Received: by mail-wr1-f68.google.com with SMTP id u10so8656278wro.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 26 Mar 2020 09:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=malat-biz.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=XEACa47R1YYA9qHdOiFfEkBUAM/n215wAmRNcBN8QwY=;
-        b=Fdjop2Y7+L6YPRRq3UV/wtGW2NHguQSXMW9DdVOKRM4FI1a8TVD6RUBb0p2AL+YVLY
-         86uf2MCprux6gKpqMXQDyPrhgzrLd0BGo6ylK+XeCEcD/nguONB71GyxnKzUwL32llKH
-         8RRO+S/3awfwIojE86vdypyUtHq0HjV23+eovqI+vKi0BSfl190styxTnAoFZI4r/JtM
-         ZO2oYik9u03NDJGJ0jvgTAA8EF02O1EKG7Kt0n5Sp9xanFHBJcPXt/8+u4VVoJzlY17e
-         6MdsWQVcPMDqCqpsd8LwzihzaT70AI/h4QYoAVotXdBQjFaSPnDZDj11WzNtDEga5WnW
-         8jJg==
+        bh=kYmZ7W7spXJCoSjpaQQC+a9kzIPwWZNW6wR0y26VyYE=;
+        b=GIr3jiVdrqj3bn59MVLn4TI9NEimaDRJDtviwTb1yGhBa4MRpNqFrbqzMF1fYfGVyo
+         zyjFWXtmLjvyFM+kTu2YAvkZCtbSAZ/SpplHv2w7uu3gpFdPI3hOY3FlpoVSJooIiuS2
+         rgN04v4rRUDOgRrktidIM0Dxy9Jbe0qXePkvXL2Oz3dTVTT5ya2XFOsaxZZ0D1N9rFaz
+         b+5CKnM4F5wcg2ovEo5pLcgNAuvq2RydWfGPN26aWoYYA72NoHbBVWJRY+9ZOVOho4uj
+         td34p19/XoQpGn8MFPanfE+Ke1/KARSmsW3CUfSFAbRg8xFvHbRjIND5iX4+KvJ0k6qV
+         9o9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=XEACa47R1YYA9qHdOiFfEkBUAM/n215wAmRNcBN8QwY=;
-        b=kN/tdTZEkHreyz2ATu1VkUOtsWkJdJtATCJPmsyj+ocPWyA01iv40FKzg03YqGRvx7
-         RpB66z1O52yYUJQrS39LtWrK+vpFXyPXQDhfu7DjEalS/0AT+2zcsFxz5fs7NiZ06uvc
-         9SCmxE03zP7HyZyGsgi7zQkkPV1AoXhxS0qP2kyGXi3L4UkSYZDOa11MhojfR0dNaJDa
-         RsHfrMgVPlerAICGLGM1bZtNPVMk4wWuCNJvnUPLaQr9PKK2cbbv9sO4nSsKpLNPeD7D
-         6I/UuNRBUVLyU89Axj3x8/9zh2t06aZ2M3+XOdYAspjpaIRtJLoiHQNp7WwAP1oYLsKl
-         E/TQ==
-X-Gm-Message-State: ANhLgQ1wUJ3JF3qWHN59cQOmndSsh0LhtG6GcTSHWpA/3MIZoIVDDoLV
-        dw58xknCAfOp5YOfZo3T+8BP3g==
-X-Google-Smtp-Source: ADFU+vtop7dLCupf/5Cj0LJPXEZFIZb8nPl47px+m0Juh6AjaUQIZHhP5YiWzaS9s6aHc/n/JZymqQ==
-X-Received: by 2002:a05:6000:370:: with SMTP id f16mr10335036wrf.9.1585237249033;
-        Thu, 26 Mar 2020 08:40:49 -0700 (PDT)
+        bh=kYmZ7W7spXJCoSjpaQQC+a9kzIPwWZNW6wR0y26VyYE=;
+        b=f1G19+2TmU4vsT7YNq2HvzNBWu8oU35wgEYEoddaSuA7j6rPh/pYR50TyODQb7iIqY
+         03CAbsck5h8Ko9tclbwDMXmU8e7DOnHsK35a3sk+pCAv6x6MNEuBTJREx+52tefIIVcu
+         UAYSza/T8RKgBHjEdZtf17GEjwsrRFkbGhIRiOrX2crtA1OkO6NS+DldQWmh2cP8vgfT
+         HoIJtsmrkirKc7AHwTo/BFhd62dCVrkjA4nAxyxCWqRnWbJmPiO34LurSjC0hlKPzdgg
+         L26iDocw00fuO8cQuNf0qc6Z/AEzgywfxwSQPCJznqrM/n2oSbPvnxQIt/54HQhhQ3r7
+         UE1Q==
+X-Gm-Message-State: ANhLgQ2Npf331al80oxEFneAcrv1oxHUFMcZsjvvpeI09mPT9C/VODWs
+        +VcUnnJQYuUoRIbRtfVOUhiJFg==
+X-Google-Smtp-Source: ADFU+vuRzdEN8e+GgVOpVQoXZAfKd/+Jvd09vBvkB4h9XjIMrTsmDS1awfgMR59e60AKC7QqAgFC2w==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr9875048wro.375.1585241263872;
+        Thu, 26 Mar 2020 09:47:43 -0700 (PDT)
 Received: from ntb.petris.klfree.czf (p5B36386E.dip0.t-ipconnect.de. [91.54.56.110])
-        by smtp.gmail.com with ESMTPSA id c5sm11522353wma.3.2020.03.26.08.40.46
+        by smtp.gmail.com with ESMTPSA id e5sm4130732wru.92.2020.03.26.09.47.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 08:40:47 -0700 (PDT)
-Date:   Thu, 26 Mar 2020 16:40:38 +0100
+        Thu, 26 Mar 2020 09:47:43 -0700 (PDT)
+Date:   Thu, 26 Mar 2020 17:47:32 +0100
 From:   Petr Malat <oss@malat.biz>
 To:     Nick Terrell <nickrterrell@gmail.com>
 Cc:     Nick Terrell <terrelln@fb.com>, linux-kernel@vger.kernel.org,
@@ -56,38 +56,32 @@ Cc:     Nick Terrell <terrelln@fb.com>, linux-kernel@vger.kernel.org,
         Adam Borowski <kilobyte@angband.pl>,
         Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
         mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>
-Subject: Re: [PATCH v3 1/8] lib: prepare zstd for preboot environment
-Message-ID: <20200326154038.GA21231@ntb.petris.klfree.czf>
+Subject: Re: [PATCH v3 3/8] lib: add zstd support to decompress
+Message-ID: <20200326164732.GA17157@ntb.petris.klfree.czf>
 References: <20200325195849.407900-1-nickrterrell@gmail.com>
- <20200325195849.407900-2-nickrterrell@gmail.com>
+ <20200325195849.407900-4-nickrterrell@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200325195849.407900-2-nickrterrell@gmail.com>
+In-Reply-To: <20200325195849.407900-4-nickrterrell@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Nick,
-I finally got some time to review your patch, here are my comments:
+Hi!
+On Wed, Mar 25, 2020 at 12:58:44PM -0700, Nick Terrell wrote:
+> From: Nick Terrell <terrelln@fb.com>
+> * Add unzstd() and the zstd decompress interface.
+Here I do not understand why you limit the window size to 8MB even when
+you read a larger value from the header. I do not see a reason why there
+should be such a limitation at the first place and if there should be,
+why it differs from ZSTD_WINDOWLOG_MAX.
 
-On Wed, Mar 25, 2020 at 12:58:42PM -0700, Nick Terrell wrote:
-> * Don't export symbols if ZSTD_PREBOOT is defined.
-I'm not sure if this is needed. When I worked on my patch, I have found that
-all exporting and modinfo macros generate symbols in modinfo and discard.ksym
-sections, which are then dropped by the vmlinux linker script, thus one
-will get the same binary independently if he puts this change in or not.
-
-I'm not sure if this is intentional as there is also __DISABLE_EXPORTS define,
-which should be used by a decompressor (according to comments in export.h).
-
-> * Remove a double definition of the CHECK_F macro when the zstd
->   library is amalgamated.
-> * Switch ZSTD_copy8() to __builtin_memcpy(), because in the preboot
->   environment on x86 gcc can't inline `memcpy()` otherwise.
-> * Limit the gcc hack in ZSTD_wildcopy() to the broken gcc version. See
->   https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81388.
-No comments to the rest.
+I removed that limitation to be able to test it in my environment and I
+found the performance is worst than with my patch by roughly 20% (on
+i7-3520M), which is a major drawback considering the main motivation
+to use zstd is the decompression speed. I will test on arm as well and
+share the result tomorrow.
   Petr
