@@ -2,61 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 71F08194D6D
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2020 00:41:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90BB9195104
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Mar 2020 07:26:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727345AbgCZXlj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Mar 2020 19:41:39 -0400
-Received: from www262.sakura.ne.jp ([202.181.97.72]:56868 "EHLO
-        www262.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbgCZXli (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Mar 2020 19:41:38 -0400
-Received: from fsav109.sakura.ne.jp (fsav109.sakura.ne.jp [27.133.134.236])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 02QNfUR6064902;
-        Fri, 27 Mar 2020 08:41:30 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav109.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp);
- Fri, 27 Mar 2020 08:41:30 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav109.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 02QNfUCc064896
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-        Fri, 27 Mar 2020 08:41:30 +0900 (JST)
-        (envelope-from penguin-kernel@i-love.sakura.ne.jp)
-Subject: Re: [PATCH AUTOSEL 5.5 23/28] kconfig: Add yes2modconfig and
- mod2yesconfig targets.
+        id S1726335AbgC0G0v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Mar 2020 02:26:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40558 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725857AbgC0G0v (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 27 Mar 2020 02:26:51 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 91A7220705;
+        Fri, 27 Mar 2020 06:26:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1585290410;
+        bh=C+c/5oL+UO0v+m4Q/VCcV4JwRE2JWyTk69oWVbv2Q6E=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vhT4TRi3LgnelhiRvdEj6xnuN3X/CneXgQ7Lx9L4aa6N3wxj5y4NSLz/zM9GjRnlj
+         tMQanEKBXNq5bAjFPPuM0MoCXQRFD+u6YjvK80wECzNqTNKekdFFjj9hmcXDNWoZAb
+         rSgJdpLjCTVcwqq6PlD8Ln3rBazWQLU0SSwfA7Qs=
+Date:   Fri, 27 Mar 2020 07:26:46 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Sasha Levin <sashal@kernel.org>
 Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
         Dmitry Vyukov <dvyukov@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.5 23/28] kconfig: Add yes2modconfig and
+ mod2yesconfig targets.
+Message-ID: <20200327062646.GB1601217@kroah.com>
 References: <20200326232357.7516-1-sashal@kernel.org>
  <20200326232357.7516-23-sashal@kernel.org>
-From:   Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Message-ID: <d4546302-2dd8-0930-f478-654bfbddb642@i-love.sakura.ne.jp>
-Date:   Fri, 27 Mar 2020 08:41:28 +0900
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20200326232357.7516-23-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello.
-
-I'm fine with backporting this patch. But if you want to backport this patch, please also
-backport 089b7d890f972f6b ("kconfig: Invalidate all symbols after changing to y or m.")
-which actually makes this patch functional.
-
-On 2020/03/27 8:23, Sasha Levin wrote:
+On Thu, Mar 26, 2020 at 07:23:52PM -0400, Sasha Levin wrote:
 > From: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 > 
 > [ Upstream commit 89b9060987d988333de59dd218c9666bd7ee95a5 ]
@@ -82,3 +71,19 @@ On 2020/03/27 8:23, Sasha Levin wrote:
 > Cc: Dmitry Vyukov <dvyukov@google.com>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  scripts/kconfig/Makefile   |  4 +++-
+>  scripts/kconfig/conf.c     | 16 ++++++++++++++++
+>  scripts/kconfig/confdata.c | 16 ++++++++++++++++
+>  scripts/kconfig/lkc.h      |  3 +++
+>  4 files changed, 38 insertions(+), 1 deletion(-)
+
+Why did this patch get picked up by the autobot?  Because it referenced
+syzbot?
+
+It adds a new feature, that isn't really needed by any stable things, so
+it should be dropped from your queues for all trees.
+
+thanks,
+
+greg k-h
