@@ -2,61 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 778E5196DE9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2020 16:28:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11A67196E07
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2020 17:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727951AbgC2O2u (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 Mar 2020 10:28:50 -0400
-Received: from mout.gmx.net ([212.227.17.22]:52601 "EHLO mout.gmx.net"
+        id S1727933AbgC2PB0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 Mar 2020 11:01:26 -0400
+Received: from mout.gmx.net ([212.227.17.21]:41871 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727488AbgC2O2u (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 Mar 2020 10:28:50 -0400
+        id S1727888AbgC2PB0 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 29 Mar 2020 11:01:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1585492124;
-        bh=wICjkSaWdczrZ0KJwIvw7ssIGDSLRj4VFrjqv52axZU=;
+        s=badeba3b8450; t=1585494081;
+        bh=J8GmSQVy0g8ywhqI5CvNUMB3qMma3UpIeIjfIQ2e+Hc=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=TY2/IhRxDWQQEfkzHd+QQOXeoHodREw/+4+aQIHmdUwDuN80FY9qp8nZq0LQ+Anks
-         jKlu6Al0q0dqgVe3jacPQvD1SKj0iy20/TNQodaYlpUW3ud3+YrSClTCet4ATvze35
-         jD09djZ2DJL+HFXHraqXyzP1DwuwlZUAkMT87r74=
+        b=dVuC3bBS3+/FgSEFhlA2ohAP3pVwiqvaRN6vhvvzj7d0/VneAqvtg3NxgDHPcSwss
+         pDBmRNiCB2QPxalQNReVmkwcp0j8sYWs0hsNxWTPF4TzK8WIlO7FBOPmb9qbPVULjt
+         FDL6O4ovtYbEK88faku+z9CSxu3uiRMDX68mZDeQ=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from apollon.localnet ([88.130.48.93]) by mail.gmx.com (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MC34X-1jUurx2u9l-00CRJy; Sun, 29
- Mar 2020 16:28:44 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N3bX1-1jAUqp3y8R-010fpR; Sun, 29
+ Mar 2020 17:01:21 +0200
 From:   Reinhard Karcher <reinhard.karcher@gmx.net>
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     954778@bugs.debian.org
 Subject: Re: Bug#954778: Patch: Suppress irrelevant warning when generating a debian package
-Date:   Sun, 29 Mar 2020 16:28:44 +0200
-Message-ID: <3046032.1AMzvzNrTs@apollon>
+Date:   Sun, 29 Mar 2020 17:01:20 +0200
+Message-ID: <3026651.zccbJs9ps7@apollon>
 In-Reply-To: <CAK7LNAQBypq0QxUafH6f4k4d7wObjycK6eys2NKDZi8_Qdxb4A@mail.gmail.com>
 References: <1966103.4dT7el1ifK@apollon> <2516578.0xqDLvIEN0@apollon> <CAK7LNAQBypq0QxUafH6f4k4d7wObjycK6eys2NKDZi8_Qdxb4A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="nextPart53114204.YFjIEDjTXD"
+Content-Type: multipart/mixed; boundary="nextPart3391674.7T9O3n7lMA"
 Content-Transfer-Encoding: 7Bit
-X-Provags-ID: V03:K1:zJw5c+joMmMANWnD9v24Xoajq5nDhTf+BmZX6iclAHakiYcljE6
- F/ofOx9DZXBecr5M17wqC+KuBUJoAOjWWNx6bciaFA06ZygSt3k+LdYOrnJBuzB+iwNGWIe
- lsjUArdGV12YFukiDlVYquGDtfIW3TOgV9h7EkOSJfAmvhs20zUWg0UP2uDVGfbwgsHhI/d
- m3giXSAS3Yg1LeV1r0gjA==
+X-Provags-ID: V03:K1:dKg/kOx6+R5U9PPj1jQ719JJDcmPJpiC/ZNfMzpaac4U1oZRkU0
+ 7Donzj4v5zO1egQTPHKEnwKH90jh+/NeqYMRNk7brosAJ3OOgFpVSwWLdWe2bTTDM5ic+l1
+ 2k5O+4MbtrCcxJP7tLlZe4WK/UfukZhEyOK8W4JBGAoBVYV4EeULpRn9CaYCvlWl62Zv1Ic
+ LD/ffbdbPfc8jkEX2HX+g==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:LHUZJWBglSQ=:N0gbxMzU8xprGMWX6JjYMC
- oBVX1NUqUXLl3rbsTFE1D8zhkrThgUtznwHmNvCwzOUBnph7gwwEzY2lWcQ2MQpZf0V3UCuY/
- 0Igl5mw+h/27Op0UdVrrElGSb4UbAhFrCKkAxhdckYhlzI6NHDlQ1FAxLm+Py7zF8mSe3ELN8
- QzRl0wrIImh7oPX4zUrdYBKq2sEae8N2ALk7TiESEV68vFFqL8XWsycXbQHxFGLknu6zXMb/6
- alDJkZtpOcSvwmpc2Sv4K0CAE07JZDTrOk5KYwM25Jw4wBbuLekrpYYjBGclW5UV3+6fmdQxX
- sG+b8w2HMOhvW4mi+geo9o/dcg5bWylphyBrq/+3ZCXYbCOHT1p4uuYwH3pyRvwWCXZsCjMP7
- O1+2BS3qORuSuz36zB7a+EwNfct1xruZdSlAeON+TP3yGiCkEj1ryqVlBZhqJWuZEABcm4ZPu
- 1bB9d86MM/N0ffre3Teme2cTFCriDfs0YpX9l2IA8r7uVd3kg1+YRtWidblUpux3BmCe2FxGr
- yK1bzjj6qCWYBFdPUlYILfVk5BKIS9n1IXiSDQn6lUh/6GdGipZycg/JWhFqBdujUaNgLLEAO
- cIGYjFKpndy86MTRJ5K1T1Lw4+OtxfHY01UmZ4py3Z/+eEjKu+WfT54LMxF+W3ZVa89OlgKz9
- WpTxVO4XpXAUFwUD+W9LhO57Oqa8vsEdqtSqgnvOpfqQm+viySeKSbtHh3czM8/aAyFu3V/uo
- ggz+6Db5Om0IRqvJB1nwogFipNAKsHUxw/oajlU88hKvLVyWfIX3LYIk5VAB0GZBYfVPrjzQv
- ufI1fGnA+0CVuK8Uz13n1KtNpPg5gYhAObsU0dJeXTTF8BrtS6BnxAb6zoDTaNUsSjtl+/epu
- Kx/PFxg0IqYABDppikE9LMmhGXcFaMbF7bJYdtANXsFRRgq4SW5Kb69IH2eHL/n9U6/TqUnF2
- EdY0LYEG6zMaNAklb16KEWsnLaFyMypBYx+2Up8e7NUsaKt2ovh/CSOsN7SZSjem1g2WlUzzt
- exvpSkGGrMxBvWuV6182udev9dMF8bky2HTZDr+vwB6keYVYvxctSmbPSpM+oXqTT6z/CaZkS
- 0g/6umqjoMO5sET9V1dsOGwfMsNpyaPGRL0Hj686IVIDt6JaAWvT4T+cvKzotR/W/aVvYtkGp
- x/+PcE++H05hfYSEUVRSu6Rzg4kwp/3zMTw7bQg6ZWhtyagz1KqUDL7kDboQOl+nd3d9Nmj0l
- CpzKdMzS0TBcDAwYI
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/aWkZCHUJ6M=:o9OgtYpEqS3HWZccKEd52c
+ 425Bk1yfIJd4r7MeOod1l1xDzjCJyBbMuKOXi5g7xPW86wV8o5XNziAWanGInlAPPmkIk21yT
+ qMPwqeq4sh2f6NYjvSfQ2+Up3nJ+AevWlJjLl+BnPJ6+cvk5pLj5IL1YImnMA++I7WqlMblav
+ Mpp50wD+mGwJE02UvJQGREPooaFc+RaJMNds0EAbuPe5YNxAkDT1ZsGfd54dOrYvysw/2LPuy
+ 5KcdTMufIFWXCZMkD94Eo79FUH5V6K82E+8h9w15m1h97yNKAispzHREnGf9yvzXIYIRg54+g
+ 0EegZ4ToW1ZafzXSClEjAgtgAw4cMou+HSFdTJyeZBHO5MAVFiHDM7zDGJeiwXlk8b86CP+7J
+ 4iC3rPDzdz7jp6m4XWjlt6KAmYxNKHr8AN02GHJ/lmK+PuFcMLQLKfyjvF0Yws3PMw2kpuWf1
+ wagaRKHUQt6JkL7VosSr1klCJNhSGbJjDCU7amlRiFtksS11RAWrBWyIPcYyv02/wOk1HofV1
+ uQawm4vBwMFojFKAmT0atfc+12cTNKK9IWRgd2vPB19fBK04NCf8Tb4HqmOqWMlmeyXftL6SE
+ qfkmtF+vW0+OHIRh+/6yBfMdaY5nJfeXNuY84SradDlLDLQbqDCajDC1XVku3qpDY+MibfhrN
+ SetEiVEJydGd9ziBGxrgXCzFwsbLny0KAxcC0p6LbE7f2IgnxouxeYN0lBVOY9a/VLHzM8zyX
+ xmoKOIbVQUBex4MMfxju9xKcS99jJmF0hOwSeOPUUXzIUl3jMC7EIdmC19TKmpB+Zb8pjVT9t
+ tUimwJE3g7qhSsy71C+7UuJPM2MEElqMmw4KaY9Tags4nX7yBcV37w81COR8+7ZiEbs3UBpqs
+ 2/s0Twvq+QfD1RVdM2cBzkaEUb5wftkZtGhhaSZ1A+4LBVX57tsIPn9MTugg0Txe8MmOCptwA
+ 0KhOabqqLc7tluxmDku791rzmnz4tnRBmWmIG403e3T+VuUeoy2ItNcwjm6/Vsg6Hv6ctIWmI
+ HvXU5UoLXB6bBS1usB9eSMLN8XT5Zcusz6JxiGsN/wOB1yKVVf/FR7sMBMZr2mYpKRAowURpa
+ FXQ8hT+gKyi0ur86oNIGw0eIjauDtfybeRr8AQorokd+3pg9QwSqgkPuHQ+ltLp5xhuNruxYn
+ goUi5QKfbgqgVjwi7gEweKf+nDXgDe74ivnHiD1PyqlQUp0gra81WcipSzzjYmWRK62kPW1+/
+ eVXte0PdCBYjqFw9A
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -64,26 +64,18 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 This is a multi-part message in MIME format.
 
---nextPart53114204.YFjIEDjTXD
-Content-Transfer-Encoding: quoted-printable
+--nextPart3391674.7T9O3n7lMA
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
 
-Am Sonntag, 29. M=C3=A4rz 2020, 15:30 schrieb Masahiro Yamada:
->=20
-> I want you to directly use
->=20
-> if is_enabled CONFIG_DEBUG_INFO; then
-> ...
-> fi
->=20
+There was a blank line missing between the package definitions.
+Sorry for late testing.
 
-Corrected patch attached
-
-=2D-
+--
 Best regards
 Reinhard Karcher
 
---nextPart53114204.YFjIEDjTXD
+--nextPart3391674.7T9O3n7lMA
 Content-Disposition: attachment; filename="remove_debug_warning.patch"
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/x-patch; charset="UTF-8"; name="remove_debug_warning.patch"
@@ -100,10 +92,10 @@ if no debug package is created by this configuration
 Signed-off-by:Reinhard Karcher <reinhard.karcher@gmx.net>
 
 diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index 357dc56bcf30..327ea3c2a785 100755
+index 357dc56bcf30..df1adbfb8ead 100755
 =2D-- a/scripts/package/mkdebian
 +++ b/scripts/package/mkdebian
-@@ -198,7 +198,10 @@ Description: Linux support headers for userspace deve=
+@@ -198,6 +198,10 @@ Description: Linux support headers for userspace deve=
 lopment
   This package provides userspaces headers from the Linux kernel.  These h=
 eaders
@@ -111,13 +103,13 @@ eaders
 es.
  Multi-Arch: same
 +EOF
-
++
 +if is_enabled CONFIG_DEBUG_INFO; then
 +cat <<EOF >> debian/control
+
  Package: $dbg_packagename
  Section: debug
- Architecture: $debarch
-@@ -206,6 +209,7 @@ Description: Linux kernel debugging symbols for $versi=
+@@ -206,6 +210,7 @@ Description: Linux kernel debugging symbols for $versi=
 on
   This package will come in handy if you need to debug the kernel. It prov=
 ides
@@ -128,7 +120,7 @@ ides
  cat <<EOF > debian/rules
  #!$(command -v $MAKE) -f
 
---nextPart53114204.YFjIEDjTXD--
+--nextPart3391674.7T9O3n7lMA--
 
 
 
