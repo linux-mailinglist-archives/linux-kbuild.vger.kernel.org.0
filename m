@@ -2,319 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94F5F196CDA
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2020 13:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61D59196CF3
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2020 13:32:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728071AbgC2LJg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 Mar 2020 07:09:36 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:43416 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727772AbgC2LJg (ORCPT
+        id S1727901AbgC2LcH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 Mar 2020 07:32:07 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:63710 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727875AbgC2LcH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 Mar 2020 07:09:36 -0400
-Received: from grover.flets-west.jp (softbank126093124033.bbtec.net [126.93.124.33]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 02TB8bBL015176;
-        Sun, 29 Mar 2020 20:08:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 02TB8bBL015176
+        Sun, 29 Mar 2020 07:32:07 -0400
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 02TBW3pD010445;
+        Sun, 29 Mar 2020 20:32:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02TBW3pD010445
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585480118;
-        bh=Cg7R3QJRPJ95+EKclm15FSW94MAoCe16bg0O8GfIt6U=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jPBCBrQDgnG0wdLPf2EwTGBqVSyXOaUNUQzjq4HgBBPA21LgFK5bai0aDGVKBTSt5
-         7X/LRZx+E0XEUwIUv0tjoIW6lzZP6i37e+E6SAUNuoxS6b1EIJCyDSWRAT6pOrg+jF
-         ZeUbQ1MltPJ+4TFw+v3+4NaX58Qb3RHjUjX4xdClHB4Iy71rj0qovkY9FkkLqBSocQ
-         M3WUSabsnrbI3XWTvnyDKD7VpBfeufdnHvdiW4brIpPhtUKg/EumiwVPx86Um4Vfqb
-         koFSWlEuo43Bn32swWPcZFrWZ3T62rPjyix8aib4fcdCnR3G39lm3UZawAoguesq+6
-         4sUNzMxqg9XZQ==
-X-Nifty-SrcIP: [126.93.124.33]
+        s=dec2015msa; t=1585481524;
+        bh=7dJHfr2LzJ7oqZtL5ADchvZm+cCmIsPEjQ2cJQ3Gn+s=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aJ2dtpoFcRwdlHCcHrCkUadX5HAP3XjMFVEdIZK4/8y1C/T+TCmvZWD/Hb52E+oWz
+         kgOj2BnOiK9k3GrJPpgmz+GriPLCva5ALvSXFfiAZWefzD7ijw98XvdUOlq0Drt2s6
+         HlK4NzgmINSGYoaZ/S/nO78ohYXHeh0qf6ezvFt0uM2vGaGGJJP7lVKnxmIYdMPEh+
+         wYGYYZiOoT0n2LsRX1sTyhnZIzBQzgECrzXh6gAXsQ0njOFA8D8fUkrFCZoCsEtP8d
+         AT10cjGG5UHr1zJOZzDhZ1rcWAXO7Ggf/gO48UTuN4e1Nki1iJZ02/IPRBtOPwC6ie
+         c+F5Efgab/cRw==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id z125so9119694vsb.13;
+        Sun, 29 Mar 2020 04:32:04 -0700 (PDT)
+X-Gm-Message-State: AGi0PubDGcTHO8p1QwSbRmXHQP6SCESCd99VBSUcOsJ/foRrOhOggrV0
+        2ZIJs3PC9U2RydIS++CMSfjQw5z6nNIOEOSk1jY=
+X-Google-Smtp-Source: APiQypL503oKQ4coHqRYgxfFJnNdWa7wgDfkabbS4Do8+Pa6D0D/Lqv+3J4gB6BELjorl8yu4UVwBomdq2awy+JhUv0=
+X-Received: by 2002:a67:3201:: with SMTP id y1mr5074418vsy.54.1585481522839;
+ Sun, 29 Mar 2020 04:32:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200326194155.29107-1-natechancellor@gmail.com>
+In-Reply-To: <20200326194155.29107-1-natechancellor@gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        kernel-hardening@lists.openwall.com
-Subject: [PATCH] gcc-plugins: drop support for GCC <= 4.7
-Date:   Sun, 29 Mar 2020 20:08:32 +0900
-Message-Id: <20200329110832.19961-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.17.1
+Date:   Sun, 29 Mar 2020 20:31:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
+Message-ID: <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Nobody was opposed to raising minimum GCC version to 4.8 [1]
-So, we will drop GCC <= 4.7 support sooner or later.
+On Fri, Mar 27, 2020 at 4:42 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> Currently, we disable -Wtautological-compare, which in turn disables a
+> bunch of more specific tautological comparison warnings that are useful
+> for the kernel such as -Wtautological-bitwise-compare. See clang's
+> documentation below for the other warnings that are suppressed by
+> -Wtautological-compare. Now that all of the major/noisy warnings have
+> been fixed, enable -Wtautological-compare so that more issues can be
+> caught at build time by various continuous integration setups.
+>
+> -Wtautological-constant-out-of-range-compare is kept disabled under a
+> normal build but visible at W=1 because there are places in the kernel
+> where a constant or variable size can change based on the kernel
+> configuration. These are not fixed in a clean/concise way and the ones
+> I have audited so far appear to be harmless. It is not a subgroup but
+> rather just one warning so we do not lose out on much coverage by
+> default.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/488
+> Link: http://releases.llvm.org/10.0.0/tools/clang/docs/DiagnosticsReference.html#wtautological-compare
+> Link: https://bugs.llvm.org/show_bug.cgi?id=42666
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
+>
+> v1 -> v2: https://lore.kernel.org/lkml/20200219045423.54190-7-natechancellor@gmail.com/
+>
+> * Expand commit message a bit by adding more reasoning behind change.
+> * Disable -Wtautological-constant-out-of-range-compare under a normal
+>   build but allow it to show up at W=1 for easy auditing.
+>
+> I hope this can be accepted for 5.7. There are two warnings that I see
+> still across a bunch of allyesconfig/allmodconfig builds that have
+> patches sent but not accepted. I will ping them today.
+>
+> * https://lore.kernel.org/lkml/20191023002014.22571-1-natechancellor@gmail.com/
+> * https://lore.kernel.org/lkml/20200220051011.26113-1-natechancellor@gmail.com/
 
-We always use C++ compiler for building plugins for GCC >= 4.8.
 
-This commit drops the plugin support for GCC <= 4.7 a bit earlier,
-which allows us to dump lots of code.
+OK, I will queue this up and send it to Linus
+in the second week of MW.
 
-[1] https://lkml.org/lkml/2020/1/23/545
+I hope all warnings will be fixed by that time.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-This patch depends on this:
-https://patchwork.kernel.org/patch/11456871/
 
- scripts/Kconfig.include      |  3 --
- scripts/Makefile.build       |  2 +-
- scripts/Makefile.clean       |  1 -
- scripts/Makefile.host        | 23 +--------------
- scripts/gcc-plugin.sh        | 55 +++---------------------------------
- scripts/gcc-plugins/Kconfig  | 12 ++------
- scripts/gcc-plugins/Makefile | 21 ++++----------
- 7 files changed, 14 insertions(+), 103 deletions(-)
-
-diff --git a/scripts/Kconfig.include b/scripts/Kconfig.include
-index 496d11c92c97..033f6efd92d3 100644
---- a/scripts/Kconfig.include
-+++ b/scripts/Kconfig.include
-@@ -42,9 +42,6 @@ $(error-if,$(failure,command -v $(LD)),linker '$(LD)' not found)
- # Fail if the linker is gold as it's not capable of linking the kernel proper
- $(error-if,$(success, $(LD) -v | grep -q gold), gold linker '$(LD)' not supported)
- 
--# gcc version including patch level
--gcc-version := $(shell,$(srctree)/scripts/gcc-version.sh $(CC))
--
- # machine bit flags
- #  $(m32-flag): -m32 if the compiler supports it, or an empty string otherwise.
- #  $(m64-flag): -m64 if the compiler supports it, or an empty string otherwise.
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 356601994f3a..9fcbfac15d1d 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -46,7 +46,7 @@ include $(kbuild-file)
- include scripts/Makefile.lib
- 
- # Do not include host rules unless needed
--ifneq ($(hostprogs)$(hostlibs-y)$(hostlibs-m)$(hostcxxlibs-y)$(hostcxxlibs-m),)
-+ifneq ($(hostprogs)$(hostcxxlibs-y)$(hostcxxlibs-m),)
- include scripts/Makefile.host
- endif
- 
-diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index 1e4206566a82..075f0cc2d8d7 100644
---- a/scripts/Makefile.clean
-+++ b/scripts/Makefile.clean
-@@ -30,7 +30,6 @@ subdir-ymn	:= $(addprefix $(obj)/,$(subdir-ymn))
- __clean-files	:= $(extra-y) $(extra-m) $(extra-)       \
- 		   $(always) $(always-y) $(always-m) $(always-) $(targets) $(clean-files)   \
- 		   $(hostprogs) $(hostprogs-y) $(hostprogs-m) $(hostprogs-) \
--		   $(hostlibs-y) $(hostlibs-m) $(hostlibs-) \
- 		   $(hostcxxlibs-y) $(hostcxxlibs-m)
- 
- __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 3b7121d43324..2045855d0b75 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -39,7 +39,6 @@ $(obj)/%.tab.c $(obj)/%.tab.h: $(src)/%.y FORCE
- # They are linked as C++ code to the executable qconf
- 
- __hostprogs := $(sort $(hostprogs))
--host-cshlib := $(sort $(hostlibs-y) $(hostlibs-m))
- host-cxxshlib := $(sort $(hostcxxlibs-y) $(hostcxxlibs-m))
- 
- # C code
-@@ -63,7 +62,6 @@ host-cxxmulti	:= $(foreach m,$(__hostprogs),$(if $($(m)-cxxobjs),$(m)))
- host-cxxobjs	:= $(sort $(foreach m,$(host-cxxmulti),$($(m)-cxxobjs)))
- 
- # Object (.o) files used by the shared libaries
--host-cshobjs	:= $(sort $(foreach m,$(host-cshlib),$($(m:.so=-objs))))
- host-cxxshobjs	:= $(sort $(foreach m,$(host-cxxshlib),$($(m:.so=-objs))))
- 
- host-csingle	:= $(addprefix $(obj)/,$(host-csingle))
-@@ -71,9 +69,7 @@ host-cmulti	:= $(addprefix $(obj)/,$(host-cmulti))
- host-cobjs	:= $(addprefix $(obj)/,$(host-cobjs))
- host-cxxmulti	:= $(addprefix $(obj)/,$(host-cxxmulti))
- host-cxxobjs	:= $(addprefix $(obj)/,$(host-cxxobjs))
--host-cshlib	:= $(addprefix $(obj)/,$(host-cshlib))
- host-cxxshlib	:= $(addprefix $(obj)/,$(host-cxxshlib))
--host-cshobjs	:= $(addprefix $(obj)/,$(host-cshobjs))
- host-cxxshobjs	:= $(addprefix $(obj)/,$(host-cxxshobjs))
- 
- #####
-@@ -140,13 +136,6 @@ quiet_cmd_host-cxxobjs	= HOSTCXX $@
- $(host-cxxobjs): $(obj)/%.o: $(src)/%.cc FORCE
- 	$(call if_changed_dep,host-cxxobjs)
- 
--# Compile .c file, create position independent .o file
--# host-cshobjs -> .o
--quiet_cmd_host-cshobjs	= HOSTCC  -fPIC $@
--      cmd_host-cshobjs	= $(HOSTCC) $(hostc_flags) -fPIC -c -o $@ $<
--$(host-cshobjs): $(obj)/%.o: $(src)/%.c FORCE
--	$(call if_changed_dep,host-cshobjs)
--
- # Compile .c file, create position independent .o file
- # Note that plugin capable gcc versions can be either C or C++ based
- # therefore plugin source files have to be compilable in both C and C++ mode.
-@@ -157,16 +146,6 @@ quiet_cmd_host-cxxshobjs	= HOSTCXX -fPIC $@
- $(host-cxxshobjs): $(obj)/%.o: $(src)/%.c FORCE
- 	$(call if_changed_dep,host-cxxshobjs)
- 
--# Link a shared library, based on position independent .o files
--# *.o -> .so shared library (host-cshlib)
--quiet_cmd_host-cshlib	= HOSTLLD -shared $@
--      cmd_host-cshlib	= $(HOSTCC) $(KBUILD_HOSTLDFLAGS) -shared -o $@ \
--			  $(addprefix $(obj)/, $($(target-stem)-objs)) \
--			  $(KBUILD_HOSTLDLIBS) $(HOSTLDLIBS_$(target-stem).so)
--$(host-cshlib): FORCE
--	$(call if_changed,host-cshlib)
--$(call multi_depend, $(host-cshlib), .so, -objs)
--
- # Link a shared library, based on position independent .o files
- # *.o -> .so shared library (host-cxxshlib)
- quiet_cmd_host-cxxshlib	= HOSTLLD -shared $@
-@@ -178,4 +157,4 @@ $(host-cxxshlib): FORCE
- $(call multi_depend, $(host-cxxshlib), .so, -objs)
- 
- targets += $(host-csingle)  $(host-cmulti) $(host-cobjs)\
--	   $(host-cxxmulti) $(host-cxxobjs) $(host-cshlib) $(host-cshobjs) $(host-cxxshlib) $(host-cxxshobjs)
-+	   $(host-cxxmulti) $(host-cxxobjs) $(host-cxxshlib) $(host-cxxshobjs)
-diff --git a/scripts/gcc-plugin.sh b/scripts/gcc-plugin.sh
-index d3caefe53eab..b79fd0bea838 100755
---- a/scripts/gcc-plugin.sh
-+++ b/scripts/gcc-plugin.sh
-@@ -1,49 +1,14 @@
- #!/bin/sh
- # SPDX-License-Identifier: GPL-2.0
--srctree=$(dirname "$0")
--
--SHOW_ERROR=
--if [ "$1" = "--show-error" ] ; then
--	SHOW_ERROR=1
--	shift || true
--fi
--
--gccplugins_dir=$($3 -print-file-name=plugin)
--plugincc=$($1 -E -x c++ - -o /dev/null -I"${srctree}"/gcc-plugins -I"${gccplugins_dir}"/include 2>&1 <<EOF
--#include "gcc-common.h"
--#if BUILDING_GCC_VERSION >= 4008 || defined(ENABLE_BUILD_WITH_CXX)
--#warning $2 CXX
--#else
--#warning $1 CC
--#endif
--EOF
--)
- 
--if [ $? -ne 0 ]
--then
--	if [ -n "$SHOW_ERROR" ] ; then
--		echo "${plugincc}" >&2
--	fi
--	exit 1
--fi
-+set -e
- 
--case "$plugincc" in
--	*"$1 CC"*)
--		echo "$1"
--		exit 0
--		;;
--
--	*"$2 CXX"*)
--		# the c++ compiler needs another test, see below
--		;;
-+srctree=$(dirname "$0")
- 
--	*)
--		exit 1
--		;;
--esac
-+gccplugins_dir=$($* -print-file-name=plugin)
- 
- # we need a c++ compiler that supports the designated initializer GNU extension
--plugincc=$($2 -c -x c++ -std=gnu++98 - -fsyntax-only -I"${srctree}"/gcc-plugins -I"${gccplugins_dir}"/include 2>&1 <<EOF
-+$HOSTCC -c -x c++ -std=gnu++98 - -fsyntax-only -I $srctree/gcc-plugins -I $gccplugins_dir/include 2>/dev/null <<EOF
- #include "gcc-common.h"
- class test {
- public:
-@@ -52,15 +17,3 @@ public:
- 	.test = 1
- };
- EOF
--)
--
--if [ $? -eq 0 ]
--then
--	echo "$2"
--	exit 0
--fi
--
--if [ -n "$SHOW_ERROR" ] ; then
--	echo "${plugincc}" >&2
--fi
--exit 1
-diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-index 7b63c819610c..a857d69322b4 100644
---- a/scripts/gcc-plugins/Kconfig
-+++ b/scripts/gcc-plugins/Kconfig
-@@ -1,13 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--preferred-plugin-hostcc := $(if-success,[ $(gcc-version) -ge 40800 ],$(HOSTCXX),$(HOSTCC))
--
--config PLUGIN_HOSTCC
--	string
--	default "$(shell,$(srctree)/scripts/gcc-plugin.sh "$(preferred-plugin-hostcc)" "$(HOSTCXX)" "$(CC)")" if CC_IS_GCC
--	help
--	  Host compiler used to build GCC plugins.  This can be $(HOSTCXX),
--	  $(HOSTCC), or a null string if GCC plugin is unsupported.
--
- config HAVE_GCC_PLUGINS
- 	bool
- 	help
-@@ -17,7 +8,8 @@ config HAVE_GCC_PLUGINS
- menuconfig GCC_PLUGINS
- 	bool "GCC plugins"
- 	depends on HAVE_GCC_PLUGINS
--	depends on PLUGIN_HOSTCC != ""
-+	depends on CC_IS_GCC && GCC_VERSION >= 40800
-+	depends on $(success,$(srctree)/scripts/gcc-plugin.sh $(CC))
- 	default y
- 	help
- 	  GCC plugins are loadable modules that provide extra features to the
-diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
-index efff00959a9c..f22858b2c3d6 100644
---- a/scripts/gcc-plugins/Makefile
-+++ b/scripts/gcc-plugins/Makefile
-@@ -1,18 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
--PLUGINCC := $(CONFIG_PLUGIN_HOSTCC:"%"=%)
- GCC_PLUGINS_DIR := $(shell $(CC) -print-file-name=plugin)
- 
--ifeq ($(PLUGINCC),$(HOSTCC))
--  HOSTLIBS := hostlibs
--  HOST_EXTRACFLAGS += -I$(GCC_PLUGINS_DIR)/include -I$(src) -std=gnu99 -ggdb
--  export HOST_EXTRACFLAGS
--else
--  HOSTLIBS := hostcxxlibs
--  HOST_EXTRACXXFLAGS += -I$(GCC_PLUGINS_DIR)/include -I$(src) -std=gnu++98 -fno-rtti
--  HOST_EXTRACXXFLAGS += -fno-exceptions -fasynchronous-unwind-tables -ggdb
--  HOST_EXTRACXXFLAGS += -Wno-narrowing -Wno-unused-variable -Wno-c++11-compat
--  export HOST_EXTRACXXFLAGS
--endif
-+HOST_EXTRACXXFLAGS += -I$(GCC_PLUGINS_DIR)/include -I$(src) -std=gnu++98 -fno-rtti
-+HOST_EXTRACXXFLAGS += -fno-exceptions -fasynchronous-unwind-tables -ggdb
-+HOST_EXTRACXXFLAGS += -Wno-narrowing -Wno-unused-variable -Wno-c++11-compat
- 
- $(obj)/randomize_layout_plugin.o: $(objtree)/$(obj)/randomize_layout_seed.h
- quiet_cmd_create_randomize_layout_seed = GENSEED $@
-@@ -22,9 +13,9 @@ $(objtree)/$(obj)/randomize_layout_seed.h: FORCE
- 	$(call if_changed,create_randomize_layout_seed)
- targets = randomize_layout_seed.h randomize_layout_hash.h
- 
--$(HOSTLIBS)-y := $(foreach p,$(GCC_PLUGIN),$(if $(findstring /,$(p)),,$(p)))
--always-y := $($(HOSTLIBS)-y)
-+hostcxxlibs-y := $(foreach p,$(GCC_PLUGIN),$(if $(findstring /,$(p)),,$(p)))
-+always-y := $(hostcxxlibs-y)
- 
--$(foreach p,$($(HOSTLIBS)-y:%.so=%),$(eval $(p)-objs := $(p).o))
-+$(foreach p,$(hostcxxlibs-y:%.so=%),$(eval $(p)-objs := $(p).o))
- 
- clean-files += *.so
 -- 
-2.17.1
-
+Best Regards
+Masahiro Yamada
