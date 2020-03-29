@@ -2,104 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61D59196CF3
-	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2020 13:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D229196D2D
+	for <lists+linux-kbuild@lfdr.de>; Sun, 29 Mar 2020 14:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727901AbgC2LcH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 29 Mar 2020 07:32:07 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:63710 "EHLO
+        id S1728114AbgC2MCd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 29 Mar 2020 08:02:33 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:62459 "EHLO
         conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727875AbgC2LcH (ORCPT
+        with ESMTP id S1727985AbgC2MCd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 29 Mar 2020 07:32:07 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 02TBW3pD010445;
-        Sun, 29 Mar 2020 20:32:04 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02TBW3pD010445
+        Sun, 29 Mar 2020 08:02:33 -0400
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 02TC2HOg023031
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2020 21:02:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 02TC2HOg023031
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585481524;
-        bh=7dJHfr2LzJ7oqZtL5ADchvZm+cCmIsPEjQ2cJQ3Gn+s=;
+        s=dec2015msa; t=1585483338;
+        bh=hZwM5bHjxA2YZJTaUBMgjqr9xr50HquI7EecA3g0HCs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=aJ2dtpoFcRwdlHCcHrCkUadX5HAP3XjMFVEdIZK4/8y1C/T+TCmvZWD/Hb52E+oWz
-         kgOj2BnOiK9k3GrJPpgmz+GriPLCva5ALvSXFfiAZWefzD7ijw98XvdUOlq0Drt2s6
-         HlK4NzgmINSGYoaZ/S/nO78ohYXHeh0qf6ezvFt0uM2vGaGGJJP7lVKnxmIYdMPEh+
-         wYGYYZiOoT0n2LsRX1sTyhnZIzBQzgECrzXh6gAXsQ0njOFA8D8fUkrFCZoCsEtP8d
-         AT10cjGG5UHr1zJOZzDhZ1rcWAXO7Ggf/gO48UTuN4e1Nki1iJZ02/IPRBtOPwC6ie
-         c+F5Efgab/cRw==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id z125so9119694vsb.13;
-        Sun, 29 Mar 2020 04:32:04 -0700 (PDT)
-X-Gm-Message-State: AGi0PubDGcTHO8p1QwSbRmXHQP6SCESCd99VBSUcOsJ/foRrOhOggrV0
-        2ZIJs3PC9U2RydIS++CMSfjQw5z6nNIOEOSk1jY=
-X-Google-Smtp-Source: APiQypL503oKQ4coHqRYgxfFJnNdWa7wgDfkabbS4Do8+Pa6D0D/Lqv+3J4gB6BELjorl8yu4UVwBomdq2awy+JhUv0=
-X-Received: by 2002:a67:3201:: with SMTP id y1mr5074418vsy.54.1585481522839;
- Sun, 29 Mar 2020 04:32:02 -0700 (PDT)
+        b=d9fyC8JvXaASnlL0Tg7Eb4GYUJeY/ZThRP9RXwAPDm4WEP6xY+odROiDzgQz1P6CF
+         j2lZKgTBHJIi9YJcxrIMwt0RDK8HNOFovPEOU2mcBRu2/NeirH7IOuqN6Xbmnq6/Vx
+         RIGmvjS0nCOM8YwL/edhoFeFI55FLn4aSVzjaNvVnElLzuQ6YhalJrhBE3YKF1JqdV
+         AyuWO1dS4b94Do78fo/Ihufei0eB5qtUhBlomkk8YSSuNTM7E52qvKp1iO1P5Wa5Qk
+         D93uTsnmeZcryRzUqPa+Cu2Wx7ggHbFst9qtafgE2kcg+kXyDSUiqwQNMoE99hRN+H
+         /WYo4/0Z8fRrw==
+X-Nifty-SrcIP: [209.85.221.180]
+Received: by mail-vk1-f180.google.com with SMTP id b187so3901763vkh.12
+        for <linux-kbuild@vger.kernel.org>; Sun, 29 Mar 2020 05:02:18 -0700 (PDT)
+X-Gm-Message-State: AGi0Pubw9gYRW+zz1CpdzEIRyQ24bYhF/PfdevRiDpK7pnp1siP9Sc1U
+        cCRrzOGMxQezBbt+5FBrkfXay/IkyNPcMg4bp2I=
+X-Google-Smtp-Source: APiQypIlm2zwYqpbPBUgA8cmbZvgDAHn9x7UTySyOuH+4G5yOY47fEtMRBnlgzfDHlzewB92N12BkVTZCB91n3uSrJg=
+X-Received: by 2002:a1f:640c:: with SMTP id y12mr4423458vkb.73.1585483337013;
+ Sun, 29 Mar 2020 05:02:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200326194155.29107-1-natechancellor@gmail.com>
-In-Reply-To: <20200326194155.29107-1-natechancellor@gmail.com>
+References: <1966103.4dT7el1ifK@apollon>
+In-Reply-To: <1966103.4dT7el1ifK@apollon>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 29 Mar 2020 20:31:26 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
-Message-ID: <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Date:   Sun, 29 Mar 2020 21:01:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQcMM_H41zXA++FOF=LJT+YKNfmwHMYqdF3r1uQT307Hw@mail.gmail.com>
+Message-ID: <CAK7LNAQcMM_H41zXA++FOF=LJT+YKNfmwHMYqdF3r1uQT307Hw@mail.gmail.com>
+Subject: Re: Patch: Suppress irrelevant warning when generating a debian package
+To:     Reinhard Karcher <reinhard.karcher@gmx.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        954778@bugs.debian.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 4:42 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Tue, Mar 24, 2020 at 7:24 PM Reinhard Karcher
+<reinhard.karcher@gmx.net> wrote:
 >
-> Currently, we disable -Wtautological-compare, which in turn disables a
-> bunch of more specific tautological comparison warnings that are useful
-> for the kernel such as -Wtautological-bitwise-compare. See clang's
-> documentation below for the other warnings that are suppressed by
-> -Wtautological-compare. Now that all of the major/noisy warnings have
-> been fixed, enable -Wtautological-compare so that more issues can be
-> caught at build time by various continuous integration setups.
->
-> -Wtautological-constant-out-of-range-compare is kept disabled under a
-> normal build but visible at W=1 because there are places in the kernel
-> where a constant or variable size can change based on the kernel
-> configuration. These are not fixed in a clean/concise way and the ones
-> I have audited so far appear to be harmless. It is not a subgroup but
-> rather just one warning so we do not lose out on much coverage by
-> default.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/488
-> Link: http://releases.llvm.org/10.0.0/tools/clang/docs/DiagnosticsReference.html#wtautological-compare
-> Link: https://bugs.llvm.org/show_bug.cgi?id=42666
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> Creating a Debian package by compiling the kernel using make bindeb-pkg
+> without creating debug information creates a warning that no
+> debug package was created.
+> This patch excludes the debug package from the control file,
+> if no debug package is created by this configuration.
+
+OK, this seems correct.
+
+> By making a contribution to this project, I certify that:
+> The contribution was created in whole or in part by me and I have the right to
+> submit it under the open source license indicated in the file.
+
+Please drop this.
+
+Signed-off-by implies this.
+No need to explain this in an individual patch.
+
+
+> Signed-off-by: Reinhard Karcher <reinhard.karcher@gmx.net>
 > ---
+> The condition to include the debug package is copied from the file
+> builddeb in the same directory.
 >
-> v1 -> v2: https://lore.kernel.org/lkml/20200219045423.54190-7-natechancellor@gmail.com/
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index 357dc56bcf30..1673b9f84804 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -198,7 +198,10 @@ Description: Linux support headers for userspace
+> development
+>   This package provides userspaces headers from the Linux kernel.  These
+> headers
+>   are used by the installed headers for GNU glibc and other system libraries.
+>  Multi-Arch: same
+> +EOF
 >
-> * Expand commit message a bit by adding more reasoning behind change.
-> * Disable -Wtautological-constant-out-of-range-compare under a normal
->   build but allow it to show up at W=1 for easy auditing.
->
-> I hope this can be accepted for 5.7. There are two warnings that I see
-> still across a bunch of allyesconfig/allmodconfig builds that have
-> patches sent but not accepted. I will ping them today.
->
-> * https://lore.kernel.org/lkml/20191023002014.22571-1-natechancellor@gmail.com/
-> * https://lore.kernel.org/lkml/20200220051011.26113-1-natechancellor@gmail.com/
+> +if [ -n "$BUILD_DEBUG" ] ; then
 
 
-OK, I will queue this up and send it to Linus
-in the second week of MW.
+This file does not define BUILD_DEBUG.
+So, this conditional is always false, isn't it?
 
-I hope all warnings will be fixed by that time.
+It should be:
 
+if is_enabled CONFIG_DEBUG_INFO; then
+
+
+
+
+> +cat <<EOF >> debian/control
+>  Package: $dbg_packagename
+>  Section: debug
+>  Architecture: $debarch
+> @@ -206,6 +209,7 @@ Description: Linux kernel debugging symbols for $version
+>   This package will come in handy if you need to debug the kernel. It provides
+>   all the necessary debug symbols for the kernel and its modules.
+>  EOF
+> +fi
+>
+>  cat <<EOF > debian/rules
+>  #!$(command -v $MAKE) -f
+>
+>
+>
 
 
 -- 
