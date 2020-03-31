@@ -2,122 +2,170 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED8CA198961
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 03:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2D4198A17
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 04:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729129AbgCaBEH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Mar 2020 21:04:07 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40242 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729299AbgCaBEG (ORCPT
+        id S1727703AbgCaCl4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Mar 2020 22:41:56 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:55571 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727614AbgCaCl4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Mar 2020 21:04:06 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a81so784814wmf.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Mar 2020 18:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Fw2LMhqMpUKtHzYbQVOA9bjQOm3X2jbwN5CrhUGESVY=;
-        b=rp3DjIoLk0LM8SIxOuGq5sbJ4rPhWrk5QsErQqD0bL+5tNrJg1LIvspg8AZyyH2r5X
-         pT2ta0nzDwpHBnGmQiIEx1jxbjMA29SZzy1bFfQqrGCSSZN9DQWuoXn6Us3JRAg8GFj8
-         t73zUdAnwyE7z/ECeluUAfhIpIrVCCmcewk9UKiDPXXZGHsG+IfrjQ4zQYxz6v8d0B7e
-         hF7Ys/uNmD+HL1BhS8FgONzC2g6cdEcZukRTyMg4tKbiBp/Sg250tOJ+stSqXDeBHnF2
-         w+4lJl8svCssSiM5FHbrphE8WZv4lMPVcSFbB9zdTUPoK5x2kkTnUjBxO9SPenWAlWoq
-         sL3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Fw2LMhqMpUKtHzYbQVOA9bjQOm3X2jbwN5CrhUGESVY=;
-        b=sD6VdkqnlE36lq8LYb46O6z9u/+7mY+Gn0uZWE+yv2ep6u39zmxCyZvIgpcLzBr2Fc
-         SVAhqm8uRaab9ns26MQtVvWh9kz+pcmii0In56f/18vE10iR1aJNj+fpUbPb7Yh1C/Ct
-         X1Pgd9IL1mK9Ydg308gXaZQgGINurxFLOu9IVEJ2t9TQY5NJuPCd89MDn3RvrQqi8ElV
-         VXqGi5O58haKnTW1svg0VMbtewcDtK3B/y65WgPUjL57middPeyPJwly252MwzWQ3thd
-         mU300rGWsqBtVE+bB7YHIYkgYhr0TP5dovciUA0GYT+/+FHzf5lWPXh7EFxV8IRpbRpx
-         3PWA==
-X-Gm-Message-State: ANhLgQ0vC9O3JtBMNUMJBdhmRO+FK4TaV6j+jDINiyckaXo8ZUfssnSj
-        +GWVYA+0PrHz1IJxawh1rupmgQ==
-X-Google-Smtp-Source: ADFU+vtYCmQdzinR/X4HVv2e1fA66xpIh+DJ9q+KLmplPTod3qQodOWbJsvtyYzoNNVwTL7nNnPfAQ==
-X-Received: by 2002:a7b:c842:: with SMTP id c2mr799219wml.154.1585616642896;
-        Mon, 30 Mar 2020 18:04:02 -0700 (PDT)
-Received: from cheddar.halon.org.uk (cheddar.halon.org.uk. [93.93.131.118])
-        by smtp.gmail.com with ESMTPSA id y7sm27040892wrq.54.2020.03.30.18.04.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 18:04:02 -0700 (PDT)
-Received: from bsmtp by cheddar.halon.org.uk with local-bsmtp (Exim 4.92)
-        (envelope-from <steve.mcintyre@linaro.org>)
-        id 1jJ5Jx-0001Yw-P5; Tue, 31 Mar 2020 02:04:01 +0100
-Received: from stemci01 by c30-smcintyre.einval.org with local (Exim 4.92)
-        (envelope-from <steve.mcintyre@linaro.org>)
-        id 1jJ5Js-00016k-Lf; Tue, 31 Mar 2020 02:03:56 +0100
-Date:   Tue, 31 Mar 2020 02:03:56 +0100
-From:   Steve McIntyre <steve.mcintyre@linaro.org>
-To:     Alexandre Torgue <alexandre.torgue@st.com>
-Cc:     Frank Rowand <frowand.list@gmail.com>, robh+dt@kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        david@gibson.dropbear.id.au, sjg@chromium.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, devicetree-compiler@vger.kernel.org,
-        Ian Lepore <ian@freebsd.org>
-Subject: Re: [RFC PATCH v2 0/4] Add device tree build information
-Message-ID: <20200331010347.GF4037@linaro.org>
-References: <20200221161418.20225-1-alexandre.torgue@st.com>
- <1b946fcf-47a9-012d-1b04-f4bbd2682607@gmail.com>
- <67d75f0c-7478-23b0-8619-746cf83cedb5@gmail.com>
- <dba17be2-067f-8221-f313-7a3edcf61511@st.com>
+        Mon, 30 Mar 2020 22:41:56 -0400
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 02V2fYj9001485;
+        Tue, 31 Mar 2020 11:41:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 02V2fYj9001485
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1585622494;
+        bh=qUuUnCsN8QlAO5iOjog4Igp1OPvQEJ88D5zsqGqYn7U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=dW6dJjZl4xezbyiRpUG9JZjRS4M2F6Ip77bTIlynUunxfFiP/emz/sxqvnBo9QiWC
+         R+pSsK8b+2OHzDLbIMbUw4cJg2qc1cVlyv7qPUkC/ofNZzgAhYOh0vpP30gg658JgD
+         ovqjV0us7rU+NJPkADzjG2p+T45BjAt6WOfYJneSgBNfyAXiIfaawU08T+mve4iuH+
+         JvhMCrbiHWwOfNwIAf6A3XUDCllO+f0BXCmWuVgPBnkOoXtdxcsBvcwzQJACMW7aRC
+         uVmNl5BdIstQAOLKBK0J20U1Z5p8+2cmM6gm4MXWDSQDBb/5zHmEO/IvK81ZIoEsyV
+         xgTWFfJb4bx9g==
+X-Nifty-SrcIP: [209.85.217.44]
+Received: by mail-vs1-f44.google.com with SMTP id x82so12462892vsc.12;
+        Mon, 30 Mar 2020 19:41:34 -0700 (PDT)
+X-Gm-Message-State: AGi0Pub8z/QjZN92xRceBuUpVu099iyIJ2DKkp9ACD2o31NzNSSvs7cx
+        dI3/8UFpM88yaSnIYiF4ARiyiL0i0i9H53HqqS8=
+X-Google-Smtp-Source: APiQypIsfngKW6W3/e3RrGqIhGPUv4K9UPA+khlcl/3rMUyBDK4h1+L0IalpWWgd/sy++0ILPCJrgJn0ughJVH6Xwwo=
+X-Received: by 2002:a67:6542:: with SMTP id z63mr11156512vsb.179.1585622493397;
+ Mon, 30 Mar 2020 19:41:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dba17be2-067f-8221-f313-7a3edcf61511@st.com>
-X-attached: none
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-wibble: sender_address steve.mcintyre@linaro.org
+References: <20200326080104.27286-1-masahiroy@kernel.org> <20200326080104.27286-9-masahiroy@kernel.org>
+In-Reply-To: <20200326080104.27286-9-masahiroy@kernel.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 31 Mar 2020 11:40:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARueG4wM-_z+xDjwHci=wwAad8CqP1UF5mFJpPf8Zg71Q@mail.gmail.com>
+Message-ID: <CAK7LNARueG4wM-_z+xDjwHci=wwAad8CqP1UF5mFJpPf8Zg71Q@mail.gmail.com>
+Subject: Re: [PATCH v2 08/16] x86: replace arch macros from compiler with CONFIG_X86_{32,64}
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "H . Peter Anvin" <hpa@zytor.com>, X86 ML <x86@kernel.org>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Alexandre,
-
-On Mon, Mar 02, 2020 at 01:55:55PM +0100, Alexandre Torgue wrote:
->On 2/28/20 6:47 PM, Frank Rowand wrote:
->> > This would require modifying every single main .dts file to get the build info
->> > I would prefer the method that Ian and David came up with (sorry, no lore link,
->> > it did not go to lkml).  Extract from David's email:
->> > 
->> >     Date:   Tue, 21 Jan 2020 13:05:25 +1100
->> >     From:   David Gibson <david@gibson.dropbear.id.au>
->> >     Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
->> > 
->> >     > Given that dts files are run through the C preprocessor before being
->> >     > fed to dtc, the build script could use the '-include' flag to force-
->> >     > include a fragment containing generated build info without any need to
->> >     > modify existing dts files.
->> > 
->> >     Uh... maybe.  -include will essentially prepend the forced file, which
->> >     is a bit awkward for our purposes.  It means that the prepended file
->> >     would need the /dts-v1/ tag, and we couldn't have it in the main files
->> >     which would be a bit confusing.  I think it would also cause problems
->> >     with any /memreserve/ tags and means that the main tree could in
->> >     theory overwrite the build information which we don't necessarily
->> >     want.
->> > 
->> >     I guess we could build things the other way around: have the main .dts
->> >     file specified with -include and have the dts on the dtc commandline
->> >     be a fixed one with the build information.  It'd be a little weird,
->> >     though.
->> > 
->> > -Frank
+On Thu, Mar 26, 2020 at 5:03 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
->Yes. I try briefly this idea but I got issues with dts-v1 tag. I agree, it is
->cleaner to not modify input dts file. I can rework int this way.
+> If the intention is to check i386/x86_64 excluding UML, testing
+> CONFIG_X86_{32,64} is simpler.
+>
+> The reason for checking __i386__ / __x86_64__ was perhaps because
+> lib/raid6/algos.c is built not only for the kernel but also for
+> testing the library code from userspace.
+>
+> However, lib/raid6/test/Makefile passes -DCONFIG_X86_{32,64} for
+> this case. So, I do not see a reason to not use CONFIG option here.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Acked-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+> ---
 
-Have you made any progress on this please?
 
-Cheers,
+Sorry, this patch broke UML builds.
+
+https://lkml.org/lkml/2020/3/27/618
+
+
+
+I will drop this patch for tomorrow's linux-next.
+
+
+
+CONFIG_X86 is not defined for ARCH=um.
+So, I still think it is OK to replace one complicated line
+in lib/raid6/x86.h
+
+   #if (defined(__i386__) || defined(__x86_64__)) && !defined(__arch_um__)
+
+with:
+
+   #ifdef CONFIG_X86
+
+
+
+
+Also, I slightly prefer
+
+   #if defined(CONFIG_X86_32) && !defined(CONFIG_UML)
+
+to
+
+   #if defined(__i386__) && !defined(__arch_um__)
+
+
+
+But, we do not need to rush this now.
+
+
+This patch does not affect the rest of this series.
+
+Thanks.
+
+
+
+
+
+> Changes in v2: None
+>
+>  kernel/signal.c   | 2 +-
+>  lib/raid6/algos.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index 5b2396350dd1..db557e1629e5 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -1246,7 +1246,7 @@ static void print_fatal_signal(int signr)
+>         struct pt_regs *regs = signal_pt_regs();
+>         pr_info("potentially unexpected fatal signal %d.\n", signr);
+>
+> -#if defined(__i386__) && !defined(__arch_um__)
+> +#ifdef CONFIG_X86_32
+>         pr_info("code at %08lx: ", regs->ip);
+>         {
+>                 int i;
+> diff --git a/lib/raid6/algos.c b/lib/raid6/algos.c
+> index df08664d3432..b5a02326cfb7 100644
+> --- a/lib/raid6/algos.c
+> +++ b/lib/raid6/algos.c
+> @@ -29,7 +29,7 @@ struct raid6_calls raid6_call;
+>  EXPORT_SYMBOL_GPL(raid6_call);
+>
+>  const struct raid6_calls * const raid6_algos[] = {
+> -#if defined(__i386__) && !defined(__arch_um__)
+> +#ifdef CONFIG_X86_32
+>  #ifdef CONFIG_AS_AVX512
+>         &raid6_avx512x2,
+>         &raid6_avx512x1,
+> @@ -45,7 +45,7 @@ const struct raid6_calls * const raid6_algos[] = {
+>         &raid6_mmxx2,
+>         &raid6_mmxx1,
+>  #endif
+> -#if defined(__x86_64__) && !defined(__arch_um__)
+> +#ifdef CONFIG_X86_64
+>  #ifdef CONFIG_AS_AVX512
+>         &raid6_avx512x4,
+>         &raid6_avx512x2,
+> --
+> 2.17.1
+>
+
+
 -- 
-Steve McIntyre                                steve.mcintyre@linaro.org
-<http://www.linaro.org/> Linaro.org | Open source software for ARM SoCs
-
+Best Regards
+Masahiro Yamada
