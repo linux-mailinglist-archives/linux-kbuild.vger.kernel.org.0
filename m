@@ -2,149 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04B1B19949C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 13:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AE5E19991F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 17:01:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730442AbgCaLCK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 07:02:10 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:55724 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730380AbgCaLCK (ORCPT
+        id S1730533AbgCaPBp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 11:01:45 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:57662 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730153AbgCaPBo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 07:02:10 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02VAtkeg104245;
-        Tue, 31 Mar 2020 11:02:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+        Tue, 31 Mar 2020 11:01:44 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 02VEwljB021795;
+        Tue, 31 Mar 2020 17:01:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=8UJKYPmVqO3q927NHBR2tIQ/sC9DY5OTafLbmNr3u9s=;
- b=nPw94g7GH/VFVIsdAMlMKKfP/GFM6I67moeRxg+yL2bYzt1lWkYEp6aXyTP/rfz+0bfW
- Q2utHuntLreyD5MvgIsjJYdNHXWYZOmboBekqjBAFy3YxmXsn3Z8+xHVQkrTr2SRRdsu
- VLqxB064Fl+ZwZikV0sO4AhtyP7mwBhcporZhAPVm8wojmmtP4PeaaRegE868NTj/vSu
- HUl11Ui43Z7+4Eb1va50J0PXUFYEpLuqCaAPtKe/E7+rGB89J5jzJhUKd5sx5VjuWIi3
- scRhYa+AxcayhE3GCfQ2MiDYpMCcBPksa9AdhDkf6o+Zhtb3gtpXRCL/vn4WEjCEYxxl DA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 303yun1g3g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 31 Mar 2020 11:02:06 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02VB25hU091900;
-        Tue, 31 Mar 2020 11:02:05 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 302g9x2bhs-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 31 Mar 2020 11:02:05 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02VB23SC026099;
-        Tue, 31 Mar 2020 11:02:03 GMT
-Received: from [10.175.15.184] (/10.175.15.184)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 31 Mar 2020 04:02:03 -0700
-Subject: Re: single target builds are broken
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jens Axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <a5ce79eb-be9d-df97-0b58-5aee5a48f4d3@oracle.com>
- <CAK7LNAQ8LZMPxrjVkuLizHjVZyBtSmLFZ=EvDCCAPb-XGfJLHA@mail.gmail.com>
-From:   Vegard Nossum <vegard.nossum@oracle.com>
-Message-ID: <8c491e3b-a622-14c1-15c3-8cff061017ba@oracle.com>
-Date:   Tue, 31 Mar 2020 13:01:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=RRp8QYyeUiwuSaXSnIHnR9hdRCvg8TE5DV1VWhJfO9c=;
+ b=UcX4NrqDDsCH0+NbGCIMMUopkKgeeMNjQB/GJXKTltDNzQt5J4gptk9hbTa0JoJwxrGv
+ Q6SjvOd+l/XKhv6sQQqQD+rF986XEoaQId3y00Ke40cwE7MqGohA5W0BlTjlz0WbkcPO
+ 4uUFk5hIYw3cOSS/MXYRLztJov/b1Re09+gcWYXa3vgqtT8vcVwPLz9fKx3rXLOzxAuL
+ 7jvBwd059dOhDw3vqKOaifeKku82O+6vuWcEZFrgnV5PxsurbUdGqFIzXpXGJcFUyHO2
+ SYumR54vuXivBlNLLPo2gPXHEpyb5xMDnb3+AO+Tu+mOjdlS/EvH+IyuD3oUHXb4Xbdc EA== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 302y53suhq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 31 Mar 2020 17:01:03 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0CACE100038;
+        Tue, 31 Mar 2020 17:00:58 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EA0CB2B4D4F;
+        Tue, 31 Mar 2020 17:00:57 +0200 (CEST)
+Received: from lmecxl0912.tpe.st.com (10.75.127.50) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 31 Mar
+ 2020 17:00:52 +0200
+Subject: Re: [RFC PATCH v2 0/4] Add device tree build information
+To:     Steve McIntyre <steve.mcintyre@linaro.org>
+CC:     Frank Rowand <frowand.list@gmail.com>, <robh+dt@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        <david@gibson.dropbear.id.au>, <sjg@chromium.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-kbuild@vger.kernel.org>,
+        <devicetree-compiler@vger.kernel.org>, Ian Lepore <ian@freebsd.org>
+References: <20200221161418.20225-1-alexandre.torgue@st.com>
+ <1b946fcf-47a9-012d-1b04-f4bbd2682607@gmail.com>
+ <67d75f0c-7478-23b0-8619-746cf83cedb5@gmail.com>
+ <dba17be2-067f-8221-f313-7a3edcf61511@st.com>
+ <20200331010347.GF4037@linaro.org>
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <afa534b0-c671-600f-f344-de7026dc2c79@st.com>
+Date:   Tue, 31 Mar 2020 17:00:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQ8LZMPxrjVkuLizHjVZyBtSmLFZ=EvDCCAPb-XGfJLHA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20200331010347.GF4037@linaro.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2003310100
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 lowpriorityscore=0
- malwarescore=0 adultscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- suspectscore=0 mlxscore=0 spamscore=0 impostorscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2003310098
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG4NODE1.st.com (10.75.127.10) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-03-31_05:2020-03-31,2020-03-31 signatures=0
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi Steeve
 
-On 3/31/20 11:49 AM, Masahiro Yamada wrote:
-> On Tue, Mar 31, 2020 at 6:16 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+On 3/31/20 3:03 AM, Steve McIntyre wrote:
+> Hi Alexandre,
+> 
+> On Mon, Mar 02, 2020 at 01:55:55PM +0100, Alexandre Torgue wrote:
+>> On 2/28/20 6:47 PM, Frank Rowand wrote:
+>>>> This would require modifying every single main .dts file to get the build info
+>>>> I would prefer the method that Ian and David came up with (sorry, no lore link,
+>>>> it did not go to lkml).  Extract from David's email:
+>>>>
+>>>>      Date:   Tue, 21 Jan 2020 13:05:25 +1100
+>>>>      From:   David Gibson <david@gibson.dropbear.id.au>
+>>>>      Subject: Re: [RFC PATCH 1/3] dtc: Add dtb build information option
+>>>>
+>>>>      > Given that dts files are run through the C preprocessor before being
+>>>>      > fed to dtc, the build script could use the '-include' flag to force-
+>>>>      > include a fragment containing generated build info without any need to
+>>>>      > modify existing dts files.
+>>>>
+>>>>      Uh... maybe.  -include will essentially prepend the forced file, which
+>>>>      is a bit awkward for our purposes.  It means that the prepended file
+>>>>      would need the /dts-v1/ tag, and we couldn't have it in the main files
+>>>>      which would be a bit confusing.  I think it would also cause problems
+>>>>      with any /memreserve/ tags and means that the main tree could in
+>>>>      theory overwrite the build information which we don't necessarily
+>>>>      want.
+>>>>
+>>>>      I guess we could build things the other way around: have the main .dts
+>>>>      file specified with -include and have the dts on the dtc commandline
+>>>>      be a fixed one with the build information.  It'd be a little weird,
+>>>>      though.
+>>>>
+>>>> -Frank
 >>
->>
->> Hi,
->>
->> I often run 'make foo/bar.o' as part of my workflow, even when bar.o is
->> not specified in any kernel makefile, and this has worked just fine for
->> years.
->>
->> This is broken after commit 394053f4a4b3e3eeeaa67b67fc886a9a75bd9e4d
->> (kbuild: make single targets work more correctly) and just gives an error:
->>
->> $ make kernel/test.o
->>     CALL    scripts/checksyscalls.sh
->>     CALL    scripts/atomic/check-atomics.sh
->>     DESCEND  objtool
->> make[2]: *** No rule to make target 'kernel/test.o'.  Stop.
->> scripts/Makefile.build:502: recipe for target '__build' failed
->> make[1]: *** [__build] Error 2
->> Makefile:1670: recipe for target 'kernel' failed
->> make: *** [kernel] Error 2
+>> Yes. I try briefly this idea but I got issues with dts-v1 tag. I agree, it is
+>> cleaner to not modify input dts file. I can rework int this way.
 > 
-> 
-> This is intentional to make the single target builds
-> work in the same manner as the normal builds.
-> 
-> 
-> The necessary CONFIG dependency must be met.
-> 
-> obj-$(CONFIG_FOO) += foo.o
-> 
-> foo.o can be built only when CONFIG_FOO is y/m.
-> 
-> 
-> 
->> For top-level objects (e.g. 'make bar.o') the situation is even worse,
->> since make exits with status 0 without building anything :-/
-> 
-> 
-> There is no .c or .S file at the top-level of the kernel source tree.
-> 
-> 'make bar.o' never happens.
+> Have you made any progress on this please?
 
-It doesn't happen in mainline, but I often use that to small test things
-in an isolated source file. As just one example you can do
+Unfortunately no. I cook something locally but not yet upstream-able.
+Due to project issue I didn't find time to work on it. I think (I hope) 
+to be less busy next week and so I'll restart it.
 
-#include <linux/sched.h>
-unsigned int task_struct_size = sizeof(struct task_struct);
+regards
+alex
 
-and then you can look in the object file to find the size. Or any other
-of a million useful things that you might want to do without rebuilding
-an actual source file or modifying makefiles.
-
->> Is there any chance we can get this back? It was super useful for me.
 > 
+> Cheers,
 > 
-> What you want is "Let's build whatever", right?
-
-It's really useful to be able to build object files separately, but as
-if it was part of the kernel (so e.g. with all the gcc flags, include
-paths, etc.).
-
-> No, please add 'obj-y += test.o' if you want to
-> test your local file.
-
-This is a clear workflow regression for me. Why is it so absolutely
-necessary to break the way it used to work?
-
-At the very least, can we find a way to reduce the typing overhead for
-testing one-offs like that? 'make STANDALONE=1 test.o' or something?
-
-
-Vegard
