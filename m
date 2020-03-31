@@ -2,79 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0045A199D54
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 19:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 539DE199E36
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 20:39:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgCaR6T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 13:58:19 -0400
-Received: from smtprelay0188.hostedemail.com ([216.40.44.188]:52270 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725999AbgCaR6R (ORCPT
+        id S1726208AbgCaSjm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 14:39:42 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41779 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726209AbgCaSjl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 13:58:17 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 83B8C18021E49;
-        Tue, 31 Mar 2020 17:58:16 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:967:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2525:2553:2560:2563:2682:2685:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3872:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:6117:6119:7903:9025:10004:10400:10848:11232:11658:11914:12043:12297:12555:12740:12760:12895:13019:13069:13311:13357:13439:14096:14097:14181:14659:14721:14764:21080:21324:21524:21611:21627:21740:30054:30056:30060:30064:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: boys35_481ed8d64f731
-X-Filterd-Recvd-Size: 2177
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf03.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 31 Mar 2020 17:58:15 +0000 (UTC)
-Message-ID: <78a8ba04459f8a4ea6bcb8811f35490018b763f2.camel@perches.com>
-Subject: Re: single target builds are broken
-From:   Joe Perches <joe@perches.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Vegard Nossum <vegard.nossum@oracle.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Date:   Tue, 31 Mar 2020 10:56:20 -0700
-In-Reply-To: <CAK7LNAT-8TbLRPB=PNsbAORKYvYL+m3JmA-iSDieK8Uv7MAvGA@mail.gmail.com>
-References: <a5ce79eb-be9d-df97-0b58-5aee5a48f4d3@oracle.com>
-         <CAK7LNAQ8LZMPxrjVkuLizHjVZyBtSmLFZ=EvDCCAPb-XGfJLHA@mail.gmail.com>
-         <8c491e3b-a622-14c1-15c3-8cff061017ba@oracle.com>
-         <CAK7LNAT-8TbLRPB=PNsbAORKYvYL+m3JmA-iSDieK8Uv7MAvGA@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        Tue, 31 Mar 2020 14:39:41 -0400
+Received: by mail-pg1-f196.google.com with SMTP id b1so10724065pgm.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2020 11:39:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SHbm0jKU3Qf278+OR+FaPiESB5wVrt4XPcJB5hVkN60=;
+        b=gzp6usWwaOaYw59h8kIkVvyKdywVJuZ3NJfd1wircVTJnmvJhRmmVES8Jd/uck+Hcj
+         ihI+fmLC9r0Fv+rle/XhuJNKG4Dhm3WrAd9b6Gcf22o9h5fjVyDFOPWL42kso1BjM5Ur
+         Aq4LNX5vpl4l7pUG4lJYmg9K8myTVDTRz/3Cb/ZLxtzl1N75YXTh7ZwYDQZnWSqTNFQ2
+         0UxAU/6LqBe2UKoLTLyqYslEIfZlCWGgoUmL1E1HN9bAfYM2qIEUaUNBIbaIBGOWuojs
+         YP2RcDR7MZJsyWmuOefOtp80GgmLixZ4eEUTEQOEyE4nnUkCANBzKbPpgq7dBHmtW9D1
+         N1yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SHbm0jKU3Qf278+OR+FaPiESB5wVrt4XPcJB5hVkN60=;
+        b=HF4JXKCVPitZ5Va/V8qpN30fGqLbN5Z8nDqV/DE/DHHxP8ZhwyHUedwtopFcubIxdW
+         sWCVY9Z/NnCpO5dAPSjq67THp20Dgdy4VYGUoQcySbCiVtW6tid4eNj9oLWXdcGRtbA2
+         GUC0b6Hkg7qz5EswJnqkOwdF88FJrBBJq1JtMSvKK1yL0mJSy3/xVwG0Z00ejAUoFGx9
+         JAEDc3fJKDioom1jDkiaHZh1JmwYcg9fMNzece+UgZzE/y2/AWjDgBGU31m40tduJ2e9
+         Ki5uAoAHLAx92gZaG6A6UiJforVRF7rNzTqu4t1Yp34ePDYbG78zUGc2n3HYMz+AE01o
+         5MuA==
+X-Gm-Message-State: ANhLgQ0LS92GgpUbRax09QBJiB3hCfz5xoqX7fVLsrd8bXcMgPTvRZVQ
+        YpzG2ftXBSp1ByVC1NpUa+ov5pJEJO88gjEJP9vh2A==
+X-Google-Smtp-Source: ADFU+vt+QKSB0svWikbyaxQU/tNYV7l0CyBNJzadXZUr6nAWWVA3ubW5u0JpCnXSlSUZLq70aMKxIv46KBrhiN7BU4s=
+X-Received: by 2002:a63:4e22:: with SMTP id c34mr19536884pgb.263.1585679979479;
+ Tue, 31 Mar 2020 11:39:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20200317202404.GA20746@ubuntu-m2-xlarge-x86> <20200317215515.226917-1-ndesaulniers@google.com>
+ <20200327224246.GA12350@ubuntu-m2-xlarge-x86> <CAK7LNAShb1gWuZyycLAGWm19EWn17zeNcmdPyqu1o=K9XrfJbg@mail.gmail.com>
+ <CAK7LNAQ3=jUu4aa=JQB8wErUGDd-Vr=cX_yZSdP_uAP6kWZ=pw@mail.gmail.com>
+ <CAKwvOd=5AG1ARw6JUXmkuiftuShuYHKLk0ZnueuLhvOdMr5dOA@mail.gmail.com>
+ <20200330190312.GA32257@ubuntu-m2-xlarge-x86> <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
+In-Reply-To: <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 31 Mar 2020 11:39:27 -0700
+Message-ID: <CAKwvOd==U6NvvYz8aUz8fUNdvz27pKrn8X5205rFadpGXzRC-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] Makefile.llvm: simplify LLVM build
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Cc:     clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sandeep Patil <sspatil@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 2020-04-01 at 01:03 +0900, Masahiro Yamada wrote:
-> On Tue, Mar 31, 2020 at 8:02 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
-> > It's really useful to be able to build object files separately, but as
-> > if it was part of the kernel (so e.g. with all the gcc flags, include
-> > paths, etc.).
-[]
-> So, there were lots of cases where single builds did not work:
-> 
-> https://www.spinics.net/lists/linux-kbuild/msg21921.html
-> 
-> The way to do this correctly is to
-> descend directories one by one, parsing Makefiles.
-> 
-> With no entry in obj-y/m,
-> Kbuild cannot determine where to build that object.
-> 
-> > At the very least, can we find a way to reduce the typing overhead for
-> > testing one-offs like that? 'make STANDALONE=1 test.o' or something?
-> 
-> Probably, I do not want to do this.
-> 
-> Supporting everybody's demand is not a good idea.
-> So, I draw a line somewhere.
-> 
-> Saving some typing is less important.
+On Mon, Mar 30, 2020 at 11:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Tue, Mar 31, 2020 at 4:03 AM Nathan Chancellor
+> <natechancellor@gmail.com> wrote:
+> >
+> > On Mon, Mar 30, 2020 at 11:58:19AM -0700, Nick Desaulniers wrote:
+> > > On Sat, Mar 28, 2020 at 6:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > >
+> > > > I also had planned to provide a single switch to change
+> > > > all the tool defaults to LLVM.
+> > > >
+> > > > So, supporting 'LLVM' is fine, but I'd rather want this
+> > > > look symmetrical, and easy to understand.
+> > > >
+> > > > CPP        = $(CC) -E
+> > > > ifneq ($(LLVM),)
+> > >
+> > > Yes, a simple if statement is much simpler than the overly complex patch I had.
+> > >
+> > > > CC         = $(LLVM_DIR)clang
+> > >
+> > > Do we need $LLVM_DIR? Shouldn't users just have that in their $PATH?
+> > >
+> > > Also, I think we need to support suffixed binaries, as debian
+> > > distributes these with version suffixes, as Nathan points out.  Or do
+> > > the debian packages install suffixed binaries AND path versioned
+> > > non-suffixed binaries?
+> >
+> > I think the idea here is that ultimately, the suffixed versions of clang
+> > that Debian has in /usr/bin are symlinks to binaries in
+> > /usr/lib/llvm-#/bin; as a result, a user could say
+> > LLVM_DIR=/usr/lib/llvm-#/bin/ and all of those tools would be picked up
+> > automatically. I am not really sure what is better.
 
-I too find this regression less than desirable.
+$ sudo apt install clang-8
+$ which clang-8
+/usr/bin/clang-8
+$ ls -l `!!`
+/usr/bin/clang-8 -> ../lib/llvm-8/bin/clang
+$ ls /usr/lib/llvm-8/bin
+<non suffixed versions>
 
-make <single_object> is/was quite useful even
-if it didn't always work.
+Ok, so Nathan, it looks like we don't need the version suffixes.
+Instead, we can be more explicit with our $PATH, and only add the
+above (and bintutils).  I was thinking supporting the suffix was
+required for our CI, but it seems like maybe not.
 
+> I periodically build the latest llvm from the trunk,
+> and install it under my home directory.
+> So, I just thought it would be useful to
+> allow a user to specify the llvm directory.
+> Of course, I can do the equivalent by tweaking PATH, but
+> I hesitate to make the non-released version my default.
 
+Respectfully, I strongly disagree.  This should be handled by
+modifications to $PATH, either by your shell's .rc file when you
+always want it, or exported for a session when you want it, or
+prefixed to an invocation for the duration of that command.  We should
+not have a new variable just for the path of a few tools.
 
+Rather than `make LLVM_DIR=~/llvm-project LLVM=1`, you can do
+`PATH=$PATH:~/llvm-project make LLVM=1`. (or export it manually or via
+your shell .rc, depending on how comfortable you are with that
+version).
+
+> Having both LLVM_DIR and LLVM_SUFFIX seems verbose.
+
+I agree, so maybe just LLVM=y, and we can support both non-standard
+locations and debian suffixes via modifications to PATH.
+
+>
+> In fact, the debian provides multiple versions of GCC.
+> For example, my machine has
+>
+> masahiro@pug:~$ ls -1 /usr/bin/gcc-*
+> /usr/bin/gcc-4.8
+> /usr/bin/gcc-5
+> /usr/bin/gcc-7
+> /usr/bin/gcc-ar
+> /usr/bin/gcc-ar-4.8
+> /usr/bin/gcc-ar-5
+> /usr/bin/gcc-ar-7
+> /usr/bin/gcc-nm
+> /usr/bin/gcc-nm-4.8
+> /usr/bin/gcc-nm-5
+> /usr/bin/gcc-nm-7
+> /usr/bin/gcc-ranlib
+> /usr/bin/gcc-ranlib-4.8
+> /usr/bin/gcc-ranlib-5
+> /usr/bin/gcc-ranlib-7
+>
+> But, nobody has suggested GCC_SUFFIX.
+>
+> So, I guess CROSS_COMPILE was enough to
+> choose a specific tool version.
+
+Or no one was testing specific versions of gcc with more than one
+installed.  I can ask the KernelCI folks next week if this is an issue
+they face or have faced.
+-- 
+Thanks,
+~Nick Desaulniers
