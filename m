@@ -2,127 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01DC319932E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 12:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04B1B19949C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 13:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730358AbgCaKLZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 06:11:25 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:41277 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729997AbgCaKLZ (ORCPT
+        id S1730442AbgCaLCK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 07:02:10 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:55724 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730380AbgCaLCK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 06:11:25 -0400
-Received: by mail-ot1-f67.google.com with SMTP id f52so21420699otf.8;
-        Tue, 31 Mar 2020 03:11:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=TSC+0pXXb8JE+C3nC01SaCOV0GhldDpmDHlN1rI42O0=;
-        b=ZgBMTzNUT+M3hV96FGzVZhTe6qkygxN3dgFc5BsrgocdbRHpn/kXCsDdfqnibEvHwl
-         SBjnT59UhHW0ztwiG9VWrIcwup/WXqygcUvoMNvIofGJA5W4VY3fozMToRyvKI258Rlo
-         tv/U/erPwAR/nyuUYPKu0UJg1N/h2FZckEiupD0Vz3kyN9SZjzX9nlJ4EbBYBM2+anve
-         LbXUbyyXg4/If3Ty2AUFqmY2MphlGi6vM5rcAfzo/h+h9KLAzpr7xDu/cPYwzSOiedcf
-         GkdWaXTAc2A6bQFbmITKfIZ7gMJ2x3t4xGeUEmzpWHXGBZ8vtOAAiFqUOU2QzWnbRKm8
-         1jOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TSC+0pXXb8JE+C3nC01SaCOV0GhldDpmDHlN1rI42O0=;
-        b=uEz3yoD/HCJgdveDTUe6IWM8AV0TcoGYNQWv8xJupQUi67ezzkSM9N+hSXzliNzXx3
-         46SVlYZ6jGvfZTZQ2Kcw2j7iVmGKjcQVKoU/+bZr3Xdha//lFxMrJgz4XShXc1snaqfU
-         hGsVD0raSl2KBNUBdyGysBbb7RyqVX7Prc6/bvctfyHopRcGXxPsglRNpfy1zU172+GV
-         5MXJdreW3VRf8ivnz0kn+7IBRHb+ffoIFK5ckWz8xJ5LRvGwHGyrTl8zL8edVhif4WWs
-         GoBMtyHBIO3h+K7I0V2F3fi4gHidEoiJ8c679BHsEoY9nyf1+q8Uk4kkDbjyaNBnhJfr
-         FLdw==
-X-Gm-Message-State: ANhLgQ3Z5fBpsM302FmtwOOR4Y9WghTQ31TcRshkWiNjukfzm7yHjYKf
-        1ZjcqxfNIOjqv7gJ4Cj5JIU=
-X-Google-Smtp-Source: ADFU+vtAidXLTOjpYfi+tZB4/wUS4dvh6EqabczyA+t3MwrRQEUB8l3mb+b2r8tIQpFw160mUFGsAw==
-X-Received: by 2002:a4a:8e59:: with SMTP id z25mr12638332ook.86.1585649484349;
-        Tue, 31 Mar 2020 03:11:24 -0700 (PDT)
-Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id b2sm5030457oii.20.2020.03.31.03.11.23
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 31 Mar 2020 03:11:23 -0700 (PDT)
-Date:   Tue, 31 Mar 2020 03:11:22 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
+        Tue, 31 Mar 2020 07:02:10 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02VAtkeg104245;
+        Tue, 31 Mar 2020 11:02:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=8UJKYPmVqO3q927NHBR2tIQ/sC9DY5OTafLbmNr3u9s=;
+ b=nPw94g7GH/VFVIsdAMlMKKfP/GFM6I67moeRxg+yL2bYzt1lWkYEp6aXyTP/rfz+0bfW
+ Q2utHuntLreyD5MvgIsjJYdNHXWYZOmboBekqjBAFy3YxmXsn3Z8+xHVQkrTr2SRRdsu
+ VLqxB064Fl+ZwZikV0sO4AhtyP7mwBhcporZhAPVm8wojmmtP4PeaaRegE868NTj/vSu
+ HUl11Ui43Z7+4Eb1va50J0PXUFYEpLuqCaAPtKe/E7+rGB89J5jzJhUKd5sx5VjuWIi3
+ scRhYa+AxcayhE3GCfQ2MiDYpMCcBPksa9AdhDkf6o+Zhtb3gtpXRCL/vn4WEjCEYxxl DA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 303yun1g3g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 31 Mar 2020 11:02:06 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02VB25hU091900;
+        Tue, 31 Mar 2020 11:02:05 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 302g9x2bhs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 31 Mar 2020 11:02:05 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 02VB23SC026099;
+        Tue, 31 Mar 2020 11:02:03 GMT
+Received: from [10.175.15.184] (/10.175.15.184)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 31 Mar 2020 04:02:03 -0700
+Subject: Re: single target builds are broken
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
-Message-ID: <20200331101122.GA6292@ubuntu-m2-xlarge-x86>
-References: <20200326194155.29107-1-natechancellor@gmail.com>
- <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <a5ce79eb-be9d-df97-0b58-5aee5a48f4d3@oracle.com>
+ <CAK7LNAQ8LZMPxrjVkuLizHjVZyBtSmLFZ=EvDCCAPb-XGfJLHA@mail.gmail.com>
+From:   Vegard Nossum <vegard.nossum@oracle.com>
+Message-ID: <8c491e3b-a622-14c1-15c3-8cff061017ba@oracle.com>
+Date:   Tue, 31 Mar 2020 13:01:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAK7LNAQ8LZMPxrjVkuLizHjVZyBtSmLFZ=EvDCCAPb-XGfJLHA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 bulkscore=0 mlxscore=0 spamscore=0 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2003310100
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 adultscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
+ suspectscore=0 mlxscore=0 spamscore=0 impostorscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003310098
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Mar 29, 2020 at 08:31:26PM +0900, Masahiro Yamada wrote:
-> On Fri, Mar 27, 2020 at 4:42 AM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > Currently, we disable -Wtautological-compare, which in turn disables a
-> > bunch of more specific tautological comparison warnings that are useful
-> > for the kernel such as -Wtautological-bitwise-compare. See clang's
-> > documentation below for the other warnings that are suppressed by
-> > -Wtautological-compare. Now that all of the major/noisy warnings have
-> > been fixed, enable -Wtautological-compare so that more issues can be
-> > caught at build time by various continuous integration setups.
-> >
-> > -Wtautological-constant-out-of-range-compare is kept disabled under a
-> > normal build but visible at W=1 because there are places in the kernel
-> > where a constant or variable size can change based on the kernel
-> > configuration. These are not fixed in a clean/concise way and the ones
-> > I have audited so far appear to be harmless. It is not a subgroup but
-> > rather just one warning so we do not lose out on much coverage by
-> > default.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/488
-> > Link: http://releases.llvm.org/10.0.0/tools/clang/docs/DiagnosticsReference.html#wtautological-compare
-> > Link: https://bugs.llvm.org/show_bug.cgi?id=42666
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > ---
-> >
-> > v1 -> v2: https://lore.kernel.org/lkml/20200219045423.54190-7-natechancellor@gmail.com/
-> >
-> > * Expand commit message a bit by adding more reasoning behind change.
-> > * Disable -Wtautological-constant-out-of-range-compare under a normal
-> >   build but allow it to show up at W=1 for easy auditing.
-> >
-> > I hope this can be accepted for 5.7. There are two warnings that I see
-> > still across a bunch of allyesconfig/allmodconfig builds that have
-> > patches sent but not accepted. I will ping them today.
-> >
-> > * https://lore.kernel.org/lkml/20191023002014.22571-1-natechancellor@gmail.com/
-> > * https://lore.kernel.org/lkml/20200220051011.26113-1-natechancellor@gmail.com/
+
+On 3/31/20 11:49 AM, Masahiro Yamada wrote:
+> On Tue, Mar 31, 2020 at 6:16 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+>>
+>>
+>> Hi,
+>>
+>> I often run 'make foo/bar.o' as part of my workflow, even when bar.o is
+>> not specified in any kernel makefile, and this has worked just fine for
+>> years.
+>>
+>> This is broken after commit 394053f4a4b3e3eeeaa67b67fc886a9a75bd9e4d
+>> (kbuild: make single targets work more correctly) and just gives an error:
+>>
+>> $ make kernel/test.o
+>>     CALL    scripts/checksyscalls.sh
+>>     CALL    scripts/atomic/check-atomics.sh
+>>     DESCEND  objtool
+>> make[2]: *** No rule to make target 'kernel/test.o'.  Stop.
+>> scripts/Makefile.build:502: recipe for target '__build' failed
+>> make[1]: *** [__build] Error 2
+>> Makefile:1670: recipe for target 'kernel' failed
+>> make: *** [kernel] Error 2
 > 
 > 
-> OK, I will queue this up and send it to Linus
-> in the second week of MW.
+> This is intentional to make the single target builds
+> work in the same manner as the normal builds.
 > 
-> I hope all warnings will be fixed by that time.
+> 
+> The necessary CONFIG dependency must be met.
+> 
+> obj-$(CONFIG_FOO) += foo.o
+> 
+> foo.o can be built only when CONFIG_FOO is y/m.
+> 
+> 
+> 
+>> For top-level objects (e.g. 'make bar.o') the situation is even worse,
+>> since make exits with status 0 without building anything :-/
+> 
+> 
+> There is no .c or .S file at the top-level of the kernel source tree.
+> 
+> 'make bar.o' never happens.
 
-Just a follow up, those two patches have been picked up and should be in
-this coming release:
+It doesn't happen in mainline, but I often use that to small test things
+in an isolated source file. As just one example you can do
 
-https://git.kernel.org/balbi/usb/c/58582220d2d34228e5a1e1585e41b735713988bb
-https://git.kernel.org/rostedt/linux-trace/c/bf2cbe044da275021b2de5917240411a19e5c50d
+#include <linux/sched.h>
+unsigned int task_struct_size = sizeof(struct task_struct);
 
-As of next-20200331, with the former applied (because it is not there
-yet) along with this patch, I see no warnings on arm, arm64, x86_64
-all{mod,yes}config.
+and then you can look in the object file to find the size. Or any other
+of a million useful things that you might want to do without rebuilding
+an actual source file or modifying makefiles.
 
-Cheers,
-Nathan
+>> Is there any chance we can get this back? It was super useful for me.
+> 
+> 
+> What you want is "Let's build whatever", right?
+
+It's really useful to be able to build object files separately, but as
+if it was part of the kernel (so e.g. with all the gcc flags, include
+paths, etc.).
+
+> No, please add 'obj-y += test.o' if you want to
+> test your local file.
+
+This is a clear workflow regression for me. Why is it so absolutely
+necessary to break the way it used to work?
+
+At the very least, can we find a way to reduce the typing overhead for
+testing one-offs like that? 'make STANDALONE=1 test.o' or something?
+
+
+Vegard
