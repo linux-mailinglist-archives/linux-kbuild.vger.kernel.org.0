@@ -2,125 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84CCC199BF9
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 18:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0045A199D54
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 19:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731182AbgCaQpM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 12:45:12 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:33095 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731149AbgCaQpM (ORCPT
+        id S1725947AbgCaR6T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 13:58:19 -0400
+Received: from smtprelay0188.hostedemail.com ([216.40.44.188]:52270 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725999AbgCaR6R (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 12:45:12 -0400
-Received: by mail-io1-f67.google.com with SMTP id o127so22431821iof.0
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2020 09:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=r0JAwdBM8J3oiIGwg0rcW6L9TGV0155fnPxFlRrMlTI=;
-        b=L7qA7P4KvyQENUGj3g9qyx+aJQZAMLmOoPzxBh1yA5Bk03Xq2CItkjuVY2OGxqB7CX
-         glKa7jDokq1Zp7NBiLnr8nacK9Mf1B0LQn0xxYPN1cn5Blr9LibND/FGW0DRCWqpTqyV
-         33RiWiEcuRhHSdbV76m61zgLVSb9MLtdaMOpA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=r0JAwdBM8J3oiIGwg0rcW6L9TGV0155fnPxFlRrMlTI=;
-        b=TckGYloBIUmefx8dnEYCJ1/wuHAN2iqbHFvalXwclZgJHaQAyyv+iU9/KGOHPMR3nk
-         aDclchEpQPBLbnuCsivIMk0DqpU46dSPBwH8ltmLQ6vjC5RWK6WaXoWA7rIYrcLOOjw6
-         sR+PVoYGn+F+OmUypp8Kri0dKN0kABaEMN9i18nq5JUuMGpBdyF7VLttF0XvTdFXZMtZ
-         CMFpv7Jc3lSH3sD29tywqOMNBAyi7Nr6bkMvpWoxcIc8tNYUQqAm1hxSGpiNlCKzfVNq
-         3So/gZL/0zaOZLKZpX0EFqbhOz7cYVuCapfwEnarRiUZ0w1rqjaa6cpc+g7kvskQcW6o
-         A9Pw==
-X-Gm-Message-State: ANhLgQ2m4enKAKCyxZnMHF/CvQZmeyC4vA0RFWwwhXpAPcgAzzqSNah1
-        Cl3psW/rugG9HIq8jbvcOkNo3A==
-X-Google-Smtp-Source: ADFU+vsFQNZKvyoiMkGgxc+G61WBxRHne+j8QME+5vN6bWGQEh3/d60UseRLroe6jIzAPjzFyH+EZQ==
-X-Received: by 2002:a6b:5c0d:: with SMTP id z13mr15272201ioh.96.1585673111646;
-        Tue, 31 Mar 2020 09:45:11 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id f69sm6011590ilg.10.2020.03.31.09.45.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2020 09:45:10 -0700 (PDT)
-Subject: Re: [PATCH] Makefile: Update kselftest help information
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20200330180711.14393-1-skhan@linuxfoundation.org>
- <CAK7LNARyVVNo8Ck4=s_bkwfxuFXj7MUFr2E_f-oOZEkjgm5Bmg@mail.gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <b580e8ce-1879-c516-72c8-041b2422ad1d@linuxfoundation.org>
-Date:   Tue, 31 Mar 2020 10:45:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Tue, 31 Mar 2020 13:58:17 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 83B8C18021E49;
+        Tue, 31 Mar 2020 17:58:16 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:967:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2525:2553:2560:2563:2682:2685:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3872:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:6117:6119:7903:9025:10004:10400:10848:11232:11658:11914:12043:12297:12555:12740:12760:12895:13019:13069:13311:13357:13439:14096:14097:14181:14659:14721:14764:21080:21324:21524:21611:21627:21740:30054:30056:30060:30064:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: boys35_481ed8d64f731
+X-Filterd-Recvd-Size: 2177
+Received: from XPS-9350.home (unknown [47.151.136.130])
+        (Authenticated sender: joe@perches.com)
+        by omf03.hostedemail.com (Postfix) with ESMTPA;
+        Tue, 31 Mar 2020 17:58:15 +0000 (UTC)
+Message-ID: <78a8ba04459f8a4ea6bcb8811f35490018b763f2.camel@perches.com>
+Subject: Re: single target builds are broken
+From:   Joe Perches <joe@perches.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Vegard Nossum <vegard.nossum@oracle.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Tue, 31 Mar 2020 10:56:20 -0700
+In-Reply-To: <CAK7LNAT-8TbLRPB=PNsbAORKYvYL+m3JmA-iSDieK8Uv7MAvGA@mail.gmail.com>
+References: <a5ce79eb-be9d-df97-0b58-5aee5a48f4d3@oracle.com>
+         <CAK7LNAQ8LZMPxrjVkuLizHjVZyBtSmLFZ=EvDCCAPb-XGfJLHA@mail.gmail.com>
+         <8c491e3b-a622-14c1-15c3-8cff061017ba@oracle.com>
+         <CAK7LNAT-8TbLRPB=PNsbAORKYvYL+m3JmA-iSDieK8Uv7MAvGA@mail.gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNARyVVNo8Ck4=s_bkwfxuFXj7MUFr2E_f-oOZEkjgm5Bmg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 3/31/20 10:11 AM, Masahiro Yamada wrote:
-> On Tue, Mar 31, 2020 at 3:07 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
->>
->> Update kselftest help information.
->>
->> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
->> ---
->>   Makefile | 15 +++++++++------
->>   1 file changed, 9 insertions(+), 6 deletions(-)
->>
->> diff --git a/Makefile b/Makefile
->> index e56bf7ef182d..5e5c770423c7 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -1470,12 +1470,15 @@ help:
->>          @echo  '  nsdeps          - Generate missing symbol namespace dependencies'
->>          @echo  ''
->>          @echo  'Kernel selftest:'
->> -       @echo  '  kselftest       - Build and run kernel selftest (run as root)'
->> -       @echo  '                    Build, install, and boot kernel before'
->> -       @echo  '                    running kselftest on it'
->> -       @echo  '  kselftest-clean - Remove all generated kselftest files'
->> -       @echo  '  kselftest-merge - Merge all the config dependencies of kselftest to existing'
->> -       @echo  '                    .config.'
->> +       @echo  '  kselftest         - Build and run kernel selftest'
->> +       @echo  '                      Build, install, and boot kernel before'
->> +       @echo  '                      running kselftest on it'
->> +       @echo  '                      Run as root for full coverage'
->> +       @echo  '  kselftest-all     - Build kernel selftest'
->> +       @echo  '  kselftest-install - Build and install kernel selftest'
->> +       @echo  '  kselftest-clean   - Remove all generated kselftest files'
->> +       @echo  '  kselftest-merge   - Merge all the config dependencies of'
->> +       @echo  '                      kselftest to existing .config.'
->>          @echo  ''
->>          @$(if $(dtstree), \
->>                  echo 'Devicetree:'; \
->> --
->> 2.20.1
->>
+On Wed, 2020-04-01 at 01:03 +0900, Masahiro Yamada wrote:
+> On Tue, Mar 31, 2020 at 8:02 PM Vegard Nossum <vegard.nossum@oracle.com> wrote:
+> > It's really useful to be able to build object files separately, but as
+> > if it was part of the kernel (so e.g. with all the gcc flags, include
+> > paths, etc.).
+[]
+> So, there were lots of cases where single builds did not work:
 > 
+> https://www.spinics.net/lists/linux-kbuild/msg21921.html
 > 
-> Applied to linux-kbuild. Thanks.
+> The way to do this correctly is to
+> descend directories one by one, parsing Makefiles.
+> 
+> With no entry in obj-y/m,
+> Kbuild cannot determine where to build that object.
+> 
+> > At the very least, can we find a way to reduce the typing overhead for
+> > testing one-offs like that? 'make STANDALONE=1 test.o' or something?
+> 
+> Probably, I do not want to do this.
+> 
+> Supporting everybody's demand is not a good idea.
+> So, I draw a line somewhere.
+> 
+> Saving some typing is less important.
 
-Thanks.
+I too find this regression less than desirable.
 
-> 
-> But, if we have more entries in the future,
-> we might want to consider to move these
-> to tools/testing/selftests/Makefile.
-> 
->
-Agreed.
+make <single_object> is/was quite useful even
+if it didn't always work.
 
-thanks,
--- Shuah
+
 
