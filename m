@@ -2,167 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 539DE199E36
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 20:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CBE8199EE6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 21:26:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726208AbgCaSjm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 14:39:42 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:41779 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726209AbgCaSjl (ORCPT
+        id S1727932AbgCaT0l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 15:26:41 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42722 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbgCaT0l (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 14:39:41 -0400
-Received: by mail-pg1-f196.google.com with SMTP id b1so10724065pgm.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2020 11:39:40 -0700 (PDT)
+        Tue, 31 Mar 2020 15:26:41 -0400
+Received: by mail-ot1-f66.google.com with SMTP id z5so23056363oth.9;
+        Tue, 31 Mar 2020 12:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SHbm0jKU3Qf278+OR+FaPiESB5wVrt4XPcJB5hVkN60=;
-        b=gzp6usWwaOaYw59h8kIkVvyKdywVJuZ3NJfd1wircVTJnmvJhRmmVES8Jd/uck+Hcj
-         ihI+fmLC9r0Fv+rle/XhuJNKG4Dhm3WrAd9b6Gcf22o9h5fjVyDFOPWL42kso1BjM5Ur
-         Aq4LNX5vpl4l7pUG4lJYmg9K8myTVDTRz/3Cb/ZLxtzl1N75YXTh7ZwYDQZnWSqTNFQ2
-         0UxAU/6LqBe2UKoLTLyqYslEIfZlCWGgoUmL1E1HN9bAfYM2qIEUaUNBIbaIBGOWuojs
-         YP2RcDR7MZJsyWmuOefOtp80GgmLixZ4eEUTEQOEyE4nnUkCANBzKbPpgq7dBHmtW9D1
-         N1yQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=p2qtUegF86XJQD0U9mJ6PbruzGtXxYRXcPJJraWyFNo=;
+        b=ELhoeap4k3w9h7bN3wcxhblGlHt/Y266s4gRXs/8+KgpSlLbX53w29ryNSlWfNUzzQ
+         24uFWR202K7G8mT2ecteqfqcIpE5MUB232V4d2zGoMuPdMcvMWJCGvLAvYlLtivgvk24
+         9f7Va3tctc42c6KdTNAua8en3Zu5c9haPM2AIig3nIlVr8KoIHpqEWxrDbL/mH7Wk5go
+         bTNDD4AzNg1XiGfXf0zTNMnmIKZJakNmMkpNdOXAYmsE+MyF5+hDdaulyYmaktYRJpD6
+         rOYajfFz26v+Q5z+IaPvvG3nosGY3Jb5lF8ECN+Fs7lP7jeC0tqU+BzWyljNdbv4IOOj
+         cspQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SHbm0jKU3Qf278+OR+FaPiESB5wVrt4XPcJB5hVkN60=;
-        b=HF4JXKCVPitZ5Va/V8qpN30fGqLbN5Z8nDqV/DE/DHHxP8ZhwyHUedwtopFcubIxdW
-         sWCVY9Z/NnCpO5dAPSjq67THp20Dgdy4VYGUoQcySbCiVtW6tid4eNj9oLWXdcGRtbA2
-         GUC0b6Hkg7qz5EswJnqkOwdF88FJrBBJq1JtMSvKK1yL0mJSy3/xVwG0Z00ejAUoFGx9
-         JAEDc3fJKDioom1jDkiaHZh1JmwYcg9fMNzece+UgZzE/y2/AWjDgBGU31m40tduJ2e9
-         Ki5uAoAHLAx92gZaG6A6UiJforVRF7rNzTqu4t1Yp34ePDYbG78zUGc2n3HYMz+AE01o
-         5MuA==
-X-Gm-Message-State: ANhLgQ0LS92GgpUbRax09QBJiB3hCfz5xoqX7fVLsrd8bXcMgPTvRZVQ
-        YpzG2ftXBSp1ByVC1NpUa+ov5pJEJO88gjEJP9vh2A==
-X-Google-Smtp-Source: ADFU+vt+QKSB0svWikbyaxQU/tNYV7l0CyBNJzadXZUr6nAWWVA3ubW5u0JpCnXSlSUZLq70aMKxIv46KBrhiN7BU4s=
-X-Received: by 2002:a63:4e22:: with SMTP id c34mr19536884pgb.263.1585679979479;
- Tue, 31 Mar 2020 11:39:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200317202404.GA20746@ubuntu-m2-xlarge-x86> <20200317215515.226917-1-ndesaulniers@google.com>
- <20200327224246.GA12350@ubuntu-m2-xlarge-x86> <CAK7LNAShb1gWuZyycLAGWm19EWn17zeNcmdPyqu1o=K9XrfJbg@mail.gmail.com>
- <CAK7LNAQ3=jUu4aa=JQB8wErUGDd-Vr=cX_yZSdP_uAP6kWZ=pw@mail.gmail.com>
- <CAKwvOd=5AG1ARw6JUXmkuiftuShuYHKLk0ZnueuLhvOdMr5dOA@mail.gmail.com>
- <20200330190312.GA32257@ubuntu-m2-xlarge-x86> <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
-In-Reply-To: <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 31 Mar 2020 11:39:27 -0700
-Message-ID: <CAKwvOd==U6NvvYz8aUz8fUNdvz27pKrn8X5205rFadpGXzRC-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile.llvm: simplify LLVM build
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>
-Cc:     clang-built-linux <clang-built-linux@googlegroups.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=p2qtUegF86XJQD0U9mJ6PbruzGtXxYRXcPJJraWyFNo=;
+        b=F2+D6bGTAAZk9XhYz3Y9ZDhVNpFm5RknWqYhG90j/g7ldNyljFLt++I2ffirUamg/m
+         UvfJdqTAUOpOT0NGvMzLadD5WdFDWwNFl/8WN24SMQLnPryD9Nb20y6ElX0J9s+c0VWt
+         YWmoxefhQ0kMR/UVTr80R+SbHXK4vAtAySwHBZao4sxoN4v+TppuavLTFxhoDPiWv/Pn
+         1BewEJnixZyy9XyOIqQspiO1BkkOyg1YtnX61DKEIx8z9zXPdO10g9OzYVdiBheTyFIx
+         DaafEHI9zb3WuaJI2Tti3Z8uOuyVOz5keOsrcvf8nXFg8KvoRw096QN+jOOac2jKZ7gt
+         iJfA==
+X-Gm-Message-State: ANhLgQ0k9lh2LPMGITR8FcqDmR0oPBDUCob9wnti22eWfoE/IT+tFy2Z
+        XsuX0b9Kufu9YbZCmkAZ7+w=
+X-Google-Smtp-Source: ADFU+vsdiPcZYYBWdzojItr8T5o1ryKfN0bU1KvGxWA3rNxYN6SUUNiqR3EJ1ted02/26RlWPqXaEw==
+X-Received: by 2002:a9d:a6b:: with SMTP id 98mr13525220otg.21.1585682800831;
+        Tue, 31 Mar 2020 12:26:40 -0700 (PDT)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id 90sm5487928otc.29.2020.03.31.12.26.38
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 31 Mar 2020 12:26:39 -0700 (PDT)
+Date:   Tue, 31 Mar 2020 12:26:37 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sandeep Patil <sspatil@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
+Message-ID: <20200331192637.GA54270@ubuntu-m2-xlarge-x86>
+References: <20200326194155.29107-1-natechancellor@gmail.com>
+ <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
+ <20200331101122.GA6292@ubuntu-m2-xlarge-x86>
+ <CAKwvOdkkpnkLwtNctSnebXTwumfprEQtLiuM5_4e-UBFTYBUxg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdkkpnkLwtNctSnebXTwumfprEQtLiuM5_4e-UBFTYBUxg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Mar 30, 2020 at 11:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Mar 31, 2020 at 4:03 AM Nathan Chancellor
+On Tue, Mar 31, 2020 at 09:02:19AM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
+> On Tue, Mar 31, 2020 at 3:11 AM Nathan Chancellor
 > <natechancellor@gmail.com> wrote:
+> > Just a follow up, those two patches have been picked up and should be in
+> > this coming release:
 > >
-> > On Mon, Mar 30, 2020 at 11:58:19AM -0700, Nick Desaulniers wrote:
-> > > On Sat, Mar 28, 2020 at 6:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > I also had planned to provide a single switch to change
-> > > > all the tool defaults to LLVM.
-> > > >
-> > > > So, supporting 'LLVM' is fine, but I'd rather want this
-> > > > look symmetrical, and easy to understand.
-> > > >
-> > > > CPP        = $(CC) -E
-> > > > ifneq ($(LLVM),)
-> > >
-> > > Yes, a simple if statement is much simpler than the overly complex patch I had.
-> > >
-> > > > CC         = $(LLVM_DIR)clang
-> > >
-> > > Do we need $LLVM_DIR? Shouldn't users just have that in their $PATH?
-> > >
-> > > Also, I think we need to support suffixed binaries, as debian
-> > > distributes these with version suffixes, as Nathan points out.  Or do
-> > > the debian packages install suffixed binaries AND path versioned
-> > > non-suffixed binaries?
+> > https://git.kernel.org/balbi/usb/c/58582220d2d34228e5a1e1585e41b735713988bb
+> > https://git.kernel.org/rostedt/linux-trace/c/bf2cbe044da275021b2de5917240411a19e5c50d
 > >
-> > I think the idea here is that ultimately, the suffixed versions of clang
-> > that Debian has in /usr/bin are symlinks to binaries in
-> > /usr/lib/llvm-#/bin; as a result, a user could say
-> > LLVM_DIR=/usr/lib/llvm-#/bin/ and all of those tools would be picked up
-> > automatically. I am not really sure what is better.
+> > As of next-20200331, with the former applied (because it is not there
+> > yet) along with this patch, I see no warnings on arm, arm64, x86_64
+> > all{mod,yes}config.
+> 
+> kbuild test robot is testing more arch's than that with Clang so it
+> may report if it finds more instances of that warning in those.
+> 
+> -- 
+> Thanks,
+> ~Nick Desaulniers
+> 
 
-$ sudo apt install clang-8
-$ which clang-8
-/usr/bin/clang-8
-$ ls -l `!!`
-/usr/bin/clang-8 -> ../lib/llvm-8/bin/clang
-$ ls /usr/lib/llvm-8/bin
-<non suffixed versions>
+I'll keep an eye out. Hopefully not too many more are lurking but we
+have definitely caught some bad behavior with this warning already so
+getting it turned on so that all CI systems can benefit from it is
+important.
 
-Ok, so Nathan, it looks like we don't need the version suffixes.
-Instead, we can be more explicit with our $PATH, and only add the
-above (and bintutils).  I was thinking supporting the suffix was
-required for our CI, but it seems like maybe not.
-
-> I periodically build the latest llvm from the trunk,
-> and install it under my home directory.
-> So, I just thought it would be useful to
-> allow a user to specify the llvm directory.
-> Of course, I can do the equivalent by tweaking PATH, but
-> I hesitate to make the non-released version my default.
-
-Respectfully, I strongly disagree.  This should be handled by
-modifications to $PATH, either by your shell's .rc file when you
-always want it, or exported for a session when you want it, or
-prefixed to an invocation for the duration of that command.  We should
-not have a new variable just for the path of a few tools.
-
-Rather than `make LLVM_DIR=~/llvm-project LLVM=1`, you can do
-`PATH=$PATH:~/llvm-project make LLVM=1`. (or export it manually or via
-your shell .rc, depending on how comfortable you are with that
-version).
-
-> Having both LLVM_DIR and LLVM_SUFFIX seems verbose.
-
-I agree, so maybe just LLVM=y, and we can support both non-standard
-locations and debian suffixes via modifications to PATH.
-
->
-> In fact, the debian provides multiple versions of GCC.
-> For example, my machine has
->
-> masahiro@pug:~$ ls -1 /usr/bin/gcc-*
-> /usr/bin/gcc-4.8
-> /usr/bin/gcc-5
-> /usr/bin/gcc-7
-> /usr/bin/gcc-ar
-> /usr/bin/gcc-ar-4.8
-> /usr/bin/gcc-ar-5
-> /usr/bin/gcc-ar-7
-> /usr/bin/gcc-nm
-> /usr/bin/gcc-nm-4.8
-> /usr/bin/gcc-nm-5
-> /usr/bin/gcc-nm-7
-> /usr/bin/gcc-ranlib
-> /usr/bin/gcc-ranlib-4.8
-> /usr/bin/gcc-ranlib-5
-> /usr/bin/gcc-ranlib-7
->
-> But, nobody has suggested GCC_SUFFIX.
->
-> So, I guess CROSS_COMPILE was enough to
-> choose a specific tool version.
-
-Or no one was testing specific versions of gcc with more than one
-installed.  I can ask the KernelCI folks next week if this is an issue
-they face or have faced.
--- 
-Thanks,
-~Nick Desaulniers
+Cheers,
+Nathan
