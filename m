@@ -2,113 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4985C19994B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 17:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30E34199AA7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 18:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730391AbgCaPLh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 11:11:37 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:39287 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727703AbgCaPLh (ORCPT
+        id S1730562AbgCaQCd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 12:02:33 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:37842 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730560AbgCaQCd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 11:11:37 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p10so26454268wrt.6;
-        Tue, 31 Mar 2020 08:11:35 -0700 (PDT)
+        Tue, 31 Mar 2020 12:02:33 -0400
+Received: by mail-pg1-f193.google.com with SMTP id i34so406080pgl.4
+        for <linux-kbuild@vger.kernel.org>; Tue, 31 Mar 2020 09:02:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=YYhDTmriCLA8KTnKhlbvHb66ns2uGy0fGvIYDhb16xc=;
-        b=QlxLiCgJlYgom/DQ+81Mmado/IIC3zI4QbaqcNRZL0cypCxeTZLkhFgJ7WL0u7ZLcO
-         6Fdvz6xdSBB8mYb7WtnlRYTQR02tGT241HzNUuBy+eaC1sJouiO2dflPRFL/HOEqMLea
-         +IUIqS9s14KSfBVRbNWCiDC0pTZ5Zx162nPy7Dezp+bHSqJCDBCfjJ91s1sQg8tbs/BZ
-         2WR81KRfzOQ0+FuOz69NvysUm/NT29jreAXXoPO2dGSW+TdoLV1gubqFui0hEzXD21Rj
-         RVRZp4mSvm16hPkvDkBVMgMpjoyKPBNIxEg9bf0FjOgabdzl/5WJWSDMrMS8BFxhGktt
-         hCXA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eZXXG443uKpSgfNEJ0dEluZmkv04301vNY8sTrH9njo=;
+        b=o3zehxjmag5NakEZfFg2RqsjIVFQbAr+Hr142Z/jaWpzD9M9pV55Ec6CyR8+WtYyNj
+         zJEShpo6DAxWY0maP0Xrkt76nMtW6ucnH/4pQ1CpiUpIiu+ywNAjKuA8Elnq7L4qwQUu
+         MbcTePJ2DxRo1GtsWqIi74HsVCfTb+K/DhueZVyIKCP3bppxBYeImYRF4dpqOcPwdMgG
+         NsLBacY7UPqGdcdMa7uDMrZ6PlW67aqPb+yf98FlKfC2EeVKg/d4JtAqY264r0NI0R8U
+         uMJAowrGvTxrqmYc614/RlhbEOQhYy+eylmncvKQPrYPEOtt0flq5i0P4nAMPttkTbw+
+         2klA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=YYhDTmriCLA8KTnKhlbvHb66ns2uGy0fGvIYDhb16xc=;
-        b=Vo9j0+/kEjw5YdoWjVOjtyhUM2A5xTNAfh9eiOstCeVYXQfrbwU8FgM7zP+BIgVREw
-         2IXGWJOQSh1McMGTA02fzJRURNctq3OuDm3b9N52MqFt1Bb0QEyMWEO6XsHJeo7sn07o
-         hnK6YstkElqbtEQQ+bbxRmkQ/17tp5BgOCgjzJVt3ZPoIJD9xtYZZfXiFd6bG4oAzOSI
-         k+bbVe+36GmTA5TTvIScu4+GYFjiejzOJqUT7GQ7Z8WXcdwn9kglMB1RuKsngDfEOAjX
-         8T4VfM0srGSU+7EDmEoNIWl0pudlRVLokzsXD5j9L8ib/99c1TxXZTeBYpzeKDRQhCjO
-         s38Q==
-X-Gm-Message-State: ANhLgQ2eMV7R/cpqiTyzAFqmAcDiP886005PxpXX6xHVHL7FfelY4QDF
-        fwroHm/14Ub5RaY4NoOG4HlXBWa4FysbisfvQnc=
-X-Google-Smtp-Source: ADFU+vtP4vt6oMeO5LfNYEDj0gjnca9MI09Sub6Coviiad1q1qVMRL79d9Dmr78UBhMmNMy5fyf9s9gtLFi1o9ULx3U=
-X-Received: by 2002:adf:ef51:: with SMTP id c17mr20737459wrp.130.1585667494944;
- Tue, 31 Mar 2020 08:11:34 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eZXXG443uKpSgfNEJ0dEluZmkv04301vNY8sTrH9njo=;
+        b=oZB4Zcc+qUXNArubJRl59zXCnqb7xpJF2e58FHqTPdU3z92uwEYcXmebndBM8DEYUz
+         A5ZpW52F1gjs1UCLsgjBnDpqC78wYWAw+HA6ZI/MnExCpVDFIFGOCxT99NPcpGt1EG8s
+         1x+pbYw839gyOtrFJNhXdcX3d0Rz99J99CvVBzMFM+vPzUBBMaVdhTWH68i50ALL6e99
+         fnmZPNltiXt9kKCKcOGkeuQJpKBDr/BFhpBmE8lTHvDbF/F6tfqFU/UPKUVzsLGWAmht
+         xtM868BsELrSxt6+/RG49fPQX4kgR4poocFME6KVCo6t0TUPXAoV/exuutOpmq605Ele
+         XJzg==
+X-Gm-Message-State: AGi0PuZSddWoqwgS9X4SCWPV2nJGs+sL254wUuEYLkrZx3IpwFIJInXb
+        ts0WvrIiZZW+2itYHB/ffn05DEbbDD85HlX7zHYcgA==
+X-Google-Smtp-Source: APiQypKTUIgSCVTCzjJmedQpID1qg/aVFr9Kah3/bPpP/Wb+lalxGGDeco9c06qITTHZkr7RMLAO4TtzxWyduyG/tMQ=
+X-Received: by 2002:aa7:919a:: with SMTP id x26mr15382467pfa.39.1585670551606;
+ Tue, 31 Mar 2020 09:02:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+icZUXCn2an9aNDrm+-eneSAOyGibz0W1xYhwkA5k3B3U-5vQ@mail.gmail.com>
- <1A630698-E385-4CDF-9755-ACDAAF60DBB9@fb.com>
-In-Reply-To: <1A630698-E385-4CDF-9755-ACDAAF60DBB9@fb.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 31 Mar 2020 17:11:35 +0200
-Message-ID: <CA+icZUWBJz6765Szg65HcOfhDh9tyoarJTnZ_kmahqvB5QKU=g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/8] Add support for ZSTD-compressed kernel and initramfs
-To:     Nick Terrell <terrelln@fb.com>
-Cc:     Nick Terrell <nickrterrell@gmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Chris Mason <clm@fb.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>,
-        Michael van der Westhuizen <rmikey@fb.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        Patrick Williams <patrick@stwcx.xyz>,
-        Nick Desaulniers <ndesaulniers@google.com>
+References: <20200326194155.29107-1-natechancellor@gmail.com>
+ <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com> <20200331101122.GA6292@ubuntu-m2-xlarge-x86>
+In-Reply-To: <20200331101122.GA6292@ubuntu-m2-xlarge-x86>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 31 Mar 2020 09:02:19 -0700
+Message-ID: <CAKwvOdkkpnkLwtNctSnebXTwumfprEQtLiuM5_4e-UBFTYBUxg@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 6:15 AM Nick Terrell <terrelln@fb.com> wrote:
-
-[...]
-
-> > Do you plan to push this for Linux v5.7?
+On Tue, Mar 31, 2020 at 3:11 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+> Just a follow up, those two patches have been picked up and should be in
+> this coming release:
 >
-> I hope that it will be accepted. From my point of view this patch set is
-> ready for merge, except for the maximum window size increase
-> requested by Petr.
+> https://git.kernel.org/balbi/usb/c/58582220d2d34228e5a1e1585e41b735713988bb
+> https://git.kernel.org/rostedt/linux-trace/c/bf2cbe044da275021b2de5917240411a19e5c50d
 >
+> As of next-20200331, with the former applied (because it is not there
+> yet) along with this patch, I see no warnings on arm, arm64, x86_64
+> all{mod,yes}config.
 
-Hi Nick,
+kbuild test robot is testing more arch's than that with Clang so it
+may report if it finds more instances of that warning in those.
 
-thanks for your answer.
-
-Did you send out a pull-request already?
-
-Can you point me to that request or patch of Petr?
-Is it relevant or optional for the pull-request?
-
-> > Feel free to add credits for the whole series:
-> >
-> >   Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
->
-> Thanks for testing the patch set Sedat!
->
-
-I have re-tested zstd-v3 patchset with Linux version 5.6 final and
-Clang/LLD version 10.0.0 final (from Debian/unstable repository).
-
-Is it possible to mention that there might distro-specific changes
-needed to initramfs-handling?
-For Debian you are welcome to include below Link [1].
-Not sure I will send/ask to/on the debian-kernel mailing list in this topic.
-
-Thanks and bonne chance.
-
-Regards,
-- Sedat -
-
-[1] LINK: https://lore.kernel.org/lkml/CA+icZUXCn2an9aNDrm+-eneSAOyGibz0W1xYhwkA5k3B3U-5vQ@mail.gmail.com/
+-- 
+Thanks,
+~Nick Desaulniers
