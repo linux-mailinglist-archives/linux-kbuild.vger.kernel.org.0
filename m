@@ -2,179 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47A2C198C42
-	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 08:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C22199107
+	for <lists+linux-kbuild@lfdr.de>; Tue, 31 Mar 2020 11:16:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbgCaGZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 31 Mar 2020 02:25:48 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:41022 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725809AbgCaGZs (ORCPT
+        id S1731913AbgCaJQk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 31 Mar 2020 05:16:40 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:52490 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730328AbgCaJQi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 31 Mar 2020 02:25:48 -0400
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 02V6PRM2020258;
-        Tue, 31 Mar 2020 15:25:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 02V6PRM2020258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585635928;
-        bh=bhHDF/pmVptyuAoHUwFW/YtM1ZLRsyzSLz5SMFr9KSE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ya91m2S2ZN7KXYPVglJDOXDsplu8DdVyJFEtDyGEoOpgwfq1DBFneqEk/BwlN65ES
-         55e6i4x7DRc6cbRlCz3AkluPl0vP8M69ekNqBgDcg337mqnq3D/Zv8YdH6YibZT2b7
-         ZaRXwcDQw5yRaiv/BH1kMx8E8D/M5knpIBh/IbjbU4QYq7T97tJGjBksuiibAic57K
-         etS3EmpxeXs/onxsSAUo1g3MK8LDIi389TKRKpGhFVE6ieG7qBbqq4dNmDWwa07hxc
-         zbvM9XOOheeHMgbSlit9q93L4G6idWao9DPqLZQ7ljQTvySxbVgCwQ1bBVPdLwCR7M
-         dHt3zzqKIF7BA==
-X-Nifty-SrcIP: [209.85.221.177]
-Received: by mail-vk1-f177.google.com with SMTP id v129so5060479vkf.10;
-        Mon, 30 Mar 2020 23:25:27 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYKfODBH7DsH4Up122XzqYnldVTZlx8kvMO6huJe+Jhp+ntUfMF
-        jYRajPezeBogag4YlaBBX1QWlhJFrmD0vtonszo=
-X-Google-Smtp-Source: APiQypJ6aYvHt8O+nUKi2P4e1tQlaNx841DQpH1QGjgiKd+2Tjbr2vki5+PR1yPxEfCJ/+AZxPmROqefEkc+iGZMOX8=
-X-Received: by 2002:a1f:1786:: with SMTP id 128mr10407782vkx.26.1585635926362;
- Mon, 30 Mar 2020 23:25:26 -0700 (PDT)
+        Tue, 31 Mar 2020 05:16:38 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02V9BPwH080439;
+        Tue, 31 Mar 2020 09:16:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : message-id : date : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=soT205CLbo3pSZEAx9AVjNKeXiqZkOzPFfSpgHTqh+M=;
+ b=KKKuEq4ZbL21qiOck4SWuo0lJ4mO0T+NNuoZZdFAcdVJtohEC/BLrX0w9NUhzRiLNoOh
+ G6O+gw140niz57E14RFYNOVpM8oyF9+tHiH47ejsxspUucqxPQgsX+KPiEX0v80B2gvm
+ G2Zuu0c6Bb4BLcMPfuXvSlBC2N2aJ6rRxZOO6OdECLNnh0GS2rS3Z3jP+jk5POszxnLE
+ 4pijWU5bcmpShEn1rnX3W/UdV/upHH3sMu8QhdkxFNh0Xwcru6yuwITXesDvGZxcZqtw
+ lcMBf8iV8RmTVDeRoI3HJDEnjo/NN6esFWteR280KbCugmc75XHcTnPUpdQ9s4s4EBaT +g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 303ceuxeg2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 31 Mar 2020 09:16:35 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 02V96ubU002205;
+        Tue, 31 Mar 2020 09:16:34 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 302g2dq5kj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 31 Mar 2020 09:16:34 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 02V9GXDA017837;
+        Tue, 31 Mar 2020 09:16:33 GMT
+Received: from [10.175.15.184] (/10.175.15.184)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 31 Mar 2020 02:16:33 -0700
+From:   Vegard Nossum <vegard.nossum@oracle.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, LKML <linux-kernel@vger.kernel.org>,
+        linux-kbuild@vger.kernel.org
+Subject: single target builds are broken
+Message-ID: <a5ce79eb-be9d-df97-0b58-5aee5a48f4d3@oracle.com>
+Date:   Tue, 31 Mar 2020 11:16:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20200317202404.GA20746@ubuntu-m2-xlarge-x86> <20200317215515.226917-1-ndesaulniers@google.com>
- <20200327224246.GA12350@ubuntu-m2-xlarge-x86> <CAK7LNAShb1gWuZyycLAGWm19EWn17zeNcmdPyqu1o=K9XrfJbg@mail.gmail.com>
- <CAK7LNAQ3=jUu4aa=JQB8wErUGDd-Vr=cX_yZSdP_uAP6kWZ=pw@mail.gmail.com>
- <CAKwvOd=5AG1ARw6JUXmkuiftuShuYHKLk0ZnueuLhvOdMr5dOA@mail.gmail.com> <20200330190312.GA32257@ubuntu-m2-xlarge-x86>
-In-Reply-To: <20200330190312.GA32257@ubuntu-m2-xlarge-x86>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 31 Mar 2020 15:24:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
-Message-ID: <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile.llvm: simplify LLVM build
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sandeep Patil <sspatil@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0 mlxscore=0
+ adultscore=0 phishscore=0 bulkscore=0 suspectscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003310082
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9576 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 adultscore=0
+ clxscore=1011 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ suspectscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2003310082
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 4:03 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Mon, Mar 30, 2020 at 11:58:19AM -0700, Nick Desaulniers wrote:
-> > On Sat, Mar 28, 2020 at 6:57 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > I also had planned to provide a single switch to change
-> > > all the tool defaults to LLVM.
-> > >
-> > > So, supporting 'LLVM' is fine, but I'd rather want this
-> > > look symmetrical, and easy to understand.
-> > >
-> > > CPP        = $(CC) -E
-> > > ifneq ($(LLVM),)
-> >
-> > Yes, a simple if statement is much simpler than the overly complex patch I had.
-> >
-> > > CC         = $(LLVM_DIR)clang
-> >
-> > Do we need $LLVM_DIR? Shouldn't users just have that in their $PATH?
-> >
-> > Also, I think we need to support suffixed binaries, as debian
-> > distributes these with version suffixes, as Nathan points out.  Or do
-> > the debian packages install suffixed binaries AND path versioned
-> > non-suffixed binaries?
->
-> I think the idea here is that ultimately, the suffixed versions of clang
-> that Debian has in /usr/bin are symlinks to binaries in
-> /usr/lib/llvm-#/bin; as a result, a user could say
-> LLVM_DIR=/usr/lib/llvm-#/bin/ and all of those tools would be picked up
-> automatically. I am not really sure what is better.
+
+Hi,
+
+I often run 'make foo/bar.o' as part of my workflow, even when bar.o is
+not specified in any kernel makefile, and this has worked just fine for
+years.
+
+This is broken after commit 394053f4a4b3e3eeeaa67b67fc886a9a75bd9e4d
+(kbuild: make single targets work more correctly) and just gives an error:
+
+$ make kernel/test.o
+   CALL    scripts/checksyscalls.sh
+   CALL    scripts/atomic/check-atomics.sh
+   DESCEND  objtool
+make[2]: *** No rule to make target 'kernel/test.o'.  Stop.
+scripts/Makefile.build:502: recipe for target '__build' failed
+make[1]: *** [__build] Error 2
+Makefile:1670: recipe for target 'kernel' failed
+make: *** [kernel] Error 2
+
+For top-level objects (e.g. 'make bar.o') the situation is even worse,
+since make exits with status 0 without building anything :-/
+
+Is there any chance we can get this back? It was super useful for me.
 
 
-I periodically build the latest llvm from the trunk,
-and install it under my home directory.
-
-So, I just thought it would be useful to
-allow a user to specify the llvm directory.
-
-Of course, I can do the equivalent by tweaking PATH, but
-I hesitate to make the non-released version my default.
-
-
-
-Having both LLVM_DIR and LLVM_SUFFIX seems verbose.
-
-In fact, the debian provides multiple versions of GCC.
-For example, my machine has
-
-masahiro@pug:~$ ls -1 /usr/bin/gcc-*
-/usr/bin/gcc-4.8
-/usr/bin/gcc-5
-/usr/bin/gcc-7
-/usr/bin/gcc-ar
-/usr/bin/gcc-ar-4.8
-/usr/bin/gcc-ar-5
-/usr/bin/gcc-ar-7
-/usr/bin/gcc-nm
-/usr/bin/gcc-nm-4.8
-/usr/bin/gcc-nm-5
-/usr/bin/gcc-nm-7
-/usr/bin/gcc-ranlib
-/usr/bin/gcc-ranlib-4.8
-/usr/bin/gcc-ranlib-5
-/usr/bin/gcc-ranlib-7
-
-But, nobody has suggested GCC_SUFFIX.
-
-So, I guess CROSS_COMPILE was enough to
-choose a specific tool version.
-
-
-
-
-> I'll try to have some other comments by later today/tonight.
->
-> > > LD         = $(LLVM_DIR)ld.lld
-> > > AR         = $(LLVM_DIR)llvm-ar
-> > > NM         = $(LLVM_DIR)llvm-nm
-> > > OBJCOPY    = $(LLVM_DIR)llvm-objcopy
-> > > OBJDUMP    = $(LLVM_DIR)llvm-objdump
-> > > READELF    = $(LLVM_DIR)llvm-readelf
-> > > OBJSIZE    = $(LLVM_DIR)llvm-size
-> > > STRIP      = $(LLVM_DIR)llvm-strip
-> > > else
-> > > CC         = $(CROSS_COMPILE)gcc
-> > > LD         = $(CROSS_COMPILE)ld
-> > > AR         = $(CROSS_COMPILE)ar
-> > > NM         = $(CROSS_COMPILE)nm
-> > > OBJCOPY    = $(CROSS_COMPILE)objcopy
-> > > OBJDUMP    = $(CROSS_COMPILE)objdump
-> > > READELF    = $(CROSS_COMPILE)readelf
-> > > OBJSIZE    = $(CROSS_COMPILE)size
-> > > STRIP      = $(CROSS_COMPILE)strip
-> > > endif
-> > >
-> > >
-> > >
-> > > I attached two patches.
-> > > Comments appreciated.
-> >
-> > I'm not sure the second one that recommends changing cc/c++ is the way
-> > to go; I think it might harm hermeticity.
->
-> Agreed. I do not modify my host system at all for this project, just
-> relying on PATH modification. In theory, we can still override HOSTCC
-> and HOSTCXX but that would defeat the purpose of that patch.
->
-> Cheers,
-> Nathan
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200330190312.GA32257%40ubuntu-m2-xlarge-x86.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Vegard
