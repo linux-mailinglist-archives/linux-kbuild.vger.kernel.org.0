@@ -2,99 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3FBF19A8B0
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2020 11:33:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 532A219ADD6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2020 16:30:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727627AbgDAJdQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Apr 2020 05:33:16 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:58780 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727541AbgDAJdQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Apr 2020 05:33:16 -0400
-Received: from zn.tnic (p200300EC2F0BCE001428728FF98D3445.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:ce00:1428:728f:f98d:3445])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E4F391EC013F;
-        Wed,  1 Apr 2020 11:33:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1585733594;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=vUv/lbJ4IeUM8v6YQUNQdmYTTdjt5W9ALsyTWkj5050=;
-        b=cvdIZiUlXVMwZAWWu+rebyz6DuUQgk418JgIURTEFPeDyUFSFYnJyD+nmj204a50rLQH3F
-        an6+bBJyJvt3fWIWgkmrp5vNY8OoluShWL7YZHP5xBMNRjejEerUNZ2i2pihKIU6FEWtrS
-        IM63WzlbD0+JKpoZr3TOVqrwb/4glZI=
-Date:   Wed, 1 Apr 2020 11:33:10 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Nick Terrell <nickrterrell@gmail.com>
-Cc:     Nick Terrell <terrelln@fb.com>, linux-kernel@vger.kernel.org,
-        Chris Mason <clm@fb.com>, linux-kbuild@vger.kernel.org,
-        x86@kernel.org, gregkh@linuxfoundation.org,
-        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
-        Sedat Dilek <sedat.dilek@gmail.com>
-Subject: Re: [PATCH v4 6/8] x86: bump ZO_z_extra_bytes margin for zstd
-Message-ID: <20200401093310.GA13748@zn.tnic>
-References: <20200401053913.216783-1-nickrterrell@gmail.com>
- <20200401053913.216783-7-nickrterrell@gmail.com>
+        id S1732965AbgDAOaN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Apr 2020 10:30:13 -0400
+Received: from mx0a-003e4a01.pphosted.com ([205.220.161.136]:17124 "EHLO
+        mx0a-003e4a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732856AbgDAOaN (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 1 Apr 2020 10:30:13 -0400
+X-Greylist: delayed 17412 seconds by postgrey-1.27 at vger.kernel.org; Wed, 01 Apr 2020 10:30:12 EDT
+Received: from pps.filterd (m0187933.ppops.net [127.0.0.1])
+        by mx0a-003e4a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0319aTR6017641;
+        Wed, 1 Apr 2020 04:39:59 -0500
+Received: from susilcesmtp5.fcstone.com (secureauth06.atidft.net [216.111.165.250] (may be forged))
+        by mx0a-003e4a01.pphosted.com with ESMTP id 30205adt4r-1;
+        Wed, 01 Apr 2020 04:39:59 -0500
+Received: from User ([10.40.13.245]) by SUSILCESMTP5.FCStone.com with Microsoft SMTPSVC(10.0.17763.1);
+         Wed, 1 Apr 2020 04:39:58 -0500
+Reply-To: <abukareem461@gmail.com>
+From:   "Abdul Kareem" <admin@abdulkareem.org>
+Subject: BUSINESS PROPOSAL !!!
+Date:   Wed, 1 Apr 2020 02:39:35 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200401053913.216783-7-nickrterrell@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <SUSILCESMTP5cEPt0nl0000b69c@SUSILCESMTP5.FCStone.com>
+X-OriginalArrivalTime: 01 Apr 2020 09:39:58.0923 (UTC) FILETIME=[826281B0:01D60809]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-03-31_07:2020-03-31,2020-03-31 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_spam_definite policy=outbound score=100 clxscore=1034
+ spamscore=100 malwarescore=0 suspectscore=0 impostorscore=0 adultscore=0
+ mlxlogscore=-999 bulkscore=99 phishscore=0 priorityscore=1501 mlxscore=100
+ lowpriorityscore=99 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2004010088
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 10:39:11PM -0700, Nick Terrell wrote:
-> From: Nick Terrell <terrelln@fb.com>
-> 
-> Bump the ZO_z_extra_bytes margin for zstd.
-> 
-> Zstd needs 3 bytes per 128 KB, and has a 22 byte fixed overhead.
-> Zstd needs to maintain 128 KB of space at all times, since that is
-> the maximum block size. See the comments regarding in-place
-> decompression added in lib/decompress_unzstd.c for details.
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Signed-off-by: Nick Terrell <terrelln@fb.com>
-> ---
->  arch/x86/boot/header.S | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/x86/boot/header.S b/arch/x86/boot/header.S
-> index 97d9b6d6c1af..b820875c5c95 100644
-> --- a/arch/x86/boot/header.S
-> +++ b/arch/x86/boot/header.S
-> @@ -536,8 +536,14 @@ pref_address:		.quad LOAD_PHYSICAL_ADDR	# preferred load addr
->  # the size-dependent part now grows so fast.
->  #
->  # extra_bytes = (uncompressed_size >> 8) + 65536
-> +#
-> +# ZSTD compressed data grows by at most 3 bytes per 128K, and only has a 22
-> +# byte fixed overhead but has a maximum block size of 128K, so it needs a
-> +# larger margin.
-> +#
-> +# extra_bytes = (uncompressed_size >> 8) + 131072
->  
-> -#define ZO_z_extra_bytes	((ZO_z_output_len >> 8) + 65536)
-> +#define ZO_z_extra_bytes	((ZO_z_output_len >> 8) + 131072)
->  #if ZO_z_output_len > ZO_z_input_len
->  # define ZO_z_extract_offset	(ZO_z_output_len + ZO_z_extra_bytes - \
->  				 ZO_z_input_len)
-> -- 
+Dearest Friend
 
-So why is this change unconditional if only this compression alg. needs
-it?
+I am Abdul Kareem Working with Emirate NBD Bank Dubai,United Arab Emirate as Finance Manager,I am pleased to get across to you for a very urgent and profitable business proposal which I believe will profit the both of us after completion,I have been in search of someone with this last name as yours,when I saw your name I was pushed to contact you and see how best we can assist each other believing that you will not betray me, My late client citizen of your country who is the founder of (ALF Emirate Gold Refinery DMCC) made a fixed deposit with my bank in January 2009 for 36 calendar months, valued at (US$37,500,000)Thirty Seven Million,Five Hundred Thousand United State Dollars Only,The due date for this deposit contract was the 2nd of April 2012,He met his untimely death in the Japan earthquake and tsunami Friday 11 March 2011 on a business trip.
 
--- 
-Regards/Gruss,
-    Boris.
+My bank management is yet to know about his death, I knew about it because he was my friend and I was his Account Officer and he did not mention any Next of Kin/ Heir when the account was opened,he was a widowed and no children,I am seeking your co-operation to present you as the Next of Kin/ Heir to the account, since you are a foreigner and my bank  will release the funds to you,There is no risk involved, the transaction will be executed under a legitimate arrangement that will protect us from any breach of law,I am not a greedy person, so I am suggesting we share the funds in this ratio, 50/50% ,Let me know your mind on this and please do treat this information highly confidential, We shall go over the details once I receive your urgent response.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Anticipating your response
+
+Sincerely Yours
+Abdul Kareem
