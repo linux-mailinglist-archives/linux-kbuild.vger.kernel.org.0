@@ -2,23 +2,23 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E42D19A613
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2020 09:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A4C819A632
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Apr 2020 09:27:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731861AbgDAHSW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Apr 2020 03:18:22 -0400
-Received: from tartarus.angband.pl ([54.37.238.230]:45160 "EHLO
+        id S1731725AbgDAH13 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Apr 2020 03:27:29 -0400
+Received: from tartarus.angband.pl ([54.37.238.230]:45290 "EHLO
         tartarus.angband.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731680AbgDAHSW (ORCPT
+        with ESMTP id S1731680AbgDAH13 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Apr 2020 03:18:22 -0400
+        Wed, 1 Apr 2020 03:27:29 -0400
 Received: from kilobyte by tartarus.angband.pl with local (Exim 4.92)
         (envelope-from <kilobyte@angband.pl>)
-        id 1jJXdf-0008SI-Nb; Wed, 01 Apr 2020 09:18:15 +0200
-Date:   Wed, 1 Apr 2020 09:18:15 +0200
+        id 1jJXmX-000084-Pj; Wed, 01 Apr 2020 09:27:25 +0200
+Date:   Wed, 1 Apr 2020 09:27:25 +0200
 From:   Adam Borowski <kilobyte@angband.pl>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Nick Terrell <terrelln@fb.com>,
+To:     Nick Terrell <terrelln@fb.com>
+Cc:     "sedat.dilek@gmail.com" <sedat.dilek@gmail.com>,
         Nick Terrell <nickrterrell@gmail.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Chris Mason <clm@fb.com>,
@@ -34,15 +34,16 @@ Cc:     Nick Terrell <terrelln@fb.com>,
         Nick Desaulniers <ndesaulniers@google.com>
 Subject: Re: [PATCH v3 0/8] Add support for ZSTD-compressed kernel and
  initramfs
-Message-ID: <20200401071815.GA27371@angband.pl>
+Message-ID: <20200401072725.GB27371@angband.pl>
 References: <CA+icZUXCn2an9aNDrm+-eneSAOyGibz0W1xYhwkA5k3B3U-5vQ@mail.gmail.com>
  <1A630698-E385-4CDF-9755-ACDAAF60DBB9@fb.com>
  <CA+icZUWBJz6765Szg65HcOfhDh9tyoarJTnZ_kmahqvB5QKU=g@mail.gmail.com>
+ <5F9D2C8D-B1DE-4F95-992E-524E02851CF4@fb.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CA+icZUWBJz6765Szg65HcOfhDh9tyoarJTnZ_kmahqvB5QKU=g@mail.gmail.com>
+In-Reply-To: <5F9D2C8D-B1DE-4F95-992E-524E02851CF4@fb.com>
 X-Junkbait: aaron@angband.pl, zzyx@angband.pl
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-SA-Exim-Connect-IP: <locally generated>
@@ -53,32 +54,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Mar 31, 2020 at 05:11:35PM +0200, Sedat Dilek wrote:
-> I have re-tested zstd-v3 patchset with Linux version 5.6 final and
-> Clang/LLD version 10.0.0 final (from Debian/unstable repository).
+On Wed, Apr 01, 2020 at 02:52:06AM +0000, Nick Terrell wrote:
+> > On Mar 31, 2020, at 8:11 AM, Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > On Tue, Mar 31, 2020 at 6:15 AM Nick Terrell <terrelln@fb.com> wrote:
+> >>> Do you plan to push this for Linux v5.7?
+> >> 
+> >> I hope that it will be accepted. From my point of view this patch set is
+> >> ready for merge, except for the maximum window size increase
+> >> requested by Petr.
 
-So did I and a bunch of other folks.  I for one run v1 since 2017 on
-a bunch of boxes (amd64/BIOS, amd64/EFI, arm64, armhf), without a glitch
-(not counting trying to boot zstd initrd _without_ the patchset :p).
+If you target 5.7, remember that the merge window for 5.7 is already going
+on, and Linus is extremely cranky about pulling anything that hasn't stewed
+in next for a while.
 
-I've tried v2 on all of the above configurations, v3 on all but armhf, v4 on
-amd64/EFI -- all is fine.
+Your patchset hasn't been in next yet, so the timing is very very late. 
+You'd need to bother Stephen Rothwell or someone who has a tree in next
+about right now to have any chances.
 
-Back in the days, folks reported success on IIRC ppc64, sparc64 and more.
+> > Is it possible to mention that there might distro-specific changes
+> > needed to initramfs-handling?
+> > For Debian you are welcome to include below Link [1].
+> > Not sure I will send/ask to/on the debian-kernel mailing list in this topic.
+> 
+> I don’t expect any distro specific changes are required to continue operating
+> as-is. However, if a distro wanted to switch to a zstd compressed initramfs 
+> they would need to update their toolchain to compress with zstd.
 
-(Obviously, initrd only on !x86.)
+Just setting COMPRESS=zstd is enough -- it'll say:
+W: Unknown compression command zstd
+but will do everything right.
 
-> Is it possible to mention that there might distro-specific changes
-> needed to initramfs-handling?
-> For Debian you are welcome to include below Link [1].
-> [1] LINK: https://lore.kernel.org/lkml/CA+icZUXCn2an9aNDrm+-eneSAOyGibz0W1xYhwkA5k3B3U-5vQ@mail.gmail.com/
-
-+zstd)  compress="zstd -19 -v" ;;
-
-I'm not sure if hard-coding -19 is always right.  It's good for production
-machines but slows down dev cycles.
-
-But that's a matter for userland, not a problem with Nick's patchset.
+Also, just minutes ago someone filed https://bugs.debian.org/955469
 
 
 Meow!
