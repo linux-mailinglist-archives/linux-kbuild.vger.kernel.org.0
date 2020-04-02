@@ -2,118 +2,154 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 398AE19C7F2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C5A719C820
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388887AbgDBR0l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Apr 2020 13:26:41 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:41622 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388908AbgDBR0l (ORCPT
+        id S2390085AbgDBRdc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Apr 2020 13:33:32 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37081 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389875AbgDBRdc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Apr 2020 13:26:41 -0400
-Received: by mail-pg1-f196.google.com with SMTP id b1so2137620pgm.8
-        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2020 10:26:40 -0700 (PDT)
+        Thu, 2 Apr 2020 13:33:32 -0400
+Received: by mail-pf1-f196.google.com with SMTP id u65so2081764pfb.4
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2020 10:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=H5lB7pAvXIGYlFSVzFQn+Y4Z8wDMSG1ZSww0VcSBoT8=;
-        b=gKNvgOy8hc6wCQvlSge37MBqulJCBRagCkj447Qm1o8xx2FINMhQg5yknXEoUR6m+Z
-         ULQfZI01R/Qh6BD8443+HVRJj3c4uKax+LRFJqInEv1IolAfai65y4GBiay60zRG7BpJ
-         TCadjYWSD4d+eJ6tLlRgQ4de9aCNzq574JQwM=
+        bh=2Yk5kZzRfldGKF/5/inhs23oSA0DsXNr92E4/iY/l88=;
+        b=VHJ5LUdWHU3S02IVrabP6ESD6AkRMxRJICpiGiJwyCuYdd8WWemAwkbx5Qvc40YeLz
+         TeN2UtDLez/g3vWpbmeIAnAWJLpLZ4qHmTI19j4q4JnIPD1HFDenWdoTrFrTNbiqs3Qz
+         +Nmw80GQr2mw63bFGUsfcN6lM4WyhY5Nn+aZw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=H5lB7pAvXIGYlFSVzFQn+Y4Z8wDMSG1ZSww0VcSBoT8=;
-        b=aYKhWUmOjEmfm/Iae3wwYzJ9gNgCTbP4/oEazmxkFaodPDcZ3aHPk6ZhKBkKIW2Pju
-         7gF80fQLtobMUt+016u6ZQhuAvIU/KCFYclySNUKA+Oe+D+2rtqNnhjIitRbt6LZFDYa
-         pTgStUT5VZrNJdmj5M+hNweiLDSs+9DH0VT/qMO2Uix/gk++fTFr3HO8TAqFN95CQGF7
-         95rwqqM+WtXWvpCFbvYcOKN5B3glzvXstp/Z1t1TlN/5yu9sYcjxekkjER0AWqAejqKs
-         PWJMFyYs2hM5Qz/HDmtU821u31rARigLMOhvlqfu6vPnFH5AZ01FqABQY/vh65m1uy7p
-         b6fQ==
-X-Gm-Message-State: AGi0PuYrO2UAh3nNvDtFwCCiumi7lzKDNdgczCdhFKcWmD0YAFZiB3sr
-        DRTueglhAODBpl6I6YYqvbj+YQ==
-X-Google-Smtp-Source: APiQypJ2hmcB7ZLOhajLAuwgEV7uDtr5aTLCSP2mbBo/qg5FkMdgwdaJkp+Be18iVsLhUUcAH8dMmA==
-X-Received: by 2002:a05:6a00:2cf:: with SMTP id b15mr4105568pft.174.1585848400117;
-        Thu, 02 Apr 2020 10:26:40 -0700 (PDT)
+        bh=2Yk5kZzRfldGKF/5/inhs23oSA0DsXNr92E4/iY/l88=;
+        b=cyHQegpqtqy3GVoW67kFDhcdE4Hh4PUzin2cmopC5xLxcmbfonbde7jSU+H11If2JI
+         tgnRq44lyFsUHGlALuF3etRtSzzvkTOVxBInbD45sTeiJb+n9LVZA7ixRxvPshI9f58H
+         jDu6NBPhdWKxc1Z08lqAqpnBVdBPmf+UhX3tcCqCUhYraMyDtjjFnNx4Xag4RMLEyCD0
+         rOZDM/QpooQ5/Cic8yLL267CfUBYlz43H8SsFokgYntPqJWBCQ8F10K6+u+fZuqDBOjd
+         L/g0jZUlpao42qCBRLWnLknBXyjARdFasJCvXsTFM+tPeZ2PPYC4VIJbWa3SAYDCBW5Q
+         C9Xw==
+X-Gm-Message-State: AGi0PuY2Up1jutX7GsYBvdz7S8/+/8oqh8M+pYZsRisAj5yTATqyqMdI
+        0B0XxWlyqSwz39OractWox/QQrBQHWw=
+X-Google-Smtp-Source: APiQypKK/NhhRqOlZkqY6+NjBvK2Ma/2YXsDptmExZj9HROBHH4bcDJtMeTvHWzi98Zad19pJicSXg==
+X-Received: by 2002:a62:2cc3:: with SMTP id s186mr4180269pfs.236.1585848810547;
+        Thu, 02 Apr 2020 10:33:30 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id p1sm4171243pjr.40.2020.04.02.10.26.38
+        by smtp.gmail.com with ESMTPSA id f9sm3006548pgj.2.2020.04.02.10.33.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 10:26:39 -0700 (PDT)
-Date:   Thu, 2 Apr 2020 10:26:38 -0700
+        Thu, 02 Apr 2020 10:33:29 -0700 (PDT)
+Date:   Thu, 2 Apr 2020 10:33:28 -0700
 From:   Kees Cook <keescook@chromium.org>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Borislav Petkov <bp@suse.de>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        James Morse <james.morse@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/9] Enable orphan section warning
-Message-ID: <202004021023.D3D8AA3BE@keescook>
-References: <20200228002244.15240-1-keescook@chromium.org>
- <CA+icZUWTnP8DYfbaMwKtJbG30v7bB4w6=ywo8gn8fvwr731mUQ@mail.gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
+Message-ID: <202004021031.511103E30D@keescook>
+References: <202004020117.6E434C035@keescook>
+ <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+icZUWTnP8DYfbaMwKtJbG30v7bB4w6=ywo8gn8fvwr731mUQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 02, 2020 at 06:20:57PM +0200, Sedat Dilek wrote:
-> On Fri, Feb 28, 2020 at 1:22 AM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > Hi!
-> >
-> > A recent bug was solved for builds linked with ld.lld, and tracking
-> > it down took way longer than it needed to (a year). Ultimately, it
-> > boiled down to differences between ld.bfd and ld.lld's handling of
-> > orphan sections. Similarly, the recent FGKASLR series brough up orphan
-> > section handling too[2]. In both cases, it would have been nice if the
-> > linker was running with --orphan-handling=warn so that surprise sections
-> > wouldn't silently get mapped into the kernel image at locations up to
-> > the whim of the linker's orphan handling logic. Instead, all desired
-> > sections should be explicitly identified in the linker script (to be
-> > either kept or discarded) with any orphans throwing a warning. The
-> > powerpc architecture actually already does this, so this series seeks
-> > to extend this coverage to x86, arm64, and arm.
-> >
-> > This series depends on tip/x86/boot (where recent .eh_frame fixes[3]
-> > landed), and has a minor conflict[4] with the ARM tree (related to
-> > the earlier mentioned bug). As it uses refactorings in the asm-generic
-> > linker script, and makes changes to kbuild, I think the cleanest place
-> > for this series to land would also be through -tip. Once again (like
-> > my READ_IMPLIES_EXEC series), I'm looking to get maintainer Acks so
-> > this can go all together with the least disruption. Splitting it up by
-> > architecture seems needlessly difficult.
-> >
-> > Thanks!
-> >
-> 
+On Fri, Apr 03, 2020 at 02:00:52AM +0900, Masahiro Yamada wrote:
 > Hi Kees,
 > 
-> what is the status of this patchset?
-> Looks like it is not in tip or linux-next Git.
+> On Thu, Apr 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
+> >
+> > When doing Clang builds of the kernel, it is possible to link with
+> > either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
+> > discover this from a running kernel. Add the "$LD -v" output to
+> > /proc/version.
+> >
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  init/Makefile       | 2 +-
+> >  scripts/mkcompile_h | 8 ++++++--
+> >  2 files changed, 7 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/init/Makefile b/init/Makefile
+> > index 6246a06364d0..82c15bdb42d7 100644
+> > --- a/init/Makefile
+> > +++ b/init/Makefile
+> > @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
+> >         @$($(quiet)chk_compile.h)
+> >         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
+> >         "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
+> > -       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
+> > +       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
+> > diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+> > index 3a5a4b210c86..f98c07709370 100755
+> > --- a/scripts/mkcompile_h
+> > +++ b/scripts/mkcompile_h
+> > @@ -6,7 +6,8 @@ ARCH=$2
+> >  SMP=$3
+> >  PREEMPT=$4
+> >  PREEMPT_RT=$5
+> > -CC=$6
+> > +LD=$6
+> > +CC=$7
+> 
+> 
+> Just a nit.
+> 
+> If you just append 'LD',
+> you do not need to touch the 'CC=$6' line.
 
-Based on the feedback, I have 3 TODO items:
+Oh! Yes, good point. I had convinced myself that the "CC=$6" was dropping
+all the passed-in KBUILD_CFLAGS, but I failed to notice the double quotes.
 
-- track down and eliminate (or explain) the source of the .got.plt on arm64
-- enable orphan warnings for _all_ architectures
-- refactor final link logic to perform the orphan warning in a clean way
+> If you do not mind, I will fold the following
+> on top of your patch.
 
-I'm working through these (and other work) still. I'm hoping to have
-another version up some time next week.
+Yes, that would be great; thanks!
+
+-Kees
+
+> 
+> 
+> 
+> 
+> --- a/init/Makefile
+> +++ b/init/Makefile
+> @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
+>         @$($(quiet)chk_compile.h)
+>         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
+>         "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
+> -       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
+> +       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)" "$(LD)"
+> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+> index 8b38a96163e2..5b80a4699740 100755
+> --- a/scripts/mkcompile_h
+> +++ b/scripts/mkcompile_h
+> @@ -6,8 +6,8 @@ ARCH=$2
+>  SMP=$3
+>  PREEMPT=$4
+>  PREEMPT_RT=$5
+> -LD=$6
+> -CC=$7
+> +CC=$6
+> +LD=$7
+> 
+> 
+> 
+> 
+> 
+> 
+> --
+> Best Regards
+> Masahiro Yamada
 
 -- 
 Kees Cook
