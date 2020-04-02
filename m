@@ -2,134 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7852019C785
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:01:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 889D619C79A
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:06:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388822AbgDBRBg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Apr 2020 13:01:36 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:58726 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732625AbgDBRBg (ORCPT
+        id S1732218AbgDBRG4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Apr 2020 13:06:56 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:21197 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731608AbgDBRG4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Apr 2020 13:01:36 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 032H1TeJ031701;
-        Fri, 3 Apr 2020 02:01:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 032H1TeJ031701
+        Thu, 2 Apr 2020 13:06:56 -0400
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 032H6RMZ030643;
+        Fri, 3 Apr 2020 02:06:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 032H6RMZ030643
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585846890;
-        bh=1mH4cw2yYcVZRUVlvx7GMUbn2oki49fXdwmWN7fbBsc=;
+        s=dec2015msa; t=1585847188;
+        bh=0Hu/kDIGL0VuCr3HG+sv9MGZq47PrIgCMrWOfepWzGY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=rrl7k6aVw3iI8Z3PirOB6ZMA0fHnC57gsk0b2BLP+Lo8ry3278PY9LFojc2cEijdL
-         favhYLtVbKdt3pgy/ChzgY6/ofWR40HQnneX85xefvGjWsCLYAxgq+39OQpEHFaC/l
-         osspRAMc38pFIYbjtbXkvqzP2lr+6hu0Tc4yvc6kiO7KYNKCUzPTmAooT9911O1p1R
-         xxS/OHhG/OfVkPg6DcHufavsku3e/YJqEiT6VvWW7DB2MtCxpdhWeQknl4vbIrgZaZ
-         qVQxeKG7phAMWvOZOKmoJdcX3ytam+G2EEg/QFo5BZbMa2TimyVgqfI0nqQlsZPRbE
-         BEqO3N1Jlqnug==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id u9so2851516vsp.6;
-        Thu, 02 Apr 2020 10:01:30 -0700 (PDT)
-X-Gm-Message-State: AGi0PubkUT6/Rcj4r7NU48cdqp0DT3rdsIwb51hFRHnG+jZ2+jDYFrU1
-        9SntwlBlmdZ+CznIOAX2ZUzEsVETYrexcnN4D08=
-X-Google-Smtp-Source: APiQypL4Rvy03M3ygmfpwsDxMy3+2fu8bl+1s8iqt4E7kRsuRDEYA0XDULMd7iH+08rmBTvCd8fPGu6VcrUOLgyYtAw=
-X-Received: by 2002:a67:33cb:: with SMTP id z194mr3175293vsz.155.1585846888868;
- Thu, 02 Apr 2020 10:01:28 -0700 (PDT)
+        b=o04n6qWEfkKrsbp5AwD5sTZg2P6LXAtsr/Kya4LataMVEHa+ZcYLYYhiSVBeQ0d/D
+         qfyEwFwgYpQ2ifjXBbFjkrBWRlHKZEGZLXz5Wd6T/HeTILHpdPXGdrI+JCoF5PEVAY
+         eGM4hrej0NV1j/jq6I71Vc7g3C7SR1VMFRe1X9sRtCGbQUS1SPyk+KacU4DLZqXKsf
+         MCn38xLXv7MXLINHCvPqoLdH/mQr/r7Dmq4splusj0xzzKQRmtYOhTw9yfUTWCQnGw
+         s5caF72usT58d0A/0TUuJ87np9Kma8PYzo3FYNOmJbfxQWpRdg6tebup2mf8u9t3LC
+         ektICVF8GqfaA==
+X-Nifty-SrcIP: [209.85.221.175]
+Received: by mail-vk1-f175.google.com with SMTP id f63so1134399vkh.0;
+        Thu, 02 Apr 2020 10:06:27 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYkkqFAaUnw5U5pFBrQ7bxWkGTTLDzb7hugTneruWX7hkbyoB+b
+        GyYeo4HLnDJ3Tm6O4ynpWyuV/y9cPToaORxLFLU=
+X-Google-Smtp-Source: APiQypJF3Ke0+SW6brBoT+I7M6euOWu205ToQ0Ev9frjeBnq3BfsIK3p1EjjGNj9Z/i4VjbTQ/yD/qDjvZEYLYbqub4=
+X-Received: by 2002:a1f:32cf:: with SMTP id y198mr3063123vky.96.1585847186520;
+ Thu, 02 Apr 2020 10:06:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <202004020117.6E434C035@keescook>
-In-Reply-To: <202004020117.6E434C035@keescook>
+References: <20200326194155.29107-1-natechancellor@gmail.com>
+ <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
+ <20200331101122.GA6292@ubuntu-m2-xlarge-x86> <CAKwvOdkkpnkLwtNctSnebXTwumfprEQtLiuM5_4e-UBFTYBUxg@mail.gmail.com>
+ <20200331192637.GA54270@ubuntu-m2-xlarge-x86>
+In-Reply-To: <20200331192637.GA54270@ubuntu-m2-xlarge-x86>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 3 Apr 2020 02:00:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
-Message-ID: <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
+Date:   Fri, 3 Apr 2020 02:05:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASPt4c-Vt9UzdKjSvPSYqXd4AFLNqKXfxnmqmfzk3Zi_A@mail.gmail.com>
+Message-ID: <CAK7LNASPt4c-Vt9UzdKjSvPSYqXd4AFLNqKXfxnmqmfzk3Zi_A@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Kees,
-
-On Thu, Apr 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
+On Wed, Apr 1, 2020 at 4:26 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> When doing Clang builds of the kernel, it is possible to link with
-> either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
-> discover this from a running kernel. Add the "$LD -v" output to
-> /proc/version.
+> On Tue, Mar 31, 2020 at 09:02:19AM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
+> > On Tue, Mar 31, 2020 at 3:11 AM Nathan Chancellor
+> > <natechancellor@gmail.com> wrote:
+> > > Just a follow up, those two patches have been picked up and should be in
+> > > this coming release:
+> > >
+> > > https://git.kernel.org/balbi/usb/c/58582220d2d34228e5a1e1585e41b735713988bb
+> > > https://git.kernel.org/rostedt/linux-trace/c/bf2cbe044da275021b2de5917240411a19e5c50d
+> > >
+> > > As of next-20200331, with the former applied (because it is not there
+> > > yet) along with this patch, I see no warnings on arm, arm64, x86_64
+> > > all{mod,yes}config.
+> >
+> > kbuild test robot is testing more arch's than that with Clang so it
+> > may report if it finds more instances of that warning in those.
+> >
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
+> >
 >
-> Signed-off-by: Kees Cook <keescook@chromium.org>
-> ---
->  init/Makefile       | 2 +-
->  scripts/mkcompile_h | 8 ++++++--
->  2 files changed, 7 insertions(+), 3 deletions(-)
+> I'll keep an eye out. Hopefully not too many more are lurking but we
+> have definitely caught some bad behavior with this warning already so
+> getting it turned on so that all CI systems can benefit from it is
+> important.
 >
-> diff --git a/init/Makefile b/init/Makefile
-> index 6246a06364d0..82c15bdb42d7 100644
-> --- a/init/Makefile
-> +++ b/init/Makefile
-> @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
->         @$($(quiet)chk_compile.h)
->         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
->         "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
-> -       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
-> +       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
-> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-> index 3a5a4b210c86..f98c07709370 100755
-> --- a/scripts/mkcompile_h
-> +++ b/scripts/mkcompile_h
-> @@ -6,7 +6,8 @@ ARCH=$2
->  SMP=$3
->  PREEMPT=$4
->  PREEMPT_RT=$5
-> -CC=$6
-> +LD=$6
-> +CC=$7
-
-
-Just a nit.
-
-If you just append 'LD',
-you do not need to touch the 'CC=$6' line.
-
-
-If you do not mind, I will fold the following
-on top of your patch.
+> Cheers,
+> Nathan
 
 
 
+Applied to linux-kbuild.
 
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
-        @$($(quiet)chk_compile.h)
-        $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
-        "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
--       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
-+       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)" "$(LD)"
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 8b38a96163e2..5b80a4699740 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -6,8 +6,8 @@ ARCH=$2
- SMP=$3
- PREEMPT=$4
- PREEMPT_RT=$5
--LD=$6
--CC=$7
-+CC=$6
-+LD=$7
+I will rebase my branch during this MW,
+so the commit ID will be unstable.
+Please do not record it until it lands in Linus' tree.
 
-
-
-
-
-
---
+-- 
 Best Regards
 Masahiro Yamada
