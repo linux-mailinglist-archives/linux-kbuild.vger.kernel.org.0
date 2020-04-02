@@ -2,102 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 889D619C79A
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:06:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE96A19C7B7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:14:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732218AbgDBRG4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Apr 2020 13:06:56 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:21197 "EHLO
+        id S2388560AbgDBRO3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Apr 2020 13:14:29 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:31125 "EHLO
         conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731608AbgDBRG4 (ORCPT
+        with ESMTP id S2388136AbgDBRO2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Apr 2020 13:06:56 -0400
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 032H6RMZ030643;
-        Fri, 3 Apr 2020 02:06:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 032H6RMZ030643
+        Thu, 2 Apr 2020 13:14:28 -0400
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 032HENKg001465;
+        Fri, 3 Apr 2020 02:14:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 032HENKg001465
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585847188;
-        bh=0Hu/kDIGL0VuCr3HG+sv9MGZq47PrIgCMrWOfepWzGY=;
+        s=dec2015msa; t=1585847664;
+        bh=VV9RCquaBUqKTgTNvl6x45RtGx68PHxnzewnWe363KQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=o04n6qWEfkKrsbp5AwD5sTZg2P6LXAtsr/Kya4LataMVEHa+ZcYLYYhiSVBeQ0d/D
-         qfyEwFwgYpQ2ifjXBbFjkrBWRlHKZEGZLXz5Wd6T/HeTILHpdPXGdrI+JCoF5PEVAY
-         eGM4hrej0NV1j/jq6I71Vc7g3C7SR1VMFRe1X9sRtCGbQUS1SPyk+KacU4DLZqXKsf
-         MCn38xLXv7MXLINHCvPqoLdH/mQr/r7Dmq4splusj0xzzKQRmtYOhTw9yfUTWCQnGw
-         s5caF72usT58d0A/0TUuJ87np9Kma8PYzo3FYNOmJbfxQWpRdg6tebup2mf8u9t3LC
-         ektICVF8GqfaA==
-X-Nifty-SrcIP: [209.85.221.175]
-Received: by mail-vk1-f175.google.com with SMTP id f63so1134399vkh.0;
-        Thu, 02 Apr 2020 10:06:27 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYkkqFAaUnw5U5pFBrQ7bxWkGTTLDzb7hugTneruWX7hkbyoB+b
-        GyYeo4HLnDJ3Tm6O4ynpWyuV/y9cPToaORxLFLU=
-X-Google-Smtp-Source: APiQypJF3Ke0+SW6brBoT+I7M6euOWu205ToQ0Ev9frjeBnq3BfsIK3p1EjjGNj9Z/i4VjbTQ/yD/qDjvZEYLYbqub4=
-X-Received: by 2002:a1f:32cf:: with SMTP id y198mr3063123vky.96.1585847186520;
- Thu, 02 Apr 2020 10:06:26 -0700 (PDT)
+        b=qlZuXzUgOjt1YRjdpZ8jvTTkU+olMBIPWMLjJF7eyl4j44uPVN0gmhq65eBGH9bjA
+         LXjM+OLJRXE8RWpSyzLmM/23PtvEcj8PZS7FP818EzEWqUo5GkoGtyq8kXDGeq/eqO
+         aZ0LixI45onrSVpqQOIaVMkVSJgUXvtz8AVf3jt92XKuwPKuvnTRPpyAFvX85HjK0/
+         3A3/RSbbnDetEZ2N/exMsyuo67Z8iwyo9kOE3zEMrdBm6bfhIDm4hmjFpUcmkd4AYd
+         i8X0/o+6Ic0nn0d+aa6rZEsySURy7iAZU+ejsA0nvvWhqeYI1BFmlYFIEvlKSelg1Q
+         Svl5563/ePFzw==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id w14so2886598vsf.7;
+        Thu, 02 Apr 2020 10:14:24 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZqoeyGscCOFKrtlA0Iy7j7xnu9jLwYm3CLvbS8DZLrZ7AJwS+y
+        UryrQToOQpnLCqLw0urKql2hgJa/3qP0tjnP3PI=
+X-Google-Smtp-Source: APiQypLi6VNdR0LJcxnztEKTu9mm4aCOQVyBOR7HhoPha0nrOLv/Bys5d+dBX54lAC1p0IfDAxTTHz8EmuqD0HPmlks=
+X-Received: by 2002:a67:33cb:: with SMTP id z194mr3230237vsz.155.1585847663196;
+ Thu, 02 Apr 2020 10:14:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200326194155.29107-1-natechancellor@gmail.com>
- <CAK7LNAQ8uHtuhd7DiGGOLbkEX524rPjfUuWAHjU-_92Ow3_1Pg@mail.gmail.com>
- <20200331101122.GA6292@ubuntu-m2-xlarge-x86> <CAKwvOdkkpnkLwtNctSnebXTwumfprEQtLiuM5_4e-UBFTYBUxg@mail.gmail.com>
- <20200331192637.GA54270@ubuntu-m2-xlarge-x86>
-In-Reply-To: <20200331192637.GA54270@ubuntu-m2-xlarge-x86>
+References: <20200311223725.27662-1-masahiroy@kernel.org> <20200311223725.27662-2-masahiroy@kernel.org>
+In-Reply-To: <20200311223725.27662-2-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 3 Apr 2020 02:05:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASPt4c-Vt9UzdKjSvPSYqXd4AFLNqKXfxnmqmfzk3Zi_A@mail.gmail.com>
-Message-ID: <CAK7LNASPt4c-Vt9UzdKjSvPSYqXd4AFLNqKXfxnmqmfzk3Zi_A@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: Enable -Wtautological-compare
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Fri, 3 Apr 2020 02:13:43 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT3SR3rc5F1BYA0=Wxp3PRbd+ueDZ-h_UzCj=9m8CLWLQ@mail.gmail.com>
+Message-ID: <CAK7LNAT3SR3rc5F1BYA0=Wxp3PRbd+ueDZ-h_UzCj=9m8CLWLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] kbuild: link lib-y objects to vmlinux forcibly
+ when CONFIG_MODULES=y
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     sparclinux <sparclinux@vger.kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Ilie Halip <ilie.halip@gmail.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 1, 2020 at 4:26 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Thu, Mar 12, 2020 at 7:38 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Tue, Mar 31, 2020 at 09:02:19AM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
-> > On Tue, Mar 31, 2020 at 3:11 AM Nathan Chancellor
-> > <natechancellor@gmail.com> wrote:
-> > > Just a follow up, those two patches have been picked up and should be in
-> > > this coming release:
-> > >
-> > > https://git.kernel.org/balbi/usb/c/58582220d2d34228e5a1e1585e41b735713988bb
-> > > https://git.kernel.org/rostedt/linux-trace/c/bf2cbe044da275021b2de5917240411a19e5c50d
-> > >
-> > > As of next-20200331, with the former applied (because it is not there
-> > > yet) along with this patch, I see no warnings on arm, arm64, x86_64
-> > > all{mod,yes}config.
-> >
-> > kbuild test robot is testing more arch's than that with Clang so it
-> > may report if it finds more instances of that warning in those.
-> >
-> > --
-> > Thanks,
-> > ~Nick Desaulniers
-> >
+> Kbuild supports not only obj-y but also lib-y to list objects linked to
+> vmlinux.
 >
-> I'll keep an eye out. Hopefully not too many more are lurking but we
-> have definitely caught some bad behavior with this warning already so
-> getting it turned on so that all CI systems can benefit from it is
-> important.
+> The difference between them is that all the objects from obj-y are
+> forcibly linked to vmlinux by using --whole-archive, whereas the objects
+> from lib-y are linked as needed; if there is no user of a lib-y object,
+> it is not linked.
 >
-> Cheers,
-> Nathan
-
-
+> lib-y is intended to list utility functions that may be called from all
+> over the place (and may be unused at all), but it is a problem for
+> EXPORT_SYMBOL(). Even if there is no call-site in the vmlinux, we need
+> to keep exported symbols for the use from loadable modules.
+>
+> Commit 7f2084fa55e6 ("[kbuild] handle exports in lib-y objects reliably")
+> worked around it by linking a dummy object, lib-ksyms.o, which contains
+> references to all the symbols exported from lib.a in that directory.
+> It uses the linker script command, EXTERN. Unfortunately, the meaning of
+> EXTERN of ld.lld is different from that of ld.bfd. Therefore, this does
+> not work with LD=ld.lld (CBL issue #515).
+>
+> Anyway, the build rule of lib-ksyms.o is somewhat tricky. So, I want to
+> get rid of it.
+>
+> At first, I was thinking of accumulating lib-y objects into obj-y
+> (or even replacing lib-y with obj-y entirely), but the lib-y syntax
+> is used beyond the ordinary use in lib/ and arch/*/lib/.
+>
+> Examples:
+>
+>  - drivers/firmware/efi/libstub/Makefile builds lib.a, which is linked
+>    into vmlinux in the own way (arm64), or linked to the decompressor
+>    (arm, x86).
+>
+>  - arch/alpha/lib/Makefile builds lib.a which is linked not only to
+>    vmlinux, but also to bootloaders in arch/alpha/boot/Makefile.
+>
+>  - arch/xtensa/boot/lib/Makefile builds lib.a for use from
+>    arch/xtensa/boot/boot-redboot/Makefile.
+>
+> One more thing, adding everything to obj-y would increase the vmlinux
+> size of allnoconfig (or tinyconfig).
+>
+> For less impact, I tweaked the destination of lib.a at the top Makefile;
+> when CONFIG_MODULES=y, lib.a goes to KBUILD_VMLINUX_OBJS, which is
+> forcibly linked to vmlinux, otherwise lib.a goes to KBUILD_VMLINUX_LIBS
+> as before.
+>
+> The size impact for normal usecases is quite small since at lease one
+> symbol in every lib-y object is eventually called by someone. In case
+> you are intrested, here are the figures.
+>
+> x86_64_defconfig:
+>
+>    text    data     bss     dec     hex filename
+> 19566602 5422072 1589328 26578002 1958c52 vmlinux.before
+> 19566932 5422104 1589328 26578364 1958dbc vmlinux.after
+>
+> The case with the biggest impact is allnoconfig + CONFIG_MODULES=y.
+>
+> ARCH=x86 allnoconfig + CONFIG_MODULES=y:
+>
+>    text    data     bss     dec     hex filename
+> 1175162  254740 1220608 2650510  28718e vmlinux.before
+> 1177974  254836 1220608 2653418  287cea vmlinux.after
+>
+> Hopefully this is still not a big deal. The per-file trimming with the
+> static library is not so effective after all.
+>
+> If fine-grained optimization is desired, some architectures support
+> CONFIG_LD_DEAD_CODE_DATA_ELIMINATION, which trims dead code per-symbol
+> basis. When LTO is supported in mainline, even better optimization will
+> be possible.
+>
+> Link: https://github.com/ClangBuiltLinux/linux/issues/515
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reported-by: kbuild test robot <lkp@intel.com>
+> ---
 
 Applied to linux-kbuild.
 
 I will rebase my branch during this MW,
 so the commit ID will be unstable.
 Please do not record it until it lands in Linus' tree.
+
+
+
+
 
 -- 
 Best Regards
