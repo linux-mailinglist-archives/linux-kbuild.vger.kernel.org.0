@@ -2,154 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 236E519C6FA
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 18:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0220C19C73C
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 18:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389781AbgDBQUx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Apr 2020 12:20:53 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:38137 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389689AbgDBQUx (ORCPT
+        id S2389871AbgDBQkD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Apr 2020 12:40:03 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38421 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389046AbgDBQkC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Apr 2020 12:20:53 -0400
-Received: by mail-wm1-f68.google.com with SMTP id f6so4338067wmj.3;
-        Thu, 02 Apr 2020 09:20:51 -0700 (PDT)
+        Thu, 2 Apr 2020 12:40:02 -0400
+Received: by mail-pf1-f194.google.com with SMTP id c21so2005298pfo.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2020 09:40:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=M0qIKEE/jPMCSL2VsYtN2C2Vz0+dVANDDtua/KUa0Wk=;
-        b=J06tr+PDUUN0IuhiAKpC+JkPY8VyKtaIEVjjLgKOrK9s0Lgl7OAV2j9iM0iy52w24n
-         6dWnSzs8jK0HUWqS8ELNCbmtvITkrSQi8Fbz+QXKVEg8wTxsvSJzP1HAvRppPpmLDZUv
-         zWPeFfZNTNCgd4FjcJJddVmDR1Tn/3iz1z2UHrJTP4fF3lbtaW8wkEQTCcORfER94HoW
-         YnUoQn90b8mUWIHdd2dp6rV9wWOIgKOa8gcKXO65WKz1zY8raCBr/mNZLQQILksnvan/
-         s7800d80UPo046XvmJ6sl+ewPWq9fnkenr/FUti1D0iSnvkxe+pYTF8IbkeN40uPMq9k
-         b/dQ==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=P5P7+32EPNiTA9W/bPQnunX4XIHQIJgt5gQH7DdKhy0=;
+        b=fH8o+GZDZ1xdsVdHSi6MAupKO7i5SOOdhKbMy9EC42AcredyeAYuEr60QU+fttr6C7
+         M2hu1qmBT0E9kEN76oM60aZ/2lEdUGRNSJhnMJgML3APaBmfOp6cNgas0HOFLn7YCJ9t
+         RwvAvDwKlwACh5Y2WaH8SYappE+KxFzPYG22EvIPo0pYp4eYGp52pNwS8JUBHX39jpGn
+         KyyV+sycOit5HZK8sukkfuVL/Bfn0cBmW79zilVLgTeAKHW5n0VQGehTG0J11yLPVzKS
+         JdSyKtBiFPzQ7ho0Qfjc201wn6fV1KNo4fb4K4jM1Jya+7jxx7diX9cQyFo2tgDVbssA
+         TyQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=M0qIKEE/jPMCSL2VsYtN2C2Vz0+dVANDDtua/KUa0Wk=;
-        b=uSvukANxJdmcxWAmA7rIR+pjer7Koczt/KCimm0Kptb/psLqDSprvSgfExjwn3g+o4
-         HPKwVxL6iWMKvfzrvydGtLvVw8BHVcLnFUGgy06EF/WyrRl7VAbbVQAUBwWIRV6nO2Sb
-         t3/3KsG+bUuftgOp9xDmFYK2h4lzwUUCiBhqlXn8fyIaSHv3mHYuit+KFO2yMhUEZX4a
-         gTe6WD4FLdWAD3Ph8KDMrByJ5Sm33cXi6ocfbVv2ImcpRXrOZvND57Iejswgk434veRR
-         X2HHSCSDhOuGugs4nAWSGCqRf/7XVziGeETfKXUp05g0BFWpaCIbn81LOmPWZuxLq4gl
-         sLbQ==
-X-Gm-Message-State: AGi0PubQbHGozYEewaqErD3MktKrEDwubwPV9Jxrb4xw5fpq1LiWAIbs
-        8roH1EuClNv7O6GV2TgCbnV7zQUFKq6mcwx+ix4=
-X-Google-Smtp-Source: APiQypLQKCLfKaI9g7CDIQB0Dt1MIKvoDGOCHMQ5uuabLjQMqtvD8ITI3S55KR8iAO4oibBgm83EghWn2uGq6sjdu14=
-X-Received: by 2002:a1c:4e11:: with SMTP id g17mr4310690wmh.80.1585844450712;
- Thu, 02 Apr 2020 09:20:50 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=P5P7+32EPNiTA9W/bPQnunX4XIHQIJgt5gQH7DdKhy0=;
+        b=jMpOCmIRPOlzn3e+XKtOsu1EgOUXEfpNiochDyQ1HX3A6dClgvoOcnn4xE2+mJu4jq
+         Tj/BpIuZYUhoR1iMVF37TMiJ6hqdXeupxDu1C2OGXtS0331Ia3XdK9VhxFcy2ClnlioU
+         LjTiWkpf1wngMu0OElBz7tcccIgm+WQorg1hEwiGJwFSByb3+ppctOD+/1tfCbquMQK+
+         2UkC/kgjOZ2nkn2X3QphjlbUAOHlUqAGJ8BYRMGtL74mZk8w89KHV4BQl/C/vNQlMkDt
+         xHYitTv1iOeT/SQHYRJhAk5/vdHRh7JRjLgM1hecd/BFTUwd1WbWQEuyDhMnmfKdGIet
+         K0Ag==
+X-Gm-Message-State: AGi0PuZs7vC3mphpm1qw94OIGF+kHQVnSjUTRK9RbN0o2AxGK1foLXzA
+        FsT7MKs+kA94N89uTik+Ic/9KQ==
+X-Google-Smtp-Source: APiQypKH0DXiDCoSWxCJ+loJoi3QVtbfhkTZ6FkNR9ShOim7iSVt2e1XqX4CIaEPQbwY6vh2ItkDDg==
+X-Received: by 2002:a05:6a00:c8:: with SMTP id e8mr3777718pfj.131.1585845601274;
+        Thu, 02 Apr 2020 09:40:01 -0700 (PDT)
+Received: from google.com ([2620:15c:2ce:0:9efe:9f1:9267:2b27])
+        by smtp.gmail.com with ESMTPSA id ci18sm4102094pjb.23.2020.04.02.09.40.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2020 09:40:00 -0700 (PDT)
+Date:   Thu, 2 Apr 2020 09:39:57 -0700
+From:   Fangrui Song <maskray@google.com>
+To:     'Nick Desaulniers' via Clang Built Linux 
+        <clang-built-linux@googlegroups.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sandeep Patil <sspatil@google.com>
+Subject: Re: [PATCH v2] Makefile.llvm: simplify LLVM build
+Message-ID: <20200402163957.lqgr3tpc4z7ish5e@google.com>
+References: <20200317215515.226917-1-ndesaulniers@google.com>
+ <20200327224246.GA12350@ubuntu-m2-xlarge-x86>
+ <CAK7LNAShb1gWuZyycLAGWm19EWn17zeNcmdPyqu1o=K9XrfJbg@mail.gmail.com>
+ <CAK7LNAQ3=jUu4aa=JQB8wErUGDd-Vr=cX_yZSdP_uAP6kWZ=pw@mail.gmail.com>
+ <CAKwvOd=5AG1ARw6JUXmkuiftuShuYHKLk0ZnueuLhvOdMr5dOA@mail.gmail.com>
+ <20200330190312.GA32257@ubuntu-m2-xlarge-x86>
+ <CAK7LNAT1HoV5wUZRdeU0+P1nYAm2xQ4tpOG+7UtT4947QByakg@mail.gmail.com>
+ <CAKwvOd==U6NvvYz8aUz8fUNdvz27pKrn8X5205rFadpGXzRC-Q@mail.gmail.com>
+ <CAK7LNAR0PPxibFVC5F07mytz4J2BbwQkpHcquH56j7=S_Mqj2g@mail.gmail.com>
+ <CAKwvOdnYXXcfxWT6bOZXCX9-ac8tb=p2J53W+T-_gOfUu9vvSg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200228002244.15240-1-keescook@chromium.org>
-In-Reply-To: <20200228002244.15240-1-keescook@chromium.org>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 2 Apr 2020 18:20:57 +0200
-Message-ID: <CA+icZUWTnP8DYfbaMwKtJbG30v7bB4w6=ywo8gn8fvwr731mUQ@mail.gmail.com>
-Subject: Re: [PATCH 0/9] Enable orphan section warning
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Borislav Petkov <bp@suse.de>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Collingbourne <pcc@google.com>,
-        James Morse <james.morse@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <masahiroy@kernel.org>, x86@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdnYXXcfxWT6bOZXCX9-ac8tb=p2J53W+T-_gOfUu9vvSg@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Feb 28, 2020 at 1:22 AM Kees Cook <keescook@chromium.org> wrote:
->
-> Hi!
->
-> A recent bug was solved for builds linked with ld.lld, and tracking
-> it down took way longer than it needed to (a year). Ultimately, it
-> boiled down to differences between ld.bfd and ld.lld's handling of
-> orphan sections. Similarly, the recent FGKASLR series brough up orphan
-> section handling too[2]. In both cases, it would have been nice if the
-> linker was running with --orphan-handling=warn so that surprise sections
-> wouldn't silently get mapped into the kernel image at locations up to
-> the whim of the linker's orphan handling logic. Instead, all desired
-> sections should be explicitly identified in the linker script (to be
-> either kept or discarded) with any orphans throwing a warning. The
-> powerpc architecture actually already does this, so this series seeks
-> to extend this coverage to x86, arm64, and arm.
->
-> This series depends on tip/x86/boot (where recent .eh_frame fixes[3]
-> landed), and has a minor conflict[4] with the ARM tree (related to
-> the earlier mentioned bug). As it uses refactorings in the asm-generic
-> linker script, and makes changes to kbuild, I think the cleanest place
-> for this series to land would also be through -tip. Once again (like
-> my READ_IMPLIES_EXEC series), I'm looking to get maintainer Acks so
-> this can go all together with the least disruption. Splitting it up by
-> architecture seems needlessly difficult.
->
-> Thanks!
->
 
-Hi Kees,
+On 2020-04-01, 'Nick Desaulniers' via Clang Built Linux wrote:
+>On Tue, Mar 31, 2020 at 11:11 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>>
+>> On Wed, Apr 1, 2020 at 3:39 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>> >
+>> > On Mon, Mar 30, 2020 at 11:25 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>> > >
+>> > > Having both LLVM_DIR and LLVM_SUFFIX seems verbose.
+>> >
+>> > I agree, so maybe just LLVM=y, and we can support both non-standard
+>> > locations and debian suffixes via modifications to PATH.
+>>
+>>
+>>
+>> OK, so we will start with the boolean switch 'LLVM'.
+>>
+>> People can use PATH to cope with directory path and suffixes.
+>
+>Sounds good, we will modify our CI to use PATH modifications rather
+>than suffixes. We can even do that before such a patch to Makefile
+>exists.
 
-what is the status of this patchset?
-Looks like it is not in tip or linux-next Git.
+The proposed LLVM=1 + PATH scheme looks good to me.
 
-Thanks.
 
-Regards,
-- Sedat -
+There seems to be one issue.
+OBJSIZE=llvm-objsize added in
+commit fcf1b6a35c16ac500fa908a4022238e5d666eabf "Documentation/llvm: add documentation on building w/ Clang/LLVM"
+is wrong.
 
-> -Kees
->
-> [1] https://github.com/ClangBuiltLinux/linux/issues/282
-> [2] https://lore.kernel.org/lkml/202002242122.AA4D1B8@keescook/
-> [3] https://lore.kernel.org/lkml/158264960194.28353.10560165361470246192.tip-bot2@tip-bot2/
-> [4] https://www.arm.linux.org.uk/developer/patches/viewpatch.php?id=8959/1
->
-> H.J. Lu (1):
->   Add RUNTIME_DISCARD_EXIT to generic DISCARDS
->
-> Kees Cook (8):
->   scripts/link-vmlinux.sh: Delay orphan handling warnings until final
->     link
->   vmlinux.lds.h: Add .gnu.version* to DISCARDS
->   x86/build: Warn on orphan section placement
->   x86/boot: Warn on orphan section placement
->   arm64/build: Use common DISCARDS in linker script
->   arm64/build: Warn on orphan section placement
->   arm/build: Warn on orphan section placement
->   arm/boot: Warn on orphan section placement
->
->  arch/arm/Makefile                             |  4 ++++
->  arch/arm/boot/compressed/Makefile             |  2 ++
->  arch/arm/boot/compressed/vmlinux.lds.S        | 17 ++++++--------
->  .../arm/{kernel => include/asm}/vmlinux.lds.h | 22 ++++++++++++++-----
->  arch/arm/kernel/vmlinux-xip.lds.S             |  5 ++---
->  arch/arm/kernel/vmlinux.lds.S                 |  5 ++---
->  arch/arm64/Makefile                           |  4 ++++
->  arch/arm64/kernel/vmlinux.lds.S               | 13 +++++------
->  arch/x86/Makefile                             |  4 ++++
->  arch/x86/boot/compressed/Makefile             |  3 ++-
->  arch/x86/boot/compressed/vmlinux.lds.S        | 13 +++++++++++
->  arch/x86/kernel/vmlinux.lds.S                 |  7 ++++++
->  include/asm-generic/vmlinux.lds.h             | 11 ++++++++--
->  scripts/link-vmlinux.sh                       |  6 +++++
->  14 files changed, 85 insertions(+), 31 deletions(-)
->  rename arch/arm/{kernel => include/asm}/vmlinux.lds.h (92%)
->
-> --
-> 2.20.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200228002244.15240-1-keescook%40chromium.org.
+The tool is named llvm-size. OBJSIZE is only used once:
+
+   arch/s390/scripts/Makefile.chkbss
+   14:     if ! $(OBJSIZE) --common $< | $(AWK) 'END { if ($$3) exit 1 }'; then \
