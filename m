@@ -2,154 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C5A719C820
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A1F319C82E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390085AbgDBRdc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Apr 2020 13:33:32 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:37081 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389875AbgDBRdc (ORCPT
+        id S2389093AbgDBRiu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Apr 2020 13:38:50 -0400
+Received: from mail-pg1-f201.google.com ([209.85.215.201]:51054 "EHLO
+        mail-pg1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388677AbgDBRit (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Apr 2020 13:33:32 -0400
-Received: by mail-pf1-f196.google.com with SMTP id u65so2081764pfb.4
-        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2020 10:33:31 -0700 (PDT)
+        Thu, 2 Apr 2020 13:38:49 -0400
+Received: by mail-pg1-f201.google.com with SMTP id d69so3586115pga.17
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Apr 2020 10:38:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2Yk5kZzRfldGKF/5/inhs23oSA0DsXNr92E4/iY/l88=;
-        b=VHJ5LUdWHU3S02IVrabP6ESD6AkRMxRJICpiGiJwyCuYdd8WWemAwkbx5Qvc40YeLz
-         TeN2UtDLez/g3vWpbmeIAnAWJLpLZ4qHmTI19j4q4JnIPD1HFDenWdoTrFrTNbiqs3Qz
-         +Nmw80GQr2mw63bFGUsfcN6lM4WyhY5Nn+aZw=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=NI0Kiq/sBep8uH+bGoMdp+/XVSJu96oWCrFI/ppsJuU=;
+        b=XymilC0+8zjoS6aqUQvbDKpbxG1xuxlcy5XK1oX8f86l5HbkEmItujb3V3DieUwDsS
+         6F6hPVDf7oSlFi+YtCIgpd6I96IGdaQM1ZCYhokBEAKJOYwltiqJa0ffhCx04UqnxMFO
+         Uw70OqmKkpPbMqlQxgpysWe9N7BAz71tYLeHhZxlhBvmrl+Gq/J277bG3lILRQkz1cBh
+         dngvfNsA3HPxtUIXDCGGnW+r6bTsyXhYiXpQDboV+OlckctH17+fRoWTEjpNVQeK9iqN
+         xt7hMa2CY+DCQvDbGhGimiLE6tED+OzmOzwfM68A8JGwdcxM449sZQuv1g42RXXO5bU+
+         vGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2Yk5kZzRfldGKF/5/inhs23oSA0DsXNr92E4/iY/l88=;
-        b=cyHQegpqtqy3GVoW67kFDhcdE4Hh4PUzin2cmopC5xLxcmbfonbde7jSU+H11If2JI
-         tgnRq44lyFsUHGlALuF3etRtSzzvkTOVxBInbD45sTeiJb+n9LVZA7ixRxvPshI9f58H
-         jDu6NBPhdWKxc1Z08lqAqpnBVdBPmf+UhX3tcCqCUhYraMyDtjjFnNx4Xag4RMLEyCD0
-         rOZDM/QpooQ5/Cic8yLL267CfUBYlz43H8SsFokgYntPqJWBCQ8F10K6+u+fZuqDBOjd
-         L/g0jZUlpao42qCBRLWnLknBXyjARdFasJCvXsTFM+tPeZ2PPYC4VIJbWa3SAYDCBW5Q
-         C9Xw==
-X-Gm-Message-State: AGi0PuY2Up1jutX7GsYBvdz7S8/+/8oqh8M+pYZsRisAj5yTATqyqMdI
-        0B0XxWlyqSwz39OractWox/QQrBQHWw=
-X-Google-Smtp-Source: APiQypKK/NhhRqOlZkqY6+NjBvK2Ma/2YXsDptmExZj9HROBHH4bcDJtMeTvHWzi98Zad19pJicSXg==
-X-Received: by 2002:a62:2cc3:: with SMTP id s186mr4180269pfs.236.1585848810547;
-        Thu, 02 Apr 2020 10:33:30 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id f9sm3006548pgj.2.2020.04.02.10.33.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 10:33:29 -0700 (PDT)
-Date:   Thu, 2 Apr 2020 10:33:28 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
-Message-ID: <202004021031.511103E30D@keescook>
-References: <202004020117.6E434C035@keescook>
- <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=NI0Kiq/sBep8uH+bGoMdp+/XVSJu96oWCrFI/ppsJuU=;
+        b=Rzz6NNvdgagYcQsblq96LIxurg6sm8VFgaSJauP3hNZ0ADDn5LeFo/CSEzhNsdkwIG
+         l5tjrlsttHRIb7+Cc4yjpsBo8GD1SYuJvm6yhWbds6K66rXlslw1K5Push+OJWedtWh0
+         NnUz/dJtNuacfjSrybLiipKlA/+aA0nR9ejoFMRSpOP3Xzvx0nBodvWKp5WiaA77Vofa
+         G77K3n9TF5wIJOU0tUbe3gB8QaQbOhZ42Fhvrw/ILoHzEofJzvGDsJQrm8yCQWoq4Oit
+         FcuAVKutZmzGG6NyEePIdqrIJlx9HPJIBCj2anHhhrJfu6jfa4KQxZd8KiLjhjtHoWwP
+         xszA==
+X-Gm-Message-State: AGi0PuZk/UNfKHhMgUL7b+mHM3ubXImTWNRTT+wxiLz0aTOAqX6lrF3g
+        wqvo2dUxiLmU4fV/ifRu5/IQkNWotCJH
+X-Google-Smtp-Source: APiQypJ1XJpXWlwo1vDKom37brStxOJ9dfhZWzCVQIEnxK21Q6WUr6jX8FGkVEAoDrUEJjPjFmJEdIktzwfj
+X-Received: by 2002:a17:90a:8085:: with SMTP id c5mr4557030pjn.186.1585849126457;
+ Thu, 02 Apr 2020 10:38:46 -0700 (PDT)
+Date:   Thu,  2 Apr 2020 10:38:42 -0700
+Message-Id: <20200402173842.96013-1-maskray@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.0.rc2.310.g2932bb562d-goog
+Subject: [PATCH] Documentation/llvm: fix the name of llvm-size
+From:   Fangrui Song <maskray@google.com>
+To:     corbet@lwn.net, masahiroy@kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Fangrui Song <maskray@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 03, 2020 at 02:00:52AM +0900, Masahiro Yamada wrote:
-> Hi Kees,
-> 
-> On Thu, Apr 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > When doing Clang builds of the kernel, it is possible to link with
-> > either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
-> > discover this from a running kernel. Add the "$LD -v" output to
-> > /proc/version.
-> >
-> > Signed-off-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  init/Makefile       | 2 +-
-> >  scripts/mkcompile_h | 8 ++++++--
-> >  2 files changed, 7 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/init/Makefile b/init/Makefile
-> > index 6246a06364d0..82c15bdb42d7 100644
-> > --- a/init/Makefile
-> > +++ b/init/Makefile
-> > @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
-> >         @$($(quiet)chk_compile.h)
-> >         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
-> >         "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
-> > -       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
-> > +       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
-> > diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-> > index 3a5a4b210c86..f98c07709370 100755
-> > --- a/scripts/mkcompile_h
-> > +++ b/scripts/mkcompile_h
-> > @@ -6,7 +6,8 @@ ARCH=$2
-> >  SMP=$3
-> >  PREEMPT=$4
-> >  PREEMPT_RT=$5
-> > -CC=$6
-> > +LD=$6
-> > +CC=$7
-> 
-> 
-> Just a nit.
-> 
-> If you just append 'LD',
-> you do not need to touch the 'CC=$6' line.
+The tool is called llvm-size, not llvm-objsize.
 
-Oh! Yes, good point. I had convinced myself that the "CC=$6" was dropping
-all the passed-in KBUILD_CFLAGS, but I failed to notice the double quotes.
+Fixes: fcf1b6a35c16 ("Documentation/llvm: add documentation on building w/ Clang/LLVM")
+Signed-off-by: Fangrui Song <maskray@google.com>
+---
+ Documentation/kbuild/llvm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> If you do not mind, I will fold the following
-> on top of your patch.
-
-Yes, that would be great; thanks!
-
--Kees
-
-> 
-> 
-> 
-> 
-> --- a/init/Makefile
-> +++ b/init/Makefile
-> @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
->         @$($(quiet)chk_compile.h)
->         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
->         "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
-> -       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
-> +       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)" "$(LD)"
-> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-> index 8b38a96163e2..5b80a4699740 100755
-> --- a/scripts/mkcompile_h
-> +++ b/scripts/mkcompile_h
-> @@ -6,8 +6,8 @@ ARCH=$2
->  SMP=$3
->  PREEMPT=$4
->  PREEMPT_RT=$5
-> -LD=$6
-> -CC=$7
-> +CC=$6
-> +LD=$7
-> 
-> 
-> 
-> 
-> 
-> 
-> --
-> Best Regards
-> Masahiro Yamada
-
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index d6c79eb4e23e..eefbdfa3e4d9 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -51,7 +51,7 @@ LLVM has substitutes for GNU binutils utilities. These can be invoked as
+ additional parameters to `make`.
+ 
+ 	make CC=clang AS=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
+-	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-objsize \\
++	  OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
+ 	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+ 	  HOSTLD=ld.lld
+ 
 -- 
-Kees Cook
+2.26.0.rc2.310.g2932bb562d-goog
+
