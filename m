@@ -2,98 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A2BF19C770
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 18:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7852019C785
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Apr 2020 19:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389547AbgDBQ4S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Apr 2020 12:56:18 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:63937 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388689AbgDBQ4S (ORCPT
+        id S2388822AbgDBRBg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Apr 2020 13:01:36 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:58726 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732625AbgDBRBg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Apr 2020 12:56:18 -0400
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 032Gtr9Q005498;
-        Fri, 3 Apr 2020 01:55:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 032Gtr9Q005498
+        Thu, 2 Apr 2020 13:01:36 -0400
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 032H1TeJ031701;
+        Fri, 3 Apr 2020 02:01:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 032H1TeJ031701
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1585846553;
-        bh=6ZZoDoOKiCZcq/ELjV72AkOj4e/qsdQ44YNPFtPuBW8=;
+        s=dec2015msa; t=1585846890;
+        bh=1mH4cw2yYcVZRUVlvx7GMUbn2oki49fXdwmWN7fbBsc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Qef/44hV4oi6lVtA9aEQGVHWtWBg+upwuvIuUF5RzsTDVr8iCoGwoyMS/zzUB//yW
-         ivhkcvQ16lcQFTyWhSz3aIS3sjw1w3ExXr//kgXfYO8WZpu6HQuFCgmQYiDu+9orgJ
-         kksKUKZrEN0f6xzBUwp5n7KmzDFwN8l4FKDboebFz0pErsALzDlK7oR063CbnyaR/e
-         qu25+T0Ikdvd1cPHQn0r+36Pc9WeaKHiccO9fhHY+rgRgvvw36Jx3BZu2UA+nUt8nK
-         BeGMVl8mjAxr/1cPgxYoOprIxzsRuKjZeN5ZeP8cQRA4qtUO7xVwtUPXH2uFxOYsaJ
-         U+LSe/LzhiHjg==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id z7so1480969uai.6;
-        Thu, 02 Apr 2020 09:55:53 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZ7WURFzjFP65raaTXvu1S1q4XWYsEh1Vq2wjdhJdpLpWek35A8
-        esvZ5zLAdbZCNiESiNIII23wyl17uZ8VtNMvxeA=
-X-Google-Smtp-Source: APiQypJLFBtRFCp1KNv12TF1yrRC4t7p1ncbvfY89mY7bO0lPUtT6oW7iq/ahpxZmtxOjvpVB3iMEH55n2NSvKgqhwc=
-X-Received: by 2002:ab0:2085:: with SMTP id r5mr3490973uak.95.1585846552265;
- Thu, 02 Apr 2020 09:55:52 -0700 (PDT)
+        b=rrl7k6aVw3iI8Z3PirOB6ZMA0fHnC57gsk0b2BLP+Lo8ry3278PY9LFojc2cEijdL
+         favhYLtVbKdt3pgy/ChzgY6/ofWR40HQnneX85xefvGjWsCLYAxgq+39OQpEHFaC/l
+         osspRAMc38pFIYbjtbXkvqzP2lr+6hu0Tc4yvc6kiO7KYNKCUzPTmAooT9911O1p1R
+         xxS/OHhG/OfVkPg6DcHufavsku3e/YJqEiT6VvWW7DB2MtCxpdhWeQknl4vbIrgZaZ
+         qVQxeKG7phAMWvOZOKmoJdcX3ytam+G2EEg/QFo5BZbMa2TimyVgqfI0nqQlsZPRbE
+         BEqO3N1Jlqnug==
+X-Nifty-SrcIP: [209.85.217.54]
+Received: by mail-vs1-f54.google.com with SMTP id u9so2851516vsp.6;
+        Thu, 02 Apr 2020 10:01:30 -0700 (PDT)
+X-Gm-Message-State: AGi0PubkUT6/Rcj4r7NU48cdqp0DT3rdsIwb51hFRHnG+jZ2+jDYFrU1
+        9SntwlBlmdZ+CznIOAX2ZUzEsVETYrexcnN4D08=
+X-Google-Smtp-Source: APiQypL4Rvy03M3ygmfpwsDxMy3+2fu8bl+1s8iqt4E7kRsuRDEYA0XDULMd7iH+08rmBTvCd8fPGu6VcrUOLgyYtAw=
+X-Received: by 2002:a67:33cb:: with SMTP id z194mr3175293vsz.155.1585846888868;
+ Thu, 02 Apr 2020 10:01:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1585819250.git.mchehab+huawei@kernel.org>
-In-Reply-To: <cover.1585819250.git.mchehab+huawei@kernel.org>
+References: <202004020117.6E434C035@keescook>
+In-Reply-To: <202004020117.6E434C035@keescook>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 3 Apr 2020 01:55:15 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ49zWcZzGdnpkUBczR88DPHNRu2CFMOjvVVs5MB9MvVQ@mail.gmail.com>
-Message-ID: <CAK7LNAQ49zWcZzGdnpkUBczR88DPHNRu2CFMOjvVVs5MB9MvVQ@mail.gmail.com>
-Subject: Re: [PATCH 0/6] Fix several issues at qconf.cc
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Fri, 3 Apr 2020 02:00:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
+Message-ID: <CAK7LNAQGTAgtADfY4H-k8X1J9nTMeOWvo8ZFfrUSHQUbhgcLKw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 2, 2020 at 6:28 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+Hi Kees,
+
+On Thu, Apr 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
 >
-> Since its conversion to support Qt5, back on Kernel 3.14, the qconf.cc tool
-> has been having some issues.  With Kernel 5.6 (and Qt 5.13) it doesn't
-> work at all, on any of its modes.
+> When doing Clang builds of the kernel, it is possible to link with
+> either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
+> discover this from a running kernel. Add the "$LD -v" output to
+> /proc/version.
 >
-> This patch series restore its functionality to what it had before Kernel 3.14.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> ---
+>  init/Makefile       | 2 +-
+>  scripts/mkcompile_h | 8 ++++++--
+>  2 files changed, 7 insertions(+), 3 deletions(-)
 >
-> Now, all three modes should work as expected, and the layout will be shown
-> with a vertical split, with the help messages at the botton, for both Single and
-> Full modes.
->
-> The Split mode should also work properly, with its horizontal split showing
-> the main config items at the left and a per-items view at the right.
->
-> Mauro Carvalho Chehab (6):
->   kconfig: qconf: clean deprecated warnings
->   kconfig: qconf: Change title for the item window
->   kconfig: qconf: fix the content of the main widget
->   kconfig: qconf: fix support for the split view mode
->   kconfig: qconf: remove some old bogus TODOs
->   kconfig: qconf: Fix a few alignment issues
+> diff --git a/init/Makefile b/init/Makefile
+> index 6246a06364d0..82c15bdb42d7 100644
+> --- a/init/Makefile
+> +++ b/init/Makefile
+> @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
+>         @$($(quiet)chk_compile.h)
+>         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
+>         "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
+> -       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)"
+> +       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
+> diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+> index 3a5a4b210c86..f98c07709370 100755
+> --- a/scripts/mkcompile_h
+> +++ b/scripts/mkcompile_h
+> @@ -6,7 +6,8 @@ ARCH=$2
+>  SMP=$3
+>  PREEMPT=$4
+>  PREEMPT_RT=$5
+> -CC=$6
+> +LD=$6
+> +CC=$7
 
 
-Thank you for fixing several issues!
+Just a nit.
 
-I will pick this series for v5.7-rc1 soon.
-
-
-
->
->  scripts/kconfig/qconf.cc | 90 ++++++++++++++++++++++++++++------------
->  scripts/kconfig/qconf.h  |  2 +
->  2 files changed, 66 insertions(+), 26 deletions(-)
->
-> --
-> 2.25.1
->
->
+If you just append 'LD',
+you do not need to touch the 'CC=$6' line.
 
 
--- 
+If you do not mind, I will fold the following
+on top of your patch.
+
+
+
+
+--- a/init/Makefile
++++ b/init/Makefile
+@@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
+        @$($(quiet)chk_compile.h)
+        $(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@   \
+        "$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"    \
+-       "$(CONFIG_PREEMPT_RT)" "$(LD)" "$(CC) $(KBUILD_CFLAGS)"
++       "$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)" "$(LD)"
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 8b38a96163e2..5b80a4699740 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -6,8 +6,8 @@ ARCH=$2
+ SMP=$3
+ PREEMPT=$4
+ PREEMPT_RT=$5
+-LD=$6
+-CC=$7
++CC=$6
++LD=$7
+
+
+
+
+
+
+--
 Best Regards
 Masahiro Yamada
