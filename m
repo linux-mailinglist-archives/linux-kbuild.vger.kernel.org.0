@@ -2,134 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3F7719D442
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2020 11:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C968619D4E7
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Apr 2020 12:19:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389998AbgDCJq6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Apr 2020 05:46:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44894 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727924AbgDCJq6 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Apr 2020 05:46:58 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0339VTWL098394
-        for <linux-kbuild@vger.kernel.org>; Fri, 3 Apr 2020 05:46:57 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 304r51gxnv-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Apr 2020 05:46:57 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-kbuild@vger.kernel.org> from <prudo@linux.ibm.com>;
-        Fri, 3 Apr 2020 10:46:35 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Fri, 3 Apr 2020 10:46:32 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 0339kpuS57933880
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 3 Apr 2020 09:46:51 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3CEAAAE051;
-        Fri,  3 Apr 2020 09:46:51 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id DD1B7AE045;
-        Fri,  3 Apr 2020 09:46:50 +0000 (GMT)
-Received: from laptop2-ibm.local (unknown [9.145.155.48])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  3 Apr 2020 09:46:50 +0000 (GMT)
-Date:   Fri, 3 Apr 2020 11:46:49 +0200
-From:   Philipp Rudo <prudo@linux.ibm.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Jeremy Cline <jcline@redhat.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
-        Michal Kubecek <mkubecek@suse.cz>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: add dummy toolchains to enable all cc-option
- etc. in Kconfig
-In-Reply-To: <20200403090224.24045-1-masahiroy@kernel.org>
-References: <20200403090224.24045-1-masahiroy@kernel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727978AbgDCKTe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Apr 2020 06:19:34 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:53496 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727835AbgDCKTd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 3 Apr 2020 06:19:33 -0400
+Received: from zn.tnic (p200300EC2F0D8900185F9BE223BA1C94.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:8900:185f:9be2:23ba:1c94])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5AE661EC0C84;
+        Fri,  3 Apr 2020 12:19:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1585909172;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=4gTxr2tMtcHZvA+vMMjjeuIyzVHlsntBq8xEiI0nftM=;
+        b=ebAvHLEmjItjXy3diROes48QoOr+3V7Mabl957HF8ZUmg01Zs+dudqR+068+JvUD5k6JfG
+        mAMsGMxxsOyOnlEUMSoOI3VUWUJh9XwaHmNnfmGRpzLIltI0GM5Iz+85gp9RHAFFd2Bhai
+        /pKE+LLfkN8Fla9geFNQbWuL9S8uYj8=
+Date:   Fri, 3 Apr 2020 12:19:29 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Nick Terrell <terrelln@fb.com>
+Cc:     Nick Terrell <nickrterrell@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Chris Mason <clm@fb.com>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>,
+        Michael van der Westhuizen <rmikey@fb.com>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        Patrick Williams <patrick@stwcx.xyz>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Subject: Re: [PATCH v4 6/8] x86: bump ZO_z_extra_bytes margin for zstd
+Message-ID: <20200403101929.GC20218@zn.tnic>
+References: <20200401053913.216783-1-nickrterrell@gmail.com>
+ <20200401053913.216783-7-nickrterrell@gmail.com>
+ <20200401093310.GA13748@zn.tnic>
+ <D45F637D-6BB0-4F08-BEBE-FAB9B56F36F6@fb.com>
+ <20200402155810.GD9352@zn.tnic>
+ <2370741E-FE5A-44C1-8BF3-24A03E321F4E@fb.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 20040309-0020-0000-0000-000003C0C410
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 20040309-0021-0000-0000-000022197373
-Message-Id: <20200403114649.1c1a149f@laptop2-ibm.local>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
- definitions=2020-04-03_05:2020-04-02,2020-04-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 impostorscore=0
- phishscore=0 adultscore=0 lowpriorityscore=0 priorityscore=1501
- spamscore=0 suspectscore=0 mlxscore=0 malwarescore=0 clxscore=1011
- mlxlogscore=880 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2004030078
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2370741E-FE5A-44C1-8BF3-24A03E321F4E@fb.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Thu, Apr 02, 2020 at 08:25:49PM +0000, Nick Terrell wrote:
+> So it is possible that there is a use case for kernel compression that
+> I’m not aware of where RAM is extremely tight and within 64 KB of
+> the current limits.
 
-On Fri,  3 Apr 2020 18:02:24 +0900
-Masahiro Yamada <masahiroy@kernel.org> wrote:
+That's exactly my concern, albeit a very minor one.
 
-> Staring v4.18, Kconfig evaluates compiler capabilities, and hides CONFIG
-> options your compiler does not support. This works well if you configure
-> and build the kernel on the same host machine.
-> 
-> It is inconvenient if you prepare the .config that is carried to a
-> different build environment (typically this happens when you package
-> the kernel for distros) because using a different compiler potentially
-> produces different CONFIG options than the real build environment.
-> So, you probably want to make as many options visible as possible.
-> In other words, you need to create a super-set of CONFIG options that
-> cover any build environment. If some of the CONFIG options turned out
-> to be unsupported on the build machine, they are automatically disabled
-> by the nature of Kconfig.
-> 
-> However, it is not feasible to get a full-featured compiler for every
-> arch.
-> 
-> This issue was discussed here:
-> 
->   https://lkml.org/lkml/2019/12/9/620
-> 
-> Other than distros, savedefconfig is also a problem. Some arch subsytems
-> periodically resync defconfig files. If you use a less-capable compiler
-> for savedefconfig, options that do not meet 'depends on $(cc-option,...)'
-> will be forcibly disabled. So, defconfig && savedefconfig may silently
-> change the behavior.
-> 
-> This commit adds a set of dummy toolchains that pretend to support any
-> feature.
-> 
-> Most of compiler features are tested by cc-option, which simply checks
-> the exit code of $(CC). The dummy tools are just a shell script that
-> exits with 0 in most cases. So, $(cc-option, ...) is evaluated as 'y'.
-> 
-> There are more complicated checks such as:
-> 
->   scripts/gcc-x86_{32,64}-has-stack-protector.sh
->   scripts/gcc-plugin.sh
->   scripts/tools-support-relr.sh
-> 
-> I tried my best to implement the dummy scripts to pass all checks.
-> 
-> From the top directory of the source tree, you can do:
-> 
->    $ make CROSS_COMPILE=scripts/dummy-tools/ oldconfig
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> It seems to me that adding 64KB to the memory requirement for kernel
+> decompression is not going to break anyone. If it did the kernel image
+> is taking up nearly all available RAM, which doesn’t seem likely.
+> But, I don’t know all use cases. If it does break someone, we can
+> put up a separate patch that switches all the compression methods over
+> a per-method ZO_z_extra_bytes.
 
-look good to me
+Ok.
 
-Reviewed-by: Philipp Rudo <prudo@linux.ibm.com>
+Thx.
 
-Thanks a lot
-Philipp
+-- 
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
