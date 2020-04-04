@@ -2,102 +2,79 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0FB719E129
-	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Apr 2020 00:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A1119E29B
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Apr 2020 06:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728102AbgDCWpF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Apr 2020 18:45:05 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:44456 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727909AbgDCWpF (ORCPT
+        id S1725783AbgDDECo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Apr 2020 00:02:44 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34652 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbgDDECo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Apr 2020 18:45:05 -0400
-Received: by mail-pl1-f193.google.com with SMTP id h11so3335581plr.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 03 Apr 2020 15:45:02 -0700 (PDT)
+        Sat, 4 Apr 2020 00:02:44 -0400
+Received: by mail-oi1-f193.google.com with SMTP id d3so8149632oic.1;
+        Fri, 03 Apr 2020 21:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Dh/YzwcmTNEGeHjfzHpzt3+RVjAmlGCyq1UYQzxyT7s=;
-        b=OKwXzGMXRPUowM4ABa1P1uclRN312qDo0rkVMaxCnf//bzaQk0hTNa4VSw7AKcTaMe
-         NBvdo/yL8y3JSLsBpOZkG4L0cy6JcxsIOqb2KZQUghuixheFfu9xWqNHpqzTvApWeK6n
-         rGHvNIf6rcWOjII10ibRZ/BMIG0fZJkQ5Tg2w=
+         :content-disposition:in-reply-to:user-agent;
+        bh=HGQtBy/Y1NLvvkMjbES/Jv6f17twJdxb+OF5qTeiXgQ=;
+        b=BIAUI0LBOaQDGKRe47/4i+hAgK3nJrfqyXHRiKf7Kdy82NHFpdIqy5Q6mdiPbEL9Rk
+         FMjiw8VSi0r151xr25Y45fHsuWG6Bf9BzOSPU+TrRtKP9m2pcOZ/Z6T9XgIx7U6Nv/LK
+         Fu/4TQUQxZOi3PqCjYHu8tgeLSFfLz9iwTvyaExLwY+I2J40kN5zoEmzGN7CbuWACbRF
+         DameoPYfbrTT3ypa95xXmSA/KLPbDnLNAjOiOF87ZlEOSYl3t2aLEC0YN8QU+GlnoROZ
+         hJrxStMcGA0053Nt22EhgFlXly8JB6Q83SMJGbA4s327TFoudZklfH3Z0wnaeENqx6Tc
+         FnTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Dh/YzwcmTNEGeHjfzHpzt3+RVjAmlGCyq1UYQzxyT7s=;
-        b=b64iwGeW/iSVQxhGbkTAWjk4eb7MMlCuddanhTG1xELWY4XwxK62kRyX7GccqI5h5M
-         SiiiLfS2XEZlxmPwuxsIDDhJTOWEgsUg+/2nl4LOlnqqjNvy9LdnqxrGdNdRAU9ZDu/z
-         kCzcFsnjMk3EpUDWn5qHpS/GFxijqBbCc/soM3UwXcYnhyyL3/f9hOPR6tMxpRe0KV9/
-         kioVbqszyP2l+QhJr0RMNAZ4mn3Lq8KN5JCSzpaBeD4h9PuLXuKiIJy+gS1kBhKKK96k
-         mEiCaBVRVdYGgPDASFO+uqOOE9q+P2IegqOjl37AG4q8KEM5YWbhS0u5h0ckdqD/a/b/
-         fSSQ==
-X-Gm-Message-State: AGi0PuYGKt9r2zzqtCRsOZHCvH5rzSHpTvO9ir62DXY8T37vnr3qozlk
-        A+lPoVoHjxnUTJyLE9rSkv5LxA==
-X-Google-Smtp-Source: APiQypLzpCCsWiQ/lFaeewHX9vuuuIEqsKxPFJbCGqChBNQwRFmwfICRd70XwZr6HeooQ2rNiYBH/A==
-X-Received: by 2002:a17:90a:9b17:: with SMTP id f23mr12281284pjp.118.1585953902199;
-        Fri, 03 Apr 2020 15:45:02 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id o14sm6399628pfh.147.2020.04.03.15.45.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2020 15:45:01 -0700 (PDT)
-Date:   Fri, 3 Apr 2020 15:45:00 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] kbuild: do not pass $(KBUILD_CFLAGS) to
- scripts/mkcompile_h
-Message-ID: <202004031544.FEFA2BF@keescook>
-References: <20200403212459.13914-1-masahiroy@kernel.org>
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=HGQtBy/Y1NLvvkMjbES/Jv6f17twJdxb+OF5qTeiXgQ=;
+        b=p3hwU1lIx8Rsopi/twFsXize/9UsrAY/D44yUQ2h5jbvw3KzoEXL1X3ImqU/FrNwPH
+         ppc6dZNFY2q91mx3ThDnzWCV3MrUNdVQRcecXSkQ8yht3dAKqSXxkZ/F8Tesu+/xFbg7
+         F/ukomYG0xAfEztJyAZHZSg57+Pi8w+9rSjkdE+1vGk9KTPdLU6wkdfTND0FAUs7SrJ2
+         K3W0V7vWxjPuMcA2zF9n9Jfxy+b7h1jKk4LfEyCJBSiCBgoEl+D53JU14vHXPnt4lhn9
+         o3vkrsh5Z1tXdV+lvXkHGRZLoLTQ91919IGbaQLV+NF2QXIbbhCP4cuL/Rn7VOBqVT31
+         E6jA==
+X-Gm-Message-State: AGi0PuYS8SMqBqYnaWtGyqLRl5xnRYMhka89T/vmQZqefdGzJoHkiO5v
+        jxO+YU4d1ucdG6w5k7mfjlw=
+X-Google-Smtp-Source: APiQypIh23+8/UlthZbcuHVsMA3NTNp5LFyre/YiWhPzNGi9vX7BiDG7fzPVg3WPvserQAFcfYyEhg==
+X-Received: by 2002:aca:5c44:: with SMTP id q65mr5623823oib.139.1585972963355;
+        Fri, 03 Apr 2020 21:02:43 -0700 (PDT)
+Received: from ubuntu-m2-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id t3sm2719866oth.0.2020.04.03.21.02.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 03 Apr 2020 21:02:42 -0700 (PDT)
+Date:   Fri, 3 Apr 2020 21:02:41 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
+Message-ID: <20200404040241.GA41628@ubuntu-m2-xlarge-x86>
+References: <202004020117.6E434C035@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200403212459.13914-1-masahiroy@kernel.org>
+In-Reply-To: <202004020117.6E434C035@keescook>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 04, 2020 at 06:24:59AM +0900, Masahiro Yamada wrote:
-> scripts/mkcompile_h uses $(CC) only for getting the version string.
+On Thu, Apr 02, 2020 at 01:18:37AM -0700, Kees Cook wrote:
+> When doing Clang builds of the kernel, it is possible to link with
+> either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
+> discover this from a running kernel. Add the "$LD -v" output to
+> /proc/version.
 > 
-> I suspected there was a specific reason why the additional flags were
-> needed, and dug the commit history. This code dates back to at least
-> 2002 [1], but I could not get any more clue.
+> Signed-off-by: Kees Cook <keescook@chromium.org>
 
-I would be alarmed to find it changing the version string with flags. ;)
+With this patch + Masahiro's fold in:
 
-> Just get rid of it.
-> 
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=29f3df7eba8ddf91a55183f9967f76fbcc3ab742
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-Reviewed-by: Kees Cook <keescook@chromium.org>
-
--Kees
-
-> ---
-> 
->  init/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/init/Makefile b/init/Makefile
-> index 30aa8ab11120..d45e967483b2 100644
-> --- a/init/Makefile
-> +++ b/init/Makefile
-> @@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
->  	@$($(quiet)chk_compile.h)
->  	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
->  	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
-> -	"$(CONFIG_PREEMPT_RT)" "$(CC) $(KBUILD_CFLAGS)" "$(LD)"
-> +	"$(CONFIG_PREEMPT_RT)" "$(CC)" "$(LD)"
-> -- 
-> 2.17.1
-> 
-
--- 
-Kees Cook
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
