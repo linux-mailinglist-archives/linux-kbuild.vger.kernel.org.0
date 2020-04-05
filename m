@@ -2,89 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0302619EBCB
-	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2020 15:56:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4767519ECA1
+	for <lists+linux-kbuild@lfdr.de>; Sun,  5 Apr 2020 18:32:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbgDEN4a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Apr 2020 09:56:30 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:16577 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726667AbgDEN4a (ORCPT
+        id S1727018AbgDEQcV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Apr 2020 12:32:21 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:31221 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726667AbgDEQcV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Apr 2020 09:56:30 -0400
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 035DuCEN018712;
-        Sun, 5 Apr 2020 22:56:12 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 035DuCEN018712
+        Sun, 5 Apr 2020 12:32:21 -0400
+Received: from grover.flets-west.jp (softbank126125134031.bbtec.net [126.125.134.31]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 035GUxjX014785;
+        Mon, 6 Apr 2020 01:30:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 035GUxjX014785
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1586094973;
-        bh=HIBW+9wU6pa/k1BuO2NwsZV9UocoT5Jj56/5NqbTF7c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PVWfeqsO3ivryKKJxzlLOtGf5XoRrRR7lczuFXwHQwRVhx6R6OFDe8AkDdvLU5Cum
-         ZMZuD95ocNmE9ZEwqIy1CU7MzsgZpm+ad9l8kTl2LO+ZnSJ2+x9zEDWbttTedqGe0N
-         wIJsDAZxAp3ZK+cpjnzhxMA9SMQL04oAiJlYrZfSJngHiklzWcvSfcwup55vHxBx69
-         +e/hc2YD4yGkyhoWzBaygALDeT7xAsqUKn3q5iJR7mCh0PhupAYlZmYnPLPN+9S38T
-         mQiHAXeXtD0YYv+yMkCNsZFdKvabN7F18x3iecVB0oD4EcEk6TmYuv0NKEvf3YKVRJ
-         p0GpsZrl0sf5A==
-X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id x82so7969850vsc.12;
-        Sun, 05 Apr 2020 06:56:12 -0700 (PDT)
-X-Gm-Message-State: AGi0PuY/BggLzogPQeMeirWk9lEtgdns8bmaT/PkHsaQpO3nmKQyLU4M
-        nly4DPhHf1/vRf8RWlQEPHVPNlategqzjwzmsFI=
-X-Google-Smtp-Source: APiQypJpa1N4IPj3YD40pPZZwmcQV1V71AHj92NGOXLU6OFQOqj5kpGruVQn3mPOedmeTudf/1g7ZyUUHYxIiBzqnBQ=
-X-Received: by 2002:a67:33cb:: with SMTP id z194mr12826483vsz.155.1586094971431;
- Sun, 05 Apr 2020 06:56:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <202004020117.6E434C035@keescook> <CA+icZUW0R9LDGJ1YjJAB2oWkcEQxCO79xYmdVEoh=P8Fy_AL1A@mail.gmail.com>
- <CA+icZUVowLVpAxiWw=FJHfQ38KtU7AXXkVnw46D2XLM41-NCEA@mail.gmail.com>
-In-Reply-To: <CA+icZUVowLVpAxiWw=FJHfQ38KtU7AXXkVnw46D2XLM41-NCEA@mail.gmail.com>
+        s=dec2015msa; t=1586104259;
+        bh=5dte5dvvsDQ3wOKn6WARCRcNltPssbbsGfaDy3F1DZ8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NaC2xexFaOoeA+4Wyk79vOG79RDMzA1EzqcWHsj5lfpQ8wEgwpAeIMd/372L1zObg
+         P6lY6M91GVEjJ/xAoZolwDTyQkAJ8WFvLQ6awzewAwocCIqngrtbwFRGIHMtFSfvKe
+         6rG34v8soPcO4sLbDqZtL54upYVUDFyRy8qcv2gTRF063ShETYiBrDga6gjchJCsGG
+         1FQzGP3x91GAY8XXBQhrf/p0pNYTkjXhIATJ6L7jLnzAWjYgzGj4G5KKEalmAA2I2u
+         mC0pX7H3vkDFl79PV9K5uF2d4RylWgzNge9GOGkhj4Jgydj72Ibm4ay6uzKI86YN/b
+         7x8Hav1jv/wig==
+X-Nifty-SrcIP: [126.125.134.31]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 5 Apr 2020 22:55:35 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ6ji3=2+7R1DL7eFveH7L7No6e3XkqfqgiH5QFyQj==A@mail.gmail.com>
-Message-ID: <CAK7LNAQ6ji3=2+7R1DL7eFveH7L7No6e3XkqfqgiH5QFyQj==A@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org, linux-mips@linux-mips.org
+Cc:     clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Paul Burton <paulburton@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org
+Subject: [PATCH] MIPS: fw: arc: add __weak to prom_meminit and prom_free_prom_memory
+Date:   Mon,  6 Apr 2020 01:30:52 +0900
+Message-Id: <20200405163052.18942-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 5, 2020 at 8:23 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
->
-> On Thu, Apr 2, 2020 at 4:24 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Thu, Apr 2, 2020 at 10:18 AM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > When doing Clang builds of the kernel, it is possible to link with
-> > > either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
-> > > discover this from a running kernel. Add the "$LD -v" output to
-> > > /proc/version.
-> > >
-> > > Signed-off-by: Kees Cook <keescook@chromium.org>
-> >
->
-> Please feel free and add:
->
-> Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+As far as I understood, prom_meminit() in arch/mips/fw/arc/memory.c
+is overridden by the one in arch/mips/sgi-ip32/ip32-memory.c if
+CONFIG_SGI_IP32 is enabled.
 
+The use of EXPORT_SYMBOL in static libraries potentially causes a
+problem for the llvm linker [1]. So, I want to forcibly link lib-y
+objects to vmlinux when CONFIG_MODULES=y.
 
-Thanks.
+As a groundwork, we must fix multiple definitions that have previously
+been hidden by lib-y.
 
-I collected all Reviewed-by and Tested-by.
+The prom_cleanup() in this file is already marked as __weak (because
+it is overridden by the one in arch/mips/sgi-ip22/ip22-mc.c).
+I think it should be OK to do the same for these two.
 
+[1]: https://github.com/ClangBuiltLinux/linux/issues/515
 
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+If MIPS maintainers ack this patch,
+I want to inser it before the following patch:
 
+https://patchwork.kernel.org/patch/11432969/
 
+ arch/mips/fw/arc/memory.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/arch/mips/fw/arc/memory.c b/arch/mips/fw/arc/memory.c
+index dbbcddc82823..89fa6e62a3b3 100644
+--- a/arch/mips/fw/arc/memory.c
++++ b/arch/mips/fw/arc/memory.c
+@@ -117,7 +117,7 @@ static int __init prom_memtype_classify(union linux_memtypes type)
+ 	return memtype_classify_arc(type);
+ }
+ 
+-void __init prom_meminit(void)
++void __weak __init prom_meminit(void)
+ {
+ 	struct linux_mdesc *p;
+ 
+@@ -162,7 +162,7 @@ void __weak __init prom_cleanup(void)
+ {
+ }
+ 
+-void __init prom_free_prom_memory(void)
++void __weak __init prom_free_prom_memory(void)
+ {
+ 	int i;
+ 
 -- 
-Best Regards
-Masahiro Yamada
+2.17.1
+
