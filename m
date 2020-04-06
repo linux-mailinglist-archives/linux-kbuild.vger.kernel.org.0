@@ -2,154 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B35019FC74
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 20:06:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6BB019FCE8
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 20:17:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726759AbgDFSGJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Apr 2020 14:06:09 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:42366 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726534AbgDFSGJ (ORCPT
+        id S1727600AbgDFSRJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Apr 2020 14:17:09 -0400
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:51375 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726749AbgDFSRI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Apr 2020 14:06:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1586196367;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=zq2fOqfpnunCJPcnhnd4EahDTvQRSHEmjDBqkQFoh48=;
-        b=JplQ4lgTjq8iuLlcPhKw0FE3f4SJ7MGtKwlVt+b9uO9aeWHTyuBLIFI/VyDK7xlAHIKuSo
-        etpZBKcxoKmQutik1NYohrpcBaXXuABSM2KjUzdLU9GPl/8B98ky33wPc5zi2MPv7vSKlE
-        7idMmQ0s+KJIKl879HpScXvJa1E7Kt0=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-ULmdVBM_N9OMb2UU-igV4Q-1; Mon, 06 Apr 2020 14:06:01 -0400
-X-MC-Unique: ULmdVBM_N9OMb2UU-igV4Q-1
-Received: by mail-qt1-f198.google.com with SMTP id n89so574219qte.15
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2020 11:06:01 -0700 (PDT)
+        Mon, 6 Apr 2020 14:17:08 -0400
+Received: by mail-pj1-f68.google.com with SMTP id fr8so198571pjb.1
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2020 11:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QajOetIheYc6yFfn5cGXMzoheGBlCxA/mL7SE7Ps7+Y=;
+        b=i1GU0TXcRTrIK6ml6JtkYY0yUET+I0aZOROJzKxs15NqJj4ooP/Khnpk5SlXzB0pKz
+         lYQvJlybxyZgU5l+H5YtrUX/lSfvM6dUy2Ji53n/c3GKaKhpNHoCzrksnmsCt0jQ6jNu
+         Ema3D+STgHzRn7jQlZY/u8ckaR9CGnnE8fwBJjh/I618ZupFF675g+w3N9PGFt/I8WO6
+         V0dHWeHrH69undlHyIemld5sXtywcREzJ5tvP9cD1LZgdtFthxnjyVoYU9QN/id363tp
+         aL55rh4VSl9uDAaFUlV8VDQMd74Ya0Nx2EZQK5nuxqXHmy7S/nXn7+tt7GXO89JSNwaW
+         zrbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zq2fOqfpnunCJPcnhnd4EahDTvQRSHEmjDBqkQFoh48=;
-        b=Sw3g7wrg7KXobrjsF6qK9W2TIzP6y/Jz/NjJOVP2dDbhPsAEQRvRIzjXZeHUHd30gg
-         NSm47puuXhrwWH1ovIWWy0h8CtaEmnFvlyGAjGc8hScYlsw07IGC7upCq4/ACWoaj20Q
-         Hf0h3wTxw5oq0J16o9vV9qhfjz/ka/oePXS+UKSYsnicT+j9FLXl+q5rL0jSKp0zLwzQ
-         wdg25xHyP0tS1NYpFRLum/3TSfkFZXE1QlZoFlJ+gCDWXqxH1J3I4QQEnM2aw6THaqB2
-         rmxVjWbLJBPpa3FWOW5uuuGZJOqO1erFrGFHdjbsbph01Jh69LbWuYtGrHe6rLm2W7Wg
-         UFtQ==
-X-Gm-Message-State: AGi0PuasUrhLBANAkxSJbjmjkHWs+deEmKm1HjfIAdK+ZPTTTi4PhDPt
-        hqeWmrE0esbdb6Ie43MLR+ReTFCZT189G3vaj8NAbYGB5UKxiAaws9SEciHsEuGR2c2sxeP7fxN
-        dJVXamvkmqbDDhyrcAYIQSUE7
-X-Received: by 2002:ac8:2a68:: with SMTP id l37mr698228qtl.77.1586196361387;
-        Mon, 06 Apr 2020 11:06:01 -0700 (PDT)
-X-Google-Smtp-Source: APiQypLEox3UX8MCeX0tOeCXIrNeXeiRB52F4QJf5RdYuk+NCD4GaAPnvAscpKxCIJDbeDpCWYGZow==
-X-Received: by 2002:ac8:2a68:: with SMTP id l37mr698198qtl.77.1586196361085;
-        Mon, 06 Apr 2020 11:06:01 -0700 (PDT)
-Received: from dev.jcline.org ([136.56.87.133])
-        by smtp.gmail.com with ESMTPSA id s26sm14862683qkm.114.2020.04.06.11.06.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 11:06:00 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 14:05:58 -0400
-From:   Jeremy Cline <jcline@redhat.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-s390@vger.kernel.org,
-        Michal Kubecek <mkubecek@suse.cz>,
-        Philipp Rudo <prudo@linux.ibm.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: add dummy toolchains to enable all cc-option
- etc. in Kconfig
-Message-ID: <20200406180558.GA22412@dev.jcline.org>
-References: <20200403090224.24045-1-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QajOetIheYc6yFfn5cGXMzoheGBlCxA/mL7SE7Ps7+Y=;
+        b=YjtnOKxf/Q7b3kb+K75WRzV4oXfTFym1DkdcOLdKMHRMX6faqfu9fkiJqM3TTree4B
+         YdlVo4MylSf55wxPcoPLI1AVrBwLPCupgANIbmKnweJDfqvjJlmsemud3IiYKD+x4lIk
+         OBGGAj1wcTpeA9s4NzlgUfiaZ1Avz0UP9F20gPgOK6V3oNsQX1NRkE4cPqR7Cbh7hYEa
+         mpdxGFAe2yGvqAOgyS9noqERzB4qC5LLk/RTrsvV6DfJU4iKIF5Ze5U14kP3q29UYFb9
+         XRBVHL+cZKSZIxL71iyIbq2FAf8ZkHf/vBWRgFCrvC0v1xVIikhTgGtpBPZqOXC/529a
+         xNeA==
+X-Gm-Message-State: AGi0PuZrdTijiG8IRqMXM/w8TCzSfOfjO+TxHJrpFA/E7wQVOqCNr6+H
+        Da4TQUnL1teD3ARVoItivAr1adJqmLsf1esSrPdWJe6hnY4=
+X-Google-Smtp-Source: APiQypLCp7t3h+6346geWCdUsx0/lS+7zihtrFuJoEZhdpUOzAzHYdVIsmSt/wPY3djawkdqH324uD1slvMx1toMJis=
+X-Received: by 2002:a17:902:bb91:: with SMTP id m17mr21132416pls.223.1586197027464;
+ Mon, 06 Apr 2020 11:17:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200403090224.24045-1-masahiroy@kernel.org>
+References: <20200405163052.18942-1-masahiroy@kernel.org>
+In-Reply-To: <20200405163052.18942-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 6 Apr 2020 11:16:57 -0700
+Message-ID: <CAKwvOdmEcC7SszqpEYeT3v_gi89vAyDyofZaKkfF_YhEXu=E5A@mail.gmail.com>
+Subject: Re: [PATCH] MIPS: fw: arc: add __weak to prom_meminit and prom_free_prom_memory
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux-MIPS <linux-mips@linux-mips.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Paul Burton <paulburton@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 03, 2020 at 06:02:24PM +0900, Masahiro Yamada wrote:
-> Staring v4.18, Kconfig evaluates compiler capabilities, and hides CONFIG
-> options your compiler does not support. This works well if you configure
-> and build the kernel on the same host machine.
-> 
-> It is inconvenient if you prepare the .config that is carried to a
-> different build environment (typically this happens when you package
-> the kernel for distros) because using a different compiler potentially
-> produces different CONFIG options than the real build environment.
-> So, you probably want to make as many options visible as possible.
-> In other words, you need to create a super-set of CONFIG options that
-> cover any build environment. If some of the CONFIG options turned out
-> to be unsupported on the build machine, they are automatically disabled
-> by the nature of Kconfig.
-> 
-> However, it is not feasible to get a full-featured compiler for every
-> arch.
-> 
-> This issue was discussed here:
-> 
->   https://lkml.org/lkml/2019/12/9/620
-> 
-> Other than distros, savedefconfig is also a problem. Some arch subsytems
-> periodically resync defconfig files. If you use a less-capable compiler
-> for savedefconfig, options that do not meet 'depends on $(cc-option,...)'
-> will be forcibly disabled. So, defconfig && savedefconfig may silently
-> change the behavior.
-> 
-> This commit adds a set of dummy toolchains that pretend to support any
-> feature.
-> 
-> Most of compiler features are tested by cc-option, which simply checks
-> the exit code of $(CC). The dummy tools are just a shell script that
-> exits with 0 in most cases. So, $(cc-option, ...) is evaluated as 'y'.
-> 
-> There are more complicated checks such as:
-> 
->   scripts/gcc-x86_{32,64}-has-stack-protector.sh
->   scripts/gcc-plugin.sh
->   scripts/tools-support-relr.sh
-> 
-> I tried my best to implement the dummy scripts to pass all checks.
-> 
-> From the top directory of the source tree, you can do:
-> 
->    $ make CROSS_COMPILE=scripts/dummy-tools/ oldconfig
-> 
+On Sun, Apr 5, 2020 at 9:31 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> As far as I understood, prom_meminit() in arch/mips/fw/arc/memory.c
+> is overridden by the one in arch/mips/sgi-ip32/ip32-memory.c if
+> CONFIG_SGI_IP32 is enabled.
+
+I'm curious if this issue is affected by other combinations of files
+that each define prom_meminit with external linkage and symbol
+visibility.  I would expect __weak to be used when there's a base
+implementation that we expect to be overridden, but I don't think
+that's what's happening in this case.  It's not clear to me which
+definition would be the default, let alone the one in
+arch/mips/fw/arc/memory.c.
+
+Looks like CONFIG_SGI_IP32 selects CONFIG_FW_ARC, so it's not clear
+why arch/mips/sgi-ip32/ip32-memory.c and arch/mips/fw/arc/memory.c
+define different implementations of prom_meminit, and which one was
+expected to be used.
+
+Hopefully the maintainers can clarify.
+
+>
+> The use of EXPORT_SYMBOL in static libraries potentially causes a
+> problem for the llvm linker [1]. So, I want to forcibly link lib-y
+> objects to vmlinux when CONFIG_MODULES=y.
+>
+> As a groundwork, we must fix multiple definitions that have previously
+> been hidden by lib-y.
+>
+> The prom_cleanup() in this file is already marked as __weak (because
+> it is overridden by the one in arch/mips/sgi-ip22/ip22-mc.c).
+> I think it should be OK to do the same for these two.
+>
+> [1]: https://github.com/ClangBuiltLinux/linux/issues/515
+>
+> Reported-by: kbuild test robot <lkp@intel.com>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
-> 
->  scripts/dummy-tools/gcc     | 91 +++++++++++++++++++++++++++++++++++++
->  scripts/dummy-tools/ld      |  4 ++
->  scripts/dummy-tools/nm      |  4 ++
->  scripts/dummy-tools/objcopy |  4 ++
->  4 files changed, 103 insertions(+)
->  create mode 100755 scripts/dummy-tools/gcc
->  create mode 100755 scripts/dummy-tools/ld
->  create mode 100755 scripts/dummy-tools/nm
->  create mode 100755 scripts/dummy-tools/objcopy
-> 
+>
+> If MIPS maintainers ack this patch,
+> I want to inser it before the following patch:
+>
+> https://patchwork.kernel.org/patch/11432969/
+>
+>  arch/mips/fw/arc/memory.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/mips/fw/arc/memory.c b/arch/mips/fw/arc/memory.c
+> index dbbcddc82823..89fa6e62a3b3 100644
+> --- a/arch/mips/fw/arc/memory.c
+> +++ b/arch/mips/fw/arc/memory.c
+> @@ -117,7 +117,7 @@ static int __init prom_memtype_classify(union linux_memtypes type)
+>         return memtype_classify_arc(type);
+>  }
+>
+> -void __init prom_meminit(void)
+> +void __weak __init prom_meminit(void)
+>  {
+>         struct linux_mdesc *p;
+>
+> @@ -162,7 +162,7 @@ void __weak __init prom_cleanup(void)
+>  {
+>  }
+>
+> -void __init prom_free_prom_memory(void)
+> +void __weak __init prom_free_prom_memory(void)
+>  {
+>         int i;
+>
+> --
 
-<snip>
-
-> diff --git a/scripts/dummy-tools/ld b/scripts/dummy-tools/ld
-> new file mode 100755
-> index 000000000000..3bc56ae4cc15
-> --- /dev/null
-> +++ b/scripts/dummy-tools/ld
-> @@ -0,0 +1,4 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +# Dummy script that always succeeds
-
-It looks like scripts/Kbuild.include expects "$(LD) --version" to return
-something. If it doesn't "ld-ifversion" stops working.
-
-Other than that it seems to work as advertised. Thanks!
-
-- Jeremy
-
+-- 
+Thanks,
+~Nick Desaulniers
