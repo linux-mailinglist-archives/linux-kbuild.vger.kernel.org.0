@@ -2,88 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DF4619F539
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 13:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67E6819F94A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 17:54:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727376AbgDFLyS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Apr 2020 07:54:18 -0400
-Received: from eddie.linux-mips.org ([148.251.95.138]:34734 "EHLO
-        cvs.linux-mips.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727192AbgDFLyR (ORCPT
+        id S1729083AbgDFPyG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Apr 2020 11:54:06 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44953 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729077AbgDFPxi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Apr 2020 07:54:17 -0400
-Received: (from localhost user: 'macro', uid#1010) by eddie.linux-mips.org
-        with ESMTP id S23992976AbgDFLyOZ7Nfb (ORCPT
-        <rfc822;linux-mips@vger.kernel.org> + 2 others);
-        Mon, 6 Apr 2020 13:54:14 +0200
-Date:   Mon, 6 Apr 2020 12:54:14 +0100 (BST)
-From:   "Maciej W. Rozycki" <macro@linux-mips.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux-MIPS <linux-mips@linux-mips.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Paul Burton <paulburton@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        =?UTF-8?Q?F=C4=81ng-ru=C3=AC_S=C3=B2ng?= <maskray@google.com>
-Subject: Re: [PATCH] MIPS: fw: arc: add __weak to prom_meminit and
- prom_free_prom_memory
-In-Reply-To: <CAK7LNATKLcCPYxQZNbrS-jMPg+_BETU0dGv0qYvLqUkJ2fMt5w@mail.gmail.com>
-Message-ID: <alpine.LFD.2.21.2004061240060.4156324@eddie.linux-mips.org>
-References: <20200405163052.18942-1-masahiroy@kernel.org> <alpine.LFD.2.21.2004051813150.4156324@eddie.linux-mips.org> <CAK7LNATKLcCPYxQZNbrS-jMPg+_BETU0dGv0qYvLqUkJ2fMt5w@mail.gmail.com>
+        Mon, 6 Apr 2020 11:53:38 -0400
+Received: by mail-pl1-f196.google.com with SMTP id h11so6061123plr.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2020 08:53:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wcnhRTJrKqZe9cHSmG/x1YIdkcTsb9+hzvjah1m+gLU=;
+        b=QrYTLNTcoBTCrSMVW19VcWv0ByKz6+H/37bqjQyrTg4kesqGVzq2Wgfz73C4lswLje
+         dxDZgzi0QyM7rWOy5lpHTOla3P7NFlogJUYlOoFpNTtzBjXYaeEkDoiqoWeA1Phowqys
+         EamnTgsa7EEPlDYtuUdxGe+9I1orrycGdTHEo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wcnhRTJrKqZe9cHSmG/x1YIdkcTsb9+hzvjah1m+gLU=;
+        b=qdFCSDvm81qBdhS0zwSKNqKwfhZMvcD3bZip5egrc/8GYP1ZtN6p4Dk8ZEC4zk7O7/
+         RyMZjvHz/JKDuX2WHkDNe+auYIbdejfaeAxNZ9gJZTNI/4n0ikGaWbzd38pBSZ9mTXUQ
+         OQh0tTtik73nQhnDcrOki0ZjQ3eNlZ2E2atN6e3wARtvUWh6D/tETn7L7Ag33K251VSo
+         nlTSf1Uze3lyFd49ssFg4IzAUCbh6NB1l8IXzlr0xh9RjMDatATRaRFNgkF+PfQs/ZFf
+         eKgvo5rmkSlD1wf90dgLuERzngLQgUfzHO06t/vJYzOebtD4RsoJUovlJDfPFTJNyJ1e
+         B++w==
+X-Gm-Message-State: AGi0PuYXH7bbH4Oj59C0XobZJ1D7ANf9r+tZJpTJBbAVDeP2xucD/jIH
+        otO+W+mVtGH8d7rtWfmTaW1/ew==
+X-Google-Smtp-Source: APiQypLqIcfMQ3mfXhR8Fc2dFArba08SdCuw59KBYoWtvJ9xxfg3FceQ1q6rQno6xNecJn9lQ4+qGQ==
+X-Received: by 2002:a17:90a:2347:: with SMTP id f65mr30129pje.105.1586188416932;
+        Mon, 06 Apr 2020 08:53:36 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t188sm11935793pfb.102.2020.04.06.08.53.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 08:53:35 -0700 (PDT)
+Date:   Mon, 6 Apr 2020 08:53:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kbuild: mkcompile_h: Include $LD version in /proc/version
+Message-ID: <202004060851.CCB538AD1@keescook>
+References: <202004020117.6E434C035@keescook>
+ <CA+icZUW0R9LDGJ1YjJAB2oWkcEQxCO79xYmdVEoh=P8Fy_AL1A@mail.gmail.com>
+ <CA+icZUVowLVpAxiWw=FJHfQ38KtU7AXXkVnw46D2XLM41-NCEA@mail.gmail.com>
+ <CAK7LNAQ6ji3=2+7R1DL7eFveH7L7No6e3XkqfqgiH5QFyQj==A@mail.gmail.com>
+ <CA+icZUV3rhvmBv91KMKCgvGSvJUoWDVfaV+08eC-kTMdThRn6w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+icZUV3rhvmBv91KMKCgvGSvJUoWDVfaV+08eC-kTMdThRn6w@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 6 Apr 2020, Masahiro Yamada wrote:
-
-> > > As far as I understood, prom_meminit() in arch/mips/fw/arc/memory.c
-> > > is overridden by the one in arch/mips/sgi-ip32/ip32-memory.c if
-> > > CONFIG_SGI_IP32 is enabled.
-> > >
-> > > The use of EXPORT_SYMBOL in static libraries potentially causes a
-> > > problem for the llvm linker [1]. So, I want to forcibly link lib-y
-> > > objects to vmlinux when CONFIG_MODULES=y.
+On Mon, Apr 06, 2020 at 12:35:35PM +0200, Sedat Dilek wrote:
+> On Sun, Apr 5, 2020 at 3:56 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> >  It looks to me like a bug in the linker in the handling of the EXTERN
-> > command.  Why not fix the linker instead?
-[...]
-> I am not sure if this is a bug.
-> Anyway, they decided to not change ld.lld
-
- Well, maybe that was a conscious decision, however it's a linker feature 
-that has been there since forever and projects like Linux can legitimately 
-rely on it.  In this case perhaps sticking to other linkers, which have 
-the right features, is the right solution rather than trying to turn a 
-complex and mature project like Linux upside down (and quite possibly 
-introducing bugs and pessimisations on the way) just to match an inferior 
-tool.  Adapt your tool to the task, not the task to your tool.
-
-> MIPS code is so confusing.
-> There are multiple definitions,
-> and lib.a is (ab)used to hide them.
-
- It's a standard feature of libraries that a symbol reference is satisfied 
-by the first symbol definition encountered.  Any extra ones provided later 
-in the link order are ignored.  And we have control over the link order.
-
-> I fixed another one for MIPS before, and
-> 0-day bot reported this recently.
+> > On Sun, Apr 5, 2020 at 8:23 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > >
+> > > On Thu, Apr 2, 2020 at 4:24 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > > >
+> > > > On Thu, Apr 2, 2020 at 10:18 AM Kees Cook <keescook@chromium.org> wrote:
+> > > > >
+> > > > > When doing Clang builds of the kernel, it is possible to link with
+> > > > > either ld.bfd (binutils) or ld.lld (LLVM), but it is not possible to
+> > > > > discover this from a running kernel. Add the "$LD -v" output to
+> > > > > /proc/version.
+> > > > >
+> > > > > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > > >
+> > >
+> > > Please feel free and add:
+> > >
+> > > Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
+> > > Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> >
+> >
+> > Thanks.
+> >
+> > I collected all Reviewed-by and Tested-by.
+> >
 > 
+> How to test scripts/mkcompile_h?
+
+There's probably a better way, but I do:
+
+$ rm include/generated/compile.h init/version.o
+$ make init/version.o
+$ cat include/generated/compile.h
+
+-Kees
+
 > 
-> There are lots of prom_meminit() definitions
-> in arch/mips/.
+> I did:
+> 
+> $ cd /path/to/linux
+> 
+> $ head -10 scripts/mkcompile_h
+> #!/bin/sh
+> # SPDX-License-Identifier: GPL-2.0
+> 
+> TARGET=$1
+> ARCH=$2
+> SMP=$3
+> PREEMPT=$4
+> PREEMPT_RT=$5
+> CC=$6
+> LD=$7
+> 
+> $ scripts/mkcompile_h include/generated/compile.h x86_64 SMP "" ""
+> clang-10 ld.lld-10
+>   UPD     include/generated/compile.h
+> 
+> $ cat include/generated/compile.h
+> /* This file is auto generated, version 1 */
+> /* SMP */
+> #define UTS_MACHINE "x86_64"
+> #define UTS_VERSION "#1 SMP Mon Apr 6 12:29:53 CEST 2020"
+> #define LINUX_COMPILE_BY "dileks"
+> #define LINUX_COMPILE_HOST "iniza"
+> #define LINUX_COMPILER "clang version 10.0.0-2, LLD 10.0.0"
+> 
+> This is with clang-10 and ld.lld-10 from Debian/unstable:
+> 
+> $ clang-10 -v
+> clang version 10.0.0-2
+> Target: x86_64-pc-linux-gnu
+> Thread model: posix
+> InstalledDir: /usr/bin
+> Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
+> Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/8
+> Found candidate GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/9
+> Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+> Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
+> Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
+> Selected GCC installation: /usr/bin/../lib/gcc/x86_64-linux-gnu/10
+> Candidate multilib: .;@m64
+> Candidate multilib: 32;@m32
+> Candidate multilib: x32;@mx32
+> Selected multilib: .;@m64
+> 
+> $ ld.lld-10 -v
+> LLD 10.0.0 (compatible with GNU linkers)
+> 
+> Thanks.
+> 
+> - sed@ -
 
- Naturally, many platforms will have its own, in addition to some generic 
-(possibly dummy) one.
-
-> Making the intention clearer is a good thing, IMHO.
-
- Hmm, what intention?  Can you please be more specific?
-
-  Maciej
+-- 
+Kees Cook
