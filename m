@@ -2,98 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E31119EF30
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 03:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E76D19EF7F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 05:14:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbgDFBpt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 5 Apr 2020 21:45:49 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:34525 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbgDFBpt (ORCPT
+        id S1726408AbgDFDOs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 5 Apr 2020 23:14:48 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:46462 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726530AbgDFDOr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 5 Apr 2020 21:45:49 -0400
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 0361jd9P013273;
-        Mon, 6 Apr 2020 10:45:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0361jd9P013273
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1586137540;
-        bh=t1XbmubotdqxWQiJUtEmVVmLD3QtFzYtfXS6eKsOjqA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JJoh7W4D3xXNlBUBOyJoKb52THf5gc3KPF6ePUqzF2UyzZucECBoKQZng43N9midv
-         4/zVoGccZ90Yf4Dd0uMppWex45oHbUktl8qUnY4ggHD7OjReYQLFldVTRLc7fVjCZZ
-         RPricLYAybvutnGYMT9Tmn+YTEUwobmAg4btkg4ssvRq+BHazVgQX+7Qz8bhyeUEfi
-         9lvff67EBT6wLXjGR3+0x2PxMNhQqNkIwxYQBGqCPFzcpdO+j7fwgkFszyZkSwEr4H
-         07W5ALtyd17GZhgyuUWOE7svdWsK7AGy15n+KNS4VZ/WSeBPOnhU5M/Rqmy5AgvrGq
-         WlVkxwRbkuQtg==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id l18so4928998uak.4;
-        Sun, 05 Apr 2020 18:45:40 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYKMzvLLaQiO24vJMDVqETXnPHKdHG1nQjdtcoAlQChEKmjXiLH
-        gWMRb84hnJW9z6SEyy4tL8TJnlqF6OXE1ASjnnk=
-X-Google-Smtp-Source: APiQypIme//LwwgDhWdl23pH0ig14cQer/hMjepL0+AGooHh0rxFpP7g9QwIcB1KYEeAWqnvnWA/n5ux8B3PbibpFH8=
-X-Received: by 2002:ab0:2085:: with SMTP id r5mr14017632uak.95.1586137538961;
- Sun, 05 Apr 2020 18:45:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200405163052.18942-1-masahiroy@kernel.org> <alpine.LFD.2.21.2004051813150.4156324@eddie.linux-mips.org>
-In-Reply-To: <alpine.LFD.2.21.2004051813150.4156324@eddie.linux-mips.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 6 Apr 2020 10:45:03 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATKLcCPYxQZNbrS-jMPg+_BETU0dGv0qYvLqUkJ2fMt5w@mail.gmail.com>
-Message-ID: <CAK7LNATKLcCPYxQZNbrS-jMPg+_BETU0dGv0qYvLqUkJ2fMt5w@mail.gmail.com>
-Subject: Re: [PATCH] MIPS: fw: arc: add __weak to prom_meminit and prom_free_prom_memory
-To:     "Maciej W. Rozycki" <macro@linux-mips.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux-MIPS <linux-mips@linux-mips.org>,
+        Sun, 5 Apr 2020 23:14:47 -0400
+Received: by mail-pl1-f194.google.com with SMTP id s23so5340254plq.13
+        for <linux-kbuild@vger.kernel.org>; Sun, 05 Apr 2020 20:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KrMlUKTNeum7x5sltX8KMxycbNc+02GypLAIc2PxYRo=;
+        b=n6l9/PoPu69WpXT2Mhp8EZHschCokwiFwYEsCQGtvfeKtWLCPJVr6oG1HquLiu02XI
+         tN1ZBgOX7T4orHjVzbpZq1YbtwWWTGwb6eoHiHCefE7DIkPuZJrQwcn3vk5DrUxhLlms
+         AB0x78zGlV7JWTZl0LGNj4BxRhgg0E4fNtV7+gKw/vW5Z/g9cBFxXsSnl6KSSfEcT/Tm
+         8r7JKejY8sjcEDU2QAnkKKkPTg25kaFCjoc9mJGuRFzSiJ+JclKyEr/r7H6Zt/Ozh83g
+         h0cBn5nMJXMfaPQfWPvMoXNeewVsI9Y0qS1MFHCZ1mbKj7ljW/DmFXJqIiyXejh54FR1
+         0uHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KrMlUKTNeum7x5sltX8KMxycbNc+02GypLAIc2PxYRo=;
+        b=r0zCgLv8VOnM/hqXc7zA7HbxSj8nV8S+eVLP8rbl8MuukG4sI+B1n2/tC9K/f6mX58
+         c7Xa0ddnbUrzz8imrCNuwcy4II5Z8qw+weGDTF+Rqt3Mm4BNqKDcf8P+yB7rlov00b1g
+         tYxNiQO1plynqaect10azW6RvLW/Stp8dVI9Gtl4iFO1gYqqHzGjQAsqcLLi9H/0QIHG
+         lToCbSUkholsJ0PWOMKFzQF0rAlFGrc1fBcFMNnOvO6mh93tKEvUU5UropKzOj+BxcpM
+         QmgeVHN3hF1sLvsKWvIZCa4fc0+CSHi57tTPMugir8TEnnbUfgEhysZMOsGS6km4+pzx
+         5Ajg==
+X-Gm-Message-State: AGi0Pub/x0bN9GvlZqNPsfF3U2RvWMPV//r8esrRlOzdGXJdMTI7T/9N
+        ISask2LAbYqcGxWk7/85hPGNUA==
+X-Google-Smtp-Source: APiQypLMY5yAy/eXmZCMTUi5bSNDlJlbf2KuiYRL4mW6WB0Py/B804nld4ImPobYhV0WwKjXzw70xA==
+X-Received: by 2002:a17:902:b682:: with SMTP id c2mr18913445pls.36.1586142886153;
+        Sun, 05 Apr 2020 20:14:46 -0700 (PDT)
+Received: from google.com ([2620:15c:2ce:0:9efe:9f1:9267:2b27])
+        by smtp.gmail.com with ESMTPSA id e184sm10357065pfh.219.2020.04.05.20.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Apr 2020 20:14:45 -0700 (PDT)
+Date:   Sun, 5 Apr 2020 20:14:42 -0700
+From:   Fangrui Song <maskray@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Paul Burton <paulburton@kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        =?UTF-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Matthias =?utf-8?Q?M=C3=A4nnich?= <maennich@google.com>,
+        Sandeep Patil <sspatil@google.com>
+Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to
+ Clang/LLVM
+Message-ID: <20200406031442.2yrjtjp476qzjbqs@google.com>
+References: <20200403051709.22407-1-masahiroy@kernel.org>
+ <CAKwvOdnaZ6qDVxaPY-GEH8pdUkzH6eqm16ok9_wzRSVRG-1kiQ@mail.gmail.com>
+ <CAK7LNAQybfcYiosNU+ybd-Q7-Y2dbLqBVN2XA00wCRnFAoqdew@mail.gmail.com>
+ <20200405235507.psjjhqa3cxw57xra@google.com>
+ <CAK7LNAS_SQg2nhJ8HKBTq3+dziGpaJZ87fOBRS-ZMdUpKGhX9Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAS_SQg2nhJ8HKBTq3+dziGpaJZ87fOBRS-ZMdUpKGhX9Q@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 6, 2020 at 2:16 AM Maciej W. Rozycki <macro@linux-mips.org> wrote:
+On 2020-04-06, Masahiro Yamada wrote:
+>On Mon, Apr 6, 2020 at 8:55 AM 'Fangrui Song' via Clang Built Linux
+><clang-built-linux@googlegroups.com> wrote:
+>>
+>> On 2020-04-06, Masahiro Yamada wrote:
+>> >On Sat, Apr 4, 2020 at 3:24 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+>> >>
+>> >> On Thu, Apr 2, 2020 at 10:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>> >> >
+>> >> > As Documentation/kbuild/llvm.rst implies, building the kernel with a
+>> >> > full set of LLVM tools gets very verbose and unwieldy.
+>> >> >
+>> >> > Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
+>> >> > GCC and Binutils. You can pass LLVM=1 from the command line or as an
+>> >> > environment variable. Then, Kbuild will use LLVM toolchains in your
+>> >> > PATH environment.
+>> >> >
+>> >> > Please note LLVM=1 does not turn on the LLVM integrated assembler.
+>> >> > You need to explicitly pass AS=clang to use it. When the upstream
+>> >> > kernel is ready for the integrated assembler, I think we can make
+>> >> > it default.
+>> >>
+>> >> Having this behavior change over time may be surprising.  I'd rather
+>> >> that if you want to not use the integrated assembler, you explicitly
+>> >> negate it, or just don't use the LLVM=1 syntax, ie. `make CC=clang
+>> >> LD=ld.lld ...`.
+>> >>
+>> >> We could modify how `-no-integrated-as` is chosen when LLVM=1.
+>> >>
+>> >> make LLVM=1 LLVMIA=0 ... # add `-no-integrated-as`
+>> >> # what the flag is doesn't really matter to me, something shorter might be nice.
+>> >> make LLVM=1 # use all LLVM tools
+>> >>
+>> >> Since we got rid of $(AS), it would be appropriate to remove/change it
+>> >> there, since no one really relies on AS=clang right now. (We do have 1
+>> >> of our 60+ CI targets using it, but we can also change that trivially.
+>> >> So I think we have a lot of freedom to change how `-no-integrated-as`
+>> >> is set.
+>> >>
+>> >> This could even be independent of this patch.
+>> >
+>> >
+>> >I also thought a boolean flag is preferred.
+>> >
+>> >AS=clang will not live long anyway, and
+>> >I hesitated to break the compatibility
+>> >for the short-term workaround.
+>> >
+>> >But, if this is not a big deal, I can
+>> >replace AS=clang with LLVMIA=1.
+>>
+>> My mere complaint is that it may be difficult to infer the intention (integrated
+>> assembler) from the abbreviation "IA" in "LLVMIA" :/
+>>
+>> Something with "AS" in the name may be easier for a user to understand,
+>> e.g. CLANG_AS or LLVM_AS.
 >
-> On Mon, 6 Apr 2020, Masahiro Yamada wrote:
+>I see 'llvm-as' in my PATH,
+>but it is a different kind of tool, right?
+>(converter from LLVM assembler *.ll to LLVM bit code *.bc)
 >
-> > As far as I understood, prom_meminit() in arch/mips/fw/arc/memory.c
-> > is overridden by the one in arch/mips/sgi-ip32/ip32-memory.c if
-> > CONFIG_SGI_IP32 is enabled.
-> >
-> > The use of EXPORT_SYMBOL in static libraries potentially causes a
-> > problem for the llvm linker [1]. So, I want to forcibly link lib-y
-> > objects to vmlinux when CONFIG_MODULES=y.
->
->  It looks to me like a bug in the linker in the handling of the EXTERN
-> command.  Why not fix the linker instead?
->
->   Maciej
+>So, I thought "LLVM_AS" might be confusing.
 
+You are right. llvm-as converts a textual form of LLVM IR (.ll) to
+a binary form bitcode (.bc). LLVM_AS is confusing. CLANG_AS/CLANGAS might be
+suitable.
 
-I am not sure if this is a bug.
-Anyway, they decided to not change ld.lld
-
-
-MIPS code is so confusing.
-There are multiple definitions,
-and lib.a is (ab)used to hide them.
-
-I fixed another one for MIPS before, and
-0-day bot reported this recently.
-
-
-There are lots of prom_meminit() definitions
-in arch/mips/.
-
-Making the intention clearer is a good thing, IMHO.
-
-
--- 
-Best Regards
-Masahiro Yamada
+   clang a.c '-###' => clang -cc1     # like gcc invokes cc1
+   clang a.s '-###' => clang -cc1as   # this invokes the integrated assembler
