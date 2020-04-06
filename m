@@ -2,228 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1F2F19F47E
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 13:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DF4619F539
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Apr 2020 13:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727327AbgDFLWY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Apr 2020 07:22:24 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:38410 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727193AbgDFLWY (ORCPT
+        id S1727376AbgDFLyS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Apr 2020 07:54:18 -0400
+Received: from eddie.linux-mips.org ([148.251.95.138]:34734 "EHLO
+        cvs.linux-mips.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727192AbgDFLyR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Apr 2020 07:22:24 -0400
-Received: by mail-wm1-f68.google.com with SMTP id f20so6338637wmh.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 06 Apr 2020 04:22:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qDK5+uBeH6pLDnaoKYduIBBNRFpH/vDYlc7eibTIZjE=;
-        b=J0IJ9s9ZmVQvPhdwtoZwYkj55qLQHm43hi3wsUzL4mKjhuj2h0I+jKBHX2RdnbHRxN
-         dJN8useS/qDkKMB0Wk+58eWd7C0qCGhYU+UPtt2pIyoLqkfi6QgYkIYkmmWELE6YkPS2
-         aqH77+/arCyMiYXEk+lN+8f//BoofOfNQlNUqQqXjOQ3dftCnNfx6awdlrM+sh6TQsY5
-         0WBVVyiiGpAvgMmHZLREGmKUoH26ud/Qd7HLy/O4leLxpHdKsIxJx+MVjD135TLQPp06
-         yYBgKUliotjcF9jQgeXcok53/G4uIsqavL2+NaLYaXYjcE1pQ9s7e7vgL0LD4IGgnb0C
-         BDZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qDK5+uBeH6pLDnaoKYduIBBNRFpH/vDYlc7eibTIZjE=;
-        b=DB6bsbDxg/hQrQqsRBkEV1tdW8aUUJorgGJ6mUItyzpBYgiKMhExF4gPsP5wJw4+JW
-         n5x3RxuWYFQRKmB/1LZGEpxxAE5oH42z6xSwdT3GwCKksqdVxNQZtVq2KhKqWXAlkmBi
-         M1n17SE9jFiP0SPk7nzbKM5bzxg+bRCPi4gAYZbgZD+7VAHIfW53N14VYaOCcOrd08G+
-         eJRfehljR09dYP+uc/9yihZS48Jbv92G6sqUe6n/1plvmWY6mD8dYfGBmiCYNqRAYsGx
-         CldypsF8rQVEky5Oi0A0Uh3Ofe4uaiLcbUdhIBsXoIfwb93rnsG9Tm1HrunPL24wi5fH
-         MyzA==
-X-Gm-Message-State: AGi0PuYV6vL7afw6S1k4wEYC5ioyNHYU3bkg9qrWXRsAfO9oipXw1VtZ
-        lL0shtc6nd+FKRGkWx8YGT/YOg==
-X-Google-Smtp-Source: APiQypJqSNe+gkm9f/9SkkaI8W+1PHJH7h62962gDjMKUWiW3InWQUYz6lyWddRZOHNDDmXkj2sPCg==
-X-Received: by 2002:a1c:2d95:: with SMTP id t143mr22457582wmt.89.1586172141483;
-        Mon, 06 Apr 2020 04:22:21 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id y80sm25959365wmc.45.2020.04.06.04.22.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 04:22:20 -0700 (PDT)
-Date:   Mon, 6 Apr 2020 13:22:20 +0200
-From:   Matthias Maennich <maennich@google.com>
+        Mon, 6 Apr 2020 07:54:17 -0400
+Received: (from localhost user: 'macro', uid#1010) by eddie.linux-mips.org
+        with ESMTP id S23992976AbgDFLyOZ7Nfb (ORCPT
+        <rfc822;linux-mips@vger.kernel.org> + 2 others);
+        Mon, 6 Apr 2020 13:54:14 +0200
+Date:   Mon, 6 Apr 2020 12:54:14 +0100 (BST)
+From:   "Maciej W. Rozycki" <macro@linux-mips.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux@googlegroups.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to
- Clang/LLVM
-Message-ID: <20200406112220.GB126804@google.com>
-References: <20200403051709.22407-1-masahiroy@kernel.org>
+cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux-MIPS <linux-mips@linux-mips.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Paul Burton <paulburton@kernel.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org,
+        =?UTF-8?Q?F=C4=81ng-ru=C3=AC_S=C3=B2ng?= <maskray@google.com>
+Subject: Re: [PATCH] MIPS: fw: arc: add __weak to prom_meminit and
+ prom_free_prom_memory
+In-Reply-To: <CAK7LNATKLcCPYxQZNbrS-jMPg+_BETU0dGv0qYvLqUkJ2fMt5w@mail.gmail.com>
+Message-ID: <alpine.LFD.2.21.2004061240060.4156324@eddie.linux-mips.org>
+References: <20200405163052.18942-1-masahiroy@kernel.org> <alpine.LFD.2.21.2004051813150.4156324@eddie.linux-mips.org> <CAK7LNATKLcCPYxQZNbrS-jMPg+_BETU0dGv0qYvLqUkJ2fMt5w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20200403051709.22407-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
->As Documentation/kbuild/llvm.rst implies, building the kernel with a
->full set of LLVM tools gets very verbose and unwieldy.
->
->Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
->GCC and Binutils. You can pass LLVM=1 from the command line or as an
->environment variable. Then, Kbuild will use LLVM toolchains in your
->PATH environment.
->
->Please note LLVM=1 does not turn on the LLVM integrated assembler.
->You need to explicitly pass AS=clang to use it. When the upstream
->kernel is ready for the integrated assembler, I think we can make
->it default.
->
->We discussed what we need, and we agreed to go with a simple boolean
->switch (https://lkml.org/lkml/2020/3/28/494).
->
->Some items in the discussion:
->
->- LLVM_DIR
->
->  When multiple versions of LLVM are installed, I just thought supporting
->  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
->
->  CC      = $(LLVM_DIR)clang
->  LD      = $(LLVM_DIR)ld.lld
->    ...
->
->  However, we can handle this by modifying PATH. So, we decided to not do
->  this.
->
->- LLVM_SUFFIX
->
->  Some distributions (e.g. Debian) package specific versions of LLVM with
->  naming conventions that use the version as a suffix.
->
->  CC      = clang$(LLVM_SUFFIX)
->  LD      = ld.lld(LLVM_SUFFIX)
->    ...
->
->  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
->  but the suffixed versions in /usr/bin/ are symlinks to binaries in
->  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
->
->- HOSTCC, HOSTCXX, etc.
->
->  We can switch the host compilers in the same way:
->
->  ifneq ($(LLVM),)
->  HOSTCC       = clang
->  HOSTCXX      = clang++
->  else
->  HOSTCC       = gcc
->  HOSTCXX      = g++
->  endif
->
->  This may the right thing to do, but I could not make up my mind.
->  Because we do not frequently switch the host compiler, a counter
->  solution I had in my mind was to leave it to the default of the
->  system.
->
->  HOSTCC       = cc
->  HOSTCXX      = c++
+On Mon, 6 Apr 2020, Masahiro Yamada wrote:
 
-What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
-yielding the expected result (some tools, like e.g. fixdep still require
-an `ld` to be in PATH to be built). I did not find the time to look into
-that yet, but I would like to consistently switch to the llvm toolchain
-(including linker and possibly more) also for hostprogs.
+> > > As far as I understood, prom_meminit() in arch/mips/fw/arc/memory.c
+> > > is overridden by the one in arch/mips/sgi-ip32/ip32-memory.c if
+> > > CONFIG_SGI_IP32 is enabled.
+> > >
+> > > The use of EXPORT_SYMBOL in static libraries potentially causes a
+> > > problem for the llvm linker [1]. So, I want to forcibly link lib-y
+> > > objects to vmlinux when CONFIG_MODULES=y.
+> >
+> >  It looks to me like a bug in the linker in the handling of the EXTERN
+> > command.  Why not fix the linker instead?
+[...]
+> I am not sure if this is a bug.
+> Anyway, they decided to not change ld.lld
 
-Cheers,
-Matthias
+ Well, maybe that was a conscious decision, however it's a linker feature 
+that has been there since forever and projects like Linux can legitimately 
+rely on it.  In this case perhaps sticking to other linkers, which have 
+the right features, is the right solution rather than trying to turn a 
+complex and mature project like Linux upside down (and quite possibly 
+introducing bugs and pessimisations on the way) just to match an inferior 
+tool.  Adapt your tool to the task, not the task to your tool.
 
->
->  Many distributions support update-alternatives to switch the default
->  to GCC, Clang, or whatever, but reviewers were opposed to this
->  approach. So, this commit does not touch the host tools.
->
->Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->---
->
-> Documentation/kbuild/kbuild.rst |  5 +++++
-> Documentation/kbuild/llvm.rst   |  5 +++++
-> Makefile                        | 20 ++++++++++++++++----
-> 3 files changed, 26 insertions(+), 4 deletions(-)
->
->diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
->index 510f38d7e78a..2d1fc03d346e 100644
->--- a/Documentation/kbuild/kbuild.rst
->+++ b/Documentation/kbuild/kbuild.rst
->@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
-> These two variables allow to override the user@host string displayed during
-> boot and in /proc/version. The default value is the output of the commands
-> whoami and host, respectively.
->+
->+LLVM
->+----
->+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
->+of GCC and GNU binutils to build the kernel.
->diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
->index d6c79eb4e23e..4602369f6a4f 100644
->--- a/Documentation/kbuild/llvm.rst
->+++ b/Documentation/kbuild/llvm.rst
->@@ -55,6 +55,11 @@ additional parameters to `make`.
-> 	  READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-> 	  HOSTLD=ld.lld
->
->+You can use a single switch `LLVM=1` to use LLVM utilities by default (except
->+for building host programs).
->+
->+	make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
->+
-> Getting Help
-> ------------
->
->diff --git a/Makefile b/Makefile
->index c91342953d9e..6db89ecdd942 100644
->--- a/Makefile
->+++ b/Makefile
->@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
-> KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
->
-> # Make variables (CC, etc...)
->-LD		= $(CROSS_COMPILE)ld
->-CC		= $(CROSS_COMPILE)gcc
-> CPP		= $(CC) -E
->+ifneq ($(LLVM),)
->+CC		= clang
->+LD		= ld.lld
->+AR		= llvm-ar
->+NM		= llvm-nm
->+OBJCOPY		= llvm-objcopy
->+OBJDUMP		= llvm-objdump
->+READELF		= llvm-readelf
->+OBJSIZE		= llvm-size
->+STRIP		= llvm-strip
->+else
->+CC		= $(CROSS_COMPILE)gcc
->+LD		= $(CROSS_COMPILE)ld
-> AR		= $(CROSS_COMPILE)ar
-> NM		= $(CROSS_COMPILE)nm
->-STRIP		= $(CROSS_COMPILE)strip
-> OBJCOPY		= $(CROSS_COMPILE)objcopy
-> OBJDUMP		= $(CROSS_COMPILE)objdump
->-OBJSIZE		= $(CROSS_COMPILE)size
-> READELF		= $(CROSS_COMPILE)readelf
->+OBJSIZE		= $(CROSS_COMPILE)size
->+STRIP		= $(CROSS_COMPILE)strip
->+endif
-> PAHOLE		= pahole
-> LEX		= flex
-> YACC		= bison
->-- 
->2.17.1
->
->-- 
->You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
->To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
->To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200403051709.22407-1-masahiroy%40kernel.org.
+> MIPS code is so confusing.
+> There are multiple definitions,
+> and lib.a is (ab)used to hide them.
+
+ It's a standard feature of libraries that a symbol reference is satisfied 
+by the first symbol definition encountered.  Any extra ones provided later 
+in the link order are ignored.  And we have control over the link order.
+
+> I fixed another one for MIPS before, and
+> 0-day bot reported this recently.
+> 
+> 
+> There are lots of prom_meminit() definitions
+> in arch/mips/.
+
+ Naturally, many platforms will have its own, in addition to some generic 
+(possibly dummy) one.
+
+> Making the intention clearer is a good thing, IMHO.
+
+ Hmm, what intention?  Can you please be more specific?
+
+  Maciej
