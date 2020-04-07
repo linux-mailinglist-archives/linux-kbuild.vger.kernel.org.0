@@ -2,290 +2,296 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0978C1A125A
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Apr 2020 19:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 603F11A1274
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Apr 2020 19:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726616AbgDGRBT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Apr 2020 13:01:19 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:44474 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbgDGRBT (ORCPT
+        id S1726365AbgDGRMC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Apr 2020 13:12:02 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:57751 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726393AbgDGRMB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Apr 2020 13:01:19 -0400
-Received: by mail-pl1-f194.google.com with SMTP id h11so1453246plr.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Apr 2020 10:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BKA4RM51A82x/5SpJbkyD9gWBCDUmnDILyC/0E/dflg=;
-        b=ma3VTOaM3ccztMgbWUch6c9Nop0cKlddfRdpAgSYy7156lYP1wdkteuId5JaVDSzgv
-         pstITV0JnBjl18ZnTE6upqD3TrTmYjV1BhYYPm/isptuMEyFwY+neCeERdoMYIA7FceE
-         xNVwlvSMjCG83B8EHkpPJnmePjhK+X4KiRdfPjVc0byiuKoVyK5E3bk9YI6Dlvga6ir7
-         cVDQCpvkxG0SJFNfsJ0E5vidb8x267+9UBHEhnGyzZW9eCxi1GQ3ezR3fHYst8oiLvLz
-         IFstetzqRlAla/WuwKTX5ClMVQozR86gOzJMPoKJLbYQRPkqoo62sEBKwhW77lGPmRfM
-         5SKg==
+        Tue, 7 Apr 2020 13:12:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1586279519;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZSBF7tOzRxO10YjbPU7Bv3EEE5LpjgBIjIXBe6C/0FY=;
+        b=L/Fso1m04TCBLVHAFu28wIjNpa30p3YqYkUtOiFufww1h9NAVCapUDgHz3/fMbaIT1hS4v
+        r8nQV6sTXUbtRqAOA5wqz9pr8QBLp/dqImaFLPn2t4sLRuo8aMADWXpRVqDTfY1vQozc7t
+        BpJxa73gt8LDSmfApu48iUkGePiKZaY=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-VUVwwsXZPoGnspky9wTueg-1; Tue, 07 Apr 2020 13:11:55 -0400
+X-MC-Unique: VUVwwsXZPoGnspky9wTueg-1
+Received: by mail-qt1-f197.google.com with SMTP id u88so3622991qtd.17
+        for <linux-kbuild@vger.kernel.org>; Tue, 07 Apr 2020 10:11:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BKA4RM51A82x/5SpJbkyD9gWBCDUmnDILyC/0E/dflg=;
-        b=I3x7lkOwWrP3uylf8BRadOthKze4+5YPxdUcvX4wnY+LiBHPrmWIDYDL5smVAEvKDh
-         qzxypNKY0J7LcsSMV2aMkdUU3kYWJevBQbH4jGPJ9CjIKuhHU+3/AJ73qV7ffmslKSCd
-         8NWvazGUJviVIOJAG5/Ke2Ka7T/8qr71pISaF6AwgkG3022N5r345E7/cLfMi1er6Prf
-         ymOQ7z1Gmu6KbH1Qx3he1FcY+ycoBhgNcwQYT51SdVk2YhZUQiPCjew9gPgDF/OJuRr4
-         atfqfXhtG9+qwwjt6du+KdOq7z48IL97uF2hW+UFrx0fSrYrhqRgaZFyzsarvDR3DcI4
-         GYmw==
-X-Gm-Message-State: AGi0PuZ7zoyDgUg/NI7p0/b682Brl0SNJAXon6Lmk5j9tPXLzqrl+IHn
-        LR/8LNn3su2vf39/5hJyeMkTIwCDUoUQ6RUhe01iRg==
-X-Google-Smtp-Source: APiQypLwGulDH+WJsMgYCIEQ0C1UrzVbHqpMJvqU9FEJJ+53A81wLeMpTOTAACHxZBxyCdDBD0SwVckZrPDO4CnpsWc=
-X-Received: by 2002:a17:90a:8085:: with SMTP id c5mr276765pjn.186.1586278877201;
- Tue, 07 Apr 2020 10:01:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200403051709.22407-1-masahiroy@kernel.org> <20200406112220.GB126804@google.com>
- <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
-In-Reply-To: <CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 7 Apr 2020 10:01:04 -0700
-Message-ID: <CAKwvOdmHxeZ+T1OsOhW25pPygHM4D21OgZqRk141xbjP437-1w@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: support 'LLVM' to switch the default tools to Clang/LLVM
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZSBF7tOzRxO10YjbPU7Bv3EEE5LpjgBIjIXBe6C/0FY=;
+        b=oG9ln96GMhdC+eJhlPMtwaZUeWQaFhCL9hyjiF9QmueQc1Xl4wa3TUqc0RgYncxoXo
+         kmcw8rsJhg99ohzDd7b6MK+SIm+K5IjKgIkCRoCe+4l9/uuJ9QYt1TsVnno7Rqqp3jic
+         BUEaGtjVjLmfZ0xFCJi7BvCrYMuJ2lARfKUu4TsK7A20KBokLcKb4zzNkuekP4+bsnCl
+         NZ1RLloRi0LWF9gIlyfcKqPghWu5IHxZVLBN1kVn7INpuRc2saoSOl7rZk1DTCIGFtUo
+         f0sevHLRMvcGFjx+JceR065JJECTahpR2YTnwBt2Ngn6RH4wpA9TCeCZ3Mze4/nR6wD0
+         /b2A==
+X-Gm-Message-State: AGi0PuYERPDcIVo0wbBm9vGvfc+dxWinVI3kxAnAjA2T+Jx6JSE46X0h
+        rb+uqe5vUOiQe5S5mbZDHIUj+hDsZ+QnEMO0uiJHLFig+yfURgcJS3x7iYYE9JRmW/9hdTQM9Jy
+        Ymk1s5HeUb1CXxMZhj4fsaFN4
+X-Received: by 2002:ac8:568b:: with SMTP id h11mr3359567qta.197.1586279514843;
+        Tue, 07 Apr 2020 10:11:54 -0700 (PDT)
+X-Google-Smtp-Source: APiQypIsBxCQ0i4lAaOo4Y9HTrwWWzimzTlOgDesSissOnAZYNWvh++MU+caahFIR6ZOUThlrc/XRg==
+X-Received: by 2002:ac8:568b:: with SMTP id h11mr3359535qta.197.1586279514431;
+        Tue, 07 Apr 2020 10:11:54 -0700 (PDT)
+Received: from dev.jcline.org ([136.56.87.133])
+        by smtp.gmail.com with ESMTPSA id c40sm18290923qtk.18.2020.04.07.10.11.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2020 10:11:53 -0700 (PDT)
+Date:   Tue, 7 Apr 2020 13:11:52 -0400
+From:   Jeremy Cline <jcline@redhat.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Matthias Maennich <maennich@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-kbuild@vger.kernel.org,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Philipp Rudo <prudo@linux.ibm.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kbuild: add dummy toolchains to enable all cc-option
+ etc. in Kconfig
+Message-ID: <20200407171152.GC196945@dev.jcline.org>
+References: <20200407155352.16617-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200407155352.16617-1-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 7, 2020 at 9:17 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Mon, Apr 6, 2020 at 8:22 PM 'Matthias Maennich' via Clang Built
-> Linux <clang-built-linux@googlegroups.com> wrote:
-> >
-> > On Fri, Apr 03, 2020 at 02:17:09PM +0900, Masahiro Yamada wrote:
-> > >As Documentation/kbuild/llvm.rst implies, building the kernel with a
-> > >full set of LLVM tools gets very verbose and unwieldy.
-> > >
-> > >Provide a single switch 'LLVM' to use Clang and LLVM tools instead of
-> > >GCC and Binutils. You can pass LLVM=1 from the command line or as an
-> > >environment variable. Then, Kbuild will use LLVM toolchains in your
-> > >PATH environment.
-> > >
-> > >Please note LLVM=1 does not turn on the LLVM integrated assembler.
-> > >You need to explicitly pass AS=clang to use it. When the upstream
-> > >kernel is ready for the integrated assembler, I think we can make
-> > >it default.
-> > >
-> > >We discussed what we need, and we agreed to go with a simple boolean
-> > >switch (https://lkml.org/lkml/2020/3/28/494).
-> > >
-> > >Some items in the discussion:
-> > >
-> > >- LLVM_DIR
-> > >
-> > >  When multiple versions of LLVM are installed, I just thought supporting
-> > >  LLVM_DIR=/path/to/my/llvm/bin/ might be useful.
-> > >
-> > >  CC      = $(LLVM_DIR)clang
-> > >  LD      = $(LLVM_DIR)ld.lld
-> > >    ...
-> > >
-> > >  However, we can handle this by modifying PATH. So, we decided to not do
-> > >  this.
-> > >
-> > >- LLVM_SUFFIX
-> > >
-> > >  Some distributions (e.g. Debian) package specific versions of LLVM with
-> > >  naming conventions that use the version as a suffix.
-> > >
-> > >  CC      = clang$(LLVM_SUFFIX)
-> > >  LD      = ld.lld(LLVM_SUFFIX)
-> > >    ...
-> > >
-> > >  will allow a user to pass LLVM_SUFFIX=-11 to use clang-11 etc.,
-> > >  but the suffixed versions in /usr/bin/ are symlinks to binaries in
-> > >  /usr/lib/llvm-#/bin/, so this can also be handled by PATH.
-> > >
-> > >- HOSTCC, HOSTCXX, etc.
-> > >
-> > >  We can switch the host compilers in the same way:
-> > >
-> > >  ifneq ($(LLVM),)
-> > >  HOSTCC       = clang
-> > >  HOSTCXX      = clang++
-> > >  else
-> > >  HOSTCC       = gcc
-> > >  HOSTCXX      = g++
-> > >  endif
-> > >
-> > >  This may the right thing to do, but I could not make up my mind.
-> > >  Because we do not frequently switch the host compiler, a counter
-> > >  solution I had in my mind was to leave it to the default of the
-> > >  system.
-> > >
-> > >  HOSTCC       = cc
-> > >  HOSTCXX      = c++
-> >
-> > What about HOSTLD ? I saw recently, that setting HOSTLD=ld.lld is not
-> > yielding the expected result (some tools, like e.g. fixdep still require
-> > an `ld` to be in PATH to be built). I did not find the time to look into
-> > that yet, but I would like to consistently switch to the llvm toolchain
-> > (including linker and possibly more) also for hostprogs.
->
->
-> HOSTLD=ld.lld worked for me, but HOSTCC=clang did not.
->
->
->
-> HOSTCC=clang without CC=clang fails to build objtool.
->
-> The build system of objtool is meh.  :(
+On Wed, Apr 08, 2020 at 12:53:52AM +0900, Masahiro Yamada wrote:
+> Staring v4.18, Kconfig evaluates compiler capabilities, and hides CONFIG
+> options your compiler does not support. This works well if you configure
+> and build the kernel on the same host machine.
+> 
+> It is inconvenient if you prepare the .config that is carried to a
+> different build environment (typically this happens when you package
+> the kernel for distros) because using a different compiler potentially
+> produces different CONFIG options than the real build environment.
+> So, you probably want to make as many options visible as possible.
+> In other words, you need to create a super-set of CONFIG options that
+> cover any build environment. If some of the CONFIG options turned out
+> to be unsupported on the build machine, they are automatically disabled
+> by the nature of Kconfig.
+> 
+> However, it is not feasible to get a full-featured compiler for every
+> arch.
+> 
+> This issue was discussed here:
+> 
+>   https://lkml.org/lkml/2019/12/9/620
+> 
+> Other than distros, savedefconfig is also a problem. Some arch sub-systems
+> periodically resync defconfig files. If you use a less-capable compiler
+> for savedefconfig, options that do not meet 'depends on $(cc-option,...)'
+> will be forcibly disabled. So, 'make defconfig && make savedefconfig'
+> may silently change the behavior.
+> 
+> This commit adds a set of dummy toolchains that pretend to support any
+> feature.
+> 
+> Most of compiler features are tested by cc-option, which simply checks
+> the exit code of $(CC). The dummy tools are shell scripts that always
+> exit with 0. So, $(cc-option, ...) is evaluated as 'y'.
+> 
+> There are more complicated checks such as:
+> 
+>   scripts/gcc-x86_{32,64}-has-stack-protector.sh
+>   scripts/gcc-plugin.sh
+>   scripts/tools-support-relr.sh
+> 
+> scripts/dummy-tools/gcc passes all checks.
+> 
+> From the top directory of the source tree, you can do:
+> 
+>    $ make CROSS_COMPILE=scripts/dummy-tools/ oldconfig
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Reviewed-by: Philipp Rudo <prudo@linux.ibm.com>
+> ---
+> 
+> Changes in v2:
+>   - support --version and -v for ld, objdump, nm
 
-Let's tackle that in a follow up, with the goal of build hermiticity
-in mind.  I think there's good feedback in this thread to inform the
-design of a v2:
-1. CLANG_AS=0 to disable integrated as.  Hopefully we won't need this
-much longer, so we don't need to spend too much time on this, Masahiro
-please just choose a name for this.  llvm-as naming conventions
-doesn't follow the rest of binutils.
-2. HOSTCC=clang HOSTLD=ld.lld set by LLVM=1 for helping with build hermiticity.
+Great, "make ARCH=powerpc CROSS_COMPILE=scripts/dummy-tools/ help" no
+longer spits out "/bin/sh: line 0: [: -ge: unary operator expected" and
+everything looks to work as expected.
 
->
->
->   HOSTCC  scripts/mod/sumversion.o
->   HOSTLD  scripts/mod/modpost
->   CALL    scripts/checksyscalls.sh
->   CALL    scripts/atomic/check-atomics.sh
->   DESCEND  objtool
-> error: unknown warning option '-Wstrict-aliasing=3'; did you mean
-> '-Wstring-plus-int'? [-Werror,-Wunknown-warning-option]
->   HOSTCC   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep.o
->   HOSTLD   /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep-in.o
->   LINK     /home/masahiro/workspace/linux-kbuild/tools/objtool/fixdep
->   CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/exec-cmd.o
->   CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/help.o
->   CC       /home/masahiro/workspace/linux-kbuild/tools/objtool/pager.o
->
->
->
->
->
->
-> > Cheers,
-> > Matthias
-> >
-> > >
-> > >  Many distributions support update-alternatives to switch the default
-> > >  to GCC, Clang, or whatever, but reviewers were opposed to this
-> > >  approach. So, this commit does not touch the host tools.
-> > >
-> > >Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > >---
-> > >
-> > > Documentation/kbuild/kbuild.rst |  5 +++++
-> > > Documentation/kbuild/llvm.rst   |  5 +++++
-> > > Makefile                        | 20 ++++++++++++++++----
-> > > 3 files changed, 26 insertions(+), 4 deletions(-)
-> > >
-> > >diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-> > >index 510f38d7e78a..2d1fc03d346e 100644
-> > >--- a/Documentation/kbuild/kbuild.rst
-> > >+++ b/Documentation/kbuild/kbuild.rst
-> > >@@ -262,3 +262,8 @@ KBUILD_BUILD_USER, KBUILD_BUILD_HOST
-> > > These two variables allow to override the user@host string displayed during
-> > > boot and in /proc/version. The default value is the output of the commands
-> > > whoami and host, respectively.
-> > >+
-> > >+LLVM
-> > >+----
-> > >+If this variable is set to 1, Kbuild will use Clang and LLVM utilities instead
-> > >+of GCC and GNU binutils to build the kernel.
-> > >diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > >index d6c79eb4e23e..4602369f6a4f 100644
-> > >--- a/Documentation/kbuild/llvm.rst
-> > >+++ b/Documentation/kbuild/llvm.rst
-> > >@@ -55,6 +55,11 @@ additional parameters to `make`.
-> > >         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-> > >         HOSTLD=ld.lld
-> > >
-> > >+You can use a single switch `LLVM=1` to use LLVM utilities by default (except
-> > >+for building host programs).
-> > >+
-> > >+      make LLVM=1 HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar HOSTLD=ld.lld
-> > >+
-> > > Getting Help
-> > > ------------
-> > >
-> > >diff --git a/Makefile b/Makefile
-> > >index c91342953d9e..6db89ecdd942 100644
-> > >--- a/Makefile
-> > >+++ b/Makefile
-> > >@@ -409,16 +409,28 @@ KBUILD_HOSTLDFLAGS  := $(HOST_LFS_LDFLAGS) $(HOSTLDFLAGS)
-> > > KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
-> > >
-> > > # Make variables (CC, etc...)
-> > >-LD            = $(CROSS_COMPILE)ld
-> > >-CC            = $(CROSS_COMPILE)gcc
-> > > CPP           = $(CC) -E
-> > >+ifneq ($(LLVM),)
-> > >+CC            = clang
-> > >+LD            = ld.lld
-> > >+AR            = llvm-ar
-> > >+NM            = llvm-nm
-> > >+OBJCOPY               = llvm-objcopy
-> > >+OBJDUMP               = llvm-objdump
-> > >+READELF               = llvm-readelf
-> > >+OBJSIZE               = llvm-size
-> > >+STRIP         = llvm-strip
-> > >+else
-> > >+CC            = $(CROSS_COMPILE)gcc
-> > >+LD            = $(CROSS_COMPILE)ld
-> > > AR            = $(CROSS_COMPILE)ar
-> > > NM            = $(CROSS_COMPILE)nm
-> > >-STRIP         = $(CROSS_COMPILE)strip
-> > > OBJCOPY               = $(CROSS_COMPILE)objcopy
-> > > OBJDUMP               = $(CROSS_COMPILE)objdump
-> > >-OBJSIZE               = $(CROSS_COMPILE)size
-> > > READELF               = $(CROSS_COMPILE)readelf
-> > >+OBJSIZE               = $(CROSS_COMPILE)size
-> > >+STRIP         = $(CROSS_COMPILE)strip
-> > >+endif
-> > > PAHOLE                = pahole
-> > > LEX           = flex
-> > > YACC          = bison
-> > >--
-> > >2.17.1
-> > >
-> > >--
-> > >You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> > >To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> > >To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200403051709.22407-1-masahiroy%40kernel.org.
-> >
-> > --
-> > You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> > To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> > To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200406112220.GB126804%40google.com.
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAK7LNARkFN8jTD8F3CU7r_AL8dbqaKpUuou4MCLZvAYLGs9bYA%40mail.gmail.com.
+Tested-by: Jeremy Cline <jcline@redhat.com>
 
+> 
+>  scripts/dummy-tools/gcc     | 91 +++++++++++++++++++++++++++++++++++++
+>  scripts/dummy-tools/ld      | 30 ++++++++++++
+>  scripts/dummy-tools/nm      |  1 +
+>  scripts/dummy-tools/objcopy |  1 +
+>  4 files changed, 123 insertions(+)
+>  create mode 100755 scripts/dummy-tools/gcc
+>  create mode 100755 scripts/dummy-tools/ld
+>  create mode 120000 scripts/dummy-tools/nm
+>  create mode 120000 scripts/dummy-tools/objcopy
+> 
+> diff --git a/scripts/dummy-tools/gcc b/scripts/dummy-tools/gcc
+> new file mode 100755
+> index 000000000000..33487e99d83e
+> --- /dev/null
+> +++ b/scripts/dummy-tools/gcc
+> @@ -0,0 +1,91 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Staring v4.18, Kconfig evaluates compiler capabilities, and hides CONFIG
+> +# options your compiler does not support. This works well if you configure and
+> +# build the kernel on the same host machine.
+> +#
+> +# It is inconvenient if you prepare the .config that is carried to a different
+> +# build environment (typically this happens when you package the kernel for
+> +# distros) because using a different compiler potentially produces different
+> +# CONFIG options than the real build environment. So, you probably want to make
+> +# as many options visible as possible. In other words, you need to create a
+> +# super-set of CONFIG options that cover any build environment. If some of the
+> +# CONFIG options turned out to be unsupported on the build machine, they are
+> +# automatically disabled by the nature of Kconfig.
+> +#
+> +# However, it is not feasible to get a full-featured compiler for every arch.
+> +# Hence these dummy toolchains to make all compiler tests pass.
+> +#
+> +# Usage:
+> +#
+> +# From the top directory of the source tree, run
+> +#
+> +#   $ make CROSS_COMPILE=scripts/dummy-tools/ oldconfig
+> +#
+> +# Most of compiler features are tested by cc-option, which simply checks the
+> +# exit code of $(CC). This script does nothing and just exits with 0 in most
+> +# cases. So, $(cc-option, ...) is evaluated as 'y'.
+> +#
+> +# This scripts caters to more checks; handle --version and pre-process __GNUC__
+> +# etc. to pretend to be GCC, and also do right things to satisfy some scripts.
+> +
+> +# Check if the first parameter appears in the rest. Succeeds if found.
+> +# This helper is useful if a particular option was passed to this script.
+> +# Typically used like this:
+> +#   arg_contain <word-you-are-searching-for> "$@"
+> +arg_contain ()
+> +{
+> +	search="$1"
+> +	shift
+> +
+> +	while [ $# -gt 0 ]
+> +	do
+> +		if [ "$search" = "$1" ]; then
+> +			return 0
+> +		fi
+> +		shift
+> +	done
+> +
+> +	return 1
+> +}
+> +
+> +# To set CONFIG_CC_IS_GCC=y
+> +if arg_contain --version "$@"; then
+> +	echo "gcc (scripts/dummy-tools/gcc)"
+> +	exit 0
+> +fi
+> +
+> +if arg_contain -E "$@"; then
+> +	# For scripts/gcc-version.sh; This emulates GCC 20.0.0
+> +	if arg_contain - "$@"; then
+> +		sed 's/^__GNUC__$/20/; s/^__GNUC_MINOR__$/0/; s/^__GNUC_PATCHLEVEL__$/0/'
+> +		exit 0
+> +	else
+> +		echo "no input files" >&2
+> +		exit 1
+> +	fi
+> +fi
+> +
+> +if arg_contain -S "$@"; then
+> +	# For scripts/gcc-x86-*-has-stack-protector.sh
+> +	if arg_contain -fstack-protector "$@"; then
+> +		echo "%gs"
+> +		exit 0
+> +	fi
+> +fi
+> +
+> +# For scripts/gcc-plugin.sh
+> +if arg_contain -print-file-name=plugin "$@"; then
+> +	plugin_dir=$(mktemp -d)
+> +
+> +	sed -n 's/.*#include "\(.*\)"/\1/p' $(dirname $0)/../gcc-plugins/gcc-common.h |
+> +	while read header
+> +	do
+> +		mkdir -p $plugin_dir/include/$(dirname $header)
+> +		touch $plugin_dir/include/$header
+> +	done
+> +
+> +	echo $plugin_dir
+> +	exit 0
+> +fi
+> diff --git a/scripts/dummy-tools/ld b/scripts/dummy-tools/ld
+> new file mode 100755
+> index 000000000000..f68233050405
+> --- /dev/null
+> +++ b/scripts/dummy-tools/ld
+> @@ -0,0 +1,30 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +# Dummy script that always succeeds.
+> +
+> +# Check if the first parameter appears in the rest. Succeeds if found.
+> +# This helper is useful if a particular option was passed to this script.
+> +# Typically used like this:
+> +#   arg_contain <word-you-are-searching-for> "$@"
+> +arg_contain ()
+> +{
+> +	search="$1"
+> +	shift
+> +
+> +	while [ $# -gt 0 ]
+> +	do
+> +		if [ "$search" = "$1" ]; then
+> +			return 0
+> +		fi
+> +		shift
+> +	done
+> +
+> +	return 1
+> +}
+> +
+> +if arg_contain --version "$@" || arg_contain -v "$@"; then
+> +	progname=$(basename $0)
+> +	echo "GNU $progname (scripts/dummy-tools/$progname) 2.50"
+> +	exit 0
+> +fi
+> diff --git a/scripts/dummy-tools/nm b/scripts/dummy-tools/nm
+> new file mode 120000
+> index 000000000000..c0648b38dd42
+> --- /dev/null
+> +++ b/scripts/dummy-tools/nm
+> @@ -0,0 +1 @@
+> +ld
+> \ No newline at end of file
+> diff --git a/scripts/dummy-tools/objcopy b/scripts/dummy-tools/objcopy
+> new file mode 120000
+> index 000000000000..c0648b38dd42
+> --- /dev/null
+> +++ b/scripts/dummy-tools/objcopy
+> @@ -0,0 +1 @@
+> +ld
+> \ No newline at end of file
+> -- 
+> 2.17.1
+> 
 
-
--- 
-Thanks,
-~Nick Desaulniers
