@@ -2,60 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F1031A6623
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2020 14:04:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6AEE1A68E7
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2020 17:33:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729363AbgDMMEo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Apr 2020 08:04:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49248 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728558AbgDMMEn (ORCPT
+        id S1730430AbgDMPdr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Apr 2020 11:33:47 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:50089 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730407AbgDMPdr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Apr 2020 08:04:43 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0586C03BC88
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2020 04:58:20 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id w29so6441636qtv.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2020 04:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=massaru-org.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oHLps9o08dbvxE02Dvj/jt0RoFc0VpbMXtuiKFoxLZE=;
-        b=LySdmacwY+3ux5rursX79HmuxJceTvKyk9bpz+AOfNV99t68btXJuf6UgsaXMltmy5
-         tZDP2KmUMiyMJTIPp270VRv5tG2bOVOWia5u11Xi3SQUTMT44OrdkWoScr5iMKTMaH5y
-         2sc8k2WH3JCjDMhVMZwL3w8iS6YYCH6E+PrZdz3SGYbjRWOwUW99GNqCi6TBZEmd/nGm
-         KoT3fKvfOj7CbAsKXvrnf/7OklsAlHCZOk1I6tGiolX8RyMyldjt3i3pDeH+kCanbVUs
-         ML53t9cnnaiRDCF+gD8lwNk66Sa8OkufkZp66eEKeGLDLThS8szLRlnyS1lm5xbvE74T
-         gS4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oHLps9o08dbvxE02Dvj/jt0RoFc0VpbMXtuiKFoxLZE=;
-        b=dNOk5yG3f6WRHNwYV0d2PBo59md7Ww+V4N6VdYo8pQ6xRAYyGEV7zUTjf3N29GsXJw
-         12ckzJIJMeMglVOJ2DRDAcYhhA+kF68SsPoJOQA2bBxU+DO8Xxdrn2hA3n3Rw7nr2pfX
-         JJdXUPhYVSyuUgUOXXeumOe1GASU/zHBcKC1UiHssbjhz5QPUm7YHlz3k847dwkPG/QA
-         B0THH7RHOgY6hnyl7AzZCu2AGPdwDLmZxJI+3iiJjOglZvZ0EDAtkHGNOnLcARDQdFbB
-         DvxkJdlDLUV1SMuli/0q+GuNDvSMu+e3PDUb3BgKsvxfvxyvtVCe3mU30OcqO8eFPT2c
-         7FIQ==
-X-Gm-Message-State: AGi0PuZDSzc+vgRPiyHRNUSOc9YdT+OEllZOD7G86Wk2FwvNRwoUTzKN
-        1a+84b8ajLk9BhPDBhDXImcyYk7s1ps=
-X-Google-Smtp-Source: APiQypKofBoxZQiSMjHok5wcXaet362PDl853ajJ57KknzIVzKWUJoZUlUM+Vp5OOyWbvXiTN3xmoA==
-X-Received: by 2002:ac8:3686:: with SMTP id a6mr8822273qtc.317.1586779099732;
-        Mon, 13 Apr 2020 04:58:19 -0700 (PDT)
-Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
-        by smtp.gmail.com with ESMTPSA id s14sm5129124qts.70.2020.04.13.04.58.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2020 04:58:19 -0700 (PDT)
-From:   Vitor Massaru Iha <vitor@massaru.org>
+        Mon, 13 Apr 2020 11:33:47 -0400
+Received: from oscar.flets-west.jp (softbank060142179096.bbtec.net [60.142.179.96]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 03DFXOer018085;
+        Tue, 14 Apr 2020 00:33:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 03DFXOer018085
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1586792005;
+        bh=ObaGuAuzO6cDBYoRVHkzqtWvKhTOMojAsNV1yOmywIs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=diZL7LDx7thW41Drm2kSo97QwCABGDIg/6vwiYiIhua1b40FAAFt6qhFfj0eE4+sZ
+         1BFsKxx0z9dQfpgBMLjYXQOWVu/8hMNtnErmt+aSG6fcuSz9u37O42Ouxq1JOolQFN
+         ZElzhSlPQZchm+cDoYaFG8VdARbJCjng3cgaokgMz+1D8Y0HWu/mbNMNRo4NhK052A
+         81jy3x5CDGYn2/jk0V9loK6TEfrodaXZ4WuCxt0Dnx4UyC4K9hdjO7LCrwne+8k8Bz
+         EwdnNB4edL8bbXSZUg+mP5Ln1NvNk4/P6LOechnrFWpxYicIFwK35CFgLnNKQ3aUNU
+         CixcO/f3qfmAA==
+X-Nifty-SrcIP: [60.142.179.96]
+From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        linux-kernel@vger.kernel.org, brendanhiggins@google.com,
-        skhan@linuxfoundation.org
-Subject: [PATCH] kbuild: arch/$(SUBARCH)/include/generated/ aren't cleaned by mrproper
-Date:   Mon, 13 Apr 2020 08:58:15 -0300
-Message-Id: <20200413115815.141587-1-vitor@massaru.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: do not use OR-assignment for zero-cleared structure
+Date:   Tue, 14 Apr 2020 00:33:20 +0900
+Message-Id: <20200413153320.93316-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,37 +42,28 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This bug was introduced in this commit a788b2ed81abe
+The simple assignment is enough because memset() three lines above
+has zero-cleared the structure.
 
-Related bug: https://bugzilla.kernel.org/show_bug.cgi?id=205219
-
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
- Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 70def4907036..e1a79796032e 100644
---- a/Makefile
-+++ b/Makefile
-@@ -532,7 +532,8 @@ outputmakefile:
- ifdef building_out_of_srctree
- 	$(Q)if [ -f $(srctree)/.config -o \
- 		 -d $(srctree)/include/config -o \
--		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
-+		 -d $(srctree)/arch/$(SRCARCH)/include/generated -o \
-+		 -d $(srctree)/arch/$(SUBARCH)/include/generated ]; then \
- 		echo >&2 "***"; \
- 		echo >&2 "*** The source tree is not clean, please run 'make$(if $(findstring command line, $(origin ARCH)), ARCH=$(ARCH)) mrproper'"; \
- 		echo >&2 "*** in $(abs_srctree)";\
-@@ -1388,6 +1389,7 @@ CLEAN_FILES += modules.builtin modules.builtin.modinfo modules.nsdeps
- # Directories & files removed with 'make mrproper'
- MRPROPER_DIRS  += include/config include/generated          \
- 		  arch/$(SRCARCH)/include/generated .tmp_objdiff \
-+		  arch/$(SUBARCH)/include/generated \
- 		  debian/ snap/ tar-install/
- MRPROPER_FILES += .config .config.old .version \
- 		  Module.symvers \
+ scripts/kconfig/symbol.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 3dc81397d003..9363e37b8870 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -831,7 +831,7 @@ struct symbol *sym_lookup(const char *name, int flags)
+ 	memset(symbol, 0, sizeof(*symbol));
+ 	symbol->name = new_name;
+ 	symbol->type = S_UNKNOWN;
+-	symbol->flags |= flags;
++	symbol->flags = flags;
+ 
+ 	symbol->next = symbol_hash[hash];
+ 	symbol_hash[hash] = symbol;
 -- 
 2.25.1
 
