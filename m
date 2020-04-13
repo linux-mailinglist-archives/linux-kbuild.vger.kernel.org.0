@@ -2,110 +2,99 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E12741A65C2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2020 13:49:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F1031A6623
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Apr 2020 14:04:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729189AbgDMLts (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Apr 2020 07:49:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43762 "EHLO
+        id S1729363AbgDMMEo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Apr 2020 08:04:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729153AbgDMLtn (ORCPT
+        with ESMTP id S1728558AbgDMMEn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Apr 2020 07:49:43 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08801C0085F5
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2020 04:41:10 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id n10so9011077iom.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2020 04:41:09 -0700 (PDT)
+        Mon, 13 Apr 2020 08:04:43 -0400
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0586C03BC88
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2020 04:58:20 -0700 (PDT)
+Received: by mail-qt1-x844.google.com with SMTP id w29so6441636qtv.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 13 Apr 2020 04:58:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
+        d=massaru-org.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
-        b=HxOaFJZljqXQIeSLw7dw+YeTIVe76Yo57NkC3rYQjPPsruaWLZEetJYgTw7mDA7iYw
-         4KM/sQKuVdxfTyBgHy0QGrcgvhBAp/s2WR+7lhwMEms7c5U3ARzlxX4w9gHN6kyIVCTo
-         InVjjBwajQbgYMLlLr/dGAnfAOq75HLmi2bmQShdg5UrDH6ZNHdmpjirCjsFE3E+W3lI
-         4HPNdhIk9GHy3wOVy8qt79oLhQ3V0WJ+l2R8YfTk5No8OB207Mc1ssyzLdiNdU6iDIon
-         HSnId1sWR9JHq8BkscMOY+TVCS7WuDDdfTSRJRDObUGUY3pKdsd/NGq97n4qtv5szVJr
-         IEMQ==
+        bh=oHLps9o08dbvxE02Dvj/jt0RoFc0VpbMXtuiKFoxLZE=;
+        b=LySdmacwY+3ux5rursX79HmuxJceTvKyk9bpz+AOfNV99t68btXJuf6UgsaXMltmy5
+         tZDP2KmUMiyMJTIPp270VRv5tG2bOVOWia5u11Xi3SQUTMT44OrdkWoScr5iMKTMaH5y
+         2sc8k2WH3JCjDMhVMZwL3w8iS6YYCH6E+PrZdz3SGYbjRWOwUW99GNqCi6TBZEmd/nGm
+         KoT3fKvfOj7CbAsKXvrnf/7OklsAlHCZOk1I6tGiolX8RyMyldjt3i3pDeH+kCanbVUs
+         ML53t9cnnaiRDCF+gD8lwNk66Sa8OkufkZp66eEKeGLDLThS8szLRlnyS1lm5xbvE74T
+         gS4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=qlKWExEze9qCqlwbpw1q4+d2Zjr4ETGVa64TcX+dTlk=;
-        b=Z5dM45lQoND7sFF/JEZkSOn8CpCQ97BbSotfV5joKHswY35evZ1RRlzPguyfjIlRDQ
-         jHaV9JjIzWJdhxCt1AOk9RmFgspn8uF+74ugZVf/UGawjIvUl4gPQRx4NTEjoF74n+nQ
-         Tmyw5HH/u+tgwWktJ7lR1CrZOZLqetvelwNZiGove+Y9v1nie64EPmdqtjXshm2oFoHE
-         /6QZ4WlXWvFAsPitT/Yh8xlAmxvb1OGaixZavtDsXZlHFVaIGxdU5c1U3vSmy/LqHF6V
-         R4dF+aCZbG2NJT2WBzUsn732p9mkZTVfiEvwE9L3zbt0NovqQ/YsD6FSKb066Vl6Dge/
-         74gg==
-X-Gm-Message-State: AGi0PubWZ43H3wYVKKxVAEQpxQ7h9+JqzIMPeYmlBZcwfovNYVKKZXn9
-        KfJqHXHzhNYH6PdujuKvVFRn0XGnK+hqXQ4FFCx3ykc=
-X-Google-Smtp-Source: APiQypJ8Xf5JZIaJmuakcegBHklRN/w3ObzOY1fG2hZhiF0393fUgrxf6qaSVcLD5pLEm/4TEQgoj9oGK8tQ5EeyGAU=
-X-Received: by 2002:a05:6e02:c8f:: with SMTP id b15mr14965961ile.35.1586778068198;
- Mon, 13 Apr 2020 04:41:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oHLps9o08dbvxE02Dvj/jt0RoFc0VpbMXtuiKFoxLZE=;
+        b=dNOk5yG3f6WRHNwYV0d2PBo59md7Ww+V4N6VdYo8pQ6xRAYyGEV7zUTjf3N29GsXJw
+         12ckzJIJMeMglVOJ2DRDAcYhhA+kF68SsPoJOQA2bBxU+DO8Xxdrn2hA3n3Rw7nr2pfX
+         JJdXUPhYVSyuUgUOXXeumOe1GASU/zHBcKC1UiHssbjhz5QPUm7YHlz3k847dwkPG/QA
+         B0THH7RHOgY6hnyl7AzZCu2AGPdwDLmZxJI+3iiJjOglZvZ0EDAtkHGNOnLcARDQdFbB
+         DvxkJdlDLUV1SMuli/0q+GuNDvSMu+e3PDUb3BgKsvxfvxyvtVCe3mU30OcqO8eFPT2c
+         7FIQ==
+X-Gm-Message-State: AGi0PuZDSzc+vgRPiyHRNUSOc9YdT+OEllZOD7G86Wk2FwvNRwoUTzKN
+        1a+84b8ajLk9BhPDBhDXImcyYk7s1ps=
+X-Google-Smtp-Source: APiQypKofBoxZQiSMjHok5wcXaet362PDl853ajJ57KknzIVzKWUJoZUlUM+Vp5OOyWbvXiTN3xmoA==
+X-Received: by 2002:ac8:3686:: with SMTP id a6mr8822273qtc.317.1586779099732;
+        Mon, 13 Apr 2020 04:58:19 -0700 (PDT)
+Received: from bbking.lan ([2804:14c:4a5:36c::cd2])
+        by smtp.gmail.com with ESMTPSA id s14sm5129124qts.70.2020.04.13.04.58.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Apr 2020 04:58:19 -0700 (PDT)
+From:   Vitor Massaru Iha <vitor@massaru.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        linux-kernel@vger.kernel.org, brendanhiggins@google.com,
+        skhan@linuxfoundation.org
+Subject: [PATCH] kbuild: arch/$(SUBARCH)/include/generated/ aren't cleaned by mrproper
+Date:   Mon, 13 Apr 2020 08:58:15 -0300
+Message-Id: <20200413115815.141587-1-vitor@massaru.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a02:5e49:0:0:0:0:0 with HTTP; Mon, 13 Apr 2020 04:41:07
- -0700 (PDT)
-Reply-To: mgbenin903@gmail.com
-From:   Barrister Robert Richter UN-Attorney at Law Court-Benin 
-        <info.zennitbankplcnigerian@gmail.com>
-Date:   Mon, 13 Apr 2020 13:41:07 +0200
-Message-ID: <CABHzvrm3rWryg1yAooKeHwdxzrKD47PRAEfC+ay1A6i5z3Wdiw@mail.gmail.com>
-Subject: I have already sent you first payment US$5000.00 this morning through
- MONEY Gram service.it is available to pick up in address now.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-ATTN DEAR BENEFICIARY.
+This bug was introduced in this commit a788b2ed81abe
 
-GOOD NEWS.
+Related bug: https://bugzilla.kernel.org/show_bug.cgi?id=205219
 
-I have already sent you first payment US$5000.00 this morning through
-MONEY Gram service.it is available to pick up in address now.
+Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+---
+ Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-So we advise you to Contact This Money Gram office to pick up your
-transfer $US5000.00 today.
+diff --git a/Makefile b/Makefile
+index 70def4907036..e1a79796032e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -532,7 +532,8 @@ outputmakefile:
+ ifdef building_out_of_srctree
+ 	$(Q)if [ -f $(srctree)/.config -o \
+ 		 -d $(srctree)/include/config -o \
+-		 -d $(srctree)/arch/$(SRCARCH)/include/generated ]; then \
++		 -d $(srctree)/arch/$(SRCARCH)/include/generated -o \
++		 -d $(srctree)/arch/$(SUBARCH)/include/generated ]; then \
+ 		echo >&2 "***"; \
+ 		echo >&2 "*** The source tree is not clean, please run 'make$(if $(findstring command line, $(origin ARCH)), ARCH=$(ARCH)) mrproper'"; \
+ 		echo >&2 "*** in $(abs_srctree)";\
+@@ -1388,6 +1389,7 @@ CLEAN_FILES += modules.builtin modules.builtin.modinfo modules.nsdeps
+ # Directories & files removed with 'make mrproper'
+ MRPROPER_DIRS  += include/config include/generated          \
+ 		  arch/$(SRCARCH)/include/generated .tmp_objdiff \
++		  arch/$(SUBARCH)/include/generated \
+ 		  debian/ snap/ tar-install/
+ MRPROPER_FILES += .config .config.old .version \
+ 		  Module.symvers \
+-- 
+2.25.1
 
-
-Note that your compensation payment funds is total amount $US2.800,000
-Million Dollars.We have instructed the Money Gram Agent,Mr. James
-Gadner to keep sending the transfer to you daily, but the maximum
-amount you will be receiving everyday is US$5000.00. Contact Agent now
-to pick up your first payment $US5000.00 immediately.
-
-Contact Person, Mr. James Gadner, Dir. Money Gram Benin.
-Email: mgbenin903@gmail.com
-Telephone Numbers: +229 62819378/ +229 98477762
-
-HERE IS YOUR PAYMENT DETAILS FOR THE FIRST =C2=A3US5000.00 SENT TODAY.
-
-Track View Website link:
-https://secure.moneygram.com/track
-Sender=E2=80=99s First name: David
-Sender=E2=80=99s Last Name: Joiner
-Money Transfer Control Number (MTCN) (REFERENCE)# 26046856
-
-Contact the Mmoney Gram Urgent and reconfirm your address to the
-office before, they will allow you to pick up the transfer today.
-
-HERE IS WHAT REQUIRED OF YOU.
-
-YOUR FULL NAME---------
-ADDRESS--------------
-COUNTRY-----------------------------
-TELEPHONE NUMBERS-----------------
-
-Note, I paid the transfer fee for you, but only you are required to
-send to the office is $75 only,Been Your Payment File activation fee,
-Send once you contact the office,before you can able to pick up your
-transfer today.
-
-Let me know once you pick up first payment today.
-
-Barrister Robert Richter UN-Attorney at Law Court-Benin
