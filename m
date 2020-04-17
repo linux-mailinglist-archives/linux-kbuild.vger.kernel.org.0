@@ -2,203 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 900331AE005
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2020 16:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F3791AE440
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2020 20:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgDQOhY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Apr 2020 10:37:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54692 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbgDQOhY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Apr 2020 10:37:24 -0400
-Received: from localhost (unknown [213.57.247.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 10E202087E;
-        Fri, 17 Apr 2020 14:37:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587134243;
-        bh=NBldiNAUk7Adx+NMwtOxd+CbV2wDWhSuvlgeFgyk5iw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q3RZ3wHapGFwzEFdEz5mKSBoUaCVqzOpQFxeJ0HTYIg19g8r5F741vRtxFpeLn9g/
-         7eGE+n0euc3US9CCrzhAcK8kmMSUWv5XKYwDCdiGqsq4BEkKDp+Uz3Z9IMDU4Ir0St
-         qR/6Omwl1XBu8cBkm/o+mS7PkChA7gMdTzAi9TJY=
-Date:   Fri, 17 Apr 2020 17:37:18 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Borislav Petkov <bp@suse.de>,
-        Jessica Yu <jeyu@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Networking <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v1 4/4] kernel/module: Hide vermagic header file
- from general use
-Message-ID: <20200417143718.GA3083@unreal>
-References: <20200415133648.1306956-1-leon@kernel.org>
- <20200415133648.1306956-5-leon@kernel.org>
- <CAK7LNASacDbi-2sQ9uk+37gaU5J6p7YrucyWbzxYP1wQiU+NZA@mail.gmail.com>
+        id S1730387AbgDQSHB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Apr 2020 14:07:01 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:37940 "EHLO
+        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730236AbgDQSHA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 17 Apr 2020 14:07:00 -0400
+Received: from oscar.flets-west.jp (softbank060142179096.bbtec.net [60.142.179.96]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 03HI5ABN029932;
+        Sat, 18 Apr 2020 03:05:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 03HI5ABN029932
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587146711;
+        bh=SFGIrF50APy5dH88SntYVAB40FrC6WituPFt2il885M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=khCtS4XBOln4glzBZmoYcVnO3BquMr7u+AR+bU/tCPRR9LyZVixoBaxeoHhLDVLfV
+         lDXnnNcgNaV0Oei0lEmP/r2/vt4cxEv8O4fF2n27X7jGwyWh8glK1eUljcn0vjcU+D
+         35fBGnhLPjNGFJj662itfmv0wa5AgXX62V3RQ1MNTIPKPSFOCyOmvnnWhAHLYQBjd3
+         dkCaUuz8AmHF0vBqWk7zF4vWEdx11stnl/4UK6R84IiXdSkWpTbqqUc+yvoaeO5hwd
+         OOskfDPcclqNhE1KA9vtE2iN1Z+HQgJY7DIwJ9RDUlGQYUhlcTR363CltdrsWg8gzp
+         wdgjc8Bkxv2Ew==
+X-Nifty-SrcIP: [60.142.179.96]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        linux-um@lists.infradead.org
+Cc:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alex Dewar <alex.dewar@gmx.co.uk>,
+        Erel Geron <erelx.geron@intel.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] um: do not evaluate compiler's library path when cleaning
+Date:   Sat, 18 Apr 2020 03:04:55 +0900
+Message-Id: <20200417180455.1174340-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASacDbi-2sQ9uk+37gaU5J6p7YrucyWbzxYP1wQiU+NZA@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 17, 2020 at 09:07:10PM +0900, Masahiro Yamada wrote:
-> On Wed, Apr 15, 2020 at 10:37 PM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > From: Leon Romanovsky <leonro@mellanox.com>
-> >
-> > VERMAGIC* definitions are not supposed to be used by the drivers,
-> > see this [1] bug report, so simply move this header file to be visible
-> > to kernel/* and scripts files only.
-> >
-> > In-tree module build:
-> > ➜  kernel git:(vermagic) ✗ make clean
-> > ➜  kernel git:(vermagic) ✗ make M=drivers/infiniband/hw/mlx5
-> > ➜  kernel git:(vermagic) ✗ modinfo drivers/infiniband/hw/mlx5/mlx5_ib.ko
-> > filename:       /images/leonro/src/kernel/drivers/infiniband/hw/mlx5/mlx5_ib.ko
-> > <...>
-> > vermagic:       5.6.0+ SMP mod_unload modversions
-> >
-> > Out-of-tree module build:
-> > ➜  mlx5 make -C /images/leonro/src/kernel clean M=/tmp/mlx5
-> > ➜  mlx5 make -C /images/leonro/src/kernel M=/tmp/mlx5
-> > ➜  mlx5 modinfo /tmp/mlx5/mlx5_ib.ko
-> > filename:       /tmp/mlx5/mlx5_ib.ko
-> > <...>
-> > vermagic:       5.6.0+ SMP mod_unload modversions
-> >
-> > [1] https://lore.kernel.org/lkml/20200411155623.GA22175@zn.tnic
-> > Reported-by: Borislav Petkov <bp@suse.de>
-> > Acked-by: Borislav Petkov <bp@suse.de>
-> > Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
-> > ---
-> >  kernel/module.c                      | 2 +-
-> >  {include/linux => kernel}/vermagic.h | 0
-> >  scripts/mod/modpost.c                | 2 +-
-> >  3 files changed, 2 insertions(+), 2 deletions(-)
-> >  rename {include/linux => kernel}/vermagic.h (100%)
-> >
-> > diff --git a/kernel/module.c b/kernel/module.c
-> > index 3447f3b74870..fce06095d341 100644
-> > --- a/kernel/module.c
-> > +++ b/kernel/module.c
-> > @@ -29,7 +29,6 @@
-> >  #include <linux/moduleparam.h>
-> >  #include <linux/errno.h>
-> >  #include <linux/err.h>
-> > -#include <linux/vermagic.h>
-> >  #include <linux/notifier.h>
-> >  #include <linux/sched.h>
-> >  #include <linux/device.h>
-> > @@ -55,6 +54,7 @@
-> >  #include <linux/audit.h>
-> >  #include <uapi/linux/module.h>
-> >  #include "module-internal.h"
-> > +#include "vermagic.h"
-> >
-> >  #define CREATE_TRACE_POINTS
-> >  #include <trace/events/module.h>
-> > diff --git a/include/linux/vermagic.h b/kernel/vermagic.h
-> > similarity index 100%
-> > rename from include/linux/vermagic.h
-> > rename to kernel/vermagic.h
-> > diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> > index 5c3c50c5ec52..91f86261bcfe 100644
-> > --- a/scripts/mod/modpost.c
-> > +++ b/scripts/mod/modpost.c
-> > @@ -2252,7 +2252,7 @@ static void add_header(struct buffer *b, struct module *mod)
-> >          * inherit the definitions.
-> >          */
-> >         buf_printf(b, "#include <linux/build-salt.h>\n");
-> > -       buf_printf(b, "#include <linux/vermagic.h>\n");
-> > +       buf_printf(b, "#include <../kernel/vermagic.h>\n");
->
->
-> I hate this.
+Since commit a83e4ca26af8 ("kbuild: remove cc-option switch from
+-Wframe-larger-than="), 'make ARCH=um clean' emits an error message
+as follows:
 
-Why?
+  $ make ARCH=um clean
+  gcc: error: missing argument to '-Wframe-larger-than='
 
-The "ifndef" solution won't achieve the main goal of this patch -
-completely disallow usage of vermagic.h. Every kernel developer
-knows that headers outside of include/ folder are not meant to be
-used.
+We do not care compiler flags when cleaning.
 
-Once the vermagic.h inside kernel/ folder no one will even try
-to include it.
+Use the '=' operator for lazy expansion because we do not use
+LDFLAGS_pcap.o or LDFLAGS_vde.o when cleaning.
 
-But with new define, all reviewers will need to be aware that they
-don't suppose to see it in "regular" patches.
+While I was here, I removed the redundant -r option because it
+already exists in the recipe.
 
-So, instead of making everything clear by being explicit, we will
-rely on developers + review + checkpatch and implicit logic.
+Fixes: a83e4ca26af8 ("kbuild: remove cc-option switch from -Wframe-larger-than=")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
->
->
-> #error can break the build if the header is included in a wrong way.
->
-> For example, include/acpi/platform/aclinux.h
->
->
->
-> I prefer something like this if a big hammer is needed here.
+ arch/um/drivers/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If it is the only way to progress, I will change the series to use
-this variant, however I don't like it both technically and aesthetically
-by seeing machinery file with extremely narrow scope inside general include
-header.
+diff --git a/arch/um/drivers/Makefile b/arch/um/drivers/Makefile
+index a290821e355c..2a249f619467 100644
+--- a/arch/um/drivers/Makefile
++++ b/arch/um/drivers/Makefile
+@@ -18,9 +18,9 @@ ubd-objs := ubd_kern.o ubd_user.o
+ port-objs := port_kern.o port_user.o
+ harddog-objs := harddog_kern.o harddog_user.o
+ 
+-LDFLAGS_pcap.o := -r $(shell $(CC) $(KBUILD_CFLAGS) -print-file-name=libpcap.a)
++LDFLAGS_pcap.o = $(shell $(CC) $(KBUILD_CFLAGS) -print-file-name=libpcap.a)
+ 
+-LDFLAGS_vde.o := -r $(shell $(CC) $(CFLAGS) -print-file-name=libvdeplug.a)
++LDFLAGS_vde.o = $(shell $(CC) $(CFLAGS) -print-file-name=libvdeplug.a)
+ 
+ targets := pcap_kern.o pcap_user.o vde_kern.o vde_user.o
+ 
+-- 
+2.25.1
 
->
-> diff --git a/include/linux/vermagic.h b/include/linux/vermagic.h
-> index 9aced11e9000..d69fa4661715 100644
-> --- a/include/linux/vermagic.h
-> +++ b/include/linux/vermagic.h
-> @@ -1,4 +1,9 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +#ifndef INCLUDE_VERMAGIC
-> +#error "This header can be included from kernel/module.c or *.mod.c"
-> +#endif
-> +
->  #include <generated/utsrelease.h>
->
->  /* Simply sanity version stamp for modules. */
-> diff --git a/kernel/module.c b/kernel/module.c
-> index 646f1e2330d2..8833e848b73c 100644
-> --- a/kernel/module.c
-> +++ b/kernel/module.c
-> @@ -4,6 +4,9 @@
->     Copyright (C) 2001 Rusty Russell, 2002, 2010 Rusty Russell IBM.
->
->  */
-> +
-> +#define INCLUDE_VERMAGIC
-> +
->  #include <linux/export.h>
->  #include <linux/extable.h>
->  #include <linux/moduleloader.h>
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 5c3c50c5ec52..7f7d4ee7b652 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2251,6 +2251,7 @@ static void add_header(struct buffer *b, struct
-> module *mod)
->          * Include build-salt.h after module.h in order to
->          * inherit the definitions.
->          */
-> +       buf_printf(b, "#define INCLUDE_VERMAGIC\n");
->         buf_printf(b, "#include <linux/build-salt.h>\n");
->         buf_printf(b, "#include <linux/vermagic.h>\n");
->         buf_printf(b, "#include <linux/compiler.h>\n");
->
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
