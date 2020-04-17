@@ -2,193 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D16E81ADCEA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2020 14:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4236F1ADD54
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Apr 2020 14:30:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgDQMIG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Apr 2020 08:08:06 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:17652 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728099AbgDQMIG (ORCPT
+        id S1728196AbgDQM2f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Apr 2020 08:28:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728561AbgDQM2a (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Apr 2020 08:08:06 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 03HC7kBL006803;
-        Fri, 17 Apr 2020 21:07:47 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 03HC7kBL006803
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587125267;
-        bh=9njVtm+U5k014GUDYczy9eZ0Br1yCdZC5fC4dGqfYhA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=O+Y/072GCyIhf4QlVViRx4STOwwgut14r04w7cptutV6e353bwlXCge92/RaeJpsS
-         7iH3Aq9ZDgdDEF7sLqQ+F5Chzc7PrDEsdkVN8Hz3XsRQ1GoBmIfqYUaEuvaquA40m6
-         9GkcBxY3+pTtk67HeUdOaXhFNzMRpm0A2SCMpcEHSxBQwMXpGaY170kCtofJ/j3KpI
-         2MqfS0whLus7sADpX5xSd4HjSsmfNnF1EJupELP4xCp3sUkWwSNbjS6rxGy88zCI8l
-         J0Fd53zR7RDY1o1gwdq0Lfba6miJUTxckSMl3IUt2ftSaovgLbMSCPIghzOnXwEAqp
-         dqecPk4VFi8bA==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id g184so1011559vsc.0;
-        Fri, 17 Apr 2020 05:07:47 -0700 (PDT)
-X-Gm-Message-State: AGi0Puagg59u5SnuJ2l6zwPYCRoY1JbA3ruaLPCA45qv/IhDhbDg5KlE
-        Kch4hqdTd9kitgow2EXLis/vYmaWtEW4E485G8Y=
-X-Google-Smtp-Source: APiQypJol6DBf2QGsKwYAfqvvzbrO2lQyOtwqwudf26Oiy5kheM92uBmARAddgnq9QAP8ldjMFcW+U0U0kjJcLewnBs=
-X-Received: by 2002:a67:6542:: with SMTP id z63mr1932858vsb.179.1587125266016;
- Fri, 17 Apr 2020 05:07:46 -0700 (PDT)
+        Fri, 17 Apr 2020 08:28:30 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7E7C061A41
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Apr 2020 05:28:30 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id j4so2080103qkc.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 17 Apr 2020 05:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aZefJ2eeeg5YJ8LbNLwmZ0QsC9kKV35KaDs/t6j0M1g=;
+        b=K9+oC8zpTs7eoXwYoNCM97j0wAjePnqvg1MIHJIH7ous//tMV1Jr3cBr+kIJfIT6tw
+         3OcVpAAq67QKQZkGQMvO3bNsWwbJBnCUPX+HM2kSXjzzVPxyBC33diZFfVD7g36eaQ8V
+         qfI7KDcfKd2QX+EUZ3jdUHgnHovu2cehHa1LIeWfd5uLrxhCooatkyANNHv7afAV7XJT
+         obDDx3gIJGnGLvMi6zrE6ny3daHSgAl4TGZNNZtepoDTUoHKeOtld3APKqR8zMhi0jaR
+         hYAiqzB2jOWifkzgQ5CnHvC62GPxGS/ig8I2V4XV7ODMhCnKVLz6AW73AfOwbKI5YsJ5
+         eQcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aZefJ2eeeg5YJ8LbNLwmZ0QsC9kKV35KaDs/t6j0M1g=;
+        b=nbxp+eJ/cKbnfjeEgPGVaBvQdjbDbJPiDxSu0INPS5SmLwd9UB1+tfVZEpN6iD+gql
+         yfo7imrUMkCqxzQQiXRTt99pmFm9wnIezUBs2gzv1HQKtVg7BMFLA1yv7TbXz4P1cU+m
+         uSUtCNqnKFW477+otw7gpj2DKuO4Bght/FVhcmgv50aPW3oyjJjhbGDUb4RGOOuBlJ7h
+         asgo0s212p9XfqdpIhRY1sw+aR/bdV1XJVgrhHk5E/A/C3uj3z9E/pqVnnkh9k5cEeZS
+         gdQDNpQADX5TOY0Bo2syUXkdAxrB89yR6Z8fPUz6HZcKwvTLnHBBf6e/1q/t6e6RzFnH
+         6DDA==
+X-Gm-Message-State: AGi0Pub+uxEAYQU3O/12IUB8POstVTtQX/1HrbzanN3XQ3yLqU0eegaU
+        5qqc5aE3ZIchpNOBCEejt+ZziQ==
+X-Google-Smtp-Source: APiQypJ1vYJs1OcOpG6NFzpsPpo2EzISzAbbiESS6yc0Q6fShvvLk7GfaJtAZP1aoEPPARaV+dFckA==
+X-Received: by 2002:a05:620a:39b:: with SMTP id q27mr3018858qkm.94.1587126509481;
+        Fri, 17 Apr 2020 05:28:29 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id u17sm8223117qka.0.2020.04.17.05.28.27
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 17 Apr 2020 05:28:28 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jPQ6d-0006gf-52; Fri, 17 Apr 2020 09:28:27 -0300
+Date:   Fri, 17 Apr 2020 09:28:27 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Saeed Mahameed <saeedm@mellanox.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>, narmstrong@baylibre.com,
+        Laurent.pinchart@ideasonboard.com, leon@kernel.org,
+        kieran.bingham+renesas@ideasonboard.com, jonas@kwiboo.se,
+        airlied@linux.ie, jernej.skrabec@siol.net,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-rdma@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
+Message-ID: <20200417122827.GD5100@ziepe.ca>
+References: <20200417011146.83973-1-saeedm@mellanox.com>
+ <87v9ly3a0w.fsf@intel.com>
 MIME-Version: 1.0
-References: <20200415133648.1306956-1-leon@kernel.org> <20200415133648.1306956-5-leon@kernel.org>
-In-Reply-To: <20200415133648.1306956-5-leon@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 17 Apr 2020 21:07:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASacDbi-2sQ9uk+37gaU5J6p7YrucyWbzxYP1wQiU+NZA@mail.gmail.com>
-Message-ID: <CAK7LNASacDbi-2sQ9uk+37gaU5J6p7YrucyWbzxYP1wQiU+NZA@mail.gmail.com>
-Subject: Re: [PATCH net-next v1 4/4] kernel/module: Hide vermagic header file
- from general use
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Leon Romanovsky <leonro@mellanox.com>,
-        Borislav Petkov <bp@suse.de>, Jessica Yu <jeyu@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Networking <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v9ly3a0w.fsf@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 10:37 PM Leon Romanovsky <leon@kernel.org> wrote:
->
-> From: Leon Romanovsky <leonro@mellanox.com>
->
-> VERMAGIC* definitions are not supposed to be used by the drivers,
-> see this [1] bug report, so simply move this header file to be visible
-> to kernel/* and scripts files only.
->
-> In-tree module build:
-> =E2=9E=9C  kernel git:(vermagic) =E2=9C=97 make clean
-> =E2=9E=9C  kernel git:(vermagic) =E2=9C=97 make M=3Ddrivers/infiniband/hw=
-/mlx5
-> =E2=9E=9C  kernel git:(vermagic) =E2=9C=97 modinfo drivers/infiniband/hw/=
-mlx5/mlx5_ib.ko
-> filename:       /images/leonro/src/kernel/drivers/infiniband/hw/mlx5/mlx5=
-_ib.ko
-> <...>
-> vermagic:       5.6.0+ SMP mod_unload modversions
->
-> Out-of-tree module build:
-> =E2=9E=9C  mlx5 make -C /images/leonro/src/kernel clean M=3D/tmp/mlx5
-> =E2=9E=9C  mlx5 make -C /images/leonro/src/kernel M=3D/tmp/mlx5
-> =E2=9E=9C  mlx5 modinfo /tmp/mlx5/mlx5_ib.ko
-> filename:       /tmp/mlx5/mlx5_ib.ko
-> <...>
-> vermagic:       5.6.0+ SMP mod_unload modversions
->
-> [1] https://lore.kernel.org/lkml/20200411155623.GA22175@zn.tnic
-> Reported-by: Borislav Petkov <bp@suse.de>
-> Acked-by: Borislav Petkov <bp@suse.de>
-> Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
-> ---
->  kernel/module.c                      | 2 +-
->  {include/linux =3D> kernel}/vermagic.h | 0
->  scripts/mod/modpost.c                | 2 +-
->  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename {include/linux =3D> kernel}/vermagic.h (100%)
->
-> diff --git a/kernel/module.c b/kernel/module.c
-> index 3447f3b74870..fce06095d341 100644
-> --- a/kernel/module.c
-> +++ b/kernel/module.c
-> @@ -29,7 +29,6 @@
->  #include <linux/moduleparam.h>
->  #include <linux/errno.h>
->  #include <linux/err.h>
-> -#include <linux/vermagic.h>
->  #include <linux/notifier.h>
->  #include <linux/sched.h>
->  #include <linux/device.h>
-> @@ -55,6 +54,7 @@
->  #include <linux/audit.h>
->  #include <uapi/linux/module.h>
->  #include "module-internal.h"
-> +#include "vermagic.h"
->
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/module.h>
-> diff --git a/include/linux/vermagic.h b/kernel/vermagic.h
-> similarity index 100%
-> rename from include/linux/vermagic.h
-> rename to kernel/vermagic.h
-> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-> index 5c3c50c5ec52..91f86261bcfe 100644
-> --- a/scripts/mod/modpost.c
-> +++ b/scripts/mod/modpost.c
-> @@ -2252,7 +2252,7 @@ static void add_header(struct buffer *b, struct mod=
-ule *mod)
->          * inherit the definitions.
->          */
->         buf_printf(b, "#include <linux/build-salt.h>\n");
-> -       buf_printf(b, "#include <linux/vermagic.h>\n");
-> +       buf_printf(b, "#include <../kernel/vermagic.h>\n");
+On Fri, Apr 17, 2020 at 09:23:59AM +0300, Jani Nikula wrote:
 
+> Which means that would have to split up to two. Not ideal, but
+> doable.
 
-I hate this.
+Why is this not ideal?
 
+I think the one per line is easier to maintain (eg for merge
+conflicts) and easier to read than a giant && expression.
 
-#error can break the build if the header is included in a wrong way.
+I would not complicate things further by extending the boolean
+language..
 
-For example, include/acpi/platform/aclinux.h
-
-
-
-I prefer something like this if a big hammer is needed here.
-
-diff --git a/include/linux/vermagic.h b/include/linux/vermagic.h
-index 9aced11e9000..d69fa4661715 100644
---- a/include/linux/vermagic.h
-+++ b/include/linux/vermagic.h
-@@ -1,4 +1,9 @@
- /* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef INCLUDE_VERMAGIC
-+#error "This header can be included from kernel/module.c or *.mod.c"
-+#endif
-+
- #include <generated/utsrelease.h>
-
- /* Simply sanity version stamp for modules. */
-diff --git a/kernel/module.c b/kernel/module.c
-index 646f1e2330d2..8833e848b73c 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -4,6 +4,9 @@
-    Copyright (C) 2001 Rusty Russell, 2002, 2010 Rusty Russell IBM.
-
- */
-+
-+#define INCLUDE_VERMAGIC
-+
- #include <linux/export.h>
- #include <linux/extable.h>
- #include <linux/moduleloader.h>
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 5c3c50c5ec52..7f7d4ee7b652 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2251,6 +2251,7 @@ static void add_header(struct buffer *b, struct
-module *mod)
-         * Include build-salt.h after module.h in order to
-         * inherit the definitions.
-         */
-+       buf_printf(b, "#define INCLUDE_VERMAGIC\n");
-        buf_printf(b, "#include <linux/build-salt.h>\n");
-        buf_printf(b, "#include <linux/vermagic.h>\n");
-        buf_printf(b, "#include <linux/compiler.h>\n");
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+Jason
