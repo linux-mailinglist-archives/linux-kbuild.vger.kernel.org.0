@@ -2,27 +2,27 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1598F1AFB58
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Apr 2020 16:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 585491AFBCE
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Apr 2020 17:55:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726387AbgDSOTP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Apr 2020 10:19:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41070 "EHLO mail.kernel.org"
+        id S1726123AbgDSPzg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 Apr 2020 11:55:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46168 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725905AbgDSOTP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Apr 2020 10:19:15 -0400
+        id S1725939AbgDSPzg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 19 Apr 2020 11:55:36 -0400
 Received: from localhost (unknown [213.57.247.131])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E2155214AF;
-        Sun, 19 Apr 2020 14:19:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E2C4E21744;
+        Sun, 19 Apr 2020 15:55:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587305954;
+        s=default; t=1587311735;
         bh=AXjjzm0OAJt2Bp3VoxLeT77TO2+mdY+nGusLXaZbMbU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XJ08e+txXF9pxI3dZQD86eptUVgOSqYCnQrhR4QpkE+YBnzCEZjg2s6DvDs7COOna
-         5VxDsXOVLrukwwlFmz763a0W1qXhvzhrWz3s88enIjKUD9TFbFhGIGAdGiCVs3oBVy
-         g1pUK3idrBa4LHZiyT9C7He4OFr3a32C0zP0mDVQ=
+        b=B9qZpO+eBiFSNRCmnj5JJrPgrEj+pseH3LcGKrUmk5Q6FmMx7WUOaKY6C53+ktwhw
+         4ris4gcbbEUYe4azOVzwuIotnS+9YgGrmo/TXSaF9wP3TCPEk9+6DZEVHwCj74T1R6
+         OHRS8/wGel8+Emno/5wGdsR5aVtZ3h/XWDL+kua8=
 From:   Leon Romanovsky <leon@kernel.org>
 To:     "David S. Miller" <davem@davemloft.net>,
         Jakub Kicinski <kuba@kernel.org>
@@ -30,10 +30,10 @@ Cc:     Leon Romanovsky <leonro@mellanox.com>,
         Borislav Petkov <bp@suse.de>, Jessica Yu <jeyu@kernel.org>,
         linux-kbuild@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+        Michal Marek <michal.lkml@markovi.net>, netdev@vger.kernel.org
 Subject: [PATCH net-next v2 4/4] kernel/module: Hide vermagic header file from general use
-Date:   Sun, 19 Apr 2020 17:18:50 +0300
-Message-Id: <20200419141850.126507-5-leon@kernel.org>
+Date:   Sun, 19 Apr 2020 18:55:06 +0300
+Message-Id: <20200419155506.129392-1-leon@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <20200419141850.126507-1-leon@kernel.org>
 References: <20200419141850.126507-1-leon@kernel.org>
