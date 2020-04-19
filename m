@@ -2,125 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 585491AFBCE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Apr 2020 17:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29E191AFCFC
+	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Apr 2020 20:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbgDSPzg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Apr 2020 11:55:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46168 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725939AbgDSPzg (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Apr 2020 11:55:36 -0400
-Received: from localhost (unknown [213.57.247.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E2C4E21744;
-        Sun, 19 Apr 2020 15:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587311735;
-        bh=AXjjzm0OAJt2Bp3VoxLeT77TO2+mdY+nGusLXaZbMbU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=B9qZpO+eBiFSNRCmnj5JJrPgrEj+pseH3LcGKrUmk5Q6FmMx7WUOaKY6C53+ktwhw
-         4ris4gcbbEUYe4azOVzwuIotnS+9YgGrmo/TXSaF9wP3TCPEk9+6DZEVHwCj74T1R6
-         OHRS8/wGel8+Emno/5wGdsR5aVtZ3h/XWDL+kua8=
-From:   Leon Romanovsky <leon@kernel.org>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Leon Romanovsky <leonro@mellanox.com>,
-        Borislav Petkov <bp@suse.de>, Jessica Yu <jeyu@kernel.org>,
-        linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>, netdev@vger.kernel.org
-Subject: [PATCH net-next v2 4/4] kernel/module: Hide vermagic header file from general use
-Date:   Sun, 19 Apr 2020 18:55:06 +0300
-Message-Id: <20200419155506.129392-1-leon@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200419141850.126507-1-leon@kernel.org>
-References: <20200419141850.126507-1-leon@kernel.org>
+        id S1726606AbgDSSE6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 Apr 2020 14:04:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726472AbgDSSE6 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 19 Apr 2020 14:04:58 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E3D5C061A0C;
+        Sun, 19 Apr 2020 11:04:58 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id k9so6832302oia.8;
+        Sun, 19 Apr 2020 11:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=noeMRyfCXiVNDac4SbXL/yZSIwLo263SYX8F156uBM8=;
+        b=SEzYahmb0dEcma2OmED8egn4Vohg7pDmFIUee7ZQrIQlW02yaKOWbIxgcoC5KEMJ+S
+         NF/fjMNabSgVJUdeashBcatocSrjL2AcZJ9J70uIHB8NMSgZruXdL0tPzyU/ViP99UEU
+         3pu+kGg0P+LKHM4QbWzx47aw+OUfp41ekptnWNIRmVbONkEwslKzGGxlK3CCMCeCZ2L9
+         Y1XVUxp0pyFQ2F57IBLVzPoEtItWRkro6vYGZ7oqEV2pg7vUkErrz3WquoDedp4/34T+
+         sL6aryysjx/Qau79gRfDG72wDkCznhSfAqd04ivixCFVFFB39WxjeoQ9BIQB2ay4Z3hn
+         J+Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=noeMRyfCXiVNDac4SbXL/yZSIwLo263SYX8F156uBM8=;
+        b=NYKkodjWbE0unKl98av/XmTLdz+u8EExveA/tYDZDjxoEjxgIAvBy5/5p3lLUb1qHQ
+         uiLBdanEUplxoegxcBxburzH6XtzUlMNmO9p3poLVogLPbYfj5JX6iis4vHCJio7GB6s
+         YRF8lghbTIqviXA5uVnQbTMFpUW35EBBr28KCVkq5tmil3+hwwCHHTzGRfwUQnrq7MZP
+         vsu1416hHpdMGIkW3MRuWT/G2QNpE++b6UNhVLe90ORdtMBYcRoRayDI6LClHxM6taVD
+         lqhyuXPkQugZtN4n9xEe02SrP4Z9e21lA78ikIbSAg40AWdAA5210z/Rc7GemGFeYC2T
+         sXYA==
+X-Gm-Message-State: AGi0PuZJhR5zYFCCdfvijRUSuV8lIVBSOmByaajpZeTx9Cyx9+JQTNj5
+        uiVkdLjpZF2ulqV+sSsDd/g=
+X-Google-Smtp-Source: APiQypJoH846YLVMv5jnqLShzu94g8oRiMnmBIkHXgUf9p88SARJoNlwf94kkTV7gsmszLFNA0sZ4w==
+X-Received: by 2002:aca:d6c1:: with SMTP id n184mr8245343oig.126.1587319497584;
+        Sun, 19 Apr 2020 11:04:57 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::3])
+        by smtp.gmail.com with ESMTPSA id t10sm3720075oou.38.2020.04.19.11.04.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Apr 2020 11:04:57 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH 1/2] kbuild: add CONFIG_LD_IS_LLD
+Date:   Sun, 19 Apr 2020 11:04:44 -0700
+Message-Id: <20200419180445.26722-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Leon Romanovsky <leonro@mellanox.com>
+From: Sami Tolvanen <samitolvanen@google.com>
 
-VERMAGIC* definitions are not supposed to be used by the drivers,
-see this [1] bug report, so introduce special define to guard inclusion
-of this header file and define it in kernel/modules.h and in internal
-script that generates *.mod.c files.
+Similarly to the CC_IS_CLANG config, add LD_IS_LLD to avoid GNU ld
+specific logic such as ld-version or ld-ifversion and gain the
+ability to select potential features that depend on the linker at
+configuration time such as LTO.
 
-In-tree module build:
-➜  kernel git:(vermagic) ✗ make clean
-➜  kernel git:(vermagic) ✗ make M=drivers/infiniband/hw/mlx5
-➜  kernel git:(vermagic) ✗ modinfo drivers/infiniband/hw/mlx5/mlx5_ib.ko
-filename:	/images/leonro/src/kernel/drivers/infiniband/hw/mlx5/mlx5_ib.ko
-<...>
-vermagic:       5.6.0+ SMP mod_unload modversions
-
-Out-of-tree module build:
-➜  mlx5 make -C /images/leonro/src/kernel clean M=/tmp/mlx5
-➜  mlx5 make -C /images/leonro/src/kernel M=/tmp/mlx5
-➜  mlx5 modinfo /tmp/mlx5/mlx5_ib.ko
-filename:       /tmp/mlx5/mlx5_ib.ko
-<...>
-vermagic:       5.6.0+ SMP mod_unload modversions
-
-[1] https://lore.kernel.org/lkml/20200411155623.GA22175@zn.tnic
-Reported-by: Borislav Petkov <bp@suse.de>
-Acked-by: Borislav Petkov <bp@suse.de>
-Acked-by: Jessica Yu <jeyu@kernel.org>
-Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+[nc: Reword commit message]
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
- include/linux/vermagic.h | 5 +++++
- kernel/module.c          | 3 +++
- scripts/mod/modpost.c    | 1 +
- 3 files changed, 9 insertions(+)
 
-diff --git a/include/linux/vermagic.h b/include/linux/vermagic.h
-index 9aced11e9000..7768d20ada39 100644
---- a/include/linux/vermagic.h
-+++ b/include/linux/vermagic.h
-@@ -1,4 +1,9 @@
- /* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef INCLUDE_VERMAGIC
-+#error "This header can be included from kernel/module.c or *.mod.c only"
-+#endif
-+
- #include <generated/utsrelease.h>
+Sami, please scream if you are unhappy with how I worded this commit.
 
- /* Simply sanity version stamp for modules. */
-diff --git a/kernel/module.c b/kernel/module.c
-index 646f1e2330d2..8833e848b73c 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -4,6 +4,9 @@
-    Copyright (C) 2001 Rusty Russell, 2002, 2010 Rusty Russell IBM.
+ init/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
- */
+diff --git a/init/Kconfig b/init/Kconfig
+index 9e22ee8fbd75..c15ee42b8272 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -23,6 +23,9 @@ config LD_VERSION
+ config CC_IS_CLANG
+ 	def_bool $(success,$(CC) --version | head -n 1 | grep -q clang)
+ 
++config LD_IS_LLD
++	def_bool $(success,$(LD) -v | head -n 1 | grep -q LLD)
 +
-+#define INCLUDE_VERMAGIC
-+
- #include <linux/export.h>
- #include <linux/extable.h>
- #include <linux/moduleloader.h>
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 5c3c50c5ec52..7f7d4ee7b652 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2251,6 +2251,7 @@ static void add_header(struct buffer *b, struct module *mod)
- 	 * Include build-salt.h after module.h in order to
- 	 * inherit the definitions.
- 	 */
-+	buf_printf(b, "#define INCLUDE_VERMAGIC\n");
- 	buf_printf(b, "#include <linux/build-salt.h>\n");
- 	buf_printf(b, "#include <linux/vermagic.h>\n");
- 	buf_printf(b, "#include <linux/compiler.h>\n");
---
-2.25.2
+ config CLANG_VERSION
+ 	int
+ 	default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
+
+base-commit: 50cc09c18985eacbbd666acfd7be2391394733f5
+-- 
+2.26.1
 
