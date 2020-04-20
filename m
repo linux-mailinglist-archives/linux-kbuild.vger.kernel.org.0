@@ -2,134 +2,158 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 186E51B03D6
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2020 10:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B72ED1B04B5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2020 10:43:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726061AbgDTIFY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Apr 2020 04:05:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46262 "EHLO mail.kernel.org"
+        id S1726353AbgDTInY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Apr 2020 04:43:24 -0400
+Received: from mga06.intel.com ([134.134.136.31]:15992 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726017AbgDTIFY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Apr 2020 04:05:24 -0400
-Received: from localhost (unknown [213.57.247.131])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A60A218AC;
-        Mon, 20 Apr 2020 08:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587369923;
-        bh=JFX+PqkhRvwNBakJkGhcUZ9y1fPjU6PC9WuNF//vw9E=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wqewF8JbWUTYVPTE18GOHtWxNhAF/7cyZlBhSvKh4mE8gfReuKSmnOpI+jbWz6dr/
-         Uu6v01JDZvtNKedc2CNXetBFjAdTtwJbLI6mK5aP7mJDnGNaelb08xfwHsShmaWI5l
-         bEUXWzmldczVVZ1HFSjVl8hmcC/gMwltsgJxcEEk=
-Date:   Mon, 20 Apr 2020 11:05:18 +0300
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>, Borislav Petkov <bp@suse.de>,
-        Jessica Yu <jeyu@kernel.org>,
+        id S1725988AbgDTInX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 20 Apr 2020 04:43:23 -0400
+IronPort-SDR: h0lYUhWJZdooRot5/D6i4tHIo4pA1sefPqFOqsLqlRmss7ekuU4SBK/deZaIujNKTqkUgq+NPo
+ aoWctAx2Ztpw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 01:43:21 -0700
+IronPort-SDR: lSsNa/ish74j6oe4by+cDFOKlC8LCWgp3ExdSfVUMqp21bW54LB3nnX+4ZKKJBzmLXQYApaB8d
+ IXoKfosg8Emg==
+X-IronPort-AV: E=Sophos;i="5.72,406,1580803200"; 
+   d="scan'208";a="429047884"
+Received: from iastakh-mobl.ccr.corp.intel.com (HELO localhost) ([10.252.63.229])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 01:43:16 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nicolas Pitre <nico@fluxnic.net>
+Cc:     Saeed Mahameed <saeedm@mellanox.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Networking <netdev@vger.kernel.org>
-Subject: Re: [PATCH net-next v2 4/4] kernel/module: Hide vermagic header file
- from general use
-Message-ID: <20200420080518.GC121146@unreal>
-References: <20200419141850.126507-1-leon@kernel.org>
- <20200419155506.129392-1-leon@kernel.org>
- <CAK7LNASdOf0inF_-f8Gn7_mn1QSdXEi1HTR2zj3DEs38sf96xA@mail.gmail.com>
+        Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        jonas@kwiboo.se, David Airlie <airlied@linux.ie>,
+        jernej.skrabec@siol.net,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, linux-rdma@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
+In-Reply-To: <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200417011146.83973-1-saeedm@mellanox.com> <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com> <nycvar.YSQ.7.76.2004181509030.2671@knanqh.ubzr> <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com>
+Date:   Mon, 20 Apr 2020 11:43:13 +0300
+Message-ID: <87v9lu1ra6.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNASdOf0inF_-f8Gn7_mn1QSdXEi1HTR2zj3DEs38sf96xA@mail.gmail.com>
+Content-Type: text/plain
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 07:59:35AM +0900, Masahiro Yamada wrote:
-> Hi,
->
-> On Mon, Apr 20, 2020 at 12:55 AM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > From: Leon Romanovsky <leonro@mellanox.com>
-> >
-> > VERMAGIC* definitions are not supposed to be used by the drivers,
-> > see this [1] bug report, so introduce special define to guard inclusion
-> > of this header file and define it in kernel/modules.h and in internal
-> > script that generates *.mod.c files.
-> >
-> > In-tree module build:
-> > ➜  kernel git:(vermagic) ✗ make clean
-> > ➜  kernel git:(vermagic) ✗ make M=drivers/infiniband/hw/mlx5
-> > ➜  kernel git:(vermagic) ✗ modinfo drivers/infiniband/hw/mlx5/mlx5_ib.ko
-> > filename:       /images/leonro/src/kernel/drivers/infiniband/hw/mlx5/mlx5_ib.ko
-> > <...>
-> > vermagic:       5.6.0+ SMP mod_unload modversions
-> >
-> > Out-of-tree module build:
-> > ➜  mlx5 make -C /images/leonro/src/kernel clean M=/tmp/mlx5
-> > ➜  mlx5 make -C /images/leonro/src/kernel M=/tmp/mlx5
-> > ➜  mlx5 modinfo /tmp/mlx5/mlx5_ib.ko
-> > filename:       /tmp/mlx5/mlx5_ib.ko
-> > <...>
-> > vermagic:       5.6.0+ SMP mod_unload modversions
-> >
-> > [1] https://lore.kernel.org/lkml/20200411155623.GA22175@zn.tnic
-> > Reported-by: Borislav Petkov <bp@suse.de>
-> > Acked-by: Borislav Petkov <bp@suse.de>
-> > Acked-by: Jessica Yu <jeyu@kernel.org>
-> > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Leon Romanovsky <leonro@mellanox.com>
-> > ---
+On Sun, 19 Apr 2020, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Sun, Apr 19, 2020 at 4:11 AM Nicolas Pitre <nico@fluxnic.net> wrote:
+>>
+>> On Sun, 19 Apr 2020, Masahiro Yamada wrote:
+>>
+>> > (FOO || !FOO) is difficult to understand, but
+>> > the behavior of "uses FOO" is as difficult to grasp.
+>>
+>> Can't this be expressed as the following instead:
+>>
+>>         depends on FOO if FOO
+>>
+>> That would be a little clearer.
+>>
+>>
+>> Nicolas
 >
 >
-> I did not read the full thread of [1],
-> and perhaps may miss something.
 >
-> But, this series is trying to solve a different problem
-> "driver code should not include <linux/vermagic.h>"
-> isn't it?
+> 'depends on' does not take the 'if <expr>'
 >
+> 'depends on A if B' is the syntax sugar of
+> 'depends on (A || !B), right ?
 >
-> IIUC, Borislav reported conflict of MODULE_ARCH_VERMAGIC
-> if <linux/vermagic.h> is included before <linux/module.h>.
+> I do not know how clearer it would make things.
 >
-> With your cleanups, the include site of <linux/vermagic.h>
-> will be limited to kernel/module.c and scripts/mod/module.c
->
-> Assuming those two files include them in the *correct* order,
-> this problem will be suppressed.
->
-> But, I do not think it addresses the problem properly.
+> depends on (m || FOO != m)
+> is another equivalent, but we are always
+> talking about a matter of expression.
 >
 >
-> If
->   #include <foo.h>
->   #include <bar.h>
->
-> works, but
->
->   #include <bar.h>
->   #include <foo.h>
->
-> does not, the root cause is very likely
-> that <bar.h> is not self-contained.
-> The problem is solved by including <foo.h> from <bar.h>
+> How important is it to stick to
+> depends on (FOO || !FOO)
+> or its equivalents?
 >
 >
-> Please see my thoughts in this:
-> https://lore.kernel.org/patchwork/patch/1227024/
+> If a driver wants to use the feature FOO
+> in most usecases, 'depends on FOO' is sensible.
 >
->
-> Of course, we are solving different issues, so I think
-> we can merge both.
->
->
-> What do you think?
+> If FOO is just optional, you can get rid of the dependency,
+> and IS_REACHABLE() will do logically correct things.
 
-The idea and rationale are right, include order should not be important.
+If by logically correct you mean the kernel builds, you're
+right. However the proliferation of IS_REACHABLE() is making the kernel
+config *harder* to understand. User enables FOO=m and expects BAR to use
+it, however if BAR=y it silently gets ignored. I have and I will oppose
+adding IS_REACHABLE() usage to i915 because it's just silently accepting
+configurations that should be flagged and forbidden at kconfig stage.
 
-Thanks
+> I do not think IS_REACHABLE() is too bad,
+> but if it is confusing, we can add one more
+> option to make it explicit.
+>
+>
+>
+> config DRIVER_X
+>        tristate "driver x"
+>
+> config DRIVER_X_USES_FOO
+>        bool "use FOO from driver X"
+>        depends on DRIVER_X
+>        depends on DRIVER_X <= FOO
+>        help
+>          DRIVER_X works without FOO, but
+>          Using FOO will provide better usability.
+>          Say Y if you want to make driver X use FOO.
+>
+>
+>
+> Of course,
+>
+>       if (IS_ENABLED(CONFIG_DRIVER_X_USES_FOO))
+>                foo_init();
+>
+> works like
+>
+>       if (IS_REACHABLE(CONFIG_FOO))
+>                 foo_init();
+>
+>
+> At lease, it will eliminate a question like
+> "I loaded the module FOO, I swear.
+> But my built-in driver X still would not use FOO, why?"
+
+Please let's not make that a more widespread problem than it already
+is. I have yet to hear *one* good rationale for allowing that in the
+first place. And if that pops up, you can make it work by using
+IS_REACHABLE() *without* the depends, simply by checking if the module
+is there.
+
+Most use cases increasingly solved by IS_REACHABLE() should use the
+"depends on FOO || FOO=n" construct, but the problem is that's not
+widely understood. I'd like to have another keyword for people to
+copy-paste into their Kconfigs.
+
+In another mail I suggested
+
+	optionally depends on FOO
+
+might be a better alternative than "uses".
+
+
+BR,
+Jani.
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
