@@ -2,63 +2,35 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 501E21B0D70
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2020 15:53:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A52B1B14E3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Apr 2020 20:42:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727790AbgDTNxR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Apr 2020 09:53:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726673AbgDTNxR (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Apr 2020 09:53:17 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF893C061A10
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Apr 2020 06:53:16 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id b62so10550655qkf.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Apr 2020 06:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=o13LKn2rJ4UJRW2h0bHPO25xmhuYtNcawFVc7d+lgRo=;
-        b=XZ0QzRtY25nEU44AD6pxDnkqb8l9QSmUK6ijcSmpjmSIiOt930jssLLchxgYVBCReC
-         kvYOxln/nTnQQL7H2lKTWo6IXjD3qn+zcWML+FsuFwe/qTLF0+lzQRa4i76CpOezVmAT
-         6hZftVtcfPfRamgioSFKBVcYiQO08xyeQ+qDvTH48MqKN7VflkvGm6h4Inti4Omg4pBU
-         8S5JLyQ3B1HArKJ1F4j4BZ+Ze4inRaNI9T3ClS8676Q8+g9apTVesyJEzQupy1dc+tp5
-         1tInQ3pj1/10OXIXsRtRMYg+qjDqrC8VjbnL0Vt6r2OvV6sFo96gKXHgQMZq/WcDGFla
-         o0Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=o13LKn2rJ4UJRW2h0bHPO25xmhuYtNcawFVc7d+lgRo=;
-        b=C2EcoiDF8iY7/SINfiYcL1B03iSjkW4TBycMbdmaQlHQlSAJQbHqzEP4Kve1A7K1YC
-         W64Aw4werE95+aI08zls5jaizr2VOWtUzOyPSE3JD6dy+UT7jg2l4g6ZaREXzUk9fDoH
-         wJ4imfwN4n7DvfZYkUvxIqwS3EjxMdXgYKc8pK/qfJj3cTaiIcncPpnQWwxDZuZq/8Fv
-         6QreDiJgjecC2aL4hu5HCqXjBaiLj93YoXRCA0ikknxg12ljIcCyQeF4/l8sOOE37E33
-         qBcuBNFKigN6dQLSu14jGOWQrAmHi9YMend0spz79ArXqrcjJmOzAZgQxyDfJguRwrYA
-         64jw==
-X-Gm-Message-State: AGi0PuZ8f8Aaj2BfuWcBBcsaqsm7HP98jErWviyiEr9DBc33shmn4MWs
-        JgyxjdkAvFePcP/yMt+atBHF8w==
-X-Google-Smtp-Source: APiQypKAuhKh4rWPi/Nv88pFYcY1AEs9cY0OovBK26lllR60Dcz1ju17EnwdSoy7oIdUQy3ML9dWdQ==
-X-Received: by 2002:a37:65c3:: with SMTP id z186mr15820182qkb.484.1587390796111;
-        Mon, 20 Apr 2020 06:53:16 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id n124sm595348qkn.136.2020.04.20.06.53.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 20 Apr 2020 06:53:14 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jQWrJ-0002Xf-Co; Mon, 20 Apr 2020 10:53:13 -0300
-Date:   Mon, 20 Apr 2020 10:53:13 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Saeed Mahameed <saeedm@mellanox.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
+        id S1726021AbgDTSmV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Apr 2020 14:42:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49518 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725613AbgDTSmU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 20 Apr 2020 14:42:20 -0400
+Received: from kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com (unknown [163.114.132.4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F4802074F;
+        Mon, 20 Apr 2020 18:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587408140;
+        bh=J1Pz4saX9jEjbkW/1+ZB7lzOWI+VGAU8j2Mv8AfiHU4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=JsAB6+t1dHV6pvoNwy2P8v+KHnBGozzcYEBAsOqCqaQK7HENSdA/Epo8cuYKfdaeH
+         UQmrYop56C28Q6adcFqTx4BaxJjZ9m7iZ1VJO4KIbv7oJr7VzX8Xfj1938D62gu5ay
+         CxfzWhjJbvIpNgzF6SClWGl8oh09kyNCstcquWOI=
+Date:   Mon, 20 Apr 2020 11:42:18 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nicolas Pitre <nico@fluxnic.net>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
         Neil Armstrong <narmstrong@baylibre.com>,
         Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
         Leon Romanovsky <leon@kernel.org>,
@@ -68,48 +40,71 @@ Cc:     Saeed Mahameed <saeedm@mellanox.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Networking <netdev@vger.kernel.org>, linux-rdma@vger.kernel.org
 Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
-Message-ID: <20200420135313.GN26002@ziepe.ca>
+Message-ID: <20200420114218.30b373d4@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <87v9lu1ra6.fsf@intel.com>
 References: <20200417011146.83973-1-saeedm@mellanox.com>
- <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com>
+        <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com>
+        <nycvar.YSQ.7.76.2004181509030.2671@knanqh.ubzr>
+        <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com>
+        <87v9lu1ra6.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 04:00:43AM +0900, Masahiro Yamada wrote:
-
-> People would wonder, "what 'uses FOO' means?",
-> then they would find the explanation in kconfig-language.rst:
+On Mon, 20 Apr 2020 11:43:13 +0300 Jani Nikula wrote:
+> On Sun, 19 Apr 2020, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > On Sun, Apr 19, 2020 at 4:11 AM Nicolas Pitre <nico@fluxnic.net> wrote:  
+> >>
+> >> On Sun, 19 Apr 2020, Masahiro Yamada wrote:
+> >>  
+> >> > (FOO || !FOO) is difficult to understand, but
+> >> > the behavior of "uses FOO" is as difficult to grasp.  
+> >>
+> >> Can't this be expressed as the following instead:
+> >>
+> >>         depends on FOO if FOO
+> >>
+> >> That would be a little clearer.
+> >>
+> >>
+> >> Nicolas  
+> >
+> > 'depends on' does not take the 'if <expr>'
+> >
+> > 'depends on A if B' is the syntax sugar of
+> > 'depends on (A || !B), right ?
+> >
+> > I do not know how clearer it would make things.
+> >
+> > depends on (m || FOO != m)
+> > is another equivalent, but we are always
+> > talking about a matter of expression.
+> >
+> >
+> > How important is it to stick to
+> > depends on (FOO || !FOO)
+> > or its equivalents?
+> >
+> >
+> > If a driver wants to use the feature FOO
+> > in most usecases, 'depends on FOO' is sensible.
+> >
+> > If FOO is just optional, you can get rid of the dependency,
+> > and IS_REACHABLE() will do logically correct things.  
 > 
->   "Equivalent to: depends on symbol || !symbol
->   Semantically it means, if FOO is enabled (y/m) and has the option:
->   uses BAR, make sure it can reach/use BAR when possible."
-> 
-> To understand this correctly, people must study
-> the arithmetic of (symbol || !symbol) anyway.
+> If by logically correct you mean the kernel builds, you're
+> right. However the proliferation of IS_REACHABLE() is making the kernel
+> config *harder* to understand. User enables FOO=m and expects BAR to use
+> it, however if BAR=y it silently gets ignored. I have and I will oppose
+> adding IS_REACHABLE() usage to i915 because it's just silently accepting
+> configurations that should be flagged and forbidden at kconfig stage.
 
-I think people will just cargo-cult copy it and not think too hard
-about how kconfig works.
++1
 
-The descriptions in kconfig-language.rst can be improved to better
-guide C people using kconfig without entirely understanding
-it. Something like:
-
- BAR depends on FOO // BAR selects FOO: BAR requires functionality from
- FOO
-
- BAR uses FOO: BAR optionally consumes functionality from FOO using
- IS_ENABLED
-
- BAR implies FOO: BAR optionally consumes functionality from FOO using
- IS_REACHABLE
-
-Now someone adding IS_ENABLED or IS_REACHABLE checks to C code knows
-exactly what to put in the kconfig.
-
-Jason
+I wholeheartedly agree. In case of Ethernet drivers having higher
+layers of the stack not able to communicate with drivers is just 
+broken IMHO.
