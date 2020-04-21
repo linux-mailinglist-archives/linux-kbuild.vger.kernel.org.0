@@ -2,109 +2,185 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C64321B28CA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 15:58:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62BCB1B28E4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 16:01:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729143AbgDUN6X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Apr 2020 09:58:23 -0400
-Received: from pb-smtp21.pobox.com ([173.228.157.53]:60611 "EHLO
-        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728912AbgDUN6W (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Apr 2020 09:58:22 -0400
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id AE924B4ED3;
-        Tue, 21 Apr 2020 09:58:18 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=H8yh9MEx3hZkv8zIqzP78ok50J4=; b=x/Xbfg
-        vZYvPS8Wqcq7omo/3Yq9OUmbsVLJHa2VNvxQEpouF+afBKVP/4FPIxxpHczJ9OBr
-        p5JCD6YdSsRu7JXgkD0IexgBvEpHL1tDQ4j++ESXOqHrF/QrylAJlUn11BfNxVAo
-        +6z+o19D6AXf3oiqvR26JXHX6i6C4vQlBxzCs=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id A4E23B4ED2;
-        Tue, 21 Apr 2020 09:58:18 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=S9IEMKuiDJF/j1aD5HeQF9LyanvsJexzTiSbI4WlfDA=; b=HEE7M2YMLncR0Cx0FbMI4zv+qdbUdh5RGzbVr/VnLmFuCcA8EaAt2iu3/wxVYe3x5iiRjNumaZvBT2DnobJkrSrUr08ZTTJfWEoY9E2Qahout6wsZey493C/2R+FjLDszFdsTzb5GgH+F/9kgc+C0d0NI193Ji9twflHDSMWuhc=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728316AbgDUOBq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Apr 2020 10:01:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59138 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726018AbgDUOBq (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 21 Apr 2020 10:01:46 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 8BB0AB4ECD;
-        Tue, 21 Apr 2020 09:58:15 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 9DA582DA0D15;
-        Tue, 21 Apr 2020 09:58:13 -0400 (EDT)
-Date:   Tue, 21 Apr 2020 09:58:13 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Saeed Mahameed <saeedm@mellanox.com>
-cc:     "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "leon@kernel.org" <leon@kernel.org>
-Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
-In-Reply-To: <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com>
-Message-ID: <nycvar.YSQ.7.76.2004210951160.2671@knanqh.ubzr>
-References: <20200417011146.83973-1-saeedm@mellanox.com> <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com> <nycvar.YSQ.7.76.2004181509030.2671@knanqh.ubzr> <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com>
- <87v9lu1ra6.fsf@intel.com> <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E94A20679;
+        Tue, 21 Apr 2020 14:01:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587477705;
+        bh=0/vQA+06myS9w12zgVJltCpDyjHNAbrJL3ofBd0iyqs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Kz2e4XnCFbk6VbsPQIcV3zjxNZYM1a1OFHKEbEfX5WpOIqCu/yjJc77Os4fCLubWH
+         hwXo4yyb2Zt0yN9I+jIPm4gmEMxvcxttbUkhOpv24NSGy4uoFaDDyCnqReFSVsfFoT
+         e6HZDtycaaBEFfILCfF2uUY8ePnHTnHk4Iub9BL4=
+Received: by mail-qt1-f177.google.com with SMTP id z90so11555406qtd.10;
+        Tue, 21 Apr 2020 07:01:45 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZcaT/3kcrQN37gTePm6VV8yx9ue128eOAXLyyOQfeGeWc5PdpR
+        eTthRMhQR3CkvZG1Hg5Og06Q04xS0JK7n3yj1g==
+X-Google-Smtp-Source: APiQypKbFgwXWO0X+MdJIdqnmE60P1/zCgH5EWDZARwe6ZtYF6Vf583clemWqHDkdhmu0JX82hpeUDHUlbCtHKEhIMA=
+X-Received: by 2002:aed:3ac8:: with SMTP id o66mr9578884qte.110.1587477704278;
+ Tue, 21 Apr 2020 07:01:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 25A4AB2E-83D8-11EA-AC8D-8D86F504CC47-78420484!pb-smtp21.pobox.com
+References: <20200229003731.2728-1-robh@kernel.org> <20200421100749.GA5429@pendragon.ideasonboard.com>
+ <CAK7LNARvPytUQoncngLe=s-TzQByQCXd64H99UgrW40=X34JyQ@mail.gmail.com>
+ <20200421110537.GC5983@pendragon.ideasonboard.com> <CAK7LNAQtfyqfbQx2ivg=sVdhxDH9ShVBa+bL-4sC7MU1N=y+cw@mail.gmail.com>
+ <20200421134654.GD5983@pendragon.ideasonboard.com>
+In-Reply-To: <20200421134654.GD5983@pendragon.ideasonboard.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 21 Apr 2020 09:01:32 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJQpwN4tH0KWOB1s6NWf3sRqqGRsRiKazi=CJGCwb2T+Q@mail.gmail.com>
+Message-ID: <CAL_JsqJQpwN4tH0KWOB1s6NWf3sRqqGRsRiKazi=CJGCwb2T+Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] kbuild: Always validate DT binding examples
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 21 Apr 2020, Saeed Mahameed wrote:
+On Tue, Apr 21, 2020 at 8:47 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Yamada-san,
+>
+> On Tue, Apr 21, 2020 at 10:15:02PM +0900, Masahiro Yamada wrote:
+> > On Tue, Apr 21, 2020 at 8:05 PM Laurent Pinchart wrote:
+> > > On Tue, Apr 21, 2020 at 07:45:05PM +0900, Masahiro Yamada wrote:
+> > > > On Tue, Apr 21, 2020 at 7:08 PM Laurent Pinchart wrote:
+> > > > > On Fri, Feb 28, 2020 at 06:37:30PM -0600, Rob Herring wrote:
+> > > > > > Most folks only run dt_binding_check on the single schema they care about
+> > > > > > by setting DT_SCHEMA_FILES. That means example is only checked against
+> > > > > > that one schema which is not always sufficient.
+> > > > > >
+> > > > > > Let's address this by splitting processed-schema.yaml into 2 files: one
+> > > > > > that's always all schemas for the examples and one that's just the schema
+> > > > > > in DT_SCHEMA_FILES for dtbs.
+> > > > >
+> > > > > This broke
+> > > > >
+> > > > > make DT_SCHEMA_FILES=Documentation/devicetree/.. dt_binding_check
+> > > >
+> > > > What is intended by
+> > > > "DT_SCHEMA_FILES=Documentation/devicetree/.."  ?
+> > >
+> > > My bad, I forgot to write that ... is the continuation of the string.
+> > > It's any yaml schema file that has an example.
+> >
+> > Ah, OK. I just input verbatim.
+> >
+> > Is it broken?
+> >
+> > You can specify any individual file(s) under Documentation/devicetree/bindings/.
+> >
+> > For example, the following worked for me.
+> >
+> > $ make DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/psci.yaml
+> >  dt_binding_check
+> >   HOSTCC  scripts/basic/fixdep
+> >   HOSTCC  scripts/dtc/dtc.o
+> >   HOSTCC  scripts/dtc/flattree.o
+> >   HOSTCC  scripts/dtc/fstree.o
+> >   HOSTCC  scripts/dtc/data.o
+> >   HOSTCC  scripts/dtc/livetree.o
+> >   HOSTCC  scripts/dtc/treesource.o
+> >   HOSTCC  scripts/dtc/srcpos.o
+> >   HOSTCC  scripts/dtc/checks.o
+> >   HOSTCC  scripts/dtc/util.o
+> >   LEX     scripts/dtc/dtc-lexer.lex.c
+> >   YACC    scripts/dtc/dtc-parser.tab.[ch]
+> >   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+> >   HOSTCC  scripts/dtc/dtc-parser.tab.o
+> >   HOSTCC  scripts/dtc/yamltree.o
+> >   HOSTLD  scripts/dtc/dtc
+> >   CHKDT   Documentation/devicetree/bindings/arm/psci.yaml
+> >   SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.yaml
+> >   DTC     Documentation/devicetree/bindings/arm/psci.example.dt.yaml
+> >   CHECK   Documentation/devicetree/bindings/arm/psci.example.dt.yaml
+> >   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+>
+> This is getting interesting.
+>
+> ~/src/kernel/linux $ make O=output/x86 DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/psci.yaml dt_binding_check
+> make[1]: Entering directory '/home/laurent/src/kernel/linux/output/x86'
+>   HOSTCC  scripts/basic/fixdep
+>   HOSTCC  scripts/dtc/dtc.o
+>   HOSTCC  scripts/dtc/flattree.o
+>   HOSTCC  scripts/dtc/fstree.o
+>   HOSTCC  scripts/dtc/data.o
+>   HOSTCC  scripts/dtc/livetree.o
+>   HOSTCC  scripts/dtc/treesource.o
+>   HOSTCC  scripts/dtc/srcpos.o
+>   HOSTCC  scripts/dtc/checks.o
+>   HOSTCC  scripts/dtc/util.o
+>   LEX     scripts/dtc/dtc-lexer.lex.c
+>   YACC    scripts/dtc/dtc-parser.tab.[ch]
+>   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+>   HOSTCC  scripts/dtc/dtc-parser.tab.o
+>   HOSTCC  scripts/dtc/yamltree.o
+>   HOSTLD  scripts/dtc/dtc
+>   CHKDT   Documentation/devicetree/bindings/arm/psci.yaml
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema-examples.yaml
+>   DTC     Documentation/devicetree/bindings/arm/psci.example.dt.yaml
+>   CHECK   Documentation/devicetree/bindings/arm/psci.example.dt.yaml
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+> make[1]: Leaving directory '/home/laurent/src/kernel/linux/output/x86'
+>
+> ~/src/kernel/this_is_a_long_directory_name/linux $ make O=output/x86 DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/psci.yaml dt_binding_check
+> make[1]: Entering directory '/home/laurent/src/kernel/this_is_a_long_directory_name/linux/output/x86'
+>   HOSTCC  scripts/basic/fixdep
+>   HOSTCC  scripts/dtc/dtc.o
+>   HOSTCC  scripts/dtc/flattree.o
+>   HOSTCC  scripts/dtc/fstree.o
+>   HOSTCC  scripts/dtc/data.o
+>   HOSTCC  scripts/dtc/livetree.o
+>   HOSTCC  scripts/dtc/treesource.o
+>   HOSTCC  scripts/dtc/srcpos.o
+>   HOSTCC  scripts/dtc/checks.o
+>   HOSTCC  scripts/dtc/util.o
+>   LEX     scripts/dtc/dtc-lexer.lex.c
+>   YACC    scripts/dtc/dtc-parser.tab.[ch]
+>   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+>   HOSTCC  scripts/dtc/dtc-parser.tab.o
+>   HOSTCC  scripts/dtc/yamltree.o
+>   HOSTLD  scripts/dtc/dtc
+>   CHKDT   Documentation/devicetree/bindings/arm/psci.yaml
+> make[2]: execvp: /bin/sh: Argument list too long
+> make[2]: *** [/home/laurent/src/kernel/this_is_a_long_directory_name/linux/Documentation/devicetree/bindings/Makefile:38: Documentation/devicetree/bindings/processed-schema-examples.yaml] Error 127
+> make[1]: *** [/home/laurent/src/kernel/this_is_a_long_directory_name/linux/Makefile:1300: dt_binding_check] Error 2
+> make[1]: Leaving directory '/home/laurent/src/kernel/this_is_a_long_directory_name/linux/output/x86'
+> make: *** [Makefile:180: sub-make] Error 2
+>
+> It seems to only fail with out of tree builds (O=...). I expect that
+> failures will become more common the more YAML bindings we have, even
+> without long directory names.
 
-> I wonder how many of those 8889 cases wanted a weak dependency but
-> couldn't figure out how to do it ? 
-> 
-> Users of depends on FOO || !FOO
-> 
-> $ git ls-files | grep Kconfig | xargs grep -E \
->   "depends\s+on\s+([A-Za-z0-9_]+)\s*\|\|\s*(\!\s*\1|\1\s*=\s*n)" \
->  | wc -l
-> 
-> 156
-> 
-> a new keyword is required :) .. 
-> 
-> 
-> > In another mail I suggested
-> > 
-> > 	optionally depends on FOO
-> > 
-> > might be a better alternative than "uses".
-> > 
-> > 
-> 
-> how about just:
->       optional FOO
-> 
-> It is clear and easy to document .. 
+dt-mk-schema can take and recurse a single directory already, so does
+this fix it for you:
 
-I don't dispute your argument for having a new keyword. But the most 
-difficult part as Arnd said is to find it. You cannot pretend that 
-"optional FOO" is clear when it actually imposes a restriction when 
-FOO=m. Try to justify to people why they cannot select y because of this 
-"optional" thing.
+@@ -22,7 +22,7 @@ $(obj)/%.example.dts: $(src)/%.yaml
+check_dtschema_version FORCE
+ DT_TMP_SCHEMA := $(obj)/processed-schema-examples.yaml
 
+ quiet_cmd_mk_schema = SCHEMA  $@
+-      cmd_mk_schema = $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@
+$(real-prereqs)
++      cmd_mk_schema = $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@
+$(srctree)/$(src)
 
-Nicolas
+ DT_DOCS = $(addprefix $(src)/, \
+        $(shell \
