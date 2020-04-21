@@ -2,124 +2,139 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DECE1B25B2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 14:14:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DBBD1B261A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 14:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728659AbgDUMOL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Apr 2020 08:14:11 -0400
-Received: from mail-eopbgr30068.outbound.protection.outlook.com ([40.107.3.68]:47513
-        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726741AbgDUMOL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Apr 2020 08:14:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NFFcMR5gmHTimwEDSTDsNSZp9qRGAH2/OGhKprnaLZa2tr8YrJOltzI0UiHo8y1zIc5RQ5flYp404UzG/lFEF7Q5Wb95h0FjLqEKz/Drb+pBfXcRHncBUzGTauMVRVasixgEJzZwLhleg+k+5K2YCUZS1a/b0D5kpJRdLT7Z32c/Zo7SKIDBTCOd3E3dEC3fZ7MFxM+hYCURMdnsJqHwzjoFXvhMrii5KXOWnZucX8I7ua4UHwOKTB25tR/eFxwPGKlHHzY6XAZz5Lgp19lPZbdWv9BCfoyQ7zYtiHPcilgv8jUy+0o4i3MiSThk5WYGZ65maWKlg3wPFXHWjByb9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EBQ/7yzuwHmMWR52NNmGNMPX8cnApTfuM5/B6CtkA/4=;
- b=Ab/wBaL0pWuPM6A4SphmdOhC67gVMzkehA9rNRuKry6FRF3WjiTeyMMK/9niXpK9SZ6Kz3O61MRUHbRrXZSzmJ82R+9Ye40bOmk/AEn7x5QzkRqnvbFCTPL95duhWjCgvsW7lKdBiom9lyStG2HvCaJn5B3OvoqonpOTV0J4ApsvwE9WZVv6XZNWGcAo3yL2GmOyDbGPe55Vcww2xA92zM1mQZ7Rm8L7uAAY1KZbbuGTV94++2S8scGxbIQur3qAHHM4/8Yd2R5mLasJ0pFreBnoV/6L/pG4Po8DmgpEcJ2Bd/DvToyew3zamKQipC9W4ipa5gv3kU3gDMj8Y7824g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
- dkim=pass header.d=mellanox.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EBQ/7yzuwHmMWR52NNmGNMPX8cnApTfuM5/B6CtkA/4=;
- b=L6soEEZritBmjXXVT0uKE0AXeZaoVRR1kNOUNf78A4kltLVhyXSp8SLa7H3PyVYchZyTwhwEH1L/cCrEqz+ShzTlRh5BVgOtyjSX6hj7eN5p+m2+2BtI65cT8ZpXWhMC1XappBYEjFuipzVNO6k76SU1s4/oxa/dJ2uSnHAmv6U=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=leonro@mellanox.com; 
-Received: from AM6PR05MB6408.eurprd05.prod.outlook.com (2603:10a6:20b:b8::23)
- by AM6PR05MB5670.eurprd05.prod.outlook.com (2603:10a6:20b:2b::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
- 2020 12:14:07 +0000
-Received: from AM6PR05MB6408.eurprd05.prod.outlook.com
- ([fe80::1466:c39b:c016:3301]) by AM6PR05MB6408.eurprd05.prod.outlook.com
- ([fe80::1466:c39b:c016:3301%4]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
- 12:14:07 +0000
-Date:   Tue, 21 Apr 2020 15:14:04 +0300
-From:   Leon Romanovsky <leonro@mellanox.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>
-Cc:     Andy Gospodarek <andy@greyhouse.net>, Borislav Petkov <bp@suse.de>,
-        Ion Badulescu <ionut@badula.org>,
-        Jay Vosburgh <j.vosburgh@gmail.com>,
-        Jessica Yu <jeyu@kernel.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>, netdev@vger.kernel.org,
-        oss-drivers@netronome.com, Salil Mehta <salil.mehta@huawei.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Shannon Nelson <snelson@pensando.io>,
-        Veaceslav Falico <vfalico@gmail.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>
-Subject: Re: [PATCH net-next v2 0/4] Remove vermagic header from global
- include folder
-Message-ID: <20200421121404.GL121146@unreal>
-References: <20200419141850.126507-1-leon@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200419141850.126507-1-leon@kernel.org>
-X-ClientProxiedBy: AM0PR10CA0001.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:208:17c::11) To AM6PR05MB6408.eurprd05.prod.outlook.com
- (2603:10a6:20b:b8::23)
+        id S1728684AbgDUMcz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Apr 2020 08:32:55 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:65215 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728316AbgDUMcz (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 21 Apr 2020 08:32:55 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 03LCWTRG015942;
+        Tue, 21 Apr 2020 21:32:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 03LCWTRG015942
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587472350;
+        bh=0/WpwSdCDKFUy0QKnGd6kunc4ELKUfh3X/2O2KfXcik=;
+        h=From:To:Cc:Subject:Date:From;
+        b=X2aHtr3YOdlWkBV2SK7VV1M028a+j1LTV4KNGToKlGQwnDkaD7OCRRllpZBKPrjCV
+         sUR0ZGrKynik2GsO43gN7nj3gibq3lLwV3nZI5OPlv1H/j6eCJx7sO0vK7JgaEobD7
+         DbMkJuR1rXLTe7PVUE6kFkP14L6w73GClrTIEvD9NLcqZaZ/H6Ek8yrw0puVcEAd+U
+         jBQwn1OuoiYCRNs6SK5goRbcdI1MUoEr+bxG7YsHhVZ0nyAlsRq0Rha5OE41bvum8x
+         iRCUt5MaJb4hYfJrzMmpVDAaODW6Q5iinyS2xmutgkDrsdO3mc5fvWXhoZvTxLBCva
+         whipeyPUCBOxA==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: ensure full rebuild when the compiler is updated
+Date:   Tue, 21 Apr 2020 21:32:26 +0900
+Message-Id: <20200421123227.1270021-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (2a00:a040:183:2d::a43) by AM0PR10CA0001.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend Transport; Tue, 21 Apr 2020 12:14:06 +0000
-X-Originating-IP: [2a00:a040:183:2d::a43]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3c79b26b-3716-449b-50e5-08d7e5ed7d6c
-X-MS-TrafficTypeDiagnostic: AM6PR05MB5670:
-X-Microsoft-Antispam-PRVS: <AM6PR05MB5670E4C9729042FC786E6894B0D50@AM6PR05MB5670.eurprd05.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-Forefront-PRVS: 038002787A
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR05MB6408.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(7916004)(4636009)(366004)(54906003)(5660300002)(1076003)(110136005)(7416002)(4326008)(186003)(16526019)(66946007)(33656002)(9686003)(498600001)(81156014)(6496006)(66556008)(2906002)(966005)(66476007)(33716001)(6486002)(8936002)(52116002)(86362001)(8676002);DIR:OUT;SFP:1101;
-Received-SPF: None (protection.outlook.com: mellanox.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Hn2tq0NjBcmyLYe+R3XXL0h/NlyPjwBJkXdXkjKCyCOuk6YsSVZwkWZtnQj7fv9Sn5eJTnCtWf7CLfCnQa17iwiw/xzRW6XwvX9LU9m/O2Y/q7kNqK56h9u6W3hbpy0Z8c9lP3jbKAyFakhHZ+tyhzO97FzYx8uENx/7Mw6dzwrW+lm3Wiyx96Mmm6dTtmYwrB118QkW/Ji1yKLABoTD9hac/w9+2gMR5NX9L1BVsfoqqNbpVee7yxHio0LH3LQy7rnzIVDL1rrvn87cI7gMHM2dQs7bGMTqHEYCABvCspDOPWTkMu38SuVI932KAcVd9Dz/cXjbemlhwU/pjLoj0vsruGekoWYWZ1kKoWxttYcog1Bi/jhgDhMJVPp/kuQXyssy13a1HSF4wGyVyeDjDKLvvGwreuXPUq/QJBhjauIw2awp7w4GrJNAQUTx01XfC6meIy8HLK+vakYLxhBkoYBdqh7N7SLw8Uu/5gUCg2UsFn5hX4bq6/KVDtO1PxxG5Wn4RIaC6akxVXy1mnQBrQ==
-X-MS-Exchange-AntiSpam-MessageData: o1q4clD8ytWbIVzvFeJc7GopcdGai3BMNhlJhFhjUbPOVbqerIsP0fbGaRHLRAUdMoG2ThMDRgeqknLvIn284oDZi69sDctGx+XOrebuXz2vKrX+7F5TRdx4/Vxi1+X7MOCCwrAcXoU6bX10ndlE+bRILqGQdXWYbix1U5U/Ukk=
-X-OriginatorOrg: Mellanox.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c79b26b-3716-449b-50e5-08d7e5ed7d6c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 12:14:07.2903
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G7FmDldzABDmNTXvopn+GwagdJrjw8dmDaku+wSXUpUxwg3sZpGFPFFZrSBiIQB/Makb1MLnq+BuZqrA9xIPsQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5670
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Apr 19, 2020 at 05:18:46PM +0300, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@mellanox.com>
->
-> Changelog:
-> v2:
->  * Changed the implementation of patch #4 to be like Masahiro wants.
-> I personally don't like this implementation and changing it just to move forward
-> this this patchset.
-> v1:
-> https://lore.kernel.org/lkml/20200415133648.1306956-1-leon@kernel.org
->  * Added tags
->  * Updated patch #4 with test results
->  * Changed scripts/mod/modpost.c to create inclusion of vermagic.h
->    from kernel folder and not from general include/linux. This is
->    needed to generate *.mod.c files, while building modules.
-> v0:
-> https://lore.kernel.org/lkml/20200414155732.1236944-1-leon@kernel.org
-> ----------------------------------------------------------------------------
+Commit 21c54b774744 ("kconfig: show compiler version text in the top
+comment") added the environment variable, CC_VERSION_TEXT in the comment
+of the top Kconfig file. It can detect the compiler update, and invoke
+the syncconfig because all environment variables referenced in Kconfig
+files are recorded in include/config/auto.conf.cmd
 
-Dave,
+This commit makes it a CONFIG option in order to ensure the full rebuild
+when the compiler is updated.
 
-I see in the patchworks that this series is marked as "Needs Review/ACK".
-Can you please help me to understand who is needed to be approached?
+This works like as follows:
 
-https://patchwork.ozlabs.org/project/netdev/list/?series=171189
+include/config/kconfig.h contains "CONFIG_CC_VERSION_TEXT" in the comment
+block.
 
-Thanks
+The top Makefile specifies "-include $(srctree)/include/linux/kconfig.h"
+to guarantee it is included from all kernel source files.
+
+fixdep parses every source file and all headers included from it,
+searching for words prefixed with "CONFIG_". Then, fixdep finds
+CONFIG_CC_VERSION_TEXT in include/config/kconfig.h and adds
+include/config/cc/version/text.h into every .*.cmd file.
+
+When the compiler is updated, syncconfig is invoked since the environment
+variable is referenced. CONFIG_CC_VERSION_TEXT is updated to the new
+version string, and include/config/cc/version/text.h is touched.
+
+In the next rebuild, Make rebuilds every files since the timestamp of
+include/config/cc/version/text.h is newer than that of target.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Kconfig                 |  2 --
+ include/linux/kconfig.h |  9 +++++++++
+ init/Kconfig            | 12 ++++++++++++
+ 3 files changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/Kconfig b/Kconfig
+index e10b3ee084d4..745bc773f567 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -5,8 +5,6 @@
+ #
+ mainmenu "Linux/$(ARCH) $(KERNELVERSION) Kernel Configuration"
+ 
+-comment "Compiler: $(CC_VERSION_TEXT)"
+-
+ source "scripts/Kconfig.include"
+ 
+ source "init/Kconfig"
+diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
+index cc8fa109cfa3..406b8a2521b5 100644
+--- a/include/linux/kconfig.h
++++ b/include/linux/kconfig.h
+@@ -2,6 +2,15 @@
+ #ifndef __LINUX_KCONFIG_H
+ #define __LINUX_KCONFIG_H
+ 
++/*
++ * Do not remove this comment block. This contains "CONFIG_CC_VERSION_TEXT"
++ * to ensure the full rebuild when the compiler is updated.
++ *
++ * fixdep parses this header, which is included by every kernel source file,
++ * and adds include/config/cc/version/text.h to the dependency in .*.cmd files.
++ * When the compiler is updated, syncconfig touches it so every file is rebuilt.
++ */
++
+ #include <generated/autoconf.h>
+ 
+ #ifdef CONFIG_CPU_BIG_ENDIAN
+diff --git a/init/Kconfig b/init/Kconfig
+index 9e22ee8fbd75..d3d153815d88 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -8,6 +8,18 @@ config DEFCONFIG_LIST
+ 	default "/boot/config-$(shell,uname -r)"
+ 	default "arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)"
+ 
++config CC_VERSION_TEXT
++	string
++	default "$(CC_VERSION_TEXT)"
++	help
++	  There two purposes for this entry:
++
++	  1. Reference the environment variable, CC_VERSION_TEXT, so Kconfig
++	     is invoked if the compiler is updated.
++
++	  2. Touch include/config/cc/version/text.h to force the full rebuild
++	     if the compiler is updated. See comment in include/linux/kconfig.h
++
+ config CC_IS_GCC
+ 	def_bool $(success,$(CC) --version | head -n 1 | grep -q gcc)
+ 
+-- 
+2.25.1
+
