@@ -2,178 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE991B248E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 13:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DECE1B25B2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 14:14:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728625AbgDULFz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Apr 2020 07:05:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45312 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728285AbgDULFy (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Apr 2020 07:05:54 -0400
-X-Greylist: delayed 3467 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Apr 2020 04:05:54 PDT
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131F6C061A0F;
-        Tue, 21 Apr 2020 04:05:54 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2288D528;
-        Tue, 21 Apr 2020 13:05:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587467152;
-        bh=kvQ+IAMHuBaUG2woEjVdUrWkFameqX531W02vdLCd4c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dH0HgPiQPSwzC2XlzH3ldUuhLL9YFCrKi4At5sPYEAJbyZCfV7da1Nj1mYT4K/E2X
-         J4SvcK8IYOchSkVczi0652h2y+I+vm4k0XgmoPmqcNzUcacst1bATDVt8C72ACzfmm
-         aNybcjcfnxQOWN24V167FFYZ4PnN8IQAkfPWDVDU=
-Date:   Tue, 21 Apr 2020 14:05:37 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Rob Herring <robh@kernel.org>, DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] kbuild: Always validate DT binding examples
-Message-ID: <20200421110537.GC5983@pendragon.ideasonboard.com>
-References: <20200229003731.2728-1-robh@kernel.org>
- <20200421100749.GA5429@pendragon.ideasonboard.com>
- <CAK7LNARvPytUQoncngLe=s-TzQByQCXd64H99UgrW40=X34JyQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        id S1728659AbgDUMOL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Apr 2020 08:14:11 -0400
+Received: from mail-eopbgr30068.outbound.protection.outlook.com ([40.107.3.68]:47513
+        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726741AbgDUMOL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 21 Apr 2020 08:14:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NFFcMR5gmHTimwEDSTDsNSZp9qRGAH2/OGhKprnaLZa2tr8YrJOltzI0UiHo8y1zIc5RQ5flYp404UzG/lFEF7Q5Wb95h0FjLqEKz/Drb+pBfXcRHncBUzGTauMVRVasixgEJzZwLhleg+k+5K2YCUZS1a/b0D5kpJRdLT7Z32c/Zo7SKIDBTCOd3E3dEC3fZ7MFxM+hYCURMdnsJqHwzjoFXvhMrii5KXOWnZucX8I7ua4UHwOKTB25tR/eFxwPGKlHHzY6XAZz5Lgp19lPZbdWv9BCfoyQ7zYtiHPcilgv8jUy+0o4i3MiSThk5WYGZ65maWKlg3wPFXHWjByb9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EBQ/7yzuwHmMWR52NNmGNMPX8cnApTfuM5/B6CtkA/4=;
+ b=Ab/wBaL0pWuPM6A4SphmdOhC67gVMzkehA9rNRuKry6FRF3WjiTeyMMK/9niXpK9SZ6Kz3O61MRUHbRrXZSzmJ82R+9Ye40bOmk/AEn7x5QzkRqnvbFCTPL95duhWjCgvsW7lKdBiom9lyStG2HvCaJn5B3OvoqonpOTV0J4ApsvwE9WZVv6XZNWGcAo3yL2GmOyDbGPe55Vcww2xA92zM1mQZ7Rm8L7uAAY1KZbbuGTV94++2S8scGxbIQur3qAHHM4/8Yd2R5mLasJ0pFreBnoV/6L/pG4Po8DmgpEcJ2Bd/DvToyew3zamKQipC9W4ipa5gv3kU3gDMj8Y7824g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mellanox.com; dmarc=pass action=none header.from=mellanox.com;
+ dkim=pass header.d=mellanox.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Mellanox.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EBQ/7yzuwHmMWR52NNmGNMPX8cnApTfuM5/B6CtkA/4=;
+ b=L6soEEZritBmjXXVT0uKE0AXeZaoVRR1kNOUNf78A4kltLVhyXSp8SLa7H3PyVYchZyTwhwEH1L/cCrEqz+ShzTlRh5BVgOtyjSX6hj7eN5p+m2+2BtI65cT8ZpXWhMC1XappBYEjFuipzVNO6k76SU1s4/oxa/dJ2uSnHAmv6U=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=leonro@mellanox.com; 
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com (2603:10a6:20b:b8::23)
+ by AM6PR05MB5670.eurprd05.prod.outlook.com (2603:10a6:20b:2b::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.27; Tue, 21 Apr
+ 2020 12:14:07 +0000
+Received: from AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::1466:c39b:c016:3301]) by AM6PR05MB6408.eurprd05.prod.outlook.com
+ ([fe80::1466:c39b:c016:3301%4]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
+ 12:14:07 +0000
+Date:   Tue, 21 Apr 2020 15:14:04 +0300
+From:   Leon Romanovsky <leonro@mellanox.com>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     Andy Gospodarek <andy@greyhouse.net>, Borislav Petkov <bp@suse.de>,
+        Ion Badulescu <ionut@badula.org>,
+        Jay Vosburgh <j.vosburgh@gmail.com>,
+        Jessica Yu <jeyu@kernel.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>, netdev@vger.kernel.org,
+        oss-drivers@netronome.com, Salil Mehta <salil.mehta@huawei.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Shannon Nelson <snelson@pensando.io>,
+        Veaceslav Falico <vfalico@gmail.com>,
+        Yisen Zhuang <yisen.zhuang@huawei.com>
+Subject: Re: [PATCH net-next v2 0/4] Remove vermagic header from global
+ include folder
+Message-ID: <20200421121404.GL121146@unreal>
+References: <20200419141850.126507-1-leon@kernel.org>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNARvPytUQoncngLe=s-TzQByQCXd64H99UgrW40=X34JyQ@mail.gmail.com>
+In-Reply-To: <20200419141850.126507-1-leon@kernel.org>
+X-ClientProxiedBy: AM0PR10CA0001.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::11) To AM6PR05MB6408.eurprd05.prod.outlook.com
+ (2603:10a6:20b:b8::23)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (2a00:a040:183:2d::a43) by AM0PR10CA0001.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend Transport; Tue, 21 Apr 2020 12:14:06 +0000
+X-Originating-IP: [2a00:a040:183:2d::a43]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3c79b26b-3716-449b-50e5-08d7e5ed7d6c
+X-MS-TrafficTypeDiagnostic: AM6PR05MB5670:
+X-Microsoft-Antispam-PRVS: <AM6PR05MB5670E4C9729042FC786E6894B0D50@AM6PR05MB5670.eurprd05.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 038002787A
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR05MB6408.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(7916004)(4636009)(366004)(54906003)(5660300002)(1076003)(110136005)(7416002)(4326008)(186003)(16526019)(66946007)(33656002)(9686003)(498600001)(81156014)(6496006)(66556008)(2906002)(966005)(66476007)(33716001)(6486002)(8936002)(52116002)(86362001)(8676002);DIR:OUT;SFP:1101;
+Received-SPF: None (protection.outlook.com: mellanox.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Hn2tq0NjBcmyLYe+R3XXL0h/NlyPjwBJkXdXkjKCyCOuk6YsSVZwkWZtnQj7fv9Sn5eJTnCtWf7CLfCnQa17iwiw/xzRW6XwvX9LU9m/O2Y/q7kNqK56h9u6W3hbpy0Z8c9lP3jbKAyFakhHZ+tyhzO97FzYx8uENx/7Mw6dzwrW+lm3Wiyx96Mmm6dTtmYwrB118QkW/Ji1yKLABoTD9hac/w9+2gMR5NX9L1BVsfoqqNbpVee7yxHio0LH3LQy7rnzIVDL1rrvn87cI7gMHM2dQs7bGMTqHEYCABvCspDOPWTkMu38SuVI932KAcVd9Dz/cXjbemlhwU/pjLoj0vsruGekoWYWZ1kKoWxttYcog1Bi/jhgDhMJVPp/kuQXyssy13a1HSF4wGyVyeDjDKLvvGwreuXPUq/QJBhjauIw2awp7w4GrJNAQUTx01XfC6meIy8HLK+vakYLxhBkoYBdqh7N7SLw8Uu/5gUCg2UsFn5hX4bq6/KVDtO1PxxG5Wn4RIaC6akxVXy1mnQBrQ==
+X-MS-Exchange-AntiSpam-MessageData: o1q4clD8ytWbIVzvFeJc7GopcdGai3BMNhlJhFhjUbPOVbqerIsP0fbGaRHLRAUdMoG2ThMDRgeqknLvIn284oDZi69sDctGx+XOrebuXz2vKrX+7F5TRdx4/Vxi1+X7MOCCwrAcXoU6bX10ndlE+bRILqGQdXWYbix1U5U/Ukk=
+X-OriginatorOrg: Mellanox.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c79b26b-3716-449b-50e5-08d7e5ed7d6c
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2020 12:14:07.2903
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a652971c-7d2e-4d9b-a6a4-d149256f461b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G7FmDldzABDmNTXvopn+GwagdJrjw8dmDaku+wSXUpUxwg3sZpGFPFFZrSBiIQB/Makb1MLnq+BuZqrA9xIPsQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR05MB5670
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Yamada-san,
+On Sun, Apr 19, 2020 at 05:18:46PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@mellanox.com>
+>
+> Changelog:
+> v2:
+>  * Changed the implementation of patch #4 to be like Masahiro wants.
+> I personally don't like this implementation and changing it just to move forward
+> this this patchset.
+> v1:
+> https://lore.kernel.org/lkml/20200415133648.1306956-1-leon@kernel.org
+>  * Added tags
+>  * Updated patch #4 with test results
+>  * Changed scripts/mod/modpost.c to create inclusion of vermagic.h
+>    from kernel folder and not from general include/linux. This is
+>    needed to generate *.mod.c files, while building modules.
+> v0:
+> https://lore.kernel.org/lkml/20200414155732.1236944-1-leon@kernel.org
+> ----------------------------------------------------------------------------
 
-On Tue, Apr 21, 2020 at 07:45:05PM +0900, Masahiro Yamada wrote:
-> On Tue, Apr 21, 2020 at 7:08 PM Laurent Pinchart wrote:
-> > On Fri, Feb 28, 2020 at 06:37:30PM -0600, Rob Herring wrote:
-> > > Most folks only run dt_binding_check on the single schema they care about
-> > > by setting DT_SCHEMA_FILES. That means example is only checked against
-> > > that one schema which is not always sufficient.
-> > >
-> > > Let's address this by splitting processed-schema.yaml into 2 files: one
-> > > that's always all schemas for the examples and one that's just the schema
-> > > in DT_SCHEMA_FILES for dtbs.
-> >
-> > This broke
-> >
-> > make DT_SCHEMA_FILES=Documentation/devicetree/.. dt_binding_check
-> 
-> What is intended by
-> "DT_SCHEMA_FILES=Documentation/devicetree/.."  ?
+Dave,
 
-My bad, I forgot to write that ... is the continuation of the string.
-It's any yaml schema file that has an example.
+I see in the patchworks that this series is marked as "Needs Review/ACK".
+Can you please help me to understand who is needed to be approached?
 
-> > for me :-(
-> >
-> > make[1]: Entering directory '/home/laurent/src/linux/output/arm32'
-> > make[2]: execvp: /bin/sh: Argument list too long
-> > make[2]: *** [/home/laurent/src/linux/Documentation/devicetree/bindings/Makefile:35: Documentation/devicetree/bindings/processed-schema-examples.yaml] Error 127
-> > make[1]: *** [/home/laurent/src/linux/Makefile:1296: dt_binding_check] Error 2
-> > make[1]: Leaving directory '/home/laurent/src/linux/output/arm32'
-> > make: *** [Makefile:180: sub-make] Error 2
-> >
-> > Before the patch, dt-mk-schema was called with DT_SCHEMA_FILES only, and
-> > it is now called with DT_DOCS unconditionally.
-> >
-> > > Cc: Michal Marek <michal.lkml@markovi.net>
-> > > Cc: linux-kbuild@vger.kernel.org
-> > > Co-developed-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > > Masahiro, given you pretty much re-wrote this, I added you as
-> > > Co-developed-by.
-> > >
-> > > Based on next/master
-> > >
-> > >  Documentation/devicetree/bindings/.gitignore |  2 +-
-> > >  Documentation/devicetree/bindings/Makefile   | 22 +++++++++++++-------
-> > >  scripts/Makefile.lib                         |  3 ++-
-> > >  3 files changed, 17 insertions(+), 10 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/.gitignore b/Documentation/devicetree/bindings/.gitignore
-> > > index ef82fcfcccab..57afa1533a5f 100644
-> > > --- a/Documentation/devicetree/bindings/.gitignore
-> > > +++ b/Documentation/devicetree/bindings/.gitignore
-> > > @@ -1,2 +1,2 @@
-> > >  *.example.dts
-> > > -processed-schema.yaml
-> > > +processed-schema*.yaml
-> > > diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-> > > index 646cb3525373..7c40d5ba1b51 100644
-> > > --- a/Documentation/devicetree/bindings/Makefile
-> > > +++ b/Documentation/devicetree/bindings/Makefile
-> > > @@ -2,7 +2,6 @@
-> > >  DT_DOC_CHECKER ?= dt-doc-validate
-> > >  DT_EXTRACT_EX ?= dt-extract-example
-> > >  DT_MK_SCHEMA ?= dt-mk-schema
-> > > -DT_MK_SCHEMA_FLAGS := $(if $(DT_SCHEMA_FILES), -u)
-> > >
-> > >  quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
-> > >        cmd_chk_binding = $(DT_DOC_CHECKER) -u $(srctree)/$(src) $< ; \
-> > > @@ -11,26 +10,33 @@ quiet_cmd_chk_binding = CHKDT   $(patsubst $(srctree)/%,%,$<)
-> > >  $(obj)/%.example.dts: $(src)/%.yaml FORCE
-> > >       $(call if_changed,chk_binding)
-> > >
-> > > -DT_TMP_SCHEMA := processed-schema.yaml
-> > > +# Use full schemas when checking %.example.dts
-> > > +DT_TMP_SCHEMA := $(obj)/processed-schema-examples.yaml
-> > >
-> > >  quiet_cmd_mk_schema = SCHEMA  $@
-> > >        cmd_mk_schema = $(DT_MK_SCHEMA) $(DT_MK_SCHEMA_FLAGS) -o $@ $(real-prereqs)
-> > >
-> > > -DT_DOCS = $(shell \
-> > > +DT_DOCS = $(addprefix $(src)/, \
-> > > +     $(shell \
-> > >       cd $(srctree)/$(src) && \
-> > >       find * \( -name '*.yaml' ! \
-> > > -             -name $(DT_TMP_SCHEMA) ! \
-> > > +             -name 'processed-schema*' ! \
-> > >               -name '*.example.dt.yaml' \) \
-> > > -     )
-> > > +     ))
-> > >
-> > > -DT_SCHEMA_FILES ?= $(addprefix $(src)/,$(DT_DOCS))
-> > > +DT_SCHEMA_FILES ?= $(DT_DOCS)
-> > >
-> > >  ifeq ($(CHECK_DTBS),)
-> > >  extra-y += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
-> > >  extra-y += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
-> > > +extra-y += processed-schema-examples.yaml
-> > > +
-> > > +$(obj)/processed-schema-examples.yaml: $(DT_DOCS) FORCE
-> > > +     $(call if_changed,mk_schema)
-> > >  endif
-> > >
-> > > -$(obj)/$(DT_TMP_SCHEMA): $(DT_SCHEMA_FILES) FORCE
-> > > +$(obj)/processed-schema.yaml: DT_MK_SCHEMA_FLAGS := -u
-> > > +$(obj)/processed-schema.yaml: $(DT_SCHEMA_FILES) FORCE
-> > >       $(call if_changed,mk_schema)
-> > >
-> > > -extra-y += $(DT_TMP_SCHEMA)
-> > > +extra-y += processed-schema.yaml
-> > > diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> > > index f5ff506e4a24..b12dd5ba4896 100644
-> > > --- a/scripts/Makefile.lib
-> > > +++ b/scripts/Makefile.lib
-> > > @@ -307,7 +307,8 @@ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
-> > >
-> > >  DT_CHECKER ?= dt-validate
-> > >  DT_BINDING_DIR := Documentation/devicetree/bindings
-> > > -DT_TMP_SCHEMA := $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
-> > > +# DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
-> > > +DT_TMP_SCHEMA ?= $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
-> > >
-> > >  quiet_cmd_dtb_check =        CHECK   $@
-> > >        cmd_dtb_check =        $(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@
+https://patchwork.ozlabs.org/project/netdev/list/?series=171189
 
--- 
-Regards,
-
-Laurent Pinchart
+Thanks
