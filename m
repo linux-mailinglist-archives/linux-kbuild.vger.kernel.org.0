@@ -2,141 +2,78 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 031801B1C14
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 04:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 297ED1B1CF2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 05:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbgDUCm7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Apr 2020 22:42:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52544 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725988AbgDUCm7 (ORCPT
+        id S1727873AbgDUDgA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Apr 2020 23:36:00 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:52350 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727848AbgDUDf7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Apr 2020 22:42:59 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD25C061A0E;
-        Mon, 20 Apr 2020 19:42:59 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id s202so10833202oih.3;
-        Mon, 20 Apr 2020 19:42:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=22HJzOmHnmam1tgxVzraGLccgsF7pCDzxppnKXmeCcc=;
-        b=jKmwOwQWKpYMPZofyZTuYn+7LdAMlYL6swWuBqaWWYS2ZHe065aplsFe1ypvqsjVg/
-         E79G3ZVOsXfSzITV1aNWOhL/+In9irYnxjpqJ4QUtvf3mMJCwB1hqygj3wSyZkyM9jtI
-         GL9bG947tM1umGFCgOdTRzHnZl2M1t1CwGB4ZyZeoh2ONAnlOTPW7w5sJ6dHdOC7LGy1
-         M70e4C+70oD1J2hsUkjImoXoNrDzlyd0lcd/IAMObQgb9rHaw0OegZzdtbtSdFUpJ67c
-         +xlz3pyhFZEtqYXqFur48USkQu5StZsixLj2jtbp5NqpaFCungz+3cEiNzynVfhMoG1i
-         WyQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=22HJzOmHnmam1tgxVzraGLccgsF7pCDzxppnKXmeCcc=;
-        b=TvH+Cssds32hzl6A7L8Yh8+D5+9gcYCudhLr28WqlPGSoV4qrjfuAXL2bV2uyBzGoR
-         jsueqJj+/kA6ps65AQLMhqk5hx1VcYsd1KRVtWX0M35ipedYyLP7lfOBM+qIpf7H57Za
-         6vSPvpBh0R0Tq6PziI7mIRmYWHBvIUaqlMZ0K2+kyOPFrXzIKMRvNfBd7wqWq0w73Oka
-         VKMn+o5py3EtJVOG7T38HSa5pAfVWfPTThAUzJn+Crrnl/g0eB6ey/kajctTEossG2tB
-         gv9B947GnqOLiEJSWUChKb4ob7GM01+EbpqvbPLzdUg8GMNlqMPvomvc+k+objLXoG7u
-         vf7w==
-X-Gm-Message-State: AGi0PuZpNKmk+cZ/tWg/SbGx/dP3S3g5gKr+y1vR0/ukf6kUGqkEzqGN
-        n1jCyQKOe3fEIYnU8VyBvMQ=
-X-Google-Smtp-Source: APiQypJkewVCDBhIo/LPbuliAqXKDGfd5imYzqWqvA5pHn7Gaa4TcDgnRMZK41fAT8W64wzDCFRm+w==
-X-Received: by 2002:a05:6808:64a:: with SMTP id z10mr1702091oih.71.1587436978810;
-        Mon, 20 Apr 2020 19:42:58 -0700 (PDT)
-Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id b6sm425594otq.18.2020.04.20.19.42.58
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 20 Apr 2020 19:42:58 -0700 (PDT)
-Date:   Mon, 20 Apr 2020 19:42:56 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Sedat Dilek <sedat.dilek@gmail.com>
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Mon, 20 Apr 2020 23:35:59 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 03L3ZdWg001233;
+        Tue, 21 Apr 2020 12:35:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 03L3ZdWg001233
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587440139;
+        bh=XyRdHJjb8MoEiKRt48oj/OQ5B9m4bbw7cOjjdMtRtVE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=0cU3jv+kmbuvcgsDRBo2orNdJvrvp2Ajo1ZOvtehWhvQi8VQAV2y0AwEeadX/hJb+
+         6syaGBXmENROHsee++Uqq0K0qyIzWIM8bT82+IlHjU3yBP4vloV+GxU5lm+Mo+WgHb
+         YI8eMyROpTuxiEev7pDRxguphe4y3cdl2DON/7aYsl+Nx4vQxcUwuACm16cVNGyU7l
+         Bq19pA/dtZ4waL+mYElWnS94UcyEWZ8M/FFm6kt0JCW8YCfM/DcfeGy/bYpwd4Ci9H
+         szEnBo8oKPEdRu65BM3x1p2x9KE50JHfpcCO0tStiLcFaQxA+OVYqsC3P5+ql0lx6v
+         33Iz/QjZsWTYg==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dmitry Golovin <dima@golovin.in>
-Subject: Re: [PATCH v2 2/3] MIPS: VDSO: Move disabling the VDSO logic to
- Kconfig
-Message-ID: <20200421024256.GA42179@ubuntu-s3-xlarge-x86>
-References: <20200419180445.26722-1-natechancellor@gmail.com>
- <20200419202128.20571-1-natechancellor@gmail.com>
- <20200419202128.20571-2-natechancellor@gmail.com>
- <CA+icZUVaLW+38WEJhqnfO7B_unHvrbSr0moKnfJ6zXGGA06CWQ@mail.gmail.com>
+        Michal Marek <michal.lkml@markovi.net>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH 1/2] kbuild: fix DT binding schema rule again to avoid needless rebuilds
+Date:   Tue, 21 Apr 2020 12:35:28 +0900
+Message-Id: <20200421033529.487366-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+icZUVaLW+38WEJhqnfO7B_unHvrbSr0moKnfJ6zXGGA06CWQ@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 11:53:55AM +0200, Sedat Dilek wrote:
-> On Sun, Apr 19, 2020 at 10:21 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > After commit 9553d16fa671 ("init/kconfig: Add LD_VERSION Kconfig"), we
-> > have access to GNU ld's version at configuration time. As a result, we
-> > can make it clearer under what configuration circumstances the MIPS VDSO
-> > needs to be disabled.
-> >
-> > This is a prerequisite for getting rid of the MIPS VDSO binutils
-> > warning and linking the VDSO when LD is ld.lld. Wrapping the call to
-> > ld-ifversion with CONFIG_LD_IS_LLD does not work because the config
-> > values are wiped away during 'make clean'.
-> >
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > ---
-> >
-> > v1 -> v2:
-> >
-> > * New patch.
-> >
-> >  arch/mips/Kconfig         |  2 ++
-> >  arch/mips/vdso/Kconfig    | 18 ++++++++++++++++++
-> >  arch/mips/vdso/Makefile   | 30 ++----------------------------
-> >  arch/mips/vdso/vdso.lds.S |  2 +-
-> >  4 files changed, 23 insertions(+), 29 deletions(-)
-> >  create mode 100644 arch/mips/vdso/Kconfig
-> >
-> > diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-> > index 690718b3701a..45220e4b8a65 100644
-> > --- a/arch/mips/Kconfig
-> > +++ b/arch/mips/Kconfig
-> > @@ -3275,3 +3275,5 @@ endmenu
-> >  source "drivers/firmware/Kconfig"
-> >
-> >  source "arch/mips/kvm/Kconfig"
-> > +
-> > +source "arch/mips/vdso/Kconfig"
-> > diff --git a/arch/mips/vdso/Kconfig b/arch/mips/vdso/Kconfig
-> ...
-> > --- /dev/null
-> > +++ b/arch/mips/vdso/Kconfig
-> ...
-> > +config MIPS_DISABLE_VDSO
-> > +       def_bool CPU_MICROMIPS || (!CPU_MIPSR6 && !MIPS_LD_CAN_LINK_VDSO)
-> ...
-> > diff --git a/arch/mips/vdso/vdso.lds.S b/arch/mips/vdso/vdso.lds.S
-> ...
-> > --- a/arch/mips/vdso/vdso.lds.S
-> > +++ b/arch/mips/vdso/vdso.lds.S
-> ...
-> > -#ifndef DISABLE_MIPS_VDSO
-> > +#ifndef CONFIG_DISABLE_MIPS_VDSO
-> 
-> Should be s/CONFIG_DISABLE_MIPS_VDSO/CONFIG_MIPS_DISABLE_VDSO ?
-> 
-> - Sedat -
+Since commit 7a0496056064 ("kbuild: fix DT binding schema rule to detect
+command line changes"), this rule is every time re-run even if you change
+nothing.
 
-Ugh yes, thank you much for pointing it out.
+cmd_dtc takes one additional parameter to pass to the -O option of dtc.
 
-I'll send a v3 once I get further feedback on the series.
+We need to pass 'yaml' to if_changed_rule. Otherwise, cmd-check invoked
+from if_changed_rule is false positive.
 
-Cheers!
-Nathan
+Fixes: 7a0496056064 ("kbuild: fix DT binding schema rule to detect command line changes")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Makefile.lib | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 97547108ee7f..4b799737722c 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -309,7 +309,7 @@ define rule_dtc
+ endef
+ 
+ $(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
+-	$(call if_changed_rule,dtc)
++	$(call if_changed_rule,dtc,yaml)
+ 
+ dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
+ 
+-- 
+2.25.1
+
