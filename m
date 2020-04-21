@@ -2,39 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DBBD1B261A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 14:32:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5CAC1B261C
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Apr 2020 14:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728684AbgDUMcz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Apr 2020 08:32:55 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:65215 "EHLO
+        id S1728316AbgDUMc6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Apr 2020 08:32:58 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:65216 "EHLO
         conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728316AbgDUMcz (ORCPT
+        with ESMTP id S1728576AbgDUMcz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Tue, 21 Apr 2020 08:32:55 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 03LCWTRG015942;
-        Tue, 21 Apr 2020 21:32:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 03LCWTRG015942
+        by conuserg-11.nifty.com with ESMTP id 03LCWTRH015942;
+        Tue, 21 Apr 2020 21:32:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 03LCWTRH015942
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587472350;
-        bh=0/WpwSdCDKFUy0QKnGd6kunc4ELKUfh3X/2O2KfXcik=;
-        h=From:To:Cc:Subject:Date:From;
-        b=X2aHtr3YOdlWkBV2SK7VV1M028a+j1LTV4KNGToKlGQwnDkaD7OCRRllpZBKPrjCV
-         sUR0ZGrKynik2GsO43gN7nj3gibq3lLwV3nZI5OPlv1H/j6eCJx7sO0vK7JgaEobD7
-         DbMkJuR1rXLTe7PVUE6kFkP14L6w73GClrTIEvD9NLcqZaZ/H6Ek8yrw0puVcEAd+U
-         jBQwn1OuoiYCRNs6SK5goRbcdI1MUoEr+bxG7YsHhVZ0nyAlsRq0Rha5OE41bvum8x
-         iRCUt5MaJb4hYfJrzMmpVDAaODW6Q5iinyS2xmutgkDrsdO3mc5fvWXhoZvTxLBCva
-         whipeyPUCBOxA==
+        s=dec2015msa; t=1587472351;
+        bh=b9+dMyt+pHV0arebsr/hOUOIbX45+FaKFY5eD73oa1M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tbYsT9S+MFo8ycilcBpIY5tizRodhNCuj2bKi5aVSGm5eWNB+A/iM6/1w4qCmkGIt
+         sbBeqpeTS2SfMcgb/M0NW2y8slllN7bgvOINk1GGn9/iVS02jKPks4fH90EvBN7dU2
+         9er2MKyjNxbutBspiUmjZdQxkRTzbaZfzKK2eMzu2JgwhHEjNujUafLbezc/O1M38z
+         48b+aE6as6mB6MeT7GdrlkdOa6aYSNhd46aAGflssBZlaJ6FlAMqTlTQu3CMzLVBQ4
+         1xw97+1YNDvDKKHPZi5TWU4v6VDHyEfJxzV05QPRqXVdgWHmCtIOI+z/fj4b6/TnGG
+         9ZovBIB8Xt8ZA==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] kbuild: ensure full rebuild when the compiler is updated
-Date:   Tue, 21 Apr 2020 21:32:26 +0900
-Message-Id: <20200421123227.1270021-1-masahiroy@kernel.org>
+Subject: [PATCH 2/2] kbuild: use -MMD instead of -MD to exclude system headers from dependency
+Date:   Tue, 21 Apr 2020 21:32:27 +0900
+Message-Id: <20200421123227.1270021-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200421123227.1270021-1-masahiroy@kernel.org>
+References: <20200421123227.1270021-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -42,98 +45,94 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Commit 21c54b774744 ("kconfig: show compiler version text in the top
-comment") added the environment variable, CC_VERSION_TEXT in the comment
-of the top Kconfig file. It can detect the compiler update, and invoke
-the syncconfig because all environment variables referenced in Kconfig
-files are recorded in include/config/auto.conf.cmd
+This omits system header files from the generated header dependency.
 
-This commit makes it a CONFIG option in order to ensure the full rebuild
-when the compiler is updated.
+System headers are not updated (unless you upgrade the compiler).
+Nor do they contain CONFIG options, so fixdep does not need to parse them.
 
-This works like as follows:
+Having said that, the effect of this optimization will be small because
+the kernel code generally does not include system headers except
+<stdarg.h>.
 
-include/config/kconfig.h contains "CONFIG_CC_VERSION_TEXT" in the comment
-block.
+Host programs include a lot of system headers, but there are not so
+many host programs.
 
-The top Makefile specifies "-include $(srctree)/include/linux/kconfig.h"
-to guarantee it is included from all kernel source files.
+Theoretically, fixdep does not need to parse *.d files for host programs
+because host programs should not contain CONFIG options in the first
+place. Kbuild re-uses if_changed_dep for host programs, though I do not
+think it is a big deal.
 
-fixdep parses every source file and all headers included from it,
-searching for words prefixed with "CONFIG_". Then, fixdep finds
-CONFIG_CC_VERSION_TEXT in include/config/kconfig.h and adds
-include/config/cc/version/text.h into every .*.cmd file.
-
-When the compiler is updated, syncconfig is invoked since the environment
-variable is referenced. CONFIG_CC_VERSION_TEXT is updated to the new
-version string, and include/config/cc/version/text.h is touched.
-
-In the next rebuild, Make rebuilds every files since the timestamp of
-include/config/cc/version/text.h is newer than that of target.
+At first, keeping system headers in .*.cmd files might be useful to
+detect the compiler update, but there is no guarantee that <stdarg.h>
+is included from every file. So, I implemented a more reliable way in
+the previous commit.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Kconfig                 |  2 --
- include/linux/kconfig.h |  9 +++++++++
- init/Kconfig            | 12 ++++++++++++
- 3 files changed, 21 insertions(+), 2 deletions(-)
+ scripts/Kbuild.include | 2 +-
+ scripts/Makefile.host  | 4 ++--
+ scripts/Makefile.lib   | 8 ++++----
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Kconfig b/Kconfig
-index e10b3ee084d4..745bc773f567 100644
---- a/Kconfig
-+++ b/Kconfig
-@@ -5,8 +5,6 @@
- #
- mainmenu "Linux/$(ARCH) $(KERNELVERSION) Kernel Configuration"
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 6cabf20ce66a..0c3dc983439b 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -16,7 +16,7 @@ pound := \#
+ dot-target = $(dir $@).$(notdir $@)
  
--comment "Compiler: $(CC_VERSION_TEXT)"
--
- source "scripts/Kconfig.include"
+ ###
+-# The temporary file to save gcc -MD generated dependencies must not
++# The temporary file to save gcc -MMD generated dependencies must not
+ # contain a comma
+ depfile = $(subst $(comma),_,$(dot-target).d)
  
- source "init/Kconfig"
-diff --git a/include/linux/kconfig.h b/include/linux/kconfig.h
-index cc8fa109cfa3..406b8a2521b5 100644
---- a/include/linux/kconfig.h
-+++ b/include/linux/kconfig.h
-@@ -2,6 +2,15 @@
- #ifndef __LINUX_KCONFIG_H
- #define __LINUX_KCONFIG_H
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index 2045855d0b75..c8a4a033dc3e 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -88,8 +88,8 @@ _hostcxx_flags += -I $(objtree)/$(obj)
+ endif
+ endif
  
-+/*
-+ * Do not remove this comment block. This contains "CONFIG_CC_VERSION_TEXT"
-+ * to ensure the full rebuild when the compiler is updated.
-+ *
-+ * fixdep parses this header, which is included by every kernel source file,
-+ * and adds include/config/cc/version/text.h to the dependency in .*.cmd files.
-+ * When the compiler is updated, syncconfig touches it so every file is rebuilt.
-+ */
-+
- #include <generated/autoconf.h>
+-hostc_flags    = -Wp,-MD,$(depfile) $(_hostc_flags)
+-hostcxx_flags  = -Wp,-MD,$(depfile) $(_hostcxx_flags)
++hostc_flags    = -Wp,-MMD,$(depfile) $(_hostc_flags)
++hostcxx_flags  = -Wp,-MMD,$(depfile) $(_hostcxx_flags)
  
- #ifdef CONFIG_CPU_BIG_ENDIAN
-diff --git a/init/Kconfig b/init/Kconfig
-index 9e22ee8fbd75..d3d153815d88 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -8,6 +8,18 @@ config DEFCONFIG_LIST
- 	default "/boot/config-$(shell,uname -r)"
- 	default "arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)"
+ #####
+ # Compile programs on the host
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 97547108ee7f..a94c1e741df9 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -171,22 +171,22 @@ modkern_aflags = $(if $(part-of-module),				\
+ 			$(KBUILD_AFLAGS_MODULE) $(AFLAGS_MODULE),	\
+ 			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL))
  
-+config CC_VERSION_TEXT
-+	string
-+	default "$(CC_VERSION_TEXT)"
-+	help
-+	  There two purposes for this entry:
-+
-+	  1. Reference the environment variable, CC_VERSION_TEXT, so Kconfig
-+	     is invoked if the compiler is updated.
-+
-+	  2. Touch include/config/cc/version/text.h to force the full rebuild
-+	     if the compiler is updated. See comment in include/linux/kconfig.h
-+
- config CC_IS_GCC
- 	def_bool $(success,$(CC) --version | head -n 1 | grep -q gcc)
+-c_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
++c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 -include $(srctree)/include/linux/compiler_types.h       \
+ 		 $(_c_flags) $(modkern_cflags)                           \
+ 		 $(basename_flags) $(modname_flags)
+ 
+-a_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
++a_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 $(_a_flags) $(modkern_aflags)
+ 
+-cpp_flags      = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
++cpp_flags      = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 $(_cpp_flags)
+ 
+ ld_flags       = $(KBUILD_LDFLAGS) $(ldflags-y) $(LDFLAGS_$(@F))
+ 
+ DTC_INCLUDE    := $(srctree)/scripts/dtc/include-prefixes
+ 
+-dtc_cpp_flags  = -Wp,-MD,$(depfile).pre.tmp -nostdinc                    \
++dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
+ 		 $(addprefix -I,$(DTC_INCLUDE))                          \
+ 		 -undef -D__DTS__
  
 -- 
 2.25.1
