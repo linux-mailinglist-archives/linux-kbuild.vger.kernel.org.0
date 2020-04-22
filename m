@@ -2,126 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE59D1B3A91
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Apr 2020 10:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5044D1B4615
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Apr 2020 15:17:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726424AbgDVIvd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Apr 2020 04:51:33 -0400
-Received: from mga07.intel.com ([134.134.136.100]:25276 "EHLO mga07.intel.com"
+        id S1726141AbgDVNRe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Apr 2020 09:17:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58228 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725836AbgDVIvd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Apr 2020 04:51:33 -0400
-IronPort-SDR: ZL2NothgWWaBiAwlK/g8jTemutKBriuxRq6bJFESvNmeggO2SYYr3ZxWnSkE1dfyph+uDO5tcy
- xSNYum4yatcQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 01:51:32 -0700
-IronPort-SDR: iiv9b5p61LMYigVzyFdTkQemYR7HU3IMtiYvZn9eGn3HMisMF8oWZD2CKWBPVjSpWMmXzF6OF9
- B2qyHLlj8y5g==
-X-IronPort-AV: E=Sophos;i="5.72,413,1580803200"; 
-   d="scan'208";a="429836132"
-Received: from otekdur-mobl.ger.corp.intel.com (HELO localhost) ([10.252.44.229])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 01:51:26 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Nicolas Pitre <nico@fluxnic.net>,
-        Saeed Mahameed <saeedm@mellanox.com>
-Cc:     "masahiroy\@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart\@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "airlied\@linux.ie" <airlied@linux.ie>,
-        "jgg\@ziepe.ca" <jgg@ziepe.ca>,
-        "linux-kbuild\@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-rdma\@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jernej.skrabec\@siol.net" <jernej.skrabec@siol.net>,
-        "arnd\@arndb.de" <arnd@arndb.de>,
-        "netdev\@vger.kernel.org" <netdev@vger.kernel.org>,
-        "jonas\@kwiboo.se" <jonas@kwiboo.se>,
-        "kieran.bingham+renesas\@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "narmstrong\@baylibre.com" <narmstrong@baylibre.com>,
-        "leon\@kernel.org" <leon@kernel.org>
-Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
-In-Reply-To: <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20200417011146.83973-1-saeedm@mellanox.com> <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com> <nycvar.YSQ.7.76.2004181509030.2671@knanqh.ubzr> <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com> <87v9lu1ra6.fsf@intel.com> <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com> <nycvar.YSQ.7.76.2004210951160.2671@knanqh.ubzr> <62a51b2e5425a3cca4f7a66e2795b957f237b2da.camel@mellanox.com> <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr>
-Date:   Wed, 22 Apr 2020 11:51:23 +0300
-Message-ID: <871rofdhtg.fsf@intel.com>
+        id S1725810AbgDVNRe (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 22 Apr 2020 09:17:34 -0400
+Received: from linux-8ccs (p5B281662.dip0.t-ipconnect.de [91.40.22.98])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 913B82084D;
+        Wed, 22 Apr 2020 13:17:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587561453;
+        bh=Qf1qqVQztfXcBNzGDIudLfhiiqlMgOrtdH1LSy4VbT8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=I2UDQ43qhVG9ki82R10qKkY/DShwR7zJyvfvuAfLakBiNyCpvM+GIZTqeMW4U0ZlY
+         1S5nBp19p+F1owu9tioMq7jQe48Je2o/AtZX8kRTS9g9BsTtR5cra6DUOcApRBe09x
+         dtOZvjlcN/t8XN+WSdUhqNbZXDyOulfuq4JGcsPQ=
+Date:   Wed, 22 Apr 2020 15:17:29 +0200
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Borislav Petkov <bp@suse.de>
+Subject: Re: [PATCH v2] arch: split MODULE_ARCH_VERMAGIC definitions out to
+ <asm/vermagic.h>
+Message-ID: <20200422131729.GB20103@linux-8ccs>
+References: <20200421161355.1357112-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20200421161355.1357112-1-masahiroy@kernel.org>
+X-OS:   Linux linux-8ccs 4.12.14-lp150.12.61-default x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 21 Apr 2020, Nicolas Pitre <nico@fluxnic.net> wrote:
-> On Tue, 21 Apr 2020, Saeed Mahameed wrote:
->
->> On Tue, 2020-04-21 at 09:58 -0400, Nicolas Pitre wrote:
->> > On Tue, 21 Apr 2020, Saeed Mahameed wrote:
->> > 
->> > > I wonder how many of those 8889 cases wanted a weak dependency but
->> > > couldn't figure out how to do it ? 
->> > > 
->> > > Users of depends on FOO || !FOO
->> > > 
->> > > $ git ls-files | grep Kconfig | xargs grep -E \
->> > >   "depends\s+on\s+([A-Za-z0-9_]+)\s*\|\|\s*(\!\s*\1|\1\s*=\s*n)" \
->> > >  | wc -l
->> > > 
->> > > 156
->> > > 
->> > > a new keyword is required :) .. 
->> > > 
->> > > 
->> > > > In another mail I suggested
->> > > > 
->> > > > 	optionally depends on FOO
->> > > > 
->> > > > might be a better alternative than "uses".
->> > > > 
->> > > > 
->> > > 
->> > > how about just:
->> > >       optional FOO
->> > > 
->> > > It is clear and easy to document .. 
->> > 
->> > I don't dispute your argument for having a new keyword. But the most 
->> > difficult part as Arnd said is to find it. You cannot pretend that 
->> 
->> kconfig-language.rst  ?
->> 
->> > "optional FOO" is clear when it actually imposes a restriction when 
->> > FOO=m. Try to justify to people why they cannot select y because of
->> > this 
->> > "optional" thing.
->> > 
->> 
->> Then let's use "uses" it is more assertive. Documentation will cover
->> any vague anything about it .. 
->
-> It uses what? And why can't I configure this with "uses FOO" when FOO=m?
-> That's not any clearer. And saying that "this is weird but it is 
-> described in the documentation" is not good enough. We must make things 
-> clear in the first place.
->
-> This is really a conditional dependency. That's all this is about.
-> So why not simply making it so rather than fooling ourselves? All that 
-> is required is an extension that would allow:
->
-> 	depends on (expression) if (expression)
->
-> This construct should be obvious even without reading the doc, is 
-> already used extensively for other things already, and is flexible 
-> enough to cover all sort of cases in addition to this particular one.
++++ Masahiro Yamada [22/04/20 01:13 +0900]:
+[snip]
+>diff --git a/arch/xtensa/include/asm/module.h b/arch/xtensa/include/asm/vermagic.h
+>similarity index 72%
+>rename from arch/xtensa/include/asm/module.h
+>rename to arch/xtensa/include/asm/vermagic.h
+>index 488b40c6f9b9..6f9e359a54ac 100644
+>--- a/arch/xtensa/include/asm/module.h
+>+++ b/arch/xtensa/include/asm/vermagic.h
+>@@ -1,6 +1,4 @@
+> /*
+>- * include/asm-xtensa/module.h
+>- *
+>  * This file contains the module code specific to the Xtensa architecture.
 
-Okay, you convinced me. Now you only need to convince whoever is doing
-the actual work of implementing this stuff. ;)
+Maybe we can remove this comment too? Since it's now asm/vermagic.h and
+not asm/module.h anymore.
 
-BR,
-Jani.
+Thanks for the cleanup. I agree that <linux/vermagic.h> shouldn't have
+any ordering dependency on <linux/module.h>.
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+I just double checked to see if there were any other users of
+MODULE_ARCH_VERMAGIC that needed it through module.h, and there are
+none. It was literally just being defined in asm/module.h to be used
+in linux/vermagic.h. So there was no reason really to confine the
+MODULE_ARCH_VERMAGIC definition to asm/module.h.
+
+Acked-by: Jessica Yu <jeyu@kernel.org>
