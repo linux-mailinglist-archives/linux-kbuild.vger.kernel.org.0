@@ -2,120 +2,257 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8525C1B5069
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 00:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A2D61B50D8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 01:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726071AbgDVWh7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Apr 2020 18:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725839AbgDVWh6 (ORCPT
+        id S1725913AbgDVXYV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Apr 2020 19:24:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbgDVXYV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Apr 2020 18:37:58 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD3DEC03C1A9;
-        Wed, 22 Apr 2020 15:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ELd+lIpZ+BIBbyIuMMJ83qOUII9r2nADeB7F0SdSefg=; b=OQ+MfXN35zU6e5S6hx3UDK1fNd
-        AbGEikLauA3ZzUIWgzWIcF1QMYUQIiQGBKU9qFF4Koqbfs/0xpyW7/89rTV7uz4hE9ydxCThN1IjY
-        Ts3m4IvWhRGbrtFaSYLxb04gVitsS3cUBQm2SWvSZIHgXYf5UogCVAxq8kc/RjL4D74n04wOO/BRF
-        1HKdHip21kghxOcnlMY85hA6YxKVOfSyPBTqq6/hOc/cXohgWkcYJyXrnKq0IY8DGSahwaBt+mEaQ
-        trZTjhJfyaDgnY7x3nbXo6L2y0BRILykhpf0UHJlqRACs9A1u9r3ddoEYqo9hpTyS2mLA2E5K5+17
-        C+e9gxyg==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jRO05-0005n5-Og; Wed, 22 Apr 2020 22:37:49 +0000
-Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
-To:     Nicolas Pitre <nico@fluxnic.net>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Saeed Mahameed <saeedm@mellanox.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "leon@kernel.org" <leon@kernel.org>
-References: <20200417011146.83973-1-saeedm@mellanox.com>
- <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com>
- <nycvar.YSQ.7.76.2004181509030.2671@knanqh.ubzr>
- <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com>
- <87v9lu1ra6.fsf@intel.com>
- <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com>
- <nycvar.YSQ.7.76.2004210951160.2671@knanqh.ubzr>
- <62a51b2e5425a3cca4f7a66e2795b957f237b2da.camel@mellanox.com>
- <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr> <871rofdhtg.fsf@intel.com>
- <nycvar.YSQ.7.76.2004221649480.2671@knanqh.ubzr>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <940d3add-4d12-56ed-617a-8b3bf8ef3a0f@infradead.org>
-Date:   Wed, 22 Apr 2020 15:37:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <nycvar.YSQ.7.76.2004221649480.2671@knanqh.ubzr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Wed, 22 Apr 2020 19:24:21 -0400
+Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 215FBC03C1AB
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Apr 2020 16:24:21 -0700 (PDT)
+Received: by mail-pg1-x54a.google.com with SMTP id w70so3092755pgw.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 22 Apr 2020 16:24:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=yXaZrhkzCMDSlnAE2Eo+e5XePe8fZRAAusM7Ii4LLx0=;
+        b=mcFMm2c+HOA/tmYsZGPVJw/YFpEdZaJuteHAS6N8c358gTvFI9k6B34XRqEEh2w+1x
+         Tf021DC1bWoYAsXiZhekk0QcrbbzskTnVdD9NvFjtTMbilxAi4s5spi5HykvngZSNEA4
+         e8jV4+5gSV6IC0i2NYH5swIp4wl8Is1SlSr4d2fNA5+v87ZFI4I8GmRYxvgLYKBStMUD
+         LSsykFJ0lYIX3avdQC1v14C/s+ufu92zdBk2c7zP59TpNtiud7LlOyknd6PBYBD/NZi2
+         cA7OuTA1wEU6WBkKx6aqzX+c6InEHMoo/CWsB6mhzVBtcxmpMahXZwJERI9NyDflfBQ0
+         bBwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=yXaZrhkzCMDSlnAE2Eo+e5XePe8fZRAAusM7Ii4LLx0=;
+        b=AHjETX6Yf6XnL1i4Ye9B+gNWrxopZPoH7t4Ew47UspYFIpE20BbRuRErdcvgcqgYUo
+         +ItVBeR1tqpD9auASvlkbn7SrsSmnvClUIQs58UWYveyN3Fc/s7oAdDdraX1of8PuLxp
+         KqEgxgfapuu8UoyJmkotN9BgMmiEoztTKO5WjNSjBgeSEj/nWYpkcnsco1pOyDYw+UFK
+         +BvuIzFSZ/0BDKkzHU1vzwNdqV6quQKIfG7ZcqThCzXqvSZ9LML+r6DxE4eMSZIq13dj
+         QcQNXvELmRFAbgjG+21HmNVx1Z9Yi/z8mU86IOfpt3RVUWXN1nKzL3SCCW57Xnb+a3EK
+         VXig==
+X-Gm-Message-State: AGi0PubyT0N6iefsAxk7MgZ3moy1hovqTMCvQC4WTTkF7jNLGUale3Qk
+        KQqtUdWYb+LZ72YqeauLng9dE4Opo3Li6BRFAEw=
+X-Google-Smtp-Source: APiQypKacBtm5HW906UQAJdkYK1Yatq8uPhpMrz25hG6KwpllCZokinVm+gsvpFKzPCaRYxZW1FgZKWZ96AtfGwimb0=
+X-Received: by 2002:a17:90a:24e6:: with SMTP id i93mr1230539pje.13.1587597860493;
+ Wed, 22 Apr 2020 16:24:20 -0700 (PDT)
+Date:   Wed, 22 Apr 2020 16:24:17 -0700
+Message-Id: <20200422232417.72162-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.1.301.g55bc3eb7cb9-goog
+Subject: [PATCH] recordmcount: support >64k sections
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Matt Helsley <mhelsley@vmware.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 4/22/20 2:13 PM, Nicolas Pitre wrote:
-> On Wed, 22 Apr 2020, Jani Nikula wrote:
-> 
->> On Tue, 21 Apr 2020, Nicolas Pitre <nico@fluxnic.net> wrote:
->>> This is really a conditional dependency. That's all this is about.
->>> So why not simply making it so rather than fooling ourselves? All that 
->>> is required is an extension that would allow:
->>>
->>> 	depends on (expression) if (expression)
->>>
->>> This construct should be obvious even without reading the doc, is 
->>> already used extensively for other things already, and is flexible 
->>> enough to cover all sort of cases in addition to this particular one.
->>
->> Okay, you convinced me. Now you only need to convince whoever is doing
->> the actual work of implementing this stuff. ;)
-> 
-> What about this:
-> 
-> ----- >8
-> Subject: [PATCH] kconfig: allow for conditional dependencies
-> 
-> This might appear to be a strange concept, but sometimes we want
-> a dependency to be conditionally applied. One such case is currently
-> expressed with:
-> 
-> 	depends on FOO || !FOO
-> 
-> This pattern is strange enough to give one's pause. Given that it is
-> also frequent, let's make the intent more obvious with some syntaxic 
-> sugar by effectively making dependencies optionally conditional.
-> This also makes the kconfig language more uniform.
-> 
-> Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+When compiling a kernel with Clang and LTO, we need to run
+recordmcount on vmlinux.o with a large number of sections, which
+currently fails as the program doesn't understand extended
+section indexes. This change adds support for processing binaries
+with >64k sections.
 
-Hi,
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+---
+ scripts/recordmcount.h | 75 ++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 69 insertions(+), 6 deletions(-)
 
-If we must do something here, I prefer this one.
+diff --git a/scripts/recordmcount.h b/scripts/recordmcount.h
+index 74eab03e31d4..b48163864cca 100644
+--- a/scripts/recordmcount.h
++++ b/scripts/recordmcount.h
+@@ -29,6 +29,9 @@
+ #undef has_rel_mcount
+ #undef tot_relsize
+ #undef get_mcountsym
++#undef get_shnum
++#undef get_shstrndx
++#undef get_symindex
+ #undef get_sym_str_and_relp
+ #undef do_func
+ #undef Elf_Addr
+@@ -58,6 +61,9 @@
+ # define __has_rel_mcount	__has64_rel_mcount
+ # define has_rel_mcount		has64_rel_mcount
+ # define tot_relsize		tot64_relsize
++# define get_shnum		get_shnum64
++# define get_shstrndx		get_shstrndx64
++# define get_symindex		get_symindex64
+ # define get_sym_str_and_relp	get_sym_str_and_relp_64
+ # define do_func		do64
+ # define get_mcountsym		get_mcountsym_64
+@@ -91,6 +97,9 @@
+ # define __has_rel_mcount	__has32_rel_mcount
+ # define has_rel_mcount		has32_rel_mcount
+ # define tot_relsize		tot32_relsize
++# define get_shnum		get_shnum32
++# define get_shstrndx		get_shstrndx32
++# define get_symindex		get_symindex32
+ # define get_sym_str_and_relp	get_sym_str_and_relp_32
+ # define do_func		do32
+ # define get_mcountsym		get_mcountsym_32
+@@ -173,6 +182,38 @@ static int MIPS_is_fake_mcount(Elf_Rel const *rp)
+ 	return is_fake;
+ }
+ 
++static unsigned int get_symindex(Elf_Sym const *sym, Elf32_Word const *symtab,
++				 Elf32_Word const *symtab_shndx)
++{
++	unsigned long offset;
++	int index;
++
++	if (sym->st_shndx != SHN_XINDEX)
++		return w2(sym->st_shndx);
++
++	offset = (unsigned long)sym - (unsigned long)symtab;
++	index = offset / sizeof(*sym);
++
++	return w(symtab_shndx[index]);
++}
++
++static unsigned int get_shnum(Elf_Ehdr const *ehdr, Elf_Shdr const *shdr0)
++{
++	if (shdr0 && !ehdr->e_shnum)
++		return w(shdr0->sh_size);
++
++	return w2(ehdr->e_shnum);
++}
++
++static int get_shstrndx(Elf_Ehdr const *ehdr, Elf_Shdr const *shdr0)
++{
++	if (ehdr->e_shstrndx != SHN_XINDEX)
++		return w2(ehdr->e_shstrndx);
++
++	return w(shdr0->sh_link);
++}
++
++
+ /* Append the new shstrtab, Elf_Shdr[], __mcount_loc and its relocations. */
+ static int append_func(Elf_Ehdr *const ehdr,
+ 			Elf_Shdr *const shstr,
+@@ -188,10 +229,12 @@ static int append_func(Elf_Ehdr *const ehdr,
+ 	char const *mc_name = (sizeof(Elf_Rela) == rel_entsize)
+ 		? ".rela__mcount_loc"
+ 		:  ".rel__mcount_loc";
+-	unsigned const old_shnum = w2(ehdr->e_shnum);
+ 	uint_t const old_shoff = _w(ehdr->e_shoff);
+ 	uint_t const old_shstr_sh_size   = _w(shstr->sh_size);
+ 	uint_t const old_shstr_sh_offset = _w(shstr->sh_offset);
++	Elf_Shdr *const shdr0 = (Elf_Shdr *)(old_shoff + (void *)ehdr);
++	unsigned const old_shnum = get_shnum(ehdr, shdr0);
++	unsigned const new_shnum = 2 + old_shnum; /* {.rel,}__mcount_loc */
+ 	uint_t t = 1 + strlen(mc_name) + _w(shstr->sh_size);
+ 	uint_t new_e_shoff;
+ 
+@@ -201,6 +244,12 @@ static int append_func(Elf_Ehdr *const ehdr,
+ 	t += (_align & -t);  /* word-byte align */
+ 	new_e_shoff = t;
+ 
++	if (!ehdr->e_shnum || new_shnum >= SHN_LORESERVE) {
++		ehdr->e_shnum = 0;
++		shdr0->sh_size = w(new_shnum);
++	} else
++		ehdr->e_shnum = w2(2 + w2(ehdr->e_shnum));
++
+ 	/* body for new shstrtab */
+ 	if (ulseek(sb.st_size, SEEK_SET) < 0)
+ 		return -1;
+@@ -255,7 +304,6 @@ static int append_func(Elf_Ehdr *const ehdr,
+ 		return -1;
+ 
+ 	ehdr->e_shoff = _w(new_e_shoff);
+-	ehdr->e_shnum = w2(2 + w2(ehdr->e_shnum));  /* {.rel,}__mcount_loc */
+ 	if (ulseek(0, SEEK_SET) < 0)
+ 		return -1;
+ 	if (uwrite(ehdr, sizeof(*ehdr)) < 0)
+@@ -434,6 +482,8 @@ static int find_secsym_ndx(unsigned const txtndx,
+ 				uint_t *const recvalp,
+ 				unsigned int *sym_index,
+ 				Elf_Shdr const *const symhdr,
++				Elf32_Word const *symtab,
++				Elf32_Word const *symtab_shndx,
+ 				Elf_Ehdr const *const ehdr)
+ {
+ 	Elf_Sym const *const sym0 = (Elf_Sym const *)(_w(symhdr->sh_offset)
+@@ -445,7 +495,7 @@ static int find_secsym_ndx(unsigned const txtndx,
+ 	for (symp = sym0, t = nsym; t; --t, ++symp) {
+ 		unsigned int const st_bind = ELF_ST_BIND(symp->st_info);
+ 
+-		if (txtndx == w2(symp->st_shndx)
++		if (txtndx == get_symindex(symp, symtab, symtab_shndx)
+ 			/* avoid STB_WEAK */
+ 		    && (STB_LOCAL == st_bind || STB_GLOBAL == st_bind)) {
+ 			/* function symbols on ARM have quirks, avoid them */
+@@ -516,21 +566,23 @@ static unsigned tot_relsize(Elf_Shdr const *const shdr0,
+ 	return totrelsz;
+ }
+ 
+-
+ /* Overall supervision for Elf32 ET_REL file. */
+ static int do_func(Elf_Ehdr *const ehdr, char const *const fname,
+ 		   unsigned const reltype)
+ {
+ 	Elf_Shdr *const shdr0 = (Elf_Shdr *)(_w(ehdr->e_shoff)
+ 		+ (void *)ehdr);
+-	unsigned const nhdr = w2(ehdr->e_shnum);
+-	Elf_Shdr *const shstr = &shdr0[w2(ehdr->e_shstrndx)];
++	unsigned const nhdr = get_shnum(ehdr, shdr0);
++	Elf_Shdr *const shstr = &shdr0[get_shstrndx(ehdr, shdr0)];
+ 	char const *const shstrtab = (char const *)(_w(shstr->sh_offset)
+ 		+ (void *)ehdr);
+ 
+ 	Elf_Shdr const *relhdr;
+ 	unsigned k;
+ 
++	Elf32_Word *symtab = NULL;
++	Elf32_Word *symtab_shndx = NULL;
++
+ 	/* Upper bound on space: assume all relevant relocs are for mcount. */
+ 	unsigned       totrelsz;
+ 
+@@ -561,6 +613,16 @@ static int do_func(Elf_Ehdr *const ehdr, char const *const fname,
+ 		return -1;
+ 	}
+ 
++	for (relhdr = shdr0, k = nhdr; k; --k, ++relhdr) {
++		if (relhdr->sh_type == SHT_SYMTAB)
++			symtab = (void *)ehdr + relhdr->sh_offset;
++		else if (relhdr->sh_type == SHT_SYMTAB_SHNDX)
++			symtab_shndx = (void *)ehdr + relhdr->sh_offset;
++
++		if (symtab && symtab_shndx)
++			break;
++	}
++
+ 	for (relhdr = shdr0, k = nhdr; k; --k, ++relhdr) {
+ 		char const *const txtname = has_rel_mcount(relhdr, shdr0,
+ 			shstrtab, fname);
+@@ -577,6 +639,7 @@ static int do_func(Elf_Ehdr *const ehdr, char const *const fname,
+ 			result = find_secsym_ndx(w(relhdr->sh_info), txtname,
+ 						&recval, &recsym,
+ 						&shdr0[symsec_sh_link],
++						symtab, symtab_shndx,
+ 						ehdr);
+ 			if (result)
+ 				goto out;
 
-Nicolas, would you do another example, specifically for
-CRAMFS_MTD in fs/cramfs/Kconfig, please?
-
-thanks.
+base-commit: c578ddb39e565139897124e74e5a43e56538cb33
 -- 
-~Randy
+2.26.1.301.g55bc3eb7cb9-goog
 
