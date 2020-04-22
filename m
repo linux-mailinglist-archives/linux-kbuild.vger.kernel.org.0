@@ -2,110 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47E031B46E1
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Apr 2020 16:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2DB61B4991
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Apr 2020 18:07:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbgDVOKi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Apr 2020 10:10:38 -0400
-Received: from mga05.intel.com ([192.55.52.43]:58582 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725839AbgDVOKi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Apr 2020 10:10:38 -0400
-IronPort-SDR: S0uSHhHQse40IHIvCl+EohB+n4yMXourW4Ad84i5LNp6cEL6UAjF4h51vw4EyTxkyJyR5oaxpI
- 6HeRIjtgZYog==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2020 07:10:37 -0700
-IronPort-SDR: O1Cm9vZWgYMPQakPv7T9fofj9pQIQiZhb10P9mFEotUd7SSB9JkGA6E0rSxKb56YOK+vMqHllf
- xyDGI7hR3gBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,414,1580803200"; 
-   d="scan'208";a="290845369"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga002.fm.intel.com with ESMTP; 22 Apr 2020 07:10:36 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 4DDD611D; Wed, 22 Apr 2020 17:10:35 +0300 (EEST)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] modpost: file2alias: Kill the old UUID type
-Date:   Wed, 22 Apr 2020 17:10:34 +0300
-Message-Id: <20200422141034.15097-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.26.1
+        id S1726431AbgDVQHR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 22 Apr 2020 12:07:17 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:52481 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbgDVQHR (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 22 Apr 2020 12:07:17 -0400
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 03MG748e015897;
+        Thu, 23 Apr 2020 01:07:04 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 03MG748e015897
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587571624;
+        bh=4+b4NFpou9AA8YnP7/zLI0QcCDlnCJGmg71suxeIPFk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=yMcRgYbGGnxJSIejoGRjkixdgrF+qbOIx/rtFBzQfvEjhv29U7GH19YM2uMlZ2mIX
+         N8naMi4tlVtwnYxt0EmoHi3woIhj4ac4LIr14YpOHStnAiyj0ICjifW1mwgd8HuNN0
+         STL60Fzwj7Ss7HP3yXEhvx51Pqa8dSLZ0dkGIpQ2lHNiNm5mOeYU7lwZ4XC2UeRR2l
+         /F9VsZD/0yQQrvWda7a660utYl0kGW7BXHLrE/hKvzqQRStjrFNkmSDEv5gbZGzsAj
+         HB49ykix0neVfF/XMB5HJhR93Kk66TAaxCUF2G3HaTVlf6MX4nxTIHA/y8dHuG3KQh
+         +MUN+qG0jJQjg==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id f59so2194524uaf.9;
+        Wed, 22 Apr 2020 09:07:04 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZQYCoua6X4j7tnhexMpJ4cILmwdi687vkyhZVyt0/eYS5ZYLFm
+        tnw6WO5Fh1WjxCWa5scAy+3KOrtl32U66qAYwrM=
+X-Google-Smtp-Source: APiQypIVGw2eaYqMU5Dw663QxfANI+6dEFgzsuroVXj18lqpc/GgU+vPtcf9hSVnxv32CYZ9wJ0TWAa1qEuwZ3CA7QQ=
+X-Received: by 2002:ab0:2e84:: with SMTP id f4mr2977785uaa.121.1587571623320;
+ Wed, 22 Apr 2020 09:07:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200421161355.1357112-1-masahiroy@kernel.org> <20200422131729.GB20103@linux-8ccs>
+In-Reply-To: <20200422131729.GB20103@linux-8ccs>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 23 Apr 2020 01:06:26 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ-WcKf1QDOnefjkzg7Cq1fKNuEPDvH9TYU8tLwbUhtmg@mail.gmail.com>
+Message-ID: <CAK7LNAQ-WcKf1QDOnefjkzg7Cq1fKNuEPDvH9TYU8tLwbUhtmg@mail.gmail.com>
+Subject: Re: [PATCH v2] arch: split MODULE_ARCH_VERMAGIC definitions out to <asm/vermagic.h>
+To:     Jessica Yu <jeyu@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Borislav Petkov <bp@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is dangling old UUID type, i.e. uuid_le, which is defined in the same way
-as new ones, so, we may safely drop it. There is no ABI change!
+On Wed, Apr 22, 2020 at 10:17 PM Jessica Yu <jeyu@kernel.org> wrote:
+>
+> +++ Masahiro Yamada [22/04/20 01:13 +0900]:
+> [snip]
+> >diff --git a/arch/xtensa/include/asm/module.h b/arch/xtensa/include/asm/vermagic.h
+> >similarity index 72%
+> >rename from arch/xtensa/include/asm/module.h
+> >rename to arch/xtensa/include/asm/vermagic.h
+> >index 488b40c6f9b9..6f9e359a54ac 100644
+> >--- a/arch/xtensa/include/asm/module.h
+> >+++ b/arch/xtensa/include/asm/vermagic.h
+> >@@ -1,6 +1,4 @@
+> > /*
+> >- * include/asm-xtensa/module.h
+> >- *
+> >  * This file contains the module code specific to the Xtensa architecture.
+>
+> Maybe we can remove this comment too? Since it's now asm/vermagic.h and
+> not asm/module.h anymore.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/mod_devicetable.h | 4 ++--
- scripts/mod/file2alias.c        | 8 +++-----
- 2 files changed, 5 insertions(+), 7 deletions(-)
+OK, I will delete it.
 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 4b3d0a4945dfc..f4e543335c307 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -434,7 +434,7 @@ struct virtio_device_id {
-  * For Hyper-V devices we use the device guid as the id.
-  */
- struct hv_vmbus_device_id {
--	uuid_le guid;
-+	guid_t guid;
- 	kernel_ulong_t driver_data;	/* Data private to the driver */
- };
- 
-@@ -707,7 +707,7 @@ struct ipack_device_id {
-  */
- struct mei_cl_device_id {
- 	char name[MEI_CL_NAME_SIZE];
--	uuid_le uuid;
-+	guid_t uuid;
- 	__u8    version;
- 	kernel_ulong_t driver_info;
- };
-diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
-index 9599e2a3f1e61..0a42d3bfdfe53 100644
---- a/scripts/mod/file2alias.c
-+++ b/scripts/mod/file2alias.c
-@@ -34,17 +34,15 @@ typedef Elf64_Addr	kernel_ulong_t;
- typedef uint32_t	__u32;
- typedef uint16_t	__u16;
- typedef unsigned char	__u8;
-+
- typedef struct {
- 	__u8 b[16];
- } guid_t;
- 
--/* backwards compatibility, don't use in new code */
--typedef struct {
--	__u8 b[16];
--} uuid_le;
- typedef struct {
- 	__u8 b[16];
- } uuid_t;
-+
- #define	UUID_STRING_LEN		36
- 
- /* Big exception to the "don't include kernel headers into userspace, which
-@@ -104,7 +102,7 @@ static inline void add_wildcard(char *str)
- 		strcat(str + len, "*");
- }
- 
--static inline void add_uuid(char *str, uuid_le uuid)
-+static inline void add_uuid(char *str, guid_t uuid)
- {
- 	int len = strlen(str);
- 
+Thanks for checking it closely.
+
+
+
+
+>
+> Thanks for the cleanup. I agree that <linux/vermagic.h> shouldn't have
+> any ordering dependency on <linux/module.h>.
+>
+> I just double checked to see if there were any other users of
+> MODULE_ARCH_VERMAGIC that needed it through module.h, and there are
+> none. It was literally just being defined in asm/module.h to be used
+> in linux/vermagic.h. So there was no reason really to confine the
+> MODULE_ARCH_VERMAGIC definition to asm/module.h.
+>
+> Acked-by: Jessica Yu <jeyu@kernel.org>
+
+
+
 -- 
-2.26.1
-
+Best Regards
+Masahiro Yamada
