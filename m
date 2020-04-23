@@ -2,106 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC381B5614
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 09:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 137CC1B5AC4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 13:50:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726910AbgDWHkc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 03:40:32 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:31741 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726790AbgDWHkc (ORCPT
+        id S1728131AbgDWLuP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 07:50:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727081AbgDWLuP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:40:32 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 03N7dV9b000368;
-        Thu, 23 Apr 2020 16:39:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 03N7dV9b000368
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587627589;
-        bh=juTCQEGw4591P2lhPWalVsIydPeVDA5qp/agKloK7wE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=A43dIexGcFvYP9YfNPNCCHF4w+RKeD+dIP2P21GFHkODTqk/oaIFyMUiktfLrYO4z
-         1IpKMFNqHRps7/YzQ26CeKNPn7tL4wiUqTNyDwVlVQzx2MayLGaP4QbSaxhI+W8GyA
-         0a5zRJ4jeGJ2HakH+TzBvdkc0vdgTdkqH1W34RWSg7i2ehjX6G4yFq4XgTQZBSEOmH
-         RxL1K5eSpGzB1PW6/IAmSfD11OVuTTsuyGRtX2R84dZ9ns7QauXlu3A1iZV4QnTAem
-         NTazxTFumXcWZGqdxKbWImEXd7vnlDuA1WXNApi521AM5A/It8K+JhNLRQaccX76uk
-         xrP0tlIprm2aw==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     bpf@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 16/16] samples: watchdog: use 'userprogs' syntax
-Date:   Thu, 23 Apr 2020 16:39:29 +0900
-Message-Id: <20200423073929.127521-17-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200423073929.127521-1-masahiroy@kernel.org>
-References: <20200423073929.127521-1-masahiroy@kernel.org>
+        Thu, 23 Apr 2020 07:50:15 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB81DC035494;
+        Thu, 23 Apr 2020 04:50:14 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id t11so4497254lfe.4;
+        Thu, 23 Apr 2020 04:50:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0myt66h+KuJjxp6VJJBImdgi/+DrnmI1vWbnrvx6uF4=;
+        b=dCQSm3f+PEwrnEUww5FJRA78dUepbt+uKSQgCnAfHxF+0xIsM4szquq+IjXS6UBZg5
+         PlQpdIjw8h+9OBx1D3c1D9aWz8UGX/Muwp1Hoh7BRmW9BpKs80ZD8FsCDv2LI+tLy0cb
+         cRYGtEvn/5/9X6uH1vU1G/PmcCGlQnJ0rq24qrdiHLgJF2d5YjK4lVR0EyBwK9u/T7An
+         ZhXU9KsSYTGc5Bhdd6KJP6Nncux4r0o+hmUKdC96wTE43Mhan4hC5aLjSjqrsVJV9s0S
+         coxAdaCARKmjLV83b9tw8hMzOLJfQSnsGCUGnaNQZ1U3J9CSoxDk0RnE2YhJU6Hi56VW
+         SqwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0myt66h+KuJjxp6VJJBImdgi/+DrnmI1vWbnrvx6uF4=;
+        b=BWxTNrX2Ll/C3Am6OEx+FR6UqOhqmB3BxClUGb/SyWni0EMWAnByLTq1xHXqbpS616
+         Uy+zE0GudWS73IKCACDdlk+NFsSdgdoV8FnQcRp8gN5x7AxybELGDU+dOxLFA3UMFlNq
+         7tLluJM31d6C1admoeubBCzSjWwEIBUFJYhPtuZHFVjoWMzz1RlPwvihDvtiqokytYh/
+         cYodhaQyhkWZ6E6DM7JzgAKV+xVDWUbU6l+kS/iRRQVxYBW7v40o1YsOKqsasHTZP0jP
+         LkyMex2m34OMSfy+cr8TlnGYBJelr0wpLYdpmryNezhp0Hz8jJWYduDrxMweKfToFF+L
+         FdXg==
+X-Gm-Message-State: AGi0PuZjxgVAv/OqH4qspafPUr7WfIbFejjQGNeiRdMsPD/pZhkx+vB1
+        0ucbRKaabV2yD21LGHbVlyEv3X2/Ge+l/VA0/tG6WA==
+X-Google-Smtp-Source: APiQypKZRn0ziiHFKI4kHuz8qP+crx/uaqkj2hKD1Sp7uDRG9p/ViyTblhjFD3/iLMGplyddPzqJIvHP5UWaYZY7DtI=
+X-Received: by 2002:a19:9109:: with SMTP id t9mr2271272lfd.10.1587642613050;
+ Thu, 23 Apr 2020 04:50:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200423073929.127521-1-masahiroy@kernel.org> <20200423073929.127521-15-masahiroy@kernel.org>
+In-Reply-To: <20200423073929.127521-15-masahiroy@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 23 Apr 2020 13:50:02 +0200
+Message-ID: <CANiq72nUa8uoXtSThqq7t9oAmZnGSE9a1_d+ZoRAagpKDo4DRg@mail.gmail.com>
+Subject: Re: [PATCH 14/16] samples: auxdisplay: use 'userprogs' syntax
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        bpf@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Kbuild now supports the 'userprogs' syntax to describe the build rules
-of userspace programs for the target architecture (i.e. the same
-architecture as the kernel).
+Hi Masahiro,
 
-Add the entry to samples/Makefile to put this into the build bot
-coverage.
+On Thu, Apr 23, 2020 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Kbuild now supports the 'userprogs' syntax to describe the build rules
+> of userspace programs for the target architecture (i.e. the same
+> architecture as the kernel).
+>
+> Add the entry to samples/Makefile to put this into the build bot
+> coverage.
+>
+> I also added the CONFIG option guarded by 'depends on CC_CAN_LINK'
+> because $(CC) may not necessarily provide libc.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-I also added the CONFIG option guarded by 'depends on CC_CAN_LINK'
-because $(CC) may not necessarily provide libc.
+Thanks for this! Looks nice. I guess you take all patches for the
+samples/ changes through your tree?
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 
- samples/Kconfig           |  3 +++
- samples/Makefile          |  1 +
- samples/watchdog/Makefile | 10 ++--------
- 3 files changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/samples/Kconfig b/samples/Kconfig
-index 55548a487d3c..4aa89d24a19e 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -205,5 +205,8 @@ config SAMPLE_INTEL_MEI
- 	help
- 	  Build a sample program to work with mei device.
- 
-+config SAMPLE_WATCHDOG
-+	bool "watchdog sample"
-+	depends on CC_CAN_LINK
- 
- endif # SAMPLES
-diff --git a/samples/Makefile b/samples/Makefile
-index 042208326689..29c66aadd954 100644
---- a/samples/Makefile
-+++ b/samples/Makefile
-@@ -26,3 +26,4 @@ obj-$(CONFIG_VIDEO_PCI_SKELETON)	+= v4l/
- obj-y					+= vfio-mdev/
- subdir-$(CONFIG_SAMPLE_VFS)		+= vfs
- obj-$(CONFIG_SAMPLE_INTEL_MEI)		+= mei/
-+subdir-$(CONFIG_SAMPLE_WATCHDOG)	+= watchdog
-diff --git a/samples/watchdog/Makefile b/samples/watchdog/Makefile
-index a9430fa60253..17384cfb387e 100644
---- a/samples/watchdog/Makefile
-+++ b/samples/watchdog/Makefile
-@@ -1,9 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
--CC := $(CROSS_COMPILE)gcc
--PROGS := watchdog-simple
--
--all: $(PROGS)
--
--clean:
--	rm -fr $(PROGS)
--
-+userprogs := watchdog-simple
-+always-y := $(userprogs)
--- 
-2.25.1
-
+Cheers,
+Miguel
