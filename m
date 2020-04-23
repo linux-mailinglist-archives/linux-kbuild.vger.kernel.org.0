@@ -2,98 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48B9B1B5DB1
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 16:25:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39A341B5E07
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 16:39:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgDWOYk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 10:24:40 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:42829 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726456AbgDWOYi (ORCPT
+        id S1726532AbgDWOjn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 10:39:43 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:37360 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbgDWOjn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 10:24:38 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 03NEO72X028581;
-        Thu, 23 Apr 2020 23:24:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 03NEO72X028581
+        Thu, 23 Apr 2020 10:39:43 -0400
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 03NEdBvU005174;
+        Thu, 23 Apr 2020 23:39:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 03NEdBvU005174
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587651849;
-        bh=OlCb8frhpY2Za1yj/p2H075SumHInvU8We060i62nwA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oZjBIcd4ohGNjihfaisSdXgwVTujFq+0B8pHpx3EVq04kMZpyRDsbo3haZBTcmB1M
-         098HHsN68cll5ysJdxKc8kTIOEQ6sn8czjan0cq00Jux3B4PL9X0XJnvtAALXq5WR5
-         PNEFNiQU9Ol8WY+YTKfNHK4EMW1aymqhT08DB01mZeQIu36rMXR9tc5HcfD0GS19yY
-         P7KeMJ39RoIIFzmgYoEWG7tQ6ADoxAxYO/Ayfc1iWJ7XPOFHB3Nnz2RAonPKAV36ga
-         sP+OOwJSQ2Lbi6RIAg5FzjEeE9L4igdfTgiRvnrNe35AbGbgXpsU6YNdEdzJVjqjdI
-         a/kTQPvWWC7mQ==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] kbuild: use CONFIG_CC_VERSION_TEXT to construct LINUX_COMPILER macro
-Date:   Thu, 23 Apr 2020 23:23:54 +0900
-Message-Id: <20200423142354.312088-4-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200423142354.312088-1-masahiroy@kernel.org>
-References: <20200423142354.312088-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1587652752;
+        bh=BOj4UmRurC8rIWuQU/ZmKHElncJFocku3VBgXu1RgAA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=1hYRHfJGcVtvhI7v3fVw2vGsunw0j1bi0rsj5BrQLs12lPnZHWJ0vKfvmsYAQ8J/L
+         hxF3PcS7OO6EZDxp+agaO0r8aVNgi2E/DEkX4Qc0zL+rMgW1IwONCqmA/zqAMt9wv5
+         UmywdLSZMgjuI/tILQObUROvMy/d6eRJ5QZPM9IaUNHOodZPfp4inQ6znsqD7QYuYM
+         MhGwIGDRp/h8HXrKMTcvrhFHk5+XcK6VDJyBzJTA9lBR+MPTy5QMSr8O4QzvITPm67
+         3kf0hHMKPXwzgeM3PdR4RduKKOKLb0BgCW6AM4uYrRk3/Lu95A0qI0F+aoAuGSKQOJ
+         K3IbgUWZuJPEA==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id u12so5870421uau.10;
+        Thu, 23 Apr 2020 07:39:12 -0700 (PDT)
+X-Gm-Message-State: AGi0PuYndmls2GE6Ol6v2QDwjG7ODl+52Q8UBwkJ2MwIqVq5mNdOY/vH
+        BLxyvN7IZzxqpJgZU71FQHoJpjs4mi+ccV5ERVo=
+X-Google-Smtp-Source: APiQypIwuC0cDKGe0gh6zvueBRX9TXDNtypehZWx7OK3iYNRcYYiiZ2rKufnuNz2HnAdH2/E2wVHXctGE6zkM5SVJJc=
+X-Received: by 2002:a67:3293:: with SMTP id y141mr3518879vsy.54.1587652750987;
+ Thu, 23 Apr 2020 07:39:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200419180445.26722-1-natechancellor@gmail.com> <20200419202128.20571-1-natechancellor@gmail.com>
+In-Reply-To: <20200419202128.20571-1-natechancellor@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 23 Apr 2020 23:38:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT3pt6VoQb3-HtOFJF5JEmaQhjyi+8OSCXu6zQ3oV579A@mail.gmail.com>
+Message-ID: <CAK7LNAT3pt6VoQb3-HtOFJF5JEmaQhjyi+8OSCXu6zQ3oV579A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] kbuild: add CONFIG_LD_IS_LLD
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-scripts/mkcompile_h runs $(CC) just for getting the version string.
-Re-use CONFIG_CC_VERSION_TEXT to optimize it.
+On Mon, Apr 20, 2020 at 5:21 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> From: Sami Tolvanen <samitolvanen@google.com>
+>
+> Similarly to the CC_IS_CLANG config, add LD_IS_LLD to avoid GNU ld
+> specific logic such as ld-version or ld-ifversion and gain the
+> ability to select potential features that depend on the linker at
+> configuration time such as LTO.
+>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> [nc: Reword commit message]
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+> ---
 
-For GCC, this slightly changes the version string. I do not think it
-is a big deal as we do not have the defined format for LINUX_COMPILER.
-In fact, the recent commit 4dcc9a88448a ("kbuild: mkcompile_h:
-Include $LD version in /proc/version") added the linker version.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Changes in v2:
-  - new patch
 
- init/Makefile       | 2 +-
- scripts/mkcompile_h | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/init/Makefile b/init/Makefile
-index d45e967483b2..30c7345e4fe2 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
- 	@$($(quiet)chk_compile.h)
- 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
- 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
--	"$(CONFIG_PREEMPT_RT)" "$(CC)" "$(LD)"
-+	"$(CONFIG_PREEMPT_RT)" "$(CONFIG_CC_VERSION_TEXT)" "$(LD)"
-diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
-index 5b80a4699740..baf3ab8d9d49 100755
---- a/scripts/mkcompile_h
-+++ b/scripts/mkcompile_h
-@@ -6,7 +6,7 @@ ARCH=$2
- SMP=$3
- PREEMPT=$4
- PREEMPT_RT=$5
--CC=$6
-+CC_VERSION="$6"
- LD=$7
- 
- vecho() { [ "${quiet}" = "silent_" ] || echo "$@" ; }
-@@ -62,7 +62,6 @@ UTS_VERSION="$(echo $UTS_VERSION $CONFIG_FLAGS $TIMESTAMP | cut -b -$UTS_LEN)"
-   printf '#define LINUX_COMPILE_BY "%s"\n' "$LINUX_COMPILE_BY"
-   echo \#define LINUX_COMPILE_HOST \"$LINUX_COMPILE_HOST\"
- 
--  CC_VERSION=$($CC -v 2>&1 | grep ' version ' | sed 's/[[:space:]]*$//')
-   LD_VERSION=$($LD -v | head -n1 | sed 's/(compatible with [^)]*)//' \
- 		      | sed 's/[[:space:]]*$//')
-   printf '#define LINUX_COMPILER "%s"\n' "$CC_VERSION, $LD_VERSION"
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
