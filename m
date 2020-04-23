@@ -2,85 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 137CC1B5AC4
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 13:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3159B1B5BB5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 14:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728131AbgDWLuP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 07:50:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47158 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727081AbgDWLuP (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 07:50:15 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB81DC035494;
-        Thu, 23 Apr 2020 04:50:14 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id t11so4497254lfe.4;
-        Thu, 23 Apr 2020 04:50:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0myt66h+KuJjxp6VJJBImdgi/+DrnmI1vWbnrvx6uF4=;
-        b=dCQSm3f+PEwrnEUww5FJRA78dUepbt+uKSQgCnAfHxF+0xIsM4szquq+IjXS6UBZg5
-         PlQpdIjw8h+9OBx1D3c1D9aWz8UGX/Muwp1Hoh7BRmW9BpKs80ZD8FsCDv2LI+tLy0cb
-         cRYGtEvn/5/9X6uH1vU1G/PmcCGlQnJ0rq24qrdiHLgJF2d5YjK4lVR0EyBwK9u/T7An
-         ZhXU9KsSYTGc5Bhdd6KJP6Nncux4r0o+hmUKdC96wTE43Mhan4hC5aLjSjqrsVJV9s0S
-         coxAdaCARKmjLV83b9tw8hMzOLJfQSnsGCUGnaNQZ1U3J9CSoxDk0RnE2YhJU6Hi56VW
-         SqwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0myt66h+KuJjxp6VJJBImdgi/+DrnmI1vWbnrvx6uF4=;
-        b=BWxTNrX2Ll/C3Am6OEx+FR6UqOhqmB3BxClUGb/SyWni0EMWAnByLTq1xHXqbpS616
-         Uy+zE0GudWS73IKCACDdlk+NFsSdgdoV8FnQcRp8gN5x7AxybELGDU+dOxLFA3UMFlNq
-         7tLluJM31d6C1admoeubBCzSjWwEIBUFJYhPtuZHFVjoWMzz1RlPwvihDvtiqokytYh/
-         cYodhaQyhkWZ6E6DM7JzgAKV+xVDWUbU6l+kS/iRRQVxYBW7v40o1YsOKqsasHTZP0jP
-         LkyMex2m34OMSfy+cr8TlnGYBJelr0wpLYdpmryNezhp0Hz8jJWYduDrxMweKfToFF+L
-         FdXg==
-X-Gm-Message-State: AGi0PuZjxgVAv/OqH4qspafPUr7WfIbFejjQGNeiRdMsPD/pZhkx+vB1
-        0ucbRKaabV2yD21LGHbVlyEv3X2/Ge+l/VA0/tG6WA==
-X-Google-Smtp-Source: APiQypKZRn0ziiHFKI4kHuz8qP+crx/uaqkj2hKD1Sp7uDRG9p/ViyTblhjFD3/iLMGplyddPzqJIvHP5UWaYZY7DtI=
-X-Received: by 2002:a19:9109:: with SMTP id t9mr2271272lfd.10.1587642613050;
- Thu, 23 Apr 2020 04:50:13 -0700 (PDT)
+        id S1728340AbgDWMrn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 08:47:43 -0400
+Received: from mga07.intel.com ([134.134.136.100]:14351 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726853AbgDWMrn (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 23 Apr 2020 08:47:43 -0400
+IronPort-SDR: 37yWpQLvQ0Fr1Iqn3cZJiALaNbPcW1k8ItK6tyWWI3vO14tMOHF+kl/iUwy9e2AjV9ne4bOdj8
+ pEjRb36VYhnA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 05:47:42 -0700
+IronPort-SDR: f+KAi70uV0Z7oJiuWn+7llEPpD/uGkvDkbYxGjwukDvyWt2dP0M7BErrnyNX6zBY7zydlEx93s
+ RfzvpSOZnJnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,307,1583222400"; 
+   d="scan'208";a="430307557"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga005.jf.intel.com with ESMTP; 23 Apr 2020 05:47:41 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jRbGa-002dUg-P4; Thu, 23 Apr 2020 15:47:44 +0300
+Date:   Thu, 23 Apr 2020 15:47:44 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v1] modpost: file2alias: Kill the old UUID type
+Message-ID: <20200423124744.GU185537@smile.fi.intel.com>
+References: <20200422141034.15097-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-References: <20200423073929.127521-1-masahiroy@kernel.org> <20200423073929.127521-15-masahiroy@kernel.org>
-In-Reply-To: <20200423073929.127521-15-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Thu, 23 Apr 2020 13:50:02 +0200
-Message-ID: <CANiq72nUa8uoXtSThqq7t9oAmZnGSE9a1_d+ZoRAagpKDo4DRg@mail.gmail.com>
-Subject: Re: [PATCH 14/16] samples: auxdisplay: use 'userprogs' syntax
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200422141034.15097-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
+On Wed, Apr 22, 2020 at 05:10:34PM +0300, Andy Shevchenko wrote:
+> There is dangling old UUID type, i.e. uuid_le, which is defined in the same way
+> as new ones, so, we may safely drop it. There is no ABI change!
 
-On Thu, Apr 23, 2020 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Kbuild now supports the 'userprogs' syntax to describe the build rules
-> of userspace programs for the target architecture (i.e. the same
-> architecture as the kernel).
->
-> Add the entry to samples/Makefile to put this into the build bot
-> coverage.
->
-> I also added the CONFIG option guarded by 'depends on CC_CAN_LINK'
-> because $(CC) may not necessarily provide libc.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Unfortunately it can't be done like this.
+Needs a bit more preparations first.
 
-Thanks for this! Looks nice. I guess you take all patches for the
-samples/ changes through your tree?
+Sorry for the noise.
 
-Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Cheers,
-Miguel
+
