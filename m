@@ -2,92 +2,124 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D85931B6366
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 20:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90E7D1B63D0
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 20:31:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730305AbgDWS0z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 14:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
+        id S1730284AbgDWSa6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 14:30:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730309AbgDWS0y (ORCPT
+        with ESMTP id S1730102AbgDWSa5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 14:26:54 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32AC7C02549D
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id c16so6573742ilr.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
+        Thu, 23 Apr 2020 14:30:57 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62AD9C09B042
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 Apr 2020 11:30:57 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id x8so5692593qtp.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 23 Apr 2020 11:30:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
-         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
-         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
-         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
-         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
-         vLew==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=j6vx62T0cUnGorC7bQl2F/WmrnGQGNIQf7tVvJs2alQ=;
+        b=kINT/mL8BJANHc3utJboA7e++/E97u13tPbXwtZsXtg6xIZbI5o2ksqDU5FSEo8bMC
+         WJJy03Eds1xqsDhuQaNN7ZJ1OwSiDAyzlx09E46h2cGtcUDY/ee3NfpM2p1mrhQxt6OL
+         I5QRMV/LAHoUyHa92JzJMMvJp9DOZQbzoPLAy9391WCI3Tz/VdW4Zr780p8+DFy0luYO
+         9NwRigT3BcYhbsoyhXfPbCjT+zrv0gfeXNDOKdcxiXBalV9FUmGnC47UXg+0uTuUoHN1
+         qk115iMNzVbf637wm1kzra4h5nRq9knmOGSwMcU21hWhXtDXf9kspo6ipjy0DcmoaJa1
+         Tdvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=ON78Qfhq1P+OAIvQN4Qx6ZgjYiPsqkyx5evvtsFor/l98wk6hoNYcVr+HqYiPRoFNz
-         6l0vcHfu/cNBn4LqPNRV0MEkxb7+jjRg9vW338jadgeX6Rk3oIvDADqtfb/mGmpEOtLT
-         ad3jWHjYSRbapc5bhgf8ctUC+QqX169XfnC6U1WSYZ3FfWPcJUNhEbNPSiA92e15Is2p
-         Gk3PtwyS5FZk6tihGp6RzuKPBfXQ8Ch2tt9tXb8IfD7Y5CxBkMCa3ipjl9yfrp4ocj3J
-         HX9Gspk8gHevcku+PcSAhlZBFoEba1QiwKWUzinI3b/s3P7/smHFFvn7BizdZ+3hvodb
-         oP2Q==
-X-Gm-Message-State: AGi0PuaDt6oQcNPT2PdWnXXG885sWOfzYXr3ypU8dArAN3XMjktwvs7d
-        +yHPpuXA9jZ8gE7RKSNfHj55VrCSqNzYnfK0d7gy18o=
-X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
-X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
- Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=j6vx62T0cUnGorC7bQl2F/WmrnGQGNIQf7tVvJs2alQ=;
+        b=FFRwzJOxBlI+AInX0XOYQcpVJ49F28vZmEkqvuNXldGwRLGGweoKDEXKgt8f33NPOz
+         ED2gM67mC7YvMOWQIudrN5VmoDFb+jPrLCBhcp7zds1EK+oDagbWShAx0NP3BVVutGPj
+         jwz1GGM+4OVhuVDMFFLJ8leoekZxMS7CPHymjB2uZzIOhuG7iQ8WNYcPAGDwfyQumI5b
+         G7SOrjojprZfGtoLnzIeDpZD/1DG+gCxmqiOpEfxggGC3i6SeurRtA/lmYv7DE3goeZk
+         Wv1tarLXER1UqOSonh/Cy28Jc2qnHnqxE/lyGOkhWa1JtM83e/n51jPvcJ+Ez/50dCyo
+         rhDQ==
+X-Gm-Message-State: AGi0PubQsrdCa5qzzxJAplmF2kb6zlWuRf/WlNMM81oNGgvdn+Pk3Al1
+        pao6XReOg8LeVBkr8FN7vxoqUg==
+X-Google-Smtp-Source: APiQypKLmzIW/Ecao7idLzoJvjbffCPalu3gsWoeTzATgTxGBLsgz+Rj9v35dLweYr3CVQ7GCZwp4w==
+X-Received: by 2002:aed:2b43:: with SMTP id p61mr5464265qtd.298.1587666656655;
+        Thu, 23 Apr 2020 11:30:56 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id s8sm723438qtb.0.2020.04.23.11.30.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 23 Apr 2020 11:30:56 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jRgch-0006EC-Bq; Thu, 23 Apr 2020 15:30:55 -0300
+Date:   Thu, 23 Apr 2020 15:30:55 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Nicolas Pitre <nico@fluxnic.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "Laurent.pinchart@ideasonboard.com" 
+        <Laurent.pinchart@ideasonboard.com>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "jonas@kwiboo.se" <jonas@kwiboo.se>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "leon@kernel.org" <leon@kernel.org>
+Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
+Message-ID: <20200423183055.GB26002@ziepe.ca>
+References: <62a51b2e5425a3cca4f7a66e2795b957f237b2da.camel@mellanox.com>
+ <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr>
+ <871rofdhtg.fsf@intel.com>
+ <nycvar.YSQ.7.76.2004221649480.2671@knanqh.ubzr>
+ <940d3add-4d12-56ed-617a-8b3bf8ef3a0f@infradead.org>
+ <nycvar.YSQ.7.76.2004231059170.2671@knanqh.ubzr>
+ <20200423150556.GZ26002@ziepe.ca>
+ <nycvar.YSQ.7.76.2004231109500.2671@knanqh.ubzr>
+ <20200423151624.GA26002@ziepe.ca>
+ <nycvar.YSQ.7.76.2004231128210.2671@knanqh.ubzr>
 MIME-Version: 1.0
-Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
- -0700 (PDT)
-Reply-To: boa.benin107@yahoo.com
-From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
-Date:   Thu, 23 Apr 2020 20:26:49 +0200
-Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
-Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
- amount of $12.800.000,00 Million USD,approved this morning by IMF.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <nycvar.YSQ.7.76.2004231128210.2671@knanqh.ubzr>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Attn Dear.
-Contact Bank of Africa-Benin to receive your payment funds transfer amount =
-of
-$12.800.000,00 Million USD,approved this morning by IMF.
-Happy to inform you, we have finally deposited your payment funds
-$12.8 million us dollars with the Paying Bank of Africa-Benin
-to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
-Contact the bank immediately you receive this email now.
-Director Bank of Africa-Benin: Dr. Festus Obiara
-Email id:  boa.benin107@yahoo.com
-Tel/mobile, (229) 62819378
-BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
-Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
-Phone:(229) 62819378.
-2020 GROUPE BANK OF AFRICA
-Be advised to re-confirm your bank details to this bank as listed.
-Your account Holder's name----------------
-Bank Name----------------------------------------------------------
-Bank address----------------------------------------------
-Account Numbers---------------------------------------
-Rounting-----------------------------------------------------------------
-Your direct Phone Numbers----------------------------------------------
-Note,I have paid the deposit and insurance fees for you
-But the only money you are to send to this bank is $150.00 us dollars
-Been for the wire transfer fees of your funds
-Contact Him now to receive your transfer deposited this morning
-I wait for your reply upon confirmation
-Mrs. Angella Michelle
-Editor, Zenith Bank- Companies Benin
-mrsa9389@gmail.com
+On Thu, Apr 23, 2020 at 11:33:33AM -0400, Nicolas Pitre wrote:
+> > > No. There is no logic in restricting MTD usage based on CRAMFS or 
+> > > CRAMFS_MTD.
+> > 
+> > Ah, I got it backwards, maybe this:
+> > 
+> > config CRAMFS
+> >    depends on MTD if CRAMFS_MTD
+> > 
+> > ?
+> 
+> Still half-backward. CRAMFS should not depend on either MTD nor
+> CRAMFS_MTD.
+
+Well, I would view this the same as all the other cases.. the CRAMFS
+module has an optional ability consume symbols from MTD.  Here that is
+controlled by another 'CRAMFS_MTD' selection, but it should still
+settle it out the same way as other cases like this - ie CRAMFS is
+restricted to m if MTD is m
+
+Arnd's point that kconfig is acyclic does kill it though :(
+
+> It is CRAMFS_MTD that needs both CRAMFS and MTD.
+> Furthermore CRAMFS_MTD can't be built-in if MTD is modular.
+
+CRAMFS_MTD is a bool feature flag for the CRAMFS tristate - it is
+CRAMFS that can't be built in if MTD is modular.
+
+Jason
