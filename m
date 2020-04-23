@@ -2,136 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9DC21B5E19
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 16:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A61061B5E82
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 17:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728240AbgDWOmv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 10:42:51 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:35184 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgDWOmu (ORCPT
+        id S1728551AbgDWPBp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 11:01:45 -0400
+Received: from pb-smtp2.pobox.com ([64.147.108.71]:52188 "EHLO
+        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbgDWPBp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 10:42:50 -0400
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 03NEgXG8015496;
-        Thu, 23 Apr 2020 23:42:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 03NEgXG8015496
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587652954;
-        bh=ZbrX8HgIq0QwRra2pCZbmne6rmEly6+QxtlCHSyKHGM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=23X9GSV0v29umhRrIZR0Xvdms/zTPnXPEHWQlfuP97fiFzR4OsLTLmVmJt7NdEK0u
-         2DUBkFskpTt1rY+FzwI9dsW12gQuftqeSP+oERyF/jQ8ULyRjEQABuArwRmCdpTUJ7
-         AYZwGGjBXZAPRti2Y94YcEeBHYVMh65eTHPw7gcqp/T6gE2+60xDA92iui/CCujRsK
-         v1DfGsV9xBdZsiCsiFoSVHl/Ced1famCL+gCAvOLVxPqwxLijzOhFFFWzK7H16D97D
-         ria/7IDQwuvqhytqVC1/rTEVHvVU+uuK3MFCQHhJi4btb9hAmLJvrgJP5f0BK/Y5RH
-         wae1fmb2TH5UA==
-X-Nifty-SrcIP: [209.85.222.48]
-Received: by mail-ua1-f48.google.com with SMTP id i5so5914326uaq.1;
-        Thu, 23 Apr 2020 07:42:34 -0700 (PDT)
-X-Gm-Message-State: AGi0PuaqZiCtx0VNpVZ90km9DV4V2cc4KcRpKHnOXRbPNu3Q39sVICnj
-        b8hf1dZIQ59GGCUtqkoSY9G4OMA+SntOLmeKyeo=
-X-Google-Smtp-Source: APiQypJrKKb72liE11VFowlb87QsF1jPVb/XNG6Tjg9gH8WKWsWX5WAPsXhORsdlkATG9DI+inT1M7eivCuMKc1B89M=
-X-Received: by 2002:a05:6102:240f:: with SMTP id j15mr3574415vsi.155.1587652953014;
- Thu, 23 Apr 2020 07:42:33 -0700 (PDT)
+        Thu, 23 Apr 2020 11:01:45 -0400
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id E9F5A635E6;
+        Thu, 23 Apr 2020 11:01:41 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=78u2ohdjhWZpEjVtdjYFeCagL0w=; b=XEFUD4
+        /Vin0OUbZukrHXwDy/uagnYbGpqMVSNGc+aAKuiXJr6KBs303Ho9VYA7J7DtWjfh
+        KWf/mC92uG2Ga9plWYmPdOCqqnfHjwIKzS+pDH0lCqjOnlP4XfNbrJmJ8LgYdgbc
+        GAF/jdkC3Kx8FZdoO6LikRd/xoW4b693oxsvU=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id DE7BB635E5;
+        Thu, 23 Apr 2020 11:01:41 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=4m4VwhMDCjaTm3eIC1ZXQR+cuWglIVYffGluXSzqGHk=; b=MMaYNHsUWptKS/65H7qstSyjNHA2GOOvwQyk9lV07T67vyTonML++rScUg0EVu9OPEmyH2pMc1QrnfIAHeNEmOgyRRCagcchAubMD2AOrBdWH+u7z/BXIgEAxhncD9eoadGmQqLU6KJcOI2f5RFbr/61ix6fTPupqctNiThtiQE=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 5B129635E3;
+        Thu, 23 Apr 2020 11:01:41 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 629C32DA0C9D;
+        Thu, 23 Apr 2020 11:01:40 -0400 (EDT)
+Date:   Thu, 23 Apr 2020 11:01:40 -0400 (EDT)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Randy Dunlap <rdunlap@infradead.org>
+cc:     Jani Nikula <jani.nikula@linux.intel.com>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "Laurent.pinchart@ideasonboard.com" 
+        <Laurent.pinchart@ideasonboard.com>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "jgg@ziepe.ca" <jgg@ziepe.ca>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "jonas@kwiboo.se" <jonas@kwiboo.se>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "leon@kernel.org" <leon@kernel.org>
+Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
+In-Reply-To: <940d3add-4d12-56ed-617a-8b3bf8ef3a0f@infradead.org>
+Message-ID: <nycvar.YSQ.7.76.2004231059170.2671@knanqh.ubzr>
+References: <20200417011146.83973-1-saeedm@mellanox.com> <CAK7LNAQZd_LUyA2V_pCvMTr_201nSX1Nm0TDw5kOeNV64rOfpA@mail.gmail.com> <nycvar.YSQ.7.76.2004181509030.2671@knanqh.ubzr> <CAK7LNATmPD1R+Ranis2u3yohx8b0+dGKAvFpjg8Eo9yEHRT6zQ@mail.gmail.com>
+ <87v9lu1ra6.fsf@intel.com> <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com> <nycvar.YSQ.7.76.2004210951160.2671@knanqh.ubzr> <62a51b2e5425a3cca4f7a66e2795b957f237b2da.camel@mellanox.com> <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr>
+ <871rofdhtg.fsf@intel.com> <nycvar.YSQ.7.76.2004221649480.2671@knanqh.ubzr> <940d3add-4d12-56ed-617a-8b3bf8ef3a0f@infradead.org>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-References: <20200419180445.26722-1-natechancellor@gmail.com>
- <20200419202128.20571-1-natechancellor@gmail.com> <20200419202128.20571-2-natechancellor@gmail.com>
- <CA+icZUVaLW+38WEJhqnfO7B_unHvrbSr0moKnfJ6zXGGA06CWQ@mail.gmail.com> <20200421024256.GA42179@ubuntu-s3-xlarge-x86>
-In-Reply-To: <20200421024256.GA42179@ubuntu-s3-xlarge-x86>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 23 Apr 2020 23:41:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT-rcfbri48rA8yNYN6ySvRUWg=DoppvrU9eerY5ckBVQ@mail.gmail.com>
-Message-ID: <CAK7LNAT-rcfbri48rA8yNYN6ySvRUWg=DoppvrU9eerY5ckBVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] MIPS: VDSO: Move disabling the VDSO logic to Kconfig
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        linux-mips@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dmitry Golovin <dima@golovin.in>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: 56E794D4-8573-11EA-B31B-D1361DBA3BAF-78420484!pb-smtp2.pobox.com
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 11:43 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Mon, Apr 20, 2020 at 11:53:55AM +0200, Sedat Dilek wrote:
-> > On Sun, Apr 19, 2020 at 10:21 PM Nathan Chancellor
-> > <natechancellor@gmail.com> wrote:
-> > >
-> > > After commit 9553d16fa671 ("init/kconfig: Add LD_VERSION Kconfig"), we
-> > > have access to GNU ld's version at configuration time. As a result, we
-> > > can make it clearer under what configuration circumstances the MIPS VDSO
-> > > needs to be disabled.
-> > >
-> > > This is a prerequisite for getting rid of the MIPS VDSO binutils
-> > > warning and linking the VDSO when LD is ld.lld. Wrapping the call to
-> > > ld-ifversion with CONFIG_LD_IS_LLD does not work because the config
-> > > values are wiped away during 'make clean'.
-> > >
-> > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > ---
-> > >
-> > > v1 -> v2:
-> > >
-> > > * New patch.
-> > >
-> > >  arch/mips/Kconfig         |  2 ++
-> > >  arch/mips/vdso/Kconfig    | 18 ++++++++++++++++++
-> > >  arch/mips/vdso/Makefile   | 30 ++----------------------------
-> > >  arch/mips/vdso/vdso.lds.S |  2 +-
-> > >  4 files changed, 23 insertions(+), 29 deletions(-)
-> > >  create mode 100644 arch/mips/vdso/Kconfig
-> > >
-> > > diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-> > > index 690718b3701a..45220e4b8a65 100644
-> > > --- a/arch/mips/Kconfig
-> > > +++ b/arch/mips/Kconfig
-> > > @@ -3275,3 +3275,5 @@ endmenu
-> > >  source "drivers/firmware/Kconfig"
-> > >
-> > >  source "arch/mips/kvm/Kconfig"
-> > > +
-> > > +source "arch/mips/vdso/Kconfig"
-> > > diff --git a/arch/mips/vdso/Kconfig b/arch/mips/vdso/Kconfig
-> > ...
-> > > --- /dev/null
-> > > +++ b/arch/mips/vdso/Kconfig
-> > ...
-> > > +config MIPS_DISABLE_VDSO
-> > > +       def_bool CPU_MICROMIPS || (!CPU_MIPSR6 && !MIPS_LD_CAN_LINK_VDSO)
-> > ...
-> > > diff --git a/arch/mips/vdso/vdso.lds.S b/arch/mips/vdso/vdso.lds.S
-> > ...
-> > > --- a/arch/mips/vdso/vdso.lds.S
-> > > +++ b/arch/mips/vdso/vdso.lds.S
-> > ...
-> > > -#ifndef DISABLE_MIPS_VDSO
-> > > +#ifndef CONFIG_DISABLE_MIPS_VDSO
-> >
-> > Should be s/CONFIG_DISABLE_MIPS_VDSO/CONFIG_MIPS_DISABLE_VDSO ?
-> >
-> > - Sedat -
->
-> Ugh yes, thank you much for pointing it out.
->
-> I'll send a v3 once I get further feedback on the series.
+On Wed, 22 Apr 2020, Randy Dunlap wrote:
+
+> On 4/22/20 2:13 PM, Nicolas Pitre wrote:
+> > On Wed, 22 Apr 2020, Jani Nikula wrote:
+> > 
+> >> On Tue, 21 Apr 2020, Nicolas Pitre <nico@fluxnic.net> wrote:
+> >>> This is really a conditional dependency. That's all this is about.
+> >>> So why not simply making it so rather than fooling ourselves? All that 
+> >>> is required is an extension that would allow:
+> >>>
+> >>> 	depends on (expression) if (expression)
+> >>>
+> >>> This construct should be obvious even without reading the doc, is 
+> >>> already used extensively for other things already, and is flexible 
+> >>> enough to cover all sort of cases in addition to this particular one.
+> >>
+> >> Okay, you convinced me. Now you only need to convince whoever is doing
+> >> the actual work of implementing this stuff. ;)
+> > 
+> > What about this:
+> > 
+> > ----- >8
+> > Subject: [PATCH] kconfig: allow for conditional dependencies
+> > 
+> > This might appear to be a strange concept, but sometimes we want
+> > a dependency to be conditionally applied. One such case is currently
+> > expressed with:
+> > 
+> > 	depends on FOO || !FOO
+> > 
+> > This pattern is strange enough to give one's pause. Given that it is
+> > also frequent, let's make the intent more obvious with some syntaxic 
+> > sugar by effectively making dependencies optionally conditional.
+> > This also makes the kconfig language more uniform.
+> > 
+> > Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> 
+> Hi,
+> 
+> If we must do something here, I prefer this one.
+> 
+> Nicolas, would you do another example, specifically for
+> CRAMFS_MTD in fs/cramfs/Kconfig, please?
+
+I don't see how that one can be helped. The MTD dependency is not 
+optional.
 
 
-I just wondered if we could raise the minimal binutils
-version from 2.23 to 2.25, but it might be too aggressive...
-I do not know.
-
-Other than what Sedat pointed out, this looks good me.
-
--- 
-Best Regards
-Masahiro Yamada
+Nicolas
