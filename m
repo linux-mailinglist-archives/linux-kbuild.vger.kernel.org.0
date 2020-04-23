@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39FB21B5DB3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 16:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48B9B1B5DB1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 16:25:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726591AbgDWOYk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1726380AbgDWOYk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Thu, 23 Apr 2020 10:24:40 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:42832 "EHLO
+Received: from conuserg-12.nifty.com ([210.131.2.79]:42829 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbgDWOYi (ORCPT
+        with ESMTP id S1726456AbgDWOYi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Thu, 23 Apr 2020 10:24:38 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 03NEO72W028581;
+        by conuserg-12.nifty.com with ESMTP id 03NEO72X028581;
         Thu, 23 Apr 2020 23:24:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 03NEO72W028581
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 03NEO72X028581
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1587651849;
-        bh=y/RgA3OfQwkVYcRBj8yVKgjZM+9PXxFWaqqKysxWTF0=;
+        bh=OlCb8frhpY2Za1yj/p2H075SumHInvU8We060i62nwA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GEJHkPB7pnUT8XQVjZx66sdja70mNI1EkP3EXp+DPCtqmUPuIF5GCm2lofc6Z1CY1
-         zPE8LTXS/oMr5FXjAPpQGzUI9TTChO4wTYUglxaPKYz1TEl0o4eY3QWGprxFCLjCxs
-         E/lDXfqjXjQvxZs90Y1iacbc2bl1zHXAN4RH/Us/V3+1jTYaBuhJ7J61rF1aUK+7e1
-         3kjzxKG6GqZBABH1Nvee/Mby55k+rseUpP7cVY6XkUz/PhNUX0i0z/v+f/PjXm0jqr
-         LzTeas2+e//21lUlxJIDhYKrgGtJA2I2wqCgxTPMsWoLb9cUNKhihnGFMjWL/v6fLm
-         3xHJci5vYW77Q==
+        b=oZjBIcd4ohGNjihfaisSdXgwVTujFq+0B8pHpx3EVq04kMZpyRDsbo3haZBTcmB1M
+         098HHsN68cll5ysJdxKc8kTIOEQ6sn8czjan0cq00Jux3B4PL9X0XJnvtAALXq5WR5
+         PNEFNiQU9Ol8WY+YTKfNHK4EMW1aymqhT08DB01mZeQIu36rMXR9tc5HcfD0GS19yY
+         P7KeMJ39RoIIFzmgYoEWG7tQ6ADoxAxYO/Ayfc1iWJ7XPOFHB3Nnz2RAonPKAV36ga
+         sP+OOwJSQ2Lbi6RIAg5FzjEeE9L4igdfTgiRvnrNe35AbGbgXpsU6YNdEdzJVjqjdI
+         a/kTQPvWWC7mQ==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/4] kbuild: use -MMD instead of -MD to exclude system headers from dependency
-Date:   Thu, 23 Apr 2020 23:23:53 +0900
-Message-Id: <20200423142354.312088-3-masahiroy@kernel.org>
+Subject: [PATCH v2 4/4] kbuild: use CONFIG_CC_VERSION_TEXT to construct LINUX_COMPILER macro
+Date:   Thu, 23 Apr 2020 23:23:54 +0900
+Message-Id: <20200423142354.312088-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200423142354.312088-1-masahiroy@kernel.org>
 References: <20200423142354.312088-1-masahiroy@kernel.org>
@@ -45,95 +45,55 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This omits system headers from the generated header dependency.
+scripts/mkcompile_h runs $(CC) just for getting the version string.
+Re-use CONFIG_CC_VERSION_TEXT to optimize it.
 
-System headers are not updated unless you upgrade the compiler. Nor do
-they contain CONFIG options, so fixdep does not need to parse them.
-
-Having said that, the effect of this optimization will be quite small
-because the kernel code generally does not include system headers
-except <stdarg.h>.
-
-Host programs include a lot of system headers, but there are not so
-many in the kernel tree. Theoretically, fixdep does not need to cater
-to host programs because they should not contain CONFIG options in
-the first place. fixdep actually does just because Kbuild reuses
-if_changed_dep for host programs.
-
-At first, keeping system headers in .*.cmd files might be useful to
-detect the compiler update, but there is no guarantee that <stdarg.h>
-is included from every file. So, I implemented a more reliable way in
-the previous commit.
+For GCC, this slightly changes the version string. I do not think it
+is a big deal as we do not have the defined format for LINUX_COMPILER.
+In fact, the recent commit 4dcc9a88448a ("kbuild: mkcompile_h:
+Include $LD version in /proc/version") added the linker version.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
-Changes in v2: None
+Changes in v2:
+  - new patch
 
- scripts/Kbuild.include | 2 +-
- scripts/Makefile.host  | 4 ++--
- scripts/Makefile.lib   | 8 ++++----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+ init/Makefile       | 2 +-
+ scripts/mkcompile_h | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 6cabf20ce66a..0c3dc983439b 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -16,7 +16,7 @@ pound := \#
- dot-target = $(dir $@).$(notdir $@)
+diff --git a/init/Makefile b/init/Makefile
+index d45e967483b2..30c7345e4fe2 100644
+--- a/init/Makefile
++++ b/init/Makefile
+@@ -35,4 +35,4 @@ include/generated/compile.h: FORCE
+ 	@$($(quiet)chk_compile.h)
+ 	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/mkcompile_h $@	\
+ 	"$(UTS_MACHINE)" "$(CONFIG_SMP)" "$(CONFIG_PREEMPT)"	\
+-	"$(CONFIG_PREEMPT_RT)" "$(CC)" "$(LD)"
++	"$(CONFIG_PREEMPT_RT)" "$(CONFIG_CC_VERSION_TEXT)" "$(LD)"
+diff --git a/scripts/mkcompile_h b/scripts/mkcompile_h
+index 5b80a4699740..baf3ab8d9d49 100755
+--- a/scripts/mkcompile_h
++++ b/scripts/mkcompile_h
+@@ -6,7 +6,7 @@ ARCH=$2
+ SMP=$3
+ PREEMPT=$4
+ PREEMPT_RT=$5
+-CC=$6
++CC_VERSION="$6"
+ LD=$7
  
- ###
--# The temporary file to save gcc -MD generated dependencies must not
-+# The temporary file to save gcc -MMD generated dependencies must not
- # contain a comma
- depfile = $(subst $(comma),_,$(dot-target).d)
+ vecho() { [ "${quiet}" = "silent_" ] || echo "$@" ; }
+@@ -62,7 +62,6 @@ UTS_VERSION="$(echo $UTS_VERSION $CONFIG_FLAGS $TIMESTAMP | cut -b -$UTS_LEN)"
+   printf '#define LINUX_COMPILE_BY "%s"\n' "$LINUX_COMPILE_BY"
+   echo \#define LINUX_COMPILE_HOST \"$LINUX_COMPILE_HOST\"
  
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 2045855d0b75..c8a4a033dc3e 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -88,8 +88,8 @@ _hostcxx_flags += -I $(objtree)/$(obj)
- endif
- endif
- 
--hostc_flags    = -Wp,-MD,$(depfile) $(_hostc_flags)
--hostcxx_flags  = -Wp,-MD,$(depfile) $(_hostcxx_flags)
-+hostc_flags    = -Wp,-MMD,$(depfile) $(_hostc_flags)
-+hostcxx_flags  = -Wp,-MMD,$(depfile) $(_hostcxx_flags)
- 
- #####
- # Compile programs on the host
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 97547108ee7f..a94c1e741df9 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -171,22 +171,22 @@ modkern_aflags = $(if $(part-of-module),				\
- 			$(KBUILD_AFLAGS_MODULE) $(AFLAGS_MODULE),	\
- 			$(KBUILD_AFLAGS_KERNEL) $(AFLAGS_KERNEL))
- 
--c_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
-+c_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 -include $(srctree)/include/linux/compiler_types.h       \
- 		 $(_c_flags) $(modkern_cflags)                           \
- 		 $(basename_flags) $(modname_flags)
- 
--a_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
-+a_flags        = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 $(_a_flags) $(modkern_aflags)
- 
--cpp_flags      = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
-+cpp_flags      = -Wp,-MMD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 $(_cpp_flags)
- 
- ld_flags       = $(KBUILD_LDFLAGS) $(ldflags-y) $(LDFLAGS_$(@F))
- 
- DTC_INCLUDE    := $(srctree)/scripts/dtc/include-prefixes
- 
--dtc_cpp_flags  = -Wp,-MD,$(depfile).pre.tmp -nostdinc                    \
-+dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
- 		 $(addprefix -I,$(DTC_INCLUDE))                          \
- 		 -undef -D__DTS__
- 
+-  CC_VERSION=$($CC -v 2>&1 | grep ' version ' | sed 's/[[:space:]]*$//')
+   LD_VERSION=$($LD -v | head -n1 | sed 's/(compatible with [^)]*)//' \
+ 		      | sed 's/[[:space:]]*$//')
+   printf '#define LINUX_COMPILER "%s"\n' "$CC_VERSION, $LD_VERSION"
 -- 
 2.25.1
 
