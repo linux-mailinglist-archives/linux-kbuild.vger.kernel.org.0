@@ -2,163 +2,165 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86C441B5EE2
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 17:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C98A1B5EF7
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 17:19:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729020AbgDWPQ1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 11:16:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51102 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729008AbgDWPQ0 (ORCPT
+        id S1729106AbgDWPTW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 11:19:22 -0400
+Received: from pb-smtp21.pobox.com ([173.228.157.53]:54994 "EHLO
+        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729014AbgDWPTW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 11:16:26 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57DAEC08ED7D
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Apr 2020 08:16:26 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id 23so1874793qkf.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 23 Apr 2020 08:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RuwvuXrV7STsC2XSTWZguPreMY6qFyucfZMv6dyCZ9g=;
-        b=L1nG+W+9ij6Dmdui58Miqo8Hh4qEFLkqwCmLJxQxFoePYWrMwKGNzaxr4E80FZkNCe
-         hQY0MtIjCD3biwbp2usIhc/bG/mliQ/SqZ0McDel88WUP76y2ZGdmL7PMNp0PaHNo0rl
-         MKaRM6WGmnlovhV+jkviMk0Md8xSeIBeyYs3Jhj1MboZsVxSy5Z6KFdWQkuMOmJMkHPs
-         xPJ9WRJzN1iFHYZg9vn/CoYF58u7O3qGIJsDg9NbskJH9YenhnG+h/m1F2YovvkdJuHM
-         TlIy/oK9hmHrgClqupcDFQjiLPAX4CZbEe2orbnKjAJwMTc7eueUgAjkgMriugvWA7bZ
-         9BvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RuwvuXrV7STsC2XSTWZguPreMY6qFyucfZMv6dyCZ9g=;
-        b=MlGidlvW4SGrQloRJ5oD36eaWdI/yyfk6hU68j+7p5WbepFB5J+QssCRg0EDEG0UaX
-         x58UW9wTpJGXqHyiIa1EGsoZn9TyK9gpc11VgTl35PHOtFFjTa+8rjiCzkZjW2tI3o/i
-         SMXRERgD0Hur6rU4q7npKpwXiZtke3NfdFiDpuZuUlLw+fBk1bcCTvT4UQA82nZ5p5n9
-         SOe6eWG9mutMoUssECeHElXiDG6AUcgd0tUbk+y/m3gHczhKNt9P8gBW8Jgn/i+2lUkU
-         fZhvoMgXe5j8pKi59fibTi8ai5Dr2J0SXYt+Mb3Ik64y0wCuu0cTvwsy7f8VYvIurpyS
-         A7WA==
-X-Gm-Message-State: AGi0PuYulDB6ojPf+ldfSkDWuKF/qXDZy7/7YB5lTf+WcTVwl0ntu8Xr
-        pVpuI4fm19bKie4U7d4tkI1voQ==
-X-Google-Smtp-Source: APiQypJiqOT4fipFLUGohNv7Deb1s+6ID4GDzmCNpgpgqR/iKAnZEgmnnLbZQ13uR71Jym2saStjag==
-X-Received: by 2002:a37:9dd6:: with SMTP id g205mr4268266qke.9.1587654985482;
-        Thu, 23 Apr 2020 08:16:25 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
-        by smtp.gmail.com with ESMTPSA id a22sm1663046qko.81.2020.04.23.08.16.25
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Apr 2020 08:16:25 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jRdaS-0003hD-Gu; Thu, 23 Apr 2020 12:16:24 -0300
-Date:   Thu, 23 Apr 2020 12:16:24 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Nicolas Pitre <nico@fluxnic.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Thu, 23 Apr 2020 11:19:22 -0400
+Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
+        by pb-smtp21.pobox.com (Postfix) with ESMTP id A8223C8475;
+        Thu, 23 Apr 2020 11:19:20 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:message-id:mime-version:content-type; s=sasl; bh=vmQ
+        JhYlZ0yHldJpYg27uGjUK04k=; b=wUzFW2vL0VC6xprf3iAhXRwWzESPCrPysPc
+        eM1jp32i6MfUWwoTvdBhFUD4y0tPVNLfUC77jXvY+oqg/ZkY2aS73K3+I2rSvdqd
+        uNnkG602PjCZpEPUno6zz8n8ee4dJPX1PhqhYNg0iIfhMZSVfKONU98BXpLHANAP
+        vIJhShg4=
+Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp21.pobox.com (Postfix) with ESMTP id 9FDEEC8473;
+        Thu, 23 Apr 2020 11:19:20 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:message-id:mime-version:content-type;
+ s=2016-12.pbsmtp; bh=ZQvOj/WbQX9wG6kaUe0GIpQk4CeGncvX7dWU4OJgYjU=;
+ b=tLDxNRjgg156rpKhGo8X63HdaMXd9GGqa/nZFjcufcxAeOOxwzNxDBB/ZNOL5DCu77L2iz4dQUflMROVcHt+KcEFqIJnukY2lG7+gPzL7SVPiHUqxUxcdss5anYWxeajCNZihR+TTiUs7LrdONKZQel9GMtvYhw/nec9qEmFvgA=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 91729C8472;
+        Thu, 23 Apr 2020 11:19:17 -0400 (EDT)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id C18342DA0CA0;
+        Thu, 23 Apr 2020 11:19:15 -0400 (EDT)
+Date:   Thu, 23 Apr 2020 11:19:15 -0400 (EDT)
+From:   Nicolas Pitre <nico@fluxnic.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Saeed Mahameed <saeedm@mellanox.com>,
-        "masahiroy@kernel.org" <masahiroy@kernel.org>,
-        "Laurent.pinchart@ideasonboard.com" 
-        <Laurent.pinchart@ideasonboard.com>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "jonas@kwiboo.se" <jonas@kwiboo.se>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
-        "leon@kernel.org" <leon@kernel.org>
-Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
-Message-ID: <20200423151624.GA26002@ziepe.ca>
-References: <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com>
- <nycvar.YSQ.7.76.2004210951160.2671@knanqh.ubzr>
- <62a51b2e5425a3cca4f7a66e2795b957f237b2da.camel@mellanox.com>
- <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr>
- <871rofdhtg.fsf@intel.com>
- <nycvar.YSQ.7.76.2004221649480.2671@knanqh.ubzr>
- <940d3add-4d12-56ed-617a-8b3bf8ef3a0f@infradead.org>
- <nycvar.YSQ.7.76.2004231059170.2671@knanqh.ubzr>
- <20200423150556.GZ26002@ziepe.ca>
- <nycvar.YSQ.7.76.2004231109500.2671@knanqh.ubzr>
+        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: allow for conditional dependencies
+Message-ID: <nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nycvar.YSQ.7.76.2004231109500.2671@knanqh.ubzr>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: CC7594EC-8575-11EA-B959-8D86F504CC47-78420484!pb-smtp21.pobox.com
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 11:11:46AM -0400, Nicolas Pitre wrote:
-> On Thu, 23 Apr 2020, Jason Gunthorpe wrote:
-> 
-> > On Thu, Apr 23, 2020 at 11:01:40AM -0400, Nicolas Pitre wrote:
-> > > On Wed, 22 Apr 2020, Randy Dunlap wrote:
-> > > 
-> > > > On 4/22/20 2:13 PM, Nicolas Pitre wrote:
-> > > > > On Wed, 22 Apr 2020, Jani Nikula wrote:
-> > > > > 
-> > > > >> On Tue, 21 Apr 2020, Nicolas Pitre <nico@fluxnic.net> wrote:
-> > > > >>> This is really a conditional dependency. That's all this is about.
-> > > > >>> So why not simply making it so rather than fooling ourselves? All that 
-> > > > >>> is required is an extension that would allow:
-> > > > >>>
-> > > > >>> 	depends on (expression) if (expression)
-> > > > >>>
-> > > > >>> This construct should be obvious even without reading the doc, is 
-> > > > >>> already used extensively for other things already, and is flexible 
-> > > > >>> enough to cover all sort of cases in addition to this particular one.
-> > > > >>
-> > > > >> Okay, you convinced me. Now you only need to convince whoever is doing
-> > > > >> the actual work of implementing this stuff. ;)
-> > > > > 
-> > > > > What about this:
-> > > > > 
-> > > > > Subject: [PATCH] kconfig: allow for conditional dependencies
-> > > > > 
-> > > > > This might appear to be a strange concept, but sometimes we want
-> > > > > a dependency to be conditionally applied. One such case is currently
-> > > > > expressed with:
-> > > > > 
-> > > > > 	depends on FOO || !FOO
-> > > > > 
-> > > > > This pattern is strange enough to give one's pause. Given that it is
-> > > > > also frequent, let's make the intent more obvious with some syntaxic 
-> > > > > sugar by effectively making dependencies optionally conditional.
-> > > > > This also makes the kconfig language more uniform.
-> > > > > 
-> > > > > Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
-> > > > 
-> > > > Hi,
-> > > > 
-> > > > If we must do something here, I prefer this one.
-> > > > 
-> > > > Nicolas, would you do another example, specifically for
-> > > > CRAMFS_MTD in fs/cramfs/Kconfig, please?
-> > > 
-> > > I don't see how that one can be helped. The MTD dependency is not 
-> > > optional.
-> > 
-> > Could it be done as 
-> > 
-> > config MTD
-> >    depends on CRAMFS if CRAMFS_MTD
-> > 
-> > ?
-> 
-> No. There is no logic in restricting MTD usage based on CRAMFS or 
-> CRAMFS_MTD.
+This might appear to be a strange concept, but sometimes we want
+a dependency to be conditionally applied. One such case is currently
+expressed with:
 
-Ah, I got it backwards, maybe this:
+        depends on FOO || !FOO
 
-config CRAMFS
-   depends on MTD if CRAMFS_MTD
+This pattern is strange enough to give one's pause. Given that it is
+also frequent, let's make the intent more obvious with some syntaxic
+sugar by effectively making dependencies optionally conditional.
 
-?
+This also makes the kconfig language more uniform.
 
-Jason
+Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index d0111dd264..0f841e0037 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -114,7 +114,7 @@ applicable everywhere (see syntax).
+   This is a shorthand notation for a type definition plus a value.
+   Optionally dependencies for this default value can be added with "if".
+ 
+-- dependencies: "depends on" <expr>
++- dependencies: "depends on" <expr> ["if" <expr>]
+ 
+   This defines a dependency for this menu entry. If multiple
+   dependencies are defined, they are connected with '&&'. Dependencies
+@@ -130,6 +130,16 @@ applicable everywhere (see syntax).
+ 	bool "foo"
+ 	default y
+ 
++  The dependency definition itself may be conditional by appending "if"
++  followed by an expression. If such expression is false (n) then this
++  dependency is ignored. One possible use case is:
++
++    config FOO
++	tristate
++	depends on BAZ if BAZ != n
++
++  meaning that FOO is constrained by the value of BAZ only when it is set.
++
+ - reverse dependencies: "select" <symbol> ["if" <expr>]
+ 
+   While normal dependencies reduce the upper limit of a symbol (see
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index d4ca829736..1a9337d1b9 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -72,7 +72,7 @@ void menu_warn(struct menu *menu, const char *fmt, ...);
+ struct menu *menu_add_menu(void);
+ void menu_end_menu(void);
+ void menu_add_entry(struct symbol *sym);
+-void menu_add_dep(struct expr *dep);
++void menu_add_dep(struct expr *dep, struct expr *cond);
+ void menu_add_visibility(struct expr *dep);
+ struct property *menu_add_prompt(enum prop_type type, char *prompt, struct expr *dep);
+ void menu_add_expr(enum prop_type type, struct expr *expr, struct expr *dep);
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index e436ba44c9..47928cdbc2 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -103,8 +103,18 @@ static struct expr *rewrite_m(struct expr *e)
+ 	return e;
+ }
+ 
+-void menu_add_dep(struct expr *dep)
++void menu_add_dep(struct expr *dep, struct expr *cond)
+ {
++	if (cond) {
++		/*
++		 * We have "depends on X if Y" and we want:
++		 *	Y != n --> X
++		 *	Y == n --> y
++		 * That simplifies to: (X || (Y == n))
++		 */
++		dep = expr_alloc_or(dep,
++				expr_trans_compare(cond, E_EQUAL, &symbol_no));
++	}
+ 	current_entry->dep = expr_alloc_and(current_entry->dep, dep);
+ }
+ 
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index 708b6c4b13..4161207da2 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -316,7 +316,7 @@ if_entry: T_IF expr T_EOL
+ {
+ 	printd(DEBUG_PARSE, "%s:%d:if\n", zconf_curname(), zconf_lineno());
+ 	menu_add_entry(NULL);
+-	menu_add_dep($2);
++	menu_add_dep($2, NULL);
+ 	$$ = menu_add_menu();
+ };
+ 
+@@ -412,9 +412,9 @@ help: help_start T_HELPTEXT
+ 
+ /* depends option */
+ 
+-depends: T_DEPENDS T_ON expr T_EOL
++depends: T_DEPENDS T_ON expr if_expr T_EOL
+ {
+-	menu_add_dep($3);
++	menu_add_dep($3, $4);
+ 	printd(DEBUG_PARSE, "%s:%d:depends on\n", zconf_curname(), zconf_lineno());
+ };
+ 
