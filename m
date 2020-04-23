@@ -2,165 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C98A1B5EF7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 17:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E88101B5F22
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 17:28:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729106AbgDWPTW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 11:19:22 -0400
-Received: from pb-smtp21.pobox.com ([173.228.157.53]:54994 "EHLO
-        pb-smtp21.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729014AbgDWPTW (ORCPT
+        id S1729014AbgDWP22 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 11:28:28 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:33431 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728865AbgDWP21 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 11:19:22 -0400
-Received: from pb-smtp21.pobox.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id A8223C8475;
-        Thu, 23 Apr 2020 11:19:20 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:message-id:mime-version:content-type; s=sasl; bh=vmQ
-        JhYlZ0yHldJpYg27uGjUK04k=; b=wUzFW2vL0VC6xprf3iAhXRwWzESPCrPysPc
-        eM1jp32i6MfUWwoTvdBhFUD4y0tPVNLfUC77jXvY+oqg/ZkY2aS73K3+I2rSvdqd
-        uNnkG602PjCZpEPUno6zz8n8ee4dJPX1PhqhYNg0iIfhMZSVfKONU98BXpLHANAP
-        vIJhShg4=
-Received: from pb-smtp21.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp21.pobox.com (Postfix) with ESMTP id 9FDEEC8473;
-        Thu, 23 Apr 2020 11:19:20 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:message-id:mime-version:content-type;
- s=2016-12.pbsmtp; bh=ZQvOj/WbQX9wG6kaUe0GIpQk4CeGncvX7dWU4OJgYjU=;
- b=tLDxNRjgg156rpKhGo8X63HdaMXd9GGqa/nZFjcufcxAeOOxwzNxDBB/ZNOL5DCu77L2iz4dQUflMROVcHt+KcEFqIJnukY2lG7+gPzL7SVPiHUqxUxcdss5anYWxeajCNZihR+TTiUs7LrdONKZQel9GMtvYhw/nec9qEmFvgA=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp21.pobox.com (Postfix) with ESMTPSA id 91729C8472;
-        Thu, 23 Apr 2020 11:19:17 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id C18342DA0CA0;
-        Thu, 23 Apr 2020 11:19:15 -0400 (EDT)
-Date:   Thu, 23 Apr 2020 11:19:15 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Thu, 23 Apr 2020 11:28:27 -0400
+Received: from mail-lj1-f179.google.com ([209.85.208.179]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MXH3e-1jiiIB0GPm-00YlvZ; Thu, 23 Apr 2020 17:28:25 +0200
+Received: by mail-lj1-f179.google.com with SMTP id j3so6626065ljg.8;
+        Thu, 23 Apr 2020 08:28:24 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZUU0SgLRsgYacVk2JXjaYAMeu6r00aDjYVvoGo1i9IfilFXY8n
+        sO8fqQ4igkpA/IZdFn8cizzTV+CGcQgbKAQe6Qw=
+X-Google-Smtp-Source: APiQypINcNdjhLpMjI8cph0tTGcFMHFZDQLmojF6lZ/7qKWwhCKDNWXB8vz+MSiiUAkbnxZQLkqoMfC3KKw5YDYcM+w=
+X-Received: by 2002:a2e:6a08:: with SMTP id f8mr2858238ljc.8.1587655704471;
+ Thu, 23 Apr 2020 08:28:24 -0700 (PDT)
+MIME-Version: 1.0
+References: <45b9efec57b2e250e8e39b3b203eb8cee10cb6e8.camel@mellanox.com>
+ <nycvar.YSQ.7.76.2004210951160.2671@knanqh.ubzr> <62a51b2e5425a3cca4f7a66e2795b957f237b2da.camel@mellanox.com>
+ <nycvar.YSQ.7.76.2004211411500.2671@knanqh.ubzr> <871rofdhtg.fsf@intel.com>
+ <nycvar.YSQ.7.76.2004221649480.2671@knanqh.ubzr> <940d3add-4d12-56ed-617a-8b3bf8ef3a0f@infradead.org>
+ <nycvar.YSQ.7.76.2004231059170.2671@knanqh.ubzr> <20200423150556.GZ26002@ziepe.ca>
+ <nycvar.YSQ.7.76.2004231109500.2671@knanqh.ubzr> <20200423151624.GA26002@ziepe.ca>
+In-Reply-To: <20200423151624.GA26002@ziepe.ca>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 23 Apr 2020 17:28:08 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0ydfp79Us-WhwwHOB2MGgtj=ovfYa_g8qhazA4gmv8eg@mail.gmail.com>
+Message-ID: <CAK8P3a0ydfp79Us-WhwwHOB2MGgtj=ovfYa_g8qhazA4gmv8eg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] Kconfig: Introduce "uses" keyword
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Nicolas Pitre <nico@fluxnic.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jani Nikula <jani.nikula@linux.intel.com>,
         Saeed Mahameed <saeedm@mellanox.com>,
-        Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: allow for conditional dependencies
-Message-ID: <nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: CC7594EC-8575-11EA-B959-8D86F504CC47-78420484!pb-smtp21.pobox.com
+        "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "Laurent.pinchart@ideasonboard.com" 
+        <Laurent.pinchart@ideasonboard.com>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jernej.skrabec@siol.net" <jernej.skrabec@siol.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "jonas@kwiboo.se" <jonas@kwiboo.se>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "narmstrong@baylibre.com" <narmstrong@baylibre.com>,
+        "leon@kernel.org" <leon@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:2iQTX2VsakGHk54BTB9WVoqR/JzU2kdpHG5qlk7OzErzbDjBSFJ
+ cw4+bPaHDdKsw3pJ2bgD5MLFptdhCXGqhbySx9hQn24n/AWHnU+wNuuNihTQrmvZZ4B/Pt+
+ AWOp/GpqTWV+iiRpnOyNcvnyxixueiY7CyokX7afxwIn3Oo659/VkB51cMdLTfUJsSsU/2q
+ DEUtJ0DJw15QT/HVKXuDA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yXYeGGUUVu4=:KOVIF5il65qxHEA6pI+gSc
+ aAfwOmhprWnuOPz+7W+rziPQkbN0ejmKpA4BZqkwFCnaDPPv7pDgfS3i5nu1MHtQqUHYLQCG8
+ /0/DYe+pZDRflErTRstkLc/IRW6TS+/l/iyKITt18tPZnbzW/jegLplN2RzgUawwvLkWtfsSx
+ mBZ5tDr4b2JwBPF9NuSmg0xXGO8Z1SRzrpsQEsCduQOpduc9DKk/I6ccsitsv6ARTH1ep4Gm5
+ PvSruZGSuG8hiDOrcOg8YLEhGjymwtvh46Og2gaoJ5pgWaJuMI1hUmi73TAijEyKklEMK4uQv
+ uDS3kvyT9NMDg4BCjl7w62Xeox4SgGhYWn2EPcebRaDpt2bup9zhTIkBunkTJPNjvgLhoc5TQ
+ j/uKFI4UpYjPkea32bJHAifAmObWP8ih2wSfQOvPXd+wybbLdkT6KPOCHbNrSwXDTq3HhPpq3
+ E0rqwicYUJmeGJXz+X5opr7Nq1Es7a1wFdoCSIoYaNczaTzaWFoEb3k+Ock7t94wG9cqgvLJb
+ rtKzCn+CLRWE5O0an+1PLcyrYMQivB8BvJnh6PbBUkeNn9aYNrLLsDc4IA9I71NgqYFLmZ04j
+ WZspW8jH2Jj/fCdMO8BeWLSeeKlvDuNmslBxld9UBF1+6u6fQe2cpnNG9ML+LG1cCVDeQAwGo
+ cNFoheYAQWKdFlfDfBGmZX85lY+R5FqbwyoXKKBMiPvBIX3uERVe/KQOoRTuJxZ+C9keneMli
+ qAgmg8+fmD19nRdG2zAS3M8tk/7b+xVM3Cp7pJJvbfr6f3nwjSrzf+eeXSlq6D/B71YcgPJJJ
+ MMtB/aDDv0NNGi9TzKBToxRdsVO8sFxz0P65s1gRPBNm6MAcKs=
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This might appear to be a strange concept, but sometimes we want
-a dependency to be conditionally applied. One such case is currently
-expressed with:
+On Thu, Apr 23, 2020 at 5:16 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> On Thu, Apr 23, 2020 at 11:11:46AM -0400, Nicolas Pitre wrote:
 
-        depends on FOO || !FOO
+> > > > I don't see how that one can be helped. The MTD dependency is not
+> > > > optional.
+> > >
+> > > Could it be done as
+> > >
+> > > config MTD
+> > >    depends on CRAMFS if CRAMFS_MTD
+> > >
+> > > ?
+> >
+> > No. There is no logic in restricting MTD usage based on CRAMFS or
+> > CRAMFS_MTD.
+>
+> Ah, I got it backwards, maybe this:
+>
+> config CRAMFS
+>    depends on MTD if CRAMFS_MTD
 
-This pattern is strange enough to give one's pause. Given that it is
-also frequent, let's make the intent more obvious with some syntaxic
-sugar by effectively making dependencies optionally conditional.
+I'm not sure this can work if you also have the requirement that 'CRAMFS_MTD
+depends on CRAMFS': dependencies in Kconfig generally cannot have
+loops in them.
 
-This also makes the kconfig language more uniform.
-
-Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
-
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index d0111dd264..0f841e0037 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -114,7 +114,7 @@ applicable everywhere (see syntax).
-   This is a shorthand notation for a type definition plus a value.
-   Optionally dependencies for this default value can be added with "if".
- 
--- dependencies: "depends on" <expr>
-+- dependencies: "depends on" <expr> ["if" <expr>]
- 
-   This defines a dependency for this menu entry. If multiple
-   dependencies are defined, they are connected with '&&'. Dependencies
-@@ -130,6 +130,16 @@ applicable everywhere (see syntax).
- 	bool "foo"
- 	default y
- 
-+  The dependency definition itself may be conditional by appending "if"
-+  followed by an expression. If such expression is false (n) then this
-+  dependency is ignored. One possible use case is:
-+
-+    config FOO
-+	tristate
-+	depends on BAZ if BAZ != n
-+
-+  meaning that FOO is constrained by the value of BAZ only when it is set.
-+
- - reverse dependencies: "select" <symbol> ["if" <expr>]
- 
-   While normal dependencies reduce the upper limit of a symbol (see
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index d4ca829736..1a9337d1b9 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -72,7 +72,7 @@ void menu_warn(struct menu *menu, const char *fmt, ...);
- struct menu *menu_add_menu(void);
- void menu_end_menu(void);
- void menu_add_entry(struct symbol *sym);
--void menu_add_dep(struct expr *dep);
-+void menu_add_dep(struct expr *dep, struct expr *cond);
- void menu_add_visibility(struct expr *dep);
- struct property *menu_add_prompt(enum prop_type type, char *prompt, struct expr *dep);
- void menu_add_expr(enum prop_type type, struct expr *expr, struct expr *dep);
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index e436ba44c9..47928cdbc2 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -103,8 +103,18 @@ static struct expr *rewrite_m(struct expr *e)
- 	return e;
- }
- 
--void menu_add_dep(struct expr *dep)
-+void menu_add_dep(struct expr *dep, struct expr *cond)
- {
-+	if (cond) {
-+		/*
-+		 * We have "depends on X if Y" and we want:
-+		 *	Y != n --> X
-+		 *	Y == n --> y
-+		 * That simplifies to: (X || (Y == n))
-+		 */
-+		dep = expr_alloc_or(dep,
-+				expr_trans_compare(cond, E_EQUAL, &symbol_no));
-+	}
- 	current_entry->dep = expr_alloc_and(current_entry->dep, dep);
- }
- 
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 708b6c4b13..4161207da2 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -316,7 +316,7 @@ if_entry: T_IF expr T_EOL
- {
- 	printd(DEBUG_PARSE, "%s:%d:if\n", zconf_curname(), zconf_lineno());
- 	menu_add_entry(NULL);
--	menu_add_dep($2);
-+	menu_add_dep($2, NULL);
- 	$$ = menu_add_menu();
- };
- 
-@@ -412,9 +412,9 @@ help: help_start T_HELPTEXT
- 
- /* depends option */
- 
--depends: T_DEPENDS T_ON expr T_EOL
-+depends: T_DEPENDS T_ON expr if_expr T_EOL
- {
--	menu_add_dep($3);
-+	menu_add_dep($3, $4);
- 	printd(DEBUG_PARSE, "%s:%d:depends on\n", zconf_curname(), zconf_lineno());
- };
- 
+       Arnd
