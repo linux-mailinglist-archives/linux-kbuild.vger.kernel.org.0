@@ -2,90 +2,188 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AAD01B5237
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 04:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56F591B5637
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 09:45:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726324AbgDWCBS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 22 Apr 2020 22:01:18 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:55269 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgDWCBR (ORCPT
+        id S1727834AbgDWHmO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 03:42:14 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:34844 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbgDWHmN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 22 Apr 2020 22:01:17 -0400
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 03N20sDr027698;
-        Thu, 23 Apr 2020 11:00:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 03N20sDr027698
+        Thu, 23 Apr 2020 03:42:13 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 03N7dV9L000368;
+        Thu, 23 Apr 2020 16:39:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 03N7dV9L000368
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587607255;
-        bh=ISn1zcDbqD2LVlnbauksd8MruLENNun6WMcR58P2qcI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LZ2hy/m3kyAspFf0n8gbMqzG8q4/ENsAcC6y5X0tdE4JTA71wFtqCu14vIQPS6koh
-         bqA4kNA/0drF4SSyQBZDo5r7chGkgod2Cft6VW2XTgFMxwqXCLkUcrku7IxZxBzNTm
-         o2stTctbF5u/gzU/8GW8SHhbxyXdksJEysZB+f2g70znIIYxnCepCovSLn0WTO7fIM
-         2io+52tVX+/On4MmDF/H1/qhJxD+COeuDYqtV+lhWUbjAQ1B+qMaKBle42WIeaQPdV
-         e+9bPOi4SciFKMyjpEJqzQ7Ut4OqASVeOJr/YBtnKXQvW+M7Ah5bo78GESV28fND8O
-         0Fh5Q4H/Ik5Rw==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id t8so4149226uap.3;
-        Wed, 22 Apr 2020 19:00:55 -0700 (PDT)
-X-Gm-Message-State: AGi0PubpXU8+nChOB5qI0KFcE6ZqAxyf8G2Hr2WLIglNjvkITKoOkY4y
-        5KMX9L01kZQ/ZIT4A8AOeR5HZ22fNLY3vy468/k=
-X-Google-Smtp-Source: APiQypKRgU7oPWeRAT900AuP/QQ6Sr147jDjr+iq+LfPL1juv5V1gaXnJ4FqIKsaY6bSqjdDXnBMPKQ5GXKMoNZv7lQ=
-X-Received: by 2002:a67:6542:: with SMTP id z63mr1467003vsb.179.1587607254226;
- Wed, 22 Apr 2020 19:00:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200423014919.31713-1-masahiroy@kernel.org>
-In-Reply-To: <20200423014919.31713-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1587627573;
+        bh=EYsJ2uRz3WzlUm4V0pOlApP3srqM3AzplJXKFcPvEZc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YP/cvFIDqNzUc1LGLrpWHugU6378NxtI+s6jypZfvWr37vn0c2PyraGPlREaAqEnQ
+         FC1fPQYiietJ+VjRm+QAa2UHsfgcqar1R4Y8TA7XJVvbfqBD5wafX0GIrmnV5pHmHh
+         8q5jt3rWU7dnCSGSZ6CCjGpaYlwCjjUKfj+RanMm/ZTFwZeY/4AKlUmyBZpsFcYdS1
+         zSX7an90gnGH+1EzAWoWJLkNef6Aq6rRejTbRIHliWScMURQ7y5lDCp3gkCI9qUiNU
+         0XISVVH5T4wiwolwemmrDutqkAe8H17XGYnW/Q8jrBhvoUUYbV1xExyHCGSZ7YmSk8
+         O0kUSWi3KCBuA==
+X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 23 Apr 2020 11:00:18 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ-5aKSn0J81NMey5+nTis8LZT_mv+bYbndx99SBf_w6w@mail.gmail.com>
-Message-ID: <CAK7LNAQ-5aKSn0J81NMey5+nTis8LZT_mv+bYbndx99SBf_w6w@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: kbuild: fix the section title format
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     bpf@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KP Singh <kpsingh@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Song Liu <songliubraving@fb.com>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Yonghong Song <yhs@fb.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: [PATCH 00/16] kbuild: support 'userprogs' syntax
+Date:   Thu, 23 Apr 2020 16:39:13 +0900
+Message-Id: <20200423073929.127521-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 10:49 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Make it consistent with the other sections.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
 
-Applied to linux/fixes.
+Several Makefiles use 'hostprogs' for building the code for
+the host architecture is not appropriate.
+
+This is just because Kbuild does not provide the syntax to do it.
+
+This series introduce 'userprogs' syntax and use it from
+sample and bpf Makefiles.
+
+Sam worked on this in 2014.
+https://lkml.org/lkml/2014/7/13/154
+
+He used 'uapiprogs-y' but I just thought the meaning of
+"UAPI programs" is unclear.
+
+Naming is one the most difficult parts of this.
+
+I chose 'userprogs'.
+Anothor choice I had in my mind was 'targetprogs'.
+
+If you can test this series quickly by
+'make allmodconfig samples/'
+
+When building objects for userspace, [U] is displayed.
+
+masahiro@oscar:~/workspace/linux$ make allmodconfig samples/
+  [snip]
+  AR      samples/vfio-mdev/built-in.a
+  CC [M]  samples/vfio-mdev/mtty.o
+  CC [M]  samples/vfio-mdev/mdpy.o
+  CC [M]  samples/vfio-mdev/mdpy-fb.o
+  CC [M]  samples/vfio-mdev/mbochs.o
+  AR      samples/mei/built-in.a
+  CC [U]  samples/mei/mei-amt-version
+  CC [U]  samples/auxdisplay/cfag12864b-example
+  CC [M]  samples/configfs/configfs_sample.o
+  CC [M]  samples/connector/cn_test.o
+  CC [U]  samples/connector/ucon
+  CC [M]  samples/ftrace/ftrace-direct.o
+  CC [M]  samples/ftrace/ftrace-direct-too.o
+  CC [M]  samples/ftrace/ftrace-direct-modify.o
+  CC [M]  samples/ftrace/sample-trace-array.o
+  CC [U]  samples/hidraw/hid-example
+  CC [M]  samples/hw_breakpoint/data_breakpoint.o
+  CC [M]  samples/kdb/kdb_hello.o
+  CC [M]  samples/kfifo/bytestream-example.o
+  CC [M]  samples/kfifo/dma-example.o
+  CC [M]  samples/kfifo/inttype-example.o
+  CC [M]  samples/kfifo/record-example.o
+  CC [M]  samples/kobject/kobject-example.o
+  CC [M]  samples/kobject/kset-example.o
+  CC [M]  samples/kprobes/kprobe_example.o
+  CC [M]  samples/kprobes/kretprobe_example.o
+  CC [M]  samples/livepatch/livepatch-sample.o
+  CC [M]  samples/livepatch/livepatch-shadow-mod.o
+  CC [M]  samples/livepatch/livepatch-shadow-fix1.o
+  CC [M]  samples/livepatch/livepatch-shadow-fix2.o
+  CC [M]  samples/livepatch/livepatch-callbacks-demo.o
+  CC [M]  samples/livepatch/livepatch-callbacks-mod.o
+  CC [M]  samples/livepatch/livepatch-callbacks-busymod.o
+  CC [M]  samples/rpmsg/rpmsg_client_sample.o
+  CC [U]  samples/seccomp/bpf-fancy.o
+  CC [U]  samples/seccomp/bpf-helper.o
+  LD [U]  samples/seccomp/bpf-fancy
+  CC [U]  samples/seccomp/dropper
+  CC [U]  samples/seccomp/bpf-direct
+  CC [U]  samples/seccomp/user-trap
+  CC [U]  samples/timers/hpet_example
+  CC [M]  samples/trace_events/trace-events-sample.o
+  CC [M]  samples/trace_printk/trace-printk.o
+  CC [U]  samples/uhid/uhid-example
+  CC [M]  samples/v4l/v4l2-pci-skeleton.o
+  CC [U]  samples/vfs/test-fsmount
+  CC [U]  samples/vfs/test-statx
+samples/vfs/test-statx.c:24:15: warning: ‘struct foo’ declared inside parameter list will not be visible outside of this definition or declaration
+   24 | #define statx foo
+      |               ^~~
+  CC [U]  samples/watchdog/watchdog-simple
+  AR      samples/built-in.a
 
 
 
->  Documentation/kbuild/makefiles.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 04d5c01a2e99..b80257a03830 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -1241,7 +1241,8 @@ When kbuild executes, the following steps are followed (roughly):
->         will be displayed with "make KBUILD_VERBOSE=0".
->
->
-> ---- 6.9 Preprocessing linker scripts
-> +6.9 Preprocessing linker scripts
-> +--------------------------------
->
->         When the vmlinux image is built, the linker script
->         arch/$(ARCH)/kernel/vmlinux.lds is used.
-> --
-> 2.25.1
->
+Masahiro Yamada (15):
+  Documentation: kbuild: fix the section title format
+  Revert "objtool: Skip samples subdirectory"
+  kbuild: add infrastructure to build userspace programs
+  net: bpfilter: use 'userprogs' syntax to build bpfilter_umh
+  samples: seccomp: build sample programs for target architecture
+  kbuild: doc: document the new syntax 'userprogs'
+  samples: uhid: build sample program for target architecture
+  samples: hidraw: build sample program for target architecture
+  samples: connector: build sample program for target architecture
+  samples: vfs: build sample programs for target architecture
+  samples: pidfd: build sample program for target architecture
+  samples: mei: build sample program for target architecture
+  samples: auxdisplay: use 'userprogs' syntax
+  samples: timers: use 'userprogs' syntax
+  samples: watchdog: use 'userprogs' syntax
 
+Sam Ravnborg (1):
+  samples: uhid: fix warnings in uhid-example
+
+ Documentation/kbuild/makefiles.rst | 185 +++++++++++++++++++++--------
+ Makefile                           |  11 +-
+ net/bpfilter/Makefile              |  11 +-
+ samples/Kconfig                    |  26 +++-
+ samples/Makefile                   |   5 +-
+ samples/auxdisplay/Makefile        |  11 +-
+ samples/connector/Makefile         |  12 +-
+ samples/hidraw/Makefile            |   9 +-
+ samples/mei/Makefile               |   9 +-
+ samples/pidfd/Makefile             |   8 +-
+ samples/seccomp/Makefile           |  42 +------
+ samples/timers/Makefile            |  17 +--
+ samples/uhid/.gitignore            |   2 +
+ samples/uhid/Makefile              |   9 +-
+ samples/uhid/uhid-example.c        |   4 +-
+ samples/vfs/Makefile               |  11 +-
+ samples/watchdog/Makefile          |  10 +-
+ scripts/Makefile.build             |   5 +
+ scripts/Makefile.clean             |   2 +-
+ scripts/Makefile.userprogs         |  44 +++++++
+ 20 files changed, 258 insertions(+), 175 deletions(-)
+ create mode 100644 samples/uhid/.gitignore
+ create mode 100644 scripts/Makefile.userprogs
 
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
