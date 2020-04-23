@@ -2,79 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC9381B6147
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 18:48:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A7811B61C1
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 19:18:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729770AbgDWQsT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 12:48:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729716AbgDWQsT (ORCPT
+        id S1729890AbgDWRS2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 13:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729873AbgDWRS2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 12:48:19 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43DA0C09B041;
-        Thu, 23 Apr 2020 09:48:19 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id m18so7187175otq.9;
-        Thu, 23 Apr 2020 09:48:19 -0700 (PDT)
+        Thu, 23 Apr 2020 13:18:28 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EA6AC09B042;
+        Thu, 23 Apr 2020 10:18:27 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id j4so7372806otr.11;
+        Thu, 23 Apr 2020 10:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bh0M22ljnn7wAk7TqVlJbCHIzOAS6jwjmvuWuteywQk=;
-        b=YelSMpK6UYl4wPJ243K10x9IaOyTRkHv04jg6GMmVYSYzCjHGEdcllHqBdt3QukHub
-         2q+L3FbWwosVkRLfyrCESZWhbj93LY9/YnIL/y9wSV2JqYgCCrY+4w6q6M/55LVPmVCc
-         g8tE+1nxihdEbF2U8hHui3YW8EAMo9xAGCk+EeGoP5Qy0QKDXHelRjv/fFw6WnmxEE07
-         tq4SOpyb39RERQ0cI06PhpWP7akf3lEY1rjuCklFTKci+wpgmVO63/UkkQwK7pzrx8OP
-         Ufn9UCy0YB7Q1LXGNka5UaMLHhdcpmBgSc/6RrmuS2m35fOO763dmqtK9++c1QKkfYFz
-         15xA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ox1WLU3YUxcP2R/GVPO/gQRlaX6uwFvhGgYlvzhom8U=;
+        b=kI4TGFfZQrCLM1ubOC/N78oRrvYMQ6BxrVgdxTtoQslDCYMJE3n/662x/Xd0mwXm5G
+         tHiz3Y2sDzdZLmBQUXVx747nAIPALN8pY6wwvpEmyhySXPySpmV97OeZ0tHN/pQPx6an
+         X3BKdzft+rAeeWqIlol73cmETF+wXRXgwrM+SnWCFN+N3XP/TkJfIVxy4RoYkAfjzG/e
+         jTaMG91B0QMA5hGONLzDgaBIPL/0BWBHPobB7zZj8JR0HEZBN6hQIoCClXHlULCFombJ
+         H1yeds+T43FcDhQ47sgLlA6pNXx2Ey8RkOXhG80tR2YQkCGw7DMOxInDns3yzEY/UaSg
+         rNSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bh0M22ljnn7wAk7TqVlJbCHIzOAS6jwjmvuWuteywQk=;
-        b=H88RcYG8auttTYUauSz5cTqbGMTMv1YIs38yPvqf38Q3bpvodh9YzzhvNyNrLCrgy2
-         N2B0rNK9ta80jObnfjUV6TBSoPpDyIhBO9ed1NikOcVUCZGB3Athsj4/HIv6dMpTMobE
-         ZekwiojFv9i+E2jvKR6m0y4HfJYy6v5Jz2miK3ppLFzUULDNAgI/fQgSY1q8dJKH6iJ2
-         47KJsdosjOcRuTNy2mKBIdC5ritTZ21bj6XdHpjUejOvxg0XjPjeak3ybrIk0hPkKxF0
-         BdQX9VZ/b3rFJrbVK/CjZSwY6O/I/o4dCJmSWhkE/6MtqbmW6PHZtrOqQwr/IalpmkS0
-         avsg==
-X-Gm-Message-State: AGi0PuYQBGPUVzJ3OeNFENYmrwzNnP5Y2CAM0oIkBMtvRvYG0md6LnWB
-        1Ee+0rvc5R4wkWSfxAvOpto=
-X-Google-Smtp-Source: APiQypIDjXakw5+CsR051thcbpc5b4wm1P7FVM+FxdlZiT46LPYnOIQIo9zN5hsgv9IT+eMJKXZ6wg==
-X-Received: by 2002:a05:6830:1d62:: with SMTP id l2mr2441949oti.316.1587660498522;
-        Thu, 23 Apr 2020 09:48:18 -0700 (PDT)
-Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id w24sm799343oor.47.2020.04.23.09.48.17
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Apr 2020 09:48:17 -0700 (PDT)
-Date:   Thu, 23 Apr 2020 09:48:16 -0700
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ox1WLU3YUxcP2R/GVPO/gQRlaX6uwFvhGgYlvzhom8U=;
+        b=jNh7wDHUpxUPAJgasFqjn4dKhAxYGu5tPs+E3HTtEyi12+k3FFVJ0XVrAD6nlh36lQ
+         y9xbANvODLJoRLbVbQvO7kk6tuq7oKMkm2Gxh5q1fijpIS8AMhmt8wKU4l+TbCbZi1Xj
+         nKng9J+lCpGiqdUnibG6cMLnZ5qElR54ufOOOsqeSQMqEfzAKXThNtqBYF/HhODY6hmT
+         hMm/cioDE0BYsA86JlaMLkfhFZKdq0MSSiOD3+wjspFahJ46GOghVDtKwWhxZAq8Ssmb
+         w+mGOHEFKxHw6Xf8CZTWU5FjOuZAxPoDnpzMFLNGcgypg0A3MMq6TpZ3dABv1F05xlJa
+         2DaQ==
+X-Gm-Message-State: AGi0PubjBLoXEXr9eHo6K94/s11r2Jv02U//fNmvmavwXu/QK8alY31G
+        uEsB00ldsMAtnt0PpGtZTm8PcS7DAbs=
+X-Google-Smtp-Source: APiQypJsLrMoxkPad47LLuoBzFyGFl+3ifX7fd/TyQ5Wz3cRz5hiX82bq9xWH+v1uQTO6Ss1dknxVg==
+X-Received: by 2002:aca:6002:: with SMTP id u2mr3861263oib.45.1587662306403;
+        Thu, 23 Apr 2020 10:18:26 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id y5sm746726otq.38.2020.04.23.10.18.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2020 10:18:25 -0700 (PDT)
 From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] kbuild: use $(CC_VERSION_TEXT) to evaluate
- CC_IS_GCC and CC_IS_CLANG
-Message-ID: <20200423164816.GA12996@ubuntu-s3-xlarge-x86>
-References: <20200423142354.312088-1-masahiroy@kernel.org>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH v3 1/4] kbuild: add CONFIG_LD_IS_LLD
+Date:   Thu, 23 Apr 2020 10:18:04 -0700
+Message-Id: <20200423171807.29713-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200419202128.20571-1-natechancellor@gmail.com>
+References: <20200419202128.20571-1-natechancellor@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200423142354.312088-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 11:23:51PM +0900, Masahiro Yamada wrote:
-> The result of '$(CC) --version | head -n 1' is already computed by the
-> top Makefile, and stored in the environment variable, CC_VERSION_TEXT.
-> 
-> 'echo' is probably less expensive than the two commands $(CC) and
-> 'head' although this optimization is not noticeable level.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+From: Sami Tolvanen <samitolvanen@google.com>
 
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+Similarly to the CC_IS_CLANG config, add LD_IS_LLD to avoid GNU ld
+specific logic such as ld-version or ld-ifversion and gain the
+ability to select potential features that depend on the linker at
+configuration time such as LTO.
+
+Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+Acked-by: Masahiro Yamada <masahiroy@kernel.org>
+[nc: Reword commit message]
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+
+v2 -> v3:
+
+* Add Masahiro's ack.
+
+v1 -> v2:
+
+* No changes.
+
+Sami, please scream if you are unhappy with how I worded this commit.
+
+ init/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 9e22ee8fbd75e..c15ee42b82726 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -23,6 +23,9 @@ config LD_VERSION
+ config CC_IS_CLANG
+ 	def_bool $(success,$(CC) --version | head -n 1 | grep -q clang)
+ 
++config LD_IS_LLD
++	def_bool $(success,$(LD) -v | head -n 1 | grep -q LLD)
++
+ config CLANG_VERSION
+ 	int
+ 	default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
+
+base-commit: ae83d0b416db002fe95601e7f97f64b59514d936
+-- 
+2.26.2
+
