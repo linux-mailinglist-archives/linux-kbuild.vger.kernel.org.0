@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2B161B5609
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 09:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0BDE1B55F4
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Apr 2020 09:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgDWHlC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 03:41:02 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:31893 "EHLO
+        id S1726879AbgDWHkb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Apr 2020 03:40:31 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:31738 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726924AbgDWHkh (ORCPT
+        with ESMTP id S1726639AbgDWHkb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:40:37 -0400
+        Thu, 23 Apr 2020 03:40:31 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 03N7dV9U000368;
-        Thu, 23 Apr 2020 16:39:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 03N7dV9U000368
+        by conuserg-10.nifty.com with ESMTP id 03N7dV9V000368;
+        Thu, 23 Apr 2020 16:39:43 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 03N7dV9V000368
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587627582;
-        bh=kpWIErtGjk+nNiQCQS8fEiXHwNw1IZLOOB6A61EUzm8=;
+        s=dec2015msa; t=1587627583;
+        bh=+ykdUqghvT+SxkLRSA1PptHJ5c/3PxPl83bqUUzuoq0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VxTjkNLJBDbRlV2i7A0jgoROkuz9K4mzv2x5QFyQWrtJqgp6W4U4oyswxIO+nQAvU
-         iMost6bPmumftTJ2qXqI/QQbWE5nZQjwe1fabqi/cvQYUp3LGs+sIluHW6KAOhvkH3
-         Hk7hUm5DAjWoX2BpVW2q3iSr20o/+toAXczljOrN7Rqs6R+p+rYKs5/gtIBDAA5EI9
-         UoW49eQe5Gc/jcf1TBUBoRnTBsFkWNLBFVNNOCOMmNG9soqUZdwy6Pvumr6EyrUYfI
-         cbLdZFfdqk/w45zUF8fS3OKRbFq2r+/Ro/dhWTEVtdh+4efDvd0RaA7KZ6PvLFjKuN
-         ikwwRzJvGnKFQ==
+        b=zzsEkYnnSUhsgkWWdxup+egmkkGXuChgkFvnbo28nh6movAmh0a19vX9RLudHudGN
+         RXhNPGbL9tmDct4ww3g70B1dbJd+NhnHTbazIsk83A0Bqjg5Ah8kiEdWqig4OiQuL5
+         pF+BipcYVCnn7fBNxEppBQB6f4xE6BRYip/cmVaR3TUOIra7CUklxCOpl/iS6cFN5A
+         /lpRBxwwnICmYOnVgha/8fki2DRIT2Cj9OffQvw6WavRfwo+LE7+sWHIwzyUNyN9Ih
+         t065FmDSqhVrxbFKPUf0hG/jSd1QcLgn7e3SR5aFP6ji5GvXH/48gzhfzdT7NbU/66
+         NdhihN6OBRUQg==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     bpf@vger.kernel.org, Sam Ravnborg <sam@ravnborg.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 09/16] samples: hidraw: build sample program for target architecture
-Date:   Thu, 23 Apr 2020 16:39:22 +0900
-Message-Id: <20200423073929.127521-10-masahiroy@kernel.org>
+Subject: [PATCH 10/16] samples: connector: build sample program for target architecture
+Date:   Thu, 23 Apr 2020 16:39:23 +0900
+Message-Id: <20200423073929.127521-11-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200423073929.127521-1-masahiroy@kernel.org>
 References: <20200423073929.127521-1-masahiroy@kernel.org>
@@ -51,44 +51,39 @@ architecture as the kernel), so the sample program must be built for
 the target as well. Kbuild now supports the 'userprogs' syntax to
 describe it cleanly.
 
-I also guarded the CONFIG option by 'depends on CC_CAN_LINK' because
-$(CC) may not necessarily provide libc.
+$(CC) can always compile cn_text.o since it is the kenrel-space code,
+but building ucon requires libc.
+
+I guarded it by:
+
+  always-$(CONFIG_CC_CAN_LINK) := $(userprogs)
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- samples/Kconfig         | 2 +-
- samples/hidraw/Makefile | 9 +++------
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ samples/connector/Makefile | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/samples/Kconfig b/samples/Kconfig
-index ff9126ef1c79..2e0ef2cc1aa8 100644
---- a/samples/Kconfig
-+++ b/samples/Kconfig
-@@ -118,7 +118,7 @@ config SAMPLE_CONNECTOR
- 
- config SAMPLE_HIDRAW
- 	bool "hidraw sample"
--	depends on HEADERS_INSTALL
-+	depends on CC_CAN_LINK && HEADERS_INSTALL
- 
- config SAMPLE_PIDFD
- 	bool "pidfd sample"
-diff --git a/samples/hidraw/Makefile b/samples/hidraw/Makefile
-index 8bd25f77671f..752ed03cdb64 100644
---- a/samples/hidraw/Makefile
-+++ b/samples/hidraw/Makefile
-@@ -1,8 +1,5 @@
+diff --git a/samples/connector/Makefile b/samples/connector/Makefile
+index b785cbde5ffa..7b5117e96fd0 100644
+--- a/samples/connector/Makefile
++++ b/samples/connector/Makefile
+@@ -1,13 +1,7 @@
  # SPDX-License-Identifier: GPL-2.0
--# List of programs to build
--hostprogs := hid-example
--always-y := $(hostprogs)
-+userprogs := hid-example
-+always-y := $(userprogs)
+ obj-$(CONFIG_SAMPLE_CONNECTOR) += cn_test.o
  
--HOSTCFLAGS_hid-example.o += -I$(objtree)/usr/include
+-# List of programs to build
+-hostprogs := ucon
+-always-y := $(hostprogs)
++userprogs := ucon
++always-$(CONFIG_CC_CAN_LINK) := $(userprogs)
+ 
+-HOSTCFLAGS_ucon.o += -I$(objtree)/usr/include
 -
--all: hid-example
+-all: modules
+-
+-modules clean:
+-	$(MAKE) -C ../.. M=$(CURDIR) $@
 +user-ccflags += -I usr/include
 -- 
 2.25.1
