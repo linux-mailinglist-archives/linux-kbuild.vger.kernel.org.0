@@ -2,87 +2,75 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 762B21B80B5
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Apr 2020 22:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D08311B81FF
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 00:22:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgDXUco (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Apr 2020 16:32:44 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:27672 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726090AbgDXUco (ORCPT
+        id S1726022AbgDXWWT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Apr 2020 18:22:19 -0400
+Received: from ex13-edg-ou-001.vmware.com ([208.91.0.189]:32761 "EHLO
+        EX13-EDG-OU-001.vmware.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725874AbgDXWWS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Apr 2020 16:32:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1587760363;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=h1X0YGiakx0c7C8Tvxw3Lw8N5F4IF1B+B1haaP9Xeu0=;
-        b=GgACXcEVzKXSr41F5mIRui0TWynUr72F5f1mopSdiEwQk+aK69Ei7013bThtHJmnt8A5N0
-        dtSh2zuHym7GJaTMv01nReSQypY5Qu98oWJzEuyS92MrHTOMTemXhItPWzRZZsauWGRVgQ
-        n/ygF6zhiMEA6H9L3rnyImZZRL+XASU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-G7VY4VIwOUajk3m8D9r-Hw-1; Fri, 24 Apr 2020 16:32:36 -0400
-X-MC-Unique: G7VY4VIwOUajk3m8D9r-Hw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC9051895A2F;
-        Fri, 24 Apr 2020 20:32:34 +0000 (UTC)
-Received: from treble (ovpn-114-29.rdu2.redhat.com [10.10.114.29])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E12145C1D0;
-        Fri, 24 Apr 2020 20:32:33 +0000 (UTC)
-Date:   Fri, 24 Apr 2020 15:32:31 -0500
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, bpf@vger.kernel.org,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 02/16] Revert "objtool: Skip samples subdirectory"
-Message-ID: <20200424203231.b4lonbdgzkoxf7ug@treble>
-References: <20200423073929.127521-1-masahiroy@kernel.org>
- <20200423073929.127521-3-masahiroy@kernel.org>
+        Fri, 24 Apr 2020 18:22:18 -0400
+Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
+ EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
+ 15.0.1156.6; Fri, 24 Apr 2020 15:22:10 -0700
+Received: from localhost (unknown [10.129.220.242])
+        by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 2124C4049C;
+        Fri, 24 Apr 2020 15:22:15 -0700 (PDT)
+Date:   Fri, 24 Apr 2020 15:22:14 -0700
+From:   Matt Helsley <mhelsley@vmware.com>
+To:     Sami Tolvanen <samitolvanen@google.com>
+CC:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] recordmcount: support >64k sections
+Message-ID: <20200424222214.GC9040@rlwimi.vmware.com>
+Mail-Followup-To: Matt Helsley <mhelsley@vmware.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200422232417.72162-1-samitolvanen@google.com>
+ <20200424193046.160744-1-samitolvanen@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20200423073929.127521-3-masahiroy@kernel.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20200424193046.160744-1-samitolvanen@google.com>
+Received-SPF: None (EX13-EDG-OU-001.vmware.com: mhelsley@vmware.com does not
+ designate permitted sender hosts)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Apr 23, 2020 at 04:39:15PM +0900, Masahiro Yamada wrote:
-> This reverts commit 8728497895794d1f207a836e02dae762ad175d56.
+On Fri, Apr 24, 2020 at 12:30:46PM -0700, Sami Tolvanen wrote:
+> When compiling a kernel with Clang and LTO, we need to run
+> recordmcount on vmlinux.o with a large number of sections, which
+> currently fails as the program doesn't understand extended
+> section indexes. This change adds support for processing binaries
+> with >64k sections.
 > 
-> This directory contains no object.
-> 
-> Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+
+Feel free to add
+
+Reviewed-by: Matt Helsley <mhelsley@vmware.com>
+
 > ---
+> Changes in v2:
+>  - Switched to unsigned int for (old|new)_shnum in append_func.
+>  - Added set_shnum and find_symtab helper functions and moved
+>    the new logic there.
 > 
->  samples/Makefile | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/samples/Makefile b/samples/Makefile
-> index f8f847b4f61f..5ce50ef0f2b2 100644
-> --- a/samples/Makefile
-> +++ b/samples/Makefile
-> @@ -1,6 +1,5 @@
->  # SPDX-License-Identifier: GPL-2.0
->  # Makefile for Linux samples code
-> -OBJECT_FILES_NON_STANDARD := y
->  
->  obj-$(CONFIG_SAMPLE_ANDROID_BINDERFS)	+= binderfs/
->  obj-$(CONFIG_SAMPLE_CONFIGFS)		+= configfs/
-> -- 
-> 2.25.1
+> ---
+>  scripts/recordmcount.h | 98 +++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 92 insertions(+), 6 deletions(-)
 
-Hm, somehow I was thinking this would work recursively for
-subdirectories.  Anyway, you're right:
-
-Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
-
--- 
-Josh
-
+<snip>
