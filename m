@@ -2,93 +2,162 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DEFE1B6BAB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Apr 2020 05:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E50861B6D78
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Apr 2020 07:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725922AbgDXDAK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Apr 2020 23:00:10 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:44927 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725884AbgDXDAK (ORCPT
+        id S1725769AbgDXFuC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Apr 2020 01:50:02 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:57904 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725554AbgDXFuB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Apr 2020 23:00:10 -0400
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 03O2xoAh028692;
-        Fri, 24 Apr 2020 11:59:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 03O2xoAh028692
+        Fri, 24 Apr 2020 01:50:01 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 03O5nYpZ003914;
+        Fri, 24 Apr 2020 14:49:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 03O5nYpZ003914
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587697191;
-        bh=sMhAyQXgx3aGgeT2cBKikLWxHkHjlRUwrBTCsV1+3Gw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pnu0hGRUoE/m3c5iNOXeZVq/zyyFbsQqCoxufZov1J8pArY22bCjRMZqzG/L3m5+n
-         1TGlCwr5ISXTw+671s8m/Z/m5pAMgJwxRH3EVJGBXzTKsOAUN9wqwbss3CVkEAvV6k
-         TRIuXE+CR0M+7GUrLfZZxVChoqZApt5XMnu03Kn5LEbu63plgi0Xb/c58bmydut5wk
-         ubf65em2YZFOa3Qr6YgDq4cquF49M9yRvYo9oLYU7XwS8nx46BohhaZA0TS2j4U4Mg
-         HUeE4Mn2IySUCOFVuOb2xUOPxiwPIzQj1nRYpgqcPxO/A84tApwP7x1aS3P2vB1am/
-         hUrlcaFMHbMBg==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id a10so8040902uad.7;
-        Thu, 23 Apr 2020 19:59:51 -0700 (PDT)
-X-Gm-Message-State: AGi0Pua1YSRFCR1v4PLQ63nig+DIo038pykOo5o3uN4c2TW0u5aUWuM+
-        lT0D0BB3hrt+8A8Pn4tyRwy8I5WsdAYsBNMUDb4=
-X-Google-Smtp-Source: APiQypJwidJWbxYPm/8c0bwT8boM9jxvggOQZWWhl+mIk5bgeb7K2rLmsZC1B59FOXGSWq0gtKzTuQcI9OVc/f+WiGc=
-X-Received: by 2002:ab0:cd:: with SMTP id 71mr5422237uaj.109.1587697190149;
- Thu, 23 Apr 2020 19:59:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200423073929.127521-1-masahiroy@kernel.org> <20200423073929.127521-15-masahiroy@kernel.org>
- <CANiq72nUa8uoXtSThqq7t9oAmZnGSE9a1_d+ZoRAagpKDo4DRg@mail.gmail.com>
-In-Reply-To: <CANiq72nUa8uoXtSThqq7t9oAmZnGSE9a1_d+ZoRAagpKDo4DRg@mail.gmail.com>
+        s=dec2015msa; t=1587707375;
+        bh=6yprhtuJH0JAt/nBxuXAxrTcgJRW5wwX4SHpcjUSzvY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T7v+11aYsKt8WJBdz+nw9DIMku91mHdJZNOTBT1ZUAf07NfvNLEbhxtNDrd3zgzy/
+         mYt2+UMTf1OTOfMvYe+W0FrMzwR65xobk8yzm1ndwHe1dPepPTgYH8uV6QhajzWE2t
+         8WjLhu5OiWjgPhzW1T/jJhj8UQM3/rVvZldg8JbF0iPxXSH7l6vScNBOTjKZU6Sf++
+         2aFPjilLdq1ZTrTDhc/KhmWKlVgNt7xqDMJF36gkqlIkxwf6idKbDpXGVKb5ZgpZBG
+         gKJly+S4K0anq4Qq/FzJQCZX0UuHTNv6WZ70nH1AQrxW7J6zh4ihysazgr2sMJaSWT
+         9p925GXeuxxnw==
+X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 24 Apr 2020 11:59:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASo=R2uoNPzof_FppFUp=sMAZG62C3PLAMm9jZix9z3Rw@mail.gmail.com>
-Message-ID: <CAK7LNASo=R2uoNPzof_FppFUp=sMAZG62C3PLAMm9jZix9z3Rw@mail.gmail.com>
-Subject: Re: [PATCH 14/16] samples: auxdisplay: use 'userprogs' syntax
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Ulf Magnusson <ulfalizer@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kconfig: tests: remove randconfig test for choice in choice
+Date:   Fri, 24 Apr 2020 14:49:28 +0900
+Message-Id: <20200424054929.502485-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Miguel,
+Nesting choice statements does not make any sense.
 
-On Thu, Apr 23, 2020 at 8:50 PM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> Hi Masahiro,
->
-> On Thu, Apr 23, 2020 at 9:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > Kbuild now supports the 'userprogs' syntax to describe the build rules
-> > of userspace programs for the target architecture (i.e. the same
-> > architecture as the kernel).
-> >
-> > Add the entry to samples/Makefile to put this into the build bot
-> > coverage.
-> >
-> > I also added the CONFIG option guarded by 'depends on CC_CAN_LINK'
-> > because $(CC) may not necessarily provide libc.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Thanks for this! Looks nice. I guess you take all patches for the
-> samples/ changes through your tree?
+Commit df8df5e4bc37 ("usb: get rid of 'choice' for legacy gadget
+drivers") got rid of the only user.
 
-Yes, I will take all to my tree
-since this series is mostly Makefile changes.
+I will make it a syntax error. Remove the test in advance.
 
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ .../kconfig/tests/rand_nested_choice/Kconfig  | 35 -------------------
+ .../tests/rand_nested_choice/__init__.py      | 17 ---------
+ .../tests/rand_nested_choice/expected_stdout0 |  2 --
+ .../tests/rand_nested_choice/expected_stdout1 |  4 ---
+ .../tests/rand_nested_choice/expected_stdout2 |  5 ---
+ 5 files changed, 63 deletions(-)
+ delete mode 100644 scripts/kconfig/tests/rand_nested_choice/Kconfig
+ delete mode 100644 scripts/kconfig/tests/rand_nested_choice/__init__.py
+ delete mode 100644 scripts/kconfig/tests/rand_nested_choice/expected_stdout0
+ delete mode 100644 scripts/kconfig/tests/rand_nested_choice/expected_stdout1
+ delete mode 100644 scripts/kconfig/tests/rand_nested_choice/expected_stdout2
 
-> Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
->
-> Cheers,
-> Miguel
-
-
-
+diff --git a/scripts/kconfig/tests/rand_nested_choice/Kconfig b/scripts/kconfig/tests/rand_nested_choice/Kconfig
+deleted file mode 100644
+index 8350de7f732b..000000000000
+--- a/scripts/kconfig/tests/rand_nested_choice/Kconfig
++++ /dev/null
+@@ -1,35 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-
+-choice
+-	prompt "choice"
+-
+-config A
+-	bool "A"
+-
+-config B
+-	bool "B"
+-
+-if B
+-choice
+-	prompt "sub choice"
+-
+-config C
+-	bool "C"
+-
+-config D
+-	bool "D"
+-
+-if D
+-choice
+-	prompt "subsub choice"
+-
+-config E
+-	bool "E"
+-
+-endchoice
+-endif # D
+-
+-endchoice
+-endif # B
+-
+-endchoice
+diff --git a/scripts/kconfig/tests/rand_nested_choice/__init__.py b/scripts/kconfig/tests/rand_nested_choice/__init__.py
+deleted file mode 100644
+index 9e4b2db53581..000000000000
+--- a/scripts/kconfig/tests/rand_nested_choice/__init__.py
++++ /dev/null
+@@ -1,17 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-"""
+-Set random values recursively in nested choices.
+-
+-Kconfig can create a choice-in-choice structure by using 'if' statement.
+-randconfig should correctly set random choice values.
+-
+-Related Linux commit: 3b9a19e08960e5cdad5253998637653e592a3c29
+-"""
+-
+-
+-def test(conf):
+-    for i in range(20):
+-        assert conf.randconfig() == 0
+-        assert (conf.config_contains('expected_stdout0') or
+-                conf.config_contains('expected_stdout1') or
+-                conf.config_contains('expected_stdout2'))
+diff --git a/scripts/kconfig/tests/rand_nested_choice/expected_stdout0 b/scripts/kconfig/tests/rand_nested_choice/expected_stdout0
+deleted file mode 100644
+index 05450f3d4eb5..000000000000
+--- a/scripts/kconfig/tests/rand_nested_choice/expected_stdout0
++++ /dev/null
+@@ -1,2 +0,0 @@
+-CONFIG_A=y
+-# CONFIG_B is not set
+diff --git a/scripts/kconfig/tests/rand_nested_choice/expected_stdout1 b/scripts/kconfig/tests/rand_nested_choice/expected_stdout1
+deleted file mode 100644
+index 37ab29584157..000000000000
+--- a/scripts/kconfig/tests/rand_nested_choice/expected_stdout1
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# CONFIG_A is not set
+-CONFIG_B=y
+-CONFIG_C=y
+-# CONFIG_D is not set
+diff --git a/scripts/kconfig/tests/rand_nested_choice/expected_stdout2 b/scripts/kconfig/tests/rand_nested_choice/expected_stdout2
+deleted file mode 100644
+index 849ff47e9848..000000000000
+--- a/scripts/kconfig/tests/rand_nested_choice/expected_stdout2
++++ /dev/null
+@@ -1,5 +0,0 @@
+-# CONFIG_A is not set
+-CONFIG_B=y
+-# CONFIG_C is not set
+-CONFIG_D=y
+-CONFIG_E=y
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
