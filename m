@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2EAF1B87DD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 19:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF361B87E1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 19:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726162AbgDYRA2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 25 Apr 2020 13:00:28 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:26282 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726155AbgDYRA1 (ORCPT
+        id S1726208AbgDYRBL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Apr 2020 13:01:11 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:55920 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726155AbgDYRBK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 25 Apr 2020 13:00:27 -0400
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 03PGxoLm011656;
-        Sun, 26 Apr 2020 01:59:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 03PGxoLm011656
+        Sat, 25 Apr 2020 13:01:10 -0400
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 03PH0uSm007197;
+        Sun, 26 Apr 2020 02:00:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 03PH0uSm007197
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587833991;
-        bh=VnhUaEJBvj3k0twTEkqFsazSDaBUCEHUWDFZemmD5lk=;
+        s=dec2015msa; t=1587834057;
+        bh=nw/iS2+TIOSltGesRHpFRaVlbIuzmlOlxni1WfQkguI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EJqXMn/1Qy6IgzfPvZQeAyY7hGifftUpwUDyj0K1aALJT7+kALrdSePZtPGL5+iSq
-         zD44Cwjt/JNMC85pf9dD2i+w2YTSCqpaAfslBxYMunf79ZHa5z/zW/TPTBhjoUHEe/
-         HrK0aWiLI5s6k+XLXb+UVcW5HCZVK1iwQGdHogn1wZmTcmRBi07GwWD5iTeWMzaaKI
-         7019n8BLhmYYRZzEdmBcQKPKPVTZwNgAkFOzao3N7anQG0snDJ8LOy9m/jNinYnrZb
-         CZKH90gAaOr0kB4L6ecDpjH5AAqNgA3InZxIEpGwJfICFSYxp39O/ziT6723ZSLguP
-         J3UxLkNTHyhRQ==
-X-Nifty-SrcIP: [209.85.222.51]
-Received: by mail-ua1-f51.google.com with SMTP id f5so2826514ual.5;
-        Sat, 25 Apr 2020 09:59:51 -0700 (PDT)
-X-Gm-Message-State: AGi0PuZXvglESAj6kUWx+qy1zUTKQRlFQsuYMnmV76Kl9D7sLqRXDuDG
-        vHj+lD8djCu4ltCtRsw793WfAfWR3Jxu8o693oQ=
-X-Google-Smtp-Source: APiQypLhVGzu1tyERlviSVzmX/3PeMYCT8/uqmM5ayUKtVHlX4zSNmAm0ig0rnNrigvlCrg1dKxH6xaEFpgARt3fcMA=
-X-Received: by 2002:ab0:1166:: with SMTP id g38mr11987377uac.40.1587833990035;
- Sat, 25 Apr 2020 09:59:50 -0700 (PDT)
+        b=YVvUfvNvH+HODwj9iuaIt5c0CHQs253NRCArETRt92dty4AdZ8LXxvaVWlNSdQVh+
+         o4MAL8iYq/4se1BTv2JVPhELoPIixQUEFS01tFDWR3+NvnKdHAq1NVvXHX/O1q58MY
+         ld8qcgt99ki2RqYQmaryQ403LhbGMbFjH/Id+KFuGN+k5zmTddcYTBm46JidZkx6Hb
+         h8ooZHaqhl4LbwnFrHNBIQOvRlmPBW0PiZyBHulZIfFxtAc6LAb8CZw0kd0Vz7YhYF
+         srrwKdcUZQSWQ5alMSdfgjGP7nY2uVU/3V77H6ysdGqtfC8hVG/xcBVPaUL+5qNa8H
+         vJnUlGJ0bVzYA==
+X-Nifty-SrcIP: [209.85.222.47]
+Received: by mail-ua1-f47.google.com with SMTP id t8so12774622uap.3;
+        Sat, 25 Apr 2020 10:00:57 -0700 (PDT)
+X-Gm-Message-State: AGi0Pubklg3ntE0V/+MIjx3N9d81Cnrh1dgd7P077C6TAgDlNFNz4QZV
+        sKwdsX3ZeC40hUZsiLl2C0qS0ac3CW8ftKcS4lI=
+X-Google-Smtp-Source: APiQypIhSfEd7U10oVrRR/223pFpF6ZMceLIk+BaUGr5U8+/N6XcPQ4f1HjrXRWUQf8hcz/kZGUzVzGdeY5V+NBvJGw=
+X-Received: by 2002:ab0:cd:: with SMTP id 71mr10855621uaj.109.1587834056343;
+ Sat, 25 Apr 2020 10:00:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200413153320.93316-1-masahiroy@kernel.org>
-In-Reply-To: <20200413153320.93316-1-masahiroy@kernel.org>
+References: <20200413153542.94064-1-masahiroy@kernel.org>
+In-Reply-To: <20200413153542.94064-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 26 Apr 2020 01:59:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS0vPy0nY8YqzsWWoSB5rgxqSe9_KLCsJoUAu_F5=57iQ@mail.gmail.com>
-Message-ID: <CAK7LNAS0vPy0nY8YqzsWWoSB5rgxqSe9_KLCsJoUAu_F5=57iQ@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: do not use OR-assignment for zero-cleared structure
+Date:   Sun, 26 Apr 2020 02:00:20 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+wPzf6oAEyKQcE4irbw-5CStMTrZgmi0RGS0_8MQbsA@mail.gmail.com>
+Message-ID: <CAK7LNAS+wPzf6oAEyKQcE4irbw-5CStMTrZgmi0RGS0_8MQbsA@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: do not assign a variable in the return statement
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -50,35 +50,39 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 14, 2020 at 12:33 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Apr 14, 2020 at 12:35 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> The simple assignment is enough because memset() three lines above
-> has zero-cleared the structure.
+> I am not a big fan of doing assignment in a return statement.
+> Split it into two lines.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+
+Applied to linux-kbuild.
+
 > ---
 >
->  scripts/kconfig/symbol.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/kconfig/menu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-> index 3dc81397d003..9363e37b8870 100644
-> --- a/scripts/kconfig/symbol.c
-> +++ b/scripts/kconfig/symbol.c
-> @@ -831,7 +831,7 @@ struct symbol *sym_lookup(const char *name, int flags)
->         memset(symbol, 0, sizeof(*symbol));
->         symbol->name = new_name;
->         symbol->type = S_UNKNOWN;
-> -       symbol->flags |= flags;
-> +       symbol->flags = flags;
+> diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+> index e436ba44c9c5..a5fbd6ccc006 100644
+> --- a/scripts/kconfig/menu.c
+> +++ b/scripts/kconfig/menu.c
+> @@ -65,7 +65,8 @@ void menu_add_entry(struct symbol *sym)
+>  struct menu *menu_add_menu(void)
+>  {
+>         last_entry_ptr = &current_entry->list;
+> -       return current_menu = current_entry;
+> +       current_menu = current_entry;
+> +       return current_menu;
+>  }
 >
->         symbol->next = symbol_hash[hash];
->         symbol_hash[hash] = symbol;
+>  void menu_end_menu(void)
 > --
 > 2.25.1
 >
-
-Applied to linux-kbuild.
 
 
 -- 
