@@ -2,75 +2,76 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D08311B81FF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 00:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E1791B83D1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 07:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbgDXWWT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Apr 2020 18:22:19 -0400
-Received: from ex13-edg-ou-001.vmware.com ([208.91.0.189]:32761 "EHLO
-        EX13-EDG-OU-001.vmware.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725874AbgDXWWS (ORCPT
+        id S1726132AbgDYFSl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Apr 2020 01:18:41 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:62627 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725909AbgDYFSl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Apr 2020 18:22:18 -0400
-Received: from sc9-mailhost3.vmware.com (10.113.161.73) by
- EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
- 15.0.1156.6; Fri, 24 Apr 2020 15:22:10 -0700
-Received: from localhost (unknown [10.129.220.242])
-        by sc9-mailhost3.vmware.com (Postfix) with ESMTP id 2124C4049C;
-        Fri, 24 Apr 2020 15:22:15 -0700 (PDT)
-Date:   Fri, 24 Apr 2020 15:22:14 -0700
-From:   Matt Helsley <mhelsley@vmware.com>
-To:     Sami Tolvanen <samitolvanen@google.com>
-CC:     "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] recordmcount: support >64k sections
-Message-ID: <20200424222214.GC9040@rlwimi.vmware.com>
-Mail-Followup-To: Matt Helsley <mhelsley@vmware.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
-        Kees Cook <keescook@chromium.org>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200422232417.72162-1-samitolvanen@google.com>
- <20200424193046.160744-1-samitolvanen@google.com>
+        Sat, 25 Apr 2020 01:18:41 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 03P5IJQP026359;
+        Sat, 25 Apr 2020 14:18:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 03P5IJQP026359
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587791900;
+        bh=KgAwBNo7fb6wRf4pOmAZsdrwSddFEDStxa7L0h2/CiA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HIgPF6uQMyfXx3eQHwhyHBgXNO8uvrIqtPNGL1m3bxUuhALx4IyIgdNVTz+ZHp+04
+         ZZgoqyk7JPx/z7EMJCuqAHJYGXf2oz8l4pumia9yy3wyu9WlmxBeLP/i/KC5eVsMT/
+         ZPL8UqK6ha0cbovJPE+iQlb/IFP6HNuu1CjPJdvN/u83UgabNeZfzDOniaxT3mM1FX
+         ewV+7oWFEx/jozCoapHcKYIml3BmHCHXZD912qPD3IfxApkOhb/W6e+GXCQ9nRpwao
+         zLyUQ49150VhtcHzyCEc+CDhxKx8bbu9QE7meEqsq4kS5BlPZ6X0E6NGKgkf+fiz6B
+         BIpzwZTQh3kQA==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] h8300: suppress error messages for 'make clean'
+Date:   Sat, 25 Apr 2020 14:18:16 +0900
+Message-Id: <20200425051816.791423-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200424193046.160744-1-samitolvanen@google.com>
-Received-SPF: None (EX13-EDG-OU-001.vmware.com: mhelsley@vmware.com does not
- designate permitted sender hosts)
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 12:30:46PM -0700, Sami Tolvanen wrote:
-> When compiling a kernel with Clang and LTO, we need to run
-> recordmcount on vmlinux.o with a large number of sections, which
-> currently fails as the program doesn't understand extended
-> section indexes. This change adds support for processing binaries
-> with >64k sections.
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+'make ARCH=h8300 clean' emits error messages as follows:
 
-Feel free to add
+  $ make ARCH=h8300 clean
+  gcc: error: missing argument to '-Wframe-larger-than='
+  gcc: error: unrecognized command line option '-mint32'
 
-Reviewed-by: Matt Helsley <mhelsley@vmware.com>
+You can suppress the second one by setting the correct CROSS_COMPILE=,
+but we should not require any compiler for cleaning.
 
-> ---
-> Changes in v2:
->  - Switched to unsigned int for (old|new)_shnum in append_func.
->  - Added set_shnum and find_symtab helper functions and moved
->    the new logic there.
-> 
-> ---
->  scripts/recordmcount.h | 98 +++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 92 insertions(+), 6 deletions(-)
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-<snip>
+ arch/h8300/boot/compressed/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/h8300/boot/compressed/Makefile b/arch/h8300/boot/compressed/Makefile
+index 9e2701069bbe..5942793f77a0 100644
+--- a/arch/h8300/boot/compressed/Makefile
++++ b/arch/h8300/boot/compressed/Makefile
+@@ -18,7 +18,7 @@ CONFIG_MEMORY_START     ?= 0x00400000
+ CONFIG_BOOT_LINK_OFFSET ?= 0x00280000
+ IMAGE_OFFSET := $(shell printf "0x%08x" $$(($(CONFIG_MEMORY_START)+$(CONFIG_BOOT_LINK_OFFSET))))
+ 
+-LIBGCC := $(shell $(CROSS-COMPILE)$(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
++LIBGCC := $(shell $(CROSS-COMPILE)$(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name 2>/dev/null)
+ LDFLAGS_vmlinux := -Ttext $(IMAGE_OFFSET) -estartup -T $(obj)/vmlinux.lds \
+ 	--defsym output=$(CONFIG_MEMORY_START)
+ 
+-- 
+2.25.1
+
