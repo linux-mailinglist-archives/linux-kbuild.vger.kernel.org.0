@@ -2,148 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F38D11B8629
-	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 13:33:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4C331B865B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 25 Apr 2020 13:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbgDYLdz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 25 Apr 2020 07:33:55 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:43909 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726050AbgDYLdy (ORCPT
+        id S1726076AbgDYLxL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 25 Apr 2020 07:53:11 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:55286 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726050AbgDYLxL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 25 Apr 2020 07:33:54 -0400
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 03PBXbDN011969;
-        Sat, 25 Apr 2020 20:33:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 03PBXbDN011969
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1587814418;
-        bh=dG+iXdxwux0aoUL0YhDT7q1iIB58sDtpm7CsNFPp8+U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=U+ndnclBKGFmXwdrg9bgOkZ+/bM7uL6FBImZmdUZkPdpsTnKvJGm0U0Py05jb2h2N
-         4hpUnNC4Ly0x0eL0Y8qfmeJmx3e2YIq7ISoVYynwWnrGHnBVzIpERgrXvaAR2YpwL+
-         qEtVpi5kXlT2ekGo4JPEln8BL+0/Y2cRJ1+RRhtfY9vVKiZqE06UikEo5cI//imivR
-         EHpIkJxDD8vHSOsSvcuJR4eQTQQgkV5zG8Ukok8E0Xa05pOGO+Nx8GYsIOgedCGE+X
-         XOLV8f3klbMZvwSMTpAyXGqXKmkDuJNWpGpvm1eS5r7O4ecUve1sqknUHcfBbD723V
-         M3UjdHwmchrEA==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id i5so12226348uaq.1;
-        Sat, 25 Apr 2020 04:33:38 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYcvvhNEmmf1Otk3NfzPH7lPVgh4xmobYEVf8ClFHN7JEv/uhsE
-        uasR9AEuqOicNkubW1vXnJLl88fyfBzBOqBXc0A=
-X-Google-Smtp-Source: APiQypJ5NYVnJgRv78uqQmCR6Eta6vzcl188CLoippSvmJj8BldNCyfL8nxQbnrUCMXYe7+qygOEyHFvQ7Dt1Njka/w=
-X-Received: by 2002:ab0:2e84:: with SMTP id f4mr10998232uaa.121.1587814417050;
- Sat, 25 Apr 2020 04:33:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <1587794858-938-1-git-send-email-pi3orama@163.com>
-In-Reply-To: <1587794858-938-1-git-send-email-pi3orama@163.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 25 Apr 2020 20:33:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQbUeH4jcQHnsp=6fYLoLpCqyMVJg+rN-6P2aO+a-UGYw@mail.gmail.com>
-Message-ID: <CAK7LNAQbUeH4jcQHnsp=6fYLoLpCqyMVJg+rN-6P2aO+a-UGYw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Add $(strip ...) before compare make variable
- with string
-To:     Wang Nan <pi3orama@163.com>
-Cc:     Wang Nan <wangnan0@huawei.com>,
+        Sat, 25 Apr 2020 07:53:11 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 23BB420028;
+        Sat, 25 Apr 2020 13:53:05 +0200 (CEST)
+Date:   Sat, 25 Apr 2020 13:53:03 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, bpf@vger.kernel.org,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Christian Brauner <christian@brauner.io>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        KP Singh <kpsingh@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Song Liu <songliubraving@fb.com>,
+        Tomas Winkler <tomas.winkler@intel.com>,
+        Yonghong Song <yhs@fb.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 00/16] kbuild: support 'userprogs' syntax
+Message-ID: <20200425115303.GA10048@ravnborg.org>
+References: <20200423073929.127521-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200423073929.127521-1-masahiroy@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=kj9zAlcOel0A:10 a=D19gQVrFAAAA:8 a=7gkXJVJtAAAA:8
+        a=-Cqz4C0WQvTMSLUl_DAA:9 a=CjuIK1q_8ugA:10 a=W4TVW4IDbPiebHqcZpNg:22
+        a=E9Po1WZjFZOl8hwRPBS3:22
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 25, 2020 at 3:09 PM Wang Nan <pi3orama@163.com> wrote:
->
-> Some of ifneq in Makefile.build works improperly:
->
->  ifneq ($(a)$(b)$(c),)
->  ...
->  endif
->
-> Because some make vairable contains unintended spaces introduced by:
->
->  a := $(x) $(y)
+Hi Masahiro
 
+On Thu, Apr 23, 2020 at 04:39:13PM +0900, Masahiro Yamada wrote:
+> 
+> Several Makefiles use 'hostprogs' for building the code for
+> the host architecture is not appropriate.
+> 
+> This is just because Kbuild does not provide the syntax to do it.
+> 
+> This series introduce 'userprogs' syntax and use it from
+> sample and bpf Makefiles.
+> 
+> Sam worked on this in 2014.
+> https://lkml.org/lkml/2014/7/13/154
 
-Right.
-I made a mistake in commit 5f2fb52fac15a
+I wonder how you managed to dig that up, but thanks for the reference.
 
-$(hostprogs) always contains a space due to this line:
+Back then we would fail buiulding without any libc - you have solved
+this nicely in this patch-set.
 
-hostprogs  += $(hostprogs-y) $(hostprogs-m)
+> 
+> He used 'uapiprogs-y' but I just thought the meaning of
+> "UAPI programs" is unclear.
+> 
+> Naming is one the most difficult parts of this.
+> 
+> I chose 'userprogs'.
+> Anothor choice I had in my mind was 'targetprogs'.
+> 
+> If you can test this series quickly by
+> 'make allmodconfig samples/'
+> 
+> When building objects for userspace, [U] is displayed.
+> 
+> masahiro@oscar:~/workspace/linux$ make allmodconfig samples/
+>   [snip]
+>   AR      samples/vfio-mdev/built-in.a
+>   CC [M]  samples/vfio-mdev/mtty.o
+...
 
+> 
+> 
+> Masahiro Yamada (15):
+>   Documentation: kbuild: fix the section title format
+>   Revert "objtool: Skip samples subdirectory"
+>   kbuild: add infrastructure to build userspace programs
+>   net: bpfilter: use 'userprogs' syntax to build bpfilter_umh
+>   samples: seccomp: build sample programs for target architecture
+>   kbuild: doc: document the new syntax 'userprogs'
+>   samples: uhid: build sample program for target architecture
+>   samples: hidraw: build sample program for target architecture
+>   samples: connector: build sample program for target architecture
+>   samples: vfs: build sample programs for target architecture
+>   samples: pidfd: build sample program for target architecture
+>   samples: mei: build sample program for target architecture
+>   samples: auxdisplay: use 'userprogs' syntax
+>   samples: timers: use 'userprogs' syntax
+>   samples: watchdog: use 'userprogs' syntax
+Nice work!
+All patches are:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 
-This line will go away soon, though.
-
-
-
->
-> This commit adds $(strip ...) to some potentially buggy ifneq.
->
-> Signed-off-by: Wang Nan <pi3orama@163.com>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Cc: Michal Marek <michal.lkml@markovi.net>
-> ---
->  scripts/Makefile.build | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 9fcbfac..b2bc0db 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -46,7 +46,7 @@ include $(kbuild-file)
->  include scripts/Makefile.lib
->
->  # Do not include host rules unless needed
-> -ifneq ($(hostprogs)$(hostcxxlibs-y)$(hostcxxlibs-m),)
-> +ifneq ($(strip $(hostprogs) $(hostcxxlibs-y) $(hostcxxlibs-m)),)
-
-Only this one is correct.
-
-
->  include scripts/Makefile.host
->  endif
->
-> @@ -55,7 +55,7 @@ $(warning kbuild: Makefile.build is included improperly)
->  endif
->
->  ifeq ($(need-modorder),)
-> -ifneq ($(obj-m),)
-> +ifneq ($(strip $(obj-m)),)
-
-
-obj-m           := $(addprefix $(obj)/,$(obj-m))
-
-has always stripped away spaces.
-
-
-
->  $(warning $(patsubst %.o,'%.ko',$(obj-m)) will not be built even though obj-m is specified.)
->  $(warning You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.)
->  endif
-> @@ -512,7 +512,7 @@ obj-dirs := $(sort $(obj) $(patsubst %/,%, $(dir $(targets))))
->  # If targets exist, their directories apparently exist. Skip mkdir.
->  existing-dirs := $(sort $(patsubst %/,%, $(dir $(existing-targets))))
->  obj-dirs := $(strip $(filter-out $(existing-dirs), $(obj-dirs)))
-> -ifneq ($(obj-dirs),)
-
-
-The previous line has $(strip )
-
-
-
-> +ifneq ($(strip $(obj-dirs)),)
->  $(shell mkdir -p $(obj-dirs))
->  endif
->  endif
-> --
-> 2.7.4
->
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+> 
+> Sam Ravnborg (1):
+>   samples: uhid: fix warnings in uhid-example
+> 
+>  Documentation/kbuild/makefiles.rst | 185 +++++++++++++++++++++--------
+>  Makefile                           |  11 +-
+>  net/bpfilter/Makefile              |  11 +-
+>  samples/Kconfig                    |  26 +++-
+>  samples/Makefile                   |   5 +-
+>  samples/auxdisplay/Makefile        |  11 +-
+>  samples/connector/Makefile         |  12 +-
+>  samples/hidraw/Makefile            |   9 +-
+>  samples/mei/Makefile               |   9 +-
+>  samples/pidfd/Makefile             |   8 +-
+>  samples/seccomp/Makefile           |  42 +------
+>  samples/timers/Makefile            |  17 +--
+>  samples/uhid/.gitignore            |   2 +
+>  samples/uhid/Makefile              |   9 +-
+>  samples/uhid/uhid-example.c        |   4 +-
+>  samples/vfs/Makefile               |  11 +-
+>  samples/watchdog/Makefile          |  10 +-
+>  scripts/Makefile.build             |   5 +
+>  scripts/Makefile.clean             |   2 +-
+>  scripts/Makefile.userprogs         |  44 +++++++
+>  20 files changed, 258 insertions(+), 175 deletions(-)
+>  create mode 100644 samples/uhid/.gitignore
+>  create mode 100644 scripts/Makefile.userprogs
+> 
+> -- 
+> 2.25.1
