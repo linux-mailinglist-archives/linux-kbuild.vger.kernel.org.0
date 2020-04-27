@@ -2,117 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FDFF1BABB2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Apr 2020 19:51:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F2F41BB1FA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2020 01:24:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726226AbgD0Rvo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Apr 2020 13:51:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37688 "EHLO
+        id S1726262AbgD0XYK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Apr 2020 19:24:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726162AbgD0Rvo (ORCPT
+        by vger.kernel.org with ESMTP id S1726204AbgD0XYJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Apr 2020 13:51:44 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 031F4C0610D5
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Apr 2020 10:51:42 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id w3so7270511plz.5
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Apr 2020 10:51:42 -0700 (PDT)
+        Mon, 27 Apr 2020 19:24:09 -0400
+Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C79EEC0610D5;
+        Mon, 27 Apr 2020 16:24:09 -0700 (PDT)
+Received: by mail-ot1-x341.google.com with SMTP id i27so29439210ota.7;
+        Mon, 27 Apr 2020 16:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dJ17v9H467897ZVwuE0ureLW7wDRPRyU689O1y5ZV5A=;
-        b=XjRzckfvIvP0s0WPToecVrTWvFlp5f+I3xVuru1I+sl4sz0Jw5QF5XRaH18XAfmaFe
-         arz4IxhBOZd9LFFZ+YKUjHAKubh4tQObKMUB4DItRgzf+DxyCrI1xaOVQnOAjfQ/3GyY
-         UoEa6EryFeOyn+6CPo14hxqgKRFjDzLcmQTwn9lT8YFtbhB1z5/SYmP9wlelEM4QRA/P
-         90bdeKi2wbH85X5bafyfXXQhGaIp+W+mX5+oeKNXe/lovhWiouqqaefLHN9mhiaI28vd
-         hi4L4RVgg5PU/SN7kSSDmAV/3T8v2q5WyEqMWZHsenS70QIWNmls+5KvbkvQcj4JzWc/
-         19Lg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3NvGKWCvX9120+4SFSj7x6CopUI9oxRRZeaZqM3V8Fs=;
+        b=SIcBei/ItMBM8AJd3BzmaYwepbjkhCNF+8xVAmjd3nGLvxtN5+De2zwJPLWUtFWWpT
+         K4o55HtTZGm7D5XH8S85AfUilD2oH4X9f/wPo8nOJ1sWhDvoo3enLNyQs57eT0/v7yGH
+         Uof/vmXGg14a2xxDdVPWVmKe20k1NZCv5KXUiCfxiQxaFD6qldoWM5Ua7ouGl1v28sCd
+         TNCkBKcMyHrw6VpFNrnl60qmZfPVWXsy80hOwutKewAXy+uVu/Ng8p4Ej801UezokVms
+         FutO9avZhq7OHf1mGLiWT2hHk8bBV73CBY3uJC8LjUgI/Gc/cotqn0SwqBKuz7xzyOcU
+         e3pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dJ17v9H467897ZVwuE0ureLW7wDRPRyU689O1y5ZV5A=;
-        b=gBPDXFtXZlX7d7e/wL731WYjDkLtTfksLOALqqlxIc1Cjit3uqTSRdbfE/MhZ0rv/B
-         y2KD6A26BsVmAeRlz5H8Ya9GNfCgO2dhLy6yEJEXBsv9XSs8JHxoktx9h7+k/C/qtlaW
-         DLGoqci9nwIX0/MXtgJaBEDrPaN20pruy5ZO8dO+fzJjxdTWArqCmKArBKocz59JoInq
-         h86pg4Ibw6yov7kzADpuD9inotWkl5C2ktOfsVWjc/hiDRfhQaAfB3MVj/2M7D3KYu2L
-         QTpZco00W7KUy5IFqL2vap46rBlI93XuMc29daXUq+pSBtBrpZoElIk5D3qtyJeGiDw8
-         +96Q==
-X-Gm-Message-State: AGi0PuaqWpGBRwVjWYYurhh/M8J8t0Bi7Xg4zIjmDuJT0bHdOVeCioeh
-        eCETS+7IfmKykczaE7jJgUxa9MyI6SiLzGXNSs8Pig==
-X-Google-Smtp-Source: APiQypIph5UQ7zAXbug0H0w8INlnKV1E/F5QgE60ll0GfOaIYravv9zQJ6Q2AapFCP7S6ERPg62h6IPV9xznjSXLGv4=
-X-Received: by 2002:a17:902:ac87:: with SMTP id h7mr23322320plr.119.1588009902182;
- Mon, 27 Apr 2020 10:51:42 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3NvGKWCvX9120+4SFSj7x6CopUI9oxRRZeaZqM3V8Fs=;
+        b=IM/jBaF8sRqCmGEzEvleKslrlYxG4N59VAvQJSBVjgR/Hp7HA4E8tBlv3vcfP5Jbc/
+         0g/1iLrTGoFiODG+jq9UdLCYE6+4gvfE41AHviTIKD2j753cUgF0WWzeUQPc3aSXw8Za
+         niuIIurZmXVgcSlaM7oF6Bso3rrGRpDTQL+sR7tUSDUi3dw/sV/vbePZ3Ol5D/3PF9Mz
+         bocPGDSWy/65+4JMSdRQr4s64p5WK4efq0uohvxTzFH8apAwTcTZfs4up7Jrf7pE3zcW
+         +8vLaWWtUShOJEmPKIc5kYbUEl3gJ+dK1eQwDvUzzwohMVpz7Lee2OpYBZjQX1d2KWQG
+         tf8Q==
+X-Gm-Message-State: AGi0PuaM9arfmnV0aUXkqQmWt/0dgOvQSbm/+TKEKsb1ZS3zPdZj7Y7R
+        qDpkJXhuez7EB8m2Gb5ovK4=
+X-Google-Smtp-Source: APiQypKAyNo+CaSnexEEHLOEPVodWBBWv6kYHOWfmuv3W1Q34xaWYa8BHOWz534p7aujUy0y55E2lg==
+X-Received: by 2002:aca:4dca:: with SMTP id a193mr939911oib.90.1588029848995;
+        Mon, 27 Apr 2020 16:24:08 -0700 (PDT)
+Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id u9sm3613337ote.47.2020.04.27.16.24.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 27 Apr 2020 16:24:08 -0700 (PDT)
+Date:   Mon, 27 Apr 2020 16:24:06 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     "Maciej W. Rozycki" <macro@linux-mips.org>
+Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Subject: Re: [PATCH v3 3/4] MIPS: VDSO: Use $(LD) instead of $(CC) to link
+ VDSO
+Message-ID: <20200427232406.GA8226@ubuntu-s3-xlarge-x86>
+References: <20200419202128.20571-1-natechancellor@gmail.com>
+ <20200423171807.29713-1-natechancellor@gmail.com>
+ <20200423171807.29713-3-natechancellor@gmail.com>
+ <20200426162737.GA9322@alpha.franken.de>
+ <20200427020830.GA260@Ryzen-7-3700X.localdomain>
+ <alpine.LFD.2.21.2004271712130.851719@eddie.linux-mips.org>
 MIME-Version: 1.0
-References: <20200425060640.823362-1-masahiroy@kernel.org>
-In-Reply-To: <20200425060640.823362-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 27 Apr 2020 10:51:31 -0700
-Message-ID: <CAKwvOd=0hnjUh9eZFVJhQc4-7dq+T0c9BGEd7UM-dDXVehqOeQ@mail.gmail.com>
-Subject: Re: [PATCH] unicore32: do not evaluate compiler's library path when cleaning
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Guan Xuetao <gxt@pku.edu.cn>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.2.21.2004271712130.851719@eddie.linux-mips.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 11:07 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Since commit a83e4ca26af8 ("kbuild: remove cc-option switch from
-> -Wframe-larger-than="), 'make ARCH=unicore32 clean' emits error
-> messages as follows:
->
->   $ make ARCH=unicore32 clean
->   gcc: error: missing argument to '-Wframe-larger-than='
->   gcc: error: missing argument to '-Wframe-larger-than='
->
-> We do not care compiler flags when cleaning.
->
-> Use the '=' operator for lazy expansion because we do not use
-> GNU_LIBC_A or GNU_LIBGCC_A when cleaning.
+On Mon, Apr 27, 2020 at 05:22:53PM +0100, Maciej W. Rozycki wrote:
+> On Sun, 26 Apr 2020, Nathan Chancellor wrote:
+> 
+> > > this causes build errors for me when (cross) compiling a big endian target:
+> > > 
+> > > target is little endian
+> > > mips64-linux-gnu-ld: arch/mips/vdso/elf.o: endianness incompatible with that of the selected emulation
+> > > mips64-linux-gnu-ld: failed to merge target specific data of file arch/mips/vdso/elf.o
+> > 
+> > Thanks for the report. I will look into it tomorrow and hopefully have a
+> > v4 by then.
+> 
+>  Can you actually record in the change description what the difference in 
+> the relevant link command is, as shown where `V=1' has been used with 
+> `make' invocation?
 
-So many assignment operators!
-https://www.gnu.org/software/make/manual/html_node/Setting.html
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+That will be rather unweildy to put in the commit message since
+currently, $(CC) + $(KBUILD_CFLAGS) is being used but I can if it is
+really desired. Otherwise, I can just put it where I put the changelog.
 
->
-> Fixes: a83e4ca26af8 ("kbuild: remove cc-option switch from -Wframe-larger-than=")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/unicore32/lib/Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/unicore32/lib/Makefile b/arch/unicore32/lib/Makefile
-> index 098981a01841..5af06645b8f0 100644
-> --- a/arch/unicore32/lib/Makefile
-> +++ b/arch/unicore32/lib/Makefile
-> @@ -10,12 +10,12 @@ lib-y       += strncpy_from_user.o strnlen_user.o
->  lib-y  += clear_user.o copy_page.o
->  lib-y  += copy_from_user.o copy_to_user.o
->
-> -GNU_LIBC_A             := $(shell $(CC) $(KBUILD_CFLAGS) -print-file-name=libc.a)
-> +GNU_LIBC_A             = $(shell $(CC) $(KBUILD_CFLAGS) -print-file-name=libc.a)
->  GNU_LIBC_A_OBJS                := memchr.o memcpy.o memmove.o memset.o
->  GNU_LIBC_A_OBJS                += strchr.o strrchr.o
->  GNU_LIBC_A_OBJS                += rawmemchr.o                  # needed by strrchr.o
->
-> -GNU_LIBGCC_A           := $(shell $(CC) $(KBUILD_CFLAGS) -print-file-name=libgcc.a)
-> +GNU_LIBGCC_A           = $(shell $(CC) $(KBUILD_CFLAGS) -print-file-name=libgcc.a)
->  GNU_LIBGCC_A_OBJS      := _ashldi3.o _ashrdi3.o _lshrdi3.o
->  GNU_LIBGCC_A_OBJS      += _divsi3.o _modsi3.o _ucmpdi2.o _umodsi3.o _udivsi3.o
->
-> --
-> 2.25.1
->
+>  Actually running `diff -bu' on the whole `V=1' build log obtained without 
+> and with your proposed change applied and ensuring there are no unwanted 
+> changes elsewhere will be a good measure of the correctness of your patch. 
+> You may have to prepare to be patient and run with `-j1' to make sure any 
+> `make' parallelism does not interfere with the order of commands printed.
+> 
+>   Maciej
+> 
 
+Thanks for the input, I will take a look.
 
--- 
-Thanks,
-~Nick Desaulniers
+Cheers,
+Nathan
