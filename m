@@ -2,63 +2,92 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F4451BA2C2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Apr 2020 13:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6C9D1BA600
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Apr 2020 16:13:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727788AbgD0Llv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Apr 2020 07:41:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727100AbgD0Llg (ORCPT
+        id S1727117AbgD0ONZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Apr 2020 10:13:25 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:27403 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727059AbgD0ONY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Apr 2020 07:41:36 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C3A0C00876E
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id f3so18468820ioj.1
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=uI1U3pP4FazEZaTfkDGgaf1Qyb1hL6AlgZB9tozzlJtw0tc2p0xAeW9BNdbY4A2XuL
-         JYn8lE6gg3HqjBgRaTT8CTSOLDZ9E79yDyBM0EGnWldSdHyzrk+BT/7frJGn/PAhMIrE
-         VCZdq7yfljhgiOOYhIeLP2AIIFXvLFMREe3IREMgf/Wimn5okrCaqK4gkS0+n2Tqfq3c
-         EFYh4cYLyK3nIET0YOm2adzDe5W5QN3hsgSvwW72euh+PRPDs3oxC82+7cfg/ZGTOz8/
-         eTagf6SblJMWIJeJ59y/zg3//EVOq9RPByBfKkQCDUJB6vE62XJLcx9qUgZNIxoYrz8S
-         JAeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
-        b=T4AVWAlLpFHCXLgwoLRKFqH4AY1gU2isTQym9dYu/JdcpC+QZ2418hDziAPl7qMG2R
-         Dg1mmZVRe3qWDfUgLOfkD89U25vm/d39NrpwTWcThWSq72jVzhUAVomYchs0/CLJ/PZh
-         80bosoiAdR4gqaCXFIl4L+/8Co1M51zWyTI415dKMKstqCLprKbfN0p/hiWEAQUNv7uO
-         8lyqbxZYqSrOTTfxDUY3l9EVyc1ybiuNBilC8BpLKcDk7hyecXk1hbnUlYYo8fRUKjy4
-         Q7aAfjrmLMpKJN8xTeAXo5uGvOb0BHeookjglTzdHX1Gfkp9sJFcF8qEFMP7swMlgmFV
-         QrmA==
-X-Gm-Message-State: AGi0PuYnH1X0O5Y3J1+BdueK/FpLt+NiuF311KTTuyE+WwQGV6heVwSL
-        6MTP6yI8cyRgb+yOJeEp2Rc/t6HB0+azFw8bvVYJX1EVhwk=
-X-Google-Smtp-Source: APiQypJWdjzUZMbeRoAX94bUJV0IgwyoF5kUG7iPo3CBzKxW8lStFNsM/6tz3An/TyzRuH2Qw14DtavsVumw6JVLls0=
-X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4072296ioq.70.1587987694042;
- Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
+        Mon, 27 Apr 2020 10:13:24 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 03RECrvY009532;
+        Mon, 27 Apr 2020 23:12:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 03RECrvY009532
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587996774;
+        bh=FOhWk/2C4BQElgLGHxDcuBdPYjo5bjNEGcaVWTyWrf4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=r6Nh2K7I968EgdDxVhHNMWyG/Qsn3f7ty2IWImfs39vwrIexzN6R5xCJH13NgDZzI
+         CN6ewR2azl9/v8uw68JBp1lGlcSPZLyu+Blh5hxjVRhaexWV5d3X05c4ohHi5XHHLW
+         MUPi4wLXB8lnyx9G5WrIW2hAW+Og7AT88hAdr9ncABmp0t72bggiX7IgCUhL+peZK0
+         EMVxkgb/jepfPKK6JrinBDNIncwX6RukybLlfoRS+PACWh1ssxjSqEQOcHWQgzIucT
+         bwQXBq46J+opvRuls19OSu+0maU/fTVz5yxwAAty4txatxVUs2rWQljCcxfyl6aaNk
+         JHN/forfzh5fw==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: determine the output format of DTC by the target suffix
+Date:   Mon, 27 Apr 2020 23:12:51 +0900
+Message-Id: <20200427141251.154129-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:41:33
- -0700 (PDT)
-Reply-To: convy0090@gmail.com
-From:   Ruben CONVY <andrewboccc@gmail.com>
-Date:   Mon, 27 Apr 2020 12:41:33 +0100
-Message-ID: <CAHVC0+Ag87TMCmfNNwWbxXOFxn5166q8GG5wEfPjwtixj9=EXQ@mail.gmail.com>
-Subject: Why continued silence 2
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Did you receive my previous email regarding your family inheritance?
-Reply strictly through: convy0090@gmail.com
-Best Regards,
-Ruben CONVY
+cmd_dtc takes the additional parameter $(2) to select the target
+format, dtb or yaml. This makes things complicated when it is used
+with cmd_and_fixdep and if_changed_rule. I actually stumbled on this.
+See commit 3d4b2238684a ("kbuild: fix DT binding schema rule again to
+avoid needless rebuilds").
+
+Extract the suffix part of the target instead of passing the parameter.
+Fortunately, this works for both $(obj)/%.dtb and $(obj)/%.dt.yaml .
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/Makefile.lib | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 12f6a331a8f3..cd52a8c6428f 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -287,13 +287,13 @@ $(obj)/%.dtb.S: $(obj)/%.dtb FORCE
+ quiet_cmd_dtc = DTC     $@
+ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
+ 	$(HOSTCC) -E $(dtc_cpp_flags) -x assembler-with-cpp -o $(dtc-tmp) $< ; \
+-	$(DTC) -O $(2) -o $@ -b 0 \
++	$(DTC) -O $(patsubst .%,%,$(suffix $@)) -o $@ -b 0 \
+ 		$(addprefix -i,$(dir $<) $(DTC_INCLUDE)) $(DTC_FLAGS) \
+ 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
+ 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
+ 
+ $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
+-	$(call if_changed_dep,dtc,dtb)
++	$(call if_changed_dep,dtc)
+ 
+ DT_CHECKER ?= dt-validate
+ DT_BINDING_DIR := Documentation/devicetree/bindings
+@@ -304,7 +304,7 @@ quiet_cmd_dtb_check =	CHECK   $@
+       cmd_dtb_check =	$(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@
+ 
+ define rule_dtc
+-	$(call cmd_and_fixdep,dtc,yaml)
++	$(call cmd_and_fixdep,dtc)
+ 	$(call cmd,dtb_check)
+ endef
+ 
+-- 
+2.25.1
+
