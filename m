@@ -2,97 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E386F1BB5BA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Apr 2020 07:15:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2B701BCF97
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 00:14:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726361AbgD1FPB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Apr 2020 01:15:01 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:56986 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725792AbgD1FPB (ORCPT
+        id S1726422AbgD1WOk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Apr 2020 18:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50676 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726256AbgD1WOk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Apr 2020 01:15:01 -0400
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 03S5EZx7018686;
-        Tue, 28 Apr 2020 14:14:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 03S5EZx7018686
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588050876;
-        bh=xRUJalPmxSa3IwO0mbX8+bZsqXvmh5sIzpQvN19Y1Qg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=pP/mxVbR2xduse1JEi6QZ8GoH8YhEQNP39wIopOeWdW8x1RJRwMKtLL1oTZOxstvF
-         3g0O5f0N/ZRWqiflrw7Cz442nxTHCaOYg/PoVarAlMmF2TQ61W5Dwq1pnkg1z/dvzh
-         WvD/+Bm2UmmkFcCMvPjfJmfZWLkwFg7C1mMUyKF0tmspN9aw+IeVcfcmHgAwgxpvDM
-         Is92Qdv+TT69EdxUs1NHZa/erHGXAOvmFRQG9iBnYhm23xk/s4bdTTNsZKszuLQb6P
-         gRV9Z0nWI7FALHF7BYFgn5ISKO1r2TkcjwnoJvraLYCrtvUDVlfb+YaEPetoNXRoHj
-         PGnc9hJGlo6UQ==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id y10so20081373uao.8;
-        Mon, 27 Apr 2020 22:14:35 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYvY3TLII9thcLEDJL1E7mCg1VkdZ9Pfofzt+HTpZLyKuEPG5xN
-        sabFwgHS4UnhP0X4ueM+NRk7nmwMorDW7jkbr5I=
-X-Google-Smtp-Source: APiQypJOEZwJRbZeM9LhBugkGuqlPL46+tnrLO/5mGkeAE074X4HzqUJOtQaMAK6LbvOX/mEJbhvhz/21GD3G/WiS5Q=
-X-Received: by 2002:ab0:1166:: with SMTP id g38mr20152241uac.40.1588050874872;
- Mon, 27 Apr 2020 22:14:34 -0700 (PDT)
+        Tue, 28 Apr 2020 18:14:40 -0400
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24953C03C1AC;
+        Tue, 28 Apr 2020 15:14:40 -0700 (PDT)
+Received: by mail-oi1-x243.google.com with SMTP id r66so4586179oie.5;
+        Tue, 28 Apr 2020 15:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=gw3ps5zK5zSBmyFNg+4aZWNwqGcQxCszeQ7AAe08xO4=;
+        b=L6F2pSLPacUX4g7U4s6bRzuld1CoTBW3Ns51VdsVOAEJZ9rQ9425HNqX1kytVKz5To
+         nuzMdNnvjpGEfifWSKGwOsbeAA/0BJhyXUZey8iaKZggTpm2qqVunJO573wpy2f/wMTd
+         9cYXLtvujxctil4qXyMAPh09sQq3oytorEZ7F2LSiTYN/469GcXS1PTskBUkwjO6n0rH
+         W2hSGZAV3xjEwTmg0MoYFQyYUfTJuvjtznnA1ryRsPnDYENeL2RYMzHbYFXEstbGw+s9
+         0dLUB6C26kQE8W7xq9LlxLWb6EXKqpaRqI15eHsXRR/Jp++gWJYXCj/Sd+P0Cuvn917c
+         s3Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=gw3ps5zK5zSBmyFNg+4aZWNwqGcQxCszeQ7AAe08xO4=;
+        b=rGiIqxaMm1IX+DQ6IgzP4YjZT9yVeNePrKNgwG+wFbrfE45csNhupBgAynCns9HRVY
+         gxw7KAPOP2lPpptcBoXM9NFaeLnv+vZu/GySW4BFTZj04aVForSClukAy51YbinNqMHY
+         uv4ylm7LlmZibyzhJGU1voWyiu6FePhM/SGbiaR9R4ZxaN/rCYDOCAYC3gvGnklIzQrr
+         66gGnLJ8DZb8UpOGGutnzMzXKuq1yC0Evz/VEMBkro7x7GHEVzJgUh0gMDO/Uj1OqOlN
+         pHKH9Yenaf+/6jbD7HjIreojs5TlErjbrsmx1LzfX/98ItlUmIW9MLqkHy1z0V6SVGqE
+         gy3Q==
+X-Gm-Message-State: AGi0PubiekXwILRNjK0hhzHUIQLJt4PTs8vyAxfuzGw425fp6rMtM8Jt
+        O/kIO2GQp3Y5bsAF486tiz4=
+X-Google-Smtp-Source: APiQypJOnY6xzEk2rpHlRPmZ6OxrjFYXKeipZIv5+JdWRu9Qnm8bSt8qkw8qqy1zQIg1YXY38o5/sg==
+X-Received: by 2002:aca:cdd3:: with SMTP id d202mr4448886oig.162.1588112079435;
+        Tue, 28 Apr 2020 15:14:39 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id 186sm5267476ooi.30.2020.04.28.15.14.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2020 15:14:38 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Subject: [PATCH v5 0/5] Allow ld.lld to link the MIPS VDSO
+Date:   Tue, 28 Apr 2020 15:14:14 -0700
+Message-Id: <20200428221419.2530697-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200423171807.29713-1-natechancellor@gmail.com>
+References: <20200423171807.29713-1-natechancellor@gmail.com>
 MIME-Version: 1.0
-References: <20200423073929.127521-5-masahiroy@kernel.org> <202004280948.0higRDEI%lkp@intel.com>
-In-Reply-To: <202004280948.0higRDEI%lkp@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 28 Apr 2020 14:13:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATNC9ndOMjOUdFbSCpM=P5Tv-M=ZJ-QDN+zRGMU4TQMbA@mail.gmail.com>
-Message-ID: <CAK7LNATNC9ndOMjOUdFbSCpM=P5Tv-M=ZJ-QDN+zRGMU4TQMbA@mail.gmail.com>
-Subject: Re: [PATCH 04/16] net: bpfilter: use 'userprogs' syntax to build bpfilter_umh
-To:     kbuild test robot <lkp@intel.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        kbuild-all@lists.01.org, bpf <bpf@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 10:46 AM kbuild test robot <lkp@intel.com> wrote:
->
-> Hi Masahiro,
->
-> I love your patch! Yet something to improve:
->
-> [auto build test ERROR on kbuild/for-next]
-> [cannot apply to linus/master v5.7-rc3 next-20200424]
-> [if your patch is applied to the wrong git tree, please drop us a note to help
-> improve the system. BTW, we also suggest to use '--base' option to specify the
-> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
->
-> url:    https://github.com/0day-ci/linux/commits/Masahiro-Yamada/kbuild-support-userprogs-syntax/20200426-114001
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-> config: i386-allyesconfig (attached as .config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce:
->         # save the attached .config to linux build tree
->         make ARCH=i386
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kbuild test robot <lkp@intel.com>
->
-> All errors (new ones prefixed by >>):
->
->    /usr/bin/ld: i386 architecture of input file `net/bpfilter/main.o' is incompatible with i386:x86-64 output
-> >> collect2: error: ld returned 1 exit status
->
+Hi all,
 
-Thanks.
--m32/-m64 is missing in the link time of the bpfilter_umh.
-I will fix it soon.
+This series allows ld.lld to properly and completely link the MIPS vDSO.
+
+Patch 1 adds ld.lld support to Kconfig so that we can avoid certain
+ld.bfd checks.
+
+Patch 2 moves disabling of the VDSO to Kconfig. This allows us to avoid
+a warning with LD=ld.lld during the clean phase, when we do not have
+access to CONFIG_LD_IS_LLD.
+
+Patch 3 prepares for the shift from $(CC) to $(LD) and is probably a
+worthwhile change aside from this series because GCC 4.6 is the minimum
+version allowed to build the kernel.
+
+Patch 4 does the actual shift from $(CC) to $(LD) to link the VDSO.
+
+Patch 5 allows LD=ld.lld to build the VDSO fully through Kconfig.
+
+I have build tested 32r2_defconfig, 32r2el_defconfig, 64r2_defconfig,
+and 64r2el_defconfig with GCC and 32r2el_defconfig and
+malta_kvm_guest_defconfig with clang. There is a separate issue with the
+64-bit configs (https://github.com/ClangBuiltLinux/linux/issues/884) and
+ld.lld does not support the triple OUTPUT_FORMAT linker script macro so
+32r2_defconfig errors out in a manner similar to GCC without patch 3:
+https://github.com/llvm/llvm-project/blob/46a75436f811d0e6a2c76c669140a7e9471cd2a3/lld/ELF/ScriptParser.cpp#L430
+TODO: File an LLVM bug upstream
+
+Please let me know if there are any issues!
+
+Cheers,
+Nathan
 
 
-
--- 
-Best Regards
-Masahiro Yamada
