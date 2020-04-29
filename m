@@ -2,135 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F2EE1BD579
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 09:13:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABED81BD795
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 10:50:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726484AbgD2HNx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Apr 2020 03:13:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49622 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgD2HNx (ORCPT
+        id S1726426AbgD2IuJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Apr 2020 04:50:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726345AbgD2IuI (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Apr 2020 03:13:53 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E414DC03C1AD;
-        Wed, 29 Apr 2020 00:13:52 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id g13so1143063wrb.8;
-        Wed, 29 Apr 2020 00:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=bESRUmFeT/i+wUL8WK/yLfymk/xA+kTtjWFkp0CqAW8=;
-        b=euN+9RzhF6FM2/xNztgL02K4nyLU6S04I4mxL23lUU9gvcO5iiLyYv2pNX7grjDZf5
-         JBVt2pOBlJRQoS0Yeo/ZJihJ4SoBk/VqO68Gc2YpjcOwJpYEGtHBWu14/xAqwT0LY/7m
-         lT4hCkID1sE43hO+gVAFLbEv4603nDa8eHWL8S0sQgOLNv+i0YJer+9xGytDpc5tzBFH
-         58ns7DzeZAn3FnusQTcm7u7hiypuYwXGA/tUwJG2bOXloEKaoFGyWYeqs38CM3xNG0c0
-         6YDKfiDZb8k7wCOvQ1tmZBVn8KtS/JV0m1vek8s3KhXk3txQxInUrQk76j0GJ8lTSzOr
-         tywQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=bESRUmFeT/i+wUL8WK/yLfymk/xA+kTtjWFkp0CqAW8=;
-        b=NWmJfvgic3GpS7KeRo5/oqSsjSyPxZmVWBymoz6eAam5jx2mkaMW/qeRl2mH2Zgf1B
-         FCS2RYhfaxyFBRXmySilqKu/Z16J6iZpZfhXPvddqhbv7otwda+HcRVU/7b7vYNxWHKw
-         pruNtyMHlAf7Ie0YIC+qQZmiLbgk3aj5euWwrrDLUxxTz13aPF1jF+bMOhKSNSxWm1Ul
-         Mz3j2ahWttVy9ZPJb+2JabpdjCMZj/zUqECAJHdJyWfVLESyXlq8bnBe8qniD21Q0VQt
-         H9j29CTyhLL6OH63Us5FePywWF0b6OQNG1xJW1MgoFlgeVVsA5EGUGlTed/oLVugEWaO
-         4ZmA==
-X-Gm-Message-State: AGi0Pub/xgDNa/WnrRbD7SGWg2K42qiNbBCZchHEOaCyETd1WuDTpBRg
-        rYmjtA0m1/lF3VltG7QTbXIC6gCzhgSRj8ckXP0=
-X-Google-Smtp-Source: APiQypKc5/ik+nedYkYPb1BQgKW/GUUQn8GHTKpqnSwd3bPLfBiw3Cy07kEUnVR0pY7OQ3V0eyn+fsGhOyhFJZNP95Y=
-X-Received: by 2002:a5d:66ce:: with SMTP id k14mr40152710wrw.73.1588144431555;
- Wed, 29 Apr 2020 00:13:51 -0700 (PDT)
+        Wed, 29 Apr 2020 04:50:08 -0400
+Received: from merlin.infradead.org (unknown [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DCCC03C1AD;
+        Wed, 29 Apr 2020 01:50:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=McfirHER2yliCK9xpcEcEd1SIT40pFKzGHso+arjjzQ=; b=GsDbKg9d6S9lAVnn/+3nwAs5Jr
+        q/RY4ejijZl5Hev7SoOJXQUu4GC1BmGEyq3fFYqi89zNIncP4btsgI6B0zF4VMLjwQBQyGiaML8M1
+        oylzCAhztdbxb/56fnPxFpwqQ73nzJDW655pbk9oIAwnym+Og6vmAiL84RoV+98HWTi+IDxGhxHup
+        YmJcb84Q3e0q8CvCL6aRoxPmCtQdbhKRLGeG+BfRinzeHwoR8xVdlTi/+jB5rcgb1UmPXj00WEwTk
+        82YEzKxEBz5kk1KdQfPhQBUG4BMXkrhUwjDSuC1etJ4E+/zZmRWhIuPVHYmA6n5W8usbmhKsRljNz
+        OnyY+2Xg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jTiPP-0007O2-Ip; Wed, 29 Apr 2020 08:49:35 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 52A18303F45;
+        Wed, 29 Apr 2020 10:49:33 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 3E2C820BD8FF8; Wed, 29 Apr 2020 10:49:33 +0200 (CEST)
+Date:   Wed, 29 Apr 2020 10:49:33 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Huaixin Chang <changhuaixin@linux.alibaba.com>
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        bp@alien8.de, hpa@zytor.com, jpoimboe@redhat.com,
+        luto@amacapital.net, michal.lkml@markovi.net, mingo@redhat.com,
+        tglx@linutronix.de, x86@kernel.org, yamada.masahiro@socionext.com
+Subject: Re: [PATCH 0/2] Build ORC fast lookup table in scripts/sorttable tool
+Message-ID: <20200429084933.GF13592@hirez.programming.kicks-ass.net>
+References: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
 MIME-Version: 1.0
-References: <20200423171807.29713-1-natechancellor@gmail.com>
- <20200428221419.2530697-1-natechancellor@gmail.com> <20200428221419.2530697-2-natechancellor@gmail.com>
-In-Reply-To: <20200428221419.2530697-2-natechancellor@gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 29 Apr 2020 09:13:40 +0200
-Message-ID: <CA+icZUXa3JBittjDVdNyV1M08dRt_pwACi2-0nLPEwao6yNABw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] kbuild: add CONFIG_LD_IS_LLD
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dmitry Golovin <dima@golovin.in>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 29, 2020 at 12:14 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> From: Sami Tolvanen <samitolvanen@google.com>
->
-> Similarly to the CC_IS_CLANG config, add LD_IS_LLD to avoid GNU ld
-> specific logic such as ld-version or ld-ifversion and gain the
-> ability to select potential features that depend on the linker at
-> configuration time such as LTO.
->
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> Acked-by: Masahiro Yamada <masahiroy@kernel.org>
-> [nc: Reword commit message]
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+On Wed, Apr 29, 2020 at 02:46:24PM +0800, Huaixin Chang wrote:
+> Move building of fast lookup table from boot to sorttable tool. This saves us
+> 6380us boot time on Intel(R) Xeon(R) CPU E5-2682 v4 @ 2.50GHz with cores.
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-Reviewed-by: Sedat Dilek <sedat.dilek@gmail.com>
-
-Testing on Debian/testing AMD64 (since Linux v5.3):
-#1: LLVM/Clang/LLD version 9.0 and 10.0
-#2: Debian's GCC 9.3 with ld.lld-9 and ld.lld-10
-
-I am linking my Linux-kernels with ld.lld despite there are issues -
-then check with ld.bfd.
-
-- Sedat -
-
-> ---
->
-> v3 -> v4:
->
-> * No changes.
->
-> v2 -> v3:
->
-> * Add Masahiro's ack.
->
-> v1 -> v2:
->
-> * No changes.
->
-> Sami, please scream if you are unhappy with how I worded this commit.
->
->  init/Kconfig | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 9e22ee8fbd75e..c15ee42b82726 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -23,6 +23,9 @@ config LD_VERSION
->  config CC_IS_CLANG
->         def_bool $(success,$(CC) --version | head -n 1 | grep -q clang)
->
-> +config LD_IS_LLD
-> +       def_bool $(success,$(LD) -v | head -n 1 | grep -q LLD)
-> +
->  config CLANG_VERSION
->         int
->         default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
->
-> base-commit: 96c9a7802af7d500a582d89a8b864584fe878c1b
-> --
-> 2.26.2
->
+And what does it add to the build time?
