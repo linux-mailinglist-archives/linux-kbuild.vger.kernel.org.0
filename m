@@ -2,97 +2,178 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4588D1BD266
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 04:45:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEC131BD314
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 05:46:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726620AbgD2Co5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Apr 2020 22:44:57 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:48211 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726598AbgD2Co4 (ORCPT
+        id S1726705AbgD2Dqa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Apr 2020 23:46:30 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:30768 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbgD2Dq3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Apr 2020 22:44:56 -0400
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 03T2iGBG006076;
-        Wed, 29 Apr 2020 11:44:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 03T2iGBG006076
+        Tue, 28 Apr 2020 23:46:29 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 03T3jXlb020748;
+        Wed, 29 Apr 2020 12:45:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 03T3jXlb020748
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588128256;
-        bh=JDmR7sOxWAOl0xZYRbW4YRt3haUZ3+lv4J0EA18vymI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Q/yYGad2P24vpHqjYYWp7m2gP2fI2M7oBkWhGlZcKA0Zctu3ZBEqxdMArVF7fWpSe
-         njBjqzsnHgQORhBhZJEDFoy8fqA3tJoBszJYr3xotRpYmCUC30JhZi0uZcIZUy1zHR
-         iUCdhLLCW91f4y3ntcdz/RLeMcjLthMrswRQCJj82IK93PMGj14iCN/R7t11UaJ22W
-         HRikYDzFODh3dKfCx/KZfXilzM6zXgq4Oj2Z1lke92DKB5CNFZ/Ha/4AESK4pHfQ9m
-         F+7S8yI13gwCZij88lUV+oPf70Kx2WK9rUyt9dv57e0o6JycxnqloY7peyaMw8LlCJ
-         PR8acZl5In0TQ==
-X-Nifty-SrcIP: [209.85.222.53]
-Received: by mail-ua1-f53.google.com with SMTP id c24so329347uap.13;
-        Tue, 28 Apr 2020 19:44:16 -0700 (PDT)
-X-Gm-Message-State: AGi0Pubo1vWYI0UF8hYB0p9vlNA69NhQkRAXxG4+/5elJutGgetkanXx
-        noVOHZic7sGkBKgrbMD/zPlgNdKz+6VfrWSXaYM=
-X-Google-Smtp-Source: APiQypIic2qLjnYXcUQFI9eAhK3sbWyA8cGUJR3QdnhGvAahYp29unTLMtwRxxKMfhqQS3AFgxecNxBdWnBpeP30lS4=
-X-Received: by 2002:ab0:1166:: with SMTP id g38mr24264521uac.40.1588128255296;
- Tue, 28 Apr 2020 19:44:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200423073929.127521-1-masahiroy@kernel.org> <20200423073929.127521-3-masahiroy@kernel.org>
- <20200424203231.b4lonbdgzkoxf7ug@treble>
-In-Reply-To: <20200424203231.b4lonbdgzkoxf7ug@treble>
+        s=dec2015msa; t=1588131934;
+        bh=J6Zz8rPIoOP2RxWt1vp9BH2krOQ6QyL5foLOOnRDXGA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pbkwY9WIC8+qobyGRxbFLVTBQ7BdgZozw2VehlZt7+zw8M8UXRU5aKB1CbWy/m3K+
+         MueYuxb7MeDn8sfuFahj87Q1AMOOVEYvEyID7nMy9LSeX8vUUR5hOzdEAzzKnr1uhr
+         Va0ZMDmxia4Vkz+1qgdJezKuKUvi//YRkyOq9+law7mDS06wBUwZq8wlORrwaQK7jw
+         gwhn2EKot/y7cufNgyJWnrpsqWacaw1GtPiuoKbbIbnaHoQWKRfxiMNt4YO2ruJoZo
+         Url7EVqPdTiP/ineyFRQlkmQknf6ldkBl2oQUEiYYY5z31WNziwF2KUBScHxEgsfBC
+         du447ALrsma5w==
+X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 29 Apr 2020 11:43:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATrGDegfn2j5gmHTSj8V=Wd53SpLqG4-T1gfn3j19mEtg@mail.gmail.com>
-Message-ID: <CAK7LNATrGDegfn2j5gmHTSj8V=Wd53SpLqG4-T1gfn3j19mEtg@mail.gmail.com>
-Subject: Re: [PATCH 02/16] Revert "objtool: Skip samples subdirectory"
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     bpf <bpf@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH v2 00/15] kbuild: support 'userprogs' syntax
+Date:   Wed, 29 Apr 2020 12:45:12 +0900
+Message-Id: <20200429034527.590520-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Apr 25, 2020 at 5:32 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Thu, Apr 23, 2020 at 04:39:15PM +0900, Masahiro Yamada wrote:
-> > This reverts commit 8728497895794d1f207a836e02dae762ad175d56.
-> >
-> > This directory contains no object.
-> >
-> > Cc: Josh Poimboeuf <jpoimboe@redhat.com>
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> >  samples/Makefile | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/samples/Makefile b/samples/Makefile
-> > index f8f847b4f61f..5ce50ef0f2b2 100644
-> > --- a/samples/Makefile
-> > +++ b/samples/Makefile
-> > @@ -1,6 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >  # Makefile for Linux samples code
-> > -OBJECT_FILES_NON_STANDARD := y
-> >
-> >  obj-$(CONFIG_SAMPLE_ANDROID_BINDERFS)        += binderfs/
-> >  obj-$(CONFIG_SAMPLE_CONFIGFS)                += configfs/
-> > --
-> > 2.25.1
->
-> Hm, somehow I was thinking this would work recursively for
-> subdirectories.  Anyway, you're right:
->
-> Acked-by: Josh Poimboeuf <jpoimboe@redhat.com>
->
-> --
-> Josh
->
 
-Applied to linux-kbuild.
+Several Makefiles use 'hostprogs' to build programs for the host
+architecture where it is not appropriate to do so.
+This is just because Kbuild lacks the support for building programs
+for the target architecture.
 
+This series introduce 'userprogs' syntax and use it from
+sample and bpf Makefiles.
+
+Sam worked on this in 2014.
+https://lkml.org/lkml/2014/7/13/154
+
+He used 'uapiprogs-y' but I just thought the meaning of
+"UAPI programs" is unclear.
+
+Naming the syntax is one of the most difficult parts.
+
+I chose 'userprogs'. Anothor choice I had in my mind was 'targetprogs'.
+
+You can test this series quickly by 'make allmodconfig samples/'
+
+When building objects for userspace, [U] is displayed.
+
+masahiro@oscar:~/workspace/linux$ make allmodconfig samples/
+  [snip]
+  AR      samples/vfio-mdev/built-in.a
+  CC [M]  samples/vfio-mdev/mtty.o
+  CC [M]  samples/vfio-mdev/mdpy.o
+  CC [M]  samples/vfio-mdev/mdpy-fb.o
+  CC [M]  samples/vfio-mdev/mbochs.o
+  AR      samples/mei/built-in.a
+  CC [U]  samples/mei/mei-amt-version
+  CC [U]  samples/auxdisplay/cfag12864b-example
+  CC [M]  samples/configfs/configfs_sample.o
+  CC [M]  samples/connector/cn_test.o
+  CC [U]  samples/connector/ucon
+  CC [M]  samples/ftrace/ftrace-direct.o
+  CC [M]  samples/ftrace/ftrace-direct-too.o
+  CC [M]  samples/ftrace/ftrace-direct-modify.o
+  CC [M]  samples/ftrace/sample-trace-array.o
+  CC [U]  samples/hidraw/hid-example
+  CC [M]  samples/hw_breakpoint/data_breakpoint.o
+  CC [M]  samples/kdb/kdb_hello.o
+  CC [M]  samples/kfifo/bytestream-example.o
+  CC [M]  samples/kfifo/dma-example.o
+  CC [M]  samples/kfifo/inttype-example.o
+  CC [M]  samples/kfifo/record-example.o
+  CC [M]  samples/kobject/kobject-example.o
+  CC [M]  samples/kobject/kset-example.o
+  CC [M]  samples/kprobes/kprobe_example.o
+  CC [M]  samples/kprobes/kretprobe_example.o
+  CC [M]  samples/livepatch/livepatch-sample.o
+  CC [M]  samples/livepatch/livepatch-shadow-mod.o
+  CC [M]  samples/livepatch/livepatch-shadow-fix1.o
+  CC [M]  samples/livepatch/livepatch-shadow-fix2.o
+  CC [M]  samples/livepatch/livepatch-callbacks-demo.o
+  CC [M]  samples/livepatch/livepatch-callbacks-mod.o
+  CC [M]  samples/livepatch/livepatch-callbacks-busymod.o
+  CC [M]  samples/rpmsg/rpmsg_client_sample.o
+  CC [U]  samples/seccomp/bpf-fancy.o
+  CC [U]  samples/seccomp/bpf-helper.o
+  LD [U]  samples/seccomp/bpf-fancy
+  CC [U]  samples/seccomp/dropper
+  CC [U]  samples/seccomp/bpf-direct
+  CC [U]  samples/seccomp/user-trap
+  CC [U]  samples/timers/hpet_example
+  CC [M]  samples/trace_events/trace-events-sample.o
+  CC [M]  samples/trace_printk/trace-printk.o
+  CC [U]  samples/uhid/uhid-example
+  CC [M]  samples/v4l/v4l2-pci-skeleton.o
+  CC [U]  samples/vfs/test-fsmount
+  CC [U]  samples/vfs/test-statx
+samples/vfs/test-statx.c:24:15: warning: ‘struct foo’ declared inside parameter list will not be visible outside of this definition or declaration
+   24 | #define statx foo
+      |               ^~~
+  CC [U]  samples/watchdog/watchdog-simple
+  AR      samples/built-in.a
+
+Changes for v2:
+  - Fix ARCH=i386 build error for bpfilter_umh
+  - Rename 'user-ccflags' to 'userccflags'
+    because 'user-ccflags' would conflict if an object
+    called 'user.o' exists in the directory.
+  - Support 'userldflags'
+
+Masahiro Yamada (14):
+  bpfilter: match bit size of bpfilter_umh to that of the kernel
+  kbuild: add infrastructure to build userspace programs
+  bpfilter: use 'userprogs' syntax to build bpfilter_umh
+  samples: seccomp: build sample programs for target architecture
+  kbuild: doc: document the new syntax 'userprogs'
+  samples: uhid: build sample program for target architecture
+  samples: hidraw: build sample program for target architecture
+  samples: connector: build sample program for target architecture
+  samples: vfs: build sample programs for target architecture
+  samples: pidfd: build sample program for target architecture
+  samples: mei: build sample program for target architecture
+  samples: auxdisplay: use 'userprogs' syntax
+  samples: timers: use 'userprogs' syntax
+  samples: watchdog: use 'userprogs' syntax
+
+Sam Ravnborg (1):
+  samples: uhid: fix warnings in uhid-example
+
+ Documentation/kbuild/makefiles.rst | 183 +++++++++++++++++++++--------
+ Makefile                           |  13 +-
+ init/Kconfig                       |   4 +-
+ net/bpfilter/Makefile              |  11 +-
+ samples/Kconfig                    |  26 +++-
+ samples/Makefile                   |   4 +
+ samples/auxdisplay/Makefile        |  11 +-
+ samples/connector/Makefile         |  12 +-
+ samples/hidraw/Makefile            |   9 +-
+ samples/mei/Makefile               |   9 +-
+ samples/pidfd/Makefile             |   8 +-
+ samples/seccomp/Makefile           |  42 +------
+ samples/timers/Makefile            |  17 +--
+ samples/uhid/.gitignore            |   2 +
+ samples/uhid/Makefile              |   9 +-
+ samples/uhid/uhid-example.c        |   4 +-
+ samples/vfs/Makefile               |  11 +-
+ samples/watchdog/Makefile          |  10 +-
+ scripts/Makefile.build             |   6 +
+ scripts/Makefile.clean             |   2 +-
+ scripts/Makefile.userprogs         |  45 +++++++
+ usr/include/Makefile               |   4 +
+ 22 files changed, 267 insertions(+), 175 deletions(-)
+ create mode 100644 samples/uhid/.gitignore
+ create mode 100644 scripts/Makefile.userprogs
 
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
