@@ -2,156 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43CF01BD502
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 08:46:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C31841BD55F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Apr 2020 09:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgD2Gqw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Apr 2020 02:46:52 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:51486 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726476AbgD2Gqu (ORCPT
+        id S1726562AbgD2HEz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Apr 2020 03:04:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726274AbgD2HEz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Apr 2020 02:46:50 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R151e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07425;MF=changhuaixin@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0Tx.9LiV_1588142803;
-Received: from localhost(mailfrom:changhuaixin@linux.alibaba.com fp:SMTPD_---0Tx.9LiV_1588142803)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 29 Apr 2020 14:46:46 +0800
-From:   Huaixin Chang <changhuaixin@linux.alibaba.com>
-To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     bp@alien8.de, hpa@zytor.com, jpoimboe@redhat.com,
-        luto@amacapital.net, michal.lkml@markovi.net, mingo@redhat.com,
-        peterz@infradead.org, tglx@linutronix.de, x86@kernel.org,
-        yamada.masahiro@socionext.com
-Subject: [PATCH 2/2] x86/unwind/orc: Remove unwind_init() from x86 boot
-Date:   Wed, 29 Apr 2020 14:46:26 +0800
-Message-Id: <20200429064626.16389-3-changhuaixin@linux.alibaba.com>
-X-Mailer: git-send-email 2.14.4.44.g2045bb6
-In-Reply-To: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
-References: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
+        Wed, 29 Apr 2020 03:04:55 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED759C03C1AD;
+        Wed, 29 Apr 2020 00:04:54 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id z6so756287wml.2;
+        Wed, 29 Apr 2020 00:04:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=lZ6vcTjHNoVR0BCaYLoW2vQQfiZtE3GkLmVwbDb3kKs=;
+        b=tVreQPq4FATIBvu29HrXIQXOrj6WwT6KHRsB7KD9AzBZVIN3KBo0PEoYV+HeelarpS
+         Sb/qfsKwowYEdswNRMNVmX8eC2vJkhpO5g2W0dZ1ICyiavdllNmR9MzXvW0O3tXGJD4r
+         g94GHReNjAzQlbz0VzgLe9d6OS005K/Xwi7NCYR/q+oMHnOlMc/N7M25nde/Mn/Ky41D
+         cXwo6OZPEmnu6eRnWHYMvCdnqL1CIYIAKHv4PKXsIOGwwtzd2fbRuv+RGIntfEE6ZgST
+         fQ0o1Y04zSe5ASD/PCzCse424ALd5u2SJITmillubtxw8m5JSmdlI3g+fzvEWOkNwrzR
+         lFhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=lZ6vcTjHNoVR0BCaYLoW2vQQfiZtE3GkLmVwbDb3kKs=;
+        b=oDobdlitjKJ3OU2rcUFRwQLraXbOGRsChXG/Dv1eubHmTVJboIWIWwq7vy6LrUSyOe
+         2rCXoPmHHbKXvX4tz+zfZApnTmOk2+lY83Ud9UVPMHfRYffB0f6esENCxZyiYDdWjIWf
+         6X+Y1SRJtMoR7kALsysR9a97LaepUj4e+6VUkz7IGob/oKh135f+D+9XQGwnri9sOM4N
+         VSXSXq69KDJQV5WhnJk2f2Z06lZegxi8fUsg+YvpcFNvDOfaaMux8xmMazADXPL/dUGe
+         9qNvW642FXFVXk8rWObM5BavPjN3V1AElldXJWdKl999pmQ18UXMKzl/vuyQObuvem6W
+         /+ig==
+X-Gm-Message-State: AGi0PuaaHVE7gFRcFOk6O3dBfaRTDnYKhlIUqIltXI+SlrDRnBmxlqj3
+        rHBbSbbcXIgMK5RlyX/eWZAbLcOEF8fvtW8nmeIlT9bH
+X-Google-Smtp-Source: APiQypI3Iq8207zhRpNrY8dIDiLkFXeP/Fd4LMrDY3WkIFCs42hS9q/Na1H3690kVE+VCKXnGkPO2BRaF2kfMfu1LVk=
+X-Received: by 2002:a1c:7416:: with SMTP id p22mr1615489wmc.80.1588143893648;
+ Wed, 29 Apr 2020 00:04:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <20200423171807.29713-1-natechancellor@gmail.com> <20200428221419.2530697-1-natechancellor@gmail.com>
+In-Reply-To: <20200428221419.2530697-1-natechancellor@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 29 Apr 2020 09:04:42 +0200
+Message-ID: <CA+icZUVz8zYVY3rgT4hS6a11+1Pw6y_Du-hkPra1PkgtLWgRbA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/5] Allow ld.lld to link the MIPS VDSO
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-All preparation has been moved to scripts/sorttable tool. No need to
-init unwind on boot now.
+On Wed, Apr 29, 2020 at 12:14 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 
-Signed-off-by: Huaixin Chang <changhuaixin@linux.alibaba.com>
-Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
----
- arch/x86/include/asm/unwind.h |  2 --
- arch/x86/kernel/setup.c       |  2 --
- arch/x86/kernel/unwind_orc.c  | 51 -------------------------------------------
- 3 files changed, 55 deletions(-)
+> Patch 1 adds ld.lld support to Kconfig so that we can avoid certain
+> ld.bfd checks.
+>
 
-diff --git a/arch/x86/include/asm/unwind.h b/arch/x86/include/asm/unwind.h
-index 499578f7e6d7..db5aea8c9d98 100644
---- a/arch/x86/include/asm/unwind.h
-+++ b/arch/x86/include/asm/unwind.h
-@@ -89,11 +89,9 @@ static inline struct pt_regs *unwind_get_entry_regs(struct unwind_state *state,
- #endif
- 
- #ifdef CONFIG_UNWINDER_ORC
--void unwind_init(void);
- void unwind_module_init(struct module *mod, void *orc_ip, size_t orc_ip_size,
- 			void *orc, size_t orc_size);
- #else
--static inline void unwind_init(void) {}
- static inline
- void unwind_module_init(struct module *mod, void *orc_ip, size_t orc_ip_size,
- 			void *orc, size_t orc_size) {}
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index 4b3fa6cd3106..4a17026c6550 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -1243,8 +1243,6 @@ void __init setup_arch(char **cmdline_p)
- 	if (efi_enabled(EFI_BOOT))
- 		efi_apply_memmap_quirks();
- #endif
--
--	unwind_init();
- }
- 
- #ifdef CONFIG_X86_32
-diff --git a/arch/x86/kernel/unwind_orc.c b/arch/x86/kernel/unwind_orc.c
-index e9cc182aa97e..3db43e6e75f2 100644
---- a/arch/x86/kernel/unwind_orc.c
-+++ b/arch/x86/kernel/unwind_orc.c
-@@ -20,7 +20,6 @@ int *cur_orc_ip_table = __start_orc_unwind_ip;
- struct orc_entry *cur_orc_table = __start_orc_unwind;
- 
- unsigned int lookup_num_blocks;
--bool orc_init;
- 
- static inline unsigned long orc_ip(const int *ip)
- {
-@@ -142,9 +141,6 @@ static struct orc_entry *orc_find(unsigned long ip)
- {
- 	static struct orc_entry *orc;
- 
--	if (!orc_init)
--		return NULL;
--
- 	if (ip == 0)
- 		return &null_orc_entry;
- 
-@@ -259,53 +255,6 @@ void unwind_module_init(struct module *mod, void *_orc_ip, size_t orc_ip_size,
- }
- #endif
- 
--void __init unwind_init(void)
--{
--	size_t orc_ip_size = (void *)__stop_orc_unwind_ip - (void *)__start_orc_unwind_ip;
--	size_t orc_size = (void *)__stop_orc_unwind - (void *)__start_orc_unwind;
--	size_t num_entries = orc_ip_size / sizeof(int);
--	struct orc_entry *orc;
--	int i;
--
--	if (!num_entries || orc_ip_size % sizeof(int) != 0 ||
--	    orc_size % sizeof(struct orc_entry) != 0 ||
--	    num_entries != orc_size / sizeof(struct orc_entry)) {
--		orc_warn("WARNING: Bad or missing .orc_unwind table.  Disabling unwinder.\n");
--		return;
--	}
--
--	/*
--	 * Note, the orc_unwind and orc_unwind_ip tables were already
--	 * sorted at build time via the 'sorttable' tool.
--	 * It's ready for binary search straight away, no need to sort it.
--	 */
--
--	/* Initialize the fast lookup table: */
--	lookup_num_blocks = orc_lookup_end - orc_lookup;
--	for (i = 0; i < lookup_num_blocks-1; i++) {
--		orc = __orc_find(__start_orc_unwind_ip, __start_orc_unwind,
--				 num_entries,
--				 LOOKUP_START_IP + (LOOKUP_BLOCK_SIZE * i));
--		if (!orc) {
--			orc_warn("WARNING: Corrupt .orc_unwind table.  Disabling unwinder.\n");
--			return;
--		}
--
--		orc_lookup[i] = orc - __start_orc_unwind;
--	}
--
--	/* Initialize the ending block: */
--	orc = __orc_find(__start_orc_unwind_ip, __start_orc_unwind, num_entries,
--			 LOOKUP_STOP_IP);
--	if (!orc) {
--		orc_warn("WARNING: Corrupt .orc_unwind table.  Disabling unwinder.\n");
--		return;
--	}
--	orc_lookup[lookup_num_blocks-1] = orc - __start_orc_unwind;
--
--	orc_init = true;
--}
--
- unsigned long unwind_get_return_address(struct unwind_state *state)
- {
- 	if (unwind_done(state))
--- 
-2.14.4.44.g2045bb6
+Is it possible to introduce and add LD_IS_BFD Kconfig for ld.bfd in this series?
+Most people agreed on this name AFAICS.
+What do people think?
 
+- Sedat -
