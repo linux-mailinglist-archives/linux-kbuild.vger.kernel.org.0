@@ -2,113 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 999481BEE94
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2020 05:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F26E1BEEE9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Apr 2020 06:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbgD3DOH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Apr 2020 23:14:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726180AbgD3DOH (ORCPT
+        id S1726427AbgD3EHD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Apr 2020 00:07:03 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:35931 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725280AbgD3EHD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Apr 2020 23:14:07 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDE1C035494;
-        Wed, 29 Apr 2020 20:14:06 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id m13so3720110otf.6;
-        Wed, 29 Apr 2020 20:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Yk1qx7mYE1aZnTKQ+ngsNAgl6tNY8Bqpu8zbakapxPY=;
-        b=pfNtPjRJB+VgiWI1sFo3jsPx5ELnGl5bbTk2OiBRmTGNxm1CnegCV3D1vwO19Ihb6x
-         cJpWE4dFUB60feCcEZ5sbt+d5HK6RnuNeLYtf24lfEfk34Tn4kd+0qntQo5aWr/p+hSO
-         ZmyxwyrdegOcE2YNSoCsw6nTSmPNqySgc1IEwpPvGglbjmvFuPrxbfKGIKJdT5ly1eKm
-         RJkGgTNpW0vQesq2SMbqO5deWGupAsoy9MZvLHDYmxaDjee53w4gDUw+bSPNbP0L6kgW
-         rL1h2R9x6uFFteENfvXSC0/3489+TEU2kNXwlvFoD8fygGjxdsU3JowH5/pdBE/iWccA
-         dZPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Yk1qx7mYE1aZnTKQ+ngsNAgl6tNY8Bqpu8zbakapxPY=;
-        b=T+tt8tDEZKur2PAlZPY2xZ5DEBzqtNvXYQihZyQQyqPhWmMr/mY40/OTlEdwsm6Uy1
-         ICWy3fgxTh26e4xdaIngeJyFu/CYWU7QU0QUqx3k1hiFPJJ3AT6muW9c1TVLRn7UK7HC
-         SeiUnFXCRynABPWETZPJ9wr8dbICgYREUuyYeEFFgOGk2nV8QacA65935DIsmj0sRCyG
-         LcLJVtkybzklgZXmdJOxzA+upr+qfRLTq0DT3LBf1JV7cBthttIvS1OmtIR+doR3FLAq
-         dlzQi5Et9O+SmcPV1sX//nnKOe2x6eZfy5zX+15qGL97BwXN9FBa12heqypuBNCVgt5u
-         Ef+A==
-X-Gm-Message-State: AGi0PubItbqfCx/UqEawasKrqKO45vvb99yN274xp8lbARpmD2tBEwGj
-        bx1++sP2lP8vnf8t6QQMQHU=
-X-Google-Smtp-Source: APiQypIIgBYyvGVoHuVIWd9zg2/PJZtEbMHkINz6I8nJIe9AwwaCkdpNZVH9FH/Zj7GiU25mXOaaYg==
-X-Received: by 2002:a05:6830:1188:: with SMTP id u8mr891347otq.360.1588216445527;
-        Wed, 29 Apr 2020 20:14:05 -0700 (PDT)
-Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id t26sm914093otl.71.2020.04.29.20.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 20:14:05 -0700 (PDT)
-Date:   Wed, 29 Apr 2020 20:14:03 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     "Maciej W. Rozycki" <macro@linux-mips.org>
-Cc:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dmitry Golovin <dima@golovin.in>,
-        Sedat Dilek <sedat.dilek@gmail.com>
-Subject: Re: [PATCH v3 3/4] MIPS: VDSO: Use $(LD) instead of $(CC) to link
- VDSO
-Message-ID: <20200430031403.GC3546299@ubuntu-s3-xlarge-x86>
-References: <20200419202128.20571-1-natechancellor@gmail.com>
- <20200423171807.29713-1-natechancellor@gmail.com>
- <20200423171807.29713-3-natechancellor@gmail.com>
- <20200426162737.GA9322@alpha.franken.de>
- <20200427020830.GA260@Ryzen-7-3700X.localdomain>
- <alpine.LFD.2.21.2004271712130.851719@eddie.linux-mips.org>
- <20200427232406.GA8226@ubuntu-s3-xlarge-x86>
- <alpine.LFD.2.21.2004291835400.851719@eddie.linux-mips.org>
+        Thu, 30 Apr 2020 00:07:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1588219622;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=h7QUeZ/EJElyYuNor3snWfkrLaig19pbSNuuubX2yxM=;
+        b=KgSRWeimAY/gh+G7vpAxyX5gr1+bM5k3w32h1ewoMON3r27Y8C3c7slRpmEZi7Y8/VaZcf
+        oQS++67HtbutxQP5e1PvA5dYI//2go/BL2r9u/Ve9ODhCwz6tni2fIde4db+d1hGoUPkyw
+        X9ffEg+qkds8UKxyuvJDku0H6lGq9w0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-yWGoOVZrOmWZAMeAV7qolQ-1; Thu, 30 Apr 2020 00:07:00 -0400
+X-MC-Unique: yWGoOVZrOmWZAMeAV7qolQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 582B980B70A;
+        Thu, 30 Apr 2020 04:06:58 +0000 (UTC)
+Received: from treble (ovpn-113-19.rdu2.redhat.com [10.10.113.19])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 739BF605E1;
+        Thu, 30 Apr 2020 04:06:56 +0000 (UTC)
+Date:   Wed, 29 Apr 2020 23:06:54 -0500
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     changhuaixin <changhuaixin@linux.alibaba.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
+        michal.lkml@markovi.net, mingo@redhat.com, tglx@linutronix.de,
+        x86@kernel.org, yamada.masahiro@socionext.com
+Subject: Re: [PATCH 0/2] Build ORC fast lookup table in scripts/sorttable tool
+Message-ID: <20200430040654.mnkcfmj32tr6m3mg@treble>
+References: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
+ <20200429084933.GF13592@hirez.programming.kicks-ass.net>
+ <1CACF61E-FA7C-4986-AAD2-20A3B2BAC425@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.21.2004291835400.851719@eddie.linux-mips.org>
+In-Reply-To: <1CACF61E-FA7C-4986-AAD2-20A3B2BAC425@linux.alibaba.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Apr 29, 2020 at 06:46:33PM +0100, Maciej W. Rozycki wrote:
-> On Mon, 27 Apr 2020, Nathan Chancellor wrote:
+On Thu, Apr 30, 2020 at 10:32:17AM +0800, changhuaixin wrote:
 > 
-> > >  Can you actually record in the change description what the difference in 
-> > > the relevant link command is, as shown where `V=1' has been used with 
-> > > `make' invocation?
+> 
+> > On Apr 29, 2020, at 4:49 PM, Peter Zijlstra <peterz@infradead.org> wrote:
 > > 
-> > That will be rather unweildy to put in the commit message since
-> > currently, $(CC) + $(KBUILD_CFLAGS) is being used but I can if it is
-> > really desired. Otherwise, I can just put it where I put the changelog.
+> > On Wed, Apr 29, 2020 at 02:46:24PM +0800, Huaixin Chang wrote:
+> >> Move building of fast lookup table from boot to sorttable tool. This saves us
+> >> 6380us boot time on Intel(R) Xeon(R) CPU E5-2682 v4 @ 2.50GHz with cores.
+> > 
+> > And what does it add to the build time?
 > 
->  Umm, is the difference so huge?  I think a note along the lines of:
-> 
-> "[...] This change adds/removes[*]:
-> 
-> <part of the command affected>
-> 
-> from the invocation of [...], which is required for [...]"
-> 
-> -- only quoting what's actually changed will be sufficient.  Reword as 
-> required.  Otherwise it's hard to guess now what the change actually does, 
-> and it will be even harder for someone who comes across it and tries to 
-> understand it the future, when the context might be hard to reproduce.
-> 
-> [*] Delete as appropriate.
-> 
->   Maciej
+> It takes a little more than 7ms to build fast lookup table in
+> sorttable on the same CPU. And it is on the critical path.
 
-I ended up figuring out a way to get the difference proper into the
-commit message in v4. Please take a look.
+Thanks, I like it.  It will help make the in-kernel unwinder even
+simpler.  And it will enable unwinding from early boot.
 
-Cheers,
-Nathan
+Maybe someday we can move all the table sorting code into objtool, once
+we have objtool running on vmlinux.o.
+
+I'll try to review the patches soon.
+
+-- 
+Josh
+
