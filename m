@@ -2,315 +2,158 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 354EE1C0C24
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 May 2020 04:32:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC1B41C0C28
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 May 2020 04:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728024AbgEACcd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Apr 2020 22:32:33 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:34289 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728008AbgEACcd (ORCPT
+        id S1728052AbgEAChU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Apr 2020 22:37:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728008AbgEAChT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Apr 2020 22:32:33 -0400
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0412WEMr006917;
-        Fri, 1 May 2020 11:32:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0412WEMr006917
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588300335;
-        bh=yrr78h9HkaQu75AGwSiVtR9mY0FnYBsVLLeJjF6O95c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=TQ+9tRK/vvv5UPirS78lsBuo7aT1CqGQ3kl/plKC5ZfxTx7+PJdHrBCqp3fCZdRyB
-         06soZgeAUt87RJY6hrOBLYP+7lSk6hbxJuoVxB59Z92mA75DRc4LzsNe062g2fTCCL
-         4JpxOE2696u5yEU5ylYBoNsbV6lwok7FYBlGTGt1tRJnCBUo4Q96q2Zw9FCXC3i5Qm
-         RRZnckkjk4O+q6b3OBmOlRK1bT+IS6cEiMyssleEpUIpm4XxCJT5+k0DOiwK/mKcYU
-         BM/3hkTBpW4phRrQpIWhbR2xBD9H1EJ0K7hdjVxQIHoSQ68ZfdNVrc+/joeVwApF0t
-         KzhqXa5UBu57Q==
-X-Nifty-SrcIP: [209.85.217.48]
-Received: by mail-vs1-f48.google.com with SMTP id b5so5581107vsb.1;
-        Thu, 30 Apr 2020 19:32:15 -0700 (PDT)
-X-Gm-Message-State: AGi0Pua00xkpBhHfbsEAreGaPMQpUc4quIDZgu4qIAkCNOSD+e51MP00
-        JRDSZAvmN/w0AVtIhAV+gqwRawUJTLzgWVguMR8=
-X-Google-Smtp-Source: APiQypLFZWlnXJT7Y7lXFQXy/2YaWGHBdEdXT9ipt0EOXxksQIOdHjf1NMbZvTUE95JCs0WyonYnG6YieBSDvDf6JFA=
-X-Received: by 2002:a05:6102:240f:: with SMTP id j15mr1827213vsi.155.1588300333975;
- Thu, 30 Apr 2020 19:32:13 -0700 (PDT)
+        Thu, 30 Apr 2020 22:37:19 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B30BC035494;
+        Thu, 30 Apr 2020 19:37:19 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id hi11so1807448pjb.3;
+        Thu, 30 Apr 2020 19:37:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0Tx4PpKumE7+hHOMexZLB6HaMGQrp+LFhXCasKj/4X4=;
+        b=XPhaX+81o8qjj+9LAhbXwj92dzxOn0y874GMRLLUEqVqzYnXZvX/leVVIXT8idVHTf
+         6fw8Ms3lBXnY542qFgUa/WW0PU1/UNhmAH18EiNovuLpSSMa9c7G+Iq6DOSZ2lND5h5c
+         FzTlmFmLoBQduRR+KJd+x5V3t+Y16sIJtBMs0Bes8TLJYGEgx8vkJZhJLSQ1pfVGNAEz
+         K2ob762AX9FMh9jLrikyFVkq4CHyHs+eIDOA8XyKxPXHEslqGzpE0/3I6Y9tckiQrkLI
+         HkzKTQuMuyRJa26reG3SoGuyx91CQz13SS63wd8nyUm9wx5IQeEpR3dPmCYYEygk0dRq
+         I6/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0Tx4PpKumE7+hHOMexZLB6HaMGQrp+LFhXCasKj/4X4=;
+        b=cUWmvibF1U5qIxO7kaNrxc7Z3rhYrvL3YBWLgS4oEVvyyYfDveI6rP0og6i0v3Y3lC
+         bYz3K9nREpiA2hgPjpAU//h/SafMIkhrDk2dWtYTUgb3EyKvfj03wIkCeJtr207prUf0
+         xrQ0VmH3wqDA69KWGLL0W5VCERbaIlvtV8MUAQxXH0gtBals4nqnwec+DiR3REjWxR8o
+         KuN3aZrsmZZMCNJatS7/+2y5bl0JHgzmmq2wQ0Svkc8Ql1CgWiB5+9w2DS551vaXN48b
+         9TG0miWfYuz777y9EYEpY5nuG/bTwJAbMmzQb/CcueRCBrIlEo7ar8jyYC62CsaWYUk7
+         k3Lg==
+X-Gm-Message-State: AGi0PuYsWazKPUYQ1j5eEuzai1DIjThOCEeSjKffXkXM+2buNPWfeZdH
+        W249yTwlm+r8ctQax4WBtg8=
+X-Google-Smtp-Source: APiQypIl+H3bVs2N1KfiyJe5IJkbPjRbQz0m+dJRxuGxvqLHaNcaPc6eD78i0ZA0QZtnOxIdh+dlvQ==
+X-Received: by 2002:a17:90a:e2c1:: with SMTP id fr1mr2131921pjb.124.1588300638823;
+        Thu, 30 Apr 2020 19:37:18 -0700 (PDT)
+Received: from vultr.guest ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id a142sm924681pfa.6.2020.04.30.19.37.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2020 19:37:18 -0700 (PDT)
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Changbin Du <changbin.du@gmail.com>
+Subject: [PATCH] streamline_config.pl: add LOCALMODCONFIG_PRESERVE to preserve some kconfigs
+Date:   Fri,  1 May 2020 10:37:08 +0800
+Message-Id: <20200501023708.108830-1-changbin.du@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200430131715.32c1a1f6@coco.lan> <CAK7LNASmVoZequqaj6MTimeZ0MG0fk7Wb5-9haFhgG03kDBpxg@mail.gmail.com>
- <20200430184948.27191975@coco.lan> <CAK7LNASx5qfV_6Wow-MVKsHXUX96m8yYvpeK1QVt+2i46FTMNg@mail.gmail.com>
- <20200430211009.3fef03f3@coco.lan>
-In-Reply-To: <20200430211009.3fef03f3@coco.lan>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 1 May 2020 11:31:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQNC0HSMx9z-tQS1+Kd=_x6Sa3ohXv5-cXP_n5XUz3jPA@mail.gmail.com>
-Message-ID: <CAK7LNAQNC0HSMx9z-tQS1+Kd=_x6Sa3ohXv5-cXP_n5XUz3jPA@mail.gmail.com>
-Subject: Re: bug: Kbuild seems to require "make prepare-objtool" in order to
- use (some) new config vars
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 1, 2020 at 4:10 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Fri, 1 May 2020 02:20:13 +0900
-> Masahiro Yamada <masahiroy@kernel.org> escreveu:
->
-> > On Fri, May 1, 2020 at 1:49 AM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > Em Thu, 30 Apr 2020 22:51:48 +0900
-> > > Masahiro Yamada <masahiroy@kernel.org> escreveu:
-> > >
-> > > > Hi Mauro,
-> > > >
-> > > >
-> > > > On Thu, Apr 30, 2020 at 8:17 PM Mauro Carvalho Chehab
-> > > > <mchehab+huawei@kernel.org> wrote:
-> > > > >
-> > > > > Hi Masahiro,
-> > > > >
-> > > > > Not sure if this was already reported (or eventually fixed) upstr=
-eam.
-> > > > >
-> > > > > While doing a Kconfig reorg on media, I noticed a few weird thing=
-s,
-> > > > > requiring me to call, on a few situations, "make modules_prepare"
-> > > > > manually after some changes.
-> > > > >
-> > > > > I'm now working on a patchset to yet to be merged upstream aiming=
- to
-> > > > > resurrect a driver from staging. It is currently on this tree
-> > > > > (with is based at the media development tree, on the top of 5.7-r=
-c1):
-> > > > >
-> > > > >         https://git.linuxtv.org/mchehab/experimental.git/log/?h=
-=3Datomisp_v2
-> > > > >
-> > > > > There, I was able to identify a misbehavior that it is probably
-> > > > > what forced me to need calling "make modules_prepare".
-> > > > >
-> > > > > The atomisp driver is on a very bad shape. Among its problems, it=
- has a
-> > > > > set of header definitions that should be different for two differ=
-ent
-> > > > > variants of the supported devices. In order to be able to compile=
- for
-> > > > > either one of the variants, I added a new config var:
-> > > > > CONFIG_VIDEO_ATOMISP_ISP2401.
-> > > > >
-> > > > > The problem is that calling just
-> > > > >
-> > > > >         ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401
-> > > > >
-> > > > > or
-> > > > >         ./scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401
-> > > >
-> > > >
-> > > > scripts/config does not take the dependency into consideration
-> > > > at all.
-> > > >
-> > > > You need to enable/disable other options that it depends on.
-> > >
-> > > Yes, I know. on my tests, I did a "make allyesconfig" before
-> > > the patch whose added this dependency. So, the only dependency
-> > > left to be enabled or disabled was this one.
-> > >
-> > > The problem I'm pointing is not really do a select recursion
-> > > (that would be a really cool feature, but I know it is not
-> > > trivial), but, instead, that, despite the config var was
-> > > there, when I tried to build it with:
-> > >
-> > >         make clean; make M=3Ddrivers/staging/media/atomisp
-> > >
-> > > It didn't do the right thing. Instead, it used ISP2401=3Dy
-> > > on make clean and ISP2401=3Dn at the drivers build.
-> > >
-> > > So, in order to test if patches won't break building,
-> > > depending on the value of this var, I'm currently doing:
-> > >
-> > >         cls;./scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401 && make =
-prepare-objtool && make clean && make M=3Ddrivers/staging/media/atomisp && =
-./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && make prepare-objtool &&=
- make clean && make M=3Ddrivers/staging/media/atomisp
-> > >
-> > > (note the alien "make prepare-objtool" in the middle)
-> > >
-> > >
-> > > > ./scripts/config -e STAGING -e STAGING_MEDIA -e MEDIA_SUPPORT -e
-> > > > MEDIA_CONTROLLER -e INTEL_ATOMISP -e VIDEOBUF_VMALLOC -e VIDEO_ATOM=
-ISP
-> > > > -d MEDIA_SUPPORT_FILTER -e VIDEO_DEV -e VIDEO_V4L2 -e
-> > > > VIDEO_ATOMISP_ISP2401
-> > > >
-> > > > allows me to enable VIDEO_ATOMISP_ISP2401.
-> > > >
-> > > >
-> > > > It is painful to debug such complicated dependency graph, though.
-> > >
-> > > Yeah, dependencies at the media subsystem are usually quite complex.
-> > >
-> > > > >
-> > > > > is not enough anymore for the build to actually use the new confi=
-g value.
-> > > > >
-> > > > > It just keeps silently using the old config value.
-> > > > >
-> > > > > I double-checked it by adding this macro at the Makefile:
-> > > > >
-> > > > >         $(info ************ ISP2401: $(CONFIG_VIDEO_ATOMISP_ISP24=
-01) ************)
-> > > > >
-> > > > > The Makefile doesn't see the change, except if I explicitly call
-> > > > > "make modules_prepare" or "make prepare-objtool".
-> > > > >
-> > > > > Even calling "make oldconfig" doesn't make it use the new CONFIG_=
-*
-> > > >
-> > > >
-> > > > I do not know.
-> > > >
-> > > > I cannot look into it without detailed steps to reproduce it.
-> > >
-> > > I'm applying the enclosed patch to this branch:
-> > >
-> > >         https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Dato=
-misp_v2
-> > >
-> > > and running this:
-> > >
-> > >         $ make allyesconfig 2>/dev/null >/dev/null; echo "disable";./=
-scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401 && make M=3Ddrivers/staging/=
-media/atomisp && ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && echo "=
-enable" && make clean && make M=3Ddrivers/staging/media/atomisp
-> > >         disable
-> > >
-> > >           WARNING: Symbol version dump ./Module.symvers
-> > >                    is missing; modules will have no dependencies and =
-modversions.
-> > >
-> > >         ************ ISP2401: y ************
-> > >           AR      drivers/staging/media/atomisp/built-in.a
-> > >         ************ ISP2401: y ************
-> > >           MODPOST 0 modules
-> > >         enable
-> > >         ************ ISP2401:  ************
-> > >
-> > >           WARNING: Symbol version dump ./Module.symvers
-> > >                    is missing; modules will have no dependencies and =
-modversions.
-> > >
-> > >         ************ ISP2401: y ************
-> > >           AR      drivers/staging/media/atomisp/built-in.a
-> > >         ************ ISP2401: y ************
-> > >           MODPOST 0 modules
-> > >
-> > > PS.: the same occurs if I use "make allmodconfig".
-> >
-> >
-> >
-> > This is the expected behavior.
-> >
-> > The problem is that you immediately compile the module after
-> > you tweak the .config file.
-> >
-> > Kbuild does not use the .config file directly.
-> > Instead, it uses include/config/auto.conf.
-> >
-> >
-> > The M=3D builds never touch the in-kernel build artifacts,
-> > so it includes the stale include/config/auto.conf
->
-> I'm pretty sure that this used to work in the past.
->
-> Can't we have something similar to[1]:
->
->         include/config/auto.conf: .config
->
-> in order to force auto.conf to be re-generated if the .config file
-> was modified?
->
-> [1] yeah, I know that the above won't work currently, because of the
-> ifdefs, but perhaps something like this could be done inside the
-> "if KBUILD_EXTMOD" part of the Makefile.
->
-> > After you change the .config, you must run 'make modules_prepare'
-> > at least.
-> >
-> > This is documented in 'make help'.
-> >
-> >
-> >   modules_prepare - Set up for building external modules
->
-> Yeah, I noticed this new target on more recent Kernels. I was not
-> familiar with this "new" concept of "external"[2].
+Sometimes it is useful to preserve batches of configs when making
+localmodconfig. For example, I usually don't want any usb and fs
+modules to be disabled. Now we can do it by:
 
+ $ make LOCALMODCONFIG_PRESERVE="drivers/usb;fs" localmodconfig
 
-The meaning of "new" depends on people.
+Signed-off-by: Changbin Du <changbin.du@gmail.com>
+---
+ Documentation/admin-guide/README.rst |  8 +++++++-
+ scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-The 'modules_prepare' target was added in 2004.
+diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+index cc6151fc0845..6deff95362f8 100644
+--- a/Documentation/admin-guide/README.rst
++++ b/Documentation/admin-guide/README.rst
+@@ -209,10 +209,16 @@ Configuring the kernel
+                            store the lsmod of that machine into a file
+                            and pass it in as a LSMOD parameter.
+ 
++                           Also, you can preserve modules in certen folders
++                           or kconfig files by spcifying there paths in
++                           parameter LOCALMODCONFIG_PRESERVE.
++
+                    target$ lsmod > /tmp/mylsmod
+                    target$ scp /tmp/mylsmod host:/tmp
+ 
+-                   host$ make LSMOD=/tmp/mylsmod localmodconfig
++                   host$ make LSMOD=/tmp/mylsmod \
++                           LOCALMODCONFIG_PRESERVE="drivers/usb;drivers/gpu;fs" \
++                           localmodconfig
+ 
+                            The above also works when cross compiling.
+ 
+diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+index e2f8504f5a2d..ab5d1e10a5d0 100755
+--- a/scripts/kconfig/streamline_config.pl
++++ b/scripts/kconfig/streamline_config.pl
+@@ -143,6 +143,7 @@ my %depends;
+ my %selects;
+ my %prompts;
+ my %objects;
++my %config2kfile;
+ my $var;
+ my $iflevel = 0;
+ my @ifdeps;
+@@ -201,6 +202,7 @@ sub read_kconfig {
+ 	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+ 	    $state = "NEW";
+ 	    $config = $2;
++	    $config2kfile{"CONFIG_$config"} = $kconfig;
+ 
+ 	    # Add depends for 'if' nesting
+ 	    for (my $i = 0; $i < $iflevel; $i++) {
+@@ -592,6 +594,22 @@ while ($repeat) {
+ 
+ my %setconfigs;
+ 
++my @presevered_kconfigs;
++@presevered_kconfigs = split(/;/,$ENV{LOCALMODCONFIG_PRESERVE}) if (defined($ENV{LOCALMODCONFIG_PRESERVE}));
++
++sub in_presevered_kconfigs {
++    my $kconfig = $config2kfile{$_[0]};
++    if (!defined($kconfig)) {
++        return 0;
++    }
++    foreach my $excl (@presevered_kconfigs) {
++        if($kconfig =~ /^$excl/) {
++            return 1;
++        }
++    }
++    return 0;
++}
++
+ # Finally, read the .config file and turn off any module enabled that
+ # we could not find a reason to keep enabled.
+ foreach my $line (@config_file) {
+@@ -644,6 +662,11 @@ foreach my $line (@config_file) {
+     }
+ 
+     if (/^(CONFIG.*)=(m|y)/) {
++        if (in_presevered_kconfigs($1)) {
++            dprint "Preserve config $1";
++            print;
++            next;
++        }
+ 	if (defined($configs{$1})) {
+ 	    if ($localyesconfig) {
+ 	        $setconfigs{$1} = 'y';
+-- 
+2.25.1
 
-This commit:
-https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/=
-?id=3D95065ad3fa787c417008a36d3a5d9a3bab17ab98
-
-
-I do not think it is new, but you may think differently.
-
-
-
-
-
-
-One more thing,
-please tell me the motivation to do:
-
- make M=3Ddrivers/staging/media/atomisp
-
-
-
-The main usage of M=3D is to build external modules.
-If you want to compile the individual directory,
-you can do this:
-
- make drivers/staging/media/stomisp/
-
-
-
-
-
->
-> Maybe the text should be changed to something like:
->
->    modules_prepare - Should be called before using "make M=3D<module dir>=
-"
->
-> To make it clearer. Yet, having to call it *every time* a
-> Kconfig option has changed, doesn't seem right. The
-> building system could be smarter and re-build auto.conf if
-> it is older than .config file, or, at least, emit a WARNING, if
-> the file is not synchronized.
->
->
-> [2] Not sure if this still works, but, in the past (2.x), it was
-> possible to setup an out-of-tree external tree with just a new
-> driver. Then use "make modules" to build those external OOT
-> modules. For historical reasons, still have at linuxtv.org
-> one such tree:
->
->          https://linuxtv.org/hg/v4l-dvb/file/tip
->
->
-> Thanks,
-> Mauro
-
-
---
-Best Regards
-Masahiro Yamada
