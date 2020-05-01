@@ -2,140 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A86E1C0C96
-	for <lists+linux-kbuild@lfdr.de>; Fri,  1 May 2020 05:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A6341C0DBB
+	for <lists+linux-kbuild@lfdr.de>; Fri,  1 May 2020 07:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728161AbgEAD2S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Apr 2020 23:28:18 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:62324 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727889AbgEAD2R (ORCPT
+        id S1728193AbgEAFfD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 1 May 2020 01:35:03 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:37858 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726452AbgEAFfD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Apr 2020 23:28:17 -0400
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0413Rtl3009806;
-        Fri, 1 May 2020 12:27:56 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0413Rtl3009806
+        Fri, 1 May 2020 01:35:03 -0400
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 0415YlWG006461;
+        Fri, 1 May 2020 14:34:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0415YlWG006461
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588303676;
-        bh=dZPeCNSQY4aYFOOSP6Kq54wydMYSCKOA05XzY7vDE8Y=;
+        s=dec2015msa; t=1588311288;
+        bh=UZWM7i0RZnnhTnaPc+bA3fPcd9baVcIj+Fep60CTyUs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=nAhYz0mmmmg7EKCXhCx1Qt6TbEkutIb9JwQPCTRki8n1uume/k39uZKQAkncgucjc
-         2PZcWdP2szP2/UmZf/OSw7Gu8CatIcAh52ut6gbx4dkaB2CzGTQDrGW25xLZ8RBU1K
-         mPOSqV7Vyw24nWj5AM3QwSJ1Q3o3uvp3upy+R5le/twZ+2EzUyBh5RpGCbvVBYT30B
-         q7WyB86luZvUf/q7vr5h/Js7Nqe+mG8JgPu+FbuT2ECfdt+F+jm2smoez/8UF2D/l3
-         cdtW/th7IGQCjDCS6ulgZ4uvyKVMGLJK8SmepMvswOaFii/31YbMPR2/U+Q3PaeMId
-         0AfQaUeV0uwVw==
-X-Nifty-SrcIP: [209.85.221.175]
-Received: by mail-vk1-f175.google.com with SMTP id 10so2432524vkr.7;
-        Thu, 30 Apr 2020 20:27:56 -0700 (PDT)
-X-Gm-Message-State: AGi0Pub49ENNPIXVkv6OHV4oh/Pg8bJZTpLIHzwcQD0tuqjUvqex2CCq
-        DhIOfHch4h9GiJOSend6e+sJaQvq6nN0WHb+7KA=
-X-Google-Smtp-Source: APiQypJ8lhjrAWwCx9qV0shUtiOp+DaXKU7s0XZXGsQhnFxZJgrDSGADP8IC40NSFu+ypTMRPy4TPYSNq0OENTl8FOU=
-X-Received: by 2002:a1f:d182:: with SMTP id i124mr1366860vkg.26.1588303675078;
- Thu, 30 Apr 2020 20:27:55 -0700 (PDT)
+        b=xb1tWHX+qf/bEwuP5QwZN3txKaLAhrMlkqnWAq/VdLZk3v9AaHY25ESw83N3pY+gW
+         16vjsuMzXn4l1aG1zjpGPugovTV9Cw7bH2pVfPg7YreyluxMei+Pw1Tm52uZ0Xdb7j
+         Nh806VgdZWuFpFS/nOiHkTnzoRln9+/QIraTEUUjjeLcQKJTh5RhCIPWvjfrZf8zLW
+         GyGGw+0tQYZW2/Kua6aLQjfLFvBjppDN9nPbCbCfZWG+7McRVuIFz6jgl6lYZqri29
+         pJZa1qZ+up0ZIUAztW/edIXgtMWOvuV/+hlO3pRR1IHhKVtWQV2vov44+nKraio4dx
+         fK5+CMDs8geMQ==
+X-Nifty-SrcIP: [209.85.221.181]
+Received: by mail-vk1-f181.google.com with SMTP id j127so539900vke.4;
+        Thu, 30 Apr 2020 22:34:48 -0700 (PDT)
+X-Gm-Message-State: AGi0Puadh3i0+MzohG43G81E4Uo3gTuAK4v23oxlwscVEJFQhWy6p7WZ
+        JuIDY4mviK+IcYR2+0hrhLyr/N/QJeNLfid5eII=
+X-Google-Smtp-Source: APiQypK4SZZYkVLuWaMc9Uw+UZeiEdzKkKJRzZ9ZgTZ2v9epE8PC2KDbGf6W9JA1PKc3iWvYSQ0vKisDIVhrEpPLdDs=
+X-Received: by 2002:a1f:d182:: with SMTP id i124mr1573782vkg.26.1588311287171;
+ Thu, 30 Apr 2020 22:34:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200430131715.32c1a1f6@coco.lan> <CAK7LNASmVoZequqaj6MTimeZ0MG0fk7Wb5-9haFhgG03kDBpxg@mail.gmail.com>
- <20200430184948.27191975@coco.lan> <CAK7LNASx5qfV_6Wow-MVKsHXUX96m8yYvpeK1QVt+2i46FTMNg@mail.gmail.com>
- <20200430211009.3fef03f3@coco.lan> <20200430212511.2115ed98@coco.lan>
-In-Reply-To: <20200430212511.2115ed98@coco.lan>
+References: <20200423142354.312088-1-masahiroy@kernel.org>
+In-Reply-To: <20200423142354.312088-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 1 May 2020 12:27:19 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARA2+S5mjzRucvdJ-zQo6UEAuNi9npJvJB+JcVgh+d_3w@mail.gmail.com>
-Message-ID: <CAK7LNARA2+S5mjzRucvdJ-zQo6UEAuNi9npJvJB+JcVgh+d_3w@mail.gmail.com>
-Subject: Re: [PATCH RFC] Kbuild: Makefile: warn if auto.conf is obsolete
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Fri, 1 May 2020 14:34:11 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQH07KvoCgv5B8jUs+EUsJ167omM1U2AWHKdaAB+nAMCQ@mail.gmail.com>
+Message-ID: <CAK7LNAQH07KvoCgv5B8jUs+EUsJ167omM1U2AWHKdaAB+nAMCQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] kbuild: use $(CC_VERSION_TEXT) to evaluate
+ CC_IS_GCC and CC_IS_CLANG
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 1, 2020 at 4:25 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Thu, Apr 23, 2020 at 11:24 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> A new behavior on more recent kernels require to always call
-> "make modules_prepare" after *any* Kconfig changes.
-
-
-Again, this is the behavior since 2004.
-
-This commit:
-https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=95065ad3fa787c417008a36d3a5d9a3bab17ab98
-
-
-Shrug if you complain about what has been stable
-more than 15 years.
-
-
-> This is not what a poor mortal would be expecting on a building
-> system, as it should, IMHO, be able to detect and auto-run
-> whatever is needed to use the newer setup.
-
-No. External module builds should never ever attempt to update
-in-tree files.
-
-This is because the build environment for external modules
-is usually located in /lib/modules/$(uname -r)/build/,
-which is read-only.
-
-
-A number of upstream developers (ab)use
-M= to compile test individual directories,
-despite the fact Kbuild supports
-the single target 'make drivers/staging/media/stomisp/'
-
-
-
-You need to cope with this conflicting comment line:
-https://github.com/masahir0y/linux/blob/v5.6/Makefile#L681
-since you care if auto.conf is up-to-date.
-
-
-
-
-
-> Yet, while this is not solved, let's at least stop the build
-> and produce a warning, to notify the user about that.
+> The result of '$(CC) --version | head -n 1' is already computed by the
+> top Makefile, and stored in the environment variable, CC_VERSION_TEXT.
 >
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 'echo' is probably less expensive than the two commands $(CC) and
+> 'head' although this optimization is not noticeable level.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+
+Applied to linux-kbuild.
+
+
+
 > ---
 >
-> I would still prefer to call "make modules_prepare" directly,
-> on such cases, but just calling "make -C . modules_prepare" doesn't
-> work. So, the next best thing would be to at least print a message
-> and don't try to do a build with a broken auto.conf file.
+> Changes in v2:
+>   - new patch
 >
->  Makefile | 5 +++++
->  1 file changed, 5 insertions(+)
+>  init/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index 70def4907036..492ee2396ab9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1632,6 +1632,11 @@ $(objtree)/Module.symvers:
->  build-dirs := $(KBUILD_EXTMOD)
->  PHONY += modules
->  modules: descend $(objtree)/Module.symvers
-> +       @if [ $(KCONFIG_CONFIG) -nt include/config/auto.conf ]; then \
-> +               echo "  WARNING: $(KCONFIG_CONFIG) was modified. Need to run:"; \
-> +               echo "           $(MAKE) modules_prepare"; \
-> +               exit -1; \
-> +       fi
->         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 9e22ee8fbd75..5f797df3f043 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -9,7 +9,7 @@ config DEFCONFIG_LIST
+>         default "arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)"
 >
->  PHONY += modules_install
+>  config CC_IS_GCC
+> -       def_bool $(success,$(CC) --version | head -n 1 | grep -q gcc)
+> +       def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q gcc)
+>
+>  config GCC_VERSION
+>         int
+> @@ -21,7 +21,7 @@ config LD_VERSION
+>         default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
+>
+>  config CC_IS_CLANG
+> -       def_bool $(success,$(CC) --version | head -n 1 | grep -q clang)
+> +       def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q clang)
+>
+>  config CLANG_VERSION
+>         int
+> --
+> 2.25.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200423142354.312088-1-masahiroy%40kernel.org.
 
 
 
-
-
-
-
-
---
+-- 
 Best Regards
 Masahiro Yamada
