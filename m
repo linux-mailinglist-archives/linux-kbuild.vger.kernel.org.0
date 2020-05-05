@@ -2,152 +2,107 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCD291C5030
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2020 10:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8ABA1C54CE
+	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2020 13:54:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727931AbgEEIYm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 May 2020 04:24:42 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:54216 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725320AbgEEIYl (ORCPT
+        id S1728481AbgEELy1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 5 May 2020 07:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728180AbgEELy0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 May 2020 04:24:41 -0400
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 0458ODXX025004;
-        Tue, 5 May 2020 17:24:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0458ODXX025004
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588667054;
-        bh=awhKCUwBKnrY0PuQr1ZiYwWdjhoVOMuvHRPkGvuPBig=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=19phWRHzfucRuYFNCHmJtFb/7S9prMsy4+8xbnqO2UzkhhIYF3PDX0zkECzWjC9rP
-         VPAamfUmx8FZXAphNx0xNboKMDcOukT7A2gcRIn5FCh1ayXqJHXEAtUsrQGAtftYFz
-         W7Cvk0kQy/30DfPXhks3p0xkdNyI8HT6TMYNRqEF/cTlVyjYHauACGyZNE1jCpZQ/l
-         8ds8YhANRh5mAySe5wJNhhi6I5mbhg5kDnw07OH4xijc4kOtyLzIHvcMT3jZSPGDk0
-         w9mP4m2pOj9g7xBrqBtjUyAcWg3gH0ssTP3shR9uL568wRIrMQj7P5fNcspyhfCtfj
-         CQjHfOgzUYTBw==
-X-Nifty-SrcIP: [209.85.217.48]
-Received: by mail-vs1-f48.google.com with SMTP id s11so708794vsq.13;
-        Tue, 05 May 2020 01:24:14 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYKwtPisPWvtbIE6iMSgusOIidWXM9PZtE+ANDGO/86n6KbzLNn
-        JuP2HABB6yJnbP93suimd+6mFbO/t9pr/uQH+3A=
-X-Google-Smtp-Source: APiQypI+NF72kYXUBGhjZ7K//d9ckRGDhIKCAkr5ao2a5eh/orzgnX4ljHTKFkr5raukyfp0MWA96AsQ9GOht6LNT1E=
-X-Received: by 2002:a67:6e07:: with SMTP id j7mr1604563vsc.181.1588667052874;
- Tue, 05 May 2020 01:24:12 -0700 (PDT)
+        Tue, 5 May 2020 07:54:26 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3FDC061A0F
+        for <linux-kbuild@vger.kernel.org>; Tue,  5 May 2020 04:54:26 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id g4so1301755ljl.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 05 May 2020 04:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uml5U42DUBDTh4vmv37IC5qSO5nYUkK5/4LFg2c0Ji8=;
+        b=fl8nSvJhFZ0g5sbLGBqmv9Jt5aq4btP+PN321WfcrkM1oPwxWcTa24dNUSPmmEeocb
+         M0/kSkMgncARzOWJNF+ASfjXvhDkxi5QGZY7PJtVL3qvrKD24k8UYRPNSUhXOhx6J564
+         6k+wAnULsYQvmYYLLUG+B+55gLYS9gBe3VPBKld7R5+AIl5f/A4p+QslqkAz+xtEKx6b
+         3Mg1s/iKCRjUPBqxFxk4UJ13JkOEoTN7XfrNXQqTj4epqqN0zc28k7zscqYo5iFaSLFm
+         5ZiehNIJSLslbol7hT9Y8z4SG1W8hcrNV3UiPsT4bwssIssZaqS0KJLhzaOr6JdK6VKX
+         8+Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uml5U42DUBDTh4vmv37IC5qSO5nYUkK5/4LFg2c0Ji8=;
+        b=OzDyqJ+LcmZ+CmBepg7K3wqVzv9CRgWwARFYNO3iLZjT3hZYVqTHcqyfpsuFrrpkkZ
+         0qkaxaSD/6vGV2+9cVh3tdAGISicrJmSymoFTLNquVmX5W0nY9ouADJNtWjAQrB6Utkq
+         5i1bvqN76jeehJAHJxcWwWxY9vq39G5i1rk7dahxZ4INJYvl5ZpKbeFORC9T6r+b5gdp
+         CPMhXHvbIrANwzEIoudYlUrUT1HLJkRk5iUauf/+nwH8PaN18RD6AFHaHa7YG+ER+b4Z
+         qUUKYp3W0VuyaeMc7EKOQmjEQvt756UhM03EvxQsZfb4RAuq8kRbYBrdYnA3nNsUKwQ6
+         fQ6g==
+X-Gm-Message-State: AGi0Pua/o2ztcFraDSQgDpwY2WZnKtJyy9o+buA5fHZ0rRAnA1aUd9Uv
+        LnD1qG2HE5rULiN+HGIEshI9sAEIDOikaiBs
+X-Google-Smtp-Source: APiQypJnwDsbvj52jO1SlptQqc2ppigC6TLoB6HZ7LPx7W3OJyppghiHk6hhdd4a8VsxqxOW+U2HXA==
+X-Received: by 2002:a2e:2201:: with SMTP id i1mr1584565lji.31.1588679664636;
+        Tue, 05 May 2020 04:54:24 -0700 (PDT)
+Received: from localhost (c-8c28e555.07-21-73746f28.bbcust.telenor.se. [85.229.40.140])
+        by smtp.gmail.com with ESMTPSA id q26sm1612347ljg.47.2020.05.05.04.54.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 04:54:24 -0700 (PDT)
+From:   Anders Roxell <anders.roxell@linaro.org>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Anders Roxell <anders.roxell@linaro.org>
+Subject: [PATCH] scripts: fix deprecated always and hostprogs-y
+Date:   Tue,  5 May 2020 13:54:20 +0200
+Message-Id: <20200505115420.18765-1-anders.roxell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200504020651.37031-1-masahiroy@kernel.org> <20200504020651.37031-2-masahiroy@kernel.org>
- <CAL_JsqLRUAEmh3kwEo+T-dMhXZTBH_kwbBwKzZyhJMR5P92pwA@mail.gmail.com> <CAK7LNASGKrovgqEzSgqZRU0kAsh7rhZ78fZ21VrdKvmP2XH0JQ@mail.gmail.com>
-In-Reply-To: <CAK7LNASGKrovgqEzSgqZRU0kAsh7rhZ78fZ21VrdKvmP2XH0JQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 5 May 2020 17:23:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATXCKYfogvYxpaKW+CE0KwMeNjHfLpSemFAHdBzG0yGDQ@mail.gmail.com>
-Message-ID: <CAK7LNATXCKYfogvYxpaKW+CE0KwMeNjHfLpSemFAHdBzG0yGDQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] scripts/dtc: compile separate dtc-yaml
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        =?UTF-8?B?TWFyZWsgQmVo77+977+9w6Ju?= <marek.behun@nic.cz>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 5, 2020 at 12:04 PM Masahiro Yamada <masahiroy@kernel.org> wrot=
-e:
->
-> On Tue, May 5, 2020 at 4:15 AM Rob Herring <robh+dt@kernel.org> wrote:
-> >
-> > On Sun, May 3, 2020 at 9:07 PM Masahiro Yamada <masahiroy@kernel.org> w=
-rote:
-> > >
-> > > Marek Beh=C3=BAn reported a case where pkg-config fails to detect the
-> > > libyaml-dev package, which is presumably a bug of the distro.
-> > >
-> > > Irrespective of that, I am not a big fan of pkg-config in the Makefil=
-e
-> > > parse stage. The cost of pkg-config is quite small, but it is evaluat=
-ed
-> > > everytime we run make, even when we do 'make mrproper'. This commit
-> > > changes the Makefile to not rely on pkg-config at all.
-> >
-> > I don't really love the solution here... I'm inclined to just make
-> > libyaml always required. Anyone building dtbs should care about
-> > validating them. However, there's some dts files sprinkled in the tree
-> > such as DT unittests and I don't want to break allmodconfig for CI,
-> > 0-day, etc. Though eventually we may have to.
-> >
-> > > The normal build should not require libyaml-dev while we need to comp=
-ile
-> > > dtc with libyaml for the schema check.
-> > >
-> > > Build two dtc variants:
-> > >
-> > >   scripts/dtc/dtc      for *.dts -> *.dtb
-> > >   scripts/dtc/dtc-yaml for *.dts -> *.dt.yaml
-> >
-> > My longer term plan is to integrate the schema checks into dtc. This
-> > would be some sort of plugin to dtc found or specified at run-time. It
-> > would eliminate the need for 2 passes of dtc and the 2nd case will go
-> > away.
->
->
-> OK.
->
->
->
-> > > --- a/scripts/Makefile.lib
-> > > +++ b/scripts/Makefile.lib
-> > > @@ -246,6 +246,7 @@ quiet_cmd_gzip =3D GZIP    $@
-> > >  # DTC
-> > >  # ------------------------------------------------------------------=
----------
-> > >  DTC ?=3D $(objtree)/scripts/dtc/dtc
-> > > +DTC_YAML ?=3D $(objtree)/scripts/dtc/dtc-yaml
-> >
-> > Can we make 'DTC' override both and keep this an internal detail.
-> >
->
-> No. For parallel building *.dtb and *.dt.yaml,
-> they must be separate instances.
->
->
-> > > +HOSTLDLIBS_dtc-yaml :=3D -lyaml
-> >
-> > Does this work for yocto? As we had this before commit 067c650c456e.
-> > Not clear if this changed for any reason or just 'let's use pkg-config
-> > everywhere'.
-> >
-> > Or is there another way to fix yocto issue and we can just check the
-> > header exists. I assume yocto needs some prefix in front of
-> > '/usr/include/yaml.h'?
-> >
->
-> My bad - I missed 067c650c456e
->
-> We need pkg-config to deal with yocto.
->
->
-> Sorry, I take back this series.
+When I did an allmodconfig build the following warning showed up:
 
+scripts/Makefile.lib:8: 'always' is deprecated. Please use 'always-y' instead
+scripts/Makefile.lib:12: 'hostprogs-y' and 'hostprogs-m' are deprecated. Please use 'hostprogs' instead
 
-On my second thought, we can search libyaml
-in non-standard path without pkg-config.
+Rework to use the new 'always-y' and 'hostprogs'.
 
+Fixes: ee066c3ddf7b ("kbuild: warn if always, hostprogs-y, or hostprogs-m is used")
+Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
+---
+ samples/watch_queue/Makefile | 4 ++--
+ scripts/Makefile.build       | 1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Kbuild provides a way to specify additional flags
-for building host tools.
+diff --git a/samples/watch_queue/Makefile b/samples/watch_queue/Makefile
+index eec00dd0a8df..8511fb6c53d2 100644
+--- a/samples/watch_queue/Makefile
++++ b/samples/watch_queue/Makefile
+@@ -1,7 +1,7 @@
+ # List of programs to build
+-hostprogs-y := watch_test
++hostprogs := watch_test
+ 
+ # Tell kbuild to always build the programs
+-always := $(hostprogs-y)
++always-y := $(hostprogs)
+ 
+ HOSTCFLAGS_watch_test.o += -I$(objtree)/usr/include
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 3665b1a0bc8e..abdba70f33a1 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -15,7 +15,6 @@ obj-y :=
+ obj-m :=
+ lib-y :=
+ lib-m :=
+-always :=
+ always-y :=
+ always-m :=
+ targets :=
+-- 
+2.20.1
 
-make  HOSTCFLAGS=3D<install-dir-in-yocto>/include
-      HOSTLDFLAGS=3D<install-dir-in-yocto>/lib
-
-
-
-
---=20
-Best Regards
-Masahiro Yamada
