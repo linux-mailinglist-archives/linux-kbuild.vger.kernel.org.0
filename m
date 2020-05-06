@@ -2,107 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8ABA1C54CE
-	for <lists+linux-kbuild@lfdr.de>; Tue,  5 May 2020 13:54:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16AA61C670D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2020 06:45:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728481AbgEELy1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 5 May 2020 07:54:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54878 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728180AbgEELy0 (ORCPT
+        id S1725892AbgEFEpM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 May 2020 00:45:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43582 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725862AbgEFEpL (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 5 May 2020 07:54:26 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3FDC061A0F
-        for <linux-kbuild@vger.kernel.org>; Tue,  5 May 2020 04:54:26 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id g4so1301755ljl.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 05 May 2020 04:54:26 -0700 (PDT)
+        Wed, 6 May 2020 00:45:11 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B64C061A0F;
+        Tue,  5 May 2020 21:45:11 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id p25so386095pfn.11;
+        Tue, 05 May 2020 21:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uml5U42DUBDTh4vmv37IC5qSO5nYUkK5/4LFg2c0Ji8=;
-        b=fl8nSvJhFZ0g5sbLGBqmv9Jt5aq4btP+PN321WfcrkM1oPwxWcTa24dNUSPmmEeocb
-         M0/kSkMgncARzOWJNF+ASfjXvhDkxi5QGZY7PJtVL3qvrKD24k8UYRPNSUhXOhx6J564
-         6k+wAnULsYQvmYYLLUG+B+55gLYS9gBe3VPBKld7R5+AIl5f/A4p+QslqkAz+xtEKx6b
-         3Mg1s/iKCRjUPBqxFxk4UJ13JkOEoTN7XfrNXQqTj4epqqN0zc28k7zscqYo5iFaSLFm
-         5ZiehNIJSLslbol7hT9Y8z4SG1W8hcrNV3UiPsT4bwssIssZaqS0KJLhzaOr6JdK6VKX
-         8+Dw==
+        d=gmail.com; s=20161025;
+        h=from:subject:to:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=nLsJXrAuqBX1mbe5XSwwfXidNjjtm9wgbXukORhebQU=;
+        b=r9hXDDE4T7bGFCOFM1dnN/Dwl8t6eXqEkOZlA4BDKRqS8/giU1Xn7tYlRqhxZzNMff
+         wt41E7VSwL++TEkU4mmMXaC5DVHNJ6uW0uM5wEoRJwdutU0WhRRlw03CioQEyxdHX8lV
+         F12ifMvOD36BZKAdVMPRFZ8zLG7pq+hMCnzvMqc6JKHtm1ogY4rDJ1wfR7S3vD0Lbvkz
+         LRktAvvFEhrKhF8el8L9SHMbG3e32PjCbAvxD04/VLxxYUfri5kOVc7m12NcE2xCf4lJ
+         R2NGM0aqgXvAA+5HTtIi46iVtlC0OheLy0XclmzyoU24vBCEyqhIl52rpaEM3al3Ks41
+         DPbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uml5U42DUBDTh4vmv37IC5qSO5nYUkK5/4LFg2c0Ji8=;
-        b=OzDyqJ+LcmZ+CmBepg7K3wqVzv9CRgWwARFYNO3iLZjT3hZYVqTHcqyfpsuFrrpkkZ
-         0qkaxaSD/6vGV2+9cVh3tdAGISicrJmSymoFTLNquVmX5W0nY9ouADJNtWjAQrB6Utkq
-         5i1bvqN76jeehJAHJxcWwWxY9vq39G5i1rk7dahxZ4INJYvl5ZpKbeFORC9T6r+b5gdp
-         CPMhXHvbIrANwzEIoudYlUrUT1HLJkRk5iUauf/+nwH8PaN18RD6AFHaHa7YG+ER+b4Z
-         qUUKYp3W0VuyaeMc7EKOQmjEQvt756UhM03EvxQsZfb4RAuq8kRbYBrdYnA3nNsUKwQ6
-         fQ6g==
-X-Gm-Message-State: AGi0Pua/o2ztcFraDSQgDpwY2WZnKtJyy9o+buA5fHZ0rRAnA1aUd9Uv
-        LnD1qG2HE5rULiN+HGIEshI9sAEIDOikaiBs
-X-Google-Smtp-Source: APiQypJnwDsbvj52jO1SlptQqc2ppigC6TLoB6HZ7LPx7W3OJyppghiHk6hhdd4a8VsxqxOW+U2HXA==
-X-Received: by 2002:a2e:2201:: with SMTP id i1mr1584565lji.31.1588679664636;
-        Tue, 05 May 2020 04:54:24 -0700 (PDT)
-Received: from localhost (c-8c28e555.07-21-73746f28.bbcust.telenor.se. [85.229.40.140])
-        by smtp.gmail.com with ESMTPSA id q26sm1612347ljg.47.2020.05.05.04.54.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 04:54:24 -0700 (PDT)
-From:   Anders Roxell <anders.roxell@linaro.org>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Anders Roxell <anders.roxell@linaro.org>
-Subject: [PATCH] scripts: fix deprecated always and hostprogs-y
-Date:   Tue,  5 May 2020 13:54:20 +0200
-Message-Id: <20200505115420.18765-1-anders.roxell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:from:subject:to:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=nLsJXrAuqBX1mbe5XSwwfXidNjjtm9wgbXukORhebQU=;
+        b=Tgp75Mj0BHBNDG6fGYNuaSbePQw/cdcTU6nm2qT7dl1Hpd2wNFBD4KLqeup3H2wBVR
+         nH5BmGvUzHY+rtHj9YPeiROy7qaafdDaeCL2xMDTgD7Ux5cIjxC9AaUIXQHw7drIX6HX
+         Dr/7LfzwrQ4/nGrRQcPpSA7JFQ7ACA+6XIiVeO4W0Vh33en2SPJyYbm16Ug1pXxaY7NQ
+         xLtNntb4pYqPbHlyuk0D/PK88eXlasYj/D47kimrQQNw+yEo3G4Y2wHn+jII6zbQCYiQ
+         jmrOjULb7Ta8y+a5W/dKIw2ubKcd6tKxCIzQXZYM6rJBNSOU5+isUKER9c6sP2WWan65
+         KGpg==
+X-Gm-Message-State: AGi0PubZGm7NBfDk8Nne3vkvzLt61Z04JAjp3/fNIeytHSsk+jlLoi0q
+        c510AbQHvZEL7iqynXNOxCD4mYRl
+X-Google-Smtp-Source: APiQypJHyJ7BjHlFl/OTwlOF88+C9kf/F/gwwhlsf/M00v8f1Ac5yeF0HtrNpv5PT1LmocqD4rqV5A==
+X-Received: by 2002:a63:e04e:: with SMTP id n14mr5477625pgj.147.1588740310754;
+        Tue, 05 May 2020 21:45:10 -0700 (PDT)
+Received: from [10.230.188.43] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id gn20sm3500466pjb.24.2020.05.05.21.45.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2020 21:45:09 -0700 (PDT)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Subject: Proper use for linking foo.o_shipped after 69ea912fda74 ("kbuild:
+ remove unneeded link_multi_deps")?
+To:     masahiroy@kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>
+Message-ID: <cd20b888-7f3d-e7ff-8096-2cc8305a5107@gmail.com>
+Date:   Tue, 5 May 2020 21:45:08 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When I did an allmodconfig build the following warning showed up:
+Hi Masahiro, Michal,
 
-scripts/Makefile.lib:8: 'always' is deprecated. Please use 'always-y' instead
-scripts/Makefile.lib:12: 'hostprogs-y' and 'hostprogs-m' are deprecated. Please use 'hostprogs' instead
+While updating our systems from 4.9 to 5.4, we noticed that one of the
+kernel modules that we build, which is done by linking an object that we
+pre-compile out of Kbuild stopped working.
 
-Rework to use the new 'always-y' and 'hostprogs'.
+I bisected it down to:
 
-Fixes: ee066c3ddf7b ("kbuild: warn if always, hostprogs-y, or hostprogs-m is used")
-Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
----
- samples/watch_queue/Makefile | 4 ++--
- scripts/Makefile.build       | 1 -
- 2 files changed, 2 insertions(+), 3 deletions(-)
+commit 69ea912fda74a673d330d23595385e5b73e3a2b9 (refs/bisect/bad)
+Author: Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu Oct 4 13:25:19 2018 +0900
 
-diff --git a/samples/watch_queue/Makefile b/samples/watch_queue/Makefile
-index eec00dd0a8df..8511fb6c53d2 100644
---- a/samples/watch_queue/Makefile
-+++ b/samples/watch_queue/Makefile
-@@ -1,7 +1,7 @@
- # List of programs to build
--hostprogs-y := watch_test
-+hostprogs := watch_test
- 
- # Tell kbuild to always build the programs
--always := $(hostprogs-y)
-+always-y := $(hostprogs)
- 
- HOSTCFLAGS_watch_test.o += -I$(objtree)/usr/include
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 3665b1a0bc8e..abdba70f33a1 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -15,7 +15,6 @@ obj-y :=
- obj-m :=
- lib-y :=
- lib-m :=
--always :=
- always-y :=
- always-m :=
- targets :=
+    kbuild: remove unneeded link_multi_deps
+
+    Since commit c8589d1e9e01 ("kbuild: handle multi-objs dependency
+    appropriately"), $^ really represents all the prerequisite of the
+    composite object being built.
+
+    Hence, $(filter %.o,$^) contains all the objects to link together,
+    which is much simpler than link_multi_deps calculation.
+
+    Please note $(filter-out FORCE,$^) does not work here. When a single
+    object module is turned into a multi object module, $^ will contain
+    header files that were previously included for building the single
+    object, and recorded in the .*.cmd file. To filter out such headers,
+    $(filter %.o,$^) should be used here.
+
+    Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+
+and the linker now fails with the following:
+
+mkdir -p /home/florian/dev/lkm/.tmp_versions ; rm -f
+/home/florian/dev/lkm/.tmp_versions/*
+
+  WARNING: Symbol version dump ./Module.symvers
+           is missing; modules will have no dependencies and modversions.
+
+make -f ./scripts/Makefile.build obj=/home/florian/dev/lkm
+(cat /dev/null;   echo kernel//home/florian/dev/lkm/hello.ko;) >
+/home/florian/dev/lkm/modules.order
+  ld -m elf_x86_64  -z max-page-size=0x200000    -r -o
+/home/florian/dev/lkm/hello.o
+ld: no input files
+make[1]: *** [scripts/Makefile.build:492: /home/florian/dev/lkm/hello.o]
+Error 1
+make: *** [Makefile:1530: _module_/home/florian/dev/lkm] Error 2
+
+and here are some steps to reproduce this:
+
+Kbuild:
+obj-m   := hello.o
+hello-y := test.o_shipped
+
+test.c can be a simple hello world, and you can compile it using a
+standard Kbuild file first, and then move test.o as test.o_shipped.
+
+I am afraid I do not speak Kbuild fluently enough to recommend a fix for
+that.
+
+Thanks!
 -- 
-2.20.1
-
+Florian
