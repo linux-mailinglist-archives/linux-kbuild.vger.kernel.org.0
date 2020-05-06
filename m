@@ -2,123 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 771AD1C7987
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2020 20:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72F281C7D07
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2020 00:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729853AbgEFSg6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 May 2020 14:36:58 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:54822 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729757AbgEFSg6 (ORCPT
+        id S1729582AbgEFWKW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 May 2020 18:10:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37724 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729477AbgEFWKV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 May 2020 14:36:58 -0400
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 046Iai4k018523;
-        Thu, 7 May 2020 03:36:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 046Iai4k018523
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588790205;
-        bh=wbaIwcHbiAi9QFigRcq0m039Les723waOhEs26jAtfw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QGLf0HjL5TBDfB6xTHLb4X/nifP3TPUngISgC+amRyt5/ML+RJQ3n2vOpFueN7eQ5
-         xcfxiFnHD7wrASBMBcs9WRkNQ/Q5OMJgmgjzQiStTM/7cZlxRoIg/zVG19A7iRU+Jg
-         iRPHLFP1GIQxcks1i59Ldp30WkRO5roRHgqSUgIN3I/k1dM//Zw5Y1eP09fsEHfh6I
-         zy7v9mIhSw1lg7AsHjsZJfSHDbuORy8DYMnNI2BSz3Vex75VSHCQkgSFXg7ONFmQvF
-         Q8Eu40aEW5JoIR/v1IvjRuxZ0uq4K9sUEw0giZ1sU1N9ECbRwJWn9AEBN/UF5nwNpx
-         tpOIIKAGfBylw==
-X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id x136so1686052vsx.2;
-        Wed, 06 May 2020 11:36:45 -0700 (PDT)
-X-Gm-Message-State: AGi0PubDa/EIqUvR4+CU8ct6JrWWpF99awDP8OawI68nuvXXexu/k5k/
-        Jkmq77WsTfAcKW1XoyyRQtlBMKMU67M0FzYpkVI=
-X-Google-Smtp-Source: APiQypL5iC44zxMIBFb6/RIX6MwxQnnJIKgmBH9DgwLYEb77CykdC9frv1rVNu/5ZxNOx7Zti4t4uypODXIceNkBfo4=
-X-Received: by 2002:a05:6102:3c7:: with SMTP id n7mr8677259vsq.179.1588790204256;
- Wed, 06 May 2020 11:36:44 -0700 (PDT)
+        Wed, 6 May 2020 18:10:21 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0622CC061A0F;
+        Wed,  6 May 2020 15:10:19 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id l12so1495714pgr.10;
+        Wed, 06 May 2020 15:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9kSEpEwj9xdJy9cHGYGf5SlUCSGVabzofb4/ZPAMmcY=;
+        b=ZkW5hEkXoPYMkECGP0f0cdaPWAv8ngm2RFBzH7zJrrvd0dAxRHniU+IW06eobUxQ6i
+         Ud3cUxmY5zzZXF6JjiDXkEJMgERdLTRYKCakLDhfXdN7/RnkMUCisIyChO3PVtFQ6rKg
+         Yi+gLiF02nOUAXnB/4NJAmqc3ykR9a7sJ1ZdzlLcVUcdi/JUknmNKVTbiJaHf7evsZiN
+         I31u9gIMk9KuVB9iXqm2TSM2+1H+uLiD8vQTiK4RWYxegLdi+rOWq0OWFZ9OHX6ClCHl
+         LxlcTrBUc78ap07erwJL7nErVQ0HAmrBMiYhC8Tfs99+N7aW+aesRZGvJHv9eG7d7bkK
+         coOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9kSEpEwj9xdJy9cHGYGf5SlUCSGVabzofb4/ZPAMmcY=;
+        b=JRlk35Hxh13d31sqgfnVL+ueAvKtLkOAvqN24/USje9PF5uhoPqyIimha6t1ufQh6a
+         zGtvBpN/j/e8LpT7Kcrj9xjuxsLmNoU/zoxojeAUo+u3nfZt7+V1/VzzQmaYhiN8Mltd
+         QE+YvqXW2YNFB2NkiFiouMAKWsfOE+QgT5U4WwhxZKI/6kYfkh6V+wtyZsQgaBVlTsZ6
+         KkjlrBc9A6Q0DegJNYjsRIYjHrPpzzgWCktLVWvOcpag1U3ugCRlph+htzv6TDQZ3fGX
+         48cjmqwV2ero2Y5OveKNB4gONPgE26qu2ug5TuiDNLkDHqnXyFa6yvaAmhYgnBhC8cBZ
+         PsxA==
+X-Gm-Message-State: AGi0PuZe36gAsT8lbMzEK/6ix+iaRmU/pXuzTpVUUowsDQVZy9O8VqGW
+        mHrtSbImX6T2+gfd8ALigRHZgW0e
+X-Google-Smtp-Source: APiQypJCz91iT/kUPbjQqBIII60IctU/y9h1UFdN+kI74L8syClp2HcDuUm2ftCC296Syuo+YGduUw==
+X-Received: by 2002:a62:888a:: with SMTP id l132mr6288087pfd.125.1588803019017;
+        Wed, 06 May 2020 15:10:19 -0700 (PDT)
+Received: from [10.230.188.43] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id x132sm2799396pfc.57.2020.05.06.15.10.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2020 15:10:18 -0700 (PDT)
+Subject: Re: Proper use for linking foo.o_shipped after 69ea912fda74 ("kbuild:
+ remove unneeded link_multi_deps")?
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+References: <cd20b888-7f3d-e7ff-8096-2cc8305a5107@gmail.com>
+ <CAK7LNAR5TsnUn2n2nDFHywQyqCT7si840yE2nyuxx70AYj+nDQ@mail.gmail.com>
+ <01279bfe-95a3-dbdb-3785-bd2d92dc4f95@gmail.com>
+ <CAK7LNASKHb5QzD-5d7Vam9t4C1U64_2tTk7eVAmK2oDVquy0MA@mail.gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <365fcf52-8132-24eb-80d0-bb212a3534f1@gmail.com>
+Date:   Wed, 6 May 2020 15:10:17 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200505115420.18765-1-anders.roxell@linaro.org>
-In-Reply-To: <20200505115420.18765-1-anders.roxell@linaro.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 7 May 2020 03:36:08 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR6MeBRhP1A3oc-UVATNN4r2Ru1LUp2=DqiLSKDL9gwOQ@mail.gmail.com>
-Message-ID: <CAK7LNAR6MeBRhP1A3oc-UVATNN4r2Ru1LUp2=DqiLSKDL9gwOQ@mail.gmail.com>
-Subject: Re: [PATCH] scripts: fix deprecated always and hostprogs-y
-To:     Anders Roxell <anders.roxell@linaro.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAK7LNASKHb5QzD-5d7Vam9t4C1U64_2tTk7eVAmK2oDVquy0MA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 5, 2020 at 8:54 PM Anders Roxell <anders.roxell@linaro.org> wrote:
->
-> When I did an allmodconfig build the following warning showed up:
->
-> scripts/Makefile.lib:8: 'always' is deprecated. Please use 'always-y' instead
-> scripts/Makefile.lib:12: 'hostprogs-y' and 'hostprogs-m' are deprecated. Please use 'hostprogs' instead
->
-> Rework to use the new 'always-y' and 'hostprogs'.
->
-> Fixes: ee066c3ddf7b ("kbuild: warn if always, hostprogs-y, or hostprogs-m is used")
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
 
 
-As Stephen Rothwell reported
-(https://lkml.org/lkml/2020/5/3/392),
-this warning appears by merging the
-two different trees.
+On 5/6/2020 9:24 AM, Masahiro Yamada wrote:
+>> To me this is a regression, as it used to work and now it does not, thus
+>> we should be fixing it, any idea about how we go about it without doing
+>> a plain revert?
+> 
+> 
+> In fact, a patch exists.
+> 
+> https://patchwork.kernel.org/patch/11318691/
+> 
+> It allows you to link whatever file name to a module,
+> but please read the comments from Christoph and Greg.
+> 
+> 
+> In this case, your Makefile is doing strange.
+> 
+> I'd recommend to fix your Makefile.
 
-
-You sent this patch to the kbuild maintainers,
-but samples/watch_queue/Makefile does not exist
-in the kbuild tree.
-
-
-Also, please drop the fixes tag.
-The commit hash might change.
-
-
-> ---
->  samples/watch_queue/Makefile | 4 ++--
->  scripts/Makefile.build       | 1 -
->  2 files changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/samples/watch_queue/Makefile b/samples/watch_queue/Makefile
-> index eec00dd0a8df..8511fb6c53d2 100644
-> --- a/samples/watch_queue/Makefile
-> +++ b/samples/watch_queue/Makefile
-> @@ -1,7 +1,7 @@
->  # List of programs to build
-> -hostprogs-y := watch_test
-> +hostprogs := watch_test
->
->  # Tell kbuild to always build the programs
-> -always := $(hostprogs-y)
-> +always-y := $(hostprogs)
->
->  HOSTCFLAGS_watch_test.o += -I$(objtree)/usr/include
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 3665b1a0bc8e..abdba70f33a1 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -15,7 +15,6 @@ obj-y :=
->  obj-m :=
->  lib-y :=
->  lib-m :=
-> -always :=
->  always-y :=
->  always-m :=
->  targets :=
-
-
-Why are you deleting 'always'?
-It would immediately break
-the downstream Makefiles immediately.
-
-
-
---
-Best Regards
-Masahiro Yamada
+Yes, I ended up finding a way to fix it, thank you for your time.
+-- 
+Florian
