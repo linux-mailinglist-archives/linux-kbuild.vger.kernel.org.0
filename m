@@ -2,179 +2,171 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 275291C7633
-	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2020 18:25:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74ABB1C76CF
+	for <lists+linux-kbuild@lfdr.de>; Wed,  6 May 2020 18:44:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729558AbgEFQZW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 May 2020 12:25:22 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:62032 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729341AbgEFQZW (ORCPT
+        id S1729747AbgEFQoX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 May 2020 12:44:23 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:39790 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730055AbgEFQoV (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 May 2020 12:25:22 -0400
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 046GP61e028339;
-        Thu, 7 May 2020 01:25:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 046GP61e028339
+        Wed, 6 May 2020 12:44:21 -0400
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 046GhjRm017691;
+        Thu, 7 May 2020 01:43:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 046GhjRm017691
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588782307;
-        bh=rq69QzS6nlj/kgKXQgJKnWEQ+bYqfWhhoP80dDaszRc=;
+        s=dec2015msa; t=1588783426;
+        bh=utvgGRsMw8+CW4P3BXfPw8wbFM86fzbR5axYMY0vIGg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Az/G5MBn0oyNTBjj4AxjqqsJqGgqWI18xwcUbGnqdyl/g/Z25t2VwxuY69u1jDENo
-         K9sxP0r1jMKQNkQZuIW1u7AW/f8Dkg6fQAUajAW/q/a1u3bnW+Kd/AEctu/WA6ed6b
-         SLxyEU0bsoJJrJuCbcloVrX2bKit8J3ZMJq3Bd7lI0F4xRbO3l5una52xG+oTWJKpb
-         KJ9H0tFljp35e3iPiA0f2GXyyRY+0ryNIafbzrjfHalNFvybkgTRCZPn5F3cGWSGL5
-         NGoO07MGTgMkkzh9nmrgln0VP6KB3Sfks4/mBMlluAnsx7fNgkXs41xqrBNDRBAJz+
-         pp0U9V82V1iAg==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id c24so710323uap.13;
-        Wed, 06 May 2020 09:25:06 -0700 (PDT)
-X-Gm-Message-State: AGi0Puas2aD5aSc9pVsqjVS9ueclDz4jL3YvYJZ1okgKemwFSKTu4e2S
-        eK40x8357pRlolaHPJsMSjfwOhmis9QDiovrgg8=
-X-Google-Smtp-Source: APiQypJqmfuIuGzAsi/SVJfoQ1bvOYPU2yoQHrHm0uw6i1E0zrLfQQcykbn5vorW8hI7P4L685FYmQ9D9HJlIb6c+6w=
-X-Received: by 2002:ab0:cd:: with SMTP id 71mr7499076uaj.109.1588782305667;
- Wed, 06 May 2020 09:25:05 -0700 (PDT)
+        b=HVH9aqAW7dSrdCAjK6LWzWts7qi2i3l9S1k/K3/lF6QsA57Ee6mFgi8K6fwZERevF
+         rjCXb5fR5X2r4POSS6b8fjaiRn0t2cQk1AeEGXRt9wL+uQDy4ASmfOiC+ew0tjRC+x
+         bGLyot+eGg+hRaeaiyKW7Hr3KxZJmsW2zqxmTtyrKvmvS9W6F1rkmA2UQgk/ZWXbvy
+         jsJIl03DzkDtOxu39qqNndEyguJO/fmWeMWTPt59h320vs1fcLIz+0RqLbE5a2jLx/
+         vHKsWeeOcmAuLyiiLftS7dibF6eA1SMP+X2kS9phHcrcQ25sB/uAMLcj6xUIbkWNiW
+         JsJJogMZ5YlRw==
+X-Nifty-SrcIP: [209.85.222.46]
+Received: by mail-ua1-f46.google.com with SMTP id u12so742721uau.10;
+        Wed, 06 May 2020 09:43:46 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaII36n1U0693WqgVgZ0rGswZYbWwux97Wn0dOFJTlDch2l9p9u
+        XIll8Z3it55Hgnnc4CWPYqwZk32QvPfwPPPzSTk=
+X-Google-Smtp-Source: APiQypLwLaVV3HiKerrKQmnXe6ZFcFF3HTIhVjsUpf+ssyj1nm7hvmk9gnii/QfOzPVIh3ds2SJSZMDp2FaPdcevn04=
+X-Received: by 2002:ab0:4ac9:: with SMTP id t9mr8255622uae.40.1588783425219;
+ Wed, 06 May 2020 09:43:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <cd20b888-7f3d-e7ff-8096-2cc8305a5107@gmail.com>
- <CAK7LNAR5TsnUn2n2nDFHywQyqCT7si840yE2nyuxx70AYj+nDQ@mail.gmail.com> <01279bfe-95a3-dbdb-3785-bd2d92dc4f95@gmail.com>
-In-Reply-To: <01279bfe-95a3-dbdb-3785-bd2d92dc4f95@gmail.com>
+References: <nycvar.YSQ.7.76.2004231102480.2671@knanqh.ubzr>
+ <87imhqb3le.fsf@intel.com> <nycvar.YSQ.7.76.2004231155060.2671@knanqh.ubzr>
+In-Reply-To: <nycvar.YSQ.7.76.2004231155060.2671@knanqh.ubzr>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 7 May 2020 01:24:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASKHb5QzD-5d7Vam9t4C1U64_2tTk7eVAmK2oDVquy0MA@mail.gmail.com>
-Message-ID: <CAK7LNASKHb5QzD-5d7Vam9t4C1U64_2tTk7eVAmK2oDVquy0MA@mail.gmail.com>
-Subject: Re: Proper use for linking foo.o_shipped after 69ea912fda74 ("kbuild:
- remove unneeded link_multi_deps")?
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+Date:   Thu, 7 May 2020 01:43:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARpRMZb18FFnX1WPV4Xzh2B_n2E+KLf5QXqiqkZEKhTbQ@mail.gmail.com>
+Message-ID: <CAK7LNARpRMZb18FFnX1WPV4Xzh2B_n2E+KLf5QXqiqkZEKhTbQ@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: allow for conditional dependencies
+To:     Nicolas Pitre <nico@fluxnic.net>
+Cc:     Jani Nikula <jani.nikula@linux.intel.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+        Randy Dunlap <rdunlap@infradead.org>,
+        Saeed Mahameed <saeedm@mellanox.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 7, 2020 at 1:03 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+On Fri, Apr 24, 2020 at 1:05 AM Nicolas Pitre <nico@fluxnic.net> wrote:
 >
+> On Thu, 23 Apr 2020, Jani Nikula wrote:
 >
->
-> On 5/6/2020 7:37 AM, Masahiro Yamada wrote:
-> > On Wed, May 6, 2020 at 1:45 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> >>
-> >> Hi Masahiro, Michal,
-> >>
-> >> While updating our systems from 4.9 to 5.4, we noticed that one of the
-> >> kernel modules that we build, which is done by linking an object that we
-> >> pre-compile out of Kbuild stopped working.
-> >>
-> >> I bisected it down to:
-> >>
-> >> commit 69ea912fda74a673d330d23595385e5b73e3a2b9 (refs/bisect/bad)
-> >> Author: Masahiro Yamada <yamada.masahiro@socionext.com>
-> >> Date:   Thu Oct 4 13:25:19 2018 +0900
-> >>
-> >>     kbuild: remove unneeded link_multi_deps
-> >>
-> >>     Since commit c8589d1e9e01 ("kbuild: handle multi-objs dependency
-> >>     appropriately"), $^ really represents all the prerequisite of the
-> >>     composite object being built.
-> >>
-> >>     Hence, $(filter %.o,$^) contains all the objects to link together,
-> >>     which is much simpler than link_multi_deps calculation.
-> >>
-> >>     Please note $(filter-out FORCE,$^) does not work here. When a single
-> >>     object module is turned into a multi object module, $^ will contain
-> >>     header files that were previously included for building the single
-> >>     object, and recorded in the .*.cmd file. To filter out such headers,
-> >>     $(filter %.o,$^) should be used here.
-> >>
-> >>     Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> >>
-> >> and the linker now fails with the following:
-> >>
-> >> mkdir -p /home/florian/dev/lkm/.tmp_versions ; rm -f
-> >> /home/florian/dev/lkm/.tmp_versions/*
-> >>
-> >>   WARNING: Symbol version dump ./Module.symvers
-> >>            is missing; modules will have no dependencies and modversions.
-> >>
-> >> make -f ./scripts/Makefile.build obj=/home/florian/dev/lkm
-> >> (cat /dev/null;   echo kernel//home/florian/dev/lkm/hello.ko;) >
-> >> /home/florian/dev/lkm/modules.order
-> >>   ld -m elf_x86_64  -z max-page-size=0x200000    -r -o
-> >> /home/florian/dev/lkm/hello.o
-> >> ld: no input files
-> >> make[1]: *** [scripts/Makefile.build:492: /home/florian/dev/lkm/hello.o]
-> >> Error 1
-> >> make: *** [Makefile:1530: _module_/home/florian/dev/lkm] Error 2
-> >>
-> >> and here are some steps to reproduce this:
-> >>
-> >> Kbuild:
-> >> obj-m   := hello.o
-> >> hello-y := test.o_shipped
-> >>
-> >> test.c can be a simple hello world, and you can compile it using a
-> >> standard Kbuild file first, and then move test.o as test.o_shipped.
+> > On Thu, 23 Apr 2020, Nicolas Pitre <nico@fluxnic.net> wrote:
+> > > This might appear to be a strange concept, but sometimes we want
+> > > a dependency to be conditionally applied. One such case is currently
+> > > expressed with:
+> > >
+> > >         depends on FOO || !FOO
+> > >
+> > > This pattern is strange enough to give one's pause. Given that it is
+> > > also frequent, let's make the intent more obvious with some syntaxic
+> > > sugar by effectively making dependencies optionally conditional.
+> > >
+> > > This also makes the kconfig language more uniform.
 > >
+> > Thanks, I prefer this over all the previous proposals. Versatile yet
+> > self-explanatory.
 > >
+> > > Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+> > >
+> > > diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> > > index d0111dd264..0f841e0037 100644
+> > > --- a/Documentation/kbuild/kconfig-language.rst
+> > > +++ b/Documentation/kbuild/kconfig-language.rst
+> > > @@ -114,7 +114,7 @@ applicable everywhere (see syntax).
+> > >    This is a shorthand notation for a type definition plus a value.
+> > >    Optionally dependencies for this default value can be added with "if".
+> > >
+> > > -- dependencies: "depends on" <expr>
+> > > +- dependencies: "depends on" <expr> ["if" <expr>]
+> > >
+> > >    This defines a dependency for this menu entry. If multiple
+> > >    dependencies are defined, they are connected with '&&'. Dependencies
+> > > @@ -130,6 +130,16 @@ applicable everywhere (see syntax).
+> > >     bool "foo"
+> > >     default y
+> > >
+> > > +  The dependency definition itself may be conditional by appending "if"
+> > > +  followed by an expression. If such expression is false (n) then this
+> > > +  dependency is ignored. One possible use case is:
+> > > +
+> > > +    config FOO
+> > > +   tristate
+> > > +   depends on BAZ if BAZ != n
 > >
-> > Why don't you do like this?
+> > I presume this is the same as
 > >
-> > obj-m   := hello.o
-> > hello-y := test.o
+> >       depends on BAZ if BAZ
+> >
+> > which makes me wonder if that should be the example. At least current
+> > usage for select is predominantly
+> >
+> >       select FOO if BAR
+> >
+> > without "!= n".
 >
-> I tried it in the original environment where it failed, not my contrived
-> test case, and this did not work, as we really need test.o and
-> test.o_shipped to be separate objects, doing what you suggest results in
-> a circular dependency.
+> Yes, it is the same thing. I prefer making the documentation a little
+> more explicit than necessary so the explanation is really obvious.
 
 
-I do not understand why you are trying to link *.o_shipped
-directly to the module.
+For the case of 'select',
 
+  select FOO if BAR != n
 
-Did you notice the following code in scripts/Makefile.lib ?
+is NOT equivalent to:
 
-quiet_cmd_shipped = SHIPPED $@
-cmd_shipped = cat $< > $@
-
-$(obj)/%: $(src)/%_shipped
-        $(call cmd,shipped)
+  select FOO if BAR
 
 
 
+I do not think "if <expr>" in Kconfig
+is so easy to understand.
+I tend to hesitate to extend it.
 
-*_shipped should be copied to *
-before the use.
-
-
-
-> To me this is a regression, as it used to work and now it does not, thus
-> we should be fixing it, any idea about how we go about it without doing
-> a plain revert?
-
-
-In fact, a patch exists.
-
-https://patchwork.kernel.org/patch/11318691/
-
-It allows you to link whatever file name to a module,
-but please read the comments from Christoph and Greg.
-
-
-In this case, your Makefile is doing strange.
-
-I'd recommend to fix your Makefile.
+Sometimes, it means "the property is visible if <expr> != n".
+Sometimes, not.
 
 
 
->
-> Thank you!
-> --
-> Florian
+
+For the case of 'depends on',
+the 'depends on' is effective if <expr> != n
+because Nicolas implemented it in this way.
 
 
+
+We can do:
+
+    depends on X || X = n
+
+instead of:
+
+    depends on X || !X
+
+        or
+
+    depends on X if X
+
+
+
+
+
+
+I guess the source of the complaint is
+!X is difficult to understand
+when X is tristate.
+
+But, is there any confusion in 'X = n' ?
+I think not.
 
 -- 
 Best Regards
