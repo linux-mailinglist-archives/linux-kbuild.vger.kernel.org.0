@@ -2,98 +2,211 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72F281C7D07
-	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2020 00:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FC0C1C8073
+	for <lists+linux-kbuild@lfdr.de>; Thu,  7 May 2020 05:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729582AbgEFWKW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 6 May 2020 18:10:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729477AbgEFWKV (ORCPT
+        id S1725900AbgEGDU4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 6 May 2020 23:20:56 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:63080 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726618AbgEGDUx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 6 May 2020 18:10:21 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0622CC061A0F;
-        Wed,  6 May 2020 15:10:19 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id l12so1495714pgr.10;
-        Wed, 06 May 2020 15:10:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9kSEpEwj9xdJy9cHGYGf5SlUCSGVabzofb4/ZPAMmcY=;
-        b=ZkW5hEkXoPYMkECGP0f0cdaPWAv8ngm2RFBzH7zJrrvd0dAxRHniU+IW06eobUxQ6i
-         Ud3cUxmY5zzZXF6JjiDXkEJMgERdLTRYKCakLDhfXdN7/RnkMUCisIyChO3PVtFQ6rKg
-         Yi+gLiF02nOUAXnB/4NJAmqc3ykR9a7sJ1ZdzlLcVUcdi/JUknmNKVTbiJaHf7evsZiN
-         I31u9gIMk9KuVB9iXqm2TSM2+1H+uLiD8vQTiK4RWYxegLdi+rOWq0OWFZ9OHX6ClCHl
-         LxlcTrBUc78ap07erwJL7nErVQ0HAmrBMiYhC8Tfs99+N7aW+aesRZGvJHv9eG7d7bkK
-         coOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9kSEpEwj9xdJy9cHGYGf5SlUCSGVabzofb4/ZPAMmcY=;
-        b=JRlk35Hxh13d31sqgfnVL+ueAvKtLkOAvqN24/USje9PF5uhoPqyIimha6t1ufQh6a
-         zGtvBpN/j/e8LpT7Kcrj9xjuxsLmNoU/zoxojeAUo+u3nfZt7+V1/VzzQmaYhiN8Mltd
-         QE+YvqXW2YNFB2NkiFiouMAKWsfOE+QgT5U4WwhxZKI/6kYfkh6V+wtyZsQgaBVlTsZ6
-         KkjlrBc9A6Q0DegJNYjsRIYjHrPpzzgWCktLVWvOcpag1U3ugCRlph+htzv6TDQZ3fGX
-         48cjmqwV2ero2Y5OveKNB4gONPgE26qu2ug5TuiDNLkDHqnXyFa6yvaAmhYgnBhC8cBZ
-         PsxA==
-X-Gm-Message-State: AGi0PuZe36gAsT8lbMzEK/6ix+iaRmU/pXuzTpVUUowsDQVZy9O8VqGW
-        mHrtSbImX6T2+gfd8ALigRHZgW0e
-X-Google-Smtp-Source: APiQypJCz91iT/kUPbjQqBIII60IctU/y9h1UFdN+kI74L8syClp2HcDuUm2ftCC296Syuo+YGduUw==
-X-Received: by 2002:a62:888a:: with SMTP id l132mr6288087pfd.125.1588803019017;
-        Wed, 06 May 2020 15:10:19 -0700 (PDT)
-Received: from [10.230.188.43] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id x132sm2799396pfc.57.2020.05.06.15.10.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2020 15:10:18 -0700 (PDT)
-Subject: Re: Proper use for linking foo.o_shipped after 69ea912fda74 ("kbuild:
- remove unneeded link_multi_deps")?
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-References: <cd20b888-7f3d-e7ff-8096-2cc8305a5107@gmail.com>
- <CAK7LNAR5TsnUn2n2nDFHywQyqCT7si840yE2nyuxx70AYj+nDQ@mail.gmail.com>
- <01279bfe-95a3-dbdb-3785-bd2d92dc4f95@gmail.com>
- <CAK7LNASKHb5QzD-5d7Vam9t4C1U64_2tTk7eVAmK2oDVquy0MA@mail.gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <365fcf52-8132-24eb-80d0-bb212a3534f1@gmail.com>
-Date:   Wed, 6 May 2020 15:10:17 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.7.0
+        Wed, 6 May 2020 23:20:53 -0400
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 0473KYvD014344;
+        Thu, 7 May 2020 12:20:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0473KYvD014344
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1588821635;
+        bh=qQyluZ7mOy/m7UtR6KHo32hLJ8zj6s7Wbis5gOyL850=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=obwaIpbVfNHmlGM+/K3cut/ZFJ3DDIma/vMgc1y6FY+bfiZMsVJEcf+tqZ2K5bwnG
+         rESGRpG/mu+dg7LFTumeAGroNpVNEmWwkGlJav63kEO9T96Ujez237fqKZ46Dn94OJ
+         ZV1Pk9jw7MX6w03zdZ1wTNu5glOFh8aTx/qOvVrAidOQUdF+Dz1MHGPr0OtE/OEe4J
+         MjkNVx/DbdxiRTjeonFPIe7/dLdmovRUZkzN/iFbM3HAOM30gkZfiGWntXvtD0n4av
+         7LW+/ROtvoJiJu24P3NDA0YIrOVdt/vlyKWw3gUljrALc1RO7KQjn//25dBY0RzFCI
+         r3RgGDnSCxafA==
+X-Nifty-SrcIP: [209.85.221.180]
+Received: by mail-vk1-f180.google.com with SMTP id b14so1114435vkk.10;
+        Wed, 06 May 2020 20:20:34 -0700 (PDT)
+X-Gm-Message-State: AGi0PuZXmOK8vQhasFCgv14DCL1Q37rDazXTyFMwWXYh83joIyJ0fJNU
+        ++YixiQic2L7sEaAZxyR8URN3Ubke9TXIz0w0eQ=
+X-Google-Smtp-Source: APiQypKPWT1VyEpw8SXXLzadbs0W/IljladDXCbCPO4LoRyZSuErcwr4PH11Rt74yBLMD4rLrQL94ROkDgp9VchjKi8=
+X-Received: by 2002:a1f:2a13:: with SMTP id q19mr9970940vkq.73.1588821633138;
+ Wed, 06 May 2020 20:20:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNASKHb5QzD-5d7Vam9t4C1U64_2tTk7eVAmK2oDVquy0MA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200503001141.9647-1-changbin.du@gmail.com>
+In-Reply-To: <20200503001141.9647-1-changbin.du@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 7 May 2020 12:19:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
+Message-ID: <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
+Subject: Re: [PATCH v4] streamline_config.pl: add LMC_KEEP to preserve some kconfigs
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Sun, May 3, 2020 at 9:11 AM Changbin Du <changbin.du@gmail.com> wrote:
+>
+> Sometimes it is useful to preserve batches of configs when making
+> localmodconfig. For example, I usually don't want any usb and fs
+> modules to be disabled. Now we can do it by:
+>
+>  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
+>
+> Signed-off-by: Changbin Du <changbin.du@gmail.com>
+>
+> ---
+> v4: fix typo.
+> v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
+> v2: fix typo in documentation. (Randy Dunlap)
+> ---
 
 
-On 5/6/2020 9:24 AM, Masahiro Yamada wrote:
->> To me this is a regression, as it used to work and now it does not, thus
->> we should be fixing it, any idea about how we go about it without doing
->> a plain revert?
-> 
-> 
-> In fact, a patch exists.
-> 
-> https://patchwork.kernel.org/patch/11318691/
-> 
-> It allows you to link whatever file name to a module,
-> but please read the comments from Christoph and Greg.
-> 
-> 
-> In this case, your Makefile is doing strange.
-> 
-> I'd recommend to fix your Makefile.
+Personally, I do not mind the long LOCALMODCONFIG_PRESERVE,
+but this tends to be bike-sheding.
+I do not have a strong opinion.
 
-Yes, I ended up finding a way to fix it, thank you for your time.
+
+>  Documentation/admin-guide/README.rst |  8 +++++++-
+>  scripts/kconfig/Makefile             |  1 +
+>  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+>  3 files changed, 31 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> index cc6151fc0845..1371deab8bc7 100644
+> --- a/Documentation/admin-guide/README.rst
+> +++ b/Documentation/admin-guide/README.rst
+> @@ -209,10 +209,16 @@ Configuring the kernel
+>                             store the lsmod of that machine into a file
+>                             and pass it in as a LSMOD parameter.
+>
+> +                           Also, you can preserve modules in certain folders
+> +                           or kconfig files by specifying their paths in
+> +                           parameter LMC_KEEP.
+> +
+>                     target$ lsmod > /tmp/mylsmod
+>                     target$ scp /tmp/mylsmod host:/tmp
+>
+> -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> +                   host$ make LSMOD=/tmp/mylsmod \
+> +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \
+
+
+This might be another bike-sheding item, but
+can you use a space for the delimiter?
+
+
+LMC_KEEP="drivers/usb drivers/gpu fs"
+
+If you pass multiple directories,
+you will need to surround them with double-quotes.
+
+
+
+
+> +                           localmodconfig
+>
+>                             The above also works when cross compiling.
+>
+> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> index c9d0a4a8efb3..e0abbf5805f5 100644
+> --- a/scripts/kconfig/Makefile
+> +++ b/scripts/kconfig/Makefile
+> @@ -123,6 +123,7 @@ help:
+>         @echo  '  gconfig         - Update current config utilising a GTK+ based front-end'
+>         @echo  '  oldconfig       - Update current config utilising a provided .config as base'
+>         @echo  '  localmodconfig  - Update current config disabling modules not loaded'
+> +       @echo  '                    except those preserved by LMC_KEEP environment variable'
+>         @echo  '  localyesconfig  - Update current config converting local mods to core'
+>         @echo  '  defconfig       - New config with default from ARCH supplied defconfig'
+>         @echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
+> diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> index e2f8504f5a2d..d26543a807c9 100755
+> --- a/scripts/kconfig/streamline_config.pl
+> +++ b/scripts/kconfig/streamline_config.pl
+> @@ -143,6 +143,7 @@ my %depends;
+>  my %selects;
+>  my %prompts;
+>  my %objects;
+> +my %config2kfile;
+>  my $var;
+>  my $iflevel = 0;
+>  my @ifdeps;
+> @@ -201,6 +202,7 @@ sub read_kconfig {
+>         if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+>             $state = "NEW";
+>             $config = $2;
+> +           $config2kfile{"CONFIG_$config"} = $kconfig;
+>
+>             # Add depends for 'if' nesting
+>             for (my $i = 0; $i < $iflevel; $i++) {
+> @@ -592,6 +594,22 @@ while ($repeat) {
+>
+>  my %setconfigs;
+>
+> +my @preserved_kconfigs;
+> +@preserved_kconfigs = split(/;/,$ENV{LMC_KEEP}) if (defined($ENV{LMC_KEEP}));
+
+Maybe, you can do 'my' declaration and the assignment
+in a single line?
+
+Can you drop the 'if ...' conditional?
+
+
+Does this work for you?
+
+my @preserved_kconfigs = split(/;/,$ENV{LMC_KEEP});
+
+
+
+
+
+
+
+> +
+> +sub in_preserved_kconfigs {
+> +    my $kconfig = $config2kfile{$_[0]};
+> +    if (!defined($kconfig)) {
+> +        return 0;
+> +    }
+> +    foreach my $excl (@preserved_kconfigs) {
+> +        if($kconfig =~ /^$excl/) {
+> +            return 1;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+>  # Finally, read the .config file and turn off any module enabled that
+>  # we could not find a reason to keep enabled.
+>  foreach my $line (@config_file) {
+> @@ -644,6 +662,11 @@ foreach my $line (@config_file) {
+>      }
+>
+>      if (/^(CONFIG.*)=(m|y)/) {
+> +        if (in_preserved_kconfigs($1)) {
+> +            dprint "Preserve config $1";
+> +            print;
+> +            next;
+> +        }
+>         if (defined($configs{$1})) {
+>             if ($localyesconfig) {
+>                 $setconfigs{$1} = 'y';
+> --
+> 2.25.1
+>
+
+
 -- 
-Florian
+Best Regards
+Masahiro Yamada
