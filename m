@@ -2,101 +2,212 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 917FF1CA2E3
-	for <lists+linux-kbuild@lfdr.de>; Fri,  8 May 2020 07:39:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE1181CB13A
+	for <lists+linux-kbuild@lfdr.de>; Fri,  8 May 2020 16:00:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725896AbgEHFjH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 8 May 2020 01:39:07 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:44662 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbgEHFjG (ORCPT
+        id S1726811AbgEHOA6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 8 May 2020 10:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43424 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726767AbgEHOA5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 8 May 2020 01:39:06 -0400
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 0485cZxi031330;
-        Fri, 8 May 2020 14:38:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0485cZxi031330
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588916316;
-        bh=6uORqD6LGkuneE9UyXFpz3pdT+rI/NDAz27a1vvxrh8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NUwDqeXXELLcOkjKZCwue1/kEnY37m9GUWM+cTPyPaxnBZRcDu1hLVRvCZLOS0RmJ
-         4L3slMUg4i1PWM7d7E+6wbDQVaS3Bg/lCQD9LysZ0wKJb5Zd4kSOzXLu4ZYnYpJzM3
-         lflOZ3cEBWv+HOZbG1/ZFu15JWSVnFl9VoxHPFkwP8AnVuo/bhpGIeXPmHp4qk2KCl
-         /4Tg0eVk6SG69UUrWxm1TAWHWTv1je/zmmezvxpkmH8fZTodwBmHbrBhEqvwAkx89m
-         +uB6RM4J748frMWQ5+egYqcIq6FjEVStRJDgblvsoKPoZakL7iGYQ45x40+vs8F8T8
-         YvOj+anNx+WRg==
-X-Nifty-SrcIP: [209.85.221.178]
-Received: by mail-vk1-f178.google.com with SMTP id b14so121371vkk.10;
-        Thu, 07 May 2020 22:38:35 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYpnA4OQtpyRealflGhbPL/Wzo56CydWQuMd+9thdOtGE6pkuID
-        2+9JiAu4X8u+ef8SzCqTV9Qu7VnwTC+srUGBnrQ=
-X-Google-Smtp-Source: APiQypK2KtQbOWcXkPz3bng6woQqwWOOLWMJV6Iwtcl08hNJrkuCDHARFryG0giTq8cybfg6KE2ohPiN1TCNuzkRumM=
-X-Received: by 2002:a1f:8fc1:: with SMTP id r184mr496087vkd.12.1588916314505;
- Thu, 07 May 2020 22:38:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200507185601.GA14759@embeddedor>
-In-Reply-To: <20200507185601.GA14759@embeddedor>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 8 May 2020 14:37:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS1bjKcczLADzP8JQ=CVe4VOFb1L3C4bb+0eS5zfBHubg@mail.gmail.com>
-Message-ID: <CAK7LNAS1bjKcczLADzP8JQ=CVe4VOFb1L3C4bb+0eS5zfBHubg@mail.gmail.com>
-Subject: Re: [PATCH] modpost: Replace zero-length array with flexible-array
-To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Fri, 8 May 2020 10:00:57 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA87BC05BD43;
+        Fri,  8 May 2020 07:00:57 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id x15so386508pfa.1;
+        Fri, 08 May 2020 07:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BrhHlE2Zmb8qG7aodLCCwPMutnU0QeSrvMETJzhMIzo=;
+        b=GfSvnW/M6U6IuLYoHa4fNyMJj8DlRFSRdgmYXkgG/AK82dCbbFbgtZRWEZkQOxCGVp
+         K3Tu2JeYqM/XkqHDIlF/fZxXxI45eWiY5Q0FI+WZxikJ6zb5FXldONUG0MxrWjd2/zJ9
+         qjXDBPfotNh5uahFaI3EwJUHDgzuu31YAj7U46CRTE46zs95JLFmEyNWSYkcpbFUNmc2
+         wgz7esvtbU3/TW1zTYt+YOJh61m3ZYL9OmRI1zbvP5lIoaYq7xeAeYe1UO0+U/BPJGBK
+         icdGGF1vQcd84o7e+57Zf+BdF1qfrxjMBHRTUmLM4xLBHeMpysSsa64Jbo9kDCy5Z2gp
+         wJjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BrhHlE2Zmb8qG7aodLCCwPMutnU0QeSrvMETJzhMIzo=;
+        b=Cemh5Fvr8fjdeAyQr2NC++xASPJEX2ezPJKUjphYv0lZn0yjUbnMDa1F1zPGmH6H20
+         DsjDbfyr0+FnpzBwZbKa6KMgYqHrK3kpZNxgrOr2xxz8RF3OCUvZUuDq+7Hw8XTnmM7y
+         Rn3wqauormmZrNzJ68HHhHzvDZX6rgqjEK7N51OMtFt9NbI/e2NvdHAYdx8xcYGv5ctx
+         oIxCb37Bettz3OzBrnR/X7bkW+JMBp6aj5Hk9CiOSkofG1V+EBt8boMkxnabu4F14VLA
+         wx6SWyKNXWExfJYDkJNTuzPImp+JjQqvnYUCTxrRJXSl/E1JazfcZfNcZA5lWlBbNcM4
+         gOEw==
+X-Gm-Message-State: AGi0PuZ1rXmEd3n0ilSWDyc4MPD9GrFVtNQy1EB3qF/t/y55oZ0gRAWS
+        Ys3FRY6pOckp4Q1HHqyi1fgY0g72rH4=
+X-Google-Smtp-Source: APiQypK4DubtHwM1Vu8C8FpSXFjuCvRo/r5RQVxEQi5FWF3UHohrmabVSVe8bPGqMapjaOjvGqe4Zw==
+X-Received: by 2002:a62:7982:: with SMTP id u124mr800006pfc.298.1588946457081;
+        Fri, 08 May 2020 07:00:57 -0700 (PDT)
+Received: from mail.google.com ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id 207sm1458329pgh.34.2020.05.08.07.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2020 07:00:55 -0700 (PDT)
+Date:   Fri, 8 May 2020 22:00:47 +0800
+From:   Changbin Du <changbin.du@gmail.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Changbin Du <changbin.du@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v4] streamline_config.pl: add LMC_KEEP to preserve some
+ kconfigs
+Message-ID: <20200508140047.rln4iogroxw7esxa@mail.google.com>
+References: <20200503001141.9647-1-changbin.du@gmail.com>
+ <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
+ <20200507091807.0a789fbd@gandalf.local.home>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507091807.0a789fbd@gandalf.local.home>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 8, 2020 at 3:51 AM Gustavo A. R. Silva
-<gustavoars@kernel.org> wrote:
+On Thu, May 07, 2020 at 09:18:07AM -0400, Steven Rostedt wrote:
+> On Thu, 7 May 2020 12:19:57 +0900
+> Masahiro Yamada <masahiroy@kernel.org> wrote:
+> 
+> > On Sun, May 3, 2020 at 9:11 AM Changbin Du <changbin.du@gmail.com> wrote:
+> > >
+> > > Sometimes it is useful to preserve batches of configs when making
+> > > localmodconfig. For example, I usually don't want any usb and fs
+> > > modules to be disabled. Now we can do it by:
+> > >
+> > >  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
+> > >
+> > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > >
+> > > ---
+> > > v4: fix typo.
+> > > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
+> > > v2: fix typo in documentation. (Randy Dunlap)
+> > > ---  
+> > 
+> > 
+> > Personally, I do not mind the long LOCALMODCONFIG_PRESERVE,
+> 
+> Perhasp we allow both? ;-)
+> 
+> And just have one set to the other.
+> 
+> > but this tends to be bike-sheding.
+> > I do not have a strong opinion.
+> > 
+> > 
+> > >  Documentation/admin-guide/README.rst |  8 +++++++-
+> > >  scripts/kconfig/Makefile             |  1 +
+> > >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+> > >  3 files changed, 31 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> > > index cc6151fc0845..1371deab8bc7 100644
+> > > --- a/Documentation/admin-guide/README.rst
+> > > +++ b/Documentation/admin-guide/README.rst
+> > > @@ -209,10 +209,16 @@ Configuring the kernel
+> > >                             store the lsmod of that machine into a file
+> > >                             and pass it in as a LSMOD parameter.
+> > >
+> > > +                           Also, you can preserve modules in certain folders
+> > > +                           or kconfig files by specifying their paths in
+> > > +                           parameter LMC_KEEP.
+> > > +
+> > >                     target$ lsmod > /tmp/mylsmod
+> > >                     target$ scp /tmp/mylsmod host:/tmp
+> > >
+> > > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> > > +                   host$ make LSMOD=/tmp/mylsmod \
+> > > +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \  
+> > 
+> > 
+> > This might be another bike-sheding item, but
+> > can you use a space for the delimiter?
+> > 
+> > 
+> > LMC_KEEP="drivers/usb drivers/gpu fs"
+> > 
+> > If you pass multiple directories,
+> > you will need to surround them with double-quotes.
+> 
+> I agree that spaces look better.
 >
-> The current codebase makes use of the zero-length array language
-> extension to the C90 standard, but the preferred mechanism to declare
-> variable-length types such as these ones is a flexible array member[1][2],
-> introduced in C99:
->
-> struct foo {
->         int stuff;
->         struct boo array[];
-> };
->
-> By making use of the mechanism above, we will get a compiler warning
-> in case the flexible array does not occur last in the structure, which
-> will help us prevent some kind of undefined behavior bugs from being
-> inadvertently introduced[3] to the codebase from now on.
->
-> Also, notice that, dynamic memory allocations won't be affected by
-> this change:
->
-> "Flexible array members have incomplete type, and so the sizeof operator
-> may not be applied. As a quirk of the original implementation of
-> zero-length arrays, sizeof evaluates to zero."[1]
->
-> sizeof(flexible-array-member) triggers a warning because flexible array
-> members have incomplete type[1]. There are some instances of code in
-> which the sizeof operator is being incorrectly/erroneously applied to
-> zero-length arrays and the result is zero. Such instances may be hiding
-> some bugs. So, this work (flexible-array member conversions) will also
-> help to get completely rid of those sorts of issues.
->
-> This issue was found with the help of Coccinelle.
->
-> [1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-> [2] https://github.com/KSPP/linux/issues/21
-> [3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
->
-> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+I am okay with space. But what about ":" which is used by shell PATH and many
+others?
 
+> > 
+> > 
+> > 
+> > 
+> > > +                           localmodconfig
+> > >
+> > >                             The above also works when cross compiling.
+> > >
+> > > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> > > index c9d0a4a8efb3..e0abbf5805f5 100644
+> > > --- a/scripts/kconfig/Makefile
+> > > +++ b/scripts/kconfig/Makefile
+> > > @@ -123,6 +123,7 @@ help:
+> > >         @echo  '  gconfig         - Update current config utilising a GTK+ based front-end'
+> > >         @echo  '  oldconfig       - Update current config utilising a provided .config as base'
+> > >         @echo  '  localmodconfig  - Update current config disabling modules not loaded'
+> > > +       @echo  '                    except those preserved by LMC_KEEP environment variable'
+> > >         @echo  '  localyesconfig  - Update current config converting local mods to core'
+> > >         @echo  '  defconfig       - New config with default from ARCH supplied defconfig'
+> > >         @echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
+> > > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> > > index e2f8504f5a2d..d26543a807c9 100755
+> > > --- a/scripts/kconfig/streamline_config.pl
+> > > +++ b/scripts/kconfig/streamline_config.pl
+> > > @@ -143,6 +143,7 @@ my %depends;
+> > >  my %selects;
+> > >  my %prompts;
+> > >  my %objects;
+> > > +my %config2kfile;
+> > >  my $var;
+> > >  my $iflevel = 0;
+> > >  my @ifdeps;
+> > > @@ -201,6 +202,7 @@ sub read_kconfig {
+> > >         if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+> > >             $state = "NEW";
+> > >             $config = $2;
+> > > +           $config2kfile{"CONFIG_$config"} = $kconfig;
+> > >
+> > >             # Add depends for 'if' nesting
+> > >             for (my $i = 0; $i < $iflevel; $i++) {
+> > > @@ -592,6 +594,22 @@ while ($repeat) {
+> > >
+> > >  my %setconfigs;
+> > >
+> > > +my @preserved_kconfigs;
+> > > +@preserved_kconfigs = split(/;/,$ENV{LMC_KEEP}) if (defined($ENV{LMC_KEEP}));  
+> > 
+> > Maybe, you can do 'my' declaration and the assignment
+> > in a single line?
+> > 
+> > Can you drop the 'if ...' conditional?
+> > 
+> > 
+> > Does this work for you?
+> > 
+> > my @preserved_kconfigs = split(/;/,$ENV{LMC_KEEP});
+> > 
+> > 
+> 
+> Will an undefined warning happen if LMC_KEEP isn't defined?
+> 
+I just verifed there is no warning raised.
 
-Applied to linux-kbuild. Thanks.
-
-
+> -- Steve
 
 -- 
-Best Regards
-Masahiro Yamada
+Cheers,
+Changbin Du
