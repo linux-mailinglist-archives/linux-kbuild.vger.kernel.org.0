@@ -2,110 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B53111CBE77
-	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2020 09:41:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48F5F1CC09F
+	for <lists+linux-kbuild@lfdr.de>; Sat,  9 May 2020 13:09:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbgEIHlL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 9 May 2020 03:41:11 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:30644 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726120AbgEIHlK (ORCPT
+        id S1727986AbgEILJB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 9 May 2020 07:09:01 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:52554 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbgEILJA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 9 May 2020 03:41:10 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0497dIWX011106;
-        Sat, 9 May 2020 16:39:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0497dIWX011106
+        Sat, 9 May 2020 07:09:00 -0400
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 049B8TGB019771;
+        Sat, 9 May 2020 20:08:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 049B8TGB019771
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1589009959;
-        bh=KgePt5Z+JlnBeaKU8E6URMI54TiET/zqI9kIhP/wJPw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=n5wlmDB5eekPDUm9jcMEup7NyOZLHOf8Z5zGAp7F4Xm5KHC1P2aGY7F+A9O29ck9l
-         MyKAGoR+u5fzyPn7TfZrkdxlhkvxvQ39X0JB/J0lmS8dcX65b86abQr//O9q0iTHzG
-         xxupOsYCiUTTVBqb0WfIz7cW+f438s8xHi956MZiAvBM2NI1boRncyI1RSHyqOBWcC
-         w6cOnyOtfq3iRflhvW7k3yII8UC+bDwI1S6qJta4R5zcGt4cqcGRveBoyOGx4wLjYs
-         U6ZVW7sVbjaXzpZ8AvEbIMW/HfZw3558TXQwNA63E9ZE3A2muChc8EKpDI447LMNwh
-         LO5OwGm7NVuLw==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Valdis Kletnieks <valdis.kletnieks@vt.edu>,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        netdev@vger.kernel.org
-Subject: [PATCH] bpfilter: check if $(CC) can static link in Kconfig
-Date:   Sat,  9 May 2020 16:39:15 +0900
-Message-Id: <20200509073915.860588-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        s=dec2015msa; t=1589022510;
+        bh=T9AGnaI49ilVpVFvPCs2mRRQGAPg1sYG/5bfmVNCeKs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iGJMWAvpVbbomUe6H94322ZC42OtmM12LwlmFxH0yVgqwoI6UXfML+/4Y33WGQRjH
+         nTiCQeQHtLxPQ6laDjoA4j+eecj0NevKTAEYOnOPUMfyglahk9qwu/57KaCAnAJXmk
+         nJZFcRovp+/nENMICarDOzAtk+dzDDsh8yYZmzCZA3bIkMDo66RhWTw4U2awIyWzny
+         zZq93cuxXQpyrfYvJXfs1GmVpnrh58Nct+9tiLk4Uu+p5zJrFdZXabvxZoTzMgLiTL
+         TClOHl9f1q3PIeX+Mv+MZav1ZhXi7IzywsszQLdmmY6Nvv8DIV8q7I7cwD87ESLgEy
+         uQZeqx2SaGN7A==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id e10so2668890vsp.12;
+        Sat, 09 May 2020 04:08:30 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaAEOR7J663FS9aTqsDlq1FklASaTQjaG+EBU/CgnlrBbb4gcbh
+        F8Y/ZjI8kh6IrMRTjE58kql2FJZjybkhaSNjuAI=
+X-Google-Smtp-Source: APiQypJJNwRWO3ga/F8SM/zTZXyOwULYR5luFTgX4WluozXetan8cuFLhrppaB6XnCQ7WCZ7mjsqBkaafkwI2PA3+3A=
+X-Received: by 2002:a67:6e07:: with SMTP id j7mr5262295vsc.181.1589022508905;
+ Sat, 09 May 2020 04:08:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200503001141.9647-1-changbin.du@gmail.com> <CAK7LNATBt1NxRSWiv8Ab-pKBRemp43WUs96KWELTf+vFq_VPTA@mail.gmail.com>
+ <20200507091807.0a789fbd@gandalf.local.home> <20200508140047.rln4iogroxw7esxa@mail.google.com>
+In-Reply-To: <20200508140047.rln4iogroxw7esxa@mail.google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 9 May 2020 20:07:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARt3k47OSJYFTcc6z6MWb2oSLmQZwRwecsxu6j9r9dnVw@mail.gmail.com>
+Message-ID: <CAK7LNARt3k47OSJYFTcc6z6MWb2oSLmQZwRwecsxu6j9r9dnVw@mail.gmail.com>
+Subject: Re: [PATCH v4] streamline_config.pl: add LMC_KEEP to preserve some kconfigs
+To:     Changbin Du <changbin.du@gmail.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fedora, linking static libraries requires the glibc-static RPM
-package, which is not part of the glibc-devel package.
+On Fri, May 8, 2020 at 11:00 PM Changbin Du <changbin.du@gmail.com> wrote:
+>
+> On Thu, May 07, 2020 at 09:18:07AM -0400, Steven Rostedt wrote:
+> > On Thu, 7 May 2020 12:19:57 +0900
+> > Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > > On Sun, May 3, 2020 at 9:11 AM Changbin Du <changbin.du@gmail.com> wrote:
+> > > >
+> > > > Sometimes it is useful to preserve batches of configs when making
+> > > > localmodconfig. For example, I usually don't want any usb and fs
+> > > > modules to be disabled. Now we can do it by:
+> > > >
+> > > >  $ make LMC_KEEP="drivers/usb;fs" localmodconfig
+> > > >
+> > > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> > > >
+> > > > ---
+> > > > v4: fix typo.
+> > > > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
+> > > > v2: fix typo in documentation. (Randy Dunlap)
+> > > > ---
+> > >
+> > >
+> > > Personally, I do not mind the long LOCALMODCONFIG_PRESERVE,
+> >
+> > Perhasp we allow both? ;-)
+> >
+> > And just have one set to the other.
+> >
+> > > but this tends to be bike-sheding.
+> > > I do not have a strong opinion.
+> > >
+> > >
+> > > >  Documentation/admin-guide/README.rst |  8 +++++++-
+> > > >  scripts/kconfig/Makefile             |  1 +
+> > > >  scripts/kconfig/streamline_config.pl | 23 +++++++++++++++++++++++
+> > > >  3 files changed, 31 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> > > > index cc6151fc0845..1371deab8bc7 100644
+> > > > --- a/Documentation/admin-guide/README.rst
+> > > > +++ b/Documentation/admin-guide/README.rst
+> > > > @@ -209,10 +209,16 @@ Configuring the kernel
+> > > >                             store the lsmod of that machine into a file
+> > > >                             and pass it in as a LSMOD parameter.
+> > > >
+> > > > +                           Also, you can preserve modules in certain folders
+> > > > +                           or kconfig files by specifying their paths in
+> > > > +                           parameter LMC_KEEP.
+> > > > +
+> > > >                     target$ lsmod > /tmp/mylsmod
+> > > >                     target$ scp /tmp/mylsmod host:/tmp
+> > > >
+> > > > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> > > > +                   host$ make LSMOD=/tmp/mylsmod \
+> > > > +                           LMC_KEEP="drivers/usb;drivers/gpu;fs" \
+> > >
+> > >
+> > > This might be another bike-sheding item, but
+> > > can you use a space for the delimiter?
+> > >
+> > >
+> > > LMC_KEEP="drivers/usb drivers/gpu fs"
+> > >
+> > > If you pass multiple directories,
+> > > you will need to surround them with double-quotes.
+> >
+> > I agree that spaces look better.
+> >
+> I am okay with space. But what about ":" which is used by shell PATH and many
+> others?
 
-CONFIG_CC_CAN_LINK does not check the capability of static linking,
-so you can enable CONFIG_BPFILTER_UMH, then fail to build.
 
-  HOSTLD  net/bpfilter/bpfilter_umh
-/usr/bin/ld: cannot find -lc
-collect2: error: ld returned 1 exit status
+I am not sure 'many others',
+but you can pick what you like.
 
-Add CONFIG_CC_CAN_LINK_STATIC, and make CONFIG_BPFILTER_UMH depend
-on it.
 
-Reported-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-I will insert this after
-https://patchwork.kernel.org/patch/11515997/
 
- init/Kconfig         | 5 +++++
- net/bpfilter/Kconfig | 2 +-
- 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/init/Kconfig b/init/Kconfig
-index 57562a8e2761..d0ff16e93794 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -49,6 +49,11 @@ config CC_CAN_LINK
- 	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(m64-flag)) if 64BIT
- 	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(m32-flag))
- 
-+config CC_CAN_LINK_STATIC
-+	bool
-+	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) -static $(m64-flag)) if 64BIT
-+	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) -static $(m32-flag))
-+
- config CC_HAS_ASM_GOTO
- 	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
- 
-diff --git a/net/bpfilter/Kconfig b/net/bpfilter/Kconfig
-index fed9290e3b41..045144d4a42c 100644
---- a/net/bpfilter/Kconfig
-+++ b/net/bpfilter/Kconfig
-@@ -9,7 +9,7 @@ menuconfig BPFILTER
- if BPFILTER
- config BPFILTER_UMH
- 	tristate "bpfilter kernel module with user mode helper"
--	depends on CC_CAN_LINK
-+	depends on CC_CAN_LINK_STATIC
- 	default m
- 	help
- 	  This builds bpfilter kernel module with embedded user mode helper
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
