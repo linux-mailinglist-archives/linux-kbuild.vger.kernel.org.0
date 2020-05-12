@@ -2,298 +2,224 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CC811CEFDE
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 10:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 509241CF951
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 17:36:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729125AbgELI7a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 May 2020 04:59:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726193AbgELI7a (ORCPT
+        id S1727825AbgELPf4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 May 2020 11:35:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725912AbgELPfz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 May 2020 04:59:30 -0400
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E91BC061A0C;
-        Tue, 12 May 2020 01:59:25 -0700 (PDT)
-Received: by mail-io1-xd42.google.com with SMTP id f4so6661870iov.11;
-        Tue, 12 May 2020 01:59:25 -0700 (PDT)
+        Tue, 12 May 2020 11:35:55 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6194FC061A0C;
+        Tue, 12 May 2020 08:35:54 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id f15so5527945plr.3;
+        Tue, 12 May 2020 08:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=mgvGrSBn4Z3elWdlR4h/uRqag8YgI6/1Az/oywN8U8E=;
-        b=Zxl5nYqS0K/mIp5V3EW+D703aILU7OmO8imXcJybeSM/rpI1MtzeH1Irj1rSHgmSYU
-         hLJ6ZZDAK4P5DcNa8WsZ6BZu7iZ9IXSR9DPXx/MPtVt6eMFZ17lxMToXsliumHJEm1FE
-         hRi90/h9I6wgaomceBJthVWY8HUx0445GQZqZf3fIgNljBeG7DCMqbFeD2SLM/umsdyC
-         f/AFJLR+vlZM8iRsL+me+tVBE90JQqOrDlL/Hl/k/OmfaRg46n4oQ8xmA5I280uos66J
-         2qEy8Va7BECc+gxkreeQJvD+S4Y+1dPUkkID1UofxT2BVN8mxEgg75KohjMiV5LKS/m3
-         KT4g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=GaQi67xXTCCq9s+vL+93JtJPZ31nSIMxohklczm0o9M=;
+        b=XI1juBPN0E3L82vUKX5XNPFQZQr7QMv5+8XYbnrNDS2eIecv804IygrY9t45/nlgtb
+         vml1cxWQl2p94CAnk1brM2uvSsvYr8PTv2hcZ96N6echR0YwLV5Z7hqIMngNudntnpyv
+         fVQw81aiWfDHGsXeUNP/RRnegYfOOpIsntAy6Mg3C0Cg1IvE7JrcqgVzlgYRYnLRCjPk
+         Rq2O/RczDilU+uFDEWgdDqy5znHOy9Lj+hxnAi3u7dHtQipFo7jW/g2ZRLdKp0Bro/bo
+         6UpYcgmJQzGrDRuD0f6zQOOj7OR6yWTQekvGxkazEeo3d+cwju9EwYCY2rRN4Q8if+28
+         g+7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=mgvGrSBn4Z3elWdlR4h/uRqag8YgI6/1Az/oywN8U8E=;
-        b=JTiULvLMCcBBox8iSYEblYdZSuDrc8Pd63/IGt5Ti8G61qJcUxo1qUoqZQNjjfij9z
-         PxlvnYkccPO8KsdgZbwcBVGXwen4GUrSw0wDlBwptjdXLTuH87cHSOBtffoetJEeSBrY
-         PcgjVDAcB6zqSdhBxqvQHmS/C0YRjNc8Op6qd2+n2Ia0luRg/FZ3EtGnfQICfKq7lKpw
-         ibuQ2SKnv8ZTavJouvmZ3pY3d4TgDWnxuVR17qMK+c+AFq2WwzLoS9u3JYF119BSq/3A
-         ZQuiRzsIpunyMZOQVpaj4SrKPp6Tr0IMGL2C0RuZOIiB8UuHoMa1z9of1hEZZ8cyiBOd
-         kDqw==
-X-Gm-Message-State: AGi0PuZ+5RyGVwJpgvJ1i+8YawnFtjDqkwXl3fVrlxclOLlUKdplDOnh
-        qXFQgbidM86CdPeCQJS2OCAkGkvLnyCrEG/3HXvPb0Ku
-X-Google-Smtp-Source: APiQypLjt9tWT6TF4DF/oazBQeHsILYmzpx19gDHVXsIHQ19acIXI3z0zTrILNX8Q1iAp0L/kH2cBd3ymvNJCzMNczY=
-X-Received: by 2002:a5e:c814:: with SMTP id y20mr19147281iol.135.1589273964630;
- Tue, 12 May 2020 01:59:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
- <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com> <CAK7LNAR+pm-_nd5=B2OeLpimW42FXxm8TQUMru9DR_asT3qYnA@mail.gmail.com>
-In-Reply-To: <CAK7LNAR+pm-_nd5=B2OeLpimW42FXxm8TQUMru9DR_asT3qYnA@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 12 May 2020 10:59:13 +0200
-Message-ID: <CA+icZUUdRk9TYOSb5mzqBrfAsHYCRAy0ciNtKZJxbTdv-KaHpQ@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: support compressed debug info
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GaQi67xXTCCq9s+vL+93JtJPZ31nSIMxohklczm0o9M=;
+        b=SD19mcld3VzPt+s1WXA+mTaX+CtcBvz7sgkwji7z0n+m6zMXpvguq27pZ9D65Vx7hX
+         g2ReBmDhVL0s0IGsm7gvOo633rPS+7sRU1ODQyVKhfsu3eA3zxzN4DDkamcNqPBnhI7Q
+         wwfweK9eCNJVOguKqgRPgJrYsyNaBp0Zs+k2Lo8RaW9rrp/xf3lXDwr+DeEvy8Qa+Wc1
+         i7C0o/GQLLssqKJrXx89Ho7y1bn9rReb3zU2ddmNE4UoRIFF8eCkeQLzr+pMUjhOqSpJ
+         VDRXyImryfTTobAJLOLYEUfu3Ns+Bs1CF5yM7tst0Fayrf+mtGm/emuwRt/EXgnwhXY7
+         WCuQ==
+X-Gm-Message-State: AGi0PubBEwD7Hc38cEe3QVWMOwbJvF9JhXlQedjw2m/GwBvSOLhN+XZQ
+        mnX4Seqeq0hkyzVlT7VDRSM=
+X-Google-Smtp-Source: APiQypIXnEBqsiB6Uwa1EG1cqA5yzhGtKslQks31SGIR1YuV1oshqAoeWsz9n0BmxCXNf1RUJuYbXQ==
+X-Received: by 2002:a17:902:8e8c:: with SMTP id bg12mr20760694plb.279.1589297753599;
+        Tue, 12 May 2020 08:35:53 -0700 (PDT)
+Received: from mail.google.com ([149.248.10.52])
+        by smtp.gmail.com with ESMTPSA id v127sm2647887pfb.91.2020.05.12.08.35.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 08:35:52 -0700 (PDT)
+Date:   Tue, 12 May 2020 23:35:43 +0800
+From:   Changbin Du <changbin.du@gmail.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <nick.desaulniers@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Changbin Du <changbin.du@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Changbin Du <changbin.du@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v5] streamline_config.pl: add LMC_KEEP to preserve some
+ kconfigs
+Message-ID: <20200512153543.63zguogif2l4mybv@mail.google.com>
+References: <20200510010603.3896-1-changbin.du@gmail.com>
+ <CAK7LNARH_1nQRExVSCcJ=Twuze5AosG3z2GcA7zwnF6Vi52GWA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNARH_1nQRExVSCcJ=Twuze5AosG3z2GcA7zwnF6Vi52GWA@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 12, 2020 at 7:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, May 12, 2020 at 03:52:04PM +0900, Masahiro Yamada wrote:
+> On Sun, May 10, 2020 at 10:06 AM Changbin Du <changbin.du@gmail.com> wrote:
+> >
+> > Sometimes it is useful to preserve batches of configs when making
+> > localmodconfig. For example, I usually don't want any usb and fs
+> > modules to be disabled. Now we can do it by:
+> >
+> >  $ make LMC_KEEP="drivers/usb:fs" localmodconfig
+> >
+> > Signed-off-by: Changbin Du <changbin.du@gmail.com>
+> >
+> > ---
+> > v4: fix typo.
+> > v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
+> > v2: fix typo in documentation. (Randy Dunlap)
+> > ---
+> >  Documentation/admin-guide/README.rst |  8 +++++++-
+> >  scripts/kconfig/Makefile             |  1 +
+> >  scripts/kconfig/streamline_config.pl | 21 +++++++++++++++++++++
+> >  3 files changed, 29 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
+> > index cc6151fc0845..407aa206bb70 100644
+> > --- a/Documentation/admin-guide/README.rst
+> > +++ b/Documentation/admin-guide/README.rst
+> > @@ -209,10 +209,16 @@ Configuring the kernel
+> >                             store the lsmod of that machine into a file
+> >                             and pass it in as a LSMOD parameter.
+> >
+> > +                           Also, you can preserve modules in certain folders
+> > +                           or kconfig files by specifying their paths in
+> > +                           parameter LMC_KEEP.
+> > +
+> >                     target$ lsmod > /tmp/mylsmod
+> >                     target$ scp /tmp/mylsmod host:/tmp
+> >
+> > -                   host$ make LSMOD=/tmp/mylsmod localmodconfig
+> > +                   host$ make LSMOD=/tmp/mylsmod \
+> > +                           LMC_KEEP="drivers/usb:drivers/gpu:fs" \
+> > +                           localmodconfig
+> >
+> >                             The above also works when cross compiling.
+> >
+> > diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
+> > index c9d0a4a8efb3..e0abbf5805f5 100644
+> > --- a/scripts/kconfig/Makefile
+> > +++ b/scripts/kconfig/Makefile
+> > @@ -123,6 +123,7 @@ help:
+> >         @echo  '  gconfig         - Update current config utilising a GTK+ based front-end'
+> >         @echo  '  oldconfig       - Update current config utilising a provided .config as base'
+> >         @echo  '  localmodconfig  - Update current config disabling modules not loaded'
+> > +       @echo  '                    except those preserved by LMC_KEEP environment variable'
+> >         @echo  '  localyesconfig  - Update current config converting local mods to core'
+> 
+> Just a nitpicking.
+> 
+> I was just about to apply this patch,
+> then noticed this.
+> 
+> This works for localyesconfig as well as
+> localmodconfig.
+> 
+> Do you want to add the note to localyesconfig too?
+> 
+> 
+> LMC_ is an acronym of LOCAL_MOD_CONFIG_.
+> Maybe it is OK because
+> we mostly use localmodconfig,
+> using localyesconfig is somewhat rare, I guess.
+> 
+> 
+> Just a reminder, if you want to send v6
+> or if you want me to pick this up as-is.
 >
-> Hi Sedat,
->
->
-> On Tue, May 5, 2020 at 1:25 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
-> >
-> > On Mon, May 4, 2020 at 5:13 AM Nick Desaulniers
-> > <nick.desaulniers@gmail.com> wrote:
-> > >
-> > > As debug information gets larger and larger, it helps significantly save
-> > > the size of vmlinux images to compress the information in the debug
-> > > information sections. Note: this debug info is typically split off from
-> > > the final compressed kernel image, which is why vmlinux is what's used
-> > > in conjunction with GDB. Minimizing the debug info size should have no
-> > > impact on boot times, or final compressed kernel image size.
-> > >
-> > > All of the debug sections will have a `C` flag set.
-> > > $ readelf -S <object file>
-> > >
-> > > $ bloaty vmlinux.gcc75.compressed.dwarf4 -- \
-> > >     vmlinux.gcc75.uncompressed.dwarf4
-> > >
-> > >     FILE SIZE        VM SIZE
-> > >  --------------  --------------
-> > >   +0.0%     +18  [ = ]       0    [Unmapped]
-> > >  -73.3%  -114Ki  [ = ]       0    .debug_aranges
-> > >  -76.2% -2.01Mi  [ = ]       0    .debug_frame
-> > >  -73.6% -2.89Mi  [ = ]       0    .debug_str
-> > >  -80.7% -4.66Mi  [ = ]       0    .debug_abbrev
-> > >  -82.9% -4.88Mi  [ = ]       0    .debug_ranges
-> > >  -70.5% -9.04Mi  [ = ]       0    .debug_line
-> > >  -79.3% -10.9Mi  [ = ]       0    .debug_loc
-> > >  -39.5% -88.6Mi  [ = ]       0    .debug_info
-> > >  -18.2%  -123Mi  [ = ]       0    TOTAL
-> > >
-> > > $ bloaty vmlinux.clang11.compressed.dwarf4 -- \
-> > >     vmlinux.clang11.uncompressed.dwarf4
-> > >
-> > >     FILE SIZE        VM SIZE
-> > >  --------------  --------------
-> > >   +0.0%     +23  [ = ]       0    [Unmapped]
-> > >  -65.6%    -871  [ = ]       0    .debug_aranges
-> > >  -77.4% -1.84Mi  [ = ]       0    .debug_frame
-> > >  -82.9% -2.33Mi  [ = ]       0    .debug_abbrev
-> > >  -73.1% -2.43Mi  [ = ]       0    .debug_str
-> > >  -84.8% -3.07Mi  [ = ]       0    .debug_ranges
-> > >  -65.9% -8.62Mi  [ = ]       0    .debug_line
-> > >  -86.2% -40.0Mi  [ = ]       0    .debug_loc
-> > >  -42.0% -64.1Mi  [ = ]       0    .debug_info
-> > >  -22.1%  -122Mi  [ = ]       0    TOTAL
-> > >
-> >
-> > Hi Nick,
-> >
-> > thanks for the patch.
-> >
-> > I have slightly modified it to adapt to Linux v5.7-rc4 (what was your base?).
-> >
-> > Which linker did you use and has it an impact if you switch from
-> > ld.bfd to ld.lld?
-> >
-> > I tried a first normal run and in a 2nd one with
-> > CONFIG_DEBUG_INFO_COMPRESSED=y both with clang-10 and ld.lld-10.
-> >
-> > My numbers (sizes in MiB):
-> >
-> > [ diffconfig ]
-> >
-> > $ scripts/diffconfig /boot/config-5.7.0-rc4-1-amd64-clang
-> > /boot/config-5.7.0-rc4-2-amd64-clang
-> >  BUILD_SALT "5.7.0-rc4-1-amd64-clang" -> "5.7.0-rc4-2-amd64-clang"
-> > +DEBUG_INFO_COMPRESSED y
-> >
-> > [ compiler and linker ]
-> >
-> > $ clang-10 -v
-> > ClangBuiltLinux clang version 10.0.1
-> > (https://github.com/llvm/llvm-project
-> > 92d5c1be9ee93850c0a8903f05f36a23ee835dc2)
-> > Target: x86_64-unknown-linux-gnu
-> > Thread model: posix
-> > InstalledDir: /home/dileks/src/llvm-toolchain/install/bin
-> > Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
-> > Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
-> > Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
-> > Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
-> > Candidate multilib: .;@m64
-> > Candidate multilib: 32;@m32
-> > Candidate multilib: x32;@mx32
-> > Selected multilib: .;@m64
-> >
-> > $ ld.lld-10 -v
-> > LLD 10.0.1 (https://github.com/llvm/llvm-project
-> > 92d5c1be9ee93850c0a8903f05f36a23ee835dc2) (compatible with GNU
-> > linkers)
-> >
-> > [ sizes vmlinux ]
-> >
-> > $ du -m 5.7.0-rc4-*/vmlinux*
-> > 409     5.7.0-rc4-1-amd64-clang/vmlinux
-> > 7       5.7.0-rc4-1-amd64-clang/vmlinux.compressed
-> > 404     5.7.0-rc4-1-amd64-clang/vmlinux.o
-> > 324     5.7.0-rc4-2-amd64-clang/vmlinux
-> > 7       5.7.0-rc4-2-amd64-clang/vmlinux.compressed
-> > 299     5.7.0-rc4-2-amd64-clang/vmlinux.o
-> >
-> > [ readelf (.debug_info as example) ]
-> >
-> > $ readelf -S vmlinux.o
-> >   [33] .debug_info       PROGBITS         0000000000000000  01d6a5e8
-> >        0000000006be1ee6  0000000000000000           0     0     1
-> >
-> > $ readelf -S vmlinux.o
-> >   [33] .debug_info       PROGBITS         0000000000000000  01749f18
-> >        0000000002ef04d2  0000000000000000   C       0     0     1 <---
-> > XXX: "C (compressed)" Flag
-> >
-> > Key to Flags:
-> >   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
-> >   L (link order), O (extra OS processing required), G (group), T (TLS),
-> >   C (compressed), x (unknown), o (OS specific), E (exclude),
-> >   l (large), p (processor specific)
-> >
-> > [ sizes linux-image debian packages ]
-> >
-> > $ du -m 5.7.0-rc4-*/linux-image*.deb
-> > 47      5.7.0-rc4-1-amd64-clang/linux-image-5.7.0-rc4-1-amd64-clang_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
-> > 424     5.7.0-rc4-1-amd64-clang/linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
-> > 47      5.7.0-rc4-2-amd64-clang/linux-image-5.7.0-rc4-2-amd64-clang_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
-> > 771     5.7.0-rc4-2-amd64-clang/linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
-> >
-> > [ sizes linux-git dir (compilation finished ]
-> >
-> > 5.7.0-rc4-1-amd64-clang: 17963   /home/dileks/src/linux-kernel/linux
-> > 5.7.0-rc4-2-amd64-clang: 14328   /home/dileks/src/linux-kernel/linux
-> >
-> > [ xz compressed linux-image-dbg packages ]
-> >
-> > $ file linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
-> > linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb:
-> > Debian binary package (format 2.0), with control.tar.xz, data
-> > compression xz
-> > $ file linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
-> > linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb:
-> > Debian binary package (format 2.0), with control.tar.xz, data
-> > compression xz
-> >
-> > [ file-lists ]
-> >
-> > $ dpkg --contents
-> > linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
-> > | wc -l
-> > 4395
-> > $ dpkg --contents
-> > linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
-> > | wc -l
-> > 4395
-> >
-> > [ file-lists vmlinux ]
-> >
-> > $ dpkg --contents
-> > linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
-> > | grep vmlinux
-> > -rwxr-xr-x root/root 428588312 2020-05-04 06:15
-> > ./usr/lib/debug/lib/modules/5.7.0-rc4-1-amd64-clang/vmlinux
-> > lrwxrwxrwx root/root         0 2020-05-04 06:15
-> > ./usr/lib/debug/boot/vmlinux-5.7.0-rc4-1-amd64-clang ->
-> > ../lib/modules/5.7.0-rc4-1-amd64-clang/vmlinux
-> > lrwxrwxrwx root/root         0 2020-05-04 06:15
-> > ./usr/lib/debug/vmlinux-5.7.0-rc4-1-amd64-clang ->
-> > lib/modules/5.7.0-rc4-1-amd64-clang/vmlinux
-> >
-> > $ dpkg --contents
-> > linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
-> > | grep vmlinux
-> > -rwxr-xr-x root/root 339341456 2020-05-04 12:24
-> > ./usr/lib/debug/lib/modules/5.7.0-rc4-2-amd64-clang/vmlinux
-> > lrwxrwxrwx root/root         0 2020-05-04 12:24
-> > ./usr/lib/debug/boot/vmlinux-5.7.0-rc4-2-amd64-clang ->
-> > ../lib/modules/5.7.0-rc4-2-amd64-clang/vmlinux
-> > lrwxrwxrwx root/root         0 2020-05-04 12:24
-> > ./usr/lib/debug/vmlinux-5.7.0-rc4-2-amd64-clang ->
-> > lib/modules/5.7.0-rc4-2-amd64-clang/vmlinux
-> >
-> > [ conclusion ]
-> >
-> > As you can see there is a size-reduction in case of vmlinux/vmlinux.o
-> > (debug) files...
-> > ...and my linux-git directory in total is smaller: 17963M vs. 14328M.
-> >
-> > But the resulting linux-image-dbg file is much fatter: 424M vs. 711M.
-> > XZ-compressing the gz/zlib-compressed vmlinux (debug) file results in
-> > a fatter linux-image-dbg package.
->
->
-> I also confirmed that, but this would not
-> be a blocker of this patch.
->
+yes, I should also add note for localyesconfig. Please see update in v6. Thanks
+for your kind reminder.
 
-Hi Masahiro,
-
-No, it is not a blocker.
-I have this patch now in my Linux v5.7-rc5 series.
-
-I see a lot of more benefits concerning disc-usage - in my linux-git
-and a reduced vmlinux file when I wanted to test with QEMU.
-
-Feel free to add:
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-
-- Sedat -
-
-> Users can disable CONFIG_DEBUG_INFO_COMPRESSED
-> if they care about the debug package size.
->
->
->
->
->
-> --
+> Thanks.
+> 
+> 
+> 
+> 
+> 
+> 
+> >         @echo  '  defconfig       - New config with default from ARCH supplied defconfig'
+> >         @echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
+> > diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
+> > index e2f8504f5a2d..19857d18d814 100755
+> > --- a/scripts/kconfig/streamline_config.pl
+> > +++ b/scripts/kconfig/streamline_config.pl
+> > @@ -143,6 +143,7 @@ my %depends;
+> >  my %selects;
+> >  my %prompts;
+> >  my %objects;
+> > +my %config2kfile;
+> >  my $var;
+> >  my $iflevel = 0;
+> >  my @ifdeps;
+> > @@ -201,6 +202,7 @@ sub read_kconfig {
+> >         if (/^\s*(menu)?config\s+(\S+)\s*$/) {
+> >             $state = "NEW";
+> >             $config = $2;
+> > +           $config2kfile{"CONFIG_$config"} = $kconfig;
+> >
+> >             # Add depends for 'if' nesting
+> >             for (my $i = 0; $i < $iflevel; $i++) {
+> > @@ -591,6 +593,20 @@ while ($repeat) {
+> >  }
+> >
+> >  my %setconfigs;
+> > +my @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
+> > +
+> > +sub in_preserved_kconfigs {
+> > +    my $kconfig = $config2kfile{$_[0]};
+> > +    if (!defined($kconfig)) {
+> > +        return 0;
+> > +    }
+> > +    foreach my $excl (@preserved_kconfigs) {
+> > +        if($kconfig =~ /^$excl/) {
+> > +            return 1;
+> > +        }
+> > +    }
+> > +    return 0;
+> > +}
+> >
+> >  # Finally, read the .config file and turn off any module enabled that
+> >  # we could not find a reason to keep enabled.
+> > @@ -644,6 +660,11 @@ foreach my $line (@config_file) {
+> >      }
+> >
+> >      if (/^(CONFIG.*)=(m|y)/) {
+> > +        if (in_preserved_kconfigs($1)) {
+> > +            dprint "Preserve config $1";
+> > +            print;
+> > +            next;
+> > +        }
+> >         if (defined($configs{$1})) {
+> >             if ($localyesconfig) {
+> >                 $setconfigs{$1} = 'y';
+> > --
+> > 2.25.1
+> >
+> 
+> 
+> -- 
 > Best Regards
 > Masahiro Yamada
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAK7LNAR%2Bpm-_nd5%3DB2OeLpimW42FXxm8TQUMru9DR_asT3qYnA%40mail.gmail.com.
+
+-- 
+Cheers,
+Changbin Du
