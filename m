@@ -2,61 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D85641CE974
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 02:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB86E1CE97E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 02:09:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728261AbgELAFS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 May 2020 20:05:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44696 "EHLO
+        id S1728309AbgELAJm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 May 2020 20:09:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728117AbgELAFS (ORCPT
+        by vger.kernel.org with ESMTP id S1728332AbgELAJl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 May 2020 20:05:18 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CCFC05BD09
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:05:17 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id 188so9027072lfa.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:05:17 -0700 (PDT)
+        Mon, 11 May 2020 20:09:41 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24684C061A0E
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:09:41 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id l19so11593821lje.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=g5Vj2zQnFxzww1DFlagDjlY/ke7T1Z1ZZyehhz3heRw=;
-        b=hcCGC2Hjo9nph3jrRydschmaR9AWBPPm9PAXs2M7D48jJzPcQ/KQADnqlDpnbnJWU2
-         FMk/VAczA3dIzQWm/k5t7DbIXUsXBEjJ+AkRztrSEyQksG0iw5ouUugZlBp6wOhhj8E8
-         Qjh8V3jCkhFfic+LUce/yQLpldSBlnv4B00B0=
+        bh=B+GIuNeS/zRhNXv8DWJcBs5sdIAbLbnMHoFTqitLrys=;
+        b=Ak93banedsJMiV/GLzQObSSQW5MNVGozwtSadLdbb2llutUOeMawnVzTXwPyZMhdn5
+         zotibDunSZiYNCo1pURopX//M2oItuHBRSCOe5QbWLnCSD0k+LJAL7kMlmILXXDpJpO1
+         SUoeWuk79IlnBSAlPr/pRc1vZh5tqtqot+UYY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g5Vj2zQnFxzww1DFlagDjlY/ke7T1Z1ZZyehhz3heRw=;
-        b=CQoOKXr3TYUVv8NbL0oCORM3K1W9lD0dygqoetewMHmF+cvccgZC2bBpWt3HU7mDpL
-         UvHRWEey3cdQfxWEHH4vYRef0pVL9Phj5qQ6nGCCybLEVrX26vfQadEmCX6fhWSN8QR2
-         KMsiQUwS7IMLRtv2dX0zYbYGPkkAfLic4BVp2+iVY5JE7soQjFtfgu2ZQ9FNOp2/ErB1
-         hF77uvwNwhM626Gh5c+0mtjuoJQU4hXcY41C3jy9UH+Y+2lnun2VOvS0JjB8xeCjAXnQ
-         t0UoHK+/u6//7B8N7/Rq9I7grLLQtZM/UJDvAS5TnpS9I1sNtiDsAsJpvwXpJGjgInp1
-         h6Hg==
-X-Gm-Message-State: AOAM532x2hrHs/KRScGX/M3EAgNssgT0uVtEqg2ilrLRxzQO2ZL/JS8z
-        0o6wNUns03k779+U/Y61LhF/YdY0hMU=
-X-Google-Smtp-Source: ABdhPJyb8brSMQL0HCTRmAbCjUL6NvsN4YFM6RumK9le7f/m1nXN0PBHRnpRKIfGX7WH+GhHa2zgVQ==
-X-Received: by 2002:ac2:5496:: with SMTP id t22mr12762802lfk.0.1589241914431;
-        Mon, 11 May 2020 17:05:14 -0700 (PDT)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
-        by smtp.gmail.com with ESMTPSA id o204sm12610320lff.64.2020.05.11.17.05.12
+        bh=B+GIuNeS/zRhNXv8DWJcBs5sdIAbLbnMHoFTqitLrys=;
+        b=moGr8T1kr2HQLuPm5eS3tQSnVj3oM4DAKxDQfNnxzLOzoUUyUqDoDOJpPus6moQUJ4
+         Lm+vZ1yTYcPMFUDoYDL+1vDFL8YIPPA95AVsedYajZ0tw97t2M6ODRPCli2eNxEzMv65
+         Ymr9oMEA4kksDlAk1+Aj5SjZqRyBtQm7obR6RjlORPMNXHSjr+XzwVSXltsQP4ih3m80
+         ZVL2lavKjUlGzXHgRZqC77kAcNgoOYrJw3lHYaSVcBc22KLyZNVG4KTkTCNCzNpXYtD8
+         cLwqaDBxJZIWiDbVpS7C+tN1UmjgDdvrXH07yiF8IUbbiFt2eJvNxKUVuV600fKHHi+p
+         9uiA==
+X-Gm-Message-State: AOAM533QRWmI4ZS+NKnlpqlcdTo85YU5sz+54QvdRL6xL0hTvD/lXk2J
+        JY/IIQId3zv2AnRREA778/QkWbDVk/U=
+X-Google-Smtp-Source: ABdhPJyhSrcytfFoVUl/iPN0QlOp0muEfGQhKmitn65g1CBK6zEuC+h3izHJjXr96lIZMm4cPvS2Cw==
+X-Received: by 2002:a2e:7815:: with SMTP id t21mr12060645ljc.146.1589242178182;
+        Mon, 11 May 2020 17:09:38 -0700 (PDT)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id l25sm12293113lfh.71.2020.05.11.17.09.36
         for <linux-kbuild@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2020 17:05:12 -0700 (PDT)
-Received: by mail-lf1-f52.google.com with SMTP id d22so2992505lfm.11
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:05:12 -0700 (PDT)
-X-Received: by 2002:ac2:5df9:: with SMTP id z25mr12792137lfq.125.1589241912072;
- Mon, 11 May 2020 17:05:12 -0700 (PDT)
+        Mon, 11 May 2020 17:09:37 -0700 (PDT)
+Received: by mail-lj1-f181.google.com with SMTP id l19so11593708lje.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:09:36 -0700 (PDT)
+X-Received: by 2002:a2e:9a54:: with SMTP id k20mr12584970ljj.265.1589242176533;
+ Mon, 11 May 2020 17:09:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200508090202.7s3kcqpvpxx32syu@butterfly.localdomain> <20200511215720.303181-1-Jason@zx2c4.com>
-In-Reply-To: <20200511215720.303181-1-Jason@zx2c4.com>
+References: <20200508090202.7s3kcqpvpxx32syu@butterfly.localdomain>
+ <20200511215720.303181-1-Jason@zx2c4.com> <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
+In-Reply-To: <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 11 May 2020 17:04:56 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
-Message-ID: <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
+Date:   Mon, 11 May 2020 17:09:20 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wioWmE+Xy+RfVpc3q9EMh4NhqPVvWZp5=GqtoU6nZfxcA@mail.gmail.com>
+Message-ID: <CAHk-=wioWmE+Xy+RfVpc3q9EMh4NhqPVvWZp5=GqtoU6nZfxcA@mail.gmail.com>
 Subject: Re: [PATCH v2] Kconfig: default to CC_OPTIMIZE_FOR_PERFORMANCE_O3 for
  gcc >= 10
 To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
@@ -77,38 +78,25 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 11, 2020 at 2:57 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Mon, May 11, 2020 at 5:04 PM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> GCC 10 appears to have changed -O2 in order to make compilation time
-> faster when using -flto, seemingly at the expense of performance, in
-> particular with regards to how the inliner works. Since -O3 these days
-> shouldn't have the same set of bugs as 10 years ago, this commit
-> defaults new kernel compiles to -O3 when using gcc >= 10.
+> Not inlining as aggressively is not necessarily a bad thing. It can
+> be, of course. But I've actually also done gcc bugreports about gcc
+> inlining too much, and generating _worse_ code as a result (ie
+> inlinging things that were behind an "if (unlikely())" test, and
+> causing the likely path to grow a stack fram and stack spills as a
+> result).
 
-I'm not convinced this is sensible.
+In case people care, the bugzilla case I mentioned is this one:
 
--O3 historically does bad things with gcc. Including bad things for
-performance. It traditionally makes code larger and often SLOWER.
+    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49194
 
-And I don't mean slower to compile (although that's an issue). I mean
-actually generating slower code.
+with example code on why it's actively wrong to inline.
 
-Things like trying to unroll loops etc makes very little sense in the
-kernel, where we very seldom have high loop counts for pretty much
-anything.
+Obviously, in the kernel, we can fix the obvious cases with "noinline"
+and "always_inline", but those take care of the outliers.  Having a
+compiler that does reasonably well by default is a good thing, and
+that very much includes *not* inlining mindlessly.
 
-There's a reason -O3 isn't even offered as an option.
-
-Maybe things have changed, and maybe they've improved. But I'd like to
-see actual numbers for something like this.
-
-Not inlining as aggressively is not necessarily a bad thing. It can
-be, of course. But I've actually also done gcc bugreports about gcc
-inlining too much, and generating _worse_ code as a result (ie
-inlinging things that were behind an "if (unlikely())" test, and
-causing the likely path to grow a stack fram and stack spills as a
-result).
-
-So just "O3 inlines more" is not a valid argument.
-
-              Linus
+                  Linus
