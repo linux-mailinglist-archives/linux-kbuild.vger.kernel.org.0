@@ -2,187 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8E21CF952
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 17:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0651B1CFE2E
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 21:23:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727938AbgELPgq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 May 2020 11:36:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48748 "EHLO
+        id S1730200AbgELTXr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 May 2020 15:23:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727882AbgELPgq (ORCPT
+        with ESMTP id S1725987AbgELTXr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 May 2020 11:36:46 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 441F7C061A0C;
-        Tue, 12 May 2020 08:36:46 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id t11so6321004pgg.2;
-        Tue, 12 May 2020 08:36:46 -0700 (PDT)
+        Tue, 12 May 2020 15:23:47 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCCEBC061A0E
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 May 2020 12:23:46 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id u15so1856377plm.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 12 May 2020 12:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YmZaO3pcIDrfR3KhTFbwCDYoppXKfYSJXDQjUNKHEVY=;
-        b=MDZQjdd9m1y13p4rXxb5ek6crSsd2F3cWpU4AluYA6Fumci27S/F5+vMBNIFw9aPvE
-         bF7isGhus8uwkrMDA2h8CwlFw4hXQijLZQvmYE5ssEVj2iAqMuQ2QYtgJE/M0JT/OL/m
-         X7BjNlnEEBILlQ1ROroLfDCSiCg/BIE3Ix2BXd+LRVQHEtPaicCS7gI/sOvVfW2wklFN
-         qOXZadgNnekYEFqG33K0wkzXvVZAcE/dx4sGqvxLRQj2Qn1Hq8gfIGfq8WkDnNYQPRdO
-         Dl0+nEkLJs4H6G3UMN9B8YQRk/umrQgpNDr6djrOQdJ2dgAZENF/7rtsNTpqW79H8oeg
-         lrYQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=X3Opb6arzJwXelkGLAeI5ijV0q+qANDWY75OUMFqdTw=;
+        b=uGqh2RXUdJGWl4vM5ngSkKyM33oCzN0D7rcTg3PahkCN5jK46nLHvb81Q6+NXnvJk6
+         LjUqly3uQEVD7t/d9EUt+Z7iaEkHN+WWMlSTXWjuF7T5NO3Vib4I2JIS89lpqrhIOx1v
+         sZ6h90wKOXIzfl49sNYheDJhejgkqD8GVao4Tj6ExSkA2DfXUIG14pvJ6cAjN5BRDiio
+         ZTAS0jFvVdqjYdf2KJ47sIn7LpAQjmJZPfqEEVRzg8PoSIetgsVuPk7fcaaMtmB6wh8e
+         HkN3ZzjHFrxeqBOVBc6mAB+pYXi9ZRBkJOaVDiWPHcKMwsPmAd6w8WRR/XXnvj+r2zqs
+         HRRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YmZaO3pcIDrfR3KhTFbwCDYoppXKfYSJXDQjUNKHEVY=;
-        b=NYoXbtbHjNseyfVGIJS9YzModvPiwoeuTMlihZ7n5f3pv1zEgtbKwjFZ31gGWcPNmQ
-         8KmI+GbT6qLmaG1it9hBk+oW5JfIi83mIwsNhAjJMmXMLean0iGs+3JSzhK2untCfSDP
-         VtlGSs0JhRP96o8Thvp/a+bw8P9YVCmmCeabFzefmxMhYOJgtpNk/zMV5wpSJxCdWlJ8
-         VYlzC3zT6HrNazI157PP7zELxxfZhCq8C9jBOV1bq0E6dWTm7f4HcWyMETMF/yWxiWhT
-         2s4Hbap34oWmCfe81piGH9HAg1/Q0T20GBOLDk9Q3ySnYAORmdUOGR9NTbUfe/kujylj
-         lf6g==
-X-Gm-Message-State: AGi0Puad+8uRRsHppCqxaTsWUcSddK7n0RPitIMp2f6YPs3rn66TOPIN
-        FkVAPscFyGGJzhQbKMTeQeo=
-X-Google-Smtp-Source: APiQypJwhkhYXONVdXhsZYr4EJTG7RhyBOORX0Z93ewmdJCGeWKnlMX72zG0EERnx85aomm9q1LqJg==
-X-Received: by 2002:a62:17c3:: with SMTP id 186mr22004540pfx.159.1589297805739;
-        Tue, 12 May 2020 08:36:45 -0700 (PDT)
-Received: from vultr.guest ([149.248.10.52])
-        by smtp.gmail.com with ESMTPSA id q62sm7884906pfc.132.2020.05.12.08.36.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 08:36:44 -0700 (PDT)
-From:   Changbin Du <changbin.du@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Changbin Du <changbin.du@gmail.com>
-Subject: [PATCH v6] streamline_config.pl: add LMC_KEEP to preserve some kconfigs
-Date:   Tue, 12 May 2020 23:36:07 +0800
-Message-Id: <20200512153607.5560-1-changbin.du@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X3Opb6arzJwXelkGLAeI5ijV0q+qANDWY75OUMFqdTw=;
+        b=P7vue1y50ZPHyLjG6xNE4mFGFkqNINvVjifrILqEoteKkddgCl5oDzwuIEWCqhvuaz
+         iywuSSHODJYzPdtpcaPEkCHPNThHaQXKooH7JALvhHB9XxGiDdiVM7T6flb7Qvgdasf7
+         i/MMq/Y5oh7rdQw8A+bFUnx4xCzca4nG2+PIXW31LcQLCjUXBmGKFXKbXBj+w18qnuwI
+         su7lBEn0031Oua76WyvyL+6Kc7NuPbX32/Mv4nX3EnkvAbRGUwi0b+XBH3vYm0D6EIYb
+         wFRcTwdb9B0ez+6mFlPrQv0dzbaxYs2yo+buv+F4zQQvEPFcbGG9DkBYZlbnziWtMj+X
+         LVDA==
+X-Gm-Message-State: AOAM531A5ullV1cR2ZDCGgCy5prp/QX+1sR8x80/gxywANz1aLCu9LR6
+        QbjJQm3QDnqdhWl0RsqwMLInwQOymygWd3cvopmemw==
+X-Google-Smtp-Source: ABdhPJxJM3DP8tQlMfcGivh9vfkZm4K3CVXJuLlEPwZAMHaub6Fim/plw5kyQ/IFPpdLRyyZau9KKX5M9Z0ugKluwR4=
+X-Received: by 2002:a17:90a:2a4a:: with SMTP id d10mr4799210pjg.32.1589311426080;
+ Tue, 12 May 2020 12:23:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
+ <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com>
+ <20200505004738.ew2lcp27c2n4jqia@google.com> <CAK7LNAR7-VMEWBcJ_Wd+61ZDHEa0gD8FaSs63YPu7m_FgH8Htg@mail.gmail.com>
+In-Reply-To: <CAK7LNAR7-VMEWBcJ_Wd+61ZDHEa0gD8FaSs63YPu7m_FgH8Htg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 12 May 2020 12:23:34 -0700
+Message-ID: <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: support compressed debug info
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Cc:     Nick Desaulniers <nick.desaulniers@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Changbin Du <changbin.du@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Sometimes it is useful to preserve batches of configs when making
-localmodconfig. For example, I usually don't want any usb and fs
-modules to be disabled. Now we can do it by:
+On Mon, May 11, 2020 at 10:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> > >On Mon, May 4, 2020 at 5:13 AM Nick Desaulniers
+> > ><nick.desaulniers@gmail.com> wrote:
+> > >>
+> > >> As debug information gets larger and larger, it helps significantly save
+> > >> the size of vmlinux images to compress the information in the debug
+> > >> information sections. Note: this debug info is typically split off from
+> > >> the final compressed kernel image, which is why vmlinux is what's used
+> > >> in conjunction with GDB. Minimizing the debug info size should have no
+> > >> impact on boot times, or final compressed kernel image size.
+> > >>
+> Nick,
+>
+> I am OK with this patch.
+>
+> Fangrui provided the minimal requirement for
+> --compress-debug-sections=zlib
+>
+>
+> Is it worth recording in the help text?
+> Do you want to send v2?
 
- $ make LMC_KEEP="drivers/usb:fs" localmodconfig
+Yes I'd like to record that information.  I can also record Sedat's
+Tested-by tag.  Thank you for testing Sedat.
 
-Signed-off-by: Changbin Du <changbin.du@gmail.com>
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+I don't know what "linux-image-dbg file" are, or why they would be
+bigger.  The size of the debug info is the primary concern with this
+config.  It sounds like however that file is created might be
+problematic.
 
----
-v6: add note for localyesconfig.
-v5: use ':' as delimiter.
-v4: fix typo.
-v3: rename LOCALMODCONFIG_PRESERVE to shorter LMC_KEEP.
-v2: fix typo in documentation. (Randy Dunlap)
----
- Documentation/admin-guide/README.rst | 11 +++++++++--
- scripts/kconfig/Makefile             |  2 ++
- scripts/kconfig/streamline_config.pl | 21 +++++++++++++++++++++
- 3 files changed, 32 insertions(+), 2 deletions(-)
+Fangrui, I wasn't able to easily find what version of binutils first
+added support.  Can you please teach me how to fish?
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index cc6151fc0845..5fb526900023 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -209,15 +209,22 @@ Configuring the kernel
-                            store the lsmod of that machine into a file
-                            and pass it in as a LSMOD parameter.
- 
-+                           Also, you can preserve modules in certain folders
-+                           or kconfig files by specifying their paths in
-+                           parameter LMC_KEEP.
-+
-                    target$ lsmod > /tmp/mylsmod
-                    target$ scp /tmp/mylsmod host:/tmp
- 
--                   host$ make LSMOD=/tmp/mylsmod localmodconfig
-+                   host$ make LSMOD=/tmp/mylsmod \
-+                           LMC_KEEP="drivers/usb:drivers/gpu:fs" \
-+                           localmodconfig
- 
-                            The above also works when cross compiling.
- 
-      "make localyesconfig" Similar to localmodconfig, except it will convert
--                           all module options to built in (=y) options.
-+                           all module options to built in (=y) options. You can
-+                           also preserve modules by LMC_KEEP.
- 
-      "make kvmconfig"   Enable additional options for kvm guest kernel support.
- 
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index c9d0a4a8efb3..f3355bd86aa5 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -123,7 +123,9 @@ help:
- 	@echo  '  gconfig	  - Update current config utilising a GTK+ based front-end'
- 	@echo  '  oldconfig	  - Update current config utilising a provided .config as base'
- 	@echo  '  localmodconfig  - Update current config disabling modules not loaded'
-+	@echo  '                    except those preserved by LMC_KEEP environment variable'
- 	@echo  '  localyesconfig  - Update current config converting local mods to core'
-+	@echo  '                    except those preserved by LMC_KEEP environment variable'
- 	@echo  '  defconfig	  - New config with default from ARCH supplied defconfig'
- 	@echo  '  savedefconfig   - Save current config as ./defconfig (minimal config)'
- 	@echo  '  allnoconfig	  - New config where all options are answered with no'
-diff --git a/scripts/kconfig/streamline_config.pl b/scripts/kconfig/streamline_config.pl
-index e2f8504f5a2d..19857d18d814 100755
---- a/scripts/kconfig/streamline_config.pl
-+++ b/scripts/kconfig/streamline_config.pl
-@@ -143,6 +143,7 @@ my %depends;
- my %selects;
- my %prompts;
- my %objects;
-+my %config2kfile;
- my $var;
- my $iflevel = 0;
- my @ifdeps;
-@@ -201,6 +202,7 @@ sub read_kconfig {
- 	if (/^\s*(menu)?config\s+(\S+)\s*$/) {
- 	    $state = "NEW";
- 	    $config = $2;
-+	    $config2kfile{"CONFIG_$config"} = $kconfig;
- 
- 	    # Add depends for 'if' nesting
- 	    for (my $i = 0; $i < $iflevel; $i++) {
-@@ -591,6 +593,20 @@ while ($repeat) {
- }
- 
- my %setconfigs;
-+my @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-+
-+sub in_preserved_kconfigs {
-+    my $kconfig = $config2kfile{$_[0]};
-+    if (!defined($kconfig)) {
-+        return 0;
-+    }
-+    foreach my $excl (@preserved_kconfigs) {
-+        if($kconfig =~ /^$excl/) {
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
- 
- # Finally, read the .config file and turn off any module enabled that
- # we could not find a reason to keep enabled.
-@@ -644,6 +660,11 @@ foreach my $line (@config_file) {
-     }
- 
-     if (/^(CONFIG.*)=(m|y)/) {
-+        if (in_preserved_kconfigs($1)) {
-+            dprint "Preserve config $1";
-+            print;
-+            next;
-+        }
- 	if (defined($configs{$1})) {
- 	    if ($localyesconfig) {
- 	        $setconfigs{$1} = 'y';
+Another question I had for Fangrui is, if the linker can compress
+these sections, shouldn't we just have the linker do it, not the the
+compiler and assembler?  IIUC the debug info can contain relocations,
+so the linker would have to decompress these, perform relocations,
+then recompress these?  I guess having the compiler and assembler
+compress the debug info as well would minimize the size of the .o
+files on disk.
+
+Otherwise I should add this flag to the assembler invocation, too, in
+v2.  Thoughts?
+
+I have a patch series that enables dwarf5 support in the kernel that
+I'm working up to.  I wanted to send this first.  Both roughly reduce
+the debug info size by 20% each, though I haven't measured them
+together, yet.  Requires ToT binutils because there have been many
+fixes from reports of mine recently.
 -- 
-2.25.1
-
+Thanks,
+~Nick Desaulniers
