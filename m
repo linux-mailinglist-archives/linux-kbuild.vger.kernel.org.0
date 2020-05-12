@@ -2,99 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCE81CEF1C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 10:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B05771CEF62
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 10:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbgELI2q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 May 2020 04:28:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37874 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725987AbgELI2q (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 May 2020 04:28:46 -0400
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD3A0C061A0C;
-        Tue, 12 May 2020 01:28:45 -0700 (PDT)
-Received: by mail-oo1-xc44.google.com with SMTP id x16so2537479oop.13;
-        Tue, 12 May 2020 01:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4kVbCD/n1BkwyUP75XXZyibv77Dl7m/9w8NUlO/ODo8=;
-        b=NSSEVtZzCAOoJnCBRGpAISiJPumtC6nRBgwN1dJVFHrMJZ9cvdBP/T1Di8fhz6ZBKz
-         fo/8rFdpC3gjPTdS6MD3FGzhtHhTHvBwyyfMTFjLkYRnL3O8itA6gq4ZA/hUAlicP9DI
-         BDUabtDb9ADFlO42SoHa2INT/libldyoEnECR6KgxWumkx+YFEEMXCZiaInu9WwtZYFT
-         X4vVdn0thMVjC0P1mpGSdUTXFikV3dHCOCB+kw7fxYpaxIOdn3oscGU1qrHmP/dAXtH6
-         m2StRiTuPE/ibiNJ+uTq3xt122yd7Mjf8wCQYYmb8JVFGWUoplzJXuqa3GHgB2aeAmJW
-         ArwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4kVbCD/n1BkwyUP75XXZyibv77Dl7m/9w8NUlO/ODo8=;
-        b=kTnfaB61giIbmb9yjdhRmimtHP0CoDy0ZZUjnSBnhQOMGEpFmFJ6xcI1hP6dGxsg/m
-         yQ3d3bVVHPZtldBGHRB+5LMmK3TU3m5QkZj548dy6RqOXLMEaAcc5kr/bQ9wywfZps7u
-         XmoJX3KXeplHvoJVcVcPpo16qpNmMYI8Sso8y+BgNWXISn0ECRpgtHPVqwfiABjc5C2D
-         icF6GhF1X+1MJKpM/sER4x4HE73tIqOALrdlNNOwpV7NT96PdYIfLtXYtS4QLKQw52YQ
-         ySzWYsH4kypiQ0Sp5WV8o9tPXIX42I/j6NIV/jM5Fnr9KJujwzGjGt+34ucPC5M1n4nQ
-         h6eA==
-X-Gm-Message-State: AGi0PuYf4pA1ox36a2xXr/DHHRR8IBW4fB3djRS70M/tA56EphqguE53
-        taqtTXkezbDPbRviW+gQb/Q=
-X-Google-Smtp-Source: APiQypJRTj5+9cONY8dNEGUIzp1fPmf0fr/ec3M0P9oSIqqLi1wBJo1+hy8gD7ULHcol5h8ZFsQS9g==
-X-Received: by 2002:a4a:d8d7:: with SMTP id c23mr17048455oov.8.1589272125154;
-        Tue, 12 May 2020 01:28:45 -0700 (PDT)
-Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id l2sm5243695oib.58.2020.05.12.01.28.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 01:28:44 -0700 (PDT)
-Date:   Tue, 12 May 2020 01:28:43 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dmitry Golovin <dima@golovin.in>,
-        Sedat Dilek <sedat.dilek@gmail.com>
-Subject: Re: [PATCH v5 0/5] Allow ld.lld to link the MIPS VDSO
-Message-ID: <20200512082843.GA3815743@ubuntu-s3-xlarge-x86>
-References: <20200423171807.29713-1-natechancellor@gmail.com>
- <20200428221419.2530697-1-natechancellor@gmail.com>
- <20200512080509.GA9433@alpha.franken.de>
+        id S1729035AbgELIod (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 May 2020 04:44:33 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37344 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725776AbgELIoc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 12 May 2020 04:44:32 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 08421AE57;
+        Tue, 12 May 2020 08:44:33 +0000 (UTC)
+Date:   Tue, 12 May 2020 10:44:29 +0200 (CEST)
+From:   Richard Biener <rguenther@suse.de>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        stable <stable@vger.kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Jakub Jelinek <jakub@redhat.com>,
+        Oleksandr Natalenko <oleksandr@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Laight <David.Laight@aculab.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Subject: Re: [PATCH v2] Kconfig: default to CC_OPTIMIZE_FOR_PERFORMANCE_O3
+ for gcc >= 10
+In-Reply-To: <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2005121037491.4397@zhemvz.fhfr.qr>
+References: <20200508090202.7s3kcqpvpxx32syu@butterfly.localdomain> <20200511215720.303181-1-Jason@zx2c4.com> <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200512080509.GA9433@alpha.franken.de>
+Content-Type: multipart/mixed; boundary="-1609908220-634017890-1589273070=:4397"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 12, 2020 at 10:05:09AM +0200, Thomas Bogendoerfer wrote:
-> On Tue, Apr 28, 2020 at 03:14:14PM -0700, Nathan Chancellor wrote:
-> > [..]
-> > Please let me know if there are any issues!
-> 
-> I found no issues in my tests. Is this the final state ? If yes, I'm
-> going to apply it to mips-next.
-> 
-> Thomas.
-> 
-> -- 
-> Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
-> good idea.                                                [ RFC1925, 2.3 ]
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Maciej seemed to have some issue with the way I worded the commit
-message of patch 4 but I have not heard anything back about my
-suggestion and Fangrui commented that --eh-frame-hdr might not be
-necessary but if everything works fine for you with this version, I
-am not inclined to touch it.
+---1609908220-634017890-1589273070=:4397
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-If you feel this is good to go, I am happy to let it go in. Thanks for
-accepting it!
+On Mon, 11 May 2020, Linus Torvalds wrote:
 
-Cheers,
-Nathan
+> On Mon, May 11, 2020 at 2:57 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> >
+> > GCC 10 appears to have changed -O2 in order to make compilation time
+> > faster when using -flto, seemingly at the expense of performance, in
+> > particular with regards to how the inliner works. Since -O3 these days
+> > shouldn't have the same set of bugs as 10 years ago, this commit
+> > defaults new kernel compiles to -O3 when using gcc >= 10.
+> 
+> I'm not convinced this is sensible.
+
+Note the real thing that changed for GCC 10 at -O2 is that -O2
+now includes -finline-functions which means GCC considers inlining
+of functions not marked with 'inline' at -O2.  To counter code-size
+growth and tune that back to previous levels the inlining limits
+in effect at -O2 have been lowered.
+
+Note this has been done based on analyzing larger C++ code and obviously
+not because the kernel would benefit (IIRC kernel folks like 'inline'
+to behave as written and thus rather may dislike the change to default to
+-finline-functions).
+
+> -O3 historically does bad things with gcc. Including bad things for
+> performance. It traditionally makes code larger and often SLOWER.
+> 
+> And I don't mean slower to compile (although that's an issue). I mean
+> actually generating slower code.
+> 
+> Things like trying to unroll loops etc makes very little sense in the
+> kernel, where we very seldom have high loop counts for pretty much
+> anything.
+> 
+> There's a reason -O3 isn't even offered as an option.
+
+And I think that's completely sensible.  I would not recommend
+to use -O3 for the kernel.  Somehow feeding back profile data
+might help - though getting such data at all and with enough
+coverage is probably hard.
+
+As you said in the followup I wouldn't recommend tweaking GCCs
+defaults for the various --param affecting inlining.  The behavior
+with this is not consistent across releases.
+
+Richard.
+
+> Maybe things have changed, and maybe they've improved. But I'd like to
+> see actual numbers for something like this.
+> 
+> Not inlining as aggressively is not necessarily a bad thing. It can
+> be, of course. But I've actually also done gcc bugreports about gcc
+> inlining too much, and generating _worse_ code as a result (ie
+> inlinging things that were behind an "if (unlikely())" test, and
+> causing the likely path to grow a stack fram and stack spills as a
+> result).
+> 
+> So just "O3 inlines more" is not a valid argument.
+> 
+>               Linus
+> 
+
+-- 
+Richard Biener <rguenther@suse.de>
+SUSE Software Solutions Germany GmbH, Maxfeldstrasse 5, 90409 Nuernberg,
+Germany; GF: Felix Imendörffer; HRB 36809 (AG Nuernberg)
+---1609908220-634017890-1589273070=:4397--
