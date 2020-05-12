@@ -2,57 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88C0C1CFECF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 22:01:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 639411CFED7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 22:03:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730929AbgELUBT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 May 2020 16:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33340 "EHLO
+        id S1731064AbgELUDE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 May 2020 16:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728275AbgELUBT (ORCPT
+        with ESMTP id S1731048AbgELUDD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 May 2020 16:01:19 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F94FC061A0C
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 May 2020 13:01:19 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id a5so10069828pjh.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 12 May 2020 13:01:19 -0700 (PDT)
+        Tue, 12 May 2020 16:03:03 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4265C061A0C;
+        Tue, 12 May 2020 13:03:03 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id 79so6334417iou.2;
+        Tue, 12 May 2020 13:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PCwSIslbRORlMBU/zrbEKiLIDLAVoW5iRK+1eK2Uwrw=;
-        b=O+feywUZ2Fdm1hRUuc8qWVqzECIR8y8t3hmfIyhVXigNB6rfZfqY3u+Zbrw+zpVtlB
-         nSKY20joQtevkjdC+khHVMKp7QUwU0jhI0C9a+y/ozRiSgGqW9wdWTCjLVhsKQrqdOuh
-         Uj8ENDsTeA99Qkh9Qgf1PQggbekLC7G8nKXHYeGaIPjbDt3J8oiHKxU8wdoCWTXLkfhJ
-         oc/seQT5ZLn38r8jAOWMsSNAj8fIU7xqufxGF1Wm2lXEFVfcDaxPDYo6C1oET1/dIFwu
-         3RP330t+tjOlgiUq50NvYm4+rIIvK61c1UXPv3oZXFUa0O1eYlhwMOaNM/ktGcsO0zJJ
-         VJOA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=ydBNEcd5JjVpqJREhbFVwOQSjJgZ8/B8S4hq59DFYUI=;
+        b=kSL0hgpyZvKFtG6jUkv2yJwaQ0HcSZvAVxkp3oRhg+j18nHvsY8MhoKdWbuZuITaV+
+         0W3H5cOPXOZTxZnNdTJL4+A7P2+tXZfRbw0f0wh2nB2J4DdRoDu9vL4lZ3SeY5k6JZ+f
+         9XoVa9TLYBjWo8ZAIadjTr5tDuBZPQOjCZcV5j340VHpXc3lyvn9dQpZSAQiHriI+V6t
+         B4yfgjaFTlzMu7pOanjZixh6A7oaFUzyj8OyEQctdk1woordxNGhBbUnbJOLaApkjJRb
+         2M+3WXJIJ3C7FFTMXiKUqxXuyAve90W5J2aC2e46iIq29rEGl5H0mTugbLBq6D4Qgpyx
+         Ft/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PCwSIslbRORlMBU/zrbEKiLIDLAVoW5iRK+1eK2Uwrw=;
-        b=CndApOHkXn6WRLnRIVl/yakNI9jNkHvkqf7K1WtSTlKb2uaDR846a/YSdbu6rwhbHS
-         dWUri+JnvBD23WSkNCsban5fex5+h5QM5GReULqs8wtNQ6V/XkyngDOxTLs/jm4BPYHE
-         +WwCThkEqe7TkSSyPrdsLeXuoXeZBnsCB5ZvPSFUHuAlDJjN+fFIMnwn10UBa3GnjeKr
-         xqhUeoIm6MeJTnvnIWuMAAdhFFCrL6PntIoA1aqzMfY0dQFs98lOMuiyW2S6zJMQThj+
-         JuO64Hk7NBQ5WqPe/f7ONVVk8yw4lK+8YjI36CNRruXvOiSROI6dLsO+MQtegvUSKibj
-         MtlA==
-X-Gm-Message-State: AGi0PuaCvb0GLXLLWjF+8M0KsiHVPDDMIs3J5K3nm4p9kSkjbx1hoFBg
-        or/P4gpjYS/f1OfQZNsnG48Rzw==
-X-Google-Smtp-Source: APiQypI7a004ciHEg8EPZsXRFijEKgFekm31+zu4K1ZfcXt0yMkL+/wHIj1K/cXBJeTgedC/ILBeBg==
-X-Received: by 2002:a17:902:b582:: with SMTP id a2mr21848929pls.41.1589313678427;
-        Tue, 12 May 2020 13:01:18 -0700 (PDT)
-Received: from google.com ([2620:15c:2ce:0:9efe:9f1:9267:2b27])
-        by smtp.gmail.com with ESMTPSA id q1sm3154941pfg.194.2020.05.12.13.01.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 13:01:17 -0700 (PDT)
-Date:   Tue, 12 May 2020 13:01:14 -0700
-From:   Fangrui Song <maskray@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=ydBNEcd5JjVpqJREhbFVwOQSjJgZ8/B8S4hq59DFYUI=;
+        b=ScXlARRTBUGIfVWSLBTHMjYBZ1XyXY+NnvBVCRv53FG0RF7vP0+UAz4odYja12wexj
+         RPOBliO8JUUyO7g182VCLrO/yNw1tW20iaIPVJvCXSO84VLNDAxyh7HnNKai3DOCZdF7
+         yZe/V6KMPkeEN+YSphvfOIH7ncn4Ky/Yko29ZMKP4SZRPWUAcsa2DLk2fM8sm0CSGk8n
+         SjYuY+kHiwgB0aNMT5+X0VY2sn8IwofDSNn8a/rNzMp11ASXVt6gJfHTn3rtaBYem9YM
+         P/86ovY1A4wqmcQCY8vSVB4il5AnENEVz1/TH3Tht12BZn1idC6YPAbHLZeL/7Re5tn6
+         /SQg==
+X-Gm-Message-State: AGi0PuZQDekmCUHvqOZTfJZCX0kbdyry9Z7N6sSPqAEQT+sXgBf/l7iC
+        G1zjqDifuMEtAtdfbB64YkKdiOR3ZrBUgNiFzeg=
+X-Google-Smtp-Source: APiQypKk1yK2WAKjHItNoAMDLKx1oFZGQBa601MER7ujhE5fj1/HUMtFr2/9mbXtFloXKPikSOBAGdwm7SqhDQq2w4w=
+X-Received: by 2002:a05:6602:2dca:: with SMTP id l10mr11781247iow.163.1589313783081;
+ Tue, 12 May 2020 13:03:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
+ <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com>
+ <20200505004738.ew2lcp27c2n4jqia@google.com> <CAK7LNAR7-VMEWBcJ_Wd+61ZDHEa0gD8FaSs63YPu7m_FgH8Htg@mail.gmail.com>
+ <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com>
+In-Reply-To: <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 12 May 2020 22:02:51 +0200
+Message-ID: <CA+icZUUSgkUM3oYUzDdhz9tdU+HGG+BMGwqJdb5RXZNNYHn5ng@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: support compressed debug info
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
+        Fangrui Song <maskray@google.com>,
         Nick Desaulniers <nick.desaulniers@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -62,111 +67,92 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH] Makefile: support compressed debug info
-Message-ID: <20200512200114.64vo5lbl7wk2tzxk@google.com>
-References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
- <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com>
- <20200505004738.ew2lcp27c2n4jqia@google.com>
- <CAK7LNAR7-VMEWBcJ_Wd+61ZDHEa0gD8FaSs63YPu7m_FgH8Htg@mail.gmail.com>
- <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2020-05-12, Nick Desaulniers wrote:
->On Mon, May 11, 2020 at 10:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->>
->> > >On Mon, May 4, 2020 at 5:13 AM Nick Desaulniers
->> > ><nick.desaulniers@gmail.com> wrote:
->> > >>
->> > >> As debug information gets larger and larger, it helps significantly save
->> > >> the size of vmlinux images to compress the information in the debug
->> > >> information sections. Note: this debug info is typically split off from
->> > >> the final compressed kernel image, which is why vmlinux is what's used
->> > >> in conjunction with GDB. Minimizing the debug info size should have no
->> > >> impact on boot times, or final compressed kernel image size.
->> > >>
->> Nick,
->>
->> I am OK with this patch.
->>
->> Fangrui provided the minimal requirement for
->> --compress-debug-sections=zlib
->>
->>
->> Is it worth recording in the help text?
->> Do you want to send v2?
+On Tue, May 12, 2020 at 9:23 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
->Yes I'd like to record that information.  I can also record Sedat's
->Tested-by tag.  Thank you for testing Sedat.
+> On Mon, May 11, 2020 at 10:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > > >On Mon, May 4, 2020 at 5:13 AM Nick Desaulniers
+> > > ><nick.desaulniers@gmail.com> wrote:
+> > > >>
+> > > >> As debug information gets larger and larger, it helps significantly save
+> > > >> the size of vmlinux images to compress the information in the debug
+> > > >> information sections. Note: this debug info is typically split off from
+> > > >> the final compressed kernel image, which is why vmlinux is what's used
+> > > >> in conjunction with GDB. Minimizing the debug info size should have no
+> > > >> impact on boot times, or final compressed kernel image size.
+> > > >>
+> > Nick,
+> >
+> > I am OK with this patch.
+> >
+> > Fangrui provided the minimal requirement for
+> > --compress-debug-sections=zlib
+> >
+> >
+> > Is it worth recording in the help text?
+> > Do you want to send v2?
 >
->I don't know what "linux-image-dbg file" are, or why they would be
->bigger.  The size of the debug info is the primary concern with this
->config.  It sounds like however that file is created might be
->problematic.
+> Yes I'd like to record that information.  I can also record Sedat's
+> Tested-by tag.  Thank you for testing Sedat.
 >
->Fangrui, I wasn't able to easily find what version of binutils first
->added support.  Can you please teach me how to fish?
+> I don't know what "linux-image-dbg file" are, or why they would be
+> bigger.  The size of the debug info is the primary concern with this
+> config.  It sounds like however that file is created might be
+> problematic.
+>
 
-I actually downloaded https://ftp.gnu.org/gnu/binutils/ archives and
-located the sources... I think an easier way is:
+Hi Nick,
 
-% cd binutils-gdb
-% git show binutils-2_26:./gas/as.c | grep compress-debug-sections
---compress-debug-sections[={none|zlib|zlib-gnu|zlib-gabi}]\n\
-...
+sorry, I try to explain the magic of "linux-image-dbg file".
 
-GNU as 2.25 only supports --compress-debug-sections which means "zlib-gnu" in
-newer versions.
+In my workflow, I use the "scripts/package/{builddeb,mkdebian}"
+shipped with the Linux-kernel as a base to build my Debian packages.
 
-Similarly, for GNU ld:
+With enabled debugging (CONFIG_DEBUG_INFO=y) a
+"linux-image-$KERNELRELEASE-dbg" Debian package is created.
 
-% git show binutils-2_26:./ld/lexsup.c | grep compress-debug-sections
-   --compress-debug-sections=[none|zlib|zlib-gnu|zlib-gabi]\n\
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/package/mkdebian#n203
 
-(I have spent a lot of time investigating GNU ld's behavior :)
+As you can see below...
 
->Another question I had for Fangrui is, if the linker can compress
->these sections, shouldn't we just have the linker do it, not the the
->compiler and assembler?  IIUC the debug info can contain relocations,
->so the linker would have to decompress these, perform relocations,
->then recompress these?  I guess having the compiler and assembler
->compress the debug info as well would minimize the size of the .o
->files on disk.
+[ CONFIG_DEBUG_INFO_COMPRESSED=n ]
 
-The linker will decompress debug info unconditionally. Because
-input .debug_info sections need to be concatenated to form the output
-.debug_info . Whether the output .debug_info is compressed is controlled
-by the linker option --compress-debug-sections=zlib, which is not
-affected by the compression state of object files.
+47      5.7.0-rc4-1-amd64-clang/linux-image-5.7.0-rc4-1-amd64-clang_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
+424     5.7.0-rc4-1-amd64-clang/linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
 
-Both GNU as and GNU ld name the option --compress-debug-sections=zlib.
-In a compiler driver context, an unfamiliar user may find
--Wa,--compress-debug-sections=zlib -Wl,--compress-debug-sections=zlib
-confusing:/
+[ CONFIG_DEBUG_INFO_COMPRESSED=y ]
 
->Otherwise I should add this flag to the assembler invocation, too, in
->v2.  Thoughts?
+47      5.7.0-rc4-2-amd64-clang/linux-image-5.7.0-rc4-2-amd64-clang_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
+771     5.7.0-rc4-2-amd64-clang/linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
 
-Compressing object files along with the linked output should be fine. It
-can save disk space. (It'd be great if you paste the comparison
-with and w/o object files compressed)
+...there is minimal change in the size for the Debian package w/o
+debug-infos - approx. 47M.
+As said 424M vs. 771M for the dbg packages.
 
-Feel free to add:
+There is another big benefit checking my recorded stats:
 
-Reviewed-by: Fangrui Song <maskray@google.com>
+$ grep 'cache size' stats/5.7.0-rc4-*/ccache-s.txt
+stats/5.7.0-rc4-1-amd64-clang/ccache-s.txt:cache size
+         4.7 GB
+stats/5.7.0-rc4-1-amd64-clang/ccache-s.txt:max cache size
+        10.0 GB
+stats/5.7.0-rc4-2-amd64-clang/ccache-s.txt:cache size
+         3.4 GB
+stats/5.7.0-rc4-2-amd64-clang/ccache-s.txt:max cache size
+        10.0 GB
 
->I have a patch series that enables dwarf5 support in the kernel that
->I'm working up to.  I wanted to send this first.  Both roughly reduce
->the debug info size by 20% each, though I haven't measured them
->together, yet.  Requires ToT binutils because there have been many
->fixes from reports of mine recently.
+So the cache of ccache is reduced: 4.7 GB vs. 3.4 GB
 
-This will be awesome! I also heard that enabling DWARF v5 for our object
-files can easily make debug info size smaller by 20%. Glad that the
-kernel can benefit it as well:)
+If you have any questions, "Don't ask to ask - just ask." :-).
+
+Thanks.
+
+Regards,
+- Sedat -
