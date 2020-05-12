@@ -2,65 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB86E1CE97E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 02:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92AA91CE9C0
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 02:44:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728309AbgELAJm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 11 May 2020 20:09:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728332AbgELAJl (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 11 May 2020 20:09:41 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24684C061A0E
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:09:41 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id l19so11593821lje.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=B+GIuNeS/zRhNXv8DWJcBs5sdIAbLbnMHoFTqitLrys=;
-        b=Ak93banedsJMiV/GLzQObSSQW5MNVGozwtSadLdbb2llutUOeMawnVzTXwPyZMhdn5
-         zotibDunSZiYNCo1pURopX//M2oItuHBRSCOe5QbWLnCSD0k+LJAL7kMlmILXXDpJpO1
-         SUoeWuk79IlnBSAlPr/pRc1vZh5tqtqot+UYY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=B+GIuNeS/zRhNXv8DWJcBs5sdIAbLbnMHoFTqitLrys=;
-        b=moGr8T1kr2HQLuPm5eS3tQSnVj3oM4DAKxDQfNnxzLOzoUUyUqDoDOJpPus6moQUJ4
-         Lm+vZ1yTYcPMFUDoYDL+1vDFL8YIPPA95AVsedYajZ0tw97t2M6ODRPCli2eNxEzMv65
-         Ymr9oMEA4kksDlAk1+Aj5SjZqRyBtQm7obR6RjlORPMNXHSjr+XzwVSXltsQP4ih3m80
-         ZVL2lavKjUlGzXHgRZqC77kAcNgoOYrJw3lHYaSVcBc22KLyZNVG4KTkTCNCzNpXYtD8
-         cLwqaDBxJZIWiDbVpS7C+tN1UmjgDdvrXH07yiF8IUbbiFt2eJvNxKUVuV600fKHHi+p
-         9uiA==
-X-Gm-Message-State: AOAM533QRWmI4ZS+NKnlpqlcdTo85YU5sz+54QvdRL6xL0hTvD/lXk2J
-        JY/IIQId3zv2AnRREA778/QkWbDVk/U=
-X-Google-Smtp-Source: ABdhPJyhSrcytfFoVUl/iPN0QlOp0muEfGQhKmitn65g1CBK6zEuC+h3izHJjXr96lIZMm4cPvS2Cw==
-X-Received: by 2002:a2e:7815:: with SMTP id t21mr12060645ljc.146.1589242178182;
-        Mon, 11 May 2020 17:09:38 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id l25sm12293113lfh.71.2020.05.11.17.09.36
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2020 17:09:37 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id l19so11593708lje.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 11 May 2020 17:09:36 -0700 (PDT)
-X-Received: by 2002:a2e:9a54:: with SMTP id k20mr12584970ljj.265.1589242176533;
- Mon, 11 May 2020 17:09:36 -0700 (PDT)
+        id S1728273AbgELAoE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 11 May 2020 20:44:04 -0400
+Received: from mail.zx2c4.com ([192.95.5.64]:35809 "EHLO mail.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727886AbgELAoD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 11 May 2020 20:44:03 -0400
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 61348260;
+        Tue, 12 May 2020 00:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
+        :references:in-reply-to:from:date:message-id:subject:to:cc
+        :content-type; s=mail; bh=8DMV4dM1KIt+JaIU385jNEGQIbs=; b=K+KyXU
+        0jtMQUdbMQIAHKaqePtsyFdwejC4naBxxOFyE5fCOKlgmFzXyHZ8XwH7PZz0U4mt
+        YMocHCUVu1OyS75jHZjbH6LphCQKMHhoN7FbczugZwZAOpTN3MkTRqoomEAVMU5u
+        xG7roQ6EOdxBz0PzFoK4Q7J0QYB5asJdkAt2KcWXvIAdzKex4XvuF8HJSZT8dIRu
+        xLTv1aUxT1Sg4KIvxGbpE08XTh+MS3F1uTlEneXofTObI1bljqR97ah4GpZ9Cmop
+        SIpPGSi+EYWKdmcKENDYdJuWQENAxbxFZayOkIZwsM+tOELwpBNgYHS1ew9uZPjD
+        +HWO8KlX9ToOug8Q==
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 7ca4cff8 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Tue, 12 May 2020 00:30:37 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id f3so12008026ioj.1;
+        Mon, 11 May 2020 17:43:59 -0700 (PDT)
+X-Gm-Message-State: AGi0PuaA5Uq/rkTNbai7wWRHQE5CAK7MNXW/Qx56/0C6HW6xQ3QP/YHd
+        /xsvmAqjo/f+BN5bkdD8mGvVHQVKyljtcvToTVM=
+X-Google-Smtp-Source: APiQypJNbNU2t/ivDnEN/72r9GA+zKw7tmqjTlNbMTmB5sNJ+KbPBu5AJRv/PL9LMyJr/DYFUmPGS3iMuNy8lp1oQcw=
+X-Received: by 2002:a6b:e509:: with SMTP id y9mr8237253ioc.67.1589244238910;
+ Mon, 11 May 2020 17:43:58 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200508090202.7s3kcqpvpxx32syu@butterfly.localdomain>
  <20200511215720.303181-1-Jason@zx2c4.com> <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
 In-Reply-To: <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 11 May 2020 17:09:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wioWmE+Xy+RfVpc3q9EMh4NhqPVvWZp5=GqtoU6nZfxcA@mail.gmail.com>
-Message-ID: <CAHk-=wioWmE+Xy+RfVpc3q9EMh4NhqPVvWZp5=GqtoU6nZfxcA@mail.gmail.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Mon, 11 May 2020 18:43:48 -0600
+X-Gmail-Original-Message-ID: <CAHmME9pXnYurszyvX8FAYHbMysknpegUSF1g2wZPdBybxD-xZQ@mail.gmail.com>
+Message-ID: <CAHmME9pXnYurszyvX8FAYHbMysknpegUSF1g2wZPdBybxD-xZQ@mail.gmail.com>
 Subject: Re: [PATCH v2] Kconfig: default to CC_OPTIMIZE_FOR_PERFORMANCE_O3 for
  gcc >= 10
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         "the arch/x86 maintainers" <x86@kernel.org>,
@@ -78,8 +59,12 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 11, 2020 at 5:04 PM Linus Torvalds
+On Mon, May 11, 2020 at 6:05 PM Linus Torvalds
 <torvalds@linux-foundation.org> wrote:
+> There's a reason -O3 isn't even offered as an option.
+>
+> Maybe things have changed, and maybe they've improved. But I'd like to
+> see actual numbers for something like this.
 >
 > Not inlining as aggressively is not necessarily a bad thing. It can
 > be, of course. But I've actually also done gcc bugreports about gcc
@@ -87,16 +72,19 @@ On Mon, May 11, 2020 at 5:04 PM Linus Torvalds
 > inlinging things that were behind an "if (unlikely())" test, and
 > causing the likely path to grow a stack fram and stack spills as a
 > result).
+>
+> So just "O3 inlines more" is not a valid argument.
 
-In case people care, the bugzilla case I mentioned is this one:
+Alright. It might be possible to produce some benchmarks, and then
+isolate the precise inlining parameter that makes the difference, and
+include that for gcc-10. But you made a compelling argument in that
+old gcc bug report about not going down the finicky rabbit hole of gcc
+inlining switches that seem to change meaning between releases, which
+is persuasive.
 
-    https://gcc.gnu.org/bugzilla/show_bug.cgi?id=49194
-
-with example code on why it's actively wrong to inline.
-
-Obviously, in the kernel, we can fix the obvious cases with "noinline"
-and "always_inline", but those take care of the outliers.  Having a
-compiler that does reasonably well by default is a good thing, and
-that very much includes *not* inlining mindlessly.
-
-                  Linus
+The other possibility would be if -O3 actually isn't bad like it used
+to be and the codegen is markedly better, alongside some numbers to
+back it up. I'm not presently making that argument and don't have
+those numbers, but perhaps others who were interested in this patch
+for other reasons do have strong arguments there and want to chime in.
+Otherwise, no problem dropping this.
