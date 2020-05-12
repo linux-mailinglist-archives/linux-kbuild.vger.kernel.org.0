@@ -2,67 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 262C81CEE54
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 09:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67C681CEEC2
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 10:05:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729209AbgELHhP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 May 2020 03:37:15 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57850 "EHLO mx2.suse.de"
+        id S1728416AbgELIFW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 May 2020 04:05:22 -0400
+Received: from elvis.franken.de ([193.175.24.41]:49606 "EHLO elvis.franken.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727859AbgELHhP (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 May 2020 03:37:15 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id F08CEAEAC;
-        Tue, 12 May 2020 07:37:15 +0000 (UTC)
-Date:   Tue, 12 May 2020 09:37:10 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Erwan Velu <erwanaliasr1@gmail.com>
-Cc:     Erwan Velu <e.velu@criteo.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Mattias Jacobsson <2pi@mok.nu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        "Darren Hart (VMware)" <dvhart@infradead.org>,
-        Changbin Du <changbin.du@intel.com>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH] firmware/dmi: Report DMI Bios & EC firmware release
-Message-ID: <20200512093710.74fd1dd5@endymion>
-In-Reply-To: <CAL2Jzuw8K-p11kZ1DdcVtTn76GE-Y+nr-=UM86DJAiUGSNh6zg@mail.gmail.com>
-References: <20200207083550.360461-1-e.velu@criteo.com>
-        <20200211142112.649d7237@endymion>
-        <ba5b88c9-f056-9375-d1fb-7832c76db29f@criteo.com>
-        <CAL2Jzuw8K-p11kZ1DdcVtTn76GE-Y+nr-=UM86DJAiUGSNh6zg@mail.gmail.com>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S1727783AbgELIFW (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 12 May 2020 04:05:22 -0400
+Received: from uucp (helo=alpha)
+        by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+        id 1jYPuh-0007gk-00; Tue, 12 May 2020 10:05:19 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+        id B6A7BC0479; Tue, 12 May 2020 10:05:09 +0200 (CEST)
+Date:   Tue, 12 May 2020 10:05:09 +0200
+From:   Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kbuild@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Subject: Re: [PATCH v5 0/5] Allow ld.lld to link the MIPS VDSO
+Message-ID: <20200512080509.GA9433@alpha.franken.de>
+References: <20200423171807.29713-1-natechancellor@gmail.com>
+ <20200428221419.2530697-1-natechancellor@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428221419.2530697-1-natechancellor@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Erwan,
+On Tue, Apr 28, 2020 at 03:14:14PM -0700, Nathan Chancellor wrote:
+> [..]
+> Please let me know if there are any issues!
 
-On Mon, 11 May 2020 19:10:52 +0200, Erwan Velu wrote:
-> Jean, I don't see my patches in the 5.7-rc series.
-> Is there anything wrong with them ?
+I found no issues in my tests. Is this the final state ? If yes, I'm
+going to apply it to mips-next.
 
-Nothing wrong with your patch, but unfortunately I missed the merge
-window and sent my pull request a few days too late, so it was not
-accepted. Your patch is still in my pending queue:
-
-http://jdelvare.nerim.net/devel/linux/jdelvare-dmi/
-
-and therefore included in every linux-next snapshot, but it won't be
-merged in v5.7, you'll have to wait for v5.8.
-
-This is entirely my fault and I am sorry about that.
+Thomas.
 
 -- 
-Jean Delvare
-SUSE L3 Support
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
