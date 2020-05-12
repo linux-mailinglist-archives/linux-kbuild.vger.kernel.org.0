@@ -2,117 +2,298 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B05771CEF62
-	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 10:44:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CC811CEFDE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 12 May 2020 10:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729035AbgELIod (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 12 May 2020 04:44:33 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37344 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725776AbgELIoc (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 12 May 2020 04:44:32 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 08421AE57;
-        Tue, 12 May 2020 08:44:33 +0000 (UTC)
-Date:   Tue, 12 May 2020 10:44:29 +0200 (CEST)
-From:   Richard Biener <rguenther@suse.de>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        stable <stable@vger.kernel.org>, "H.J. Lu" <hjl.tools@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Oleksandr Natalenko <oleksandr@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Laight <David.Laight@aculab.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>
-Subject: Re: [PATCH v2] Kconfig: default to CC_OPTIMIZE_FOR_PERFORMANCE_O3
- for gcc >= 10
-In-Reply-To: <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2005121037491.4397@zhemvz.fhfr.qr>
-References: <20200508090202.7s3kcqpvpxx32syu@butterfly.localdomain> <20200511215720.303181-1-Jason@zx2c4.com> <CAHk-=wi87j=wj0ijkYZ3WoPVkZ9Fq1U2bLnQ66nk425B5kW0Cw@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1729125AbgELI7a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 12 May 2020 04:59:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42614 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726193AbgELI7a (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 12 May 2020 04:59:30 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E91BC061A0C;
+        Tue, 12 May 2020 01:59:25 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id f4so6661870iov.11;
+        Tue, 12 May 2020 01:59:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=mgvGrSBn4Z3elWdlR4h/uRqag8YgI6/1Az/oywN8U8E=;
+        b=Zxl5nYqS0K/mIp5V3EW+D703aILU7OmO8imXcJybeSM/rpI1MtzeH1Irj1rSHgmSYU
+         hLJ6ZZDAK4P5DcNa8WsZ6BZu7iZ9IXSR9DPXx/MPtVt6eMFZ17lxMToXsliumHJEm1FE
+         hRi90/h9I6wgaomceBJthVWY8HUx0445GQZqZf3fIgNljBeG7DCMqbFeD2SLM/umsdyC
+         f/AFJLR+vlZM8iRsL+me+tVBE90JQqOrDlL/Hl/k/OmfaRg46n4oQ8xmA5I280uos66J
+         2qEy8Va7BECc+gxkreeQJvD+S4Y+1dPUkkID1UofxT2BVN8mxEgg75KohjMiV5LKS/m3
+         KT4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=mgvGrSBn4Z3elWdlR4h/uRqag8YgI6/1Az/oywN8U8E=;
+        b=JTiULvLMCcBBox8iSYEblYdZSuDrc8Pd63/IGt5Ti8G61qJcUxo1qUoqZQNjjfij9z
+         PxlvnYkccPO8KsdgZbwcBVGXwen4GUrSw0wDlBwptjdXLTuH87cHSOBtffoetJEeSBrY
+         PcgjVDAcB6zqSdhBxqvQHmS/C0YRjNc8Op6qd2+n2Ia0luRg/FZ3EtGnfQICfKq7lKpw
+         ibuQ2SKnv8ZTavJouvmZ3pY3d4TgDWnxuVR17qMK+c+AFq2WwzLoS9u3JYF119BSq/3A
+         ZQuiRzsIpunyMZOQVpaj4SrKPp6Tr0IMGL2C0RuZOIiB8UuHoMa1z9of1hEZZ8cyiBOd
+         kDqw==
+X-Gm-Message-State: AGi0PuZ+5RyGVwJpgvJ1i+8YawnFtjDqkwXl3fVrlxclOLlUKdplDOnh
+        qXFQgbidM86CdPeCQJS2OCAkGkvLnyCrEG/3HXvPb0Ku
+X-Google-Smtp-Source: APiQypLjt9tWT6TF4DF/oazBQeHsILYmzpx19gDHVXsIHQ19acIXI3z0zTrILNX8Q1iAp0L/kH2cBd3ymvNJCzMNczY=
+X-Received: by 2002:a5e:c814:: with SMTP id y20mr19147281iol.135.1589273964630;
+ Tue, 12 May 2020 01:59:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="-1609908220-634017890-1589273070=:4397"
+References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
+ <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com> <CAK7LNAR+pm-_nd5=B2OeLpimW42FXxm8TQUMru9DR_asT3qYnA@mail.gmail.com>
+In-Reply-To: <CAK7LNAR+pm-_nd5=B2OeLpimW42FXxm8TQUMru9DR_asT3qYnA@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 12 May 2020 10:59:13 +0200
+Message-ID: <CA+icZUUdRk9TYOSb5mzqBrfAsHYCRAy0ciNtKZJxbTdv-KaHpQ@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: support compressed debug info
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <nick.desaulniers@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Changbin Du <changbin.du@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
----1609908220-634017890-1589273070=:4397
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 11 May 2020, Linus Torvalds wrote:
-
-> On Mon, May 11, 2020 at 2:57 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+On Tue, May 12, 2020 at 7:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Hi Sedat,
+>
+>
+> On Tue, May 5, 2020 at 1:25 AM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 > >
-> > GCC 10 appears to have changed -O2 in order to make compilation time
-> > faster when using -flto, seemingly at the expense of performance, in
-> > particular with regards to how the inliner works. Since -O3 these days
-> > shouldn't have the same set of bugs as 10 years ago, this commit
-> > defaults new kernel compiles to -O3 when using gcc >= 10.
-> 
-> I'm not convinced this is sensible.
+> > On Mon, May 4, 2020 at 5:13 AM Nick Desaulniers
+> > <nick.desaulniers@gmail.com> wrote:
+> > >
+> > > As debug information gets larger and larger, it helps significantly save
+> > > the size of vmlinux images to compress the information in the debug
+> > > information sections. Note: this debug info is typically split off from
+> > > the final compressed kernel image, which is why vmlinux is what's used
+> > > in conjunction with GDB. Minimizing the debug info size should have no
+> > > impact on boot times, or final compressed kernel image size.
+> > >
+> > > All of the debug sections will have a `C` flag set.
+> > > $ readelf -S <object file>
+> > >
+> > > $ bloaty vmlinux.gcc75.compressed.dwarf4 -- \
+> > >     vmlinux.gcc75.uncompressed.dwarf4
+> > >
+> > >     FILE SIZE        VM SIZE
+> > >  --------------  --------------
+> > >   +0.0%     +18  [ = ]       0    [Unmapped]
+> > >  -73.3%  -114Ki  [ = ]       0    .debug_aranges
+> > >  -76.2% -2.01Mi  [ = ]       0    .debug_frame
+> > >  -73.6% -2.89Mi  [ = ]       0    .debug_str
+> > >  -80.7% -4.66Mi  [ = ]       0    .debug_abbrev
+> > >  -82.9% -4.88Mi  [ = ]       0    .debug_ranges
+> > >  -70.5% -9.04Mi  [ = ]       0    .debug_line
+> > >  -79.3% -10.9Mi  [ = ]       0    .debug_loc
+> > >  -39.5% -88.6Mi  [ = ]       0    .debug_info
+> > >  -18.2%  -123Mi  [ = ]       0    TOTAL
+> > >
+> > > $ bloaty vmlinux.clang11.compressed.dwarf4 -- \
+> > >     vmlinux.clang11.uncompressed.dwarf4
+> > >
+> > >     FILE SIZE        VM SIZE
+> > >  --------------  --------------
+> > >   +0.0%     +23  [ = ]       0    [Unmapped]
+> > >  -65.6%    -871  [ = ]       0    .debug_aranges
+> > >  -77.4% -1.84Mi  [ = ]       0    .debug_frame
+> > >  -82.9% -2.33Mi  [ = ]       0    .debug_abbrev
+> > >  -73.1% -2.43Mi  [ = ]       0    .debug_str
+> > >  -84.8% -3.07Mi  [ = ]       0    .debug_ranges
+> > >  -65.9% -8.62Mi  [ = ]       0    .debug_line
+> > >  -86.2% -40.0Mi  [ = ]       0    .debug_loc
+> > >  -42.0% -64.1Mi  [ = ]       0    .debug_info
+> > >  -22.1%  -122Mi  [ = ]       0    TOTAL
+> > >
+> >
+> > Hi Nick,
+> >
+> > thanks for the patch.
+> >
+> > I have slightly modified it to adapt to Linux v5.7-rc4 (what was your base?).
+> >
+> > Which linker did you use and has it an impact if you switch from
+> > ld.bfd to ld.lld?
+> >
+> > I tried a first normal run and in a 2nd one with
+> > CONFIG_DEBUG_INFO_COMPRESSED=y both with clang-10 and ld.lld-10.
+> >
+> > My numbers (sizes in MiB):
+> >
+> > [ diffconfig ]
+> >
+> > $ scripts/diffconfig /boot/config-5.7.0-rc4-1-amd64-clang
+> > /boot/config-5.7.0-rc4-2-amd64-clang
+> >  BUILD_SALT "5.7.0-rc4-1-amd64-clang" -> "5.7.0-rc4-2-amd64-clang"
+> > +DEBUG_INFO_COMPRESSED y
+> >
+> > [ compiler and linker ]
+> >
+> > $ clang-10 -v
+> > ClangBuiltLinux clang version 10.0.1
+> > (https://github.com/llvm/llvm-project
+> > 92d5c1be9ee93850c0a8903f05f36a23ee835dc2)
+> > Target: x86_64-unknown-linux-gnu
+> > Thread model: posix
+> > InstalledDir: /home/dileks/src/llvm-toolchain/install/bin
+> > Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+> > Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/8
+> > Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
+> > Selected GCC installation: /usr/lib/gcc/x86_64-linux-gnu/10
+> > Candidate multilib: .;@m64
+> > Candidate multilib: 32;@m32
+> > Candidate multilib: x32;@mx32
+> > Selected multilib: .;@m64
+> >
+> > $ ld.lld-10 -v
+> > LLD 10.0.1 (https://github.com/llvm/llvm-project
+> > 92d5c1be9ee93850c0a8903f05f36a23ee835dc2) (compatible with GNU
+> > linkers)
+> >
+> > [ sizes vmlinux ]
+> >
+> > $ du -m 5.7.0-rc4-*/vmlinux*
+> > 409     5.7.0-rc4-1-amd64-clang/vmlinux
+> > 7       5.7.0-rc4-1-amd64-clang/vmlinux.compressed
+> > 404     5.7.0-rc4-1-amd64-clang/vmlinux.o
+> > 324     5.7.0-rc4-2-amd64-clang/vmlinux
+> > 7       5.7.0-rc4-2-amd64-clang/vmlinux.compressed
+> > 299     5.7.0-rc4-2-amd64-clang/vmlinux.o
+> >
+> > [ readelf (.debug_info as example) ]
+> >
+> > $ readelf -S vmlinux.o
+> >   [33] .debug_info       PROGBITS         0000000000000000  01d6a5e8
+> >        0000000006be1ee6  0000000000000000           0     0     1
+> >
+> > $ readelf -S vmlinux.o
+> >   [33] .debug_info       PROGBITS         0000000000000000  01749f18
+> >        0000000002ef04d2  0000000000000000   C       0     0     1 <---
+> > XXX: "C (compressed)" Flag
+> >
+> > Key to Flags:
+> >   W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+> >   L (link order), O (extra OS processing required), G (group), T (TLS),
+> >   C (compressed), x (unknown), o (OS specific), E (exclude),
+> >   l (large), p (processor specific)
+> >
+> > [ sizes linux-image debian packages ]
+> >
+> > $ du -m 5.7.0-rc4-*/linux-image*.deb
+> > 47      5.7.0-rc4-1-amd64-clang/linux-image-5.7.0-rc4-1-amd64-clang_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
+> > 424     5.7.0-rc4-1-amd64-clang/linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
+> > 47      5.7.0-rc4-2-amd64-clang/linux-image-5.7.0-rc4-2-amd64-clang_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
+> > 771     5.7.0-rc4-2-amd64-clang/linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
+> >
+> > [ sizes linux-git dir (compilation finished ]
+> >
+> > 5.7.0-rc4-1-amd64-clang: 17963   /home/dileks/src/linux-kernel/linux
+> > 5.7.0-rc4-2-amd64-clang: 14328   /home/dileks/src/linux-kernel/linux
+> >
+> > [ xz compressed linux-image-dbg packages ]
+> >
+> > $ file linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
+> > linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb:
+> > Debian binary package (format 2.0), with control.tar.xz, data
+> > compression xz
+> > $ file linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
+> > linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb:
+> > Debian binary package (format 2.0), with control.tar.xz, data
+> > compression xz
+> >
+> > [ file-lists ]
+> >
+> > $ dpkg --contents
+> > linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
+> > | wc -l
+> > 4395
+> > $ dpkg --contents
+> > linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
+> > | wc -l
+> > 4395
+> >
+> > [ file-lists vmlinux ]
+> >
+> > $ dpkg --contents
+> > linux-image-5.7.0-rc4-1-amd64-clang-dbg_5.7.0~rc4-1~bullseye+dileks1_amd64.deb
+> > | grep vmlinux
+> > -rwxr-xr-x root/root 428588312 2020-05-04 06:15
+> > ./usr/lib/debug/lib/modules/5.7.0-rc4-1-amd64-clang/vmlinux
+> > lrwxrwxrwx root/root         0 2020-05-04 06:15
+> > ./usr/lib/debug/boot/vmlinux-5.7.0-rc4-1-amd64-clang ->
+> > ../lib/modules/5.7.0-rc4-1-amd64-clang/vmlinux
+> > lrwxrwxrwx root/root         0 2020-05-04 06:15
+> > ./usr/lib/debug/vmlinux-5.7.0-rc4-1-amd64-clang ->
+> > lib/modules/5.7.0-rc4-1-amd64-clang/vmlinux
+> >
+> > $ dpkg --contents
+> > linux-image-5.7.0-rc4-2-amd64-clang-dbg_5.7.0~rc4-2~bullseye+dileks1_amd64.deb
+> > | grep vmlinux
+> > -rwxr-xr-x root/root 339341456 2020-05-04 12:24
+> > ./usr/lib/debug/lib/modules/5.7.0-rc4-2-amd64-clang/vmlinux
+> > lrwxrwxrwx root/root         0 2020-05-04 12:24
+> > ./usr/lib/debug/boot/vmlinux-5.7.0-rc4-2-amd64-clang ->
+> > ../lib/modules/5.7.0-rc4-2-amd64-clang/vmlinux
+> > lrwxrwxrwx root/root         0 2020-05-04 12:24
+> > ./usr/lib/debug/vmlinux-5.7.0-rc4-2-amd64-clang ->
+> > lib/modules/5.7.0-rc4-2-amd64-clang/vmlinux
+> >
+> > [ conclusion ]
+> >
+> > As you can see there is a size-reduction in case of vmlinux/vmlinux.o
+> > (debug) files...
+> > ...and my linux-git directory in total is smaller: 17963M vs. 14328M.
+> >
+> > But the resulting linux-image-dbg file is much fatter: 424M vs. 711M.
+> > XZ-compressing the gz/zlib-compressed vmlinux (debug) file results in
+> > a fatter linux-image-dbg package.
+>
+>
+> I also confirmed that, but this would not
+> be a blocker of this patch.
+>
 
-Note the real thing that changed for GCC 10 at -O2 is that -O2
-now includes -finline-functions which means GCC considers inlining
-of functions not marked with 'inline' at -O2.  To counter code-size
-growth and tune that back to previous levels the inlining limits
-in effect at -O2 have been lowered.
+Hi Masahiro,
 
-Note this has been done based on analyzing larger C++ code and obviously
-not because the kernel would benefit (IIRC kernel folks like 'inline'
-to behave as written and thus rather may dislike the change to default to
--finline-functions).
+No, it is not a blocker.
+I have this patch now in my Linux v5.7-rc5 series.
 
-> -O3 historically does bad things with gcc. Including bad things for
-> performance. It traditionally makes code larger and often SLOWER.
-> 
-> And I don't mean slower to compile (although that's an issue). I mean
-> actually generating slower code.
-> 
-> Things like trying to unroll loops etc makes very little sense in the
-> kernel, where we very seldom have high loop counts for pretty much
-> anything.
-> 
-> There's a reason -O3 isn't even offered as an option.
+I see a lot of more benefits concerning disc-usage - in my linux-git
+and a reduced vmlinux file when I wanted to test with QEMU.
 
-And I think that's completely sensible.  I would not recommend
-to use -O3 for the kernel.  Somehow feeding back profile data
-might help - though getting such data at all and with enough
-coverage is probably hard.
+Feel free to add:
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
 
-As you said in the followup I wouldn't recommend tweaking GCCs
-defaults for the various --param affecting inlining.  The behavior
-with this is not consistent across releases.
+- Sedat -
 
-Richard.
-
-> Maybe things have changed, and maybe they've improved. But I'd like to
-> see actual numbers for something like this.
-> 
-> Not inlining as aggressively is not necessarily a bad thing. It can
-> be, of course. But I've actually also done gcc bugreports about gcc
-> inlining too much, and generating _worse_ code as a result (ie
-> inlinging things that were behind an "if (unlikely())" test, and
-> causing the likely path to grow a stack fram and stack spills as a
-> result).
-> 
-> So just "O3 inlines more" is not a valid argument.
-> 
->               Linus
-> 
-
--- 
-Richard Biener <rguenther@suse.de>
-SUSE Software Solutions Germany GmbH, Maxfeldstrasse 5, 90409 Nuernberg,
-Germany; GF: Felix Imendörffer; HRB 36809 (AG Nuernberg)
----1609908220-634017890-1589273070=:4397--
+> Users can disable CONFIG_DEBUG_INFO_COMPRESSED
+> if they care about the debug package size.
+>
+>
+>
+>
+>
+> --
+> Best Regards
+> Masahiro Yamada
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAK7LNAR%2Bpm-_nd5%3DB2OeLpimW42FXxm8TQUMru9DR_asT3qYnA%40mail.gmail.com.
