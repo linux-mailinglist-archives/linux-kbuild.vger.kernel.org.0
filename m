@@ -2,36 +2,36 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0851D3BC6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2020 21:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E3BD1D3B03
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2020 21:05:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728035AbgENSyQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 May 2020 14:54:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54168 "EHLO mail.kernel.org"
+        id S1729261AbgENSzA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 May 2020 14:55:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55232 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728990AbgENSyQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 May 2020 14:54:16 -0400
+        id S1729159AbgENSy6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 14 May 2020 14:54:58 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3ABEB206DC;
-        Thu, 14 May 2020 18:54:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 638BE206F1;
+        Thu, 14 May 2020 18:54:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589482456;
-        bh=OVlUxvQzNgSgG9OZhB+Tn+fOPYQA6MAVSLwyu1c3VL0=;
+        s=default; t=1589482498;
+        bh=1d8ZgMWN6ZEhgoBrcrWBKRUBc0Ej2Pt8eXGGB4ddCbg=;
         h=From:To:Cc:Subject:Date:From;
-        b=LQA361c/HG1AyboJXmgcITRaJJv97J1GVlKrCDnYOeQEnOSzveTCRc90CDD132BcX
-         eU4OlubjCbKf1FQmzYHFGklOGhV7xwhWLV1sS5dWL5z5/mEKG0Y1u8uiwc6OZhcqQ2
-         yEJCcFO8Ng6s5OE35B7zQROCLKBLvm8eqS8DUE3I=
+        b=glZuu0oZo5xsuu6ZceIKbGA87WIz7Itx60PE5MMApzy3KgsB2PyrpV5ycihBkBzUk
+         SvOkmnTAhfYBfx+wezRvNBMo3y7Aw5borXO4w9dYSADplyTCZjwt0iorDEKSDFxc1g
+         hgbU6yciifXv1Aa+KWUvTqXl4OTtKEFchiu1nKao=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Sergei Trofimovich <slyfox@gentoo.org>,
         Jiri Kosina <jkosina@suse.cz>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 01/31] Makefile: disallow data races on gcc-10 as well
-Date:   Thu, 14 May 2020 14:53:43 -0400
-Message-Id: <20200514185413.20755-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 01/39] Makefile: disallow data races on gcc-10 as well
+Date:   Thu, 14 May 2020 14:54:18 -0400
+Message-Id: <20200514185456.21060-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-stable: review
@@ -60,17 +60,17 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/Makefile b/Makefile
-index 68fa15edd662c..3008cf448649c 100644
+index 525565f44b171..35640d40a7845 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -671,6 +671,7 @@ KBUILD_CFLAGS += $(call cc-ifversion, -lt, 0409, \
+@@ -670,6 +670,7 @@ KBUILD_CFLAGS += $(call cc-ifversion, -lt, 0409, \
  
  # Tell gcc to never replace conditional load with a non-conditional one
  KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
 +KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
  
- include scripts/Makefile.kcov
- include scripts/Makefile.gcc-plugins
+ # check for 'asm goto'
+ ifeq ($(shell $(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC) $(KBUILD_CFLAGS)), y)
 -- 
 2.20.1
 
