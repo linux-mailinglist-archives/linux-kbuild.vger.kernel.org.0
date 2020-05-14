@@ -2,59 +2,40 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E33D41D1E6E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 13 May 2020 21:00:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5347D1D2E64
+	for <lists+linux-kbuild@lfdr.de>; Thu, 14 May 2020 13:35:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390351AbgEMTAl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 13 May 2020 15:00:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50616 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2390336AbgEMTAk (ORCPT
+        id S1726050AbgENLfE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 May 2020 07:35:04 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:58437 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725925AbgENLfE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 13 May 2020 15:00:40 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4843C061A0E
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 May 2020 12:00:40 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id f15so197716plr.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 13 May 2020 12:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=J7twM4zRYFpQBLZ3sUs+Kg98wBvx8UDi+wQlseLaMQc=;
-        b=rq8aGCshEh3yCtRsODzFoOlFOCxc2RRBsm4sz3BoP6/1YquMEAsJ8+DWPhvjH3R+uk
-         2GpM9Mydixb9MqMJegZ+znldd7Gh5c9wRxEt3PW0NnBx0DIgmy+CVy1PlxZ9berC1uuQ
-         VyTtDovSh7efn2ky50XeeJ0ES5B5SBun48K9sQCMHOiNQulm60FGceRrGuErabffWS5w
-         MWOBpO2MctYIYsgPFjhMUQO4RjbjZ+1zE/MBLevV/zjEiM5jIoKE+QUEZiR0Yg0W+LEq
-         CuKEtU8yufsgeQyyPtNn4fjrjCNVoiMFImZ0hhgkKbYGDybXI2k2haVQqi0qaq0Kk0JJ
-         BgxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J7twM4zRYFpQBLZ3sUs+Kg98wBvx8UDi+wQlseLaMQc=;
-        b=DkivYJm1I3Ko5lq0Wq0rSJzy4mmp+hRcCQ/OYszCBaGaFA2kXVdKk7luBZ+aPIFvor
-         GpJmlyryyagEv/tiEUbUZiDBbFc+ncapvDuWnSbuF38mcfLkZv8fhqa0YA5BiSFaUMrC
-         Sy1j4ouFAU87Tcl43GUEeqLF38rlVXikjOusZ7hAgg8dN56k71pNnNGAf5iStl2zsq5V
-         ji3waV7XO+vewbq49QVxJO/kxWebtPGBzZUrs2wzXk7J+ZvOPm9lUUW+NWe3jbTTz6bT
-         QCs81f4Sbkf9skYPN0xEWUGpAgx/DeOGkTPOzgFXHD8AMd+0EowpG8vWD3M/hP5hzcx8
-         EqXw==
-X-Gm-Message-State: AGi0PuZ9h+uRfTngkJHc3A5sW4KEUv60EhUMJW4OG0DiGVyOrNUTNKgw
-        P2U7U7Rt+g78YORvIf7YgZkSl5IyO/o8x9wFOl/PHg==
-X-Google-Smtp-Source: APiQypKUnyaDlwp/m+DRboqHGPykffdQ19U0fIOjS69kODkfPnAD3sk0zQewMEI075IPfkEp2VLogjkmpyvXqcZilg0=
-X-Received: by 2002:a17:90b:2302:: with SMTP id mt2mr30435954pjb.25.1589396440044;
- Wed, 13 May 2020 12:00:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
- <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com>
- <20200505004738.ew2lcp27c2n4jqia@google.com> <CAK7LNAR7-VMEWBcJ_Wd+61ZDHEa0gD8FaSs63YPu7m_FgH8Htg@mail.gmail.com>
- <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com> <20200512200114.64vo5lbl7wk2tzxk@google.com>
-In-Reply-To: <20200512200114.64vo5lbl7wk2tzxk@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 13 May 2020 12:00:29 -0700
-Message-ID: <CAKwvOdnArcsqusvmMDUJyTjVhkOufJZoRHxg-ARDfPhfjNj_JA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: support compressed debug info
-To:     Fangrui Song <maskray@google.com>, nickc@redhat.com,
+        Thu, 14 May 2020 07:35:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1589456102;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+        bh=oN+tnBbDKf4f0knAwOaUwUK3LWi0S044igL/voA/EAA=;
+        b=CQORmTxIk6rWdHh/j0RgUFk8uHkmZiBoqlAlrzBltzIwRohV5t1hUkJKkzFdbWf1v8CQ/a
+        /5/j9nfPKTL4M/c3YEWRaIzYbL7dVsepKGZn2gjMh9Ysj71I5OluBqRZu+4h0hqJq9zLAO
+        qZ1fO94O1DORAGErjsYCXGiilarWEpk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-8U7m8sOpPqS1_Nr3t9U4uw-1; Thu, 14 May 2020 07:34:59 -0400
+X-MC-Unique: 8U7m8sOpPqS1_Nr3t9U4uw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A18D68015D2;
+        Thu, 14 May 2020 11:34:57 +0000 (UTC)
+Received: from [10.36.114.73] (ovpn-114-73.ams2.redhat.com [10.36.114.73])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id E5DB910013BD;
+        Thu, 14 May 2020 11:34:54 +0000 (UTC)
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Fangrui Song <maskray@google.com>,
         "H.J. Lu" <hjl.tools@gmail.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Sedat Dilek <sedat.dilek@gmail.com>,
@@ -67,105 +48,94 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Clang-Built-Linux ML <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20200504031340.7103-1-nick.desaulniers@gmail.com>
+ <CA+icZUUOaqeKeh6n4BJq2k6XQWAfNghUj57j42ZX5qyd3iOmLw@mail.gmail.com>
+ <20200505004738.ew2lcp27c2n4jqia@google.com>
+ <CAK7LNAR7-VMEWBcJ_Wd+61ZDHEa0gD8FaSs63YPu7m_FgH8Htg@mail.gmail.com>
+ <CAKwvOdmEP9Auuc+M+MqPoQmx+70DgdsPYZQ6pg=8oGnfCviqRA@mail.gmail.com>
+ <20200512200114.64vo5lbl7wk2tzxk@google.com>
+ <CAKwvOdnArcsqusvmMDUJyTjVhkOufJZoRHxg-ARDfPhfjNj_JA@mail.gmail.com>
+From:   Nick Clifton <nickc@redhat.com>
+Autocrypt: addr=nickc@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+ 6susi2ReUyNJEJaSnjO5z13TQ1U=
+Organization: Red Hat
+Subject: Re: [PATCH] Makefile: support compressed debug info
+Message-ID: <10f4fb0b-1012-b0e6-af05-0aa5a906de21@redhat.com>
+Date:   Thu, 14 May 2020 12:34:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAKwvOdnArcsqusvmMDUJyTjVhkOufJZoRHxg-ARDfPhfjNj_JA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, May 12, 2020 at 1:01 PM Fangrui Song <maskray@google.com> wrote:
->
-> >Fangrui, I wasn't able to easily find what version of binutils first
-> >added support.  Can you please teach me how to fish?
->
-> I actually downloaded https://ftp.gnu.org/gnu/binutils/ archives and
-> located the sources... I think an easier way is:
->
-> % cd binutils-gdb
-> % git show binutils-2_26:./gas/as.c | grep compress-debug-sections
+Hi Nick,
 
-This assumes you knew to look at the binutils-2_26 tag, which is
-putting the cart before the horse. ;)
+> + Nick, H.J.
+> I'm unfamiliar with the git tag conventions of binutils.  Does a patch
+> that landed in 2.25.51.0.4 mean it shipped in the official 2.25
+> release, or 2.26 release?  Specifically, commit 19a7fe52ae3d.
 
-I guess:
-$ git log gas/as.c
-/compress-debug-sections
-commit 19a7fe52ae3d ("Make default compression gABI compliant")
-looks related
-$ git describe --contains "19a7fe52ae3d" | sed 's/~.*//'
-users/hjl/linux/release/2.25.51.0.4
-so it landed in 2.25.51.0.4.
+2.26.
 
-+ Nick, H.J.
-I'm unfamiliar with the git tag conventions of binutils.  Does a patch
-that landed in 2.25.51.0.4 mean it shipped in the official 2.25
-release, or 2.26 release?  Specifically, commit 19a7fe52ae3d.
+The convention is that a released form of the binutils has a version
+number of X.XX or possible X.XX.N.  The current mainline development 
+sources have a version of X.XX.50 where X.XX is the latest release.
+(So the current mainline sources are version 2.34.50).  When a release
+happens the XX value is incremented by one as part of the release
+process, and the .50 is dropped.  (So the next binutils release will 
+be 2.35).
 
-> --compress-debug-sections[={none|zlib|zlib-gnu|zlib-gabi}]\n\
-> ...
->
-> GNU as 2.25 only supports --compress-debug-sections which means "zlib-gnu" in
-> newer versions.
->
-> Similarly, for GNU ld:
->
-> % git show binutils-2_26:./ld/lexsup.c | grep compress-debug-sections
->    --compress-debug-sections=[none|zlib|zlib-gnu|zlib-gabi]\n\
->
-> (I have spent a lot of time investigating GNU ld's behavior :)
->
-> >Another question I had for Fangrui is, if the linker can compress
-> >these sections, shouldn't we just have the linker do it, not the the
-> >compiler and assembler?  IIUC the debug info can contain relocations,
-> >so the linker would have to decompress these, perform relocations,
-> >then recompress these?  I guess having the compiler and assembler
-> >compress the debug info as well would minimize the size of the .o
-> >files on disk.
->
-> The linker will decompress debug info unconditionally. Because
-> input .debug_info sections need to be concatenated to form the output
-> .debug_info . Whether the output .debug_info is compressed is controlled
-> by the linker option --compress-debug-sections=zlib, which is not
-> affected by the compression state of object files.
->
-> Both GNU as and GNU ld name the option --compress-debug-sections=zlib.
-> In a compiler driver context, an unfamiliar user may find
-> -Wa,--compress-debug-sections=zlib -Wl,--compress-debug-sections=zlib
-> confusing:/
+So 2.25.51.0.4 is a development version which will then have been
+released as binutils 2.26.
 
-The kernel uses the compiler as the driver for out of line assembly,
-as they are all preprocessed first.  Most out of line assembly in the
-kernel uses the C preprocessor to #include headers that share #defines
-of common constants shared between C and asm.  #ifdef __ASSEMBLY__ is
-used frequently in these headers.  But for the linker, the linker
-itself is invoked as the driver, though there are a few
-inconsistencies we've cleaned up or still have to.
+Cheers
+  Nick
 
->
-> >Otherwise I should add this flag to the assembler invocation, too, in
-> >v2.  Thoughts?
->
-> Compressing object files along with the linked output should be fine. It
-> can save disk space. (It'd be great if you paste the comparison
-> with and w/o object files compressed)
->
-> Feel free to add:
->
-> Reviewed-by: Fangrui Song <maskray@google.com>
-
-Thanks, will add that to v2.
-
->
-> >I have a patch series that enables dwarf5 support in the kernel that
-> >I'm working up to.  I wanted to send this first.  Both roughly reduce
-> >the debug info size by 20% each, though I haven't measured them
-> >together, yet.  Requires ToT binutils because there have been many
-> >fixes from reports of mine recently.
->
-> This will be awesome! I also heard that enabling DWARF v5 for our object
-> files can easily make debug info size smaller by 20%. Glad that the
-> kernel can benefit it as well:)
-
--- 
-Thanks,
-~Nick Desaulniers
