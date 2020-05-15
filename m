@@ -2,399 +2,159 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DA5E1D437B
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2020 04:21:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9974C1D49CE
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2020 11:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbgEOCVV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 May 2020 22:21:21 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:26205 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726140AbgEOCVU (ORCPT
+        id S1728030AbgEOJkL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 May 2020 05:40:11 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38225 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727116AbgEOJkK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 May 2020 22:21:20 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 04F2KjsE006660;
-        Fri, 15 May 2020 11:20:46 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 04F2KjsE006660
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1589509246;
-        bh=IzUeczDTiU6j7SQoJRY/0Lxv/IqTEjwf9kCHbz8El+k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mFcNR5dSxbobcllrb4kg2FLYevOjewbJvoqCFvOHKvsOBaaYZSc1thZswSEbyO/PR
-         ipdQPZbMqjbuUoF8gUNpzPl4597r2rjDUf95exE5xGNnxqQ8faDvFoKVi4KBosDAWW
-         xiDmIAEtxxjEFDTjdguWCTai8NnxhW0CkhU5+838KvWHeUlb4/KuW7OD9EXZ7eGVTu
-         0lWIrGpjsur9AoIJrEhqgxeoqbii51kh2xw2MkqC7XWXIF1Bun2QU/MKFfD0NlaOAg
-         RA554ygLiXF1N1ys4t3YBxqGLyMpwuBimQhWPlW2Wou7TGQr+/p9J/Jx2OPPf9Znw9
-         yxAljoZ6pqg7g==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id b11so294563vsa.13;
-        Thu, 14 May 2020 19:20:46 -0700 (PDT)
-X-Gm-Message-State: AOAM532iSA00G8KhgGr7P8oLI66GAF2wxJOpyGHKdXOqe7mDu+S/q1ry
-        /xG4E5JzNvQCRY3iGDa93OxhTZ3cLMAYNkJwW4o=
-X-Google-Smtp-Source: ABdhPJxkuu1p84T4jLCgkrmz1k5bN1ReXnWS1JKFZWtwo3kUgKGpRZeCnsfV9U6Y/XtviF10EhPivWPqUiGubKMzLt8=
-X-Received: by 2002:a67:d016:: with SMTP id r22mr877053vsi.215.1589509245149;
- Thu, 14 May 2020 19:20:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200514131234.380097-1-efremov@linux.com>
-In-Reply-To: <20200514131234.380097-1-efremov@linux.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 15 May 2020 11:20:09 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASRv9E-pfYCRmD-RstKhW+WgfHKrn+7bP_dAAkyKaoPGg@mail.gmail.com>
-Message-ID: <CAK7LNASRv9E-pfYCRmD-RstKhW+WgfHKrn+7bP_dAAkyKaoPGg@mail.gmail.com>
-Subject: Re: [RFC PATCH] kbuild: add variables for compression tools
-To:     Denis Efremov <efremov@linux.com>
+        Fri, 15 May 2020 05:40:10 -0400
+Received: by mail-lj1-f195.google.com with SMTP id e25so1528939ljg.5;
+        Fri, 15 May 2020 02:40:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:references:from:autocrypt:subject
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=+P2dAtopuclk+4iXve56bNYfu6aJzuQ3SNxV2vXhclk=;
+        b=BQIMwYCHcpORRr3i64TYXmhqIgL5Mw3K6649PHSXQwNz9M+JfB23JyAQZTRTc/gbxs
+         VrIaa665H0ZgxcNqnB9hVscEMX3yYLyVJtAp072b5/n6F+y3EzOsh3xJ6DV3GXKNUOMW
+         A+LMmG5trVVA9qelQOsqqcf0rJtBu0oWcyEHgIGOekeP01+3pqNHJWiOlpJoQjdHYahb
+         +VQskmMg3fvHjWtVMn3v5ZpIOutUmq9/k6Jrop+kDZACdWzBt6qpSTsg+oniXEl+5s8u
+         4SzeIPvgeQytceaLlF9R583srZMP7AtR2R0fvRnCJGVNe8gEofCev+EMFIvOz/lgH4VE
+         LAMQ==
+X-Gm-Message-State: AOAM533RPSeywx0cYKvHM7GWEj1p0stHSGZ0RlAHfMp1g7lZ/5VRTe3X
+        aHI6T8mPJfj7K0HTSFKCRQE=
+X-Google-Smtp-Source: ABdhPJxwZ7otS2V0bepF0Yw+ss2Bvduc9TlnF3Q1h3FXMqrgcnKBI6hnnwC+Ln5sHvscJacgIxUu9Q==
+X-Received: by 2002:a2e:9d8c:: with SMTP id c12mr1773656ljj.67.1589535608006;
+        Fri, 15 May 2020 02:40:08 -0700 (PDT)
+Received: from [192.168.1.8] ([213.87.130.150])
+        by smtp.gmail.com with ESMTPSA id h20sm995837lfj.26.2020.05.15.02.40.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 May 2020 02:40:07 -0700 (PDT)
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Stephen Rothwell <sfr@canb.auug.org.au>,
         Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20200514131234.380097-1-efremov@linux.com>
+ <CAK7LNASRv9E-pfYCRmD-RstKhW+WgfHKrn+7bP_dAAkyKaoPGg@mail.gmail.com>
+From:   Denis Efremov <efremov@linux.com>
+Autocrypt: addr=efremov@linux.com; keydata=
+ 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
+Subject: Re: [RFC PATCH] kbuild: add variables for compression tools
+Message-ID: <e26a1565-e770-0e5e-c730-60cc6fa16a4f@linux.com>
+Date:   Fri, 15 May 2020 12:40:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAK7LNASRv9E-pfYCRmD-RstKhW+WgfHKrn+7bP_dAAkyKaoPGg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 14, 2020 at 10:14 PM Denis Efremov <efremov@linux.com> wrote:
->
-> Allow user to use alternative implementations of compression tools.
-> For example, multi-threaded tools to speed up the build:
-> $ make KGZIP=3Dpigz KXZ=3Dpxz
->
-> Variable KGZIP is used instead of GZIP because the latter is reserved
-> by the tool. Other variables are prefixed with 'K' for consistency.
+It seems that I missed a couple of tar commands in the patch:
+scripts/Makefile.package
+scripts/package/buildtar
 
+On 5/15/20 5:20 AM, Masahiro Yamada wrote:
+> On Thu, May 14, 2020 at 10:14 PM Denis Efremov <efremov@linux.com> wrote:
+>>
+> 
+> commit 5054e88a7934d5ff5ec14231c8b8676161bb45fa
+> Author: Paul Eggert <eggert@cs.ucla.edu>
+> Date:   Mon Mar 16 14:25:17 2015 -0700
+> 
+>     gzip: make the GZIP env var obsolescent
 
-This is unfortunate...
+Other implementations can depend on this.
+pigz still parses GZIP env var:
+https://github.com/madler/pigz/blob/master/pigz.c#L4346
 
-'man gzip' says
+> 
+> Some possible options I came up with:
+> 
+> 
+> [1] Use KGZIP for now, but BZIP2, XZ, etc. for the others.
+> 
+>     (Then, rename KGZIP to GZIP when the time comes)
+> 
+> 
+> [2] Do not take this patch
+> 
+>     The whole build process is parallelized
+>     by 'make -j $(nproc)'.
+> 
+>     If you are still eager to use pigz instead gzip,
+>     use a symbolic link or a wrapper shell script.
+> 
+>     $ ln -s /usr/bin/pigz  /$HOME/bin/gzip
+>     $ PATH="$HOME/bin:$PATH"
+> 
 
-       The obsolescent environment variable GZIP can hold a set of default =
-op=E2=80=90
-       tions for gzip.  These options are interpreted first and can  be  ov=
-er=E2=80=90
-       written  by  explicit command line parameters.  As this can cause pr=
-ob=E2=80=90
-       lems when using scripts, this feature is  supported  only  for  opti=
-ons
-       that  are  reasonably likely to not cause too much harm, and gzip wa=
-rns
-       if it is used.  This feature will be removed in  a  future  release =
- of
-       gzip.
+[3] GZIP at frontend, KGZIP or _GZIP internally? Something like:
 
+$ cat Makefile
+GZIP=gzip
+override KGZIP=$(GZIP) # optional overrdide. Used to force GZIP value
+                       # in case: make KGZIP=test
 
-It was deprecated in 2015.
+unexport GZIP
+export KGZIP
 
-commit 5054e88a7934d5ff5ec14231c8b8676161bb45fa
-Author: Paul Eggert <eggert@cs.ucla.edu>
-Date:   Mon Mar 16 14:25:17 2015 -0700
+default:
+	@env | grep GZIP
 
-    gzip: make the GZIP env var obsolescent
+$ make GZIP=test
+KGZIP=test
 
-
-
-
-Some possible options I came up with:
-
-
-[1] Use KGZIP for now, but BZIP2, XZ, etc. for the others.
-
-    (Then, rename KGZIP to GZIP when the time comes)
-
-
-[2] Do not take this patch
-
-    The whole build process is parallelized
-    by 'make -j $(nproc)'.
-
-    If you are still eager to use pigz instead gzip,
-    use a symbolic link or a wrapper shell script.
-
-    $ ln -s /usr/bin/pigz  /$HOME/bin/gzip
-    $ PATH=3D"$HOME/bin:$PATH"
-
-
-
-
-
-Thought?
-
-
-
-
->
-> The credit goes to @grsecurity.
->
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Denis Efremov <efremov@linux.com>
-> ---
->  Makefile                          | 11 +++++++++--
->  arch/arm/boot/deflate_xip_data.sh |  6 +++++-
->  arch/ia64/Makefile                |  2 +-
->  arch/m68k/Makefile                |  4 ++--
->  arch/mips/lasat/image/Makefile    |  2 +-
->  arch/parisc/Makefile              |  2 +-
->  kernel/gen_kheaders.sh            |  6 +++++-
->  scripts/Makefile.lib              | 12 ++++++------
->  scripts/Makefile.package          |  6 +++---
->  scripts/xz_wrap.sh                |  6 +++++-
->  10 files changed, 38 insertions(+), 19 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 11fe9b1535de..9af13cfeed7a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -447,6 +447,12 @@ PYTHON             =3D python
->  PYTHON3                =3D python3
->  CHECK          =3D sparse
->  BASH           =3D bash
-> +KGZIP          =3D gzip
-> +KBZIP2         =3D bzip2
-> +KLZMA          =3D lzma
-> +KLZOP          =3D lzop
-> +KLZ4           =3D lz4c
-> +KXZ            =3D xz
->
->  CHECKFLAGS     :=3D -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
->                   -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
-> @@ -496,6 +502,7 @@ export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_H=
-OSTCFLAGS CROSS_COMPILE LD
->  export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC A=
-WK INSTALLKERNEL
->  export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
->  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_=
-MODULE
-> +export KGZIP KBZIP2 KLZMA KLZOP KLZ4 KXZ
->
->  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_L=
-DFLAGS
->  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-> @@ -1005,10 +1012,10 @@ export mod_strip_cmd
->  mod_compress_cmd =3D true
->  ifdef CONFIG_MODULE_COMPRESS
->    ifdef CONFIG_MODULE_COMPRESS_GZIP
-> -    mod_compress_cmd =3D gzip -n -f
-> +    mod_compress_cmd =3D $(KGZIP) -n -f
->    endif # CONFIG_MODULE_COMPRESS_GZIP
->    ifdef CONFIG_MODULE_COMPRESS_XZ
-> -    mod_compress_cmd =3D xz -f
-> +    mod_compress_cmd =3D $(KXZ) -f
->    endif # CONFIG_MODULE_COMPRESS_XZ
->  endif # CONFIG_MODULE_COMPRESS
->  export mod_compress_cmd
-> diff --git a/arch/arm/boot/deflate_xip_data.sh b/arch/arm/boot/deflate_xi=
-p_data.sh
-> index 40937248cebe..08dd50e08c17 100755
-> --- a/arch/arm/boot/deflate_xip_data.sh
-> +++ b/arch/arm/boot/deflate_xip_data.sh
-> @@ -19,6 +19,10 @@ XIPIMAGE=3D"$2"
->
->  DD=3D"dd status=3Dnone"
->
-> +if [ x$KGZIP =3D "x" ]; then
-> +       KGZIP=3Dgzip
-> +fi
-> +
->  # Use "make V=3D1" to debug this script.
->  case "$KBUILD_VERBOSE" in
->  *1*)
-> @@ -56,7 +60,7 @@ trap 'rm -f "$XIPIMAGE.tmp"; exit 1' 1 2 3
->  # substitute the data section by a compressed version
->  $DD if=3D"$XIPIMAGE" count=3D$data_start iflag=3Dcount_bytes of=3D"$XIPI=
-MAGE.tmp"
->  $DD if=3D"$XIPIMAGE"  skip=3D$data_start iflag=3Dskip_bytes |
-> -gzip -9 >> "$XIPIMAGE.tmp"
-> +$KGZIP -9 >> "$XIPIMAGE.tmp"
->
->  # replace kernel binary
->  mv -f "$XIPIMAGE.tmp" "$XIPIMAGE"
-> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
-> index 32240000dc0c..2876a7df1b0a 100644
-> --- a/arch/ia64/Makefile
-> +++ b/arch/ia64/Makefile
-> @@ -40,7 +40,7 @@ $(error Sorry, you need a newer version of the assember=
-, one that is built from
->  endif
->
->  quiet_cmd_gzip =3D GZIP    $@
-> -cmd_gzip =3D cat $(real-prereqs) | gzip -n -f -9 > $@
-> +cmd_gzip =3D cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
->
->  quiet_cmd_objcopy =3D OBJCOPY $@
->  cmd_objcopy =3D $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
-> diff --git a/arch/m68k/Makefile b/arch/m68k/Makefile
-> index 5d9288384096..e6c7c92aa72e 100644
-> --- a/arch/m68k/Makefile
-> +++ b/arch/m68k/Makefile
-> @@ -148,10 +148,10 @@ vmlinux.bz2: vmlinux
->  ifndef CONFIG_KGDB
->         cp vmlinux vmlinux.tmp
->         $(STRIP) vmlinux.tmp
-> -       bzip2 -1c vmlinux.tmp >vmlinux.bz2
-> +       $(KBZIP2) -1c vmlinux.tmp >vmlinux.bz2
->         rm vmlinux.tmp
->  else
-> -       bzip2 -1c vmlinux >vmlinux.bz2
-> +       $(KBZIP2) -1c vmlinux >vmlinux.bz2
->  endif
->
->  archclean:
-> diff --git a/arch/mips/lasat/image/Makefile b/arch/mips/lasat/image/Makef=
-ile
-> index 78ce4cff1012..617ccb1659d5 100644
-> --- a/arch/mips/lasat/image/Makefile
-> +++ b/arch/mips/lasat/image/Makefile
-> @@ -44,7 +44,7 @@ $(obj)/%.o: $(obj)/%.gz
->         $(LD) -r -o $@ -b binary $<
->
->  $(obj)/%.gz: $(obj)/%.bin
-> -       gzip -cf -9 $< > $@
-> +       $(KGZIP) -cf -9 $< > $@
->
->  $(obj)/kImage.bin: $(KERNEL_IMAGE)
->         $(OBJCOPY) -O binary -S $^ $@
-> diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-> index 628cd8bb7ad8..412ddec0297d 100644
-> --- a/arch/parisc/Makefile
-> +++ b/arch/parisc/Makefile
-> @@ -162,7 +162,7 @@ vmlinuz: bzImage
->         $(OBJCOPY) $(boot)/bzImage $@
->  else
->  vmlinuz: vmlinux
-> -       @gzip -cf -9 $< > $@
-> +       @$(KGZIP) -cf -9 $< > $@
->  endif
->
->  install:
-> diff --git a/kernel/gen_kheaders.sh b/kernel/gen_kheaders.sh
-> index e13ca842eb7e..f3dfaf9f6647 100755
-> --- a/kernel/gen_kheaders.sh
-> +++ b/kernel/gen_kheaders.sh
-> @@ -9,6 +9,10 @@ outdir=3D"$(pwd)"
->  tarfile=3D$1
->  cpio_dir=3D$outdir/$tarfile.tmp
->
-> +if [ x$KXZ =3D "x" ]; then
-> +       KXZ=3Dxz
-> +fi
-> +
->  dir_list=3D"
->  include/
->  arch/$SRCARCH/include/
-> @@ -88,7 +92,7 @@ find $cpio_dir -type f -print0 |
->  find $cpio_dir -printf "./%P\n" | LC_ALL=3DC sort | \
->      tar "${KBUILD_BUILD_TIMESTAMP:+--mtime=3D$KBUILD_BUILD_TIMESTAMP}" \
->      --owner=3D0 --group=3D0 --numeric-owner --no-recursion \
-> -    -Jcf $tarfile -C $cpio_dir/ -T - > /dev/null
-> +    -I $KXZ -cf $tarfile -C $cpio_dir/ -T - > /dev/null
->
->  echo $headers_md5 > kernel/kheaders.md5
->  echo "$this_file_md5" >> kernel/kheaders.md5
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 4b799737722c..dd38f5ac8d48 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -241,7 +241,7 @@ cmd_objcopy =3D $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYF=
-LAGS_$(@F)) $< $@
->  # ----------------------------------------------------------------------=
------
->
->  quiet_cmd_gzip =3D GZIP    $@
-> -      cmd_gzip =3D cat $(real-prereqs) | gzip -n -f -9 > $@
-> +      cmd_gzip =3D cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
->
->  # DTC
->  # ----------------------------------------------------------------------=
------
-> @@ -334,19 +334,19 @@ printf "%08x\n" $$dec_size |                       =
-                       \
->  )
->
->  quiet_cmd_bzip2 =3D BZIP2   $@
-> -      cmd_bzip2 =3D { cat $(real-prereqs) | bzip2 -9; $(size_append); } =
-> $@
-> +      cmd_bzip2 =3D { cat $(real-prereqs) | $(KBZIP2) -9; $(size_append)=
-; } > $@
->
->  # Lzma
->  # ----------------------------------------------------------------------=
------
->
->  quiet_cmd_lzma =3D LZMA    $@
-> -      cmd_lzma =3D { cat $(real-prereqs) | lzma -9; $(size_append); } > =
-$@
-> +      cmd_lzma =3D { cat $(real-prereqs) | $(KLZMA) -9; $(size_append); =
-} > $@
->
->  quiet_cmd_lzo =3D LZO     $@
-> -      cmd_lzo =3D { cat $(real-prereqs) | lzop -9; $(size_append); } > $=
-@
-> +      cmd_lzo =3D { cat $(real-prereqs) | $(KLZOP) -9; $(size_append); }=
- > $@
->
->  quiet_cmd_lz4 =3D LZ4     $@
-> -      cmd_lz4 =3D { cat $(real-prereqs) | lz4c -l -c1 stdin stdout; \
-> +      cmd_lz4 =3D { cat $(real-prereqs) | $(KLZ4) -l -c1 stdin stdout; \
->                    $(size_append); } > $@
->
->  # U-Boot mkimage
-> @@ -393,7 +393,7 @@ quiet_cmd_xzkern =3D XZKERN  $@
->                       $(size_append); } > $@
->
->  quiet_cmd_xzmisc =3D XZMISC  $@
-> -      cmd_xzmisc =3D cat $(real-prereqs) | xz --check=3Dcrc32 --lzma2=3D=
-dict=3D1MiB > $@
-> +      cmd_xzmisc =3D cat $(real-prereqs) | $(KXZ) --check=3Dcrc32 --lzma=
-2=3Ddict=3D1MiB > $@
->
->  # ASM offsets
->  # ----------------------------------------------------------------------=
------
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index 02135d2671a6..1b91fe1bfcdb 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -127,9 +127,9 @@ util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);       =
-       \
->  tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
->  rm -r $(perf-tar);                                                  \
->  $(if $(findstring tar-src,$@),,                                     \
-> -$(if $(findstring bz2,$@),bzip2,                                    \
-> -$(if $(findstring gz,$@),gzip,                                      \
-> -$(if $(findstring xz,$@),xz,                                        \
-> +$(if $(findstring bz2,$@),$(KBZIP2),                                \
-> +$(if $(findstring gz,$@),$(KGZIP),                                  \
-> +$(if $(findstring xz,$@),$(KXZ),                                    \
->  $(error unknown target $@))))                                       \
->         -f -9 $(perf-tar).tar)
->
-> diff --git a/scripts/xz_wrap.sh b/scripts/xz_wrap.sh
-> index 7a2d372f4885..4922102dbfe7 100755
-> --- a/scripts/xz_wrap.sh
-> +++ b/scripts/xz_wrap.sh
-> @@ -9,6 +9,10 @@
->  # You can do whatever you want with this file.
->  #
->
-> +if [ x$KXZ =3D "x" ]; then
-> +       KXZ=3Dxz
-> +fi
-> +
->  BCJ=3D
->  LZMA2OPTS=3D
->
-> @@ -20,4 +24,4 @@ case $SRCARCH in
->         sparc)          BCJ=3D--sparc ;;
->  esac
->
-> -exec xz --check=3Dcrc32 $BCJ --lzma2=3D$LZMA2OPTS,dict=3D32MiB
-> +exec $KXZ --check=3Dcrc32 $BCJ --lzma2=3D$LZMA2OPTS,dict=3D32MiB
-> --
-> 2.25.4
->
-
-
---
-Best Regards
-Masahiro Yamada
+Thanks,
+Denis
