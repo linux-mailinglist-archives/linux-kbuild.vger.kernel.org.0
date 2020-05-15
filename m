@@ -2,58 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEAA91D41A6
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2020 01:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9937E1D423B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2020 02:43:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727096AbgENXZz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 14 May 2020 19:25:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726037AbgENXZy (ORCPT
+        id S1728419AbgEOAnN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 14 May 2020 20:43:13 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:27817 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728243AbgEOAnN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 14 May 2020 19:25:54 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B990C061A0C
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 May 2020 16:25:54 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id t11so99632pgg.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 14 May 2020 16:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rQrnCHYLO0Vg5jOwAUNb34HO2tHD8mNTv/oZ6XDZtGw=;
-        b=sUu77TjWviN24ATo8ztZkS6DEzpQ1s9mMpUFWdowgLqzTJcNhQWj2TDf+3EoxYs3kL
-         42+AfMDQ7/kfY0CHdwNZeq99syfjbJn2r/lIsRVsdTl9BCq/WKvNfGChxwsWUqt+nLq0
-         jjQY4zswFCOqoFFc0yMa6mGOiO9SwTOte4EcVduTNcwclk1u1wQbNlgyGL6rzu9sHd/1
-         lEjxK+XbYrAz8TAWOBPKMsMBGdMwCN+BCi3t5m1A13MUjDgl/V8yGOnHmFuAWsOSpYJb
-         nNb0aO1yyaz+2DzzTg6v82spoFHdZ+ddGMds72SomIfSkbbZqGurznmivZtPCVcqIw/G
-         Yogw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rQrnCHYLO0Vg5jOwAUNb34HO2tHD8mNTv/oZ6XDZtGw=;
-        b=lj12psP7lKjKmxjzLcPhnl4eiVQ9K1BA5vILRU5tvfUTebOeS0XeUefdZ+yTu704vm
-         AQBnzpBJXMqQnfw9vY14/Y27lzU2zJZg/JXYI2B1Bbzh61DTy9+p9DBhI47Q0aGbHLyY
-         zl1Rv+dnOH+TZc7Wx/Muap2/3tSu4j5777vpYvgBI0mufLXFVRBeQNjp3jF2PUjdQrm0
-         nL6f+wMa/P38xaBtTygfNKqjpKQwQtLaxxWUs2eeCVG0wWbkBeTwW+HQXxAkCWJXeQcq
-         PQB3qNh7wY9jaBqcST7cmS3TNqTtXfqXZTl2CJwzFqJaLAt64ellCQD1QrI+Nh2UOlxt
-         DU9A==
-X-Gm-Message-State: AOAM532XcAnMMU/vhX1SwZnATd0rdw2ke07bPs1LRf1dlYhze9AlWPLg
-        IkZr5qoRwZVMBBYGsSasbVz8Wf2hwT867xJpsbZbCw==
-X-Google-Smtp-Source: ABdhPJzrjVCdyFvdAYHnaYzO3t9QKrcZasLyT+6cHGtriw0SjQnZT96e3FIx7TuiJFq0J5INzxCRbMPOTZv5vrjhvCk=
-X-Received: by 2002:aa7:8c44:: with SMTP id e4mr967827pfd.108.1589498753790;
- Thu, 14 May 2020 16:25:53 -0700 (PDT)
+        Thu, 14 May 2020 20:43:13 -0400
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 04F0gj4E014765;
+        Fri, 15 May 2020 09:42:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 04F0gj4E014765
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1589503366;
+        bh=pAEN3YWmHNyYopbj1izroY7IInG57bR+xcNL9DJ7U3w=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jUdD7odt4QbNiGXOtO56JSC+BW18zigCwFPLvsmti85LWXAE+imjHQ2i+ctbYNWws
+         sJazj4mrq2+S2SUm2vJKMVszoxYEWO5dYcshVz/H99bGa68xHkNw+zm40vuSWNMQFe
+         dm6PamMzDNYAyiC3czcO6GGlcU16jrQoySlkwfutlYcP0fGhzR4TvqIP4LDLja+UfL
+         iTJtH9/8Dkkhkal1+3Xs9RtnHGwKzlLeWr4IZY8rLt7eiRn9CkFqO7Y5+0sw091kCX
+         ccZ9UoEZEo8ksOav4IQeYMv7LeJH+H46+6Zmjh4uBGMqoQz1/3IdgE+7GluRL9XpIY
+         2Azfyv2++vZRg==
+X-Nifty-SrcIP: [209.85.222.47]
+Received: by mail-ua1-f47.google.com with SMTP id i5so167025uaq.1;
+        Thu, 14 May 2020 17:42:46 -0700 (PDT)
+X-Gm-Message-State: AOAM530BAzGKoBXzteHHfFtg1bbrvABh+arunFrF+N8/jYwiOFKiPKHq
+        1jlxSiZ2QZEfW4Hkly1SMLYM/2QSqdUJNRNdSHE=
+X-Google-Smtp-Source: ABdhPJzsN7cd/eZ4oVWS6nFdHWvx5auTPBA1Z7gn70ARdC+yqVm9F2PM/OU4/ZP9QfPnzGgVpxzLc66XmLzWGeydfew=
+X-Received: by 2002:ab0:7298:: with SMTP id w24mr973182uao.95.1589503365097;
+ Thu, 14 May 2020 17:42:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <87imgykunh.fsf@m5Zedd9JOGzJrf0>
 In-Reply-To: <87imgykunh.fsf@m5Zedd9JOGzJrf0>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 14 May 2020 16:25:42 -0700
-Message-ID: <CAKwvOdnJ9p+iGYP31TJcaCLBqk2gOes4=5z=K8Tv_jytn6+RgA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 15 May 2020 09:42:09 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQKz9Cu2aPxM2xo22Y_1b2+E1NQibi0ZgLRyGr5+ZLWoQ@mail.gmail.com>
+Message-ID: <CAK7LNAQKz9Cu2aPxM2xo22Y_1b2+E1NQibi0ZgLRyGr5+ZLWoQ@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: compile_h: fix compiler version detection with clang
 To:     Yuxuan Shui <yshuiv7@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>
@@ -63,7 +53,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 14, 2020 at 3:43 PM Yuxuan Shui <yshuiv7@gmail.com> wrote:
+On Fri, May 15, 2020 at 7:43 AM Yuxuan Shui <yshuiv7@gmail.com> wrote:
 >
 >
 > In some setup clang will print a line about CUDA version it detects,
@@ -78,14 +68,26 @@ On Thu, May 14, 2020 at 3:43 PM Yuxuan Shui <yshuiv7@gmail.com> wrote:
 >
 > Signed-off-by: Yuxuan Shui <yshuiv7@gmail.com>
 
-Hi Yuxuan, thanks for the patch!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
-Might be worthwhile for Masahiro to add
+I do not know what to do about this.
 
-Cc: stable@vger.kernel.org
 
-if/when picked up?
+This problem had already been fixed by a different
+patch, which is queued up in linux-next.
+
+9a950154668729a472d17b8e307d92e7c60f45f7
+
+This patch
+https://patchwork.kernel.org/patch/11505803/
+
+So, the future releases will be OK.
+
+
+For back-porting to the stable kernel,
+your one-liner fixup is simpler.
+
+
+
 
 > ---
 >  scripts/mkcompile_h | 2 +-
@@ -108,6 +110,7 @@ if/when picked up?
 > 2.26.2
 
 
--- 
-Thanks,
-~Nick Desaulniers
+
+--
+Best Regards
+Masahiro Yamada
