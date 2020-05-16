@@ -2,159 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9974C1D49CE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 15 May 2020 11:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ED511D5DFD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 16 May 2020 04:45:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728030AbgEOJkL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 15 May 2020 05:40:11 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:38225 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727116AbgEOJkK (ORCPT
+        id S1727827AbgEPCpN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 15 May 2020 22:45:13 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:45465 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726550AbgEPCpN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 15 May 2020 05:40:10 -0400
-Received: by mail-lj1-f195.google.com with SMTP id e25so1528939ljg.5;
-        Fri, 15 May 2020 02:40:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:autocrypt:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=+P2dAtopuclk+4iXve56bNYfu6aJzuQ3SNxV2vXhclk=;
-        b=BQIMwYCHcpORRr3i64TYXmhqIgL5Mw3K6649PHSXQwNz9M+JfB23JyAQZTRTc/gbxs
-         VrIaa665H0ZgxcNqnB9hVscEMX3yYLyVJtAp072b5/n6F+y3EzOsh3xJ6DV3GXKNUOMW
-         A+LMmG5trVVA9qelQOsqqcf0rJtBu0oWcyEHgIGOekeP01+3pqNHJWiOlpJoQjdHYahb
-         +VQskmMg3fvHjWtVMn3v5ZpIOutUmq9/k6Jrop+kDZACdWzBt6qpSTsg+oniXEl+5s8u
-         4SzeIPvgeQytceaLlF9R583srZMP7AtR2R0fvRnCJGVNe8gEofCev+EMFIvOz/lgH4VE
-         LAMQ==
-X-Gm-Message-State: AOAM533RPSeywx0cYKvHM7GWEj1p0stHSGZ0RlAHfMp1g7lZ/5VRTe3X
-        aHI6T8mPJfj7K0HTSFKCRQE=
-X-Google-Smtp-Source: ABdhPJxwZ7otS2V0bepF0Yw+ss2Bvduc9TlnF3Q1h3FXMqrgcnKBI6hnnwC+Ln5sHvscJacgIxUu9Q==
-X-Received: by 2002:a2e:9d8c:: with SMTP id c12mr1773656ljj.67.1589535608006;
-        Fri, 15 May 2020 02:40:08 -0700 (PDT)
-Received: from [192.168.1.8] ([213.87.130.150])
-        by smtp.gmail.com with ESMTPSA id h20sm995837lfj.26.2020.05.15.02.40.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 May 2020 02:40:07 -0700 (PDT)
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Dmitry Vyukov <dvyukov@google.com>
-References: <20200514131234.380097-1-efremov@linux.com>
- <CAK7LNASRv9E-pfYCRmD-RstKhW+WgfHKrn+7bP_dAAkyKaoPGg@mail.gmail.com>
-From:   Denis Efremov <efremov@linux.com>
-Autocrypt: addr=efremov@linux.com; keydata=
- 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
-Subject: Re: [RFC PATCH] kbuild: add variables for compression tools
-Message-ID: <e26a1565-e770-0e5e-c730-60cc6fa16a4f@linux.com>
-Date:   Fri, 15 May 2020 12:40:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Fri, 15 May 2020 22:45:13 -0400
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 04G2itsW014109
+        for <linux-kbuild@vger.kernel.org>; Sat, 16 May 2020 11:44:56 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 04G2itsW014109
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1589597096;
+        bh=8wdxSIIRRGRM5LOb3yvX1G0NrFVR1PTAvEewnf/eWL0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=a6DcaVMNYd2uvfoE75QrJxh029yi8FoyhFHyyJqgjyIKyRSf0BUNP8zy4JiRQ62NJ
+         NjREL9lM9B6PHTE6ejO+Y+WAgzTEpXvY+ykzDd7g0kXae10QWAD6XjSWGCOMB1pYxv
+         xbLu8d8E+O49j3dGl9kvkOB4bhXP43KCEeMW866Yd7yNoXSQx/yfbkZ47OVzWmF+Gw
+         5ScLrB//Di7s8ynWsxQHtGzrG4S9EJEmksy9Xa3ahmrpuy000uUJZ2VkA7jwJUg452
+         fUBEXRI7qhKpvhJvEBQSlBdzvMNAOQqluRxsqZZULTmaSLUa3lsepty89kaox84li3
+         9YyhoNTjYhArQ==
+X-Nifty-SrcIP: [209.85.222.49]
+Received: by mail-ua1-f49.google.com with SMTP id k3so1525528ual.8
+        for <linux-kbuild@vger.kernel.org>; Fri, 15 May 2020 19:44:56 -0700 (PDT)
+X-Gm-Message-State: AOAM5327TrgoTwoDDY+zepA5cXpuN44MBex+4is08e9YIpQEswmyyKsz
+        YwiK+azcn/nLQRhRdaurs2GLv5hCyb41X5YHZqE=
+X-Google-Smtp-Source: ABdhPJySw8RRvJCZ/xX8stY6JgR4VhFPtKvXNhh4ro0h4kbr0Qny2LtX4wr37UsR1ixNQyef0RN4Swxp+TuQL5Qu1RY=
+X-Received: by 2002:ab0:7313:: with SMTP id v19mr5189606uao.121.1589597095115;
+ Fri, 15 May 2020 19:44:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNASRv9E-pfYCRmD-RstKhW+WgfHKrn+7bP_dAAkyKaoPGg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200501224300.1012-1-marek.behun@nic.cz> <20200502202943.0c13a451@nic.cz>
+In-Reply-To: <20200502202943.0c13a451@nic.cz>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 16 May 2020 11:44:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARsOovPQaST64sSrqL4ypXr5FsuhhivNiswjMzRH1mXFg@mail.gmail.com>
+Message-ID: <CAK7LNARsOovPQaST64sSrqL4ypXr5FsuhhivNiswjMzRH1mXFg@mail.gmail.com>
+Subject: Re: [PATCH kbuild RFC] kbuild: fix modpost throwing away module
+ symvers when linking vmlinux.o
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-It seems that I missed a couple of tar commands in the patch:
-scripts/Makefile.package
-scripts/package/buildtar
+On Sun, May 3, 2020 at 3:29 AM Marek Behun <marek.behun@nic.cz> wrote:
+>
+> Just to note how this breaks things:
+>
+> On OpenWRT this may happen
+> 1. make modules is run
+>    - Module.symvers contains symbols from modules
+> 2. make Image/bzImage is run (as part of another OpenWRT make target)
+>    - Module.symvers is rewritten to contain only vmlinux.o symbols
+> 3. external kernel modules try to build (wireguard, mac80211)
+>    - this now fails because external modules may depend on symbols from
+>      other modules and this information isn't in Module.symvers anymore
+>
+> Marek
 
-On 5/15/20 5:20 AM, Masahiro Yamada wrote:
-> On Thu, May 14, 2020 at 10:14 PM Denis Efremov <efremov@linux.com> wrote:
->>
-> 
-> commit 5054e88a7934d5ff5ec14231c8b8676161bb45fa
-> Author: Paul Eggert <eggert@cs.ucla.edu>
-> Date:   Mon Mar 16 14:25:17 2015 -0700
-> 
->     gzip: make the GZIP env var obsolescent
 
-Other implementations can depend on this.
-pigz still parses GZIP env var:
-https://github.com/madler/pigz/blob/master/pigz.c#L4346
+Is this a regression by a721588d9475 ?
 
-> 
-> Some possible options I came up with:
-> 
-> 
-> [1] Use KGZIP for now, but BZIP2, XZ, etc. for the others.
-> 
->     (Then, rename KGZIP to GZIP when the time comes)
-> 
-> 
-> [2] Do not take this patch
-> 
->     The whole build process is parallelized
->     by 'make -j $(nproc)'.
-> 
->     If you are still eager to use pigz instead gzip,
->     use a symbolic link or a wrapper shell script.
-> 
->     $ ln -s /usr/bin/pigz  /$HOME/bin/gzip
->     $ PATH="$HOME/bin:$PATH"
-> 
+I can reproduce it even before that commit.
 
-[3] GZIP at frontend, KGZIP or _GZIP internally? Something like:
 
-$ cat Makefile
-GZIP=gzip
-override KGZIP=$(GZIP) # optional overrdide. Used to force GZIP value
-                       # in case: make KGZIP=test
+$ git checkout a721588d^
+HEAD is now at acf2a1397a68 kbuild: modpost: remove unnecessary
+dependency for __modpost
+$ make mrproper
+  [ snip ]
+$ make defconfig
+  [ snip]
+$ make -j24 modules
+  [ snip ]
+$ cat Module.symvers
+0x00000000 nf_log_dump_packet_common net/netfilter/nf_log_common
+EXPORT_SYMBOL_GPL
+0x00000000 nf_log_l2packet net/netfilter/nf_log_common EXPORT_SYMBOL_GPL
+0x00000000 nf_log_dump_sk_uid_gid net/netfilter/nf_log_common EXPORT_SYMBOL_GPL
+0x00000000 nf_log_dump_tcp_header net/netfilter/nf_log_common EXPORT_SYMBOL_GPL
+0x00000000 nf_log_dump_udp_header net/netfilter/nf_log_common EXPORT_SYMBOL_GPL
 
-unexport GZIP
-export KGZIP
+$ make -j24 bzImage
+  [ snip ]
+$ grep  -v  vmlinux   Module.symvers
+  [ nothing is printed.  symbols from nf_log_common.ko are gone. ]
 
-default:
-	@env | grep GZIP
 
-$ make GZIP=test
-KGZIP=test
+I can change it, but this is a long-standing behavior, I think.
 
-Thanks,
-Denis
+
+
+
+
+
+--
+Best Regards
+
+Masahiro Yamada
