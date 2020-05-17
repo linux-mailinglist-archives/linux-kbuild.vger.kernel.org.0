@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E9A61D66F5
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2020 11:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DD791D66F9
+	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2020 11:52:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbgEQJti (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 17 May 2020 05:49:38 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:38337 "EHLO
+        id S1727837AbgEQJtf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 17 May 2020 05:49:35 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:38302 "EHLO
         conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727822AbgEQJth (ORCPT
+        with ESMTP id S1727117AbgEQJtf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 17 May 2020 05:49:37 -0400
+        Sun, 17 May 2020 05:49:35 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 04H9n4L5018560;
-        Sun, 17 May 2020 18:49:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 04H9n4L5018560
+        by conuserg-08.nifty.com with ESMTP id 04H9n4L6018560;
+        Sun, 17 May 2020 18:49:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 04H9n4L6018560
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1589708950;
-        bh=xYq0Wz8Mg+n/AM+6QwGzaReGlpbaasY+wlFVALGCRTw=;
+        bh=4G/LU/whNlt1qcU7HLw7OO1/pSZrdFyVabhepRCEO/Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HWFcJwnVWGewoSOghCFrDvofTGnWtEszCyhVIzceJ2vfkvqhZI2DBkrIDebS+0PaU
-         l1pV8lMQ4eouj8A2rj6u1XDez30h6bpuCckvXyHXaTmJb7OwICwwp3jHN1ipCEbJ5d
-         P+TdBanBYNTK93lrAJkzwl6kBignlpIjVkugY9BtVAXYRT1+x0w601TTk2QVOere3h
-         L44pcehfoQjP+zXMFTFBhgoiO0egEydBsJkeJI+0ZP5TiKZoPh8Z5+R/+EtAndolL9
-         a2PpVeprNjmKPoH+bRL+t/gZSRotlW8GL7hry8juJcIL6qxEpFM5hw0gvl3+sSqWjQ
-         0BHj3ldOqsMNw==
+        b=GI5LEdjPfr2KlWPvSIftDRPwYqgr2RSSRvCJ2TJdqpZHAEzXclb33RXkpuEWF/Arc
+         eeNnAOLqPXmr906gADNCHfhbLN5yhLRRRmLLRkc4/sE2m73zzNn5YdVGzwnNUbnum7
+         jFB6t0VpdEz/muIbS1xhJ70KqFMASP92Gm/6BnWfOc70dZYEN+lPsz5rpeGD034KeV
+         SpqsSFe5eoeUHx2+DQ3mFAS8OC6qIgB1ynCM3d64vPFR4FK8NjJ/p+zOfIbJvyOlyj
+         n3vdtEctZlRNy+w1u+w5epcSt9QhfKSSzgCM/eB1g58zYWqqcNp8cGkyqsZSHoDERr
+         aWhWatRfEbNHA==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Jessica Yu <jeyu@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 08/29] modpost: remove get_next_text() and make {grab,release_}file static
-Date:   Sun, 17 May 2020 18:48:38 +0900
-Message-Id: <20200517094859.2376211-9-masahiroy@kernel.org>
+Subject: [PATCH 09/29] kbuild: disallow multi-word in M= or KBUILD_EXTMOD
+Date:   Sun, 17 May 2020 18:48:39 +0900
+Message-Id: <20200517094859.2376211-10-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200517094859.2376211-1-masahiroy@kernel.org>
 References: <20200517094859.2376211-1-masahiroy@kernel.org>
@@ -46,88 +46,47 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-get_next_line() is no longer used. Remove.
+$(firstword ...) in scripts/Makefile.modpost was added by commit
+3f3fd3c05585 ("[PATCH] kbuild: allow multi-word $M in Makefile.modpost")
+to build multiple external module directories.
 
-grab_file() and release_file() are only used in modpost.c. Make them
-static.
+This feature has been broken for a while. Remove the bitrotten code, and
+stop parsing if M or KBUILD_EXTMOD contains multiple words.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/mod/modpost.c | 38 ++------------------------------------
- scripts/mod/modpost.h |  3 ---
- 2 files changed, 2 insertions(+), 39 deletions(-)
+ Makefile                 | 3 +++
+ scripts/Makefile.modpost | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 8021f7e93448..cd3cb781a2e7 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -452,7 +452,7 @@ static void sym_set_crc(const char *name, unsigned int crc)
- 	s->crc_valid = 1;
- }
+diff --git a/Makefile b/Makefile
+index 1915630cc24b..aeb690c692ee 100644
+--- a/Makefile
++++ b/Makefile
+@@ -218,6 +218,9 @@ ifeq ("$(origin M)", "command line")
+   KBUILD_EXTMOD := $(M)
+ endif
  
--void *grab_file(const char *filename, unsigned long *size)
-+static void *grab_file(const char *filename, unsigned long *size)
- {
- 	struct stat st;
- 	void *map = MAP_FAILED;
-@@ -474,41 +474,7 @@ void *grab_file(const char *filename, unsigned long *size)
- 	return map;
- }
++$(if $(word 2, $(KBUILD_EXTMOD)), \
++	$(error building multiple external modules is not supported))
++
+ export KBUILD_CHECKSRC KBUILD_EXTMOD
  
--/**
--  * Return a copy of the next line in a mmap'ed file.
--  * spaces in the beginning of the line is trimmed away.
--  * Return a pointer to a static buffer.
--  **/
--char *get_next_line(unsigned long *pos, void *file, unsigned long size)
--{
--	static char line[4096];
--	int skip = 1;
--	size_t len = 0;
--	signed char *p = (signed char *)file + *pos;
--	char *s = line;
--
--	for (; *pos < size ; (*pos)++) {
--		if (skip && isspace(*p)) {
--			p++;
--			continue;
--		}
--		skip = 0;
--		if (*p != '\n' && (*pos < size)) {
--			len++;
--			*s++ = *p++;
--			if (len > 4095)
--				break; /* Too long, stop */
--		} else {
--			/* End of string */
--			*s = '\0';
--			return line;
--		}
--	}
--	/* End of buffer */
--	return NULL;
--}
--
--void release_file(void *file, unsigned long size)
-+static void release_file(void *file, unsigned long size)
- {
- 	munmap(file, size);
- }
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index dfadaa0c01ec..232a0e11fcaa 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -192,9 +192,6 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen);
- /* from modpost.c */
- char *read_text_file(const char *filename);
- char *get_line(char **stringp);
--void *grab_file(const char *filename, unsigned long *size);
--char* get_next_line(unsigned long *pos, void *file, unsigned long size);
--void release_file(void *file, unsigned long size);
+ extmod-prefix = $(if $(KBUILD_EXTMOD),$(KBUILD_EXTMOD)/)
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index 957eed6a17a5..b79bf0e30d32 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -44,7 +44,7 @@ include include/config/auto.conf
+ include scripts/Kbuild.include
  
- enum loglevel {
- 	LOG_WARN,
+ kernelsymfile := $(objtree)/Module.symvers
+-modulesymfile := $(firstword $(KBUILD_EXTMOD))/Module.symvers
++modulesymfile := $(KBUILD_EXTMOD)/Module.symvers
+ 
+ MODPOST = scripts/mod/modpost								\
+ 	$(if $(CONFIG_MODVERSIONS),-m)							\
 -- 
 2.25.1
 
