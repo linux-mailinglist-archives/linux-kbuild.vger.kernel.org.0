@@ -2,74 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 048B81D67F9
-	for <lists+linux-kbuild@lfdr.de>; Sun, 17 May 2020 14:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACD301D6E0A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2020 01:29:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgEQMeV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sun, 17 May 2020 08:34:21 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:24683 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727893AbgEQMeV (ORCPT
+        id S1726639AbgEQX3s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 17 May 2020 19:29:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726537AbgEQX3s (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 17 May 2020 08:34:21 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-77-e_XcCBs3NxeTTdl9ilXcdg-1; Sun, 17 May 2020 13:33:14 +0100
-X-MC-Unique: e_XcCBs3NxeTTdl9ilXcdg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Sun, 17 May 2020 13:33:14 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Sun, 17 May 2020 13:33:14 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Masahiro Yamada' <masahiroy@kernel.org>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
-CC:     Jessica Yu <jeyu@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH 09/29] kbuild: disallow multi-word in M= or KBUILD_EXTMOD
-Thread-Topic: [PATCH 09/29] kbuild: disallow multi-word in M= or KBUILD_EXTMOD
-Thread-Index: AQHWLDCKQVfb3e05HkmP445tLCctkqisNZ6A
-Date:   Sun, 17 May 2020 12:33:13 +0000
-Message-ID: <fe378a92bba24164a4f901902ab06820@AcuMS.aculab.com>
-References: <20200517094859.2376211-1-masahiroy@kernel.org>
- <20200517094859.2376211-10-masahiroy@kernel.org>
-In-Reply-To: <20200517094859.2376211-10-masahiroy@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Sun, 17 May 2020 19:29:48 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60588C061A0C
+        for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2020 16:29:48 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id v128so7541910oia.7
+        for <linux-kbuild@vger.kernel.org>; Sun, 17 May 2020 16:29:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=HEbGaE2MFA3pNV7eacFtO/Z/lrFOcrYXWl9eIYThMDg=;
+        b=ZVMt73rgfpMh9F65bJUqHmftDbrjRYnfjIjTOB9pszivklWHTM5rqzTZGS7G1tS6Bc
+         GanWTnxJt1wAYaJQieMPLlUgwe2SwiXfD1u+y97f0+E428VjmY3VRjQXPwMk3zywAtOW
+         T3bw9vp1FvUAO/LLo5O0R3lC/Lukyr3DQVODNevhpcZWtROqX7L2a2j5LX+Emfljvwvi
+         Irvy8qlxSpeehSOQN1xf+XsFQmWqQXhnWuyAj15p4IS6QXxNCi8zIE1tJTiYwpemuHPv
+         /S2Mz0jDzes6wQAPLY7KgSn+PgkPZZLr/xTfkCeB4NaDF7C1FPRqJ3Q5Z0Xe3JT7FACq
+         RDNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=HEbGaE2MFA3pNV7eacFtO/Z/lrFOcrYXWl9eIYThMDg=;
+        b=AhKKWRIpNUddYBsPhTGTM7T9mZOUj1i6zKwppO3pmCQuhYKfRQBINStcX8C5okPt68
+         TCdq7iDBzmEAy7PxqogOEYN25wTxTE5OZ1F4fXlr9EyUrhjQUPQKLuv3GcOUKddt35QT
+         SjfdYUYeTS+UM3WM30pUf9AmpRHys1tz02zt2FOO7K1TtQ1wIpCu3bvyFqt1OpCML4tI
+         BRVSi9tN5iat8kYBU1hhKAVqqHtTK/ljZHTWOTIY4j/qPyTObRnF+w8a7QuDs1lfmqdH
+         WeBMVQq3HiEKwu9qIBB+uT1K/Llu0cMajENz895YXIO3JBU8oJIM05EAoHGRjdPDB4IF
+         rm8g==
+X-Gm-Message-State: AOAM533K4e3dQSyEUc22LmI46x+YfOwNRblwqmq5On0dnCb6zfK+28aG
+        j1c1yU/Q/ptZayHpzPnKngYCM1daYpj7IQAgC6N9bA==
+X-Google-Smtp-Source: ABdhPJx20wcmKJCggYeqxnzBbk931Dxv1d/HbjnLofAqSZbcnyUvwywbHF+vfABfd4j7PW9oI6usDxE21R+Y9ChV/Io=
+X-Received: by 2002:aca:f00b:: with SMTP id o11mr9511918oih.174.1589758186938;
+ Sun, 17 May 2020 16:29:46 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+From:   Ed Spiridonov <edo.rus@gmail.com>
+Date:   Mon, 18 May 2020 02:29:35 +0300
+Message-ID: <CACm0Nn02AmTtgocnCgbzWGwFGODovEzGsoASukmuRCQ5-28PFQ@mail.gmail.com>
+Subject: kconfig: dependency handling
+To:     linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada
-> Sent: 17 May 2020 10:49
-> $(firstword ...) in scripts/Makefile.modpost was added by commit
-> 3f3fd3c05585 ("[PATCH] kbuild: allow multi-word $M in Makefile.modpost")
-> to build multiple external module directories.
-> 
-> This feature has been broken for a while. Remove the bitrotten code, and
-> stop parsing if M or KBUILD_EXTMOD contains multiple words.
+Hi
 
-ISTR that one of the kernel documentation files says that it is possible
-to build multiple modules together in order to avoid 'faffing' with
-exported symbol lists.
+I encountered a dependency error while executing 'make config' in a
+patched Buildroot.
 
-So the docs need updating to match.
+After some investigation, I found that such a file causes a dependency issu=
+e:
+config LIB1
+ bool
 
-	David
+config LIB2
+ bool
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+config A
+ bool
+ select LIB1 if !LIB2
 
+config B
+ bool
+ select LIB2 if !LIB1
+
+(both A and B could use either of LIB1 or LIB2, but I prefer LIB1 for
+A and LIB2 for B).
+
+The error message is puzzling, there is nothing about A and B, only
+LIB1 and LIB2 is mentonied:
+Config.in:1:error: recursive dependency detected!
+Config.in:1:    symbol LIB1 is selected by LIB2
+Config.in:4:    symbol LIB2 is selected by LIB1
+For a resolution refer to Documentation/kbuild/kconfig-language.rst
+subsection "Kconfig recursive dependency limitations"
+
+It is clear what is happening in this short example, but I spent
+several hours to find the reason  on a real config with hundreds and
+hundreds of packages.
+
+0. Is it possible to easily fix kconfig so that it does not produce an
+error on this file? (I guess no)
+1. Could the error message be more specific?
+2. Should documentation be improved?
+I suppose this case could be mentioned in
+Documentation/kbuild/kconfig-language.rst
+Maybe the example above should be added as
+Documentation/kbuild/Kconfig.recursion-issue-03
+
+P.=E2=80=AFS. This is not a Buildroot-specific issue, I have checked vanill=
+a
+kconifg with the same result.
