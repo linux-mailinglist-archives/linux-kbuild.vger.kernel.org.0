@@ -2,116 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A6DC1D7F1C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 18 May 2020 18:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E001D9439
+	for <lists+linux-kbuild@lfdr.de>; Tue, 19 May 2020 12:21:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728421AbgERQtv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 18 May 2020 12:49:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51626 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726958AbgERQtv (ORCPT
+        id S1726505AbgESKVq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 19 May 2020 06:21:46 -0400
+Received: from merlin.infradead.org ([205.233.59.134]:58276 "EHLO
+        merlin.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725911AbgESKVq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 18 May 2020 12:49:51 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2544C061A0C
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 May 2020 09:49:50 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id u15so10629039ljd.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 May 2020 09:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KygdLUcTs6knBX0F3T/JLZYcVgSrVEzt6jZyrJ+boZQ=;
-        b=S9bunU4mXjCTchqmsktCwiUzwrjCVNgd8YdFx6fqrfQbJSITfJ3Gfe0UZSPKy1COMq
-         XgtV3MuVzYZ10FDt3fKxp2DI4i0KU99M1qsxjthk3kmKU65B8LYjZ+6gpdV3oGSJtrEX
-         CvNN34lX+RlxUFi8ZDs+UvDfbUaWrrsJnAN1A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KygdLUcTs6knBX0F3T/JLZYcVgSrVEzt6jZyrJ+boZQ=;
-        b=pi6kXNi+gWs7FOj1xLznH/mxwpOQvyd8Aey62oxhWX4kuK7MNvoQ8Al//oHL/r/xOi
-         UyDSstbuT0B//vMgN69mLif+bTS92q2MJuEAd75R06jLJ5Xucni2R7jkAtIKwQYxEf48
-         U2kCqrchSV6CugLQ9EUQsezuPlMxPC63bafzAKfHsmkkAC/Ek7Zopq0RSrSAfQWM2NN4
-         EyWGA+xoALtVLXgDloa3wgssZKuVwEBmfMKlGxVElTk0ZVdo//6iFBm9LColhdkdnZh4
-         er7K8+QVflcWTUmdg0LIlSoTFW9kZ//PowCPLYsxpsS25KzGM30UjRTNHeio7U1KEZNP
-         tlqA==
-X-Gm-Message-State: AOAM530/ajivTswzNwL4gVKFMpEd3q4Lk+jk2I+7DlFT44qjOkgmqB4K
-        j0BKdwswd9zZcN/Wrxi5rujnq83XWZ8=
-X-Google-Smtp-Source: ABdhPJyiOBDRqnV6Z9OiC59JqMqAZvYZH9zLULOIvlcmcwwxlHvCu62TWLbYQ1CuElwRdzQmb9asYA==
-X-Received: by 2002:a05:651c:291:: with SMTP id b17mr11381986ljo.166.1589820588337;
-        Mon, 18 May 2020 09:49:48 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id f2sm5947989ljg.98.2020.05.18.09.49.47
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2020 09:49:47 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id 82so8691886lfh.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 18 May 2020 09:49:47 -0700 (PDT)
-X-Received: by 2002:a05:6512:62:: with SMTP id i2mr3329357lfo.152.1589820586909;
- Mon, 18 May 2020 09:49:46 -0700 (PDT)
+        Tue, 19 May 2020 06:21:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=xWoCF9WU8+P6zH55pIbnIh/YF7QO+vlIXLrOeA3o7Zg=; b=1Wm4uHHD9O785s71uZF1SD0h43
+        htJi9GfIPTo3zg8VnurLo9CIa1ENv/ee4TkaFY2KgpsxDb9FVzgBfOpCVY9bCvfVWZqlnzy1O7GFF
+        Pfsjg/8O4wFpD7KgGArh5MhN3KMydT7B0f7Fm69RbfyL1Yuc/vbvAAm3j0Nt6qtCOhC/hMOyPkQVR
+        CrtK7aitoHf+21OA0GzrJKUn3SOsXfbNtUS69w5A/bnsxHqGoDEW07HO1ohHQPVllFW3pFHWkIGod
+        8/dztCyzABuz7CvjINUhADBbqh5uf/h0a0D1eUmQ+EnWllrixLLsC0jv22QHRkOK6v3n6iSJJh0Cs
+        8LhiDTCQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jazNS-00043O-9D; Tue, 19 May 2020 10:21:38 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 54B8E3008A8;
+        Tue, 19 May 2020 12:21:33 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 42DD12105F3B6; Tue, 19 May 2020 12:21:33 +0200 (CEST)
+Date:   Tue, 19 May 2020 12:21:33 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Jessica Yu <jeyu@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 03/29] modpost: add read_text_file() and get_line()
+ helpers
+Message-ID: <20200519102133.GA279905@hirez.programming.kicks-ass.net>
+References: <20200517094859.2376211-1-masahiroy@kernel.org>
+ <20200517094859.2376211-4-masahiroy@kernel.org>
 MIME-Version: 1.0
-References: <20200518145723.65b89375@canb.auug.org.au> <968394.1589817650@warthog.procyon.org.uk>
-In-Reply-To: <968394.1589817650@warthog.procyon.org.uk>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 18 May 2020 09:49:29 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj6J-iqrCr_7oLDCbS8qXQ69EF=nPLWmvBiDmgdNWZ6KA@mail.gmail.com>
-Message-ID: <CAHk-=wj6J-iqrCr_7oLDCbS8qXQ69EF=nPLWmvBiDmgdNWZ6KA@mail.gmail.com>
-Subject: Re: How should we handle a bool depending on a tristate?
-To:     David Howells <dhowells@redhat.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200517094859.2376211-4-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, May 18, 2020 at 9:01 AM David Howells <dhowells@redhat.com> wrote:
->
->
-> Blech.  Yeah.  "depends on" doesn't work either.  The problem actually lies
-> within the Kconfig framework.  It doesn't know how to handle a bool depending
-> on a tristate.
+On Sun, May 17, 2020 at 06:48:33PM +0900, Masahiro Yamada wrote:
 
-No problem with Kconfig. It knows exactly how to let a bool depend on
-a tristate.
+> +char *read_text_file(const char *filename)
+> +{
+> +	struct stat st;
+> +	int fd;
+> +	char *buf;
+> +
+> +	fd = open(filename, O_RDONLY);
+> +	if (fd < 0)
+> +		return NULL;
+> +
+> +	if (fstat(fd, &st) < 0)
+> +		return NULL;
+> +
+> +	buf = NOFAIL(malloc(st.st_size + 1));
+> +
+> +	if (read(fd, buf, st.st_size) != st.st_size) {
 
-It's just that there are two different kinds of dependencies.
+Is this sensible coding ? I've always been taught read() can return
+early/short for a number of reasons and we must not assume this is an
+error.
 
-For example, the dependency can be a hard and absolute dependency
-(linking doesn't work, or whatever), and then obviously built-in code
-cannot be enabled if the thing it depends on is a loadable module.
+The 'normal' way to read a file is something like:
 
-But the dependency can also be a conceptual one: "This option doesn't
-make sense unless that option is set". Then a bool can make sense even
-if the other config is a modular one.
+	for (;;) {
+		ssize_t ret = read(fd, buf + size, st.st_size - size);
+		if (ret < 0) {
+			free(buf);
+			buf = NULL;
+			goto close;
+		}
+		if (!ret)
+			break;
 
-And Kconfig can deal with either situation just fine.
+		size += ret;
+	}
 
-Do
-
-    depends on XYZ = y
-
-or
-
-    depends on XYZ != n
-
-to clarify the choice. One requires a hard dependency, the other
-requires that the  option just be enabled.
-
-Now, if you just do "depends on XYZ", it allows a bool to be enabled
-even for just a module (ie that second case). That makes sense for a
-lot of "allow this feature in the module" kind of options, where it
-would be pointless to even ask about a boolean feature if the parent
-module isn't even enabled.
-
-But that "depends on XYZ=y" is not uncommon. It basically says "this
-option makes sense only when built in". Either because it requires it
-for linking, or just because it doesn't work or make sense without it.
-
-                     Linus
+> +		free(buf);
+> +		buf = NULL;
+> +		goto close;
+> +	}
+> +	buf[st.st_size] = '\0';
+> +close:
+> +	close(fd);
+> +
+> +	return buf;
+> +}
