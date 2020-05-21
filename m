@@ -2,88 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5965D1DC5FC
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2020 05:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DC2C1DC644
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2020 06:32:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbgEUD6o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 May 2020 23:58:44 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:33507 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727007AbgEUD6o (ORCPT
+        id S1726808AbgEUEcS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 May 2020 00:32:18 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:50204 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726282AbgEUEcQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 May 2020 23:58:44 -0400
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 04L3w7WE015180;
-        Thu, 21 May 2020 12:58:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 04L3w7WE015180
+        Thu, 21 May 2020 00:32:16 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 04L4VLtS007830;
+        Thu, 21 May 2020 13:31:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 04L4VLtS007830
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590033488;
-        bh=cdcXcp7GKJaQpoiglOE1SstMA8V7OfLShCEkDd6sbPw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=abdOFj1i0J9pa0dxt1L9GfRe+lMOKG1wZ3CCJCF+SzSFEoaPuc1hJ8bYGoP704Uj7
-         R/gOJmRfaCjwbNnvbgDTpqwyfnK5GvXBum1ba2dZwe2YvJK52dwLS6wFpGKavxCE8j
-         +EhQ1PUju1nA9lCJBHl6LN2WyBLZugw5aJO/Km/zMcfMychRu9rZrnFIhQMD5DiQQy
-         dij8j+BRLGFD+M0uGpHbgW/1DE/fbZLyPRzZL7IG6sQv/gDegR1LJpuuXViuWW+LVU
-         gxXatApVeJwJv/QCXA0bFFua+QHZfD2wZKW6KcgCdrQcSgT/3fu/irvKzi6T3szDbz
-         IOcU+AOvuP7Fw==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id c17so2113968uaq.13;
-        Wed, 20 May 2020 20:58:08 -0700 (PDT)
-X-Gm-Message-State: AOAM533JdntVdi1/4nQUYtl3V94YzkkthB9AMrUnrNSht501yPhSfrWN
-        y1wSqdnzgC3kOIPQrORlVzbkxxvE3nowDnXHVZM=
-X-Google-Smtp-Source: ABdhPJzpnqCQGJ4c2bi+MEob+kwmt7nGFJPa9S2qehtmVIvnGWQiwFvzL8eOgt3jRjoUpdjLDDnbTBvWPi4aQIIDzNA=
-X-Received: by 2002:a9f:3e0d:: with SMTP id o13mr5991460uai.25.1590033486833;
- Wed, 20 May 2020 20:58:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200517094859.2376211-1-masahiroy@kernel.org>
- <20200517094859.2376211-10-masahiroy@kernel.org> <fe378a92bba24164a4f901902ab06820@AcuMS.aculab.com>
-In-Reply-To: <fe378a92bba24164a4f901902ab06820@AcuMS.aculab.com>
+        s=dec2015msa; t=1590035482;
+        bh=XREDi7cQniQC6JrUn15gjq7aAsHa5WcXOyjUiUSR7A4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JY+7/RM4sCtjM07H0fmsksiUfo7OBpAdZLavpsAfodrMPX2Xf1wYJNAfxO56Dz1PL
+         0TpL0H7H1r41QviMcWm7l+ZMn/+fvdLTyIBdBXorQODItT0oCCyNkGnWSQMoCQ4+SS
+         K46ijVSmGVoMlRjYox1JdO77xiIwVPUx2yekOkxaC8DwVAuk9QDG8uEmmwMEAfvEd8
+         noPU1bKoyptvf/EZ+zbO/b/9LtN6zFRUTnSJ4yDCTKcyswil4jYbMMMheoFqD6sscQ
+         a7H75p+lkk9Y/1aKY/wJ6FGDgrdISLa4abNXzcNO6Nw6v8Ol2NietWu7NUlliXwhBS
+         2sFb3oK8UT7Rg==
+X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 21 May 2020 12:57:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQNyD-1-tHkjgc3_cG2XGbLN7rmPM4m371iO2eWAfX55Q@mail.gmail.com>
-Message-ID: <CAK7LNAQNyD-1-tHkjgc3_cG2XGbLN7rmPM4m371iO2eWAfX55Q@mail.gmail.com>
-Subject: Re: [PATCH 09/29] kbuild: disallow multi-word in M= or KBUILD_EXTMOD
-To:     David Laight <David.Laight@aculab.com>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
+To:     linux-kbuild@vger.kernel.org
+Cc:     Jessica Yu <jeyu@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] kbuild: doc: remove documentation about copying Module.symvers around
+Date:   Thu, 21 May 2020 13:31:17 +0900
+Message-Id: <20200521043117.242585-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 17, 2020 at 9:33 PM David Laight <David.Laight@aculab.com> wrote:
->
-> From: Masahiro Yamada
-> > Sent: 17 May 2020 10:49
-> > $(firstword ...) in scripts/Makefile.modpost was added by commit
-> > 3f3fd3c05585 ("[PATCH] kbuild: allow multi-word $M in Makefile.modpost")
-> > to build multiple external module directories.
-> >
-> > This feature has been broken for a while. Remove the bitrotten code, and
-> > stop parsing if M or KBUILD_EXTMOD contains multiple words.
->
-> ISTR that one of the kernel documentation files says that it is possible
-> to build multiple modules together in order to avoid 'faffing' with
-> exported symbol lists.
->
-> So the docs need updating to match.
+This is a left-over of commit 39808e451fdf ("kbuild: do not read
+$(KBUILD_EXTMOD)/Module.symvers").
 
+Kbuild no longer supports this way.
 
-Do you remember which doc mentions it?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ Documentation/kbuild/modules.rst | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-
->         David
->
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
->
-
-
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index e0b45a257f21..a45cccff467d 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -528,18 +528,6 @@ build.
+ 		will then do the expected and compile both modules with
+ 		full knowledge of symbols from either module.
+ 
+-	Use an extra Module.symvers file
+-		When an external module is built, a Module.symvers file
+-		is generated containing all exported symbols which are
+-		not defined in the kernel. To get access to symbols
+-		from bar.ko, copy the Module.symvers file from the
+-		compilation of bar.ko to the directory where foo.ko is
+-		built. During the module build, kbuild will read the
+-		Module.symvers file in the directory of the external
+-		module, and when the build is finished, a new
+-		Module.symvers file is created containing the sum of
+-		all symbols defined and not part of the kernel.
+-
+ 	Use "make" variable KBUILD_EXTRA_SYMBOLS
+ 		If it is impractical to add a top-level kbuild file,
+ 		you can assign a space separated list
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
