@@ -2,236 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F143A1DC55D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2020 04:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5965D1DC5FC
+	for <lists+linux-kbuild@lfdr.de>; Thu, 21 May 2020 05:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726979AbgEUCtF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 20 May 2020 22:49:05 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:65504 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726954AbgEUCtE (ORCPT
+        id S1727998AbgEUD6o (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 20 May 2020 23:58:44 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:33507 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727007AbgEUD6o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 20 May 2020 22:49:04 -0400
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 04L2maKe001769;
-        Thu, 21 May 2020 11:48:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 04L2maKe001769
+        Wed, 20 May 2020 23:58:44 -0400
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 04L3w7WE015180;
+        Thu, 21 May 2020 12:58:08 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 04L3w7WE015180
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590029317;
-        bh=+1pPHahrtwrCs5XxeEk28u3oetsrJ5xJvorudmks/Ak=;
+        s=dec2015msa; t=1590033488;
+        bh=cdcXcp7GKJaQpoiglOE1SstMA8V7OfLShCEkDd6sbPw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S+RecnEutDPf3inL8J6th1DrhYnid6Cx5bnXEDEz3x72TL5LwBw2mdS0o/xI03Sna
-         X4tXm95DvdhDY+B153CE8QmimLGX/CTz40dDRiULLQh7dkXQh2jNdj8PpWO3b8ZK1h
-         uUeJcy12XWIQyWqbEJWRkgqEKDL1TNQ9omP5vAbeQbAhwMq2r/5IYohkVjXF9rj4O/
-         BofMLQhsgvM/FvybTw6k7IfNCm904B1HPw/PKaaje7v3svZDANrlRi3vjtZj7XC7bw
-         dkQqj85VP2EsdDjjp8mctdRIUdDUf8o1jWa1tN60oPZ/dJZzvEW8bPMS2oExOyRmZX
-         uN25S7ZkwCl+A==
-X-Nifty-SrcIP: [209.85.222.49]
-Received: by mail-ua1-f49.google.com with SMTP id k3so2067288ual.8;
-        Wed, 20 May 2020 19:48:36 -0700 (PDT)
-X-Gm-Message-State: AOAM532s8DYirhKlF6+HcBYBYcdSgm5SgsbpsfuIcd/knmwUhk8Of477
-        ZqYExvaAairHgl7t6++oIt4lKZ8T+KeKXNwQd7Y=
-X-Google-Smtp-Source: ABdhPJwWsv11TCsudV79Gv+p//ZclSKqNmbbJYf1sZ0usGUtYQVNNqs2nP8VT9NEOehuGTboP9sS3KN47mmXBw00Qe8=
-X-Received: by 2002:ab0:7298:: with SMTP id w24mr5868586uao.95.1590029315782;
- Wed, 20 May 2020 19:48:35 -0700 (PDT)
+        b=abdOFj1i0J9pa0dxt1L9GfRe+lMOKG1wZ3CCJCF+SzSFEoaPuc1hJ8bYGoP704Uj7
+         R/gOJmRfaCjwbNnvbgDTpqwyfnK5GvXBum1ba2dZwe2YvJK52dwLS6wFpGKavxCE8j
+         +EhQ1PUju1nA9lCJBHl6LN2WyBLZugw5aJO/Km/zMcfMychRu9rZrnFIhQMD5DiQQy
+         dij8j+BRLGFD+M0uGpHbgW/1DE/fbZLyPRzZL7IG6sQv/gDegR1LJpuuXViuWW+LVU
+         gxXatApVeJwJv/QCXA0bFFua+QHZfD2wZKW6KcgCdrQcSgT/3fu/irvKzi6T3szDbz
+         IOcU+AOvuP7Fw==
+X-Nifty-SrcIP: [209.85.222.45]
+Received: by mail-ua1-f45.google.com with SMTP id c17so2113968uaq.13;
+        Wed, 20 May 2020 20:58:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533JdntVdi1/4nQUYtl3V94YzkkthB9AMrUnrNSht501yPhSfrWN
+        y1wSqdnzgC3kOIPQrORlVzbkxxvE3nowDnXHVZM=
+X-Google-Smtp-Source: ABdhPJzpnqCQGJ4c2bi+MEob+kwmt7nGFJPa9S2qehtmVIvnGWQiwFvzL8eOgt3jRjoUpdjLDDnbTBvWPi4aQIIDzNA=
+X-Received: by 2002:a9f:3e0d:: with SMTP id o13mr5991460uai.25.1590033486833;
+ Wed, 20 May 2020 20:58:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <10f4fb0b-1012-b0e6-af05-0aa5a906de21@redhat.com> <20200520193637.6015-1-ndesaulniers@google.com>
-In-Reply-To: <20200520193637.6015-1-ndesaulniers@google.com>
+References: <20200517094859.2376211-1-masahiroy@kernel.org>
+ <20200517094859.2376211-10-masahiroy@kernel.org> <fe378a92bba24164a4f901902ab06820@AcuMS.aculab.com>
+In-Reply-To: <fe378a92bba24164a4f901902ab06820@AcuMS.aculab.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 21 May 2020 11:47:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS_PMz9r3e1UcuM+r18JC2KeM2RqGOms1u3kVzN_N1MmA@mail.gmail.com>
-Message-ID: <CAK7LNAS_PMz9r3e1UcuM+r18JC2KeM2RqGOms1u3kVzN_N1MmA@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile: support compressed debug info
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Nick Clifton <nickc@redhat.com>,
-        David Blaikie <blakie@google.com>,
+Date:   Thu, 21 May 2020 12:57:31 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQNyD-1-tHkjgc3_cG2XGbLN7rmPM4m371iO2eWAfX55Q@mail.gmail.com>
+Message-ID: <CAK7LNAQNyD-1-tHkjgc3_cG2XGbLN7rmPM4m371iO2eWAfX55Q@mail.gmail.com>
+Subject: Re: [PATCH 09/29] kbuild: disallow multi-word in M= or KBUILD_EXTMOD
+To:     David Laight <David.Laight@aculab.com>
+Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Changbin Du <changbin.du@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Anshuman Khandual <anshuman.khandual@arm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 21, 2020 at 4:36 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
+On Sun, May 17, 2020 at 9:33 PM David Laight <David.Laight@aculab.com> wrote:
 >
-> As debug information gets larger and larger, it helps significantly save
-> the size of vmlinux images to compress the information in the debug
-> information sections. Note: this debug info is typically split off from
-> the final compressed kernel image, which is why vmlinux is what's used
-> in conjunction with GDB. Minimizing the debug info size should have no
-> impact on boot times, or final compressed kernel image size.
+> From: Masahiro Yamada
+> > Sent: 17 May 2020 10:49
+> > $(firstword ...) in scripts/Makefile.modpost was added by commit
+> > 3f3fd3c05585 ("[PATCH] kbuild: allow multi-word $M in Makefile.modpost")
+> > to build multiple external module directories.
+> >
+> > This feature has been broken for a while. Remove the bitrotten code, and
+> > stop parsing if M or KBUILD_EXTMOD contains multiple words.
 >
-> All of the debug sections will have a `C` flag set.
-> $ readelf -S <object file>
+> ISTR that one of the kernel documentation files says that it is possible
+> to build multiple modules together in order to avoid 'faffing' with
+> exported symbol lists.
 >
-> $ bloaty vmlinux.gcc75.compressed.dwarf4 -- \
->     vmlinux.gcc75.uncompressed.dwarf4
+> So the docs need updating to match.
+
+
+Do you remember which doc mentions it?
+
+
+
+>         David
 >
->     FILE SIZE        VM SIZE
->  --------------  --------------
->   +0.0%     +18  [ = ]       0    [Unmapped]
->  -73.3%  -114Ki  [ = ]       0    .debug_aranges
->  -76.2% -2.01Mi  [ = ]       0    .debug_frame
->  -73.6% -2.89Mi  [ = ]       0    .debug_str
->  -80.7% -4.66Mi  [ = ]       0    .debug_abbrev
->  -82.9% -4.88Mi  [ = ]       0    .debug_ranges
->  -70.5% -9.04Mi  [ = ]       0    .debug_line
->  -79.3% -10.9Mi  [ = ]       0    .debug_loc
->  -39.5% -88.6Mi  [ = ]       0    .debug_info
->  -18.2%  -123Mi  [ = ]       0    TOTAL
+> -
+> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+> Registration No: 1397386 (Wales)
 >
-> $ bloaty vmlinux.clang11.compressed.dwarf4 -- \
->     vmlinux.clang11.uncompressed.dwarf4
->
->     FILE SIZE        VM SIZE
->  --------------  --------------
->   +0.0%     +23  [ = ]       0    [Unmapped]
->  -65.6%    -871  [ = ]       0    .debug_aranges
->  -77.4% -1.84Mi  [ = ]       0    .debug_frame
->  -82.9% -2.33Mi  [ = ]       0    .debug_abbrev
->  -73.1% -2.43Mi  [ = ]       0    .debug_str
->  -84.8% -3.07Mi  [ = ]       0    .debug_ranges
->  -65.9% -8.62Mi  [ = ]       0    .debug_line
->  -86.2% -40.0Mi  [ = ]       0    .debug_loc
->  -42.0% -64.1Mi  [ = ]       0    .debug_info
->  -22.1%  -122Mi  [ = ]       0    TOTAL
->
-> For x86_64 defconfig + LLVM=1 (before):
-> Elapsed (wall clock) time (h:mm:ss or m:ss): 3:22.03
-> Maximum resident set size (kbytes): 43856
->
-> For x86_64 defconfig + LLVM=1 (after):
-> Elapsed (wall clock) time (h:mm:ss or m:ss): 3:32.52
-> Maximum resident set size (kbytes): 1566776
->
-> Suggested-by: David Blaikie <blakie@google.com>
-> Suggested-by: Fangrui Song <maskray@google.com>
-
-
-Suggested-by -> Reviewed-by
-
-https://patchwork.kernel.org/patch/11524939/#23349551
-
-
-
-> Suggested-by: Nick Clifton <nickc@redhat.com>
-
-
-I do not know where this tag came from.
-
-Nick Clifton taught us the version rule of binutils,but did not state
-anything about this patch itself.
-
-https://patchwork.kernel.org/patch/11524939/#23355175
-
-
-> Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
-
-I do not see the source of this tag, either...
-
-
-
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-
- snip
-
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -225,6 +225,21 @@ config DEBUG_INFO_REDUCED
->           DEBUG_INFO build and compile times are reduced too.
->           Only works with newer gcc versions.
->
-> +config DEBUG_INFO_COMPRESSED
-> +       bool "Compressed debugging information"
-> +       depends on DEBUG_INFO
-> +       depends on $(cc-option,-gz=zlib)
-> +       depends on $(as-option,-Wa,--compress-debug-sections=zlib)
-
-This does not work. (always false)
-You cannot enable this option.
-
-The comma between -Wa and --compress-debug-sections=zlib
-is eaten by Kconfig parser because commas are delimiters
-of function parameters.
-
-
-Please write like this.
-
-    depends on $(as-option,-Wa$(comma)--compress-debug-sections=zlib)
-
-
-
-
-
-> +       depends on $(ld-option,--compress-debug-sections=zlib)
-> +       help
-> +         Compress the debug information using zlib.  Requires GCC 5.0+ or Clang
-> +         5.0+, binutils 2.26+, and zlib.
-> +
-> +         Users of dpkg-deb via scripts/package/builddeb may
-> +         wish to set the $KDEB_COMPRESS env var to "none" to avoid recompressing
-> +         the debug info again with a different compression scheme, which can
-> +         result in larger binaries.
-
-No. This is not correct.
-
-CONFIG_DEBUG_INFO_COMPRESSED compresses the only debug info part.
-The other parts still get by benefit from the default KDEB_COMPRESS=xz.
-
-
-The numbers are here:
-
-
-CONFIG_DEBUG_INFO_COMPRESSED=y
--rw-r--r-- 1 masahiro masahiro 209077584 May 21 11:19
-linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-26_amd64.deb
-
-
-CONFIG_DEBUG_INFO_COMPRESSED=y and KDEB_COMPRESS=none
--rw-r--r-- 1 masahiro masahiro 643051712 May 21 11:22
-linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-27_amd64.deb
-
-
-CONFIG_DEBUG_INFO_COMPRESSED=n
--rw-r--r-- 1 masahiro masahiro 112200308 May 21 11:40
-linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-30_amd64.deb
-
-
-
-
-For the deb package size perspective,
-it is better to keep KDEB_COMPRESS as default.
-
-The main motivation for changing KDEB_COMPRESS
-is the build speed.  (see commit 1a7f0a34ea7d05)
-
-
-
-
-CONFIG_DEBUG_INFO_COMPRESSED has a downside
-for the debug deb package, but we need to accept it.
-
-
-
-
-
-
-
 
 
 -- 
