@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6929D1DDCDF
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2020 04:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E608E1DDCE2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2020 04:00:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbgEVCA1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 May 2020 22:00:27 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:37242 "EHLO
+        id S1727818AbgEVCA2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 May 2020 22:00:28 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:37247 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgEVCA1 (ORCPT
+        with ESMTP id S1727084AbgEVCA2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 May 2020 22:00:27 -0400
+        Thu, 21 May 2020 22:00:28 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 04M205UY009585;
-        Fri, 22 May 2020 11:00:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 04M205UY009585
+        by conuserg-10.nifty.com with ESMTP id 04M205UZ009585;
+        Fri, 22 May 2020 11:00:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 04M205UZ009585
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590112810;
-        bh=dbhmn93DYcq1CwpbzW5tE0+OrtgaGmet5z0CDnvyloI=;
+        s=dec2015msa; t=1590112811;
+        bh=eAVYzp2qo7mR9QsAot69dvdfW1xfxnf150PWTQtQKAM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qgIScu1vmTas3XiGny1RBldzs77Tb9sXQ/0vDuHvptOROSDNeaxrDnaTFS7tGTAEq
-         kUqOdbsqhT7mAcFm/CtJFOM7FNmFdXA4eykmnopV99SzWUqOVxXss+WF8duQWEYO6d
-         FP3cXtRCsY6qCV/jpPfB6324TCH/G/t5HwqgzYZ4BENk3eUPZEBBBRMPohVH/k/brQ
-         Or4PDgZwvp39G67E9APWYtmbq7O3HRMvVIxhZfLFuGjFEBQ/+r/dMyKp7roiz0OHGi
-         aghZfFiAcIhKrXppUo6p26xfm1h8n3QBlApT3a/baaQ2mu00meHEWko6uPL5K00kxU
-         c1wXJB2o1ttKQ==
+        b=hu49JF02RKIrGrDIo8TjQv1YBzNoVA40iBGPiB+KDSvhxHIPwQB1sX9+8bwOaCLAF
+         V98Zf4w1ni744haIWqkAuJojJ8bvP+Ubs/icMh02rr8v1T/G+Qi5QUnrktrulQ1XHq
+         wKnm80ZgDY91yD8f0qh6ev/GzWBiZXu6fwZPCp6gudJUs2v/QB2i3/apj2a7I86tXS
+         N7coM1KliTqTEdbdfaCpbkasNAkRPHoX/rWHPGSX+bosaFd1zE4stl4z3h3gQiBPMG
+         pTLBcZml1nXND2bHQF1U3sghf99LIq1mLy6obmuO0ljyDWwPEIu8vbI1n223WG9a+e
+         HpmVt/hbJl3vg==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/5] kbuild: clear KBUILD_MODULES in top Makefile if CONFIG_MODULES=n
-Date:   Fri, 22 May 2020 10:59:59 +0900
-Message-Id: <20200522020002.504506-2-masahiroy@kernel.org>
+Subject: [PATCH 3/5] kbuild: move subdir-obj-y to scripts/Makefile.build
+Date:   Fri, 22 May 2020 11:00:00 +0900
+Message-Id: <20200522020002.504506-3-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200522020002.504506-1-masahiroy@kernel.org>
 References: <20200522020002.504506-1-masahiroy@kernel.org>
@@ -45,44 +45,51 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Do not try to build any module-related artifacts when CONFIG_MODULES
-is disabled.
+Save $(addprefix ...) for subdir-obj-y.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- Makefile               | 4 ++++
- scripts/Makefile.build | 2 +-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ scripts/Makefile.build | 2 ++
+ scripts/Makefile.lib   | 5 -----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 1f5bbfb31103..72eb55a36545 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1724,6 +1724,10 @@ build-dirs := $(foreach d, $(build-dirs), \
- 
- endif
- 
-+ifndef CONFIG_MODULES
-+KBUILD_MODULES :=
-+endif
-+
- # Handle descending into subdirectories listed in $(build-dirs)
- # Preset locale variables to speed up the build process. Limit locale
- # tweaks to this spot to avoid wrong language settings when running
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 9af88f4cacb8..f46d25441804 100644
+index f46d25441804..ee283efc1b45 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -77,7 +77,7 @@ ifdef need-builtin
- builtin-target := $(obj)/built-in.a
- endif
+@@ -69,6 +69,8 @@ endif
  
--ifeq ($(CONFIG_MODULES)$(need-modorder),y1)
-+ifdef need-modorder
- modorder-target := $(obj)/modules.order
- endif
+ # ===========================================================================
  
++subdir-obj-y := $(filter %/built-in.a, $(real-obj-y))
++
+ ifneq ($(strip $(lib-y) $(lib-m) $(lib-)),)
+ lib-target := $(obj)/lib.a
+ endif
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 52299d5dba28..a41a4bbd20e2 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -62,10 +62,6 @@ multi-used-y := $(sort $(foreach m,$(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m
+ multi-used-m := $(sort $(foreach m,$(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m)) $($(m:.o=-))), $(m))))
+ multi-used   := $(multi-used-y) $(multi-used-m)
+ 
+-# $(subdir-obj-y) is the list of objects in $(obj-y) which uses dir/ to
+-# tell kbuild to descend
+-subdir-obj-y := $(filter %/built-in.a, $(obj-y))
+-
+ # Replace multi-part objects by their individual parts,
+ # including built-in.a from subdirectories
+ real-obj-y := $(foreach m, $(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-))),$($(m:.o=-objs)) $($(m:.o=-y)),$(m)))
+@@ -91,7 +87,6 @@ targets		:= $(addprefix $(obj)/,$(targets))
+ modorder	:= $(addprefix $(obj)/,$(modorder))
+ obj-m		:= $(addprefix $(obj)/,$(obj-m))
+ lib-y		:= $(addprefix $(obj)/,$(lib-y))
+-subdir-obj-y	:= $(addprefix $(obj)/,$(subdir-obj-y))
+ real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
+ real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
+ multi-used-m	:= $(addprefix $(obj)/,$(multi-used-m))
 -- 
 2.25.1
 
