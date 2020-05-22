@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E608E1DDCE2
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2020 04:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F13211DDCE6
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2020 04:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727818AbgEVCA2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 21 May 2020 22:00:28 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:37247 "EHLO
+        id S1727897AbgEVCAf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 21 May 2020 22:00:35 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:37246 "EHLO
         conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727084AbgEVCA2 (ORCPT
+        with ESMTP id S1727085AbgEVCA1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 21 May 2020 22:00:28 -0400
+        Thu, 21 May 2020 22:00:27 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 04M205UZ009585;
+        by conuserg-10.nifty.com with ESMTP id 04M205Ua009585;
         Fri, 22 May 2020 11:00:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 04M205UZ009585
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 04M205Ua009585
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1590112811;
-        bh=eAVYzp2qo7mR9QsAot69dvdfW1xfxnf150PWTQtQKAM=;
+        bh=56NMTqyBQgUoiCLp6nRjIb1YOCB6X+MUoUS2aIs4bik=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hu49JF02RKIrGrDIo8TjQv1YBzNoVA40iBGPiB+KDSvhxHIPwQB1sX9+8bwOaCLAF
-         V98Zf4w1ni744haIWqkAuJojJ8bvP+Ubs/icMh02rr8v1T/G+Qi5QUnrktrulQ1XHq
-         wKnm80ZgDY91yD8f0qh6ev/GzWBiZXu6fwZPCp6gudJUs2v/QB2i3/apj2a7I86tXS
-         N7coM1KliTqTEdbdfaCpbkasNAkRPHoX/rWHPGSX+bosaFd1zE4stl4z3h3gQiBPMG
-         pTLBcZml1nXND2bHQF1U3sghf99LIq1mLy6obmuO0ljyDWwPEIu8vbI1n223WG9a+e
-         HpmVt/hbJl3vg==
+        b=Kr5fh0dd0lz9MF50U0dJibt1MHplEC+QYycX5i/iDlKM3sXdcO5XMJ5o8ytyiXGXX
+         zxVgAbXbR9a6DfsF60WzcXlK6+lFkWBriYk3aGiicliEqdMPTXdIRPXBsKdcJSW/wu
+         UvMUnCLTyVml71l/J1YbBhV+LPX+65vJ0imthRMRWeJEFCIG5MB5pPiw2vAd7KqlwZ
+         OAcqzGv3tIPhd/agbAFokiUUi8Ir/5uaDzmfmxAoFs3H97dAgjCuJZ9lMnsOKShXaG
+         Wj+Tb+cEir/meL16bmswTVHpfYM2OEyOxgWij1UpPexfdu6wyE8ylYcDudkXyIEVQW
+         tiws5qoMWPeJg==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 3/5] kbuild: move subdir-obj-y to scripts/Makefile.build
-Date:   Fri, 22 May 2020 11:00:00 +0900
-Message-Id: <20200522020002.504506-3-masahiroy@kernel.org>
+Subject: [PATCH 4/5] kbuild: rename subdir-obj-y to subdir-builtin
+Date:   Fri, 22 May 2020 11:00:01 +0900
+Message-Id: <20200522020002.504506-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200522020002.504506-1-masahiroy@kernel.org>
 References: <20200522020002.504506-1-masahiroy@kernel.org>
@@ -45,51 +45,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Save $(addprefix ...) for subdir-obj-y.
+I think subdir-builtin is clearer.
+
+While I was here, I made its build rule explicit.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build | 2 ++
- scripts/Makefile.lib   | 5 -----
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ scripts/Makefile.build | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index f46d25441804..ee283efc1b45 100644
+index ee283efc1b45..323264607b9f 100644
 --- a/scripts/Makefile.build
 +++ b/scripts/Makefile.build
-@@ -69,6 +69,8 @@ endif
+@@ -69,7 +69,8 @@ endif
  
  # ===========================================================================
  
-+subdir-obj-y := $(filter %/built-in.a, $(real-obj-y))
-+
+-subdir-obj-y := $(filter %/built-in.a, $(real-obj-y))
++# subdir-builtin may contain duplications. Use $(sort ...)
++subdir-builtin := $(sort $(filter %/built-in.a, $(real-obj-y)))
+ 
  ifneq ($(strip $(lib-y) $(lib-m) $(lib-)),)
  lib-target := $(obj)/lib.a
- endif
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 52299d5dba28..a41a4bbd20e2 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -62,10 +62,6 @@ multi-used-y := $(sort $(foreach m,$(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m
- multi-used-m := $(sort $(foreach m,$(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-m)) $($(m:.o=-))), $(m))))
- multi-used   := $(multi-used-y) $(multi-used-m)
+@@ -356,7 +357,7 @@ endif
+ $(obj)/%.o: $(src)/%.S $(objtool_dep) FORCE
+ 	$(call if_changed_rule,as_o_S)
  
--# $(subdir-obj-y) is the list of objects in $(obj-y) which uses dir/ to
--# tell kbuild to descend
--subdir-obj-y := $(filter %/built-in.a, $(obj-y))
--
- # Replace multi-part objects by their individual parts,
- # including built-in.a from subdirectories
- real-obj-y := $(foreach m, $(obj-y), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y)) $($(m:.o=-))),$($(m:.o=-objs)) $($(m:.o=-y)),$(m)))
-@@ -91,7 +87,6 @@ targets		:= $(addprefix $(obj)/,$(targets))
- modorder	:= $(addprefix $(obj)/,$(modorder))
- obj-m		:= $(addprefix $(obj)/,$(obj-m))
- lib-y		:= $(addprefix $(obj)/,$(lib-y))
--subdir-obj-y	:= $(addprefix $(obj)/,$(subdir-obj-y))
- real-obj-y	:= $(addprefix $(obj)/,$(real-obj-y))
- real-obj-m	:= $(addprefix $(obj)/,$(real-obj-m))
- multi-used-m	:= $(addprefix $(obj)/,$(multi-used-m))
+-targets += $(filter-out $(subdir-obj-y), $(real-obj-y)) $(real-obj-m) $(lib-y)
++targets += $(filter-out $(subdir-builtin), $(real-obj-y)) $(real-obj-m) $(lib-y)
+ targets += $(extra-y) $(always-y) $(MAKECMDGOALS)
+ 
+ # Linker scripts preprocessor (.lds.S -> .lds)
+@@ -381,7 +382,7 @@ $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
+ # ---------------------------------------------------------------------------
+ 
+ # To build objects in subdirs, we need to descend into the directories
+-$(obj)/%/built-in.a: $(obj)/% ;
++$(subdir-builtin): $(obj)/%/built-in.a: $(obj)/% ;
+ 
+ #
+ # Rule to compile a set of .o files into one .a file (without symbol table)
+@@ -489,7 +490,7 @@ PHONY += $(subdir-ym)
+ $(subdir-ym):
+ 	$(Q)$(MAKE) $(build)=$@ \
+ 	$(if $(filter $@/, $(KBUILD_SINGLE_TARGETS)),single-build=) \
+-	need-builtin=$(if $(filter $@/built-in.a, $(subdir-obj-y)),1) \
++	need-builtin=$(if $(filter $@/built-in.a, $(subdir-builtin)),1) \
+ 	need-modorder=$(if $(need-modorder),$(if $(filter $@/modules.order, $(modorder)),1))
+ 
+ # Add FORCE to the prequisites of a target to force it to be always rebuilt.
 -- 
 2.25.1
 
