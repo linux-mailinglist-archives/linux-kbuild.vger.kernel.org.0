@@ -2,51 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2BDA1DEE80
-	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2020 19:45:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 690A91DEF08
+	for <lists+linux-kbuild@lfdr.de>; Fri, 22 May 2020 20:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730741AbgEVRpg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 22 May 2020 13:45:36 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:42791 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726373AbgEVRpf (ORCPT
+        id S1730813AbgEVSRo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 22 May 2020 14:17:44 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:27085 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726373AbgEVSRo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 22 May 2020 13:45:35 -0400
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 04MHjCZp006529;
-        Sat, 23 May 2020 02:45:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 04MHjCZp006529
+        Fri, 22 May 2020 14:17:44 -0400
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 04MIHPFT017391;
+        Sat, 23 May 2020 03:17:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 04MIHPFT017391
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590169513;
-        bh=rLsdMRfeyuDHWZtXBc09c+5yI+XIy6MzzofNEb/odbw=;
+        s=dec2015msa; t=1590171446;
+        bh=K3rGYVbuX5itC10Uy7MCO78NVqbVQ6AyydvbG4IPunc=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zBTBGk+O+hyiLzZsF+Q0X+nbbIz2KqTdlyhC/mNZT55Z+cORFp/A5D4mv9OxwL0yc
-         NJFIvCN8oBf4MCSGXRhnLJK9kgbzQ2YccpuYtpGog4lbqeuRt2ZRwtSizIKSecAmK/
-         8bnrV+0MU0jXoAOc6c6wusKnu26MiusDLCMAipVtuXMU3JnS3nG09apay6FxOPXaBR
-         g+9xI+1CjmHL80OiprmxondHmdqQ7nqMJGvIF6NTq97MnSFR5MmTjmeVFuiYsn3mDo
-         9kvFg89x500tvJDYb3j53M+Rd0g3jbUG3RPtEtHiML9s14xje8mtlimlzgwT1kPZuY
-         3460j2tbJDOzg==
-X-Nifty-SrcIP: [209.85.221.173]
-Received: by mail-vk1-f173.google.com with SMTP id w188so2780220vkf.0;
-        Fri, 22 May 2020 10:45:13 -0700 (PDT)
-X-Gm-Message-State: AOAM5335BaVSD/zaNMVjajizNRU2R3fybcvIzG7t1G3AxSyWcAsRrLrw
-        lp9QH/RqvWGHME3mJsevEsSOS/teiioRA3bEwvs=
-X-Google-Smtp-Source: ABdhPJyOlAJ/aga5nvnqTOhe/Z0ZcHj8m7VZKlrl4mv6P2/AltNmsoqN1pIH2MyR9G1brNqjN++8ASQrq4QTgorz0f8=
-X-Received: by 2002:a1f:b2c9:: with SMTP id b192mr10171152vkf.73.1590169512338;
- Fri, 22 May 2020 10:45:12 -0700 (PDT)
+        b=dhexHP4r5UqBuJyFcetL7gZMMeLBW26NawGnk14bzmlelLVztkIDN1E0gLMszC8iN
+         LfNAqpZeYKV+IeNfOaLaqZvhSN3mqfXxrGu5xsfzdnHN5Zo6ZCY0xBV+wP/5n2E1JK
+         KjVIkJSMIO8yTKTRjacARUmWXPShANGo/FvPtKiJ45Z/qz/o4G2zqbdaz0hm8NjcDJ
+         lVVgK1Xfu8Kc4G8M12/SabtFxb8ZlMw0eyEF1uNRTe5iT31KoNOJVzAMEgwrt8HPq6
+         p0tfWgoGNNeKesnh5O7g9PBkxtcVthZrEZERBCLHkt+9bpTQmI/mZ1YZxgfQsYwon9
+         hkwaiuS8woBfA==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id w65so6555458vsw.11;
+        Fri, 22 May 2020 11:17:26 -0700 (PDT)
+X-Gm-Message-State: AOAM533oGn99TT1pavUP+Sf44Nf1QwSo/v0bJfEiVd8xSVYQKEH+aBHY
+        40ZrXEb0voCmCwmW+vL/gv+8yvHA00Wnhk1BVtQ=
+X-Google-Smtp-Source: ABdhPJyegX+5hSC8vQtFsfk2gsG8jhLEllAduD0C3D9DpxotRifsVoWTIhA0Kp06+8I7BRCrvI4FLB9S1OKqCcRKAk4=
+X-Received: by 2002:a05:6102:3231:: with SMTP id x17mr250058vsf.181.1590171445169;
+ Fri, 22 May 2020 11:17:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200521202716.193316-1-samitolvanen@google.com> <CAK7LNARq3g5vA6vy9449SHsKQmbwJrQDSBz4ZbH1pBEvPmusuA@mail.gmail.com>
-In-Reply-To: <CAK7LNARq3g5vA6vy9449SHsKQmbwJrQDSBz4ZbH1pBEvPmusuA@mail.gmail.com>
+References: <20200521202716.193316-1-samitolvanen@google.com> <202005211506.2700F86@keescook>
+In-Reply-To: <202005211506.2700F86@keescook>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 23 May 2020 02:44:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASm2t-Dkr+p_EWvqf_eoKn5R2iXWuBHnTB9n6MUxr3-pQ@mail.gmail.com>
-Message-ID: <CAK7LNASm2t-Dkr+p_EWvqf_eoKn5R2iXWuBHnTB9n6MUxr3-pQ@mail.gmail.com>
+Date:   Sat, 23 May 2020 03:16:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ1HTTSq-yp0t6Z4V-Z9PHg+O2n=NC89FJJFNQnhaOcSA@mail.gmail.com>
+Message-ID: <CAK7LNAQ1HTTSq-yp0t6Z4V-Z9PHg+O2n=NC89FJJFNQnhaOcSA@mail.gmail.com>
 Subject: Re: [PATCH] kbuild: reuse vmlinux.o in vmlinux_link
-To:     Sami Tolvanen <samitolvanen@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Kees Cook <keescook@chromium.org>,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Sami Tolvanen <samitolvanen@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -55,22 +53,18 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-+ Michael, and PPC ML.
-
-They may know something about the reason of failure.
-
-
-On Sat, May 23, 2020 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, May 22, 2020 at 7:08 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Fri, May 22, 2020 at 5:27 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
+> On Thu, May 21, 2020 at 01:27:16PM -0700, Sami Tolvanen wrote:
 > > Instead of linking all compilation units again each time vmlinux_link is
 > > called, reuse vmlinux.o from modpost_link.
 > >
 > > With x86_64 allyesconfig, vmlinux_link is called three times and reusing
 > > vmlinux.o reduces the build time ~38 seconds on my system (59% reduction
 > > in the time spent in vmlinux_link).
-> >
+>
+> Nice! Any time savings at final link is a big cumulative win.
+>
 > > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 > > ---
 > >  scripts/link-vmlinux.sh | 5 +----
@@ -82,69 +76,35 @@ On Sat, May 23, 2020 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > > +++ b/scripts/link-vmlinux.sh
 > > @@ -77,11 +77,8 @@ vmlinux_link()
 > >
-> >         if [ "${SRCARCH}" != "um" ]; then
-> >                 objects="--whole-archive                        \
-> > -                       ${KBUILD_VMLINUX_OBJS}                  \
-> > +                       vmlinux.o                               \
-> >                         --no-whole-archive                      \
-> > -                       --start-group                           \
-> > -                       ${KBUILD_VMLINUX_LIBS}                  \
-> > -                       --end-group                             \
-> >                         ${@}"
+> >       if [ "${SRCARCH}" != "um" ]; then
+> >               objects="--whole-archive                        \
+> > -                     ${KBUILD_VMLINUX_OBJS}                  \
+> > +                     vmlinux.o                               \
+> >                       --no-whole-archive                      \
+> > -                     --start-group                           \
+> > -                     ${KBUILD_VMLINUX_LIBS}                  \
+> > -                     --end-group                             \
+> >                       ${@}"
 > >
-> >                 ${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}      \
-> >
-> > base-commit: b85051e755b0e9d6dd8f17ef1da083851b83287d
-> > --
-> > 2.27.0.rc0.183.gde8f92d652-goog
-> >
+> >               ${LD} ${KBUILD_LDFLAGS} ${LDFLAGS_vmlinux}      \
 >
->
-> I like this patch irrespective of CLANG_LTO, but
-> unfortunately, my build test failed.
->
->
-> ARCH=powerpc failed to build as follows:
->
->
->
->   MODPOST vmlinux.o
->   MODINFO modules.builtin.modinfo
->   GEN     modules.builtin
->   LD      .tmp_vmlinux.kallsyms1
-> vmlinux.o:(__ftr_alt_97+0x20): relocation truncated to fit:
-> R_PPC64_REL14 against `.text'+4b1c
-> vmlinux.o:(__ftr_alt_97+0x164): relocation truncated to fit:
-> R_PPC64_REL14 against `.text'+1cf78
-> vmlinux.o:(__ftr_alt_97+0x288): relocation truncated to fit:
-> R_PPC64_REL14 against `.text'+1dac4
-> vmlinux.o:(__ftr_alt_97+0x2f0): relocation truncated to fit:
-> R_PPC64_REL14 against `.text'+1e254
-> make: *** [Makefile:1125: vmlinux] Error 1
->
->
->
-> I used powerpc-linux-gcc
-> available at
-> https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/9.2.0/
->
->
-> Build command:
->
-> make -j24 ARCH=powerpc  CROSS_COMPILE=powerpc-linux-  defconfig all
->
->
-> Could you check it please?
->
->
->
-> I will apply it to my test branch.
-> Perhaps, 0-day bot may find more failure cases.
->
+> I think the "um" case can be updated as well too, yes?
+
+I agree.
+
+I changed the um part, then ARCH=um build is successful.
+
+
+
+
+
+
+
+> Also, I think the comment above modpost_link() needs to be updated now
+> to reflect the nature of how vmlinux.o gets used after this patch.
 >
 > --
-> Best Regards
-> Masahiro Yamada
+> Kees Cook
 
 
 
