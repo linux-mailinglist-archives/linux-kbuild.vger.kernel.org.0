@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 662AE1DFFF4
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 17:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EFCC1E0023
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 17:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729084AbgEXPn3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 24 May 2020 11:43:29 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:19693 "EHLO
+        id S2388032AbgEXPoo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 24 May 2020 11:44:44 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:19701 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728292AbgEXPnX (ORCPT
+        with ESMTP id S1728399AbgEXPnX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sun, 24 May 2020 11:43:23 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 04OFgcUq017561;
+        by conuserg-09.nifty.com with ESMTP id 04OFgcUr017561;
         Mon, 25 May 2020 00:42:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 04OFgcUq017561
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 04OFgcUr017561
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590334962;
-        bh=jdqXlLmHJ+7BFFpf+rEv+Akjfx/OVUuy7vbajuczGpE=;
+        s=dec2015msa; t=1590334963;
+        bh=gluhb44Vf90fefpnqsQIOxJvzgiBOySQWJIDyHg2TIE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NXhPHdg8KfF9Mwf1eZ5UrqB8lg4UH0PpfmveAmGiDgq4qpHHnTbVUnoC2ylBhwRY0
-         KMUeI0dFKVsJ8PoinDVWiDaolbUX6sU+oGWuvrdTeOneIyCdO5rf+OR2RJriIUqdU2
-         DygyeIyE2anYCtuApeFHrH/nEZkoLoybVhQzmDZ5izkXG0Ub6OTFYMfs2D1g4lD7hc
-         XILGM2esC6dIazqTWaUlCbLyCrA0SUHlkQ+99w0VNgkXO+teCegqU3u8gcLmvkIOzY
-         qB5sHzgXhgqj1yyWbR7zTWqFAXkPIqs5MaeFQgYYZ1jdfJkmEHL/lQBBzoO/jHgwPT
-         eGaTFQDUruYXA==
+        b=tZ40vNoqZTyVt9fDzB5L/0JQ33WeXl80xFBRGUg3dFZCB8kNqa+Q3CijBFEcbML4s
+         XTVuZG3IDt/5cw/8jn+oNJOvql2D9fP+uEg8rc72re6+ZplGCFIQJxVEcFYDeZY6eK
+         o4Az8ib2EmnavXXu4TBO+Spky+mWaPwzLDR05WpIeHD6HAqYgYhFmjGK0XKezbGz9N
+         0opsvafBUqi+xcBJ1EQlJFC5USvTbsUZWZThBKhE76SS5GR9M2bYjq2TGlOz3RVrrj
+         zOird6UzzIW4so4ykSKtG+HdxbWLQWCqBD5dNt65FenCdC5UJZtzA+czbUld6T4ukE
+         6v6aI1LXKtLEQ==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 07/29] modpost: use read_text_file() and get_line() for reading text files
-Date:   Mon, 25 May 2020 00:42:13 +0900
-Message-Id: <20200524154235.380482-8-masahiroy@kernel.org>
+Subject: [PATCH v2 08/29] modpost: remove get_next_text() and make {grab,release_}file static
+Date:   Mon, 25 May 2020 00:42:14 +0900
+Message-Id: <20200524154235.380482-9-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200524154235.380482-1-masahiroy@kernel.org>
 References: <20200524154235.380482-1-masahiroy@kernel.org>
@@ -45,103 +45,90 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-grab_file() mmaps a file, but it is not so efficient here because
-get_next_line() copies every line to the temporary buffer anyway.
+get_next_line() is no longer used. Remove.
 
-read_text_file() and get_line() are simpler. get_line() exploits the
-library function strchr().
+grab_file() and release_file() are only used in modpost.c. Make them
+static.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 Changes in v2: None
 
- scripts/mod/modpost.c    | 15 ++++++++-------
- scripts/mod/sumversion.c | 11 ++++++-----
- 2 files changed, 14 insertions(+), 12 deletions(-)
+ scripts/mod/modpost.c | 38 ++------------------------------------
+ scripts/mod/modpost.h |  3 ---
+ 2 files changed, 2 insertions(+), 39 deletions(-)
 
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 139b811dc183..40c6414aaeec 100644
+index 40c6414aaeec..33cdb78a4ba1 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
-@@ -2476,15 +2476,16 @@ static void write_if_changed(struct buffer *b, const char *fname)
-  **/
- static void read_dump(const char *fname, unsigned int kernel)
- {
--	unsigned long size, pos = 0;
--	void *file = grab_file(fname, &size);
--	char *line;
-+	char *buf, *pos, *line;
- 
--	if (!file)
-+	buf = read_text_file(fname);
-+	if (!buf)
- 		/* No symbol versions, silently ignore */
- 		return;
- 
--	while ((line = get_next_line(&pos, file, size))) {
-+	pos = buf;
-+
-+	while ((line = get_line(&pos))) {
- 		char *symname, *namespace, *modname, *d, *export;
- 		unsigned int crc;
- 		struct module *mod;
-@@ -2519,10 +2520,10 @@ static void read_dump(const char *fname, unsigned int kernel)
- 		sym_set_crc(symname, crc);
- 		sym_update_namespace(symname, namespace);
- 	}
--	release_file(file, size);
-+	free(buf);
- 	return;
- fail:
--	release_file(file, size);
-+	free(buf);
- 	fatal("parse error in symbol dump file\n");
+@@ -462,7 +462,7 @@ static void sym_set_crc(const char *name, unsigned int crc)
+ 	s->crc_valid = 1;
  }
  
-diff --git a/scripts/mod/sumversion.c b/scripts/mod/sumversion.c
-index a1c7b0f4cd5a..89c8baefde9d 100644
---- a/scripts/mod/sumversion.c
-+++ b/scripts/mod/sumversion.c
-@@ -306,9 +306,8 @@ static int is_static_library(const char *objfile)
-  * to figure out source files. */
- static int parse_source_files(const char *objfile, struct md4_ctx *md)
+-void *grab_file(const char *filename, unsigned long *size)
++static void *grab_file(const char *filename, unsigned long *size)
  {
--	char *cmd, *file, *line, *dir;
-+	char *cmd, *file, *line, *dir, *pos;
- 	const char *base;
--	unsigned long flen, pos = 0;
- 	int dirlen, ret = 0, check_files = 0;
+ 	struct stat st;
+ 	void *map = MAP_FAILED;
+@@ -484,41 +484,7 @@ void *grab_file(const char *filename, unsigned long *size)
+ 	return map;
+ }
  
- 	cmd = NOFAIL(malloc(strlen(objfile) + sizeof("..cmd")));
-@@ -326,14 +325,16 @@ static int parse_source_files(const char *objfile, struct md4_ctx *md)
- 	strncpy(dir, objfile, dirlen);
- 	dir[dirlen] = '\0';
+-/**
+-  * Return a copy of the next line in a mmap'ed file.
+-  * spaces in the beginning of the line is trimmed away.
+-  * Return a pointer to a static buffer.
+-  **/
+-char *get_next_line(unsigned long *pos, void *file, unsigned long size)
+-{
+-	static char line[4096];
+-	int skip = 1;
+-	size_t len = 0;
+-	signed char *p = (signed char *)file + *pos;
+-	char *s = line;
+-
+-	for (; *pos < size ; (*pos)++) {
+-		if (skip && isspace(*p)) {
+-			p++;
+-			continue;
+-		}
+-		skip = 0;
+-		if (*p != '\n' && (*pos < size)) {
+-			len++;
+-			*s++ = *p++;
+-			if (len > 4095)
+-				break; /* Too long, stop */
+-		} else {
+-			/* End of string */
+-			*s = '\0';
+-			return line;
+-		}
+-	}
+-	/* End of buffer */
+-	return NULL;
+-}
+-
+-void release_file(void *file, unsigned long size)
++static void release_file(void *file, unsigned long size)
+ {
+ 	munmap(file, size);
+ }
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index dfadaa0c01ec..232a0e11fcaa 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -192,9 +192,6 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen);
+ /* from modpost.c */
+ char *read_text_file(const char *filename);
+ char *get_line(char **stringp);
+-void *grab_file(const char *filename, unsigned long *size);
+-char* get_next_line(unsigned long *pos, void *file, unsigned long size);
+-void release_file(void *file, unsigned long size);
  
--	file = grab_file(cmd, &flen);
-+	file = read_text_file(cmd);
- 	if (!file) {
- 		warn("could not find %s for %s\n", cmd, objfile);
- 		goto out;
- 	}
- 
-+	pos = file;
-+
- 	/* Sum all files in the same dir or subdirs. */
--	while ((line = get_next_line(&pos, file, flen)) != NULL) {
-+	while ((line = get_line(&pos))) {
- 		char* p = line;
- 
- 		if (strncmp(line, "source_", sizeof("source_")-1) == 0) {
-@@ -384,7 +385,7 @@ static int parse_source_files(const char *objfile, struct md4_ctx *md)
- 	/* Everyone parsed OK */
- 	ret = 1;
- out_file:
--	release_file(file, flen);
-+	free(file);
- out:
- 	free(dir);
- 	free(cmd);
+ enum loglevel {
+ 	LOG_WARN,
 -- 
 2.25.1
 
