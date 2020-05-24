@@ -2,39 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3771C1E0002
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 17:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C7321E001E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 17:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387594AbgEXPnp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 24 May 2020 11:43:45 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:19711 "EHLO
+        id S2387951AbgEXPoa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 24 May 2020 11:44:30 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:19704 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728551AbgEXPnY (ORCPT
+        with ESMTP id S1728500AbgEXPnX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 24 May 2020 11:43:24 -0400
+        Sun, 24 May 2020 11:43:23 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 04OFgcV8017561;
+        by conuserg-09.nifty.com with ESMTP id 04OFgcV9017561;
         Mon, 25 May 2020 00:42:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 04OFgcV8017561
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 04OFgcV9017561
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1590334971;
-        bh=qzT9+tolI6nR6eDZTwWqFMLcC8eYszA2DAKwYhqQWRw=;
+        bh=eT/3dcYsfgyUALSskbnUGaAPUnnuwqCinIOfa8/3Uoc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NId0ZJySIg0JjB4k634jpPF3/WdzFtT1Q3hBlQACpf0tBECbZv17bG5drmRP7sGuS
-         sBx+ec1eHjaIYz/RlYhgFhIlAKpLp/p2rxNoYiKHETxRbei9GnSH9V1e4UIA0pYpj2
-         E2vmak2C+yQkkkot3xygBlNU6me94jLGbQqga7vOwG2MTm4ftkZhIwV2WuwM84LHlz
-         /h9rzqOqaHMFdv0xE4DqwwNa9gDBZQNo3CkXsTFjPHYfgO3HodkXXl4skQvaSrXOoE
-         F+rs8zjICWTRqRBdHSLMOa3oHx9RlzarJYDLj6Ncv9bUXih4RZaEwpi7yhh1lJPUF5
-         1FJur30pCSQxw==
+        b=WimpO9UPQDEePrKQ6ok+ftqlDpS/L+HvKT9CAUdRHIeBnMxm2wol59f8R0HN1xxgG
+         9kmkDSJAYBUJY4j19SlBM2+0IbJAZC+QU0aXEEmmCIPx+VnbplQdL/ddLL+ch5IGTA
+         OaGTmsFini5R5dHUqKGI6CtLPR0bDUCO4qHHdOG3aJ8g8hmOh/vIecWPi/4hH8XjFp
+         Gs8N+3pV4p2Gp7N3IqQMCDwuJhT+9Idiw/Yx48tkfR4tOvSvbsRz72FvZdgjhMalzb
+         wOnP7OhQTn6qHcvFJDLPQwNbz/b8pQhiA1wOr8dkmIZrq3LUonhp/jrZ3vkPxsgGrH
+         +BxR6ZVrp+KsA==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 23/29] modpost: remove is_vmlinux() call in check_for_{gpl_usage,unused}()
-Date:   Mon, 25 May 2020 00:42:29 +0900
-Message-Id: <20200524154235.380482-24-masahiroy@kernel.org>
+Subject: [PATCH v2 24/29] modpost: add mod->is_vmlinux struct member
+Date:   Mon, 25 May 2020 00:42:30 +0900
+Message-Id: <20200524154235.380482-25-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200524154235.380482-1-masahiroy@kernel.org>
 References: <20200524154235.380482-1-masahiroy@kernel.org>
@@ -45,69 +45,112 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-check_exports() is never called for vmlinux because mod->skip is set
-for vmlinux.
+is_vmlinux() is called in several places to check whether the current
+module is vmlinux or not.
 
-Hence, check_for_gpl_usage() and check_for_unused() are not called
-for vmlinux, either. is_vmlinux() is always false here.
-
-Remove the is_vmlinux() calls, and hard-code the ".ko" suffix.
+It is faster and clearer to check mod->is_vmlinux flag.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 Changes in v2: None
 
- scripts/mod/modpost.c | 20 ++++++++------------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ scripts/mod/modpost.c | 19 ++++++++++---------
+ scripts/mod/modpost.h |  1 +
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 94404374262a..c0bc8a2ea026 100644
+index c0bc8a2ea026..0d065f8f5087 100644
 --- a/scripts/mod/modpost.c
 +++ b/scripts/mod/modpost.c
-@@ -2144,20 +2144,18 @@ void buf_write(struct buffer *buf, const char *s, int len)
+@@ -186,6 +186,7 @@ static struct module *new_module(const char *modname)
  
- static void check_for_gpl_usage(enum export exp, const char *m, const char *s)
- {
--	const char *e = is_vmlinux(m) ?"":".ko";
--
- 	switch (exp) {
- 	case export_gpl:
--		fatal("GPL-incompatible module %s%s "
--		      "uses GPL-only symbol '%s'\n", m, e, s);
-+		fatal("GPL-incompatible module %s.ko uses GPL-only symbol '%s'\n",
-+		      m, s);
- 		break;
- 	case export_unused_gpl:
--		fatal("GPL-incompatible module %s%s "
--		      "uses GPL-only symbol marked UNUSED '%s'\n", m, e, s);
-+		fatal("GPL-incompatible module %s.ko uses GPL-only symbol marked UNUSED '%s'\n",
-+		      m, s);
- 		break;
- 	case export_gpl_future:
--		warn("GPL-incompatible module %s%s "
--		      "uses future GPL-only symbol '%s'\n", m, e, s);
-+		warn("GPL-incompatible module %s.ko uses future GPL-only symbol '%s'\n",
-+		     m, s);
- 		break;
- 	case export_plain:
- 	case export_unused:
-@@ -2169,13 +2167,11 @@ static void check_for_gpl_usage(enum export exp, const char *m, const char *s)
+ 	/* add to list */
+ 	mod->name = p;
++	mod->is_vmlinux = is_vmlinux(modname);
+ 	mod->gpl_compatible = -1;
+ 	mod->next = modules;
+ 	modules = mod;
+@@ -427,11 +428,11 @@ static struct symbol *sym_add_exported(const char *name, struct module *mod,
  
- static void check_for_unused(enum export exp, const char *m, const char *s)
- {
--	const char *e = is_vmlinux(m) ?"":".ko";
--
- 	switch (exp) {
- 	case export_unused:
- 	case export_unused_gpl:
--		warn("module %s%s "
--		      "uses symbol '%s' marked UNUSED\n", m, e, s);
-+		warn("module %s.ko uses symbol '%s' marked UNUSED\n",
-+		     m, s);
- 		break;
- 	default:
- 		/* ignore */
+ 	if (!s) {
+ 		s = new_symbol(name, mod, export);
+-	} else if (!external_module || is_vmlinux(s->module->name) ||
++	} else if (!external_module || s->module->is_vmlinux ||
+ 		   s->module == mod) {
+ 		warn("%s: '%s' exported twice. Previous export was in %s%s\n",
+ 		     mod->name, name, s->module->name,
+-		     is_vmlinux(s->module->name) ? "" : ".ko");
++		     s->module->is_vmlinux ? "" : ".ko");
+ 		return s;
+ 	}
+ 
+@@ -688,7 +689,7 @@ static void handle_modversion(const struct module *mod,
+ 
+ 	if (sym->st_shndx == SHN_UNDEF) {
+ 		warn("EXPORT symbol \"%s\" [%s%s] version generation failed, symbol will not be versioned.\n",
+-		     symname, mod->name, is_vmlinux(mod->name) ? "":".ko");
++		     symname, mod->name, mod->is_vmlinux ? "" : ".ko");
+ 		return;
+ 	}
+ 
+@@ -2011,12 +2012,12 @@ static void read_symbols(const char *modname)
+ 
+ 	mod = new_module(modname);
+ 
+-	if (is_vmlinux(modname)) {
++	if (mod->is_vmlinux) {
+ 		have_vmlinux = 1;
+ 		mod->skip = 1;
+ 	}
+ 
+-	if (!is_vmlinux(modname)) {
++	if (!mod->is_vmlinux) {
+ 		license = get_modinfo(&info, "license");
+ 		if (!license)
+ 			warn("missing MODULE_LICENSE() in %s\n", modname);
+@@ -2075,7 +2076,7 @@ static void read_symbols(const char *modname)
+ 
+ 	check_sec_ref(mod, modname, &info);
+ 
+-	if (!is_vmlinux(modname)) {
++	if (!mod->is_vmlinux) {
+ 		version = get_modinfo(&info, "version");
+ 		if (version || all_versions)
+ 			get_src_version(modname, mod->srcversion,
+@@ -2345,7 +2346,7 @@ static void add_depends(struct buffer *b, struct module *mod)
+ 	/* Clear ->seen flag of modules that own symbols needed by this. */
+ 	for (s = mod->unres; s; s = s->next)
+ 		if (s->module)
+-			s->module->seen = is_vmlinux(s->module->name);
++			s->module->seen = s->module->is_vmlinux;
+ 
+ 	buf_printf(b, "\n");
+ 	buf_printf(b, "MODULE_INFO(depends, \"");
+@@ -2462,9 +2463,9 @@ static void read_dump(const char *fname)
+ 			goto fail;
+ 		mod = find_module(modname);
+ 		if (!mod) {
+-			if (is_vmlinux(modname))
+-				have_vmlinux = 1;
+ 			mod = new_module(modname);
++			if (mod->is_vmlinux)
++				have_vmlinux = 1;
+ 			mod->skip = 1;
+ 			mod->from_dump = 1;
+ 		}
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 554f02c69ac2..ec717ab20b98 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -120,6 +120,7 @@ struct module {
+ 	int gpl_compatible;
+ 	struct symbol *unres;
+ 	int from_dump;  /* 1 if module was loaded from *.symver */
++	int is_vmlinux;
+ 	int seen;
+ 	int skip;
+ 	int has_init;
 -- 
 2.25.1
 
