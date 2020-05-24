@@ -2,151 +2,235 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 091521DFC23
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 02:40:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38A2D1DFCBE
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 05:57:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388223AbgEXAkx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 23 May 2020 20:40:53 -0400
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:55126 "EHLO
-        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388106AbgEXAkx (ORCPT
+        id S2387451AbgEXD54 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 23 May 2020 23:57:56 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:65498 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728704AbgEXD5z (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 23 May 2020 20:40:53 -0400
-Received: from [192.168.4.242] (helo=deadeye)
-        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1jceh9-000480-Vm; Sun, 24 May 2020 01:40:52 +0100
-Received: from ben by deadeye with local (Exim 4.93)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1jceh9-007swq-Iy; Sun, 24 May 2020 01:40:51 +0100
-Message-ID: <70d277727ce1dbc4052152ba1fe45c81abb71cbf.camel@decadent.org.uk>
-Subject: Re: [PATCH] make builddeb invoke calls to linux-update-symlinks
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Jason Self <j@jxself.org>, linux-kbuild@vger.kernel.org
-Cc:     masahiroy@kernel.org
-Date:   Sun, 24 May 2020 01:40:32 +0100
-In-Reply-To: <20200523203801.18277-1-j@jxself.org>
-References: <235c4776ddc5cbb94a45643098a50a20b14e530e.camel@decadent.org.uk>
-         <20200523203801.18277-1-j@jxself.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-2ARtPPDZFPVGhSRt0Uyd"
-User-Agent: Evolution 3.36.2-1 
+        Sat, 23 May 2020 23:57:55 -0400
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 04O3vQ3b032394;
+        Sun, 24 May 2020 12:57:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 04O3vQ3b032394
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1590292647;
+        bh=Ae2qcMGFAABdhXLru/aLLCokI5YSUeFUt7ZWMrSWTDY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mVLLRMxTZheTVuaihOIPLR9FHvL3USxoNpqzBiaEIbD45Pm0iBhxdJarV64cPRcrx
+         94IgtDjo+7u+HYh5sEOtkV+QiOf2N1tAEqEmDsr+wrU37jFAnStQxdoDEc2F1KylXj
+         F4NEA5AAILyORIiskCijCOZg4QPjTRm1IMFnGBcb6+P8NupWopMBUHGG+eMWiiGZyQ
+         T2+6mN2JC9n7FAmBm21hkPFzfvqL8i3tsPbCh4yFmQiEYphfrr06Lh6pJtCH0X0V4a
+         rDWz/KcsUJpS1IDnGjlMAAzyhw7aguB0aRHm1eSsWK/LgUVWhfHcHNtJeYT2pfKLsD
+         MQqx8MolUTSFw==
+X-Nifty-SrcIP: [209.85.222.52]
+Received: by mail-ua1-f52.google.com with SMTP id a11so5115138uah.12;
+        Sat, 23 May 2020 20:57:26 -0700 (PDT)
+X-Gm-Message-State: AOAM530Jiy7OhcAidwedSm8mJUwrgFTET8gamKO9DZfD3yZKez1uxhu0
+        irGexBE3BK8XBdoI7tNZpGS57055UKvWd2OHv9Y=
+X-Google-Smtp-Source: ABdhPJyTCoFzjog8MZtkEAj+WFUAH+ZZvuTXLVjCiE2UuCXN9H99E0/lVgHzD+pTjfGBXrbjmwD8tcLJuFCkahrq5m4=
+X-Received: by 2002:ab0:7313:: with SMTP id v19mr15854792uao.121.1590292645381;
+ Sat, 23 May 2020 20:57:25 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 192.168.4.242
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
+References: <10f4fb0b-1012-b0e6-af05-0aa5a906de21@redhat.com>
+ <20200520193637.6015-1-ndesaulniers@google.com> <CAK7LNAS_PMz9r3e1UcuM+r18JC2KeM2RqGOms1u3kVzN_N1MmA@mail.gmail.com>
+ <CAKwvOd=jOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH=Ujnw@mail.gmail.com>
+In-Reply-To: <CAKwvOd=jOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH=Ujnw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 24 May 2020 12:56:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARofo7wawEF4EcA2-wxnQkKw+WFoJ36EOeYFTUrthRfrA@mail.gmail.com>
+Message-ID: <CAK7LNARofo7wawEF4EcA2-wxnQkKw+WFoJ36EOeYFTUrthRfrA@mail.gmail.com>
+Subject: Re: [PATCH v2] Makefile: support compressed debug info
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Nick Clifton <nickc@redhat.com>,
+        David Blaikie <blakie@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Changbin Du <changbin.du@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
---=-2ARtPPDZFPVGhSRt0Uyd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, 2020-05-23 at 13:38 -0700, Jason Self wrote:
-> The official Debian kernel packages, in addition to running the
-> scripts in /etc/kernel, also runs linux-update-symlinks via the
-> postinst script. This updates the /vmlinuz and /initrd.img (if it uses
-> an initramfs) symlinks to point to the newly installed kernel. This
-> update causes the builddeb script to do the same.
->=20
-> This version of the patch incorporates the feedback from Ben
-> Hutchings.
-
-Well, partly.  You implemented detection of upgrades on the install
-side, but not on the remove side.
-
-In case of an upgrade, both the old version's prerm and postrm, and the
-new version's preinst and postinst, will be run:
-https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html#details-=
-of-unpack-phase-of-installation-or-upgrade
-
-> Signed-off-by: Jason Self <j@jxself.org>
-> ---
->  scripts/package/builddeb | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
->=20
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 6df3c9f8b2da..707693867c29 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -195,6 +195,37 @@ export DEB_MAINT_PARAMS=3D"\$*"
->  # Tell initramfs builder whether it's wanted
->  export INITRD=3D$(if_enabled_echo CONFIG_BLK_DEV_INITRD Yes No)
-> =20
-> +$(case $script in
-> +    postinst)
-> +        echo "if [ -f /lib/modules/$version/.fresh-install ]; then
-> +    change=3Dinstall
-> +else
-> +    change=3Dupgrade
-> +fi
-> +if command -v linux-update-symlinks > /dev/null; then
-> +    linux-update-symlinks $change $version /$installed_image_path
-> +fi
-> +rm -f /lib/modules/$version/.fresh-install"
-> +        ;;
-> +    postrm)
-> +        echo "if command -v linux-update-symlinks > /dev/null; then
-> +    linux-update-symlinks remove $version /$installed_image_path
-> +fi"
-
-postrm should not run linux-update-symlinks if "$1" is "upgrade".
-
-> +        ;;
-> +    preinst)
-> +        echo 'if [ "$1" =3D install ]; then
-> +    # Create a flag file for postinst
-> +    mkdir -p /lib/modules/$version
-> +    touch /lib/modules/$version/.fresh-install
-> +fi'
-> +        ;;
-> +    prerm)
-> +        echo "if command -v linux-check-removal > /dev/null; then
-> +    linux-check-removal $version
-> +fi"
-
-prerm should not run linux-check-removal if "$1" is "upgrade".
-
-Also, you should mention use of linux-check-removal in the commit
-message.
-
-Ben.
-
-> +        ;;
-> +esac)
-> +
->  test -d $debhookdir/$script.d && run-parts --arg=3D"$version" --arg=3D"/=
-$installed_image_path" $debhookdir/$script.d
->  exit 0
->  EOF
---=20
-Ben Hutchings
-You can't have everything.  Where would you put it?
+On Fri, May 22, 2020 at 6:57 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
+>
+> On Wed, May 20, 2020 at 7:48 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > > Suggested-by: Fangrui Song <maskray@google.com>
+> >
+> >
+> > Suggested-by -> Reviewed-by
+> >
+> > https://patchwork.kernel.org/patch/11524939/#23349551
+>
+> Yes, my mistake.
+>
+> > > Suggested-by: Nick Clifton <nickc@redhat.com>
+> >
+> >
+> > I do not know where this tag came from.
+> >
+> > Nick Clifton taught us the version rule of binutils,but did not state
+> > anything about this patch itself.
+> >
+> > https://patchwork.kernel.org/patch/11524939/#23355175
+> >
+> >
+> > > Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> >
+> > I do not see the source of this tag, either...
+>
+> Not all contributions to open source need to be in the form of
+> patches.  Both Sedat and Nick gave suggestions which ultimately
+> informed the contents of this patch.  They should be rewarded for
+> their efforts, and incentivized to help improve the code base further.
+> I think suggested by tags are a good way to do that; but if it's
+> against a written convention or if you still disagree, it's not the
+> end of the world to me, and you may drop those tags from the v3.
 
 
---=-2ARtPPDZFPVGhSRt0Uyd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Documentation/process/submitting-patches.rst
+gives the guideline.
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl7JwoAACgkQ57/I7JWG
-EQktRw//cT4x7bjEwbJSKFWVT+j3CKmwtSVNeU9/rOWQfyKN/cNcm5DcoS8rkZDu
-I37Mt6hAjHmQDvV3zV7S4Odoc1xpiSNThw9qgGfoYtEtXE3UoP7VK7YhCrcpFK3p
-U0CRzljRWrcMiJ79Eoe/es32oBMar+2vFq5RA4EedudRCo8uHUofByUk4lf4h3GZ
-6/dXRr+KKbT6kVy20bV6aOm4WAzWWL7CPykRSUUPdCy4gaKIcSn1NzSroeuvqJdk
-MyvileMFydh7PAZoYeeR6RocUXTBnhNXVTutXXPp9q02P68FjxuCCZAKbpF2vA9L
-ESvpc1kCE1BmUKgC6vtiPdJ7GxhXDmHtY/3AeEWWaKuKS45n4jF1cByfbEd9lWKb
-fnj53oDbe4RSyzo9czGGCvrtV2V3g8M9+/pImNVcK9zq1wlWeFVMpW769SkAFqry
-tC2ZyBKzlh80CHtr4ymkxXE9lXB6kmgiEPnFehEsOr6azDoPWArRGMxOpnFmNcoQ
-xooUoJWVJcyEj8HCxn2sP2Y7E/EQTpLUxbocfVLSOKXlcboGN155tLMZERlTDJuz
-tuzAvFcj2VuvTw7LgWmQ1amvaVZ62UMSFPNFr+dIMJKa16dD4wWffuyMcKb642FL
-PjeBPkm4Eq2nrqazI9Dag8qk67ZmO8kjqGyWuYhgNN7PktlMvFE=
-=lup8
------END PGP SIGNATURE-----
+"A Suggested-by: tag indicates that the patch idea is suggested by the person
+named and ensures credit to the person for the idea. Please note that this
+tag should not be added without the reporter's permission, especially if the
+idea was not posted in a public forum. That said, if we diligently credit our
+idea reporters, they will, hopefully, be inspired to help us again in the
+future."
 
---=-2ARtPPDZFPVGhSRt0Uyd--
+
+I think this tag should be given to people who
+gave the main idea to come up with
+the main part of the patch.
+
+
+Is that David Blaikie who suggested to
+compress the debug info ?
+If so, definitely he deserves to have Suggested-by tag.
+
+For the others, I do not think Suggested-by is a good fit.
+
+I appreciate their contribution to improve this patch.
+So, maybe you can give credit in other form, for example,
+mention it in the commit log explicitly?
+
+Nick Clifton helped us to provide the minimal binutils version.
+Sedat Dilet found an increase in size of debug .deb package.
+
+
+Thanks.
+
+>
+> > > --- a/lib/Kconfig.debug
+> > > +++ b/lib/Kconfig.debug
+> > > @@ -225,6 +225,21 @@ config DEBUG_INFO_REDUCED
+> > >           DEBUG_INFO build and compile times are reduced too.
+> > >           Only works with newer gcc versions.
+> > >
+> > > +config DEBUG_INFO_COMPRESSED
+> > > +       bool "Compressed debugging information"
+> > > +       depends on DEBUG_INFO
+> > > +       depends on $(cc-option,-gz=zlib)
+> > > +       depends on $(as-option,-Wa,--compress-debug-sections=zlib)
+> >
+> > This does not work. (always false)
+>
+> Technically, always true. `-Wa` disables all warnings from the
+> assembler.  Also, I did test this via `make menuconfig`.
+>
+> > You cannot enable this option.
+> >
+> > The comma between -Wa and --compress-debug-sections=zlib
+> > is eaten by Kconfig parser because commas are delimiters
+> > of function parameters.
+> >
+> >
+> > Please write like this.
+> >
+> >     depends on $(as-option,-Wa$(comma)--compress-debug-sections=zlib)
+>
+> You're right, I knew this bug forgot. Will fix in v3.
+>
+> > > +       depends on $(ld-option,--compress-debug-sections=zlib)
+> > > +       help
+> > > +         Compress the debug information using zlib.  Requires GCC 5.0+ or Clang
+> > > +         5.0+, binutils 2.26+, and zlib.
+> > > +
+> > > +         Users of dpkg-deb via scripts/package/builddeb may
+> > > +         wish to set the $KDEB_COMPRESS env var to "none" to avoid recompressing
+> > > +         the debug info again with a different compression scheme, which can
+> > > +         result in larger binaries.
+> >
+> > No. This is not correct.
+> >
+> > CONFIG_DEBUG_INFO_COMPRESSED compresses the only debug info part.
+> > The other parts still get by benefit from the default KDEB_COMPRESS=xz.
+> >
+> >
+> > The numbers are here:
+> >
+> >
+> > CONFIG_DEBUG_INFO_COMPRESSED=y
+> > -rw-r--r-- 1 masahiro masahiro 209077584 May 21 11:19
+> > linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-26_amd64.deb
+> >
+> >
+> > CONFIG_DEBUG_INFO_COMPRESSED=y and KDEB_COMPRESS=none
+> > -rw-r--r-- 1 masahiro masahiro 643051712 May 21 11:22
+> > linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-27_amd64.deb
+> >
+> >
+> > CONFIG_DEBUG_INFO_COMPRESSED=n
+> > -rw-r--r-- 1 masahiro masahiro 112200308 May 21 11:40
+> > linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-30_amd64.deb
+> >
+> >
+> >
+> >
+> > For the deb package size perspective,
+> > it is better to keep KDEB_COMPRESS as default.
+> >
+> > The main motivation for changing KDEB_COMPRESS
+> > is the build speed.  (see commit 1a7f0a34ea7d05)
+> >
+> >
+> >
+> >
+> > CONFIG_DEBUG_INFO_COMPRESSED has a downside
+> > for the debug deb package, but we need to accept it.
+>
+> Ah, I see. Thank you for those measurements.  I'll send a v3 with
+> fixed up help text, but ultimately, I don't really care what it says
+> here.  Please feel empowered to reword it should you choose to accept
+> + apply it.
+> --
+> Thanks,
+> ~Nick Desaulniers
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOd%3DjOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH%3DUjnw%40mail.gmail.com.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
