@@ -2,50 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38A2D1DFCBE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 05:57:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3134A1DFD95
+	for <lists+linux-kbuild@lfdr.de>; Sun, 24 May 2020 09:48:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387451AbgEXD54 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 23 May 2020 23:57:56 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:65498 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728704AbgEXD5z (ORCPT
+        id S1726910AbgEXHs0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 24 May 2020 03:48:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42496 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726796AbgEXHsZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 23 May 2020 23:57:55 -0400
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 04O3vQ3b032394;
-        Sun, 24 May 2020 12:57:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 04O3vQ3b032394
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590292647;
-        bh=Ae2qcMGFAABdhXLru/aLLCokI5YSUeFUt7ZWMrSWTDY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mVLLRMxTZheTVuaihOIPLR9FHvL3USxoNpqzBiaEIbD45Pm0iBhxdJarV64cPRcrx
-         94IgtDjo+7u+HYh5sEOtkV+QiOf2N1tAEqEmDsr+wrU37jFAnStQxdoDEc2F1KylXj
-         F4NEA5AAILyORIiskCijCOZg4QPjTRm1IMFnGBcb6+P8NupWopMBUHGG+eMWiiGZyQ
-         T2+6mN2JC9n7FAmBm21hkPFzfvqL8i3tsPbCh4yFmQiEYphfrr06Lh6pJtCH0X0V4a
-         rDWz/KcsUJpS1IDnGjlMAAzyhw7aguB0aRHm1eSsWK/LgUVWhfHcHNtJeYT2pfKLsD
-         MQqx8MolUTSFw==
-X-Nifty-SrcIP: [209.85.222.52]
-Received: by mail-ua1-f52.google.com with SMTP id a11so5115138uah.12;
-        Sat, 23 May 2020 20:57:26 -0700 (PDT)
-X-Gm-Message-State: AOAM530Jiy7OhcAidwedSm8mJUwrgFTET8gamKO9DZfD3yZKez1uxhu0
-        irGexBE3BK8XBdoI7tNZpGS57055UKvWd2OHv9Y=
-X-Google-Smtp-Source: ABdhPJyTCoFzjog8MZtkEAj+WFUAH+ZZvuTXLVjCiE2UuCXN9H99E0/lVgHzD+pTjfGBXrbjmwD8tcLJuFCkahrq5m4=
-X-Received: by 2002:ab0:7313:: with SMTP id v19mr15854792uao.121.1590292645381;
- Sat, 23 May 2020 20:57:25 -0700 (PDT)
+        Sun, 24 May 2020 03:48:25 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D58C061A0E;
+        Sun, 24 May 2020 00:48:25 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id f3so15913827ioj.1;
+        Sun, 24 May 2020 00:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=lYyxQy2basMHk+ymmytrrORebX9PiLqKXhegfXyfuDw=;
+        b=fnfN7GArFrWdQ6imDIwKvsDoM8g62KbimmJDHdZAEtNXkGDhzKR474F6WCKpe7VkgH
+         vKCn+yo7zDppvxXUMZPbezY+z797+WqkukFSK4j4U1b0Z+4X7iDaQYJDB0o7oPI8JwT3
+         yQd4VWo/xAuCDnas1301CsmqwFqt0zC7FykxMVBpV7SGXW+oIw3mApNINADYQZ+8a8D8
+         Qen3uu9+SVITTc4EWZMcZD4FRl6EehjQOotowEFGpbfo5KHIV4fE4/4XbQkz/mlrJ23p
+         hRC/P07PjeswM5JfAQc7A5zySgyVxvQNJ+kL0y5jU5Z9Td0ct3Ltg1E14a9kNGTTCTLJ
+         f77Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=lYyxQy2basMHk+ymmytrrORebX9PiLqKXhegfXyfuDw=;
+        b=rX4RAn2W6WIWBJevmLoKm/vT1UmEvEB0cJdpADUQDEpXHzpTJEEclmT2//0bJ651IX
+         tYdN0zF185niPKbSYDH2Yjsm2zLKauxZFR4GJE1cd2o2Tg+3PUJB3TecwGrZn6m6Jxtx
+         zL9y8KeKrMvS1H9SCsBwEZQum8HlGcflZVUhc34XMZV84bkIRKLnw83VY24q2rwn07Kt
+         /LLVr0Trc5QZ74QOsE+aoQ4mRsDyxvDcZIIA552h3f/fdmuO0RuAZjUALkHJj4hznnXJ
+         MfUKVBiB7/tevnK3XzxUB3Vjb0YMiov0sq3G4pcGRJzQu93XELmshlEaqiTN0cIwWOCu
+         zOPw==
+X-Gm-Message-State: AOAM532I6amSIpkJewBpXE7AaZSD7C14xA7v6rOHfLYGTUhiYSAPBHO9
+        YUwz4RGN7q1pmr9h0r4BrqJRiBR61U7Kbqib45s=
+X-Google-Smtp-Source: ABdhPJwJVAexR5ySaZ4n6PBO4gsRhLU5FfLS57HEYMsi0KejAx+7Ur/7EbTkZT2fB4cOkegxZwgkaBIKRSMs+3wfSE4=
+X-Received: by 2002:a02:ca18:: with SMTP id i24mr3984955jak.70.1590306504893;
+ Sun, 24 May 2020 00:48:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <10f4fb0b-1012-b0e6-af05-0aa5a906de21@redhat.com>
  <20200520193637.6015-1-ndesaulniers@google.com> <CAK7LNAS_PMz9r3e1UcuM+r18JC2KeM2RqGOms1u3kVzN_N1MmA@mail.gmail.com>
- <CAKwvOd=jOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH=Ujnw@mail.gmail.com>
-In-Reply-To: <CAKwvOd=jOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH=Ujnw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 24 May 2020 12:56:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARofo7wawEF4EcA2-wxnQkKw+WFoJ36EOeYFTUrthRfrA@mail.gmail.com>
-Message-ID: <CAK7LNARofo7wawEF4EcA2-wxnQkKw+WFoJ36EOeYFTUrthRfrA@mail.gmail.com>
+ <CAKwvOd=jOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH=Ujnw@mail.gmail.com> <CAK7LNARofo7wawEF4EcA2-wxnQkKw+WFoJ36EOeYFTUrthRfrA@mail.gmail.com>
+In-Reply-To: <CAK7LNARofo7wawEF4EcA2-wxnQkKw+WFoJ36EOeYFTUrthRfrA@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Sun, 24 May 2020 09:48:13 +0200
+Message-ID: <CA+icZUXwNLG3ojWMhTuNkvR0AYtc1+BG6neOLZo56CB7ij01JQ@mail.gmail.com>
 Subject: Re: [PATCH v2] Makefile: support compressed debug info
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Sedat Dilek <sedat.dilek@gmail.com>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Fangrui Song <maskray@google.com>,
         Nick Clifton <nickc@redhat.com>,
         David Blaikie <blakie@google.com>,
@@ -66,171 +76,135 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, May 22, 2020 at 6:57 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
+On Sun, May 24, 2020 at 5:57 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed, May 20, 2020 at 7:48 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Fri, May 22, 2020 at 6:57 AM 'Nick Desaulniers' via Clang Built
+> Linux <clang-built-linux@googlegroups.com> wrote:
 > >
-> > > Suggested-by: Fangrui Song <maskray@google.com>
-> >
-> >
-> > Suggested-by -> Reviewed-by
-> >
-> > https://patchwork.kernel.org/patch/11524939/#23349551
->
-> Yes, my mistake.
->
-> > > Suggested-by: Nick Clifton <nickc@redhat.com>
-> >
-> >
-> > I do not know where this tag came from.
-> >
-> > Nick Clifton taught us the version rule of binutils,but did not state
-> > anything about this patch itself.
-> >
-> > https://patchwork.kernel.org/patch/11524939/#23355175
-> >
-> >
-> > > Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> >
-> > I do not see the source of this tag, either...
->
-> Not all contributions to open source need to be in the form of
-> patches.  Both Sedat and Nick gave suggestions which ultimately
-> informed the contents of this patch.  They should be rewarded for
-> their efforts, and incentivized to help improve the code base further.
-> I think suggested by tags are a good way to do that; but if it's
-> against a written convention or if you still disagree, it's not the
-> end of the world to me, and you may drop those tags from the v3.
-
-
-Documentation/process/submitting-patches.rst
-gives the guideline.
-
-
-"A Suggested-by: tag indicates that the patch idea is suggested by the person
-named and ensures credit to the person for the idea. Please note that this
-tag should not be added without the reporter's permission, especially if the
-idea was not posted in a public forum. That said, if we diligently credit our
-idea reporters, they will, hopefully, be inspired to help us again in the
-future."
-
-
-I think this tag should be given to people who
-gave the main idea to come up with
-the main part of the patch.
-
-
-Is that David Blaikie who suggested to
-compress the debug info ?
-If so, definitely he deserves to have Suggested-by tag.
-
-For the others, I do not think Suggested-by is a good fit.
-
-I appreciate their contribution to improve this patch.
-So, maybe you can give credit in other form, for example,
-mention it in the commit log explicitly?
-
-Nick Clifton helped us to provide the minimal binutils version.
-Sedat Dilet found an increase in size of debug .deb package.
-
-
-Thanks.
-
->
-> > > --- a/lib/Kconfig.debug
-> > > +++ b/lib/Kconfig.debug
-> > > @@ -225,6 +225,21 @@ config DEBUG_INFO_REDUCED
-> > >           DEBUG_INFO build and compile times are reduced too.
-> > >           Only works with newer gcc versions.
+> > On Wed, May 20, 2020 at 7:48 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > > >
-> > > +config DEBUG_INFO_COMPRESSED
-> > > +       bool "Compressed debugging information"
-> > > +       depends on DEBUG_INFO
-> > > +       depends on $(cc-option,-gz=zlib)
-> > > +       depends on $(as-option,-Wa,--compress-debug-sections=zlib)
+> > > > Suggested-by: Fangrui Song <maskray@google.com>
+> > >
+> > >
+> > > Suggested-by -> Reviewed-by
+> > >
+> > > https://patchwork.kernel.org/patch/11524939/#23349551
 > >
-> > This does not work. (always false)
+> > Yes, my mistake.
+> >
+> > > > Suggested-by: Nick Clifton <nickc@redhat.com>
+> > >
+> > >
+> > > I do not know where this tag came from.
+> > >
+> > > Nick Clifton taught us the version rule of binutils,but did not state
+> > > anything about this patch itself.
+> > >
+> > > https://patchwork.kernel.org/patch/11524939/#23355175
+> > >
+> > >
+> > > > Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> > >
+> > > I do not see the source of this tag, either...
+> >
+> > Not all contributions to open source need to be in the form of
+> > patches.  Both Sedat and Nick gave suggestions which ultimately
+> > informed the contents of this patch.  They should be rewarded for
+> > their efforts, and incentivized to help improve the code base further.
+> > I think suggested by tags are a good way to do that; but if it's
+> > against a written convention or if you still disagree, it's not the
+> > end of the world to me, and you may drop those tags from the v3.
 >
-> Technically, always true. `-Wa` disables all warnings from the
-> assembler.  Also, I did test this via `make menuconfig`.
 >
-> > You cannot enable this option.
-> >
-> > The comma between -Wa and --compress-debug-sections=zlib
-> > is eaten by Kconfig parser because commas are delimiters
-> > of function parameters.
-> >
-> >
-> > Please write like this.
-> >
-> >     depends on $(as-option,-Wa$(comma)--compress-debug-sections=zlib)
+> Documentation/process/submitting-patches.rst
+> gives the guideline.
 >
-> You're right, I knew this bug forgot. Will fix in v3.
 >
-> > > +       depends on $(ld-option,--compress-debug-sections=zlib)
-> > > +       help
-> > > +         Compress the debug information using zlib.  Requires GCC 5.0+ or Clang
-> > > +         5.0+, binutils 2.26+, and zlib.
-> > > +
-> > > +         Users of dpkg-deb via scripts/package/builddeb may
-> > > +         wish to set the $KDEB_COMPRESS env var to "none" to avoid recompressing
-> > > +         the debug info again with a different compression scheme, which can
-> > > +         result in larger binaries.
-> >
-> > No. This is not correct.
-> >
-> > CONFIG_DEBUG_INFO_COMPRESSED compresses the only debug info part.
-> > The other parts still get by benefit from the default KDEB_COMPRESS=xz.
-> >
-> >
-> > The numbers are here:
-> >
-> >
-> > CONFIG_DEBUG_INFO_COMPRESSED=y
-> > -rw-r--r-- 1 masahiro masahiro 209077584 May 21 11:19
-> > linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-26_amd64.deb
-> >
-> >
-> > CONFIG_DEBUG_INFO_COMPRESSED=y and KDEB_COMPRESS=none
-> > -rw-r--r-- 1 masahiro masahiro 643051712 May 21 11:22
-> > linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-27_amd64.deb
-> >
-> >
-> > CONFIG_DEBUG_INFO_COMPRESSED=n
-> > -rw-r--r-- 1 masahiro masahiro 112200308 May 21 11:40
-> > linux-image-5.7.0-rc5+-dbg_5.7.0-rc5+-30_amd64.deb
-> >
-> >
-> >
-> >
-> > For the deb package size perspective,
-> > it is better to keep KDEB_COMPRESS as default.
-> >
-> > The main motivation for changing KDEB_COMPRESS
-> > is the build speed.  (see commit 1a7f0a34ea7d05)
-> >
-> >
-> >
-> >
-> > CONFIG_DEBUG_INFO_COMPRESSED has a downside
-> > for the debug deb package, but we need to accept it.
+> "A Suggested-by: tag indicates that the patch idea is suggested by the person
+> named and ensures credit to the person for the idea. Please note that this
+> tag should not be added without the reporter's permission, especially if the
+> idea was not posted in a public forum. That said, if we diligently credit our
+> idea reporters, they will, hopefully, be inspired to help us again in the
+> future."
 >
-> Ah, I see. Thank you for those measurements.  I'll send a v3 with
-> fixed up help text, but ultimately, I don't really care what it says
-> here.  Please feel empowered to reword it should you choose to accept
-> + apply it.
-> --
-> Thanks,
-> ~Nick Desaulniers
 >
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOd%3DjOr4ZaLx-dSNTqZnGRATY1PZktUfu4JGWKRwRH%3DUjnw%40mail.gmail.com.
+> I think this tag should be given to people who
+> gave the main idea to come up with
+> the main part of the patch.
+>
+>
+> Is that David Blaikie who suggested to
+> compress the debug info ?
+> If so, definitely he deserves to have Suggested-by tag.
+>
+> For the others, I do not think Suggested-by is a good fit.
+>
+> I appreciate their contribution to improve this patch.
+> So, maybe you can give credit in other form, for example,
+> mention it in the commit log explicitly?
+>
+> Nick Clifton helped us to provide the minimal binutils version.
+> Sedat Dilet found an increase in size of debug .deb package.
+>
+>
+> Thanks.
 
+Hi,
 
+first my last name is Dilek - just for the sake of completeness.
+No, it is not my first name as Dilek is a female Turkish first name,
+so I do not want to change my gender.
 
--- 
-Best Regards
-Masahiro Yamada
+So this discussions come up again and again.
+
+Thus some own words on this - this is my personal opinion.
+
+Like the author of Curl and DOH said at FOSDEM 2019 in Bruessel:
+I am doing all this work - first - for myself - in my build and
+developing environment.
+Very very egoistically!
+
+"Share knowledge aggressively!"
+...was Nick's words at First ClangBuiltLinux Meetup in Zurich 2020.
+In a 2nd round I share my knowledge and I like this - that's why I am
+doing Open Source.
+
+For me it sounds like a "Suggested-by" tag or other credits like
+"Reviewed-by" have a higher value than a Tested-by tag.
+
+*** The opposite is the case. ***
+
+Here, I am on a Samsung SandyBridge CPU/GPU aka 2nd generation
+ultrabook series runing Debian/testing AMD64.
+
+A slightly modified Debian-kernel linux-config takes me approx. 5 (in
+words five) hours of compiling and generating Debian packages.
+
+Plus, testing.
+Plus, testing.
+Plus, testing.
+
+In Linux-next times I run the whole Linux-Test-Project tests plus some
+FIO tests.
+
+Finally, I decide depending from what is new and interesting to me to
+attend a full single Linux-kernel release cycle.
+The last was Linux v5.3 which was the first release to be
+compile/link-able - with no modifications - with LLVM/Clang/LLD v9.0.
+For upcoming Linux v5.7 I have built each single RC Linux-kernel and
+used it in my daily work!
+Since RC1 - for me running on bare metal counts - checking QEMU or
+other VM is nice - but showed me that says sometimes nothing.
+
+Plus, I am building llvm-toolchains (LLVM/Clang/LLD) and testing with
+them (and report if needed).
+
+"...if we diligently credit our idea reporters, they will, hopefully,
+be inspired to help us again in the future."
+
+These are some motivating words...
+
+My Tested-by is like a certificate - like a "Made in Germany" seal :-).
+
+Virtual Greeting from North-West Germany,
+- Sedat -
