@@ -2,51 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 751FD1E1FA5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2020 12:29:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 091CE1E1FAA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 26 May 2020 12:30:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731813AbgEZK3i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 26 May 2020 06:29:38 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:61556 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731745AbgEZK3i (ORCPT
+        id S2388468AbgEZKa0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 26 May 2020 06:30:26 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:59901 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388460AbgEZKaY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 May 2020 06:29:38 -0400
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 04QAT8UK010919;
-        Tue, 26 May 2020 19:29:09 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 04QAT8UK010919
+        Tue, 26 May 2020 06:30:24 -0400
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 04QAU1Ii013487;
+        Tue, 26 May 2020 19:30:02 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 04QAU1Ii013487
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590488949;
-        bh=TgsarORKpFM4KluKtI1I3e2MGsvi+5T5qfa8PyqrwgE=;
+        s=dec2015msa; t=1590489002;
+        bh=N8ZWOkzOy09EUTZjKTvRi5l9vEvp7BQgSJmSVhDMZas=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=2VmZVc21WtkEURw7YqCRKsS+aQ5wP/290gQaEBUyZvRL9whhJGcyBZFikvZI/1q+b
-         RmyST7Mte4L/CSawQMEoyr1vz3leUNegbTTM9TAkx4pHKzAotsNwNL9QIkaB7+1QZe
-         I0RUFfhy3z6AjQLzRr7+MaOxDKE07jU9FORkCHKVezOrRZtIskdxwavBTzI8RMPmGT
-         MWU7kOfUYERLjlvJ71Axvo8ApRAE9HvHBcM8MkWwop/M0chr3kV7i21Hd4hiMCOB7j
-         nYvoEgJllb8ubyTpJ/LQrar7hZZElxjkRC92CUEpoWYSnxMSrvhvqtHcYy6p7tUBE8
-         zTUd2Th6rDLtQ==
-X-Nifty-SrcIP: [209.85.222.47]
-Received: by mail-ua1-f47.google.com with SMTP id g7so7019688uap.7;
-        Tue, 26 May 2020 03:29:08 -0700 (PDT)
-X-Gm-Message-State: AOAM533wHw38IUcbqIhKbeQJnfO3fOLwcPS46bNAmeyLDFZ+aRxxYUum
-        AUzMnzYDNMagYQRCoPw2y97fGOm1Q0aNb4VeAJQ=
-X-Google-Smtp-Source: ABdhPJwVJOrNGzx/JrucBQ3KP/bPBRzCqbJTBbROp2kKQKvfPkp9E6fyAk3gFfqiKFeErZdIny3cGBFx85HGbu0xsCs=
-X-Received: by 2002:ab0:3f5:: with SMTP id 108mr214487uau.25.1590488947823;
- Tue, 26 May 2020 03:29:07 -0700 (PDT)
+        b=gYC+cR9MYQZBQPVnXgRN+Ipb6w+fe8M/E0dSBLO9aQ0fLiUmZwbbUA0K1781m15DL
+         HKIKCzwP9Gu6VGSH5XyOJ24bn6LF8L2nwC3lduTWQYF+HMqh4Ywncordjokimw9ehl
+         dwF/zCzfn1Y1Zh67p/b7GQ2IUDlDhyYGy5/039UJw9T8gqpYEsrM/aHUF6H3WTTqsB
+         KjbKYGt3qwYFCruqNKyQuXAV6KluW6ojnDWaXTdLZqSAUorTVQpLjBHE/746vYmCRr
+         cnxo8OM5B1z3jfjZltpmRSP1IVZV4zLeTedqRQNheHmMTd9toVcFL0y09c41smhBUZ
+         +eFnNnaWUcCLw==
+X-Nifty-SrcIP: [209.85.217.48]
+Received: by mail-vs1-f48.google.com with SMTP id u7so11489953vsp.7;
+        Tue, 26 May 2020 03:30:02 -0700 (PDT)
+X-Gm-Message-State: AOAM531NsluGmvVT7DILiIkFtRhEJSV1cYI9bYhg4AWKU2lHLPg8Uu6g
+        08GjZy8ZGfuKm3BJO1Wt+ppZ5mWhjmI/2s0Ei+k=
+X-Google-Smtp-Source: ABdhPJyutmwlompeqeL/lIxvpVNgyZgSzQfgChQBWObRC+YqQZrqTITS8qbDZQc6mySAk5JsPaOEm+1QYYJTmGgPLKg=
+X-Received: by 2002:a67:f3c3:: with SMTP id j3mr299136vsn.155.1590489001177;
+ Tue, 26 May 2020 03:30:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200521043117.242585-1-masahiroy@kernel.org>
-In-Reply-To: <20200521043117.242585-1-masahiroy@kernel.org>
+References: <20200522020002.504506-1-masahiroy@kernel.org>
+In-Reply-To: <20200522020002.504506-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 26 May 2020 19:28:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT6p5kj5BWvF8M+7LFyOM0dxUe1w9DL5SzY65ZNraWutQ@mail.gmail.com>
-Message-ID: <CAK7LNAT6p5kj5BWvF8M+7LFyOM0dxUe1w9DL5SzY65ZNraWutQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: doc: remove documentation about copying
- Module.symvers around
+Date:   Tue, 26 May 2020 19:29:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARuxFq5NVR5xuD0vEVarQ8te-p1ZEj5990x7Wd3DesTjg@mail.gmail.com>
+Message-ID: <CAK7LNARuxFq5NVR5xuD0vEVarQ8te-p1ZEj5990x7Wd3DesTjg@mail.gmail.com>
+Subject: Re: [PATCH 1/5] kbuild: remove ifdef builtin-target / lib-target
 To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Jessica Yu <jeyu@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -54,47 +51,60 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, May 21, 2020 at 1:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Fri, May 22, 2020 at 11:00 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> This is a left-over of commit 39808e451fdf ("kbuild: do not read
-> $(KBUILD_EXTMOD)/Module.symvers").
->
-> Kbuild no longer supports this way.
+> I do not see a good reason to add ifdef here.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->
+
 
 Applied to linux-kbuild.
 
 
 
->  Documentation/kbuild/modules.rst | 12 ------------
->  1 file changed, 12 deletions(-)
+>  scripts/Makefile.build | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 >
-> diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-> index e0b45a257f21..a45cccff467d 100644
-> --- a/Documentation/kbuild/modules.rst
-> +++ b/Documentation/kbuild/modules.rst
-> @@ -528,18 +528,6 @@ build.
->                 will then do the expected and compile both modules with
->                 full knowledge of symbols from either module.
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index 3665b1a0bc8e..9af88f4cacb8 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -384,16 +384,14 @@ $(obj)/%/built-in.a: $(obj)/% ;
+>  #
+>  # Rule to compile a set of .o files into one .a file (without symbol table)
+>  #
+> -ifdef builtin-target
 >
-> -       Use an extra Module.symvers file
-> -               When an external module is built, a Module.symvers file
-> -               is generated containing all exported symbols which are
-> -               not defined in the kernel. To get access to symbols
-> -               from bar.ko, copy the Module.symvers file from the
-> -               compilation of bar.ko to the directory where foo.ko is
-> -               built. During the module build, kbuild will read the
-> -               Module.symvers file in the directory of the external
-> -               module, and when the build is finished, a new
-> -               Module.symvers file is created containing the sum of
-> -               all symbols defined and not part of the kernel.
+>  quiet_cmd_ar_builtin = AR      $@
+>        cmd_ar_builtin = rm -f $@; $(AR) cDPrST $@ $(real-prereqs)
+>
+> -$(builtin-target): $(real-obj-y) FORCE
+> +$(obj)/built-in.a: $(real-obj-y) FORCE
+>         $(call if_changed,ar_builtin)
+>
+>  targets += $(builtin-target)
+> -endif # builtin-target
+>
+>  #
+>  # Rule to create modules.order file
+> @@ -408,15 +406,11 @@ $(modorder-target): $(subdir-ym) FORCE
+>  #
+>  # Rule to compile a set of .o files into one .a file (with symbol table)
+>  #
+> -ifdef lib-target
 > -
->         Use "make" variable KBUILD_EXTRA_SYMBOLS
->                 If it is impractical to add a top-level kbuild file,
->                 you can assign a space separated list
+> -$(lib-target): $(lib-y) FORCE
+> +$(obj)/lib.a: $(lib-y) FORCE
+>         $(call if_changed,ar)
+>
+>  targets += $(lib-target)
+>
+> -endif
+> -
+>  # NOTE:
+>  # Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
+>  # module is turned into a multi object module, $^ will contain header file
 > --
 > 2.25.1
 >
