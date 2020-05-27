@@ -2,64 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BA3E1E347C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2020 03:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 184B01E4349
+	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2020 15:17:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727969AbgE0BLr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 26 May 2020 21:11:47 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:49788 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727937AbgE0BLq (ORCPT
+        id S1730195AbgE0NRD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 27 May 2020 09:17:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730065AbgE0NRD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 26 May 2020 21:11:46 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07488;MF=changhuaixin@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0TzlIGHx_1590541902;
-Received: from 30.27.116.2(mailfrom:changhuaixin@linux.alibaba.com fp:SMTPD_---0TzlIGHx_1590541902)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 27 May 2020 09:11:44 +0800
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH 0/2] Build ORC fast lookup table in scripts/sorttable tool
-From:   changhuaixin <changhuaixin@linux.alibaba.com>
-In-Reply-To: <20200522182815.ezanmvbemhzq2fmm@treble>
-Date:   Mon, 25 May 2020 11:33:00 +0800
-Cc:     changhuaixin <changhuaixin@linux.alibaba.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
-        michal.lkml@markovi.net, mingo@redhat.com, peterz@infradead.org,
-        tglx@linutronix.de, x86@kernel.org, yamada.masahiro@socionext.com
-Content-Transfer-Encoding: 8BIT
-Message-Id: <F00701B2-F4AD-48B2-9710-33E4CFA5C5AA@linux.alibaba.com>
-References: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
- <20200522182815.ezanmvbemhzq2fmm@treble>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-X-Mailer: Apple Mail (2.3445.104.11)
+        Wed, 27 May 2020 09:17:03 -0400
+X-Greylist: delayed 438 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 May 2020 06:16:58 PDT
+Received: from msa13.plala.or.jp (msa13.plala.or.jp [IPv6:2400:7800:0:502e::13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 43B55C08C5C1;
+        Wed, 27 May 2020 06:16:57 -0700 (PDT)
+Received: from mwebp13 ([172.23.13.133]) by msa11.plala.or.jp with ESMTP
+          id <20200527130940.KSFD32305.msa11.plala.or.jp@mwebp13>;
+          Wed, 27 May 2020 22:09:40 +0900
+Date:   Wed, 27 May 2020 22:09:40 +0900
+From:   "Mrs.Judith Rice" <hamurafujimi@tmail.plala.or.jp>
+Reply-To: jonesevansje@gmail.com
+Message-ID: <20200527220940.C5BT6.807.root@mwebp13>
+Subject: Spende
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac11; Wed, 27 May 2020 22:09:40 +0900
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Thanks for your kindly reply. Let me have a check.
+Attn:
 
-> On May 23, 2020, at 2:28 AM, Josh Poimboeuf <jpoimboe@redhat.com> wrote:
-> 
-> On Wed, Apr 29, 2020 at 02:46:24PM +0800, Huaixin Chang wrote:
->> Move building of fast lookup table from boot to sorttable tool. This saves us
->> 6380us boot time on Intel(R) Xeon(R) CPU E5-2682 v4 @ 2.50GHz with cores.
->> 
->> Huaixin Chang (2):
->>  scripts/sorttable: Build orc fast lookup table via sorttable tool
->>  x86/unwind/orc: Remove unwind_init() from x86 boot
->> 
->> arch/x86/include/asm/unwind.h |  2 -
->> arch/x86/kernel/setup.c       |  2 -
->> arch/x86/kernel/unwind_orc.c  | 51 ----------------------
->> scripts/sorttable.h           | 99 ++++++++++++++++++++++++++++++++++++++++---
->> 4 files changed, 92 insertions(+), 62 deletions(-)
-> 
-> I tested this (rebased on tip/master), it seems to break ORC
-> completely... e.g. /proc/self/stack is empty.
-> 
-> -- 
-> Josh
+Es tut uns leid, dass wir Sie aufgrund eines Mismanagent of Beneficaries-Fonds von unseren ernannten Zonal Managern versp&#228;tet kontaktiert haben. Bitte beachten Sie, dass Sie qualifiziert sind, die Zahlung von 900.000,00 USD an der ATM-Karte mit neunhunderttausend Dollar zu erhalten.
+
+Als Entsch&#228;digung von WORLD BANK / IWF (Internationaler W&#228;hrungsfonds) f&#252;r die automatisch &#252;ber einen E-Mail-Wahlautomaten gezogenen, die in der Vergangenheit noch nicht abgeschlossene Transaktionen hatten.
+
+F&#252;r weitere Informationen kontaktieren Sie bitte Rev.EVANS JONES ( jonesevansje@gmail.com )
+
+Bitte senden Sie ihm Ihre pers&#246;nlichen Daten wie:
+
+Vollst&#228;ndiger Name:
+Wohnanschrift:
+Telefonnummer:
+Herkunftsland:
+
+Gr&#252;&#223;e,
+Mrs. Judith Rice
 
