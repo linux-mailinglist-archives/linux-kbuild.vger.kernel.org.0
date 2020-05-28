@@ -2,55 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C91D61E44F0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 27 May 2020 15:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D1721E5530
+	for <lists+linux-kbuild@lfdr.de>; Thu, 28 May 2020 06:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389093AbgE0N6g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 27 May 2020 09:58:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39594 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389102AbgE0N6f (ORCPT
+        id S1725789AbgE1EuC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 28 May 2020 00:50:02 -0400
+Received: from mail.talpidae.net ([176.9.32.230]:60567 "EHLO
+        node0.talpidae.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725648AbgE1EuC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 27 May 2020 09:58:35 -0400
-X-Greylist: delayed 2687 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 May 2020 06:58:34 PDT
-Received: from msa14.plala.or.jp (msa14.plala.or.jp [IPv6:2400:7800:0:502e::14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A7837C08C5C3;
-        Wed, 27 May 2020 06:58:34 -0700 (PDT)
-Received: from mwebp13 ([172.23.13.133]) by msa14.plala.or.jp with ESMTP
-          id <20200527135834.WHTB3566.msa14.plala.or.jp@mwebp13>;
-          Wed, 27 May 2020 22:58:34 +0900
-Date:   Wed, 27 May 2020 22:58:33 +0900
-From:   "Mrs.Judith Rice" <hamurafujimi@tmail.plala.or.jp>
-Reply-To: jonesevansje@gmail.com
-Message-ID: <20200527225834.AOWGS.1026.root@mwebp13>
-Subject: Spende
+        Thu, 28 May 2020 00:50:02 -0400
+X-Greylist: delayed 626 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 May 2020 00:50:00 EDT
+Received: by node0.talpidae.net (mail.talpidae.net, from userid 33)
+        id 6896490A225; Thu, 28 May 2020 04:39:33 +0000 (UTC)
+To:     linux-kbuild@vger.kernel.org
+Subject: [PATCH] Makefile: allow modules_install if CONFIG_MODULES=n
+X-PHP-Originating-Script: 0:rcube.php
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Priority: 3 (Normal)
-Sensitivity: Normal
-X-VirusScan: Outbound; mvir-ac14; Wed, 27 May 2020 22:58:34 +0900
-To:     unlisted-recipients:; (no To-header on input)
+Date:   Thu, 28 May 2020 06:39:33 +0200
+From:   Jonas Zeiger <jonas.zeiger@talpidae.net>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Organization: talpidae.net
+Message-ID: <288d045f9429fc4cfd9ffb244e1be2f8@talpidae.net>
+X-Sender: jonas.zeiger@talpidae.net
+User-Agent: Roundcube Webmail/1.2.3
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Attn:
+Many applications check for available kernel features via:
 
-Es tut uns leid, dass wir Sie aufgrund eines Mismanagent of Beneficaries-Fonds von unseren ernannten Zonal Managern versp&#228;tet kontaktiert haben. Bitte beachten Sie, dass Sie qualifiziert sind, die Zahlung von 900.000,00 USD an der ATM-Karte mit neunhunderttausend Dollar zu erhalten.
+  * /proc/modules (loaded modules, present if CONFIG_MODULES=y)
+  * $(MODLIB)/modules.builtin (builtin modules)
 
-Als Entsch&#228;digung von WORLD BANK / IWF (Internationaler W&#228;hrungsfonds) f&#252;r die automatisch &#252;ber einen E-Mail-Wahlautomaten gezogenen, die in der Vergangenheit noch nicht abgeschlossene Transaktionen hatten.
+They fail to detect features if the kernel was built with 
+CONFIG_MODULES=n
+and modules.builtin isn't installed.
 
-F&#252;r weitere Informationen kontaktieren Sie bitte Rev.EVANS JONES ( jonesevansje@gmail.com )
+Therefore, allow the Makefile's modules_install target to be used 
+always.
 
-Bitte senden Sie ihm Ihre pers&#246;nlichen Daten wie:
+Tested Makefile targets with different CONFIG_MODULES states:
 
-Vollst&#228;ndiger Name:
-Wohnanschrift:
-Telefonnummer:
-Herkunftsland:
+  * (CONFIG_MODULES=n) modules_install: install modules.builtin etc.
+  * (CONFIG_MODULES=y) modules_install: produce same result as before
+  * (CONFIG_MODULES=y) modules_install: still fail if no modules.order
+  * (CONFIG_MODULES=y) modules: build modules, as before
+  * (CONFIG_MODULES=n) modules: still fail and warn
 
-Gr&#252;&#223;e,
-Mrs. Judith Rice
+Signed-off-by: Jonas Zeiger <jonas.zeiger@talpidae.net>
+---
+
+  Makefile |   60 
+++++++++++++++++++++++++++++++++----------------------------
+  1 file changed, 32 insertions(+), 28 deletions(-)
+
+diff -up linux/Makefile{.orig,}
+--- linux/Makefile.orig	2020-05-28 04:27:34.341394622 +0200
++++ linux/Makefile	2020-05-28 05:18:00.540108227 +0200
+@@ -1309,31 +1309,7 @@ dt_binding_check: scripts_dtc
+  # 
+---------------------------------------------------------------------------
+  # Modules
+
+-ifdef CONFIG_MODULES
+-
+-# By default, build modules as well
+-
+-all: modules
+-
+-# Build modules
+-#
+-# A module can be listed more than once in obj-m resulting in
+-# duplicate lines in modules.order files.  Those are removed
+-# using awk while concatenating to the final file.
+-
+-PHONY += modules
+-modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order
+-	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
+-	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
+-
+-modules.order: descend
+-	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
+-
+-# Target to prepare building external modules
+-PHONY += modules_prepare
+-modules_prepare: prepare
+-
+-# Target to install modules
++# Target to install modules and accompanying files
+  PHONY += modules_install
+  modules_install: _modinst_ _modinst_post
+
+@@ -1347,10 +1323,14 @@ _modinst_:
+  		rm -f $(MODLIB)/build ; \
+  		ln -s $(CURDIR) $(MODLIB)/build ; \
+  	fi
+-	@sed 's:^:kernel/:' modules.order > $(MODLIB)/modules.order
+  	@cp -f modules.builtin $(MODLIB)/
+  	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
++ifdef CONFIG_MODULES
++	@sed 's:^:kernel/:' modules.order > $(MODLIB)/modules.order
+  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
++else
++	@touch $(MODLIB)/modules.order
++endif
+
+  # This depmod is only for convenience to give the initial
+  # boot a modules.dep even before / is mounted read-write.  However the
+@@ -1359,6 +1339,30 @@ PHONY += _modinst_post
+  _modinst_post: _modinst_
+  	$(call cmd,depmod)
+
++ifdef CONFIG_MODULES
++
++# By default, build modules as well
++
++all: modules
++
++# Build modules
++#
++# A module can be listed more than once in obj-m resulting in
++# duplicate lines in modules.order files.  Those are removed
++# using awk while concatenating to the final file.
++
++PHONY += modules
++modules: $(if $(KBUILD_BUILTIN),vmlinux) modules.order
++	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
++	$(Q)$(CONFIG_SHELL) $(srctree)/scripts/modules-check.sh
++
++modules.order: descend
++	$(Q)$(AWK) '!x[$$0]++' $(addsuffix /$@, $(build-dirs)) > $@
++
++# Target to prepare building external modules
++PHONY += modules_prepare
++modules_prepare: prepare
++
+  ifeq ($(CONFIG_MODULE_SIG), y)
+  PHONY += modules_sign
+  modules_sign:
+@@ -1370,8 +1374,8 @@ else # CONFIG_MODULES
+  # Modules not configured
+  # 
+---------------------------------------------------------------------------
+
+-PHONY += modules modules_install
+-modules modules_install:
++PHONY += modules
++modules:
+  	@echo >&2
+  	@echo >&2 "The present kernel configuration has modules disabled."
+  	@echo >&2 "Type 'make config' and enable loadable module support."
 
