@@ -2,99 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B27941E9754
-	for <lists+linux-kbuild@lfdr.de>; Sun, 31 May 2020 13:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82E391E99D0
+	for <lists+linux-kbuild@lfdr.de>; Sun, 31 May 2020 20:17:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726020AbgEaLjZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 31 May 2020 07:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37414 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgEaLjY (ORCPT
+        id S1728232AbgEaSRx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 31 May 2020 14:17:53 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:20673 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbgEaSRx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 31 May 2020 07:39:24 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B91C061A0E
-        for <linux-kbuild@vger.kernel.org>; Sun, 31 May 2020 04:39:24 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id t23so1763243vkt.5
-        for <linux-kbuild@vger.kernel.org>; Sun, 31 May 2020 04:39:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=QoaEXFsGklcnICpu3GzNxaSMcFKQTHNmruJ+3UbT0oY=;
-        b=f6B798cpzWvCRe2HiGiHXR9Q2RrVSappQT9DOsorTs6Zt64gG0w/Apx3UwYdycFq/V
-         rEJVObSHYfMls/9ysF/O3plFD3WPFGBTLEz31MJ2KAfvN2LLl3t/UI5ISQlRfA24kKOg
-         uv3ifEIkMt9nmk1qqQMMmz2K0sDP2v/GVE1OMf0ThzHO1oglM/43WJU/ecUTbzo3Jd8U
-         ml0UijPaSa+Tw/lEBJIFyNIDGN3O/ogaqpGA5PA1V8Gfjz0e8IHGj5xAOdbt6GIUDEjH
-         wJFowkn1vf+1bfHtBxYJLfbDymyLpA1FRJ0Hslbu6JJsh/DSKI8ohAfwo+aOYBdHZT/1
-         prCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=QoaEXFsGklcnICpu3GzNxaSMcFKQTHNmruJ+3UbT0oY=;
-        b=pKDWekxwY7PWW/0HmW6a8DBRtDKhLm7eetUBzc3lxPQJsP+NlJDlMj1KSlHgzOxVv8
-         ZI4VOhGCoMIB+1Rj9C/257e5DaxjMJR6cjmwPBRbyMsGMSOlk4STSmcmEQhyR/tS09ci
-         AdADVoRvl/3JswCHJ4lQmfIHPVq4CjYqGDhSmu1pmZ17HdSKqqLfHe66m9eRzu1HtxWG
-         zlDpLcbFm2P1Iq/Vn61ltSR1Mrag5mqM71bS086B7gVEYspQR5z/3RP8yZ4zNdwApu0O
-         zooX/9gmsIPUp22QPP/VHgiDzfLbMQmTI0lEgx1lwtr0+ETz+c62qnZ0Mh30Fn6HfmxW
-         YUvw==
-X-Gm-Message-State: AOAM531o5hxtXxu+Ycb6xlNLfbEfFHAaPUyvymrZcysvjw7/Rc0Nk63p
-        SKThhbZTJJbzzPAfqKtJsy+frfLhAcr+3WGS6nI=
-X-Google-Smtp-Source: ABdhPJxgXzDpRcnKySmsEyiIIb1MqqEvkHRdze41w9xGrpR4yDNjn5OseQjE6M5OfENU4xYgtzzUSLWRWfs1nEKmHTo=
-X-Received: by 2002:a1f:24d8:: with SMTP id k207mr11207905vkk.76.1590925163397;
- Sun, 31 May 2020 04:39:23 -0700 (PDT)
+        Sun, 31 May 2020 14:17:53 -0400
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 04VIHa98020285
+        for <linux-kbuild@vger.kernel.org>; Mon, 1 Jun 2020 03:17:37 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 04VIHa98020285
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1590949057;
+        bh=GnPB7AZ7/hnOJ6vFoG6enond++YKJL6YPC9b3Ght3R0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Hza0KpRs1zHw4+BDW2m7jhFRI78NzfJEbgUJHb1GqYlUImHfe2Ey3AtXbDg89yWSv
+         l5I16HqOXz+6NqWANPI6M+14qUh0I5Z9Wukfrc/Eg0jKHcM4x4dvj0G4RWIX5AMNd0
+         N/PAaK//VjuYBb5GRB9ijrsrXTsAZ9Wl9NIgKws0iNjlFQE5YGBOYWE696tbI026A+
+         Ua5cqIENTAhfzv7/QypgUIjJpf+HF2DLm5YlKjdyV31fvxvyJCeAHZQIx4d4r5+i/P
+         s1o/HLHMfBkAXNwYuTvydUIYP0TX7topEL0AOdn7JrQC8TpmMWdSMxw0evp5PwEnHw
+         QTlWwGnfAP+zw==
+X-Nifty-SrcIP: [209.85.217.45]
+Received: by mail-vs1-f45.google.com with SMTP id q2so148342vsr.1
+        for <linux-kbuild@vger.kernel.org>; Sun, 31 May 2020 11:17:37 -0700 (PDT)
+X-Gm-Message-State: AOAM533My9vHtRrIFbJcFKbg+rqrIY78xQAl5ZzyyYsNbtI66QrJ5yWV
+        MC95z5oLlSAhDjfdvX9co/MU12VPer0JoNH+L5Q=
+X-Google-Smtp-Source: ABdhPJztyWIuqbo6K3VWt7OYQcr+OVBbhi/KKF2fGzEYIIv+4fMbfnK/sJ2vIlGHxoqqLm5oTvuCQGLNfJFty2EVxuE=
+X-Received: by 2002:a67:eb47:: with SMTP id x7mr11687241vso.179.1590949055866;
+ Sun, 31 May 2020 11:17:35 -0700 (PDT)
 MIME-Version: 1.0
-Reply-To: nicolemartha247@gmail.com
-Received: by 2002:a1f:a783:0:0:0:0:0 with HTTP; Sun, 31 May 2020 04:39:22
- -0700 (PDT)
-From:   "MRS.Nicole Martha" <nicolemartha245@gmail.com>
-Date:   Sun, 31 May 2020 11:39:22 +0000
-X-Google-Sender-Auth: wdwAMkxsWcE9fTmUJuNXQAflMpA
-Message-ID: <CAJuY7zJGp_0ZqrwHULfULZ-eGQusa5kwdsOGWW06x8btMnf5Tw@mail.gmail.com>
-Subject: Greetings
-To:     undisclosed-recipients:;
+References: <288d045f9429fc4cfd9ffb244e1be2f8@talpidae.net>
+In-Reply-To: <288d045f9429fc4cfd9ffb244e1be2f8@talpidae.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 1 Jun 2020 03:16:59 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARx2dcjedkN8cBq0veh6H1cVG6yyGq=Vf6xr2Bd_aHuRA@mail.gmail.com>
+Message-ID: <CAK7LNARx2dcjedkN8cBq0veh6H1cVG6yyGq=Vf6xr2Bd_aHuRA@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: allow modules_install if CONFIG_MODULES=n
+To:     Jonas Zeiger <jonas.zeiger@talpidae.net>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+On Thu, May 28, 2020 at 1:44 PM Jonas Zeiger <jonas.zeiger@talpidae.net> wrote:
+>
+> Many applications check for available kernel features via:
+>
+>   * /proc/modules (loaded modules, present if CONFIG_MODULES=y)
+>   * $(MODLIB)/modules.builtin (builtin modules)
+>
+> They fail to detect features if the kernel was built with
+> CONFIG_MODULES=n
+> and modules.builtin isn't installed.
+>
+> Therefore, allow the Makefile's modules_install target to be used
+> always.
+>
+> Tested Makefile targets with different CONFIG_MODULES states:
+>
+>   * (CONFIG_MODULES=n) modules_install: install modules.builtin etc.
+>   * (CONFIG_MODULES=y) modules_install: produce same result as before
+>   * (CONFIG_MODULES=y) modules_install: still fail if no modules.order
+>   * (CONFIG_MODULES=y) modules: build modules, as before
+>   * (CONFIG_MODULES=n) modules: still fail and warn
+>
+> Signed-off-by: Jonas Zeiger <jonas.zeiger@talpidae.net>
+
+
+Maybe, module.builtin and module.builtin.modinfo should be
+installed by 'make install' because they are byproducts of vmlinux.
+
+
 -- 
-Hello Dear,
-
-Please forgive me for stressing you with my predicaments as I know
-that this letter may come to you as big surprise. Actually, I came
-across your E-mail from my personal search afterward I decided to
-email you directly believing that you will be honest to fulfill my
-final wish before i die.
-
-Meanwhile, I am Mrs.  Nicole Martha 62 years old, from France, and I
-am suffering from a long time cancer and from all indication my
-condition is really deteriorating as my doctors have confirmed and
-courageously advised me that I may not live beyond two months from now
-for the reason that my tumor has reached a critical stage which has
-defiled all forms of medical treatment. As a matter of fact,
-registered nurse by profession while my husband was dealing on Gold
-Dust and Gold Dory Bars till his sudden death the year 2016 then I
-took over his business till date.
-
-In fact, at this moment I have a deposit sum of four million five
-hundred thousand US dollars ($4,500,000.00) with one bank but
-unfortunately I cannot visit the bank since I m critically sick and
-powerless to do anything myself but my bank account officer advised me
-to assign any of my trustworthy relative, friends or partner with
-authorization letter to stand as the recipient of my money but
-sorrowfully I dont have any reliable relative and no child.
-
-Therefore, I want you to receive the money and take 50% to take care
-of yourself and family while 50% should be use basically on
-humanitarian purposes mostly to orphanages home, Motherless babies
-home, less privileged and disable citizens and widows around the
-world. and as soon as I receive your I shall send you my pictures,
-banking records and with full contacts of my banking institution to
-communicate them on the matter.Please contact me with these email
-address.( nicolemartha247@gmail.com)
-
-Hope to hear from you soon.
-Yours Faithfully,
-Mrs.  Nicole Martha
+Best Regards
+Masahiro Yamada
