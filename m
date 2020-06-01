@@ -2,134 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F7161EA875
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 19:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 304921EB167
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 23:59:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbgFARiy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Jun 2020 13:38:54 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:53547 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726017AbgFARix (ORCPT
+        id S1728810AbgFAV7F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Jun 2020 17:59:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728488AbgFAV7E (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Jun 2020 13:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591033131;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=j3La3/IwaxnOET8NRtQwxdy61w/eF/NkEHGvpZshyBY=;
-        b=EnfOdtM6wk8MTzmvKA+WaHujGuViEEKi6Q59AO45RuKLIcmLIn0vJnzE6IQRGiGzKNaHgd
-        R22lmDErteX/RkrGVwkivhk0Dm5kInzcbizikEeMp0ME5Lt0z0mqmae5dv4mQ1W5PMdUAu
-        hJYx4jILtxxAUlim5foC2bcp3buxxDw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-kg2Xm74kMjmoQlPnsXLHJw-1; Mon, 01 Jun 2020 13:38:47 -0400
-X-MC-Unique: kg2Xm74kMjmoQlPnsXLHJw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E130800053;
-        Mon,  1 Jun 2020 17:38:45 +0000 (UTC)
-Received: from treble (ovpn-116-170.rdu2.redhat.com [10.10.116.170])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E984210013C1;
-        Mon,  1 Jun 2020 17:38:42 +0000 (UTC)
-Date:   Mon, 1 Jun 2020 12:38:40 -0500
-From:   Josh Poimboeuf <jpoimboe@redhat.com>
-To:     changhuaixin <changhuaixin@linux.alibaba.com>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
-        michal.lkml@markovi.net, mingo@redhat.com, peterz@infradead.org,
-        tglx@linutronix.de, x86@kernel.org, yamada.masahiro@socionext.com
-Subject: Re: [PATCH 0/2] Build ORC fast lookup table in scripts/sorttable tool
-Message-ID: <20200601173840.3f36m6l4fsu5bill@treble>
-References: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
- <20200522182815.ezanmvbemhzq2fmm@treble>
- <482837A8-E9D9-4229-B7B1-8E14403FB2AC@linux.alibaba.com>
+        Mon, 1 Jun 2020 17:59:04 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E2BEC061A0E;
+        Mon,  1 Jun 2020 14:59:04 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id y18so8648496iow.3;
+        Mon, 01 Jun 2020 14:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=lbxm4I5yIjwGE7v8E0Zy1ljgjBqzdD4WSXAeDUOfDHo=;
+        b=qD5A+XbNnysoSViBs22CCKHHgg2NkK3yfWAnuI79iojTA6a1rX/nkqHsQI3aHuUsF+
+         vXhHO8dAnH0y2wr/szNVpVdvVADgNopZPnSSx2lv04qPG90mMpjuwvhGvyj2bes1ugbe
+         l+8VF6jWaiBrfY0wKLG7uHZGczwkxCHrmRrLstbZ9vtRqqXYXr5uYz/Nfnh//cAacERY
+         AsXpPctMccMYIaub+rm8CNBxnexinWN8BsfVUixtuMEewA/aN0T+XrElMwxFIA6QSz9M
+         OmOsTZvKBeJZTZ20k+E4qZ7OfbMV+6+4le68RwPXd6XBd4n/nCdDpruHwQt5f9fhutAg
+         nVSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=lbxm4I5yIjwGE7v8E0Zy1ljgjBqzdD4WSXAeDUOfDHo=;
+        b=YbkpYrlnqEWdLwAWA0/uf1kVseBdagiWNc4b1fG9tIYxeMsggQekobjCd7C6qK4UGQ
+         XVElEDk5quLNrUPOwuQ9J+cAwdGtzEdThIxbvxGQ7VXgmZ8BnD9mRdU+mskuW3fgDQe1
+         Sd5+ThvVz0JwaS4vpKzNhSPJvyeKfX8VqF1z4/FTaPp9+iZNLcbg3DFFMRzwfbpTBeCq
+         UWlggk0VUrWUImh88x/4z3iQCBbE9lH27MEbXAxGOmQ3M2TJ12BZ29z5H/WYdSlk/Xz+
+         pgyNbT5zC+XxNXezw9t14EIJg8jcLwFzR3f1/xQwU2K6SNc1V8OQNupGx7CMW+uGFzfx
+         2X8A==
+X-Gm-Message-State: AOAM533YKjexR3Yd95NxDvQnuKm+adEQCOpS8QDO3RNEwVZ4k51Uw/gz
+        eeJjcYtYqvnQ3sjQB3WWkHDBCifCgDw2kTIOUWo=
+X-Google-Smtp-Source: ABdhPJypfUmCg2xIZd7cO8SPS8EkxO2fgwnrfk8U1QM7cM7H0g/2embQ6oD6sWq1E1W9IWLyNmfmcfSZgP0+SDb+OI4=
+X-Received: by 2002:a05:6602:224a:: with SMTP id o10mr19841613ioo.90.1591048743961;
+ Mon, 01 Jun 2020 14:59:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <482837A8-E9D9-4229-B7B1-8E14403FB2AC@linux.alibaba.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+From:   Norbert Lange <nolange79@gmail.com>
+Date:   Mon, 1 Jun 2020 23:58:53 +0200
+Message-ID: <CADYdroP0zdz=QtuDFCXpkDohEAgGOc7hDHT8_NnqKuvi979J5Q@mail.gmail.com>
+Subject: Re: [GIT PULL][PATCH v5 0/8] Add support for ZSTD-compressed kernel
+ and initramfs
+To:     nickrterrell@gmail.com, akpm@linux-foundation.org
+Cc:     Kernel-team@fb.com, clm@fb.com, gregkh@linuxfoundation.org,
+        keescook@chromium.org, kilobyte@angband.pl,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mingo@kernel.org, oss@malat.biz, patrick@stwcx.xyz,
+        patrickw3@fb.com, rmikey@fb.com, sedat.dilek@gmail.com,
+        terrelln@fb.com, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, May 31, 2020 at 01:26:54PM +0800, changhuaixin wrote:
->    It turned out to be an alignment problem. If sh_size of previous section
->    orc_unwind is not 4-byte aligned, sh_offset of the following orc_lookup
->    section is not 4-byte aligned too. However, the VMA of section orc_lookup
->    is aligned to the nearest 4-byte. Thus, the orc_lookup section means two
->    different ares for scripts/sorttable tool and kernel.
-> 
->    Sections headers look like this when it happens:
-> 
->    12 .orc_unwind_ip 00172124  ffffffff82573b28  0000000002573b28  01773b28
->     2**0
->                     CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA
->    13 .orc_unwind   0022b1b6  ffffffff826e5c4c  00000000026e5c4c  018e5c4c
->     2**0
->                     CONTENTS, ALLOC, LOAD, READONLY, DATA
->    14 .orc_lookup   0003003c  ffffffff82910e04  0000000002910e04  01b10e02
->     2**0
->                     ALLOC
->    15 .vvar         00001000  ffffffff82941000  0000000002941000  01b41000
->     2**4
->                     CONTENTS, ALLOC, LOAD, DATA
-> 
->    Sorttable tool uses the are starting with offset 0x01b10e02 for 0x0003003c
->    bytes. While kernel use the area starting with VMA at  0xffffffff82910e04
->    for 0x0003003c bytes, meaning that each entry in this table used by kernel
->    is actually 2 bytes behind the corresponding entry set from sorttable
->    tool.
-> 
->    Any suggestion on fixing this？
+The series seems to be stuck in limbo, and I got the hint to bring
+this to Andrew's attention [1].
+Hope this will finally end in upstream, been using these patches for ~2 years.
 
-The VMA and LMA are both 4-byte aligned.  The file offset alignment
-(0x01b10e02) shouldn't matter.
+Regards, Norbert
 
-Actually it looks like the problem is that the section doesn't have
-CONTENTS, so it's just loaded as a BSS section (all zeros).  The section
-needs to be type SHT_PROGBITS instead of SHT_NOBITS.
-
-$ readelf -S vmlinux |grep orc_lookup
-  [16] .orc_lookup       NOBITS           ffffffff82b68418  01d68418
-
-I tried to fix it with
-
-diff --git a/scripts/sorttable.h b/scripts/sorttable.h
-index a36c76c17be4..76adb1fb88f8 100644
---- a/scripts/sorttable.h
-+++ b/scripts/sorttable.h
-@@ -341,6 +341,7 @@ static int do_sort(Elf_Ehdr *ehdr,
- 			param.lookup_table_size = s->sh_size;
- 			param.orc_lookup_table = (unsigned int *)
- 				((void *)ehdr + s->sh_offset);
-+			w(SHT_PROGBITS, &s->sh_type);
- 		}
- 		if (!strcmp(secstrings + idx, ".text")) {
- 			param.text_size = s->sh_size;
-
-
-But that makes kallsyms unhappy, so I guess we need to do it from the
-linker script where .orc_lookup is created.
-
-Linker script doesn't seem to allow manual specification of the section
-type, so this is the best I could come up with:
-
-diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-index db600ef218d7..49f4f5bc6165 100644
---- a/include/asm-generic/vmlinux.lds.h
-+++ b/include/asm-generic/vmlinux.lds.h
-@@ -826,6 +826,8 @@
- 		. += (((SIZEOF(.text) + LOOKUP_BLOCK_SIZE - 1) /	\
- 			LOOKUP_BLOCK_SIZE) + 1) * 4;			\
- 		orc_lookup_end = .;					\
-+		/* HACK: force SHT_PROGBITS so sorttable can edit: */	\
-+		BYTE(1);						\
- 	}
- #else
- #define ORC_UNWIND_TABLE
-
+[1] - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=955469
