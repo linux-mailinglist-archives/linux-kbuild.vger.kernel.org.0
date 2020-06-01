@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BC421E9DB0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 07:58:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D261D1E9DBD
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 07:58:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727068AbgFAF6X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Jun 2020 01:58:23 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:40001 "EHLO
+        id S1727121AbgFAF6Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Jun 2020 01:58:25 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:40008 "EHLO
         conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726289AbgFAF6V (ORCPT
+        with ESMTP id S1727063AbgFAF6V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Mon, 1 Jun 2020 01:58:21 -0400
 Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0515vaLu023694;
+        by conuserg-07.nifty.com with ESMTP id 0515vaLv023694;
         Mon, 1 Jun 2020 14:57:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0515vaLu023694
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0515vaLv023694
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1590991064;
-        bh=xEwBuIuAsXFW3T3cgYIqwXll9ICSzKqdHziSibBV4r8=;
+        bh=M0QIACDAMEg1I/5ZJ7oG1lK0GQ0SehV+xiXMe4lYcZc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mE5SWFl3NGbRi+MdSUSQX6XucTSz76bYsltEVTqJ8xFczu0wbjx98koQX522dkMHb
-         5OXdBHUZC7C9aFqtBwscAIjtyTH0iVRoES4Z3cCIc1VMSa3wlh79vI/Ri3vfmFNirU
-         Wm9BIw+vHFjh8lXCwInVHPlE4E1Sq/1c2cwR4AYykduXm1tYuwCwY07iG5mvyme3N7
-         rJSKT+YtrnjlZOn2yz4V6AemKEz2XX5tDlP8ty8aKv61EzEVH14LmgPsiyJr22JuMv
-         5AXFJiqydHiYvxjHXtPmYdVqvMnO1JmVlZ+JgR33ay6ZdU5u/nPOkMnvXJlF3qWW3e
-         gLC5rzW7lRy5w==
+        b=UE+O7ja251FnXiORhxf21kmwXLzIMLWPOo4V961eafT9BH9/OZxk0yCATWvf+Q8TM
+         3BbXh7msM352iAD5WrhAw9xOvLNqWBp8q1HkWTv0DvJh/NgOYw0z5HkcWJFZ4XPfGF
+         6MmbbBnUXRvDdMP6xlji/hcQ++XPKQB1AqpPkT9LEfbsbtO8hq/4n2EAwDdN4l67t8
+         PRev8ihn6UiThGlRIUxKXomdCfLoeB4V3Wo1FdOLvcb+yLxMBYOWHMF56esIhqifnB
+         ssEbVlE7+5nVwdYL4RSUv5Pr+d9K2jJsjSEGFEL8HOmEpwh8HPNZTubsdu8+WJwoyo
+         tVDsWRw3+Qx3w==
 X-Nifty-SrcIP: [126.90.202.47]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 17/37] modpost: generate vmlinux.symvers and reuse it for the second modpost
-Date:   Mon,  1 Jun 2020 14:57:11 +0900
-Message-Id: <20200601055731.3006266-17-masahiroy@kernel.org>
+Subject: [PATCH 18/37] modpost: invoke modpost only when input files are updated
+Date:   Mon,  1 Jun 2020 14:57:12 +0900
+Message-Id: <20200601055731.3006266-18-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200601055731.3006266-1-masahiroy@kernel.org>
 References: <20200601055731.3006266-1-masahiroy@kernel.org>
@@ -43,118 +43,123 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The full build runs modpost twice, first for vmlinux.o and second for
-modules.
+Currently, the second pass of modpost is always invoked when you run
+'make' or 'make modules' even if none of modules is changed.
 
-The first pass dumps all the vmlinux symbols into Module.symvers, but
-the second pass parses vmlinux again instead of reusing the dump file,
-presumably because it needs to avoid accumulating stale symbols.
-
-Loading symbol info from a dump file is faster than parsing an ELF object.
-Besides, modpost deals with various issues to parse vmlinux in the second
-pass.
-
-A solution is to make the first pass dumps symbols into a separate file,
-vmlinux.symvers. The second pass reads it, and parses module .o files.
-The merged symbol information is dumped into Module.symvers in the same
-way as before.
-
-This makes further modpost cleanups possible.
-
-Also, it fixes the problem of 'make vmlinux', which previously overwrote
-Module.symvers, throwing away module symbols.
-
-I slightly touched scripts/link-vmlinux.sh so that vmlinux is re-linked
-when you cross this commit. Otherwise, vmlinux.symvers would not be
-generated.
+Use if_changed to invoke it only when it is necessary.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- .gitignore               | 1 +
- Documentation/dontdiff   | 1 +
- Makefile                 | 2 +-
- scripts/Makefile.modpost | 7 ++++---
- scripts/link-vmlinux.sh  | 2 --
- 5 files changed, 7 insertions(+), 6 deletions(-)
+ scripts/Makefile.modpost | 20 ++++++++++++++++----
+ scripts/mod/modpost.c    | 32 +++++++++++++++++++++-----------
+ 2 files changed, 37 insertions(+), 15 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 2258e906f01c..87b9dd8a163b 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -56,6 +56,7 @@ modules.order
- /linux
- /vmlinux
- /vmlinux.32
-+/vmlinux.symvers
- /vmlinux-gdb.py
- /vmlinuz
- /System.map
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index 72fc2e9e2b63..ef9519c32c55 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -251,6 +251,7 @@ vmlinux-*
- vmlinux.aout
- vmlinux.bin.all
- vmlinux.lds
-+vmlinux.symvers
- vmlinuz
- voffset.h
- vsyscall.lds
-diff --git a/Makefile b/Makefile
-index b40420a0b991..6280c7597a2d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1416,7 +1416,7 @@ endif # CONFIG_MODULES
- # make distclean Remove editor backup files, patch leftover files and the like
- 
- # Directories & files removed with 'make clean'
--CLEAN_FILES += include/ksym \
-+CLEAN_FILES += include/ksym vmlinux.symvers \
- 	       modules.builtin modules.builtin.modinfo modules.nsdeps
- 
- # Directories & files removed with 'make mrproper'
 diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 6808086075b6..6db692a5d547 100644
+index 6db692a5d547..7d564a39f938 100644
 --- a/scripts/Makefile.modpost
 +++ b/scripts/Makefile.modpost
-@@ -55,10 +55,10 @@ ifdef MODPOST_VMLINUX
- quiet_cmd_modpost = MODPOST $@
-       cmd_modpost = $(MODPOST) $<
+@@ -90,20 +90,25 @@ endif
  
--Module.symvers: vmlinux.o
-+vmlinux.symvers: vmlinux.o
- 	$(call cmd,modpost)
+ # modpost options for modules (both in-kernel and external)
+ MODPOST += \
+-	$(addprefix -i ,$(input-symdump)) \
++	$(addprefix -i ,$(wildcard $(input-symdump))) \
+ 	$(if $(CONFIG_MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS)$(KBUILD_NSDEPS),-N)
  
--__modpost: Module.symvers
-+__modpost: vmlinux.symvers
+ ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
+ MODPOST += -n
+ endif
  
- else
- 
-@@ -66,7 +66,8 @@ MODPOST += -s \
- 	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))
- 
- ifeq ($(KBUILD_EXTMOD),)
--MODPOST += $(wildcard vmlinux)
++$(input-symdump):
++	@:
 +
-+input-symdump := vmlinux.symvers
- output-symdump := Module.symvers
+ # Read out modules.order to pass in modpost.
+ # Otherwise, allmodconfig would fail with "Argument list too long".
+ quiet_cmd_modpost = MODPOST $@
+-      cmd_modpost = sed 's/ko$$/o/' $(MODORDER) | $(MODPOST) -T -
++      cmd_modpost = sed 's/ko$$/o/' $< | $(MODPOST) -T -
  
- else
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index d09ab4afbda4..d5af6be50b50 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -218,8 +218,6 @@ on_signals()
+-$(output-symdump): FORCE
+-	$(call cmd,modpost)
++$(output-symdump): $(MODORDER) $(input-symdump) FORCE
++	$(call if_changed,modpost)
++
++targets += $(output-symdump)
+ 
+ __modpost: $(output-symdump)
+ ifneq ($(KBUILD_MODPOST_NOFINAL),1)
+@@ -113,6 +118,13 @@ endif
+ PHONY += FORCE
+ FORCE:
+ 
++existing-targets := $(wildcard $(sort $(targets)))
++
++-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
++
++PHONY += FORCE
++FORCE:
++
+ endif
+ 
+ .PHONY: $(PHONY)
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 4a2f27d97bf1..b839c48689df 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2375,6 +2375,25 @@ static void add_srcversion(struct buffer *b, struct module *mod)
+ 	}
  }
- trap on_signals HUP INT QUIT TERM
  
--#
--#
- # Use "make V=1" to debug this script
- case "${KBUILD_VERBOSE}" in
- *1*)
++static void write_buf(struct buffer *b, const char *fname)
++{
++	FILE *file;
++
++	file = fopen(fname, "w");
++	if (!file) {
++		perror(fname);
++		exit(1);
++	}
++	if (fwrite(b->p, 1, b->pos, file) != b->pos) {
++		perror(fname);
++		exit(1);
++	}
++	if (fclose(file) != 0) {
++		perror(fname);
++		exit(1);
++	}
++}
++
+ static void write_if_changed(struct buffer *b, const char *fname)
+ {
+ 	char *tmp;
+@@ -2407,16 +2426,7 @@ static void write_if_changed(struct buffer *b, const char *fname)
+  close_write:
+ 	fclose(file);
+  write:
+-	file = fopen(fname, "w");
+-	if (!file) {
+-		perror(fname);
+-		exit(1);
+-	}
+-	if (fwrite(b->p, 1, b->pos, file) != b->pos) {
+-		perror(fname);
+-		exit(1);
+-	}
+-	fclose(file);
++	write_buf(b, fname);
+ }
+ 
+ /* parse Module.symvers file. line format:
+@@ -2508,7 +2518,7 @@ static void write_dump(const char *fname)
+ 			symbol = symbol->next;
+ 		}
+ 	}
+-	write_if_changed(&buf, fname);
++	write_buf(&buf, fname);
+ 	free(buf.p);
+ }
+ 
 -- 
 2.25.1
 
