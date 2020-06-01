@@ -2,81 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 618951E9EA2
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 08:54:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABEA21EA260
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 13:02:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727068AbgFAGyi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Jun 2020 02:54:38 -0400
-Received: from hs-162.6.buanalintas.co.id ([223.165.6.162]:60668 "EHLO
-        mx.bestprofit-futures.co.id" rhost-flags-OK-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1726186AbgFAGyh (ORCPT
+        id S1725935AbgFALCd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Jun 2020 07:02:33 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:36892 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725925AbgFALCc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Jun 2020 02:54:37 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mx.bestprofit-futures.co.id (Postfix) with ESMTP id D14B1524ECB;
-        Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
-Received: from mx.bestprofit-futures.co.id ([127.0.0.1])
-        by localhost (mx.bestprofit-futures.co.id [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id sggGQsgI-_J4; Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
-Received: from localhost (localhost [127.0.0.1])
-        by mx.bestprofit-futures.co.id (Postfix) with ESMTP id 5B11C524EE1;
-        Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mx.bestprofit-futures.co.id 5B11C524EE1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bestprofit-futures.co.id; s=4D3D1390-5211-11EA-8C0C-8C41A122B001;
-        t=1590974321; bh=zLTonXbKn6LYrnOZVETw9C2bepTvRzI70GQOlIiRCC0=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=TSQlVoqLTJURdmYAl9kFdIf781Qksn6bEGjwyyQ/gc3MNHtsU/FB6iWUuvqt20vuV
-         UYEpeEP2ctI65nNv/qkIBzzg3c5I9oSauxhY+m3OsSzg8K2KBanatl4JwyqcRXrGUK
-         djnJD2pe/ihfSyqs5N5qyGpA2xDcVQiUmqFRNPC/mdnE7TGh1oVrKPdkbxjS6QKHi7
-         Ut2Ul/95amGdlNnTrUUdaeL94csG394LVHW3O5ZLz9wyoxTs/9S+HVvV2yuxtau8Dg
-         FxxfBC7Xe5jeqM/1LFi4o2Aiavy63zJrBfI+zxIDgEHEt+W+GP0ig+X6lr85Pnea1a
-         iFoYM91tWjyYg==
-X-Virus-Scanned: amavisd-new at mx.bestprofit-futures.co.id
-Received: from mx.bestprofit-futures.co.id ([127.0.0.1])
-        by localhost (mx.bestprofit-futures.co.id [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id BCJDAxxEEPW1; Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
-Received: from [10.81.249.6] (unknown [105.8.6.41])
-        by mx.bestprofit-futures.co.id (Postfix) with ESMTPSA id C81AE524AF4;
-        Mon,  1 Jun 2020 08:18:33 +0700 (WIB)
-Content-Type: text/plain; charset="utf-8"
+        Mon, 1 Jun 2020 07:02:32 -0400
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 051B1vMN023247
+        for <linux-kbuild@vger.kernel.org>; Mon, 1 Jun 2020 20:01:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 051B1vMN023247
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1591009318;
+        bh=2A8BiQ2C6m8mmQHoEiI+viGJtBzaIt7jwl52ER4RNZc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TxbTZ81iyqWHi+WSdlmeJqAvrua9r1og7wZQLRwA3yFhvqpydXp8Gu8AFma3aHhVm
+         2ae1q5+r1gnsMBtqg7CF80SBVvREmbz4ygKGMETZ033g1XAIxy532I6JYL9uSyK/Ry
+         1Maqvj4W8I6IFVaA+CtjVyb2zyFTb9nvpl5rf22019zzZiRfMgiq3BWul/YRNrcpm1
+         P8UgFQpqYb3skl1pOuKRazoYf/AxnB4yJ5+V3XMi0j4PrhfkeW4OcTdTFFtYGGShfz
+         /TnK6Ld/NPYDi46P8menUCNjNZR+boMwWqXwmZGKJHUtOJ/7hvNEKDsqGiiMDeo/ap
+         xVXy2OZ7I5nhA==
+X-Nifty-SrcIP: [209.85.222.41]
+Received: by mail-ua1-f41.google.com with SMTP id w20so3184238uaa.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Jun 2020 04:01:57 -0700 (PDT)
+X-Gm-Message-State: AOAM530wYn//ujjokT44BujKNW5Fu8GyMSnJeD4tIWT6Oxg7Cca3l/gp
+        1GDykraYV8Mb/Tzd9efcSzn7EkMlrRInN+qikEQ=
+X-Google-Smtp-Source: ABdhPJybXbyp5oQGsb1N9ajYnfBghU9oC5Stlgx389RP1r28blfT6MVsyBLazY7Frl/QhKVPtFRrOJL5xRH+uSZX5gM=
+X-Received: by 2002:ab0:7313:: with SMTP id v19mr14034880uao.121.1591009316621;
+ Mon, 01 Jun 2020 04:01:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
-To:     Recipients <yoshi@bestprofit-futures.co.id>
-From:   ''Tayeb Souami'' <yoshi@bestprofit-futures.co.id>
-Date:   Mon, 01 Jun 2020 03:18:24 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200601011833.C81AE524AF4@mx.bestprofit-futures.co.id>
+References: <1590920904-60002-1-git-send-email-alios_sys_security@linux.alibaba.com>
+In-Reply-To: <1590920904-60002-1-git-send-email-alios_sys_security@linux.alibaba.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 1 Jun 2020 20:01:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS290zRibWqbu1AxQ1W9afPR21OYSia+xkqwoot9zRd2w@mail.gmail.com>
+Message-ID: <CAK7LNAS290zRibWqbu1AxQ1W9afPR21OYSia+xkqwoot9zRd2w@mail.gmail.com>
+Subject: Re: [PATCH] mksysmap: Fix the mismatch of '.L' symbols in System.map
+To:     AliOS system security <alios_sys_security@linux.alibaba.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Lieber Freund,
+On Sun, May 31, 2020 at 7:28 PM AliOS system security
+<alios_sys_security@linux.alibaba.com> wrote:
+>
+> When System.map was generated, the kernel used mksysmap to filter the
+> kernel symbols, but all the symbols with the second letter 'L' in the
+> kernel were filtered out, not just the symbols starting with 'dot + L'.
+>
+> For example:
+> ashimida@ubuntu:~/linux$ cat System.map |grep ' .L'
+> ashimida@ubuntu:~/linux$ nm -n vmlinux |grep ' .L'
+> ffff0000088028e0 t bLength_show
+> ......
+> ffff0000092e0408 b PLLP_OUTC_lock
+> ffff0000092e0410 b PLLP_OUTA_lock
+>
+> I see that in the original patch[1], the original intent should be to
+> filter all local symbols starting with '.L', so I wonder if the code
+> here may add a '\' before '.L'?
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
-ou Tube Seite unten.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+You are right, but please avoid the interrogatory sentence.
+
+Shall I reword as follows?
 
 
-Das ist dein Spendencode: [TS530342018]
+The original intent should be to filter out all local symbols
+starting with '.L', so the dot should be escaped.
 
 
-Antworten Sie mit dem SPENDE-CODE an diese
 
- E-Mail:Tayebsouam.spende@gmail.com
 
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
 
-Gr=C3=BC=C3=9Fe
-Herr Tayeb Souami
+>
+> [1]. mksysmap: Add h8300 local symbol pattern
+>
+> Signed-off-by: AliOS system security <alios_sys_security@linux.alibaba.com>
+> ---
+>  scripts/mksysmap | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/mksysmap b/scripts/mksysmap
+> index a35acc0..9aa23d1 100755
+> --- a/scripts/mksysmap
+> +++ b/scripts/mksysmap
+> @@ -41,4 +41,4 @@
+>  # so we just ignore them to let readprofile continue to work.
+>  # (At least sparc64 has __crc_ in the middle).
+>
+> -$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( .L\)' > $2
+> +$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
+> --
+> 2.7.4
+>
+
+
+-- 
+Best Regards
+Masahiro Yamada
