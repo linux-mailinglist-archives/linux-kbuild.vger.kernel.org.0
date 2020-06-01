@@ -2,103 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E6601E9DB4
-	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 07:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 618951E9EA2
+	for <lists+linux-kbuild@lfdr.de>; Mon,  1 Jun 2020 08:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727004AbgFAF6Y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Jun 2020 01:58:24 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:40006 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727056AbgFAF6V (ORCPT
+        id S1727068AbgFAGyi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Jun 2020 02:54:38 -0400
+Received: from hs-162.6.buanalintas.co.id ([223.165.6.162]:60668 "EHLO
+        mx.bestprofit-futures.co.id" rhost-flags-OK-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S1726186AbgFAGyh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Jun 2020 01:58:21 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0515vaMG023694;
-        Mon, 1 Jun 2020 14:57:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0515vaMG023694
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1590991073;
-        bh=oCf4bI+4OjqqzXqDWdSRzSLjiycwo5uTHdKWxxwXsSw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QC2oqW/HPAHMAnlGn+xt+0sm0t4k4LE2M8Ex1DVt2VVZT+yBpuyk8AeE3HoGmn7XG
-         N9g8ktKcIxIlBPyEZDmqTeebOVl/aR0D/1L3kpwj32kYHAYBASuTcf/YP6A2MV7wCN
-         1Eh8M7kmwUTjEtTkgylgfAFVdxt5UKZO5hNnPe1GwqXnAdYJKwhvlNmpJW0vNevIxw
-         5yZoIDvm/mrT00laQqddUIfO/J6hH3hWfOdn1JOfcA09XpUhq2lz4wxf9dECwwb13Z
-         W42zKh/g+BdI3jItvMaeWZbKFDUaKqS3H8QS+v0DlTeLJqT44tw7gscv9ccJuIBAba
-         QXLr+s8gNjrbQ==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH 37/37] modpost: change elf_info->size to size_t
-Date:   Mon,  1 Jun 2020 14:57:31 +0900
-Message-Id: <20200601055731.3006266-37-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200601055731.3006266-1-masahiroy@kernel.org>
-References: <20200601055731.3006266-1-masahiroy@kernel.org>
+        Mon, 1 Jun 2020 02:54:37 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mx.bestprofit-futures.co.id (Postfix) with ESMTP id D14B1524ECB;
+        Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
+Received: from mx.bestprofit-futures.co.id ([127.0.0.1])
+        by localhost (mx.bestprofit-futures.co.id [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id sggGQsgI-_J4; Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
+Received: from localhost (localhost [127.0.0.1])
+        by mx.bestprofit-futures.co.id (Postfix) with ESMTP id 5B11C524EE1;
+        Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mx.bestprofit-futures.co.id 5B11C524EE1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bestprofit-futures.co.id; s=4D3D1390-5211-11EA-8C0C-8C41A122B001;
+        t=1590974321; bh=zLTonXbKn6LYrnOZVETw9C2bepTvRzI70GQOlIiRCC0=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=TSQlVoqLTJURdmYAl9kFdIf781Qksn6bEGjwyyQ/gc3MNHtsU/FB6iWUuvqt20vuV
+         UYEpeEP2ctI65nNv/qkIBzzg3c5I9oSauxhY+m3OsSzg8K2KBanatl4JwyqcRXrGUK
+         djnJD2pe/ihfSyqs5N5qyGpA2xDcVQiUmqFRNPC/mdnE7TGh1oVrKPdkbxjS6QKHi7
+         Ut2Ul/95amGdlNnTrUUdaeL94csG394LVHW3O5ZLz9wyoxTs/9S+HVvV2yuxtau8Dg
+         FxxfBC7Xe5jeqM/1LFi4o2Aiavy63zJrBfI+zxIDgEHEt+W+GP0ig+X6lr85Pnea1a
+         iFoYM91tWjyYg==
+X-Virus-Scanned: amavisd-new at mx.bestprofit-futures.co.id
+Received: from mx.bestprofit-futures.co.id ([127.0.0.1])
+        by localhost (mx.bestprofit-futures.co.id [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id BCJDAxxEEPW1; Mon,  1 Jun 2020 08:18:41 +0700 (WIB)
+Received: from [10.81.249.6] (unknown [105.8.6.41])
+        by mx.bestprofit-futures.co.id (Postfix) with ESMTPSA id C81AE524AF4;
+        Mon,  1 Jun 2020 08:18:33 +0700 (WIB)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Wohlt=C3=A4tigkeitsspende_von_2=2E000=2E000_Millionen_Euro?=
+To:     Recipients <yoshi@bestprofit-futures.co.id>
+From:   ''Tayeb Souami'' <yoshi@bestprofit-futures.co.id>
+Date:   Mon, 01 Jun 2020 03:18:24 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200601011833.C81AE524AF4@mx.bestprofit-futures.co.id>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Align with the mmap / munmap APIs.
+Lieber Freund,
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
+Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
+f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
+il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
+meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
+und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
+ou Tube Seite unten.
 
- scripts/mod/modpost.c | 9 ++++-----
- scripts/mod/modpost.h | 2 +-
- 2 files changed, 5 insertions(+), 6 deletions(-)
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index a3ffabf4eca5..e5cee2367d5e 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -443,7 +443,7 @@ static void sym_set_crc(const char *name, unsigned int crc)
- 	s->crc_valid = 1;
- }
- 
--static void *grab_file(const char *filename, unsigned long *size)
-+static void *grab_file(const char *filename, size_t *size)
- {
- 	struct stat st;
- 	void *map = MAP_FAILED;
-@@ -465,7 +465,7 @@ static void *grab_file(const char *filename, unsigned long *size)
- 	return map;
- }
- 
--static void release_file(void *file, unsigned long size)
-+static void release_file(void *file, size_t size)
- {
- 	munmap(file, size);
- }
-@@ -521,9 +521,8 @@ static int parse_elf(struct elf_info *info, const char *filename)
- 
- 	/* Check if file offset is correct */
- 	if (hdr->e_shoff > info->size) {
--		fatal("section header offset=%lu in file '%s' is bigger than "
--		      "filesize=%lu\n", (unsigned long)hdr->e_shoff,
--		      filename, info->size);
-+		fatal("section header offset=%lu in file '%s' is bigger than filesize=%zu\n",
-+		      (unsigned long)hdr->e_shoff, filename, info->size);
- 		return 0;
- 	}
- 
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 1df87d204c9a..efb74dba19e2 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -133,7 +133,7 @@ struct module {
- };
- 
- struct elf_info {
--	unsigned long size;
-+	size_t size;
- 	Elf_Ehdr     *hdr;
- 	Elf_Shdr     *sechdrs;
- 	Elf_Sym      *symtab_start;
--- 
-2.25.1
 
+Das ist dein Spendencode: [TS530342018]
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+ E-Mail:Tayebsouam.spende@gmail.com
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Herr Tayeb Souami
