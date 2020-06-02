@@ -2,86 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E1941EB173
-	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2020 00:02:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C77541EB326
+	for <lists+linux-kbuild@lfdr.de>; Tue,  2 Jun 2020 03:51:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728910AbgFAWCC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 1 Jun 2020 18:02:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728336AbgFAWCB (ORCPT
+        id S1725900AbgFBBvh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 1 Jun 2020 21:51:37 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:36414 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725793AbgFBBvg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 1 Jun 2020 18:02:01 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05D1DC061A0E;
-        Mon,  1 Jun 2020 15:02:01 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id a13so6150957ilh.3;
-        Mon, 01 Jun 2020 15:02:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=Hj7ELZtZm9lw0D/3kPs7+cW31yJJTtnBtL85zk+iG0o=;
-        b=luGNV5sSqhz1IJ4/jPKxrytn56cyHV7NYbaXPIoSGzliOGmyYwQ5d7pyWnnGfrr+mn
-         SDARAUCceAAW+QUOIyPP9+0YJBg5INwi4+McE4whzYP70gPiCig23vbpN0Mz3N45mtA8
-         JsNVdxkc4WEd0IHV5Om+lHPYLlDYKHfNcQe0vINMFDhAMZEk+oXQDU/F7zuXx/2S/6n2
-         dmKAzPzimVGCylaaHN/kGEZhIaiyZj5lEsco9eWfwAnkEbdxRc1mBX522vUOOrA4Wpvy
-         Z/861hw3VPE5jpYGhujHrKZn/2yytcLPexMO+Dcu2FNjQ2lwqNomgw7bNU1yD2+FvASR
-         6kkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=Hj7ELZtZm9lw0D/3kPs7+cW31yJJTtnBtL85zk+iG0o=;
-        b=lwMhuYHGgfNPyyejnBzYMBCqKnyLWAUIK1YUGowb4VV6CyF4KHEA5XVlAeODbnSy9W
-         2dxA2TxHNGKIwJ2P7fBrkbCBW2t9BeclDozkjAZeaDnRdvKcouJVCTi9IRucfLDihzP0
-         Ubhus84VHclvRRpvx+vH3W5cUt7O93L2MN71htwPSqYDY8WATgdDc52pqa6o6g7fqv2F
-         T0kKEbiV8Z9OKCiT2S9N3PCxgHNTNk4usQwYKKMK5dG/zYr+qlFxSfnWtS2/NEBeb4Qp
-         SPZ6EzP8GwRRy19v3y2lcB4SLVDAi0N2UIkgrQFOFoovpKHAnd/PTpkdLwuv5ysn6/oc
-         wl4Q==
-X-Gm-Message-State: AOAM533RsTSHCbJhvQ7XOoJAgqsgy2zQytyttrKM/vI8SaBcazjnNqrU
-        PmSvTxrqmFJF0qDdA0MurGp8oIo7F7lCnVCiAaSjg4t4
-X-Google-Smtp-Source: ABdhPJwcYcZ8hiCw2ngTG3vvtLD1dhiGSubSON8d2lrMJSF3d9j/3b1GaJnwiHYryCRN9HeviD56ItFpycRguwnRsvk=
-X-Received: by 2002:a92:898e:: with SMTP id w14mr22581052ilk.212.1591048920282;
- Mon, 01 Jun 2020 15:02:00 -0700 (PDT)
+        Mon, 1 Jun 2020 21:51:36 -0400
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 0521pDHp029563
+        for <linux-kbuild@vger.kernel.org>; Tue, 2 Jun 2020 10:51:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0521pDHp029563
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1591062674;
+        bh=FNDz1auD6V6DS09BAXdMW0RI0SzkdV2z6MoK5g+q/sw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OA0JnAnUpiwNW7YrFf7P+JF7Q/b9tixuB9ffuZP4RcEmYzievgaIsxk0BZ8Ojini7
+         8NfsyWDkyJKzDg/BdZmS3mlYT9nXcPepbYWaRyhhc5TmtKPllsHyn5H/4aJJbvtWzE
+         m/8CovvvCLZeD98s9ETcpnVTblLfFwUvj8IxvHpjC541PpEWkGLkBsmawJxCF79/3a
+         r5N3xgSmDpZHxuuZXB8hjLT+/pDdI7QpCd0HGg5scM9kHMldhIbALpd27vbxOFHKek
+         MYUaxe1FuPhnSQX6r0LP+woqWcBZJrzLZ1CQX9Vy3QUyiTivXsE9/bIUhPsAQumf3L
+         /HHfDLG8+5JbQ==
+X-Nifty-SrcIP: [209.85.221.172]
+Received: by mail-vk1-f172.google.com with SMTP id f126so499794vkb.13
+        for <linux-kbuild@vger.kernel.org>; Mon, 01 Jun 2020 18:51:14 -0700 (PDT)
+X-Gm-Message-State: AOAM533rgBwHQEhDzB0BnDPhAoL1rKgs/YC0txsvtyP3lmFHvuJANVAN
+        hl47rr//Rd/X/i/tukzRpXicafhoRJ3R1kz4rDc=
+X-Google-Smtp-Source: ABdhPJzahFP+JcHNbtSPHkr/ynKKuZi+L048sKVsB31HKWiIcaorluYcPspA7QZHNVqvGYJLUTIVkppl5SA2el8ufjc=
+X-Received: by 2002:a1f:a906:: with SMTP id s6mr14647474vke.26.1591062673079;
+ Mon, 01 Jun 2020 18:51:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADYdroP0zdz=QtuDFCXpkDohEAgGOc7hDHT8_NnqKuvi979J5Q@mail.gmail.com>
-In-Reply-To: <CADYdroP0zdz=QtuDFCXpkDohEAgGOc7hDHT8_NnqKuvi979J5Q@mail.gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 2 Jun 2020 00:01:50 +0200
-Message-ID: <CA+icZUUtjD3HbaRGdcaK4kxRzu=cJi32xmE6kZjz741xViMv1w@mail.gmail.com>
-Subject: Re: [GIT PULL][PATCH v5 0/8] Add support for ZSTD-compressed kernel
- and initramfs
-To:     Norbert Lange <nolange79@gmail.com>
-Cc:     nickrterrell@gmail.com, akpm@linux-foundation.org,
-        Kernel-team@fb.com, clm@fb.com, gregkh@linuxfoundation.org,
-        Kees Cook <keescook@chromium.org>, kilobyte@angband.pl,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@kernel.org, oss@malat.biz, patrick@stwcx.xyz,
-        patrickw3@fb.com, rmikey@fb.com, terrelln@fb.com, x86@kernel.org
+References: <1590920904-60002-1-git-send-email-alios_sys_security@linux.alibaba.com>
+In-Reply-To: <1590920904-60002-1-git-send-email-alios_sys_security@linux.alibaba.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 2 Jun 2020 10:50:36 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATDKUbtJPNuFtbBTd2sg3=Fn_E_fq_9VP0oK1BT7mo0KA@mail.gmail.com>
+Message-ID: <CAK7LNATDKUbtJPNuFtbBTd2sg3=Fn_E_fq_9VP0oK1BT7mo0KA@mail.gmail.com>
+Subject: Re: [PATCH] mksysmap: Fix the mismatch of '.L' symbols in System.map
+To:     AliOS system security <alios_sys_security@linux.alibaba.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 1, 2020 at 11:59 PM Norbert Lange <nolange79@gmail.com> wrote:
+On Sun, May 31, 2020 at 7:28 PM AliOS system security
+<alios_sys_security@linux.alibaba.com> wrote:
 >
-> The series seems to be stuck in limbo, and I got the hint to bring
-> this to Andrew's attention [1].
-> Hope this will finally end in upstream, been using these patches for ~2 years.
+> When System.map was generated, the kernel used mksysmap to filter the
+> kernel symbols, but all the symbols with the second letter 'L' in the
+> kernel were filtered out, not just the symbols starting with 'dot + L'.
 >
-> Regards, Norbert
+> For example:
+> ashimida@ubuntu:~/linux$ cat System.map |grep ' .L'
+> ashimida@ubuntu:~/linux$ nm -n vmlinux |grep ' .L'
+> ffff0000088028e0 t bLength_show
+> ......
+> ffff0000092e0408 b PLLP_OUTC_lock
+> ffff0000092e0410 b PLLP_OUTA_lock
 >
-> [1] - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=955469
+> I see that in the original patch[1], the original intent should be to
+> filter all local symbols starting with '.L', so I wonder if the code
+> here may add a '\' before '.L'?
+>
+> [1]. mksysmap: Add h8300 local symbol pattern
+>
+> Signed-off-by: AliOS system security <alios_sys_security@linux.alibaba.com>
 
-Hi Norbert,
 
-I am using v5 since Linux v5.7-rc+ with modification to Debian's
-initramfs-tools.
+I think you should submit this patch
+with your real name instead of
+the team name.
 
-Thanks for bringing this up!
 
-Regards,
-- Sedat -
+
+
+-- 
+Best Regards
+Masahiro Yamada
