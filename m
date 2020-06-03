@@ -2,104 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C06A1ED0E1
-	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jun 2020 15:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A521ED127
+	for <lists+linux-kbuild@lfdr.de>; Wed,  3 Jun 2020 15:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725905AbgFCNeH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 3 Jun 2020 09:34:07 -0400
-Received: from mail.talpidae.net ([176.9.32.230]:47889 "EHLO
-        node0.talpidae.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbgFCNeG (ORCPT
+        id S1725905AbgFCNsU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 3 Jun 2020 09:48:20 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:34629 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725866AbgFCNsU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 3 Jun 2020 09:34:06 -0400
-Received: by node0.talpidae.net (mail.talpidae.net, from userid 33)
-        id 59E6D92D28C; Wed,  3 Jun 2020 13:34:05 +0000 (UTC)
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH v2] Makefile: install modules.builtin even if CONFIG_MODULES=n
-X-PHP-Originating-Script: 0:rcube.php
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 03 Jun 2020 15:34:05 +0200
-From:   Jonas Zeiger <jonas.zeiger@talpidae.net>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Organization: talpidae.net
-In-Reply-To: <CAK7LNARx2dcjedkN8cBq0veh6H1cVG6yyGq=Vf6xr2Bd_aHuRA@mail.gmail.com>
-References: <288d045f9429fc4cfd9ffb244e1be2f8@talpidae.net>
- <CAK7LNARx2dcjedkN8cBq0veh6H1cVG6yyGq=Vf6xr2Bd_aHuRA@mail.gmail.com>
-Message-ID: <3cd1a050fe692425352745672295033c@talpidae.net>
-X-Sender: jonas.zeiger@talpidae.net
-User-Agent: Roundcube Webmail/1.2.3
+        Wed, 3 Jun 2020 09:48:20 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R921e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01419;MF=changhuaixin@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0U-TwqSa_1591192068;
+Received: from 30.39.27.85(mailfrom:changhuaixin@linux.alibaba.com fp:SMTPD_---0U-TwqSa_1591192068)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 03 Jun 2020 21:47:49 +0800
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: [PATCH 0/2] Build ORC fast lookup table in scripts/sorttable tool
+From:   changhuaixin <changhuaixin@linux.alibaba.com>
+In-Reply-To: <20200601173840.3f36m6l4fsu5bill@treble>
+Date:   Wed, 3 Jun 2020 21:47:47 +0800
+Cc:     changhuaixin <changhuaixin@linux.alibaba.com>,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        bp@alien8.de, hpa@zytor.com, luto@amacapital.net,
+        michal.lkml@markovi.net, mingo@redhat.com, peterz@infradead.org,
+        tglx@linutronix.de, x86@kernel.org, yamada.masahiro@socionext.com
+Content-Transfer-Encoding: 8BIT
+Message-Id: <037BCC2F-FEF5-40AB-8F7B-7A966073113C@linux.alibaba.com>
+References: <20200429064626.16389-1-changhuaixin@linux.alibaba.com>
+ <20200522182815.ezanmvbemhzq2fmm@treble>
+ <482837A8-E9D9-4229-B7B1-8E14403FB2AC@linux.alibaba.com>
+ <20200601173840.3f36m6l4fsu5bill@treble>
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+X-Mailer: Apple Mail (2.3445.104.11)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Many applications check for available kernel features via:
 
-  - /proc/modules (loaded modules, present if CONFIG_MODULES=y)
-  - $(MODLIB)/modules.builtin (builtin modules)
 
-They fail to detect features if the kernel was built with 
-CONFIG_MODULES=n
-and modules.builtin isn't installed.
+> On Jun 2, 2020, at 1:38 AM, Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+> 
+> On Sun, May 31, 2020 at 01:26:54PM +0800, changhuaixin wrote:
+>>   It turned out to be an alignment problem. If sh_size of previous section
+>>   orc_unwind is not 4-byte aligned, sh_offset of the following orc_lookup
+>>   section is not 4-byte aligned too. However, the VMA of section orc_lookup
+>>   is aligned to the nearest 4-byte. Thus, the orc_lookup section means two
+>>   different ares for scripts/sorttable tool and kernel.
+>> 
+>>   Sections headers look like this when it happens:
+>> 
+>>   12 .orc_unwind_ip 00172124  ffffffff82573b28  0000000002573b28  01773b28
+>>    2**0
+>>                    CONTENTS, ALLOC, LOAD, RELOC, READONLY, DATA
+>>   13 .orc_unwind   0022b1b6  ffffffff826e5c4c  00000000026e5c4c  018e5c4c
+>>    2**0
+>>                    CONTENTS, ALLOC, LOAD, READONLY, DATA
+>>   14 .orc_lookup   0003003c  ffffffff82910e04  0000000002910e04  01b10e02
+>>    2**0
+>>                    ALLOC
+>>   15 .vvar         00001000  ffffffff82941000  0000000002941000  01b41000
+>>    2**4
+>>                    CONTENTS, ALLOC, LOAD, DATA
+>> 
+>>   Sorttable tool uses the are starting with offset 0x01b10e02 for 0x0003003c
+>>   bytes. While kernel use the area starting with VMA at  0xffffffff82910e04
+>>   for 0x0003003c bytes, meaning that each entry in this table used by kernel
+>>   is actually 2 bytes behind the corresponding entry set from sorttable
+>>   tool.
+>> 
+>>   Any suggestion on fixing this？
+> 
+> The VMA and LMA are both 4-byte aligned.  The file offset alignment
+> (0x01b10e02) shouldn't matter.
+> 
+> Actually it looks like the problem is that the section doesn't have
+> CONTENTS, so it's just loaded as a BSS section (all zeros).  The section
+> needs to be type SHT_PROGBITS instead of SHT_NOBITS.
+> 
+> $ readelf -S vmlinux |grep orc_lookup
+>  [16] .orc_lookup       NOBITS           ffffffff82b68418  01d68418
+> 
+> I tried to fix it with
+> 
+> diff --git a/scripts/sorttable.h b/scripts/sorttable.h
+> index a36c76c17be4..76adb1fb88f8 100644
+> --- a/scripts/sorttable.h
+> +++ b/scripts/sorttable.h
+> @@ -341,6 +341,7 @@ static int do_sort(Elf_Ehdr *ehdr,
+> 			param.lookup_table_size = s->sh_size;
+> 			param.orc_lookup_table = (unsigned int *)
+> 				((void *)ehdr + s->sh_offset);
+> +			w(SHT_PROGBITS, &s->sh_type);
+> 		}
+> 		if (!strcmp(secstrings + idx, ".text")) {
+> 			param.text_size = s->sh_size;
+> 
+> 
+> But that makes kallsyms unhappy, so I guess we need to do it from the
+> linker script where .orc_lookup is created.
+> 
+> Linker script doesn't seem to allow manual specification of the section
+> type, so this is the best I could come up with:
+> 
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index db600ef218d7..49f4f5bc6165 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -826,6 +826,8 @@
+> 		. += (((SIZEOF(.text) + LOOKUP_BLOCK_SIZE - 1) /	\
+> 			LOOKUP_BLOCK_SIZE) + 1) * 4;			\
+> 		orc_lookup_end = .;					\
+> +		/* HACK: force SHT_PROGBITS so sorttable can edit: */	\
+> +		BYTE(1);						\
+> 	}
+> #else
+> #define ORC_UNWIND_TABLE
 
-Therefore, add the target "_builtin_inst_" and make "install" and
-"modules_install" depend on it.
+Thanks! It works.
 
-Tests results:
-
-  - make install: kernel image is copied as before, modules.builtin 
-copied
-  - make modules_install: (CONFIG_MODULES=n) nothing is copied, exit 1
-
-Signed-off-by: Jonas Zeiger <jonas.zeiger@talpidae.net>
----
-  Makefile | 14 +++++++++++---
-  1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index a7bc91cbac8f..a160efd62897 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1315,6 +1315,16 @@ dt_binding_check: scripts_dtc
-  # 
----------------------------------------------------------------------------
-  # Modules
-
-+# install modules.builtin regardless of CONFIG_MODULES
-+PHONY += _builtin_inst_
-+_builtin_inst_:
-+	@mkdir -p $(MODLIB)/
-+	@cp -f modules.builtin $(MODLIB)/
-+	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
-+
-+PHONY += install
-+install: _builtin_inst_
-+
-  ifdef CONFIG_MODULES
-
-  # By default, build modules as well
-@@ -1344,7 +1354,7 @@ PHONY += modules_install
-  modules_install: _modinst_ _modinst_post
-
-  PHONY += _modinst_
--_modinst_:
-+_modinst_: _builtin_inst_
-  	@rm -rf $(MODLIB)/kernel
-  	@rm -f $(MODLIB)/source
-  	@mkdir -p $(MODLIB)/kernel
-@@ -1354,8 +1364,6 @@ _modinst_:
-  		ln -s $(CURDIR) $(MODLIB)/build ; \
-  	fi
-  	@sed 's:^:kernel/:' modules.order > $(MODLIB)/modules.order
--	@cp -f modules.builtin $(MODLIB)/
--	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
-  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
-
-  # This depmod is only for convenience to give the initial
--- 
-2.26.2
 
