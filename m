@@ -2,60 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63D121EE637
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2020 16:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 375C01EE667
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2020 16:14:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728682AbgFDOCA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Jun 2020 10:02:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49176 "EHLO
+        id S1728682AbgFDOOo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Jun 2020 10:14:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728604AbgFDOCA (ORCPT
+        with ESMTP id S1728496AbgFDOOo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Jun 2020 10:02:00 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 036D8C08C5C0
-        for <linux-kbuild@vger.kernel.org>; Thu,  4 Jun 2020 07:02:00 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id z206so3667087lfc.6
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Jun 2020 07:01:59 -0700 (PDT)
+        Thu, 4 Jun 2020 10:14:44 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4FC9C08C5C1
+        for <linux-kbuild@vger.kernel.org>; Thu,  4 Jun 2020 07:14:43 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id b6so7519866ljj.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 04 Jun 2020 07:14:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RyahCwj7GWFMqqvRbPUi/TlPiAHD4KqpSE60TAEaL9A=;
-        b=gjHkdzUMhdyHJkapNYoxi9E/bvX0FBFiSvfqIhYHEmYQTT7TsTNlVhAesWRAL7isYP
-         lsna+Fr7cHbRtH48eiLL8jfUvf8a5+6nuqcuxFZt/wGr1wGuhifGi+ylwfCLPZBAO82I
-         Q3OvNuGkRmpIli8heThK0uGKWFAxsAIWwF1U54EWDKNOJlKtVaXqUX+JzWrUVavBKvqB
-         iFXYlKgXAdF4Q95WyKBxD8X1AdyHA5WeZRKC8nk2uz5BDKsKTZl+l3QGpqv+NeShBwcv
-         eMXXQFW75HJDx5wd1ToS/HhRrjtFKP+7hSfuFsfKEYeHvp1RvkiP5BS3ZElqqVJpanMo
-         9Pig==
+        bh=JFfRFTCW6FlgjlqwGn/P6j5CtXdNMxPx5d48a8cUyd4=;
+        b=EEECY9X2ZdOdKHgdpzGf+DMwJvZiLd517zxt2dbS2nKm3skzGPqTgtp413UgMfvu0Z
+         ySVazhwi/YFYlUV4XnFzNegdZNUnbuIoZjvesCvFjNLr65TFhoUJDtKunjSbLIdKe1Ij
+         T9U0pl+DeA8gNiHYV54V1mtUWojw8ar7qhEqIKQJkpZOJbirv3Ko8C7M9ApwFuifCCyM
+         2BCbFSH7yCa2YARYKYiQjagjZ6ntYCRHhZ+z6FtDWrarTmrlseFb6Ofe5PTMn80MgGMT
+         w8bNH0WNfPllBGNPWsHRyTCLuuEd5VP4NkFuiuk4k8s1Iz/61glv2Kv2yiGh6FU/aHnF
+         JmxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RyahCwj7GWFMqqvRbPUi/TlPiAHD4KqpSE60TAEaL9A=;
-        b=BK8GHYkfIrao0PwupSr0c7IpVN545VOxs+syXE8eTu/w25TVUGA0BWNwk3JpZ1n+s+
-         1sW4lL2ahWlh3B1EaFRmezyrdr6jTfRUo5GOMSiBS0HNbOP/lEl9HWZmFnTzolTlOGj4
-         OF3teWUZx4KC9ycGn1O9Xx96m99nKjXGYsUM6rBFNXneHqXHxlY21A7JfK+Zu1Tq9ZEg
-         DO/3znQlx0e+YcOo4rXjhkhC4CUaKebDK53EvlEpKwGQKlH0H4hCmsZCuX24/g4HnAzx
-         VpFvu16BLO6Q1ew9Wd2TRYp5dT1Sn9b23waANQLoCvZB7Hua02S6IDnWqXLxhzwJoXYz
-         zmZw==
-X-Gm-Message-State: AOAM531Y4+wrO3KWjh6UbNwrnYeoBceeX7vVPFr77plBD5ocAkqgZg/8
-        rCjHtiudMaJorWcaByviyZVcmV0H7d0fkB5E4oyaOw==
-X-Google-Smtp-Source: ABdhPJwB31t3SsgcUaqovXgGt8jFxRPQdX0SXfXfNcrhI263Zb2nRLIjrQ392jUb57HBWnL6OVG/nj7aV6lYdX+datU=
-X-Received: by 2002:a19:cb92:: with SMTP id b140mr2706702lfg.63.1591279318209;
- Thu, 04 Jun 2020 07:01:58 -0700 (PDT)
+        bh=JFfRFTCW6FlgjlqwGn/P6j5CtXdNMxPx5d48a8cUyd4=;
+        b=QmcUp/Ab5AhyVMyfF+K8Ms5b/PolskHmfNbrCo3rp7273L5sx6liSqKckr65TPkfIN
+         NaLlO2qai51PnI+uo+EK1R2F/tCBiqIg6n/BzDj2CLl39Toj4lxN6YYwypKCWlM1ifCU
+         RndUHOtpNZV7ZB8BdkT0JKVVTvrJvUpr+OiRmj7oUc2RbBsfrbpjUnCiT3L/keLAGyBV
+         TCNVrD8hYY3ip0gCARsCd5939kBQHRjyMeaAz+6HJl3UGodJBeZwnsXNHivuKYaK2shv
+         58xRZ3GnAJOdqTiYrs0U65l7gCqbM+LX7WZ52V7JGw6O+Cv1Pb+raAkiQIZbfdOrnlu9
+         FNLA==
+X-Gm-Message-State: AOAM531yJ3UfYTHW2mzCn6vyX2GwEWI9q9e/GHwBz26w/Ee5l/7KRiJ8
+        iFKrH4rNM6rBA6ycyzOcoW3NclMZyESiFE3SJJzOlQ==
+X-Google-Smtp-Source: ABdhPJwh9Avfez2jE0mRwOtdOdTV4d94V9o8AmvMHNcT4N8KwBQZsul+bYwmwvBngke6YqzEcWV2C1L9uJeApYHNb1k=
+X-Received: by 2002:a2e:541e:: with SMTP id i30mr2143909ljb.156.1591280081782;
+ Thu, 04 Jun 2020 07:14:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200604134957.505389-1-alex.popov@linux.com> <20200604134957.505389-2-alex.popov@linux.com>
-In-Reply-To: <20200604134957.505389-2-alex.popov@linux.com>
+References: <20200604134957.505389-1-alex.popov@linux.com> <20200604134957.505389-6-alex.popov@linux.com>
+ <20200604135806.GA3170@willie-the-truck>
+In-Reply-To: <20200604135806.GA3170@willie-the-truck>
 From:   Jann Horn <jannh@google.com>
-Date:   Thu, 4 Jun 2020 16:01:30 +0200
-Message-ID: <CAG48ez05JOvqzYGr3PvyQGwFURspFWvNvf-b8Y613PX0biug8w@mail.gmail.com>
-Subject: Re: [PATCH 1/5] gcc-plugins/stackleak: Exclude alloca() from the
- instrumentation logic
-To:     Alexander Popov <alex.popov@linux.com>,
+Date:   Thu, 4 Jun 2020 16:14:15 +0200
+Message-ID: <CAG48ez0H_+EBd1wekk2oddSzLsgzincyZb_dB+s5atudB23YyA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] gcc-plugins/stackleak: Don't instrument
+ vgettimeofday.c in arm64 VDSO
+To:     Will Deacon <will@kernel.org>
+Cc:     Alexander Popov <alex.popov@linux.com>,
         Kees Cook <keescook@chromium.org>,
-        Elena Reshetova <elena.reshetova@intel.com>
-Cc:     Emese Revfy <re.emese@gmail.com>,
+        Emese Revfy <re.emese@gmail.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -67,7 +68,6 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         Sven Schnelle <svens@stackframe.org>,
         Iurii Zaikin <yzaikin@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Peter Collingbourne <pcc@google.com>,
@@ -90,16 +90,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 4, 2020 at 3:51 PM Alexander Popov <alex.popov@linux.com> wrote:
-> Some time ago Variable Length Arrays (VLA) were removed from the kernel.
-> The kernel is built with '-Wvla'. Let's exclude alloca() from the
-> instrumentation logic and make it simpler. The build-time assertion
-> against alloca() is added instead.
-[...]
-> +                       /* Variable Length Arrays are forbidden in the kernel */
-> +                       gcc_assert(!is_alloca(stmt));
+On Thu, Jun 4, 2020 at 3:58 PM Will Deacon <will@kernel.org> wrote:
+> On Thu, Jun 04, 2020 at 04:49:57PM +0300, Alexander Popov wrote:
+> > Don't try instrumenting functions in arch/arm64/kernel/vdso/vgettimeofday.c.
+> > Otherwise that can cause issues if the cleanup pass of stackleak gcc plugin
+> > is disabled.
+> >
+> > Signed-off-by: Alexander Popov <alex.popov@linux.com>
+> > ---
+> >  arch/arm64/kernel/vdso/Makefile | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> > index 3862cad2410c..9b84cafbd2da 100644
+> > --- a/arch/arm64/kernel/vdso/Makefile
+> > +++ b/arch/arm64/kernel/vdso/Makefile
+> > @@ -32,7 +32,8 @@ UBSAN_SANITIZE                      := n
+> >  OBJECT_FILES_NON_STANDARD    := y
+> >  KCOV_INSTRUMENT                      := n
+> >
+> > -CFLAGS_vgettimeofday.o = -O2 -mcmodel=tiny -fasynchronous-unwind-tables
+> > +CFLAGS_vgettimeofday.o = -O2 -mcmodel=tiny -fasynchronous-unwind-tables \
+> > +             $(DISABLE_STACKLEAK_PLUGIN)
+>
+> I can pick this one up via arm64, thanks. Are there any other plugins we
+> should be wary of? It looks like x86 filters out $(GCC_PLUGINS_CFLAGS)
+> when building the vDSO.
 
-There is a patch series from Elena and Kees on the kernel-hardening
-list that deliberately uses __builtin_alloca() in the syscall entry
-path to randomize the stack pointer per-syscall - see
-<https://lore.kernel.org/kernel-hardening/20200406231606.37619-4-keescook@chromium.org/>.
+Maybe at some point we should replace exclusions based on
+GCC_PLUGINS_CFLAGS and KASAN_SANITIZE and UBSAN_SANITIZE and
+OBJECT_FILES_NON_STANDARD and so on with something more generic...
+something that says "this file will not be built into the normal
+kernel, it contains code that runs in realmode / userspace / some
+similarly weird context, and none of our instrumentation
+infrastructure is available there"...
