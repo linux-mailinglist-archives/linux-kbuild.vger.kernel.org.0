@@ -2,96 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C4641EE4F2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2020 15:05:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A874D1EE5C5
+	for <lists+linux-kbuild@lfdr.de>; Thu,  4 Jun 2020 15:50:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726003AbgFDNF2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 4 Jun 2020 09:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725926AbgFDNF1 (ORCPT
+        id S1728496AbgFDNuk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 4 Jun 2020 09:50:40 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:43459 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728337AbgFDNuk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 4 Jun 2020 09:05:27 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BB7EC08C5C0
-        for <linux-kbuild@vger.kernel.org>; Thu,  4 Jun 2020 06:05:26 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id t8so5953088ilm.7
-        for <linux-kbuild@vger.kernel.org>; Thu, 04 Jun 2020 06:05:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=UB8N71zlZMHST8vuUtfOvgGJkzslH3pcl8exOAZaPxs=;
-        b=ns+noux2rc6kuU8n0bGtIusK3cPzXzhzV/zQvGmEo9lg9zSFkKTyYrNIQRCNdNTGJ8
-         DUsp2YAbq7PXbn/nXV2Z7fiPkS7UFLrsWEmgb+7nUQzK988V0ZLaj4iBIe44x4PjtGk1
-         6vxMJLOJJ3CKTcd4FN6FpbvMkwRCFnYXPAYuhJWTdGJaMY6du9kflDDj1MlCSRgvfIqk
-         TQBqq1I1FrRDVMxzLkKnaq1k2o+PZXBIfdVs7icCiwCGKaeBc8AggiyMxPW7HWAqvI8k
-         zpo3Ree3gt7pg4QvtqHMtAPL9fwmqxv1wlr9rQqoykevpaGA3Dh60O1k/AEXnXrkHPtB
-         Gwwg==
+        Thu, 4 Jun 2020 09:50:40 -0400
+Received: by mail-lf1-f65.google.com with SMTP id c12so3631740lfc.10;
+        Thu, 04 Jun 2020 06:50:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:cc:content-transfer-encoding;
-        bh=UB8N71zlZMHST8vuUtfOvgGJkzslH3pcl8exOAZaPxs=;
-        b=GF1Czj8YSwvYXPQOXl3iTwpH6WWJ0ljf6GCxzU7UlxabZA52/PS34vEEYSls+09Wh3
-         Qtukj0dYZhY9bIWFyUB4bFaQfcY6jRXf2mbF0+kBWmZmHgo8+4DaMhG4B8TKyiNLF2yA
-         cAAimLO8HM9KuUzyFkW+UBicW40HdsoBd3ezq2gAdpZ+REw6nHSXtcIfA9v5sPytou5e
-         bkXHol7y6khrSiqePzyQYJ/ryZ5Us9GNnqXmW6Jt722bcLMymjibZW4isCkRBN5Rny7x
-         AvNPqSJmCIVYDtpRfvbMAR+2u0y4BXg6VkRQkzfjpobNd6ydZnrZSlaC08RqzVdXTA8k
-         BH+w==
-X-Gm-Message-State: AOAM530iFsJg5/tFJrhob63dqFX/oPeOgvtWGMW1wGkJ+1LPlg/d1GP6
-        1QXru5VnzbTeRH1+nZhJZVzbRAqy0tw1X/mJzzjlN+4ptf9XqQ==
-X-Google-Smtp-Source: ABdhPJw6K4vpN89GJEJf7SUEXZuv0uN+17ebZXU1+WKEvn+YP1USGkbb0Hp3GGWNozc5HM//EVAOhwl6nozIWSU8QZQ=
-X-Received: by 2002:a92:498d:: with SMTP id k13mr3996968ilg.226.1591275925813;
- Thu, 04 Jun 2020 06:05:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9/mS/crSG/SbKgPicMind4lrkGlCDOUOSlUrNN+bfdo=;
+        b=PSK1YejsJgXfe2XYxbsgFP7Ka63S0ZMXy2Xva+kS1Mrnsj1USFa3KHkX9+ICOMro9W
+         TQxEzs5DpLM268+yoXKixRbPWzTLPLnQTRkGoErzwvXU8TzfV7jCzlPPJE3h232e/RwH
+         xf9kgNBNzgISQ0IGRdxbu9cm9GBPPOwSPLLffyq638cB2IVuM80j2YQSDhffWbCTgWXT
+         6JGj++0QYtaqHB2YY96uH3K5/wQre5RReORFx0ro4nfQ+QlwLbOPE640AiVtZ26+0nRL
+         ylpgUQEfHHQuSGrJpwpZF20vjMgto6PA4KH6bX4I5yvnm7aaWqeuYfcrHR/Ol0tujZP+
+         y2eA==
+X-Gm-Message-State: AOAM530Koi5yJBKRa4RPTviDDu3OZtzToQ7eIiejWY18iUuEG2mktZJ4
+        ahhBUguKNpDfqU57Kaluunk=
+X-Google-Smtp-Source: ABdhPJwrdWT6y2CL2LWAPgdgslvxxxcX+HXve/twLqm1KvVhxEovjWNPGDhPf/+ZcjY/tapJBcnulg==
+X-Received: by 2002:a05:6512:20d:: with SMTP id a13mr2649191lfo.36.1591278637579;
+        Thu, 04 Jun 2020 06:50:37 -0700 (PDT)
+Received: from localhost.localdomain ([185.248.161.177])
+        by smtp.gmail.com with ESMTPSA id u16sm1202140lji.58.2020.06.04.06.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 06:50:36 -0700 (PDT)
+From:   Alexander Popov <alex.popov@linux.com>
+To:     Kees Cook <keescook@chromium.org>,
+        Emese Revfy <re.emese@gmail.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Sven Schnelle <svens@stackframe.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Naohiro Aota <naohiro.aota@wdc.com>,
+        Alexander Monakov <amonakov@ispras.ru>,
+        Mathias Krause <minipli@googlemail.com>,
+        PaX Team <pageexec@freemail.hu>,
+        Brad Spengler <spender@grsecurity.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Alexander Popov <alex.popov@linux.com>,
+        kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
+        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, gcc@gcc.gnu.org
+Cc:     notify@kernel.org
+Subject: [PATCH 0/5] Improvements of the stackleak gcc plugin
+Date:   Thu,  4 Jun 2020 16:49:52 +0300
+Message-Id: <20200604134957.505389-1-alex.popov@linux.com>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Thu, 4 Jun 2020 15:05:14 +0200
-Message-ID: <CA+icZUU7AAzpYfktqCvn8oKpFMzZud6fQEh=fNWi4xkuqKmYog@mail.gmail.com>
-Subject: [PATCH] kbuild: add variables for compression tools
-To:     Denis Efremov <efremov@linux.com>
-Cc:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Denis,
+In this patch series I collected various improvements of the stackleak
+gcc plugin.
 
-is it possible to add ZSTD compression support with the possibility to
-add - for example multithreading - options?
+The first patch excludes alloca() from the stackleak instrumentation logic
+to make it simpler.
 
-Quote from your patch:
+The second patch is the main improvement. It eliminates an unwanted
+side-effect of kernel code instrumentation. This patch is a deep
+reengineering of the idea described on grsecurity blog:
+  https://grsecurity.net/resolving_an_unfortunate_stackleak_interaction
 
-> As a sidenote, for multi-threaded lzma, xz compression one can use:
-> $ export XZ_OPT=3D"--threads=3D0"
+The third patch adds 'verbose' plugin parameter for printing additional
+info about the kernel code instrumentation.
 
-man zstd says:
+Two other patches disable unneeded stackleak instrumentation for some
+files.
 
-       -T#, --threads=3D#
-              Compress using # working threads (default: 1). If # is
-0, attempt to detect and use the number of physical CPU cores. In all
-cases, the nb  of  threads  is  capped  to  ZST=E2=80=90
-              DMT_NBTHREADS_MAX=3D=3D200. This modifier does nothing if
-zstd is compiled without multithread support.
+I would like to thank Alexander Monakov <amonakov@ispras.ru> for his
+advisory on gcc internals.
 
-Of course, I can help with testing.
-
-For the documentation - which I have not checked - are the tools and
-libs mentioned you will need to have installed for certain compression
-tools?
-For ZSTD on Debian - these are zstd and libzstd1:amd64 packages.
-
-Thanks.
-
-Regards,
-- Sedat -
+This patch series was tested for gcc version 4.8, 5, 6, 7, 8, 9, and 10
+on x86_64, i386 and arm64.
+That was done using the project 'kernel-build-containers':
+  https://github.com/a13xp0p0v/kernel-build-containers
 
 
-[1] https://patchwork.kernel.org/patch/11585381/
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.=
-git/commit/?h=3Dkbuild&id=3D1312a1e434c1816e3bbcd4f806aa862dc735dec0
+Alexander Popov (5):
+  gcc-plugins/stackleak: Exclude alloca() from the instrumentation logic
+  gcc-plugins/stackleak: Use asm instrumentation to avoid useless
+    register saving
+  gcc-plugins/stackleak: Add 'verbose' plugin parameter
+  gcc-plugins/stackleak: Don't instrument itself
+  gcc-plugins/stackleak: Don't instrument vgettimeofday.c in arm64 VDSO
+
+ arch/arm64/kernel/vdso/Makefile        |   3 +-
+ include/linux/compiler_attributes.h    |  13 ++
+ kernel/Makefile                        |   1 +
+ kernel/stackleak.c                     |  16 +-
+ scripts/Makefile.gcc-plugins           |   2 +
+ scripts/gcc-plugins/stackleak_plugin.c | 260 ++++++++++++++++++++-----
+ 6 files changed, 232 insertions(+), 63 deletions(-)
+
+-- 
+2.25.2
+
