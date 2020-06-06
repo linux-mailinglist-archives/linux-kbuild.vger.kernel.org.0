@@ -2,107 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 854A81F03EE
-	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jun 2020 02:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 530561F071C
+	for <lists+linux-kbuild@lfdr.de>; Sat,  6 Jun 2020 16:44:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728423AbgFFA2A (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 5 Jun 2020 20:28:00 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:48777 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728381AbgFFA2A (ORCPT
+        id S1728770AbgFFOoK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 6 Jun 2020 10:44:10 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:17257 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728714AbgFFOoK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 5 Jun 2020 20:28:00 -0400
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0560RQ6i024237;
-        Sat, 6 Jun 2020 09:27:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0560RQ6i024237
+        Sat, 6 Jun 2020 10:44:10 -0400
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 056Ehlgo016107;
+        Sat, 6 Jun 2020 23:43:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 056Ehlgo016107
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1591403247;
-        bh=DLK1Q03Ke1bnSHppdytRjHujmJK/0OEZ1kYZjRB6CI4=;
+        s=dec2015msa; t=1591454628;
+        bh=tjJf9yrzYB6UwD08OE5+OR5eSSMZmjyIOBpMcr//QGs=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ddTVoKvlVyv/voN4alwJUC8DWobrKIBuyQibXfbzsJWUghEKvmskocAfmpVYiZuY9
-         K8YImTzQILFHsZrZF6CJrIN2MB93GS0daT3YM2bDZycuks53EMgpxAEXdRrnyM66oA
-         L5K64b9sYm213btEt0kxaLHXGEU2TDDxDtO5wDnPclc2mrNOGAu6d9VhOfLVVlmNLP
-         mPS6cNCc3s8dqEknl89mc58eFhHl8QbXIFUlDU/9a2ct+Rof+Nji2TJYE3waF3f/3P
-         qvGAg4EiAHwR46qN/2QXPubXkKSCiAQr9FbuKHOHv74I1yN6Q0btdaPwPVf5TO93Ko
-         s9WlTwJC+Si5g==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id b10so2741616uaf.0;
-        Fri, 05 Jun 2020 17:27:27 -0700 (PDT)
-X-Gm-Message-State: AOAM5316OLfB1sQaBgkxJhJduIgBFd5SaYEIi4QofpByeXZ7RuMRIxpT
-        k8EGoWipnF4Xli7N6t2LBLbBzmSi9hvZKvcZUIA=
-X-Google-Smtp-Source: ABdhPJy5/1Ln8ibWBHn8oD6mXyWec4MPBsOcArPhylfj3/vXvIOHEM4MIK2r/O0q7A+coE3QpGPOOz8YaK2H+19bo1w=
-X-Received: by 2002:a9f:2204:: with SMTP id 4mr9869288uad.40.1591403245887;
- Fri, 05 Jun 2020 17:27:25 -0700 (PDT)
+        b=XdFCzxLJAslsQWU56itcSH1zKDbWp9ff4kDDB3fvjOQ819Iwf0gSg0V7h4ewqaoxE
+         +Uc5qixP6UwBWGCoszF7KflJ2D0UOmPiZ6lWwKnOrCtBwdd566Z9g3a3a4VonBYKPd
+         UhafJeNa3cJePf6XfVF1vl76zEgnZ8xxxndENJ5Xa3GGPnbaLMEeWZSCk9N3sPQZMH
+         IHgFQSZuy8yJGWoLcGvROhr8XeQo1BoDYtOsmupGH+WD+r3J4M90/f+bPnC7dJfHbO
+         myC55bb++rPDG+rtOAb5nc1Y3EkAc+8dtWaNy/3Tx+/DpqdcKLSw7nG0rvCvT/3R/Y
+         3WygLVcNF1ulw==
+X-Nifty-SrcIP: [209.85.217.50]
+Received: by mail-vs1-f50.google.com with SMTP id k13so7267798vsm.13;
+        Sat, 06 Jun 2020 07:43:48 -0700 (PDT)
+X-Gm-Message-State: AOAM531Iac1wPR9bYCQi8ci9JWCcydQTJ2iNGabPxQASWDGn0paivAk9
+        QAzKk1upuC49fzBwa3AK+2MiZhPCBxA//waKlvg=
+X-Google-Smtp-Source: ABdhPJze68VJW1GjAz6C7aMA4c3Yup2JuYfY+OwIzZcDBKZhh9WKEFkXfNY/v+kHw+DNFLcjNwhDt+DWkQbWCm6WhlE=
+X-Received: by 2002:a67:22c7:: with SMTP id i190mr10578583vsi.179.1591454627220;
+ Sat, 06 Jun 2020 07:43:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200531084707.1238909-1-masahiroy@kernel.org> <20200605141059.E85BA2074B@mail.kernel.org>
-In-Reply-To: <20200605141059.E85BA2074B@mail.kernel.org>
+References: <20200514131234.380097-1-efremov@linux.com> <20200605073955.6384-1-efremov@linux.com>
+In-Reply-To: <20200605073955.6384-1-efremov@linux.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 6 Jun 2020 09:26:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQwJk1RN=DDYUhMCZ=7oDLDb2mfZ7U8O7EEAT8ghFh3WQ@mail.gmail.com>
-Message-ID: <CAK7LNAQwJk1RN=DDYUhMCZ=7oDLDb2mfZ7U8O7EEAT8ghFh3WQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: force to build vmlinux if CONFIG_MODVERSION=y
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
+Date:   Sat, 6 Jun 2020 23:43:10 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARqJpM1m38o_5Ft1HV_sriDTBNE27JgxJfmbv2PM9EjQA@mail.gmail.com>
+Message-ID: <CAK7LNARqJpM1m38o_5Ft1HV_sriDTBNE27JgxJfmbv2PM9EjQA@mail.gmail.com>
+Subject: Re: [PATCH v5] kbuild: add variables for compression tools
+To:     Denis Efremov <efremov@linux.com>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi.
-
-On Fri, Jun 5, 2020 at 11:11 PM Sasha Levin <sashal@kernel.org> wrote:
+On Fri, Jun 5, 2020 at 4:40 PM Denis Efremov <efremov@linux.com> wrote:
 >
-> Hi
+> Allow user to use alternative implementations of compression tools,
+> such as pigz, pbzip2, pxz. For example, multi-threaded tools to
+> speed up the build:
+> $ make GZIP=pigz BZIP2=pbzip2
 >
-> [This is an automated email]
+> Variables _GZIP, _BZIP2, _LZOP are used internally because original env
+> vars are reserved by the tools. The use of GZIP in gzip tool is obsolete
+> since 2015. However, alternative implementations (e.g., pigz) still rely
+> on it. BZIP2, BZIP, LZOP vars are not obsolescent.
 >
-> This commit has been processed because it contains a -stable tag.
-> The stable tag indicates that it's relevant for the following trees: 2.5.71+
+> The credit goes to @grsecurity.
 >
-> The bot has tested the following trees: v5.6.15, v5.4.43, v4.19.125, v4.14.182, v4.9.225, v4.4.225.
+> As a sidenote, for multi-threaded lzma, xz compression one can use:
+> $ export XZ_OPT="--threads=0"
 >
-> v5.6.15: Build OK!
-> v5.4.43: Build OK!
-> v4.19.125: Build OK!
-> v4.14.182: Build OK!
-> v4.9.225: Failed to apply! Possible dependencies:
->     2c1f4f125159 ("kbuild: re-order the code to not parse unnecessary variables")
->     312a3d0918bb ("kbuild: trivial cleanups on the comments")
->     a9d9a400e075 ("kbuild: split exported generic header creation into uapi-asm-generic")
->
-> v4.4.225: Failed to apply! Possible dependencies:
->     23121ca2b56b ("kbuild: create/adjust generated/autoksyms.h")
->     2441e78b1919 ("kbuild: better abstract vmlinux sequential prerequisites")
->     2c1f4f125159 ("kbuild: re-order the code to not parse unnecessary variables")
->     2e8d696b79e9 ("kbuild: drop FORCE from PHONY targets")
->     312a3d0918bb ("kbuild: trivial cleanups on the comments")
->     a9d9a400e075 ("kbuild: split exported generic header creation into uapi-asm-generic")
->     b9ab5ebb14ec ("objtool: Add CONFIG_STACK_VALIDATION option")
->     ba79d401f1ae ("kbuild: fix call to adjust_autoksyms.sh when output directory specified")
->     dd92478a15fa ("kbuild: build sample modules along with the rest of the kernel")
->     fbe6e37dab97 ("kbuild: add arch specific post-link Makefile")
->
->
-> NOTE: The patch will not be queued to stable trees until it is upstream.
->
-> How should we proceed with this patch?
+> Signed-off-by: Denis Efremov <efremov@linux.com>
+> ---
+> Changes in v2:
+>   - _GZIP used instead of GZIP
+>   - tar commands altered to use tools from the vars
+> Changes in v3:
+>   - _BZIP2 used instead of BZIP2
+>   - _LZOP used instead of LZOP
+> Changes in v4:
+>   - Unexports removed from Kbuild.include
+>   - MAKEOVERRIDES used in top Makefile
+>   - All variables checks removed from scripts
+> Changes in v5:
+>   - Conflict with removed LASAT resolved
 
 
-I will send a pull request to Linus shortly.
-
-After it hands, please cherry-pick it
-for v4.14, v4.19, v5.4, v5.6
-
-
-I will resolve the conflict and send a patch
-for v4.4 and v4.9 later.
-
-Thanks.
-
-
+Replaced. Thanks.
 
 
 
