@@ -2,92 +2,138 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D2D11F1149
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2020 04:03:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8184F1F126A
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2020 07:00:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728691AbgFHCDA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 7 Jun 2020 22:03:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40080 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728684AbgFHCC7 (ORCPT
+        id S1726929AbgFHFAm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jun 2020 01:00:42 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:52767 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725803AbgFHFAm (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 7 Jun 2020 22:02:59 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F1FCC08C5C3;
-        Sun,  7 Jun 2020 19:02:59 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id q24so5334768pjd.1;
-        Sun, 07 Jun 2020 19:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Mfx3Sj9FRZgAlKkU0LzGyYtv3vZ3jXxU4QX6vPSwotg=;
-        b=IxgYn4mbhc2Vf8FRFIdJSbwmU25ArLjINBY8TBskXSLat97ACPvXWS0SKINAt4CaoW
-         nyX+Gl3bJ5FHby9ApeiQfU33sdZTC1k42aDMgLj1597DADpUw5iFm+KYmCwAvJNLdpAK
-         57ErAZuWqF7yp2lh6E1GrT48T9yPfCQU3ATtYqS87MGh1zSzEzh0EqATPAqC3P66Esud
-         QuiN1xBGfFafr7O5HpevEvKJ1pAvB0Bg4mHh2yVBftuRq+FIgwgloz3jGQq/aSZ31GQV
-         smDLe9Phelu8Km3zCfi/0iFPcx8kojUSuWc1qOuA/c/FptpXRDJY1vka/9TpVkmAOv3N
-         fbHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Mfx3Sj9FRZgAlKkU0LzGyYtv3vZ3jXxU4QX6vPSwotg=;
-        b=d5ykE8AwD1VJk4O/YxQGO0BTdZVinVycVXYdcR/1DbxSwY8zIdWOWWFkImdjRqqoll
-         BgpbuwhX9q54qdUxSjuBUpmoSxNqFXKLD/gNGo+PIJf2lAyez970ObVfRG04N7ELi1I5
-         VdKiwR3349vhtc08LLSX8fVnk7VrUZDDVeQqvdCyaVALgglVZLmM0mTnuCrV8U9rpsRw
-         wqLkn5VActpgztFmN5h4rQUhzwnJzP5/XgBcrbltJvx/6or8xFcCNZCbxgTu3krytoGK
-         /fTWqAS8BsBgp0XhhR7jjqfbHkY//H4GOtiiILaj8q8O5+/vsX7rhIdYE9OZxcCy+U3y
-         Y5/g==
-X-Gm-Message-State: AOAM532xVD1ruYNhqsW7Tsy4FyeK2hNj8otfSStgoP/5ep7yIp4apYT2
-        LORIAwNHXtlDvxxx8W9lxaM=
-X-Google-Smtp-Source: ABdhPJz5Hw6n77EW+y5qbhGjqDx6DdppXlDgnOcBMJ+4oJCDmD81ehMUbDIJ++zS6FMiYvZqXIy9ag==
-X-Received: by 2002:a17:902:6906:: with SMTP id j6mr19601835plk.261.1591581778370;
-        Sun, 07 Jun 2020 19:02:58 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e127sm5405462pfe.45.2020.06.07.19.02.57
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 07 Jun 2020 19:02:57 -0700 (PDT)
-Date:   Sun, 7 Jun 2020 19:02:56 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: make module name conflict fatal error
-Message-ID: <20200608020256.GA256950@roeck-us.net>
-References: <20200511042149.1712876-1-masahiroy@kernel.org>
+        Mon, 8 Jun 2020 01:00:42 -0400
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 05850PgG006595;
+        Mon, 8 Jun 2020 14:00:26 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 05850PgG006595
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1591592426;
+        bh=RnwdU5VcWRoU23GcuPYkPtqQl5L5moq3GNmmQqtecXM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cpnZKBe8fZo0g0lcEKc6G4ihG+nmDl3sODFW6U1SFAudgMSIYJsOxINTc7cN4hRPj
+         a+6lO/P90mLQfdUsSeM1RlD5tEN5GQ9I/ii5s0Uh+uCRtsMd4bgZXgZkQmc96eyzOG
+         z/17OQua02x94yZ4NCrV1DvzHZ9RpatMxySPEjV1jbx3RFb8Z0H5k9eNyyRlJoJUl/
+         1Fy2dklPdF3BbCDrY0ifH5O1McIBgrMTTxKafZlz1kzoz2e7MF1Ir1WyTnVsXqPuxv
+         1HXpOERwiH2+9gxr8n7AgMhhNX44KoBGPBy+0lwEYBnG4uf5eM7sm++efDkr6AueLe
+         xFQjnCWwG6L1w==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id k13so9008256vsm.13;
+        Sun, 07 Jun 2020 22:00:25 -0700 (PDT)
+X-Gm-Message-State: AOAM530ptaNKSP2uZ2ZKKeDQJk+Jfoj9bbHbTktGjSIveVWSvURThxtd
+        rDbTBcGu6AO66i8CKR//oeTqlBIC6nQbaqb3nEY=
+X-Google-Smtp-Source: ABdhPJxoCzsOmrjk8+pcX9urF2DsV5Fewt7fzrJ6aQGZ6GfxIxpDEzz2v8bBvjlysLo3YY9RkTgtDPkdVMoYh9PjIKg=
+X-Received: by 2002:a67:6383:: with SMTP id x125mr14967732vsb.54.1591592424754;
+ Sun, 07 Jun 2020 22:00:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200511042149.1712876-1-masahiroy@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20200514131234.380097-1-efremov@linux.com> <20200605073955.6384-1-efremov@linux.com>
+ <20200608013012.GA216607@roeck-us.net>
+In-Reply-To: <20200608013012.GA216607@roeck-us.net>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 8 Jun 2020 13:59:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
+Message-ID: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
+Subject: Re: [PATCH v5] kbuild: add variables for compression tools
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Denis Efremov <efremov@linux.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi,
+On Mon, Jun 8, 2020 at 10:30 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> Hi,
+>
+> On Fri, Jun 05, 2020 at 10:39:55AM +0300, Denis Efremov wrote:
+> > Allow user to use alternative implementations of compression tools,
+> > such as pigz, pbzip2, pxz. For example, multi-threaded tools to
+> > speed up the build:
+> > $ make GZIP=pigz BZIP2=pbzip2
+> >
+> > Variables _GZIP, _BZIP2, _LZOP are used internally because original env
+> > vars are reserved by the tools. The use of GZIP in gzip tool is obsolete
+> > since 2015. However, alternative implementations (e.g., pigz) still rely
+> > on it. BZIP2, BZIP, LZOP vars are not obsolescent.
+> >
+>
+> When building mips:defconfig, this patch results in:
+>
+> Building mips:defconfig ... failed
+> --------------
+> Error log:
+> /bin/sh: -n: command not found
+> make[3]: *** [kernel/config_data.gz] Error 127
+> make[3]: *** Deleting file 'kernel/config_data.gz'
+> make[3]: *** Waiting for unfinished jobs....
+> make[2]: *** [kernel] Error 2
+> make[2]: *** Waiting for unfinished jobs....
+> make[1]: *** [autoksyms_recursive] Error 2
+> make: *** [__sub-make] Error 2
+>
+> Reverting this patch fixes the problem. Bisect log is attached.
+>
+> Guenter
 
-On Mon, May 11, 2020 at 01:21:49PM +0900, Masahiro Yamada wrote:
-> I think all the warnings have been fixed by now. Make it a fatal error.
-> 
 
-Not entirely. With this patch in the tree, I get:
+Agh, this is because of CONFIG_TRIM_UNUSED_KSYMS.
 
-Building sparc64:allmodconfig ... failed
---------------
-Error log:
-error: the following would cause module name conflict:
-  drivers/char/adi.ko
-  drivers/input/joystick/adi.ko
-make[1]: *** [modules_check] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [__sub-make] Error 2
+Also, the distro package builds are broken
+e.g.  make GZIP=gzip bindeb-pkg
 
-Reverting this patch fixes the problem.
 
-Guenter
+Denis,
+
+I think we should go back to the original
+KGZIP, KBZIP2, KLZOP.
+
+
+
+
+>
+> ---
+> # bad: [cf0c97f148e9e50aa5a7ddd1984a604dd2bde4af] Merge tag 'pinctrl-v5.8-1' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
+> # good: [aaa2faab4ed8e5fe0111e04d6e168c028fe2987f] Merge tag 'for-linus-5.8-ofs1' of git://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux
+> git bisect start 'HEAD' 'aaa2faab4ed8'
+> # good: [77f55d1305c11fb729b88f2c3f7881ba0831fa6f] staging: rtl8723bs: Use common packet header constants
+> git bisect good 77f55d1305c11fb729b88f2c3f7881ba0831fa6f
+> # bad: [e611c0fe318c6d6827ee2bba660fbc23cf73f7dc] Merge tag 'usb-5.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
+> git bisect bad e611c0fe318c6d6827ee2bba660fbc23cf73f7dc
+> # bad: [cff11abeca78aa782378401ca2800bd2194aa14e] Merge tag 'kbuild-v5.8' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
+> git bisect bad cff11abeca78aa782378401ca2800bd2194aa14e
+> # good: [2bd81cd04a3f5eb873cc81fa16c469377be3b092] Merge branch 'remotes/lorenzo/pci/vmd'
+> git bisect good 2bd81cd04a3f5eb873cc81fa16c469377be3b092
+> # good: [269a535ca931b754a40dda3ab60514e68773c759] modpost: generate vmlinux.symvers and reuse it for the second modpost
+> git bisect good 269a535ca931b754a40dda3ab60514e68773c759
+> # good: [e542e0dc3ee3eafc46dd8e3073388079d69cace0] Merge branch 'dmi-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/jdelvare/staging
+> git bisect good e542e0dc3ee3eafc46dd8e3073388079d69cace0
+> # good: [4de7b62936122570408357417f21072e78292926] modpost: remove is_vmlinux() helper
+> git bisect good 4de7b62936122570408357417f21072e78292926
+> # good: [1ee18de92927f37e6948d5a6fc73cbf89f806905] Merge tag 'dma-mapping-5.8' of git://git.infradead.org/users/hch/dma-mapping
+> git bisect good 1ee18de92927f37e6948d5a6fc73cbf89f806905
+> # bad: [8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294] kbuild: add variables for compression tools
+> git bisect bad 8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
+> # good: [c0901577e1dcc8d1c0fd1a11c8d571f650df845f] kbuild: doc: rename LDFLAGS to KBUILD_LDFLAGS
+> git bisect good c0901577e1dcc8d1c0fd1a11c8d571f650df845f
+> # good: [e0b250b57dcf403529081e5898a9de717f96b76b] Makefile: install modules.builtin even if CONFIG_MODULES=n
+> git bisect good e0b250b57dcf403529081e5898a9de717f96b76b
+> # first bad commit: [8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294] kbuild: add variables for compression tools
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
