@@ -2,128 +2,188 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8380C1F1A2A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2020 15:34:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF6A01F1A70
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2020 15:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729179AbgFHNdz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Jun 2020 09:33:55 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:62913 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729875AbgFHNdy (ORCPT
+        id S1729829AbgFHNwO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jun 2020 09:52:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36560 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729040AbgFHNwO (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Jun 2020 09:33:54 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 058DXVKM023535;
-        Mon, 8 Jun 2020 22:33:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 058DXVKM023535
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1591623212;
-        bh=b+o3Hm4QtvCz1v/3Sh/JT6aGk4myx3VOofcrTavBqrk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CMJmkSl2WOimRx+lm6tfZz98ISZpMBRK0DbB5JCpCVvU6x7EGNBAK1BchsuKfx8eT
-         smP18vaF0LLUaOLJWxy8PgD84wFJAeAuA6gRY5Xyrp6d9kZaXk5aFoiu2+9U+tjMFc
-         gB4p9g751gJnRy3a2uMKdbZo0C5JbCb8mko8oObEUQQtWrg68xZjKQFZP9UXm/h75J
-         zjjcUYdkWc5Tf9L9SVQpPL4JhbYTF7+il7fKYIjML4ZkHGKaeCPI0FqQ8bqHElBinZ
-         hJR8KbojN5pNJxMzxmRBGMPyku/g/jDYEgyRcM2ENCGx4kOVBPdrUK8dUjMEG4N8qJ
-         IykKAoNeJEqqQ==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id k13so9773510vsm.13;
-        Mon, 08 Jun 2020 06:33:32 -0700 (PDT)
-X-Gm-Message-State: AOAM530nV0EcxYr2hWUDiPQvoMJ00z92eeC4LnCxOx3Cpk5RVOI9wB5N
-        Z7wjvFHlgx810FBhKENF/x7pML8lNdby5qSXpzE=
-X-Google-Smtp-Source: ABdhPJyfBMyc0+YCkYixUd2p+AN/T03Qhj7+s3JZLuqn4kS0/Z0lvBdDfypzJhoi2h2pGnaS8dEXskpx9ISJNDks+sQ=
-X-Received: by 2002:a67:2d42:: with SMTP id t63mr15019160vst.181.1591623211449;
- Mon, 08 Jun 2020 06:33:31 -0700 (PDT)
+        Mon, 8 Jun 2020 09:52:14 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66A1CC08C5C2;
+        Mon,  8 Jun 2020 06:52:14 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id x207so8580931pfc.5;
+        Mon, 08 Jun 2020 06:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5yTduhn4RewZ8tIc8IvJNzhBbfAtUwR3nIVu+3qxoT4=;
+        b=Tbni9kmWSTwvrtCasTNAYV5o1p3CRTaB4SWtyL1rfN7Fqg6RTVjnweDJIYgRxm5TMD
+         CmQqgcVrK1hdxcC9sjKK0jpzd+GhFUK6x0wOGNX/2wHHyDXbTU7F8vFdz0TG39u7Mt8D
+         3npLFDW3fon4IQpDKG/cU5gI7NSeK6aUdeSQI/Tq9U3kh/FUVOjVadl6y6KXp88/Ed04
+         UkD0wuOCsWdl3ufncdFMtHjKb/FOlZtxrspWQzWtIv86UILWjCKIl4ObnootkpdNWtMU
+         sl5r24xGiVMqz77J1VSCuAI5Quhv4ZJQsc5T5m31AvpOYNmktQdB5vR17U/DezN7bUy3
+         PPQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=5yTduhn4RewZ8tIc8IvJNzhBbfAtUwR3nIVu+3qxoT4=;
+        b=YM6ZOjwuuIM5TFrcyiK5AK0rlLPCEDGIRRiSvY1iXmRNgkWANCqIYEoryJm445lm51
+         XKKSEerMP/H33W4a6F+fHnjuZ6f5ErTFKP1sIxPQi8WaofbsxiMZWjPavfF4j0QolzJq
+         vk0BcrklxCmv28vSSrbGIYK/9ZMqU2gr9bBhFL2NfkIMdFlTYM79oYmY8WYaxBZTvjlv
+         utmpO0VAIUHFzNQIts3K0RvEtrolA307owh9fdtPmTw4C7UFmMxjTPDVM5sMT/F4VNkU
+         mNec+fcnJk5O2oASpOuPxHyWd4fqzj+9cyDbnmpNH5rp7CUiXtJ6FwxmGGu+Wl7FX690
+         2QfQ==
+X-Gm-Message-State: AOAM532Zz7NREsKFGyK2Wtm4jw2HuCGir9BF7kAo4SePrYUybhTjyAc0
+        Mt791cBx/6+AirVkULI0FQtpwO5W
+X-Google-Smtp-Source: ABdhPJw6jz3nyzqd7Rl9wd4xkSs1HBl4i9znxSakuduOAykn9ydcQdgNMkdbPfPJQmmir6e6W7HjsQ==
+X-Received: by 2002:a63:7d4e:: with SMTP id m14mr20888256pgn.391.1591624333611;
+        Mon, 08 Jun 2020 06:52:13 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y10sm6280468pgi.54.2020.06.08.06.52.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Jun 2020 06:52:12 -0700 (PDT)
+Subject: Re: [PATCH v5] kbuild: add variables for compression tools
+To:     Denis Efremov <efremov@linux.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200514131234.380097-1-efremov@linux.com>
+ <20200605073955.6384-1-efremov@linux.com>
+ <20200608013012.GA216607@roeck-us.net>
+ <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
+ <d7e4a235-35eb-1c13-09dc-19a523cbf4ea@linux.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <adafe608-7502-fae2-9ff4-deefaec4783f@roeck-us.net>
+Date:   Mon, 8 Jun 2020 06:52:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200423073929.127521-1-masahiroy@kernel.org> <20200423073929.127521-5-masahiroy@kernel.org>
- <20200608115628.osizkpo76cgn2ci7@lion.mk-sys.cz>
-In-Reply-To: <20200608115628.osizkpo76cgn2ci7@lion.mk-sys.cz>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 8 Jun 2020 22:32:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQkVA05G9f68PTyyChno2OEOq_gsmjGwML7PerZvwOuSA@mail.gmail.com>
-Message-ID: <CAK7LNAQkVA05G9f68PTyyChno2OEOq_gsmjGwML7PerZvwOuSA@mail.gmail.com>
-Subject: Re: [PATCH 04/16] net: bpfilter: use 'userprogs' syntax to build bpfilter_umh
-To:     Michal Kubecek <mkubecek@suse.cz>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <d7e4a235-35eb-1c13-09dc-19a523cbf4ea@linux.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 8, 2020 at 8:56 PM Michal Kubecek <mkubecek@suse.cz> wrote:
->
-> On Thu, Apr 23, 2020 at 04:39:17PM +0900, Masahiro Yamada wrote:
-> > The user mode helper should be compiled for the same architecture as
-> > the kernel.
-> >
-> > This Makefile reuses the 'hostprogs' syntax by overriding HOSTCC with CC.
-> >
-> > Now that Kbuild provides the syntax 'userprogs', use it to fix the
-> > Makefile mess.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> > ---
-> >
-> >  net/bpfilter/Makefile | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/net/bpfilter/Makefile b/net/bpfilter/Makefile
-> > index 36580301da70..6ee650c6badb 100644
-> > --- a/net/bpfilter/Makefile
-> > +++ b/net/bpfilter/Makefile
-> > @@ -3,17 +3,14 @@
-> >  # Makefile for the Linux BPFILTER layer.
-> >  #
-> >
-> > -hostprogs := bpfilter_umh
-> > +userprogs := bpfilter_umh
-> >  bpfilter_umh-objs := main.o
-> > -KBUILD_HOSTCFLAGS += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
-> > -HOSTCC := $(CC)
-> > +user-ccflags += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
-> >
-> > -ifeq ($(CONFIG_BPFILTER_UMH), y)
-> > -# builtin bpfilter_umh should be compiled with -static
-> > +# builtin bpfilter_umh should be linked with -static
-> >  # since rootfs isn't mounted at the time of __init
-> >  # function is called and do_execv won't find elf interpreter
-> > -KBUILD_HOSTLDFLAGS += -static
-> > -endif
-> > +bpfilter_umh-ldflags += -static
-> >
-> >  $(obj)/bpfilter_umh_blob.o: $(obj)/bpfilter_umh
->
-> Hello,
->
-> I just noticed that this patch (now in mainline as commit 8a2cc0505cc4)
-> drops the test if CONFIG_BPFILTER_UMH is "y" so that -static is now
-> passed to the linker even if bpfilter_umh is built as a module which
-> wasn't the case in v5.7.
->
-> This is not mentioned in the commit message and the comment still says
-> "*builtin* bpfilter_umh should be linked with -static" so this change
-> doesn't seem to be intentional. Did I miss something?
->
-> Michal Kubecek
+On 6/8/20 3:28 AM, Denis Efremov wrote:
+> 
+> 
+> On 6/8/20 7:59 AM, Masahiro Yamada wrote:
+>> On Mon, Jun 8, 2020 at 10:30 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On Fri, Jun 05, 2020 at 10:39:55AM +0300, Denis Efremov wrote:
+>>>> Allow user to use alternative implementations of compression tools,
+>>>> such as pigz, pbzip2, pxz. For example, multi-threaded tools to
+>>>> speed up the build:
+>>>> $ make GZIP=pigz BZIP2=pbzip2
+>>>>
+>>>> Variables _GZIP, _BZIP2, _LZOP are used internally because original env
+>>>> vars are reserved by the tools. The use of GZIP in gzip tool is obsolete
+>>>> since 2015. However, alternative implementations (e.g., pigz) still rely
+>>>> on it. BZIP2, BZIP, LZOP vars are not obsolescent.
+>>>>
+>>>
+>>> When building mips:defconfig, this patch results in:
+>>>
+>>> Building mips:defconfig ... failed
+>>> --------------
+>>> Error log:
+>>> /bin/sh: -n: command not found
+>>> make[3]: *** [kernel/config_data.gz] Error 127
+>>> make[3]: *** Deleting file 'kernel/config_data.gz'
+>>> make[3]: *** Waiting for unfinished jobs....
+>>> make[2]: *** [kernel] Error 2
+>>> make[2]: *** Waiting for unfinished jobs....
+>>> make[1]: *** [autoksyms_recursive] Error 2
+>>> make: *** [__sub-make] Error 2
+>>>
+>>> Reverting this patch fixes the problem. Bisect log is attached.
+>>>
+>>> Guenter
+>>
+> 
+> I tried to reproduce it with cross-compilation on Fedora32.
+> $ export ARCH=mips
+> $ export CROSS_COMPILE=mips64-linux-gnu-
+> $ make defconfig
+> $ make -j12
+> 
+> And the kernel builds successfully. Could you please provide details about your
+> compilation steps and environment, esp. what "env | grep ZIP" shows,
+> "gzip --version", "sh --version", "bash --version"? This will be very helpful.
+> 
+> Additionally:
+> $ make GZIP=gzip -j12 # works
+> $ make GZIP=pigz -j12 # works
+> $ make GZIP=nosuchcommand -j12 # fails, as expected
+>  
 
+I use
 
-Sorry. ifeq was accidentally dropped.
-I will restore it.
+make -j30 ARCH=mips CROSS_COMPILE=mips64-linux- ...
 
--- 
-Best Regards
-Masahiro Yamada
+ie I don't use environment variables. Using environment variables indeed makes
+the problem "disappear". Also, it is important to run "make mrproper" first
+to ensure that the generated file does not already exist.
+
+make -j30 ARCH=mips CROSS_COMPILE=mips64-linux- GZIP=gzip ...
+
+does not work for me.
+
+Guenter
