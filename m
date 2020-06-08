@@ -2,138 +2,273 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8184F1F126A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2020 07:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FDFE1F161D
+	for <lists+linux-kbuild@lfdr.de>; Mon,  8 Jun 2020 12:00:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726929AbgFHFAm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Jun 2020 01:00:42 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:52767 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725803AbgFHFAm (ORCPT
+        id S1729263AbgFHKAM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jun 2020 06:00:12 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44485 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729294AbgFHKAG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Jun 2020 01:00:42 -0400
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 05850PgG006595;
-        Mon, 8 Jun 2020 14:00:26 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 05850PgG006595
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1591592426;
-        bh=RnwdU5VcWRoU23GcuPYkPtqQl5L5moq3GNmmQqtecXM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=cpnZKBe8fZo0g0lcEKc6G4ihG+nmDl3sODFW6U1SFAudgMSIYJsOxINTc7cN4hRPj
-         a+6lO/P90mLQfdUsSeM1RlD5tEN5GQ9I/ii5s0Uh+uCRtsMd4bgZXgZkQmc96eyzOG
-         z/17OQua02x94yZ4NCrV1DvzHZ9RpatMxySPEjV1jbx3RFb8Z0H5k9eNyyRlJoJUl/
-         1Fy2dklPdF3BbCDrY0ifH5O1McIBgrMTTxKafZlz1kzoz2e7MF1Ir1WyTnVsXqPuxv
-         1HXpOERwiH2+9gxr8n7AgMhhNX44KoBGPBy+0lwEYBnG4uf5eM7sm++efDkr6AueLe
-         xFQjnCWwG6L1w==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id k13so9008256vsm.13;
-        Sun, 07 Jun 2020 22:00:25 -0700 (PDT)
-X-Gm-Message-State: AOAM530ptaNKSP2uZ2ZKKeDQJk+Jfoj9bbHbTktGjSIveVWSvURThxtd
-        rDbTBcGu6AO66i8CKR//oeTqlBIC6nQbaqb3nEY=
-X-Google-Smtp-Source: ABdhPJxoCzsOmrjk8+pcX9urF2DsV5Fewt7fzrJ6aQGZ6GfxIxpDEzz2v8bBvjlysLo3YY9RkTgtDPkdVMoYh9PjIKg=
-X-Received: by 2002:a67:6383:: with SMTP id x125mr14967732vsb.54.1591592424754;
- Sun, 07 Jun 2020 22:00:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200514131234.380097-1-efremov@linux.com> <20200605073955.6384-1-efremov@linux.com>
- <20200608013012.GA216607@roeck-us.net>
-In-Reply-To: <20200608013012.GA216607@roeck-us.net>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 8 Jun 2020 13:59:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
-Message-ID: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
-Subject: Re: [PATCH v5] kbuild: add variables for compression tools
-To:     Guenter Roeck <linux@roeck-us.net>
+        Mon, 8 Jun 2020 06:00:06 -0400
+Received: by mail-lj1-f193.google.com with SMTP id c17so19643468lji.11;
+        Mon, 08 Jun 2020 03:00:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GDL+9v6/r8rDz1rWGwzjuZhMoepSVICM/XC9cVTvMJs=;
+        b=IDxfRe+iXK/w0pbYKOdf+gOq3ApHB6PCGrNsUjc5Qx59BCOF3w4tXHnAKfVrpfY0vz
+         prfaa+6YQ6Ivm4xK/fNwWyJ/WoBTQrygEhjwQfBj1lXxjeJSejPVuCvmvIPVWyFX27mU
+         22yfa1MRY0xXTt1UOozs/zq7tOzOiyOpqK2XzBHw7hXHVKk8paOG58RJ++C02UlVzcyd
+         bLlLuYE+YTijz8QYxrGxebiHgl+WBOLkBpChUjQ8JT41hMr9ZxFnVAj5f/JcsWxXzsnr
+         YmPKouqcoOlql+gsyzqrPXsr15qzqYaNndCiOtBgzfAJ0F3fdKqBKRBdtR+lkb5GokrV
+         g72g==
+X-Gm-Message-State: AOAM533ZAIviwR7AwHdK6vB5aYbcXyRSc93YRLP2lIkcJ6TpaYCNqSDP
+        OQlEjLlwHbSLxmfZObYX8to=
+X-Google-Smtp-Source: ABdhPJyXubhGjsSL+f7GiF9bXvnf/0U/blKX2JaiCYxoqGnrG1tUFeu8tEmJ+MeDsJnKUP4+WdWzRQ==
+X-Received: by 2002:a2e:890d:: with SMTP id d13mr11005089lji.75.1591610403818;
+        Mon, 08 Jun 2020 03:00:03 -0700 (PDT)
+Received: from localhost.localdomain ([213.87.137.116])
+        by smtp.googlemail.com with ESMTPSA id c20sm4274102lfb.33.2020.06.08.03.00.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2020 03:00:03 -0700 (PDT)
+From:   Denis Efremov <efremov@linux.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>
 Cc:     Denis Efremov <efremov@linux.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: [PATCH] kbuild: fix broken builds because of GZIP,BZIP2,LZOP variables
+Date:   Mon,  8 Jun 2020 12:59:44 +0300
+Message-Id: <20200608095944.140779-1-efremov@linux.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
+References: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 8, 2020 at 10:30 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Hi,
->
-> On Fri, Jun 05, 2020 at 10:39:55AM +0300, Denis Efremov wrote:
-> > Allow user to use alternative implementations of compression tools,
-> > such as pigz, pbzip2, pxz. For example, multi-threaded tools to
-> > speed up the build:
-> > $ make GZIP=pigz BZIP2=pbzip2
-> >
-> > Variables _GZIP, _BZIP2, _LZOP are used internally because original env
-> > vars are reserved by the tools. The use of GZIP in gzip tool is obsolete
-> > since 2015. However, alternative implementations (e.g., pigz) still rely
-> > on it. BZIP2, BZIP, LZOP vars are not obsolescent.
-> >
->
-> When building mips:defconfig, this patch results in:
->
-> Building mips:defconfig ... failed
-> --------------
-> Error log:
-> /bin/sh: -n: command not found
-> make[3]: *** [kernel/config_data.gz] Error 127
-> make[3]: *** Deleting file 'kernel/config_data.gz'
-> make[3]: *** Waiting for unfinished jobs....
-> make[2]: *** [kernel] Error 2
-> make[2]: *** Waiting for unfinished jobs....
-> make[1]: *** [autoksyms_recursive] Error 2
-> make: *** [__sub-make] Error 2
->
-> Reverting this patch fixes the problem. Bisect log is attached.
->
-> Guenter
+Redefine GZIP, BZIP2, LZOP variables as KGZIP, KBZIP2, KLZOP resp.
+GZIP, BZIP2, LZOP env variables are reserved by the tools. The original
+attempt to redefine them internally doesn't work in makefiles/scripts
+intercall scenarios, e.g., "make GZIP=gzip bindeb-pkg" and results in
+broken builds. There can be other broken build commands because of this,
+so the universal solution is to use non-reserved env variables for the
+compression tools.
 
+Fixes: 8dfb61dcbace ("kbuild: add variables for compression tools")
+Signed-off-by: Denis Efremov <efremov@linux.com>
+---
+ Makefile                          | 24 +++++-------------------
+ arch/arm/boot/deflate_xip_data.sh |  2 +-
+ arch/ia64/Makefile                |  2 +-
+ arch/m68k/Makefile                |  8 ++++----
+ arch/parisc/Makefile              |  2 +-
+ scripts/Makefile.lib              |  6 +++---
+ scripts/Makefile.package          |  6 +++---
+ scripts/package/buildtar          |  4 ++--
+ 8 files changed, 20 insertions(+), 34 deletions(-)
 
-Agh, this is because of CONFIG_TRIM_UNUSED_KSYMS.
-
-Also, the distro package builds are broken
-e.g.  make GZIP=gzip bindeb-pkg
-
-
-Denis,
-
-I think we should go back to the original
-KGZIP, KBZIP2, KLZOP.
-
-
-
-
->
-> ---
-> # bad: [cf0c97f148e9e50aa5a7ddd1984a604dd2bde4af] Merge tag 'pinctrl-v5.8-1' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl
-> # good: [aaa2faab4ed8e5fe0111e04d6e168c028fe2987f] Merge tag 'for-linus-5.8-ofs1' of git://git.kernel.org/pub/scm/linux/kernel/git/hubcap/linux
-> git bisect start 'HEAD' 'aaa2faab4ed8'
-> # good: [77f55d1305c11fb729b88f2c3f7881ba0831fa6f] staging: rtl8723bs: Use common packet header constants
-> git bisect good 77f55d1305c11fb729b88f2c3f7881ba0831fa6f
-> # bad: [e611c0fe318c6d6827ee2bba660fbc23cf73f7dc] Merge tag 'usb-5.8-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
-> git bisect bad e611c0fe318c6d6827ee2bba660fbc23cf73f7dc
-> # bad: [cff11abeca78aa782378401ca2800bd2194aa14e] Merge tag 'kbuild-v5.8' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild
-> git bisect bad cff11abeca78aa782378401ca2800bd2194aa14e
-> # good: [2bd81cd04a3f5eb873cc81fa16c469377be3b092] Merge branch 'remotes/lorenzo/pci/vmd'
-> git bisect good 2bd81cd04a3f5eb873cc81fa16c469377be3b092
-> # good: [269a535ca931b754a40dda3ab60514e68773c759] modpost: generate vmlinux.symvers and reuse it for the second modpost
-> git bisect good 269a535ca931b754a40dda3ab60514e68773c759
-> # good: [e542e0dc3ee3eafc46dd8e3073388079d69cace0] Merge branch 'dmi-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/jdelvare/staging
-> git bisect good e542e0dc3ee3eafc46dd8e3073388079d69cace0
-> # good: [4de7b62936122570408357417f21072e78292926] modpost: remove is_vmlinux() helper
-> git bisect good 4de7b62936122570408357417f21072e78292926
-> # good: [1ee18de92927f37e6948d5a6fc73cbf89f806905] Merge tag 'dma-mapping-5.8' of git://git.infradead.org/users/hch/dma-mapping
-> git bisect good 1ee18de92927f37e6948d5a6fc73cbf89f806905
-> # bad: [8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294] kbuild: add variables for compression tools
-> git bisect bad 8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
-> # good: [c0901577e1dcc8d1c0fd1a11c8d571f650df845f] kbuild: doc: rename LDFLAGS to KBUILD_LDFLAGS
-> git bisect good c0901577e1dcc8d1c0fd1a11c8d571f650df845f
-> # good: [e0b250b57dcf403529081e5898a9de717f96b76b] Makefile: install modules.builtin even if CONFIG_MODULES=n
-> git bisect good e0b250b57dcf403529081e5898a9de717f96b76b
-> # first bad commit: [8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294] kbuild: add variables for compression tools
-
-
-
+diff --git a/Makefile b/Makefile
+index 839f9fee22cb..e43d193bb3b2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -458,27 +458,13 @@ PYTHON		= python
+ PYTHON3		= python3
+ CHECK		= sparse
+ BASH		= bash
+-GZIP		= gzip
+-BZIP2		= bzip2
+-LZOP		= lzop
++KGZIP		= gzip
++KBZIP2		= bzip2
++KLZOP		= lzop
+ LZMA		= lzma
+ LZ4		= lz4c
+ XZ		= xz
+ 
+-# GZIP, BZIP2, LZOP env vars are used by the tools. Support them as the command
+-# line interface, but use _GZIP, _BZIP2, _LZOP internally.
+-_GZIP          := $(GZIP)
+-_BZIP2         := $(BZIP2)
+-_LZOP          := $(LZOP)
+-
+-# Reset GZIP, BZIP2, LZOP in this Makefile
+-override GZIP=
+-override BZIP2=
+-override LZOP=
+-
+-# Reset GZIP, BZIP2, LZOP in recursive invocations
+-MAKEOVERRIDES += GZIP= BZIP2= LZOP=
+-
+ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
+ 		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
+ NOSTDINC_FLAGS :=
+@@ -526,7 +512,7 @@ CLANG_FLAGS :=
+ export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
+ export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
+ export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+-export _GZIP _BZIP2 _LZOP LZMA LZ4 XZ
++export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ
+ export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+ 
+ export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+@@ -1047,7 +1033,7 @@ export mod_strip_cmd
+ mod_compress_cmd = true
+ ifdef CONFIG_MODULE_COMPRESS
+   ifdef CONFIG_MODULE_COMPRESS_GZIP
+-    mod_compress_cmd = $(_GZIP) -n -f
++    mod_compress_cmd = $(KGZIP) -n -f
+   endif # CONFIG_MODULE_COMPRESS_GZIP
+   ifdef CONFIG_MODULE_COMPRESS_XZ
+     mod_compress_cmd = $(XZ) -f
+diff --git a/arch/arm/boot/deflate_xip_data.sh b/arch/arm/boot/deflate_xip_data.sh
+index 739f0464321e..304495c3c2c5 100755
+--- a/arch/arm/boot/deflate_xip_data.sh
++++ b/arch/arm/boot/deflate_xip_data.sh
+@@ -56,7 +56,7 @@ trap 'rm -f "$XIPIMAGE.tmp"; exit 1' 1 2 3
+ # substitute the data section by a compressed version
+ $DD if="$XIPIMAGE" count=$data_start iflag=count_bytes of="$XIPIMAGE.tmp"
+ $DD if="$XIPIMAGE"  skip=$data_start iflag=skip_bytes |
+-$_GZIP -9 >> "$XIPIMAGE.tmp"
++$KGZIP -9 >> "$XIPIMAGE.tmp"
+ 
+ # replace kernel binary
+ mv -f "$XIPIMAGE.tmp" "$XIPIMAGE"
+diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+index f817f3d5e758..2876a7df1b0a 100644
+--- a/arch/ia64/Makefile
++++ b/arch/ia64/Makefile
+@@ -40,7 +40,7 @@ $(error Sorry, you need a newer version of the assember, one that is built from
+ endif
+ 
+ quiet_cmd_gzip = GZIP    $@
+-cmd_gzip = cat $(real-prereqs) | $(_GZIP) -n -f -9 > $@
++cmd_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
+ 
+ quiet_cmd_objcopy = OBJCOPY $@
+ cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+diff --git a/arch/m68k/Makefile b/arch/m68k/Makefile
+index ce6db5e5a5a3..0415d28dbe4f 100644
+--- a/arch/m68k/Makefile
++++ b/arch/m68k/Makefile
+@@ -135,10 +135,10 @@ vmlinux.gz: vmlinux
+ ifndef CONFIG_KGDB
+ 	cp vmlinux vmlinux.tmp
+ 	$(STRIP) vmlinux.tmp
+-	$(_GZIP) -9c vmlinux.tmp >vmlinux.gz
++	$(KGZIP) -9c vmlinux.tmp >vmlinux.gz
+ 	rm vmlinux.tmp
+ else
+-	$(_GZIP) -9c vmlinux >vmlinux.gz
++	$(KGZIP) -9c vmlinux >vmlinux.gz
+ endif
+ 
+ bzImage: vmlinux.bz2
+@@ -148,10 +148,10 @@ vmlinux.bz2: vmlinux
+ ifndef CONFIG_KGDB
+ 	cp vmlinux vmlinux.tmp
+ 	$(STRIP) vmlinux.tmp
+-	$(_BZIP2) -1c vmlinux.tmp >vmlinux.bz2
++	$(KBZIP2) -1c vmlinux.tmp >vmlinux.bz2
+ 	rm vmlinux.tmp
+ else
+-	$(_BZIP2) -1c vmlinux >vmlinux.bz2
++	$(KBZIP2) -1c vmlinux >vmlinux.bz2
+ endif
+ 
+ archclean:
+diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
+index 182a5bca3e2c..5140c602207f 100644
+--- a/arch/parisc/Makefile
++++ b/arch/parisc/Makefile
+@@ -162,7 +162,7 @@ vmlinuz: bzImage
+ 	$(OBJCOPY) $(boot)/bzImage $@
+ else
+ vmlinuz: vmlinux
+-	@$(_GZIP) -cf -9 $< > $@
++	@$(KGZIP) -cf -9 $< > $@
+ endif
+ 
+ install:
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 127f2a7e3ced..94eeddb2e599 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -244,7 +244,7 @@ cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
+ # ---------------------------------------------------------------------------
+ 
+ quiet_cmd_gzip = GZIP    $@
+-      cmd_gzip = cat $(real-prereqs) | $(_GZIP) -n -f -9 > $@
++      cmd_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
+ 
+ # DTC
+ # ---------------------------------------------------------------------------
+@@ -337,7 +337,7 @@ printf "%08x\n" $$dec_size |						\
+ )
+ 
+ quiet_cmd_bzip2 = BZIP2   $@
+-      cmd_bzip2 = { cat $(real-prereqs) | $(_BZIP2) -9; $(size_append); } > $@
++      cmd_bzip2 = { cat $(real-prereqs) | $(KBZIP2) -9; $(size_append); } > $@
+ 
+ # Lzma
+ # ---------------------------------------------------------------------------
+@@ -346,7 +346,7 @@ quiet_cmd_lzma = LZMA    $@
+       cmd_lzma = { cat $(real-prereqs) | $(LZMA) -9; $(size_append); } > $@
+ 
+ quiet_cmd_lzo = LZO     $@
+-      cmd_lzo = { cat $(real-prereqs) | $(_LZOP) -9; $(size_append); } > $@
++      cmd_lzo = { cat $(real-prereqs) | $(KLZOP) -9; $(size_append); } > $@
+ 
+ quiet_cmd_lz4 = LZ4     $@
+       cmd_lz4 = { cat $(real-prereqs) | $(LZ4) -l -c1 stdin stdout; \
+diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+index b2b6153af63a..f952fb64789d 100644
+--- a/scripts/Makefile.package
++++ b/scripts/Makefile.package
+@@ -45,7 +45,7 @@ if test "$(objtree)" != "$(srctree)"; then \
+ 	false; \
+ fi ; \
+ $(srctree)/scripts/setlocalversion --save-scmversion; \
+-tar -I $(_GZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
++tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+ 	--transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
+ rm -f $(objtree)/.scmversion
+ 
+@@ -127,8 +127,8 @@ util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+ tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
+ rm -r $(perf-tar);                                                  \
+ $(if $(findstring tar-src,$@),,                                     \
+-$(if $(findstring bz2,$@),$(_BZIP2),                                 \
+-$(if $(findstring gz,$@),$(_GZIP),                                  \
++$(if $(findstring bz2,$@),$(KBZIP2),                                 \
++$(if $(findstring gz,$@),$(KGZIP),                                  \
+ $(if $(findstring xz,$@),$(XZ),                                     \
+ $(error unknown target $@))))                                       \
+ 	-f -9 $(perf-tar).tar)
+diff --git a/scripts/package/buildtar b/scripts/package/buildtar
+index ad62c6879622..fb1578e72ab9 100755
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -28,11 +28,11 @@ case "${1}" in
+ 		opts=
+ 		;;
+ 	targz-pkg)
+-		opts="-I ${_GZIP}"
++		opts="-I ${KGZIP}"
+ 		tarball=${tarball}.gz
+ 		;;
+ 	tarbz2-pkg)
+-		opts="-I ${_BZIP2}"
++		opts="-I ${KBZIP2}"
+ 		tarball=${tarball}.bz2
+ 		;;
+ 	tarxz-pkg)
 -- 
-Best Regards
-Masahiro Yamada
+2.26.2
+
