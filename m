@@ -2,117 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54ADD1F3644
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2020 10:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 011C61F4114
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2020 18:39:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727960AbgFIIoB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 9 Jun 2020 04:44:01 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:46502 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726463AbgFIIoA (ORCPT
+        id S1731134AbgFIQim (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 9 Jun 2020 12:38:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727820AbgFIQik (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 9 Jun 2020 04:44:00 -0400
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0598haRb017078;
-        Tue, 9 Jun 2020 17:43:37 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0598haRb017078
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1591692217;
-        bh=e8kX0+5aGomAzLwDsXnzt7jasyQhhg0XP9lhP9IXPok=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=fP0jVfTAk6akBMgPVPPA3p6Y0Ulv0419MpUjT+J9wsSlCBbAzycBoIUl2gDNB1jSS
-         Cm94XjY3pxqxU/IQ5lzmUc0AK9ZF10o3UJKhw6Cn88LdGKixfwpX7hybImJ2+Mogt6
-         r6v85oPLqCdTBAXgPmuFUZV9MzeWHuU4guv1UGBsgAhX23LZptFa0JI1Gd5lzGtsT2
-         oR9DumhL4QhQ7CsgECZ258jOHelYARefS6XXEizZe0oPdbUpKYheBngNw6kjNOIcd5
-         SG3Z/CdxrV+c/s4bt3+HxdEDHRSg3lXkDOOh5ryX/2FzJywpb5v2Mu+Hvxt2QoM1P1
-         dD88G7xfIA51w==
-X-Nifty-SrcIP: [209.85.221.170]
-Received: by mail-vk1-f170.google.com with SMTP id t23so4665259vkt.5;
-        Tue, 09 Jun 2020 01:43:37 -0700 (PDT)
-X-Gm-Message-State: AOAM531XkVId4NxK68IW+qom+wdNxh5K4HR5P4yCNnxu/zhrLxdhJKj5
-        UhwzK/F8e++7DWH2l0Cx5xCgrq79a8YBoWYMcPg=
-X-Google-Smtp-Source: ABdhPJybdBuXIdcm3NMMi6Ok/3bLzxD0AhR1+SsWG36SJ3zutgqHQCXiV0trFSvK6U8ZsdUDvxzrdAGQuxmy1e2pyNI=
-X-Received: by 2002:a1f:1f04:: with SMTP id f4mr1717684vkf.73.1591692216276;
- Tue, 09 Jun 2020 01:43:36 -0700 (PDT)
+        Tue, 9 Jun 2020 12:38:40 -0400
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E6EC05BD1E
+        for <linux-kbuild@vger.kernel.org>; Tue,  9 Jun 2020 09:38:40 -0700 (PDT)
+Received: by mail-vs1-xe41.google.com with SMTP id u17so12389313vsu.7
+        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jun 2020 09:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zOlGKSFvY1pI9N1uJPPgWgfeEHmguEiYJ7YiYYJSbko=;
+        b=hvovTJAJvh7wCMAYtoMOUN5GboICn5ViKLaH6VTVT6WsLLXtZ57QjQ0ytXukVQMAlW
+         4PNiDQ5iylbja41COM15qdKydv0Frya6DfDeTT0wLLzfaaiLETWORrfkAJhPv92RCFfu
+         q/2zJRCieLfXvJ8ogfHruxgWdnfmJiE/Ao6bE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zOlGKSFvY1pI9N1uJPPgWgfeEHmguEiYJ7YiYYJSbko=;
+        b=U6DiwPgE7DFdwjLtrf5rErqZmaonsAH43OAEMJiQUMyiuxpwicpouQOdYT9RMVhpgO
+         4W/i5crxXLqrMtzS0FiZXR0eQSmkasPXDQH638WG0Dj3clVLwbdQW9LGCWKCZlStJgdk
+         cJHljkhg5MskKo9sYIfHZgmWY4AZhyzhikLLDE5Yw16K/hzeOvBUB3O10iK/HdbWwsQN
+         Q4ut+O4jjcBEhFgFqYQjSpV9OmUlwHWkMoMwFuBOGcI1NC9+Ql7eYllJgGrYXscUYbR8
+         Ych/t+FzWxUzKxoqHgS0deuy9t1hva48bC44guJxUk2xYT7j9cB0uTd2p6vcxCLDTdYm
+         S78A==
+X-Gm-Message-State: AOAM531HG5YpgT2jd+jH/+ajt8OmNy+Mw6XWs+hBC81LEX+yt8pAKKg+
+        Tt8Z0M8LI+KXdV5Z6Jid9A2FeqhzCSY=
+X-Google-Smtp-Source: ABdhPJylhsrhY17i47mE/kyxXhpAWRgbFyiFCte7ORTk1zGgnS9RQojRZfPORipjlbLbYqEj+xiVwA==
+X-Received: by 2002:a67:cb87:: with SMTP id h7mr4465400vsl.226.1591720719122;
+        Tue, 09 Jun 2020 09:38:39 -0700 (PDT)
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
+        by smtp.gmail.com with ESMTPSA id j15sm495815vsd.19.2020.06.09.09.38.38
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2020 09:38:38 -0700 (PDT)
+Received: by mail-ua1-f48.google.com with SMTP id g44so7059807uae.12
+        for <linux-kbuild@vger.kernel.org>; Tue, 09 Jun 2020 09:38:38 -0700 (PDT)
+X-Received: by 2002:a9f:2804:: with SMTP id c4mr4120504uac.8.1591720717603;
+ Tue, 09 Jun 2020 09:38:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200511042149.1712876-1-masahiroy@kernel.org>
- <20200608020256.GA256950@roeck-us.net> <20200609062012.GA499862@kroah.com> <CAK8P3a2Pn22c8Z=w0FD15w4_+7LCWOpcbJ9b-Skh5iXzBjEx1g@mail.gmail.com>
-In-Reply-To: <CAK8P3a2Pn22c8Z=w0FD15w4_+7LCWOpcbJ9b-Skh5iXzBjEx1g@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 9 Jun 2020 17:42:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARM8UoE_L8EzhqQquu5FQwrUZLwrtjTFW_Va5ygBwhRmg@mail.gmail.com>
-Message-ID: <CAK7LNARM8UoE_L8EzhqQquu5FQwrUZLwrtjTFW_Va5ygBwhRmg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: make module name conflict fatal error
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
+References: <288d045f9429fc4cfd9ffb244e1be2f8@talpidae.net>
+ <CAK7LNARx2dcjedkN8cBq0veh6H1cVG6yyGq=Vf6xr2Bd_aHuRA@mail.gmail.com> <3cd1a050fe692425352745672295033c@talpidae.net>
+In-Reply-To: <3cd1a050fe692425352745672295033c@talpidae.net>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 9 Jun 2020 09:38:26 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WPW_o4ExmNUHe=2mYHLheKMfGTemW8CCiN4iQ7X3fAYw@mail.gmail.com>
+Message-ID: <CAD=FV=WPW_o4ExmNUHe=2mYHLheKMfGTemW8CCiN4iQ7X3fAYw@mail.gmail.com>
+Subject: Re: [PATCH v2] Makefile: install modules.builtin even if CONFIG_MODULES=n
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Guenter Roeck <groeck@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 9, 2020 at 4:52 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> On Tue, Jun 9, 2020 at 8:20 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Sun, Jun 07, 2020 at 07:02:56PM -0700, Guenter Roeck wrote:
-> > > Hi,
-> > >
-> > > On Mon, May 11, 2020 at 01:21:49PM +0900, Masahiro Yamada wrote:
-> > > > I think all the warnings have been fixed by now. Make it a fatal error.
-> > > >
-> > >
-> > > Not entirely. With this patch in the tree, I get:
-> > >
-> > > Building sparc64:allmodconfig ... failed
-> > > --------------
-> > > Error log:
-> > > error: the following would cause module name conflict:
-> > >   drivers/char/adi.ko
-> > >   drivers/input/joystick/adi.ko
-> > > make[1]: *** [modules_check] Error 1
-> > > make[1]: *** Waiting for unfinished jobs....
-> > > make: *** [__sub-make] Error 2
-> > >
-> > > Reverting this patch fixes the problem.
-> >
-> > As it doesn't look like either of these drivers can be "auto-loaded"
-> > based on hardware detection, I don't know what to suggest as for
-> > renaming either of them.
-> >
-> > Any ideas?
->
-> I see zero chance of a kernel actually needing to provide both drivers,
-> given that the hardware is 20 years apart and gameports are almost
-> exclusive to x86 PCs. How about an ugly hack:
->
-> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-> index 940b744639c7..6f73f02059b5 100644
-> --- a/drivers/input/joystick/Kconfig
-> +++ b/drivers/input/joystick/Kconfig
-> @@ -45,6 +45,7 @@ config JOYSTICK_A3D
->  config JOYSTICK_ADI
->         tristate "Logitech ADI digital joysticks and gamepads"
->         select GAMEPORT
-> +       depends on ADI!=m # avoid module name conflict
->         help
->           Say Y here if you have a Logitech controller using the ADI
->           protocol over the PC gameport.
->
->       Arnd
+Hi,
 
+On Tue, Jun 3, 2020 at 9:33 AM Jonas Zeiger <jonas.zeiger@talpidae.net> wrote:
+>
+> Many applications check for available kernel features via:
+>
+>   - /proc/modules (loaded modules, present if CONFIG_MODULES=y)
+>   - $(MODLIB)/modules.builtin (builtin modules)
+>
+> They fail to detect features if the kernel was built with
+> CONFIG_MODULES=n
+> and modules.builtin isn't installed.
+>
+> Therefore, add the target "_builtin_inst_" and make "install" and
+> "modules_install" depend on it.
+>
+> Tests results:
+>
+>   - make install: kernel image is copied as before, modules.builtin
+> copied
+>   - make modules_install: (CONFIG_MODULES=n) nothing is copied, exit 1
+>
+> Signed-off-by: Jonas Zeiger <jonas.zeiger@talpidae.net>
+> ---
+>   Makefile | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
 
-I am OK with this.
-Thank you.
+Note that this change broke builds in the Chrome OS build system
+because we require modules to be installed to a certain path and we
+weren't passing "INSTALL_MOD_PATH" when we called "make install".
 
+We can certainly fix our build system (I have a patch at
+https://crrev.com/c/2237511 for it), but I do wonder if others will
+hit the same issue.  Others might not have such a nice sandboxing
+system so they might unknowingly try to install files to the build
+computer's modules directory instead of their target.
 
--- 
-Best Regards
-Masahiro Yamada
+-Doug
