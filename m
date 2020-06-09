@@ -2,282 +2,202 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70FC91F30FA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2020 03:05:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA7F11F312E
+	for <lists+linux-kbuild@lfdr.de>; Tue,  9 Jun 2020 03:07:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730389AbgFIBEa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 8 Jun 2020 21:04:30 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:48384 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388164AbgFIBE1 (ORCPT
+        id S1728098AbgFIBGx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 8 Jun 2020 21:06:53 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:23814 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727064AbgFIBGn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 8 Jun 2020 21:04:27 -0400
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 05914AXG022712;
-        Tue, 9 Jun 2020 10:04:11 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 05914AXG022712
+        Mon, 8 Jun 2020 21:06:43 -0400
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 05916J07005151;
+        Tue, 9 Jun 2020 10:06:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 05916J07005151
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1591664651;
-        bh=d8/fAyY9bun0QMjz+x0HFS6jGgClWqtQ+1IJuNPQaeg=;
+        s=dec2015msa; t=1591664780;
+        bh=IBb92jm4Ah915aHM+Ge/Th0b/C+3AeknRBgnJHpoZVQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=2YFDtk1vpl1xUeSN69Ni6HmkjmZ4muDN4gOa4XU38quEAozkFuuICjfbmYzIq7CZo
-         MR9V+6zrU0uASTNkSiqGIqDk/D/KxAaTW8kzA2h6GkDoUHdEIk+I3ojSk0FLh9PgAN
-         WiMvfjHLeSPxrX72jIkySCdSrWkgOZ0pPenjeDHKtCv24suK3ahGh5XyMc46mh9KV6
-         Px+oSGi1Pkqs50QBHQfQ9NED2xwriRtN4dleGXEZCdHY0tvoGl054jGW9FJ/ZWLFCg
-         E5Zqi2pJko1FDFoZ6mkjyqC170kzKgobmx6XN0wuk7J7ZwSdGITwz/bydiPfWn92bd
-         L8OuXylgIiqmQ==
-X-Nifty-SrcIP: [209.85.221.182]
-Received: by mail-vk1-f182.google.com with SMTP id m18so4454396vkk.9;
-        Mon, 08 Jun 2020 18:04:11 -0700 (PDT)
-X-Gm-Message-State: AOAM533c+pdKegBNmhY5vILDnS7RE39NMV9pxWWVblBG9cfwMcbxnhVB
-        WOXWFeWTXKEdvD4qskhk4+N1ejKsNAkVGak67T8=
-X-Google-Smtp-Source: ABdhPJyiPDgz9/Wetp7G+kwjzWCstW3GmxHHvisz8M/NJoIlQFCsT8LYaiAVeC5U0Z/P7Z3eWXZBkRKpYnyfpMG2sMM=
-X-Received: by 2002:a1f:a906:: with SMTP id s6mr894244vke.26.1591664650056;
- Mon, 08 Jun 2020 18:04:10 -0700 (PDT)
+        b=LEKXGKyxGEQipzpQjpMvpFQR1n8q5gLVi/D0AaMR+mabsU5E5gtM34JKTuHT4Yng0
+         XByXMbU3CR7B7zCYH/YNHKY2+K3eriGmWfY5LSQTxOuwLZPkVztFDg+pD6W+wqbC1j
+         sUx6kseM3YSQlJiTUMzizHCNDa3q+Jzb6W48yC0axbHMGaJmh0BW9muOqjd2JOoC/J
+         w6GWS87SDASwsj1X8/6cBckmN32nZFV0L67BWtzvquAz3t445MoqvVfvzHxJKG6a94
+         juYf4ERtbSAy96y9X+2oCbu0Z6B6gHzbTW4sr/RsTmQuu6oJw3h/UjfCZrA5eljVIo
+         wXOqdF+rehiHQ==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id t132so10706518vst.2;
+        Mon, 08 Jun 2020 18:06:20 -0700 (PDT)
+X-Gm-Message-State: AOAM5328OFca//sIgFMFoou8/tehwJF7QLbU0PsNAcMu5xSdjrDesFNc
+        WfbvizOT6F/vEkLXQdxG4OzXyK55zZLFKaXIhPU=
+X-Google-Smtp-Source: ABdhPJz1s8k9QJ98Odc6ZPnK1H102XeSxpGh1JKN3PaNg94LQelFS6gqtzrxku/BrWldeIq1DPcAZPplz9GCJ6f3ezw=
+X-Received: by 2002:a67:22c7:: with SMTP id i190mr1124857vsi.179.1591664779210;
+ Mon, 08 Jun 2020 18:06:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7LNASQamajjeV+VMq5G8fECfB6f9uKvZ32zGic72O0qp8Mtw@mail.gmail.com>
- <20200608095944.140779-1-efremov@linux.com>
-In-Reply-To: <20200608095944.140779-1-efremov@linux.com>
+References: <20200607032053.145302-1-masahiroy@kernel.org>
+In-Reply-To: <20200607032053.145302-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 9 Jun 2020 10:03:33 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATnZnZau0ZvRMuMhJyHOqu8AS8y6hKONdxFJVfi3xBBeQ@mail.gmail.com>
-Message-ID: <CAK7LNATnZnZau0ZvRMuMhJyHOqu8AS8y6hKONdxFJVfi3xBBeQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: fix broken builds because of GZIP,BZIP2,LZOP variables
-To:     Denis Efremov <efremov@linux.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Date:   Tue, 9 Jun 2020 10:05:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASu-0yWi_K4H1Kmt5aSNX7EJ9tFqUMYxHAU+owkOmX+Nw@mail.gmail.com>
+Message-ID: <CAK7LNASu-0yWi_K4H1Kmt5aSNX7EJ9tFqUMYxHAU+owkOmX+Nw@mail.gmail.com>
+Subject: Re: [PATCH] samples: binderfs: really compile this sample and fix
+ build issues
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Christian Brauner <christian@brauner.io>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 8, 2020 at 7:00 PM Denis Efremov <efremov@linux.com> wrote:
+On Sun, Jun 7, 2020 at 12:21 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Redefine GZIP, BZIP2, LZOP variables as KGZIP, KBZIP2, KLZOP resp.
-> GZIP, BZIP2, LZOP env variables are reserved by the tools. The original
-> attempt to redefine them internally doesn't work in makefiles/scripts
-> intercall scenarios, e.g., "make GZIP=gzip bindeb-pkg" and results in
-> broken builds. There can be other broken build commands because of this,
-> so the universal solution is to use non-reserved env variables for the
-> compression tools.
+> Even after commit c624adc9cb6e ("samples: fix binderfs sample"), this
+> sample is never compiled.
 >
-> Fixes: 8dfb61dcbace ("kbuild: add variables for compression tools")
-> Signed-off-by: Denis Efremov <efremov@linux.com>
+> 'hostprogs' teaches Kbuild that this is a host program, but not enough
+> to order to compile it. You must add it to 'always-y' to really compile
+> it.
+>
+> Since this sample has never been compiled in upstream, various issues
+> are left unnoticed.
+>
+> [1] compilers without <linux/android/binderfs.h> are still widely used
+>
+> <linux/android/binderfs.h> is only available since commit c13295ad219d
+> ("binderfs: rename header to binderfs.h"), i.e., Linux 5.0
+>
+> If your compiler is based on UAPI headers older than Linux 5.0, you
+> will see the following error:
+>
+>   samples/binderfs/binderfs_example.c:16:10: fatal error: linux/android/binderfs.h: No such file or directory
+>    #include <linux/android/binderfs.h>
+>             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>   compilation terminated.
+>
+> You cannot rely on compilers to have such a new header.
+>
+> The common approach is to install UAPI headers of this kernel into
+> usr/include, and then add it to the header include path.
+>
+> I added 'depends on HEADERS_INSTALL' in Kconfig, and '-I usr/include'
+> compiler flag in Makefile.
+>
+> [2] compile the sample for target architecture
+>
+> Since headers_install works for the target architecture, only the native
+> build was able to build sample code that requires '-I usr/include'.
+>
+> Commit 7f3a59db274c ("kbuild: add infrastructure to build userspace
+> programs") added the new syntax 'userprogs' to compile user-space
+> programs for the target architecture.
+>
+> Use it, and 'ifndef CROSS_COMPILE' will go away.
+>
+> I added 'depends on CC_CAN_LINK' because $(CC) is not necessarily capable
+> of linking user-space programs.
+>
+> [3] use subdir-y to descend into samples/binderfs/
+>
+> Since this directory does not contain any kernel-space code, it has no
+> point to generate built-in.a or modules.order.
+>
+> Replace obj-$(CONFIG_...) with subdir-$(CONFIG_...).
+>
+> [4] -Wunused-variable warning
+>
+> If I compile this, I see the following warning.
+>
+>   samples/binderfs/binderfs_example.c: In function 'main':
+>   samples/binderfs/binderfs_example.c:21:9: warning: unused variable 'len' [-Wunused-variable]
+>      21 |  size_t len;
+>         |         ^~~
+>
+> I removed the unused 'len'.
+>
+> [5] CONFIG_ANDROID_BINDERFS is not required
+>
+> Since this is a user-space standalone program, it is independent of
+> the kernel configuration.
+>
+> Remove 'depends on ANDROID_BINDERFS'.
+>
+> Fixes: 9762dc1432e1 ("samples: add binderfs sample program")
+> Fixes: c624adc9cb6e ("samples: fix binderfs sample")
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 
+
 Applied to linux-kbuild.
-Thanks.
 
 
->  Makefile                          | 24 +++++-------------------
->  arch/arm/boot/deflate_xip_data.sh |  2 +-
->  arch/ia64/Makefile                |  2 +-
->  arch/m68k/Makefile                |  8 ++++----
->  arch/parisc/Makefile              |  2 +-
->  scripts/Makefile.lib              |  6 +++---
->  scripts/Makefile.package          |  6 +++---
->  scripts/package/buildtar          |  4 ++--
->  8 files changed, 20 insertions(+), 34 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index 839f9fee22cb..e43d193bb3b2 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -458,27 +458,13 @@ PYTHON            = python
->  PYTHON3                = python3
->  CHECK          = sparse
->  BASH           = bash
-> -GZIP           = gzip
-> -BZIP2          = bzip2
-> -LZOP           = lzop
-> +KGZIP          = gzip
-> +KBZIP2         = bzip2
-> +KLZOP          = lzop
->  LZMA           = lzma
->  LZ4            = lz4c
->  XZ             = xz
+>  samples/Kconfig                     | 2 +-
+>  samples/Makefile                    | 2 +-
+>  samples/binderfs/Makefile           | 9 ++++-----
+>  samples/binderfs/binderfs_example.c | 1 -
+>  4 files changed, 6 insertions(+), 8 deletions(-)
 >
-> -# GZIP, BZIP2, LZOP env vars are used by the tools. Support them as the command
-> -# line interface, but use _GZIP, _BZIP2, _LZOP internally.
-> -_GZIP          := $(GZIP)
-> -_BZIP2         := $(BZIP2)
-> -_LZOP          := $(LZOP)
-> -
-> -# Reset GZIP, BZIP2, LZOP in this Makefile
-> -override GZIP=
-> -override BZIP2=
-> -override LZOP=
-> -
-> -# Reset GZIP, BZIP2, LZOP in recursive invocations
-> -MAKEOVERRIDES += GZIP= BZIP2= LZOP=
-> -
->  CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
->                   -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
->  NOSTDINC_FLAGS :=
-> @@ -526,7 +512,7 @@ CLANG_FLAGS :=
->  export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
->  export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
->  export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
-> -export _GZIP _BZIP2 _LZOP LZMA LZ4 XZ
-> +export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ
->  export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+> diff --git a/samples/Kconfig b/samples/Kconfig
+> index 0cbb6146f3cf..953abbdebf7b 100644
+> --- a/samples/Kconfig
+> +++ b/samples/Kconfig
+> @@ -185,7 +185,7 @@ config SAMPLE_VFIO_MDEV_MBOCHS
 >
->  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
-> @@ -1047,7 +1033,7 @@ export mod_strip_cmd
->  mod_compress_cmd = true
->  ifdef CONFIG_MODULE_COMPRESS
->    ifdef CONFIG_MODULE_COMPRESS_GZIP
-> -    mod_compress_cmd = $(_GZIP) -n -f
-> +    mod_compress_cmd = $(KGZIP) -n -f
->    endif # CONFIG_MODULE_COMPRESS_GZIP
->    ifdef CONFIG_MODULE_COMPRESS_XZ
->      mod_compress_cmd = $(XZ) -f
-> diff --git a/arch/arm/boot/deflate_xip_data.sh b/arch/arm/boot/deflate_xip_data.sh
-> index 739f0464321e..304495c3c2c5 100755
-> --- a/arch/arm/boot/deflate_xip_data.sh
-> +++ b/arch/arm/boot/deflate_xip_data.sh
-> @@ -56,7 +56,7 @@ trap 'rm -f "$XIPIMAGE.tmp"; exit 1' 1 2 3
->  # substitute the data section by a compressed version
->  $DD if="$XIPIMAGE" count=$data_start iflag=count_bytes of="$XIPIMAGE.tmp"
->  $DD if="$XIPIMAGE"  skip=$data_start iflag=skip_bytes |
-> -$_GZIP -9 >> "$XIPIMAGE.tmp"
-> +$KGZIP -9 >> "$XIPIMAGE.tmp"
+>  config SAMPLE_ANDROID_BINDERFS
+>         bool "Build Android binderfs example"
+> -       depends on ANDROID_BINDERFS
+> +       depends on CC_CAN_LINK && HEADERS_INSTALL
+>         help
+>           Builds a sample program to illustrate the use of the Android binderfs
+>           filesystem.
+> diff --git a/samples/Makefile b/samples/Makefile
+> index 29c66aadd954..4029d207cebb 100644
+> --- a/samples/Makefile
+> +++ b/samples/Makefile
+> @@ -2,7 +2,7 @@
+>  # Makefile for Linux samples code
 >
->  # replace kernel binary
->  mv -f "$XIPIMAGE.tmp" "$XIPIMAGE"
-> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
-> index f817f3d5e758..2876a7df1b0a 100644
-> --- a/arch/ia64/Makefile
-> +++ b/arch/ia64/Makefile
-> @@ -40,7 +40,7 @@ $(error Sorry, you need a newer version of the assember, one that is built from
->  endif
+>  subdir-$(CONFIG_SAMPLE_AUXDISPLAY)     += auxdisplay
+> -obj-$(CONFIG_SAMPLE_ANDROID_BINDERFS)  += binderfs/
+> +subdir-$(CONFIG_SAMPLE_ANDROID_BINDERFS) += binderfs
+>  obj-$(CONFIG_SAMPLE_CONFIGFS)          += configfs/
+>  obj-$(CONFIG_SAMPLE_CONNECTOR)         += connector/
+>  subdir-$(CONFIG_SAMPLE_HIDRAW)         += hidraw
+> diff --git a/samples/binderfs/Makefile b/samples/binderfs/Makefile
+> index a3ac5476338a..989e4badaee2 100644
+> --- a/samples/binderfs/Makefile
+> +++ b/samples/binderfs/Makefile
+> @@ -1,6 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -ifndef CROSS_COMPILE
+> -ifdef CONFIG_SAMPLE_ANDROID_BINDERFS
+> -hostprogs := binderfs_example
+> -endif
+> -endif
+> +userprogs := binderfs_example
+> +always-y := $(userprogs)
+> +
+> +userccflags += -I usr/include
+> diff --git a/samples/binderfs/binderfs_example.c b/samples/binderfs/binderfs_example.c
+> index 5bbd2ebc0aea..0fd92cdda460 100644
+> --- a/samples/binderfs/binderfs_example.c
+> +++ b/samples/binderfs/binderfs_example.c
+> @@ -18,7 +18,6 @@
+>  int main(int argc, char *argv[])
+>  {
+>         int fd, ret, saved_errno;
+> -       size_t len;
+>         struct binderfs_device device = { 0 };
 >
->  quiet_cmd_gzip = GZIP    $@
-> -cmd_gzip = cat $(real-prereqs) | $(_GZIP) -n -f -9 > $@
-> +cmd_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
->
->  quiet_cmd_objcopy = OBJCOPY $@
->  cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
-> diff --git a/arch/m68k/Makefile b/arch/m68k/Makefile
-> index ce6db5e5a5a3..0415d28dbe4f 100644
-> --- a/arch/m68k/Makefile
-> +++ b/arch/m68k/Makefile
-> @@ -135,10 +135,10 @@ vmlinux.gz: vmlinux
->  ifndef CONFIG_KGDB
->         cp vmlinux vmlinux.tmp
->         $(STRIP) vmlinux.tmp
-> -       $(_GZIP) -9c vmlinux.tmp >vmlinux.gz
-> +       $(KGZIP) -9c vmlinux.tmp >vmlinux.gz
->         rm vmlinux.tmp
->  else
-> -       $(_GZIP) -9c vmlinux >vmlinux.gz
-> +       $(KGZIP) -9c vmlinux >vmlinux.gz
->  endif
->
->  bzImage: vmlinux.bz2
-> @@ -148,10 +148,10 @@ vmlinux.bz2: vmlinux
->  ifndef CONFIG_KGDB
->         cp vmlinux vmlinux.tmp
->         $(STRIP) vmlinux.tmp
-> -       $(_BZIP2) -1c vmlinux.tmp >vmlinux.bz2
-> +       $(KBZIP2) -1c vmlinux.tmp >vmlinux.bz2
->         rm vmlinux.tmp
->  else
-> -       $(_BZIP2) -1c vmlinux >vmlinux.bz2
-> +       $(KBZIP2) -1c vmlinux >vmlinux.bz2
->  endif
->
->  archclean:
-> diff --git a/arch/parisc/Makefile b/arch/parisc/Makefile
-> index 182a5bca3e2c..5140c602207f 100644
-> --- a/arch/parisc/Makefile
-> +++ b/arch/parisc/Makefile
-> @@ -162,7 +162,7 @@ vmlinuz: bzImage
->         $(OBJCOPY) $(boot)/bzImage $@
->  else
->  vmlinuz: vmlinux
-> -       @$(_GZIP) -cf -9 $< > $@
-> +       @$(KGZIP) -cf -9 $< > $@
->  endif
->
->  install:
-> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> index 127f2a7e3ced..94eeddb2e599 100644
-> --- a/scripts/Makefile.lib
-> +++ b/scripts/Makefile.lib
-> @@ -244,7 +244,7 @@ cmd_objcopy = $(OBJCOPY) $(OBJCOPYFLAGS) $(OBJCOPYFLAGS_$(@F)) $< $@
->  # ---------------------------------------------------------------------------
->
->  quiet_cmd_gzip = GZIP    $@
-> -      cmd_gzip = cat $(real-prereqs) | $(_GZIP) -n -f -9 > $@
-> +      cmd_gzip = cat $(real-prereqs) | $(KGZIP) -n -f -9 > $@
->
->  # DTC
->  # ---------------------------------------------------------------------------
-> @@ -337,7 +337,7 @@ printf "%08x\n" $$dec_size |                                                \
->  )
->
->  quiet_cmd_bzip2 = BZIP2   $@
-> -      cmd_bzip2 = { cat $(real-prereqs) | $(_BZIP2) -9; $(size_append); } > $@
-> +      cmd_bzip2 = { cat $(real-prereqs) | $(KBZIP2) -9; $(size_append); } > $@
->
->  # Lzma
->  # ---------------------------------------------------------------------------
-> @@ -346,7 +346,7 @@ quiet_cmd_lzma = LZMA    $@
->        cmd_lzma = { cat $(real-prereqs) | $(LZMA) -9; $(size_append); } > $@
->
->  quiet_cmd_lzo = LZO     $@
-> -      cmd_lzo = { cat $(real-prereqs) | $(_LZOP) -9; $(size_append); } > $@
-> +      cmd_lzo = { cat $(real-prereqs) | $(KLZOP) -9; $(size_append); } > $@
->
->  quiet_cmd_lz4 = LZ4     $@
->        cmd_lz4 = { cat $(real-prereqs) | $(LZ4) -l -c1 stdin stdout; \
-> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
-> index b2b6153af63a..f952fb64789d 100644
-> --- a/scripts/Makefile.package
-> +++ b/scripts/Makefile.package
-> @@ -45,7 +45,7 @@ if test "$(objtree)" != "$(srctree)"; then \
->         false; \
->  fi ; \
->  $(srctree)/scripts/setlocalversion --save-scmversion; \
-> -tar -I $(_GZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
-> +tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
->         --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
->  rm -f $(objtree)/.scmversion
->
-> @@ -127,8 +127,8 @@ util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
->  tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
->  rm -r $(perf-tar);                                                  \
->  $(if $(findstring tar-src,$@),,                                     \
-> -$(if $(findstring bz2,$@),$(_BZIP2),                                 \
-> -$(if $(findstring gz,$@),$(_GZIP),                                  \
-> +$(if $(findstring bz2,$@),$(KBZIP2),                                 \
-> +$(if $(findstring gz,$@),$(KGZIP),                                  \
->  $(if $(findstring xz,$@),$(XZ),                                     \
->  $(error unknown target $@))))                                       \
->         -f -9 $(perf-tar).tar)
-> diff --git a/scripts/package/buildtar b/scripts/package/buildtar
-> index ad62c6879622..fb1578e72ab9 100755
-> --- a/scripts/package/buildtar
-> +++ b/scripts/package/buildtar
-> @@ -28,11 +28,11 @@ case "${1}" in
->                 opts=
->                 ;;
->         targz-pkg)
-> -               opts="-I ${_GZIP}"
-> +               opts="-I ${KGZIP}"
->                 tarball=${tarball}.gz
->                 ;;
->         tarbz2-pkg)
-> -               opts="-I ${_BZIP2}"
-> +               opts="-I ${KBZIP2}"
->                 tarball=${tarball}.bz2
->                 ;;
->         tarxz-pkg)
+>         ret = unshare(CLONE_NEWNS);
 > --
-> 2.26.2
+> 2.25.1
 >
 
 
