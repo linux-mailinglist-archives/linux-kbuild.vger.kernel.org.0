@@ -2,44 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 700B01F5795
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 17:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D63871F57B9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 17:24:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730030AbgFJPTE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Jun 2020 11:19:04 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37438 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728366AbgFJPTE (ORCPT
+        id S1730090AbgFJPYe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Jun 2020 11:24:34 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:40133 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726979AbgFJPYd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Jun 2020 11:19:04 -0400
-Received: by mail-lj1-f195.google.com with SMTP id e4so2984252ljn.4;
-        Wed, 10 Jun 2020 08:19:01 -0700 (PDT)
+        Wed, 10 Jun 2020 11:24:33 -0400
+Received: by mail-lj1-f196.google.com with SMTP id n23so2977036ljh.7;
+        Wed, 10 Jun 2020 08:24:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:reply-to:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=xlB9zSIbCB49nQpORVwnN87PaGtPgyhKMGLcmEDPueA=;
-        b=GQdXi3z4XLNU2Cal4ELJKNbXwWVX4iOA/1UJrVr3qizo4HTDP7jYp4OVA687RcJg6j
-         tzviDuRLznVBvziBt5gRz5fa3F2CdLm+S1Jn0NvYXqpeICfkeHo4Rsp27HJhzMcpQidK
-         Ju6b4Tn/W/kg5fQzLTqi8njVPGMsSa9IWOmL1yaN/iw6l1/OLjEkTtnU8WZLIZA2Oe0Y
-         V/ofhPIw2xXRc/MQn6K5p+3HolzWlwLZhKS5LimJHGNOPq8lVi+vHTka0XgAmmYTfnnw
-         zwWgKidmDhCQxSY+PPRtWLdAuG2BEF9fNgp19SRGPfjmDYdK6iGY5+D3wW5pe18a6HwK
-         5FGQ==
-X-Gm-Message-State: AOAM531j6nr0U55a8XYvwhm//SJW9O/s+o5l3HGdmzY+qzJR3u4F8j18
-        2HTQujkvvKfx5wvtmjsq428=
-X-Google-Smtp-Source: ABdhPJwXhM2EMDMfligFHYdXLDaxqiDxr/8LNq7wNRKFqIFZzpPrAjqctudTfyvI29HV6rsLzO0x3Q==
-X-Received: by 2002:a2e:a0cc:: with SMTP id f12mr1956505ljm.250.1591802340594;
-        Wed, 10 Jun 2020 08:19:00 -0700 (PDT)
+        bh=w3siWejRAPilHiUC6jsI5xYy2gYaS5P9S9XuSxXXOMQ=;
+        b=THX1mbbzCq4xxyXLkZkqQ28lSBsDoyV8EmYAAx0sVC36cxIOe9Q0u7OKZ1zeNAj2gY
+         7bo64u0yLekpQhathwRCPgiMV4G+XwMP9gMDSPgn63rWlWMIgrPQvjkb2QSNrPW1cRDd
+         l4etgA22PLUEAPVzR5Zw/IR5GDp0AQ3DXuiVu/FxZYxX5DJ1HDO3I8clTXxm80uT+AjN
+         mI3Pka0lh5ul1dXGpvvpQiqSDozymWA4j/dPfqHkk6jiLBblzLa/tUaLkrtSYc38q89H
+         IhkTdx+y3VwuZt4mzkUtjwdvTenyUSG2NSTgZZsxfEj/3CZLzeaYuAZMP+bRKj+i4dvV
+         bSsQ==
+X-Gm-Message-State: AOAM533zZD0LkendYaCASRy4lR5GBVERpRxJzmpcTq92Er2/gZeubTrk
+        lZkYH1qmEn3tvFFJskCX9hw=
+X-Google-Smtp-Source: ABdhPJxowAcpKm07CSV2XZBXzUPwDoILgauuX3JgUNqRvEamsMNgGVkLU/8gw9B1bFDjcmHx26rgIA==
+X-Received: by 2002:a05:651c:2d0:: with SMTP id f16mr1971844ljo.387.1591802670288;
+        Wed, 10 Jun 2020 08:24:30 -0700 (PDT)
 Received: from [192.168.42.234] ([213.87.161.124])
-        by smtp.gmail.com with ESMTPSA id q17sm5900670lfa.28.2020.06.10.08.18.20
+        by smtp.gmail.com with ESMTPSA id 11sm9227lju.118.2020.06.10.08.24.23
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 08:18:57 -0700 (PDT)
+        Wed, 10 Jun 2020 08:24:27 -0700 (PDT)
 Reply-To: alex.popov@linux.com
-Subject: Re: [PATCH 5/5] gcc-plugins/stackleak: Don't instrument
- vgettimeofday.c in arm64 VDSO
-To:     Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>
-Cc:     Emese Revfy <re.emese@gmail.com>,
+Subject: Re: [PATCH 1/5] gcc-plugins/stackleak: Exclude alloca() from the
+ instrumentation logic
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Jann Horn <jannh@google.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        Emese Revfy <re.emese@gmail.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -51,6 +53,7 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         Sven Schnelle <svens@stackframe.org>,
         Iurii Zaikin <yzaikin@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Peter Collingbourne <pcc@google.com>,
@@ -61,13 +64,17 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         Brad Spengler <spender@grsecurity.net>,
         Laura Abbott <labbott@redhat.com>,
         Florian Weimer <fweimer@redhat.com>,
-        kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
-        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-kbuild@vger.kernel.org,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        kernel list <linux-kernel@vger.kernel.org>, gcc@gcc.gnu.org,
+        notify@kernel.org
 References: <20200604134957.505389-1-alex.popov@linux.com>
- <20200604134957.505389-6-alex.popov@linux.com>
- <20200604135806.GA3170@willie-the-truck> <202006091149.6C78419@keescook>
- <20200610073046.GA15939@willie-the-truck>
+ <20200604134957.505389-2-alex.popov@linux.com>
+ <CAG48ez05JOvqzYGr3PvyQGwFURspFWvNvf-b8Y613PX0biug8w@mail.gmail.com>
+ <70319f78-2c7c-8141-d751-07f28203db7c@linux.com>
+ <202006091133.412F0E89@keescook>
 From:   Alexander Popov <alex.popov@linux.com>
 Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  mQINBFX15q4BEADZartsIW3sQ9R+9TOuCFRIW+RDCoBWNHhqDLu+Tzf2mZevVSF0D5AMJW4f
@@ -113,12 +120,12 @@ Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  gzBW8J8RW+nUJcTpudX4TC2SGeAOyxnM5O4XJ8yZyDUY334seDRJWtS4wRHxpfYcHKTewR96
  IsP1USE+9ndu6lrMXQ3aFsd1n1m1pfa/y8hiqsSYHy7JQ9Iuo9DxysOj22UNOmOE+OYPK48D
  j3lCqPk=
-Message-ID: <bceea4f8-4b8e-f9ab-f275-572e448e3ec1@linux.com>
-Date:   Wed, 10 Jun 2020 18:18:09 +0300
+Message-ID: <3b194cd9-909d-7186-0cc4-bf0a0358fe5d@linux.com>
+Date:   Wed, 10 Jun 2020 18:24:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200610073046.GA15939@willie-the-truck>
+In-Reply-To: <202006091133.412F0E89@keescook>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -127,75 +134,57 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 10.06.2020 10:30, Will Deacon wrote:
-> On Tue, Jun 09, 2020 at 12:09:27PM -0700, Kees Cook wrote:
->> On Thu, Jun 04, 2020 at 02:58:06PM +0100, Will Deacon wrote:
->>> On Thu, Jun 04, 2020 at 04:49:57PM +0300, Alexander Popov wrote:
->>>> Don't try instrumenting functions in arch/arm64/kernel/vdso/vgettimeofday.c.
->>>> Otherwise that can cause issues if the cleanup pass of stackleak gcc plugin
->>>> is disabled.
->>>>
->>>> Signed-off-by: Alexander Popov <alex.popov@linux.com>
->>>> ---
->>>>  arch/arm64/kernel/vdso/Makefile | 3 ++-
->>>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
->>>> index 3862cad2410c..9b84cafbd2da 100644
->>>> --- a/arch/arm64/kernel/vdso/Makefile
->>>> +++ b/arch/arm64/kernel/vdso/Makefile
->>>> @@ -32,7 +32,8 @@ UBSAN_SANITIZE			:= n
->>>>  OBJECT_FILES_NON_STANDARD	:= y
->>>>  KCOV_INSTRUMENT			:= n
->>>>  
->>>> -CFLAGS_vgettimeofday.o = -O2 -mcmodel=tiny -fasynchronous-unwind-tables
->>>> +CFLAGS_vgettimeofday.o = -O2 -mcmodel=tiny -fasynchronous-unwind-tables \
->>>> +		$(DISABLE_STACKLEAK_PLUGIN)
+On 09.06.2020 21:39, Kees Cook wrote:
+> On Thu, Jun 04, 2020 at 06:23:38PM +0300, Alexander Popov wrote:
+>> On 04.06.2020 17:01, Jann Horn wrote:
+>>> On Thu, Jun 4, 2020 at 3:51 PM Alexander Popov <alex.popov@linux.com> wrote:
+>>>> Some time ago Variable Length Arrays (VLA) were removed from the kernel.
+>>>> The kernel is built with '-Wvla'. Let's exclude alloca() from the
+>>>> instrumentation logic and make it simpler. The build-time assertion
+>>>> against alloca() is added instead.
+>>> [...]
+>>>> +                       /* Variable Length Arrays are forbidden in the kernel */
+>>>> +                       gcc_assert(!is_alloca(stmt));
 >>>
->>> I can pick this one up via arm64, thanks. Are there any other plugins we
->>> should be wary of? It looks like x86 filters out $(GCC_PLUGINS_CFLAGS)
->>> when building the vDSO.
+>>> There is a patch series from Elena and Kees on the kernel-hardening
+>>> list that deliberately uses __builtin_alloca() in the syscall entry
+>>> path to randomize the stack pointer per-syscall - see
+>>> <https://lore.kernel.org/kernel-hardening/20200406231606.37619-4-keescook@chromium.org/>.
 >>
->> I didn't realize/remember that arm64 retained the kernel build flags for
->> vDSO builds. (I'm used to x86 throwing all its flags away for its vDSO.)
+>> Thanks, Jann.
 >>
->> How does 32-bit ARM do its vDSO?
->>
->> My quick run-through on plugins:
->>
->> arm_ssp_per_task_plugin.c
->> 	32-bit ARM only (but likely needs disabling for 32-bit ARM vDSO?)
+>> At first glance, leaving alloca() handling in stackleak instrumentation logic
+>> would allow to integrate stackleak and this version of random_kstack_offset.
 > 
-> On arm64, the 32-bit toolchain is picked up via CC_COMPAT -- does that still
-> get the plugins?
+> Right, it seems there would be a need for this coverage to remain,
+> otherwise the depth of stack erasure might be incorrect.
 > 
->> cyc_complexity_plugin.c
->> 	compile-time reporting only
->>
->> latent_entropy_plugin.c
->> 	this shouldn't get triggered for the vDSO (no __latent_entropy
->> 	nor __init attributes in vDSO), but perhaps explicitly disabling
->> 	it would be a sensible thing to do, just for robustness?
->>
->> randomize_layout_plugin.c
->> 	this shouldn't get triggered (again, lacking attributes), but
->> 	should likely be disabled too.
->>
->> sancov_plugin.c
->> 	This should be tracking the KCOV directly (see
->> 	scripts/Makefile.kcov), which is already disabled here.
->>
->> structleak_plugin.c
->> 	This should be fine in the vDSO, but there's not security
->> 	boundary here, so it wouldn't be important to KEEP it enabled.
-> 
-> Thanks for going through these. In general though, it seems like an
-> opt-in strategy would make more sense, as it doesn't make an awful lot
-> of sense to me for the plugins to be used to build the vDSO.
-> 
-> So I would prefer that this patch filters out $(GCC_PLUGINS_CFLAGS).
+> It doesn't seem like the other patches strictly depend on alloca()
+> support being removed, though?
 
-Ok, I will do that in the v2 of the patch series.
+Ok, I will leave alloca() support, reorganize the patch series and send v2.
+
+>> Kees, Elena, did you try random_kstack_offset with upstream stackleak?
+> 
+> I didn't try that combination yet, no. It seemed there would likely
+> still be further discussion about the offset series first (though the
+> thread has been silent -- I'll rebase and resend it after rc2).
+
+Ok, please add me to CC list.
 
 Best regards,
 Alexander
+
+>> It looks to me that without stackleak erasing random_kstack_offset can be
+>> weaker. I mean, if next syscall has a bigger stack randomization gap, the data
+>> on thread stack from the previous syscall is not overwritten and can be used. Am
+>> I right?
+> 
+> That's correct. I think the combination is needed, but I don't think
+> they need to be strictly tied together.
+> 
+>> Another aspect: CONFIG_STACKLEAK_METRICS can be used for guessing kernel stack
+>> offset, which is bad. It should be disabled if random_kstack_offset is on.
+> 
+> Agreed.
+
