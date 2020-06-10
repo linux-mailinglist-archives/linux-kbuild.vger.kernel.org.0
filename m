@@ -2,42 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C2801F5778
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 17:15:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 700B01F5795
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 17:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728251AbgFJPPF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Jun 2020 11:15:05 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:36958 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728231AbgFJPPF (ORCPT
+        id S1730030AbgFJPTE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Jun 2020 11:19:04 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37438 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728366AbgFJPTE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Jun 2020 11:15:05 -0400
-Received: by mail-lf1-f68.google.com with SMTP id x22so1684626lfd.4;
-        Wed, 10 Jun 2020 08:15:02 -0700 (PDT)
+        Wed, 10 Jun 2020 11:19:04 -0400
+Received: by mail-lj1-f195.google.com with SMTP id e4so2984252ljn.4;
+        Wed, 10 Jun 2020 08:19:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:reply-to:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=eULLehFSRHz8x73A2t2FsqFcAztqdsXSNa1wbwBI/+s=;
-        b=BmM8NBPo22EsoBmKu32eEb87laeSoDLWnsXoD33xchXH6XpPNlsECKEOKidh+z25f9
-         TmxVVOBIsLzGIFNVEN66JPKPeHpLfcMYjoJqsLAzPDFUJBIjDgDINtdcKI9c/x34dQZL
-         RYGiBijcdCRxsGBdb39tRDwXtXEn0QAkX6kZUFZGmtbkl9g/zrWuRac+uvituNrBzL2i
-         d4IVnVAgqwQTE+5PaVQYwCOamBuRwtHbdyjVKS/yQRO+E7a8rBbG2ZIulWUZIsQJ7LFp
-         sI3pIKbYpHNSn2OLJUQa15nuonkfKokmiH9VDJlTPxZhq2QXlaYfFwFgr4IiawqoNGEO
-         6KtA==
-X-Gm-Message-State: AOAM532FwkBjwy7u5E5j7wxUmHS7QhoOzQHyI+F9PdJuuJhcyeAnB1Ui
-        9rcNVWEgmDfp14fDF04368s=
-X-Google-Smtp-Source: ABdhPJz1CK/VSXCRRUwg5UewHR1f/2+/iKm9TQze3wiiRu0Ww5STAIhHliP6V+mzw1ChxnzEVkSq7w==
-X-Received: by 2002:a19:f11c:: with SMTP id p28mr2063891lfh.0.1591802101935;
-        Wed, 10 Jun 2020 08:15:01 -0700 (PDT)
+        bh=xlB9zSIbCB49nQpORVwnN87PaGtPgyhKMGLcmEDPueA=;
+        b=GQdXi3z4XLNU2Cal4ELJKNbXwWVX4iOA/1UJrVr3qizo4HTDP7jYp4OVA687RcJg6j
+         tzviDuRLznVBvziBt5gRz5fa3F2CdLm+S1Jn0NvYXqpeICfkeHo4Rsp27HJhzMcpQidK
+         Ju6b4Tn/W/kg5fQzLTqi8njVPGMsSa9IWOmL1yaN/iw6l1/OLjEkTtnU8WZLIZA2Oe0Y
+         V/ofhPIw2xXRc/MQn6K5p+3HolzWlwLZhKS5LimJHGNOPq8lVi+vHTka0XgAmmYTfnnw
+         zwWgKidmDhCQxSY+PPRtWLdAuG2BEF9fNgp19SRGPfjmDYdK6iGY5+D3wW5pe18a6HwK
+         5FGQ==
+X-Gm-Message-State: AOAM531j6nr0U55a8XYvwhm//SJW9O/s+o5l3HGdmzY+qzJR3u4F8j18
+        2HTQujkvvKfx5wvtmjsq428=
+X-Google-Smtp-Source: ABdhPJwXhM2EMDMfligFHYdXLDaxqiDxr/8LNq7wNRKFqIFZzpPrAjqctudTfyvI29HV6rsLzO0x3Q==
+X-Received: by 2002:a2e:a0cc:: with SMTP id f12mr1956505ljm.250.1591802340594;
+        Wed, 10 Jun 2020 08:19:00 -0700 (PDT)
 Received: from [192.168.42.234] ([213.87.161.124])
-        by smtp.gmail.com with ESMTPSA id i8sm5923795lfo.62.2020.06.10.08.14.55
+        by smtp.gmail.com with ESMTPSA id q17sm5900670lfa.28.2020.06.10.08.18.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 08:15:00 -0700 (PDT)
+        Wed, 10 Jun 2020 08:18:57 -0700 (PDT)
 Reply-To: alex.popov@linux.com
-Subject: Re: [PATCH 0/5] Improvements of the stackleak gcc plugin
-To:     Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH 5/5] gcc-plugins/stackleak: Don't instrument
+ vgettimeofday.c in arm64 VDSO
+To:     Will Deacon <will@kernel.org>, Kees Cook <keescook@chromium.org>
 Cc:     Emese Revfy <re.emese@gmail.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -50,7 +51,6 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         Sven Schnelle <svens@stackframe.org>,
         Iurii Zaikin <yzaikin@google.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
         Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Peter Collingbourne <pcc@google.com>,
@@ -65,7 +65,9 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
 References: <20200604134957.505389-1-alex.popov@linux.com>
- <202006091210.C139883AB@keescook>
+ <20200604134957.505389-6-alex.popov@linux.com>
+ <20200604135806.GA3170@willie-the-truck> <202006091149.6C78419@keescook>
+ <20200610073046.GA15939@willie-the-truck>
 From:   Alexander Popov <alex.popov@linux.com>
 Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  mQINBFX15q4BEADZartsIW3sQ9R+9TOuCFRIW+RDCoBWNHhqDLu+Tzf2mZevVSF0D5AMJW4f
@@ -111,12 +113,12 @@ Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  gzBW8J8RW+nUJcTpudX4TC2SGeAOyxnM5O4XJ8yZyDUY334seDRJWtS4wRHxpfYcHKTewR96
  IsP1USE+9ndu6lrMXQ3aFsd1n1m1pfa/y8hiqsSYHy7JQ9Iuo9DxysOj22UNOmOE+OYPK48D
  j3lCqPk=
-Message-ID: <729988fe-5f92-645c-15a0-eda0f0afbbcb@linux.com>
-Date:   Wed, 10 Jun 2020 18:14:51 +0300
+Message-ID: <bceea4f8-4b8e-f9ab-f275-572e448e3ec1@linux.com>
+Date:   Wed, 10 Jun 2020 18:18:09 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <202006091210.C139883AB@keescook>
+In-Reply-To: <20200610073046.GA15939@willie-the-truck>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -125,43 +127,75 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 09.06.2020 22:15, Kees Cook wrote:
-> On Thu, Jun 04, 2020 at 04:49:52PM +0300, Alexander Popov wrote:
->> In this patch series I collected various improvements of the stackleak
->> gcc plugin.
+On 10.06.2020 10:30, Will Deacon wrote:
+> On Tue, Jun 09, 2020 at 12:09:27PM -0700, Kees Cook wrote:
+>> On Thu, Jun 04, 2020 at 02:58:06PM +0100, Will Deacon wrote:
+>>> On Thu, Jun 04, 2020 at 04:49:57PM +0300, Alexander Popov wrote:
+>>>> Don't try instrumenting functions in arch/arm64/kernel/vdso/vgettimeofday.c.
+>>>> Otherwise that can cause issues if the cleanup pass of stackleak gcc plugin
+>>>> is disabled.
+>>>>
+>>>> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+>>>> ---
+>>>>  arch/arm64/kernel/vdso/Makefile | 3 ++-
+>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+>>>> index 3862cad2410c..9b84cafbd2da 100644
+>>>> --- a/arch/arm64/kernel/vdso/Makefile
+>>>> +++ b/arch/arm64/kernel/vdso/Makefile
+>>>> @@ -32,7 +32,8 @@ UBSAN_SANITIZE			:= n
+>>>>  OBJECT_FILES_NON_STANDARD	:= y
+>>>>  KCOV_INSTRUMENT			:= n
+>>>>  
+>>>> -CFLAGS_vgettimeofday.o = -O2 -mcmodel=tiny -fasynchronous-unwind-tables
+>>>> +CFLAGS_vgettimeofday.o = -O2 -mcmodel=tiny -fasynchronous-unwind-tables \
+>>>> +		$(DISABLE_STACKLEAK_PLUGIN)
+>>>
+>>> I can pick this one up via arm64, thanks. Are there any other plugins we
+>>> should be wary of? It looks like x86 filters out $(GCC_PLUGINS_CFLAGS)
+>>> when building the vDSO.
+>>
+>> I didn't realize/remember that arm64 retained the kernel build flags for
+>> vDSO builds. (I'm used to x86 throwing all its flags away for its vDSO.)
+>>
+>> How does 32-bit ARM do its vDSO?
+>>
+>> My quick run-through on plugins:
+>>
+>> arm_ssp_per_task_plugin.c
+>> 	32-bit ARM only (but likely needs disabling for 32-bit ARM vDSO?)
 > 
-> Thanks!
+> On arm64, the 32-bit toolchain is picked up via CC_COMPAT -- does that still
+> get the plugins?
 > 
->> Alexander Popov (5):
->>   gcc-plugins/stackleak: Exclude alloca() from the instrumentation logic
->>   gcc-plugins/stackleak: Use asm instrumentation to avoid useless
->>     register saving
+>> cyc_complexity_plugin.c
+>> 	compile-time reporting only
+>>
+>> latent_entropy_plugin.c
+>> 	this shouldn't get triggered for the vDSO (no __latent_entropy
+>> 	nor __init attributes in vDSO), but perhaps explicitly disabling
+>> 	it would be a sensible thing to do, just for robustness?
+>>
+>> randomize_layout_plugin.c
+>> 	this shouldn't get triggered (again, lacking attributes), but
+>> 	should likely be disabled too.
+>>
+>> sancov_plugin.c
+>> 	This should be tracking the KCOV directly (see
+>> 	scripts/Makefile.kcov), which is already disabled here.
+>>
+>> structleak_plugin.c
+>> 	This should be fine in the vDSO, but there's not security
+>> 	boundary here, so it wouldn't be important to KEEP it enabled.
 > 
-> These look like they might need tweaks (noted in their separate
-> replies).
-
-Thanks for the review, Kees.
-
->>   gcc-plugins/stackleak: Add 'verbose' plugin parameter
->>   gcc-plugins/stackleak: Don't instrument itself
+> Thanks for going through these. In general though, it seems like an
+> opt-in strategy would make more sense, as it doesn't make an awful lot
+> of sense to me for the plugins to be used to build the vDSO.
 > 
-> If you wanted to reorder the series and move these first, I could take
-> these into my tree right away (they're logically separate from the other
-> fixes).
+> So I would prefer that this patch filters out $(GCC_PLUGINS_CFLAGS).
 
-Ok, I will put "don't instrument itself" at the beginning of v2.
-
-The patch adding 'verbose' plugin parameter depends on the previous patches, so
-I will not move it.
-
->>   gcc-plugins/stackleak: Don't instrument vgettimeofday.c in arm64 VDSO
-> 
-> This seems good -- though I'm curious about 32-bit ARM and the other
-> HAVE_GCC_PLUGINS architectures with vDSOs (which appears to be all of
-> them except um).
-
-(going to reply in a separate email)
+Ok, I will do that in the v2 of the patch series.
 
 Best regards,
 Alexander
-
