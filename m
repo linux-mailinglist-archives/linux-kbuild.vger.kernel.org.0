@@ -2,50 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D64861F5C5B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 22:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E72A51F5C5E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 22:04:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730479AbgFJUDd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Jun 2020 16:03:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58918 "EHLO
+        id S1728763AbgFJUEd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Jun 2020 16:04:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727877AbgFJUDb (ORCPT
+        with ESMTP id S1727877AbgFJUEc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Jun 2020 16:03:31 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C338C03E96F
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jun 2020 13:03:30 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id k1so1276338pls.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jun 2020 13:03:30 -0700 (PDT)
+        Wed, 10 Jun 2020 16:04:32 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6E72C03E96B
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jun 2020 13:04:32 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id 23so1571183pfw.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 10 Jun 2020 13:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=gMJmfBXQHkqYBkdWFgkIELmfTMw2QzimZzoX9rnpMvg=;
-        b=VmhHMiuh5ohUCH3fDJnKjrDQRFL0Ji8PnJG1vfqLFDTNpxPKF/jUW6bjeiV5SjTR6o
-         WXLVjXgIO5BzDsgibhA+L18doG6dCY7DA2U8R4aA2THMwHzIRdDqPqVTIOT51M5UhGjo
-         pbeqxJDSxr/3GPDIEZHoH3PhBmMXdRDJJDdIM=
+        bh=DXoJ3aLq9uhplWhtB2O8RgTDmA73SlXyMWG4MRv/Ld0=;
+        b=Les6gM1utqz0wgQgKhZ4Nfpc6QS2e+nlg1Z/E14+jR0X69Sr3LwW3Zm/3lj8osjycK
+         p6DUplVPD/d8Rthsbcyt2ZdYdwH3RELL5O74k3dxdMf4kX7zka4VtVliwa5J4nSVuu9e
+         CL0gdKwiiV/4hvJM+5XPBMzv9WqFgKyQV9MGQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=gMJmfBXQHkqYBkdWFgkIELmfTMw2QzimZzoX9rnpMvg=;
-        b=mqoKa8uR2wbIyJV0vM5B2r85pRoWWJ1Nm3oBbrKkwf+8BPa2VVedLKQZrQeR/3h4o1
-         /kA1s5IrcBmTcGmDH43evTonEkpCHPZUfcPhRUrjdGlct9Ei40Y0Z1I9YEBMU0duBvAy
-         lSQoLUQikY0/0yIAm/DS+dJX4iHW1NrD+I0FEW7yzudUFQveKSLf+YW5Gp/3xygKsrT9
-         NShDxaKgtl4uc1uZcjqrGEJQZ1OvqScbNr3jDkzMCHmJOchPTrNIGjdFj7IDie6swTq6
-         XplahplUvxT2gFQ+mZh/vgC1c9NLxSfY/dI7gzZue30rbyqG+0cOoQq0cuaGQEjkjb21
-         WN9A==
-X-Gm-Message-State: AOAM531eL7U96xIiAGNq0uZA4sq8EFms/M5PZiD9ZML7DFhcw9F3Oynu
-        PUu+7ooWRQGTrIS0uc8VEARf8g==
-X-Google-Smtp-Source: ABdhPJzkqdGCWRf/l2Trk3MffvrvqWcW6Bumgrl4Vv2VZmme66jypNqah8ksfCDrx7bzuNc50pX7OQ==
-X-Received: by 2002:a17:90a:cb8d:: with SMTP id a13mr4644611pju.175.1591819409470;
-        Wed, 10 Jun 2020 13:03:29 -0700 (PDT)
+        bh=DXoJ3aLq9uhplWhtB2O8RgTDmA73SlXyMWG4MRv/Ld0=;
+        b=Rg/MvErj0DtAsUBC0Z/gFNTAzyrVHHhnLjh6reqMY9Pa0xQpM6araoqE6OT/7obytn
+         bfQb5GMkQ3MjPxbPtc8ddIyh107OFybbcwXB3ZYXMbbG3DP1iRWZEcywY7XIsfuD965M
+         FU/wZ1mIPqSkqQ7+V3tuZsi8vr7yk6roCDQ5hlG5tkfE5XOBEicjBx/PeeKD57vgyXVP
+         BMvE4XIEDDvq8KE5M3Z/1bbHxTxrTr4AwuNOYR3RdPw9b3UineTZa8MBusjOlynOYxx4
+         NdTVquxog+ynMBUKjXK6W7z5U/6hUx0nmOy+5lnqq6in1/F3Gai0rXV9q2NPrIEEF+4U
+         kW0Q==
+X-Gm-Message-State: AOAM533U4+R8S2Yt3vj69ee4fvb3BqIjXqvA92edCmFYyZ35pVeZWIEJ
+        4H31XOWPCdc4T3fM9BMWEkrAhA==
+X-Google-Smtp-Source: ABdhPJwC9KNAXjpOXoR+vUMW+1gcz/392CyELM73At2IMG3pDZxxAs+wEHjca9ODW8LTFHMHIMEw8g==
+X-Received: by 2002:a63:df48:: with SMTP id h8mr3947452pgj.411.1591819472188;
+        Wed, 10 Jun 2020 13:04:32 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l63sm724636pfd.122.2020.06.10.13.03.28
+        by smtp.gmail.com with ESMTPSA id w190sm723093pfw.35.2020.06.10.13.04.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 13:03:28 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 13:03:27 -0700
+        Wed, 10 Jun 2020 13:04:30 -0700 (PDT)
+Date:   Wed, 10 Jun 2020 13:04:29 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Alexander Popov <alex.popov@linux.com>
 Cc:     Emese Revfy <re.emese@gmail.com>,
@@ -74,38 +74,43 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
-Subject: Re: [PATCH 2/5] gcc-plugins/stackleak: Use asm instrumentation to
- avoid useless register saving
-Message-ID: <202006101302.AC218FA1@keescook>
+Subject: Re: [PATCH 3/5] gcc-plugins/stackleak: Add 'verbose' plugin parameter
+Message-ID: <202006101303.71B51BF1@keescook>
 References: <20200604134957.505389-1-alex.popov@linux.com>
- <20200604134957.505389-3-alex.popov@linux.com>
- <202006091143.AD1A662@keescook>
- <757cbafb-1e13-8989-e30d-33c557d33cc4@linux.com>
+ <20200604134957.505389-4-alex.popov@linux.com>
+ <202006091147.193047096C@keescook>
+ <fb051386-4913-9442-f051-23ed25802c9e@linux.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <757cbafb-1e13-8989-e30d-33c557d33cc4@linux.com>
+In-Reply-To: <fb051386-4913-9442-f051-23ed25802c9e@linux.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 10, 2020 at 06:47:14PM +0300, Alexander Popov wrote:
-> On 09.06.2020 21:46, Kees Cook wrote:
-> The inline asm statement that is used for instrumentation is arch-specific.
-> Trying to add
->   asm volatile("call stackleak_track_stack")
-> in gcc plugin on aarch64 makes gcc break spectacularly.
-
-Ah! Thank you, that eluded my eyes. :)
-
-> I pass the target arch name to the plugin and check it explicitly to avoid that.
+On Wed, Jun 10, 2020 at 06:52:10PM +0300, Alexander Popov wrote:
+> On 09.06.2020 21:47, Kees Cook wrote:
+> > On Thu, Jun 04, 2020 at 04:49:55PM +0300, Alexander Popov wrote:
+> >> Add 'verbose' plugin parameter for stackleak gcc plugin.
+> >> It can be used for printing additional info about the kernel code
+> >> instrumentation.
+> >>
+> >> For using it add the following to scripts/Makefile.gcc-plugins:
+> >>   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
+> >>     += -fplugin-arg-stackleak_plugin-verbose
+> >>
+> >> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+> > 
+> > Acked-by: Kees Cook <keescook@chromium.org>
 > 
-> Moreover, I'm going to create a gcc enhancement request for supporting
-> no_caller_saved_registers attribute on aarch64.
+> I see that I will change this patch after leaving alloca() support.
+> I'm going to add debug printing about functions that call alloca().
+> I have to omit your 'acked-by' for the changed patch, right?
 
-For arm64 right now it looks like the plugin will just remain
-"inefficient" in these cleanup, as before, yes?
+If it changes dramatically, drop my Ack, yes. But since it's going via
+my tree, my Ack is mostly just a quick email marker to say "yes, looks
+good". :)
 
 -- 
 Kees Cook
