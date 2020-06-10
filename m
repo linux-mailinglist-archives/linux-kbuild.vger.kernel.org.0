@@ -2,42 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD9CB1F5812
-	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 17:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 660591F5857
+	for <lists+linux-kbuild@lfdr.de>; Wed, 10 Jun 2020 17:52:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728117AbgFJPrj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 10 Jun 2020 11:47:39 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34600 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728075AbgFJPri (ORCPT
+        id S1728351AbgFJPwc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 10 Jun 2020 11:52:32 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35802 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728217AbgFJPwc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 10 Jun 2020 11:47:38 -0400
-Received: by mail-lf1-f66.google.com with SMTP id e125so1756525lfd.1;
-        Wed, 10 Jun 2020 08:47:36 -0700 (PDT)
+        Wed, 10 Jun 2020 11:52:32 -0400
+Received: by mail-lj1-f195.google.com with SMTP id q19so3126911lji.2;
+        Wed, 10 Jun 2020 08:52:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:reply-to:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=6sU72hfmvoXtRpb7yrYdgKGitdA0Zo5oyFodEYtk0us=;
-        b=JkH/0rU9Ek/1M6HbraDLw9C15UxAwrgGTJq0k9EcVtpw8eAm65QqlwIdsS8gczE22B
-         RxIE/N0Z43Op6F5NJCw3ulsFabGSYuNRJSvU3KJkPkcIAog2IWA1nKtvUN933vrtl0Yx
-         f0jlVmjuMIXqqMybVNlWsWRXaVGW2QshOW8fUjhKzFguK9OV++wAxD5PywVNiDwXdG+r
-         vlrIEiRosBrYlOPeUmc+pOqdhc8nRPKmoyJ98kT490bpNzgplBUe103m4X7AzxksRCGt
-         AJf4z6X2QNagj2GYHxOhEWtJMVk80gD0rVN2mPNsHlY9+laoamBjTrVUv+3/jyTqSNat
-         ywyw==
-X-Gm-Message-State: AOAM533vWMzMdwJkdTe6dhRHm/vSZgsn+icMLnzstpOGyjLAWoLYt3il
-        r9xHjmqN/VCQpaii/cZpVNI=
-X-Google-Smtp-Source: ABdhPJw2jleHxl3BXvvI6W2dCEPdssYybRp9F62QQnkxdm77EFHHEjNNBH+8JAEMFV5K5Y4cVxXFgA==
-X-Received: by 2002:ac2:5cd1:: with SMTP id f17mr1951677lfq.4.1591804055359;
-        Wed, 10 Jun 2020 08:47:35 -0700 (PDT)
+        bh=11ALgSq9gv/d3zitAChNViLeQS5L5+FuUfOqP20opAs=;
+        b=mIWvRihrny9n4iLgo4xjUtkn22a05Te/1aZWoXlps2Bf0u632C5J+aGqGq452F16tw
+         gDpMKDic4GUS8bYeGrGmXntziSCiifkOjbHqPFnWoMYSLnVGQ2wEZARr5PjEP2iyXFZ4
+         jOwIlsMHPnfJE4bXF6o+sPr9Bu/90d0qPOZZf0uVKfJFebN0UUeQfWARJrfbNM1+5KPz
+         8AL9eSe+Ggq9PgpBwQq5zAC2KHNHIy4D1+Pxbf9C4Vyd93OtdYi/LLl3I/Luj3WkcroP
+         3eqSR9VRomN+yx6CDSS/oZveFQnT/57p7N7yURIjCIjVOgxPhGaf6EcW1w95XqrIIkGQ
+         sXyQ==
+X-Gm-Message-State: AOAM5312Z9lsEBJ5Wmd5XZ6RPUjWiXuo529lnjyXmZUc6mBMaQW5fmZZ
+        ivC50QOSz/efp/idF+BW1YU=
+X-Google-Smtp-Source: ABdhPJxOf6x8h9JgbevXiRilQVr0KtvSmXKyYKWZvP/YIghJt7szxiaNzNcR6ibSpZohdi77kgx7cw==
+X-Received: by 2002:a2e:9a4d:: with SMTP id k13mr2102395ljj.43.1591804348403;
+        Wed, 10 Jun 2020 08:52:28 -0700 (PDT)
 Received: from [192.168.42.234] ([213.87.161.124])
-        by smtp.gmail.com with ESMTPSA id d8sm20153lfk.27.2020.06.10.08.47.18
+        by smtp.gmail.com with ESMTPSA id z15sm29065ljo.102.2020.06.10.08.52.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 08:47:32 -0700 (PDT)
+        Wed, 10 Jun 2020 08:52:27 -0700 (PDT)
 Reply-To: alex.popov@linux.com
-Subject: Re: [PATCH 2/5] gcc-plugins/stackleak: Use asm instrumentation to
- avoid useless register saving
+Subject: Re: [PATCH 3/5] gcc-plugins/stackleak: Add 'verbose' plugin parameter
 To:     Kees Cook <keescook@chromium.org>
 Cc:     Emese Revfy <re.emese@gmail.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
@@ -66,8 +65,8 @@ Cc:     Emese Revfy <re.emese@gmail.com>,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
 References: <20200604134957.505389-1-alex.popov@linux.com>
- <20200604134957.505389-3-alex.popov@linux.com>
- <202006091143.AD1A662@keescook>
+ <20200604134957.505389-4-alex.popov@linux.com>
+ <202006091147.193047096C@keescook>
 From:   Alexander Popov <alex.popov@linux.com>
 Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  mQINBFX15q4BEADZartsIW3sQ9R+9TOuCFRIW+RDCoBWNHhqDLu+Tzf2mZevVSF0D5AMJW4f
@@ -113,12 +112,12 @@ Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  gzBW8J8RW+nUJcTpudX4TC2SGeAOyxnM5O4XJ8yZyDUY334seDRJWtS4wRHxpfYcHKTewR96
  IsP1USE+9ndu6lrMXQ3aFsd1n1m1pfa/y8hiqsSYHy7JQ9Iuo9DxysOj22UNOmOE+OYPK48D
  j3lCqPk=
-Message-ID: <757cbafb-1e13-8989-e30d-33c557d33cc4@linux.com>
-Date:   Wed, 10 Jun 2020 18:47:14 +0300
+Message-ID: <fb051386-4913-9442-f051-23ed25802c9e@linux.com>
+Date:   Wed, 10 Jun 2020 18:52:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <202006091143.AD1A662@keescook>
+In-Reply-To: <202006091147.193047096C@keescook>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -127,53 +126,23 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 09.06.2020 21:46, Kees Cook wrote:
-> On Thu, Jun 04, 2020 at 04:49:54PM +0300, Alexander Popov wrote:
->> Let's improve the instrumentation to avoid this:
+On 09.06.2020 21:47, Kees Cook wrote:
+> On Thu, Jun 04, 2020 at 04:49:55PM +0300, Alexander Popov wrote:
+>> Add 'verbose' plugin parameter for stackleak gcc plugin.
+>> It can be used for printing additional info about the kernel code
+>> instrumentation.
 >>
->> 1. Make stackleak_track_stack() save all register that it works with.
->> Use no_caller_saved_registers attribute for that function. This attribute
->> is available for x86_64 and i386 starting from gcc-7.
+>> For using it add the following to scripts/Makefile.gcc-plugins:
+>>   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
+>>     += -fplugin-arg-stackleak_plugin-verbose
 >>
->> 2. Insert calling stackleak_track_stack() in asm:
->>   asm volatile("call stackleak_track_stack" :: "r" (current_stack_pointer))
->> Here we use ASM_CALL_CONSTRAINT trick from arch/x86/include/asm/asm.h.
->> The input constraint is taken into account during gcc shrink-wrapping
->> optimization. It is needed to be sure that stackleak_track_stack() call is
->> inserted after the prologue of the containing function, when the stack
->> frame is prepared.
+>> Signed-off-by: Alexander Popov <alex.popov@linux.com>
 > 
-> Very cool; nice work!
-> 
->> +static void add_stack_tracking(gimple_stmt_iterator *gsi)
->> +{
->> +	/*
->> +	 * The 'no_caller_saved_registers' attribute is used for
->> +	 * stackleak_track_stack(). If the compiler supports this attribute for
->> +	 * the target arch, we can add calling stackleak_track_stack() in asm.
->> +	 * That improves performance: we avoid useless operations with the
->> +	 * caller-saved registers in the functions from which we will remove
->> +	 * stackleak_track_stack() call during the stackleak_cleanup pass.
->> +	 */
->> +	if (lookup_attribute_spec(get_identifier("no_caller_saved_registers")))
->> +		add_stack_tracking_gasm(gsi);
->> +	else
->> +		add_stack_tracking_gcall(gsi);
->> +}
-> 
-> The build_for_x86 flag is only ever used as an assert() test against
-> no_caller_saved_registers, but we're able to test for that separately.
-> Why does the architecture need to be tested? (i.e. when this flag
-> becomes supported o other architectures, why must it still be x86-only?)
+> Acked-by: Kees Cook <keescook@chromium.org>
 
-The inline asm statement that is used for instrumentation is arch-specific.
-Trying to add
-  asm volatile("call stackleak_track_stack")
-in gcc plugin on aarch64 makes gcc break spectacularly.
-I pass the target arch name to the plugin and check it explicitly to avoid that.
-
-Moreover, I'm going to create a gcc enhancement request for supporting
-no_caller_saved_registers attribute on aarch64.
+I see that I will change this patch after leaving alloca() support.
+I'm going to add debug printing about functions that call alloca().
+I have to omit your 'acked-by' for the changed patch, right?
 
 Best regards,
 Alexander
