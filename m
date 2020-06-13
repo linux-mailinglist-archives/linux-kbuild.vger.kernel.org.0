@@ -2,45 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCBB21F847C
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2020 19:56:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DE9B1F8529
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2020 22:38:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726437AbgFMR4h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 Jun 2020 13:56:37 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:20248 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbgFMR4h (ORCPT
+        id S1726442AbgFMUi1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 Jun 2020 16:38:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726304AbgFMUi1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Jun 2020 13:56:37 -0400
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 05DHtwrY020304;
-        Sun, 14 Jun 2020 02:55:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 05DHtwrY020304
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1592070959;
-        bh=Z/d8NeK3JJg1fAm9WZ7UXyb5tUHGMsLcUCZmEQnAC+A=;
-        h=From:Date:Subject:To:Cc:From;
-        b=ihvJREbqhlZJzaEFaxs2o/coUMbEwv0+rzcjtJ2Dg+LjQzG6eYGIOGvmII9DdAVkJ
-         gY4Aj9/WJuY5n+xzbu5aKlv2XTRNDf6xpkP8ugv6jEgSNdWkoV4rLsgZkNU3mChCfq
-         4HZrThrWni2cMfeHQUk2NRteQdGBVBjyaXjjAfyZoVsg2CFLTPp+QjgPwKFYAlifQz
-         kipu1s+2nyoNMv5x4pJF8UvmSnhqZOuBoyJFBOxVzeMdCPxbknCt2gJHNduQug+ON3
-         k8Vjv1id8+puq/HnNEyPj1qawnInsqTU678zdFq5QSY/FxrrOmuVombJjPfIUQ3zFW
-         UZKn3QHgk9z9w==
-X-Nifty-SrcIP: [209.85.222.49]
-Received: by mail-ua1-f49.google.com with SMTP id a10so4303819uan.8;
-        Sat, 13 Jun 2020 10:55:58 -0700 (PDT)
-X-Gm-Message-State: AOAM533U8d4mPfRDihU8rfufYuNbMd5rVkvBi71YS0RoBarJ29UsTO0l
-        Ck9SE0rGBruRgfTtnGp3qOIzHMOq/+CwOQXcmek=
-X-Google-Smtp-Source: ABdhPJy72UJUS8W/nNJbXd57Uua0eWHOB5YhqM1ORKDxLpetldT/5ctxL3K0PDSzdYCzCvfVHav2Fu1QXVHlicIiJK0=
-X-Received: by 2002:ab0:13f3:: with SMTP id n48mr1813511uae.109.1592070957459;
- Sat, 13 Jun 2020 10:55:57 -0700 (PDT)
+        Sat, 13 Jun 2020 16:38:27 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2370DC03E96F
+        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2020 13:38:27 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id a26so2895649lfj.13
+        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2020 13:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h3cBwjqJkGkfKqMm3ALvsjk5I4escCnWAZ0zicK8gMc=;
+        b=REy0fsRB1I92oFOzAs6uNVkEMih0EWWHqWIiZRYm2TqUvRGu7oewfk9YR5IC8ORapf
+         +5rDonQqpVIq80gRjCze/ukP1iYNmsvcfuR7vz5b68yn3s8XwY0C+ksC80PDTuKDqPVd
+         EIUYhchyUPY3nU3GcX9EXusELiYvsX4vuAeb0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h3cBwjqJkGkfKqMm3ALvsjk5I4escCnWAZ0zicK8gMc=;
+        b=s0H5ipy/9b5tSwTkCqKihfCiG9tvz6HYv0sHLBzYXhrTIQBF5jqj9tC3AHewcf8m65
+         VIgy7ayOQ78GMzhKB/91G1flCv69UMsk1RtUwUok1Zwxt0yn0p1D4PR8dTIzncCEQv1s
+         6R/MRTmB1p1ANzx/K/3LiOxHY8ZiBhz5vPqlPK3j3Lg4GRv7pGzYQwc2fU/7sd3/wO5J
+         KsfCn8/KtKm2EBrC90rdRqpfEfZq9eps2MiXVNWjN5fnOryAvH2P0ApzQ8Cgd7U9OVqs
+         Chb4oKJrFT30MuRQNsNknUE3oOP6WZVl/OH3s/ufPLoOV7RYWoRoI/FDaiAGDK6y/M30
+         Bg/A==
+X-Gm-Message-State: AOAM530vRxRpRsdZiimay7ajr3LkzE883tEc/K49EUPf/vq9zrcctxHu
+        0CD52Gbl3h4BgQ0k3gmEppCvoRAt5ho=
+X-Google-Smtp-Source: ABdhPJz2ToFDOHCwc/VP0FcX+0/6JucaeibtHtmD+H2rl3c3t295kLdXZq043mf8SdWNgm04c/wnLw==
+X-Received: by 2002:a05:6512:3139:: with SMTP id p25mr9817619lfd.214.1592080705282;
+        Sat, 13 Jun 2020 13:38:25 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id v126sm3285081lfa.50.2020.06.13.13.38.24
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 13 Jun 2020 13:38:24 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id w15so7334356lfe.11
+        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2020 13:38:24 -0700 (PDT)
+X-Received: by 2002:ac2:4422:: with SMTP id w2mr1035337lfl.152.1592080704105;
+ Sat, 13 Jun 2020 13:38:24 -0700 (PDT)
 MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 14 Jun 2020 02:55:21 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
-Message-ID: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
-Subject: [GIT PULL] more Kbuild updates for v5.8-rc1
-To:     Linus Torvalds <torvalds@linux-foundation.org>
+References: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
+In-Reply-To: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 13 Jun 2020 13:38:08 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wjKftdT8wT1GNGpstQA=P7Y-4_LrnZZ2hWCqfuYRVoo+A@mail.gmail.com>
+Message-ID: <CAHk-=wjKftdT8wT1GNGpstQA=P7Y-4_LrnZZ2hWCqfuYRVoo+A@mail.gmail.com>
+Subject: Re: [GIT PULL] more Kbuild updates for v5.8-rc1
+To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -49,490 +67,19 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Sat, Jun 13, 2020 at 10:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> This is touching a lot of files to finish the
+> --help--- conversion. It was generated by a one-liner sed
+> command, so it is easy to understand what is going on.
 
-Please pull more Kbuild updates for v5.8-rc1.
-This is touching a lot of files to finish the
---help--- conversion. It was generated by a one-liner sed
-command, so it is easy to understand what is going on.
+Well, a simple grep would have shown you there is a script in the
+Documentation directory that actually generates those "---help---"
+markers.
 
+So if converting away from them, we should certainly not help people make more.
 
-The following changes since commit b29482fde649c72441d5478a4ea2c52c56d97a5e:
+I did the obvious fixup in 3e1ad4054b8d ("doc: don't use deprecated
+"---help---" markers in target docs") but didn't test that script.
 
-  Merge branch 'work.epoll' of
-git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs (2020-06-10
-18:09:13 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-v5.8-2
-
-for you to fetch changes up to a7f7f6248d9740d710fd6bd190293fe5e16410ac:
-
-  treewide: replace '---help---' in Kconfig files with 'help'
-(2020-06-14 01:57:21 +0900)
-
-----------------------------------------------------------------
-Kbuild updates for v5.8  (2nd)
-
- - fix build rules in binderfs sample
-
- - fix build errors when Kbuild recurses to the top Makefile
-
- - covert '---help---' in Kconfig to 'help'
-
-----------------------------------------------------------------
-Denis Efremov (1):
-      kbuild: fix broken builds because of GZIP,BZIP2,LZOP variables
-
-Masahiro Yamada (2):
-      samples: binderfs: really compile this sample and fix build issues
-      treewide: replace '---help---' in Kconfig files with 'help'
-
- Makefile                                         |  24 +--
- arch/Kconfig                                     |   4 +-
- arch/alpha/Kconfig                               |  18 +-
- arch/alpha/Kconfig.debug                         |   2 +-
- arch/arc/Kconfig                                 |   2 +-
- arch/arm/Kconfig                                 |   8 +-
- arch/arm/Kconfig.debug                           |   4 +-
- arch/arm/boot/deflate_xip_data.sh                |   2 +-
- arch/arm/mach-footbridge/Kconfig                 |   2 +-
- arch/arm64/Kconfig                               |   4 +-
- arch/arm64/kvm/Kconfig                           |   6 +-
- arch/hexagon/Kconfig                             |  12 +-
- arch/ia64/Kconfig                                |   6 +-
- arch/ia64/Makefile                               |   2 +-
- arch/m68k/Kconfig.cpu                            |   6 +-
- arch/m68k/Kconfig.devices                        |   6 +-
- arch/m68k/Kconfig.machine                        |   2 +-
- arch/m68k/Makefile                               |   8 +-
- arch/mips/Kconfig                                |   6 +-
- arch/mips/kvm/Kconfig                            |  12 +-
- arch/parisc/Kconfig                              |   6 +-
- arch/parisc/Makefile                             |   2 +-
- arch/powerpc/kvm/Kconfig                         |  20 +-
- arch/powerpc/platforms/Kconfig                   |   6 +-
- arch/powerpc/platforms/Kconfig.cputype           |  10 +-
- arch/s390/Kconfig                                |   2 +-
- arch/s390/Kconfig.debug                          |   2 +-
- arch/s390/kvm/Kconfig                            |   6 +-
- arch/sh/Kconfig                                  |   4 +-
- arch/sh/cchips/Kconfig                           |   2 +-
- arch/sh/mm/Kconfig                               |   2 +-
- arch/sparc/Kconfig                               |  12 +-
- arch/um/Kconfig                                  |   2 +-
- arch/um/Kconfig.debug                            |   2 +-
- arch/x86/Kconfig                                 | 276
-+++++++++++++-------------
- arch/x86/Kconfig.cpu                             |  72 +++----
- arch/x86/Kconfig.debug                           |  48 ++---
- arch/x86/events/Kconfig                          |   8 +-
- arch/x86/kvm/Kconfig                             |  12 +-
- arch/x86/ras/Kconfig                             |   2 +-
- block/Kconfig                                    |  22 +-
- block/Kconfig.iosched                            |  10 +-
- block/partitions/Kconfig                         |   6 +-
- drivers/accessibility/Kconfig                    |   4 +-
- drivers/android/Kconfig                          |  10 +-
- drivers/ata/Kconfig                              |   2 +-
- drivers/atm/Kconfig                              |  18 +-
- drivers/auxdisplay/Kconfig                       |  54 ++---
- drivers/block/Kconfig                            |  26 +--
- drivers/block/paride/Kconfig                     |   8 +-
- drivers/char/Kconfig                             |  22 +-
- drivers/char/agp/Kconfig                         |   6 +-
- drivers/char/hw_random/Kconfig                   |  62 +++---
- drivers/char/tpm/Kconfig                         |  30 +--
- drivers/char/tpm/st33zp24/Kconfig                |   6 +-
- drivers/clk/Kconfig                              |  42 ++--
- drivers/clk/imgtec/Kconfig                       |   2 +-
- drivers/clk/keystone/Kconfig                     |   4 +-
- drivers/clk/mediatek/Kconfig                     |  64 +++---
- drivers/clk/ti/Kconfig                           |   2 +-
- drivers/clk/versatile/Kconfig                    |   6 +-
- drivers/connector/Kconfig                        |   4 +-
- drivers/cpufreq/Kconfig.x86                      |   4 +-
- drivers/crypto/Kconfig                           |   8 +-
- drivers/crypto/chelsio/Kconfig                   |   6 +-
- drivers/dma-buf/Kconfig                          |   4 +-
- drivers/dma/Kconfig                              |  10 +-
- drivers/dma/mediatek/Kconfig                     |   2 +-
- drivers/dma/qcom/Kconfig                         |   2 +-
- drivers/edac/Kconfig                             |   2 +-
- drivers/eisa/Kconfig                             |  10 +-
- drivers/firmware/efi/Kconfig                     |   2 +-
- drivers/fsi/Kconfig                              |  16 +-
- drivers/gnss/Kconfig                             |   6 +-
- drivers/gpio/Kconfig                             |   2 +-
- drivers/gpu/drm/bridge/Kconfig                   |  16 +-
- drivers/gpu/drm/omapdrm/dss/Kconfig              |   2 +-
- drivers/greybus/Kconfig                          |   4 +-
- drivers/hid/Kconfig                              | 208 +++++++++----------
- drivers/hid/i2c-hid/Kconfig                      |   2 +-
- drivers/hid/usbhid/Kconfig                       |   6 +-
- drivers/hsi/Kconfig                              |   2 +-
- drivers/hsi/clients/Kconfig                      |   2 +-
- drivers/hsi/controllers/Kconfig                  |   2 +-
- drivers/i2c/Kconfig                              |   2 +-
- drivers/ide/Kconfig                              |  10 +-
- drivers/iio/dac/Kconfig                          |   2 +-
- drivers/infiniband/Kconfig                       |  14 +-
- drivers/infiniband/hw/bnxt_re/Kconfig            |   2 +-
- drivers/infiniband/hw/cxgb4/Kconfig              |   2 +-
- drivers/infiniband/hw/hfi1/Kconfig               |   6 +-
- drivers/infiniband/hw/hns/Kconfig                |   6 +-
- drivers/infiniband/hw/i40iw/Kconfig              |   2 +-
- drivers/infiniband/hw/mlx4/Kconfig               |   2 +-
- drivers/infiniband/hw/mlx5/Kconfig               |   2 +-
- drivers/infiniband/hw/mthca/Kconfig              |   4 +-
- drivers/infiniband/hw/ocrdma/Kconfig             |   2 +-
- drivers/infiniband/hw/qedr/Kconfig               |   2 +-
- drivers/infiniband/hw/qib/Kconfig                |   4 +-
- drivers/infiniband/hw/usnic/Kconfig              |   2 +-
- drivers/infiniband/hw/vmw_pvrdma/Kconfig         |   2 +-
- drivers/infiniband/sw/rdmavt/Kconfig             |   2 +-
- drivers/infiniband/sw/rxe/Kconfig                |   2 +-
- drivers/infiniband/ulp/ipoib/Kconfig             |   8 +-
- drivers/infiniband/ulp/iser/Kconfig              |   2 +-
- drivers/infiniband/ulp/isert/Kconfig             |   2 +-
- drivers/infiniband/ulp/opa_vnic/Kconfig          |   2 +-
- drivers/infiniband/ulp/srp/Kconfig               |   2 +-
- drivers/infiniband/ulp/srpt/Kconfig              |   2 +-
- drivers/input/gameport/Kconfig                   |   2 +-
- drivers/input/joystick/Kconfig                   |   8 +-
- drivers/input/serio/Kconfig                      |   2 +-
- drivers/iommu/Kconfig                            |  18 +-
- drivers/ipack/Kconfig                            |   2 +-
- drivers/isdn/Kconfig                             |   2 +-
- drivers/macintosh/Kconfig                        |   2 +-
- drivers/md/Kconfig                               |  82 ++++----
- drivers/md/persistent-data/Kconfig               |   2 +-
- drivers/media/cec/platform/Kconfig               |   2 +-
- drivers/message/fusion/Kconfig                   |  14 +-
- drivers/mfd/Kconfig                              |  10 +-
- drivers/misc/Kconfig                             |  18 +-
- drivers/misc/echo/Kconfig                        |   2 +-
- drivers/mmc/host/Kconfig                         |   2 +-
- drivers/net/Kconfig                              |  46 ++---
- drivers/net/appletalk/Kconfig                    |   4 +-
- drivers/net/arcnet/Kconfig                       |   8 +-
- drivers/net/caif/Kconfig                         |  10 +-
- drivers/net/can/Kconfig                          |  30 +--
- drivers/net/can/c_can/Kconfig                    |   4 +-
- drivers/net/can/cc770/Kconfig                    |   4 +-
- drivers/net/can/ifi_canfd/Kconfig                |   2 +-
- drivers/net/can/m_can/Kconfig                    |   6 +-
- drivers/net/can/mscan/Kconfig                    |   4 +-
- drivers/net/can/peak_canfd/Kconfig               |   2 +-
- drivers/net/can/rcar/Kconfig                     |   4 +-
- drivers/net/can/sja1000/Kconfig                  |  18 +-
- drivers/net/can/softing/Kconfig                  |   4 +-
- drivers/net/can/spi/Kconfig                      |   4 +-
- drivers/net/can/usb/Kconfig                      |  16 +-
- drivers/net/dsa/Kconfig                          |  26 +--
- drivers/net/dsa/qca/Kconfig                      |   2 +-
- drivers/net/ethernet/3com/Kconfig                |  14 +-
- drivers/net/ethernet/8390/Kconfig                |  32 +--
- drivers/net/ethernet/Kconfig                     |  18 +-
- drivers/net/ethernet/adaptec/Kconfig             |   4 +-
- drivers/net/ethernet/aeroflex/Kconfig            |   2 +-
- drivers/net/ethernet/agere/Kconfig               |   4 +-
- drivers/net/ethernet/alacritech/Kconfig          |   4 +-
- drivers/net/ethernet/allwinner/Kconfig           |   4 +-
- drivers/net/ethernet/alteon/Kconfig              |   6 +-
- drivers/net/ethernet/altera/Kconfig              |   2 +-
- drivers/net/ethernet/amazon/Kconfig              |   4 +-
- drivers/net/ethernet/amd/Kconfig                 |  34 ++--
- drivers/net/ethernet/apple/Kconfig               |  10 +-
- drivers/net/ethernet/aquantia/Kconfig            |   4 +-
- drivers/net/ethernet/arc/Kconfig                 |   6 +-
- drivers/net/ethernet/atheros/Kconfig             |  10 +-
- drivers/net/ethernet/broadcom/Kconfig            |  32 +--
- drivers/net/ethernet/brocade/Kconfig             |   2 +-
- drivers/net/ethernet/brocade/bna/Kconfig         |   2 +-
- drivers/net/ethernet/cadence/Kconfig             |   8 +-
- drivers/net/ethernet/cavium/Kconfig              |  16 +-
- drivers/net/ethernet/chelsio/Kconfig             |  18 +-
- drivers/net/ethernet/cirrus/Kconfig              |   6 +-
- drivers/net/ethernet/cisco/Kconfig               |   2 +-
- drivers/net/ethernet/cisco/enic/Kconfig          |   2 +-
- drivers/net/ethernet/cortina/Kconfig             |   4 +-
- drivers/net/ethernet/davicom/Kconfig             |   4 +-
- drivers/net/ethernet/dec/Kconfig                 |   2 +-
- drivers/net/ethernet/dec/tulip/Kconfig           |  26 +--
- drivers/net/ethernet/dlink/Kconfig               |   8 +-
- drivers/net/ethernet/emulex/Kconfig              |   2 +-
- drivers/net/ethernet/ezchip/Kconfig              |   4 +-
- drivers/net/ethernet/faraday/Kconfig             |   6 +-
- drivers/net/ethernet/freescale/Kconfig           |  16 +-
- drivers/net/ethernet/freescale/dpaa/Kconfig      |   2 +-
- drivers/net/ethernet/fujitsu/Kconfig             |   4 +-
- drivers/net/ethernet/hisilicon/Kconfig           |  22 +-
- drivers/net/ethernet/huawei/Kconfig              |   2 +-
- drivers/net/ethernet/huawei/hinic/Kconfig        |   2 +-
- drivers/net/ethernet/i825xx/Kconfig              |  14 +-
- drivers/net/ethernet/ibm/Kconfig                 |   8 +-
- drivers/net/ethernet/intel/Kconfig               |  46 ++---
- drivers/net/ethernet/marvell/Kconfig             |  24 +--
- drivers/net/ethernet/marvell/octeontx2/Kconfig   |   2 +-
- drivers/net/ethernet/mediatek/Kconfig            |   4 +-
- drivers/net/ethernet/mellanox/Kconfig            |   2 +-
- drivers/net/ethernet/mellanox/mlx4/Kconfig       |   8 +-
- drivers/net/ethernet/mellanox/mlx5/core/Kconfig  |  18 +-
- drivers/net/ethernet/mellanox/mlxfw/Kconfig      |   2 +-
- drivers/net/ethernet/mellanox/mlxsw/Kconfig      |  20 +-
- drivers/net/ethernet/micrel/Kconfig              |  10 +-
- drivers/net/ethernet/microchip/Kconfig           |  10 +-
- drivers/net/ethernet/moxa/Kconfig                |   4 +-
- drivers/net/ethernet/myricom/Kconfig             |   6 +-
- drivers/net/ethernet/natsemi/Kconfig             |  12 +-
- drivers/net/ethernet/neterion/Kconfig            |   8 +-
- drivers/net/ethernet/netronome/Kconfig           |   8 +-
- drivers/net/ethernet/nvidia/Kconfig              |   4 +-
- drivers/net/ethernet/oki-semi/Kconfig            |   2 +-
- drivers/net/ethernet/oki-semi/pch_gbe/Kconfig    |   2 +-
- drivers/net/ethernet/packetengines/Kconfig       |   6 +-
- drivers/net/ethernet/pasemi/Kconfig              |   4 +-
- drivers/net/ethernet/qlogic/Kconfig              |  20 +-
- drivers/net/ethernet/qualcomm/Kconfig            |   8 +-
- drivers/net/ethernet/qualcomm/rmnet/Kconfig      |   2 +-
- drivers/net/ethernet/rdc/Kconfig                 |   4 +-
- drivers/net/ethernet/realtek/Kconfig             |  18 +-
- drivers/net/ethernet/renesas/Kconfig             |   4 +-
- drivers/net/ethernet/rocker/Kconfig              |   4 +-
- drivers/net/ethernet/samsung/Kconfig             |   4 +-
- drivers/net/ethernet/seeq/Kconfig                |   6 +-
- drivers/net/ethernet/sfc/Kconfig                 |  12 +-
- drivers/net/ethernet/sfc/falcon/Kconfig          |   4 +-
- drivers/net/ethernet/sgi/Kconfig                 |   4 +-
- drivers/net/ethernet/silan/Kconfig               |   4 +-
- drivers/net/ethernet/sis/Kconfig                 |   6 +-
- drivers/net/ethernet/smsc/Kconfig                |  18 +-
- drivers/net/ethernet/socionext/Kconfig           |   6 +-
- drivers/net/ethernet/stmicro/Kconfig             |   2 +-
- drivers/net/ethernet/stmicro/stmmac/Kconfig      |  24 +--
- drivers/net/ethernet/sun/Kconfig                 |  18 +-
- drivers/net/ethernet/synopsys/Kconfig            |   6 +-
- drivers/net/ethernet/tehuti/Kconfig              |   4 +-
- drivers/net/ethernet/ti/Kconfig                  |  20 +-
- drivers/net/ethernet/toshiba/Kconfig             |   8 +-
- drivers/net/ethernet/tundra/Kconfig              |   4 +-
- drivers/net/ethernet/via/Kconfig                 |   8 +-
- drivers/net/ethernet/wiznet/Kconfig              |  14 +-
- drivers/net/ethernet/xilinx/Kconfig              |   8 +-
- drivers/net/ethernet/xircom/Kconfig              |   4 +-
- drivers/net/ethernet/xscale/Kconfig              |   4 +-
- drivers/net/fddi/Kconfig                         |   8 +-
- drivers/net/hamradio/Kconfig                     |  16 +-
- drivers/net/hippi/Kconfig                        |   6 +-
- drivers/net/ieee802154/Kconfig                   |  24 +--
- drivers/net/phy/Kconfig                          |  78 ++++----
- drivers/net/plip/Kconfig                         |   2 +-
- drivers/net/ppp/Kconfig                          |  24 +--
- drivers/net/slip/Kconfig                         |  10 +-
- drivers/net/team/Kconfig                         |  12 +-
- drivers/net/usb/Kconfig                          |  12 +-
- drivers/net/wan/Kconfig                          |  16 +-
- drivers/net/wireless/Kconfig                     |  10 +-
- drivers/net/wireless/admtek/Kconfig              |   4 +-
- drivers/net/wireless/ath/Kconfig                 |  10 +-
- drivers/net/wireless/ath/ar5523/Kconfig          |   2 +-
- drivers/net/wireless/ath/ath10k/Kconfig          |  22 +-
- drivers/net/wireless/ath/ath11k/Kconfig          |   8 +-
- drivers/net/wireless/ath/ath5k/Kconfig           |  12 +-
- drivers/net/wireless/ath/ath6kl/Kconfig          |  12 +-
- drivers/net/wireless/ath/ath9k/Kconfig           |  30 +--
- drivers/net/wireless/ath/wcn36xx/Kconfig         |   4 +-
- drivers/net/wireless/ath/wil6210/Kconfig         |   8 +-
- drivers/net/wireless/atmel/Kconfig               |  10 +-
- drivers/net/wireless/broadcom/Kconfig            |   2 +-
- drivers/net/wireless/broadcom/b43/Kconfig        |  18 +-
- drivers/net/wireless/broadcom/b43legacy/Kconfig  |  10 +-
- drivers/net/wireless/broadcom/brcm80211/Kconfig  |   6 +-
- drivers/net/wireless/cisco/Kconfig               |   6 +-
- drivers/net/wireless/intel/Kconfig               |   2 +-
- drivers/net/wireless/intel/ipw2x00/Kconfig       |  18 +-
- drivers/net/wireless/intel/iwlegacy/Kconfig      |   8 +-
- drivers/net/wireless/intel/iwlwifi/Kconfig       |   6 +-
- drivers/net/wireless/intersil/Kconfig            |   4 +-
- drivers/net/wireless/intersil/hostap/Kconfig     |  12 +-
- drivers/net/wireless/intersil/orinoco/Kconfig    |  12 +-
- drivers/net/wireless/intersil/p54/Kconfig        |  10 +-
- drivers/net/wireless/marvell/Kconfig             |   4 +-
- drivers/net/wireless/marvell/libertas/Kconfig    |  12 +-
- drivers/net/wireless/marvell/libertas_tf/Kconfig |   6 +-
- drivers/net/wireless/marvell/mwifiex/Kconfig     |   8 +-
- drivers/net/wireless/mediatek/Kconfig            |   2 +-
- drivers/net/wireless/mediatek/mt7601u/Kconfig    |   2 +-
- drivers/net/wireless/ralink/Kconfig              |   2 +-
- drivers/net/wireless/ralink/rt2x00/Kconfig       |  42 ++--
- drivers/net/wireless/realtek/Kconfig             |   2 +-
- drivers/net/wireless/realtek/rtl818x/Kconfig     |   4 +-
- drivers/net/wireless/realtek/rtl8xxxu/Kconfig    |   4 +-
- drivers/net/wireless/realtek/rtlwifi/Kconfig     |  22 +-
- drivers/net/wireless/rsi/Kconfig                 |  12 +-
- drivers/net/wireless/st/Kconfig                  |   2 +-
- drivers/net/wireless/ti/Kconfig                  |   4 +-
- drivers/net/wireless/ti/wl1251/Kconfig           |   6 +-
- drivers/net/wireless/ti/wl12xx/Kconfig           |   2 +-
- drivers/net/wireless/ti/wl18xx/Kconfig           |   2 +-
- drivers/net/wireless/ti/wlcore/Kconfig           |   6 +-
- drivers/net/wireless/zydas/Kconfig               |   4 +-
- drivers/net/wireless/zydas/zd1211rw/Kconfig      |   4 +-
- drivers/nfc/fdp/Kconfig                          |   4 +-
- drivers/nfc/microread/Kconfig                    |   6 +-
- drivers/nfc/nxp-nci/Kconfig                      |   4 +-
- drivers/nfc/pn533/Kconfig                        |   6 +-
- drivers/nfc/pn544/Kconfig                        |   6 +-
- drivers/nfc/s3fwrn5/Kconfig                      |   4 +-
- drivers/nfc/st-nci/Kconfig                       |   6 +-
- drivers/nfc/st21nfca/Kconfig                     |   4 +-
- drivers/nvme/host/Kconfig                        |   4 +-
- drivers/opp/Kconfig                              |   2 +-
- drivers/parport/Kconfig                          |   2 +-
- drivers/pci/controller/Kconfig                   |   2 +-
- drivers/pci/hotplug/Kconfig                      |   2 +-
- drivers/pcmcia/Kconfig                           |   8 +-
- drivers/platform/chrome/Kconfig                  |   8 +-
- drivers/platform/mellanox/Kconfig                |   4 +-
- drivers/platform/x86/Kconfig                     | 142 ++++++-------
- drivers/pnp/Kconfig                              |   2 +-
- drivers/pnp/pnpbios/Kconfig                      |   4 +-
- drivers/powercap/Kconfig                         |   2 +-
- drivers/pps/Kconfig                              |   2 +-
- drivers/ptp/Kconfig                              |   2 +-
- drivers/rapidio/Kconfig                          |   4 +-
- drivers/rapidio/devices/Kconfig                  |   2 +-
- drivers/rapidio/switches/Kconfig                 |  10 +-
- drivers/sbus/char/Kconfig                        |   2 +-
- drivers/scsi/Kconfig                             |  80 ++++----
- drivers/scsi/aic7xxx/Kconfig.aic79xx             |   4 +-
- drivers/scsi/aic7xxx/Kconfig.aic7xxx             |   6 +-
- drivers/scsi/bnx2fc/Kconfig                      |   2 +-
- drivers/scsi/bnx2i/Kconfig                       |   2 +-
- drivers/scsi/cxgbi/cxgb3i/Kconfig                |   2 +-
- drivers/scsi/cxgbi/cxgb4i/Kconfig                |   2 +-
- drivers/scsi/esas2r/Kconfig                      |   2 +-
- drivers/scsi/mpt3sas/Kconfig                     |   8 +-
- drivers/scsi/qedf/Kconfig                        |   2 +-
- drivers/scsi/qedi/Kconfig                        |   2 +-
- drivers/scsi/qla2xxx/Kconfig                     |   6 +-
- drivers/scsi/qla4xxx/Kconfig                     |   2 +-
- drivers/scsi/smartpqi/Kconfig                    |   2 +-
- drivers/scsi/ufs/Kconfig                         |  12 +-
- drivers/sfi/Kconfig                              |   2 +-
- drivers/soc/aspeed/Kconfig                       |   2 +-
- drivers/staging/Kconfig                          |   2 +-
- drivers/staging/greybus/Kconfig                  |  40 ++--
- drivers/staging/media/atomisp/Kconfig            |   2 +-
- drivers/staging/media/atomisp/i2c/Kconfig        |  14 +-
- drivers/staging/media/atomisp/i2c/ov5693/Kconfig |   2 +-
- drivers/staging/most/cdev/Kconfig                |   2 +-
- drivers/staging/most/dim2/Kconfig                |   2 +-
- drivers/target/iscsi/cxgbit/Kconfig              |   2 +-
- drivers/tty/Kconfig                              |  20 +-
- drivers/tty/serial/8250/Kconfig                  |  12 +-
- drivers/tty/serial/Kconfig                       |  24 +--
- drivers/usb/Kconfig                              |   8 +-
- drivers/usb/class/Kconfig                        |   4 +-
- drivers/usb/host/Kconfig                         |  90 ++++-----
- drivers/usb/image/Kconfig                        |   2 +-
- drivers/usb/misc/Kconfig                         |   4 +-
- drivers/usb/misc/sisusbvga/Kconfig               |   4 +-
- drivers/usb/serial/Kconfig                       |  30 +--
- drivers/usb/storage/Kconfig                      |   8 +-
- drivers/usb/usbip/Kconfig                        |  14 +-
- drivers/vhost/Kconfig                            |   8 +-
- drivers/video/console/Kconfig                    |   4 +-
- drivers/video/fbdev/Kconfig                      | 118 +++++------
- drivers/video/fbdev/geode/Kconfig                |   8 +-
- drivers/virt/Kconfig                             |   2 +-
- drivers/virtio/Kconfig                           |  14 +-
- drivers/visorbus/Kconfig                         |   2 +-
- drivers/vme/Kconfig                              |   2 +-
- drivers/w1/Kconfig                               |   4 +-
- drivers/watchdog/Kconfig                         |  80 ++++----
- drivers/zorro/Kconfig                            |   2 +-
- fs/Kconfig                                       |   4 +-
- fs/Kconfig.binfmt                                |   8 +-
- fs/nls/Kconfig                                   |  32 +--
- fs/notify/fanotify/Kconfig                       |   4 +-
- fs/notify/inotify/Kconfig                        |   2 +-
- fs/proc/Kconfig                                  |   2 +-
- fs/romfs/Kconfig                                 |   2 +-
- init/Kconfig                                     |  14 +-
- kernel/gcov/Kconfig                              |   4 +-
- kernel/irq/Kconfig                               |   4 +-
- kernel/power/Kconfig                             |  26 +--
- lib/Kconfig.debug                                |   6 +-
- mm/Kconfig.debug                                 |  16 +-
- net/6lowpan/Kconfig                              |  32 +--
- net/8021q/Kconfig                                |   2 +-
- net/Kconfig                                      |  26 +--
- net/atm/Kconfig                                  |   2 +-
- net/bridge/Kconfig                               |   6 +-
- net/caif/Kconfig                                 |   8 +-
- net/can/Kconfig                                  |   8 +-
- net/dcb/Kconfig                                  |   2 +-
- net/dccp/Kconfig                                 |   4 +-
- net/dccp/ccids/Kconfig                           |   6 +-
- net/decnet/Kconfig                               |   4 +-
- net/dsa/Kconfig                                  |   2 +-
- net/hsr/Kconfig                                  |   2 +-
- net/ieee802154/6lowpan/Kconfig                   |   2 +-
- net/ieee802154/Kconfig                           |   6 +-
- net/ipv4/Kconfig                                 |  72 +++----
- net/ipv4/netfilter/Kconfig                       |  16 +-
- net/ipv6/Kconfig                                 |  44 ++--
- net/ipv6/netfilter/Kconfig                       |   6 +-
- net/kcm/Kconfig                                  |   2 +-
- net/l2tp/Kconfig                                 |   2 +-
- net/l3mdev/Kconfig                               |   2 +-
- net/lapb/Kconfig                                 |   2 +-
- net/mac80211/Kconfig                             |  52 ++---
- net/mac802154/Kconfig                            |   2 +-
- net/mpls/Kconfig                                 |   6 +-
- net/ncsi/Kconfig                                 |   4 +-
- net/netfilter/Kconfig                            |  58 +++---
- net/netfilter/ipvs/Kconfig                       |  54 ++---
- net/netlabel/Kconfig                             |   2 +-
- net/netlink/Kconfig                              |   2 +-
- net/nfc/hci/Kconfig                              |   2 +-
- net/nsh/Kconfig                                  |   2 +-
- net/openvswitch/Kconfig                          |   8 +-
- net/packet/Kconfig                               |   4 +-
- net/qrtr/Kconfig                                 |   6 +-
- net/rds/Kconfig                                  |   6 +-
- net/sched/Kconfig                                | 122 ++++++------
- net/sctp/Kconfig                                 |   2 +-
- net/smc/Kconfig                                  |   4 +-
- net/switchdev/Kconfig                            |   2 +-
- net/tipc/Kconfig                                 |   4 +-
- net/tls/Kconfig                                  |   2 +-
- net/unix/Kconfig                                 |   4 +-
- net/wireless/Kconfig                             |  12 +-
- net/x25/Kconfig                                  |   2 +-
- net/xfrm/Kconfig                                 |  14 +-
- samples/Kconfig                                  |   2 +-
- samples/Makefile                                 |   2 +-
- samples/binderfs/Makefile                        |   9 +-
- samples/binderfs/binderfs_example.c              |   1 -
- scripts/Makefile.lib                             |   6 +-
- scripts/Makefile.package                         |   6 +-
- scripts/package/buildtar                         |   4 +-
- security/tomoyo/Kconfig                          |   6 +-
- sound/aoa/Kconfig                                |   2 +-
- sound/aoa/codecs/Kconfig                         |   6 +-
- sound/aoa/fabrics/Kconfig                        |   2 +-
- sound/aoa/soundbus/Kconfig                       |   4 +-
- sound/soc/Kconfig                                |   2 +-
- sound/soc/samsung/Kconfig                        |   2 +-
- sound/x86/Kconfig                                |   2 +-
- 439 files changed, 2474 insertions(+), 2490 deletions(-)
-
-
--- 
-Best Regards
-Masahiro Yamada
+            Linus
