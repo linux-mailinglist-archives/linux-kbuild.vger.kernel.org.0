@@ -2,84 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DE9B1F8529
-	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2020 22:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AED81F852B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 13 Jun 2020 22:40:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbgFMUi1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 13 Jun 2020 16:38:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726304AbgFMUi1 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 13 Jun 2020 16:38:27 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2370DC03E96F
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2020 13:38:27 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id a26so2895649lfj.13
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2020 13:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h3cBwjqJkGkfKqMm3ALvsjk5I4escCnWAZ0zicK8gMc=;
-        b=REy0fsRB1I92oFOzAs6uNVkEMih0EWWHqWIiZRYm2TqUvRGu7oewfk9YR5IC8ORapf
-         +5rDonQqpVIq80gRjCze/ukP1iYNmsvcfuR7vz5b68yn3s8XwY0C+ksC80PDTuKDqPVd
-         EIUYhchyUPY3nU3GcX9EXusELiYvsX4vuAeb0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h3cBwjqJkGkfKqMm3ALvsjk5I4escCnWAZ0zicK8gMc=;
-        b=s0H5ipy/9b5tSwTkCqKihfCiG9tvz6HYv0sHLBzYXhrTIQBF5jqj9tC3AHewcf8m65
-         VIgy7ayOQ78GMzhKB/91G1flCv69UMsk1RtUwUok1Zwxt0yn0p1D4PR8dTIzncCEQv1s
-         6R/MRTmB1p1ANzx/K/3LiOxHY8ZiBhz5vPqlPK3j3Lg4GRv7pGzYQwc2fU/7sd3/wO5J
-         KsfCn8/KtKm2EBrC90rdRqpfEfZq9eps2MiXVNWjN5fnOryAvH2P0ApzQ8Cgd7U9OVqs
-         Chb4oKJrFT30MuRQNsNknUE3oOP6WZVl/OH3s/ufPLoOV7RYWoRoI/FDaiAGDK6y/M30
-         Bg/A==
-X-Gm-Message-State: AOAM530vRxRpRsdZiimay7ajr3LkzE883tEc/K49EUPf/vq9zrcctxHu
-        0CD52Gbl3h4BgQ0k3gmEppCvoRAt5ho=
-X-Google-Smtp-Source: ABdhPJz2ToFDOHCwc/VP0FcX+0/6JucaeibtHtmD+H2rl3c3t295kLdXZq043mf8SdWNgm04c/wnLw==
-X-Received: by 2002:a05:6512:3139:: with SMTP id p25mr9817619lfd.214.1592080705282;
-        Sat, 13 Jun 2020 13:38:25 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id v126sm3285081lfa.50.2020.06.13.13.38.24
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Jun 2020 13:38:24 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id w15so7334356lfe.11
-        for <linux-kbuild@vger.kernel.org>; Sat, 13 Jun 2020 13:38:24 -0700 (PDT)
-X-Received: by 2002:ac2:4422:: with SMTP id w2mr1035337lfl.152.1592080704105;
- Sat, 13 Jun 2020 13:38:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
-In-Reply-To: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sat, 13 Jun 2020 13:38:08 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjKftdT8wT1GNGpstQA=P7Y-4_LrnZZ2hWCqfuYRVoo+A@mail.gmail.com>
-Message-ID: <CAHk-=wjKftdT8wT1GNGpstQA=P7Y-4_LrnZZ2hWCqfuYRVoo+A@mail.gmail.com>
+        id S1726618AbgFMUk2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 13 Jun 2020 16:40:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40482 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726606AbgFMUk1 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 13 Jun 2020 16:40:27 -0400
 Subject: Re: [GIT PULL] more Kbuild updates for v5.8-rc1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592080827;
+        bh=dy5jDfh3kbYOoo2r2+W/5k9zlP7VV+UPrGObMuPfJKQ=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=CuBdKAEiiv0BzJh9DNlcu/Wzgtg4sOXn8pN2QjSm4xdWfQPYwHRnE8pcUmfAUrlvX
+         QuZaQgoHqWmo9+geFkNizg9rDMQjD8klaQEQVLT0UxEyHP4/bGMvnQOzqCj5NG5EX0
+         wW5fDlc+kwmRyTlGe6xj45RxYVgLykvipN2mTDFs=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
+References: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNATsQRp=kkB+THaO23XiHZsU1xJ-B42p8sMieBgJ4uftMg@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+ tags/kbuild-v5.8-2
+X-PR-Tracked-Commit-Id: a7f7f6248d9740d710fd6bd190293fe5e16410ac
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 6adc19fd13f11883c44df67b551cf8201e6bba1d
+Message-Id: <159208082715.14121.4435125737965037221.pr-tracker-bot@kernel.org>
+Date:   Sat, 13 Jun 2020 20:40:27 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 13, 2020 at 10:56 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> This is touching a lot of files to finish the
-> --help--- conversion. It was generated by a one-liner sed
-> command, so it is easy to understand what is going on.
+The pull request you sent on Sun, 14 Jun 2020 02:55:21 +0900:
 
-Well, a simple grep would have shown you there is a script in the
-Documentation directory that actually generates those "---help---"
-markers.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-v5.8-2
 
-So if converting away from them, we should certainly not help people make more.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/6adc19fd13f11883c44df67b551cf8201e6bba1d
 
-I did the obvious fixup in 3e1ad4054b8d ("doc: don't use deprecated
-"---help---" markers in target docs") but didn't test that script.
+Thank you!
 
-            Linus
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
