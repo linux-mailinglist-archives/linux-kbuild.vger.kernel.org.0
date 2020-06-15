@@ -2,118 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B358D1F9421
-	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jun 2020 12:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABFC01FA306
+	for <lists+linux-kbuild@lfdr.de>; Mon, 15 Jun 2020 23:47:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728852AbgFOKAO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Jun 2020 06:00:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50948 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726111AbgFOKAN (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Jun 2020 06:00:13 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0E2A52068E;
-        Mon, 15 Jun 2020 10:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592215213;
-        bh=NclZlsh0JNDPCh7/tgM7lDu27PNeuUCqty414H60fo4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j97I5KZbz9w21gUAN1DylupVwPgIjeFytHA4gPPAudiRlCwvnhaBcnTrzyVhV1D2Y
-         XFel1vN89smdSsfXFsHkK2Jjr5D/tIr/dag7doSecgYiiJJUiJMpUYaXWkpnCLEHlE
-         k+IVad79C8U9qrJvICVhkTlseaDwlnHZeXHbISeI=
-Date:   Mon, 15 Jun 2020 11:00:08 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Changbin Du <changbin.du@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] kconfig: unify cc-option and as-option
-Message-ID: <20200615100007.GD2477@willie-the-truck>
-References: <20200614144341.1077495-1-masahiroy@kernel.org>
- <20200614144341.1077495-2-masahiroy@kernel.org>
+        id S1726271AbgFOVrk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 15 Jun 2020 17:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbgFOVrk (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 15 Jun 2020 17:47:40 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6128C08C5C3
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Jun 2020 14:47:39 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id o26so12651976edq.0
+        for <linux-kbuild@vger.kernel.org>; Mon, 15 Jun 2020 14:47:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BB1YkDgb1TtnU58w4brmUgWlmXp8JC/Gj9BUjRlor2w=;
+        b=M8vn4Uj3o+fAbFqq2rgvyL1/nkgmiNZTlDfMvhhD8Epkb+VDBJmLRHxsOlU+xgtiH6
+         aITNkOMMWeUYAxhcoq+ax6wmOFOY3ZFDg8m/88bRYPJ72onvyoFvDtdTN0A3A0tClOAI
+         QaRmjFCpdPfnyL80ZCTzIGyNeEz51cUVECO4TYW+7I3iE8hR/FvQrAzLXsiyMywz6Yv8
+         FvlRDxEwceesr5mkofA46gic/5P4uZWqA//ddUZpi6h6ie7le3TTka5YcuDzzUuxbfm4
+         TbCQPeyd2Br54RUWbM0RmtQeCk4rXZ61ZlSSC9hcvH7Tg2a+U8VtGFbU419QXqX+Bwqf
+         B2ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BB1YkDgb1TtnU58w4brmUgWlmXp8JC/Gj9BUjRlor2w=;
+        b=Y3+vwMlp8ZYt3XwAdxru6tky3QriCWKCsrjAyhIelW/2B/fOcuytolyGwUcevNT6qO
+         myj3+kWFxGvSQ7XFLrUvkmmXf/6RVB5VKt9t0XqE4nZYc0PKVyob+eBjP3ja3V2z7fJo
+         GXas6BSgxdl8JelLGmu3yHT874Er43BKXCbtowwOxrXEa0mzHoUJdLGoW2svxk0TSgco
+         c0E43HJPiXlwxP+b5+8w/ofW7rCjp6mlYjKV9zB/g+zUOmztCK3gQCje6hmmnNPcYCQN
+         l/d45kk/jV34VuuELnmWTNRDKjurksri16H1Odz3cmT/Y+hYQJa7FK5h7nXLaZ6C8cRW
+         /9IQ==
+X-Gm-Message-State: AOAM531arF3e+dF6xDbDI5rwQp1nPyUADMkthyzv14PHhRyG2pPqV97Y
+        n8YcaYO3qRenoDftTUaZJjflQIfW4LARQIDc0URTSw==
+X-Google-Smtp-Source: ABdhPJy+XsXVdspc9qVg5TDksYXAdSPQwBa788hmG6HcvWOIRktSF0I6TVfG+RbE2aiJL+Q4+mlwR4cePRzLuYV24UY=
+X-Received: by 2002:a05:6402:1592:: with SMTP id c18mr27041367edv.40.1592257658022;
+ Mon, 15 Jun 2020 14:47:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200614144341.1077495-2-masahiroy@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200521202716.193316-1-samitolvanen@google.com>
+ <CAK7LNARq3g5vA6vy9449SHsKQmbwJrQDSBz4ZbH1pBEvPmusuA@mail.gmail.com>
+ <CAK7LNASm2t-Dkr+p_EWvqf_eoKn5R2iXWuBHnTB9n6MUxr3-pQ@mail.gmail.com>
+ <1590226253.lnkg0jun9x.astroid@bobo.none> <CAK7LNAR_-q3jhaUzDpkC3ej_DpAerzMsORT-tFw_3AwX7xM0Yw@mail.gmail.com>
+In-Reply-To: <CAK7LNAR_-q3jhaUzDpkC3ej_DpAerzMsORT-tFw_3AwX7xM0Yw@mail.gmail.com>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Mon, 15 Jun 2020 14:47:27 -0700
+Message-ID: <CABCJKufaMU1z-s4S+dHhg0iCyVynLGwsFJgYnYyiBaR=mZt-8w@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: reuse vmlinux.o in vmlinux_link
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nicholas Piggin <npiggin@gmail.com>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Sam Ravnborg <sam@ravnborg.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jun 14, 2020 at 11:43:41PM +0900, Masahiro Yamada wrote:
-> cc-option and as-option are almost the same; both pass the flag to
-> $(CC). The main difference is the cc-option stops before the assemble
-> stage (-S option) whereas as-option stops after it (-c option).
-> 
-> I chose -S because it is slightly faster, but $(cc-option,-gz=zlib)
-> returns a wrong result (https://lkml.org/lkml/2020/6/9/1529).
-> It has been fixed by a separate patch, but using -c is more robust.
-> 
-> However, you cannot simply replace -S with -c because the following
-> code would break:
-> 
->     depends on $(cc-option,-gsplit-dwarf)
-> 
-> The combination of -c and -gsplit-dwarf does not accept /dev/null as
-> output.
-> 
->   $ cat /dev/null | gcc -gsplit-dwarf -S -x c - -o /dev/null
->   $ echo $?
->   0
-> 
->   $ cat /dev/null | gcc -gsplit-dwarf -c -x c - -o /dev/null
->   objcopy: Warning: '/dev/null' is not an ordinary file
->   $ echo $?
->   1
-> 
->   $ cat /dev/null | gcc -gsplit-dwarf -c -x c - -o tmp.o
->   $ echo $?
->   0
-> 
-> There is another flag that creates an separate file based on the
-> object file path:
-> 
->   $ cat /dev/null | gcc -ftest-coverage -c -x c - -o /dev/null
->   <stdin>:1: error: cannot open /dev/null.gcno
-> 
-> So, we cannot use /dev/null to sink the output.
-> 
-> Align the cc-option implementation with scripts/Kbuild.include.
-> 
-> With -c option used in cc-option, as-option is unneeded.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  arch/arm64/Kconfig      | 2 +-
->  lib/Kconfig.debug       | 1 -
->  scripts/Kconfig.include | 8 +-------
->  3 files changed, 2 insertions(+), 9 deletions(-)
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 31380da53689..6eb18f45258e 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1564,7 +1564,7 @@ config CC_HAS_SIGN_RETURN_ADDRESS
->  	def_bool $(cc-option,-msign-return-address=all)
->  
->  config AS_HAS_PAC
-> -	def_bool $(as-option,-Wa$(comma)-march=armv8.3-a)
-> +	def_bool $(cc-option,-Wa$(comma)-march=armv8.3-a)
+On Sat, May 23, 2020 at 8:13 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Hi Nicholas,
+> (+CC: Sam Ravnborg)
+>
+>
+> On Sat, May 23, 2020 at 7:06 PM Nicholas Piggin <npiggin@gmail.com> wrote:
+> >
+> > Excerpts from Masahiro Yamada's message of May 23, 2020 3:44 am:
+> > > + Michael, and PPC ML.
+> > >
+> > > They may know something about the reason of failure.
+> >
+> > Because the linker can't put branch stubs within object code sections,
+> > so when you incrementally link them too large, the linker can't resolve
+> > branches into other object files.
+>
+>
+> Ah, you are right.
+>
+> So, this is a problem not only for PPC
+> but also for ARM (both 32 and 64 bit), etc.
+>
+> ARM needs to insert a veneer to jump far.
+>
+> Prior to thin archive, we could not compile
+> ARCH=arm allyesconfig because
+> drivers/built-in.o was too large.
+>
+> This patch gets us back to the too large
+> incremental object situation.
+>
+> With my quick compile-testing,
+> ARCH=arm allyesconfig
+> and ARCH=arm64 allyesconfig are broken.
 
-For this arm64 part:
+Thanks for looking into this! Clang doesn't appear to have this issue
+with LTO because it always enables both -ffunction-sections and
+-fdata-sections. I confirmed that -ffunction-sections also fixes arm64
+allyesconfig with this patch. While I'm fine with reusing vmlinux.o
+only with LTO, how would you feel about enabling -ffunction-sections
+in the kernel by default?
 
-Acked-by: Will Deacon <will@kernel.org>
-
-Will
+Sami
