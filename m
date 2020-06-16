@@ -2,122 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 041121FA6A2
-	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2020 05:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 718AB1FBBAB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 16 Jun 2020 18:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726303AbgFPDXM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 15 Jun 2020 23:23:12 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:56385 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725978AbgFPDXL (ORCPT
+        id S1729386AbgFPQ1i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 16 Jun 2020 12:27:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728919AbgFPQ1h (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 15 Jun 2020 23:23:11 -0400
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 05G3Mwxa012301;
-        Tue, 16 Jun 2020 12:22:59 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 05G3Mwxa012301
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1592277779;
-        bh=2/462jbz7jQVLiDVVWzKKcGk4qeztCSU3uhhsd45JF4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wYYIk0FO0sb92e2n/k8NDpk1fopYb/hY4bojA+HZaTpXZg8QWF10eTYMBVFJzMMts
-         f6EP6j6l/ayQFmsSHbv35ZUgEO5uZBLAiG+yQ3qkg5VNjtCekxFiQxOuCZdOkn6Biv
-         J88nBCSBkcZX7wW+UcHl+pvbb6APUvlSs97EBsX4+eQbtoMorRPN72yAiHi/9u4yk1
-         edXCX7WUDLOUIPyLAlUy8+5+TK/+ZysRuznDOeFpo4usH05y5bIyRCBh6EQ2JhBNho
-         WBI473G6N9PPZ84EIDgMSY6irJ5wRVKJ2ZigU9k80QpP0XLXVIZhTnGMZF4OE4l6f9
-         xG3ihqbqga5Gw==
-X-Nifty-SrcIP: [209.85.222.50]
-Received: by mail-ua1-f50.google.com with SMTP id w20so6445108uaa.2;
-        Mon, 15 Jun 2020 20:22:58 -0700 (PDT)
-X-Gm-Message-State: AOAM533pHBxPPJ0xc5NiMdpyvCYz9z5D0/lwYDhk/VXSv8/bEbdpDhHN
-        4pM7elSAiqT/YiK3NE58KMRnSkgprnupwuXWjOw=
-X-Google-Smtp-Source: ABdhPJylS2uk1OU4K6oY6oUB9JpzLgAK28MZHSy9Ieuy0bzPvPbnNVm5vCKIc+H1HptOGXkvcNfJXLqC1s/sVZgEnTE=
-X-Received: by 2002:ab0:156d:: with SMTP id p42mr462901uae.121.1592277777648;
- Mon, 15 Jun 2020 20:22:57 -0700 (PDT)
+        Tue, 16 Jun 2020 12:27:37 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F11BC061573;
+        Tue, 16 Jun 2020 09:27:37 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id m81so22604832ioa.1;
+        Tue, 16 Jun 2020 09:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=IxlykeCdvaeRDbODx6osAE/7PpbTM/T1nmtx4tJ5JiU=;
+        b=bGW9z6GGiC9FP/ZZRE7igGfTI+Jmy1EeQPcZkKxjhcyEj8+QhOxYX16HGPyvth0EV2
+         D9NSXLv1PTsp/nvuEv+TkKaljjWjw/6zhcAG34q1UKUlj4a/rNh/vYfURwVS9hAO5lTU
+         03IeO7WTxKo/yAO/uRzKAlqe/3BhqFK5yDxcRpx90zBc8z0xgQzjskiPfMoTVfaoycJ5
+         tna+cgGVl5MaymD0MqFQvuPmKEXBjHnUt4qH1UJOnlXYazsKU283kUi8rCX8ngakwbJm
+         u8t5WTZIsnSys9hbY4QsAsmV2xRgAxYDWYtT/8wQfeka9toAiWW6P/jPM4MjEfxwuJHo
+         RR7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=IxlykeCdvaeRDbODx6osAE/7PpbTM/T1nmtx4tJ5JiU=;
+        b=rPMGPw2GplRRxduD/MF7non5GhRolJB4oz9ny4DKrxaAqxHASrHbwoz7ghN9llj1yh
+         9CKcunDGhCqxsb4Wmdhb+jphvz9PMtyF9WpeZBWDlivmJl2aWS0A2cTUlqxI5ng1Tfa6
+         nRroB2GffQEDPkFGALSRJQwBVQJIIFmyXqnkgVPnzTSy3avktciWqeJj1rlYNbHHZSVP
+         HdZUbHQH3DEr5I++3QD1Q75mb3blgKIfBf1blLhqi6v+ApBZyC3TOigeeQjEV2TgSjGK
+         nhpMg1zdXnOhyEEc+Lw6ejVJSPFBgw4J09GuaJyWQ51u813evs/5mw4+Tcj4yui496g/
+         9cPg==
+X-Gm-Message-State: AOAM533L3vkvdSj5A/llWADLJpnFROw3oNhQgajbhQqPRGpGPQzLZH3V
+        G0BPOGV7SkNxATmO8CKCxFl1GP8oYREnM+GOQ6M=
+X-Google-Smtp-Source: ABdhPJyfh9ykxsa7pmBx+zXd1nsa2zNX/K/5wpF+ENifddY9xpyjLYDocgNWsesJkqhRei2FtqbfMVr1V1Q7aVjITi8=
+X-Received: by 2002:a05:6638:406:: with SMTP id q6mr27436841jap.125.1592324856681;
+ Tue, 16 Jun 2020 09:27:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200521202716.193316-1-samitolvanen@google.com>
- <CAK7LNARq3g5vA6vy9449SHsKQmbwJrQDSBz4ZbH1pBEvPmusuA@mail.gmail.com>
- <CAK7LNASm2t-Dkr+p_EWvqf_eoKn5R2iXWuBHnTB9n6MUxr3-pQ@mail.gmail.com>
- <1590226253.lnkg0jun9x.astroid@bobo.none> <CAK7LNAR_-q3jhaUzDpkC3ej_DpAerzMsORT-tFw_3AwX7xM0Yw@mail.gmail.com>
- <CABCJKufaMU1z-s4S+dHhg0iCyVynLGwsFJgYnYyiBaR=mZt-8w@mail.gmail.com>
-In-Reply-To: <CABCJKufaMU1z-s4S+dHhg0iCyVynLGwsFJgYnYyiBaR=mZt-8w@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 16 Jun 2020 12:22:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARbZhoaA=Nnuw0=gBrkuKbr_4Ng_Ei57uafujZf7Xazgw@mail.gmail.com>
-Message-ID: <CAK7LNARbZhoaA=Nnuw0=gBrkuKbr_4Ng_Ei57uafujZf7Xazgw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: reuse vmlinux.o in vmlinux_link
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Nicholas Piggin <npiggin@gmail.com>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
+References: <CADYdroP0zdz=QtuDFCXpkDohEAgGOc7hDHT8_NnqKuvi979J5Q@mail.gmail.com>
+ <D0196413-4195-4F80-89B3-59859C1515AD@fb.com>
+In-Reply-To: <D0196413-4195-4F80-89B3-59859C1515AD@fb.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 16 Jun 2020 18:27:24 +0200
+Message-ID: <CA+icZUXxjc3COFT_VUappjBQ-gBtfRq080_Ytvhu4f4YW-MSnA@mail.gmail.com>
+Subject: Re: [GIT PULL][PATCH v5 0/8] Add support for ZSTD-compressed kernel
+ and initramfs
+To:     Nick Terrell <terrelln@fb.com>
+Cc:     Norbert Lange <nolange79@gmail.com>,
+        Nick Terrell <nickrterrell@gmail.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        Kernel Team <Kernel-team@fb.com>, Chris Mason <clm@fb.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
         Kees Cook <keescook@chromium.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Sam Ravnborg <sam@ravnborg.org>
+        Adam Borowski <kilobyte@angband.pl>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "mingo@kernel.org" <mingo@kernel.org>, Petr Malat <oss@malat.biz>,
+        Patrick Williams <patrick@stwcx.xyz>,
+        Patrick Williams <patrickw3@fb.com>,
+        Michael van der Westhuizen <rmikey@fb.com>,
+        "x86@kernel.org" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 6:47 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+On Tue, Jun 2, 2020 at 12:01 AM Nick Terrell <terrelln@fb.com> wrote:
 >
-> On Sat, May 23, 2020 at 8:13 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > On Jun 1, 2020, at 2:58 PM, Norbert Lange <nolange79@gmail.com> wrote:
 > >
-> > Hi Nicholas,
-> > (+CC: Sam Ravnborg)
-> >
-> >
-> > On Sat, May 23, 2020 at 7:06 PM Nicholas Piggin <npiggin@gmail.com> wrote:
-> > >
-> > > Excerpts from Masahiro Yamada's message of May 23, 2020 3:44 am:
-> > > > + Michael, and PPC ML.
-> > > >
-> > > > They may know something about the reason of failure.
-> > >
-> > > Because the linker can't put branch stubs within object code sections,
-> > > so when you incrementally link them too large, the linker can't resolve
-> > > branches into other object files.
-> >
-> >
-> > Ah, you are right.
-> >
-> > So, this is a problem not only for PPC
-> > but also for ARM (both 32 and 64 bit), etc.
-> >
-> > ARM needs to insert a veneer to jump far.
-> >
-> > Prior to thin archive, we could not compile
-> > ARCH=arm allyesconfig because
-> > drivers/built-in.o was too large.
-> >
-> > This patch gets us back to the too large
-> > incremental object situation.
-> >
-> > With my quick compile-testing,
-> > ARCH=arm allyesconfig
-> > and ARCH=arm64 allyesconfig are broken.
+> > The series seems to be stuck in limbo, and I got the hint to bring
+> > this to Andrew's attention [1].
+> > Hope this will finally end in upstream, been using these patches for ~2 years.
 >
-> Thanks for looking into this! Clang doesn't appear to have this issue
-> with LTO because it always enables both -ffunction-sections and
-> -fdata-sections. I confirmed that -ffunction-sections also fixes arm64
-> allyesconfig with this patch. While I'm fine with reusing vmlinux.o
-> only with LTO, how would you feel about enabling -ffunction-sections
-> in the kernel by default?
+> Thanks for the CC!
 
+Nick can you offer latest zstd (v5) on top of Linux v5.8-rc1, please?
 
-I am OK if it works.
-
-Please do compile tests for some architectures.
-(especially, ARCH=powerpc defconfig, and ARCH=arm(64) allyesconfig)
-
-
-Thank you.
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+- Sedat -
