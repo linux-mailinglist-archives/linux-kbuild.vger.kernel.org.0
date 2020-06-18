@@ -2,105 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E48551FC55B
-	for <lists+linux-kbuild@lfdr.de>; Wed, 17 Jun 2020 06:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2DF1FE112
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2020 03:52:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725846AbgFQEoK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Jun 2020 00:44:10 -0400
-Received: from smtprelay0231.hostedemail.com ([216.40.44.231]:52636 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725814AbgFQEoK (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Jun 2020 00:44:10 -0400
-X-Greylist: delayed 444 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Jun 2020 00:44:09 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave02.hostedemail.com (Postfix) with ESMTP id A37FE18008256
-        for <linux-kbuild@vger.kernel.org>; Wed, 17 Jun 2020 04:36:45 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 6A500182CED28;
-        Wed, 17 Jun 2020 04:36:44 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2828:2859:2908:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4605:5007:6114:6642:9025:10004:10400:10848:11026:11232:11473:11658:11914:12043:12297:12438:12555:12679:12740:12760:12895:12986:13439:14181:14659:14721:21080:21433:21611:21627:21740:21990:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: view80_460276a26e04
-X-Filterd-Recvd-Size: 2996
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf18.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 17 Jun 2020 04:36:43 +0000 (UTC)
-Message-ID: <b1eef508475f2ad501a153bb9d90d64a5128ecdd.camel@perches.com>
-Subject: Re: [PATCH 2/2] Revert "checkpatch: kconfig: prefer 'help' over
- '---help---'"
-From:   Joe Perches <joe@perches.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org
-Cc:     Ulf Magnusson <ulfalizer@gmail.com>,
-        Andy Whitcroft <apw@canonical.com>,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 16 Jun 2020 21:36:42 -0700
-In-Reply-To: <20200617030220.34733-2-masahiroy@kernel.org>
-References: <20200617030220.34733-1-masahiroy@kernel.org>
-         <20200617030220.34733-2-masahiroy@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        id S1731868AbgFRBwN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Jun 2020 21:52:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34440 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731724AbgFRB0p (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:26:45 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA5C720776;
+        Thu, 18 Jun 2020 01:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592443604;
+        bh=1KICtU+7Ipxdndkbsv962r1msAcOgKW2WYbRsAws1IE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pc8BC7XYuunNerwob5gE+ziuQeGKXwDdBs7+ttAtvReE4Uw9JU2efxZiWLChLumFt
+         eUyMm4URkeDCH+0EsoyTtWaM3+2bV01Iqj5J6puW7VV0kSmH5XfOD+nSUlK2LVWDM6
+         deldGPk/UJIpcohwxGK9HzdyYFWAAAXn5A3JPIZE=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     ashimida <ashimida@linux.alibaba.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 033/108] mksysmap: Fix the mismatch of '.L' symbols in System.map
+Date:   Wed, 17 Jun 2020 21:24:45 -0400
+Message-Id: <20200618012600.608744-33-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200618012600.608744-1-sashal@kernel.org>
+References: <20200618012600.608744-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, 2020-06-17 at 12:02 +0900, Masahiro Yamada wrote:
-> This reverts commit 84af7a6194e493fae312a2b7fa5a3b51f76d9282.
+From: ashimida <ashimida@linux.alibaba.com>
 
-Also: https://lore.kernel.org/patchwork/patch/1255848/
+[ Upstream commit 72d24accf02add25e08733f0ecc93cf10fcbd88c ]
+
+When System.map was generated, the kernel used mksysmap to
+filter the kernel symbols, but all the symbols with the
+second letter 'L' in the kernel were filtered out, not just
+the symbols starting with 'dot + L'.
+
+For example:
+ashimida@ubuntu:~/linux$ cat System.map |grep ' .L'
+ashimida@ubuntu:~/linux$ nm -n vmlinux |grep ' .L'
+ffff0000088028e0 t bLength_show
+......
+ffff0000092e0408 b PLLP_OUTC_lock
+ffff0000092e0410 b PLLP_OUTA_lock
+
+The original intent should be to filter out all local symbols
+starting with '.L', so the dot should be escaped.
+
+Fixes: 00902e984732 ("mksysmap: Add h8300 local symbol pattern")
+Signed-off-by: ashimida <ashimida@linux.alibaba.com>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/checkkconfigsymbols.py | 2 +-
- scripts/checkpatch.pl          | 6 +-----
- scripts/kconfig/lexer.l        | 2 +-
- 3 files changed, 3 insertions(+), 7 deletions(-)
+ scripts/mksysmap | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/checkkconfigsymbols.py b/scripts/checkkconfigsymbols.py
-index 00a10a293f4f..1548f9ce4682 100755
---- a/scripts/checkkconfigsymbols.py
-+++ b/scripts/checkkconfigsymbols.py
-@@ -34,7 +34,7 @@ REGEX_SOURCE_SYMBOL = re.compile(SOURCE_SYMBOL)
- REGEX_KCONFIG_DEF = re.compile(DEF)
- REGEX_KCONFIG_EXPR = re.compile(EXPR)
- REGEX_KCONFIG_STMT = re.compile(STMT)
--REGEX_KCONFIG_HELP = re.compile(r"^\s+(help|---help---)\s*$")
-+REGEX_KCONFIG_HELP = re.compile(r"^\s+help\s*$")
- REGEX_FILTER_SYMBOLS = re.compile(r"[A-Za-z0-9]$")
- REGEX_NUMERIC = re.compile(r"0[xX][0-9a-fA-F]+|[0-9]+")
- REGEX_QUOTES = re.compile("(\"(.*?)\")")
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 524df88f9364..738bb3fcf202 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3044,11 +3044,7 @@ sub process {
+diff --git a/scripts/mksysmap b/scripts/mksysmap
+index a35acc0d0b82..9aa23d15862a 100755
+--- a/scripts/mksysmap
++++ b/scripts/mksysmap
+@@ -41,4 +41,4 @@
+ # so we just ignore them to let readprofile continue to work.
+ # (At least sparc64 has __crc_ in the middle).
  
- 				if ($lines[$ln - 1] =~ /^\+\s*(?:bool|tristate|prompt)\s*["']/) {
- 					$is_start = 1;
--				} elsif ($lines[$ln - 1] =~ /^\+\s*(?:help|---help---)\s*$/) {
--					if ($lines[$ln - 1] =~ "---help---") {
--						WARN("CONFIG_DESCRIPTION",
--						     "prefer 'help' over '---help---' for new help texts\n" . $herecurr);
--					}
-+				} elsif ($lines[$ln - 1] =~ /^\+\s*help\s*$/) {
- 					$length = -1;
- 				}
- 
-diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-index 6354c905b006..4b7339ff4c8b 100644
---- a/scripts/kconfig/lexer.l
-+++ b/scripts/kconfig/lexer.l
-@@ -105,7 +105,7 @@ n	[A-Za-z0-9_-]
- "endchoice"		return T_ENDCHOICE;
- "endif"			return T_ENDIF;
- "endmenu"		return T_ENDMENU;
--"help"|"---help---"	return T_HELP;
-+"help"			return T_HELP;
- "hex"			return T_HEX;
- "if"			return T_IF;
- "imply"			return T_IMPLY;
-
+-$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( .L\)' > $2
++$NM -n $1 | grep -v '\( [aNUw] \)\|\(__crc_\)\|\( \$[adt]\)\|\( \.L\)' > $2
+-- 
+2.25.1
 
