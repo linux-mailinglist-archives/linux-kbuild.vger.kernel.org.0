@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 430491FE501
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2020 04:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37E241FE2C6
+	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2020 04:04:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729119AbgFRBSR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Jun 2020 21:18:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49612 "EHLO mail.kernel.org"
+        id S1731010AbgFRCDz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 17 Jun 2020 22:03:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729894AbgFRBSO (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:18:14 -0400
+        id S1730945AbgFRBXS (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:23:18 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 766E0206F1;
-        Thu, 18 Jun 2020 01:18:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DF88221D90;
+        Thu, 18 Jun 2020 01:23:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443094;
+        s=default; t=1592443398;
         bh=1KICtU+7Ipxdndkbsv962r1msAcOgKW2WYbRsAws1IE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wQ7OdlTt09J5T/RghFbedBvgLJWmM4pTxm06rHP1BzD2VRwcnLvkQuRu2uh8b7+Bm
-         9K1bPScsMw3S61Nvm3KCQ/k/7jj1Tnut5AY+n24UwkoR7KRtRV5mdIEYAl9fzWyQ+K
-         s/gzGdGx/18kmqzAZnz+lep9nYkO5Q+tgbOj/Snk=
+        b=PHnxz1h+a7hYqjGclGlv42gNeogx+FcOx40vjzPxQAUL6TzBpFMfbTKjNmoQ4JQvg
+         2vo2i6urN0xUlgelVRiv2p+eaACoeyyOKMSh0rY4vKnEn2OC88OLUfEg6INPSDfcob
+         OfP0doDS9jVC2YYqFH5PRFZFlXc87OyNx4K6OIAA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     ashimida <ashimida@linux.alibaba.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 074/266] mksysmap: Fix the mismatch of '.L' symbols in System.map
-Date:   Wed, 17 Jun 2020 21:13:19 -0400
-Message-Id: <20200618011631.604574-74-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 044/172] mksysmap: Fix the mismatch of '.L' symbols in System.map
+Date:   Wed, 17 Jun 2020 21:20:10 -0400
+Message-Id: <20200618012218.607130-44-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
-References: <20200618011631.604574-1-sashal@kernel.org>
+In-Reply-To: <20200618012218.607130-1-sashal@kernel.org>
+References: <20200618012218.607130-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
