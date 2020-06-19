@@ -2,55 +2,54 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDA1720115C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jun 2020 17:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD4FF20116C
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jun 2020 17:42:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393996AbgFSPko (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 19 Jun 2020 11:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33652 "EHLO
+        id S2405187AbgFSPl5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Jun 2020 11:41:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405071AbgFSPkl (ORCPT
+        with ESMTP id S2405074AbgFSPl4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 19 Jun 2020 11:40:41 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E349CC06174E;
-        Fri, 19 Jun 2020 08:40:35 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id b201so4601983pfb.0;
-        Fri, 19 Jun 2020 08:40:35 -0700 (PDT)
+        Fri, 19 Jun 2020 11:41:56 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2311DC06174E;
+        Fri, 19 Jun 2020 08:41:56 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id b5so4575870pfp.9;
+        Fri, 19 Jun 2020 08:41:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=VXsSr7bmyZQBE0b3worBsmV7P/tdpTV2bJQlUrhhqcQ=;
-        b=M5TLGIFuqpJDMHUQTLRuOKC7QdYUP/iMTdS+SazG0+Ng8zBJ5q/X9KKvq3nSc7wS1i
-         eBlDYGPXaIpN2F22eAC3J4mlpFoIqXvZQgstkA9qADd2ottxZow5HoGBcR2I2pwRbjmz
-         Bxtn94euG90YPNYe9TXYmwtfNcm6r4yNHKYKF2diNwMkvMGmt/o16f5NdsUG+3uDojAe
-         e3tlKE/jyQks3xz9o0oaRH6WITGrLRKc8vNvU/a1xrhKyLeK5WBzo03YUw7KJviAwYS7
-         pQGCUsRdU7bt5rfepWYiEKCZFlSWc0USGCWoQEFg5lTyfepg+BjO/usmiNrSpVaiGFbj
-         meMQ==
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding:user-agent;
+        bh=i9+OLyp7V6sirl27V8Yotw04ozvFZItgstHfpcz6w7Y=;
+        b=H2sFIt0Eh4rCDqusFPy/L+SNl8YoznhQF4dnlWb+3YW11nC6kC/yPqeENNsyyLdgvo
+         ayPhr754O2L2ijskzp/+2V7DJbXYm7Yg7+B+TO59LWcFD0/Jrh8EV0k1sOsTXDbmGsCi
+         NEktBcOTiy752oElA8nOVyQykfdq1KhT3OriSQarW+hPMOXcsv6l97RsvLO38pOJXjRC
+         CbrSRgCpY+3X+9RiSiuSQa5f8XTccZMUGqWM5hDn9M/VUmFmd3S/nbIPX+jyfLeVE/mf
+         p95D+lz1YngCmHyWfRalBa5vwpbs9oCs7wHiq+Y/YCpo9qPpjDiL0pgbFibUcu+Gy5ON
+         8VCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=VXsSr7bmyZQBE0b3worBsmV7P/tdpTV2bJQlUrhhqcQ=;
-        b=FhfwVBsPpUXc4fqeKC45B8RkKtlpAYi/UerePAb63RAMuFoPC81pH61FCsDKkDgXaD
-         YsU74euDes2GrHIi9d1V7w5wPw8wkYpsi57YycZw2Qs5HUE0mW3Gggu8c2Z8akLM00J0
-         lakMAkuB8EOAFb37URjXJAtUp7pngIImL1f+MGjJjcsPgNyGBOvk7gguHXICS2BnEReY
-         54wwAHjvcCBWl8jSgR95Q+Igy3Rd0eUtd2l11vIViAUAGhEUrgIE8JTEMmpmZMXWl3L+
-         Nh7/efFUjxx3UoCH8PG3ZMirZH6AAtmqaErIgSyITei0XMAfYSKhqDoYyWrVOlM2bUd5
-         vYQw==
-X-Gm-Message-State: AOAM531b3bdVb+eXuQbBohs1Tcj5XcZ4DX0JeJWGFEFii7UWJ14fi2VW
-        yDq+Io82q2OQv6Rz/Z8VBRM=
-X-Google-Smtp-Source: ABdhPJyBpd4+hlyRNr/dMZb0eUO4b81hLGUJ470LsLYJcB/HZydxW28TWFaFE9+lq5AHF+UBesOaiA==
-X-Received: by 2002:aa7:8506:: with SMTP id v6mr8641084pfn.303.1592581235512;
-        Fri, 19 Jun 2020 08:40:35 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :user-agent;
+        bh=i9+OLyp7V6sirl27V8Yotw04ozvFZItgstHfpcz6w7Y=;
+        b=U+dHKwJxonI0tmd3ogDdiza6R3ccN43KQ9+PcfhosRAX/TFP+R1JhS/KgIYFW+YTyX
+         SfuGC/VeuwYUzaJP+9B9ttKKH6RY5WVCgZyMtAs8Xukcz24lOINqovKOHAct2W12r7lM
+         0MYH0Ky5Vr7lxTT+ykIjECKRvbmVU1Zs9xWJULf1rnCzH1xKXEEzwOMsTyP7rFOfcdd/
+         5MR5YcpZ1JdoePmNwWyA7Qz6j3c6+A9OKXsHFn/pdFZZ0mliQCAOmsGWWpv7oZPiogi3
+         4q15Q65mjXW8425LJGbAcCYr00liZrSrMjO+vx08iEF1oE63y61f4VYtlokB29YVS2Jt
+         uGlQ==
+X-Gm-Message-State: AOAM532THX5bjVGBDVsjf4D2DlRvEtUElu+/IbbBtP+Hg2zspI+gWtcC
+        4oQkyGC/X8eiaHAh6+2i3hI=
+X-Google-Smtp-Source: ABdhPJxLbHeV5yzEpvfP5mcS+4V81PlDu+BLk/SMYtqVENyR2U+MzuUqN3H2C2UnQLu696JQ/HMozA==
+X-Received: by 2002:a62:3183:: with SMTP id x125mr8776575pfx.3.1592581315702;
+        Fri, 19 Jun 2020 08:41:55 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id g19sm6271865pfo.209.2020.06.19.08.40.34
+        by smtp.gmail.com with ESMTPSA id j8sm5566631pjw.11.2020.06.19.08.41.54
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 19 Jun 2020 08:40:34 -0700 (PDT)
-Date:   Fri, 19 Jun 2020 08:40:34 -0700
+        Fri, 19 Jun 2020 08:41:55 -0700 (PDT)
+Date:   Fri, 19 Jun 2020 08:41:54 -0700
 From:   Guenter Roeck <linux@roeck-us.net>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     linux-kbuild@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
@@ -60,13 +59,11 @@ Cc:     linux-kbuild@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] Revert "Makefile: install modules.builtin even if
  CONFIG_MODULES=n"
-Message-ID: <20200619154034.GB57109@roeck-us.net>
-References: <20200619150955.13417-1-masahiroy@kernel.org>
+Message-ID: <20200619154154.GA210604@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200619150955.13417-1-masahiroy@kernel.org>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
@@ -95,7 +92,7 @@ On Sat, Jun 20, 2020 at 12:09:55AM +0900, Masahiro Yamada wrote:
 > Cc: Jonas Karlman <jonas@kwiboo.se>
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
 > 
