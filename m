@@ -2,126 +2,108 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DA8E1FE650
-	for <lists+linux-kbuild@lfdr.de>; Thu, 18 Jun 2020 04:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDD4520016A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 19 Jun 2020 06:49:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729429AbgFRBPD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 17 Jun 2020 21:15:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728689AbgFRBPC (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:15:02 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 274AB21D7E;
-        Thu, 18 Jun 2020 01:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592442901;
-        bh=D93pV5GFvpRHLErS7J7MDSQ80njR/gHakMfqSDGt6Ac=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zH+2hO0PHbcoILZQeyi2eH7UfHWKaNneGyRLnPBnoE8BHijGyxgSJT7KaB4pWrnXq
-         GkFI9c2C9qeyZZ3Oj9hi9HBkcxhN8RIU8BZGaZwfLXfz0WjR+p6Lis3wkqDVTyKlsx
-         0phP0wBUD/4mJBk7lXKgPhqQ5t74Qa7URtFYYqZ4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+        id S1726382AbgFSEtY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 19 Jun 2020 00:49:24 -0400
+Received: from conuserg-10.nifty.com ([210.131.2.77]:32689 "EHLO
+        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726002AbgFSEtY (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 19 Jun 2020 00:49:24 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id 05J4mTiI004103;
+        Fri, 19 Jun 2020 13:48:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 05J4mTiI004103
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1592542109;
+        bh=4rA0auD5UHtK39rgTINnfk8iRh3kcMgz0E+K3tWV1bs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=t4wrpDkn0sGbFNPqcvU2nw/3SooDaTwIeBuD3QIRo0qK6wE8TkBkIenkPkD6F1I4D
+         VMqAlsS23fcB+h/qch+pzMu09HWIKVXTaoGFwaqtGyF+4Bptyb2xe+xZF0EpdrW3nL
+         Ga8BlMvo1MPU/m5PRKcoD5uICObYaLaIA7xPtcQxzLExFpADePvE2Mi8Gfh2v5nKUl
+         LQXSSl6rkb5IAxL3bgxGdU0zY8OzWGp8CC8oXKf0VfPTokvQgGN8ewUoPnyeKIQyGS
+         5d1kApNdW/hl7IVtJ+gbqL72LkBZrqWJ6pTotVCJR9Y1ytGN3jhQscdTQwAH9T2Haq
+         J/tAeeRPaBoNg==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
         Guenter Roeck <linux@roeck-us.net>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 322/388] modpost: fix -i (--ignore-errors) MAKEFLAGS detection
-Date:   Wed, 17 Jun 2020 21:06:59 -0400
-Message-Id: <20200618010805.600873-322-sashal@kernel.org>
+        Jonas Karlman <jonas@kwiboo.se>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Revert "Makefile: install modules.builtin even if CONFIG_MODULES=n"
+Date:   Fri, 19 Jun 2020 13:48:23 +0900
+Message-Id: <20200619044823.863461-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
-References: <20200618010805.600873-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+This reverts commit e0b250b57dcf403529081e5898a9de717f96b76b.
 
-[ Upstream commit 91e6ee581270b8ae970f028b898314d73f16870b ]
+Now that "make install" copies modules.builtin to $(INSTALL_MOD_PATH),
+it breaks systems that do not set INSTALL_MOD_PATH for "make install".
 
-$(filter -i,$(MAKEFLAGS)) works only in limited use-cases.
+While modules.builtin is useful for CONFIG_MODULES=n, this way gives
+unexpected impact to existing systems. Maybe "make modules_install"
+can install modules.builtin irrespective of CONFIG_MODULES as Jonas
+originally suggested. Anyway, this commit should be reverted ASAP.
 
-The representation of $(MAKEFLAGS) depends on various factors:
-  - GNU Make version (version 3.8x or version 4.x)
-  - The presence of other flags like -j
-
-In my experiments, $(MAKEFLAGS) is expanded as follows:
-
-  * GNU Make 3.8x:
-
-    * without -j option:
-      --no-print-directory -Rri
-
-    * with -j option:
-      --no-print-directory -Rr --jobserver-fds=3,4 -j -i
-
-  * GNU Make 4.x:
-
-    * without -j option:
-      irR --no-print-directory
-
-    * with -j option:
-      irR -j --jobserver-fds=3,4 --no-print-directory
-
-For GNU Make 4.x, the flags are grouped as 'irR', which does not work.
-
-For the single thread build with GNU Make 3.8x, the flags are grouped
-as '-Rri', which does not work either.
-
-To make it work for all cases, do likewise as commit 6f0fa58e4596
-("kbuild: simplify silent build (-s) detection").
-
-BTW, since commit ff9b45c55b26 ("kbuild: modpost: read modules.order
-instead of $(MODVERDIR)/*.mod"), you also need to pass -k option to
-build final *.ko files. 'make -i -k' ignores compile errors in modules,
-and build as many remaining *.ko as possible.
-
-Please note this feature is kind of dangerous if other modules depend
-on the broken module because the generated modules will lack the correct
-module dependency or CRC. Honestly, I am not a big fan of it, but I am
-keeping this feature.
-
-Fixes: eed380f3f593 ("modpost: Optionally ignore secondary errors seen if a single module build fails")
-Cc: Guenter Roeck <linux@roeck-us.net>
+Reported-by: Douglas Anderson <dianders@chromium.org>
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonas Karlman <jonas@kwiboo.se>
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- scripts/Makefile.modpost | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index 957eed6a17a5..33aaa572f686 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -66,7 +66,7 @@ __modpost:
+ Makefile | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 29abe44ada91..9880e911afe3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1336,16 +1336,6 @@ dt_binding_check: scripts_dtc
+ # ---------------------------------------------------------------------------
+ # Modules
  
- else
+-# install modules.builtin regardless of CONFIG_MODULES
+-PHONY += _builtin_inst_
+-_builtin_inst_:
+-	@mkdir -p $(MODLIB)/
+-	@cp -f modules.builtin $(MODLIB)/
+-	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
+-
+-PHONY += install
+-install: _builtin_inst_
+-
+ ifdef CONFIG_MODULES
  
--MODPOST += $(subst -i,-n,$(filter -i,$(MAKEFLAGS))) -s -T - \
-+MODPOST += -s -T - \
- 	$(if $(KBUILD_NSDEPS),-d $(MODULES_NSDEPS))
+ # By default, build modules as well
+@@ -1389,7 +1379,7 @@ PHONY += modules_install
+ modules_install: _modinst_ _modinst_post
  
- ifeq ($(KBUILD_EXTMOD),)
-@@ -82,6 +82,11 @@ include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
-              $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
- endif
+ PHONY += _modinst_
+-_modinst_: _builtin_inst_
++_modinst_:
+ 	@rm -rf $(MODLIB)/kernel
+ 	@rm -f $(MODLIB)/source
+ 	@mkdir -p $(MODLIB)/kernel
+@@ -1399,6 +1389,8 @@ _modinst_: _builtin_inst_
+ 		ln -s $(CURDIR) $(MODLIB)/build ; \
+ 	fi
+ 	@sed 's:^:kernel/:' modules.order > $(MODLIB)/modules.order
++	@cp -f modules.builtin $(MODLIB)/
++	@cp -f $(objtree)/modules.builtin.modinfo $(MODLIB)/
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modinst
  
-+# 'make -i -k' ignores compile errors, and builds as many modules as possible.
-+ifneq ($(findstring i,$(filter-out --%,$(MAKEFLAGS))),)
-+MODPOST += -n
-+endif
-+
- # find all modules listed in modules.order
- modules := $(sort $(shell cat $(MODORDER)))
- 
+ # This depmod is only for convenience to give the initial
 -- 
 2.25.1
 
