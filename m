@@ -2,112 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89488202BAE
-	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jun 2020 19:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CD97202C20
+	for <lists+linux-kbuild@lfdr.de>; Sun, 21 Jun 2020 21:12:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730441AbgFURHx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 21 Jun 2020 13:07:53 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:46949 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730425AbgFURHw (ORCPT
+        id S1729390AbgFUTM5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 21 Jun 2020 15:12:57 -0400
+Received: from smtprelay0207.hostedemail.com ([216.40.44.207]:45460 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729279AbgFUTM4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 21 Jun 2020 13:07:52 -0400
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 05LH7ZBL016733;
-        Mon, 22 Jun 2020 02:07:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 05LH7ZBL016733
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1592759255;
-        bh=dmolLOJlywaSglqxknwfQfBBia1cZw0OJiADvj1SeMs=;
-        h=From:Date:Subject:To:Cc:From;
-        b=MBzXXcrLrAiDeNTIKiYsWrYI87IISkEwSp3QHKYC/0mqxcR9yj3zhlK0LgXMfCVWR
-         7p06waEXKi+SdE7QtvP2RNFhPMguM0UpJKCeGPNijiSRZGNNkuVwPS+Lh04tNNZDRc
-         HhEOB6YUCB+Ko3Ak0Cc87QyQeL0qa6M5uFGukTJJ7iHKBp/G3Rm6QNFrQiQBimgI0/
-         feLC2nrMRTKC+0UPkcw3hxwUJbh0b4PbSq2Zl5o8kddnStPZpDyUAELYhItbQ0ecEB
-         OlhRecOD0qm8MXNDw0TWT4tat8d8C5L7ZNqI0h9MXlAWSoYg2oCg9rSDUQDD+PuEwu
-         cXTc04M0z36Vg==
-X-Nifty-SrcIP: [209.85.221.178]
-Received: by mail-vk1-f178.google.com with SMTP id d64so725152vke.4;
-        Sun, 21 Jun 2020 10:07:35 -0700 (PDT)
-X-Gm-Message-State: AOAM530S9u2UgYIe/S6n2mmSCTSqkgXPBwH6KqzIyCYA2i113ZA5Cwyf
-        c8A8L/954zTmi4QiMWaXCOhFiSuW/WBfLFJLVdQ=
-X-Google-Smtp-Source: ABdhPJwCjNvV1CWA0AKd+GVzhV18wBBaQLvcb9cCOVwlmW3uoBWAIjGM3sjS2sQ60W0/M6wen/dXyhKKYNGK51kzk+o=
-X-Received: by 2002:ac5:c94e:: with SMTP id s14mr529044vkm.96.1592759254302;
- Sun, 21 Jun 2020 10:07:34 -0700 (PDT)
-MIME-Version: 1.0
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 22 Jun 2020 02:06:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT6C26gEHyT17cwHkvjx3NgvjtuFuuhqYWwH5fSz7R6wA@mail.gmail.com>
-Message-ID: <CAK7LNAT6C26gEHyT17cwHkvjx3NgvjtuFuuhqYWwH5fSz7R6wA@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.8-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        Sun, 21 Jun 2020 15:12:56 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id E526018224D6E;
+        Sun, 21 Jun 2020 19:12:55 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:152:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1714:1730:1747:1777:1792:1801:2393:2559:2562:3138:3139:3140:3141:3142:3351:3622:3865:3866:3870:3874:4321:4605:5007:7903:7904:10004:10400:10848:11232:11658:11914:12297:12740:12895:13069:13311:13357:13894:14659:21080:21627:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: cows87_5b0326926e2c
+X-Filterd-Recvd-Size: 1505
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf12.hostedemail.com (Postfix) with ESMTPA;
+        Sun, 21 Jun 2020 19:12:54 +0000 (UTC)
+Message-ID: <cb10e0a1a35e7dfc4f6a27dacb7883eaa3864811.camel@perches.com>
+Subject: Re: kbuild: separate kerneldoc warnings from compiler warnings
+From:   Joe Perches <joe@perches.com>
+To:     Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Sun, 21 Jun 2020 12:12:53 -0700
+In-Reply-To: <591473.1592679153@turing-police>
+References: <591473.1592679153@turing-police>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.2-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Sat, 2020-06-20 at 14:52 -0400, Valdis Klētnieks wrote:
+> This patch introduces a new build flag 'K=1' which controls whether kerneldoc
+> warnings should be issued, separating them from the compiler warnings that W=
+> controls.
+[]
+> diff --git a/Makefile b/Makefile
+[]
+> @@ -1605,6 +1605,7 @@ PHONY += help
+>  	@echo  '                       (sparse by default)'
+>  	@echo  '  make C=2   [targets] Force check of all c source with $$CHECK'
+>  	@echo  '  make RECORDMCOUNT_WARN=1 [targets] Warn about ignored mcount sections'
+> +	@echo  '  make K=1   [targets] Warn about problems in kerneldoc comments'
 
-Please pull some Kbuild fixes.
-Thanks.
-
-
-The following changes since commit b3a9e3b9622ae10064826dccb4f7a52bd88c7407:
-
-  Linux 5.8-rc1 (2020-06-14 12:45:04 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.8
-
-for you to fetch changes up to 214377e9b7e3185abf5998b8a90450e01bab21a7:
-
-  samples: watch_queue: build sample program for target architecture
-(2020-06-22 01:56:09 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.8
-
- - fix -gz=zlib compiler option test for CONFIG_DEBUG_INFO_COMPRESSED
-
- - improve cc-option in scripts/Kbuild.include to clean up temp files
-
- - improve cc-option in scripts/Kconfig.include for more reliable compile
-   option test
-
- - do not copy modules.builtin by 'make install' because it would break
-   existing systems
-
- - use 'userprogs' syntax for watch_queue sample
-
-----------------------------------------------------------------
-Arvind Sankar (1):
-      Makefile: Improve compressed debug info support detection
-
-Masahiro Yamada (4):
-      kbuild: improve cc-option to clean up all temporary files
-      kconfig: unify cc-option and as-option
-      Revert "Makefile: install modules.builtin even if CONFIG_MODULES=n"
-      samples: watch_queue: build sample program for target architecture
-
-Masanari Iida (1):
-      scripts: Fix typo in headers_install.sh
-
- Makefile                     | 16 ++++------------
- arch/arm64/Kconfig           |  2 +-
- lib/Kconfig.debug            |  1 -
- samples/Kconfig              |  2 +-
- samples/watch_queue/Makefile | 10 ++++------
- scripts/Kbuild.include       | 11 ++++++-----
- scripts/Kconfig.include      |  8 +-------
- scripts/headers_install.sh   |  2 +-
- 8 files changed, 18 insertions(+), 34 deletions(-)
+Seems sensible. Thanks.
 
 
---
-Best Regards
-Masahiro Yamada
