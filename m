@@ -2,139 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60366202F63
-	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jun 2020 07:11:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DD80203719
+	for <lists+linux-kbuild@lfdr.de>; Mon, 22 Jun 2020 14:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbgFVFLH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 22 Jun 2020 01:11:07 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:50329 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbgFVFLF (ORCPT
+        id S1728118AbgFVMpD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 22 Jun 2020 08:45:03 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4626 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727940AbgFVMpD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 22 Jun 2020 01:11:05 -0400
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 05M5AoTQ012538;
-        Mon, 22 Jun 2020 14:10:51 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 05M5AoTQ012538
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1592802651;
-        bh=rtovyjmtjdSI4mT4E8WX06Hp4IUhVZCZ0HVtU3JW7HY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=hz4MQDigVkW8NWB38mxig1VvddkdJrlRUq1XJKR+fUdRBF8EdheuglfjDpo0qVWmp
-         DM7f7AuU5lKGhRdd7cqoAkgV2Ohs1n9hzOKwsN2TdbtwBk/J6WGetZCe1k1lBpRM6E
-         no/MgaM/bUGGkj1fg6dZAi0rnEPdiAnTCVfjWHZRtRtJ5gd/LS7nYws5b4MSVLa2DG
-         ynieWT4H/CkkBoV9oM4wgmSyv84eYj+Zq4rTgiTwUYnDzk4nE5kZDfHDO64WA5rMS8
-         H/e7qvfyb8kz75p5tHtBT09ygDo3uhlBIbRgDwFbyu9gAH/pdIqJd5NjH38TMP/JL/
-         RZ5IDo4wbygYg==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id 190so8887090vsr.9;
-        Sun, 21 Jun 2020 22:10:50 -0700 (PDT)
-X-Gm-Message-State: AOAM530lLdGu3VbkFa4El+wMjRiKR8LpZL4vljHKEeNktv8+d4IxIAR4
-        lmEpwsA3Ibr4nzPUQIWnBwALuWJhDOFauxozsZ8=
-X-Google-Smtp-Source: ABdhPJyPzynbMmROc1mJ3Htutmdx5lwoyKIWF79hcxcwmlWiTLyb+tIudJSD1p6ni8qq6It5V4cz6c5spnxbrziJZjc=
-X-Received: by 2002:a67:22c7:: with SMTP id i190mr15249326vsi.179.1592802649777;
- Sun, 21 Jun 2020 22:10:49 -0700 (PDT)
+        Mon, 22 Jun 2020 08:45:03 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05MCWhka016981;
+        Mon, 22 Jun 2020 08:44:15 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com [169.55.91.170])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 31t02g1xnb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 22 Jun 2020 08:44:14 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+        by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05MCa44q018692;
+        Mon, 22 Jun 2020 12:44:10 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+        by ppma02wdc.us.ibm.com with ESMTP id 31sa38qj93-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 22 Jun 2020 12:44:09 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05MCi74722675964
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 22 Jun 2020 12:44:08 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 243D813604F;
+        Mon, 22 Jun 2020 12:44:09 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5BF58136060;
+        Mon, 22 Jun 2020 12:44:08 +0000 (GMT)
+Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
+        by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Mon, 22 Jun 2020 12:44:08 +0000 (GMT)
+From:   Dov Murik <dovmurik@linux.vnet.ibm.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org,
+        Dov Murik <dovmurik@linux.vnet.ibm.com>
+Subject: [PATCH] docs: kbuild: fix ReST formatting
+Date:   Mon, 22 Jun 2020 12:43:43 +0000
+Message-Id: <20200622124343.121043-1-dovmurik@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <591473.1592679153@turing-police>
-In-Reply-To: <591473.1592679153@turing-police>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 22 Jun 2020 14:10:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARevD4o1WCRatKqZcf9-arxsvBcyLKHcNSM1ih+TDS5Mw@mail.gmail.com>
-Message-ID: <CAK7LNARevD4o1WCRatKqZcf9-arxsvBcyLKHcNSM1ih+TDS5Mw@mail.gmail.com>
-Subject: Re: kbuild: separate kerneldoc warnings from compiler warnings
-To:     =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-22_07:2020-06-22,2020-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ phishscore=0 adultscore=0 clxscore=1011 cotscore=-2147483648 mlxscore=0
+ bulkscore=0 mlxlogscore=986 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006220094
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Jun 21, 2020 at 3:52 AM Valdis Kl=C4=93tnieks
-<valdis.kletnieks@vt.edu> wrote:
->
-> This patch introduces a new build flag 'K=3D1' which controls whether ker=
-neldoc
-> warnings should be issued, separating them from the compiler warnings tha=
-t W=3D
-> controls.
+Commit cd238effefa2 ("docs: kbuild: convert docs to ReST and rename to
+*.rst") missed a ReST header and a verbatim file content area.
 
+Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+---
+ Documentation/kbuild/modules.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-I do not understand why this change is needed.
+diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
+index a45cccff467d..85ccc878895e 100644
+--- a/Documentation/kbuild/modules.rst
++++ b/Documentation/kbuild/modules.rst
+@@ -182,7 +182,8 @@ module 8123.ko, which is built from the following files::
+ 	8123_pci.c
+ 	8123_bin.o_shipped	<= Binary blob
+ 
+---- 3.1 Shared Makefile
++3.1 Shared Makefile
++-------------------
+ 
+ 	An external module always includes a wrapper makefile that
+ 	supports building the module using "make" with no arguments.
+@@ -470,9 +471,9 @@ build.
+ 
+ 	The syntax of the Module.symvers file is::
+ 
+-	<CRC>       <Symbol>         <Module>                         <Export Type>     <Namespace>
++		<CRC>       <Symbol>         <Module>                         <Export Type>     <Namespace>
+ 
+-	0xe1cc2a05  usb_stor_suspend drivers/usb/storage/usb-storage  EXPORT_SYMBOL_GPL USB_STORAGE
++		0xe1cc2a05  usb_stor_suspend drivers/usb/storage/usb-storage  EXPORT_SYMBOL_GPL USB_STORAGE
+ 
+ 	The fields are separated by tabs and values may be empty (e.g.
+ 	if no namespace is defined for an exported symbol).
 
+base-commit: b103c607654e55dcb1da40557628a2044b72c936
+-- 
+2.20.1
 
-IIRC, our goal was to enable this check by default.
-https://patchwork.kernel.org/patch/10030521/
-but there are so many warnings.
-
-
-Meanwhile, this is checked only when W=3D is given
-because 0-day bot tests with W=3D1 to
-block new kerneldoc warnings.
-
-K=3D1 ?   Do people need to learn this new switch?
-
-
-
-
-
-> Signed-off-by: Valdis Kletnieks <valdis.kletnieks@vt.edu>
->
-> diff --git a/Makefile b/Makefile
-> index 29abe44ada91..b1c0f9484a66 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1605,6 +1605,7 @@ PHONY +=3D help
->         @echo  '                       (sparse by default)'
->         @echo  '  make C=3D2   [targets] Force check of all c source with=
- $$CHECK'
->         @echo  '  make RECORDMCOUNT_WARN=3D1 [targets] Warn about ignored=
- mcount sections'
-> +       @echo  '  make K=3D1   [targets] Warn about problems in kerneldoc=
- comments'
->         @echo  '  make W=3Dn   [targets] Enable extra build checks, n=3D1=
-,2,3 where'
->         @echo  '                1: warnings which may be relevant and do =
-not occur too often'
->         @echo  '                2: warnings which occur quite often but m=
-ay still be relevant'
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 2e8810b7e5ed..9bcb77f5a5f1 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -100,7 +100,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
->          cmd_force_checksrc =3D $(CHECK) $(CHECKFLAGS) $(c_flags) $<
->  endif
->
-> -ifneq ($(KBUILD_EXTRA_WARN),)
-> +ifneq ($(KBUILD_KDOC_WARN),)
->    cmd_checkdoc =3D $(srctree)/scripts/kernel-doc -none $<
->  endif
->
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 4aea7cf71d11..3fd5881c91b0 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -17,6 +17,12 @@ endif
->
->  export KBUILD_EXTRA_WARN
->
-> +ifeq ("$(origin K)", "command line")
-> +  KBUILD_KDOC_WARN :=3D $(K)
-> +endif
-> +
-> +export KBUILD_KDOC_WARN
-> +
->  #
->  # W=3D1 - warnings which may be relevant and do not occur too often
->  #
->
->
-
-
---=20
-Best Regards
-Masahiro Yamada
