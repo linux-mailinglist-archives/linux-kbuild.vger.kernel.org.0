@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92744205917
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jun 2020 19:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDF662058FE
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jun 2020 19:37:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387701AbgFWRg6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Jun 2020 13:36:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34530 "EHLO mail.kernel.org"
+        id S2387739AbgFWRhG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Jun 2020 13:37:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34838 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387694AbgFWRg4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Jun 2020 13:36:56 -0400
+        id S2387728AbgFWRhF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 23 Jun 2020 13:37:05 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8EE8520706;
-        Tue, 23 Jun 2020 17:36:55 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1FA6D20780;
+        Tue, 23 Jun 2020 17:37:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592933816;
-        bh=f2UiAtHANs9tFRVesQfBZNsitQGOznVCjZKCH6GXzDk=;
+        s=default; t=1592933824;
+        bh=xla0wtMSjnMhxORYMrMe5StIcLOTwWq49SnoT0hOzYM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GJ2WD/+HZrk8Fn+AB4WJn1dbzKLF4UvIloxjUtekrDsc3rMVN2Oess7eD3FMPxWxe
-         DZii6T/k+UBMADNtuKaGLPyN7xZDtoJGdJP1JHQRc2goHZHwAXJuLtUa5bRD6i2OcG
-         yqQ46KeyulzKnYcgtwTpgSXWtOw+5SGoomlRsxz0=
+        b=b8ACrFd+jr5Oy5JFUTSX3vtxe3mo2dZ6IJXcwkymPiQs9NfDoGJPe3V2OJDJbY4Ie
+         53EVW/yRDjqTycyp4OKq7gF1X/dtXuEZPYsqNpEAmKxQPTUG1V/fUtMzGBfWkhNA8q
+         96orza8BJhzPXcfZh4GgLLtYiuM7b0htFk7UptHw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 5/6] kbuild: improve cc-option to clean up all temporary files
-Date:   Tue, 23 Jun 2020 13:36:48 -0400
-Message-Id: <20200623173649.1356142-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 5/6] kbuild: improve cc-option to clean up all temporary files
+Date:   Tue, 23 Jun 2020 13:36:57 -0400
+Message-Id: <20200623173658.1356241-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200623173649.1356142-1-sashal@kernel.org>
-References: <20200623173649.1356142-1-sashal@kernel.org>
+In-Reply-To: <20200623173658.1356241-1-sashal@kernel.org>
+References: <20200623173658.1356241-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index a33fa1a918731..28bfb4378dbd8 100644
+index 558dea61db114..1920b9e2d2514 100644
 --- a/scripts/Kbuild.include
 +++ b/scripts/Kbuild.include
 @@ -82,20 +82,21 @@ cc-cross-prefix =  \
@@ -88,8 +88,8 @@ index a33fa1a918731..28bfb4378dbd8 100644
  
  # try-run
  # Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
- # Exit code chooses option. "$$TMP" serves as a temporary file and is
- # automatically cleaned up.
+ # Exit code chooses option. "$$TMP" is can be used as temporary file and
+ # is automatically cleaned up.
  try-run = $(shell set -e;		\
 -	TMP="$(TMPOUT).$$$$.tmp";	\
 -	TMPO="$(TMPOUT).$$$$.o";	\
