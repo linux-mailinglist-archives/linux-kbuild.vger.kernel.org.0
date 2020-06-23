@@ -2,37 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3931205934
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jun 2020 19:39:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92744205917
+	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jun 2020 19:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387651AbgFWRgs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Jun 2020 13:36:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34248 "EHLO mail.kernel.org"
+        id S2387701AbgFWRg6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 23 Jun 2020 13:36:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34530 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387646AbgFWRgr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Jun 2020 13:36:47 -0400
+        id S2387694AbgFWRg4 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 23 Jun 2020 13:36:56 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D7A1620781;
-        Tue, 23 Jun 2020 17:36:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8EE8520706;
+        Tue, 23 Jun 2020 17:36:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592933806;
-        bh=npWxp2xapokEr23yVAS0nhuBjBN+VC1AkCUTZrVl9F0=;
+        s=default; t=1592933816;
+        bh=f2UiAtHANs9tFRVesQfBZNsitQGOznVCjZKCH6GXzDk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gOpWmTw7nKc3wn9VzNnb91UMlpN298+ThDHbmYHS3I98PZGuKBvWqHSUObW3bvpmG
-         3RLAtfy9/E+MrpxpCdGG2y0Vuska//D+3H0CBQgE7oFr3q+Htg3fBr81W72k4QX3m6
-         Mw656Oyx8dB23R+xTXav39goiqk31W7+oz6Bmwvg=
+        b=GJ2WD/+HZrk8Fn+AB4WJn1dbzKLF4UvIloxjUtekrDsc3rMVN2Oess7eD3FMPxWxe
+         DZii6T/k+UBMADNtuKaGLPyN7xZDtoJGdJP1JHQRc2goHZHwAXJuLtUa5bRD6i2OcG
+         yqQ46KeyulzKnYcgtwTpgSXWtOw+5SGoomlRsxz0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 13/15] kbuild: improve cc-option to clean up all temporary files
-Date:   Tue, 23 Jun 2020 13:36:28 -0400
-Message-Id: <20200623173630.1355971-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 5/6] kbuild: improve cc-option to clean up all temporary files
+Date:   Tue, 23 Jun 2020 13:36:48 -0400
+Message-Id: <20200623173649.1356142-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200623173630.1355971-1-sashal@kernel.org>
-References: <20200623173630.1355971-1-sashal@kernel.org>
+In-Reply-To: <20200623173649.1356142-1-sashal@kernel.org>
+References: <20200623173649.1356142-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index ce53639a864a1..c830750d725b7 100644
+index a33fa1a918731..28bfb4378dbd8 100644
 --- a/scripts/Kbuild.include
 +++ b/scripts/Kbuild.include
-@@ -81,20 +81,21 @@ cc-cross-prefix =  \
+@@ -82,20 +82,21 @@ cc-cross-prefix =  \
  		fi)))
  
  # output directory for tests below
