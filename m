@@ -2,110 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7D6A205900
-	for <lists+linux-kbuild@lfdr.de>; Tue, 23 Jun 2020 19:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 048C220735F
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 14:34:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387761AbgFWRhN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 23 Jun 2020 13:37:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34984 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387751AbgFWRhK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 23 Jun 2020 13:37:10 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20F8920781;
-        Tue, 23 Jun 2020 17:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592933829;
-        bh=4d8E+xxY6HjJP5yT1ceEnqlab49ZVk3WLYdMr1sR3qI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XHKGn/nlF6xLfbftxAxfsxGz4ZrCuiH0Pb8Vr11BOh6IqVi5hIlzSYZhiES2Qq4GT
-         yjUg9ONj6Jzg/VIFMGlNLqpTiYHKuJitbWOkJWWJh7dSS8NgA0Dj62Pjb0W0s3laDG
-         c/qgn7kOsihGzU8hcV+NM2h/lY8KZVaySL7Gd0Sg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-kbuild@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 2/3] kbuild: improve cc-option to clean up all temporary files
-Date:   Tue, 23 Jun 2020 13:37:05 -0400
-Message-Id: <20200623173706.1356340-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200623173706.1356340-1-sashal@kernel.org>
-References: <20200623173706.1356340-1-sashal@kernel.org>
+        id S2389554AbgFXMd6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 08:33:58 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:43251 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388761AbgFXMdz (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 24 Jun 2020 08:33:55 -0400
+Received: by mail-qt1-f196.google.com with SMTP id v19so1464870qtq.10;
+        Wed, 24 Jun 2020 05:33:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8sHQzOYVDYH3ZNMAFgn6qFPgIIglqtoHHBWYdYcv8aA=;
+        b=syuE55D0mXEdb/fxaAmKcNrq0ep91sscASWL5UeF055ScIwGCOWrHKh0oBZjhqqPgI
+         WlSsuDqxkM5y9Z1Q9GXxD38eHuNDOGHncTvW+ZoEFXakXdM/j0/0LyvuXJoJHFk472cu
+         iwmA6dJI9WChsd2TzgeQZKEAi+3rn4x4zNBFbSnZziFnoVvde/Vlgds60tFIKsS3/oUh
+         H/H3lurQElJ0Qvtl5t/9LgM8XPD2e/AfcHR8KB3rOnd66GuyiyxsFjQTMv/7DQIEjilf
+         jJy4hhDyqz6C82vqQa38ZeuwGFvK8/Lfnonmk50XMd1Zp0yebpbZAQf8qJ1PJZYCwQmU
+         7aPw==
+X-Gm-Message-State: AOAM531XMax1JvIBWITwoI+h5642Tvk1AIKqU/Jh6B33FYoKXITQChAd
+        r74x4zZamnkg7xc1gSC7Cew=
+X-Google-Smtp-Source: ABdhPJxblUCjOrDANsgZy0tfdbktunxAZXJLdRpPPWkvHCUo+/qzdIkUPYVzbM2mylESz5Zexu9MIA==
+X-Received: by 2002:ac8:22e5:: with SMTP id g34mr27227271qta.227.1593002033880;
+        Wed, 24 Jun 2020 05:33:53 -0700 (PDT)
+Received: from localhost.localdomain ([185.248.161.177])
+        by smtp.gmail.com with ESMTPSA id x26sm3354512qtr.4.2020.06.24.05.33.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 05:33:53 -0700 (PDT)
+From:   Alexander Popov <alex.popov@linux.com>
+To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        Emese Revfy <re.emese@gmail.com>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Sven Schnelle <svens@stackframe.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Collingbourne <pcc@google.com>,
+        Naohiro Aota <naohiro.aota@wdc.com>,
+        Alexander Monakov <amonakov@ispras.ru>,
+        Mathias Krause <minipli@googlemail.com>,
+        PaX Team <pageexec@freemail.hu>,
+        Brad Spengler <spender@grsecurity.net>,
+        Laura Abbott <labbott@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        Alexander Popov <alex.popov@linux.com>,
+        kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
+        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, gcc@gcc.gnu.org
+Cc:     notify@kernel.org
+Subject: [PATCH v2 0/5] Improvements of the stackleak gcc plugin
+Date:   Wed, 24 Jun 2020 15:33:25 +0300
+Message-Id: <20200624123330.83226-1-alex.popov@linux.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Masahiro Yamada <masahiroy@kernel.org>
+This is the v2 of the patch series with various improvements of the
+stackleak gcc plugin.
 
-[ Upstream commit f2f02ebd8f3833626642688b2d2c6a7b3c141fa9 ]
+The first three patches disable unneeded gcc plugin instrumentation for
+some files.
 
-When cc-option and friends evaluate compiler flags, the temporary file
-$$TMP is created as an output object, and automatically cleaned up.
-The actual file path of $$TMP is .<pid>.tmp, here <pid> is the process
-ID of $(shell ...) invoked from cc-option. (Please note $$$$ is the
-escape sequence of $$).
+The fourth patch is the main improvement. It eliminates an unwanted
+side-effect of kernel code instrumentation performed by stackleak gcc
+plugin. This patch is a deep reengineering of the idea described on
+grsecurity blog:
+  https://grsecurity.net/resolving_an_unfortunate_stackleak_interaction
 
-Such garbage files are cleaned up in most cases, but some compiler flags
-create additional output files.
+The final patch adds 'verbose' stackleak parameter for printing additional
+info about the kernel code instrumentation during kernel building.
 
-For example, -gsplit-dwarf creates a .dwo file.
+I would like to thank Alexander Monakov <amonakov@ispras.ru> for his
+advisory on gcc internals.
 
-When CONFIG_DEBUG_INFO_SPLIT=y, you will see a bunch of .<pid>.dwo files
-left in the top of build directories. You may not notice them unless you
-do 'ls -a', but the garbage files will increase every time you run 'make'.
+This patch series was tested for gcc version 4.8, 5, 6, 7, 8, 9, and 10
+on x86_64, i386 and arm64.
+That was done using the project 'kernel-build-containers':
+  https://github.com/a13xp0p0v/kernel-build-containers
 
-This commit changes the temporary object path to .tmp_<pid>/tmp, and
-removes .tmp_<pid> directory when exiting. Separate build artifacts such
-as *.dwo will be cleaned up all together because their file paths are
-usually determined based on the base name of the object.
+Changes from v1:
+ - rebase onto 5.8.0-rc2;
+ - don't exclude alloca() from the instrumentation logic, because it
+   will be used in kernel stack offset randomization;
+ - reorder patches in the series;
+ - don't use gcc plugins for building vgettimeofday.c in arm and
+   arm64 vDSO;
+ - follow alphabetic order in include/linux/compiler_attributes.h.
 
-Another example is -ftest-coverage, which outputs the coverage data into
-<base-name-of-object>.gcno
+Link to v1:
+ https://lore.kernel.org/lkml/20200604134957.505389-1-alex.popov@linux.com/
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/Kbuild.include | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index e61a5c29b08c5..b6f055157b89a 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -81,20 +81,21 @@ cc-cross-prefix =  \
- 		fi)))
- 
- # output directory for tests below
--TMPOUT := $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/)
-+TMPOUT = $(if $(KBUILD_EXTMOD),$(firstword $(KBUILD_EXTMOD))/).tmp_$$$$
- 
- # try-run
- # Usage: option = $(call try-run, $(CC)...-o "$$TMP",option-ok,otherwise)
- # Exit code chooses option. "$$TMP" is can be used as temporary file and
- # is automatically cleaned up.
- try-run = $(shell set -e;		\
--	TMP="$(TMPOUT).$$$$.tmp";	\
--	TMPO="$(TMPOUT).$$$$.o";	\
-+	TMP=$(TMPOUT)/tmp;		\
-+	TMPO=$(TMPOUT)/tmp.o;		\
-+	mkdir -p $(TMPOUT);		\
-+	trap "rm -rf $(TMPOUT)" EXIT;	\
- 	if ($(1)) >/dev/null 2>&1;	\
- 	then echo "$(2)";		\
- 	else echo "$(3)";		\
--	fi;				\
--	rm -f "$$TMP" "$$TMPO")
-+	fi)
- 
- # as-option
- # Usage: cflags-y += $(call as-option,-Wa$(comma)-isa=foo,)
+Alexander Popov (5):
+  gcc-plugins/stackleak: Don't instrument itself
+  ARM: vdso: Don't use gcc plugins for building vgettimeofday.c
+  arm64: vdso: Don't use gcc plugins for building vgettimeofday.c
+  gcc-plugins/stackleak: Use asm instrumentation to avoid useless
+    register saving
+  gcc-plugins/stackleak: Add 'verbose' plugin parameter
+
+ arch/arm/vdso/Makefile                 |   2 +-
+ arch/arm64/kernel/vdso/Makefile        |   2 +-
+ include/linux/compiler_attributes.h    |  13 ++
+ kernel/Makefile                        |   1 +
+ kernel/stackleak.c                     |  16 +-
+ scripts/Makefile.gcc-plugins           |   2 +
+ scripts/gcc-plugins/stackleak_plugin.c | 248 +++++++++++++++++++++----
+ 7 files changed, 239 insertions(+), 45 deletions(-)
+
 -- 
-2.25.1
+2.25.4
 
