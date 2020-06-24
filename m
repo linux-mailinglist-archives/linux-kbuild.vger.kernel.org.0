@@ -2,60 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 352782075DF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 16:41:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEBDC207602
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 16:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390423AbgFXOlU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 10:41:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
+        id S2391282AbgFXOqW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 10:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388652AbgFXOlT (ORCPT
+        with ESMTP id S2391276AbgFXOqU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 10:41:19 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101E0C061573
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 07:41:19 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id k6so1129509pll.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 07:41:19 -0700 (PDT)
+        Wed, 24 Jun 2020 10:46:20 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47E15C061573
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 07:46:19 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id d12so1155516ply.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 07:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Fbp7umasnXh+ke7N+beUAyOfPReUM2Tp6A+dzgB7eMs=;
-        b=LdqUQaQQ73lvg2EH4zB5b0fAHY6pDsTgO5VkTlBIIFPTWFDt6KEfeGjsb0w6+bZ9Ow
-         NITWE6F0NiNBcydTH1X5G5v/4LVNjJl2xkptnKSgFVRZwIBSdg7/4DIa9E/LMGsAb6fD
-         enidR4CvnWPaAtnjb4zwOOo4tT4QsgRPZnifk=
+        bh=YGEb31AttHeA5YUH1Hedg3SW+2stgVlj3nYXGGbAchU=;
+        b=UcuWUiaLtS6hQwB9KxUy3Z9bv7Nks62Tpl6fbvA8uqD2/B7av9kURZB/L+B445OT1t
+         NvQdGODIDeocCPW6jfNCyl35CogPsG3G8IknHXCfJJW3FYZfWX6G7dhUvusVDuWMLuDl
+         qZYw9sQff/knmaH1usdfgE0F1lzEuWXKIIt4c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Fbp7umasnXh+ke7N+beUAyOfPReUM2Tp6A+dzgB7eMs=;
-        b=bHQLARdP45V5CAa5mEvul8vAZeVV7jYO3lyhvyRE/YyjtW8Z+YxvhGSbg/ulitmO/V
-         3+J2CE2rLLqX8//6SxzPB7HIdvo5hiRz8evD840wgWtbU5g0Ysje54BwO8HDbri8Wivx
-         s/ZRy/hbFtxD2Yz81QW71Tdnfu0w9jXVT/xBZTr2WxNKygn5jRMTR3/J/MnjhfUec1X+
-         0gWlgDFacdHenq6ZGn17pU3qGyRudXoyIGoEMJkc4CSohX4y+Q8eHHVx9Mk9Wtn5KYFA
-         FkefY+SbHZrddlVXCxJv/OWb2/Hq0mXWra6YWQrkn8t888K8muHOftVP59t/SJjZJACI
-         OD5Q==
-X-Gm-Message-State: AOAM533bnDm93Q0Qc2vYSfOdmutLuTGt8onhYGJrHl/8K7kmgDvs7Qxy
-        breThNRvUM2P79rYepaSA/uBFQ==
-X-Google-Smtp-Source: ABdhPJyLzb6qwq/8MBqHXf8uzinIy/tV8mWrOCrHPE7Fwn5qlWt9b5nzHsWE+x0soPiCSmy2JH0LLA==
-X-Received: by 2002:a17:90a:7185:: with SMTP id i5mr2257473pjk.175.1593009678562;
-        Wed, 24 Jun 2020 07:41:18 -0700 (PDT)
+        bh=YGEb31AttHeA5YUH1Hedg3SW+2stgVlj3nYXGGbAchU=;
+        b=rgEp+gLZ+ogK7NDPW17XuF8xJ753kW5FV4ONM2oswmHImkg6WV+iFcAU+htfN04tk5
+         oxEKIsrKY6mPczJZDNJMfTIX/sZRuY8oXEHr6Qh5h0GpvwBEw1u1zieFZL4r96/g/iDN
+         yHoWifTVwVjb5c93LTHvmOVf7HvKEBG300/+Ytswz1iCpqC7hpVQ3tCok3oQDcA4Kc2b
+         CQ0LZxr3J1Yq6EFxT8aJ+rLSJ/fERXIBx1zcz9qjZEBhayQbx+rsZiA3LH/IokXu5wcz
+         TZGLv/ObIle7hJRrqO7VFtCI3DiZg1f7HpZ5oi4bNplv5429gZbHK3D2CZP3yO73F5vq
+         1/Hw==
+X-Gm-Message-State: AOAM5330o015zVCjQdcG4l6cgjNcuaULiBXp0KXRlVzWhWmn88k10Y6m
+        p7cNHxHOD4Tz6bBjc/8nf61cPg==
+X-Google-Smtp-Source: ABdhPJyaJyusdqr7gDuMQQVuvplY9KQKo74Br6IzoxaZjoYjPgwJk8Z+WqrtZcFpgt19+bLbcQX0cg==
+X-Received: by 2002:a17:902:8681:: with SMTP id g1mr27995114plo.161.1593009978891;
+        Wed, 24 Jun 2020 07:46:18 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s23sm15899769pfs.157.2020.06.24.07.41.17
+        by smtp.gmail.com with ESMTPSA id c9sm20548752pfp.100.2020.06.24.07.46.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 07:41:17 -0700 (PDT)
-Date:   Wed, 24 Jun 2020 07:41:16 -0700
+        Wed, 24 Jun 2020 07:46:18 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 07:46:17 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Alexander Popov <alex.popov@linux.com>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>, Jann Horn <jannh@google.com>,
-        Emese Revfy <re.emese@gmail.com>,
+Cc:     Jann Horn <jannh@google.com>, Emese Revfy <re.emese@gmail.com>,
         Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Andrew Morton <akpm@linux-foundation.org>,
         Masahiro Yamada <yamada.masahiro@socionext.com>,
         Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Jessica Yu <jeyu@kernel.org>,
         Sven Schnelle <svens@stackframe.org>,
         Iurii Zaikin <yzaikin@google.com>,
@@ -74,47 +74,29 @@ Cc:     Luis Chamberlain <mcgrof@kernel.org>, Jann Horn <jannh@google.com>,
         kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
-Subject: Re: [PATCH v2 5/5] gcc-plugins/stackleak: Add 'verbose' plugin
- parameter
-Message-ID: <202006240740.5AF6369E53@keescook>
+Subject: Re: [PATCH v2 3/5] arm64: vdso: Don't use gcc plugins for building
+ vgettimeofday.c
+Message-ID: <202006240745.19E4F8BDEA@keescook>
 References: <20200624123330.83226-1-alex.popov@linux.com>
- <20200624123330.83226-6-alex.popov@linux.com>
- <20200624125305.GG4332@42.do-not-panic.com>
- <d7b118c1-0369-9aef-bd34-afc9bafc7e7b@linux.com>
+ <20200624123330.83226-4-alex.popov@linux.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d7b118c1-0369-9aef-bd34-afc9bafc7e7b@linux.com>
+In-Reply-To: <20200624123330.83226-4-alex.popov@linux.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 24, 2020 at 04:09:20PM +0300, Alexander Popov wrote:
-> On 24.06.2020 15:53, Luis Chamberlain wrote:
-> > On Wed, Jun 24, 2020 at 03:33:30PM +0300, Alexander Popov wrote:
-> >> Add 'verbose' plugin parameter for stackleak gcc plugin.
-> >> It can be used for printing additional info about the kernel code
-> >> instrumentation.
-> >>
-> >> For using it add the following to scripts/Makefile.gcc-plugins:
-> >>   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
-> >>     += -fplugin-arg-stackleak_plugin-verbose
-> > 
-> > Would be nice if we instead could pass an argument to make which lets
-> > us enable this.
+On Wed, Jun 24, 2020 at 03:33:28PM +0300, Alexander Popov wrote:
+> Don't use gcc plugins for building arch/arm64/kernel/vdso/vgettimeofday.c
+> to avoid unneeded instrumentation.
 > 
-> This feature is useful only for debugging stackleak gcc plugin.
-> 
-> The cflag that enables it is similar to -fplugin-arg-structleak_plugin-verbose,
-> which is used for debugging the structleak plugin.
-> 
-> This debugging feature clutters the kernel build output, I don't think that many
-> people will use it. So IMO creating a separate argument for make is not really
-> needed.
+> Signed-off-by: Alexander Popov <alex.popov@linux.com>
 
-Yup, agreed. The precedent for plugin verbosity is via CONFIGs. They're
-not really general purpose enough to justify a "make" argument.
+It looks like Will has taken this already, but:
+
+Acked-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
