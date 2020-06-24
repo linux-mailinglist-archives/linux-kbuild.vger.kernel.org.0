@@ -2,154 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC5D2073FC
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 15:09:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9BBC2074F2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 15:55:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389721AbgFXNJ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 09:09:29 -0400
-Received: from mail-ej1-f65.google.com ([209.85.218.65]:43621 "EHLO
-        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728843AbgFXNJ2 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 09:09:28 -0400
-Received: by mail-ej1-f65.google.com with SMTP id l12so2362048ejn.10;
-        Wed, 24 Jun 2020 06:09:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=/mwzO/cTnbHr3WztS5zwKCx2bwEZ0lf0RNh2DuVHAHE=;
-        b=AZtG8BYVPOdGgtKMDQ8/GEB+VTcOggPZVg+veM1KVubiBbseX9XYRJeB2V25aWnXJc
-         ngk6KZPL8eiSrPK4xQ4I1AKd27MZr14x0eBliP9/TO6HS0ELlTZpWxjYqPE99ZT+y+d8
-         SEwYE3KBFAw5KGjqXSpRIVcgNelXo/8og1BYbM1gPKotLGu6FGjTUJiZNRveAwaQBtcn
-         CxgLfqnEMwwZR+t8VTD9aimLpO5OjhQuYYSPbW+qDgz0y+xShHK07ExmSaQEkiqBkwtV
-         FeR9bbO9yLU/tf2vPMqppsxohVlsSf+GbpswZBOduTiZw2NILcK8QPy/PQLbNEMAj2/I
-         DWIQ==
-X-Gm-Message-State: AOAM533yGWC/CqUBMiPJV2BqHdDGzptfAAu2DajvyH6ICxoWB/ztHZ6R
-        LWyP7KjoP1e1EvPcc650xrU=
-X-Google-Smtp-Source: ABdhPJxhctuVprAiKDuch863QBPRDnzsG8oT4wSNmvJgIBJUXihqZL27CcBNmHFYHAJzUCDKnDrFGQ==
-X-Received: by 2002:a17:907:9486:: with SMTP id dm6mr25647370ejc.248.1593004165741;
-        Wed, 24 Jun 2020 06:09:25 -0700 (PDT)
-Received: from [10.9.0.18] ([185.248.161.177])
-        by smtp.gmail.com with ESMTPSA id u60sm8810963edc.59.2020.06.24.06.09.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2020 06:09:24 -0700 (PDT)
-Reply-To: alex.popov@linux.com
-Subject: Re: [PATCH v2 5/5] gcc-plugins/stackleak: Add 'verbose' plugin
- parameter
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Emese Revfy <re.emese@gmail.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        Jessica Yu <jeyu@kernel.org>,
+        id S2389682AbgFXNzG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 09:55:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42270 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389668AbgFXNzF (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 24 Jun 2020 09:55:05 -0400
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1CD7320724;
+        Wed, 24 Jun 2020 13:54:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593006905;
+        bh=/1svtZ7NFc/8pJ2Kp6i4gm4ajra1i4VBRLm1WItsEMU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=qTWXXWzzkiccoVFz/2cLbK9y/b4meGyKs970QbtqAoJKFfrYOE8wJQNan/2zkjIbG
+         M9gInwgc0i5vdEgc9IJfSprW2ZMaMPfd25JecqOiJlhvlLKNXm9xCTx1tcU3dr6wx2
+         XnwsVCEoVoSbiftJU5wdTX+rn7DxiauXaityvSg4=
+From:   Will Deacon <will@kernel.org>
+To:     Iurii Zaikin <yzaikin@google.com>, PaX Team <pageexec@freemail.hu>,
+        Mathias Krause <minipli@googlemail.com>, x86@kernel.org,
         Sven Schnelle <svens@stackframe.org>,
-        Iurii Zaikin <yzaikin@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Florian Weimer <fweimer@redhat.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Emese Revfy <re.emese@gmail.com>,
+        kernel-hardening@lists.openwall.com,
+        Laura Abbott <labbott@redhat.com>,
+        Brad Spengler <spender@grsecurity.net>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Jessica Yu <jeyu@kernel.org>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
         Peter Collingbourne <pcc@google.com>,
         Naohiro Aota <naohiro.aota@wdc.com>,
         Alexander Monakov <amonakov@ispras.ru>,
-        Mathias Krause <minipli@googlemail.com>,
-        PaX Team <pageexec@freemail.hu>,
-        Brad Spengler <spender@grsecurity.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
-        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
+        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Alexander Popov <alex.popov@linux.com>, gcc@gcc.gnu.org,
+        Jann Horn <jannh@google.com>,
+        linux-arm-kernel@lists.infradead.org
+Cc:     kernel-team@android.com, Will Deacon <will@kernel.org>,
+        notify@kernel.org
+Subject: Re: [PATCH v2 0/5] Improvements of the stackleak gcc plugin
+Date:   Wed, 24 Jun 2020 14:54:49 +0100
+Message-Id: <159300400829.52405.11593787740425104484.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200624123330.83226-1-alex.popov@linux.com>
 References: <20200624123330.83226-1-alex.popov@linux.com>
- <20200624123330.83226-6-alex.popov@linux.com>
- <20200624125305.GG4332@42.do-not-panic.com>
-From:   Alexander Popov <alex.popov@linux.com>
-Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
- 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
- j3lCqPk=
-Message-ID: <d7b118c1-0369-9aef-bd34-afc9bafc7e7b@linux.com>
-Date:   Wed, 24 Jun 2020 16:09:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200624125305.GG4332@42.do-not-panic.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 24.06.2020 15:53, Luis Chamberlain wrote:
-> On Wed, Jun 24, 2020 at 03:33:30PM +0300, Alexander Popov wrote:
->> Add 'verbose' plugin parameter for stackleak gcc plugin.
->> It can be used for printing additional info about the kernel code
->> instrumentation.
->>
->> For using it add the following to scripts/Makefile.gcc-plugins:
->>   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
->>     += -fplugin-arg-stackleak_plugin-verbose
+On Wed, 24 Jun 2020 15:33:25 +0300, Alexander Popov wrote:
+> This is the v2 of the patch series with various improvements of the
+> stackleak gcc plugin.
 > 
-> Would be nice if we instead could pass an argument to make which lets
-> us enable this.
+> The first three patches disable unneeded gcc plugin instrumentation for
+> some files.
+> 
+> The fourth patch is the main improvement. It eliminates an unwanted
+> side-effect of kernel code instrumentation performed by stackleak gcc
+> plugin. This patch is a deep reengineering of the idea described on
+> grsecurity blog:
+>   https://grsecurity.net/resolving_an_unfortunate_stackleak_interaction
+> 
+> [...]
 
-This feature is useful only for debugging stackleak gcc plugin.
+Applied to arm64 (for-next/fixes), thanks!
 
-The cflag that enables it is similar to -fplugin-arg-structleak_plugin-verbose,
-which is used for debugging the structleak plugin.
+[1/1] arm64: vdso: Don't use gcc plugins for building vgettimeofday.c
+      https://git.kernel.org/arm64/c/e56404e8e475
 
-This debugging feature clutters the kernel build output, I don't think that many
-people will use it. So IMO creating a separate argument for make is not really
-needed.
+Cheers,
+-- 
+Will
 
-Thanks!
-
-Best regards,
-Alexander
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
