@@ -2,42 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 813FA2073D9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 14:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EC5D2073FC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 15:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389254AbgFXM5I (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 08:57:08 -0400
-Received: from mail-qv1-f67.google.com ([209.85.219.67]:35624 "EHLO
-        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388776AbgFXM5H (ORCPT
+        id S2389721AbgFXNJ3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 09:09:29 -0400
+Received: from mail-ej1-f65.google.com ([209.85.218.65]:43621 "EHLO
+        mail-ej1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728843AbgFXNJ2 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 08:57:07 -0400
-Received: by mail-qv1-f67.google.com with SMTP id g11so974541qvs.2;
-        Wed, 24 Jun 2020 05:57:06 -0700 (PDT)
+        Wed, 24 Jun 2020 09:09:28 -0400
+Received: by mail-ej1-f65.google.com with SMTP id l12so2362048ejn.10;
+        Wed, 24 Jun 2020 06:09:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:reply-to:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=X6gaYbiRWFwPURGjW6kE7kdDjZGiou0Z1e2o/D28kiM=;
-        b=jcCv5mrTGQDs5VN0xfVWitsDbdB24nbrXP6LhaOyU2aynpxGosYY/FeSc9yUJTQXL4
-         8GhwI1SkiiVX9coihsfKudAr4A4SwVh0ivT6Ejg/wCroa7LSLQlIbru0ndFkBGFU30x4
-         FgxKpmzqlUeCKuut3qWI3ndA8WN+kJBhFGqZLVPkj0i0C5YUnHrckfwawajKoCP1zo70
-         BkhMspnTK2MA4BhdwCa6LxNi1ADGIiqrMtNgy45RtGGosnzO53X6l1fJfiNqw6IMS/kc
-         L/3wd+3SPIHvYri+xoxcvUkFxd7C4tR/Bkq8DgTdMp2J67/JNHFwcdrfOp0TylL8eVkI
-         HXOg==
-X-Gm-Message-State: AOAM533pFCfpeejBKbMPk6NXZ1DwOClfmmwaQ7JnnCYR38IMkU+LE7y/
-        1oiPA84qSiF/rTHC0RhsY3o=
-X-Google-Smtp-Source: ABdhPJw6+WBGmuuHYHgwlLVu6wsLaZI4AcFwB6knVAeyY6lgUHGGVOadNmc0p+Ehw6VPYOcALxMwPw==
-X-Received: by 2002:a0c:83a5:: with SMTP id k34mr500054qva.130.1593003426083;
-        Wed, 24 Jun 2020 05:57:06 -0700 (PDT)
+        bh=/mwzO/cTnbHr3WztS5zwKCx2bwEZ0lf0RNh2DuVHAHE=;
+        b=AZtG8BYVPOdGgtKMDQ8/GEB+VTcOggPZVg+veM1KVubiBbseX9XYRJeB2V25aWnXJc
+         ngk6KZPL8eiSrPK4xQ4I1AKd27MZr14x0eBliP9/TO6HS0ELlTZpWxjYqPE99ZT+y+d8
+         SEwYE3KBFAw5KGjqXSpRIVcgNelXo/8og1BYbM1gPKotLGu6FGjTUJiZNRveAwaQBtcn
+         CxgLfqnEMwwZR+t8VTD9aimLpO5OjhQuYYSPbW+qDgz0y+xShHK07ExmSaQEkiqBkwtV
+         FeR9bbO9yLU/tf2vPMqppsxohVlsSf+GbpswZBOduTiZw2NILcK8QPy/PQLbNEMAj2/I
+         DWIQ==
+X-Gm-Message-State: AOAM533yGWC/CqUBMiPJV2BqHdDGzptfAAu2DajvyH6ICxoWB/ztHZ6R
+        LWyP7KjoP1e1EvPcc650xrU=
+X-Google-Smtp-Source: ABdhPJxhctuVprAiKDuch863QBPRDnzsG8oT4wSNmvJgIBJUXihqZL27CcBNmHFYHAJzUCDKnDrFGQ==
+X-Received: by 2002:a17:907:9486:: with SMTP id dm6mr25647370ejc.248.1593004165741;
+        Wed, 24 Jun 2020 06:09:25 -0700 (PDT)
 Received: from [10.9.0.18] ([185.248.161.177])
-        by smtp.gmail.com with ESMTPSA id e5sm1669838qtd.22.2020.06.24.05.56.56
+        by smtp.gmail.com with ESMTPSA id u60sm8810963edc.59.2020.06.24.06.09.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2020 05:57:05 -0700 (PDT)
+        Wed, 24 Jun 2020 06:09:24 -0700 (PDT)
 Reply-To: alex.popov@linux.com
-Subject: Re: [PATCH v2 2/5] ARM: vdso: Don't use gcc plugins for building
- vgettimeofday.c
+Subject: Re: [PATCH v2 5/5] gcc-plugins/stackleak: Add 'verbose' plugin
+ parameter
 To:     Luis Chamberlain <mcgrof@kernel.org>
 Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         Emese Revfy <re.emese@gmail.com>,
@@ -66,8 +66,8 @@ Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
 References: <20200624123330.83226-1-alex.popov@linux.com>
- <20200624123330.83226-3-alex.popov@linux.com>
- <20200624125236.GF4332@42.do-not-panic.com>
+ <20200624123330.83226-6-alex.popov@linux.com>
+ <20200624125305.GG4332@42.do-not-panic.com>
 From:   Alexander Popov <alex.popov@linux.com>
 Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  mQINBFX15q4BEADZartsIW3sQ9R+9TOuCFRIW+RDCoBWNHhqDLu+Tzf2mZevVSF0D5AMJW4f
@@ -113,12 +113,12 @@ Autocrypt: addr=alex.popov@linux.com; prefer-encrypt=mutual; keydata=
  gzBW8J8RW+nUJcTpudX4TC2SGeAOyxnM5O4XJ8yZyDUY334seDRJWtS4wRHxpfYcHKTewR96
  IsP1USE+9ndu6lrMXQ3aFsd1n1m1pfa/y8hiqsSYHy7JQ9Iuo9DxysOj22UNOmOE+OYPK48D
  j3lCqPk=
-Message-ID: <f8d52f40-221b-5219-ca16-9d889252547a@linux.com>
-Date:   Wed, 24 Jun 2020 15:56:54 +0300
+Message-ID: <d7b118c1-0369-9aef-bd34-afc9bafc7e7b@linux.com>
+Date:   Wed, 24 Jun 2020 16:09:20 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200624125236.GF4332@42.do-not-panic.com>
+In-Reply-To: <20200624125305.GG4332@42.do-not-panic.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -127,19 +127,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 24.06.2020 15:52, Luis Chamberlain wrote:
-> On Wed, Jun 24, 2020 at 03:33:27PM +0300, Alexander Popov wrote:
->> Don't use gcc plugins for building arch/arm/vdso/vgettimeofday.c to
->> avoid unneeded instrumentation.
+On 24.06.2020 15:53, Luis Chamberlain wrote:
+> On Wed, Jun 24, 2020 at 03:33:30PM +0300, Alexander Popov wrote:
+>> Add 'verbose' plugin parameter for stackleak gcc plugin.
+>> It can be used for printing additional info about the kernel code
+>> instrumentation.
 >>
->> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+>> For using it add the following to scripts/Makefile.gcc-plugins:
+>>   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
+>>     += -fplugin-arg-stackleak_plugin-verbose
 > 
-> But why is skipping it safe?
+> Would be nice if we instead could pass an argument to make which lets
+> us enable this.
 
-Hello Luis,
+This feature is useful only for debugging stackleak gcc plugin.
 
-Kees and Will discussed that in detail in v1 of the series:
-https://lore.kernel.org/lkml/20200610073046.GA15939@willie-the-truck/
+The cflag that enables it is similar to -fplugin-arg-structleak_plugin-verbose,
+which is used for debugging the structleak plugin.
+
+This debugging feature clutters the kernel build output, I don't think that many
+people will use it. So IMO creating a separate argument for make is not really
+needed.
+
+Thanks!
 
 Best regards,
 Alexander
