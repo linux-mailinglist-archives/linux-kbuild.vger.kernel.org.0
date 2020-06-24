@@ -2,104 +2,148 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D133207620
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 16:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97F44207CFB
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 22:32:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391226AbgFXOx2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 10:53:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54168 "EHLO
+        id S2388709AbgFXUct (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 16:32:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389818AbgFXOx1 (ORCPT
+        with ESMTP id S2388670AbgFXUcs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 10:53:27 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 884FAC061573
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 07:53:26 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id ft14so233268pjb.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 07:53:26 -0700 (PDT)
+        Wed, 24 Jun 2020 16:32:48 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11100C061796
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 13:32:48 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id c17so3507415ybf.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 13:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OPWu0TeNvD4ujFH7IT6Yq/7QVWt6mn1sVW+hYIGa3/c=;
-        b=hpP80aWoVCRlVHrXGBwyfL+RPDRXCMe7ZswUMGPPdIckNU+/eQLVr51wJYXeK84tS8
-         2WCDJZSZTwtxrmhRVEOIBcnY26CQPqWU3uVdGunp0mR0o+2LoNpU5OTOKcg3KoQqUP/D
-         FsCCqiNuvarAC7Prd/cfAOwQBwApsIR4mQjPw=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=geZqQu8Pc2IZyEmyfjSbirVoyCHoNCVPX8WSrD5/a0I=;
+        b=Uawx1HymTuOmFuIsE6m0edc2JOJkrIL4ohCvAqVmbJ8lL51+F8GFU8Edzr7cqZcv2w
+         HodyjPnW3CEUXq8PkZVULO6ZyoUtxp9+p+vdtGUCMz8qqae3fj+ztQ8oZGg5KLQxzxtv
+         WsCNEibFNfuA+bNlcIR8b4sSEDOv2SkH85c5Dy7chvY+wP/aaRR1NsYEhp1bKM54GsoI
+         2QcLu0Jhfop40Tu+FeyQ89Qe5QVYishLUcPnbhRan/pilxFWfHclHWVyGJPxpvvrwTh0
+         JNHLSYYTI2a6tpFbw45+Zc3Ez5EH+jMImL6HifoQ7sZW+Y10m8LKlencaSHV2sNpKm9n
+         vXag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=OPWu0TeNvD4ujFH7IT6Yq/7QVWt6mn1sVW+hYIGa3/c=;
-        b=YwSw7xyORyAFHYkqDbYGrrtAMHpT60hbxIwZZurN90nRtaS1NwOk3V2QEb1bdFnDV9
-         6/Hnkw5jBkodTfkdnsnsVYW7EgdMKDHd3DJeaBN+Xtk9vLK4dB2GaFU7zAhG0znurez7
-         OVg8xBh8ve+BGOdwI8TZXm4UyLnFfcVa2fFE/uDcDmINtZ40ZAMSqDWslJSDw1PxVWlB
-         ZbOuvwc4JihfFbsMDp8aupFLVqJkJIXlWiejgaqMKnkOUCKWLtsaCjlfdAbWj3j1nWao
-         KAgObmGeanu9BGfdMvNSwpbaoqETfd6jLlvwxXu+iXm/2yLjNuoGzqOlSOlnzZ1huHuN
-         Xsvw==
-X-Gm-Message-State: AOAM531RpE6g00cGtzqkRpr4Qi8kvD+udUR2WBBf/sgVAcLlYTR52n55
-        3hBfr/dTM/zhYafzbhZ14YC+vA==
-X-Google-Smtp-Source: ABdhPJwkPoYDkU43oyjXTZ3o3ijQjsdZRoWueUiZxBpfidz8te1WzS0FHYIMG6I55iroLY/YVnEmig==
-X-Received: by 2002:a17:90a:f508:: with SMTP id cs8mr26450593pjb.16.1593010406141;
-        Wed, 24 Jun 2020 07:53:26 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id d4sm5876447pjm.55.2020.06.24.07.53.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 07:53:25 -0700 (PDT)
-Date:   Wed, 24 Jun 2020 07:53:24 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Alexander Popov <alex.popov@linux.com>
-Cc:     Jann Horn <jannh@google.com>, Emese Revfy <re.emese@gmail.com>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Thiago Jung Bauermann <bauerman@linux.ibm.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Sven Schnelle <svens@stackframe.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Collingbourne <pcc@google.com>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Alexander Monakov <amonakov@ispras.ru>,
-        Mathias Krause <minipli@googlemail.com>,
-        PaX Team <pageexec@freemail.hu>,
-        Brad Spengler <spender@grsecurity.net>,
-        Laura Abbott <labbott@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
-        x86@kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
-Subject: Re: [PATCH v2 5/5] gcc-plugins/stackleak: Add 'verbose' plugin
- parameter
-Message-ID: <202006240753.8C62F5A@keescook>
-References: <20200624123330.83226-1-alex.popov@linux.com>
- <20200624123330.83226-6-alex.popov@linux.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200624123330.83226-6-alex.popov@linux.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=geZqQu8Pc2IZyEmyfjSbirVoyCHoNCVPX8WSrD5/a0I=;
+        b=K+Np7yWi96NeUQkwW5XpT0eqdW1uA6k2w5i8SD5AdZXE6fXRcROoOAVYcOLfofwu8p
+         57WyzILY+FEEGOFeqoyGdn/mqqE3rk/merPMw1T1yChq58GLoi50BFWrXZa/V5Bp1eeW
+         QzLc16eJ8qxW8YPXybbKkbuBtxEgFPFzCjpoQqkWHecnR+48iDC0b6ptWC5fB4LYdztb
+         E2vgtq4tYU0/0fFVwg4R7nhWzJS3B4d3igP1AHekr2eotM7ysTNyWq3y2A50hwddfN8C
+         7M1x177ssbtpBLPy7utNC45lS/WA9yKu3gt701pT1Yecj8taO+tDo78PvMhH9+3/6mfH
+         PDdg==
+X-Gm-Message-State: AOAM533EsKOtdX2FRhE+RkflCWGwOVGDVj7rJ3cjO6jppWq/RdbG6M15
+        FSfrxA4UQScOVMrX6CYi+SYOGL7M1U/ketXhRNQ=
+X-Google-Smtp-Source: ABdhPJxWR9GEuM9Xe3hags9/hH99MHEAXvV4G6BQoWnGF1JJpG+hf2xaFzi6meCZqAzm99eCovUBw+L4m3sg7uT3BU4=
+X-Received: by 2002:a25:3342:: with SMTP id z63mr44129932ybz.200.1593030767109;
+ Wed, 24 Jun 2020 13:32:47 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 13:31:38 -0700
+Message-Id: <20200624203200.78870-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
+Subject: [PATCH 00/22] add support for Clang LTO
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org, Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 24, 2020 at 03:33:30PM +0300, Alexander Popov wrote:
-> Add 'verbose' plugin parameter for stackleak gcc plugin.
-> It can be used for printing additional info about the kernel code
-> instrumentation.
-> 
-> For using it add the following to scripts/Makefile.gcc-plugins:
->   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
->     += -fplugin-arg-stackleak_plugin-verbose
-> 
-> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+This patch series adds support for building x86_64 and arm64 kernels
+with Clang's Link Time Optimization (LTO).
 
-Applied to for-next/gcc-plugins.
+In addition to performance, the primary motivation for LTO is to allow
+Clang's Control-Flow Integrity (CFI) to be used in the kernel. Google's
+Pixel devices have shipped with LTO+CFI kernels since 2018.
 
+Most of the patches are build system changes for handling LLVM bitcode,
+which Clang produces with LTO instead of ELF object files, postponing
+ELF processing until a later stage, and ensuring initcall ordering.
+
+Note that first objtool patch in the series is already in linux-next,
+but as it's needed with LTO, I'm including it also here to make testing
+easier.
+
+Sami Tolvanen (22):
+  objtool: use sh_info to find the base for .rela sections
+  kbuild: add support for Clang LTO
+  kbuild: lto: fix module versioning
+  kbuild: lto: fix recordmcount
+  kbuild: lto: postpone objtool
+  kbuild: lto: limit inlining
+  kbuild: lto: merge module sections
+  kbuild: lto: remove duplicate dependencies from .mod files
+  init: lto: ensure initcall ordering
+  init: lto: fix PREL32 relocations
+  pci: lto: fix PREL32 relocations
+  modpost: lto: strip .lto from module names
+  scripts/mod: disable LTO for empty.c
+  efi/libstub: disable LTO
+  drivers/misc/lkdtm: disable LTO for rodata.o
+  arm64: export CC_USING_PATCHABLE_FUNCTION_ENTRY
+  arm64: vdso: disable LTO
+  arm64: allow LTO_CLANG and THINLTO to be selected
+  x86, vdso: disable LTO only for vDSO
+  x86, ftrace: disable recordmcount for ftrace_make_nop
+  x86, relocs: Ignore L4_PAGE_OFFSET relocations
+  x86, build: allow LTO_CLANG and THINLTO to be selected
+
+ .gitignore                            |   1 +
+ Makefile                              |  27 ++-
+ arch/Kconfig                          |  65 +++++++
+ arch/arm64/Kconfig                    |   2 +
+ arch/arm64/Makefile                   |   1 +
+ arch/arm64/kernel/vdso/Makefile       |   4 +-
+ arch/x86/Kconfig                      |   2 +
+ arch/x86/Makefile                     |   5 +
+ arch/x86/entry/vdso/Makefile          |   5 +-
+ arch/x86/kernel/ftrace.c              |   1 +
+ arch/x86/tools/relocs.c               |   1 +
+ drivers/firmware/efi/libstub/Makefile |   2 +
+ drivers/misc/lkdtm/Makefile           |   1 +
+ include/asm-generic/vmlinux.lds.h     |  12 +-
+ include/linux/compiler-clang.h        |   4 +
+ include/linux/compiler.h              |   2 +-
+ include/linux/compiler_types.h        |   4 +
+ include/linux/init.h                  |  78 +++++++-
+ include/linux/pci.h                   |  15 +-
+ kernel/trace/ftrace.c                 |   1 +
+ lib/Kconfig.debug                     |   2 +-
+ scripts/Makefile.build                |  55 +++++-
+ scripts/Makefile.lib                  |   6 +-
+ scripts/Makefile.modfinal             |  40 +++-
+ scripts/Makefile.modpost              |  26 ++-
+ scripts/generate_initcall_order.pl    | 270 ++++++++++++++++++++++++++
+ scripts/link-vmlinux.sh               | 100 +++++++++-
+ scripts/mod/Makefile                  |   1 +
+ scripts/mod/modpost.c                 |  16 +-
+ scripts/mod/modpost.h                 |   9 +
+ scripts/mod/sumversion.c              |   6 +-
+ scripts/module-lto.lds                |  26 +++
+ scripts/recordmcount.c                |   3 +-
+ tools/objtool/elf.c                   |   2 +-
+ 34 files changed, 737 insertions(+), 58 deletions(-)
+ create mode 100755 scripts/generate_initcall_order.pl
+ create mode 100644 scripts/module-lto.lds
+
+
+base-commit: 26e122e97a3d0390ebec389347f64f3730fdf48f
 -- 
-Kees Cook
+2.27.0.212.ge8ba1cc988-goog
+
