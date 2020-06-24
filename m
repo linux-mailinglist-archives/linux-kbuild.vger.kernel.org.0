@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF839207361
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 14:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76472207369
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 14:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403795AbgFXMeH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 08:34:07 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:38534 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388761AbgFXMeF (ORCPT
+        id S2388761AbgFXMeV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 08:34:21 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:40131 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388132AbgFXMeR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 08:34:05 -0400
-Received: by mail-qt1-f196.google.com with SMTP id z2so1484338qts.5;
-        Wed, 24 Jun 2020 05:34:05 -0700 (PDT)
+        Wed, 24 Jun 2020 08:34:17 -0400
+Received: by mail-qk1-f194.google.com with SMTP id 80so1582630qko.7;
+        Wed, 24 Jun 2020 05:34:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=r8hAW61/4BUI+NbyFnYc6YqQQjo8d8HK1rSbMU2IkRk=;
-        b=DiHfLU1fxBkDc320X8WPOpj7EmmwPUe3YGc4AtX0OQamNzH0GcM46K/GgOMUDGI40v
-         +n/Bzqnl9GIeLlEL2nRP0FcjBR0Fif0m1FFpNcw2z0D0rFChPGGfGMQ46LYSfneGsRAL
-         janHdWU72hVTr5oVG2FMytgKIIw3/+EiwCBjkRmDzxdfGWMbVXbKqLbTmyEPJL8MQAJn
-         AkoSDxxLaOD1216aiODskcCiqRgy0vDSxSwjO5zJjuFSKOEqD7wuEAjsZeAsCJJzS4XP
-         jeOlxiLdHTg2nabm3DH/PLRDqZqU7p0Jx+bU3okMJT3aTrbaM/fz8x1C4ZLBpnPLaMzz
-         +2Cw==
-X-Gm-Message-State: AOAM530c9J7LJ1p0706DAI/qzVQb6vsTyUNRSbHt8HRe0JgGqdG9UCJN
-        Eu/36Nk6yzp/hfdHNBjnFbc=
-X-Google-Smtp-Source: ABdhPJxPh8KCe1nlxIC9hfI7A611S0zDh6pUHr/hn9DXDH26nDPy4DCeItaOwQUW8SJpgZNlzgTiJw==
-X-Received: by 2002:aed:25a2:: with SMTP id x31mr24822436qtc.96.1593002044717;
-        Wed, 24 Jun 2020 05:34:04 -0700 (PDT)
+        bh=NYlBDYPOP+i+Z8CCPoWHLzBw8cVCy1kOHLCJDYgloi0=;
+        b=Um2pPq53cIsmU/SMf9olAn7Fy0Eqf6MlbuYQHWe/zlTbYewfd0U32b9DdyNjbPb5zO
+         DiX+KMpkBcF+g7BT7gQINg8vSjFz/TeXKWu6kAzkAJZECq1/uv7Irp6IZV0/0y83R5wX
+         s5uK54zgb1qckBPQ+9eqyfMW8Jc/CapAd7++LO7IV3AWpoRpxprCtxagLoiig9gqJnBr
+         VSP3MlVMfDCQfJioZahkFHYdLh1LxCzZWNyCmNMS5odYaXwXt2TKwKurErJeguMhpZmH
+         NMVIsuNS3xomQi7ZiOyDbNc98jj8x/P7tKHXRRhScX9wLGDrpiNQ9GSymlNffNd8dHff
+         8A8g==
+X-Gm-Message-State: AOAM5329oQz76FQw0bjLfHvJRUvQPnSI/j2RGtW9t5fgwoh6aUX7smIw
+        QfSOsSdYbcV7jbZ61GqtRR8=
+X-Google-Smtp-Source: ABdhPJxG56K9PcyzErynBCq8WXO4GdEN7iVHSozkebRt9XKZi/zlbyDg2T5l/cdnA0We9Seu6jAYtg==
+X-Received: by 2002:a37:a785:: with SMTP id q127mr10507259qke.452.1593002055490;
+        Wed, 24 Jun 2020 05:34:15 -0700 (PDT)
 Received: from localhost.localdomain ([185.248.161.177])
-        by smtp.gmail.com with ESMTPSA id x26sm3354512qtr.4.2020.06.24.05.33.54
+        by smtp.gmail.com with ESMTPSA id x26sm3354512qtr.4.2020.06.24.05.34.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 05:34:04 -0700 (PDT)
+        Wed, 24 Jun 2020 05:34:14 -0700 (PDT)
 From:   Alexander Popov <alex.popov@linux.com>
 To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         Emese Revfy <re.emese@gmail.com>,
@@ -64,9 +64,9 @@ To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org
 Cc:     notify@kernel.org
-Subject: [PATCH v2 1/5] gcc-plugins/stackleak: Don't instrument itself
-Date:   Wed, 24 Jun 2020 15:33:26 +0300
-Message-Id: <20200624123330.83226-2-alex.popov@linux.com>
+Subject: [PATCH v2 2/5] ARM: vdso: Don't use gcc plugins for building vgettimeofday.c
+Date:   Wed, 24 Jun 2020 15:33:27 +0300
+Message-Id: <20200624123330.83226-3-alex.popov@linux.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20200624123330.83226-1-alex.popov@linux.com>
 References: <20200624123330.83226-1-alex.popov@linux.com>
@@ -77,28 +77,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is no need to try instrumenting functions in kernel/stackleak.c.
-Otherwise that can cause issues if the cleanup pass of stackleak gcc plugin
-is disabled.
+Don't use gcc plugins for building arch/arm/vdso/vgettimeofday.c to
+avoid unneeded instrumentation.
 
 Signed-off-by: Alexander Popov <alex.popov@linux.com>
-Acked-by: Kees Cook <keescook@chromium.org>
 ---
- kernel/Makefile | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/vdso/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/Makefile b/kernel/Makefile
-index f3218bc5ec69..155b5380500a 100644
---- a/kernel/Makefile
-+++ b/kernel/Makefile
-@@ -125,6 +125,7 @@ obj-$(CONFIG_WATCH_QUEUE) += watch_queue.o
+diff --git a/arch/arm/vdso/Makefile b/arch/arm/vdso/Makefile
+index d3c9f03e7e79..a54f70731d9f 100644
+--- a/arch/arm/vdso/Makefile
++++ b/arch/arm/vdso/Makefile
+@@ -29,7 +29,7 @@ CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
+ CFLAGS_REMOVE_vdso.o = -pg
  
- obj-$(CONFIG_SYSCTL_KUNIT_TEST) += sysctl-test.o
- 
-+CFLAGS_stackleak.o += $(DISABLE_STACKLEAK_PLUGIN)
- obj-$(CONFIG_GCC_PLUGIN_STACKLEAK) += stackleak.o
- KASAN_SANITIZE_stackleak.o := n
- KCSAN_SANITIZE_stackleak.o := n
+ # Force -O2 to avoid libgcc dependencies
+-CFLAGS_REMOVE_vgettimeofday.o = -pg -Os
++CFLAGS_REMOVE_vgettimeofday.o = -pg -Os $(GCC_PLUGINS_CFLAGS)
+ ifeq ($(c-gettimeofday-y),)
+ CFLAGS_vgettimeofday.o = -O2
+ else
 -- 
 2.25.4
 
