@@ -2,41 +2,41 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B37572073BE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 14:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38A952073C0
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 14:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389575AbgFXMwj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 08:52:39 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:37541 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388942AbgFXMwj (ORCPT
+        id S2389721AbgFXMxI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 08:53:08 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:43604 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388942AbgFXMxH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 08:52:39 -0400
-Received: by mail-pf1-f195.google.com with SMTP id j1so1135725pfe.4;
-        Wed, 24 Jun 2020 05:52:39 -0700 (PDT)
+        Wed, 24 Jun 2020 08:53:07 -0400
+Received: by mail-pl1-f196.google.com with SMTP id x8so129660plm.10;
+        Wed, 24 Jun 2020 05:53:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=ImZMVmJ6KLEqHAgKJ4c32f0nuRv6OUnQsFfctRSAXJo=;
-        b=aq9B/Xquq7abP5W46czT/Y6R0AfQt6SMY2t56fsDVPTTUuHqh3n8759IC7LiWzKPjk
-         9pDrbuCKE43BMY5yyu/DY1+aaThShdSqVPXLqw9Ej/9nAZXswXwjlsCFApCp9A5wk4Ia
-         56S2A65e3tXtjajxVqXh62RTMBac/9gncxFJ+VeC1QzS3MKKKEeSJ7To01F2bX0iUe/Z
-         ZjYqnXEb2hJico4bcPuA2YtGDQHBafYVX8ZC91dStxzivDf+BFItv5QlwXG2hS+3aJig
-         A9F2IjgU/b0SspwnpAkV9fHvG8IFGKRTBhwmO+t3FT6J7dl+E+QTt7XxhpLXperTQb3I
-         zmyA==
-X-Gm-Message-State: AOAM533kBqFXjfTD7+5zoUuwN2YIhwPhXX7YRzOpUOgpr6Bow1FnP1sW
-        IzZhNl7SxijYa+6z7KnLn2A=
-X-Google-Smtp-Source: ABdhPJzddnf/uaOk9Rgp8vbxcf8lUTdU8rjuvn4Wiik8YZvkhsAy30AnlKe/2Lxzs/SCBU/Spfu6GQ==
-X-Received: by 2002:a63:2a8a:: with SMTP id q132mr21027891pgq.279.1593003158753;
-        Wed, 24 Jun 2020 05:52:38 -0700 (PDT)
+        bh=LW+cEvL5rxny3qTajLMBWIwk08EKQ6OtW1sh3tGLLCE=;
+        b=iKv9nG1J7AtYfYE6bMBegwr/DK+sbIFumxG/fQU8CDAJFemu8/mfLyHUF5u8x2V8l/
+         jXy1J9cU5sVhvQjRfIQFen8VTsrOCP53Q0bq2N9DA/h5DEQjwE9bgYQIqewm/OEDQ26X
+         V3/TkGrnK6r6NMikSZSNUPOdYVr3y4x501p4OSw6zmzOTlmbwiLIgkz1Dzg3B/YSxqz3
+         /YitVOdKb8RhDohqhES/FXiAMLhCESjVOucNmSmvxLGA1Sj5QvucHowLgAVO6y8A9J/4
+         G5TiY1admktt1meYrAnbXgu9/NeeNPahWSEkPKmpa/AFknGLe6jfkQRoISjTd2Nn5ckh
+         UTIg==
+X-Gm-Message-State: AOAM530loANBxhHL9CF7TQdPZFtaILgUdI4eucqtFjb805e39C/74WAd
+        oyJ5DOFG+HXuoXwYYrsC7Ts=
+X-Google-Smtp-Source: ABdhPJydf2a/ChBdgFCHlq0WCNjf8N9Yo8suilvVTsKI3Zox/8CKs38PB/PLjTY9T+3M/14w9UJfpg==
+X-Received: by 2002:a17:90a:ab88:: with SMTP id n8mr20426086pjq.34.1593003187201;
+        Wed, 24 Jun 2020 05:53:07 -0700 (PDT)
 Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id z11sm20679101pfk.141.2020.06.24.05.52.37
+        by smtp.gmail.com with ESMTPSA id l2sm5575240pjl.34.2020.06.24.05.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 05:52:37 -0700 (PDT)
+        Wed, 24 Jun 2020 05:53:05 -0700 (PDT)
 Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id BAA8F40430; Wed, 24 Jun 2020 12:52:36 +0000 (UTC)
-Date:   Wed, 24 Jun 2020 12:52:36 +0000
+        id 0B6ED40430; Wed, 24 Jun 2020 12:53:05 +0000 (UTC)
+Date:   Wed, 24 Jun 2020 12:53:05 +0000
 From:   Luis Chamberlain <mcgrof@kernel.org>
 To:     Alexander Popov <alex.popov@linux.com>
 Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
@@ -65,26 +65,30 @@ Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         kernel-hardening@lists.openwall.com, linux-kbuild@vger.kernel.org,
         x86@kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org, gcc@gcc.gnu.org, notify@kernel.org
-Subject: Re: [PATCH v2 2/5] ARM: vdso: Don't use gcc plugins for building
- vgettimeofday.c
-Message-ID: <20200624125236.GF4332@42.do-not-panic.com>
+Subject: Re: [PATCH v2 5/5] gcc-plugins/stackleak: Add 'verbose' plugin
+ parameter
+Message-ID: <20200624125305.GG4332@42.do-not-panic.com>
 References: <20200624123330.83226-1-alex.popov@linux.com>
- <20200624123330.83226-3-alex.popov@linux.com>
+ <20200624123330.83226-6-alex.popov@linux.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200624123330.83226-3-alex.popov@linux.com>
+In-Reply-To: <20200624123330.83226-6-alex.popov@linux.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 24, 2020 at 03:33:27PM +0300, Alexander Popov wrote:
-> Don't use gcc plugins for building arch/arm/vdso/vgettimeofday.c to
-> avoid unneeded instrumentation.
+On Wed, Jun 24, 2020 at 03:33:30PM +0300, Alexander Popov wrote:
+> Add 'verbose' plugin parameter for stackleak gcc plugin.
+> It can be used for printing additional info about the kernel code
+> instrumentation.
 > 
-> Signed-off-by: Alexander Popov <alex.popov@linux.com>
+> For using it add the following to scripts/Makefile.gcc-plugins:
+>   gcc-plugin-cflags-$(CONFIG_GCC_PLUGIN_STACKLEAK) \
+>     += -fplugin-arg-stackleak_plugin-verbose
 
-But why is skipping it safe?
+Would be nice if we instead could pass an argument to make which lets
+us enable this.
 
   Luis
