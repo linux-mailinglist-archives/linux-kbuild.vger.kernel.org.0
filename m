@@ -2,55 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6F1207D67
-	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 22:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43264207D63
+	for <lists+linux-kbuild@lfdr.de>; Wed, 24 Jun 2020 22:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406582AbgFXUeC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 16:34:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50660 "EHLO
+        id S2406608AbgFXUdz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 16:33:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406496AbgFXUdd (ORCPT
+        with ESMTP id S2406600AbgFXUdg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 16:33:33 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A78C2C061796
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 13:33:33 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id j16so2483445qka.11
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 13:33:33 -0700 (PDT)
+        Wed, 24 Jun 2020 16:33:36 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C990C061797
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 13:33:35 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id p9so2445734qtn.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 13:33:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=A7cPf0bNRtzZYfE1vc1rDopHSIr0k7cT2ZUm+OLZjv0=;
-        b=QdroIDfhWPMl7iB8nPdG8F9r+Jm4224Qh0WRTBS1efFhFRpvTdOpw1Wqlz8qn+FYQH
-         CFYve9pYyAVcIOznwtpq4QOlb+uiIUyfq16PYsXpTvWntxsZXcxPZ5lIUBkOt4NXo1Sm
-         PFaSdzav1KtGvpCE5Ob7mVSvukaW8AVYgaIRlUr52jjyj1zFJ6R084rNzCDR/va5Iujh
-         UoakKiURAbGW8xR0S2+Nw0cEeLy4uPMRYJtFclzKSks+5zyjfrBf44Qy3NgDTq9URhoR
-         JWQuukFmtbdz9DrqDBlQZj0VkdPwnrqlxkdn89XzL10tIPUOY5/Zz6v6QbMuu+nDt0wT
-         e8dA==
+        bh=39oSk63TLcybcU14SgKvCDK3H6XzHtEtduXPCr/44ss=;
+        b=ZOpDZdrGdHh1ZJonf0E/5dDbHERSe6TbCFmdB2U6jPIiwcNANMbLkyJvmpov2k2xOy
+         UVWsqBFfeytL+Hgc/oR6FsAd9G11hUgAXJsCWawlND5MVBWd0mWD5Dc0EmC9ABVsRrwk
+         SuNrnMuN7GhuqelKUl2otkPK4jEY0L0Bm6whau77q3fZbpcyNGO1mB7+EOqkQJEsefdW
+         zLLLl7cpOUj8LxrFN5V51O7w7SPh0uXELCQRumvXzfHQsZ4xwEEn1hGOm5BLrbAhkADT
+         mOeNJdhYt+ZgbwtN0PEW0MGrw4iretwo3Lq6tyaoaAFryjr8t8wGNBEOp88gmFSQ4dk6
+         T0OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=A7cPf0bNRtzZYfE1vc1rDopHSIr0k7cT2ZUm+OLZjv0=;
-        b=YtVzScpdZ02FpZanUjU3taZmX4tLt/mCq+69ksB/tld1L5WQqzP4DYDUKLInxPGY8a
-         jpJqA+IDb6NBNh/k0FqTUK/vDOzNwQB3o/LnZLsZWvDeFyMXo1cSIWWE5lUsdbhLJNGI
-         v3eBUXqNJnWDPXqQvHmsmco++3yRf6JaUJU9BYNcjgiMYA4Q5T3LO/h9X7Rd3FoSXYG1
-         QgBE7Z/R3f5Bj3Hk+3iaUbtNkmMPGxNORTYkFX2Yw16i7kVYM8VcypJYVDn+FrxidU0P
-         FtnGkII/HPXPJ/eiYgfpwY8BWsPPVcLfP07j4D+DOAYoIMGkaqm0HNN/49Rfrj+3yTtO
-         I0Jw==
-X-Gm-Message-State: AOAM532yTDPtoo6PgVxW0mAFaK715rU2rralRVxu+roOfEhJNk1o0YHp
-        xMNK/6h42ZHPWIKm7I6QsbG+FHlrhuLTI8fUJqY=
-X-Google-Smtp-Source: ABdhPJzex3csdM9Cm9Zm5kqXnJN1Q6l9vC80id+c8eDzSpyHr7eNMt7lOs0z0JRAKDBh+QA/j3WYj56ZTQDnUtqmFPY=
-X-Received: by 2002:a0c:fcca:: with SMTP id i10mr21455652qvq.150.1593030812853;
- Wed, 24 Jun 2020 13:33:32 -0700 (PDT)
-Date:   Wed, 24 Jun 2020 13:31:57 -0700
+        bh=39oSk63TLcybcU14SgKvCDK3H6XzHtEtduXPCr/44ss=;
+        b=fH0YF1XSuJL6CoUGN7HgBeIPxOWgOeai+gGo/YkdshVgA8aTcVw8g6Jpl60PHtMxVC
+         u9cPe9gRHEaNdPEio8b4oSaDL7a3j2nrbN5wt6opr6M+HMPBjzu/AZin4GIGmBQ7Jo49
+         72nJKqrYvMAguBppg2CmoUJFIMY+Lah7j0HUc0ScbgpvEn1mfUj6vzs+a5mj4++w9pMh
+         vTY17+h4GW8gndlUT88XnF2lvizfIBJafjHlNesYyE275V4gMVV6bqHSALN67pbGkS41
+         Vhyauz8bxd4q5k3gVR8TgBAzDKXMraKKT8r7M/pdTG8CcWJYdbizzytukm+1SB5ckfk4
+         zyWA==
+X-Gm-Message-State: AOAM533NuytbLDLid6e9fNLAQJ6VJv+Ahs3EB3kFslpODmZmxNdwUmun
+        pbOfTognPq9LXJd5vrNoEDvh3WtrG7xodKXKsWk=
+X-Google-Smtp-Source: ABdhPJzI2BesdcUkxRPNmsNayE+wa07nV1TDxi5hKxZeEiEV2jo0nWBCJ/1Nmj0kWHXA23yigO5wL2sAexNblZcBJws=
+X-Received: by 2002:ad4:52e2:: with SMTP id p2mr33679309qvu.100.1593030814530;
+ Wed, 24 Jun 2020 13:33:34 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 13:31:58 -0700
 In-Reply-To: <20200624203200.78870-1-samitolvanen@google.com>
-Message-Id: <20200624203200.78870-20-samitolvanen@google.com>
+Message-Id: <20200624203200.78870-21-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200624203200.78870-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH 19/22] x86, vdso: disable LTO only for vDSO
+Subject: [PATCH 20/22] x86, ftrace: disable recordmcount for ftrace_make_nop
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>
@@ -69,44 +69,25 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Remove the undefined DISABLE_LTO flag from the vDSO, and filter out
-CC_FLAGS_LTO flags instead where needed.
+Ignore mcount relocations in ftrace_make_nop.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 ---
- arch/x86/entry/vdso/Makefile | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ arch/x86/kernel/ftrace.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 04e65f0698f6..67f60662830a 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -9,8 +9,6 @@ ARCH_REL_TYPE_ABS := R_X86_64_JUMP_SLOT|R_X86_64_GLOB_DAT|R_X86_64_RELATIVE|
- ARCH_REL_TYPE_ABS += R_386_GLOB_DAT|R_386_JMP_SLOT|R_386_RELATIVE
- include $(srctree)/lib/vdso/Makefile
+diff --git a/arch/x86/kernel/ftrace.c b/arch/x86/kernel/ftrace.c
+index 51504566b3a6..c3b28b81277b 100644
+--- a/arch/x86/kernel/ftrace.c
++++ b/arch/x86/kernel/ftrace.c
+@@ -121,6 +121,7 @@ ftrace_modify_code_direct(unsigned long ip, const char *old_code,
+ 	return 0;
+ }
  
--KBUILD_CFLAGS += $(DISABLE_LTO)
--
- # Sanitizer runtimes are unavailable and cannot be linked here.
- KASAN_SANITIZE			:= n
- UBSAN_SANITIZE			:= n
-@@ -92,7 +90,7 @@ ifneq ($(RETPOLINE_VDSO_CFLAGS),)
- endif
- endif
- 
--$(vobjs): KBUILD_CFLAGS := $(filter-out $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
-+$(vobjs): KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_LTO) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
- 
- #
- # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
-@@ -150,6 +148,7 @@ KBUILD_CFLAGS_32 := $(filter-out -fno-pic,$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out -mfentry,$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 := $(filter-out $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS_32))
-+KBUILD_CFLAGS_32 := $(filter-out $(CC_FLAGS_LTO),$(KBUILD_CFLAGS_32))
- KBUILD_CFLAGS_32 += -m32 -msoft-float -mregparm=0 -fpic
- KBUILD_CFLAGS_32 += $(call cc-option, -fno-stack-protector)
- KBUILD_CFLAGS_32 += $(call cc-option, -foptimize-sibling-calls)
++__nomcount
+ int ftrace_make_nop(struct module *mod, struct dyn_ftrace *rec, unsigned long addr)
+ {
+ 	unsigned long ip = rec->ip;
 -- 
 2.27.0.212.ge8ba1cc988-goog
 
