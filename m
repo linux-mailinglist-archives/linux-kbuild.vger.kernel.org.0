@@ -2,96 +2,106 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9184B209735
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 01:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 030B520973D
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 01:40:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728791AbgFXXhg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 19:37:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50916 "EHLO
+        id S2388094AbgFXXkG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 19:40:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388031AbgFXXhc (ORCPT
+        with ESMTP id S2387808AbgFXXkF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 19:37:32 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8092FC061795
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:37:31 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id b92so2043965pjc.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:37:31 -0700 (PDT)
+        Wed, 24 Jun 2020 19:40:05 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AE8C061796
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:40:05 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id e18so2300951pgn.7
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=mo7Dwe07kJhP63QLmOzciNFvW218NBaVIlEPp4HbWlg=;
-        b=ghe0LNHZStIXrutzWngNn1w8HnVKxzkKAANg+f3UNbpWa1VXDLTQLRRUxQiw0ETxf1
-         8IwO0ripMH+IKCR86WNY+ysG11jZ8MVO51xum9mEa475UtB+fdRpajYIKrof1LeRnhfw
-         q/KZy9ALnBT7rcr/zSWyqYTnZ3OeY5pBxENZEDhKneGeIxS3jxNDb3T6z60V1Qc+Vdy6
-         OTaykXWX6WKsBL92+Zu8AYSrqkunkoROSncALDdIHd5jRSMEYzkTx2v4nRNz4Z77j4S9
-         tRCzT7qVWnXl4XZ9bSsfQVqiYUdUQyfJWFL+rlMfK7ACBBFVz6umkgQZxUMxIfkAgDuf
-         rFfQ==
+        bh=OXwCzf5B5Vnc4rPGARP7edsvVNysUhYzQGqjGFLfJUg=;
+        b=eJvh37nNRJoXUBuIREWky64c/2Zy+QfsGiyybHo4/AY79kM2WK5DCWQ2SFWNIlhRqR
+         uvyBfk+MP4VctCsNpVpZcmoQSq5Bq2w+lQM6xBkh25apGFZZlExegOU/Xa4ZzLv1+QGo
+         2SZwCYjmMFcvWre4jkB8JFSvGQLtaMZLbShuOQoeq/pW5jRL7ENSqIcZKBium29PAxHa
+         SUKoF/TCC6EPkmXpV56a4eqzpU85/8BnY0vmWySOQ6P4JhiJF+3GTW6JN67+OxEwI6FO
+         083DgLg4vlRvZAYijlbkUJhYrikRhcAUh0cGmqJe8b/JYcwRofo02mXuHf66C14NJXzV
+         SJRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mo7Dwe07kJhP63QLmOzciNFvW218NBaVIlEPp4HbWlg=;
-        b=Iw2DDNT/mYiIkfGXPbOwY2tVXZ8iFyIXQ3E8a1oNVpKbxgJbc0qUAUb7MutD7fN1pQ
-         UvKBo5KmMMJjcIkz+CAwJtwP8KeClbhd0aqVcPtlBgIxCpEwuSz8c+Esr3fSRRJQoOBT
-         SZCSwgwy1P/th0yfv6B5pGUQws3jiAV01GqBiovL9CXc0w00Yn34kLI5O9EeqjjlUh+5
-         5HMLIQ6oV75cYrgloOaDx/bS4iVqKVl7l3a4sTxZVNDPFqXA4dnA59PnGbNOkzXMm9Ho
-         7CvpKaLpMzDCf8lG5STDUtwpd8Ke40BxNqs0QqJXwDVRA68IhmKapcY7N64XfNnytfLz
-         p0AA==
-X-Gm-Message-State: AOAM532dqEZpYNEXuHt3gF/eNJAgVRcVuiG7Ct+cD7/Vb3YkPfg9ssrH
-        Iq/KQRngckqB7+mCreXebTb+BQ==
-X-Google-Smtp-Source: ABdhPJzbL+A8YRu6cQqMhEnH4JVMHPuZevDUkJdMyUg1rfNtOurVArWJG2BoYxI9g7/QXZLvtzZHnQ==
-X-Received: by 2002:a17:90a:9d8b:: with SMTP id k11mr267919pjp.10.1593041850610;
-        Wed, 24 Jun 2020 16:37:30 -0700 (PDT)
+        bh=OXwCzf5B5Vnc4rPGARP7edsvVNysUhYzQGqjGFLfJUg=;
+        b=MA67gFPnL501MwY4R0cuNjUgIgDLIVveWeYHUea615Iwo1KAsv/sDhw1hbDPkC8SyL
+         Sc2UEkr9B719Fr7dldB8wf3tYc3WPfZ93k4r2IMBshSgD1xQkuYaikleq7LiOcusjwNd
+         NACEAPEXJSJaJ6SFhH9oHicHAcPgi17p4km4/VaSQZapPHIj9av/5rdjBHrJrimepiuM
+         2D9DC7232tb5WL267L9rgbt9Bl10aMIsubGZvHa6qDXbIvFxfynTZGqgJ+PCZLGK48S2
+         3o4Uppl6G/8Qpq9mb8RaYHs1KgBYsAlR+eUCMmlhsErJ/6OXLPS+T28EbyPTTsjzz7pc
+         AWGA==
+X-Gm-Message-State: AOAM533q4Qk1kdEZo8nkjWsV+oLL6V5vHfOY7y2kI1v6a+MCjGtdHJOc
+        tF0WQDYktKVwruSvW3ronKsc6w==
+X-Google-Smtp-Source: ABdhPJzXlVXz0ute8/7RtpY4QOpyoQzqmeZeuFCeuHxJTgdZ5uUxN+EFgHwfWmPsVtpJN+LSHdwUaA==
+X-Received: by 2002:aa7:9289:: with SMTP id j9mr33592532pfa.124.1593042004835;
+        Wed, 24 Jun 2020 16:40:04 -0700 (PDT)
 Received: from google.com ([2620:15c:201:2:ce90:ab18:83b0:619])
-        by smtp.gmail.com with ESMTPSA id c9sm21338811pfr.72.2020.06.24.16.37.29
+        by smtp.gmail.com with ESMTPSA id mu17sm6845223pjb.53.2020.06.24.16.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 16:37:29 -0700 (PDT)
-Date:   Wed, 24 Jun 2020 16:37:24 -0700
+        Wed, 24 Jun 2020 16:40:04 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 16:39:59 -0700
 From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org, George Burgess IV <gbiv@google.com>
-Subject: Re: [PATCH 06/22] kbuild: lto: limit inlining
-Message-ID: <20200624233724.GA94769@google.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 17/22] arm64: vdso: disable LTO
+Message-ID: <20200624233959.GB94769@google.com>
 References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200624203200.78870-7-samitolvanen@google.com>
- <20200624212055.GU4817@hirez.programming.kicks-ass.net>
+ <20200624203200.78870-18-samitolvanen@google.com>
+ <CAKwvOdnEbCfYZ9o=OF51oswyqDvN4iP-9syWUDhxfueq4q0xcw@mail.gmail.com>
+ <20200624215231.GC120457@google.com>
+ <CAKwvOdnWfhU7n0VfoydC7epJPrj+ASZzyNRpBCNuvT_5E+=FcQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200624212055.GU4817@hirez.programming.kicks-ass.net>
+In-Reply-To: <CAKwvOdnWfhU7n0VfoydC7epJPrj+ASZzyNRpBCNuvT_5E+=FcQ@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 24, 2020 at 11:20:55PM +0200, Peter Zijlstra wrote:
-> On Wed, Jun 24, 2020 at 01:31:44PM -0700, Sami Tolvanen wrote:
-> > This change limits function inlining across translation unit
-> > boundaries in order to reduce the binary size with LTO.
-> > 
-> > The -import-instr-limit flag defines a size limit, as the number
-> > of LLVM IR instructions, for importing functions from other TUs.
-> > The default value is 100, and decreasing it to 5 reduces the size
-> > of a stripped arm64 defconfig vmlinux by 11%.
+On Wed, Jun 24, 2020 at 04:05:48PM -0700, Nick Desaulniers wrote:
+> On Wed, Jun 24, 2020 at 2:52 PM Sami Tolvanen <samitolvanen@google.com> wrote:
+> >
+> > On Wed, Jun 24, 2020 at 01:58:57PM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
+> > > On Wed, Jun 24, 2020 at 1:33 PM Sami Tolvanen <samitolvanen@google.com> wrote:
+> > > >
+> > > > Filter out CC_FLAGS_LTO for the vDSO.
+> > >
+> > > Just curious about this patch (and the following one for x86's vdso),
+> > > do you happen to recall specifically what the issues with the vdso's
+> > > are?
+> >
+> > I recall the compiler optimizing away functions at some point, but as
+> > LTO is not really needed in the vDSO, it's just easiest to disable it
+> > there.
 > 
-> Is that also the right number for x86? What about the effect on
-> performance? What did 6 do? or 4?
+> Sounds fishy; with extern linkage then I would think it's not safe to
+> eliminate functions.  Probably unnecessary for the initial
+> implementation, and something we can follow up on, but always good to
+> have an answer to the inevitable question "why?" in the commit
+> message.
 
-This is the size limit we decided on for Android after testing on
-arm64, but the number is obviously a compromise between code size
-and performance. I'd be happy to benchmark this further once other
-concerns have been resolved.
+Sure. I can test this again with the current toolchain to see if there
+are still problems.
 
 Sami
