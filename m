@@ -2,96 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 174672096E3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 01:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9184B209735
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 01:37:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388412AbgFXXGC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 24 Jun 2020 19:06:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46080 "EHLO
+        id S1728791AbgFXXhg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 24 Jun 2020 19:37:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388145AbgFXXGC (ORCPT
+        with ESMTP id S2388031AbgFXXhc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 24 Jun 2020 19:06:02 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB710C061796
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:06:01 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id j4so1815881plk.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:06:01 -0700 (PDT)
+        Wed, 24 Jun 2020 19:37:32 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8092FC061795
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:37:31 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id b92so2043965pjc.4
+        for <linux-kbuild@vger.kernel.org>; Wed, 24 Jun 2020 16:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=shst53ZJE1d+vIhz2clceIGi2VB/auhmYdgL62EAsJA=;
-        b=v4eMG/3rTtJikwtUeVEWC+d0Ch65aCTzn2lI4XytauNvCzrEjxfgA6aO+yV6VxXBx3
-         mb6CDo0wNoFZ1v4nkYj+/6EWy37Ni5nLIOMzCNLEZ2dadozowAf9iZnCoXAn7+HLcyE9
-         RoOT6e38CrOgiSMwqrLKdO8N7M+/LB2H0MPGEArcqToIp05l+M0z0UH0D4sz1uNsTgmt
-         9mmpfTiacr3PdC/F4zU2Yb9SYNEeuuG0ifqnJKaNC2BdOBDaQw26XwaMnJ0wHebahY7x
-         fvvlvTbNep+cdAWoA5BqhP7JrVtoCYLEUqHK25wchmImEauPU24++/TQpkcZFXvICfaj
-         +O3w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mo7Dwe07kJhP63QLmOzciNFvW218NBaVIlEPp4HbWlg=;
+        b=ghe0LNHZStIXrutzWngNn1w8HnVKxzkKAANg+f3UNbpWa1VXDLTQLRRUxQiw0ETxf1
+         8IwO0ripMH+IKCR86WNY+ysG11jZ8MVO51xum9mEa475UtB+fdRpajYIKrof1LeRnhfw
+         q/KZy9ALnBT7rcr/zSWyqYTnZ3OeY5pBxENZEDhKneGeIxS3jxNDb3T6z60V1Qc+Vdy6
+         OTaykXWX6WKsBL92+Zu8AYSrqkunkoROSncALDdIHd5jRSMEYzkTx2v4nRNz4Z77j4S9
+         tRCzT7qVWnXl4XZ9bSsfQVqiYUdUQyfJWFL+rlMfK7ACBBFVz6umkgQZxUMxIfkAgDuf
+         rFfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=shst53ZJE1d+vIhz2clceIGi2VB/auhmYdgL62EAsJA=;
-        b=hP2V6DV9/buvm0dIqN7L6JvykrshYT+QaV8QQMIHKdlhqWziLvH9F751AZSXuQdViG
-         DBLOUq4ryGRhhHB5ysi6kC2J7ZjQmMuh2lyxsOs9+7bkk2qCOS7fISg023Ggvuk9BpOH
-         eN6CZsVZLK4rYaAebTmriqzIeoGRoyWFOnjGas716NRUzVqWa+eRUgpo3J5JIP42x25Z
-         FYUe0CNWxHZ5udk3vpjxIpWKoYVOwmupdrpUQWbQtsNR0UeKRyZTgtagd43SHJoZiwIu
-         PQgaGGgo9T0zGJ8DHuyBn+dtGNbUVpaBaPKhRtXy36bJSnmxxzjxQNP7EhzIYV9nQNfq
-         DyCA==
-X-Gm-Message-State: AOAM532yy1nt8JMtKJ2uPcXVAGVMP+uM75rY3y0lTUXYS9ufcBbLNdBp
-        33wCaIVT86IZnSu6NbcwbQTyUFJ17SDtFvNUis2sbQ==
-X-Google-Smtp-Source: ABdhPJxZs7Ep0+V5E2sSAX0aVY+ZMKk8PTjnuF9HO3m5vxhQOU6AbFmmPJG+dflauBb0xhpYFgB/b9UTwA/KqW822v8=
-X-Received: by 2002:a17:902:fe8b:: with SMTP id x11mr30115455plm.179.1593039960944;
- Wed, 24 Jun 2020 16:06:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200624203200.78870-18-samitolvanen@google.com> <CAKwvOdnEbCfYZ9o=OF51oswyqDvN4iP-9syWUDhxfueq4q0xcw@mail.gmail.com>
- <20200624215231.GC120457@google.com>
-In-Reply-To: <20200624215231.GC120457@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 24 Jun 2020 16:05:48 -0700
-Message-ID: <CAKwvOdnWfhU7n0VfoydC7epJPrj+ASZzyNRpBCNuvT_5E+=FcQ@mail.gmail.com>
-Subject: Re: [PATCH 17/22] arm64: vdso: disable LTO
-To:     Sami Tolvanen <samitolvanen@google.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mo7Dwe07kJhP63QLmOzciNFvW218NBaVIlEPp4HbWlg=;
+        b=Iw2DDNT/mYiIkfGXPbOwY2tVXZ8iFyIXQ3E8a1oNVpKbxgJbc0qUAUb7MutD7fN1pQ
+         UvKBo5KmMMJjcIkz+CAwJtwP8KeClbhd0aqVcPtlBgIxCpEwuSz8c+Esr3fSRRJQoOBT
+         SZCSwgwy1P/th0yfv6B5pGUQws3jiAV01GqBiovL9CXc0w00Yn34kLI5O9EeqjjlUh+5
+         5HMLIQ6oV75cYrgloOaDx/bS4iVqKVl7l3a4sTxZVNDPFqXA4dnA59PnGbNOkzXMm9Ho
+         7CvpKaLpMzDCf8lG5STDUtwpd8Ke40BxNqs0QqJXwDVRA68IhmKapcY7N64XfNnytfLz
+         p0AA==
+X-Gm-Message-State: AOAM532dqEZpYNEXuHt3gF/eNJAgVRcVuiG7Ct+cD7/Vb3YkPfg9ssrH
+        Iq/KQRngckqB7+mCreXebTb+BQ==
+X-Google-Smtp-Source: ABdhPJzbL+A8YRu6cQqMhEnH4JVMHPuZevDUkJdMyUg1rfNtOurVArWJG2BoYxI9g7/QXZLvtzZHnQ==
+X-Received: by 2002:a17:90a:9d8b:: with SMTP id k11mr267919pjp.10.1593041850610;
+        Wed, 24 Jun 2020 16:37:30 -0700 (PDT)
+Received: from google.com ([2620:15c:201:2:ce90:ab18:83b0:619])
+        by smtp.gmail.com with ESMTPSA id c9sm21338811pfr.72.2020.06.24.16.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 16:37:29 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 16:37:24 -0700
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org, George Burgess IV <gbiv@google.com>
+Subject: Re: [PATCH 06/22] kbuild: lto: limit inlining
+Message-ID: <20200624233724.GA94769@google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200624203200.78870-7-samitolvanen@google.com>
+ <20200624212055.GU4817@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200624212055.GU4817@hirez.programming.kicks-ass.net>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jun 24, 2020 at 2:52 PM Sami Tolvanen <samitolvanen@google.com> wrote:
->
-> On Wed, Jun 24, 2020 at 01:58:57PM -0700, 'Nick Desaulniers' via Clang Built Linux wrote:
-> > On Wed, Jun 24, 2020 at 1:33 PM Sami Tolvanen <samitolvanen@google.com> wrote:
-> > >
-> > > Filter out CC_FLAGS_LTO for the vDSO.
-> >
-> > Just curious about this patch (and the following one for x86's vdso),
-> > do you happen to recall specifically what the issues with the vdso's
-> > are?
->
-> I recall the compiler optimizing away functions at some point, but as
-> LTO is not really needed in the vDSO, it's just easiest to disable it
-> there.
+On Wed, Jun 24, 2020 at 11:20:55PM +0200, Peter Zijlstra wrote:
+> On Wed, Jun 24, 2020 at 01:31:44PM -0700, Sami Tolvanen wrote:
+> > This change limits function inlining across translation unit
+> > boundaries in order to reduce the binary size with LTO.
+> > 
+> > The -import-instr-limit flag defines a size limit, as the number
+> > of LLVM IR instructions, for importing functions from other TUs.
+> > The default value is 100, and decreasing it to 5 reduces the size
+> > of a stripped arm64 defconfig vmlinux by 11%.
+> 
+> Is that also the right number for x86? What about the effect on
+> performance? What did 6 do? or 4?
 
-Sounds fishy; with extern linkage then I would think it's not safe to
-eliminate functions.  Probably unnecessary for the initial
-implementation, and something we can follow up on, but always good to
-have an answer to the inevitable question "why?" in the commit
-message.
--- 
-Thanks,
-~Nick Desaulniers
+This is the size limit we decided on for Android after testing on
+arm64, but the number is obviously a compromise between code size
+and performance. I'd be happy to benchmark this further once other
+concerns have been resolved.
+
+Sami
