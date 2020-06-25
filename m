@@ -2,133 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9502D20A5E0
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 21:32:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 523A720A64F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 22:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406329AbgFYTc0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jun 2020 15:32:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37444 "EHLO
+        id S2406877AbgFYUCe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jun 2020 16:02:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406293AbgFYTcZ (ORCPT
+        with ESMTP id S2406569AbgFYUCa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jun 2020 15:32:25 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D977C08C5DC
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jun 2020 12:32:25 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id i4so3800132pjd.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 25 Jun 2020 12:32:25 -0700 (PDT)
+        Thu, 25 Jun 2020 16:02:30 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67F85C08C5C1;
+        Thu, 25 Jun 2020 13:02:30 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id p20so7138648ejd.13;
+        Thu, 25 Jun 2020 13:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=aiCyaSfPElHdBJ1rU4jQnvBfG3hDID3mTTJS9XuQz+Q=;
-        b=mDZm0gGa4yZbKDGF9rgasIeYxWV9KiHwNiMw4ndiNsCn3uE7R//SGEQLJE3mdDSI9/
-         HpYkrdPyVuwor8peEnUfcbBGXiofFnd9veTD7NWibiAP8Ve8E8gCOzG31rjOvREFV1Bf
-         JgsOujSu3baR0YmlQhh5NEYw2pxgOkuVQSleeQxner2eUY5rh1bZK2fJ9oTRt0snh+M+
-         w5fHbf1pXC29S4Vdgqgal1yygHmQF+xISjlsoEB9iBq9A7j/gBZC02UXmgSOGcV/V0l2
-         EEwNoJRyrtCrwRdjdM5UwbSh/doG0vV/wAS2jKyrjWA8airu6HPV73/rpljmn2VIho8e
-         Lz0w==
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :mime-version:content-disposition:user-agent;
+        bh=KU/v6+2DOdvIsmduAhT4XCqT7f4mndQHgA5loa7da7E=;
+        b=bLcd7AmBcntHJVg6yWN+LmMvaumSKrnWGLfVojQ8fAiBtvXi1wdBnKKjrAuFA/wllb
+         sYB+IasSGFd2JogZn/3nl0lq8FU4nxeqSD1j3JLChTk0QXtINMrAF28vUjLUfq/WOM7w
+         fgGzPuiWOytlE7uuQN6m5D5DZkQEH+oUaKx+36Io9+mpA/s8YVe1pDmZiVgJapHtZTGd
+         OioPH1Xwm4qtDQlUUp3+EIYi3xHosCAf/aUcXR0E13JuUtyhYrrEvECgmaqMdVyZQRay
+         zLCXCLNqLEhdRBnS9vpkn0LD0F9qxNhzNlwCG9gc6IOWt3Hjb3gK/jO7aE6LSnqqY+ne
+         8NMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=aiCyaSfPElHdBJ1rU4jQnvBfG3hDID3mTTJS9XuQz+Q=;
-        b=uEL0N1ogrNB6KX0LL0vIGGnsftCyNHYBEWl9dXk89HijZQrckN+zckvJCfXl9+elSM
-         xmNrPKZgI3qcF6Z/wZqKMFqjNmouS9g/CUHxAuhq/jzgXTcHhb5Nl2hrWGVxSqAIIemn
-         jarl48SzTwx2J+jZ+9uOXox7gE3V4DjxUQNfpjqimOf4RBHWp07/VlXwfqSXnO/xK285
-         Pi4NymSEuk4PwYh7HLuLlFAi3bRvHMo8O3Uz+yY98zz4cm0V7AbKQlYvn+kWTkKxbCzU
-         1TOmrfHU0oExnWcSECf+tT7n8vykoRjSMvxcRsOubYNKNekbf7mc5bnOiVYs1sU0iibw
-         Dq6A==
-X-Gm-Message-State: AOAM5334IKNx+rp4Ebm1EnaAAW/EH/YCvd8eXguPWbt0T9vkK9DAdXMt
-        hDI+F+6XlbM91SiPdtRblvApsiuJgyzjBg==
-X-Google-Smtp-Source: ABdhPJzHjBuSoIFTZJ1sk5l9LqVn8mN4nFIUCyUrTGu3HSZs8Ut1ULHUwpBV+FgkM8L4HnNscu3bNQ==
-X-Received: by 2002:a17:90b:88b:: with SMTP id bj11mr5103958pjb.51.1593113544026;
-        Thu, 25 Jun 2020 12:32:24 -0700 (PDT)
-Received: from google.com ([2620:15c:201:2:ce90:ab18:83b0:619])
-        by smtp.gmail.com with ESMTPSA id c141sm9061908pfc.167.2020.06.25.12.32.22
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:mime-version:content-disposition:user-agent;
+        bh=KU/v6+2DOdvIsmduAhT4XCqT7f4mndQHgA5loa7da7E=;
+        b=pzBDlPPDyLA0uZxTgx0hWENwthVAeRiajv/crukIgApd19xK6gUFwrbkjCQT5QKi1/
+         K1QkiuGTEher2cOk+fh4L0mQDJfkklVbTUzgP6ze0stMiFiyVMpmACqiuRNp0Fl2jalD
+         wuI+2rndctqI2e7LSw+3y0JdviZSB7PoPpfKZYVQ5FPHUBblxQLDouaM4dZ17rWnvBu+
+         uirG14RUGP5FsxwZ3QdfQMUKqvqwg117cOF/54spDjysuqheRmiDYpnfmEvr/jxH2VIt
+         Z4ha2GbsrdI+BpVbLwjS3E2d76oIM+l+OZ/mR32yweZBvC3eHDdnR7ZJ6qMSEXjLIDxD
+         jchw==
+X-Gm-Message-State: AOAM530UUCz1ZBDcUZbNOWdl3z4mIJYOJM/ThSL8Sxs85vqSnZ8oI+Wz
+        l9stqosnU11BNlWH0XEqulliE85yh2c=
+X-Google-Smtp-Source: ABdhPJylS7fld5NZPXNPiYC0Sr2vP0jnnoCFRK8XyzLYqww4f2O2kxlrmzlAGz6vYKywdD93RRqKQA==
+X-Received: by 2002:a17:906:2b50:: with SMTP id b16mr20143974ejg.410.1593115349163;
+        Thu, 25 Jun 2020 13:02:29 -0700 (PDT)
+Received: from dumbo (tor-exit-6.zbau.f3netze.de. [2a0b:f4c0:16c:6::1])
+        by smtp.gmail.com with ESMTPSA id k22sm19321586edr.93.2020.06.25.13.02.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2020 12:32:23 -0700 (PDT)
-Date:   Thu, 25 Jun 2020 12:32:17 -0700
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH 05/22] kbuild: lto: postpone objtool
-Message-ID: <20200625193217.GA59566@google.com>
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200624203200.78870-6-samitolvanen@google.com>
- <20200624211908.GT4817@hirez.programming.kicks-ass.net>
- <20200624214925.GB120457@google.com>
- <20200625074716.GX4817@hirez.programming.kicks-ass.net>
- <20200625162226.GC173089@google.com>
- <20200625183351.GH4800@hirez.programming.kicks-ass.net>
+        Thu, 25 Jun 2020 13:02:28 -0700 (PDT)
+Received: from cavok by dumbo with local (Exim 4.92)
+        (envelope-from <cavok@dumbo>)
+        id 1joY4n-00050n-Ro; Thu, 25 Jun 2020 22:02:25 +0200
+Date:   Thu, 25 Jun 2020 22:02:25 +0200
+From:   Domenico Andreoli <domenico.andreoli@linux.com>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Olof Johansson <olof@lixom.net>,
+        Will Deacon <will.deacon@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: [PATCH] kbuild: buildtar: add arm64 dtbs support
+Message-ID: <20200625200225.GA18977@dumbo>
+Mail-Followup-To: Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Olof Johansson <olof@lixom.net>, Will Deacon <will.deacon@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200625183351.GH4800@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jun 25, 2020 at 08:33:51PM +0200, Peter Zijlstra wrote:
-> On Thu, Jun 25, 2020 at 09:22:26AM -0700, Sami Tolvanen wrote:
-> > On Thu, Jun 25, 2020 at 09:47:16AM +0200, Peter Zijlstra wrote:
-> 
-> > > Right, then we need to make --no-vmlinux work properly when
-> > > !DEBUG_ENTRY, which I think might be buggered due to us overriding the
-> > > argument when the objname ends with "vmlinux.o".
-> > 
-> > Right. Can we just remove that and  pass --vmlinux to objtool in
-> > link-vmlinux.sh, or is the override necessary somewhere else?
-> 
-> Think we can remove it; it was just convenient when running manually.
+From: Domenico Andreoli <domenico.andreoli@linux.com>
 
-Great, I'll change this in v2.
+Make 'make tar-pkg' install dtbs on arm64.
 
-> > > > > > +ifdef CONFIG_STACK_VALIDATION
-> > > > > > +ifneq ($(SKIP_STACK_VALIDATION),1)
-> > > > > > +cmd_ld_ko_o +=								\
-> > > > > > +	$(objtree)/tools/objtool/objtool				\
-> > > > > > +		$(if $(CONFIG_UNWINDER_ORC),orc generate,check)		\
-> > > > > > +		--module						\
-> > > > > > +		$(if $(CONFIG_FRAME_POINTER),,--no-fp)			\
-> > > > > > +		$(if $(CONFIG_GCOV_KERNEL),--no-unreachable,)		\
-> > > > > > +		$(if $(CONFIG_RETPOLINE),--retpoline,)			\
-> > > > > > +		$(if $(CONFIG_X86_SMAP),--uaccess,)			\
-> > > > > > +		$(@:.ko=$(prelink-ext).o);
-> > > > > > +
-> > > > > > +endif # SKIP_STACK_VALIDATION
-> > > > > > +endif # CONFIG_STACK_VALIDATION
-> > > > > 
-> > > > > What about the objtool invocation from link-vmlinux.sh ?
-> > > > 
-> > > > What about it? The existing objtool_link invocation in link-vmlinux.sh
-> > > > works fine for our purposes as well.
-> > > 
-> > > Well, I was wondering why you're adding yet another objtool invocation
-> > > while we already have one.
-> > 
-> > Because we can't run objtool until we have compiled bitcode to native
-> > code, so for modules, we're need another invocation after everything has
-> > been compiled.
-> 
-> Well, that I understand, my question was why we need one in
-> scripts/link-vmlinux.sh and an additional one. I think we're just
-> talking past one another and agree we only need one.
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Domenico Andreoli <domenico.andreoli@linux.com>
 
-We need just one for vmlinux.o, but this rule adds an objtool invocation
-for kernel modules, which we also couldn't check earlier. We link all
-the bitcode for modules into <module>.lto.o and run modpost and objtool
-on that before building the final .ko.
+---
+ scripts/package/buildtar |    9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Sami
+Index: b/scripts/package/buildtar
+===================================================================
+--- a/scripts/package/buildtar
++++ b/scripts/package/buildtar
+@@ -125,6 +125,15 @@ case "${ARCH}" in
+ 		;;
+ esac
+ 
++#
++# Install dtbs
++#
++case "${ARCH}" in
++	arm64)
++		make ARCH="${ARCH}" -f ${srctree}/Makefile INSTALL_DTBS_PATH="${tmpdir}/boot/dtbs" dtbs_install
++		;;
++esac
++
+ if [ "${1}" = dir-pkg ]; then
+ 	echo "Kernel tree successfully created in $tmpdir"
+ 	exit 0
+
+-- 
+rsa4096: 3B10 0CA1 8674 ACBA B4FE  FCD2 CE5B CF17 9960 DE13
+ed25519: FFB4 0CC3 7F2E 091D F7DA  356E CC79 2832 ED38 CB05
