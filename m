@@ -2,186 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2388620A399
-	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 19:05:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F7B20A509
+	for <lists+linux-kbuild@lfdr.de>; Thu, 25 Jun 2020 20:34:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406413AbgFYRFO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 25 Jun 2020 13:05:14 -0400
-Received: from conuserg-11.nifty.com ([210.131.2.78]:51073 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404524AbgFYRFN (ORCPT
+        id S2404515AbgFYSe1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 25 Jun 2020 14:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56736 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403908AbgFYSe0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 25 Jun 2020 13:05:13 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 05PH4apJ005239;
-        Fri, 26 Jun 2020 02:04:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 05PH4apJ005239
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593104680;
-        bh=hsy2jEcguFBbAwWPOzrHlA0rVfoIakAEVTOhQL5WWjE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WbHigNnte5CSbikVGUFPeliUyTPT3GRCm5FsAIbbeR39Z9izKsKAEnEGdE5iBevgc
-         IBemTKdtJf1dC1X8WYluHt26gBZHzP1Y8t+QNr6v6RTsKcISkOLy6h8ThC5IdyinIX
-         fdO6ylOehgLhyHBswZo3ni7WuqVoAo1iXNmPzH+X7LUF05P2nvHJHU6yokUfen4UHB
-         lNJj5F9+g5gHgDvtAUgZeQMxsZ5Xsa9BYF5+aN1YTlttvO9ZBZ52Tmr3d4J+6RhUBx
-         PRH43Ng1ZY9f6gJj5VGW1OTs9i+g3Pa1pg6bStdefJKIG3NZt7WSTb3248vI/MRSvq
-         bwiRu7iGWU4uQ==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] dt-bindings: split DT schema check rules
-Date:   Fri, 26 Jun 2020 02:04:34 +0900
-Message-Id: <20200625170434.635114-5-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200625170434.635114-1-masahiroy@kernel.org>
-References: <20200625170434.635114-1-masahiroy@kernel.org>
+        Thu, 25 Jun 2020 14:34:26 -0400
+Received: from casper.infradead.org (unknown [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998CFC08C5C1;
+        Thu, 25 Jun 2020 11:34:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=y2Ojs6irYhJzJUoW2yptAyQ6Kl6zMJCInJSngjbNQ4k=; b=wPU1z5k3Ml8/8VR2O2qUXsjcNX
+        mwQyLG6nIg2KWHEaauq336GU71DYcaC9fvteoGwgeztFDz+Qr+r6qYGmD/h1awSbcjBNTa20+pV6y
+        wYcQ+rBbyT/ESBejKPeACzRUe0tyI8DcJ0dIdxGgfa433lwF9MVVPvBuCkOeqsrHvE3S3cA1Nz/Ca
+        FSlJ8vacxd5Qd9Wf7xj4ooDjY4ZrKPiqnlnnECSxhDYxqkmaq8sTmK5uPCsLm/Pzg+Q828mmI0YcN
+        Qzx9rXsE0ZNx9BqNpDrRqgox7b3W7tCQDeiBGKY3wQj+ESadCWScGah7We+H4zNleZYjJk6D6gMss
+        cNde5s6g==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1joWh8-00056n-8i; Thu, 25 Jun 2020 18:33:54 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 5378D3007CD;
+        Thu, 25 Jun 2020 20:33:51 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 35C32284DE63B; Thu, 25 Jun 2020 20:33:51 +0200 (CEST)
+Date:   Thu, 25 Jun 2020 20:33:51 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH 05/22] kbuild: lto: postpone objtool
+Message-ID: <20200625183351.GH4800@hirez.programming.kicks-ass.net>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200624203200.78870-6-samitolvanen@google.com>
+ <20200624211908.GT4817@hirez.programming.kicks-ass.net>
+ <20200624214925.GB120457@google.com>
+ <20200625074716.GX4817@hirez.programming.kicks-ass.net>
+ <20200625162226.GC173089@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200625162226.GC173089@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When building %.dt.yaml from %.dts, two things happen in a row:
+On Thu, Jun 25, 2020 at 09:22:26AM -0700, Sami Tolvanen wrote:
+> On Thu, Jun 25, 2020 at 09:47:16AM +0200, Peter Zijlstra wrote:
 
- [1] Run DTC to convert %.dts into %.dt.yaml
+> > Right, then we need to make --no-vmlinux work properly when
+> > !DEBUG_ENTRY, which I think might be buggered due to us overriding the
+> > argument when the objname ends with "vmlinux.o".
+> 
+> Right. Can we just remove that and  pass --vmlinux to objtool in
+> link-vmlinux.sh, or is the override necessary somewhere else?
 
- [2] Run dt-validate against %.dt.yaml
+Think we can remove it; it was just convenient when running manually.
 
-Currently, when any .yaml schema file is updated, processed-schema.yaml
-is regenerated, then both [1] and [2] are rerun for all .dts files.
+> > > > > +ifdef CONFIG_STACK_VALIDATION
+> > > > > +ifneq ($(SKIP_STACK_VALIDATION),1)
+> > > > > +cmd_ld_ko_o +=								\
+> > > > > +	$(objtree)/tools/objtool/objtool				\
+> > > > > +		$(if $(CONFIG_UNWINDER_ORC),orc generate,check)		\
+> > > > > +		--module						\
+> > > > > +		$(if $(CONFIG_FRAME_POINTER),,--no-fp)			\
+> > > > > +		$(if $(CONFIG_GCOV_KERNEL),--no-unreachable,)		\
+> > > > > +		$(if $(CONFIG_RETPOLINE),--retpoline,)			\
+> > > > > +		$(if $(CONFIG_X86_SMAP),--uaccess,)			\
+> > > > > +		$(@:.ko=$(prelink-ext).o);
+> > > > > +
+> > > > > +endif # SKIP_STACK_VALIDATION
+> > > > > +endif # CONFIG_STACK_VALIDATION
+> > > > 
+> > > > What about the objtool invocation from link-vmlinux.sh ?
+> > > 
+> > > What about it? The existing objtool_link invocation in link-vmlinux.sh
+> > > works fine for our purposes as well.
+> > 
+> > Well, I was wondering why you're adding yet another objtool invocation
+> > while we already have one.
+> 
+> Because we can't run objtool until we have compiled bitcode to native
+> code, so for modules, we're need another invocation after everything has
+> been compiled.
 
-Actually, we do not need to rerun [1] since the original .dts is not
-updated.
-
-Split the rule to avoid unneeded .dts/.dt.yaml conversion.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- .gitignore                                 |  1 +
- Documentation/devicetree/bindings/Makefile |  4 ++--
- Makefile                                   |  2 +-
- scripts/Makefile.build                     |  2 ++
- scripts/Makefile.lib                       | 24 ++++++++++------------
- 5 files changed, 17 insertions(+), 16 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index 87b9dd8a163b..a1941faf7233 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -16,6 +16,7 @@
- *.bin
- *.bz2
- *.c.[012]*.*
-+*.dt.checked
- *.dt.yaml
- *.dtb
- *.dtb.S
-diff --git a/Documentation/devicetree/bindings/Makefile b/Documentation/devicetree/bindings/Makefile
-index 6aac57588e66..b46910eb7cf4 100644
---- a/Documentation/devicetree/bindings/Makefile
-+++ b/Documentation/devicetree/bindings/Makefile
-@@ -62,11 +62,11 @@ $(obj)/processed-schema.yaml: $(DT_SCHEMA_FILES) check_dtschema_version FORCE
- endif
- 
- extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dts, $(DT_SCHEMA_FILES))
--extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.yaml, $(DT_SCHEMA_FILES))
-+extra-$(CHECK_DT_BINDING) += $(patsubst $(src)/%.yaml,%.example.dt.checked, $(DT_SCHEMA_FILES))
- extra-$(CHECK_DT_BINDING) += processed-schema-examples.yaml
- extra-$(CHECK_DTBS) += processed-schema.yaml
- 
- # Hack: avoid 'Argument list too long' error for 'make clean'. Remove most of
- # build artifacts here before they are processed by scripts/Makefile.clean
- clean-files = $(shell find $(obj) \( -name '*.example.dts' -o \
--			-name '*.example.dt.yaml' \) -delete 2>/dev/null)
-+			-name '*.example.dt.checked' \) -delete 2>/dev/null)
-diff --git a/Makefile b/Makefile
-index ac2c61c37a73..0fc778b656d1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1774,7 +1774,7 @@ clean: $(clean-dirs)
- 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
- 		-o -name '*.asn1.[ch]' \
- 		-o -name '*.symtypes' -o -name 'modules.order' \
--		-o -name '.tmp_*.o.*' \
-+		-o -name '.tmp_*.o.*' -o -name '*.dt.checked' \
- 		-o -name '*.c.[012]*.*' \
- 		-o -name '*.ll' \
- 		-o -name '*.gcno' \) -type f -print | xargs rm -f
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 2e8810b7e5ed..ca24c3077fef 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -442,10 +442,12 @@ intermediate_targets = $(foreach sfx, $(2), \
- 					$(filter %$(strip $(1)), $(targets))))
- # %.asn1.o <- %.asn1.[ch] <- %.asn1
- # %.dtb.o <- %.dtb.S <- %.dtb <- %.dts
-+# %.dt.checked <- %.dt.yaml <- %.dts
- # %.lex.o <- %.lex.c <- %.l
- # %.tab.o <- %.tab.[ch] <- %.y
- targets += $(call intermediate_targets, .asn1.o, .asn1.c .asn1.h) \
- 	   $(call intermediate_targets, .dtb.o, .dtb.S .dtb) \
-+	   $(call intermediate_targets, .dt.checked, .dt.yaml) \
- 	   $(call intermediate_targets, .lex.o, .lex.c) \
- 	   $(call intermediate_targets, .tab.o, .tab.c .tab.h)
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index fa5022133a25..d72a7cf79f63 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -74,8 +74,8 @@ extra-y				+= $(dtb-y)
- extra-$(CONFIG_OF_ALL_DTBS)	+= $(dtb-)
- 
- ifneq ($(CHECK_DTBS),)
--extra-y += $(patsubst %.dtb,%.dt.yaml, $(dtb-y))
--extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.yaml, $(dtb-))
-+extra-y += $(patsubst %.dtb,%.dt.checked, $(dtb-y))
-+extra-$(CONFIG_OF_ALL_DTBS) += $(patsubst %.dtb,%.dt.checked, $(dtb-))
- endif
- 
- # Add subdir path
-@@ -308,26 +308,24 @@ cmd_dtc = mkdir -p $(dir ${dtc-tmp}) ; \
- 		-d $(depfile).dtc.tmp $(dtc-tmp) ; \
- 	cat $(depfile).pre.tmp $(depfile).dtc.tmp > $(depfile)
- 
-+dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
-+
- $(obj)/%.dtb: $(src)/%.dts $(DTC) FORCE
- 	$(call if_changed_dep,dtc)
- 
-+$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) FORCE
-+	$(call if_changed_dep,dtc)
-+
- DT_CHECKER ?= dt-validate
- DT_BINDING_DIR := Documentation/devicetree/bindings
- # DT_TMP_SCHEMA may be overridden from Documentation/devicetree/bindings/Makefile
- DT_TMP_SCHEMA ?= $(objtree)/$(DT_BINDING_DIR)/processed-schema.yaml
- 
--quiet_cmd_dtb_check =	CHECK   $@
--      cmd_dtb_check =	$(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $@
-+quiet_cmd_dt_check = CHECK   $<
-+      cmd_dt_check = $(DT_CHECKER) -u $(srctree)/$(DT_BINDING_DIR) -p $(DT_TMP_SCHEMA) $<; touch $@
- 
--define rule_dtc
--	$(call cmd_and_fixdep,dtc)
--	$(call cmd,dtb_check)
--endef
--
--$(obj)/%.dt.yaml: $(src)/%.dts $(DTC) $(DT_TMP_SCHEMA) FORCE
--	$(call if_changed_rule,dtc,yaml)
--
--dtc-tmp = $(subst $(comma),_,$(dot-target).dts.tmp)
-+$(obj)/%.dt.checked: $(obj)/%.dt.yaml $(DT_TMP_SCHEMA) FORCE
-+	$(call if_changed,dt_check)
- 
- # Bzip2
- # ---------------------------------------------------------------------------
--- 
-2.25.1
-
+Well, that I understand, my question was why we need one in
+scripts/link-vmlinux.sh and an additional one. I think we're just
+talking past one another and agree we only need one.
