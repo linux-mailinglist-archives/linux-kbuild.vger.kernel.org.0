@@ -2,99 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADED020BA20
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2020 22:18:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EBF120BA22
+	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2020 22:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725855AbgFZUSt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Jun 2020 16:18:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40796 "EHLO
+        id S1725780AbgFZUS7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 26 Jun 2020 16:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725831AbgFZUSt (ORCPT
+        with ESMTP id S1725793AbgFZUS6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Jun 2020 16:18:49 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62491C03E97A
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jun 2020 13:18:49 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id b16so5068925pfi.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jun 2020 13:18:49 -0700 (PDT)
+        Fri, 26 Jun 2020 16:18:58 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3461C03E979
+        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jun 2020 13:18:58 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id f9so5105116pfn.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 26 Jun 2020 13:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/DjWbdB6QR6F3h1vBMYs8FI30xxDOIUG4fAHYu8nECU=;
-        b=FrkG7xHDJ0hpKYFzhPGuCwru1szypTYOGi5hD5lbAfuGgT1pRq6kqZRC1RYyGXQ4Cx
-         dBBF0DZ0m//3+/ZhtdALlqhCmQJr+DsmxShR47yHKzFznf60VL/beb/6bYpfKhHVdEyz
-         yh40AuQXBaVxjsQclGj9K/76x2HjcqutOZc2Y=
+        bh=SjdKzeH7GW9tQGsunBGfIcgoB4TuWBhVIwFN+ncvBXE=;
+        b=Tm6uhy3i8keuHafctoH4MuP4dZ5blfAOikPg1Mlf5CHLIkopdkpyAFZI/u9bZwoURX
+         X8shbqeQOPfH5Iyo1VLp9cMkDG+LeyHP3Oql7Nx4R5FFtRn/PB796zbp39sRouaHkGdj
+         6eSxAbjnscbgL3gC9uEKsB4QlM7SqUZHn8pGo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=/DjWbdB6QR6F3h1vBMYs8FI30xxDOIUG4fAHYu8nECU=;
-        b=irzXYk0Uf1k0JaAzktDJIpe70GxYGm39e5Hkwh0mGG9Q3d1ByaQuJm7HkYuUGi3FD2
-         rS09gy3AoPfa7ipur20keC6AhpO7rhuujgzNOaBgo/9+u/DM4I9s8OossCWYBLadDobL
-         PSrZ0R4YeM8fShvQe4WCFbZlBcyf4xWXGYaPFAUhaWSRkt4J0mxnrfv9bFj8jS5UXW2f
-         ddOOdQOYeDbWxTi+XuX+US/dQPFvo56mdSlI2H0SukRoOPDc1r+xM1IA7fpRx1Cd0Mys
-         0cij3cLxqc8fJvJWRQf/suCzo9o7U/PY6eA+8Zt5S7ZTTa5RRWHOuy2+jsJgz6ap5b0m
-         8r6A==
-X-Gm-Message-State: AOAM530Zr5sA59maf0i9/i5H5hSx+AoR09mvv6udEiYPGZhrREbjRZGh
-        3aMSOrH76x6IWh1OlHix9SWMEQ==
-X-Google-Smtp-Source: ABdhPJwYJkgs+qfqxsrtQQlApXR25CpCAIB9YF/4D3mpyg8KTrXfQyU2bY8skxNl8rMJC5c6opRIug==
-X-Received: by 2002:a62:1ad6:: with SMTP id a205mr4256254pfa.109.1593202728953;
-        Fri, 26 Jun 2020 13:18:48 -0700 (PDT)
+        bh=SjdKzeH7GW9tQGsunBGfIcgoB4TuWBhVIwFN+ncvBXE=;
+        b=Gt9C3SkonzBW0l1zaFDRbQKCWsFTPllY10Nh1ITlawys0gKM5ePGZ5qcwjOGl4FusT
+         5hd1dXi40tKd3jKM4f5SjjjX15/AUQSKiAySsZR83U8vS8P6wizi9FDHGuEKAr43GFwE
+         nQPqr8ZTQoaiq5vPeMhP3JXxz6S4vBCnBNk6kkIE7cF21p49ftjpvThe+CVkywlUsT2f
+         krxlVw5Zuz8jndEY9yR7S1Q64VVtd6lbnKC+2b2PvD6HliPEywzqfJWMfc4TPhoP6HKQ
+         TIFH40jQKC6cStMq2ZcFlZT20JxIPXpfmqlz1oReV5IqgMKe6ISUz1TbwxaoXA3FPj1V
+         pW5g==
+X-Gm-Message-State: AOAM530WYFEbKB5YvcfqnoF2knMms0YGPA9cKwj62BzUdovjS+oy4HO0
+        mqvlcB/Uwp+sTXlC7n5N0BfgLw==
+X-Google-Smtp-Source: ABdhPJzRLB1VAhnTAH//Vf34hhnhLIcox6EcBAnKlJDtzGp+8PwlZspufe0ZqKpRpx5poWE80d8uJA==
+X-Received: by 2002:a65:4c4b:: with SMTP id l11mr411781pgr.123.1593202738300;
+        Fri, 26 Jun 2020 13:18:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id c141sm11968090pfc.167.2020.06.26.13.18.47
+        by smtp.gmail.com with ESMTPSA id p12sm23389172pgk.40.2020.06.26.13.18.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 13:18:47 -0700 (PDT)
-Date:   Fri, 26 Jun 2020 13:18:46 -0700
+        Fri, 26 Jun 2020 13:18:57 -0700 (PDT)
+Date:   Fri, 26 Jun 2020 13:18:56 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>, X86 ML <x86@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: Provide way to actually disable stack protector
-Message-ID: <202006261314.B6856AA96@keescook>
-References: <202006221201.3641ED037E@keescook>
- <CAK7LNAQL=XF+xvsRNTEGXtY7J-fx5FJKpMuScoxLt8SDKGB3_Q@mail.gmail.com>
- <202006222234.FBCEAD7F@keescook>
- <CAK7LNARRU7j_aSgZreuR-jyFYAipaJwZjUwzmE9RcohgKJvS8w@mail.gmail.com>
+Cc:     linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
+        x86@kernel.org, linux-efi@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] kbuild: remove cc-option test of -fno-stack-protector
+Message-ID: <202006261318.75C7FE339@keescook>
+References: <20200626185913.92890-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNARRU7j_aSgZreuR-jyFYAipaJwZjUwzmE9RcohgKJvS8w@mail.gmail.com>
+In-Reply-To: <20200626185913.92890-1-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jun 27, 2020 at 04:04:33AM +0900, Masahiro Yamada wrote:
-> On Tue, Jun 23, 2020 at 2:37 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Tue, Jun 23, 2020 at 11:33:53AM +0900, Masahiro Yamada wrote:
-> > > Is it OK to not patch syscall_x32.c ?
-> >
-> > Good question. Peter? (It seems all the syscall_*.c files are just a
-> > table, not code -- why do they need any instrumentation changes?)
+On Sat, Jun 27, 2020 at 03:59:12AM +0900, Masahiro Yamada wrote:
+> Some Makefiles already pass -fno-stack-protector unconditionally.
+> For example, arch/arm64/kernel/vdso/Makefile, arch/x86/xen/Makefile.
+> No problem report so far about hard-coding this option. So, we can
+> assume all supported compilers know -fno-stack-protector.
+> 
+> GCC 4.8 and Clang support this option (https://godbolt.org/z/_HDGzN)
+> 
+> Get rid of cc-option from -fno-stack-protector.
+> 
+> Remove CONFIG_CC_HAS_STACKPROTECTOR_NONE, which should always be 'y'.
+> 
+> Note:
+> arch/mips/vdso/Makefile adds -fno-stack-protector twice, first
+> unconditionally, and second conditionally. I removed the second one.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-I'd still like to know the answer to this one...
-
-> Is it useful when we know
-> DISABLE_STACKPROTECTOR = -fno-stack-protector  ?
-
-I'm fine with that. My point was the using _REMOVE isn't going to work
-for some compiler builds.
-
-> I'd rather want to apply this patch
-> https://patchwork.kernel.org/patch/11628493/
-> and hard-code -fno-stack-protector where necessary.
-
-That's fine. I will send a separate fix for arch/x86/entry/Makefile.
-
-> cc-flags-y comes after KBUILD_CFLAGS
-> so that -fno-stack-protector can negate -fstack-protector(-strong)
-
-Okay, good.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
 -- 
 Kees Cook
