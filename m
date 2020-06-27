@@ -2,152 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E158120BBB8
-	for <lists+linux-kbuild@lfdr.de>; Fri, 26 Jun 2020 23:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48F7420BFD3
+	for <lists+linux-kbuild@lfdr.de>; Sat, 27 Jun 2020 09:39:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725793AbgFZVkb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 26 Jun 2020 17:40:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725780AbgFZVkb (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 26 Jun 2020 17:40:31 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2783C03E979;
-        Fri, 26 Jun 2020 14:40:30 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id e15so8010819edr.2;
-        Fri, 26 Jun 2020 14:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=4dtaHq7RJqNsgj0DxlS9fhiPuUoM0iQPtx7ZzHAiU4s=;
-        b=u9Zydu+IlMh9/LszZ92CggQlY9OQl1g+evFpM5Es9gv9XLcQcc+9KabLPAuenDbKtx
-         EXSDWShwfIlbTrrA57mrRRMWbHDUrnzb1X45qD79S1Tm2MZHqDuAERzRF/Oko05LY0ed
-         yy0vpHQkgV7P9tPEsYAHbX1VIep+NblU+/b9YtRORhq9nwD+OliGRjs9zS+sYJeg6AD3
-         BTSPgED2cZEaoEQ4O4wnTCpZL1fofxzDNNVHnBwoHG1irycB1yN46eUaUJ+y86fTk2sK
-         osCLm2sFh/gulrBchGzIQkA+akXv4utKMlVQosr/uo3vX3tk/7qmGwJS3RhK389cZbgX
-         5zfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=4dtaHq7RJqNsgj0DxlS9fhiPuUoM0iQPtx7ZzHAiU4s=;
-        b=j3d4KmxtbpxywlGnIsleoZKPvlKbdDFTmLa3U6/JuzFdu9zXgUkWthVBqFXUAkH8Ry
-         LI+dg/kjHIEwcn0BupgJd7oiD8/WPlKFf1aoemC3civ7lKjQZA7anYSoIiy6cmUZF39w
-         Q6QnwL0c7q23tWLdjyc0zrTCBnh01oYOy0BqIgZNxvesP0efmf10j+lkddItmJdC3X4f
-         6tPnYfJ4GQAuLRHsQl+lQwRCIkVYqe7C085SglIJsCBRhuavOgIVXftNIWeUTMaC4bQk
-         duHxc3g1YgcTjtiJreqYZqwKjgsdYvLm+dNYd0QopBthhBj9yS0Vy25Hd6+VIHxTJ3Yw
-         D5Fw==
-X-Gm-Message-State: AOAM530cNlYFixCC6F6/a6iRLEFQY8Vp9ThGf3U9tJqxt2so+6XWHaHn
-        tkxsPMYUe028IibHcsE3/QQ=
-X-Google-Smtp-Source: ABdhPJy++/BzY6fHC4sgfGghocYPBjr++MH93TDtva6eLgfryARtAm541FP5Kvsf3weDh6k7PXqJhg==
-X-Received: by 2002:a05:6402:3113:: with SMTP id dc19mr4552096edb.20.1593207629538;
-        Fri, 26 Jun 2020 14:40:29 -0700 (PDT)
-Received: from dumbo ([2a0b:f4c2::1])
-        by smtp.gmail.com with ESMTPSA id mf24sm918386ejb.58.2020.06.26.14.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 14:40:28 -0700 (PDT)
-Received: from cavok by dumbo with local (Exim 4.92)
-        (envelope-from <cavok@dumbo>)
-        id 1jow5C-00070x-PD; Fri, 26 Jun 2020 23:40:26 +0200
-Date:   Fri, 26 Jun 2020 23:40:26 +0200
-From:   Domenico Andreoli <domenico.andreoli@linux.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Will Deacon <will.deacon@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2] kbuild: buildtar: add arm64 dtbs support
-Message-ID: <20200626214026.GB25753@dumbo>
-Mail-Followup-To: Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Olof Johansson <olof@lixom.net>, Will Deacon <will.deacon@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-References: <5ef50e52.1c69fb81.b6cbd.bd8e@mx.google.com>
- <CAK7LNASta=UfbK-C=6R+tT2nug8_MYyr9515J4CN8odWCh0CpA@mail.gmail.com>
+        id S1725900AbgF0HjQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 27 Jun 2020 03:39:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45578 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725885AbgF0HjQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 27 Jun 2020 03:39:16 -0400
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B3C4520706;
+        Sat, 27 Jun 2020 07:39:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593243555;
+        bh=r4RD6Yj/wh2sz/DvMIH7PYJ2ZmuZh6S/3C/0plRZHQ4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=WG3304fCrTrmJmQRNYNog6nBl+KU0DNsUIiKj8/w7U3rhj+ofgs7Y8SU9wSHpV8MO
+         BzWjh8ivi3P/Jxq+voVMcawJPpk/m0JdlwbDwoxcyhMjG3Br8J+9ReZG+pYec2eTXu
+         y+c0ZgpdA2pEvnfuoAThP5H5WqWcjENLfz9hX7ig=
+Received: by mail-ot1-f49.google.com with SMTP id n6so10792474otl.0;
+        Sat, 27 Jun 2020 00:39:15 -0700 (PDT)
+X-Gm-Message-State: AOAM531zf0cL8luvRStNUyqDR0HTqKnaE0LATXeHJfX47T8MWk7Sv0iA
+        wJa3qZl2wZWDd6MzD1V87eZjEph2if8RYgMdwpg=
+X-Google-Smtp-Source: ABdhPJzeBH5EvyZjQDcTyVYTObiSzPCIBclsABXsIUoqdBDzUWJ3e34H/Xvj4eW1+AEASg5Hn1rBFpCLMASWNOqaXs8=
+X-Received: by 2002:a9d:4a8f:: with SMTP id i15mr5881966otf.77.1593243555117;
+ Sat, 27 Jun 2020 00:39:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASta=UfbK-C=6R+tT2nug8_MYyr9515J4CN8odWCh0CpA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200626185913.92890-1-masahiroy@kernel.org> <20200626185913.92890-2-masahiroy@kernel.org>
+In-Reply-To: <20200626185913.92890-2-masahiroy@kernel.org>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Sat, 27 Jun 2020 09:39:03 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXGsJsU-zbsuWi4O46XqE71DRdKOX1MeC5ndnE+j9Nw7Cw@mail.gmail.com>
+Message-ID: <CAMj1kXGsJsU-zbsuWi4O46XqE71DRdKOX1MeC5ndnE+j9Nw7Cw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kbuild: remove cc-option test of -ffreestanding
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        X86 ML <x86@kernel.org>, linux-efi <linux-efi@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jun 26, 2020 at 03:16:58PM +0900, Masahiro Yamada wrote:
-> On Fri, Jun 26, 2020 at 5:51 AM Domenico Andreoli
-> <domenico.andreoli@linux.com> wrote:
-> >
-> > From: Domenico Andreoli <domenico.andreoli@linux.com>
-> >
-> > Make 'make tar-pkg' install dtbs on arm64.
-> >
-> > Signed-off-by: Domenico Andreoli <domenico.andreoli@linux.com>
-> >
-> > v2:
-> >  - Destination path includes the kernel version, as expected
-> >
-> > ---
-> >  scripts/package/buildtar |    9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > Index: b/scripts/package/buildtar
-> > ===================================================================
-> > --- a/scripts/package/buildtar
-> > +++ b/scripts/package/buildtar
-> > @@ -125,6 +125,15 @@ case "${ARCH}" in
-> >                 ;;
-> >  esac
-> >
-> > +#
-> > +# Install dtbs
-> > +#
-> > +case "${ARCH}" in
-> 
-> Instead of checking ${ARCH},
-> can you you do
-> 
->      if grep -q '^CONFIG_OF_EARLY_FLATTREE=y' include/config/auto.conf; then
-> 
-> ?
+On Fri, 26 Jun 2020 at 21:00, Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Some Makefiles already pass -ffreestanding unconditionally.
+> For example, arch/arm64/lib/Makefile, arch/x86/purgatory/Makefile.
+> No problem report so far about hard-coding this option. So, we can
+> assume all supported compilers know -ffreestanding.
+>
+> I confirmed GCC 4.8 and Clang manuals document this option.
+>
+> Get rid of cc-option from -ffreestanding.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Done in v3.
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
-> 
-> This is what the deb package build does:
-> https://github.com/masahir0y/linux/blob/v5.7/scripts/package/builddeb#L145
-> 
-> 
-> > +       arm64)
-> > +               make ARCH="${ARCH}" -f ${srctree}/Makefile INSTALL_DTBS_PATH="${tmpdir}/boot/dtbs/${KERNELRELEASE}" dtbs_install
-> > +               ;;
-> > +esac
-> > +
-> 
-> 
-> Or, you can use INSTALL_PATH="${tmpdir}/boot"
-> to make it shorter.
-
-This does not work, INSTALL_DTBS_PATH gets somehow defined along the
-twisted path to buildtar and therefore needs to be explicitly specified
-for the new destination.
-
+> ---
+>
+>  arch/s390/Makefile                    | 2 +-
+>  arch/x86/Makefile                     | 2 +-
+>  arch/x86/boot/compressed/Makefile     | 2 +-
+>  drivers/firmware/efi/libstub/Makefile | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/s390/Makefile b/arch/s390/Makefile
+> index 8dfa2cf1f05c..ba94b03c8b2f 100644
+> --- a/arch/s390/Makefile
+> +++ b/arch/s390/Makefile
+> @@ -27,7 +27,7 @@ KBUILD_CFLAGS_DECOMPRESSOR := $(CLANG_FLAGS) -m64 -O2
+>  KBUILD_CFLAGS_DECOMPRESSOR += -DDISABLE_BRANCH_PROFILING -D__NO_FORTIFY
+>  KBUILD_CFLAGS_DECOMPRESSOR += -fno-delete-null-pointer-checks -msoft-float
+>  KBUILD_CFLAGS_DECOMPRESSOR += -fno-asynchronous-unwind-tables
+> -KBUILD_CFLAGS_DECOMPRESSOR += $(call cc-option,-ffreestanding)
+> +KBUILD_CFLAGS_DECOMPRESSOR += -ffreestanding
+>  KBUILD_CFLAGS_DECOMPRESSOR += $(call cc-disable-warning, address-of-packed-member)
+>  KBUILD_CFLAGS_DECOMPRESSOR += $(if $(CONFIG_DEBUG_INFO),-g)
+>  KBUILD_CFLAGS_DECOMPRESSOR += $(if $(CONFIG_DEBUG_INFO_DWARF4), $(call cc-option, -gdwarf-4,))
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index 89c3cdfba753..edc68538a04e 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -36,7 +36,7 @@ REALMODE_CFLAGS       := $(M16_CFLAGS) -g -Os -DDISABLE_BRANCH_PROFILING \
+>                    -fno-strict-aliasing -fomit-frame-pointer -fno-pic \
+>                    -mno-mmx -mno-sse
+>
+> -REALMODE_CFLAGS += $(call __cc-option, $(CC), $(REALMODE_CFLAGS), -ffreestanding)
+> +REALMODE_CFLAGS += -ffreestanding
+>  REALMODE_CFLAGS += -fno-stack-protector
+>  REALMODE_CFLAGS += $(call __cc-option, $(CC), $(REALMODE_CFLAGS), -Wno-address-of-packed-member)
+>  REALMODE_CFLAGS += $(call __cc-option, $(CC), $(REALMODE_CFLAGS), $(cc_stack_align4))
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> index c88a31569a5e..b7beabecef8a 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -35,7 +35,7 @@ cflags-$(CONFIG_X86_32) := -march=i386
+>  cflags-$(CONFIG_X86_64) := -mcmodel=small
+>  KBUILD_CFLAGS += $(cflags-y)
+>  KBUILD_CFLAGS += -mno-mmx -mno-sse
+> -KBUILD_CFLAGS += $(call cc-option,-ffreestanding)
+> +KBUILD_CFLAGS += -ffreestanding
+>  KBUILD_CFLAGS += -fno-stack-protector
+>  KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
+>  KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
+> diff --git a/drivers/firmware/efi/libstub/Makefile b/drivers/firmware/efi/libstub/Makefile
+> index f8418763cd79..296b18fbd7a2 100644
+> --- a/drivers/firmware/efi/libstub/Makefile
+> +++ b/drivers/firmware/efi/libstub/Makefile
+> @@ -28,7 +28,7 @@ cflags-$(CONFIG_EFI_GENERIC_STUB) += -I$(srctree)/scripts/dtc/libfdt
+>  KBUILD_CFLAGS                  := $(cflags-y) -Os -DDISABLE_BRANCH_PROFILING \
+>                                    -include $(srctree)/drivers/firmware/efi/libstub/hidden.h \
+>                                    -D__NO_FORTIFY \
+> -                                  $(call cc-option,-ffreestanding) \
+> +                                  -ffreestanding \
+>                                    -fno-stack-protector \
+>                                    $(call cc-option,-fno-addrsig) \
+>                                    -D__DISABLE_EXPORTS
 > --
-> Best Regards
-> Masahiro Yamada
-
-Thank you for the review.
-
-Regards,
-Domenico
-
--- 
-rsa4096: 3B10 0CA1 8674 ACBA B4FE  FCD2 CE5B CF17 9960 DE13
-ed25519: FFB4 0CC3 7F2E 091D F7DA  356E CC79 2832 ED38 CB05
+> 2.25.1
+>
