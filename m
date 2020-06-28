@@ -2,125 +2,174 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B03B20C653
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jun 2020 08:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CDB620C66E
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jun 2020 08:17:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725957AbgF1GAu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Jun 2020 02:00:50 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:19303 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725936AbgF1GAu (ORCPT
+        id S1725933AbgF1GRb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Jun 2020 02:17:31 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.22]:21179 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbgF1GRb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Jun 2020 02:00:50 -0400
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 05S60PuK008495;
-        Sun, 28 Jun 2020 15:00:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 05S60PuK008495
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593324026;
-        bh=0Adi9oEkoNL+VTKk8ereW4+c8tkNY7OySZ7YBSe/YKA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ygVCF5vWbBSGukhyAOywf2WaTXP6fYyoAxX7QWOLXc+8IVvQ2G5qU9vgy2+yXttHC
-         Bk670axVR0NwtO9z9L7iQWjChSdxt6tY5xlDdwacItFuCGVcGiYKZcOSX1fkAPRoPi
-         kdFT7ixBknjCgX1CdZ8TH6rfpJ8DWSA5KR6iSSu5w05pczuMZZ9khc4G5FNAkPY5P6
-         ZxQ70d1BIVYbpu8B37urtIiWh8lklTP3w5xA5cXcmhpCng9E/H7fZaAZDWtQ0FFi2S
-         98iv/+N0VNBjzCkwR7JvNSJdfYAitaXW72n0JFgp2qn10kmHi2uwgk53z/SKtfUoyG
-         MaA3aKbYEIWyg==
-X-Nifty-SrcIP: [209.85.217.53]
-Received: by mail-vs1-f53.google.com with SMTP id v1so7561923vsb.10;
-        Sat, 27 Jun 2020 23:00:25 -0700 (PDT)
-X-Gm-Message-State: AOAM530k89AAmSs5jO+yfXAgJDXHO6BTsWN6W0TaZRYx5dxP4+7ZjY72
-        Xh2KkY3B6kF/PWm5PaRcj3xTyx1ct6fpV3KLddY=
-X-Google-Smtp-Source: ABdhPJxgrePNlmZbq4ODpdCqz51OGKwCFn/JnfhPPtPIn9WGJz+XI26wgi75kbSCrE2XC7QDCT/X8jAgUv6zb+cIVPk=
-X-Received: by 2002:a67:22c7:: with SMTP id i190mr7470079vsi.179.1593324024627;
- Sat, 27 Jun 2020 23:00:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200213122410.1605-1-masahiroy@kernel.org> <202002251057.C4E397A@keescook>
-In-Reply-To: <202002251057.C4E397A@keescook>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 28 Jun 2020 14:59:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASw0YT8_itaa0OeZi8toV1TUj6EKCMbg6rchdYub0cgww@mail.gmail.com>
-Message-ID: <CAK7LNASw0YT8_itaa0OeZi8toV1TUj6EKCMbg6rchdYub0cgww@mail.gmail.com>
-Subject: Re: [PATCH] gcc-plugins: fix gcc-plugins directory path in documentation
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Emese Revfy <re.emese@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Sun, 28 Jun 2020 02:17:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1593325045;
+        s=strato-dkim-0002; d=goldelico.com;
+        h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=m5DGw2srTjGAfAegBLNLm8kQtSc40dBbbxgwlH3oaRo=;
+        b=Zbnhwvcm6PVVsWPaGd/gxF5WdWJuu1yn7TcagkTse+T/F6fZw5FSsIdBytnt2CU88x
+        Xj5cxXaBuMRr8ya4RaO7FdD/ghGT8KGGCqz9rbpBwj7yVzv8Ns8oWvR6579tHdD4jhsX
+        mwqtb3Fys689zyzsx+nAcWd0q+7KyDBloTVsG+hP5r+HZtaaY4jzTrkxnbt1VDwL3GJq
+        OLslCvikhZLPaHlbc8DEF+KNVLo8BxgLgMphAkUtB1inJRADeWQlZeTBHQ+elHZte2Ng
+        r9vkgXl0t0Kce1j2LnyuHCVgipIgxMROVCa8cJN5KO5VjtvxzCvaGOX1mhymZ/JuXV8L
+        YnyA==
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHmAgw47kDQ=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box
+        by smtp.strato.de (RZmta 46.10.5 DYNA|AUTH)
+        with ESMTPSA id V07054w5S6HBIFd
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Sun, 28 Jun 2020 08:17:11 +0200 (CEST)
+Subject: Re: [PATCH] modpost: remove use of non-standard strsep() in HOSTCC code
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Content-Type: text/plain; charset=us-ascii
+From:   "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <CAK7LNATCLscXNDZ1RUmbnM5BeV-tvKjz9kQB8eo0SNp10WbjFQ@mail.gmail.com>
+Date:   Sun, 28 Jun 2020 08:17:10 +0200
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Discussions about the Letux Kernel 
+        <letux-kernel@openphoenux.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2D851B90-5F85-4136-AF70-E764FDF4D7DD@goldelico.com>
+References: <11c1e65b393b4c3ca6118515c77bbf19524dab11.1593074472.git.hns@goldelico.com> <CAK7LNATCLscXNDZ1RUmbnM5BeV-tvKjz9kQB8eo0SNp10WbjFQ@mail.gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+X-Mailer: Apple Mail (2.3124)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Feb 26, 2020 at 3:58 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Thu, Feb 13, 2020 at 09:24:10PM +0900, Masahiro Yamada wrote:
-> > Fix typos "plgins" -> "plugins".
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->
-> Thanks!
->
-> Acked-by: Kees Cook <keescook@chromium.org>
->
-> Jon, can you take this?
+Hi,
 
-I noticed this patch had fallen into a crack.
+> Am 28.06.2020 um 07:51 schrieb Masahiro Yamada <masahiroy@kernel.org>:
+>=20
+> On Thu, Jun 25, 2020 at 5:47 PM H. Nikolaus Schaller =
+<hns@goldelico.com> wrote:
+>>=20
+>> strsep() is neither standard C nor POSIX and used outside
+>> the kernel code here. Using it here requires that the
+>> build host supports it out of the box which is e.g.
+>> not true for a Darwin build host and using a cross-compiler.
+>> This leads to:
+>>=20
+>> scripts/mod/modpost.c:145:2: warning: implicit declaration of =
+function 'strsep' [-Wimplicit-function-declaration]
+>>  return strsep(stringp, "\n");
+>>  ^
+>>=20
+>> and a segfault when running MODPOST.
+>>=20
+>> See also: https://stackoverflow.com/a/7219504
+>>=20
+>> So let's add some lines of code separating the string at the
+>> next newline character instead of using strsep(). It does not
+>> hurt kernel size or speed since this code is run on the build host.
+>>=20
+>> Fixes: ac5100f5432967 ("modpost: add read_text_file() and get_line() =
+helpers")
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> ---
+>> scripts/mod/modpost.c | 7 ++++++-
+>> 1 file changed, 6 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>> index 6aea65c65745..8fe63989c6e1 100644
+>> --- a/scripts/mod/modpost.c
+>> +++ b/scripts/mod/modpost.c
+>> @@ -138,11 +138,16 @@ char *read_text_file(const char *filename)
+>>=20
+>> char *get_line(char **stringp)
+>> {
+>> +       char *p;
+>>        /* do not return the unwanted extra line at EOF */
+>>        if (*stringp && **stringp =3D=3D '\0')
+>=20
+> This check does not make sense anymore.
+>=20
+> Previously, get_line(NULL) returns NULL.
+>=20
+> With your patch, get_line(NULL) crashes
+> due to NULL-pointer dereference.
 
-Applied to linux-kbuild now.
-Thanks.
+Well, that is original code.
+
+I have only replaced the strsep() function.
+But yes, it looks to be better in addition to
+my patch.
+
+>=20
+>=20
+>=20
+>>                return NULL;
+>>=20
+>> -       return strsep(stringp, "\n");
+>> +       p =3D *stringp;
+>> +       while (**stringp !=3D '\n')
+>> +               (*stringp)++;
+>=20
+>=20
+> Is this a safe conversion?
+>=20
+> If the input file does not contain '\n' at all,
+> this while-loop continues running,
+> and results in the segmentation fault
+> due to buffer over-run.
+
+Ah, yes, you are right.
+
+We should use
+
++       while (**stringp && **stringp !=3D '\n')
+
+>=20
+>=20
+>=20
+>> +       *(*stringp)++ =3D '\0';
+>> +       return p;
+>> }
+>=20
+>=20
+>=20
+> How about this?
+>=20
+> char *get_line(char **stringp)
+> {
+>        char *orig =3D *stringp;
+
+^^^ this still segfaults with get_line(NULL)
+
+>        char *next;
+>=20
+>        /* do not return the unwanted extra line at EOF */
+>        if (!orig || *orig =3D=3D '\0')
+>                return NULL;
+>=20
+>        next =3D strchr(orig, '\n');
+>        if (next)
+>                *next++ =3D '\0';
+>=20
+>        *stringp =3D next;
+
+Yes, this code is easier to understand than my while loop.
+And strchr() is POSIX.
+
+So should I submit an updated patch or do you want to submit
+it (with a suggested-by: H. Nikolaus Schaller <hns@goldelico.com>)
+
+BR and thanks,
+Nikolaus Schaller
 
 
-
-
-
-> -Kees
->
-> > ---
-> >
-> >  Documentation/kbuild/reproducible-builds.rst | 2 +-
-> >  scripts/gcc-plugins/Kconfig                  | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> > index 503393854e2e..3b25655e441b 100644
-> > --- a/Documentation/kbuild/reproducible-builds.rst
-> > +++ b/Documentation/kbuild/reproducible-builds.rst
-> > @@ -101,7 +101,7 @@ Structure randomisation
-> >
-> >  If you enable ``CONFIG_GCC_PLUGIN_RANDSTRUCT``, you will need to
-> >  pre-generate the random seed in
-> > -``scripts/gcc-plgins/randomize_layout_seed.h`` so the same value
-> > +``scripts/gcc-plugins/randomize_layout_seed.h`` so the same value
-> >  is used in rebuilds.
-> >
-> >  Debug info conflicts
-> > diff --git a/scripts/gcc-plugins/Kconfig b/scripts/gcc-plugins/Kconfig
-> > index e3569543bdac..7b63c819610c 100644
-> > --- a/scripts/gcc-plugins/Kconfig
-> > +++ b/scripts/gcc-plugins/Kconfig
-> > @@ -86,7 +86,7 @@ config GCC_PLUGIN_RANDSTRUCT
-> >         source tree isn't cleaned after kernel installation).
-> >
-> >         The seed used for compilation is located at
-> > -       scripts/gcc-plgins/randomize_layout_seed.h.  It remains after
-> > +       scripts/gcc-plugins/randomize_layout_seed.h.  It remains after
-> >         a make clean to allow for external modules to be compiled with
-> >         the existing seed and will be removed by a make mrproper or
-> >         make distclean.
-> > --
-> > 2.17.1
-> >
->
-> --
-> Kees Cook
-
-
-
---
-Best Regards
-
-Masahiro Yamada
