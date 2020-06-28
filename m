@@ -2,218 +2,201 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1869B20C8F8
-	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jun 2020 18:20:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAE9520C912
+	for <lists+linux-kbuild@lfdr.de>; Sun, 28 Jun 2020 18:57:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726059AbgF1QU6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 28 Jun 2020 12:20:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38546 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726007AbgF1QU5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Jun 2020 12:20:57 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9339F20720;
-        Sun, 28 Jun 2020 16:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593361257;
-        bh=RcEujEHL5VjBR1kogQARYLuzR1HyrB6e+JRCkRnS/yI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=C/Oio8DzOhFrrKARKdRgXBi/+TB4qXh5w4eo3RkAfkIpkqOOWC3T1+5Vexa4tsrCL
-         pcVcLSXL9K+/yAgTmluXbOz8lK/nweg+HhmDuTorzedUrPXDtHIh8+Dihm6Hf5HOjU
-         UMwILB6pwjBtg4xcUbncNCpaEPqEKK2mvD6Ye/nA=
-Date:   Sun, 28 Jun 2020 18:20:53 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Maxim Levitsky <mlevitsk@redhat.com>
-Subject: Re: [PATCH] kconfig: qconf: make debug links work again
-Message-ID: <20200628182053.18bfe307@coco.lan>
-In-Reply-To: <CAK7LNARnDe0ToxYj9mMpocxzmrUvp6yf14iDRxgG8nGuGcxFKw@mail.gmail.com>
-References: <ff9d1c3369b96c1d14b1e898e3d5f64ad945b604.1593346883.git.mchehab+huawei@kernel.org>
-        <CAK7LNARnDe0ToxYj9mMpocxzmrUvp6yf14iDRxgG8nGuGcxFKw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726604AbgF1Q5X (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 28 Jun 2020 12:57:23 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:22233 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726040AbgF1Q5W (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 28 Jun 2020 12:57:22 -0400
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 05SGuuHv026311;
+        Mon, 29 Jun 2020 01:56:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 05SGuuHv026311
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593363417;
+        bh=dzgWJCQRhelJ3hJ0whBHzpzDiUuuI9JauHMlySTBPIU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=pQVYjDhzrsJA6M7XpxbJqHnruHm5X7g3n1Kzkw5zIgfgjDRo+j3deI8xW2don1xHR
+         SO+SQYBUZEyFCUrGc50KFSaD6YGpHcgOKivDLJFzcFvMcZFDoPh826AnzwDJ/dTlcZ
+         XEHXkbH3vze9eTTjPhA7py9Zff0qRrVUxiwkXyF0tIgZ4rdkeQox0ibMhHZYMY/erK
+         zHU1NLw3Y18syCdL5Ik0bFu8+9v5P2RWmtIFa7ICyZ8tDEiHkIvajb/YAroj4VMm13
+         gNClWmaKr+LUcfv6+gze80dpCl/cxi0AKBoUjJ4gBkf7NT1SlwUhJRo1YxZ8+yAd8X
+         G4UFTF0GMf0Qw==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id o10so374528uab.10;
+        Sun, 28 Jun 2020 09:56:57 -0700 (PDT)
+X-Gm-Message-State: AOAM530M0gL/cGHD+qFco4QjHNHeXqLM+pwpTCnTFUJj+eP/29AOPQzM
+        PgCSfeT8L/bB+FReC4Apl2fb8JZE7VSr0Xzy4+M=
+X-Google-Smtp-Source: ABdhPJyMuCHcA0fUYMlHXkn2vrcpvctKNxRD41GXgGVOqeU3V4PpT9PTQAU55moKry8aIAY4mBAqmLgVOy+XRSWLbeg=
+X-Received: by 2002:ab0:156d:: with SMTP id p42mr8396563uae.121.1593363415963;
+ Sun, 28 Jun 2020 09:56:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200624203200.78870-1-samitolvanen@google.com>
+In-Reply-To: <20200624203200.78870-1-samitolvanen@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 29 Jun 2020 01:56:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASvb0UDJ0U5wkYYRzTAdnEs64HjXpEUL7d=V0CXiAXcNw@mail.gmail.com>
+Message-ID: <CAK7LNASvb0UDJ0U5wkYYRzTAdnEs64HjXpEUL7d=V0CXiAXcNw@mail.gmail.com>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Em Sun, 28 Jun 2020 23:41:46 +0900
-Masahiro Yamada <masahiroy@kernel.org> escreveu:
+On Thu, Jun 25, 2020 at 5:32 AM 'Sami Tolvanen' via Clang Built Linux
+<clang-built-linux@googlegroups.com> wrote:
+>
+> This patch series adds support for building x86_64 and arm64 kernels
+> with Clang's Link Time Optimization (LTO).
+>
+> In addition to performance, the primary motivation for LTO is to allow
+> Clang's Control-Flow Integrity (CFI) to be used in the kernel. Google's
+> Pixel devices have shipped with LTO+CFI kernels since 2018.
+>
+> Most of the patches are build system changes for handling LLVM bitcode,
+> which Clang produces with LTO instead of ELF object files, postponing
+> ELF processing until a later stage, and ensuring initcall ordering.
+>
+> Note that first objtool patch in the series is already in linux-next,
+> but as it's needed with LTO, I'm including it also here to make testing
+> easier.
 
-> On Sun, Jun 28, 2020 at 9:21 PM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > The Qt5 conversion broke support for debug info links.
-> >
-> > Restore the behaviour added by changeset
-> > ab45d190fd4a ("kconfig: create links in info window").
-> >
-> > Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> 
-> I tested this patch, but this caused
-> segmentation fault.
-> 
-> 
-> I enabled 'Show Debug Info',
-> and then clicked
-> dep: <symbol name>.
-> 
-> Then, xconfig crashed.
-> 
-> (without this patch, it did not cause
-> segfault at least)
-> 
-> Did you see this?
 
-Could you please try the attached version? It should validate again the
-symbols, instead of relying on a pointer passed via an URL.
+I put this series on a testing branch,
+and 0-day bot started reporting some issues.
 
-This version still passes pointers via URLs for menus, though,
-as it doesn't implement any logic for seeking the menu->prompt
-string.
+(but 0-day bot is quieter than I expected.
+Perhaps, 0-day bot does not turn on LLVM=1 ?)
 
-With this version, if something bad happens when parsing a
-symbol internal URL, the code will print a message and ignore
-it.
 
-Thanks,
-Mauro
 
-[PATCH] kconfig: qconf: make debug links work again
+I also got an error for
+ARCH=arm64 allyesconfig + CONFIG_LTO_CLANG=y
 
-The Qt5 conversion broke support for debug info links.
 
-Restore the behaviour added by changeset
-ab45d190fd4a ("kconfig: create links in info window").
 
-Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+$ make ARCH=arm64 LLVM=1 LLVM_IAS=1
+CROSS_COMPILE=~/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-
+-j24
 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 631e19659504..7dae5c5989db 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -7,6 +7,7 @@
- #include <QAction>
- #include <QApplication>
- #include <QCloseEvent>
-+#include <QDebug>
- #include <QDesktopWidget>
- #include <QFileDialog>
- #include <QLabel>
-@@ -1012,7 +1013,7 @@ ConfigInfoView::ConfigInfoView(QWidget* parent, const char *name)
- 	: Parent(parent), sym(0), _menu(0)
- {
- 	setObjectName(name);
--
-+	setOpenLinks(false);
- 
- 	if (!objectName().isEmpty()) {
- 		configSettings->beginGroup(objectName());
-@@ -1085,7 +1086,7 @@ void ConfigInfoView::menuInfo(void)
- 			if (sym->name) {
- 				head += " (";
- 				if (showDebug())
--					head += QString().sprintf("<a href=\"s%p\">", sym);
-+					head += QString().sprintf("<a href=\"s%s\">", sym->name);
- 				head += print_filter(sym->name);
- 				if (showDebug())
- 					head += "</a>";
-@@ -1094,7 +1095,7 @@ void ConfigInfoView::menuInfo(void)
- 		} else if (sym->name) {
- 			head += "<big><b>";
- 			if (showDebug())
--				head += QString().sprintf("<a href=\"s%p\">", sym);
-+				head += QString().sprintf("<a href=\"s%s\">", sym->name);
- 			head += print_filter(sym->name);
- 			if (showDebug())
- 				head += "</a>";
-@@ -1217,13 +1218,56 @@ void ConfigInfoView::expr_print_help(void *data, struct symbol *sym, const char
- 	QString str2 = print_filter(str);
- 
- 	if (sym && sym->name && !(sym->flags & SYMBOL_CONST)) {
--		*text += QString().sprintf("<a href=\"s%p\">", sym);
-+		*text += QString().sprintf("<a href=\"s%s\">", sym->name);
- 		*text += str2;
- 		*text += "</a>";
- 	} else
- 		*text += str2;
- }
- 
-+void ConfigInfoView::clicked(const QUrl &url)
-+{
-+	QByteArray str = url.toEncoded();
-+	const std::size_t count = str.size();
-+	char *hex = new char[count + 1];
-+	char type;
-+	struct symbol **result;
-+
-+	if (count < 1) {
-+		qInfo() << "Clicked link is empty";
-+		return;
-+	}
-+
-+	memcpy(hex, str.constData(), count);
-+	type = hex[0];
-+
-+	if (type == 's') {
-+		/* Seek for exact match */
-+		hex[0] = '^';
-+		strcat(hex, "$");
-+		result = sym_re_search(hex);
-+		if (!result) {
-+			qInfo() << "Clicked symbol is invalid";
-+			return;
-+		}
-+
-+		sym = *result;
-+		symbolInfo();
-+	} else {
-+		unsigned long p = (int)strtol(hex + 1, NULL, 16);
-+		if (!p) {
-+			qInfo() << "Clicked menu is invalid";
-+			return;
-+		}
-+
-+		struct menu *m = (struct menu *)p;
-+
-+		_menu = m;
-+		menuInfo();
-+	}
-+	emit showDebugChanged(true);
-+}
-+
- QMenu* ConfigInfoView::createStandardContextMenu(const QPoint & pos)
- {
- 	QMenu* popup = Parent::createStandardContextMenu(pos);
-@@ -1497,6 +1541,9 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	helpMenu->addAction(showIntroAction);
- 	helpMenu->addAction(showAboutAction);
- 
-+	connect (helpText, SIGNAL (anchorClicked (const QUrl &)),
-+		 helpText, SLOT (clicked (const QUrl &)) );
-+
- 	connect(configList, SIGNAL(menuChanged(struct menu *)),
- 		helpText, SLOT(setInfo(struct menu *)));
- 	connect(configList, SIGNAL(menuSelected(struct menu *)),
-diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
-index d913a02967ae..a193137f2314 100644
---- a/scripts/kconfig/qconf.h
-+++ b/scripts/kconfig/qconf.h
-@@ -250,6 +250,7 @@ public slots:
- 	void setInfo(struct menu *menu);
- 	void saveSettings(void);
- 	void setShowDebug(bool);
-+	void clicked (const QUrl &url);
- 
- signals:
- 	void showDebugChanged(bool);
+  ...
 
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.a
+  GEN     .tmp_initcalls.lds
+  GEN     .tmp_symversions.lds
+  LTO     vmlinux.o
+  MODPOST vmlinux.symvers
+  MODINFO modules.builtin.modinfo
+  GEN     modules.builtin
+  LD      .tmp_vmlinux.kallsyms1
+ld.lld: error: undefined symbol: __compiletime_assert_905
+>>> referenced by irqbypass.c
+>>>               vmlinux.o:(jeq_imm)
+make: *** [Makefile:1161: vmlinux] Error 1
+
+
+
+
+
+
+
+
+> Sami Tolvanen (22):
+>   objtool: use sh_info to find the base for .rela sections
+>   kbuild: add support for Clang LTO
+>   kbuild: lto: fix module versioning
+>   kbuild: lto: fix recordmcount
+>   kbuild: lto: postpone objtool
+>   kbuild: lto: limit inlining
+>   kbuild: lto: merge module sections
+>   kbuild: lto: remove duplicate dependencies from .mod files
+>   init: lto: ensure initcall ordering
+>   init: lto: fix PREL32 relocations
+>   pci: lto: fix PREL32 relocations
+>   modpost: lto: strip .lto from module names
+>   scripts/mod: disable LTO for empty.c
+>   efi/libstub: disable LTO
+>   drivers/misc/lkdtm: disable LTO for rodata.o
+>   arm64: export CC_USING_PATCHABLE_FUNCTION_ENTRY
+>   arm64: vdso: disable LTO
+>   arm64: allow LTO_CLANG and THINLTO to be selected
+>   x86, vdso: disable LTO only for vDSO
+>   x86, ftrace: disable recordmcount for ftrace_make_nop
+>   x86, relocs: Ignore L4_PAGE_OFFSET relocations
+>   x86, build: allow LTO_CLANG and THINLTO to be selected
+>
+>  .gitignore                            |   1 +
+>  Makefile                              |  27 ++-
+>  arch/Kconfig                          |  65 +++++++
+>  arch/arm64/Kconfig                    |   2 +
+>  arch/arm64/Makefile                   |   1 +
+>  arch/arm64/kernel/vdso/Makefile       |   4 +-
+>  arch/x86/Kconfig                      |   2 +
+>  arch/x86/Makefile                     |   5 +
+>  arch/x86/entry/vdso/Makefile          |   5 +-
+>  arch/x86/kernel/ftrace.c              |   1 +
+>  arch/x86/tools/relocs.c               |   1 +
+>  drivers/firmware/efi/libstub/Makefile |   2 +
+>  drivers/misc/lkdtm/Makefile           |   1 +
+>  include/asm-generic/vmlinux.lds.h     |  12 +-
+>  include/linux/compiler-clang.h        |   4 +
+>  include/linux/compiler.h              |   2 +-
+>  include/linux/compiler_types.h        |   4 +
+>  include/linux/init.h                  |  78 +++++++-
+>  include/linux/pci.h                   |  15 +-
+>  kernel/trace/ftrace.c                 |   1 +
+>  lib/Kconfig.debug                     |   2 +-
+>  scripts/Makefile.build                |  55 +++++-
+>  scripts/Makefile.lib                  |   6 +-
+>  scripts/Makefile.modfinal             |  40 +++-
+>  scripts/Makefile.modpost              |  26 ++-
+>  scripts/generate_initcall_order.pl    | 270 ++++++++++++++++++++++++++
+>  scripts/link-vmlinux.sh               | 100 +++++++++-
+>  scripts/mod/Makefile                  |   1 +
+>  scripts/mod/modpost.c                 |  16 +-
+>  scripts/mod/modpost.h                 |   9 +
+>  scripts/mod/sumversion.c              |   6 +-
+>  scripts/module-lto.lds                |  26 +++
+>  scripts/recordmcount.c                |   3 +-
+>  tools/objtool/elf.c                   |   2 +-
+>  34 files changed, 737 insertions(+), 58 deletions(-)
+>  create mode 100755 scripts/generate_initcall_order.pl
+>  create mode 100644 scripts/module-lto.lds
+>
+>
+> base-commit: 26e122e97a3d0390ebec389347f64f3730fdf48f
+> --
+> 2.27.0.212.ge8ba1cc988-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200624203200.78870-1-samitolvanen%40google.com.
+
+
+
+--
+Best Regards
+Masahiro Yamada
