@@ -2,87 +2,194 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E47E20E478
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 00:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26BC720E8DA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 01:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387852AbgF2VZp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jun 2020 17:25:45 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:37277 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726862AbgF2VZW (ORCPT
+        id S1728261AbgF2WjY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jun 2020 18:39:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbgF2WjX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jun 2020 17:25:22 -0400
-Received: by mail-il1-f193.google.com with SMTP id r12so8592120ilh.4;
-        Mon, 29 Jun 2020 14:25:21 -0700 (PDT)
+        Mon, 29 Jun 2020 18:39:23 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916E5C061755
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 15:39:23 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id g17so7649549plq.12
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 15:39:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Zapdhd5wOeOGPDdB4uAKBeHEzFOq3zrNgTJZIPqzsqk=;
+        b=Wvv6Dtahe6GleCa8gnqJNTTtBdjrDG/3r9+HUHNe1jsxUhVUVDEgPWlkxSOV3+OcpV
+         v0yR4N+iEbZgX778DbNIAGbX2TIxXq8+Gi5oJu49hU17BL7Hul5QEysAexG+ydNbgMOo
+         PgZNkcokgimWBksjl3pSSevXfUPYwItR7Qx+SH3PIHn4sW66rnj1q1F8YWuGydSIXxFr
+         NVXjogMU4noRATaEN0MJ6mFh4ZeVK1i3Bij938QPTFKa5JAl6VfJKmGV/K9AeE4afg28
+         digtp2TDXdCuKL/FpFMtMWT1RH71K4pG9kI+Uky6Ez4JPeUdL50qfh7445r1NRn122Id
+         mcwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8sRNZq3i6sSIEbh/4bbkFq8rEMNhJ4QITzwGR/lljm8=;
-        b=BMC1syC41NCzxzB/pbvJpgmQ9FcJc5r2D9qsr143aDRDPwde32ULP75xo6hvY+HWtd
-         zDs9rX3aN+AZolPZnXfuJ/Pddaesd9gT3tUQhK1K5K72vX/qyoEOfeHK7MeisQh8vr6K
-         qPAivX8E+N9cl/7GtrHIjbACdnyPdHdSYBkce5VbSW3vJXAB0GlvsKZpksM7dgjTn/a8
-         CRq13jzvF8q+y0d4Gd0yz54JG48+UWl8PBqLIZpum2LNlhjllL2RzF1DgC116EdW50gy
-         bxMNzYL+dJMt6a9IJAfS84wSVfPTENitg2A8kHmFF/xZ10pVbQdB1JYin3bSl7doJ/qe
-         /fFQ==
-X-Gm-Message-State: AOAM531oa1G9btWWBSgKh3ZdNF6mVUbfN1BL+izUwqhB4NJd2u4Vhzxa
-        9+MVaBm15Ar84+kjGg5y3g==
-X-Google-Smtp-Source: ABdhPJx7dUZO0U25grEUl0vGwvMDDg6JWilgQ6/cy87UtwfMefk9HX94VG7CywqBbog84JPOnX3tTQ==
-X-Received: by 2002:a92:b685:: with SMTP id m5mr17246717ill.219.1593465921481;
-        Mon, 29 Jun 2020 14:25:21 -0700 (PDT)
-Received: from xps15 ([64.188.179.255])
-        by smtp.gmail.com with ESMTPSA id v3sm630164ili.12.2020.06.29.14.25.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 14:25:21 -0700 (PDT)
-Received: (nullmailer pid 2935889 invoked by uid 1000);
-        Mon, 29 Jun 2020 21:25:19 -0000
-Date:   Mon, 29 Jun 2020 15:25:19 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Frank Rowand <frowand.list@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: [PATCH 3/4] dt-bindings: copy process-schema-examples.yaml to
- process-schema.yaml
-Message-ID: <20200629212519.GA2935789@bogus>
-References: <20200625170434.635114-1-masahiroy@kernel.org>
- <20200625170434.635114-4-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Zapdhd5wOeOGPDdB4uAKBeHEzFOq3zrNgTJZIPqzsqk=;
+        b=Kc0PP86dRoewfAigQAgRAjUZwaIOtLwMEIiXTR3g7NlL0xUQ7BMePVzSVRvxfSdw2Q
+         COiz6HfLa1iRDGk3RVTRwJBoKsIBtNrqCkY/LKX3rQ5fsvZfVvZ3GCCd5AsaFeF8J/2k
+         /43AtDOAXIl3c0BNX5dNC8UFGCs5xjxllN7iNsqtJK2Nti8B4rm7r/3r9to3FrKIg39Q
+         BpWdMC39Kiy+RGcm46ZXvIxAbzoqX1O3whp1NuYhsef5OcgAea/jYcGOtU+69Wcd9b/u
+         RyaONBHozRe++lvc+3aZlHH7j8zFMm54IIQOgTC61gfh00GyBUVP+AMhW439cRxrCUkU
+         1qsQ==
+X-Gm-Message-State: AOAM533MVhoJ45yrs1zpZqtClGzarxHCWkmJXdkZ6TJHhHkIw7rKkFd2
+        ApK8zTYeM9S5blOcR7obyNROC/RZwy0TZ/iVPvLzXXhAJYU=
+X-Google-Smtp-Source: ABdhPJzKxVVA/UERXMxrjy6ojZ8dNl3GRmf36xXfXS/hUkCCbIEUj7V30jAYgp4qDheTF4tDFuQLeaTyAIpDG9yRI/I=
+X-Received: by 2002:a17:902:7208:: with SMTP id ba8mr15114728plb.179.1593470362777;
+ Mon, 29 Jun 2020 15:39:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200625170434.635114-4-masahiroy@kernel.org>
+References: <20200626185913.92890-1-masahiroy@kernel.org> <CAKwvOd=V_M43CP7G87K3TqSsxua2NcXPz6BnDt-z6167O2WAzQ@mail.gmail.com>
+ <CAK7LNATcwGkSWV7NSgwG_WqzvTPphT9=KK+qvT3FK_7y1UCzTA@mail.gmail.com> <CAKwvOdntZw2k8ZZ7txPC-FD+50cPpMwctGYTW0j2zw+FVj9SgA@mail.gmail.com>
+In-Reply-To: <CAKwvOdntZw2k8ZZ7txPC-FD+50cPpMwctGYTW0j2zw+FVj9SgA@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 29 Jun 2020 15:39:11 -0700
+Message-ID: <CAKwvOd=JbEJNdWzk_xdMiy9QewbU3ESOHcokAXKkARrgm-ibEg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: remove cc-option test of -fno-stack-protector
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 26 Jun 2020 02:04:33 +0900, Masahiro Yamada wrote:
-> There are two processed schema files:
-> 
->  - processed-schema-examples.yaml
-> 
->     Used for 'make dt_binding_check'. This is always a full schema.
-> 
->  - processed-schema.yaml
-> 
->     Used for 'make dtbs_check'. This may be a full schema, or a smaller
->     subset if DT_SCHEMA_FILES is given by a user.
-> 
-> If DT_SCHEMA_FILES is not specified, they are the same. You can copy
-> the former to the latter instead of running dt-mk-schema twice. This
-> saves the cpu time a lot when you do 'make dt_binding_check dtbs_check'
-> because building the full schema takes a couple of seconds.
-> 
-> If DT_SCHEMA_FILES is specified, processed-schema.yaml is generated
-> based on the specified yaml files.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  Documentation/devicetree/bindings/Makefile | 28 +++++++++++++++-------
->  scripts/Makefile.lib                       |  3 +++
->  2 files changed, 23 insertions(+), 8 deletions(-)
-> 
+On Mon, Jun 29, 2020 at 11:26 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Sat, Jun 27, 2020 at 4:59 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Sat, Jun 27, 2020 at 5:13 AM Nick Desaulniers
+> > <ndesaulniers@google.com> wrote:
+> > >
+> > > On Fri, Jun 26, 2020 at 12:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > >
+> > > > diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+> > > > index dba6a83bc349..93792b457b81 100644
+> > > > --- a/arch/x86/kernel/cpu/Makefile
+> > > > +++ b/arch/x86/kernel/cpu/Makefile
+> > > > @@ -17,8 +17,7 @@ KCOV_INSTRUMENT_perf_event.o := n
+> > > >  KCSAN_SANITIZE_common.o := n
+> > > >
+> > > >  # Make sure load_percpu_segment has no stackprotector
+> > > > -nostackp := $(call cc-option, -fno-stack-protector)
+> > > > -CFLAGS_common.o                := $(nostackp)
+> > > > +CFLAGS_common.o                := -fno-stack-protector
+> > >
+> > > Any time I see `:=` assignment to a CFLAGS variable, it's a red flag
+> > > for overwriting existing CFLAGS, which is a common source of bugs.  I
+> > > recognize the kernel is current a mix and match for:
+> > >
+> > > CFLAGS_<file>.o
+> > >
+> > > rules to either use `+=` or `:=`, but I wish we were consistent, and
+> > > consistent in our use of `+=`.  For those rules, is there a difference
+> > > between the use of `+=` and `:=` like there is for the more general
+> > > case of appending to KBUILD_CFLAGS?  If not, it's ok to match the
+> > > existing style, but it's curious to me in this patch to see a mixed
+> > > use of `+=` and `:=`.
+> >
+> >
+> > I think Kees mostly answered your question.
+> >
+> > Let me add some comments.
+> >
+> >
+> > '+=' is the most used in kernel Makefiles, but
+> > ':=' and '=' are also used.
+> >
+> > So, you are right, we are inconsistent.
+> > This applies to not only CFLAGS_<file>.o, but also obj-y, etc.
+> >
+> > For example,
+> > https://github.com/torvalds/linux/blob/v5.7/arch/arm64/kernel/Makefile#L15
+> > 'obj-y :=' works since it is the first assignment to obj-y in that file.
+> > 'obj-y +=' also works, of course.
+> >
+> > We can consistently use '+=' everywhere, but I do not send
+> > patches for churn.
+> >
+> >
+> > You can use any assignment operator to CFLAGS_<file>.o
+> > if it is the first assignment in the Makefile.
+> > Using '+=' is robust for future code insertion/removal, though.
+> >
+> >
+> > If the right-hand side contains variable references,
+> > there is important difference in the behavior.
+> >
+> > You may know two flavors in variables
+> > (https://www.gnu.org/software/make/manual/make.html#Flavors)
+>
+> Cool, thanks for all the info.  With that, I'm happy with this patch.
+>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+>
+>
+> > CFLAGS_foo.o := $(call cc-option,-fno-stack-protector)
+> > The cc-option is expanded immediately when this line is parsed.
+> > (So, the compiler is invoked for 'make clean' too)
+> >
+> >
+> > CFLAGS_foo.o += $(call cc-option,-fno-stack-protector)
+> > If this is the first assignment in the file,
+> > '+=' act as '=', so the evaluation of cc-option
+> > is delayed until $(CFLAGS_foo.o) is expanded.
+> > (So, the compiler is NOT invoked for 'make clean')
+>
+> Ah, I think that may explain: I've been seeing the occasional warning
+> from $(NM) when running `make clean` for ARCH=arm, I'll bet that's
+> where this is coming from then.  Next time I reproduce it, I'll try to
+> find maybe where we're using `:=` or `=` with `$(NM)`.
+>
+> Maybe arch/arm/boot/compressed/Makefile, KBSS_SZ is evaluated for
+> `make clean`? (If you start an arm build, but kill it before vmlinux
+> is created, then `make clean` I suspect that KBSS_SZ is evaluated?)
 
-Applied, thanks!
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71
+$ rm vmlinux
+$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71 clean
+llvm-nm: error: arch/arm/boot/compressed/../../../../vmlinux: No such
+file or directory.
+
+I suspect I see this from doing an ARCH=arm build, then building a
+different ARCH and killing the build before vmlinux is produced or
+`make clean` for a different ARCH, then run a `make clean` for
+ARCH=arm.
+
+Is the above (regarding lazy evaluation) not true for LDFLAGS_vmlinux?
+I would have thought this would work:
+
+diff --git a/arch/arm/boot/compressed/Makefile
+b/arch/arm/boot/compressed/Makefile
+index 00602a6fba04..9e7343ccc279 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -113,10 +113,9 @@ ccflags-y := -fpic $(call
+cc-option,-mno-single-pic-base,) -fno-builtin \
+ asflags-y := -DZIMAGE
+
+ # Supply kernel BSS size to the decompressor via a linker symbol.
+-KBSS_SZ = $(shell echo $$(($$($(NM) $(obj)/../../../../vmlinux | \
++LDFLAGS_vmlinux = --defsym _kernel_bss_size=$(shell echo $$(($$($(NM)
+$(obj)/../../../../vmlinux | \
+                sed -n -e 's/^\([^ ]*\) [AB] __bss_start$$/-0x\1/p' \
+-                      -e 's/^\([^ ]*\) [AB] __bss_stop$$/+0x\1/p') )) )
+-LDFLAGS_vmlinux = --defsym _kernel_bss_size=$(KBSS_SZ)
++                                        -e 's/^\([^ ]*\) [AB]
+__bss_stop$$/+0x\1/p') )) )
+
+-- 
+Thanks,
+~Nick Desaulniers
