@@ -2,87 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D14A20CBB2
-	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2020 04:14:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 212D320D127
+	for <lists+linux-kbuild@lfdr.de>; Mon, 29 Jun 2020 20:41:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726409AbgF2COH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Sun, 28 Jun 2020 22:14:07 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:50419 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726404AbgF2COH (ORCPT
+        id S1727919AbgF2Si7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jun 2020 14:38:59 -0400
+Received: from condef-07.nifty.com ([202.248.20.72]:27946 "EHLO
+        condef-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728078AbgF2Si6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 28 Jun 2020 22:14:07 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e07484;MF=changhuaixin@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0U0xryp7_1593396842;
-Received: from 30.27.116.9(mailfrom:changhuaixin@linux.alibaba.com fp:SMTPD_---0U0xryp7_1593396842)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 29 Jun 2020 10:14:03 +0800
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH v3 0/3] Build ORC fast lookup table in scripts/sorttable
- tool
-From:   changhuaixin <changhuaixin@linux.alibaba.com>
-In-Reply-To: <20200603143945.64248-1-changhuaixin@linux.alibaba.com>
-Date:   Mon, 29 Jun 2020 10:14:01 +0800
-Cc:     changhuaixin <changhuaixin@linux.alibaba.com>, bp@alien8.de,
-        hpa@zytor.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, luto@amacapital.net,
-        michal.lkml@markovi.net, mingo@redhat.com,
-        Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de,
-        x86@kernel.org, yamada.masahiro@socionext.com
-Content-Transfer-Encoding: 8BIT
-Message-Id: <217C22B3-D08F-4CB9-BC8D-3645C8389F5D@linux.alibaba.com>
-References: <20200601173840.3f36m6l4fsu5bill@treble>
- <20200603143945.64248-1-changhuaixin@linux.alibaba.com>
-To:     jpoimboe@redhat.com
-X-Mailer: Apple Mail (2.3445.104.11)
+        Mon, 29 Jun 2020 14:38:58 -0400
+Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-07.nifty.com with ESMTP id 05T90bCW006206;
+        Mon, 29 Jun 2020 18:00:37 +0900
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-07.nifty.com with ESMTP id 05T8xLJe008001;
+        Mon, 29 Jun 2020 17:59:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 05T8xLJe008001
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593421162;
+        bh=NsoI4eUWa9rbUruhM1nTxkmNquCZM22p5ZB+WQfFzbo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jlSAjWegy8blUBTbRWrR5LNbNgr+6sUDD4Su7dkk7/TngS4kv/cGl5CqqGQPCyhQF
+         yaIh4+2pg6hFIu5K8J+1ewz7WazZuH1klic6KdWxuUZM91ZiTuWr+F/Lx55k2x8ePl
+         YUi546bppwJS8+0NfM6Iaqyq1rbRx3iEvZ52Ce4fFhJsQzVq2evnmJGBucgtDOnSNh
+         fDUvrxvKIJtNpfDugb7tMgAzjetNTgFKL0b2qEJrcxj5+QxMgfEspn+eQVtrayLXXG
+         /YjvcMt020z2AGxBKcK+PSX9SCjJ/LYcww+LGsXlAHmzNhCS9qAn2tyShs71A6kva4
+         CWLaMR6NrddZw==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH] kbuild: make Clang build userprogs for target architecture
+Date:   Mon, 29 Jun 2020 17:59:11 +0900
+Message-Id: <20200629085911.1676554-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Josh, will you please have a look at this patchset?
+Programs added 'userprogs' should be compiled for the target
+architecture i.e. the same architecture as the kernel.
 
-There might be another way to set SHT_PROGBITS of section .orc_lookup by writing section headers when orc_unwind and orc_unwind_ip tables are writen. It might be as follows:
+GCC does this correctly since the target architecture is implied
+by the toolchain prefix.
 
-diff --git a/tools/objtool/orc_gen.c b/tools/objtool/orc_gen.c
-index 3f98dcfbc177..860d4dcec8e6 100644
---- a/tools/objtool/orc_gen.c
-+++ b/tools/objtool/orc_gen.c
-@@ -183,6 +183,10 @@ int create_orc_sections(struct objtool_file *file)
-        u_sec = elf_create_section(file->elf, ".orc_unwind",
-                                   sizeof(struct orc_entry), idx);
+Clang builds standalone programs always for the host architecture
+because the target triple is currently missing.
 
-+       /* make flags of section orc_lookup right */
-+       if (!elf_create_section(file->elf, ".orc_lookup", sizeof(int), 0))
-+               return -1;
-+
+Fix this.
 
-What do you think about this way of setting SHT_PROGBITS?
+Fixes: 7f3a59db274c ("kbuild: add infrastructure to build userspace programs")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> On Jun 3, 2020, at 10:39 PM, Huaixin Chang <changhuaixin@linux.alibaba.com> wrote:
-> 
-> Move building of fast lookup table from boot to sorttable tool. This saves us
-> 6380us boot time on Intel(R) Xeon(R) CPU E5-2682 v4 @ 2.50GHz with cores. It
-> adds a little more than 7ms to boot time when testing on the same CPU.
-> 
-> Changelog v3:
-> 1. Modify annotation of unwind_init().
-> 
-> Changelog v2:
-> 1. Type of section orc_lookup needs to be SHT_PROGBITS.
-> 2. unwind_init() cannot be removed totally as setting lookup_num_blocks is needed.
-> 
-> Huaixin Chang (3):
->  scripts/sorttable: Change section type of orc_lookup to SHT_PROGBITS
->  scripts/sorttable: Build orc fast lookup table via sorttable tool
->  x86/unwind/orc: Simplify unwind_init() for x86 boot
-> 
-> arch/x86/kernel/unwind_orc.c      | 41 +---------------
-> include/asm-generic/vmlinux.lds.h |  2 +
-> scripts/sorttable.h               | 99 ++++++++++++++++++++++++++++++++++++---
-> 3 files changed, 96 insertions(+), 46 deletions(-)
-> 
-> -- 
-> 2.14.4.44.g2045bb6
+ Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 73948798ce3f..cac29cc2ec25 100644
+--- a/Makefile
++++ b/Makefile
+@@ -970,8 +970,8 @@ LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr
+ endif
+ 
+ # Align the bit size of userspace programs with the kernel
+-KBUILD_USERCFLAGS  += $(filter -m32 -m64, $(KBUILD_CFLAGS))
+-KBUILD_USERLDFLAGS += $(filter -m32 -m64, $(KBUILD_CFLAGS))
++KBUILD_USERCFLAGS  += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
++KBUILD_USERLDFLAGS += $(filter -m32 -m64 --target=%, $(KBUILD_CFLAGS))
+ 
+ # make the checker run with the right architecture
+ CHECKFLAGS += --arch=$(ARCH)
+-- 
+2.25.1
 
