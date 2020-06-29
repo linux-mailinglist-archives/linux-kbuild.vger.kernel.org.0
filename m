@@ -2,194 +2,146 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26BC720E8DA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 01:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD5020E943
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 01:22:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728261AbgF2WjY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jun 2020 18:39:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48376 "EHLO
+        id S1728567AbgF2XVH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jun 2020 19:21:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbgF2WjX (ORCPT
+        with ESMTP id S1729596AbgF2XVG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jun 2020 18:39:23 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 916E5C061755
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 15:39:23 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id g17so7649549plq.12
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 15:39:23 -0700 (PDT)
+        Mon, 29 Jun 2020 19:21:06 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43770C03E97B
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 16:21:06 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id z5so9020414pgb.6
+        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 16:21:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Zapdhd5wOeOGPDdB4uAKBeHEzFOq3zrNgTJZIPqzsqk=;
-        b=Wvv6Dtahe6GleCa8gnqJNTTtBdjrDG/3r9+HUHNe1jsxUhVUVDEgPWlkxSOV3+OcpV
-         v0yR4N+iEbZgX778DbNIAGbX2TIxXq8+Gi5oJu49hU17BL7Hul5QEysAexG+ydNbgMOo
-         PgZNkcokgimWBksjl3pSSevXfUPYwItR7Qx+SH3PIHn4sW66rnj1q1F8YWuGydSIXxFr
-         NVXjogMU4noRATaEN0MJ6mFh4ZeVK1i3Bij938QPTFKa5JAl6VfJKmGV/K9AeE4afg28
-         digtp2TDXdCuKL/FpFMtMWT1RH71K4pG9kI+Uky6Ez4JPeUdL50qfh7445r1NRn122Id
-         mcwA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Y3eOZWqjsfvFABJlAWadxHNb9WOoW2QZW11FNR7qgIM=;
+        b=wE7nxuQQ8Ee1SyIlOGu96foC1kguVLhQnWfsM449qkfn/VoKBCtsVMOqOmKx7IZI4C
+         RVaEjdafrzkZKrdHnHpUfIuUaR+nDUOQdXro+nnJx5XibnwFB04m0UpfLU8lcAfNzunK
+         FH4vq/4AmRKx0OXYjTpIwOSmyWjemlGQQrsAim9D+osZfnHYYrMcyKBMOA6AcmZTCt7D
+         SC8HEZlX2KwR8OsKRbEGGGO82nQHiO6QrFnPdGaYVsrLOIGowYuaQm3rOF21PeyeGPnP
+         uhJe537nfOotmxkifcJzP2KlYRs06hCp+YYdixCMO/J34Bhc2jSz49ZJoQbscAlwSyYN
+         PnZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Zapdhd5wOeOGPDdB4uAKBeHEzFOq3zrNgTJZIPqzsqk=;
-        b=Kc0PP86dRoewfAigQAgRAjUZwaIOtLwMEIiXTR3g7NlL0xUQ7BMePVzSVRvxfSdw2Q
-         COiz6HfLa1iRDGk3RVTRwJBoKsIBtNrqCkY/LKX3rQ5fsvZfVvZ3GCCd5AsaFeF8J/2k
-         /43AtDOAXIl3c0BNX5dNC8UFGCs5xjxllN7iNsqtJK2Nti8B4rm7r/3r9to3FrKIg39Q
-         BpWdMC39Kiy+RGcm46ZXvIxAbzoqX1O3whp1NuYhsef5OcgAea/jYcGOtU+69Wcd9b/u
-         RyaONBHozRe++lvc+3aZlHH7j8zFMm54IIQOgTC61gfh00GyBUVP+AMhW439cRxrCUkU
-         1qsQ==
-X-Gm-Message-State: AOAM533MVhoJ45yrs1zpZqtClGzarxHCWkmJXdkZ6TJHhHkIw7rKkFd2
-        ApK8zTYeM9S5blOcR7obyNROC/RZwy0TZ/iVPvLzXXhAJYU=
-X-Google-Smtp-Source: ABdhPJzKxVVA/UERXMxrjy6ojZ8dNl3GRmf36xXfXS/hUkCCbIEUj7V30jAYgp4qDheTF4tDFuQLeaTyAIpDG9yRI/I=
-X-Received: by 2002:a17:902:7208:: with SMTP id ba8mr15114728plb.179.1593470362777;
- Mon, 29 Jun 2020 15:39:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200626185913.92890-1-masahiroy@kernel.org> <CAKwvOd=V_M43CP7G87K3TqSsxua2NcXPz6BnDt-z6167O2WAzQ@mail.gmail.com>
- <CAK7LNATcwGkSWV7NSgwG_WqzvTPphT9=KK+qvT3FK_7y1UCzTA@mail.gmail.com> <CAKwvOdntZw2k8ZZ7txPC-FD+50cPpMwctGYTW0j2zw+FVj9SgA@mail.gmail.com>
-In-Reply-To: <CAKwvOdntZw2k8ZZ7txPC-FD+50cPpMwctGYTW0j2zw+FVj9SgA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 29 Jun 2020 15:39:11 -0700
-Message-ID: <CAKwvOd=JbEJNdWzk_xdMiy9QewbU3ESOHcokAXKkARrgm-ibEg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: remove cc-option test of -fno-stack-protector
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Y3eOZWqjsfvFABJlAWadxHNb9WOoW2QZW11FNR7qgIM=;
+        b=NiKlIcI5sSMabO1Z6KMZo/fygTgJAiCQkQEri5tjmaNdEirt9n5gQAp7CNFHGov/V5
+         urp8bD87g/+H43dL6FiC2WkxfcF8lpnJlqQPTMfJYVgFSF0Fi0t12di8WaYNNEJjRx43
+         t2S5TkYBASAOl6+xDGcbHpyzjtPLwaeculPj6QwrsizEHtVodd6Miq1XwnM4tiYYz0kO
+         EsSpHwddbcx1IpEVA6/rZvIdwjTUsfPx5z0fFIaN/0ilX801FXRVOlOCQEU5h5ZA7nRu
+         x82jAO1+S2PzY5bgMRaPoU3XJDA4uN9obtPLQL2Yv1KCCnZYsLhp3I1erV3UKVnYnjym
+         1rng==
+X-Gm-Message-State: AOAM532Kbukb/+IFoWVYAST5Dbhnq7/YxpiZRsZtid4iW2A11lS6Wo+M
+        TaJI26R4CiBOL5UKs9l9bltlUw==
+X-Google-Smtp-Source: ABdhPJyWjBAVW07I/bBTVGZOBkIjcBIoUitijR4kfg05/memnxRwz5hP6QJZ8z5KUGyU1tHG6QOWdA==
+X-Received: by 2002:a62:ce48:: with SMTP id y69mr15584876pfg.208.1593472865320;
+        Mon, 29 Jun 2020 16:21:05 -0700 (PDT)
+Received: from google.com ([2620:15c:201:2:ce90:ab18:83b0:619])
+        by smtp.gmail.com with ESMTPSA id d9sm722596pgg.74.2020.06.29.16.21.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 16:21:04 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 16:20:59 -0700
+From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
+Cc:     Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+Message-ID: <20200629232059.GA3787278@google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <CAK7LNASvb0UDJ0U5wkYYRzTAdnEs64HjXpEUL7d=V0CXiAXcNw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNASvb0UDJ0U5wkYYRzTAdnEs64HjXpEUL7d=V0CXiAXcNw@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jun 29, 2020 at 11:26 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Sat, Jun 27, 2020 at 4:59 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Sat, Jun 27, 2020 at 5:13 AM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > On Fri, Jun 26, 2020 at 12:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > >
-> > > > diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
-> > > > index dba6a83bc349..93792b457b81 100644
-> > > > --- a/arch/x86/kernel/cpu/Makefile
-> > > > +++ b/arch/x86/kernel/cpu/Makefile
-> > > > @@ -17,8 +17,7 @@ KCOV_INSTRUMENT_perf_event.o := n
-> > > >  KCSAN_SANITIZE_common.o := n
-> > > >
-> > > >  # Make sure load_percpu_segment has no stackprotector
-> > > > -nostackp := $(call cc-option, -fno-stack-protector)
-> > > > -CFLAGS_common.o                := $(nostackp)
-> > > > +CFLAGS_common.o                := -fno-stack-protector
-> > >
-> > > Any time I see `:=` assignment to a CFLAGS variable, it's a red flag
-> > > for overwriting existing CFLAGS, which is a common source of bugs.  I
-> > > recognize the kernel is current a mix and match for:
-> > >
-> > > CFLAGS_<file>.o
-> > >
-> > > rules to either use `+=` or `:=`, but I wish we were consistent, and
-> > > consistent in our use of `+=`.  For those rules, is there a difference
-> > > between the use of `+=` and `:=` like there is for the more general
-> > > case of appending to KBUILD_CFLAGS?  If not, it's ok to match the
-> > > existing style, but it's curious to me in this patch to see a mixed
-> > > use of `+=` and `:=`.
-> >
-> >
-> > I think Kees mostly answered your question.
-> >
-> > Let me add some comments.
-> >
-> >
-> > '+=' is the most used in kernel Makefiles, but
-> > ':=' and '=' are also used.
-> >
-> > So, you are right, we are inconsistent.
-> > This applies to not only CFLAGS_<file>.o, but also obj-y, etc.
-> >
-> > For example,
-> > https://github.com/torvalds/linux/blob/v5.7/arch/arm64/kernel/Makefile#L15
-> > 'obj-y :=' works since it is the first assignment to obj-y in that file.
-> > 'obj-y +=' also works, of course.
-> >
-> > We can consistently use '+=' everywhere, but I do not send
-> > patches for churn.
-> >
-> >
-> > You can use any assignment operator to CFLAGS_<file>.o
-> > if it is the first assignment in the Makefile.
-> > Using '+=' is robust for future code insertion/removal, though.
-> >
-> >
-> > If the right-hand side contains variable references,
-> > there is important difference in the behavior.
-> >
-> > You may know two flavors in variables
-> > (https://www.gnu.org/software/make/manual/make.html#Flavors)
->
-> Cool, thanks for all the info.  With that, I'm happy with this patch.
->
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
->
-> > CFLAGS_foo.o := $(call cc-option,-fno-stack-protector)
-> > The cc-option is expanded immediately when this line is parsed.
-> > (So, the compiler is invoked for 'make clean' too)
-> >
-> >
-> > CFLAGS_foo.o += $(call cc-option,-fno-stack-protector)
-> > If this is the first assignment in the file,
-> > '+=' act as '=', so the evaluation of cc-option
-> > is delayed until $(CFLAGS_foo.o) is expanded.
-> > (So, the compiler is NOT invoked for 'make clean')
->
-> Ah, I think that may explain: I've been seeing the occasional warning
-> from $(NM) when running `make clean` for ARCH=arm, I'll bet that's
-> where this is coming from then.  Next time I reproduce it, I'll try to
-> find maybe where we're using `:=` or `=` with `$(NM)`.
->
-> Maybe arch/arm/boot/compressed/Makefile, KBSS_SZ is evaluated for
-> `make clean`? (If you start an arm build, but kill it before vmlinux
-> is created, then `make clean` I suspect that KBSS_SZ is evaluated?)
+Hi Masahiro,
 
-$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71
-$ rm vmlinux
-$ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71 clean
-llvm-nm: error: arch/arm/boot/compressed/../../../../vmlinux: No such
-file or directory.
+On Mon, Jun 29, 2020 at 01:56:19AM +0900, Masahiro Yamada wrote:
+> On Thu, Jun 25, 2020 at 5:32 AM 'Sami Tolvanen' via Clang Built Linux
+> <clang-built-linux@googlegroups.com> wrote:
+> >
+> > This patch series adds support for building x86_64 and arm64 kernels
+> > with Clang's Link Time Optimization (LTO).
+> >
+> > In addition to performance, the primary motivation for LTO is to allow
+> > Clang's Control-Flow Integrity (CFI) to be used in the kernel. Google's
+> > Pixel devices have shipped with LTO+CFI kernels since 2018.
+> >
+> > Most of the patches are build system changes for handling LLVM bitcode,
+> > which Clang produces with LTO instead of ELF object files, postponing
+> > ELF processing until a later stage, and ensuring initcall ordering.
+> >
+> > Note that first objtool patch in the series is already in linux-next,
+> > but as it's needed with LTO, I'm including it also here to make testing
+> > easier.
+> 
+> 
+> I put this series on a testing branch,
+> and 0-day bot started reporting some issues.
 
-I suspect I see this from doing an ARCH=arm build, then building a
-different ARCH and killing the build before vmlinux is produced or
-`make clean` for a different ARCH, then run a `make clean` for
-ARCH=arm.
+Yes, I'll fix those issues in v2.
 
-Is the above (regarding lazy evaluation) not true for LDFLAGS_vmlinux?
-I would have thought this would work:
+> (but 0-day bot is quieter than I expected.
+> Perhaps, 0-day bot does not turn on LLVM=1 ?)
 
-diff --git a/arch/arm/boot/compressed/Makefile
-b/arch/arm/boot/compressed/Makefile
-index 00602a6fba04..9e7343ccc279 100644
---- a/arch/arm/boot/compressed/Makefile
-+++ b/arch/arm/boot/compressed/Makefile
-@@ -113,10 +113,9 @@ ccflags-y := -fpic $(call
-cc-option,-mno-single-pic-base,) -fno-builtin \
- asflags-y := -DZIMAGE
+In order for it to test an LTO build, it would need to enable LTO_CLANG
+explicitly though, in addition to LLVM=1.
 
- # Supply kernel BSS size to the decompressor via a linker symbol.
--KBSS_SZ = $(shell echo $$(($$($(NM) $(obj)/../../../../vmlinux | \
-+LDFLAGS_vmlinux = --defsym _kernel_bss_size=$(shell echo $$(($$($(NM)
-$(obj)/../../../../vmlinux | \
-                sed -n -e 's/^\([^ ]*\) [AB] __bss_start$$/-0x\1/p' \
--                      -e 's/^\([^ ]*\) [AB] __bss_stop$$/+0x\1/p') )) )
--LDFLAGS_vmlinux = --defsym _kernel_bss_size=$(KBSS_SZ)
-+                                        -e 's/^\([^ ]*\) [AB]
-__bss_stop$$/+0x\1/p') )) )
+> I also got an error for
+> ARCH=arm64 allyesconfig + CONFIG_LTO_CLANG=y
+> 
+> 
+> 
+> $ make ARCH=arm64 LLVM=1 LLVM_IAS=1
+> CROSS_COMPILE=~/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-
+> -j24
+> 
+>   ...
+> 
+>   GEN     .version
+>   CHK     include/generated/compile.h
+>   UPD     include/generated/compile.h
+>   CC      init/version.o
+>   AR      init/built-in.a
+>   GEN     .tmp_initcalls.lds
+>   GEN     .tmp_symversions.lds
+>   LTO     vmlinux.o
+>   MODPOST vmlinux.symvers
+>   MODINFO modules.builtin.modinfo
+>   GEN     modules.builtin
+>   LD      .tmp_vmlinux.kallsyms1
+> ld.lld: error: undefined symbol: __compiletime_assert_905
+> >>> referenced by irqbypass.c
+> >>>               vmlinux.o:(jeq_imm)
+> make: *** [Makefile:1161: vmlinux] Error 1
 
--- 
-Thanks,
-~Nick Desaulniers
+I can reproduce this with ToT LLVM and it's BUILD_BUG_ON_MSG(..., "value
+too large for the field") in drivers/net/ethernet/netronome/nfp/bpf/jit.c.
+Specifically, the FIELD_FIT / __BF_FIELD_CHECK macro in ur_load_imm_any.
+
+This compiles just fine with an earlier LLVM revision, so it could be a
+relatively recent regression. I'll take a look. Thanks for catching this!
+
+Sami
