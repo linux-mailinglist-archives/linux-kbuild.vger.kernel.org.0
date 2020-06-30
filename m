@@ -2,124 +2,197 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E91C20EE4C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 08:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C49BF20EE84
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 08:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730099AbgF3G0s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jun 2020 02:26:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55718 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730080AbgF3G0r (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jun 2020 02:26:47 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BECA1207FF;
-        Tue, 30 Jun 2020 06:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593498405;
-        bh=JuODmNQ54Xlmx3f0CzHGZh/WPPiH3/FVYyWJpfhaPZU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SVsS0hE2t7LARWIDMce6DWaBiHNe0GREg56hGSlK0NQAD2thEOXRhG6eDAIUx9Fke
-         o+My5d5geODSvZ+b1qPMCOS0bGlg39H58TqnGyZh4H/QLz2fWs5qH2gV75M2PTl6MN
-         VehejzweSjs39nXUjk2WV1fedU8yItXGOZdcVRtQ=
-Received: from mchehab by mail.kernel.org with local (Exim 4.93)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jq9j9-008WbF-UV; Tue, 30 Jun 2020 08:26:43 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Maxim Levitsky <mlevitsk@redhat.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 7/7] kconfig: qconf: navigate menus on hyperlinks
-Date:   Tue, 30 Jun 2020 08:26:41 +0200
-Message-Id: <6f7162e40f127e76c7169315d33a14946a85719a.1593498345.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1593498345.git.mchehab+huawei@kernel.org>
-References: <cover.1593498345.git.mchehab+huawei@kernel.org>
+        id S1730242AbgF3GbV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jun 2020 02:31:21 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:33714 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730199AbgF3GbU (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 30 Jun 2020 02:31:20 -0400
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 05U6UgIb011232;
+        Tue, 30 Jun 2020 15:30:42 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 05U6UgIb011232
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593498643;
+        bh=hWw/PnfkqdzxZlXBfdr5ZsRULyy797gdejQ+pX6AzaU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZhAbYh7zx1kczWaedEG6cKzY69GueVLOcznv9ldVPHTsWHek3NL2YwuGkV7kFDLGb
+         rQ5l8dVh5CvsJuOb1srMpPqZWRgRMoK9XMkZ+kR8BOisxy5RRixhan8Di1eMdS70DG
+         eXQL+diXuQWzA+yu+sapyFhsvHF+sDUGvy0dwyOe4lFIey6+M+3iBzGbIEMBOiJsv5
+         pBK5sCVtscl3TgYquXJkI/OjtavekrEye92GSHIP/NYQ2KuOvgWq8W2KHHerjjRxJ0
+         bUo+IVFBqiZNVhF17AEz79MgMIj/ZkC4gM/aET2SMUSqSNo7cOdqmefnUN+yB7YAVx
+         jHxb8KRPbWGUw==
+X-Nifty-SrcIP: [209.85.222.51]
+Received: by mail-ua1-f51.google.com with SMTP id z47so6122322uad.5;
+        Mon, 29 Jun 2020 23:30:42 -0700 (PDT)
+X-Gm-Message-State: AOAM5325Udae0HlR72Y6pRI2WvJ7cLJfoiMJc/1E7rjJpBkfJAtOedQ1
+        gG6+3TxHQwzkxEoWy7dJZ5cRf6wxdqQgm/irAKA=
+X-Google-Smtp-Source: ABdhPJw4WXNDTVroElfgeqLVDMNI7bd4mrYrp5LWdLRuCY5G094o1kEYH5ERVBEamOeUfiHOcfZYY7koTqlFDLQ6t3M=
+X-Received: by 2002:ab0:156d:: with SMTP id p42mr13408863uae.121.1593498641294;
+ Mon, 29 Jun 2020 23:30:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <20200423073929.127521-1-masahiroy@kernel.org> <20200423073929.127521-5-masahiroy@kernel.org>
+ <20200608115628.osizkpo76cgn2ci7@lion.mk-sys.cz>
+In-Reply-To: <20200608115628.osizkpo76cgn2ci7@lion.mk-sys.cz>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 30 Jun 2020 15:30:04 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARGKCyWbfWUOX3nLLOBS3gi1QU3acdXLPVK4C+ErMDLpA@mail.gmail.com>
+Message-ID: <CAK7LNARGKCyWbfWUOX3nLLOBS3gi1QU3acdXLPVK4C+ErMDLpA@mail.gmail.com>
+Subject: Re: [PATCH 04/16] net: bpfilter: use 'userprogs' syntax to build bpfilter_umh
+To:     Michal Kubecek <mkubecek@suse.cz>,
+        Alexei Starovoitov <ast@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+        Andrii Nakryiko <andriin@fb.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Instead of just changing the helper window to show a
-dependency, also navigate to it at the config and menu
-widgets.
+Hi Michal, Alexei,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/kconfig/qconf.cc | 24 +++++-------------------
- 1 file changed, 5 insertions(+), 19 deletions(-)
+On Mon, Jun 8, 2020 at 8:56 PM Michal Kubecek <mkubecek@suse.cz> wrote:
+>
+> On Thu, Apr 23, 2020 at 04:39:17PM +0900, Masahiro Yamada wrote:
+> > The user mode helper should be compiled for the same architecture as
+> > the kernel.
+> >
+> > This Makefile reuses the 'hostprogs' syntax by overriding HOSTCC with CC.
+> >
+> > Now that Kbuild provides the syntax 'userprogs', use it to fix the
+> > Makefile mess.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > ---
+> >
+> >  net/bpfilter/Makefile | 11 ++++-------
+> >  1 file changed, 4 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/net/bpfilter/Makefile b/net/bpfilter/Makefile
+> > index 36580301da70..6ee650c6badb 100644
+> > --- a/net/bpfilter/Makefile
+> > +++ b/net/bpfilter/Makefile
+> > @@ -3,17 +3,14 @@
+> >  # Makefile for the Linux BPFILTER layer.
+> >  #
+> >
+> > -hostprogs := bpfilter_umh
+> > +userprogs := bpfilter_umh
+> >  bpfilter_umh-objs := main.o
+> > -KBUILD_HOSTCFLAGS += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
+> > -HOSTCC := $(CC)
+> > +user-ccflags += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
+> >
+> > -ifeq ($(CONFIG_BPFILTER_UMH), y)
+> > -# builtin bpfilter_umh should be compiled with -static
+> > +# builtin bpfilter_umh should be linked with -static
+> >  # since rootfs isn't mounted at the time of __init
+> >  # function is called and do_execv won't find elf interpreter
+> > -KBUILD_HOSTLDFLAGS += -static
+> > -endif
+> > +bpfilter_umh-ldflags += -static
+> >
+> >  $(obj)/bpfilter_umh_blob.o: $(obj)/bpfilter_umh
+>
+> Hello,
+>
+> I just noticed that this patch (now in mainline as commit 8a2cc0505cc4)
+> drops the test if CONFIG_BPFILTER_UMH is "y" so that -static is now
+> passed to the linker even if bpfilter_umh is built as a module which
+> wasn't the case in v5.7.
+>
+> This is not mentioned in the commit message and the comment still says
+> "*builtin* bpfilter_umh should be linked with -static" so this change
+> doesn't seem to be intentional. Did I miss something?
+>
+> Michal Kubecek
 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 6a327b69ff5f..f49fbac91995 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -1233,7 +1233,6 @@ void ConfigInfoView::clicked(const QUrl &url)
- 	char *data = new char[count + 1];
- 	struct symbol **result;
- 	struct menu *m = NULL;
--	char type;
- 
- 	if (count < 1) {
- 		qInfo() << "Clicked link is empty";
-@@ -1243,7 +1242,6 @@ void ConfigInfoView::clicked(const QUrl &url)
- 
- 	memcpy(data, str.constData(), count);
- 	data[count] = '\0';
--	type = data[0];
- 
- 	/* Seek for exact match */
- 	data[0] = '^';
-@@ -1256,15 +1254,8 @@ void ConfigInfoView::clicked(const QUrl &url)
- 	}
- 
- 	sym = *result;
--	if (type == 's') {
--		symbolInfo();
--		emit showDebugChanged(true);
--		free(result);
--		delete data;
--		return;
--	}
- 
--	/* URL is a menu */
-+	/* Seek for the menu which holds the symbol */
- 	for (struct property *prop = sym->prop; prop; prop = prop->next) {
- 		    if (prop->type != P_PROMPT && prop->type != P_MENU)
- 			    continue;
-@@ -1272,17 +1263,11 @@ void ConfigInfoView::clicked(const QUrl &url)
- 		    break;
- 	}
- 
--	if (!m) {
-+	if (!m)
- 		qInfo() << "Clicked menu is invalid:" << data;
--		free(result);
--		delete data;
--		return;
--	}
-+	else
-+		emit menuSelected(m);
- 
--	_menu = m;
--	menuInfo();
--
--	emit showDebugChanged(true);
- 	free(result);
- 	delete data;
- }
-@@ -1731,6 +1716,7 @@ void ConfigMainWindow::setMenuLink(struct menu *menu)
- 			list->setSelected(item, true);
- 			list->scrollToItem(item);
- 			list->setFocus();
-+			helpText->setInfo(menu);
- 		}
- 	}
- }
+I was away for a while from this because I saw long discussion in
+"net/bpfilter: Remove this broken and apparently unmaintained"
+
+
+Please let me resume this topic now.
+
+
+The original behavior of linking umh was like this:
+  - If CONFIG_BPFILTER_UMH=y, bpfilter_umh was linked with -static
+  - If CONFIG_BPFILTER_UMH=m, bpfilter_umh was linked without -static
+
+
+
+Restoring the original behavior will add more complexity because
+now we have CONFIG_CC_CAN_LINK and CONFIG_CC_CAN_LINK_STATIC
+since commit b1183b6dca3e0d5
+
+If CONFIG_BPFILTER_UMH=y, we need to check CONFIG_CC_CAN_LINK_STATIC.
+If CONFIG_BPFILTER_UMH=m, we need to check CONFIG_CC_CAN_LINK.
+This would make the Kconfig dependency logic too complicated.
+
+
+To make it simpler, I'd like to suggest two options.
+
+
+
+Idea 1:
+
+  Always use -static irrespective of whether
+  CONFIG_BPFILTER_UMH is y or m.
+
+  Add two more lines to clarify this
+  in the comment in net/bpfilter/Makefile:
+
+  # builtin bpfilter_umh should be linked with -static
+  # since rootfs isn't mounted at the time of __init
+  # function is called and do_execv won't find elf interpreter.
+  # Static linking is not required when bpfilter is modular, but
+  # we always pass -static to keep the 'depends on' in Kconfig simple.
+
+
+
+Idea 2:
+
+   Allow umh to become only modular,
+   and drop -static flag entirely.
+
+   If you look at net/bpfilter/Kconfig,
+   BPFILTER_UMH already has 'default m'.
+   So, I assume the most expected use-case
+   is modular.
+
+   My suggestion is to replace 'default m' with 'depends on m'.
+
+   config BPFILTER_UMH
+           tristate "bpfilter kernel module with user mode helper"
+           depends on CC_CAN_LINK
+           depends on m
+
+   Then BPFILTER_UMH will be restricted to either m or n.
+   Link umh dynamically because we can expect rootfs
+   is already mounted for the module case.
+
+
+
+
+
+
+Comments are appreciated.
+
+
 -- 
-2.26.2
-
+Best Regards
+Masahiro Yamada
