@@ -2,146 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD5020E943
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 01:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8356920EB1B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 03:52:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728567AbgF2XVH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jun 2020 19:21:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729596AbgF2XVG (ORCPT
+        id S1728597AbgF3Bwo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jun 2020 21:52:44 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:60299 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726003AbgF3Bwo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jun 2020 19:21:06 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43770C03E97B
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 16:21:06 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id z5so9020414pgb.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 29 Jun 2020 16:21:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Y3eOZWqjsfvFABJlAWadxHNb9WOoW2QZW11FNR7qgIM=;
-        b=wE7nxuQQ8Ee1SyIlOGu96foC1kguVLhQnWfsM449qkfn/VoKBCtsVMOqOmKx7IZI4C
-         RVaEjdafrzkZKrdHnHpUfIuUaR+nDUOQdXro+nnJx5XibnwFB04m0UpfLU8lcAfNzunK
-         FH4vq/4AmRKx0OXYjTpIwOSmyWjemlGQQrsAim9D+osZfnHYYrMcyKBMOA6AcmZTCt7D
-         SC8HEZlX2KwR8OsKRbEGGGO82nQHiO6QrFnPdGaYVsrLOIGowYuaQm3rOF21PeyeGPnP
-         uhJe537nfOotmxkifcJzP2KlYRs06hCp+YYdixCMO/J34Bhc2jSz49ZJoQbscAlwSyYN
-         PnZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Y3eOZWqjsfvFABJlAWadxHNb9WOoW2QZW11FNR7qgIM=;
-        b=NiKlIcI5sSMabO1Z6KMZo/fygTgJAiCQkQEri5tjmaNdEirt9n5gQAp7CNFHGov/V5
-         urp8bD87g/+H43dL6FiC2WkxfcF8lpnJlqQPTMfJYVgFSF0Fi0t12di8WaYNNEJjRx43
-         t2S5TkYBASAOl6+xDGcbHpyzjtPLwaeculPj6QwrsizEHtVodd6Miq1XwnM4tiYYz0kO
-         EsSpHwddbcx1IpEVA6/rZvIdwjTUsfPx5z0fFIaN/0ilX801FXRVOlOCQEU5h5ZA7nRu
-         x82jAO1+S2PzY5bgMRaPoU3XJDA4uN9obtPLQL2Yv1KCCnZYsLhp3I1erV3UKVnYnjym
-         1rng==
-X-Gm-Message-State: AOAM532Kbukb/+IFoWVYAST5Dbhnq7/YxpiZRsZtid4iW2A11lS6Wo+M
-        TaJI26R4CiBOL5UKs9l9bltlUw==
-X-Google-Smtp-Source: ABdhPJyWjBAVW07I/bBTVGZOBkIjcBIoUitijR4kfg05/memnxRwz5hP6QJZ8z5KUGyU1tHG6QOWdA==
-X-Received: by 2002:a62:ce48:: with SMTP id y69mr15584876pfg.208.1593472865320;
-        Mon, 29 Jun 2020 16:21:05 -0700 (PDT)
-Received: from google.com ([2620:15c:201:2:ce90:ab18:83b0:619])
-        by smtp.gmail.com with ESMTPSA id d9sm722596pgg.74.2020.06.29.16.21.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 16:21:04 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 16:20:59 -0700
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
-Subject: Re: [PATCH 00/22] add support for Clang LTO
-Message-ID: <20200629232059.GA3787278@google.com>
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <CAK7LNASvb0UDJ0U5wkYYRzTAdnEs64HjXpEUL7d=V0CXiAXcNw@mail.gmail.com>
+        Mon, 29 Jun 2020 21:52:44 -0400
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 05U1qCct029907;
+        Tue, 30 Jun 2020 10:52:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 05U1qCct029907
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593481933;
+        bh=pzUnP+Gd/o71cSKBNMVmFDAQhku4dhuHdwm+GTsm+dQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Z/YKjt+0I8CwnlcfGXxiM76xxMtgFODo0Udz4VqTd6CKBsUlq7XA5yMEetuHdo/pW
+         3HgcfiV3FXbjk4H5APsgullI7XFlYZH390On8SQhyFpcoeIOjG2bMcCSVFbhJbIX3E
+         8+db+cuS2ytCwlhWgryth1k4QWye5Q8yR8L73VqlvFzs/OnXZVGNWTrtGffqyan/T3
+         c3xglyXCTMosaiY9EyEDWn++HE/rzV/+ACOEa7SP4b/bjLp9cOc6bnK8Izc4lPALRH
+         HVDYxsOgzIBea+GDhgLewH6bLT/SjbM528NNV6UkbcQMIkoCuux6e8hwAy+x1SZpNg
+         IS0m+3H8FlYIw==
+X-Nifty-SrcIP: [209.85.222.45]
+Received: by mail-ua1-f45.google.com with SMTP id c7so4503116uap.0;
+        Mon, 29 Jun 2020 18:52:13 -0700 (PDT)
+X-Gm-Message-State: AOAM53041HppmKQUPQD8jyxOk3j3WiJgB8pqz53RbYKOvlskWLVVRdMq
+        wSy0CKfTkxtBO4vAfs6JIi8Jybxu4aQpAN+rbrI=
+X-Google-Smtp-Source: ABdhPJx34KgJOS3yCKldjTe3z4RlrwFHHKAIReVcj4g+8cBmyLg1qxOv+ce1XT52RH9evjclhDuFnFDuKvDgX3lnJiU=
+X-Received: by 2002:ab0:156d:: with SMTP id p42mr12963596uae.121.1593481932354;
+ Mon, 29 Jun 2020 18:52:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASvb0UDJ0U5wkYYRzTAdnEs64HjXpEUL7d=V0CXiAXcNw@mail.gmail.com>
+References: <20200625170434.635114-1-masahiroy@kernel.org> <20200625170434.635114-5-masahiroy@kernel.org>
+ <CAL_JsqL4pTFK_pSNn1cSvjzwdg71dVzM3P06BYYEwDj2t+swPA@mail.gmail.com>
+In-Reply-To: <CAL_JsqL4pTFK_pSNn1cSvjzwdg71dVzM3P06BYYEwDj2t+swPA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 30 Jun 2020 10:51:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQzG5ty=knL4eh=8w43p57BGMf6mRMTR1rPrhdFoKs7YA@mail.gmail.com>
+Message-ID: <CAK7LNAQzG5ty=knL4eh=8w43p57BGMf6mRMTR1rPrhdFoKs7YA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dt-bindings: split DT schema check rules
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     DTML <devicetree@vger.kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro,
-
-On Mon, Jun 29, 2020 at 01:56:19AM +0900, Masahiro Yamada wrote:
-> On Thu, Jun 25, 2020 at 5:32 AM 'Sami Tolvanen' via Clang Built Linux
-> <clang-built-linux@googlegroups.com> wrote:
+On Tue, Jun 30, 2020 at 5:50 AM Rob Herring <robh+dt@kernel.org> wrote:
+>
+> On Thu, Jun 25, 2020 at 11:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > This patch series adds support for building x86_64 and arm64 kernels
-> > with Clang's Link Time Optimization (LTO).
+> > When building %.dt.yaml from %.dts, two things happen in a row:
 > >
-> > In addition to performance, the primary motivation for LTO is to allow
-> > Clang's Control-Flow Integrity (CFI) to be used in the kernel. Google's
-> > Pixel devices have shipped with LTO+CFI kernels since 2018.
+> >  [1] Run DTC to convert %.dts into %.dt.yaml
 > >
-> > Most of the patches are build system changes for handling LLVM bitcode,
-> > which Clang produces with LTO instead of ELF object files, postponing
-> > ELF processing until a later stage, and ensuring initcall ordering.
+> >  [2] Run dt-validate against %.dt.yaml
 > >
-> > Note that first objtool patch in the series is already in linux-next,
-> > but as it's needed with LTO, I'm including it also here to make testing
-> > easier.
-> 
-> 
-> I put this series on a testing branch,
-> and 0-day bot started reporting some issues.
+> > Currently, when any .yaml schema file is updated, processed-schema.yaml
+> > is regenerated, then both [1] and [2] are rerun for all .dts files.
+> >
+> > Actually, we do not need to rerun [1] since the original .dts is not
+> > updated.
+>
+> I have plans (and an intern working on it) to integrate the schema
+> checks into dtc. That's going to make turning on the schema checks
+> just a flag to dtc. I'm not sure if adding the complexity here is
+> worth it as I'd expect much of this patch to go away again.
+>
+> Is there any negative impact on the absolute clean build time? I'm
+> more concerned about that than optimizing rerunning.
 
-Yes, I'll fix those issues in v2.
+No benefit on the absolute clean build time.
 
-> (but 0-day bot is quieter than I expected.
-> Perhaps, 0-day bot does not turn on LLVM=1 ?)
+OK, then please skip this patch.
 
-In order for it to test an LTO build, it would need to enable LTO_CLANG
-explicitly though, in addition to LLVM=1.
 
-> I also got an error for
-> ARCH=arm64 allyesconfig + CONFIG_LTO_CLANG=y
-> 
-> 
-> 
-> $ make ARCH=arm64 LLVM=1 LLVM_IAS=1
-> CROSS_COMPILE=~/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-
-> -j24
-> 
->   ...
-> 
->   GEN     .version
->   CHK     include/generated/compile.h
->   UPD     include/generated/compile.h
->   CC      init/version.o
->   AR      init/built-in.a
->   GEN     .tmp_initcalls.lds
->   GEN     .tmp_symversions.lds
->   LTO     vmlinux.o
->   MODPOST vmlinux.symvers
->   MODINFO modules.builtin.modinfo
->   GEN     modules.builtin
->   LD      .tmp_vmlinux.kallsyms1
-> ld.lld: error: undefined symbol: __compiletime_assert_905
-> >>> referenced by irqbypass.c
-> >>>               vmlinux.o:(jeq_imm)
-> make: *** [Makefile:1161: vmlinux] Error 1
 
-I can reproduce this with ToT LLVM and it's BUILD_BUG_ON_MSG(..., "value
-too large for the field") in drivers/net/ethernet/netronome/nfp/bpf/jit.c.
-Specifically, the FIELD_FIT / __BF_FIELD_CHECK macro in ur_load_imm_any.
 
-This compiles just fine with an earlier LLVM revision, so it could be a
-relatively recent regression. I'll take a look. Thanks for catching this!
-
-Sami
+-- 
+Best Regards
+Masahiro Yamada
