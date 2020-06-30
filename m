@@ -2,214 +2,203 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5441920F9BC
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 18:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5082320FB99
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 20:19:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730049AbgF3QrO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jun 2020 12:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728022AbgF3QrN (ORCPT
+        id S2388526AbgF3STj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jun 2020 14:19:39 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:34233 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387763AbgF3STh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jun 2020 12:47:13 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD14C061755;
-        Tue, 30 Jun 2020 09:47:13 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id gc9so3216489pjb.2;
-        Tue, 30 Jun 2020 09:47:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=YjTGvZoFn9Gr5f+ufVSqWbKLtKiqYnTgMSui3Jl24dg=;
-        b=AbhmhW0FcojEGsKBYgxR7fSDLdEmZIHxD1D6PsAJ6ezhxe6haZFOGdqcwtTOYqYnu8
-         csrp77Uvqm6t4IumS+BuU61yWOx70HoJ41gDFDYF8E+Zmw0AAoyfuQhgU/t+mqkKZsIC
-         vVhikQmUhVtik11wConsSXBOGyvUYPNOP/lzTbpybyPyry4tdraGAavYhELPywTAotso
-         bAuWqD0/PD0M7VqkuCWpV0b6jIHGoC8ycoC/G88LPswm8vS5xGaKsp6YW6Fv4PTcmLBe
-         WgbbqA+Jb55/agSHibk0rBoYDaCC4wiEvlOCFxzERjIl3GcYz/WxmmMIO3ieSKgJnCvp
-         Nx1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YjTGvZoFn9Gr5f+ufVSqWbKLtKiqYnTgMSui3Jl24dg=;
-        b=VYDyI/iOlySC8nb/Ebs0kCsCO3BI/4HOruzI/dB2IOQShqLeFJFimXHTMVNzYByP8a
-         OjzbWOPaDVXdSAnEa+kM4BJ7fRtN1QoW3kFEYxX/iXOHB6H0nYuwVvgmkdgeSzq/0WaP
-         ErhzFCSAfk6yYoMKeEKpVu57Z6HrPC7J3l8lE3rcUINKRGFSCPPk1urA2glYI1mbCeOW
-         iX0h4dsfw9D5W+SM6AcLle3mp0wHrr4rw4a+Iov2l6IAUTakldGotMBKJaka+KfanRyV
-         gtUiNNS0A/5emmkAzMSrLa5m9uqzZCbCiTO5457vmTz/NcClBHDNSHTU5HVdW6cgnKgq
-         zziQ==
-X-Gm-Message-State: AOAM530RbEKR99D6xLB4HG2uvO+ZwwsbgrD8cTmNoSyn8pI7+unO7cYy
-        Y29lsKTFN3MBH8POF0UCjmY=
-X-Google-Smtp-Source: ABdhPJzjpHaWFt/qmhE5T9q47jzJ9TE9edAwd+c9ayFlVVVk4E53qs0ThsG+1c9hkzQ01gj2/NvXeg==
-X-Received: by 2002:a17:90a:cc18:: with SMTP id b24mr23349815pju.89.1593535632810;
-        Tue, 30 Jun 2020 09:47:12 -0700 (PDT)
-Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:400::5:e083])
-        by smtp.gmail.com with ESMTPSA id c188sm3203756pfc.143.2020.06.30.09.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2020 09:47:11 -0700 (PDT)
-Date:   Tue, 30 Jun 2020 09:47:08 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Kubecek <mkubecek@suse.cz>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>
-Subject: Re: [PATCH 04/16] net: bpfilter: use 'userprogs' syntax to build
- bpfilter_umh
-Message-ID: <20200630164708.aeuoq4ruhivu5o2d@ast-mbp.dhcp.thefacebook.com>
-References: <20200423073929.127521-1-masahiroy@kernel.org>
- <20200423073929.127521-5-masahiroy@kernel.org>
- <20200608115628.osizkpo76cgn2ci7@lion.mk-sys.cz>
- <CAK7LNARGKCyWbfWUOX3nLLOBS3gi1QU3acdXLPVK4C+ErMDLpA@mail.gmail.com>
+        Tue, 30 Jun 2020 14:19:37 -0400
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 05UIJBBj027071;
+        Wed, 1 Jul 2020 03:19:12 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 05UIJBBj027071
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593541152;
+        bh=nuIrJNssJvUSsVaRNApdroyqPo/OAvlKGRbXB/qKIrg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KpDrOoEw772uK9jxrurMZfgZKTN2IhGLURQb2EIH5VbI9f8MUa79WFAaaTBkNdjwV
+         NvUAghYSn+qTj2C9neBsIiZIreVC742n69o/aBSZQtMkkSBlBhRfc8yFe2DiNquEBZ
+         kMkZ+wDlYPto1GkucIshckkQHAnqShVIUpTPt4vjoG1AXdcmvOFmxNidnQRAVBfZ1n
+         BzLpZqhVgSxQeAE12KPJ757Z3kB9kYJiGVwsEmyt1OH73vyWGL7IqY4IKFtnVJDb3q
+         x4dMfjtISWzM8gDTZdMLhIrTzt/50LhVFeua6FY8LNGbwU3nB1tXcG99SCrREc2lVE
+         8gqr1hmKWc97w==
+X-Nifty-SrcIP: [209.85.217.45]
+Received: by mail-vs1-f45.google.com with SMTP id m25so11742593vsp.8;
+        Tue, 30 Jun 2020 11:19:12 -0700 (PDT)
+X-Gm-Message-State: AOAM533ds2pA0QFAbknHCRDszuc+UdhjjVzUCNVvr0J3Ic8lPQDrscZ7
+        amWvUpScOJs6Gymk9AHz7PMreEScScP8zu2pFpU=
+X-Google-Smtp-Source: ABdhPJwfLoWOY5ns4C+ed5bfxdVr3dA3IYv4tnLqIiAwjXuh/1l8/DPg8aKaJ67yb3qQ8Lwt2TtY3rl1rFdOZBDTIPM=
+X-Received: by 2002:a67:694d:: with SMTP id e74mr16669112vsc.155.1593541150808;
+ Tue, 30 Jun 2020 11:19:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARGKCyWbfWUOX3nLLOBS3gi1QU3acdXLPVK4C+ErMDLpA@mail.gmail.com>
+References: <20200626185913.92890-1-masahiroy@kernel.org> <CAKwvOd=V_M43CP7G87K3TqSsxua2NcXPz6BnDt-z6167O2WAzQ@mail.gmail.com>
+ <CAK7LNATcwGkSWV7NSgwG_WqzvTPphT9=KK+qvT3FK_7y1UCzTA@mail.gmail.com>
+ <CAKwvOdntZw2k8ZZ7txPC-FD+50cPpMwctGYTW0j2zw+FVj9SgA@mail.gmail.com> <CAKwvOd=JbEJNdWzk_xdMiy9QewbU3ESOHcokAXKkARrgm-ibEg@mail.gmail.com>
+In-Reply-To: <CAKwvOd=JbEJNdWzk_xdMiy9QewbU3ESOHcokAXKkARrgm-ibEg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 1 Jul 2020 03:18:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQhGVm9ZBYOSosPx3DZvY020LTy+MZr3LUbvDaa0j19RQ@mail.gmail.com>
+Message-ID: <CAK7LNAQhGVm9ZBYOSosPx3DZvY020LTy+MZr3LUbvDaa0j19RQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: remove cc-option test of -fno-stack-protector
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 03:30:04PM +0900, Masahiro Yamada wrote:
-> Hi Michal, Alexei,
-> 
-> On Mon, Jun 8, 2020 at 8:56 PM Michal Kubecek <mkubecek@suse.cz> wrote:
+On Tue, Jun 30, 2020 at 7:39 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Mon, Jun 29, 2020 at 11:26 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > On Thu, Apr 23, 2020 at 04:39:17PM +0900, Masahiro Yamada wrote:
-> > > The user mode helper should be compiled for the same architecture as
-> > > the kernel.
+> > On Sat, Jun 27, 2020 at 4:59 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > > >
-> > > This Makefile reuses the 'hostprogs' syntax by overriding HOSTCC with CC.
+> > > On Sat, Jun 27, 2020 at 5:13 AM Nick Desaulniers
+> > > <ndesaulniers@google.com> wrote:
+> > > >
+> > > > On Fri, Jun 26, 2020 at 12:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > > >
+> > > > > diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+> > > > > index dba6a83bc349..93792b457b81 100644
+> > > > > --- a/arch/x86/kernel/cpu/Makefile
+> > > > > +++ b/arch/x86/kernel/cpu/Makefile
+> > > > > @@ -17,8 +17,7 @@ KCOV_INSTRUMENT_perf_event.o := n
+> > > > >  KCSAN_SANITIZE_common.o := n
+> > > > >
+> > > > >  # Make sure load_percpu_segment has no stackprotector
+> > > > > -nostackp := $(call cc-option, -fno-stack-protector)
+> > > > > -CFLAGS_common.o                := $(nostackp)
+> > > > > +CFLAGS_common.o                := -fno-stack-protector
+> > > >
+> > > > Any time I see `:=` assignment to a CFLAGS variable, it's a red flag
+> > > > for overwriting existing CFLAGS, which is a common source of bugs.  I
+> > > > recognize the kernel is current a mix and match for:
+> > > >
+> > > > CFLAGS_<file>.o
+> > > >
+> > > > rules to either use `+=` or `:=`, but I wish we were consistent, and
+> > > > consistent in our use of `+=`.  For those rules, is there a difference
+> > > > between the use of `+=` and `:=` like there is for the more general
+> > > > case of appending to KBUILD_CFLAGS?  If not, it's ok to match the
+> > > > existing style, but it's curious to me in this patch to see a mixed
+> > > > use of `+=` and `:=`.
 > > >
-> > > Now that Kbuild provides the syntax 'userprogs', use it to fix the
-> > > Makefile mess.
 > > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > Reported-by: kbuild test robot <lkp@intel.com>
-> > > ---
+> > > I think Kees mostly answered your question.
 > > >
-> > >  net/bpfilter/Makefile | 11 ++++-------
-> > >  1 file changed, 4 insertions(+), 7 deletions(-)
+> > > Let me add some comments.
 > > >
-> > > diff --git a/net/bpfilter/Makefile b/net/bpfilter/Makefile
-> > > index 36580301da70..6ee650c6badb 100644
-> > > --- a/net/bpfilter/Makefile
-> > > +++ b/net/bpfilter/Makefile
-> > > @@ -3,17 +3,14 @@
-> > >  # Makefile for the Linux BPFILTER layer.
-> > >  #
 > > >
-> > > -hostprogs := bpfilter_umh
-> > > +userprogs := bpfilter_umh
-> > >  bpfilter_umh-objs := main.o
-> > > -KBUILD_HOSTCFLAGS += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
-> > > -HOSTCC := $(CC)
-> > > +user-ccflags += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
+> > > '+=' is the most used in kernel Makefiles, but
+> > > ':=' and '=' are also used.
 > > >
-> > > -ifeq ($(CONFIG_BPFILTER_UMH), y)
-> > > -# builtin bpfilter_umh should be compiled with -static
-> > > +# builtin bpfilter_umh should be linked with -static
-> > >  # since rootfs isn't mounted at the time of __init
-> > >  # function is called and do_execv won't find elf interpreter
-> > > -KBUILD_HOSTLDFLAGS += -static
-> > > -endif
-> > > +bpfilter_umh-ldflags += -static
+> > > So, you are right, we are inconsistent.
+> > > This applies to not only CFLAGS_<file>.o, but also obj-y, etc.
 > > >
-> > >  $(obj)/bpfilter_umh_blob.o: $(obj)/bpfilter_umh
+> > > For example,
+> > > https://github.com/torvalds/linux/blob/v5.7/arch/arm64/kernel/Makefile#L15
+> > > 'obj-y :=' works since it is the first assignment to obj-y in that file.
+> > > 'obj-y +=' also works, of course.
+> > >
+> > > We can consistently use '+=' everywhere, but I do not send
+> > > patches for churn.
+> > >
+> > >
+> > > You can use any assignment operator to CFLAGS_<file>.o
+> > > if it is the first assignment in the Makefile.
+> > > Using '+=' is robust for future code insertion/removal, though.
+> > >
+> > >
+> > > If the right-hand side contains variable references,
+> > > there is important difference in the behavior.
+> > >
+> > > You may know two flavors in variables
+> > > (https://www.gnu.org/software/make/manual/make.html#Flavors)
 > >
-> > Hello,
+> > Cool, thanks for all the info.  With that, I'm happy with this patch.
 > >
-> > I just noticed that this patch (now in mainline as commit 8a2cc0505cc4)
-> > drops the test if CONFIG_BPFILTER_UMH is "y" so that -static is now
-> > passed to the linker even if bpfilter_umh is built as a module which
-> > wasn't the case in v5.7.
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 > >
-> > This is not mentioned in the commit message and the comment still says
-> > "*builtin* bpfilter_umh should be linked with -static" so this change
-> > doesn't seem to be intentional. Did I miss something?
 > >
-> > Michal Kubecek
-> 
-> I was away for a while from this because I saw long discussion in
-> "net/bpfilter: Remove this broken and apparently unmaintained"
-> 
-> 
-> Please let me resume this topic now.
-> 
-> 
-> The original behavior of linking umh was like this:
->   - If CONFIG_BPFILTER_UMH=y, bpfilter_umh was linked with -static
->   - If CONFIG_BPFILTER_UMH=m, bpfilter_umh was linked without -static
+> > > CFLAGS_foo.o := $(call cc-option,-fno-stack-protector)
+> > > The cc-option is expanded immediately when this line is parsed.
+> > > (So, the compiler is invoked for 'make clean' too)
+> > >
+> > >
+> > > CFLAGS_foo.o += $(call cc-option,-fno-stack-protector)
+> > > If this is the first assignment in the file,
+> > > '+=' act as '=', so the evaluation of cc-option
+> > > is delayed until $(CFLAGS_foo.o) is expanded.
+> > > (So, the compiler is NOT invoked for 'make clean')
+> >
+> > Ah, I think that may explain: I've been seeing the occasional warning
+> > from $(NM) when running `make clean` for ARCH=arm, I'll bet that's
+> > where this is coming from then.  Next time I reproduce it, I'll try to
+> > find maybe where we're using `:=` or `=` with `$(NM)`.
+> >
+> > Maybe arch/arm/boot/compressed/Makefile, KBSS_SZ is evaluated for
+> > `make clean`? (If you start an arm build, but kill it before vmlinux
+> > is created, then `make clean` I suspect that KBSS_SZ is evaluated?)
+>
+> $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71
+> $ rm vmlinux
+> $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71 clean
+> llvm-nm: error: arch/arm/boot/compressed/../../../../vmlinux: No such
+> file or directory.
 
-That was done to make sure both static and dynamic linking work.
-For production -static is necessary.
-For debugging of usermode blob dynamic is beneficial.
+yeah, I had noticed this noise, but
+I did not get around to digging into it.
 
-> Restoring the original behavior will add more complexity because
-> now we have CONFIG_CC_CAN_LINK and CONFIG_CC_CAN_LINK_STATIC
-> since commit b1183b6dca3e0d5
-> 
-> If CONFIG_BPFILTER_UMH=y, we need to check CONFIG_CC_CAN_LINK_STATIC.
-> If CONFIG_BPFILTER_UMH=m, we need to check CONFIG_CC_CAN_LINK.
-> This would make the Kconfig dependency logic too complicated.
 
-Currently I'm working on adding bpf_iter to use 'user mode driver'
-(old user mode blob) facility on top of Eric's patches.
-So there will be quite a bit more complexity to build system.
-Folks who don't want to deal with -static requirement should
-just disable the feature.
+> I suspect I see this from doing an ARCH=arm build, then building a
+> different ARCH and killing the build before vmlinux is produced or
+> `make clean` for a different ARCH, then run a `make clean` for
+> ARCH=arm.
+>
+> Is the above (regarding lazy evaluation) not true for LDFLAGS_vmlinux?
+> I would have thought this would work:
 
-> To make it simpler, I'd like to suggest two options.
-> 
-> 
-> 
-> Idea 1:
-> 
->   Always use -static irrespective of whether
->   CONFIG_BPFILTER_UMH is y or m.
 
-I don't think it's making it much simpler.
-It's a tiny change to makefile.
-I could be missing something.
-Requiring -static for =y and =m is fine.
+No, this does not work.
 
->   Add two more lines to clarify this
->   in the comment in net/bpfilter/Makefile:
-> 
->   # builtin bpfilter_umh should be linked with -static
->   # since rootfs isn't mounted at the time of __init
->   # function is called and do_execv won't find elf interpreter.
->   # Static linking is not required when bpfilter is modular, but
->   # we always pass -static to keep the 'depends on' in Kconfig simple.
-> 
-> 
-> 
-> Idea 2:
-> 
->    Allow umh to become only modular,
->    and drop -static flag entirely.
+LDFLAGS_vmlinux is assigned by '=',
+so it already has the lazy expansion flavor.
 
-absolutely not.
-Both =y and =m are mandatory.
 
-> 
->    If you look at net/bpfilter/Kconfig,
->    BPFILTER_UMH already has 'default m'.
->    So, I assume the most expected use-case
->    is modular.
+Unexporting LDFLAGS_vmlinux will fix it.
+(I may write a better patch, though)
 
-The default for BPFILTER is =N.
-Distros should NOT be turning that to =y
 
-Same thing with upcoming bpf_iter. It will default to =n.
+
+diff --git a/arch/arm/boot/compressed/Makefile
+b/arch/arm/boot/compressed/Makefile
+index 00602a6fba04..fab54b1c39aa 100644
+--- a/arch/arm/boot/compressed/Makefile
++++ b/arch/arm/boot/compressed/Makefile
+@@ -131,6 +131,8 @@ LDFLAGS_vmlinux += -X
+ # Next argument is a linker script
+ LDFLAGS_vmlinux += -T
+
++unexport LDFLAGS_vmlinux
++
+ # For __aeabi_uidivmod
+ lib1funcs = $(obj)/lib1funcs.o
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
