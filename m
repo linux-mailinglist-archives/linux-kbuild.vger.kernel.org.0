@@ -2,55 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB3B20FC9A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 21:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6065D20FD76
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 22:12:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbgF3TTl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jun 2020 15:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41902 "EHLO
+        id S1729289AbgF3UMy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jun 2020 16:12:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726534AbgF3TTk (ORCPT
+        with ESMTP id S1726642AbgF3UMy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jun 2020 15:19:40 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8408C061755
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jun 2020 12:19:39 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id 17so20674390wmo.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jun 2020 12:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=+SWuClaaDOYjnOgTPZaQNynsf/0FUgaUl6LbycKFTXY=;
-        b=p1ZTo7sqWt0hVOCPEQgh4KonD/ze3MFi/Yo01MsLgVJf5FMsIFlA6JW4xVwwRJLlvb
-         2LGkFLB4TzM0dvjc8XtPJfVJhY8j+voxfHGY5wyBtTX1C+ZACZgqKm0vEVfpHx7NWev/
-         lcBMgEAqWixQZY8F67ZRGbDhWdhv/yhtFew6T+y/MorkhkJgTBklhLRQcuC4gHDG6Oma
-         5i9nqG9qYH/2KTAQvzLCjszZz0sf7Mhc082rZwllvHEn17zE65LAchhrPt5sAy6Dzzit
-         PtTeeRPqNlzXbRW/+6N4LbmHjg3QifubG2x60lzfsOi+sgYvSO6qM++fCjJ07Ct2wEA1
-         NugQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+SWuClaaDOYjnOgTPZaQNynsf/0FUgaUl6LbycKFTXY=;
-        b=oUNroW0vXwVi/jzxNXAcZoSS6XtTl7zy/6rXZecg7eBpaN1sDJZJx/VcQCmhAwUXkT
-         qrYzsJrpLu0A7/nK9T9i/3ckX7nrLyBBpRBemoTW4bkAU9vwGc2x2Ksr9Z93YbXz/3F2
-         VGDjgEigzkqrRq4HvWxHJEKrCeomU6qR/dFMRkTobpthUY0Ii4GYA0Wd+Y48K8hdsdPP
-         pSigXYj24mCxpc+NDOQHhE5I5WR//Ot7P/f6fTec2pZ4AYQ15GoWQep9GT9REUwrJzWv
-         AIXBkht0goomE6ZAzdkiobAwR5CTgiY67wFHA/bYKUcDsOKePaXf2bdki+OYyoLY3nK/
-         e44g==
-X-Gm-Message-State: AOAM530FM2pkxASg+pWkgZ443Ie/mW7EaUJzD86pTfV7gOhnwu2H0MVc
-        INVASf7t7qJ/Oeitx8/GEVOyrQ==
-X-Google-Smtp-Source: ABdhPJy/PenvvC1HqQRiXc5HwQSjowSzX2eTbOpk9cYcS6/u9DHLBqXXZHK4LjdBVn6FouYmSayxcQ==
-X-Received: by 2002:a1c:3286:: with SMTP id y128mr21486460wmy.29.1593544778240;
-        Tue, 30 Jun 2020 12:19:38 -0700 (PDT)
-Received: from elver.google.com ([100.105.32.75])
-        by smtp.gmail.com with ESMTPSA id h14sm4799958wrt.36.2020.06.30.12.19.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2020 12:19:37 -0700 (PDT)
-Date:   Tue, 30 Jun 2020 21:19:31 +0200
-From:   Marco Elver <elver@google.com>
-To:     Peter Zijlstra <peterz@infradead.org>
+        Tue, 30 Jun 2020 16:12:54 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06733C061755;
+        Tue, 30 Jun 2020 13:12:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=3vuEzcOpU1CJwUQJrdBeKzns4OB34X5Bqj0YC/vdJ6s=; b=KIVM6k4/isSr5jCQS8mCIovGbL
+        BxtvQ36PFCaDI9DZBZspXr5cLPrNxTRWlb3DyuY+KpKPXvlPXTLXSnpiuy/FiZp9hyEZwZALbKmSt
+        L7VGeZkyVdkVhfU8uejeSwjYgqvn8DKGL+y1Lto/vHq+KGdAUYaRItnVmXXf2psxAF5+lUxMMeK+M
+        kIXWGPLOYJNIf4PIsM5Bs/dr6hlCunL6r5v9l83qRqk0R/at0/ZDunxkLlkOFTOwCcIfX+sZGblQw
+        7W8ZVIatGRNbQSWs9wNPH9F899gMFgKtdnVNRVu5ILO64bW5LFJYCmvl9jgDdGTwa3WoLHfFapBRG
+        NbPPxLdw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jqMcY-0004Qa-JC; Tue, 30 Jun 2020 20:12:46 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D0729302753;
+        Tue, 30 Jun 2020 22:12:43 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BED56213A2365; Tue, 30 Jun 2020 22:12:43 +0200 (CEST)
+Date:   Tue, 30 Jun 2020 22:12:43 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Marco Elver <elver@google.com>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -66,91 +53,113 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
 Subject: Re: [PATCH 00/22] add support for Clang LTO
-Message-ID: <20200630191931.GA884155@elver.google.com>
+Message-ID: <20200630201243.GD4817@hirez.programming.kicks-ass.net>
 References: <20200624203200.78870-1-samitolvanen@google.com>
  <20200624211540.GS4817@hirez.programming.kicks-ass.net>
  <CAKwvOdmxz91c-M8egR9GdR1uOjeZv7-qoTP=pQ55nU8TCpkK6g@mail.gmail.com>
  <20200625080313.GY4817@hirez.programming.kicks-ass.net>
  <20200625082433.GC117543@hirez.programming.kicks-ass.net>
  <20200625085745.GD117543@hirez.programming.kicks-ass.net>
+ <20200630191931.GA884155@elver.google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200625085745.GD117543@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.13.2 (2019-12-18)
+In-Reply-To: <20200630191931.GA884155@elver.google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I was asked for input on this, and after a few days digging through some
-history, thought I'd comment. Hope you don't mind.
+On Tue, Jun 30, 2020 at 09:19:31PM +0200, Marco Elver wrote:
+> I was asked for input on this, and after a few days digging through some
+> history, thought I'd comment. Hope you don't mind.
 
-On Thu, Jun 25, 2020 at 10:57AM +0200, Peter Zijlstra wrote:
-> On Thu, Jun 25, 2020 at 10:24:33AM +0200, Peter Zijlstra wrote:
-> > On Thu, Jun 25, 2020 at 10:03:13AM +0200, Peter Zijlstra wrote:
-> > > I'm sure Will will respond, but the basic issue is the trainwreck C11
-> > > made of dependent loads.
-> > > 
-> > > Anyway, here's a link to the last time this came up:
-> > > 
-> > >   https://lore.kernel.org/linux-arm-kernel/20171116174830.GX3624@linux.vnet.ibm.com/
-> > 
-> > Another good read:
-> > 
-> >   https://lore.kernel.org/lkml/20150520005510.GA23559@linux.vnet.ibm.com/
-[...]
-> Because now the machine can speculate and load now before seq, breaking
-> the ordering.
+Not at all, being the one that asked :-)
 
-First of all, I agree with the concerns, but not because of LTO.
+> First of all, I agree with the concerns, but not because of LTO.
+> 
+> To set the stage better, and summarize the fundamental problem again:
+> we're in the unfortunate situation that no compiler today has a way to
+> _efficiently_ deal with C11's memory_order_consume
+> [https://lwn.net/Articles/588300/]. If we did, we could just use that
+> and be done with it. But, sadly, that doesn't seem possible right now --
+> compilers just say consume==acquire.
 
-To set the stage better, and summarize the fundamental problem again:
-we're in the unfortunate situation that no compiler today has a way to
-_efficiently_ deal with C11's memory_order_consume
-[https://lwn.net/Articles/588300/]. If we did, we could just use that
-and be done with it. But, sadly, that doesn't seem possible right now --
-compilers just say consume==acquire. Will suggests doing the same in the
-kernel: https://lkml.kernel.org/r/20200630173734.14057-19-will@kernel.org
+I'm not convinced C11 memory_order_consume would actually work for us,
+even if it would work. That is, given:
 
-What we're most worried about right now is the existence of compiler
-transformations that could break data dependencies by e.g. turning them
-into control dependencies.
+  https://lore.kernel.org/lkml/20150520005510.GA23559@linux.vnet.ibm.com/
 
-If this is a real worry, I don't think LTO is the magical feature that
-will uncover those optimizations. If these compiler transformations are
-real, they also exist in a normal build! And if we are worried about
-them, we need to stop relying on dependent load ordering across the
-board; or switch to -O0 for everything. Clearly, we don't want either.
+only pointers can have consume, but like I pointed out, we have code
+that relies on dependent loads from integers.
 
-Why do we think LTO is special?
+> Will suggests doing the same in the
+> kernel: https://lkml.kernel.org/r/20200630173734.14057-19-will@kernel.org
 
-With LTO, Clang just emits LLVM bitcode instead of ELF objects, and
-during the linker stage intermodular optimizations across translation
-unit boundaries are done that might not be possible otherwise
-[https://llvm.org/docs/LinkTimeOptimization.html]. From the memory model
-side of things, if we could fully convey our intent to the compiler (the
-imaginary consume), there would be no problem, because all optimization
-stages from bitcode generation to the final machine code generation
-after LTO know about the intended semantics. (Also, keep in mind that
-LTO is _not_ doing post link optimization of machine code binaries!)
+PowerPC would need a similar thing, it too will not preserve causality
+for control dependecies.
 
-But as far as we can tell, there is no evidence of the dreaded "data
-dependency to control dependency" conversion with LTO that isn't there
-in non-LTO builds, if it's even there at all. Has the data to control
-dependency conversion been encountered in the wild? If not, is the
-resulting reaction an overreaction? If so, we need to be careful blaming
-LTO for something that it isn't even guilty of.
+> What we're most worried about right now is the existence of compiler
+> transformations that could break data dependencies by e.g. turning them
+> into control dependencies.
 
-So, we are probably better off untangling LTO from the story:
+Correct.
 
-1. LTO or no LTO does not matter. The LTO series should not get tangled
-   up with memory model issues.
+> If this is a real worry, I don't think LTO is the magical feature that
+> will uncover those optimizations. If these compiler transformations are
+> real, they also exist in a normal build! 
 
-2. The memory model question and problems need to be answered and
-   addressed separately.
+Agreed, _however_ with the caveat that LTO could make them more common.
 
-Thoughts?
+After all, with whole program analysis, the compiler might be able to
+more easily determine that our pointer @ptr is only ever assigned the
+values of &A, &B or &C, while without that visibility it would not be
+able to determine this.
 
-Thanks,
--- Marco
+Once it knows @ptr has a limited number of determined values, the
+conversion into control dependencies becomes much more likely.
+
+> And if we are worried about them, we need to stop relying on dependent
+> load ordering across the board; or switch to -O0 for everything.
+> Clearly, we don't want either.
+
+Agreed.
+
+> Why do we think LTO is special?
+
+As argued above, whole-program analysis would make it more likely. But I
+agree the fundamental problem exists independent from LTO.
+
+> But as far as we can tell, there is no evidence of the dreaded "data
+> dependency to control dependency" conversion with LTO that isn't there
+> in non-LTO builds, if it's even there at all. Has the data to control
+> dependency conversion been encountered in the wild? If not, is the
+> resulting reaction an overreaction? If so, we need to be careful blaming
+> LTO for something that it isn't even guilty of.
+
+It is mostly paranoia; in a large part driven by the fact that even if
+such a conversion were to be done, it could go a very long time without
+actually causing problems, and longer still for such problems to be
+traced back to such an 'optimization'.
+
+That is, the collective hurt from debugging too many ordering issues.
+
+> So, we are probably better off untangling LTO from the story:
+> 
+> 1. LTO or no LTO does not matter. The LTO series should not get tangled
+>    up with memory model issues.
+> 
+> 2. The memory model question and problems need to be answered and
+>    addressed separately.
+> 
+> Thoughts?
+
+How hard would it be to creates something that analyzes a build and
+looks for all 'dependent load -> control dependency' transformations
+headed by a volatile (and/or from asm) load and issues a warning for
+them?
+
+This would give us an indication of how valuable this transformation is
+for the kernel. I'm hoping/expecting it's vanishingly rare, but what do
+I know.
+
