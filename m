@@ -2,132 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0936B20F0FD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 10:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 875AF20F7E6
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 17:07:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731731AbgF3I5J (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jun 2020 04:57:09 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40932 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729992AbgF3I5J (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jun 2020 04:57:09 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 87A42AE61;
-        Tue, 30 Jun 2020 08:57:06 +0000 (UTC)
-Received: by lion.mk-sys.cz (Postfix, from userid 1000)
-        id E8BAB604DC; Tue, 30 Jun 2020 10:57:05 +0200 (CEST)
-Date:   Tue, 30 Jun 2020 10:57:05 +0200
-From:   Michal Kubecek <mkubecek@suse.cz>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>
-Subject: Re: [PATCH 04/16] net: bpfilter: use 'userprogs' syntax to build
- bpfilter_umh
-Message-ID: <20200630085705.txwn62zixvxxs7rt@lion.mk-sys.cz>
-References: <20200423073929.127521-1-masahiroy@kernel.org>
- <20200423073929.127521-5-masahiroy@kernel.org>
- <20200608115628.osizkpo76cgn2ci7@lion.mk-sys.cz>
- <CAK7LNARGKCyWbfWUOX3nLLOBS3gi1QU3acdXLPVK4C+ErMDLpA@mail.gmail.com>
+        id S1731100AbgF3PHE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jun 2020 11:07:04 -0400
+Received: from conuserg-08.nifty.com ([210.131.2.75]:18808 "EHLO
+        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728492AbgF3PHE (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 30 Jun 2020 11:07:04 -0400
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 05UF6SbT008591;
+        Wed, 1 Jul 2020 00:06:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 05UF6SbT008591
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593529589;
+        bh=ex39KmxT7SPfAvJbb0E3RhcbX8PtVqkNn9BxsYalfbs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=D8wEor/YWRpl7yVMid/3Yn8/6rY36fxaoit/vtG6wIyvraL8vHYgFsaCP3ypLITAL
+         s+eDscx0ZDYGRMtoHOLmNIAqZZ3NakHeRvXfKl210521otdEbgofGLmb6yOo+agJ8k
+         CBl8NPZv4qRGX/4F08pGemPoB1mOAw6glRXb3TpXGGP5+pN4ouEqH+CRRYCP10yNSI
+         FUyOl96XFlXpxmkttbMtfd3GVdfvOkupL/HArRGhNFpm43oqlguD1Z89Lg3B2VbZEX
+         utvfO2DlzORouMAuZs+ZPAlaZUqpFM91zJtsgjXvhJPHTjvE6Ex4vzYegtfrBaprrQ
+         GHxNeefRbNK5A==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH v2 1/2] kbuild: fix CONFIG_CC_CAN_LINK(_STATIC) for cross-compilation with Clang
+Date:   Wed,  1 Jul 2020 00:06:24 +0900
+Message-Id: <20200630150625.12056-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARGKCyWbfWUOX3nLLOBS3gi1QU3acdXLPVK4C+ErMDLpA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 03:30:04PM +0900, Masahiro Yamada wrote:
-> On Mon, Jun 8, 2020 at 8:56 PM Michal Kubecek <mkubecek@suse.cz> wrote:
-> >
-> > I just noticed that this patch (now in mainline as commit 8a2cc0505cc4)
-> > drops the test if CONFIG_BPFILTER_UMH is "y" so that -static is now
-> > passed to the linker even if bpfilter_umh is built as a module which
-> > wasn't the case in v5.7.
-> >
-> > This is not mentioned in the commit message and the comment still says
-> > "*builtin* bpfilter_umh should be linked with -static" so this change
-> > doesn't seem to be intentional. Did I miss something?
-> 
-> I was away for a while from this because I saw long discussion in
-> "net/bpfilter: Remove this broken and apparently unmaintained"
-> 
-> 
-> Please let me resume this topic now.
-> 
-> 
-> The original behavior of linking umh was like this:
->   - If CONFIG_BPFILTER_UMH=y, bpfilter_umh was linked with -static
->   - If CONFIG_BPFILTER_UMH=m, bpfilter_umh was linked without -static
-> 
-> 
-> 
-> Restoring the original behavior will add more complexity because
-> now we have CONFIG_CC_CAN_LINK and CONFIG_CC_CAN_LINK_STATIC
-> since commit b1183b6dca3e0d5
-> 
-> If CONFIG_BPFILTER_UMH=y, we need to check CONFIG_CC_CAN_LINK_STATIC.
-> If CONFIG_BPFILTER_UMH=m, we need to check CONFIG_CC_CAN_LINK.
-> This would make the Kconfig dependency logic too complicated.
-> 
-> 
-> To make it simpler, I'd like to suggest two options.
-> 
-> 
-> 
-> Idea 1:
-> 
->   Always use -static irrespective of whether
->   CONFIG_BPFILTER_UMH is y or m.
-> 
->   Add two more lines to clarify this
->   in the comment in net/bpfilter/Makefile:
-> 
->   # builtin bpfilter_umh should be linked with -static
->   # since rootfs isn't mounted at the time of __init
->   # function is called and do_execv won't find elf interpreter.
->   # Static linking is not required when bpfilter is modular, but
->   # we always pass -static to keep the 'depends on' in Kconfig simple.
+scripts/cc-can-link.sh tests if the compiler can link userspace
+programs.
 
-I wouldn't be very happy with this solution as that would mean adding an
-extra build dependency which we don't really need. We might even
-consider disabling CONFIG_BPFILTER_UMH instead.
+When $(CC) is GCC, it is checked against the target architecture
+because the toolchain prefix is specified as a part of $(CC).
 
-> Idea 2:
-> 
->    Allow umh to become only modular,
->    and drop -static flag entirely.
-> 
->    If you look at net/bpfilter/Kconfig,
->    BPFILTER_UMH already has 'default m'.
->    So, I assume the most expected use-case
->    is modular.
-> 
->    My suggestion is to replace 'default m' with 'depends on m'.
-> 
->    config BPFILTER_UMH
->            tristate "bpfilter kernel module with user mode helper"
->            depends on CC_CAN_LINK
->            depends on m
-> 
->    Then BPFILTER_UMH will be restricted to either m or n.
->    Link umh dynamically because we can expect rootfs
->    is already mounted for the module case.
+When $(CC) is Clang, it is checked against the host architecture
+because --target option is missing.
 
-This wouldn't be a problem for me or openSUSE kernels as we already have
-CONFIG_BPFILTER_UMH=m. But I can't speak for others, I'm not sure if
-there are some use cases requiring CONFIG_BPFILTER_UMH=y.
+Pass $(CLANG_FLAGS) to scripts/cc-can-link.sh to evaluate the link
+capability for the target architecture.
 
-Michal
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+Changes in v2:
+  - New patch
+
+ init/Kconfig | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/init/Kconfig b/init/Kconfig
+index a46aa8f3174d..d0313e7725fa 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -49,13 +49,13 @@ config CLANG_VERSION
+ 
+ config CC_CAN_LINK
+ 	bool
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(m64-flag)) if 64BIT
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(m32-flag))
++	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
++	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
+ 
+ config CC_CAN_LINK_STATIC
+ 	bool
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) -static $(m64-flag)) if 64BIT
+-	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) -static $(m32-flag))
++	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) -static $(m64-flag)) if 64BIT
++	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) -static $(m32-flag))
+ 
+ config CC_HAS_ASM_GOTO
+ 	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
+-- 
+2.25.1
+
