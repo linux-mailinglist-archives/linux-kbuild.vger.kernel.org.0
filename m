@@ -2,45 +2,45 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DEAA20EBA0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 04:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1204E20EC17
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 05:37:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728817AbgF3Cub (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jun 2020 22:50:31 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:62879 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728816AbgF3Cua (ORCPT
+        id S1729157AbgF3Dhn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jun 2020 23:37:43 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:16508 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728930AbgF3Dhn (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jun 2020 22:50:30 -0400
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 05U2o19Z021640;
-        Tue, 30 Jun 2020 11:50:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 05U2o19Z021640
+        Mon, 29 Jun 2020 23:37:43 -0400
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 05U3b4hN008783;
+        Tue, 30 Jun 2020 12:37:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 05U3b4hN008783
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593485402;
-        bh=BA2eIyq2Y+jYf/ti3GO+cZXuKicFpz1r5ISiK8LSAvY=;
+        s=dec2015msa; t=1593488225;
+        bh=HQ6KnmOwOmCLPqo+IgJmQaK1v7heWShiK/BACFB0v+g=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tMce/cNtrkGVxiWEh8CgHYjMe0oRiNnwcAzc0t/BMSkUwoG6qtrSCb2eugH6xo+5u
-         nYlgB9VwjZUyqp8oB3qUkliBy5rwmil62gyP8b5Bn4XwBxNXzZoL8QsfUKe/YQ2l/1
-         HN/aOaSupth3Af3yhfCw6TqazE84KWco1P7JMVwVbKppqZBmn2TNhv1odNIc08fA/j
-         IsImtGcPcn6pbujzxkae4oJ5OCbmtPd78jqiyPcBp9dpwaBxyIyOI4fYNs7QUFNX6C
-         eubo58ZQHzSXpjShKNDj73Hb0GrusMcr+WhZcmlr3qjp1FRMJlBdPNcj2DgD7Gbsyn
-         2P2kaKbDOyW+A==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id v1so10363731vsb.10;
-        Mon, 29 Jun 2020 19:50:02 -0700 (PDT)
-X-Gm-Message-State: AOAM532+/WLMl6dA5bq+hBim2bZlT63mCImoRIZLvdCuR6/szAhPiYNt
-        BU1hIH0pjYK8PzOdHEaQFXE4wAYIEmET964F7ps=
-X-Google-Smtp-Source: ABdhPJxUjiFgHFY42gUiJ+UxJkAVVtD4/yV/4lUjDX13AR+eCOVO2Q7jks6yDec71QFY4h0OZ7PuDegZhK6fvQ1g5bg=
-X-Received: by 2002:a67:1342:: with SMTP id 63mr1729209vst.54.1593485400898;
- Mon, 29 Jun 2020 19:50:00 -0700 (PDT)
+        b=xXeJUSWuOMrr7z3lfv7Cday+TcjdR3ts3dYt/FdSZ6wQqlB3S/hsRU1lkbaX7JUs/
+         QSJF/NzSRLj4+v/KkooT2i3Bb/5DhE8Uenl2bcGz2VgAvMc+e+qWRwPPwu4o7ZHmnt
+         MdV9+QqZrSpBgHzFjJEs5Wxr49ypSeRli8krOpMtlQZ2kAFWWMQW3Az7/6q3FS1Ihq
+         f8gnDPHQoNA3nnVmqVSG/SIO+v+gVAsON2T5DC0YCJ9XmHXz/9Xb/Y19dniR/z0ikU
+         wOV7p4kt1gpLC4wYA+QyfZ0Anp3ECYSVUjdO5b0NEOu9IGULRLi6a04fVh4pxH6dO+
+         BIg+qLSiYPjGw==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id m25so10406617vsp.8;
+        Mon, 29 Jun 2020 20:37:05 -0700 (PDT)
+X-Gm-Message-State: AOAM531gwZvFfheLfc4in2cYkTCuERIw0JwiQ18b4tU5DBYcVwE6ALZf
+        6k+ICfdO9YxI/JC5QPtrirT2+fw1YQNFOgMeu58=
+X-Google-Smtp-Source: ABdhPJyos1ORrGzmRbsRpSUTJzytWNoRffnYrImYzuBLzAg+8UwkZPH2/UbDxOJw3n1p73IsJwOIwI/sy3tWJk7tOm4=
+X-Received: by 2002:a67:2e4d:: with SMTP id u74mr4608864vsu.215.1593488224012;
+ Mon, 29 Jun 2020 20:37:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1593423060.git.mchehab+huawei@kernel.org> <45fa5ad583de1766de6169366df1df5837c5dc7c.1593423060.git.mchehab+huawei@kernel.org>
 In-Reply-To: <45fa5ad583de1766de6169366df1df5837c5dc7c.1593423060.git.mchehab+huawei@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 30 Jun 2020 11:49:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASSeZiod0i1205_HrWNOb5BLb9FNbK2Y4ekx0sZ7QRLpQ@mail.gmail.com>
-Message-ID: <CAK7LNASSeZiod0i1205_HrWNOb5BLb9FNbK2Y4ekx0sZ7QRLpQ@mail.gmail.com>
+Date:   Tue, 30 Jun 2020 12:36:27 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASbWXkRZ3OrmDSXj4jfu6jGcMnjnOOJ4+cV22fweJ9OJA@mail.gmail.com>
+Message-ID: <CAK7LNASbWXkRZ3OrmDSXj4jfu6jGcMnjnOOJ4+cV22fweJ9OJA@mail.gmail.com>
 Subject: Re: [PATCH v2 5/5] kconfig: qconf: navigate menus on hyperlinks
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
@@ -60,40 +60,37 @@ On Mon, Jun 29, 2020 at 6:35 PM Mauro Carvalho Chehab
 > widgets.
 >
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-
-Thanks, I think this is a nice improvement.
-
-When I click a link, both the previous config
-and the new one are highlighted.
-Is this intentional behavior?
-
-For example, put the following simple Kconfig
-at the top-level.
-
-From the info window of FOO,
-click the 'select BAR' link,
-and then both FOO and BAR are highlighted.
-
------------->8---------------
-config FOO
-       bool "foo"
-       select BAR
-       default y
-
-config BAR
-       bool "bar"
-       default y
------------->8-----------------
-
-
-
-
-
-
-
-
 > ---
+
+
+I noticed a regression.
+
+Visit "Networking support",
+and click "select: BPF"
+from the window at the bottom.
+
+Nothing happens except the following error message
+in the console:
+
+Clicked menu is invalid: ^BPF$
+
+
+If I apply only 1-4 in this series,
+this works fine.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 >  scripts/kconfig/qconf.cc | 24 +++++-------------------
 >  1 file changed, 5 insertions(+), 19 deletions(-)
 >
@@ -168,6 +165,6 @@ config BAR
 >
 
 
---
+-- 
 Best Regards
 Masahiro Yamada
