@@ -2,87 +2,134 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8356920EB1B
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 03:52:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBAE820EB47
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 04:09:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728597AbgF3Bwo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 29 Jun 2020 21:52:44 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:60299 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726003AbgF3Bwo (ORCPT
+        id S1728147AbgF3CJA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 29 Jun 2020 22:09:00 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:60726 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726813AbgF3CJA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 29 Jun 2020 21:52:44 -0400
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 05U1qCct029907;
-        Tue, 30 Jun 2020 10:52:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 05U1qCct029907
+        Mon, 29 Jun 2020 22:09:00 -0400
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 05U28iKU007918;
+        Tue, 30 Jun 2020 11:08:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 05U28iKU007918
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593481933;
-        bh=pzUnP+Gd/o71cSKBNMVmFDAQhku4dhuHdwm+GTsm+dQ=;
+        s=dec2015msa; t=1593482925;
+        bh=8N9eJ+P9q8UjGmkozh+JC0/G8Gi+VtjTGyH41GDG7qQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Z/YKjt+0I8CwnlcfGXxiM76xxMtgFODo0Udz4VqTd6CKBsUlq7XA5yMEetuHdo/pW
-         3HgcfiV3FXbjk4H5APsgullI7XFlYZH390On8SQhyFpcoeIOjG2bMcCSVFbhJbIX3E
-         8+db+cuS2ytCwlhWgryth1k4QWye5Q8yR8L73VqlvFzs/OnXZVGNWTrtGffqyan/T3
-         c3xglyXCTMosaiY9EyEDWn++HE/rzV/+ACOEa7SP4b/bjLp9cOc6bnK8Izc4lPALRH
-         HVDYxsOgzIBea+GDhgLewH6bLT/SjbM528NNV6UkbcQMIkoCuux6e8hwAy+x1SZpNg
-         IS0m+3H8FlYIw==
-X-Nifty-SrcIP: [209.85.222.45]
-Received: by mail-ua1-f45.google.com with SMTP id c7so4503116uap.0;
-        Mon, 29 Jun 2020 18:52:13 -0700 (PDT)
-X-Gm-Message-State: AOAM53041HppmKQUPQD8jyxOk3j3WiJgB8pqz53RbYKOvlskWLVVRdMq
-        wSy0CKfTkxtBO4vAfs6JIi8Jybxu4aQpAN+rbrI=
-X-Google-Smtp-Source: ABdhPJx34KgJOS3yCKldjTe3z4RlrwFHHKAIReVcj4g+8cBmyLg1qxOv+ce1XT52RH9evjclhDuFnFDuKvDgX3lnJiU=
-X-Received: by 2002:ab0:156d:: with SMTP id p42mr12963596uae.121.1593481932354;
- Mon, 29 Jun 2020 18:52:12 -0700 (PDT)
+        b=XBPAVQ+D67fSeXqHbyyQDokt++S37hhSVW07zeWlL1772G3Pck6+8PzK+i0hf5ZW9
+         V2LI1trmHpPAJUoeSVpVWzMD5g7oJwbPUiOitRvoNTmUtdWzNvmjyxz2wOaMuyUawF
+         x6w5Y+wMvOIxMl++zTr6sNqmjiUt92Ndp8z1fyFkpmZnqJSY+aFffMfFb2dPJCebDO
+         f3DRiKWYIHuVPb2l3VNLMOEKcry29/159EG4Ai8XlOlrjOARaHR7cuZt54YkRajrvx
+         StoLhTChVQmh/pYjD8ETWkmixOig+IACKG0GBz/PuSQSZtoyQFVQlI6RqCv3zj6ONM
+         gyOCR7S3+nSZA==
+X-Nifty-SrcIP: [209.85.222.54]
+Received: by mail-ua1-f54.google.com with SMTP id g14so5971425ual.11;
+        Mon, 29 Jun 2020 19:08:44 -0700 (PDT)
+X-Gm-Message-State: AOAM533PQffsVU88BIfLTIBcAzE2I3lms0Bynt2OFVzqUIG0aYOGc6Sl
+        1Vjg4Oi4bh5U1rIeHTsvr3zVVS191wiVHT0DVxo=
+X-Google-Smtp-Source: ABdhPJzcTgvLU2AmkLENvHvRyD/efC2ONPJPB6N+NNMxQ+AWnRagsj4cZe5ewXyAh5Ardq+OWABinNwy06jhD+SST0c=
+X-Received: by 2002:a9f:2204:: with SMTP id 4mr13210692uad.40.1593482923565;
+ Mon, 29 Jun 2020 19:08:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200625170434.635114-1-masahiroy@kernel.org> <20200625170434.635114-5-masahiroy@kernel.org>
- <CAL_JsqL4pTFK_pSNn1cSvjzwdg71dVzM3P06BYYEwDj2t+swPA@mail.gmail.com>
-In-Reply-To: <CAL_JsqL4pTFK_pSNn1cSvjzwdg71dVzM3P06BYYEwDj2t+swPA@mail.gmail.com>
+References: <20200628015041.1000002-1-masahiroy@kernel.org> <87imfa8le0.fsf@mpe.ellerman.id.au>
+In-Reply-To: <87imfa8le0.fsf@mpe.ellerman.id.au>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 30 Jun 2020 10:51:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQzG5ty=knL4eh=8w43p57BGMf6mRMTR1rPrhdFoKs7YA@mail.gmail.com>
-Message-ID: <CAK7LNAQzG5ty=knL4eh=8w43p57BGMf6mRMTR1rPrhdFoKs7YA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] dt-bindings: split DT schema check rules
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Date:   Tue, 30 Jun 2020 11:08:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATusciypBJ4dYZcyrugdi_rXEV_s=zxAehDxsX+Sd5z4g@mail.gmail.com>
+Message-ID: <CAK7LNATusciypBJ4dYZcyrugdi_rXEV_s=zxAehDxsX+Sd5z4g@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: introduce ccflags-remove-y and asflags-remove-y
+To:     Michael Ellerman <mpe@ellerman.id.au>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Ingo Molnar <mingo@redhat.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Paul Mackerras <paulus@samba.org>,
+        Rich Felker <dalias@libc.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 5:50 AM Rob Herring <robh+dt@kernel.org> wrote:
+On Mon, Jun 29, 2020 at 2:55 PM Michael Ellerman <mpe@ellerman.id.au> wrote:
 >
-> On Thu, Jun 25, 2020 at 11:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> Masahiro Yamada <masahiroy@kernel.org> writes:
+> > CFLAGS_REMOVE_<file>.o works per object, that is, there is no
+> > convenient way to filter out flags for every object in a directory.
 > >
-> > When building %.dt.yaml from %.dts, two things happen in a row:
+> > Add ccflags-remove-y and asflags-remove-y to make it easily.
 > >
-> >  [1] Run DTC to convert %.dts into %.dt.yaml
+> > Use ccflags-remove-y to clean up some Makefiles.
 > >
-> >  [2] Run dt-validate against %.dt.yaml
+> > Suggested-by: Sami Tolvanen <samitolvanen@google.com>
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> > ---
 > >
-> > Currently, when any .yaml schema file is updated, processed-schema.yaml
-> > is regenerated, then both [1] and [2] are rerun for all .dts files.
+> >  arch/arm/boot/compressed/Makefile | 6 +-----
+> >  arch/powerpc/xmon/Makefile        | 3 +--
+> >  arch/sh/boot/compressed/Makefile  | 5 +----
+> >  kernel/trace/Makefile             | 4 ++--
+> >  lib/Makefile                      | 5 +----
+> >  scripts/Makefile.lib              | 4 ++--
+> >  6 files changed, 8 insertions(+), 19 deletions(-)
 > >
-> > Actually, we do not need to rerun [1] since the original .dts is not
-> > updated.
+> > diff --git a/arch/powerpc/xmon/Makefile b/arch/powerpc/xmon/Makefile
+> > index 89c76ca35640..55cbcdd88ac0 100644
+> > --- a/arch/powerpc/xmon/Makefile
+> > +++ b/arch/powerpc/xmon/Makefile
+> > @@ -7,8 +7,7 @@ UBSAN_SANITIZE := n
+> >  KASAN_SANITIZE := n
+> >
+> >  # Disable ftrace for the entire directory
+> > -ORIG_CFLAGS := $(KBUILD_CFLAGS)
+> > -KBUILD_CFLAGS = $(subst $(CC_FLAGS_FTRACE),,$(ORIG_CFLAGS))
+> > +ccflags-remove-y += $(CC_FLAGS_FTRACE)
 >
-> I have plans (and an intern working on it) to integrate the schema
-> checks into dtc. That's going to make turning on the schema checks
-> just a flag to dtc. I'm not sure if adding the complexity here is
-> worth it as I'd expect much of this patch to go away again.
+> This could be:
 >
-> Is there any negative impact on the absolute clean build time? I'm
-> more concerned about that than optimizing rerunning.
+> ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
+>
+> Similar to kernel/trace/Makefile below.
 
-No benefit on the absolute clean build time.
 
-OK, then please skip this patch.
+I fixed it up, and applied to linux-kbuild.
+Thanks.
 
+
+> I don't mind though.
+>
+> Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
+>
+> cheers
+>
+> > diff --git a/kernel/trace/Makefile b/kernel/trace/Makefile
+> > index 6575bb0a0434..7492844a8b1b 100644
+> > --- a/kernel/trace/Makefile
+> > +++ b/kernel/trace/Makefile
+> > @@ -2,9 +2,9 @@
+> >
+> >  # Do not instrument the tracer itself:
+> >
+> > +ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
+> > +
+> >  ifdef CONFIG_FUNCTION_TRACER
+> > -ORIG_CFLAGS := $(KBUILD_CFLAGS)
+> > -KBUILD_CFLAGS = $(subst $(CC_FLAGS_FTRACE),,$(ORIG_CFLAGS))
+> >
+> >  # Avoid recursion due to instrumentation.
+> >  KCSAN_SANITIZE := n
 
 
 
