@@ -2,90 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67D0020FC81
-	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 21:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EB3B20FC9A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 30 Jun 2020 21:19:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726842AbgF3TNJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 30 Jun 2020 15:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40900 "EHLO
+        id S1727070AbgF3TTl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 30 Jun 2020 15:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726324AbgF3TNH (ORCPT
+        with ESMTP id S1726534AbgF3TTk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 30 Jun 2020 15:13:07 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D3BC061755;
-        Tue, 30 Jun 2020 12:13:06 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id g2so12060037lfb.0;
-        Tue, 30 Jun 2020 12:13:06 -0700 (PDT)
+        Tue, 30 Jun 2020 15:19:40 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8408C061755
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jun 2020 12:19:39 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id 17so20674390wmo.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 30 Jun 2020 12:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Qh5qpq0DRF5ItkAziSeZrTjhiLljM/TKCiqFCudwnKM=;
-        b=XOd0G8vhwKM7selbWtFimmDM/t7yIBdIbFHaIpaOZDjzlFp/okhd6dlzL/sbJGEbQX
-         pcAsfzq7TpGSA68FtpbIm5sxxeIin/i9ENVGMlnKvFiYwh69RUnFvt4qWuVG/My88Vy7
-         gtCLu7aUzXUEKTUcBSbxBJ4mg2fYWpRRXukG7mvtoL7NRog9XjT9XBS5dcJZ3Xs0Mr6W
-         4EGLzQ9CJ9PI0CAcePP6J7OMOfXMBWh5f1e2cBDXK/U959+zti4VXqIRRwfXGVb0wHcc
-         3+DJWEsAwwuJq8UOnEqbXMk0AHa+4XDV9TlIjeZLofvXlMsCfzOzaX57ZD+CbGjjorYn
-         xsHQ==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=+SWuClaaDOYjnOgTPZaQNynsf/0FUgaUl6LbycKFTXY=;
+        b=p1ZTo7sqWt0hVOCPEQgh4KonD/ze3MFi/Yo01MsLgVJf5FMsIFlA6JW4xVwwRJLlvb
+         2LGkFLB4TzM0dvjc8XtPJfVJhY8j+voxfHGY5wyBtTX1C+ZACZgqKm0vEVfpHx7NWev/
+         lcBMgEAqWixQZY8F67ZRGbDhWdhv/yhtFew6T+y/MorkhkJgTBklhLRQcuC4gHDG6Oma
+         5i9nqG9qYH/2KTAQvzLCjszZz0sf7Mhc082rZwllvHEn17zE65LAchhrPt5sAy6Dzzit
+         PtTeeRPqNlzXbRW/+6N4LbmHjg3QifubG2x60lzfsOi+sgYvSO6qM++fCjJ07Ct2wEA1
+         NugQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Qh5qpq0DRF5ItkAziSeZrTjhiLljM/TKCiqFCudwnKM=;
-        b=ecFhUsPzaf5JI0U8iBZmtd+l5F6sXjV5U/Zd0FZGnvdLuxJWecMkv39RE1kzINFjDC
-         imqXE9Ku2ixDAMDG+gk1Hkc3BeSgb4Dxv1aQds9vAM8rK0kTFkEmosqHwtnxbrz1wCN1
-         FNaQ+ap16s6nv0Qno76npNcabIPMwoHRnKlxU5IjsFZXpKY6W1tkRnBenH8pxtWLf7PO
-         Di9Ln+EXTsgGFGkLR9JRZdBA+r0ZgdRdala4qFgDTV90jFHX7boJDOhtfQvL527Vgl+j
-         h58yDTJYmfWBwjDTK1oj05HWM6NGaNUw3M4nfRC4tVhnRt2kGdK1E9fkLp83EOd/4wME
-         X3Ag==
-X-Gm-Message-State: AOAM533au4Y+SJf9QwpYQlrG4KTuBHTaC76UV28r6q27VzG/TtGMz2EE
-        DGiIr7ogzaKjni21QyY1nkBQ8uYFDfIE7LbQxcoTaQ==
-X-Google-Smtp-Source: ABdhPJwQe6pLq/YzqmjnIc7IaWJPawPhkGrywWgSTur5Pcmb3rRRjEPqThtHf7kj9EHlaRsXb/uVLoOMP4jScwen3IY=
-X-Received: by 2002:ac2:46f0:: with SMTP id q16mr12862291lfo.51.1593544385174;
- Tue, 30 Jun 2020 12:13:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200629085911.1676554-1-masahiroy@kernel.org>
- <CAKwvOd=qe5KE1vdUYQmpsW2zmDbk5i-MgRujs9B7wqnAj+af0w@mail.gmail.com> <CAK7LNAR49jFZkEmBqpACE0V_-VyCXfFRcKe1Zq+cqO65QX1ozg@mail.gmail.com>
-In-Reply-To: <CAK7LNAR49jFZkEmBqpACE0V_-VyCXfFRcKe1Zq+cqO65QX1ozg@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 30 Jun 2020 21:12:54 +0200
-Message-ID: <CANiq72nE+1F3yM+e9XzfphzOe3mb9DUcRCAtPuLMyFE4Rh38pg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: make Clang build userprogs for target architecture
-To:     Masahiro Yamada <masahiroy@kernel.org>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+SWuClaaDOYjnOgTPZaQNynsf/0FUgaUl6LbycKFTXY=;
+        b=oUNroW0vXwVi/jzxNXAcZoSS6XtTl7zy/6rXZecg7eBpaN1sDJZJx/VcQCmhAwUXkT
+         qrYzsJrpLu0A7/nK9T9i/3ckX7nrLyBBpRBemoTW4bkAU9vwGc2x2Ksr9Z93YbXz/3F2
+         VGDjgEigzkqrRq4HvWxHJEKrCeomU6qR/dFMRkTobpthUY0Ii4GYA0Wd+Y48K8hdsdPP
+         pSigXYj24mCxpc+NDOQHhE5I5WR//Ot7P/f6fTec2pZ4AYQ15GoWQep9GT9REUwrJzWv
+         AIXBkht0goomE6ZAzdkiobAwR5CTgiY67wFHA/bYKUcDsOKePaXf2bdki+OYyoLY3nK/
+         e44g==
+X-Gm-Message-State: AOAM530FM2pkxASg+pWkgZ443Ie/mW7EaUJzD86pTfV7gOhnwu2H0MVc
+        INVASf7t7qJ/Oeitx8/GEVOyrQ==
+X-Google-Smtp-Source: ABdhPJy/PenvvC1HqQRiXc5HwQSjowSzX2eTbOpk9cYcS6/u9DHLBqXXZHK4LjdBVn6FouYmSayxcQ==
+X-Received: by 2002:a1c:3286:: with SMTP id y128mr21486460wmy.29.1593544778240;
+        Tue, 30 Jun 2020 12:19:38 -0700 (PDT)
+Received: from elver.google.com ([100.105.32.75])
+        by smtp.gmail.com with ESMTPSA id h14sm4799958wrt.36.2020.06.30.12.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 12:19:37 -0700 (PDT)
+Date:   Tue, 30 Jun 2020 21:19:31 +0200
+From:   Marco Elver <elver@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+Message-ID: <20200630191931.GA884155@elver.google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200624211540.GS4817@hirez.programming.kicks-ass.net>
+ <CAKwvOdmxz91c-M8egR9GdR1uOjeZv7-qoTP=pQ55nU8TCpkK6g@mail.gmail.com>
+ <20200625080313.GY4817@hirez.programming.kicks-ass.net>
+ <20200625082433.GC117543@hirez.programming.kicks-ass.net>
+ <20200625085745.GD117543@hirez.programming.kicks-ass.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200625085745.GD117543@hirez.programming.kicks-ass.net>
+User-Agent: Mutt/1.13.2 (2019-12-18)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 6:26 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> I can reproduce this in the following
-> simple test code:
->
->
-> ----------------->8----------------
-> #include <stdio.h>
->
-> int main(void)
-> {
->         ssize_t x = 1;
->
->         printf("%zd", x);
->
->         return 0;
-> }
-> --------------->8-------------------
+I was asked for input on this, and after a few days digging through some
+history, thought I'd comment. Hope you don't mind.
 
-That is the old implicit int rule. Try including sys/types.h or
-compiling with a standard like -std=c99 for instance.
+On Thu, Jun 25, 2020 at 10:57AM +0200, Peter Zijlstra wrote:
+> On Thu, Jun 25, 2020 at 10:24:33AM +0200, Peter Zijlstra wrote:
+> > On Thu, Jun 25, 2020 at 10:03:13AM +0200, Peter Zijlstra wrote:
+> > > I'm sure Will will respond, but the basic issue is the trainwreck C11
+> > > made of dependent loads.
+> > > 
+> > > Anyway, here's a link to the last time this came up:
+> > > 
+> > >   https://lore.kernel.org/linux-arm-kernel/20171116174830.GX3624@linux.vnet.ibm.com/
+> > 
+> > Another good read:
+> > 
+> >   https://lore.kernel.org/lkml/20150520005510.GA23559@linux.vnet.ibm.com/
+[...]
+> Because now the machine can speculate and load now before seq, breaking
+> the ordering.
 
-Cheers,
-Miguel
+First of all, I agree with the concerns, but not because of LTO.
+
+To set the stage better, and summarize the fundamental problem again:
+we're in the unfortunate situation that no compiler today has a way to
+_efficiently_ deal with C11's memory_order_consume
+[https://lwn.net/Articles/588300/]. If we did, we could just use that
+and be done with it. But, sadly, that doesn't seem possible right now --
+compilers just say consume==acquire. Will suggests doing the same in the
+kernel: https://lkml.kernel.org/r/20200630173734.14057-19-will@kernel.org
+
+What we're most worried about right now is the existence of compiler
+transformations that could break data dependencies by e.g. turning them
+into control dependencies.
+
+If this is a real worry, I don't think LTO is the magical feature that
+will uncover those optimizations. If these compiler transformations are
+real, they also exist in a normal build! And if we are worried about
+them, we need to stop relying on dependent load ordering across the
+board; or switch to -O0 for everything. Clearly, we don't want either.
+
+Why do we think LTO is special?
+
+With LTO, Clang just emits LLVM bitcode instead of ELF objects, and
+during the linker stage intermodular optimizations across translation
+unit boundaries are done that might not be possible otherwise
+[https://llvm.org/docs/LinkTimeOptimization.html]. From the memory model
+side of things, if we could fully convey our intent to the compiler (the
+imaginary consume), there would be no problem, because all optimization
+stages from bitcode generation to the final machine code generation
+after LTO know about the intended semantics. (Also, keep in mind that
+LTO is _not_ doing post link optimization of machine code binaries!)
+
+But as far as we can tell, there is no evidence of the dreaded "data
+dependency to control dependency" conversion with LTO that isn't there
+in non-LTO builds, if it's even there at all. Has the data to control
+dependency conversion been encountered in the wild? If not, is the
+resulting reaction an overreaction? If so, we need to be careful blaming
+LTO for something that it isn't even guilty of.
+
+So, we are probably better off untangling LTO from the story:
+
+1. LTO or no LTO does not matter. The LTO series should not get tangled
+   up with memory model issues.
+
+2. The memory model question and problems need to be answered and
+   addressed separately.
+
+Thoughts?
+
+Thanks,
+-- Marco
