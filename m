@@ -2,197 +2,178 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57FBE21137E
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 21:31:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2DFB2113A2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 21:34:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725927AbgGATbK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jul 2020 15:31:10 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:50090 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725771AbgGATbJ (ORCPT
+        id S1726897AbgGATeP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jul 2020 15:34:15 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:51375 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726768AbgGATeP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 15:31:09 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 061JTbQ8006662;
-        Thu, 2 Jul 2020 04:29:38 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 061JTbQ8006662
+        Wed, 1 Jul 2020 15:34:15 -0400
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 061JXpBw011590;
+        Thu, 2 Jul 2020 04:33:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 061JXpBw011590
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593631778;
-        bh=Ghsk/6q3IUm5LtJ33X5K2JCyxaLZ1tT51ub8VEalKoo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=n/cMAt/XqaN+wpQkLjiprsZ5IOffenllFJGXDw7DZTUHrYfO4dT9SeDNr5RGJvfo5
-         Nu/3KSxofR1bU7jcw/sMn+ez3PhaZfH5VoK9x4PfSJYCFKj3lvwFVqTmI21DJlDGfl
-         NNNJRa06rrubFSJFCm57PMOJuYjduC5OW/ufY6vzpQ51yKTS00UI5mlv/602ITYf8E
-         vuKnYSu8we48aHWOB3M2uVRtqKdk56xJIisKSPExK+Ld8V2lo3Zeuo1RfFxJAjEJsM
-         TMhSVRamtMPEoELKYZq1fqHZo9EC0W3LnLwtskdcFeRolPzEuBGGIoI1t5+XjY8Fy5
-         EekD6pUmzI1sw==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        linux-xtensa@linux-xtensa.org, Guan Xuetao <gxt@pku.edu.cn>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: [PATCH] kbuild: do not export LDFLAGS_vmlinux
-Date:   Thu,  2 Jul 2020 04:29:36 +0900
-Message-Id: <20200701192936.1397152-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        s=dec2015msa; t=1593632032;
+        bh=M049TJy/cPQkzAutDxghwHrAKGcacxHbM+3c0nlXY9g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jiuTH+JRg2ggt7gNIVFpd5HuVofd95Y7704W4gfQvZhirp8bGt/ioZGOA21r4PAlO
+         Dfd2Ka+rA9pdGmS0c4Q9gnlq2atiaJXwjfZqJRIKCUzie5rNHst1ZV3AIvN3LZDU5t
+         DWKik634foelBvem1d7gIh4zpMD5qcg0BVZsrxyTBEoWzg/KhfgeccvwvGbIoibfpQ
+         J/fngoiS78BXu5ndmk6SkKHc1Rmv6hCM4lr3XBYNosy/7le+brkZ3OpD5FkXe2jCaH
+         ugFPoUxd743ZvPw1DWRilgmpR7whemNS5z1BxvURjAZt2oBsKBmnaGDsAhG2RxjtVA
+         V0vTR90tsOrWw==
+X-Nifty-SrcIP: [209.85.221.182]
+Received: by mail-vk1-f182.google.com with SMTP id v26so2738535vkn.2;
+        Wed, 01 Jul 2020 12:33:52 -0700 (PDT)
+X-Gm-Message-State: AOAM532+ypXqIlGy1QqzFqaKROvhakv4S+JfOJ47+KG2R7uOTXbknI46
+        yfqfNL/pNF1BBWuxp5GDpDOVfljtxh8CVbl1XZE=
+X-Google-Smtp-Source: ABdhPJyELim2i4whFZox2qst1eyZ9eLgF3geZpcjWOQo5z1SDl+M4rEL34GjMnTjj3pafabbbC4sZkWsx6RVez545tY=
+X-Received: by 2002:ac5:ccaf:: with SMTP id p15mr13601008vkm.12.1593632030968;
+ Wed, 01 Jul 2020 12:33:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200626185913.92890-1-masahiroy@kernel.org> <CAKwvOd=V_M43CP7G87K3TqSsxua2NcXPz6BnDt-z6167O2WAzQ@mail.gmail.com>
+ <CAK7LNATcwGkSWV7NSgwG_WqzvTPphT9=KK+qvT3FK_7y1UCzTA@mail.gmail.com>
+ <CAKwvOdntZw2k8ZZ7txPC-FD+50cPpMwctGYTW0j2zw+FVj9SgA@mail.gmail.com> <CAKwvOd=JbEJNdWzk_xdMiy9QewbU3ESOHcokAXKkARrgm-ibEg@mail.gmail.com>
+In-Reply-To: <CAKwvOd=JbEJNdWzk_xdMiy9QewbU3ESOHcokAXKkARrgm-ibEg@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 2 Jul 2020 04:33:14 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARUekoGnTOdUtAvJNJmtr75o1VGv-qnKqMz0eDkxevL4w@mail.gmail.com>
+Message-ID: <CAK7LNARUekoGnTOdUtAvJNJmtr75o1VGv-qnKqMz0eDkxevL4w@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: remove cc-option test of -fno-stack-protector
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When you clean the build tree for ARCH=arm, you may see the following
-error message:
+On Tue, Jun 30, 2020 at 7:39 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Mon, Jun 29, 2020 at 11:26 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > On Sat, Jun 27, 2020 at 4:59 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > >
+> > > On Sat, Jun 27, 2020 at 5:13 AM Nick Desaulniers
+> > > <ndesaulniers@google.com> wrote:
+> > > >
+> > > > On Fri, Jun 26, 2020 at 12:00 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > > >
+> > > > > diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
+> > > > > index dba6a83bc349..93792b457b81 100644
+> > > > > --- a/arch/x86/kernel/cpu/Makefile
+> > > > > +++ b/arch/x86/kernel/cpu/Makefile
+> > > > > @@ -17,8 +17,7 @@ KCOV_INSTRUMENT_perf_event.o := n
+> > > > >  KCSAN_SANITIZE_common.o := n
+> > > > >
+> > > > >  # Make sure load_percpu_segment has no stackprotector
+> > > > > -nostackp := $(call cc-option, -fno-stack-protector)
+> > > > > -CFLAGS_common.o                := $(nostackp)
+> > > > > +CFLAGS_common.o                := -fno-stack-protector
+> > > >
+> > > > Any time I see `:=` assignment to a CFLAGS variable, it's a red flag
+> > > > for overwriting existing CFLAGS, which is a common source of bugs.  I
+> > > > recognize the kernel is current a mix and match for:
+> > > >
+> > > > CFLAGS_<file>.o
+> > > >
+> > > > rules to either use `+=` or `:=`, but I wish we were consistent, and
+> > > > consistent in our use of `+=`.  For those rules, is there a difference
+> > > > between the use of `+=` and `:=` like there is for the more general
+> > > > case of appending to KBUILD_CFLAGS?  If not, it's ok to match the
+> > > > existing style, but it's curious to me in this patch to see a mixed
+> > > > use of `+=` and `:=`.
+> > >
+> > >
+> > > I think Kees mostly answered your question.
+> > >
+> > > Let me add some comments.
+> > >
+> > >
+> > > '+=' is the most used in kernel Makefiles, but
+> > > ':=' and '=' are also used.
+> > >
+> > > So, you are right, we are inconsistent.
+> > > This applies to not only CFLAGS_<file>.o, but also obj-y, etc.
+> > >
+> > > For example,
+> > > https://github.com/torvalds/linux/blob/v5.7/arch/arm64/kernel/Makefile#L15
+> > > 'obj-y :=' works since it is the first assignment to obj-y in that file.
+> > > 'obj-y +=' also works, of course.
+> > >
+> > > We can consistently use '+=' everywhere, but I do not send
+> > > patches for churn.
+> > >
+> > >
+> > > You can use any assignment operator to CFLAGS_<file>.o
+> > > if it is the first assignment in the Makefile.
+> > > Using '+=' is robust for future code insertion/removal, though.
+> > >
+> > >
+> > > If the right-hand side contains variable references,
+> > > there is important difference in the behavior.
+> > >
+> > > You may know two flavors in variables
+> > > (https://www.gnu.org/software/make/manual/make.html#Flavors)
+> >
+> > Cool, thanks for all the info.  With that, I'm happy with this patch.
+> >
+> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> >
+> >
+> > > CFLAGS_foo.o := $(call cc-option,-fno-stack-protector)
+> > > The cc-option is expanded immediately when this line is parsed.
+> > > (So, the compiler is invoked for 'make clean' too)
+> > >
+> > >
+> > > CFLAGS_foo.o += $(call cc-option,-fno-stack-protector)
+> > > If this is the first assignment in the file,
+> > > '+=' act as '=', so the evaluation of cc-option
+> > > is delayed until $(CFLAGS_foo.o) is expanded.
+> > > (So, the compiler is NOT invoked for 'make clean')
+> >
+> > Ah, I think that may explain: I've been seeing the occasional warning
+> > from $(NM) when running `make clean` for ARCH=arm, I'll bet that's
+> > where this is coming from then.  Next time I reproduce it, I'll try to
+> > find maybe where we're using `:=` or `=` with `$(NM)`.
+> >
+> > Maybe arch/arm/boot/compressed/Makefile, KBSS_SZ is evaluated for
+> > `make clean`? (If you start an arm build, but kill it before vmlinux
+> > is created, then `make clean` I suspect that KBSS_SZ is evaluated?)
+>
+> $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71
+> $ rm vmlinux
+> $ ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- make LLVM=1 -j71 clean
+> llvm-nm: error: arch/arm/boot/compressed/../../../../vmlinux: No such
+> file or directory.
+>
+> I suspect I see this from doing an ARCH=arm build, then building a
+> different ARCH and killing the build before vmlinux is produced or
+> `make clean` for a different ARCH, then run a `make clean` for
+> ARCH=arm.
+>
+> Is the above (regarding lazy evaluation) not true for LDFLAGS_vmlinux?
+> I would have thought this would work:
+>
 
-$ make -j24 ARCH=arm clean
-  CLEAN   arch/arm/crypto
-  CLEAN   arch/arm/kernel
-  CLEAN   arch/arm/mach-at91
-  CLEAN   arch/arm/mach-omap2
-  CLEAN   arch/arm/vdso
-  CLEAN   certs
-  CLEAN   lib
-  CLEAN   usr
-  CLEAN   net/wireless
-  CLEAN   drivers/firmware/efi/libstub
-nm: 'arch/arm/boot/compressed/../../../../vmlinux': No such file
-/bin/sh: 1: arithmetic expression: expecting primary: " "
-  CLEAN   arch/arm/boot/compressed
-  CLEAN   drivers/scsi
-  CLEAN   drivers/tty/vt
-  CLEAN   arch/arm/boot
-  CLEAN   vmlinux.symvers modules.builtin modules.builtin.modinfo
 
-Even if you run the same command again, the error message is not shown
-despite vmlinux is already gone.
+I described why this error message is displayed:
 
-To reproduce it, the parallel option -j is needed. Single thread
-cleaning always executes 'archclean', 'vmlinuxclean' in this order,
-so vmlinux still exists when arch/arm/boot/compressed/ is cleaned.
+https://patchwork.kernel.org/patch/11637129/
 
-Looking at arch/arm/boot/compressed/Makefile does not help understand
-the reason of the error message. Both KBSS_SZ and LDFLAGS_vmlinux are
-assigned with '=' operator, hence, they are not expanded until they are
-used. Obviously, 'make clean' does not use them.
 
-In fact, the root cause exists in the top Makefile:
 
-  export LDFLAGS_vmlinux
-
-Since LDFLAGS_vmlinux is an exported variable, LDFLAGS_vmlinux in
-arch/arm/boot/compressed/Makefile is expanded when scripts/Makefile.clean
-has a command to execute. This is why the error message shows up only
-when there exist build artifacts in arch/arm/boot/compressed/.
-
-Adding 'unexport LDFLAGS_vmlinux' to arch/arm/boot/compressed/Makefile
-will fix it as far as ARCH=arm is concerned, but I believe the proper
-fix is to get rid of 'export LDFLAGS_vmlinux' from the top Makefile.
-
-LDFLAGS_vmlinux in the top Makefile contains linker flags for the top
-vmlinux. LDFLAGS_vmlinux in arch/arm/boot/compressed/Makefile is for
-arch/arm/boot/compressed/vmlinux. They just happen to have the same
-variable name, but are used for different purposes. Exporting the former
-bothers the decompressor Makefiles.
-
-This commit passes LDFLAGS_vmlinux to scripts/link-vmlinux.sh via a
-command line parameter instead of via an environment variable. LD and
-KBUILD_LDFLAGS are exported, but I did the same for consistency. Anyway,
-they must be included in cmd_link-vmlinux to allow if_changed to detect
-the changes in LD or KBUILD_LDFLAGS.
-
-The following Makefiles are not affected:
-
-  arch/arm/boot/compressed/Makefile
-  arch/h8300/boot/compressed/Makefile
-  arch/nios2/boot/compressed/Makefile
-  arch/parisc/boot/compressed/Makefile
-  arch/s390/boot/compressed/Makefile
-  arch/sh/boot/compressed/Makefile
-  arch/sh/boot/romimage/Makefile
-  arch/x86/boot/compressed/Makefile
-
-They use ':=' or '=' to clear the LDFLAGS_vmlinux inherited from the
-top Makefile.
-
-We need to take a closer look at the impact to unicore32 and xtensa.
-
-arch/unicore32/boot/compressed/Makefile only uses '+=' operator for
-LDFLAGS_vmlinux. So, the decompressor previously inherited the linker
-flags from the top Makefile.
-
-However, commit 70fac51feaf2 ("unicore32 additional architecture files:
-boot process") was merged before commit 1f2bfbd00e46 ("kbuild: link of
-vmlinux moved to a script"). So, I believe this is rather a bug fix of
-1f2bfbd00e46.
-
-arch/xtensa/boot/boot-elf/Makefile is also affected, but this is a fix
-for the same reason. It did not inherit LDFLAGS_vmlinux when commit
-4bedea945451 ("[PATCH] xtensa: Architecture support for Tensilica Xtensa
-Part 2") was merged. I deleted $(LDFLAGS_vmlinux), which is now empty.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile                           | 3 +--
- arch/xtensa/boot/boot-elf/Makefile | 2 +-
- scripts/link-vmlinux.sh            | 4 ++++
- 3 files changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 5496a32dffa6..075f2f943180 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1100,7 +1100,6 @@ KBUILD_VMLINUX_OBJS += $(patsubst %/,%/built-in.a, $(drivers-y))
- 
- export KBUILD_VMLINUX_OBJS KBUILD_VMLINUX_LIBS
- export KBUILD_LDS          := arch/$(SRCARCH)/kernel/vmlinux.lds
--export LDFLAGS_vmlinux
- # used by scripts/Makefile.package
- export KBUILD_ALLDIRS := $(sort $(filter-out arch/%,$(vmlinux-alldirs)) LICENSES arch include scripts tools)
- 
-@@ -1132,7 +1131,7 @@ ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
- 
- # Final link of vmlinux with optional arch pass after final link
- cmd_link-vmlinux =                                                 \
--	$(CONFIG_SHELL) $< $(LD) $(KBUILD_LDFLAGS) $(LDFLAGS_vmlinux) ;    \
-+	$(CONFIG_SHELL) $< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)";    \
- 	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
- 
- vmlinux: scripts/link-vmlinux.sh autoksyms_recursive $(vmlinux-deps) FORCE
-diff --git a/arch/xtensa/boot/boot-elf/Makefile b/arch/xtensa/boot/boot-elf/Makefile
-index 12ae1e91cb75..c6538d3321b9 100644
---- a/arch/xtensa/boot/boot-elf/Makefile
-+++ b/arch/xtensa/boot/boot-elf/Makefile
-@@ -25,7 +25,7 @@ $(obj)/Image.o: vmlinux.bin $(OBJS)
- 		$(OBJS) $@
- 
- $(obj)/../Image.elf: $(obj)/Image.o $(obj)/boot.lds
--	$(Q)$(LD) $(KBUILD_LDFLAGS) $(LDFLAGS_vmlinux) \
-+	$(LD) $(KBUILD_LDFLAGS) \
- 		-T $(obj)/boot.lds \
- 		--build-id=none \
- 		-o $@ $(obj)/Image.o
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index 7eaf70d58488..16c7818b3e19 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -30,6 +30,10 @@
- # Error out on error
- set -e
- 
-+LD="$1"
-+KBUILD_LDFLAGS="$2"
-+LDFLAGS_vmlinux="$3"
-+
- # Nice output in kbuild format
- # Will be supressed by "make -s"
- info()
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
