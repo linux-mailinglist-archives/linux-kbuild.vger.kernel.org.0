@@ -2,131 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC71210D95
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 16:20:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22DD9210DA2
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 16:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731623AbgGAOUU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 1 Jul 2020 10:20:20 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:45549 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731621AbgGAOUS (ORCPT
+        id S1731347AbgGAOXC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jul 2020 10:23:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731281AbgGAOXC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 10:20:18 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-16-BVV8QEx9N7etV0JoaSvqjg-1; Wed, 01 Jul 2020 15:20:14 +0100
-X-MC-Unique: BVV8QEx9N7etV0JoaSvqjg-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Wed, 1 Jul 2020 15:20:13 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Wed, 1 Jul 2020 15:20:13 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Peter Zijlstra' <peterz@infradead.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-CC:     Marco Elver <elver@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        "Masahiro Yamada" <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: RE: [PATCH 00/22] add support for Clang LTO
-Thread-Topic: [PATCH 00/22] add support for Clang LTO
-Thread-Index: AQHWT4eVR3DE4y9c50++UkzL75GurajywsMg
-Date:   Wed, 1 Jul 2020 14:20:13 +0000
-Message-ID: <4427b0f825324da4b1640e32265b04bd@AcuMS.aculab.com>
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200624211540.GS4817@hirez.programming.kicks-ass.net>
- <CAKwvOdmxz91c-M8egR9GdR1uOjeZv7-qoTP=pQ55nU8TCpkK6g@mail.gmail.com>
- <20200625080313.GY4817@hirez.programming.kicks-ass.net>
- <20200625082433.GC117543@hirez.programming.kicks-ass.net>
- <20200625085745.GD117543@hirez.programming.kicks-ass.net>
- <20200630191931.GA884155@elver.google.com>
- <20200630201243.GD4817@hirez.programming.kicks-ass.net>
- <20200630203016.GI9247@paulmck-ThinkPad-P72>
- <20200701091054.GW4781@hirez.programming.kicks-ass.net>
-In-Reply-To: <20200701091054.GW4781@hirez.programming.kicks-ass.net>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Wed, 1 Jul 2020 10:23:02 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B6AC08C5DB
+        for <linux-kbuild@vger.kernel.org>; Wed,  1 Jul 2020 07:23:02 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id b25so23628351ljp.6
+        for <linux-kbuild@vger.kernel.org>; Wed, 01 Jul 2020 07:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=mrX3Bn4qIhSa7KQ4yVvKkjy6wT/BUjgM5opAOa+wFZo=;
+        b=uAzi46t3Ho/eBuhRwdNgbtV/LBgZbONslcbqjdeQ24ztM38r3JeE9fj7DTkT/GgVNo
+         EkhAhEVgB/oNYr9ge4BW0ViapQU9fwt4KKps6IF/EukShLVrf3eSbv6gS9jeDeINp1PV
+         UGHxeCD0oXIaoFY9ZRxKkVeuCDMMn6qyrMy6UoXALiSDw9lkyJdrlTr4rDto4BtMOKDQ
+         L4VGzpJO9PukPddBSO4dSluxmjIQNjYvV5M0S+Jif5ELwy7JG/ARHx8Re1H1BZQ8ft8E
+         VQG2o5uZOWsuXvC6YXpVaWjesoTTrwwX+zrolyv48W39wbPWxd39mJEY5LDbZ9PHu1ok
+         ySZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=mrX3Bn4qIhSa7KQ4yVvKkjy6wT/BUjgM5opAOa+wFZo=;
+        b=EeKy1ILWs5J2zVIdyqOAetdZ1sV2ev98eG6rTAC+PvA/3fy3zJDzVsLNwQBbGO3sIC
+         RclXEovOw5V8Bx9Ajn+er2TlVoxpKAYgfb/02PH0uAiouWM9+jko60WNwxv6MuC4jPyV
+         S93l+JK2KCKj9fPpOEAeK+lhb4ltJ6Hq0zNAHT8F7BupAFkT8WMf/KgVQyKzeLv8jr3N
+         wK43HMKgym37sqMYirTmJjo7qGg+E8sAqJ0ngtSo5opxN+Mgw16p+3PoLLUAVvTVvRdb
+         kHjxX7fc8ndd4UdNPotRyT9wfrp+GftLW97ee2jMAyM/F8WGcW2vtyYSno1N10n9+iTR
+         GJ3w==
+X-Gm-Message-State: AOAM531qhNDJcOy8/BsZ6i612bpz+Obz1imTROxSt1g5pu1GbbEPuVy4
+        0saf4xRiQdLJ7vjPYgalFXkxXzWGJtFhLKDQdQ0=
+X-Google-Smtp-Source: ABdhPJx5hxMmN6JVamKsBAmH3MQ+6MtJzYOB7JcAxKxfbaYENPIBgjU2GqkJpXgnugqovD5FPEM0yen95IMTZlSfCLc=
+X-Received: by 2002:a2e:9c16:: with SMTP id s22mr13366608lji.289.1593613380552;
+ Wed, 01 Jul 2020 07:23:00 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Received: by 2002:a2e:2c11:0:0:0:0:0 with HTTP; Wed, 1 Jul 2020 07:23:00 -0700 (PDT)
+Reply-To: mingmui4@gmail.com
+From:   "Mr.Ming Mui." <mingmui4@gmail.com>
+Date:   Wed, 1 Jul 2020 15:23:00 +0100
+Message-ID: <CAM+6eGqhvxFza9T3Wt9LR6SZ0kuQUi+=8MaZ1PDC=L=gWyxwBA@mail.gmail.com>
+Subject: UN Compensation of $2.3Million Dollars
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Peter Zijlstra
-> Sent: 01 July 2020 10:11
-> On Tue, Jun 30, 2020 at 01:30:16PM -0700, Paul E. McKenney wrote:
-> > On Tue, Jun 30, 2020 at 10:12:43PM +0200, Peter Zijlstra wrote:
-> 
-> > > I'm not convinced C11 memory_order_consume would actually work for us,
-> > > even if it would work. That is, given:
-> > >
-> > >   https://lore.kernel.org/lkml/20150520005510.GA23559@linux.vnet.ibm.com/
-> > >
-> > > only pointers can have consume, but like I pointed out, we have code
-> > > that relies on dependent loads from integers.
-> >
-> > I agree that C11 memory_order_consume is not normally what we want,
-> > given that it is universally promoted to memory_order_acquire.
-> >
-> > However, dependent loads from integers are, if anything, more difficult
-> > to defend from the compiler than are control dependencies.  This applies
-> > doubly to integers that are used to index two-element arrays, in which
-> > case you are just asking the compiler to destroy your dependent loads
-> > by converting them into control dependencies.
-> 
-> Yes, I'm aware. However, as you might know, I'm firmly in the 'C is a
-> glorified assembler' camp (as I expect most actual OS people are, out of
-> necessity if nothing else) and if I wanted a control dependency I
-> would've bloody well written one.
+United Nation Organization
+Information Section.
+760 United Nations Plaza,
+New York, NY 10017, USA.
+RE: DOCKET NO. OP 292.
+Our Ref: UN/BKL/STB
 
-I write in C because doing register tracking is hard :-)
-I've got an hdlc implementation in C that is carefully adjusted
-so that the worst case path is bounded.
-I probably know every one of the 1000 instructions in it.
+Attention: Beneficiary
+I am a representative of United Nations. After diplomatic meeting held
+since yesterday I wish to find out if your funds has been credited to
+your account as reported in our database that your which has been
+approved to you by United Nations as compensation and Reimbursement
+payment has been Credited into your Bank Account with our payment
+Bank.
 
-Would an asm statement that uses the same 'register' for input and
-output but doesn't actually do anything help?
-It won't generate any code, but the compiler ought to assume that
-it might change the value - so can't do optimisations that track
-the value across the call.
+If I did not receive any response from you within the next 48hrs, we
+shall assume your $2.3Million Dollars has been successfully received
+by you and if you do not receive your $2.3Million Dollars get back
+time immediately I will give you the contact Details of the Bank, so
+that you can contact the Bank Executive Region Manager for the release
+of your funds. Reply for more Confirmation.
 
-> I think an optimizing compiler is awesome, but only in so far as that
-> optimization is actually helpful -- and yes, I just stepped into a giant
-> twilight zone there. That is, any optimization that has _any_
-> controversy should be controllable (like -fno-strict-overflow
-> -fno-strict-aliasing) and I'd very much like the same here.
+God Bless.
+Yours Sincerely,
+Mr.Ming Mui
 
-I'm fed up of gcc generating the code that uses SIMD instructions
-for the 'tail' loop at the end of a function that is already doing
-SIMD operations for the main part of the loop.
-And compilers that convert a byte copy loop to 'rep movsb'.
-If I'm copying 3 or 4 bytes I don't want a 40 clock overhead.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+Public Information Officer.
+Website: www.un.org/en/
+Website: www.un.org/en
