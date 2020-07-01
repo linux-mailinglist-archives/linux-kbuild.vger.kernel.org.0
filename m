@@ -2,90 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46C352111FE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 19:33:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0114211225
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 19:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731171AbgGARdA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jul 2020 13:33:00 -0400
-Received: from sonic317-20.consmr.mail.gq1.yahoo.com ([98.137.66.146]:38967
-        "EHLO sonic317-20.consmr.mail.gq1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731542AbgGARc7 (ORCPT
+        id S1731729AbgGARqO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jul 2020 13:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726500AbgGARqN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 13:32:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.ca; s=s2048; t=1593624778; bh=yg5S/NUNL47YSdgNtROl9qTsDiAs74YW8QyKnvmqWhE=; h=Date:From:Subject:To:Cc:References:In-Reply-To:From:Subject; b=XkZQI7SgZevB/HSCapCAKYVp+qq80ltN6uxF+iFMMfhXQgWwqlDapnalgyxdyZC50Y92ZKHHp/RIPv7r1oImhwBIylrt48EC79FcB9UYl+i16V9cgqy5Bf6rv1VzwfgR3ERKxtjg4nDWPvtO50LtwjD4AawH1TUePYRdGTjsEgrp6lubLbreXqs/cWOEpiLU3P64tQV/4RVCc/GFlW8dRVSN7yELyypG9GZMppvvVMI4iDttnQAz2XaTEc9N+dSCoj8jNoTTsgDzXykZdwaHNIfFMTAZ7Z0YmIeZBor1+YN6vnrqecrkwiPjOxMtBNC4fYW7qjOHR1x9TrpMfd9cNQ==
-X-YMail-OSG: S51c0tkVM1nAk_e04bLOgEd_oiWPE4YY6Kr6XEbhpwGHsN5aHV.K2a6e53OP1.K
- IIy1VE9lStgoy5Cm8ISrAxRtGk.0GQZillpDJ.ene_Fm9pGsYyHI6yRQVrlVT1sCEPh8GUdwQYgb
- nhON_5d_5Rdk7xrH1GXvnGm_966wekIkNe1_U8Ck2lbmqu8KXor_sNEfwmv.w8Xg_nNcPsZFe0mb
- q4sToCFWSvMBlB159CcUZi0xiO8yp9MHL4aS20Cvsx8JA6VT_ab14i86Yx63767OWWEc5R_3jJj6
- O98p6ijcD14c_DYcnANRASj2TryiyD_DT0i6N48puTItKg0SONiGwrxCtLs.3ftxKya0l3L29VHs
- Y1qPMjSlmf6CY87wji7mObKIZCcuYFSIJGquHcTO9HWABEAdZJ5guksN9Xx1VLfCEfaS_4p2dfqb
- Qis.Ou_kOxce1OMUyi.jFwHHhiuvukqiFlzSLeIsQWoCiw3VOqqg2K.EMi824wFGWv0EcTDQxTUB
- PEljOJDxeyWT1ZCeYel3h_QvQIfBSZaGfYhbI0B.uXcyeU2O4ZSPFFU7mbndGio9tGl3AxuVUYX4
- fBchYZjaoN9yPJ4ipSCvFwqD497AIdNOfzRUlwaSx6MFREiTRktWxCVi4FXcdgIsYGcnz781GueN
- H3U2pe2QqWqFeXe35rlvDmm706Jh5djTxKZV31kAFzLyIFxti22xDT0gGEPik9bCeSnTTybeJbzz
- BaOq__rKI.deYmF6Z_mL5OOuXIOyCCO6_fjJU6iwchbLFwjw3qMbwePGBMKf_Ff2EY4RCZs2VE3q
- kDTwYTmy6sOsvOc5bUbPNPLDTxaSZ2kCRFtbwNlTH6NFgiM.HhkhGrh_v9RfP.nOPCAcsM23kO51
- LvOiqf3AtmEDuxiuFtpaVUE3aDyMJQZoxGSX.sFCu9T.LMHmsx9eFVGQ5zxl38dz1YzYqdvBmX08
- hQyVHAwm4WBQJnhKS2g4l50gNZvBPPCjAkaOXuusOcXqPpRxylz24CQfj2tE5mpefdJvJlz864FI
- ktgBQ2QguFCDB96oHQyzXbA6N0iff_4Iq0ofIfPbDNjoUJ2RX3Pbg8geWoHG3Ctu0NcGYnlXwf56
- 9r7.Nmv67ZDger6LRgrRhAY0h3oZbzZNzBo8PSy9xy.B8KYv5E.raNH63wLVHb89FwbrmCuC.1hl
- jZKiUv6lJwNblWRFdCeE0aba25_dk50SmNZBnV3NTtWt.nix91oTFYfi3DdF0flcWs2nCf01_5Vr
- 3YEfwVsqHdVEm5zZZ9cmbsHU2Fls8B.SIVaKuaTk044PVOi4tfPJwgrzQKHF1bxxdxJxFA.mtk0v
- LM0KUrTK8GFK8f1Ra1YOoDbDn2NVi39RzeRs8FpF3AKf2B92.RMokHM5vTcVfEJcwrnAmuwrVc_Z
- ooh6xkCdD1O2CIMD3
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.gq1.yahoo.com with HTTP; Wed, 1 Jul 2020 17:32:58 +0000
-Received: by smtp431.mail.ne1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID db7213753695a442c5a3fafca2fca709;
-          Wed, 01 Jul 2020 17:32:55 +0000 (UTC)
-Date:   Wed, 01 Jul 2020 13:32:52 -0400
-From:   "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
-Subject: Re: Kernel compression benchmarks
-To:     Gao Xiang <hsiangkao@aol.com>
-Cc:     Chris Mason <clm@fb.com>, gregkh@linuxfoundation.org,
-        Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@kernel.org, Nick Terrell <nickrterrell@gmail.com>,
-        Norbert Lange <nolange79@gmail.com>,
-        Petr Malat <oss@malat.biz>,
-        Patrick Williams <patrick@stwcx.xyz>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Nick Terrell <terrelln@fb.com>, x86@kernel.org
-References: <20200701153028.GA30962.ref@hsiangkao-HP-ZHAN-66-Pro-G1>
-        <20200701153028.GA30962@hsiangkao-HP-ZHAN-66-Pro-G1>
-In-Reply-To: <20200701153028.GA30962@hsiangkao-HP-ZHAN-66-Pro-G1>
+        Wed, 1 Jul 2020 13:46:13 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3046C08C5C1;
+        Wed,  1 Jul 2020 10:46:13 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id h4so4106554plt.9;
+        Wed, 01 Jul 2020 10:46:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HEqG52CUEnM+8vwdYDVzUK9ua6L+n8SD8EC+WKINw+I=;
+        b=fDnitKQfr0XQaFrGa+7DgYagvn5IdmVUszjCl+j9Q6CIEdN/J22tA7tWAn/dhh8ShB
+         wq0S5FVW0SlPQTmKle1aiT1tasaPPAkyY0k/6k1o4snX5o9lOVRWqbE8/QE4rinVo75o
+         250vsiWnaWteAPwrX0T8mej9ZHrIXdmbbYTQq8qBIeZsMFcams0IcF4EXm/lSj1bcfSt
+         9QZNTnSOkWxDKBjvSKAa6QOGRpBlO362Hj2cXOaGdfSP/2+9kC0d5F/mcgHERurh1VVK
+         na3jE3B3N+hF7XWV0qEkfihV0+M+jDwDlkS/zufzd8gsB73OgQ6uK/2Rpq0acVz1M8Aq
+         6dkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HEqG52CUEnM+8vwdYDVzUK9ua6L+n8SD8EC+WKINw+I=;
+        b=jCUsVm5ZXW6zNxxZlwSsoX3q1IHt+YupBzwzCyyzxrRKe73Y3QyzHS3rZW5QoTvBrY
+         pXJ+VMgRdqfOkateSPKdXrrpveZIDv6vYiffke22+cRdCBRfqbSVNMhMMyJOoFHaKuFl
+         Zii2Fv2ok926tZtDrib7ZXanxoAJNAEqae2Rq/dC+SfZ+HuzcPXSbwM7obR84Rl4AjgY
+         fJDLyvd+WHR6HKwVTy+eHk8IWOfXTekRzAphG8TYgx7a7VU7qTgPjL2xbNqDoRWjAikI
+         UEj3vOt78QXlff+2Q4RQrq/yVy7hVnEY1k+YO1Sc1mqx/Fso2DNYWrs+yeA/82r4+kWT
+         ioZQ==
+X-Gm-Message-State: AOAM5331f1ATHibMVjVcSpY1bzeQXwDF3deJNGLqpdTllkluTTF6s0ku
+        zXtzSYXDFLyPlcNB+kRTqi8=
+X-Google-Smtp-Source: ABdhPJzDIJ8xlQpJZvWHkS75pbagg38NZVKP850h0t1R8fnLwUVY+58F5C9jlGqU3BN1DxFLZTsS+Q==
+X-Received: by 2002:a17:902:b786:: with SMTP id e6mr12325987pls.88.1593625573184;
+        Wed, 01 Jul 2020 10:46:13 -0700 (PDT)
+Received: from ast-mbp.dhcp.thefacebook.com ([2620:10d:c090:400::5:7882])
+        by smtp.gmail.com with ESMTPSA id z1sm6309135pgk.89.2020.07.01.10.46.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2020 10:46:12 -0700 (PDT)
+Date:   Wed, 1 Jul 2020 10:46:09 -0700
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
+        bpf@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        Michal Kubecek <mkubecek@suse.cz>,
+        linux-kernel@vger.kernel.org, Andrii Nakryiko <andriin@fb.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Song Liu <songliubraving@fb.com>,
+        Valdis Kl =?utf-8?B?xJM=?= tnieks <valdis.kletnieks@vt.edu>,
+        Yonghong Song <yhs@fb.com>
+Subject: Re: [PATCH] bpfilter: allow to build bpfilter_umh as a module
+ without static library
+Message-ID: <20200701174609.mw5ovqe7d5o6ptel@ast-mbp.dhcp.thefacebook.com>
+References: <20200701092644.762234-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Message-Id: <1593624505.w282woxb43.none@localhost>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.16197 hermes_yahoo Apache-HttpAsyncClient/4.1.4 (Java/11.0.7)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200701092644.762234-1-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Excerpts from Gao Xiang's message of July 1, 2020 11:50 am:
->  Anyway, I think LZMA (xz) is still useful and which is more
->  friendly to fixed-sized output compression than Zstd yet (But
->  yeah, I'm not familar with all ZSTD internals. I will dig
->  into that if I've more extra time).
+On Wed, Jul 01, 2020 at 06:26:44PM +0900, Masahiro Yamada wrote:
+> Originally, bpfilter_umh was linked with -static only when
+> CONFIG_BPFILTER_UMH=y.
+> 
+> Commit 8a2cc0505cc4 ("bpfilter: use 'userprogs' syntax to build
+> bpfilter_umh") silently, accidentally dropped the CONFIG_BPFILTER_UMH=y
+> test in the Makefile. Revive it in order to link it dynamically when
+> CONFIG_BPFILTER_UMH=m.
+> 
+> Since commit b1183b6dca3e ("bpfilter: check if $(CC) can link static
+> libc in Kconfig"), the compiler must be capable of static linking to
+> enable CONFIG_BPFILTER_UMH, but it requires more than needed.
+> 
+> To loosen the compiler requirement, I changed the dependency as follows:
+> 
+>     depends on CC_CAN_LINK
+>     depends on m || CC_CAN_LINK_STATIC
+> 
+> If CONFIG_CC_CAN_LINK_STATIC in unset, CONFIG_BPFILTER_UMH is restricted
+> to 'm' or 'n'.
+> 
+> In theory, CONFIG_CC_CAN_LINK is not required for CONFIG_BPFILTER_UMH=y,
+> but I did not come up with a good way to describe it.
+> 
+> Fixes: 8a2cc0505cc4 ("bpfilter: use 'userprogs' syntax to build bpfilter_umh")
+> Reported-by: Michal Kubecek <mkubecek@suse.cz>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Yes, I agree. If you look at the graphs, LZMA2 (xz/7zip) still produces=20
-smaller results, even compared to zstd maximum settings, so definitely=20
-LZMA2 should be kept, at least for now. I am only suggesting removing=20
-LZMA, since it has no benefits over xz and zstd combination (bigger than=20
-xz, slower than zstd).
-
->> - modern compressors (xz, lz4, zstd) decompress about as fast for each=20
->>   compression level, only requiring more memory
->=20
->  lz4 has fixed sliding window (dictionary, 64k), so it won't
->  require more memory among different compression level when
->  decompressing.
-
-Yes, this is true. I tried to simplify among all compressors, but I=20
-think I simplified too much. Thanks for clarifying.
-
-Cheers,
-Alex.
+lgtm
+Do you mind I'll take it into bpf-next tree?
+Eric is working on a bunch of patches in this area. I'll take his set
+into bpf-next as well and then can apply this patch.
+Just to make sure there are no conflicts.
