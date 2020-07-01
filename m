@@ -2,132 +2,200 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 198EC21081D
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 11:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C819721086B
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 11:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729033AbgGAJ33 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jul 2020 05:29:29 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:46839 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728982AbgGAJ32 (ORCPT
+        id S1729429AbgGAJle (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jul 2020 05:41:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729415AbgGAJl3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 05:29:28 -0400
-X-Greylist: delayed 97089 seconds by postgrey-1.27 at vger.kernel.org; Wed, 01 Jul 2020 05:29:27 EDT
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0619QqhQ002765;
-        Wed, 1 Jul 2020 18:26:53 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0619QqhQ002765
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593595614;
-        bh=5we+5c718gKlOfNkIYOvekscGTKtWBtNSwI5Fr+6doc=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GZN+JENCwEH5hIIAA5OAA6SiwDSbWFSaHKX9f4TdgmuZDiYDeGmIadJKSPba3wD4T
-         ybgOM8V3CHbP2S48ZrQkw8/RhIJNzN5ECtSKZ/tgc/8k+JTmsO6E/e96fzcn9l/pd7
-         BmU0+lSIOJCigxHBdsG9WTlo0hiani9w65gI9r9anD4wPx8DfkHtDfwBBjQSYeQm+8
-         y5T6NDLZCXLgS5Sx9ZxX8dx+Myww98wU5bELOBFrSDC8AJRNQLP+Muu+CdRuQErEh4
-         Zs7ibFUXfzrXiPD6CeCeEhNJQi6/LxgwxXl/lS94IfZcCiUvuIQcp1ZgKfJOKsQxDZ
-         CLApO9/M/F5wg==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
-        bpf@vger.kernel.org
-Cc:     linux-kbuild@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>,
-        linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrii Nakryiko <andriin@fb.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@chromium.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Song Liu <songliubraving@fb.com>,
-        =?UTF-8?q?Valdis=20Kl=20=C4=93=20tnieks?= <valdis.kletnieks@vt.edu>,
-        Yonghong Song <yhs@fb.com>
-Subject: [PATCH] bpfilter: allow to build bpfilter_umh as a module without static library
-Date:   Wed,  1 Jul 2020 18:26:44 +0900
-Message-Id: <20200701092644.762234-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        Wed, 1 Jul 2020 05:41:29 -0400
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92524C03E97A
+        for <linux-kbuild@vger.kernel.org>; Wed,  1 Jul 2020 02:41:29 -0700 (PDT)
+Received: by mail-oo1-xc42.google.com with SMTP id z127so1191739ooa.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 01 Jul 2020 02:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K9iKD+F/OF6s9Kp12TelhQnccbvpriP6YsVg5s2kKxg=;
+        b=H7o1FK36Av5Vjv+Q3VkC/N8On4/MMdCVKO2CwlE8Cx6b2I7fZlqPQUeJkhuXoCnBcE
+         RKtEoHPsTQnU5CltTzf2qp2o0u0H99FzVIzmLQyVhmVpgSuR0u7SLkB7OAetkKiszJu0
+         n4d+cH2Iyl2SRwFYqzYar9P4raCt6l5BcuAjiTpV6HT3pChjDlrgCAADLesH+W8Efgrb
+         OFNjbvENj3ZlgFxHXExiJ09YptWgV2nm7U59ox5YHDdXP+36RvgBe2acSzsZRH3nblsy
+         fwWbtDlUUB+2hvXDmM55xw7Pk16aflcrGeROoPjApELAmr/SMMx6XjD07uL4W08UemvE
+         8enQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K9iKD+F/OF6s9Kp12TelhQnccbvpriP6YsVg5s2kKxg=;
+        b=XApiFY163CISyUoFVW38ajEErEKGggcvQ2fMV8vqwEB0wNx0ijKknDT5oXF8FS7u6T
+         e3nhERW2ttShp7eaSG4Sx6oVYRYSX+F5uGQU0ylKYB5VbDK1pbeY4bZBrQcIqbVKN6N3
+         4esjMw3wYEazXFhf2Mq/RtEbaRrEPt0vE5/yvDp2yoBhYR912q7jf7TuBH94lEgWlBGh
+         gXsxCO2Jem2/H0xdyOCW5CC40ES/F38KSsAhB2Jn7xVoRvYjjW+6BLLOHfielivBmEsq
+         tKpcI0NCLGCILDzPGMNyRAV72S/GQxugpRkJT+94J7qWmfi29R+h/0oT5jVeIvX3j7sW
+         tyKQ==
+X-Gm-Message-State: AOAM530Nny31KarOSnwHlBjfYKb5Y1sWCBgswcl/763j5+cd3DAwhDNI
+        24i378SpNVz6C7DGK7+UiOuRDzg7zxZn+83bNBZVHg==
+X-Google-Smtp-Source: ABdhPJzl4bnGERYZKaXiuXUrz769e/ajPazLQIYj61l3IfMpQkbUUQHtlVLThJxvWT7H9VFLW/8bm8OOg0CkDZYkJRQ=
+X-Received: by 2002:a4a:2d54:: with SMTP id s20mr22003435oof.14.1593596488545;
+ Wed, 01 Jul 2020 02:41:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200624211540.GS4817@hirez.programming.kicks-ass.net> <CAKwvOdmxz91c-M8egR9GdR1uOjeZv7-qoTP=pQ55nU8TCpkK6g@mail.gmail.com>
+ <20200625080313.GY4817@hirez.programming.kicks-ass.net> <20200625082433.GC117543@hirez.programming.kicks-ass.net>
+ <20200625085745.GD117543@hirez.programming.kicks-ass.net> <20200630191931.GA884155@elver.google.com>
+ <20200630201243.GD4817@hirez.programming.kicks-ass.net> <20200630203016.GI9247@paulmck-ThinkPad-P72>
+In-Reply-To: <20200630203016.GI9247@paulmck-ThinkPad-P72>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 1 Jul 2020 11:41:17 +0200
+Message-ID: <CANpmjNP+7TtE0WPU=nX5zs3T2+4hPkkm08meUm2VDVY3RgsHDw@mail.gmail.com>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+To:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Originally, bpfilter_umh was linked with -static only when
-CONFIG_BPFILTER_UMH=y.
+On Tue, 30 Jun 2020 at 22:30, Paul E. McKenney <paulmck@kernel.org> wrote:
+> On Tue, Jun 30, 2020 at 10:12:43PM +0200, Peter Zijlstra wrote:
+> > On Tue, Jun 30, 2020 at 09:19:31PM +0200, Marco Elver wrote:
 
-Commit 8a2cc0505cc4 ("bpfilter: use 'userprogs' syntax to build
-bpfilter_umh") silently, accidentally dropped the CONFIG_BPFILTER_UMH=y
-test in the Makefile. Revive it in order to link it dynamically when
-CONFIG_BPFILTER_UMH=m.
+> > > First of all, I agree with the concerns, but not because of LTO.
+> > >
+> > > To set the stage better, and summarize the fundamental problem again:
+> > > we're in the unfortunate situation that no compiler today has a way to
+> > > _efficiently_ deal with C11's memory_order_consume
+> > > [https://lwn.net/Articles/588300/]. If we did, we could just use that
+> > > and be done with it. But, sadly, that doesn't seem possible right now --
+> > > compilers just say consume==acquire.
+> >
+> > I'm not convinced C11 memory_order_consume would actually work for us,
+> > even if it would work. That is, given:
+> >
+> >   https://lore.kernel.org/lkml/20150520005510.GA23559@linux.vnet.ibm.com/
+> >
+> > only pointers can have consume, but like I pointed out, we have code
+> > that relies on dependent loads from integers.
+>
+> I agree that C11 memory_order_consume is not normally what we want,
+> given that it is universally promoted to memory_order_acquire.
+>
+> However, dependent loads from integers are, if anything, more difficult
+> to defend from the compiler than are control dependencies.  This applies
+> doubly to integers that are used to index two-element arrays, in which
+> case you are just asking the compiler to destroy your dependent loads
+> by converting them into control dependencies.
+>
+> > > Will suggests doing the same in the
+> > > kernel: https://lkml.kernel.org/r/20200630173734.14057-19-will@kernel.org
+> >
+> > PowerPC would need a similar thing, it too will not preserve causality
+> > for control dependecies.
+> >
+> > > What we're most worried about right now is the existence of compiler
+> > > transformations that could break data dependencies by e.g. turning them
+> > > into control dependencies.
+> >
+> > Correct.
+> >
+> > > If this is a real worry, I don't think LTO is the magical feature that
+> > > will uncover those optimizations. If these compiler transformations are
+> > > real, they also exist in a normal build!
+> >
+> > Agreed, _however_ with the caveat that LTO could make them more common.
+> >
+> > After all, with whole program analysis, the compiler might be able to
+> > more easily determine that our pointer @ptr is only ever assigned the
+> > values of &A, &B or &C, while without that visibility it would not be
+> > able to determine this.
+> >
+> > Once it knows @ptr has a limited number of determined values, the
+> > conversion into control dependencies becomes much more likely.
+>
+> Which would of course break dependent loads.
+>
+> > > And if we are worried about them, we need to stop relying on dependent
+> > > load ordering across the board; or switch to -O0 for everything.
+> > > Clearly, we don't want either.
+> >
+> > Agreed.
+> >
+> > > Why do we think LTO is special?
+> >
+> > As argued above, whole-program analysis would make it more likely. But I
+> > agree the fundamental problem exists independent from LTO.
+> >
+> > > But as far as we can tell, there is no evidence of the dreaded "data
+> > > dependency to control dependency" conversion with LTO that isn't there
+> > > in non-LTO builds, if it's even there at all. Has the data to control
+> > > dependency conversion been encountered in the wild? If not, is the
+> > > resulting reaction an overreaction? If so, we need to be careful blaming
+> > > LTO for something that it isn't even guilty of.
+> >
+> > It is mostly paranoia; in a large part driven by the fact that even if
+> > such a conversion were to be done, it could go a very long time without
+> > actually causing problems, and longer still for such problems to be
+> > traced back to such an 'optimization'.
+> >
+> > That is, the collective hurt from debugging too many ordering issues.
+> >
+> > > So, we are probably better off untangling LTO from the story:
+> > >
+> > > 1. LTO or no LTO does not matter. The LTO series should not get tangled
+> > >    up with memory model issues.
+> > >
+> > > 2. The memory model question and problems need to be answered and
+> > >    addressed separately.
+> > >
+> > > Thoughts?
+> >
+> > How hard would it be to creates something that analyzes a build and
+> > looks for all 'dependent load -> control dependency' transformations
+> > headed by a volatile (and/or from asm) load and issues a warning for
+> > them?
 
-Since commit b1183b6dca3e ("bpfilter: check if $(CC) can link static
-libc in Kconfig"), the compiler must be capable of static linking to
-enable CONFIG_BPFILTER_UMH, but it requires more than needed.
+I was thinking about this, but in the context of the "auto-promote to
+acquire" which you didn't like. Issuing a warning should certainly be
+simpler.
 
-To loosen the compiler requirement, I changed the dependency as follows:
+I think there is no one place where we know these transformations
+happen, but rather, need to analyze the IR before transformations,
+take note of all the dependent loads headed by volatile+asm, and then
+run an analysis after optimizations checking the dependencies are
+still there.
 
-    depends on CC_CAN_LINK
-    depends on m || CC_CAN_LINK_STATIC
+> > This would give us an indication of how valuable this transformation is
+> > for the kernel. I'm hoping/expecting it's vanishingly rare, but what do
+> > I know.
+>
+> This could be quite useful!
 
-If CONFIG_CC_CAN_LINK_STATIC in unset, CONFIG_BPFILTER_UMH is restricted
-to 'm' or 'n'.
+We might then even be able to say, "if you get this warning, turn on
+CONFIG_ACQUIRE_READ_DEPENDENCIES" (or however the option will be
+named). Or some other tricks, like automatically recompile the TU
+where this happens with the option. But again, this is not something
+that should specifically block LTO, because if we have this, we'll
+need to turn it on for everything.
 
-In theory, CONFIG_CC_CAN_LINK is not required for CONFIG_BPFILTER_UMH=y,
-but I did not come up with a good way to describe it.
-
-Fixes: 8a2cc0505cc4 ("bpfilter: use 'userprogs' syntax to build bpfilter_umh")
-Reported-by: Michal Kubecek <mkubecek@suse.cz>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- net/bpfilter/Kconfig  | 10 ++++++----
- net/bpfilter/Makefile |  2 ++
- 2 files changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/net/bpfilter/Kconfig b/net/bpfilter/Kconfig
-index 84015ef3ee27..73d0b12789f1 100644
---- a/net/bpfilter/Kconfig
-+++ b/net/bpfilter/Kconfig
-@@ -9,12 +9,14 @@ menuconfig BPFILTER
- if BPFILTER
- config BPFILTER_UMH
- 	tristate "bpfilter kernel module with user mode helper"
--	depends on CC_CAN_LINK_STATIC
-+	depends on CC_CAN_LINK
-+	depends on m || CC_CAN_LINK_STATIC
- 	default m
- 	help
- 	  This builds bpfilter kernel module with embedded user mode helper
- 
--	  Note: your toolchain must support building static binaries, since
--	  rootfs isn't mounted at the time when __init functions are called
--	  and do_execv won't be able to find the elf interpreter.
-+	  Note: To compile this as built-in, your toolchain must support
-+	  building static binaries, since rootfs isn't mounted at the time
-+	  when __init functions are called and do_execv won't be able to find
-+	  the elf interpreter.
- endif
-diff --git a/net/bpfilter/Makefile b/net/bpfilter/Makefile
-index f23b53294fba..cdac82b8c53a 100644
---- a/net/bpfilter/Makefile
-+++ b/net/bpfilter/Makefile
-@@ -7,10 +7,12 @@ userprogs := bpfilter_umh
- bpfilter_umh-objs := main.o
- userccflags += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
- 
-+ifeq ($(CONFIG_BPFILTER_UMH), y)
- # builtin bpfilter_umh should be linked with -static
- # since rootfs isn't mounted at the time of __init
- # function is called and do_execv won't find elf interpreter
- userldflags += -static
-+endif
- 
- $(obj)/bpfilter_umh_blob.o: $(obj)/bpfilter_umh
- 
--- 
-2.25.1
-
+Thanks,
+-- Marco
