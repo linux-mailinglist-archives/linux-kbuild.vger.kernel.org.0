@@ -2,51 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75418210F03
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 17:22:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04236210F06
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 17:23:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731678AbgGAPWj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jul 2020 11:22:39 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:27852 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731586AbgGAPWj (ORCPT
+        id S1731648AbgGAPXR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jul 2020 11:23:17 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:19989 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731586AbgGAPXQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 11:22:39 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 061FMDgR020065;
-        Thu, 2 Jul 2020 00:22:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 061FMDgR020065
+        Wed, 1 Jul 2020 11:23:16 -0400
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 061FN0Gh017066;
+        Thu, 2 Jul 2020 00:23:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 061FN0Gh017066
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593616934;
-        bh=1dn5itpzXrL1Yb4IZyaIk9goXSF0W9d58pHZXzlUtrA=;
+        s=dec2015msa; t=1593616981;
+        bh=hySH+OTgticgVm27Iw/te0QrzOknXx7UAK2K5UJp1a0=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Q6W2o3cRaQ74HW4ba2McVZkLZZkQgEgbhXnkz6UvX1BUQc14FR3YzdEVFzz2STM0B
-         za/pvXmqTtefp1WpFseT245w5JmqR5bhHRjfmgXqfPDNftg0fTRinLh7cWXfgljTSf
-         02eQBpQ4WL5R2ty6L/wjOXSmgJuMHHzlNuXLh06XrfhNXlPTSzDmqjHQvwlHGcR8uJ
-         Fvm5bPtk0mvdu3omac6wb/lmyGkXCcCjTH+ieElGYnQbp8PLKJP2HOXH6mBdHshArR
-         n/miOHXLAvqwwk9ErFjvMgGM+Gcv1ocxqXIlj05zeBaVLFHHjvKVR3JEYFSNfUe+vy
-         Gw/Y7cPfCOOKg==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id k7so12159702vso.2;
-        Wed, 01 Jul 2020 08:22:13 -0700 (PDT)
-X-Gm-Message-State: AOAM532y+NvjXXuoELBHM1IUdFQg6Ch1FzeheTSdxBzHjkAkEeoh7aDM
-        ckmEQgLLZv9EqHDzN3NPnN+hNdM+Qjzd04hMJLA=
-X-Google-Smtp-Source: ABdhPJwdeFoDOciGsBE9zH1V0GkEJHQgzTkjq5VFcOmrSz01NaMtS4WP9jPHX27izYNK4pL1K38AjMWFuLeyN+1VtME=
-X-Received: by 2002:a67:6c84:: with SMTP id h126mr17444371vsc.181.1593616932914;
- Wed, 01 Jul 2020 08:22:12 -0700 (PDT)
+        b=PJJ96sxVPNxyR4WYCmLv0qA89EPPwt8JLvFJPTxDED64WDFNIZX2xBkZYm9FhbV/R
+         ReacK4T0OyOd1EKp9x7RKnR42zx6wfr5nferw23VPf/O3/bgFJzEZd/2lPoPOJDaD9
+         kO6YTfPY5t8t9fOv0stdsL4MUidaW6PPtNWcmQ3QBr6YklwWQzDV6ONPiSpgLjj968
+         PLLYV0nz8OVHlIyl71fAHpcCoZaQA4RSJbllCYCPsU9aF05cbJklg6/z5/odGgzGbO
+         9V/JXAtmXtHZKuBWaE5Zo/ceG+uDdvkIryK01xTt0VsF8hRaDRMXBTTiXo06l6Co3/
+         2umEsLomyVdJQ==
+X-Nifty-SrcIP: [209.85.217.49]
+Received: by mail-vs1-f49.google.com with SMTP id e15so13514863vsc.7;
+        Wed, 01 Jul 2020 08:23:01 -0700 (PDT)
+X-Gm-Message-State: AOAM532WMhB1v/XJZig1KWhDXMmhWbySDq6QNQ5N2EUGMmEHWBaoy5fe
+        Aj45E65H1Cv1ev0iQFg4gJckscpFok4kt8EBtZE=
+X-Google-Smtp-Source: ABdhPJzE9mlFmWc0tDTOl4fbqFowpZZGndM5TZ0vODKclFyDgt8KY9hO8HwQuWuiFaQ2OCyFcY9+ITCQXxJtXiSFzr0=
+X-Received: by 2002:a67:22c7:: with SMTP id i190mr19417660vsi.179.1593616979994;
+ Wed, 01 Jul 2020 08:22:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1593498345.git.mchehab+huawei@kernel.org>
- <6f7162e40f127e76c7169315d33a14946a85719a.1593498345.git.mchehab+huawei@kernel.org>
- <20200630084835.4db1331f@coco.lan>
-In-Reply-To: <20200630084835.4db1331f@coco.lan>
+References: <3f61abe3ae457bb5b61fb217394bbb9590ca17ef.1593499731.git.mchehab+huawei@kernel.org>
+In-Reply-To: <3f61abe3ae457bb5b61fb217394bbb9590ca17ef.1593499731.git.mchehab+huawei@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 2 Jul 2020 00:21:36 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARjZWwKeFXMbDy76jYu21oCckz8qxkMSu7y1xmL+a3C3g@mail.gmail.com>
-Message-ID: <CAK7LNARjZWwKeFXMbDy76jYu21oCckz8qxkMSu7y1xmL+a3C3g@mail.gmail.com>
-Subject: Re: [PATCH v3.1 7/7] kconfig: qconf: navigate menus on hyperlinks
+Date:   Thu, 2 Jul 2020 00:22:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATkdfnFYGaKBr1-CFath=btDW8uudeWfq0GWE5JMX5Aog@mail.gmail.com>
+Message-ID: <CAK7LNATkdfnFYGaKBr1-CFath=btDW8uudeWfq0GWE5JMX5Aog@mail.gmail.com>
+Subject: Re: [PATCH] kconfig: qconf: parse newer types at debug info
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -54,97 +51,39 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 3:48 PM Mauro Carvalho Chehab
+On Tue, Jun 30, 2020 at 3:49 PM Mauro Carvalho Chehab
 <mchehab+huawei@kernel.org> wrote:
 >
-> Instead of just changing the helper window to show a
-> dependency, also navigate to it at the config and menu
-> widgets.
+> There are 3 types that are not parsed by the debug info logic.
+> Add support for them.
 >
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
->
->
 > ---
->
-> I ended re-sending the same version as on patch series 2.
 
-Do you mean this one should substitute 7/7 in v3, right?
 
 Applied to linux-kbuild.
 
 
-
-> Please
-> consider this patch instead.
+>  scripts/kconfig/qconf.cc | 3 +++
+>  1 file changed, 3 insertions(+)
 >
 > diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-> index 6a327b69ff5f..fd721c6c4c94 100644
+> index fd721c6c4c94..4a616128a154 100644
 > --- a/scripts/kconfig/qconf.cc
 > +++ b/scripts/kconfig/qconf.cc
-> @@ -1233,7 +1233,6 @@ void ConfigInfoView::clicked(const QUrl &url)
->         char *data = new char[count + 1];
->         struct symbol **result;
->         struct menu *m = NULL;
-> -       char type;
+> @@ -1154,6 +1154,9 @@ QString ConfigInfoView::debug_info(struct symbol *sym)
+>                 case P_DEFAULT:
+>                 case P_SELECT:
+>                 case P_RANGE:
+> +               case P_COMMENT:
+> +               case P_IMPLY:
+> +               case P_SYMBOL:
+>                         debug += prop_get_type_name(prop->type);
+>                         debug += ": ";
+>                         expr_print(prop->expr, expr_print_help, &debug, E_NONE);
+> --
+> 2.26.2
 >
->         if (count < 1) {
->                 qInfo() << "Clicked link is empty";
-> @@ -1243,7 +1242,6 @@ void ConfigInfoView::clicked(const QUrl &url)
->
->         memcpy(data, str.constData(), count);
->         data[count] = '\0';
-> -       type = data[0];
->
->         /* Seek for exact match */
->         data[0] = '^';
-> @@ -1256,15 +1254,8 @@ void ConfigInfoView::clicked(const QUrl &url)
->         }
->
->         sym = *result;
-> -       if (type == 's') {
-> -               symbolInfo();
-> -               emit showDebugChanged(true);
-> -               free(result);
-> -               delete data;
-> -               return;
-> -       }
->
-> -       /* URL is a menu */
-> +       /* Seek for the menu which holds the symbol */
->         for (struct property *prop = sym->prop; prop; prop = prop->next) {
->                     if (prop->type != P_PROMPT && prop->type != P_MENU)
->                             continue;
-> @@ -1273,16 +1264,13 @@ void ConfigInfoView::clicked(const QUrl &url)
->         }
->
->         if (!m) {
-> -               qInfo() << "Clicked menu is invalid:" << data;
-> -               free(result);
-> -               delete data;
-> -               return;
-> +               /* Symbol is not visible as a menu */
-> +               symbolInfo();
-> +               emit showDebugChanged(true);
-> +       } else {
-> +               emit menuSelected(m);
->         }
->
-> -       _menu = m;
-> -       menuInfo();
-> -
-> -       emit showDebugChanged(true);
->         free(result);
->         delete data;
->  }
-> @@ -1731,6 +1719,7 @@ void ConfigMainWindow::setMenuLink(struct menu *menu)
->                         list->setSelected(item, true);
->                         list->scrollToItem(item);
->                         list->setFocus();
-> +                       helpText->setInfo(menu);
->                 }
->         }
->  }
-
 
 
 -- 
