@@ -2,108 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F71D2107BF
-	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 11:12:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 198EC21081D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  1 Jul 2020 11:29:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729074AbgGAJLH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jul 2020 05:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57626 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729571AbgGAJLG (ORCPT
+        id S1729033AbgGAJ33 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 1 Jul 2020 05:29:29 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:46839 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728982AbgGAJ32 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 05:11:06 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8856C061755;
-        Wed,  1 Jul 2020 02:11:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=6wLa3Z5Tnqc6pIqvd9Kuq9IIUcvVwIhLZPWeRnHbIeA=; b=EBZVsbt8QnQM1/nIz26KitisJv
-        1/eDkGMq6rQ6dFjtEOLryOxl9/2R75doGqasl9ZzuMjNGgYkxJYYMHUMNG4E6n09Gm//aQPvahyhB
-        p+3C2xeyUEBqpAC1GAkbGnjo0IAVtK9oQpwC/WxxI98dOzpe9P7CUV+ThLIauqvkrm1FWM7+2x2jJ
-        c9++4TT1vBaEWdzmoSBQ8OF24E3tQQ2du5JTeEtX0OsuBDeQLQKiztWWKJ979nB8hOz9pI+bYZH6S
-        yALNVqqvO3OdagdOb2OGHjX96PwUbqjI5NeBGkEmxGN8jLNiuZipV96hvXOkCQKlrSu67dIaS6kh2
-        mX80E9Ew==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jqYle-0002ST-A3; Wed, 01 Jul 2020 09:10:58 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 33CD9305B23;
-        Wed,  1 Jul 2020 11:10:54 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 170A4201CB82C; Wed,  1 Jul 2020 11:10:54 +0200 (CEST)
-Date:   Wed, 1 Jul 2020 11:10:54 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Marco Elver <elver@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
+        Wed, 1 Jul 2020 05:29:28 -0400
+X-Greylist: delayed 97089 seconds by postgrey-1.27 at vger.kernel.org; Wed, 01 Jul 2020 05:29:27 EDT
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 0619QqhQ002765;
+        Wed, 1 Jul 2020 18:26:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0619QqhQ002765
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1593595614;
+        bh=5we+5c718gKlOfNkIYOvekscGTKtWBtNSwI5Fr+6doc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GZN+JENCwEH5hIIAA5OAA6SiwDSbWFSaHKX9f4TdgmuZDiYDeGmIadJKSPba3wD4T
+         ybgOM8V3CHbP2S48ZrQkw8/RhIJNzN5ECtSKZ/tgc/8k+JTmsO6E/e96fzcn9l/pd7
+         BmU0+lSIOJCigxHBdsG9WTlo0hiani9w65gI9r9anD4wPx8DfkHtDfwBBjQSYeQm+8
+         y5T6NDLZCXLgS5Sx9ZxX8dx+Myww98wU5bELOBFrSDC8AJRNQLP+Muu+CdRuQErEh4
+         Zs7ibFUXfzrXiPD6CeCeEhNJQi6/LxgwxXl/lS94IfZcCiUvuIQcp1ZgKfJOKsQxDZ
+         CLApO9/M/F5wg==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Alexei Starovoitov <ast@kernel.org>, netdev@vger.kernel.org,
+        bpf@vger.kernel.org
+Cc:     linux-kbuild@vger.kernel.org, Michal Kubecek <mkubecek@suse.cz>,
+        linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH 00/22] add support for Clang LTO
-Message-ID: <20200701091054.GW4781@hirez.programming.kicks-ass.net>
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200624211540.GS4817@hirez.programming.kicks-ass.net>
- <CAKwvOdmxz91c-M8egR9GdR1uOjeZv7-qoTP=pQ55nU8TCpkK6g@mail.gmail.com>
- <20200625080313.GY4817@hirez.programming.kicks-ass.net>
- <20200625082433.GC117543@hirez.programming.kicks-ass.net>
- <20200625085745.GD117543@hirez.programming.kicks-ass.net>
- <20200630191931.GA884155@elver.google.com>
- <20200630201243.GD4817@hirez.programming.kicks-ass.net>
- <20200630203016.GI9247@paulmck-ThinkPad-P72>
+        Andrii Nakryiko <andriin@fb.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@chromium.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Song Liu <songliubraving@fb.com>,
+        =?UTF-8?q?Valdis=20Kl=20=C4=93=20tnieks?= <valdis.kletnieks@vt.edu>,
+        Yonghong Song <yhs@fb.com>
+Subject: [PATCH] bpfilter: allow to build bpfilter_umh as a module without static library
+Date:   Wed,  1 Jul 2020 18:26:44 +0900
+Message-Id: <20200701092644.762234-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200630203016.GI9247@paulmck-ThinkPad-P72>
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 01:30:16PM -0700, Paul E. McKenney wrote:
-> On Tue, Jun 30, 2020 at 10:12:43PM +0200, Peter Zijlstra wrote:
+Originally, bpfilter_umh was linked with -static only when
+CONFIG_BPFILTER_UMH=y.
 
-> > I'm not convinced C11 memory_order_consume would actually work for us,
-> > even if it would work. That is, given:
-> > 
-> >   https://lore.kernel.org/lkml/20150520005510.GA23559@linux.vnet.ibm.com/
-> > 
-> > only pointers can have consume, but like I pointed out, we have code
-> > that relies on dependent loads from integers.
-> 
-> I agree that C11 memory_order_consume is not normally what we want,
-> given that it is universally promoted to memory_order_acquire.
-> 
-> However, dependent loads from integers are, if anything, more difficult
-> to defend from the compiler than are control dependencies.  This applies
-> doubly to integers that are used to index two-element arrays, in which
-> case you are just asking the compiler to destroy your dependent loads
-> by converting them into control dependencies.
+Commit 8a2cc0505cc4 ("bpfilter: use 'userprogs' syntax to build
+bpfilter_umh") silently, accidentally dropped the CONFIG_BPFILTER_UMH=y
+test in the Makefile. Revive it in order to link it dynamically when
+CONFIG_BPFILTER_UMH=m.
 
-Yes, I'm aware. However, as you might know, I'm firmly in the 'C is a
-glorified assembler' camp (as I expect most actual OS people are, out of
-necessity if nothing else) and if I wanted a control dependency I
-would've bloody well written one.
+Since commit b1183b6dca3e ("bpfilter: check if $(CC) can link static
+libc in Kconfig"), the compiler must be capable of static linking to
+enable CONFIG_BPFILTER_UMH, but it requires more than needed.
 
-I think an optimizing compiler is awesome, but only in so far as that
-optimization is actually helpful -- and yes, I just stepped into a giant
-twilight zone there. That is, any optimization that has _any_
-controversy should be controllable (like -fno-strict-overflow
--fno-strict-aliasing) and I'd very much like the same here.
+To loosen the compiler requirement, I changed the dependency as follows:
 
-In a larger context, I still think that eliminating speculative stores
-is both necessary and sufficient to avoid out-of-thin-air. So I'd also
-love to get some control on that.
+    depends on CC_CAN_LINK
+    depends on m || CC_CAN_LINK_STATIC
+
+If CONFIG_CC_CAN_LINK_STATIC in unset, CONFIG_BPFILTER_UMH is restricted
+to 'm' or 'n'.
+
+In theory, CONFIG_CC_CAN_LINK is not required for CONFIG_BPFILTER_UMH=y,
+but I did not come up with a good way to describe it.
+
+Fixes: 8a2cc0505cc4 ("bpfilter: use 'userprogs' syntax to build bpfilter_umh")
+Reported-by: Michal Kubecek <mkubecek@suse.cz>
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ net/bpfilter/Kconfig  | 10 ++++++----
+ net/bpfilter/Makefile |  2 ++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/net/bpfilter/Kconfig b/net/bpfilter/Kconfig
+index 84015ef3ee27..73d0b12789f1 100644
+--- a/net/bpfilter/Kconfig
++++ b/net/bpfilter/Kconfig
+@@ -9,12 +9,14 @@ menuconfig BPFILTER
+ if BPFILTER
+ config BPFILTER_UMH
+ 	tristate "bpfilter kernel module with user mode helper"
+-	depends on CC_CAN_LINK_STATIC
++	depends on CC_CAN_LINK
++	depends on m || CC_CAN_LINK_STATIC
+ 	default m
+ 	help
+ 	  This builds bpfilter kernel module with embedded user mode helper
+ 
+-	  Note: your toolchain must support building static binaries, since
+-	  rootfs isn't mounted at the time when __init functions are called
+-	  and do_execv won't be able to find the elf interpreter.
++	  Note: To compile this as built-in, your toolchain must support
++	  building static binaries, since rootfs isn't mounted at the time
++	  when __init functions are called and do_execv won't be able to find
++	  the elf interpreter.
+ endif
+diff --git a/net/bpfilter/Makefile b/net/bpfilter/Makefile
+index f23b53294fba..cdac82b8c53a 100644
+--- a/net/bpfilter/Makefile
++++ b/net/bpfilter/Makefile
+@@ -7,10 +7,12 @@ userprogs := bpfilter_umh
+ bpfilter_umh-objs := main.o
+ userccflags += -I $(srctree)/tools/include/ -I $(srctree)/tools/include/uapi
+ 
++ifeq ($(CONFIG_BPFILTER_UMH), y)
+ # builtin bpfilter_umh should be linked with -static
+ # since rootfs isn't mounted at the time of __init
+ # function is called and do_execv won't find elf interpreter
+ userldflags += -static
++endif
+ 
+ $(obj)/bpfilter_umh_blob.o: $(obj)/bpfilter_umh
+ 
+-- 
+2.25.1
 
