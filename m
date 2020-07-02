@@ -2,107 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5267C212019
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jul 2020 11:37:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86158212799
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jul 2020 17:18:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728287AbgGBJhd convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Thu, 2 Jul 2020 05:37:33 -0400
-Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:36161 "EHLO
-        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728197AbgGBJhb (ORCPT
+        id S1729936AbgGBPSs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Jul 2020 11:18:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726117AbgGBPSs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Jul 2020 05:37:31 -0400
-Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-132-_943ttHWM7K-SXNAkBuyNw-1; Thu, 02 Jul 2020 10:37:27 +0100
-X-MC-Unique: _943ttHWM7K-SXNAkBuyNw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
- Server (TLS) id 15.0.1347.2; Thu, 2 Jul 2020 10:37:26 +0100
-Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
- AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
- Thu, 2 Jul 2020 10:37:26 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     "'paulmck@kernel.org'" <paulmck@kernel.org>
-CC:     'Peter Zijlstra' <peterz@infradead.org>,
-        Marco Elver <elver@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "Will Deacon" <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: RE: [PATCH 00/22] add support for Clang LTO
-Thread-Topic: [PATCH 00/22] add support for Clang LTO
-Thread-Index: AQHWT4eVR3DE4y9c50++UkzL75GurajywsMggAAQjQCAATOsAA==
-Date:   Thu, 2 Jul 2020 09:37:26 +0000
-Message-ID: <aeed740a4d86470d84ae7d5f1cf07951@AcuMS.aculab.com>
-References: <20200624211540.GS4817@hirez.programming.kicks-ass.net>
- <CAKwvOdmxz91c-M8egR9GdR1uOjeZv7-qoTP=pQ55nU8TCpkK6g@mail.gmail.com>
- <20200625080313.GY4817@hirez.programming.kicks-ass.net>
- <20200625082433.GC117543@hirez.programming.kicks-ass.net>
- <20200625085745.GD117543@hirez.programming.kicks-ass.net>
- <20200630191931.GA884155@elver.google.com>
- <20200630201243.GD4817@hirez.programming.kicks-ass.net>
- <20200630203016.GI9247@paulmck-ThinkPad-P72>
- <20200701091054.GW4781@hirez.programming.kicks-ass.net>
- <4427b0f825324da4b1640e32265b04bd@AcuMS.aculab.com>
- <20200701160624.GO9247@paulmck-ThinkPad-P72>
-In-Reply-To: <20200701160624.GO9247@paulmck-ThinkPad-P72>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Thu, 2 Jul 2020 11:18:48 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07729C08C5C1
+        for <linux-kbuild@vger.kernel.org>; Thu,  2 Jul 2020 08:18:48 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id j19so6752075pgm.11
+        for <linux-kbuild@vger.kernel.org>; Thu, 02 Jul 2020 08:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ZoZRqj79509W+zskyZYR+5ZRtTQjElio5nf3SxUK6Lg=;
+        b=i2/zLzcCZwqyCEyCmbGH0DgqG1xZii1BrbGzixiC6SqNv9zW9vtxMyduhe7cJVlM/S
+         avL9+fyIy0AxlMy4jH+e6u2XYkc+K44JhOC5s3s0iGjNLnR7Y03lH+yYQ3rd0JARDNhw
+         deuZfSDE7JrYDO0TOVYntZ/jxqBq4V2zFVjEA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZoZRqj79509W+zskyZYR+5ZRtTQjElio5nf3SxUK6Lg=;
+        b=NV7dRY+TmSJxFNuYxrt0rqKE/1YrIIjPVRP+uZElZNtymL+Z/xydtEddLmIz6wCYaR
+         vStPi5DdAY7igO858IsB2KQjaFxfEB9jIXZd0A7nVopZc/0iyOTEUdFA6QCDMi888kKy
+         gbvjqHmNak1Bgtk/dAaMYJO6LCBtweqadgNwHuTaRpdasHQxHquGrB6qDkd43Im1VtyY
+         kujNmClURVN5xPohyG5Wlb4Q/B/lUR0moIgaLHgSO2xhWsuCsxYA8eJTEES1QhTKuTCc
+         pks2Ph4zvvh/UrWyJTd849Nq6zHyJxRT34J5Q2TAT7nsyP/AnJ40rpHeD9AbyPiw8oin
+         RbeA==
+X-Gm-Message-State: AOAM533sB+wuHIw1iYJ0uHrtRQyfAoCoW5lmpD2w85F0GJwAbp6VzVEy
+        FQuUHAVwhVwOCTduxmawHsHasQ==
+X-Google-Smtp-Source: ABdhPJyDT39ApMmhu3R+RsMDMocrgz+h34f1a0sxmX8XLpY/OiD4ypQApRdsmsl674UurYNSKifffA==
+X-Received: by 2002:a63:20d:: with SMTP id 13mr25094225pgc.166.1593703127475;
+        Thu, 02 Jul 2020 08:18:47 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id w1sm2384911pfc.55.2020.07.02.08.18.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2020 08:18:46 -0700 (PDT)
+Date:   Thu, 2 Jul 2020 08:18:45 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>
+Cc:     linux-kernel@vger.kernel.org,
+        Nick Terrell <nickrterrell@gmail.com>,
+        Nick Terrell <terrelln@fb.com>,
+        Norbert Lange <nolange79@gmail.com>, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Subject: Re: Kernel compression benchmarks
+Message-ID: <202007020818.87EA89106@keescook>
+References: <1588791882.08g1378g67.none.ref@localhost>
+ <1588791882.08g1378g67.none@localhost>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588791882.08g1378g67.none@localhost>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Paul E. McKenney
-> Sent: 01 July 2020 17:06
-...
-> > Would an asm statement that uses the same 'register' for input and
-> > output but doesn't actually do anything help?
-> > It won't generate any code, but the compiler ought to assume that
-> > it might change the value - so can't do optimisations that track
-> > the value across the call.
-> 
-> It might replace the volatile load, but there are optimizations that
-> apply to the downstream code as well.
-> 
-> Or are you suggesting periodically pushing the dependent variable
-> through this asm?  That might work, but it would be easier and
-> more maintainable to just mark the variable.
+On Wed, Jul 01, 2020 at 10:35:48AM -0400, Alex Xu (Hello71) wrote:
+> ZSTD compression patches have been sent in a number of times over the 
+> past few years. Every time, someone asks for benchmarks. Every time, 
+> someone is concerned about compression time. Sometimes, someone provides 
+> benchmarks.
 
-Marking the variable requires compiler support.
-Although what 'volatile register int foo;' means might be interesting.
+Where's the latest series for this, btw? I thought it had landed. :P It
+seemed like it was done.
 
-So I was thinking that in the case mentioned earlier you do:
-	ptr += LAUNDER(offset & 1);
-to ensure the compiler didn't convert to:
-	if (offset & 1) ptr++;
-(Which is probably a pessimisation - the reverse is likely better.)
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+-- 
+Kees Cook
