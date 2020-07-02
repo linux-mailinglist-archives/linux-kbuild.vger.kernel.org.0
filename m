@@ -2,103 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE53F211A3E
-	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jul 2020 04:42:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53189211DFC
+	for <lists+linux-kbuild@lfdr.de>; Thu,  2 Jul 2020 10:20:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbgGBCmx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 1 Jul 2020 22:42:53 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:35206 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgGBCmw (ORCPT
+        id S1726522AbgGBIUs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 2 Jul 2020 04:20:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726089AbgGBIUs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 1 Jul 2020 22:42:52 -0400
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 0622gTPN016475;
-        Thu, 2 Jul 2020 11:42:30 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0622gTPN016475
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1593657750;
-        bh=mDVif8MiOGCjLLlZ8k21oCwqqxD9Plyy3x2UlM47NDM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mPwKLGhQ2fosA/zx9ft3qDN9ZYBXwYdIhqOK74QH+1I4Aqo5ioqzgVxKApQ5CQIv4
-         sUyyPu4qK0o7EywlHvEkcPYoLawgLgoO6WE6Q9s72mYXSNH3USJULCWuyF/guZi7P2
-         AgezzD9N3jkpeNo8c2upA0py5HI29+OFFPI7qplbuWHrbNzloUNRx+dEWcFpma+gOh
-         +da6p4qnN04oyJqusFpJHWHam5gGadlsp2OtRmWAcmpy7DClvENC/8Hzoou5YswA8Z
-         twLps9kM2P6CZYyg5bC1b9v05X0hdj6pXtz7CV6tZK6VbClTfGtMn/hBrBWS3iXg31
-         011qrQ9SHW8qg==
-X-Nifty-SrcIP: [209.85.217.46]
-Received: by mail-vs1-f46.google.com with SMTP id 64so8194802vsl.3;
-        Wed, 01 Jul 2020 19:42:30 -0700 (PDT)
-X-Gm-Message-State: AOAM532JhHXD5yuSAAM7Pq99bgb0SGiJYTYvtzG2hoFDUxr8OvGBS6WO
-        twgztORL24rIusJhUafPSV1VknHxQ2jFsvGmrh4=
-X-Google-Smtp-Source: ABdhPJwgdLfTp8ApgAzTWHhd+PoMDRZpPwRvMlt9tqC0CraL525IFfWskW5GLpHlUALcpvZ1CCpFRjSMX+TG2K5nJIM=
-X-Received: by 2002:a67:694d:: with SMTP id e74mr22283923vsc.155.1593657749034;
- Wed, 01 Jul 2020 19:42:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200701192936.1397152-1-masahiroy@kernel.org> <CAMo8Bf+w2ikVxEJecE_DpAbBQFNhY=K1jWpg9y4uDw9jEb5=MQ@mail.gmail.com>
-In-Reply-To: <CAMo8Bf+w2ikVxEJecE_DpAbBQFNhY=K1jWpg9y4uDw9jEb5=MQ@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 2 Jul 2020 11:41:52 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ6SdeWvXj7nNtzMBN2E-s4PmGg6gj7OZHug2_TBKTg1w@mail.gmail.com>
-Message-ID: <CAK7LNAQ6SdeWvXj7nNtzMBN2E-s4PmGg6gj7OZHug2_TBKTg1w@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: do not export LDFLAGS_vmlinux
-To:     Max Filippov <jcmvbkbc@gmail.com>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Chris Zankel <chris@zankel.net>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>, Guan Xuetao <gxt@pku.edu.cn>,
+        Thu, 2 Jul 2020 04:20:48 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B3AC08C5C1;
+        Thu,  2 Jul 2020 01:20:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=lYeUH98ECIdWEh43yZAHKXD5kblKbjXwCRAczr7OF8g=; b=QC3pfARojKciVxMrZBOx7jz1mN
+        Pab8UojFGO1fmoOFkavzVJlTHdnSbAvvJmrl6qyTfz9JxQ0oVT9N3F3WQ8VDXAHtOt7Bhbc36Sn1D
+        bnEyFCZg5ygqz/hsNcsmBmq4lNF0bm5ijX0J2cmZBSWR0Q9CWFlcuZMu8ctLIW6o49m83sHRa6RbY
+        1MRzYZOf1YSuGKFdnptt9tybEqVUIQvpRKLyPHa++McjsktYpeEXl/KwxDq39uwxgXI3xJ6Oa9JYw
+        mE1EgZGIdy98yvLtver8lS2emXEaRZOoWRizYYr1UaUpeQRcOUWx1Aq0gYAVOe8/cl0TXWgoDv0aE
+        zeOwHtLg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jquSW-0008A7-R1; Thu, 02 Jul 2020 08:20:41 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 30A843003D8;
+        Thu,  2 Jul 2020 10:20:40 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 0DBFD264F8CB3; Thu,  2 Jul 2020 10:20:40 +0200 (CEST)
+Date:   Thu, 2 Jul 2020 10:20:40 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Marco Elver <elver@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+Message-ID: <20200702082040.GB4781@hirez.programming.kicks-ass.net>
+References: <20200625082433.GC117543@hirez.programming.kicks-ass.net>
+ <20200625085745.GD117543@hirez.programming.kicks-ass.net>
+ <20200630191931.GA884155@elver.google.com>
+ <20200630201243.GD4817@hirez.programming.kicks-ass.net>
+ <20200630203016.GI9247@paulmck-ThinkPad-P72>
+ <CANpmjNP+7TtE0WPU=nX5zs3T2+4hPkkm08meUm2VDVY3RgsHDw@mail.gmail.com>
+ <20200701114027.GO4800@hirez.programming.kicks-ass.net>
+ <20200701140654.GL9247@paulmck-ThinkPad-P72>
+ <20200701150512.GH4817@hirez.programming.kicks-ass.net>
+ <20200701160338.GN9247@paulmck-ThinkPad-P72>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200701160338.GN9247@paulmck-ThinkPad-P72>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 2, 2020 at 5:14 AM Max Filippov <jcmvbkbc@gmail.com> wrote:
->
-> On Wed, Jul 1, 2020 at 12:30 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> [...]
->
-> > diff --git a/arch/xtensa/boot/boot-elf/Makefile b/arch/xtensa/boot/boot-elf/Makefile
-> > index 12ae1e91cb75..c6538d3321b9 100644
-> > --- a/arch/xtensa/boot/boot-elf/Makefile
-> > +++ b/arch/xtensa/boot/boot-elf/Makefile
-> > @@ -25,7 +25,7 @@ $(obj)/Image.o: vmlinux.bin $(OBJS)
-> >                 $(OBJS) $@
-> >
-> >  $(obj)/../Image.elf: $(obj)/Image.o $(obj)/boot.lds
-> > -       $(Q)$(LD) $(KBUILD_LDFLAGS) $(LDFLAGS_vmlinux) \
-> > +       $(LD) $(KBUILD_LDFLAGS) \
->
-> Can that $(Q) be retained, please?
-> The rest LGTM.
+On Wed, Jul 01, 2020 at 09:03:38AM -0700, Paul E. McKenney wrote:
 
+> But it looks like we are going to have to tell the compiler.
 
-Oops, I temporarily deleted $(Q) for debugging,
-then accidentally committed it.
-
-I will restore $(Q) when this patch is applied.
-
-Thanks.
-
-
-
-
-
-> >                 -T $(obj)/boot.lds \
-> >                 --build-id=none \
-> >                 -o $@ $(obj)/Image.o
->
-> --
-> Thanks.
-> -- Max
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+What does the current proposal look like? I can certainly annotate the
+seqcount latch users, but who knows what other code is out there....
