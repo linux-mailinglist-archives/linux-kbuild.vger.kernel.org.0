@@ -2,120 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F944213604
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jul 2020 10:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06306213AAE
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jul 2020 15:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725949AbgGCIPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jul 2020 04:15:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42146 "EHLO
+        id S1726035AbgGCNNj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jul 2020 09:13:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725648AbgGCIPc (ORCPT
+        with ESMTP id S1725984AbgGCNNj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jul 2020 04:15:32 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCEC9C08C5C1;
-        Fri,  3 Jul 2020 01:15:32 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id t18so6664942ilh.2;
-        Fri, 03 Jul 2020 01:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=STO53GF8jJ9fwooJ/PR+LY6ObOQA6eXVQnYnb1oX2YQ=;
-        b=nVrVFHObmfwCc4EDiskqGuhvjiuURaIWWhH9VmEsXrXQKhMokPft9UjpBZZKwZ8Kw5
-         qtr5MtQN6wIOpNY0A27FMpEWWEuU9P+QcbhArU2WcaXFvLQxzLTzxLDx8r2zpyNUvqeK
-         /ttn5Y+hzeSetuUVHHlAp5pnE/7JWwZabaEgPER1I8ARjIw+iwOt9TErXo1e+OD35hI+
-         KSgVoS3ChcYlpfB/GSoWhGxe41EAUCr2dmbU+KToUaL9wVfRSY+I6+7xkjfaMaaba0Xn
-         D6EqUXv9PjEepW6cHh6w7KXyd5SbeLZypnu1wTHXGbOlG37ejLZP29uEDUDTFmd4a0PM
-         ASZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=STO53GF8jJ9fwooJ/PR+LY6ObOQA6eXVQnYnb1oX2YQ=;
-        b=TonItFMecAlOAEZ/w863ZBg0ClqpXOAa9kUdd3lvhNNhDFlCqkyfez3s8qxzUCBHWs
-         Hnx1zvj7hVepb98LMxehfMfec2E1+HiigyB6KPGcEjhA6zLNck2GfFlpm/SU0PtD6y9C
-         i5OQNN11o8YZ+im1pqSsjIk6xg7ndOEGkOja6gts0g9aKiFcSSZ6GrEjfcbBWyVKqq1W
-         k8HKXg0rXiTgFEB4nXiJ2hNa87PamZbMipSIXrzuBCWij50WCXwmM64igrXl8v907BfJ
-         BSZrUb4rrUG3Tqx8X5ZT/iXbOa8ljpxkuJinA6e7HFN6lQuFGrlXbC1IfPpYGiL9OegC
-         xN/Q==
-X-Gm-Message-State: AOAM530XSAnCELj51M0nHN+TONp1+7bLAsKcM+tyrfaGtsZXRvRmkJTj
-        7lX24TdzEUaWTyQMD8XxbI+wg8h7U9NVyaSXmzc=
-X-Google-Smtp-Source: ABdhPJwYkSTd8ot4rjgU2UsFNopOo9xCIiSptSonbdFkDXH1DxQN1/G8cLqz9aGySz4jhdPugh78yI5qv2AYvapETB8=
-X-Received: by 2002:a92:dc09:: with SMTP id t9mr16946661iln.226.1593764131855;
- Fri, 03 Jul 2020 01:15:31 -0700 (PDT)
+        Fri, 3 Jul 2020 09:13:39 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3842C08C5C1;
+        Fri,  3 Jul 2020 06:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=uqsQimSA3ZVIJmzJ+g3hxvE+rQFiKwkEojhvCeRdahw=; b=ItGZjDRIImf27YsAGtOG8yy/um
+        tHTSFrVgQyOISf1u9ovbSydWGKTsYFOu1QdZqaIrPrVC+BQULRRFgfurUr+UHbhbVAjFYXc0yCGNH
+        NRV6Ty0xvDowLbPzhWsEfUHzZqw0FT874nx/34bvhnQsXXmIDYEOYRNqxPNQYH8rAHKE2/8AwTRk8
+        wHLizFfF5+qhuvmcj3dz1f5NSP8/5ZJsGkhy1O/RcYnmb5zr+RExexvUuyCwYq8Luedw4dSOP2EUv
+        Sin4pSha9/RbjtlWc8OZlJovtZ17d+oq5poGsjxjQDDenUnzl1rkiSj26lYRo48qjQPCyZuX1TsWH
+        IDaagGpA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jrLVT-0003j1-Sa; Fri, 03 Jul 2020 13:13:32 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 71D12301124;
+        Fri,  3 Jul 2020 15:13:30 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 30A0521476E91; Fri,  3 Jul 2020 15:13:30 +0200 (CEST)
+Date:   Fri, 3 Jul 2020 15:13:30 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Marco Elver <elver@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+Message-ID: <20200703131330.GX4800@hirez.programming.kicks-ass.net>
+References: <20200630191931.GA884155@elver.google.com>
+ <20200630201243.GD4817@hirez.programming.kicks-ass.net>
+ <20200630203016.GI9247@paulmck-ThinkPad-P72>
+ <CANpmjNP+7TtE0WPU=nX5zs3T2+4hPkkm08meUm2VDVY3RgsHDw@mail.gmail.com>
+ <20200701114027.GO4800@hirez.programming.kicks-ass.net>
+ <20200701140654.GL9247@paulmck-ThinkPad-P72>
+ <20200701150512.GH4817@hirez.programming.kicks-ass.net>
+ <20200701160338.GN9247@paulmck-ThinkPad-P72>
+ <20200702082040.GB4781@hirez.programming.kicks-ass.net>
+ <20200702175948.GV9247@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-References: <1588791882.08g1378g67.none.ref@localhost> <1588791882.08g1378g67.none@localhost>
- <202007020818.87EA89106@keescook>
-In-Reply-To: <202007020818.87EA89106@keescook>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 3 Jul 2020 10:15:20 +0200
-Message-ID: <CA+icZUUBAzBNwqThSF=YS1zg9EVCuSZ-XDc5Pu3NrO6R3Fi2Zw@mail.gmail.com>
-Subject: Re: Kernel compression benchmarks
-To:     Kees Cook <keescook@chromium.org>
-Cc:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
-        linux-kernel@vger.kernel.org,
-        Nick Terrell <nickrterrell@gmail.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Norbert Lange <nolange79@gmail.com>, Chris Mason <clm@fb.com>,
-        linux-kbuild@vger.kernel.org, x86@kernel.org,
-        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200702175948.GV9247@paulmck-ThinkPad-P72>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Wed, Jul 01, 2020 at 10:35:48AM -0400, Alex Xu (Hello71) wrote:
-> > ZSTD compression patches have been sent in a number of times over the
-> > past few years. Every time, someone asks for benchmarks. Every time,
-> > someone is concerned about compression time. Sometimes, someone provides
-> > benchmarks.
->
-> Where's the latest series for this, btw? I thought it had landed. :P It
-> seemed like it was done.
->
+On Thu, Jul 02, 2020 at 10:59:48AM -0700, Paul E. McKenney wrote:
+> On Thu, Jul 02, 2020 at 10:20:40AM +0200, Peter Zijlstra wrote:
+> > On Wed, Jul 01, 2020 at 09:03:38AM -0700, Paul E. McKenney wrote:
+> > 
+> > > But it looks like we are going to have to tell the compiler.
+> > 
+> > What does the current proposal look like? I can certainly annotate the
+> > seqcount latch users, but who knows what other code is out there....
+> 
+> For pointers, yes, within the Linux kernel it is hopeless, thus the
+> thought of a -fall-dependent-ptr or some such that makes the compiler
+> pretend that each and every pointer is marked with the _Dependent_ptr
+> qualifier.
+> 
+> New non-Linux-kernel code might want to use his qualifier explicitly,
+> perhaps something like the following:
+> 
+> 	_Dependent_ptr struct foo *p;  // Or maybe after the "*"?
 
-Hi,
+After, as you've written it, it's a pointer to a '_Dependent struct
+foo'.
 
-Again, I would like to see this upstream, too.
+> 
+> 	rcu_read_lock();
+> 	p = rcu_dereference(gp);
+> 	// And so on...
+> 
+> If a function is to take a dependent pointer as a function argument,
+> then the corresponding parameter need the _Dependent_ptr marking.
+> Ditto for return values.
+> 
+> The proposal did not cover integers due to concerns about the number of
+> optimization passes that would need to be reviewed to make that work.
+> Nevertheless, using a marked integer would be safer than using an unmarked
+> one, and if the review can be carried out, why not?  Maybe something
+> like this:
+> 
+> 	_Dependent_ptr int idx;
+> 
+> 	rcu_read_lock();
+> 	idx = READ_ONCE(gidx);
+> 	d = rcuarray[idx];
+> 	rcu_read_unlock();
+> 	do_something_with(d);
+> 
+> So use of this qualifier is quite reasonable.
 
-Last I asked for a rebase against Linux v5.8-rc1 or later.
+The above usage might warrant a rename of the qualifier though, since
+clearly there isn't anything ptr around.
 
-Beyond above adaptations, the latest series "zstd-v5" of Nick T.s
-patchset needs some addition of zstd to the patch (see [1]):
+> The prototype for GCC is here: https://github.com/AKG001/gcc/
 
-commit 8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
-"kbuild: add variables for compression tools"
+Thanks! Those test cases are somewhat over qualified though:
 
-NOTE:
-"zstd-v5" was against Linux-next 20200408 or download the series from
-patchwork LKML which applies cleanly against Linux v5.7 - last is what
-I did.
+       static volatile _Atomic (TYPE) * _Dependent_ptr a;     		\
 
-There was a follow-up to the above patch (see [2]):
+Also, if C goes and specifies load dependencies, in any form, is then
+not the corrolary that they need to specify control dependencies? How
+else can they exclude the transformation.
 
-commit e4a42c82e943b97ce124539fcd7a47445b43fa0d
-"kbuild: fix broken builds because of GZIP,BZIP2,LZOP variables"
-
-Nevertheless, this is the kernel-side of doing - user-space like for
-example Debian's initramfs-tools needs adaptations (see [3]).
-
-@Kees: Can you aid Nick T. to get this upstream? You know the
-processes a bit better than me.
-
-Regards,
-- Sedat -
-
-[0] https://github.com/terrelln/linux/tree/zstd-v5
-[0] https://lore.kernel.org/patchwork/project/lkml/list/?series=437934
-[1] https://git.kernel.org/linus/8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
-[2] https://git.kernel.org/linus/e4a42c82e943b97ce124539fcd7a47445b43fa0d
-[2] https://bugs.debian.org/955469
+And of course, once we're there, can we get explicit support for control
+dependencies too? :-) :-)
