@@ -2,113 +2,120 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D1CF213034
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jul 2020 01:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F944213604
+	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jul 2020 10:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbgGBXjf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 2 Jul 2020 19:39:35 -0400
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:55243 "EHLO
-        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725915AbgGBXjf (ORCPT
+        id S1725949AbgGCIPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 3 Jul 2020 04:15:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42146 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725648AbgGCIPc (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 2 Jul 2020 19:39:35 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id B03BD5C016C;
-        Thu,  2 Jul 2020 19:39:33 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 02 Jul 2020 19:39:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kdrag0n.dev; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=aUKX8t6lKl6VE3fnEcWtgjKc9b
-        ud69PiShCeCobiMYA=; b=EfqiGpedOuskUcm4EYggaVqmYhJKSGz/JT+V1rLHHO
-        EBJyNtsEaVWjnQHclxQSxKC5csQrwkNjFvfaoO8wOZnP2EFTw8uooWBZ4gE1T4dB
-        o3qz0myHQrb2aGJGkKemJTN3E0l+2bO/uHd5W43MZK3klSDbNzHF5EYoZpLxFtq8
-        j9Cc3P6RzVmqLDez/C3v1hCl2PMsPGeOq/JNMsgAk1jxyLIry7wLCScmQNhkMAU/
-        dj5aD3TZbguT40rUYuAEumoAYnV5NfWvs3btSUC9cbl7i2KOr8R9bUl2/4F1I1VQ
-        /EXpobCJOB8p1/5pPC5WxH4MYVvH4/HUEaLStrL5fiFg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aUKX8t6lKl6VE3fnE
-        cWtgjKc9bud69PiShCeCobiMYA=; b=hnVWUEOlXL9MpHbzPilmVr6Ns3AIQlBc/
-        t6NYU8RoJ5e+//X/RQ+IKPWsbda+rVzPqpE4MmhHKQlCGxfpWKiw6+/folOusKyA
-        s4xSdjIRpnhTp8mSqolGznbIsQ/Esxl7vsYX5PA4LtY2Z1xwtQuclutAsNeV7tjR
-        1tsqJSrR3cK+iU6n81RvZ/fIBg0f4bn8bAXF7PioQ0mUgD453oXIY1MLOswyX7JZ
-        0Sp5zAOc1Y+NH3eu+hQQQO9fQMDdsj6fC7WoA5IeELNE1ZNvHH32XUDxmWavtrA8
-        vic71hzk9XSYs3JzN1hKTQWWgNotL9Zf2wq6mYB25syrZZbWyX9BQ==
-X-ME-Sender: <xms:NXD-XuZeMR37LUGBjXDqnFo00b4-iImzVw5qNA57BMEwTmjPTzwSaw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrtdehgddvfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepffgrnhhnhicunfhi
-    nhcuoegurghnnhihsehkughrrghgtdhnrdguvghvqeenucggtffrrghtthgvrhhnpefhie
-    fhgfelgfdufedvudelvdefvdefgfeiueeufeegteffudekgefhvedtieefteenucfkphep
-    jeefrddvvdehrdegrddufeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomhepuggrnhhnhieskhgurhgrghdtnhdruggvvh
-X-ME-Proxy: <xmx:NXD-XhYoRgFHzPYXbeGD-BtTtrNjTFYOUXne_n3qQGL2f1oKk0rh3A>
-    <xmx:NXD-Xo8ti5JKCJ2v9ooAJOhFnirmiJCVOW0aECqr9A1zXcbSXDEU8g>
-    <xmx:NXD-XgpM6LaAjKo8wnOoOkcHSysMIFsHDUGtSLOrqMBJQ_vlCh9lCQ>
-    <xmx:NXD-XqdJ7Lcm-mxjvRYKFuf07E542AmxUkvWXIi6T4nW9AIU-jyp_w>
-Received: from pinwheel.hsd1.wa.comcast.net (c-73-225-4-138.hsd1.wa.comcast.net [73.225.4.138])
-        by mail.messagingengine.com (Postfix) with ESMTPA id F0DB73060062;
-        Thu,  2 Jul 2020 19:39:31 -0400 (EDT)
-From:   Danny Lin <danny@kdrag0n.dev>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com, Danny Lin <danny@kdrag0n.dev>
-Subject: [PATCH] kbuild: Allow Clang global merging if !MODULES
-Date:   Thu,  2 Jul 2020 16:39:29 -0700
-Message-Id: <20200702233929.181409-1-danny@kdrag0n.dev>
-X-Mailer: git-send-email 2.27.0
+        Fri, 3 Jul 2020 04:15:32 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCEC9C08C5C1;
+        Fri,  3 Jul 2020 01:15:32 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id t18so6664942ilh.2;
+        Fri, 03 Jul 2020 01:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=STO53GF8jJ9fwooJ/PR+LY6ObOQA6eXVQnYnb1oX2YQ=;
+        b=nVrVFHObmfwCc4EDiskqGuhvjiuURaIWWhH9VmEsXrXQKhMokPft9UjpBZZKwZ8Kw5
+         qtr5MtQN6wIOpNY0A27FMpEWWEuU9P+QcbhArU2WcaXFvLQxzLTzxLDx8r2zpyNUvqeK
+         /ttn5Y+hzeSetuUVHHlAp5pnE/7JWwZabaEgPER1I8ARjIw+iwOt9TErXo1e+OD35hI+
+         KSgVoS3ChcYlpfB/GSoWhGxe41EAUCr2dmbU+KToUaL9wVfRSY+I6+7xkjfaMaaba0Xn
+         D6EqUXv9PjEepW6cHh6w7KXyd5SbeLZypnu1wTHXGbOlG37ejLZP29uEDUDTFmd4a0PM
+         ASZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=STO53GF8jJ9fwooJ/PR+LY6ObOQA6eXVQnYnb1oX2YQ=;
+        b=TonItFMecAlOAEZ/w863ZBg0ClqpXOAa9kUdd3lvhNNhDFlCqkyfez3s8qxzUCBHWs
+         Hnx1zvj7hVepb98LMxehfMfec2E1+HiigyB6KPGcEjhA6zLNck2GfFlpm/SU0PtD6y9C
+         i5OQNN11o8YZ+im1pqSsjIk6xg7ndOEGkOja6gts0g9aKiFcSSZ6GrEjfcbBWyVKqq1W
+         k8HKXg0rXiTgFEB4nXiJ2hNa87PamZbMipSIXrzuBCWij50WCXwmM64igrXl8v907BfJ
+         BSZrUb4rrUG3Tqx8X5ZT/iXbOa8ljpxkuJinA6e7HFN6lQuFGrlXbC1IfPpYGiL9OegC
+         xN/Q==
+X-Gm-Message-State: AOAM530XSAnCELj51M0nHN+TONp1+7bLAsKcM+tyrfaGtsZXRvRmkJTj
+        7lX24TdzEUaWTyQMD8XxbI+wg8h7U9NVyaSXmzc=
+X-Google-Smtp-Source: ABdhPJwYkSTd8ot4rjgU2UsFNopOo9xCIiSptSonbdFkDXH1DxQN1/G8cLqz9aGySz4jhdPugh78yI5qv2AYvapETB8=
+X-Received: by 2002:a92:dc09:: with SMTP id t9mr16946661iln.226.1593764131855;
+ Fri, 03 Jul 2020 01:15:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1588791882.08g1378g67.none.ref@localhost> <1588791882.08g1378g67.none@localhost>
+ <202007020818.87EA89106@keescook>
+In-Reply-To: <202007020818.87EA89106@keescook>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 3 Jul 2020 10:15:20 +0200
+Message-ID: <CA+icZUUBAzBNwqThSF=YS1zg9EVCuSZ-XDc5Pu3NrO6R3Fi2Zw@mail.gmail.com>
+Subject: Re: Kernel compression benchmarks
+To:     Kees Cook <keescook@chromium.org>
+Cc:     "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
+        linux-kernel@vger.kernel.org,
+        Nick Terrell <nickrterrell@gmail.com>,
+        Nick Terrell <terrelln@fb.com>,
+        Norbert Lange <nolange79@gmail.com>, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The old reasoning for disabling Clang's global merging optimization is
-that it breaks modpost by coalescing many symbols into _MergedGlobals.
-However, modpost is only used in builds with dynamic modules;
-vmlinux.symvers is still created during standalone builds, but it's
-effectively just an empty dummy file.
+On Thu, Jul 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Wed, Jul 01, 2020 at 10:35:48AM -0400, Alex Xu (Hello71) wrote:
+> > ZSTD compression patches have been sent in a number of times over the
+> > past few years. Every time, someone asks for benchmarks. Every time,
+> > someone is concerned about compression time. Sometimes, someone provides
+> > benchmarks.
+>
+> Where's the latest series for this, btw? I thought it had landed. :P It
+> seemed like it was done.
+>
 
-Enabling the optimization whenever possible allows us to reap the
-benefits of reduced register pressure when many global variables are
-used in the same function.
+Hi,
 
-An x86 defconfig kernel built with this optimization boots fine in qemu,
-and a downstream 4.14 kernel has been used on arm64 for nearly a year
-without any issues caused by this optimization.
+Again, I would like to see this upstream, too.
 
-Signed-off-by: Danny Lin <danny@kdrag0n.dev>
----
- Makefile | 3 +++
- 1 file changed, 3 insertions(+)
+Last I asked for a rebase against Linux v5.8-rc1 or later.
 
-diff --git a/Makefile b/Makefile
-index a60c98519c37..f04c3639cf61 100644
---- a/Makefile
-+++ b/Makefile
-@@ -772,10 +772,13 @@ ifdef CONFIG_CC_IS_CLANG
- KBUILD_CPPFLAGS += -Qunused-arguments
- KBUILD_CFLAGS += -Wno-format-invalid-specifier
- KBUILD_CFLAGS += -Wno-gnu
-+
-+ifdef CONFIG_MODULES
- # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
- # source of a reference will be _MergedGlobals and not on of the whitelisted names.
- # See modpost pattern 2
- KBUILD_CFLAGS += -mno-global-merge
-+endif
- else
- 
- # These warnings generated too much noise in a regular build.
--- 
-2.27.0
+Beyond above adaptations, the latest series "zstd-v5" of Nick T.s
+patchset needs some addition of zstd to the patch (see [1]):
 
+commit 8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
+"kbuild: add variables for compression tools"
+
+NOTE:
+"zstd-v5" was against Linux-next 20200408 or download the series from
+patchwork LKML which applies cleanly against Linux v5.7 - last is what
+I did.
+
+There was a follow-up to the above patch (see [2]):
+
+commit e4a42c82e943b97ce124539fcd7a47445b43fa0d
+"kbuild: fix broken builds because of GZIP,BZIP2,LZOP variables"
+
+Nevertheless, this is the kernel-side of doing - user-space like for
+example Debian's initramfs-tools needs adaptations (see [3]).
+
+@Kees: Can you aid Nick T. to get this upstream? You know the
+processes a bit better than me.
+
+Regards,
+- Sedat -
+
+[0] https://github.com/terrelln/linux/tree/zstd-v5
+[0] https://lore.kernel.org/patchwork/project/lkml/list/?series=437934
+[1] https://git.kernel.org/linus/8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
+[2] https://git.kernel.org/linus/e4a42c82e943b97ce124539fcd7a47445b43fa0d
+[2] https://bugs.debian.org/955469
