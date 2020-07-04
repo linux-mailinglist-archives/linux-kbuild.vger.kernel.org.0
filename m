@@ -2,146 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72913213E99
-	for <lists+linux-kbuild@lfdr.de>; Fri,  3 Jul 2020 19:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 112AC214837
+	for <lists+linux-kbuild@lfdr.de>; Sat,  4 Jul 2020 20:59:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726148AbgGCRg6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 3 Jul 2020 13:36:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726147AbgGCRg5 (ORCPT
+        id S1727118AbgGDS7g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 4 Jul 2020 14:59:36 -0400
+Received: from sonic301-22.consmr.mail.ir2.yahoo.com ([77.238.176.99]:42655
+        "EHLO sonic301-22.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727069AbgGDS7f (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 3 Jul 2020 13:36:57 -0400
-Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E7E9C061794;
-        Fri,  3 Jul 2020 10:36:57 -0700 (PDT)
-Received: by mail-il1-x143.google.com with SMTP id a6so11149569ilq.13;
-        Fri, 03 Jul 2020 10:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QzGRJEec8FfQiJDm0roEek02KXevbZQETXrH89HO5Eo=;
-        b=F6yjztn7Wa4l76RPgCRyBNdfIgKwFEVEfkOWuvlXplVHPuY9DVS+of7q0zMG8i8SJS
-         CHm6oPFwVaFBctWeHWoWqHHOGYF+d/5cFKywWEGFXWfwPv9n5dBit9iOYU8Ftu6E10x8
-         fFsNv6UK55r5KxgWjfxYQs/0JRY+8Yqztogm+pisu1FDIvNGaEsxbcjduyTHCiJlRV1Y
-         obbPvQGForL6FR+c5OGTyuL+yepqPqKD4UQjDk7ba/bhGoeM88+OoAhKef+T35WyuSZm
-         cc/rWYZ15d4s425ewoojDUT7dyFpfZPPtcGLJbY5XTQ2/dnzBsd8jKheW6687/tvabwF
-         3eyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QzGRJEec8FfQiJDm0roEek02KXevbZQETXrH89HO5Eo=;
-        b=k1v0tVMfGDsl5io9wGDZbvIDkksp2bRZ9ymc4/0WUCTFc9MhOBrz2wai7sOUW/CRnl
-         +xy4rDhegsENxT87WHsz3ycjTLjBmU/d4Hb0Sin7QiDzwnEbgS+2cI9AmQSvsBdhNfQS
-         dn+bYtJ5EskAFDBhv+obGIbtmFnlqaWdBjN8kJYMV8+OGcrBguCoI1c/CxHO0N0eIAqJ
-         k4W/AlApxpvAhnO3VGvkbiTdsB4QkLRHIVRl42GHPfRwp6M+u56ZObN1lGRtbBi8Ktp5
-         LvjghhJ7sNNMq0KtYiuPgks8Nj8aVxTKc+RjA5DeB1AQK7D3UC/d52qdarizKLUdzaC3
-         XnbQ==
-X-Gm-Message-State: AOAM533wHdDvKK4BvodvbDlXc5aY8AcKEFMQAkcQw8g3yw1mQ/cNv1ct
-        hW+m2/cIHaOGqnRyg2nHA1bszTrhV866ODKQZIQ=
-X-Google-Smtp-Source: ABdhPJz3atEwAL3qf2xUv+zkQmd6ql/SzlONTAWvYLW9wNOJbaMyfUgG8o0EoqS4c2tnRZGjN4XbPZ0pwNbrsRUa7xA=
-X-Received: by 2002:a92:502:: with SMTP id q2mr17764879ile.61.1593797816746;
- Fri, 03 Jul 2020 10:36:56 -0700 (PDT)
+        Sat, 4 Jul 2020 14:59:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1593889173; bh=ZWeDLwf4cGlLDzTwCuOen1zTINlp5j+f2ywobrqBR9o=; h=Date:From:Reply-To:Subject:References:From:Subject; b=ntJ3spp+PoyEufaAOy2iW+jZu8FjLflwsAbkW49Qn/h6B+G4jpxCm2Q7yTkHlwmj1+djSm4jourWfpaVKO+z3eKjTAeRgqAX+3ePyVMePYODmzex4gAxs2vkpeyX9Q9o6PenuPgxZvo/JDGqw6S/H3ggH6feTVsrrEksa5WHxo9nDzK9m/UsRx3Ecwwl+MwCKjtrrlYHVmM71soyds9gHUzg3lfxWRQ5TwGQOohgGKQAEYs37LFlzt0GoW2QVI677ic17Q8DbUXUV+PdmjiuBBivQrVYzDtGFfrDge39KeuqNXDi30fHLO1Xj9VPPnpxoXsR3xZ81RPmDZJcYj1lNg==
+X-YMail-OSG: IEXMUeAVM1m1gPtltFK.fyn.DxvmXyKwB4p72nQRIEpIBUINTRsbraNT_NxPQj0
+ 5DRBSoij_Pj6y6dGMJPIMCI.RKchAVBEhdeA.3Xhkllqho0W6t5WEubdtOtqxn6lcwOZMTSHAB54
+ aPqsiAG9YwGDHoigR7gj1PrRVsR7ImQIcuPOyHn81qTVWFm4DXqi4Tm8mXYqdLN.DITlW1wmexaL
+ PZp6vj9YP2p_SlToPg.0D5GCUOX008lrZis7ubQqtPz9VO.1EwFDpRm2Gv6N.nvmUl5wJHOreagz
+ vMoAfblCzDzUej4rQhLxJbBv_7haeT7BpOFMvtcyX43OCbZHTFETn5ojAjQShP7fwFik4S_6Cyft
+ ASvjVes9FBdPLMpvQs1NSk8TlTUMsshDAPkGEui1A.XlzsVJrURRdMBm0Fmnr2xQlrSQqd5oAsp3
+ .Nm.IGHrSMzWNuh.3Re39dAh41jJYhQKHqqA8Ftx925Z3IDrT8ZurUzLKZsr2GL.2aivMGFvg32p
+ eS8Uw43r4Ip3GT3xJSmKkEAq8rqJ_up.gvl7qvofFGw0CFyKf8uVCjqiUV1j1hlwPBiTwYSXMrwJ
+ 53oYa3ZsoxTjD2Cilkcujz4pfzcuh80MBQYUFPt3AITD.xhLov_1_QJL3pIsseJCTcW9XqJA.42p
+ nquUKQUQ.8OvlZCOZfygX.Ociwo5YoEq1hpMri.O7TpxI2jvcKp0wnZAm8XWIhQyjnWAUb2Ooy_i
+ bFlrRPIOrB9kJnB1dFcHyJhGDEP2syFAO8Usi5NJvKnF16QSGWzuN_kJyasDnHEyDXTiHqkhaC1P
+ 5qVJ3L..jirVyLSb5fVnCNqyY3eGep8yfLhjAgmAlZ6UM2QJ3Nv8RO2n5CpmMf7Dsx6TtzjxvK.z
+ uI3X7EIIU.9ENINcSsPLpvfUMCarvbjYQHuKWHP.WUFwU_9wwZU8iwqrzishROiPWT4h1tBBQw.V
+ _y2Fnm1VmvYqOsO_j1ZvMgA5bJ8IbMuY8H0ub64ZaMXOR6gY7vYuW74whzROrbhPQnNRifncTqiy
+ TuLgBAY68zL3J90BvLcNbmE7UxH4rtvm9uqy.9fpxKmu0C.edDz1aQs3GLsM8f2Ss0FBb9xHKvD1
+ B293W_SxVy9OyyQ9OSDZrgcq.JGQp0qfxNP5wAg4iBmLQgBSzW4jX6atrYU.V_QSRsniM7QAY5Jj
+ MBJJp9vIlpU3BJXuREpbeYP7D6giGBqoTTaStb7fj6EPSlGdOs1nEl22CdoSkXV7xkecmNPiKy1R
+ YGZAvAquBLm3PUPfOK7y2JuBI4dSQsGp2txWkRmoFFLbGN6DUVGFDBbiZoZ91Tl.LDRI9sYituqW
+ w
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ir2.yahoo.com with HTTP; Sat, 4 Jul 2020 18:59:33 +0000
+Date:   Sat, 4 Jul 2020 18:59:30 +0000 (UTC)
+From:   Theresa Han <serena@lantermo.it>
+Reply-To: theresahan21@hotmail.com
+Message-ID: <1469227910.4479605.1593889170815@mail.yahoo.com>
+Subject: =?UTF-8?Q?Ich_gr=C3=BC=C3=9Fe_dich_im_Namen_des_Herrn?=
 MIME-Version: 1.0
-References: <1588791882.08g1378g67.none.ref@localhost> <1588791882.08g1378g67.none@localhost>
- <202007020818.87EA89106@keescook> <CA+icZUUBAzBNwqThSF=YS1zg9EVCuSZ-XDc5Pu3NrO6R3Fi2Zw@mail.gmail.com>
- <202007030855.ED7AABDF@keescook>
-In-Reply-To: <202007030855.ED7AABDF@keescook>
-From:   Norbert Lange <nolange79@gmail.com>
-Date:   Fri, 3 Jul 2020 19:36:45 +0200
-Message-ID: <CADYdroMqpTM105UZy+CJ3VOu8Ahgonb4JEMCEt3D4+hP92A6xA@mail.gmail.com>
-Subject: Re: Kernel compression benchmarks
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Nick Terrell <nickrterrell@gmail.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Chris Mason <clm@fb.com>, linux-kbuild@vger.kernel.org,
-        x86@kernel.org, gregkh@linuxfoundation.org,
-        Petr Malat <oss@malat.biz>, Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <1469227910.4479605.1593889170815.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16197 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Am Fr., 3. Juli 2020 um 18:06 Uhr schrieb Kees Cook <keescook@chromium.org>:
->
-> On Fri, Jul 03, 2020 at 10:15:20AM +0200, Sedat Dilek wrote:
-> > On Thu, Jul 2, 2020 at 5:18 PM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > On Wed, Jul 01, 2020 at 10:35:48AM -0400, Alex Xu (Hello71) wrote:
-> > > > ZSTD compression patches have been sent in a number of times over the
-> > > > past few years. Every time, someone asks for benchmarks. Every time,
-> > > > someone is concerned about compression time. Sometimes, someone provides
-> > > > benchmarks.
-> > >
-> > > Where's the latest series for this, btw? I thought it had landed. :P It
-> > > seemed like it was done.
-> > >
-> >
-> > Hi,
-> >
-> > Again, I would like to see this upstream, too.
-> >
-> > Last I asked for a rebase against Linux v5.8-rc1 or later.
-> >
-> > Beyond above adaptations, the latest series "zstd-v5" of Nick T.s
-> > patchset needs some addition of zstd to the patch (see [1]):
-> >
-> > commit 8dfb61dcbaceb19a5ded5e9c9dcf8d05acc32294
-> > "kbuild: add variables for compression tools"
-> >
-> > NOTE:
-> > "zstd-v5" was against Linux-next 20200408 or download the series from
-> > patchwork LKML which applies cleanly against Linux v5.7 - last is what
-> > I did.
-> >
-> > There was a follow-up to the above patch (see [2]):
-> >
-> > commit e4a42c82e943b97ce124539fcd7a47445b43fa0d
-> > "kbuild: fix broken builds because of GZIP,BZIP2,LZOP variables"
->
-> Okay, cool. Yes, now is the right time to send an updated series based
-> on v5.8-rc2 with any outstanding adjusted/fixes made.
->
-> It seems v5 is here?
-> https://lore.kernel.org/lkml/20200408215711.137639-1-nickrterrell@gmail.com/
->
-> That wasn't sent "to" a maintainer, so it likely went unnoticed by either
-> akpm or the x86 maintainers. I think this should likely go via the x86
-> tree.
->
-> > Nevertheless, this is the kernel-side of doing - user-space like for
-> > example Debian's initramfs-tools needs adaptations (see [3]).
->
-> Right, but the kernel needs to implement the support first. :)
->
-> > @Kees: Can you aid Nick T. to get this upstream? You know the
-> > processes a bit better than me.
->
-> Sure; Nick, can you please rebase and handle any issues from v5? With
-> the result, send a v6 as you did for v5 before, but I would make your
-> "to" be:
->
-> Borislav Petkov <bp@alien8.de>
-> Thomas Gleixner <tglx@linutronix.de>
+Ich gr=C3=BC=C3=9Fe dich im Namen des Herrn
 
-I got the hint to bring in Andrew Morton <akpm@linux-foundation.org> [1],
-so you might add him aswell (he signded-off changes in lib/decompress*.c).
-
-Norbert
-
-https://lwn.net/ml/linux-kernel/CADYdroP0zdz=QtuDFCXpkDohEAgGOc7hDHT8_NnqKuvi979J5Q@mail.gmail.com/
-
->
-> and keep the CC as you had it.
->
-> --
-> Kees Cook
+Ich kann mir nicht vorstellen wie du dich f=C3=BChlen wirst Sie einen pl=C3=
+=B6tzlichen Brief aus einem abgelegenen Land in der fernen Elfenbeink=C3=BC=
+ste erhalten werden und wahrscheinlich von jemandem, mit dem Sie nicht gut =
+verwandt sind. Ich appelliere an Sie, etwas Geduld zu =C3=BCben und meinen =
+Brief zu lesen Umgang mit Ihnen in dieser wichtigen Transaktion
+=20
+Ich bin Frau Theresa Han, 65 Jahre alt, in der Elfenbeink=C3=BCste, an Kreb=
+sleiden leidend. Ich war mit Herrn Johnson Han verheiratet, der bei der Reg=
+ierung von Elfenbeink=C3=BCste als Auftragnehmer t=C3=A4tig war, bevor er n=
+ach einigen Tagen im Krankenhaus starb
+=20
+Mein verstorbener Ehemann hat die Summe von US$2,5 Millionen (zwei Millione=
+n f=C3=BCnfhunderttausend USD) bei einer Bank in der Elfenbeink=C3=BCste hi=
+nterlegt. Ich habe an Krebs gelitten. K=C3=BCrzlich sagte mir mein Arzt, da=
+ss ich aufgrund der Krebserkrankungen, an denen ich leide, nur noch begrenz=
+te Lebenstage habe. Ich m=C3=B6chte wissen, ob ich Ihnen vertrauen kann, di=
+ese Mittel f=C3=BCr Wohlt=C3=A4tigkeit / Waisenhaus zu verwenden, und 20 Pr=
+ozent werden f=C3=BCr Sie als Entsch=C3=A4digung sein
+=20
+Ich habe diese Entscheidung getroffen, weil ich kein Kind habe, das dieses =
+Geld erben w=C3=BCrde, und mein Ehemann Verwandte sind b=C3=BCrgerliche und=
+ sehr wohlhabende Personen und ich m=C3=B6chte nicht, dass mein Ehemann har=
+t verdientes Geld missbraucht wird
+=20
+Bitte nehmen Sie Kontakt mit mir auf, damit ich Ihnen weitere Einzelheiten =
+mitteilen kann und jede Verz=C3=B6gerung Ihrer Antwort mir Raum geben wird,=
+ eine weitere gute Person f=C3=BCr diesen Zweck zu gewinnen
+=20
+Warten auf Ihre dringende Antwort Mit Gott sind alle Dinge m=C3=B6glich
+=20
+Deine Schwester in Christus
+=20
+Frau Theresa Han
