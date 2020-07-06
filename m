@@ -2,32 +2,37 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 413F1215EE0
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jul 2020 20:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84B28215F83
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jul 2020 21:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730060AbgGFSje (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Jul 2020 14:39:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39754 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730051AbgGFSje (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Jul 2020 14:39:34 -0400
-Received: from paulmck-ThinkPad-P72.home (50-39-111-31.bvtn.or.frontiernet.net [50.39.111.31])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DC023207BB;
-        Mon,  6 Jul 2020 18:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594060773;
-        bh=C73gOuGPht9dIixGPBoEUXES1WGxsODtcKpLKnFrDqc=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=DxcjcPLXo5KKl20GXi3gR8saz6u7T52XB2h7KY4zD+cFOdG6eQqu/eTW1KOIHVTH1
-         wju8yVd1Y7IK4dLVkNpXeViYSln0h7JZ5Y1n9IdBD6jdjIrKMxJo0PG6DWDkUmV68w
-         2PZAalihX+WlZ2m6xkVYthoCCWtQgQAL3RpYBP7s=
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id C7CAE3522637; Mon,  6 Jul 2020 11:39:33 -0700 (PDT)
-Date:   Mon, 6 Jul 2020 11:39:33 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
+        id S1725901AbgGFTkZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Jul 2020 15:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbgGFTkZ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 6 Jul 2020 15:40:25 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E687C061755;
+        Mon,  6 Jul 2020 12:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Fga2epNTXBelXbYkbTxROQdchUloEASZKoCcJ/iKrWw=; b=BeTQRyoGVX7klkBfy71IhIii42
+        JLJVPvYdGVws5AyPO2wATPQh812LcOHjFg8RqbL8QgCaxHK+B103YXboryKFzbnforwfw09tNatE9
+        Ijvwo8PiAqBc+pqw5sDe87w5LOI2SYN6KwrLb1mF4UNVYiAxzyYRJj/nUVEy5N9Th6O/tYCF8VpZV
+        yC2XlC+u2k195dE9l9ZVM2DO+equSQoon5zhP1iEjupkjTXqD4be/tJ9YsR2I1ClBCDJd+yYpIZXF
+        Q6+cIuj+PAzHD6t30ZZbYPyuTxPG3nfJprRPcGf3KxUTK93dlpHy3vdg6mTpTVbfsaduXM8c65F50
+        6jIUEBlQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jsWyN-0001u4-QE; Mon, 06 Jul 2020 19:40:16 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id D9A28980DD2; Mon,  6 Jul 2020 21:40:12 +0200 (CEST)
+Date:   Mon, 6 Jul 2020 21:40:12 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Marco Elver <elver@google.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
@@ -43,10 +48,8 @@ Cc:     Marco Elver <elver@google.com>,
         LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
 Subject: Re: [PATCH 00/22] add support for Clang LTO
-Message-ID: <20200706183933.GE9247@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20200701114027.GO4800@hirez.programming.kicks-ass.net>
- <20200701140654.GL9247@paulmck-ThinkPad-P72>
+Message-ID: <20200706194012.GA5523@worktop.programming.kicks-ass.net>
+References: <20200701140654.GL9247@paulmck-ThinkPad-P72>
  <20200701150512.GH4817@hirez.programming.kicks-ass.net>
  <20200701160338.GN9247@paulmck-ThinkPad-P72>
  <20200702082040.GB4781@hirez.programming.kicks-ass.net>
@@ -55,43 +58,59 @@ References: <20200701114027.GO4800@hirez.programming.kicks-ass.net>
  <20200703144228.GF9247@paulmck-ThinkPad-P72>
  <20200706162633.GA13288@paulmck-ThinkPad-P72>
  <20200706182926.GH4800@hirez.programming.kicks-ass.net>
+ <20200706183933.GE9247@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200706182926.GH4800@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200706183933.GE9247@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 08:29:26PM +0200, Peter Zijlstra wrote:
-> On Mon, Jul 06, 2020 at 09:26:33AM -0700, Paul E. McKenney wrote:
-> 
-> > And perhaps more constructively, we do need to prioritize address and data
-> > dependencies over control dependencies.  For one thing, there are a lot
-> > more address/data dependencies in existing code than there are control
-> > dependencies, and (sadly, perhaps more importantly) there are a lot more
-> > people who are convinced that address/data dependencies are important.
-> 
-> If they do not consider their Linux OS running correctly :-)
+On Mon, Jul 06, 2020 at 11:39:33AM -0700, Paul E. McKenney wrote:
+> On Mon, Jul 06, 2020 at 08:29:26PM +0200, Peter Zijlstra wrote:
+> > On Mon, Jul 06, 2020 at 09:26:33AM -0700, Paul E. McKenney wrote:
 
-Many of them really do not care at all.  In fact, some would consider
-Linux failing to run as an added bonus.
+> > If they do not consider their Linux OS running correctly :-)
+> 
+> Many of them really do not care at all.  In fact, some would consider
+> Linux failing to run as an added bonus.
 
-> > For another (admittedly more theoretical) thing, the OOTA scenarios
-> > stemming from control dependencies are a lot less annoying than those
-> > from address/data dependencies.
+This I think is why we have compiler people in the thread that care a
+lot more.
+
+> > > Nevertheless, yes, control dependencies also need attention.
 > > 
-> > And address/data dependencies are as far as I know vulnerable to things
-> > like conditional-move instructions that can cause problems for control
-> > dependencies.
-> > 
-> > Nevertheless, yes, control dependencies also need attention.
+> > Today I added one more \o/
 > 
-> Today I added one more \o/
+> Just make sure you continually check to make sure that compilers
+> don't break it, along with the others you have added.  ;-)
 
-Just make sure you continually check to make sure that compilers
-don't break it, along with the others you have added.  ;-)
+There's:
 
-							Thanx, Paul
+kernel/locking/mcs_spinlock.h:  smp_cond_load_acquire(l, VAL);                          \
+kernel/sched/core.c:                    smp_cond_load_acquire(&p->on_cpu, !VAL);
+kernel/smp.c:   smp_cond_load_acquire(&csd->node.u_flags, !(VAL & CSD_FLAG_LOCK));
+
+arch/x86/kernel/alternative.c:          atomic_cond_read_acquire(&desc.refs, !VAL);
+kernel/locking/qrwlock.c:               atomic_cond_read_acquire(&lock->cnts, !(VAL & _QW_LOCKED));
+kernel/locking/qrwlock.c:       atomic_cond_read_acquire(&lock->cnts, !(VAL & _QW_LOCKED));
+kernel/locking/qrwlock.c:               atomic_cond_read_acquire(&lock->cnts, VAL == _QW_WAITING);
+kernel/locking/qspinlock.c:             atomic_cond_read_acquire(&lock->val, !(VAL & _Q_LOCKED_MASK));
+kernel/locking/qspinlock.c:     val = atomic_cond_read_acquire(&lock->val, !(VAL & _Q_LOCKED_PENDING_MASK));
+
+include/linux/refcount.h:               smp_acquire__after_ctrl_dep();
+ipc/mqueue.c:                   smp_acquire__after_ctrl_dep();
+ipc/msg.c:                      smp_acquire__after_ctrl_dep();
+ipc/sem.c:                      smp_acquire__after_ctrl_dep();
+kernel/locking/rwsem.c:                 smp_acquire__after_ctrl_dep();
+kernel/sched/core.c:    smp_acquire__after_ctrl_dep();
+
+kernel/events/ring_buffer.c:__perf_output_begin()
+
+And I'm fairly sure I'm forgetting some... One could argue there's too
+many of them to check already.
+
+Both GCC and CLANG had better think about it.
