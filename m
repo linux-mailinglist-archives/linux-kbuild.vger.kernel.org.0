@@ -2,173 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8756215A49
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jul 2020 17:06:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E04215BBC
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jul 2020 18:26:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729218AbgGFPGA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Jul 2020 11:06:00 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:22002 "EHLO
-        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729121AbgGFPGA (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Jul 2020 11:06:00 -0400
-Received: from pps.filterd (m0109331.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 066F4Isn017552;
-        Mon, 6 Jul 2020 08:05:46 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=44O4nwKsRSTutUqOjBN0Crc4UScKe7ImlJjjipczk/Y=;
- b=DOlFt6HRD5XzTmR3VKyfl6J3rKL3uZ8UdDeHFaO9gduu2geyHzpyCRPJH/mFhIGFvVS+
- NHCLW5jjyYBKGr73RGBGFySSM2SZtTcRCE0zRxAvxSwU3OAoMaW2kZeAuRNOqEAXJNE9
- fLn3GF6lYODJzDERJjnH2qTMJnTRTU9Y+Xg= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com with ESMTP id 322qkg73pk-6
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 06 Jul 2020 08:05:46 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Mon, 6 Jul 2020 08:05:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=h50YHlyMAkDd3DxrCxNmvqLU1WG6cmEgF8/fGuQGAaJMTPY/7rT/yym0wJiA8KqS/+7qexmW5gu1kFLvAKy2l3+q2XDQpEWR0zdhF4E3+23U9NCDV557kz5cmo5OWgajmQK6+7pc5k2gAP0dYnrxT3KaTxNIiKPLNPxG0d/7B67eymbqwQwBZWAvaMcOwE2k5uTuTZPEZ7Xsith62zQUOs2b+7JzK364FN2Zs5LCVRfd4avRD2z0laRWd07R+Sq+aqgfAB5jDs1G7ufLBPWdBP8nUfRt0mDJyf8EnQ+FoBY4pJoWmrwT2CBWQEFerpw2O5KwN0N0zxL9+kTZ0GKL3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=44O4nwKsRSTutUqOjBN0Crc4UScKe7ImlJjjipczk/Y=;
- b=IQYDVcnbXuV1MKOZ3KX11wW97hMKxGFP76nnkdgf0PEuytiOskuq7fjR9ZqxGsHUgc+xdN5MT2atZ5kwueDwopDv9HxhjL4a5PlVGAqWzjvyzgBuG0VAfa4y4LIEq0TClC92rBO7bDSV8zikTs6CoRGXETK2c2ncCV3JWYy8jv+z59KBKHRJlrO4IhblrZ2LtR1oaezxIG6PdBW/kK9Kz3zxPXzoRSk2Xy59jhO2b/ZW0ebX2kvSDK8ifSL2AWHgm90zg4bkXVT1ahcgSNj5vX/u/E/YKVkv0mYRN2BVxgp5QsJOvk/exNoIf/XAyMd1b7Nu/w989fds9PhGA3Dwfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=44O4nwKsRSTutUqOjBN0Crc4UScKe7ImlJjjipczk/Y=;
- b=giQNDkNULDqTrBnW3MAc6X2N2eMrf2gSqLq2ZKq+znv6R0Qa2RQhUeDcuwdx2hnYquNFb0s35+3j9UlRgQL6gkkTSx3TsvgOmodm7rVhVT8HgWocSfXw5M8Fo+3A8FlzPB/9ppeyh8kNQdrXPA/nzrbOy/Yb5HGlSerALWqhKN8=
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
- by BYAPR15MB2726.namprd15.prod.outlook.com (2603:10b6:a03:157::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.29; Mon, 6 Jul
- 2020 15:05:41 +0000
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::993d:262a:f163:ec9c]) by BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::993d:262a:f163:ec9c%7]) with mapi id 15.20.3153.029; Mon, 6 Jul 2020
- 15:05:41 +0000
-From:   Nick Terrell <terrelln@fb.com>
-To:     Kees Cook <keescook@chromium.org>
-CC:     Nick Terrell <nickrterrell@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        "Alex Xu (Hello71)" <alex_y_xu@yahoo.ca>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Norbert Lange <nolange79@gmail.com>, Chris Mason <clm@fb.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Petr Malat <oss@malat.biz>, Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>,
-        Michael van der Westhuizen <rmikey@fb.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        Patrick Williams <patrick@stwcx.xyz>
-Subject: Re: Kernel compression benchmarks
-Thread-Topic: Kernel compression benchmarks
-Thread-Index: AQHWUIQTTOzggWvjsE6UACsBiu1uH6j1gyYAgACDlACABKYQAA==
-Date:   Mon, 6 Jul 2020 15:05:41 +0000
-Message-ID: <C3E7DA59-BDC7-4B81-B2B1-58BD9E865840@fb.com>
-References: <1588791882.08g1378g67.none.ref@localhost>
- <1588791882.08g1378g67.none@localhost> <202007020818.87EA89106@keescook>
- <CA+icZUUBAzBNwqThSF=YS1zg9EVCuSZ-XDc5Pu3NrO6R3Fi2Zw@mail.gmail.com>
- <202007030855.ED7AABDF@keescook>
-In-Reply-To: <202007030855.ED7AABDF@keescook>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=fb.com;
-x-originating-ip: [2620:10d:c090:400::5:eefc]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cb6781a8-3e35-45cb-72a0-08d821be0cdf
-x-ms-traffictypediagnostic: BYAPR15MB2726:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR15MB27260003D8CFF634859953E5AB690@BYAPR15MB2726.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 04569283F9
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: g+MbZ0dmvUm4+Rq4Rhu+xufsRE2KQGUaw1gjrpvO4gRLopdca2QzZ9ZvABtvrUhjQ1E2rzyWw6K28SpgHW2XUHfiUxL5RQSR/gtPdjGItOmQH0m3oW7mbc8FMAE24q9HtUQhmJnWNUFZBxA7XarLEgkGbKHmwBUsRAv5YjLuT8pci406yy+1aISgdJEdBIyWSk1C9SS6GIfg/f6OBMxCU3R7t4wtxyKl5seOuKFOkGWGTTwSFDRV1MCZJT8e/NUYev46gkQIHVHfKC0jmDF2XV6SFRIO16aGv2BZZAUsy3pckiwNIW3AuN0JaTy8b1WOuHClvW/R7EcvA/mBEjEssoI9Ki/UEKB9eA09B5gXyKUYpX4c9qUI1m2QSe4IvkFqmLVj3eeSgqV9WC7K0G+Bhw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(39860400002)(136003)(376002)(346002)(396003)(83380400001)(2616005)(66476007)(186003)(66946007)(6486002)(76116006)(8676002)(66556008)(66446008)(64756008)(4326008)(7116003)(8936002)(7416002)(3480700007)(6916009)(36756003)(6512007)(478600001)(53546011)(6506007)(966005)(33656002)(71200400001)(2906002)(5660300002)(316002)(86362001)(54906003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: RLSDMSXHQLS6/wLJ0JChLNm6p3SPzW0EYYAqu7vxuZ6/BkMyBzpUmgvJwFMF9UOIDi5iVB4dI86P+kbSDyjkzESuZqjGoCcJjOjdll62Kmmld7g5NZW/HQQPbxcz8AbHy7svfeC1X/PkQghUZBmPnBoombx1jyCNqCGu4iHseMqBMzHfNrdOChmSqNz2aMvPLhqqpVFr8rxFJ/oGW8K28plfdwuQa76NTGH1YqTScaCIVAAPEQk8S7B8Q2mThk4VH/G2KXcaDv6dmWvxe2m+wiFp0b9kyOrkOZWzuU45bHR+EPBtLO5dkHlTuM//2+uEX+4U9m0bdOYajcsNA4Ff8hWd6CQBqRtDIeQLt7X8MFu/rsTBmtvFwJAn2NtaGIIPA8jrkJR2QQc9N1NsswpR2sHEvtdgCNRbwIsIACdKJ1vZ2gzZx+oRrpajNQQTSAN1IC4dMPaCSsJcPyI/irOERwy6TZUdm7+7+gu3yVuiXSi4NOs+5weVEAWzF3/VaaiomXmj4j4/duUTxGlOaDqCUQ==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <560B3F278B024642A9978184FABB4CB7@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1729367AbgGFQ0e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Jul 2020 12:26:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59546 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729358AbgGFQ0e (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 6 Jul 2020 12:26:34 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-111-31.bvtn.or.frontiernet.net [50.39.111.31])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C63D220702;
+        Mon,  6 Jul 2020 16:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1594052793;
+        bh=ELC0Qf8GBOcW7d74k7xE/syM0cqkEfG1ZwnEhNH0Xwc=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=NWnqF8yNh1kmeojBtU/hvJnKQi+pZfEw8tRN6xyWsQTMlbnwqrlnw5lTOXvjlFbT7
+         B5rw2d8haDBAV5oFbA0B0HdNl5tN/Er570PuYfYx1NWaxj3XhsCuq3jsWx3nC14oRK
+         3IoGxJUeXAP3v3i6Usrl18oSx/B8BE0q7l0vU15Q=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id B23463521502; Mon,  6 Jul 2020 09:26:33 -0700 (PDT)
+Date:   Mon, 6 Jul 2020 09:26:33 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Marco Elver <elver@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+Message-ID: <20200706162633.GA13288@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20200630203016.GI9247@paulmck-ThinkPad-P72>
+ <CANpmjNP+7TtE0WPU=nX5zs3T2+4hPkkm08meUm2VDVY3RgsHDw@mail.gmail.com>
+ <20200701114027.GO4800@hirez.programming.kicks-ass.net>
+ <20200701140654.GL9247@paulmck-ThinkPad-P72>
+ <20200701150512.GH4817@hirez.programming.kicks-ass.net>
+ <20200701160338.GN9247@paulmck-ThinkPad-P72>
+ <20200702082040.GB4781@hirez.programming.kicks-ass.net>
+ <20200702175948.GV9247@paulmck-ThinkPad-P72>
+ <20200703131330.GX4800@hirez.programming.kicks-ass.net>
+ <20200703144228.GF9247@paulmck-ThinkPad-P72>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb6781a8-3e35-45cb-72a0-08d821be0cdf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2020 15:05:41.5558
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nxeMoXdkzP+ka+jQPmC0nS8JvZr0csI6dJv2Hu4Y0fvVJC0+bowy0iD7oKDWwMem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2726
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-06_12:2020-07-06,2020-07-06 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 malwarescore=0 mlxscore=0
- phishscore=0 lowpriorityscore=0 mlxlogscore=999 impostorscore=0
- suspectscore=0 spamscore=0 cotscore=-2147483648 bulkscore=0 clxscore=1011
- adultscore=0 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2007060115
-X-FB-Internal: deliver
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200703144228.GF9247@paulmck-ThinkPad-P72>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-DQoNCj4gT24gSnVsIDMsIDIwMjAsIGF0IDEyOjA2IFBNLCBLZWVzIENvb2sgPGtlZXNjb29rQGNo
-cm9taXVtLm9yZz4gd3JvdGU6DQo+IA0KPiBPbiBGcmksIEp1bCAwMywgMjAyMCBhdCAxMDoxNToy
-MEFNICswMjAwLCBTZWRhdCBEaWxlayB3cm90ZToNCj4+IE9uIFRodSwgSnVsIDIsIDIwMjAgYXQg
-NToxOCBQTSBLZWVzIENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4gd3JvdGU6DQo+Pj4gDQo+
-Pj4gT24gV2VkLCBKdWwgMDEsIDIwMjAgYXQgMTA6MzU6NDhBTSAtMDQwMCwgQWxleCBYdSAoSGVs
-bG83MSkgd3JvdGU6DQo+Pj4+IFpTVEQgY29tcHJlc3Npb24gcGF0Y2hlcyBoYXZlIGJlZW4gc2Vu
-dCBpbiBhIG51bWJlciBvZiB0aW1lcyBvdmVyIHRoZQ0KPj4+PiBwYXN0IGZldyB5ZWFycy4gRXZl
-cnkgdGltZSwgc29tZW9uZSBhc2tzIGZvciBiZW5jaG1hcmtzLiBFdmVyeSB0aW1lLA0KPj4+PiBz
-b21lb25lIGlzIGNvbmNlcm5lZCBhYm91dCBjb21wcmVzc2lvbiB0aW1lLiBTb21ldGltZXMsIHNv
-bWVvbmUgcHJvdmlkZXMNCj4+Pj4gYmVuY2htYXJrcy4NCj4+PiANCj4+PiBXaGVyZSdzIHRoZSBs
-YXRlc3Qgc2VyaWVzIGZvciB0aGlzLCBidHc/IEkgdGhvdWdodCBpdCBoYWQgbGFuZGVkLiA6UCBJ
-dA0KPj4+IHNlZW1lZCBsaWtlIGl0IHdhcyBkb25lLg0KPj4+IA0KPj4gDQo+PiBIaSwNCj4+IA0K
-Pj4gQWdhaW4sIEkgd291bGQgbGlrZSB0byBzZWUgdGhpcyB1cHN0cmVhbSwgdG9vLg0KPj4gDQo+
-PiBMYXN0IEkgYXNrZWQgZm9yIGEgcmViYXNlIGFnYWluc3QgTGludXggdjUuOC1yYzEgb3IgbGF0
-ZXIuDQo+PiANCj4+IEJleW9uZCBhYm92ZSBhZGFwdGF0aW9ucywgdGhlIGxhdGVzdCBzZXJpZXMg
-InpzdGQtdjUiIG9mIE5pY2sgVC5zDQo+PiBwYXRjaHNldCBuZWVkcyBzb21lIGFkZGl0aW9uIG9m
-IHpzdGQgdG8gdGhlIHBhdGNoIChzZWUgWzFdKToNCj4+IA0KPj4gY29tbWl0IDhkZmI2MWRjYmFj
-ZWIxOWE1ZGVkNWU5YzlkY2Y4ZDA1YWNjMzIyOTQNCj4+ICJrYnVpbGQ6IGFkZCB2YXJpYWJsZXMg
-Zm9yIGNvbXByZXNzaW9uIHRvb2xzIg0KPj4gDQo+PiBOT1RFOg0KPj4gInpzdGQtdjUiIHdhcyBh
-Z2FpbnN0IExpbnV4LW5leHQgMjAyMDA0MDggb3IgZG93bmxvYWQgdGhlIHNlcmllcyBmcm9tDQo+
-PiBwYXRjaHdvcmsgTEtNTCB3aGljaCBhcHBsaWVzIGNsZWFubHkgYWdhaW5zdCBMaW51eCB2NS43
-IC0gbGFzdCBpcyB3aGF0DQo+PiBJIGRpZC4NCj4+IA0KPj4gVGhlcmUgd2FzIGEgZm9sbG93LXVw
-IHRvIHRoZSBhYm92ZSBwYXRjaCAoc2VlIFsyXSk6DQo+PiANCj4+IGNvbW1pdCBlNGE0MmM4MmU5
-NDNiOTdjZTEyNDUzOWZjZDdhNDc0NDViNDNmYTBkDQo+PiAia2J1aWxkOiBmaXggYnJva2VuIGJ1
-aWxkcyBiZWNhdXNlIG9mIEdaSVAsQlpJUDIsTFpPUCB2YXJpYWJsZXMiDQo+IA0KPiBPa2F5LCBj
-b29sLiBZZXMsIG5vdyBpcyB0aGUgcmlnaHQgdGltZSB0byBzZW5kIGFuIHVwZGF0ZWQgc2VyaWVz
-IGJhc2VkDQo+IG9uIHY1LjgtcmMyIHdpdGggYW55IG91dHN0YW5kaW5nIGFkanVzdGVkL2ZpeGVz
-IG1hZGUuDQo+IA0KPiBJdCBzZWVtcyB2NSBpcyBoZXJlPw0KPiBodHRwczovL2xvcmUua2VybmVs
-Lm9yZy9sa21sLzIwMjAwNDA4MjE1NzExLjEzNzYzOS0xLW5pY2tydGVycmVsbEBnbWFpbC5jb20v
-DQo+IA0KPiBUaGF0IHdhc24ndCBzZW50ICJ0byIgYSBtYWludGFpbmVyLCBzbyBpdCBsaWtlbHkg
-d2VudCB1bm5vdGljZWQgYnkgZWl0aGVyDQo+IGFrcG0gb3IgdGhlIHg4NiBtYWludGFpbmVycy4g
-SSB0aGluayB0aGlzIHNob3VsZCBsaWtlbHkgZ28gdmlhIHRoZSB4ODYNCj4gdHJlZS4NCj4gDQo+
-PiBOZXZlcnRoZWxlc3MsIHRoaXMgaXMgdGhlIGtlcm5lbC1zaWRlIG9mIGRvaW5nIC0gdXNlci1z
-cGFjZSBsaWtlIGZvcg0KPj4gZXhhbXBsZSBEZWJpYW4ncyBpbml0cmFtZnMtdG9vbHMgbmVlZHMg
-YWRhcHRhdGlvbnMgKHNlZSBbM10pLg0KPiANCj4gUmlnaHQsIGJ1dCB0aGUga2VybmVsIG5lZWRz
-IHRvIGltcGxlbWVudCB0aGUgc3VwcG9ydCBmaXJzdC4gOikNCj4gDQo+PiBAS2VlczogQ2FuIHlv
-dSBhaWQgTmljayBULiB0byBnZXQgdGhpcyB1cHN0cmVhbT8gWW91IGtub3cgdGhlDQo+PiBwcm9j
-ZXNzZXMgYSBiaXQgYmV0dGVyIHRoYW4gbWUuDQo+IA0KPiBTdXJlOyBOaWNrLCBjYW4geW91IHBs
-ZWFzZSByZWJhc2UgYW5kIGhhbmRsZSBhbnkgaXNzdWVzIGZyb20gdjU/IFdpdGgNCj4gdGhlIHJl
-c3VsdCwgc2VuZCBhIHY2IGFzIHlvdSBkaWQgZm9yIHY1IGJlZm9yZSwgYnV0IEkgd291bGQgbWFr
-ZSB5b3VyDQo+ICJ0byIgYmU6DQo+IA0KPiBCb3Jpc2xhdiBQZXRrb3YgPGJwQGFsaWVuOC5kZT4N
-Cj4gVGhvbWFzIEdsZWl4bmVyIDx0Z2x4QGxpbnV0cm9uaXguZGU+DQo+IA0KPiBhbmQga2VlcCB0
-aGUgQ0MgYXMgeW91IGhhZCBpdC4NCg0KSeKAmWxsIHNlbmQgaXQgb3V0IHRvZGF5LCB0aGFua3Mg
-Zm9yIHRoZSBhZHZpY2UhDQoNCi1OaWNrDQoNCg==
+On Fri, Jul 03, 2020 at 07:42:28AM -0700, Paul E. McKenney wrote:
+> On Fri, Jul 03, 2020 at 03:13:30PM +0200, Peter Zijlstra wrote:
+> > On Thu, Jul 02, 2020 at 10:59:48AM -0700, Paul E. McKenney wrote:
+> > > On Thu, Jul 02, 2020 at 10:20:40AM +0200, Peter Zijlstra wrote:
+> > > > On Wed, Jul 01, 2020 at 09:03:38AM -0700, Paul E. McKenney wrote:
+
+[ . . . ]
+
+> > Also, if C goes and specifies load dependencies, in any form, is then
+> > not the corrolary that they need to specify control dependencies? How
+> > else can they exclude the transformation.
+> 
+> By requiring that any temporaries generated from variables that are
+> marked _Dependent_ptr also be marked _Dependent_ptr.  This is of course
+> one divergence of _Dependent_ptr from the volatile keyword.
+> 
+> > And of course, once we're there, can we get explicit support for control
+> > dependencies too? :-) :-)
+> 
+> Keep talking like this and I am going to make sure that you attend a
+> standards committee meeting.  If need be, by arranging for you to be
+> physically dragged there.  ;-)
+> 
+> More seriously, for control dependencies, the variable that would need
+> to be marked would be the program counter, which might require some
+> additional syntax.
+
+And perhaps more constructively, we do need to prioritize address and data
+dependencies over control dependencies.  For one thing, there are a lot
+more address/data dependencies in existing code than there are control
+dependencies, and (sadly, perhaps more importantly) there are a lot more
+people who are convinced that address/data dependencies are important.
+
+For another (admittedly more theoretical) thing, the OOTA scenarios
+stemming from control dependencies are a lot less annoying than those
+from address/data dependencies.
+
+And address/data dependencies are as far as I know vulnerable to things
+like conditional-move instructions that can cause problems for control
+dependencies.
+
+Nevertheless, yes, control dependencies also need attention.
+
+							Thanx, Paul
