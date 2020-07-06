@@ -2,96 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BCC3215E16
-	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jul 2020 20:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B1E3215E4F
+	for <lists+linux-kbuild@lfdr.de>; Mon,  6 Jul 2020 20:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729569AbgGFSPw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 6 Jul 2020 14:15:52 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:21635 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729647AbgGFSPw (ORCPT
+        id S1729777AbgGFS3p (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 6 Jul 2020 14:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36772 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729713AbgGFS3p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 6 Jul 2020 14:15:52 -0400
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 066IFHOD005116;
-        Tue, 7 Jul 2020 03:15:18 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 066IFHOD005116
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1594059318;
-        bh=Q+48gTKGnNNAyaZpkSljO3/+f87VrYhlKUVJ5FKjmdQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Go6ByYbk3w6ZqfzY+bcPEPfdQfjSDMmaa6f7z4KGrPRgiJJhVvFX0zG/wdRmgZlNg
-         fJTpHeNu8RVg7HoRCqN2GZxiXEZp2S76ErzL9nr07q+JH7oEhnOp3qzCLAiRsYRgzW
-         4sXuqhEX3EHJGIPC2K90ZNZVGxta6AAY3nLwwqnKU5AiXTqseg+g4DmWdA+ju4NdX/
-         u3rtdKZRVojNvHpJbD5nmIHE4eTRwzZPmoVxbN7MZ3KlsszTCjUdjsMIZlEJR5waRC
-         kQvyoW3byTZEbBTB0DnuSKMXAvEpdAs1vEuIS1owDD0UyqTFxLJqTS0J5glaKV+nk/
-         UG3FkSjjPkTqQ==
-X-Nifty-SrcIP: [209.85.222.41]
-Received: by mail-ua1-f41.google.com with SMTP id b24so4902198uak.2;
-        Mon, 06 Jul 2020 11:15:17 -0700 (PDT)
-X-Gm-Message-State: AOAM533ysYQukM7UbfBGahAKtfOG6W8SW434JfWDP0AXg7EvhcnRf4ZG
-        nGMt5Sn8vDnyMK2WX5cYouRoliY/Lz6pmQXB5sU=
-X-Google-Smtp-Source: ABdhPJzoaiAwOpILAwYbp3vbz8/vfjd18YvPHG7eMlv5+34w/dyjTF009kfyXsQdMimrRPhduooTnxiTT2c1jqAYb+8=
-X-Received: by 2002:ab0:21c6:: with SMTP id u6mr18691153uan.109.1594059316651;
- Mon, 06 Jul 2020 11:15:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200628015041.1000002-1-masahiroy@kernel.org>
- <87imfa8le0.fsf@mpe.ellerman.id.au> <CAK7LNATusciypBJ4dYZcyrugdi_rXEV_s=zxAehDxsX+Sd5z4g@mail.gmail.com>
- <CADYN=9JnzPC6Ja9s3_01k-CDTSuxKBMRdrqU5rqp0xw1r9XpRw@mail.gmail.com>
-In-Reply-To: <CADYN=9JnzPC6Ja9s3_01k-CDTSuxKBMRdrqU5rqp0xw1r9XpRw@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 7 Jul 2020 03:14:40 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARg_B+tcbduBzrh2_Q3dwk_XxDcaw+sMTwsMOxNYM7hnQ@mail.gmail.com>
-Message-ID: <CAK7LNARg_B+tcbduBzrh2_Q3dwk_XxDcaw+sMTwsMOxNYM7hnQ@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: introduce ccflags-remove-y and asflags-remove-y
-To:     Anders Roxell <anders.roxell@linaro.org>
-Cc:     Michael Ellerman <mpe@ellerman.id.au>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mon, 6 Jul 2020 14:29:45 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38180C061755;
+        Mon,  6 Jul 2020 11:29:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Do5ubF9fSscGPClrokRq/R+dJR1UND+xOUqU52LNcLY=; b=qbfi+0eUNgOUvrS/172K4oJy+c
+        +6cvYoTiN6i7rxY2lKCxArxd7eY83amayJ59D8O1py/4d9s6P4RqhHn1YxV7zVXeTetbIlRbo28Ie
+        gCd9otH5ECaPEhZ8Ge/IBJo3+RpoisW5Ms4DZ89U+kQmjoKqC/4gOLn1rpAjmh910g68gBREeN853
+        D9OutRrJ3YidRcvHov/mXEAHK/teWgqK5dRcbklwPj7Zu+LAUPsEALJWfBtbZMLbt9OhdAf3SVyqB
+        t12O6B1a3TCkvPr8cZa7kIvTauI0iVcGCIWrMpjaav/KQZRjPDPGe/rm2UlYyWtRnwA22XnbRhDgo
+        CON822NQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jsVrx-0007O5-Sd; Mon, 06 Jul 2020 18:29:34 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 13EBC3013E5;
+        Mon,  6 Jul 2020 20:29:26 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 06776213912F6; Mon,  6 Jul 2020 20:29:26 +0200 (CEST)
+Date:   Mon, 6 Jul 2020 20:29:26 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Marco Elver <elver@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Sami Tolvanen <samitolvanen@google.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Paul Mackerras <paulus@samba.org>,
-        Rich Felker <dalias@libc.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Content-Type: text/plain; charset="UTF-8"
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+Message-ID: <20200706182926.GH4800@hirez.programming.kicks-ass.net>
+References: <CANpmjNP+7TtE0WPU=nX5zs3T2+4hPkkm08meUm2VDVY3RgsHDw@mail.gmail.com>
+ <20200701114027.GO4800@hirez.programming.kicks-ass.net>
+ <20200701140654.GL9247@paulmck-ThinkPad-P72>
+ <20200701150512.GH4817@hirez.programming.kicks-ass.net>
+ <20200701160338.GN9247@paulmck-ThinkPad-P72>
+ <20200702082040.GB4781@hirez.programming.kicks-ass.net>
+ <20200702175948.GV9247@paulmck-ThinkPad-P72>
+ <20200703131330.GX4800@hirez.programming.kicks-ass.net>
+ <20200703144228.GF9247@paulmck-ThinkPad-P72>
+ <20200706162633.GA13288@paulmck-ThinkPad-P72>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200706162633.GA13288@paulmck-ThinkPad-P72>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Anders,
+On Mon, Jul 06, 2020 at 09:26:33AM -0700, Paul E. McKenney wrote:
 
-On Mon, Jul 6, 2020 at 8:24 PM Anders Roxell <anders.roxell@linaro.org> wrote:
->
+> And perhaps more constructively, we do need to prioritize address and data
+> dependencies over control dependencies.  For one thing, there are a lot
+> more address/data dependencies in existing code than there are control
+> dependencies, and (sadly, perhaps more importantly) there are a lot more
+> people who are convinced that address/data dependencies are important.
 
-> The full log can be found here [1].
->
-> Without this patch for  'trace_selftest_dynamic' for instance, CC_FLAGS_FTRACE
-> was removed from kernel/trace/*, and then added back to
-> kernel/trace/trace_selftest_dynamic.
-> While with this patch it looks like we add the flag (even though it is
-> already there), and then
-> removes the flag for all files in kernel/trace/* .
+If they do not consider their Linux OS running correctly :-)
 
+> For another (admittedly more theoretical) thing, the OOTA scenarios
+> stemming from control dependencies are a lot less annoying than those
+> from address/data dependencies.
+> 
+> And address/data dependencies are as far as I know vulnerable to things
+> like conditional-move instructions that can cause problems for control
+> dependencies.
+> 
+> Nevertheless, yes, control dependencies also need attention.
 
-You are right.
-
-I will drop this patch,
-and send v2.
-
-
-Thank you.
-
-
-
-
--- 
-Best Regards
-Masahiro Yamada
+Today I added one more \o/
