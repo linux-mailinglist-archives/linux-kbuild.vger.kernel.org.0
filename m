@@ -2,309 +2,190 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 320402168EB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jul 2020 11:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 292FF216E3A
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jul 2020 16:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgGGJXl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jul 2020 05:23:41 -0400
-Received: from conuserg-08.nifty.com ([210.131.2.75]:39556 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgGGJXl (ORCPT
+        id S1728183AbgGGOBH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jul 2020 10:01:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728172AbgGGOBG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jul 2020 05:23:41 -0400
-Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 0679LLSD013006;
-        Tue, 7 Jul 2020 18:21:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 0679LLSD013006
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1594113685;
-        bh=DGOsSYyty8roOyC5A5FX8LaGKLV2BgeM9zt8xr5UYM4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JDbNjpOzvr7/x76F9KaMdoFrTKEggtICdwPlCWJ2nLX8WlTRLUc0XnIZDJhUUfr9S
-         HPlA1ubAq2lrrANKINqbMM9j0unpUpp3xeFrRD5eg57ohA0L8O3BoAhXyVbUuLIxUA
-         yg8Ai+v1KElzTAS1qarKG7CBoTSh0aX4xOlT2ZHIJ6Q/mDXkG3cs51o2Vnbz4QkX6/
-         rfBfozMdn9L0HmhH2amrvY6S+iHkOqvqOVR2u5q5aMB1pmmlhsADDBuJt6GpiLubdi
-         fybtXxsHk7w8cBGHfbU8pLSqAQavPBxRZyN7iDW+fhthgFxD3RuHOQuA+z8me3Xz1C
-         5oFmfKmhIPAaQ==
-X-Nifty-SrcIP: [126.90.202.47]
-From:   Masahiro Yamada <masahiroy@kernel.org>
+        Tue, 7 Jul 2020 10:01:06 -0400
+X-Greylist: delayed 703 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 07 Jul 2020 07:01:05 PDT
+Received: from canardo.mork.no (canardo.mork.no [IPv6:2001:4641::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EFF6C08C5E1
+        for <linux-kbuild@vger.kernel.org>; Tue,  7 Jul 2020 07:01:05 -0700 (PDT)
+Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
+        (authenticated bits=0)
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id 067DnKe0025659
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO)
+        for <linux-kbuild@vger.kernel.org>; Tue, 7 Jul 2020 15:49:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1594129760; bh=0UueTFg80QJXAo70usLTBxJrvWRLf/V/iWxJ2sCTTaQ=;
+        h=From:To:Subject:Date:Message-ID:From;
+        b=TmkQjPXZhhnphSXhi76AOfGZ/WUgTgo7SzgmGQ0awA53RycTgZtAVRZ5Su+rKmcku
+         E3Pd5/t266WGJ0SixFcFPG0QVi92LM3QTcqHZkPDWX35BjCR3bqFzJ2Hk9UvDj8RyA
+         TEm8Ku96JIAua1ZjDchRcYvrJdWKBe0tMKKPTHHo=
+Received: from bjorn by miraculix.mork.no with local (Exim 4.94)
+        (envelope-from <bjorn@mork.no>)
+        id 1jsnyJ-000T4C-JK
+        for linux-kbuild@vger.kernel.org; Tue, 07 Jul 2020 15:49:19 +0200
+From:   =?utf-8?Q?Bj=C3=B8rn?= Mork <bjorn@mork.no>
 To:     linux-kbuild@vger.kernel.org
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Haren Myneni <haren@us.ibm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Petr Mladek <pmladek@suse.com>,
-        Tal Gilboa <talgi@mellanox.com>, kunit-dev@googlegroups.com,
-        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, live-patching@vger.kernel.org
-Subject: [PATCH v2 2/2] kbuild: trace functions in subdirectories of lib/
-Date:   Tue,  7 Jul 2020 18:21:17 +0900
-Message-Id: <20200707092117.963394-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200707092117.963394-1-masahiroy@kernel.org>
-References: <20200707092117.963394-1-masahiroy@kernel.org>
+Subject: Kbuild support for rebuilding a single driver gone?
+Organization: m
+Date:   Tue, 07 Jul 2020 15:49:19 +0200
+Message-ID: <87lfjvbfkw.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 0.102.2 at canardo
+X-Virus-Status: Clean
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-  ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
+[ previously posted to kernelnewbies ]
 
-exists here in sub-directories of lib/ to keep the behavior of
-commit 2464a609ded0 ("ftrace: do not trace library functions").
+I have "always" tested simple patches by rebuilding just the affected
+driver on whatever kernel I happen to run.  Like this:
 
-Since that commit, not only the objects in lib/ but also the ones in
-the sub-directories are excluded from ftrace (although the commit
-description did not explicitly mention this).
+bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/4.19.0-9-amd=
+64/build M=3D$(pwd)/drivers/net/usb clean
+make: Entering directory '/usr/src/linux-headers-4.19.0-9-amd64'
+  CLEAN   /usr/local/src/git/linux/drivers/net/usb/Module.symvers
+make: Leaving directory '/usr/src/linux-headers-4.19.0-9-amd64'
+bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/4.19.0-9-amd=
+64/build M=3D$(pwd)/drivers/net/usb qmi_wwan.ko
+make: Entering directory '/usr/src/linux-headers-4.19.0-9-amd64'
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.o
+  MODPOST 1 modules
+  CC      /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.mod.o
+  LD [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.ko
+make: Leaving directory '/usr/src/linux-headers-4.19.0-9-amd64'
 
-However, most of library functions in sub-directories are not so hot.
-Re-add them to ftrace.
 
-Going forward, only the objects right under lib/ will be excluded.
+But this is broken for some reason with recent Debian (bullseye/sid)
+kernels, based on 5.6 or 5.7 kernels.  They will always compile all
+source files in the directory, even of most of them are not necessary
+for the requested target:
 
-Cc: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
-Changes in v2:
-  - New patch
+bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/5.7.0-1-amd6=
+4/build M=3D$(pwd)/drivers/net/usb clean
+make: Entering directory '/usr/src/linux-headers-5.7.0-1-amd64'
+  CLEAN   /usr/local/src/git/linux/drivers/net/usb/Module.symvers
+make: Leaving directory '/usr/src/linux-headers-5.7.0-1-amd64'
+bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/5.7.0-1-amd6=
+4/build M=3D$(pwd)/drivers/net/usb qmi_wwan.ko
+make: Entering directory '/usr/src/linux-headers-5.7.0-1-amd64'
+  AR      /usr/local/src/git/linux/drivers/net/usb/built-in.a
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/catc.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/kaweth.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/pegasus.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/rtl8150.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/r8152.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/hso.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/lan78xx.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/asix_devices.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/asix_common.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/ax88172a.o
+  LD [M]  /usr/local/src/git/linux/drivers/net/usb/asix.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/ax88179_178a.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_ether.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_eem.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/dm9601.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/sr9700.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/sr9800.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/smsc75xx.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/smsc95xx.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/gl620a.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/net1080.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/plusb.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/rndis_host.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_subset.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/zaurus.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/mcs7830.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/usbnet.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/int51x1.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc-phonet.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/kalmia.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/ipheth.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/sierra_net.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cx82310_eth.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_ncm.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/huawei_cdc_ncm.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/lg-vl600.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_mbim.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/ch9200.o
+  MODPOST 1 modules
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.mod.o
+  LD [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.ko
+make: Leaving directory '/usr/src/linux-headers-5.7.0-1-amd64'
 
- lib/842/Makefile          | 3 ---
- lib/crypto/Makefile       | 2 --
- lib/dim/Makefile          | 2 --
- lib/fonts/Makefile        | 2 --
- lib/kunit/Makefile        | 3 ---
- lib/livepatch/Makefile    | 2 --
- lib/lz4/Makefile          | 1 -
- lib/lzo/Makefile          | 2 --
- lib/math/Makefile         | 2 --
- lib/mpi/Makefile          | 2 --
- lib/raid6/Makefile        | 3 ---
- lib/reed_solomon/Makefile | 2 --
- lib/xz/Makefile           | 3 ---
- lib/zlib_deflate/Makefile | 2 --
- lib/zlib_dfltcc/Makefile  | 2 --
- lib/zlib_inflate/Makefile | 2 --
- lib/zstd/Makefile         | 1 -
- 17 files changed, 36 deletions(-)
 
-diff --git a/lib/842/Makefile b/lib/842/Makefile
-index b815e824ae37..6f7aad269288 100644
---- a/lib/842/Makefile
-+++ b/lib/842/Makefile
-@@ -1,6 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0-only
--
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_842_COMPRESS) += 842_compress.o
- obj-$(CONFIG_842_DECOMPRESS) += 842_decompress.o
-diff --git a/lib/crypto/Makefile b/lib/crypto/Makefile
-index b557ef0b07c2..3a435629d9ce 100644
---- a/lib/crypto/Makefile
-+++ b/lib/crypto/Makefile
-@@ -1,7 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- # chacha is used by the /dev/random driver which is always builtin
- obj-y						+= chacha.o
- obj-$(CONFIG_CRYPTO_LIB_CHACHA_GENERIC)		+= libchacha.o
-diff --git a/lib/dim/Makefile b/lib/dim/Makefile
-index 97fc3e89d34e..1d6858a108cb 100644
---- a/lib/dim/Makefile
-+++ b/lib/dim/Makefile
-@@ -2,8 +2,6 @@
- # DIM Dynamic Interrupt Moderation library
- #
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_DIMLIB) += dim.o
- 
- dim-y := dim.o net_dim.o rdma_dim.o
-diff --git a/lib/fonts/Makefile b/lib/fonts/Makefile
-index f951750c179e..ed95070860de 100644
---- a/lib/fonts/Makefile
-+++ b/lib/fonts/Makefile
-@@ -1,8 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- # Font handling
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- font-objs := fonts.o
- 
- font-objs-$(CONFIG_FONT_SUN8x16)   += font_sun8x16.o
-diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index 8c847557ab24..724b94311ca3 100644
---- a/lib/kunit/Makefile
-+++ b/lib/kunit/Makefile
-@@ -1,6 +1,3 @@
--
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_KUNIT) +=			kunit.o
- 
- kunit-objs +=				test.o \
-diff --git a/lib/livepatch/Makefile b/lib/livepatch/Makefile
-index 9abdf615b088..295b94bff370 100644
---- a/lib/livepatch/Makefile
-+++ b/lib/livepatch/Makefile
-@@ -2,8 +2,6 @@
- #
- # Makefile for livepatch test code.
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_TEST_LIVEPATCH) += test_klp_atomic_replace.o \
- 				test_klp_callbacks_demo.o \
- 				test_klp_callbacks_demo2.o \
-diff --git a/lib/lz4/Makefile b/lib/lz4/Makefile
-index 53da4cab7015..5b42242afaa2 100644
---- a/lib/lz4/Makefile
-+++ b/lib/lz4/Makefile
-@@ -1,6 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0-only
- ccflags-y += -O3
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
- 
- obj-$(CONFIG_LZ4_COMPRESS) += lz4_compress.o
- obj-$(CONFIG_LZ4HC_COMPRESS) += lz4hc_compress.o
-diff --git a/lib/lzo/Makefile b/lib/lzo/Makefile
-index 9565a555275b..2f58fafbbddd 100644
---- a/lib/lzo/Makefile
-+++ b/lib/lzo/Makefile
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- lzo_compress-objs := lzo1x_compress.o
- lzo_decompress-objs := lzo1x_decompress_safe.o
- 
-diff --git a/lib/math/Makefile b/lib/math/Makefile
-index 49aa50e28185..be6909e943bd 100644
---- a/lib/math/Makefile
-+++ b/lib/math/Makefile
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-y += div64.o gcd.o lcm.o int_pow.o int_sqrt.o reciprocal_div.o
- 
- obj-$(CONFIG_CORDIC)		+= cordic.o
-diff --git a/lib/mpi/Makefile b/lib/mpi/Makefile
-index df7883521619..d5874a7f5ff9 100644
---- a/lib/mpi/Makefile
-+++ b/lib/mpi/Makefile
-@@ -3,8 +3,6 @@
- # MPI multiprecision maths library (from gpg)
- #
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_MPILIB) = mpi.o
- 
- mpi-y = \
-diff --git a/lib/raid6/Makefile b/lib/raid6/Makefile
-index 3482d6ae3f3b..b4c0df6d706d 100644
---- a/lib/raid6/Makefile
-+++ b/lib/raid6/Makefile
-@@ -1,7 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_RAID6_PQ)	+= raid6_pq.o
- 
- raid6_pq-y	+= algos.o recov.o tables.o int1.o int2.o int4.o \
-diff --git a/lib/reed_solomon/Makefile b/lib/reed_solomon/Makefile
-index a5c9defdac7f..5d4fa68f26cb 100644
---- a/lib/reed_solomon/Makefile
-+++ b/lib/reed_solomon/Makefile
-@@ -3,7 +3,5 @@
- # This is a modified version of reed solomon lib,
- #
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_REED_SOLOMON) += reed_solomon.o
- obj-$(CONFIG_REED_SOLOMON_TEST) += test_rslib.o
-diff --git a/lib/xz/Makefile b/lib/xz/Makefile
-index fae9b6c7c389..fa6af814a8d1 100644
---- a/lib/xz/Makefile
-+++ b/lib/xz/Makefile
-@@ -1,7 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_XZ_DEC) += xz_dec.o
- xz_dec-y := xz_dec_syms.o xz_dec_stream.o xz_dec_lzma2.o
- xz_dec-$(CONFIG_XZ_DEC_BCJ) += xz_dec_bcj.o
-diff --git a/lib/zlib_deflate/Makefile b/lib/zlib_deflate/Makefile
-index 1fcefe73536f..2622e03c0b94 100644
---- a/lib/zlib_deflate/Makefile
-+++ b/lib/zlib_deflate/Makefile
-@@ -7,8 +7,6 @@
- # decompression code.
- #
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_ZLIB_DEFLATE) += zlib_deflate.o
- 
- zlib_deflate-objs := deflate.o deftree.o deflate_syms.o
-diff --git a/lib/zlib_dfltcc/Makefile b/lib/zlib_dfltcc/Makefile
-index 7a8067f6e772..8e4d5afbbb10 100644
---- a/lib/zlib_dfltcc/Makefile
-+++ b/lib/zlib_dfltcc/Makefile
-@@ -6,8 +6,6 @@
- # This is the code for s390 zlib hardware support.
- #
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_ZLIB_DFLTCC) += zlib_dfltcc.o
- 
- zlib_dfltcc-objs := dfltcc.o dfltcc_deflate.o dfltcc_inflate.o dfltcc_syms.o
-diff --git a/lib/zlib_inflate/Makefile b/lib/zlib_inflate/Makefile
-index a451e96f9845..27327d3e9f54 100644
---- a/lib/zlib_inflate/Makefile
-+++ b/lib/zlib_inflate/Makefile
-@@ -14,8 +14,6 @@
- # uncompression can be done without blocking on allocation).
- #
- 
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
--
- obj-$(CONFIG_ZLIB_INFLATE) += zlib_inflate.o
- 
- zlib_inflate-objs := inffast.o inflate.o infutil.o \
-diff --git a/lib/zstd/Makefile b/lib/zstd/Makefile
-index 01be908a2d94..f5d778e7e5c7 100644
---- a/lib/zstd/Makefile
-+++ b/lib/zstd/Makefile
-@@ -3,7 +3,6 @@ obj-$(CONFIG_ZSTD_COMPRESS) += zstd_compress.o
- obj-$(CONFIG_ZSTD_DECOMPRESS) += zstd_decompress.o
- 
- ccflags-y += -O3
--ccflags-remove-$(CONFIG_FUNCTION_TRACER) += $(CC_FLAGS_FTRACE)
- 
- zstd_compress-y := fse_compress.o huf_compress.o compress.o \
- 		   entropy_common.o fse_decompress.o zstd_common.o
--- 
-2.25.1
 
+
+Why is this? Am I doing something wrong here?
+
+This is quite annoying.  Not only does it take much more time than
+necessary.  It also causes the build to fail if any of the unnecessary
+source files fail to build.  Which is expected with my use case,
+building unmodified drivers from a different kernel version.  E.g trying
+to rebuild qmi_wwan from the current net/master repo on a Debian 5.6
+kernel fails because r8152.c implement new ethtool_ops fields:
+
+bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/5.6.0-2-amd6=
+4/build M=3D$(pwd)/drivers/net/usb clean
+make: Entering directory '/usr/src/linux-headers-5.6.0-2-amd64'
+  CLEAN   /usr/local/src/git/linux/drivers/net/usb/Module.symvers
+make: Leaving directory '/usr/src/linux-headers-5.6.0-2-amd64'
+bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/5.6.0-2-amd6=
+4/build M=3D$(pwd)/drivers/net/usb qmi_wwan.ko
+make: Entering directory '/usr/src/linux-headers-5.6.0-2-amd64'
+  AR      /usr/local/src/git/linux/drivers/net/usb/built-in.a
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/catc.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/kaweth.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/pegasus.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/rtl8150.o
+  CC [M]  /usr/local/src/git/linux/drivers/net/usb/r8152.o
+/usr/local/src/git/linux/drivers/net/usb/r8152.c: In function =E2=80=98r815=
+2_tx_csum=E2=80=99:
+/usr/local/src/git/linux/drivers/net/usb/r8152.c:2004:4: error: implicit de=
+claration of function =E2=80=98tcp_v6_gso_csum_prep=E2=80=99 [-Werror=3Dimp=
+licit-function-declaration]
+ 2004 |    tcp_v6_gso_csum_prep(skb);
+      |    ^~~~~~~~~~~~~~~~~~~~
+/usr/local/src/git/linux/drivers/net/usb/r8152.c: At top level:
+/usr/local/src/git/linux/drivers/net/usb/r8152.c:6360:3: error: =E2=80=98co=
+nst struct ethtool_ops=E2=80=99 has no member named =E2=80=98supported_coal=
+esce_params=E2=80=99
+ 6360 |  .supported_coalesce_params =3D ETHTOOL_COALESCE_USECS,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/src/git/linux/drivers/net/usb/r8152.c:6360:31: error: =E2=80=98E=
+THTOOL_COALESCE_USECS=E2=80=99 undeclared here (not in a function); did you=
+ mean =E2=80=98ETHTOOL_SCOALESCE=E2=80=99?
+ 6360 |  .supported_coalesce_params =3D ETHTOOL_COALESCE_USECS,
+      |                               ^~~~~~~~~~~~~~~~~~~~~~
+      |                               ETHTOOL_SCOALESCE
+cc1: some warnings being treated as errors
+make[2]: *** [/usr/src/linux-headers-5.6.0-2-common/scripts/Makefile.build:=
+273: /usr/local/src/git/linux/drivers/net/usb/r8152.o] Error 1
+make[1]: *** [/usr/src/linux-headers-5.6.0-2-common/Makefile:1704: /usr/loc=
+al/src/git/linux/drivers/net/usb] Error 2
+make: *** [/usr/src/linux-headers-5.6.0-2-common/Makefile:180: sub-make] Er=
+ror 2
+make: Leaving directory '/usr/src/linux-headers-5.6.0-2-amd64'
+
+
+
+This is obviously completely irrelevent for the qmi_wwan build.  How to
+I get back the old dependency based building?
+
+
+
+Bj=C3=B8rn
