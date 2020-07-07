@@ -2,57 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 012FE217A8E
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jul 2020 23:32:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 943CF217AD0
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jul 2020 23:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729066AbgGGVcQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jul 2020 17:32:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33710 "EHLO
+        id S1728396AbgGGV73 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jul 2020 17:59:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728852AbgGGVcP (ORCPT
+        with ESMTP id S1728357AbgGGV73 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jul 2020 17:32:15 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39B86C061755
-        for <linux-kbuild@vger.kernel.org>; Tue,  7 Jul 2020 14:32:15 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id w2so19801003pgg.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 07 Jul 2020 14:32:15 -0700 (PDT)
+        Tue, 7 Jul 2020 17:59:29 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645D1C061755;
+        Tue,  7 Jul 2020 14:59:29 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id e13so39691778qkg.5;
+        Tue, 07 Jul 2020 14:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=7RZJvmavIn0O2TKntqB9QMi92acXLHjQQiD6TqtsJM8=;
-        b=W4FLApmeUSAjzZei1tcFaAdYwlotTF70I4pqSAQG7rO5K1XEga+KnzxWnE/bCLq90N
-         sQjhKVPREYroxBtzQItv//t58RkmCbDUYk9mS899tJrQuouZKBGKic5p/HdASJzraak6
-         LSXz9O0gsIm+1nPah9eL7XgYtEJsFnRYWVq34=
+        bh=0LujZH3tbuUZGpL+nqS5KjyB11nfc4ieFAgqsO06FcQ=;
+        b=LrprgMdBbCVp4quez8dlfvVtMub+Odvz2yu07WWstpvYsuUbb4QotlwvYJrZgzgXa3
+         LIV3ic16E2kQ+5Z4BxFSLv1qJo8RCXVF3NwuyNgos0lkmpqcsFoU+t5YpkeLSY0AUqYN
+         tpkgwHjubJWQ7ifSbuGIWDQft6LXLbizfrPUlrmp4jiCJdt3ZvlFVvy0OHfxrtVkvMbe
+         cVqkAx/rkEYHVqaiz1xOhLKkMx2LPa8caaQWG5iJbNG7ZQJJqa4GfHoP6ZvjM9kcaMEf
+         dx7PAwLVzxFEyOaQNVOIw10S/GcxtkR+FbQyHt3I0KAlKI9Rb6f1kZIgrcAl2IH7QBU1
+         WO3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7RZJvmavIn0O2TKntqB9QMi92acXLHjQQiD6TqtsJM8=;
-        b=OT9FtNPKkWB6l3SNoeZkkxwUAXKBznORBisuM7X5qKb87pN1Kzm30HMq9VZEFyphwA
-         vZSVVs9lAe2vy2IklRstedyHnJs5M5n6KZc5oalvDGr2MoL0BVpMXLOUJ2gBRt1pqDms
-         ABx2o3SqajGxWAkNX4LzEO9W3yVY5f+7rpVZsWUn7FNW9EG5gQ28siYIERhtFiS1pgsI
-         vfJhbsMr6OUOUDtGS0+JD3oN2RuQumulS5Ea5OaLyzF7JCoAa9Qng+hxl5v+X+llqKts
-         dCQWqMOyFOuV5SPiofpPR97RzJYvgnMy67Gk2XDux8Oo30vjWMSdVjE7lJRqPeQto7bC
-         E+Eg==
-X-Gm-Message-State: AOAM533DFeys6yPhtFkJa/JjtzOJ7rhKlXw6XJsgTNDefz+nYJ72qJsN
-        hz8zFvP8nw9KoMN0iSuzOi1fTV3+AAc=
-X-Google-Smtp-Source: ABdhPJyjWOYHT6AfI1WRr7cur6K+X6jRbh3iIvEo/GyqoEveZ4YQtxGCntbWjkIu+/Fdy5u9itfeOA==
-X-Received: by 2002:a63:3d07:: with SMTP id k7mr46650708pga.93.1594157534774;
-        Tue, 07 Jul 2020 14:32:14 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id ji2sm3301357pjb.1.2020.07.07.14.32.13
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=0LujZH3tbuUZGpL+nqS5KjyB11nfc4ieFAgqsO06FcQ=;
+        b=r9gWnsJUnQ9nqu7Mbi4z2U9dcpfRGU2aaXm3qgSTDOqz8BkHqPs3rtFVahNjwdSNNE
+         3O8DxHM6KxkMSAJPlzurEA/hFRUfACaZqs6invNPCcgNCLvxyNKHKRXCiaPp8vtbZ9E/
+         WwaAibEqCilMMxFb2kTEs6XFjMX4aDkM8Ayf1n2Kig+ze18gfeb6BWgB3jjjPxgaXz4C
+         n0ZbUuQqz4qDLnwx6REt0J5pzh9EWzqxPHw50cTz5Yfjet+LyJwsrPF6j+9+EmqeIIgB
+         +qm9FQanQQEHnMvn+Vy2v3GaG024LqLUfOO0cRdXQhqQE4/HgKPNMqs6TTFxqjEf90/Z
+         tm6A==
+X-Gm-Message-State: AOAM531w0VIKUuzeXwht1vB+ZbsMknDNd6Nd6dCYCaB+pfigHToWvxMX
+        qj5m4yqdfMf19Wr11uq7VEE=
+X-Google-Smtp-Source: ABdhPJxUZqZB2fqVPgzHgDgpuScL+9miiipK7SwKP1XY2jR0266CmUPrnavXP7+cXWr85pfmgFDjOw==
+X-Received: by 2002:a37:a316:: with SMTP id m22mr55887513qke.378.1594159167658;
+        Tue, 07 Jul 2020 14:59:27 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id p66sm25301009qkf.58.2020.07.07.14.59.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2020 14:32:13 -0700 (PDT)
-Date:   Tue, 7 Jul 2020 14:32:12 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>, x86@kernel.org
-Cc:     Nick Terrell <nickrterrell@gmail.com>,
+        Tue, 07 Jul 2020 14:59:27 -0700 (PDT)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Tue, 7 Jul 2020 17:59:25 -0400
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
         linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-        linux-kbuild@vger.kernel.org, gregkh@linuxfoundation.org,
-        Petr Malat <oss@malat.biz>, Kernel Team <Kernel-team@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
         Adam Borowski <kilobyte@angband.pl>,
         Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
         mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
@@ -60,53 +66,26 @@ Cc:     Nick Terrell <nickrterrell@gmail.com>,
         Norbert Lange <nolange79@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Nick Terrell <terrelln@fb.com>
-Subject: Re: [GIT PULL][PATCH v6 0/8] Add support for ZSTD-compressed kernel
- and initramfs
-Message-ID: <202007071422.1060F5932@keescook>
+Subject: Re: [PATCH v6 2/8] lib: prepare xxhash for preboot environment
+Message-ID: <20200707215925.GA1591079@rani.riverdale.lan>
 References: <20200707034604.1539157-1-nickrterrell@gmail.com>
+ <20200707034604.1539157-3-nickrterrell@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200707034604.1539157-1-nickrterrell@gmail.com>
+In-Reply-To: <20200707034604.1539157-3-nickrterrell@gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 06, 2020 at 08:45:56PM -0700, Nick Terrell wrote:
+On Mon, Jul 06, 2020 at 08:45:58PM -0700, Nick Terrell wrote:
 > From: Nick Terrell <terrelln@fb.com>
 > 
-> Please pull from
+> Don't export symbols if XXH_PREBOOT is defined.
 > 
->   git@github.com:terrelln/linux.git tags/v6-zstd
-> 
-> to get these changes. Alternatively the patchset is included.
-> 
-> Hi all,
-> 
-> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
-> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
-> are supported on all architectures. The ZSTD-compressed kernel is only
-> hooked up to x86 in this patch set.
+> This change is necessary to get xxhash to work in a preboot environment,
+> which is needed to support zstd-compressed kernels.
 
-Hello x86 maintainers!
-
-I think this series is ready to go. Notes below...
-
-> [...]
->   x86: bump ZO_z_extra_bytes margin for zstd
-
-The above patch is really the only thing that has any external visibility
-to kernels that have ZSTD disabled. Given the ratios of memory sizes
-involved (an extra 64K when we're dealing with 2MB windows) seems
-reasonable to me. If that isn't acceptable, it should be trivial to make
-it CONFIG-selectable (like we already do with BOOT_HEAP_SIZE).
-
-What do you think? If the non-x86 parts should land first in -mm, I
-guess that would be okay, but I think it makes sense for all of this to
-go via -tip.
-
--Kees
-
--- 
-Kees Cook
+The usual way to do it is by adding -D__DISABLE_EXPORTS to the CFLAGS, which will
+cause EXPORT_SYMBOL to be stubbed out. Doesn't that work here?
