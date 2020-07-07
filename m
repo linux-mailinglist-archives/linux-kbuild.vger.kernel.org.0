@@ -2,75 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01D1217437
-	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jul 2020 18:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92D90217451
+	for <lists+linux-kbuild@lfdr.de>; Tue,  7 Jul 2020 18:44:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbgGGQkP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jul 2020 12:40:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44616 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbgGGQkP (ORCPT
+        id S1728409AbgGGQno (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jul 2020 12:43:44 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:42452 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728164AbgGGQnk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jul 2020 12:40:15 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2165CC061755;
-        Tue,  7 Jul 2020 09:40:15 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id q74so20297039iod.1;
-        Tue, 07 Jul 2020 09:40:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=H8DnR4JFzX5FV9pn+i8vQlvDk8lKjNy3TDBekUaLnWY=;
-        b=aYP0Ke6qrQ322SvoUeWMbxXuQwIfaQYSWPYQ0EEQdhWHZzzhUk81ZtykXd1GPbIreV
-         0SMPevR10bkEmZK+AeTCShRw2vYRageGssEA6u+UD7O6hTz0lXZwIKuLAqIF2QLVykiK
-         ckEvJtdzd4XNd/cLFNQHsFVg01CGlLuU0HIE3fI/Qnc8qJhC9Tg0/9XPgkY+8ywjRk7g
-         q2qpjgoozl8uiJaBhZbOpsTYGC/jSV/sstuKDcF0drSEE1VPspCUwJEFjETGz670hpNS
-         1OqzcFi7kXVkeRzkJDHoC5amynzSgx9Ab0akIdBNt8HI18zw1z67yFIMkDp6rxhC+i1x
-         VvJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=H8DnR4JFzX5FV9pn+i8vQlvDk8lKjNy3TDBekUaLnWY=;
-        b=scHIOS+ilJpkxaRHQalCACOJ5ci6lxnoKAtfuumClJYqY3b6jDnC+COEU3Yt49Qu/v
-         +YGr76iOnE0hxiv0aOXorVkOhx9OYBna1c7Zoho/6QrzBKt/G4C3OZE/o1vqxviVSH1T
-         nUhwdqJaUfgrVAG9en7EEHkP6JMdxzGOG9z72N8fiBHnya070Xq2hDTh95KmsN49/zUJ
-         4hJOjVmxAvXRL/z3Hc3haD/voPfGmnKSyDkigESTMMdHQn1Ej907pr8IF2b0E5iTEY0F
-         wCgqQJW3yEWjjXynjoA+eSflhZsM2CmryZM7L07YM11txrNbVqqouRfnEnMmneN8hLK1
-         +yuQ==
-X-Gm-Message-State: AOAM530umJQmyVGCBcMzPfq9/CN6RWZzm5cug9AkWiEIb5BmHg873aKt
-        227KJNzLgDI128jV1kaMHubACiU0LUMs7gHRbSk=
-X-Google-Smtp-Source: ABdhPJxS1vGz+PqkpyRPiJAYu2ILWZ1meFxgUxuxpzj3ckU7ixSEUINJAyPaap+N85KD5I0wVyvFLVNUne67L+rigsE=
-X-Received: by 2002:a02:cd06:: with SMTP id g6mr29485216jaq.37.1594140014469;
- Tue, 07 Jul 2020 09:40:14 -0700 (PDT)
+        Tue, 7 Jul 2020 12:43:40 -0400
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 067GhC59026304
+        for <linux-kbuild@vger.kernel.org>; Wed, 8 Jul 2020 01:43:13 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 067GhC59026304
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1594140193;
+        bh=EKp0ZQGxhaZIb3tRNgrvAT1TJurT5gJjXbRKTOmznvc=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=p82YOymxG5ni4G87WOOW2aM0Aju0hvVu6KtQbBslxJCY7IT5eCZPMLpm0HzuG4u1v
+         5es+9HotM5cXd/tEacKtJtjwxrQ8+4DVJkoGLaP31osl7mmj5jbjd0q0oNG+r+lIFz
+         vpALRXqTG+Kr+3pV7rZQ1S96ibAyDJtxI3qVhpG7/x6elIs2Us05tfo6UO1uVQt8+W
+         poZoIMtjggq+nx/cA5zKjwyJIMApG2j/RyH6kYNZ80vxRfLLcqrBeNZ+GMOI49SgTC
+         J6lL1u55b8uI3D3Ds5OXo9/0xTOLXd1GQbhwmoJCfypEfjIiB0c4twN9ToRvbZJXcH
+         aNWX8+qOS18fA==
+X-Nifty-SrcIP: [209.85.217.42]
+Received: by mail-vs1-f42.google.com with SMTP id x13so18147252vsx.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 07 Jul 2020 09:43:13 -0700 (PDT)
+X-Gm-Message-State: AOAM530UlBTDFyXtixjsnJa7ZbA5fY+cTbdLqo/WEkbLKbIvx6brEE38
+        lZsXOlH8GRzla7JjwbBu5rBETY6hMLVmlkYJ04A=
+X-Google-Smtp-Source: ABdhPJx6yIMqKo4dnnbGDiRflUU5GPEZlHf8w37k+RrrO5oId4XH/AcfxyRSzH0fuAY56C4UfG+KYc8X/SqGpXWXjhY=
+X-Received: by 2002:a67:2e4d:: with SMTP id u74mr29765626vsu.215.1594140191981;
+ Tue, 07 Jul 2020 09:43:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707034604.1539157-1-nickrterrell@gmail.com>
- <20200707034604.1539157-5-nickrterrell@gmail.com> <CADYdroOfCsGsjid9aSOLoRf9gycc1iLD9JndH8WF+Rg+a5Gu-g@mail.gmail.com>
- <3C253838-35BF-4B0D-AE19-E81B08B3A377@fb.com>
-In-Reply-To: <3C253838-35BF-4B0D-AE19-E81B08B3A377@fb.com>
-From:   Norbert Lange <nolange79@gmail.com>
-Date:   Tue, 7 Jul 2020 18:40:03 +0200
-Message-ID: <CADYdroOfF=oD+BrbS2pCf-DgEz=XhzkMXZzhXC+UrALcHPyogA@mail.gmail.com>
-Subject: Re: [PATCH v6 4/8] init: add support for zstd compressed kernel
-To:     Nick Terrell <terrelln@fb.com>
-Cc:     Nick Terrell <nickrterrell@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Chris Mason <clm@fb.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>,
-        Michael van der Westhuizen <rmikey@fb.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        Patrick Williams <patrick@stwcx.xyz>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>
+References: <87lfjvbfkw.fsf@miraculix.mork.no>
+In-Reply-To: <87lfjvbfkw.fsf@miraculix.mork.no>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 8 Jul 2020 01:42:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS=1M0NXeQUMnD63O=fAKTptnSRwjE_o6_jVKUv3_7q5Q@mail.gmail.com>
+Message-ID: <CAK7LNAS=1M0NXeQUMnD63O=fAKTptnSRwjE_o6_jVKUv3_7q5Q@mail.gmail.com>
+Subject: Re: Kbuild support for rebuilding a single driver gone?
+To:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -78,171 +51,114 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Am Di., 7. Juli 2020 um 17:32 Uhr schrieb Nick Terrell <terrelln@fb.com>:
+On Tue, Jul 7, 2020 at 11:01 PM Bj=C3=B8rn Mork <bjorn@mork.no> wrote:
+>
+> [ previously posted to kernelnewbies ]
+>
+> I have "always" tested simple patches by rebuilding just the affected
+> driver on whatever kernel I happen to run.  Like this:
+>
+> bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/4.19.0-9-a=
+md64/build M=3D$(pwd)/drivers/net/usb clean
+> make: Entering directory '/usr/src/linux-headers-4.19.0-9-amd64'
+>   CLEAN   /usr/local/src/git/linux/drivers/net/usb/Module.symvers
+> make: Leaving directory '/usr/src/linux-headers-4.19.0-9-amd64'
+> bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/4.19.0-9-a=
+md64/build M=3D$(pwd)/drivers/net/usb qmi_wwan.ko
+> make: Entering directory '/usr/src/linux-headers-4.19.0-9-amd64'
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.o
+>   MODPOST 1 modules
+>   CC      /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.mod.o
+>   LD [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.ko
+> make: Leaving directory '/usr/src/linux-headers-4.19.0-9-amd64'
+>
+>
+> But this is broken for some reason with recent Debian (bullseye/sid)
+> kernels, based on 5.6 or 5.7 kernels.  They will always compile all
+> source files in the directory, even of most of them are not necessary
+> for the requested target:
+>
+>
+> bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/5.7.0-1-am=
+d64/build M=3D$(pwd)/drivers/net/usb clean
+> make: Entering directory '/usr/src/linux-headers-5.7.0-1-amd64'
+>   CLEAN   /usr/local/src/git/linux/drivers/net/usb/Module.symvers
+> make: Leaving directory '/usr/src/linux-headers-5.7.0-1-amd64'
+> bjorn@miraculix:/usr/local/src/git/linux$ make -C /lib/modules/5.7.0-1-am=
+d64/build M=3D$(pwd)/drivers/net/usb qmi_wwan.ko
+> make: Entering directory '/usr/src/linux-headers-5.7.0-1-amd64'
+>   AR      /usr/local/src/git/linux/drivers/net/usb/built-in.a
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/catc.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/kaweth.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/pegasus.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/rtl8150.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/r8152.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/hso.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/lan78xx.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/asix_devices.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/asix_common.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/ax88172a.o
+>   LD [M]  /usr/local/src/git/linux/drivers/net/usb/asix.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/ax88179_178a.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_ether.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_eem.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/dm9601.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/sr9700.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/sr9800.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/smsc75xx.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/smsc95xx.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/gl620a.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/net1080.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/plusb.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/rndis_host.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_subset.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/zaurus.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/mcs7830.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/usbnet.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/int51x1.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc-phonet.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/kalmia.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/ipheth.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/sierra_net.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cx82310_eth.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_ncm.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/huawei_cdc_ncm.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/lg-vl600.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/cdc_mbim.o
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/ch9200.o
+>   MODPOST 1 modules
+>   CC [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.mod.o
+>   LD [M]  /usr/local/src/git/linux/drivers/net/usb/qmi_wwan.ko
+> make: Leaving directory '/usr/src/linux-headers-5.7.0-1-amd64'
 >
 >
 >
-> > On Jul 7, 2020, at 3:19 AM, Norbert Lange <nolange79@gmail.com> wrote:
-> >
-> > Thanks for the respin.
-> >
-> > Am Di., 7. Juli 2020 um 05:51 Uhr schrieb Nick Terrell <nickrterrell@gm=
-ail.com>:
-> >>
-> >> From: Nick Terrell <terrelln@fb.com>
-> >>
-> >> * Adds the zstd cmd to scripts/Makefile.lib
-> >> * Adds the HAVE_KERNEL_ZSTD and KERNEL_ZSTD options
-> >>
-> >> Architecture specific support is still needed for decompression.
-> >>
-> >> Reviewed-by: Kees Cook <keescook@chromium.org>
-> >> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> >> Signed-off-by: Nick Terrell <terrelln@fb.com>
-> >> ---
-> >> init/Kconfig         | 15 ++++++++++++++-
-> >> scripts/Makefile.lib | 15 +++++++++++++++
-> >> 2 files changed, 29 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/init/Kconfig b/init/Kconfig
-> >> index 0498af567f70..8d99f0c5e240 100644
-> >> --- a/init/Kconfig
-> >> +++ b/init/Kconfig
-> >> @@ -191,13 +191,16 @@ config HAVE_KERNEL_LZO
-> >> config HAVE_KERNEL_LZ4
-> >>        bool
-> >>
-> >> +config HAVE_KERNEL_ZSTD
-> >> +       bool
-> >> +
-> >> config HAVE_KERNEL_UNCOMPRESSED
-> >>        bool
-> >>
-> >> choice
-> >>        prompt "Kernel compression mode"
-> >>        default KERNEL_GZIP
-> >> -       depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNE=
-L_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERN=
-EL_UNCOMPRESSED
-> >> +       depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNE=
-L_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERN=
-EL_ZSTD || HAVE_KERNEL_UNCOMPRESSED
-> >>        help
-> >>          The linux kernel is a kind of self-extracting executable.
-> >>          Several compression algorithms are available, which differ
-> >> @@ -276,6 +279,16 @@ config KERNEL_LZ4
-> >>          is about 8% bigger than LZO. But the decompression speed is
-> >>          faster than LZO.
-> >>
-> >> +config KERNEL_ZSTD
-> >> +       bool "ZSTD"
-> >> +       depends on HAVE_KERNEL_ZSTD
-> >> +       help
-> >> +         ZSTD is a compression algorithm targeting intermediate compr=
-ession
-> >> +         with fast decompression speed. It will compress better than =
-GZIP and
-> >> +         decompress around the same speed as LZO, but slower than LZ4=
-. You
-> >> +         will need at least 192 KB RAM or more for booting. The zstd =
-command
-> >> +         line tools is required for compression.
-> >> +
-> >> config KERNEL_UNCOMPRESSED
-> >>        bool "None"
-> >>        depends on HAVE_KERNEL_UNCOMPRESSED
-> >> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-> >> index 916b2f7f7098..d960f8815f87 100644
-> >> --- a/scripts/Makefile.lib
-> >> +++ b/scripts/Makefile.lib
-> >> @@ -413,6 +413,21 @@ quiet_cmd_xzkern =3D XZKERN  $@
-> >> quiet_cmd_xzmisc =3D XZMISC  $@
-> >>       cmd_xzmisc =3D cat $(real-prereqs) | $(XZ) --check=3Dcrc32 --lzm=
-a2=3Ddict=3D1MiB > $@
-> >>
-> >> +# ZSTD
-> >> +# -------------------------------------------------------------------=
---------
-> >> +# Appends the uncompressed size of the data using size_append. The .z=
-st
-> >> +# format has the size information available at the beginning of the f=
-ile too,
-> >> +# but it's in a more complex format and it's good to avoid changing t=
-he part
-> >> +# of the boot code that reads the uncompressed size.
-> >> +# Note that the bytes added by size_append will make the zstd tool th=
-ink that
-> >> +# the file is corrupt. This is expected.
-> >> +
-> >> +quiet_cmd_zstd =3D ZSTD    $@
-> >> +cmd_zstd =3D (cat $(filter-out FORCE,$^) | \
-> >> +       zstd -19 && \
-> >> +        $(call size_append, $(filter-out FORCE,$^))) > $@ || \
-> >> +       (rm -f $@ ; false)
-> >
-> > Is there any reason not to use '--ultra -22' ?
-> > As far as I understand the other patches, the decompression should be
-> > able to handle it,
-> > and in terms of time required for a kernel build the difference is
-> > insignificant.
 >
-> For kernel compression there isn=E2=80=99t a strong reason not to use `--=
-ultra -22`.
-> It may slow down decompression a small amount, because the difference
-> is that it has a 128 MB window size instead of a 8 MB window size.
->
-> However, that probably isn=E2=80=99t want you want for initramfs compress=
-ion,
-> which can optionally now use this same command. We could go like xz
-> and have both cmd_zstdmisc and cmd_zstdkern, and only use `-22` for the
-> kernel version.
+> Why is this? Am I doing something wrong here?
 
-Realistically, that's only relevant for an compressed internal rd with an
-uncompressed kernel (means not really realistic, I haven't seen such a
-thing in ages)
-Means time is not the issue, but memory for a way to small
-decompression window is.
+Thanks for the report.
 
->
-> It also looks like there were a few minor changes made to the other
-> compress cmds in this file while these patches have been out, so I will a=
-pply
-> them to zstd as well.
->
-> I=E2=80=99ll submit a new version with these changes today.
->
-> > And would it be better to run zstd on a prepared file instead of
-> > stream enconding?
-> > windowsize would be adjusted to min(windowsize, filesize) for one.
->
-> Yeah, that would be helpful for initramfs compression when the file is
-> smaller than the window size, since it would limit the memory necessary
-> For decompression. But, it wouldn=E2=80=99t help kernel compression.
+You are not doing anything wrong.
 
-It would also allow you to unconditionally use -22, as the drawback
-for the internal rd would be removed.
+This is a regression of f566e1fbadb6
 
->
-> For that we=E2=80=99d have to create a temporary file, because it looks l=
-ike these
-> commands potentially accept more than one input file. Do you know the
-> standard practice for temporary files in the build system?
+Please check this:
+https://patchwork.kernel.org/patch/11649263/
 
-Nope, from peeking around (grep -r '\bmv\b' | grep Make),
-I'd use something like this (completely untested, sorry)
 
-cmd_zstd =3D ( trap "rm -f $(@D)/.tmp_$(@F)" 0 && \
-       cat $(filter-out FORCE,$^) > $(@D)/.tmp_$(@F) && \
-       zstd --ultra -22 -c $(@D)/.tmp_$(@F)  && \
-        $(call size_append, $(filter-out FORCE,$^))) > $@ || \
-       (rm -f $@ ; false)
+It will be included in the next pull request,
+and eventually back-ported to stable kernels.
 
-On the other hand I would hate if this tinkering further delays upstreaming=
-.
+Meanwhile, if M=3D build is not important,
+you can compile-test a particular module
+with in-tree build:
 
->
-> Thanks for the review,
-> Nick
 
-Thanks for the patch ;)
-Norbert
+$ make drivers/net/usb/qmi_wwan.ko
+
+
+
+--=20
+Best Regards
+Masahiro Yamada
