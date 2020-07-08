@@ -2,110 +2,259 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FA2B218936
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 15:36:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A08A2218F9D
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 20:21:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729721AbgGHNgG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jul 2020 09:36:06 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:59219 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728148AbgGHNgG (ORCPT
+        id S1726475AbgGHSVf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jul 2020 14:21:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbgGHSVe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jul 2020 09:36:06 -0400
-X-Originating-IP: 176.185.171.128
-Received: from localhost.localdomain (static-176-185-171-128.ftth.abo.bbox.fr [176.185.171.128])
-        (Authenticated sender: maxime.chretien@bootlin.com)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 3FFE1FF803;
-        Wed,  8 Jul 2020 13:36:04 +0000 (UTC)
-From:   Maxime Chretien <maxime.chretien@bootlin.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net, corbet@lwn.net
-Cc:     linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Maxime Chretien <maxime.chretien@bootlin.com>
-Subject: [PATCH] kconfig confdata: Add an option to keep all .config backups
-Date:   Wed,  8 Jul 2020 15:35:56 +0200
-Message-Id: <20200708133556.12934-1-maxime.chretien@bootlin.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 8 Jul 2020 14:21:34 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A374EC08C5C1
+        for <linux-kbuild@vger.kernel.org>; Wed,  8 Jul 2020 11:21:34 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id z7so52348003ybz.1
+        for <linux-kbuild@vger.kernel.org>; Wed, 08 Jul 2020 11:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=bX/pTo268FT8rnIA4NrPsVndCGHaVKOkE/vDxa6Exek=;
+        b=WSGD7z/Q+VxVYqzwGilWyf41A3SssaHCXiFkN0/RVpfY4NEWuGlzNPggymgoAzqN68
+         64opKxKFuZNeQA+xKMSxbRnWvHwN97Oncikg0ETG3UeyoCfy9V9llDnxfDtUg344co8O
+         sQpTx5v+bgSo27MWxr6gTAwjkg3Cmg829WuzInfUyVGRb7fjUn6SvG8UT85rK2udJThB
+         /yVJLn6CrEFnucsa/y/TDLghWW2ZLvcg0ymjdzDmyCIIU5JsVQtz5AONQZslmIwgpWnm
+         ROQtLWF2WxsBq+WlgjJzXhxJikh4CrVcfMiATd5maurCk5QiSosxr868qjnoL8bIN7kr
+         ud3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=bX/pTo268FT8rnIA4NrPsVndCGHaVKOkE/vDxa6Exek=;
+        b=Q8YlcoR7RoNZ8+44suArOaaJvcGB7fAdX3hRCtLKjwmve/F73PlLzZZVhxZRyw361R
+         +i3Pohd2U/rP7Sh25s7qGu7Bgj3U4GCnXrRnAo18zDJzSsMXjlEYmf3T3tDeT/LVRfjX
+         njJDSjUKPz9OZ7VDY/k7Q05rhcC7AClgNvUWYfK6IT9wMXLykTQbh4etDCClroUIX5dv
+         LByReJtNn3Zbs4C+LhGcD1/cD5/KLh0l++0xMKlaJP5hUBW3gt3GGETllw0Ycyten/Uj
+         zPwuAzZ2MGd7tpnSodTV1p59zUbYzwr06Ot9hkppyB479d0S+Q8OVzcgC5EKXXRk4RvO
+         bk+A==
+X-Gm-Message-State: AOAM533Ps1ugki3id0/6TPg5Iag0cwEv6A4Tq+FwmvtA4rUnQ9pVxp98
+        boMVS2kpBgsj8bOto42faZhH646qbw==
+X-Google-Smtp-Source: ABdhPJyCDo9sfsgUP9YTRz7gwZPwWqD3UlaVUcZLamj01+DwCemOOyVstnmrbOTy5QP5jB+BzRlPfcdMdg==
+X-Received: by 2002:a5b:1c4:: with SMTP id f4mr16966937ybp.472.1594232493688;
+ Wed, 08 Jul 2020 11:21:33 -0700 (PDT)
+Date:   Wed,  8 Jul 2020 18:19:09 +0000
+Message-Id: <20200708181905.257691-1-nhuck@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.383.g050319c2ae-goog
+Subject: [PATCH v2] Makefile: Add clang-tidy and static analyzer support to makefile
+From:   Nathan Huckleberry <nhuck@google.com>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nathan Huckleberry <nhuck@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-When KCONFIG_KEEPALLBACKUPS is set in the environment,
-instead of renaming the old .config to .config.old, kconfig puts it in
-a folder named .config.backupdir that stores all backups
-with the name .config.oldX where X is a number.
+This patch adds clang-tidy and the clang static-analyzer as make
+targets. The goal of this patch is to make static analysis tools
+usable and extendable by any developer or researcher who is familiar
+with basic c++.
 
-The latest backup is the one with the highest number.
+The current static analysis tools require intimate knowledge of the internal
+workings of the static analysis.  Clang-tidy and the clang static analyzers
+expose an easy to use api and allow users unfamiliar with clang to
+write new checks with relative ease.
 
-This is useful to avoid doing a lot of manual backups to make sure to have
-a working build when you make a lot of changes that can break everything.
+===Clang-tidy===
 
-Signed-off-by: Maxime Chretien <maxime.chretien@bootlin.com>
+Clang-tidy is an easily extendable 'linter' that runs on the AST.
+Clang-tidy checks are easy to write and understand. A check consists of
+two parts, a matcher and a checker. The matcher is created using a
+domain specific language that acts on the AST
+(https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
+nodes are found by the matcher a callback is made to the checker. The
+checker can then execute additional checks and issue warnings.
+
+Here is an example clang-tidy check to report functions that have calls
+to local_irq_disable without calls to local_irq_enable and vice-versa.
+Functions flagged with __attribute((annotation("ignore_irq_balancing")))
+are ignored for analysis. (https://reviews.llvm.org/D65828)
+
+===Clang static analyzer===
+
+The clang static analyzer is a more powerful static analysis tool that
+uses symbolic execution to find bugs. Currently there is a check that
+looks for potential security bugs from invalid uses of kmalloc and
+kfree. There are several more general purpose checks that are useful for
+the kernel.
+
+The clang static analyzer is well documented and designed to be
+extensible.
+(https://clang-analyzer.llvm.org/checker_dev_manual.html)
+(https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
+
+The main draw of the clang tools is how accessible they are. The clang
+documentation is very nice and these tools are built specifically to be
+easily extendable by any developer. They provide an accessible method of
+bug-finding and research to people who are not overly familiar with the
+kernel codebase.
+
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
 ---
- Documentation/kbuild/kconfig.rst |  6 ++++++
- Makefile                         |  2 +-
- scripts/kconfig/confdata.c       | 15 ++++++++++++++-
- 3 files changed, 21 insertions(+), 2 deletions(-)
+Changes V1 -> V2:
+* Remove dependencies on GNU Parallel
+* * Clang-tidy/analyzer now invoked directly from python
+Link: https://lkml.org/lkml/2019/8/6/941
 
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index dce6801d66c9..0f1dac4f1fc2 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -46,6 +46,12 @@ KCONFIG_OVERWRITECONFIG
- If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
- break symlinks when .config is a symlink to somewhere else.
- 
-+KCONFIG_KEEPALLBACKUPS
-+-----------------------
-+If you set KCONFIG_KEEPALLBACKUPS in the environment, Kconfig will save
-+all .config.old as .config.oldX where X is a number (lower is older)
-+inside a folder named .config.backupdir .
-+
- `CONFIG_`
- ---------
- If you set `CONFIG_` in the environment, Kconfig will prefix all symbols
+ Makefile                                      |  3 +
+ scripts/clang-tools/Makefile.clang-tools      | 23 ++++++
+ .../{ => clang-tools}/gen_compile_commands.py |  0
+ scripts/clang-tools/run-clang-tools.py        | 77 +++++++++++++++++++
+ 4 files changed, 103 insertions(+)
+ create mode 100644 scripts/clang-tools/Makefile.clang-tools
+ rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
+ create mode 100755 scripts/clang-tools/run-clang-tools.py
+
 diff --git a/Makefile b/Makefile
-index ac2c61c37a73..c74a18c60107 100644
+index fe0164a654c7..3e2df010b342 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -1437,7 +1437,7 @@ CLEAN_FILES += include/ksym vmlinux.symvers \
- MRPROPER_FILES += include/config include/generated          \
- 		  arch/$(SRCARCH)/include/generated .tmp_objdiff \
- 		  debian snap tar-install \
--		  .config .config.old .version \
-+		  .config .config.old .config.backupdir .version \
- 		  Module.symvers \
- 		  signing_key.pem signing_key.priv signing_key.x509	\
- 		  x509.genkey extra_certificates signing_key.x509.keyid	\
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index a39d93e3c6ae..a019752816a0 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -923,7 +923,20 @@ int conf_write(const char *name)
- 			return 0;
- 		}
+@@ -747,6 +747,7 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
  
--		snprintf(oldname, sizeof(oldname), "%s.old", name);
-+		env = getenv("KCONFIG_KEEPALLBACKUPS");
-+		if (env) {
-+			i = 0;
-+			do {
-+				snprintf(oldname, sizeof(oldname),
-+					 "%s.backupdir/%s.old%d", name, name, i);
-+				i++;
-+			} while(is_present(oldname));
+ include scripts/Makefile.kcov
+ include scripts/Makefile.gcc-plugins
++include scripts/clang-tools/Makefile.clang-tools
+ 
+ ifdef CONFIG_READABLE_ASM
+ # Disable optimizations that make assembler listings hard to read.
+@@ -1543,6 +1544,8 @@ help:
+ 	@echo  '  export_report   - List the usages of all exported symbols'
+ 	@echo  '  headerdep       - Detect inclusion cycles in headers'
+ 	@echo  '  coccicheck      - Check with Coccinelle'
++	@echo  '  clang-analyzer  - Check with clang static analyzer'
++	@echo  '  clang-tidy      - Check with clang-tidy'
+ 	@echo  ''
+ 	@echo  'Tools:'
+ 	@echo  '  nsdeps          - Generate missing symbol namespace dependencies'
+diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
+new file mode 100644
+index 000000000000..e09dc1a8efff
+--- /dev/null
++++ b/scripts/clang-tools/Makefile.clang-tools
+@@ -0,0 +1,23 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Google LLC, 2020
++#
++# Author: Nathan Huckleberry <nhuck@google.com>
++#
++PHONY += clang-tidy
++clang-tidy:
++ifdef CONFIG_CC_IS_CLANG
++	$(PYTHON3) scripts/clang-tools/gen_compile_commands.py
++	$(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
++else
++	$(error Clang-tidy requires CC=clang)
++endif
 +
-+			if (make_parent_dir(oldname))
-+				return -1;
-+		} else {
-+			snprintf(oldname, sizeof(oldname), "%s.old", name);
-+		}
- 		rename(name, oldname);
- 		if (rename(tmpname, name))
- 			return 1;
++PHONY += clang-analyzer
++clang-analyzer:
++ifdef CONFIG_CC_IS_CLANG
++	$(PYTHON3) scripts/clang-tools/gen_compile_commands.py
++	$(PYTHON3) scripts/clang-tools/run-clang-tools.py static-analyzer compile_commands.json
++else
++	$(error Clang-analyzer requires CC=clang)
++endif
+diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+similarity index 100%
+rename from scripts/gen_compile_commands.py
+rename to scripts/clang-tools/gen_compile_commands.py
+diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+new file mode 100755
+index 000000000000..d429a150e23a
+--- /dev/null
++++ b/scripts/clang-tools/run-clang-tools.py
+@@ -0,0 +1,77 @@
++#!/usr/bin/env python
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Google LLC, 2020
++#
++# Author: Nathan Huckleberry <nhuck@google.com>
++#
++"""A helper routine run clang-tidy and the clang static-analyzer on
++compile_commands.json."""
++
++import argparse
++import json
++import logging
++import multiprocessing
++import os
++import re
++import subprocess
++
++def parse_arguments():
++  """Set up and parses command-line arguments.
++  Returns:
++    args: Dict of parsed args
++      Has keys 'file' and 'type'
++  """
++  usage = """Run clang-tidy or the clang static-analyzer on a
++  compilation database."""
++  parser = argparse.ArgumentParser(description=usage)
++
++  type_help = ('Type of analysis to be performed')
++  parser.add_argument('type', choices=['clang-tidy', 'static-analyzer'],
++                      help=type_help)
++  file_path_help = ('Path to the compilation database to parse')
++  parser.add_argument('file',  type=str, help=file_path_help)
++
++  args = parser.parse_args()
++
++  return args
++
++def init(l,t):
++  global lock
++  global analysis_type
++  lock = l
++  analysis_type = t
++
++def run_analysis(entry):
++  filename = entry['file']
++  p = None
++  if(analysis_type == "clang-tidy"):
++    p = subprocess.run(["clang-tidy", "-p", os.getcwd(),
++                        "-checks=-*,linuxkernel-*", filename],
++                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++  if(analysis_type == "static-analyzer"):
++    p = subprocess.run(["clang-tidy", "-p", os.getcwd(),
++                        "-checks=-*,clang-analyzer-*", filename],
++                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++  lock.acquire()
++  print(entry['file'])
++  os.write(1, p.stdout)
++  os.write(2, p.stderr)
++  lock.release()
++
++
++def main():
++  args = parse_arguments()
++  filename = args.file
++
++  #Read JSON data into the datastore variable
++  if filename:
++    with open(filename, 'r') as f:
++      datastore = json.load(f)
++
++      lock = multiprocessing.Lock()
++      pool = multiprocessing.Pool(initializer=init, initargs=(lock,args.type,))
++      pool.map(run_analysis,datastore)
++
++if __name__ == '__main__':
++    main()
 -- 
-2.27.0
+2.27.0.383.g050319c2ae-goog
 
