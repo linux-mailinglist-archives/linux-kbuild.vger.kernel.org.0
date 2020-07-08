@@ -2,123 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DDA219117
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 22:01:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4058C2191B5
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 22:43:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgGHUBI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jul 2020 16:01:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45148 "EHLO
+        id S1726082AbgGHUnV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jul 2020 16:43:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgGHUBH (ORCPT
+        with ESMTP id S1725848AbgGHUnU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jul 2020 16:01:07 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15892C061A0B;
-        Wed,  8 Jul 2020 13:01:07 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id s26so6798741pfm.4;
-        Wed, 08 Jul 2020 13:01:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ToVQ5jnkfZO4cOvrMVw/H9BXTF3xW5Rfd911FLp9ico=;
-        b=kZ8r90rckl0NlrYmrKQUzD7195fxWcl6FsDYLaiWSm+kJpqCHhhnvjqYyNVeTBypFy
-         a1hmy5bXHYVEgHLj8tGPNhfaDLMTyzxL9RDrlmnhDwvz84kvtwDbsT/6En2qYvZ3BIjl
-         eIN50Nsw40HHfUC6h2MhCGX8TIe7SysD3qIhJX2fjSCX5WxAq4FsSw5a4RKPifAHLmai
-         9kysYE6+IxYYiUc53bdKJWZx+Nljg/gr7LYasG0kUbsVlLils+EMZI1vli3eKqZk2XnA
-         0hx1JsOUPuxkwz80IYqU/FrDb/Zi63jMefNA5hwZpZuZAl/X2uaaJD5YLcZBFCHh5jNk
-         D7ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ToVQ5jnkfZO4cOvrMVw/H9BXTF3xW5Rfd911FLp9ico=;
-        b=CgucVkimv6AP7yxb8DG5gQmIFEufIASeDuRU26mE0frBglQI+7/0HsfxxJxirdFNEt
-         Zl2/t7wO7gnGJHg3lUi4Pzjmr8Za+hNDw82gLXIHaLKJHmDHFnhX6Smae5JkE89IHmqz
-         /J+a8ny9/1AN89GcpppwzULesR/x0DgO5ecroLzt5JbXJOxkA6acJDTJ5s1OKLYJxONw
-         DMVmH5IDJ2e/KtYWrnFnuiUraILjok182DhxHVB+6uH10gD3lQS9bvvQsZX6q7zb0yEL
-         axdAQ5sbCMXj6dxR8m+Uf26EeEUc+RabqoPpUEeDeiOn9nr1CiZiD3yWr+ZiV+3QvAvD
-         xq8A==
-X-Gm-Message-State: AOAM533n+FMWWhdf9vtUvX46fBdudjExP35ATZxwb1hU5wOiBeu5EzIr
-        HlzwC5olgjzD8DcU/Zl4He1XtsUPnaQ/cBHZ3xM=
-X-Google-Smtp-Source: ABdhPJyK38F+wgnctkrrB+nr3gsimZfQjgyvXOlUwuiutIHYJ0mNmVzLBopyqSrYFyAUZpSzmXllHuyMrGx/71R9Atc=
-X-Received: by 2002:a63:a05f:: with SMTP id u31mr44326488pgn.4.1594238466508;
- Wed, 08 Jul 2020 13:01:06 -0700 (PDT)
+        Wed, 8 Jul 2020 16:43:20 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7290DC061A0B
+        for <linux-kbuild@vger.kernel.org>; Wed,  8 Jul 2020 13:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=eI3TDvHeoYO0rDRO6jhKkpCD95j/Od2ahlZ1RpD+XxE=; b=vR/hJFnDfj5NhmEM2Ng48vrI0b
+        X5TXynel5YtEMsdP6uoBB1m+5zZWHCE11HaUCiSHJ/UCxqM8WVBwhqs5zDu8bwA1+4PumFqxYkmhm
+        TFKMhvWFq24JqFlPMiuhPhgaqhXkXfHm1Wx41N80cIYnTvHkRIDgUky9ke+oMpf+Vb3lKG0RB15/q
+        cDp7iTr3iQe+Sb+u1cch+GXW91rdiJ3MN04DVD0NK+Sfd5efzAT3GA5veKvnzu+6ikIuWlFz5Qk9Q
+        nZqjXJtS9wmzqlxpMF0wMLwHiU+wm6q/Ubv3x5AByKZwR163blqslOU3tMaYja5NpS4lLO1dG2OsJ
+        awfjneSA==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jtGuG-0001mr-0h; Wed, 08 Jul 2020 20:43:04 +0000
+Subject: Re: linux-kbuild missing from lore?
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        helpdesk@kernel.org, Sam Ravnborg <sam@ravnborg.org>,
+        Nathan Huckleberry <nhuck@google.com>,
+        Michal Marek <michal.lkml@markovi.net>
+References: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+ <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
+ <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
+ <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org>
+Date:   Wed, 8 Jul 2020 13:42:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <CAHk-=wiKCXEWKJ9dWUimGbrVRo_N2RosESUw8E7m9AEtyZcu=w@mail.gmail.com>
- <20200708190756.16810-1-rikard.falkeborn@gmail.com>
-In-Reply-To: <20200708190756.16810-1-rikard.falkeborn@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 8 Jul 2020 23:00:50 +0300
-Message-ID: <CAHp75VeA1GGvaxyzraWOO-4zQNC3sbcawsYwWXCNBWavtZGBuA@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Move -Wtype-limits to W=2
-To:     Rikard Falkeborn <rikard.falkeborn@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Emil Velikov <emil.l.velikov@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kees Cook <keescook@chromium.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kbuild test robot <lkp@intel.com>,
-        mm-commits@vger.kernel.org,
-        Syed Nayyar Waris <syednwaris@gmail.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 10:08 PM Rikard Falkeborn
-<rikard.falkeborn@gmail.com> wrote:
->
-> -Wtype-limits is included in -Wextra which is added at W=1. It warns
-> (among other things) that 'comparison of an unsigned variable `< 0` is
-> always false. This causes noisy warnings, especially when used in
-> macros, hence it is more suitable for W=2.
->
+On 7/8/20 11:42 AM, Nick Desaulniers wrote:
+> On Mon, Mar 16, 2020 at 6:06 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> On 3/16/20 5:47 PM, Masahiro Yamada wrote:
+>>> Hi Nick,
+>>>
+>>> On Tue, Mar 17, 2020 at 8:22 AM Nick Desaulniers
+>>> <ndesaulniers@google.com> wrote:
+>>>>
+>>>> Hi Masahiro,
+>>>> I noticed that linux-kbuild@vger.kernel.org seems to be missing from
+>>>> https://lore.kernel.org/lists.html.  Is that intentional or
+>>>> accidental?
+>>>> --
+>>>> Thanks,
+>>>> ~Nick Desaulniers
+>>>
+>>>
+>>> Thanks for letting me know this.
+>>> I guess it is accidental.
+>>>
+>>> In fact, I do not know what to do
+>>> to take good care of the kbuild ML.
+>>
+>> Maybe ask Sam Ravnborg or Michal Marek if they have kbuild ML archives.
+>>
+>> or see if they are available from some other ML archive site, like
+>> https://www.spinics.net/lists/linux-kbuild/
+>>
+>>
+>> My kbuild archive has about 20,000 emails in it, beginning around the
+>> middle of 2011.
+>> I could make that available, but I don't claim that it is complete.
+>>
+>> And I'm sure that it has some duplicate emails in it [if an email is
+>> kbuild-related, I put the email into this "folder", no matter what
+>> mailing list it came from].
+> 
+> https://lore.kernel.org/lists.html links to
+> https://www.kernel.org/lore.html links to
+> https://korg.docs.kernel.org/lore.html
+> which seems to indicate that we need such an archive.
+> 
+> cc'ing help desk for the request.  It looks like we need to
+> collect+merge then sanitize mboxes.  Randy, if we could start with
+> your archive, I'd be happy to help drive this across the finish line.
 
-Suggested-by: Arnd ?
+Hi,
 
-LGTM!
+As long as you or someone will go thru the mbox file (about 164 MB or
+34 MB when gzipped) and select emails that are To: or Cc:
+linux-kbuild@vger.kernel.org, I'm OK with making it available.
+The reason I say that is because it just might have some personal
+emails in it that should not be added to a public archive.
 
-> Signed-off-by: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-> ---
-> See also discussion at https://lore.kernel.org/lkml/CAHk-=wiKCXEWKJ9dWUimGbrVRo_N2RosESUw8E7m9AEtyZcu=w@mail.gmail.com/
->
->  scripts/Makefile.extrawarn | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 4aea7cf71d11..62c275685b75 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -35,6 +35,7 @@ KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
->  # The following turn off the warnings enabled by -Wextra
->  KBUILD_CFLAGS += -Wno-missing-field-initializers
->  KBUILD_CFLAGS += -Wno-sign-compare
-> +KBUILD_CFLAGS += -Wno-type-limits
->
->  KBUILD_CPPFLAGS += -DKBUILD_EXTRA_WARN1
->
-> @@ -66,6 +67,7 @@ KBUILD_CFLAGS += -Wshadow
->  KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
->  KBUILD_CFLAGS += -Wmissing-field-initializers
->  KBUILD_CFLAGS += -Wsign-compare
-> +KBUILD_CFLAGS += -Wtype-limits
->  KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
->  KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
->
-> --
-> 2.27.0
->
+Also, as I said earlier, once the correct emails are selected,
+there are going to be duplicates of many of them, so dropping
+those duplicates (or triplicates etc.) would be a Good Idea.
+
+
+Has anyone thought about trying to get the kbuild archive from
+marc.info/?l=linux-kbuild ?  or contacted the marc.info admin?
 
 
 -- 
-With Best Regards,
-Andy Shevchenko
+~Randy
+
