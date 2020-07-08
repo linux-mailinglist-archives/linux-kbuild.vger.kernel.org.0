@@ -2,53 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4058C2191B5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 22:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ADE42191B7
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 22:43:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbgGHUnV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jul 2020 16:43:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbgGHUnU (ORCPT
+        id S1726107AbgGHUnY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jul 2020 16:43:24 -0400
+Received: from a27-45.smtp-out.us-west-2.amazonses.com ([54.240.27.45]:59910
+        "EHLO a27-45.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725848AbgGHUnY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jul 2020 16:43:20 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7290DC061A0B
-        for <linux-kbuild@vger.kernel.org>; Wed,  8 Jul 2020 13:43:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=eI3TDvHeoYO0rDRO6jhKkpCD95j/Od2ahlZ1RpD+XxE=; b=vR/hJFnDfj5NhmEM2Ng48vrI0b
-        X5TXynel5YtEMsdP6uoBB1m+5zZWHCE11HaUCiSHJ/UCxqM8WVBwhqs5zDu8bwA1+4PumFqxYkmhm
-        TFKMhvWFq24JqFlPMiuhPhgaqhXkXfHm1Wx41N80cIYnTvHkRIDgUky9ke+oMpf+Vb3lKG0RB15/q
-        cDp7iTr3iQe+Sb+u1cch+GXW91rdiJ3MN04DVD0NK+Sfd5efzAT3GA5veKvnzu+6ikIuWlFz5Qk9Q
-        nZqjXJtS9wmzqlxpMF0wMLwHiU+wm6q/Ubv3x5AByKZwR163blqslOU3tMaYja5NpS4lLO1dG2OsJ
-        awfjneSA==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jtGuG-0001mr-0h; Wed, 08 Jul 2020 20:43:04 +0000
-Subject: Re: linux-kbuild missing from lore?
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        helpdesk@kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        Nathan Huckleberry <nhuck@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-References: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+        Wed, 8 Jul 2020 16:43:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
+        t=1594241003;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
+        bh=0XuuHxhTj3pXUBaguDEoOrwypxsS5fT9C48MJTISIrY=;
+        b=OX6/l0gtdyU0zYp2wL5q2qPFi0SV+Sc83ouNX2xlKGgEqq8VkuNTUElzY9ojiLfz
+        Fxb6eqVR2OyHm7C7K9rvHIL4qAa8n+oP32usITmbY5Zav8GZTQWuFzUdcA5LANrzsMz
+        Jq9BT9CO0NOLROkTlN2sv1jlTgx4ujC9Nve6mKcA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1594241003;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+        bh=0XuuHxhTj3pXUBaguDEoOrwypxsS5fT9C48MJTISIrY=;
+        b=eKVKdhskt2U7abqyS2PGdbG+T3kWg7mW8uvSZZSKEk64H7VmJ7PKjudL9JWVv4XB
+        KBu+yRFo0JhO9elx6njobeBGXAZrbRDSvLxa1+gnpBjNfBhep557v38z4/oYdtMATiS
+        VA8N1svaLQE9j4mT9Fo/X1lnCCOFmZ8m1tmbpftk=
+Subject: [Kernel.org Helpdesk #93182] [linuxfoundation.org #93182] Re: linux-kbuild missing from lore?
+From:   "rdunlap@infradead.org via RT" 
+        <kernel-helpdesk@rt.linuxfoundation.org>
+Reply-To: kernel-helpdesk@rt.linuxfoundation.org
+In-Reply-To: <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org>
+References: <RT-Ticket-93182@linuxfoundation>
+ <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
  <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
  <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
  <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org>
-Date:   Wed, 8 Jul 2020 13:42:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org>
+Message-ID: <01010173302b2dad-aee643d2-a7ff-4dfc-a162-f1fe17fcec26-000000@us-west-2.amazonses.com>
+X-RT-Loop-Prevention: linuxfoundation.org
+X-RT-Ticket: linuxfoundation.org #93182
+X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
+X-RT-Originator: rdunlap@infradead.org
+To:     ndesaulniers@google.com
+CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, nhuck@google.com, sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+Date:   Wed, 8 Jul 2020 20:43:22 +0000
 MIME-Version: 1.0
-In-Reply-To: <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SES-Outgoing: 2020.07.08-54.240.27.45
+Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -120,4 +124,5 @@ marc.info/?l=linux-kbuild ?  or contacted the marc.info admin?
 
 -- 
 ~Randy
+
 
