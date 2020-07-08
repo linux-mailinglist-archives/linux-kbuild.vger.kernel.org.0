@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBBB4217CE6
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 04:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 543A7217CE9
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 04:03:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729052AbgGHCCY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 7 Jul 2020 22:02:24 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:34984 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728973AbgGHCCX (ORCPT
+        id S1728953AbgGHCDz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 7 Jul 2020 22:03:55 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:63506 "EHLO
+        mx0b-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728676AbgGHCDz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 7 Jul 2020 22:02:23 -0400
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0681x1x0030145;
-        Tue, 7 Jul 2020 19:01:54 -0700
+        Tue, 7 Jul 2020 22:03:55 -0400
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0681xuaW015517;
+        Tue, 7 Jul 2020 19:03:27 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
  : date : message-id : references : in-reply-to : content-type : content-id
  : content-transfer-encoding : mime-version; s=facebook;
- bh=TJtFxJDfUfd57qPUvcbQgKr0oK9nBTT4RTKa37Na8mg=;
- b=g5NfoxZYvV1J2OGBSW2QYo/fUZPZC7in3QUK+qKLayYezZ4ARtF+EMNQ8g6eLGpKHp8J
- PZyKGni3cZpvMBV7qFedJvdrXWSy3cMdHJH5B0qlZlP+kqubbChNjsX3VR4RMmCDvCbl
- ZWWMU7FGpVZmvFHeq1x6T3Acx5mfyTNave0= 
+ bh=DhojswTe3vvd2EoZ6UipNiqU1QR+aKW/WjmdV+By3zA=;
+ b=HtIUal9U64Q+Jz2Pf5TdD2io8+QoCJuQcHVV+muptjF9e4Z2mMMVd0/+zlFfp4vu0AUL
+ SsUwWBx5ML5RLmnIwWwVNs97mfeRRSSTny5BPL2v+4ZVlPZucA8sD/DxaY0ZyzKan/ab
+ OGSccwzbWNO3lJAAXJ9/BnU7IWKny++KmII= 
 Received: from maileast.thefacebook.com ([163.114.130.16])
-        by mx0a-00082601.pphosted.com with ESMTP id 3239rs4y84-2
+        by mx0a-00082601.pphosted.com with ESMTP id 322q9vqnd9-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Tue, 07 Jul 2020 19:01:54 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (100.104.31.183)
- by o365-in.thefacebook.com (100.104.35.174) with Microsoft SMTP Server
+        Tue, 07 Jul 2020 19:03:27 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (100.104.31.183)
+ by o365-in.thefacebook.com (100.104.36.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Tue, 7 Jul 2020 19:01:52 -0700
+ 15.1.1979.3; Tue, 7 Jul 2020 19:03:26 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WB3SUyKw8kBnqQHArc64owI8fV266BnoOBAK3fHXVrsBs/hqTJ2cy0CY/l7ukSa0gDg8JyoROjtKoyZjbCK6FTgdaRdKvM74bSe4cwvf7HyPaIVBLC1PORDxKlBOgPcm+XRVV8OTrETNJtq3K15baNZZ8v2MPZwAElvCXU+GS1mWZ3Z6J1GMgcQEiJnxLQ8QpippbpaJJyRnf7KM+oaHVkeBqoBHrF4tmAX26QKpGT9Yfz79amw9xyiKVnuRq5VF1eBdEO7MKlG/UiX2O63CFpICuRljYCq66Vh50PypljIoeyIdcU5wObtzQy5ic90hiFoxSRm580ndFOrSpMHulg==
+ b=a0ZzDXy5WO9V2gOh/LkO4YazYx72S6CQ5ViofH/o48Lvq6A76JWv9Kzzt58Mj9UCB4JH1U25l0mp+S4urj+B001G/EgD7R8Ytt2g69k2XkOBhnILXwgJ04q45fs/ubKzjRoUfTMF3Yw0kSneYrV4M7P38Ml3/BV8fkceAQzXpDnWWD2ituF2jPqUIDjPnrJMn6gxodtFVrwhq1mowJ5xvxTKsXAItPnS5uXPr2b9FsuOcLq5jYhHaX3yv9GpK8Gin8768Jf3BLBX+6/eSGGn94ptSfLQ5nact43QRHSGGv4yT65DGv42Icd0DDvrHzIf1D8mkk0Jk+Mp//o6UiX4tg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TJtFxJDfUfd57qPUvcbQgKr0oK9nBTT4RTKa37Na8mg=;
- b=VQgXgrJ1omTiIwOX9ptOGd2JF7LwI/Eairyj265pwcAvVyt3CxbXbiGtld/adjyJ5pXD7qPh9E5tYITqCXFSfz/HhFc/lcc6BZCz81EhMMPz95RQvy+rNzYmgHi7hAWuVi60foDj76pdfIMqVi6mgS34fJVrKY4DprXORDiSoNuw33Hg8Ogh4pf2kMSUTO6C75213E4G88hK8msZ38tIPkvaYZC7EpWjy5qOEfYW4+m+EZ/VPZ6+kgp+wYlrrvGq88gcnlzYKGskkZcWAPDmqjxMunUDnTYF4jlTPVDnGlwgiP4gDxS5UB0Z/S8Qy6XhpH0r1yjT29EU23mtISD9gg==
+ bh=DhojswTe3vvd2EoZ6UipNiqU1QR+aKW/WjmdV+By3zA=;
+ b=jPOip4YIlp0hRk3BK9bbTBHw/vkPQWYHNAVBAhUKKR4dq1iccaRaCiF7lQXSyfyq9TTQAES3VgtAodWimb+GKQn3O9kVHJz3gp1/t5Yzt7AnVyqxWGxsfU/m10sb9fWtsF8+3Te8cc5Kl/0ez4a69wcb+D4XjWz4b44lTLZyZuU10xThClh8TzRfir25bn/0kt9S3IsBJKTEfyBTBX69qdlccl0v0uMLX72Q/jcKDkquSUILcZ5o14ScvEHRfeu109RjFT50YHOAnZ4BWyk3ur+P0VbCu0NkCXg9nMzQkThxIsK34kbp32F49oGiMQBLoEBOOsjapmyjsxT+WF1gmw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
  header.d=fb.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
  s=selector2-fb-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TJtFxJDfUfd57qPUvcbQgKr0oK9nBTT4RTKa37Na8mg=;
- b=OUcXsmi5QZsr+nD16L0W8wiIMxEWZXoHRb2DYrLDr1fgI1pE1MLLgYaQxCZkq60SppGSNE3piYnk2Vrb7prnpxyfA9r8hB0W0xrYtrrb1T/gDKsXD2jlut+j+TnGi8++Fv7S93loqb+7kpZwOSaqoAeiaepaalVGzMprbCXv9MU=
+ bh=DhojswTe3vvd2EoZ6UipNiqU1QR+aKW/WjmdV+By3zA=;
+ b=SxQJCbDDQogdzdzMZjb30Xwpir2i+2EvtUoGiDB1pcsAWDsy9ImusTyJwypgBxYg5i6+H9LWBI9gwtUYSQFGt068zxNFdU35CY24mJceVvkmyjwm99v4/TAcecBbdjM3aoYOcOeZWx+pnvw6spVR86005ROdBlUxqy4j+FpbOO8=
 Received: from CH2PR15MB3672.namprd15.prod.outlook.com (2603:10b6:610:5::14)
- by CH2PR15MB3670.namprd15.prod.outlook.com (2603:10b6:610:a::20) with
+ by CH2PR15MB3608.namprd15.prod.outlook.com (2603:10b6:610:12::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.28; Wed, 8 Jul
- 2020 02:01:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3153.22; Wed, 8 Jul
+ 2020 02:03:24 +0000
 Received: from CH2PR15MB3672.namprd15.prod.outlook.com
  ([fe80::2d7a:edf5:67f9:5446]) by CH2PR15MB3672.namprd15.prod.outlook.com
  ([fe80::2d7a:edf5:67f9:5446%3]) with mapi id 15.20.3153.029; Wed, 8 Jul 2020
- 02:01:50 +0000
+ 02:03:24 +0000
 From:   Nick Terrell <terrelln@fb.com>
 To:     Arvind Sankar <nivedita@alum.mit.edu>
 CC:     Nick Terrell <nickrterrell@gmail.com>,
@@ -74,15 +74,15 @@ CC:     Nick Terrell <nickrterrell@gmail.com>,
         Sedat Dilek <sedat.dilek@gmail.com>,
         "Norbert Lange" <nolange79@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v6 4/8] init: add support for zstd compressed kernel
-Thread-Topic: [PATCH v6 4/8] init: add support for zstd compressed kernel
-Thread-Index: AQHWVBHah0xsJt/cakyKnqlA4hkEhaj8rv0AgABAWoA=
-Date:   Wed, 8 Jul 2020 02:01:50 +0000
-Message-ID: <BFD3E8B0-4BAA-4E3A-AF16-FB17E88BECFE@fb.com>
+Subject: Re: [PATCH v6 2/8] lib: prepare xxhash for preboot environment
+Thread-Topic: [PATCH v6 2/8] lib: prepare xxhash for preboot environment
+Thread-Index: AQHWVBHXOKd0s0bOZkueosgUG+r9K6j8q52AgABEKoA=
+Date:   Wed, 8 Jul 2020 02:03:24 +0000
+Message-ID: <ACBA859B-4BB3-40F3-A6D9-F22A48E5C1E2@fb.com>
 References: <20200707034604.1539157-1-nickrterrell@gmail.com>
- <20200707034604.1539157-5-nickrterrell@gmail.com>
- <20200707221130.GB1591079@rani.riverdale.lan>
-In-Reply-To: <20200707221130.GB1591079@rani.riverdale.lan>
+ <20200707034604.1539157-3-nickrterrell@gmail.com>
+ <20200707215925.GA1591079@rani.riverdale.lan>
+In-Reply-To: <20200707215925.GA1591079@rani.riverdale.lan>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -91,39 +91,39 @@ authentication-results: alum.mit.edu; dkim=none (message not signed)
  header.d=none;alum.mit.edu; dmarc=none action=none header.from=fb.com;
 x-originating-ip: [2620:10d:c090:400::5:8186]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 482ac2a4-4eb1-43f5-9d0e-08d822e2e131
-x-ms-traffictypediagnostic: CH2PR15MB3670:
+x-ms-office365-filtering-correlation-id: 13e8d3bc-fc94-4424-8393-08d822e318e4
+x-ms-traffictypediagnostic: CH2PR15MB3608:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR15MB3670D396C70318BE0FDF89C6AB670@CH2PR15MB3670.namprd15.prod.outlook.com>
+x-microsoft-antispam-prvs: <CH2PR15MB36089F929B5E0152BE7F3AB4AB670@CH2PR15MB3608.namprd15.prod.outlook.com>
 x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-forefront-prvs: 04583CED1A
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ocLsk+HhBoIC5SvWm90nQ2JXH5JMniZF2+QvbX7TvupBV2wIY0ddgGBCWX4KFzthTTnyqCMrMN0YMmQVue8om26SVACoeAMJ8uRMSuswq9x6eNG6GtYMYeKsC43Raw6n9o1Uc8XIZWgm3mkOSJl+0Op87iNFZnSDH9M87YZJQzZCfYsJnUA6p0eOOZR5vrdfX1IxDEOtzFy8Mx0EtAPF2BLAvh2ho3Zrjv3V4CGH14o0UL6nQP0id2cXHuVpoIMzlAk2aEJQP1QzFTdz6Hx58ifms6CUls2dS6ET6jNZWU+qG9DVmjShjwv5RxL/SwT9Lj2ftabxmgVmer3b0QQxFg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR15MB3672.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(366004)(396003)(39860400002)(376002)(136003)(316002)(83380400001)(8676002)(5660300002)(6506007)(71200400001)(8936002)(53546011)(54906003)(64756008)(66446008)(66476007)(478600001)(66556008)(36756003)(76116006)(2906002)(6486002)(91956017)(186003)(2616005)(6512007)(6916009)(4326008)(66946007)(7416002)(33656002)(86362001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: wfO7VKk0osYYDGYwJqwxt/NNyoZmGFFRYSMh9UQ6PxmkWFp8JBs+X+T6UM42c7JKigu78ZTePlykvUj6CqEBvlQmCCa6oAAMCbDZaXKKfmW5Oh02l0joDMMlMDIKLdbAnhqjvNoqBcCYiMz2wuPGRYr1/eaYTRb4GT9mHimOddNy9kkjIpSMjWrngvHMyaoXnhkqTxUKxuo0w7Fg26yL3qWi7yszgYvrmmTWy0vTU1UeQKNuWB26ymCXSN3o8bwe1Dlqh9jlAqthP1w2j277OC1wTVebipLlcO9c15MFfDbvEKlb1gO4AFdIoVKhVf1eWxOm0zB++Y3kEOmQfN1UUgKV8QNngfKq3UhtGqZks2HXK/MIt8VdcB96So0GQllmkV35bpKpqSCNXdadfLxJVvg3lq+TarQms4JLV74rIPAc1LedEXivADwv7Pt19vSNXhb/kmoDY1q53M6vO1VO43Sc3ONVzPA1LV9p0gh80Y6/S3tYkeE61BK1c3ec6qzUz5Yq+mXA+5EA4Vf6NBRXkQ==
+x-microsoft-antispam-message-info: NQOZciPufLY6RGT2FdE6JK11tXQBgYA5F98Lr5LYTEz1rjSFVszU5Zkk6/7Mq2irvoNzn8uVmOfH2xi6wR+UbhZVrLEnGzd92KUH3bgtBenpVHKlmt5w067R3ZNM1zEXL3NSOa/L8jV5YB7BwJ4kZAxmB99qzx/3QnIPOx5k7Yfz0TKn4bk0r+znkJreYNvaHGX8h4Vcs+3FZR835VHyRzREIvDiHRj4tgsgV+oYQOJBQIIVguSadnhdAa7skpd+zxphVL3od4eHE09k5xjETDqMvo6N0n5sXROuzKInSEhGQBoEDgyuhEm1nkjvQ3rq
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR15MB3672.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(136003)(396003)(376002)(39860400002)(346002)(76116006)(91956017)(66476007)(6486002)(64756008)(36756003)(66446008)(66556008)(66946007)(4326008)(6506007)(53546011)(2906002)(6916009)(5660300002)(33656002)(4744005)(186003)(8936002)(478600001)(8676002)(316002)(71200400001)(6512007)(2616005)(54906003)(7416002)(86362001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 9tQSIPtzd38M06kFSlzdCMHZy5BLcTz2jcPbcrYuRhIYnwX/oINwOdeWnm/9DkvGqlmm8l/gHxrXsXXZQUd6p54vse24z6lZ3OVcyKrGyoMCHwBILFYIjZITNkWJEDMdtrWNyqySI2wnnPYzGtKz7af8op/BOU9S1wdkZTEYK4jG/YH+PAfwHlh3W0bZxmE8cURq98rcF6vhHWnh0CX2lxEBIwC5Emn7WFiaw26OwKiKp0eCspqTajD5VQ5gxjWfFTLDfA6UsNdqmBVjVVSaH2fpBo5GJckdAUfs/UDgbcnmt9Y9kIoZqWIdrFM8TO/+sldAcRCYCWCzDNlVDFNk2pbl9TJtCmOvHDwzL0mt21gqJ1a3MJqhbIyO3Ta9Lu9bLDonOYlyEPgrqadX08fUjtjL/4La4WjMN9VCiCWmFRo2FBd+ZNIxGzC/oaYz8VjLHhsb/Wynlgv+j4Bea0U8M/smVQ5IiS6x71Ao8BR7AMskD9RSJHU9H7kr6X57mC38yffuiBzy4tD7Woz8Gs8/Dw==
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A44DE559F25940449F9AB288F69D74BE@namprd15.prod.outlook.com>
+Content-ID: <E13629502AE10640976B1E9A4203D7C5@namprd15.prod.outlook.com>
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR15MB3672.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 482ac2a4-4eb1-43f5-9d0e-08d822e2e131
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2020 02:01:50.7964
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13e8d3bc-fc94-4424-8393-08d822e318e4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2020 02:03:24.1755
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XZMPykZ50QKBhHmprTgdh6UUctdRTET6iw0EXyQJDkIxPGMojvBBb2NYSX3B64VK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR15MB3670
+X-MS-Exchange-CrossTenant-userprincipalname: rf5JcCBvcdCNC9FNjVAROdsQiMfiMQhwQcGxszPYweFRHGjr1+8Yq3uQzZZntQOi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR15MB3608
 X-OriginatorOrg: fb.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-07-07_15:2020-07-07,2020-07-07 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxlogscore=999
- mlxscore=0 suspectscore=0 clxscore=1011 impostorscore=0 adultscore=0
- malwarescore=0 cotscore=-2147483648 lowpriorityscore=0 phishscore=0
- spamscore=0 bulkscore=0 priorityscore=1501 classifier=spam adjust=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 bulkscore=0
+ priorityscore=1501 adultscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 clxscore=1015 cotscore=-2147483648
+ suspectscore=0 impostorscore=0 mlxlogscore=816 classifier=spam adjust=0
  reason=mlx scancount=1 engine=8.12.0-2004280000
  definitions=main-2007080011
 X-FB-Internal: deliver
@@ -134,55 +134,22 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
 
-> On Jul 7, 2020, at 6:11 PM, Arvind Sankar <nivedita@alum.mit.edu> wrote:
+> On Jul 7, 2020, at 5:59 PM, Arvind Sankar <nivedita@alum.mit.edu> wrote:
 >=20
-> On Mon, Jul 06, 2020 at 08:46:00PM -0700, Nick Terrell wrote:
+> On Mon, Jul 06, 2020 at 08:45:58PM -0700, Nick Terrell wrote:
 >> From: Nick Terrell <terrelln@fb.com>
 >>=20
->> * Adds the zstd cmd to scripts/Makefile.lib
->> * Adds the HAVE_KERNEL_ZSTD and KERNEL_ZSTD options
+>> Don't export symbols if XXH_PREBOOT is defined.
 >>=20
->> Architecture specific support is still needed for decompression.
->>=20
->> diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
->> index 916b2f7f7098..d960f8815f87 100644
->> --- a/scripts/Makefile.lib
->> +++ b/scripts/Makefile.lib
->> @@ -413,6 +413,21 @@ quiet_cmd_xzkern =3D XZKERN  $@
->> quiet_cmd_xzmisc =3D XZMISC  $@
->>       cmd_xzmisc =3D cat $(real-prereqs) | $(XZ) --check=3Dcrc32 --lzma2=
-=3Ddict=3D1MiB > $@
->>=20
->> +# ZSTD
->> +# ---------------------------------------------------------------------=
-------
->> +# Appends the uncompressed size of the data using size_append. The .zst
->> +# format has the size information available at the beginning of the fil=
-e too,
->> +# but it's in a more complex format and it's good to avoid changing the=
- part
->> +# of the boot code that reads the uncompressed size.
->> +# Note that the bytes added by size_append will make the zstd tool thin=
-k that
->> +# the file is corrupt. This is expected.
->> +
->> +quiet_cmd_zstd =3D ZSTD    $@
->> +cmd_zstd =3D (cat $(filter-out FORCE,$^) | \
-> 		   ^^ should just be $(real-prereqs)
->> +	zstd -19 && \
->> +        $(call size_append, $(filter-out FORCE,$^))) > $@ || \
-> 	   ^^ size_append does not take arguments. It's used as just
-> 	   $(size_append) and will always output shell code to print the
-> 	   total size of $(real-prereqs) -- see other compressor command
-> 	   definitions.
+>> This change is necessary to get xxhash to work in a preboot environment,
+>> which is needed to support zstd-compressed kernels.
+>=20
+> The usual way to do it is by adding -D__DISABLE_EXPORTS to the CFLAGS, wh=
+ich will
+> cause EXPORT_SYMBOL to be stubbed out. Doesn't that work here?
 
-Yeah, when I wrote this code, this was how the rest of the compressors were=
- implemented.
-I noticed that they had all been updated when I was responding to Norbert L=
-ange earlier.
-I will submit a v7 shortly with the updated command.
+I can do that. I did it this way because this was how other compressors did=
+ it.
 
-Thanks for the review,
-Nick
-
-
+Thanks,
+Nick=
