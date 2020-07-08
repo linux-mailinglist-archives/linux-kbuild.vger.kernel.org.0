@@ -2,67 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 481362192C5
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 23:47:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A8702192C8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 23:48:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725964AbgGHVrV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jul 2020 17:47:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33402 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgGHVrU (ORCPT
+        id S1725915AbgGHVr7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 8 Jul 2020 17:47:59 -0400
+Received: from a27-30.smtp-out.us-west-2.amazonses.com ([54.240.27.30]:36694
+        "EHLO a27-30.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725787AbgGHVr7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jul 2020 17:47:20 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E21F7C061A0B
-        for <linux-kbuild@vger.kernel.org>; Wed,  8 Jul 2020 14:47:20 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id k5so143276pjg.3
-        for <linux-kbuild@vger.kernel.org>; Wed, 08 Jul 2020 14:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=reqbx8p/xkVgFAZv2HVx0tGL1nAHWDqVnFtn9PTRdQw=;
-        b=BroKPxibvJhKV3HFHmYeJoeBlWzqEogyGUuU3dKAwZcTfWC0SfNlkaQJKAOUvxtcxr
-         csUrrt+p05r71VQVl0uhlV4oJnPK6g3+BGVaym8AEtuyyoHzwXuAZsDyQ+2WBvBPNq3D
-         1lk0vht/gwRZE/Z8rMUmZSuomzI+cxROlf/1uyRQ8mbpvad7csY8zsMRRMxvaB9dlVgr
-         zc3vCR0Y+RuvvPjf4qfARHvpq4U3KYl2Yrf5FUrghRvlWHbljW1wxiS6juQvjqEt9bSh
-         komPrSNPRe3H/WhS9Q8/3epupR03GBA+/92bpXHHeWiLxBao0kYjh1r+wJmYFs/EiweG
-         AuTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=reqbx8p/xkVgFAZv2HVx0tGL1nAHWDqVnFtn9PTRdQw=;
-        b=qIay+/plu2FlufsH9Jjh8lRU8o6smY/ZcT5VY1vKxA3Go3s6Z+Z5Bv0NQV+jtZBZog
-         OctrC3PIAjVSgZMn4D3JvrQTXjPxtL3ee7m/ZXl2PCnMuO2iEy4UImfkzDtWJvHovG4H
-         uNlc2P4kuF0hNmcJV0Jide5/GrHv/jEgjf4K3Zhra1q/3k6qL38acGwVvyrzR8jhDUko
-         67jHca4sJaqQQw6ujtkn0joLsY46qGN5VLKC04YcVCs5SkWaRjM9wQcNnH8yJfR8h4me
-         /LgNOCOafsX9GMlewM4Y7Ar/TkvDapPzna71pxW36GoNTvuUbNiRBdOGTg2/d/j0hu8T
-         jLjQ==
-X-Gm-Message-State: AOAM533HXCAQu7DX2sbFysvNyheJvogYsEKbk3OXUGEEYCC8oYXLucj/
-        2VkzKwKZMIOI869y7dUjsMSegGUns+GAvO3pj9Vq4Q==
-X-Google-Smtp-Source: ABdhPJz0u0Mm9RTIpBexcwuLEjb185mZGMIRXeoDiRHNQPMtq2ZrewyEEyBhwNUU0ICKd8TXYbCXqFO+D84+XAAbtkE=
-X-Received: by 2002:a17:90a:21ef:: with SMTP id q102mr11980080pjc.101.1594244840242;
- Wed, 08 Jul 2020 14:47:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+        Wed, 8 Jul 2020 17:47:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
+        t=1594244878;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
+        bh=rwQGupFmhzeIzO+HCIlWoNNKd+EmhBw4p/pS7IB47fY=;
+        b=dHFWG11/aMa46K2WPC9qOzN2n6j0RdoWlL3KwHfHIWWGD9UJYJyOQTUyeEiVEEE0
+        CIzkV37tU6oN6fz6RkkfNOSpG4Li/XrWuGrZrDpL0WzNFySoO1laafdzsZRSSSbCUAZ
+        IQ/O6FdKLeZUgHnRqoI50UdK88d/m4CP+ZBWtfT0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1594244878;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+        bh=rwQGupFmhzeIzO+HCIlWoNNKd+EmhBw4p/pS7IB47fY=;
+        b=JZtvL+LVfpvZPO/KGAaqifgjvDSknGm0AbMLwzdBbXd0Sdrq2pLpJdHUHRnFDFiW
+        VPLOafWaveISiWnN4GPxyMQw14Uj1msNsPFmIAFXOKHgN5Rdy0g3HXhKS8k7MKtFyep
+        e/9wQ4m99NLDzcYmjmt3KReyvgihY5DrhQEz80oo=
+Subject: [Kernel.org Helpdesk #93182] [linuxfoundation.org #93182] Re: linux-kbuild missing from lore?
+From:   "Nick Desaulniers via RT" <kernel-helpdesk@rt.linuxfoundation.org>
+Reply-To: kernel-helpdesk@rt.linuxfoundation.org
+In-Reply-To: <CAKwvOdnBNkJerfFXotFNMtgHUgY9PAb0ec1yQ+D20Y-Db5efQg@mail.gmail.com>
+References: <RT-Ticket-93182@linuxfoundation>
+ <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
  <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
- <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org> <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
- <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org> <CAKwvOdnNW0JiX1SMUePKCS37Cjfa+rx=SKrcu0jU1qyMNCq0yA@mail.gmail.com>
+ <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
+ <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
+ <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org>
+ <CAKwvOdnNW0JiX1SMUePKCS37Cjfa+rx=SKrcu0jU1qyMNCq0yA@mail.gmail.com>
  <20200708214526.GA1893@ultron.spinoli.org>
-In-Reply-To: <20200708214526.GA1893@ultron.spinoli.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 8 Jul 2020 14:47:08 -0700
-Message-ID: <CAKwvOdnBNkJerfFXotFNMtgHUgY9PAb0ec1yQ+D20Y-Db5efQg@mail.gmail.com>
-Subject: Re: linux-kbuild missing from lore?
-To:     Hank Leininger <hlein@marc.info>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, webguy@marc.info,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        helpdesk@kernel.org, Sam Ravnborg <sam@ravnborg.org>,
-        Nathan Huckleberry <nhuck@google.com>,
-        Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+ <CAKwvOdnBNkJerfFXotFNMtgHUgY9PAb0ec1yQ+D20Y-Db5efQg@mail.gmail.com>
+Message-ID: <0101017330664f79-d15d0498-9817-4ef9-8072-4005c213489c-000000@us-west-2.amazonses.com>
+X-RT-Loop-Prevention: linuxfoundation.org
+X-RT-Ticket: linuxfoundation.org #93182
+X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
+X-RT-Originator: ndesaulniers@google.com
+CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, nhuck@google.com, rdunlap@infradead.org,
+        sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+Date:   Wed, 8 Jul 2020 21:47:58 +0000
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SES-Outgoing: 2020.07.08-54.240.27.30
+Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -121,3 +114,4 @@ off threads created)
 -- 
 Thanks,
 ~Nick Desaulniers
+
