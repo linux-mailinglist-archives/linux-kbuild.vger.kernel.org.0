@@ -2,236 +2,246 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C04AB2192DC
-	for <lists+linux-kbuild@lfdr.de>; Wed,  8 Jul 2020 23:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33E66219B85
+	for <lists+linux-kbuild@lfdr.de>; Thu,  9 Jul 2020 10:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725964AbgGHVwn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 8 Jul 2020 17:52:43 -0400
-Received: from a27-192.smtp-out.us-west-2.amazonses.com ([54.240.27.192]:58014
-        "EHLO a27-192.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725903AbgGHVwn (ORCPT
+        id S1726222AbgGIIyU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 9 Jul 2020 04:54:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51166 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726122AbgGIIyT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 8 Jul 2020 17:52:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
-        t=1594245162;
-        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
-        bh=dBdtfGTcvufqjLjvZCv6ZP4wRkmoY1IBUs3FHit4fCo=;
-        b=E0TNftXGc8UtXAw5V0bFEYdh22511KljkGbnK2qG/ibfQqUj/IriOcAKYXsFkRAO
-        9ecrPSyOnZv1TjmyHkP5Rreie5MXYoc98KJVhIGCX8a7+KebjQj0xi1WZCy2KqdegS0
-        wz+nZLoWddZwX5i8Ys5iX8zYoue5gpZAHCBmLLPw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1594245162;
-        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-        bh=dBdtfGTcvufqjLjvZCv6ZP4wRkmoY1IBUs3FHit4fCo=;
-        b=Td5SPYWOHB6ej3mJyT6j6osgVdOiXly1L60arjE737PtmmuOdkdg5gCPuIpiRwCi
-        EZ3Z5IrpaaFL9uLDUcE8NmcL9z8pJ/QSkICO8VuMMEFHG4StkfH4xpCba1cVBBBIQF+
-        Zt9OvVG363cDPBxgSyW2F2ksPbdEJxzPCH/dIcH8=
-Subject: [Kernel.org Helpdesk #93182] [linuxfoundation.org #93182] Re: linux-kbuild missing from lore?
-From:   "Hank Leininger via RT" <kernel-helpdesk@rt.linuxfoundation.org>
-Reply-To: kernel-helpdesk@rt.linuxfoundation.org
-In-Reply-To: <20200708214526.GA1893@ultron.spinoli.org>
-References: <RT-Ticket-93182@linuxfoundation>
- <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
- <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
- <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
- <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
- <acc9cbac-982b-e3a0-d1bf-5d3d4ffd9b08@infradead.org>
- <CAKwvOdnNW0JiX1SMUePKCS37Cjfa+rx=SKrcu0jU1qyMNCq0yA@mail.gmail.com>
- <20200708214526.GA1893@ultron.spinoli.org>
-Message-ID: <01010173306aa3a2-3ad9d9e2-4cb2-42a7-a0d5-796cdf126db0-000000@us-west-2.amazonses.com>
-X-RT-Loop-Prevention: linuxfoundation.org
-X-RT-Ticket: linuxfoundation.org #93182
-X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
-X-RT-Originator: hlein@marc.info
-To:     ndesaulniers@google.com
-CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, nhuck@google.com, rdunlap@infradead.org,
-        sam@ravnborg.org
-X-RT-Original-Encoding: utf-8
-Content-Type: multipart/mixed; boundary="----------=_1594245161-11505-1688"
-Date:   Wed, 8 Jul 2020 21:52:41 +0000
+        Thu, 9 Jul 2020 04:54:19 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 489D1C061A0B;
+        Thu,  9 Jul 2020 01:54:19 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id a6so1341932ilq.13;
+        Thu, 09 Jul 2020 01:54:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=6EBAlhyT2LqnCvhAp5nm2Oc+mt6CCfGyEk4uocdE6Qs=;
+        b=IIElqN7QwKl0uE6aNTZKcsfK0HLjoK3IKmLSai3s3CHISpD124XQ4Xc4f1AlmxItL4
+         RCZbCzcnFtHEp+uNpuy9/ufVOw5MoKECkulKWU2wcXdVf2Eqri1jztUxL1jmvd9RJOog
+         jt9Vl6Uqr2ypFlwV0cmNhE/L3+fH7rJN/+AcgkuTtpMHMIZJIhOkhU/tq6aAjG1hg1L6
+         PJ3DSy5UMbueiYkZo2jLsvetiz9zDqhpkdEzV3nq6bKqtwOpLAN0rCOJ2uGdytgP15Dx
+         t5tUA0yFz3x+msBhbRXQunOJs9eBhzRfxdO/Itl7kl7uIM6fvYRF9clHd4bJEvsIP4kv
+         9fKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=6EBAlhyT2LqnCvhAp5nm2Oc+mt6CCfGyEk4uocdE6Qs=;
+        b=LiO1fdoGMMilSJ0wajULzDuGfLeRQsP/U/8DUdihkjN6vU1G93+eoXy5QX8re+i8ks
+         7IKLctdGwZ00ggPqJ/v9VJXiBA8uOMSzdaflgeQqUIOBQslLz6EppSCPmPfs49s0HctO
+         IDk1yLdGbwPynvNYVWjiuNlI0SQpbmWej3LMIrvO0x0pErZpSqha0mhFKefpjHl2ZS8C
+         PqxPUy4kR+oObPR0HP2dCjGHp+kY7Z4RVLoRQ/2L7+9jMYqHiPK2h4aAVAg7YXFU7OkI
+         MXrQh8BO+K5pcUu3fxkS6Uws5G4Dj3HsxqVAqkqQmUfN+/oBcJTfkYWteQINLZWoqQ2k
+         Pl7g==
+X-Gm-Message-State: AOAM530UaoweD1a0cDna3a9ucTRvkmKJaKTB8Akpztk6S/Og7BkogBhD
+        C/J3vKWhyKs/CaL0rUl3SBvArls0zirGpBsQcZY=
+X-Google-Smtp-Source: ABdhPJxwtbPG7W/rhlhBrRkD3l1jrUaB1vUqCjVW96u8BSHagLJfY836C/WmFcST7MKHOpjY3f2nP7BObfRGStbqvaw=
+X-Received: by 2002:a92:5fc9:: with SMTP id i70mr47971850ill.176.1594284858531;
+ Thu, 09 Jul 2020 01:54:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SES-Outgoing: 2020.07.08-54.240.27.192
-Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
+References: <20200708185024.2767937-1-nickrterrell@gmail.com>
+In-Reply-To: <20200708185024.2767937-1-nickrterrell@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Thu, 9 Jul 2020 10:54:07 +0200
+Message-ID: <CA+icZUV4WM3oLpRYBTeNqikqP1VeWqKjA_yOdQqg_jTEWah8Qg@mail.gmail.com>
+Subject: Re: [GIT PULL][PATCH v7 0/7] Add support for ZSTD-compressed kernel
+ and initramfs
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
+        Norbert Lange <nolange79@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alex Xu <alex_y_xu@yahoo.ca>, Nick Terrell <terrelln@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This is a multi-part message in MIME format...
+On Wed, Jul 8, 2020 at 8:55 PM Nick Terrell <nickrterrell@gmail.com> wrote:
+>
+> From: Nick Terrell <terrelln@fb.com>
+>
+> Please pull from
+>
+>   git@github.com:terrelln/linux.git tags/v7-zstd
+>
+> to get these changes. Alternatively the patchset is included.
+>
+> Hi all,
+>
+> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
+> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
+> are supported on all architectures. The ZSTD-compressed kernel is only
+> hooked up to x86 in this patch set.
+>
+> Zstandard requires slightly more memory during the kernel decompression
+> on x86 (192 KB vs 64 KB), and the memory usage is independent of the
+> window size.
+>
+> Zstandard requires memory proprortional to the window size used during
+> compression for decompressing the ramdisk image, since streaming mode is
+> used. Newer versions of zstd (1.3.2+) list the window size of a file
+> with `zstd -lv <file>'. The absolute maximum amount of memory required
+> is just over 8 MB, but it can be controlled at compression time.
+>
+> This patch set has been boot tested with buildroot and QEMU based off
+> of linux-5.6-rc6.
+>
+> On i386 and x86_64 I have tested the following configurations:
+> * zstd compressed kernel and a separate zstd compressed initramfs
+> * zstd compressed kernel and a built-in zstd compressed initramfs
+> * gzip compressed kernel and a separate gzip compressed initramfs
+> * gzip compressed kernel and a built-in gzip compressed initramfs
+>
+> On arm and aarch64 I tested the same configurations, except that the kernel is
+> always gzip compressed.
+>
+> Facebook has been using v1 of these patches on x86_64 devices for more than 6
+> months. When we switched from a xz compressed initramfs to a zstd compressed
+> initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
+> switched from a xz compressed kernel to a zstd compressed kernel we saved 2
+> seconds of boot time.
+>
+> Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
+> When we switched from an lzma compressed initramfs to a zstd compressed initramfs
+> decompression time shrunk from 27 seconds to 8 seconds.
+>
+> The zstd compressed kernel is smaller than the gzip compressed kernel but larger
+> than the xz or lzma compressed kernels, and it decompresses faster than
+> everything except lz4. See the table below for the measurement of an x86_64
+> kernel ordered by compressed size:
+>
+> algo    size
+> xz       6,509,792
+> lzma     6,856,576
+> zstd     7,399,157
+> gzip     8,522,527
+> bzip     8,629,603
+> lzo      9,808,035
+> lz4     10,705,570
+> none    32,565,672
+>
+> Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
+>
+> v1 -> v2:
+> - Rebase
+>   - usr/Makefile and init/Kconfig were changed so the patches were updated
+> - No functional changes except to rebase
+> - Split the patches up into smaller chunks
+>
+> v2 -> v3:
+> - Add *.zst to the .gitignore in patch 8
+> - Style nits in patch 3
+> - Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
+>   1 through 3
+>
+> v3 -> v4:
+> - Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
+>   With this change I switch from malloc() to large_malloc() for the
+>   buffers.
+> - Increase the maximum allowed window size from 8 MB to 128 MB, which is
+>   the max that zstd in the kernel supports.
+>
+> v4 -> v5:
+> - Update commit message for patch 6 in response to comments
+> - Rebase onto next-20200408
+>
+> v5 -> v6:
+> - Rebase onto v5.8-rc4
+>
+> v6 -> v7:
+> - (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
+> - (2/8) Drop 'lib: prepare xxhash for preboot environment'
+> - (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
+> - (3/7) Update zstd compression cmd to follow other compressors
+> - (3/7) Add zstd22 cmd
+> - (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
+>
 
-------------=_1594245161-11505-1688
-Content-Type: text/plain; charset="utf-8"
+Hi Nick,
 
-On Wed, Jul 08, 2020 at 01:49:18PM -0700, Nick Desaulniers wrote:
-> On Wed, Jul 8, 2020 at 1:43 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> >
-> > On 7/8/20 11:42 AM, Nick Desaulniers wrote:
-> > > On Mon, Mar 16, 2020 at 6:06 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > >>
-> > >> On 3/16/20 5:47 PM, Masahiro Yamada wrote:
-> > >>> Hi Nick,
-> > >>>
-> > >>> On Tue, Mar 17, 2020 at 8:22 AM Nick Desaulniers
-> > >>> <ndesaulniers@google.com> wrote:
-> > >>>>
-> > >>>> Hi Masahiro,
-> > >>>> I noticed that linux-kbuild@vger.kernel.org seems to be missing from
-> > >>>> https://lore.kernel.org/lists.html.  Is that intentional or
-> > >>>> accidental?
-[snip]
-> > Has anyone thought about trying to get the kbuild archive from
-> > marc.info/?l=linux-kbuild ?  or contacted the marc.info admin?
-> 
-> Clicking "add a list" on
-> https://marc.info/
-> opens an emailto: link to webguy@marc.info, so adding them here.
-> Dear marc.info admin, is exporting a copy of the linux-kbuild mail
-> archive something that you can help us with?
+I have tested version 7 on top of Linux v5.8-rc4+ with LLVM/Clang
+version 1:11~++20200701093119+ffee8040534-1~exp1 from
+Debian/experimental.
 
-Hi! That sounds like it should be doable; we keep .gz backups of all
-the lists we're subscribed to. At a quick glance I have them going back
-to Jan 2, 2008, I thiiiink uninterrupted. There's probably some spam
-that got sent to the list and/or sent to our subscribed address
-included.
+I changed initramfs-tools accordingly:
 
-Can someone please contact me off-thread and we'll work out details of
-how to best get them to you?
+--- /usr/sbin/mkinitramfs.orig  2020-04-28 05:56:17.000000000 +0200
++++ /usr/sbin/mkinitramfs.zstd-v7       2020-07-09 10:35:35.119280519 +0200
+@@ -189,6 +189,7 @@ xz) compress="xz --check=crc32"
+        # If we're not doing a reproducible build, enable multithreading
+        test -z "${SOURCE_DATE_EPOCH}" && compress="$compress --threads=0"
+        ;;
++zstd)  compress="zstd -22 --ultra -v" ;;
+ bzip2|lzma|lzop)
+        # no parameters needed
+        ;;
 
-Thanks,
+build-log says:
 
---
+{ cat arch/x86/boot/compressed/vmlinux.bin
+arch/x86/boot/compressed/vmlinux.relocs | zstd -22 --ultra; printf
+\010\015\315\001; } > arch/x86/boot/compressed/vmlinux.bin.zst
 
-Hank Leininger <hlein@marc.info>
-ED0E 3040 4240 1DD9 5B2E  6DEC A60B CB9D 0939 76F7
+It's a disc-usage save of approx. 500kiB between zstd-v6 and zstd-v7
+concerning initrd-images.
 
+Regards,
+- Sedat -
 
-------------=_1594245161-11505-1688
-Content-Type: application/x-rt-original-message
-Content-Disposition: inline
-Content-Transfer-Encoding: base64
-RT-Attachment: 93182/2019561/1688434
-
-RnJvbSBTUlMwPTE4SHk9QVQ9bWFyYy5pbmZvPWhsZWluQGtlcm5lbC5vcmcg
-IFdlZCBKdWwgIDggMjE6NTI6MzYgMjAyMApSZXR1cm4tUGF0aDogPFNSUzA9
-MThIeT1BVD1tYXJjLmluZm89aGxlaW5Aa2VybmVsLm9yZz4KWC1PcmlnaW5h
-bC1Ubzoga2VybmVsLWhlbHBkZXNrQHJ0LmxpbnV4Zm91bmRhdGlvbi5vcmcK
-RGVsaXZlcmVkLVRvOiBrZXJuZWwtaGVscGRlc2tAcnQubGludXhmb3VuZGF0
-aW9uLm9yZwpSZWNlaXZlZDogZnJvbSBtYWlsLmtlcm5lbC5vcmcgKG1haWwu
-a2VybmVsLm9yZyBbMTk4LjE0NS4yOS45OV0pCglieSBhd3MtdXMtd2VzdC0y
-LWxmaXQtcnQtMS53ZWIuY29kZWF1cm9yYS5vcmcgKFBvc3RmaXgpIHdpdGgg
-RVNNVFAgaWQgQkNFOTFDMDNBRUYKCWZvciA8a2VybmVsLWhlbHBkZXNrQHJ0
-LmxpbnV4Zm91bmRhdGlvbi5vcmc+OyBXZWQsICA4IEp1bCAyMDIwIDIxOjUy
-OjM2ICswMDAwIChVVEMpClJlY2VpdmVkOiBieSBtYWlsLmtlcm5lbC5vcmcg
-KFBvc3RmaXgpCglpZCA3MDkyQjIwNzcyOyBXZWQsICA4IEp1bCAyMDIwIDIx
-OjUyOjM2ICswMDAwIChVVEMpCkRlbGl2ZXJlZC1UbzogaGVscGRlc2tAa2Vy
-bmVsLm9yZwpYLUdyZXlsaXN0OiBkZWxheWVkIDQxNyBzZWNvbmRzIGJ5IHBv
-c3RncmV5LTEuMzQgYXQgbWFpbC5rZXJuZWwub3JnOyBXZWQsIDA4IEp1bCAy
-MDIwIDIxOjUyOjM2IFVUQwpETUFSQy1GaWx0ZXI6IE9wZW5ETUFSQyBGaWx0
-ZXIgdjEuMy4yIG1haWwua2VybmVsLm9yZyAyNUVEQzIwNzA4CkF1dGhlbnRp
-Y2F0aW9uLVJlc3VsdHM6IG1haWwua2VybmVsLm9yZzsgZG1hcmM9bm9uZSAo
-cD1ub25lIGRpcz1ub25lKSBoZWFkZXIuZnJvbT1tYXJjLmluZm8KQXV0aGVu
-dGljYXRpb24tUmVzdWx0czogbWFpbC5rZXJuZWwub3JnOyBzcGY9bm9uZSBz
-bXRwLm1haWxmcm9tPWhsZWluQG1hcmMuaW5mbwpSZWNlaXZlZDogZnJvbSBw
-dWtjYWIua29yZWxvZ2ljLmNvbSAodW5rbm93biBbMTM5LjEzOC4xNDguMTMx
-XSkKCSh1c2luZyBUTFN2MS4yIHdpdGggY2lwaGVyIEVDREhFLVJTQS1BRVMy
-NTYtR0NNLVNIQTM4NCAoMjU2LzI1NiBiaXRzKSkKCShObyBjbGllbnQgY2Vy
-dGlmaWNhdGUgcmVxdWVzdGVkKQoJYnkgbWFpbC5rZXJuZWwub3JnIChQb3N0
-Zml4KSB3aXRoIEVTTVRQUyBpZCAyNUVEQzIwNzA4OwoJV2VkLCAgOCBKdWwg
-MjAyMCAyMTo1MjozNiArMDAwMCAoVVRDKQpSZWNlaXZlZDogZnJvbSBtYWls
-Lm1hcmMuaW5mbyAobWFyYzEubWFyYy5pbmZvIFsyMDUuMTM0LjE5MS4xNzJd
-KQoJKHVzaW5nIFRMU3YxLjMgd2l0aCBjaXBoZXIgVExTX0FFU18yNTZfR0NN
-X1NIQTM4NCAoMjU2LzI1NiBiaXRzKQoJIGtleS1leGNoYW5nZSBYMjU1MTkg
-c2VydmVyLXNpZ25hdHVyZSBSU0EtUFNTICgyMDQ4IGJpdHMpIHNlcnZlci1k
-aWdlc3QgU0hBMjU2KQoJKENsaWVudCBkaWQgbm90IHByZXNlbnQgYSBjZXJ0
-aWZpY2F0ZSkKCWJ5IHB1a2NhYi5rb3JlbG9naWMuY29tIChQb3N0Zml4KSB3
-aXRoIEVTTVRQUyBpZCAzMDQ5MzJCMjAwOUU7CglXZWQsICA4IEp1bCAyMDIw
-IDE3OjQ1OjM4IC0wNDAwIChFRFQpClJlY2VpdmVkOiBmcm9tIHVsdHJvbi5z
-cGlub2xpLm9yZyAodW5rbm93biBbNzEuMzMuMjI2LjYxXSkKCSh1c2luZyBU
-TFN2MS4yIHdpdGggY2lwaGVyIEVDREhFLVJTQS1BRVMyNTYtR0NNLVNIQTM4
-NCAoMjU2LzI1NiBiaXRzKSkKCShObyBjbGllbnQgY2VydGlmaWNhdGUgcmVx
-dWVzdGVkKQoJKEF1dGhlbnRpY2F0ZWQgc2VuZGVyOiBobGVpbikKCWJ5IG1h
-aWwubWFyYy5pbmZvIChQb3N0Zml4KSB3aXRoIEVTTVRQU0EgaWQgQ0JERTE5
-QzYwMDdGOwoJV2VkLCAgOCBKdWwgMjAyMCAxNzo0NTozMiAtMDQwMCAoRURU
-KQpEYXRlOiBXZWQsIDggSnVsIDIwMjAgMTU6NDU6MjYgLTA2MDAKRnJvbTog
-SGFuayBMZWluaW5nZXIgPGhsZWluQG1hcmMuaW5mbz4KVG86IE5pY2sgRGVz
-YXVsbmllcnMgPG5kZXNhdWxuaWVyc0Bnb29nbGUuY29tPgpDYzogUmFuZHkg
-RHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5vcmc+LCB3ZWJndXlAbWFyYy5p
-bmZvLAoJTWFzYWhpcm8gWWFtYWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4s
-CglMaW51eCBLYnVpbGQgbWFpbGluZyBsaXN0IDxsaW51eC1rYnVpbGRAdmdl
-ci5rZXJuZWwub3JnPiwKCWhlbHBkZXNrQGtlcm5lbC5vcmcsIFNhbSBSYXZu
-Ym9yZyA8c2FtQHJhdm5ib3JnLm9yZz4sCglOYXRoYW4gSHVja2xlYmVycnkg
-PG5odWNrQGdvb2dsZS5jb20+LAoJTWljaGFsIE1hcmVrIDxtaWNoYWwubGtt
-bEBtYXJrb3ZpLm5ldD4KU3ViamVjdDogUmU6IGxpbnV4LWtidWlsZCBtaXNz
-aW5nIGZyb20gbG9yZT8KTWVzc2FnZS1JRDogPDIwMjAwNzA4MjE0NTI2LkdB
-MTg5M0B1bHRyb24uc3Bpbm9saS5vcmc+ClJlcGx5LVRvOiBIYW5rIExlaW5p
-bmdlciA8aGxlaW5AbWFyYy5pbmZvPgpSZWZlcmVuY2VzOiA8Q0FLd3ZPZD1p
-OG1MWXNTTnRKVGNaPVJUazc2Rl9tWXk5Zk05RkJ0RHZlRnlieHlHeWl3QG1h
-aWwuZ21haWwuY29tPgogPENBSzdMTkFSYzRMMThDUDZaYlRoZWg0M1ZvYlFa
-MXNfMlE9NE83b0ttVFpSTGdpVHc2UUBtYWlsLmdtYWlsLmNvbT4KIDxmMzBm
-Njg0OS05ZDk0LTRiYTktZjg3NS05YWI4YzA3MDA2MjBAaW5mcmFkZWFkLm9y
-Zz4KIDxDQUt3dk9kbmtuWk5QdXVjdnkwS2ltNnhDZnlVaG1OS1hRaUVSQ1Fj
-b1NNWWRvNj02RlFAbWFpbC5nbWFpbC5jb20+CiA8YWNjOWNiYWMtOTgyYi1l
-M2EwLWQxYmYtNWQzZDRmZmQ5YjA4QGluZnJhZGVhZC5vcmc+CiA8Q0FLd3ZP
-ZG5OVzBKaVgxU01VZVBLQ1MzN0NqZmErcng9U0tyY3UwalUxcXlNTkNxMHlB
-QG1haWwuZ21haWwuY29tPgpNSU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5
-cGU6IG11bHRpcGFydC9zaWduZWQ7IG1pY2FsZz1wZ3Atc2hhMjU2OwoJcHJv
-dG9jb2w9ImFwcGxpY2F0aW9uL3BncC1zaWduYXR1cmUiOyBib3VuZGFyeT0i
-NlRybmx0U3RYVzRpd21pMCIKQ29udGVudC1EaXNwb3NpdGlvbjogaW5saW5l
-CkluLVJlcGx5LVRvOiA8Q0FLd3ZPZG5OVzBKaVgxU01VZVBLQ1MzN0NqZmEr
-cng9U0tyY3UwalUxcXlNTkNxMHlBQG1haWwuZ21haWwuY29tPgoKCi0tNlRy
-bmx0U3RYVzRpd21pMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJz
-ZXQ9dXMtYXNjaWkKQ29udGVudC1EaXNwb3NpdGlvbjogaW5saW5lCkNvbnRl
-bnQtVHJhbnNmZXItRW5jb2Rpbmc6IHF1b3RlZC1wcmludGFibGUKCk9uIFdl
-ZCwgSnVsIDA4LCAyMDIwIGF0IDAxOjQ5OjE4UE0gLTA3MDAsIE5pY2sgRGVz
-YXVsbmllcnMgd3JvdGU6Cj4gT24gV2VkLCBKdWwgOCwgMjAyMCBhdCAxOjQz
-IFBNIFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZyYWRlYWQub3JnPiB3cm90
-ZToKPiA+Cj4gPiBPbiA3LzgvMjAgMTE6NDIgQU0sIE5pY2sgRGVzYXVsbmll
-cnMgd3JvdGU6Cj4gPiA+IE9uIE1vbiwgTWFyIDE2LCAyMDIwIGF0IDY6MDYg
-UE0gUmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5vcmc+ID0Kd3Jv
-dGU6Cj4gPiA+Pgo+ID4gPj4gT24gMy8xNi8yMCA1OjQ3IFBNLCBNYXNhaGly
-byBZYW1hZGEgd3JvdGU6Cj4gPiA+Pj4gSGkgTmljaywKPiA+ID4+Pgo+ID4g
-Pj4+IE9uIFR1ZSwgTWFyIDE3LCAyMDIwIGF0IDg6MjIgQU0gTmljayBEZXNh
-dWxuaWVycwo+ID4gPj4+IDxuZGVzYXVsbmllcnNAZ29vZ2xlLmNvbT4gd3Jv
-dGU6Cj4gPiA+Pj4+Cj4gPiA+Pj4+IEhpIE1hc2FoaXJvLAo+ID4gPj4+PiBJ
-IG5vdGljZWQgdGhhdCBsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIHNl
-ZW1zIHRvIGJlIG1pc3NpbmcgZnI9Cm9tCj4gPiA+Pj4+IGh0dHBzOi8vbG9y
-ZS5rZXJuZWwub3JnL2xpc3RzLmh0bWwuICBJcyB0aGF0IGludGVudGlvbmFs
-IG9yCj4gPiA+Pj4+IGFjY2lkZW50YWw/CltzbmlwXQo+ID4gSGFzIGFueW9u
-ZSB0aG91Z2h0IGFib3V0IHRyeWluZyB0byBnZXQgdGhlIGtidWlsZCBhcmNo
-aXZlIGZyb20KPiA+IG1hcmMuaW5mby8/bD0zRGxpbnV4LWtidWlsZCA/ICBv
-ciBjb250YWN0ZWQgdGhlIG1hcmMuaW5mbyBhZG1pbj8KPj0yMAo+IENsaWNr
-aW5nICJhZGQgYSBsaXN0IiBvbgo+IGh0dHBzOi8vbWFyYy5pbmZvLwo+IG9w
-ZW5zIGFuIGVtYWlsdG86IGxpbmsgdG8gd2ViZ3V5QG1hcmMuaW5mbywgc28g
-YWRkaW5nIHRoZW0gaGVyZS4KPiBEZWFyIG1hcmMuaW5mbyBhZG1pbiwgaXMg
-ZXhwb3J0aW5nIGEgY29weSBvZiB0aGUgbGludXgta2J1aWxkIG1haWwKPiBh
-cmNoaXZlIHNvbWV0aGluZyB0aGF0IHlvdSBjYW4gaGVscCB1cyB3aXRoPwoK
-SGkhIFRoYXQgc291bmRzIGxpa2UgaXQgc2hvdWxkIGJlIGRvYWJsZTsgd2Ug
-a2VlcCAuZ3ogYmFja3VwcyBvZiBhbGwKdGhlIGxpc3RzIHdlJ3JlIHN1YnNj
-cmliZWQgdG8uIEF0IGEgcXVpY2sgZ2xhbmNlIEkgaGF2ZSB0aGVtIGdvaW5n
-IGJhY2sKdG8gSmFuIDIsIDIwMDgsIEkgdGhpaWlpbmsgdW5pbnRlcnJ1cHRl
-ZC4gVGhlcmUncyBwcm9iYWJseSBzb21lIHNwYW0KdGhhdCBnb3Qgc2VudCB0
-byB0aGUgbGlzdCBhbmQvb3Igc2VudCB0byBvdXIgc3Vic2NyaWJlZCBhZGRy
-ZXNzCmluY2x1ZGVkLgoKQ2FuIHNvbWVvbmUgcGxlYXNlIGNvbnRhY3QgbWUg
-b2ZmLXRocmVhZCBhbmQgd2UnbGwgd29yayBvdXQgZGV0YWlscyBvZgpob3cg
-dG8gYmVzdCBnZXQgdGhlbSB0byB5b3U/CgpUaGFua3MsCgotLQoKSGFuayBM
-ZWluaW5nZXIgPGhsZWluQG1hcmMuaW5mbz4KRUQwRSAzMDQwIDQyNDAgMURE
-OSA1QjJFICA2REVDIEE2MEIgQ0I5RCAwOTM5IDc2RjcKCi0tNlRybmx0U3RY
-VzRpd21pMApDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3BncC1zaWduYXR1
-cmU7IG5hbWU9InNpZ25hdHVyZS5hc2MiCkNvbnRlbnQtRGVzY3JpcHRpb246
-IERpZ2l0YWwgc2lnbmF0dXJlCgotLS0tLUJFR0lOIFBHUCBTSUdOQVRVUkUt
-LS0tLQoKaVFFekJBRUJDQUFkRmlFRTdRNHdRRUpBSGRsYkxtM3NwZ3ZMblFr
-NWR2Y0ZBbDhHUG5ZQUNna1FwZ3ZMblFrNQpkdmQ4NWdmL1Y3cTA5WTJxbXBT
-V0FSRDlrQWkwNVV1S2Y0NXBVOHBVZk5ndFQvYnpqc283M3dYZkh0bEVDN2xW
-CmY3Z3ZIdXNFaElvMTlDSFFGRlA0a2NRdVdIL1gvbzhkYXJWUWJkRzNabUNv
-aDR1ZDNOcnk1akpaenorRVlVRWIKY0tRSVpWQUhtcXNVQVllaUVUYkliREVM
-TXB4SGFrVTJGR2RrMUtsemx2akh5a1Mrcmxwb1RpNW85aFdjeXVDRQphZTdT
-RExtbldtMG5WR1JnUVVENnJHRXhLbHVhZ2hjV3gxb3RaeGNnaUhPY09yd0kw
-d0x4RXRRTHpKcWFFMlJtCk82VWJpa25KNXJjakhZU2FFTU1UWWxKK3BrYXR6
-dXJSSzlMcUJKTWE2TTRjWXpNNThTVnBvRFRiUWdTZnllVnAKdDBqYldCWEpz
-Q1UzZlZKYmtDTTgwSExwVVBVUllRPT0KPTVDbFEKLS0tLS1FTkQgUEdQIFNJ
-R05BVFVSRS0tLS0tCgotLTZUcm5sdFN0WFc0aXdtaTAtLQo=
-
-------------=_1594245161-11505-1688--
+> Best,
+> Nick Terrell
+>
+> Adam Borowski (1):
+>   .gitignore: add ZSTD-compressed files
+>
+> Nick Terrell (6):
+>   lib: prepare zstd for preboot environment
+>   lib: add zstd support to decompress
+>   init: add support for zstd compressed kernel
+>   usr: add support for zstd compressed initramfs
+>   x86: bump ZO_z_extra_bytes margin for zstd
+>   x86: Add support for ZSTD compressed kernel
+>
+>  .gitignore                        |   1 +
+>  Documentation/x86/boot.rst        |   6 +-
+>  Makefile                          |   3 +-
+>  arch/x86/Kconfig                  |   1 +
+>  arch/x86/boot/compressed/Makefile |   5 +-
+>  arch/x86/boot/compressed/misc.c   |   4 +
+>  arch/x86/boot/header.S            |   8 +-
+>  arch/x86/include/asm/boot.h       |   6 +-
+>  include/linux/decompress/unzstd.h |  11 +
+>  init/Kconfig                      |  15 +-
+>  lib/Kconfig                       |   4 +
+>  lib/Makefile                      |   1 +
+>  lib/decompress.c                  |   5 +
+>  lib/decompress_unzstd.c           | 345 ++++++++++++++++++++++++++++++
+>  lib/zstd/fse_decompress.c         |   9 +-
+>  lib/zstd/zstd_internal.h          |  14 +-
+>  scripts/Makefile.lib              |  22 ++
+>  usr/Kconfig                       |  20 ++
+>  usr/Makefile                      |   1 +
+>  19 files changed, 462 insertions(+), 19 deletions(-)
+>  create mode 100644 include/linux/decompress/unzstd.h
+>  create mode 100644 lib/decompress_unzstd.c
+>
+> --
+> 2.27.0
+>
