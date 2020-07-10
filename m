@@ -2,101 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 479E721BD76
-	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jul 2020 21:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0FD21BDE3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 10 Jul 2020 21:44:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgGJTQm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 10 Jul 2020 15:16:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60082 "EHLO
+        id S1727086AbgGJToE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 10 Jul 2020 15:44:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726867AbgGJTQm (ORCPT
+        with ESMTP id S1726908AbgGJToE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 10 Jul 2020 15:16:42 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C44C08C5DC
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Jul 2020 12:16:41 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id 207so2953250pfu.3
-        for <linux-kbuild@vger.kernel.org>; Fri, 10 Jul 2020 12:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=96+Cy2+6hRlxREM/YADx3aqUoqMRbhPlFPhRU/hnMmA=;
-        b=Szp8+mJrXaxNAE+CDQqWN2vkKD/F1PM2sJ/T6zJr4iG6RrqnYWpaPloz2K3i7OHOu+
-         nBEVk1EbhJKWTOQBOCGHTUtZZ1k1uEqfb88H6gIZ5UbW4SJYhamAoVlFxu5VWLU71uan
-         o6n9oYQJ31t0lIaR7CYU/mYmoSEzNg+/toS4BPDlCawVzNcP+/G4JXcy85x2nrWl6W7h
-         UNIH0Z2Za+MPC7amRaplIShCYCTbc14J87I/sFCCOpAAXoCgff0x84ZFGUpVu5MeCEPc
-         LWfK8tEQzecQ9Pr0Bo6D/rcZZbERYKwTW5bNe3+wJTKhtf4onpq+C9mVTJZllr9yTiT9
-         IFOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=96+Cy2+6hRlxREM/YADx3aqUoqMRbhPlFPhRU/hnMmA=;
-        b=jI21chnsO75P9N2PZyamODfi9Ew6Dp4kQ8SIdIKKtBg4zgtnhhpUTgMD+H6Y2oRANO
-         6ON39qkqYUSqpDkycjLntIBMu+l1lhUoP+RLkn0XCrC51Kypsw2KIx0Y0d4nbI2zZIJJ
-         KPawguFuuqlSi1sG7zE4TkCAvcewJnzzLlha774dHL4Y5RXDHeo9OAYuNEYsb4POVCgL
-         uyXAfQT7CP0EX/+UYKFUHQEuWPk0dBq0eWZCAw1JoV94JdlDTJ0DuWGs8rS8GCgpoGMP
-         ErhpLmHhXwds+GMcgeltvqJv/DJE+UP1mUkryPNOeCe//GtHEaCBU1b1bvXKtnMjF99x
-         TKQg==
-X-Gm-Message-State: AOAM533lkOvmpV7VGPv0QCNKDsAWr8K9zJwA1+pPhlnjdcCy0wFg2opc
-        ase983ZAdebCiiAkXThml3ofqZvFaVIIavIt8LBPvQ==
-X-Google-Smtp-Source: ABdhPJxYxWdKb0302bd7zKRT3d2rnQkO1AKsPabYkGFFrNZJC9sldy393z9R/bFChsMgXhqdbH0LVP+pZrsXxRwud+E=
-X-Received: by 2002:a63:a119:: with SMTP id b25mr58325015pgf.10.1594408600922;
- Fri, 10 Jul 2020 12:16:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
- <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
- <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org> <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
- <CAK7LNASg9ZMN0bKnXi0vJDEpmhX7CLVhqDZ_BvsvoTZKS7LbsA@mail.gmail.com>
-In-Reply-To: <CAK7LNASg9ZMN0bKnXi0vJDEpmhX7CLVhqDZ_BvsvoTZKS7LbsA@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 10 Jul 2020 12:16:30 -0700
-Message-ID: <CAKwvOdkJuT=7kBGEMu=a6kTdZtqOrqnynRGhYdP1xOs=JF_zxw@mail.gmail.com>
+        Fri, 10 Jul 2020 15:44:04 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D17DC08C5DC
+        for <linux-kbuild@vger.kernel.org>; Fri, 10 Jul 2020 12:44:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=5UxH6YLVExyitOD8RbNdOP7r5X608pmwXp/PCXBuwr4=; b=aSOPACYlFwPhXXuO85AC+GIxjD
+        aJT3VAI0DRUnWn7vxa4Ix+t54KxneNEGzBQl8jIa8wLdWoVuv085IChzQepez03excjCvEsHIvRex
+        16DEukW0Obg7lSaOD/R3fNmaj707OOCexBByrmhJqvMifWPhpTCpg3oy1TDn0174ujqunuN3jv+ub
+        WXUbeApBHoKc47ONtPS8ivdK67CSlvpAZ9Sl7EH4gvY8wg+PbjMy7LrQLEc/3wb6HkUI7lNzNCSV7
+        yqs3jsM09visxaPLcdRQXUYKB53MXo9BTM0+okHUocEeQwRNCFIAJSCqvbWy6QhkclJREbxrQXHCM
+        kRnJNRqQ==;
+Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jtyw1-0003QH-GK; Fri, 10 Jul 2020 19:43:50 +0000
 Subject: Re: linux-kbuild missing from lore?
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+To:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Sam Ravnborg <sam@ravnborg.org>,
         Nathan Huckleberry <nhuck@google.com>,
         Michal Marek <michal.lkml@markovi.net>,
         Hank Leininger <hlein@marc.info>
-Content-Type: text/plain; charset="UTF-8"
+References: <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+ <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
+ <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
+ <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
+ <CAK7LNASg9ZMN0bKnXi0vJDEpmhX7CLVhqDZ_BvsvoTZKS7LbsA@mail.gmail.com>
+ <CAKwvOdkJuT=7kBGEMu=a6kTdZtqOrqnynRGhYdP1xOs=JF_zxw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <8bdb6440-820a-e3a3-f285-36674a5c8707@infradead.org>
+Date:   Fri, 10 Jul 2020 12:43:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAKwvOdkJuT=7kBGEMu=a6kTdZtqOrqnynRGhYdP1xOs=JF_zxw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(minus LF helpdesk)
+On 7/10/20 12:16 PM, Nick Desaulniers wrote:
+> (minus LF helpdesk)
+> 
+> Here's what I put in the helpdesk ticket via their website, not sure
+> if it will be posted on the mailing list, apologies if it does and
+> results in a double post:
+> 
+> Hello, can the admin of the lore.kernel.org helpdesk please accept the
+> following sanitized archive?
+> 
+> https://drive.google.com/file/d/1d0oS3fCYxGhB0p_IQum9Gh20B3aFxKeI/view?usp=sharing
+> 
+> With generous assistance from Hank Leininger from marc.info, I was
+> able to get mbox's for linux-kbuild@vger.kernel.org dating back to
+> 2008.
+> 
+> The archive was provided as a tarball of directories of gzip archives.
+> To generate the above, I ran:
+> 
+> $ tar xvf linux-kbuild_2008-2020.tar
+> $ find . -name \*.gz | xargs gunzip
+> $ for F in $(find untared -type f); do ./list-archive-maker.py -s $F
+> -e linux-kbuild -k linux-kbuild-known-ids.txt -l
+> linux-kbuild.vger.kernel.org; done
+> $ tar cf linux-kbuild.tar linux-kbuild
+> $ xz -9 linux-kbuild.tar
+> 
+> as per https://korg.docs.kernel.org/lore.html.
+> 
+> This response is via the ticket #93182 filed at
+> rt.linuxfoundation.org's web site.
 
-Here's what I put in the helpdesk ticket via their website, not sure
-if it will be posted on the mailing list, apologies if it does and
-results in a double post:
+Thanks for doing this, Nick.
 
-Hello, can the admin of the lore.kernel.org helpdesk please accept the
-following sanitized archive?
-
-https://drive.google.com/file/d/1d0oS3fCYxGhB0p_IQum9Gh20B3aFxKeI/view?usp=sharing
-
-With generous assistance from Hank Leininger from marc.info, I was
-able to get mbox's for linux-kbuild@vger.kernel.org dating back to
-2008.
-
-The archive was provided as a tarball of directories of gzip archives.
-To generate the above, I ran:
-
-$ tar xvf linux-kbuild_2008-2020.tar
-$ find . -name \*.gz | xargs gunzip
-$ for F in $(find untared -type f); do ./list-archive-maker.py -s $F
--e linux-kbuild -k linux-kbuild-known-ids.txt -l
-linux-kbuild.vger.kernel.org; done
-$ tar cf linux-kbuild.tar linux-kbuild
-$ xz -9 linux-kbuild.tar
-
-as per https://korg.docs.kernel.org/lore.html.
-
-This response is via the ticket #93182 filed at
-rt.linuxfoundation.org's web site.
 -- 
-Thanks,
-~Nick Desaulniers
+~Randy
+
