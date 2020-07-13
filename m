@@ -2,98 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AEC721CC29
-	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2020 01:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B76321D103
+	for <lists+linux-kbuild@lfdr.de>; Mon, 13 Jul 2020 09:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728186AbgGLXex (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 12 Jul 2020 19:34:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59860 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727932AbgGLXew (ORCPT
+        id S1726725AbgGMH6S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 13 Jul 2020 03:58:18 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:30557 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726571AbgGMH6S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 12 Jul 2020 19:34:52 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9236DC08C5DB
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Jul 2020 16:34:52 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id lx13so13395280ejb.4
-        for <linux-kbuild@vger.kernel.org>; Sun, 12 Jul 2020 16:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LVOtLwv/Cvl11tUYp50SksGWhQhY11SC0NIkGuc8zKg=;
-        b=pBpXJX539broCTWH17WgpJDxoLP0paWSlvb8A7h3fxHZadJbhqRCNtCFP25mX7XEJ4
-         /kwaDuWKopj4I8eO8SAvDGZq6F9j25nSGRAO0y6X2NGnu7izoh9SZwvHn6KFIILHenua
-         VZeZFZ0bZYIFUV+EEZeOEkkM7qjxY5RJIoRAIP4Ic1GB+xDjTjYg3z0lEPuNawED7EbA
-         MonmBQTmlvtQCqFgEnrnwFndAHCUOPLKAGIG3XWpeW0/Qr4qA0bZxFzdTlAkI2KH7b0F
-         rBajQRa/6JbzOq5B4AwXzh5PM1ZTZhssUaqSkDgJ7Yz0lPtz7xwa3hLHTGAXQMnzERV6
-         /O1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LVOtLwv/Cvl11tUYp50SksGWhQhY11SC0NIkGuc8zKg=;
-        b=p5asbue4QMHNUPAxsbjiKwXs3NoUMhguW7FVTdb0MIMiLgjCKjoI3JDcr/W1ii+2r7
-         Cvbux1Dsrv3FhyRrj9QWbk7qFMf8EF0XrScUMVej+cwhGKlfMt2uQvR/3fKXSAXcH8zD
-         Y84XM9rDUXU72aIcxYMuuHK0xjQXdvee2fWb92meqsDnHFcGmHJSPsWiD92Dcq5SNnHZ
-         TYfiEYfstzZzygMSGqwmoIRco3xQk769scV+LeEE8CBcNIW8CxWKfWn9MCZjfmbfPOkn
-         4rL88Cebn91NiVy+liM9Uu7Xih2aqUtvOj5CZzIMVB3fjTy64W7ZCqXin4+HtVjKz9zy
-         YRVw==
-X-Gm-Message-State: AOAM533iCId8/1ie4v+PDELHdW15IwOo6HNGfyyUoZJYOll4H4w+s3dE
-        S4zz1gvICMUvgrzHku0rqEmKu1YIHcN4YfTuQgh5vQ==
-X-Google-Smtp-Source: ABdhPJytFy6lsxbxptEBJHanuAZiQiJRjagWMLPmEYrRnXLJYMLE9doc2W4BiVdJO1Ek3tqEEHDclPE0n0pEuhpOHu8=
-X-Received: by 2002:a17:906:94c4:: with SMTP id d4mr69283452ejy.232.1594596890894;
- Sun, 12 Jul 2020 16:34:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200624203200.78870-1-samitolvanen@google.com> <671d8923-ed43-4600-2628-33ae7cb82ccb@molgen.mpg.de>
-In-Reply-To: <671d8923-ed43-4600-2628-33ae7cb82ccb@molgen.mpg.de>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Sun, 12 Jul 2020 16:34:39 -0700
-Message-ID: <CABCJKuedpxAqndgL=jHT22KtjnLkb1dsYaM6hQYyhqrWjkEe6A@mail.gmail.com>
-Subject: Re: [PATCH 00/22] add support for Clang LTO
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
+        Mon, 13 Jul 2020 03:58:18 -0400
+Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 06D7uYDf027924;
+        Mon, 13 Jul 2020 16:56:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 06D7uYDf027924
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1594626994;
+        bh=cXlkKx6N8NEBTpVkCbg0vvb9KuVX9FkcLVkdaw2RUnI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=VxbmIPJHOtRVfhwgqKN6w6NJ8TXawOqUOTra0G1P/+X/zrUHkBDBAWuQodWCYtdp7
+         SXSoEyOtVuaU/77su2m2eiQiNAJBgPHZv+JPW1werHuEJHjqbnNbGIwxr/qrYfJJ0K
+         5c5DPpftzYdxU9Zqbg6udkSrNHvfCDm0MP7M3s65ilclRV8phPAmjRvISI8lA6ydCP
+         czfYb1AIzxUGZ/sLcrmkymN3H5OXwFxIdt7Fj+7G4NK5Y+xTfHBdn4QwVihyf1BmGU
+         XHcPPEBLRO5GcqZwX0D9ERw1oERgaRViXWVkeTZWJyQ7IW5CwN09MxU1bDdYv4FpBC
+         uGE9TMfj1FaGQ==
+X-Nifty-SrcIP: [126.25.67.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
-        X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Paul Mackerras <paulus@samba.org>,
+        linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH] powerpc/boot: add DTB to 'targets'
+Date:   Mon, 13 Jul 2020 16:56:28 +0900
+Message-Id: <20200713075629.5948-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Jul 11, 2020 at 9:32 AM Paul Menzel <pmenzel@molgen.mpg.de> wrote:
-> Thank you very much for sending these changes.
->
-> Do you have a branch, where your current work can be pulled from? Your
-> branch on GitHub [1] seems 15 months old.
+PowerPC always re-builds DTB even if nothing has been changed.
 
-The clang-lto branch is rebased regularly on top of Linus' tree.
-GitHub just looks at the commit date of the last commit in the tree,
-which isn't all that informative.
+As for other architectures, arch/*/boot/dts/Makefile builds DTB by
+using the dtb-y syntax.
 
-> Out of curiosity, I applied the changes, allowed the selection for i386
-> (x86), and with Clang 1:11~++20200701093119+ffee8040534-1~exp1 from
-> Debian experimental, it failed with `Invalid absolute R_386_32
-> relocation: KERNEL_PAGES`:
+In contrast, arch/powerpc/boot/dts/(fsl/)Makefile does nothing unless
+CONFIG_OF_ALL_DTBS is defined. Instead, arch/powerpc/boot/Makefile
+builds DTB on demand. You need to add DTB to 'targets' explicitly
+so .*.cmd files are included.
 
-I haven't looked at getting this to work on i386, which is why we only
-select ARCH_SUPPORTS_LTO for x86_64. I would expect there to be a few
-issues to address.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-> >   arch/x86/tools/relocs vmlinux > arch/x86/boot/compressed/vmlinux.relocs;arch/x86/tools/relocs --abs-relocs vmlinux
-> > Invalid absolute R_386_32 relocation: KERNEL_PAGES
+I want to apply this to kbuild tree because this is needed
+to fix the build error caused by another kbuild patch:
 
-KERNEL_PAGES looks like a constant, so it's probably safe to ignore
-the absolute relocation in tools/relocs.c.
+https://lkml.org/lkml/2020/7/7/134
 
-Sami
+
+ arch/powerpc/boot/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
+index 63d7456b9518..8792323707fd 100644
+--- a/arch/powerpc/boot/Makefile
++++ b/arch/powerpc/boot/Makefile
+@@ -366,6 +366,8 @@ initrd-y := $(patsubst zImage%, zImage.initrd%, \
+ 		$(patsubst treeImage%, treeImage.initrd%, $(image-y)))))
+ initrd-y := $(filter-out $(image-y), $(initrd-y))
+ targets	+= $(image-y) $(initrd-y)
++targets += $(foreach x, dtbImage uImage cuImage simpleImage treeImage, \
++		$(patsubst $(x).%, dts/%.dtb, $(filter $(x).%, $(image-y))))
+ 
+ $(addprefix $(obj)/, $(initrd-y)): $(obj)/ramdisk.image.gz
+ 
+-- 
+2.25.1
+
