@@ -2,367 +2,171 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03E2A21E332
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2020 00:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FCD521ED1D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2020 11:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726374AbgGMWvK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 13 Jul 2020 18:51:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50788 "EHLO
+        id S1726830AbgGNJoY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 Jul 2020 05:44:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726352AbgGMWvJ (ORCPT
+        with ESMTP id S1725816AbgGNJoW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 13 Jul 2020 18:51:09 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6A59C061794
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jul 2020 15:51:08 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id k27so6707659pgm.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 13 Jul 2020 15:51:08 -0700 (PDT)
+        Tue, 14 Jul 2020 05:44:22 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E32BC061755;
+        Tue, 14 Jul 2020 02:44:22 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id t18so13704797ilh.2;
+        Tue, 14 Jul 2020 02:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Yxq+7dE6xEVUHxQe706vzk/qOVJY6KeawtslG9XNswQ=;
-        b=IQYbkY+ke4pMQVMfhjtud9t2hEkfeqMEine2CKmMCX6J0YcdSYkkUniqSU9NU2ta3T
-         4fUf6hI2VmuQZRZZC5fwnJxfP1/NS9DWvki14kLhmdFudf3LDxj/qK+lZGgTOT0NkzaS
-         DZBPlYbh3UdftpbzWH4Kw8A/E91xvDsMVarj+iZP/E4MbATJ+gxQMDg9SfX/Wqr3A/SK
-         Owh2tt5wlRvwFjlxO1YjNQawx1/mGqAmTHlBBeORNCjVJ5VVolIc58Qb8Pupv/Q0dPNO
-         Bm7WHlbOrhz+6cQryiZU/VgsPLd2q0TX8lpCSEQaimOpGR5lcwG4dW6/VLuCErT+tjW0
-         TpuQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc:content-transfer-encoding;
+        bh=Tgm0OYoDMREUwKgBzALPWRuGGwcOUHZ7yNd5VzH1jD8=;
+        b=jM+qX4Ti315cOlTJ+VUcYkhq8TZ1sJD7ftmO0JD5IpsN8kCQahF698aWFTAOXFdT0Q
+         HcDziCsqjsfy5XRD7ebTVvXA0N4xNmaGvq6fOOT6qMPZuI73C8jaNL3mnrBCo8bsbQN9
+         HCbT6Xj3sLKNEa/9227nfI3t6zFXABnX5mVasdpVha9E7WNX6tAQZtRxmEi2BGCPKpNx
+         oJegoUqWcsUe9furKYA2lgMTtioEX3+qFXCIAf+97ygpi9aM5MLPr/JnMwXeBTizXXtU
+         waO68KXJ9Wgaxb4YyPuCWZUOe+nXpxyILWdmdz9StZGYXG14HxqClZ9yJXs6EAp9KNMK
+         YRJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Yxq+7dE6xEVUHxQe706vzk/qOVJY6KeawtslG9XNswQ=;
-        b=OXrgjbr4biJ4yvb+uKjJZX1Z5dUSoI6t8et81ywoyr6P5t7F+AUyZC/7q2mzLns0bw
-         OMMyqjRorKU7ao8VjyBFswDLEWYyOaBg5rior+Yhirn4/zDDFoop9Fx4pGIVDUshehoC
-         EfU63xHblrI6EgaeG7FztYErqWOAPC6cNs8mdByBrBHmquu1sqPLlE2kefvbbt4hzcOi
-         GVwTLkquRsAaQmdI621lsicWvtriKFJLuKER5bSRWfCtkJBlR3Ss627/WvecU3PkILA+
-         8MVUnRGST8mqM756zBgzhFmQJI5mqR9Gb+ai1w2Kxtbzyk2krb6s78ArjyVKsffC+cOp
-         j6yQ==
-X-Gm-Message-State: AOAM533rGdfF9iiAU+O2iTcBotK/nrQcH/G4my5pnSk9gGUL1XTthrMM
-        np+6NZID8u97dHBukoJzdTD0Ng==
-X-Google-Smtp-Source: ABdhPJy7gGzzIXb6g+DdNRqNKIS2jm1T8j45qN3AlRcPOwcovsWyEgFuf5/JbZgrn/Ri3Kkznjio0A==
-X-Received: by 2002:a65:6884:: with SMTP id e4mr1036008pgt.283.1594680667940;
-        Mon, 13 Jul 2020 15:51:07 -0700 (PDT)
-Received: from google.com ([2620:0:1008:1101:7220:84ff:fe09:dc21])
-        by smtp.gmail.com with ESMTPSA id c1sm526129pje.9.2020.07.13.15.51.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2020 15:51:07 -0700 (PDT)
-Date:   Mon, 13 Jul 2020 15:51:03 -0700
-From:   Tom Roeder <tmroeder@google.com>
-To:     Nathan Huckleberry <nhuck@google.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Bill Wendling <morbo@google.com>,
-        Pirama Arumuga Nainar <pirama@google.com>
-Subject: Re: [PATCH v2] Makefile: Add clang-tidy and static analyzer support
- to makefile
-Message-ID: <20200713225103.GA1095851@google.com>
-References: <20200708181905.257691-1-nhuck@google.com>
- <CAKwvOdmKsCedU=Vt_SBSGnf4gKc9Ae4sknn_Lj+kw9f0HY5MMA@mail.gmail.com>
- <CAJkfWY58JwBqxjHcaQDwpUMrfG_hLiBkskrTfC4EeQvDrz5Q1g@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=Tgm0OYoDMREUwKgBzALPWRuGGwcOUHZ7yNd5VzH1jD8=;
+        b=YzelWiUbzRv3bK4uEDSkP8Om1KGXG6c0cPzxRe62M9vE9S2cSdDN71KprFJtUadlNP
+         msdlpNIHJ8nehFaLsCLMK2kzQvSkk3puKeafGIeKOlDSHHnNUsvvE4/ZYuoXFdOevbC2
+         5Cfhwq4xW0SpzAfVb24QvQJVuvVHplQ/Gd3huSFZSOCnPR7MbO3xR7kXDQSoeaYl787r
+         MbzlPT64c6BvVXcENq6wvllhebgOqvlDucy3AhBEgIknTWJ3Byh9ENDl7Wlxpjfl2Fka
+         B27lioTqg7MuJXndAv7c7SFNHmdDsdeG3Evvj7jIWcldZSweIsg75t1Av9a9GelaPeNZ
+         oDdA==
+X-Gm-Message-State: AOAM530ZrGExbNgcQ8CmW9f2KTNVU0TYYoT00o09TPj+GbW5t7Xi8Vn/
+        E4DcWPSek/Yj2zew1pmL5WQRsSsqUam/wO8Nm6ymd+A7snE=
+X-Google-Smtp-Source: ABdhPJz+ivIV1Co3GNe6TDuCaK8ew/gDSSyhbGfaADNu+YjF9UfRP+y0tlFcRKz3l9JpO1zT8YmnCV67sZd69ABTNZc=
+X-Received: by 2002:a92:290a:: with SMTP id l10mr4174366ilg.204.1594719861754;
+ Tue, 14 Jul 2020 02:44:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAJkfWY58JwBqxjHcaQDwpUMrfG_hLiBkskrTfC4EeQvDrz5Q1g@mail.gmail.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <671d8923-ed43-4600-2628-33ae7cb82ccb@molgen.mpg.de> <CA+icZUXPB_C1bjA13zi3OLFCpiZh+GsgHT0y6kumzVRavs4LkQ@mail.gmail.com>
+ <20200712184041.GA1838@Ryzen-9-3900X.localdomain>
+In-Reply-To: <20200712184041.GA1838@Ryzen-9-3900X.localdomain>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 14 Jul 2020 11:44:10 +0200
+Message-ID: <CA+icZUWyqb8jdzTAophvBKuX3e2NvG7vQPnMW+SRW5v0PmU7TA@mail.gmail.com>
+Subject: Re: [PATCH 00/22] add support for Clang LTO
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Paul Menzel <pmenzel@molgen.mpg.de>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 09, 2020 at 12:56:07PM -0500, Nathan Huckleberry wrote:
->On Wed, Jul 8, 2020 at 2:11 PM Nick Desaulniers <ndesaulniers@google.com> wrote:
->>
->> On Wed, Jul 8, 2020 at 11:21 AM 'Nathan Huckleberry' via Clang Built
->> Linux <clang-built-linux@googlegroups.com> wrote:
->> >
->> > This patch adds clang-tidy and the clang static-analyzer as make
->> > targets. The goal of this patch is to make static analysis tools
->> > usable and extendable by any developer or researcher who is familiar
->> > with basic c++.
->> >
->> > The current static analysis tools require intimate knowledge of the internal
->> > workings of the static analysis.  Clang-tidy and the clang static analyzers
->> > expose an easy to use api and allow users unfamiliar with clang to
->> > write new checks with relative ease.
->> >
->> > ===Clang-tidy===
->> >
->> > Clang-tidy is an easily extendable 'linter' that runs on the AST.
->> > Clang-tidy checks are easy to write and understand. A check consists of
->> > two parts, a matcher and a checker. The matcher is created using a
->> > domain specific language that acts on the AST
->> > (https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
->> > nodes are found by the matcher a callback is made to the checker. The
->> > checker can then execute additional checks and issue warnings.
->> >
->> > Here is an example clang-tidy check to report functions that have calls
->> > to local_irq_disable without calls to local_irq_enable and vice-versa.
->> > Functions flagged with __attribute((annotation("ignore_irq_balancing")))
->> > are ignored for analysis. (https://reviews.llvm.org/D65828)
->> >
->> > ===Clang static analyzer===
->> >
->> > The clang static analyzer is a more powerful static analysis tool that
->> > uses symbolic execution to find bugs. Currently there is a check that
->> > looks for potential security bugs from invalid uses of kmalloc and
->> > kfree. There are several more general purpose checks that are useful for
->> > the kernel.
->> >
->> > The clang static analyzer is well documented and designed to be
->> > extensible.
->> > (https://clang-analyzer.llvm.org/checker_dev_manual.html)
->> > (https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
->> >
->> > The main draw of the clang tools is how accessible they are. The clang
->> > documentation is very nice and these tools are built specifically to be
->> > easily extendable by any developer. They provide an accessible method of
->> > bug-finding and research to people who are not overly familiar with the
->> > kernel codebase.
->> >
->> > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
->> > ---
->> > Changes V1 -> V2:
->> > * Remove dependencies on GNU Parallel
->> > * * Clang-tidy/analyzer now invoked directly from python
->> > Link: https://lkml.org/lkml/2019/8/6/941
->> >
->> >  Makefile                                      |  3 +
->> >  scripts/clang-tools/Makefile.clang-tools      | 23 ++++++
->> >  .../{ => clang-tools}/gen_compile_commands.py |  0
->>
->> + Tom for the rename.
+On Sun, Jul 12, 2020 at 8:40 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> On Sun, Jul 12, 2020 at 10:59:17AM +0200, Sedat Dilek wrote:
+> > On Sat, Jul 11, 2020 at 6:32 PM Paul Menzel <pmenzel@molgen.mpg.de> wro=
+te:
+> > >
+> > > Dear Sami,
+> > >
+> > >
+> > > Am 24.06.20 um 22:31 schrieb Sami Tolvanen:
+> > > > This patch series adds support for building x86_64 and arm64 kernel=
+s
+> > > > with Clang's Link Time Optimization (LTO).
+> > > >
+> > > > In addition to performance, the primary motivation for LTO is to al=
+low
+> > > > Clang's Control-Flow Integrity (CFI) to be used in the kernel. Goog=
+le's
+> > > > Pixel devices have shipped with LTO+CFI kernels since 2018.
+> > > >
+> > > > Most of the patches are build system changes for handling LLVM bitc=
+ode,
+> > > > which Clang produces with LTO instead of ELF object files, postponi=
+ng
+> > > > ELF processing until a later stage, and ensuring initcall ordering.
+> > > >
+> > > > Note that first objtool patch in the series is already in linux-nex=
+t,
+> > > > but as it's needed with LTO, I'm including it also here to make tes=
+ting
+> > > > easier.
+> > >
+> > > [=E2=80=A6]
+> > >
+> > > Thank you very much for sending these changes.
+> > >
+> > > Do you have a branch, where your current work can be pulled from? You=
+r
+> > > branch on GitHub [1] seems 15 months old.
+> > >
+> >
+> > Agreed it's easier to git-pull.
+> > I have seen [1] - not sure if this is the latest version.
+> > Alternatively, you can check patchwork LKML by searching for $submitter=
+.
+> > ( You can open patch 01/22 and download the whole patch-series by
+> > following the link "series", see [3]. )
+> >
+> > - Sedat -
+> >
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
+ild.git/log/?h=3Dlto
+> > [2] https://lore.kernel.org/patchwork/project/lkml/list/?series=3D&subm=
+itter=3D19676
+> > [3] https://lore.kernel.org/patchwork/series/450026/mbox/
+> >
+>
+> Sami tagged this series on his GitHub:
+>
+> https://github.com/samitolvanen/linux/releases/tag/lto-v1
+>
+> git pull https://github.com/samitolvanen/linux lto-v1
+>
+> Otherwise, he is updating the clang-cfi branch that includes both the
+> LTO and CFI patchsets. You can pull that and just turn on
+> CONFIG_LTO_CLANG.
+>
+> Lastly, for the future, I would recommend grabbing b4 to easily apply
+> patches (specifically full series) from lore.kernel.org.
+>
+> https://git.kernel.org/pub/scm/utils/b4/b4.git/
+> https://git.kernel.org/pub/scm/utils/b4/b4.git/tree/README.rst
+>
+> You could grab this series and apply it easily by either downloading the
+> mbox file and following the instructions it gives for applying the mbox
+> file:
+>
+> $ b4 am 20200624203200.78870-1-samitolvanen@google.com
+>
+> or I prefer piping so that I don't have to clean up later:
+>
+> $ b4 am -o - 20200624203200.78870-1-samitolvanen@google.com | git am
+>
 
-The rename is fine with me.
+It is always a pleasure to read your replies and enrich my know-how
+beyond Linux-kernel hacking :-).
 
->>
->> I think we should add scripts/clang-tools/ to MAINTAINERS under
->> CLANG/LLVM SUPPORT:
->> ```
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index c87b94e6b2f6..42602231929c 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -4211,6 +4211,7 @@ W:        https://clangbuiltlinux.github.io/
->>  B:     https://github.com/ClangBuiltLinux/linux/issues
->>  C:     irc://chat.freenode.net/clangbuiltlinux
->>  F:     Documentation/kbuild/llvm.rst
->> +F:     scripts/clang-tools/
->>  K:     \b(?i:clang|llvm)\b
->>
->>  CLEANCACHE API
->> ```
->> that way we get cc'ed properly on proposed changes (should folks use
->> scripts/get_maintainer.pl).
->>
->> >  scripts/clang-tools/run-clang-tools.py        | 77 +++++++++++++++++++
->> >  4 files changed, 103 insertions(+)
->> >  create mode 100644 scripts/clang-tools/Makefile.clang-tools
->> >  rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
->> >  create mode 100755 scripts/clang-tools/run-clang-tools.py
->> >
->> > diff --git a/Makefile b/Makefile
->> > index fe0164a654c7..3e2df010b342 100644
->> > --- a/Makefile
->> > +++ b/Makefile
->> > @@ -747,6 +747,7 @@ KBUILD_CFLAGS       += $(call cc-option,-fno-allow-store-data-races)
->> >
->> >  include scripts/Makefile.kcov
->> >  include scripts/Makefile.gcc-plugins
->> > +include scripts/clang-tools/Makefile.clang-tools
->> >
->> >  ifdef CONFIG_READABLE_ASM
->> >  # Disable optimizations that make assembler listings hard to read.
->> > @@ -1543,6 +1544,8 @@ help:
->> >         @echo  '  export_report   - List the usages of all exported symbols'
->> >         @echo  '  headerdep       - Detect inclusion cycles in headers'
->> >         @echo  '  coccicheck      - Check with Coccinelle'
->> > +       @echo  '  clang-analyzer  - Check with clang static analyzer'
->> > +       @echo  '  clang-tidy      - Check with clang-tidy'
->> >         @echo  ''
->> >         @echo  'Tools:'
->> >         @echo  '  nsdeps          - Generate missing symbol namespace dependencies'
->> > diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
->> > new file mode 100644
->> > index 000000000000..e09dc1a8efff
->> > --- /dev/null
->> > +++ b/scripts/clang-tools/Makefile.clang-tools
->> > @@ -0,0 +1,23 @@
->> > +# SPDX-License-Identifier: GPL-2.0
->> > +#
->> > +# Copyright (C) Google LLC, 2020
->> > +#
->> > +# Author: Nathan Huckleberry <nhuck@google.com>
->> > +#
->> > +PHONY += clang-tidy
->> > +clang-tidy:
->> > +ifdef CONFIG_CC_IS_CLANG
->> > +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
->> > +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
->> > +else
->> > +       $(error Clang-tidy requires CC=clang)
->>
->> s/Clang/clang/ to match the case of the target.
->>
->> > +endif
->> > +
->> > +PHONY += clang-analyzer
->> > +clang-analyzer:
->> > +ifdef CONFIG_CC_IS_CLANG
->> > +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
->> > +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py static-analyzer compile_commands.json
->> > +else
->> > +       $(error Clang-analyzer requires CC=clang)
->>
->> s/Clang/clang/ to match the case of the target.
->>
->> > +endif
->> > diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
->> > similarity index 100%
->> > rename from scripts/gen_compile_commands.py
->> > rename to scripts/clang-tools/gen_compile_commands.py
->> > diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
->> > new file mode 100755
->> > index 000000000000..d429a150e23a
->> > --- /dev/null
->> > +++ b/scripts/clang-tools/run-clang-tools.py
->> > @@ -0,0 +1,77 @@
->> > +#!/usr/bin/env python
->> > +# SPDX-License-Identifier: GPL-2.0
->> > +#
->> > +# Copyright (C) Google LLC, 2020
->> > +#
->> > +# Author: Nathan Huckleberry <nhuck@google.com>
->> > +#
->> > +"""A helper routine run clang-tidy and the clang static-analyzer on
->> > +compile_commands.json."""
->> > +
->> > +import argparse
->> > +import json
->> > +import logging
->> > +import multiprocessing
->> > +import os
->> > +import re
->> > +import subprocess
->> > +
->> > +def parse_arguments():
->> > +  """Set up and parses command-line arguments.
->> > +  Returns:
->> > +    args: Dict of parsed args
->> > +      Has keys 'file' and 'type'
->> > +  """
->> > +  usage = """Run clang-tidy or the clang static-analyzer on a
->> > +  compilation database."""
->> > +  parser = argparse.ArgumentParser(description=usage)
->> > +
->> > +  type_help = ('Type of analysis to be performed')
->> > +  parser.add_argument('type', choices=['clang-tidy', 'static-analyzer'],
->> > +                      help=type_help)
->> > +  file_path_help = ('Path to the compilation database to parse')
->> > +  parser.add_argument('file',  type=str, help=file_path_help)
->>
->> I don't know if the kernel has a preferred style for Python, but I
->> think it would be good to be consistent in the use of single vs double
->> quotes for strings.  My preference is for double quotes, but I don't
->> know enough about the various PEPs for style or if the kernel has a
->> preferred style for these.
->>
->> + Bill who knows a bit about Python style.
->>
->> > +
->> > +  args = parser.parse_args()
->> > +
->> > +  return args
->> > +
->> > +def init(l,t):
->> > +  global lock
->> > +  global analysis_type
->> > +  lock = l
->> > +  analysis_type = t
->>
->> Is this canonical Python?  Maybe wrap these functions into methods of
->> an object you construct, that way you can assign these as instance
->> variables against `self`, rather than using global variables.
->
->I did this to allow shared locks between processes, see
->https://stackoverflow.com/questions/25557686/python-sharing-a-lock-between-processes
->
->>
->> > +
->> > +def run_analysis(entry):
->> > +  filename = entry['file']
->> > +  p = None
->> > +  if(analysis_type == "clang-tidy"):
->> > +    p = subprocess.run(["clang-tidy", "-p", os.getcwd(),
->> > +                        "-checks=-*,linuxkernel-*", filename],
->> > +                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
->> > +  if(analysis_type == "static-analyzer"):
->> > +    p = subprocess.run(["clang-tidy", "-p", os.getcwd(),
->> > +                        "-checks=-*,clang-analyzer-*", filename],
->> > +                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
->>
->> When you have a fair amount of duplication between two branches of an
->> if/else (for instance, same method invocation and number of
->> parameters, just slight differences in parameter values), consider if
->> you can use a ternary to simplify or make the code more concise. That
->> would also help avoid initializing `p` to `None`:
->>
->> checks = "-checks=-*,linuxkernel-*" if analysis_type == "clang-tidy"
->> else "-checks=-*,clang-analyzer-*"
->> p = subprocess.run(["clang-tidy", "-p", os.getcwd(), checks,
->>     stdout=subprocess.PIPE, stderr=subprocess.PIPE]
->>
->> then maybe do some validation of the analysis_type when validating
->> command line arguments earlier.
->
->Argparse should already handle validation of the analysis type.
->
->>
->> > +  lock.acquire()
->> > +  print(entry['file'])
->> > +  os.write(1, p.stdout)
->> > +  os.write(2, p.stderr)
->>
->> Please use sys.stdout and sys.stderr rather than magic constants for
->> their file descriptors.
->>
->> > +  lock.release()
->> > +
->> > +
->> > +def main():
->> > +  args = parse_arguments()
->> > +  filename = args.file
->> > +
->> > +  #Read JSON data into the datastore variable
->> > +  if filename:
->>
->> Isn't there a way to make command line arguments required with
->> Argparse? In that case, would you still need the conditional?
->>
->> > +    with open(filename, 'r') as f:
->> > +      datastore = json.load(f)
->> > +
->> > +      lock = multiprocessing.Lock()
->> > +      pool = multiprocessing.Pool(initializer=init, initargs=(lock,args.type,))
->> > +      pool.map(run_analysis,datastore)
->>
->> Please use a space to separate parameters in a parameter list.
->>
->> > +
->> > +if __name__ == '__main__':
->> > +    main()
->>
->> So rather than call a function named main, you could simply construct
->> an object, then call a method on it or have the constructor simply
->> kick off the analysis (essentially a mix of `main` and `init`).
->>
->> --
->> Thanks,
->> ~Nick Desaulniers
->
->Thanks,
->Nathan Huckleberry
+Thanks for the tip with "b4" tool.
+Might add this to our ClangBuiltLinux wiki "Command line tips and tricks"?
+
+- Sedat -
+
+[1] https://github.com/ClangBuiltLinux/linux/wiki/Command-line-tips-and-tri=
+cks
