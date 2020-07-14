@@ -2,114 +2,269 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BAEC220037
-	for <lists+linux-kbuild@lfdr.de>; Tue, 14 Jul 2020 23:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12506220104
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2020 01:24:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727969AbgGNVmw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 14 Jul 2020 17:42:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37658 "EHLO
+        id S1726974AbgGNXYS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 14 Jul 2020 19:24:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726710AbgGNVmw (ORCPT
+        with ESMTP id S1725977AbgGNXYR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 14 Jul 2020 17:42:52 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDFA9C061755;
-        Tue, 14 Jul 2020 14:42:51 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id d27so108241qtg.4;
-        Tue, 14 Jul 2020 14:42:51 -0700 (PDT)
+        Tue, 14 Jul 2020 19:24:17 -0400
+Received: from mail-il1-x14a.google.com (mail-il1-x14a.google.com [IPv6:2607:f8b0:4864:20::14a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C181C061755
+        for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2020 16:24:17 -0700 (PDT)
+Received: by mail-il1-x14a.google.com with SMTP id d3so138786ilq.9
+        for <linux-kbuild@vger.kernel.org>; Tue, 14 Jul 2020 16:24:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dch/WtmoKPQg8SRn/xT9XuWPxCjeN6BPw/5vBDMLPao=;
-        b=rHWw0+X+zL9ddXJHGLNV7xjzS0eiiSQzcypjCMxbHGz22QkSRGXXtGnRd5MDjvk7/w
-         yqnU0NnbElreflfaS590bj4ZlPOfQscv9mmhaLuVFnjCnnX70y93TcNWen9KB9qA3j6v
-         5k5zMDHrlXQtdJev+EzUYEg+wSUacBRYApl4QSD7d5UsB+Pz9ekk4+G1TEvXZI6WctXq
-         mzuyNHyN5CBkVGUnVqAPJHAlOqVM/pngl0NgtFvLyiOIgHpmzhu1Hub6OG/TkCjExFRo
-         Oc2xQIjZmNemXiXFrUkSzaIN9xnFuR1cD4FUPOSS4OOBE2IiALEb0VieY+zVzgse88y5
-         gCVg==
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=2MgCYW3UINne2osnWjKqpbw5LUhaGCf3Xmk9thEs7q4=;
+        b=dOfVLO3jlim0zb9WHzhTGm0jo6RhQKLeVileQs4onfYV8C0NDaTm8dCDLEcrtZYcKO
+         zCez3YySkFunloZdbla++ue8szahSBXOepUxMJG+MNvW0BIaZAfzHFxtWnAegNuCE6er
+         AZDMOzaUy/l9JdBX4MZIzbmSE20yp6rlakGW00sDCto2c9Rb5sOU67ZoH+WD/PGE8X0h
+         E7aLCEB6UZd5AOeeUXcwMFhhqdc62OqNRDSEt7ASNsseVOe0l59s9qaoumTrZwxUqF7h
+         2D794wbhML3bHixXtG6cIMfrp6mCFxtM7j/a3PPJMnYp44Is97Q7yGGMveu5rkOGgRwD
+         K7Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=dch/WtmoKPQg8SRn/xT9XuWPxCjeN6BPw/5vBDMLPao=;
-        b=qKTt6KyquWNTXQJfh/zwxaHVpnQ0FQbVG/4bKxNaA5PBXaatmOHh55NsgyanQ/BNBP
-         AmfEJb7LxqTItFa9IoIh7uxP0MhCb2NwHJ5shZR4TF+CDs0h8X2AN5fT5UlziOz59Am6
-         AooPg/Vr30ePKouPXspyvyandYusdJirLb8HUdzdkRGHVpn8bJ8neo+Fk2LOM+8J1NrC
-         Pwra3QNajB5qLVJf1tI3oQPvL+gM23KgEI5KiC6bT2FayB6InHuskLDN5krDg+JAjNsa
-         6QOEYOY23+3pF/YHOR2XtQnIKpIE1nR6LeBhSsUkbTovHnsj5m3gcuAUgfA46Uhx/LNZ
-         NijQ==
-X-Gm-Message-State: AOAM533L7uaUhsEa0SkpL18TvjXTL/+nqma/6pQE2Pc7PcWVMzC7Y6aZ
-        Gt0jW+DELYFnPpW7XK47VrE=
-X-Google-Smtp-Source: ABdhPJzqJXUtDidVRHkXV4qNzeWa0YUAEGGmGN/8NWsY3UrCM6YCDQc4K/5yU4yxaXRn7gQCKKxL2A==
-X-Received: by 2002:ac8:4ccb:: with SMTP id l11mr6786726qtv.18.1594762964831;
-        Tue, 14 Jul 2020 14:42:44 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id q28sm377002qtk.13.2020.07.14.14.42.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2020 14:42:44 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 14 Jul 2020 17:42:42 -0400
-To:     Nick Terrell <nickrterrell@gmail.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-        linux-kbuild@vger.kernel.org, x86@kernel.org,
-        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
-        Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Norbert Lange <nolange79@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alex Xu <alex_y_xu@yahoo.ca>, Nick Terrell <terrelln@fb.com>
-Subject: Re: [PATCH v7 2/7] lib: add zstd support to decompress
-Message-ID: <20200714214242.GA1000731@rani.riverdale.lan>
-References: <20200708185024.2767937-1-nickrterrell@gmail.com>
- <20200708185024.2767937-3-nickrterrell@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200708185024.2767937-3-nickrterrell@gmail.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=2MgCYW3UINne2osnWjKqpbw5LUhaGCf3Xmk9thEs7q4=;
+        b=uH0jKQRbbOzEG7dv7PVTEwjWMDiHVP7G5O4T/h8TPlsbyToPZtTAGdwFi+qsMK2GyW
+         bzVp/hnzEuuPkM0ylL7fkXRsz9WjP+VtA5p9V6pKp1SJ9XRof5IQzoYbRke4OFyJ9a0G
+         6d0mokmrnHUyWu9OWZaN8woc51Wm4LuGIFKbvfeHkXsdGe4rpmJfqHTjVzG4qJUMFJrg
+         i/eDnMrw1kVnbsiw+gTYDftJh4j19NYANe8xylt605pUIBzGa0/HQMRqgQv43cWACUxF
+         /emRXmm3I7+6WbojReeDZrxUb1BmXrSSxJTBVW9CZGMKWMKZt+mPOTlU0GOfG8fXigiR
+         ciUQ==
+X-Gm-Message-State: AOAM531zJ5XhhWBbIJnUeKtX35EO1+UsUCxwzi2cT/6SuvZG/nROeUbp
+        pONIMJ6mtOWsrsGSNtCupB3skZ39Qw==
+X-Google-Smtp-Source: ABdhPJzA0rVDrfWNGsOJlpomXWRnd2FOUAwGD6tuO1OeT4r/rHHZbSfoauDyZdczZ04JNApzrb8tDzY1Xw==
+X-Received: by 2002:a05:6638:3aa:: with SMTP id z10mr8679368jap.54.1594769056604;
+ Tue, 14 Jul 2020 16:24:16 -0700 (PDT)
+Date:   Tue, 14 Jul 2020 23:23:49 +0000
+In-Reply-To: <20200713225103.GA1095851@google.com>
+Message-Id: <20200714232349.2198114-1-nhuck@google.com>
+Mime-Version: 1.0
+References: <20200713225103.GA1095851@google.com>
+X-Mailer: git-send-email 2.27.0.389.gc38d7665816-goog
+Subject: [PATCH v3] Makefile: Add clang-tidy and static analyzer support to makefile
+From:   Nathan Huckleberry <nhuck@google.com>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        Nathan Huckleberry <nhuck@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 08, 2020 at 11:50:19AM -0700, Nick Terrell wrote:
-> From: Nick Terrell <terrelln@fb.com>
-> 
-> * Add unzstd() and the zstd decompress interface.
-> * Add zstd support to decompress_method().
-> 
-> The decompress_method() and unzstd() functions are used to decompress
-> the initramfs and the initrd. The __decompress() function is used in
-> the preboot environment to decompress a zstd compressed kernel.
-> 
-> The zstd decompression function allows the input and output buffers to
-> overlap because that is used by x86 kernel decompression.
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
-> Signed-off-by: Nick Terrell <terrelln@fb.com>
-> + *
-> + * __DISABLE_EXPORTS stops zstd and xxhash from declaring themselves
-> + * as modules by disabling the EXPORT_SYMBOL macro.
-> + */
+This patch adds clang-tidy and the clang static-analyzer as make
+targets. The goal of this patch is to make static analysis tools
+usable and extendable by any developer or researcher who is familiar
+with basic c++.
 
-Hi Nick, this doesn't actually work, because misc.c includes export.h
-via
-	"misc.h" -> <linux/linkage.h> -> <linux/export.h>
-and EXPORT_SYMBOL is already defined before __DISABLE_EXPORTS is defined
-here.
+The current static analysis tools require intimate knowledge of the
+internal
+workings of the static analysis.  Clang-tidy and the clang static
+analyzers
+expose an easy to use api and allow users unfamiliar with clang to
+write new checks with relative ease.
 
-Adding -D__EXPORT_SYMBOLS to KBUILD_CFLAGS in arch/x86/boot/compressed/Makefile
-fixes that, and then you don't have to define it here.
+===Clang-tidy===
 
-Also, __DISABLE_EXPORTS does not currently inhibit MODULE_INFO, so a
-.modinfo section gets emitted into misc.o. I *think* this is harmless
-and it will get discarded when building compressed/vmlinux, but thought
-I'd point it out.
+Clang-tidy is an easily extendable 'linter' that runs on the AST.
+Clang-tidy checks are easy to write and understand. A check consists of
+two parts, a matcher and a checker. The matcher is created using a
+domain specific language that acts on the AST
+(https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
+nodes are found by the matcher a callback is made to the checker. The
+checker can then execute additional checks and issue warnings.
+
+Here is an example clang-tidy check to report functions that have calls
+to local_irq_disable without calls to local_irq_enable and vice-versa.
+Functions flagged with __attribute((annotation("ignore_irq_balancing")))
+are ignored for analysis. (https://reviews.llvm.org/D65828)
+
+===Clang static analyzer===
+
+The clang static analyzer is a more powerful static analysis tool that
+uses symbolic execution to find bugs. Currently there is a check that
+looks for potential security bugs from invalid uses of kmalloc and
+kfree. There are several more general purpose checks that are useful for
+the kernel.
+
+The clang static analyzer is well documented and designed to be
+extensible.
+(https://clang-analyzer.llvm.org/checker_dev_manual.html)
+(https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
+
+The main draw of the clang tools is how accessible they are. The clang
+documentation is very nice and these tools are built specifically to be
+easily extendable by any developer. They provide an accessible method of
+bug-finding and research to people who are not overly familiar with the
+kernel codebase.
+
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+---
+Changes v2 -> v3
+* Redirect clang-tidy output to stderr
+* Style fixes
+* Add directory to MAINTAINERS
+ MAINTAINERS                                   |  1 +
+ Makefile                                      |  3 +
+ scripts/clang-tools/Makefile.clang-tools      | 23 +++++++
+ .../{ => clang-tools}/gen_compile_commands.py |  0
+ scripts/clang-tools/run-clang-tools.py        | 69 +++++++++++++++++++
+ 5 files changed, 96 insertions(+)
+ create mode 100644 scripts/clang-tools/Makefile.clang-tools
+ rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
+ create mode 100755 scripts/clang-tools/run-clang-tools.py
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1d4aa7f942de..a444564e5572 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4198,6 +4198,7 @@ W:	https://clangbuiltlinux.github.io/
+ B:	https://github.com/ClangBuiltLinux/linux/issues
+ C:	irc://chat.freenode.net/clangbuiltlinux
+ F:	Documentation/kbuild/llvm.rst
++F:	scripts/clang-tools/
+ K:	\b(?i:clang|llvm)\b
+ 
+ CLEANCACHE API
+diff --git a/Makefile b/Makefile
+index fe0164a654c7..3e2df010b342 100644
+--- a/Makefile
++++ b/Makefile
+@@ -747,6 +747,7 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
+ 
+ include scripts/Makefile.kcov
+ include scripts/Makefile.gcc-plugins
++include scripts/clang-tools/Makefile.clang-tools
+ 
+ ifdef CONFIG_READABLE_ASM
+ # Disable optimizations that make assembler listings hard to read.
+@@ -1543,6 +1544,8 @@ help:
+ 	@echo  '  export_report   - List the usages of all exported symbols'
+ 	@echo  '  headerdep       - Detect inclusion cycles in headers'
+ 	@echo  '  coccicheck      - Check with Coccinelle'
++	@echo  '  clang-analyzer  - Check with clang static analyzer'
++	@echo  '  clang-tidy      - Check with clang-tidy'
+ 	@echo  ''
+ 	@echo  'Tools:'
+ 	@echo  '  nsdeps          - Generate missing symbol namespace dependencies'
+diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
+new file mode 100644
+index 000000000000..7ad3308c1937
+--- /dev/null
++++ b/scripts/clang-tools/Makefile.clang-tools
+@@ -0,0 +1,23 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Google LLC, 2020
++#
++# Author: Nathan Huckleberry <nhuck@google.com>
++#
++PHONY += clang-tidy
++clang-tidy:
++ifdef CONFIG_CC_IS_CLANG
++	$(PYTHON3) scripts/clang-tools/gen_compile_commands.py
++	$(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
++else
++	$(error clang-tidy requires CC=clang)
++endif
++
++PHONY += clang-analyzer
++clang-analyzer:
++ifdef CONFIG_CC_IS_CLANG
++	$(PYTHON3) scripts/clang-tools/gen_compile_commands.py
++	$(PYTHON3) scripts/clang-tools/run-clang-tools.py static-analyzer compile_commands.json
++else
++	$(error clang-analyzer requires CC=clang)
++endif
+diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+similarity index 100%
+rename from scripts/gen_compile_commands.py
+rename to scripts/clang-tools/gen_compile_commands.py
+diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+new file mode 100755
+index 000000000000..00b8532c1729
+--- /dev/null
++++ b/scripts/clang-tools/run-clang-tools.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/env python
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Google LLC, 2020
++#
++# Author: Nathan Huckleberry <nhuck@google.com>
++#
++"""A helper routine run clang-tidy and the clang static-analyzer on
++compile_commands.json."""
++
++import argparse
++import json
++import logging
++import multiprocessing
++import os
++import subprocess
++import sys
++
++def parse_arguments():
++  """Set up and parses command-line arguments.
++  Returns:
++    args: Dict of parsed args
++      Has keys "file" and "type"
++  """
++  usage = """Run clang-tidy or the clang static-analyzer on a
++  compilation database."""
++  parser = argparse.ArgumentParser(description=usage)
++
++  type_help = ("Type of analysis to be performed")
++  parser.add_argument("type", choices=["clang-tidy", "static-analyzer"],
++                      help=type_help)
++  file_path_help = ("Path to the compilation database to parse")
++  parser.add_argument("file",  type=str, help=file_path_help)
++
++  args = parser.parse_args()
++
++  return args
++
++def init(l,t):
++  global lock
++  global analysis_type
++  lock = l
++  analysis_type = t
++
++def run_analysis(entry):
++  filename = entry["file"]
++  checks = "-checks=-*,linuxkernel-*" if (analysis_type == "clang-tidy") else "-checks=-*,clang-analyzer-*"
++  p = subprocess.run(["clang-tidy", "-p", os.getcwd(),
++                    checks, filename],
++                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++  lock.acquire()
++  print(filename, file=sys.stderr)
++  sys.stderr.buffer.write(p.stdout)
++  lock.release()
++
++
++def main():
++  args = parse_arguments()
++  filename = args.file
++
++  #Read JSON data into the datastore variable
++  with open(filename, "r") as f:
++    datastore = json.load(f)
++    lock = multiprocessing.Lock()
++    pool = multiprocessing.Pool(initializer=init, initargs=(lock, args.type))
++    pool.map(run_analysis,datastore)
++
++if __name__ == "__main__":
++    main()
+-- 
+2.27.0.389.gc38d7665816-goog
+
