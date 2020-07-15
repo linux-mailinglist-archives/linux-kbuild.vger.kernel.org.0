@@ -2,84 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 424DC220F30
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2020 16:26:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ABFA22131D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2020 19:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728635AbgGOO0j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Jul 2020 10:26:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50914 "EHLO
+        id S1726715AbgGORDC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 Jul 2020 13:03:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbgGOO0j (ORCPT
+        with ESMTP id S1726694AbgGORDB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Jul 2020 10:26:39 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216C9C061755;
-        Wed, 15 Jul 2020 07:26:39 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id x8so2452353plm.10;
-        Wed, 15 Jul 2020 07:26:39 -0700 (PDT)
+        Wed, 15 Jul 2020 13:03:01 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DA64C08C5DB
+        for <linux-kbuild@vger.kernel.org>; Wed, 15 Jul 2020 10:03:01 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id t6so2638801plo.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 15 Jul 2020 10:03:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=Cf7VzUGNcVW14TxQ7W+i6Ijja36UwcJjRErcM4N9znc=;
-        b=LqWxujlr5FI8tOftLMXDC2FrO1bETiMZL5N/zvR32Cr+VM9Qa7FxhZ0D0v1C4gbMVt
-         RALDAW9w8pHRhDIbqWX7d8HR3ArZPW9CObUh3arqYIGcOdYqK63kfiRLx8l6nj9b1Yi9
-         MRkrKug2lXN4V/2r6Z8EYQFuzZGQz1KjVowvR/2YS62NiYpNlXINwvk6HPmHJol8do56
-         vudp7YV+bgjbWgRKwxomyR4wc8ZSxBXvWfNM4gDdzs8vFX0SDeVRJr+JX7eVU85nBFnY
-         SfWy3yDl+aHjP3ThhfYX6BLpo/r+4Yl1xh7A0YLjOkfj6FdjEDTe5w37Q4xqd6qlrdrC
-         9biw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dHGDqDpJQH4YoOfT6AcOSJnWTTovtZLnMGH7dmTa0Ck=;
+        b=obRDuUAdaMmGPgvDxY4WMBIgCaUylyDUXQ8rQLlL9e9rgO61u4EuZXp0bo4/7tygXi
+         c3snM96+gdf2cigjK+jL9gVfupvnkb0bht0jZny6Zk/XDrFd2w4yEPn4L/045ANV8CNP
+         e2q+KpXCKg8K03+nsiDVwNo3vU5g4cz9dhfT0JYS2Ouj0L50bFmEAz88//5CDbgJpDwW
+         JrsC3aL2z3XyCAXf0r6cdp3ZHX1T/pUscINoaAy93TxSDVPDk/ISdDdz5pAFStvdQPxG
+         T2sxh3ER7U45hQGxKOia2ShlQydm481qPmbDTgpWwtWNULbPIteFbugPPCIzkYLvIw32
+         DYkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=Cf7VzUGNcVW14TxQ7W+i6Ijja36UwcJjRErcM4N9znc=;
-        b=f4mQSu0jnkBm6IJKJAUN7pKs8q8z8lAyggP8psguxaCJril9Ssqhvul966eT5qrTl4
-         HxhtVbmIujYj03iUpVNqwoJLXOAU0+/4B0DGHp5Z4TLH0Yjw+p5fSLj4xBacrrMeNaV7
-         iA5aKizC6kLEmExK1uyncBSv0vQaxArkp9KNh0ie3l9DTTRmQu2EYacFsH/czQku0y+h
-         t3TnrN8dxhdHbl0nFIgNrPaexq8BFwiF8MSoVlTHusePFWY2YbUrxhE3Nv2lpDshmTvY
-         XritN7UacARTl2vSGDUUbziZC5uIoV8fC47m7wbYdNhrt7Cfm9tr6t45uvzYSnxTKKHm
-         nmrQ==
-X-Gm-Message-State: AOAM532tCsm/NRIkE2xwC+5o76maASWws+0HnA+g20lli9MGqT4QFcMo
-        Io/vbE5eMr3UZKf63X+DBCc=
-X-Google-Smtp-Source: ABdhPJxc+PcUyRXPFSiepL+frTS2yx9txd8EAmyAZUd70euDlFa2pRe1xLDwQfwe4R+3T7s6lvZg4g==
-X-Received: by 2002:a17:90b:4910:: with SMTP id kr16mr10502482pjb.126.1594823198263;
-        Wed, 15 Jul 2020 07:26:38 -0700 (PDT)
-Received: from mritunjay-Lenovo-Yoga-S740-14IIL ([2405:201:6402:aeae:6d34:5d62:d650:d199])
-        by smtp.gmail.com with ESMTPSA id q13sm2639207pfk.8.2020.07.15.07.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2020 07:26:37 -0700 (PDT)
-Date:   Wed, 15 Jul 2020 19:56:31 +0530
-From:   Mritunjay Sharma <mritunjaysharma394@gmail.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net
-Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH] Modified Makefile to print -eudyptula in the version string
-Message-ID: <20200715142631.GA3721@mritunjay-Lenovo-Yoga-S740-14IIL>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dHGDqDpJQH4YoOfT6AcOSJnWTTovtZLnMGH7dmTa0Ck=;
+        b=suBvY2gIP+sWV0Ygl43Y0+RrGfverHBcktkndofqW02S0GjFgYU3W+I6RYeK3SpTVv
+         QXXGElyLTTc+CGqCYuXF13sugf5H6ZlYsGejEqS06c9PoTo81P2xhEnZnGRfZp6oKlyY
+         MyupUkxtXe9u7qnnByS7bImsiPkvfYDcTNHi6TxHQnWaCFS6psHTVbkafTCJy6Gg1E1p
+         DEhKLN+6f6G4LAopgbwKLoXxlH9fVKMtWKsZPdKdN8tH11V6d4FjjykIMaKxX6SSXD3X
+         MnzlQwcxMkrkcJv6QrNQ8wUy3XbOvn6mRtUnFxE15n0dhgvqvBi4FLvA3h67Wk30BVap
+         JMfA==
+X-Gm-Message-State: AOAM533E2kBEGzG6oxrQglb/6ZGdVewMOVBLMVwx+CuhVpJotZ7VnvRB
+        E8bkRgvrSNL+oMtOmEUJODdMjwxD9bhnBAAsOJv0sw==
+X-Google-Smtp-Source: ABdhPJwyGjUpfY+rpN8FySCcoP5Xxs6lC4Ir9qWwMIpCHB+/hlC3QOGjQEtXEPaWQqebmMgg4nthk9jPapMr4ZPmElU=
+X-Received: by 2002:a17:90a:d306:: with SMTP id p6mr541629pju.25.1594832580277;
+ Wed, 15 Jul 2020 10:03:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200715142631.GA3721@mritunjay-Lenovo-Yoga-S740-14IIL>
+In-Reply-To: <20200715142631.GA3721@mritunjay-Lenovo-Yoga-S740-14IIL>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 15 Jul 2020 10:02:53 -0700
+Message-ID: <CAKwvOdnTfOgxroWTOJ3RMf9wt8+CsxYCp_e+T7rfh5Y0_1RrDg@mail.gmail.com>
+Subject: Re: [PATCH] Modified Makefile to print -eudyptula in the version string
+To:     Mritunjay Sharma <mritunjaysharma394@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Signed-off-by: Mritunjay Sharma <mritunjaysharma394@gmail.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jul 15, 2020 at 7:26 AM Mritunjay Sharma
+<mritunjaysharma394@gmail.com> wrote:
+>
+> Signed-off-by: Mritunjay Sharma <mritunjaysharma394@gmail.com>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 0b5f8538bde5..d7897ce5ab23 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -2,7 +2,7 @@
+>  VERSION = 5
+>  PATCHLEVEL = 8
+>  SUBLEVEL = 0
+> -EXTRAVERSION = -rc5
+> +EXTRAVERSION = -rc5-eudyptula
 
-diff --git a/Makefile b/Makefile
-index 0b5f8538bde5..d7897ce5ab23 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2,7 +2,7 @@
- VERSION = 5
- PATCHLEVEL = 8
- SUBLEVEL = 0
--EXTRAVERSION = -rc5
-+EXTRAVERSION = -rc5-eudyptula
- NAME = Kleptomaniac Octopus
- 
- # *DOCUMENTATION*
+oh man, I love the Eudyptula challenge. I remember running through it
+not too long ago.  I don't think you're actually supposed to send this
+change though.  Anyways, good job, looks like you found the right
+reviewers if this is a change we'd actually want to commit.
+
+It's usually expected to have more in the body than just the online
+summary and your signoff.  A comment review comment is "-ENOCOMMITMSG"
+which I think is its own meme.
+
+>  NAME = Kleptomaniac Octopus
+>
+>  # *DOCUMENTATION*
+> --
+
+
 -- 
-2.25.1
-
+Thanks,
+~Nick Desaulniers
