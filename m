@@ -2,113 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E8EE22061C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2020 09:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 424DC220F30
+	for <lists+linux-kbuild@lfdr.de>; Wed, 15 Jul 2020 16:26:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729270AbgGOHWs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Jul 2020 03:22:48 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:22991 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729247AbgGOHWr (ORCPT
+        id S1728635AbgGOO0j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 15 Jul 2020 10:26:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728414AbgGOO0j (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Jul 2020 03:22:47 -0400
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 06F7M7QO031597;
-        Wed, 15 Jul 2020 16:22:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 06F7M7QO031597
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1594797728;
-        bh=w3JbW09mtoeE98TWzXBL1LmtIUCrjbrYaU4GyXXoQ4A=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KE7n4oSkpr4uW9J+/oFTuVtoFLcgVoosn+86ciSZgCJ1HtPLFYm8CHSnvqnhfjUJC
-         5sf/Nc8t+ReC9oUEKvMQVFsDFgnYnE/HrO29qiI+P/ogTZTdxqhSoo0wnEUHIyDH9M
-         CmJ5+g4DLGNFsrBMvSzqOhTfJixzKqXhJfzhL8FTqBjg6ng+1/Hs9QBKCBaozSsawx
-         PzSHCqfb/9AAxEhT9bHlrGp2lgdyveQ0yH3eIPf11hWEs1K9dUaP7uGmdumdsCO3//
-         9f1UNKqdJQjDaTrJBQt9ussCzwf4C4w/3KMGxaEPzmUrTsBvJQCVHfrJnKLAEgOnhl
-         cOW7MuoJ7HcFQ==
-X-Nifty-SrcIP: [209.85.222.48]
-Received: by mail-ua1-f48.google.com with SMTP id g4so280210uaq.10;
-        Wed, 15 Jul 2020 00:22:07 -0700 (PDT)
-X-Gm-Message-State: AOAM53272+RRs5bisZutAcQknJrmeIJ8SC2MGFfb85CqyaVeFvd32zAs
-        Kj/2Nddz1ryStE/odyuWLVz4FTN+X8twzVfndvU=
-X-Google-Smtp-Source: ABdhPJzniKddUQu2JP4MRRzQSLJmu66OKv+Gt9OUATG6zNkhKWMie+WW0snL77VGMIYWVgVjhoN2r9IkM4IAsJ9NJ8Q=
-X-Received: by 2002:ab0:44e5:: with SMTP id n92mr6138229uan.121.1594797726600;
- Wed, 15 Jul 2020 00:22:06 -0700 (PDT)
+        Wed, 15 Jul 2020 10:26:39 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 216C9C061755;
+        Wed, 15 Jul 2020 07:26:39 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id x8so2452353plm.10;
+        Wed, 15 Jul 2020 07:26:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=Cf7VzUGNcVW14TxQ7W+i6Ijja36UwcJjRErcM4N9znc=;
+        b=LqWxujlr5FI8tOftLMXDC2FrO1bETiMZL5N/zvR32Cr+VM9Qa7FxhZ0D0v1C4gbMVt
+         RALDAW9w8pHRhDIbqWX7d8HR3ArZPW9CObUh3arqYIGcOdYqK63kfiRLx8l6nj9b1Yi9
+         MRkrKug2lXN4V/2r6Z8EYQFuzZGQz1KjVowvR/2YS62NiYpNlXINwvk6HPmHJol8do56
+         vudp7YV+bgjbWgRKwxomyR4wc8ZSxBXvWfNM4gDdzs8vFX0SDeVRJr+JX7eVU85nBFnY
+         SfWy3yDl+aHjP3ThhfYX6BLpo/r+4Yl1xh7A0YLjOkfj6FdjEDTe5w37Q4xqd6qlrdrC
+         9biw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Cf7VzUGNcVW14TxQ7W+i6Ijja36UwcJjRErcM4N9znc=;
+        b=f4mQSu0jnkBm6IJKJAUN7pKs8q8z8lAyggP8psguxaCJril9Ssqhvul966eT5qrTl4
+         HxhtVbmIujYj03iUpVNqwoJLXOAU0+/4B0DGHp5Z4TLH0Yjw+p5fSLj4xBacrrMeNaV7
+         iA5aKizC6kLEmExK1uyncBSv0vQaxArkp9KNh0ie3l9DTTRmQu2EYacFsH/czQku0y+h
+         t3TnrN8dxhdHbl0nFIgNrPaexq8BFwiF8MSoVlTHusePFWY2YbUrxhE3Nv2lpDshmTvY
+         XritN7UacARTl2vSGDUUbziZC5uIoV8fC47m7wbYdNhrt7Cfm9tr6t45uvzYSnxTKKHm
+         nmrQ==
+X-Gm-Message-State: AOAM532tCsm/NRIkE2xwC+5o76maASWws+0HnA+g20lli9MGqT4QFcMo
+        Io/vbE5eMr3UZKf63X+DBCc=
+X-Google-Smtp-Source: ABdhPJxc+PcUyRXPFSiepL+frTS2yx9txd8EAmyAZUd70euDlFa2pRe1xLDwQfwe4R+3T7s6lvZg4g==
+X-Received: by 2002:a17:90b:4910:: with SMTP id kr16mr10502482pjb.126.1594823198263;
+        Wed, 15 Jul 2020 07:26:38 -0700 (PDT)
+Received: from mritunjay-Lenovo-Yoga-S740-14IIL ([2405:201:6402:aeae:6d34:5d62:d650:d199])
+        by smtp.gmail.com with ESMTPSA id q13sm2639207pfk.8.2020.07.15.07.26.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2020 07:26:37 -0700 (PDT)
+Date:   Wed, 15 Jul 2020 19:56:31 +0530
+From:   Mritunjay Sharma <mritunjaysharma394@gmail.com>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: [PATCH] Modified Makefile to print -eudyptula in the version string
+Message-ID: <20200715142631.GA3721@mritunjay-Lenovo-Yoga-S740-14IIL>
 MIME-Version: 1.0
-References: <20200715032631.1562882-1-nivedita@alum.mit.edu>
-In-Reply-To: <20200715032631.1562882-1-nivedita@alum.mit.edu>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 15 Jul 2020 16:21:30 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARqLfYmEomDyzc9iXrk7hKKpGg-nKXpM22V4UYCrXzXAg@mail.gmail.com>
-Message-ID: <CAK7LNARqLfYmEomDyzc9iXrk7hKKpGg-nKXpM22V4UYCrXzXAg@mail.gmail.com>
-Subject: Re: [PATCH] arch/x86/boot: Don't add the EFI stub to targets
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-Cc:     X86 ML <x86@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 15, 2020 at 12:26 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
->
-> vmlinux-objs-y is added to targets, which currently means that the EFI
-> stub gets added to the targets as well. It shouldn't be added since it
-> is built elsewhere.
->
-> This confuses Makefile.build which interprets the EFI stub as a target
->         $(obj)/$(objtree)/drivers/firmware/efi/libstub/lib.a
-> and will create drivers/firmware/efi/libstub/ underneath
-> arch/x86/boot/compressed, to hold this supposed target, if building
-> out-of-tree. [0]
->
-> Fix this by pulling the stub out of vmlinux-objs-y into efi-obj-y.
->
-> [0] See scripts/Makefile.build near the end:
->     # Create directories for object files if they do not exist
->
-> Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
-> ---
+Signed-off-by: Mritunjay Sharma <mritunjaysharma394@gmail.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-
->  arch/x86/boot/compressed/Makefile | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index 7619742f91c9..5a828fde7a42 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -90,8 +90,8 @@ endif
->
->  vmlinux-objs-$(CONFIG_ACPI) += $(obj)/acpi.o
->
-> -vmlinux-objs-$(CONFIG_EFI_STUB) += $(objtree)/drivers/firmware/efi/libstub/lib.a
->  vmlinux-objs-$(CONFIG_EFI_MIXED) += $(obj)/efi_thunk_$(BITS).o
-> +efi-obj-$(CONFIG_EFI_STUB) = $(objtree)/drivers/firmware/efi/libstub/lib.a
->
->  # The compressed kernel is built with -fPIC/-fPIE so that a boot loader
->  # can place it anywhere in memory and it will still run. However, since
-> @@ -115,7 +115,7 @@ endef
->  quiet_cmd_check-and-link-vmlinux = LD      $@
->        cmd_check-and-link-vmlinux = $(cmd_check_data_rel); $(cmd_ld)
->
-> -$(obj)/vmlinux: $(vmlinux-objs-y) FORCE
-> +$(obj)/vmlinux: $(vmlinux-objs-y) $(efi-obj-y) FORCE
->         $(call if_changed,check-and-link-vmlinux)
->
->  OBJCOPYFLAGS_vmlinux.bin :=  -R .comment -S
-> --
-> 2.26.2
->
-
-
+diff --git a/Makefile b/Makefile
+index 0b5f8538bde5..d7897ce5ab23 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 5
+ PATCHLEVEL = 8
+ SUBLEVEL = 0
+-EXTRAVERSION = -rc5
++EXTRAVERSION = -rc5-eudyptula
+ NAME = Kleptomaniac Octopus
+ 
+ # *DOCUMENTATION*
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
