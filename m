@@ -2,64 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1957221785
-	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Jul 2020 00:08:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E8FA222625
+	for <lists+linux-kbuild@lfdr.de>; Thu, 16 Jul 2020 16:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbgGOWIu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 15 Jul 2020 18:08:50 -0400
-Received: from a27-30.smtp-out.us-west-2.amazonses.com ([54.240.27.30]:44404
-        "EHLO a27-30.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726370AbgGOWIt (ORCPT
+        id S1728237AbgGPOtG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 16 Jul 2020 10:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725867AbgGPOtF (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 15 Jul 2020 18:08:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
-        t=1594850928;
-        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
-        bh=3/6iA5swYS5O5SpQJbfLWm6vF/gbq5u4IMjVS9A11/o=;
-        b=C6Y30YSk7YAJEBhAvkw0bbVeXFfcrb1I1GqQBp718Im4clo2UhSfmXJF8EaN9pL/
-        eonD+H/rZCyG94QWqt1o0HRg9xsV0Sw3aq06y+sweyRIAEOoqbSFtVlGVkb3YIorCrA
-        XuRuFM79yz8G2uj0fXDe2saMWEktXItDmc6swz/s=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1594850928;
-        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-        bh=3/6iA5swYS5O5SpQJbfLWm6vF/gbq5u4IMjVS9A11/o=;
-        b=THS7sO9jdNf1BLltCL0vKi+VYHUHbvWSLafwe5M6AN4T43ZbOk0oh9Q0uVT3IOMy
-        sRhYP13afXGcEioI7OfH+1PDKWGcRfzmkbwhoKQAKAvbwQjzTYYvSuBtX0X/gmoOA+n
-        Qk4yrtvBADXtktduT1DhwBkZYC8yyLkpdgG2NpO4=
-Subject: [Kernel.org Helpdesk #93182] Re: linux-kbuild missing from lore?
-From:   "Konstantin Ryabitsev via RT" 
-        <kernel-helpdesk@rt.linuxfoundation.org>
-Reply-To: kernel-helpdesk@rt.linuxfoundation.org
-In-Reply-To: <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
-References: <RT-Ticket-93182@linuxfoundation>
- <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
- <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
- <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
- <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
-Message-ID: <010101735485e880-432becb0-6240-4321-a6a0-ad65b9f84880-000000@us-west-2.amazonses.com>
-X-RT-Loop-Prevention: linuxfoundation.org
-X-RT-Ticket: linuxfoundation.org #93182
-X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
-X-RT-Originator: konstantin@linuxfoundation.org
-To:     ndesaulniers@google.com
-CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, nhuck@google.com, rdunlap@infradead.org,
-        sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-X-RT-Original-Encoding: utf-8
-Date:   Wed, 15 Jul 2020 22:08:48 +0000
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SES-Outgoing: 2020.07.15-54.240.27.30
-Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
+        Thu, 16 Jul 2020 10:49:05 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3E6C061755;
+        Thu, 16 Jul 2020 07:49:05 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id e8so4968370pgc.5;
+        Thu, 16 Jul 2020 07:49:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=W2OZvJG4DPRannY7wuwhfNk5s3YNrxgm/m4qGt8i4rE=;
+        b=jWP4gYUdkJ025RQx0M4uQajcNEnMl/nPvN9dVTi9eoy74Rmb6eP76LIM1wMGpfPPnK
+         OvJGg5IjEzBHh3MT6h5Z2CNjs3TO7oP9wfgNgebBmFJPLhSlDqIpeAd7VcfuURuZBT2z
+         qC0KDnrTAhkfI86cWWTq+/ZajfMRt0at6PrhR6Si07S/6xkiKjCzm84enuBmPyEuNObK
+         wpQwZYviaX6WYIYv+QO3HVDPXOmz7mt29H4gtMwaPEdxecsDX3Pz6PSFrzbiK1FumiIp
+         ldL67iaHOzfWRtdxK/T5o4zkyvwbrm9e04TT6IuZHTGN/A9qi+fbS9enIQuvAG0hCwqD
+         CXaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=W2OZvJG4DPRannY7wuwhfNk5s3YNrxgm/m4qGt8i4rE=;
+        b=n74WpMNU3g8UgASdZphQQCZQlMecXwyuGCJ9lEMlvFn51NZNyTiSF7UpNfN72sEPPk
+         NRGymcqjwUlEyW6i35tgc9As7SqMpfitdztwy1E+PzAh2LiyjNmcmdAfKSA2ZtDgbnmC
+         vQ2uwB3NLgPq05QVA90SBfBbrjPQYY+u4VwmtI1eELrBt1V7ne5zczH0Qh0LV8lnXY6J
+         POYOBJ1oTOD4tNNQFq1UsZuiaKCckD/uMVlm+2ReMI3bW4qZvvFRdVY3r1DK9R1rU8GY
+         wJ3iQGUi5Qpus6SD79ESuEDi90fZyCs7pMMv0PmSnGW8A+63zcZj3RKx+7ruwP9fGhzo
+         w6HA==
+X-Gm-Message-State: AOAM532RAB7+hLumekRFUa2fQyju+BeL/VsUtNMj++mRnJE39bNK5BbZ
+        ZaBhWfDylngxsNBZt5hSGtk=
+X-Google-Smtp-Source: ABdhPJzq4ajzmPpxhlpGrWRgsSPlBde/g7zwaOm5aM8RqGHr9eXRsQaVRro7Rj1L7Ntn2lsG/CPGQA==
+X-Received: by 2002:a62:ae0d:: with SMTP id q13mr4051021pff.89.1594910945098;
+        Thu, 16 Jul 2020 07:49:05 -0700 (PDT)
+Received: from localhost.localdomain ([139.167.122.148])
+        by smtp.gmail.com with ESMTPSA id s68sm347383pjb.38.2020.07.16.07.49.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2020 07:49:04 -0700 (PDT)
+From:   Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     Dhiraj Sharma <dhiraj.sharma0024@gmail.com>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] Makefile: Add "-eudyptula" string in EXTRAVERSION
+Date:   Thu, 16 Jul 2020 20:18:43 +0530
+Message-Id: <20200716144843.7965-1-dhiraj.sharma0024@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello, all:
+I am doing eudyptula assigned tasks to get selected as a mentee. I am using LDF103 course knowledge and loving it.
+I used git log for Makefile and ran checkpatch.pl on my patch as to follow the same commit process guidelines. I hope you will like it.
 
-We have a small backlog of lore.kernel.org requests at this time, but we should be able to get to it in short order. Thank you for your patience.
+Signed-off-by: Dhiraj Sharma <dhiraj.sharma0024@gmail.com>
+Suggested-by: Little Penguin <little@eudyptula-challenge.org>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--K
+diff --git a/Makefile b/Makefile
+index 0b5f8538bde5..d7897ce5ab23 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 5
+ PATCHLEVEL = 8
+ SUBLEVEL = 0
+-EXTRAVERSION = -rc5
++EXTRAVERSION = -rc5-eudyptula
+ NAME = Kleptomaniac Octopus
+
+ # *DOCUMENTATION*
+--
+2.17.1
+
