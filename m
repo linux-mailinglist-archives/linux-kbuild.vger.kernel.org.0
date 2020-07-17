@@ -2,61 +2,23 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D980D22428A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 19:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D93D2242E3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 20:05:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727121AbgGQRsF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jul 2020 13:48:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726617AbgGQRsE (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jul 2020 13:48:04 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C6A0C0619D3
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jul 2020 10:48:04 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id n26so11775440ejx.0
-        for <linux-kbuild@vger.kernel.org>; Fri, 17 Jul 2020 10:48:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ouPoIbaznwUvpvUZ+d9Lmd0+7ZlkFrw9Vubc0luuMm4=;
-        b=T6HKmBM9wpL/nF5N2IowQkS/pBz5KcI4emAgAF/8bejb3Rhx2qwrGgob1UjZiG3w7S
-         sV6mfszfROVCaEu8RGIpZ4VkI2TfV76l3kRAt5KhIYLORviINuEzJTcBZun0PPQ+17yC
-         sL7ngdlkBSr0haa/a+I8w89hJ7YH96WrmJqjEEQ0IghXlJVhpi5weKEIajlkG6ys7hyd
-         bZmMEpFCkEu4wbXN27ODtK768/E5FhwvDDArao/vNYiIfxrf2lW3myBzMBQ5v233gbff
-         d1eBjiTWMO6Gs1QkbbmCsFdWavwcujwbbYY4NlsshvUcQAPvgs23KuSHpFcZHhwd9zi3
-         jBBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ouPoIbaznwUvpvUZ+d9Lmd0+7ZlkFrw9Vubc0luuMm4=;
-        b=tL08EMb3rXggf7sK/UKHZFMQyLpRyMtO/QjHI8m4Z75UPHDiUD0VRS6I8I5vljz0Ya
-         5ys1psKhOoL5O5hQaMHhazSxV/mWuckud49iTVwYFA/QfAPlG9u1JDGpmp0bSU9HByAu
-         dm2TcUf/7t85WpmRo5xV5XVB8BQhElUX59enD2QI0L92ahI+e6OhXW5fP4wiTgpfKG9B
-         nQfsHKOyfeTWToryRrfsxYHqhGsoRHbv7SfSN89KJDiI8eWmEXul+og1Yz0lWafS6n3y
-         Lf+EUR2MrwrPaR5/rno2j8vBC2Br1mDL1gasWaDF4m130didHoO0yKnPuo1jL8EJtV87
-         JPbQ==
-X-Gm-Message-State: AOAM533k6/CaR7RvAnjVeHTOtAvYcVn2/40XRh7mV1j/vqb+algLtHul
-        OqXeLcU8mchLbU2p38ek9taIIyFLsa6SUtN0ArNFuA==
-X-Google-Smtp-Source: ABdhPJxAkNoEdvBMsNoiwT/xtC3KzAJM3mngqfnMyotl0K4+5QQM9nsSc91iJTIh6/lQ8mnSCUp3b+j2mW212gFA81Q=
-X-Received: by 2002:a17:906:6959:: with SMTP id c25mr9393908ejs.375.1595008082575;
- Fri, 17 Jul 2020 10:48:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200624203200.78870-5-samitolvanen@google.com> <20200624212737.GV4817@hirez.programming.kicks-ass.net>
- <20200624214530.GA120457@google.com> <20200625074530.GW4817@hirez.programming.kicks-ass.net>
- <20200625161503.GB173089@google.com> <20200625200235.GQ4781@hirez.programming.kicks-ass.net>
- <20200625224042.GA169781@google.com> <20200626112931.GF4817@hirez.programming.kicks-ass.net>
- <CABCJKucSM7gqWmUtiBPbr208wB0pc25afJXc6yBQzJDZf4LSWA@mail.gmail.com> <20200717133645.7816c0b6@oasis.local.home>
-In-Reply-To: <20200717133645.7816c0b6@oasis.local.home>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Fri, 17 Jul 2020 10:47:51 -0700
-Message-ID: <CABCJKuda0AFCZ-1J2NTLc-M0xax007a9u-fzOoxmU2z60jvzbA@mail.gmail.com>
-Subject: Re: [RFC][PATCH] objtool,x86_64: Replace recordmcount with objtool
-To:     Steven Rostedt <rostedt@goodmis.org>
+        id S1726344AbgGQSFu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Jul 2020 14:05:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38420 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726335AbgGQSFu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 17 Jul 2020 14:05:50 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 65C06206F4;
+        Fri, 17 Jul 2020 18:05:47 +0000 (UTC)
+Date:   Fri, 17 Jul 2020 14:05:45 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
@@ -72,69 +34,42 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
         X86 ML <x86@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
         Matt Helsley <mhelsley@vmware.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [RFC][PATCH] objtool,x86_64: Replace recordmcount with objtool
+Message-ID: <20200717140545.6f008208@oasis.local.home>
+In-Reply-To: <CABCJKuda0AFCZ-1J2NTLc-M0xax007a9u-fzOoxmU2z60jvzbA@mail.gmail.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+        <20200624203200.78870-5-samitolvanen@google.com>
+        <20200624212737.GV4817@hirez.programming.kicks-ass.net>
+        <20200624214530.GA120457@google.com>
+        <20200625074530.GW4817@hirez.programming.kicks-ass.net>
+        <20200625161503.GB173089@google.com>
+        <20200625200235.GQ4781@hirez.programming.kicks-ass.net>
+        <20200625224042.GA169781@google.com>
+        <20200626112931.GF4817@hirez.programming.kicks-ass.net>
+        <CABCJKucSM7gqWmUtiBPbr208wB0pc25afJXc6yBQzJDZf4LSWA@mail.gmail.com>
+        <20200717133645.7816c0b6@oasis.local.home>
+        <CABCJKuda0AFCZ-1J2NTLc-M0xax007a9u-fzOoxmU2z60jvzbA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 17, 2020 at 10:36 AM Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Fri, 17 Jul 2020 10:28:13 -0700
-> Sami Tolvanen <samitolvanen@google.com> wrote:
->
-> > On Fri, Jun 26, 2020 at 4:29 AM Peter Zijlstra <peterz@infradead.org> wrote:
-> > >
-> > > On Thu, Jun 25, 2020 at 03:40:42PM -0700, Sami Tolvanen wrote:
-> > >
-> > > > > Not boot tested, but it generates the required sections and they look
-> > > > > more or less as expected, ymmv.
-> > >
-> > > > > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> > > > > index a291823f3f26..189575c12434 100644
-> > > > > --- a/arch/x86/Kconfig
-> > > > > +++ b/arch/x86/Kconfig
-> > > > > @@ -174,7 +174,6 @@ config X86
-> > > > >     select HAVE_EXIT_THREAD
-> > > > >     select HAVE_FAST_GUP
-> > > > >     select HAVE_FENTRY                      if X86_64 || DYNAMIC_FTRACE
-> > > > > -   select HAVE_FTRACE_MCOUNT_RECORD
-> > > > >     select HAVE_FUNCTION_GRAPH_TRACER
-> > > > >     select HAVE_FUNCTION_TRACER
-> > > > >     select HAVE_GCC_PLUGINS
-> > > >
-> > > > This breaks DYNAMIC_FTRACE according to kernel/trace/ftrace.c:
-> > > >
-> > > >   #ifndef CONFIG_FTRACE_MCOUNT_RECORD
-> > > >   # error Dynamic ftrace depends on MCOUNT_RECORD
-> > > >   #endif
-> > > >
-> > > > And the build errors after that seem to confirm this. It looks like we might
-> > > > need another flag to skip recordmcount.
-> > >
-> > > Hurm, Steve, how you want to do that?
+On Fri, 17 Jul 2020 10:47:51 -0700
+Sami Tolvanen <samitolvanen@google.com> wrote:
+
+> > Someone just submitted a patch for arm64 for this:
 > >
-> > Steven, did you have any thoughts about this? Moving recordmcount to
-> > an objtool pass that knows about call sites feels like a much cleaner
-> > solution than annotating kernel code to avoid unwanted relocations.
+> > https://lore.kernel.org/r/20200717143338.19302-1-gregory.herrero@oracle.com
 > >
->
-> Bah, I started to reply to this then went to look for details, got
-> distracted, forgot about it, my laptop crashed (due to a zoom call),
-> and I lost the email I was writing (haven't looked in the drafts
-> folder, but my idea about this has changed since anyway).
->
-> So the problem is that we process mcount references in other areas and
-> that confuses the ftrace modification portion?
+> > Is that what you want?  
+> 
+> That looks like the same issue, but we need to fix this on x86 instead.
 
-Correct.
+Does x86 have a way to differentiate between the two that record mcount
+can check?
 
-> Someone just submitted a patch for arm64 for this:
->
-> https://lore.kernel.org/r/20200717143338.19302-1-gregory.herrero@oracle.com
->
-> Is that what you want?
-
-That looks like the same issue, but we need to fix this on x86 instead.
-
-Sami
+-- Steve
