@@ -2,74 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D93D2242E3
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 20:05:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91380224527
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 22:26:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgGQSFu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jul 2020 14:05:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38420 "EHLO mail.kernel.org"
+        id S1726815AbgGQU0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Jul 2020 16:26:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32944 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726335AbgGQSFu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jul 2020 14:05:50 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1726510AbgGQU0W (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 17 Jul 2020 16:26:22 -0400
+Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 65C06206F4;
-        Fri, 17 Jul 2020 18:05:47 +0000 (UTC)
-Date:   Fri, 17 Jul 2020 14:05:45 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
+        by mail.kernel.org (Postfix) with ESMTPSA id 9C36A20684;
+        Fri, 17 Jul 2020 20:26:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595017582;
+        bh=/hYopkLccKkwFpSirohLu9rK4PERmsXifMkvfY8na74=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=s3QH/t9ocNHEPH2/jvWRB8qEQKIK64CQ+GlRWp8yjZLbWaD3J5hfVQ80kDY7xshpH
+         xeiUCkt/Irn0dwJ5rev9qj5TqMu055YbwJsqTl3kaW+lblQMHHzeP7vMEYgEstIATL
+         o2+gGzz8bNJr4YllTtvOL6MhViMZk5u3gpLyaYYU=
+Date:   Fri, 17 Jul 2020 15:26:20 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
 To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
-        X86 ML <x86@kernel.org>, Josh Poimboeuf <jpoimboe@redhat.com>,
-        Matt Helsley <mhelsley@vmware.com>
-Subject: Re: [RFC][PATCH] objtool,x86_64: Replace recordmcount with objtool
-Message-ID: <20200717140545.6f008208@oasis.local.home>
-In-Reply-To: <CABCJKuda0AFCZ-1J2NTLc-M0xax007a9u-fzOoxmU2z60jvzbA@mail.gmail.com>
-References: <20200624203200.78870-1-samitolvanen@google.com>
-        <20200624203200.78870-5-samitolvanen@google.com>
-        <20200624212737.GV4817@hirez.programming.kicks-ass.net>
-        <20200624214530.GA120457@google.com>
-        <20200625074530.GW4817@hirez.programming.kicks-ass.net>
-        <20200625161503.GB173089@google.com>
-        <20200625200235.GQ4781@hirez.programming.kicks-ass.net>
-        <20200625224042.GA169781@google.com>
-        <20200626112931.GF4817@hirez.programming.kicks-ass.net>
-        <CABCJKucSM7gqWmUtiBPbr208wB0pc25afJXc6yBQzJDZf4LSWA@mail.gmail.com>
-        <20200717133645.7816c0b6@oasis.local.home>
-        <CABCJKuda0AFCZ-1J2NTLc-M0xax007a9u-fzOoxmU2z60jvzbA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH 11/22] pci: lto: fix PREL32 relocations
+Message-ID: <20200717202620.GA768846@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200624203200.78870-12-samitolvanen@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, 17 Jul 2020 10:47:51 -0700
-Sami Tolvanen <samitolvanen@google.com> wrote:
+OK by me, but please update the subject to match convention:
 
-> > Someone just submitted a patch for arm64 for this:
-> >
-> > https://lore.kernel.org/r/20200717143338.19302-1-gregory.herrero@oracle.com
-> >
-> > Is that what you want?  
+  PCI: Fix PREL32 relocations for LTO
+
+and include a hint in the commit log about what LTO is.  At least
+expand the initialism once.  Googling for "LTO" isn't very useful.
+
+  With Clang's Link Time Optimization (LTO), the compiler ... ?
+
+On Wed, Jun 24, 2020 at 01:31:49PM -0700, Sami Tolvanen wrote:
+> With LTO, the compiler can rename static functions to avoid global
+> naming collisions. As PCI fixup functions are typically static,
+> renaming can break references to them in inline assembly. This
+> change adds a global stub to DECLARE_PCI_FIXUP_SECTION to fix the
+> issue when PREL32 relocations are used.
 > 
-> That looks like the same issue, but we need to fix this on x86 instead.
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-Does x86 have a way to differentiate between the two that record mcount
-can check?
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
--- Steve
+> ---
+>  include/linux/pci.h | 15 ++++++++++-----
+>  1 file changed, 10 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index c79d83304e52..1e65e16f165a 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1909,19 +1909,24 @@ enum pci_fixup_pass {
+>  };
+>  
+>  #ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
+> -#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+> -				    class_shift, hook)			\
+> -	__ADDRESSABLE(hook)						\
+> +#define ___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+> +				    class_shift, hook, stub)		\
+> +	void stub(struct pci_dev *dev) { hook(dev); }			\
+>  	asm(".section "	#sec ", \"a\"				\n"	\
+>  	    ".balign	16					\n"	\
+>  	    ".short "	#vendor ", " #device "			\n"	\
+>  	    ".long "	#class ", " #class_shift "		\n"	\
+> -	    ".long "	#hook " - .				\n"	\
+> +	    ".long "	#stub " - .				\n"	\
+>  	    ".previous						\n");
+> +
+> +#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+> +				  class_shift, hook, stub)		\
+> +	___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+> +				  class_shift, hook, stub)
+>  #define DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+>  				  class_shift, hook)			\
+>  	__DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
+> -				  class_shift, hook)
+> +				  class_shift, hook, __UNIQUE_ID(hook))
+>  #else
+>  /* Anonymous variables would be nice... */
+>  #define DECLARE_PCI_FIXUP_SECTION(section, name, vendor, device, class,	\
+> -- 
+> 2.27.0.212.ge8ba1cc988-goog
+> 
