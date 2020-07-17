@@ -2,164 +2,179 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B207224096
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 18:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C67E22414A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 19:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726293AbgGQQbD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jul 2020 12:31:03 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:15398 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726393AbgGQQbD (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jul 2020 12:31:03 -0400
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-        by m0089730.ppops.net (8.16.0.42/8.16.0.42) with SMTP id 06HGURWr022910;
-        Fri, 17 Jul 2020 09:30:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=jvJlqsV8kdYfp7GUptRO2KJvFKIuEOFUYlknZ1lm/GU=;
- b=nlHiHfjDuI5GYvLQwGK3RscHY86sVWl7D0JETdfdn8dAa4IT3TLDNydVtz0FcEITmuDd
- Cs7E/HUfOHsNfDdsCP/6YKGZUtsDii8QNR8DgaVkmzFbtmBlFJwWy4uqsnZ6KbC0oU+f
- xzQsPfp2fAH6I0+Iq4RHAfTQazhHi3MEWYY= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by m0089730.ppops.net with ESMTP id 32afftg8sw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Fri, 17 Jul 2020 09:30:30 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.229) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Fri, 17 Jul 2020 09:30:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ctr62osc2QkveUM3nCUs2TdMTwFJs5pRMEsZ8R1wJ5LKY9dB9phQ6ZPV5MOQ09OqRMXyjtkWV1xW+wBRUE1oefC4IUpI4rXJrdCqrZK1LzmbQxTyGp+v+dkug7UKC4e6Epdmk8Qg4d0ryoPR+mqlp3AnC9Z3weA/wOY/36mo0hgTy7xqO33eTpoeCbLjGEs0CGX+u+fpiqMvX/OcGzHh6HHGB4YME1Vy6qNaub0p6CEjU+Noq/hfrHdI3AAFwQe9hr8ONbgf44pM3+exINIJV4WBks/i++MDlCPGeZAxNkAYGNWipkyQXZ4V4s1giR2AZIxKKeSbkmeOQv5qZCeZlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jvJlqsV8kdYfp7GUptRO2KJvFKIuEOFUYlknZ1lm/GU=;
- b=c0Vc0qUDwZQHOVZnKk33cXgCDpbSv8qSffiBGPGBtTYz/Bp4gjkgPreN4VJleIIuCoze58REoJM1BsUeoFEIfj2dIyxOLUtghHwQAbpnPlAthj3Mp0dKtSIon3DRJ6G0aN6sBR0CfJQR7LQ8eWHTYoZmJgFAuZEC+iRk6GV+vx9/u96wmnzIkervMfcvakfbZCn8gdVpQmbT1KFa0odEGLThYwqmw6rGWUmHknRI1OnRxrfV/Q/cCmyAgphtd/4TNo1vG6tICdYHqpcu6t5xeehUsIaV1Mof3Kuk3pBm6+W3RzPrDM0kWldNE5G3vK1/J0TYcfvUBdFboUzWfiX+Cw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jvJlqsV8kdYfp7GUptRO2KJvFKIuEOFUYlknZ1lm/GU=;
- b=iWyrWPiyYqIWmXY802+MalSLFtQbc95XfsWorvCaqVF2UuU8valTjXftvi1d+Y+I3NHaWQzYEERx+p44XMVJu479pBp30yZ4NzshtFyxkWCH5yWjI+ArY6mw57ux6fZeSbnoKjQovHKKDf+1TLfy95wzIMXdJ1lufS7Pgi5JGKU=
-Received: from CH2PR15MB3672.namprd15.prod.outlook.com (2603:10b6:610:5::14)
- by CH2PR15MB3687.namprd15.prod.outlook.com (2603:10b6:610:b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.22; Fri, 17 Jul
- 2020 16:29:55 +0000
-Received: from CH2PR15MB3672.namprd15.prod.outlook.com
- ([fe80::2d7a:edf5:67f9:5446]) by CH2PR15MB3672.namprd15.prod.outlook.com
- ([fe80::2d7a:edf5:67f9:5446%3]) with mapi id 15.20.3174.025; Fri, 17 Jul 2020
- 16:29:55 +0000
-From:   Nick Terrell <terrelln@fb.com>
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-CC:     Nick Terrell <nickrterrell@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Chris Mason <clm@fb.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>,
-        "Michael van der Westhuizen" <rmikey@fb.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "Patrick Williams" <patrick@stwcx.xyz>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        "Norbert Lange" <nolange79@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Alex Xu" <alex_y_xu@yahoo.ca>
-Subject: Re: [PATCH v7 2/7] lib: add zstd support to decompress
-Thread-Topic: [PATCH v7 2/7] lib: add zstd support to decompress
-Thread-Index: AQHWVVlX6culfdHbw0e1K8dCb+GCsqkHpLQAgARfmgA=
-Date:   Fri, 17 Jul 2020 16:29:55 +0000
-Message-ID: <C5D3AFA3-FAD0-4B31-968B-5106ADC557D3@fb.com>
-References: <20200708185024.2767937-1-nickrterrell@gmail.com>
- <20200708185024.2767937-3-nickrterrell@gmail.com>
- <20200714214242.GA1000731@rani.riverdale.lan>
-In-Reply-To: <20200714214242.GA1000731@rani.riverdale.lan>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: alum.mit.edu; dkim=none (message not signed)
- header.d=none;alum.mit.edu; dmarc=none action=none header.from=fb.com;
-x-originating-ip: [2620:10d:c091:480::1:46c4]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b5ebf8b5-a355-453b-01e3-08d82a6ea3f1
-x-ms-traffictypediagnostic: CH2PR15MB3687:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR15MB3687E4D3DFCC4C849738DACEAB7C0@CH2PR15MB3687.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QGnJB+4ObJuDhr/fKjYKORWHBSFl12b5PsMyg34+3bve5mNkDFbRWdQwYw5aQBNY5yMkeogzfroL5CRHvtV4jxY9/Hmmx5+gioc3jCIuoaAgxhORRc3At8EtUX7b6ROS2AwNjSSWvs6TIweiIsWXOgpvpoWMLwZkfLWulNeThMZx3UnuNtgL6g27aXF7iJZNk95yE0TEDmr7zXLC8aW5ZbnDNTzVaDntuWlS7B0v6VGUReo/hS4yzUuWYn2aqk3Vh3PTaI4O1z9BYpcvWM71k41NHLOvUTg3pLMClFk0tXkZyoddxGzAQ5ZrUudJzMEbg8stNVCQOcs3JZwid7izrw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR15MB3672.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(136003)(376002)(366004)(39860400002)(396003)(64756008)(66556008)(76116006)(2906002)(36756003)(4326008)(66476007)(478600001)(33656002)(66946007)(6486002)(91956017)(66446008)(6512007)(53546011)(86362001)(316002)(71200400001)(2616005)(186003)(6916009)(8936002)(8676002)(7416002)(6506007)(54906003)(5660300002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: lEbDAqW6scdhEhRjh9m8E+UGJNWy+c6KXj5d+rWtOu8V9sFbjVuXJ0/9uNpqmkQHWediL/nKdTAEiahTnq1ueB+U6rtgBcYMPPn0H3uoZY+MHp0I8kQeNQi4Vg74+XfPdO3oGGPmpGlkxz/0yZanBteFH/7xv4aqgQvg3sgMVLyOmUnSYcUw7NdO/pEOJSfQiKkJLY2IfqQbAyrzA2hcAXzIhQE+lMXZIVNe0uVmxf6IJo0TlM7CqaHcl49eP5WF8C47f9ft00ykormWsm/7qGf4gOtJY4XQcWBpr7LeTibSt8aOlDwfjliLdk3RA1FpMsdM9/oth6MVQln7oaTbkKahNeTo8i3p+e1prJwcR5tPgm60k9aa+qeACkANaBc92TeZmKPnrJhiVURvvOPjPQg/Wgw1ktgJZie0++4T7tVnwUXwDW892L6G0h4TW0CLZb0W3/x//c4GhdpbskqUIfZVkYjBO4etQX076FtBAZOS4XNyNNVzy37pN90B9rQQPPKquAB/kYbxtqVGOgh1iw==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D6D4507A264E644E9BF5842BCEECF2A2@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1728048AbgGQRAq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 17 Jul 2020 13:00:46 -0400
+Received: from mga12.intel.com ([192.55.52.136]:38516 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726938AbgGQRAq (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 17 Jul 2020 13:00:46 -0400
+IronPort-SDR: ThkC0W66uHL9/qZLRfwIrLqWjoJahS5GhssQW77ZJ4wUlzXjG7vh4qEBUqubs9HkbjHsxAgw1k
+ NpVDehrW9mTw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9685"; a="129202492"
+X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; 
+   d="scan'208";a="129202492"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2020 10:00:44 -0700
+IronPort-SDR: 48hV9N2ZV95iTOqnJkajWh5Yu8b7gpJwIBPXkRuLfGJbaTivBdVrhxWZzfhRqAVR2PA/jZy9q0
+ EfTGxeH1E6VA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,362,1589266800"; 
+   d="scan'208";a="270862022"
+Received: from kcaccard-mobl.amr.corp.intel.com (HELO kcaccard-mobl1.jf.intel.com) ([10.212.33.149])
+  by fmsmga008.fm.intel.com with ESMTP; 17 Jul 2020 10:00:37 -0700
+From:   Kristen Carlson Accardi <kristen@linux.intel.com>
+To:     keescook@chromium.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>
+Cc:     arjan@linux.intel.com, linux-kernel@vger.kernel.org,
+        kernel-hardening@lists.openwall.com, rick.p.edgecombe@intel.com,
+        Kristen Carlson Accardi <kristen@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>, linux-kbuild@vger.kernel.org,
+        linux-arch@vger.kernel.org
+Subject: [PATCH v4 04/10] x86: Makefile: Add build and config option for CONFIG_FG_KASLR
+Date:   Fri, 17 Jul 2020 10:00:01 -0700
+Message-Id: <20200717170008.5949-5-kristen@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200717170008.5949-1-kristen@linux.intel.com>
+References: <20200717170008.5949-1-kristen@linux.intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR15MB3672.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5ebf8b5-a355-453b-01e3-08d82a6ea3f1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2020 16:29:55.6066
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: g2Uo5y97QvaBFu09kfeQDMKONoJmdZooJBndbigGSBUTeyy7zXaXN1aUfvD6BvX+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR15MB3687
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-17_08:2020-07-17,2020-07-17 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 impostorscore=0
- phishscore=0 malwarescore=0 mlxscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 spamscore=0 suspectscore=0 mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2006250000 definitions=main-2007170117
-X-FB-Internal: deliver
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-DQoNCj4gT24gSnVsIDE0LCAyMDIwLCBhdCA1OjQyIFBNLCBBcnZpbmQgU2Fua2FyIDxuaXZlZGl0
-YUBhbHVtLm1pdC5lZHU+IHdyb3RlOg0KPiANCj4gT24gV2VkLCBKdWwgMDgsIDIwMjAgYXQgMTE6
-NTA6MTlBTSAtMDcwMCwgTmljayBUZXJyZWxsIHdyb3RlOg0KPj4gRnJvbTogTmljayBUZXJyZWxs
-IDx0ZXJyZWxsbkBmYi5jb20+DQo+PiANCj4+ICogQWRkIHVuenN0ZCgpIGFuZCB0aGUgenN0ZCBk
-ZWNvbXByZXNzIGludGVyZmFjZS4NCj4+ICogQWRkIHpzdGQgc3VwcG9ydCB0byBkZWNvbXByZXNz
-X21ldGhvZCgpLg0KPj4gDQo+PiBUaGUgZGVjb21wcmVzc19tZXRob2QoKSBhbmQgdW56c3RkKCkg
-ZnVuY3Rpb25zIGFyZSB1c2VkIHRvIGRlY29tcHJlc3MNCj4+IHRoZSBpbml0cmFtZnMgYW5kIHRo
-ZSBpbml0cmQuIFRoZSBfX2RlY29tcHJlc3MoKSBmdW5jdGlvbiBpcyB1c2VkIGluDQo+PiB0aGUg
-cHJlYm9vdCBlbnZpcm9ubWVudCB0byBkZWNvbXByZXNzIGEgenN0ZCBjb21wcmVzc2VkIGtlcm5l
-bC4NCj4+IA0KPj4gVGhlIHpzdGQgZGVjb21wcmVzc2lvbiBmdW5jdGlvbiBhbGxvd3MgdGhlIGlu
-cHV0IGFuZCBvdXRwdXQgYnVmZmVycyB0bw0KPj4gb3ZlcmxhcCBiZWNhdXNlIHRoYXQgaXMgdXNl
-ZCBieSB4ODYga2VybmVsIGRlY29tcHJlc3Npb24uDQo+PiANCj4+IFJldmlld2VkLWJ5OiBLZWVz
-IENvb2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4NCj4+IFRlc3RlZC1ieTogU2VkYXQgRGlsZWsg
-PHNlZGF0LmRpbGVrQGdtYWlsLmNvbT4NCj4+IFNpZ25lZC1vZmYtYnk6IE5pY2sgVGVycmVsbCA8
-dGVycmVsbG5AZmIuY29tPg0KPj4gKyAqDQo+PiArICogX19ESVNBQkxFX0VYUE9SVFMgc3RvcHMg
-enN0ZCBhbmQgeHhoYXNoIGZyb20gZGVjbGFyaW5nIHRoZW1zZWx2ZXMNCj4+ICsgKiBhcyBtb2R1
-bGVzIGJ5IGRpc2FibGluZyB0aGUgRVhQT1JUX1NZTUJPTCBtYWNyby4NCj4+ICsgKi8NCj4gDQo+
-IEhpIE5pY2ssIHRoaXMgZG9lc24ndCBhY3R1YWxseSB3b3JrLCBiZWNhdXNlIG1pc2MuYyBpbmNs
-dWRlcyBleHBvcnQuaA0KPiB2aWENCj4gCSJtaXNjLmgiIC0+IDxsaW51eC9saW5rYWdlLmg+IC0+
-IDxsaW51eC9leHBvcnQuaD4NCj4gYW5kIEVYUE9SVF9TWU1CT0wgaXMgYWxyZWFkeSBkZWZpbmVk
-IGJlZm9yZSBfX0RJU0FCTEVfRVhQT1JUUyBpcyBkZWZpbmVkDQo+IGhlcmUuDQo+IA0KPiBBZGRp
-bmcgLURfX0VYUE9SVF9TWU1CT0xTIHRvIEtCVUlMRF9DRkxBR1MgaW4gYXJjaC94ODYvYm9vdC9j
-b21wcmVzc2VkL01ha2VmaWxlDQo+IGZpeGVzIHRoYXQsIGFuZCB0aGVuIHlvdSBkb24ndCBoYXZl
-IHRvIGRlZmluZSBpdCBoZXJlLg0KPiANCj4gQWxzbywgX19ESVNBQkxFX0VYUE9SVFMgZG9lcyBu
-b3QgY3VycmVudGx5IGluaGliaXQgTU9EVUxFX0lORk8sIHNvIGENCj4gLm1vZGluZm8gc2VjdGlv
-biBnZXRzIGVtaXR0ZWQgaW50byBtaXNjLm8uIEkgKnRoaW5rKiB0aGlzIGlzIGhhcm1sZXNzDQo+
-IGFuZCBpdCB3aWxsIGdldCBkaXNjYXJkZWQgd2hlbiBidWlsZGluZyBjb21wcmVzc2VkL3ZtbGlu
-dXgsIGJ1dCB0aG91Z2h0DQo+IEknZCBwb2ludCBpdCBvdXQuDQoNClRoYW5rcyBmb3IgcG9pbnRp
-bmcgdGhhdCBvdXQhIEnigJltIHN1cnByaXNlZCB0aGF0IHRoZSB6c3RkIGNvbXByZXNzZWQga2Vy
-bmVscyBidWlsdCBhbmQgcmFuDQpzdWNjZXNzZnVsbHksIEkgdmFndWVseSByZW1lbWJlciB0aGF0
-IGZhaWxpbmcgaW4gdGhlIHBhc3QuIEkgd2lsbCBwdXQgdXAgYSBmaXggc2hvcnRseS4NCg0KLU5p
-Y2s=
+Allow user to select CONFIG_FG_KASLR if dependencies are met. Change
+the make file to build with -ffunction-sections if CONFIG_FG_KASLR.
+
+While the only architecture that supports CONFIG_FG_KASLR does not
+currently enable HAVE_LD_DEAD_CODE_DATA_ELIMINATION, make sure these
+2 features play nicely together for the future by ensuring that if
+CONFIG_LD_DEAD_CODE_DATA_ELIMINATION is selected when used with
+CONFIG_FG_KASLR the function sections will not be consolidated back
+into .text. Thanks to Kees Cook for the dead code elimination changes.
+
+Signed-off-by: Kristen Carlson Accardi <kristen@linux.intel.com>
+Reviewed-by: Tony Luck <tony.luck@intel.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Tested-by: Tony Luck <tony.luck@intel.com>
+---
+ Makefile                          |  6 +++++-
+ arch/x86/Kconfig                  |  4 ++++
+ include/asm-generic/vmlinux.lds.h | 16 ++++++++++++++--
+ init/Kconfig                      | 14 ++++++++++++++
+ 4 files changed, 37 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 0b5f8538bde5..66427b12de53 100644
+--- a/Makefile
++++ b/Makefile
+@@ -872,7 +872,7 @@ KBUILD_CFLAGS += $(call cc-option, -fno-inline-functions-called-once)
+ endif
+ 
+ ifdef CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
+-KBUILD_CFLAGS_KERNEL += -ffunction-sections -fdata-sections
++KBUILD_CFLAGS_KERNEL += -fdata-sections
+ LDFLAGS_vmlinux += --gc-sections
+ endif
+ 
+@@ -880,6 +880,10 @@ ifdef CONFIG_LIVEPATCH
+ KBUILD_CFLAGS += $(call cc-option, -flive-patching=inline-clone)
+ endif
+ 
++ifneq ($(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION)$(CONFIG_FG_KASLR),)
++KBUILD_CFLAGS += -ffunction-sections
++endif
++
+ ifdef CONFIG_SHADOW_CALL_STACK
+ CC_FLAGS_SCS	:= -fsanitize=shadow-call-stack
+ KBUILD_CFLAGS	+= $(CC_FLAGS_SCS)
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 883da0abf779..e7a2db3e270d 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -372,6 +372,10 @@ config CC_HAS_SANE_STACKPROTECTOR
+ 	   We have to make sure stack protector is unconditionally disabled if
+ 	   the compiler produces broken code.
+ 
++config ARCH_HAS_FG_KASLR
++	def_bool y
++	depends on RANDOMIZE_BASE && X86_64
++
+ menu "Processor type and features"
+ 
+ config ZONE_DMA
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index db600ef218d7..a5552cf28d5d 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -93,14 +93,12 @@
+  * sections to be brought in with rodata.
+  */
+ #ifdef CONFIG_LD_DEAD_CODE_DATA_ELIMINATION
+-#define TEXT_MAIN .text .text.[0-9a-zA-Z_]*
+ #define DATA_MAIN .data .data.[0-9a-zA-Z_]* .data..LPBX*
+ #define SDATA_MAIN .sdata .sdata.[0-9a-zA-Z_]*
+ #define RODATA_MAIN .rodata .rodata.[0-9a-zA-Z_]*
+ #define BSS_MAIN .bss .bss.[0-9a-zA-Z_]*
+ #define SBSS_MAIN .sbss .sbss.[0-9a-zA-Z_]*
+ #else
+-#define TEXT_MAIN .text
+ #define DATA_MAIN .data
+ #define SDATA_MAIN .sdata
+ #define RODATA_MAIN .rodata
+@@ -108,6 +106,20 @@
+ #define SBSS_MAIN .sbss
+ #endif
+ 
++/*
++ * Both LD_DEAD_CODE_DATA_ELIMINATION and CONFIG_FG_KASLR options enable
++ * -ffunction-sections, which produces separately named .text sections. In
++ * the case of CONFIG_FG_KASLR, they need to stay distict so they can be
++ * separately randomized. Without CONFIG_FG_KASLR, the separate .text
++ * sections can be collected back into a common section, which makes the
++ * resulting image slightly smaller
++ */
++#if defined(CONFIG_LD_DEAD_CODE_DATA_ELIMINATION) && !defined(CONFIG_FG_KASLR)
++#define TEXT_MAIN .text .text.[0-9a-zA-Z_]*
++#else
++#define TEXT_MAIN .text
++#endif
++
+ /*
+  * Align to a 32 byte boundary equal to the
+  * alignment gcc 4.5 uses for a struct
+diff --git a/init/Kconfig b/init/Kconfig
+index 0498af567f70..82f042a1062f 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1990,6 +1990,20 @@ config PROFILING
+ config TRACEPOINTS
+ 	bool
+ 
++config FG_KASLR
++	bool "Function Granular Kernel Address Space Layout Randomization"
++	depends on $(cc-option, -ffunction-sections)
++	depends on ARCH_HAS_FG_KASLR
++	default n
++	help
++	  This option improves the randomness of the kernel text
++	  over basic Kernel Address Space Layout Randomization (KASLR)
++	  by reordering the kernel text at boot time. This feature
++	  uses information generated at compile time to re-layout the
++	  kernel text section at boot time at function level granularity.
++
++	  If unsure, say N.
++
+ endmenu		# General setup
+ 
+ source "arch/Kconfig"
+-- 
+2.20.1
+
