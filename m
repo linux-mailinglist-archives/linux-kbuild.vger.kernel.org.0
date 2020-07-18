@@ -2,110 +2,235 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91380224527
-	for <lists+linux-kbuild@lfdr.de>; Fri, 17 Jul 2020 22:26:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF78F224944
+	for <lists+linux-kbuild@lfdr.de>; Sat, 18 Jul 2020 08:39:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726815AbgGQU0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 17 Jul 2020 16:26:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32944 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726510AbgGQU0W (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 17 Jul 2020 16:26:22 -0400
-Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C36A20684;
-        Fri, 17 Jul 2020 20:26:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595017582;
-        bh=/hYopkLccKkwFpSirohLu9rK4PERmsXifMkvfY8na74=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=s3QH/t9ocNHEPH2/jvWRB8qEQKIK64CQ+GlRWp8yjZLbWaD3J5hfVQ80kDY7xshpH
-         xeiUCkt/Irn0dwJ5rev9qj5TqMu055YbwJsqTl3kaW+lblQMHHzeP7vMEYgEstIATL
-         o2+gGzz8bNJr4YllTtvOL6MhViMZk5u3gpLyaYYU=
-Date:   Fri, 17 Jul 2020 15:26:20 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
+        id S1726543AbgGRGjO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 18 Jul 2020 02:39:14 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:60943 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725983AbgGRGjO (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 18 Jul 2020 02:39:14 -0400
+Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 06I6cod9015918;
+        Sat, 18 Jul 2020 15:38:50 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 06I6cod9015918
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1595054331;
+        bh=XE6IhH9B+MTAazbdPx+nUYPzcg3JfBLMiZA4IYkdxLE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZyhUBpb7n26FFVNS1u8ymXCZapJ//JWl9qPSkizaFBISCvGu2wLriLdiz5nbCmf4k
+         BI8FCI22qMvPC5+fyEnLtrWarwUOxhseg2u6z6LQEdCfSOp7USAalp1jeVko2+7dNn
+         QRw5qVFfbPCX4oeEUfQaTLMluGulFeS4/zL1E7BWxfeaAJ7XNOcP9gWx1FKO6dJBFQ
+         Ng63q+aSQwTa0VRF8jbzTLnWOO/hOkGPby2Bdp5cOj9+sHkJ1cJIuZ7gamHWXO1JSS
+         cl4DCvcAWq8J6+EyYcazniNXDdqfKIiWBwTuhEY3avwllg80Bp2OiIaWIqnXQdUfKb
+         XbQ1Dtim/cTbg==
+X-Nifty-SrcIP: [126.25.67.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH 11/22] pci: lto: fix PREL32 relocations
-Message-ID: <20200717202620.GA768846@bjorn-Precision-5520>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] kconfig: constify XPM data
+Date:   Sat, 18 Jul 2020 15:38:47 +0900
+Message-Id: <20200718063847.919599-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200624203200.78870-12-samitolvanen@google.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-OK by me, but please update the subject to match convention:
+Constify arrays as well as strings.
 
-  PCI: Fix PREL32 relocations for LTO
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-and include a hint in the commit log about what LTO is.  At least
-expand the initialism once.  Googling for "LTO" isn't very useful.
+ scripts/kconfig/images.c | 30 +++++++++++++++---------------
+ scripts/kconfig/images.h | 30 +++++++++++++++---------------
+ 2 files changed, 30 insertions(+), 30 deletions(-)
 
-  With Clang's Link Time Optimization (LTO), the compiler ... ?
+diff --git a/scripts/kconfig/images.c b/scripts/kconfig/images.c
+index b4fa0e4a63a5..2f9afffa5d79 100644
+--- a/scripts/kconfig/images.c
++++ b/scripts/kconfig/images.c
+@@ -5,7 +5,7 @@
+ 
+ #include "images.h"
+ 
+-const char *xpm_load[] = {
++const char * const xpm_load[] = {
+ "22 22 5 1",
+ ". c None",
+ "# c #000000",
+@@ -35,7 +35,7 @@ const char *xpm_load[] = {
+ "###############.......",
+ "......................"};
+ 
+-const char *xpm_save[] = {
++const char * const xpm_save[] = {
+ "22 22 5 1",
+ ". c None",
+ "# c #000000",
+@@ -65,7 +65,7 @@ const char *xpm_save[] = {
+ "..##################..",
+ "......................"};
+ 
+-const char *xpm_back[] = {
++const char * const xpm_back[] = {
+ "22 22 3 1",
+ ". c None",
+ "# c #000083",
+@@ -93,7 +93,7 @@ const char *xpm_back[] = {
+ "......................",
+ "......................"};
+ 
+-const char *xpm_tree_view[] = {
++const char * const xpm_tree_view[] = {
+ "22 22 2 1",
+ ". c None",
+ "# c #000000",
+@@ -120,7 +120,7 @@ const char *xpm_tree_view[] = {
+ "......................",
+ "......................"};
+ 
+-const char *xpm_single_view[] = {
++const char * const xpm_single_view[] = {
+ "22 22 2 1",
+ ". c None",
+ "# c #000000",
+@@ -147,7 +147,7 @@ const char *xpm_single_view[] = {
+ "......................",
+ "......................"};
+ 
+-const char *xpm_split_view[] = {
++const char * const xpm_split_view[] = {
+ "22 22 2 1",
+ ". c None",
+ "# c #000000",
+@@ -174,7 +174,7 @@ const char *xpm_split_view[] = {
+ "......................",
+ "......................"};
+ 
+-const char *xpm_symbol_no[] = {
++const char * const xpm_symbol_no[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -191,7 +191,7 @@ const char *xpm_symbol_no[] = {
+ " .......... ",
+ "            "};
+ 
+-const char *xpm_symbol_mod[] = {
++const char * const xpm_symbol_mod[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -208,7 +208,7 @@ const char *xpm_symbol_mod[] = {
+ " .......... ",
+ "            "};
+ 
+-const char *xpm_symbol_yes[] = {
++const char * const xpm_symbol_yes[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -225,7 +225,7 @@ const char *xpm_symbol_yes[] = {
+ " .......... ",
+ "            "};
+ 
+-const char *xpm_choice_no[] = {
++const char * const xpm_choice_no[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -242,7 +242,7 @@ const char *xpm_choice_no[] = {
+ "    ....    ",
+ "            "};
+ 
+-const char *xpm_choice_yes[] = {
++const char * const xpm_choice_yes[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -259,7 +259,7 @@ const char *xpm_choice_yes[] = {
+ "    ....    ",
+ "            "};
+ 
+-const char *xpm_menu[] = {
++const char * const xpm_menu[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -276,7 +276,7 @@ const char *xpm_menu[] = {
+ " .......... ",
+ "            "};
+ 
+-const char *xpm_menu_inv[] = {
++const char * const xpm_menu_inv[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -293,7 +293,7 @@ const char *xpm_menu_inv[] = {
+ " .......... ",
+ "            "};
+ 
+-const char *xpm_menuback[] = {
++const char * const xpm_menuback[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+@@ -310,7 +310,7 @@ const char *xpm_menuback[] = {
+ " .......... ",
+ "            "};
+ 
+-const char *xpm_void[] = {
++const char * const xpm_void[] = {
+ "12 12 2 1",
+ "  c white",
+ ". c black",
+diff --git a/scripts/kconfig/images.h b/scripts/kconfig/images.h
+index d8ff614bd087..7212dec2006c 100644
+--- a/scripts/kconfig/images.h
++++ b/scripts/kconfig/images.h
+@@ -10,21 +10,21 @@
+ extern "C" {
+ #endif
+ 
+-extern const char *xpm_load[];
+-extern const char *xpm_save[];
+-extern const char *xpm_back[];
+-extern const char *xpm_tree_view[];
+-extern const char *xpm_single_view[];
+-extern const char *xpm_split_view[];
+-extern const char *xpm_symbol_no[];
+-extern const char *xpm_symbol_mod[];
+-extern const char *xpm_symbol_yes[];
+-extern const char *xpm_choice_no[];
+-extern const char *xpm_choice_yes[];
+-extern const char *xpm_menu[];
+-extern const char *xpm_menu_inv[];
+-extern const char *xpm_menuback[];
+-extern const char *xpm_void[];
++extern const char * const xpm_load[];
++extern const char * const xpm_save[];
++extern const char * const xpm_back[];
++extern const char * const xpm_tree_view[];
++extern const char * const xpm_single_view[];
++extern const char * const xpm_split_view[];
++extern const char * const xpm_symbol_no[];
++extern const char * const xpm_symbol_mod[];
++extern const char * const xpm_symbol_yes[];
++extern const char * const xpm_choice_no[];
++extern const char * const xpm_choice_yes[];
++extern const char * const xpm_menu[];
++extern const char * const xpm_menu_inv[];
++extern const char * const xpm_menuback[];
++extern const char * const xpm_void[];
+ 
+ #ifdef __cplusplus
+ }
+-- 
+2.25.1
 
-On Wed, Jun 24, 2020 at 01:31:49PM -0700, Sami Tolvanen wrote:
-> With LTO, the compiler can rename static functions to avoid global
-> naming collisions. As PCI fixup functions are typically static,
-> renaming can break references to them in inline assembly. This
-> change adds a global stub to DECLARE_PCI_FIXUP_SECTION to fix the
-> issue when PREL32 relocations are used.
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-> ---
->  include/linux/pci.h | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index c79d83304e52..1e65e16f165a 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1909,19 +1909,24 @@ enum pci_fixup_pass {
->  };
->  
->  #ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
-> -#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-> -				    class_shift, hook)			\
-> -	__ADDRESSABLE(hook)						\
-> +#define ___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-> +				    class_shift, hook, stub)		\
-> +	void stub(struct pci_dev *dev) { hook(dev); }			\
->  	asm(".section "	#sec ", \"a\"				\n"	\
->  	    ".balign	16					\n"	\
->  	    ".short "	#vendor ", " #device "			\n"	\
->  	    ".long "	#class ", " #class_shift "		\n"	\
-> -	    ".long "	#hook " - .				\n"	\
-> +	    ".long "	#stub " - .				\n"	\
->  	    ".previous						\n");
-> +
-> +#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-> +				  class_shift, hook, stub)		\
-> +	___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-> +				  class_shift, hook, stub)
->  #define DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
->  				  class_shift, hook)			\
->  	__DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-> -				  class_shift, hook)
-> +				  class_shift, hook, __UNIQUE_ID(hook))
->  #else
->  /* Anonymous variables would be nice... */
->  #define DECLARE_PCI_FIXUP_SECTION(section, name, vendor, device, class,	\
-> -- 
-> 2.27.0.212.ge8ba1cc988-goog
-> 
