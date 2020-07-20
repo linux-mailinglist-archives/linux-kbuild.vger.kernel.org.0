@@ -2,187 +2,269 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ABE5226F05
-	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Jul 2020 21:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E064D2272F8
+	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jul 2020 01:35:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730472AbgGTT2N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 20 Jul 2020 15:28:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45946 "EHLO
+        id S1727812AbgGTXfy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 20 Jul 2020 19:35:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728947AbgGTT2N (ORCPT
+        with ESMTP id S1726546AbgGTXfy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 20 Jul 2020 15:28:13 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 289E5C061794
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Jul 2020 12:28:13 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id a24so9519481pfc.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 20 Jul 2020 12:28:13 -0700 (PDT)
+        Mon, 20 Jul 2020 19:35:54 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DE3BC0619D2
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Jul 2020 16:35:54 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id d131so1704841qke.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 20 Jul 2020 16:35:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=qQtHutRKhkC0xmSMdXzm89kbzbrbZVJj4BoYmmxXY+o=;
-        b=q87Rwtko9DSoJjwynLK7R/BbSPDvRnR8BKOcJLnYSKi7HHsC+P9x24MHhIT+0PEKHU
-         tSHzBU5D6A+frU+7xj6EuBPWB12k7JDwWjz/R7tUIRNBOCKb+po5KsBqZPGKDStJLAIy
-         00BUhLT04M2DAcC8Mk2n74OuakYxuGpMPQrtIE6DHVJHgm3923LLTaCmGLJo6IdVkYqU
-         lUQZVxs53zif0UeVOU+lNbuqUdduUfD/FvkALom69lTYsYXhEEni3R6gG9FJrIGnOYI2
-         J31lRErv7EtFsAY/Ew84JV3Jx5UUUC98nd5dc79NTQZr6aHijOoCgm1MPDRRbnDP9NRU
-         xwkw==
+        bh=mWZKxoXF+Te4mputAXDqqY/dB7J/WdxovoeFbRYCpJE=;
+        b=BPWrYBNdCpvomKbvbfjEbSAdblRizGHuyW5dY45HKa322xgYaY/sm+HtpMmj6ecl76
+         V6sKB9ShyFPOBnmNZR+e2xDwaoFEK14gADm5ZTXyF/8jAdOoNDsV6X8hBG0S5gcy0UEn
+         MAykzdzJG988ri6fvw63K0xPtLXwFvu+QeCiwDoIMNTwjB1csx0kioT/e3uKf7B9hRG0
+         J1MwnYMuYH61W2DDgfpsX18rhUj3jsDqNI29Thi1J5K96yeHR9gLq2JQlSxOdcRq/9Nv
+         jZaPP5em0A1C7bxv8xKqzqUxaV/mdQXs45xWaAUW5Cnrbi1Y5baEebOcLbBWoMKfFuDw
+         1qgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qQtHutRKhkC0xmSMdXzm89kbzbrbZVJj4BoYmmxXY+o=;
-        b=Y1PPhRBm3PWiDfazaqGLKDo4CY3oYEqKhfnOTTBMFKQOI9qqFmgI6wTcrpmaG6iPId
-         G8sh0RRVyZX1CITR+9rt2WVVMzilQcX4LgKtyP3ymr5YjHhr3Jy2YiT/UounCcI/xwvZ
-         b1NNgmL+yu5LgNEt3+L7YHlVcmJWnCWY8pFIVjqV8ZguzsIsc0sCcjmpwIIARAuA2iDZ
-         FLmdOkh8eRFD1qBii1n3SdbcA6Akd7rn4WsjRZ3wrQblvGw/TGeO3gbaefeXV83Oq8Mw
-         GXaf6HsD/LgoAq+YriwhMvlXM4dUVIS3baJT+C9faQx6/LIusPWX9H/Jrc6OfDr5f+OB
-         qqWQ==
-X-Gm-Message-State: AOAM5310+JLVDY1rQrbDXze6laSploODH0bEi7lbY+Ru7FkwiKZR2L+l
-        q6V2osSJILqedtIvs4XSZl7c6p22OUmGcHG7U5Z82g==
-X-Google-Smtp-Source: ABdhPJzCsfFoC2NdvIYvDcuiG8wlDUFE5SqYwVslyIPvcRoGFzLwaEG/QUA8VizT6cx8yciLMPp4G+3FiFH7q6FVbH4=
-X-Received: by 2002:a62:86cc:: with SMTP id x195mr20778276pfd.39.1595273292322;
- Mon, 20 Jul 2020 12:28:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200720181237.3015826-1-maskray@google.com> <20200720181646.GA6160@ubuntu-n2-xlarge-x86>
-In-Reply-To: <20200720181646.GA6160@ubuntu-n2-xlarge-x86>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 20 Jul 2020 12:28:01 -0700
-Message-ID: <CAKwvOd=tF7j-mTHMKvvmRkxjFZ-a2ah2+4zLY527WtebZzum8Q@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
-To:     Fangrui Song <maskray@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Manoj Gupta <manojgupta@google.com>,
-        Jian Cai <jiancai@google.com>, Bill Wendling <morbo@google.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=mWZKxoXF+Te4mputAXDqqY/dB7J/WdxovoeFbRYCpJE=;
+        b=Cxhd+38FZ5s9jQAEAaBqp3MMDdubJMQkIdHU7QCMUOvbs0am8QouTXbajoyyfRZMm9
+         8H9b+CrEstkEMnvh/ll11msEKcpMRPMfdVXfDkMeakzs4UxU81YMgRSkuO7qUp46nQhX
+         OEDPboo42bNzyWD/5T2g4HT87K508m8/U3M/Ao9ygjHn0asfSB3CdBeWim6hjj++E9JZ
+         I6Qj/banVVs2PdM8VWu7jJgGEswbwReHfVBD8pEtLD3z12zMXx+rOJTRrjhBHZAv89KA
+         4qk1aXbmvCEP4Oiq27NnXkpdOxXwPmtOWfdx0QBn5vELEuL99VY2/17Jb4gY5ab0/tha
+         LIQQ==
+X-Gm-Message-State: AOAM530o6QzvR0cu1QBDb5Ct/3x82ZcBUTC7z1dx+U1yfB6gLUjniUET
+        6rvQ0xiGVWmNg5/h0TRHshpspGm4Fg==
+X-Google-Smtp-Source: ABdhPJwGaO3uhph1uxr+J5X4e2l7YlefI4N3GagUCSD7uY2LFCwUoB4QTy0qpnD+OtptSPOlK3MYP+qIrQ==
+X-Received: by 2002:a0c:f991:: with SMTP id t17mr24424118qvn.50.1595288153124;
+ Mon, 20 Jul 2020 16:35:53 -0700 (PDT)
+Date:   Mon, 20 Jul 2020 23:34:51 +0000
+In-Reply-To: <CAKwvOdnsp=zuxbFVcbGRN+-ZH-F5UFVfKzNBfHM714WkwRZyCQ@mail.gmail.com>
+Message-Id: <20200720233450.238022-1-nhuck@google.com>
+Mime-Version: 1.0
+References: <CAKwvOdnsp=zuxbFVcbGRN+-ZH-F5UFVfKzNBfHM714WkwRZyCQ@mail.gmail.com>
+X-Mailer: git-send-email 2.28.0.rc0.105.gf9edc3c819-goog
+Subject: [PATCH v4] Makefile: Add clang-tidy and static analyzer support to makefile
+From:   Nathan Huckleberry <nhuck@google.com>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, pirama@google.com,
+        morbo@google.com, Nathan Huckleberry <nhuck@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 11:16 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Mon, Jul 20, 2020 at 11:12:22AM -0700, Fangrui Song wrote:
-> > When CROSS_COMPILE is set (e.g. aarch64-linux-gnu-), if
-> > $(CROSS_COMPILE)elfedit is found at /usr/bin/aarch64-linux-gnu-,
-> > GCC_TOOLCHAIN_DIR will be set to /usr/bin/.  --prefix= will be set to
-> > /usr/bin/ and Clang as of 11 will search for both
-> > $(prefix)aarch64-linux-gnu-$needle and $(prefix)$needle.
-> >
-> > GCC searchs for $(prefix)aarch64-linux-gnu/$version/$needle,
-> > $(prefix)aarch64-linux-gnu/$needle and $(prefix)$needle. In practice,
-> > $(prefix)aarch64-linux-gnu/$needle rarely contains executables.
-> >
-> > To better model how GCC's -B/--prefix takes in effect in practice, newer
-> > Clang only searches for $(prefix)$needle and for example it will find
+This patch adds clang-tidy and the clang static-analyzer as make
+targets. The goal of this patch is to make static analysis tools
+usable and extendable by any developer or researcher who is familiar
+with basic c++.
 
-"newer Clang" requires the reader to recall that "Clang as of 11" was
-the previous frame of reference. I think it would be clearer to:
-1. call of clang-12 as having a difference in behavior.
-2. explicitly link to the commit, ie:
-Link: https://github.com/llvm/llvm-project/commit/3452a0d8c17f7166f479706b293caf6ac76ffd90
+The current static analysis tools require intimate knowledge of the
+internal
+workings of the static analysis.  Clang-tidy and the clang static
+analyzers
+expose an easy to use api and allow users unfamiliar with clang to
+write new checks with relative ease.
 
-> > /usr/bin/as instead of /usr/bin/aarch64-linux-gnu-as.
+===Clang-tidy===
 
-That's a common source of pain (for example, when cross compiling
-without having the proper cross binutils installed, it's common to get
-spooky errors about unsupported configs or host binutils not
-recognizing flags specific to cross building).
+Clang-tidy is an easily extendable 'linter' that runs on the AST.
+Clang-tidy checks are easy to write and understand. A check consists of
+two parts, a matcher and a checker. The matcher is created using a
+domain specific language that acts on the AST
+(https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
+nodes are found by the matcher a callback is made to the checker. The
+checker can then execute additional checks and issue warnings.
 
-/usr/bin/as: unrecognized option '-EL'
+Here is an example clang-tidy check to report functions that have calls
+to local_irq_disable without calls to local_irq_enable and vice-versa.
+Functions flagged with __attribute((annotation("ignore_irq_balancing")))
+are ignored for analysis. (https://reviews.llvm.org/D65828)
 
-being the most common.  So in that case, I'm actually very happy with
-the llvm change if it solves that particularly common pain point.
+===Clang static analyzer===
 
-> >
-> > Set --prefix= to $(GCC_TOOLCHAIN_DIR)$(CROSS_COMPILE)
-> > (/usr/bin/aarch64-linux-gnu-) so that newer Clang can find the
-> > appropriate cross compiling GNU as (when -no-integrated-as is in
-> > effect).
-> >
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > Signed-off-by: Fangrui Song <maskray@google.com>
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1099
->
-> Sorry that I did not pay attention before but this needs
->
-> Cc: stable@vger.kernel.org
+The clang static analyzer is a more powerful static analysis tool that
+uses symbolic execution to find bugs. Currently there is a check that
+looks for potential security bugs from invalid uses of kmalloc and
+kfree. There are several more general purpose checks that are useful for
+the kernel.
 
-Agreed.  This change to llvm will blow up all of our CI jobs that
-cross compile if not backported to stable.
+The clang static analyzer is well documented and designed to be
+extensible.
+(https://clang-analyzer.llvm.org/checker_dev_manual.html)
+(https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
 
->
-> in the body so that it gets automatically backported into all of our
-> stable branches. I am not sure if Masahiro is okay with adding that
-> after the fact or if he will want a v2.
->
-> I am fine with having my signed-off-by on the patch but I did not really
-> do much :) I am fine with having that downgraded to
+The main draw of the clang tools is how accessible they are. The clang
+documentation is very nice and these tools are built specifically to be
+easily extendable by any developer. They provide an accessible method of
+bug-finding and research to people who are not overly familiar with the
+kernel codebase.
 
-Not a big deal, but there's only really two cases I can think of where
-it's appropriate to attach someone else's "SOB" to a patch:
-1. It's their patch that you're resending on their behalf, possibly as
-part of a larger series.
-2. You're a maintainer, and...well I guess that's also case 1 above.
+Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+---
+Changes v3->v4
+* Update usages of static-analyzer to clang-analyzer
+* Clarify -* explicitly in comment
+* Remove filename printing
+ MAINTAINERS                                   |  1 +
+ Makefile                                      |  3 +
+ scripts/clang-tools/Makefile.clang-tools      | 23 +++++++
+ .../{ => clang-tools}/gen_compile_commands.py |  0
+ scripts/clang-tools/run-clang-tools.py        | 69 +++++++++++++++++++
+ 5 files changed, 96 insertions(+)
+ create mode 100644 scripts/clang-tools/Makefile.clang-tools
+ rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
+ create mode 100755 scripts/clang-tools/run-clang-tools.py
 
-Reported-by is more appropriate, and you can include the tags
-collected from this thread.  Please ping me internally for help
-sending a v2, if needed.
-
->
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
-
-I tested with this llvm pre- and post-
-https://github.com/llvm/llvm-project/commit/3452a0d8c17f7166f479706b293caf6ac76ffd90.
-I also tested downstream Android kernel builds with
-3452a0d8c17f7166f479706b293caf6ac76ffd90. Builds that don't make use
-of CROSS_COMPILE (native host targets) are obviously unaffected.  We
-might see this issue pop up a few more times internally if the patch
-isn't picked up by stable, or if those downstream kernel trees don't
-rebase on stable kernel trees as often as they refresh their
-toolchain.
-
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
->
-> if people find it odd.
->
-> Thanks for sending this along!
->
-> Cheers,
-> Nathan
->
-> > ---
-> >  Makefile | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 0b5f8538bde5..3ac83e375b61 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -567,7 +567,7 @@ ifneq ($(shell $(CC) --version 2>&1 | head -n 1 | grep clang),)
-> >  ifneq ($(CROSS_COMPILE),)
-> >  CLANG_FLAGS  += --target=$(notdir $(CROSS_COMPILE:%-=%))
-> >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
-> > -CLANG_FLAGS  += --prefix=$(GCC_TOOLCHAIN_DIR)
-> > +CLANG_FLAGS  += --prefix=$(GCC_TOOLCHAIN_DIR)$(CROSS_COMPILE)
-> >  GCC_TOOLCHAIN        := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
-> >  endif
-> >  ifneq ($(GCC_TOOLCHAIN),)
-> > --
-> > 2.28.0.rc0.105.gf9edc3c819-goog
-> >
->
-> --
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1d4aa7f942de..a444564e5572 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4198,6 +4198,7 @@ W:	https://clangbuiltlinux.github.io/
+ B:	https://github.com/ClangBuiltLinux/linux/issues
+ C:	irc://chat.freenode.net/clangbuiltlinux
+ F:	Documentation/kbuild/llvm.rst
++F:	scripts/clang-tools/
+ K:	\b(?i:clang|llvm)\b
+ 
+ CLEANCACHE API
+diff --git a/Makefile b/Makefile
+index fe0164a654c7..3e2df010b342 100644
+--- a/Makefile
++++ b/Makefile
+@@ -747,6 +747,7 @@ KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
+ 
+ include scripts/Makefile.kcov
+ include scripts/Makefile.gcc-plugins
++include scripts/clang-tools/Makefile.clang-tools
+ 
+ ifdef CONFIG_READABLE_ASM
+ # Disable optimizations that make assembler listings hard to read.
+@@ -1543,6 +1544,8 @@ help:
+ 	@echo  '  export_report   - List the usages of all exported symbols'
+ 	@echo  '  headerdep       - Detect inclusion cycles in headers'
+ 	@echo  '  coccicheck      - Check with Coccinelle'
++	@echo  '  clang-analyzer  - Check with clang static analyzer'
++	@echo  '  clang-tidy      - Check with clang-tidy'
+ 	@echo  ''
+ 	@echo  'Tools:'
+ 	@echo  '  nsdeps          - Generate missing symbol namespace dependencies'
+diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
+new file mode 100644
+index 000000000000..5c9d76f77595
+--- /dev/null
++++ b/scripts/clang-tools/Makefile.clang-tools
+@@ -0,0 +1,23 @@
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Google LLC, 2020
++#
++# Author: Nathan Huckleberry <nhuck@google.com>
++#
++PHONY += clang-tidy
++clang-tidy:
++ifdef CONFIG_CC_IS_CLANG
++	$(PYTHON3) scripts/clang-tools/gen_compile_commands.py
++	$(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
++else
++	$(error clang-tidy requires CC=clang)
++endif
++
++PHONY += clang-analyzer
++clang-analyzer:
++ifdef CONFIG_CC_IS_CLANG
++	$(PYTHON3) scripts/clang-tools/gen_compile_commands.py
++	$(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-analyzer compile_commands.json
++else
++	$(error clang-analyzer requires CC=clang)
++endif
+diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+similarity index 100%
+rename from scripts/gen_compile_commands.py
+rename to scripts/clang-tools/gen_compile_commands.py
+diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+new file mode 100755
+index 000000000000..44527b3663e9
+--- /dev/null
++++ b/scripts/clang-tools/run-clang-tools.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/env python
++# SPDX-License-Identifier: GPL-2.0
++#
++# Copyright (C) Google LLC, 2020
++#
++# Author: Nathan Huckleberry <nhuck@google.com>
++#
++"""A helper routine run clang-tidy and the clang static-analyzer on
++compile_commands.json."""
++
++import argparse
++import json
++import logging
++import multiprocessing
++import os
++import subprocess
++import sys
++
++def parse_arguments():
++  """Set up and parses command-line arguments.
++  Returns:
++    args: Dict of parsed args
++      Has keys "file" and "type"
++  """
++  usage = """Run clang-tidy or the clang static-analyzer on a
++  compilation database."""
++  parser = argparse.ArgumentParser(description=usage)
++
++  type_help = ("Type of analysis to be performed")
++  parser.add_argument("type", choices=["clang-tidy", "clang-analyzer"],
++                      help=type_help)
++  file_path_help = ("Path to the compilation database to parse")
++  parser.add_argument("file",  type=str, help=file_path_help)
++
++  args = parser.parse_args()
++
++  return args
++
++def init(l,t):
++  global lock
++  global analysis_type
++  lock = l
++  analysis_type = t
++
++def run_analysis(entry):
++  filename = entry["file"]
++  #Disable all checks, then re-enable the ones we want
++  checks = "-checks=-*,linuxkernel-*" if (analysis_type == "clang-tidy") else "-checks=-*,clang-analyzer-*"
++  p = subprocess.run(["clang-tidy", "-p", os.getcwd(),
++                    checks, filename],
++                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
++  lock.acquire()
++  sys.stderr.buffer.write(p.stdout)
++  lock.release()
++
++
++def main():
++  args = parse_arguments()
++  filename = args.file
++
++  #Read JSON data into the datastore variable
++  with open(filename, "r") as f:
++    datastore = json.load(f)
++    lock = multiprocessing.Lock()
++    pool = multiprocessing.Pool(initializer=init, initargs=(lock, args.type))
++    pool.map(run_analysis,datastore)
++
++if __name__ == "__main__":
++    main()
 -- 
-Thanks,
-~Nick Desaulniers
+2.28.0.rc0.105.gf9edc3c819-goog
+
