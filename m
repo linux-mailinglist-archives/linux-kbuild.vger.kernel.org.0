@@ -2,172 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A9C32253BB
-	for <lists+linux-kbuild@lfdr.de>; Sun, 19 Jul 2020 21:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C25922558D
+	for <lists+linux-kbuild@lfdr.de>; Mon, 20 Jul 2020 03:46:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbgGSTqM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 19 Jul 2020 15:46:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52822 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726073AbgGSTqM (ORCPT
+        id S1726468AbgGTBqG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 19 Jul 2020 21:46:06 -0400
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:40952 "EHLO
+        kvm5.telegraphics.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726225AbgGTBqG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 19 Jul 2020 15:46:12 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC82C0619D2;
-        Sun, 19 Jul 2020 12:46:11 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 594B4BC086;
-        Sun, 19 Jul 2020 19:46:08 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net, corbet@lwn.net,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH for v5.9] kbuild: Replace HTTP links with HTTPS ones
-Date:   Sun, 19 Jul 2020 21:46:02 +0200
-Message-Id: <20200719194602.61387-1-grandmaster@al2klimov.de>
+        Sun, 19 Jul 2020 21:46:06 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kvm5.telegraphics.com.au (Postfix) with ESMTP id 054172A113;
+        Sun, 19 Jul 2020 21:45:59 -0400 (EDT)
+Date:   Mon, 20 Jul 2020 11:46:01 +1000 (AEST)
+From:   Finn Thain <fthain@telegraphics.com.au>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v2 13/16] scripts/kallsyms: move ignored symbol types to
+ is_ignored_symbol()
+In-Reply-To: <20191123160444.11251-14-yamada.masahiro@socionext.com>
+Message-ID: <alpine.LNX.2.23.453.2007201132240.8@nippy.intranet>
+References: <20191123160444.11251-1-yamada.masahiro@socionext.com> <20191123160444.11251-14-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-X-Spam-Level: *****
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
+On Sun, 24 Nov 2019, Masahiro Yamada wrote:
 
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
+> Collect the ignored patterns to is_ignored_symbol().
+> 
+> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
+This commit (887df76de67f5) caused a regression in my powerpc builds as it 
+causes symbol names to disappear from backtraces:
 
- If there are any URLs to be removed completely
- or at least not (just) HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 0 at kernel/smp.c:433 _einittext+0x3f9e5120/0x3feb71b8
+Modules linked in:
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.4.0-rc7-pmac-00055-g887df76de67f5 #18
+NIP:  c00aef68 LR: c00af114 CTR: c001272c
+REGS: c0705c40 TRAP: 0700   Not tainted  (5.4.0-rc7-pmac-00055-g887df76de67f5)
+MSR:  00029032 <EE,ME,IR,DR,RI>  CR: 42000044  XER: 00000000
 
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
+GPR00: 001f0100 c0705cf8 c06dc300 c070af1c c001258c 00000000 00000000 ef7fb5bc 
+GPR08: 08800000 00000100 00000001 00000100 42000044 00000000 c0709040 00000004 
+GPR16: 00000001 c06022b4 c058297c 00200002 ffff8cb9 00000000 c06d84a0 c0710000 
+GPR24: c0710000 00000000 00000000 c070af1c c070af1c 00000000 c001258c 00000000 
+NIP [c00aef68] _einittext+0x3f9e5120/0x3feb71b8
+LR [c00af114] _einittext+0x3f9e52cc/0x3feb71b8
+Call Trace:
+[c0705cf8] [ef006320] 0xef006320 (unreliable)
+[c0705d38] [c00af114] _einittext+0x3f9e52cc/0x3feb71b8
+[c0705d48] [c00af158] _einittext+0x3f9e5310/0x3feb71b8
+[c0705d68] [c0012768] _einittext+0x3f948920/0x3feb71b8
+[c0705d78] [c0092c04] _einittext+0x3f9c8dbc/0x3feb71b8
+[c0705d88] [c0092d18] _einittext+0x3f9c8ed0/0x3feb71b8
+[c0705da8] [c0093a2c] _einittext+0x3f9c9be4/0x3feb71b8
+[c0705de8] [c0580224] _einittext+0x3feb63dc/0x3feb71b8
+[c0705e48] [c00382ec] _einittext+0x3f96e4a4/0x3feb71b8
+[c0705e58] [c000d2a0] _einittext+0x3f943458/0x3feb71b8
+[c0705e88] [c001353c] _einittext+0x3f9496f4/0x3feb71b8
+--- interrupt: 901 at _einittext+0x3f941058/0x3feb71b8
+    LR = _einittext+0x3f941058/0x3feb71b8
+[c0705f50] [c06cc214] 0xc06cc214 (unreliable)
+[c0705f60] [c057fa20] _einittext+0x3feb5bd8/0x3feb71b8
+[c0705f70] [c005de48] _einittext+0x3f994000/0x3feb71b8
+[c0705f90] [c005e050] _einittext+0x3f994208/0x3feb71b8
+[c0705fa0] [c0004cc8] _einittext+0x3f93ae80/0x3feb71b8
+[c0705fb0] [c069a36c] _einittext+0x3ffd0524/0x40000000
+[c0705ff0] [00003500] 0x3500
+Instruction dump:
+7c0803a6 7fa5eb78 7d808120 7ea6ab78 baa10014 38210040 4bfffbb0 7f64db78 
+7f85e378 484b31b1 7c601b78 4bfffdf4 <0fe00000> 4bfffd60 9421ffe0 7c0802a6 
+---[ end trace a06fef4788747c72 ]---
 
- If you apply the patch, please let me know.
 
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
+Prior to that (e.g. 97261e1e2240f), I get backtraces like this:
 
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 0 at kernel/smp.c:433 smp_call_function_many+0x318/0x320
+Modules linked in:
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.4.0-rc7-pmac-00054-g97261e1e2240f #20
+NIP:  c00aef68 LR: c00af114 CTR: c001272c
+REGS: c075dc40 TRAP: 0700   Not tainted  (5.4.0-rc7-pmac-00054-g97261e1e2240f)
+MSR:  00029032 <EE,ME,IR,DR,RI>  CR: 42000044  XER: 00000000
 
- Documentation/kbuild/Kconfig.recursion-issue-02 |  2 +-
- Documentation/kbuild/kconfig-language.rst       | 14 +++++++-------
- Documentation/kbuild/llvm.rst                   |  2 +-
- scripts/package/mkdebian                        |  2 +-
- scripts/package/mkspec                          |  2 +-
- 5 files changed, 11 insertions(+), 11 deletions(-)
+GPR00: 001f0100 c075dcf8 c0733300 c0762f1c c001258c 00000000 00000000 ef7fb5bc 
+GPR08: 04800000 00000100 00000001 00000100 42000044 00000000 c0761040 00000004 
+GPR16: 00000001 c0658e58 c058297c 00200002 ffff8cb9 00000000 c072f4a0 c0760000 
+GPR24: c0760000 00000000 00000000 c0762f1c c0762f1c 00000000 c001258c 00000000 
+NIP [c00aef68] smp_call_function_many+0x318/0x320
+LR [c00af114] smp_call_function+0x34/0x44
+Call Trace:
+[c075dcf8] [ef006320] 0xef006320 (unreliable)
+[c075dd38] [c00af114] smp_call_function+0x34/0x44
+[c075dd48] [c00af158] on_each_cpu+0x1c/0x4c
+[c075dd68] [c0012768] tau_timeout_smp+0x3c/0x4c
+[c075dd78] [c0092c04] call_timer_fn.isra.26+0x20/0x84
+[c075dd88] [c0092d18] expire_timers+0xb0/0xc0
+[c075dda8] [c0093a2c] run_timer_softirq+0xa4/0x1a4
+[c075dde8] [c0580224] __do_softirq+0x11c/0x280
+[c075de48] [c00382ec] irq_exit+0xc0/0xd4
+[c075de58] [c000d2a0] timer_interrupt+0x154/0x260
+[c075de88] [c001353c] ret_from_except+0x0/0x14
+--- interrupt: 901 at arch_cpu_idle+0x24/0x78
+    LR = arch_cpu_idle+0x24/0x78
+[c075df50] [c0723214] 0xc0723214 (unreliable)
+[c075df60] [c057fa20] default_idle_call+0x38/0x58
+[c075df70] [c005de48] do_idle+0xd4/0x17c
+[c075df90] [c005e054] cpu_startup_entry+0x24/0x28
+[c075dfa0] [c0004cc8] rest_init+0xa8/0xbc
+[c075dfb0] [c06f136c] start_kernel+0x40c/0x420
+[c075dff0] [00003500] 0x3500
+Instruction dump:
+7c0803a6 7fa5eb78 7d808120 7ea6ab78 baa10014 38210040 4bfffbb0 7f64db78 
+7f85e378 484b31b1 7c601b78 4bfffdf4 <0fe00000> 4bfffd60 9421ffe0 7c0802a6 
+---[ end trace 784c7f15ecd23941 ]---
 
-diff --git a/Documentation/kbuild/Kconfig.recursion-issue-02 b/Documentation/kbuild/Kconfig.recursion-issue-02
-index b9fd56c4b57e..df245fd7670d 100644
---- a/Documentation/kbuild/Kconfig.recursion-issue-02
-+++ b/Documentation/kbuild/Kconfig.recursion-issue-02
-@@ -42,7 +42,7 @@
- # "select FW_LOADER" [0], in the end the simple alternative solution to this
- # problem consisted on matching semantics with newly introduced features.
- #
--# [0] http://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
-+# [0] https://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
- 
- mainmenu "Simple example to demo cumulative kconfig recursive dependency implication"
- 
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index a1601ec3317b..41bee6a171e3 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -688,10 +688,10 @@ and real world requirements were not well understood. As it stands though
- only reverse engineering techniques have been used to deduce semantics from
- variability modeling languages such as Kconfig [3]_.
- 
--.. [0] http://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
--.. [1] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
--.. [2] http://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
--.. [3] http://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
-+.. [0] https://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
-+.. [1] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
-+.. [2] https://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
-+.. [3] https://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
- 
- Full SAT solver for Kconfig
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -710,10 +710,10 @@ such efforts somehow on Kconfig. There is enough interest from mentors of
- existing projects to not only help advise how to integrate this work upstream
- but also help maintain it long term. Interested developers should visit:
- 
--http://kernelnewbies.org/KernelProjects/kconfig-sat
-+https://kernelnewbies.org/KernelProjects/kconfig-sat
- 
--.. [4] http://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
--.. [5] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
-+.. [4] https://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
-+.. [5] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
- .. [6] https://cados.cs.fau.de
- .. [7] https://vamos.cs.fau.de
- .. [8] https://undertaker.cs.fau.de
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index c776b6eee969..2aac50b97921 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -76,7 +76,7 @@ Getting Help
- Getting LLVM
- -------------
- 
--- http://releases.llvm.org/download.html
-+- https://releases.llvm.org/download.html
- - https://github.com/llvm/llvm-project
- - https://llvm.org/docs/GettingStarted.html
- - https://llvm.org/docs/CMake.html
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index df1adbfb8ead..48fbd3d0284a 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -175,7 +175,7 @@ Section: kernel
- Priority: optional
- Maintainer: $maintainer
- Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_build_depends
--Homepage: http://www.kernel.org/
-+Homepage: https://www.kernel.org/
- 
- Package: $packagename
- Architecture: $debarch
-diff --git a/scripts/package/mkspec b/scripts/package/mkspec
-index 8640c278f1aa..7c477ca7dc98 100755
---- a/scripts/package/mkspec
-+++ b/scripts/package/mkspec
-@@ -46,7 +46,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
- 	License: GPL
- 	Group: System Environment/Kernel
- 	Vendor: The Linux Community
--	URL: http://www.kernel.org
-+	URL: https://www.kernel.org
- $S	Source: kernel-$__KERNELRELEASE.tar.gz
- 	Provides: $PROVIDES
- 	%define __spec_install_post /usr/lib/rpm/brp-compress || :
--- 
-2.27.0
+Has anyone else observed these problems (either the WARNING from 
+smp_call_function_many() or the missing symbol names)?
 
+What is the best way to fix this? Should I upgrade binutils?
