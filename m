@@ -2,64 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A109228989
-	for <lists+linux-kbuild@lfdr.de>; Tue, 21 Jul 2020 21:54:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84C1B228BDE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jul 2020 00:15:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730664AbgGUTyq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jul 2020 15:54:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48732 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728683AbgGUTyp (ORCPT
+        id S1728187AbgGUWP4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jul 2020 18:15:56 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:64746 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726658AbgGUWP4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jul 2020 15:54:45 -0400
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D7BBC061794;
-        Tue, 21 Jul 2020 12:54:45 -0700 (PDT)
-Received: by mail-il1-x142.google.com with SMTP id t18so17484818ilh.2;
-        Tue, 21 Jul 2020 12:54:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=iseUsb4cwqFRjmEUZSESf/WmYPRnoCDuuKRyDEs9PoA=;
-        b=SenRoNEMiots8jEaKK0lgPbkx6jsvSyCzBfJzL/ibpa1bSd3B735SQ9uwjkrtV0adN
-         l4CKmFsuVAs1YML/DexjReCUFTlxH4w0WbvtU0iEtU865GcNwdqYwMmlTu/XHqPKrCsr
-         S1c6CpICb/yZd4W5IHK5E2SdVn9bWUWuKN11iwm5SWc0yXAS8+aRwRcKXOnrwFeOG1JD
-         YM/YtWjR6/j36XYMQoOg+8cAOLBHwtpqxGz+lscASuU8ngWBvDY8dvZg7dts7saQmt1g
-         AYcs9IwwYDrk8mhpb5x4T+nvHzLYm77xkUOgC6TNesAmMWk82NpASIAT468q1D+F4A0N
-         lzvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=iseUsb4cwqFRjmEUZSESf/WmYPRnoCDuuKRyDEs9PoA=;
-        b=rytEMGnERmaOP6NEA8ZoVLeVw57jj29RKN2UGcbOwIeOJKPwUEUj7nHUNt7K9MF3ba
-         KyeThaOcjzzL8SV0sBYf0xBKicAe1Co/Ol2B8EfKBPAIB9s0Uyaz6IQhuHcNQ6n3Ccdw
-         oFzQ9gpj9mWTczr4XRX7YOZuCMXjwbnRCEexwbPLPy3AqNYzpevQcWxRqgLz11DVVESe
-         oDHjj81YHdWJ+B/tcyoxjJfNfIIRUJo7DOV/ywujyfMl395B2tRWSaeC/vXjlHVfMvbq
-         D60hAZovLsytWwsW3aRQYf1rBx4Cei5uqQqXBATJ0j2D3/57z6JVqG0IFBP58uLjVijQ
-         s9DA==
-X-Gm-Message-State: AOAM531HxkrixLpo8MbOcZAD0gVNkgXXbRbU9m50wRLYSqleyKpoUz+J
-        vzEZjlXsk+mSZqDsiGMUi+KKmvWpCQnshueP6js=
-X-Google-Smtp-Source: ABdhPJxtro6L/mmZCFmnlQFdDMRf/sv/H0msP9fG8u/lWygvyq5Sr6L0XiZeKRoFTgHlstL3iaGrVobxkbpQTOqBzH0=
-X-Received: by 2002:a92:d843:: with SMTP id h3mr31183810ilq.255.1595361284863;
- Tue, 21 Jul 2020 12:54:44 -0700 (PDT)
+        Tue, 21 Jul 2020 18:15:56 -0400
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 06LMFG4v024349;
+        Wed, 22 Jul 2020 07:15:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 06LMFG4v024349
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1595369718;
+        bh=vR1Y8P9QQm4CTezIGezqaKkPlD5HSAJvtH4tLGcsSBI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Eac1OkjRpXczpVkoHps5q00SjaAGdrQ3pmDGHflV2eWLHwS9LUnXYJosQBVz0UOFJ
+         atSqHwrjAyEqKhhMCDEp8gwAke30wrqbqvvi4lNmMa7gumSCpmUVL/vLMchR8jjKyq
+         xbDGV9JH2i3/zqvStgXRklaXyKjGDbNGh3yQ9HK03urpCmxPAhwXQdZ4eou/4l+Esb
+         Vqij88PKHqQRSj9ZyeZiCqK8drr6KjJKQsZWrvfWZLE4cVET/n6SYbK9Va4ZDFNiP5
+         KCPX+0qwTVEPdYdDJVfO2+1vCzS/ra4OaFB36trWx5dGdyr6f2GQJDUL8eWZZzbjnY
+         RQ3dTkGUPMDYg==
+X-Nifty-SrcIP: [209.85.222.45]
+Received: by mail-ua1-f45.google.com with SMTP id o25so2610uar.1;
+        Tue, 21 Jul 2020 15:15:17 -0700 (PDT)
+X-Gm-Message-State: AOAM530IRbG3+lOvgD6rulQC2H99mTIThdfVnrbgoQQHaaNDc1HgkrWH
+        J/CFyn1P1aUdWOesoDNxGKsM+c88iGicZCAbpy4=
+X-Google-Smtp-Source: ABdhPJyfvusDeLSk02B9TNvScFemIglbaRo6s+sUXc0hUvfsW+NlwIYAiHd3h/00MalC6DXvqL7qEYtSs9IWJGdOHqk=
+X-Received: by 2002:ab0:48:: with SMTP id 66mr22845681uai.40.1595369716204;
+ Tue, 21 Jul 2020 15:15:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200721041940.4029552-1-maskray@google.com>
-In-Reply-To: <20200721041940.4029552-1-maskray@google.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 21 Jul 2020 21:54:33 +0200
-Message-ID: <CA+icZUU1npgQEp9-CK67ZnUQHapW9Q1xtsh2Sqtkup08MaKCyQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+References: <20200721173125.1273884-1-maskray@google.com>
+In-Reply-To: <20200721173125.1273884-1-maskray@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 22 Jul 2020 07:14:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARjOjr2wSD_iM6yNSZpSGEWrkZZuWKCgCqOrYcA29+LBA@mail.gmail.com>
+Message-ID: <CAK7LNARjOjr2wSD_iM6yNSZpSGEWrkZZuWKCgCqOrYcA29+LBA@mail.gmail.com>
+Subject: Re: [PATCH v3] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
 To:     Fangrui Song <maskray@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Clang-Built-Linux ML <clang-built-linux@googlegroups.com>,
-        stable@vger.kernel.org, Jian Cai <jiancai@google.com>,
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Jian Cai <jiancai@google.com>,
         Bill Wendling <morbo@google.com>,
         Manoj Gupta <manojgupta@google.com>,
+        stable <stable@vger.kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -68,7 +59,7 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 6:20 AM 'Fangrui Song' via Clang Built Linux
+On Wed, Jul 22, 2020 at 2:31 AM 'Fangrui Song' via Clang Built Linux
 <clang-built-linux@googlegroups.com> wrote:
 >
 > When CROSS_COMPILE is set (e.g. aarch64-linux-gnu-), if
@@ -92,6 +83,7 @@ On Tue, Jul 21, 2020 at 6:20 AM 'Fangrui Song' via Clang Built Linux
 > appropriate cross compiling GNU as (when -no-integrated-as is in
 > effect).
 >
+> Cc: stable@vger.kernel.org
 > Reported-by: Nathan Chancellor <natechancellor@gmail.com>
 > Signed-off-by: Fangrui Song <maskray@google.com>
 > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
@@ -102,11 +94,9 @@ On Tue, Jul 21, 2020 at 6:20 AM 'Fangrui Song' via Clang Built Linux
 > Changes in v2:
 > * Updated description to add tags and the llvm-project commit link.
 > * Fixed a typo.
-
-Tested-by: Sedat Dilek <sedat.dilek@gmail,com>
-
-- Sedat -
-
+>
+> Changes in v3:
+> * Add Cc: stable@vger.kernel.org
 > ---
 >  Makefile | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -121,6 +111,84 @@ Tested-by: Sedat Dilek <sedat.dilek@gmail,com>
 >  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
 > -CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)
 > +CLANG_FLAGS    += --prefix=$(GCC_TOOLCHAIN_DIR)$(CROSS_COMPILE)
+
+
+
+CROSS_COMPILE may contain the directory path
+to the cross toolchains.
+
+
+For example, I use aarch64-linux-gnu-*
+installed in
+/home/masahiro/tools/aarch64-linaro-7.5/bin
+
+
+
+Basically, there are two ways to use it.
+
+[1]
+PATH=$PATH:/home/masahiro/tools/aarch64-linaro-7.5/bin
+CROSS_COMPILE=aarch64-linux-gnu-
+
+
+[2]
+Without setting PATH,
+CROSS_COMPILE=~/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-
+
+
+
+I usually do [2] (and so does intel's 0day bot).
+
+
+
+This patch works for the use-case [1]
+but if I do [2], --prefix is set to a strange path:
+
+--prefix=/home/masahiro/tools/aarch64-linaro-7.5/bin//home/masahiro/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-
+
+
+
+Interestingly, the build is still successful.
+Presumably Clang searches for more paths
+when $(prefix)$needle is not found ?
+
+
+
+I applied your patch and added -v option
+to see which assembler was internally invoked:
+
+ "/home/masahiro/tools/aarch64-linaro-7.5/lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/as"
+-EL -I ./arch/arm64/include -I ./arch/arm64/include/generated -I
+./include -I ./arch/arm64/include/uapi -I
+./arch/arm64/include/generated/uapi -I ./include/uapi -I
+./include/generated/uapi -o kernel/smp.o /tmp/smp-2ec2c7.s
+
+
+Ok, it looks like Clang found an alternative path
+to the correct 'as'.
+
+
+
+
+But, to keep the original behavior for both [1] and [2],
+how about this?
+
+CLANG_FLAGS += --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
+
+
+
+Then, I can get this:
+
+ "/home/masahiro/tools/aarch64-linaro-7.5/bin/aarch64-linux-gnu-as"
+-EL -I ./arch/arm64/include -I ./arch/arm64/include/generated -I
+./include -I ./arch/arm64/include/uapi -I
+./arch/arm64/include/generated/uapi -I ./include/uapi -I
+./include/generated/uapi -o kernel/smp.o /tmp/smp-16d76f.s
+
+
+
+
+
 >  GCC_TOOLCHAIN  := $(realpath $(GCC_TOOLCHAIN_DIR)/..)
 >  endif
 >  ifneq ($(GCC_TOOLCHAIN),)
@@ -130,4 +198,10 @@ Tested-by: Sedat Dilek <sedat.dilek@gmail,com>
 > --
 > You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
 > To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200721041940.4029552-1-maskray%40google.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200721173125.1273884-1-maskray%40google.com.
+
+
+
+--
+Best Regards
+Masahiro Yamada
