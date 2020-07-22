@@ -2,98 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90E27228DE3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jul 2020 04:11:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFFA7228ED3
+	for <lists+linux-kbuild@lfdr.de>; Wed, 22 Jul 2020 05:57:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731781AbgGVCLU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 21 Jul 2020 22:11:20 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:32111 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731621AbgGVCLU (ORCPT
+        id S1731887AbgGVD5E (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 21 Jul 2020 23:57:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731886AbgGVD5E (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 21 Jul 2020 22:11:20 -0400
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 06M2AmTB032054;
-        Wed, 22 Jul 2020 11:10:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 06M2AmTB032054
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1595383849;
-        bh=Aih6VBubiSXnprivmgnxaVTSC58fZZfIbh+5AaCTBIM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EK80SaE1oXZzPoKURYSTxTH+hxVXKvKr12Tsuy/FX5trsgAahkshxC3XvvjFV8sKp
-         kvotbDYshJF+qwdVkQQYifZ3+p5XbQPCpf7NpGo6h/4SAC4fDPF0PE7zVmWgGQMSC5
-         0m3wOAfD08HO837L/IdMOPyCR2dKjbl3qXPXwhL5F0NcX88G6GCXNdaRnxw3rmBmWQ
-         0lpwHzpXbHChzvgzNs9gUkl7CDhLTAd2xKp4S7Wkpizq8GR3wjLLfzLcwl7EVGVrXO
-         PQ9Ye5lj1XuTXoMaojlnlT72b0Qcj48tzNwqpLcZdjIYZEGDOIjehke/+UON54o26F
-         j1ed1QcFQuTWg==
-X-Nifty-SrcIP: [209.85.217.44]
-Received: by mail-vs1-f44.google.com with SMTP id m6so308180vsl.12;
-        Tue, 21 Jul 2020 19:10:49 -0700 (PDT)
-X-Gm-Message-State: AOAM532hd9TXd3U8NO2/v9pvDAN9mdt0OZd3LJx5Zq7WAOv5BRj84pde
-        7NZZ1/ng5/lcAMkqR1JZfeK2M8EM97RlQlziUfo=
-X-Google-Smtp-Source: ABdhPJxePnkwQjGrTtR0b/vKzaaoGDrx5Lo9YH6/7fWyDIDmz0k8/gl81kgwfi+UC9Pxo7G80Dx5Q555MuZEA4oNWjo=
-X-Received: by 2002:a67:2e4d:: with SMTP id u74mr21559012vsu.215.1595383847947;
- Tue, 21 Jul 2020 19:10:47 -0700 (PDT)
+        Tue, 21 Jul 2020 23:57:04 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE054C061794;
+        Tue, 21 Jul 2020 20:57:03 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id k5so470043pjg.3;
+        Tue, 21 Jul 2020 20:57:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ejoo3rO99IZBQPRKW1OTgn8zf/3hAJuMMg27TmWfP+Q=;
+        b=VXVhWK8MlscmTy1bvIXvmKuFGU44qSqaAtvdMosv9fuyjE2YXLfjBezi75DjdgNsI6
+         WetaYfdjiLVp+vV7tL135FtWDYArPWzyoRuYPS44KnuP8JCwAwZ8nJx6mKdsGcmjFN4O
+         UdkHFqQ74wK3M6V2WZi7iKlzKXXXBmyBR8MujScSCmAuBO4CTBw6eJ0+KGgZCpmT/5Eb
+         mFzXvIR/so+VjJbj5nVz+DoxYKffQKoBmq/MSu9pHRzD3o3y9BBC4ZmEJy5Lvp1U9l8z
+         Q+ShxUIx22H7nCkH3yCHWO8EU+hta5wyCOcUImjBbvx5+r+PSnNMPkk+pwiNClDgM5u6
+         Zwpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ejoo3rO99IZBQPRKW1OTgn8zf/3hAJuMMg27TmWfP+Q=;
+        b=IYi7eIDcoLAAFmRuUl2GWIkkbXS5tkN3Pd/9AyKbe8bqed58miNghYAjtaRvInZ2TK
+         jvBWiLqbMtN6o0aBgLPc3Jd388AfNLFIdiUZiFGJIW4yCnOzZbQ+YKfWfn6fV9sK1cP6
+         x77za2B8yg59nVG/OfjAW7m89UDEbndzDjvELWpjpaYzl7uOkSddUAWkfpY5L7br1Hzt
+         cwVppYwcb1i1b8zKD7ROkcHxLrY/lPUxVBM1mlCbM6qgY/UqWp7kWavdYdt5plSES1iW
+         MrIZbjV+Tmyldaoe6nanA4NfcDDeEKxl6+81jqBh2mEexf0shHN6cS+T+bPpbvRJVLtp
+         wREA==
+X-Gm-Message-State: AOAM532G3fbOEw6kET9eRvfzbWOdrA56qIc3GImDIO39EZ/9krXaw+U9
+        ze54LJCwApJfFr7aDNbEpsONwkAMKFo4wTB++L2auw==
+X-Google-Smtp-Source: ABdhPJzsrWI6yfXZXfqTDdc6Eemz6SwGqaWtrigchgHMM/oN4Qj11ro+26f0+OFV8IV1aztKYu4E5wJ36htkctlhZ90=
+X-Received: by 2002:a17:902:8ecb:: with SMTP id x11mr19444104plo.123.1595390223558;
+ Tue, 21 Jul 2020 20:57:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707092117.963394-1-masahiroy@kernel.org> <20200707092117.963394-2-masahiroy@kernel.org>
- <20200708065223.GA11164@alley> <20200708092324.GA4751@alley>
-In-Reply-To: <20200708092324.GA4751@alley>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 22 Jul 2020 11:10:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARFTzfx772bTUnLxbN9pwyX3=H284cg-YWKc3YUY9_8KA@mail.gmail.com>
-Message-ID: <CAK7LNARFTzfx772bTUnLxbN9pwyX3=H284cg-YWKc3YUY9_8KA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kbuild: trace functions in subdirectories of lib/
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Haren Myneni <haren@us.ibm.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Jiri Kosina <jikos@kernel.org>,
-        Joe Lawrence <joe.lawrence@redhat.com>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Miroslav Benes <mbenes@suse.cz>,
-        Tal Gilboa <talgi@mellanox.com>, kunit-dev@googlegroups.com,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, live-patching@vger.kernel.org
+References: <20200722004707.779601-1-masahiroy@kernel.org>
+In-Reply-To: <20200722004707.779601-1-masahiroy@kernel.org>
+From:   Max Filippov <jcmvbkbc@gmail.com>
+Date:   Tue, 21 Jul 2020 20:56:52 -0700
+Message-ID: <CAMo8BfJv38cPOAOOMGn8R7-CtBy2BCbMRkMAeXNZ=A4YbtTPbw@mail.gmail.com>
+Subject: Re: [PATCH] xtensa: add boot subdirectories build artifacts to 'targets'
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+        Chris Zankel <chris@zankel.net>,
+        "open list:TENSILICA XTENSA PORT (xtensa)" 
+        <linux-xtensa@linux-xtensa.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 8, 2020 at 6:23 PM Petr Mladek <pmladek@suse.com> wrote:
+On Tue, Jul 21, 2020 at 5:47 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> On Wed 2020-07-08 08:52:23, Petr Mladek wrote:
-> >
-> > PS: BTW: The livepatch selftests fail in Linus's master now. But it
-> > seems to be for another reason. I am going to dig into it.
+> Xtensa always rebuilds the following even if nothing in the source code
+> has been changed. Passing V=2 shows the reason.
 >
-> JFYI, the livepatch selftests are actually working. I have messed
-> the testing here. I am sorry for the noise.
+>   AS      arch/xtensa/boot/boot-elf/bootstrap.o - due to bootstrap.o not in $(targets)
+>   LDS     arch/xtensa/boot/boot-elf/boot.lds - due to boot.lds not in $(targets)
 >
-> Best Regards,
-> Petr
+> They are built by if_changed(_dep). Add them to 'targets' so .*.cmd files
+> are included.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>
+>  arch/xtensa/boot/boot-elf/Makefile     | 1 +
+>  arch/xtensa/boot/boot-redboot/Makefile | 1 +
+>  2 files changed, 2 insertions(+)
 
-No worry, thank you for testing this patch.
-
-
-I deleted the following two lines,
-otherwise $(CC_FLAGS_FTRACE) would be added twice.
-
-# Target modules to be livepatched require CC_FLAGS_FTRACE
-CFLAGS_test_klp_callbacks_busy.o       += $(CC_FLAGS_FTRACE)
-CFLAGS_test_klp_callbacks_mod.o                += $(CC_FLAGS_FTRACE)
-
-
-
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks.
+-- Max
