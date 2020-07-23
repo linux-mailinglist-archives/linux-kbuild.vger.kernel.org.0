@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBE3322B6B5
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jul 2020 21:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94D0922B6B9
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jul 2020 21:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726404AbgGWTaW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jul 2020 15:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39590 "EHLO
+        id S1726501AbgGWTa2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jul 2020 15:30:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgGWTaW (ORCPT
+        with ESMTP id S1725894AbgGWTa1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jul 2020 15:30:22 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F369C0619DC;
-        Thu, 23 Jul 2020 12:30:22 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id d4so3673403pgk.4;
-        Thu, 23 Jul 2020 12:30:22 -0700 (PDT)
+        Thu, 23 Jul 2020 15:30:27 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B184DC0619DC;
+        Thu, 23 Jul 2020 12:30:27 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id s26so3533976pfm.4;
+        Thu, 23 Jul 2020 12:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TXTdsNrfCfieysYpq34E9JAy/A+hI8H1p/zUhrFwIwE=;
-        b=rWqAdotEu1WqPA8oAwtOp5Ax/9imHq2pvWR8vxSxJB4J6LD8c1aP2EQhhvOnyiOfJ5
-         THQMUsOhlJI86RD8hVKX9DHq7J+2Scmtrh6rwSyuSyt2C1/qE1rg6teJTcOmV3dojIZS
-         08d60L+JShRqtRMgtQZA2B1/XEAWX5gBsqqpNZq7as0KYcRPF0FT7Mm+vrzvvalj+esR
-         CTcqZmQ1IvOmao3oRdyCqioMJ4AJs8V3BlrTTWBLD/+1yYkmAl1rLcZNgWOQ0YB8etwl
-         +HOa7ARuFJFtgqwWAvwQQEYhLk1JDYqe9GmkDoBIBcBj2695D2Ksro1A/2lHKPpdwIW4
-         ggxQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=M/PjmAninS+4waGJS0k7TVpi9mX9COho3YSX6SxTl+Y=;
+        b=gtWpmUkbDyxXG9vT39SFby2I3VHhBdbxuO+8/Fct2mmzX/vOwSKXOGskXREzOmcCo4
+         E4x0q2HiJK8eJFHXwnTaFEQZDefmzJ7Sayqh/fC8XroDkfXEeeGtBQXxNWaAST4FyXAQ
+         IIJBR5lskECMK00Zi/HWAZXH2TabChRsUYCGDJm/IYru6JamA1gUwgjChrahfZ2wpjBv
+         rs9VjfPnR9wZ5Qfk6NWWD60mOWzqHnRlX0CEF2fZh20jPNd1TmaG6K/zv5rglRyHlsuW
+         NA0Q48jAP+BudWICB4PnA5/QVfgqluXwVF0pYq72sOptQoe+57XdeGRyYVZkdPttt+h4
+         WAww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TXTdsNrfCfieysYpq34E9JAy/A+hI8H1p/zUhrFwIwE=;
-        b=GMa7KUrg78u2sKDElhgHi46o4Vzz+wLrBhIIB7SXBU1W/IgATMy7nI+OoHaFzYuI7i
-         eggIh5uPIYzO29YIsUfl+WjYtnyHxatTTqW5sDMm7L3I3otJQhTHJLDVhMtaPMk4RaiD
-         WJ8P4ELCSvqK/twmwf1OiSYOakKExB8o5JDhKloZ3lY53XhtmseHMw5nNQpHqkBzcuWu
-         D0q8mu8emmrE3YwKrj6q3PBdKLqWCmvON6xBm8yOwckSsOji7zb0k0BowcPvbfyeuiTf
-         P/twETXogehdCEtaMJoQ4SdMPygWEVC3tsWokDRRXI8qdDF4fV4nHx8VbamYZOvHKYX+
-         WMLg==
-X-Gm-Message-State: AOAM531/04moSSRmji7/LRosj85HxBEfI5eftEr8HsMKTfwAUBuR2fB5
-        Vwl2MBIWH01gxX0KdpRiUtI=
-X-Google-Smtp-Source: ABdhPJwIs68oPfXC/h5VXP5DEIulgsY3/Q18kdAkLYS2QDt7Av0MIcCCl3sPCCzDwsZa7LIHMDrDHA==
-X-Received: by 2002:a63:fd44:: with SMTP id m4mr5474044pgj.160.1595532621819;
-        Thu, 23 Jul 2020 12:30:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=M/PjmAninS+4waGJS0k7TVpi9mX9COho3YSX6SxTl+Y=;
+        b=iXgeMHrEFtlP0FBx2Z7fMwuMHlZWzPuWfI4C4js5m/8Byxa5r4uy3SetqQ2AGO2HYV
+         oA2/algbT6NnpBtL13i8bdVMknf8UVK4BXsKfwyk227rThZ2TLDu2FFgjjUPG7vMSzhY
+         D2bRly16F2tTC6zVwSqi7smfdK55TXzIwDBmXkpk2y1DtZfRJ2T7iGZPSVlwmnJkAGMG
+         hKf/J1wDMyTvYPC16re6+IYnoCNmDBdLsIj/Yr8lXGSpatdA3jyeZEZ9vfNeh3JBEW4w
+         PcsDLhFiAvcnHFeC6JrUceJ4DhafWfoREgyFYQ6t3KkqHRz8J3Jg6Smx91g9dM1+e+yl
+         PuOg==
+X-Gm-Message-State: AOAM5313ZNnYosLhwS9N7LMFxi5Qd3+ZtDlrSOjnlCmw8eEnnx0p/+iu
+        RTPwXD225BB8wlDV3JF7eS4=
+X-Google-Smtp-Source: ABdhPJzgXCkTryVlIVR+WxtAc5QT/kcHT99IAKh1NJTpx3UKgdKEO1E556g8wyvGuwiLDThDPtTj+Q==
+X-Received: by 2002:a63:e617:: with SMTP id g23mr5387426pgh.102.1595532627167;
+        Thu, 23 Jul 2020 12:30:27 -0700 (PDT)
 Received: from nickserv.localdomain (c-98-33-101-203.hsd1.ca.comcast.net. [98.33.101.203])
-        by smtp.gmail.com with ESMTPSA id y18sm3794332pff.10.2020.07.23.12.30.19
+        by smtp.gmail.com with ESMTPSA id y18sm3794332pff.10.2020.07.23.12.30.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2020 12:30:21 -0700 (PDT)
+        Thu, 23 Jul 2020 12:30:26 -0700 (PDT)
 From:   Nick Terrell <nickrterrell@gmail.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>
@@ -66,10 +66,12 @@ Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
         Alex Xu <alex_y_xu@yahoo.ca>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Nick Terrell <terrelln@fb.com>
-Subject: [GIT PULL][PATCH v8 0/7] Add support for ZSTD-compressed kernel and initramfs
-Date:   Thu, 23 Jul 2020 12:27:54 -0700
-Message-Id: <20200723192801.351114-1-nickrterrell@gmail.com>
+Subject: [PATCH v8 1/7] lib: prepare zstd for preboot environment
+Date:   Thu, 23 Jul 2020 12:27:55 -0700
+Message-Id: <20200723192801.351114-2-nickrterrell@gmail.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200723192801.351114-1-nickrterrell@gmail.com>
+References: <20200723192801.351114-1-nickrterrell@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -79,144 +81,92 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Nick Terrell <terrelln@fb.com>
 
-Please pull from
+* Remove a double definition of the CHECK_F macro when the zstd
+  library is amalgamated.
+* Switch ZSTD_copy8() to __builtin_memcpy(), because in the preboot
+  environment on x86 gcc can't inline `memcpy()` otherwise.
+* Limit the gcc hack in ZSTD_wildcopy() to the broken gcc version. See
+  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81388.
 
-  git@github.com:terrelln/linux.git tags/v8-zstd
+These changes are necessary to get the build to work in the preboot
+environment, and to get reasonable performance. ZSTD_copy8() and
+ZSTD_wildcopy() are in the core of the zstd hot loop. So outlining
+these calls to memcpy(), and having an extra branch are very
+detrimental to performance.
 
-to get these changes. Alternatively the patchset is included.
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+Signed-off-by: Nick Terrell <terrelln@fb.com>
+---
+ lib/zstd/fse_decompress.c |  9 +--------
+ lib/zstd/zstd_internal.h  | 14 ++++++++++++--
+ 2 files changed, 13 insertions(+), 10 deletions(-)
 
-Hi all,
-
-This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
-initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
-are supported on all architectures. The ZSTD-compressed kernel is only
-hooked up to x86 in this patch set.
-
-Zstandard requires slightly more memory during the kernel decompression
-on x86 (192 KB vs 64 KB), and the memory usage is independent of the
-window size.
-
-Zstandard requires memory proprortional to the window size used during
-compression for decompressing the ramdisk image, since streaming mode is
-used. Newer versions of zstd (1.3.2+) list the window size of a file
-with `zstd -lv <file>'. The absolute maximum amount of memory required
-is just over 8 MB, but it can be controlled at compression time.
-
-This patch set has been boot tested with buildroot and QEMU based off
-of linux-5.6-rc6.
-
-On i386 and x86_64 I have tested the following configurations:
-* zstd compressed kernel and a separate zstd compressed initramfs
-* zstd compressed kernel and a built-in zstd compressed initramfs
-* gzip compressed kernel and a separate gzip compressed initramfs
-* gzip compressed kernel and a built-in gzip compressed initramfs
-
-On arm and aarch64 I tested the same configurations, except that the kernel is
-always gzip compressed.
-
-Facebook has been using v1 of these patches on x86_64 devices for more than 6
-months. When we switched from a xz compressed initramfs to a zstd compressed
-initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
-switched from a xz compressed kernel to a zstd compressed kernel we saved 2
-seconds of boot time.
-
-Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
-When we switched from an lzma compressed initramfs to a zstd compressed initramfs
-decompression time shrunk from 27 seconds to 8 seconds.
-
-The zstd compressed kernel is smaller than the gzip compressed kernel but larger
-than the xz or lzma compressed kernels, and it decompresses faster than
-everything except lz4. See the table below for the measurement of an x86_64
-kernel ordered by compressed size:
-
-algo	size
-xz  	 6,509,792
-lzma	 6,856,576
-zstd	 7,399,157
-gzip	 8,522,527
-bzip	 8,629,603
-lzo 	 9,808,035
-lz4 	10,705,570
-none	32,565,672
-
-Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
-
-v1 -> v2:
-- Rebase
-  - usr/Makefile and init/Kconfig were changed so the patches were updated
-- No functional changes except to rebase
-- Split the patches up into smaller chunks
-
-v2 -> v3:
-- Add *.zst to the .gitignore in patch 8
-- Style nits in patch 3
-- Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
-  1 through 3
-
-v3 -> v4:
-- Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
-  With this change I switch from malloc() to large_malloc() for the
-  buffers.
-- Increase the maximum allowed window size from 8 MB to 128 MB, which is
-  the max that zstd in the kernel supports.
-
-v4 -> v5:
-- Update commit message for patch 6 in response to comments
-- Rebase onto next-20200408
-
-v5 -> v6:
-- Rebase onto v5.8-rc4
-
-v6 -> v7:
-- (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
-- (2/8) Drop 'lib: prepare xxhash for preboot environment'
-- (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
-- (3/7) Update zstd compression cmd to follow other compressors
-- (3/7) Add zstd22 cmd
-- (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
-
-v7 -> v8:
-- (2/7) Don't define '__DISABLE_EXPORTS'
-- (6/7) Define '__DISABLE_EXPORTS' in misc.c
-
-Best,
-Nick Terrell
-
-
-Adam Borowski (1):
-  .gitignore: add ZSTD-compressed files
-
-Nick Terrell (6):
-  lib: prepare zstd for preboot environment
-  lib: add zstd support to decompress
-  init: add support for zstd compressed kernel
-  usr: add support for zstd compressed initramfs
-  x86: bump ZO_z_extra_bytes margin for zstd
-  x86: Add support for ZSTD compressed kernel
-
- .gitignore                        |   1 +
- Documentation/x86/boot.rst        |   6 +-
- Makefile                          |   3 +-
- arch/x86/Kconfig                  |   1 +
- arch/x86/boot/compressed/Makefile |   5 +-
- arch/x86/boot/compressed/misc.c   |   9 +
- arch/x86/boot/header.S            |   8 +-
- arch/x86/include/asm/boot.h       |   6 +-
- include/linux/decompress/unzstd.h |  11 +
- init/Kconfig                      |  15 +-
- lib/Kconfig                       |   4 +
- lib/Makefile                      |   1 +
- lib/decompress.c                  |   5 +
- lib/decompress_unzstd.c           | 344 ++++++++++++++++++++++++++++++
- lib/zstd/fse_decompress.c         |   9 +-
- lib/zstd/zstd_internal.h          |  14 +-
- scripts/Makefile.lib              |  22 ++
- usr/Kconfig                       |  20 ++
- usr/Makefile                      |   1 +
- 19 files changed, 466 insertions(+), 19 deletions(-)
- create mode 100644 include/linux/decompress/unzstd.h
- create mode 100644 lib/decompress_unzstd.c
-
+diff --git a/lib/zstd/fse_decompress.c b/lib/zstd/fse_decompress.c
+index a84300e5a013..0b353530fb3f 100644
+--- a/lib/zstd/fse_decompress.c
++++ b/lib/zstd/fse_decompress.c
+@@ -47,6 +47,7 @@
+ ****************************************************************/
+ #include "bitstream.h"
+ #include "fse.h"
++#include "zstd_internal.h"
+ #include <linux/compiler.h>
+ #include <linux/kernel.h>
+ #include <linux/string.h> /* memcpy, memset */
+@@ -60,14 +61,6 @@
+ 		enum { FSE_static_assert = 1 / (int)(!!(c)) }; \
+ 	} /* use only *after* variable declarations */
+ 
+-/* check and forward error code */
+-#define CHECK_F(f)                  \
+-	{                           \
+-		size_t const e = f; \
+-		if (FSE_isError(e)) \
+-			return e;   \
+-	}
+-
+ /* **************************************************************
+ *  Templates
+ ****************************************************************/
+diff --git a/lib/zstd/zstd_internal.h b/lib/zstd/zstd_internal.h
+index 1a79fab9e13a..dac753397f86 100644
+--- a/lib/zstd/zstd_internal.h
++++ b/lib/zstd/zstd_internal.h
+@@ -127,7 +127,14 @@ static const U32 OF_defaultNormLog = OF_DEFAULTNORMLOG;
+ *  Shared functions to include for inlining
+ *********************************************/
+ ZSTD_STATIC void ZSTD_copy8(void *dst, const void *src) {
+-	memcpy(dst, src, 8);
++	/*
++	 * zstd relies heavily on gcc being able to analyze and inline this
++	 * memcpy() call, since it is called in a tight loop. Preboot mode
++	 * is compiled in freestanding mode, which stops gcc from analyzing
++	 * memcpy(). Use __builtin_memcpy() to tell gcc to analyze this as a
++	 * regular memcpy().
++	 */
++	__builtin_memcpy(dst, src, 8);
+ }
+ /*! ZSTD_wildcopy() :
+ *   custom version of memcpy(), can copy up to 7 bytes too many (8 bytes if length==0) */
+@@ -137,13 +144,16 @@ ZSTD_STATIC void ZSTD_wildcopy(void *dst, const void *src, ptrdiff_t length)
+ 	const BYTE* ip = (const BYTE*)src;
+ 	BYTE* op = (BYTE*)dst;
+ 	BYTE* const oend = op + length;
+-	/* Work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81388.
++#if defined(GCC_VERSION) && GCC_VERSION >= 70000 && GCC_VERSION < 70200
++	/*
++	 * Work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81388.
+ 	 * Avoid the bad case where the loop only runs once by handling the
+ 	 * special case separately. This doesn't trigger the bug because it
+ 	 * doesn't involve pointer/integer overflow.
+ 	 */
+ 	if (length <= 8)
+ 		return ZSTD_copy8(dst, src);
++#endif
+ 	do {
+ 		ZSTD_copy8(op, ip);
+ 		op += 8;
 -- 
 2.27.0
 
