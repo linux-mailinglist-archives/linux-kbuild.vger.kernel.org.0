@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BC6D22B6C3
-	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jul 2020 21:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E85A22B6C5
+	for <lists+linux-kbuild@lfdr.de>; Thu, 23 Jul 2020 21:31:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbgGWTas (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jul 2020 15:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39672 "EHLO
+        id S1726807AbgGWTax (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jul 2020 15:30:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbgGWTar (ORCPT
+        with ESMTP id S1726689AbgGWTaw (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jul 2020 15:30:47 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B5A6C0619DC;
-        Thu, 23 Jul 2020 12:30:47 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id l6so3032492plt.7;
-        Thu, 23 Jul 2020 12:30:47 -0700 (PDT)
+        Thu, 23 Jul 2020 15:30:52 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA77C0619DC;
+        Thu, 23 Jul 2020 12:30:51 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id mn17so3667712pjb.4;
+        Thu, 23 Jul 2020 12:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=n6QCGzWBzwdRunC88ZR2ssAXgvTx6O91V0TzBT8uQq0=;
-        b=cBY7Ts0Dn/yJ/+ZWE7VudkHnyuC7LqcXKcjymID4/kVhvNHMWHyBlg7WKRwPl4nCAC
-         fKOPRWgTo4uMNrEZeJy5QtwqGN+fBVV7jid7LmRih4/8V2miaRuOuqirisKXJCNotIdo
-         gwJH3149xT8gLHsmovNcEqSb+ojEmlb6UzMYo4b1MqZNTfP6kkRLAamanfCyy+mQWyp+
-         S83L5ElaPB4HqZxIY728sV+xGs2wYwBu63N8WTEUYKO3zaDYuqd6JVrA7fuLQZ+rfCO8
-         3lfTAWCQ2ZBKKay/yZ1CTV4zVhvpBlnPE1kboJUtT9icJ5/U7S9vBT+UdZVUlC5mthZD
-         qxZA==
+        bh=pxETxrsRTIRtKLdyZGajYkPdhfOffddZB0SI/O3yUhI=;
+        b=p6TusONOZKpZe6FG4zIDWhD54V/Co9IOigNnRAP4KmvDdfUctgZfR9dkt0lNKmNW9W
+         xFyfvJ4aQdcLASbhfjGnpn9L+lDrFLqrcGLaSMyCXxGV6FKwxDkhlrF/ULA+zjqQc6cF
+         VcLcwx9sQfoG1UK6gfN3VupGHxQy7O68Olp8C4/Lf/IVP2lfMdLiuBHtakTvtFWwK3a5
+         zKlLIREAmxrvVCWKavE3N5gMfu/W+tJu2VEFdRgd6fQqvJ3xpyWjcQ/3Ofqk9D5zfz/8
+         Lnsw81Q26vjATuoq9zwRbxrImxKU68rxbxrUD46D2plO4ocKT1NPVnlFqpva3x9iPoVG
+         PP8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n6QCGzWBzwdRunC88ZR2ssAXgvTx6O91V0TzBT8uQq0=;
-        b=sw7GFTRtOgVNquZNd+fAFR8fixL1GN2xttYJGrh3YU0LAqCZZz+cGIan5UNMst8fBV
-         p9U7afQ8iAnP+EFePjpWfFVg6RQraaE3W2zCULFi1sd+j3axyDR4X6BNkWqkOHXf/HjJ
-         nWHP1y/lxpjNe/WdygyixpralCXOqmycfPgUpbiQqe+nXXGpEpTQ1UVwj0Pyq6MBT8Pp
-         bQjPwyMwUbGYt/xjV1FSy24t1V+VwEmusuvJnLlBglExpoQDA/ECTxGWzE8aeZgzHc/t
-         PzZS2PQXCarXzfSQ+ofUSX9mxJjd1rNeYbXa85zSk4tH3cGlDEZWd/NJ/puTeftd0mMm
-         mOdw==
-X-Gm-Message-State: AOAM532JbvqmuAaVFofHO8yNC4PFlOmBhcGPU5BQKIIPI4thBSlB0DRc
-        rAW5xLx1AbZK2jE4Wz9kE9fuJy9b70o=
-X-Google-Smtp-Source: ABdhPJxQQ6heHaCHmOcJzC/I8BU7mAcdErDTCHiBwrJsRscBZC+VPjo0YIwwQ+jbZRag/cOOHlDkMw==
-X-Received: by 2002:a17:902:7591:: with SMTP id j17mr5031015pll.286.1595532647100;
-        Thu, 23 Jul 2020 12:30:47 -0700 (PDT)
+        bh=pxETxrsRTIRtKLdyZGajYkPdhfOffddZB0SI/O3yUhI=;
+        b=T5n4bsOR8Z/FqZKG3se5qtioUwPscXjlqkWzEGjBLCYIKf1b4L4lEbv/AmbcunsyDw
+         6xISSXL4WF4vUCsZOKsMaK0vJ3HW5AaawvLNh1lZIfzm8xaD2ILLLWbDXEB9fza84FOD
+         0SvRK6u4AdPiaxREDronR+oVCnrdk7f+6ffdsIs3ZJ/bVwu1p5/35WfXbkfSt577jKPk
+         prqo6/usF7V7eeUDaabIXGo2B9YojogfiU44QCYE5RIKBF6hJX036o6LL9oZS8+vuIrP
+         oE+xFfewqVEYj5HMG7d3Is29MyPnoR7E6GyT+K7gbb7DDv7z1mQvHgMQ3RJ0GNPpZBYv
+         0PtQ==
+X-Gm-Message-State: AOAM532i7UCgMtxEA8fvfmv1tOstnsgKnLWDGgq8pUbw9o4AUqqpYxny
+        TP01ay+2FJdOa4sCpuelcEE=
+X-Google-Smtp-Source: ABdhPJyDR6n06K+xZvLN6cEBw1ZQgUUM3FbVlgz3DtD7UZVMP8KjMKi0WU/rxWyCmPCrxvzktLWqMg==
+X-Received: by 2002:a17:902:54e:: with SMTP id 72mr4929450plf.181.1595532651405;
+        Thu, 23 Jul 2020 12:30:51 -0700 (PDT)
 Received: from nickserv.localdomain (c-98-33-101-203.hsd1.ca.comcast.net. [98.33.101.203])
-        by smtp.gmail.com with ESMTPSA id y18sm3794332pff.10.2020.07.23.12.30.45
+        by smtp.gmail.com with ESMTPSA id y18sm3794332pff.10.2020.07.23.12.30.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2020 12:30:46 -0700 (PDT)
+        Thu, 23 Jul 2020 12:30:50 -0700 (PDT)
 From:   Nick Terrell <nickrterrell@gmail.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>
@@ -66,9 +66,9 @@ Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
         Alex Xu <alex_y_xu@yahoo.ca>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Nick Terrell <terrelln@fb.com>
-Subject: [PATCH v8 5/7] x86: bump ZO_z_extra_bytes margin for zstd
-Date:   Thu, 23 Jul 2020 12:27:59 -0700
-Message-Id: <20200723192801.351114-6-nickrterrell@gmail.com>
+Subject: [PATCH v8 6/7] x86: Add support for ZSTD compressed kernel
+Date:   Thu, 23 Jul 2020 12:28:00 -0700
+Message-Id: <20200723192801.351114-7-nickrterrell@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200723192801.351114-1-nickrterrell@gmail.com>
 References: <20200723192801.351114-1-nickrterrell@gmail.com>
@@ -81,45 +81,143 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Nick Terrell <terrelln@fb.com>
 
-Bump the ZO_z_extra_bytes margin for zstd.
+* Add support for zstd compressed kernel
+* Define __DISABLE_EXPORTS in misc.c
+* Bump the heap size for zstd.
+* Update the documentation.
 
-Zstd needs 3 bytes per 128 KB, and has a 22 byte fixed overhead.
-Zstd needs to maintain 128 KB of space at all times, since that is
-the maximum block size. See the comments regarding in-place
-decompression added in lib/decompress_unzstd.c for details.
+Integrates the ZSTD decompression code to the x86 pre-boot code.
 
-The existing code is written so that all the compression algorithms use
-the same ZO_z_extra_bytes. It is taken to be the maximum of the growth
-rate plus the maximum fixed overhead. The comments just above this diff
-state that:
+Zstandard requires slightly more memory during the kernel decompression
+on x86 (192 KB vs 64 KB), and the memory usage is independent of the
+window size.
+
+__DISABLE_EXPORTS is defined in misc.c instead of the Makefile because
+kaslr.c defines __DISABLE_EXPORTS, and defining it in the Makefile gives
+duplicate definition warnings.
+
+This patch has been boot tested with both a zstd and gzip compressed
+kernel on i386 and x86_64 using buildroot and QEMU.
+
+Additionally, this has been tested in production on x86_64 devices.
+We saw a 2 second boot time reduction by switching kernel compression
+from xz to zstd.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
 Signed-off-by: Nick Terrell <terrelln@fb.com>
 ---
- arch/x86/boot/header.S | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ Documentation/x86/boot.rst        | 6 +++---
+ arch/x86/Kconfig                  | 1 +
+ arch/x86/boot/compressed/Makefile | 5 ++++-
+ arch/x86/boot/compressed/misc.c   | 9 +++++++++
+ arch/x86/include/asm/boot.h       | 6 ++++--
+ 5 files changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/arch/x86/boot/header.S b/arch/x86/boot/header.S
-index 735ad7f21ab0..6dbd7e9f74c9 100644
---- a/arch/x86/boot/header.S
-+++ b/arch/x86/boot/header.S
-@@ -539,8 +539,14 @@ pref_address:		.quad LOAD_PHYSICAL_ADDR	# preferred load addr
- # the size-dependent part now grows so fast.
- #
- # extra_bytes = (uncompressed_size >> 8) + 65536
-+#
-+# ZSTD compressed data grows by at most 3 bytes per 128K, and only has a 22
-+# byte fixed overhead but has a maximum block size of 128K, so it needs a
-+# larger margin.
-+#
-+# extra_bytes = (uncompressed_size >> 8) + 131072
+diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+index 5325c71ca877..7fafc7ac00d7 100644
+--- a/Documentation/x86/boot.rst
++++ b/Documentation/x86/boot.rst
+@@ -782,9 +782,9 @@ Protocol:	2.08+
+   uncompressed data should be determined using the standard magic
+   numbers.  The currently supported compression formats are gzip
+   (magic numbers 1F 8B or 1F 9E), bzip2 (magic number 42 5A), LZMA
+-  (magic number 5D 00), XZ (magic number FD 37), and LZ4 (magic number
+-  02 21).  The uncompressed payload is currently always ELF (magic
+-  number 7F 45 4C 46).
++  (magic number 5D 00), XZ (magic number FD 37), LZ4 (magic number
++  02 21) and ZSTD (magic number 28 B5). The uncompressed payload is
++  currently always ELF (magic number 7F 45 4C 46).
  
--#define ZO_z_extra_bytes	((ZO_z_output_len >> 8) + 65536)
-+#define ZO_z_extra_bytes	((ZO_z_output_len >> 8) + 131072)
- #if ZO_z_output_len > ZO_z_input_len
- # define ZO_z_extract_offset	(ZO_z_output_len + ZO_z_extra_bytes - \
- 				 ZO_z_input_len)
+ ============	==============
+ Field name:	payload_length
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 883da0abf779..4a64395bc35d 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -188,6 +188,7 @@ config X86
+ 	select HAVE_KERNEL_LZMA
+ 	select HAVE_KERNEL_LZO
+ 	select HAVE_KERNEL_XZ
++	select HAVE_KERNEL_ZSTD
+ 	select HAVE_KPROBES
+ 	select HAVE_KPROBES_ON_FTRACE
+ 	select HAVE_FUNCTION_ERROR_INJECTION
+diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+index 7619742f91c9..3498cd990869 100644
+--- a/arch/x86/boot/compressed/Makefile
++++ b/arch/x86/boot/compressed/Makefile
+@@ -26,7 +26,7 @@ OBJECT_FILES_NON_STANDARD	:= y
+ KCOV_INSTRUMENT		:= n
+ 
+ targets := vmlinux vmlinux.bin vmlinux.bin.gz vmlinux.bin.bz2 vmlinux.bin.lzma \
+-	vmlinux.bin.xz vmlinux.bin.lzo vmlinux.bin.lz4
++	vmlinux.bin.xz vmlinux.bin.lzo vmlinux.bin.lz4 vmlinux.bin.zst
+ 
+ KBUILD_CFLAGS := -m$(BITS) -O2
+ KBUILD_CFLAGS += -fno-strict-aliasing $(call cc-option, -fPIE, -fPIC)
+@@ -145,6 +145,8 @@ $(obj)/vmlinux.bin.lzo: $(vmlinux.bin.all-y) FORCE
+ 	$(call if_changed,lzo)
+ $(obj)/vmlinux.bin.lz4: $(vmlinux.bin.all-y) FORCE
+ 	$(call if_changed,lz4)
++$(obj)/vmlinux.bin.zst: $(vmlinux.bin.all-y) FORCE
++	$(call if_changed,zstd22)
+ 
+ suffix-$(CONFIG_KERNEL_GZIP)	:= gz
+ suffix-$(CONFIG_KERNEL_BZIP2)	:= bz2
+@@ -152,6 +154,7 @@ suffix-$(CONFIG_KERNEL_LZMA)	:= lzma
+ suffix-$(CONFIG_KERNEL_XZ)	:= xz
+ suffix-$(CONFIG_KERNEL_LZO) 	:= lzo
+ suffix-$(CONFIG_KERNEL_LZ4) 	:= lz4
++suffix-$(CONFIG_KERNEL_ZSTD)	:= zst
+ 
+ quiet_cmd_mkpiggy = MKPIGGY $@
+       cmd_mkpiggy = $(obj)/mkpiggy $< > $@
+diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
+index 9652d5c2afda..885dc20680c2 100644
+--- a/arch/x86/boot/compressed/misc.c
++++ b/arch/x86/boot/compressed/misc.c
+@@ -12,6 +12,11 @@
+  * High loaded stuff by Hans Lermen & Werner Almesberger, Feb. 1996
+  */
+ 
++/* decompressors bring in EXPORT_SYMBOL which is meaningless and will
++ * cause compiler errors in some cases.
++ */
++#define __DISABLE_EXPORTS
++
+ #include "misc.h"
+ #include "error.h"
+ #include "pgtable.h"
+@@ -77,6 +82,10 @@ static int lines, cols;
+ #ifdef CONFIG_KERNEL_LZ4
+ #include "../../../../lib/decompress_unlz4.c"
+ #endif
++
++#ifdef CONFIG_KERNEL_ZSTD
++#include "../../../../lib/decompress_unzstd.c"
++#endif
+ /*
+  * NOTE: When adding a new decompressor, please update the analysis in
+  * ../header.S.
+diff --git a/arch/x86/include/asm/boot.h b/arch/x86/include/asm/boot.h
+index 680c320363db..d6dd43d25d9f 100644
+--- a/arch/x86/include/asm/boot.h
++++ b/arch/x86/include/asm/boot.h
+@@ -24,9 +24,11 @@
+ # error "Invalid value for CONFIG_PHYSICAL_ALIGN"
+ #endif
+ 
+-#ifdef CONFIG_KERNEL_BZIP2
++#if defined(CONFIG_KERNEL_BZIP2)
+ # define BOOT_HEAP_SIZE		0x400000
+-#else /* !CONFIG_KERNEL_BZIP2 */
++#elif defined(CONFIG_KERNEL_ZSTD)
++# define BOOT_HEAP_SIZE		 0x30000
++#else
+ # define BOOT_HEAP_SIZE		 0x10000
+ #endif
+ 
 -- 
 2.27.0
 
