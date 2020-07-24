@@ -2,57 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9806222BB20
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jul 2020 02:49:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E12622BB24
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jul 2020 02:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728362AbgGXAtT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jul 2020 20:49:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60768 "EHLO
+        id S1728409AbgGXAur (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 23 Jul 2020 20:50:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728131AbgGXAtT (ORCPT
+        with ESMTP id S1728399AbgGXAur (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jul 2020 20:49:19 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FCC3C0619D3;
-        Thu, 23 Jul 2020 17:49:19 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id d18so8241837ion.0;
-        Thu, 23 Jul 2020 17:49:18 -0700 (PDT)
+        Thu, 23 Jul 2020 20:50:47 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E35B7C0619D3;
+        Thu, 23 Jul 2020 17:50:46 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id i18so5914367ilk.10;
+        Thu, 23 Jul 2020 17:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
          :subject:to:cc;
-        bh=0YxoCeDqJs02B84WCrpwbrG/eJ2jA4Hj8Q3Ee+a5ncc=;
-        b=pNbdkZ2rPZYrSE2vEgNNzRo2cr7huzlqVZG0yaKdUSPAq15ltVvxA8ooETrrUihPtx
-         boT4hqDJe8Jk4e9Nr9vXIHNjR64yGPXihqHvphd8MqnKjhzmJLiV9WF3MN1BqR9qrz5/
-         TFVWmLnVrV4JW0KNSlV6qxEB7fdg6CefPCEQntZ8pQ+ldDG0XVnrERtsvL//g9DZa/Qw
-         aOIOCxyleo5GNhLwReMQu/G3Oe+uCZ+HcjojwkpycSJrWvsLsjhYivfxHOZg4DUvx9pG
-         LFdJc6vd2SmPYigIYrfgMSUDjUZm9wy3Mm5ppxBkJjHG9bQzkuZNkPNirkkyu9rsjFoU
-         F2OA==
+        bh=ifKaXZeiPHIEultDZ5bkkiqe2SdELJPeAy8i17powzw=;
+        b=VRTt5xyIZwRDcn6SBkzxXZp2qt/yStopOOAQFlDj/ZWfTcc1PGH5vghraL/YN2XTl2
+         OgJHAswgmkJhBP2kZgT5u8i9tXAKoksgXixNMW46SN5W1p5/bLJwdy29caFM0kFOFbZw
+         uzygmT5/kSNq/l2z5fg+8W77pGbEZ61gYM4QC5Fh7bhfuNl9+EiLpMVtTrCZ+CxaG1sk
+         gUXRempdZ5SNEq/KsOtbxCtF5YIPrpj137vsco3hTCv+exNpPuYGgfNSb7OR10T6ffQI
+         u8q5uq94xLvtzEt6zltVl0Pd2wseW1/GgohBpL5jeB6gatXQ+aY3pucxqQpgYo5AlcNb
+         Rs2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
          :from:date:message-id:subject:to:cc;
-        bh=0YxoCeDqJs02B84WCrpwbrG/eJ2jA4Hj8Q3Ee+a5ncc=;
-        b=hUkmLUnuxQ3dSH5bL/ikHYBmaYmg18yJVut6pjgDLWUWAYTVG0Nl1JMkiQ9KRT0nXu
-         /srTsXkczfHFf7jwIA3hj4rWjMPifk4fTrcmQuTcRE09DAxpiIJ0uZkhyOQFSklz+DMX
-         XxK59HG0kT4M1/zXnq5JUYNY1VKvfTInIvKclWCY0OXc/wkt0RwE78KwMOuI0NfsuimM
-         xxzFi1rpJARxrk0wnoyIJknNG+/Gy8E448cG0uTaightQypqwwGt/kX/i//HZDLgB0lL
-         f5FcmnHNpp8ATtgJuf5o2L0zos/PeG0ODMs/GOUUw7YF1hnHyypFQfcb0h1i9p30wzw8
-         nVAg==
-X-Gm-Message-State: AOAM531BPQV40QxeLqXNEabhODjER276gW94C20ujEhLcEcgV403Ab+A
-        8QCJKWMScrm20bdESa6pBTTy6m09qe4dz0F+p2E=
-X-Google-Smtp-Source: ABdhPJwIH/npkVdClHXcPMHOQ1wTdqQ+u/xtBUCN9+Z1E87nUtVjvd0VIWRK5vJZGAhTT2OrJfZ4Kxwc+slPh6o9fbI=
-X-Received: by 2002:a05:6602:1555:: with SMTP id h21mr1029212iow.163.1595551758230;
- Thu, 23 Jul 2020 17:49:18 -0700 (PDT)
+        bh=ifKaXZeiPHIEultDZ5bkkiqe2SdELJPeAy8i17powzw=;
+        b=VTVhYT6L04pZUXjLGph4h1GnGtCZG/5x1ZXkkZwrK+h2yFfZa0C8ySi55f/RVk46zr
+         8qvTrc7TeVUEdavISkd3ftg4J9Gcl6Je3K8Fgsl/gFsq1M1CB0nlUojhT+2TfdVVi2k7
+         MSVreI1+II5fi23ZHyBEk2zq6rZQ6v4ftpQffpsBaXSlCLiDdXLYxbJwQYxqc6LF1egF
+         3hx0mam9sG5d8xRP+IUGT0PM74AodEkbkL0MlQps6jzu14isNI31iCwzKlVKcQ6FL+jX
+         ddswZwXXL07o5BcJEHRsgTFc8rsgni9x+HzHNiaRFSxbANYTj35niuluuHNndbGuJJwP
+         V0vg==
+X-Gm-Message-State: AOAM532F6JFfs/b0z4JGkrVZ4KkgQc5nrkdkNnj9qt3nqxonxORTVo5z
+        AmNQWVsd1Sa1ObrB9tugKFsTj9mvyou4L69v6SA=
+X-Google-Smtp-Source: ABdhPJwDEIkpDnmM+MbKOZDluYvj5ve5dUEgKRkgss245BC2wevpXUbBcBFcVdwctbOrQBKtlTKZWNkZU+N2pE69n/4=
+X-Received: by 2002:a92:b705:: with SMTP id k5mr4273672ili.176.1595551846207;
+ Thu, 23 Jul 2020 17:50:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200723192801.351114-1-nickrterrell@gmail.com>
-In-Reply-To: <20200723192801.351114-1-nickrterrell@gmail.com>
+References: <20200723192801.351114-1-nickrterrell@gmail.com> <20200723192801.351114-7-nickrterrell@gmail.com>
+In-Reply-To: <20200723192801.351114-7-nickrterrell@gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Fri, 24 Jul 2020 02:49:06 +0200
-Message-ID: <CA+icZUX--O_vmNJq_n-uO75FLE+FPtx-hvNP9HPSN+h6X9en9g@mail.gmail.com>
-Subject: Re: [GIT PULL][PATCH v8 0/7] Add support for ZSTD-compressed kernel
- and initramfs
+Date:   Fri, 24 Jul 2020 02:50:34 +0200
+Message-ID: <CA+icZUWV3ANmBj08QZKBtEE38Y-iyCGGxLWtiFkdpKqkGP7ZqQ@mail.gmail.com>
+Subject: Re: [PATCH v8 6/7] x86: Add support for ZSTD compressed kernel
 To:     Nick Terrell <nickrterrell@gmail.com>
 Cc:     Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -79,148 +78,147 @@ On Thu, Jul 23, 2020 at 9:30 PM Nick Terrell <nickrterrell@gmail.com> wrote:
 >
 > From: Nick Terrell <terrelln@fb.com>
 >
-> Please pull from
+> * Add support for zstd compressed kernel
+> * Define __DISABLE_EXPORTS in misc.c
+> * Bump the heap size for zstd.
+> * Update the documentation.
 >
->   git@github.com:terrelln/linux.git tags/v8-zstd
->
-> to get these changes. Alternatively the patchset is included.
->
-> Hi all,
->
-> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
-> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
-> are supported on all architectures. The ZSTD-compressed kernel is only
-> hooked up to x86 in this patch set.
+> Integrates the ZSTD decompression code to the x86 pre-boot code.
 >
 > Zstandard requires slightly more memory during the kernel decompression
 > on x86 (192 KB vs 64 KB), and the memory usage is independent of the
 > window size.
 >
-> Zstandard requires memory proprortional to the window size used during
-> compression for decompressing the ramdisk image, since streaming mode is
-> used. Newer versions of zstd (1.3.2+) list the window size of a file
-> with `zstd -lv <file>'. The absolute maximum amount of memory required
-> is just over 8 MB, but it can be controlled at compression time.
->
-> This patch set has been boot tested with buildroot and QEMU based off
-> of linux-5.6-rc6.
->
-> On i386 and x86_64 I have tested the following configurations:
-> * zstd compressed kernel and a separate zstd compressed initramfs
-> * zstd compressed kernel and a built-in zstd compressed initramfs
-> * gzip compressed kernel and a separate gzip compressed initramfs
-> * gzip compressed kernel and a built-in gzip compressed initramfs
->
-> On arm and aarch64 I tested the same configurations, except that the kernel is
-> always gzip compressed.
->
-> Facebook has been using v1 of these patches on x86_64 devices for more than 6
-> months. When we switched from a xz compressed initramfs to a zstd compressed
-> initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
-> switched from a xz compressed kernel to a zstd compressed kernel we saved 2
-> seconds of boot time.
->
-> Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
-> When we switched from an lzma compressed initramfs to a zstd compressed initramfs
-> decompression time shrunk from 27 seconds to 8 seconds.
->
-> The zstd compressed kernel is smaller than the gzip compressed kernel but larger
-> than the xz or lzma compressed kernels, and it decompresses faster than
-> everything except lz4. See the table below for the measurement of an x86_64
-> kernel ordered by compressed size:
->
-> algo    size
-> xz       6,509,792
-> lzma     6,856,576
-> zstd     7,399,157
-> gzip     8,522,527
-> bzip     8,629,603
-> lzo      9,808,035
-> lz4     10,705,570
-> none    32,565,672
->
-> Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
->
-> v1 -> v2:
-> - Rebase
->   - usr/Makefile and init/Kconfig were changed so the patches were updated
-> - No functional changes except to rebase
-> - Split the patches up into smaller chunks
->
-> v2 -> v3:
-> - Add *.zst to the .gitignore in patch 8
-> - Style nits in patch 3
-> - Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
->   1 through 3
->
-> v3 -> v4:
-> - Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
->   With this change I switch from malloc() to large_malloc() for the
->   buffers.
-> - Increase the maximum allowed window size from 8 MB to 128 MB, which is
->   the max that zstd in the kernel supports.
->
-> v4 -> v5:
-> - Update commit message for patch 6 in response to comments
-> - Rebase onto next-20200408
->
-> v5 -> v6:
-> - Rebase onto v5.8-rc4
->
-> v6 -> v7:
-> - (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
-> - (2/8) Drop 'lib: prepare xxhash for preboot environment'
-> - (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
-> - (3/7) Update zstd compression cmd to follow other compressors
-> - (3/7) Add zstd22 cmd
-> - (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
->
-> v7 -> v8:
-> - (2/7) Don't define '__DISABLE_EXPORTS'
-> - (6/7) Define '__DISABLE_EXPORTS' in misc.c
+> __DISABLE_EXPORTS is defined in misc.c instead of the Makefile because
+> kaslr.c defines __DISABLE_EXPORTS, and defining it in the Makefile gives
+> duplicate definition warnings.
 >
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+That was reported by Arvind - feel free to add a Reported-by: ...
 
 - Sedat -
 
-> Best,
-> Nick Terrell
+> This patch has been boot tested with both a zstd and gzip compressed
+> kernel on i386 and x86_64 using buildroot and QEMU.
 >
+> Additionally, this has been tested in production on x86_64 devices.
+> We saw a 2 second boot time reduction by switching kernel compression
+> from xz to zstd.
 >
-> Adam Borowski (1):
->   .gitignore: add ZSTD-compressed files
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Signed-off-by: Nick Terrell <terrelln@fb.com>
+> ---
+>  Documentation/x86/boot.rst        | 6 +++---
+>  arch/x86/Kconfig                  | 1 +
+>  arch/x86/boot/compressed/Makefile | 5 ++++-
+>  arch/x86/boot/compressed/misc.c   | 9 +++++++++
+>  arch/x86/include/asm/boot.h       | 6 ++++--
+>  5 files changed, 21 insertions(+), 6 deletions(-)
 >
-> Nick Terrell (6):
->   lib: prepare zstd for preboot environment
->   lib: add zstd support to decompress
->   init: add support for zstd compressed kernel
->   usr: add support for zstd compressed initramfs
->   x86: bump ZO_z_extra_bytes margin for zstd
->   x86: Add support for ZSTD compressed kernel
+> diff --git a/Documentation/x86/boot.rst b/Documentation/x86/boot.rst
+> index 5325c71ca877..7fafc7ac00d7 100644
+> --- a/Documentation/x86/boot.rst
+> +++ b/Documentation/x86/boot.rst
+> @@ -782,9 +782,9 @@ Protocol:   2.08+
+>    uncompressed data should be determined using the standard magic
+>    numbers.  The currently supported compression formats are gzip
+>    (magic numbers 1F 8B or 1F 9E), bzip2 (magic number 42 5A), LZMA
+> -  (magic number 5D 00), XZ (magic number FD 37), and LZ4 (magic number
+> -  02 21).  The uncompressed payload is currently always ELF (magic
+> -  number 7F 45 4C 46).
+> +  (magic number 5D 00), XZ (magic number FD 37), LZ4 (magic number
+> +  02 21) and ZSTD (magic number 28 B5). The uncompressed payload is
+> +  currently always ELF (magic number 7F 45 4C 46).
 >
->  .gitignore                        |   1 +
->  Documentation/x86/boot.rst        |   6 +-
->  Makefile                          |   3 +-
->  arch/x86/Kconfig                  |   1 +
->  arch/x86/boot/compressed/Makefile |   5 +-
->  arch/x86/boot/compressed/misc.c   |   9 +
->  arch/x86/boot/header.S            |   8 +-
->  arch/x86/include/asm/boot.h       |   6 +-
->  include/linux/decompress/unzstd.h |  11 +
->  init/Kconfig                      |  15 +-
->  lib/Kconfig                       |   4 +
->  lib/Makefile                      |   1 +
->  lib/decompress.c                  |   5 +
->  lib/decompress_unzstd.c           | 344 ++++++++++++++++++++++++++++++
->  lib/zstd/fse_decompress.c         |   9 +-
->  lib/zstd/zstd_internal.h          |  14 +-
->  scripts/Makefile.lib              |  22 ++
->  usr/Kconfig                       |  20 ++
->  usr/Makefile                      |   1 +
->  19 files changed, 466 insertions(+), 19 deletions(-)
->  create mode 100644 include/linux/decompress/unzstd.h
->  create mode 100644 lib/decompress_unzstd.c
+>  ============   ==============
+>  Field name:    payload_length
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 883da0abf779..4a64395bc35d 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -188,6 +188,7 @@ config X86
+>         select HAVE_KERNEL_LZMA
+>         select HAVE_KERNEL_LZO
+>         select HAVE_KERNEL_XZ
+> +       select HAVE_KERNEL_ZSTD
+>         select HAVE_KPROBES
+>         select HAVE_KPROBES_ON_FTRACE
+>         select HAVE_FUNCTION_ERROR_INJECTION
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> index 7619742f91c9..3498cd990869 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -26,7 +26,7 @@ OBJECT_FILES_NON_STANDARD     := y
+>  KCOV_INSTRUMENT                := n
+>
+>  targets := vmlinux vmlinux.bin vmlinux.bin.gz vmlinux.bin.bz2 vmlinux.bin.lzma \
+> -       vmlinux.bin.xz vmlinux.bin.lzo vmlinux.bin.lz4
+> +       vmlinux.bin.xz vmlinux.bin.lzo vmlinux.bin.lz4 vmlinux.bin.zst
+>
+>  KBUILD_CFLAGS := -m$(BITS) -O2
+>  KBUILD_CFLAGS += -fno-strict-aliasing $(call cc-option, -fPIE, -fPIC)
+> @@ -145,6 +145,8 @@ $(obj)/vmlinux.bin.lzo: $(vmlinux.bin.all-y) FORCE
+>         $(call if_changed,lzo)
+>  $(obj)/vmlinux.bin.lz4: $(vmlinux.bin.all-y) FORCE
+>         $(call if_changed,lz4)
+> +$(obj)/vmlinux.bin.zst: $(vmlinux.bin.all-y) FORCE
+> +       $(call if_changed,zstd22)
+>
+>  suffix-$(CONFIG_KERNEL_GZIP)   := gz
+>  suffix-$(CONFIG_KERNEL_BZIP2)  := bz2
+> @@ -152,6 +154,7 @@ suffix-$(CONFIG_KERNEL_LZMA)        := lzma
+>  suffix-$(CONFIG_KERNEL_XZ)     := xz
+>  suffix-$(CONFIG_KERNEL_LZO)    := lzo
+>  suffix-$(CONFIG_KERNEL_LZ4)    := lz4
+> +suffix-$(CONFIG_KERNEL_ZSTD)   := zst
+>
+>  quiet_cmd_mkpiggy = MKPIGGY $@
+>        cmd_mkpiggy = $(obj)/mkpiggy $< > $@
+> diff --git a/arch/x86/boot/compressed/misc.c b/arch/x86/boot/compressed/misc.c
+> index 9652d5c2afda..885dc20680c2 100644
+> --- a/arch/x86/boot/compressed/misc.c
+> +++ b/arch/x86/boot/compressed/misc.c
+> @@ -12,6 +12,11 @@
+>   * High loaded stuff by Hans Lermen & Werner Almesberger, Feb. 1996
+>   */
+>
+> +/* decompressors bring in EXPORT_SYMBOL which is meaningless and will
+> + * cause compiler errors in some cases.
+> + */
+> +#define __DISABLE_EXPORTS
+> +
+>  #include "misc.h"
+>  #include "error.h"
+>  #include "pgtable.h"
+> @@ -77,6 +82,10 @@ static int lines, cols;
+>  #ifdef CONFIG_KERNEL_LZ4
+>  #include "../../../../lib/decompress_unlz4.c"
+>  #endif
+> +
+> +#ifdef CONFIG_KERNEL_ZSTD
+> +#include "../../../../lib/decompress_unzstd.c"
+> +#endif
+>  /*
+>   * NOTE: When adding a new decompressor, please update the analysis in
+>   * ../header.S.
+> diff --git a/arch/x86/include/asm/boot.h b/arch/x86/include/asm/boot.h
+> index 680c320363db..d6dd43d25d9f 100644
+> --- a/arch/x86/include/asm/boot.h
+> +++ b/arch/x86/include/asm/boot.h
+> @@ -24,9 +24,11 @@
+>  # error "Invalid value for CONFIG_PHYSICAL_ALIGN"
+>  #endif
+>
+> -#ifdef CONFIG_KERNEL_BZIP2
+> +#if defined(CONFIG_KERNEL_BZIP2)
+>  # define BOOT_HEAP_SIZE                0x400000
+> -#else /* !CONFIG_KERNEL_BZIP2 */
+> +#elif defined(CONFIG_KERNEL_ZSTD)
+> +# define BOOT_HEAP_SIZE                 0x30000
+> +#else
+>  # define BOOT_HEAP_SIZE                 0x10000
+>  #endif
 >
 > --
 > 2.27.0
