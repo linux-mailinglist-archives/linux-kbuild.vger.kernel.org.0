@@ -2,89 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 614CE22BB34
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jul 2020 03:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F6822C4E4
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jul 2020 14:12:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbgGXBGu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 23 Jul 2020 21:06:50 -0400
-Received: from mga18.intel.com ([134.134.136.126]:24762 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726010AbgGXBGu (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 23 Jul 2020 21:06:50 -0400
-IronPort-SDR: bJFi10tTnHFOCu0w0BlbIAH/eoqdBah8UZ5vcMAKLirlrFXkungTFPEb6B7RvWdCn8aEHq3qyo
- MATYeWky1rGA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9691"; a="138142282"
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; 
-   d="scan'208";a="138142282"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2020 18:06:49 -0700
-IronPort-SDR: bMs8aUGR39PW22vlKUmh73TYXuFQXfvozPE0Xtpp30nbttMg+9c6y9UWHmmYq/C3LjimvK86Rk
- OBBDfyzqeH0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,388,1589266800"; 
-   d="scan'208";a="463054103"
-Received: from shbuild999.sh.intel.com (HELO localhost) ([10.239.146.107])
-  by orsmga005.jf.intel.com with ESMTP; 23 Jul 2020 18:06:46 -0700
-Date:   Fri, 24 Jul 2020 09:06:45 +0800
-From:   Feng Tang <feng.tang@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        andi.kleen@intel.com, ying.huang@intel.com,
-        andriy.shevchenko@intel.com, philip.li@intel.com,
-        rong.a.chen@intel.com
-Subject: Re: [RFC PATCH] makefile: add debug option to enable function
- aligned on 32 bytes
-Message-ID: <20200724010645.GB65362@shbuild999.sh.intel.com>
-References: <1595475001-90945-1-git-send-email-feng.tang@intel.com>
- <20200722203919.8b7c9b35ff51d66550c3846c@linux-foundation.org>
- <20200723062933.GA65362@shbuild999.sh.intel.com>
- <20200723175704.44c4b890e76dc6dc68bf3674@linux-foundation.org>
+        id S1726488AbgGXMM4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Jul 2020 08:12:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726329AbgGXMMz (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 24 Jul 2020 08:12:55 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD68C0619D3;
+        Fri, 24 Jul 2020 05:12:55 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id a8so6879246edy.1;
+        Fri, 24 Jul 2020 05:12:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MNWc0su/JnnluaDA+8CCu6YuN01mXvydu0VWX6fHUwI=;
+        b=TYl8QLioQBYmYF/e7BIhFpjG+1MonWCfI+IOfU5BxHz+b1Ycw62QsoH1U0M5QfeP2F
+         k06vKn99Rwy/ZLjZu3mTPAdJMSvfTPIKjBpNMd3WcXe9gyV2Wclu7SnkwKbBazSmnHnH
+         Mh5THBiwufkrdW7Cc/1lqulna+PtuQhLAVPPJ8d5UMMAQMzYSB8g01KsAX0BWNdb+SxI
+         A1KCrF326yh2LNcmQnKc5z4LNVE7B1jcnzE812DvEAA7b1Jg492XW4YyFlxHSggOZ3at
+         InKc7a3xf5yx/I/wVBt7A9czZY6GgxN4CDLZh+LEBn8sAGhnJNTvcL1H7ErBr3T2VarL
+         +gDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=MNWc0su/JnnluaDA+8CCu6YuN01mXvydu0VWX6fHUwI=;
+        b=eXW8s5Lvr3I8AD/wrUhj4VCzOzQchX2dz0KRc1hNNAgMNl5DSwH6g22PN8PJ/iGYQM
+         7bLgSeRDE8arhcmgB5vJV5dzKuheHAyRxiuud6cPPESMtsnmymZ2W5i4oLhfyTTPR09F
+         z6K+dcIGFmc4SBj8QvGrXPZEy2za4Ug3S86V4G1RaILffuqX90dLUMecyeeRHM9m1JUk
+         nzib6gowLneiYrAN1yAqzuo/eaGgqMaJgOZKSpeqXDN/grIeSkFjz7EcIXFz2NOryZSW
+         efkdo+hmEAMvfG8hZsfc0p+X/01Sx6zTna2fD12+FhY6kH59rzOH4oQC0Y1PBaJr0fpY
+         HOqA==
+X-Gm-Message-State: AOAM530Ig0SCV6PxmKErOnx6+L1Q1UiJBzDeKjBQKbUDqjJ4zsHLJG9Z
+        fX5StN4YoqYYFs+6GUJR5tFp7sTF
+X-Google-Smtp-Source: ABdhPJyMHQrJpeOA+v0byFjX0VmVqWTMsvTlwH88ith1El30XY++sl2EXRmhj74L96OyHJCfw5S1TQ==
+X-Received: by 2002:aa7:d049:: with SMTP id n9mr8952718edo.39.1595592774091;
+        Fri, 24 Jul 2020 05:12:54 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id o15sm615607edv.55.2020.07.24.05.12.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 05:12:52 -0700 (PDT)
+Date:   Fri, 24 Jul 2020 14:12:50 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        Patrick Williams <patrick@stwcx.xyz>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Norbert Lange <nolange79@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alex Xu <alex_y_xu@yahoo.ca>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Nick Terrell <terrelln@fb.com>
+Subject: Re: [PATCH v8 2/7] lib: add zstd support to decompress
+Message-ID: <20200724121250.GA632343@gmail.com>
+References: <20200723192801.351114-1-nickrterrell@gmail.com>
+ <20200723192801.351114-3-nickrterrell@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200723175704.44c4b890e76dc6dc68bf3674@linux-foundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20200723192801.351114-3-nickrterrell@gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 23, 2020 at 05:57:04PM -0700, Andrew Morton wrote:
-> On Thu, 23 Jul 2020 14:29:33 +0800 Feng Tang <feng.tang@intel.com> wrote:
-> 
-> > > > gcc has an option '-falign-functions=n' to force text aligned, and with
-> > > > that option enabled, some of those performance changes will be gone,
-> > > > like [1][2][3].
-> > > > 
-> > > > Add this option so that developers and 0day can easily find performance
-> > > > bump caused by text alignment change,
-> > > 
-> > > Would they use it this way, or would they simply always enable the
-> > > option to reduce the variability?
-> > 
-> > I may mis-understood it in my last reply. If you are asking about how
-> > will developers and 0day use this option, for 0day, I've talked with
-> > 0day folks, they may just enable it by default, as 0day cares more about
-> > the performance delta caused by a commit (Adding Philip and Rong from
-> > 0day).
-> 
-> OK, thanks, I suspected as much.
-> 
-> The patch is so simple and probably-will-work, I guess we toss it in
-> there and see.
 
-Thanks!
+* Nick Terrell <nickrterrell@gmail.com> wrote:
 
-> However it would be good if the 0day people could use it for a while
-> and then provide some feedback on whether it is actually proving
-> useful.  If not, we get to remove some stuff.
+> +/* Size of the input and output buffers in multi-call mode.
+> + * Pick a larger size because it isn't used during kernel decompression,
+> + * since that is single pass, and we have to allocate a large buffer for
+> + * zstd's window anyways. The larger size speeds up initramfs decompression.
+> + */
+> +#define ZSTD_IOBUF_SIZE		(1 << 17)
 
-Yes, 0day is a good user to try this.
+Nit: s/anyways/anyway
+
+Also, please use the customary (multi-line) comment style:
+
+  /*
+   * Comment .....
+   * ...... goes here.
+   */
+
+specified in Documentation/CodingStyle.
 
 Thanks,
-Feng
+
+        Ingo
