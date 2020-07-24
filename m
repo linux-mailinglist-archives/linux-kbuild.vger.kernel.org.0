@@ -2,25 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECE6222C754
-	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jul 2020 16:08:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F45122C75B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 24 Jul 2020 16:09:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgGXOIk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 24 Jul 2020 10:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43690 "EHLO
+        id S1726702AbgGXOJl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 24 Jul 2020 10:09:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726366AbgGXOIk (ORCPT
+        with ESMTP id S1726366AbgGXOJl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 24 Jul 2020 10:08:40 -0400
-X-Greylist: delayed 1320 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 24 Jul 2020 07:08:40 PDT
-Received: from tartarus.angband.pl (tartarus.angband.pl [IPv6:2001:41d0:602:dbe::8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0420DC0619D3;
-        Fri, 24 Jul 2020 07:08:40 -0700 (PDT)
-Received: from kilobyte by tartarus.angband.pl with local (Exim 4.92)
-        (envelope-from <kilobyte@angband.pl>)
-        id 1jyy1p-00046j-W4; Fri, 24 Jul 2020 15:46:25 +0200
-Date:   Fri, 24 Jul 2020 15:46:25 +0200
-From:   Adam Borowski <kilobyte@angband.pl>
+        Fri, 24 Jul 2020 10:09:41 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20FF4C0619D3;
+        Fri, 24 Jul 2020 07:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=OvEbCg7ckzbXNyo/gMjDATQvRtip48YcOlEFAJEKOQs=; b=q+FMKU2mxdMDch9CB8GR20xtLq
+        uRUTjTd9nZjxatLRB9TbVqVVLttl5cPzaPu3ix+ZFzgZtQTVATaNmF5fnAOf2nCE6KmOCygLYKzrT
+        BCNQRh2N2sxE3XAvDN+4+T9cpJWS2CnNGbe984/lWfpDXIfYlWfeqdT2ZV7sueypsLxvX4mjTVpvU
+        bxeYscndiS79nII1KxUy+y1Qr7EDxaSingOHc1eA35cx/aJJXSid48jNVbFvSqXRnf9+mcsy6jqRn
+        NMmNAlkNwQLCJ/yiV3RoIWh0PMULhfLM7dDAmsfZTv16dCKhl84aMsN3W08W5Z2cpVyKEzjqAY+ys
+        2gJ9KaiA==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jyyO4-00031c-KH; Fri, 24 Jul 2020 14:09:25 +0000
+Subject: Re: [PATCH v8 3/7] init: add support for zstd compressed kernel
 To:     Ingo Molnar <mingo@kernel.org>
 Cc:     Nick Terrell <nickrterrell@gmail.com>,
         Borislav Petkov <bp@alien8.de>,
@@ -30,6 +38,7 @@ Cc:     Nick Terrell <nickrterrell@gmail.com>,
         gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
         Kees Cook <keescook@chromium.org>,
         Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
         Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
         Patrick Williams <patrick@stwcx.xyz>,
         Sedat Dilek <sedat.dilek@gmail.com>,
@@ -38,56 +47,55 @@ Cc:     Nick Terrell <nickrterrell@gmail.com>,
         Alex Xu <alex_y_xu@yahoo.ca>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Nick Terrell <terrelln@fb.com>
-Subject: Re: [PATCH v8 6/7] x86: Add support for ZSTD compressed kernel
-Message-ID: <20200724134625.GA4100@angband.pl>
 References: <20200723192801.351114-1-nickrterrell@gmail.com>
- <20200723192801.351114-7-nickrterrell@gmail.com>
- <20200724122640.GC632343@gmail.com>
+ <20200723192801.351114-4-nickrterrell@gmail.com>
+ <9ff49261-f5fd-b8dd-949a-0b8eab75369b@infradead.org>
+ <20200724121716.GB632343@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5a93016a-2b88-b762-1569-c47472fe2a24@infradead.org>
+Date:   Fri, 24 Jul 2020 07:09:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200724121716.GB632343@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200724122640.GC632343@gmail.com>
-X-Junkbait: aaron@angband.pl, zzyx@angband.pl
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: <locally generated>
-X-SA-Exim-Mail-From: kilobyte@angband.pl
-X-SA-Exim-Scanned: No (on tartarus.angband.pl); SAEximRunCond expanded to false
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Jul 24, 2020 at 02:26:40PM +0200, Ingo Molnar wrote:
-> > -#ifdef CONFIG_KERNEL_BZIP2
-> > +#if defined(CONFIG_KERNEL_BZIP2)
-> >  # define BOOT_HEAP_SIZE		0x400000
-> > -#else /* !CONFIG_KERNEL_BZIP2 */
-> > +#elif defined(CONFIG_KERNEL_ZSTD)
-> > +# define BOOT_HEAP_SIZE		 0x30000
-> > +#else
-> >  # define BOOT_HEAP_SIZE		 0x10000
-> >  #endif
+On 7/24/20 5:17 AM, Ingo Molnar wrote:
 > 
-> So the other patches explain why the decompression buffer extra space 
-> was increased from 64k to 128k, but is there a similar 
-> calculation/estimate for bumping BOOT_HEAD_SIZE from 64k to 192k?
+> * Randy Dunlap <rdunlap@infradead.org> wrote:
 > 
-> Admittedly the BZ2 exception doesn't set a good example, but maybe we 
-> can do this for ZSTD?
+>> On 7/23/20 12:27 PM, Nick Terrell wrote:
+>>> +config KERNEL_ZSTD
+>>> +	bool "ZSTD"
+>>> +	depends on HAVE_KERNEL_ZSTD
+>>> +	help
+>>> +	  ZSTD is a compression algorithm targeting intermediate compression
+>>> +	  with fast decompression speed. It will compress better than GZIP and
+>>> +	  decompress around the same speed as LZO, but slower than LZ4. You
+>>> +	  will need at least 192 KB RAM or more for booting. The zstd command
+>>> +	  line tools is required for compression.
+>>
+>> 	       tools are required
+> 
+> Since 'zstd' is the singular tool required for compression AFAICS:
+> 
+>    LZ4            = lz4c
+>    XZ             = xz
+>   +ZSTD           = zstd
+> 
+> "The zstd command line tool is required for compression" is the 
+> intended wording I'd say?
 
-By the way, I have a patchset on top of this, to drop BZ2 and LZMA(1)
-support, that should clean up this code somewhat.  And bring a lot of
-lines of Linus happiness, as both bzip2 and lzma code are not used by
-anything else in the kernel, unlike lzma2 (xz).
-
-If you draw a speed-vs-size graph, at no point bzip2 or lzma are a good
-choice, while zstd wins by a large margin for most of the range.
+Sure, that works.
+Thanks.
 
 
-Meow!
 -- 
-⢀⣴⠾⠻⢶⣦⠀
-⣾⠁⢠⠒⠀⣿⡁
-⢿⡄⠘⠷⠚⠋⠀ It's time to migrate your Imaginary Protocol from version 4i to 6i.
-⠈⠳⣄⠀⠀⠀⠀
+~Randy
+
