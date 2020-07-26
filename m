@@ -2,99 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2E9022E169
-	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Jul 2020 18:44:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A35822E28B
+	for <lists+linux-kbuild@lfdr.de>; Sun, 26 Jul 2020 22:33:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbgGZQoL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 26 Jul 2020 12:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726117AbgGZQoL (ORCPT
+        id S1727937AbgGZUdr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 26 Jul 2020 16:33:47 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:56059 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgGZUdr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 26 Jul 2020 12:44:11 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EB1BC0619D2;
-        Sun, 26 Jul 2020 09:44:11 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id h1so10574490otq.12;
-        Sun, 26 Jul 2020 09:44:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=WG+IiSADj4bC8adDl2auSWlEfulYkcaFltfgstRWQ5Y=;
-        b=FKU5MvfQ5K1ZlsKoTdFXi482971xJ8n8FjvZVjcIhM6gB+/8mytUpIch25b/fAE+oJ
-         udwQB3URwVq3O+46c9le9KD3NUXxKDLTit/DxfbO5DCussKq3Rp2ulxLZMLMZ7MM9w1W
-         J2G6OucCGO9Z5Mz5i8sHF4KGg/5Zg7/H336MHN9zbf026cUwuHv/aeOUgdwowd6+EC2F
-         L+oOFGqYePeG3mJKcV2TDTTeatw03f+XqepZ8erGEtsmP4Hi1zIhWCuakDx16NJ8l4Bb
-         0wMpBePLihDxP76vQHVuqtsdn48MVegp/CzteTtME9N0LSYx1Dm5NTr3iAFIhtok+CCJ
-         g7Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=WG+IiSADj4bC8adDl2auSWlEfulYkcaFltfgstRWQ5Y=;
-        b=lgpxYpj8f2qRbqio/xpNZ/vhwFAGb+k3MuKzU2C3QgX7ArJQxehyOWNthv4XnD+6ML
-         N3KcazJXPvLdUGgYjta9FS+9d2HCqr4YmM3cS/TwqF2PbIKlLfpDDMg1VCqvuQapTaCU
-         KM3JraiAdUpYgmFFL/qcKD8n6d1psozD9FVB5GbA9fVRQ7Nqvb5y/gSu35CHEDxLOef+
-         YrmZfasJhX5xsab4jwpDis5+J96eVa7GGBjSn60DRn9wM+F+y3q2BxsCsBSDxMhxp8IO
-         dFGPBzyvidEorGKohmhEVLq8Fu+PxzY74BF5M2e1+35+orY8O6bjtw4NKalrJ5kqxdad
-         aH6Q==
-X-Gm-Message-State: AOAM533naQe+22lOKgVkjN9lCCqc0sP3okB3fSZxxUWHCxXiBSHqgI0q
-        9iYZAKBpGea01JrK/SF24fcURYX+6smk3dWtl0vZwZOLycM=
-X-Google-Smtp-Source: ABdhPJyyQVOCA2uLL/WHvGjv3VXAVUW2/bbulIVmhdj1GCluVtTMRr6LbYDKzvWjzI2hxvnEIa+zfcmP5xChsXib1nk=
-X-Received: by 2002:a9d:2c29:: with SMTP id f38mr5654679otb.234.1595781850542;
- Sun, 26 Jul 2020 09:44:10 -0700 (PDT)
+        Sun, 26 Jul 2020 16:33:47 -0400
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 06QKXAju002049;
+        Mon, 27 Jul 2020 05:33:11 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 06QKXAju002049
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1595795591;
+        bh=Wr805kZZMPky1w2j3QyQhPyUMy4aoK/zsMoAmfS796s=;
+        h=From:Date:Subject:To:Cc:From;
+        b=UabQlkn34032by3sf5BcqAU/opFn8I3zUUwWLjWpE7T6Tnoc/DFYLg8/UlPGtfYHz
+         lZBy70820s7oo7cA6lhAVpTajeZH2W9CyKfECW2H2LK5oY8lIsLCkDu3zWzrzd4SpZ
+         VX+J+CDmPOit8hBezPkHFRHzZ8lF/IYU3e7UM5a/eCzIQXFxAlwPD+4IYYQXijJIws
+         gdk94wchWqSH4toEDbHo9sDEpG6Jl0O7LM0RIbMFdv/nEdpk/VG4+pRQ63LpthYHyp
+         fGc2zM7cCQL5GNLvBbuaSlzV0Z5iPIkyL/uXIzowAA9p9kZEGAdLOKikeW/reP23n/
+         6e6nkoNu7JUyQ==
+X-Nifty-SrcIP: [209.85.217.54]
+Received: by mail-vs1-f54.google.com with SMTP id y8so1008133vsq.8;
+        Sun, 26 Jul 2020 13:33:10 -0700 (PDT)
+X-Gm-Message-State: AOAM5333CUm3HXTLuBqwOgk5NvZxQXeNxDbcI7jRXSAeFqtt1rTXYZjt
+        kEGmfENp0Pcz90nlQB86OqhD4mIb9gQmoIZuemo=
+X-Google-Smtp-Source: ABdhPJwamUALWKCuRknmWAZTVVlGgycKzFamdM8xsTmrJH01BR1sv9ePRSd1WeB4Ti02AzP9F4N2jGpKSvHI6Sz7Krg=
+X-Received: by 2002:a67:6c84:: with SMTP id h126mr13976667vsc.181.1595795589584;
+ Sun, 26 Jul 2020 13:33:09 -0700 (PDT)
 MIME-Version: 1.0
-From:   Jan Ziak <0xe2.0x9a.0x9b@gmail.com>
-Date:   Sun, 26 Jul 2020 18:43:34 +0200
-Message-ID: <CAODFU0ogKh6iz_F9fOYwqChfWZ+VJXoBebzzMHiOtdTK_jXqqg@mail.gmail.com>
-Subject: Re: Kernel compression benchmarks
-To:     alex_y_xu@yahoo.ca
-Cc:     Kernel-team@fb.com, clm@fb.com, gregkh@linuxfoundation.org,
-        keescook@chromium.org, kilobyte@angband.pl,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mingo@kernel.org, nickrterrell@gmail.com, nolange79@gmail.com,
-        oss@malat.biz, patrick@stwcx.xyz, patrickw3@fb.com, rmikey@fb.com,
-        sedat.dilek@gmail.com, terrelln@fb.com, x86@kernel.org
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 27 Jul 2020 05:32:33 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQNYmyeB1ZWQ1t4bLZtC4+08TUNtjobwyj4-7e-7BOPAw@mail.gmail.com>
+Message-ID: <CAK7LNAQNYmyeB1ZWQ1t4bLZtC4+08TUNtjobwyj4-7e-7BOPAw@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.8-rc7
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello
+Hi Linus,
 
-I looked at the SVG graphs and it appears that the formula used wasn't
-T_load+T_decompress, but was just T_decompress.
+Please pull some more Kbuild fixes.
+Thanks.
 
-Without considering the time it takes to load the compressed data from
-a storage device, the SVG graphs are only half-done and might be
-deceiving.
 
-There are 3 kinds of typical device speeds nowadays, the sequential
-read speed of a large non-fragmented compressed file is one of the
-following:
+The following changes since commit dcb7fd82c75ee2d6e6f9d8cc71c52519ed52e258:
 
-100 MB/s: rotational disks and USB flash drives
-500 MB/s: SATA SSD
-2 GB/s: NVMe SSD
+  Linux 5.8-rc4 (2020-07-05 16:20:22 -0700)
 
-The read speeds of USB flash devices vary a lot, but in case of recent
-high-speed USB flash drives it falls into the 100 MB/s category of
-rotational disks. Taking USB flash read speed into consideration is
-important for deciding which compression to use when creating the ISO
-image of a Linux distribution.
+are available in the Git repository at:
 
-In summary: Instead of the 1 kernel-decomp.svg file, there should be 3
-kernel-read-decomp.svg files. Similarly in the case of the
-initramfs-decomp.svg file.
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.8-3
 
-As a rule of thumb, if the kernel and initramfs are stored on a NVMe
-SSD then simply select the fastest decompressor without considering
-the compression ratio - or avoid using any compression at all in which
-case T_decompress will be zero.
+for you to fetch changes up to ca9b31f6bb9c6aa9b4e5f0792f39a97bbffb8c51:
 
-The formula T_load+T_decompress assumes that loading and decompression
-aren't executing in parallel. If they are, the formula should be
-max(T_load, T_decompress).
+  Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+(2020-07-23 11:29:07 +0900)
 
-Sincerely
-Jan
+----------------------------------------------------------------
+Kbuild fixes for v5.8 (3rd)
+
+ - do not use non-portable strsep() in a host program
+
+ - fix single target builds for external modules
+
+ - change Clang's --prefix option to make it work for the latest Clang
+
+----------------------------------------------------------------
+Fangrui Song (1):
+      Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+
+H. Nikolaus Schaller (1):
+      modpost: remove use of non-standard strsep() in HOSTCC code
+
+Masahiro Yamada (1):
+      kbuild: fix single target builds for external modules
+
+ Makefile              |  4 ++--
+ scripts/mod/modpost.c | 12 ++++++++++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
