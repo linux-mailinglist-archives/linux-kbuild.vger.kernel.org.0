@@ -2,177 +2,228 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D6D022FC6A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 00:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9438E22FCB1
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 01:11:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbgG0WpJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jul 2020 18:45:09 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:32442 "EHLO
-        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727892AbgG0WpB (ORCPT
+        id S1727033AbgG0XKs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jul 2020 19:10:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726183AbgG0XKr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jul 2020 18:45:01 -0400
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 06RMfda0010751;
-        Mon, 27 Jul 2020 15:44:43 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=facebook;
- bh=XGCcjZr0gmZrh9EQbutSeABLzVdXuDuYrP3nWHNmxw0=;
- b=k/hAD2Qy5klecApX3CLUjR2XeI4edJT+Qzt2R40UxovE5tEvri9F2dR+hRUQNNdXIot5
- 0nX05piTin39FaxUq/0BzuC6cQXfJ0kMt0zU9ScIH95VihJ9vcEyZMfLcyt0TMr1sbg5
- +3dQPvOAeIZA+EMFXWCNu9lcDk4as5K1Eko= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com with ESMTP id 32h50vprmn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Mon, 27 Jul 2020 15:44:43 -0700
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.199) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Mon, 27 Jul 2020 15:44:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eXNMcWRYQBkEFmUcQU+7vpqbjDA5t6GSOFNDkyQ/ohk8ANwQf6khvpgkIpyUnofvb1GmOrIPGJeaUeHI97mE1tvjS1ZsOJP7/lbbTQ+R7ZDe9APs1QiD3yvfZDBL//05Da9nfpZ2ln5+SePDWZ4s/6i5yQth7Yxktp3lxKC+ntXYneqpQVsukhMlfK+32PBQY+gVOGXfuhuzIDaS0RJb6JSK9y94zdrjf1INMhO9ElryscGne7UlWeiSMmhwBNZAVGQVgfgAXf3DNeVKGFyIBymU4Mqg2blddHJ1aD/iIAs1oGAH1V52Ee/VC0vi9C1xle/QV0Oh+8ZJ029ntbszTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XGCcjZr0gmZrh9EQbutSeABLzVdXuDuYrP3nWHNmxw0=;
- b=mC7WUPM/FEAf5GXAtmtSs8CJBnc9nPc4fvNvjwJOzxKC2tydEYrSzy5IPTMaiyCzUCoYsFuMibbPm2M0xy0Bf+hSb92+v9WA3ct2+f3eF/w9Kb6Cy0b1r4NhwSSot5+iMl0pWGuqD3G7ep57PB6xP7Y3Le1yGWZbTZrNXxccO3FacqkKPFpnUAPML/wH0gmc1xoOzi1IpOytpWuKp9gERt1sz+maPRf1DP3JprxfXRmMDIpwsaULYdku0tWF3ZVSRmvGVmsPrG6uVXcAUqUx7tAE1Ny1evX3gPkM86UCiwO/Ua1/5YcBtr6UQFCnqG/ETdtjBgR/+Heke9RFOWNy6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.onmicrosoft.com;
- s=selector2-fb-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XGCcjZr0gmZrh9EQbutSeABLzVdXuDuYrP3nWHNmxw0=;
- b=Bmb1pmnFEqeCuy5p2SBOXBkqv4IhJmxeTL4FOXoTFCKnvPumnSafUQQzgM4yFuF9xWEO8noVHTuLGyLImrh8kKnQOAy6uBVPuboituO86Vwu1lXjBxRrLHBRRvTkqlNQCv0Rc4Wh1QSmeWnh0zmsrTcqeOO6ZigmQTkavKQEtsM=
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com (2603:10b6:a03:1f9::18)
- by BYAPR15MB2950.namprd15.prod.outlook.com (2603:10b6:a03:f6::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.24; Mon, 27 Jul
- 2020 22:44:37 +0000
-Received: from BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::f4b9:8011:9aaa:e4ea]) by BY5PR15MB3667.namprd15.prod.outlook.com
- ([fe80::f4b9:8011:9aaa:e4ea%3]) with mapi id 15.20.3216.033; Mon, 27 Jul 2020
- 22:44:37 +0000
-From:   Nick Terrell <terrelln@fb.com>
-To:     Arvind Sankar <nivedita@alum.mit.edu>
-CC:     Sedat Dilek <sedat.dilek@gmail.com>,
-        Nick Terrell <nickrterrell@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "Chris Mason" <clm@fb.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        Petr Malat <oss@malat.biz>, Kees Cook <keescook@chromium.org>,
+        Mon, 27 Jul 2020 19:10:47 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A11C0619D2;
+        Mon, 27 Jul 2020 16:10:47 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id n5so10820254pgf.7;
+        Mon, 27 Jul 2020 16:10:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZhK6sDzaXzfx00n0NB7+kf1juLyKV+5+twkk+Nfo0P4=;
+        b=X62GHQMleA4+ccF+RpnP921wKNALiU6xjyVNGlpSbs/go+h9JXuicmVU9EdHGpPdRE
+         WLcNSppFI+LRIy/8JpfGl/o4eVs+St86UHEiCnNyn+iiqAvkMZu7lL8+yGY4evu8hVdX
+         8CvopZ0ZjfkBdR90w0hnOp7I7veHDry12jJdDsHMR+6kdJlTu4wHlEYHNEuO05OAxPg+
+         MixveTf+/UEJ5c76X1JuFbXlzd5DCob57JMPjPW+34vK7i7uhvBKrtbqyXdnlI23gUCe
+         IiNTPXUyVv4ot2dQJs38SNMptLLiai4HofVBAhtaa5HVmng3a8/7tEQYgi0lchAClNFC
+         P1gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZhK6sDzaXzfx00n0NB7+kf1juLyKV+5+twkk+Nfo0P4=;
+        b=I2HzdtDMRIUVyz9XHOxJQXt3pdftUVXvBZDImf67/Prx8aCfrHBtMfQaWsO1MfJ8tk
+         McbctpFZvIEAmOCNLlyI20urs6LFoVUD1u/Cyazu1IJ2NkeJDu9a2p/6Y7q/QV5r1I2y
+         ools5smxXwSTwUAFeJ/ao/tvbRN/o5ySd9O9ksZQ9pvJBKougIn3r816qngs+IyJGqYa
+         PfrwoNs8LS7K7YI4uKJA/uhVbiW9mHiLqKh9WP0rQvbMPq0R4hIE03W7sf15iJ3T/4H4
+         s8f90JgkKz0EVzPN6aZGSrip09anawpyFNvKk0Xot5SGIYkCLrhXndl+d6jW+HWKULn/
+         9ITA==
+X-Gm-Message-State: AOAM532dU4o9G/OG4DXUQKRgV360782mC9gN8F5DQbdSBIuoOJ4/PALd
+        F2s5rhfUZANrpAsLkJew+bw=
+X-Google-Smtp-Source: ABdhPJynCf5MJAnc7MQ0raoVWbjTRtECBm4f0XYWFMLKkON6W8Bai5IeQGOEFu/6M3e2sfjrohFqMw==
+X-Received: by 2002:a63:c60c:: with SMTP id w12mr20839018pgg.297.1595891447096;
+        Mon, 27 Jul 2020 16:10:47 -0700 (PDT)
+Received: from nickserv.localdomain (c-98-33-101-203.hsd1.ca.comcast.net. [98.33.101.203])
+        by smtp.gmail.com with ESMTPSA id y68sm3515931pfy.185.2020.07.27.16.10.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2020 16:10:46 -0700 (PDT)
+From:   Nick Terrell <nickrterrell@gmail.com>
+To:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
         Kernel Team <Kernel-team@fb.com>,
+        Nick Terrell <nickrterrell@gmail.com>,
         Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>,
-        Michael van der Westhuizen <rmikey@fb.com>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        Patrick Williams <patrick@stwcx.xyz>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
         Norbert Lange <nolange79@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Alex Xu <alex_y_xu@yahoo.ca>
-Subject: Re: [PATCH v8 6/7] x86: Add support for ZSTD compressed kernel
-Thread-Topic: [PATCH v8 6/7] x86: Add support for ZSTD compressed kernel
-Thread-Index: AQHWYSfJcwxv6ZmoP0i5UtMjZQMfxakV5pAAgADlDQCABUEVAA==
-Date:   Mon, 27 Jul 2020 22:44:37 +0000
-Message-ID: <D5815CBB-EAA8-4942-80CA-874DA325EE7A@fb.com>
-References: <20200723192801.351114-1-nickrterrell@gmail.com>
- <20200723192801.351114-7-nickrterrell@gmail.com>
- <CA+icZUWV3ANmBj08QZKBtEE38Y-iyCGGxLWtiFkdpKqkGP7ZqQ@mail.gmail.com>
- <20200724143022.GA601509@rani.riverdale.lan>
-In-Reply-To: <20200724143022.GA601509@rani.riverdale.lan>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: alum.mit.edu; dkim=none (message not signed)
- header.d=none;alum.mit.edu; dmarc=none action=none header.from=fb.com;
-x-originating-ip: [2620:10d:c090:400::5:c3fc]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc7774cf-0a81-4cd8-6024-08d8327ea43f
-x-ms-traffictypediagnostic: BYAPR15MB2950:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR15MB29501CF9719A3656D3CBB4F4AB720@BYAPR15MB2950.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: P5Y+zYV/eQNiK6gx94H+Tem1nU9/DjMubzV0Q1OSDP8JjzuY+WJuShnxLmlgw0NdqmE0KR/Y7XbytPH/FlesxYB8n1kvyc5ozoJUw2d1nrREp6U+aVeSmqxqyLvgVgzkMgQXJdnFWlDc8EAFEDBxPSVIzN+gpa3uYOU1WJxoxwPQl3B/u456ba+qJS11EsWDBsUSnL86ynnIHRiEQR0wxVCc5NsFeUkkYZHkO+LQJtWPZ8ZjdB+2Bt9KIL0j+anoXpPSIKu3TFht2t9XnkUVNIf1XousWUm4wf7Eix/cTpr7QzH8l7lccFeT30AkRoF4lgIS5IVjJlHj3Kedqa+bhQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR15MB3667.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(39860400002)(366004)(396003)(376002)(346002)(33656002)(6486002)(6506007)(6512007)(8936002)(66476007)(66556008)(53546011)(66446008)(64756008)(2906002)(6916009)(66946007)(478600001)(76116006)(86362001)(5660300002)(8676002)(71200400001)(4326008)(54906003)(83380400001)(36756003)(186003)(2616005)(316002)(7416002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: cjRlMTf8yWBG0gMnTEmRqOyZkXg0jDFl9j+F3VP47l0xznQc6JU8GWM2rp92x0rDrELqzKUazHnBuGuXdxQcT7Fe39gMpPIGClAwLFmLxn4BKZu7ghQs5SHEsMbf8zrP33uKc1dq8h4KmhhFv6da8KifFYsnY0N0AhCJmI+aHnuVjkvBBJUlT7uwwqNoxchhk2Q1qmy94Y8z4MqXN2fMe5SmsXc1UCD1478JB41CWuu2cMabRQ4rQRfVWMRyDWGMNZXxXa0MkS8pBlOxpTg7YLQ/5VLEHp+prGdYCQefhwTLmoNRvxSJ1Gn5G16a6vn1qAuZ+muVAm4rd7ydun8Nm+LuEVhMCAOt3jCwDHqjEGfbMlYz64WRqzMcyTjxvpzy3rOxndB/kbhXkk0QuDXAcFaXbdreL2OYdIzIBAs/Uhqv9QNAIBNZgAVnNJ8L2sSZE7ThtAr3960Dl7HV6zIJg4S2kjaAKSr4chhq2w7wbIP0M9fi2EdCGevL6TnvF2x88P8StXwJ0/EdQ7cM1kCugg==
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <9754CC0A3FB4894B89610A65FEF0F59A@namprd15.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        Alex Xu <alex_y_xu@yahoo.ca>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Nick Terrell <terrelln@fb.com>
+Subject: [GIT PULL][PATCH v9 0/7] Add support for ZSTD-compressed kernel and initramfs
+Date:   Mon, 27 Jul 2020 16:05:59 -0700
+Message-Id: <20200727230606.906598-1-nickrterrell@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3667.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc7774cf-0a81-4cd8-6024-08d8327ea43f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jul 2020 22:44:37.3281
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FWzIvFXligfilylUeAEC0so0IvPYpzXWCXgzm312X41XfEQAsZkxP42HwWwcZ+tB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2950
-X-OriginatorOrg: fb.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-07-27_15:2020-07-27,2020-07-27 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 suspectscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501 adultscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2007270153
-X-FB-Internal: deliver
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+From: Nick Terrell <terrelln@fb.com>
 
+Please pull from
 
-> On Jul 24, 2020, at 7:30 AM, Arvind Sankar <nivedita@alum.mit.edu> wrote:
->=20
-> On Fri, Jul 24, 2020 at 02:50:34AM +0200, Sedat Dilek wrote:
->> On Thu, Jul 23, 2020 at 9:30 PM Nick Terrell <nickrterrell@gmail.com> wr=
-ote:
->>>=20
->>> From: Nick Terrell <terrelln@fb.com>
->>>=20
->>> * Add support for zstd compressed kernel
->>> * Define __DISABLE_EXPORTS in misc.c
->>> * Bump the heap size for zstd.
->>> * Update the documentation.
->>>=20
->>> Integrates the ZSTD decompression code to the x86 pre-boot code.
->>>=20
->>> Zstandard requires slightly more memory during the kernel decompression
->>> on x86 (192 KB vs 64 KB), and the memory usage is independent of the
->>> window size.
->>>=20
->>> __DISABLE_EXPORTS is defined in misc.c instead of the Makefile because
->>> kaslr.c defines __DISABLE_EXPORTS, and defining it in the Makefile give=
-s
->>> duplicate definition warnings.
->>>=20
->>=20
->> That was reported by Arvind - feel free to add a Reported-by: ...
->>=20
->> - Sedat -
->>=20
->=20
-> It's not necessary to add Reported-by's for problems encountered while
-> developing the series. Especially as it was my drive-by suggestion to
-> use __DISABLE_EXPORTS that introduced the issue in the first place :)
->=20
-> I'd have added it to the Makefile and just dropped the definition in
-> kaslr.c -- should be no reason for anything in here to use EXPORT_SYMBOL.
+  git@github.com:terrelln/linux.git tags/v9-zstd
 
-Sure, I was a bit hesitant to modify more than necessary here, but I will g=
-o
-ahead and do that.
+to get these changes. Alternatively the patchset is included.
 
-Thanks for the reviews!=
+Hi all,
+
+This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
+initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
+are supported on all architectures. The ZSTD-compressed kernel is only
+hooked up to x86 in this patch set.
+
+Zstandard requires slightly more memory during the kernel decompression
+on x86 (192 KB vs 64 KB), and the memory usage is independent of the
+window size.
+
+Zstandard requires memory proprortional to the window size used during
+compression for decompressing the ramdisk image, since streaming mode is
+used. Newer versions of zstd (1.3.2+) list the window size of a file
+with `zstd -lv <file>'. The absolute maximum amount of memory required
+is just over 8 MB, but it can be controlled at compression time.
+
+This patch set has been boot tested with buildroot and QEMU based off
+of linux-5.6-rc6.
+
+On i386 and x86_64 I have tested the following configurations:
+* zstd compressed kernel and a separate zstd compressed initramfs
+* zstd compressed kernel and a built-in zstd compressed initramfs
+* gzip compressed kernel and a separate gzip compressed initramfs
+* gzip compressed kernel and a built-in gzip compressed initramfs
+
+On arm and aarch64 I tested the same configurations, except that the kernel is
+always gzip compressed.
+
+Facebook has been using v1 of these patches on x86_64 devices for more than 6
+months. When we switched from a xz compressed initramfs to a zstd compressed
+initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
+switched from a xz compressed kernel to a zstd compressed kernel we saved 2
+seconds of boot time.
+
+Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
+When we switched from an lzma compressed initramfs to a zstd compressed initramfs
+decompression time shrunk from 27 seconds to 8 seconds.
+
+The zstd compressed kernel is smaller than the gzip compressed kernel but larger
+than the xz or lzma compressed kernels, and it decompresses faster than
+everything except lz4. See the table below for the measurement of an x86_64
+kernel ordered by compressed size:
+
+algo	size
+xz  	 6,509,792
+lzma	 6,856,576
+zstd	 7,399,157
+gzip	 8,522,527
+bzip	 8,629,603
+lzo 	 9,808,035
+lz4 	10,705,570
+none	32,565,672
+
+Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
+
+v1 -> v2:
+- Rebase
+  - usr/Makefile and init/Kconfig were changed so the patches were updated
+- No functional changes except to rebase
+- Split the patches up into smaller chunks
+
+v2 -> v3:
+- Add *.zst to the .gitignore in patch 8
+- Style nits in patch 3
+- Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
+  1 through 3
+
+v3 -> v4:
+- Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
+  With this change I switch from malloc() to large_malloc() for the
+  buffers.
+- Increase the maximum allowed window size from 8 MB to 128 MB, which is
+  the max that zstd in the kernel supports.
+
+v4 -> v5:
+- Update commit message for patch 6 in response to comments
+- Rebase onto next-20200408
+
+v5 -> v6:
+- Rebase onto v5.8-rc4
+
+v6 -> v7:
+- (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
+- (2/8) Drop 'lib: prepare xxhash for preboot environment'
+- (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
+- (3/7) Update zstd compression cmd to follow other compressors
+- (3/7) Add zstd22 cmd
+- (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
+
+v7 -> v8:
+- (2/7) Don't define '__DISABLE_EXPORTS'
+- (6/7) Define '__DISABLE_EXPORTS' in misc.c
+
+v8 -> v9:
+- Rebase onto v5.8-rc7
+- (2/7) Fix nits about comment style & typos
+- (3/7) Fix typo in init/Kconfig description
+- (6/7) Explain BOOT_HEAP_SIZE increase and define __DISABLE_EXPORTS in
+        Makefile KBUILD_CFLAGS and remove definitions from kaslr.c and misc.c
+
+Best,
+Nick Terrell
+
+Adam Borowski (1):
+  .gitignore: add ZSTD-compressed files
+
+Nick Terrell (6):
+  lib: prepare zstd for preboot environment
+  lib: add zstd support to decompress
+  init: add support for zstd compressed kernel
+  usr: add support for zstd compressed initramfs
+  x86: bump ZO_z_extra_bytes margin for zstd
+  x86: Add support for ZSTD compressed kernel
+
+ .gitignore                        |   1 +
+ Documentation/x86/boot.rst        |   6 +-
+ Makefile                          |   3 +-
+ arch/x86/Kconfig                  |   1 +
+ arch/x86/boot/compressed/Makefile |   6 +-
+ arch/x86/boot/compressed/kaslr.c  |   7 -
+ arch/x86/boot/compressed/misc.c   |   4 +
+ arch/x86/boot/header.S            |   8 +-
+ arch/x86/include/asm/boot.h       |  11 +-
+ include/linux/decompress/unzstd.h |  11 +
+ init/Kconfig                      |  15 +-
+ lib/Kconfig                       |   4 +
+ lib/Makefile                      |   1 +
+ lib/decompress.c                  |   5 +
+ lib/decompress_unzstd.c           | 345 ++++++++++++++++++++++++++++++
+ lib/zstd/fse_decompress.c         |   9 +-
+ lib/zstd/zstd_internal.h          |  14 +-
+ scripts/Makefile.lib              |  22 ++
+ usr/Kconfig                       |  20 ++
+ usr/Makefile                      |   1 +
+ 20 files changed, 468 insertions(+), 26 deletions(-)
+ create mode 100644 include/linux/decompress/unzstd.h
+ create mode 100644 lib/decompress_unzstd.c
+
+-- 
+2.27.0
+
