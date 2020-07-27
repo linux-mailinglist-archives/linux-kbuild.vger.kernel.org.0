@@ -2,118 +2,82 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 215BE22E50D
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jul 2020 06:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AF2022E6F9
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jul 2020 09:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726064AbgG0E42 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jul 2020 00:56:28 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:28982 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725775AbgG0E40 (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jul 2020 00:56:26 -0400
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 06R4u2vZ005262;
-        Mon, 27 Jul 2020 13:56:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 06R4u2vZ005262
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1595825763;
-        bh=VsNfuWLBKO3xt/tClgaisljP3G+NdDWNzhElfMxOfYY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=a1N4XqYgXgZeqAvpuXyZg/EQxm0jnP3s7xKyQ43nza7hGgVA1P6qCNnAjp9XsUi5z
-         3rh4B6nM8CZdYZQbTWuPyYaYI54s9FwyuvHV/knkE8KC1A1d3zlcoOKhH6aZUNQ44M
-         Du3I2bf73P5wcIlDOltGy1YRkFcPypHTk3dJ3m7WRDLh0isucTBOkFAfO9HJCrxKtZ
-         46uV8zN0pWIo3xzHIcJgJ9is0N+1a5X4Ubc6zg3h8ldNg9aHUFaVv8WHImWMEHqU9a
-         D1Vj7Rl6jMmOtj9edYkEqvfE5XZu0jLmmJglpU3yt5qfrmrXLZU31tn1ljIy167IIh
-         UL/muXbwVOh6A==
-X-Nifty-SrcIP: [209.85.222.44]
-Received: by mail-ua1-f44.google.com with SMTP id 4so328498uav.8;
-        Sun, 26 Jul 2020 21:56:03 -0700 (PDT)
-X-Gm-Message-State: AOAM532+N2cI0ng5y97a3Fh+Hp9c75LsQiPYBdPNoCUNPKb+bxTgsQP2
-        5DSBeOEJcQtNFv+61tTo4Q/n8O7R8HKr/x+WnEk=
-X-Google-Smtp-Source: ABdhPJzBD6NVz4V/UkSdnoYqZT6v6jY8++J4Xf9slSZ/iiqfDsoSYuuWR1bXY9TO8wmRXDEktTQuMDORUmQkciIXFEE=
-X-Received: by 2002:ab0:5b91:: with SMTP id y17mr15827254uae.95.1595825761768;
- Sun, 26 Jul 2020 21:56:01 -0700 (PDT)
+        id S1726891AbgG0Hyd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jul 2020 03:54:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42162 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726211AbgG0Hyd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 27 Jul 2020 03:54:33 -0400
+Received: from localhost (p5486cd33.dip0.t-ipconnect.de [84.134.205.51])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 98B6020672;
+        Mon, 27 Jul 2020 07:54:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595836473;
+        bh=vHJPyOIaDO7M52I9mxPFFQr0aat7HJiMweOB62Vo0Vs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IbfpM99sEWb8unPf3FOlfN6nuDiBeqoWN4brSUNRk7zG52DuLi7Mt7yGXqoQms92r
+         SvD11vioDaRuazKiTeUAPxYt4YDm/yASAw7lC1pPRIkSBKyfjKzF66rdBbLJC1wn6c
+         wsdMUOV8Ga9Z901i1vcxpjAG146Lv3e9TJTbACno=
+Date:   Mon, 27 Jul 2020 09:54:26 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "H . Nikolaus Schaller" <hns@goldelico.com>
+Subject: Re: [PATCH] modpost: explain why we can't use strsep
+Message-ID: <20200727075426.GB1040@kunai>
+References: <20200726214419.3362-1-wsa@kernel.org>
+ <CAK7LNAShZUwgvDccDqpA44Rc4XkqHQuY4CDbg0msg8PO5YgjKg@mail.gmail.com>
 MIME-Version: 1.0
-References: <1595358391-34525-1-git-send-email-clabbe@baylibre.com>
- <1595358391-34525-17-git-send-email-clabbe@baylibre.com> <11ac49bc33546ef9ebc4120878206bd882667d8a.camel@perches.com>
- <b545eb4e3f2b4b676959e4666ef536f2691041eb.camel@perches.com>
-In-Reply-To: <b545eb4e3f2b4b676959e4666ef536f2691041eb.camel@perches.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 27 Jul 2020 13:55:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATohp=6BySQfn9g5xERm4u2rBG9VaoiGJ33TWovNTZd8w@mail.gmail.com>
-Message-ID: <CAK7LNATohp=6BySQfn9g5xERm4u2rBG9VaoiGJ33TWovNTZd8w@mail.gmail.com>
-Subject: Re: [PATCH] Makefile.extrawarn: Move sign-compare from W=2 to W=3
-To:     Joe Perches <joe@perches.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5I6of5zJg18YgZEa"
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAShZUwgvDccDqpA44Rc4XkqHQuY4CDbg0msg8PO5YgjKg@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 22, 2020 at 1:57 PM Joe Perches <joe@perches.com> wrote:
->
-> This -Wsign-compare compiler warning can be very noisy
-> and most of the suggested conversions are unnecessary.
->
-> Make the warning W=3 so it's described under the
-> "can most likely be ignored" block.
->
-> Signed-off-by: Joe Perches <joe@perches.com>
-> ---
 
-Applied to linux-kbuild. Thanks.
+--5I6of5zJg18YgZEa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
 
-
-> On Tue, 2020-07-21 at 14:32 -0700, Joe Perches wrote:
-> > On Tue, 2020-07-21 at 19:06 +0000, Corentin Labbe wrote:
-> > > This patch fixes the warning:
-> > > warning: comparison of integer expressions of different signedness: 'int' and 'long unsigned int' [-Wsign-compare]
+> > Mention why we open-code strsep, so it is clear that it is intentional.
 > >
-> > I think these do not really need conversion.
-> > Are these useful compiler warnings ?
->
-> Perhaps move the warning from W=2 to W=3 so
-> it's described as "can most likely be ignored"
->
->  scripts/Makefile.extrawarn | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 62c275685b75..95e4cdb94fe9 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -66,7 +66,6 @@ KBUILD_CFLAGS += -Wnested-externs
->  KBUILD_CFLAGS += -Wshadow
->  KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
->  KBUILD_CFLAGS += -Wmissing-field-initializers
-> -KBUILD_CFLAGS += -Wsign-compare
->  KBUILD_CFLAGS += -Wtype-limits
->  KBUILD_CFLAGS += $(call cc-option, -Wmaybe-uninitialized)
->  KBUILD_CFLAGS += $(call cc-option, -Wunused-macros)
-> @@ -87,6 +86,7 @@ KBUILD_CFLAGS += -Wpacked
->  KBUILD_CFLAGS += -Wpadded
->  KBUILD_CFLAGS += -Wpointer-arith
->  KBUILD_CFLAGS += -Wredundant-decls
-> +KBUILD_CFLAGS += -Wsign-compare
->  KBUILD_CFLAGS += -Wswitch-default
->  KBUILD_CFLAGS += $(call cc-option, -Wpacked-bitfield-compat)
->
->
->
+> > Fixes: 736bb11898ef ("modpost: remove use of non-standard strsep() in H=
+OSTCC code")
+>=20
+> Applied, but this Fixes tag looks questionable to me
+> because this patch is just adding a comment.
+
+Yes, agreed.
 
 
---
-Best Regards
-Masahiro Yamada
+--5I6of5zJg18YgZEa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8eiDIACgkQFA3kzBSg
+KbabQg//cIiGRHn9FvoOJdrSXs1W/MS7bvDE2e2sSltZpyUxPFywSgu0z640rmJi
+9TT2xf3owQfFpcwHrJACtn/NAA6whsiV/H1Q1k8/PhVxS+92JWUz/gvGZTNtL/q6
+fGtWleig8UrRN3O/rYACwZRMPoT/enuP55oaFnwpsM1YfyB4x0SO5j39U/Pgu1ct
+XlQJvjxsc9OdeUgX7x+v0fIomzHy1Gim9S3QhBO39DB4LuQCW+cPfyK1lwQlmwpw
+TvnQmiE5TKO3Sd8KDQDVypoEKbL0Xnw4anR/QUVjC48HvQihun5kjBppqnUFa6HC
+JVFyRPcii6mlf0HfjO5V10plA1PRDEmijm4j6jsZtWDvQG9SnrtfxdfasGDB70lt
+E58EtEQTM7KlQN4u4gpp90zvo61YTo85L+OODZZPM+N95F/rMMHn2wHmH3PoC3t8
+5WpuqiDdoCwrtmOu5u1MOVXxQ0rTyGGkzZo369WuMTXhq2pDU4l44le1nAnITfmQ
+B7HPqnXWkI4GCyddsbudnksuCHrcg1gEXJu9UHx8a5EHi1+6LzV12XxEefocwcar
+9bx+S3s4ibZl/7BXU4Xyb43Afemg06LJRqRKfvH/3RkApoS+Qr9L3WCLFsFfDtj4
+JffS6RgMNBMUfOqsk/u7mp0w0wbduf5WFcCb16OroZdeNb4xiw0=
+=SUEq
+-----END PGP SIGNATURE-----
+
+--5I6of5zJg18YgZEa--
