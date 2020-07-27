@@ -2,82 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF2022E6F9
-	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jul 2020 09:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E55822FB7C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 27 Jul 2020 23:33:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbgG0Hyd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jul 2020 03:54:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42162 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726211AbgG0Hyd (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jul 2020 03:54:33 -0400
-Received: from localhost (p5486cd33.dip0.t-ipconnect.de [84.134.205.51])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 98B6020672;
-        Mon, 27 Jul 2020 07:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595836473;
-        bh=vHJPyOIaDO7M52I9mxPFFQr0aat7HJiMweOB62Vo0Vs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IbfpM99sEWb8unPf3FOlfN6nuDiBeqoWN4brSUNRk7zG52DuLi7Mt7yGXqoQms92r
-         SvD11vioDaRuazKiTeUAPxYt4YDm/yASAw7lC1pPRIkSBKyfjKzF66rdBbLJC1wn6c
-         wsdMUOV8Ga9Z901i1vcxpjAG146Lv3e9TJTbACno=
-Date:   Mon, 27 Jul 2020 09:54:26 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "H . Nikolaus Schaller" <hns@goldelico.com>
-Subject: Re: [PATCH] modpost: explain why we can't use strsep
-Message-ID: <20200727075426.GB1040@kunai>
-References: <20200726214419.3362-1-wsa@kernel.org>
- <CAK7LNAShZUwgvDccDqpA44Rc4XkqHQuY4CDbg0msg8PO5YgjKg@mail.gmail.com>
+        id S1726222AbgG0VdL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jul 2020 17:33:11 -0400
+Received: from a27-193.smtp-out.us-west-2.amazonses.com ([54.240.27.193]:60322
+        "EHLO a27-193.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726110AbgG0VdL (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 27 Jul 2020 17:33:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
+        t=1595885590;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
+        bh=r66qdttsZ/TCGXkXFVmKDGyxyyrSIBEyQvIvtjQiPyE=;
+        b=Qsiz40S/qxCubWvxHIMcjkG4gAKzWHPlsk1JOWZ2+RiImATFP8l4PYfx1/O1KctF
+        S+cNoU802ULrzYQ0xK9o6d4RfT9yL4GYMmC3f8g41ph3iM7fWPGHNy6IAgmoehk4qfx
+        y38dxtq+EGCktwsH4nyb23Cs/Lb15W44b7i29bKo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1595885590;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:To:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+        bh=r66qdttsZ/TCGXkXFVmKDGyxyyrSIBEyQvIvtjQiPyE=;
+        b=WfeZidBvXBeA2kW19yCuW6WWZ8oBY+GmuR7f4GWX4kSwsyl1Cwaj9dbCQK/m8RND
+        gmtg6AeHD/8GOhtT3li3M5PlC2VbtY4yaYSpRmzpKHMbq9GIk7gDLsYqVq9RUzX3bXK
+        FUOUDthZbyblNf5lPupbfsAYTfjp1kJWAL5wfI9A=
+Subject: [Kernel.org Helpdesk #93182] Re: linux-kbuild missing from lore?
+From:   "Chris Hoy Poy via RT" <kernel-helpdesk@rt.linuxfoundation.org>
+Reply-To: kernel-helpdesk@rt.linuxfoundation.org
+In-Reply-To: <rt-4.4.0-1686-1594408327-1443.93182-6-0@linuxfoundation>
+References: <RT-Ticket-93182@linuxfoundation>
+ <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+ <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
+ <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
+ <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
+ <rt-4.4.0-1686-1594408327-1443.93182-6-0@linuxfoundation>
+Message-ID: <0101017392319714-3d813ac3-7620-4874-8320-ff1f5de1d149-000000@us-west-2.amazonses.com>
+X-RT-Loop-Prevention: linuxfoundation.org
+X-RT-Ticket: linuxfoundation.org #93182
+X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
+X-RT-Originator: choypoy@linuxfoundation.org
+To:     ndesaulniers@google.com
+CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, nhuck@google.com, rdunlap@infradead.org,
+        sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+Date:   Mon, 27 Jul 2020 21:33:10 +0000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="5I6of5zJg18YgZEa"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAShZUwgvDccDqpA44Rc4XkqHQuY4CDbg0msg8PO5YgjKg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-SES-Outgoing: 2020.07.27-54.240.27.193
+Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Hi all,
 
---5I6of5zJg18YgZEa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Apologies for delays! 
 
+Have just tried to grab this shared file, and I'm getting 403'd (violates terms), 
 
-> > Mention why we open-code strsep, so it is clear that it is intentional.
-> >
-> > Fixes: 736bb11898ef ("modpost: remove use of non-standard strsep() in H=
-OSTCC code")
->=20
-> Applied, but this Fixes tag looks questionable to me
-> because this patch is just adding a comment.
+I have an archiver subscribed, so new emails are being collected. 
 
-Yes, agreed.
+cheers
+/Chris
 
 
---5I6of5zJg18YgZEa
-Content-Type: application/pgp-signature; name="signature.asc"
+On Sat Jul 11 03:12:07 2020, ndesaulniers@google.com wrote:
+> Hello, can the admin of the lore.kernel.org helpdesk please accept the
+> following sanitized archive?
+> 
+> https://drive.google.com/file/d/1d0oS3fCYxGhB0p_IQum9Gh20B3aFxKeI/view?usp=sharing
+> 
+> With generous assistance from Hank Leininger from marc.info, I was
+> able to get mbox's for linux-kbuild@vger.kernel.org dating back to
+> 2008.
+> 
+> The archive was provided as a tarball of directories of gzip archives.
+> To generate the above, I ran:
+> 
+> $ tar xvf linux-kbuild_2008-2020.tar
+> $ find . -name \*.gz | xargs gunzip
+> $ for F in $(find untared -type f); do ./list-archive-maker.py -s $F
+> -e linux-kbuild -k linux-kbuild-known-ids.txt -l linux-
+> kbuild.vger.kernel.org; done
+> $ tar cf linux-kbuild.tar linux-kbuild
+> $ xz -9 linux-kbuild.tar
+> 
+> as per https://korg.docs.kernel.org/lore.html.
+> 
+> This response is via the ticket #93182 filed at
+> rt.linuxfoundation.org's web site.
+> Thanks,
+> ~Nick Desaulniers
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl8eiDIACgkQFA3kzBSg
-KbabQg//cIiGRHn9FvoOJdrSXs1W/MS7bvDE2e2sSltZpyUxPFywSgu0z640rmJi
-9TT2xf3owQfFpcwHrJACtn/NAA6whsiV/H1Q1k8/PhVxS+92JWUz/gvGZTNtL/q6
-fGtWleig8UrRN3O/rYACwZRMPoT/enuP55oaFnwpsM1YfyB4x0SO5j39U/Pgu1ct
-XlQJvjxsc9OdeUgX7x+v0fIomzHy1Gim9S3QhBO39DB4LuQCW+cPfyK1lwQlmwpw
-TvnQmiE5TKO3Sd8KDQDVypoEKbL0Xnw4anR/QUVjC48HvQihun5kjBppqnUFa6HC
-JVFyRPcii6mlf0HfjO5V10plA1PRDEmijm4j6jsZtWDvQG9SnrtfxdfasGDB70lt
-E58EtEQTM7KlQN4u4gpp90zvo61YTo85L+OODZZPM+N95F/rMMHn2wHmH3PoC3t8
-5WpuqiDdoCwrtmOu5u1MOVXxQ0rTyGGkzZo369WuMTXhq2pDU4l44le1nAnITfmQ
-B7HPqnXWkI4GCyddsbudnksuCHrcg1gEXJu9UHx8a5EHi1+6LzV12XxEefocwcar
-9bx+S3s4ibZl/7BXU4Xyb43Afemg06LJRqRKfvH/3RkApoS+Qr9L3WCLFsFfDtj4
-JffS6RgMNBMUfOqsk/u7mp0w0wbduf5WFcCb16OroZdeNb4xiw0=
-=SUEq
------END PGP SIGNATURE-----
-
---5I6of5zJg18YgZEa--
+-- 
+Chris Hoy Poy
+Collaborative Projects IT
+The Linux Foundation
