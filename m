@@ -2,66 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1266022FC26
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 00:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40A8222FC2B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 00:30:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbgG0Wax (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jul 2020 18:30:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727090AbgG0Waw (ORCPT
+        id S1727095AbgG0Way (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jul 2020 18:30:54 -0400
+Received: from a27-23.smtp-out.us-west-2.amazonses.com ([54.240.27.23]:59828
+        "EHLO a27-23.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727090AbgG0Way (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jul 2020 18:30:52 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75EFBC061794
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Jul 2020 15:30:52 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id o22so10431879pjw.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 27 Jul 2020 15:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TOvQ1VnWyG/OnvhNgurvxwrmtR7oK2D6CyEB7iw19aQ=;
-        b=I4P+wcYUdU3lmHev0tDY9dkn1Zvl3qZD2/nET4And8drecCI1+QuixlaHj3pVvzIP4
-         nQp7aphuRXNv/ZYIMr3RV0Yy2nKbQ3/v9QwggOEdvJmt1mtvvhZVWasu08iCCFRLtoFd
-         X38QuiyzY2S3YzxmDCqkcP/6L2L1gJbfteWuOEKNFSl4UosAdDiMg6vL/iQYNI0yhqum
-         WKAUVRbU3Z5FYkRAyrU5/62X345GBrJwCGCc2FEAlJTXnpzGOZlE+FAG6M1gUHTQE/jm
-         ZMYxvQn6ujKmI0siClPcrTeCN94vGBpr8Spg+2zODaVlq1LeOPXbTULJFUOhempib0pA
-         fZSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TOvQ1VnWyG/OnvhNgurvxwrmtR7oK2D6CyEB7iw19aQ=;
-        b=e7taET4Ai9LYVHH5Yjvj99RnLwwZT/RoDoG3rVcJTcsvRN/KtG5BhjTMCu6tbN73gk
-         /HQjKDzbX46AxGVt5ayFR094BzR9uUOcLi9f+e2luilP2YT1E5KcsmV7AIFash6UogyG
-         wmDG0d7Rz7yZcPocyJGEf/aIaGBPCCtozw9JjHMT/uuiwdibjkmYFuQvB5NkOON2XnB5
-         I/Nsz+JcLlecMLdxkZOc7gMsHNDupPHVWEhpQJjdO59ehKZghgC9R3Ele1OIr7SpS4HF
-         2/EB1vx4oF9r/M0ASJVPfxF8YEB3wpMScMm1Zf/vKf4WbDqYtPxxD9BtK9x8ExE/Od3y
-         rd5Q==
-X-Gm-Message-State: AOAM533hNoLFmXQJ5d0lw+BT2VVMSGkBQQUrwPB4UfSvF0VEdQ3m1gfc
-        T760WRODsmR5AqzLHeqjf80Sf7Of5nLM00FGYaTyDw==
-X-Google-Smtp-Source: ABdhPJy/5+EuXgNPHAPu/yfMjp7j2SRhs0ZnhWu3vW7vpiajAndVnEyqx/ETcSiL8VoDkRBu9R4kfVg8UtLqUsmMUgU=
-X-Received: by 2002:a17:902:6bc2:: with SMTP id m2mr19569648plt.119.1595889051673;
- Mon, 27 Jul 2020 15:30:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <RT-Ticket-93182@linuxfoundation> <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
- <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
- <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org> <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
- <rt-4.4.0-1686-1594408327-1443.93182-6-0@linuxfoundation> <0101017392319714-3d813ac3-7620-4874-8320-ff1f5de1d149-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101017392319714-3d813ac3-7620-4874-8320-ff1f5de1d149-000000@us-west-2.amazonses.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 27 Jul 2020 15:30:39 -0700
-Message-ID: <CAKwvOdmbEOWdfFrXwWcakLSdZMQonLpneLm-OU9uFh17doGekA@mail.gmail.com>
+        Mon, 27 Jul 2020 18:30:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
+        t=1595889053;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
+        bh=6o/drBipLGz7eyKYgjZE7T4dDYgCC90153RlmnRLaRc=;
+        b=cjWthNCfMh8whQleNes1xjsM0tJmaNYgvssPszmE72ApixKzm1t+YJag9yN754wi
+        Wh2SZNwOIaYr4n3vWylS5wzgmf0Is6DsIC7MHF5kNoxAMNvh3nuLDGzyfAks89yFq1u
+        cyMxqi65GrE+aV6c5WxzmaCvAvXRSIXqCrx8yXGU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1595889053;
+        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+        bh=6o/drBipLGz7eyKYgjZE7T4dDYgCC90153RlmnRLaRc=;
+        b=mYbPLIAKafLm5MwEeX6gYhL7t31RzurN8K1+u+Z//nZgI2hY/wrqQSK+pmtE7cnP
+        Qg1gnSAjNhjOKnrNRHZ+/L0oJVsQy9CpDkU+r1D/PmZ/QaSkKSDKr1EKVu5XoQdr4ov
+        YZYPZaBqrr92v5s7vHVL0IM8w1VcQvFDKbaqcRro=
 Subject: Re: [Kernel.org Helpdesk #93182] Re: linux-kbuild missing from lore?
-To:     kernel-helpdesk@rt.linuxfoundation.org
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Huckleberry <nhuck@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+From:   "Nick Desaulniers via RT" <kernel-helpdesk@rt.linuxfoundation.org>
+Reply-To: kernel-helpdesk@rt.linuxfoundation.org
+In-Reply-To: <CAKwvOdmbEOWdfFrXwWcakLSdZMQonLpneLm-OU9uFh17doGekA@mail.gmail.com>
+References: <RT-Ticket-93182@linuxfoundation>
+ <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
+ <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
+ <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
+ <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
+ <rt-4.4.0-1686-1594408327-1443.93182-6-0@linuxfoundation>
+ <0101017392319714-3d813ac3-7620-4874-8320-ff1f5de1d149-000000@us-west-2.amazonses.com> <CAKwvOdmbEOWdfFrXwWcakLSdZMQonLpneLm-OU9uFh17doGekA@mail.gmail.com>
+Message-ID: <0101017392666ec4-f938e2ce-b1f0-4219-ad2b-33f2e2fdf752-000000@us-west-2.amazonses.com>
+X-RT-Loop-Prevention: linuxfoundation.org
+X-RT-Ticket: linuxfoundation.org #93182
+X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
+X-RT-Originator: ndesaulniers@google.com
+CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
+        michal.lkml@markovi.net, nhuck@google.com, rdunlap@infradead.org,
+        sam@ravnborg.org
+Content-Type: text/plain; charset="utf-8"
+X-RT-Original-Encoding: utf-8
+Date:   Mon, 27 Jul 2020 22:30:53 +0000
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SES-Outgoing: 2020.07.27-54.240.27.23
+Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
@@ -130,3 +122,4 @@ somewhere.
 -- 
 Thanks,
 ~Nick Desaulniers
+
