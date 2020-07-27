@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B52422FCB8
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 01:11:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2914822FCBA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 01:11:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727956AbgG0XLH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jul 2020 19:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34986 "EHLO
+        id S1727971AbgG0XLL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 27 Jul 2020 19:11:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgG0XLG (ORCPT
+        with ESMTP id S1726183AbgG0XLK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jul 2020 19:11:06 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AF90C0619D2;
-        Mon, 27 Jul 2020 16:11:06 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id n5so10820665pgf.7;
-        Mon, 27 Jul 2020 16:11:06 -0700 (PDT)
+        Mon, 27 Jul 2020 19:11:10 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BA76C061794;
+        Mon, 27 Jul 2020 16:11:10 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id b9so8945947plx.6;
+        Mon, 27 Jul 2020 16:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fmIcvsol2hVEYD4hslBcgfIPlSJK4NAnFqyLqCM1gdk=;
-        b=qV7ro9ZjovZkkZyMXKYWC0Oe5Q9Fdx3g7cJvZY2XwbQLOywlWt+vBRZRaU9wFuNfW0
-         Br4q/uxbqlOpllX3Q9XVON65Cn9UPJtbgZoteNE4XQUWPKaBue9xhwbxzk815CYiUUnk
-         pvIPd0ctOuqZemWBvbiw8OEB+jXmwgMB4cFDdyCeLCGHyegzjOn+moR7OB+LmTVsMlj+
-         HeL3fIgnLs0zIFkUimXjMbida5nz4Ht+JjV9pYLm4w85l4hEdFZs4Rl6PfLxSrKaTUKu
-         I+NH8FrIeA/BD5ZnVrlQnKtJan7/dvegiLnJktrDZKyeTsj0Au9hpVlD3PNO985jNi3i
-         xq7Q==
+        bh=n6QCGzWBzwdRunC88ZR2ssAXgvTx6O91V0TzBT8uQq0=;
+        b=DDE38O7MDTjFzPi+jNi7AcxIrN8m2Xy+vyE+39QeVAl3lDQbhVXmUapG/raDcEELaN
+         X5Wu115FKObrOFDRTvNcEdCU8/6vJFTvZl0pgd+jGWzZoMy9xFcJzAUMnd3vIz3WpEXw
+         aOFa0eHF3w4UrsOpBwc2lYwSbltUviuoeiJHqExKp+83j52m7RjKYlFNjKXwBOxC50Bc
+         AOE1coF2SimeCKVTeRB8sV7T5H/qjHgps0T+YDHjnvZrG/XJ3waSAtpCLtubT7CQmCsu
+         awUDbMh9wxGiZ7SY+uKx1gzSZGP1qVMl96aJDjdKDF+olzK35JY6E/P4G4UtW5DFxcd3
+         vsQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fmIcvsol2hVEYD4hslBcgfIPlSJK4NAnFqyLqCM1gdk=;
-        b=ZlMnzpmnlZ3BKaXsvChOdKqlTSQz8gMyvshlZLvt6gBkzd5XoeSnpYderUhnQZRNYc
-         nZGyXOvxv9jeAAwSOLla2iixE4U+7kBxesIxQJYwX8vxMDu9WMQNm91XH88yMpyyMvcU
-         HMAxtJv3k7cy3zVxaRmEc8MAqg4/1OkjFSIYMfCRRYDG10vwyZ7Njq6T4aZDGxCbHl8L
-         GLQBH7yKQ8GlSs1GTSrPJi5T6nPpJw6GzxzrV5+mmjzOnmtQ8xWSuTUKVs8RD4+q9Gwl
-         iBuQclwkUnwscXeOrSRLXKAMuxYZ+9DCWdPeA5yhPLt+w/mc+aEbC+fbvqGTi7tg4bG2
-         W9fw==
-X-Gm-Message-State: AOAM5305002CSOAzbrhmNmwYCPlOpdPeskW+jzdgVMJ6BN0NNYzdzMSP
-        G3dM8bEqdyFK4iGmRcRv2TI=
-X-Google-Smtp-Source: ABdhPJyAD2Ny3B4a/VETYHbZH5LDDOb7N3qkPBod1JzdVBHxCiMPrdYNmXRh5/+sVoa2uFoI8Bpnxw==
-X-Received: by 2002:aa7:971d:: with SMTP id a29mr12555508pfg.308.1595891465730;
-        Mon, 27 Jul 2020 16:11:05 -0700 (PDT)
+        bh=n6QCGzWBzwdRunC88ZR2ssAXgvTx6O91V0TzBT8uQq0=;
+        b=C0J52l08N23Im971I58TEAHOMJyDmWq2WqE3V2zkuFAF0oW8E8mwyTyhEV1bJlmT5b
+         /iooZUZ8yz0XPxoLRFHj60jv17ElcI3RwEjdgS0+wzRp4xXWXKKEp2I+ff0th31I0PFR
+         MVlHJL2n/uJPHMYY2edPdo0ihqn+oJ2vDAoxHiJ2Ow4L8Cb/7K10q1fWBFNabbp0uYxP
+         Zo6aSPrZyKv4t26+nqqiBXE5cdrLy5aDG0EPtU4FbZG/D6c4c9SbRnxR0uTaiz5saeJM
+         3Rjzo0kSXhlIns3t9uc2MPZdINgsqIlwujEYQ3hDSLSvwV+YA6LzQrWcuhNltMPCcSAq
+         fbvg==
+X-Gm-Message-State: AOAM530gBdwdcb28Dvt+ILqY2ScwyauE1wPP5Fm5eKMclvoIhek/YX0S
+        uNM3Wp/vXxiQfbrVMOgFnEU=
+X-Google-Smtp-Source: ABdhPJyCLS8T4Yh9UWh6S1BChgY/ZBA+Gb48qsktFYpKS+BkFS9ZDx7H1HTkPUN7vZ/SxpfTNr3ARg==
+X-Received: by 2002:a17:902:b905:: with SMTP id bf5mr19790937plb.250.1595891469863;
+        Mon, 27 Jul 2020 16:11:09 -0700 (PDT)
 Received: from nickserv.localdomain (c-98-33-101-203.hsd1.ca.comcast.net. [98.33.101.203])
-        by smtp.gmail.com with ESMTPSA id y68sm3515931pfy.185.2020.07.27.16.11.04
+        by smtp.gmail.com with ESMTPSA id y68sm3515931pfy.185.2020.07.27.16.11.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 16:11:05 -0700 (PDT)
+        Mon, 27 Jul 2020 16:11:09 -0700 (PDT)
 From:   Nick Terrell <nickrterrell@gmail.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>
@@ -66,9 +66,9 @@ Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
         Alex Xu <alex_y_xu@yahoo.ca>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Nick Terrell <terrelln@fb.com>
-Subject: [PATCH v9 4/7] usr: add support for zstd compressed initramfs
-Date:   Mon, 27 Jul 2020 16:06:03 -0700
-Message-Id: <20200727230606.906598-5-nickrterrell@gmail.com>
+Subject: [PATCH v9 5/7] x86: bump ZO_z_extra_bytes margin for zstd
+Date:   Mon, 27 Jul 2020 16:06:04 -0700
+Message-Id: <20200727230606.906598-6-nickrterrell@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200727230606.906598-1-nickrterrell@gmail.com>
 References: <20200727230606.906598-1-nickrterrell@gmail.com>
@@ -81,81 +81,45 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Nick Terrell <terrelln@fb.com>
 
-* Add support for a zstd compressed initramfs.
-* Add compression for compressing built-in initramfs with zstd.
+Bump the ZO_z_extra_bytes margin for zstd.
 
-I have tested this patch by boot testing with buildroot and QEMU.
-Specifically, I booted the kernel with both a zstd and gzip compressed
-initramfs, both built into the kernel and separate. I ensured that the
-correct compression algorithm was used. I tested on arm, aarch64, i386,
-and x86_64.
+Zstd needs 3 bytes per 128 KB, and has a 22 byte fixed overhead.
+Zstd needs to maintain 128 KB of space at all times, since that is
+the maximum block size. See the comments regarding in-place
+decompression added in lib/decompress_unzstd.c for details.
 
-This patch has been tested in production on aarch64 and x86_64 devices.
-
-Additionally, I have performance measurements from internal use in
-production. On an aarch64 device we saw 19 second boot time improvement
-from switching from lzma to zstd (27 seconds to 8 seconds). On an x86_64
-device we saw a 9 second boot time reduction from switching from xz to
-zstd.
+The existing code is written so that all the compression algorithms use
+the same ZO_z_extra_bytes. It is taken to be the maximum of the growth
+rate plus the maximum fixed overhead. The comments just above this diff
+state that:
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
 Signed-off-by: Nick Terrell <terrelln@fb.com>
 ---
- usr/Kconfig  | 20 ++++++++++++++++++++
- usr/Makefile |  1 +
- 2 files changed, 21 insertions(+)
+ arch/x86/boot/header.S | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/usr/Kconfig b/usr/Kconfig
-index 96afb03b65f9..2599bc21c1b2 100644
---- a/usr/Kconfig
-+++ b/usr/Kconfig
-@@ -100,6 +100,15 @@ config RD_LZ4
- 	  Support loading of a LZ4 encoded initial ramdisk or cpio buffer
- 	  If unsure, say N.
+diff --git a/arch/x86/boot/header.S b/arch/x86/boot/header.S
+index 735ad7f21ab0..6dbd7e9f74c9 100644
+--- a/arch/x86/boot/header.S
++++ b/arch/x86/boot/header.S
+@@ -539,8 +539,14 @@ pref_address:		.quad LOAD_PHYSICAL_ADDR	# preferred load addr
+ # the size-dependent part now grows so fast.
+ #
+ # extra_bytes = (uncompressed_size >> 8) + 65536
++#
++# ZSTD compressed data grows by at most 3 bytes per 128K, and only has a 22
++# byte fixed overhead but has a maximum block size of 128K, so it needs a
++# larger margin.
++#
++# extra_bytes = (uncompressed_size >> 8) + 131072
  
-+config RD_ZSTD
-+	bool "Support initial ramdisk/ramfs compressed using ZSTD"
-+	default y
-+	depends on BLK_DEV_INITRD
-+	select DECOMPRESS_ZSTD
-+	help
-+	  Support loading of a ZSTD encoded initial ramdisk or cpio buffer.
-+	  If unsure, say N.
-+
- choice
- 	prompt "Built-in initramfs compression mode"
- 	depends on INITRAMFS_SOURCE != ""
-@@ -196,6 +205,17 @@ config INITRAMFS_COMPRESSION_LZ4
- 	  If you choose this, keep in mind that most distros don't provide lz4
- 	  by default which could cause a build failure.
- 
-+config INITRAMFS_COMPRESSION_ZSTD
-+	bool "ZSTD"
-+	depends on RD_ZSTD
-+	help
-+	  ZSTD is a compression algorithm targeting intermediate compression
-+	  with fast decompression speed. It will compress better than GZIP and
-+	  decompress around the same speed as LZO, but slower than LZ4.
-+
-+	  If you choose this, keep in mind that you may need to install the zstd
-+	  tool to be able to compress the initram.
-+
- config INITRAMFS_COMPRESSION_NONE
- 	bool "None"
- 	help
-diff --git a/usr/Makefile b/usr/Makefile
-index c12e6b15ce72..b1a81a40eab1 100644
---- a/usr/Makefile
-+++ b/usr/Makefile
-@@ -15,6 +15,7 @@ compress-$(CONFIG_INITRAMFS_COMPRESSION_LZMA)	:= lzma
- compress-$(CONFIG_INITRAMFS_COMPRESSION_XZ)	:= xzmisc
- compress-$(CONFIG_INITRAMFS_COMPRESSION_LZO)	:= lzo
- compress-$(CONFIG_INITRAMFS_COMPRESSION_LZ4)	:= lz4
-+compress-$(CONFIG_INITRAMFS_COMPRESSION_ZSTD)	:= zstd
- 
- obj-$(CONFIG_BLK_DEV_INITRD) := initramfs_data.o
- 
+-#define ZO_z_extra_bytes	((ZO_z_output_len >> 8) + 65536)
++#define ZO_z_extra_bytes	((ZO_z_output_len >> 8) + 131072)
+ #if ZO_z_output_len > ZO_z_input_len
+ # define ZO_z_extract_offset	(ZO_z_output_len + ZO_z_extra_bytes - \
+ 				 ZO_z_input_len)
 -- 
 2.27.0
 
