@@ -2,71 +2,63 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83190231802
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 05:19:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80B832318E6
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 07:09:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726336AbgG2DTa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jul 2020 23:19:30 -0400
-Received: from conuserg-10.nifty.com ([210.131.2.77]:65386 "EHLO
-        conuserg-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbgG2DTa (ORCPT
+        id S1726709AbgG2FJo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 29 Jul 2020 01:09:44 -0400
+Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:52294
+        "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726054AbgG2FJo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jul 2020 23:19:30 -0400
-Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id 06T3In2l014195;
-        Wed, 29 Jul 2020 12:18:49 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com 06T3In2l014195
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1595992730;
-        bh=Aqvte3DD/AyUCy7Xdqzd/obevCR0/al1WB3hYmo2NQY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=y1DJo4oQH5A1nPsfamA7v4G2OFAZ5qcbBRco+DkEzPxJ+hEMkJXtX3i8WCo+PjU6J
-         dVm44M0iMSf+KAgVW0c08NUwhszSEPkvx4JrBsdIoGxlEuqNjCENdUitvtaoHNUt3t
-         h0PPu6lXqy+RsZ/IHRI1TT9zVK1GLPva47m/VDxGZ+8qOCTbMZ97+vH6c43QklYG2n
-         mwrZYGDZZ0d45MdNQLak5v+QALWFkafD76h8IK8T3jNHVPvr+k7MnLNzZyVp5Dki/o
-         lJMcZfr1jgb6U+IME5Juesj1n5cYMPFvr2s2jHliQcKJbFVQ/3deT9r4NEqIkb7nnd
-         rPdkMuUquU6Sw==
-X-Nifty-SrcIP: [126.25.67.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] extract-cert: add static to local data
-Date:   Wed, 29 Jul 2020 12:18:45 +0900
-Message-Id: <20200729031845.38333-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        Wed, 29 Jul 2020 01:09:44 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 45A5858EF34;
+        Tue, 28 Jul 2020 11:47:13 -0500 (CDT)
+Received: from correo.tlalpan.gob.mx ([127.0.0.1])
+        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 2h-qfyOakXaV; Tue, 28 Jul 2020 11:47:13 -0500 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 5705958EF3B;
+        Tue, 28 Jul 2020 06:14:40 -0500 (CDT)
+X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
+Received: from correo.tlalpan.gob.mx ([127.0.0.1])
+        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id B0E_30cwkxMj; Tue, 28 Jul 2020 06:14:40 -0500 (CDT)
+Received: from [10.85.108.11] (unknown [105.8.2.12])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id 668A145365B;
+        Tue, 28 Jul 2020 04:18:38 -0500 (CDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <aguayenergia@tlalpan.gob.mx>
+From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
+Date:   Tue, 28 Jul 2020 11:22:55 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200728091839.668A145365B@correo.tlalpan.gob.mx>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Fix the following warning from sparse:
+Lieber Freund,
 
-  scripts/extract-cert.c:74:5: warning: symbol 'kbuild_verbose' was not declared. Should it be static?
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
 
- scripts/extract-cert.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/extract-cert.c b/scripts/extract-cert.c
-index b071bf476fea..3bc48c726c41 100644
---- a/scripts/extract-cert.c
-+++ b/scripts/extract-cert.c
-@@ -71,7 +71,7 @@ static void drain_openssl_errors(void)
- static const char *key_pass;
- static BIO *wb;
- static char *cert_dst;
--int kbuild_verbose;
-+static int kbuild_verbose;
- 
- static void write_cert(X509 *x509)
- {
--- 
-2.25.1
+Das ist dein Spendencode: [TS530342018]
 
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+Herr Tayeb Souami
