@@ -2,315 +2,235 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60BD4231403
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 22:35:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0A97231487
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 23:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728529AbgG1UfU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jul 2020 16:35:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36106 "EHLO
+        id S1729243AbgG1VWD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jul 2020 17:22:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728453AbgG1UfU (ORCPT
+        with ESMTP id S1728149AbgG1VWD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jul 2020 16:35:20 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C750C0619D2
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jul 2020 13:35:20 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id l12so1724075pgt.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jul 2020 13:35:20 -0700 (PDT)
+        Tue, 28 Jul 2020 17:22:03 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C44B4C061794;
+        Tue, 28 Jul 2020 14:22:02 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id w12so8707359iom.4;
+        Tue, 28 Jul 2020 14:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OBkwAyTEXypPFrv1L/bcvqGsjN6kL4QWEhz3WakHkuw=;
-        b=u3n1pNJBqmv+wnc325pObRLwelABKFK0TTLaazs9/l3rir9ewi34O5LCVVPgMCtXAp
-         oAa/jHYVa4qB4hNcmIZXKI6sJooGpbWFkaH4ZdH2LlbajzjX2C7vmSxjVQmiD8TitfHh
-         WlZf7MkbgxfqQ1jWo/fS5tkvRgRKTKR4KNPbdfsIaQVaZfv4W0Xap+LMI9nMS28ri5q5
-         O/0k080ddNH4E0QmiYxXooJ4tbtx0Yq2Av/J/MLbTCIwodr56fRgAgrigFTug2W4Xmez
-         3F67G2y5YxnuxqpRjIz/8Dg/81Rkcqk7ockNHRktDoYSCq9UcOZ8ho7Ysp2EeqSjwRgK
-         subQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=Ce2riTt0wp0SdFBRMy7tVXS9nZSaZZUU7x1cmq39pfQ=;
+        b=n8nqALom1tN4Wh2BayQLeqTuLpOQE+ja5YdZsKpKN861hQ9Pr8UkV4lt7EKOoeJoZ9
+         EyDxUcSh3uVNhSq/mWRXsTAKVgIYYfEdfhA26NaSqoOUiDezVNBHusArbvCMcy20Cjj2
+         IaLv5qDzqIRsPtL5ZZ8BUgKjBB/0KBfsO643H5J211c8YYXpHJi2z1T4auYNwyd/lCC2
+         EwAqGN5YOoq5B8cQddl5Mz+Gcnciu37GCiUCadBpV7KjcXMxrw7Qh/Dzr9P9WDb01ndJ
+         uitse3/sk5eGdSCI7+PNFFWvhoJPs2zQt7uFti5LAu5U9iz9aMeif/vEy41X4UkUyQct
+         Xn/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OBkwAyTEXypPFrv1L/bcvqGsjN6kL4QWEhz3WakHkuw=;
-        b=nec8/m5IC3pnHC6tAFOl7n+WNOo2pNXM0an0BSOLHV208d5t5Cj69jSv9qEMFpFK/W
-         YQ/UBNfC/VCIhYmsnUt/6Vw1jpAI9D7EHh7N9162RS9AiKfpNse2ur+nQid1BdymyApq
-         yrobXpBjUVZ9waZttZNXx/BD+3XYj9syhpvjm7CjLEhT3VMemQhPGQtANTgcsP+Cs/2n
-         AwjX9kgKEW6xlG5eY46vfMXqyXD7cEpDWuiMPq/GEiC7K22vHyDLuZLye1TH6xbAGAj+
-         bFWf0p0P01BdKtfiIOMfLarbKza+gq9uvfgahdZaRpyf4F53Yr1K80euk0XdzGjmz61J
-         pqrQ==
-X-Gm-Message-State: AOAM532N9blGVtk35o6472pNzlnnx8K4hU90Fhjcf1VOesG4AfLe6Agw
-        Y4Fo9hHQp7hTURk1PVTOKa8OCHJmFcUw8AzA1K7xBg==
-X-Google-Smtp-Source: ABdhPJx8wHjF9qGKptJgatNHt0b1qWH35UqxoZXkEAs5cwCjg6+AuKH85TYZUtDBAiVSRk5ph+7xs65w9V8TuKWNjGU=
-X-Received: by 2002:a62:86cc:: with SMTP id x195mr25927376pfd.39.1595968519048;
- Tue, 28 Jul 2020 13:35:19 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=Ce2riTt0wp0SdFBRMy7tVXS9nZSaZZUU7x1cmq39pfQ=;
+        b=V0x0zO2NGxqkGylwXJMZR4WZE1JNRBnlqgbanzlZZsATgSL+IMVWtmnxRqU5pn5QfY
+         oTAIDIu3LrftvvixxN8ZjTnDbgWLW5Ps1yLDULpVp+U1Jtj284EKXZQX1L4njCbYMrbZ
+         4oHVuvPAvl6NrDZXoS3zh7fMdKjVT4Rb5AtnSmcid5kv1LZWbKNLFvJRbiZcJErCdddK
+         HdUPlBfFDQJF34moHyBorlxdLqq/BffCdLrEG60ixIRIg/gZ8y6UmWQFwevCwDwIzZ4c
+         IPZWpkepY+4vbujy2AlJzGUBJsvrbwq6if/tPKf5iV3C3hFq9MhPcUDnZMj8mVKOlCJj
+         ntmQ==
+X-Gm-Message-State: AOAM531hRoKRsfGha/+rPkz2PBPhLKxfYdiY/ovecrO2pZM7qV/TXuVk
+        SzjNvuQh2bYyOkp37PDSx/eO661hUCH5DFYcOD0=
+X-Google-Smtp-Source: ABdhPJz8q+zpeAcTDeSFUU18MVmKFa+68QwIF6EG438nGZPBd6eDleQtNOLl/7Hir44lz4dFtlauMVFD7aLzMgTzjNs=
+X-Received: by 2002:a6b:5a04:: with SMTP id o4mr28123141iob.171.1595971322061;
+ Tue, 28 Jul 2020 14:22:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKwvOdnni_G2tw+0eCLQQvvdcz97Fy1-cBjzPvLwbBNDu1-KqQ@mail.gmail.com>
- <20200728004736.3590053-1-nhuck@google.com>
-In-Reply-To: <20200728004736.3590053-1-nhuck@google.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 28 Jul 2020 13:35:08 -0700
-Message-ID: <CAKwvOdnrVP4Ci4MBd2NtW9Jkk60wVrpRwGV_rz1dw5NYVUdaSw@mail.gmail.com>
-Subject: Re: [PATCH v7] Makefile: Add clang-tidy and static analyzer support
- to makefile
-To:     Nathan Huckleberry <nhuck@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Pirama Arumuga Nainar <pirama@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>
+References: <20200727230606.906598-1-nickrterrell@gmail.com>
+In-Reply-To: <20200727230606.906598-1-nickrterrell@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 28 Jul 2020 23:21:50 +0200
+Message-ID: <CA+icZUW5+53giKTcw-Hv7Yq_azn2FYFygR_hE8rk4+NV=4Yjkg@mail.gmail.com>
+Subject: Re: [GIT PULL][PATCH v9 0/7] Add support for ZSTD-compressed kernel
+ and initramfs
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
+        Norbert Lange <nolange79@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alex Xu <alex_y_xu@yahoo.ca>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Nick Terrell <terrelln@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 5:47 PM 'Nathan Huckleberry' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
+On Tue, Jul 28, 2020 at 1:10 AM Nick Terrell <nickrterrell@gmail.com> wrote:
 >
-> This patch adds clang-tidy and the clang static-analyzer as make
-> targets. The goal of this patch is to make static analysis tools
-> usable and extendable by any developer or researcher who is familiar
-> with basic c++.
+> From: Nick Terrell <terrelln@fb.com>
 >
-> The current static analysis tools require intimate knowledge of the
-> internal workings of the static analysis. Clang-tidy and the clang
-> static analyzers expose an easy to use api and allow users unfamiliar
-> with clang to write new checks with relative ease.
+> Please pull from
 >
-> ===Clang-tidy===
+>   git@github.com:terrelln/linux.git tags/v9-zstd
 >
-> Clang-tidy is an easily extendable 'linter' that runs on the AST.
-> Clang-tidy checks are easy to write and understand. A check consists of
-> two parts, a matcher and a checker. The matcher is created using a
-> domain specific language that acts on the AST
-> (https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
-> nodes are found by the matcher a callback is made to the checker. The
-> checker can then execute additional checks and issue warnings.
+> to get these changes. Alternatively the patchset is included.
 >
-> Here is an example clang-tidy check to report functions that have calls
-> to local_irq_disable without calls to local_irq_enable and vice-versa.
-> Functions flagged with __attribute((annotation("ignore_irq_balancing")))
-> are ignored for analysis. (https://reviews.llvm.org/D65828)
+> Hi all,
 >
-> ===Clang static analyzer===
+> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
+> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
+> are supported on all architectures. The ZSTD-compressed kernel is only
+> hooked up to x86 in this patch set.
 >
-> The clang static analyzer is a more powerful static analysis tool that
-> uses symbolic execution to find bugs. Currently there is a check that
-> looks for potential security bugs from invalid uses of kmalloc and
-> kfree. There are several more general purpose checks that are useful for
-> the kernel.
+> Zstandard requires slightly more memory during the kernel decompression
+> on x86 (192 KB vs 64 KB), and the memory usage is independent of the
+> window size.
 >
-> The clang static analyzer is well documented and designed to be
-> extensible.
-> (https://clang-analyzer.llvm.org/checker_dev_manual.html)
-> (https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
+> Zstandard requires memory proprortional to the window size used during
+> compression for decompressing the ramdisk image, since streaming mode is
+> used. Newer versions of zstd (1.3.2+) list the window size of a file
+> with `zstd -lv <file>'. The absolute maximum amount of memory required
+> is just over 8 MB, but it can be controlled at compression time.
 >
-> The main draw of the clang tools is how accessible they are. The clang
-> documentation is very nice and these tools are built specifically to be
-> easily extendable by any developer. They provide an accessible method of
-> bug-finding and research to people who are not overly familiar with the
-> kernel codebase.
+> This patch set has been boot tested with buildroot and QEMU based off
+> of linux-5.6-rc6.
 >
-> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-> ---
-> Changes v6->v7
-> * Fix issues with relative paths
-> * Additional style fixes
->  MAINTAINERS                                   |  1 +
->  Makefile                                      |  3 +
->  scripts/clang-tools/Makefile.clang-tools      | 23 ++++++
->  .../{ => clang-tools}/gen_compile_commands.py |  0
->  scripts/clang-tools/run-clang-tools.py        | 74 +++++++++++++++++++
->  5 files changed, 101 insertions(+)
->  create mode 100644 scripts/clang-tools/Makefile.clang-tools
->  rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
->  create mode 100755 scripts/clang-tools/run-clang-tools.py
+> On i386 and x86_64 I have tested the following configurations:
+> * zstd compressed kernel and a separate zstd compressed initramfs
+> * zstd compressed kernel and a built-in zstd compressed initramfs
+> * gzip compressed kernel and a separate gzip compressed initramfs
+> * gzip compressed kernel and a built-in gzip compressed initramfs
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1d4aa7f942de..a444564e5572 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4198,6 +4198,7 @@ W:        https://clangbuiltlinux.github.io/
->  B:     https://github.com/ClangBuiltLinux/linux/issues
->  C:     irc://chat.freenode.net/clangbuiltlinux
->  F:     Documentation/kbuild/llvm.rst
-> +F:     scripts/clang-tools/
->  K:     \b(?i:clang|llvm)\b
+> On arm and aarch64 I tested the same configurations, except that the kernel is
+> always gzip compressed.
 >
->  CLEANCACHE API
-> diff --git a/Makefile b/Makefile
-> index fe0164a654c7..3e2df010b342 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -747,6 +747,7 @@ KBUILD_CFLAGS       += $(call cc-option,-fno-allow-store-data-races)
+> Facebook has been using v1 of these patches on x86_64 devices for more than 6
+> months. When we switched from a xz compressed initramfs to a zstd compressed
+> initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
+> switched from a xz compressed kernel to a zstd compressed kernel we saved 2
+> seconds of boot time.
 >
->  include scripts/Makefile.kcov
->  include scripts/Makefile.gcc-plugins
-> +include scripts/clang-tools/Makefile.clang-tools
+> Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
+> When we switched from an lzma compressed initramfs to a zstd compressed initramfs
+> decompression time shrunk from 27 seconds to 8 seconds.
 >
->  ifdef CONFIG_READABLE_ASM
->  # Disable optimizations that make assembler listings hard to read.
-> @@ -1543,6 +1544,8 @@ help:
->         @echo  '  export_report   - List the usages of all exported symbols'
->         @echo  '  headerdep       - Detect inclusion cycles in headers'
->         @echo  '  coccicheck      - Check with Coccinelle'
-> +       @echo  '  clang-analyzer  - Check with clang static analyzer'
-> +       @echo  '  clang-tidy      - Check with clang-tidy'
->         @echo  ''
->         @echo  'Tools:'
->         @echo  '  nsdeps          - Generate missing symbol namespace dependencies'
-> diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
-> new file mode 100644
-> index 000000000000..5c9d76f77595
-> --- /dev/null
-> +++ b/scripts/clang-tools/Makefile.clang-tools
-> @@ -0,0 +1,23 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (C) Google LLC, 2020
-> +#
-> +# Author: Nathan Huckleberry <nhuck@google.com>
-> +#
-> +PHONY += clang-tidy
-> +clang-tidy:
-> +ifdef CONFIG_CC_IS_CLANG
-> +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
-> +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
-> +else
-> +       $(error clang-tidy requires CC=clang)
-> +endif
-> +
-> +PHONY += clang-analyzer
-> +clang-analyzer:
-> +ifdef CONFIG_CC_IS_CLANG
-> +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
-> +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-analyzer compile_commands.json
-> +else
-> +       $(error clang-analyzer requires CC=clang)
-> +endif
-> diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> similarity index 100%
-> rename from scripts/gen_compile_commands.py
-> rename to scripts/clang-tools/gen_compile_commands.py
-> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
-> new file mode 100755
-> index 000000000000..fa7655c7cec0
-> --- /dev/null
-> +++ b/scripts/clang-tools/run-clang-tools.py
-> @@ -0,0 +1,74 @@
-> +#!/usr/bin/env python
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (C) Google LLC, 2020
-> +#
-> +# Author: Nathan Huckleberry <nhuck@google.com>
-> +#
-> +"""A helper routine run clang-tidy and the clang static-analyzer on
-> +compile_commands.json.
-> +"""
-> +
-> +import argparse
-> +import json
-> +import multiprocessing
-> +import os
+> The zstd compressed kernel is smaller than the gzip compressed kernel but larger
+> than the xz or lzma compressed kernels, and it decompresses faster than
+> everything except lz4. See the table below for the measurement of an x86_64
+> kernel ordered by compressed size:
+>
+> algo    size
+> xz       6,509,792
+> lzma     6,856,576
+> zstd     7,399,157
+> gzip     8,522,527
+> bzip     8,629,603
+> lzo      9,808,035
+> lz4     10,705,570
+> none    32,565,672
+>
+> Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
+>
+> v1 -> v2:
+> - Rebase
+>   - usr/Makefile and init/Kconfig were changed so the patches were updated
+> - No functional changes except to rebase
+> - Split the patches up into smaller chunks
+>
+> v2 -> v3:
+> - Add *.zst to the .gitignore in patch 8
+> - Style nits in patch 3
+> - Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
+>   1 through 3
+>
+> v3 -> v4:
+> - Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
+>   With this change I switch from malloc() to large_malloc() for the
+>   buffers.
+> - Increase the maximum allowed window size from 8 MB to 128 MB, which is
+>   the max that zstd in the kernel supports.
+>
+> v4 -> v5:
+> - Update commit message for patch 6 in response to comments
+> - Rebase onto next-20200408
+>
+> v5 -> v6:
+> - Rebase onto v5.8-rc4
+>
+> v6 -> v7:
+> - (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
+> - (2/8) Drop 'lib: prepare xxhash for preboot environment'
+> - (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
+> - (3/7) Update zstd compression cmd to follow other compressors
+> - (3/7) Add zstd22 cmd
+> - (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
+>
+> v7 -> v8:
+> - (2/7) Don't define '__DISABLE_EXPORTS'
+> - (6/7) Define '__DISABLE_EXPORTS' in misc.c
+>
+> v8 -> v9:
+> - Rebase onto v5.8-rc7
+> - (2/7) Fix nits about comment style & typos
+> - (3/7) Fix typo in init/Kconfig description
+> - (6/7) Explain BOOT_HEAP_SIZE increase and define __DISABLE_EXPORTS in
+>         Makefile KBUILD_CFLAGS and remove definitions from kaslr.c and misc.c
+>
 
-^ unused import.  Maybe Masahiro would be so kind as to drop that line
-for you when merging v7?
+Tested v9 on top of Linux v5.8-rc7 with these combinations:
+#1: GCC v10.2 and GNU/ld v2.35
+#2: LLVM v11.0.0-rc1 (LLVM=1 and LLVM_IAS=1)
 
-That said, I hammered on this in testing, and it now LGTM.
+- Sedat -
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
-For testing, I did `make clean` for x86/arm/arm64/powerpc, then a
-defconfig (pseries_defconfig for ppc) build, then:
-$ make -j71 LLVM=1 clang-tidy 2> log.txt
-$ grep -e linuxkernel- -e clang- log.txt | sort -u | cut -d '[' -f 2 |
-sort | uniq -c
-$ make -j71 LLVM=1 clang-analyzer 2> log.txt
-$ grep -e linuxkernel- -e clang- log.txt | sort -u | cut -d '[' -f 2 |
-sort | uniq -c
-
-Looks like it's already finding a couple bugs.  I'll probably disable
-clang-diagnostic-* in a follow up, as those seem pretty noisy, though
-clang-diagnostic-incompatible-pointer-types will likely be of interest
-for the CFI work.
-
-Thanks for all of the work that went into this, and tolerating my pedantry.
-
-> +import subprocess
-> +import sys
-> +
-> +
-> +def parse_arguments():
-> +    """Set up and parses command-line arguments.
-> +    Returns:
-> +        args: Dict of parsed args
-> +        Has keys: [path, type]
-> +    """
-> +    usage = """Run clang-tidy or the clang static-analyzer on a
-> +        compilation database."""
-> +    parser = argparse.ArgumentParser(description=usage)
-> +
-> +    type_help = "Type of analysis to be performed"
-> +    parser.add_argument("type",
-> +                        choices=["clang-tidy", "clang-analyzer"],
-> +                        help=type_help)
-> +    path_help = "Path to the compilation database to parse"
-> +    parser.add_argument("path", type=str, help=path_help)
-> +
-> +    return parser.parse_args()
-> +
-> +
-> +def init(l, a):
-> +    global lock
-> +    global args
-> +    lock = l
-> +    args = a
-> +
-> +
-> +def run_analysis(entry):
-> +    # Disable all checks, then re-enable the ones we want
-> +    checks = "-checks=-*,"
-> +    if args.type == "clang-tidy":
-> +        checks += "linuxkernel-*"
-> +    else:
-> +        checks += "clang-analyzer-*"
-> +    p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
-> +                       stdout=subprocess.PIPE,
-> +                       stderr=subprocess.STDOUT,
-> +                       cwd=entry["directory"])
-> +    with lock:
-> +        sys.stderr.buffer.write(p.stdout)
-> +
-> +
-> +def main():
-> +    args = parse_arguments()
-> +
-> +    lock = multiprocessing.Lock()
-> +    pool = multiprocessing.Pool(initializer=init, initargs=(lock, args))
-> +    # Read JSON data into the datastore variable
-> +    with open(args.path, "r") as f:
-> +        datastore = json.load(f)
-> +        pool.map(run_analysis, datastore)
-> +
-> +
-> +if __name__ == "__main__":
-> +    main()
-> --
-> 2.28.0.rc0.142.g3c755180ce-goog
+> Best,
+> Nick Terrell
+>
+> Adam Borowski (1):
+>   .gitignore: add ZSTD-compressed files
+>
+> Nick Terrell (6):
+>   lib: prepare zstd for preboot environment
+>   lib: add zstd support to decompress
+>   init: add support for zstd compressed kernel
+>   usr: add support for zstd compressed initramfs
+>   x86: bump ZO_z_extra_bytes margin for zstd
+>   x86: Add support for ZSTD compressed kernel
+>
+>  .gitignore                        |   1 +
+>  Documentation/x86/boot.rst        |   6 +-
+>  Makefile                          |   3 +-
+>  arch/x86/Kconfig                  |   1 +
+>  arch/x86/boot/compressed/Makefile |   6 +-
+>  arch/x86/boot/compressed/kaslr.c  |   7 -
+>  arch/x86/boot/compressed/misc.c   |   4 +
+>  arch/x86/boot/header.S            |   8 +-
+>  arch/x86/include/asm/boot.h       |  11 +-
+>  include/linux/decompress/unzstd.h |  11 +
+>  init/Kconfig                      |  15 +-
+>  lib/Kconfig                       |   4 +
+>  lib/Makefile                      |   1 +
+>  lib/decompress.c                  |   5 +
+>  lib/decompress_unzstd.c           | 345 ++++++++++++++++++++++++++++++
+>  lib/zstd/fse_decompress.c         |   9 +-
+>  lib/zstd/zstd_internal.h          |  14 +-
+>  scripts/Makefile.lib              |  22 ++
+>  usr/Kconfig                       |  20 ++
+>  usr/Makefile                      |   1 +
+>  20 files changed, 468 insertions(+), 26 deletions(-)
+>  create mode 100644 include/linux/decompress/unzstd.h
+>  create mode 100644 lib/decompress_unzstd.c
 >
 > --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200728004736.3590053-1-nhuck%40google.com.
-
-
-
--- 
-Thanks,
-~Nick Desaulniers
+> 2.27.0
+>
