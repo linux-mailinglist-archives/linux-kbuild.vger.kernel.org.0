@@ -2,94 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5FE922FF8D
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 04:24:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 557B723102B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 18:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbgG1CYM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 27 Jul 2020 22:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
+        id S1731580AbgG1Q4q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jul 2020 12:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726269AbgG1CYM (ORCPT
+        with ESMTP id S1731306AbgG1Q4p (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 27 Jul 2020 22:24:12 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1730C061794;
-        Mon, 27 Jul 2020 19:24:11 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id x69so17385261qkb.1;
-        Mon, 27 Jul 2020 19:24:11 -0700 (PDT)
+        Tue, 28 Jul 2020 12:56:45 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9B67C0619D4
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jul 2020 09:56:44 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id l4so21297683ejd.13
+        for <linux-kbuild@vger.kernel.org>; Tue, 28 Jul 2020 09:56:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lIlJ51rGXRMUnJksSFkB+ZvhhBvB4xCOXzVc7Skm02k=;
-        b=Zqc3wYsRnhwYE3AP5dWsxTAUSpUOqKMdI1SbLqN9V1qpJFZtvauPY1OOFP32EptMGh
-         9THvCr+lwyhvYarjR1SlJb4RH53buPSxYQJaATgiJBayCcAIO0Pv4ZJ2T6WD8GEC1HM1
-         mp5/24o1x3GPSlUtllsXCvX9nRhaQ1AW++V5RM+XhF31rYquGMI8MstAyUoiUm846Enj
-         /UPBuO89A6RBNZ2Pt/pxHAQOSxJii4O5S57uCUUaUi4B4vHJevIkiwwaGW6vVWhGJN5G
-         UVohTbj6GuniOog/anNGi6TceCzmGFX8T15smHJo1Eq24NzQVuL2HlllmMDm1etEVBwn
-         dGZQ==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=YqljJR74+Mn7SppABFl/S/+hKBpdw+21MScTQOdBTOE=;
+        b=lV7+TqzjxoGceDfe6LGN3Ae63gOeC2fiafu3RVtn3n9OvQujyBC7h6Pa35EQrNjIM9
+         SBq6F0KiK0gfUyUMZIg7nzFQt2d3/xeo1cnOYTFRA/yIf+f1wOb5mQfu2fWla2Ova2vv
+         gDVbejsy/SvwzA0CLIMSxnOklpzBvt23FHYAyD0QZxOA/GY/dNh5UbrcP2A5lVqeWNbR
+         /tz9Qziq88HE5hKswpRvbS31xfwMCXRsYIpUODRBB0QPfx0weACZiuLaqlOwQ8ypCeH8
+         PDOuuMCRKyO9CM/FXwoebiuaDH607zJLR7nGSGaWiAQSCp+NGk41FRpGq8sVZ8iLTxlA
+         FAjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=lIlJ51rGXRMUnJksSFkB+ZvhhBvB4xCOXzVc7Skm02k=;
-        b=MA484JNnoAgwloDB42EKavEC7nUd/pPPeA1tdCHZdz16rh0Ur4i9sxGsegERTawWny
-         48xyBp0ZX2Dz+0qRhWlC6LkARqVDGMWtaf/Vy5CHDai2O9AbNqeQd24ldX9YsHKJD33p
-         3mvg0s0cE5Bd1rBfEIegPiPh0WKV4O6DQpUJJBNnUmAK3eMNbtUtFiwGY0JMzRbn/hmu
-         V1VQjVceBsR45/CWqksQIEujyKASmVx8CPUB6gAtOoBOfZI+vvafqJq82JonnkqNCw2s
-         FMmJtRvhZPmb1F/uooDKqpayIPeFL9t5pm3bm7lCF3wIQSPQamevVBJLuZOSp6l7Igku
-         c8cA==
-X-Gm-Message-State: AOAM533VOKPyT6n4zgdTOxRi29rdJHhk1fX2n6w3xtxAnUTDPOlB3QxO
-        AHeNWfJP7+f7TJ50XchIkE8=
-X-Google-Smtp-Source: ABdhPJzFokcEU90QjcaaExhllaSgZzo4ReUkGE1Cymq3kb1TSqEdcR8HlaIdS6xD/WlZvgI2i5+Qyw==
-X-Received: by 2002:a05:620a:227:: with SMTP id u7mr25613448qkm.75.1595903051099;
-        Mon, 27 Jul 2020 19:24:11 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id 103sm11598103qta.31.2020.07.27.19.24.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2020 19:24:10 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Mon, 27 Jul 2020 22:24:08 -0400
-To:     Nick Terrell <nickrterrell@gmail.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-        linux-kbuild@vger.kernel.org, x86@kernel.org,
-        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
-        Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Norbert Lange <nolange79@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alex Xu <alex_y_xu@yahoo.ca>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Nick Terrell <terrelln@fb.com>
-Subject: Re: [PATCH v9 6/7] x86: Add support for ZSTD compressed kernel
-Message-ID: <20200728022408.GA3553606@rani.riverdale.lan>
-References: <20200727230606.906598-1-nickrterrell@gmail.com>
- <20200727230606.906598-7-nickrterrell@gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=YqljJR74+Mn7SppABFl/S/+hKBpdw+21MScTQOdBTOE=;
+        b=p1vACZYya6R+MMh2ESsVeofS8MIlYldiGNSWlMSIrP84aZVlLDtRQnRNpJVoPJdk9J
+         /qKQehE1d227shQA6+pB4RETT457KRWqN+eMJ2cO295Oj+xeV6g9MPMklIb9VdFr6Y/P
+         k1AUYpYkxxRQMV4Xh3kiAb6Jw0qczifapBoLhySIA3h6axv1efS8mtqqJ4oDGKcItqG+
+         N6RYBNr7mgaganJflthM2qWy6XrZ3tsRrZBXg3ECVstcCVgHx9+YRew2yze3Cgm5PyYw
+         yDQE0nKrD8QWN5Rw+cZXZpWd1zKPkfrLV/hpF0PE+7MPMMTPqSPztbbIwt/o94EtkBIa
+         IPaA==
+X-Gm-Message-State: AOAM531lG5bNnqi9RCQlxig2QnXPzPNyJxzVh/1YCOaSmqddJAbyFZPp
+        gIfPn0RLcMIz6sCmOXIvKWGVIEPCpRHJoESF3sY=
+X-Google-Smtp-Source: ABdhPJyD+qobOKVu+X8+1AME7mvZ7Tyyj3L9BOKohhAIRnTEH/cKzWAhjm8THBy3gXtB9glcDk36e2LkhcaTqCtKyq4=
+X-Received: by 2002:a17:906:ca4d:: with SMTP id jx13mr18490835ejb.548.1595955403537;
+ Tue, 28 Jul 2020 09:56:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200727230606.906598-7-nickrterrell@gmail.com>
+Received: by 2002:a50:8a99:0:0:0:0:0 with HTTP; Tue, 28 Jul 2020 09:56:43
+ -0700 (PDT)
+Reply-To: mrsnicole.france1958@outlook.com
+From:   Mrs Nicole Marois Benoite <mrsnicolefrance1958@gmail.com>
+Date:   Tue, 28 Jul 2020 09:56:43 -0700
+Message-ID: <CAJKBOPmG1o==twVStViQzZEmz2Lyb3D3MsODbQT1nFq_vz0HSg@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 04:06:05PM -0700, Nick Terrell wrote:
-> From: Nick Terrell <terrelln@fb.com>
-> 
-> * Define __DISABLE_EXPORTS in misc.c
-...
-> __DISABLE_EXPORTS is defined in misc.c instead of the Makefile because
-> kaslr.c defines __DISABLE_EXPORTS, and defining it in the Makefile gives
-> duplicate definition warnings.
-> 
-I think the commit message missed getting updated?
+Dear Beloved
 
-Thanks.
+I am Mrs Nicole Benoite Marois and i have been suffering from ovarian
+cancer disease and the doctor says that i have just few days to leave.
+I am from (Paris) France but based in Africa Burkina Faso since eight
+years ago as a business woman dealing with gold exportation.
+
+Now that i am about to end the race like this, without any family
+members and no child. I have $3 Million US DOLLARS in Africa
+Development Bank (ADB) Burkina Faso which i instructed the bank to remit and
+give to Orphanage & Teaching Volunteer Work in Burkina Faso.But my
+mind is not at
+rest because i am writing this letter now through the help of my
+computer beside my sick bed.
+
+I also have $4.5 Million US Dollars at Eco-Bank here in Burkina Faso
+and i instructed the bank to transfer the fund to you as foreigner
+that will apply to the bank after i have gone, that they should
+release the fund to him/her,but you will assure me that you will take
+50% of the fund and give 50% to the orphanages home in your country
+for my heart to rest.
+
+Respond to me immediately via my private email address
+(mrsnicole.france1958@outlook.com) for further details since I have just
+few days to end my life due to the ovarian cancer disease, hoping you
+will understand my point
+
+Yours fairly friend,
+
+Mrs Nicole Benoite Marois.
