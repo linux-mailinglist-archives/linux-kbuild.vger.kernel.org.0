@@ -2,102 +2,122 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 972532323A6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 19:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66D9B2326AF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 23:18:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbgG2Rqn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 29 Jul 2020 13:46:43 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:32170 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgG2Rqn (ORCPT
+        id S1726824AbgG2VSU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Jul 2020 17:18:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726581AbgG2VSU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Jul 2020 13:46:43 -0400
-Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 06THkLYL020666;
-        Thu, 30 Jul 2020 02:46:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 06THkLYL020666
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596044781;
-        bh=80NhEGhFnmq+LfOA+LEcAhYXbr9MxvJGqlh6jZrySBk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Yu+P3IsdxyXhfbKXHNFyUz3t3xywcMI5rvCA4aI0RoxoeFRMF9nRec3Hk6IDZo7p6
-         iYzc1twLphxG9fEL4CLi01f3cx0mGLlKY1VyZWJkYGPBgCo5LG/ayrQsS9W3+NOBJr
-         i1TaHSC0fDlfTgJfwYfPnCzK0mShf1W+xfqV3l9I4XzqJKF4mbd2Op51AnkFk1cXjY
-         dIe9cmQ1by5PS3TrbdvvpduAM36p/ZaJhL24HSEb8uzE/n8eCz0tm6ydwi67YiYxpR
-         2J5s6Rp8kgkBMai7KEzjyFd50cJgDlRtrv5+9HM2AvWZvPpo3FzQtETipX6zwXgb/X
-         tsRgZOjbSCOBA==
-X-Nifty-SrcIP: [126.25.67.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Revert "kconfig: qconf: Change title for the item window"
-Date:   Thu, 30 Jul 2020 02:46:17 +0900
-Message-Id: <20200729174617.169319-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        Wed, 29 Jul 2020 17:18:20 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161F9C0619D2
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Jul 2020 14:18:20 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id f9so2878920pju.4
+        for <linux-kbuild@vger.kernel.org>; Wed, 29 Jul 2020 14:18:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=g0KUC06W8wfVDa5/aZnaCNDXj9N7Ln444BL6AjoPMxY=;
+        b=Ov00EPcpcds4iXOLfFieegwR7hRlUtJeKUY5QQkoF0Jh9tZT4y47ON4fxaZEsShZVi
+         fUtVBaFg6UI206ysebvZU7XlJKrNCGUtO3b3dYfZbBpeEv2+k58TFlsv9W2l+H5RlU/x
+         xMnrIcH5vYD2zHkhisMgP8KYicUzt69+3EeaY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=g0KUC06W8wfVDa5/aZnaCNDXj9N7Ln444BL6AjoPMxY=;
+        b=CT2jToJPje8fk7ZDMSlvCggSZwKx+DSmcbO1N5DDbWNeZiVwWQk4+F6HYS8MMnFpJB
+         utpbhsMB4SPWRVmozNDJHQvzi9v5Rw/XwLwcqbcP/CZnRPNABbHl/ggx2pjGtOzE1GZi
+         5Y9U+murDc35L9+ySzurXlGQmkLAbjVQOdLTLOPIIkWbASNxeAY4XSR6gh4Bfx+0eeAC
+         FZVXusnUSbMwUH9kNkPf8k/WyKwwTv7UQObZlxXCwV2uj1vFiJIW0sRXlIDLnvFVqQ9d
+         SbAFIx66D9jl939zB44fx3lukUrBWSb62ovMaqWIf6IDC2VW3nQ09rSH47Ij9aE/Z5+H
+         P87A==
+X-Gm-Message-State: AOAM531Mat2rSxKi/JthaLwh+OPGg6LYbqibN+soQ/z5aIkEegMFfw0g
+        4JoXRbx90LlKwBTFRzcUoWIExw==
+X-Google-Smtp-Source: ABdhPJwi4J+xm/nvozPDUCQnat7NJCVcTCoGI36EfCZlyYLjp9/7AClfhzP1RAFLsh2ytY1lCy1vVg==
+X-Received: by 2002:a17:90a:3488:: with SMTP id p8mr12222748pjb.211.1596057499443;
+        Wed, 29 Jul 2020 14:18:19 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h63sm2367630pjb.29.2020.07.29.14.18.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 14:18:18 -0700 (PDT)
+Date:   Wed, 29 Jul 2020 14:18:17 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, Emese Revfy <re.emese@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        kernel-hardening@lists.openwall.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] kbuild: move shared library build rules to
+ scripts/gcc-plugins/Makefile
+Message-ID: <202007291401.A50E25BB@keescook>
+References: <20200729031537.37926-1-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200729031537.37926-1-masahiroy@kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This reverts commit 5752ff07fd90d764d96e3c586cc95c09598abfdd.
+On Wed, Jul 29, 2020 at 12:15:36PM +0900, Masahiro Yamada wrote:
+> The shared library build rules are currently implemented in
+> scripts/Makefile.host, but actually GCC-plugin is the only user of
+> them. Hence, they do not need to be treewide available.
 
-It added pointless dead code to ConfigList:ConfigList().
+Are none of the VDSOs intending to use these rules?
 
-The constructor of ConfigList has the initializer, mode(singleMode).
+> Move all the relevant build rules to scripts/gcc-plugins/Makefile.
+> 
+> I also optimized the build steps so *.so is directly built from .c
+> because every upstream plugin is compiled from a single source file.
+> 
+> I am still keeping the infrastructure to build a plugin from multiple
+> files because Kees suggested to do so in my previous attempt.
+> (https://lkml.org/lkml/2019/1/11/1107)
+> 
+> If the plugin, foo.so, is compiled from two files foo.c and foo2.c,
+> then you can do like follows:
+> 
+>   foo-objs := foo.o foo2.o
+> 
+> Single-file plugins do not need the *-objs notation.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-    if (mode == symbolMode)
-           setHeaderLabels(QStringList() << "Item" << "Name" << "N" << "M" << "Y" << "Value");
-    else
-           setHeaderLabels(QStringList() << "Option" << "Name" << "N" << "M" << "Y" << "Value");
+But, yeah, sure!
 
-... always takes the else part.
+Acked-by: Kees Cook <keescook@chromium.org>
 
-The change to ConfigList::updateSelection() is strange too.
-When you click the split view icon for the first time, the titles in
-both windows show "Option". After you click something in the right
-window, the title suddenly changes to "Item".
+Unrelated, but I do note that objtool maybe has the wrong indentation,
+path name reporting, and tool names (HOSTLD vs CC)?
 
-ConfigList::updateSelection() is not the right place to do this,
-at least. It was not a good idea, I think.
+...
+  HOSTCC  scripts/asn1_compiler
+  HOSTCC  scripts/extract-cert
+  HOSTCC  scripts/genksyms/genksyms.o
+  YACC    scripts/genksyms/parse.tab.[ch]
+  LEX     scripts/genksyms/lex.lex.c
+  DESCEND  objtool
+  HOSTCXX scripts/gcc-plugins/cyc_complexity_plugin.so
+  HOSTCXX scripts/gcc-plugins/latent_entropy_plugin.so
+  HOSTCXX scripts/gcc-plugins/structleak_plugin.so
+  GENSEED scripts/gcc-plugins/randomize_layout_seed.h
+  HOSTCXX scripts/gcc-plugins/stackleak_plugin.so
+  HOSTCC  scripts/genksyms/parse.tab.o
+  HOSTCC  scripts/genksyms/lex.lex.o
+  HOSTCC   /home/kees/src/linux-build/plugins/tools/objtool/fixdep.o
+  HOSTLD  arch/x86/tools/relocs
+  HOSTLD   /home/kees/src/linux-build/plugins/tools/objtool/fixdep-in.o
+  LINK     /home/kees/src/linux-build/plugins/tools/objtool/fixdep
+  CC       /home/kees/src/linux-build/plugins/tools/objtool/exec-cmd.o
+  CC       /home/kees/src/linux-build/plugins/tools/objtool/help.o
+  CC       /home/kees/src/linux-build/plugins/tools/objtool/weak.o
+...
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/kconfig/qconf.cc | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
-
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 1c61c768b99e..dfd0b5863a9b 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -308,10 +308,7 @@ ConfigList::ConfigList(ConfigView* p, const char *name)
- 	setVerticalScrollMode(ScrollPerPixel);
- 	setHorizontalScrollMode(ScrollPerPixel);
- 
--	if (mode == symbolMode)
--		setHeaderLabels(QStringList() << "Item" << "Name" << "N" << "M" << "Y" << "Value");
--	else
--		setHeaderLabels(QStringList() << "Option" << "Name" << "N" << "M" << "Y" << "Value");
-+	setHeaderLabels(QStringList() << "Option" << "Name" << "N" << "M" << "Y" << "Value");
- 
- 	connect(this, SIGNAL(itemSelectionChanged(void)),
- 		SLOT(updateSelection(void)));
-@@ -392,11 +389,6 @@ void ConfigList::updateSelection(void)
- 	struct menu *menu;
- 	enum prop_type type;
- 
--	if (mode == symbolMode)
--		setHeaderLabels(QStringList() << "Item" << "Name" << "N" << "M" << "Y" << "Value");
--	else
--		setHeaderLabels(QStringList() << "Option" << "Name" << "N" << "M" << "Y" << "Value");
--
- 	if (selectedItems().count() == 0)
- 		return;
- 
 -- 
-2.25.1
-
+Kees Cook
