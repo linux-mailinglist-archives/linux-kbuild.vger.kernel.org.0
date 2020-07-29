@@ -2,127 +2,241 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEF4323178D
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 04:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 793852317FC
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 05:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731030AbgG2CP1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jul 2020 22:15:27 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:39871 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728401AbgG2CP0 (ORCPT
+        id S1726290AbgG2DQs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jul 2020 23:16:48 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:63692 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726245AbgG2DQs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jul 2020 22:15:26 -0400
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 06T2F6UI016692;
-        Wed, 29 Jul 2020 11:15:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 06T2F6UI016692
+        Tue, 28 Jul 2020 23:16:48 -0400
+Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 06T3Fi04000857;
+        Wed, 29 Jul 2020 12:15:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 06T3Fi04000857
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1595988907;
-        bh=Qkn+kiJdhteGcggEnh5A4hePD7ExGuNIIh74wMoDJJU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=umve6b0p6HKToioLtP4Ziv+K/KzsD3boGM9ulTtcboyoMyJHaON5gLb5ObRIUow0F
-         o+qfyy6mVaJ+wbsg1u7+sCXM4GBrcHyGZYFeX6ceuwqMQPP8bZc5c1jsgZI0eQTyRg
-         YUu56A2L4EOAnnVU92vWDt+/Wv5E+drhUELngqddl/3WndB6zG1xCsg80UzUT+/Cbe
-         qdbsxDjLFx+eAwr8m1lhtwg4tyd4CIgRAfPztSJSunxLM9AQpesD/qmRbcYx8hVrdn
-         LZYabkaeEhp9sjUa+xtjZh1kBsOK1U7NnYy2nXBcP031DaFpzl9aZFXJFWXT0n+DAm
-         istxPBXYR1iFA==
-X-Nifty-SrcIP: [209.85.217.52]
-Received: by mail-vs1-f52.google.com with SMTP id k7so11294661vso.2;
-        Tue, 28 Jul 2020 19:15:07 -0700 (PDT)
-X-Gm-Message-State: AOAM531lLNpZ7Pz4Kz1RjZ+Vep1p7CD/J3ThCUTghxbS6Rgn33qLuC0/
-        8gjqeUIToPI3HU42YUEHdMg9Dlhhx0T7xwFSowA=
-X-Google-Smtp-Source: ABdhPJxHS/wdsjCJ01OGRsbq6xgw9iJxUiIoq5iqy8Ryces8bJ+zBV7WGCZ5ZFIDG281wY0aBfri71iy4As6H59X2ZQ=
-X-Received: by 2002:a67:de09:: with SMTP id q9mr22428084vsk.179.1595988906252;
- Tue, 28 Jul 2020 19:15:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <DB7PR08MB380100FDD4D1B11062FA57819C690@DB7PR08MB3801.eurprd08.prod.outlook.com>
-In-Reply-To: <DB7PR08MB380100FDD4D1B11062FA57819C690@DB7PR08MB3801.eurprd08.prod.outlook.com>
+        s=dec2015msa; t=1595992544;
+        bh=Ez4pjpjvvIf+iOFLJFngv++ZRsHADJifki9W/RGZoc4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=f8pOiQdRUX+cSusv4eK2PG62/n0Xu+xTyUHSrNAnrnXNo2v/GNZtz+J3k8kpIKpgX
+         nhrhcN2p41k92GNLtnpCFdYvAZNIksDandTnSM3Ltxjp3wKhUb5H1LXZCD0+j6MoXl
+         98D2T8L6j8HSj6Un1yZpsIPJgn1h0W76a+GhdH+ZQhU1ENQuMfQ0IdxH7/vinlxpxC
+         n/hqLFEeWnXysyYLxyUc/R+MxQ3qAmXyj0aX4peZ+nlbX/RZGtWS+CJ1A6jk2ofMS0
+         kDgRHmKmT9QYbJwIOD5N5JUi8gzRvdlhzA+HwCkfeqRehhPaLIKUnDFgmrQH3f5ddW
+         zMB8Prlyi+LBQ==
+X-Nifty-SrcIP: [126.25.67.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 29 Jul 2020 11:14:29 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQm87ykKi=OfToZRy2JtNt0OX3n6kXpNxNW5W7HREh4NA@mail.gmail.com>
-Message-ID: <CAK7LNAQm87ykKi=OfToZRy2JtNt0OX3n6kXpNxNW5W7HREh4NA@mail.gmail.com>
-Subject: Re: linux-5.8-rc4/scripts/kconfig/qconf.cc: 2 * bad delete ?
-To:     David Binderman <dcb314@hotmail.com>
-Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Emese Revfy <re.emese@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        kernel-hardening@lists.openwall.com, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] kbuild: move shared library build rules to scripts/gcc-plugins/Makefile
+Date:   Wed, 29 Jul 2020 12:15:36 +0900
+Message-Id: <20200729031537.37926-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Jul 6, 2020 at 6:22 PM David Binderman <dcb314@hotmail.com> wrote:
->
-> Hello there,
->
-> linux-5.8-rc4/scripts/kconfig/qconf.cc:1242:10: error: Mismatching allocation and deallocation: data [mismatchAllocDealloc]
-> linux-5.8-rc4/scripts/kconfig/qconf.cc:1255:10: error: Mismatching allocation and deallocation: data [mismatchAllocDealloc]
->
-> new [] needs delete [].
->
-> Regards
->
-> David Binderman
+The shared library build rules are currently implemented in
+scripts/Makefile.host, but actually GCC-plugin is the only user of
+them. Hence, they do not need to be treewide available.
 
+Move all the relevant build rules to scripts/gcc-plugins/Makefile.
 
-Thanks for the report, and sorry for the delay.
+I also optimized the build steps so *.so is directly built from .c
+because every upstream plugin is compiled from a single source file.
 
-Will you send a patch, or shall I do it?
+I am still keeping the infrastructure to build a plugin from multiple
+files because Kees suggested to do so in my previous attempt.
+(https://lkml.org/lkml/2019/1/11/1107)
 
+If the plugin, foo.so, is compiled from two files foo.c and foo2.c,
+then you can do like follows:
 
-BTW, I guess those error messages are from cppcheck.
+  foo-objs := foo.o foo2.o
 
+Single-file plugins do not need the *-objs notation.
 
-Could you please teach me how to reproduce them?
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
+ scripts/Makefile.build       |  4 +--
+ scripts/Makefile.clean       |  3 +-
+ scripts/Makefile.host        | 30 ++----------------
+ scripts/gcc-plugins/Makefile | 61 +++++++++++++++++++++++++++++-------
+ 4 files changed, 55 insertions(+), 43 deletions(-)
 
-I ran cppcheck against qconf.cc
-but no success to check it.
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index 2e8810b7e5ed..d41c1cd453b9 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -45,8 +45,8 @@ include $(kbuild-file)
+ 
+ include scripts/Makefile.lib
+ 
+-# Do not include host rules unless needed
+-ifneq ($(hostprogs)$(hostcxxlibs-y)$(hostcxxlibs-m),)
++# Do not include hostprogs rules unless needed
++ifneq ($(hostprogs),)
+ include scripts/Makefile.host
+ endif
+ 
+diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
+index e2c76122319d..3cdf31218198 100644
+--- a/scripts/Makefile.clean
++++ b/scripts/Makefile.clean
+@@ -29,8 +29,7 @@ subdir-ymn	:= $(addprefix $(obj)/,$(subdir-ymn))
+ 
+ __clean-files	:= $(extra-y) $(extra-m) $(extra-)       \
+ 		   $(always) $(always-y) $(always-m) $(always-) $(targets) $(clean-files)   \
+-		   $(hostprogs) $(hostprogs-y) $(hostprogs-m) $(hostprogs-) $(userprogs) \
+-		   $(hostcxxlibs-y) $(hostcxxlibs-m)
++		   $(hostprogs) $(hostprogs-y) $(hostprogs-m) $(hostprogs-) $(userprogs)
+ 
+ __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
+ 
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index c8a4a033dc3e..687ca3f309e9 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -39,7 +39,6 @@ $(obj)/%.tab.c $(obj)/%.tab.h: $(src)/%.y FORCE
+ # They are linked as C++ code to the executable qconf
+ 
+ __hostprogs := $(sort $(hostprogs))
+-host-cxxshlib := $(sort $(hostcxxlibs-y) $(hostcxxlibs-m))
+ 
+ # C code
+ # Executables compiled from a single .c file
+@@ -61,16 +60,11 @@ host-cxxmulti	:= $(foreach m,$(__hostprogs),$(if $($(m)-cxxobjs),$(m)))
+ # C++ Object (.o) files compiled from .cc files
+ host-cxxobjs	:= $(sort $(foreach m,$(host-cxxmulti),$($(m)-cxxobjs)))
+ 
+-# Object (.o) files used by the shared libaries
+-host-cxxshobjs	:= $(sort $(foreach m,$(host-cxxshlib),$($(m:.so=-objs))))
+-
+ host-csingle	:= $(addprefix $(obj)/,$(host-csingle))
+ host-cmulti	:= $(addprefix $(obj)/,$(host-cmulti))
+ host-cobjs	:= $(addprefix $(obj)/,$(host-cobjs))
+ host-cxxmulti	:= $(addprefix $(obj)/,$(host-cxxmulti))
+ host-cxxobjs	:= $(addprefix $(obj)/,$(host-cxxobjs))
+-host-cxxshlib	:= $(addprefix $(obj)/,$(host-cxxshlib))
+-host-cxxshobjs	:= $(addprefix $(obj)/,$(host-cxxshobjs))
+ 
+ #####
+ # Handle options to gcc. Support building with separate output directory
+@@ -136,25 +130,5 @@ quiet_cmd_host-cxxobjs	= HOSTCXX $@
+ $(host-cxxobjs): $(obj)/%.o: $(src)/%.cc FORCE
+ 	$(call if_changed_dep,host-cxxobjs)
+ 
+-# Compile .c file, create position independent .o file
+-# Note that plugin capable gcc versions can be either C or C++ based
+-# therefore plugin source files have to be compilable in both C and C++ mode.
+-# This is why a C++ compiler is invoked on a .c file.
+-# host-cxxshobjs -> .o
+-quiet_cmd_host-cxxshobjs	= HOSTCXX -fPIC $@
+-      cmd_host-cxxshobjs	= $(HOSTCXX) $(hostcxx_flags) -fPIC -c -o $@ $<
+-$(host-cxxshobjs): $(obj)/%.o: $(src)/%.c FORCE
+-	$(call if_changed_dep,host-cxxshobjs)
+-
+-# Link a shared library, based on position independent .o files
+-# *.o -> .so shared library (host-cxxshlib)
+-quiet_cmd_host-cxxshlib	= HOSTLLD -shared $@
+-      cmd_host-cxxshlib	= $(HOSTCXX) $(KBUILD_HOSTLDFLAGS) -shared -o $@ \
+-			  $(addprefix $(obj)/, $($(target-stem)-objs)) \
+-			  $(KBUILD_HOSTLDLIBS) $(HOSTLDLIBS_$(target-stem).so)
+-$(host-cxxshlib): FORCE
+-	$(call if_changed,host-cxxshlib)
+-$(call multi_depend, $(host-cxxshlib), .so, -objs)
+-
+-targets += $(host-csingle)  $(host-cmulti) $(host-cobjs)\
+-	   $(host-cxxmulti) $(host-cxxobjs) $(host-cxxshlib) $(host-cxxshobjs)
++targets += $(host-csingle) $(host-cmulti) $(host-cobjs) \
++	   $(host-cxxmulti) $(host-cxxobjs)
+diff --git a/scripts/gcc-plugins/Makefile b/scripts/gcc-plugins/Makefile
+index 4014ba7e2fbd..d66949bfeba4 100644
+--- a/scripts/gcc-plugins/Makefile
++++ b/scripts/gcc-plugins/Makefile
+@@ -1,22 +1,61 @@
+ # SPDX-License-Identifier: GPL-2.0
+-GCC_PLUGINS_DIR := $(shell $(CC) -print-file-name=plugin)
+ 
+-HOST_EXTRACXXFLAGS += -I$(GCC_PLUGINS_DIR)/include -I$(src) -std=gnu++98 -fno-rtti
+-HOST_EXTRACXXFLAGS += -fno-exceptions -fasynchronous-unwind-tables -ggdb
+-HOST_EXTRACXXFLAGS += -Wno-narrowing -Wno-unused-variable -Wno-c++11-compat
+-HOST_EXTRACXXFLAGS += -Wno-format-diag
+-
+-$(obj)/randomize_layout_plugin.o: $(objtree)/$(obj)/randomize_layout_seed.h
++$(obj)/randomize_layout_plugin.so: $(objtree)/$(obj)/randomize_layout_seed.h
+ quiet_cmd_create_randomize_layout_seed = GENSEED $@
+ cmd_create_randomize_layout_seed = \
+   $(CONFIG_SHELL) $(srctree)/$(src)/gen-random-seed.sh $@ $(objtree)/include/generated/randomize_layout_hash.h
+ $(objtree)/$(obj)/randomize_layout_seed.h: FORCE
+ 	$(call if_changed,create_randomize_layout_seed)
+-targets = randomize_layout_seed.h randomize_layout_hash.h
++targets += randomize_layout_seed.h randomize_layout_hash.h
++
++# Build rules for plugins
++#
++# No extra code is needed for single-file plugins.
++# For multi-file plugins, use *-objs syntax to list the objects.
++#
++# If the plugin foo.so is compiled from foo.c and foo2.c, you can do:
++#
++# foo-objs := foo.o foo2.o
++
++always-y += $(GCC_PLUGIN)
+ 
+-hostcxxlibs-y := $(GCC_PLUGIN)
+-always-y := $(hostcxxlibs-y)
++GCC_PLUGINS_DIR = $(shell $(CC) -print-file-name=plugin)
+ 
+-$(foreach p,$(hostcxxlibs-y:%.so=%),$(eval $(p)-objs := $(p).o))
++plugin_cxxflags	= -Wp,-MMD,$(depfile) $(KBUILD_HOSTCXXFLAGS) -fPIC \
++		   -I $(GCC_PLUGINS_DIR)/include -I $(obj) -std=gnu++98 \
++		   -fno-rtti -fno-exceptions -fasynchronous-unwind-tables \
++		   -ggdb -Wno-narrowing -Wno-unused-variable -Wno-c++11-compat \
++		   -Wno-format-diag
+ 
++plugin_ldflags	= -shared
++
++plugin-single	:= $(foreach m, $(GCC_PLUGIN), $(if $($(m:%.so=%-objs)),,$(m)))
++plugin-multi	:= $(filter-out $(plugin-single), $(GCC_PLUGIN))
++plugin-objs	:= $(sort $(foreach m, $(plugin-multi), $($(m:%.so=%-objs))))
++
++targets += $(plugin-single) $(plugin-multi) $(plugin-objs)
+ clean-files += *.so
++
++plugin-single	:= $(addprefix $(obj)/, $(plugin-single))
++plugin-multi	:= $(addprefix $(obj)/, $(plugin-multi))
++plugin-objs	:= $(addprefix $(obj)/, $(plugin-objs))
++
++quiet_cmd_plugin_cxx_so_c = HOSTCXX $@
++      cmd_plugin_cxx_so_c = $(HOSTCXX) $(plugin_cxxflags) $(plugin_ldflags) -o $@ $<
++
++$(plugin-single): $(obj)/%.so: $(src)/%.c FORCE
++	$(call if_changed_dep,plugin_cxx_so_c)
++
++quiet_cmd_plugin_ld_so_o = HOSTLD  $@
++      cmd_plugin_ld_so_o = $(HOSTCXX) $(plugin_ldflags) -o $@ \
++			   $(addprefix $(obj)/, $($(target-stem)-objs))
++
++$(plugin-multi): FORCE
++	$(call if_changed,plugin_ld_so_o)
++$(foreach m, $(notdir $(plugin-multi)), $(eval $(obj)/$m: $(addprefix $(obj)/, $($(m:%.so=%-objs)))))
++
++quiet_cmd_plugin_cxx_o_c = HOSTCXX $@
++      cmd_plugin_cxx_o_c = $(HOSTCXX) $(plugin_cxxflags) -c -o $@ $<
++
++$(plugin-objs): $(obj)/%.o: $(src)/%.c FORCE
++	$(call if_changed_dep,plugin_cxx_o_c)
+-- 
+2.25.1
 
-
-
-
-masahiro@oscar:~/ref/linux$ cppcheck  scripts/kconfig/qconf.cc
-Checking scripts/kconfig/qconf.cc ...
-masahiro@oscar:~/ref/linux$ cppcheck --enable=all scripts/kconfig/qconf.cc
-Checking scripts/kconfig/qconf.cc ...
-scripts/kconfig/qconf.cc:0:0: information: This file is not analyzed.
-Cppcheck failed to extract a valid configuration. Use -v for more
-details. [noValidConfiguration]
-
-^
-nofile:0:0: information: Cppcheck cannot find all the include files
-(use --check-config for details) [missingIncludeSystem]
-
-masahiro@oscar:~/ref/linux$ cppcheck -v --enable=all scripts/kconfig/qconf.cc
-Checking scripts/kconfig/qconf.cc ...
-Defines:
-Undefines:
-Includes:
-Platform:Native
-scripts/kconfig/qconf.cc:0:0: information: This file is not analyzed.
-Cppcheck failed to extract a valid configuration. The tested
-configurations have these preprocessor errors:
-'' : [scripts/kconfig/qconf.moc:12] #error "The header file 'qconf.h'
-doesn't include <QObject>."
-Q_MOC_OUTPUT_REVISION : [scripts/kconfig/qconf.moc:14] #error "This
-file was generated using the moc from 5.12.8. It"
-[noValidConfiguration]
-
-^
-nofile:0:0: information: Cppcheck cannot find all the include files.
-Cppcheck can check the code without the include files found. But the
-results will probably be more accurate if all the include files are
-found. Please check your project's include directories and add all of
-them as include directories for Cppcheck. To see what files Cppcheck
-cannot find use --check-config. [missingIncludeSystem]
-
-
-
-
-
-
-
---
-Best Regards
-Masahiro Yamada
