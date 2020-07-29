@@ -2,46 +2,39 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ABDC231809
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 05:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B02231800
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 05:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbgG2DZJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jul 2020 23:25:09 -0400
-Received: from condef-08.nifty.com ([202.248.20.73]:25122 "EHLO
-        condef-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbgG2DZJ (ORCPT
+        id S1726245AbgG2DS7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jul 2020 23:18:59 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:54949 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726047AbgG2DS7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jul 2020 23:25:09 -0400
-X-Greylist: delayed 376 seconds by postgrey-1.27 at vger.kernel.org; Tue, 28 Jul 2020 23:25:08 EDT
-Received: from conuserg-11.nifty.com ([10.126.8.74])by condef-08.nifty.com with ESMTP id 06T3GJ8i030079;
-        Wed, 29 Jul 2020 12:16:19 +0900
+        Tue, 28 Jul 2020 23:18:59 -0400
 Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 06T3Fi05000857;
-        Wed, 29 Jul 2020 12:15:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 06T3Fi05000857
+        by conuserg-09.nifty.com with ESMTP id 06T3Idoj022954;
+        Wed, 29 Jul 2020 12:18:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 06T3Idoj022954
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1595992545;
-        bh=UempUcm31dYx4tjARW5o0hFSDrdGFkdiTyxqMOHP3V8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Odfzr8aX6Tyca6O/rRqMtQdZXr3EPMx6pSPeCEFWrYfjx4IqQciybu5qqI2HAKXpU
-         XD/H9wE4uMyumfoZHg3Kiqp6NYk8+L8TlgOBas5B16hl2OcQCyErBZzzUxthYOYjK+
-         K9MShcztZiwH5AaBPBj/liQMI258Iw2yjIrm8hls7OKggRsiNHtN9X8bklPEP4on4n
-         sR2rxT+x9pKH36vI40ZYxQeu7oTj8AhUlwOEvF5t9kgjNRwf3J6G3auVGSi4EJvUst
-         R5kCNoaOimDjRSqZeGqQonGHcOnEo0f6R4cGzLhBTbXgSWwfjxW29bO/Tw4lVjLGrV
-         YgP7U1UBgSlSg==
+        s=dec2015msa; t=1595992720;
+        bh=R9y5zPXSYlxpJC3uaZU9/XIf/pq603Add2HzPoAewpI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=i14gl6ihxmctLPcBS4tyt+p7/WdzTb7gdQqoN4CjRKEYy99nijfWflLwkrfcRD2X1
+         G+4j3pu55azA3t8ph7wLBywO2Dcd/pvzLC/irFfQiYNAjJoSpoXuAsA/1/znT+EggF
+         SsHJlTseZxGrnRfsRyVFA4JFJuwtKhZKjr8i7cl+02FSh5Kg6ztLyiSk7if7oiFHmt
+         ZcpFm8PCyIrC+Yl3W0Ez7oO4/mZ5dYqC1nI/a7oL5Sutn73HLRGTIJf6dEioLKzJ0W
+         zg5qNBqEvagB3zmpiiP/6cLTHwdaHDzhOQDDnGpUDvyRhvdwtFD8tPfF9fdyOkt2Q1
+         h8qG/yBCGD29Q==
 X-Nifty-SrcIP: [126.25.67.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
-Cc:     Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kbuild: sort hostprogs before passing it to ifneq
-Date:   Wed, 29 Jul 2020 12:15:37 +0900
-Message-Id: <20200729031537.37926-2-masahiroy@kernel.org>
+Subject: [PATCH] kconfig: add 'static' to some file-local data
+Date:   Wed, 29 Jul 2020 12:18:37 +0900
+Message-Id: <20200729031838.38238-1-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200729031537.37926-1-masahiroy@kernel.org>
-References: <20200729031537.37926-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -49,85 +42,68 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The conditional:
+Fix some warnings from sparce like follows:
 
-  ifneq ($(hostprogs),)
-
-... is evaluated to true if $(hostprogs) does not contain any word but
-whitespace characters.
-
-  ifneq ($(strip $(hostprogs)),)
-
-... is a safe way to avoid interpreting whitespace as a non-empty value,
-but I'd rather want to use the side-effect of $(sort ...) to do the
-equivalent.
-
-$(sort ...) is used in scripts/Makefile.host in order to drop duplication
-in $(hostprogs). It is also useful to strip excessive spaces.
-
-Move $(sort ...) before evaluating the ifneq.
+  warning: symbol '...' was not declared. Should it be static?
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/Makefile.build |  5 ++++-
- scripts/Makefile.host  | 10 ++++------
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ scripts/kconfig/lexer.l  |  2 +-
+ scripts/kconfig/symbol.c | 14 ++++++++++----
+ 2 files changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index d41c1cd453b9..e0b6b5db11c2 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -45,12 +45,15 @@ include $(kbuild-file)
+diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+index 6354c905b006..98daac3bc829 100644
+--- a/scripts/kconfig/lexer.l
++++ b/scripts/kconfig/lexer.l
+@@ -36,7 +36,7 @@ struct buffer {
+ 	YY_BUFFER_STATE state;
+ };
  
- include scripts/Makefile.lib
+-struct buffer *current_buf;
++static struct buffer *current_buf;
  
--# Do not include hostprogs rules unless needed
-+# Do not include hostprogs rules unless needed.
-+# $(sort ...) is used here to remove duplicated words and excessive spaces.
-+hostprogs := $(sort $(hostprogs))
- ifneq ($(hostprogs),)
- include scripts/Makefile.host
- endif
+ static int last_ts, first_ts;
  
- # Do not include userprogs rules unless needed.
-+# $(sort ...) is used here to remove duplicated words and excessive spaces.
- userprogs := $(sort $(userprogs))
- ifneq ($(userprogs),)
- include scripts/Makefile.userprogs
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 687ca3f309e9..278b4d6ac945 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -38,24 +38,22 @@ $(obj)/%.tab.c $(obj)/%.tab.h: $(src)/%.y FORCE
- # Will compile qconf as a C++ program, and menu as a C program.
- # They are linked as C++ code to the executable qconf
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index 9363e37b8870..ffa3ec65cc90 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -15,15 +15,21 @@ struct symbol symbol_yes = {
+ 	.name = "y",
+ 	.curr = { "y", yes },
+ 	.flags = SYMBOL_CONST|SYMBOL_VALID,
+-}, symbol_mod = {
++};
++
++struct symbol symbol_mod = {
+ 	.name = "m",
+ 	.curr = { "m", mod },
+ 	.flags = SYMBOL_CONST|SYMBOL_VALID,
+-}, symbol_no = {
++};
++
++struct symbol symbol_no = {
+ 	.name = "n",
+ 	.curr = { "n", no },
+ 	.flags = SYMBOL_CONST|SYMBOL_VALID,
+-}, symbol_empty = {
++};
++
++static struct symbol symbol_empty = {
+ 	.name = "",
+ 	.curr = { "", no },
+ 	.flags = SYMBOL_VALID,
+@@ -31,7 +37,7 @@ struct symbol symbol_yes = {
  
--__hostprogs := $(sort $(hostprogs))
--
- # C code
- # Executables compiled from a single .c file
--host-csingle	:= $(foreach m,$(__hostprogs), \
-+host-csingle	:= $(foreach m,$(hostprogs), \
- 			$(if $($(m)-objs)$($(m)-cxxobjs),,$(m)))
+ struct symbol *sym_defconfig_list;
+ struct symbol *modules_sym;
+-tristate modules_val;
++static tristate modules_val;
  
- # C executables linked based on several .o files
--host-cmulti	:= $(foreach m,$(__hostprogs),\
-+host-cmulti	:= $(foreach m,$(hostprogs),\
- 		   $(if $($(m)-cxxobjs),,$(if $($(m)-objs),$(m))))
- 
- # Object (.o) files compiled from .c files
--host-cobjs	:= $(sort $(foreach m,$(__hostprogs),$($(m)-objs)))
-+host-cobjs	:= $(sort $(foreach m,$(hostprogs),$($(m)-objs)))
- 
- # C++ code
- # C++ executables compiled from at least one .cc file
- # and zero or more .c files
--host-cxxmulti	:= $(foreach m,$(__hostprogs),$(if $($(m)-cxxobjs),$(m)))
-+host-cxxmulti	:= $(foreach m,$(hostprogs),$(if $($(m)-cxxobjs),$(m)))
- 
- # C++ Object (.o) files compiled from .cc files
- host-cxxobjs	:= $(sort $(foreach m,$(host-cxxmulti),$($(m)-cxxobjs)))
+ enum symbol_type sym_get_type(struct symbol *sym)
+ {
 -- 
 2.25.1
 
