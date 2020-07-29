@@ -2,235 +2,127 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0A97231487
-	for <lists+linux-kbuild@lfdr.de>; Tue, 28 Jul 2020 23:22:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEF4323178D
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 04:15:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729243AbgG1VWD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 28 Jul 2020 17:22:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43304 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728149AbgG1VWD (ORCPT
+        id S1731030AbgG2CP1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 28 Jul 2020 22:15:27 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:39871 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728401AbgG2CP0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 28 Jul 2020 17:22:03 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C44B4C061794;
-        Tue, 28 Jul 2020 14:22:02 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id w12so8707359iom.4;
-        Tue, 28 Jul 2020 14:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=Ce2riTt0wp0SdFBRMy7tVXS9nZSaZZUU7x1cmq39pfQ=;
-        b=n8nqALom1tN4Wh2BayQLeqTuLpOQE+ja5YdZsKpKN861hQ9Pr8UkV4lt7EKOoeJoZ9
-         EyDxUcSh3uVNhSq/mWRXsTAKVgIYYfEdfhA26NaSqoOUiDezVNBHusArbvCMcy20Cjj2
-         IaLv5qDzqIRsPtL5ZZ8BUgKjBB/0KBfsO643H5J211c8YYXpHJi2z1T4auYNwyd/lCC2
-         EwAqGN5YOoq5B8cQddl5Mz+Gcnciu37GCiUCadBpV7KjcXMxrw7Qh/Dzr9P9WDb01ndJ
-         uitse3/sk5eGdSCI7+PNFFWvhoJPs2zQt7uFti5LAu5U9iz9aMeif/vEy41X4UkUyQct
-         Xn/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=Ce2riTt0wp0SdFBRMy7tVXS9nZSaZZUU7x1cmq39pfQ=;
-        b=V0x0zO2NGxqkGylwXJMZR4WZE1JNRBnlqgbanzlZZsATgSL+IMVWtmnxRqU5pn5QfY
-         oTAIDIu3LrftvvixxN8ZjTnDbgWLW5Ps1yLDULpVp+U1Jtj284EKXZQX1L4njCbYMrbZ
-         4oHVuvPAvl6NrDZXoS3zh7fMdKjVT4Rb5AtnSmcid5kv1LZWbKNLFvJRbiZcJErCdddK
-         HdUPlBfFDQJF34moHyBorlxdLqq/BffCdLrEG60ixIRIg/gZ8y6UmWQFwevCwDwIzZ4c
-         IPZWpkepY+4vbujy2AlJzGUBJsvrbwq6if/tPKf5iV3C3hFq9MhPcUDnZMj8mVKOlCJj
-         ntmQ==
-X-Gm-Message-State: AOAM531hRoKRsfGha/+rPkz2PBPhLKxfYdiY/ovecrO2pZM7qV/TXuVk
-        SzjNvuQh2bYyOkp37PDSx/eO661hUCH5DFYcOD0=
-X-Google-Smtp-Source: ABdhPJz8q+zpeAcTDeSFUU18MVmKFa+68QwIF6EG438nGZPBd6eDleQtNOLl/7Hir44lz4dFtlauMVFD7aLzMgTzjNs=
-X-Received: by 2002:a6b:5a04:: with SMTP id o4mr28123141iob.171.1595971322061;
- Tue, 28 Jul 2020 14:22:02 -0700 (PDT)
+        Tue, 28 Jul 2020 22:15:26 -0400
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 06T2F6UI016692;
+        Wed, 29 Jul 2020 11:15:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 06T2F6UI016692
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1595988907;
+        bh=Qkn+kiJdhteGcggEnh5A4hePD7ExGuNIIh74wMoDJJU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=umve6b0p6HKToioLtP4Ziv+K/KzsD3boGM9ulTtcboyoMyJHaON5gLb5ObRIUow0F
+         o+qfyy6mVaJ+wbsg1u7+sCXM4GBrcHyGZYFeX6ceuwqMQPP8bZc5c1jsgZI0eQTyRg
+         YUu56A2L4EOAnnVU92vWDt+/Wv5E+drhUELngqddl/3WndB6zG1xCsg80UzUT+/Cbe
+         qdbsxDjLFx+eAwr8m1lhtwg4tyd4CIgRAfPztSJSunxLM9AQpesD/qmRbcYx8hVrdn
+         LZYabkaeEhp9sjUa+xtjZh1kBsOK1U7NnYy2nXBcP031DaFpzl9aZFXJFWXT0n+DAm
+         istxPBXYR1iFA==
+X-Nifty-SrcIP: [209.85.217.52]
+Received: by mail-vs1-f52.google.com with SMTP id k7so11294661vso.2;
+        Tue, 28 Jul 2020 19:15:07 -0700 (PDT)
+X-Gm-Message-State: AOAM531lLNpZ7Pz4Kz1RjZ+Vep1p7CD/J3ThCUTghxbS6Rgn33qLuC0/
+        8gjqeUIToPI3HU42YUEHdMg9Dlhhx0T7xwFSowA=
+X-Google-Smtp-Source: ABdhPJxHS/wdsjCJ01OGRsbq6xgw9iJxUiIoq5iqy8Ryces8bJ+zBV7WGCZ5ZFIDG281wY0aBfri71iy4As6H59X2ZQ=
+X-Received: by 2002:a67:de09:: with SMTP id q9mr22428084vsk.179.1595988906252;
+ Tue, 28 Jul 2020 19:15:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200727230606.906598-1-nickrterrell@gmail.com>
-In-Reply-To: <20200727230606.906598-1-nickrterrell@gmail.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Tue, 28 Jul 2020 23:21:50 +0200
-Message-ID: <CA+icZUW5+53giKTcw-Hv7Yq_azn2FYFygR_hE8rk4+NV=4Yjkg@mail.gmail.com>
-Subject: Re: [GIT PULL][PATCH v9 0/7] Add support for ZSTD-compressed kernel
- and initramfs
-To:     Nick Terrell <nickrterrell@gmail.com>
-Cc:     Borislav Petkov <bp@alien8.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
-        linux-kbuild@vger.kernel.org, x86@kernel.org,
-        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
-        Kees Cook <keescook@chromium.org>,
-        Kernel Team <Kernel-team@fb.com>,
-        Adam Borowski <kilobyte@angband.pl>,
-        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
-        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
-        Norbert Lange <nolange79@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alex Xu <alex_y_xu@yahoo.ca>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Nick Terrell <terrelln@fb.com>
+References: <DB7PR08MB380100FDD4D1B11062FA57819C690@DB7PR08MB3801.eurprd08.prod.outlook.com>
+In-Reply-To: <DB7PR08MB380100FDD4D1B11062FA57819C690@DB7PR08MB3801.eurprd08.prod.outlook.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 29 Jul 2020 11:14:29 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQm87ykKi=OfToZRy2JtNt0OX3n6kXpNxNW5W7HREh4NA@mail.gmail.com>
+Message-ID: <CAK7LNAQm87ykKi=OfToZRy2JtNt0OX3n6kXpNxNW5W7HREh4NA@mail.gmail.com>
+Subject: Re: linux-5.8-rc4/scripts/kconfig/qconf.cc: 2 * bad delete ?
+To:     David Binderman <dcb314@hotmail.com>
+Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 1:10 AM Nick Terrell <nickrterrell@gmail.com> wrote:
+On Mon, Jul 6, 2020 at 6:22 PM David Binderman <dcb314@hotmail.com> wrote:
 >
-> From: Nick Terrell <terrelln@fb.com>
+> Hello there,
 >
-> Please pull from
+> linux-5.8-rc4/scripts/kconfig/qconf.cc:1242:10: error: Mismatching allocation and deallocation: data [mismatchAllocDealloc]
+> linux-5.8-rc4/scripts/kconfig/qconf.cc:1255:10: error: Mismatching allocation and deallocation: data [mismatchAllocDealloc]
 >
->   git@github.com:terrelln/linux.git tags/v9-zstd
+> new [] needs delete [].
 >
-> to get these changes. Alternatively the patchset is included.
+> Regards
 >
-> Hi all,
->
-> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
-> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
-> are supported on all architectures. The ZSTD-compressed kernel is only
-> hooked up to x86 in this patch set.
->
-> Zstandard requires slightly more memory during the kernel decompression
-> on x86 (192 KB vs 64 KB), and the memory usage is independent of the
-> window size.
->
-> Zstandard requires memory proprortional to the window size used during
-> compression for decompressing the ramdisk image, since streaming mode is
-> used. Newer versions of zstd (1.3.2+) list the window size of a file
-> with `zstd -lv <file>'. The absolute maximum amount of memory required
-> is just over 8 MB, but it can be controlled at compression time.
->
-> This patch set has been boot tested with buildroot and QEMU based off
-> of linux-5.6-rc6.
->
-> On i386 and x86_64 I have tested the following configurations:
-> * zstd compressed kernel and a separate zstd compressed initramfs
-> * zstd compressed kernel and a built-in zstd compressed initramfs
-> * gzip compressed kernel and a separate gzip compressed initramfs
-> * gzip compressed kernel and a built-in gzip compressed initramfs
->
-> On arm and aarch64 I tested the same configurations, except that the kernel is
-> always gzip compressed.
->
-> Facebook has been using v1 of these patches on x86_64 devices for more than 6
-> months. When we switched from a xz compressed initramfs to a zstd compressed
-> initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
-> switched from a xz compressed kernel to a zstd compressed kernel we saved 2
-> seconds of boot time.
->
-> Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
-> When we switched from an lzma compressed initramfs to a zstd compressed initramfs
-> decompression time shrunk from 27 seconds to 8 seconds.
->
-> The zstd compressed kernel is smaller than the gzip compressed kernel but larger
-> than the xz or lzma compressed kernels, and it decompresses faster than
-> everything except lz4. See the table below for the measurement of an x86_64
-> kernel ordered by compressed size:
->
-> algo    size
-> xz       6,509,792
-> lzma     6,856,576
-> zstd     7,399,157
-> gzip     8,522,527
-> bzip     8,629,603
-> lzo      9,808,035
-> lz4     10,705,570
-> none    32,565,672
->
-> Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
->
-> v1 -> v2:
-> - Rebase
->   - usr/Makefile and init/Kconfig were changed so the patches were updated
-> - No functional changes except to rebase
-> - Split the patches up into smaller chunks
->
-> v2 -> v3:
-> - Add *.zst to the .gitignore in patch 8
-> - Style nits in patch 3
-> - Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
->   1 through 3
->
-> v3 -> v4:
-> - Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
->   With this change I switch from malloc() to large_malloc() for the
->   buffers.
-> - Increase the maximum allowed window size from 8 MB to 128 MB, which is
->   the max that zstd in the kernel supports.
->
-> v4 -> v5:
-> - Update commit message for patch 6 in response to comments
-> - Rebase onto next-20200408
->
-> v5 -> v6:
-> - Rebase onto v5.8-rc4
->
-> v6 -> v7:
-> - (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
-> - (2/8) Drop 'lib: prepare xxhash for preboot environment'
-> - (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
-> - (3/7) Update zstd compression cmd to follow other compressors
-> - (3/7) Add zstd22 cmd
-> - (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
->
-> v7 -> v8:
-> - (2/7) Don't define '__DISABLE_EXPORTS'
-> - (6/7) Define '__DISABLE_EXPORTS' in misc.c
->
-> v8 -> v9:
-> - Rebase onto v5.8-rc7
-> - (2/7) Fix nits about comment style & typos
-> - (3/7) Fix typo in init/Kconfig description
-> - (6/7) Explain BOOT_HEAP_SIZE increase and define __DISABLE_EXPORTS in
->         Makefile KBUILD_CFLAGS and remove definitions from kaslr.c and misc.c
->
+> David Binderman
 
-Tested v9 on top of Linux v5.8-rc7 with these combinations:
-#1: GCC v10.2 and GNU/ld v2.35
-#2: LLVM v11.0.0-rc1 (LLVM=1 and LLVM_IAS=1)
 
-- Sedat -
+Thanks for the report, and sorry for the delay.
 
-> Best,
-> Nick Terrell
->
-> Adam Borowski (1):
->   .gitignore: add ZSTD-compressed files
->
-> Nick Terrell (6):
->   lib: prepare zstd for preboot environment
->   lib: add zstd support to decompress
->   init: add support for zstd compressed kernel
->   usr: add support for zstd compressed initramfs
->   x86: bump ZO_z_extra_bytes margin for zstd
->   x86: Add support for ZSTD compressed kernel
->
->  .gitignore                        |   1 +
->  Documentation/x86/boot.rst        |   6 +-
->  Makefile                          |   3 +-
->  arch/x86/Kconfig                  |   1 +
->  arch/x86/boot/compressed/Makefile |   6 +-
->  arch/x86/boot/compressed/kaslr.c  |   7 -
->  arch/x86/boot/compressed/misc.c   |   4 +
->  arch/x86/boot/header.S            |   8 +-
->  arch/x86/include/asm/boot.h       |  11 +-
->  include/linux/decompress/unzstd.h |  11 +
->  init/Kconfig                      |  15 +-
->  lib/Kconfig                       |   4 +
->  lib/Makefile                      |   1 +
->  lib/decompress.c                  |   5 +
->  lib/decompress_unzstd.c           | 345 ++++++++++++++++++++++++++++++
->  lib/zstd/fse_decompress.c         |   9 +-
->  lib/zstd/zstd_internal.h          |  14 +-
->  scripts/Makefile.lib              |  22 ++
->  usr/Kconfig                       |  20 ++
->  usr/Makefile                      |   1 +
->  20 files changed, 468 insertions(+), 26 deletions(-)
->  create mode 100644 include/linux/decompress/unzstd.h
->  create mode 100644 lib/decompress_unzstd.c
->
-> --
-> 2.27.0
->
+Will you send a patch, or shall I do it?
+
+
+BTW, I guess those error messages are from cppcheck.
+
+
+Could you please teach me how to reproduce them?
+
+
+I ran cppcheck against qconf.cc
+but no success to check it.
+
+
+
+
+masahiro@oscar:~/ref/linux$ cppcheck  scripts/kconfig/qconf.cc
+Checking scripts/kconfig/qconf.cc ...
+masahiro@oscar:~/ref/linux$ cppcheck --enable=all scripts/kconfig/qconf.cc
+Checking scripts/kconfig/qconf.cc ...
+scripts/kconfig/qconf.cc:0:0: information: This file is not analyzed.
+Cppcheck failed to extract a valid configuration. Use -v for more
+details. [noValidConfiguration]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files
+(use --check-config for details) [missingIncludeSystem]
+
+masahiro@oscar:~/ref/linux$ cppcheck -v --enable=all scripts/kconfig/qconf.cc
+Checking scripts/kconfig/qconf.cc ...
+Defines:
+Undefines:
+Includes:
+Platform:Native
+scripts/kconfig/qconf.cc:0:0: information: This file is not analyzed.
+Cppcheck failed to extract a valid configuration. The tested
+configurations have these preprocessor errors:
+'' : [scripts/kconfig/qconf.moc:12] #error "The header file 'qconf.h'
+doesn't include <QObject>."
+Q_MOC_OUTPUT_REVISION : [scripts/kconfig/qconf.moc:14] #error "This
+file was generated using the moc from 5.12.8. It"
+[noValidConfiguration]
+
+^
+nofile:0:0: information: Cppcheck cannot find all the include files.
+Cppcheck can check the code without the include files found. But the
+results will probably be more accurate if all the include files are
+found. Please check your project's include directories and add all of
+them as include directories for Cppcheck. To see what files Cppcheck
+cannot find use --check-config. [missingIncludeSystem]
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
