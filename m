@@ -2,63 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80B832318E6
-	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 07:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A796923215A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 29 Jul 2020 17:14:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbgG2FJo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 29 Jul 2020 01:09:44 -0400
-Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:52294
-        "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726054AbgG2FJo (ORCPT
+        id S1726449AbgG2POv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 29 Jul 2020 11:14:51 -0400
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:29214 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726365AbgG2POv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 29 Jul 2020 01:09:44 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 45A5858EF34;
-        Tue, 28 Jul 2020 11:47:13 -0500 (CDT)
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 2h-qfyOakXaV; Tue, 28 Jul 2020 11:47:13 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 5705958EF3B;
-        Tue, 28 Jul 2020 06:14:40 -0500 (CDT)
-X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id B0E_30cwkxMj; Tue, 28 Jul 2020 06:14:40 -0500 (CDT)
-Received: from [10.85.108.11] (unknown [105.8.2.12])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id 668A145365B;
-        Tue, 28 Jul 2020 04:18:38 -0500 (CDT)
-Content-Type: text/plain; charset="utf-8"
+        Wed, 29 Jul 2020 11:14:51 -0400
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 06TFEDHc030372;
+        Thu, 30 Jul 2020 00:14:14 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 06TFEDHc030372
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1596035654;
+        bh=K/lBXbWR+x3txyjbotv/nZAEEMUAZKchfnFj0DToDWk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=uvIaubtEdgqQhZN5q3je9HyiqlDhgFOwhJAXmAorB38dYKVyuf3iaU/4QIQekt/ou
+         q2s7aKQmNuFezqPlFZdXU1JmjILyBT5HH6dWcKBIEbOHRVl92uthyb/1gx6LSULxEf
+         d5BaDB86rifemvBOgKQX5hfXkEGRSS02NQ0msW7LBBvAuBDIz4FwrzvQBKoXdbEdRG
+         qyWwL0/Gg597sCbwgEPAhc7xENBYiptI1+381Tw7+Rg8xnlBqyFHjynfPkPI3lR5P4
+         gpJauwPT7iZF6PkRLC2xSjXf3LXHtsW9x2shvSFq5cBmLqW9/im4Mase5tWr3U7i1B
+         tRfM+NK8I3T9Q==
+X-Nifty-SrcIP: [209.85.222.52]
+Received: by mail-ua1-f52.google.com with SMTP id p27so3477359uaa.12;
+        Wed, 29 Jul 2020 08:14:14 -0700 (PDT)
+X-Gm-Message-State: AOAM532OJ/T+3gtbxaA7HjHnBpn1DNBKfPT8rU7ckCByo2Nbf+O7ejts
+        SOp57ysObCGe928NkAr9DZnkPGYLyFmRue7l5Pw=
+X-Google-Smtp-Source: ABdhPJyCO5ocIjSjCCCrBg/b+UNbHdAmrpbxBUNLui4XBSWgs2nOELlaJBu55/dPeNbkp8CEnFdZM5xW9ytKZxMTdfg=
+X-Received: by 2002:ab0:2390:: with SMTP id b16mr6263692uan.25.1596035652852;
+ Wed, 29 Jul 2020 08:14:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <aguayenergia@tlalpan.gob.mx>
-From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
-Date:   Tue, 28 Jul 2020 11:22:55 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200728091839.668A145365B@correo.tlalpan.gob.mx>
+References: <DB7PR08MB380100FDD4D1B11062FA57819C690@DB7PR08MB3801.eurprd08.prod.outlook.com>
+ <CAK7LNAQm87ykKi=OfToZRy2JtNt0OX3n6kXpNxNW5W7HREh4NA@mail.gmail.com> <DB7PR08MB38014590A0A929CF017546E89C700@DB7PR08MB3801.eurprd08.prod.outlook.com>
+In-Reply-To: <DB7PR08MB38014590A0A929CF017546E89C700@DB7PR08MB3801.eurprd08.prod.outlook.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 30 Jul 2020 00:13:35 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATO-z+S_jH_g9J1WFvzG1vqtODdK5vrav6xOV341yGX9g@mail.gmail.com>
+Message-ID: <CAK7LNATO-z+S_jH_g9J1WFvzG1vqtODdK5vrav6xOV341yGX9g@mail.gmail.com>
+Subject: Re: linux-5.8-rc4/scripts/kconfig/qconf.cc: 2 * bad delete ?
+To:     David Binderman <dcb314@hotmail.com>
+Cc:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Lieber Freund,
+On Wed, Jul 29, 2020 at 3:28 PM David Binderman <dcb314@hotmail.com> wrote:
+>
+> Hello there,
+>
+> >Will you send a patch, or shall I do it?
+>
+> Option 2 please. I gave up doing kernel patches a long time ago.
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
-
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
-
-
-Das ist dein Spendencode: [TS530342018]
-
-
-Antworten Sie mit dem SPENDE-CODE an diese
-
-E-Mail:Tayebsouam.spende@gmail.com
+OK, I will send a patch.
 
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+> >Could you please teach me how to reproduce them?
+>
+> --language=c++ looks like a good candidate for a fix.
+>
+> Regards
+>
+> David Binderman
+>
 
-Grüße
-Herr Tayeb Souami
+--language=c++ made no difference, but
+I figured out why cppcheck did not work for me.
+
+
+If scripts/kconfig/qconf.moc is remaining,
+cppcheck does not work.
+
+
+After I deleted it, cppcheck worked for me.
+
+
+masahiro@oscar:~/workspace/linux$ make build_xconfig
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/images.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.[ch]
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTCC  scripts/kconfig/util.o
+  UPD     scripts/kconfig/qconf-cfg
+  MOC     scripts/kconfig/qconf.moc
+  HOSTCXX scripts/kconfig/qconf.o
+  HOSTLD  scripts/kconfig/qconf
+masahiro@oscar:~/workspace/linux$ cppcheck  scripts/kconfig/qconf.cc
+Checking scripts/kconfig/qconf.cc ...
+masahiro@oscar:~/workspace/linux$ rm -f scripts/kconfig/qconf.moc
+masahiro@oscar:~/workspace/linux$ cppcheck  scripts/kconfig/qconf.cc
+Checking scripts/kconfig/qconf.cc ...
+scripts/kconfig/qconf.cc:1242:10: error: Mismatching allocation and
+deallocation: data [mismatchAllocDealloc]
+  delete data;
+         ^
+scripts/kconfig/qconf.cc:1236:15: note: Mismatching allocation and
+deallocation: data
+ char *data = new char[count + 1];
+              ^
+scripts/kconfig/qconf.cc:1242:10: note: Mismatching allocation and
+deallocation: data
+  delete data;
+         ^
+scripts/kconfig/qconf.cc:1255:10: error: Mismatching allocation and
+deallocation: data [mismatchAllocDealloc]
+  delete data;
+         ^
+scripts/kconfig/qconf.cc:1236:15: note: Mismatching allocation and
+deallocation: data
+ char *data = new char[count + 1];
+              ^
+scripts/kconfig/qconf.cc:1255:10: note: Mismatching allocation and
+deallocation: data
+  delete data;
+         ^
+
+
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
