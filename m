@@ -2,52 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99FB52338B6
-	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jul 2020 21:11:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 458342338B8
+	for <lists+linux-kbuild@lfdr.de>; Thu, 30 Jul 2020 21:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730466AbgG3TL1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 30 Jul 2020 15:11:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42220 "EHLO
+        id S1730465AbgG3TLb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 30 Jul 2020 15:11:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730465AbgG3TL0 (ORCPT
+        with ESMTP id S1730444AbgG3TLa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 30 Jul 2020 15:11:26 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8841EC061574;
-        Thu, 30 Jul 2020 12:11:26 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id p1so15034772pls.4;
-        Thu, 30 Jul 2020 12:11:26 -0700 (PDT)
+        Thu, 30 Jul 2020 15:11:30 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE63C061574;
+        Thu, 30 Jul 2020 12:11:30 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id ha11so5437714pjb.1;
+        Thu, 30 Jul 2020 12:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uzi0WeuypATsmeWiS85QI65j2KXCUQ4AAy0p8hgi3lg=;
-        b=Egm1hQ444fzjJK7rCeONLMT5TbJjgu/ukR64wqV0nx/AxbavjSIl/NlawU2GU7MnoI
-         zosm43ntOwVMDTN9E1CGXeuMk+OsACupxiqBooY3XwazByX7PJ9rcU80JRL+/g4mJ6xu
-         5v/NZdN6Y7a+p2BwvIXcjkoOyVuERET5sdpw37Y2vx4JvjwbJLizfH4FjVHb46NELmeS
-         w/cjUuGzvYLowdFAAhEL1QyOMh0QXQskuOVGU1yE0Wyq9K8HJzdh9Or9CivHbvGm/Gik
-         69e+hKUvXKJF1VleTCeLTPv08YMjKwI+xY/NliXunYXSIcI5gdur9zfHSak8kZ/JCx9E
-         /pZA==
+        bh=fmIcvsol2hVEYD4hslBcgfIPlSJK4NAnFqyLqCM1gdk=;
+        b=OYeysaA5vFkzYebKJCg+7lQgoWOFfnVI8qfBmxjzSgbrPdZlPs+z2ksxmwX26xsYnc
+         zSWS1H+spEaGmRGX2HNqeZF3iornchIkd+7WkCoP9XL7Q6F+ji+Qq7LFIhhaiuwp/MoG
+         2nXLpEHp8m69FULHvHS2JOEN8shBNYIaMHm+6A/4oAv89gdaeI3Y6HVtNvr1fwxHfKiR
+         upEP9svLS3lV4uDlHBXrY8vQH6LWrp0m4v3XXvNT4Kg0viM8+zeDb7cgvKIwfJC1GvmM
+         lQuRpxMnnQKj73J1S4cUmEbjZDmRcxwDPMqo9YzdY/iDZH2jjV7eg5SGAX17bnx9M45s
+         CGXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uzi0WeuypATsmeWiS85QI65j2KXCUQ4AAy0p8hgi3lg=;
-        b=E2kjAxhiD556gbhCQzgTh2XqyjXr/qsHyqrPB4w80Cj1Dlppm6O8T8dD3k2LwHExEl
-         YPDBXVvy6pTGzH5A7kxURN8/22UJmLSx44VtV0L6jEAV/87jevX8H/HQzpRy8LOyS+CG
-         11SA+8EWJyDXcLLe4zXbZO+jLTzvQlaMgzHhWi/b5d5VczTt0bDk4wCQcWuzOCGhNIgF
-         7JJqUOqeYcHeqwowJXhM3vw2ACzYkZyVEw5Ng+oQDwRGXofW+N/ZIwq/C3+S+IaTEvfk
-         FZScotvG4KTPA+aGb19EKfDRJTVRdmgh4RBRy5pelq3JuTKfpmjqMasXuwenw2VpgQnH
-         /v/Q==
-X-Gm-Message-State: AOAM5330/wt+w6FIbI1iJAUDguHp0IRZf+IWf5e3zHNWibXFZZjPr01m
-        dIcVFTVRS2qII7IFs7jkQos=
-X-Google-Smtp-Source: ABdhPJyocbRoEDo9xHBCd6nsKyERitAM37A0W4anwAeGC3H4yAogMCDBANiSc9iW3AWUaPfKHs1zcA==
-X-Received: by 2002:a17:90a:110:: with SMTP id b16mr511953pjb.235.1596136286039;
-        Thu, 30 Jul 2020 12:11:26 -0700 (PDT)
+        bh=fmIcvsol2hVEYD4hslBcgfIPlSJK4NAnFqyLqCM1gdk=;
+        b=F++8V7NVT39sPq+QctanlAsmQXlJyACnQijGdJSZSEOg0hsD9nl1QyGnStds+Os8LB
+         rSK9aRCoWf0IB4LwCWpTylQodaIo0LV0KkcFeGvAnr7TWpozDqayiB/jmSlKXW93No5q
+         QBXWSzwxUMOTaObfgtcJ3wh8X5k0m0iH95qw17ODKTE4p2a2edSFnBBbElhAWxev4Y8n
+         kjG31723ynttVrgM14hWG1yrMgvm76kQ6tClQNonn/hP9JIZGPE3tfYQ/fbBs8rs/l/Y
+         Tryomtm900CE09fFGodXzx7pqc8wprXXY9nsM0h7CAhySeTSVRTv/3/hbT7f6Msa/HCl
+         OgDQ==
+X-Gm-Message-State: AOAM532rwaRm4OWb7cT1LuaJIPeBGut5Po/sYH9U0gEHz6JisHVzTzV1
+        /9ERpeSP0cnYUujtB/ozW+o=
+X-Google-Smtp-Source: ABdhPJxRJeItJ5swbNPdsSfqu+8axOrjQ8VxVtnh0EXmjqeV+W+ckMRslnabITdfqF0FeK0Eku9EsQ==
+X-Received: by 2002:a17:90a:8543:: with SMTP id a3mr569088pjw.31.1596136289012;
+        Thu, 30 Jul 2020 12:11:29 -0700 (PDT)
 Received: from nickserv.localdomain (c-98-33-101-203.hsd1.ca.comcast.net. [98.33.101.203])
-        by smtp.gmail.com with ESMTPSA id o22sm8644976pfu.206.2020.07.30.12.11.24
+        by smtp.gmail.com with ESMTPSA id o22sm8644976pfu.206.2020.07.30.12.11.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2020 12:11:25 -0700 (PDT)
+        Thu, 30 Jul 2020 12:11:28 -0700 (PDT)
 From:   Nick Terrell <nickrterrell@gmail.com>
 To:     Borislav Petkov <bp@alien8.de>,
         Thomas Gleixner <tglx@linutronix.de>
@@ -66,9 +66,9 @@ Cc:     linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
         Alex Xu <alex_y_xu@yahoo.ca>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Nick Terrell <terrelln@fb.com>
-Subject: [PATCH v10 3/8] init: add support for zstd compressed kernel
-Date:   Thu, 30 Jul 2020 12:08:36 -0700
-Message-Id: <20200730190841.2071656-4-nickrterrell@gmail.com>
+Subject: [PATCH v10 4/8] usr: add support for zstd compressed initramfs
+Date:   Thu, 30 Jul 2020 12:08:37 -0700
+Message-Id: <20200730190841.2071656-5-nickrterrell@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200730190841.2071656-1-nickrterrell@gmail.com>
 References: <20200730190841.2071656-1-nickrterrell@gmail.com>
@@ -81,112 +81,80 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 From: Nick Terrell <terrelln@fb.com>
 
-* Adds the zstd and zstd22 cmds to scripts/Makefile.lib
-* Adds the HAVE_KERNEL_ZSTD and KERNEL_ZSTD options
+* Add support for a zstd compressed initramfs.
+* Add compression for compressing built-in initramfs with zstd.
 
-Architecture specific support is still needed for decompression.
+I have tested this patch by boot testing with buildroot and QEMU.
+Specifically, I booted the kernel with both a zstd and gzip compressed
+initramfs, both built into the kernel and separate. I ensured that the
+correct compression algorithm was used. I tested on arm, aarch64, i386,
+and x86_64.
+
+This patch has been tested in production on aarch64 and x86_64 devices.
+
+Additionally, I have performance measurements from internal use in
+production. On an aarch64 device we saw 19 second boot time improvement
+from switching from lzma to zstd (27 seconds to 8 seconds). On an x86_64
+device we saw a 9 second boot time reduction from switching from xz to
+zstd.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
 Signed-off-by: Nick Terrell <terrelln@fb.com>
 ---
- Makefile             |  3 ++-
- init/Kconfig         | 15 ++++++++++++++-
- scripts/Makefile.lib | 22 ++++++++++++++++++++++
- 3 files changed, 38 insertions(+), 2 deletions(-)
+ usr/Kconfig  | 20 ++++++++++++++++++++
+ usr/Makefile |  1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 229e67f2ff75..565084f347bd 100644
---- a/Makefile
-+++ b/Makefile
-@@ -464,6 +464,7 @@ KLZOP		= lzop
- LZMA		= lzma
- LZ4		= lz4c
- XZ		= xz
-+ZSTD		= zstd
+diff --git a/usr/Kconfig b/usr/Kconfig
+index 96afb03b65f9..2599bc21c1b2 100644
+--- a/usr/Kconfig
++++ b/usr/Kconfig
+@@ -100,6 +100,15 @@ config RD_LZ4
+ 	  Support loading of a LZ4 encoded initial ramdisk or cpio buffer
+ 	  If unsure, say N.
  
- CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
- 		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
-@@ -512,7 +513,7 @@ CLANG_FLAGS :=
- export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
- export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
- export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
--export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ
-+export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
- export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
- 
- export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
-diff --git a/init/Kconfig b/init/Kconfig
-index 0498af567f70..2b6409fec53f 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -191,13 +191,16 @@ config HAVE_KERNEL_LZO
- config HAVE_KERNEL_LZ4
- 	bool
- 
-+config HAVE_KERNEL_ZSTD
-+	bool
++config RD_ZSTD
++	bool "Support initial ramdisk/ramfs compressed using ZSTD"
++	default y
++	depends on BLK_DEV_INITRD
++	select DECOMPRESS_ZSTD
++	help
++	  Support loading of a ZSTD encoded initial ramdisk or cpio buffer.
++	  If unsure, say N.
 +
- config HAVE_KERNEL_UNCOMPRESSED
- 	bool
- 
  choice
- 	prompt "Kernel compression mode"
- 	default KERNEL_GZIP
--	depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNEL_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERNEL_UNCOMPRESSED
-+	depends on HAVE_KERNEL_GZIP || HAVE_KERNEL_BZIP2 || HAVE_KERNEL_LZMA || HAVE_KERNEL_XZ || HAVE_KERNEL_LZO || HAVE_KERNEL_LZ4 || HAVE_KERNEL_ZSTD || HAVE_KERNEL_UNCOMPRESSED
- 	help
- 	  The linux kernel is a kind of self-extracting executable.
- 	  Several compression algorithms are available, which differ
-@@ -276,6 +279,16 @@ config KERNEL_LZ4
- 	  is about 8% bigger than LZO. But the decompression speed is
- 	  faster than LZO.
+ 	prompt "Built-in initramfs compression mode"
+ 	depends on INITRAMFS_SOURCE != ""
+@@ -196,6 +205,17 @@ config INITRAMFS_COMPRESSION_LZ4
+ 	  If you choose this, keep in mind that most distros don't provide lz4
+ 	  by default which could cause a build failure.
  
-+config KERNEL_ZSTD
++config INITRAMFS_COMPRESSION_ZSTD
 +	bool "ZSTD"
-+	depends on HAVE_KERNEL_ZSTD
++	depends on RD_ZSTD
 +	help
 +	  ZSTD is a compression algorithm targeting intermediate compression
 +	  with fast decompression speed. It will compress better than GZIP and
-+	  decompress around the same speed as LZO, but slower than LZ4. You
-+	  will need at least 192 KB RAM or more for booting. The zstd command
-+	  line tool is required for compression.
++	  decompress around the same speed as LZO, but slower than LZ4.
 +
- config KERNEL_UNCOMPRESSED
++	  If you choose this, keep in mind that you may need to install the zstd
++	  tool to be able to compress the initram.
++
+ config INITRAMFS_COMPRESSION_NONE
  	bool "None"
- 	depends on HAVE_KERNEL_UNCOMPRESSED
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 916b2f7f7098..54f7b7eb580b 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -413,6 +413,28 @@ quiet_cmd_xzkern = XZKERN  $@
- quiet_cmd_xzmisc = XZMISC  $@
-       cmd_xzmisc = cat $(real-prereqs) | $(XZ) --check=crc32 --lzma2=dict=1MiB > $@
+ 	help
+diff --git a/usr/Makefile b/usr/Makefile
+index c12e6b15ce72..b1a81a40eab1 100644
+--- a/usr/Makefile
++++ b/usr/Makefile
+@@ -15,6 +15,7 @@ compress-$(CONFIG_INITRAMFS_COMPRESSION_LZMA)	:= lzma
+ compress-$(CONFIG_INITRAMFS_COMPRESSION_XZ)	:= xzmisc
+ compress-$(CONFIG_INITRAMFS_COMPRESSION_LZO)	:= lzo
+ compress-$(CONFIG_INITRAMFS_COMPRESSION_LZ4)	:= lz4
++compress-$(CONFIG_INITRAMFS_COMPRESSION_ZSTD)	:= zstd
  
-+# ZSTD
-+# ---------------------------------------------------------------------------
-+# Appends the uncompressed size of the data using size_append. The .zst
-+# format has the size information available at the beginning of the file too,
-+# but it's in a more complex format and it's good to avoid changing the part
-+# of the boot code that reads the uncompressed size.
-+#
-+# Note that the bytes added by size_append will make the zstd tool think that
-+# the file is corrupt. This is expected.
-+#
-+# zstd uses a maximum window size of 8 MB. zstd22 uses a maximum window size of
-+# 128 MB. zstd22 is used for kernel compression because it is decompressed in a
-+# single pass, so zstd doesn't need to allocate a window buffer. When streaming
-+# decompression is used, like initramfs decompression, zstd22 should likely not
-+# be used because it would require zstd to allocate a 128 MB buffer.
-+
-+quiet_cmd_zstd = ZSTD    $@
-+      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) -19; $(size_append); } > $@
-+
-+quiet_cmd_zstd22 = ZSTD22  $@
-+      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
-+
- # ASM offsets
- # ---------------------------------------------------------------------------
+ obj-$(CONFIG_BLK_DEV_INITRD) := initramfs_data.o
  
 -- 
 2.27.0
