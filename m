@@ -2,147 +2,253 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB863233E25
-	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jul 2020 06:17:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D66C2343A5
+	for <lists+linux-kbuild@lfdr.de>; Fri, 31 Jul 2020 11:48:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725818AbgGaERO (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 31 Jul 2020 00:17:14 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:51186 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbgGaERO (ORCPT
+        id S1732134AbgGaJsK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 31 Jul 2020 05:48:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35710 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732075AbgGaJsJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 31 Jul 2020 00:17:14 -0400
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 06V4GsBH006071;
-        Fri, 31 Jul 2020 13:16:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 06V4GsBH006071
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596169015;
-        bh=R1IrfvP9cuBPNOuEO/yY0TGNkg04pM5nMVUeGi+yTK8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=RG9cV5YUeDYircoip5N+K9h2SxEtE9Y8oHHWV/qPJECi1kRphgYBVi/n1pvuOe0oR
-         oYoYQ3F7gj4MJRsKkg2AXyMyR1va8Y8MaP+DPmSl2IsVFr28ogcU9g9aiQ8YSCSt1a
-         b9/nSn7IrH/U+ZPRVBxt9oc9ZBcst8EgyXLkEkDtMfPLG8v9JjfrBSHwT/Svv/aq3k
-         dFQH+k3VVrHKnVLRQTZWoj0sljhsLSJ0KbbmJ9oB3VDPDe4YYeEsoKS3SmkfpUMqEu
-         j1YODArqV5lUy0RJYf6/ZCaRIZ3yjGcLdV8sYWmyYOdPWjR5+eyCAIzZyZbqkOBK15
-         zfhZSu8SjjDZQ==
-X-Nifty-SrcIP: [209.85.217.45]
-Received: by mail-vs1-f45.google.com with SMTP id j23so8859995vsq.7;
-        Thu, 30 Jul 2020 21:16:55 -0700 (PDT)
-X-Gm-Message-State: AOAM533DFgbexf8imQEbPsJTwdUaYfJihmp92040FAnq6A9h8JSGyh8k
-        A40+JfjBlOtYRRsA9Hx2m0JfFyKYfKrnTDnJyoI=
-X-Google-Smtp-Source: ABdhPJz+g9DAv5sd7YqE3RvXYJ01euot2DXSjrp71DbvIbsn55drU8dWkBhosZUpWoJaGkCWqiazywDaYVxaITNEqEE=
-X-Received: by 2002:a67:de09:: with SMTP id q9mr1889244vsk.179.1596169014216;
- Thu, 30 Jul 2020 21:16:54 -0700 (PDT)
+        Fri, 31 Jul 2020 05:48:09 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69B49C061574;
+        Fri, 31 Jul 2020 02:48:09 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id u24so16354478oiv.7;
+        Fri, 31 Jul 2020 02:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=kL/TSt+LdFVrf5GHtACUE/XD2tJJzDN/udRxE/191Xw=;
+        b=ED/foMsj1nSwUHlYdZkYd96Y7m/20DqOLgv3otkCpSFCiGU5Rl2U41teCdXoSeNHV9
+         zSpTFLAtkmrT+P2b2Ku3LxePob0PUY1CdqHYhSMryKehBcfHEkIcyOajNSIhzYEp4c/S
+         tnFhcBPmKpJ++XF1prlTOV0fx89yHj4vp3xrn7lf+kWnzHeLu+UEUOs/qaS1Ec39vnG8
+         fbKC8c/ZttPMFqTIGmb4Y8pxfHLM+mI2Gd6n9tn7Y1Q7Q8DDTa9j6/c+fJ78nowyV4PT
+         s6BXlZydQiokUDDM/nNSexSJg7TJ9gY1U8ql3359k+g3N76ED4QbsHRmQwLvGn1J8bbH
+         vTIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=kL/TSt+LdFVrf5GHtACUE/XD2tJJzDN/udRxE/191Xw=;
+        b=Ppk1k32/GnBAjPzTjbEbtkVF2XZkUcaApli83ey3U5dEV9An/uzumXmvNLUVdDyt6b
+         qm85CnetmGUj68KJAMrTm6uftMeZpohZdohEcMax+4zachYFDsSAaeylDhcbhqpq/rbe
+         fWCbfcmivztqQsBkpya5kfHlQFo2wZ8Y129HiIt3QnQFT3dTBiaKyHiJI7qG3VWLorKy
+         2sh8ILO2uaW7WatlWMTe50NAQlHVQRxMbjgqRQNASNvrCwnR60D7FZewFQBGA53e9wNP
+         SnTnFT45WBd99SB1gheFowVNYguBqBEZxW1aQ2Shx897BLC4FrDKj43JlvP9qfK6q/gT
+         Jj9w==
+X-Gm-Message-State: AOAM532Q+8oUnqvmYsTEBYA5rsaQ6LKyK5ftI5SUzZqItAfiVnj1FFQ1
+        3cUGsYnl5QV5okvsp3+UDrRmA9c0D1sH0+Ih8EPX+ykvubU=
+X-Google-Smtp-Source: ABdhPJxUZYp3VeFBEoNe1JgaNj1GOeEgwWJAE4b5wz0Z83TIizdmlGoYzGKvdGw0jk39tZ8P+cddKkdSSAKnhw2Bsz0=
+X-Received: by 2002:aca:724f:: with SMTP id p76mr2290303oic.35.1596188888723;
+ Fri, 31 Jul 2020 02:48:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200729031537.37926-1-masahiroy@kernel.org> <202007291401.A50E25BB@keescook>
-In-Reply-To: <202007291401.A50E25BB@keescook>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 31 Jul 2020 13:16:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASRoqNfO+JAj9kKRgi3ee5mcdV99spy4t6jKG1RGC4KXA@mail.gmail.com>
-Message-ID: <CAK7LNASRoqNfO+JAj9kKRgi3ee5mcdV99spy4t6jKG1RGC4KXA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kbuild: move shared library build rules to scripts/gcc-plugins/Makefile
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Emese Revfy <re.emese@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200730190841.2071656-1-nickrterrell@gmail.com>
+In-Reply-To: <20200730190841.2071656-1-nickrterrell@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Fri, 31 Jul 2020 11:47:57 +0200
+Message-ID: <CA+icZUVpgNe6yes1fwb3MdhertFweVTgTL=aOrAOnUB8wkLQaA@mail.gmail.com>
+Subject: Re: [GIT PULL][PATCH v10 0/8] Add support for ZSTD-compressed kernel
+ and initramfs
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
+        Norbert Lange <nolange79@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alex Xu <alex_y_xu@yahoo.ca>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Terrell <terrelln@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 6:18 AM Kees Cook <keescook@chromium.org> wrote:
+On Thu, Jul 30, 2020 at 9:11 PM Nick Terrell <nickrterrell@gmail.com> wrote:
 >
-> On Wed, Jul 29, 2020 at 12:15:36PM +0900, Masahiro Yamada wrote:
-> > The shared library build rules are currently implemented in
-> > scripts/Makefile.host, but actually GCC-plugin is the only user of
-> > them. Hence, they do not need to be treewide available.
+> From: Nick Terrell <terrelln@fb.com>
 >
-> Are none of the VDSOs intending to use these rules?
-
-
-Right.
-
-GCC plugin .so files are compiled for the _host_ architecture.
-vDSO .so files are compiled for the _target_ architecture.
-
-They are built in completely different ways.
-
-
-
-> > Move all the relevant build rules to scripts/gcc-plugins/Makefile.
-> >
-> > I also optimized the build steps so *.so is directly built from .c
-> > because every upstream plugin is compiled from a single source file.
-> >
-> > I am still keeping the infrastructure to build a plugin from multiple
-> > files because Kees suggested to do so in my previous attempt.
-> > (https://lkml.org/lkml/2019/1/11/1107)
-> >
-> > If the plugin, foo.so, is compiled from two files foo.c and foo2.c,
-> > then you can do like follows:
-> >
-> >   foo-objs := foo.o foo2.o
-> >
-> > Single-file plugins do not need the *-objs notation.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> Please pull from
 >
-> But, yeah, sure!
+>   git@github.com:terrelln/linux.git tags/v10-zstd
 >
-> Acked-by: Kees Cook <keescook@chromium.org>
+> to get these changes. Alternatively the patchset is included.
 >
-> Unrelated, but I do note that objtool maybe has the wrong indentation,
-> path name reporting, and tool names (HOSTLD vs CC)?
+> Hi all,
+>
+> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
+> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
+> are supported on all architectures. The ZSTD-compressed kernel is only
+> hooked up to x86 in this patch set.
+>
+> Zstandard requires slightly more memory during the kernel decompression
+> on x86 (192 KB vs 64 KB), and the memory usage is independent of the
+> window size.
+>
+> Zstandard requires memory proprortional to the window size used during
+> compression for decompressing the ramdisk image, since streaming mode is
+> used. Newer versions of zstd (1.3.2+) list the window size of a file
+> with `zstd -lv <file>'. The absolute maximum amount of memory required
+> is just over 8 MB, but it can be controlled at compression time.
+>
+> This patch set has been boot tested with buildroot and QEMU based off
+> of linux-5.6-rc6.
+>
+> On i386 and x86_64 I have tested the following configurations:
+> * zstd compressed kernel and a separate zstd compressed initramfs
+> * zstd compressed kernel and a built-in zstd compressed initramfs
+> * gzip compressed kernel and a separate gzip compressed initramfs
+> * gzip compressed kernel and a built-in gzip compressed initramfs
+>
+> On arm and aarch64 I tested the same configurations, except that the kernel is
+> always gzip compressed.
+>
+> Facebook has been using v1 of these patches on x86_64 devices for more than 6
+> months. When we switched from a xz compressed initramfs to a zstd compressed
+> initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
+> switched from a xz compressed kernel to a zstd compressed kernel we saved 2
+> seconds of boot time.
+>
+> Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
+> When we switched from an lzma compressed initramfs to a zstd compressed initramfs
+> decompression time shrunk from 27 seconds to 8 seconds.
+>
+> The zstd compressed kernel is smaller than the gzip compressed kernel but larger
+> than the xz or lzma compressed kernels, and it decompresses faster than
+> everything except lz4. See the table below for the measurement of an x86_64
+> kernel ordered by compressed size:
+>
+> algo    size
+> xz       6,509,792
+> lzma     6,856,576
+> zstd     7,399,157
+> gzip     8,522,527
+> bzip     8,629,603
+> lzo      9,808,035
+> lz4     10,705,570
+> none    32,565,672
+>
+> Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
+>
+> v1 -> v2:
+> - Rebase
+>   - usr/Makefile and init/Kconfig were changed so the patches were updated
+> - No functional changes except to rebase
+> - Split the patches up into smaller chunks
+>
+> v2 -> v3:
+> - Add *.zst to the .gitignore in patch 8
+> - Style nits in patch 3
+> - Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
+>   1 through 3
+>
+> v3 -> v4:
+> - Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
+>   With this change I switch from malloc() to large_malloc() for the
+>   buffers.
+> - Increase the maximum allowed window size from 8 MB to 128 MB, which is
+>   the max that zstd in the kernel supports.
+>
+> v4 -> v5:
+> - Update commit message for patch 6 in response to comments
+> - Rebase onto next-20200408
+>
+> v5 -> v6:
+> - Rebase onto v5.8-rc4
+>
+> v6 -> v7:
+> - (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
+> - (2/8) Drop 'lib: prepare xxhash for preboot environment'
+> - (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
+> - (3/7) Update zstd compression cmd to follow other compressors
+> - (3/7) Add zstd22 cmd
+> - (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
+>
+> v7 -> v8:
+> - (2/7) Don't define '__DISABLE_EXPORTS'
+> - (6/7) Define '__DISABLE_EXPORTS' in misc.c
+>
+> v8 -> v9:
+> - Rebase onto v5.8-rc7
+> - (2/7) Fix nits about comment style & typos
+> - (3/7) Fix typo in init/Kconfig description
+> - (6/7) Explain BOOT_HEAP_SIZE increase and define __DISABLE_EXPORTS in
+>         Makefile KBUILD_CFLAGS and remove definitions from kaslr.c and misc.c
+>
+> v9 -> v10:
+> - (6/8) Fix commit message regarding __DISABLE_EXPORTS
+> - (8/8) Add .zst files to Documentation/dontdiff
+>
+
+Hi Nick,
+
+Hope with version 10 of your patchset the review process has an end
+and it will picked up into tip Git.
+
+Again: Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+
+Build-environments (more details see [1]):
+#0: Debian/unstable AMD64
+#1: LLVM v11.0.0-rc1 (clang-11, ld.lld-11 and LLVM "bin"utils)
+#2: GCC v10.2 and GNU/ld.bfd v2.35 and GNU/binutils
+
+With the best wishes,
+- Sedat -
+
+[1] https://github.com/ClangBuiltLinux/linux/issues/1086#issuecomment-667036028
 
 
-Right.
-Many people know it.
-
-
-objtool opts out the Kbuild instructure.
-
-I wrote a patch to make objtool join the Kbuild:
-https://patchwork.kernel.org/patch/10839051/
-
-The objtool maintainers refused to do this.
-
-
-
-
-
-
-> ...
->   HOSTCC  scripts/asn1_compiler
->   HOSTCC  scripts/extract-cert
->   HOSTCC  scripts/genksyms/genksyms.o
->   YACC    scripts/genksyms/parse.tab.[ch]
->   LEX     scripts/genksyms/lex.lex.c
->   DESCEND  objtool
->   HOSTCXX scripts/gcc-plugins/cyc_complexity_plugin.so
->   HOSTCXX scripts/gcc-plugins/latent_entropy_plugin.so
->   HOSTCXX scripts/gcc-plugins/structleak_plugin.so
->   GENSEED scripts/gcc-plugins/randomize_layout_seed.h
->   HOSTCXX scripts/gcc-plugins/stackleak_plugin.so
->   HOSTCC  scripts/genksyms/parse.tab.o
->   HOSTCC  scripts/genksyms/lex.lex.o
->   HOSTCC   /home/kees/src/linux-build/plugins/tools/objtool/fixdep.o
->   HOSTLD  arch/x86/tools/relocs
->   HOSTLD   /home/kees/src/linux-build/plugins/tools/objtool/fixdep-in.o
->   LINK     /home/kees/src/linux-build/plugins/tools/objtool/fixdep
->   CC       /home/kees/src/linux-build/plugins/tools/objtool/exec-cmd.o
->   CC       /home/kees/src/linux-build/plugins/tools/objtool/help.o
->   CC       /home/kees/src/linux-build/plugins/tools/objtool/weak.o
-> ...
+> Best,
+> Nick Terrell
+>
+> Adam Borowski (1):
+>   .gitignore: add ZSTD-compressed files
+>
+> Nick Terrell (7):
+>   lib: prepare zstd for preboot environment
+>   lib: add zstd support to decompress
+>   init: add support for zstd compressed kernel
+>   usr: add support for zstd compressed initramfs
+>   x86: bump ZO_z_extra_bytes margin for zstd
+>   x86: Add support for ZSTD compressed kernel
+>   Documentation: dontdiff: Add zstd compressed files
+>
+>  .gitignore                        |   1 +
+>  Documentation/dontdiff            |   1 +
+>  Documentation/x86/boot.rst        |   6 +-
+>  Makefile                          |   3 +-
+>  arch/x86/Kconfig                  |   1 +
+>  arch/x86/boot/compressed/Makefile |   6 +-
+>  arch/x86/boot/compressed/kaslr.c  |   7 -
+>  arch/x86/boot/compressed/misc.c   |   4 +
+>  arch/x86/boot/header.S            |   8 +-
+>  arch/x86/include/asm/boot.h       |  11 +-
+>  include/linux/decompress/unzstd.h |  11 +
+>  init/Kconfig                      |  15 +-
+>  lib/Kconfig                       |   4 +
+>  lib/Makefile                      |   1 +
+>  lib/decompress.c                  |   5 +
+>  lib/decompress_unzstd.c           | 345 ++++++++++++++++++++++++++++++
+>  lib/zstd/fse_decompress.c         |   9 +-
+>  lib/zstd/zstd_internal.h          |  14 +-
+>  scripts/Makefile.lib              |  22 ++
+>  usr/Kconfig                       |  20 ++
+>  usr/Makefile                      |   1 +
+>  21 files changed, 469 insertions(+), 26 deletions(-)
+>  create mode 100644 include/linux/decompress/unzstd.h
+>  create mode 100644 lib/decompress_unzstd.c
 >
 > --
-> Kees Cook
-
-
-
---
-Best Regards
-Masahiro Yamada
+> 2.27.0
+>
