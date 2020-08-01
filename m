@@ -2,69 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7DFC23526F
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Aug 2020 14:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6450B2352E2
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Aug 2020 17:01:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728505AbgHAMuh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Aug 2020 08:50:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726808AbgHAMuh (ORCPT
+        id S1726523AbgHAPBx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Aug 2020 11:01:53 -0400
+Received: from conuserg-11.nifty.com ([210.131.2.78]:53478 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725804AbgHAPBx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Aug 2020 08:50:37 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAD19C06174A;
-        Sat,  1 Aug 2020 05:50:36 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id v4so25410485ljd.0;
-        Sat, 01 Aug 2020 05:50:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IqClmlC3LlAm3Xey7EC8Tw9GBmxSznPUo4DzWC4sUS8=;
-        b=iLuWNKE0OuxwTdlpWutGCACBMoNvEnpvkOl2bv4v8aI80LSYSHcd2hYHfabBoevd12
-         2Psb90f3bVmwzIC7FvfmpaapnRLf3uNUDrueEBoppCJt9+0wkOb6w8PBXXoNluN72pHG
-         11p2UCnD5HJVyyClSaxy80pex1LZ8KoKFqjfRsK24iTUnez5t6FxPC9P2+wPhaiojygq
-         0ZPgxBTdmTPweYKPbF+Sua4uYdXv9DO8MM2kLPy5xGzaVvzoz9LxrUeRi19l7mem8+YU
-         gPCL+5X5CmpaG8XUyLGYoCQnchEjD8QrEKSAQCjljD9c3mWjfhMUCcRgyL7UzvAQ/MNz
-         xpuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IqClmlC3LlAm3Xey7EC8Tw9GBmxSznPUo4DzWC4sUS8=;
-        b=chLmQ74ay2Jqf+oVItugLMEzAm1ohvU6uEsZwy07jC+uMzRT83HTq22OgP88WINRDd
-         gXt+Es87guMMH8sR1cbqOv9gfBnLqQOAznH5E6lEjVYhnwkZqKlMp23PqsjURvJm3K7w
-         3yhYbgSgko5gIeFX4y3rZM60AIxY5OVyHKvo+9ixpSIx74CtIFhrbfxUh4gMxPBeAiu6
-         96fNJkGYsygnm1/rGP7Ake7fv+YpdG49bl4jc+cKutXnLKkwkPEmrz8WKhyBlEi7inFj
-         5ZV2u0PBzdY0r7qxiyOWSGd8agwb55Vw7cs6uCAt/ob41b2+DruaY+FCAk1b+7ZFXZwG
-         SQ5Q==
-X-Gm-Message-State: AOAM532Eynipxt5/2DST3jONd54804PO4qq09nunBtThjUvuqbFJq7np
-        B+KsfmMXLpZnPL9hkXVFzr56ZANEXEUtKG0ClMKrOA==
-X-Google-Smtp-Source: ABdhPJy0GAoIzwM3RjlqAq4gd4Iba8EMceGiCkI1SC9ZAJmwI+D/oI+tmSZ9b95MMo5uhDyGr0qYo9nKHXqidjdJO4w=
-X-Received: by 2002:a2e:b814:: with SMTP id u20mr3740179ljo.202.1596286235379;
- Sat, 01 Aug 2020 05:50:35 -0700 (PDT)
+        Sat, 1 Aug 2020 11:01:53 -0400
+Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 071F0q51015446;
+        Sun, 2 Aug 2020 00:00:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 071F0q51015446
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1596294053;
+        bh=iB+4Axh/LScTu6iv9y46G7fJslW+Ej8Wjx6mPd1aNvk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=c0JKLZBNUX/vFZqw09nlPS+4PAOgo05+nSaDmnRBC+w4C4BBIOPD1P/14Qky4UvOa
+         y1RzB7zGuMTnS39bGaAB1SjW/zO2DrKJ6qcVxOvUd3LJAVMWoYph0ZPUadt+CSyJa/
+         hNSnC3z5Ew5NXQ+zid0xZRDgLm4kpVHTo40YOy6Vu0E89mE+Up1sgKm1jQz6Orz/b7
+         7nAntrZOgykP7Ea4zi2Kf4EgLpri8bOhGzwWZQ29sR5DHylnPsAO0WGctyBR+Gt48R
+         dbj0TrN4vJOjv6+IPYIYFPOZbWeqrFkSFZnlqzBe6yL+BI89hOQXcwux6aFhUXivMz
+         j1GV0bHAKVbeQ==
+X-Nifty-SrcIP: [126.25.67.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Marco Elver <elver@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        kasan-dev@googlegroups.com
+Subject: [PATCH 1/2] kbuild: include scripts/Makefile.* only when relevant CONFIG is enabled
+Date:   Sun,  2 Aug 2020 00:00:49 +0900
+Message-Id: <20200801150050.767038-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200801122718.543376-1-masahiroy@kernel.org>
-In-Reply-To: <20200801122718.543376-1-masahiroy@kernel.org>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Sat, 1 Aug 2020 14:50:24 +0200
-Message-ID: <CANiq72ke=j4DQ4=YA0ZdnYRzJf-XOjPbvwugUdn6afM8wK8YNg@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: introduce hostprogs-always-y and userprogs-always-y
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 1, 2020 at 2:28 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
->  samples/auxdisplay/Makefile         |  3 +--
+Currently, the top Makefile includes all of scripts/Makefile.<feature>
+even if the associated CONFIG option is disabled.
 
-Acked-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Do not include unneeded Makefiles in order to slightly optimize the
+parse stage.
 
-Cheers,
-Miguel
+Include $(include-y), and ignore $(include-).
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ Makefile               | 16 +++++++++-------
+ scripts/Makefile.kcov  |  4 ----
+ scripts/Makefile.kcsan |  4 ----
+ scripts/Makefile.ubsan |  3 ---
+ 4 files changed, 9 insertions(+), 18 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index ebf4d3ce492c..483456d5dd3e 100644
+--- a/Makefile
++++ b/Makefile
+@@ -745,9 +745,6 @@ endif
+ KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
+ KBUILD_CFLAGS	+= $(call cc-option,-fno-allow-store-data-races)
+ 
+-include scripts/Makefile.kcov
+-include scripts/Makefile.gcc-plugins
+-
+ ifdef CONFIG_READABLE_ASM
+ # Disable optimizations that make assembler listings hard to read.
+ # reorder blocks reorders the control in the function
+@@ -948,10 +945,15 @@ ifdef CONFIG_RETPOLINE
+ KBUILD_CFLAGS += $(call cc-option,-fcf-protection=none)
+ endif
+ 
+-include scripts/Makefile.kasan
+-include scripts/Makefile.extrawarn
+-include scripts/Makefile.ubsan
+-include scripts/Makefile.kcsan
++# include additional Makefiles when needed
++include-y			:= scripts/Makefile.extrawarn
++include-$(CONFIG_KASAN)		+= scripts/Makefile.kasan
++include-$(CONFIG_KCSAN)		+= scripts/Makefile.kcsan
++include-$(CONFIG_UBSAN)		+= scripts/Makefile.ubsan
++include-$(CONFIG_KCOV)		+= scripts/Makefile.kcov
++include-$(CONFIG_GCC_PLUGINS)	+= scripts/Makefile.gcc-plugins
++
++include $(addprefix $(srctree)/, $(include-y))
+ 
+ # Add user supplied CPPFLAGS, AFLAGS and CFLAGS as the last assignments
+ KBUILD_CPPFLAGS += $(KCPPFLAGS)
+diff --git a/scripts/Makefile.kcov b/scripts/Makefile.kcov
+index 52b113302443..67e8cfe3474b 100644
+--- a/scripts/Makefile.kcov
++++ b/scripts/Makefile.kcov
+@@ -1,10 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-ifdef CONFIG_KCOV
+-
+ kcov-flags-$(CONFIG_CC_HAS_SANCOV_TRACE_PC)	+= -fsanitize-coverage=trace-pc
+ kcov-flags-$(CONFIG_KCOV_ENABLE_COMPARISONS)	+= -fsanitize-coverage=trace-cmp
+ kcov-flags-$(CONFIG_GCC_PLUGIN_SANCOV)		+= -fplugin=$(objtree)/scripts/gcc-plugins/sancov_plugin.so
+ 
+ export CFLAGS_KCOV := $(kcov-flags-y)
+-
+-endif
+diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
+index bd4da1af5953..2b0743e6566e 100644
+--- a/scripts/Makefile.kcsan
++++ b/scripts/Makefile.kcsan
+@@ -1,6 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-ifdef CONFIG_KCSAN
+-
+ # GCC and Clang accept backend options differently. Do not wrap in cc-option,
+ # because Clang accepts "--param" even if it is unused.
+ ifdef CONFIG_CC_IS_CLANG
+@@ -15,5 +13,3 @@ CFLAGS_KCSAN := -fsanitize=thread \
+ 	$(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
+ 	$(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1)) \
+ 	$(call cc-param,tsan-distinguish-volatile=1)
+-
+-endif # CONFIG_KCSAN
+diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
+index 5b15bc425ec9..27348029b2b8 100644
+--- a/scripts/Makefile.ubsan
++++ b/scripts/Makefile.ubsan
+@@ -1,6 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-ifdef CONFIG_UBSAN
+-
+ ifdef CONFIG_UBSAN_ALIGNMENT
+       CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
+ endif
+@@ -26,4 +24,3 @@ endif
+       # -fsanitize=* options makes GCC less smart than usual and
+       # increase number of 'maybe-uninitialized false-positives
+       CFLAGS_UBSAN += $(call cc-option, -Wno-maybe-uninitialized)
+-endif
+-- 
+2.25.1
+
