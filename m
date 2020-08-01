@@ -2,441 +2,203 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D36BD235241
-	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Aug 2020 14:27:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B8D7235264
+	for <lists+linux-kbuild@lfdr.de>; Sat,  1 Aug 2020 14:34:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728743AbgHAM1l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 1 Aug 2020 08:27:41 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:17684 "EHLO
-        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728632AbgHAM1k (ORCPT
+        id S1728746AbgHAMeF (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 1 Aug 2020 08:34:05 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:44397 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728609AbgHAMeE (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 1 Aug 2020 08:27:40 -0400
-Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 071CRKxl018934;
-        Sat, 1 Aug 2020 21:27:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 071CRKxl018934
+        Sat, 1 Aug 2020 08:34:04 -0400
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 071CXk9h006581;
+        Sat, 1 Aug 2020 21:33:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 071CXk9h006581
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596284841;
-        bh=xLiaOQ1TEc0N8chuDQ7/0wJBORv+8padPrYOMikNf7M=;
-        h=From:To:Cc:Subject:Date:From;
-        b=SeZi4Goh5brk5Mnva3aWEYFsZKJgDyHSJfdNESPUHYTdQ7isxtfUMiYIwLBAH3bwR
-         Lgg3LpQb0k8XcajoCkzZ2WSWs67cBbG6KbQP90ufx8F4tDLB1cXlUJ9GkBGLg42bQ7
-         BUdQ2cUKDKGh1m4T6RKM1BoGpX0zmcLnRtL9lDIupoGbuSUpJT8SdIlFES+8184ZkM
-         DNTr0+IXyhmhvltnWFh4mMDfvj12/JeNnqXF4mpkKxzbhKK7ZntfSKeLoJs9PZO2mI
-         6cXgIlLXI3BqR1nUOz+jVdKqeZ5H8S/9GEfGexeXfKEsrKMe6MdKX1mt6gC9kgNAW6
-         l0TWG+RZqgXOA==
-X-Nifty-SrcIP: [126.25.67.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] kbuild: introduce hostprogs-always-y and userprogs-always-y
-Date:   Sat,  1 Aug 2020 21:27:18 +0900
-Message-Id: <20200801122718.543376-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        s=dec2015msa; t=1596285227;
+        bh=L+wjmNkKDft8GKG9TLffZw2+e6y2VA945fN99WOCg5k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=QSIXbanbw4HoVNfr4UXFTo03tYgdYRWf9AA16G9OBEfzhYdaSpa5kn9VIXWqQZRay
+         D5VVW6o9MLlMBVe7S1d0c7Wa6xNzGA6USl7kMsJ877xSt2iCkFfg5mp1TYmyhOX1ha
+         Y8HCAvccOu2gPXCyHt2qx6bCfDXelevv27BZ/42rkBa5x0Ac3vbmIg5giKDWhboS0I
+         wOc78Xg0vU5Z1GPUUcoRKzrKjgthSTIEdo/kmerKYyme8uErmXIK8o5CpSxnJ0goDY
+         94uTKhOdb+srpwqHqOEhtUVrd66bdKFrPJ7ODzV1MsdLfMTKvUQaHrAzZBjkMZWqNy
+         lusGUvRWJQfMQ==
+X-Nifty-SrcIP: [209.85.222.52]
+Received: by mail-ua1-f52.google.com with SMTP id e20so3219158uav.3;
+        Sat, 01 Aug 2020 05:33:46 -0700 (PDT)
+X-Gm-Message-State: AOAM531GqUGq41H8oWrf8rHKV0TawWcJkRpqQcywClvE2sFqV7hCbjp6
+        aZ+W1XQrB5wpLPXK3SxgjfMgQos70R+dKihBJi0=
+X-Google-Smtp-Source: ABdhPJzBsWqcTxd9WXWZUr7YBXQMw70o2ON5ypBMDI6XvCn9Co2N4uE2yk+11RzTLCuS6ikDu4zranuKXhb8p3HrUyk=
+X-Received: by 2002:ab0:5b91:: with SMTP id y17mr5816923uae.95.1596285225231;
+ Sat, 01 Aug 2020 05:33:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200719194602.61387-1-grandmaster@al2klimov.de>
+In-Reply-To: <20200719194602.61387-1-grandmaster@al2klimov.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 1 Aug 2020 21:33:08 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQywudK9hJLeAT+Z3HWt4bgR+Tf3PWWtqkc7LT=eKBMyA@mail.gmail.com>
+Message-ID: <CAK7LNAQywudK9hJLeAT+Z3HWt4bgR+Tf3PWWtqkc7LT=eKBMyA@mail.gmail.com>
+Subject: Re: [PATCH for v5.9] kbuild: Replace HTTP links with HTTPS ones
+To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-To build host programs, you need to add the program names to 'hostprogs'
-to use the necessary build rule, but it is not enough to build them
-because there is no dependency.
+On Mon, Jul 20, 2020 at 4:46 AM Alexander A. Klimov
+<grandmaster@al2klimov.de> wrote:
+>
+> Rationale:
+> Reduces attack surface on kernel devs opening the links for MITM
+> as HTTPS traffic is much harder to manipulate.
+>
+> Deterministic algorithm:
+> For each file:
+>   If not .svg:
+>     For each line:
+>       If doesn't contain `\bxmlns\b`:
+>         For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
+>           If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
+>             If both the HTTP and HTTPS versions
+>             return 200 OK and serve the same content:
+>               Replace HTTP with HTTPS.
+>
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
 
-There are two types of host programs: built as the prerequisite of
-another (e.g. gen_crc32table in lib/Makefile), or always built when
-Kbuild visits the Makefile (e.g. genksyms in scripts/genksyms/Makefile).
+Applied to linux-kbuild. Thanks.
 
-The latter is typical in Makefiles under scripts/, which contains host
-programs globally used during the kernel build. To build them, you need
-to add them to both 'hostprogs' and 'always-y'.
 
-This commit adds hostprogs-always-y as a shorthand.
 
-The same applies to user programs. net/bpfilter/Makefile builds
-bpfilter_umh on demand, hence always-y is unneeded. In contrast,
-programs under samples/ are added to both 'userprogs' and 'always-y'
-so they are always built when Kbuild visits the Makefiles.
+>  Continuing my work started at 93431e0607e5.
+>  See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
+>  (Actually letting a shell for loop submit all this stuff for me.)
+>
+>  If there are any URLs to be removed completely
+>  or at least not (just) HTTPSified:
+>  Just clearly say so and I'll *undo my change*.
+>  See also: https://lkml.org/lkml/2020/6/27/64
+>
+>  If there are any valid, but yet not changed URLs:
+>  See: https://lkml.org/lkml/2020/6/26/837
+>
+>  If you apply the patch, please let me know.
+>
+>  Sorry again to all maintainers who complained about subject lines.
+>  Now I realized that you want an actually perfect prefixes,
+>  not just subsystem ones.
+>  I tried my best...
+>  And yes, *I could* (at least half-)automate it.
+>  Impossible is nothing! :)
+>
+>
+>  Documentation/kbuild/Kconfig.recursion-issue-02 |  2 +-
+>  Documentation/kbuild/kconfig-language.rst       | 14 +++++++-------
+>  Documentation/kbuild/llvm.rst                   |  2 +-
+>  scripts/package/mkdebian                        |  2 +-
+>  scripts/package/mkspec                          |  2 +-
+>  5 files changed, 11 insertions(+), 11 deletions(-)
+>
+> diff --git a/Documentation/kbuild/Kconfig.recursion-issue-02 b/Documentation/kbuild/Kconfig.recursion-issue-02
+> index b9fd56c4b57e..df245fd7670d 100644
+> --- a/Documentation/kbuild/Kconfig.recursion-issue-02
+> +++ b/Documentation/kbuild/Kconfig.recursion-issue-02
+> @@ -42,7 +42,7 @@
+>  # "select FW_LOADER" [0], in the end the simple alternative solution to this
+>  # problem consisted on matching semantics with newly introduced features.
+>  #
+> -# [0] http://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
+> +# [0] https://lkml.kernel.org/r/1432241149-8762-1-git-send-email-mcgrof@do-not-panic.com
+>
+>  mainmenu "Simple example to demo cumulative kconfig recursive dependency implication"
+>
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index a1601ec3317b..41bee6a171e3 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -688,10 +688,10 @@ and real world requirements were not well understood. As it stands though
+>  only reverse engineering techniques have been used to deduce semantics from
+>  variability modeling languages such as Kconfig [3]_.
+>
+> -.. [0] http://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
+> -.. [1] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
+> -.. [2] http://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
+> -.. [3] http://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
+> +.. [0] https://www.eng.uwaterloo.ca/~shshe/kconfig_semantics.pdf
+> +.. [1] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
+> +.. [2] https://gsd.uwaterloo.ca/sites/default/files/ase241-berger_0.pdf
+> +.. [3] https://gsd.uwaterloo.ca/sites/default/files/icse2011.pdf
+>
+>  Full SAT solver for Kconfig
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> @@ -710,10 +710,10 @@ such efforts somehow on Kconfig. There is enough interest from mentors of
+>  existing projects to not only help advise how to integrate this work upstream
+>  but also help maintain it long term. Interested developers should visit:
+>
+> -http://kernelnewbies.org/KernelProjects/kconfig-sat
+> +https://kernelnewbies.org/KernelProjects/kconfig-sat
+>
+> -.. [4] http://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
+> -.. [5] http://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
+> +.. [4] https://www.cs.cornell.edu/~sabhar/chapters/SATSolvers-KR-Handbook.pdf
+> +.. [5] https://gsd.uwaterloo.ca/sites/default/files/vm-2013-berger.pdf
+>  .. [6] https://cados.cs.fau.de
+>  .. [7] https://vamos.cs.fau.de
+>  .. [8] https://undertaker.cs.fau.de
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index c776b6eee969..2aac50b97921 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -76,7 +76,7 @@ Getting Help
+>  Getting LLVM
+>  -------------
+>
+> -- http://releases.llvm.org/download.html
+> +- https://releases.llvm.org/download.html
+>  - https://github.com/llvm/llvm-project
+>  - https://llvm.org/docs/GettingStarted.html
+>  - https://llvm.org/docs/CMake.html
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index df1adbfb8ead..48fbd3d0284a 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -175,7 +175,7 @@ Section: kernel
+>  Priority: optional
+>  Maintainer: $maintainer
+>  Build-Depends: bc, rsync, kmod, cpio, bison, flex | flex:native $extra_build_depends
+> -Homepage: http://www.kernel.org/
+> +Homepage: https://www.kernel.org/
+>
+>  Package: $packagename
+>  Architecture: $debarch
+> diff --git a/scripts/package/mkspec b/scripts/package/mkspec
+> index 8640c278f1aa..7c477ca7dc98 100755
+> --- a/scripts/package/mkspec
+> +++ b/scripts/package/mkspec
+> @@ -46,7 +46,7 @@ sed -e '/^DEL/d' -e 's/^\t*//' <<EOF
+>         License: GPL
+>         Group: System Environment/Kernel
+>         Vendor: The Linux Community
+> -       URL: http://www.kernel.org
+> +       URL: https://www.kernel.org
+>  $S     Source: kernel-$__KERNELRELEASE.tar.gz
+>         Provides: $PROVIDES
+>         %define __spec_install_post /usr/lib/rpm/brp-compress || :
+> --
+> 2.27.0
+>
 
-userprogs-always-y works as a shorthand.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/makefiles.rst  | 31 ++++++++++++++++++++++++++++-
- samples/auxdisplay/Makefile         |  3 +--
- samples/binderfs/Makefile           |  3 +--
- samples/connector/Makefile          |  3 +--
- samples/hidraw/Makefile             |  3 +--
- samples/mei/Makefile                |  4 +---
- samples/pidfd/Makefile              |  4 +---
- samples/seccomp/Makefile            |  4 +---
- samples/timers/Makefile             |  3 +--
- samples/uhid/Makefile               |  3 +--
- samples/vfs/Makefile                |  3 +--
- samples/watch_queue/Makefile        |  3 +--
- samples/watchdog/Makefile           |  3 +--
- scripts/Makefile                    | 18 ++++++++---------
- scripts/Makefile.clean              | 12 ++++++++---
- scripts/Makefile.lib                | 10 ++++++++++
- scripts/basic/Makefile              |  3 +--
- scripts/dtc/Makefile                |  5 ++---
- scripts/genksyms/Makefile           |  3 +--
- scripts/mod/Makefile                |  4 ++--
- scripts/selinux/genheaders/Makefile |  4 +---
- scripts/selinux/mdp/Makefile        |  3 +--
- 22 files changed, 77 insertions(+), 55 deletions(-)
-
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 14d8e7d23c04..b81b8913a5a3 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -749,6 +749,10 @@ Both possibilities are described in the following.
- 		hostprogs     := lxdialog
- 		always-y      := $(hostprogs)
- 
-+	Kbuild provides the following shorthand for this:
-+
-+		hostprogs-always-y := lxdialog
-+
- 	This will tell kbuild to build lxdialog even if not referenced in
- 	any rule.
- 
-@@ -831,7 +835,32 @@ The syntax is quite similar. The difference is to use "userprogs" instead of
- 5.4 When userspace programs are actually built
- ----------------------------------------------
- 
--	Same as "When host programs are actually built".
-+	Kbuild builds userspace programs only when told to do so.
-+	There are two ways to do this.
-+
-+	(1) Add it as the prerequisite of another file
-+
-+	Example::
-+
-+		#net/bpfilter/Makefile
-+		userprogs := bpfilter_umh
-+		$(obj)/bpfilter_umh_blob.o: $(obj)/bpfilter_umh
-+
-+	$(obj)/bpfilter_umh is built before $(obj)/bpfilter_umh_blob.o
-+
-+	(2) Use always-y
-+
-+	Example::
-+
-+		userprogs := binderfs_example
-+		always-y := $(userprogs)
-+
-+	Kbuild provides the following shorthand for this:
-+
-+		userprogs-always-y := binderfs_example
-+
-+	This will tell Kbuild to build binderfs_example when it visits this
-+	Makefile.
- 
- 6 Kbuild clean infrastructure
- =============================
-diff --git a/samples/auxdisplay/Makefile b/samples/auxdisplay/Makefile
-index dbdf939af94a..19d5568938c3 100644
---- a/samples/auxdisplay/Makefile
-+++ b/samples/auxdisplay/Makefile
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
--userprogs := cfag12864b-example
--always-y := $(userprogs)
-+userprogs-always-y += cfag12864b-example
-diff --git a/samples/binderfs/Makefile b/samples/binderfs/Makefile
-index 989e4badaee2..629e43b9b129 100644
---- a/samples/binderfs/Makefile
-+++ b/samples/binderfs/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--userprogs := binderfs_example
--always-y := $(userprogs)
-+userprogs-always-y += binderfs_example
- 
- userccflags += -I usr/include
-diff --git a/samples/connector/Makefile b/samples/connector/Makefile
-index 50cb40e09a7b..d98a9e047c11 100644
---- a/samples/connector/Makefile
-+++ b/samples/connector/Makefile
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_SAMPLE_CONNECTOR) += cn_test.o
- 
--userprogs := ucon
--always-$(CONFIG_CC_CAN_LINK) := $(userprogs)
-+userprogs-always-$(CONFIG_CC_CAN_LINK) += ucon
- 
- userccflags += -I usr/include
-diff --git a/samples/hidraw/Makefile b/samples/hidraw/Makefile
-index d2c77ed60b39..594d989e5486 100644
---- a/samples/hidraw/Makefile
-+++ b/samples/hidraw/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--userprogs := hid-example
--always-y := $(userprogs)
-+userprogs-always-y += hid-example
- 
- userccflags += -I usr/include
-diff --git a/samples/mei/Makefile b/samples/mei/Makefile
-index 329411f82369..c54b8a0ab04e 100644
---- a/samples/mei/Makefile
-+++ b/samples/mei/Makefile
-@@ -1,7 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- # Copyright (c) 2012-2019, Intel Corporation. All rights reserved.
--
--userprogs := mei-amt-version
--always-y := $(userprogs)
-+userprogs-always-y += mei-amt-version
- 
- userccflags += -I usr/include
-diff --git a/samples/pidfd/Makefile b/samples/pidfd/Makefile
-index 6e5b67e648c2..9754e2d81f70 100644
---- a/samples/pidfd/Makefile
-+++ b/samples/pidfd/Makefile
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--
--usertprogs := pidfd-metadata
--always-y := $(userprogs)
-+usertprogs-always-y += pidfd-metadata
- 
- userccflags += -I usr/include
-diff --git a/samples/seccomp/Makefile b/samples/seccomp/Makefile
-index 75916c23e416..c85ae0ed8342 100644
---- a/samples/seccomp/Makefile
-+++ b/samples/seccomp/Makefile
-@@ -1,8 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
--userprogs := bpf-fancy dropper bpf-direct user-trap
-+userprogs-always-y += bpf-fancy dropper bpf-direct user-trap
- 
- bpf-fancy-objs := bpf-fancy.o bpf-helper.o
- 
- userccflags += -I usr/include
--
--always-y := $(userprogs)
-diff --git a/samples/timers/Makefile b/samples/timers/Makefile
-index 15c7ddbc8c51..e6836cdea4e2 100644
---- a/samples/timers/Makefile
-+++ b/samples/timers/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--userprogs := hpet_example
--always-y := $(userprogs)
-+userprogs-always-y += hpet_example
- 
- userccflags += -I usr/include
-diff --git a/samples/uhid/Makefile b/samples/uhid/Makefile
-index 9e652fc34103..0aa424ec4899 100644
---- a/samples/uhid/Makefile
-+++ b/samples/uhid/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--userprogs := uhid-example
--always-y := $(userprogs)
-+userprogs-always-y += uhid-example
- 
- userccflags += -I usr/include
-diff --git a/samples/vfs/Makefile b/samples/vfs/Makefile
-index 00b6824f9237..6377a678134a 100644
---- a/samples/vfs/Makefile
-+++ b/samples/vfs/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--userprogs := test-fsmount test-statx
--always-y := $(userprogs)
-+userprogs-always-y += test-fsmount test-statx
- 
- userccflags += -I usr/include
-diff --git a/samples/watch_queue/Makefile b/samples/watch_queue/Makefile
-index 792b22f593cf..c0db3a6bc524 100644
---- a/samples/watch_queue/Makefile
-+++ b/samples/watch_queue/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--userprogs := watch_test
--always-y := $(userprogs)
-+userprogs-always-y += watch_test
- 
- userccflags += -I usr/include
-diff --git a/samples/watchdog/Makefile b/samples/watchdog/Makefile
-index 17384cfb387e..ab39d23dc96b 100644
---- a/samples/watchdog/Makefile
-+++ b/samples/watchdog/Makefile
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
--userprogs := watchdog-simple
--always-y := $(userprogs)
-+userprogs-always-y += watchdog-simple
-diff --git a/scripts/Makefile b/scripts/Makefile
-index 95ecf970c74c..bc018e4b733e 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -3,14 +3,14 @@
- # scripts contains sources for various helper programs used throughout
- # the kernel for the build process.
- 
--always-$(CONFIG_BUILD_BIN2C)			+= bin2c
--always-$(CONFIG_KALLSYMS)			+= kallsyms
--always-$(BUILD_C_RECORDMCOUNT)			+= recordmcount
--always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
--always-$(CONFIG_ASN1)				+= asn1_compiler
--always-$(CONFIG_MODULE_SIG_FORMAT)		+= sign-file
--always-$(CONFIG_SYSTEM_TRUSTED_KEYRING)		+= extract-cert
--always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
-+hostprogs-always-$(CONFIG_BUILD_BIN2C)			+= bin2c
-+hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
-+hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
-+hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
-+hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
-+hostprogs-always-$(CONFIG_MODULE_SIG_FORMAT)		+= sign-file
-+hostprogs-always-$(CONFIG_SYSTEM_TRUSTED_KEYRING)	+= extract-cert
-+hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
- 
- HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
- HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
-@@ -26,8 +26,6 @@ HOSTCFLAGS_sorttable.o += -DUNWINDER_ORC_ENABLED
- HOSTLDLIBS_sorttable = -lpthread
- endif
- 
--hostprogs := $(always-y) $(always-m)
--
- # The following programs are only built on demand
- hostprogs += unifdef
- 
-diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index 3cdf31218198..d9e0ceace6a6 100644
---- a/scripts/Makefile.clean
-+++ b/scripts/Makefile.clean
-@@ -27,9 +27,15 @@ subdir-ymn	:= $(addprefix $(obj)/,$(subdir-ymn))
- # build a list of files to remove, usually relative to the current
- # directory
- 
--__clean-files	:= $(extra-y) $(extra-m) $(extra-)       \
--		   $(always) $(always-y) $(always-m) $(always-) $(targets) $(clean-files)   \
--		   $(hostprogs) $(hostprogs-y) $(hostprogs-m) $(hostprogs-) $(userprogs)
-+__clean-files	:= \
-+	$(clean-files) $(targets) $(hostprogs) $(userprogs) \
-+	$(extra-y) $(extra-m) $(extra-) \
-+	$(always-y) $(always-m) $(always-) \
-+	$(hostprogs-always-y) $(hostprogs-always-m) $(hostprogs-always-) \
-+	$(userprogs-always-y) $(userprogs-always-m) $(userprogs-always-)
-+
-+# deprecated
-+__clean-files	+= $(always) $(hostprogs-y) $(hostprogs-m) $(hostprogs-)
- 
- __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
- 
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 5cfd377778b4..f940f22292de 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -68,6 +68,16 @@ real-obj-m := $(foreach m, $(obj-m), $(if $(strip $($(m:.o=-objs)) $($(m:.o=-y))
- 
- always-y += $(always-m)
- 
-+# hostprogs-always-y += foo
-+# ... is a shorthand for
-+# hostprogs += foo
-+# always-y  += foo
-+# userprogs-always-y is likewise.
-+hostprogs += $(hostprogs-always-y) $(hostprogs-always-m)
-+userprogs += $(userprogs-always-y) $(userprogs-always-m)
-+always-y += $(hostprogs-always-y) $(hostprogs-always-m) \
-+	    $(userprogs-always-y) $(userprogs-always-m)
-+
- # DTB
- # If CONFIG_OF_ALL_DTBS is enabled, all DT blobs are built
- extra-y				+= $(dtb-y)
-diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
-index 290dd27d2809..eeb6a38c5551 100644
---- a/scripts/basic/Makefile
-+++ b/scripts/basic/Makefile
-@@ -2,5 +2,4 @@
- #
- # fixdep: used to generate dependency information during build process
- 
--hostprogs	:= fixdep
--always-y	:= $(hostprogs)
-+hostprogs-always-y	+= fixdep
-diff --git a/scripts/dtc/Makefile b/scripts/dtc/Makefile
-index 0b44917f981c..a698ece43fff 100644
---- a/scripts/dtc/Makefile
-+++ b/scripts/dtc/Makefile
-@@ -1,9 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- # scripts/dtc makefile
- 
--hostprogs			:= dtc
--always-$(CONFIG_DTC)		+= $(hostprogs)
--always-$(CHECK_DT_BINDING)	+= $(hostprogs)
-+hostprogs-always-$(CONFIG_DTC)		+= dtc
-+hostprogs-always-$(CHECK_DT_BINDING)	+= dtc
- 
- dtc-objs	:= dtc.o flattree.o fstree.o data.o livetree.o treesource.o \
- 		   srcpos.o checks.o util.o
-diff --git a/scripts/genksyms/Makefile b/scripts/genksyms/Makefile
-index d328de1e10ee..ce4f99935de5 100644
---- a/scripts/genksyms/Makefile
-+++ b/scripts/genksyms/Makefile
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- 
--hostprogs	:= genksyms
--always-y	:= $(hostprogs)
-+hostprogs-always-y	+= genksyms
- 
- genksyms-objs	:= genksyms.o parse.tab.o lex.lex.o
- 
-diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
-index 296b6a3878b2..78071681d924 100644
---- a/scripts/mod/Makefile
-+++ b/scripts/mod/Makefile
-@@ -1,8 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- OBJECT_FILES_NON_STANDARD := y
- 
--hostprogs	:= modpost mk_elfconfig
--always-y	:= $(hostprogs) empty.o
-+hostprogs-always-y	+= modpost mk_elfconfig
-+always-y		+= empty.o
- 
- modpost-objs	:= modpost.o file2alias.o sumversion.o
- 
-diff --git a/scripts/selinux/genheaders/Makefile b/scripts/selinux/genheaders/Makefile
-index 70cf8d95d07c..1faf7f07e8db 100644
---- a/scripts/selinux/genheaders/Makefile
-+++ b/scripts/selinux/genheaders/Makefile
-@@ -1,7 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--hostprogs	:= genheaders
-+hostprogs-always-y += genheaders
- HOST_EXTRACFLAGS += \
- 	-I$(srctree)/include/uapi -I$(srctree)/include \
- 	-I$(srctree)/security/selinux/include
--
--always-y	:= $(hostprogs)
-diff --git a/scripts/selinux/mdp/Makefile b/scripts/selinux/mdp/Makefile
-index 3026f3c2aa2b..d61058ddd15c 100644
---- a/scripts/selinux/mdp/Makefile
-+++ b/scripts/selinux/mdp/Makefile
-@@ -1,8 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
--hostprogs	:= mdp
-+hostprogs-always-y += mdp
- HOST_EXTRACFLAGS += \
- 	-I$(srctree)/include/uapi -I$(srctree)/include \
- 	-I$(srctree)/security/selinux/include -I$(objtree)/include
- 
--always-y	:= $(hostprogs)
- clean-files	:= policy.* file_contexts
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
