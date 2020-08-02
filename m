@@ -2,178 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF345235854
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Aug 2020 18:18:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7670223587A
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Aug 2020 18:35:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725840AbgHBQSG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 2 Aug 2020 12:18:06 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:48902 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726955AbgHBQSF (ORCPT
+        id S1726150AbgHBQfs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 Aug 2020 12:35:48 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:59477 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725768AbgHBQfs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 2 Aug 2020 12:18:05 -0400
-Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 072GHOar003720;
-        Mon, 3 Aug 2020 01:17:32 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 072GHOar003720
+        Sun, 2 Aug 2020 12:35:48 -0400
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 072GZYAE010032;
+        Mon, 3 Aug 2020 01:35:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 072GZYAE010032
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596385052;
-        bh=Fx4RBBuLEX1RyuzYReHJPlRR6nF9JYaZi1x4BFu3SOU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hNYqxS8PG7FKFhnRI/Kw8GHEMux3F6osUkMwyc3WJzFHARMFLeLlH8wD1IHvm52wE
-         qBIeQq1+mwdg21nNmkNotBrcWeoNr5Y6yu6GNSJXjptDvoFWOzOGEsf0GbODvaCefg
-         CKlYdHYdMTjDEGM6lh+C8gOG4eHjEGBngR3vrpKwboZNHNcdGuNy9A8rop+QwFa93F
-         EOaqTCE4QPffT5g1WrGvVgTn9CIg4JYGheYE9goEaLIr3O4S5kvsZcSKAIIr7hA2Sr
-         KkB1RS9qi678jLMDP3Rqorr/uOnV9gYTe6zfwXnIXcPLMX8OQhA6y+08I1wKZQVEK9
-         a4UlDx0TDUZjQ==
-X-Nifty-SrcIP: [126.25.67.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 16/16] kconfig: qconf: refactor icon setups
-Date:   Mon,  3 Aug 2020 01:17:21 +0900
-Message-Id: <20200802161721.921721-16-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200802161721.921721-1-masahiroy@kernel.org>
-References: <20200802161721.921721-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1596386135;
+        bh=buqQ+5V+jZVeUJqv5ynUltuexC7jQ90Idd2IOU9lLI8=;
+        h=From:Date:Subject:To:Cc:From;
+        b=Yiq/eYwc8od/CXLN3XIPvlPlxaljXLc1FTZ2wdoNOG7A4UoREGeqkyxUs+VEZshJS
+         IRoVU+zuT2lc67UdqhPQqug2I14rN/wcZkjPf1pGubYTUXO2FeCriS7NtGJNEJkecx
+         eWy1j345MU4q3pR4nDLJn/Sd+jeTw2FySUQ05FY4BXl1LS8sw+Nu5gp42BPCc0U4PA
+         g4MZf8CNVb4dxzUZBUP/Jm12xGsboE4eY0GXd+TNEhbVLyakwFpSB5JpcYltyjuisn
+         CLkMsl6XyBaWJIEv6UTSIQAvQO0nPXH4/Ua3CwHF1BYv6o6vo4omczVggz6ERJsu/W
+         FZVvBTQJC8xYg==
+X-Nifty-SrcIP: [209.85.222.50]
+Received: by mail-ua1-f50.google.com with SMTP id r63so11104738uar.9;
+        Sun, 02 Aug 2020 09:35:34 -0700 (PDT)
+X-Gm-Message-State: AOAM533td9vdpq0XEouWqMGxXmstbl9Ja7npSxt2c1gaw+gQFZQ6DaPj
+        1Ev0R8nxJIBS2847964rD+xAOw4jHO4Iwn10mD4=
+X-Google-Smtp-Source: ABdhPJwxFY3d019c2MX2wWRgJzpZrgSNxbaBHJ5+SamHhXc5OnRNKaTx7RUHCanswWoV0JyG8eJQ5icSEAuqNUDAroU=
+X-Received: by 2002:ab0:2390:: with SMTP id b16mr8660376uan.25.1596386133613;
+ Sun, 02 Aug 2020 09:35:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 3 Aug 2020 01:34:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATJbLfuj8bbjPevXWTk5HAra3n2aG-B2ueTPxMpYhbZnQ@mail.gmail.com>
+Message-ID: <CAK7LNATJbLfuj8bbjPevXWTk5HAra3n2aG-B2ueTPxMpYhbZnQ@mail.gmail.com>
+Subject: [GIT PULL] Kbuild fixes for v5.8(-rc8)
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-These icon data are used by ConfigItem, but stored in each instance
-of ConfigView. There is no point to keep the same data in each of 3
-instances ("menu", "config", and "search").
+Hi Linus,
 
-Move the icon data to the more relevant ConfigItem class, and make
-them static members.
+Please pull some more Kbuild fixes.
+Thanks.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+The following changes since commit 92ed301919932f777713b9172e525674157e983d:
 
- scripts/kconfig/qconf.cc | 33 +++++++++++++++++++++++----------
- scripts/kconfig/qconf.h  |  8 ++++----
- 2 files changed, 27 insertions(+), 14 deletions(-)
+  Linux 5.8-rc7 (2020-07-26 14:14:06 -0700)
 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 00b2f56186c2..1944abe8f028 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -74,6 +74,13 @@ bool ConfigSettings::writeSizes(const QString& key, const QList<int>& value)
- 	return true;
- }
- 
-+QIcon ConfigItem::symbolYesIcon;
-+QIcon ConfigItem::symbolModIcon;
-+QIcon ConfigItem::symbolNoIcon;
-+QIcon ConfigItem::choiceYesIcon;
-+QIcon ConfigItem::choiceNoIcon;
-+QIcon ConfigItem::menuIcon;
-+QIcon ConfigItem::menubackIcon;
- 
- /*
-  * set the new data
-@@ -97,7 +104,7 @@ void ConfigItem::updateMenu(void)
- 
- 	list = listView();
- 	if (goParent) {
--		setIcon(promptColIdx, list->menuBackPix);
-+		setIcon(promptColIdx, menubackIcon);
- 		prompt = "..";
- 		goto set_prompt;
- 	}
-@@ -114,7 +121,7 @@ void ConfigItem::updateMenu(void)
- 			 */
- 			if (sym && list->rootEntry == menu)
- 				break;
--			setIcon(promptColIdx, list->menuPix);
-+			setIcon(promptColIdx, menuIcon);
- 		} else {
- 			if (sym)
- 				break;
-@@ -149,22 +156,22 @@ void ConfigItem::updateMenu(void)
- 		switch (expr) {
- 		case yes:
- 			if (sym_is_choice_value(sym) && type == S_BOOLEAN)
--				setIcon(promptColIdx, list->choiceYesPix);
-+				setIcon(promptColIdx, choiceYesIcon);
- 			else
--				setIcon(promptColIdx, list->symbolYesPix);
-+				setIcon(promptColIdx, symbolYesIcon);
- 			setText(yesColIdx, "Y");
- 			ch = 'Y';
- 			break;
- 		case mod:
--			setIcon(promptColIdx, list->symbolModPix);
-+			setIcon(promptColIdx, symbolModIcon);
- 			setText(modColIdx, "M");
- 			ch = 'M';
- 			break;
- 		default:
- 			if (sym_is_choice_value(sym) && type == S_BOOLEAN)
--				setIcon(promptColIdx, list->choiceNoPix);
-+				setIcon(promptColIdx, choiceNoIcon);
- 			else
--				setIcon(promptColIdx, list->symbolNoPix);
-+				setIcon(promptColIdx, symbolNoIcon);
- 			setText(noColIdx, "N");
- 			ch = 'N';
- 			break;
-@@ -289,9 +296,6 @@ void ConfigLineEdit::keyPressEvent(QKeyEvent* e)
- ConfigList::ConfigList(ConfigView* p, const char *name)
- 	: Parent(p),
- 	  updateAll(false),
--	  symbolYesPix(xpm_symbol_yes), symbolModPix(xpm_symbol_mod), symbolNoPix(xpm_symbol_no),
--	  choiceYesPix(xpm_choice_yes), choiceNoPix(xpm_choice_no),
--	  menuPix(xpm_menu), menuBackPix(xpm_menuback),
- 	  showName(false), showRange(false), showData(false), mode(singleMode), optMode(normalOpt),
- 	  rootEntry(0), headerPopup(0)
- {
-@@ -1395,6 +1399,15 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	if ((x.isValid())&&(y.isValid()))
- 		move(x.toInt(), y.toInt());
- 
-+	// set up icons
-+	ConfigItem::symbolYesIcon = QIcon(QPixmap(xpm_symbol_yes));
-+	ConfigItem::symbolModIcon = QIcon(QPixmap(xpm_symbol_mod));
-+	ConfigItem::symbolNoIcon = QIcon(QPixmap(xpm_symbol_no));
-+	ConfigItem::choiceYesIcon = QIcon(QPixmap(xpm_choice_yes));
-+	ConfigItem::choiceNoIcon = QIcon(QPixmap(xpm_choice_no));
-+	ConfigItem::menubackIcon = QIcon(QPixmap(xpm_menuback));
-+	ConfigItem::menuIcon = QIcon(QPixmap(xpm_menu));
-+
- 	QWidget *widget = new QWidget(this);
- 	QVBoxLayout *layout = new QVBoxLayout(widget);
- 	setCentralWidget(widget);
-diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
-index c46a79a69001..460b858b0faa 100644
---- a/scripts/kconfig/qconf.h
-+++ b/scripts/kconfig/qconf.h
-@@ -98,10 +98,6 @@ public slots:
- 
- 	bool updateAll;
- 
--	QPixmap symbolYesPix, symbolModPix, symbolNoPix;
--	QPixmap choiceYesPix, choiceNoPix;
--	QPixmap menuPix, menuBackPix;
--
- 	bool showName, showRange, showData;
- 	enum listMode mode;
- 	enum optionMode optMode;
-@@ -162,6 +158,10 @@ class ConfigItem : public QTreeWidgetItem {
- 	struct menu *menu;
- 	bool visible;
- 	bool goParent;
-+
-+	static QIcon symbolYesIcon, symbolModIcon, symbolNoIcon;
-+	static QIcon choiceYesIcon, choiceNoIcon;
-+	static QIcon menuIcon, menubackIcon;
- };
- 
- class ConfigLineEdit : public QLineEdit {
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-fixes-v5.8-4
+
+for you to fetch changes up to 28ab576ba8de934ee3145b6d75119f016de567cb:
+
+  kbuild: remove redundant FORCE definition in
+scripts/Makefile.modpost (2020-08-02 23:09:16 +0900)
+
+----------------------------------------------------------------
+Kbuild fixes for v5.8 (4th)
+
+ - clean the generated moc file for xconfig
+
+ - fix xconfig bugs, and revert some bad commits
+
+----------------------------------------------------------------
+Masahiro Yamada (8):
+      kconfig: qconf: use if_changed for qconf.moc rule
+      kconfig: qconf: compile moc object separately
+      kconfig: qconf: use delete[] instead of delete to free array
+      kconfig: qconf: remove "goBack" debug message
+      Revert "kconfig: qconf: Change title for the item window"
+      Revert "kconfig: qconf: don't show goback button on splitMode"
+      kconfig: qconf: remove wrong ConfigList::firstChild()
+      kbuild: remove redundant FORCE definition in scripts/Makefile.modpost
+
+Wolfram Sang (1):
+      modpost: explain why we can't use strsep
+
+ scripts/Makefile.modpost   |  3 ---
+ scripts/kconfig/.gitignore |  2 +-
+ scripts/kconfig/Makefile   | 13 ++++++++-----
+ scripts/kconfig/qconf.cc   | 23 ++++++-----------------
+ scripts/kconfig/qconf.h    |  4 ----
+ scripts/mod/modpost.c      |  1 +
+ 6 files changed, 16 insertions(+), 30 deletions(-)
+
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
