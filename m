@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 011C623585F
-	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Aug 2020 18:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 504BF235866
+	for <lists+linux-kbuild@lfdr.de>; Sun,  2 Aug 2020 18:19:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726282AbgHBQSX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 2 Aug 2020 12:18:23 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:48904 "EHLO
+        id S1727100AbgHBQSd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 2 Aug 2020 12:18:33 -0400
+Received: from conuserg-07.nifty.com ([210.131.2.74]:48909 "EHLO
         conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726965AbgHBQSG (ORCPT
+        with ESMTP id S1726968AbgHBQSG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sun, 2 Aug 2020 12:18:06 -0400
 Received: from oscar.flets-west.jp (softbank126025067101.bbtec.net [126.25.67.101]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 072GHOam003720;
-        Mon, 3 Aug 2020 01:17:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 072GHOam003720
+        by conuserg-07.nifty.com with ESMTP id 072GHOan003720;
+        Mon, 3 Aug 2020 01:17:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 072GHOan003720
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596385049;
-        bh=rxIR7xmDbgwILNsGth0BdqXszWzbdWYmbGkGpyVmV1M=;
+        s=dec2015msa; t=1596385051;
+        bh=1QwsYPX/TRZCCEnjbvN03XB9oaYZ36pUlFuofsrgnTo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tdBzI/TyyJdQ5b5Bfxv1PJHmHdhlSUaFQAJKZA/gBQWZLSMjmcPSTK+MyoKtuPOxS
-         E350UMAndXjLrZakLXXJ/tk0YJ3iW+yAgdwUgCa/jRJqxNXkJ8hcaKZUbLY1gVwP/K
-         qzIsFPeg9TCpLrL8uKvf2/xw80zcQxCMob5otvkYdpG66yrEtV14vDjw2QSE1qMPfW
-         Q6+umNouC5SV1EK06onCGRfEb2VKHC7b6/WtEw/1lG+ho7NTsNvcX2ztg0PzHuZRMv
-         E1zzulub4MYBKSvBW3o188EUmLiO+Ppe5bJBIre6/ctvnFM7bOWvCXx8PHOY1j8gCg
-         2ELS1FVxtYzLA==
+        b=WupozzFfskp/G//KCA4Rb+9BC2a8z28/W9jGmyZ4oW8GZLNs/pTndSguwyyEJHpHA
+         QEXsoZ9XohiW6bzBJx5PAjKlPBz2gBGrt6r2iIZkwPI0kGloQNdXOVWfmBQHSYRuHp
+         M9AJB1RtzMrB5vGFhE9UEeL7nPwbxEDMjACi4eZME5e/f5XoJxS9oIhY0M7Q3wXB6c
+         96Jl+a66930LeP1BIld2ezFst4EDUXOL26D6Cio/WBMKMDrQTzk5/5pRjWNmzvtYdC
+         d3gemRwz1kEQO779y6esFmBve2WXa5zaE8fcgQiiVZtxtwId/n1Z9OV/qCof3dyBj6
+         umML8E8O+pZ5Q==
 X-Nifty-SrcIP: [126.25.67.101]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 11/16] kconfig: qconf: drop more localization code
-Date:   Mon,  3 Aug 2020 01:17:16 +0900
-Message-Id: <20200802161721.921721-11-masahiroy@kernel.org>
+Subject: [PATCH 12/16] kconfig: qconf: remove ConfigItem::pixmap/setPixmap
+Date:   Mon,  3 Aug 2020 01:17:17 +0900
+Message-Id: <20200802161721.921721-12-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200802161721.921721-1-masahiroy@kernel.org>
 References: <20200802161721.921721-1-masahiroy@kernel.org>
@@ -44,61 +44,112 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This is a remnant of commit 694c49a7c01c ("kconfig: drop localization
-support").
-
-Get it back to the code prior to commit 3b9fa0931dd8 ("[PATCH] Kconfig
-i18n support").
+Use QTreeWidgetItem::icon/setIcon directly.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/qconf.cc | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ scripts/kconfig/qconf.cc | 22 +++++++++++-----------
+ scripts/kconfig/qconf.h  |  8 --------
+ 2 files changed, 11 insertions(+), 19 deletions(-)
 
 diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 7f7164c71163..de46a2fc3f98 100644
+index de46a2fc3f98..94ffb64d3eca 100644
 --- a/scripts/kconfig/qconf.cc
 +++ b/scripts/kconfig/qconf.cc
-@@ -31,11 +31,6 @@ static ConfigSettings *configSettings;
+@@ -97,7 +97,7 @@ void ConfigItem::updateMenu(void)
  
- QAction *ConfigMainWindow::saveAction;
- 
--static inline QString qgettext(const char* str)
--{
--	return QString::fromLocal8Bit(str);
--}
--
- ConfigSettings::ConfigSettings()
- 	: QSettings("kernel.org", "qconf")
- {
-@@ -109,7 +104,7 @@ void ConfigItem::updateMenu(void)
- 
- 	sym = menu->sym;
- 	prop = menu->prompt;
--	prompt = qgettext(menu_get_prompt(menu));
-+	prompt = menu_get_prompt(menu);
- 
- 	if (prop) switch (prop->type) {
- 	case P_MENU:
-@@ -135,7 +130,7 @@ void ConfigItem::updateMenu(void)
- 	if (!sym)
+ 	list = listView();
+ 	if (goParent) {
+-		setPixmap(promptColIdx, list->menuBackPix);
++		setIcon(promptColIdx, list->menuBackPix);
+ 		prompt = "..";
  		goto set_prompt;
+ 	}
+@@ -114,15 +114,15 @@ void ConfigItem::updateMenu(void)
+ 			 */
+ 			if (sym && list->rootEntry == menu)
+ 				break;
+-			setPixmap(promptColIdx, list->menuPix);
++			setIcon(promptColIdx, list->menuPix);
+ 		} else {
+ 			if (sym)
+ 				break;
+-			setPixmap(promptColIdx, QIcon());
++			setIcon(promptColIdx, QIcon());
+ 		}
+ 		goto set_prompt;
+ 	case P_COMMENT:
+-		setPixmap(promptColIdx, QIcon());
++		setIcon(promptColIdx, QIcon());
+ 		goto set_prompt;
+ 	default:
+ 		;
+@@ -139,7 +139,7 @@ void ConfigItem::updateMenu(void)
+ 		char ch;
  
--	setText(nameColIdx, QString::fromLocal8Bit(sym->name));
-+	setText(nameColIdx, sym->name);
+ 		if (!sym_is_changeable(sym) && list->optMode == normalOpt) {
+-			setPixmap(promptColIdx, QIcon());
++			setIcon(promptColIdx, QIcon());
+ 			setText(noColIdx, QString());
+ 			setText(modColIdx, QString());
+ 			setText(yesColIdx, QString());
+@@ -149,22 +149,22 @@ void ConfigItem::updateMenu(void)
+ 		switch (expr) {
+ 		case yes:
+ 			if (sym_is_choice_value(sym) && type == S_BOOLEAN)
+-				setPixmap(promptColIdx, list->choiceYesPix);
++				setIcon(promptColIdx, list->choiceYesPix);
+ 			else
+-				setPixmap(promptColIdx, list->symbolYesPix);
++				setIcon(promptColIdx, list->symbolYesPix);
+ 			setText(yesColIdx, "Y");
+ 			ch = 'Y';
+ 			break;
+ 		case mod:
+-			setPixmap(promptColIdx, list->symbolModPix);
++			setIcon(promptColIdx, list->symbolModPix);
+ 			setText(modColIdx, "M");
+ 			ch = 'M';
+ 			break;
+ 		default:
+ 			if (sym_is_choice_value(sym) && type == S_BOOLEAN)
+-				setPixmap(promptColIdx, list->choiceNoPix);
++				setIcon(promptColIdx, list->choiceNoPix);
+ 			else
+-				setPixmap(promptColIdx, list->symbolNoPix);
++				setIcon(promptColIdx, list->symbolNoPix);
+ 			setText(noColIdx, "N");
+ 			ch = 'N';
+ 			break;
+@@ -769,7 +769,7 @@ void ConfigList::mouseReleaseEvent(QMouseEvent* e)
+ 	idx = header()->logicalIndexAt(x);
+ 	switch (idx) {
+ 	case promptColIdx:
+-		icon = item->pixmap(promptColIdx);
++		icon = item->icon(promptColIdx);
+ 		if (!icon.isNull()) {
+ 			int off = header()->sectionPosition(0) + visualRect(indexAt(p)).x() + 4; // 4 is Hardcoded image offset. There might be a way to do it properly.
+ 			if (x >= off && x < off + icon.availableSizes().first().width()) {
+diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
+index 952bd98d7912..5cda89a51740 100644
+--- a/scripts/kconfig/qconf.h
++++ b/scripts/kconfig/qconf.h
+@@ -172,14 +172,6 @@ class ConfigItem : public QTreeWidgetItem {
+ 	{
+ 		return Parent::text(idx);
+ 	}
+-	void setPixmap(colIdx idx, const QIcon &icon)
+-	{
+-		Parent::setIcon(idx, icon);
+-	}
+-	const QIcon pixmap(colIdx idx) const
+-	{
+-		return icon(idx);
+-	}
+ 	// TODO: Implement paintCell
  
- 	type = sym_get_type(sym);
- 	switch (type) {
-@@ -265,7 +260,7 @@ void ConfigLineEdit::show(ConfigItem* i)
- {
- 	item = i;
- 	if (sym_get_string_value(item->menu->sym))
--		setText(QString::fromLocal8Bit(sym_get_string_value(item->menu->sym)));
-+		setText(sym_get_string_value(item->menu->sym));
- 	else
- 		setText(QString());
- 	Parent::show();
+ 	ConfigItem* nextItem;
 -- 
 2.25.1
 
