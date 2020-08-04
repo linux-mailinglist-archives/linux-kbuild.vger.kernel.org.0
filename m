@@ -2,96 +2,241 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8057B23B261
-	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Aug 2020 03:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C526E23B539
+	for <lists+linux-kbuild@lfdr.de>; Tue,  4 Aug 2020 08:47:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729449AbgHDBlF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Mon, 3 Aug 2020 21:41:05 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:36808 "EHLO
-        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729412AbgHDBlF (ORCPT
+        id S1726040AbgHDGrb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 4 Aug 2020 02:47:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbgHDGrb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 3 Aug 2020 21:41:05 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04397;MF=changhuaixin@linux.alibaba.com;NM=1;PH=DS;RN=14;SR=0;TI=SMTPD_---0U4hDN3a_1596505240;
-Received: from 30.27.116.1(mailfrom:changhuaixin@linux.alibaba.com fp:SMTPD_---0U4hDN3a_1596505240)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 04 Aug 2020 09:40:41 +0800
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Subject: Re: [PATCH 1/3] scripts/sorttable: Change section type of orc_lookup
- to SHT_PROGBITS
-From:   changhuaixin <changhuaixin@linux.alibaba.com>
-In-Reply-To: <20200723034643.33537-2-changhuaixin@linux.alibaba.com>
-Date:   Tue, 4 Aug 2020 09:40:40 +0800
-Cc:     changhuaixin <changhuaixin@linux.alibaba.com>, bp@alien8.de,
-        hpa@zytor.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, luto@amacapital.net,
-        michal.lkml@markovi.net, mingo@redhat.com,
-        Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de,
-        x86@kernel.org, yamada.masahiro@socionext.com, jpoimboe@redhat.com
-Content-Transfer-Encoding: 8BIT
-Message-Id: <2714DF66-5F65-4CB1-A232-B88E4D5AF566@linux.alibaba.com>
-References: <20200723034643.33537-1-changhuaixin@linux.alibaba.com>
- <20200723034643.33537-2-changhuaixin@linux.alibaba.com>
-To:     Ingo Molnar <mingo@kernel.org>
-X-Mailer: Apple Mail (2.3445.104.11)
+        Tue, 4 Aug 2020 02:47:31 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27CB0C06174A;
+        Mon,  3 Aug 2020 23:47:31 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id k12so12984796otr.1;
+        Mon, 03 Aug 2020 23:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=6z5LRfDTSDcq7ITV5IDPzL7KR6bsFYigJlNx76qYtko=;
+        b=pspaZPQ9zDJE82JpdH9SVx9Cmz+m6OxTuMFwtNzj44dm/k3TmQcdurI3NIzxKtItDV
+         u/W/lQDnwSE1EJ23igPIUPDDACa6FLSEc/reijZUowV/5KcRQFT3azF/ZY88c10LsRHn
+         BBE7ng+oy1LhrRiPAFCF71xvRa6Bq/E/W/Vdp/vmPYmJzo7aYap+9Qbt9btvRRTVXHa+
+         eIb3n/PcPrU1zbCvY952Ti4Yz3TkhvHJpFx87Cgepd4MUsV0+WyyiDhYDRiatLzyTa+0
+         m9cSpvRFJp/NA3A2JCeG7S4SkCLIcbN//nWLJNQCIIne9LTKkKl3C6a4DXc2OzT2XgWT
+         Xe2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=6z5LRfDTSDcq7ITV5IDPzL7KR6bsFYigJlNx76qYtko=;
+        b=K6Z0BZfZLWxjt4eiDAibARs6yFQ169kIlIApW53z5E1ShOjmHWlsE6FO5dLIUKuyQ2
+         P66syUJNnHDCD5KblR4WpqwjXhJkLiytwoEHNeYD9Fz55i5xFoM+fVugRQrYEIrpWyDO
+         fyk1J+M8apW8V/X/DH4HR4bZkONCg4iUUK+UI8d0ey5Q4iFLtQKyuanw7YvyIresbpCp
+         PiO9qu+KT7Nkw2Z1FvspDJyYnXteTt3+coFr6N+QSBTvjLFTgHop8HX6Xbuv+fc2gdEI
+         CbvYzIcj/Ps6WgfvhJyLCRMTITgPwAJX9wXwIE/MozHotphEvUib6B1aq7pkbDR/U6UX
+         Q5tw==
+X-Gm-Message-State: AOAM531P7NWWHDW6qTfuUkFWRacM4QkYwOFToG9ir4oJaxeSe94YdKo9
+        1m9iN7dEqYab+Yz4i8reARdeDY88qyd2oSXiNGXwaLXnlHI=
+X-Google-Smtp-Source: ABdhPJx3DJWysCcYzI/A5/lxKXcY+XiqKANHGcuk/4bZ+AMdMlAyIY2tsEefBwXqLrwFiCt+gVB/wn1z0Vb/d5MmPRs=
+X-Received: by 2002:a9d:5e5:: with SMTP id 92mr17637928otd.9.1596523650478;
+ Mon, 03 Aug 2020 23:47:30 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200730190841.2071656-1-nickrterrell@gmail.com>
+In-Reply-To: <20200730190841.2071656-1-nickrterrell@gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Tue, 4 Aug 2020 08:47:18 +0200
+Message-ID: <CA+icZUU+mREksACdviaaRopg5J850zNXBG2b-XyEZtc9eoL8tQ@mail.gmail.com>
+Subject: Re: [GIT PULL][PATCH v10 0/8] Add support for ZSTD-compressed kernel
+ and initramfs
+To:     Nick Terrell <nickrterrell@gmail.com>
+Cc:     Borislav Petkov <bp@alien8.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Chris Mason <clm@fb.com>,
+        linux-kbuild@vger.kernel.org, x86@kernel.org,
+        gregkh@linuxfoundation.org, Petr Malat <oss@malat.biz>,
+        Kees Cook <keescook@chromium.org>,
+        Kernel Team <Kernel-team@fb.com>,
+        Adam Borowski <kilobyte@angband.pl>,
+        Patrick Williams <patrickw3@fb.com>, rmikey@fb.com,
+        mingo@kernel.org, Patrick Williams <patrick@stwcx.xyz>,
+        Norbert Lange <nolange79@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alex Xu <alex_y_xu@yahoo.ca>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Terrell <terrelln@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi, Ingo
+On Thu, Jul 30, 2020 at 9:11 PM Nick Terrell <nickrterrell@gmail.com> wrote:
+>
+> From: Nick Terrell <terrelln@fb.com>
+>
+> Please pull from
+>
+>   git@github.com:terrelln/linux.git tags/v10-zstd
+>
+> to get these changes. Alternatively the patchset is included.
+>
+> Hi all,
+>
+> This patch set adds support for a ZSTD-compressed kernel, ramdisk, and
+> initramfs in the kernel boot process. ZSTD-compressed ramdisk and initramfs
+> are supported on all architectures. The ZSTD-compressed kernel is only
+> hooked up to x86 in this patch set.
+>
+> Zstandard requires slightly more memory during the kernel decompression
+> on x86 (192 KB vs 64 KB), and the memory usage is independent of the
+> window size.
+>
+> Zstandard requires memory proprortional to the window size used during
+> compression for decompressing the ramdisk image, since streaming mode is
+> used. Newer versions of zstd (1.3.2+) list the window size of a file
+> with `zstd -lv <file>'. The absolute maximum amount of memory required
+> is just over 8 MB, but it can be controlled at compression time.
+>
+> This patch set has been boot tested with buildroot and QEMU based off
+> of linux-5.6-rc6.
+>
+> On i386 and x86_64 I have tested the following configurations:
+> * zstd compressed kernel and a separate zstd compressed initramfs
+> * zstd compressed kernel and a built-in zstd compressed initramfs
+> * gzip compressed kernel and a separate gzip compressed initramfs
+> * gzip compressed kernel and a built-in gzip compressed initramfs
+>
+> On arm and aarch64 I tested the same configurations, except that the kernel is
+> always gzip compressed.
+>
+> Facebook has been using v1 of these patches on x86_64 devices for more than 6
+> months. When we switched from a xz compressed initramfs to a zstd compressed
+> initramfs decompression time shrunk from 12 seconds to 3 seconds. When we
+> switched from a xz compressed kernel to a zstd compressed kernel we saved 2
+> seconds of boot time.
+>
+> Facebook has been using v2 of these patches on aarch64 devices for a few weeks.
+> When we switched from an lzma compressed initramfs to a zstd compressed initramfs
+> decompression time shrunk from 27 seconds to 8 seconds.
+>
+> The zstd compressed kernel is smaller than the gzip compressed kernel but larger
+> than the xz or lzma compressed kernels, and it decompresses faster than
+> everything except lz4. See the table below for the measurement of an x86_64
+> kernel ordered by compressed size:
+>
+> algo    size
+> xz       6,509,792
+> lzma     6,856,576
+> zstd     7,399,157
+> gzip     8,522,527
+> bzip     8,629,603
+> lzo      9,808,035
+> lz4     10,705,570
+> none    32,565,672
+>
+> Alex Xu ran benchmarks in https://lkml.org/lkml/2020/7/1/722.
+>
+> v1 -> v2:
+> - Rebase
+>   - usr/Makefile and init/Kconfig were changed so the patches were updated
+> - No functional changes except to rebase
+> - Split the patches up into smaller chunks
+>
+> v2 -> v3:
+> - Add *.zst to the .gitignore in patch 8
+> - Style nits in patch 3
+> - Rename the PREBOOT macro to ZSTD_PREBOOT and XXH_PREBOOT in patches
+>   1 through 3
+>
+> v3 -> v4:
+> - Increase the ZSTD_IOBUF_SIZE from 4KB to 128KB to improve performance.
+>   With this change I switch from malloc() to large_malloc() for the
+>   buffers.
+> - Increase the maximum allowed window size from 8 MB to 128 MB, which is
+>   the max that zstd in the kernel supports.
+>
+> v4 -> v5:
+> - Update commit message for patch 6 in response to comments
+> - Rebase onto next-20200408
+>
+> v5 -> v6:
+> - Rebase onto v5.8-rc4
+>
+> v6 -> v7:
+> - (1/7) Don't define or use 'ZSTD_PREBOOT' to hide exports
+> - (2/8) Drop 'lib: prepare xxhash for preboot environment'
+> - (2/7) Use '__DISABLE_EXPORTS' in unzstd to hide exports
+> - (3/7) Update zstd compression cmd to follow other compressors
+> - (3/7) Add zstd22 cmd
+> - (6/7) Use zstd -22 --ultra (zstd22) for x86 kernel compression
+>
+> v7 -> v8:
+> - (2/7) Don't define '__DISABLE_EXPORTS'
+> - (6/7) Define '__DISABLE_EXPORTS' in misc.c
+>
+> v8 -> v9:
+> - Rebase onto v5.8-rc7
+> - (2/7) Fix nits about comment style & typos
+> - (3/7) Fix typo in init/Kconfig description
+> - (6/7) Explain BOOT_HEAP_SIZE increase and define __DISABLE_EXPORTS in
+>         Makefile KBUILD_CFLAGS and remove definitions from kaslr.c and misc.c
+>
+> v9 -> v10:
+> - (6/8) Fix commit message regarding __DISABLE_EXPORTS
+> - (8/8) Add .zst files to Documentation/dontdiff
+>
 
-Another way to write SHT_PROGBITS is using elf_create_section to write orc_lookup table headers, when orc_unwind_ip table and orc_unwind table are written. Is this a better solution?
+Now in Linus Git tree.
 
-diff --git a/tools/objtool/orc_gen.c b/tools/objtool/orc_gen.c
-index 3f98dcfbc177..860d4dcec8e6 100644
---- a/tools/objtool/orc_gen.c
-+++ b/tools/objtool/orc_gen.c
-@@ -183,6 +183,10 @@ int create_orc_sections(struct objtool_file *file)
-        u_sec = elf_create_section(file->elf, ".orc_unwind",
-                                   sizeof(struct orc_entry), idx);
+- Sedat -
 
-+       /* make flags of section orc_lookup right */
-+       if (!elf_create_section(file->elf, ".orc_lookup", sizeof(int), 0))
-+               return -1;
-+
-        /* populate sections */
-        idx = 0;
-        for_each_sec(file, sec) {
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c0dfadfed87489fa6126ece161a14c2d15dbdc79
 
-Thanks,
-Huaixin
-
-> On Jul 23, 2020, at 11:46 AM, Huaixin Chang <changhuaixin@linux.alibaba.com> wrote:
-> 
-> In order to edit orc_lookup table via sorttable, type of section
-> orc_lookup needs to be SHT_PROGBITS instead of SHT_NOBITS.
-> 
-> Linker script doesn't seem to allow manual specification of the section
-> type, so just write a byte into the section instead.
-> 
-> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> Signed-off-by: Huaixin Chang <changhuaixin@linux.alibaba.com>
-> Signed-off-by: Shile Zhang <shile.zhang@linux.alibaba.com>
-> ---
-> include/asm-generic/vmlinux.lds.h | 2 ++
-> 1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
-> index db600ef218d7..49f4f5bc6165 100644
-> --- a/include/asm-generic/vmlinux.lds.h
-> +++ b/include/asm-generic/vmlinux.lds.h
-> @@ -826,6 +826,8 @@
-> 		. += (((SIZEOF(.text) + LOOKUP_BLOCK_SIZE - 1) /	\
-> 			LOOKUP_BLOCK_SIZE) + 1) * 4;			\
-> 		orc_lookup_end = .;					\
-> +		/* HACK: force SHT_PROGBITS so sorttable can edit: */	\
-> +		BYTE(1);						\
-> 	}
-> #else
-> #define ORC_UNWIND_TABLE
-> -- 
-> 2.14.4.44.g2045bb6
-
+> Best,
+> Nick Terrell
+>
+> Adam Borowski (1):
+>   .gitignore: add ZSTD-compressed files
+>
+> Nick Terrell (7):
+>   lib: prepare zstd for preboot environment
+>   lib: add zstd support to decompress
+>   init: add support for zstd compressed kernel
+>   usr: add support for zstd compressed initramfs
+>   x86: bump ZO_z_extra_bytes margin for zstd
+>   x86: Add support for ZSTD compressed kernel
+>   Documentation: dontdiff: Add zstd compressed files
+>
+>  .gitignore                        |   1 +
+>  Documentation/dontdiff            |   1 +
+>  Documentation/x86/boot.rst        |   6 +-
+>  Makefile                          |   3 +-
+>  arch/x86/Kconfig                  |   1 +
+>  arch/x86/boot/compressed/Makefile |   6 +-
+>  arch/x86/boot/compressed/kaslr.c  |   7 -
+>  arch/x86/boot/compressed/misc.c   |   4 +
+>  arch/x86/boot/header.S            |   8 +-
+>  arch/x86/include/asm/boot.h       |  11 +-
+>  include/linux/decompress/unzstd.h |  11 +
+>  init/Kconfig                      |  15 +-
+>  lib/Kconfig                       |   4 +
+>  lib/Makefile                      |   1 +
+>  lib/decompress.c                  |   5 +
+>  lib/decompress_unzstd.c           | 345 ++++++++++++++++++++++++++++++
+>  lib/zstd/fse_decompress.c         |   9 +-
+>  lib/zstd/zstd_internal.h          |  14 +-
+>  scripts/Makefile.lib              |  22 ++
+>  usr/Kconfig                       |  20 ++
+>  usr/Makefile                      |   1 +
+>  21 files changed, 469 insertions(+), 26 deletions(-)
+>  create mode 100644 include/linux/decompress/unzstd.h
+>  create mode 100644 lib/decompress_unzstd.c
+>
+> --
+> 2.27.0
+>
