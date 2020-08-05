@@ -2,189 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A1CE23C9EE
-	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Aug 2020 12:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD46E23CF38
+	for <lists+linux-kbuild@lfdr.de>; Wed,  5 Aug 2020 21:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727941AbgHEK2c (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 5 Aug 2020 06:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728119AbgHEK0T (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 5 Aug 2020 06:26:19 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF9AC0617A1;
-        Wed,  5 Aug 2020 03:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=EgLuoy51jN5BCDfpowjvn/C6CCPgestz5KEkr0EylHg=; b=D48Bi4O/xIUdkOl8ASViOO/4Qn
-        qTmxKGEPzQYyL2+G+R9sz5mPzXIcsdpAu61JPqlqB+SqmDKLEEQLAXLqQVdirVLnZiaktVkziOmTS
-        ZODos8mb1qDk8msepdHWej00l7W9cq4Uzg02VD0hllTmrbPf4YcCaEzZCCV++O+b6W9tSsKXQ/gdd
-        xW7D8JXXHQyKUMcyJxcCI8HZWQJe1UatrpLjx5yrpREAUBHTtiE2z0TQan+2i7qBRtaCLpaqsWYSM
-        JUkgCl/kjAuG0zp0JO5/vk6gStU3hPGYul3cKadsKHW+CaujXc9qHjXXVMwNGqo0celd3rLLm8WuN
-        +37zncQg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1k3GcL-0004td-Ap; Wed, 05 Aug 2020 10:25:53 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id BA3A33012DC;
-        Wed,  5 Aug 2020 12:25:50 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 653F42B7C12A6; Wed,  5 Aug 2020 12:25:50 +0200 (CEST)
-Date:   Wed, 5 Aug 2020 12:25:50 +0200
-From:   peterz@infradead.org
-To:     yamada.masahiro@socionext.com
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: [PATCH] scipts/tags.sh: Add custom sort order
-Message-ID: <20200805102550.GO2674@hirez.programming.kicks-ass.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        id S1728718AbgHETRV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 5 Aug 2020 15:17:21 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:64905 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729059AbgHER7v (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 5 Aug 2020 13:59:51 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1596650391; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=kg0EF5rfNOmYrsglJGmq1Vj6cS50it6TVyt41Nu8U+I=; b=T+GRg4K5xNDU+n6IiYgqYFJ6js5BJSC2wXJpYEJtI7zfDtZhlxmDje/2uo0AZvdOxVq6Ft9U
+ lWXSaneba2B9D0uPMyfihqe2L+r5KSTY1SrrVVYIMjlg6ylowrMWMtWeVt6CfeeNMlLr7yHt
+ cbZzbbZcPCAzVP1P6CTKYdw+OLQ=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI2MjRjMSIsICJsaW51eC1rYnVpbGRAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n15.prod.us-east-1.postgun.com with SMTP id
+ 5f2af37790893260dd5ddddd (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 05 Aug 2020 17:59:19
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9626BC433A0; Wed,  5 Aug 2020 17:59:18 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from eberman-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: eberman)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 76DC1C43395;
+        Wed,  5 Aug 2020 17:59:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 76DC1C43395
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=eberman@codeaurora.org
+From:   Elliot Berman <eberman@codeaurora.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     Elliot Berman <eberman@codeaurora.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, Steve Muckle <smuckle@google.com>,
+        Trilok Soni <tsoni@codeaurora.org>
+Subject: [PATCH] kbuild: Add dtc flag test
+Date:   Wed,  5 Aug 2020 10:58:48 -0700
+Message-Id: <1596650328-14869-1-git-send-email-eberman@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+Host dtc may not support the same flags as kernel's copy of dtc. Test
+if dtc supports each flag when the dtc comes from host.
 
-One long standing annoyance I have with using vim-tags is that our tags
-file is not properly sorted. That is, the sorting exhuberant Ctags does
-is only on the tag itself.
-
-The problem with that is that, for example, the tag 'mutex' appears a
-mere 505 times, 492 of those are structure members. However it is _far_
-more likely that someone wants the struct definition when looking for
-the mutex tag than any of those members. However, due to the nature of
-the sorting, the struct definition will not be first.
-
-So add a script that does a custom sort of the tags file, taking the tag
-kind into account.
-
-The kind ordering is roughly: 'type', 'function', 'macro', 'enum', rest.
-
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Signed-off-by: Elliot Berman <eberman@codeaurora.org>
 ---
- scripts/sort-tags.awk | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++
- scripts/tags.sh       |  8 +++++-
- 2 files changed, 86 insertions(+), 1 deletion(-)
+ scripts/Makefile.lib | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/sort-tags.awk b/scripts/sort-tags.awk
-new file mode 100755
-index 000000000000..1eb50406c9d3
---- /dev/null
-+++ b/scripts/sort-tags.awk
-@@ -0,0 +1,79 @@
-+#!/usr/bin/awk -f
-+
-+# $ ctags --list-kinds
-+# C
-+#   c  classes
-+#   s  structure names
-+#   t  typedefs
-+#   g  enumeration names
-+#   u  union names
-+#   n  namespaces
-+
-+#   f  function definitions
-+#   p  function prototypes [off]
-+#   d  macro definitions
-+
-+#   e  enumerators (values inside an enumeration)
-+#   m  class, struct, and union members
-+#   v  variable definitions
-+
-+#   l  local variables [off]
-+#   x  external and forward variable declarations [off]
-+
-+BEGIN {
-+	FS = "\t"
-+
-+	sort = "LC_ALL=C sort"
-+
-+	# our sort order for C kinds:
-+	order["c"] = "A"
-+	order["s"] = "B"
-+	order["t"] = "C"
-+	order["g"] = "D"
-+	order["u"] = "E"
-+	order["n"] = "F"
-+	order["f"] = "G"
-+	order["p"] = "H"
-+	order["d"] = "I"
-+	order["e"] = "J"
-+	order["m"] = "K"
-+	order["v"] = "L"
-+	order["l"] = "M"
-+	order["x"] = "N"
-+}
-+
-+# pass through header
-+/^!_TAG/ {
-+	print $0
-+	next
-+}
-+
-+{
-+	# find 'kinds'
-+	for (i = 1; i <= NF; i++) {
-+		if ($i ~ /;"$/) {
-+			kind = $(i+1)
-+			break;
-+		}
-+	}
-+
-+	# create sort key
-+	if (order[kind])
-+		key = $1 order[kind];
-+	else
-+		key = $1 "Z";
-+
-+	# get it sorted
-+	print key "\t" $0 |& sort
-+}
-+
-+END {
-+	close(sort, "to")
-+	while ((sort |& getline) > 0) {
-+		# strip key
-+		sub(/[^[:space:]]*[[:space:]]*/, "")
-+		print $0
-+	}
-+	close(sort)
-+}
-+
-diff --git a/scripts/tags.sh b/scripts/tags.sh
-index 4e18ae5282a6..93d729392a7b 100755
---- a/scripts/tags.sh
-+++ b/scripts/tags.sh
-@@ -251,6 +251,8 @@ setup_regex()
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 841ac03..2722a67 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -274,25 +274,35 @@ quiet_cmd_gzip = GZIP    $@
  
- exuberant()
- {
-+	rm -f tags.unsorted
+ # DTC
+ # ---------------------------------------------------------------------------
++ifeq ("$(origin DTC)", "command line")
++PHONY += $(DTC)
++dtc-option = $(call try-run, $(DTC) $1 -v,$1)
++else
++# Just add the flag. DTC is compiled later as a prerequisite, so there's no dtc
++# to test the flag against. This is okay because we're not testing flags which
++# aren't supported by in-kernel dtc to begin with.
++dtc-option = $1
++endif
 +
- 	setup_regex exuberant asm c
- 	all_target_sources | xargs $1 -a                        \
- 	-I __initdata,__exitdata,__initconst,__ro_after_init	\
-@@ -266,12 +268,16 @@ exuberant()
- 	-I DEFINE_TRACE,EXPORT_TRACEPOINT_SYMBOL,EXPORT_TRACEPOINT_SYMBOL_GPL \
- 	-I static,const						\
- 	--extra=+fq --c-kinds=+px --fields=+iaS --langmap=c:+.h \
-+	--sort=no -o tags.unsorted				\
- 	"${regex[@]}"
+ DTC ?= $(objtree)/scripts/dtc/dtc
+-DTC_FLAGS += -Wno-interrupt_provider
++DTC_FLAGS += $(call dtc-option,-Wno-interrupt_provider)
  
- 	setup_regex exuberant kconfig
- 	all_kconfigs | xargs $1 -a                              \
--	--langdef=kconfig --language-force=kconfig "${regex[@]}"
-+	--langdef=kconfig --language-force=kconfig --sort=no	\
-+	-o tags.unsorted "${regex[@]}"
+ # Disable noisy checks by default
+ ifeq ($(findstring 1,$(KBUILD_EXTRA_WARN)),)
+-DTC_FLAGS += -Wno-unit_address_vs_reg \
+-	-Wno-unit_address_format \
+-	-Wno-avoid_unnecessary_addr_size \
+-	-Wno-alias_paths \
+-	-Wno-graph_child_address \
+-	-Wno-simple_bus_reg \
+-	-Wno-unique_unit_address \
+-	-Wno-pci_device_reg
++DTC_FLAGS += $(call dtc-option,-Wno-unit_address_vs_reg) \
++	$(call dtc-option,-Wno-unit_address_format) \
++	$(call dtc-option,-Wno-avoid_unnecessary_addr_size) \
++	$(call dtc-option,-Wno-alias_paths) \
++	$(call dtc-option,-Wno-graph_child_address) \
++	$(call dtc-option,-Wno-simple_bus_reg) \
++	$(call dtc-option,-Wno-unique_unit_address) \
++	$(call dtc-option,-Wno-pci_device_reg)
+ endif
  
-+	scripts/sort-tags.awk tags.unsorted > tags
-+	rm -f tags.unsorted
- }
+ ifneq ($(findstring 2,$(KBUILD_EXTRA_WARN)),)
+-DTC_FLAGS += -Wnode_name_chars_strict \
+-	-Wproperty_name_chars_strict \
+-	-Winterrupt_provider
++DTC_FLAGS += $(call dtc-option,-Wnode_name_chars_strict) \
++	$(call dtc-option,-Wproperty_name_chars_strict) \
++	$(call dtc-option,-Winterrupt_provider)
+ endif
  
- emacs()
+ DTC_FLAGS += $(DTC_FLAGS_$(basetarget))
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
