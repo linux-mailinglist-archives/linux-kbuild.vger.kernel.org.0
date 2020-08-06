@@ -2,396 +2,364 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A27FC23D80F
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 10:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7295C23D81E
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 10:44:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728570AbgHFIjs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Aug 2020 04:39:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726551AbgHFIjr (ORCPT
+        id S1728075AbgHFIo7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Aug 2020 04:44:59 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:35593 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727768AbgHFIo6 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Aug 2020 04:39:47 -0400
-X-Greylist: delayed 375 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 06 Aug 2020 01:39:45 PDT
-Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [IPv6:2a01:37:3000::53df:4ee9:0])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC1A7C061574
-        for <linux-kbuild@vger.kernel.org>; Thu,  6 Aug 2020 01:39:45 -0700 (PDT)
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-        by mailout2.hostsharing.net (Postfix) with ESMTPS id 18B42101899BB;
-        Thu,  6 Aug 2020 10:33:22 +0200 (CEST)
-Received: from localhost (unknown [87.130.102.138])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by h08.hostsharing.net (Postfix) with ESMTPSA id CDBD762418F8;
-        Thu,  6 Aug 2020 10:33:21 +0200 (CEST)
-X-Mailbox-Line: From c744107b341e487cf37139597a7775f6f62e12e8 Mon Sep 17 00:00:00 2001
-Message-Id: <c744107b341e487cf37139597a7775f6f62e12e8.1596702608.git.lukas@wunner.de>
-From:   Lukas Wunner <lukas@wunner.de>
-Date:   Thu, 6 Aug 2020 10:33:22 +0200
-Subject: [PATCH] kbuild: Cross-compile binaries to build modules on target
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, debian-kernel@lists.debian.org,
-        kernel-team@fedoraproject.org, kernel@gentoo.org,
-        opensuse-kernel@opensuse.org
+        Thu, 6 Aug 2020 04:44:58 -0400
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 0768iVEo005200;
+        Thu, 6 Aug 2020 17:44:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0768iVEo005200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1596703472;
+        bh=iLRyjLHDiM1j11Hh0Jt/NFe8uSNpgWQk85B8WTb/cO0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=T+NyKf4sLicS3p03PKiijYNYce6IXQMCWayE9017bHx6TrmcxRWQlqRjfMWvkwf2H
+         Pn8W7fEnsOeZcLXN9rlLSwTKceFrxcI9QFRpVlG6LjHFTdaqnB0W0CyOgTbcnXi0YP
+         zm3lKDB2OY0SMwLrIVZBIXWiNNcHxbrZFckSRaE6rNBV0nTr9C2z5NjCywoOgP2t3u
+         poiMLGhY4IJJ+rHYQ8Nggp6nyJwv6cRz7jPaTYie/+vHm2OXleD3cjSEvOAXU3im9o
+         wKrKgEZCW9hcbjH4PTh65GR4E0Nv1jP50aXaODmCjNUm//w5AoG3emVe4JIBeMY/EA
+         fEHME3eeyE4dw==
+X-Nifty-SrcIP: [209.85.222.46]
+Received: by mail-ua1-f46.google.com with SMTP id g20so10124911uan.7;
+        Thu, 06 Aug 2020 01:44:32 -0700 (PDT)
+X-Gm-Message-State: AOAM532/C3U1KyQNMv50LpGonID9xkOki/TaLbzSRENVmHJ/9h3ji2w4
+        DYA+CAPCUd73Xwpox0PUZKOniu/gamScr0wphqg=
+X-Google-Smtp-Source: ABdhPJzW4S/4EI07UAoDN4Y8J6aSLylUwAnH+TKxjWS+zeCGgdXDb38DMiXnksX1Wuwq9xDSdTCkNpm0osrdg6ktSZA=
+X-Received: by 2002:ab0:41:: with SMTP id 59mr4940875uai.40.1596703471156;
+ Thu, 06 Aug 2020 01:44:31 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAKwvOdnni_G2tw+0eCLQQvvdcz97Fy1-cBjzPvLwbBNDu1-KqQ@mail.gmail.com>
+ <20200728004736.3590053-1-nhuck@google.com>
+In-Reply-To: <20200728004736.3590053-1-nhuck@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 6 Aug 2020 17:43:54 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT-AO9_Y-qunRvPbBYf7GZnoE6bxYKFNtcdKAKV8d_A+w@mail.gmail.com>
+Message-ID: <CAK7LNAT-AO9_Y-qunRvPbBYf7GZnoE6bxYKFNtcdKAKV8d_A+w@mail.gmail.com>
+Subject: Re: [PATCH v7] Makefile: Add clang-tidy and static analyzer support
+ to makefile
+To:     Nathan Huckleberry <nhuck@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Pirama Arumuga Nainar <pirama@google.com>,
+        Bill Wendling <morbo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-To build external modules, one needs executables such as fixdep and
-modpost.  But when cross-compiling the kernel, those executables are
-only generated for the host arch, not the target arch.
+On Tue, Jul 28, 2020 at 9:47 AM Nathan Huckleberry <nhuck@google.com> wrote:
+>
+> This patch adds clang-tidy and the clang static-analyzer as make
+> targets. The goal of this patch is to make static analysis tools
+> usable and extendable by any developer or researcher who is familiar
+> with basic c++.
+>
+> The current static analysis tools require intimate knowledge of the
+> internal workings of the static analysis. Clang-tidy and the clang
+> static analyzers expose an easy to use api and allow users unfamiliar
+> with clang to write new checks with relative ease.
+>
+> ===Clang-tidy===
+>
+> Clang-tidy is an easily extendable 'linter' that runs on the AST.
+> Clang-tidy checks are easy to write and understand. A check consists of
+> two parts, a matcher and a checker. The matcher is created using a
+> domain specific language that acts on the AST
+> (https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
+> nodes are found by the matcher a callback is made to the checker. The
+> checker can then execute additional checks and issue warnings.
+>
+> Here is an example clang-tidy check to report functions that have calls
+> to local_irq_disable without calls to local_irq_enable and vice-versa.
+> Functions flagged with __attribute((annotation("ignore_irq_balancing")))
+> are ignored for analysis. (https://reviews.llvm.org/D65828)
+>
+> ===Clang static analyzer===
+>
+> The clang static analyzer is a more powerful static analysis tool that
+> uses symbolic execution to find bugs. Currently there is a check that
+> looks for potential security bugs from invalid uses of kmalloc and
+> kfree. There are several more general purpose checks that are useful for
+> the kernel.
+>
+> The clang static analyzer is well documented and designed to be
+> extensible.
+> (https://clang-analyzer.llvm.org/checker_dev_manual.html)
+> (https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
+>
+> The main draw of the clang tools is how accessible they are. The clang
+> documentation is very nice and these tools are built specifically to be
+> easily extendable by any developer. They provide an accessible method of
+> bug-finding and research to people who are not overly familiar with the
+> kernel codebase.
+>
+> Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> ---
+> Changes v6->v7
+> * Fix issues with relative paths
+> * Additional style fixes
+>  MAINTAINERS                                   |  1 +
+>  Makefile                                      |  3 +
+>  scripts/clang-tools/Makefile.clang-tools      | 23 ++++++
+>  .../{ => clang-tools}/gen_compile_commands.py |  0
+>  scripts/clang-tools/run-clang-tools.py        | 74 +++++++++++++++++++
+>  5 files changed, 101 insertions(+)
+>  create mode 100644 scripts/clang-tools/Makefile.clang-tools
+>  rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
+>  create mode 100755 scripts/clang-tools/run-clang-tools.py
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1d4aa7f942de..a444564e5572 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4198,6 +4198,7 @@ W:        https://clangbuiltlinux.github.io/
+>  B:     https://github.com/ClangBuiltLinux/linux/issues
+>  C:     irc://chat.freenode.net/clangbuiltlinux
+>  F:     Documentation/kbuild/llvm.rst
+> +F:     scripts/clang-tools/
+>  K:     \b(?i:clang|llvm)\b
+>
+>  CLEANCACHE API
+> diff --git a/Makefile b/Makefile
+> index fe0164a654c7..3e2df010b342 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -747,6 +747,7 @@ KBUILD_CFLAGS       += $(call cc-option,-fno-allow-store-data-races)
+>
+>  include scripts/Makefile.kcov
+>  include scripts/Makefile.gcc-plugins
+> +include scripts/clang-tools/Makefile.clang-tools
+>
+>  ifdef CONFIG_READABLE_ASM
+>  # Disable optimizations that make assembler listings hard to read.
+> @@ -1543,6 +1544,8 @@ help:
+>         @echo  '  export_report   - List the usages of all exported symbols'
+>         @echo  '  headerdep       - Detect inclusion cycles in headers'
+>         @echo  '  coccicheck      - Check with Coccinelle'
+> +       @echo  '  clang-analyzer  - Check with clang static analyzer'
+> +       @echo  '  clang-tidy      - Check with clang-tidy'
+>         @echo  ''
+>         @echo  'Tools:'
+>         @echo  '  nsdeps          - Generate missing symbol namespace dependencies'
+> diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
+> new file mode 100644
+> index 000000000000..5c9d76f77595
+> --- /dev/null
+> +++ b/scripts/clang-tools/Makefile.clang-tools
+> @@ -0,0 +1,23 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Copyright (C) Google LLC, 2020
+> +#
+> +# Author: Nathan Huckleberry <nhuck@google.com>
+> +#
+> +PHONY += clang-tidy
+> +clang-tidy:
+> +ifdef CONFIG_CC_IS_CLANG
+> +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
+> +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
+> +else
+> +       $(error clang-tidy requires CC=clang)
+> +endif
+> +
+> +PHONY += clang-analyzer
+> +clang-analyzer:
+> +ifdef CONFIG_CC_IS_CLANG
+> +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
+> +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-analyzer compile_commands.json
+> +else
+> +       $(error clang-analyzer requires CC=clang)
+> +endif
 
-Distributions ship packages which users need to install in order to
-build external modules.  These packages contain headers and Makefiles
-from the kernel source tree as well as fixdep & friends.  Usually the
-packages are cross-built on a single host arch for the multitude of
-arches supported by the distribution.
 
-But because fixdep & friends are only compiled for the host arch,
-distributions are forced to duplicate these executables' Makefiles
-in order to cross-compile them.  For instance, these are Debian's
-duplicated Makefiles:
 
-https://salsa.debian.org/kernel-team/linux/-/tree/master/debian/rules.d/scripts
+You can unify the almost same two rules.
 
-Make distribution maintainers' lives easier by providing a new target
-"make kbuild_install" which cross-compiles the required executables for
-the target arch and installs them below $(INSTALL_KBUILD_PATH).
+PHONY += clang-tidy clang-analyzer
+clang-tidy clang-analyzer:
+ifdef CONFIG_CC_IS_CLANG
+        $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
+        $(PYTHON3) scripts/clang-tools/run-clang-tools.py $@
+compile_commands.json
+else
+        $(error $@ requires CC=clang)
+endif
 
-To avoid wasting compile time and disk space, compile only programs
-which are essential for building external modules.  They are declared
-essential by adding them to extmodprogs.  For now, these are:
-recordmcount sign-file fixdep genksyms modpost
 
-The rules to cross-compile the executables reside in Makefile.kbuildinst.
-They are similar to the rules in Makefile.host, but I've left out rules
-for C++ executables and shared libraries as they're not necessary.
 
-The host versions of the executables are generated in $(obj) whereas
-the cross-compiled versions are generated in $(obj)/.cross/ .  This
-necessitates a modification of Makefile.lib because the multi_depend
-macro creates rules which assume that the target and its dependencies
-always reside in $(obj).  Refactor the macro to use $(dir $1) in lieu
-of $(obj).  Likewise, the target-stem macro strips $(obj)/ instead
-of $(obj)/.cross/.  Refactor it to use $(notdir $@).
 
-In a future step, Makefile.kbuildinst may be extended to also install
-headers and other bits necessary for building external modules.
+But, before we proceed, please tell me
+what this check is intended for.
 
-Signed-off-by: Lukas Wunner <lukas@wunner.de>
----
- Documentation/kbuild/kbuild.rst    |  9 ++++
- Documentation/kbuild/makefiles.rst | 15 ++++++
- Makefile                           | 23 ++++++++-
- scripts/Makefile                   |  3 ++
- scripts/Makefile.build             |  7 +++
- scripts/Makefile.clean             |  4 ++
- scripts/Makefile.kbuildinst        | 81 ++++++++++++++++++++++++++++++
- scripts/Makefile.lib               |  8 +--
- scripts/basic/Makefile             |  1 +
- scripts/genksyms/Makefile          |  1 +
- scripts/mod/Makefile               |  1 +
- 11 files changed, 148 insertions(+), 5 deletions(-)
- create mode 100644 scripts/Makefile.kbuildinst
 
-diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
-index 2d1fc03d346e..89658b8ce1a7 100644
---- a/Documentation/kbuild/kbuild.rst
-+++ b/Documentation/kbuild/kbuild.rst
-@@ -209,6 +209,15 @@ The output directory is often set using "O=..." on the commandline.
- 
- The value can be overridden in which case the default value is ignored.
- 
-+INSTALL_KBUILD_PATH
-+-------------------
-+INSTALL_KBUILD_PATH specifies where to install a build environment for
-+external modules.
-+
-+The default value is::
-+
-+    /usr/src/linux-headers-$(KERNELVERSION)
-+
- KBUILD_ABS_SRCTREE
- --------------------------------------------------
- Kbuild uses a relative path to point to the tree when possible. For instance,
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index b81b8913a5a3..37de539a5b7c 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -756,6 +756,21 @@ Both possibilities are described in the following.
- 	This will tell kbuild to build lxdialog even if not referenced in
- 	any rule.
- 
-+4.6 Host programs necessary to build external modules
-+-----------------------------------------------------
-+
-+	If a host program is necessary to build external modules,
-+	it shall be added to extmodprogs in addition to hostprogs.
-+
-+	Example::
-+
-+		hostprogs     := fixdep
-+		extmodprogs   := fixdep
-+
-+	This ensures that the host program is installed to a module build
-+	environment with "make kbuild_install". It will be cross-compiled
-+	for the target architecture if necessary.
-+
- 5 Userspace Program support
- ===========================
- 
-diff --git a/Makefile b/Makefile
-index ebf4d3ce492c..6c463be070b6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -644,6 +644,11 @@ endif
- 
- export KBUILD_MODULES KBUILD_BUILTIN
- 
-+# Decide whether to install the build environment for external modules.
-+ifneq ($(filter kbuild_install,$(MAKECMDGOALS)),)
-+  export KBUILD_INSTALL=y
-+endif
-+
- ifdef need-config
- include include/config/auto.conf
- endif
-@@ -1001,6 +1006,12 @@ export	INSTALL_PATH ?= /boot
- #
- export INSTALL_DTBS_PATH ?= $(INSTALL_PATH)/dtbs/$(KERNELRELEASE)
- 
-+#
-+# INSTALL_KBUILD_PATH specifies where to install the build environment for
-+# external modules.  Can be overridden by passing it as an argument.
-+#
-+export INSTALL_KBUILD_PATH = /usr/src/linux-headers-$(KERNELVERSION)
-+
- #
- # INSTALL_MOD_PATH specifies a prefix to MODLIB for module directory
- # relocations required by build roots.  This is not defined in the
-@@ -1532,7 +1543,9 @@ help:
- 	@echo  '  kernelversion	  - Output the version stored in Makefile (use with make -s)'
- 	@echo  '  image_name	  - Output the image name (use with make -s)'
- 	@echo  '  headers_install - Install sanitised kernel headers to INSTALL_HDR_PATH'; \
--	 echo  '                    (default: $(INSTALL_HDR_PATH))'; \
-+	 echo  '                    (default: $(INSTALL_HDR_PATH))'
-+	@echo  '  kbuild_install  - Install module build environment to INSTALL_KBUILD_PATH'; \
-+	 echo  '                    (default: $(INSTALL_KBUILD_PATH))'; \
- 	 echo  ''
- 	@echo  'Static analysers:'
- 	@echo  '  checkstack      - Generate a list of stack hogs'
-@@ -1628,6 +1641,14 @@ PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
- 	$(Q)$(MAKE) $(build)=Documentation $@
- 
-+# Module build environment target
-+# ---------------------------------------------------------------------------
-+PHONY += kbuild_install
-+kbuild_install: asm-generic
-+	$(Q)$(MAKE) $(build)=scripts/basic
-+	$(Q)$(MAKE) $(build)=scripts/mod
-+	$(Q)$(MAKE) $(build)=scripts
-+
- # Misc
- # ---------------------------------------------------------------------------
- 
-diff --git a/scripts/Makefile b/scripts/Makefile
-index bc018e4b733e..c888b7dba0a5 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -29,6 +29,9 @@ endif
- # The following programs are only built on demand
- hostprogs += unifdef
- 
-+extmodprogs += recordmcount
-+extmodprogs += sign-file
-+
- subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
- subdir-$(CONFIG_MODVERSIONS) += genksyms
- subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a467b9323442..6cfc88331fcb 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -59,6 +59,13 @@ ifneq ($(userprogs),)
- include scripts/Makefile.userprogs
- endif
- 
-+# Do not include kbuild install rules unless needed.
-+ifneq ($(KBUILD_INSTALL),)
-+ifneq ($(extmodprogs),)
-+include scripts/Makefile.kbuildinst
-+endif
-+endif
-+
- ifndef obj
- $(warning kbuild: Makefile.build is included improperly)
- endif
-diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-index d9e0ceace6a6..46d3141f17d5 100644
---- a/scripts/Makefile.clean
-+++ b/scripts/Makefile.clean
-@@ -37,6 +37,10 @@ __clean-files	:= \
- # deprecated
- __clean-files	+= $(always) $(hostprogs-y) $(hostprogs-m) $(hostprogs-)
- 
-+ifneq ($(extmodprogs),)
-+__clean-files	+= .cross
-+endif
-+
- __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
- 
- # clean-files is given relative to the current directory, unless it
-diff --git a/scripts/Makefile.kbuildinst b/scripts/Makefile.kbuildinst
-new file mode 100644
-index 000000000000..0b5825f9787e
---- /dev/null
-+++ b/scripts/Makefile.kbuildinst
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+# only install extmodprogs whose hostprogs counterpart is enabled
-+extmodprogs := $(sort $(filter $(extmodprogs),$(notdir $(always-y) $(always-m))))
-+
-+ifneq ($(extmodprogs),)
-+
-+extmodprogs-install := $(addprefix $(INSTALL_KBUILD_PATH)/$(obj)/, $(extmodprogs))
-+
-+ifneq ($(CROSS_COMPILE),)
-+
-+# ==========================================================================
-+# Cross-build binaries necessary to build modules on the target
-+
-+# C executables compiled from a single .c file
-+cross-csingle	:= $(foreach m,$(extmodprogs),$(if $($(m)-objs),,$(m)))
-+
-+# C executables linked from several .o files
-+cross-cmulti	:= $(foreach m,$(extmodprogs),$(if $($(m)-objs),$(m)))
-+
-+# Object .o files compiled from .c files
-+cross-cobjs	:= $(sort $(foreach m,$(cross-cmulti),$($(m)-objs)))
-+
-+cross-csingle	:= $(addprefix $(obj)/.cross/,$(cross-csingle))
-+cross-cmulti	:= $(addprefix $(obj)/.cross/,$(cross-cmulti))
-+cross-cobjs	:= $(addprefix $(obj)/.cross/,$(cross-cobjs))
-+
-+# Create executable from a single .c file
-+# cross-csingle -> executable
-+quiet_cmd_cross-csingle = CC      $@
-+      cmd_cross-csingle = $(CC) $(hostc_flags) $(KBUILD_HOSTLDFLAGS) -o $@ $< \
-+			  $(KBUILD_HOSTLDLIBS) $(HOSTLDLIBS_$(target-stem))
-+$(cross-csingle): $(obj)/.cross/%: $(src)/%.c FORCE
-+	$(call if_changed_dep,cross-csingle)
-+
-+# Link executable based on list of .o files, all plain C
-+# cross-cmulti -> executable
-+quiet_cmd_cross-cmulti	= LD      $@
-+      cmd_cross-cmulti	= $(CC) $(KBUILD_HOSTLDFLAGS) -o $@ \
-+			  $(addprefix $(obj)/.cross/, $($(target-stem)-objs)) \
-+			  $(KBUILD_HOSTLDLIBS) $(HOSTLDLIBS_$(target-stem))
-+$(cross-cmulti): FORCE
-+	$(call if_changed,cross-cmulti)
-+$(call multi_depend, $(cross-cmulti), , -objs)
-+
-+# Create .o file from a single .c file
-+# cross-cobjs -> .o
-+#
-+# Some host-cobjs have special prerequisites.  Apply them to cross-cobjs
-+# by letting the cross .o file depend on the host .o file.
-+quiet_cmd_cross-cobjs	= CC      $@
-+      cmd_cross-cobjs	= $(CC) $(hostc_flags) -c -o $@ $<
-+$(cross-cobjs): $(obj)/.cross/%.o: $(src)/%.c $(obj)/%.o FORCE
-+	$(call if_changed_dep,cross-cobjs)
-+
-+# ==========================================================================
-+# Install module build environment to $(INSTALL_KBUILD_PATH)
-+#
-+# When cross-compiling, install cross-compiled versions of the hostprogs.
-+# Else install the hostprogs directly.
-+
-+targets  += $(cross-csingle) $(cross-cmulti) $(cross-cobjs)
-+always-y += $(cross-csingle) $(cross-cmulti) $(cross-cobjs)
-+
-+$(extmodprogs-install): $(INSTALL_KBUILD_PATH)/$(obj)/%: $(obj)/.cross/%
-+	$(call cmd,extmodprogs_install,$(dir $@))
-+
-+else  # !CROSS_COMPILE
-+
-+$(extmodprogs-install): $(INSTALL_KBUILD_PATH)/$(obj)/%: $(obj)/%
-+	$(call cmd,extmodprogs_install,$(dir $@))
-+
-+endif # !CROSS_COMPILE
-+
-+quiet_cmd_extmodprogs_install = INSTALL $<
-+      cmd_extmodprogs_install = mkdir -p $(2); cp $< $(2)
-+
-+targets  += $(extmodprogs-install)
-+always-y += $(extmodprogs-install)
-+
-+endif # extmodprogs
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 841ac038132b..260fbfbb3854 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -112,7 +112,7 @@ modname = $(subst $(space),:,$(__modname))
- modfile = $(addprefix $(obj)/,$(__modname))
- 
- # target with $(obj)/ and its suffix stripped
--target-stem = $(basename $(patsubst $(obj)/%,%,$@))
-+target-stem = $(basename $(notdir $@))
- 
- # These flags are needed for modversions and compiling, so we define them here
- # $(modname_flags) defines KBUILD_MODNAME as the name of the module it will
-@@ -220,9 +220,9 @@ dtc_cpp_flags  = -Wp,-MMD,$(depfile).pre.tmp -nostdinc                    \
- # Usage:
- #   $(call multi_depend, multi_used_targets, suffix_to_remove, suffix_to_add)
- define multi_depend
--$(foreach m, $(notdir $1), \
--	$(eval $(obj)/$m: \
--	$(addprefix $(obj)/, $(foreach s, $3, $($(m:%$(strip $2)=%$(s)))))))
-+$(foreach m, $1, \
-+	$(eval $m: \
-+	$(addprefix $(dir $m), $(foreach s, $3, $($(patsubst %$(strip $2),%$(s),$(notdir $m)))))))
- endef
- 
- quiet_cmd_copy = COPY    $@
-diff --git a/scripts/basic/Makefile b/scripts/basic/Makefile
-index eeb6a38c5551..5dc33f054332 100644
---- a/scripts/basic/Makefile
-+++ b/scripts/basic/Makefile
-@@ -3,3 +3,4 @@
- # fixdep: used to generate dependency information during build process
- 
- hostprogs-always-y	+= fixdep
-+extmodprogs		+= fixdep
-diff --git a/scripts/genksyms/Makefile b/scripts/genksyms/Makefile
-index ce4f99935de5..4910b921e946 100644
---- a/scripts/genksyms/Makefile
-+++ b/scripts/genksyms/Makefile
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- hostprogs-always-y	+= genksyms
-+extmodprogs		+= genksyms
- 
- genksyms-objs	:= genksyms.o parse.tab.o lex.lex.o
- 
-diff --git a/scripts/mod/Makefile b/scripts/mod/Makefile
-index 78071681d924..d50acbdeca61 100644
---- a/scripts/mod/Makefile
-+++ b/scripts/mod/Makefile
-@@ -2,6 +2,7 @@
- OBJECT_FILES_NON_STANDARD := y
- 
- hostprogs-always-y	+= modpost mk_elfconfig
-+extmodprogs		+= modpost
- always-y		+= empty.o
- 
- modpost-objs	:= modpost.o file2alias.o sumversion.o
+
+
+
+Case 1)
+Build the kernel with CC=clang,
+and then run clang-tidy without CC=clang.
+
+$ make CC=clang defconfig
+$ make CC=clang -j$(nproc)
+$ make clang-tidy
+
+scripts/clang-tools/Makefile.clang-tools:13: *** clang-tidy requires
+CC=clang.  Stop.
+
+
+
+
+Case 2)
+Build the kernel using GCC,
+and then run clang-tidy with CC=clang.
+
+$ make defconfig
+$ make -j$(nproc)
+$ make CC=clang clang-tidy
+
+This patch happily runs clang-tidy
+although compile_commands.json
+contains GCC commands.
+
+
+
+
+
+So, it checks if you have passed CC=clang
+to "make clang-tidy", where I do not see
+any user of the $(CC) variable.
+
+It does not care whether you have built
+the kernel with GCC or Clang.
+
+
+
+What happens if you run clang-tidy against
+compile_commands.json that contains GCC
+commands?
+
+
+I also care about stale commands
+in compile_commands.json.
+
+
+gen_compile_commands.py creates compile_commands.json
+based on *.cmd files it found.
+
+If you rebuild the kernel for various settings
+using GCC/clang without "make clean",
+stale .*.cmd files will grow.
+
+compile_commands.json will pick up commands
+from older compilation, i.e. the end up with
+the mixture of GCC/Clang commands.
+
+So, I'd like to know how clang-tidy handles
+the GCC commands from compile_commands.json
+
+
+
+
+
+> diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
+> similarity index 100%
+> rename from scripts/gen_compile_commands.py
+> rename to scripts/clang-tools/gen_compile_commands.py
+> diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
+> new file mode 100755
+> index 000000000000..fa7655c7cec0
+> --- /dev/null
+> +++ b/scripts/clang-tools/run-clang-tools.py
+> @@ -0,0 +1,74 @@
+> +#!/usr/bin/env python
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Copyright (C) Google LLC, 2020
+> +#
+> +# Author: Nathan Huckleberry <nhuck@google.com>
+> +#
+> +"""A helper routine run clang-tidy and the clang static-analyzer on
+> +compile_commands.json.
+> +"""
+> +
+> +import argparse
+> +import json
+> +import multiprocessing
+> +import os
+> +import subprocess
+> +import sys
+> +
+> +
+> +def parse_arguments():
+> +    """Set up and parses command-line arguments.
+> +    Returns:
+> +        args: Dict of parsed args
+> +        Has keys: [path, type]
+> +    """
+> +    usage = """Run clang-tidy or the clang static-analyzer on a
+> +        compilation database."""
+> +    parser = argparse.ArgumentParser(description=usage)
+> +
+> +    type_help = "Type of analysis to be performed"
+> +    parser.add_argument("type",
+> +                        choices=["clang-tidy", "clang-analyzer"],
+> +                        help=type_help)
+> +    path_help = "Path to the compilation database to parse"
+> +    parser.add_argument("path", type=str, help=path_help)
+> +
+> +    return parser.parse_args()
+> +
+> +
+> +def init(l, a):
+> +    global lock
+> +    global args
+> +    lock = l
+> +    args = a
+> +
+> +
+> +def run_analysis(entry):
+> +    # Disable all checks, then re-enable the ones we want
+> +    checks = "-checks=-*,"
+> +    if args.type == "clang-tidy":
+> +        checks += "linuxkernel-*"
+> +    else:
+> +        checks += "clang-analyzer-*"
+> +    p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
+> +                       stdout=subprocess.PIPE,
+> +                       stderr=subprocess.STDOUT,
+> +                       cwd=entry["directory"])
+> +    with lock:
+> +        sys.stderr.buffer.write(p.stdout)
+> +
+> +
+> +def main():
+> +    args = parse_arguments()
+> +
+> +    lock = multiprocessing.Lock()
+> +    pool = multiprocessing.Pool(initializer=init, initargs=(lock, args))
+> +    # Read JSON data into the datastore variable
+> +    with open(args.path, "r") as f:
+> +        datastore = json.load(f)
+> +        pool.map(run_analysis, datastore)
+> +
+> +
+> +if __name__ == "__main__":
+> +    main()
+> --
+> 2.28.0.rc0.142.g3c755180ce-goog
+>
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
