@@ -2,420 +2,164 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E12323E392
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 23:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63E6823E3BE
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Aug 2020 00:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725812AbgHFVmP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Aug 2020 17:42:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60244 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725999AbgHFVmO (ORCPT
+        id S1726589AbgHFWAs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Aug 2020 18:00:48 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:19146 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726078AbgHFWAr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Aug 2020 17:42:14 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69D72C061575
-        for <linux-kbuild@vger.kernel.org>; Thu,  6 Aug 2020 14:42:14 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id x69so46452275qkb.1
-        for <linux-kbuild@vger.kernel.org>; Thu, 06 Aug 2020 14:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UpAWxyK9tlB1NXZqSpDU40Yy2PoufquWk25YMjTDwRI=;
-        b=PX7vfq6V0l+wUCuHw6v6W3CQnGwlnA/6q8YD2Uc2ADo34vnQ6pqufXseVHEZb4D5j/
-         u8wNAXS132LjhZ7sOjG37lREx0ff+TVV6ERAmy1SUCIP0/aAvslcnCPy3FHR1bhJixcG
-         yKWgH54hM5gBNr168OtJWQ0hMygXK4U7Pb/vKkD1/ebpEqHmeG5XMnhvBS3FXQWMh9Bx
-         7g0m/BvWqF0yTkpw2H9ZqucmhhLTNOHxj3OhcT7K9jO8e7R6nV4tIz+T5SM4AWHqhfH2
-         Rt5MvNyQ3JrrbG86AFB1npsyXt5KcPDSHkUmM/D135T9dABqOfV0p46At00PcoSuEL8f
-         Q6sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UpAWxyK9tlB1NXZqSpDU40Yy2PoufquWk25YMjTDwRI=;
-        b=qpvOk0vYpQ0ErWkj3q1QVzHm3JTJVvkCP7x8pwkfnmOSUCqpidZH16im++uRLqasMC
-         KkU6eZgH9KRf0hM7V5rKwp5heCqd4XDcJJzw5SqhqyuAWeQH17xuyhgPzRWWYqgeNE0+
-         Y/oYA9uE3k1vS7lb6l6+PEVp/Hnpc+jcSnODA4XxMZbOfvZPjRkojUsURKV1qN0pRYaJ
-         4De8ZOyWxO126qP7UCqp6eLztFz0EauwqrG4uAFEyAizRwmROHXonoU189fSBVesDF6A
-         0m4vu5cTNI2gIgXMNiyeI/Ag9izosfploPtFdVD40sm7NqFFNU5inNWbCkajpqtDACDu
-         nKJQ==
-X-Gm-Message-State: AOAM533h0zlHxW8bFX4jofIWt+Y8kM1lnSc9wrCuNJhyfP344apo98Cs
-        bfU/7XLe3lQWV8emmtVz75KaJwjFe0MDiN9NYSNutQ==
-X-Google-Smtp-Source: ABdhPJxqc0lXSFbvA3Ut0IGpwjcf3TF/bOR3bkGC0ezlzTRSqca3q6/3Iw7iFD9QiXzm8n7lSg0mcbPuhTZTNnd7VIM=
-X-Received: by 2002:a37:a354:: with SMTP id m81mr10814578qke.277.1596750132783;
- Thu, 06 Aug 2020 14:42:12 -0700 (PDT)
+        Thu, 6 Aug 2020 18:00:47 -0400
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 076M0TUn006651;
+        Fri, 7 Aug 2020 07:00:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 076M0TUn006651
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1596751230;
+        bh=Xfs85PHXdOhRcMjUjbm4/NBLl7dcQvPuB0IgyJvQcNY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xItFWfax66V1ZlVuvEA/5RZID3kXTCWeBtcMORvBRgSfWXPwamCAkrwdwA0S8/b/k
+         /154VHpCDvYt7vYSXrKjIz0Y8CPUmE9GkVL2xNRNFxKKJyMO8QRKxjDC/2iNVbLyUg
+         bYHXHjmXKfqxuRglfmAYs6gqFzpxtWrr+LQOl+aeIrraoJ40THoJRZuS/Sz9oh1rPz
+         7HtXBZh6y7B2IHNbSxim8Giv6ZhkXqc26FALl+KIQAV2fu2N9aGrjU75pLdIEjGLD6
+         V601vnzM/ZBII0ObJyn9TfYh4Iqc1CWGBbEjTHIRthG73/QOPOnxPvEOKPbM6WaIcy
+         6E9R3JceQurXA==
+X-Nifty-SrcIP: [209.85.217.51]
+Received: by mail-vs1-f51.google.com with SMTP id n25so11186415vsq.6;
+        Thu, 06 Aug 2020 15:00:29 -0700 (PDT)
+X-Gm-Message-State: AOAM5334jNectuqMkMvnDpY6yL+quG3Pj7Qbptv/VvLyCko/eK76tK1e
+        ArbT0Nb8VUfgBxoIUNUVzassql2sGbFuGBVgCxQ=
+X-Google-Smtp-Source: ABdhPJzz7ZZOU/6VCnvmI3r7gzwomd0hOWCZWY3UlQMHSS3+9qv2lWLJwLf6DZJtEiuUw3mJA7PzeBefGQiHc/jfmQ8=
+X-Received: by 2002:a67:d908:: with SMTP id t8mr8112536vsj.215.1596751228524;
+ Thu, 06 Aug 2020 15:00:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKwvOdnni_G2tw+0eCLQQvvdcz97Fy1-cBjzPvLwbBNDu1-KqQ@mail.gmail.com>
- <20200728004736.3590053-1-nhuck@google.com> <CAK7LNAT-AO9_Y-qunRvPbBYf7GZnoE6bxYKFNtcdKAKV8d_A+w@mail.gmail.com>
-In-Reply-To: <CAK7LNAT-AO9_Y-qunRvPbBYf7GZnoE6bxYKFNtcdKAKV8d_A+w@mail.gmail.com>
-From:   Nathan Huckleberry <nhuck@google.com>
-Date:   Thu, 6 Aug 2020 16:42:00 -0500
-Message-ID: <CAJkfWY5ywOtO6fAyPd0B2BjEWamJRRMgg4et0uVq2bpkJSECwA@mail.gmail.com>
-Subject: Re: [PATCH v7] Makefile: Add clang-tidy and static analyzer support
- to makefile
-To:     Masahiro Yamada <masahiroy@kernel.org>
+References: <20200702233929.181409-1-danny@kdrag0n.dev> <20200705024318.GA433@Ryzen-9-3900X.localdomain>
+In-Reply-To: <20200705024318.GA433@Ryzen-9-3900X.localdomain>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 7 Aug 2020 06:59:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ1VqK=zwMUdWCqh2ZmKbQ7p80QBZ0XB9wJyzKgefwY-Q@mail.gmail.com>
+Message-ID: <CAK7LNAQ1VqK=zwMUdWCqh2ZmKbQ7p80QBZ0XB9wJyzKgefwY-Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Allow Clang global merging if !MODULES
+To:     Nathan Chancellor <natechancellor@gmail.com>,
+        Danny Lin <danny@kdrag0n.dev>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Kees Cook <keescook@chromium.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Pirama Arumuga Nainar <pirama@google.com>,
-        Bill Wendling <morbo@google.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 6, 2020 at 3:44 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Sun, Jul 5, 2020 at 11:43 AM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> On Tue, Jul 28, 2020 at 9:47 AM Nathan Huckleberry <nhuck@google.com> wrote:
+> Hi Danny,
+>
+> On Thu, Jul 02, 2020 at 04:39:29PM -0700, Danny Lin wrote:
+> > The old reasoning for disabling Clang's global merging optimization is
+> > that it breaks modpost by coalescing many symbols into _MergedGlobals.
+> > However, modpost is only used in builds with dynamic modules;
+> > vmlinux.symvers is still created during standalone builds, but it's
+> > effectively just an empty dummy file.
+
+I am not convinced with this statement.
+
+modpost is used even if CONFIG_MODULES=n
+
+You can see the following log for allnoconfig.
+
+  MODPOST vmlinux.symvers
+
+
+Yes, vmlinux.symver is empty.
+This is because EXPORT_SYMBOL is no-op when CONFIG_MODULES=n.
+
+
+
 > >
-> > This patch adds clang-tidy and the clang static-analyzer as make
-> > targets. The goal of this patch is to make static analysis tools
-> > usable and extendable by any developer or researcher who is familiar
-> > with basic c++.
-> >
-> > The current static analysis tools require intimate knowledge of the
-> > internal workings of the static analysis. Clang-tidy and the clang
-> > static analyzers expose an easy to use api and allow users unfamiliar
-> > with clang to write new checks with relative ease.
-> >
-> > ===Clang-tidy===
-> >
-> > Clang-tidy is an easily extendable 'linter' that runs on the AST.
-> > Clang-tidy checks are easy to write and understand. A check consists of
-> > two parts, a matcher and a checker. The matcher is created using a
-> > domain specific language that acts on the AST
-> > (https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
-> > nodes are found by the matcher a callback is made to the checker. The
-> > checker can then execute additional checks and issue warnings.
-> >
-> > Here is an example clang-tidy check to report functions that have calls
-> > to local_irq_disable without calls to local_irq_enable and vice-versa.
-> > Functions flagged with __attribute((annotation("ignore_irq_balancing")))
-> > are ignored for analysis. (https://reviews.llvm.org/D65828)
-> >
-> > ===Clang static analyzer===
-> >
-> > The clang static analyzer is a more powerful static analysis tool that
-> > uses symbolic execution to find bugs. Currently there is a check that
-> > looks for potential security bugs from invalid uses of kmalloc and
-> > kfree. There are several more general purpose checks that are useful for
-> > the kernel.
-> >
-> > The clang static analyzer is well documented and designed to be
-> > extensible.
-> > (https://clang-analyzer.llvm.org/checker_dev_manual.html)
-> > (https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
-> >
-> > The main draw of the clang tools is how accessible they are. The clang
-> > documentation is very nice and these tools are built specifically to be
-> > easily extendable by any developer. They provide an accessible method of
-> > bug-finding and research to people who are not overly familiar with the
-> > kernel codebase.
-> >
-> > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> > Enabling the optimization whenever possible allows us to reap the
+> > benefits of reduced register pressure when many global variables are
+> > used in the same function.
+>
+> Have you run into any place within the kernel that this is the case or
+> this more of a "could help if this ever happens" type of deal?
+>
+> > An x86 defconfig kernel built with this optimization boots fine in qemu,
+> > and a downstream 4.14 kernel has been used on arm64 for nearly a year
+> > without any issues caused by this optimization.
+>
+> If I am reading LLVM's source correctly, this option only seems relevant
+> for ARM and AArch64?
+>
+> $ rg --no-heading createGlobalMergePass
+> llvm/lib/CodeGen/GlobalMerge.cpp:679:Pass *llvm::createGlobalMergePass(const TargetMachine *TM, unsigned Offset,
+> llvm/lib/Target/AArch64/AArch64TargetMachine.cpp:524:    addPass(createGlobalMergePass(TM, 4095, OnlyOptimizeForSize,
+> llvm/lib/Target/ARM/ARMTargetMachine.cpp:456:    addPass(createGlobalMergePass(TM, 127, OnlyOptimizeForSize,
+> llvm/include/llvm/CodeGen/Passes.h:419:  Pass *createGlobalMergePass(const TargetMachine *TM, unsigned MaximalOffset,
+>
+> Otherwise, I think this is probably okay. According to [1], when the
+> optimization level is less than -O3, we get a less aggressive version of
+> this optimization level, which is good for code size:
+>
+> https://github.com/llvm/llvm-project/commit/8207641251706ea808df6d2a1ea8f87b8ee04c6d
+
+
+I do not understand how -mglobal-merge works.
+Do you have test code to generate _MergedGlobals ?
+
+
+Thanks.
+
+
+
+
+
+> However, we do potentially get merging of extern globals if we do not
+> specify -mglobal-merge (if I am reading the source correctly), which
+> this commit claims might hurt performance? Not sure if there is any way
+> to test or verify that?
+>
+> https://github.com/llvm/llvm-project/commit/de73404b8c4332190750537eb93ce0d5b6451300
+>
+> > Signed-off-by: Danny Lin <danny@kdrag0n.dev>
 > > ---
-> > Changes v6->v7
-> > * Fix issues with relative paths
-> > * Additional style fixes
-> >  MAINTAINERS                                   |  1 +
-> >  Makefile                                      |  3 +
-> >  scripts/clang-tools/Makefile.clang-tools      | 23 ++++++
-> >  .../{ => clang-tools}/gen_compile_commands.py |  0
-> >  scripts/clang-tools/run-clang-tools.py        | 74 +++++++++++++++++++
-> >  5 files changed, 101 insertions(+)
-> >  create mode 100644 scripts/clang-tools/Makefile.clang-tools
-> >  rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
-> >  create mode 100755 scripts/clang-tools/run-clang-tools.py
+> >  Makefile | 3 +++
+> >  1 file changed, 3 insertions(+)
 > >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1d4aa7f942de..a444564e5572 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -4198,6 +4198,7 @@ W:        https://clangbuiltlinux.github.io/
-> >  B:     https://github.com/ClangBuiltLinux/linux/issues
-> >  C:     irc://chat.freenode.net/clangbuiltlinux
-> >  F:     Documentation/kbuild/llvm.rst
-> > +F:     scripts/clang-tools/
-> >  K:     \b(?i:clang|llvm)\b
-> >
-> >  CLEANCACHE API
 > > diff --git a/Makefile b/Makefile
-> > index fe0164a654c7..3e2df010b342 100644
+> > index a60c98519c37..f04c3639cf61 100644
 > > --- a/Makefile
 > > +++ b/Makefile
-> > @@ -747,6 +747,7 @@ KBUILD_CFLAGS       += $(call cc-option,-fno-allow-store-data-races)
-> >
-> >  include scripts/Makefile.kcov
-> >  include scripts/Makefile.gcc-plugins
-> > +include scripts/clang-tools/Makefile.clang-tools
-> >
-> >  ifdef CONFIG_READABLE_ASM
-> >  # Disable optimizations that make assembler listings hard to read.
-> > @@ -1543,6 +1544,8 @@ help:
-> >         @echo  '  export_report   - List the usages of all exported symbols'
-> >         @echo  '  headerdep       - Detect inclusion cycles in headers'
-> >         @echo  '  coccicheck      - Check with Coccinelle'
-> > +       @echo  '  clang-analyzer  - Check with clang static analyzer'
-> > +       @echo  '  clang-tidy      - Check with clang-tidy'
-> >         @echo  ''
-> >         @echo  'Tools:'
-> >         @echo  '  nsdeps          - Generate missing symbol namespace dependencies'
-> > diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
-> > new file mode 100644
-> > index 000000000000..5c9d76f77595
-> > --- /dev/null
-> > +++ b/scripts/clang-tools/Makefile.clang-tools
-> > @@ -0,0 +1,23 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Copyright (C) Google LLC, 2020
-> > +#
-> > +# Author: Nathan Huckleberry <nhuck@google.com>
-> > +#
-> > +PHONY += clang-tidy
-> > +clang-tidy:
-> > +ifdef CONFIG_CC_IS_CLANG
-> > +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
-> > +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
-> > +else
-> > +       $(error clang-tidy requires CC=clang)
+> > @@ -772,10 +772,13 @@ ifdef CONFIG_CC_IS_CLANG
+> >  KBUILD_CPPFLAGS += -Qunused-arguments
+> >  KBUILD_CFLAGS += -Wno-format-invalid-specifier
+> >  KBUILD_CFLAGS += -Wno-gnu
+> > +
+> > +ifdef CONFIG_MODULES
+> >  # CLANG uses a _MergedGlobals as optimization, but this breaks modpost, as the
+> >  # source of a reference will be _MergedGlobals and not on of the whitelisted names.
+> >  # See modpost pattern 2
+> >  KBUILD_CFLAGS += -mno-global-merge
 > > +endif
-> > +
-> > +PHONY += clang-analyzer
-> > +clang-analyzer:
-> > +ifdef CONFIG_CC_IS_CLANG
-> > +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
-> > +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-analyzer compile_commands.json
-> > +else
-> > +       $(error clang-analyzer requires CC=clang)
-> > +endif
->
->
->
-> You can unify the almost same two rules.
->
-> PHONY += clang-tidy clang-analyzer
-> clang-tidy clang-analyzer:
-> ifdef CONFIG_CC_IS_CLANG
->         $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
->         $(PYTHON3) scripts/clang-tools/run-clang-tools.py $@
-> compile_commands.json
-> else
->         $(error $@ requires CC=clang)
-> endif
->
-
-I like this.
-
->
->
->
-> But, before we proceed, please tell me
-> what this check is intended for.
->
-
-Clang-tidy invokes clang using the command line
-options specified in the compile_commands.json file.
-Using gcc command line options causes a bunch of
-errors for unknown options.
-
->
->
->
->
-> Case 1)
-> Build the kernel with CC=clang,
-> and then run clang-tidy without CC=clang.
->
-> $ make CC=clang defconfig
-> $ make CC=clang -j$(nproc)
-> $ make clang-tidy
->
-> scripts/clang-tools/Makefile.clang-tools:13: *** clang-tidy requires
-> CC=clang.  Stop.
->
-
-I suppose this case could allow clang-tidy to
-be run.
-
->
->
->
-> Case 2)
-> Build the kernel using GCC,
-> and then run clang-tidy with CC=clang.
->
-> $ make defconfig
-> $ make -j$(nproc)
-> $ make CC=clang clang-tidy
->
-> This patch happily runs clang-tidy
-> although compile_commands.json
-> contains GCC commands.
->
-
-This is the worst of the two cases. I'm not
-sure how to prevent this other than parsing the
-compiler invocation in run-clang-tools.py.
-
-I'm open to better suggestions.
-
->
->
->
->
-> So, it checks if you have passed CC=clang
-> to "make clang-tidy", where I do not see
-> any user of the $(CC) variable.
->
-> It does not care whether you have built
-> the kernel with GCC or Clang.
->
->
->
-> What happens if you run clang-tidy against
-> compile_commands.json that contains GCC
-> commands?
-
-Clang-tidy itself uses the command line options from
-compile_commands.json to invoke clang. If you run
-clang-tidy against GCC commands you get lots of
-errors similar to this
-
-Found compiler error(s).
-12 warnings and 8 errors generated.
-Error while processing /usr/local/google/home/nhuck/linux/arch/x86/lib/iomem.c.
-error: unknown argument: '-fconserve-stack' [clang-diagnostic-error]
-error: unknown argument: '-fno-var-tracking-assignments'
-[clang-diagnostic-error]
-error: unknown argument: '-mindirect-branch-register' [clang-diagnostic-error]
-error: unknown argument: '-mindirect-branch=thunk-extern'
-[clang-diagnostic-error]
-error: unknown argument: '-mno-fp-ret-in-387' [clang-diagnostic-error]
-error: unknown argument: '-mpreferred-stack-boundary=3' [clang-diagnostic-error]
-error: unknown argument: '-mskip-rax-setup' [clang-diagnostic-error]
-
->
->
-> I also care about stale commands
-> in compile_commands.json.
->
-
-I agree with this point, but it's more of a bug with
-gen_compile_commands.py. Maybe gen_compile_commands.py
-could emit a warning when stale commands are detected in the
-.*.cmd files.
-
->
-> gen_compile_commands.py creates compile_commands.json
-> based on *.cmd files it found.
->
-> If you rebuild the kernel for various settings
-> using GCC/clang without "make clean",
-> stale .*.cmd files will grow.
->
-> compile_commands.json will pick up commands
-> from older compilation, i.e. the end up with
-> the mixture of GCC/Clang commands.
->
-> So, I'd like to know how clang-tidy handles
-> the GCC commands from compile_commands.json
->
->
->
->
->
-> > diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-> > similarity index 100%
-> > rename from scripts/gen_compile_commands.py
-> > rename to scripts/clang-tools/gen_compile_commands.py
-> > diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
-> > new file mode 100755
-> > index 000000000000..fa7655c7cec0
-> > --- /dev/null
-> > +++ b/scripts/clang-tools/run-clang-tools.py
-> > @@ -0,0 +1,74 @@
-> > +#!/usr/bin/env python
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +#
-> > +# Copyright (C) Google LLC, 2020
-> > +#
-> > +# Author: Nathan Huckleberry <nhuck@google.com>
-> > +#
-> > +"""A helper routine run clang-tidy and the clang static-analyzer on
-> > +compile_commands.json.
-> > +"""
-> > +
-> > +import argparse
-> > +import json
-> > +import multiprocessing
-> > +import os
-> > +import subprocess
-> > +import sys
-> > +
-> > +
-> > +def parse_arguments():
-> > +    """Set up and parses command-line arguments.
-> > +    Returns:
-> > +        args: Dict of parsed args
-> > +        Has keys: [path, type]
-> > +    """
-> > +    usage = """Run clang-tidy or the clang static-analyzer on a
-> > +        compilation database."""
-> > +    parser = argparse.ArgumentParser(description=usage)
-> > +
-> > +    type_help = "Type of analysis to be performed"
-> > +    parser.add_argument("type",
-> > +                        choices=["clang-tidy", "clang-analyzer"],
-> > +                        help=type_help)
-> > +    path_help = "Path to the compilation database to parse"
-> > +    parser.add_argument("path", type=str, help=path_help)
-> > +
-> > +    return parser.parse_args()
-> > +
-> > +
-> > +def init(l, a):
-> > +    global lock
-> > +    global args
-> > +    lock = l
-> > +    args = a
-> > +
-> > +
-> > +def run_analysis(entry):
-> > +    # Disable all checks, then re-enable the ones we want
-> > +    checks = "-checks=-*,"
-> > +    if args.type == "clang-tidy":
-> > +        checks += "linuxkernel-*"
-> > +    else:
-> > +        checks += "clang-analyzer-*"
-> > +    p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
-> > +                       stdout=subprocess.PIPE,
-> > +                       stderr=subprocess.STDOUT,
-> > +                       cwd=entry["directory"])
-> > +    with lock:
-> > +        sys.stderr.buffer.write(p.stdout)
-> > +
-> > +
-> > +def main():
-> > +    args = parse_arguments()
-> > +
-> > +    lock = multiprocessing.Lock()
-> > +    pool = multiprocessing.Pool(initializer=init, initargs=(lock, args))
-> > +    # Read JSON data into the datastore variable
-> > +    with open(args.path, "r") as f:
-> > +        datastore = json.load(f)
-> > +        pool.map(run_analysis, datastore)
-> > +
-> > +
-> > +if __name__ == "__main__":
-> > +    main()
+> >  else
+> >
+> >  # These warnings generated too much noise in a regular build.
 > > --
-> > 2.28.0.rc0.142.g3c755180ce-goog
+> > 2.27.0
 > >
 >
->
-> --
-> Best Regards
-> Masahiro Yamada
+> Cheers,
+> Nathan
+
+
+
+--
+Best Regards
+Masahiro Yamada
