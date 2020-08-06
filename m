@@ -2,103 +2,199 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0848823DBE4
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 18:36:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D5C923DEAF
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 19:29:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728970AbgHFQfs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Aug 2020 12:35:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40882 "EHLO
+        id S1729222AbgHFR2q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Aug 2020 13:28:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726150AbgHFQfY (ORCPT
+        with ESMTP id S1729725AbgHFRA4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Aug 2020 12:35:24 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9355C0A893C;
-        Thu,  6 Aug 2020 08:08:16 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id i26so32073921edv.4;
-        Thu, 06 Aug 2020 08:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/NBVKOjlAWWfsV7g9wQU/wL49LI80XYT8ZZs5+X9WF4=;
-        b=X0/iNYVseeiv7KKCcoHOOF+EgAeIK3Jhiqd/cqA341huobn7TndXq1Xkph67VmiIIQ
-         pL8KNuqR9x09+LI3pU1gcxrBk4ffIub0jP2cj9GfKvNY+c1QALaWRd2uSovGRaO8fhiP
-         uyJkUPPDA4ggB3mgn0K4MiFUaU5ZAzJC1IqwqJH8IY+Vm9rAeRqdYPnGgZjXQPZAUX9d
-         lD/yHm37Y7GShrMpO60wOb2AzykPpn0tbk5EkF4BExNpSy7MJV9U8YDZ6YOdHvEVzF09
-         Ri/5Vn9xpo2XomBE4jkhZbLdHRmTK6kEZrCsJnNzvKEhYhjBRYE9ILZzFDCs93li9gil
-         qPHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=/NBVKOjlAWWfsV7g9wQU/wL49LI80XYT8ZZs5+X9WF4=;
-        b=gBugjOcQ68WL+pel+9/6nwRgCh31FJlMPaogSCwghNSUpiC+iFj8IREXiVIcFQKONo
-         YSm4ik2UzVqcNkAoJ0j4/py66+b5L7xTPv5ri8wwxf+eW4vjpScvrDXREFopr5SxZ0Jb
-         B62UIZPleEAyEDeibqHhYKOTSlHC+/lRo9TDhHaYis3Pr83k8HaaeoXk8RQhjQIh8N/q
-         uISll/xFlFqiEA+hiX6BGDNI4VHKh3OmLzphKDdYCCWUq6KlSrSEBA/OD3VPDfO9yPKO
-         WJAMEl1L5NDmh8DSqORAM6s/l9c1NZGaIWiPKbODCfkwU1ULdQeRYangKHSyN0QuwMZe
-         cBXA==
-X-Gm-Message-State: AOAM53283/BerG7oWJIXavA7PkYScGK16Jc2cgAM+u2K5q+c55lICrN8
-        mAmeGZbjv+Vpr1hIoQXZiQg=
-X-Google-Smtp-Source: ABdhPJx4tglb5q6BahdDY6UfNDnLH/fg9q5/lMjer49/21DCpLvr0dFIv9J/IPh1tHwgokZaqFNpmg==
-X-Received: by 2002:aa7:c74f:: with SMTP id c15mr4558837eds.331.1596726495566;
-        Thu, 06 Aug 2020 08:08:15 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id 4sm3886474ejn.84.2020.08.06.08.08.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 08:08:14 -0700 (PDT)
-Date:   Thu, 6 Aug 2020 17:08:10 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     changhuaixin <changhuaixin@linux.alibaba.com>
-Cc:     bp@alien8.de, hpa@zytor.com, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, luto@amacapital.net,
-        michal.lkml@markovi.net, mingo@redhat.com,
-        Peter Zijlstra <peterz@infradead.org>, tglx@linutronix.de,
-        x86@kernel.org, yamada.masahiro@socionext.com, jpoimboe@redhat.com
-Subject: Re: [PATCH 1/3] scripts/sorttable: Change section type of orc_lookup
- to SHT_PROGBITS
-Message-ID: <20200806150810.GA2127855@gmail.com>
-References: <20200723034643.33537-1-changhuaixin@linux.alibaba.com>
- <20200723034643.33537-2-changhuaixin@linux.alibaba.com>
- <2714DF66-5F65-4CB1-A232-B88E4D5AF566@linux.alibaba.com>
+        Thu, 6 Aug 2020 13:00:56 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEB6C061A15;
+        Thu,  6 Aug 2020 05:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=EGNqm2OAGxLKcqDl+GdAdBwWIqcANnBJ4vDsUT0HyC0=; b=RZ97opg7YyhEx3dt2aRYJLyN3x
+        sMcvQavppfwGjG6PNlaXjS36Sq3ScvJf6bnKt3qzer4f3S3Sx95AtBW4LFMR72fd0NlV/kp8vGTPB
+        laZ7kd9VE78v9mtPcE8z5B5fik228y4ZayWvIqcpYVqEC/fCCYv77IHJtdUP0QlkO4g1xTO+fAuPZ
+        JzJCoI1T95ENxYHpdzzy4dOm9Aw7Rbg1Y4bWhLhpqW3EOhlImxGfe7+TxanKtXtXgqwMaBFeXKTCD
+        oXkkciAw+5ENq2rfPqispnr2q376UgbEvwdxMbxW3PBW50Jl4DqH8SHeHv13V5awAq7ItNidFq1K0
+        txEb0Qig==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k3edT-0007ez-KY; Thu, 06 Aug 2020 12:04:39 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id C2E34301A66;
+        Thu,  6 Aug 2020 14:04:38 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 6CCE12123A1E1; Thu,  6 Aug 2020 14:04:38 +0200 (CEST)
+Date:   Thu, 6 Aug 2020 14:04:38 +0200
+From:   peterz@infradead.org
+To:     yamada.masahiro@socionext.com
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: [PATCH -v2] scipts/tags.sh: Add custom sort order
+Message-ID: <20200806120438.GG35926@hirez.programming.kicks-ass.net>
+References: <20200805102550.GO2674@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2714DF66-5F65-4CB1-A232-B88E4D5AF566@linux.alibaba.com>
+In-Reply-To: <20200805102550.GO2674@hirez.programming.kicks-ass.net>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
-* changhuaixin <changhuaixin@linux.alibaba.com> wrote:
+One long standing annoyance I have with using vim-tags is that our tags
+file is not properly sorted. That is, the sorting exhuberant Ctags does
+is only on the tag itself.
 
-> Hi, Ingo
-> 
-> Another way to write SHT_PROGBITS is using elf_create_section to write orc_lookup table headers, when orc_unwind_ip table and orc_unwind table are written. Is this a better solution?
-> 
-> diff --git a/tools/objtool/orc_gen.c b/tools/objtool/orc_gen.c
-> index 3f98dcfbc177..860d4dcec8e6 100644
-> --- a/tools/objtool/orc_gen.c
-> +++ b/tools/objtool/orc_gen.c
-> @@ -183,6 +183,10 @@ int create_orc_sections(struct objtool_file *file)
->         u_sec = elf_create_section(file->elf, ".orc_unwind",
->                                    sizeof(struct orc_entry), idx);
-> 
-> +       /* make flags of section orc_lookup right */
-> +       if (!elf_create_section(file->elf, ".orc_lookup", sizeof(int), 0))
-> +               return -1;
-> +
->         /* populate sections */
->         idx = 0;
->         for_each_sec(file, sec) {
+The problem with that is that, for example, the tag 'mutex' appears a
+mere 505 times, 492 of those are structure members. However it is _far_
+more likely that someone wants the struct definition when looking for
+the mutex tag than any of those members. However, due to the nature of
+the sorting, the struct definition will not be first.
 
-Looks much nicer IMO.
+So add a script that does a custom sort of the tags file, taking the tag
+kind into account.
 
-Mind turning this into a proper patch that does it plus reverts the 
-hack?
+The kind ordering is roughly: 'type', 'function', 'macro', 'enum', rest.
 
-Thanks,
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+---
+Changes since v1:
+ - removed the need for tags.unsorted by using a pipe
 
-	Ingo
+Due to this change 'make tags' is now actually faster than it was before
+due to less sorting.
+
+ scripts/sort-tags.awk | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ scripts/tags.sh       | 11 +++++--
+ 2 files changed, 87 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/sort-tags.awk b/scripts/sort-tags.awk
+new file mode 100755
+index 000000000000..1eb50406c9d3
+--- /dev/null
++++ b/scripts/sort-tags.awk
+@@ -0,0 +1,79 @@
++#!/usr/bin/awk -f
++
++# $ ctags --list-kinds
++# C
++#   c  classes
++#   s  structure names
++#   t  typedefs
++#   g  enumeration names
++#   u  union names
++#   n  namespaces
++
++#   f  function definitions
++#   p  function prototypes [off]
++#   d  macro definitions
++
++#   e  enumerators (values inside an enumeration)
++#   m  class, struct, and union members
++#   v  variable definitions
++
++#   l  local variables [off]
++#   x  external and forward variable declarations [off]
++
++BEGIN {
++	FS = "\t"
++
++	sort = "LC_ALL=C sort"
++
++	# our sort order for C kinds:
++	order["c"] = "A"
++	order["s"] = "B"
++	order["t"] = "C"
++	order["g"] = "D"
++	order["u"] = "E"
++	order["n"] = "F"
++	order["f"] = "G"
++	order["p"] = "H"
++	order["d"] = "I"
++	order["e"] = "J"
++	order["m"] = "K"
++	order["v"] = "L"
++	order["l"] = "M"
++	order["x"] = "N"
++}
++
++# pass through header
++/^!_TAG/ {
++	print $0
++	next
++}
++
++{
++	# find 'kinds'
++	for (i = 1; i <= NF; i++) {
++		if ($i ~ /;"$/) {
++			kind = $(i+1)
++			break;
++		}
++	}
++
++	# create sort key
++	if (order[kind])
++		key = $1 order[kind];
++	else
++		key = $1 "Z";
++
++	# get it sorted
++	print key "\t" $0 |& sort
++}
++
++END {
++	close(sort, "to")
++	while ((sort |& getline) > 0) {
++		# strip key
++		sub(/[^[:space:]]*[[:space:]]*/, "")
++		print $0
++	}
++	close(sort)
++}
++
+diff --git a/scripts/tags.sh b/scripts/tags.sh
+index 4e18ae5282a6..51087c3d8b1e 100755
+--- a/scripts/tags.sh
++++ b/scripts/tags.sh
+@@ -251,8 +251,10 @@ setup_regex()
+ 
+ exuberant()
+ {
++	(
++
+ 	setup_regex exuberant asm c
+-	all_target_sources | xargs $1 -a                        \
++	all_target_sources | xargs $1				\
+ 	-I __initdata,__exitdata,__initconst,__ro_after_init	\
+ 	-I __initdata_memblock					\
+ 	-I __refdata,__attribute,__maybe_unused,__always_unused \
+@@ -266,12 +268,15 @@ exuberant()
+ 	-I DEFINE_TRACE,EXPORT_TRACEPOINT_SYMBOL,EXPORT_TRACEPOINT_SYMBOL_GPL \
+ 	-I static,const						\
+ 	--extra=+fq --c-kinds=+px --fields=+iaS --langmap=c:+.h \
++	--sort=no -o -						\
+ 	"${regex[@]}"
+ 
+ 	setup_regex exuberant kconfig
+-	all_kconfigs | xargs $1 -a                              \
+-	--langdef=kconfig --language-force=kconfig "${regex[@]}"
++	all_kconfigs | xargs $1					\
++	--langdef=kconfig --language-force=kconfig --sort=no	\
++	-o - "${regex[@]}"
+ 
++	) | scripts/sort-tags.awk > tags
+ }
+ 
+ emacs()
