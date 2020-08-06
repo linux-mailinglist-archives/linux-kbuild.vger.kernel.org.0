@@ -2,418 +2,316 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FF7A23E3D2
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Aug 2020 00:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59C4923E3D6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Aug 2020 00:11:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbgHFWJw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Aug 2020 18:09:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36264 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbgHFWJv (ORCPT
+        id S1725783AbgHFWK7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Aug 2020 18:10:59 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:33771 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725812AbgHFWK7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Aug 2020 18:09:51 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BB9C061575
-        for <linux-kbuild@vger.kernel.org>; Thu,  6 Aug 2020 15:09:50 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id t6so7403664pjr.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 06 Aug 2020 15:09:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=CRP3FgRyQ/k48NTUuHSvU7SLO+Q+hOFOxehsPE+mY3A=;
-        b=koToQFz7v/FNbYDUnN7uUjTfsar8RnUGuRSmognn2IXLMfP3k0TA0YVizuDKsldhCB
-         oKL0TTm/CPbY9FwI+p94fRf/RVUPLuni/gRgietd/s6uKg0l4CXy14b0eKcAGA/tSijk
-         ozo6ZDCuptECLJz1cGm1K6VT/QjQNmNKjn8iMW7XksBfJkrHors35OlSwnYlpjb9xu/7
-         4wd8dLHukDPpGQ8yzP4CRj9SqSju3fi4muJJH7TnO3QuLzqSDWRlLuZLq9MARynzV126
-         b4+/uVQUOgtUiyM6hv2/2+TNV74S3w+bziPPQTsgXqD491pP6XoES/LHTtzUtL2U1acd
-         DhMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CRP3FgRyQ/k48NTUuHSvU7SLO+Q+hOFOxehsPE+mY3A=;
-        b=CWjAwLSyDuxlTwYrgATu57UACAidYHWQYvAMor7UsuxEMBL3qLMJSSVFNLhmjDpTsO
-         JVSQES7LIQuaJniMEG7QbHWE7FFKG3xf9R5FBFWmYBVGN0h8E+TeAhUaItMQicDYBP31
-         uCe0ggkOtuIJ4hqBIrqZo1JepojLOQ+WochkrqPOKP3H5cwqwgxiRb37WwtQFGV1v11h
-         MtTXzr7EAUpZrFOHnK+yB/Yfqa2bUWBDD/Gs+3cJqsGGUgEmWfuUoBL3pEJcegYlBz/8
-         f2UZz7RujGXtKIvQ1NtreJLIj8Eb6yOpMAv2SMM1VWPqyQzPhlKtE7vhIlDe6Ga1imhj
-         CsZA==
-X-Gm-Message-State: AOAM531E9IGEwEzAtzINOsYUQaY9BapxV6DzDMPrNKQIcZr3yg+geFiO
-        Q4VdPuTvfIIAzv0LV/3LKTo5Rw==
-X-Google-Smtp-Source: ABdhPJyIvDdOsrSRk0Aersg8zp7X6hgYDLE4DrekCgs3b7/u9ms0kPv6U1wN8B2b/xqJQTL8s6WaHg==
-X-Received: by 2002:a17:90a:2210:: with SMTP id c16mr10702188pje.65.1596751790067;
-        Thu, 06 Aug 2020 15:09:50 -0700 (PDT)
-Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
-        by smtp.gmail.com with ESMTPSA id 193sm9352085pfu.169.2020.08.06.15.09.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2020 15:09:49 -0700 (PDT)
-Date:   Thu, 6 Aug 2020 15:09:43 -0700
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org, Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [RFC][PATCH] objtool,x86_64: Replace recordmcount with objtool
-Message-ID: <20200806220943.GA1781224@google.com>
-References: <20200625074530.GW4817@hirez.programming.kicks-ass.net>
- <20200625161503.GB173089@google.com>
- <20200625200235.GQ4781@hirez.programming.kicks-ass.net>
- <20200625224042.GA169781@google.com>
- <20200626112931.GF4817@hirez.programming.kicks-ass.net>
- <20200722135542.41127cc4@oasis.local.home>
- <20200722184137.GP10769@hirez.programming.kicks-ass.net>
- <20200722150943.53046592@oasis.local.home>
- <20200722235620.GR10769@hirez.programming.kicks-ass.net>
- <20200722200608.40ca9994@oasis.local.home>
+        Thu, 6 Aug 2020 18:10:59 -0400
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 076MAdYx010846;
+        Fri, 7 Aug 2020 07:10:40 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 076MAdYx010846
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1596751840;
+        bh=GixLM4g/7oVPKB6aJETz+X61jnZ+y7CfPLscIRzlpvM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=F/y/MGcHje3aREZ5WOnpghavFwSZGI2jr1l93H6aL5ijDYlUfoNXvcFkYQjQTH82k
+         iKiCMvpxBM6Fktv4Xo02sqY2p3+IkfTJFf+Mv8Iz4dkT1lrymnuoy8wj2ffM8ZU54p
+         XicLuhNUzRjX17K+Ghm38pmUGYl15R8qEVlaXP7iLZ7FY41hSfNxnxGwsyOg//FSVm
+         zgBNpjQyDfC8wcNk1IiHGrGYdtVXc1nPXNqu7LCZVAamdysLGtkwHnVOSpIljmXsk8
+         391jzSG7db0a/lPSY4SlU5ol68XsiaWm5Rd2JgkyepXEYHTXxQhMpLytiH0nis+gZo
+         pdnc9BhoS776Q==
+X-Nifty-SrcIP: [209.85.217.41]
+Received: by mail-vs1-f41.google.com with SMTP id r7so4356vsq.5;
+        Thu, 06 Aug 2020 15:10:40 -0700 (PDT)
+X-Gm-Message-State: AOAM530ftjUxrwpsCBexlJXS/Kf6GUqAcJpNdU6zDQX0GIAIVuKDifaD
+        GblENTmiwOa0ujxNELHoaqWt7J/HDOfSXssv17I=
+X-Google-Smtp-Source: ABdhPJwaESltMEOtHj2lithUIxvn18BWTkAkhifExzb3OhYRbnlb5/boIsP6Imgni1KyF07Xkg2XsKreEjO1bneoqWs=
+X-Received: by 2002:a67:7905:: with SMTP id u5mr8405015vsc.179.1596751838971;
+ Thu, 06 Aug 2020 15:10:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200722200608.40ca9994@oasis.local.home>
+References: <CAKwvOdnni_G2tw+0eCLQQvvdcz97Fy1-cBjzPvLwbBNDu1-KqQ@mail.gmail.com>
+ <20200728004736.3590053-1-nhuck@google.com> <CAK7LNAT-AO9_Y-qunRvPbBYf7GZnoE6bxYKFNtcdKAKV8d_A+w@mail.gmail.com>
+ <CAJkfWY5ywOtO6fAyPd0B2BjEWamJRRMgg4et0uVq2bpkJSECwA@mail.gmail.com>
+In-Reply-To: <CAJkfWY5ywOtO6fAyPd0B2BjEWamJRRMgg4et0uVq2bpkJSECwA@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 7 Aug 2020 07:10:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQVdhMraYejrTsGZSLFJDk4CVf6ke-bsQ7kaDUM2Lf4SA@mail.gmail.com>
+Message-ID: <CAK7LNAQVdhMraYejrTsGZSLFJDk4CVf6ke-bsQ7kaDUM2Lf4SA@mail.gmail.com>
+Subject: Re: [PATCH v7] Makefile: Add clang-tidy and static analyzer support
+ to makefile
+To:     Nathan Huckleberry <nhuck@google.com>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Pirama Arumuga Nainar <pirama@google.com>,
+        Bill Wendling <morbo@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Jul 22, 2020 at 08:06:08PM -0400, Steven Rostedt wrote:
-> On Thu, 23 Jul 2020 01:56:20 +0200
-> Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > Anyway, what do you prefer, I suppose I can make objtool whatever we
-> > need, that patch is trivial. Simply recording the sites and not
-> > rewriting them should be simple enough.
-> 
-> Either way. If objtool turns it into nops, just make it where we can
-> enable -DCC_USING_NOP_MCOUNT set, and the kernel will be unaware.
-> 
-> Or if you just add the locations, then that would work too.
+On Fri, Aug 7, 2020 at 6:42 AM 'Nathan Huckleberry' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
+>
+> On Thu, Aug 6, 2020 at 3:44 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Tue, Jul 28, 2020 at 9:47 AM Nathan Huckleberry <nhuck@google.com> wrote:
+> > >
+> > > This patch adds clang-tidy and the clang static-analyzer as make
+> > > targets. The goal of this patch is to make static analysis tools
+> > > usable and extendable by any developer or researcher who is familiar
+> > > with basic c++.
+> > >
+> > > The current static analysis tools require intimate knowledge of the
+> > > internal workings of the static analysis. Clang-tidy and the clang
+> > > static analyzers expose an easy to use api and allow users unfamiliar
+> > > with clang to write new checks with relative ease.
+> > >
+> > > ===Clang-tidy===
+> > >
+> > > Clang-tidy is an easily extendable 'linter' that runs on the AST.
+> > > Clang-tidy checks are easy to write and understand. A check consists of
+> > > two parts, a matcher and a checker. The matcher is created using a
+> > > domain specific language that acts on the AST
+> > > (https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
+> > > nodes are found by the matcher a callback is made to the checker. The
+> > > checker can then execute additional checks and issue warnings.
+> > >
+> > > Here is an example clang-tidy check to report functions that have calls
+> > > to local_irq_disable without calls to local_irq_enable and vice-versa.
+> > > Functions flagged with __attribute((annotation("ignore_irq_balancing")))
+> > > are ignored for analysis. (https://reviews.llvm.org/D65828)
+> > >
+> > > ===Clang static analyzer===
+> > >
+> > > The clang static analyzer is a more powerful static analysis tool that
+> > > uses symbolic execution to find bugs. Currently there is a check that
+> > > looks for potential security bugs from invalid uses of kmalloc and
+> > > kfree. There are several more general purpose checks that are useful for
+> > > the kernel.
+> > >
+> > > The clang static analyzer is well documented and designed to be
+> > > extensible.
+> > > (https://clang-analyzer.llvm.org/checker_dev_manual.html)
+> > > (https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
+> > >
+> > > The main draw of the clang tools is how accessible they are. The clang
+> > > documentation is very nice and these tools are built specifically to be
+> > > easily extendable by any developer. They provide an accessible method of
+> > > bug-finding and research to people who are not overly familiar with the
+> > > kernel codebase.
+> > >
+> > > Signed-off-by: Nathan Huckleberry <nhuck@google.com>
+> > > ---
+> > > Changes v6->v7
+> > > * Fix issues with relative paths
+> > > * Additional style fixes
+> > >  MAINTAINERS                                   |  1 +
+> > >  Makefile                                      |  3 +
+> > >  scripts/clang-tools/Makefile.clang-tools      | 23 ++++++
+> > >  .../{ => clang-tools}/gen_compile_commands.py |  0
+> > >  scripts/clang-tools/run-clang-tools.py        | 74 +++++++++++++++++++
+> > >  5 files changed, 101 insertions(+)
+> > >  create mode 100644 scripts/clang-tools/Makefile.clang-tools
+> > >  rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
+> > >  create mode 100755 scripts/clang-tools/run-clang-tools.py
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 1d4aa7f942de..a444564e5572 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -4198,6 +4198,7 @@ W:        https://clangbuiltlinux.github.io/
+> > >  B:     https://github.com/ClangBuiltLinux/linux/issues
+> > >  C:     irc://chat.freenode.net/clangbuiltlinux
+> > >  F:     Documentation/kbuild/llvm.rst
+> > > +F:     scripts/clang-tools/
+> > >  K:     \b(?i:clang|llvm)\b
+> > >
+> > >  CLEANCACHE API
+> > > diff --git a/Makefile b/Makefile
+> > > index fe0164a654c7..3e2df010b342 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -747,6 +747,7 @@ KBUILD_CFLAGS       += $(call cc-option,-fno-allow-store-data-races)
+> > >
+> > >  include scripts/Makefile.kcov
+> > >  include scripts/Makefile.gcc-plugins
+> > > +include scripts/clang-tools/Makefile.clang-tools
+> > >
+> > >  ifdef CONFIG_READABLE_ASM
+> > >  # Disable optimizations that make assembler listings hard to read.
+> > > @@ -1543,6 +1544,8 @@ help:
+> > >         @echo  '  export_report   - List the usages of all exported symbols'
+> > >         @echo  '  headerdep       - Detect inclusion cycles in headers'
+> > >         @echo  '  coccicheck      - Check with Coccinelle'
+> > > +       @echo  '  clang-analyzer  - Check with clang static analyzer'
+> > > +       @echo  '  clang-tidy      - Check with clang-tidy'
+> > >         @echo  ''
+> > >         @echo  'Tools:'
+> > >         @echo  '  nsdeps          - Generate missing symbol namespace dependencies'
+> > > diff --git a/scripts/clang-tools/Makefile.clang-tools b/scripts/clang-tools/Makefile.clang-tools
+> > > new file mode 100644
+> > > index 000000000000..5c9d76f77595
+> > > --- /dev/null
+> > > +++ b/scripts/clang-tools/Makefile.clang-tools
+> > > @@ -0,0 +1,23 @@
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +#
+> > > +# Copyright (C) Google LLC, 2020
+> > > +#
+> > > +# Author: Nathan Huckleberry <nhuck@google.com>
+> > > +#
+> > > +PHONY += clang-tidy
+> > > +clang-tidy:
+> > > +ifdef CONFIG_CC_IS_CLANG
+> > > +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
+> > > +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-tidy compile_commands.json
+> > > +else
+> > > +       $(error clang-tidy requires CC=clang)
+> > > +endif
+> > > +
+> > > +PHONY += clang-analyzer
+> > > +clang-analyzer:
+> > > +ifdef CONFIG_CC_IS_CLANG
+> > > +       $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
+> > > +       $(PYTHON3) scripts/clang-tools/run-clang-tools.py clang-analyzer compile_commands.json
+> > > +else
+> > > +       $(error clang-analyzer requires CC=clang)
+> > > +endif
+> >
+> >
+> >
+> > You can unify the almost same two rules.
+> >
+> > PHONY += clang-tidy clang-analyzer
+> > clang-tidy clang-analyzer:
+> > ifdef CONFIG_CC_IS_CLANG
+> >         $(PYTHON3) scripts/clang-tools/gen_compile_commands.py
+> >         $(PYTHON3) scripts/clang-tools/run-clang-tools.py $@
+> > compile_commands.json
+> > else
+> >         $(error $@ requires CC=clang)
+> > endif
+> >
+>
+> I like this.
+>
+> >
+> >
+> >
+> > But, before we proceed, please tell me
+> > what this check is intended for.
+> >
+>
+> Clang-tidy invokes clang using the command line
+> options specified in the compile_commands.json file.
+> Using gcc command line options causes a bunch of
+> errors for unknown options.
+>
+> >
+> >
+> >
+> >
+> > Case 1)
+> > Build the kernel with CC=clang,
+> > and then run clang-tidy without CC=clang.
+> >
+> > $ make CC=clang defconfig
+> > $ make CC=clang -j$(nproc)
+> > $ make clang-tidy
+> >
+> > scripts/clang-tools/Makefile.clang-tools:13: *** clang-tidy requires
+> > CC=clang.  Stop.
+> >
+>
+> I suppose this case could allow clang-tidy to
+> be run.
+>
+> >
+> >
+> >
+> > Case 2)
+> > Build the kernel using GCC,
+> > and then run clang-tidy with CC=clang.
+> >
+> > $ make defconfig
+> > $ make -j$(nproc)
+> > $ make CC=clang clang-tidy
+> >
+> > This patch happily runs clang-tidy
+> > although compile_commands.json
+> > contains GCC commands.
+> >
+>
+> This is the worst of the two cases. I'm not
+> sure how to prevent this other than parsing the
+> compiler invocation in run-clang-tools.py.
+>
+> I'm open to better suggestions.
+>
+> >
+> >
+> >
+> >
+> > So, it checks if you have passed CC=clang
+> > to "make clang-tidy", where I do not see
+> > any user of the $(CC) variable.
+> >
+> > It does not care whether you have built
+> > the kernel with GCC or Clang.
+> >
+> >
+> >
+> > What happens if you run clang-tidy against
+> > compile_commands.json that contains GCC
+> > commands?
+>
+> Clang-tidy itself uses the command line options from
+> compile_commands.json to invoke clang. If you run
+> clang-tidy against GCC commands you get lots of
+> errors similar to this
+>
+> Found compiler error(s).
+> 12 warnings and 8 errors generated.
+> Error while processing /usr/local/google/home/nhuck/linux/arch/x86/lib/iomem.c.
+> error: unknown argument: '-fconserve-stack' [clang-diagnostic-error]
+> error: unknown argument: '-fno-var-tracking-assignments'
+> [clang-diagnostic-error]
+> error: unknown argument: '-mindirect-branch-register' [clang-diagnostic-error]
+> error: unknown argument: '-mindirect-branch=thunk-extern'
+> [clang-diagnostic-error]
+> error: unknown argument: '-mno-fp-ret-in-387' [clang-diagnostic-error]
+> error: unknown argument: '-mpreferred-stack-boundary=3' [clang-diagnostic-error]
+> error: unknown argument: '-mskip-rax-setup' [clang-diagnostic-error]
+>
+> >
+> >
+> > I also care about stale commands
+> > in compile_commands.json.
+> >
+>
+> I agree with this point, but it's more of a bug with
+> gen_compile_commands.py. Maybe gen_compile_commands.py
+> could emit a warning when stale commands are detected in the
+> .*.cmd files.
 
-I took Peter's earlier patch, rebased it on top of the current mainline
-tree for easier testing, and tweaked the makefiles to only use objtool
---mcount when CONFIG_STACK_VALIDATION is enabled and the compiler
-supports -mfentry. This works for me with both gcc and clang. Thoughts?
 
-Sami
+Nathan, thanks for your comments.
 
+I can improve this
+so compile_commands.json contains
+only commands from the last build.
 
----
- Makefile                      | 38 ++++++++++++----
- arch/x86/Kconfig              |  1 +
- kernel/trace/Kconfig          |  5 +++
- scripts/Makefile.build        |  9 ++--
- tools/objtool/builtin-check.c |  3 +-
- tools/objtool/builtin.h       |  2 +-
- tools/objtool/check.c         | 83 +++++++++++++++++++++++++++++++++++
- tools/objtool/check.h         |  1 +
- tools/objtool/objtool.h       |  1 +
- 9 files changed, 129 insertions(+), 14 deletions(-)
+Working on a patch.
 
-diff --git a/Makefile b/Makefile
-index 5cfc3481207f..2d23b6b6c4c9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -864,17 +864,34 @@ ifdef CONFIG_HAVE_FENTRY
-   ifeq ($(call cc-option-yn, -mfentry),y)
-     CC_FLAGS_FTRACE	+= -mfentry
-     CC_FLAGS_USING	+= -DCC_USING_FENTRY
-+    export CC_USING_FENTRY := 1
-   endif
- endif
- export CC_FLAGS_FTRACE
--KBUILD_CFLAGS	+= $(CC_FLAGS_FTRACE) $(CC_FLAGS_USING)
--KBUILD_AFLAGS	+= $(CC_FLAGS_USING)
- ifdef CONFIG_DYNAMIC_FTRACE
--	ifdef CONFIG_HAVE_C_RECORDMCOUNT
--		BUILD_C_RECORDMCOUNT := y
--		export BUILD_C_RECORDMCOUNT
--	endif
-+  ifndef CC_USING_RECORD_MCOUNT
-+  ifndef CC_USING_PATCHABLE_FUNCTION_ENTRY
-+    # use objtool or recordmcount to generate mcount tables
-+    ifdef CONFIG_HAVE_OBJTOOL_MCOUNT
-+      ifdef CC_USING_FENTRY
-+        USE_OBJTOOL_MCOUNT := y
-+        CC_FLAGS_USING += -DCC_USING_NOP_MCOUNT
-+        export USE_OBJTOOL_MCOUNT
-+      endif
-+    endif
-+    ifndef USE_OBJTOOL_MCOUNT
-+      USE_RECORDMCOUNT := y
-+      export USE_RECORDMCOUNT
-+      ifdef CONFIG_HAVE_C_RECORDMCOUNT
-+        BUILD_C_RECORDMCOUNT := y
-+        export BUILD_C_RECORDMCOUNT
-+      endif
-+    endif
-+  endif
-+  endif
- endif
-+KBUILD_CFLAGS	+= $(CC_FLAGS_FTRACE) $(CC_FLAGS_USING)
-+KBUILD_AFLAGS	+= $(CC_FLAGS_USING)
- endif
- 
- # We trigger additional mismatches with less inlining
-@@ -1211,11 +1228,16 @@ uapi-asm-generic:
- PHONY += prepare-objtool prepare-resolve_btfids
- prepare-objtool: $(objtool_target)
- ifeq ($(SKIP_STACK_VALIDATION),1)
-+objtool-lib-prompt := "please install libelf-dev, libelf-devel or elfutils-libelf-devel"
-+ifdef USE_OBJTOOL_MCOUNT
-+	@echo "error: Cannot generate __mcount_loc for CONFIG_DYNAMIC_FTRACE=y, $(objtool-lib-prompt)" >&2
-+	@false
-+endif
- ifdef CONFIG_UNWINDER_ORC
--	@echo "error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
-+	@echo "error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, $(objtool-lib-prompt)" >&2
- 	@false
- else
--	@echo "warning: Cannot use CONFIG_STACK_VALIDATION=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
-+	@echo "warning: Cannot use CONFIG_STACK_VALIDATION=y, $(objtool-lib-prompt)" >&2
- endif
- endif
- 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 9a2849527dd7..149c94a44cf0 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -163,6 +163,7 @@ config X86
- 	select HAVE_CMPXCHG_LOCAL
- 	select HAVE_CONTEXT_TRACKING		if X86_64
- 	select HAVE_C_RECORDMCOUNT
-+	select HAVE_OBJTOOL_MCOUNT		if STACK_VALIDATION
- 	select HAVE_DEBUG_KMEMLEAK
- 	select HAVE_DMA_CONTIGUOUS
- 	select HAVE_DYNAMIC_FTRACE
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index a4020c0b4508..b510af5b216c 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -56,6 +56,11 @@ config HAVE_C_RECORDMCOUNT
- 	help
- 	  C version of recordmcount available?
- 
-+config HAVE_OBJTOOL_MCOUNT
-+	bool
-+	help
-+	  Arch supports objtool --mcount
-+
- config TRACER_MAX_TRACE
- 	bool
- 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index 2e8810b7e5ed..f66f8c0ef294 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -175,8 +175,7 @@ cmd_modversions_c =								\
- 	fi
- endif
- 
--ifdef CONFIG_FTRACE_MCOUNT_RECORD
--ifndef CC_USING_RECORD_MCOUNT
-+ifdef USE_RECORDMCOUNT
- # compiler will not generate __mcount_loc use recordmcount or recordmcount.pl
- ifdef BUILD_C_RECORDMCOUNT
- ifeq ("$(origin RECORDMCOUNT_WARN)", "command line")
-@@ -203,8 +202,7 @@ recordmcount_source := $(srctree)/scripts/recordmcount.pl
- endif # BUILD_C_RECORDMCOUNT
- cmd_record_mcount = $(if $(findstring $(strip $(CC_FLAGS_FTRACE)),$(_c_flags)),	\
- 	$(sub_cmd_record_mcount))
--endif # CC_USING_RECORD_MCOUNT
--endif # CONFIG_FTRACE_MCOUNT_RECORD
-+endif # USE_RECORDMCOUNT
- 
- ifdef CONFIG_STACK_VALIDATION
- ifneq ($(SKIP_STACK_VALIDATION),1)
-@@ -227,6 +225,9 @@ endif
- ifdef CONFIG_X86_SMAP
-   objtool_args += --uaccess
- endif
-+ifdef USE_OBJTOOL_MCOUNT
-+  objtool_args += --mcount
-+endif
- 
- # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
- # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
-diff --git a/tools/objtool/builtin-check.c b/tools/objtool/builtin-check.c
-index 7a44174967b5..71595cf4946d 100644
---- a/tools/objtool/builtin-check.c
-+++ b/tools/objtool/builtin-check.c
-@@ -18,7 +18,7 @@
- #include "builtin.h"
- #include "objtool.h"
- 
--bool no_fp, no_unreachable, retpoline, module, backtrace, uaccess, stats, validate_dup, vmlinux;
-+bool no_fp, no_unreachable, retpoline, module, backtrace, uaccess, stats, validate_dup, vmlinux, mcount;
- 
- static const char * const check_usage[] = {
- 	"objtool check [<options>] file.o",
-@@ -35,6 +35,7 @@ const struct option check_options[] = {
- 	OPT_BOOLEAN('s', "stats", &stats, "print statistics"),
- 	OPT_BOOLEAN('d', "duplicate", &validate_dup, "duplicate validation for vmlinux.o"),
- 	OPT_BOOLEAN('l', "vmlinux", &vmlinux, "vmlinux.o validation"),
-+	OPT_BOOLEAN('M', "mcount", &mcount, "generate __mcount_loc"),
- 	OPT_END(),
- };
- 
-diff --git a/tools/objtool/builtin.h b/tools/objtool/builtin.h
-index 85c979caa367..94565a72b701 100644
---- a/tools/objtool/builtin.h
-+++ b/tools/objtool/builtin.h
-@@ -8,7 +8,7 @@
- #include <subcmd/parse-options.h>
- 
- extern const struct option check_options[];
--extern bool no_fp, no_unreachable, retpoline, module, backtrace, uaccess, stats, validate_dup, vmlinux;
-+extern bool no_fp, no_unreachable, retpoline, module, backtrace, uaccess, stats, validate_dup, vmlinux, mcount;
- 
- extern int cmd_check(int argc, const char **argv);
- extern int cmd_orc(int argc, const char **argv);
-diff --git a/tools/objtool/check.c b/tools/objtool/check.c
-index e034a8f24f46..6e0b478dc065 100644
---- a/tools/objtool/check.c
-+++ b/tools/objtool/check.c
-@@ -433,6 +433,65 @@ static int add_dead_ends(struct objtool_file *file)
- 	return 0;
- }
- 
-+static int create_mcount_loc_sections(struct objtool_file *file)
-+{
-+	struct section *sec, *reloc_sec;
-+	struct reloc *reloc;
-+	unsigned long *loc;
-+	struct instruction *insn;
-+	int idx;
-+
-+	sec = find_section_by_name(file->elf, "__mcount_loc");
-+	if (sec) {
-+		INIT_LIST_HEAD(&file->mcount_loc_list);
-+		WARN("file already has __mcount_loc section, skipping");
-+		return 0;
-+	}
-+
-+	if (list_empty(&file->mcount_loc_list))
-+		return 0;
-+
-+	idx = 0;
-+	list_for_each_entry(insn, &file->mcount_loc_list, mcount_loc_node)
-+		idx++;
-+
-+	sec = elf_create_section(file->elf, "__mcount_loc", sizeof(unsigned long), idx);
-+	if (!sec)
-+		return -1;
-+
-+	reloc_sec = elf_create_reloc_section(file->elf, sec, SHT_RELA);
-+	if (!reloc_sec)
-+		return -1;
-+
-+	idx = 0;
-+	list_for_each_entry(insn, &file->mcount_loc_list, mcount_loc_node) {
-+
-+		loc = (unsigned long *)sec->data->d_buf + idx;
-+		memset(loc, 0, sizeof(unsigned long));
-+
-+		reloc = malloc(sizeof(*reloc));
-+		if (!reloc) {
-+			perror("malloc");
-+			return -1;
-+		}
-+		memset(reloc, 0, sizeof(*reloc));
-+
-+		reloc->sym = insn->sec->sym;
-+		reloc->addend = insn->offset;
-+		reloc->type = R_X86_64_64;
-+		reloc->offset = idx * sizeof(unsigned long);
-+		reloc->sec = reloc_sec;
-+		elf_add_reloc(file->elf, reloc);
-+
-+		idx++;
-+	}
-+
-+	if (elf_rebuild_reloc_section(file->elf, reloc_sec))
-+		return -1;
-+
-+	return 0;
-+}
-+
- /*
-  * Warnings shouldn't be reported for ignored functions.
-  */
-@@ -784,6 +843,22 @@ static int add_call_destinations(struct objtool_file *file)
- 			insn->type = INSN_NOP;
- 		}
- 
-+		if (mcount && !strcmp(insn->call_dest->name, "__fentry__")) {
-+			if (reloc) {
-+				reloc->type = R_NONE;
-+				elf_write_reloc(file->elf, reloc);
-+			}
-+
-+			elf_write_insn(file->elf, insn->sec,
-+				       insn->offset, insn->len,
-+				       arch_nop_insn(insn->len));
-+
-+			insn->type = INSN_NOP;
-+
-+			list_add_tail(&insn->mcount_loc_node,
-+				      &file->mcount_loc_list);
-+		}
-+
- 		/*
- 		 * Whatever stack impact regular CALLs have, should be undone
- 		 * by the RETURN of the called function.
-@@ -2791,6 +2866,7 @@ int check(const char *_objname, bool orc)
- 
- 	INIT_LIST_HEAD(&file.insn_list);
- 	hash_init(file.insn_hash);
-+	INIT_LIST_HEAD(&file.mcount_loc_list);
- 	file.c_file = !vmlinux && find_section_by_name(file.elf, ".comment");
- 	file.ignore_unreachables = no_unreachable;
- 	file.hints = false;
-@@ -2838,6 +2914,13 @@ int check(const char *_objname, bool orc)
- 		warnings += ret;
- 	}
- 
-+	if (mcount) {
-+		ret = create_mcount_loc_sections(&file);
-+		if (ret < 0)
-+			goto out;
-+		warnings += ret;
-+	}
-+
- 	if (orc) {
- 		ret = create_orc(&file);
- 		if (ret < 0)
-diff --git a/tools/objtool/check.h b/tools/objtool/check.h
-index 061aa96e15d3..b62afd3d970b 100644
---- a/tools/objtool/check.h
-+++ b/tools/objtool/check.h
-@@ -22,6 +22,7 @@ struct insn_state {
- struct instruction {
- 	struct list_head list;
- 	struct hlist_node hash;
-+	struct list_head mcount_loc_node;
- 	struct section *sec;
- 	unsigned long offset;
- 	unsigned int len;
-diff --git a/tools/objtool/objtool.h b/tools/objtool/objtool.h
-index 528028a66816..427806079540 100644
---- a/tools/objtool/objtool.h
-+++ b/tools/objtool/objtool.h
-@@ -16,6 +16,7 @@ struct objtool_file {
- 	struct elf *elf;
- 	struct list_head insn_list;
- 	DECLARE_HASHTABLE(insn_hash, 20);
-+	struct list_head mcount_loc_list;
- 	bool ignore_unreachables, c_file, hints, rodata;
- };
- 
-
+-- 
+Best Regards
+Masahiro Yamada
