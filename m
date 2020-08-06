@@ -2,83 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B55D623DE93
-	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 19:27:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3DF23DF5B
+	for <lists+linux-kbuild@lfdr.de>; Thu,  6 Aug 2020 19:47:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729855AbgHFR1h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 6 Aug 2020 13:27:37 -0400
-Received: from a27-192.smtp-out.us-west-2.amazonses.com ([54.240.27.192]:51316
-        "EHLO a27-192.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730369AbgHFR1d (ORCPT
+        id S1730220AbgHFRpX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 6 Aug 2020 13:45:23 -0400
+Received: from DU154-145.fibertel.com.ar ([200.49.145.154]:25644 "EHLO
+        mail.tecarga.com.ar" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1728982AbgHFQiU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 6 Aug 2020 13:27:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=7jvkchcrhflv7qhbkgrcypyraifp65wy; d=rt.linuxfoundation.org;
-        t=1596734851;
-        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding;
-        bh=7XGxqHa7N9NredT0VTXJdFUTHg3OaFDutLRn2lT5pHY=;
-        b=EPmpwNsIhimDo78/YcilHsp2NqeUT1D18jvApDB3Q99yhd2EYPNpdXVg8ApXUkT7
-        DeloezwrHCqaLjSRMNZmmx41qbYJCi0ACNJHw/H0uTDZOeiuxEuK+kkH2FoEZKGe8yX
-        onqh6aZ8YLgZ+EyHypOvu35jRbxAoGbUkpTqgyKc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1596734851;
-        h=Subject:From:Reply-To:In-Reply-To:References:Message-ID:CC:Content-Type:Date:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
-        bh=7XGxqHa7N9NredT0VTXJdFUTHg3OaFDutLRn2lT5pHY=;
-        b=JGOiEcuMI4URtm6LqApXl4zm8At7YCz/c8fnJQ+c358Bv59xd9lsprpNgOSGD2jb
-        rr50FS1k2sNg9zUiLfvUNld+LGHa5drGf8PWhCWr8nebf9d84vqSDLBBoqkTgxt45mX
-        SKfrfzdF+LQzA54XHzfyZP6TlU3oCEBXaWdFjDtg=
-Subject: Re: [Kernel.org Helpdesk #93182] Re: linux-kbuild missing from lore?
-From:   "Nick Desaulniers via RT" <kernel-helpdesk@rt.linuxfoundation.org>
-Reply-To: kernel-helpdesk@rt.linuxfoundation.org
-In-Reply-To: <CAKwvOd=xLc1=kRRM8NBaeXqhXOTSYDg7AgLtqRth4vm7ODFA6w@mail.gmail.com>
-References: <RT-Ticket-93182@linuxfoundation>
- <CAKwvOd=i8mLYsSNtJTcZ=RTk76F_mYy9fM9FBtDveFybxyGyiw@mail.gmail.com>
- <CAK7LNARc4L18CP6ZbTheh43VobQZ1s_2Q=4O7oKmTZRLgiTw6Q@mail.gmail.com>
- <f30f6849-9d94-4ba9-f875-9ab8c0700620@infradead.org>
- <CAKwvOdnknZNPuucvy0Kim6xCfyUhmNKXQiERCQcoSMYdo6=6FQ@mail.gmail.com>
- <01010173c1e35fde-0cbf88a3-5ebe-43fa-be6b-af9c00a50864-000000@us-west-2.amazonses.com> <CAKwvOd=xLc1=kRRM8NBaeXqhXOTSYDg7AgLtqRth4vm7ODFA6w@mail.gmail.com>
-Message-ID: <01010173c4d0486a-c210b3db-b00a-414b-81a4-33abab967678-000000@us-west-2.amazonses.com>
-X-RT-Loop-Prevention: linuxfoundation.org
-X-RT-Ticket: linuxfoundation.org #93182
-X-Managed-BY: RT 4.4.0 (http://www.bestpractical.com/rt/)
-X-RT-Originator: ndesaulniers@google.com
-CC:     linux-kbuild@vger.kernel.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, nhuck@google.com, rdunlap@infradead.org,
-        sam@ravnborg.org
-Content-Type: text/plain; charset="utf-8"
-X-RT-Original-Encoding: utf-8
-Date:   Thu, 6 Aug 2020 17:27:31 +0000
+        Thu, 6 Aug 2020 12:38:20 -0400
+X-Greylist: delayed 558 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Aug 2020 12:38:19 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.tecarga.com.ar (Postfix) with ESMTP id ED9B78A7BF6
+        for <linux-kbuild@vger.kernel.org>; Thu,  6 Aug 2020 13:44:33 -0300 (ART)
+Received: from mail.tecarga.com.ar ([127.0.0.1])
+        by localhost (mail.tecarga.com.ar [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id gOlUoMyrP6Go for <linux-kbuild@vger.kernel.org>;
+        Thu,  6 Aug 2020 13:44:32 -0300 (ART)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.tecarga.com.ar (Postfix) with ESMTP id 9AF098A7BF3
+        for <linux-kbuild@vger.kernel.org>; Thu,  6 Aug 2020 13:44:32 -0300 (ART)
+DKIM-Filter: OpenDKIM Filter v2.9.2 mail.tecarga.com.ar 9AF098A7BF3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecarga.com.ar;
+        s=correo; t=1596732272;
+        bh=VewhKY35eVyjv8AKZzDXorQdjw63oxXaUSLoh4/GHU4=;
+        h=Date:From:To:Subject:MIME-Version:Content-Type:
+         Content-Transfer-Encoding:Message-Id;
+        b=eRPnmdPGoldR4BWQ7NKI2UpHTTBCB2BMKz99xaPidDCP0p/WZIZaD25kSK3OSlc4D
+         qxZztEmZbLmE36OWIGWVni7YEWrRnGlVqRB2Uy9nxEHxQo3pHr/oPOhfJnGv5k4qMC
+         iSzKyWQehzAQqKi+Xhg2ZbrYZ3eQPT5OzCfgVewCmt8dqlBJ6rpjD+JHFyjTh9/kkn
+         SRNCPJl0YdFJjQ1LPwApaLqy19LOC6+zW0lPdpqB3vcbFjbzY5H4mizcS1SfoxC3gI
+         ptPX1ofQDO2oqCTUFi2tvu4C5eqgXPsGE5oESsJahSEyLMYYqwt51svvFdomqq4Ou+
+         RIqP7jhKmxK+Q==
+X-Virus-Scanned: amavisd-new at tecarga.com.ar
+Received: from mail.tecarga.com.ar ([127.0.0.1])
+        by localhost (mail.tecarga.com.ar [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id fxbODssdZQhe for <linux-kbuild@vger.kernel.org>;
+        Thu,  6 Aug 2020 13:44:32 -0300 (ART)
+Received: from [201.93.161.202] (201-93-161-202.dsl.telesp.net.br [201.93.161.202])
+        by mail.tecarga.com.ar (Postfix) with ESMTPSA id 379E18A7BBD
+        for <linux-kbuild@vger.kernel.org>; Thu,  6 Aug 2020 13:44:32 -0300 (ART)
+Date:   Thu, 06 Aug 2020 13:18:06 -0300
+From:   "sales@airlineuk.co.uk" <gterribile@tecarga.com.ar>
+To:     "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>
+Subject: Re: Contact Us (Airlineuk.co.uk - Emirates)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SES-Outgoing: 2020.08.06-54.240.27.192
-Feedback-ID: 1.us-west-2.3ULHQnc20aILdVzjlbQ8UqO1WRWzA1U01b2uFAcT62w=:AmazonSES
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <20200806164432.379E18A7BBD@mail.tecarga.com.ar>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 5, 2020 at 8:49 PM Chris Hoy Poy via RT
-<kernel-helpdesk@rt.linuxfoundation.org> wrote:
->
->
-> Hi all,
->
-> This should be active at
->
-> https://lore.kernel.org/linux-kbuild
 
-Looks great! Thanks for getting this stood up for us Chris, we appreciate it.
+=0D
+=0DThe results of the test (medical certificate)
 
->
-> I dont think we missed any, but there might have been a few slip past the gap between the archive and the subscription being active, feel free to forward a quick list of those days if necessary, and I'll pull them in too.
+If you are unable to see the message below, click here to view
+http://www.twilightshadows.net/ACT/closed_37395971_l1jQqsWLH6/70hdk_j8b_clo=
+ud/0339228_pSe58dwSoO/
 
-Comparing https://marc.info/?l=linux-kbuild, there's a small hole
-between July 8-July 27/29.  I've reached out to Hank who can help get
-me the archive for those dates, and I'll rerun the sanitizer and reach
-out to you with a link.  Then it looks like lore.kernel.org should be
-pretty complete for kbuild.
--- 
-Thanks,
-~Nick Desaulniers
+
+
+=20
+
+
+=0Dsales@airlineuk.co.uk=0D<sales@airlineuk.co.uk>
 
