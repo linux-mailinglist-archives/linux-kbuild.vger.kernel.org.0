@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F8EC23E9FA
+	by mail.lfdr.de (Postfix) with ESMTP id EA9FD23E9FB
 	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Aug 2020 11:19:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727899AbgHGJTg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1727915AbgHGJTg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Fri, 7 Aug 2020 05:19:36 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:41485 "EHLO
+Received: from conuserg-12.nifty.com ([210.131.2.79]:41480 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727037AbgHGJTf (ORCPT
+        with ESMTP id S1726923AbgHGJTf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Fri, 7 Aug 2020 05:19:35 -0400
 Received: from localhost.localdomain (softbank060134047170.bbtec.net [60.134.47.170]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0779JBQ1032147;
-        Fri, 7 Aug 2020 18:19:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0779JBQ1032147
+        by conuserg-12.nifty.com with ESMTP id 0779JBQ2032147;
+        Fri, 7 Aug 2020 18:19:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0779JBQ2032147
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1596791955;
-        bh=JVeY+lZTgfed2xMudnwbriYDO7ghha4ZbXi0Duc0vcI=;
+        s=dec2015msa; t=1596791956;
+        bh=TXoaOYE/LqjQwMgElir8ZhV7uTIN1YLGXs2By2r4H68=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pJXmMtD924wU0Od0S0fHunemS5zFp6+ADAl9dmAkYZ0xVhCyV/PSkZVquakqWyGC3
-         QUAAEdtWZgwDYsujy/O4jeicRkJM+BMExhrFVW8RUAgOHEJ+q8dW2j7vU5n+3K0Qiq
-         YAXMsNfOuMnTIhmeha/cE8fRuCliQgoey/rX9bDw69syG8NdC83982A7CareN9KZIS
-         /7PeeuPNqv57sHSMgN+J0H1I08C7pLXgJz97wvLgWbeQWYFNndlWFKnVksScy/GFKV
-         wcAvr/t4JbiWQK97u2YvLt8DMLZfk9X0UDHFY7ognQutHY5c6tFGvRwhAxym5PiWs7
-         pSVu9C1ylc5ew==
+        b=jpp0pfSKHqg3iR6DIdQ3ByOKWKcS1v849BolOsuqjqAS2r+twMPyiN2sUpbFURzYv
+         /rOt83P9NbKZlIVXGilhEqtPIuA4BPyWhYw3PyoKVgK37iieZ4mR/y8UNG3+OvguTG
+         uWQ/3VNV+U9f6GVtza49b7P1Nt5embxk/2nAcyAlH6yOiJAOdnSLRH9rg9q8D+gQ5f
+         ifWjE7w3Hi08+GF9/RJx1e1zUHM2HwPMxrBkE/SIVAIZeBJac044nLa7AK9gQ6rXv7
+         3dLbA2vbi6dYmtuOAet8/0/qBJkryOzQLETEAIIqB270cp59xMSJQBLR7qAIH3Stv+
+         3tDIkNAhCBxUg==
 X-Nifty-SrcIP: [60.134.47.170]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/19] kconfig: qconf: overload addToolBar() to create and insert toolbar
-Date:   Fri,  7 Aug 2020 18:18:55 +0900
-Message-Id: <20200807091909.2985787-5-masahiroy@kernel.org>
+Subject: [PATCH v2 06/19] kconfig: qconf: remove unused ConfigList::listView()
+Date:   Fri,  7 Aug 2020 18:18:56 +0900
+Message-Id: <20200807091909.2985787-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200807091909.2985787-1-masahiroy@kernel.org>
 References: <20200807091909.2985787-1-masahiroy@kernel.org>
@@ -44,40 +44,31 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Use the overloaded function, addToolBar(const QString &title)
-to create a QToolBar object, setting its window title, and inserts
-it into the toolbar area.
+I do not know how this function can be useful. In fact, it is unsed.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 (no changes since v1)
 
- scripts/kconfig/qconf.cc | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/kconfig/qconf.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index b4f32199e0df..0385804cfd08 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -1431,9 +1431,6 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	setTabOrder(configList, helpText);
- 	configList->setFocus();
- 
--	QToolBar *toolBar = new QToolBar("Tools", this);
--	addToolBar(toolBar);
--
- 	backAction = new QAction(QPixmap(xpm_back), "Back", this);
- 	connect(backAction, SIGNAL(triggered(bool)), SLOT(goBack()));
- 
-@@ -1506,6 +1503,7 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	  connect(showAboutAction, SIGNAL(triggered(bool)), SLOT(showAbout()));
- 
- 	// init tool bar
-+	QToolBar *toolBar = addToolBar("Tools");
- 	toolBar->addAction(backAction);
- 	toolBar->addSeparator();
- 	toolBar->addAction(loadAction);
+diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
+index b80683998635..6e6bb0a96348 100644
+--- a/scripts/kconfig/qconf.h
++++ b/scripts/kconfig/qconf.h
+@@ -88,10 +88,6 @@ public slots:
+ 		updateList(NULL);
+ 		updateAll = false;
+ 	}
+-	ConfigList* listView()
+-	{
+-		return this;
+-	}
+ 	void addColumn(colIdx idx)
+ 	{
+ 		showColumn(idx);
 -- 
 2.25.1
 
