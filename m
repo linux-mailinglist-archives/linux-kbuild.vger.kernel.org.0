@@ -2,38 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74DEE23EA05
-	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Aug 2020 11:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F81D23EA07
+	for <lists+linux-kbuild@lfdr.de>; Fri,  7 Aug 2020 11:20:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728072AbgHGJTm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 7 Aug 2020 05:19:42 -0400
-Received: from conuserg-12.nifty.com ([210.131.2.79]:41597 "EHLO
+        id S1727982AbgHGJT6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 7 Aug 2020 05:19:58 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:41592 "EHLO
         conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728003AbgHGJTl (ORCPT
+        with ESMTP id S1727987AbgHGJTk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 7 Aug 2020 05:19:41 -0400
+        Fri, 7 Aug 2020 05:19:40 -0400
 Received: from localhost.localdomain (softbank060134047170.bbtec.net [60.134.47.170]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id 0779JBQA032147;
+        by conuserg-12.nifty.com with ESMTP id 0779JBQB032147;
         Fri, 7 Aug 2020 18:19:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0779JBQA032147
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 0779JBQB032147
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1596791963;
-        bh=BVTMN4LAdRMgBfNC+zBOHVAbvF2zmdeoZJN01upM2bU=;
+        bh=m09tCtobZs6F9i2lClFwAMkbk3NBVdznuOEPMyEcKcI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bw5R/WPbADMT1mvPdOOZ01NI4TWmg3l20wQpyxbYrJRh3Tkb1rMIfyIKxUWn2A94a
-         gjumf0aNaIWdx0yPM/3hrlMzcBo1hM878nH/R1HYu+5jOEKGkftIvBI8i2B964nlpn
-         ZgLugdta9kOq99dDLZ0rg8F/OPqj6MUAZ9AKsZu8RX+VHLh1L4URijftBla0tgxR7H
-         ogZEdOxd+xnWaBTMDJmvtKTWliAi3GPc/Z8VSXUzrOZs7TrenGZKz2JpDIAhPgyV/9
-         Eueb4qk9GvNiCF/NReU2vC1Xv5Q8N4YUcIMJgOo2qBkmO8wVduPbHogxG/06uqLFXh
-         Cx9P2PfOYgEyw==
+        b=KRl03qCgJ7HnTqgXJycxhlM8D8UFwFjLFN1INtql72UfWEF7ffrOOku5fWSo2alGh
+         V146t8by7eJzrS/nH25DPEL1HS+r6MMD6FnFRfq92L0vfV0qsFF1U/E1eOSLpK9uL2
+         j42N9s1YhEXLWm8ioy8owZLCwdh+gYHtKWN6aAt3mIKyEWHyguD0fN/Ssq0fB2nOE0
+         cyURGrbj78Sz501sV/+obs5O0yDB3kO2VRCLNAwyhtDyDD+NcTKCMWKt4vYm4m3ebH
+         mbbG6K0Zggo4+KmeUZg4pcSRt8tWsgZPsz8Dz3wkjGD6eD+r+6n5BsH6Aa97edlVhC
+         /zVonC+au1gDg==
 X-Nifty-SrcIP: [60.134.47.170]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 14/19] kconfig: qconf: remove ConfigList::addColumn/removeColumn
-Date:   Fri,  7 Aug 2020 18:19:04 +0900
-Message-Id: <20200807091909.2985787-14-masahiroy@kernel.org>
+Subject: [PATCH v2 15/19] kconfig: qconf: remove ConfigItem::text/setText
+Date:   Fri,  7 Aug 2020 18:19:05 +0900
+Message-Id: <20200807091909.2985787-15-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200807091909.2985787-1-masahiroy@kernel.org>
 References: <20200807091909.2985787-1-masahiroy@kernel.org>
@@ -44,81 +44,35 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Use QTreeView::showColumn/hideColumn directly.
+Use QTreeWidgetItem::text/setText directly
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 (no changes since v1)
 
- scripts/kconfig/qconf.cc | 22 +++++++++++-----------
- scripts/kconfig/qconf.h  |  8 --------
- 2 files changed, 11 insertions(+), 19 deletions(-)
+ scripts/kconfig/qconf.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 56b5cdd8b1c9..04da1397575a 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -317,7 +317,7 @@ ConfigList::ConfigList(ConfigView* p, const char *name)
- 		connect(configApp, SIGNAL(aboutToQuit()), SLOT(saveSettings()));
- 	}
- 
--	addColumn(promptColIdx);
-+	showColumn(promptColIdx);
- 
- 	reinit();
- }
-@@ -335,21 +335,21 @@ bool ConfigList::menuSkip(struct menu *menu)
- 
- void ConfigList::reinit(void)
- {
--	removeColumn(dataColIdx);
--	removeColumn(yesColIdx);
--	removeColumn(modColIdx);
--	removeColumn(noColIdx);
--	removeColumn(nameColIdx);
-+	hideColumn(dataColIdx);
-+	hideColumn(yesColIdx);
-+	hideColumn(modColIdx);
-+	hideColumn(noColIdx);
-+	hideColumn(nameColIdx);
- 
- 	if (showName)
--		addColumn(nameColIdx);
-+		showColumn(nameColIdx);
- 	if (showRange) {
--		addColumn(noColIdx);
--		addColumn(modColIdx);
--		addColumn(yesColIdx);
-+		showColumn(noColIdx);
-+		showColumn(modColIdx);
-+		showColumn(yesColIdx);
- 	}
- 	if (showData)
--		addColumn(dataColIdx);
-+		showColumn(dataColIdx);
- 
- 	updateListAll();
- }
 diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
-index 5cda89a51740..daa180bdb9b4 100644
+index daa180bdb9b4..012414dcdee5 100644
 --- a/scripts/kconfig/qconf.h
 +++ b/scripts/kconfig/qconf.h
-@@ -88,14 +88,6 @@ public slots:
- 		updateList();
- 		updateAll = false;
- 	}
--	void addColumn(colIdx idx)
--	{
--		showColumn(idx);
--	}
--	void removeColumn(colIdx idx)
--	{
--		hideColumn(idx);
--	}
- 	void setAllOpen(bool open);
- 	void setParentMenu(void);
+@@ -156,14 +156,6 @@ class ConfigItem : public QTreeWidgetItem {
  
+ 		return ret;
+ 	}
+-	void setText(colIdx idx, const QString& text)
+-	{
+-		Parent::setText(idx, text);
+-	}
+-	QString text(colIdx idx) const
+-	{
+-		return Parent::text(idx);
+-	}
+ 	// TODO: Implement paintCell
+ 
+ 	ConfigItem* nextItem;
 -- 
 2.25.1
 
