@@ -2,56 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C59AE243221
-	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Aug 2020 03:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F4D8243E0E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 13 Aug 2020 19:11:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726350AbgHMBfz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 12 Aug 2020 21:35:55 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:21996 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726334AbgHMBfz (ORCPT
+        id S1726192AbgHMRLv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 13 Aug 2020 13:11:51 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:54392 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726174AbgHMRLv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 12 Aug 2020 21:35:55 -0400
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 07D1ZS13028466;
-        Thu, 13 Aug 2020 10:35:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 07D1ZS13028466
+        Thu, 13 Aug 2020 13:11:51 -0400
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 07DHBO87002990;
+        Fri, 14 Aug 2020 02:11:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07DHBO87002990
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1597282529;
-        bh=lrLt6MViZfHVoAxmdOr+AtPRSZUb1nHMJgHZW/9Z6ZA=;
+        s=dec2015msa; t=1597338685;
+        bh=COmQxRVtKoK6go1MGbVESX1DsQBEwLsqKClULz5PF3M=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=GSyFkaw3BiH7pQq/LKwdDw9Wk5jXNUuyK1BzCtKHqX6eMo34NsQEYT6+BTWYhh5TD
-         uAOpd70TZ1upFOjWOBllKBrh6lSX9t3K9A7Bs0Mf8KnFSt3ihBtyyqHWFq6zuOCX3n
-         axv0mPwYsA0KXroC5Xuzt5+rdD9h4f7CyDAQjQrz7+YUwxVxhmvIjD/lxBA/sMyNhL
-         sOfxyrFpTGwjrOxTB8kGTZBDiHpKPoUio2wFu5t1crDmQHtjOCFjTk/C9wgZY27U21
-         atPJrAXR+qwg6XIXZi9zSuxo+ivtXDVhabr6DYj/92KZY1daahnpYwcWwa2XpSbO+u
-         ucEP/XszzanbA==
-X-Nifty-SrcIP: [209.85.217.54]
-Received: by mail-vs1-f54.google.com with SMTP id b26so2090894vsa.13;
-        Wed, 12 Aug 2020 18:35:28 -0700 (PDT)
-X-Gm-Message-State: AOAM5331RO5INRJRDzEcWrjrpnke0S9eIGzIfi0SzSbML290eeQVrxXz
-        OG0+NE+r7mSa87RUfdf7g6HuPHDOXtsXunOzpXI=
-X-Google-Smtp-Source: ABdhPJwHCYha0DGnVlJbeg0bMwop7IHdQJrygv5JsQk0ZZC5iIpl+3DbrYGy8c7HsohBwBUYs3GJCIb7XrUNbtHUDR4=
-X-Received: by 2002:a67:bb06:: with SMTP id m6mr1647566vsn.54.1597282527307;
- Wed, 12 Aug 2020 18:35:27 -0700 (PDT)
+        b=j9c4vOj6nNYwKYFPcyeVHGYgAjqTRG/l/cCns12/4DVrDAKLzMyPmw+1m9wrzrLST
+         msfnfeg6ZqoRMNNrJn/pLUhwp/cDMnm89/fQoaFCi8gXt7h1gn4AORCLQ2BTCcKvC9
+         UEkyubfQKblXeFc3bDV3nd9pfudN5Z3c2tWGLSpEm4XazAKfi8MOZ7GXekeKjc95EB
+         IvzLzyriE+u51q4li2ID1FAMnd7oFWzYKwaqOq3lxvy4vEmeP34eFujQ9BmCJnbg5Q
+         EtMa7nRJQeDcfbON8YRu2f6iXjsYkIIbzEAeT9H8kuHOXsWz5dWFg9eh0++G28pC9/
+         domM8jZ1WnTFg==
+X-Nifty-SrcIP: [209.85.217.48]
+Received: by mail-vs1-f48.google.com with SMTP id n4so3275966vsl.10;
+        Thu, 13 Aug 2020 10:11:24 -0700 (PDT)
+X-Gm-Message-State: AOAM531Rxqd0G6nZmr9h/JWcwh3F3Q99ujXk1zdGZy3SZ227V7D//k/Q
+        Mur+6kiS8PzM0KFc4cNHkEB//zol+AL6li5GGgo=
+X-Google-Smtp-Source: ABdhPJyDC9UzRdCf/p6CXXFIbYhGkUtEXhaydA1RkOHneEFYlCy+TTbVWtX0rFU4NmFgg1v8SWh9Rb1QTLBhuiIEAmA=
+X-Received: by 2002:a67:7c11:: with SMTP id x17mr4663305vsc.155.1597338683304;
+ Thu, 13 Aug 2020 10:11:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200812173958.2307251-1-masahiroy@kernel.org>
- <CAJkfWY6vhW9kNK-t+2vZQ7Rhn3HedykvT2du7AfO0_9oUAXvjw@mail.gmail.com> <CAKwvOdm3VTZ2QXXxf9pjM6n87UE=Lc-9Cx=V70sNsYGmHCb-hA@mail.gmail.com>
-In-Reply-To: <CAKwvOdm3VTZ2QXXxf9pjM6n87UE=Lc-9Cx=V70sNsYGmHCb-hA@mail.gmail.com>
+ <20200812173958.2307251-3-masahiroy@kernel.org> <CAKwvOdkL=667+cw_Rxq_5zaOKeTTptsMaxkkSXBic9QxozOWVg@mail.gmail.com>
+In-Reply-To: <CAKwvOdkL=667+cw_Rxq_5zaOKeTTptsMaxkkSXBic9QxozOWVg@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 13 Aug 2020 10:34:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASb9HwvfmywT+3UjMvMUV3QCCaLVr_mSREiED=KNoy4eA@mail.gmail.com>
-Message-ID: <CAK7LNASb9HwvfmywT+3UjMvMUV3QCCaLVr_mSREiED=KNoy4eA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] kbuild: clang-tidy
+Date:   Fri, 14 Aug 2020 02:10:46 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS4EjGchNzqhEcTPTU0mOUqAk8nF9QYW3qwfOp572uCHA@mail.gmail.com>
+Message-ID: <CAK7LNAS4EjGchNzqhEcTPTU0mOUqAk8nF9QYW3qwfOp572uCHA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] gen_compile_commands: wire up build rule to Makefile
 To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Huckleberry <nhuck@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Nathan Huckleberry <nhuck@google.com>,
         Tom Roeder <tmroeder@google.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Rob Herring <robh@kernel.org>,
         LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -59,130 +56,374 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 13, 2020 at 7:53 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Thu, Aug 13, 2020 at 7:30 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
 >
-> On Wed, Aug 12, 2020 at 12:56 PM Nathan Huckleberry <nhuck@google.com> wrote:
+> On Wed, Aug 12, 2020 at 10:40 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > On Wed, Aug 12, 2020 at 12:40 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > >
-> > > I improved gen_compile_commands.py in the first two patches,
-> > > then rebased Nathan's v7 [1] on top of them.
-> > > To save time, I modified the Makefile part.
-> > > No change for run-clang-tools.py
-> > >
-> > > I am not sure if the new directory, scripts/clang-tools/,
-> > > is worth creating only for 2 files, but I do not have
-> > > a strong opinion about it.
-> > >
-> > > "make clang-tidy" should work in-tree build,
-> > > out-of-tree build (O=), and external module build (M=).
-> > > Tests and reviews are appreciated.
-> > >
-> > > "make clang-tidy" worked for me.
-> > >
-> > > masahiro@oscar:~/workspace/linux-kbuild$ make -j24 CC=clang clang-tidy
-> > >   DESCEND  objtool
-> > >   CALL    scripts/atomic/check-atomics.sh
-> > >   CALL    scripts/checksyscalls.sh
-> > >   CHK     include/generated/compile.h
-> > >   GEN     compile_commands.json
-> > >   CHECK   compile_commands.json
-> > >
-> > > But "make clang-analyzer" just sprinkled the following error:
-> > >
-> > >   Error: no checks enabled.
-> > >   USAGE: clang-tidy [options] <source0> [... <sourceN>]
->
-> I wasn't able to reproduce Masahiro's reported failure, but seeing as
-> he has `GEN` for compile_commands.json and I have `CHK`, I wonder if
-> that's from a run when the series was still under development?
->
-> I can reproduce if I run:
-> $ clang-tidy '-checks='
-> so maybe was string quoting problem?
->
-> > >
-> > > I built clang-tidy from the latest source.
-> > > I had no idea how to make it work...
+> > Currently, you need to explicitly run scripts/gen_compile_commands.py
+> > to create compile_commands.json. It traverses the object tree
+> > (you need to pass the -d option to deal with a separate output tree),
+> > and parses all the .*.cmd file found.
 > >
-> > How are you building clang-tidy? The clang static-analyzer may not
-> > have been built.
-> > I believe the static analyzer is built as a part of clang, not as a
-> > part of clang-tools-extra.
+> > If you rebuild the kernel over again without 'make clean', stale
+> > .*.cmd files from older builds will create invalid entries in
+> > compile_commands.json.
+>
+> Definitely a problem; happy to see compile_commands.json added to
+> `make clean` target, too.
+>
 > >
-> > I use this command to build.
-> > cmake -DCMAKE_BUILD_TYPE="release"
-> > -DLLVM_TARGETS_TO_BUILD="X86;AArch64;ARM;RISCV"
-> > -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;llvm-as"
-> > -DLLVM_ENABLE_LLD=1 -G "Ninja" ../llvm
+> > This commit wires up the compile_commands.json rule to the top
+> > Makefile, and makes it parse .*.cmd files only from the current build
+> > to avoid stale entries.
 > >
-> > Adding clang to the list of -DLLVM_ENABLE_PROJECTS will build the
-> > static analyzer.
-> > -DCLANG_ENABLE_STATIC_ANALYZER=1 might also work, but I haven't tested it.
+> > It is possible to extract only relevant .*.cmd files by checking
+> > $(KBUILD_VMLINUX_OBJS), $(KBUILD_VMLINUX_LIBS), and modules.order.
+> > The objects or archives linked to vmlinux are listed in
+> > $(KBUILD_VMLINUX_OBJS) or $(KBUILD_VMLINUX_LIBS). All the modules are
+> > listed in modules.order.
 > >
-> > I tested the patchset and both clang-tidy and clang-analyzer work for me.
+> > You can create compile_commands.json from Make:
+> >
+> >   $ make -j$(nproc) CC=clang compile_commands.json
+> >
+> > Of course, you can build vmlinux, modules, and compile_commands.json
+> > all together in a single command:
+> >
+> >   $ make -j$(nproc) CC=clang all compile_commands.json
+> >
+> > It works also for M= builds. In this case, compile_commands.json
+> > is created in the top directory of the external module.
+> >
+> > I hope this will be overall improvements, but it has a drawback;
+> > the coverage of the compile_commands.json is reduced because only
+> > the objects linked to vmlinux or modules are handled. For example,
+> > the following C files are not included in compile_commands.json:
+> >
+> >  - Decompressor source files (arch/*/boot/compressed/)
+> >  - VDSO source files
+> >  - C files used to generate intermediates (e.g. kernel/bounds.c)
+> >  - standalone host programs
 >
-> If you rename clang-tidy in your build dir, and ensure you don't have
-> a `clang-tidy` in your $PATH (`which clang-tidy`), maybe there's more
-> we can do to politely inform the user they're missing a dependency to
-> execute the make target?  Not sure if we could could test that
-> clang-tidy supports the clang-analyzer-* checks.  Isn't there an
-> invocation that prints the supported checks? `clang-tidy '-checks=*'
-> --list-checks` is in my shell history.  Maybe grepping that and
-> informing the user how to fix the problem might solve a "papercut?"
->
-> If I remove clang-tidy with this series applied, I get (the failure is
-> obvious to me, but...):
-> ```
-> $ make LLVM=1 -j71 clang-tidy
-> ...
-> multiprocessing.pool.RemoteTraceback:
-> """
-> Traceback (most recent call last):
->   File "/usr/lib/python3.8/multiprocessing/pool.py", line 125, in worker
->     result = (True, func(*args, **kwds))
->   File "/usr/lib/python3.8/multiprocessing/pool.py", line 48, in mapstar
->     return list(map(*args))
->   File "./scripts/clang-tools/run-clang-tools.py", line 54, in run_analysis
->     p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
->   File "/usr/lib/python3.8/subprocess.py", line 489, in run
->     with Popen(*popenargs, **kwargs) as process:
->   File "/usr/lib/python3.8/subprocess.py", line 854, in __init__
->     self._execute_child(args, executable, preexec_fn, close_fds,
->   File "/usr/lib/python3.8/subprocess.py", line 1702, in _execute_child
->     raise child_exception_type(errno_num, err_msg, err_filename)
-> FileNotFoundError: [Errno 2] No such file or directory: 'clang-tidy'
-> """
->
-> The above exception was the direct cause of the following exception:
->
-> Traceback (most recent call last):
->   File "./scripts/clang-tools/run-clang-tools.py", line 74, in <module>
->     main()
->   File "./scripts/clang-tools/run-clang-tools.py", line 70, in main
->     pool.map(run_analysis, datastore)
->   File "/usr/lib/python3.8/multiprocessing/pool.py", line 364, in map
->     return self._map_async(func, iterable, mapstar, chunksize).get()
->   File "/usr/lib/python3.8/multiprocessing/pool.py", line 771, in get
->     raise self._value
-> FileNotFoundError: [Errno 2] No such file or directory: 'clang-tidy'
-> make: *** [Makefile:1861: clang-tidy] Error 1
-> ```
-> $ clang-tidy '-checks=*' --list-checks | grep clang-analyzer | wc -l
-> 111
->
-> And I'm not sure you can even build clang or clang-tidy but not the analyzer.
+> Oof, for an x86_64 defconfig, the difference in line count of
+> compile_commands.json
+> before: 12826
+
+
+I think some lines of 'before'
+are not so important.
+
+Files suffixed with *.mod.c
+are generated sources for modules.
+There is no point to check them by Clang tools.
+
+
+Some entries appear twice:
+
+For example, 'before' contains two entries of
+"file": "lib/cmdline.c"
+Which entry is used by 'clang-tidy lib/cmdline.c',
+the first one, the second one, or both?
 
 
 
-I rebuilt clang-tools-extra with -DCLANG_ENABLE_STATIC_ANALYZER on,
-and now clang-analyzer worked for me.  :)
+Having said that, there is still a loss of more than 3%, yes.
 
-Perhaps, we could do some checks for clang-tidy.
-I am OK with leaving it as a follow-up work.
 
--- 
+> after: 12351
+>
+> That's a loss of 475 (3.7% of 12826) coverage. Is there something more
+> we can do to preserve this functionality, while avoiding stale .cmd
+> files?
+
+
+I have no idea how to do this correctly.
+
+> Is it that those aren't specified by `$(KBUILD_VMLINUX_OBJS)
+> $(KBUILD_VMLINUX_LIBS)` ?
+
+These variables contain only objects and archives
+linked to vmlinux.
+
+
+
+
+For example, VDSO is built as a prerequisite of
+another object that wraps it.
+
+See line 61 of arch/arm64/kernel/vdso/Makefile:
+$(obj)/vdso.o : $(obj)/vdso.so
+
+
+I do not know how to get the full list of active objects,
+some of which are built on demand
+in the dependency chain.
+
+
+Idea 1)
+Merge this series, and accept the loss.
+
+
+Idea 2)
+Add Makefile targets,
+and also keep the previous work-flow.
+
+When you run it from Make,
+only objects for vmlinux and modules are handled.
+
+When you need the full coverage, including non-kernel-space
+sources, run scripts manually:
+
+$ scripts/clang-tools/gen_compile_commands.py
+$ scripts/clang-tools/run-clang-tools.py clang-tidy
+
+
+Idea 3)
+Give up supporting it from Makefile.
+Instead, improve gen_scripts_commands.py
+as a standalone program.
+
+
+Maybe we can check whether the compiler is Clang or not.
+We can run '<compiler> --version' and drop the
+entry if it is GCC.
+
+Usually, the compiler is the first word of
+the "command" field in compile_commands.json,
+but there are exceptions because
+people may do CC="ccache clang".
+
+
+If there are still stale entries causing troubles,
+you need to run 'make clean', and rebuild the tree.
+
+
+We were trying to have separate scripts,
+gen_compile_commands.py and run-clang-tools.py,
+and to add Makefile targets to run them in a row.
+
+I think unifying the two scripts
+might be handier.
+
+
+Add two options, -t, -a,
+to scripts/gen_compile_commands.py
+
+If they are given,
+scripts/gen_compilile_commands.py
+generates compile_commands.json,
+and immediately runs clang-tidy against it.
+
+
+-t, --tidy
+   Run 'clang-tidy -checks=-*,linuxkernel-*' after generating
+compilation database
+-a, --analyzer
+   Run 'clang-tidy -checks=-*,clang-analyzer-*' after generating
+compilation database
+
+
+Both -a and -t are given,
+it runs
+'clang-tidy -checks=-*,linuxkernel-*,clang-analyzer-*'
+
+This works more efficiently
+if you want to check everything.
+
+
+'make clang-tidy clang-analyzer'
+will invoke clang-tidy twice for each file,
+which is not very efficient.
+
+
+
+
+> >  clean-dirs := $(KBUILD_EXTMOD)
+> > -clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps
+> > +clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps \
+> > +       $(KBUILD_EXTMOD)/compile_commands.json
+>
+> So the `clean` target doesn't make use of `CLEAN_FILES`? It looks like
+> there's some duplication there?  Oh, this is dependent on
+> !KBUILD_EXTMOD, and is a new `clean` target. Do I understand that
+> correctly?
+
+Correct.
+
+We can move CLEAN_FILES to a common part
+so external module builds can use it.
+
+> >      """
+> >      usage = 'Creates a compile_commands.json database from kernel .cmd files'
+> >      parser = argparse.ArgumentParser(description=usage)
+> >
+> > -    directory_help = ('Path to the kernel source directory to search '
+> > -                      '(defaults to the working directory)')
+> > -    parser.add_argument('-d', '--directory', type=str, help=directory_help)
+> > +    ar_help = 'command used for parsing .a archives'
+> > +    parser.add_argument('-a', '--ar', type=str, default='ar', help=ar_help)
+>
+> Might be nice to warn if run with no arguments? In case someone does:
+> $ ./scripts/clang-tools/gen_compile_commands.py
+
+Right.
+
+nargs='+' seems to work.
+
+
+
+> > +    # Collect objects compiled for vmlinux or modules
+> > +    objects = []
+> > +    for file in files:
+> > +        if file.endswith('.o'):
+> > +            # Some objects (head-y) are linked to vmlinux directly
+> > +            objects.append(file)
+> > +        elif file.endswith('.a'):
+> > +            # Most of built-in objects are linked via built-in.a or lib.a.
+> > +            # Use 'ar -t' to get the list of the contained objects.
+> > +            objects += subprocess.check_output([ar, '-t', file]).decode().split()
+> > +        elif file.endswith('modules.order'):
+> > +           # modules.order lists all the modules.
+> > +            with open(file) as f:
+>
+> `file` is another builtin (or at least was in Python2), perhaps `filename`?
+>
+> > +                for line in f:
+> > +                    ko = line.rstrip()
+> > +                    base, ext = os.path.splitext(ko)
+> > +                    if ext != '.ko':
+> > +                        sys.exit('{}: mobule path must end with .ko'.format(ko))
+> > +                    mod = base + '.mod'
+> > +                   # The first line of *.mod lists the objects that
+> > +                   # compose the module.
+>
+> This comment and the one above it uses tabs for indentation vs spaces
+> for the rest of the file.  I use
+> https://github.com/nickdesaulniers/dotfiles/blob/a90865a9ea48bbefa0082f7508607fdeb361e801/.vimrc#L37-L43
+> to help me catch these.
+
+Awesome. Copied to mine.
+
+
+
+> > +                    with open(mod) as mod_f:
+> > +                        objects += mod_f.readline().split()
+> > +        else:
+> > +            sys.exit('{}: unknown file type'.format(file))
+>
+> Consider breaking up this one long function into multiple, perhaps the
+> above could just return `objects`?
+
+
+
+I thought that returning a big list causes needless memory-copy.
+If we do not need to be worried too much,
+I can make it a helper function.
+
+
+>
+> >
+> >      compile_commands = []
+> > -    for dirpath, _, filenames in os.walk(directory):
+> > -        for filename in filenames:
+> > -            if not filename_matcher.match(filename):
+> > -                continue
+> > -            filepath = os.path.join(dirpath, filename)
+> > -
+> > -            with open(filepath, 'rt') as f:
+> > -                line = f.readline()
+> > -                result = line_matcher.match(line)
+> > -                if result:
+> > -                    try:
+> > -                        entry = process_line(directory, dirpath,
+> > -                                             result.group(1), result.group(2))
+> > -                        compile_commands.append(entry)
+> > -                    except ValueError as err:
+> > -                        logging.info('Could not add line from %s: %s',
+> > -                                     filepath, err)
+> > +    cwd = os.getcwd()
+> > +    for object in objects:
+> > +        dir, notdir = os.path.split(object)
+>
+> `object` is a builtin Class in python.  I'm not sure if it's quite
+> considered a keyword, but maybe a different identifier would be nicer,
+> like `object_file` or something?
+
+
+Not a keyword, but 'object' is a class, yes.
+Not sure about 'file'.
+
+
+$ python
+Python 3.8.2 (default, Jul 16 2020, 14:00:26)
+[GCC 9.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import keyword
+>>> keyword.iskeyword("import")
+True
+>>> keyword.iskeyword("if")
+True
+>>> keyword.iskeyword("file")
+False
+>>> keyword.iskeyword("object")
+False
+>>> object
+<class 'object'>
+>>> file
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'file' is not defined
+>>>
+
+
+If this is a problem, I can rename it.
+
+
+
+
+> > +        cmd_file = os.path.join(dir, '.' + notdir + '.cmd')
+> > +        with open(cmd_file, 'rt') as f:
+> > +            line = f.readline()
+> > +            result = line_matcher.match(line)
+>
+> ^ combine statements.
+
+OK.
+
+
+> > +            if result:
+> > +                entry = process_line(cwd, result.group(1), result.group(2))
+> > +                compile_commands.append(entry)
+> >
+> >      with open(output, 'wt') as f:
+> >          json.dump(compile_commands, f, indent=2, sort_keys=True)
+> >
+> > -    count = len(compile_commands)
+> > -    if count < _LOW_COUNT_THRESHOLD:
+> > -        logging.warning(
+> > -            'Found %s entries. Have you compiled the kernel?', count)
+> > -
+> > -
+> >  if __name__ == '__main__':
+> >      main()
+> > --
+> > 2.25.1
+> >
+>
+> Thank you for your assistance and help enabling these tools.
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdkL%3D667%2Bcw_Rxq_5zaOKeTTptsMaxkkSXBic9QxozOWVg%40mail.gmail.com.
+
+
+
+--
 Best Regards
 Masahiro Yamada
