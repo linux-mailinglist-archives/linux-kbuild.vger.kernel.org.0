@@ -2,60 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31D1D244A56
-	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Aug 2020 15:21:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6FD6244E67
+	for <lists+linux-kbuild@lfdr.de>; Fri, 14 Aug 2020 20:14:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726283AbgHNNVW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 14 Aug 2020 09:21:22 -0400
-Received: from mail.munisurquillo.gob.pe ([190.187.155.157]:33140 "EHLO
-        mail.munisurquillo.gob.pe" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726209AbgHNNVV (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 14 Aug 2020 09:21:21 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.munisurquillo.gob.pe (Postfix) with ESMTP id 00F72404FFE03;
-        Fri, 14 Aug 2020 03:38:25 -0500 (-05)
-Received: from mail.munisurquillo.gob.pe ([127.0.0.1])
-        by localhost (mail.munisurquillo.gob.pe [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 1oHGrc5ZVckx; Fri, 14 Aug 2020 03:38:24 -0500 (-05)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.munisurquillo.gob.pe (Postfix) with ESMTP id 22A274046A973;
-        Fri, 14 Aug 2020 03:09:20 -0500 (-05)
-X-Virus-Scanned: amavisd-new at munisurquillo.gob.pe
-Received: from mail.munisurquillo.gob.pe ([127.0.0.1])
-        by localhost (mail.munisurquillo.gob.pe [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id QPjtIwoWU68X; Fri, 14 Aug 2020 03:09:20 -0500 (-05)
-Received: from [10.54.17.114] (unknown [105.4.7.153])
-        by mail.munisurquillo.gob.pe (Postfix) with ESMTPSA id 5ABB34043DFBF;
-        Fri, 14 Aug 2020 02:54:22 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <lu.marin@munisurquillo.gob.pe>
-From:   ''charles jackson'' <lu.marin@munisurquillo.gob.pe>
-Date:   Fri, 14 Aug 2020 09:54:13 +0200
-Reply-To: charlesjacksonjr001@gmail.com
-Message-Id: <20200814075423.5ABB34043DFBF@mail.munisurquillo.gob.pe>
+        id S1728089AbgHNSO5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 14 Aug 2020 14:14:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42602 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726360AbgHNSO5 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 14 Aug 2020 14:14:57 -0400
+Subject: Re: [GIT PULL] Kconfig updates for v5.9-rc1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1597428896;
+        bh=QiZc1eQ6x5fmoF2ni7WysBVrSj9Ac0MjPW0YHkktkM0=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=NvbBExc0+/kbpNnsE3D+XAIxmDJdCh48tado4ycWQMCPoc40CZUDQnDSzWNLWkxs1
+         Jw2Fqo9oxGLGUHRhaCfDW3sNc30O1D1reBwiLFIXf2Yqnuq410DeUZQmyMbbuERV/4
+         sykgy+eJM9+EPhtAf0aMhAVHiQRsJuVO61orS5/s=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQh7gsicKmSFrLExH=a=spMMeYRDkFGB53Da7gcAUCFDg@mail.gmail.com>
+References: <CAK7LNAQh7gsicKmSFrLExH=a=spMMeYRDkFGB53Da7gcAUCFDg@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQh7gsicKmSFrLExH=a=spMMeYRDkFGB53Da7gcAUCFDg@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kconfig-v5.9
+X-PR-Tracked-Commit-Id: d4bbe8a1b55aeaadfa0fa982b468eaec9b799f1a
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 32b2ee5cea4d281f4f3f5a34d6363d1841422040
+Message-Id: <159742889689.14620.10465141626126413101.pr-tracker-bot@kernel.org>
+Date:   Fri, 14 Aug 2020 18:14:56 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hallo
+The pull request you sent on Fri, 14 Aug 2020 14:01:22 +0900:
 
-Ich bin Charles W. Jackson aus North Carolina, Vereinigte Staaten von Amerika, und ich bin der Gewinner des Mega-Millionen-Jackpots von 344 Millionen US-Dollar. Ich spende die Summe von 2.000.000 Millionen Euro als Teil der Hilfsgelder für das Corona-Virus.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kconfig-v5.9
 
-Dies ist Ihr Spendencode: [CJ530342019]
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/32b2ee5cea4d281f4f3f5a34d6363d1841422040
 
-www.youtube.com/watch?v=BSr8myiLPMQ
+Thank you!
 
-Bitte antworten Sie auf diese E-Mail mit dem SPENDERCODE:
-
-charlesjacksonjr001@gmail.com
-
-Ich hoffe, dass Sie und Ihre Familie dies durchkommen
-
-
-Herr Charles Jackson
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
