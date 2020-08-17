@@ -2,99 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C7FA2478EE
-	for <lists+linux-kbuild@lfdr.de>; Mon, 17 Aug 2020 23:36:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 617EA247980
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 00:02:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728524AbgHQVgv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Aug 2020 17:36:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
+        id S1728131AbgHQWCW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Aug 2020 18:02:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbgHQVgt (ORCPT
+        with ESMTP id S1729256AbgHQWCS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Aug 2020 17:36:49 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9C1AC061389
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 14:36:48 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id cq28so13588910edb.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 14:36:48 -0700 (PDT)
+        Mon, 17 Aug 2020 18:02:18 -0400
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E33C061343
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 15:02:18 -0700 (PDT)
+Received: by mail-pj1-x1049.google.com with SMTP id s4so11581312pjq.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 15:02:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jm8jZArYddhqUYv8uma7iesaEBvjq6SOsDLcRZUaQ/E=;
-        b=K9ybUtGr6t0dUEotn+b5ds3wNHdUEMLBrVq/JaBumu59HnobQacNfCGqQl5mJHNbVA
-         hkLWBuL6YoF8g3a1YCO+tfDSdddHQkHB/d4NFnZf0r0jOWl5e4HE9u22yd9cLQ+svWGM
-         1fKT0VIsFmJ3woXTAuGbLupTo9xre9P3/nkK8=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=SCGP1B0GabBPIIHG5VJ2o7cUGzZ8S7iKHRNNa+xeYyE=;
+        b=ImA5y6OSZJsSxIPHsXDdYNsmOWF03t/GCF1wydDTkMNPnwFYHmAoquiUE1s1V7h8jH
+         UXrSnaNxxzBdcEXBZ2qo9Qw+m9RgBQRony04zbdg/4XMUNjpbSmAUDgMqTmRtowMDeGJ
+         kewoEMjj+PZYqbE9CSY+3R4Cg7XUc+y5DEPvMt22tvVMtoJS1y9zcahOkuDtmU+eVBQd
+         cUjgV6APd8twafZwkYF+WYlhVyFPKtSEVN6aqA2n6/C5tzcICXlukjmNMzL9NRiRIMmt
+         fcouD5X6n88sMsMTcROVsdKKWRTxpSeWeFuALYEGTrJYLJFF1ez8g5m6ZZJUFKsWVr1Y
+         Q9lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jm8jZArYddhqUYv8uma7iesaEBvjq6SOsDLcRZUaQ/E=;
-        b=dgTnKhtA3jcrdQfAaTpgkdtr6yWiMsTmRYwIJTvvHSJ78I+StsOJ5ai72pIDbK9h2x
-         xDqK5taP2v1PKXi8GFGxuXiFX+iIW9Lv7ps1W8ocpyXyOiE1/sdFeDBscY5JvgmMKsZe
-         JQaeOflsv4LWBnPp3gJjRZHbPPdKPvQuslzK3yva4YWewAUyAvMTNC5VX8+6H3yXrHcX
-         LG3/trbhC6q/YDx3YbdRRsJumCWjvDKsCwsHJ7ZLAvIEXBdiLOJeFSUFXxV2a5NrFrMn
-         TC9kbBOFdodpfVgeOyN5asKzLO68DEN8V8G/OyVNXkaAzZiPuy8b/n4txYdfnhHoUhOH
-         Kw1w==
-X-Gm-Message-State: AOAM530Kt2Mz35nNXeKJoVaLB/RP77pYcml0oC7ji9CRxvtsIjZ6zNyi
-        OiwFinTxbQuCsb1dwzSZrU0aLOB0ALPbXA==
-X-Google-Smtp-Source: ABdhPJxsV0Bt3wv1zOPjuXISv4zYGm31wOG8UaWU2D7rNH+XEwAmXz2gp5iaUtx7PTjPjFbsS67teA==
-X-Received: by 2002:a05:6402:17f7:: with SMTP id t23mr17094077edy.301.1597700207269;
-        Mon, 17 Aug 2020 14:36:47 -0700 (PDT)
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
-        by smtp.gmail.com with ESMTPSA id ay5sm14419052edb.2.2020.08.17.14.36.46
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2020 14:36:47 -0700 (PDT)
-Received: by mail-ed1-f47.google.com with SMTP id t15so13548233edq.13
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 14:36:46 -0700 (PDT)
-X-Received: by 2002:a05:6512:3b7:: with SMTP id v23mr8282877lfp.10.1597699793904;
- Mon, 17 Aug 2020 14:29:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <c6fda26e8d134264b04fadc3386d6c32@gmail.com> <20200816175303.GB1236603@ZenIV.linux.org.uk>
- <20200817204223.GB12414@amd> <87lfid6kpi.fsf@x220.int.ebiederm.org>
-In-Reply-To: <87lfid6kpi.fsf@x220.int.ebiederm.org>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 17 Aug 2020 14:29:37 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wj04wKCjHz6b6d7N58xoS4AftnwTUBaXsEekQ5RhfWVnw@mail.gmail.com>
-Message-ID: <CAHk-=wj04wKCjHz6b6d7N58xoS4AftnwTUBaXsEekQ5RhfWVnw@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Yes. Finally remove '-Wdeclaration-after-statement'
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Witten <mfwitten@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        John Levon <john.levon@joyent.com>,
-        John Levon <levon@movementarian.org>,
-        Andrew Morton <akpm@linux-foundation.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=SCGP1B0GabBPIIHG5VJ2o7cUGzZ8S7iKHRNNa+xeYyE=;
+        b=p4z0v0XxFKoCyPlqKINeBWhpvyoXBtv8mq/ZrEDL13PWXcM/hwEXAMKlzMtBoFHaJv
+         lqtRj31uTwUZs6GuTKJxuQIgunSLjDJoNSJMAOdCb2c4tJyQ0fLnjfv+07tdgOunK2NQ
+         dTKFuQTzBtAFuKBXUZ2ghHiU5O7RUuLCHwe6zoZsgPNAlaXtYf/a31zjLazV6S+eG79o
+         pnCy39MBwB0sCDhvg0a5KJC1k5bArGbE6NUkfPEDGRWC9z13pZO4cIj019+si8IavBhX
+         MvIEE5P9eoxesuqAI9K5xse4W18atr1PElP1DLkiESCSSWOJO7R4kC5zYZmyRYDmIFmp
+         YkVQ==
+X-Gm-Message-State: AOAM532TLvJQk0+UQSFJGBbRylnEEsOi3W67s3VXX0dgSXVPaV/jvBBm
+        YTFjmY3SHWUD6/VssRq+ZL1wepUog/y9kIerzNM=
+X-Google-Smtp-Source: ABdhPJz+qTv6DNAPpLl1NNFe6vUzEWyhgMT8911arSjyrAqqr+1/c8Xk2osiyz6NvqgiYJnN1HAimTN3fhEsKUXGFR8=
+X-Received: by 2002:a62:6142:: with SMTP id v63mr13080841pfb.179.1597701737995;
+ Mon, 17 Aug 2020 15:02:17 -0700 (PDT)
+Date:   Mon, 17 Aug 2020 15:02:08 -0700
+Message-Id: <20200817220212.338670-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
+Subject: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Joe Perches <joe@perches.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
+        Andi Kleen <ak@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "=?UTF-8?q?D=C3=A1vid=20Bolvansk=C3=BD?=" <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 2:15 PM Eric W. Biederman <ebiederm@xmission.com> wrote:
->
-> Does anyone remember why we added this warning?  I had always thought
-> it's purpose was to ensure we stayed within our chosen dialect of C.
+-ffreestanding typically inhibits "libcall optimizations" where calls to
+certain library functions can be replaced by the compiler in certain
+cases to calls to other library functions that may be more efficient.
+This can be problematic for embedded targets that don't provide full
+libc implementations.
 
-As far as I'm concerned, that's the primary motivation.
+-ffreestanding inhibits all such optimizations, which is the safe
+choice, but generally we want the optimizations that are performed. The
+Linux kernel does implement a fair amount of libc routines. Instead of
+-ffreestanding (which makes more sense in smaller images like kexec's
+purgatory image), prefer -fno-builtin-* flags to disable the compiler
+from emitting calls to functions which may not be defined.
 
-I'm not seeing why we'd suddenly allow the "put variable declarations
-anywhere" when we've been able to keep from doing it until now.
+If you see a linkage failure due to a missing symbol that's typically
+defined in a libc, and not explicitly called from the source code, then
+the compiler may have done such a transform.  You can either implement
+such a function (ie. in lib/string.c) or disable the transform outright
+via -fno-builtin-* flag (where * is the name of the library routine, ie.
+-fno-builtin-bcmp).
 
-We're still building primarily good old K&R ANSI C, just with
-extensions. Wild variable placement doesn't seem like a useful
-extension.
+Patch 1 unbreaks the build with ToT clang, which has been red all
+weekend, by adding -fno-builtin-stpcpy.
+Patch 2 is a revert but adds -fno-builtin-bcmp.
+Patch 3 does the same for x86 purgatory.
+Patch 4 removes -ffreestanding from i386.
 
-(Other variable placement improvements are: block-scope variable
-declarations inside the "for()" statement is very syntactically
-useful, for example. THAT would be useful if we can finally enable it
-without gcc going all wonky on us)
+The first patch makes sense for Kbuild, the second maybe akpm@, the
+third and forth for x86.  Not sure who should pick up the series (they
+can be merged out of order, technically) but I really need the first
+patch soon. The 3 latter patches are cleanups.
 
-                Linus
+Nick Desaulniers (4):
+  Makefile: add -fno-builtin-stpcpy
+  Revert "lib/string.c: implement a basic bcmp"
+  x86/boot: use -fno-builtin-bcmp
+  x86: don't build CONFIG_X86_32 as -ffreestanding
+
+ Makefile               |  7 +++++++
+ arch/x86/Makefile      |  3 ---
+ arch/x86/boot/Makefile |  1 +
+ arch/x86/boot/string.c |  8 --------
+ include/linux/string.h |  3 ---
+ lib/string.c           | 20 --------------------
+ 6 files changed, 8 insertions(+), 34 deletions(-)
+
+-- 
+2.28.0.220.ged08abb693-goog
+
