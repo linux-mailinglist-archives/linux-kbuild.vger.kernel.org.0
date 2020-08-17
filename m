@@ -2,97 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02D54247A49
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 00:13:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 749DC247A84
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 00:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730428AbgHQWNJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Aug 2020 18:13:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730260AbgHQWNH (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Aug 2020 18:13:07 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73B1BC061389
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 15:13:07 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id v12so19198813ljc.10
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 15:13:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=26LrDJXqJLI6TFM10r1vs3mU6KeP0Tqlx0OGxUpHgLM=;
-        b=gBDu5V7G1HFcoj4N3yt3hf/J8px7HDGic43uxR5FXb1kXpR+lrm8bxoaAx8mEtSsmL
-         uYMYjA6rc1irgw6iTnUR6Gui0Ys8KiGgV19BjiPY8YYpbALXS7lQArBKGBEoL9zkKgfA
-         aCFG6DmlY9VUjKrDWFahAC0fBF/JADFwEWOR0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=26LrDJXqJLI6TFM10r1vs3mU6KeP0Tqlx0OGxUpHgLM=;
-        b=WB+BIEDTUD+lOY9lj9cUUY3m034kf12s58BYD2Yx3PSpC2AUw2mRafdVpzLGVb4Q4a
-         tC66NwItk8fOnea04pjJpxXdyVHLr9TWUYk3ZvhcJmUIAZYpMtB256aRAMOFNdZGWCdM
-         7SCygGS+R7w8qdhfA6cOqmZ22QMQHKICLBLrTsKCxOc4M96JFpBSXsa1ebhOAJaGfm9V
-         M2jfkmOsy+8DD36Ix1NSNieEw2HgDNhP2/q6cTDm3lFRX2g2FGG+wIU+d6bAYNYdZt+h
-         KDHSVjA8ImaSrKEfWbPgQSCECh3AOP/YF6DDgjOPGvZxmLLhkRLFBHhOpxjqemT6+KGi
-         h5Eg==
-X-Gm-Message-State: AOAM531MgGsp0ESD+TV5J1PSb57fkFEIlegTh4RYKS/PniNPLWNNDP3w
-        HEL6vi0ivzOqvgJKhd3p0aCkvqeCpm7ZQQ==
-X-Google-Smtp-Source: ABdhPJzk/JC7i0TXULMzHAye6l8+l6fuDeIhuLQfb7y+JVH7A4VkVOWtYKxkmtVmTjsWRM7bYn4sbQ==
-X-Received: by 2002:a2e:9c8b:: with SMTP id x11mr7621728lji.218.1597702385945;
-        Mon, 17 Aug 2020 15:13:05 -0700 (PDT)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com. [209.85.167.51])
-        by smtp.gmail.com with ESMTPSA id b17sm5404907ljp.9.2020.08.17.15.13.05
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Aug 2020 15:13:05 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id c15so9170399lfi.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 15:13:05 -0700 (PDT)
-X-Received: by 2002:a05:6512:241:: with SMTP id b1mr8253411lfo.125.1597702384913;
- Mon, 17 Aug 2020 15:13:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <c6fda26e8d134264b04fadc3386d6c32@gmail.com> <20200816175303.GB1236603@ZenIV.linux.org.uk>
- <20200817204223.GB12414@amd> <87lfid6kpi.fsf@x220.int.ebiederm.org>
- <CAHk-=wj04wKCjHz6b6d7N58xoS4AftnwTUBaXsEekQ5RhfWVnw@mail.gmail.com> <20200817220908.GA3701@amd>
-In-Reply-To: <20200817220908.GA3701@amd>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon, 17 Aug 2020 15:12:48 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh7Rn=8mVi_KWV71ZaQ2HrCz240DbjEJMDdARTwB3CYvA@mail.gmail.com>
-Message-ID: <CAHk-=wh7Rn=8mVi_KWV71ZaQ2HrCz240DbjEJMDdARTwB3CYvA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: Yes. Finally remove '-Wdeclaration-after-statement'
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Witten <mfwitten@gmail.com>,
+        id S1729947AbgHQWfB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Aug 2020 18:35:01 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:39385 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729013AbgHQWe7 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 17 Aug 2020 18:34:59 -0400
+Received: from hanvin-mobl2.amr.corp.intel.com (jfdmzpr03-ext.jf.intel.com [134.134.139.72])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 07HMVRrV2411257
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Mon, 17 Aug 2020 15:31:28 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 07HMVRrV2411257
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2020072401; t=1597703492;
+        bh=LKtFMKVgtOY/6bgoWtqeglon0IHwcNuLxWmX3T+HkBY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=KUs7+/XBtVIJ5EhmCEDOIFwDAK8ODSK/P6kH2ED3Bu4rW+YQeCQqon9LYR0NK5LC+
+         XgQOIWhLEolFJ4ch6EKj5UrDoPQs9dnlUSSb3yt6uJ40aafO46eEMZv1opQv90pbpP
+         X9KOBLkOpUTVXo6wEbH4JKjlBcFoF08kR2S3yzmUJyqhkHsXIgoq+WX9dVAbrEUtC3
+         U0epQC9hqP8YKAGWe165qUj94F1RyQGO1JO7/z3Wic08vA257p/1UsIhQrsDI+g7AY
+         /8Tv2E9Fc3r1YaA1q23uEMeXe5d7q6TO5m2r4/4dTHFM/EMEvRdGv+JWghE9zqrJei
+         XF/IHfC1GR7sA==
+Subject: Re: [PATCH 1/4] Makefile: add -fno-builtin-stpcpy
+To:     Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        John Levon <john.levon@joyent.com>,
-        John Levon <levon@movementarian.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Joe Perches <joe@perches.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
+        Andi Kleen <ak@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>, stable@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <20200817220212.338670-2-ndesaulniers@google.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <82bbeff7-acc3-410c-9bca-3644b141dc1a@zytor.com>
+Date:   Mon, 17 Aug 2020 15:31:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200817220212.338670-2-ndesaulniers@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 3:09 PM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Submitter believes "wild variable placement" can help with
-> #ifdefs.. and that may be actually good tradeoff.
+On 2020-08-17 15:02, Nick Desaulniers wrote:
+> LLVM implemented a recent "libcall optimization" that lowers calls to
+> `sprintf(dest, "%s", str)` where the return value is used to
+> `stpcpy(dest, str) - dest`. This generally avoids the machinery involved
+> in parsing format strings. This optimization was introduced into
+> clang-12. Because the kernel does not provide an implementation of
+> stpcpy, we observe linkage failures for almost all targets when building
+> with ToT clang.
+> 
+> The interface is unsafe as it does not perform any bounds checking.
+> Disable this "libcall optimization" via `-fno-builtin-stpcpy`.
+> 
+> Unlike
+> commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
+> which cited failures with `-fno-builtin-*` flags being retained in LLVM
+> LTO, that bug seems to have been fixed by
+> https://reviews.llvm.org/D71193, so the above sha can now be reverted in
+> favor of `-fno-builtin-bcmp`.
+> 
 
-I agree that it can help in some cases.
+stpcpy() and (to a lesser degree) mempcpy() are fairly useful routines
+in general. Perhaps we *should* provide them?
 
-But it can also make it really hard to find the variable declarations
-in other cases. I've seen a lot of code that ends up actively
-declaring the variable close to where it's used (because people find
-that to be locally more legible) and then it just means that people
-who arent' familiar with the code have a much harder time finding it.
+	-hpa
 
-I'd instead try to discourage people from using #ifdef's inside code.
-
-              Linus
