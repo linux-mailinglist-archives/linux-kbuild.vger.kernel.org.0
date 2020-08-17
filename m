@@ -2,39 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E54B247A9F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 00:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56065247B21
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 01:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729827AbgHQWpN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 17 Aug 2020 18:45:13 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:48771 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730732AbgHQWpK (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 17 Aug 2020 18:45:10 -0400
-Received: from hanvin-mobl2.amr.corp.intel.com (jfdmzpr03-ext.jf.intel.com [134.134.139.72])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 07HMiW422418579
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Mon, 17 Aug 2020 15:44:32 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 07HMiW422418579
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2020072401; t=1597704275;
-        bh=UcsjupZ0JA2RpPNCd/O00y25ozkP4PEzUv+SeMit95Y=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=fFw7iaFIjOTNkyvMiTi6MGZ1QKRqloYm27Hjeqslbjuje3JHcveUFWxZ13s0xYxGL
-         Pq1ExKfPYkv2sexFEJB1hIocLvmRNjVJtwloT35gujDTd+OXSRHE1cnLSD9IYBA9Vu
-         fzJXyAfOqRLkIZ/xT9bMfg9qbVD/DSfoEC4Z7LDmT07itHKLK5rdn0/7/vG+vwrjtz
-         DFO/Zq97GNALaq2XrP26/hUvUSLd9XpcnOAClKJ13Cd15ifmv/qAT1F7rtvPbSx53E
-         zHhqVOWOP6IWH5Hvg+pP/m4sJM3HmN83qsYrwv0pLaMkD+Ei3kbgruX0KTVvmZxPcG
-         iyP2A+4BGi7gg==
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S1726541AbgHQXgo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 17 Aug 2020 19:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726290AbgHQXgl (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 17 Aug 2020 19:36:41 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB475C061342
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 16:36:40 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id h12so8853825pgm.7
+        for <linux-kbuild@vger.kernel.org>; Mon, 17 Aug 2020 16:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OOIHbT3JqC0FRpZDPNAbKveRqgfrDO50QrAvAKQ9atQ=;
+        b=XkCp5JQQCy7S3tKdICI8JlFwMNGJP2JshQrY+MGHpbLqjPKDYXrgs3hZkvZU8vHWEI
+         y2arku1NBKcCW//wsFphhQ9Dt2XS3tKLFoWRzFhxzdPPw7Lp0Ut843ctXeOb+UXnrwvj
+         74GD5gFl0ASqVaCLPTP3cC7mIURSfPBNExQrSolEnKhlizeYIn4wr5B8FPK0JksNyRao
+         SnuzHrOxfHuI0LSR2z/T06CKFBITsvVewZoDcy81cbfFASfidcQocDlWmrFIbFXXbFuC
+         RaW4rfS3CD8m5XBL2wdTcbti7034hxRp21RyB0lOPbJSFwxSwvGkbuRYdkmglJfeWnc8
+         0F5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OOIHbT3JqC0FRpZDPNAbKveRqgfrDO50QrAvAKQ9atQ=;
+        b=CYYo9CjhIaF4m6f4mYhznc5Cq+ZgvEE/gB0M4FRIZAjMpE5mVtho4AXDwsOAzGqsJx
+         vQp4KU8dPajSxB9Q/nU+BQJw8nFcFcLTj9RZIFVEy3B88Sa30Z52Fd6b+5e1vtaevv8W
+         amiK+oGBVwIeGYgqZboqvgwAbVqpHE83iivK7xsakf+SStPq773Cn95Yi5fjtErwiO8b
+         cGkuD6GagKyq75rIDlJJR0kHDhQjC5rl/ZbSTe0zC06yi+LOvtT09v6ADbB5voVDSyha
+         EqZeFxaAo796io0Wu0oX1jbPpW1ebm6Qj29+pMj/kUVLnHeco4ktf2pFgOlrlXvvUrSa
+         0XZw==
+X-Gm-Message-State: AOAM530ZOkT4NWmic3j+V3l8nVqndqAJVyE6Fb/KnVKhTjFgM3QVTM57
+        1nZVj8r5FCpBAYXuLcZpHwI7CISyxKiep+OXUaEkqA==
+X-Google-Smtp-Source: ABdhPJzTNYLRGAfC38gdAJvUvZlf02/zlic7+bE1C4fTT/ZvvVT7ez+raK4l3fC3WsNgH8Ar/pS3z/E0UZCPTCQQcoA=
+X-Received: by 2002:a62:8303:: with SMTP id h3mr13220958pfe.169.1597707399867;
+ Mon, 17 Aug 2020 16:36:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <20200817220212.338670-2-ndesaulniers@google.com> <82bbeff7-acc3-410c-9bca-3644b141dc1a@zytor.com>
+In-Reply-To: <82bbeff7-acc3-410c-9bca-3644b141dc1a@zytor.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 17 Aug 2020 16:36:28 -0700
+Message-ID: <CAKwvOdma_n8D5iERGiSSMc7o2bc-rTZN_KhqPZ+rAOP2sGw5uA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] Makefile: add -fno-builtin-stpcpy
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Tony Luck <tony.luck@intel.com>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -45,7 +70,8 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
+        Yury Norov <yury.norov@gmail.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Ard Biesheuvel <ardb@kernel.org>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Daniel Kiper <daniel.kiper@oracle.com>,
@@ -55,75 +81,45 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Andi Kleen <ak@suse.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
-Date:   Mon, 17 Aug 2020 15:44:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200817220212.338670-1-ndesaulniers@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Eli Friedman <efriedma@quicinc.com>,
+        "# 3.4.x" <stable@vger.kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2020-08-17 15:02, Nick Desaulniers wrote:
-> -ffreestanding typically inhibits "libcall optimizations" where calls to
-> certain library functions can be replaced by the compiler in certain
-> cases to calls to other library functions that may be more efficient.
-> This can be problematic for embedded targets that don't provide full
-> libc implementations.
-> 
-> -ffreestanding inhibits all such optimizations, which is the safe
-> choice, but generally we want the optimizations that are performed. The
-> Linux kernel does implement a fair amount of libc routines. Instead of
-> -ffreestanding (which makes more sense in smaller images like kexec's
-> purgatory image), prefer -fno-builtin-* flags to disable the compiler
-> from emitting calls to functions which may not be defined.
-> 
-> If you see a linkage failure due to a missing symbol that's typically
-> defined in a libc, and not explicitly called from the source code, then
-> the compiler may have done such a transform.  You can either implement
-> such a function (ie. in lib/string.c) or disable the transform outright
-> via -fno-builtin-* flag (where * is the name of the library routine, ie.
-> -fno-builtin-bcmp).
-> 
+On Mon, Aug 17, 2020 at 3:31 PM H. Peter Anvin <hpa@zytor.com> wrote:
+>
+> On 2020-08-17 15:02, Nick Desaulniers wrote:
+> > LLVM implemented a recent "libcall optimization" that lowers calls to
+> > `sprintf(dest, "%s", str)` where the return value is used to
+> > `stpcpy(dest, str) - dest`. This generally avoids the machinery involved
+> > in parsing format strings. This optimization was introduced into
+> > clang-12. Because the kernel does not provide an implementation of
+> > stpcpy, we observe linkage failures for almost all targets when building
+> > with ToT clang.
+> >
+> > The interface is unsafe as it does not perform any bounds checking.
+> > Disable this "libcall optimization" via `-fno-builtin-stpcpy`.
+> >
+> > Unlike
+> > commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
+> > which cited failures with `-fno-builtin-*` flags being retained in LLVM
+> > LTO, that bug seems to have been fixed by
+> > https://reviews.llvm.org/D71193, so the above sha can now be reverted in
+> > favor of `-fno-builtin-bcmp`.
+> >
+>
+> stpcpy() and (to a lesser degree) mempcpy() are fairly useful routines
+> in general. Perhaps we *should* provide them?
 
-This is arguably exactly the wrong way around.
-
-The way this *should* be done is by opt-in, not opt-out, which by almost
-definition ends up being a game of whack-a-mole, like in this case
-stpcpy(). Furthermore, it is unlikely that people will remember what
-options to flip when and if stpcpy() happens to be implemented in the
-kernel.
-
-The problem here is twofold:
-
-1. The user would be expected to know what kind of the optimizations the
-compiler can do on what function, which is private knowledge to the
-compiler.
-
-2. The only way to override -fno-builtin is by a header file with macros
-overriding the function names with __builtin, but that doesn't tell the
-compiler proper anything about the execution environment.
-
-So the Right Thing is for the compiler authors to change the way
--ffreestanding works.  -ffreestanding means, by definition, that there
-are no library calls (other than libgcc or whatever else is supplied
-with the compiler) that the compiler can call. That is currently an
-all-or-nothing choice, or at least one choice per C standard implemented.
-
-Instead, a compile job with -ffreestanding should be able to provide a
-list of standard C functions that the compiler may call, and thus the
-compiler actually can do the right thing depending on which exact
-functions it would consider calling. This list is probably most easily
-supplied in the form of a header file with #pragma directives.
-
-	-hpa
-
-
+Sorry, I forgot to provide context of the previous thread, which is
+worth a read.  To answer this question specifically (or at least for
+stpcpy), the answer from the previous thread was (via Kees): "No;
+please no more unbounded string.h routines":
+https://lore.kernel.org/lkml/202008150921.B70721A359@keescook/
+-- 
+Thanks,
+~Nick Desaulniers
