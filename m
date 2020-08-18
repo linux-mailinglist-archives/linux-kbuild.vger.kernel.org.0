@@ -2,64 +2,51 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D79AF248E75
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 21:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AD72248E8A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 21:21:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726694AbgHRTNp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 15:13:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40538 "EHLO
+        id S1726653AbgHRTV6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 15:21:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgHRTNo (ORCPT
+        with ESMTP id S1726632AbgHRTVz (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 15:13:44 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F20C061342
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:13:43 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id j22so10808563lfm.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:13:43 -0700 (PDT)
+        Tue, 18 Aug 2020 15:21:55 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1165C061342
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:21:54 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id o5so10216100pgb.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kRmD2QbAj0vfmoNVvNMP8rPvVPoSWyCAf8x4746i4Lw=;
-        b=ZiA1XO+PyilZibQ5JpzVQt282FyQ/PBbpJhA+sKTp1s1vswJWQf1scFga1vTAE+ARg
-         4xqurqK3liy7M7SNb2CHhwbyLKyZXfPwxp4DydMZ8KOiGYBOiuCjfb3aUjYuibGo3rSq
-         HTV4diqJba5aOLalPMWyrvr+6H/PSP3/9c4Iw=
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=zqSUjfhetXa5IuRw9JeF+TW2/+QsT5+pQU8GGaPMx7M=;
+        b=fdirQtS35bnk6l7y3oW8Lw0Cg/XmLySVy6zO41Bo0Jky1Yq7FjctMNf30HUh477Q0+
+         k6bc/NwkvecrpTp319yOav2wSqUK7Y/7nyq8iWZrm1pDxIhDit1RZAWjuv/9EcNrcDYK
+         Z8IwnKbdRyVfphkNX5Weqbt3bjg5GNhOj2mdI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kRmD2QbAj0vfmoNVvNMP8rPvVPoSWyCAf8x4746i4Lw=;
-        b=M0fksJ0LZvKnXlfW8RSH6CHeQgZjdBvkC3v6fL36AQcjZAprb+KMEYaGjJijM/DhCK
-         WtdyGUBZYytfP4bSRt2BKr7EccBlvAxPuN5GqlDn8HJuRA/yHX0k2a0u/laM8wY/CjB5
-         zdqtuiTpjCEp06ct4SAlVkmP1cAWuzMd6jCavg/Lw/G9SEFbNbj+nvq1erqKDDDJVZbX
-         nPuu7xWIlY8tHidEZQ3CPZoQPiR5O4l4/ANsKo8S1Nuqd8vO81ojN8crQIw/+cR3c/4S
-         fjO+jG/h9JC39TWsNXrW0cBswMRPKrOEyPb/zsEUzfoQtXFIyBT3EMAM/UAjX3Z+bZ10
-         2oXw==
-X-Gm-Message-State: AOAM53024o8hcWIf755UuF2cW6BBmKWDmQuwsAW4MgcgEMzz4AGvlTcB
-        S3vfWModhLAyqjNG+8IAetsuDumj8Xf4cw==
-X-Google-Smtp-Source: ABdhPJw4D2Ev4tEDAlAig1RAp9EVdNE8ZiiPSPA8KwnUxf0wI6uMieSOoCBGI94fTwy3MjkQ8La2ew==
-X-Received: by 2002:a05:6512:63:: with SMTP id i3mr10657766lfo.116.1597778020392;
-        Tue, 18 Aug 2020 12:13:40 -0700 (PDT)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
-        by smtp.gmail.com with ESMTPSA id m142sm6745653lfa.47.2020.08.18.12.13.38
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Aug 2020 12:13:39 -0700 (PDT)
-Received: by mail-lj1-f170.google.com with SMTP id i10so22689665ljn.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:13:38 -0700 (PDT)
-X-Received: by 2002:a05:651c:503:: with SMTP id o3mr11115885ljp.312.1597778018119;
- Tue, 18 Aug 2020 12:13:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
- <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
-In-Reply-To: <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue, 18 Aug 2020 12:13:22 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
-Message-ID: <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zqSUjfhetXa5IuRw9JeF+TW2/+QsT5+pQU8GGaPMx7M=;
+        b=KDHMTsWt/O0cJGL2Mx21eAE1RBgs6SvBlnlLKMQVdscnL/oZp9DifMW7KyjR3kg0cc
+         Scy5zw//HhaEgVR9A74t5cagjYjuqsgJ69hP0EdliNWJD9YE0sHStT4HqnWx+sBCTaQk
+         BOL41R0u68cHbO3Oey1w2PzT9GKr+z4Dc4HNxld+onxj4HS0S0zdT5Gmm012sQUa+XjQ
+         c6cLy+T3bqosCInWssHJ4ze4FSWxz7AgJlTRrd6RuaabSNOl0NOdbOSjNXTjmTbJWi/M
+         8KvZWZSVbT8zyhnLLqj0/XtLoKwqZo8DaUasf3AGT5+I8duNCC9/HE4cbUBjR6BZlt3G
+         aONw==
+X-Gm-Message-State: AOAM531Ic9acXpt3Ky1nV1VFSM2Go/kt86axBa3cdpBdMoNXbXwM/Qud
+        dwEFfOPzmMAUA/PKjsC3RXWRyA==
+X-Google-Smtp-Source: ABdhPJzQiR6xAc8WKkbKdUhnnyT4rO2YXcWUvPMo/Nnf80Lz9eP5MKsknobJ4DFtPnQJPH3UbCvtvQ==
+X-Received: by 2002:aa7:984e:: with SMTP id n14mr16437303pfq.272.1597778514020;
+        Tue, 18 Aug 2020 12:21:54 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id n26sm24981410pff.30.2020.08.18.12.21.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 12:21:52 -0700 (PDT)
+Date:   Tue, 18 Aug 2020 12:21:51 -0700
+From:   Kees Cook <keescook@chromium.org>
 To:     "H. Peter Anvin" <hpa@zytor.com>
 Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
@@ -67,9 +54,7 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Tony Luck <tony.luck@intel.com>,
         Dmitry Vyukov <dvyukov@google.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
@@ -79,8 +64,7 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Arvind Sankar <nivedita@alum.mit.edu>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
         Ard Biesheuvel <ardb@kernel.org>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Daniel Kiper <daniel.kiper@oracle.com>,
@@ -88,44 +72,55 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Marco Elver <elver@google.com>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
         Andi Kleen <ak@suse.de>,
-        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        =?iso-8859-1?Q?D=E1vid_Bolvansk=FD?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>, stable@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH 1/4] Makefile: add -fno-builtin-stpcpy
+Message-ID: <202008181214.5C736E7@keescook>
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <20200817220212.338670-2-ndesaulniers@google.com>
+ <82bbeff7-acc3-410c-9bca-3644b141dc1a@zytor.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <82bbeff7-acc3-410c-9bca-3644b141dc1a@zytor.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 12:03 PM H. Peter Anvin <hpa@zytor.com> wrote:
->
-> I'm not saying "change the semantics", nor am I saying that playing
-> whack-a-mole *for a limited time* is unreasonable. But I would like to go back
-> to the compiler authors and get them to implement such a #pragma: "this
-> freestanding implementation *does* support *this specific library function*,
-> and you are free to call it."
+On Mon, Aug 17, 2020 at 03:31:26PM -0700, H. Peter Anvin wrote:
+> On 2020-08-17 15:02, Nick Desaulniers wrote:
+> > LLVM implemented a recent "libcall optimization" that lowers calls to
+> > `sprintf(dest, "%s", str)` where the return value is used to
+> > `stpcpy(dest, str) - dest`. This generally avoids the machinery involved
+> > in parsing format strings. This optimization was introduced into
+> > clang-12. Because the kernel does not provide an implementation of
+> > stpcpy, we observe linkage failures for almost all targets when building
+> > with ToT clang.
+> > 
+> > The interface is unsafe as it does not perform any bounds checking.
+> > Disable this "libcall optimization" via `-fno-builtin-stpcpy`.
+> > 
+> > Unlike
+> > commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
+> > which cited failures with `-fno-builtin-*` flags being retained in LLVM
+> > LTO, that bug seems to have been fixed by
+> > https://reviews.llvm.org/D71193, so the above sha can now be reverted in
+> > favor of `-fno-builtin-bcmp`.
+> > 
+> 
+> stpcpy() and (to a lesser degree) mempcpy() are fairly useful routines
+> in general. Perhaps we *should* provide them?
 
-I'd much rather just see the library functions as builtins that always
-do the right thing (with the fallback being "just call the standard
-function").
+As Nick mentioned, I really don't want to expand the already bad
+interfaces from libc. We have enough messes to clean up already, and I
+don't want to add more. The kernel already uses a subset of C, we have
+(several) separate non-libc memory allocators, we're using strscpy() and
+scnprintf() widely in favor of their buggy libc counterparts, etc. We
+don't need to match the libc string interfaces especially when they're
+arguably bug-prone foot-guns. :)
 
-IOW, there's nothing wrong with -ffreestanding if you then also have
-__builtin_memcpy() etc, and they do the sane compiler optimizations
-for memcpy().
-
-What we want to avoid is the compiler making *assumptions* based on
-standard names, because we may implement some of those things
-differently.
-
-And honestly, a compiler that uses 'bcmp' is just broken. WTH? It's
-the year 2020, we don't use bcmp. It's that simple. Fix your damn
-broken compiler and use memcmp. The argument that memcmp is more
-expensive than bcmp is garbage legacy thinking from four decades ago.
-
-It's likely the other way around, where people have actually spent
-time on memcmp, but not on bcmp.
-
-If somebody really *wants* to use bcmp, give them the "Get off my
-lawn" flag, and leave them alone. But never ever should "use bcmp" be
-any kind of default behavior. That's some batshit crazy stuff.
-
-               Linus
+-- 
+Kees Cook
