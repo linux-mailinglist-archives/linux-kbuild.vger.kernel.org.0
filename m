@@ -2,62 +2,64 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C6172490BF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 00:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1A8E249145
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 01:00:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727001AbgHRWZt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 18:25:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42112 "EHLO
+        id S1727072AbgHRW77 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 18:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726766AbgHRWZr (ORCPT
+        with ESMTP id S1726980AbgHRW76 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 18:25:47 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5407C061389;
-        Tue, 18 Aug 2020 15:25:46 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id m7so19856435qki.12;
-        Tue, 18 Aug 2020 15:25:46 -0700 (PDT)
+        Tue, 18 Aug 2020 18:59:58 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3768BC061342
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 15:59:58 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id v16so307281plo.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 15:59:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=E0QpYwyGeyQNgnfTu+fVlzDEmX7vUQ4dpPBQoUXRMU8=;
-        b=LiDJx6Af77Yfx/KOJmUbrwaOM0pjIOPBgSqafLu8msU038FAz1lgQYc13goXLwmnGS
-         PRtWZSoyuxX8ADBJiQEXDfMZyJQXOw5Iwbftk1JCbDvAomejgCwxZZvAE62+LiITbHu3
-         MY96GJbmo65Am2iPZd7VO7O49qkMLI7/b2XVyW3ZFn31Wc8UWMOGM6Bkv2YY5Yy2kclL
-         VEKepqX2qE4CtFkYWF9ckJJLreQiFKQmyQqAd/i0wq3063wbn/tjrL1+Q8aOtQa0Jz/9
-         AT5MwDuglFViEJBhhwATLWA20UY7zdcCmqn9fFMdSZ4BlCdKWp54f0SEP5EBCGcjoCYQ
-         Yv0w==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=J2pGygoF7KWIJaR/BRx/jtL9q1tfpvhnVW6lipaKLMs=;
+        b=oejoDBdod/XT+qS47scwauhM7mYjpU0xiMBgXoVFwRvfIQGA4CTvTu3fRHibAUtHYd
+         5ZnK/LUTYhDUsPwtLNERJIXEuV0Gke43W8JfC95l4XD/oiDTEkMVCtxPinAqBBD+m3l3
+         kp6gsNCvw90h/jV0F+nSQNqISP54PMPFFV/fi1ST66IQrnHoqICZjF+ipxb6IoSisNRo
+         ZYZQ+zVDIB8CxkfWs4lnk/xItWAQAOdPXOv9kfM63gpchjZoijeoA4gPkuLlWryvirhb
+         pq1hYuuByYHQeONpW24gozAzS8d2sUaS4pE2K3iUlSOyFrqcAl69HC8XD695CdRECSmP
+         UIuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=E0QpYwyGeyQNgnfTu+fVlzDEmX7vUQ4dpPBQoUXRMU8=;
-        b=MXU4yDIijzUdOE3/H8gYphdlBjSbnNlpNRzvbe85hLgQDZRo+kDgLKVtGYo2UBqdRl
-         a+susrLNtZk41NxBTAR+AfJ8Rge/Ypj9fKd81FOfN4EVpoI8E7PRLRicn8/HjIaiIsmG
-         RCSLN+vfj239MJikM6E/UEjjJMobgrHIHzssqF0xcnTcWlT3z/hv/mn837M72zP2EcUC
-         S9cnAPu66l2MJy+s8Yth9F4Y2Rv81zZGcpx5ynscPygzq8hkvr9wkqlKm5dMzg0aVeV5
-         Qjx9zqPAEPw85lh2egMwKcXReo3va87ElD1Esj71I8SDL3tHdrfMQ8SYG2/CDkhmxFsS
-         KSKQ==
-X-Gm-Message-State: AOAM530p1uRvB5Xmn4d96bTqcxZxQZWbETlId144Ef7+mREfKXbw0kT0
-        BfNePpia20eBmrjVuO8cVEw=
-X-Google-Smtp-Source: ABdhPJz1BvS1mecTszCrz26nQmYNf0KrJygAksbrsrMDxgHR0Qb2LBxMo9Ydj9TwYEngt+9ARsmIhQ==
-X-Received: by 2002:a05:620a:b8d:: with SMTP id k13mr19606873qkh.450.1597789545799;
-        Tue, 18 Aug 2020 15:25:45 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id d196sm22358541qkg.96.2020.08.18.15.25.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2020 15:25:45 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 18 Aug 2020 18:25:42 -0400
-To:     Nick Desaulniers <ndesaulniers@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=J2pGygoF7KWIJaR/BRx/jtL9q1tfpvhnVW6lipaKLMs=;
+        b=sOdsRnVIyslszvC6A0frXxpWyyaFHjGTJ4Lqv6Y88k41KABy76oB5Z1axl87e7g3Aj
+         kxRUA1OYIskQS799t6lDdJmi80XM8s6JLut+5YLXjqg3AxiiNnV2wakvAbvLqTJ4uSn8
+         7rQIbOEmxPX/ZCQrbdIynqq4F1uK880J21p7oTb6HWhyy07T0qGYvWUYfXUjb8rigEck
+         AhhSom5QvQYq1p9UX2vWVmtiGBBlE1l63dvtClPx2ow+LH3BbrQixKP2dvMu7PH9HJSu
+         wd/OE0tbZxFIae3JcCYLzEap6PqpcNy+3ABPy3/SRTgWp+mlKVvtVrwTg3Nhd5b7PtSu
+         +D5Q==
+X-Gm-Message-State: AOAM531LRPu0boguX7lbxWhN+SMwQNN5talg6R3u81AQMkbKtoIBxTNZ
+        9sFrSC2iDa4XujjKtIhdsWGpucBvL1sfLMtIimwlyg==
+X-Google-Smtp-Source: ABdhPJwyeBQmyXJbjojIwiTBW8Z6+brjMwpfKPi5od1b5IJVm8nNGkeI9fjV9jSy6PuHYv8OEzPr4TFc8zMzEV6noQI=
+X-Received: by 2002:a17:902:7c8b:: with SMTP id y11mr16352038pll.119.1597791597450;
+ Tue, 18 Aug 2020 15:59:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200817220212.338670-1-ndesaulniers@google.com> <20200818222542.GA3254379@rani.riverdale.lan>
+In-Reply-To: <20200818222542.GA3254379@rani.riverdale.lan>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 18 Aug 2020 15:59:45 -0700
+Message-ID: <CAKwvOdmfiD1TNqRvFuX07BqonYzh1eKFE9mFmOpaSyrbR0d5Lw@mail.gmail.com>
+Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+To:     Arvind Sankar <nivedita@alum.mit.edu>,
+        Eli Friedman <efriedma@quicinc.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Tony Luck <tony.luck@intel.com>,
         Dmitry Vyukov <dvyukov@google.com>,
@@ -65,10 +67,10 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Joe Perches <joe@perches.com>,
         Joel Fernandes <joel@joelfernandes.org>,
         Daniel Axtens <dja@axtens.net>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
+        Yury Norov <yury.norov@gmail.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         "H . Peter Anvin" <hpa@zytor.com>,
         Ard Biesheuvel <ardb@kernel.org>,
         "Paul E . McKenney" <paulmck@kernel.org>,
@@ -78,75 +80,53 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
         Andi Kleen <ak@suse.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-Message-ID: <20200818222542.GA3254379@rani.riverdale.lan>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200817220212.338670-1-ndesaulniers@google.com>
+        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 03:02:08PM -0700, Nick Desaulniers wrote:
-> -ffreestanding typically inhibits "libcall optimizations" where calls to
-> certain library functions can be replaced by the compiler in certain
-> cases to calls to other library functions that may be more efficient.
-> This can be problematic for embedded targets that don't provide full
-> libc implementations.
-> 
-> -ffreestanding inhibits all such optimizations, which is the safe
-> choice, but generally we want the optimizations that are performed. The
-> Linux kernel does implement a fair amount of libc routines. Instead of
-> -ffreestanding (which makes more sense in smaller images like kexec's
-> purgatory image), prefer -fno-builtin-* flags to disable the compiler
-> from emitting calls to functions which may not be defined.
-> 
-> If you see a linkage failure due to a missing symbol that's typically
-> defined in a libc, and not explicitly called from the source code, then
-> the compiler may have done such a transform.  You can either implement
-> such a function (ie. in lib/string.c) or disable the transform outright
-> via -fno-builtin-* flag (where * is the name of the library routine, ie.
-> -fno-builtin-bcmp).
-> 
-> Patch 1 unbreaks the build with ToT clang, which has been red all
-> weekend, by adding -fno-builtin-stpcpy.
-> Patch 2 is a revert but adds -fno-builtin-bcmp.
-> Patch 3 does the same for x86 purgatory.
-> Patch 4 removes -ffreestanding from i386.
-> 
-> The first patch makes sense for Kbuild, the second maybe akpm@, the
-> third and forth for x86.  Not sure who should pick up the series (they
-> can be merged out of order, technically) but I really need the first
-> patch soon. The 3 latter patches are cleanups.
-> 
-> Nick Desaulniers (4):
->   Makefile: add -fno-builtin-stpcpy
->   Revert "lib/string.c: implement a basic bcmp"
->   x86/boot: use -fno-builtin-bcmp
->   x86: don't build CONFIG_X86_32 as -ffreestanding
-> 
->  Makefile               |  7 +++++++
->  arch/x86/Makefile      |  3 ---
->  arch/x86/boot/Makefile |  1 +
->  arch/x86/boot/string.c |  8 --------
->  include/linux/string.h |  3 ---
->  lib/string.c           | 20 --------------------
->  6 files changed, 8 insertions(+), 34 deletions(-)
-> 
-> -- 
-> 2.28.0.220.ged08abb693-goog
-> 
+On Tue, Aug 18, 2020 at 3:25 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
+>
+> Another thing that needs to be fixed is that at least lib/string.c needs
+> to be compiled with -ffreestanding.
+>
+> gcc-10 optimizes the generic memset implementation in there into a call
+> to memset. Now that's on x86 which doesn't use the generic
+> implementation, but this is just waiting to bite us.
+>
+> https://godbolt.org/z/6EhG15
 
-Another thing that needs to be fixed is that at least lib/string.c needs
-to be compiled with -ffreestanding.
+I'll let you send the patch for that this time.  (It's too bad godbolt
+doesn't have newer versions of GCC for cross compilation...cant test
+aarch64 gcc-10, for example.)  It would be interesting for sure to see
+resulting differences in disassembly observed in lib/string.o with
+-ffreestanding.
 
-gcc-10 optimizes the generic memset implementation in there into a call
-to memset. Now that's on x86 which doesn't use the generic
-implementation, but this is just waiting to bite us.
+But, oof, that's not good.  Certainly impressive and powerful loop
+idiom recognition, but wouldn't you consider it a bug that this
+optimization should probably first check that it's not replacing part
+of a loop with a potentially recursive call to itself?
 
-https://godbolt.org/z/6EhG15
+Admittedly, we've had the same shenanigans with memcpy implemented in
+terms of calls to __builtin_memcpy being lowered to infinitely
+recursive calls...which feels like the same kind of bug.  ("You wanted
+infinite recursion in the kexec purgatory image, right?" "No,
+compiler, I did not.")  example: https://godbolt.org/z/MzrTaM
+(probably should fix this in both implementations; at the least I feel
+like Clang's -Winfinite-recursion should try to help us out here).
+
+Feels almost like it may be difficult to provide an implementation of
+memset without stepping on a landmine.  One thing I'd be curious about
+is whether all of lib/string.c would need -ffreestanding, or if you
+could move just memset to its own TU then use -ffreestanding on that.
+A free standing environment must always provide a core set of
+functions like memset, memcpy, memcmp, memmove, according to
+https://gcc.gnu.org/onlinedocs/gcc/Standards.html.  Maybe those four
+should be in a separate TU compiled as -ffreestanding, so that they
+can never be lowered to calls to themselves (potentially infinitely
+recursive)?
+-- 
+Thanks,
+~Nick Desaulniers
