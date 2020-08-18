@@ -2,137 +2,182 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC441247DD0
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 07:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEB6C247DFC
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 07:44:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726429AbgHRFRZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 01:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49234 "EHLO
+        id S1726588AbgHRFod (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 01:44:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726370AbgHRFRY (ORCPT
+        with ESMTP id S1726228AbgHRFod (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 01:17:24 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 083CCC061389;
-        Mon, 17 Aug 2020 22:17:24 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id c16so20508856ejx.12;
-        Mon, 17 Aug 2020 22:17:23 -0700 (PDT)
+        Tue, 18 Aug 2020 01:44:33 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49683C061389;
+        Mon, 17 Aug 2020 22:44:31 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id m7so17224575qki.12;
+        Mon, 17 Aug 2020 22:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=705PFNm/gGw5cISxo/mBa28/BdVOfVrbtfnHTQdTKxk=;
-        b=pt2+jYZzkGH2X6wSwEhWXPkM3WcCgKkoeP5Sn+GIUYQycqvMQNOnI1pWGAD4o0HAGY
-         J1mmsE5pHBKl8WMIEhOw0bugsjifGHvx2s1aInX2Mqlfm9iAQulB8akAX9dxw0AHuPze
-         wHvMN/BFKELTb5WgJSAznIDwGFbbXXAJdZC2SsWDf9nSNQIPv3W9iKlAMxKM5AUCMK4P
-         2sWfo4/9bScb8NwLzLEK3XuiJe7aWpCfrXaT6YQmvRWJlLxX1xvK8s6886TZPwTTBkJu
-         Vesw+iDU45G7Xg2/vFA8PIpFPtT+MTrnnfwkO2OoTEPx2pVgRSvgHaIddfPnfKFRaj4X
-         hy/g==
+        bh=QntzPrOLLfJzsd4iLjQzQgU+MiMIJO0uA0wns6X4c7E=;
+        b=eL7dtsSMDWjrZxIuwHIPBo3xk60D7EtZRCBpQNsZqEUQOk0cIiE9DztISG54k/kQHj
+         7qhLA66zMTr/eGlkShLIvRH4WQdsVwY2purFz2BTUsc7246BAgb0ISXC/mu/LfdqPvqo
+         JH2yYRUoufiZNiq6h5Pu/EKAlL8GLXqy4R69udndLq4gxu11Lb83xsuSEwDYyQW6zaUb
+         o7RmoLz0mtB+yNAV++PqOQG5zJiwHFMrF7i+W0lN/OhWHE+cEFU7vaok04IP7gwOimTJ
+         92jldJojQt45UW27pUrLyyk6xjP5VyOiX9UgZEJoUk9r6EvUcgdWgnH4EYmM41U8TJTO
+         uOQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=705PFNm/gGw5cISxo/mBa28/BdVOfVrbtfnHTQdTKxk=;
-        b=lrvJ/pBDH0Qm/1vOt+mmQrHdUl/nuayyn9A/tWRDQC0KLSFuj6o0Gwj3q06+hc567m
-         b5YvrXDrS/QIROkjlkVmpIuEptqdrR+qA48helaJBrkZTIiKcLQ4n7kOuSo2CwCAExx8
-         ikUtBn4S4Is/MTKOiZ55o8QTkLGO9urZZ6CPOtsN/AFsHxPyaVHBTH9FgiNTZGS9eJYh
-         sLdOjZc7EP2/Eva2/zBtE/ZBSBm6BsY1yC+lRUuo/cd84AFQnsTd9OlIfI2YGUuGjICL
-         ehM2PYVo4DpljkpY9K1B6R9DfnCqgPZTj2Zi6c7TvwYHZUdiRVNgaIY0l6ldprst9gzW
-         Y8QQ==
-X-Gm-Message-State: AOAM53166C1ePriqREslPTqg0ZUp3HP0xGRFeCjI4AtcswUxtJxC2T3/
-        I0EbwFh1FgrlRu4wy1znuJo=
-X-Google-Smtp-Source: ABdhPJwKXufJTsBmCAWfcBLDfIQjZyXLv0fFUUBLnkVmChTwR/mnaZPhEDPNZEZhaAkrvTpkqYkBJw==
-X-Received: by 2002:a17:906:9392:: with SMTP id l18mr18130560ejx.357.1597727842650;
-        Mon, 17 Aug 2020 22:17:22 -0700 (PDT)
-Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
-        by smtp.gmail.com with ESMTPSA id d16sm15635292ejb.8.2020.08.17.22.17.19
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QntzPrOLLfJzsd4iLjQzQgU+MiMIJO0uA0wns6X4c7E=;
+        b=cAYQs9Lt3N93F/lWoP1s5Rt9fdBhtTnlwzplBOj1cHbicBTndcldhNRI7GYmG2KDPS
+         Q+kFRr0DxHfT3k8AhPW8EZGT1lTeINPXklmu5si9dRUDbHV+kKvZeeqV/isqttUKuuNJ
+         yMEqrteG9lWbm11AG+U48nDGeiOgQMsOC5U4M1iYGc26AxOtIp/TSy49tV9PyVeUhxak
+         Z7NgRxW6M2Xash8C7YvSIH+z+6MfKhpt3LNcUjWjrbjHLBtvV1mOtxbVntpKNuADv3b4
+         kzjKlXblxqRphVHavCP7zIAT6WBLwqvYip4bpFdxUw2W+EwU1r/ZxinMPhOj4DsvXF2F
+         PyoA==
+X-Gm-Message-State: AOAM533E5HE1SMBEFi+lMpUKxQQulzWTdUECBYgjt4fgKcnzEgLbxWP+
+        /Hns1IvtuWgLVnq+f1D/E2o=
+X-Google-Smtp-Source: ABdhPJy9kXKHV7x0YjcquAFP2t6zaotOsmnqnzEy1FUZph04XGpTnQfSXqiTbGVrkaBrdeywxlMtgg==
+X-Received: by 2002:a37:61ce:: with SMTP id v197mr16077683qkb.44.1597729470594;
+        Mon, 17 Aug 2020 22:44:30 -0700 (PDT)
+Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
+        by smtp.gmail.com with ESMTPSA id i20sm19279855qka.17.2020.08.17.22.44.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 22:17:20 -0700 (PDT)
-Date:   Tue, 18 Aug 2020 07:17:17 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Michael Witten <mfwitten@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Mon, 17 Aug 2020 22:44:29 -0700 (PDT)
+Date:   Mon, 17 Aug 2020 22:44:28 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        John Levon <john.levon@joyent.com>,
-        John Levon <levon@movementarian.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] Makefile: Yes. Finally remove
- '-Wdeclaration-after-statement'
-Message-ID: <20200818051717.GA3134537@gmail.com>
-References: <c6fda26e8d134264b04fadc3386d6c32@gmail.com>
- <20200816175303.GB1236603@ZenIV.linux.org.uk>
- <20200817204223.GB12414@amd>
- <87lfid6kpi.fsf@x220.int.ebiederm.org>
- <CAHk-=wj04wKCjHz6b6d7N58xoS4AftnwTUBaXsEekQ5RhfWVnw@mail.gmail.com>
- <20200817220908.GA3701@amd>
- <CAHk-=wh7Rn=8mVi_KWV71ZaQ2HrCz240DbjEJMDdARTwB3CYvA@mail.gmail.com>
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Joe Perches <joe@perches.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
+        Andi Kleen <ak@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        =?iso-8859-1?Q?D=E1vid_Bolvansk=FD?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>
+Subject: Re: [PATCH 2/4] Revert "lib/string.c: implement a basic bcmp"
+Message-ID: <20200818054428.GA2540870@ubuntu-n2-xlarge-x86>
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <20200817220212.338670-3-ndesaulniers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wh7Rn=8mVi_KWV71ZaQ2HrCz240DbjEJMDdARTwB3CYvA@mail.gmail.com>
+In-Reply-To: <20200817220212.338670-3-ndesaulniers@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-* Linus Torvalds <torvalds@linux-foundation.org> wrote:
-
-> On Mon, Aug 17, 2020 at 3:09 PM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > Submitter believes "wild variable placement" can help with
-> > #ifdefs.. and that may be actually good tradeoff.
+On Mon, Aug 17, 2020 at 03:02:10PM -0700, Nick Desaulniers wrote:
+> This reverts commit 5f074f3e192f10c9fade898b9b3b8812e3d83342.
 > 
-> I agree that it can help in some cases.
+> Use `-fno-builtin-bcmp` instead.
 > 
-> But it can also make it really hard to find the variable declarations
-> in other cases. I've seen a lot of code that ends up actively
-> declaring the variable close to where it's used (because people find
-> that to be locally more legible) and then it just means that people
-> who arent' familiar with the code have a much harder time finding it.
+> The issue with using `-fno-builtin-*` flags was that they were not
+> retained during an LTO link with LLVM.  This was fixed in clang-11 by
+> https://reviews.llvm.org/D71193
+> (0508c994f0b14144041f2cfd3ba9f9a80f03de08), which is also the minimum
+> supported version of clang for LTO.
 > 
-> I'd instead try to discourage people from using #ifdef's inside code.
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  Makefile               |  1 +
+>  include/linux/string.h |  3 ---
+>  lib/string.c           | 20 --------------------
+>  3 files changed, 1 insertion(+), 23 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 211a1b6f6478..722ff5864275 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -964,6 +964,7 @@ endif
+>  # to provide implementations of these routines, then prevent the compiler from
+>  # emitting calls to what will be undefined symbols.
+>  KBUILD_CFLAGS	+= -fno-builtin-stpcpy
+> +KBUILD_CFLAGS	+= -fno-builtin-bcmp
 
-I'm a big fan of -Wdeclaration-after-statement and I think C++ style 
-mixed variables/statements code has several disadvantages:
+I personally think that this hunk should be its own patch before this
+one then have this patch just be the revert, that way there is no
+regression across a bisect (if one were to ever occur) and so the revert
+is a straight 'git revert', rather than have something else mixed in
+that requires reading the actual changelog text.
 
-- One advantage of -Wdeclaration-after-statement is that it can detect 
-  mismerges that can happen with the 'patch' tool when it applies a 
-  patch with fuzz.
+No objections if you disagree though.
 
-- Also, enforcing -Wdeclaration-after-statement means we have the nice 
-  symmetry that local variable declarations are always at the 
-  beginning of curly brace blocks, which includes function 
-  definitions. This IMO is a very helpful visual clue that allows the 
-  quick reading of kernel code.
+>  # include additional Makefiles when needed
+>  include-y			:= scripts/Makefile.extrawarn
+> diff --git a/include/linux/string.h b/include/linux/string.h
+> index b1f3894a0a3e..f3bdb74bc230 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+> @@ -155,9 +155,6 @@ extern void * memscan(void *,int,__kernel_size_t);
+>  #ifndef __HAVE_ARCH_MEMCMP
+>  extern int memcmp(const void *,const void *,__kernel_size_t);
+>  #endif
+> -#ifndef __HAVE_ARCH_BCMP
+> -extern int bcmp(const void *,const void *,__kernel_size_t);
+> -#endif
+>  #ifndef __HAVE_ARCH_MEMCHR
+>  extern void * memchr(const void *,int,__kernel_size_t);
+>  #endif
+> diff --git a/lib/string.c b/lib/string.c
+> index 6012c385fb31..69328b8353e1 100644
+> --- a/lib/string.c
+> +++ b/lib/string.c
+> @@ -922,26 +922,6 @@ __visible int memcmp(const void *cs, const void *ct, size_t count)
+>  EXPORT_SYMBOL(memcmp);
+>  #endif
+>  
+> -#ifndef __HAVE_ARCH_BCMP
+> -/**
+> - * bcmp - returns 0 if and only if the buffers have identical contents.
+> - * @a: pointer to first buffer.
+> - * @b: pointer to second buffer.
+> - * @len: size of buffers.
+> - *
+> - * The sign or magnitude of a non-zero return value has no particular
+> - * meaning, and architectures may implement their own more efficient bcmp(). So
+> - * while this particular implementation is a simple (tail) call to memcmp, do
+> - * not rely on anything but whether the return value is zero or non-zero.
+> - */
+> -#undef bcmp
+> -int bcmp(const void *a, const void *b, size_t len)
+> -{
+> -	return memcmp(a, b, len);
+> -}
+> -EXPORT_SYMBOL(bcmp);
+> -#endif
+> -
+>  #ifndef __HAVE_ARCH_MEMSCAN
+>  /**
+>   * memscan - Find a character in an area of memory.
+> -- 
+> 2.28.0.220.ged08abb693-goog
+> 
 
-- A third advantage is that the grouping of local variables at the 
-  beginning of curly brace blocks encourages smaller, better 
-  structured functions: a large function would look automatically ugly 
-  due to the many local variables crammed at the beginning of it.
-
-So the gentle code structure message is: you can declare new local 
-variables in a loop construct or branch, at the cost of losing one 
-level of indentation. If it gets too deep, you are encouraged to split 
-your logic up better with helper functions. The kind of run-on 
-mega-functions that C++ style mixed variables often allow looks 
-*automatically* uglier under -Wdeclaration-after-statement and quickly 
-breaks simple kernel style rules such as col80 or indentation level 
-depth or the too high visual complexity of variable definition lines.
-
-Basically the removal of -Wdeclaration-after-statement removes a 
-helpful symmetry & allows the addition of random noise to our code 
-base, with very little benefits offered. I'd be sad to see it go.
-
-Thanks,
-
-	Ingo
+Cheers,
+Nathan
