@@ -2,34 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93331248E68
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 21:03:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D79AF248E75
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 21:13:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbgHRTDx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 15:03:53 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:36623 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726435AbgHRTDx (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 15:03:53 -0400
-Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3280:61e8:d401:1991:f3df])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 07IJ2bvX2888434
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Tue, 18 Aug 2020 12:02:38 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 07IJ2bvX2888434
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2020072401; t=1597777361;
-        bh=cfOAXIuv0d1n/p0ol2GZ1qiMxIvr2XSR2TAgYuI9r3w=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=z6FSMv10XGVilhbjjXXiM0AVWKbJ7Fhzt0md6cIgU1Ohsv04ugdthB2lXdOawFp4G
-         /yIHdNmPHZoJCDgNTXPnJTtAPUBICrzszid60D+pV/4UicZbTfZbrRU0+BZ8RM9wQ7
-         35+zOHMSIK0jpi7uLcUHBcJWVVBeZ5kJHzSii4DCkNNkgF64tjR5yM5SQnJO97g4e0
-         TLtVUzXQFjyCrQUlr1DheafRH0JBDtqIMF2aHk+22UqWXF1TCLjag5KLD7muJd8VV/
-         HrTaRZAfyaXM5tK2841JwFpFsQImabhN3BWsuyiGhtf+WNri0flORDI4/EZYE6HGwH
-         89XyyKW8H1m/w==
+        id S1726694AbgHRTNp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 15:13:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726435AbgHRTNo (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 18 Aug 2020 15:13:44 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35F20C061342
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:13:43 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id j22so10808563lfm.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:13:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kRmD2QbAj0vfmoNVvNMP8rPvVPoSWyCAf8x4746i4Lw=;
+        b=ZiA1XO+PyilZibQ5JpzVQt282FyQ/PBbpJhA+sKTp1s1vswJWQf1scFga1vTAE+ARg
+         4xqurqK3liy7M7SNb2CHhwbyLKyZXfPwxp4DydMZ8KOiGYBOiuCjfb3aUjYuibGo3rSq
+         HTV4diqJba5aOLalPMWyrvr+6H/PSP3/9c4Iw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kRmD2QbAj0vfmoNVvNMP8rPvVPoSWyCAf8x4746i4Lw=;
+        b=M0fksJ0LZvKnXlfW8RSH6CHeQgZjdBvkC3v6fL36AQcjZAprb+KMEYaGjJijM/DhCK
+         WtdyGUBZYytfP4bSRt2BKr7EccBlvAxPuN5GqlDn8HJuRA/yHX0k2a0u/laM8wY/CjB5
+         zdqtuiTpjCEp06ct4SAlVkmP1cAWuzMd6jCavg/Lw/G9SEFbNbj+nvq1erqKDDDJVZbX
+         nPuu7xWIlY8tHidEZQ3CPZoQPiR5O4l4/ANsKo8S1Nuqd8vO81ojN8crQIw/+cR3c/4S
+         fjO+jG/h9JC39TWsNXrW0cBswMRPKrOEyPb/zsEUzfoQtXFIyBT3EMAM/UAjX3Z+bZ10
+         2oXw==
+X-Gm-Message-State: AOAM53024o8hcWIf755UuF2cW6BBmKWDmQuwsAW4MgcgEMzz4AGvlTcB
+        S3vfWModhLAyqjNG+8IAetsuDumj8Xf4cw==
+X-Google-Smtp-Source: ABdhPJw4D2Ev4tEDAlAig1RAp9EVdNE8ZiiPSPA8KwnUxf0wI6uMieSOoCBGI94fTwy3MjkQ8La2ew==
+X-Received: by 2002:a05:6512:63:: with SMTP id i3mr10657766lfo.116.1597778020392;
+        Tue, 18 Aug 2020 12:13:40 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id m142sm6745653lfa.47.2020.08.18.12.13.38
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Aug 2020 12:13:39 -0700 (PDT)
+Received: by mail-lj1-f170.google.com with SMTP id i10so22689665ljn.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 12:13:38 -0700 (PDT)
+X-Received: by 2002:a05:651c:503:: with SMTP id o3mr11115885ljp.312.1597778018119;
+ Tue, 18 Aug 2020 12:13:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
+ <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
+In-Reply-To: <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Tue, 18 Aug 2020 12:13:22 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
+Message-ID: <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
 Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -55,78 +88,44 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Marco Elver <elver@google.com>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
         Andi Kleen <ak@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
         Eli Friedman <efriedma@quicinc.com>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
- <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
-Date:   Tue, 18 Aug 2020 12:02:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
-MIME-Version: 1.0
-In-Reply-To: <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2020-08-18 10:56, Nick Desaulniers wrote:
->>
->> The problem here is twofold:
->>
->> 1. The user would be expected to know what kind of the optimizations the
->> compiler can do on what function, which is private knowledge to the
->> compiler.
->>
->> 2. The only way to override -fno-builtin is by a header file with macros
->> overriding the function names with __builtin, but that doesn't tell the
->> compiler proper anything about the execution environment.
->>
->> So the Right Thing is for the compiler authors to change the way
->> -ffreestanding works.
-> 
-> Sir, this is an Arby's
-> 
-> There are things all across the compilation landscape that make we
-> want to pontificate or even throw a tantrum in an Arby's.  Would I?
-> Well, no, I'm just trying to flip burgers or shovel the elephant
-> sh...or w/e they do at Arby's (I've never actually been; I detest
-> roast beef).
-> 
-> Would it be interesting to have a way of opting in, as you describe,
-> such that your compiler knew exactly what kind of embedded environment
-> it was targeting?  Maybe, but I'd argue that opting out is just the
-> other side of the same coin. Heads, I win; tails, you lose. That the
-> opt in or opt out list is shorter for a given project is not
-> particularly interesting.  Should we change the semantics of a fairly
-> commonly used compiler flag that multiple toolchains are in agreement
-> of, then fix all of the breakage in all of the code that relied on
-> those semantics?  I'm afraid that ship may have already
-> sailed...probably 20 or 30 years ago.
-> 
->> -ffreestanding means, by definition, that there
->> are no library calls (other than libgcc or whatever else is supplied
->> with the compiler) that the compiler can call. That is currently an
->> all-or-nothing choice, or at least one choice per C standard implemented.
-> 
-> Yes?
-> 
+On Tue, Aug 18, 2020 at 12:03 PM H. Peter Anvin <hpa@zytor.com> wrote:
+>
+> I'm not saying "change the semantics", nor am I saying that playing
+> whack-a-mole *for a limited time* is unreasonable. But I would like to go back
+> to the compiler authors and get them to implement such a #pragma: "this
+> freestanding implementation *does* support *this specific library function*,
+> and you are free to call it."
 
-I'm not saying "change the semantics", nor am I saying that playing
-whack-a-mole *for a limited time* is unreasonable. But I would like to go back
-to the compiler authors and get them to implement such a #pragma: "this
-freestanding implementation *does* support *this specific library function*,
-and you are free to call it." The only way we can get what we really need from
-the compilers is by speaking up and requesting it, and we have done so very
-successfully recently; further back we tended to get a lot of
-language-lawyering, but these days both the gcc and the clang teams have been
-wonderfully responsive.
+I'd much rather just see the library functions as builtins that always
+do the right thing (with the fallback being "just call the standard
+function").
 
-	-hpa
+IOW, there's nothing wrong with -ffreestanding if you then also have
+__builtin_memcpy() etc, and they do the sane compiler optimizations
+for memcpy().
 
+What we want to avoid is the compiler making *assumptions* based on
+standard names, because we may implement some of those things
+differently.
+
+And honestly, a compiler that uses 'bcmp' is just broken. WTH? It's
+the year 2020, we don't use bcmp. It's that simple. Fix your damn
+broken compiler and use memcmp. The argument that memcmp is more
+expensive than bcmp is garbage legacy thinking from four decades ago.
+
+It's likely the other way around, where people have actually spent
+time on memcmp, but not on bcmp.
+
+If somebody really *wants* to use bcmp, give them the "Get off my
+lawn" flag, and leave them alone. But never ever should "use bcmp" be
+any kind of default behavior. That's some batshit crazy stuff.
+
+               Linus
