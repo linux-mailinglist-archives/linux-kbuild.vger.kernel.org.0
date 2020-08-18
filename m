@@ -2,62 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC343248FC1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 22:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1CA224904B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 23:41:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726868AbgHRU7F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 16:59:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56906 "EHLO
+        id S1726482AbgHRVlw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 17:41:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbgHRU7E (ORCPT
+        with ESMTP id S1726366AbgHRVlu (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 16:59:04 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9696DC061342
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 13:59:03 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id 189so9673700pgg.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 13:59:03 -0700 (PDT)
+        Tue, 18 Aug 2020 17:41:50 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A1F7C061389;
+        Tue, 18 Aug 2020 14:41:50 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id o2so10307887qvk.6;
+        Tue, 18 Aug 2020 14:41:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vr+5B+GKrgPurReyWi008Qfh1JfHLe7PchQovbrkqeA=;
-        b=X5TDa7NmLSLO6xcFo2isrF5p8YaF8NNZhKzH/moB3vJcgBV/l8ZxwiIdax8/Z4mAvn
-         5q6c62wCy/yTBc+pPwJAcV+9K+xZLodI1IQ2GXIHhpHugIhFLwLFFyB4YbDdg2IuEHcz
-         xifD+weo3yENDACy1YGbMkOpdIK8zBS9QLWbCdKtT+dzWVCXFhWxGDe9NaRk+cwu9cXh
-         1ow3dMfewwuAU6IFOhohi5xBxPIVXIgbaCx2JtiWM9g1i0m8E2viCSWkOUsYTGKvnq+C
-         ui7OR2V9Mk8Ok3a757Uws7hqQKdWz5l+GMHUg3iPaHb8Ky9xjA3+5Yt0V2qr0/SjzJqs
-         6hQw==
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BV9nHKz7rPkGsIi+O/4jfrEZv5isGZdcPFjOb+WDLfE=;
+        b=FOJz8GdjccX2cbuIKuz3pWT2p0F7/c+kmfoN5iv5WhhsrWwDZYzIjgnJz95owS6WI3
+         UBG8sBpdx3nD+nnfuhMyblLHdjf6LGvd4UVn8Q00VFxenPEsBtLh0Ukr+Q4h7/EoJPw0
+         d8qeXzJqxja8gZznvZhwvj1FgcbpiHi/uBrljyr8ia2qp0uiWQkFPcKsf9SEUsLWIZR6
+         a+mKks42+TALVES2XNxnCqw3BNWp1pXPTmTJrjCtJvFCHqUAbN7FbKrvxlRhYKLE7kpM
+         R7q+oA+uJ9dLf8bWgVEZ9+8dkF2+web4Qn/ym1VY+fSXhqJA3LcpeAhHgeUDJk1O5YvM
+         QmcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vr+5B+GKrgPurReyWi008Qfh1JfHLe7PchQovbrkqeA=;
-        b=YSsg2BlHVHlzMqoUGLaNDc5o0pkIvwEUJ2ZVV6FZ3gk1cnmolclwhMEliDpLSNU9uK
-         qT7h3gbuBy6/bQR2WCrbjZEStyfWbYnXIQZ+eo8ltcU25IuSjZdG9rlpI19K/3lbo7JG
-         7jknIgSrjwBdtIMMJCf2f6lyIJ8YL46IymHyXYFEdkwZuKrjcbMJjWB24Zpwr8XLjhEo
-         /VG/Gz6i6RBVJxk/J6hphU3R0KeX85mNZ9nN1PO0+zf5yb+DI3QcJBATAon2PQYocPxw
-         zD8DOyUwrQnQo+UbE8RT7YVbmJmAIifsAW4u9GIeDstGuVeS6Q5Sxd9BL3cMI6vrzxS1
-         e2RQ==
-X-Gm-Message-State: AOAM533uKbzGR+5foifefev+KIWB8/sibKIKnekN2NzKF4lvPvX67oJv
-        g+QVAvvgFg3v2YJf423O03eNCwSDG5pncIZuaB7cXA==
-X-Google-Smtp-Source: ABdhPJykgNetkMhL19KFqwOXrJJLm1zb6+sWU0n3MZpGu8S4AdycyvfOq5gnOWFXOHjo6tnwK3BvBN6z54zlzNk3V1Q=
-X-Received: by 2002:a63:a119:: with SMTP id b25mr14306933pgf.10.1597784342724;
- Tue, 18 Aug 2020 13:59:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
- <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com> <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
- <20200818202407.GA3143683@rani.riverdale.lan> <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
-In-Reply-To: <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 18 Aug 2020 13:58:51 -0700
-Message-ID: <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Arvind Sankar <nivedita@alum.mit.edu>,
-        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=BV9nHKz7rPkGsIi+O/4jfrEZv5isGZdcPFjOb+WDLfE=;
+        b=OSQxc/N2T0amw2Uz8tGa/mJBLVzSnPT+8WwPA1mr6IVfuN42scswUCm+qijP0hSr64
+         sFiXpWn/9PRWC3cjiuacBKTg+RMwUBLq93HrTB+tIBe1DNqkYkdABWCXAz/UHePHtfFd
+         eb0PfstXEY281FBxOFBmePUS5840o1bDAlVMZ500l9eN2FTXSMISYhAVz2yK/+cT2cZU
+         kG84TjJrbQ6IKaV81u2905fAWTE7B6mZ4IlO+8PJgGyV5Zw2rHDrJBUf8ifyUX+cpd9h
+         OeLqdw7wgQ3WKxJyNidrQXOVhv1+jZe8r+xIyN6NtBiXEdLreJY3+9FJ4Ff7Why3PVp6
+         JGPg==
+X-Gm-Message-State: AOAM531thbjeNYlaNqIFEAmVCVHowr0k/mVIzF2A0g5NyMra20fzVpfy
+        DtNJx4Hsv8dzWJZn95O8Fw4=
+X-Google-Smtp-Source: ABdhPJx5kcAVLuRFF9ITUCoLkZdpuIlDMsxtqawjNkk6t/OVjcVpSXec18EcaffoQOJd+IPXDxS1KA==
+X-Received: by 2002:a05:6214:290:: with SMTP id l16mr21439284qvv.187.1597786909673;
+        Tue, 18 Aug 2020 14:41:49 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id i30sm26355390qte.30.2020.08.18.14.41.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 14:41:49 -0700 (PDT)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Tue, 18 Aug 2020 17:41:46 -0400
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -83,82 +81,80 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Bruce Ashfield <bruce.ashfield@gmail.com>,
         Marco Elver <elver@google.com>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+Message-ID: <20200818214146.GA3196105@rani.riverdale.lan>
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
+ <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
+ <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
+ <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
+ <20200818202407.GA3143683@rani.riverdale.lan>
+ <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
+ <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 1:27 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Tue, Aug 18, 2020 at 1:24 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
+On Tue, Aug 18, 2020 at 01:58:51PM -0700, Nick Desaulniers wrote:
+> On Tue, Aug 18, 2020 at 1:27 PM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
 > >
-> > On Tue, Aug 18, 2020 at 12:13:22PM -0700, Linus Torvalds wrote:
-> > > On Tue, Aug 18, 2020 at 12:03 PM H. Peter Anvin <hpa@zytor.com> wrote:
+> > On Tue, Aug 18, 2020 at 1:24 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
+> > >
+> > > On Tue, Aug 18, 2020 at 12:13:22PM -0700, Linus Torvalds wrote:
+> > > > On Tue, Aug 18, 2020 at 12:03 PM H. Peter Anvin <hpa@zytor.com> wrote:
+> > > > >
+> > > > > I'm not saying "change the semantics", nor am I saying that playing
+> > > > > whack-a-mole *for a limited time* is unreasonable. But I would like to go back
+> > > > > to the compiler authors and get them to implement such a #pragma: "this
+> > > > > freestanding implementation *does* support *this specific library function*,
+> > > > > and you are free to call it."
 > > > >
-> > > > I'm not saying "change the semantics", nor am I saying that playing
-> > > > whack-a-mole *for a limited time* is unreasonable. But I would like to go back
-> > > > to the compiler authors and get them to implement such a #pragma: "this
-> > > > freestanding implementation *does* support *this specific library function*,
-> > > > and you are free to call it."
+> > > > I'd much rather just see the library functions as builtins that always
+> > > > do the right thing (with the fallback being "just call the standard
+> > > > function").
+> > > >
+> > > > IOW, there's nothing wrong with -ffreestanding if you then also have
+> > > > __builtin_memcpy() etc, and they do the sane compiler optimizations
+> > > > for memcpy().
+> > > >
+> > > > What we want to avoid is the compiler making *assumptions* based on
+> > > > standard names, because we may implement some of those things
+> > > > differently.
+> > > >
 > > >
-> > > I'd much rather just see the library functions as builtins that always
-> > > do the right thing (with the fallback being "just call the standard
-> > > function").
-> > >
-> > > IOW, there's nothing wrong with -ffreestanding if you then also have
-> > > __builtin_memcpy() etc, and they do the sane compiler optimizations
-> > > for memcpy().
-> > >
-> > > What we want to avoid is the compiler making *assumptions* based on
-> > > standard names, because we may implement some of those things
-> > > differently.
-> > >
-> >
-> > -ffreestanding as it stands today does have __builtin_memcpy and
-> > friends. But you need to then use #define memcpy __builtin_memcpy etc,
-> > which is messy and also doesn't fully express what you want. #pragma, or
-> > even just allowing -fbuiltin-foo options would be useful.
+> > > -ffreestanding as it stands today does have __builtin_memcpy and
+> > > friends. But you need to then use #define memcpy __builtin_memcpy etc,
+> > > which is messy and also doesn't fully express what you want. #pragma, or
+> > > even just allowing -fbuiltin-foo options would be useful.
+> 
+> I do really like the idea of -fbuiltin-foo.  For example, you'd specify:
+> 
+> -ffreestanding -fbuiltin-bcmp
+> 
+> as an example. `-ffreestanding` would opt you out of ALL libcall
+> optimizations, `-fbuiltin-bcmp` would then opt you back in to
+> transforms that produce bcmp.  That way you're informing the compiler
+> more precisely about the environment you'd be targeting.  It feels
+> symmetric to existing `-fno-` flags (clang makes -f vs -fno- pretty
+> easy when there is such symmetry).  And it's already convention that
+> if you specify multiple conflicting compiler flags, then the latter
+> one specified "wins."  In that sense, turning back on specific
+> libcalls after disabling the rest looks more ergonomic to me.
+> 
+> Maybe Eli or David have thoughts on why that may or may not be as
+> ergonomic or possible to implement as I imagine?
+> 
 
-I do really like the idea of -fbuiltin-foo.  For example, you'd specify:
-
--ffreestanding -fbuiltin-bcmp
-
-as an example. `-ffreestanding` would opt you out of ALL libcall
-optimizations, `-fbuiltin-bcmp` would then opt you back in to
-transforms that produce bcmp.  That way you're informing the compiler
-more precisely about the environment you'd be targeting.  It feels
-symmetric to existing `-fno-` flags (clang makes -f vs -fno- pretty
-easy when there is such symmetry).  And it's already convention that
-if you specify multiple conflicting compiler flags, then the latter
-one specified "wins."  In that sense, turning back on specific
-libcalls after disabling the rest looks more ergonomic to me.
-
-Maybe Eli or David have thoughts on why that may or may not be as
-ergonomic or possible to implement as I imagine?
-
-> >
-> > The two compilers have some peculiarities, which means you really can't
-> > have functions with the same name that do something else if you want to
-> > use builtins at all, and can also lead to missed optimizations.
-> >
-> > For eg, __builtin_strchr(s,'\0') can be optimized to strlen. gcc will
-> > optimize it that way even if -ffreestanding is used (so strlen has to
-> > mean strlen), while clang won't, so it misses a potential optimization.
-> > This is admittedly a silly example, but you could imagine something like
-> > strncpy being optimized to memcpy+memset if the source length was
-> > previously computed.
-> >
-> > PS: clang optimizes sprintf, but doesn't provide __builtin_sprintf?
->
-> https://bugs.llvm.org/show_bug.cgi?id=47224
-> --
-> Thanks,
-> ~Nick Desaulniers
-
-
-
--- 
-Thanks,
-~Nick Desaulniers
+Note that -fno-builtin-foo seems to mean slightly different things in
+clang and gcc. From experimentation, clang will neither optimize a call
+to foo, nor perform an optimization that introduces a call to foo. gcc
+will avoid optimizing calls to foo, but it can still generate new calls
+to foo while optimizing something else. Which means that
+-fno-builtin-{bcmp,stpcpy} only solves things for clang, not gcc. It's
+just that gcc doesn't seem to have implemented those optimizations.
