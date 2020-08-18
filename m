@@ -2,159 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B572482D4
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 12:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F3D3248B62
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 18:20:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726451AbgHRKUw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 06:20:52 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:34016 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726353AbgHRKUw (ORCPT
+        id S1726910AbgHRQU2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 12:20:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726758AbgHRQU0 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 06:20:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597746050;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=pT1phLHGEAuANaEb5B3e0Ka/xZccNpYnDnuH62QNT9k=;
-        b=XhBoK+z1+P573WUY38S/318z75JhO8xrCM3cm7zaBfGz+6YgCMBmXU46ZM1VbrHlpQV1wN
-        va49hTpSxe18fRZ2AMK4jvexARBk1lzQMsGZKFBksWeARU3b5UoZzLpebFAyvaRUpQPtJD
-        IMLMeqI7sdSk1N9eUKSfB0bu/PXDbww=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-V_4vSy4fMn6KdLHUfNulAA-1; Tue, 18 Aug 2020 06:20:48 -0400
-X-MC-Unique: V_4vSy4fMn6KdLHUfNulAA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6193D100CF6A;
-        Tue, 18 Aug 2020 10:20:47 +0000 (UTC)
-Received: from carbon (unknown [10.40.208.64])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4C8915C1DC;
-        Tue, 18 Aug 2020 10:20:42 +0000 (UTC)
-Date:   Tue, 18 Aug 2020 12:20:41 +0200
-From:   Jesper Dangaard Brouer <brouer@redhat.com>
-To:     Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Jiri Olsa <jolsa@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     brouer@redhat.com, linux-kbuild@vger.kernel.org,
-        BPF-dev-list <bpf@vger.kernel.org>
-Subject: Tools build error due to "Auto-detecting system features" missing
- cleanup
-Message-ID: <20200818122007.2d1cfe2d@carbon>
+        Tue, 18 Aug 2020 12:20:26 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9753FC061389;
+        Tue, 18 Aug 2020 09:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=4H0TL3UakH2JUbmlW0JzdQvhUAQHmi+ChGY1XsWrTIc=; b=g2SmK++anMxFszA+Wfz8OLiHIW
+        BnTZzqB/iU5WxQ0LtRKgQEXw1AT+3+z1BQ+Olf3CkyFupEPAurf8x+lP9ds1MOgjlTBVxz5HzjHkQ
+        5VB5ea5FYptKnQl28zwpRn+oIfbYt0EOiePQibnV3JvmqkSQObUuJi4almAAyfPfVK82PSLeGKZh2
+        xA9k8mNDARVSxz61nzCXG96+LAYHwdIOYDIQQV539xKDgxlWESMMtBVYcd7p25rTealbx8HVvDMw7
+        ToZG3P7rfM1/O+B0WKyfuCmNSXRtNfphrLihadmFud3p2S5EhvbCZyIQQK/GI2n/fBqt75pCBiNSs
+        /HsOQA0w==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1k84LW-0007XQ-Fj; Tue, 18 Aug 2020 16:20:23 +0000
+Subject: Re: Kernel build system broken in 5.8?
+To:     Martin Burnicki <martin.burnicki@meinberg.de>,
+        linux-kernel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+References: <1c4d1da4-36a9-c83b-1a8a-95334aa62ce3@meinberg.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <124fa2c7-ce60-2739-7208-e5e325d66a40@infradead.org>
+Date:   Tue, 18 Aug 2020 09:20:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <1c4d1da4-36a9-c83b-1a8a-95334aa62ce3@meinberg.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+[adding kbuild list and maintainer]
 
-Started as a build error for bpftool. On latest DaveM net-git tree
-(06a4ec1d9dc652), I got this build error, when building the bpftool:
+On 8/18/20 9:09 AM, Martin Burnicki wrote:
+> Hi,
+> 
+> I'm the maintainer of a driver package for some PCI cards (GPS receiver
+> cards, etc.). A read-only git repo of the driver package can be found here:
+> https://git.meinbergglobal.com/mbgtools-lx.git
+> 
+> The kernel driver from that package is compiled as out-of-tree module,
+> and runs fine on kernels 2.6, 3.x, 4.x, and 5.x up to 5.7, actually
+> 5.7.15 on Ubuntu.
+> 
+> However, if I try this on kernel 5.8.1, I get strange errors related to
+> autoconf.h, which make it impossible to compile or install the kernel
+> module.
+> 
+> I usually build the kernel module as standard user, and only install the
+> new module as root, e.g.:
+> 
+>   git checkout devel   # The 'devel' branch is appropriate for testing
+>   cd mbgclock          # the subdirectory of the kernel module
+>   git clean -fd; make  # or make V=1 for verbose output
+>   sudo make install
+> 
+> Also, I was under the impression that the kernel source tree should be
+> read-only, and kept clean, but this doesn't seem to be the case anymore.
+> 
+> 
+> For example:
+> 
+> On Ubuntu 19.10 with kernel 5.8.1-050801-generic from
+> https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.8.1/
+> 
+> 'make' completes without error, even if run as normal user without write
+> permissions in the kernel source tree.
+> 
+> 'sudo insmod ./mbgclock.ko' loads the module successfully, and the PCI
+> card can be accessed as usually, e.g. using the 'mbgstatus' program, so
+> the compiled kernel module  is OK.
+> 
+> BUT: Once I run 'sudo make install', which calls the kernel build system
+> to make 'modules_install', I immediately get an error:
+> 
+> -------------------------------------------------------------------------
+> Calling kernel build system to make "modules_install"
+> make[1]: Entering directory '/usr/src/linux-headers-5.8.1-050801-generic'
+> 
+>   ERROR: Kernel configuration is invalid.
+>          include/generated/autoconf.h or include/config/auto.conf are
+> missing.
+>          Run 'make oldconfig && make prepare' on kernel src to fix it.
+> 
+> make[1]: *** [Makefile:719: include/config/auto.conf] Error 1
+> make[1]: Leaving directory '/usr/src/linux-headers-5.8.1-050801-generic'
+> make: *** [/home/martin/projects/mbgtools-lx/mbgclock/../Makefile:834:
+> install_module] Error 2
+> -------------------------------------------------------------------------
+> 
+> And once this has happened, this problem persists, i.e., if I run the
+> same commands
+> 
+>   git clean -fd; make
+> 
+> once more, as normal user as mentioned above, I get the error above
+> every time.
+> 
+> Also, If I initially try to build the kernel kernel module as root, with
+> 'sudo':
+> 
+>   git clean -fd; sudo make
+> 
+> I immediately get this error, and the module is not built. Only after I
+> have re-installed the kernel headers package, I can compile the module
+> again.
+> 
+> 
+> A diff between the kernel header files before and after the kernel build
+> system has been messed up shows that the following files have changed:
+> 
+> include/generated/autoconf.h
+> scripts/basic/.fixdep.cmd
+> scripts/basic/fixdep
+> scripts/kconfig/.conf.o.cmd
+> scripts/kconfig/.confdata.o.cmd
+> scripts/kconfig/.expr.o.cmd
+> scripts/kconfig/.lexer.lex.c.cmd
+> scripts/kconfig/conf.o
+> scripts/kconfig/confdata.o
+> scripts/kconfig/expr.o
+> scripts/kconfig/lexer.lex.c
+> scripts/kconfig/parser.tab.c
+> 
+> Specifically, autoconf.h has been deleted even though some script
+> obviously still requires that the file is available.
+> 
+> 
+> With openSUSE Leap 15.2 and kernel 5.8.1 from
+> https://download.opensuse.org/repositories/Kernel:/stable/standard/
+> 
+> I've encountered similar problems because include/generated/autoconf.h
+> is not even available after installation of the kernel headers package.
+> 
+> Only on Arch Linux with kernel 5.8.1-arch1-1 I can build and install the
+> module as root or standard user, as it was possible with earlier kernel
+> versions.
+> 
+> Can someone please shed some light on what's going on here?
+> 
+> 
+> Thanks,
+> 
+> Martin
+> 
 
- cd tools/bpf/bpftool
- $ make
-=20
- Auto-detecting system features:
- ...                        libbfd: [ on  ]
- ...        disassembler-four-args: [ on  ]
- ...                          zlib: [ on  ]
- ...                        libcap: [ on  ]
- ...               clang-bpf-co-re: [ on  ]
-=20
-   CC       map_perf_ring.o
- In file included from main.h:15,
-                  from map_perf_ring.c:27:
- /home/jbrouer/git/kernel/net/tools/include/tools/libc_compat.h:11:21: erro=
-r: static declaration of =E2=80=98reallocarray=E2=80=99 follows non-static =
-declaration
-    11 | static inline void *reallocarray(void *ptr, size_t nmemb, size_t s=
-ize)
-       |                     ^~~~~~~~~~~~
- In file included from map_perf_ring.c:14:
- /usr/include/stdlib.h:559:14: note: previous declaration of =E2=80=98reall=
-ocarray=E2=80=99 was here
-   559 | extern void *reallocarray (void *__ptr, size_t __nmemb, size_t __s=
-ize)
-       |              ^~~~~~~~~~~~
- make: *** [Makefile:177: map_perf_ring.o] Error 1
 
-This were related to tools/build/feature ("Auto-detecting system features")
-that had a stalled version of the test-reallocarray.d file:
-
-In /home/jbrouer/git/kernel/net/tools/build/feature:
-
- $ ll *realloc*
- -rw-rw-r--. 1 jbrouer jbrouer  152 Oct 30  2019 test-reallocarray.c
- -rw-rw-r--. 1 jbrouer jbrouer 1156 Oct 30  2019 test-reallocarray.d
- -rw-rw-r--. 1 jbrouer jbrouer  321 Oct 30  2019 test-reallocarray.make.out=
-put
-
-The 'make clean' target doesn't cleanup enough for the feature-test to be
-compiled again. (Tested both make clean in tools/build/ and tools/bpf/bpfto=
-ol).
-
-If I delete test-reallocarray.d, then the feature-test is recompiled and I =
-don't
-get the error (as reallocarray is avail on this system). Files avail now:
-
-In /home/jbrouer/git/kernel/net/tools/build/feature:
-
- $ ll *realloc*
- -rwxrwxr-x. 1 jbrouer jbrouer 21992 Aug 18 11:29 test-reallocarray.bin
- -rw-rw-r--. 1 jbrouer jbrouer   152 Oct 30  2019 test-reallocarray.c
- -rw-rw-r--. 1 jbrouer jbrouer  1398 Aug 18 11:29 test-reallocarray.d
- -rw-rw-r--. 1 jbrouer jbrouer     0 Aug 18 11:29 test-reallocarray.make.ou=
-tput
-
-Thus, given test-reallocarray.bin exist the compile test was success. This
-indicate that my Fedora system in Oct 2019 didn't support reallocarray and
-needed the workaround in tools/include/tools/libc_compat.h. I likely did so=
-me
-upgrade or install some RPM in the meanwhile that changed the situation.
-Regardless of how this got stalled, this needs to be fixed.
-
-I propose that the make clean target should cause the feature tests to be
-recompiled. Below change to tools/build/Makefile solves the issue locally in
-tools/build/, but this isn't triggered when calling make clean in other too=
-ls
-directories that use the feature tests.
-
-What is the correct make clean fix?
-- -=20
-Best regards,
-  Jesper Dangaard Brouer
-  MSc.CS, Principal Kernel Engineer at Red Hat
-  LinkedIn: http://www.linkedin.com/in/brouer
-
-diff --git a/tools/build/Makefile b/tools/build/Makefile
-index 727050c40f09..a59e60ecf5ad 100644
---- a/tools/build/Makefile
-+++ b/tools/build/Makefile
-@@ -37,6 +37,7 @@ all: $(OUTPUT)fixdep
- clean:
-        $(call QUIET_CLEAN, fixdep)
-        $(Q)find $(if $(OUTPUT),$(OUTPUT),.) -name '*.o' -delete -o -name '=
-\.*.cmd' -delete -o -name '\.*.d' -delete
-+       $(Q)find $(if $(OUTPUT),$(OUTPUT),.)/feature -name '*.d' -delete -o=
- -name '*.make.output' -delete
-        $(Q)rm -f $(OUTPUT)fixdep
-=20
- $(OUTPUT)fixdep-in.o: FORCE
-
-
-
-
-My distro:
-
-$ lsb_release  -a
-LSB Version:	:core-4.1-amd64:core-4.1-noarch
-Distributor ID:	Fedora
-Description:	Fedora release 31 (Thirty One)
-Release:	31
-Codename:	ThirtyOne
-
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
