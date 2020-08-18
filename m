@@ -2,57 +2,33 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFE33248D9A
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 20:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93331248E68
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 21:03:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726634AbgHRSAU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 14:00:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726552AbgHRSAS (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 14:00:18 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D79BC061342
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 11:00:14 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id t10so9565150plz.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 11:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nyB4pRDJBveesx+DUtW+5ZFcTskYb5n8BU0PlbnfnQk=;
-        b=TT3Hlsrs/mu4UmXylL6i2vWT4k+JLUcPQy0IRWK10ixwQ9fyS+vI5f6d+uD2IXXZut
-         99X3OASTGInBitChHeiKlVI5wOVCENDYDya36/FbtT554wJijmw4ooB+ZKooD3AjcKgb
-         w6MKTqNMRCGTA3dEtt2eCr/WXTblLpK6Rb2TkfyM/DzcCUvZGTwzSr4PGl2GjXFrhoGH
-         PDfpG64lJbCoStDn2RPM99hNimcioeWRNNRchqnwjTxrLhGbdfKJfyhVb6Ts5/Mpf008
-         gQ9Ee5zCntT/sLejF/FVfDbLbexG4avEfhBvuNi13cZq4EZM/tI59HJpPZ1of8yIo5zo
-         6mOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nyB4pRDJBveesx+DUtW+5ZFcTskYb5n8BU0PlbnfnQk=;
-        b=QfA2Z8TzwaFc93wrQKxKYPpBhUlKAPRPmcFWlrwaJlZ79rR93W23kBojb4v2V5HEkv
-         l+ObUAFEauRjpHeEQ0mVBHEQkVfiuwSUNttu9ADNSvnvwUk33hGVOQpKbyq0dcvNdBYi
-         2dm1V/hbDp/gZU3KNCHCeVuR9n3kd6jRWIsLaDj9lOokO6QmpuCpM2sjcoXdJCEm2mDC
-         sDbpH1/IkIGSA+S4memy0e5osH9U7wlcfHaDoyn31TamwjNncX8Orzd+WYuRhrgKMMq7
-         B5nnUGnR4hlusf5vsDB2lue3oG4iLPlzQh6g4xVDodcchSgIzGAcddZgty/33vW9hBvh
-         NuKQ==
-X-Gm-Message-State: AOAM533fEUXTzPkahb4U2ieGG6UWPXhZtfR3q92ByKfLNmJEMY4x90Ut
-        AMGRrnDpru568Hru56bmhbEqypKIWVt08/AyMpMsdA==
-X-Google-Smtp-Source: ABdhPJxvC+Goaa7jQZI2Ls91WkQiWwleNdpeUsQ3EPcOTKvrXorm4E3fZCHGEvi7vIDZCxyOO7u0zSwMWNL8i9JW9RE=
-X-Received: by 2002:a17:90a:3ad1:: with SMTP id b75mr846390pjc.25.1597773612681;
- Tue, 18 Aug 2020 11:00:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <20200817220212.338670-3-ndesaulniers@google.com> <20200818054428.GA2540870@ubuntu-n2-xlarge-x86>
-In-Reply-To: <20200818054428.GA2540870@ubuntu-n2-xlarge-x86>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 18 Aug 2020 11:00:01 -0700
-Message-ID: <CAKwvOdm8iKUbfFP3a-2GjB1XQXp36Y9+B4kp2KX5iKbH-f0vDA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] Revert "lib/string.c: implement a basic bcmp"
-To:     Nathan Chancellor <natechancellor@gmail.com>
+        id S1726749AbgHRTDx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 15:03:53 -0400
+Received: from terminus.zytor.com ([198.137.202.136]:36623 "EHLO
+        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726435AbgHRTDx (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 18 Aug 2020 15:03:53 -0400
+Received: from carbon-x1.hos.anvin.org ([IPv6:2601:646:8600:3280:61e8:d401:1991:f3df])
+        (authenticated bits=0)
+        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 07IJ2bvX2888434
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Tue, 18 Aug 2020 12:02:38 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 07IJ2bvX2888434
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2020072401; t=1597777361;
+        bh=cfOAXIuv0d1n/p0ol2GZ1qiMxIvr2XSR2TAgYuI9r3w=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=z6FSMv10XGVilhbjjXXiM0AVWKbJ7Fhzt0md6cIgU1Ohsv04ugdthB2lXdOawFp4G
+         /yIHdNmPHZoJCDgNTXPnJTtAPUBICrzszid60D+pV/4UicZbTfZbrRU0+BZ8RM9wQ7
+         35+zOHMSIK0jpi7uLcUHBcJWVVBeZ5kJHzSii4DCkNNkgF64tjR5yM5SQnJO97g4e0
+         TLtVUzXQFjyCrQUlr1DheafRH0JBDtqIMF2aHk+22UqWXF1TCLjag5KLD7muJd8VV/
+         HrTaRZAfyaXM5tK2841JwFpFsQImabhN3BWsuyiGhtf+WNri0flORDI4/EZYE6HGwH
+         89XyyKW8H1m/w==
+Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -72,7 +48,6 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Alexandru Ardelean <alexandru.ardelean@analog.com>,
         Yury Norov <yury.norov@gmail.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
         Ard Biesheuvel <ardb@kernel.org>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Daniel Kiper <daniel.kiper@oracle.com>,
@@ -83,112 +58,75 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
         Eli Friedman <efriedma@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
+ <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
+From:   "H. Peter Anvin" <hpa@zytor.com>
+Message-ID: <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
+Date:   Tue, 18 Aug 2020 12:02:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 10:44 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Mon, Aug 17, 2020 at 03:02:10PM -0700, Nick Desaulniers wrote:
-> > This reverts commit 5f074f3e192f10c9fade898b9b3b8812e3d83342.
-> >
-> > Use `-fno-builtin-bcmp` instead.
-> >
-> > The issue with using `-fno-builtin-*` flags was that they were not
-> > retained during an LTO link with LLVM.  This was fixed in clang-11 by
-> > https://reviews.llvm.org/D71193
-> > (0508c994f0b14144041f2cfd3ba9f9a80f03de08), which is also the minimum
-> > supported version of clang for LTO.
-> >
-> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> > ---
-> >  Makefile               |  1 +
-> >  include/linux/string.h |  3 ---
-> >  lib/string.c           | 20 --------------------
-> >  3 files changed, 1 insertion(+), 23 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 211a1b6f6478..722ff5864275 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -964,6 +964,7 @@ endif
-> >  # to provide implementations of these routines, then prevent the compiler from
-> >  # emitting calls to what will be undefined symbols.
-> >  KBUILD_CFLAGS        += -fno-builtin-stpcpy
-> > +KBUILD_CFLAGS        += -fno-builtin-bcmp
->
-> I personally think that this hunk should be its own patch before this
-> one then have this patch just be the revert, that way there is no
-> regression across a bisect (if one were to ever occur) and so the revert
-> is a straight 'git revert', rather than have something else mixed in
-> that requires reading the actual changelog text.
->
-> No objections if you disagree though.
+On 2020-08-18 10:56, Nick Desaulniers wrote:
+>>
+>> The problem here is twofold:
+>>
+>> 1. The user would be expected to know what kind of the optimizations the
+>> compiler can do on what function, which is private knowledge to the
+>> compiler.
+>>
+>> 2. The only way to override -fno-builtin is by a header file with macros
+>> overriding the function names with __builtin, but that doesn't tell the
+>> compiler proper anything about the execution environment.
+>>
+>> So the Right Thing is for the compiler authors to change the way
+>> -ffreestanding works.
+> 
+> Sir, this is an Arby's
+> 
+> There are things all across the compilation landscape that make we
+> want to pontificate or even throw a tantrum in an Arby's.  Would I?
+> Well, no, I'm just trying to flip burgers or shovel the elephant
+> sh...or w/e they do at Arby's (I've never actually been; I detest
+> roast beef).
+> 
+> Would it be interesting to have a way of opting in, as you describe,
+> such that your compiler knew exactly what kind of embedded environment
+> it was targeting?  Maybe, but I'd argue that opting out is just the
+> other side of the same coin. Heads, I win; tails, you lose. That the
+> opt in or opt out list is shorter for a given project is not
+> particularly interesting.  Should we change the semantics of a fairly
+> commonly used compiler flag that multiple toolchains are in agreement
+> of, then fix all of the breakage in all of the code that relied on
+> those semantics?  I'm afraid that ship may have already
+> sailed...probably 20 or 30 years ago.
+> 
+>> -ffreestanding means, by definition, that there
+>> are no library calls (other than libgcc or whatever else is supplied
+>> with the compiler) that the compiler can call. That is currently an
+>> all-or-nothing choice, or at least one choice per C standard implemented.
+> 
+> Yes?
+> 
 
-That's a great idea.  I considered it before sending, but I think it
-would be interesting to divorce the KBUILD changes which can be picked
-up quickly from the latter changes.  Will send a V2.
+I'm not saying "change the semantics", nor am I saying that playing
+whack-a-mole *for a limited time* is unreasonable. But I would like to go back
+to the compiler authors and get them to implement such a #pragma: "this
+freestanding implementation *does* support *this specific library function*,
+and you are free to call it." The only way we can get what we really need from
+the compilers is by speaking up and requesting it, and we have done so very
+successfully recently; further back we tended to get a lot of
+language-lawyering, but these days both the gcc and the clang teams have been
+wonderfully responsive.
 
->
-> >  # include additional Makefiles when needed
-> >  include-y                    := scripts/Makefile.extrawarn
-> > diff --git a/include/linux/string.h b/include/linux/string.h
-> > index b1f3894a0a3e..f3bdb74bc230 100644
-> > --- a/include/linux/string.h
-> > +++ b/include/linux/string.h
-> > @@ -155,9 +155,6 @@ extern void * memscan(void *,int,__kernel_size_t);
-> >  #ifndef __HAVE_ARCH_MEMCMP
-> >  extern int memcmp(const void *,const void *,__kernel_size_t);
-> >  #endif
-> > -#ifndef __HAVE_ARCH_BCMP
-> > -extern int bcmp(const void *,const void *,__kernel_size_t);
-> > -#endif
-> >  #ifndef __HAVE_ARCH_MEMCHR
-> >  extern void * memchr(const void *,int,__kernel_size_t);
-> >  #endif
-> > diff --git a/lib/string.c b/lib/string.c
-> > index 6012c385fb31..69328b8353e1 100644
-> > --- a/lib/string.c
-> > +++ b/lib/string.c
-> > @@ -922,26 +922,6 @@ __visible int memcmp(const void *cs, const void *ct, size_t count)
-> >  EXPORT_SYMBOL(memcmp);
-> >  #endif
-> >
-> > -#ifndef __HAVE_ARCH_BCMP
-> > -/**
-> > - * bcmp - returns 0 if and only if the buffers have identical contents.
-> > - * @a: pointer to first buffer.
-> > - * @b: pointer to second buffer.
-> > - * @len: size of buffers.
-> > - *
-> > - * The sign or magnitude of a non-zero return value has no particular
-> > - * meaning, and architectures may implement their own more efficient bcmp(). So
-> > - * while this particular implementation is a simple (tail) call to memcmp, do
-> > - * not rely on anything but whether the return value is zero or non-zero.
-> > - */
-> > -#undef bcmp
-> > -int bcmp(const void *a, const void *b, size_t len)
-> > -{
-> > -     return memcmp(a, b, len);
-> > -}
-> > -EXPORT_SYMBOL(bcmp);
-> > -#endif
-> > -
-> >  #ifndef __HAVE_ARCH_MEMSCAN
-> >  /**
-> >   * memscan - Find a character in an area of memory.
-> > --
-> > 2.28.0.220.ged08abb693-goog
-> >
->
-> Cheers,
-> Nathan
+	-hpa
 
-
-
--- 
-Thanks,
-~Nick Desaulniers
