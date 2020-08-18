@@ -2,56 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C32248D8E
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 19:57:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE33248D9A
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 20:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgHRR4y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 13:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56856 "EHLO
+        id S1726634AbgHRSAU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 14:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726588AbgHRR4v (ORCPT
+        with ESMTP id S1726552AbgHRSAS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 13:56:51 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAB0C061389
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 10:56:51 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id k13so9554205plk.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 10:56:51 -0700 (PDT)
+        Tue, 18 Aug 2020 14:00:18 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D79BC061342
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 11:00:14 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id t10so9565150plz.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 18 Aug 2020 11:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/Ygro6ZmmBrAQ3Ge0EmFg9GP+aL+Ga3m5lt2/R8NNas=;
-        b=XQI6Q38EghTc5vUI/aD1z4EwDR1oK8MqdnV1yp3t0SWOJAkD3MCYIAeE7NDmqUPlo9
-         yWE1k2OKBB0gq9ig2IfaIwNotcHm6U04mWX7zMKau0ODENqPSQXZszwxzcB5ET/KQaZ3
-         wMh1SFAHA+zFgMrLVv87vpWA2I5hCE7ebZhbR2zG2mTy00bS53LBdIDYx2GU2nbInmob
-         a0fHDUHzbUxzDoAMBMlbnkHhkYpqlPPgQj/cpNveb7U3j/TYqimaX8A4RJ4Qx2kj/cAb
-         HA5GsJ9apBYm7bLPkG2UxfFHBeo3CoDCZPu6h+kFdoSK0L1elq0pdj6y8whN/UbDt9Sw
-         1H5Q==
+        bh=nyB4pRDJBveesx+DUtW+5ZFcTskYb5n8BU0PlbnfnQk=;
+        b=TT3Hlsrs/mu4UmXylL6i2vWT4k+JLUcPQy0IRWK10ixwQ9fyS+vI5f6d+uD2IXXZut
+         99X3OASTGInBitChHeiKlVI5wOVCENDYDya36/FbtT554wJijmw4ooB+ZKooD3AjcKgb
+         w6MKTqNMRCGTA3dEtt2eCr/WXTblLpK6Rb2TkfyM/DzcCUvZGTwzSr4PGl2GjXFrhoGH
+         PDfpG64lJbCoStDn2RPM99hNimcioeWRNNRchqnwjTxrLhGbdfKJfyhVb6Ts5/Mpf008
+         gQ9Ee5zCntT/sLejF/FVfDbLbexG4avEfhBvuNi13cZq4EZM/tI59HJpPZ1of8yIo5zo
+         6mOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/Ygro6ZmmBrAQ3Ge0EmFg9GP+aL+Ga3m5lt2/R8NNas=;
-        b=Z+YkdYCD3j4jL0RVpFWWDaWe9e2XALeknuL7zVNcIBDLvrsVOXzqwccJ5TbzspMpj/
-         5VLnmx75K1a+8zYr0VY/D1SdhzDXvuOf4i2bp39nesJmet3eHT7HpyFrJ9MEjY4BD8xX
-         7S8odF1y4sK/ejJeM8iVKqZSUtB24rSAKnCyJ6ineWWyKbyRzeIT6JQhfCciP5b8GZ/I
-         MUT5+6w40bx9/+pOfIMIfVh2twmA+3hsnAdnR2vf8C33LGbc+lYE/nM1lg2UPjbBxJTJ
-         MMYBEAylwVtdcIThXQ0LOclxg6UYogLo07LDLF0t1xuOSqxZQ86sBRHX0vtM2p7CB7jK
-         d9kg==
-X-Gm-Message-State: AOAM530PjO93idaoWrdUE8WMINxB7oVIzFRaJ30vtA+lTwzEbngPquAq
-        muZfjg6TYzBqTF4n9NER7cpkMnna1VbDAmSQ0BuFMQ==
-X-Google-Smtp-Source: ABdhPJyeROL9HRysZlPErl7V5nWgRHsn034kbuZotHXaMjGv8zMYJXZEEIF51l0+2rBOfBQqg6dLHYSLr6VHCTPGE4E=
-X-Received: by 2002:a17:902:8509:: with SMTP id bj9mr15848823plb.179.1597773410297;
- Tue, 18 Aug 2020 10:56:50 -0700 (PDT)
+        bh=nyB4pRDJBveesx+DUtW+5ZFcTskYb5n8BU0PlbnfnQk=;
+        b=QfA2Z8TzwaFc93wrQKxKYPpBhUlKAPRPmcFWlrwaJlZ79rR93W23kBojb4v2V5HEkv
+         l+ObUAFEauRjpHeEQ0mVBHEQkVfiuwSUNttu9ADNSvnvwUk33hGVOQpKbyq0dcvNdBYi
+         2dm1V/hbDp/gZU3KNCHCeVuR9n3kd6jRWIsLaDj9lOokO6QmpuCpM2sjcoXdJCEm2mDC
+         sDbpH1/IkIGSA+S4memy0e5osH9U7wlcfHaDoyn31TamwjNncX8Orzd+WYuRhrgKMMq7
+         B5nnUGnR4hlusf5vsDB2lue3oG4iLPlzQh6g4xVDodcchSgIzGAcddZgty/33vW9hBvh
+         NuKQ==
+X-Gm-Message-State: AOAM533fEUXTzPkahb4U2ieGG6UWPXhZtfR3q92ByKfLNmJEMY4x90Ut
+        AMGRrnDpru568Hru56bmhbEqypKIWVt08/AyMpMsdA==
+X-Google-Smtp-Source: ABdhPJxvC+Goaa7jQZI2Ls91WkQiWwleNdpeUsQ3EPcOTKvrXorm4E3fZCHGEvi7vIDZCxyOO7u0zSwMWNL8i9JW9RE=
+X-Received: by 2002:a17:90a:3ad1:: with SMTP id b75mr846390pjc.25.1597773612681;
+ Tue, 18 Aug 2020 11:00:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200817220212.338670-1-ndesaulniers@google.com> <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
-In-Reply-To: <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <20200817220212.338670-3-ndesaulniers@google.com> <20200818054428.GA2540870@ubuntu-n2-xlarge-x86>
+In-Reply-To: <20200818054428.GA2540870@ubuntu-n2-xlarge-x86>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 18 Aug 2020 10:56:39 -0700
-Message-ID: <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     "H. Peter Anvin" <hpa@zytor.com>
+Date:   Tue, 18 Aug 2020 11:00:01 -0700
+Message-ID: <CAKwvOdm8iKUbfFP3a-2GjB1XQXp36Y9+B4kp2KX5iKbH-f0vDA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] Revert "lib/string.c: implement a basic bcmp"
+To:     Nathan Chancellor <natechancellor@gmail.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -71,6 +72,7 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Alexandru Ardelean <alexandru.ardelean@analog.com>,
         Yury Norov <yury.norov@gmail.com>,
         "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
         Ard Biesheuvel <ardb@kernel.org>,
         "Paul E . McKenney" <paulmck@kernel.org>,
         Daniel Kiper <daniel.kiper@oracle.com>,
@@ -87,93 +89,106 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 3:44 PM H. Peter Anvin <hpa@zytor.com> wrote:
+On Mon, Aug 17, 2020 at 10:44 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> On 2020-08-17 15:02, Nick Desaulniers wrote:
-> > -ffreestanding typically inhibits "libcall optimizations" where calls to
-> > certain library functions can be replaced by the compiler in certain
-> > cases to calls to other library functions that may be more efficient.
-> > This can be problematic for embedded targets that don't provide full
-> > libc implementations.
+> On Mon, Aug 17, 2020 at 03:02:10PM -0700, Nick Desaulniers wrote:
+> > This reverts commit 5f074f3e192f10c9fade898b9b3b8812e3d83342.
 > >
-> > -ffreestanding inhibits all such optimizations, which is the safe
-> > choice, but generally we want the optimizations that are performed. The
-> > Linux kernel does implement a fair amount of libc routines. Instead of
-> > -ffreestanding (which makes more sense in smaller images like kexec's
-> > purgatory image), prefer -fno-builtin-* flags to disable the compiler
-> > from emitting calls to functions which may not be defined.
+> > Use `-fno-builtin-bcmp` instead.
 > >
-> > If you see a linkage failure due to a missing symbol that's typically
-> > defined in a libc, and not explicitly called from the source code, then
-> > the compiler may have done such a transform.  You can either implement
-> > such a function (ie. in lib/string.c) or disable the transform outright
-> > via -fno-builtin-* flag (where * is the name of the library routine, ie.
-> > -fno-builtin-bcmp).
+> > The issue with using `-fno-builtin-*` flags was that they were not
+> > retained during an LTO link with LLVM.  This was fixed in clang-11 by
+> > https://reviews.llvm.org/D71193
+> > (0508c994f0b14144041f2cfd3ba9f9a80f03de08), which is also the minimum
+> > supported version of clang for LTO.
+> >
+> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > ---
+> >  Makefile               |  1 +
+> >  include/linux/string.h |  3 ---
+> >  lib/string.c           | 20 --------------------
+> >  3 files changed, 1 insertion(+), 23 deletions(-)
+> >
+> > diff --git a/Makefile b/Makefile
+> > index 211a1b6f6478..722ff5864275 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -964,6 +964,7 @@ endif
+> >  # to provide implementations of these routines, then prevent the compiler from
+> >  # emitting calls to what will be undefined symbols.
+> >  KBUILD_CFLAGS        += -fno-builtin-stpcpy
+> > +KBUILD_CFLAGS        += -fno-builtin-bcmp
+>
+> I personally think that this hunk should be its own patch before this
+> one then have this patch just be the revert, that way there is no
+> regression across a bisect (if one were to ever occur) and so the revert
+> is a straight 'git revert', rather than have something else mixed in
+> that requires reading the actual changelog text.
+>
+> No objections if you disagree though.
+
+That's a great idea.  I considered it before sending, but I think it
+would be interesting to divorce the KBUILD changes which can be picked
+up quickly from the latter changes.  Will send a V2.
+
+>
+> >  # include additional Makefiles when needed
+> >  include-y                    := scripts/Makefile.extrawarn
+> > diff --git a/include/linux/string.h b/include/linux/string.h
+> > index b1f3894a0a3e..f3bdb74bc230 100644
+> > --- a/include/linux/string.h
+> > +++ b/include/linux/string.h
+> > @@ -155,9 +155,6 @@ extern void * memscan(void *,int,__kernel_size_t);
+> >  #ifndef __HAVE_ARCH_MEMCMP
+> >  extern int memcmp(const void *,const void *,__kernel_size_t);
+> >  #endif
+> > -#ifndef __HAVE_ARCH_BCMP
+> > -extern int bcmp(const void *,const void *,__kernel_size_t);
+> > -#endif
+> >  #ifndef __HAVE_ARCH_MEMCHR
+> >  extern void * memchr(const void *,int,__kernel_size_t);
+> >  #endif
+> > diff --git a/lib/string.c b/lib/string.c
+> > index 6012c385fb31..69328b8353e1 100644
+> > --- a/lib/string.c
+> > +++ b/lib/string.c
+> > @@ -922,26 +922,6 @@ __visible int memcmp(const void *cs, const void *ct, size_t count)
+> >  EXPORT_SYMBOL(memcmp);
+> >  #endif
+> >
+> > -#ifndef __HAVE_ARCH_BCMP
+> > -/**
+> > - * bcmp - returns 0 if and only if the buffers have identical contents.
+> > - * @a: pointer to first buffer.
+> > - * @b: pointer to second buffer.
+> > - * @len: size of buffers.
+> > - *
+> > - * The sign or magnitude of a non-zero return value has no particular
+> > - * meaning, and architectures may implement their own more efficient bcmp(). So
+> > - * while this particular implementation is a simple (tail) call to memcmp, do
+> > - * not rely on anything but whether the return value is zero or non-zero.
+> > - */
+> > -#undef bcmp
+> > -int bcmp(const void *a, const void *b, size_t len)
+> > -{
+> > -     return memcmp(a, b, len);
+> > -}
+> > -EXPORT_SYMBOL(bcmp);
+> > -#endif
+> > -
+> >  #ifndef __HAVE_ARCH_MEMSCAN
+> >  /**
+> >   * memscan - Find a character in an area of memory.
+> > --
+> > 2.28.0.220.ged08abb693-goog
 > >
 >
-> This is arguably exactly the wrong way around.
->
-> The way this *should* be done is by opt-in, not opt-out, which by almost
-> definition ends up being a game of whack-a-mole, like in this case
-> stpcpy(). Furthermore, it is unlikely that people will remember what
-> options to flip when and if stpcpy() happens to be implemented in the
-> kernel.
->
-> The problem here is twofold:
->
-> 1. The user would be expected to know what kind of the optimizations the
-> compiler can do on what function, which is private knowledge to the
-> compiler.
->
-> 2. The only way to override -fno-builtin is by a header file with macros
-> overriding the function names with __builtin, but that doesn't tell the
-> compiler proper anything about the execution environment.
->
-> So the Right Thing is for the compiler authors to change the way
-> -ffreestanding works.
+> Cheers,
+> Nathan
 
-Sir, this is an Arby's
 
-There are things all across the compilation landscape that make we
-want to pontificate or even throw a tantrum in an Arby's.  Would I?
-Well, no, I'm just trying to flip burgers or shovel the elephant
-sh...or w/e they do at Arby's (I've never actually been; I detest
-roast beef).
 
-Would it be interesting to have a way of opting in, as you describe,
-such that your compiler knew exactly what kind of embedded environment
-it was targeting?  Maybe, but I'd argue that opting out is just the
-other side of the same coin. Heads, I win; tails, you lose. That the
-opt in or opt out list is shorter for a given project is not
-particularly interesting.  Should we change the semantics of a fairly
-commonly used compiler flag that multiple toolchains are in agreement
-of, then fix all of the breakage in all of the code that relied on
-those semantics?  I'm afraid that ship may have already
-sailed...probably 20 or 30 years ago.
-
-> -ffreestanding means, by definition, that there
-> are no library calls (other than libgcc or whatever else is supplied
-> with the compiler) that the compiler can call. That is currently an
-> all-or-nothing choice, or at least one choice per C standard implemented.
-
-Yes?
-
->
-> Instead, a compile job with -ffreestanding should be able to provide a
-> list of standard C functions that the compiler may call, and thus the
-> compiler actually can do the right thing depending on which exact
-> functions it would consider calling. This list is probably most easily
-> supplied in the form of a header file with #pragma directives.
->
->         -hpa
->
->
-
-Here we have a one line patch for keeping the build green.  If there's
-some compiler feature you'd like implemented, let's sit down sometime
-and work out the details.  I'll even buy you a beer.  But right now,
-sir, the Arby's is on fire.  Please take your soapbox outside.
-
---
+-- 
 Thanks,
 ~Nick Desaulniers
