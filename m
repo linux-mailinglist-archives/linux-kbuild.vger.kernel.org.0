@@ -2,125 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59F83247F8F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 09:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5DF62480FA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 18 Aug 2020 10:56:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbgHRHdp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 03:33:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59130 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726401AbgHRHdp (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 03:33:45 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 00D2B206B5;
-        Tue, 18 Aug 2020 07:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597736024;
-        bh=+l8ZIHYYdE8RD9Qj/I64++AlJvGHPOqSiV3mJ2HpmNQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=adtLg8XGFdMJbAYwQ+USeWVHO6NJasnpN07UEjD5SyBJk/l55Cyn+jXV7Zsbuyfsf
-         9swaGL4dFOyfw4m8JELBW45/YfY66lEL1n7z1a8qWfDnRwyNp8SVu/X/LOUKv+5Qnw
-         kZSl+rMuFLYRfnbJywcZ11LdpXjqXbOoyo0hqsmA=
-Date:   Tue, 18 Aug 2020 09:34:08 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        id S1726145AbgHRI42 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 18 Aug 2020 04:56:28 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:36034 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726581AbgHRI41 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 18 Aug 2020 04:56:27 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-54-fr6a1Gp7PCek2qBtx_YSwg-1; Tue, 18 Aug 2020 09:56:22 +0100
+X-MC-Unique: fr6a1Gp7PCek2qBtx_YSwg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 18 Aug 2020 09:56:22 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 18 Aug 2020 09:56:22 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Ingo Molnar' <mingo@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+CC:     Pavel Machek <pavel@ucw.cz>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Michael Witten <mfwitten@gmail.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Joe Perches <joe@perches.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>, X86 ML <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
-        Andi Kleen <ak@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        =?iso-8859-1?Q?D=E1vid_Bolvansk=FD?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>,
-        "# 3.4.x" <stable@vger.kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: [PATCH 1/4] Makefile: add -fno-builtin-stpcpy
-Message-ID: <20200818073408.GA12514@kroah.com>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <20200817220212.338670-2-ndesaulniers@google.com>
- <CAMj1kXH0gRCaoF0NziC870=eSEy0ghi8b0b6A+LMu8PMd58C0Q@mail.gmail.com>
- <20200818072531.GC9254@kroah.com>
- <CAMj1kXF_RhV7D8D8J_fwTruiKWbHapeGe-omwyBoR8t4gRv7QA@mail.gmail.com>
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        "Johannes Weiner" <hannes@cmpxchg.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        John Levon <john.levon@joyent.com>,
+        "John Levon" <levon@movementarian.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: RE: [PATCH] Makefile: Yes. Finally remove
+ '-Wdeclaration-after-statement'
+Thread-Topic: [PATCH] Makefile: Yes. Finally remove
+ '-Wdeclaration-after-statement'
+Thread-Index: AQHWdR7fdrR7Y2b6OUCIIALK0604z6k9jrEQ
+Date:   Tue, 18 Aug 2020 08:56:22 +0000
+Message-ID: <e986450210154d49aee1a3885d76c862@AcuMS.aculab.com>
+References: <c6fda26e8d134264b04fadc3386d6c32@gmail.com>
+ <20200816175303.GB1236603@ZenIV.linux.org.uk> <20200817204223.GB12414@amd>
+ <87lfid6kpi.fsf@x220.int.ebiederm.org>
+ <CAHk-=wj04wKCjHz6b6d7N58xoS4AftnwTUBaXsEekQ5RhfWVnw@mail.gmail.com>
+ <20200817220908.GA3701@amd>
+ <CAHk-=wh7Rn=8mVi_KWV71ZaQ2HrCz240DbjEJMDdARTwB3CYvA@mail.gmail.com>
+ <20200818051717.GA3134537@gmail.com>
+In-Reply-To: <20200818051717.GA3134537@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXF_RhV7D8D8J_fwTruiKWbHapeGe-omwyBoR8t4gRv7QA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 09:29:39AM +0200, Ard Biesheuvel wrote:
-> On Tue, 18 Aug 2020 at 09:25, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Aug 18, 2020 at 09:10:01AM +0200, Ard Biesheuvel wrote:
-> > > On Tue, 18 Aug 2020 at 00:02, Nick Desaulniers <ndesaulniers@google.com> wrote:
-> > > >
-> > > > LLVM implemented a recent "libcall optimization" that lowers calls to
-> > > > `sprintf(dest, "%s", str)` where the return value is used to
-> > > > `stpcpy(dest, str) - dest`. This generally avoids the machinery involved
-> > > > in parsing format strings. This optimization was introduced into
-> > > > clang-12. Because the kernel does not provide an implementation of
-> > > > stpcpy, we observe linkage failures for almost all targets when building
-> > > > with ToT clang.
-> > > >
-> > > > The interface is unsafe as it does not perform any bounds checking.
-> > > > Disable this "libcall optimization" via `-fno-builtin-stpcpy`.
-> > > >
-> > > > Unlike
-> > > > commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
-> > > > which cited failures with `-fno-builtin-*` flags being retained in LLVM
-> > > > LTO, that bug seems to have been fixed by
-> > > > https://reviews.llvm.org/D71193, so the above sha can now be reverted in
-> > > > favor of `-fno-builtin-bcmp`.
-> > > >
-> > > > Cc: stable@vger.kernel.org # 4.4
-> > >
-> > > Why does a fix for Clang-12 have to be backported all the way to v4.4?
-> > > How does that meet the requirements for stable patches?
-> >
-> > Because people like to build older kernels with new compliler versions.
-> >
-> > And those "people" include me, who doesn't want to keep around old
-> > compilers just because my distro moved to the latest one...
-> >
-> > We've been doing this for the past 4+ years, for new versions of gcc,
-> > keeping 4.4.y building properly with the bleeding edge of that compiler,
-> > why is clang any different here?
-> >
-> 
-> Fair enough. I am just struggling to match stable-kernel-rules.rst
-> with the actual practices - perhaps it is time to update that
-> document?
+> I'm a big fan of -Wdeclaration-after-statement and I think C++ style
+> mixed variables/statements code has several disadvantages:
 
-The rules are tiny and simple for 99% of the issues involved.  Stuff
-like "add patches to fix build failures and warnings for newer compiler
-versions" are so rare (they only happen every 2 years or so), it's not
-worth it.
+Agreed.
+Personally I think declarations should either be either right
+at the top of a function or in a very small code block.
 
-thanks,
+Otherwise they are annoying to find.
 
-greg k-h
+You also get very hard to spot bugs unless -Wshadow
+is enabled (I can't remember if the linux kernel has
+it enabled).
+
+C++ (sort of) has to allow definitions in the middle
+of code blocks because it doesn't allow uninitialised
+variables - so definitions are best delayed until the
+copy-constructor can be used.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
