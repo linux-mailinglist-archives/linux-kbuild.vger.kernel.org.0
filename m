@@ -2,61 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 495B024A6B4
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 21:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7302624A6E5
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 21:29:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727033AbgHSTRh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Aug 2020 15:17:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38578 "EHLO
+        id S1726585AbgHST3h (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Aug 2020 15:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727016AbgHSTR2 (ORCPT
+        with ESMTP id S1726435AbgHST3h (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Aug 2020 15:17:28 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 528C5C061342
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 12:17:27 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id 1so16106834qkm.19
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 12:17:27 -0700 (PDT)
+        Wed, 19 Aug 2020 15:29:37 -0400
+Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB9A2C061757;
+        Wed, 19 Aug 2020 12:29:36 -0700 (PDT)
+Received: by mail-qv1-xf44.google.com with SMTP id x6so11855391qvr.8;
+        Wed, 19 Aug 2020 12:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=OuLK0vtF0dRJLQuNywRonpISXfPNRGHrBGFIst0MHFI=;
-        b=it6ogAFiEgasFY/BOPvy6O/Foy17MRI7R1IECbMRIf/jTsP/cJ8JIoaqKYcyVT/ZBV
-         b1hQzk31FQy+8iEkpytd3nthZ4jbovIrYjVMxYqnS3+HY0NwULL8R+8tK1cHvD6Ax5Xz
-         OK41QXEI4IIlv6ox/0AdHB/75aC3klHvhCvZlrQaDevBAsaq4BTSbiHCV5joVCPgZKTU
-         dggAMLqVkzlK0H44SClcB43UOTcZtdO19cjVuEZNo5PBpiLqCZJD4Wf6BuPdmT38j4FE
-         Hu1iP1w8Hm2m2x/vOll7mtQWtz/bA6DW3HFwMoIc3JSCheg8w4pfdCxSVLhSvLe/WKxs
-         RsRA==
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Vw4+xoevL6HCqwb25tJE3ItRuXy/EdPOYs2kBLSbjws=;
+        b=TxMAtY5Lk67k/57yY8ZQaT7UTKGeCtgnJAejc7o/H6pCqyR64aJJmHf6xRznjPMchp
+         JdyWYSTwnE8vLtLX9MJsi3sf7wns4KdlU2kcoBpSEcSe27acmnFwgT6s7c4P28DPChq4
+         8Nrsk19y+hvEXg8DWyDS+AusgkUVd6YnnE15coaloaCsQ9ap82jDYwylHBhWm60GY2os
+         AXB1dZfn9Su0j9HOvz2c+HyWPmjHKycbRT2FlsZam3p78VZdcaDeB1i6d0tm9U0bF/Ms
+         0uTmN92Ntx3b11FJWIIM+RnnQkSmRnag2lfxIHlmvyOMS4c1QTwAfdHNxy1XDneviA1j
+         Rknw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=OuLK0vtF0dRJLQuNywRonpISXfPNRGHrBGFIst0MHFI=;
-        b=Eq+Ji4h4GkuDGU7qfXU8w+Tp9v4JNMW57qqOQcbun+qLSHFFaLMD8exe09G9ggphAh
-         xzvrY2lEn8gTXRq1DCJzxTq4JxtwuNxrqLC0vF8cwxLK5El+IxRy4HfwcfwE5PmswsrA
-         pgPW3b46AbxNvn7dhF++P289oa5nFfpkjR/97EpsVgD579t1mdTnJO2gX4iW0ULieqgu
-         NaSPD+9k0b0QwGH+FvghngkXRiNhj2lzC8smJLTZvLvRy52q4ublJIUNVHwDyW9rYT3Z
-         Lcf/MQXYPsa0ob2GIRbVC5/AtUNMpnLkhz+WR/8mUF9e/AxuOn4yjKaPvbLqx4nGzZY9
-         xr+g==
-X-Gm-Message-State: AOAM533G6eNNlqlgILK2EZCwnw/fygz6ONAE9Gm1YIVczGvUCmyheK+n
-        RnjJ4pMfhGQt4JrFb4FEDqrfk7h58McFCI9uIW8=
-X-Google-Smtp-Source: ABdhPJybzC2cRIjyVbTGIcAbbyv/3nL+YTTCv6sTjuWenHOvyLQE3ASARbEAL9G5mwIYU92auG+3ArLd6RP5ciEy9Po=
-X-Received: by 2002:a0c:f84b:: with SMTP id g11mr3652053qvo.184.1597864646404;
- Wed, 19 Aug 2020 12:17:26 -0700 (PDT)
-Date:   Wed, 19 Aug 2020 12:16:54 -0700
-In-Reply-To: <20200819191654.1130563-1-ndesaulniers@google.com>
-Message-Id: <20200819191654.1130563-6-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20200819191654.1130563-1-ndesaulniers@google.com>
-X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v2 5/5] x86: don't build CONFIG_X86_32 as -ffreestanding
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=Vw4+xoevL6HCqwb25tJE3ItRuXy/EdPOYs2kBLSbjws=;
+        b=ccwHrJWYvjs7f3vy9Y0eMU7xB7zbArngvHMTjbPrxgKzkKVeOf5LxtXKsVf+lLsnDA
+         9pBZYF/HQufl/LKAIjgBb9TuHGVPtcQHxpq6KcBIsIxGLiiiCwKU7DE2G5GFg0v1oLK1
+         wq7AZQDdY6z5OCbwR/m58JVhM565oWMGhmvR7YZQQKzXMxEMDodQuLp9g6IJG44mdYAo
+         NjFr/QOvoRjx7dx7W8HzcQ0E6V8aqtaZXMZ0SNkYpBRaqCTGlPHQdyO5y19DQiDV9Dqk
+         D4VcyGBG6wBfge55C2hW5TkVLELk4ASxC/dh1kzxplgJ5duDYJMihxHwbEpWOBgyjwwL
+         rI2Q==
+X-Gm-Message-State: AOAM5312mYevlUwXCpSjlcXcldkuJpgkCYOKq6kchd90VbfqBpqB9c9Q
+        jis+2WEk82tOBjgZeUSd3Yk=
+X-Google-Smtp-Source: ABdhPJxCwQflOM2eMeXREkpqyufZuZMseZYIsr6gWhc+I5qllV+5bet1IGAIgu2S4tsYX/20laJHSA==
+X-Received: by 2002:ad4:4a29:: with SMTP id n9mr25182148qvz.50.1597865376078;
+        Wed, 19 Aug 2020 12:29:36 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id o48sm29816825qtf.14.2020.08.19.12.29.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2020 12:29:35 -0700 (PDT)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Wed, 19 Aug 2020 15:29:32 -0400
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Michal Marek <michal.lkml@markovi.net>,
         linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kees Cook <keescook@chromium.org>,
         Tony Luck <tony.luck@intel.com>,
@@ -78,65 +78,54 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
         Andi Kleen <ak@suse.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        "=?UTF-8?q?D=C3=A1vid=20Bolvansk=C3=BD?=" <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>,
-        Nick Desaulniers <ndesaulniers@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>
+Subject: Re: [PATCH v2 4/5] x86/boot: use -fno-builtin-bcmp
+Message-ID: <20200819192932.GA58968@rani.riverdale.lan>
+References: <20200819191654.1130563-1-ndesaulniers@google.com>
+ <20200819191654.1130563-5-ndesaulniers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200819191654.1130563-5-ndesaulniers@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
--ffreestanding typically inhibits "libcall optimizations" where calls to
-certain library functions can be replaced by the compiler in certain
-cases to calls to other library functions that may be more efficient.
-This can be problematic for embedded targets that don't provide full
-libc implementations.
+On Wed, Aug 19, 2020 at 12:16:53PM -0700, Nick Desaulniers wrote:
+> We're reverting
+> commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
+> in favor of -fno-builtin-bcmp. Remove the additional definition here,
+> too.
+> 
+> arch/x86/purgatory/Makefile uses -ffreestanding, so there's no risk of
+> this libcall optimization occurring for arch/x86/boot/purgatory.ro.
+> 
+> arch/x86/boot/Makefile resets KBUILD_CFLAGS, so make sure to reset this
+> flag that was set for the top level Makefile.
+> 
+> Fixes: 4ce97317f41d ("x86/purgatory: Do not use __builtin_memcpy and __builtin_memset")
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  arch/x86/boot/Makefile | 1 +
+>  arch/x86/boot/string.c | 8 --------
+>  2 files changed, 1 insertion(+), 8 deletions(-)
+> 
+> diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+> index fe605205b4ce..ef7f15bfceab 100644
+> --- a/arch/x86/boot/Makefile
+> +++ b/arch/x86/boot/Makefile
+> @@ -70,6 +70,7 @@ KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP
+>  KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
+>  KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+>  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
+> +KBUILD_CFLAGS	+= -fno-builtin-bcmp
+>  GCOV_PROFILE := n
+>  UBSAN_SANITIZE := n
+>  
 
--ffreestanding inhibits all optimizations, which
-is the safe choice, but generally we want the optimizations that are
-performed. The Linux kernel does implement a fair amount of libc
-routines. Instead of -ffreestanding (which makes more sense in smaller
-images like kexec's purgatory image), prefer -fno-builtin-* flags to
-disable the compiler from emitting calls to functions which may not be
-defined.
-
-If you see a linkage failure due to a missing symbol that's typically
-defined in a libc, and not explicitly called from the source code, then
-the compiler may have done such a transform.  You can either implement
-such a function (ie. in lib/string.c) or disable the transform outright
-via -fno-builtin-* flag (where * is the name of the library routine, ie.
--fno-builtin-bcmp).
-
-i386_defconfig build+boot tested with GCC and Clang. Removes a pretty
-old TODO from the codebase.
-
-Fixes: 6edfba1b33c7 ("x86_64: Don't define string functions to builtin")
-Suggested-by: Arvind Sankar <nivedita@alum.mit.edu>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Might be nice to have
-https://lore.kernel.org/lkml/CAKwvOdn-mv1D1GEk3pWnPYsyzQRRk5qZFhSi0CYn6tRDo1O_iw@mail.gmail.com/T/#u
-first.
-
- arch/x86/Makefile | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 4346ffb2e39f..2383a96cf4fd 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -80,9 +80,6 @@ ifeq ($(CONFIG_X86_32),y)
-         # CPU-specific tuning. Anything which can be shared with UML should go here.
-         include arch/x86/Makefile_32.cpu
-         KBUILD_CFLAGS += $(cflags-y)
--
--        # temporary until string.h is fixed
--        KBUILD_CFLAGS += -ffreestanding
- else
-         BITS := 64
-         UTS_MACHINE := x86_64
--- 
-2.28.0.297.g1956fa8f8d-goog
-
+This should be unnecessary: KBUILD_CFLAGS in arch/x86/boot/Makefile is
+set to REALMODE_CFLAGS (defined in arch/x86/Makefile), which includes
+-ffreestanding.
