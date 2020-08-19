@@ -2,120 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 913C02491BF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 02:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A14B3249327
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 05:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgHSAU6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 20:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726367AbgHSAU5 (ORCPT
+        id S1726632AbgHSDDK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Tue, 18 Aug 2020 23:03:10 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:59579 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726605AbgHSDDJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 20:20:57 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246BAC061389;
-        Tue, 18 Aug 2020 17:20:57 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id p25so20159810qkp.2;
-        Tue, 18 Aug 2020 17:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7YNr0/jQBoOjMJ1GJxHc4XuPsYwYYSpKoFcUKAuCANQ=;
-        b=czQqdKt7Ca9NxyEtTkZJKnoqff5S2PCADfuwPj54uAEzngcgpvq2sEK0//1InPOnun
-         6csXn+aZtRq81zUu7dEhrTqTSsYS0ApQtZGsRRG06A+90t8P4d6DmR+6pN0qRpqS/Ngp
-         uiWqojUedgWVouv+216Z3jWhDdl0EjUCp1ZWSJJJYoljM+nNRR5oTyzWVrrq4YUzxQVP
-         +1lTKMiL/QBddxKqDQtlksBF+LmRqSOZb2R4ijdvgQnVaWEtRkmPCKkCF1uZUhWm4xhr
-         yD99SKjUDq6YwmQvK/o8xspQ/xISBL0rVPKZNfmBScbOmF6VRW2iDaF2/0Bw9U6gtGXi
-         LS3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=7YNr0/jQBoOjMJ1GJxHc4XuPsYwYYSpKoFcUKAuCANQ=;
-        b=FkzC2dJdFEGLVWuu8uTzht+4EMRlJVrUI3883xvK47Q7BM5mw+W0DCy1LJE/p7SLHK
-         GVg613vCnIEDGBiJCUQrshCij3XsuzRaqIVMetIR9Rb1xA2wAMxZlGHBxThAQpeldvoJ
-         cGSq1EN5bSmBMg3KKf0WGD97FBlbsUTBBl7XiKXvbADuK229BFYtW4wFTbpX4pLzqN6H
-         hKiDj441NGYSTztYgGtfz3OvKuun7aOdgF39fGTpbM1+60vo/6tHUhRl8qp74DuZRAt/
-         pMPbhY5STMOwZKtP4TjjytQwjF6gamk9G/7ppBMTpOX+eaPknNEpVXt8TmDt2AvBYLYP
-         ZTJA==
-X-Gm-Message-State: AOAM531XiuW6d0aMnvUPTPK978BaykqYGTVe22OMzjOYX9j6tRoRqSng
-        A4sgfp2mSqwUEg58I3jA25M=
-X-Google-Smtp-Source: ABdhPJxGWqcfe5RiBveI6ga7nnllhDQGBRudEemfUBLCJQnu4+nLDHKaZMXMVuHsjKW+7EtPKiaC6Q==
-X-Received: by 2002:a37:397:: with SMTP id 145mr20144568qkd.258.1597796455589;
-        Tue, 18 Aug 2020 17:20:55 -0700 (PDT)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id j72sm22657625qke.20.2020.08.18.17.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2020 17:20:54 -0700 (PDT)
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 18 Aug 2020 20:20:52 -0400
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Eli Friedman <efriedma@quicinc.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Joe Perches <joe@perches.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
-        Andi Kleen <ak@suse.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-Message-ID: <20200819002052.GA3397377@rani.riverdale.lan>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <20200818222542.GA3254379@rani.riverdale.lan>
- <CAKwvOdmfiD1TNqRvFuX07BqonYzh1eKFE9mFmOpaSyrbR0d5Lw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdmfiD1TNqRvFuX07BqonYzh1eKFE9mFmOpaSyrbR0d5Lw@mail.gmail.com>
+        Tue, 18 Aug 2020 23:03:09 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01f04427;MF=changhuaixin@linux.alibaba.com;NM=1;PH=DS;RN=13;SR=0;TI=SMTPD_---0U6BcqGk_1597806184;
+Received: from 30.27.116.4(mailfrom:changhuaixin@linux.alibaba.com fp:SMTPD_---0U6BcqGk_1597806184)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 19 Aug 2020 11:03:05 +0800
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Re: [PATCH v2 0/3] Build ORC fast lookup table in scripts/sorttable
+ tool
+From:   changhuaixin <changhuaixin@linux.alibaba.com>
+In-Reply-To: <20200807041802.18639-1-changhuaixin@linux.alibaba.com>
+Date:   Wed, 19 Aug 2020 11:03:04 +0800
+Cc:     bp@alien8.de, hpa@zytor.com, jpoimboe@redhat.com,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        luto@amacapital.net, michal.lkml@markovi.net, mingo@redhat.com,
+        peterz@infradead.org, tglx@linutronix.de, x86@kernel.org,
+        yamada.masahiro@socionext.com
+Content-Transfer-Encoding: 8BIT
+Message-Id: <C2FA85AC-12FD-4FC3-A955-31F0441D81CC@linux.alibaba.com>
+References: <20200723034643.33537-1-changhuaixin@linux.alibaba.com>
+ <20200807041802.18639-1-changhuaixin@linux.alibaba.com>
+To:     Ingo Molnar <mingo@kernel.org>
+X-Mailer: Apple Mail (2.3445.104.11)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 03:59:45PM -0700, Nick Desaulniers wrote:
-> On Tue, Aug 18, 2020 at 3:25 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
-> >
-> > Another thing that needs to be fixed is that at least lib/string.c needs
-> > to be compiled with -ffreestanding.
-> >
-> > gcc-10 optimizes the generic memset implementation in there into a call
-> > to memset. Now that's on x86 which doesn't use the generic
-> > implementation, but this is just waiting to bite us.
-> >
-> > https://godbolt.org/z/6EhG15
-> 
-> Admittedly, we've had the same shenanigans with memcpy implemented in
-> terms of calls to __builtin_memcpy being lowered to infinitely
-> recursive calls...which feels like the same kind of bug.  ("You wanted
-> infinite recursion in the kexec purgatory image, right?" "No,
-> compiler, I did not.")  example: https://godbolt.org/z/MzrTaM
-> (probably should fix this in both implementations; at the least I feel
-> like Clang's -Winfinite-recursion should try to help us out here).
-> 
+Hi，Ingo
 
-What's the other implementation we need to worry about? purgatory (at
-least on x86) has freestanding already.
+This patchset reverts the hacks from patchset v1. Also it includes some other fixes upon v1 as suggested.
+Will you please have a look at this?
+
+The previous links are:
+https://lore.kernel.org/lkml/20200724135531.GB648324@gmail.com/
+
+Thanks,
+huaixin
+
+> On Aug 7, 2020, at 12:17 PM, Huaixin Chang <changhuaixin@linux.alibaba.com> wrote:
+> 
+> Move building of fast lookup table from boot to sorttable tool. This saves us
+> 6380us boot time on Intel(R) Xeon(R) CPU E5-2682 v4 @ 2.50GHz with cores. It
+> adds a little more than 7ms to boot time when testing on the same CPU.
+> 
+> Changelog v2:
+> 1. Write .orc_lookup section header via objtool
+> 2. Move two ORC lookup table macro from orc_lookup.h into orc_types.h
+> 3. Spell 'ORC' in capitalized fashion
+> 
+> Huaixin Chang (3):
+>  objtool: Write .orc_lookup section header
+>  scripts/sorttable: Build ORC fast lookup table via sorttable tool
+>  x86/unwind/orc: Simplify unwind_init() for x86 boot
+> 
+> arch/x86/include/asm/orc_lookup.h      | 16 ------
+> arch/x86/include/asm/orc_types.h       | 16 ++++++
+> arch/x86/kernel/unwind_orc.c           | 41 +--------------
+> arch/x86/kernel/vmlinux.lds.S          |  2 +-
+> scripts/sorttable.h                    | 96 +++++++++++++++++++++++++++++++---
+> tools/arch/x86/include/asm/orc_types.h | 16 ++++++
+> tools/objtool/orc_gen.c                |  4 ++
+> 7 files changed, 128 insertions(+), 63 deletions(-)
+> 
+> -- 
+> 2.14.4.44.g2045bb6
+
