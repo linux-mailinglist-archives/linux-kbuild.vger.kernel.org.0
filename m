@@ -2,55 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0524D24A6BA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 21:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BCF624A6B9
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 21:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgHSTRy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1727034AbgHSTRy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Wed, 19 Aug 2020 15:17:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38550 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726971AbgHSTRT (ORCPT
+        with ESMTP id S1727014AbgHSTRX (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Aug 2020 15:17:19 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1920CC061342
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 12:17:19 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id r25so15657041pfg.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 12:17:19 -0700 (PDT)
+        Wed, 19 Aug 2020 15:17:23 -0400
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BACAC061757
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 12:17:23 -0700 (PDT)
+Received: by mail-yb1-xb4a.google.com with SMTP id x6so22052041ybp.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 12:17:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=r84xcQbgubHprmQGHdhEie+FBaGO0N4EWuKx2nze9kk=;
-        b=gmxsTeXyOkvZXDCuGg2KHf5O47wmcxetM6gPsB3gToKAyGX+XYovB86AzMOWnjdw9Z
-         adCND0Oa3n+jwU+LXuL4qWJvHjRWDjBENCVb+P9n9RLRZTt0ZpbW44GSXgBVluwwlOPE
-         2sqbGcM+5uDuDxEXwCvTEFXVthhlNnbcix119RUIlOKXpYqVeDZdYUlhiJVsLy4VQD8F
-         VydTQqW9K2iN9TjyU9AA603yAo3BsyhmgrP8URp5f6tVo2oPSLflYRIHHFhtUw7lVBBC
-         iko4NA+N48dFyc4Z7VaXxlF7HX1xOmQmr3wzCCJLnLiHhd1mbsF+SUh8Inpe20wqVWEA
-         NIDQ==
+        bh=/urKDqIkN4zGAhl6LxHMUbH10s5ZvVFc504ba3S5u7E=;
+        b=RqgI8CJyXmWUn6Vo8lcLGmL7Sryn+W/FkZ33sxWqlgyz8meu39k4+6oomx7QFIBp3x
+         Gg+82ihdMho3l7JJ+S2CfjEP3vQubdhyeoQjj85loSSZleZOVl/jOK3cGE8XEH01Ej2N
+         AbQ/Vy7C7JnBDZKmbQ+iklaXV4MNxz3nqNMJxtOowSWnBqpDLp9YXD8p4zPXjqRgGid9
+         DF9aV54NmI8wKPj4ZWIE4q6Hj/KIDGSRh80b9cn08g+O8nK8QAGEuQ1iYxBDUmPybqOx
+         5zO6eUDXW1sIoB9BFjqIqf3ncr2pKUn9kYElgbeTJbWgIVBEyg7Xn7mdJSFdCsmpBLdU
+         DioQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=r84xcQbgubHprmQGHdhEie+FBaGO0N4EWuKx2nze9kk=;
-        b=X1ldxrAwUYP8N6diiBJOyv5g4lvuCg/hnu7bL+K0zmQ/cBjsypMHevaNe1CCLXx0L2
-         7+HMtAAiomzEwX+m5O95wiS+izEf5bF1ADqyZhWijUkYGtr6grhDdK9xoTBchKdQbvEb
-         0ZJC5bl8g2jkSA8ekXwkbDDkSfTs7m/FVNuzt8uYHSOTIsuMt3niDTR2k/Y1Uwtfytle
-         ra/GOlGnPDBfHtVDo5ZkGzK8SSls0FFuGyX0B5Ptm98EFhUzLVwZWyNnSYQY1NzwRORz
-         n/6aNJO8XPEvTMa4HPUnI85uLGtVXHn5jHi58ZFM/xjHXDstmTxyLPIxi5maD57n3/G4
-         M9vQ==
-X-Gm-Message-State: AOAM530U7trWK21B2i9DjD89mOO4ipZ7lckLCr90bbQ/IH0oA1iD6Cv5
-        O4Ocg3e8acdw6LuvbZDgosuUJbaHO6EpCQqJ6f8=
-X-Google-Smtp-Source: ABdhPJzj+vobFpRvf1bfd/iF3/8RTnjkeRzHLSF1auGiUuWpv+qFNCVSlRyMOj/B6agWqaCoODouhD0YAJhAwrj2ysI=
-X-Received: by 2002:a17:902:c151:: with SMTP id 17mr19141781plj.228.1597864638521;
- Wed, 19 Aug 2020 12:17:18 -0700 (PDT)
-Date:   Wed, 19 Aug 2020 12:16:52 -0700
+        bh=/urKDqIkN4zGAhl6LxHMUbH10s5ZvVFc504ba3S5u7E=;
+        b=XqNrQLIVm2AT5JH6JQNuPPNrONr4Llx+C1jNnFFTGKbM+iFy5VKFx0d01lI66ofT9H
+         n7Ux+h09FvBon1U1NEH1nv8BycETeROAmx5/+1LAxnJ9i/9R0I+Qur9bDiNsXFrlRxsG
+         SP+lBlCj9yC4bARO2JYdS0mPGTSn0N0mZ4154augo8A5K4I6b42hgLbRqtlIadI4bgDa
+         PgA4SJFZSPrcyC9p+1k2/YbpDNJSyEC4ZYacay0xRnCQBck92qpMeKf5hw6skO0QLRlI
+         nBqZrbNSYVFQFQ5PvjUZ6dgRdN1I6f1fqL3UcSZwEuc57EYIraPDevIuXyt80dTjDeDS
+         eqQw==
+X-Gm-Message-State: AOAM533/loz2y+jh3OWv5h4XysH7cfz9AhrHqY1EMlnDSxzyGLIZukQo
+        OXFbbrHY9ZZ7jvQ+ePGZEvxV2pJhINEC8lWy66Y=
+X-Google-Smtp-Source: ABdhPJxkKEkPVTHl269NKfdD2vrGr8Zp3w5z/UJIqWfoTv/OqXKdyliMdkTMwO8mqpQXuu+Uw3MDyewftRdnreJ7fJE=
+X-Received: by 2002:a25:c2c7:: with SMTP id s190mr34810966ybf.161.1597864642671;
+ Wed, 19 Aug 2020 12:17:22 -0700 (PDT)
+Date:   Wed, 19 Aug 2020 12:16:53 -0700
 In-Reply-To: <20200819191654.1130563-1-ndesaulniers@google.com>
-Message-Id: <20200819191654.1130563-4-ndesaulniers@google.com>
+Message-Id: <20200819191654.1130563-5-ndesaulniers@google.com>
 Mime-Version: 1.0
 References: <20200819191654.1130563-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
-Subject: [PATCH v2 3/5] Revert "lib/string.c: implement a basic bcmp"
+Subject: [PATCH v2 4/5] x86/boot: use -fno-builtin-bcmp
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -80,73 +80,63 @@ Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "=?UTF-8?q?D=C3=A1vid=20Bolvansk=C3=BD?=" <david.bolvansky@gmail.com>,
         Eli Friedman <efriedma@quicinc.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This reverts commit 5f074f3e192f10c9fade898b9b3b8812e3d83342.
+We're reverting
+commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
+in favor of -fno-builtin-bcmp. Remove the additional definition here,
+too.
 
-An earlier commit in the series prevents the compiler from emitting
-calls to bcmp as part of "libcall optimization," and there are no
-explicit callers, so we can now safely remove this interface.
+arch/x86/purgatory/Makefile uses -ffreestanding, so there's no risk of
+this libcall optimization occurring for arch/x86/boot/purgatory.ro.
 
-Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
+arch/x86/boot/Makefile resets KBUILD_CFLAGS, so make sure to reset this
+flag that was set for the top level Makefile.
+
+Fixes: 4ce97317f41d ("x86/purgatory: Do not use __builtin_memcpy and __builtin_memset")
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
- include/linux/string.h |  3 ---
- lib/string.c           | 20 --------------------
- 2 files changed, 23 deletions(-)
+ arch/x86/boot/Makefile | 1 +
+ arch/x86/boot/string.c | 8 --------
+ 2 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/include/linux/string.h b/include/linux/string.h
-index b1f3894a0a3e..f3bdb74bc230 100644
---- a/include/linux/string.h
-+++ b/include/linux/string.h
-@@ -155,9 +155,6 @@ extern void * memscan(void *,int,__kernel_size_t);
- #ifndef __HAVE_ARCH_MEMCMP
- extern int memcmp(const void *,const void *,__kernel_size_t);
- #endif
--#ifndef __HAVE_ARCH_BCMP
--extern int bcmp(const void *,const void *,__kernel_size_t);
--#endif
- #ifndef __HAVE_ARCH_MEMCHR
- extern void * memchr(const void *,int,__kernel_size_t);
- #endif
-diff --git a/lib/string.c b/lib/string.c
-index 6012c385fb31..69328b8353e1 100644
---- a/lib/string.c
-+++ b/lib/string.c
-@@ -922,26 +922,6 @@ __visible int memcmp(const void *cs, const void *ct, size_t count)
- EXPORT_SYMBOL(memcmp);
- #endif
+diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
+index fe605205b4ce..ef7f15bfceab 100644
+--- a/arch/x86/boot/Makefile
++++ b/arch/x86/boot/Makefile
+@@ -70,6 +70,7 @@ KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP
+ KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
+ KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+ KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
++KBUILD_CFLAGS	+= -fno-builtin-bcmp
+ GCOV_PROFILE := n
+ UBSAN_SANITIZE := n
  
--#ifndef __HAVE_ARCH_BCMP
--/**
-- * bcmp - returns 0 if and only if the buffers have identical contents.
-- * @a: pointer to first buffer.
-- * @b: pointer to second buffer.
-- * @len: size of buffers.
-- *
-- * The sign or magnitude of a non-zero return value has no particular
-- * meaning, and architectures may implement their own more efficient bcmp(). So
-- * while this particular implementation is a simple (tail) call to memcmp, do
-- * not rely on anything but whether the return value is zero or non-zero.
+diff --git a/arch/x86/boot/string.c b/arch/x86/boot/string.c
+index 8a3fff9128bb..23d91aa7691e 100644
+--- a/arch/x86/boot/string.c
++++ b/arch/x86/boot/string.c
+@@ -37,14 +37,6 @@ int memcmp(const void *s1, const void *s2, size_t len)
+ 	return diff;
+ }
+ 
+-/*
+- * Clang may lower `memcmp == 0` to `bcmp == 0`.
 - */
--#undef bcmp
--int bcmp(const void *a, const void *b, size_t len)
+-int bcmp(const void *s1, const void *s2, size_t len)
 -{
--	return memcmp(a, b, len);
+-	return memcmp(s1, s2, len);
 -}
--EXPORT_SYMBOL(bcmp);
--#endif
 -
- #ifndef __HAVE_ARCH_MEMSCAN
- /**
-  * memscan - Find a character in an area of memory.
+ int strcmp(const char *str1, const char *str2)
+ {
+ 	const unsigned char *s1 = (const unsigned char *)str1;
 -- 
 2.28.0.297.g1956fa8f8d-goog
 
