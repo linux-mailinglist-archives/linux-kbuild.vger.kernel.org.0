@@ -2,55 +2,55 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 241A524918E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 01:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 913C02491BF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 19 Aug 2020 02:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbgHRXvZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 18 Aug 2020 19:51:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55264 "EHLO
+        id S1726469AbgHSAU6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 18 Aug 2020 20:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726847AbgHRXvZ (ORCPT
+        with ESMTP id S1726367AbgHSAU5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 18 Aug 2020 19:51:25 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0027CC061389;
-        Tue, 18 Aug 2020 16:51:22 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id t6so10487768qvw.1;
-        Tue, 18 Aug 2020 16:51:22 -0700 (PDT)
+        Tue, 18 Aug 2020 20:20:57 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 246BAC061389;
+        Tue, 18 Aug 2020 17:20:57 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id p25so20159810qkp.2;
+        Tue, 18 Aug 2020 17:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:date:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Lo6iZLl7xE7OzIfrLMy/9DpiSarjn7eEJS7aRAeCfMo=;
-        b=THN0APLDMqb2cLMhFHkO9+wC4AfYiMVPXep4tRXCgXS9mUN1zMAfDH2TgtkZUh2aHj
-         WKemY2BuPrItRscDqpWtxeuqxn7oF3a2zg2ve1piL54VEPFWMJy/uA7xtVg5eyRR55QP
-         eNRwdmVEgN0tGmX3+i5adL6HfusxMsrQYlMGnPzyHUwUHZzS5igDS+hmO7xGefDrHAjc
-         6QEFHmLVnIXK+MiZILRKqsgGZJ1BE7MAJ+aX4xNYJZ+6KotCrwVlcX8IEk2Ev3ShbxbT
-         o9IlaANh3EIFKVq2/rbNW6NRk+/aPyV0AgtTFCPzkexyVn3h0evAo+UwQz2qsAR/C7pi
-         LCtA==
+        bh=7YNr0/jQBoOjMJ1GJxHc4XuPsYwYYSpKoFcUKAuCANQ=;
+        b=czQqdKt7Ca9NxyEtTkZJKnoqff5S2PCADfuwPj54uAEzngcgpvq2sEK0//1InPOnun
+         6csXn+aZtRq81zUu7dEhrTqTSsYS0ApQtZGsRRG06A+90t8P4d6DmR+6pN0qRpqS/Ngp
+         uiWqojUedgWVouv+216Z3jWhDdl0EjUCp1ZWSJJJYoljM+nNRR5oTyzWVrrq4YUzxQVP
+         +1lTKMiL/QBddxKqDQtlksBF+LmRqSOZb2R4ijdvgQnVaWEtRkmPCKkCF1uZUhWm4xhr
+         yD99SKjUDq6YwmQvK/o8xspQ/xISBL0rVPKZNfmBScbOmF6VRW2iDaF2/0Bw9U6gtGXi
+         LS3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to;
-        bh=Lo6iZLl7xE7OzIfrLMy/9DpiSarjn7eEJS7aRAeCfMo=;
-        b=nLH1jaKk4qxIvJNwyIwXCdE9is9pDXxlLdMqnHikjHWszALPxBqQfVZl7MscEElQp2
-         X7LoGxnbq0S8LA4jafPNlgpRlAauuRTHNGlB3urTX+4PvQ2O6oac6AEOLashh4bgX3f4
-         fwoho5fMURCxZxLaVb7QTPm0avihTBCrp6JfgMtyh9lSB+BUjsRD2POS3tuZWj8ZsG30
-         ACJdFtI9uDPour5udtH/RrBQWpbRm1Nm0WFaok1eYii6lzuMkqbcUHFPlpmJEV1/KNsN
-         58Xe/bFOtX8P+sKqbo4e3c9z1iIQ53YdmJLHCFPJPtjBjTr3eR0TgQXpxzO1CRDTntvV
-         DQJA==
-X-Gm-Message-State: AOAM531qln6N/PW2ZMWd/9AG/OaCzVKLHcVGJZh/fnd2j9ahFYItXL9S
-        zbzP+kMhRGni+Rp2F8mnxkk=
-X-Google-Smtp-Source: ABdhPJz10xNEeu79aDW1NwxFJUjonsYSOUgQSPf0CDG3llEWl2zeHgZ/dASUCxFuvnFMBMICLOmpog==
-X-Received: by 2002:a0c:e102:: with SMTP id w2mr21475510qvk.51.1597794681903;
-        Tue, 18 Aug 2020 16:51:21 -0700 (PDT)
+        bh=7YNr0/jQBoOjMJ1GJxHc4XuPsYwYYSpKoFcUKAuCANQ=;
+        b=FkzC2dJdFEGLVWuu8uTzht+4EMRlJVrUI3883xvK47Q7BM5mw+W0DCy1LJE/p7SLHK
+         GVg613vCnIEDGBiJCUQrshCij3XsuzRaqIVMetIR9Rb1xA2wAMxZlGHBxThAQpeldvoJ
+         cGSq1EN5bSmBMg3KKf0WGD97FBlbsUTBBl7XiKXvbADuK229BFYtW4wFTbpX4pLzqN6H
+         hKiDj441NGYSTztYgGtfz3OvKuun7aOdgF39fGTpbM1+60vo/6tHUhRl8qp74DuZRAt/
+         pMPbhY5STMOwZKtP4TjjytQwjF6gamk9G/7ppBMTpOX+eaPknNEpVXt8TmDt2AvBYLYP
+         ZTJA==
+X-Gm-Message-State: AOAM531XiuW6d0aMnvUPTPK978BaykqYGTVe22OMzjOYX9j6tRoRqSng
+        A4sgfp2mSqwUEg58I3jA25M=
+X-Google-Smtp-Source: ABdhPJxGWqcfe5RiBveI6ga7nnllhDQGBRudEemfUBLCJQnu4+nLDHKaZMXMVuHsjKW+7EtPKiaC6Q==
+X-Received: by 2002:a37:397:: with SMTP id 145mr20144568qkd.258.1597796455589;
+        Tue, 18 Aug 2020 17:20:55 -0700 (PDT)
 Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id n184sm22515319qkn.49.2020.08.18.16.51.20
+        by smtp.gmail.com with ESMTPSA id j72sm22657625qke.20.2020.08.18.17.20.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2020 16:51:21 -0700 (PDT)
+        Tue, 18 Aug 2020 17:20:54 -0700 (PDT)
 From:   Arvind Sankar <nivedita@alum.mit.edu>
 X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 18 Aug 2020 19:51:18 -0400
+Date:   Tue, 18 Aug 2020 20:20:52 -0400
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
         Eli Friedman <efriedma@quicinc.com>,
@@ -83,7 +83,7 @@ Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>
 Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-Message-ID: <20200818235118.GA3380006@rani.riverdale.lan>
+Message-ID: <20200819002052.GA3397377@rani.riverdale.lan>
 References: <20200817220212.338670-1-ndesaulniers@google.com>
  <20200818222542.GA3254379@rani.riverdale.lan>
  <CAKwvOdmfiD1TNqRvFuX07BqonYzh1eKFE9mFmOpaSyrbR0d5Lw@mail.gmail.com>
@@ -108,28 +108,6 @@ On Tue, Aug 18, 2020 at 03:59:45PM -0700, Nick Desaulniers wrote:
 > >
 > > https://godbolt.org/z/6EhG15
 > 
-> I'll let you send the patch for that this time.  (It's too bad godbolt
-> doesn't have newer versions of GCC for cross compilation...cant test
-> aarch64 gcc-10, for example.)  It would be interesting for sure to see
-> resulting differences in disassembly observed in lib/string.o with
-> -ffreestanding.
-
-https://lore.kernel.org/lkml/20200818234307.3382306-1-nivedita@alum.mit.edu/
-
-> 
-> But, oof, that's not good.  Certainly impressive and powerful loop
-> idiom recognition, but wouldn't you consider it a bug that this
-> optimization should probably first check that it's not replacing part
-> of a loop with a potentially recursive call to itself?
-
-Difficult to check that in general, but I would have thought they'd at
-least add a check for memset directly calling memset. It looks like they
-considered that but then decided to go with -ffreestanding disabling the
-optimization. Even gcc 4.x does it :)
-
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56888
-
-> 
 > Admittedly, we've had the same shenanigans with memcpy implemented in
 > terms of calls to __builtin_memcpy being lowered to infinitely
 > recursive calls...which feels like the same kind of bug.  ("You wanted
@@ -138,23 +116,6 @@ https://gcc.gnu.org/bugzilla/show_bug.cgi?id=56888
 > (probably should fix this in both implementations; at the least I feel
 > like Clang's -Winfinite-recursion should try to help us out here).
 > 
-> Feels almost like it may be difficult to provide an implementation of
-> memset without stepping on a landmine.  One thing I'd be curious about
-> is whether all of lib/string.c would need -ffreestanding, or if you
-> could move just memset to its own TU then use -ffreestanding on that.
-> A free standing environment must always provide a core set of
-> functions like memset, memcpy, memcmp, memmove, according to
-> https://gcc.gnu.org/onlinedocs/gcc/Standards.html.  Maybe those four
-> should be in a separate TU compiled as -ffreestanding, so that they
-> can never be lowered to calls to themselves (potentially infinitely
-> recursive)?
-> -- 
-> Thanks,
-> ~Nick Desaulniers
 
-I think all of it should be freestanding. Since eg the compiler could
-recognize strcpy and turn it into a call to strcpy.
-
-It turns out that at least memcpy can also be recognized, but gcc only
-does that if the arguments have the restrict qualifier, so the version
-in the kernel doesn't get broken.
+What's the other implementation we need to worry about? purgatory (at
+least on x86) has freestanding already.
