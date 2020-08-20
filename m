@@ -2,79 +2,140 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A22E424AD05
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Aug 2020 04:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC18A24AD59
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Aug 2020 05:33:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgHTCaJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Aug 2020 22:30:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48960 "EHLO
+        id S1726837AbgHTDdY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Aug 2020 23:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgHTCaI (ORCPT
+        with ESMTP id S1726872AbgHTDdW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Aug 2020 22:30:08 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19E25C061383
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 19:30:08 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id r4so349847pls.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 19 Aug 2020 19:30:08 -0700 (PDT)
+        Wed, 19 Aug 2020 23:33:22 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0184CC061757;
+        Wed, 19 Aug 2020 20:33:21 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id p4so510390qkf.0;
+        Wed, 19 Aug 2020 20:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fHJ7HRBHswVMUg6am7ER5uoMDi3Cn/npsWlI6SwAOCY=;
-        b=i+CG0sAj4sWouxSJJlWvdKSPgQQwgRZiGfPJ4a+GF42DjElbTdznbu/i70bZanQY+Z
-         ZHUHJs6VCYi+PvdDocMpJ5Rf58m6j1xKkSZ6aR0KIqy7B/qa9rx3HRWwJb2cJif8yW5q
-         GaIuy4cHG2RRh7GB7dM/HbjuiurKYYEuvVcy+Q8hBpYByiaIa/V3UQwnRQm1f+LWiicB
-         ObOhRKs+nmLsBitoqLT0BYj+6dkR1E9j1X+UiiSDlMmknppoxIlQe9Wx5uLAN/1709Se
-         /g0POXsGiVmg/K8MxmdNPPBj+7EbdCfr0FzF1NbL1bgxmdPCJSenVF/7jkItiXcjlo8G
-         /8mA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=U70M0DthPhvBPm+JwSxLRJEdOyYLX1RXRnFN4J4OreQ=;
+        b=KpEwD66yBrruBO3QsYyaOwDCrPWzetFsZPTJHveDTAvV1wImb3iajyGumgOLMInvG7
+         1CqtCH/mQh0g1h+p6uDlkosEkWf6vH2BS75hPQl8PQ5k7+kZkyYFgbO7cG9y+PPErHx/
+         zdYz540CUfXWEFO2pCSN9B0kvqTLx5NoIDqLKqE4n+1K8Zggfon6oG3WWwlDYDQL7qq7
+         /WhzyMaJB6+wCB7FTbgpyEnk6t1MNmt++2xRVZ01/lA2DlkQ2tfq77V1PiHiEIyTmiML
+         U0sbQ7Xfyksip8Kv5pqhnnuDcVTY6tf3Z64dMyGspTd6AsrkMNsPk1kLcILoMFJbHXFK
+         mVwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fHJ7HRBHswVMUg6am7ER5uoMDi3Cn/npsWlI6SwAOCY=;
-        b=eadykxDyU4MDwsRLPu3yMwCeBNP7G8Y/8IafYp6sXMGExY3VSISy8Qy64IywNpSFBx
-         zJGzB4UH5LXOWYJ18zIdKyx18SrGCz3JpgRiuoIjOWBRBaSeuVjQ7PLgP6o9qBgrJVHN
-         gp/GuQEdjveqwiz4LdaHrvtlLv05XaeCWXWOx1KfQb4pXI+CnYVNr1cE3E0ScRqoKzRo
-         fRamVNIkdm7VxCfxpWr+ZvRbqwiNhiHgz1w11j/xVcIvmyKGKtU687+a1z+Movk5pZaL
-         N4tuQsc72DUSPCXxpQ20wtPmo0QzXqrMjTEZ9QlopDpJh8Na186Xh3VB6csLRCEk2eJA
-         SBfw==
-X-Gm-Message-State: AOAM531UlnEas6QXPrgmEcF2I1cjZ/cTXf2uujTn2VHeuGAa0E+6DZU3
-        7r5F4tngOa8JcgJtD/YG90OTIJs1Qv6WFfbI2yapqg==
-X-Google-Smtp-Source: ABdhPJy5FscZgZYiZn+++MzCBh2DDEb1I4sWufP3av3+bx3VwbyufGgotvToqPFA8XIgeFy5GBObv5SHhlZcsvHVfyQ=
-X-Received: by 2002:a17:902:b485:: with SMTP id y5mr875957plr.119.1597890607308;
- Wed, 19 Aug 2020 19:30:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200812173958.2307251-1-masahiroy@kernel.org>
- <20200812173958.2307251-3-masahiroy@kernel.org> <CAKwvOdkL=667+cw_Rxq_5zaOKeTTptsMaxkkSXBic9QxozOWVg@mail.gmail.com>
- <CAK7LNAS4EjGchNzqhEcTPTU0mOUqAk8nF9QYW3qwfOp572uCHA@mail.gmail.com> <CAK7LNARPAB+UBcYJTauPRksOb1zVbicUt7z39szaO3o70vD1RQ@mail.gmail.com>
-In-Reply-To: <CAK7LNARPAB+UBcYJTauPRksOb1zVbicUt7z39szaO3o70vD1RQ@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 19 Aug 2020 19:29:56 -0700
-Message-ID: <CAKwvOdkQTFEGaSXj5kHpuqTQ9hFYPWkCAyegQ4jienLaH5x9Ng@mail.gmail.com>
-Subject: Re: [PATCH 2/3] gen_compile_commands: wire up build rule to Makefile
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Nathan Huckleberry <nhuck@google.com>,
-        Tom Roeder <tmroeder@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=U70M0DthPhvBPm+JwSxLRJEdOyYLX1RXRnFN4J4OreQ=;
+        b=s10v2pZa5FLmZT+DGgEYckrgccI18iIceUOvZrSDIJa7jyouSLTrkVIh9SCWGWm1zq
+         ztg7waEZvmZTqqCmwmKXpGB2Y3A0RHC9AV42Llh6vyVMesAlFCD+egeC2DK/T5jKxbzJ
+         t3Kk9lU4K0apSMpuLFzJRifmFXEPBXYE6dlpH2dbZv4cXwBred0EoMfiNRflGDYZiVr2
+         9cGKTDIx++Y7cMwqqpgukrF+sbw180oJwWp/8dD7xWYFW2pBuwzjzH5OinC3PX4tS8QN
+         SYJMcLNMO1botiEUy2dznTHUJ7hz3+9xYyJ6gne4o3Bpz9OEaC0ME8QFsRQK2y8NMi3d
+         4CUg==
+X-Gm-Message-State: AOAM532bYB8j3IWTICNwwW5TY/PmrIo0m5n9dnNoXp7Lb1zcEmGGUKQn
+        NcR0fvldGG6GXZsusDqiUP8=
+X-Google-Smtp-Source: ABdhPJzRVPFYZRfVAtXW6RVInl7yWIxXxbXikBLG/HFjIjUou4gqQQBd089gpfngD73D+Yu+O6Iudw==
+X-Received: by 2002:a05:620a:12ef:: with SMTP id f15mr1079654qkl.120.1597894399877;
+        Wed, 19 Aug 2020 20:33:19 -0700 (PDT)
+Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
+        by smtp.gmail.com with ESMTPSA id t32sm1713805qtb.3.2020.08.19.20.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Aug 2020 20:33:18 -0700 (PDT)
+Date:   Wed, 19 Aug 2020 20:33:17 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Joe Perches <joe@perches.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Yury Norov <yury.norov@gmail.com>, x86@kernel.org,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
+        Andi Kleen <ak@suse.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        =?iso-8859-1?Q?D=E1vid_Bolvansk=FD?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>, stable@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH v2 1/5] Makefile: add -fno-builtin-stpcpy
+Message-ID: <20200820033317.GA2167124@ubuntu-n2-xlarge-x86>
+References: <20200819191654.1130563-1-ndesaulniers@google.com>
+ <20200819191654.1130563-2-ndesaulniers@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200819191654.1130563-2-ndesaulniers@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 9:30 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Do you have any idea to cope with
-> the 3% loss problem?
->
-> If it is a problem, maybe I should try Idea 2).
+On Wed, Aug 19, 2020 at 12:16:50PM -0700, Nick Desaulniers wrote:
+> LLVM implemented a recent "libcall optimization" that lowers calls to
+> `sprintf(dest, "%s", str)` where the return value is used to
+> `stpcpy(dest, str) - dest`. This generally avoids the machinery involved
+> in parsing format strings. This optimization was introduced into
+> clang-12. Because the kernel does not provide an implementation of
+> stpcpy, we observe linkage failures for almost all targets when building
+> with ToT clang.
+> 
+> The interface is unsafe as it does not perform any bounds checking.
+> Disable this "libcall optimization" via `-fno-builtin-stpcpy`.
+> 
+> Cc: stable@vger.kernel.org # 4.4
+> Link: https://bugs.llvm.org/show_bug.cgi?id=47162
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1126
+> Link: https://reviews.llvm.org/D85963
+> Reported-by: Sami Tolvanen <samitolvanen@google.com>
+> Suggested-by: Dávid Bolvanský <david.bolvansky@gmail.com>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-I think it will be ok.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
--- 
-Thanks,
-~Nick Desaulniers
+Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+
+> ---
+>  Makefile | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Makefile b/Makefile
+> index 9cac6fde3479..e523dc8d30e0 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -578,6 +578,7 @@ ifneq ($(LLVM_IAS),1)
+>  CLANG_FLAGS	+= -no-integrated-as
+>  endif
+>  CLANG_FLAGS	+= -Werror=unknown-warning-option
+> +CLANG_FLAGS	+= -fno-builtin-stpcpy
+>  KBUILD_CFLAGS	+= $(CLANG_FLAGS)
+>  KBUILD_AFLAGS	+= $(CLANG_FLAGS)
+>  export CLANG_FLAGS
+> -- 
+> 2.28.0.297.g1956fa8f8d-goog
+> 
