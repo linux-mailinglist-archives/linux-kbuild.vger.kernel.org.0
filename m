@@ -2,54 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC18A24AD59
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Aug 2020 05:33:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A68A624AD5C
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Aug 2020 05:33:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726837AbgHTDdY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Aug 2020 23:33:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58638 "EHLO
+        id S1726702AbgHTDdl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Aug 2020 23:33:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726872AbgHTDdW (ORCPT
+        with ESMTP id S1726698AbgHTDdk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Aug 2020 23:33:22 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0184CC061757;
-        Wed, 19 Aug 2020 20:33:21 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id p4so510390qkf.0;
-        Wed, 19 Aug 2020 20:33:20 -0700 (PDT)
+        Wed, 19 Aug 2020 23:33:40 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD8EC061757;
+        Wed, 19 Aug 2020 20:33:40 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id t23so342799qto.3;
+        Wed, 19 Aug 2020 20:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=U70M0DthPhvBPm+JwSxLRJEdOyYLX1RXRnFN4J4OreQ=;
-        b=KpEwD66yBrruBO3QsYyaOwDCrPWzetFsZPTJHveDTAvV1wImb3iajyGumgOLMInvG7
-         1CqtCH/mQh0g1h+p6uDlkosEkWf6vH2BS75hPQl8PQ5k7+kZkyYFgbO7cG9y+PPErHx/
-         zdYz540CUfXWEFO2pCSN9B0kvqTLx5NoIDqLKqE4n+1K8Zggfon6oG3WWwlDYDQL7qq7
-         /WhzyMaJB6+wCB7FTbgpyEnk6t1MNmt++2xRVZ01/lA2DlkQ2tfq77V1PiHiEIyTmiML
-         U0sbQ7Xfyksip8Kv5pqhnnuDcVTY6tf3Z64dMyGspTd6AsrkMNsPk1kLcILoMFJbHXFK
-         mVwg==
+         :content-disposition:in-reply-to;
+        bh=FUyxvy8wBj3gCStban8Enm6jAvRD/hlbx2oYRN0jKuw=;
+        b=sxk8O+SbQsGNAB0F6wx1Lm8Incn6VQ7tRFJC7evKdhXKghxxCyhfXW/2I+YevvoHzG
+         xQZNQkExHqfcnojLEWIkBhiN6RuBcW7IZ0Pfm7UM2LqDBgA0Dw0oIPrgs02L9LiKB4sv
+         s9kEwCiGsxUXkgywFb38aibL7bAQHmKlvzDlAqFCvukkjzzT5MXwl1HdYHH21S1LNs0C
+         E4ZZTKXZZbjKUmgRtSzwflxgOmeV5N9djAKZZ7bvxSFwTiDNyn/CAr8ycPRG1/V/YvHG
+         x/5qZbjdn41r9gVaNIvwU/aKUdcC5d7m4h3SnZNTvsgYxAYkODL35hBZVDdJi0GbqbWu
+         AEdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=U70M0DthPhvBPm+JwSxLRJEdOyYLX1RXRnFN4J4OreQ=;
-        b=s10v2pZa5FLmZT+DGgEYckrgccI18iIceUOvZrSDIJa7jyouSLTrkVIh9SCWGWm1zq
-         ztg7waEZvmZTqqCmwmKXpGB2Y3A0RHC9AV42Llh6vyVMesAlFCD+egeC2DK/T5jKxbzJ
-         t3Kk9lU4K0apSMpuLFzJRifmFXEPBXYE6dlpH2dbZv4cXwBred0EoMfiNRflGDYZiVr2
-         9cGKTDIx++Y7cMwqqpgukrF+sbw180oJwWp/8dD7xWYFW2pBuwzjzH5OinC3PX4tS8QN
-         SYJMcLNMO1botiEUy2dznTHUJ7hz3+9xYyJ6gne4o3Bpz9OEaC0ME8QFsRQK2y8NMi3d
-         4CUg==
-X-Gm-Message-State: AOAM532bYB8j3IWTICNwwW5TY/PmrIo0m5n9dnNoXp7Lb1zcEmGGUKQn
-        NcR0fvldGG6GXZsusDqiUP8=
-X-Google-Smtp-Source: ABdhPJzRVPFYZRfVAtXW6RVInl7yWIxXxbXikBLG/HFjIjUou4gqQQBd089gpfngD73D+Yu+O6Iudw==
-X-Received: by 2002:a05:620a:12ef:: with SMTP id f15mr1079654qkl.120.1597894399877;
-        Wed, 19 Aug 2020 20:33:19 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=FUyxvy8wBj3gCStban8Enm6jAvRD/hlbx2oYRN0jKuw=;
+        b=m8eyt+AQnuJhM3G52MQAMtuteHcbKigsmMZQ8Z1qhMEcxzo5lpdrTmI07ORXuMLI2V
+         vifKTbbA6t0KgswaJm5+jj5xkROK1XrL3zH03oFWXI6uq5/Avz1YYEjXm2YeSXq8pglF
+         mCpR3T5uu+WjLQoGlhZ5t25xKg0eZkFbLc4vL7qFBBsB18j4b9YoaoOlFqjvTOrSJI1p
+         VSSq5RZlcv3QZ/REJfB/HBtG5L4E/IvuDLBIYu8XmlTNNjac/KhymG6+qrjgG7f7nqzx
+         1GaOY9gJLwWpQaqw4HShbe+lfPtMeOEsWt/5FrgBD7VZS9PCOqdJ7RNpo3hIGdMsXXCk
+         l+4w==
+X-Gm-Message-State: AOAM531/d593vGBbHaHi7fWvC+xzvvO80SU8vunC6lOZ+6sDZMquQ1aU
+        TofQQS+bbD9mn1SOcTBAeGY=
+X-Google-Smtp-Source: ABdhPJwx7osUMFolKgqu6fVNuEXRDngNIKRzqyDzx7X6cwjp6UFzxMNzecSfIPj3IWPEE13aiPosaw==
+X-Received: by 2002:ac8:4e28:: with SMTP id d8mr1033215qtw.134.1597894419454;
+        Wed, 19 Aug 2020 20:33:39 -0700 (PDT)
 Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
-        by smtp.gmail.com with ESMTPSA id t32sm1713805qtb.3.2020.08.19.20.33.18
+        by smtp.gmail.com with ESMTPSA id h81sm969802qke.76.2020.08.19.20.33.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 20:33:18 -0700 (PDT)
-Date:   Wed, 19 Aug 2020 20:33:17 -0700
+        Wed, 19 Aug 2020 20:33:38 -0700 (PDT)
+Date:   Wed, 19 Aug 2020 20:33:36 -0700
 From:   Nathan Chancellor <natechancellor@gmail.com>
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -79,60 +78,49 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Andi Kleen <ak@suse.de>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         =?iso-8859-1?Q?D=E1vid_Bolvansk=FD?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>, stable@vger.kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: [PATCH v2 1/5] Makefile: add -fno-builtin-stpcpy
-Message-ID: <20200820033317.GA2167124@ubuntu-n2-xlarge-x86>
+        Eli Friedman <efriedma@quicinc.com>
+Subject: Re: [PATCH v2 2/5] Makefile: add -fno-builtin-bcmp
+Message-ID: <20200820033336.GB2167124@ubuntu-n2-xlarge-x86>
 References: <20200819191654.1130563-1-ndesaulniers@google.com>
- <20200819191654.1130563-2-ndesaulniers@google.com>
+ <20200819191654.1130563-3-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200819191654.1130563-2-ndesaulniers@google.com>
+In-Reply-To: <20200819191654.1130563-3-ndesaulniers@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 12:16:50PM -0700, Nick Desaulniers wrote:
-> LLVM implemented a recent "libcall optimization" that lowers calls to
-> `sprintf(dest, "%s", str)` where the return value is used to
-> `stpcpy(dest, str) - dest`. This generally avoids the machinery involved
-> in parsing format strings. This optimization was introduced into
-> clang-12. Because the kernel does not provide an implementation of
-> stpcpy, we observe linkage failures for almost all targets when building
-> with ToT clang.
+On Wed, Aug 19, 2020 at 12:16:51PM -0700, Nick Desaulniers wrote:
+> The issue with using `-fno-builtin-*` flags was that they were not
+> retained during an LTO link with LLVM.  This was fixed in clang-11 by
+> https://reviews.llvm.org/D71193
+> (0508c994f0b14144041f2cfd3ba9f9a80f03de08), which is also the minimum
+> supported version of clang for LTO.  Use `-fno-builtin-bcmp` instead.
 > 
-> The interface is unsafe as it does not perform any bounds checking.
-> Disable this "libcall optimization" via `-fno-builtin-stpcpy`.
+> With this applid, we can cleanly revert
+> commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
 > 
-> Cc: stable@vger.kernel.org # 4.4
-> Link: https://bugs.llvm.org/show_bug.cgi?id=47162
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1126
-> Link: https://reviews.llvm.org/D85963
-> Reported-by: Sami Tolvanen <samitolvanen@google.com>
-> Suggested-by: Dávid Bolvanský <david.bolvansky@gmail.com>
-> Suggested-by: Kees Cook <keescook@chromium.org>
 > Reviewed-by: Kees Cook <keescook@chromium.org>
+> Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
 > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
 Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
 
 > ---
 >  Makefile | 1 +
 >  1 file changed, 1 insertion(+)
 > 
 > diff --git a/Makefile b/Makefile
-> index 9cac6fde3479..e523dc8d30e0 100644
+> index e523dc8d30e0..def590b743a9 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -578,6 +578,7 @@ ifneq ($(LLVM_IAS),1)
->  CLANG_FLAGS	+= -no-integrated-as
+> @@ -579,6 +579,7 @@ CLANG_FLAGS	+= -no-integrated-as
 >  endif
 >  CLANG_FLAGS	+= -Werror=unknown-warning-option
-> +CLANG_FLAGS	+= -fno-builtin-stpcpy
+>  CLANG_FLAGS	+= -fno-builtin-stpcpy
+> +CLANG_FLAGS	+= -fno-builtin-bcmp
 >  KBUILD_CFLAGS	+= $(CLANG_FLAGS)
 >  KBUILD_AFLAGS	+= $(CLANG_FLAGS)
 >  export CLANG_FLAGS
