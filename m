@@ -2,37 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD10024C7DC
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Aug 2020 00:42:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED30124C85D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Aug 2020 01:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728510AbgHTWmx (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 20 Aug 2020 18:42:53 -0400
-Received: from terminus.zytor.com ([198.137.202.136]:38161 "EHLO
-        mail.zytor.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728477AbgHTWmx (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 20 Aug 2020 18:42:53 -0400
-Received: from hanvin-mobl2.amr.corp.intel.com ([134.134.139.76])
-        (authenticated bits=0)
-        by mail.zytor.com (8.15.2/8.15.2) with ESMTPSA id 07KMfYf0053672
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-        Thu, 20 Aug 2020 15:41:34 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 07KMfYf0053672
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-        s=2020072401; t=1597963300;
-        bh=s4KiY6IVPnssifxLe3ApzH+AtYKkZ/XrfXH15ucZ9e0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=IAMNJsQo4KkZCk6UDBgAsJFK1T4nqrdipQ0KSG2bi5XlLefzOFyNzJfd6JBp/Eqnj
-         VHbE4iAUQMWz5ocgQpUMbWJZ48TsXSpcvRbzTndwkfz78DBqhhQshfKmOQgTqfl/Wj
-         RBrRX6RLrQLFcyq+62UQqNTl5iqXyJkx64mYyx75plbxBnh30PzkIKu+Mutd3qUOT0
-         A4ujtEmGkcsIjEOIH+UIsRNZ+WEbjtLf8z10eiI1dZo9znixEIR6kWCNqNX8JEo+kL
-         Mat2a2XlApq5aNd3GFkvQ74Yb62mM52q5ryXOb1H145zrd8cWYB0dPr/gIaowZMVMU
-         Kmllk8PLEm/fA==
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Nick Desaulniers <ndesaulniers@google.com>,
+        id S1728586AbgHTXRU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 20 Aug 2020 19:17:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43918 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728498AbgHTXRS (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 20 Aug 2020 19:17:18 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E41C061385;
+        Thu, 20 Aug 2020 16:17:18 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id c12so69914qtn.9;
+        Thu, 20 Aug 2020 16:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OCCpDD1HGnRewk/D7AycR8ruwL1UMpf01dn4nf+tC3E=;
+        b=L0A6twPCTdmvAtTC8jE3H1DkqKunPYR8+xrywZ8SqzG1qvcS9J7CjXb8FNDMz8sZUm
+         Bgiv6V3B4Ep59c7HQf//u8UvlIypWa9pdme78orN1gGNM+LL7mfaMWrSlezA5zoRR9zS
+         czz7DMFJOrf4Tb4Pr1Y79wu0f+NEoAp7jJ/mKFW7BjsDZHXqZuGvKcH6SW1tg1pdHn95
+         H6Di/orGPZN27K3esMqisV8WeeR1vD8pUyUnF3YG/FfZSPadYTO/09GSiFoKuKfZM7/R
+         qm7kucaDq6GUZKaaqQQaCwdl31LCWfdMIXlq73dLK6kJMZ0t6OkbrwJAoHl2hM8WAlRi
+         cGGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=OCCpDD1HGnRewk/D7AycR8ruwL1UMpf01dn4nf+tC3E=;
+        b=EuySCfmW1ou6MzHsC2+eWp5JYxJ9YvRDeOxi+H+oZYty+/YyRlBororkHSdR7FpVw4
+         ssrLwVJESRnRVRvO/Hg886bOfMlSnQOkaRNYHNyyv7sXF/94pNd0KyrjuwDW8ihwlt6m
+         xlFFl63VlOIOpsijB/i8+H0xSC9MGZDzsPBAK3pD7VolJlmoLbQT67rLQjTCjzM4lXWD
+         Y+Q6nD+gllEXqTn+KmJUdysclzkfqDQ8vWn8as2751zTzyAnJLMcEvNpTSxHZi+O4LSl
+         wojOdeV8rSH34NuE+a0o/tZCUtLMKhze+WnIvtrhbzPf6lSkQoSAWsDNoc3xzpyRub3M
+         5ymg==
+X-Gm-Message-State: AOAM53160cmPuaDHN4liWDU33GhTNYiRv/KNEU22iOZ11K0Rt+H84DcL
+        xXb19H9T130p8AnaL43VUFs=
+X-Google-Smtp-Source: ABdhPJx9S6pVwUcHMYx7wa3nZ15C4jJfn68ZoBQaM25+Ou3TObLMS+45HfCRndXGXkNXJPI6YYn+lA==
+X-Received: by 2002:ac8:3a26:: with SMTP id w35mr223130qte.124.1597965437155;
+        Thu, 20 Aug 2020 16:17:17 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id 128sm3584451qkk.101.2020.08.20.16.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 16:17:16 -0700 (PDT)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Thu, 20 Aug 2020 19:17:13 -0400
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Arvind Sankar <nivedita@alum.mit.edu>,
-        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -57,6 +81,8 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Bruce Ashfield <bruce.ashfield@gmail.com>,
         Marco Elver <elver@google.com>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
+Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+Message-ID: <20200820231713.GA829411@rani.riverdale.lan>
 References: <20200817220212.338670-1-ndesaulniers@google.com>
  <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
  <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
@@ -65,74 +91,22 @@ References: <20200817220212.338670-1-ndesaulniers@google.com>
  <20200818202407.GA3143683@rani.riverdale.lan>
  <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
  <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
-From:   "H. Peter Anvin" <hpa@zytor.com>
-Message-ID: <edd38955-dad1-ca6c-d783-6cb529d8dd3a@zytor.com>
-Date:   Thu, 20 Aug 2020 15:41:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ <edd38955-dad1-ca6c-d783-6cb529d8dd3a@zytor.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <edd38955-dad1-ca6c-d783-6cb529d8dd3a@zytor.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 2020-08-18 13:58, Nick Desaulniers wrote:
-> On Tue, Aug 18, 2020 at 1:27 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
->>
->> On Tue, Aug 18, 2020 at 1:24 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
->>>
->>> On Tue, Aug 18, 2020 at 12:13:22PM -0700, Linus Torvalds wrote:
->>>> On Tue, Aug 18, 2020 at 12:03 PM H. Peter Anvin <hpa@zytor.com> wrote:
->>>>>
->>>>> I'm not saying "change the semantics", nor am I saying that playing
->>>>> whack-a-mole *for a limited time* is unreasonable. But I would like to go back
->>>>> to the compiler authors and get them to implement such a #pragma: "this
->>>>> freestanding implementation *does* support *this specific library function*,
->>>>> and you are free to call it."
->>>>
->>>> I'd much rather just see the library functions as builtins that always
->>>> do the right thing (with the fallback being "just call the standard
->>>> function").
->>>>
->>>> IOW, there's nothing wrong with -ffreestanding if you then also have
->>>> __builtin_memcpy() etc, and they do the sane compiler optimizations
->>>> for memcpy().
->>>>
->>>> What we want to avoid is the compiler making *assumptions* based on
->>>> standard names, because we may implement some of those things
->>>> differently.
->>>>
->>>
->>> -ffreestanding as it stands today does have __builtin_memcpy and
->>> friends. But you need to then use #define memcpy __builtin_memcpy etc,
->>> which is messy and also doesn't fully express what you want. #pragma, or
->>> even just allowing -fbuiltin-foo options would be useful.
+On Thu, Aug 20, 2020 at 03:41:33PM -0700, H. Peter Anvin wrote:
 > 
-> I do really like the idea of -fbuiltin-foo.  For example, you'd specify:
+> I would prefer this to be a #pragma for a header file, rather than
+> having a very long command line for everything...
 > 
-> -ffreestanding -fbuiltin-bcmp
-> 
-> as an example. `-ffreestanding` would opt you out of ALL libcall
-> optimizations, `-fbuiltin-bcmp` would then opt you back in to
-> transforms that produce bcmp.  That way you're informing the compiler
-> more precisely about the environment you'd be targeting.  It feels
-> symmetric to existing `-fno-` flags (clang makes -f vs -fno- pretty
-> easy when there is such symmetry).  And it's already convention that
-> if you specify multiple conflicting compiler flags, then the latter
-> one specified "wins."  In that sense, turning back on specific
-> libcalls after disabling the rest looks more ergonomic to me.
-> 
-> Maybe Eli or David have thoughts on why that may or may not be as
-> ergonomic or possible to implement as I imagine?
+> 	-hpa
 > 
 
-I would prefer this to be a #pragma for a header file, rather than
-having a very long command line for everything...
-
-	-hpa
-
+There is @option_file, though.
