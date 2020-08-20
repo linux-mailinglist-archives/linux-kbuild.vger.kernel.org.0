@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A68A624AD5C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Aug 2020 05:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AFB824AD5E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 20 Aug 2020 05:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726702AbgHTDdl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 19 Aug 2020 23:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
+        id S1726741AbgHTDeX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 19 Aug 2020 23:34:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726698AbgHTDdk (ORCPT
+        with ESMTP id S1726435AbgHTDeW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 19 Aug 2020 23:33:40 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD8EC061757;
-        Wed, 19 Aug 2020 20:33:40 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id t23so342799qto.3;
-        Wed, 19 Aug 2020 20:33:40 -0700 (PDT)
+        Wed, 19 Aug 2020 23:34:22 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63CA1C061757;
+        Wed, 19 Aug 2020 20:34:22 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id 2so469783qkf.10;
+        Wed, 19 Aug 2020 20:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=FUyxvy8wBj3gCStban8Enm6jAvRD/hlbx2oYRN0jKuw=;
-        b=sxk8O+SbQsGNAB0F6wx1Lm8Incn6VQ7tRFJC7evKdhXKghxxCyhfXW/2I+YevvoHzG
-         xQZNQkExHqfcnojLEWIkBhiN6RuBcW7IZ0Pfm7UM2LqDBgA0Dw0oIPrgs02L9LiKB4sv
-         s9kEwCiGsxUXkgywFb38aibL7bAQHmKlvzDlAqFCvukkjzzT5MXwl1HdYHH21S1LNs0C
-         E4ZZTKXZZbjKUmgRtSzwflxgOmeV5N9djAKZZ7bvxSFwTiDNyn/CAr8ycPRG1/V/YvHG
-         x/5qZbjdn41r9gVaNIvwU/aKUdcC5d7m4h3SnZNTvsgYxAYkODL35hBZVDdJi0GbqbWu
-         AEdg==
+        bh=rR24exBfQVkWtacavopzrmH6PxpvBA+Nf0yqd/BMG9E=;
+        b=HJ9D3ITYMCvLAArz8DK8SGV59PkSSo29GqCB9Z9SJ6XraYNdLynVE691bcdGgMSDDN
+         hxxLdJyCMuzmbOtjTKDRoGlRqt5vH8x39y2B/Se5AyD93apZP7ce4Qyj85d70i/cEkPy
+         4IGmJneYPp0H3t+8UkWhwm6xBijIPn/+5zXLaIpW+DQ3qtlgGSwpjbSca8L5hWoVnI5y
+         tl8EqNvSJjKx5W78/Sc1N9SDbg94vSZB0kJrpSH9onIdKswBLq5kEqaaptNxGhlvf0BB
+         JuX1RPN/Uc7YH85ejg34Y6LPup/+D1xOGXN9TKU1uRuZDMq9wtYHZ/Z4M8ySdAvFaOIV
+         oyEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=FUyxvy8wBj3gCStban8Enm6jAvRD/hlbx2oYRN0jKuw=;
-        b=m8eyt+AQnuJhM3G52MQAMtuteHcbKigsmMZQ8Z1qhMEcxzo5lpdrTmI07ORXuMLI2V
-         vifKTbbA6t0KgswaJm5+jj5xkROK1XrL3zH03oFWXI6uq5/Avz1YYEjXm2YeSXq8pglF
-         mCpR3T5uu+WjLQoGlhZ5t25xKg0eZkFbLc4vL7qFBBsB18j4b9YoaoOlFqjvTOrSJI1p
-         VSSq5RZlcv3QZ/REJfB/HBtG5L4E/IvuDLBIYu8XmlTNNjac/KhymG6+qrjgG7f7nqzx
-         1GaOY9gJLwWpQaqw4HShbe+lfPtMeOEsWt/5FrgBD7VZS9PCOqdJ7RNpo3hIGdMsXXCk
-         l+4w==
-X-Gm-Message-State: AOAM531/d593vGBbHaHi7fWvC+xzvvO80SU8vunC6lOZ+6sDZMquQ1aU
-        TofQQS+bbD9mn1SOcTBAeGY=
-X-Google-Smtp-Source: ABdhPJwx7osUMFolKgqu6fVNuEXRDngNIKRzqyDzx7X6cwjp6UFzxMNzecSfIPj3IWPEE13aiPosaw==
-X-Received: by 2002:ac8:4e28:: with SMTP id d8mr1033215qtw.134.1597894419454;
-        Wed, 19 Aug 2020 20:33:39 -0700 (PDT)
+        bh=rR24exBfQVkWtacavopzrmH6PxpvBA+Nf0yqd/BMG9E=;
+        b=EhjHwQ4WapOefVFIOO6YkLAFyzzoRtbIsoXrQYRAD/dh84BjkKigcnMByfC6h6vB6+
+         prIF8KQb9L0s85X+wStnrilq3iCxSBvT1lPvbp0Dj+d54gKdbzWZLajCcJD5xtmkzdji
+         HseqP71Yt/buLgqlho/2rl97IegJSqXwVwyaDlRqoSdAiOtfxP2wwtLsDeN/OF89cSI1
+         fZFv7DpnyWOxVgf8J73u1+zQ3EoBfNqQHTrELOY3vX3yFfPxB+rw6M3pw6Sltk/MbC3P
+         qFjmlg7/yd+aJg8FAZBTjgoYM4MwpG7CLKFI91ZSlezz9QrTka77uyOM8fy4DYQwjjNn
+         O37A==
+X-Gm-Message-State: AOAM53039z9XcU8D/rwe4orq/ky/6/N0QY1ufdz6/5T31FZYsZAZ9MhM
+        86Zhx3Zw892zl4SA/X3kW0Q=
+X-Google-Smtp-Source: ABdhPJzic2ynnUlv8fsvPVT9UW/uNizR8J71CrvkvSNpOU+Ea0IlZKCor7tcjK61capu5RqbLNkjpw==
+X-Received: by 2002:a37:62cf:: with SMTP id w198mr1047965qkb.172.1597894461585;
+        Wed, 19 Aug 2020 20:34:21 -0700 (PDT)
 Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
-        by smtp.gmail.com with ESMTPSA id h81sm969802qke.76.2020.08.19.20.33.37
+        by smtp.gmail.com with ESMTPSA id o47sm1545390qtk.19.2020.08.19.20.34.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2020 20:33:38 -0700 (PDT)
-Date:   Wed, 19 Aug 2020 20:33:36 -0700
+        Wed, 19 Aug 2020 20:34:20 -0700 (PDT)
+Date:   Wed, 19 Aug 2020 20:34:19 -0700
 From:   Nathan Chancellor <natechancellor@gmail.com>
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -79,51 +79,82 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         =?iso-8859-1?Q?D=E1vid_Bolvansk=FD?= <david.bolvansky@gmail.com>,
         Eli Friedman <efriedma@quicinc.com>
-Subject: Re: [PATCH v2 2/5] Makefile: add -fno-builtin-bcmp
-Message-ID: <20200820033336.GB2167124@ubuntu-n2-xlarge-x86>
+Subject: Re: [PATCH v2 3/5] Revert "lib/string.c: implement a basic bcmp"
+Message-ID: <20200820033419.GC2167124@ubuntu-n2-xlarge-x86>
 References: <20200819191654.1130563-1-ndesaulniers@google.com>
- <20200819191654.1130563-3-ndesaulniers@google.com>
+ <20200819191654.1130563-4-ndesaulniers@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200819191654.1130563-3-ndesaulniers@google.com>
+In-Reply-To: <20200819191654.1130563-4-ndesaulniers@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 19, 2020 at 12:16:51PM -0700, Nick Desaulniers wrote:
-> The issue with using `-fno-builtin-*` flags was that they were not
-> retained during an LTO link with LLVM.  This was fixed in clang-11 by
-> https://reviews.llvm.org/D71193
-> (0508c994f0b14144041f2cfd3ba9f9a80f03de08), which is also the minimum
-> supported version of clang for LTO.  Use `-fno-builtin-bcmp` instead.
+On Wed, Aug 19, 2020 at 12:16:52PM -0700, Nick Desaulniers wrote:
+> This reverts commit 5f074f3e192f10c9fade898b9b3b8812e3d83342.
 > 
-> With this applid, we can cleanly revert
-> commit 5f074f3e192f ("lib/string.c: implement a basic bcmp")
+> An earlier commit in the series prevents the compiler from emitting
+> calls to bcmp as part of "libcall optimization," and there are no
+> explicit callers, so we can now safely remove this interface.
 > 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
 > Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
 Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 
 > ---
->  Makefile | 1 +
->  1 file changed, 1 insertion(+)
+>  include/linux/string.h |  3 ---
+>  lib/string.c           | 20 --------------------
+>  2 files changed, 23 deletions(-)
 > 
-> diff --git a/Makefile b/Makefile
-> index e523dc8d30e0..def590b743a9 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -579,6 +579,7 @@ CLANG_FLAGS	+= -no-integrated-as
->  endif
->  CLANG_FLAGS	+= -Werror=unknown-warning-option
->  CLANG_FLAGS	+= -fno-builtin-stpcpy
-> +CLANG_FLAGS	+= -fno-builtin-bcmp
->  KBUILD_CFLAGS	+= $(CLANG_FLAGS)
->  KBUILD_AFLAGS	+= $(CLANG_FLAGS)
->  export CLANG_FLAGS
+> diff --git a/include/linux/string.h b/include/linux/string.h
+> index b1f3894a0a3e..f3bdb74bc230 100644
+> --- a/include/linux/string.h
+> +++ b/include/linux/string.h
+> @@ -155,9 +155,6 @@ extern void * memscan(void *,int,__kernel_size_t);
+>  #ifndef __HAVE_ARCH_MEMCMP
+>  extern int memcmp(const void *,const void *,__kernel_size_t);
+>  #endif
+> -#ifndef __HAVE_ARCH_BCMP
+> -extern int bcmp(const void *,const void *,__kernel_size_t);
+> -#endif
+>  #ifndef __HAVE_ARCH_MEMCHR
+>  extern void * memchr(const void *,int,__kernel_size_t);
+>  #endif
+> diff --git a/lib/string.c b/lib/string.c
+> index 6012c385fb31..69328b8353e1 100644
+> --- a/lib/string.c
+> +++ b/lib/string.c
+> @@ -922,26 +922,6 @@ __visible int memcmp(const void *cs, const void *ct, size_t count)
+>  EXPORT_SYMBOL(memcmp);
+>  #endif
+>  
+> -#ifndef __HAVE_ARCH_BCMP
+> -/**
+> - * bcmp - returns 0 if and only if the buffers have identical contents.
+> - * @a: pointer to first buffer.
+> - * @b: pointer to second buffer.
+> - * @len: size of buffers.
+> - *
+> - * The sign or magnitude of a non-zero return value has no particular
+> - * meaning, and architectures may implement their own more efficient bcmp(). So
+> - * while this particular implementation is a simple (tail) call to memcmp, do
+> - * not rely on anything but whether the return value is zero or non-zero.
+> - */
+> -#undef bcmp
+> -int bcmp(const void *a, const void *b, size_t len)
+> -{
+> -	return memcmp(a, b, len);
+> -}
+> -EXPORT_SYMBOL(bcmp);
+> -#endif
+> -
+>  #ifndef __HAVE_ARCH_MEMSCAN
+>  /**
+>   * memscan - Find a character in an area of memory.
 > -- 
 > 2.28.0.297.g1956fa8f8d-goog
 > 
