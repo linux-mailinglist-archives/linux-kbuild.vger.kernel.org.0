@@ -2,57 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50AAB24CE2C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Aug 2020 08:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA00624DE68
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Aug 2020 19:30:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726693AbgHUGp7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Aug 2020 02:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56692 "EHLO
+        id S1728760AbgHUR3y (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Aug 2020 13:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbgHUGp6 (ORCPT
+        with ESMTP id S1728754AbgHUR3j (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Aug 2020 02:45:58 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B9C9C061386
-        for <linux-kbuild@vger.kernel.org>; Thu, 20 Aug 2020 23:45:57 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id k13so414305lfo.0
-        for <linux-kbuild@vger.kernel.org>; Thu, 20 Aug 2020 23:45:57 -0700 (PDT)
+        Fri, 21 Aug 2020 13:29:39 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6DCCC061573;
+        Fri, 21 Aug 2020 10:29:39 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id t23so1761715qto.3;
+        Fri, 21 Aug 2020 10:29:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5bPPep5bDg1VFzpkxRBbcmCJ2qD9Va8/3Ftdk6p2l/g=;
-        b=A3MGrtczd5NJ3P+Niu30oBzutZUKu0rHzDoXaIjo/qrbOFe/yeroAVI9Cjblbf7H/E
-         Vj9Zm7gLY6r4O/ebPn1mze861IoyluIYqxWiuLUQNFevSY2HizJzaTnua84xRnVaD8az
-         qSUKhhfOK+qPbYiGYEm0Ci1F/UhwmwNlUQ328=
+        d=gmail.com; s=20161025;
+        h=sender:from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5YuybKZTV6+y2jdsm8D937XYyXteASeCgo782uMSN54=;
+        b=DaXjCsU6rUCmYHNazMqmOYKGd5+E7dI8Ey8oG06UZdKZ6MEfAwCzeJuL5jPFWIpu5F
+         bvmtLt5LAvQd9ILlvhPajOdyPzp83wbzwxrBShXw/fWBXwhWh7BOzSuUfWA4cLaQJFan
+         CoPd5gvagUyrnVZqK+GQwjwMsQYbisbUrjq4Ivtf97aTmu+eeKguGqP09cBgRX9YL2NA
+         Hln+YzwbfuFCKoa8SCIulLXPrZGbpU61MbbT2vVxC6tISr/LyhNMi7KU03DIy5+XLWW5
+         J0ypft08k/bOe9E8bhOukd+oVls6eH2IZkzJIokr6q+3iqEIVUuMHnjrP0K+Mvwl/JWP
+         GyCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5bPPep5bDg1VFzpkxRBbcmCJ2qD9Va8/3Ftdk6p2l/g=;
-        b=iWNaWu0B+5l5MMX8VWxHk+JiYv4cRMuvK/1RUupjG3G8vuu0v0xbS81ewxysKsdOJI
-         73KCXxi4k7ZQ7kmUQLUyS25wFsxcVe33Rlug6ye/pMw78BzQJif6z49IZmyK7ODZ0f0j
-         B9XM0ywntKtyVPkm4iT8N2k7zjZdwJzKPcI0sE4HfmyoHWYqcf/Z+WPvU4H9qxXjuxyk
-         iMvGm20NWilBcNHD3CuGqbDqLZvG0gaRBt+JPEzFk1diH9QtV8V7uijdpII5k7XW+ADX
-         wZ6pfb2J4rQSnt9V5XZS0LX1VIixmm4obwEA6V1uGHGwUIS1xonm4J8z8iF+h5qmZdiU
-         zFmA==
-X-Gm-Message-State: AOAM533+ipnV5IrITq0Job98ACC693Jl1jlFcSZ1eYdf/zJzwnrWFoGq
-        YvC+5aULCsjF+6GPz1zMx4Q09w==
-X-Google-Smtp-Source: ABdhPJwOItL4qsnK0FWZmGbVV44MGEu8EXdcdrou8xJh+fE60Flz/ZSSVu6qUP5Ecr6kER+1ag9xNA==
-X-Received: by 2002:a19:a8f:: with SMTP id 137mr715383lfk.145.1597992355755;
-        Thu, 20 Aug 2020 23:45:55 -0700 (PDT)
-Received: from [172.16.11.132] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id p1sm188312lji.93.2020.08.20.23.45.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Aug 2020 23:45:54 -0700 (PDT)
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=5YuybKZTV6+y2jdsm8D937XYyXteASeCgo782uMSN54=;
+        b=oS2o593Dt6F2ycLGHd0QTxNj7Y+MJLKOORrYtG1ufUSh+lW7n6EcvcHL8QE6hKCzlV
+         B5DNOqT/oIcWyR4ZKzskDBEphmDBKvAefwN/P9t2/CI95pblmKBiIGam3XK2Aaz8JJjt
+         st/nH3qFadV5PT2yBCHLYmiHoY/4WysruPNSxzx263IlWA5kktVjElrYjtVZCIVTmALP
+         yDXlaZ3I3KKxZlUhITJdhLBOi5pq8cZPun//nDgsKdKMe64fpAV8/QsG5Y/KbAgwngyz
+         Va7/n4Fsiq/HzJERSoGGCy4MgsMCHVdZlh+JTKBRwjQ3Jza9AujwWYXXz+XqUxizT3wx
+         Q+eQ==
+X-Gm-Message-State: AOAM530g4qFlyubpPUPVAOk6nmzB92rhw44VTVB8Ehu/1DU6XhzEVQzy
+        VJiluGzIEvNMFlRqeIZsrSE=
+X-Google-Smtp-Source: ABdhPJyh4Xad2b+n7JZSbMQHz8G1pyzv4nfZxw6XeH/8FvDa3KZKEdCj5fLjYlIZHR31w0iq87urFA==
+X-Received: by 2002:ac8:ec7:: with SMTP id w7mr3770399qti.118.1598030978689;
+        Fri, 21 Aug 2020 10:29:38 -0700 (PDT)
+Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
+        by smtp.gmail.com with ESMTPSA id j61sm2521675qtd.52.2020.08.21.10.29.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2020 10:29:37 -0700 (PDT)
+From:   Arvind Sankar <nivedita@alum.mit.edu>
+X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
+Date:   Fri, 21 Aug 2020 13:29:35 -0400
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
         Eli Friedman <efriedma@quicinc.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -78,9 +82,9 @@ Cc:     Nick Desaulniers <ndesaulniers@google.com>,
         Bruce Ashfield <bruce.ashfield@gmail.com>,
         Marco Elver <elver@google.com>,
         Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com>
- <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+Message-ID: <20200821172935.GA1411923@rani.riverdale.lan>
+References: <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
  <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com>
  <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
  <20200818202407.GA3143683@rani.riverdale.lan>
@@ -89,130 +93,145 @@ References: <20200817220212.338670-1-ndesaulniers@google.com>
  <20200818214146.GA3196105@rani.riverdale.lan>
  <df6c1da4-b910-ecb8-0de2-6156dd651be6@rasmusvillemoes.dk>
  <20200820175617.GA604994@rani.riverdale.lan>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <721e6979-e83b-2238-4763-a8cf99b57631@rasmusvillemoes.dk>
-Date:   Fri, 21 Aug 2020 08:45:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <CAHk-=whn91ar+EbcBXQb9UXad00Q5WjU-TCB6UBzVba682a4ew@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200820175617.GA604994@rani.riverdale.lan>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAHk-=whn91ar+EbcBXQb9UXad00Q5WjU-TCB6UBzVba682a4ew@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 20/08/2020 19.56, Arvind Sankar wrote:
-> On Thu, Aug 20, 2020 at 04:56:02PM +0200, Rasmus Villemoes wrote:
->> On 18/08/2020 23.41, Arvind Sankar wrote:
->>>
->>> Note that -fno-builtin-foo seems to mean slightly different things in
->>> clang and gcc. From experimentation, clang will neither optimize a call
->>> to foo, nor perform an optimization that introduces a call to foo. gcc
->>> will avoid optimizing calls to foo, but it can still generate new calls
->>> to foo while optimizing something else. Which means that
->>> -fno-builtin-{bcmp,stpcpy} only solves things for clang, not gcc. It's
->>> just that gcc doesn't seem to have implemented those optimizations.
->>>
->>
->> I think it's more than that. I've always read gcc's documentation
->>
->> '-fno-builtin'
->> '-fno-builtin-FUNCTION'
->>      Don't recognize built-in functions that do not begin with
->>      '__builtin_' as prefix. ...
->>
->>      GCC normally generates special code to handle certain built-in
->>      functions more efficiently; for instance, calls to 'alloca' may
->>      become single instructions which adjust the stack directly, and
->>      calls to 'memcpy' may become inline copy loops.
->>      ...
->>
->> to mean exactly that observed above and nothing more, i.e. that
->> -fno-builtin-foo merely means that gcc stops treating a call of a
->> function named foo to mean a call to a function implementing the
->> standard function by that name (and hence allows it to e.g. replace a
->> memcpy(d, s, 1) by byte load+store). It does not mean to prevent
->> emitting calls to foo, and I don't think it ever will - it's a bit sad
->> that clang has chosen to interpret these options differently.
+On Thu, Aug 20, 2020 at 04:33:03PM -0700, Linus Torvalds wrote:
+> On Thu, Aug 20, 2020 at 10:56 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
+> >
+> > Clang's interpretation is more useful for embedded, since you can use
+> > -fno-builtin-foo and avoid calling __builtin_foo directly, and be
+> > guaranteed that there will be no calls to foo that you didn't write
+> > explicitly (outside of memcpy/memset/memcmp). In this case you are free
+> > to implement foo with non-standard semantics, or avoid implementing it
+> > altogether, and be reasonably confident that it will all work.
 > 
-> That documentation is misleading, as it also goes on to say:
-> "...nor can you change the behavior of the functions by linking with a
-> different library"
-> which implies that you _can_ change the behavior if you use the option,
-> and which is what your "i.e." is saying as well.
+> Honestly, I think concentrating on whether __builtin_foo() works or
+> not misses the point entirely.
 > 
-> My point is that this is not completely true: in gcc, foo by default is
-> defined to be __builtin_foo, and -fno-builtin-foo simply removes this
-> definition. So the effect is just that calls to foo in the original
-> source will be left alone.
-
-Yes, this is a much better way of putting it. And with -fbuiltin-foo in
-effect, the compiler just needs to transform the code in some way as-if
-the standard function by that name was called, which it can of course
-decide to implement by emitting such a call, but it can also open-code
-it - or synthesize it using other std functions.
-
-> But in order for an optimization that introduces a new call to foo to be
-> valid, foo _must_ have standard semantics: strchr(s,'\0') is not s +
-> strlen(s) unless strlen has standard semantics.
-
-Correct. So I agree that -fno-builtin-strlen should prevent the compiler
-from generating calls to strlen() that don't appear in the code.
-
-This is an oversight in
-> gcc's optimizations: it converts to s + __builtin_strlen(s), which then
-> (normally) becomes s + strlen(s).
+> That has never _ever_ been a problem for us, and I doubt it has been a
+> problem for anybody else either.
 > 
-> Check out this horror: https://godbolt.org/z/a1r9fK
+> If you use __builtin_memcpy() in your source tree, then why would you
+> possibly ever want to disable it? And if you _don't_ use it, then
+> again - why would you ever want to disable it?
 > 
-> Clang will disable this optimization if -fno-builtin-strlen is
-> specified.
->
-> Clang's interpretation is more useful for embedded, since you can use
-> -fno-builtin-foo and avoid calling __builtin_foo directly, and be
-> guaranteed that there will be no calls to foo that you didn't write
-> explicitly (outside of memcpy/memset/memcmp). In this case you are free
-> to implement foo with non-standard semantics, or avoid implementing it
-> altogether, and be reasonably confident that it will all work.
-
-Yeah, except that the list of -fno-builtin-foo one would have to pass is
-enourmous, so for targets with a somewhat wonky libc, I'd much rather be
-able to do a blanket -fno-builtin, and then manually check their memcpy,
-memset and memcmp implementations and opt back in with
--fbuiltin-mem{cpy,set,cmp} so that small constant-size memcpys do get
-properly open-coded.
-
-The advice in gcc's documentation of just #definining memcpy() to
-__builtin_memcpy() doesn't work in the real world (for example it breaks
-C++ code that uses std::memcpy(...)).
-
->> Thinking out load, it would be useful if both compilers grew
->>
->>   -fassume-provided-std-foo
->>
->> and
->>
->>   -fno-assume-provided-std-foo
->>
->> options to tell the compiler that a function named foo with standard
->> semantics can be assumed (or not) to be provided by the execution
->> environment; i.e. one half of what -f(no-)builtin-foo apparently does
->> for clang currently.
+> No, the real (and only) problem has always been about the compilers
+> magically and silently "recognizing" certain source patterns, and
+> turning them into function calls behind the users back.
 > 
-> Not following: -fno-assume-provided-std-foo sounds like it would have
-> exactly the same semantics as Clang's -fno-builtin-foo, except maybe in
-> addition it should cause the compiler to error on seeing __builtin_foo
-> if it can't implement that without calling foo.
+> And that has nothing to do with __builtin_foo(). At least it
+> _shouldn't_ have anything to do with it.
+> 
 
-Yeah, I think you've convinced me there's no use for a separate option
-to prevent inventing calls to foo() - I was mostly thinking of it as a
-way to avoid having to provide each and every libc function that may
-have been half-way standardized at some point. But if one doesn't
-provide, say, bcmp, the code base certainly doesn't use bcmp itself, so
-one doesn't lose anything by just using -fno-builtin-bcmp; there are no
-explicit bcmp() uses that fail to get optimized.
+There seems to be some confusion here. The recognition and
+__builtin_foo() go hand-in-hand: memcpy() is special _because_ the
+compiler defines it to be __builtin_memcpy(); and the compiler turns the
+patterns into __builtin_foo() calls, which just end up as a call to
+foo() if they can't be inlined. The no-builtin- options _don't_ disable
+__builtin_ functions. They remove the default definition of foo() as
+__builtin_foo().
 
-Rasmus
+Take the problem that instigated this thread. __builtin_stpcpy() doesn't
+work in the kernel because the fallback, stpcpy(), isn't implemented.
+The optimization is doing:
+  sprintf(buf,"%s",s)
+  -> __builtin_sprintf(buf,"%s",s)
+  -> __builtin_stpcpy(buf,s)-buf
+  -> stpcpy(buf,s)-buf
+
+Now, further below, you basically say this is an example of the compiler
+taking something non-stpcpy() and turning it into stpcpy(), and you ask
+for a no-magic-stpcpy that would stop this optimization. That's what
+clang's no-builtin-stpcpy already does. The only extra thing it does is
+that the compiler will also not touch an explicit call to stpcpy(), but
+you can still call __builtin_stpcpy() if you really want it.
+
+This is what was going on in that LZ4 memcpy() issue: the compiler was
+faithfully compiling code like memcpy(d,s,8) into a call to memcpy()
+because we told it not to define memcpy() as __builtin_memcpy(), by
+compiling for a freestanding environment.
+
+This is why I'm saying clang's no-builtin-foo option is useful for
+embedded: it doesn't prevent the programmer using __builtin_foo(), it
+prevents the _compiler_ using __builtin_foo() on its own.
+
+> So this is things like the compiler silently seeing "oh, you called
+> your function 'free()', so we know that the stores you did to it are
+> dead and we'll remove them".
+> 
+> Or this is the compiler doing "Oh, you did four stores of zero in a
+> row, and and you asked for size optimizations, so we'll turn those
+> into a 'bzero()' call".
+
+This one is slightly different from the previous one. The first case is
+really a call to __builtin_free().
+
+This one is turning something that wasn't a function call into
+__builtin_bzero(), and I would hope that no-builtin-bzero would stop it
+as well. OTOH, the compiler is free to turn it into memset(), just like
+it could for structure/array initializers.
+
+The memcpy/memset/memcmp family is a bit of an edge case: the compiler
+requires them to be defined even for freestanding environments, so you
+can't in general stop the compiler from turning something into memset().
+(That -ffreestanding stops gcc from turning loops into memset() is a
+pragmatic recognition that some people are going to try to implement
+memset() in C.)
+
+> 
+> Or the compiler doing completely broken things, and turning a
+> "!memcmp()" expression into a "!bcmp()" because the compilier
+> incorrectly assumes it's faster.
+
+Stop it with the bcmp-shaming already. bcmp _can_ be implemented faster
+than memcmp, and it's no great loss if it isn't, since then it'll just
+be an alias to memcmp in any sensible libc.
+
+> 
+> Notice? Not a single one of those had any __builtin_xyz() pattern in
+> them. Quite the reverse. The compiler took something completely
+> different, and assumed builtin semantics without us having told it to.
+> 
+> So I think "-fno-builtin-xyz" is barking *completely* up the wrong
+> tree. It's missing the problem. The problem is not "I have some
+> builtin patterns, here, you can use them".
+
+Nope: in a hosted environment, xyz() _is_ __builtin_xyz(), and that is
+almost always a good thing for 99% of the code out there: you tell it to
+use builtin semantics by choosing to compile for a hosted environment.
+
+If you want something in between freestanding and hosted, you absolutely
+need some way to tell the compiler exactly which xyz()'s can be treated
+as __builtin_xyz() and which ones shouldn't. The no-builtin- flags allow
+you to start from a hosted environment and turn off the specialness of
+the functions that you don't want to be special. The proposed builtin-
+flags would allow you to start from freestanding and turn on the
+specialness of the functions that you do want to be special.
+
+> 
+> It's the same as all the vector intrinsics. Those don't hurt anybody -
+> as long as they only get used when people use the intrinsics. If the
+> compiler starts to suddenly use vector intrinsics without being told
+> to, *THAT* can be a problem. But there is never any reson to turn off
+> any particular intrinsic otherwise.
+> 
+> If you don't want it used, don't use it. And if you do use it, the
+> compiler generates the vector code sequence. It's that simple.
+> 
+> So to me, a compiler flag like "-fno-builtin-memcpy" is completely
+> insane. The flag adds absolutely no value.
+> 
+> The real value would be "-fno-magic-bcmp" which turns off stupid
+> optimizations that magically turn non-bcmp things into bcmp. But it
+> should not turn off *actual* __builtin_bcmp() if such a thing exists
+> and people want to explicitly use it.
+> 
+>              Linus
