@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF2D924E066
-	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Aug 2020 21:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2DBE24E05D
+	for <lists+linux-kbuild@lfdr.de>; Fri, 21 Aug 2020 21:03:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbgHUTDT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Aug 2020 15:03:19 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:62788 "EHLO
+        id S1726483AbgHUTDU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Aug 2020 15:03:20 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:62792 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726181AbgHUTCy (ORCPT
+        with ESMTP id S1725804AbgHUTCy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Fri, 21 Aug 2020 15:02:54 -0400
 Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 07LJ23eW027595;
+        by conuserg-09.nifty.com with ESMTP id 07LJ23eX027595;
         Sat, 22 Aug 2020 04:02:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07LJ23eW027595
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07LJ23eX027595
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598036527;
-        bh=mg0M4bAejUOuEVILMgIjbEef+kFqOFGf8lqJ8WZirB8=;
+        s=dec2015msa; t=1598036528;
+        bh=iC35dlkCP9FJ4EclQGyDZ4x87Wd4mzFK4RAlZBLomgA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=llJj/4JUV1O9m1gvCaXK72idAQ40EKl7Tmu8UsrlZrFSn61y0ZV7ZgT+5VxnqdjwB
-         Zj2B/FG9/35+AFcDrk0TyMxq05SxCGDe0cOgiPW4gurpPdEpgqtezYmxHrWb3eXWRd
-         Mz31RPgyN/OEzZm5cRtFtmDnNfgQp4u2wS/cOEGmtbOffaVwRNSF+fWtF9OdJisnjV
-         YEGRXRAfLh9NMIA2gGcB8L2X+s+yL8Clpsy9dfGBcf39+2cJBZMCMTJDw7RHVry0/4
-         zTJPCfZMKjMYTsznIMvmX9hjZZCZWVGUeoihWi0sk2xXhwg8+0Q1SZ3QwYnzxQztkt
-         2dBb4V14G6/nw==
+        b=1+HczE+PSd2DeUKEJvk42cEPWaRopDvSyZWE7N2rx/3x8Srty7UrMkP7nGYSoeVzv
+         xFToRVmyUPMKhf7S7pjHq/XKNPWLEzFu/f4EYi6TqrSAGt/rzQ9u7mNTVP5Q8fMEFR
+         f8cvE3hSS9CgH1S3oqh3tvIvySnl4xg9aRfzNgOe4+8T78TAtK82MeZ5BGc173L4bJ
+         +ASHlSIKrP0GCanUkRuz178CyznW7HWymQHstPDVjwmgGGWLgtKdxgyxQU+K5CwXCg
+         eQm6oNFe1/OFD4HUebFCrp+wfnubXyOSM6AIbtiFouZ53LA3wFIEPkiKKxPuqPq2qQ
+         o9m2yj5Fn7Yeg==
 X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -35,9 +35,9 @@ Cc:     Nathan Huckleberry <nhuck@google.com>,
         clang-built-linux@googlegroups.com,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/9] gen_compile_commands: reword the help message of -d option
-Date:   Sat, 22 Aug 2020 04:01:54 +0900
-Message-Id: <20200821190159.1033740-5-masahiroy@kernel.org>
+Subject: [PATCH v2 5/9] gen_compile_commands: make -o option independent of -d option
+Date:   Sat, 22 Aug 2020 04:01:55 +0900
+Message-Id: <20200821190159.1033740-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200821190159.1033740-1-masahiroy@kernel.org>
 References: <20200821190159.1033740-1-masahiroy@kernel.org>
@@ -48,21 +48,14 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I think the help message of the -d option is somewhat misleading.
+Change the -o option independent of the -d option, which is I think
+clearer behavior. Some people may like to use -d to specify a separate
+output directory, but still output the compile_commands.py in the
+source directory (unless the source tree is read-only) because it is
+the default location Clang Tools search for the compilation database.
 
-  Path to the kernel source directory to search (defaults to the working directory)
-
-The part "kernel source directory" is the source of the confusion.
-Some people misunderstand as if this script did not support separate
-output directories.
-
-Actually, this script also works for out-of-tree builds. You can
-use the -d option to point to the object output directory, not to
-the source directory. It should match to the O= option used in the
-previous kernel build, and then appears in the "directory" field of
-compile_commands.json.
-
-Reword the help message.
+Also, move the default parameter to the default= argument of the
+.add_argument().
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
@@ -70,29 +63,46 @@ Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 Changes in v2:
   - New patch
 
- scripts/gen_compile_commands.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/gen_compile_commands.py | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
-index 1b9899892d99..5f6318da01a2 100755
+index 5f6318da01a2..3ed958b64658 100755
 --- a/scripts/gen_compile_commands.py
 +++ b/scripts/gen_compile_commands.py
-@@ -31,13 +31,13 @@ def parse_arguments():
+@@ -39,11 +39,13 @@ def parse_arguments():
  
-     Returns:
-         log_level: A logging level to filter log output.
--        directory: The directory to search for .cmd files.
-+        directory: The work directory where the objects were built
-         output: Where to write the compile-commands JSON file.
-     """
-     usage = 'Creates a compile_commands.json database from kernel .cmd files'
-     parser = argparse.ArgumentParser(description=usage)
- 
--    directory_help = ('Path to the kernel source directory to search '
-+    directory_help = ('specify the output directory used for the kernel build '
+     directory_help = ('specify the output directory used for the kernel build '
                        '(defaults to the working directory)')
-     parser.add_argument('-d', '--directory', type=str, help=directory_help)
+-    parser.add_argument('-d', '--directory', type=str, help=directory_help)
++    parser.add_argument('-d', '--directory', type=str, default='.',
++                        help=directory_help)
  
+-    output_help = ('The location to write compile_commands.json (defaults to '
+-                   'compile_commands.json in the search directory)')
+-    parser.add_argument('-o', '--output', type=str, help=output_help)
++    output_help = ('path to the output command database (defaults to ' +
++                   _DEFAULT_OUTPUT + ')')
++    parser.add_argument('-o', '--output', type=str, default=_DEFAULT_OUTPUT,
++                        help=output_help)
+ 
+     log_level_help = ('the level of log messages to produce (defaults to ' +
+                       _DEFAULT_LOG_LEVEL + ')')
+@@ -52,11 +54,9 @@ def parse_arguments():
+ 
+     args = parser.parse_args()
+ 
+-    directory = args.directory or os.getcwd()
+-    output = args.output or os.path.join(directory, _DEFAULT_OUTPUT)
+-    directory = os.path.abspath(directory)
+-
+-    return args.log_level, directory, output
++    return (args.log_level,
++            os.path.abspath(args.directory),
++            args.output)
+ 
+ 
+ def process_line(root_directory, command_prefix, file_path):
 -- 
 2.25.1
 
