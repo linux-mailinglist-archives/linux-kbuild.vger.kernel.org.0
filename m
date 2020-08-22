@@ -2,55 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BFE824E41E
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 02:23:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2EC824E421
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 02:27:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbgHVAXd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Aug 2020 20:23:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51592 "EHLO
+        id S1726799AbgHVA1T (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Aug 2020 20:27:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726753AbgHVAXc (ORCPT
+        with ESMTP id S1726772AbgHVA1S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Aug 2020 20:23:32 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 033EEC061574
-        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:23:31 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id s14so1619213plp.4
-        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:23:31 -0700 (PDT)
+        Fri, 21 Aug 2020 20:27:18 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EBBFC061573
+        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:27:14 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id x6so1739921pgx.12
+        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lVdLiKM9f5DmQ4nw1uLUhU7UpsX2vw3oOdD0OyADK/0=;
-        b=sIu0gzevYkqboleHnK2Q9CqZCj26fro5OeNZcUi6p+gA153dbXOvc3Mb/I6vM81W0L
-         Oj6it/OcgT0MgfWplkZy4bAJRiswf5AFCijV+65+zoTlCZG/6mrZarA5m0e8Ij2/wvBL
-         Cv2Gcr3dkUj91v6JxBq2YBXBxlTqWEjkuBID1CoTbl93ekviA4LSunno7hYvEFdSpdtE
-         7+mxOtziV/B+2sMx7ziM70sUALjecs8FikInT+Ueif70uqLcHXnAo43DFGUY0+5twpW+
-         wyR3t0vgpHiptl7NlLzMhSimb+HoyuQvmSmOSYV+fOl/fqw03KMGoiX5+HYC/vd7oLTN
-         W88A==
+        bh=xbPuPNjfIY+zfHmVne0cy0lMy+OdPzwGw1ja89KiJW8=;
+        b=IYiMJ+AFwbI8+UBo2xhM4v6W5PCK6uuMqOIU7h2DyadM7X4+IRDlEEcGZyxIMhwBgE
+         peHTksKr7pnGbglxdf+guxBH1Ca5SyrHhN3xNINyFiQ8cuwXmZ2kjaEVdGhRLv3AVTkN
+         GUPZ4vhYdoKKrljcIIijra88CY8Ypv3DQSSlAlPlVwG8sOzHJrf3QAFJ4CJeunJY3evk
+         0RLlXAOf0r99ZoBzS7CV+KPXxkkWk3s4qxu1uOc/GLdo9JoZRQumvygF6sZP6MfwxrY4
+         ENH6zrzKAdW0HUy5d6/6CpnT3M07gKbZhFBfzX01cQUK3hvCyDkV0WWkDyYHbm16Tgn4
+         xKQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lVdLiKM9f5DmQ4nw1uLUhU7UpsX2vw3oOdD0OyADK/0=;
-        b=CmOnNnbkJPXcVMAp+9eDs+cK9pqPsuLgxI1M2TCO0ertxkRqHEtYYRo7dcB5+vsaH7
-         sYXS4Gd6kZ7nJpJflM+JBsWO2/K2M955K+hsLtwlLb6uWRI3c7AAtMxqsSvxT/ei3AiU
-         Zuymt4OjLILW1Az10ymYhzervyFcY06l024fsI+UULjYyTyUt3rUVZbXtx4pBQbeWMYu
-         AmOHb04Q2cNVnTssJzVhqBYhwmrqw8aKNLi/wvpZpqNW3rG9y0w+/+MCBgn3QDLcgyhk
-         YoEEH48AX2QI7+EKrlHYvat00AmcB3RZI7fkQ9Yndg+bfBkM4JsXH/iG4Em/TpnouEa9
-         oI+g==
-X-Gm-Message-State: AOAM532AgD7SJWY43Po4QSkVi2UVJ+LHXQ96XdFu+m8LVARGo4UKD8B0
-        pvkCLiTG3qFc8D34rNIAFK8ndVw+UKHW7WASHnfRgyIm5FQ=
-X-Google-Smtp-Source: ABdhPJyRUF02CDtQ6ouokAMHwyOD7b+hebBNoebXWi+VQhlKXfB/dJ0BXQNBwDHCHKrkSDKp7xnlBcZ10FdmQPGesRk=
-X-Received: by 2002:a17:902:b485:: with SMTP id y5mr4181251plr.119.1598055810741;
- Fri, 21 Aug 2020 17:23:30 -0700 (PDT)
+        bh=xbPuPNjfIY+zfHmVne0cy0lMy+OdPzwGw1ja89KiJW8=;
+        b=WtA1a7FzPzcUHLxffwHEzfCBTMfMgsH0xu8aQkdq/y/1eYrGa2RdvZniB7Y6Tdz90j
+         o8mDCG4xXzVDv5aCDLbgTo0Acn+pGn6AgtH4nb15wY6Iyrnp2ZGYFTOrxulh8AFS3GtY
+         k2Q7S16uL7Lo8zxbGcD4gW3buebKr7kXT3X+H7+zdNW+KoBTiu1QQmuq50E6CrQIkd+o
+         VtNsCI4/avHNywNtTRfamfLwyOt10sdsgbSzOXy90IBPcTqD4hMiB2X8rF0pajep7K7C
+         n5aV4umUsittfVVkj1DkTqSi2ZfOd4Lng1yY64v/TVvCHkPZMKA2aiPrD48/EGD82/S8
+         lJCQ==
+X-Gm-Message-State: AOAM530fBUDQFxaQSD/9rUuvdjPmIOmMooY0TzfmJz9Xrl6GQxsR9VFO
+        nvZjzfW0312zRDZoUWqzgJgDNctcmoPAY7P84Bs2ug==
+X-Google-Smtp-Source: ABdhPJykoW8Yo+buP+dWEHtamKES5ah20sUKlfBFJMv+IXwAWpGJA8Th9mtHZL9va5ZYIzj9PA6kkWrT8I+J/o04smQ=
+X-Received: by 2002:a63:a119:: with SMTP id b25mr3941267pgf.10.1598056033866;
+ Fri, 21 Aug 2020 17:27:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821190159.1033740-1-masahiroy@kernel.org> <20200821190159.1033740-3-masahiroy@kernel.org>
-In-Reply-To: <20200821190159.1033740-3-masahiroy@kernel.org>
+References: <20200821190159.1033740-1-masahiroy@kernel.org> <20200821190159.1033740-4-masahiroy@kernel.org>
+In-Reply-To: <20200821190159.1033740-4-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 21 Aug 2020 17:23:19 -0700
-Message-ID: <CAKwvOdkz3asVBpi63yj94OMLnkU5q3rqA80trVXwyoDDcPs9QA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/9] gen_compile_commands: use choices for --log_levels option
+Date:   Fri, 21 Aug 2020 17:27:02 -0700
+Message-ID: <CAKwvOdn0VyObYvoBqoXPGT4o8LPSPsvc=pNpvVtu6jRxxhOKiA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/9] gen_compile_commands: do not support .cmd files
+ under tools/ directory
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nathan Huckleberry <nhuck@google.com>,
@@ -65,13 +66,22 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Fri, Aug 21, 2020 at 12:02 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Use 'choices' instead of the own code to check if the given parameter
-> is valid.
+> The tools/ directory uses a different build system, and the format of
+> .cmd files is different because the tools builds run in a different
+> work directory.
 >
-> I also simplified the help message because, with 'choices', --help
-> shows the list of valid parameters:
+> Supporting two formats compilicates the script.
 >
->   --log_level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
+> The only loss by this change is objtool.
+>
+> Also, rename the confusing variable 'relative_path' because it is
+> not necessarily a relative path. When the output directory is not
+> the direct child of the source tree (e.g. O=foo/bar), it is an
+> absolute path. Rename it to 'file_path'.
+>
+> os.path.join(root_directory, file_path) works whether the file_path
+> is relative or not. If file_path is already absolute, it returns it
+> as-is.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
@@ -82,42 +92,77 @@ Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 > Changes in v2:
 >   - New patch
 >
->  scripts/gen_compile_commands.py | 14 ++++----------
->  1 file changed, 4 insertions(+), 10 deletions(-)
+>  scripts/gen_compile_commands.py | 31 +++++++++++--------------------
+>  1 file changed, 11 insertions(+), 20 deletions(-)
 >
 > diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
-> index 1bcf33a93cb9..535248cf2d7e 100755
+> index 535248cf2d7e..1b9899892d99 100755
 > --- a/scripts/gen_compile_commands.py
 > +++ b/scripts/gen_compile_commands.py
-> @@ -45,24 +45,18 @@ def parse_arguments():
->                     'compile_commands.json in the search directory)')
->      parser.add_argument('-o', '--output', type=str, help=output_help)
->
-> -    log_level_help = ('The level of log messages to produce (one of ' +
-> -                      ', '.join(_VALID_LOG_LEVELS) + '; defaults to ' +
-> +    log_level_help = ('the level of log messages to produce (defaults to ' +
->                        _DEFAULT_LOG_LEVEL + ')')
-> -    parser.add_argument(
-> -        '--log_level', type=str, default=_DEFAULT_LOG_LEVEL,
-> -        help=log_level_help)
-> +    parser.add_argument('--log_level', choices=_VALID_LOG_LEVELS,
-> +                        default=_DEFAULT_LOG_LEVEL, help=log_level_help)
->
->      args = parser.parse_args()
->
-> -    log_level = args.log_level
-> -    if log_level not in _VALID_LOG_LEVELS:
-> -        raise ValueError('%s is not a valid log level' % log_level)
-> -
->      directory = args.directory or os.getcwd()
->      output = args.output or os.path.join(directory, _DEFAULT_OUTPUT)
->      directory = os.path.abspath(directory)
->
-> -    return log_level, directory, output
-> +    return args.log_level, directory, output
+> @@ -59,23 +59,21 @@ def parse_arguments():
+>      return args.log_level, directory, output
 >
 >
->  def process_line(root_directory, file_directory, command_prefix, relative_path):
+> -def process_line(root_directory, file_directory, command_prefix, relative_path):
+> +def process_line(root_directory, command_prefix, file_path):
+>      """Extracts information from a .cmd line and creates an entry from it.
+>
+>      Args:
+>          root_directory: The directory that was searched for .cmd files. Usually
+>              used directly in the "directory" entry in compile_commands.json.
+> -        file_directory: The path to the directory the .cmd file was found in.
+>          command_prefix: The extracted command line, up to the last element.
+> -        relative_path: The .c file from the end of the extracted command.
+> -            Usually relative to root_directory, but sometimes relative to
+> -            file_directory and sometimes neither.
+> +        file_path: The .c file from the end of the extracted command.
+> +            Usually relative to root_directory, but sometimes absolute.
+>
+>      Returns:
+>          An entry to append to compile_commands.
+>
+>      Raises:
+> -        ValueError: Could not find the extracted file based on relative_path and
+> +        ValueError: Could not find the extracted file based on file_path and
+>              root_directory or file_directory.
+>      """
+>      # The .cmd files are intended to be included directly by Make, so they
+> @@ -84,20 +82,13 @@ def process_line(root_directory, file_directory, command_prefix, relative_path):
+>      # by Make, so this code replaces the escaped version with '#'.
+>      prefix = command_prefix.replace('\#', '#').replace('$(pound)', '#')
+>
+> -    cur_dir = root_directory
+> -    expected_path = os.path.join(cur_dir, relative_path)
+> -    if not os.path.exists(expected_path):
+> -        # Try using file_directory instead. Some of the tools have a different
+> -        # style of .cmd file than the kernel.
+> -        cur_dir = file_directory
+> -        expected_path = os.path.join(cur_dir, relative_path)
+> -        if not os.path.exists(expected_path):
+> -            raise ValueError('File %s not in %s or %s' %
+> -                             (relative_path, root_directory, file_directory))
+> +    abs_path = os.path.abspath(os.path.join(root_directory, file_path))
+> +    if not os.path.exists(abs_path):
+> +        raise ValueError('File %s not found' % abs_path)
+>      return {
+> -        'directory': cur_dir,
+> -        'file': relative_path,
+> -        'command': prefix + relative_path,
+> +        'directory': root_directory,
+> +        'file': abs_path,
+> +        'command': prefix + file_path,
+>      }
+>
+>
+> @@ -122,7 +113,7 @@ def main():
+>                  result = line_matcher.match(f.readline())
+>                  if result:
+>                      try:
+> -                        entry = process_line(directory, dirpath,
+> +                        entry = process_line(directory,
+>                                               result.group(1), result.group(2))
+>                          compile_commands.append(entry)
+>                      except ValueError as err:
 > --
 > 2.25.1
 >
