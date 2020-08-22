@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D587424E817
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 16:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B38B024E81B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 16:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728255AbgHVO5t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Aug 2020 10:57:49 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:47417 "EHLO
+        id S1728260AbgHVO5v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Aug 2020 10:57:51 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:47411 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727899AbgHVO5M (ORCPT
+        with ESMTP id S1728020AbgHVO5M (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sat, 22 Aug 2020 10:57:12 -0400
 Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 07MEuKVP025434;
-        Sat, 22 Aug 2020 23:56:20 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07MEuKVP025434
+        by conuserg-09.nifty.com with ESMTP id 07MEuKVQ025434;
+        Sat, 22 Aug 2020 23:56:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07MEuKVQ025434
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598108181;
-        bh=2LiED6o4qkC2vTm0VysN7vwIOPonem+/pgLkJUTzcIg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=bEVRKmPYX1SJG3OnOT2Hc94mgzI08w3jr3hCmng+E8/YQI7x/gClARFEHL64SOhWt
-         zhFMN2fqi6Rfu6811QudIqRVPYV6NmJeAfsPwxiGbBQinnDApjXuArYNjf8+n3Pdav
-         xgGRrBcrUwwcrxY5ciJfjpwxfaJe2aiS0gxLbzrPAyaTQ6G/v/2lIjbFsdmAT9wDQO
-         RroFu4zV47smdlbmKkCLHmD9iVOCzWBSfPMmzomJXf8Mp5eGHtI7LYcsm9ugZTcKHT
-         Os5dak0dX5qmh/NOPTSzJGGkm6xF/WXltl81LauKyfaViKFbrMbDW4lbFpjJg6AJ/V
-         0H9M3qFyJMNhw==
+        s=dec2015msa; t=1598108182;
+        bh=95U6Fk7JxWZcBC6emSKUXU+RPpgimScrngM3/3sca3M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kn4xDBCCwLj7T9hZXgeNdDZx9dRv46QZyU0AzvXPdaLSOCSt5AIVBC6GvSMqXxZjb
+         WniWd+hSDKcCrWCR6rhfdq1srppx93gY5comjtWcvDFykJq2NI1XEXe46mjGziJFL0
+         UY+3cHGXXt1qyIo3n1dS+Ghm+n+fOA0oHMxA9zzrlSnkREngWIUefgMnoQG2bCz97I
+         Oi+yUPRDn0SLawTDdDhRrEeVNXT5EG/YmKPRIRN7b1hEh1XcVjT2mA7jp78TGsvwAB
+         PqtPeZugYxm049U/Mu7hNAK7k3WNUHGIt7/ts8w9RJIunFJQKFGr/zDM8SccwzL54z
+         Jhav+pwhUUWkQ==
 X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -34,12 +34,13 @@ Cc:     Nathan Huckleberry <nhuck@google.com>,
         Tom Roeder <tmroeder@google.com>,
         clang-built-linux@googlegroups.com,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 00/10] kbuild: clang-tidy
-Date:   Sat, 22 Aug 2020 23:56:08 +0900
-Message-Id: <20200822145618.1222514-1-masahiroy@kernel.org>
+Subject: [PATCH v3 01/10] gen_compile_commands: parse only the first line of .*.cmd files
+Date:   Sat, 22 Aug 2020 23:56:09 +0900
+Message-Id: <20200822145618.1222514-2-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200822145618.1222514-1-masahiroy@kernel.org>
+References: <20200822145618.1222514-1-masahiroy@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -47,57 +48,45 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I improved gen_compile_commands.py,
-then rebased Nathan's v7 [1] on top of them.
-To save time, I modified the Makefile part.
-No change for run-clang-tools.py
+After the allmodconfig build, this script takes about 5 sec on my
+machine. Most of the run-time is consumed for needless regex matching.
 
-"make clang-tidy" should work in-tree build,
-out-of-tree build (O=), and external module build (M=).
+We know the format of .*.cmd file; the first line is the build command.
+There is no need to parse the rest.
 
-V3:
-Fix minor mistakes pointed out by Nick
-Add a new patch (09/10) to remove the warning about
-too few .cmd files.
+With this optimization, now it runs 4 times faster.
 
-V2:
-Keep the previous work-flow.
-You can still manually run scripts/gen_compile_commands.json
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+---
 
-'make compile_commands.json' or 'make clang-tidy' is handier
-for most cases. As Nick noted, there is 3 % loss of the coverage.
+(no changes since v2)
 
-If you need the full compilation database that covers all the
-compiled C files, please run the script manually.
+Changes in v2:
+  - Remove the unneeded variable 'line'
 
-[1] https://patchwork.kernel.org/patch/11687833/
+ scripts/gen_compile_commands.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-
-Masahiro Yamada (9):
-  gen_compile_commands: parse only the first line of .*.cmd files
-  gen_compile_commands: use choices for --log_levels option
-  gen_compile_commands: do not support .cmd files under tools/ directory
-  gen_compile_commands: reword the help message of -d option
-  gen_compile_commands: make -o option independent of -d option
-  gen_compile_commands: move directory walk to a generator function
-  gen_compile_commands: support *.o, *.a, modules.order in positional
-    argument
-  kbuild: wire up the build rule of compile_commands.json to Makefile
-  gen_compile_commands: remove the warning about too few .cmd files
-
-Nathan Huckleberry (1):
-  Makefile: Add clang-tidy and static analyzer support to makefile
-
- MAINTAINERS                                 |   1 +
- Makefile                                    |  45 +++-
- scripts/clang-tools/gen_compile_commands.py | 236 ++++++++++++++++++++
- scripts/clang-tools/run-clang-tools.py      |  74 ++++++
- scripts/gen_compile_commands.py             | 151 -------------
- 5 files changed, 352 insertions(+), 155 deletions(-)
- create mode 100755 scripts/clang-tools/gen_compile_commands.py
- create mode 100755 scripts/clang-tools/run-clang-tools.py
- delete mode 100755 scripts/gen_compile_commands.py
-
+diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
+index c458696ef3a7..1bcf33a93cb9 100755
+--- a/scripts/gen_compile_commands.py
++++ b/scripts/gen_compile_commands.py
+@@ -125,11 +125,8 @@ def main():
+             filepath = os.path.join(dirpath, filename)
+ 
+             with open(filepath, 'rt') as f:
+-                for line in f:
+-                    result = line_matcher.match(line)
+-                    if not result:
+-                        continue
+-
++                result = line_matcher.match(f.readline())
++                if result:
+                     try:
+                         entry = process_line(directory, dirpath,
+                                              result.group(1), result.group(2))
 -- 
 2.25.1
 
