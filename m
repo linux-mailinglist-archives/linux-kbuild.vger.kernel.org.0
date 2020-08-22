@@ -2,48 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0616D24E4C2
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 05:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 578CB24E56F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 06:36:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgHVDMX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Aug 2020 23:12:23 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:20388 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726387AbgHVDMW (ORCPT
+        id S1725959AbgHVEg1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Aug 2020 00:36:27 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:39210 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725840AbgHVEg1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Aug 2020 23:12:22 -0400
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 07M3C6oI009886;
-        Sat, 22 Aug 2020 12:12:07 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07M3C6oI009886
+        Sat, 22 Aug 2020 00:36:27 -0400
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 07M4a58T012181;
+        Sat, 22 Aug 2020 13:36:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 07M4a58T012181
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598065927;
-        bh=e6RWKtFs9pXYjYTAelrwYfwInM31ujnRzIsZ4gq7lr8=;
+        s=dec2015msa; t=1598070966;
+        bh=rSIgi0UFKz69QzH3NpYejP9Y0Myj8ahAjyAwuXUo0y4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=PAglR8Gf4Qpp5orx6k6EYdPounaaKf7hVEUsb6LmAEaeITJ/xGDjOnVvjQOrDCjgo
-         hPTpo44GcQSAddHwTeER5P/b2YA7whRzwVhGKQVKOJrKW/5Kext5lIXCrqotqc1i6w
-         kKGXjvO0Xmafwxnx2PzlRKc/3rGL6aMSUBPLiFNOakrXWpUq3nuKoyfrmBsa7Cyb//
-         6LG+znByYT2v+TezoHdZq2cdfdkCvzgEW4t02y37AckkSozH7TGGXXvbORAq4XjvWc
-         w1GQPXHCvb+hPiCKcUDUmAY97HZ8PPtFZEUgSw25lAR/GfvEJp+do/Du8uRWJ3E3xj
-         mrJp/DWb90wRQ==
-X-Nifty-SrcIP: [209.85.222.43]
-Received: by mail-ua1-f43.google.com with SMTP id q68so1108399uaq.0;
-        Fri, 21 Aug 2020 20:12:06 -0700 (PDT)
-X-Gm-Message-State: AOAM530lDRiGb92zi4cqsmDUfyfjrd+13FGqMJm1ogAMM6dOj1sTw2nJ
-        dEpnQNV+HBIQBybgmaF+Ex4UmzegVOe3DDHiaKA=
-X-Google-Smtp-Source: ABdhPJxH1FB70/rsWAiTm0tLd5eU9ysIMG2MV5hQEhw9BJb7Zvk08j60pBDUm+v4TgXiTW8ZpZjYdnSGl2DMf6vZUsI=
-X-Received: by 2002:ab0:623:: with SMTP id f32mr3507228uaf.121.1598065925547;
- Fri, 21 Aug 2020 20:12:05 -0700 (PDT)
+        b=nETSiJ6G6e6j50F+eXPO8/miIYXOGdWH4Ef8B76Up44da4sP4jb3TAlLPoeKlm1zx
+         msSWTYvBneihW/i4sQHK4Y1Kv2c5SaAGFF6Z9EWvnF8jlbTeuQ3w26116Jk4D0rh0m
+         U5BvGOvvBQ7Jw2l7GLXUVkwOCAuSHJeRmQNLDjoZDBY+iJ5tX38C9KRJM7+bT0OErw
+         NK4m/CsMKc2DcAYByiKXTveqBu76/oTFMIJkbsdrbkLrSKH+4Ftvo7Djj7Ex68jBHN
+         q7tnXzF7a3YYi924zJkh8eqGgHFJRpxNyEVXkHrnnYPuJK6K5kVReGZ25QAFxC7jWm
+         mMoEDHTwUfG+Q==
+X-Nifty-SrcIP: [209.85.221.170]
+Received: by mail-vk1-f170.google.com with SMTP id l184so867816vki.10;
+        Fri, 21 Aug 2020 21:36:06 -0700 (PDT)
+X-Gm-Message-State: AOAM533oO3bTo5QM5RHstUr+BEQi9SeHQLIN+hB2QTTgc65qMrnZhN4N
+        Xbw7EX3LzaV1at2KtrU1+LQqnGSJgtqNm8h9CLE=
+X-Google-Smtp-Source: ABdhPJzA8U5Km+A7DbPsH2kycxln5g6rCYtMQmeGygnvwm3V8T21s6b9QpSavI1akPmpTW1XMXlpoFetD3AvG6BOloA=
+X-Received: by 2002:a1f:7347:: with SMTP id o68mr3766544vkc.26.1598070964727;
+ Fri, 21 Aug 2020 21:36:04 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200821190159.1033740-1-masahiroy@kernel.org>
- <20200821190159.1033740-8-masahiroy@kernel.org> <CAKwvOdmR=VeR0=LUgXCwnpK9LH90_itzv627wBEK4hCroBEW9Q@mail.gmail.com>
-In-Reply-To: <CAKwvOdmR=VeR0=LUgXCwnpK9LH90_itzv627wBEK4hCroBEW9Q@mail.gmail.com>
+ <20200821190159.1033740-7-masahiroy@kernel.org> <CAKwvOdn9ZfvC4dzuVnxc_a52JFn_q1ewOWwZZD5b9=izeEayKQ@mail.gmail.com>
+In-Reply-To: <CAKwvOdn9ZfvC4dzuVnxc_a52JFn_q1ewOWwZZD5b9=izeEayKQ@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 22 Aug 2020 12:11:28 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS6k5zGMHyWa=jCKo6HZf1AXq5_qtMmgY2cvet9y3u-Rg@mail.gmail.com>
-Message-ID: <CAK7LNAS6k5zGMHyWa=jCKo6HZf1AXq5_qtMmgY2cvet9y3u-Rg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] gen_compile_commands: support *.o, *.a,
- modules.order in positional argument
+Date:   Sat, 22 Aug 2020 13:35:25 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASt-PnF6gaEoS-8nNjrReszWAeS02_4XNLQtE9wv8w2AQ@mail.gmail.com>
+Message-ID: <CAK7LNASt-PnF6gaEoS-8nNjrReszWAeS02_4XNLQtE9wv8w2AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/9] gen_compile_commands: move directory walk to a
+ generator function
 To:     Nick Desaulniers <ndesaulniers@google.com>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nathan Huckleberry <nhuck@google.com>,
@@ -56,154 +56,62 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 22, 2020 at 9:59 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Sat, Aug 22, 2020 at 9:41 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
+
+> > +    for path in paths:
+> > +        cmdfiles = cmdfiles_in_dir(path)
+> > +
+> > +        for cmdfile in cmdfiles:
 >
-> On Fri, Aug 21, 2020 at 12:02 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > This script currently searches the specified directory for .cmd files.
-> > One drawback is it may contain stale .cmd files after you rebuild the
-> > kernel several times without 'make clean'.
-> >
-> > This commit supports *.o, *.a, and modules.order as positional
-> > parameters. If such files are given, they are parsed to collect
-> > associated .cmd files. I added a generator helper for each of them.
-> >
-> > This feature is useful to get the list of active .cmd files from the
-> > last build, and will be used by the next commit to wire up the
-> > compile_commands.json rule to the Makefile.
-> >
-> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > ---
-> >
-> > Changes in v2:
-> >   - Separate the file parser into generator functions
-> >   - Use 'obj' instead of 'object' because 'object' is a built-in function
-> >   - I think using 'file' is OK because it is not a built-in function in Python3
-> >     (https://docs.python.org/3/library/functions.html)
-> >     Anyway, the variable 'file' is no longer used in this version
-> >   - Keep the previous work-flow to allow to search the given directory
-> >
-> >  scripts/gen_compile_commands.py | 100 ++++++++++++++++++++++++++++++--
-> >  1 file changed, 96 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
-> > index 6dec7e2c4098..65859e6044b5 100755
-> > --- a/scripts/gen_compile_commands.py
-> > +++ b/scripts/gen_compile_commands.py
-> > @@ -12,6 +12,7 @@ import json
-> >  import logging
-> >  import os
-> >  import re
-> > +import subprocess
-> >
-> >  _DEFAULT_OUTPUT = 'compile_commands.json'
-> >  _DEFAULT_LOG_LEVEL = 'WARNING'
-> > @@ -32,8 +33,9 @@ def parse_arguments():
-> >      Returns:
-> >          log_level: A logging level to filter log output.
-> >          directory: The work directory where the objects were built
-> > +        ar: Command used for parsing .a archives
-> >          output: Where to write the compile-commands JSON file.
-> > -        paths: The list of directories to handle to find .cmd files
-> > +        paths: The list of files/directories to handle to find .cmd files
-> >      """
-> >      usage = 'Creates a compile_commands.json database from kernel .cmd files'
-> >      parser = argparse.ArgumentParser(description=usage)
-> > @@ -53,12 +55,21 @@ def parse_arguments():
-> >      parser.add_argument('--log_level', choices=_VALID_LOG_LEVELS,
-> >                          default=_DEFAULT_LOG_LEVEL, help=log_level_help)
-> >
-> > +    ar_help = 'command used for parsing .a archives'
-> > +    parser.add_argument('-a', '--ar', type=str, default='ar', help=ar_help)
+> If `cmdfiles` is never referenced again, please make this:
 >
-> If there's a default, doesn't that mean it's no longer required? I
-> think it should be required.  For a clang specific tool, we'd prefer
-> the default to be llvm-ar anyways.
+> for cmdfile in cmdfiles_in_dir(path):
 
-A good point.
-I want to set reasonable values as default where possible.
-'llvm-ar' is better.
 
-I will change it.
+I intentionally wrote in this way
+because in the next commit,
+cmdfiles will be selectively set.
 
 
 
-> > +
-> > +def cmdfiles_for_modorder(modorder):
-> > +    """Generate the iterator of .cmd files associated with the modules.order.
-> > +
-> > +    Parse the given modules.order, and yield every .cmd file used to build the
-> > +    contained modules.
-> > +
-> > +    Args:
-> > +        modorder: The modules.order file to parse
-> > +
-> > +    Yields:
-> > +        The path to every .cmd file found
-> > +    """
-> > +    with open(modorder) as f:
-> > +        for line in f:
-> > +            ko = line.rstrip()
-> > +            base, ext = os.path.splitext(ko)
+
+
+> With those 2 changes feel free to add my
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 >
-> below in main() you check the file extension with endswith().  Would
-> it be good to be consistent between the two?
-
-I want to re-use 'base' to convert
-the *.ko into *.mod
-
-path/to/my/driver.ko
--> path/to/my/driver.mod
-
-
-I think using os.path.split()
-is good for checking the valid suffix,
-and replaceing it with '.mod'.
-
-
-
-
-
-
-> > +            if ext != '.ko':
-> > +                sys.exit('{}: module path must end with .ko'.format(ko))
-> > +            mod = base + '.mod'
-> > +           # The first line of *.mod lists the objects that compose the module.
-> > +            with open(mod) as m:
-> > +                for obj in m.readline().split():
-> > +                    yield to_cmdfile(obj)
-> > +
-> > +
-> >  def process_line(root_directory, command_prefix, file_path):
-> >      """Extracts information from a .cmd line and creates an entry from it.
+> > +            with open(cmdfile, 'rt') as f:
+> >                  result = line_matcher.match(f.readline())
+> >                  if result:
+> >                      try:
+> > -                        entry = process_line(directory,
+> > -                                             result.group(1), result.group(2))
+> > +                        entry = process_line(directory, result.group(1),
+> > +                                             result.group(2))
+> >                          compile_commands.append(entry)
+> >                      except ValueError as err:
+> >                          logging.info('Could not add line from %s: %s',
+> > -                                     filepath, err)
+> > +                                     cmdfile, err)
 > >
-> > @@ -116,7 +194,7 @@ def process_line(root_directory, command_prefix, file_path):
+> >      with open(output, 'wt') as f:
+> >          json.dump(compile_commands, f, indent=2, sort_keys=True)
+> > --
+> > 2.25.1
 > >
-> >  def main():
-> >      """Walks through the directory and finds and parses .cmd files."""
-> > -    log_level, directory, output, paths = parse_arguments()
-> > +    log_level, directory, output, ar, paths = parse_arguments()
-> >
-> >      level = getattr(logging, log_level)
-> >      logging.basicConfig(format='%(levelname)s: %(message)s', level=level)
-> > @@ -126,7 +204,21 @@ def main():
-> >      compile_commands = []
-> >
-> >      for path in paths:
-> > -        cmdfiles = cmdfiles_in_dir(path)
-> > +        # If 'path' is a directory, handle all .cmd files under it.
-> > +        # Otherwise, handle .cmd files associated with the file.
-> > +        # Most of built-in objects are linked via archives (built-in.a or lib.a)
-> > +        # but some are linked to vmlinux directly.
-> > +        # Modules are lis
 >
-> ^ was this comment cut off?
+>
+> --
+> Thanks,
+> ~Nick Desaulniers
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdn9ZfvC4dzuVnxc_a52JFn_q1ewOWwZZD5b9%3DizeEayKQ%40mail.gmail.com.
 
-Oops, I will fix it.
 
 
-
--- 
+--
 Best Regards
 Masahiro Yamada
