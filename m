@@ -2,108 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7951624E7BF
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 16:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D587424E817
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 16:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727979AbgHVOBw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Aug 2020 10:01:52 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:17295 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727900AbgHVOBv (ORCPT
+        id S1728255AbgHVO5t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Aug 2020 10:57:49 -0400
+Received: from conuserg-09.nifty.com ([210.131.2.76]:47417 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727899AbgHVO5M (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Aug 2020 10:01:51 -0400
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 07ME1ZUc017206;
-        Sat, 22 Aug 2020 23:01:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 07ME1ZUc017206
+        Sat, 22 Aug 2020 10:57:12 -0400
+Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 07MEuKVP025434;
+        Sat, 22 Aug 2020 23:56:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07MEuKVP025434
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598104896;
-        bh=MjkieH40oii2YMzKu3SKODp3QDBS3K0rjAk0cDB5Zps=;
-        h=From:Date:Subject:To:Cc:From;
-        b=m4YXpdxHv5FCWkZBlVE2V/bI+YT4aJZRzj9uPL04CS8/uAiqF+LbgT1nSseLU5Vk0
-         c8eBtE8sjAa2SZ/0boIi6aM+RzDJrP9LF811gZFpbbeaX9JzG6KOOJHuJKhgdQfwhQ
-         JBksbv/vha3x5jLlQMhqTDnQTIwo1zIlSWAqYwJd8wQ6fY010tiVaSCG8yMHiyHGRX
-         629FWTTXDpU5UV6i7eTgi+KuqsXNvHMWczYX4DgGXzSUKqr8H0rCeRPE+K57vYjFFV
-         1XUtpOkuNMArDuDKexFy2/uUV1sU1us+7AOT9RkVIEkiNMp0Og9j3r8ygoa0JJY73J
-         xuQDMd7tzd6sA==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id a127so2232660vsd.1;
-        Sat, 22 Aug 2020 07:01:35 -0700 (PDT)
-X-Gm-Message-State: AOAM532eCs+a/E92T70GDEZU6j+7sePeHc+Odq8t23fif/IAqpUzTQKf
-        Y6grPLPzK5/oF61ym3yzedPgobnkOEfy9ofHM/w=
-X-Google-Smtp-Source: ABdhPJwTDs8bYuPENZQB5UNqUoMUHEy0fXrC8V6VwN9Imrsde4mI+zHapfkCrzKWgmoD0Ar1yhhACBp+No6DOqLc5NA=
-X-Received: by 2002:a67:7905:: with SMTP id u5mr4492670vsc.179.1598104894545;
- Sat, 22 Aug 2020 07:01:34 -0700 (PDT)
-MIME-Version: 1.0
+        s=dec2015msa; t=1598108181;
+        bh=2LiED6o4qkC2vTm0VysN7vwIOPonem+/pgLkJUTzcIg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bEVRKmPYX1SJG3OnOT2Hc94mgzI08w3jr3hCmng+E8/YQI7x/gClARFEHL64SOhWt
+         zhFMN2fqi6Rfu6811QudIqRVPYV6NmJeAfsPwxiGbBQinnDApjXuArYNjf8+n3Pdav
+         xgGRrBcrUwwcrxY5ciJfjpwxfaJe2aiS0gxLbzrPAyaTQ6G/v/2lIjbFsdmAT9wDQO
+         RroFu4zV47smdlbmKkCLHmD9iVOCzWBSfPMmzomJXf8Mp5eGHtI7LYcsm9ugZTcKHT
+         Os5dak0dX5qmh/NOPTSzJGGkm6xF/WXltl81LauKyfaViKFbrMbDW4lbFpjJg6AJ/V
+         0H9M3qFyJMNhw==
+X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 22 Aug 2020 23:00:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQO7kay52Dxku3sgyYk=4OGEB8m+gmN7wLemjc0f-pY-A@mail.gmail.com>
-Message-ID: <CAK7LNAQO7kay52Dxku3sgyYk=4OGEB8m+gmN7wLemjc0f-pY-A@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.9-rc2
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nathan Huckleberry <nhuck@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Tom Roeder <tmroeder@google.com>,
+        clang-built-linux@googlegroups.com,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/10] kbuild: clang-tidy
+Date:   Sat, 22 Aug 2020 23:56:08 +0900
+Message-Id: <20200822145618.1222514-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+I improved gen_compile_commands.py,
+then rebased Nathan's v7 [1] on top of them.
+To save time, I modified the Makefile part.
+No change for run-clang-tools.py
 
-Please pull Kbuild fixes for v5.9-rc2
+"make clang-tidy" should work in-tree build,
+out-of-tree build (O=), and external module build (M=).
 
-Thanks.
+V3:
+Fix minor mistakes pointed out by Nick
+Add a new patch (09/10) to remove the warning about
+too few .cmd files.
+
+V2:
+Keep the previous work-flow.
+You can still manually run scripts/gen_compile_commands.json
+
+'make compile_commands.json' or 'make clang-tidy' is handier
+for most cases. As Nick noted, there is 3 % loss of the coverage.
+
+If you need the full compilation database that covers all the
+compiled C files, please run the script manually.
+
+[1] https://patchwork.kernel.org/patch/11687833/
 
 
+Masahiro Yamada (9):
+  gen_compile_commands: parse only the first line of .*.cmd files
+  gen_compile_commands: use choices for --log_levels option
+  gen_compile_commands: do not support .cmd files under tools/ directory
+  gen_compile_commands: reword the help message of -d option
+  gen_compile_commands: make -o option independent of -d option
+  gen_compile_commands: move directory walk to a generator function
+  gen_compile_commands: support *.o, *.a, modules.order in positional
+    argument
+  kbuild: wire up the build rule of compile_commands.json to Makefile
+  gen_compile_commands: remove the warning about too few .cmd files
 
-The following changes since commit 9123e3a74ec7b934a4a099e98af6a61c2f80bbf5:
+Nathan Huckleberry (1):
+  Makefile: Add clang-tidy and static analyzer support to makefile
 
-  Linux 5.9-rc1 (2020-08-16 13:04:57 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.9
-
-for you to fetch changes up to 510bc3cb1ddc32f9533e6ed0a68c980544c3ca3f:
-
-  kconfig: qconf: replace deprecated QString::sprintf() with
-QTextStream (2020-08-21 10:23:38 +0900)
-
-----------------------------------------------------------------
-Kbuild fixes for v5.9
-
- - move -Wsign-compare warning from W=2 to W=3
-
- - fix the keyword _restrict to __restrict in genksyms
-
- - fix more bugs in qconf
-
-----------------------------------------------------------------
-Joe Perches (2):
-      Makefile.extrawarn: Move sign-compare from W=2 to W=3
-      genksyms: keywords: Use __restrict not _restrict
-
-Masahiro Yamada (8):
-      extract-cert: add static to local data
-      kbuild: remove redundant patterns in filter/filter-out
-      kconfig: qconf: fix signal connection to invalid slots
-      kconfig: qconf: fix the popup menu in the ConfigInfoView window
-      kconfig: qconf: remove unused colNr
-      kconfig: qconf: remove qInfo() to get back Qt4 support
-      kconfig: qconf: remove redundant help in the info view
-      kconfig: qconf: replace deprecated QString::sprintf() with QTextStream
-
- Makefile                    |   5 +-
- scripts/Makefile.extrawarn  |   2 +-
- scripts/extract-cert.c      |   2 +-
- scripts/genksyms/keywords.c |   4 +-
- scripts/kconfig/qconf.cc    | 156 +++++++++++++++++++--------------------
- scripts/kconfig/qconf.h     |   6 +-
- 6 files changed, 86 insertions(+), 89 deletions(-)
-
+ MAINTAINERS                                 |   1 +
+ Makefile                                    |  45 +++-
+ scripts/clang-tools/gen_compile_commands.py | 236 ++++++++++++++++++++
+ scripts/clang-tools/run-clang-tools.py      |  74 ++++++
+ scripts/gen_compile_commands.py             | 151 -------------
+ 5 files changed, 352 insertions(+), 155 deletions(-)
+ create mode 100755 scripts/clang-tools/gen_compile_commands.py
+ create mode 100755 scripts/clang-tools/run-clang-tools.py
+ delete mode 100755 scripts/gen_compile_commands.py
 
 -- 
-Best Regards
-Masahiro Yamada
+2.25.1
+
