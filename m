@@ -2,62 +2,61 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAD124E444
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 02:45:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A810E24E452
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 02:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726795AbgHVApt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 21 Aug 2020 20:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54996 "EHLO
+        id S1726816AbgHVA7t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 21 Aug 2020 20:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726747AbgHVAps (ORCPT
+        with ESMTP id S1726747AbgHVA7r (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 21 Aug 2020 20:45:48 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 545E9C061574
-        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:45:48 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id y206so1870990pfb.10
-        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:45:48 -0700 (PDT)
+        Fri, 21 Aug 2020 20:59:47 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D29D5C061573
+        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:59:47 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id r11so1881301pfl.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 21 Aug 2020 17:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NY5DJt5lm6krkgKqak2a2sk/F2E40cokLY/vvCYJjVU=;
-        b=DAF4Uzk+6LWkOs67dmwOZou7gMPWDX2nM+zcoecflADOiL1AApoCC/JOPEkSQFkCe9
-         4WSr+j+63g7Ni5esapgD1nt5CR/9zSSKPFoaEfNoK0y4PegYReQteJWzEimSmub/wKGi
-         xVDmEqNhXCZsXw6Pm6SzY+HkCzuNUjWsnG4dWedcSFlvtJywfAuRC39AkyUyeShZPGEk
-         xwYFWWHo/lB1SzX3IEoapRxiW0fR53qf/UbXUno1IwmGzUGDJKlVwl4kVoyN+g4bNZzo
-         0yC59/HRF5YJ2tDfwIaAJQuy/wRY/imraHuuNkRB3zA5THp6yCekidNPx2ds3GdoO5z2
-         VU/w==
+        bh=wMClZMLlnIVxwC0OX/YJqw846WceChHdY8h9nnyWNwk=;
+        b=O0MPFknxyxwnjaYELL5AsKcISclqIjVHZwyIqMV6CvXBwfdiKyrijCO1D+s9z07YMv
+         carMmTfSiC0QBlztpwDj6OOj0b5NCgh48JCoFg1F1f/yjyZQas5G4KDIdvfF7loBaFxJ
+         SNESxXM6R/HSm1Cmxxu92NCT9RcGj7UjfM/d8Lrh0GH1cj2SMAg6SKO9UDRmCV6Y3PPb
+         MFM7HRCc3M3s7LDXrF3c4PKr+uGGhbdfXz7i5iG2HvxPnQ52O6ErDLEpPHN3pkxdGaoU
+         P4hoiNcKoQzDEq5LEJRCEJaOa96dedqLy8moHFqzhmPrJr0OgM6NDpWvRt+0y+JuFtvv
+         iJew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NY5DJt5lm6krkgKqak2a2sk/F2E40cokLY/vvCYJjVU=;
-        b=rhbRza7kbeNSjWEd4zhNYYp7ewxWJhOb7ik8txpbdykfA0r7rWtZyTON431O4MddMg
-         YapmNuClz5YoFnWi3rj6vs86nfFkyn74PvcOnu53oViAvtbXrU8AxPzW1wQFgcvkPbek
-         r2pIX35ExkJKVONh1ERLFavwabKdj6MJeBo8YRpfCnhG3DR+OvDlL12MJcSTZpXD5eEF
-         JwscnYdMruGqx223wa6k8stGNBKB5jp2l1GZ4u/z/Fq3VG7HRwZC7Yz2u0fUDgk/eLQS
-         2MGzXMgF7kJo2yZxpvSnWVjvclccW7hFdaVWcJNJW7WbKFSinsSUUcVtMSU/noyRk7K1
-         Bzqw==
-X-Gm-Message-State: AOAM533LTrnmVvXJMop8MoEAZp6uwJxRLmMaK1G8drOtYmazR6ycJ446
-        mpRaFSpUysqCE5O9aXTsVonkiXpeclf/hM+q5WtNsWt1jjU=
-X-Google-Smtp-Source: ABdhPJwCpi4q0w40Z6KfvQ4WP6U01dqUMDFXPo+YITzJ/wHGuNDDeuZOHf+Qy1UlvvJQR6jXqD66x7/zMuutikn4Yio=
-X-Received: by 2002:a63:7d8:: with SMTP id 207mr4156920pgh.263.1598057146355;
- Fri, 21 Aug 2020 17:45:46 -0700 (PDT)
+        bh=wMClZMLlnIVxwC0OX/YJqw846WceChHdY8h9nnyWNwk=;
+        b=S0rHDvfm6vTq5G9jV0ARb8kNDwTLphq/ZS1V5i/tlirus2xEej+YHVXnLNKPT/O9wR
+         kYxUKf6jCS0alH14APtxwxNhaLm15ca7F5VnLu0ZXVz4mwJPA3Nvy+lhtgBHU0dElt9M
+         d2PHxv+elkQTsTlgjFv6d2BxwNG+QupN/6CqFZjQwtZTAW8vQiTd7Twlh2Cny35dCNJW
+         MJ0rvIFHAu12K0Z3Wwri7LaxAXxBm/IQf3PxlRsBVZS2HuuzpbQwFOv+wVgjZn0d3YkF
+         RPGEG2AbdxokbW5bKohOhdl9Wu0Sh3MqAnwx5oabxvtPf9Tm4k11d4i6xXa45cwvBvbq
+         ig/w==
+X-Gm-Message-State: AOAM533epKCRmM3G8mUP9T9Xg3VYPqPzJMJ1A+EouqCoG9QPINnTu4T5
+        4IWKnjRoCOjXHvF0wMU2K8Q9cYtGJvvXiBGTFb85qWLRGGI=
+X-Google-Smtp-Source: ABdhPJzzypM5an0tesYLO2xDp0D/NDrENlucCRy53aLYG/ywXPSsris885MK2sKtvx61gmxWlfhgKIMAE8gm2AGGYac=
+X-Received: by 2002:a63:7d8:: with SMTP id 207mr4183460pgh.263.1598057985426;
+ Fri, 21 Aug 2020 17:59:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821190159.1033740-1-masahiroy@kernel.org> <20200821190159.1033740-9-masahiroy@kernel.org>
-In-Reply-To: <20200821190159.1033740-9-masahiroy@kernel.org>
+References: <20200821190159.1033740-1-masahiroy@kernel.org> <20200821190159.1033740-8-masahiroy@kernel.org>
+In-Reply-To: <20200821190159.1033740-8-masahiroy@kernel.org>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Fri, 21 Aug 2020 17:45:35 -0700
-Message-ID: <CAKwvOdkm81Cn66LFKiM2bcSbFP29vPWxOGu9RsaLvMFZ=D5b4g@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] kbuild: wire up the build rule of
- compile_commands.json to Makefile
+Date:   Fri, 21 Aug 2020 17:59:33 -0700
+Message-ID: <CAKwvOdmR=VeR0=LUgXCwnpK9LH90_itzv627wBEK4hCroBEW9Q@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] gen_compile_commands: support *.o, *.a,
+ modules.order in positional argument
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nathan Huckleberry <nhuck@google.com>,
         Tom Roeder <tmroeder@google.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Michal Marek <michal.lkml@markovi.net>,
         LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -67,161 +66,202 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Fri, Aug 21, 2020 at 12:02 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Currently, you need to manually run scripts/gen_compile_commands.py
-> to create compile_commands.json. It parses all the .*.cmd files found
-> under the specified directory.
+> This script currently searches the specified directory for .cmd files.
+> One drawback is it may contain stale .cmd files after you rebuild the
+> kernel several times without 'make clean'.
 >
-> If you rebuild the kernel over again without 'make clean',
-> .*.cmd files from older builds will create stale entries in
-> compile_commands.json.
+> This commit supports *.o, *.a, and modules.order as positional
+> parameters. If such files are given, they are parsed to collect
+> associated .cmd files. I added a generator helper for each of them.
 >
-> This commit wires up the compile_commands.json rule to Makefile, and
-> makes it parse only the .*.cmd files involved in the current build.
->
-> Pass $(KBUILD_VMLINUX_OBJS), $(KBUILD_VMLINUX_LIBS), and modules.order
-> to the script. The objects or archives linked to vmlinux are listed in
-> $(KBUILD_VMLINUX_OBJS) or $(KBUILD_VMLINUX_LIBS). All the modules are
-> listed in modules.order.
->
-> You can create compile_commands.json from Make:
->
->   $ make -j$(nproc) CC=clang compile_commands.json
->
-> You can also build vmlinux, modules, and compile_commands.json all
-> together in a single command:
->
->   $ make -j$(nproc) CC=clang all compile_commands.json
->
-> It works for M= builds as well. In this case, compile_commands.json
-> is created in the top directory of the external module.
->
-> This is convenient, but it has a drawback; the coverage of the
-> compile_commands.json is reduced because only the objects linked to
-> vmlinux or modules are handled. For example, the following C files are
-> not included in the compile_commands.json:
->
->  - Decompressor source files (arch/*/boot/)
->  - VDSO source files
->  - C files used to generate intermediates (e.g. kernel/bounds.c)
->  - Standalone host programs
->
-> I think it is fine for most developers because our main interest is
-> the kernel-space code.
->
-> If you want to cover all the compiled C files, please build the kernel
-> then run the script manually as before:
->
->   $ make clean    # if you want to delete stale .cmd files [optional]
->   $ make -j$(nproc) CC=clang
->   $ scripts/gen_compile_commands.json
->
-> Here is a note for out-of-tree builds. 'make compile_commands.json'
-> works with O= option, but please notice compile_commands.json is
-> created in the object tree instead of the source tree.
->
-> Some people may want to have compile_commands.json in the source tree
-> because Clang Tools searches for it through all parent paths of the
-> first input source file.
->
-> However, you cannot do this for O= builds. Kbuild should never generate
-> any build artifact in the source tree when O= is given because the
-> source tree might be read-only. Any write attempt to the source tree
-> is monitored and the violation may be reported. See the commit log of
-> 8ef14c2c41d9.
->
-> So, the only possible way is to create compile_commands.json in the
-> object tree, then specify '-p <build-path>' when you use clang-check,
-> clang-tidy, etc.
+> This feature is useful to get the list of active .cmd files from the
+> last build, and will be used by the next commit to wire up the
+> compile_commands.json rule to the Makefile.
 >
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
 >
-> (no changes since v1)
+> Changes in v2:
+>   - Separate the file parser into generator functions
+>   - Use 'obj' instead of 'object' because 'object' is a built-in function
+>   - I think using 'file' is OK because it is not a built-in function in Python3
+>     (https://docs.python.org/3/library/functions.html)
+>     Anyway, the variable 'file' is no longer used in this version
+>   - Keep the previous work-flow to allow to search the given directory
 >
->  Makefile | 29 +++++++++++++++++++++++++----
->  1 file changed, 25 insertions(+), 4 deletions(-)
+>  scripts/gen_compile_commands.py | 100 ++++++++++++++++++++++++++++++--
+>  1 file changed, 96 insertions(+), 4 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index 9cac6fde3479..65ed336a6de1 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -635,7 +635,7 @@ endif
->  # in addition to whatever we do anyway.
->  # Just "make" or "make all" shall build modules as well
+> diff --git a/scripts/gen_compile_commands.py b/scripts/gen_compile_commands.py
+> index 6dec7e2c4098..65859e6044b5 100755
+> --- a/scripts/gen_compile_commands.py
+> +++ b/scripts/gen_compile_commands.py
+> @@ -12,6 +12,7 @@ import json
+>  import logging
+>  import os
+>  import re
+> +import subprocess
 >
-> -ifneq ($(filter all modules nsdeps,$(MAKECMDGOALS)),)
-> +ifneq ($(filter all modules nsdeps %compile_commands.json,$(MAKECMDGOALS)),)
->    KBUILD_MODULES := 1
->  endif
+>  _DEFAULT_OUTPUT = 'compile_commands.json'
+>  _DEFAULT_LOG_LEVEL = 'WARNING'
+> @@ -32,8 +33,9 @@ def parse_arguments():
+>      Returns:
+>          log_level: A logging level to filter log output.
+>          directory: The work directory where the objects were built
+> +        ar: Command used for parsing .a archives
+>          output: Where to write the compile-commands JSON file.
+> -        paths: The list of directories to handle to find .cmd files
+> +        paths: The list of files/directories to handle to find .cmd files
+>      """
+>      usage = 'Creates a compile_commands.json database from kernel .cmd files'
+>      parser = argparse.ArgumentParser(description=usage)
+> @@ -53,12 +55,21 @@ def parse_arguments():
+>      parser.add_argument('--log_level', choices=_VALID_LOG_LEVELS,
+>                          default=_DEFAULT_LOG_LEVEL, help=log_level_help)
 >
-> @@ -1464,7 +1464,8 @@ endif # CONFIG_MODULES
->
->  # Directories & files removed with 'make clean'
->  CLEAN_FILES += include/ksym vmlinux.symvers \
-> -              modules.builtin modules.builtin.modinfo modules.nsdeps
-> +              modules.builtin modules.builtin.modinfo modules.nsdeps \
-> +              compile_commands.json
->
->  # Directories & files removed with 'make mrproper'
->  MRPROPER_FILES += include/config include/generated          \
-> @@ -1698,9 +1699,12 @@ KBUILD_MODULES := 1
->
->  build-dirs := $(KBUILD_EXTMOD)
->  PHONY += modules
-> -modules: descend
-> +modules: $(MODORDER)
->         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
->
-> +$(MODORDER): descend
-> +       @:
+> +    ar_help = 'command used for parsing .a archives'
+> +    parser.add_argument('-a', '--ar', type=str, default='ar', help=ar_help)
 
-^ stuff like this I don't understand.  But I understand the premise of
-the patch, the change in behavior, and the tradeoffs, so:
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
+If there's a default, doesn't that mean it's no longer required? I
+think it should be required.  For a clang specific tool, we'd prefer
+the default to be llvm-ar anyways.
 
 > +
->  PHONY += modules_install
->  modules_install: _emodinst_ _emodinst_post
->
-> @@ -1714,8 +1718,12 @@ PHONY += _emodinst_post
->  _emodinst_post: _emodinst_
->         $(call cmd,depmod)
->
-> +compile_commands.json: $(extmod-prefix)compile_commands.json
-> +PHONY += compile_commands.json
+> +    paths_help = ('directories to search or files to parse '
+> +                  '(files should be *.o, *.a, or modules.order). '
+> +                  'If nothing is specified, the current directory is searched')
+> +    parser.add_argument('paths', type=str, nargs='*', help=paths_help)
 > +
->  clean-dirs := $(KBUILD_EXTMOD)
-> -clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps
-> +clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps \
-> +       $(KBUILD_EXTMOD)/compile_commands.json
+>      args = parser.parse_args()
 >
->  PHONY += help
->  help:
-> @@ -1828,6 +1836,19 @@ nsdeps: export KBUILD_NSDEPS=1
->  nsdeps: modules
->         $(Q)$(CONFIG_SHELL) $(srctree)/scripts/nsdeps
+>      return (args.log_level,
+>              os.path.abspath(args.directory),
+>              args.output,
+> -            [args.directory])
+> +            args.ar,
+> +            args.paths if len(args.paths) > 0 else [args.directory])
 >
-> +# Clang Tooling
-> +# ---------------------------------------------------------------------------
-> +
-> +quiet_cmd_gen_compile_commands = GEN     $@
-> +      cmd_gen_compile_commands = $(PYTHON3) $< -a $(AR) -o $@ $(filter-out $<, $(real-prereqs))
-> +
-> +$(extmod-prefix)compile_commands.json: scripts/gen_compile_commands.py \
-> +       $(if $(KBUILD_EXTMOD),,$(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)) \
-> +       $(if $(CONFIG_MODULES), $(MODORDER)) FORCE
-> +       $(call if_changed,gen_compile_commands)
-> +
-> +targets += $(extmod-prefix)compile_commands.json
-> +
->  # Scripts to check various things for consistency
->  # ---------------------------------------------------------------------------
 >
+>  def cmdfiles_in_dir(directory):
+> @@ -81,6 +92,73 @@ def cmdfiles_in_dir(directory):
+>                  yield os.path.join(dirpath, filename)
+>
+>
+> +def to_cmdfile(path):
+> +    """Return the path of .cmd file used for the given build artifact
+> +
+> +    Args:
+> +        Path: file path
+> +
+> +    Returns:
+> +        The path to .cmd file
+> +    """
+> +    dir, base = os.path.split(path)
+> +    return os.path.join(dir, '.' + base + '.cmd')
+> +
+> +
+> +def cmdfiles_for_o(obj):
+> +    """Generate the iterator of .cmd files associated with the object
+> +
+> +    Yield the .cmd file used to build the given object
+> +
+> +    Args:
+> +        obj: The object path
+> +
+> +    Yields:
+> +        The path to .cmd file
+> +    """
+> +    yield to_cmdfile(obj)
+> +
+> +
+> +def cmdfiles_for_a(archive, ar):
+> +    """Generate the iterator of .cmd files associated with the archive.
+> +
+> +    Parse the given archive, and yield every .cmd file used to build it.
+> +
+> +    Args:
+> +        archive: The archive to parse
+> +
+> +    Yields:
+> +        The path to every .cmd file found
+> +    """
+> +    for obj in subprocess.check_output([ar, '-t', archive]).decode().split():
+> +        yield to_cmdfile(obj)
+> +
+> +
+> +def cmdfiles_for_modorder(modorder):
+> +    """Generate the iterator of .cmd files associated with the modules.order.
+> +
+> +    Parse the given modules.order, and yield every .cmd file used to build the
+> +    contained modules.
+> +
+> +    Args:
+> +        modorder: The modules.order file to parse
+> +
+> +    Yields:
+> +        The path to every .cmd file found
+> +    """
+> +    with open(modorder) as f:
+> +        for line in f:
+> +            ko = line.rstrip()
+> +            base, ext = os.path.splitext(ko)
+
+below in main() you check the file extension with endswith().  Would
+it be good to be consistent between the two?
+
+> +            if ext != '.ko':
+> +                sys.exit('{}: module path must end with .ko'.format(ko))
+> +            mod = base + '.mod'
+> +           # The first line of *.mod lists the objects that compose the module.
+> +            with open(mod) as m:
+> +                for obj in m.readline().split():
+> +                    yield to_cmdfile(obj)
+> +
+> +
+>  def process_line(root_directory, command_prefix, file_path):
+>      """Extracts information from a .cmd line and creates an entry from it.
+>
+> @@ -116,7 +194,7 @@ def process_line(root_directory, command_prefix, file_path):
+>
+>  def main():
+>      """Walks through the directory and finds and parses .cmd files."""
+> -    log_level, directory, output, paths = parse_arguments()
+> +    log_level, directory, output, ar, paths = parse_arguments()
+>
+>      level = getattr(logging, log_level)
+>      logging.basicConfig(format='%(levelname)s: %(message)s', level=level)
+> @@ -126,7 +204,21 @@ def main():
+>      compile_commands = []
+>
+>      for path in paths:
+> -        cmdfiles = cmdfiles_in_dir(path)
+> +        # If 'path' is a directory, handle all .cmd files under it.
+> +        # Otherwise, handle .cmd files associated with the file.
+> +        # Most of built-in objects are linked via archives (built-in.a or lib.a)
+> +        # but some are linked to vmlinux directly.
+> +        # Modules are lis
+
+^ was this comment cut off?
+
+
+> +        if os.path.isdir(path):
+> +            cmdfiles = cmdfiles_in_dir(path)
+> +        elif path.endswith('.o'):
+> +            cmdfiles = cmdfiles_for_o(path)
+> +        elif path.endswith('.a'):
+> +            cmdfiles = cmdfiles_for_a(path, ar)
+> +        elif path.endswith('modules.order'):
+> +            cmdfiles = cmdfiles_for_modorder(path)
+> +        else:
+> +            sys.exit('{}: unknown file type'.format(path))
+>
+>          for cmdfile in cmdfiles:
+>              with open(cmdfile, 'rt') as f:
 > --
 > 2.25.1
 >
 
 
--- 
+--
 Thanks,
 ~Nick Desaulniers
