@@ -2,139 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED8924E591
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 07:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79F4724E75A
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 14:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725863AbgHVFOj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Aug 2020 01:14:39 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:53380 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbgHVFOi (ORCPT
+        id S1727827AbgHVMUZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Aug 2020 08:20:25 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:38456 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726704AbgHVMUY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Aug 2020 01:14:38 -0400
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 07M5EFXM021249;
-        Sat, 22 Aug 2020 14:14:16 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 07M5EFXM021249
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598073256;
-        bh=4FjA6DiNrgZGC6Vw0nWpQF20KUNU2N4bk2zh75rtHw0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=abWVB3xa5jOHzBS5UTEgfM9975axbclzHit69E0DdZsttOiNYxICAw+jn+C6zZCg8
-         tvmQBvTuj9o2M/K5P4mcrr9BJkJPQe4tAmMKHobrljbISuwm2ZrBH/IJSu2ih7gbVX
-         yVNQAFyHz5ui8pamhpPIKLMCmMkDZsTvigVBqVkwokx4eR6jO8l0aJiGdX6b+MvCn3
-         7gcVmjh4DcV1BwWwLwpYStq5FwVTFxqye+lqS9YM/92K8ytGy1phX6kmBgzuA6LV1s
-         k+BBQoQVdZOCSA1INLtZG6UFYCWYB5FRBig0gzUCjtmWefwy+wUjFP1v/iS9sfYskh
-         deRTZ9a0aF67A==
-X-Nifty-SrcIP: [209.85.221.178]
-Received: by mail-vk1-f178.google.com with SMTP id s81so886434vkb.3;
-        Fri, 21 Aug 2020 22:14:16 -0700 (PDT)
-X-Gm-Message-State: AOAM530abFoFobUGbAtwMflQMC1PpR9DlVz1FDSdFKPxwt8mN7aeW/4S
-        7rGTIPt7uK83OaapsmPWAnjVyanevqUridJ31lw=
-X-Google-Smtp-Source: ABdhPJzEUYgjZNj9Kt5YBK/Q6C4u/AK4jmBzy5Fg3fSDwg7ixaVTsnJThSpwhdZEajfjuMCpFNiPTwxef96YWVpf4GY=
-X-Received: by 2002:a1f:8f52:: with SMTP id r79mr3870370vkd.96.1598073254960;
- Fri, 21 Aug 2020 22:14:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200820220955.3325555-1-ndesaulniers@google.com>
-In-Reply-To: <20200820220955.3325555-1-ndesaulniers@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 22 Aug 2020 14:13:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQO9sKw=7RLPSnsChddrwNCc_si-XgSDQcGHTSxeq4_Pg@mail.gmail.com>
-Message-ID: <CAK7LNAQO9sKw=7RLPSnsChddrwNCc_si-XgSDQcGHTSxeq4_Pg@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: add -fuse-ld=lld to KBUILD_HOSTLDFLAGS when LLVM=1
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     stable <stable@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>,
+        Sat, 22 Aug 2020 08:20:24 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-270-qZwqjJrpPHqWcJjZWqiVug-1; Sat, 22 Aug 2020 13:20:19 +0100
+X-MC-Unique: qZwqjJrpPHqWcJjZWqiVug-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Sat, 22 Aug 2020 13:20:18 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Sat, 22 Aug 2020 13:20:18 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Nick Desaulniers' <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        Masahiro Yamada <masahiroy@kernel.org>
+CC:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        =?utf-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        "Eli Friedman" <efriedma@quicinc.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        LKML <linux-kernel@vger.kernel.org>,
+        "Kees Cook" <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Joe Perches <joe@perches.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Yury Norov <yury.norov@gmail.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Marco Elver <elver@google.com>,
+        "Vamshi K Sthambamkadi" <vamshi.k.sthambamkadi@gmail.com>
+Subject: RE: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+Thread-Topic: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+Thread-Index: AQHWeBjoCHxBBIXDc0qCyrHmyOJpJ6lD/ZLw
+Date:   Sat, 22 Aug 2020 12:20:17 +0000
+Message-ID: <ad72b37c132e41f6a74766c27a27d7f6@AcuMS.aculab.com>
+References: <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
+ <20200818202407.GA3143683@rani.riverdale.lan>
+ <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
+ <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
+ <20200818214146.GA3196105@rani.riverdale.lan>
+ <df6c1da4-b910-ecb8-0de2-6156dd651be6@rasmusvillemoes.dk>
+ <20200820175617.GA604994@rani.riverdale.lan>
+ <CAHk-=whn91ar+EbcBXQb9UXad00Q5WjU-TCB6UBzVba682a4ew@mail.gmail.com>
+ <20200821172935.GA1411923@rani.riverdale.lan>
+ <CAHk-=wi8vdb+wo-DACDpSijYfAbCs135YcnnAbRhGJcU+A=-+Q@mail.gmail.com>
+ <20200821195712.GB1475504@rani.riverdale.lan>
+ <CAHk-=wgXHhN5MSOLeE_7rMPoGknrSxmOOJVLBa4jkz38J4gHgg@mail.gmail.com>
+ <CAKwvOdnHZfVz8grK-SD6jTT1ggQNQ-RRduRdAG0nShqeitpgpg@mail.gmail.com>
+In-Reply-To: <CAKwvOdnHZfVz8grK-SD6jTT1ggQNQ-RRduRdAG0nShqeitpgpg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0.001
+X-Mimecast-Originator: aculab.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 7:10 AM 'Nick Desaulniers' via Clang Built
-Linux <clang-built-linux@googlegroups.com> wrote:
->
-> While moving Android kernels over to use LLVM=1, we observe the failure
-> when building in a hermetic docker image:
->   HOSTCC  scripts/basic/fixdep
-> clang: error: unable to execute command: Executable "ld" doesn't exist!
->
-> The is because the build of the host utility fixdep builds the fixdep
-> executable in one step by invoking the compiler as the driver, rather
-> than individual compile then link steps.
->
-> Clang when configured from source defaults to use the system's linker,
-> and not LLVM's own LLD, unless the CMake config
-> -DCLANG_DEFAULT_LINKER='lld' is set when configuring a build of clang
-> itself.
->
-> Don't rely on the compiler's implicit default linker; be explicit.
+PiBGb3IgbW9yZSBjb250ZXh0IGZvciBmb2xrcyBhdCBob21lIGVhdGluZyBwb3Bjb3JuIGFuZCBl
+bmpveWluZyB0aGUNCj4gc2hvdzogaHR0cHM6Ly9naXRodWIuY29tL0NsYW5nQnVpbHRMaW51eC9s
+aW51eC9pc3N1ZXMvODc2I2lzc3VlY29tbWVudC02MTMwNDk0ODAuDQo+IEFuZCB0aGF0IHdhcyBz
+cGVjaWZpY2FsbHkgd2l0aCBLQVNBTiBlbmFibGVkIGFuZCBkb2Vzbid0IGFwcGVhciB0byBiZQ0K
+PiBjb21tb24gYmVoYXZpb3IgaW4gY2xhbmcgb3RoZXJ3aXNlIChoaWdoZXIgdGhyZXNob2xkKS4g
+V2h5IHRoZQ0KPiBoZXVyaXN0aWNzIGNoYW5nZSBmb3Igd2hlbiBpdCBzZWVtcyB0byBiZSBtb3Jl
+IHByb2ZpdGFibGUgdG8gcm9sbA0KPiBhc3NpZ25tZW50IG9mIGNvbnRpZ3VvdXMgbWVtYmVycyBv
+ZiB0aGUgc2FtZSBzdHJ1Y3QgdG8gdGhlIHNhbWUgdmFsdWUNCj4gaW50byBhIG1lbXNldCwgYW5k
+IDIgbG9uZ3Mgc2VlbXMgdG8gYmUgdGhlIHRocmVzaG9sZCBmb3IgS0FTQU4sIEkNCj4gZG9uJ3Qg
+a25vdy4gIEJ1dCBJIGFncmVlIHRoYXQgc2hvdWxkIGJlIGZpeGVkIG9uIHRoZSBjb21waWxlciBz
+aWRlLA0KPiB3aGljaCBpcyB3aHkgSSBoYXZlbid0IGJlZW4gcHVzaGluZyB0aGUga2VybmVsIHdv
+cmthcm91bmQuDQoNCkdpdmVuIHg4NiBoYXMgaXMgYSBzaW1wbGUgMy1pbnN0cnVjdGlvbiBsb29w
+IGZvciBtZW1zZXQNCnRoYXQgd2lsbCBkbyAxIHdyaXRlL2Nsb2NrICh0aGUgbWF4IG9uIGN1cnJl
+bnQgY3B1KSBJDQpkb3VidCBpdCBpcyBldmVyIHdvcnRoIG5vdCBpbmxpbmluZyBtZW1zZXQoKS4N
+ClRoZSBvbmx5IHJlYWwgc3BlY2lhbCBjYXNlIGlzIGxlbmd0aHMgPCA4Lg0KDQpGb3IgS0FTQU4g
+SSB3b25kZXIgaWYgc29tZXRoaW5nIGlzIHN0b3BwaW5nIGl0IGlubGluaW5nIG1lbXNldCgpPw0K
+U28gd2hhdCB1c3VhbGx5IGhhcHBlbnMgaXMgdGhlIHR3byBzdG9yZXMgZ2V0IGNvbnZlcnRlZCB0
+byBtZW1zZXQoKQ0KYW5kIHRoZW4gdGhlIG1lbXNldCgpIGdldHMgaW5saW5lZCBiYWNrIHRvIHR3
+byBzdG9yZXM/DQoNCk9UT0ggYWxsIHRoaXMgZmFmZmluZyBmb3IgbWVtc2V0IGFuZCBtZW1jcHkg
+aXMgcHJvYmFibHkgYQ0Kd2FzdGUgb2YgdGltZS4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQg
+QWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVz
+LCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
 
-
-I do not understand this patch.
-
-The host compiler should be able to link executables
-without any additional settings.
-
-So, can you link a hello world program
-in your docker?
-
-masahiro@zoe:~$ cat test.c
-#include <stdio.h>
-int main(void)
-{
-        printf("helloworld\n");
-        return 0;
-}
-masahiro@zoe:~$ clang test.c
-
-
-If this fails, your environment is broken.
-
-Just do  -DCLANG_DEFAULT_LINKER='lld'
-if you know GNU ld is missing in your docker environment.
-
-
-
-
-
-
-
-
-> Cc: stable@vger.kernel.org
-> Fixes: commit a0d1c951ef08 ("kbuild: support LLVM=1 to switch the default tools to Clang/LLVM")
-> Reported-by: Matthias Maennich <maennich@google.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
->  Makefile | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Makefile b/Makefile
-> index def590b743a9..b4e93b228a26 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -436,6 +436,7 @@ OBJDUMP             = llvm-objdump
->  READELF                = llvm-readelf
->  OBJSIZE                = llvm-size
->  STRIP          = llvm-strip
-> +KBUILD_HOSTLDFLAGS     += -fuse-ld=lld
->  else
->  CC             = $(CROSS_COMPILE)gcc
->  LD             = $(CROSS_COMPILE)ld
-> --
-> 2.28.0.297.g1956fa8f8d-goog
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200820220955.3325555-1-ndesaulniers%40google.com.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
