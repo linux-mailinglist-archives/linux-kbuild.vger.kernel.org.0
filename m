@@ -2,264 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B51C24E813
-	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 16:58:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48E4124E912
+	for <lists+linux-kbuild@lfdr.de>; Sat, 22 Aug 2020 19:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728173AbgHVO5f (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 22 Aug 2020 10:57:35 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:47703 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728124AbgHVO5Z (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 22 Aug 2020 10:57:25 -0400
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 07MEuKVZ025434;
-        Sat, 22 Aug 2020 23:56:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07MEuKVZ025434
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598108189;
-        bh=may07TN/E9M6QqtFSP+c/0evMKANYT+YPi6JrwTRamU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=klQH9Dq9Z5FPYoPHNq8maIWQ7TSrwQP9xYPlHVCCzT6FTbZ4jqyv/rDR1Isr8ZTPS
-         lEzg+B/SyH6KlusVTZGR3R2q14MV7ef2ycxchbLAuInnvdPsbODJVdKeBcMKw0TSWz
-         7UUh3RUnpqwSE8bmDrX7auxhNSQQu4v2xRsXIAQDJASYBNzQjn4J98aEWGJL82X/Wv
-         iYiDpihoQYqEm+ce98+6N6GSg8AaDRZ6VyrJyvXn7GaMi76T5JcUPvjlAa7gRvIf7L
-         Z7rvVt1K0OsaKXP2A76qgt23CPtn2Q+BHPtf4uOMg47bLd7EJlDMBG1PwnSubwPZ7o
-         NrGKSt/1gS7kw==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Nathan Huckleberry <nhuck@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Roeder <tmroeder@google.com>,
-        clang-built-linux@googlegroups.com,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 10/10] Makefile: Add clang-tidy and static analyzer support to makefile
-Date:   Sat, 22 Aug 2020 23:56:18 +0900
-Message-Id: <20200822145618.1222514-11-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200822145618.1222514-1-masahiroy@kernel.org>
-References: <20200822145618.1222514-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1728671AbgHVReA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 22 Aug 2020 13:34:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56126 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728132AbgHVRcR (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 22 Aug 2020 13:32:17 -0400
+Subject: Re: [GIT PULL] Kbuild fixes for v5.9-rc2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598117537;
+        bh=Q6N6KwbYhvbkpIQumB9/HhFg2VuHmS4sQTBfNSvj1Ck=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=N1KzH3iBLcbp9hsrZDZnuw1r1AezTJ+eT1VifmvtTAFCwAwY5bpBsqIRetW2AwM8Q
+         zvoLKC5OK+Fo+HhuBMCa5r7hGfYiLPvBYqtBfiO46FgWOKpRMsq/0p65j5EDRuGdnd
+         lRe2D+OvzrMU6hlhBJvkV2yFyTLHfw0It+weEXFg=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQO7kay52Dxku3sgyYk=4OGEB8m+gmN7wLemjc0f-pY-A@mail.gmail.com>
+References: <CAK7LNAQO7kay52Dxku3sgyYk=4OGEB8m+gmN7wLemjc0f-pY-A@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQO7kay52Dxku3sgyYk=4OGEB8m+gmN7wLemjc0f-pY-A@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9
+X-PR-Tracked-Commit-Id: 510bc3cb1ddc32f9533e6ed0a68c980544c3ca3f
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c3d8f220d01220a5b253e422be407d068dc65511
+Message-Id: <159811753724.17427.16062703476306424501.pr-tracker-bot@kernel.org>
+Date:   Sat, 22 Aug 2020 17:32:17 +0000
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Nathan Huckleberry <nhuck@google.com>
+The pull request you sent on Sat, 22 Aug 2020 23:00:58 +0900:
 
-This patch adds clang-tidy and the clang static-analyzer as make
-targets. The goal of this patch is to make static analysis tools
-usable and extendable by any developer or researcher who is familiar
-with basic c++.
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9
 
-The current static analysis tools require intimate knowledge of the
-internal workings of the static analysis. Clang-tidy and the clang
-static analyzers expose an easy to use api and allow users unfamiliar
-with clang to write new checks with relative ease.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c3d8f220d01220a5b253e422be407d068dc65511
 
-===Clang-tidy===
+Thank you!
 
-Clang-tidy is an easily extendable 'linter' that runs on the AST.
-Clang-tidy checks are easy to write and understand. A check consists of
-two parts, a matcher and a checker. The matcher is created using a
-domain specific language that acts on the AST
-(https://clang.llvm.org/docs/LibASTMatchersReference.html).  When AST
-nodes are found by the matcher a callback is made to the checker. The
-checker can then execute additional checks and issue warnings.
-
-Here is an example clang-tidy check to report functions that have calls
-to local_irq_disable without calls to local_irq_enable and vice-versa.
-Functions flagged with __attribute((annotation("ignore_irq_balancing")))
-are ignored for analysis. (https://reviews.llvm.org/D65828)
-
-===Clang static analyzer===
-
-The clang static analyzer is a more powerful static analysis tool that
-uses symbolic execution to find bugs. Currently there is a check that
-looks for potential security bugs from invalid uses of kmalloc and
-kfree. There are several more general purpose checks that are useful for
-the kernel.
-
-The clang static analyzer is well documented and designed to be
-extensible.
-(https://clang-analyzer.llvm.org/checker_dev_manual.html)
-(https://github.com/haoNoQ/clang-analyzer-guide/releases/download/v0.1/clang-analyzer-guide-v0.1.pdf)
-
-The main draw of the clang tools is how accessible they are. The clang
-documentation is very nice and these tools are built specifically to be
-easily extendable by any developer. They provide an accessible method of
-bug-finding and research to people who are not overly familiar with the
-kernel codebase.
-
-Signed-off-by: Nathan Huckleberry <nhuck@google.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
-(no changes since v1)
-
- MAINTAINERS                                   |  1 +
- Makefile                                      | 20 ++++-
- .../{ => clang-tools}/gen_compile_commands.py |  0
- scripts/clang-tools/run-clang-tools.py        | 74 +++++++++++++++++++
- 4 files changed, 93 insertions(+), 2 deletions(-)
- rename scripts/{ => clang-tools}/gen_compile_commands.py (100%)
- create mode 100755 scripts/clang-tools/run-clang-tools.py
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index deaafb617361..19b916dbc796 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4247,6 +4247,7 @@ W:	https://clangbuiltlinux.github.io/
- B:	https://github.com/ClangBuiltLinux/linux/issues
- C:	irc://chat.freenode.net/clangbuiltlinux
- F:	Documentation/kbuild/llvm.rst
-+F:	scripts/clang-tools/
- K:	\b(?i:clang|llvm)\b
- 
- CLEANCACHE API
-diff --git a/Makefile b/Makefile
-index 65ed336a6de1..9ece191d8d51 100644
---- a/Makefile
-+++ b/Makefile
-@@ -635,7 +635,7 @@ endif
- # in addition to whatever we do anyway.
- # Just "make" or "make all" shall build modules as well
- 
--ifneq ($(filter all modules nsdeps %compile_commands.json,$(MAKECMDGOALS)),)
-+ifneq ($(filter all modules nsdeps %compile_commands.json clang-%,$(MAKECMDGOALS)),)
-   KBUILD_MODULES := 1
- endif
- 
-@@ -1577,6 +1577,8 @@ help:
- 	@echo  '  export_report   - List the usages of all exported symbols'
- 	@echo  '  headerdep       - Detect inclusion cycles in headers'
- 	@echo  '  coccicheck      - Check with Coccinelle'
-+	@echo  '  clang-analyzer  - Check with clang static analyzer'
-+	@echo  '  clang-tidy      - Check with clang-tidy'
- 	@echo  ''
- 	@echo  'Tools:'
- 	@echo  '  nsdeps          - Generate missing symbol namespace dependencies'
-@@ -1842,13 +1844,27 @@ nsdeps: modules
- quiet_cmd_gen_compile_commands = GEN     $@
-       cmd_gen_compile_commands = $(PYTHON3) $< -a $(AR) -o $@ $(filter-out $<, $(real-prereqs))
- 
--$(extmod-prefix)compile_commands.json: scripts/gen_compile_commands.py \
-+$(extmod-prefix)compile_commands.json: scripts/clang-tools/gen_compile_commands.py \
- 	$(if $(KBUILD_EXTMOD),,$(KBUILD_VMLINUX_OBJS) $(KBUILD_VMLINUX_LIBS)) \
- 	$(if $(CONFIG_MODULES), $(MODORDER)) FORCE
- 	$(call if_changed,gen_compile_commands)
- 
- targets += $(extmod-prefix)compile_commands.json
- 
-+PHONY += clang-tidy clang-analyzer
-+
-+ifdef CONFIG_CC_IS_CLANG
-+quiet_cmd_clang_tools = CHECK   $<
-+      cmd_clang_tools = $(PYTHON3) $(srctree)/scripts/clang-tools/run-clang-tools.py $@ $<
-+
-+clang-tidy clang-analyzer: $(extmod-prefix)compile_commands.json
-+	$(call cmd,clang_tools)
-+else
-+clang-tidy clang-analyzer:
-+	@echo "$@ requires CC=clang" >&2
-+	@false
-+endif
-+
- # Scripts to check various things for consistency
- # ---------------------------------------------------------------------------
- 
-diff --git a/scripts/gen_compile_commands.py b/scripts/clang-tools/gen_compile_commands.py
-similarity index 100%
-rename from scripts/gen_compile_commands.py
-rename to scripts/clang-tools/gen_compile_commands.py
-diff --git a/scripts/clang-tools/run-clang-tools.py b/scripts/clang-tools/run-clang-tools.py
-new file mode 100755
-index 000000000000..fa7655c7cec0
---- /dev/null
-+++ b/scripts/clang-tools/run-clang-tools.py
-@@ -0,0 +1,74 @@
-+#!/usr/bin/env python
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Copyright (C) Google LLC, 2020
-+#
-+# Author: Nathan Huckleberry <nhuck@google.com>
-+#
-+"""A helper routine run clang-tidy and the clang static-analyzer on
-+compile_commands.json.
-+"""
-+
-+import argparse
-+import json
-+import multiprocessing
-+import os
-+import subprocess
-+import sys
-+
-+
-+def parse_arguments():
-+    """Set up and parses command-line arguments.
-+    Returns:
-+        args: Dict of parsed args
-+        Has keys: [path, type]
-+    """
-+    usage = """Run clang-tidy or the clang static-analyzer on a
-+        compilation database."""
-+    parser = argparse.ArgumentParser(description=usage)
-+
-+    type_help = "Type of analysis to be performed"
-+    parser.add_argument("type",
-+                        choices=["clang-tidy", "clang-analyzer"],
-+                        help=type_help)
-+    path_help = "Path to the compilation database to parse"
-+    parser.add_argument("path", type=str, help=path_help)
-+
-+    return parser.parse_args()
-+
-+
-+def init(l, a):
-+    global lock
-+    global args
-+    lock = l
-+    args = a
-+
-+
-+def run_analysis(entry):
-+    # Disable all checks, then re-enable the ones we want
-+    checks = "-checks=-*,"
-+    if args.type == "clang-tidy":
-+        checks += "linuxkernel-*"
-+    else:
-+        checks += "clang-analyzer-*"
-+    p = subprocess.run(["clang-tidy", "-p", args.path, checks, entry["file"]],
-+                       stdout=subprocess.PIPE,
-+                       stderr=subprocess.STDOUT,
-+                       cwd=entry["directory"])
-+    with lock:
-+        sys.stderr.buffer.write(p.stdout)
-+
-+
-+def main():
-+    args = parse_arguments()
-+
-+    lock = multiprocessing.Lock()
-+    pool = multiprocessing.Pool(initializer=init, initargs=(lock, args))
-+    # Read JSON data into the datastore variable
-+    with open(args.path, "r") as f:
-+        datastore = json.load(f)
-+        pool.map(run_analysis, datastore)
-+
-+
-+if __name__ == "__main__":
-+    main()
 -- 
-2.25.1
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
