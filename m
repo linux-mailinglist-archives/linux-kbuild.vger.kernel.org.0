@@ -2,154 +2,130 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C051C251A69
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Aug 2020 16:03:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8646D252395
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 00:26:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726230AbgHYODU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Aug 2020 10:03:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57664 "EHLO
+        id S1726645AbgHYW0C (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Aug 2020 18:26:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726578AbgHYOCy (ORCPT
+        with ESMTP id S1726303AbgHYW0B (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Aug 2020 10:02:54 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2411DC061755
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Aug 2020 07:02:41 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id ep8so1283489pjb.3
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Aug 2020 07:02:41 -0700 (PDT)
+        Tue, 25 Aug 2020 18:26:01 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E6DAC061574
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Aug 2020 15:26:01 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id a186so382197qke.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 25 Aug 2020 15:26:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xqG3SdMvJx7GJfq2oMPF0l/P2B4bvHecimACRr3B0fs=;
-        b=Xty7tLG+dU+cxDG1zwMKS7VBqkMFL9+oRQOgahH5nLpH5fKwJmyxlLLGWPIE2qVKv/
-         1WwbucyxJlvoptqamR2wp5yW+q8nwJPfaxLUyMF41W6AcqPGCp6EtnVuhyGA5g5FQDks
-         03aRQBsxVLXuf2neUQer3SDSQF27D9q28Gqj2wqXTxAAJpAQXlFw/kcTQU4asvyiHQD1
-         e6kLw+s1TkzTpdMtM6yH7sFjUQDlFuYCWC5n4YfBmMbBzeWYUwm27164zB64OlOA7vub
-         8J5wOPabyN/gRP5JsNrieFCOz7IDieTj+/nf+vBRHVgJ+RuMYXLMj6e1xT+4Y/nKQodl
-         J0FA==
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=FW2LrTzzEQgbMzq3tJHO9RKBRPjxertl4+WTZokfJYo=;
+        b=fOK1Krh7WNbRfwoDQK+/SD0jQQyr0PSMvwUQCD6tAzCs+A3rB/iQPEEGpJBUn9yRkl
+         avnu+n5QnU9pInub5wiqGm/9g2/+lQm4GD55/GcD211tA9+DHFmBlQAk+XTr3Lqe65Sx
+         Juae8uK5syhRfAapQbT5aqIWxTK+7rdDCch0/70gxF1BBfCk6o3tkfpku50rWqc3PqQa
+         F6ELQkeluiUnEBjW+X/PZSkYC2zLwK+c+GXoFCxS6LvmWPAQ7p53cJ9OLMDQvNhJtqzV
+         2DmrzSdWEbZbpyu9FpZ6VEE8THXZZLckNDIvcFgmSETKsbz5gDBcyD9R1Id2w3RP+dMD
+         3RfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xqG3SdMvJx7GJfq2oMPF0l/P2B4bvHecimACRr3B0fs=;
-        b=A5N9CxOC/9nG4YZjVJrep6H9v0gvj5QubPBbC2iaQuh/Cf6N25rVQpOm1sjTwxyZsb
-         7a+kWHwxXNs0sCBsEYo451bt4itn+IiBow9ZaxKbnl7ZJS6BNNcbH+Eg93f/YKlCuX2l
-         OnrIM/pTNu/OeJHxiVpt+rlaQc7hg6/oR2pNs85zEMHQu3EDLfH62dxu9LVYKIozXVaN
-         kWIdH0und1es3GpsFJB1Au76cgQjtRbM0wDMia7SF9SY6mh+9x8ML/qxhRDZc9uaFViS
-         q5Nec3q6m6d9MYDOAvXiS5+lkqsP2eftYFDm+87sXk75vvTmHvz0rlKyPmhwSWRjCb4A
-         5ftg==
-X-Gm-Message-State: AOAM533wRWxV/IEFbnykdPy6Z0guK3U2T89oE5Q3tsRxXlukiVMGXYRn
-        DHklPomcxA9S/CkgxuTraQ4LniEZUpWFyfAo6LC2Iw==
-X-Google-Smtp-Source: ABdhPJzUqhQqxESaGZbNm2mQAUsBlc3kLUZjOmvdGUJ/EsAy326Ph9KQE7qDsFcEsO4sSNCfTk7UwfYZy4FBoFBySQk=
-X-Received: by 2002:a17:90a:850b:: with SMTP id l11mr1672748pjn.25.1598364160101;
- Tue, 25 Aug 2020 07:02:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
- <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com> <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
- <20200818202407.GA3143683@rani.riverdale.lan> <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
- <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
- <20200818214146.GA3196105@rani.riverdale.lan> <CAK7LNAQmWBPV4nZ0xPdSHEt=DipHmR40co827voGOFN=2j47BQ@mail.gmail.com>
- <20200824173450.GA4157679@rani.riverdale.lan> <CAKwvOd=BEwuHFeuskJ4gPOGLoXm98oXA18U=tTw981g+HdVz-w@mail.gmail.com>
- <CAK7LNAQynuqqjhL1rqMf0YnRpQ0jsWrJ7fy51FM7d0xdxws5wQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAQynuqqjhL1rqMf0YnRpQ0jsWrJ7fy51FM7d0xdxws5wQ@mail.gmail.com>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=FW2LrTzzEQgbMzq3tJHO9RKBRPjxertl4+WTZokfJYo=;
+        b=LEUHZfLg9KLGRlOHunfljiR3wborkPMpnheIUtyUJdYXskNVY1GLOaS85pAy7+pZXk
+         ynk7sLVuDIdlWjX/a44M+zc/V8qQkaqyqT99EoST24ZQc7ksT2cABf6Z66V4Vie3xEPf
+         qIUDxtwNMZevRYsW1uOyj0EBoDweN+seax/rJnAfH0vIdAOLVDFZWt5zlMnCQmVzuoEJ
+         0S/i7lwRbGwwzSzcO022xh0w+/1cHnkIakAcFs3oiyUB7nn6e2YLLjKPpejjITdOeBgO
+         MHbjGlJ51UcFGLcsdvAL1doDNucerwsBPTZFa97NgLkt1rbeXmS1RppFvHJSeppd2m5r
+         KCRg==
+X-Gm-Message-State: AOAM5305tI7aXQH4hf4lcYny+W7iDfj2L0PTqYcHNkVesARm7MUb7L/b
+        T54CCynNcbRX4gw/ZLOMgZLcm8lICGphtlgjzVA=
+X-Google-Smtp-Source: ABdhPJxjEG9J8LsOt3eGnk+oh0vR4LuJImhCl2b2a7k2KSxcCkF/a/1kJo9E1rkfUUX8pr1WRtNDi/fWecByGG+g12M=
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6214:1086:: with SMTP id
+ o6mr11029155qvr.41.1598394359323; Tue, 25 Aug 2020 15:25:59 -0700 (PDT)
+Date:   Tue, 25 Aug 2020 15:25:51 -0700
+Message-Id: <20200825222552.3113760-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
+Subject: [PATCH] Documentation: add minimum clang/llvm version
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 25 Aug 2020 07:02:28 -0700
-Message-ID: <CAKwvOdk9gpKNmEAHLf9KtzmzxnSdmDdutu5Mpp39XEaxMywMFA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Joe Perches <joe@perches.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Kees Cook <keescook@chromium.org>,
+        Will Deacon <will@kernel.org>, Borislav Petkov <bp@suse.de>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 5:30 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Tue, Aug 25, 2020 at 4:10 PM Nick Desaulniers
-> <ndesaulniers@google.com> wrote:
-> >
-> > Masahiro, are you implying that we shouldn't take the
-> > -fno-builtin-stpcpy patch, because Clang is inconsistent? (That can be
-> > fixed.) Even though -fno-builtin-stpcpy works here as intended?
-> > https://lore.kernel.org/lkml/20200817220212.338670-2-ndesaulniers@google.com/
-> >
-> > Otherwise we need to provide an implementation of this symbol in the kernel.
-> > https://lore.kernel.org/lkml/20200815020946.1538085-1-ndesaulniers@google.com/
-> >
-> > Please, pick your poison.
->
->
->
-> I am not a compiler expert.
->
-> Nor am I sure if I am the right person who makes this decision.
-> But, if so, I would choose the latter.
-> (implement stpcpy() in the kernel)
->
-> I was addressed last night, so
-> I should write up my thoughts.
->
-> I do not think -fno-builtin-stpcpy is a
-> general solution.
->
-> -fno-builtin-stpcpy will work for now
-> because only Clang implements the transformation
-> from 'sprintf(dest, "%s", str)' into
-> 'stpcpy(dest, str) - dest'.
->
-> If GCC implements it some day,
-> we would run into a problem because
-> in GCC, it is not -fno-builtin-stpcpy, but
-> -fno-builtin-sprintf that disables that optimization.
->
-> In this regard, 'KBUILD_CFLAGS += -fno-builtin-sprintf'
-> would be more future-proof, but it is potentially
-> an overkill.
-> We want to disable optimization from sprintf() to stpcpy(),
-> but we may still benefit from the optimization from
-> sprintf() into something else.
->
->
-> Linus is uncomfortable with this kind of compiler magic.
-> If we take compiler's freedom away,
-> -ffreestanding is a big hammer to solve this problem.
->
-> If we welcome the compiler's optimization,
-> we should implement stpcpy(), bcmp(), and whatever
-> until we solve all link errors.
+Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
+small, supporting just one formal upstream release of LLVM for now.
 
-Speculating that -ffreestanding is untenable, submitted v3:
-https://lore.kernel.org/lkml/20200825135838.2938771-1-ndesaulniers@google.com/T/#u
+We can probably widen the support window of supported versions over
+time.  Also, note that LLVM's release process is different than GCC's.
+GCC tends to have 1 major release per year while releasing minor updates
+to the past 3 major versions.  LLVM tends to support one major release
+and one minor release every six months.
+
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+Note to reviewers: working remote, I'm having trouble testing/verifying
+that I have the RST links wired up correctly; I would appreciate it if
+someone is able to `make htmldocs` and check
+Documentation/output/process/changes.html properly links to
+Documentation/output/kbuild/llvm.html.
+
+ Documentation/kbuild/llvm.rst     |  2 ++
+ Documentation/process/changes.rst | 10 ++++++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+index 2aac50b97921..70ec6e9a183b 100644
+--- a/Documentation/kbuild/llvm.rst
++++ b/Documentation/kbuild/llvm.rst
+@@ -1,3 +1,5 @@
++.. _kbuild_llvm:
++
+ ==============================
+ Building Linux with Clang/LLVM
+ ==============================
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index ee741763a3fc..6c580ef9f2a3 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -30,6 +30,7 @@ you probably needn't concern yourself with pcmciautils.
+         Program        Minimal version       Command to check the version
+ ====================== ===============  ========================================
+ GNU C                  4.9              gcc --version
++Clang/LLVM (optional)  10.0.1           clang --version
+ GNU make               3.81             make --version
+ binutils               2.23             ld -v
+ flex                   2.5.35           flex --version
+@@ -68,6 +69,15 @@ GCC
+ The gcc version requirements may vary depending on the type of CPU in your
+ computer.
+ 
++Clang/LLVM (optional)
++---------------------
++
++The latest formal release of clang and LLVM utils (according to
++`releases.llvm.org <https://releases.llvm.org>`_) are supported for building
++kernels. Older releases aren't gauranteed to work, and we may drop workarounds
++from the kernel that were used to support older versions. Please see additional
++docs on :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
++
+ Make
+ ----
+ 
 -- 
-Thanks,
-~Nick Desaulniers
+2.28.0.297.g1956fa8f8d-goog
+
