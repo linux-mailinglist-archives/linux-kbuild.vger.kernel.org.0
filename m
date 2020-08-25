@@ -2,48 +2,38 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 630F6251334
-	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Aug 2020 09:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 146A225188D
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Aug 2020 14:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729343AbgHYHbd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Aug 2020 03:31:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729301AbgHYHbc (ORCPT
+        id S1726661AbgHYM3w (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 25 Aug 2020 08:29:52 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:48393 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgHYM3w (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Aug 2020 03:31:32 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1130BC061755
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Aug 2020 00:31:30 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id t9so2466085pfq.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 25 Aug 2020 00:31:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m7ch7awO6dQw6oGepnCr0LIwMq/ocai7485X8Nfpk3A=;
-        b=sjOzCSRVvG1BQ9lfblTNWFud2sOL4Z8FoPVLLR2PV/do9wx1dr4Z4Y689ZhRA/v0rY
-         q7pmrtRQPDdQoYCsmHvS4g5iPRU+uFKFKsau302IkCsImMeSerTUn6CxGksc6llIvewO
-         oKXxq3B5dvx40WPTaY7rdYOrfM6QQUFjKMDdcfMbBmseNYJbYc3D8RL00BGtau8VFU7J
-         Vx8KeOuhxOkA7KmNU+W4EpZOZvzXprk9Pku2b0eAOFKHBSi7dN+reeBtCqdu8VKo09iN
-         Cyu6nNg7qs5GoBPqsXrpDun8rD+8Q7rSGKEq6jLFtLAtumZ4VyxrpKjmSzkkG345bhCk
-         TDsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m7ch7awO6dQw6oGepnCr0LIwMq/ocai7485X8Nfpk3A=;
-        b=EOz5qozC8tr7lYQFR0MCuZtXoX7xjBWlb1rLCsVXLnFb3uH+DSzuzYPuziYq9vww0/
-         cGpEa/Wes4ubsvocvSH/rDYgb92JhKJQ8HtpXuGPZfAe2ZVc79I5yLeYFXCc8PPuoVHR
-         7yE2IOOCebTelR/8+EUmB+xeyRFBKgbFv7y9LJurgYK3eM5/NRb178xDzCR4E7/WS6kb
-         G6G/Mbhvc66t9tj1OMZf2fNiGmXSL9aajYPs4HKuOp6TM6+xledFKeBphWqB9f1Hl2R2
-         QmN6VXw3YFr5RWH5gKB8GzN6MPn8gdE8YBRE/NO8HBueLvwsVmEMaDEvUHDxtWfeSioH
-         L9JQ==
-X-Gm-Message-State: AOAM5309VuM7KY0iANFstv2TS8j4SGhU0/PCDM73x8kMaIVtgSXKUZIt
-        /HnF9vsLHnyEi/f+zZqZrjTLsmzvyT+P8+L5ZPYvUg==
-X-Google-Smtp-Source: ABdhPJwe6jM7HG16VFQngcUGbRQn3BsibeeAW1tnRrBzba3m+D9Bx6IoJfIhWy3w05MZeYYI3/zkzvt4t6UXOd3rZI4=
-X-Received: by 2002:a62:7845:: with SMTP id t66mr6315514pfc.238.1598340690018;
- Tue, 25 Aug 2020 00:31:30 -0700 (PDT)
+        Tue, 25 Aug 2020 08:29:52 -0400
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 07PCTVki021974;
+        Tue, 25 Aug 2020 21:29:32 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07PCTVki021974
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1598358573;
+        bh=fWDEMSaOrPS74dlXpFO19QBM3u09HqUhQUZB2brSdsY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=fOxcwLtgxKIPR8hbtZKkbMiRjJ2Aqr4TlwxTj4ubxNpD2txA5BHxg6KAQPsgXUldU
+         MpJOiZ4YGDiPs9RFKoAiLlAW/mAgpfnyAEz0a0/g6shhkRwRf0gHDxSWmNHhaLyvn1
+         kJa2Ip51JlytlW/TZumMYEP5WZM6Kol30Y/ezYGCRGJ+W/XKHJ1OwQ09Aq44O3qCnI
+         E3ofcAElvx9Woo/XQSE7C4VNnPVa+r/K442fyv8fpmNjr9139ggNgmwSXQKyKS4rh6
+         tlZuO0sM6KJfyjcQZRjfek8cCuYM5qaUnjR8+zxm6SnB74hxlNfEzNmbT0Y1St3PNa
+         WW2VbtkFCy5qw==
+X-Nifty-SrcIP: [209.85.217.48]
+Received: by mail-vs1-f48.google.com with SMTP id e14so6215737vsa.9;
+        Tue, 25 Aug 2020 05:29:32 -0700 (PDT)
+X-Gm-Message-State: AOAM5315vA0a42hdsf7wqGyqwxCD73iA5Hcjb3vVBEHLDBWuvs7TdUwI
+        C+D15IeOiqeWR18StXchxuKax9pDnqAi1zX6BgI=
+X-Google-Smtp-Source: ABdhPJyIs8Whq8eByRuYrPFEYB0rQzL0fX4J9QQ+NaRlsfdCpvIiae7R+ZUfqK/NgN1ob6KxzLkuKR0sk2tFUVY+/JQ=
+X-Received: by 2002:a05:6102:7ac:: with SMTP id x12mr5038553vsg.181.1598358571195;
+ Tue, 25 Aug 2020 05:29:31 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200817220212.338670-1-ndesaulniers@google.com>
  <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
@@ -53,12 +43,14 @@ References: <20200817220212.338670-1-ndesaulniers@google.com>
  <20200818214146.GA3196105@rani.riverdale.lan> <CAK7LNAQmWBPV4nZ0xPdSHEt=DipHmR40co827voGOFN=2j47BQ@mail.gmail.com>
  <20200824173450.GA4157679@rani.riverdale.lan> <CAKwvOd=BEwuHFeuskJ4gPOGLoXm98oXA18U=tTw981g+HdVz-w@mail.gmail.com>
 In-Reply-To: <CAKwvOd=BEwuHFeuskJ4gPOGLoXm98oXA18U=tTw981g+HdVz-w@mail.gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 25 Aug 2020 00:31:18 -0700
-Message-ID: <CAKwvOdmRz6d9touuZnotpF3vs0m5M9MbbKX8M_XmTCZ+8Fe6-A@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 25 Aug 2020 21:28:53 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQynuqqjhL1rqMf0YnRpQ0jsWrJ7fy51FM7d0xdxws5wQ@mail.gmail.com>
+Message-ID: <CAK7LNAQynuqqjhL1rqMf0YnRpQ0jsWrJ7fy51FM7d0xdxws5wQ@mail.gmail.com>
 Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
+        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
         Eli Friedman <efriedma@quicinc.com>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         "H. Peter Anvin" <hpa@zytor.com>,
@@ -84,15 +76,14 @@ Cc:     =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
         Daniel Kiper <daniel.kiper@oracle.com>,
         Bruce Ashfield <bruce.ashfield@gmail.com>,
         Marco Elver <elver@google.com>,
-        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>
+        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 12:10 AM Nick Desaulniers
+On Tue, Aug 25, 2020 at 4:10 PM Nick Desaulniers
 <ndesaulniers@google.com> wrote:
 >
 > On Mon, Aug 24, 2020 at 10:34 AM Arvind Sankar <nivedita@alum.mit.edu> wrote:
@@ -141,34 +132,54 @@ On Tue, Aug 25, 2020 at 12:10 AM Nick Desaulniers
 > -fno-builtin-stpcpy patch, because Clang is inconsistent? (That can be
 > fixed.) Even though -fno-builtin-stpcpy works here as intended?
 > https://lore.kernel.org/lkml/20200817220212.338670-2-ndesaulniers@google.com/
-
-Sorry, the above link ^ should be this hunk (beyond tired, getting up
-in 4.5hrs for plumbers):
-
-diff --git a/Makefile b/Makefile
-index c4470a4e131f..6a08cdfa58ae 100644
---- a/Makefile
-+++ b/Makefile
-@@ -577,6 +577,7 @@ ifneq ($(LLVM_IAS),1)
- CLANG_FLAGS    += -no-integrated-as
- endif
- CLANG_FLAGS    += -Werror=unknown-warning-option
-+CLANG_FLAGS    += -fno-builtin-stpcpy
- KBUILD_CFLAGS  += $(CLANG_FLAGS)
- KBUILD_AFLAGS  += $(CLANG_FLAGS)
- export CLANG_FLAGS
-
 >
 > Otherwise we need to provide an implementation of this symbol in the kernel.
 > https://lore.kernel.org/lkml/20200815020946.1538085-1-ndesaulniers@google.com/
 >
 > Please, pick your poison.
-> --
-> Thanks,
-> ~Nick Desaulniers
 
 
 
--- 
-Thanks,
-~Nick Desaulniers
+I am not a compiler expert.
+
+Nor am I sure if I am the right person who makes this decision.
+But, if so, I would choose the latter.
+(implement stpcpy() in the kernel)
+
+I was addressed last night, so
+I should write up my thoughts.
+
+I do not think -fno-builtin-stpcpy is a
+general solution.
+
+-fno-builtin-stpcpy will work for now
+because only Clang implements the transformation
+from 'sprintf(dest, "%s", str)' into
+'stpcpy(dest, str) - dest'.
+
+If GCC implements it some day,
+we would run into a problem because
+in GCC, it is not -fno-builtin-stpcpy, but
+-fno-builtin-sprintf that disables that optimization.
+
+In this regard, 'KBUILD_CFLAGS += -fno-builtin-sprintf'
+would be more future-proof, but it is potentially
+an overkill.
+We want to disable optimization from sprintf() to stpcpy(),
+but we may still benefit from the optimization from
+sprintf() into something else.
+
+
+Linus is uncomfortable with this kind of compiler magic.
+If we take compiler's freedom away,
+-ffreestanding is a big hammer to solve this problem.
+
+If we welcome the compiler's optimization,
+we should implement stpcpy(), bcmp(), and whatever
+until we solve all link errors.
+
+
+
+--
+Best Regards
+Masahiro Yamada
