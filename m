@@ -2,28 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 784C4250776
-	for <lists+linux-kbuild@lfdr.de>; Mon, 24 Aug 2020 20:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD4A1250DBB
+	for <lists+linux-kbuild@lfdr.de>; Tue, 25 Aug 2020 02:38:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725962AbgHXS0j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 24 Aug 2020 14:26:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725946AbgHXS0j (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 24 Aug 2020 14:26:39 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6BDC4206BE;
-        Mon, 24 Aug 2020 18:26:36 +0000 (UTC)
-Date:   Mon, 24 Aug 2020 14:26:34 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     David Laight <David.Laight@aculab.com>,
-        'Nicolas Boichat' <drinkcat@chromium.org>,
-        "dianders@chromium.org" <dianders@chromium.org>,
-        "groeck@chromium.org" <groeck@chromium.org>,
+        id S1728027AbgHYAik (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 24 Aug 2020 20:38:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727014AbgHYAik (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 24 Aug 2020 20:38:40 -0400
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC5AC0613ED
+        for <linux-kbuild@vger.kernel.org>; Mon, 24 Aug 2020 17:38:39 -0700 (PDT)
+Received: by mail-vs1-xe44.google.com with SMTP id u131so2879966vsu.11
+        for <linux-kbuild@vger.kernel.org>; Mon, 24 Aug 2020 17:38:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y7P6WkRur/Wi1nF0hQV3VdSO9RWelS35A2+LFPlb/Uw=;
+        b=A4dLEmZsScgkGVFoBW/ZD/K+W5FlpYsKMIOncqMhANo9TeioVu6heRzICP8VIjCOej
+         X13V/SiFz0gPIZiIuNnsTArDIufgYzWQxLyhszvX/HQ2WdhufUrqfWBvFoXNfaPEFq9R
+         AKm/U+0B9Cl9HksWRnDPx/i8nBlvVajpBfkp4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y7P6WkRur/Wi1nF0hQV3VdSO9RWelS35A2+LFPlb/Uw=;
+        b=ZWH5fdYtkwC609mrnE1xcSAeg3gG+cxkjb5M0v3gEjt5UWofVcw72+IYznuF6aRm02
+         3i6wz4Q2CgR5kLxqXi4GjlybasHTnc7LPXssJI3HIjFL3TutzXw5Qpbt+1NY+Z1P3hDl
+         XDMyFkH84RkvJ/6+C1atZ6gUyFwocwsiFd+tRV0vhwds1tM+3A68jIn2nuLSDNxcmn6K
+         wrMTLXeIvM/yiBVt/Q8YrQJmaBjliupYQ64RCisWK7NRBSwsyrJ8VjIFM9zu58/b0bzk
+         rdN5kv1oRgHJGNWKts90WW1LdJZJiAzpkO85E/+MHXZUSgMVHotIWRt3K2VngmcNIXk+
+         G0Pw==
+X-Gm-Message-State: AOAM5332ZE9pq0iPj8g+Fm7yRM9swbPaZ1gTPmaLKb4sipJ1Jgb/zRYI
+        CTWuJiXmkuHF21yCebL6/jvw7g/osX7ZzNNC6BpSElYY7S32Pw==
+X-Google-Smtp-Source: ABdhPJyGrJQ3BTXk72neawiE/wop5TF/z06m1M/EvRmFPlgVpgNQcH1fZn4GuY31+fa2UfdmPKqLjnOVR07AkeRgA/g=
+X-Received: by 2002:a67:bb06:: with SMTP id m6mr4308771vsn.54.1598315918860;
+ Mon, 24 Aug 2020 17:38:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200824105852.v5.1.I4feb11d34ce7a0dd5ee2c3327fb5a1a9a646be30@changeid>
+ <20200824093020.073ae8d8@oasis.local.home>
+In-Reply-To: <20200824093020.073ae8d8@oasis.local.home>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Tue, 25 Aug 2020 08:38:27 +0800
+Message-ID: <CANMq1KCQjX1632qyo5+8kv8TXNu_Onh4gz7oMx3rx79XQX2fqg@mail.gmail.com>
+Subject: Re: [PATCH v5] kernel/trace: Add DISALLOW_TRACE_PRINTK make option
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Douglas Anderson <dianders@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Daniel Vetter <daniel.vetter@ffwll.ch>,
         "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
         Kars Mulder <kerneldev@karsmulder.nl>,
@@ -33,43 +63,47 @@ Cc:     David Laight <David.Laight@aculab.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Tiezhu Yang <yangtiezhu@loongson.cn>,
         Will Deacon <will@kernel.org>, Yue Hu <huyue2@yulong.com>,
-        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5] kernel/trace: Add DISALLOW_TRACE_PRINTK make option
-Message-ID: <20200824142634.235acc7d@oasis.local.home>
-In-Reply-To: <20200824134201.GM1891694@smile.fi.intel.com>
-References: <20200824105852.v5.1.I4feb11d34ce7a0dd5ee2c3327fb5a1a9a646be30@changeid>
-        <3f84781f12424cbfa552981af42dfaf2@AcuMS.aculab.com>
-        <20200824092828.4386bd25@oasis.local.home>
-        <20200824134201.GM1891694@smile.fi.intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        linux-kbuild@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, 24 Aug 2020 16:42:01 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+On Mon, Aug 24, 2020 at 9:30 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> On Mon, 24 Aug 2020 10:59:13 +0800
+> Nicolas Boichat <drinkcat@chromium.org> wrote:
+>
+> > ---
+> >
 
-> How making it make's option prevent some "smart" distros to achieve the same?
-> AFAIU any compile-time knob will allow to build a kernel w/o a feature and you
-> are against of such kernel builds in distros. Catch-22?
+> > +ifeq ($(KBUILD_DISALLOW_TRACE_PRINTK),1)
+> > +KBUILD_CFLAGS += -DDISALLOW_TRACE_PRINTK
+> > +endif
+> > +
+> >  KBUILD_CFLAGS += $(DEBUG_CFLAGS)
+> >  export DEBUG_CFLAGS
+> >
+>
+>
+> There's one more thing we need to do, is if you build without this option
+> then build with it, you should trigger a full kernel rebuild.
+> Otherwise, if you build without the option, then build with it, and it
+> doesn't rebuild the tree, it wont catch anything.
 
-Because it will fail the build if it finds a trace_printk() in the
-compiled code, but doesn't touch the config that is shipped, nor does
-it affect modules being built against this kernel.
+This already works. I'll be honest, I'm not 100% sure why (and if
+fully intentional)...
 
-This patch series is for those that do not want a trace_printk()
-accidentally left behind in their own work and trigger that big warning
-and scare their users. But it still gives an option for developers to
-add a trace_printk.
+The CFLAGS end up in 3 generated assembly files:
+# grep -R DISALLOW_TRACE_PRINTK * | grep -v ".cmd:"
+arch/x86/kernel/asm-offsets.s:# -imultiarch x86_64-linux-gnu -D
+__KERNEL__ -D DISALLOW_TRACE_PRINTK
+kernel/bounds.s:# -imultiarch x86_64-linux-gnu -D __KERNEL__ -D
+DISALLOW_TRACE_PRINTK
+scripts/mod/devicetable-offsets.s:# -D DISALLOW_TRACE_PRINTK
+(along with all *.cmd files)
 
-That is, the decision to have trace_printk in a particular output
-(vmlinux) is done at the compile time, and all it does is to make sure
-one isn't present at that moment. This series is not about keeping them
-out completely (test modules, etc), which a config option will.
+and I suspect some/all of those force a complete kernel rebuild.
 
--- Steve
+> -- Steve
