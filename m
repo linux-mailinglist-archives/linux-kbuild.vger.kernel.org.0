@@ -2,50 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB32A25305C
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 15:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAC26253125
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 16:21:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730415AbgHZNrB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Aug 2020 09:47:01 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:43811 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730400AbgHZNq5 (ORCPT
+        id S1727884AbgHZOVs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Aug 2020 10:21:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57286 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728074AbgHZOVo (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Aug 2020 09:46:57 -0400
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 07QDkPCh008653;
-        Wed, 26 Aug 2020 22:46:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 07QDkPCh008653
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598449585;
-        bh=o7eCdAdgOheG7FAIfRne3QfZg51jDgTmJuPqiAC/sK8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=21bA7VpEWxm5UeK7oPZWUFdIhQajYdPhqd3SV11eya86xNPqIzTN61Ph8de6zpGEz
-         ErmqVG9CEY1PU4acX9fn1RjP1NiHCEt6A7n+jxuatW35C1Ibmexw2WFRQ5kELQrioY
-         nhyyZIHuk/VR/WdHnlXnht+t+83UBcH62kZpZ//xifmRUuh1tOgl6Vf9FKEswPQI/e
-         1HW+Kh3ukNNsu7d799pH6Lt8J4iufcPAHoPKoIfVMBLRzxgtROhN0b/eC4qbJ/xFXC
-         9uBapHPM+v+BgmVo87jKiZV1cojEK3iS8gv9OsHt49K7yPELvIeywks56mcwBoFz1F
-         NvE1zvPqM2Yqw==
-X-Nifty-SrcIP: [209.85.216.51]
-Received: by mail-pj1-f51.google.com with SMTP id 2so900074pjx.5;
-        Wed, 26 Aug 2020 06:46:25 -0700 (PDT)
-X-Gm-Message-State: AOAM531iH2q2SxVzfu1gBpOSo0Qcp/iYTPkRQNzYTVI8/9B2e6Y42MOn
-        iNhZkfMnMu3mEExeab7sGc0PTQDyh6e3eeyBWKg=
-X-Google-Smtp-Source: ABdhPJxYguAPl7915j/hpYyN6BaOhYmXutUAd9G9j1QCXn8OaMyaNTPAez6SpGyucG7F48mn5JH7tlL0yZwPTX1xjPU=
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr6288925pjb.153.1598449584709;
- Wed, 26 Aug 2020 06:46:24 -0700 (PDT)
+        Wed, 26 Aug 2020 10:21:44 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79A8EC061756;
+        Wed, 26 Aug 2020 07:21:39 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id f42so1587666otf.13;
+        Wed, 26 Aug 2020 07:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+         :subject:to:cc;
+        bh=smJelHhXCFqUrnqw/FoLQWcE9qNM/53r52BBZYnwV+A=;
+        b=uTZQ2BzRUusufQkIN7bpH6dwWZ7Pftz/1EmeTPFXcu+97M9aJ0nMwyG6sJAOrDjPgB
+         3TjpliF1grzYWO2EPOl4PXHMKODNC+k2rcpMuFnSXSOUCH6s9WKv6WHGHKM6+X1XUhNQ
+         /HXbz9VvkWbaDE82om5yqA0s6GS8VUAR2g3nl8ildjetqnqvKyG6aIOVITQzvrGoaXQA
+         y0eKhmVV6pjea5m/xhWQcPMrm/DDG2F9z5jzlDPNI/UGwGm/tHczLDEOwOTW6ZUl5NWb
+         ZNI8okDQvKBS7yQP7+okBseY7DovbX9s7/cr+4tb0nxp8En6inmXYRgUYfxRkoyaS5XA
+         hzNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=smJelHhXCFqUrnqw/FoLQWcE9qNM/53r52BBZYnwV+A=;
+        b=rji/xyPQLlyAs0yQjYJUDVvEo0vYFw5h6xcm4WPf6aibOh6HHRBCNG3l5zA64HSqNC
+         eabExy1o5/W3+hYDzpZQXuEPqQZxkESduVWUopJVHulTtjRRDBYQlFOa0B6NS9WYlaOg
+         bLYOTkYwpLnwfmvsVgvM02qfHvi0N6sW57wbZyslrTQ3O0/QRxs1HpvtoYGQ3Qx8h87g
+         PEIJsel5PTm3CSP/Zjet361DpB0h2aMeaJIgtgpE7IppeiwEx83fYVNphlxWptYmkGOP
+         iY4EQ+pEiUXD1pz7HXtE7MA3Yk+hmFEpG3vZZfTwZBeHusxoBoisB+/b+x48lA67BW2i
+         T5AQ==
+X-Gm-Message-State: AOAM530LQ8LKDUwg24/Z1pB+kWHzJithELjeEW646VAnq4FUAe9IpjPs
+        qol8iFB6z/uG38P0WYBLnLEGbeGYIEeGBgXQJgs=
+X-Google-Smtp-Source: ABdhPJx7PwJXzIdIpieYzcLvZfV6rtiwqDpJdtMRBtNtnkHlzHm/T7vT7m7Io4qbIIpJgFEKfG8QlNJZ7P6+1C9HgEs=
+X-Received: by 2002:a9d:48d:: with SMTP id 13mr10904797otm.9.1598451698912;
+ Wed, 26 Aug 2020 07:21:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200821024358.616384-1-masahiroy@kernel.org>
-In-Reply-To: <20200821024358.616384-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 Aug 2020 22:45:47 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASkc_LVJ1dvzn3aETgKkrkqNt8hOpjBF0Pn2gh40gJYEw@mail.gmail.com>
-Message-ID: <CAK7LNASkc_LVJ1dvzn3aETgKkrkqNt8hOpjBF0Pn2gh40gJYEw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: hide commands to run Kconfig, and show short log
- for syncconfig
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Ingo Molnar <mingo@redhat.com>,
-        Michal Marek <michal.lkml@markovi.net>,
+References: <20200816123248.97770-1-sedat.dilek@gmail.com> <CA+icZUUnP5JQCzMG=pMQFwqQBHy78au6E0eJCod0YOARbHoLrw@mail.gmail.com>
+ <CAK7LNAQzGLCeEDHHEAzMtEBO_B3D0tGwe7n5fLesdXca-+NL+g@mail.gmail.com>
+In-Reply-To: <CAK7LNAQzGLCeEDHHEAzMtEBO_B3D0tGwe7n5fLesdXca-+NL+g@mail.gmail.com>
+Reply-To: sedat.dilek@gmail.com
+From:   Sedat Dilek <sedat.dilek@gmail.com>
+Date:   Wed, 26 Aug 2020 16:21:27 +0200
+Message-ID: <CA+icZUVoKa15ubmcYGToOF2-2P7L0REKWsAKTXqmiP+Wo3Bo4Q@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Simplify DEBUG_INFO Kconfig handling
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Changbin Du <changbin.du@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
@@ -53,115 +68,29 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Aug 21, 2020 at 11:44 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Wed, Aug 26, 2020 at 3:43 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Some targets (localyesconfig, localmodconfig, defconfig) hide the
-> command running, but the others do not.
+> On Wed, Aug 26, 2020 at 9:04 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> >
+> > Just a friendly ping.
+> >
+> > - Sedat -
+> >
+> > On Sun, Aug 16, 2020 at 2:32 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+> > >
+> > > While playing with [1] I saw that the handling
+> > > of CONFIG_DEBUG_INFO can be simplified.
+> > >
+> > > [1] https://patchwork.kernel.org/patch/11716107/
 >
-> Users know which Kconfig flavor they are running, so it is OK to hide
-> the command. Add $(Q) to all commands consistently. If you want to see
-> the full command running, pass V=1 from the command line.
 >
-> syncconfig is the exceptional case, which occurs without explicit
-> command invocation by the user. Display the Kbuild-style log for it.
-> The ugly bare log will go away.
+> Applied to linux-kbuild.
 >
-> [Before]
->
-> scripts/kconfig/conf  --syncconfig Kconfig
->
-> [After]
->
->   SYNC    include/config/auto.conf
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-Applied to linux-kbuild.
-
-
-
-> ---
->
->  Makefile                 |  5 ++++-
->  scripts/kconfig/Makefile | 16 ++++++++--------
->  2 files changed, 12 insertions(+), 9 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 9cac6fde3479..0693314d51c3 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -708,8 +708,11 @@ $(KCONFIG_CONFIG):
->  # This exploits the 'multi-target pattern rule' trick.
->  # The syncconfig should be executed only once to make all the targets.
->  # (Note: use the grouped target '&:' when we bump to GNU Make 4.3)
-> +quiet_cmd_syncconfig = SYNC    $@
-> +      cmd_syncconfig = $(MAKE) -f $(srctree)/Makefile syncconfig
-> +
->  %/config/auto.conf %/config/auto.conf.cmd %/generated/autoconf.h: $(KCONFIG_CONFIG)
-> -       $(Q)$(MAKE) -f $(srctree)/Makefile syncconfig
-> +       +$(call cmd,syncconfig)
->  else # !may-sync-config
->  # External modules and some install targets need include/generated/autoconf.h
->  # and include/config/auto.conf but do not care if they are up-to-date.
-> diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-> index 52b59bf9efe4..e46df0a2d4f9 100644
-> --- a/scripts/kconfig/Makefile
-> +++ b/scripts/kconfig/Makefile
-> @@ -20,19 +20,19 @@ endif
->  unexport CONFIG_
->
->  xconfig: $(obj)/qconf
-> -       $< $(silent) $(Kconfig)
-> +       $(Q)$< $(silent) $(Kconfig)
->
->  gconfig: $(obj)/gconf
-> -       $< $(silent) $(Kconfig)
-> +       $(Q)$< $(silent) $(Kconfig)
->
->  menuconfig: $(obj)/mconf
-> -       $< $(silent) $(Kconfig)
-> +       $(Q)$< $(silent) $(Kconfig)
->
->  config: $(obj)/conf
-> -       $< $(silent) --oldaskconfig $(Kconfig)
-> +       $(Q)$< $(silent) --oldaskconfig $(Kconfig)
->
->  nconfig: $(obj)/nconf
-> -       $< $(silent) $(Kconfig)
-> +       $(Q)$< $(silent) $(Kconfig)
->
->  build_menuconfig: $(obj)/mconf
->
-> @@ -68,12 +68,12 @@ simple-targets := oldconfig allnoconfig allyesconfig allmodconfig \
->  PHONY += $(simple-targets)
->
->  $(simple-targets): $(obj)/conf
-> -       $< $(silent) --$@ $(Kconfig)
-> +       $(Q)$< $(silent) --$@ $(Kconfig)
->
->  PHONY += savedefconfig defconfig
->
->  savedefconfig: $(obj)/conf
-> -       $< $(silent) --$@=defconfig $(Kconfig)
-> +       $(Q)$< $(silent) --$@=defconfig $(Kconfig)
->
->  defconfig: $(obj)/conf
->  ifneq ($(wildcard $(srctree)/arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)),)
-> @@ -111,7 +111,7 @@ tinyconfig:
->  # CHECK: -o cache_dir=<path> working?
->  PHONY += testconfig
->  testconfig: $(obj)/conf
-> -       $(PYTHON3) -B -m pytest $(srctree)/$(src)/tests \
-> +       $(Q)$(PYTHON3) -B -m pytest $(srctree)/$(src)/tests \
->         -o cache_dir=$(abspath $(obj)/tests/.cache) \
->         $(if $(findstring 1,$(KBUILD_VERBOSE)),--capture=no)
->  clean-files += tests/.cache
-> --
-> 2.25.1
+> Sorry for the delay.
 >
 
+No problem.
 
--- 
-Best Regards
-Masahiro Yamada
+Thanks.
+
+- Sedat -
