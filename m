@@ -2,158 +2,165 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01BAE252FEA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 15:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A273025300C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 15:37:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730284AbgHZN35 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Aug 2020 09:29:57 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:53856 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729540AbgHZN3r (ORCPT
+        id S1729381AbgHZNgm (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Aug 2020 09:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50190 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730217AbgHZNgk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Aug 2020 09:29:47 -0400
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 07QDTLdk005122;
-        Wed, 26 Aug 2020 22:29:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 07QDTLdk005122
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598448562;
-        bh=tNXIFtx4OCOjEbxfaMetiZvvEWEud6dFm6DVPlRG6/U=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oZS0uyjQxKwmiORelo6ou/ZXRCWhxWwnRb7KpxTe0i7TxSoqM7aDjV7OztApNLg/i
-         /yBwGooq2tgmM7bi7swgUohQ4DxU41AFBoZcWKMTmAIJl1rdj0ClN4S9r/Lue+hbY0
-         gjuuwr0UEAKcS2e0jfkH/zDXpnO4OmIRMN5PlPhCrutYwgSQJmsKgPcLlW/vAXGcBN
-         Bw7qHjRwEGVfn2JssQ7BsZtFoF0fJ43xiQpUqf2WLefAbzG+RfEuDrTYQVqfMO09Jz
-         kklYUQOz8N7GV/NqXboH11vehTJoQAGBfhzFeCpWufXJjBJa769CV1l8WriyYAlgmt
-         uGd/CIB9LEOjQ==
-X-Nifty-SrcIP: [209.85.214.178]
-Received: by mail-pl1-f178.google.com with SMTP id h2so890891plr.0;
-        Wed, 26 Aug 2020 06:29:21 -0700 (PDT)
-X-Gm-Message-State: AOAM530WoDfiPKpaelZEARqeCGvc39jJXSEq7S/+UOXGPotqvE2Rrf+I
-        qxJkaFmgrBFSvpXmRH56WcazDKJImQ8ZIGTLi10=
-X-Google-Smtp-Source: ABdhPJyptsNXsluSTO9BSD2NQ/mPRLaxE4KppC7eM2LmlxEpDMBfy8uGyHMsjIWEYawhJuX6U9wNVDjFGHMWbEkzA8w=
-X-Received: by 2002:a17:90b:11c4:: with SMTP id gv4mr5899331pjb.198.1598448561144;
- Wed, 26 Aug 2020 06:29:21 -0700 (PDT)
+        Wed, 26 Aug 2020 09:36:40 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44AB8C061574
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Aug 2020 06:36:40 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id ls14so876595pjb.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Aug 2020 06:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SP5d3jG0vnXwMEQbip8bqbDIaxrDFT2DZzwmlreys9g=;
+        b=FUwcXI8S8muSj7MVzzGKs+YctUqEEY5UV/FKoUXmhe1EoJXyEIVwoaLJPj0FHphXBX
+         +fqWeMmU/0aL42b9epfEWZedvmpCj80qY+WGdrLpUcKaIMgNqkC8C5n2fACBER2q2n2K
+         rm72ABEAU6bi+uWz9kF7CYQgrVe2VAPDLiG9Zne/DCeAnnzgmCI9B264omQ9JwFYTPeW
+         QWiNk63gesvxyPy5tITjH0DtrThCh2pZYKkNxU5ckelYKRKsOqtr0lbrK/rRHjW80XkZ
+         RCLuadhJpyynt/wdxdNlkI41Y2C5ILXeKWN/kpYbgiKCWSonFiAIFwTfqETuJw7u1DdP
+         I1xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SP5d3jG0vnXwMEQbip8bqbDIaxrDFT2DZzwmlreys9g=;
+        b=tTTG1HnDWpXoZw2sEI2NnRu8aQgQsApzdvucRuEdUmm/eTYEqnRwQVbiqP+gxRLpVU
+         TsIor2fZW3HRbHc+eJ5kOldgXHUXpVUclZiIs+8evIY4imJQiUek/9EdBhNe/QSDDwqJ
+         CBHOMX2bewh3TPb+myNZOKRTTL+kD+z2r+Me6+8ginVcwcR2eSQDW79QBcvCJ2HARJLb
+         5B+fPRE+u2gbzXSy/6/wuhVpiv52ROkMYTk1f8rH16m09h4OKkkWbzQnJpjhhyW3UvgT
+         nVDtOOuKFUpf6ZqG6sdGhn8UEBtJq7rRU6SaYxfdiNScQgUNqtv0DDWulb2BTVCq5vJv
+         49ww==
+X-Gm-Message-State: AOAM533AXiuC234jauY8RqwuIg9+IHOJf+lQDwNmnrnBlSCY9DYA9Qf2
+        cGBEHHf4yEJWQw7jvYBsD0tPnRH7jvZJk+F5q0uSPnYxkn8=
+X-Google-Smtp-Source: ABdhPJzOvpJvmeB9B6yKLT7BUlBedj6j6ygue2qTzOkcYNiDvuHnjuFl2J2gHY059Kb/SlfwYRwhA1ImD3nzOXc+rPg=
+X-Received: by 2002:a17:902:fe01:: with SMTP id g1mr11873819plj.71.1598448999463;
+ Wed, 26 Aug 2020 06:36:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200817220212.338670-1-ndesaulniers@google.com>
- <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
- <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com> <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
- <20200818202407.GA3143683@rani.riverdale.lan> <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
- <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
- <20200818214146.GA3196105@rani.riverdale.lan> <CAK7LNAQmWBPV4nZ0xPdSHEt=DipHmR40co827voGOFN=2j47BQ@mail.gmail.com>
- <20200824173450.GA4157679@rani.riverdale.lan> <CAKwvOd=BEwuHFeuskJ4gPOGLoXm98oXA18U=tTw981g+HdVz-w@mail.gmail.com>
- <CAK7LNAQynuqqjhL1rqMf0YnRpQ0jsWrJ7fy51FM7d0xdxws5wQ@mail.gmail.com> <CAKwvOdk9gpKNmEAHLf9KtzmzxnSdmDdutu5Mpp39XEaxMywMFA@mail.gmail.com>
-In-Reply-To: <CAKwvOdk9gpKNmEAHLf9KtzmzxnSdmDdutu5Mpp39XEaxMywMFA@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 Aug 2020 22:28:41 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQHj-GeqH_5WpKo7gA6qZAiX8OOxxnL1v-SNZwRHFSXQQ@mail.gmail.com>
-Message-ID: <CAK7LNAQHj-GeqH_5WpKo7gA6qZAiX8OOxxnL1v-SNZwRHFSXQQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
-        Eli Friedman <efriedma@quicinc.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+References: <20200825231438.15682-1-natechancellor@gmail.com>
+In-Reply-To: <20200825231438.15682-1-natechancellor@gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 26 Aug 2020 06:36:28 -0700
+Message-ID: <CAKwvOdnCGoRHxgoV+qZNZQx04jwcttckCoxTpFKp9C=jRHw5+w@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Improve formatting of commands,
+ variables, and arguments
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tony Luck <tony.luck@intel.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Joe Perches <joe@perches.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Daniel Axtens <dja@axtens.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Yury Norov <yury.norov@gmail.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "Paul E . McKenney" <paulmck@kernel.org>,
-        Daniel Kiper <daniel.kiper@oracle.com>,
-        Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Marco Elver <elver@google.com>,
-        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Aug 25, 2020 at 11:02 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
+On Tue, Aug 25, 2020 at 4:14 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
 >
-> On Tue, Aug 25, 2020 at 5:30 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
-> >
-> > On Tue, Aug 25, 2020 at 4:10 PM Nick Desaulniers
-> > <ndesaulniers@google.com> wrote:
-> > >
-> > > Masahiro, are you implying that we shouldn't take the
-> > > -fno-builtin-stpcpy patch, because Clang is inconsistent? (That can be
-> > > fixed.) Even though -fno-builtin-stpcpy works here as intended?
-> > > https://lore.kernel.org/lkml/20200817220212.338670-2-ndesaulniers@google.com/
-> > >
-> > > Otherwise we need to provide an implementation of this symbol in the kernel.
-> > > https://lore.kernel.org/lkml/20200815020946.1538085-1-ndesaulniers@google.com/
-> > >
-> > > Please, pick your poison.
-> >
-> >
-> >
-> > I am not a compiler expert.
-> >
-> > Nor am I sure if I am the right person who makes this decision.
-> > But, if so, I would choose the latter.
-> > (implement stpcpy() in the kernel)
-> >
-> > I was addressed last night, so
-> > I should write up my thoughts.
-> >
-> > I do not think -fno-builtin-stpcpy is a
-> > general solution.
-> >
-> > -fno-builtin-stpcpy will work for now
-> > because only Clang implements the transformation
-> > from 'sprintf(dest, "%s", str)' into
-> > 'stpcpy(dest, str) - dest'.
-> >
-> > If GCC implements it some day,
-> > we would run into a problem because
-> > in GCC, it is not -fno-builtin-stpcpy, but
-> > -fno-builtin-sprintf that disables that optimization.
-> >
-> > In this regard, 'KBUILD_CFLAGS += -fno-builtin-sprintf'
-> > would be more future-proof, but it is potentially
-> > an overkill.
-> > We want to disable optimization from sprintf() to stpcpy(),
-> > but we may still benefit from the optimization from
-> > sprintf() into something else.
-> >
-> >
-> > Linus is uncomfortable with this kind of compiler magic.
-> > If we take compiler's freedom away,
-> > -ffreestanding is a big hammer to solve this problem.
-> >
-> > If we welcome the compiler's optimization,
-> > we should implement stpcpy(), bcmp(), and whatever
-> > until we solve all link errors.
+> While reviewing a separate patch, I noticed that the formatting of the
+> commands, variables, and arguments was not in a monospaced font like the
+> rest of the Kbuild documentation (see kbuild/kconfig.rst for an
+> example). This is due to a lack of "::" before indented command blocks
+> and single backticks instead of double backticks for inline formatting.
 >
-> Speculating that -ffreestanding is untenable, submitted v3:
-> https://lore.kernel.org/lkml/20200825135838.2938771-1-ndesaulniers@google.com/T/#u
+> Add those so that the document looks nicer in an HTML format, while not
+> ruining the look in plain text.
+>
+> As a result of this, we can remove the escaped backslashes in the last
+> code block and move them to single backslashes.
+>
+> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+
+Ah, yeah, I saw that. Thanks for the fix!
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+> ---
+>  Documentation/kbuild/llvm.rst | 26 +++++++++++++-------------
+>  1 file changed, 13 insertions(+), 13 deletions(-)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index 2aac50b97921..334df758dce3 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -23,8 +23,8 @@ supports C and the GNU C extensions required by the kernel, and is pronounced
+>  Clang
+>  -----
+>
+> -The compiler used can be swapped out via `CC=` command line argument to `make`.
+> -`CC=` should be set when selecting a config and during a build.
+> +The compiler used can be swapped out via ``CC=`` command line argument to ``make``.
+> +``CC=`` should be set when selecting a config and during a build. ::
+>
+>         make CC=clang defconfig
+>
+> @@ -34,33 +34,33 @@ Cross Compiling
+>  ---------------
+>
+>  A single Clang compiler binary will typically contain all supported backends,
+> -which can help simplify cross compiling.
+> +which can help simplify cross compiling. ::
+>
+>         ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
+>
+> -`CROSS_COMPILE` is not used to prefix the Clang compiler binary, instead
+> -`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
+> -example:
+> +``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
+> +``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
+> +example: ::
+>
+>         clang --target aarch64-linux-gnu foo.c
+>
+>  LLVM Utilities
+>  --------------
+>
+> -LLVM has substitutes for GNU binutils utilities. Kbuild supports `LLVM=1`
+> -to enable them.
+> +LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
+> +to enable them. ::
+>
+>         make LLVM=1
+>
+> -They can be enabled individually. The full list of the parameters:
+> +They can be enabled individually. The full list of the parameters: ::
+>
+> -       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
+> -         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
+> -         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
+> +       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
+> +         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
+> +         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
+>           HOSTLD=ld.lld
+>
+>  Currently, the integrated assembler is disabled by default. You can pass
+> -`LLVM_IAS=1` to enable it.
+> +``LLVM_IAS=1`` to enable it.
+>
+>  Getting Help
+>  ------------
+>
+> base-commit: abb3438d69fb6dd5baa4ae23eafbf5b87945eff1
 > --
-> Thanks,
-> ~Nick Desaulniers
-
-FYI:
-Andrew Morton picked up this patch.
-
+> 2.28.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200825231438.15682-1-natechancellor%40gmail.com.
 
 
 
 -- 
-Best Regards
-Masahiro Yamada
+Thanks,
+~Nick Desaulniers
