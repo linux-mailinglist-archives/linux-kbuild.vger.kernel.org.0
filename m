@@ -2,182 +2,225 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F327252DAA
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 14:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B10E252E52
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 14:12:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729645AbgHZMEg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Aug 2020 08:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35988 "EHLO
+        id S1729916AbgHZML7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Aug 2020 08:11:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729639AbgHZMEf (ORCPT
+        with ESMTP id S1729912AbgHZML5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Aug 2020 08:04:35 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A55FC061574;
-        Wed, 26 Aug 2020 05:04:35 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id k2so1269333ots.4;
-        Wed, 26 Aug 2020 05:04:35 -0700 (PDT)
+        Wed, 26 Aug 2020 08:11:57 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3542C061574
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Aug 2020 05:11:56 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id t7so1302397otp.0
+        for <linux-kbuild@vger.kernel.org>; Wed, 26 Aug 2020 05:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to;
-        bh=H42To0Ot/qKyLOPGuE85SNu+0SkA0I/INYqpJsqvgsc=;
-        b=KEM9ob7lUvneiK7C8F85XB+lZbIJwGILMyE3JLGHxlx1sCAJa6oAIGuo97jGgYrMpu
-         uOz7VZ9lWJHk0WmusJF/jyOgZfwLebK4Dn/7KI/bfngOnt5+1vVvH86P6YxBI/wf/pEq
-         RaTmElS8ZR8fq0NLAlG+7t9mTb+iEDuueyKU/EMJzs6gM2aUUHEuzWT+XjVq4RsRHZd8
-         6mGwpJjBayNOQXmIJOGKIFTpgNzXyJn931wgpF8ihHS8xoScRUoZKeF1+CVOqqY3qZKB
-         04YcZxto9VVki3wl79SnCLEBF2TV77DJX5Fidk160S5S+cwAw5DMgq9lWSPnF6nLtiY9
-         NLXA==
+         :subject:to:cc;
+        bh=jhaI3AGFdu2xKsOd6n5bu0fLJE9fB5xI4G49Uqw6xFg=;
+        b=PbH9azvVvEfkD/HgJlUzLxBaZnz6T617XQy3ux94k6U3C4LgWYkbhQkJl1xaBCSy23
+         ceRT64iiNbNr1EdiQMekjmOzmAZNV+m6bxM2f883fAtzzxXbrDbDjyJ41xPE0sh/DjtH
+         YwEi9yWnNi8lSMipAUBSvL78r89Yg0uqbH9QYUbY9PcbsuSS85JZWj9fqw9AaoCzHDPE
+         U80tnz2Zf6oOVMjvXPyRs8tozA5pWA7GmP5DdVlvgC27APLscQ94MOPlcM8V083LhB3+
+         G6wwG6OhgXcYatRPlj/KgUm0FyMcQf3ZIAK2/oS0TkOvwNOaJPtiZZRIBWnu+iuPOlvG
+         upOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to;
-        bh=H42To0Ot/qKyLOPGuE85SNu+0SkA0I/INYqpJsqvgsc=;
-        b=oyas1xK7zPiFYaHqkN6xJu9x5ryFeEXBb4+ZMWOVUNhPW8be/BxDnoPmPQnCSSAnpR
-         EnqJZmCEplJj1EUmp7bJTHPkg2sGzFbup3k3zSLZhSGaX7egG7jfNhwMaxsN45/9e1OG
-         I+2k3e48JywJGMh+WbIXEIiuRdlOw6wXWskqd/54HMxgCdVXvSK+S+OcTMkl0COoC7Bw
-         49rL0q7hPuPMMk0lp7kZUSsrO/a4eNqlQmfx0K14Q/DlmRwx1/gMbxh4F5Jnx0WwAbi9
-         QL0vhIJaIyXY0CzO6jGG9qCFzB1/2pus7+C8OCslD5jxAiV1mzDPaDDhIRNhRHskwKmP
-         BBeQ==
-X-Gm-Message-State: AOAM533otXD8Vu+IfspZ7ZknWVy9qkq0Ey+aBKqygRZwQsJjSCay6lXT
-        NiHq3hP284rXR8EZhvvUYb2DQRytJBVoiu8uKVY=
-X-Google-Smtp-Source: ABdhPJzCuDvkPvtoeoC1Hv8vDbP0LNmo0Whoc6GAv6tXuG9z1c2BfKjQ1r7gofSPeldiPXEx9jfMo1Swv5mhZJioDzM=
-X-Received: by 2002:a9d:7656:: with SMTP id o22mr9125655otl.109.1598443474719;
- Wed, 26 Aug 2020 05:04:34 -0700 (PDT)
+         :from:date:message-id:subject:to:cc;
+        bh=jhaI3AGFdu2xKsOd6n5bu0fLJE9fB5xI4G49Uqw6xFg=;
+        b=HbtOtPKOKOG1dYeWOU3VhgVXMOBlCmDRfGOBM9nyMZGxKgSEg/+FshjuOgbkjYf8jN
+         HJ1VJViWUDSSbhmTOf0byNZ7NmM3ZT0xANDAl0rpmFdVjPjzapbPmqrzC3j/+ShcK1i9
+         otfsHHhE9IO11jUZErY2yQWh89l/qRykYpRc1J3aUAFxQDWqrud8/Uiasqt4c5jKebAm
+         b4mJEvvgLC/3rZbQ31FYHtGg1MiYJWxxoqZfXCYdVf7gyh6lXnp2mB+2WGKUU8Rkj5EI
+         mqwD/NAFk/xEMBPYK8xsZni159DVJ4vNOIas4P7O8RXjEG9kKyheLCoGn8xA/DXjusJO
+         peZw==
+X-Gm-Message-State: AOAM532u84TidqKVZtGn+uNNCospb+JKlX2phBhK1mc6tRKG2aOqIno7
+        cVVJUWfA1OAhbyq1yunJJMTSGJGrOLNvYaprqoI=
+X-Google-Smtp-Source: ABdhPJxSFkGrIY0zB9ZkZWb7t1g68CGzaNT9k+HLS1+H9QH/HQQf/lzQIPL/0KngXW4Er2xNBrByBvJ1eF9sadRcbjM=
+X-Received: by 2002:a05:6830:1147:: with SMTP id x7mr10383845otq.28.1598443915551;
+ Wed, 26 Aug 2020 05:11:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200816123248.97770-1-sedat.dilek@gmail.com>
-In-Reply-To: <20200816123248.97770-1-sedat.dilek@gmail.com>
+References: <CA+icZUV85LS08Y2qJ-mheecCrzZmCTV4B5x9kh=BGCUzQVOKaA@mail.gmail.com>
+In-Reply-To: <CA+icZUV85LS08Y2qJ-mheecCrzZmCTV4B5x9kh=BGCUzQVOKaA@mail.gmail.com>
 Reply-To: sedat.dilek@gmail.com
 From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Wed, 26 Aug 2020 14:04:22 +0200
-Message-ID: <CA+icZUUnP5JQCzMG=pMQFwqQBHy78au6E0eJCod0YOARbHoLrw@mail.gmail.com>
-Subject: Re: [PATCH] kbuild: Simplify DEBUG_INFO Kconfig handling
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Changbin Du <changbin.du@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Wed, 26 Aug 2020 14:11:44 +0200
+Message-ID: <CA+icZUVatLDOvEZgT19eP6mL7LZoHEA_t_=gy2NTynt3-JYqoA@mail.gmail.com>
+Subject: Re: Introduce CONFIG_DEBUG_INFO_AS_DWARF2 and CONFIG_DEBUG_INFO_AS_DWARF4
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Sami Tolvanen <samitolvanen@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Just a friendly ping.
-
-- Sedat -
-
-On Sun, Aug 16, 2020 at 2:32 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
+On Sun, Aug 16, 2020 at 2:14 PM Sedat Dilek <sedat.dilek@gmail.com> wrote:
 >
-> While playing with [1] I saw that the handling
-> of CONFIG_DEBUG_INFO can be simplified.
+> Hi Masahiro,
 >
-> [1] https://patchwork.kernel.org/patch/11716107/
+> I wondered why my generated linux-image-db Debian packages were so big
+> when I use GCC toolchain instead of LLVM toolchain.
 >
-> Signed-off-by: Sedat Dilek <sedat.dilek@gmail.com>
-> ---
->  Makefile          |  6 +++++-
->  lib/Kconfig.debug | 10 ++++------
->  2 files changed, 9 insertions(+), 7 deletions(-)
+> It turned out I mixed both...
+>
+>    KBUILD_AFLAGS += -Wa,-gdwarf-2
+>
+> ...together with...
+>
+>    DEBUG_CFLAGS += -gdwarf-4
+>
+> ...when CONFIG_DEBUG_INFO_DWARF4=y is set.
+>
+> So I hacked up something like the following to prevent this:
 >
 > diff --git a/Makefile b/Makefile
-> index 24a4c1b97bb0..f7af83393a49 100644
+> index 24a4c1b97bb0..e7a8e47b0e34 100644
 > --- a/Makefile
 > +++ b/Makefile
-> @@ -810,13 +810,15 @@ endif
->  DEBUG_CFLAGS   := $(call cc-option, -fno-var-tracking-assignments)
->
->  ifdef CONFIG_DEBUG_INFO
-> +
->  ifdef CONFIG_DEBUG_INFO_SPLIT
->  DEBUG_CFLAGS   += -gsplit-dwarf
+> @@ -815,7 +815,11 @@ DEBUG_CFLAGS       += -gsplit-dwarf
 >  else
 >  DEBUG_CFLAGS   += -g
 >  endif
-> +
+> +ifdef CONFIG_DEBUG_INFO_AS_DWARF2
 >  KBUILD_AFLAGS  += -Wa,-gdwarf-2
-> -endif
-> +
+> +else ifdef CONFIG_DEBUG_INFO_AS_DWARF4
+> +KBUILD_AFLAGS  += -Wa,-gdwarf-4
+> +endif
+>  endif
 >  ifdef CONFIG_DEBUG_INFO_DWARF4
 >  DEBUG_CFLAGS   += -gdwarf-4
->  endif
-> @@ -832,6 +834,8 @@ KBUILD_AFLAGS       += -gz=zlib
->  KBUILD_LDFLAGS += --compress-debug-sections=zlib
->  endif
->
-> +endif # CONFIG_DEBUG_INFO
-> +
->  KBUILD_CFLAGS += $(DEBUG_CFLAGS)
->  export DEBUG_CFLAGS
->
 > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 9ad9210d70a1..19930c412b93 100644
+> index 9ad9210d70a1..9f11fc71462c 100644
 > --- a/lib/Kconfig.debug
 > +++ b/lib/Kconfig.debug
-> @@ -212,9 +212,10 @@ config DEBUG_INFO
+> @@ -257,10 +257,23 @@ config DEBUG_INFO_SPLIT
+>           to know about the .dwo files and include them.
+>           Incompatible with older versions of ccache.
 >
->           If unsure, say N.
->
-> +if DEBUG_INFO
+> +config DEBUG_INFO_AS_DWARF2
+> +       bool "Use DWARF-2 assembler option with debuginfo"
+> +       depends on $(cc-option,-Wa$(comma)-gdwarf-2)
+> +       help
+> +         Set DWARF-2 assembler option with debuginfo
 > +
->  config DEBUG_INFO_REDUCED
->         bool "Reduce debugging information"
-> -       depends on DEBUG_INFO
->         help
->           If you say Y here gcc is instructed to generate less debugging
->           information for structure types. This means that tools that
-> @@ -227,7 +228,6 @@ config DEBUG_INFO_REDUCED
->
->  config DEBUG_INFO_COMPRESSED
->         bool "Compressed debugging information"
-> -       depends on DEBUG_INFO
->         depends on $(cc-option,-gz=zlib)
->         depends on $(ld-option,--compress-debug-sections=zlib)
->         help
-> @@ -243,7 +243,6 @@ config DEBUG_INFO_COMPRESSED
->
->  config DEBUG_INFO_SPLIT
->         bool "Produce split debuginfo in .dwo files"
-> -       depends on DEBUG_INFO
->         depends on $(cc-option,-gsplit-dwarf)
->         help
->           Generate debug info into separate .dwo files. This significantly
-> @@ -259,7 +258,6 @@ config DEBUG_INFO_SPLIT
->
+> +config DEBUG_INFO_AS_DWARF4
+> +       bool "Use DWARF-4 assembler option with debuginfo"
+> +       depends on $(cc-option,-Wa$(comma)-gdwarf-4)
+> +       help
+> +         Set DWARF-4 assembler option with debuginfo
+> +
 >  config DEBUG_INFO_DWARF4
 >         bool "Generate dwarf4 debuginfo"
-> -       depends on DEBUG_INFO
+>         depends on DEBUG_INFO
 >         depends on $(cc-option,-gdwarf-4)
+> +       select DEBUG_INFO_AS_DWARF4
 >         help
 >           Generate dwarf4 debug info. This requires recent versions
-> @@ -269,7 +267,6 @@ config DEBUG_INFO_DWARF4
+>           of gcc and gdb. It makes the debug information larger.
 >
->  config DEBUG_INFO_BTF
->         bool "Generate BTF typeinfo"
-> -       depends on DEBUG_INFO
->         depends on !DEBUG_INFO_SPLIT && !DEBUG_INFO_REDUCED
->         depends on !GCC_PLUGIN_RANDSTRUCT || COMPILE_TEST
->         help
-> @@ -279,7 +276,6 @@ config DEBUG_INFO_BTF
+> NOTE: This is on top of Linux v5.8 vanilla.
 >
->  config GDB_SCRIPTS
->         bool "Provide GDB scripts for kernel debugging"
-> -       depends on DEBUG_INFO
->         help
->           This creates the required links to GDB helper scripts in the
->           build directory. If you load vmlinux into gdb, the helper
-> @@ -288,6 +284,8 @@ config GDB_SCRIPTS
->           instance. See Documentation/dev-tools/gdb-kernel-debugging.rst
->           for further details.
+> NOTE-2: When building with LLVM toolchain v11.0.0-rc1+ and especially
+> with LLVM_IAS=1 (and LLVM=1) DWARF version 4 is a good choice.
 >
-> +endif # DEBUG_INFO
-> +
->  config ENABLE_MUST_CHECK
->         bool "Enable __must_check logic"
->         default y
-> --
-> 2.28.0
+> For details see below links.
 >
+> Thoughts?
+>
+> Regards,
+> - Sedat -
+>
+> [1] https://github.com/ClangBuiltLinux/linux/issues/1086
+> [2] https://github.com/ClangBuiltLinux/linux/issues/1086#issuecomment-674503335
+> [3] https://github.com/ClangBuiltLinux/linux/issues/1086#issuecomment-674517876
+
+[ CC Sami ]
+
+Hi,
+
+while playing with Clang-CFI I needed this patch to fix these warnings:
+
+$ grep DWARF BROKEN_DWARF2-only-supports-one-section-per-compilation-unit.txt
+arch/x86/crypto/twofish-avx-x86_64-asm_64.S:17:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/twofish-avx-x86_64-asm_64.S:22:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/serpent-avx-x86_64-asm_64.S:17:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/serpent-avx-x86_64-asm_64.S:21:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/serpent-avx2-asm_64.S:18:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/serpent-avx2-asm_64.S:23:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/serpent-avx2-asm_64.S:28:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/des3_ede-asm_64.S:534:1: warning: DWARF2 only supports
+one section per compilation unit
+arch/x86/crypto/camellia-aesni-avx-asm_64.S:577:1: warning: DWARF2
+only supports one section per compilation unit
+arch/x86/crypto/camellia-aesni-avx-asm_64.S:717:1: warning: DWARF2
+only supports one section per compilation unit
+<instantiation>:2:2: warning: DWARF2 only supports one section per
+compilation unit
+<instantiation>:8:2: warning: DWARF2 only supports one section per
+compilation unit
+<instantiation>:13:2: warning: DWARF2 only supports one section per
+compilation unit
+arch/x86/crypto/camellia-aesni-avx2-asm_64.S:610:1: warning: DWARF2
+only supports one section per compilation unit
+arch/x86/crypto/camellia-aesni-avx2-asm_64.S:618:1: warning: DWARF2
+only supports one section per compilation unit
+arch/x86/crypto/camellia-aesni-avx2-asm_64.S:625:1: warning: DWARF2
+only supports one section per compilation unit
+arch/x86/crypto/camellia-aesni-avx2-asm_64.S:754:1: warning: DWARF2
+only supports one section per compilation unit
+<instantiation>:2:2: warning: DWARF2 only supports one section per
+compilation unit
+<instantiation>:8:2: warning: DWARF2 only supports one section per
+compilation unit
+<instantiation>:13:2: warning: DWARF2 only supports one section per
+compilation unit
+arch/x86/crypto/cast5-avx-x86_64-asm_64.S:183:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast5-avx-x86_64-asm_64.S:187:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast5-avx-x86_64-asm_64.S:191:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast5-avx-x86_64-asm_64.S:196:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast5-avx-x86_64-asm_64.S:200:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast5-avx-x86_64-asm_64.S:204:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast6-avx-x86_64-asm_64.S:213:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast6-avx-x86_64-asm_64.S:232:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast6-avx-x86_64-asm_64.S:237:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/cast6-avx-x86_64-asm_64.S:242:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/aegis128-aesni-asm.S:27:1: warning: DWARF2 only
+supports one section per compilation unit
+arch/x86/crypto/aegis128-aesni-asm.S:36:1: warning: DWARF2 only
+supports one section per compilation unit
+
+Can you please review?
+
+Thanks.
+
+Regards,
+- Sedat -
+
+P.S.: With the help of Sami I can now build and boot into Linux-kernel
+with Clang-CFI support enabled.
+
+[1] https://github.com/samitolvanen/linux/commits/clang-cfi
