@@ -2,72 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8551225250A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 03:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A6A25292B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 10:26:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726611AbgHZBjf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 25 Aug 2020 21:39:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54196 "EHLO mail.kernel.org"
+        id S1726818AbgHZI0D (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Aug 2020 04:26:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44826 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726599AbgHZBjf (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 25 Aug 2020 21:39:35 -0400
-Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        id S1726016AbgHZI0C (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 26 Aug 2020 04:26:02 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1D04A2072D;
-        Wed, 26 Aug 2020 01:39:33 +0000 (UTC)
-Date:   Tue, 25 Aug 2020 21:39:31 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Nicolas Boichat <drinkcat@chromium.org>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Kars Mulder <kerneldev@karsmulder.nl>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id E96E7206FA;
+        Wed, 26 Aug 2020 08:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598430361;
+        bh=5wVmWCd81p+o5o7p8OG6yxBYpUPruz1P71KvQMqUMp0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n8zUC52bBAfYO7Lsob5wxELavmBTQS0IkmJlzuiSpC0mz2/6R40u9u0i0FTUzub8q
+         q7U6Dj8drhsmb+9RiNemod8uaoipY6qkx8GXsj1WaiAy6IhcbvngAUfEHzA7SxRG7u
+         S/RtHVAql+oMfRJ/pMOC56PMVY9n2DXW5pF+Jdrg=
+Date:   Wed, 26 Aug 2020 09:25:55 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
         Michal Marek <michal.lkml@markovi.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tiezhu Yang <yangtiezhu@loongson.cn>,
-        Will Deacon <will@kernel.org>, Yue Hu <huyue2@yulong.com>,
-        linux-kbuild@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5] kernel/trace: Add DISALLOW_TRACE_PRINTK make option
-Message-ID: <20200825213931.04ec7f22@oasis.local.home>
-In-Reply-To: <CANMq1KCQjX1632qyo5+8kv8TXNu_Onh4gz7oMx3rx79XQX2fqg@mail.gmail.com>
-References: <20200824105852.v5.1.I4feb11d34ce7a0dd5ee2c3327fb5a1a9a646be30@changeid>
-        <20200824093020.073ae8d8@oasis.local.home>
-        <CANMq1KCQjX1632qyo5+8kv8TXNu_Onh4gz7oMx3rx79XQX2fqg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Kees Cook <keescook@chromium.org>,
+        Borislav Petkov <bp@suse.de>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: add minimum clang/llvm version
+Message-ID: <20200826082555.GA27752@willie-the-truck>
+References: <20200825222552.3113760-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200825222552.3113760-1-ndesaulniers@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, 25 Aug 2020 08:38:27 +0800
-Nicolas Boichat <drinkcat@chromium.org> wrote:
-
-> This already works. I'll be honest, I'm not 100% sure why (and if
-> fully intentional)...
+On Tue, Aug 25, 2020 at 03:25:51PM -0700, Nick Desaulniers wrote:
+> Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
+> small, supporting just one formal upstream release of LLVM for now.
 > 
-> The CFLAGS end up in 3 generated assembly files:
-> # grep -R DISALLOW_TRACE_PRINTK * | grep -v ".cmd:"
-> arch/x86/kernel/asm-offsets.s:# -imultiarch x86_64-linux-gnu -D
-> __KERNEL__ -D DISALLOW_TRACE_PRINTK
-> kernel/bounds.s:# -imultiarch x86_64-linux-gnu -D __KERNEL__ -D
-> DISALLOW_TRACE_PRINTK
-> scripts/mod/devicetable-offsets.s:# -D DISALLOW_TRACE_PRINTK
-> (along with all *.cmd files)
+> We can probably widen the support window of supported versions over
+> time.  Also, note that LLVM's release process is different than GCC's.
+> GCC tends to have 1 major release per year while releasing minor updates
+> to the past 3 major versions.  LLVM tends to support one major release
+> and one minor release every six months.
 > 
-> and I suspect some/all of those force a complete kernel rebuild.
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Note to reviewers: working remote, I'm having trouble testing/verifying
+> that I have the RST links wired up correctly; I would appreciate it if
+> someone is able to `make htmldocs` and check
+> Documentation/output/process/changes.html properly links to
+> Documentation/output/kbuild/llvm.html.
+> 
+>  Documentation/kbuild/llvm.rst     |  2 ++
+>  Documentation/process/changes.rst | 10 ++++++++++
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index 2aac50b97921..70ec6e9a183b 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -1,3 +1,5 @@
+> +.. _kbuild_llvm:
+> +
+>  ==============================
+>  Building Linux with Clang/LLVM
+>  ==============================
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index ee741763a3fc..6c580ef9f2a3 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -30,6 +30,7 @@ you probably needn't concern yourself with pcmciautils.
+>          Program        Minimal version       Command to check the version
+>  ====================== ===============  ========================================
+>  GNU C                  4.9              gcc --version
+> +Clang/LLVM (optional)  10.0.1           clang --version
+>  GNU make               3.81             make --version
+>  binutils               2.23             ld -v
+>  flex                   2.5.35           flex --version
+> @@ -68,6 +69,15 @@ GCC
+>  The gcc version requirements may vary depending on the type of CPU in your
+>  computer.
+>  
+> +Clang/LLVM (optional)
+> +---------------------
+> +
+> +The latest formal release of clang and LLVM utils (according to
+> +`releases.llvm.org <https://releases.llvm.org>`_) are supported for building
+> +kernels. Older releases aren't gauranteed to work, and we may drop workarounds
 
-Yeah, I believe that the modification of CFLAGS causes a recompile of
-the entire kernel.
+typo: guaranteed
 
-Thanks!
-
--- Steve
+Will
