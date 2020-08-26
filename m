@@ -2,129 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC381252FE3
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 15:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BAE252FEA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 15:30:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730270AbgHZN26 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Aug 2020 09:28:58 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:52122 "EHLO
+        id S1730284AbgHZN35 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 26 Aug 2020 09:29:57 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:53856 "EHLO
         conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730214AbgHZN2p (ORCPT
+        with ESMTP id S1729540AbgHZN3r (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Aug 2020 09:28:45 -0400
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 07QDSRqm004629;
-        Wed, 26 Aug 2020 22:28:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 07QDSRqm004629
+        Wed, 26 Aug 2020 09:29:47 -0400
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 07QDTLdk005122;
+        Wed, 26 Aug 2020 22:29:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 07QDTLdk005122
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598448507;
-        bh=nnAMcUaGRUQahEKCpGV9sxhCZhM9PXG2c9FGIHnAxps=;
+        s=dec2015msa; t=1598448562;
+        bh=tNXIFtx4OCOjEbxfaMetiZvvEWEud6dFm6DVPlRG6/U=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=CptZvp0nKo7FcaqgrlAj0bOvX1AhXaaFtimeKeWv+0b/NylzOJ+bOIcub+O0ATkUb
-         2ht6/AmcumJyIDrHQ0F3bY8VhLtiI5tItXManPu+EDWOkSUWqgB3jL2bZLqT/pSakL
-         JZssGdnV7lGCPY2sdjU8f9f6KD41GKs43rMbKhHQ6ELZG+II2v0+UHuGGhEqaWb++E
-         +I3P6iOeG3zbG0CyngfemZ3tEx2qoJtLMLEn/kj7QEIxzhLYpOtlpMEoyCAHuSq81V
-         8xZ7izxudqU/lKqE8z8SmmZv1UP/EuyLzox+1nRhlkLzCB6nySH+6ItNmwPWNvSfin
-         5AxoJ/r8Lxr7A==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id s2so275350pjr.4;
-        Wed, 26 Aug 2020 06:28:27 -0700 (PDT)
-X-Gm-Message-State: AOAM530nrLM0gPCDT9reBsw4Sf1YdnW/7i0dUoQ+G8oZ7RoCaFlpi09n
-        B7BUyvA4NTKSFj6QznxjKJKxCleHFd7le+uvHtk=
-X-Google-Smtp-Source: ABdhPJymxQdYhWRn7RNPnYZe2TBvPIpBtp3BpPF0KRoVNvV+kTcnxYhIgClbwBtNU7bIThwESkQmiZX54m4mSbQ7Hdo=
-X-Received: by 2002:a17:902:301:: with SMTP id 1mr12118372pld.198.1598448506530;
- Wed, 26 Aug 2020 06:28:26 -0700 (PDT)
+        b=oZS0uyjQxKwmiORelo6ou/ZXRCWhxWwnRb7KpxTe0i7TxSoqM7aDjV7OztApNLg/i
+         /yBwGooq2tgmM7bi7swgUohQ4DxU41AFBoZcWKMTmAIJl1rdj0ClN4S9r/Lue+hbY0
+         gjuuwr0UEAKcS2e0jfkH/zDXpnO4OmIRMN5PlPhCrutYwgSQJmsKgPcLlW/vAXGcBN
+         Bw7qHjRwEGVfn2JssQ7BsZtFoF0fJ43xiQpUqf2WLefAbzG+RfEuDrTYQVqfMO09Jz
+         kklYUQOz8N7GV/NqXboH11vehTJoQAGBfhzFeCpWufXJjBJa769CV1l8WriyYAlgmt
+         uGd/CIB9LEOjQ==
+X-Nifty-SrcIP: [209.85.214.178]
+Received: by mail-pl1-f178.google.com with SMTP id h2so890891plr.0;
+        Wed, 26 Aug 2020 06:29:21 -0700 (PDT)
+X-Gm-Message-State: AOAM530WoDfiPKpaelZEARqeCGvc39jJXSEq7S/+UOXGPotqvE2Rrf+I
+        qxJkaFmgrBFSvpXmRH56WcazDKJImQ8ZIGTLi10=
+X-Google-Smtp-Source: ABdhPJyptsNXsluSTO9BSD2NQ/mPRLaxE4KppC7eM2LmlxEpDMBfy8uGyHMsjIWEYawhJuX6U9wNVDjFGHMWbEkzA8w=
+X-Received: by 2002:a17:90b:11c4:: with SMTP id gv4mr5899331pjb.198.1598448561144;
+ Wed, 26 Aug 2020 06:29:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200822145618.1222514-1-masahiroy@kernel.org>
-In-Reply-To: <20200822145618.1222514-1-masahiroy@kernel.org>
+References: <20200817220212.338670-1-ndesaulniers@google.com>
+ <fae91af3-4e08-a929-e5c3-25271ad7324b@zytor.com> <CAKwvOdk6A4AqTtOsD34WNwxRjyTvXP8KCNj2xfNWYdPT+sLHwQ@mail.gmail.com>
+ <76071c24-ec6f-7f7a-4172-082bd574d581@zytor.com> <CAHk-=wiPeRQU_5JXCN0TLoW-xHZHp7dmrhx0wyXUSKxiCxE02Q@mail.gmail.com>
+ <20200818202407.GA3143683@rani.riverdale.lan> <CAKwvOdnfh9nWwu1xV=WDbETGiabwDxXxQDRCAfpa-+kSZijb9w@mail.gmail.com>
+ <CAKwvOdkA4SC==vGZ4e7xqFG3Zo=fnhU=FgnSazmWkkVWhkaSYw@mail.gmail.com>
+ <20200818214146.GA3196105@rani.riverdale.lan> <CAK7LNAQmWBPV4nZ0xPdSHEt=DipHmR40co827voGOFN=2j47BQ@mail.gmail.com>
+ <20200824173450.GA4157679@rani.riverdale.lan> <CAKwvOd=BEwuHFeuskJ4gPOGLoXm98oXA18U=tTw981g+HdVz-w@mail.gmail.com>
+ <CAK7LNAQynuqqjhL1rqMf0YnRpQ0jsWrJ7fy51FM7d0xdxws5wQ@mail.gmail.com> <CAKwvOdk9gpKNmEAHLf9KtzmzxnSdmDdutu5Mpp39XEaxMywMFA@mail.gmail.com>
+In-Reply-To: <CAKwvOdk9gpKNmEAHLf9KtzmzxnSdmDdutu5Mpp39XEaxMywMFA@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 26 Aug 2020 22:27:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASTHS8UgpZOvvFt1865hwRf8Z3Oan-Rr2pu2jZpKhrMbA@mail.gmail.com>
-Message-ID: <CAK7LNASTHS8UgpZOvvFt1865hwRf8Z3Oan-Rr2pu2jZpKhrMbA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] kbuild: clang-tidy
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Nathan Huckleberry <nhuck@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Tom Roeder <tmroeder@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+Date:   Wed, 26 Aug 2020 22:28:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQHj-GeqH_5WpKo7gA6qZAiX8OOxxnL1v-SNZwRHFSXQQ@mail.gmail.com>
+Message-ID: <CAK7LNAQHj-GeqH_5WpKo7gA6qZAiX8OOxxnL1v-SNZwRHFSXQQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] -ffreestanding/-fno-builtin-* patches
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>,
+        =?UTF-8?B?RMOhdmlkIEJvbHZhbnNrw70=?= <david.bolvansky@gmail.com>,
+        Eli Friedman <efriedma@quicinc.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Michal Marek <michal.lkml@markovi.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Tony Luck <tony.luck@intel.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Joe Perches <joe@perches.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Daniel Axtens <dja@axtens.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Yury Norov <yury.norov@gmail.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Daniel Kiper <daniel.kiper@oracle.com>,
+        Bruce Ashfield <bruce.ashfield@gmail.com>,
+        Marco Elver <elver@google.com>,
+        Vamshi K Sthambamkadi <vamshi.k.sthambamkadi@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Aug 22, 2020 at 11:56 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Aug 25, 2020 at 11:02 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
 >
-> I improved gen_compile_commands.py,
-> then rebased Nathan's v7 [1] on top of them.
-> To save time, I modified the Makefile part.
-> No change for run-clang-tools.py
+> On Tue, Aug 25, 2020 at 5:30 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Tue, Aug 25, 2020 at 4:10 PM Nick Desaulniers
+> > <ndesaulniers@google.com> wrote:
+> > >
+> > > Masahiro, are you implying that we shouldn't take the
+> > > -fno-builtin-stpcpy patch, because Clang is inconsistent? (That can be
+> > > fixed.) Even though -fno-builtin-stpcpy works here as intended?
+> > > https://lore.kernel.org/lkml/20200817220212.338670-2-ndesaulniers@google.com/
+> > >
+> > > Otherwise we need to provide an implementation of this symbol in the kernel.
+> > > https://lore.kernel.org/lkml/20200815020946.1538085-1-ndesaulniers@google.com/
+> > >
+> > > Please, pick your poison.
+> >
+> >
+> >
+> > I am not a compiler expert.
+> >
+> > Nor am I sure if I am the right person who makes this decision.
+> > But, if so, I would choose the latter.
+> > (implement stpcpy() in the kernel)
+> >
+> > I was addressed last night, so
+> > I should write up my thoughts.
+> >
+> > I do not think -fno-builtin-stpcpy is a
+> > general solution.
+> >
+> > -fno-builtin-stpcpy will work for now
+> > because only Clang implements the transformation
+> > from 'sprintf(dest, "%s", str)' into
+> > 'stpcpy(dest, str) - dest'.
+> >
+> > If GCC implements it some day,
+> > we would run into a problem because
+> > in GCC, it is not -fno-builtin-stpcpy, but
+> > -fno-builtin-sprintf that disables that optimization.
+> >
+> > In this regard, 'KBUILD_CFLAGS += -fno-builtin-sprintf'
+> > would be more future-proof, but it is potentially
+> > an overkill.
+> > We want to disable optimization from sprintf() to stpcpy(),
+> > but we may still benefit from the optimization from
+> > sprintf() into something else.
+> >
+> >
+> > Linus is uncomfortable with this kind of compiler magic.
+> > If we take compiler's freedom away,
+> > -ffreestanding is a big hammer to solve this problem.
+> >
+> > If we welcome the compiler's optimization,
+> > we should implement stpcpy(), bcmp(), and whatever
+> > until we solve all link errors.
 >
-> "make clang-tidy" should work in-tree build,
-> out-of-tree build (O=), and external module build (M=).
->
-> V3:
-> Fix minor mistakes pointed out by Nick
-> Add a new patch (09/10) to remove the warning about
-> too few .cmd files.
->
-> V2:
-> Keep the previous work-flow.
-> You can still manually run scripts/gen_compile_commands.json
->
-> 'make compile_commands.json' or 'make clang-tidy' is handier
-> for most cases. As Nick noted, there is 3 % loss of the coverage.
->
-> If you need the full compilation database that covers all the
-> compiled C files, please run the script manually.
->
-> [1] https://patchwork.kernel.org/patch/11687833/
->
->
-> Masahiro Yamada (9):
->   gen_compile_commands: parse only the first line of .*.cmd files
->   gen_compile_commands: use choices for --log_levels option
->   gen_compile_commands: do not support .cmd files under tools/ directory
->   gen_compile_commands: reword the help message of -d option
->   gen_compile_commands: make -o option independent of -d option
->   gen_compile_commands: move directory walk to a generator function
->   gen_compile_commands: support *.o, *.a, modules.order in positional
->     argument
->   kbuild: wire up the build rule of compile_commands.json to Makefile
->   gen_compile_commands: remove the warning about too few .cmd files
->
-> Nathan Huckleberry (1):
->   Makefile: Add clang-tidy and static analyzer support to makefile
-
-
-
-All applied to linux-kbuild.
-
-
-
-
-
-
-
->  MAINTAINERS                                 |   1 +
->  Makefile                                    |  45 +++-
->  scripts/clang-tools/gen_compile_commands.py | 236 ++++++++++++++++++++
->  scripts/clang-tools/run-clang-tools.py      |  74 ++++++
->  scripts/gen_compile_commands.py             | 151 -------------
->  5 files changed, 352 insertions(+), 155 deletions(-)
->  create mode 100755 scripts/clang-tools/gen_compile_commands.py
->  create mode 100755 scripts/clang-tools/run-clang-tools.py
->  delete mode 100755 scripts/gen_compile_commands.py
->
+> Speculating that -ffreestanding is untenable, submitted v3:
+> https://lore.kernel.org/lkml/20200825135838.2938771-1-ndesaulniers@google.com/T/#u
 > --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20200822145618.1222514-1-masahiroy%40kernel.org.
+> Thanks,
+> ~Nick Desaulniers
+
+FYI:
+Andrew Morton picked up this patch.
+
 
 
 
