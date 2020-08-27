@@ -2,84 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F31A2539A9
-	for <lists+linux-kbuild@lfdr.de>; Wed, 26 Aug 2020 23:21:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52EFA254CFE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Aug 2020 20:25:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbgHZVVw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 26 Aug 2020 17:21:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726753AbgHZVVw (ORCPT
+        id S1726953AbgH0SZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Aug 2020 14:25:48 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:44002 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726952AbgH0SZr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 26 Aug 2020 17:21:52 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8C3C061574;
-        Wed, 26 Aug 2020 14:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=Xsfx+KabYUh+DH5+P2LawgczRML7gRo0hmmmop5VVHQ=; b=JcmJGGf2yA5/kdHpckUJrt/PTG
-        1AeBqLH5ZuPIzzV1aSlS+fpiw8WWJwvaOthEnyoxDSElm7nPQwKTnSmk+guFm+BdgXHG2jmgM3evD
-        Dju/YtKirQ0VMCl8l35SNVWt/7qtd34/1EGYbh7eit5LmnRIUEqYXm1UraOVYVuWGn0tsnCsLkXAn
-        ZXneyhuQvgKZrwETjYgKiuDzI37JZuAWjiL3MwlK0loltDVfDKbYbgxX0ZldCW7euUHWETtKmBbG1
-        MTJNw+2Y29RMafHfIbtLtK36zkJK5euVtlgt9Vo/8IeNl4qxx1mcdwdxJU4Fw/jdZIGHCUFRgU3CI
-        Dxq70WLA==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kB2rb-00013Y-4X; Wed, 26 Aug 2020 21:21:47 +0000
-To:     linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Changbin Du <changbin.du@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] kconfig: streamline_config.pl: check defined(ENV variable)
- before using it
-Message-ID: <be80ceda-596b-03aa-394f-166cc6388aa0@infradead.org>
-Date:   Wed, 26 Aug 2020 14:21:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Thu, 27 Aug 2020 14:25:47 -0400
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 07RIPRPs027703;
+        Fri, 28 Aug 2020 03:25:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07RIPRPs027703
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1598552727;
+        bh=L2QfmaAwnwA4hoiO89ZgINUlMqkWy7n6tRHAxYPu1fM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=xTkHOyq3cJ/fnKhHkO8g7qNjDOSj4XPlmL9h6hkeGTAuI+SLcarBbvGKtE4Isr5Vo
+         rA59oYNmG45/0ghyRaMpaWDpx9nbIpnRFY8AWzeE0OqMEKJEqafMvlwnJlMn3ZPtgf
+         7WXDAT23cchRglpI4KH51wo3rMWDGkDOR2iuL2TJTuGT83WyfeCBK/pTvt/89+WgQL
+         gJbx4Z8htIEPzT6jQJ4YUBHUY/rhhOqgca9lEACCik908Ds1JBYz7c0Ty/WYEIB/Rg
+         406rynBnQbqGt+BMm32FTCXZF0WFYFN8PJUEI9gmC6q/oOwmMrrqsFd1Tn6j9lNSfp
+         Tg44+Sg/0Jexg==
+X-Nifty-SrcIP: [209.85.210.169]
+Received: by mail-pf1-f169.google.com with SMTP id 17so4146073pfw.9;
+        Thu, 27 Aug 2020 11:25:27 -0700 (PDT)
+X-Gm-Message-State: AOAM530jSBs3bHQQJTv9zodt62iLJEfNgcF33BgJEmOBHV21eZ+cXCJG
+        GYTew5i/NwbC7/1ggnoChVujz4Azlq3VCxr7tUk=
+X-Google-Smtp-Source: ABdhPJweNgFBGUD7xENRLq6vkx3u8aXYAxv8Zh27iS33Ltucpdk986dIvAZ2MdzkT2akYEO8uOhq0eHYJl8S8d3ojwo=
+X-Received: by 2002:a63:e018:: with SMTP id e24mr15142537pgh.175.1598552726619;
+ Thu, 27 Aug 2020 11:25:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200826191555.3350406-1-ndesaulniers@google.com>
+In-Reply-To: <20200826191555.3350406-1-ndesaulniers@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 28 Aug 2020 03:24:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATqUV48aNW2NGN7gz_oMo_3kZ+mbbiq2nGsfnQR=oEHAg@mail.gmail.com>
+Message-ID: <CAK7LNATqUV48aNW2NGN7gz_oMo_3kZ+mbbiq2nGsfnQR=oEHAg@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: add minimum clang/llvm version
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Theodore Ts'o" <tytso@mit.edu>, Borislav Petkov <bp@suse.de>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Will Deacon <will@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Thu, Aug 27, 2020 at 4:16 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
+> small, supporting just one formal upstream release of LLVM for now.
+>
+> We can probably widen the support window of supported versions over
+> time.  Also, note that LLVM's release process is different than GCC's.
+> GCC tends to have 1 major release per year while releasing minor updates
+> to the past 3 major versions.  LLVM tends to support one major release
+> and one minor release every six months.
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> Tested-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+> Changes V1 -> V2:
+> * fix typo, as per Will.
+> * add link to getting LLVM, as per Nathan.
+> * collect tags.
+>
+>  Documentation/kbuild/llvm.rst     |  4 ++++
+>  Documentation/process/changes.rst | 15 +++++++++++++++
+>  2 files changed, 19 insertions(+)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index 2aac50b97921..3f10a9c47551 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -1,3 +1,5 @@
+> +.. _kbuild_llvm:
+> +
+>  ==============================
+>  Building Linux with Clang/LLVM
+>  ==============================
+> @@ -73,6 +75,8 @@ Getting Help
+>  - `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
+>  - `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
+>
+> +.. _getting_llvm:
+> +
+>  Getting LLVM
+>  -------------
+>
+> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+> index ee741763a3fc..dac17711dc11 100644
+> --- a/Documentation/process/changes.rst
+> +++ b/Documentation/process/changes.rst
+> @@ -30,6 +30,7 @@ you probably needn't concern yourself with pcmciautils.
+>          Program        Minimal version       Command to check the version
+>  ====================== ===============  ========================================
+>  GNU C                  4.9              gcc --version
+> +Clang/LLVM (optional)  10.0.1           clang --version
 
-A user reported:
-'Use of uninitialized value $ENV{"LMC_KEEP"} in split at
- ./scripts/kconfig/streamline_config.pl line 596.'
 
-so first check that $ENV{LMC_KEEP} is defined before trying
-to use it.
+Just playing a nitpick:
+Supporting Clang makes GCC optional, so now
+"GNU C (optional)"
 
-Fixes: c027b02d89fd ("streamline_config.pl: add LMC_KEEP to preserve some kconfigs")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Changbin Du <changbin.du@gmail.com>
-Cc: Steven Rostedt (VMware) <rostedt@goodmis.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
-Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
----
- scripts/kconfig/streamline_config.pl |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+:-)
 
---- linux-next-20200825.orig/scripts/kconfig/streamline_config.pl
-+++ linux-next-20200825/scripts/kconfig/streamline_config.pl
-@@ -593,7 +593,10 @@ while ($repeat) {
- }
- 
- my %setconfigs;
--my @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-+my @preserved_kconfigs;
-+if (defined($ENV{'LMC_KEEP'})) {
-+	@preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-+}
- 
- sub in_preserved_kconfigs {
-     my $kconfig = $config2kfile{$_[0]};
 
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+
+
+--
+Best Regards
+Masahiro Yamada
