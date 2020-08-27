@@ -2,133 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52EFA254CFE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Aug 2020 20:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8319254E21
+	for <lists+linux-kbuild@lfdr.de>; Thu, 27 Aug 2020 21:22:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726953AbgH0SZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 27 Aug 2020 14:25:48 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:44002 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbgH0SZr (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 27 Aug 2020 14:25:47 -0400
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 07RIPRPs027703;
-        Fri, 28 Aug 2020 03:25:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07RIPRPs027703
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598552727;
-        bh=L2QfmaAwnwA4hoiO89ZgINUlMqkWy7n6tRHAxYPu1fM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=xTkHOyq3cJ/fnKhHkO8g7qNjDOSj4XPlmL9h6hkeGTAuI+SLcarBbvGKtE4Isr5Vo
-         rA59oYNmG45/0ghyRaMpaWDpx9nbIpnRFY8AWzeE0OqMEKJEqafMvlwnJlMn3ZPtgf
-         7WXDAT23cchRglpI4KH51wo3rMWDGkDOR2iuL2TJTuGT83WyfeCBK/pTvt/89+WgQL
-         gJbx4Z8htIEPzT6jQJ4YUBHUY/rhhOqgca9lEACCik908Ds1JBYz7c0Ty/WYEIB/Rg
-         406rynBnQbqGt+BMm32FTCXZF0WFYFN8PJUEI9gmC6q/oOwmMrrqsFd1Tn6j9lNSfp
-         Tg44+Sg/0Jexg==
-X-Nifty-SrcIP: [209.85.210.169]
-Received: by mail-pf1-f169.google.com with SMTP id 17so4146073pfw.9;
-        Thu, 27 Aug 2020 11:25:27 -0700 (PDT)
-X-Gm-Message-State: AOAM530jSBs3bHQQJTv9zodt62iLJEfNgcF33BgJEmOBHV21eZ+cXCJG
-        GYTew5i/NwbC7/1ggnoChVujz4Azlq3VCxr7tUk=
-X-Google-Smtp-Source: ABdhPJweNgFBGUD7xENRLq6vkx3u8aXYAxv8Zh27iS33Ltucpdk986dIvAZ2MdzkT2akYEO8uOhq0eHYJl8S8d3ojwo=
-X-Received: by 2002:a63:e018:: with SMTP id e24mr15142537pgh.175.1598552726619;
- Thu, 27 Aug 2020 11:25:26 -0700 (PDT)
+        id S1727889AbgH0TW4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 27 Aug 2020 15:22:56 -0400
+Received: from mx2.veeam.com ([12.182.39.6]:47846 "EHLO mx2.veeam.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726246AbgH0TWz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 27 Aug 2020 15:22:55 -0400
+Received: from mail.veeam.com (prgmbx01.amust.local [172.24.0.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx2.veeam.com (Postfix) with ESMTPS id 2BB0B4124C;
+        Thu, 27 Aug 2020 15:13:55 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=veeam.com; s=mx2;
+        t=1598555635; bh=uuVVtNTXos6TrxWLD31pE4Nljl8CRMkhd1Fps+/HTCY=;
+        h=From:To:CC:Subject:Date:From;
+        b=WoqX3id4kRGUEErEeD5r1bIBreUPa4QMcUMGSkJPpFqaI2pbKJkA1X/djpPZ4fcF8
+         8cSHgeQ2cn6MQAv+dieyCScDk8vdTyLh5Rz98qLWLZi4WcGt7otu/lQMm+3+Rf2qFe
+         KphQBbXv/Z10ldsVluHkJoPwnRZBRmreWo/HDkGc=
+Received: from prgdevlinuxpatch01.amust.local (172.24.14.5) by
+ prgmbx01.amust.local (172.24.0.171) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.595.3;
+ Thu, 27 Aug 2020 21:13:53 +0200
+From:   Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     <masahiroy@kernel.org>, <michal.lkml@markovi.net>,
+        <axboe@kernel.dk>, <koct9i@gmail.com>, <jack@suse.cz>,
+        <damien.lemoal@wdc.com>, <ming.lei@redhat.com>, <steve@sk2.org>,
+        <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-block@vger.kernel.org>
+CC:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Subject: [PATCH 0/1] block io layer filters api
+Date:   Thu, 27 Aug 2020 22:13:38 +0300
+Message-ID: <1598555619-14792-1-git-send-email-sergei.shtepa@veeam.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20200826191555.3350406-1-ndesaulniers@google.com>
-In-Reply-To: <20200826191555.3350406-1-ndesaulniers@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Aug 2020 03:24:49 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATqUV48aNW2NGN7gz_oMo_3kZ+mbbiq2nGsfnQR=oEHAg@mail.gmail.com>
-Message-ID: <CAK7LNATqUV48aNW2NGN7gz_oMo_3kZ+mbbiq2nGsfnQR=oEHAg@mail.gmail.com>
-Subject: Re: [PATCH v2] Documentation: add minimum clang/llvm version
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Theodore Ts'o" <tytso@mit.edu>, Borislav Petkov <bp@suse.de>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Will Deacon <will@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [172.24.14.5]
+X-ClientProxiedBy: prgmbx02.amust.local (172.24.0.172) To prgmbx01.amust.local
+ (172.24.0.171)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A29C604D26B607C6A
+X-Veeam-MMEX: True
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx2.veeam.com [172.18.16.6]); Thu, 27 Aug 2020 15:13:55 -0400 (EDT)
+X-Veeam-MailScanner-Information: Please contact email@veeam.com if you have any problems
+X-Spam-Status: No
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 4:16 AM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Based on a vote at the LLVM BoF at Plumbers 2020, we decided to start
-> small, supporting just one formal upstream release of LLVM for now.
->
-> We can probably widen the support window of supported versions over
-> time.  Also, note that LLVM's release process is different than GCC's.
-> GCC tends to have 1 major release per year while releasing minor updates
-> to the past 3 major versions.  LLVM tends to support one major release
-> and one minor release every six months.
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-> Tested-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> Tested-by: Nathan Chancellor <natechancellor@gmail.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Changes V1 -> V2:
-> * fix typo, as per Will.
-> * add link to getting LLVM, as per Nathan.
-> * collect tags.
->
->  Documentation/kbuild/llvm.rst     |  4 ++++
->  Documentation/process/changes.rst | 15 +++++++++++++++
->  2 files changed, 19 insertions(+)
->
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index 2aac50b97921..3f10a9c47551 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -1,3 +1,5 @@
-> +.. _kbuild_llvm:
-> +
->  ==============================
->  Building Linux with Clang/LLVM
->  ==============================
-> @@ -73,6 +75,8 @@ Getting Help
->  - `Wiki <https://github.com/ClangBuiltLinux/linux/wiki>`_
->  - `Beginner Bugs <https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22>`_
->
-> +.. _getting_llvm:
-> +
->  Getting LLVM
->  -------------
->
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index ee741763a3fc..dac17711dc11 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -30,6 +30,7 @@ you probably needn't concern yourself with pcmciautils.
->          Program        Minimal version       Command to check the version
->  ====================== ===============  ========================================
->  GNU C                  4.9              gcc --version
-> +Clang/LLVM (optional)  10.0.1           clang --version
+Hello everyone! Requesting for your comments and suggestions.
 
+We propose new kernel API that should be beneficial for out-of-tree
+kernel modules of multiple backup vendors: block layer filter API.
 
-Just playing a nitpick:
-Supporting Clang makes GCC optional, so now
-"GNU C (optional)"
+Functionality:
+* Provide callback to intercept bio requests, the main purpose is to
+allow block level snapshots for the devices that do not support it,
+for example, non-LVM block devices and implementation of changed block
+tracking for faster incremental backups without system reconfiguration
+or reboot, but there could be other use cases that we have not thought of.
+* Allow multiple filters to work at the same time. The order in which the
+request is intercepted is determined by their altitude.
+* When new block devices appear, send a synchronous request to the
+registered filter to add it for filtering.
+* If a block device is permanently deleted or disappears, send a
+synchronous request to remove the device from filtering.
 
-:-)
+Why dm-snap and dm-era is not the solution:
+Device mapper must be set up in advance, usually backup vendors have very
+little ability to change or convince users to modify the existing setup
+at the time of software installation.
+One of the most common setups is still a block device without LVM and
+formatted with ext4.
+Convincing users to redeploy or reconfigure machine, just to make block
+level snapshots/backup software work, is a challenging task.
 
+As of now, commit c62b37d96b6e removed make_request_fn from
+struct request_queue and our out-of-tree module [1] can no longer
+hook/replace it to intercept bio requests. And fops in struct gendisk
+is declared as const and cannot be hooked as well.
 
-Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
+We would appreciate your feedback!
 
+[1] https://github.com/veeam/veeamsnap
 
---
-Best Regards
-Masahiro Yamada
+Sergei Shtepa (1):
+  block io layer filters api
+
+ block/Kconfig               |  11 ++
+ block/Makefile              |   1 +
+ block/blk-core.c            |  11 +-
+ block/blk-filter-internal.h |  34 +++++
+ block/blk-filter.c          | 288 ++++++++++++++++++++++++++++++++++++
+ block/genhd.c               |  24 +++
+ include/linux/blk-filter.h  |  41 +++++
+ include/linux/genhd.h       |   2 +
+ 8 files changed, 410 insertions(+), 2 deletions(-)
+ create mode 100644 block/blk-filter-internal.h
+ create mode 100644 block/blk-filter.c
+ create mode 100644 include/linux/blk-filter.h
+
+-- 
+2.20.1
+
