@@ -2,76 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4A9425608C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Aug 2020 20:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4826325615B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Aug 2020 21:36:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726824AbgH1SfY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Aug 2020 14:35:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37624 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726010AbgH1SfX (ORCPT
+        id S1726010AbgH1TgL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Aug 2020 15:36:11 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:18247 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725969AbgH1TgH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Aug 2020 14:35:23 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E421EC061264;
-        Fri, 28 Aug 2020 11:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:Cc:To:Sender:Reply-To:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=fRfRVruH5jHX08IIGYa0MUNIexkD4H41MbdVql35umw=; b=NWUBk4HfipgQB8gwCdIYjwZpG5
-        1P2SVoMY3d18cqOpOrWrmzKDbJWR+WeOdco4nwQplbyZLaAqN2H5bp5H75OA18Gm2YDoi/sG4uoTW
-        vBSKzlhZkKs4N3qsjTa8EIgOnjyg0Jex0J9NbILvxmNCkdrXUeiTTrACof/am7Xv8D0iolYRZaHyQ
-        pRpfafOjv1ro1OdbllCCOyGK3iMm3axHBfhYRjplhFkzgMoF5MtdHTgLRCbn1EvfexmXMHp3VALgl
-        tPBSsI6som7OtehFztJ8QDaUjhI3/ALaeZUqCtuvBZKALIfwgbTcvRPasxE2lrJRNAKezr3IYIlO/
-        2NzvxmBg==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kBjDa-0000KB-98; Fri, 28 Aug 2020 18:35:18 +0000
-To:     LKML <linux-kernel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Michal Simek <michal.simek@xilinx.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] microblaze: fix kbuild redundant file warning
-Message-ID: <21eddfa7-2b7c-00c4-ad5b-40878036f987@infradead.org>
-Date:   Fri, 28 Aug 2020 11:35:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Fri, 28 Aug 2020 15:36:07 -0400
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 07SJZWoU003549
+        for <linux-kbuild@vger.kernel.org>; Sat, 29 Aug 2020 04:35:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 07SJZWoU003549
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1598643333;
+        bh=xgmwy7cXJBn84ChINx2/CLieJlmPGv6ak8AivbILyM8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=JOx6ZHV+vu9EzAf57eO3yBoWxO1Okw1WBl2dJEbXOcKCb+f7G8rDEFyYP0uKzF914
+         IE65YEx3kF4er8Ihe7+LgBbxXHsB35RlS5Mp/sN/te/wzPr2wXoN0k4VKfhmAwrOCk
+         5iV8gs+kaYl232oeT2v4Jw8ybOeJV/Rwla2KqOv4gWdIwhOSpRUqPZLYiRgsyvx6ho
+         nAjUvihGs34nKJCmPrYoExHjMN48m5fBfIbsf9luZelN5pkKCxtITzdcogDBLeU6II
+         VfTFvOSKn0mUV6o5xkZ/6HKpzdQB/Bqz+lVg0YIb9ZXanOD7ClqN08Tm+HFZVelNfj
+         ya/iMRdZZTkmw==
+X-Nifty-SrcIP: [209.85.216.53]
+Received: by mail-pj1-f53.google.com with SMTP id q1so65950pjd.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Aug 2020 12:35:32 -0700 (PDT)
+X-Gm-Message-State: AOAM532ayDqS5j4i11ie5zmqZULxh+P2dhhGHCNqrOxH2MJ3EaX5hsI2
+        VQrBCrobzDrOsurE6WoM7YIydLsbWt8OnTxGN9Q=
+X-Google-Smtp-Source: ABdhPJyJJTRfk94IRe4z4kipIZlc51MK3Ires9A7Js8GKloSwXZcozSITyH0aAQvyJo8xNLeqVm4HotNYg88TbuH9Js=
+X-Received: by 2002:a17:90a:6f01:: with SMTP id d1mr462046pjk.198.1598643332059;
+ Fri, 28 Aug 2020 12:35:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <9c333a75-a851-a055-e879-0967c32e2300@infradead.org> <CAK7LNAQ25mHHZJaShczfiS=YiZ77EqhjX5QaYubpyPE2Axw4vw@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ25mHHZJaShczfiS=YiZ77EqhjX5QaYubpyPE2Axw4vw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sat, 29 Aug 2020 04:34:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQidMqfmECAGu-2aVNCcLkV0iuV-ZHkCZG++t5v2KRyGQ@mail.gmail.com>
+Message-ID: <CAK7LNAQidMqfmECAGu-2aVNCcLkV0iuV-ZHkCZG++t5v2KRyGQ@mail.gmail.com>
+Subject: Re: ia64 kbuild warning message
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Randy Dunlap <rdunlap@infradead.org>
+On Sat, Aug 29, 2020 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Sat, Aug 29, 2020 at 1:34 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+> >
+> > Hi Yamada-san,
+> >
+> > I am seeing this on ia64 builds:
+> >
+> > ../scripts/Makefile.build:68: 'arch/ia64/kernel/palinfo.ko' will not be built even though obj-m is specified.
+> > ../scripts/Makefile.build:69: You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.
+> >
+> > with CONFIG_IA64_PALINFO=y
+> >
+> > Can you explain, please?
+> >
+>
+>
+> This warning is emitted in the archprepare stage.
+>
+>
+> The following code in arch/ia64/Makefile:
+>
+> make_nr_irqs_h:
+>         $(Q)$(MAKE) $(build)=arch/ia64/kernel include/generated/nr-irqs.h
+>
+>
+>
+> I am wondering if we could merge
+> arch/ia64/kernel/nr-irqs.c into
+> arch/ia64/kernel/asm-offsets.c
 
-Fix build warning since this file is already listed in
-include/asm-generic/Kbuild.
 
-../scripts/Makefile.asm-generic:25: redundant generic-y found in arch/microblaze/include/asm/Kbuild: hw_irq.h
 
-Fixes: 7e8f54cd4e26 ("microblaze: Remove empty headers")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Michal Simek <monstr@monstr.eu>
-Cc: Michal Simek <michal.simek@xilinx.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>
----
- arch/microblaze/include/asm/Kbuild |    1 -
- 1 file changed, 1 deletion(-)
+OK, I figured out how to clean this up.
 
---- linux-next-20200825.orig/arch/microblaze/include/asm/Kbuild
-+++ linux-next-20200825/arch/microblaze/include/asm/Kbuild
-@@ -1,7 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- generated-y += syscall_table.h
- generic-y += extable.h
--generic-y += hw_irq.h
- generic-y += kvm_para.h
- generic-y += local64.h
- generic-y += mcs_spinlock.h
+I will send a patch set tomorrow.
+For now, I need some sleep.
 
+
+-- 
+Best Regards
+Masahiro Yamada
