@@ -2,155 +2,88 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66EBB255B5A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Aug 2020 15:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBA96255BB0
+	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Aug 2020 15:54:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729580AbgH1NmA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Aug 2020 09:42:00 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:47536 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729547AbgH1NkN (ORCPT
+        id S1726571AbgH1Nyw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 28 Aug 2020 09:54:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726871AbgH1Nyj (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Aug 2020 09:40:13 -0400
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 07SDd3xi014164;
-        Fri, 28 Aug 2020 22:39:03 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 07SDd3xi014164
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598621943;
-        bh=YdLnD8kilQi6Qu8wKPy3myXSTQRUVPOWLWxsi5X2Fak=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t9eyrQX+d1ulLL0/TMY60sXye5M1I5wDkQq4Df+A0o1cVrBXmJg6t11tbOQl2mUrh
-         bySrf/sl+Z3WUBCsgDnvSd/nicXj7DNFkjISU/YuXvYESsbbtJvYUMhLtaP5JsLD1H
-         Xm2uLN3kbNXLXS2nrVVwHCLH6ubI9bsktK7gGi9Dlf0DRGgEoQnhfcdN4p8XL6rU0n
-         fcJlmhTV2TDeewsIKMj2tlsRl279nrD3um9T415MU564pvecCQQZon+BV6w0h04ns5
-         /wUomgE7AxMb+J2GXLw98WdbelePJs7m5kYMgaFrIuBH72AQUIG1Igs0PuMik+5Lqq
-         rpfazqrkpYEZw==
-X-Nifty-SrcIP: [209.85.216.48]
-Received: by mail-pj1-f48.google.com with SMTP id ls14so516930pjb.3;
-        Fri, 28 Aug 2020 06:39:03 -0700 (PDT)
-X-Gm-Message-State: AOAM530GGv1Ex5/MFVZKRHBGjJkK6db6eT0EOFcInEMJs/SSKAW4Jvpf
-        jpmmG5Z7Gw7lxyZ/m7ZVKkvDlJElPXtqdSUI06w=
-X-Google-Smtp-Source: ABdhPJzV51qhMJH/ItksiorasK1D6Z26aPHW40w0GVHpyueJGVudjSIjLrMTzzNHC/usgQ90ukPvmXif6Ac3NwjOCdE=
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr1274061pjb.153.1598621942482;
- Fri, 28 Aug 2020 06:39:02 -0700 (PDT)
+        Fri, 28 Aug 2020 09:54:39 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93063C061232
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Aug 2020 06:54:38 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id g13so1275879ioo.9
+        for <linux-kbuild@vger.kernel.org>; Fri, 28 Aug 2020 06:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=WRKo7hiT95deJi9zYbsblqjV9aJcpM8zCpj7qeA/5Zk=;
+        b=YVsUzZaBEQ53O+ALtCXuIdqxzBIDW3EcmfvL2hnfvV5xUF4iMm+B4JlwWitKyKbIs5
+         Yw0rvFpnIGxEH4Myz5gJ2NpALDj3iGTg5Bn4i0Mx0Z/BHbdOY66/TxbgawDTyD1tEMZF
+         rHs1GEtEC3eIlm22ucM6PAACpTOG7ztcIaHojfW5bBDWzs7YEbghB9NncfqparvidAab
+         fiNAvhuG3HfI+TTePV+Q7LwtIXWC558ASRrWY30EUskGYay8UPVXfZrH+i+qGZFjU+qT
+         yDx7ZUz6/KAHy+euxN+huztZr0ivbC6lsw+iSy6QAb6pisSUCmasBPYwlZR9cUZ9YO27
+         iPig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WRKo7hiT95deJi9zYbsblqjV9aJcpM8zCpj7qeA/5Zk=;
+        b=S/XD1zXVgDbS8gCQ/7ulxyfhngL1tL5e924s0Woi8t0LJAW29IQO2u4ZmU5zsocPh0
+         2dzOm8U/ZfruAsE8t7dBvW9Wz2UBN0BTD3LicmJRfasxu+uMfh+fNPppt5JF7il1fd2W
+         2e9uYeBW3+H5xLkifmQ5BO9Na+Xb85Js7T/zD1ywcWXi7iN5zQf2wMNX6cjWMIaYPqMY
+         SFUsYGdVfcu+cJZgCyhwFoF7GPsfEL3z8uaNm0TPo66r2uVQ/QmTSHEYxFG//KltWuRw
+         6/jXnl6VVZU4L8MkPwppc79SmY34wUJFSH+CpEHxUbJ3SSVx7SikjVd7KiLrJwzRYNgb
+         KQ3A==
+X-Gm-Message-State: AOAM532nVIwG8uWZAvJhWlDsJRjAfhQOMLir4daXx+gkmBaNDXxzsBqv
+        ylAz6CtXEaB45DsftqLHT0wINA==
+X-Google-Smtp-Source: ABdhPJzLdhaDX6/v6n0jKbkwolcavpJW6jj2Pl4fouvQn8W4qE2qcwsgn7Ax+Pg2ygmQWji3jSEYNg==
+X-Received: by 2002:a05:6638:1649:: with SMTP id a9mr1297090jat.115.1598622877380;
+        Fri, 28 Aug 2020 06:54:37 -0700 (PDT)
+Received: from [192.168.1.58] ([65.144.74.34])
+        by smtp.gmail.com with ESMTPSA id l144sm623447ill.6.2020.08.28.06.54.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Aug 2020 06:54:36 -0700 (PDT)
+Subject: Re: [PATCH 0/1] block io layer filters api
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>, masahiroy@kernel.org,
+        michal.lkml@markovi.net, koct9i@gmail.com, jack@suse.cz,
+        damien.lemoal@wdc.com, ming.lei@redhat.com, steve@sk2.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-block@vger.kernel.org
+References: <1598555619-14792-1-git-send-email-sergei.shtepa@veeam.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <7a517822-6be2-7d0d-fae3-31472c85f543@kernel.dk>
+Date:   Fri, 28 Aug 2020 07:54:35 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200825231438.15682-1-natechancellor@gmail.com> <CAKwvOdnCGoRHxgoV+qZNZQx04jwcttckCoxTpFKp9C=jRHw5+w@mail.gmail.com>
-In-Reply-To: <CAKwvOdnCGoRHxgoV+qZNZQx04jwcttckCoxTpFKp9C=jRHw5+w@mail.gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 28 Aug 2020 22:38:25 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=Nr+kRoObN_FaGoHEBig404Ax3VU3=Qjt_o_yPR45OA@mail.gmail.com>
-Message-ID: <CAK7LNAR=Nr+kRoObN_FaGoHEBig404Ax3VU3=Qjt_o_yPR45OA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/llvm: Improve formatting of commands,
- variables, and arguments
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1598555619-14792-1-git-send-email-sergei.shtepa@veeam.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 10:36 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Tue, Aug 25, 2020 at 4:14 PM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > While reviewing a separate patch, I noticed that the formatting of the
-> > commands, variables, and arguments was not in a monospaced font like the
-> > rest of the Kbuild documentation (see kbuild/kconfig.rst for an
-> > example). This is due to a lack of "::" before indented command blocks
-> > and single backticks instead of double backticks for inline formatting.
-> >
-> > Add those so that the document looks nicer in an HTML format, while not
-> > ruining the look in plain text.
-> >
-> > As a result of this, we can remove the escaped backslashes in the last
-> > code block and move them to single backslashes.
-> >
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
->
-> Ah, yeah, I saw that. Thanks for the fix!
-> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
->
-> > ---
-> >  Documentation/kbuild/llvm.rst | 26 +++++++++++++-------------
-> >  1 file changed, 13 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> > index 2aac50b97921..334df758dce3 100644
-> > --- a/Documentation/kbuild/llvm.rst
-> > +++ b/Documentation/kbuild/llvm.rst
-> > @@ -23,8 +23,8 @@ supports C and the GNU C extensions required by the kernel, and is pronounced
-> >  Clang
-> >  -----
-> >
-> > -The compiler used can be swapped out via `CC=` command line argument to `make`.
-> > -`CC=` should be set when selecting a config and during a build.
-> > +The compiler used can be swapped out via ``CC=`` command line argument to ``make``.
-> > +``CC=`` should be set when selecting a config and during a build. ::
-> >
-> >         make CC=clang defconfig
-> >
-> > @@ -34,33 +34,33 @@ Cross Compiling
-> >  ---------------
-> >
-> >  A single Clang compiler binary will typically contain all supported backends,
-> > -which can help simplify cross compiling.
-> > +which can help simplify cross compiling. ::
-> >
-> >         ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
-> >
-> > -`CROSS_COMPILE` is not used to prefix the Clang compiler binary, instead
-> > -`CROSS_COMPILE` is used to set a command line flag: `--target <triple>`. For
-> > -example:
-> > +``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
-> > +``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
-> > +example: ::
-> >
-> >         clang --target aarch64-linux-gnu foo.c
-> >
-> >  LLVM Utilities
-> >  --------------
-> >
-> > -LLVM has substitutes for GNU binutils utilities. Kbuild supports `LLVM=1`
-> > -to enable them.
-> > +LLVM has substitutes for GNU binutils utilities. Kbuild supports ``LLVM=1``
-> > +to enable them. ::
-> >
-> >         make LLVM=1
-> >
-> > -They can be enabled individually. The full list of the parameters:
-> > +They can be enabled individually. The full list of the parameters: ::
-> >
-> > -       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \\
-> > -         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \\
-> > -         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \\
-> > +       make CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm STRIP=llvm-strip \
-> > +         OBJCOPY=llvm-objcopy OBJDUMP=llvm-objdump OBJSIZE=llvm-size \
-> > +         READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar \
-> >           HOSTLD=ld.lld
-> >
-> >  Currently, the integrated assembler is disabled by default. You can pass
-> > -`LLVM_IAS=1` to enable it.
-> > +``LLVM_IAS=1`` to enable it.
-> >
-> >  Getting Help
-> >  ------------
-> >
-> > base-commit: abb3438d69fb6dd5baa4ae23eafbf5b87945eff1
-> > --
+On 8/27/20 1:13 PM, Sergei Shtepa wrote:
+> Hello everyone! Requesting for your comments and suggestions.
+> 
+> We propose new kernel API that should be beneficial for out-of-tree
+> kernel modules of multiple backup vendors: block layer filter API.
 
+That's just a non-starter, I'm afraid. We generally don't carry
+infrastructure in the kernel for out-of-tree modules, that includes
+even exports of existing code.
 
-Applied to linux-kbuild/fixes.
-Thanks.
+If there's a strong use case *in* the kernel, then such functionality
+could be entertained.
 
 -- 
-Best Regards
-Masahiro Yamada
+Jens Axboe
+
