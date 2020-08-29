@@ -2,96 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13CF725617E
-	for <lists+linux-kbuild@lfdr.de>; Fri, 28 Aug 2020 21:45:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE4422564D1
+	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Aug 2020 07:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726010AbgH1Tpr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 28 Aug 2020 15:45:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48700 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725969AbgH1Tpr (ORCPT
+        id S1726405AbgH2FQq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 29 Aug 2020 01:16:46 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:35285 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726001AbgH2FQp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 28 Aug 2020 15:45:47 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2086EC061264
-        for <linux-kbuild@vger.kernel.org>; Fri, 28 Aug 2020 12:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=8PD1/BpWIslNswVVkVaTPc5yN2SEZqOXPj0yWOEuEfg=; b=1II6VGylHmYMayF8THV7nintSS
-        SXR08N9dXuR7D7meL9PZjVs7PFOuh1SSrwtcgYZVG419aVEd/icMipnklfiCO8zQ/q6QWJl6GT4vZ
-        P6SuxuUGAE7CERIQN/L6SkLn01sa8mU+XYpIQb4tnVe4upqkNlfE2Y9AWVpBlM8919wWvMUP+eGjG
-        icoq3gkn6l8JqNz5RwW/C446BSjCqVQl5FH+y6SFrMhF5yQFZ1puvEDttT16K1U2ll62EM+MAWEkv
-        r+FRWm65el5/MB9bBuPeeeAlJn3JwtcUCXErYEEeNXoIdkLYz8YKnPjkuTZZ9uLd0TXzGZEl3nw0l
-        ZP4ONiag==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kBkJk-0001a1-BQ; Fri, 28 Aug 2020 19:45:45 +0000
-Subject: Re: ia64 kbuild warning message
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>
-References: <9c333a75-a851-a055-e879-0967c32e2300@infradead.org>
- <CAK7LNAQ25mHHZJaShczfiS=YiZ77EqhjX5QaYubpyPE2Axw4vw@mail.gmail.com>
- <CAK7LNAQidMqfmECAGu-2aVNCcLkV0iuV-ZHkCZG++t5v2KRyGQ@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1eb5107c-83ea-4d7e-08e1-8f19f1218542@infradead.org>
-Date:   Fri, 28 Aug 2020 12:45:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Sat, 29 Aug 2020 01:16:45 -0400
+Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 07T5FRB7012582;
+        Sat, 29 Aug 2020 14:15:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 07T5FRB7012582
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1598678128;
+        bh=LVsIE8pOMnNIR6mtGLK7uU0ZbQuhigKtOBoHF9Cro6g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=p2mhvfjq+pNdkZEq+VGJVU+MKYFBXjXGA6p0PU8N2KD08IuRIrcGbrjA8zQ+af9Nf
+         GazXaKt4Yx4PGQJyVKgvcwvj148TORAz3mEJn9VSHaOGxg/qWkCbbjEENE474n0Mzr
+         Q7aprxpqwjPAIbx5f/JNcAl1+hB+gQBkiuxgtctnc8YzRSoMy93rNGaTGMMRg96dxT
+         qXZifa8f+9nL1aj1ewlKHvbjaVzYBKNro/fhiu4X4u8btqWj+5BvmplGWwWQPla31r
+         8AJmuCoG11Ra5LFdzDTVCA5Sh8/Sm1ijoBmv1YrpXbRlEktPKeuORJGCDFThf4f8zH
+         RdPnFXgZKdj+g==
+X-Nifty-SrcIP: [126.90.211.135]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>,
+        linux-ia64@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Dmitry Safonov <0x7f454c46@gmail.com>,
+        afzal mohammed <afzal.mohd.ma@gmail.com>,
+        linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] ia64: clean-up header dependency and build process, fix build warning
+Date:   Sat, 29 Aug 2020 14:15:21 +0900
+Message-Id: <20200829051524.706585-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQidMqfmECAGu-2aVNCcLkV0iuV-ZHkCZG++t5v2KRyGQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/28/20 12:34 PM, Masahiro Yamada wrote:
-> On Sat, Aug 29, 2020 at 2:41 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
->>
->> On Sat, Aug 29, 2020 at 1:34 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>>
->>> Hi Yamada-san,
->>>
->>> I am seeing this on ia64 builds:
->>>
->>> ../scripts/Makefile.build:68: 'arch/ia64/kernel/palinfo.ko' will not be built even though obj-m is specified.
->>> ../scripts/Makefile.build:69: You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.
->>>
->>> with CONFIG_IA64_PALINFO=y
->>>
->>> Can you explain, please?
->>>
->>
->>
->> This warning is emitted in the archprepare stage.
->>
->>
->> The following code in arch/ia64/Makefile:
->>
->> make_nr_irqs_h:
->>         $(Q)$(MAKE) $(build)=arch/ia64/kernel include/generated/nr-irqs.h
->>
->>
->>
->> I am wondering if we could merge
->> arch/ia64/kernel/nr-irqs.c into
->> arch/ia64/kernel/asm-offsets.c
-> 
-> 
-> 
-> OK, I figured out how to clean this up.
-> 
-> I will send a patch set tomorrow.
-> For now, I need some sleep.
 
-Sounds good.
+Randy Dunlap reports the following warning with CONFIG_IA64_PALINFO=m:
 
-thanks.
+../scripts/Makefile.build:68: 'arch/ia64/kernel/palinfo.ko' will not be built even though obj-m is specified.
+../scripts/Makefile.build:69: You cannot use subdir-y/m to visit a module Makefile. Use obj-y/m instead.
+
+This comes from the fact Kbuild descends into arch/ia64/kernel/ twice.
+
+First, to generate <generated/nr-irqs.h>,
+Second, to build kernel and module objects.
+
+The warning is emitted in the first descend because it is not the
+intended usage.
+
+I looked into the code closely, and noticed arch/ia64/kernel/nr-irqs.c
+was not needed in the first place.
+
+It was separated out of arch/ia64/kernel/asm-offsets.c just because
+<asm/mca.h> was including too many bogus headers.
+
+IA64 is not actively maintained, and there exists unneeded obsolete code.
+
+The first two patches are the outcome when I played with ARCH=ia64 builds,
+but not prerequisites for 3/3. Anyway I believe they are nice cleanups
+and folded in this patch set.
+
+3/3 is the important one to fix the false positive warning,
+and it is a nice cleanup too.
+
+
+
+Masahiro Yamada (3):
+  ia64: do not typedef struct pal_min_state_area_s
+  ia64: remove unneeded header includes from <asm/mca.h>
+  ia64: remove generated/nr-irqs.h generation to fix build warning
+
+ arch/ia64/Makefile             |  6 ------
+ arch/ia64/include/asm/irq.h    |  4 +++-
+ arch/ia64/include/asm/mca.h    | 11 ++++-------
+ arch/ia64/include/asm/pal.h    |  4 ++--
+ arch/ia64/include/asm/sal.h    |  2 +-
+ arch/ia64/kernel/Makefile      |  5 -----
+ arch/ia64/kernel/asm-offsets.c | 18 +++++++++---------
+ arch/ia64/kernel/efi.c         |  1 +
+ arch/ia64/kernel/mca.c         |  5 +++--
+ arch/ia64/kernel/mca_drv.c     |  2 +-
+ arch/ia64/kernel/nr-irqs.c     | 22 ----------------------
+ 11 files changed, 24 insertions(+), 56 deletions(-)
+ delete mode 100644 arch/ia64/kernel/nr-irqs.c
 
 -- 
-~Randy
+2.25.1
 
