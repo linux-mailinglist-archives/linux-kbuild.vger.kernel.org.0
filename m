@@ -2,30 +2,30 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73B8E2565E8
+	by mail.lfdr.de (Postfix) with ESMTP id E1AC12565E9
 	for <lists+linux-kbuild@lfdr.de>; Sat, 29 Aug 2020 10:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727955AbgH2IPX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1727950AbgH2IPX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Sat, 29 Aug 2020 04:15:23 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:47652 "EHLO
+Received: from conuserg-09.nifty.com ([210.131.2.76]:47660 "EHLO
         conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727093AbgH2IPA (ORCPT
+        with ESMTP id S1727780AbgH2IPA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Sat, 29 Aug 2020 04:15:00 -0400
 Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 07T8ELfl014307;
-        Sat, 29 Aug 2020 17:14:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07T8ELfl014307
+        by conuserg-09.nifty.com with ESMTP id 07T8ELfm014307;
+        Sat, 29 Aug 2020 17:14:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 07T8ELfm014307
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1598688864;
-        bh=BZ/dWAzubQyO+3A+DUU3NFdKv2g0TsDuGaAwSvn85Q4=;
+        bh=1hIq6ZEqp/v1iB+uAOdAiLH/pwMC3I09n/InGsbAoME=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rMIyff6jmWXKQZaAWJoFetXJvi6AkLmmfjLm0A8DaaIFux1P8UUNiR9GE7weLmPb1
-         mwQSF+0JMdnmdMxAoWEtSA55TWC6UjvROYbbsGKMAQi1VXrZ/SeoOZQ7V7Q2yQz8oo
-         6tfyYipNUWJkz8TYHRXlhOq4txtZj9eQ8QzIKA2whe1pndGrE9xBTLit5xESHW1A2M
-         X3KE3JT53KVctB3GTX/fCEnIShI3bnRCb+2jz7E1K+rb6OD5m+LrJaIp92RVcSttti
-         JXQatinI30tl14k31MUi/WO8HrHnMKH6y1BgtaCtOLDFg5JruV3O8HU0jnj3VB+RGW
-         c8DtucGKeqDvg==
+        b=b+p5ipOtVuitKAgcNXrGjRHbfeBTHBOB/sdoucymsTuJcidjFCIl/dHZPbgurzUR3
+         CD+Te41EEUbs50QN33xtO33wYZiYeqnz9Qi0LS/oNDlVsbjqC1LHQ2AxDxrKspa7Qa
+         7BumVGgSzKrqoR+b8RHRjWsmWkBqB+yDcuTl9UsqtXZ3BdLGQtK9oNok52X7agwgOZ
+         xzA9AvPtehCvf9v0K7mCq0okl1X68Z4xdZlpuPrkgBO7pM3X0ghA35LST2RWEZbn5s
+         92GXsyOouPAs+1HQsGRkuz4RQMP5pKOAuT/5UWKruCD4adg0KE8s9+UW6B1TKMZYRa
+         Jh2b/CYJyCURQ==
 X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -33,9 +33,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 05/11] kconfig: qconf: show data column all the time
-Date:   Sat, 29 Aug 2020 17:14:11 +0900
-Message-Id: <20200829081417.725978-5-masahiroy@kernel.org>
+Subject: [PATCH 06/11] kconfig: qconf: allow to edit "int", "hex", "string" menus in-place
+Date:   Sat, 29 Aug 2020 17:14:12 +0900
+Message-Id: <20200829081417.725978-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200829081417.725978-1-masahiroy@kernel.org>
 References: <20200829081417.725978-1-masahiroy@kernel.org>
@@ -46,143 +46,208 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The next commit will allow users to edit "int", "hex", "string"
-menus in-place from the data column.
+Previously, when you double-clicked the "int", "hex", or "string" menus,
+a line-edit gadget showed up to allow you to input the value, which
+looked clumsy.
 
-The data column should be always displayed.
+Also, it was buggy; the editor opened even if the config option was not
+editable. For example, just try to double-click CC_VERSION_TEXT, which
+has no prompt.
+
+This commit sub-classes QStyleItemDelegate to allow users to edit
+"int", "hex", "string" menus in-place. Just double-click (or press
+the F2 key) in the data column. Then, an editor widget is placed on
+top of the item view.
+
+The two methods are overridden:
+
+ createEditor - process only when the data column is being accessed
+ and the menu is visible. Otherwise, return nullptr to disallow editing.
+
+ setModelData - take the new data from the editor, and set it to the
+ addressed symbol. If it was successful, update all the list windows.
+ Otherwise, (the reason for the failure is possibly the input data was
+ out of range), set the old value back to the editor.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
- scripts/kconfig/qconf.cc | 29 +----------------------------
- scripts/kconfig/qconf.h  |  5 +----
- 2 files changed, 2 insertions(+), 32 deletions(-)
+ scripts/kconfig/qconf.cc | 93 ++++++++++++++++++++++++++++++++--------
+ scripts/kconfig/qconf.h  | 15 +++++++
+ 2 files changed, 91 insertions(+), 17 deletions(-)
 
 diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index 035101984bd3..c48e48a3735f 100644
+index c48e48a3735f..d592f05363c9 100644
 --- a/scripts/kconfig/qconf.cc
 +++ b/scripts/kconfig/qconf.cc
-@@ -288,7 +288,7 @@ void ConfigLineEdit::keyPressEvent(QKeyEvent* e)
- ConfigList::ConfigList(ConfigView* p, const char *name)
- 	: Parent(p),
- 	  updateAll(false),
--	  showName(false), showRange(false), showData(false), mode(singleMode), optMode(normalOpt),
-+	  showName(false), showRange(false), mode(singleMode), optMode(normalOpt),
- 	  rootEntry(0), headerPopup(0)
- {
- 	setObjectName(name);
-@@ -307,7 +307,6 @@ ConfigList::ConfigList(ConfigView* p, const char *name)
- 		configSettings->beginGroup(name);
- 		showName = configSettings->value("/showName", false).toBool();
- 		showRange = configSettings->value("/showRange", false).toBool();
--		showData = configSettings->value("/showData", false).toBool();
- 		optMode = (enum optionMode)configSettings->value("/optionMode", 0).toInt();
- 		configSettings->endGroup();
- 		connect(configApp, SIGNAL(aboutToQuit()), SLOT(saveSettings()));
-@@ -338,7 +337,6 @@ bool ConfigList::menuSkip(struct menu *menu)
- 
- void ConfigList::reinit(void)
- {
--	hideColumn(dataColIdx);
- 	hideColumn(yesColIdx);
- 	hideColumn(modColIdx);
- 	hideColumn(noColIdx);
-@@ -351,8 +349,6 @@ void ConfigList::reinit(void)
- 		showColumn(modColIdx);
- 		showColumn(yesColIdx);
- 	}
--	if (showData)
--		showColumn(dataColIdx);
- 
- 	updateListAll();
- }
-@@ -375,7 +371,6 @@ void ConfigList::saveSettings(void)
- 		configSettings->beginGroup(objectName());
- 		configSettings->setValue("/showName", showName);
- 		configSettings->setValue("/showRange", showRange);
--		configSettings->setValue("/showData", showData);
- 		configSettings->setValue("/optionMode", (int)optMode);
- 		configSettings->endGroup();
- 	}
-@@ -918,15 +913,6 @@ void ConfigList::contextMenuEvent(QContextMenuEvent *e)
- 			action, SLOT(setChecked(bool)));
- 		action->setChecked(showRange);
- 		headerPopup->addAction(action);
+@@ -180,15 +180,7 @@ void ConfigItem::updateMenu(void)
+ 	case S_INT:
+ 	case S_HEX:
+ 	case S_STRING:
+-		const char* data;
 -
--		action = new QAction("Show Data", this);
--		action->setCheckable(true);
--		connect(action, SIGNAL(toggled(bool)),
--			parent(), SLOT(setShowData(bool)));
--		connect(parent(), SIGNAL(showDataChanged(bool)),
--			action, SLOT(setChecked(bool)));
--		action->setChecked(showData);
--		headerPopup->addAction(action);
+-		data = sym_get_string_value(sym);
+-
+-		setText(dataColIdx, data);
+-		if (type == S_STRING)
+-			prompt = QString("%1: %2").arg(prompt).arg(data);
+-		else
+-			prompt = QString("(%2) %1").arg(prompt).arg(data);
++		setText(dataColIdx, sym_get_string_value(sym));
+ 		break;
  	}
- 
- 	headerPopup->exec(e->globalPos());
-@@ -970,15 +956,6 @@ void ConfigView::setShowRange(bool b)
+ 	if (!sym_has_value(sym) && visible)
+@@ -229,6 +221,17 @@ void ConfigItem::init(void)
+ 		if (list->mode != fullMode)
+ 			setExpanded(true);
+ 		sym_calc_value(menu->sym);
++
++		if (menu->sym) {
++			enum symbol_type type = menu->sym->type;
++
++			// Allow to edit "int", "hex", and "string" in-place in
++			// the data column. Unfortunately, you cannot specify
++			// the flags per column. Set ItemIsEditable for all
++			// columns here, and check the column in createEditor().
++			if (type == S_INT || type == S_HEX || type == S_STRING)
++				setFlags(flags() | Qt::ItemIsEditable);
++		}
+ 	}
+ 	updateMenu();
+ }
+@@ -249,6 +252,61 @@ ConfigItem::~ConfigItem(void)
  	}
  }
  
--void ConfigView::setShowData(bool b)
--{
--	if (list->showData != b) {
--		list->showData = b;
--		list->reinit();
--		emit showDataChanged(b);
--	}
--}
--
- void ConfigList::setAllOpen(bool open)
++QWidget *ConfigItemDelegate::createEditor(QWidget *parent,
++					  const QStyleOptionViewItem &option,
++					  const QModelIndex &index) const
++{
++	ConfigItem *item;
++
++	// Only the data column is editable
++	if (index.column() != dataColIdx)
++		return nullptr;
++
++	// You cannot edit invisible menus
++	item = static_cast<ConfigItem *>(index.internalPointer());
++	if (!item || !item->menu || !menu_is_visible(item->menu))
++		return nullptr;
++
++	return QStyledItemDelegate::createEditor(parent, option, index);
++}
++
++void ConfigItemDelegate::setModelData(QWidget *editor,
++				      QAbstractItemModel *model,
++				      const QModelIndex &index) const
++{
++	QLineEdit *lineEdit;
++	ConfigItem *item;
++	struct symbol *sym;
++	bool success;
++
++	lineEdit = qobject_cast<QLineEdit *>(editor);
++	// If this is not a QLineEdit, use the parent's default.
++	// (does this happen?)
++	if (!lineEdit)
++		goto parent;
++
++	item = static_cast<ConfigItem *>(index.internalPointer());
++	if (!item || !item->menu)
++		goto parent;
++
++	sym = item->menu->sym;
++	if (!sym)
++		goto parent;
++
++	success = sym_set_string_value(sym, lineEdit->text().toUtf8().data());
++	if (success) {
++		ConfigList::updateListForAll();
++	} else {
++		QMessageBox::information(editor, "qconf",
++			"Cannot set the data (maybe due to out of range).\n"
++			"Setting the old value.");
++		lineEdit->setText(sym_get_string_value(sym));
++	}
++
++parent:
++	QStyledItemDelegate::setModelData(editor, model, index);
++}
++
+ ConfigLineEdit::ConfigLineEdit(ConfigView* parent)
+ 	: Parent(parent)
  {
- 	QTreeWidgetItemIterator it(this);
-@@ -1470,9 +1447,6 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	QAction *showRangeAction = new QAction("Show Range", this);
- 	  showRangeAction->setCheckable(true);
- 	  connect(showRangeAction, SIGNAL(toggled(bool)), configView, SLOT(setShowRange(bool)));
--	QAction *showDataAction = new QAction("Show Data", this);
--	  showDataAction->setCheckable(true);
--	  connect(showDataAction, SIGNAL(toggled(bool)), configView, SLOT(setShowData(bool)));
+@@ -314,6 +372,8 @@ ConfigList::ConfigList(ConfigView* p, const char *name)
  
- 	QActionGroup *optGroup = new QActionGroup(this);
- 	optGroup->setExclusive(true);
-@@ -1525,7 +1499,6 @@ ConfigMainWindow::ConfigMainWindow(void)
- 	menu = menuBar()->addMenu("&Option");
- 	menu->addAction(showNameAction);
- 	menu->addAction(showRangeAction);
--	menu->addAction(showDataAction);
- 	menu->addSeparator();
- 	menu->addActions(optGroup->actions());
- 	menu->addSeparator();
+ 	showColumn(promptColIdx);
+ 
++	setItemDelegate(new ConfigItemDelegate(this));
++
+ 	allLists.append(this);
+ 
+ 	reinit();
+@@ -534,10 +594,7 @@ void ConfigList::changeValue(ConfigItem* item)
+ 		if (oldexpr != newexpr)
+ 			ConfigList::updateListForAll();
+ 		break;
+-	case S_INT:
+-	case S_HEX:
+-	case S_STRING:
+-		parent()->lineEdit->show(item);
++	default:
+ 		break;
+ 	}
+ }
+@@ -1797,10 +1854,12 @@ void ConfigMainWindow::showIntro(void)
+ 	static const QString str =
+ 		"Welcome to the qconf graphical configuration tool.\n\n"
+ 
+-		"For each option, a blank box indicates the feature is "
+-		"disabled, a check indicates it is enabled, and a dot "
+-		"indicates that it is to be compiled as a module. Clicking on "
+-		"the box will cycle through the three states.\n\n"
++		"For bool and tristate options, a blank box indicates the "
++		"feature is disabled, a check indicates it is enabled, and a "
++		"dot indicates that it is to be compiled as a module. Clicking "
++		"on the box will cycle through the three states. For int, hex, "
++		"and string options, double-clicking or pressing F2 on the "
++		"Value cell will allow you to edit the value.\n\n"
+ 
+ 		"If you do not see an option (e.g., a device driver) that you "
+ 		"believe should be present, try turning on Show All Options "
 diff --git a/scripts/kconfig/qconf.h b/scripts/kconfig/qconf.h
-index 818e00617ae3..d01a6c620dbb 100644
+index d01a6c620dbb..b02acf2464ec 100644
 --- a/scripts/kconfig/qconf.h
 +++ b/scripts/kconfig/qconf.h
-@@ -101,7 +101,7 @@ public slots:
+@@ -11,6 +11,7 @@
+ #include <QPushButton>
+ #include <QSettings>
+ #include <QSplitter>
++#include <QStyledItemDelegate>
+ #include <QTextBrowser>
+ #include <QTreeWidget>
  
- 	bool updateAll;
+@@ -172,6 +173,20 @@ class ConfigItem : public QTreeWidgetItem {
+ 	static QIcon menuIcon, menubackIcon;
+ };
  
--	bool showName, showRange, showData;
-+	bool showName, showRange;
- 	enum listMode mode;
- 	enum optionMode optMode;
- 	struct menu *rootEntry;
-@@ -196,15 +196,12 @@ class ConfigView : public QWidget {
- 
- 	bool showName(void) const { return list->showName; }
- 	bool showRange(void) const { return list->showRange; }
--	bool showData(void) const { return list->showData; }
- public slots:
- 	void setShowName(bool);
- 	void setShowRange(bool);
--	void setShowData(bool);
- signals:
- 	void showNameChanged(bool);
- 	void showRangeChanged(bool);
--	void showDataChanged(bool);
- public:
- 	ConfigList* list;
- 	ConfigLineEdit* lineEdit;
++class ConfigItemDelegate : public QStyledItemDelegate
++{
++private:
++	struct menu *menu;
++public:
++	ConfigItemDelegate(QObject *parent = nullptr)
++		: QStyledItemDelegate(parent) {}
++	QWidget *createEditor(QWidget *parent,
++			      const QStyleOptionViewItem &option,
++			      const QModelIndex &index) const override;
++	void setModelData(QWidget *editor, QAbstractItemModel *model,
++			  const QModelIndex &index) const override;
++};
++
+ class ConfigLineEdit : public QLineEdit {
+ 	Q_OBJECT
+ 	typedef class QLineEdit Parent;
 -- 
 2.25.1
 
