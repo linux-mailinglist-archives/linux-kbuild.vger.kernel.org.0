@@ -2,88 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4BD82577BD
-	for <lists+linux-kbuild@lfdr.de>; Mon, 31 Aug 2020 12:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA55C257A86
+	for <lists+linux-kbuild@lfdr.de>; Mon, 31 Aug 2020 15:33:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727105AbgHaKwH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 31 Aug 2020 06:52:07 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:58101 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbgHaKvu (ORCPT
+        id S1727815AbgHaNdd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 31 Aug 2020 09:33:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726984AbgHaN1S (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 31 Aug 2020 06:51:50 -0400
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 07VApMxL022661;
-        Mon, 31 Aug 2020 19:51:22 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 07VApMxL022661
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1598871082;
-        bh=wKbrE85v981WXDPiQLiXWWfJWxnP8Gc5ttwDy8z7Dzw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=EVmQNvTGA1lk7Ssdmb/uCxyH/g/38W5zkj7hrY5Hj4lo4Kd/BTmOZKKTcYhgMTKMb
-         JLhaJ/G0oFw5+p+3TkPOiPhuvq9acLcdtExFGhmadB/mKmSgfjLZDLDeVVKxz4K88b
-         0rF6khC0P7qUDQcm8EoHFo25IBhI2lVQq/aA2vm3d+IOqRIe0YV1j1KPd07FFIKH2g
-         FCDMn5ckkTo1zKcf59U5XzxKaVRlB9bOwpUOp88NHgZrCnMnkKVNNyratEivE4ha7j
-         LqpoyJmN49n1rmWTtX95cVcV3soq+08SBc9+fwb38H2FZXnfw5VWJ7JVgn+dAyRWj5
-         WquoELf/TEtjQ==
-X-Nifty-SrcIP: [209.85.216.43]
-Received: by mail-pj1-f43.google.com with SMTP id ls14so2758434pjb.3;
-        Mon, 31 Aug 2020 03:51:22 -0700 (PDT)
-X-Gm-Message-State: AOAM533m+m88gYnIBM6+YvCL6YvkNX3W5gd0rzMM8zY+ZTyxd2obaX7+
-        SApnhBMVbVxHGY5fFf8Y8Y4tnPl0NYS2q1bwATI=
-X-Google-Smtp-Source: ABdhPJy3F0F/AITivxE6ZFqBBnNyFmRERV4g59yN27GzaTQZZqMqRk1OzvDYJ7fa4nFBWAm9EfM9XRgyziJfuSgyGMs=
-X-Received: by 2002:a17:90a:fb53:: with SMTP id iq19mr847822pjb.153.1598871081699;
- Mon, 31 Aug 2020 03:51:21 -0700 (PDT)
+        Mon, 31 Aug 2020 09:27:18 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D331C0619EC
+        for <linux-kbuild@vger.kernel.org>; Mon, 31 Aug 2020 06:26:29 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id y4so5605893ljk.8
+        for <linux-kbuild@vger.kernel.org>; Mon, 31 Aug 2020 06:26:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
+        b=GvS5ONqONS+SkRITeLOYK+nEKqeftr2e4zlw8iOljUdVaT4ei8mXK/eMe5gdebbxul
+         qejaiESAwrQo/TwRSbsV2RgWo1cR2hwlUx3zHZP6xDZHfKXln6WrMjydy1j5UDKStApO
+         83k6OMYB/O4HA/D4ksOUSzU9ZpUpEqmaButNQtqR6C29H3+mAHSKCbPlI067sUdB20EE
+         ixBTW9S1A2kyuIbzfdQN/JSL5cc/RZ+/MNHv7Yis6pX8HuuJNUwic97zwHx5MU4x4PUn
+         9VwFvJUStfi4hRDyGGDy0ijlpU3bNrs4tLAIT0WFfsT49jK8zJO72eI6R18XAB60K+Uk
+         aflg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
+        b=jSklfHP+CUkbVj//bPrhPHSkG0X4z96hoXH8xz9oq8nbShWbAD2mOXR46FKQD7avmh
+         G+OT+5bYdGCDp5u5NQE3SlAreZWteazrAIgXv6kcQNUqFFMSaz+jzqBip3u61i8K3NQy
+         0qwY4uLr319zSKiEY7/viEm3fyJCxahBzARJYFDqewZ4a04vmugctgktVakxlCxTY8Ii
+         TCSrSQxLHsPQOB7Fqlzpjxc1mn7GuBkL+SD4oV18ciu+Not6K2g83+vNs7rbz4rwYvfs
+         lQHB7mQvGUegvf9FBxZ3FFjsHeKMAsFdDCE42d3d56F02+XfH2k8g3/2fS+acFB3/XXq
+         UKeA==
+X-Gm-Message-State: AOAM532m3iaMgrEnbw/BaO3BtYnOgv73OK8hwG3r6ym359EI2h8hDaWm
+        djvQA1ClpgihSiOf8iSoZBYk5/FAY5lmAUEn/Is=
+X-Google-Smtp-Source: ABdhPJx5h73UdWdmqN0ZXklbmHxhGiANR3jS4fz3EetfufGWkyufJh3oSK0WTBZL+72KPBBqNF1EE+YcTj5isQyt2i4=
+X-Received: by 2002:a2e:5316:: with SMTP id h22mr714236ljb.167.1598880387154;
+ Mon, 31 Aug 2020 06:26:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200831065223.6304-1-efremov@linux.com>
-In-Reply-To: <20200831065223.6304-1-efremov@linux.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 31 Aug 2020 19:50:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARgMRG8B3DRqWJvbVpq80PjRRFyesMqmUbKXxR9MRfbaQ@mail.gmail.com>
-Message-ID: <CAK7LNARgMRG8B3DRqWJvbVpq80PjRRFyesMqmUbKXxR9MRfbaQ@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: remove redundant assignment prompt = prompt
-To:     Denis Efremov <efremov@linux.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Reply-To: marie_avis12@yahoo.com
+Received: by 2002:a2e:9817:0:0:0:0:0 with HTTP; Mon, 31 Aug 2020 06:26:26
+ -0700 (PDT)
+From:   Miss Maris Avis <marie.avis11@gmail.com>
+Date:   Mon, 31 Aug 2020 13:26:26 +0000
+X-Google-Sender-Auth: aulnVZG-1gSOcZsrnz7-vOB6QCo
+Message-ID: <CADTVshPC=1cJsw0xvUiUZDDBg3VVdBcHJ+pk-zuvR4tycntngg@mail.gmail.com>
+Subject: Hello
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Aug 31, 2020 at 3:52 PM Denis Efremov <efremov@linux.com> wrote:
->
-> Semi-automatic removing of localization macros changed the line
-> from "prompt = _(prompt);" to "prompt = prompt;". Drop the
-> reduntand assignment.
->
-> Fixes: 694c49a7c01c ("kconfig: drop localization support")
-> Signed-off-by: Denis Efremov <efremov@linux.com>
-> ---
+My Dear,
 
-Applied to linux-kbuild/fixes. Thanks.
+My name is Miss Marie Avis the only daughter of Mr. Gabriel Avis, my
+Father was dealing in Cocoa and Timber in this country before his
+death,  It is my pleasure to contact you for a business venture which
+I intend to establish in your country. Though I have not met with you
+before but I believe one has to risk confiding before you can succeed
+sometimes in life.
 
+I can confide in you for my brighter future since you are a human
+being like me. There is this huge amount of Ten Million five hundred
+thousand United States dollars. ($10.500.000.00) which my late Father
+kept for me in a suspense account with one of the bank here in Abidjan
+Cote d'Ivoire before he was assassinated by unknown persons, Now I
+have decided to invest these money in your country or anywhere safe
+enough for me.
 
->  scripts/kconfig/nconf.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/scripts/kconfig/nconf.c b/scripts/kconfig/nconf.c
-> index daf1c1506ec4..e0f965529166 100644
-> --- a/scripts/kconfig/nconf.c
-> +++ b/scripts/kconfig/nconf.c
-> @@ -755,7 +755,6 @@ static void build_conf(struct menu *menu)
->                         switch (ptype) {
->                         case P_MENU:
->                                 child_count++;
-> -                               prompt = prompt;
->                                 if (single_menu_mode) {
->                                         item_make(menu, 'm',
->                                                 "%s%*c%s",
-> --
-> 2.26.2
->
+I want you to help me claim this fund from the bank and have it
+transfer into your personal account in your country for investment
+purposes in your country in these areas:
 
+1). Telecommunication
+2). The transport Industry
+3). Five Star Hotel
+4). Tourism
+5). Real Estate
 
--- 
-Best Regards
-Masahiro Yamada
+If you can be of assistance to me I will be pleased to offer you 20%
+of the total fund.
+
+I await your soonest response.
+
+Respectfully yours,
+Miss Marie Evis
+Tel: +225597438528
