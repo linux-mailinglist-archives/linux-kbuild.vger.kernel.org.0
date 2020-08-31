@@ -2,117 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2F3257ED5
-	for <lists+linux-kbuild@lfdr.de>; Mon, 31 Aug 2020 18:33:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AA5E25810F
+	for <lists+linux-kbuild@lfdr.de>; Mon, 31 Aug 2020 20:25:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727991AbgHaQds (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 31 Aug 2020 12:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbgHaQdr (ORCPT
+        id S1729225AbgHaSZJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 31 Aug 2020 14:25:09 -0400
+Received: from conuserg-12.nifty.com ([210.131.2.79]:32850 "EHLO
+        conuserg-12.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729232AbgHaSZJ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 31 Aug 2020 12:33:47 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E3FBC061573;
-        Mon, 31 Aug 2020 09:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=FgLXQxJ/NDEatUXABHJhKQNrUujDA65Yd4agi39NOzo=; b=LXRzpgPC5zmKZi4+8QM3iTYS4v
-        VbjgtqcGXgzTUik1ho68W1JPwfaC+39tsLPrt88oLnjYC0KJPGi123jum5jlbpX0L+Xu4ufl8VyYL
-        juB0JI5hdkMUvOc/3xtxo6TlLVJ489aP0yPoUVM44jRnJww/E1x3eKpI7LEuvCN0mbMqaLqGeR98r
-        lxklr9IoJ2iqTkbDxm2gBdXZnREwAi7mSOdslHp4x8+iu7kbsEQYhupwnT+zi8Q+64d+aWEVO+vcj
-        4mamsP+mic2mxiFfOTa4xlQeoLEroeVnugYrVaPEBgzMxSQ4RJ3xdjrdbSsFojXsJIkDujW42Ok43
-        csGJXuVQ==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kCmka-0007TN-Gl; Mon, 31 Aug 2020 16:33:44 +0000
-Subject: Re: [PATCH] microblaze: fix kbuild redundant file warning
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        Michal Simek <monstr@monstr.eu>
-References: <21eddfa7-2b7c-00c4-ad5b-40878036f987@infradead.org>
- <f7ce291e-47be-549b-7163-0744e7ea35d5@xilinx.com>
- <CAK7LNARfGY_o25mfB-QyQ5ezQW00OMPpbsN+be8LF_mojX39yA@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b4e755d2-9508-a1e8-2ee5-6bb080cec2ed@infradead.org>
-Date:   Mon, 31 Aug 2020 09:33:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Mon, 31 Aug 2020 14:25:09 -0400
+Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 07VIMj78001504;
+        Tue, 1 Sep 2020 03:22:46 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 07VIMj78001504
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1598898166;
+        bh=gDsWGmkcPm9WZCCqq0YASfbSSSRYZcdi2ssPSrYsKcY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IhZU2MnvJ7cGF9KHjklnkzDYggoJw15wUj3pFLZNEy0Mo1ectN0fiNrHR5Yi5r98w
+         Aw29vLPyVa4PoFzaGGR7OaDGdRruW7jzanXrm5mgWBfQX9kzt3fZxRdMo+SSMqv7Wq
+         fY2VaciLqDsWrElIqNwth4cbkrLx/ihzL8InqhsrIMxPgtOYRPTQd+GkNvR9wD8CbV
+         C59ToNLdXYfTY4hI+9dEHsUggli+kQDrZxBcVg6UwfgfgOLBEvIDUoMGg1HOyyBWvH
+         c7kDh4F1LsI93yNrr+MYTpYQCJx+dIFj2cCqIMqiL78QKk0p3PsRjb5bNZvsTqNg+M
+         knl6RhtaDhykg==
+X-Nifty-SrcIP: [126.90.211.135]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Hu <nickhu@andestech.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH] arch: vdso: add vdso linker script to 'targets' instead of extra-y
+Date:   Tue,  1 Sep 2020 03:22:39 +0900
+Message-Id: <20200831182239.480317-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNARfGY_o25mfB-QyQ5ezQW00OMPpbsN+be8LF_mojX39yA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 8/31/20 9:22 AM, Masahiro Yamada wrote:
-> On Mon, Aug 31, 2020 at 11:01 PM Michal Simek <michal.simek@xilinx.com> wrote:
->>
->> Hi,
->>
->> On 28. 08. 20 20:35, Randy Dunlap wrote:
->>> From: Randy Dunlap <rdunlap@infradead.org>
->>>
->>> Fix build warning since this file is already listed in
->>> include/asm-generic/Kbuild.
->>>
->>> ../scripts/Makefile.asm-generic:25: redundant generic-y found in arch/microblaze/include/asm/Kbuild: hw_irq.h
->>>
->>> Fixes: 7e8f54cd4e26 ("microblaze: Remove empty headers")
->>
->> The patch is fine but this commit is wrong one. At that time
->> asm-generic/Kbuild didn't contain hw_irq.h as mandatory
->>
->> The commit 630f289b7114c0e68519cbd634e2b7ec804ca8c5 added it.
->>
->> Masahiro: Can you please check?
->>
->> Thanks,
->> Michal
-> 
-> 
-> 
-> Michal, you are right.
-> 
-> $ git merge-base 7e8f54cd  630f289
-> 7e8f54cd4e2628fada942fe9ba1fc46e99e94218
-> 
-> 
-> 630f289 has 7e8f54cd
-> as an ancestor.
-> 
-> 
-> You did not do anything wrong.
-> Me neither.
-> Both sides submitted correct patches.
-> 
-> 
-> One unfortunate thing occurred
-> when 630f289 got in via akpm tree.
-> 
-> Andrew Morton manages patches by
-> quilt instead of git.
-> 
-> He rebases patches before sending them to
-> Linus in the MW, but does not check the
-> rebased result.
-> 
-> 
-> You can replace the tag with:
-> 
-> Fixes: 630f289b7114 ("asm-generic: make more kernel-space headers mandatory")
+The vdso linker script is preprocessed on demand.
+Adding it to 'targets' is enough to include the .cmd file.
 
-Thanks to both of you.
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-I'll resend the patch.
+ arch/arm64/kernel/vdso/Makefile     | 2 +-
+ arch/arm64/kernel/vdso32/Makefile   | 2 +-
+ arch/nds32/kernel/vdso/Makefile     | 2 +-
+ arch/powerpc/kernel/vdso32/Makefile | 2 +-
+ arch/powerpc/kernel/vdso64/Makefile | 2 +-
+ arch/s390/kernel/vdso64/Makefile    | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+index 45d5cfe46429..7cd8aafbe96e 100644
+--- a/arch/arm64/kernel/vdso/Makefile
++++ b/arch/arm64/kernel/vdso/Makefile
+@@ -54,7 +54,7 @@ endif
+ GCOV_PROFILE := n
+ 
+ obj-y += vdso.o
+-extra-y += vdso.lds
++targets += vdso.lds
+ CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
+ 
+ # Force dependency (incbin is bad)
+diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+index d6adb4677c25..572475b7b7ed 100644
+--- a/arch/arm64/kernel/vdso32/Makefile
++++ b/arch/arm64/kernel/vdso32/Makefile
+@@ -155,7 +155,7 @@ asm-obj-vdso := $(addprefix $(obj)/, $(asm-obj-vdso))
+ obj-vdso := $(c-obj-vdso) $(c-obj-vdso-gettimeofday) $(asm-obj-vdso)
+ 
+ obj-y += vdso.o
+-extra-y += vdso.lds
++targets += vdso.lds
+ CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
+ 
+ # Force dependency (vdso.s includes vdso.so through incbin)
+diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
+index 7c3c1ccb196e..55df25ef0057 100644
+--- a/arch/nds32/kernel/vdso/Makefile
++++ b/arch/nds32/kernel/vdso/Makefile
+@@ -20,7 +20,7 @@ GCOV_PROFILE := n
+ 
+ 
+ obj-y += vdso.o
+-extra-y += vdso.lds
++targets += vdso.lds
+ CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
+ 
+ # Force dependency
+diff --git a/arch/powerpc/kernel/vdso32/Makefile b/arch/powerpc/kernel/vdso32/Makefile
+index 87ab1152d5ce..fd5072a4c73c 100644
+--- a/arch/powerpc/kernel/vdso32/Makefile
++++ b/arch/powerpc/kernel/vdso32/Makefile
+@@ -29,7 +29,7 @@ ccflags-y := -shared -fno-common -fno-builtin -nostdlib \
+ asflags-y := -D__VDSO32__ -s
+ 
+ obj-y += vdso32_wrapper.o
+-extra-y += vdso32.lds
++targets += vdso32.lds
+ CPPFLAGS_vdso32.lds += -P -C -Upowerpc
+ 
+ # Force dependency (incbin is bad)
+diff --git a/arch/powerpc/kernel/vdso64/Makefile b/arch/powerpc/kernel/vdso64/Makefile
+index 38c317f25141..c737b3ea3207 100644
+--- a/arch/powerpc/kernel/vdso64/Makefile
++++ b/arch/powerpc/kernel/vdso64/Makefile
+@@ -17,7 +17,7 @@ ccflags-y := -shared -fno-common -fno-builtin -nostdlib \
+ asflags-y := -D__VDSO64__ -s
+ 
+ obj-y += vdso64_wrapper.o
+-extra-y += vdso64.lds
++targets += vdso64.lds
+ CPPFLAGS_vdso64.lds += -P -C -U$(ARCH)
+ 
+ # Force dependency (incbin is bad)
+diff --git a/arch/s390/kernel/vdso64/Makefile b/arch/s390/kernel/vdso64/Makefile
+index 4a66a1cb919b..d0d406cfffa9 100644
+--- a/arch/s390/kernel/vdso64/Makefile
++++ b/arch/s390/kernel/vdso64/Makefile
+@@ -25,7 +25,7 @@ $(targets:%=$(obj)/%.dbg): KBUILD_CFLAGS = $(KBUILD_CFLAGS_64)
+ $(targets:%=$(obj)/%.dbg): KBUILD_AFLAGS = $(KBUILD_AFLAGS_64)
+ 
+ obj-y += vdso64_wrapper.o
+-extra-y += vdso64.lds
++targets += vdso64.lds
+ CPPFLAGS_vdso64.lds += -P -C -U$(ARCH)
+ 
+ # Disable gcov profiling, ubsan and kasan for VDSO code
 -- 
-~Randy
+2.25.1
 
