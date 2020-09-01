@@ -2,55 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F14825915B
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Sep 2020 16:50:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 044D625979C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Sep 2020 18:17:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728647AbgIAOtz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Sep 2020 10:49:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47930 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728114AbgIAOtv (ORCPT
+        id S1730724AbgIAQQW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Sep 2020 12:16:22 -0400
+Received: from mail-pj1-f66.google.com ([209.85.216.66]:51229 "EHLO
+        mail-pj1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728275AbgIAPeU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Sep 2020 10:49:51 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A875C061244
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Sep 2020 07:49:50 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id y6so639081plk.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Sep 2020 07:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Bv5b6EVobqUNVIF87/DhH+cY3Q1HWbgPFf0dl3Olwio=;
-        b=CMipeE03VR2QYd8nNYYHCTHPEJ1IdeFQMtTtnIpV/ee4MfCFYBft28C9Z4GIQo5zBV
-         QK2gfzj3Lpql1P1iBv4jZiYTXLyHgovXgqQQLVy76+locmo3vFm7G8IW78U6hSLjWo7C
-         TmvExCXdwMAaqW+bR3RRmdaQKZIoFbMkIauAd4Zew6KCdayaeAjIDHW6XrU23yriK2g2
-         5Q89cEUh6IL2lzZJX+Qf7KP7yzHzSFg6msQOEJiQKJLe5dli7EmEZ2MIJzwXeCgPjFMv
-         f5rmHep1MxFV7CqvQH9xpVPyf7UJMS2PB90qgeGaBr0u7DCp24xr/+nuCabqF2zMIkui
-         Rk1w==
+        Tue, 1 Sep 2020 11:34:20 -0400
+Received: by mail-pj1-f66.google.com with SMTP id ds1so806083pjb.1;
+        Tue, 01 Sep 2020 08:34:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Bv5b6EVobqUNVIF87/DhH+cY3Q1HWbgPFf0dl3Olwio=;
-        b=aNID7nyHC8Iqxrsi6HhJilHCYUJL51EDnmiskxWWWmWWd5BT3i5EgliFqPDlAznFrr
-         t43vuy++t5QRx31nHgsloajCnl1VtegONapWqNMNT20QeHBwTZifwblTOkIltlh56WZ0
-         saVhphT3nlzTy3kis8p+eSWWyCH3W+X1DSY7Lvj4NhH6vYEWBZum7Xo5yObCqlO+QflJ
-         G8bB4L1hWmxRo4toARVc0FFG+lIPdh/zVCHph84k7T06gr/UZSM5FlkJES8Robd7mf5z
-         Q7CsDHXiPyXCirsu9lCC86JFoc6a/f6BstXm+bSxcZy2SEwifk97jxxuBGpYb/eVln2u
-         3QcQ==
-X-Gm-Message-State: AOAM533EXwdElZhjMvOZB/fe3wMeAf/rP2kl2VxBGCtajdW16xDig9P9
-        EX4Ir1a4mhjPSpa6GKJH6XODxw==
-X-Google-Smtp-Source: ABdhPJwJT6OaFInhGXji8NM/sg0H1Gpqx+OhIP3Jac20+0b+pSpDpPp7UHpR6y/5tKsCNyF4pj13sg==
-X-Received: by 2002:a17:90a:c086:: with SMTP id o6mr1911513pjs.224.1598971789688;
-        Tue, 01 Sep 2020 07:49:49 -0700 (PDT)
-Received: from [192.168.1.187] ([66.219.217.173])
-        by smtp.gmail.com with ESMTPSA id s67sm2304633pfs.117.2020.09.01.07.49.48
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=i38RE50+o+7Xi/V63EnQit0knXFO0KJ4UL6nDtZEEQk=;
+        b=YkvHt5TI0bIBIsQ3ZTD3opgXy+Qf3qOooRXxIuTuanNaGdyJppaXuCRpn2r42lU6MM
+         PNx/pSftiqiU1NYvT1udUU+r0SIXvhSKOLTxe+qyuX/M8NULvsXpFlb1/PfCP2hIBKc+
+         mklt9EezQJ4aNmFPWb7lWIDafWhl3NTccTB3BHx17gfaBjpf7FdFpOTw2VxnSZRTm6Z8
+         pY/kFsdNY5hd702SofvYBQ2no6YNICuJR087soW/hM+32qOCEhBIWDZXoUiAHSCAqJLu
+         7/H7+0kpjPtTiSMl6h1nfRVSJqXZI67ww/viLJqmctBnU07pLD36kYuLQ9k7ZlMDJeXd
+         90+g==
+X-Gm-Message-State: AOAM5331TLHsPNyf+Hpp221MeurcD7Zw7piv7bjf1ex3zTkfGF1hgTid
+        8tmmbUtpmADpl25Wed91iOSIPzvgPAE=
+X-Google-Smtp-Source: ABdhPJyvs4WVpd10KSuRKdfbQOMaxQxGZ/9QR5e8uOVAmfHd8e/2ltBv0qN+Izrqj7NFH7th+Ivydw==
+X-Received: by 2002:a17:90a:c28e:: with SMTP id f14mr2084142pjt.83.1598974459739;
+        Tue, 01 Sep 2020 08:34:19 -0700 (PDT)
+Received: from [192.168.3.218] (c-73-241-217-19.hsd1.ca.comcast.net. [73.241.217.19])
+        by smtp.gmail.com with ESMTPSA id g17sm2915153pge.9.2020.09.01.08.34.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2020 07:49:49 -0700 (PDT)
+        Tue, 01 Sep 2020 08:34:18 -0700 (PDT)
 Subject: Re: [PATCH 0/1] block io layer filters api
-To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>,
+        Jens Axboe <axboe@kernel.dk>
 Cc:     "masahiroy@kernel.org" <masahiroy@kernel.org>,
         "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
         "koct9i@gmail.com" <koct9i@gmail.com>,
@@ -64,11 +51,34 @@ Cc:     "masahiroy@kernel.org" <masahiroy@kernel.org>,
 References: <1598555619-14792-1-git-send-email-sergei.shtepa@veeam.com>
  <7a517822-6be2-7d0d-fae3-31472c85f543@kernel.dk>
  <20200901132957.GA18251@veeam.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <722e85ac-f494-2cb3-4caf-d903d79a5645@kernel.dk>
-Date:   Tue, 1 Sep 2020 08:49:47 -0600
+From:   Bart Van Assche <bvanassche@acm.org>
+Autocrypt: addr=bvanassche@acm.org; prefer-encrypt=mutual; keydata=
+ mQENBFSOu4oBCADcRWxVUvkkvRmmwTwIjIJvZOu6wNm+dz5AF4z0FHW2KNZL3oheO3P8UZWr
+ LQOrCfRcK8e/sIs2Y2D3Lg/SL7qqbMehGEYcJptu6mKkywBfoYbtBkVoJ/jQsi2H0vBiiCOy
+ fmxMHIPcYxaJdXxrOG2UO4B60Y/BzE6OrPDT44w4cZA9DH5xialliWU447Bts8TJNa3lZKS1
+ AvW1ZklbvJfAJJAwzDih35LxU2fcWbmhPa7EO2DCv/LM1B10GBB/oQB5kvlq4aA2PSIWkqz4
+ 3SI5kCPSsygD6wKnbRsvNn2mIACva6VHdm62A7xel5dJRfpQjXj2snd1F/YNoNc66UUTABEB
+ AAG0JEJhcnQgVmFuIEFzc2NoZSA8YnZhbmFzc2NoZUBhY20ub3JnPokBOQQTAQIAIwUCVI67
+ igIbAwcLCQgHAwIBBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFcPTXFzhAJ8QkH/1AdXblKL65M
+ Y1Zk1bYKnkAb4a98LxCPm/pJBilvci6boefwlBDZ2NZuuYWYgyrehMB5H+q+Kq4P0IBbTqTa
+ jTPAANn62A6jwJ0FnCn6YaM9TZQjM1F7LoDX3v+oAkaoXuq0dQ4hnxQNu792bi6QyVdZUvKc
+ macVFVgfK9n04mL7RzjO3f+X4midKt/s+G+IPr4DGlrq+WH27eDbpUR3aYRk8EgbgGKvQFdD
+ CEBFJi+5ZKOArmJVBSk21RHDpqyz6Vit3rjep7c1SN8s7NhVi9cjkKmMDM7KYhXkWc10lKx2
+ RTkFI30rkDm4U+JpdAd2+tP3tjGf9AyGGinpzE2XY1K5AQ0EVI67igEIAKiSyd0nECrgz+H5
+ PcFDGYQpGDMTl8MOPCKw/F3diXPuj2eql4xSbAdbUCJzk2ETif5s3twT2ER8cUTEVOaCEUY3
+ eOiaFgQ+nGLx4BXqqGewikPJCe+UBjFnH1m2/IFn4T9jPZkV8xlkKmDUqMK5EV9n3eQLkn5g
+ lco+FepTtmbkSCCjd91EfThVbNYpVQ5ZjdBCXN66CKyJDMJ85HVr5rmXG/nqriTh6cv1l1Js
+ T7AFvvPjUPknS6d+BETMhTkbGzoyS+sywEsQAgA+BMCxBH4LvUmHYhpS+W6CiZ3ZMxjO8Hgc
+ ++w1mLeRUvda3i4/U8wDT3SWuHcB3DWlcppECLkAEQEAAYkBHwQYAQIACQUCVI67igIbDAAK
+ CRBxXD01xc4QCZ4dB/0QrnEasxjM0PGeXK5hcZMT9Eo998alUfn5XU0RQDYdwp6/kMEXMdmT
+ oH0F0xB3SQ8WVSXA9rrc4EBvZruWQ+5/zjVrhhfUAx12CzL4oQ9Ro2k45daYaonKTANYG22y
+ //x8dLe2Fv1By4SKGhmzwH87uXxbTJAUxiWIi1np0z3/RDnoVyfmfbbL1DY7zf2hYXLLzsJR
+ mSsED/1nlJ9Oq5fALdNEPgDyPUerqHxcmIub+pF0AzJoYHK5punqpqfGmqPbjxrJLPJfHVKy
+ goMj5DlBMoYqEgpbwdUYkH6QdizJJCur4icy8GUNbisFYABeoJ91pnD4IGei3MTdvINSZI5e
+Message-ID: <b99a1577-6f39-9228-d176-5a8bc38bd64d@acm.org>
+Date:   Tue, 1 Sep 2020 08:34:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.11.0
 MIME-Version: 1.0
 In-Reply-To: <20200901132957.GA18251@veeam.com>
 Content-Type: text/plain; charset=utf-8
@@ -79,72 +89,22 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 9/1/20 7:29 AM, Sergei Shtepa wrote:
-> The 08/28/2020 16:54, Jens Axboe wrote:
->> On 8/27/20 1:13 PM, Sergei Shtepa wrote:
->>> Hello everyone! Requesting for your comments and suggestions.
->>>
->>> We propose new kernel API that should be beneficial for out-of-tree
->>> kernel modules of multiple backup vendors: block layer filter API.
->>
->> That's just a non-starter, I'm afraid. We generally don't carry
->> infrastructure in the kernel for out-of-tree modules, that includes
->> even exports of existing code.
->>
->> If there's a strong use case *in* the kernel, then such functionality
->> could be entertained.
->>
->> -- 
->> Jens Axboe
->>
-> 
-> To be honest, we've always dreamed to include our out-of-tree module
-> into the kernel itself - so if you're open to that, that is great news
-> indeed!
+On 2020-09-01 06:29, Sergei Shtepa wrote:
+> However, the same time requirement also presents a big immediate problem -
+> as until this is done, over a hundred thousands of Linux users will not be
+> able to protect their servers running the impacted kernels
+> (our backup agent is free).
+> They will be forced to stop using the new version of the kernel
+> (or take a risk of data loss).
 
-We're always open to that, provided that a promise is made to maintain
-the in-kernel version. Sometimes we see submissions that end up being an
-over-the-wall kind of dump, and then the vendor only maintains their own
-out-of-tree version after the fact and point customers at that one too.
-For those cases we don't want the driver, as it just becomes a
-maintenance hassle for us.
+How can backup software work at the block layer level without any cooperation
+of higher layers? How is it e.g. guaranteed that backups are crash-consistent?
 
-So if you are serious about this, it's important to set and manage
-internal expectations on how the driver is developed and maintained
-going forward. The upstream driver *must* be the canonical version, and
-if you want and need to have versions for older kernels available, then
-it should be based on backports of the current in-tree driver.
+What happens if the network connection with the backup server is lost? How
+much time is needed to recover after the network connection has been restored?
+Does the contents of the entire block device has to be resent to the backup
+server?
 
-> We've spent some time before responding to estimate how long it will
-> take us to update the current source code to meet coding requirements.
-> It looks like we will need 2-4 months of development and QC, and
-> possibly much more to work on your feedback thereafter. This is much
-> work, but we are fully committed to this if you are willing to include
-> this module into the kernel.
+Thanks,
 
-Honestly I don't think that is that much work, and I wouldn't personally
-be too worried about that being succesful. Complications are generally
-mostly around APIs, since an in-tree driver might need to change how you
-communicate with the driver. So yes, it'll be some work, but the
-important part is how we treat the maintenance of it after all that is
-said and done.
-
-> However, the same time requirement also presents a big immediate
-> problem - as until this is done, over a hundred thousands of Linux
-> users will not be able to protect their servers running the impacted
-> kernels (our backup agent is free). They will be forced to stop using
-> the new version of the kernel (or take a risk of data loss).
-
-You have plenty of time to get this done before it becomes a problem.
-It's not like the current patches are going to -stable.
-
-> Given that, is there any chance that you accept the proposed patch
-> now, to restore the ability to protect their Linux machines - and buy
-> us time to deliver the compliant module for inclusion into the kernel?
-
-I'm afraid not, we simply cannot allow exposing internals like that for
-a use case that isn't currently covered by existing in-tree drivers.
-
--- 
-Jens Axboe
-
+Bart.
