@@ -2,186 +2,149 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 838B72591E5
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Sep 2020 16:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F14825915B
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Sep 2020 16:50:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgIAOzV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Sep 2020 10:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45262 "EHLO
+        id S1728647AbgIAOtz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Sep 2020 10:49:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbgIALbA (ORCPT
+        with ESMTP id S1728114AbgIAOtv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Sep 2020 07:31:00 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504A6C061247;
-        Tue,  1 Sep 2020 04:29:57 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id d27so550478qtg.4;
-        Tue, 01 Sep 2020 04:29:57 -0700 (PDT)
+        Tue, 1 Sep 2020 10:49:51 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A875C061244
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Sep 2020 07:49:50 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id y6so639081plk.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Sep 2020 07:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Bmg6XgtUWDx4HuERt6+WNca9MkrxDIzUrFEsZ8s0eNY=;
-        b=IERvtpprRpsI2hed0dHnnYBJc2bTsfXDoVwNNjG0Ec1Sz8CRuOUarz+Porf5yRfHFu
-         30cRoDkuZP41QRrigZa6y9lS/Q9+jFle0rPTgtwQN4bp84V8ocprAVuzMQ9FqTehBEzY
-         4MDJIPAYpDQqg5MZ+6ZUTXTmOnuGZXEK8IgCV4orCkGUrRtsYcj/Ywc1ICPwnctC/GyI
-         dJzhbEYwl61cZTl24h34xARkW2Zaqa/kOmK3OayGekDtkeFds1gFNQRmSyQ/QvyDfdw+
-         OEnwNuiuobwmd/AEPMOV6cmL4S085Ju8J83/4o3yZA4u2o3mkHjbyG61560pFu+G2c5p
-         TvfA==
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Bv5b6EVobqUNVIF87/DhH+cY3Q1HWbgPFf0dl3Olwio=;
+        b=CMipeE03VR2QYd8nNYYHCTHPEJ1IdeFQMtTtnIpV/ee4MfCFYBft28C9Z4GIQo5zBV
+         QK2gfzj3Lpql1P1iBv4jZiYTXLyHgovXgqQQLVy76+locmo3vFm7G8IW78U6hSLjWo7C
+         TmvExCXdwMAaqW+bR3RRmdaQKZIoFbMkIauAd4Zew6KCdayaeAjIDHW6XrU23yriK2g2
+         5Q89cEUh6IL2lzZJX+Qf7KP7yzHzSFg6msQOEJiQKJLe5dli7EmEZ2MIJzwXeCgPjFMv
+         f5rmHep1MxFV7CqvQH9xpVPyf7UJMS2PB90qgeGaBr0u7DCp24xr/+nuCabqF2zMIkui
+         Rk1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Bmg6XgtUWDx4HuERt6+WNca9MkrxDIzUrFEsZ8s0eNY=;
-        b=G71dvjwIu488zUUjmMoWDTLeZ/wY1GVSDhux2sTucSujqYmKot2Nq0A7QY/g/nSguk
-         /2MnBBotSaK6dVANc/725/FqCJ76wRfpBHGaoIQpdxZboGa8QSBikS/eS7DotIMV2Lpx
-         pEokqnWf1EyBjlovce/6LFBQ3llUYbjDuc5giQkAmfxyAggVnhdEsMWUvidyqlE3Fd3y
-         UDfTeqfiWixrCUALqrS1wMQOuD08ftGEfcq+JpnG/SM6w/3+Oj7sYZNQ6HLBn6eheGwt
-         AYPQFxmmu6mwzEpbar+V42Lj/Trs6OQ6qurh7R/AmS/xm1yJIBrnGIKCFrSGA6j5jkSv
-         RqYw==
-X-Gm-Message-State: AOAM533xxmhHTiJ3mQLWUvys/hzohLIhit6UpntJGSYOiftYuztVxs46
-        oApsWFtjQW14glwe6JoEiU9T3HzlHpIhxU9GPEArsfF1lf43xA==
-X-Google-Smtp-Source: ABdhPJwVT407rq1wSU6XLfBx35x7TqzLfOV0jdufGiWqhxHXDja0Uvn0+tpPRWaGd0lmv1UnRMyszboqVwIOVOloAYU=
-X-Received: by 2002:ac8:7741:: with SMTP id g1mr1183471qtu.28.1598959796622;
- Tue, 01 Sep 2020 04:29:56 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Bv5b6EVobqUNVIF87/DhH+cY3Q1HWbgPFf0dl3Olwio=;
+        b=aNID7nyHC8Iqxrsi6HhJilHCYUJL51EDnmiskxWWWmWWd5BT3i5EgliFqPDlAznFrr
+         t43vuy++t5QRx31nHgsloajCnl1VtegONapWqNMNT20QeHBwTZifwblTOkIltlh56WZ0
+         saVhphT3nlzTy3kis8p+eSWWyCH3W+X1DSY7Lvj4NhH6vYEWBZum7Xo5yObCqlO+QflJ
+         G8bB4L1hWmxRo4toARVc0FFG+lIPdh/zVCHph84k7T06gr/UZSM5FlkJES8Robd7mf5z
+         Q7CsDHXiPyXCirsu9lCC86JFoc6a/f6BstXm+bSxcZy2SEwifk97jxxuBGpYb/eVln2u
+         3QcQ==
+X-Gm-Message-State: AOAM533EXwdElZhjMvOZB/fe3wMeAf/rP2kl2VxBGCtajdW16xDig9P9
+        EX4Ir1a4mhjPSpa6GKJH6XODxw==
+X-Google-Smtp-Source: ABdhPJwJT6OaFInhGXji8NM/sg0H1Gpqx+OhIP3Jac20+0b+pSpDpPp7UHpR6y/5tKsCNyF4pj13sg==
+X-Received: by 2002:a17:90a:c086:: with SMTP id o6mr1911513pjs.224.1598971789688;
+        Tue, 01 Sep 2020 07:49:49 -0700 (PDT)
+Received: from [192.168.1.187] ([66.219.217.173])
+        by smtp.gmail.com with ESMTPSA id s67sm2304633pfs.117.2020.09.01.07.49.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2020 07:49:49 -0700 (PDT)
+Subject: Re: [PATCH 0/1] block io layer filters api
+To:     Sergei Shtepa <sergei.shtepa@veeam.com>
+Cc:     "masahiroy@kernel.org" <masahiroy@kernel.org>,
+        "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
+        "koct9i@gmail.com" <koct9i@gmail.com>,
+        "jack@suse.cz" <jack@suse.cz>,
+        "damien.lemoal@wdc.com" <damien.lemoal@wdc.com>,
+        "ming.lei@redhat.com" <ming.lei@redhat.com>,
+        "steve@sk2.org" <steve@sk2.org>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
+References: <1598555619-14792-1-git-send-email-sergei.shtepa@veeam.com>
+ <7a517822-6be2-7d0d-fae3-31472c85f543@kernel.dk>
+ <20200901132957.GA18251@veeam.com>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <722e85ac-f494-2cb3-4caf-d903d79a5645@kernel.dk>
+Date:   Tue, 1 Sep 2020 08:49:47 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20200831182239.480317-1-masahiroy@kernel.org>
-In-Reply-To: <20200831182239.480317-1-masahiroy@kernel.org>
-From:   Greentime Hu <green.hu@gmail.com>
-Date:   Tue, 1 Sep 2020 19:29:19 +0800
-Message-ID: <CAEbi=3cqogHs=p_y=_jfcC+D5a9e5=Nic=ECr_YvJ9p-DZEAJQ@mail.gmail.com>
-Subject: Re: [PATCH] arch: vdso: add vdso linker script to 'targets' instead
- of extra-y
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nick Hu <nickhu@andestech.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200901132957.GA18251@veeam.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Masahiro Yamada <masahiroy@kernel.org> =E6=96=BC 2020=E5=B9=B49=E6=9C=881=
-=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=882:23=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> The vdso linker script is preprocessed on demand.
-> Adding it to 'targets' is enough to include the .cmd file.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/arm64/kernel/vdso/Makefile     | 2 +-
->  arch/arm64/kernel/vdso32/Makefile   | 2 +-
->  arch/nds32/kernel/vdso/Makefile     | 2 +-
->  arch/powerpc/kernel/vdso32/Makefile | 2 +-
->  arch/powerpc/kernel/vdso64/Makefile | 2 +-
->  arch/s390/kernel/vdso64/Makefile    | 2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Mak=
-efile
-> index 45d5cfe46429..7cd8aafbe96e 100644
-> --- a/arch/arm64/kernel/vdso/Makefile
-> +++ b/arch/arm64/kernel/vdso/Makefile
-> @@ -54,7 +54,7 @@ endif
->  GCOV_PROFILE :=3D n
->
->  obj-y +=3D vdso.o
-> -extra-y +=3D vdso.lds
-> +targets +=3D vdso.lds
->  CPPFLAGS_vdso.lds +=3D -P -C -U$(ARCH)
->
->  # Force dependency (incbin is bad)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32=
-/Makefile
-> index d6adb4677c25..572475b7b7ed 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -155,7 +155,7 @@ asm-obj-vdso :=3D $(addprefix $(obj)/, $(asm-obj-vdso=
-))
->  obj-vdso :=3D $(c-obj-vdso) $(c-obj-vdso-gettimeofday) $(asm-obj-vdso)
->
->  obj-y +=3D vdso.o
-> -extra-y +=3D vdso.lds
-> +targets +=3D vdso.lds
->  CPPFLAGS_vdso.lds +=3D -P -C -U$(ARCH)
->
->  # Force dependency (vdso.s includes vdso.so through incbin)
-> diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Mak=
-efile
-> index 7c3c1ccb196e..55df25ef0057 100644
-> --- a/arch/nds32/kernel/vdso/Makefile
-> +++ b/arch/nds32/kernel/vdso/Makefile
-> @@ -20,7 +20,7 @@ GCOV_PROFILE :=3D n
->
->
->  obj-y +=3D vdso.o
-> -extra-y +=3D vdso.lds
-> +targets +=3D vdso.lds
->  CPPFLAGS_vdso.lds +=3D -P -C -U$(ARCH)
->
->  # Force dependency
-> diff --git a/arch/powerpc/kernel/vdso32/Makefile b/arch/powerpc/kernel/vd=
-so32/Makefile
-> index 87ab1152d5ce..fd5072a4c73c 100644
-> --- a/arch/powerpc/kernel/vdso32/Makefile
-> +++ b/arch/powerpc/kernel/vdso32/Makefile
-> @@ -29,7 +29,7 @@ ccflags-y :=3D -shared -fno-common -fno-builtin -nostdl=
-ib \
->  asflags-y :=3D -D__VDSO32__ -s
->
->  obj-y +=3D vdso32_wrapper.o
-> -extra-y +=3D vdso32.lds
-> +targets +=3D vdso32.lds
->  CPPFLAGS_vdso32.lds +=3D -P -C -Upowerpc
->
->  # Force dependency (incbin is bad)
-> diff --git a/arch/powerpc/kernel/vdso64/Makefile b/arch/powerpc/kernel/vd=
-so64/Makefile
-> index 38c317f25141..c737b3ea3207 100644
-> --- a/arch/powerpc/kernel/vdso64/Makefile
-> +++ b/arch/powerpc/kernel/vdso64/Makefile
-> @@ -17,7 +17,7 @@ ccflags-y :=3D -shared -fno-common -fno-builtin -nostdl=
-ib \
->  asflags-y :=3D -D__VDSO64__ -s
->
->  obj-y +=3D vdso64_wrapper.o
-> -extra-y +=3D vdso64.lds
-> +targets +=3D vdso64.lds
->  CPPFLAGS_vdso64.lds +=3D -P -C -U$(ARCH)
->
->  # Force dependency (incbin is bad)
-> diff --git a/arch/s390/kernel/vdso64/Makefile b/arch/s390/kernel/vdso64/M=
-akefile
-> index 4a66a1cb919b..d0d406cfffa9 100644
-> --- a/arch/s390/kernel/vdso64/Makefile
-> +++ b/arch/s390/kernel/vdso64/Makefile
-> @@ -25,7 +25,7 @@ $(targets:%=3D$(obj)/%.dbg): KBUILD_CFLAGS =3D $(KBUILD=
-_CFLAGS_64)
->  $(targets:%=3D$(obj)/%.dbg): KBUILD_AFLAGS =3D $(KBUILD_AFLAGS_64)
->
->  obj-y +=3D vdso64_wrapper.o
-> -extra-y +=3D vdso64.lds
-> +targets +=3D vdso64.lds
->  CPPFLAGS_vdso64.lds +=3D -P -C -U$(ARCH)
->
->  # Disable gcov profiling, ubsan and kasan for VDSO code
+On 9/1/20 7:29 AM, Sergei Shtepa wrote:
+> The 08/28/2020 16:54, Jens Axboe wrote:
+>> On 8/27/20 1:13 PM, Sergei Shtepa wrote:
+>>> Hello everyone! Requesting for your comments and suggestions.
+>>>
+>>> We propose new kernel API that should be beneficial for out-of-tree
+>>> kernel modules of multiple backup vendors: block layer filter API.
+>>
+>> That's just a non-starter, I'm afraid. We generally don't carry
+>> infrastructure in the kernel for out-of-tree modules, that includes
+>> even exports of existing code.
+>>
+>> If there's a strong use case *in* the kernel, then such functionality
+>> could be entertained.
+>>
+>> -- 
+>> Jens Axboe
+>>
+> 
+> To be honest, we've always dreamed to include our out-of-tree module
+> into the kernel itself - so if you're open to that, that is great news
+> indeed!
 
-For nds32:
+We're always open to that, provided that a promise is made to maintain
+the in-kernel version. Sometimes we see submissions that end up being an
+over-the-wall kind of dump, and then the vendor only maintains their own
+out-of-tree version after the fact and point customers at that one too.
+For those cases we don't want the driver, as it just becomes a
+maintenance hassle for us.
 
-Acked-by: Greentime Hu <green.hu@gmail.com>
+So if you are serious about this, it's important to set and manage
+internal expectations on how the driver is developed and maintained
+going forward. The upstream driver *must* be the canonical version, and
+if you want and need to have versions for older kernels available, then
+it should be based on backports of the current in-tree driver.
+
+> We've spent some time before responding to estimate how long it will
+> take us to update the current source code to meet coding requirements.
+> It looks like we will need 2-4 months of development and QC, and
+> possibly much more to work on your feedback thereafter. This is much
+> work, but we are fully committed to this if you are willing to include
+> this module into the kernel.
+
+Honestly I don't think that is that much work, and I wouldn't personally
+be too worried about that being succesful. Complications are generally
+mostly around APIs, since an in-tree driver might need to change how you
+communicate with the driver. So yes, it'll be some work, but the
+important part is how we treat the maintenance of it after all that is
+said and done.
+
+> However, the same time requirement also presents a big immediate
+> problem - as until this is done, over a hundred thousands of Linux
+> users will not be able to protect their servers running the impacted
+> kernels (our backup agent is free). They will be forced to stop using
+> the new version of the kernel (or take a risk of data loss).
+
+You have plenty of time to get this done before it becomes a problem.
+It's not like the current patches are going to -stable.
+
+> Given that, is there any chance that you accept the proposed patch
+> now, to restore the ability to protect their Linux machines - and buy
+> us time to deliver the compliant module for inclusion into the kernel?
+
+I'm afraid not, we simply cannot allow exposing internals like that for
+a use case that isn't currently covered by existing in-tree drivers.
+
+-- 
+Jens Axboe
+
