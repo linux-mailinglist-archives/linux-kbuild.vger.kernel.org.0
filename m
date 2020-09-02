@@ -2,50 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8946C25B204
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Sep 2020 18:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40EAD25B3A8
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Sep 2020 20:22:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbgIBQro (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Sep 2020 12:47:44 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:27668 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgIBQro (ORCPT
+        id S1727919AbgIBSWb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Sep 2020 14:22:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48470 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbgIBSWa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Sep 2020 12:47:44 -0400
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 082GlSKw024027;
-        Thu, 3 Sep 2020 01:47:28 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 082GlSKw024027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1599065248;
-        bh=3k2mLh1ZpDvilSN4hj2bI62MdEyVALec7gSW1Mn1QEo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=DmcgU2kIIQMF0hH4EyzzBgwAX0DxBymVIgQcrQH/8iFQ0Zns11sKrHXt3rjK6rhPk
-         WB2WKyOvLqQanVc4ZRCPQj9vb3Dk0w7iiL3isSiBRC417DDhcV1G9wLPetLyaNLB6G
-         d8LxksAz3WvL5nwxUJBStEFmg8tpPNow1eVE8Co1KBxrTHrH6udNAEEOZU/XxayQs7
-         EPiv2ah/AdZ/+EgwwglCYZDv2uhdlT2KTTp3CTt2ScZoDnfRZZexKedFqWAf/lsFBt
-         OBCEdmuZwNzTzEUo+7rYLZGjE06yIIQSrVNB5lxr545EvxyUWs3J/6xOp3mUcmiTJ8
-         UrKA5THwpWRGg==
-X-Nifty-SrcIP: [209.85.215.177]
-Received: by mail-pg1-f177.google.com with SMTP id d19so2817464pgl.10;
-        Wed, 02 Sep 2020 09:47:28 -0700 (PDT)
-X-Gm-Message-State: AOAM531XFqMT6RGEMFgEoikAwlebjmF+VN3Uwzx8Xgd5Y05zHtEre/qp
-        93eiPSNsdqp7L8KavP/79AHeveIshCdC1qHQG9g=
-X-Google-Smtp-Source: ABdhPJwq48Llk0mh1HjSuc5awflktCBQOXZapJOtyxcrUw/POtlHKsmiU3V4Sb7UCxGf5EAgHpGuaPAF0rxa9+J/Ljs=
-X-Received: by 2002:a05:6a00:1356:: with SMTP id k22mr4023716pfu.76.1599065247862;
- Wed, 02 Sep 2020 09:47:27 -0700 (PDT)
+        Wed, 2 Sep 2020 14:22:30 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7689C061244;
+        Wed,  2 Sep 2020 11:22:29 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id f2so638626qkh.3;
+        Wed, 02 Sep 2020 11:22:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4I6dbzsqrks7JHzdcURJjhEd27VbJXYlEUu1KAPa0Uk=;
+        b=uieLd14I9ZoTUTGGteDE/akzMnmQhahRl7HZPhi0ukmJKtLkNt7U7s0lwrMMomzv42
+         3jcieflYGp0Vzgztcsr2JuRqtyL7YgNRGZb0LIoEZDVe0+DEVzI7AHsdJ+e3jUJ+PAbX
+         zOizpHQ/lHHgfmg1PMbnlgEJ8dEodx+6xVbtYiN3ESjZNjU3wBM+LOX0luL4FFG47cZg
+         IFpOj2Tmt2o0TATXanvRhxNcJFZRZCcJsobsdnKu9lcMMg/dkC3Cd/ETgNKDdy+DXLKy
+         16khtgMvPrDfU7pbWAJlG4c6DE0/iP0vn9fxJPGU82kOyitGjJDHyhKoz0CWUJlrHucq
+         AP0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4I6dbzsqrks7JHzdcURJjhEd27VbJXYlEUu1KAPa0Uk=;
+        b=ENK3zMW7tiDAk0vXsNAAa5urvVoc7Ee5JPEfB7aOal57eGH4Dlc43t6afgVMr98mvI
+         lKMp9SzAtrghvDH6ecLVYZ9d1Dugb7oxvr9GnvSuGKx4Z+2KzA9nR2lEoozYWuBuiH7/
+         +22XZpn30Tlc0ZU9UxwM8IoqQjQ3dJPUoyg8PM8kWjI30eE/3IMjqhS2KSkU8douvCmq
+         i8FTAH9T0ijwxAVWyFJgr3ZJEiDOWsPFjZSH6DGZMYo7uAYmwvgoJPvXgnbfmSDXQOIE
+         /Ew8MVKRa318slAV29288WPzeBCg1FC00SWd6qejNpCabL9aeIL7G1khTOmXTLeynO9x
+         +gXQ==
+X-Gm-Message-State: AOAM5334IBoUEzIKnoTSdEBhsBH/wPYiMh2Z4Y3yUFqqeA4TJddF7Tf/
+        ansFqj2BskIYex8TSXDt/Lrw8BgBhcpVyd3g4yLPoCHo9cs=
+X-Google-Smtp-Source: ABdhPJzzBwsBj4Syb0SZybcGLQUB2RhMsqw80JJglvVXk0fEf5RQvzuvtI9mfsTT4nT+dvPFVj59jPXW/tsqbRUhFj8=
+X-Received: by 2002:a37:a495:: with SMTP id n143mr8149528qke.394.1599070949233;
+ Wed, 02 Sep 2020 11:22:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <be80ceda-596b-03aa-394f-166cc6388aa0@infradead.org>
-In-Reply-To: <be80ceda-596b-03aa-394f-166cc6388aa0@infradead.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 3 Sep 2020 01:46:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQekh08D6=+CqRWiB7F4KCLOgSK9oof8ArVUvMc7B1YXQ@mail.gmail.com>
-Message-ID: <CAK7LNAQekh08D6=+CqRWiB7F4KCLOgSK9oof8ArVUvMc7B1YXQ@mail.gmail.com>
+References: <be80ceda-596b-03aa-394f-166cc6388aa0@infradead.org> <CAK7LNAQekh08D6=+CqRWiB7F4KCLOgSK9oof8ArVUvMc7B1YXQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQekh08D6=+CqRWiB7F4KCLOgSK9oof8ArVUvMc7B1YXQ@mail.gmail.com>
+From:   Nathan Royce <nroycea+kernel@gmail.com>
+Date:   Wed, 2 Sep 2020 13:22:18 -0500
+Message-ID: <CALaQ_hq01BCA7=sVJjm6LQrjjBFy1V79uUXcRXeLBB5g3k9M1Q@mail.gmail.com>
 Subject: Re: [PATCH] kconfig: streamline_config.pl: check defined(ENV
  variable) before using it
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Nathan Royce <nroycea+kernel@gmail.com>
-Cc:     linux-kbuild <linux-kbuild@vger.kernel.org>,
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Changbin Du <changbin.du@gmail.com>
@@ -55,65 +64,24 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 6:21 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+Thanks, but I'd just as soon not be acknowledged/credited. All I did
+was submit a report.
+
+On Wed, Sep 2, 2020 at 11:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> From: Randy Dunlap <rdunlap@infradead.org>
+> Applied to linux-kbuild/fixes with Nathan's tag
 >
-> A user reported:
-> 'Use of uninitialized value $ENV{"LMC_KEEP"} in split at
->  ./scripts/kconfig/streamline_config.pl line 596.'
+> Reported-by: Nathan Royce <nroycea+kernel@gmail.com>
 >
-> so first check that $ENV{LMC_KEEP} is defined before trying
-> to use it.
 >
-> Fixes: c027b02d89fd ("streamline_config.pl: add LMC_KEEP to preserve some kconfigs")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Changbin Du <changbin.du@gmail.com>
-> Cc: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Acked-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> ---
-
-
-
-Applied to linux-kbuild/fixes with Nathan's tag
-
-Reported-by: Nathan Royce <nroycea+kernel@gmail.com>
-
-
-
-Nathan,
-I think adding your tag is OK to credit your contribution.
-Please let me know if you do not have it in
-the commit log.
-
-
-
-
-
-
-
-
->  scripts/kconfig/streamline_config.pl |    5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> --- linux-next-20200825.orig/scripts/kconfig/streamline_config.pl
-> +++ linux-next-20200825/scripts/kconfig/streamline_config.pl
-> @@ -593,7 +593,10 @@ while ($repeat) {
->  }
+> Nathan,
+> I think adding your tag is OK to credit your contribution.
+> Please let me know if you do not have it in
+> the commit log.
 >
->  my %setconfigs;
-> -my @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-> +my @preserved_kconfigs;
-> +if (defined($ENV{'LMC_KEEP'})) {
-> +       @preserved_kconfigs = split(/:/,$ENV{LMC_KEEP});
-> +}
 >
->  sub in_preserved_kconfigs {
->      my $kconfig = $config2kfile{$_[0]};
 >
-
-
--- 
-Best Regards
-Masahiro Yamada
+> --
+> Best Regards
+> Masahiro Yamada
