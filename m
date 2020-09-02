@@ -2,86 +2,178 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40EAD25B3A8
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Sep 2020 20:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA75625B67F
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Sep 2020 00:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727919AbgIBSWb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Sep 2020 14:22:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48470 "EHLO
+        id S1726526AbgIBWkU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Sep 2020 18:40:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbgIBSWa (ORCPT
+        with ESMTP id S1726226AbgIBWkS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Sep 2020 14:22:30 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7689C061244;
-        Wed,  2 Sep 2020 11:22:29 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id f2so638626qkh.3;
-        Wed, 02 Sep 2020 11:22:29 -0700 (PDT)
+        Wed, 2 Sep 2020 18:40:18 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5A0C061245
+        for <linux-kbuild@vger.kernel.org>; Wed,  2 Sep 2020 15:40:17 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id mw10so485858pjb.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 02 Sep 2020 15:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4I6dbzsqrks7JHzdcURJjhEd27VbJXYlEUu1KAPa0Uk=;
-        b=uieLd14I9ZoTUTGGteDE/akzMnmQhahRl7HZPhi0ukmJKtLkNt7U7s0lwrMMomzv42
-         3jcieflYGp0Vzgztcsr2JuRqtyL7YgNRGZb0LIoEZDVe0+DEVzI7AHsdJ+e3jUJ+PAbX
-         zOizpHQ/lHHgfmg1PMbnlgEJ8dEodx+6xVbtYiN3ESjZNjU3wBM+LOX0luL4FFG47cZg
-         IFpOj2Tmt2o0TATXanvRhxNcJFZRZCcJsobsdnKu9lcMMg/dkC3Cd/ETgNKDdy+DXLKy
-         16khtgMvPrDfU7pbWAJlG4c6DE0/iP0vn9fxJPGU82kOyitGjJDHyhKoz0CWUJlrHucq
-         AP0g==
+        bh=Et/xc2YROl4qNYcn8Qs+aCkZEYKnAaIEsZ0/FKsLWP4=;
+        b=rXWlyxq+7xy8HCIGDawd2y3Q9cNhx3h14WdEfZpVCnXHn/W7dIw0hrnqlfwn7/bxBc
+         cX0HRuUSLpuKmOqUkj6PU74xgDN+yWwhqBtk4/xoZBLQ8kzJ8RHU0V6iVlTNzswd5BQ6
+         MBBxZDsW7WasDh52zjB1XiYWf3KOM6m/Oq9dQ71MY8NM/UC8dGl7JyioqZQUhC5EB4bQ
+         rBWuZbUeeYuVgTbc79XUAvzqwQcek7la+DjQwh1fiDuWW8Zg8nTFAKrcL/M8hcwCBCoL
+         UN0d0QGbs2TXeYQ+PanIQTJ/SGk+IVboTQzAbP3iKk624k6HIzXLPUcktL55yHC28vGB
+         /L1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4I6dbzsqrks7JHzdcURJjhEd27VbJXYlEUu1KAPa0Uk=;
-        b=ENK3zMW7tiDAk0vXsNAAa5urvVoc7Ee5JPEfB7aOal57eGH4Dlc43t6afgVMr98mvI
-         lKMp9SzAtrghvDH6ecLVYZ9d1Dugb7oxvr9GnvSuGKx4Z+2KzA9nR2lEoozYWuBuiH7/
-         +22XZpn30Tlc0ZU9UxwM8IoqQjQ3dJPUoyg8PM8kWjI30eE/3IMjqhS2KSkU8douvCmq
-         i8FTAH9T0ijwxAVWyFJgr3ZJEiDOWsPFjZSH6DGZMYo7uAYmwvgoJPvXgnbfmSDXQOIE
-         /Ew8MVKRa318slAV29288WPzeBCg1FC00SWd6qejNpCabL9aeIL7G1khTOmXTLeynO9x
-         +gXQ==
-X-Gm-Message-State: AOAM5334IBoUEzIKnoTSdEBhsBH/wPYiMh2Z4Y3yUFqqeA4TJddF7Tf/
-        ansFqj2BskIYex8TSXDt/Lrw8BgBhcpVyd3g4yLPoCHo9cs=
-X-Google-Smtp-Source: ABdhPJzzBwsBj4Syb0SZybcGLQUB2RhMsqw80JJglvVXk0fEf5RQvzuvtI9mfsTT4nT+dvPFVj59jPXW/tsqbRUhFj8=
-X-Received: by 2002:a37:a495:: with SMTP id n143mr8149528qke.394.1599070949233;
- Wed, 02 Sep 2020 11:22:29 -0700 (PDT)
+        bh=Et/xc2YROl4qNYcn8Qs+aCkZEYKnAaIEsZ0/FKsLWP4=;
+        b=EnKiR6d02X3VaOoYtMXBJa9KwMcKWZLJ5ABBeN+OcYleFDtIUS4clYD0IUEVOfm8cR
+         FX5LXSlK1oUwjKS6R18NFTb8jFoFZsIu5mHGdi1Y1EbFqQD7qIxxIIPy+vLQ2UbaJfH9
+         sGPCoDvfO/NtSE71AGBke2xRTZmHY7HICBRJU+nAUnzg6HHz++TVi5iGOILW+fzUfnZf
+         WRMYDy7NEpEZwYsaTeSi5KhgveI9iusZ+0LHGSoJyUZ6eJCSybySMZfS3ajJtjzo/SeZ
+         c5v2MDyvv+7cZbw3r9Ju0qlolcddwbvLWtUYsnEgc1MHGiPNi41c5KooWJUMltW/4MKD
+         Mq5A==
+X-Gm-Message-State: AOAM53004EN3SyvAN+1SVQRiHN3nlUzgVju2zmtsOogswBECYJNhoeVL
+        uhaW38qNzk0BIyU5CRlogB7hJx6EHlPRgLxB+76kAw==
+X-Google-Smtp-Source: ABdhPJxcdId1jw1ooHY4s038mjOk1feFDY5gNw9gtUjdobC0Ug+3mX37JstD4Yuuwen7SNvDFv06RaZUgSy6viXWt6A=
+X-Received: by 2002:a17:90a:e517:: with SMTP id t23mr3922497pjy.25.1599086414557;
+ Wed, 02 Sep 2020 15:40:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <be80ceda-596b-03aa-394f-166cc6388aa0@infradead.org> <CAK7LNAQekh08D6=+CqRWiB7F4KCLOgSK9oof8ArVUvMc7B1YXQ@mail.gmail.com>
-In-Reply-To: <CAK7LNAQekh08D6=+CqRWiB7F4KCLOgSK9oof8ArVUvMc7B1YXQ@mail.gmail.com>
-From:   Nathan Royce <nroycea+kernel@gmail.com>
-Date:   Wed, 2 Sep 2020 13:22:18 -0500
-Message-ID: <CALaQ_hq01BCA7=sVJjm6LQrjjBFy1V79uUXcRXeLBB5g3k9M1Q@mail.gmail.com>
-Subject: Re: [PATCH] kconfig: streamline_config.pl: check defined(ENV
- variable) before using it
+References: <20200820220955.3325555-1-ndesaulniers@google.com> <CAK7LNAQO9sKw=7RLPSnsChddrwNCc_si-XgSDQcGHTSxeq4_Pg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQO9sKw=7RLPSnsChddrwNCc_si-XgSDQcGHTSxeq4_Pg@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 2 Sep 2020 15:40:03 -0700
+Message-ID: <CAKwvOdnbdhkB=OG0Gec5jt5H4b4jRGPvKfgJ-JbZY+gym-u3_g@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: add -fuse-ld=lld to KBUILD_HOSTLDFLAGS when LLVM=1
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Changbin Du <changbin.du@gmail.com>
+Cc:     stable <stable@vger.kernel.org>,
+        Matthias Maennich <maennich@google.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Stephen Hines <srhines@google.com>,
+        Dan Albert <danalbert@google.com>,
+        Fangrui Song <maskray@google.com>,
+        Elliott Hughes <enh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Thanks, but I'd just as soon not be acknowledged/credited. All I did
-was submit a report.
+On Fri, Aug 21, 2020 at 10:14 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> On Fri, Aug 21, 2020 at 7:10 AM 'Nick Desaulniers' via Clang Built
+> Linux <clang-built-linux@googlegroups.com> wrote:
+> >
+> > While moving Android kernels over to use LLVM=1, we observe the failure
+> > when building in a hermetic docker image:
+> >   HOSTCC  scripts/basic/fixdep
+> > clang: error: unable to execute command: Executable "ld" doesn't exist!
+> >
+> > The is because the build of the host utility fixdep builds the fixdep
+> > executable in one step by invoking the compiler as the driver, rather
+> > than individual compile then link steps.
+> >
+> > Clang when configured from source defaults to use the system's linker,
+> > and not LLVM's own LLD, unless the CMake config
+> > -DCLANG_DEFAULT_LINKER='lld' is set when configuring a build of clang
+> > itself.
+> >
+> > Don't rely on the compiler's implicit default linker; be explicit.
+>
+>
+> I do not understand this patch.
+>
+> The host compiler should be able to link executables
+> without any additional settings.
 
-On Wed, Sep 2, 2020 at 11:47 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+Correct; there is no issue linking working executables. The issue is
+which linker is used by default or implied when -fuse-ld=* is not
+explicitly set.
+
 >
-> Applied to linux-kbuild/fixes with Nathan's tag
+> So, can you link a hello world program
+> in your docker?
 >
-> Reported-by: Nathan Royce <nroycea+kernel@gmail.com>
->
->
->
-> Nathan,
-> I think adding your tag is OK to credit your contribution.
-> Please let me know if you do not have it in
-> the commit log.
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
+> masahiro@zoe:~$ cat test.c
+> #include <stdio.h>
+> int main(void)
+> {
+>         printf("helloworld\n");
+>         return 0;
+> }
+> masahiro@zoe:~$ clang test.c
+
+It will fail, because:
+1. clang will implicitly default to ld.bfd on linux hosts and ld on
+OSX hosts (idk about windows).
+2. ld.bfd is not installed, and we *dont'* want to install it.
+Instead, we *want* to use ld.lld in a hermetic environment.
+
+> If this fails, your environment is broken.
+
+Disagree.  The environment has unique constraints (cross compiling for
+Android from OSX host, caring about builds being hermetic, etc.).
+
+> Just do  -DCLANG_DEFAULT_LINKER='lld'
+> if you know GNU ld is missing in your docker environment.
+
+I understand your point. However, I have two reasons I still think
+this patch should be upstream rather than downstream:
+
+1. The build of clang that is distributed with Android, "AOSP LLVM"
+[0], does not and cannot yet set `-DCLANG_DEFAULT_LINKER='lld'`.  See
+the discussion in the comments of [1] where I'm trying to do that.
+The reason is that AOSP LLVM is used to build Android userspace,
+kernel, and is part of the NDK for developers to target Android from
+Windows, OSX, and Linux.  If AOSP is used to build a "host binary" on
+OSX, LLD will not work there for that quite yet.  OSX has its own
+linker that is not LLD, and LLD support for mach-o binaries is a work
+in progress.  NDK has their own timeline that's blocking that change.
+
+You might think "that's Android problem" and that we should just carry
+the patch downstream/out of tree since it is somewhat self-inflicted
+but a very important second point why I think this should be upstream:
+
+2. clang itself (upstream of AOSP LLVM) doesn't yet default to
+-fuse-ld=lld (likely for similar reasons related to OSX).  That means
+distributions of clang-10 from your distro package manager such as
+Debian's apt won't be hermetic.  That means if you build clang from
+source, and don't configure it with -DCLANG_DEFAULT_LINKER='lld', then
+your kernel builds with LLVM=1 will not be hermetic.  That means we
+have to document this somewhere for other people to know or find this.
+That means I have to run around and tell all of the different Kernel
+CI folks about this compiler configuration in order to test
+hermetically.
+
+...
+
+Or, encouraged by the zen of Python, we can just be explicit about
+what linker we want when using LLVM=1, which already signals that that
+is what we want to do.
+
+I think there are similar issues with other distros changing default
+flags of GCC (like -fstack-protector) [2].  The kernel is already
+explicit, so that differences in distro's changes to compiler defaults
+don't matter for kernel builds (except where people accidentally wipe
+out KBUILD_CFLAGS).  I'd argue my change is in the same bucket.
+Please reconsider this patch.
+
+(I should also probably add something like this for `make LD=ld.lld`
+and `make LD=ld.bfd`, regardless of compiler, since everyone supports
+`-fuse-ld=`)
+
+[0] https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
+[1] https://android-review.googlesource.com/c/toolchain/llvm_android/+/1007826
+[2] https://fedoraproject.org/wiki/Changes/HardenedCompiler#Detailed_Description
+-- 
+Thanks,
+~Nick Desaulniers
