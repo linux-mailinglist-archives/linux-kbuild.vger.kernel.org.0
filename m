@@ -2,52 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0EC525CD2E
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Sep 2020 00:09:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A2D325CD3C
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Sep 2020 00:12:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729438AbgICWJD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Sep 2020 18:09:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50554 "EHLO
+        id S1729172AbgICWML (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Sep 2020 18:12:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729383AbgICWJC (ORCPT
+        with ESMTP id S1729036AbgICWMH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Sep 2020 18:09:02 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 397B1C061246
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Sep 2020 15:09:01 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id h12so3210328pgm.7
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Sep 2020 15:09:01 -0700 (PDT)
+        Thu, 3 Sep 2020 18:12:07 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF33C061246
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Sep 2020 15:12:07 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id z22so5950058ejl.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Sep 2020 15:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1TFkAeGi9KR3Vg+6dLLM1QKXoNn5coQYzJIjZ0tVjI0=;
-        b=RMbQl2aWLhRmRg/xlWTquty6EAETDxVrOPrJsvxj3D3ziQggwm1LR9Z+7lvF/RBSAh
-         rdDSpm9JIeEpDa886F9HHLV4dstrmldnU0gSRqvqiZwoQrPW2lTBh5oU/X/4TrS8pCra
-         DV/jID9deoswwRtNn+Jy77/ci1g1OxqByrPxs=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BwuEtmyXe7F2cR0q4/BzPn1A0ke23BiGgvDQhdo0WMU=;
+        b=bCIKEXnTf0ca1JmAwAE+LZOTcE2dN/TiK90vOBcdOhHh/Eb1NLoFw7SGFvV4u1q4yd
+         NSCanRXVgtM0tLCAM/3prxemS1L+tmFwrVZgjePvUDD44B5oCHIVMnvMHwsYfaBSh/Yc
+         ffmoIuI333/SJsY+DmYpMd9pJN4WUM6UZUH4iyAU5CMWkI/ub98PWyrdm/IgFhN66cyb
+         KAJCdgJvjtjPtzH0nHOK8Q44XszFzrAF+OGkeCpJsCVm4vUIQ5GYCIXnLOQe2wb/sK6A
+         t28MQcHuz/Eyk+V8/eVV05WMiL8r79f3UOiZYAKgfKK5uep6TWKRy9tUGQI9YxjCiAu1
+         jxnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1TFkAeGi9KR3Vg+6dLLM1QKXoNn5coQYzJIjZ0tVjI0=;
-        b=CPNTkizcnwmUql33eONQx37CMwiDtALvJ/S8T0pe+neEYMFAOXk3h99yOutEkFhdPU
-         isIlccJhjC68FGYnyMUqCebrP4MF4CRy8XdEIQu3sY14to2mVJ28llIDFZ0m9g+msnNB
-         H+244Jpjb9N5T5xmOgm5ggwhkWoV5AQvheC2incoItVtRYdG5ZaY1arFCLG4Jh+fpaXP
-         OE5VRclmSbpCmu/eoB1B3kHIjKSRgQ8G8HcJ8c9EtqbFxjQ/DtUCJ0hxkLKqTamPnk/7
-         zRs3kfubD6JWKWulDbAk6CIFbjqB8ZrY24pkG3J2rGuzy/2wwmvWYFnDowqIdsLsWjVP
-         jH3A==
-X-Gm-Message-State: AOAM533D+a5Lw1J37U5Zuq6etHBOg8LRtNaRTnnQ/SKxrVTlP8EZ4Ony
-        vS2EhTYkyOY/njq1THbEXgBFeQ==
-X-Google-Smtp-Source: ABdhPJxtv6qZk8AFQNSEBhXOHhLxWmSvOpKmtDAl4TWDKr3eiSBk8TPdIQLGddmagxPcGUhPAwGmGg==
-X-Received: by 2002:aa7:925a:: with SMTP id 26mr5953492pfp.6.1599170941115;
-        Thu, 03 Sep 2020 15:09:01 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id t11sm4160655pfe.165.2020.09.03.15.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 15:09:00 -0700 (PDT)
-Date:   Thu, 3 Sep 2020 15:08:59 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BwuEtmyXe7F2cR0q4/BzPn1A0ke23BiGgvDQhdo0WMU=;
+        b=SuUaCQn1vptT4XCDvbzRwfDQVDjMMpj0M9QzI9oO1Ty0R1++M3ENGkDi2FPK1McRW5
+         4Q9IAQgNLxtY9Z1JJ4qW+9TrtXlaomYC6o1ePtDt/Buenqc0DlWQhfzhRFf+FpH5ntLU
+         8/fvLZUgNExnNyKOQurweHWFvCJ6xuXamd3AHf/VCVL1+tf8/KgXr+hVoEmI+9fKD1Wb
+         tw1QewI55YdEjV4x3XM7N3Ysbn5oF/knL1FXWmMTPGFu7/52cRW40Pij0S0bklb7aXCL
+         Zbfv9ucu8qb++3Qv4ytIzEajrEZyvK50pc3ovETDEcG4ppEzIhBiXMiadUjPdsZhtSDG
+         Bzdw==
+X-Gm-Message-State: AOAM533b76Czb+FG1N5SAzBa8EEVD5Q2vNvqQbSkb4CFSv3rNh8sKPkt
+        u+yn/Qgi+qkyw2UnkQmkvRVYFP6sAZb81XCTeOG7YQ==
+X-Google-Smtp-Source: ABdhPJzTTihf74kYnNBBzSlXexZpmKM7vZMRAKfIQLzvqwFNAx6uvnwDBIQzEJ98cMtCA2J/JaapvP+XgOC8JK4Jyhw=
+X-Received: by 2002:a17:906:7492:: with SMTP id e18mr4301672ejl.375.1599171125797;
+ Thu, 03 Sep 2020 15:12:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200903203053.3411268-1-samitolvanen@google.com> <20200903203053.3411268-9-samitolvanen@google.com>
+ <202009031456.C058EC4@keescook>
+In-Reply-To: <202009031456.C058EC4@keescook>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Thu, 3 Sep 2020 15:11:54 -0700
+Message-ID: <CABCJKufxq2b0854MBA_Kkb0B1k5D1Z431a=m=w2zoOVUh2c==Q@mail.gmail.com>
+Subject: Re: [PATCH v2 08/28] x86, build: use objtool mcount
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -55,86 +61,47 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v2 09/28] kbuild: add support for Clang LTO
-Message-ID: <202009031504.07098D6F8@keescook>
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200903203053.3411268-1-samitolvanen@google.com>
- <20200903203053.3411268-10-samitolvanen@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200903203053.3411268-10-samitolvanen@google.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        X86 ML <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 03, 2020 at 01:30:34PM -0700, Sami Tolvanen wrote:
-> This change adds build system support for Clang's Link Time
-> Optimization (LTO). With -flto, instead of ELF object files, Clang
-> produces LLVM bitcode, which is compiled into native code at link
-> time, allowing the final binary to be optimized globally. For more
-> details, see:
-> 
->   https://llvm.org/docs/LinkTimeOptimization.html
-> 
-> The Kconfig option CONFIG_LTO_CLANG is implemented as a choice,
-> which defaults to LTO being disabled. To use LTO, the architecture
-> must select ARCH_SUPPORTS_LTO_CLANG and support:
-> 
->   - compiling with Clang,
->   - compiling inline assembly with Clang's integrated assembler,
->   - and linking with LLD.
-> 
-> While using full LTO results in the best runtime performance, the
-> compilation is not scalable in time or memory. CONFIG_THINLTO
-> enables ThinLTO, which allows parallel optimization and faster
-> incremental builds. ThinLTO is used by default if the architecture
-> also selects ARCH_SUPPORTS_THINLTO:
-> 
->   https://clang.llvm.org/docs/ThinLTO.html
-> 
-> To enable LTO, LLVM tools must be used to handle bitcode files. The
-> easiest way is to pass the LLVM=1 option to make:
-> 
->   $ make LLVM=1 defconfig
->   $ scripts/config -e LTO_CLANG
->   $ make LLVM=1
-> 
-> Alternatively, at least the following LLVM tools must be used:
-> 
->   CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm
-> 
-> To prepare for LTO support with other compilers, common parts are
-> gated behind the CONFIG_LTO option, and LTO can be disabled for
-> specific files by filtering out CC_FLAGS_LTO.
-> 
-> Note that support for DYNAMIC_FTRACE and MODVERSIONS are added in
-> follow-up patches.
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+On Thu, Sep 3, 2020 at 2:58 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Thu, Sep 03, 2020 at 01:30:33PM -0700, Sami Tolvanen wrote:
+> > Select HAVE_OBJTOOL_MCOUNT if STACK_VALIDATION is selected to use
+> > objtool to generate __mcount_loc sections for dynamic ftrace with
+> > Clang and gcc <5.
+> >
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+>
+> Am I right to understand that this fixes mcount for Clang generally
+> (i.e. it's not _strictly_ related to LTO, though LTO depends on this
+> change)?
 
-I remain crazy excited about being able to use this in upstream. :)
+No, this works fine with Clang when LTO is disabled, because
+recordmcount ignores files named "ftrace.o". However, with LTO, we
+process vmlinux.o instead, so we need a different method of ignoring
+__fentry__ relocations that are not calls.
 
-The only suggestion I have here, if it might help with clarity, would be
-to remove DISABLE_LTO globally as a separate patch, since it's entirely
-unused in the kernel right now. This series removes it as it goes, which
-I think is fine, but it might cause some reviewers to ponder "what's
-this DISABLE_LTO thing? Don't we need that?" without realizing currently
-unused in the kernel.
+In v1, I used a function attribute to whitelist functions that refer
+to __fentry__, but as Peter pointed out back then, objtool already
+knows where the call sites are, so using it to generate __mcount_loc
+is cleaner.
 
-I'm glad to see the general CONFIG_LTO, as I think it should be easy for
-GCC LTO support to get added when someone steps up to do it. The bulk of
-the changed needed to support GCC LTO are part of this series already,
-since the build problems involving non-ELF .o files and init ordering
-are shared by Clang and GCC AFAICT.
+> And does this mean mcount was working for gcc < 5?
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Yes. I should have been clearer in the commit message. The reason I
+mentioned gcc <5 is that later gcc versions support -mrecord-mcount,
+which means they don't need an external tool for generating
+__mcount_loc anymore.
 
--- 
-Kees Cook
+Sami
