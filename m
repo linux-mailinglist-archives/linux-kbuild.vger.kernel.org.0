@@ -2,56 +2,56 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41A8925CB30
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Sep 2020 22:39:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09CA525CB25
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Sep 2020 22:38:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728358AbgICUiu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1728975AbgICUiu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Thu, 3 Sep 2020 16:38:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35482 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729460AbgICUba (ORCPT
+        with ESMTP id S1729400AbgICUbi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Sep 2020 16:31:30 -0400
-Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0447AC06125C
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Sep 2020 13:31:10 -0700 (PDT)
-Received: by mail-qv1-xf49.google.com with SMTP id bo17so2534696qvb.2
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Sep 2020 13:31:09 -0700 (PDT)
+        Thu, 3 Sep 2020 16:31:38 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC5D3C0619C4
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Sep 2020 13:31:11 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id g18so2486099pgl.10
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Sep 2020 13:31:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=/qNzjrcyr5XKcvklD+GZQa7NZ7u6sAXpUN3H65DCv0U=;
-        b=Zsq/hG7XAc4mwLU8SBGtWoXCI16CctA7+BH9jQ5VxbO2BJLbC+6FgawBmmjPDrNYD8
-         kYLK4S5KB9WCwaWGEcaOIDi92B0t9YROgAR/TDbV9fyw9yUJywcMexGdaF/1Iwzs87ZN
-         NRQu9/IzlFlx6ERBgUteP3jl1xRfP2aHL3vambh4FSyiWOPQ6kASPXKbYhq6mT/8+sQT
-         7HGqm6vlRwjCG/BIjNDm/J4yDrq8EuBzLQ4kU3eF1t1Td0NzBQonQSn7fXs/MlQq/w9q
-         bJE+U0yfjLtcw9rAdKYYQuiPZeaAtpfle/Ztssg3jka5z8KkzkRqxF5j/+zMpJAKxxfR
-         InPQ==
+        bh=WN8mpXa+HsW9fsZYTOAsBdC0BrDsnoqsIhb4CRQsjoA=;
+        b=ILcqyCFUuMNmm3B95VxDju+nky8Uu+qmaPpzDRj3rzSs7wdq56m1nXOOYGQRh5j+ez
+         GoI90TA6FVXFOlD755AmSb4/FNzaT0VP8lOAy6uMYZFFLJuqFJVL9bJwWTH9E0GqtOEo
+         al6TkePRlfFId/wWeLeyYEgNYfWQP0oNFVpXgW52difahcSd5ZTRotEOB0pRrOx1IZXM
+         Cnhj1xtZcbRHwGgTBVkZm/DFy5pa62h5HdpA7rjM4Z4R2IFE8nWpVFD1OTUXwGK6Fy0y
+         CR+ahjyBXSSb5EJ1ofWh2xFjBel7zKuiBnOe86gBc07OTZ6uirMoAkpdrWgxZ4RTDhON
+         LYRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=/qNzjrcyr5XKcvklD+GZQa7NZ7u6sAXpUN3H65DCv0U=;
-        b=de8XLbspjuZXpoavWnKvqofybrzDp3Gp+IViUZgtj9SJHXB2yi3pTMMLc1IR+e2zOR
-         UfyEtaBTIwGsUzbBw9EMVQNunOX+VNgp5viVFBVrqpZ70ZMO9FZJezmHI7maOV84n7Xe
-         8hTJ//2sXzr5zKd46qzsMKsvm2tTCyprFHdwQs/xdG3Vk4qYD9AW4vM0SWjLW17RHQ1/
-         xd6YPUBXWglRCMA/Nj8N4xm25CSa41a4Og1ecX5QHvBJDO/+pM+tdqNnH0yvrrpbFtIR
-         lej8oucXGuEQoDcrZk6+FhWE7+zL3uuH3Ei72eS6dg/4GbpnkCo2BKFRZ4WOoOM+GGok
-         Hq6Q==
-X-Gm-Message-State: AOAM532oBlEnaofEWdaeyFr+YcFeqVffGgroFqzaet9TrjIIXCYbiIIK
-        wqczxd/fo/nIouQs73sS5/MJdo95kqgw6cO47dI=
-X-Google-Smtp-Source: ABdhPJyLRS5zhOlsTPIghggsBo02eHCvGWDIp2OJgb326kojzCylZPPrFhxZrtPlMoRBECX9OwEwfr6KBZ+bjrldyC0=
+        bh=WN8mpXa+HsW9fsZYTOAsBdC0BrDsnoqsIhb4CRQsjoA=;
+        b=Ki8sd0Rs/DYw/1BrfIW2hKILsZZ/WBXuTZjzwM0IchC6MHLHyLOtguPfuDXdjN+yUg
+         95h4zS/PZKzVAz4WTNrf5MvK3PxtGgv192R4dvEuszEnKpfocM2FJD2rKBAstPHvyAs3
+         WR9n2plm6xZmJ8KTDAcmGvKk3+ZgB3lSFZo6ya4egfhNai04h+aUdVpsqi8xkwu7kK9w
+         MijiaubwbI7BI81OrSIm98/Y85u+pqY3cZ668nyr59MY6zAAdSE99Cara/wFqXgeAZgc
+         v7SGb9lVX9I91rMLhx20qpevf6eS6d9umuC6rN+C67KNAW7yQwQbLd5yVvUghGvx0+ZC
+         QB+A==
+X-Gm-Message-State: AOAM530rOSE2eVDQX4BVMgUpjYytUhH8FsPGm6VMUAUsexIzq25uXZ8o
+        eE4NxjdZQZndtzUlNkmbrys6K35PypTNO34OQSo=
+X-Google-Smtp-Source: ABdhPJyGVWrrLe9OiHn6gBlDgaN9mhbz1XtS93UGhLaXNK12eKqdd07FdIpOk9xvfDGTdAf7XwfZllDsHPKhawlMPg4=
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a0c:ca87:: with SMTP id
- a7mr4619179qvk.17.1599165069140; Thu, 03 Sep 2020 13:31:09 -0700 (PDT)
-Date:   Thu,  3 Sep 2020 13:30:32 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a17:90a:d512:: with SMTP id
+ t18mr1126739pju.106.1599165071359; Thu, 03 Sep 2020 13:31:11 -0700 (PDT)
+Date:   Thu,  3 Sep 2020 13:30:33 -0700
 In-Reply-To: <20200903203053.3411268-1-samitolvanen@google.com>
-Message-Id: <20200903203053.3411268-8-samitolvanen@google.com>
+Message-Id: <20200903203053.3411268-9-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200624203200.78870-1-samitolvanen@google.com> <20200903203053.3411268-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.526.ge36021eeef-goog
-Subject: [PATCH v2 07/28] kbuild: add support for objtool mcount
+Subject: [PATCH v2 08/28] x86, build: use objtool mcount
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>
@@ -72,130 +72,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-This change adds build support for using objtool to generate
-__mcount_loc sections.
+Select HAVE_OBJTOOL_MCOUNT if STACK_VALIDATION is selected to use
+objtool to generate __mcount_loc sections for dynamic ftrace with
+Clang and gcc <5.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 ---
- Makefile               | 38 ++++++++++++++++++++++++++++++--------
- kernel/trace/Kconfig   |  5 +++++
- scripts/Makefile.build |  9 +++++----
- 3 files changed, 40 insertions(+), 12 deletions(-)
+ arch/x86/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Makefile b/Makefile
-index ff5e0731d26d..a9dae26c93b5 100644
---- a/Makefile
-+++ b/Makefile
-@@ -859,17 +859,34 @@ ifdef CONFIG_HAVE_FENTRY
-   ifeq ($(call cc-option-yn, -mfentry),y)
-     CC_FLAGS_FTRACE	+= -mfentry
-     CC_FLAGS_USING	+= -DCC_USING_FENTRY
-+    export CC_USING_FENTRY := 1
-   endif
- endif
- export CC_FLAGS_FTRACE
--KBUILD_CFLAGS	+= $(CC_FLAGS_FTRACE) $(CC_FLAGS_USING)
--KBUILD_AFLAGS	+= $(CC_FLAGS_USING)
- ifdef CONFIG_DYNAMIC_FTRACE
--	ifdef CONFIG_HAVE_C_RECORDMCOUNT
--		BUILD_C_RECORDMCOUNT := y
--		export BUILD_C_RECORDMCOUNT
--	endif
-+  ifndef CC_USING_RECORD_MCOUNT
-+  ifndef CC_USING_PATCHABLE_FUNCTION_ENTRY
-+    # use objtool or recordmcount to generate mcount tables
-+    ifdef CONFIG_HAVE_OBJTOOL_MCOUNT
-+      ifdef CC_USING_FENTRY
-+        USE_OBJTOOL_MCOUNT := y
-+        CC_FLAGS_USING += -DCC_USING_NOP_MCOUNT
-+        export USE_OBJTOOL_MCOUNT
-+      endif
-+    endif
-+    ifndef USE_OBJTOOL_MCOUNT
-+      USE_RECORDMCOUNT := y
-+      export USE_RECORDMCOUNT
-+      ifdef CONFIG_HAVE_C_RECORDMCOUNT
-+        BUILD_C_RECORDMCOUNT := y
-+        export BUILD_C_RECORDMCOUNT
-+      endif
-+    endif
-+  endif
-+  endif
- endif
-+KBUILD_CFLAGS	+= $(CC_FLAGS_FTRACE) $(CC_FLAGS_USING)
-+KBUILD_AFLAGS	+= $(CC_FLAGS_USING)
- endif
- 
- # We trigger additional mismatches with less inlining
-@@ -1218,11 +1235,16 @@ uapi-asm-generic:
- PHONY += prepare-objtool prepare-resolve_btfids
- prepare-objtool: $(objtool_target)
- ifeq ($(SKIP_STACK_VALIDATION),1)
-+objtool-lib-prompt := "please install libelf-dev, libelf-devel or elfutils-libelf-devel"
-+ifdef USE_OBJTOOL_MCOUNT
-+	@echo "error: Cannot generate __mcount_loc for CONFIG_DYNAMIC_FTRACE=y, $(objtool-lib-prompt)" >&2
-+	@false
-+endif
- ifdef CONFIG_UNWINDER_ORC
--	@echo "error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
-+	@echo "error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, $(objtool-lib-prompt)" >&2
- 	@false
- else
--	@echo "warning: Cannot use CONFIG_STACK_VALIDATION=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel" >&2
-+	@echo "warning: Cannot use CONFIG_STACK_VALIDATION=y, $(objtool-lib-prompt)" >&2
- endif
- endif
- 
-diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
-index a4020c0b4508..b510af5b216c 100644
---- a/kernel/trace/Kconfig
-+++ b/kernel/trace/Kconfig
-@@ -56,6 +56,11 @@ config HAVE_C_RECORDMCOUNT
- 	help
- 	  C version of recordmcount available?
- 
-+config HAVE_OBJTOOL_MCOUNT
-+	bool
-+	help
-+	  Arch supports objtool --mcount
-+
- config TRACER_MAX_TRACE
- 	bool
- 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a467b9323442..6ecf30c70ced 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -178,8 +178,7 @@ cmd_modversions_c =								\
- 	fi
- endif
- 
--ifdef CONFIG_FTRACE_MCOUNT_RECORD
--ifndef CC_USING_RECORD_MCOUNT
-+ifdef USE_RECORDMCOUNT
- # compiler will not generate __mcount_loc use recordmcount or recordmcount.pl
- ifdef BUILD_C_RECORDMCOUNT
- ifeq ("$(origin RECORDMCOUNT_WARN)", "command line")
-@@ -206,8 +205,7 @@ recordmcount_source := $(srctree)/scripts/recordmcount.pl
- endif # BUILD_C_RECORDMCOUNT
- cmd_record_mcount = $(if $(findstring $(strip $(CC_FLAGS_FTRACE)),$(_c_flags)),	\
- 	$(sub_cmd_record_mcount))
--endif # CC_USING_RECORD_MCOUNT
--endif # CONFIG_FTRACE_MCOUNT_RECORD
-+endif # USE_RECORDMCOUNT
- 
- ifdef CONFIG_STACK_VALIDATION
- ifneq ($(SKIP_STACK_VALIDATION),1)
-@@ -230,6 +228,9 @@ endif
- ifdef CONFIG_X86_SMAP
-   objtool_args += --uaccess
- endif
-+ifdef USE_OBJTOOL_MCOUNT
-+  objtool_args += --mcount
-+endif
- 
- # 'OBJECT_FILES_NON_STANDARD := y': skip objtool checking for a directory
- # 'OBJECT_FILES_NON_STANDARD_foo.o := 'y': skip objtool checking for a file
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 7101ac64bb20..6de2e5c0bdba 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -163,6 +163,7 @@ config X86
+ 	select HAVE_CMPXCHG_LOCAL
+ 	select HAVE_CONTEXT_TRACKING		if X86_64
+ 	select HAVE_C_RECORDMCOUNT
++	select HAVE_OBJTOOL_MCOUNT		if STACK_VALIDATION
+ 	select HAVE_DEBUG_KMEMLEAK
+ 	select HAVE_DMA_CONTIGUOUS
+ 	select HAVE_DYNAMIC_FTRACE
 -- 
 2.28.0.402.g5ffc5be6b7-goog
 
