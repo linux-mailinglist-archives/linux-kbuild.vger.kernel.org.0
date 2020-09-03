@@ -2,50 +2,50 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A51725CDD1
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Sep 2020 00:42:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEEE925CDD6
+	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Sep 2020 00:43:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728311AbgICWmS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Sep 2020 18:42:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55788 "EHLO
+        id S1729348AbgICWnB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Sep 2020 18:43:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729405AbgICWmQ (ORCPT
+        with ESMTP id S1728037AbgICWm7 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Sep 2020 18:42:16 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65DB0C061245
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Sep 2020 15:42:16 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id c142so3495098pfb.7
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Sep 2020 15:42:16 -0700 (PDT)
+        Thu, 3 Sep 2020 18:42:59 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D592C061244
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Sep 2020 15:42:59 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id h12so3267187pgm.7
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Sep 2020 15:42:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TlwuOH2EQG6MCnppWuU43l955MakvluKpUTVDERTNO8=;
-        b=XY2V+aPzW1+LDnPQgs8LCKdfsW+ukc0CH4hsERu2c197BquhpT6ytbY651mqbWroP5
-         NoijPo4tmmhjTbE82fXMmxBiTTfrN9b+BObSgnEn5HC00srbReXMVw7CaVxDZQjvWDNb
-         sLqtBJzVmvCGKIRCPcZC9IKz2mLH5Kg/+0yME=
+        bh=QrnbZATBHBxQZ7fajeBTKOWCmjpG/tdsnBaMo8RMsl0=;
+        b=arGEoVNcgRk6SvvgwhWybl2yTQQ/41JitWigdBdGhFS95Gmb9SWRyyuaVbLozcxhlL
+         y6JEOwrroo7lJUf2OLWmcs3N8AyWgT7zx61RPK1c7lAmQb6YFg/HrUMlem7+hTwvS/bi
+         td4g7TX1ItoN+b7bfyXxlkOCNCh28KvNVjWIM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TlwuOH2EQG6MCnppWuU43l955MakvluKpUTVDERTNO8=;
-        b=a4fGGpDuW63zHEbxHZjmRpncaOiC/wHKOvTiIwzvJBZbvL4MfCMawKaei1iE4ZXhVd
-         YGK+nwC2NAjrrz6Nt3omF6VimwgQJlcQJA265acI0q30wqxyrVqpFzhwUBquFPY3v7r1
-         DYRnOgdp2yWqMjwBdl4C9MTPwPcvdd2xzwsw6ze9FTezro+CeCDXRDSQbrrg9+j3XcaA
-         Ngt50/cjfD0O4U6WkejGvsvOjT2OzV3LCo1XJCA+/9fpNlWo6btP8wq5bSphC6XfpqCD
-         klVTqDnDClSDGqOZZAq8mkjvWm4JJpmfRl52zYkPJVGTJo0tOvZeBwvlJn85cGJndpf4
-         vt5A==
-X-Gm-Message-State: AOAM531miMz57Ew5DT5Zf4gymhP+yljD64dCRSem0vm4ZWRtmjWqYUQr
-        AsP0V+8GmHNLBTrXmMRi2oI45Q==
-X-Google-Smtp-Source: ABdhPJyqBzmMfYaY/Mz5zx6mhtV8btCsnKX7oA2efoS7o6nY6a3yOyI6Ra3/iG5Srj/uMw3Z86qeLw==
-X-Received: by 2002:a63:384b:: with SMTP id h11mr4827548pgn.113.1599172936031;
-        Thu, 03 Sep 2020 15:42:16 -0700 (PDT)
+        bh=QrnbZATBHBxQZ7fajeBTKOWCmjpG/tdsnBaMo8RMsl0=;
+        b=nBtP3poZOTLcj58iMzN7i94KsMu+igtee2bEd4K6aOnITRSc/o31yjeG0mcedSaTIQ
+         S7UyK9LNWKw3REZlCoGiwer2s8hONEEPzuJYp+2WhN2gHm6OBEMJi4mYwgdh6fk2tmP7
+         22+rNOkjpzkyL60izgrZ07ilnSd+TlbnPKvxVnzBHEaPHlQQNW781cOjCCfVjnns2PGs
+         6Xsox7lxULVwzbBIUY9V2Ki9bQSPZmj2rxvjhvcbSvKgVZQ/9BKC7Ah1DrVUhCk5HLrI
+         ns27CuEPbzmaWmR+B8TW2xRihu07S4InIingYEjlR+qMRee1lHmSDGS5dZ6A765mKVt3
+         xKAA==
+X-Gm-Message-State: AOAM5300Xw2NNo5DcSvols/WqPT1Po7pitEMJxvZRky/2OWierlHq+wk
+        YgLwT2K/ZWvhdWOktvUcKNh+DQ==
+X-Google-Smtp-Source: ABdhPJy5mdmPjJfruWrIY+6IxKRglw5a/F5w2SGFD8qLkoS56YGpVx+oFe/zdag2OFqeajEXIFLqFA==
+X-Received: by 2002:a17:902:9a45:: with SMTP id x5mr6151434plv.208.1599172978633;
+        Thu, 03 Sep 2020 15:42:58 -0700 (PDT)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a6sm3760136pgt.70.2020.09.03.15.42.14
+        by smtp.gmail.com with ESMTPSA id r7sm4305639pfl.186.2020.09.03.15.42.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2020 15:42:14 -0700 (PDT)
-Date:   Thu, 3 Sep 2020 15:42:13 -0700
+        Thu, 03 Sep 2020 15:42:57 -0700 (PDT)
+Date:   Thu, 3 Sep 2020 15:42:56 -0700
 From:   Kees Cook <keescook@chromium.org>
 To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
@@ -60,28 +60,27 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         x86@kernel.org
-Subject: Re: [PATCH v2 17/28] PCI: Fix PREL32 relocations for LTO
-Message-ID: <202009031542.F6DA50F6@keescook>
+Subject: Re: [PATCH v2 18/28] modpost: lto: strip .lto from module names
+Message-ID: <202009031542.1F8B3012FD@keescook>
 References: <20200624203200.78870-1-samitolvanen@google.com>
  <20200903203053.3411268-1-samitolvanen@google.com>
- <20200903203053.3411268-18-samitolvanen@google.com>
+ <20200903203053.3411268-19-samitolvanen@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200903203053.3411268-18-samitolvanen@google.com>
+In-Reply-To: <20200903203053.3411268-19-samitolvanen@google.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 03, 2020 at 01:30:42PM -0700, Sami Tolvanen wrote:
-> With Clang's Link Time Optimization (LTO), the compiler can rename
-> static functions to avoid global naming collisions. As PCI fixup
-> functions are typically static, renaming can break references
-> to them in inline assembly. This change adds a global stub to
-> DECLARE_PCI_FIXUP_SECTION to fix the issue when PREL32 relocations
-> are used.
+On Thu, Sep 03, 2020 at 01:30:43PM -0700, Sami Tolvanen wrote:
+> With LTO, everything is compiled into LLVM bitcode, so we have to link
+> each module into native code before modpost. Kbuild uses the .lto.o
+> suffix for these files, which also ends up in module information. This
+> change strips the unnecessary .lto suffix from the module name.
 > 
+> Suggested-by: Bill Wendling <morbo@google.com>
 > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
