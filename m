@@ -2,221 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8767B25B864
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Sep 2020 03:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4064825B895
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Sep 2020 04:08:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgICBqU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Sep 2020 21:46:20 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:18478 "EHLO
+        id S1726586AbgICCIa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Sep 2020 22:08:30 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:18057 "EHLO
         conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbgICBqT (ORCPT
+        with ESMTP id S1726177AbgICCI3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Sep 2020 21:46:19 -0400
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 0831k0uB030915;
-        Thu, 3 Sep 2020 10:46:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0831k0uB030915
+        Wed, 2 Sep 2020 22:08:29 -0400
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 083286I6018641;
+        Thu, 3 Sep 2020 11:08:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 083286I6018641
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1599097561;
-        bh=1/mxdzsfMle0lQOkE8hY9bEbmZGVcwgm8MgV0/tr0lo=;
+        s=dec2015msa; t=1599098886;
+        bh=FbRuuNFl7WBGq+7ZgXV+kPAug+eVnXiL2BhcCi5h+pQ=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=1Dit0Ta59P10cBm5ONcB9bNE52YPFnTH82snltJA58p7U80ht6q4Idj7VAsRG6yNq
-         ZaO0CDe7izRtA2pCX/XOXLwFMO7QmL70k5n+/whzc8q5zvfn+x6YVHk2428LmjB1IP
-         NuD05pN92IVWzP7LAe4DZHRvlr+cuTysRqSia+/C5wHR/AVK1NpahWiPZRQY/64lVU
-         RUNB3tZxP9cT/D9ax398Avrgfc1+uFVeRuQCKtNP5LlEG2yFp6jyumqF94PVo+aZ30
-         XvY7MikFOQdwYSaHnzjIhWWsAmsL6axGSEPxoY/52NXaDh6xYD6bIMI3wPJ2Wuv5zC
-         Pk2W2hZSUfGwg==
-X-Nifty-SrcIP: [209.85.210.179]
-Received: by mail-pf1-f179.google.com with SMTP id 17so885098pfw.9;
-        Wed, 02 Sep 2020 18:46:00 -0700 (PDT)
-X-Gm-Message-State: AOAM530/ARDxA5Fw5j/cSAshPHSdujYGBBWvaS9cPzx+FHZr8WavwAfb
-        3BWeEHDSkmRJxawyqwsada9zYOtqjf5oKf3LkxU=
-X-Google-Smtp-Source: ABdhPJwy2a9t/PYPDUGXPUjbUBDIk0jJfoIqu5vLFrzDkovOMVbb8nHIuajkB14U7OHjM8CAVZFQ0BkVvoMEtCE1mPc=
-X-Received: by 2002:a63:e018:: with SMTP id e24mr693958pgh.175.1599097559845;
- Wed, 02 Sep 2020 18:45:59 -0700 (PDT)
+        b=NbpWpuI3P5Ymn+hHb+O5eANPQnnf2a3RDLjU/npfQgzVXZ6aGr88k2I2738t5JS4p
+         1IPVpIgyoze8tJMhlR+py+oF/Z7RvqwkMPLYJ6g1HM82rTiFwKlfuCFPtRGvmp2p/H
+         aIA5YxjK+0vwYQrlPAfpmPlkTkXO/9oCD3W8KkV7ynVLqwK9GS8vG9Y6jKN+yIxcCd
+         5kCAACGouYBUE36HwdX8nusBfCfqFbiJrRCeUiJ+3GzJ3It2xMVAW1nB1HnmubCiWe
+         rwGey5cupqUR8Es2eFYZxXQ4efSYlirNXE56v+eI1XHcR4eB5vGye6itC8lreW8ewT
+         Oa/kP87H1tRNA==
+X-Nifty-SrcIP: [209.85.216.48]
+Received: by mail-pj1-f48.google.com with SMTP id s2so681615pjr.4;
+        Wed, 02 Sep 2020 19:08:06 -0700 (PDT)
+X-Gm-Message-State: AOAM533ZPILqodfq8BbGaHoFVGJDALpIPO26oiMnb040KydI3g4sdU9q
+        vpIybWR7PiJEV+yhfqvorXUcGiDRxPqq0OWiJBI=
+X-Google-Smtp-Source: ABdhPJyJOFojJtm7uxShN5a262TORZhyfaAW6yFIuIpfP+P1o4jX85Yweu7n/JhvKfWfS7anSmqJvhj93VGvz/6bv1s=
+X-Received: by 2002:a17:90b:360a:: with SMTP id ml10mr730723pjb.198.1599098885716;
+ Wed, 02 Sep 2020 19:08:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200820220955.3325555-1-ndesaulniers@google.com>
- <CAK7LNAQO9sKw=7RLPSnsChddrwNCc_si-XgSDQcGHTSxeq4_Pg@mail.gmail.com> <CAKwvOdnbdhkB=OG0Gec5jt5H4b4jRGPvKfgJ-JbZY+gym-u3_g@mail.gmail.com>
-In-Reply-To: <CAKwvOdnbdhkB=OG0Gec5jt5H4b4jRGPvKfgJ-JbZY+gym-u3_g@mail.gmail.com>
+References: <20200805102550.GO2674@hirez.programming.kicks-ass.net>
+ <20200806120438.GG35926@hirez.programming.kicks-ass.net> <CAK7LNAQE2jPUQJUa1yi7+=w--Jj-wwnGVR2hyPQZxR7Yp9odBA@mail.gmail.com>
+ <20200902162649.GL1362448@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200902162649.GL1362448@hirez.programming.kicks-ass.net>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 3 Sep 2020 10:45:23 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT9KN4dBgyuXqoiFbP_Sa335DahudshJTjcK354=QpBLQ@mail.gmail.com>
-Message-ID: <CAK7LNAT9KN4dBgyuXqoiFbP_Sa335DahudshJTjcK354=QpBLQ@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: add -fuse-ld=lld to KBUILD_HOSTLDFLAGS when LLVM=1
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     stable <stable@vger.kernel.org>,
-        Matthias Maennich <maennich@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Stephen Hines <srhines@google.com>,
-        Dan Albert <danalbert@google.com>,
-        Fangrui Song <maskray@google.com>,
-        Elliott Hughes <enh@google.com>
+Date:   Thu, 3 Sep 2020 11:07:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS+0QtvgX1b77Y51cuMQ-eK4cKb8rebTQ=Ug3F2rkjP2g@mail.gmail.com>
+Message-ID: <CAK7LNAS+0QtvgX1b77Y51cuMQ-eK4cKb8rebTQ=Ug3F2rkjP2g@mail.gmail.com>
+Subject: Re: [PATCH -v2] scipts/tags.sh: Add custom sort order
+To:     "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 3, 2020 at 7:40 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+On Thu, Sep 3, 2020 at 1:26 AM <peterz@infradead.org> wrote:
 >
-> On Fri, Aug 21, 2020 at 10:14 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> On Thu, Sep 03, 2020 at 12:58:14AM +0900, Masahiro Yamada wrote:
+>
+> > Sorry for the long delay.
 > >
-> > On Fri, Aug 21, 2020 at 7:10 AM 'Nick Desaulniers' via Clang Built
-> > Linux <clang-built-linux@googlegroups.com> wrote:
-> > >
-> > > While moving Android kernels over to use LLVM=1, we observe the failure
-> > > when building in a hermetic docker image:
-> > >   HOSTCC  scripts/basic/fixdep
-> > > clang: error: unable to execute command: Executable "ld" doesn't exist!
-> > >
-> > > The is because the build of the host utility fixdep builds the fixdep
-> > > executable in one step by invoking the compiler as the driver, rather
-> > > than individual compile then link steps.
-> > >
-> > > Clang when configured from source defaults to use the system's linker,
-> > > and not LLVM's own LLD, unless the CMake config
-> > > -DCLANG_DEFAULT_LINKER='lld' is set when configuring a build of clang
-> > > itself.
-> > >
-> > > Don't rely on the compiler's implicit default linker; be explicit.
+> > First, this patch breaks 'make TAGS'
+> > if 'etags' is a symlink to exuberant ctags.
 > >
 > >
-> > I do not understand this patch.
+> > masahiro@oscar:~/ref/linux$ etags --version
+> > Exuberant Ctags 5.9~svn20110310, Copyright (C) 1996-2009 Darren Hiebert
+> >   Addresses: <dhiebert@users.sourceforge.net>, http://ctags.sourceforge.net
+> >   Optional compiled features: +wildcards, +regex
 > >
-> > The host compiler should be able to link executables
-> > without any additional settings.
->
-> Correct; there is no issue linking working executables. The issue is
-> which linker is used by default or implied when -fuse-ld=* is not
-> explicitly set.
->
+> > masahiro@oscar:~/ref/linux$ make TAGS
+> >   GEN     TAGS
+> > etags: Warning: include/linux/seqlock.h:738: null expansion of name pattern "\2"
+> > sed: can't read TAGS: No such file or directory
+> > make: *** [Makefile:1820: TAGS] Error 2
 > >
-> > So, can you link a hello world program
-> > in your docker?
+> > The reason is the hard-coded ' > tags',
+> > and easy to fix.
+>
+> Ah, my bad, I forgot to check.
+>
+> > But, honestly, I am not super happy about this patch.
 > >
-> > masahiro@zoe:~$ cat test.c
-> > #include <stdio.h>
-> > int main(void)
-> > {
-> >         printf("helloworld\n");
-> >         return 0;
-> > }
-> > masahiro@zoe:~$ clang test.c
+> > Reason 1
+> >   In my understanding, sorting by the tag kind only works
+> >   for ctags. My favorite editor is emacs.
+> >   (Do not get me wrong. I do not intend emacs vs vi war).
+> >   So, I rather do 'make TAGS' instead of 'make tags',
+> >   but this solution would not work for etags because
+> >   etags has a different format.
+> >   So, I'd rather want to see a more general solution.
 >
-> It will fail, because:
-> 1. clang will implicitly default to ld.bfd on linux hosts and ld on
-> OSX hosts (idk about windows).
-> 2. ld.bfd is not installed, and we *dont'* want to install it.
-> Instead, we *want* to use ld.lld in a hermetic environment.
+> It might be possible that emacs' tags implementation can already do this
+> natively. Initially I tried to fix this in vim, with a macro, but I
+> couldn't get access to the 'kind' tag.
 >
-> > If this fails, your environment is broken.
+> > Reason 2
+> >   We would have more messy code, mixing two files/languages
 >
-> Disagree.  The environment has unique constraints (cross compiling for
-> Android from OSX host, caring about builds being hermetic, etc.).
+> I could try and write the whole thing in bash I suppose.
 >
-> > Just do  -DCLANG_DEFAULT_LINKER='lld'
-> > if you know GNU ld is missing in your docker environment.
+> > When is it useful to tag structure members?
 >
-> I understand your point. However, I have two reasons I still think
-> this patch should be upstream rather than downstream:
+> Often, just not when there is a naming conflict.
 >
-> 1. The build of clang that is distributed with Android, "AOSP LLVM"
-> [0], does not and cannot yet set `-DCLANG_DEFAULT_LINKER='lld'`.  See
-> the discussion in the comments of [1] where I'm trying to do that.
-> The reason is that AOSP LLVM is used to build Android userspace,
-> kernel, and is part of the NDK for developers to target Android from
-> Windows, OSX, and Linux.  If AOSP is used to build a "host binary" on
-> OSX, LLD will not work there for that quite yet.  OSX has its own
-> linker that is not LLD, and LLD support for mach-o binaries is a work
-> in progress.  NDK has their own timeline that's blocking that change.
+> > If they are really annoying, why don't we delete them
+> > instead of moving them to the bottom of the tag file?
 >
-> You might think "that's Android problem" and that we should just carry
-> the patch downstream/out of tree since it is somewhat self-inflicted
-> but a very important second point why I think this should be upstream:
+> Because they're really useful :-)
 >
-> 2. clang itself (upstream of AOSP LLVM) doesn't yet default to
-> -fuse-ld=lld (likely for similar reasons related to OSX).  That means
-> distributions of clang-10 from your distro package manager such as
-> Debian's apt won't be hermetic.  That means if you build clang from
-> source, and don't configure it with -DCLANG_DEFAULT_LINKER='lld', then
-> your kernel builds with LLVM=1 will not be hermetic.
-
-
-I am still not convinced with this.
-
-If you care which linker is internally used,
-you can/should set -DCLANG_DEFAULT_LINKER='lld',
-and that is what 'configure' exists for.
-
-
-
-> That means we
-> have to document this somewhere for other people to know or find this.
-> That means I have to run around and tell all of the different Kernel
-> CI folks about this compiler configuration in order to test
-> hermetically.
-
-
-Is it so important?
-This is just host programs we are talking about.
-
-If you really want to ensure lld is used everywhere,
-you need to ask any other projects to add -fuse-ld=lld
-in their build systems, but it is not realistic.
-
-So, I tend to stick to the default
-for host programs.
-
-
-Your environment is _unique_, at least.
-
-Kbuild provides a way to add extra flags to HOSTCC.
-
-What do you think about doing this?
-
-$ make LLVM=1 HOSTCFLAGS=-fuse-ld=lld
-
-
-This is documented in Documentation/kbuild/kbuild.rst
-
-HOSTCFLAGS
-----------
-Additional flags to be passed to $(HOSTCC) when building host programs.
-
-
-
-
-
-
+> > I attached an alternative solution,
+> > and wrote up my thoughts in the log.
+> >
+> > What do you think?
 >
-> ...
+> > Exuberant Ctags supports the following kinds of tags:
+> >
+> >   $ ctags --list-kinds=c
+> >   c  classes
+> >   d  macro definitions
+> >   e  enumerators (values inside an enumeration)
+> >   f  function definitions
+> >   g  enumeration names
+> >   l  local variables [off]
+> >   m  class, struct, and union members
+> >   n  namespaces
+> >   p  function prototypes [off]
+> >   s  structure names
+> >   t  typedefs
+> >   u  union names
+> >   v  variable definitions
+> >   x  external and forward variable declarations [off]
+> >
+> > This commit excludes 'm', 'v', and 'x'.
 >
-> Or, encouraged by the zen of Python, we can just be explicit about
-> what linker we want when using LLVM=1, which already signals that that
-> is what we want to do.
+> So my main beef is with m vs s conflicts (they're pretty prevalent),
+> removing v is insane, but even removing m is undesired IMO.
 >
-> I think there are similar issues with other distros changing default
-> flags of GCC (like -fstack-protector) [2].  The kernel is already
-> explicit, so that differences in distro's changes to compiler defaults
-> don't matter for kernel builds (except where people accidentally wipe
-> out KBUILD_CFLAGS).  I'd argue my change is in the same bucket.
-> Please reconsider this patch.
+> > Reviewed-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+
+
+Sorry, I intended Reported-by, not Reviewed-by.
+
+
+> Very much not I'm afraid. I really do like my tags, it's just that I'd
+> like to have a set precedence when there's a naming conflict.
 >
-> (I should also probably add something like this for `make LD=ld.lld`
-> and `make LD=ld.bfd`, regardless of compiler, since everyone supports
-> `-fuse-ld=`)
-> [0] https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/
-> [1] https://android-review.googlesource.com/c/toolchain/llvm_android/+/1007826
-> [2] https://fedoraproject.org/wiki/Changes/HardenedCompiler#Detailed_Description
-> --
-> Thanks,
-> ~Nick Desaulniers
+> My claim is that a structure definition is more interesting than a
+> member variable, not that member variables are not interesting.
 
 
 
--- 
+OK, but is there any idea
+to make the code cleaner and easier to maintain?
+
+
+People play with whatever they want to do in this script.
+
+
+
+f81b1be40c44b33b9706d64c117edd29e627ad12
+introduced file-level ordering.
+
+
+4f491bb6ea2aef2f5b184f385904a73796d98554
+broke it.
+(I pointed it out in the review,
+but akpm picked it anyway.)
+
+
+Now, here is the tag-level ordering
+(only for exuberant ctags).
+
+
+
+Contributors stop caring after their code is merged,
+but maintaining it is tiring.
+
+
+Will re-implementing your sorting logic
+in bash look cleaner?
+
+Or, in hindsight, we should have used python or perl?
+
+
+--
 Best Regards
 Masahiro Yamada
