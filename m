@@ -2,53 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49D6925E308
-	for <lists+linux-kbuild@lfdr.de>; Fri,  4 Sep 2020 22:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CD9725E6A4
+	for <lists+linux-kbuild@lfdr.de>; Sat,  5 Sep 2020 11:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728145AbgIDUt3 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 4 Sep 2020 16:49:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60990 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728075AbgIDUtL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 4 Sep 2020 16:49:11 -0400
-Subject: Re: [GIT PULL] Kbuild fixes for v5.9-rc4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1599252550;
-        bh=Dbe+ZU7NeU/LYWkuVfmdnBJ892z1QCYezrf2zSz/xc4=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=JCP9pS1/1Pj5XfNJs2EHHGsHqwvWtCrDw2ZHVy3qTgYjaKadwQLwaOYJYV0WdCOSa
-         Z3cwt+/SkvDTBnwjEUpMdjk+dS0KEaKFV30MY+wDdIHEAUVbOY+AZNK3rc2CO8uQPc
-         uyM0VHKOySthRoUOSNcIjwXNw3pi3VtTAD9Ltg+k=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNARx_s1pyrU=PKSWLr6nX7=+=U78OjXVNdX7B2-bXzpX6Q@mail.gmail.com>
-References: <CAK7LNARx_s1pyrU=PKSWLr6nX7=+=U78OjXVNdX7B2-bXzpX6Q@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kbuild.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNARx_s1pyrU=PKSWLr6nX7=+=U78OjXVNdX7B2-bXzpX6Q@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9-2
-X-PR-Tracked-Commit-Id: 163e0c27fead96fd6804fa59a55fc4f841d38db8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 41bef91c8aa351255cd19e7e72608ee86f7f4bab
-Message-Id: <159925255074.25529.6568571537959073713.pr-tracker-bot@kernel.org>
-Date:   Fri, 04 Sep 2020 20:49:10 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        id S1726320AbgIEJMv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 5 Sep 2020 05:12:51 -0400
+Received: from bmailout2.hostsharing.net ([83.223.78.240]:57755 "EHLO
+        bmailout2.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726302AbgIEJMv (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 5 Sep 2020 05:12:51 -0400
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+        by bmailout2.hostsharing.net (Postfix) with ESMTPS id 9191A28004EAC;
+        Sat,  5 Sep 2020 11:12:38 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+        id 60D06128025; Sat,  5 Sep 2020 11:12:38 +0200 (CEST)
+Date:   Sat, 5 Sep 2020 11:12:38 +0200
+From:   Lukas Wunner <lukas@wunner.de>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kbuild@vger.kernel.org, debian-kernel@lists.debian.org,
+        kernel-team@fedoraproject.org, kernel@gentoo.org,
+        opensuse-kernel@opensuse.org
+Subject: Re: [PATCH] kbuild: Cross-compile binaries to build modules on target
+Message-ID: <20200905091238.GA27604@wunner.de>
+References: <c744107b341e487cf37139597a7775f6f62e12e8.1596702608.git.lukas@wunner.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c744107b341e487cf37139597a7775f6f62e12e8.1596702608.git.lukas@wunner.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Fri, 4 Sep 2020 21:21:15 +0900:
+On Thu, Aug 06, 2020 at 10:33:22AM +0200, Lukas Wunner wrote:
+> To build external modules, one needs executables such as fixdep and
+> modpost.  But when cross-compiling the kernel, those executables are
+> only generated for the host arch, not the target arch.
+[...]
+> Make distribution maintainers' lives easier by providing a new target
+> "make kbuild_install" which cross-compiles the required executables for
+> the target arch and installs them below $(INSTALL_KBUILD_PATH).
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9-2
+Dear Masahiro,
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/41bef91c8aa351255cd19e7e72608ee86f7f4bab
+this patch has been on the list for a month, unfortunately without
+any comments.  I was wondering what your thoughts are on it?
+Would be great to have this functionality in mainline.
 
-Thank you!
+Thanks,
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Lukas
