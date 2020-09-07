@@ -2,229 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C976F25FD28
-	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Sep 2020 17:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA62426035E
+	for <lists+linux-kbuild@lfdr.de>; Mon,  7 Sep 2020 19:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730146AbgIGPbR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Sep 2020 11:31:17 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:42350 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730126AbgIGPbN (ORCPT
+        id S1729189AbgIGMrG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Sep 2020 08:47:06 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:64028 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729177AbgIGMqP (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Sep 2020 11:31:13 -0400
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 087FUq3p028956;
-        Tue, 8 Sep 2020 00:30:52 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 087FUq3p028956
+        Mon, 7 Sep 2020 08:46:15 -0400
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 087Cj10Q009377;
+        Mon, 7 Sep 2020 21:45:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 087Cj10Q009377
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1599492652;
-        bh=LaAhPv7xf0fzyzAeNRC0oSM953AkWxA0K40O3j1oCJU=;
+        s=dec2015msa; t=1599482701;
+        bh=RgU8Sugxv4ASLW8GV3q9CaX17ZgN4c86hz8zqyhRkp4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Yna4t3lcBn3ihm+SsMQJlSW4XLVip7NZS99xKV6wjegTr21Y5C+6/U7bVUwTlcnB3
-         dAmf1vUY7jje4VMpEF5B9l3HdyZldxrn5AXwW+dJOhdygQuD1gpo1B7WlJLi4042rB
-         wpL8A6q4haTi7v3IdY0Yz7k421Qa5DJ7HjSymgZP9UOkdS5L+VUN1HdPhWxO0fbpqq
-         sqd7DXuvbF/TUg/5jmbJC5BH0SP6sb2Rjrmz2EPA8uMz+CX6itEvKBHdMkyZwmZ2lm
-         UGnHdDg5OmpNRGnyEq7vt5ZnO4AVkuczrZKm7pug4SY+XcKT7YxjN66TWcAmcWHrm9
-         GYuGjQJXsXUnw==
-X-Nifty-SrcIP: [209.85.214.170]
-Received: by mail-pl1-f170.google.com with SMTP id bh1so4594746plb.12;
-        Mon, 07 Sep 2020 08:30:52 -0700 (PDT)
-X-Gm-Message-State: AOAM532PME+KZv2QiB8Ls5zr5M9hnDVaTJwUVXix08jd/4jQLwbkSBSD
-        UK86K9ig84qWFdqTxYGRAGYYKMwV2F1awyonCsg=
-X-Google-Smtp-Source: ABdhPJyEfw+RTulZSFTnkTeBt2WLDcgnnJBCvvqMaD56gohQ35yMLXLHW+vK/ERS8QsJRkz5skzAxWakdk+WfgH2rog=
-X-Received: by 2002:a17:90b:208:: with SMTP id fy8mr4808973pjb.153.1599492651374;
- Mon, 07 Sep 2020 08:30:51 -0700 (PDT)
+        b=KVLYrEKbu/VsRaCsN/TUIiCzxx76mAPNv3QUQxZReLYX0HRiqwHlLbpz0U9iuXkEJ
+         fdtVDe5npq/lH8vsOIWBs8cxOAB6A3j6s+8o2bjKoHXejS0thSUaCwcUJWRJkDIWXJ
+         1HrAk/bV61kGxnfNgs0tH51KMDCIU4oAvEvL4T45VEZl83E3G36oR9Q4evY43FRl7+
+         gi8lPgxloRX47Nsu+MheWnDMICBemBYBdR1Hgv0gyT/4N/4rcoFQkIut4ynccP4avk
+         //yvarxiA1PyAS9sR+j3Ro4Qc+0uh3V0EGBrgBXYf0tE4LO4pjV5noyi8ugrio4nXC
+         rFdv9oV6ZtPlg==
+X-Nifty-SrcIP: [209.85.214.175]
+Received: by mail-pl1-f175.google.com with SMTP id c3so4176578plz.5;
+        Mon, 07 Sep 2020 05:45:01 -0700 (PDT)
+X-Gm-Message-State: AOAM533qzY2ZbgoPPTeX3aWuLds+ycrmgvYduNPcuWvNlnPsJurSIg74
+        1zbw0tfp8YK91yuIaZMghmcEcKdBRX8jwoCUdjk=
+X-Google-Smtp-Source: ABdhPJw4UtF57UzI82pGuTgn7u0AI78jQLYV5p6rNVTR2t5OI2bMang+cdl+Y4cuAkIyNjGnFlsZKuD7wiB/ej4TtDg=
+X-Received: by 2002:a17:902:e901:: with SMTP id k1mr19763109pld.189.1599482700443;
+ Mon, 07 Sep 2020 05:45:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200624203200.78870-1-samitolvanen@google.com>
- <20200903203053.3411268-1-samitolvanen@google.com> <20200903203053.3411268-10-samitolvanen@google.com>
-In-Reply-To: <20200903203053.3411268-10-samitolvanen@google.com>
+References: <20200831182239.480317-1-masahiroy@kernel.org>
+In-Reply-To: <20200831182239.480317-1-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 8 Sep 2020 00:30:14 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR7SbBPz06s5Gf2d+zry+Px1=jcUrC9c=_zQiCJLttY3A@mail.gmail.com>
-Message-ID: <CAK7LNAR7SbBPz06s5Gf2d+zry+Px1=jcUrC9c=_zQiCJLttY3A@mail.gmail.com>
-Subject: Re: [PATCH v2 09/28] kbuild: add support for Clang LTO
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
+Date:   Mon, 7 Sep 2020 21:44:23 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQx=8v=udVa2pC_GL-iV0Z=VCjszB4rQ+YwTP8fR00jeg@mail.gmail.com>
+Message-ID: <CAK7LNAQx=8v=udVa2pC_GL-iV0Z=VCjszB4rQ+YwTP8fR00jeg@mail.gmail.com>
+Subject: Re: [PATCH] arch: vdso: add vdso linker script to 'targets' instead
+ of extra-y
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nick Hu <nickhu@andestech.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Will Deacon <will@kernel.org>,
         linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 5:31 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+On Tue, Sep 1, 2020 at 3:23 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> This change adds build system support for Clang's Link Time
-> Optimization (LTO). With -flto, instead of ELF object files, Clang
-> produces LLVM bitcode, which is compiled into native code at link
-> time, allowing the final binary to be optimized globally. For more
-> details, see:
+> The vdso linker script is preprocessed on demand.
+> Adding it to 'targets' is enough to include the .cmd file.
 >
->   https://llvm.org/docs/LinkTimeOptimization.html
->
-> The Kconfig option CONFIG_LTO_CLANG is implemented as a choice,
-> which defaults to LTO being disabled. To use LTO, the architecture
-> must select ARCH_SUPPORTS_LTO_CLANG and support:
->
->   - compiling with Clang,
->   - compiling inline assembly with Clang's integrated assembler,
->   - and linking with LLD.
->
-> While using full LTO results in the best runtime performance, the
-> compilation is not scalable in time or memory. CONFIG_THINLTO
-> enables ThinLTO, which allows parallel optimization and faster
-> incremental builds. ThinLTO is used by default if the architecture
-> also selects ARCH_SUPPORTS_THINLTO:
->
->   https://clang.llvm.org/docs/ThinLTO.html
->
-> To enable LTO, LLVM tools must be used to handle bitcode files. The
-> easiest way is to pass the LLVM=1 option to make:
->
->   $ make LLVM=1 defconfig
->   $ scripts/config -e LTO_CLANG
->   $ make LLVM=1
->
-> Alternatively, at least the following LLVM tools must be used:
->
->   CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm
->
-> To prepare for LTO support with other compilers, common parts are
-> gated behind the CONFIG_LTO option, and LTO can be disabled for
-> specific files by filtering out CC_FLAGS_LTO.
->
-> Note that support for DYNAMIC_FTRACE and MODVERSIONS are added in
-> follow-up patches.
->
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  Makefile                          | 18 +++++++-
->  arch/Kconfig                      | 68 +++++++++++++++++++++++++++++++
->  include/asm-generic/vmlinux.lds.h | 11 +++--
->  scripts/Makefile.build            |  9 +++-
->  scripts/Makefile.modfinal         |  9 +++-
->  scripts/Makefile.modpost          | 24 ++++++++++-
->  scripts/link-vmlinux.sh           | 32 +++++++++++----
->  7 files changed, 154 insertions(+), 17 deletions(-)
 
 
+Applied to linux-kbuild.
 
->  #define TEXT_MAIN .text
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 6ecf30c70ced..a5f4b5d407e6 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -111,7 +111,7 @@ endif
->  # ---------------------------------------------------------------------------
+
+>  arch/arm64/kernel/vdso/Makefile     | 2 +-
+>  arch/arm64/kernel/vdso32/Makefile   | 2 +-
+>  arch/nds32/kernel/vdso/Makefile     | 2 +-
+>  arch/powerpc/kernel/vdso32/Makefile | 2 +-
+>  arch/powerpc/kernel/vdso64/Makefile | 2 +-
+>  arch/s390/kernel/vdso64/Makefile    | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
 >
->  quiet_cmd_cc_s_c = CC $(quiet_modtag)  $@
-> -      cmd_cc_s_c = $(CC) $(filter-out $(DEBUG_CFLAGS), $(c_flags)) $(DISABLE_LTO) -fverbose-asm -S -o $@ $<
-> +      cmd_cc_s_c = $(CC) $(filter-out $(DEBUG_CFLAGS) $(CC_FLAGS_LTO), $(c_flags)) -fverbose-asm -S -o $@ $<
+> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> index 45d5cfe46429..7cd8aafbe96e 100644
+> --- a/arch/arm64/kernel/vdso/Makefile
+> +++ b/arch/arm64/kernel/vdso/Makefile
+> @@ -54,7 +54,7 @@ endif
+>  GCOV_PROFILE := n
 >
->  $(obj)/%.s: $(src)/%.c FORCE
->         $(call if_changed_dep,cc_s_c)
-> @@ -428,8 +428,15 @@ $(obj)/lib.a: $(lib-y) FORCE
->  # Do not replace $(filter %.o,^) with $(real-prereqs). When a single object
->  # module is turned into a multi object module, $^ will contain header file
->  # dependencies recorded in the .*.cmd file.
-> +ifdef CONFIG_LTO_CLANG
-> +quiet_cmd_link_multi-m = AR [M]  $@
-> +cmd_link_multi-m =                                             \
-> +       rm -f $@;                                               \
-> +       $(AR) rcsTP$(KBUILD_ARFLAGS) $@ $(filter %.o,$^)
-
-
-KBUILD_ARFLAGS no longer exists in the mainline.
-(commit 13dc8c029cabf52ba95f60c56eb104d4d95d5889)
-
-
-
-
-> +else
->  quiet_cmd_link_multi-m = LD [M]  $@
->        cmd_link_multi-m = $(LD) $(ld_flags) -r -o $@ $(filter %.o,$^)
-> +endif
+>  obj-y += vdso.o
+> -extra-y += vdso.lds
+> +targets += vdso.lds
+>  CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 >
->  $(multi-used-m): FORCE
->         $(call if_changed,link_multi-m)
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 411c1e600e7d..1005b147abd0 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -6,6 +6,7 @@
->  PHONY := __modfinal
->  __modfinal:
+>  # Force dependency (incbin is bad)
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+> index d6adb4677c25..572475b7b7ed 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -155,7 +155,7 @@ asm-obj-vdso := $(addprefix $(obj)/, $(asm-obj-vdso))
+>  obj-vdso := $(c-obj-vdso) $(c-obj-vdso-gettimeofday) $(asm-obj-vdso)
 >
-> +include $(objtree)/include/config/auto.conf
->  include $(srctree)/scripts/Kbuild.include
+>  obj-y += vdso.o
+> -extra-y += vdso.lds
+> +targets += vdso.lds
+>  CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 >
->  # for c_flags
-> @@ -29,6 +30,12 @@ quiet_cmd_cc_o_c = CC [M]  $@
+>  # Force dependency (vdso.s includes vdso.so through incbin)
+> diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
+> index 7c3c1ccb196e..55df25ef0057 100644
+> --- a/arch/nds32/kernel/vdso/Makefile
+> +++ b/arch/nds32/kernel/vdso/Makefile
+> @@ -20,7 +20,7 @@ GCOV_PROFILE := n
 >
->  ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
 >
-> +ifdef CONFIG_LTO_CLANG
-> +# With CONFIG_LTO_CLANG, reuse the object file we compiled for modpost to
-> +# avoid a second slow LTO link
-> +prelink-ext := .lto
-> +endif
-> +
->  quiet_cmd_ld_ko_o = LD [M]  $@
->        cmd_ld_ko_o =                                                     \
->         $(LD) -r $(KBUILD_LDFLAGS)                                      \
-> @@ -37,7 +44,7 @@ quiet_cmd_ld_ko_o = LD [M]  $@
->                 -o $@ $(filter %.o, $^);                                \
->         $(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
+>  obj-y += vdso.o
+> -extra-y += vdso.lds
+> +targets += vdso.lds
+>  CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 >
-> -$(modules): %.ko: %.o %.mod.o $(KBUILD_LDS_MODULE) FORCE
-> +$(modules): %.ko: %$(prelink-ext).o %.mod.o $(KBUILD_LDS_MODULE) FORCE
->         +$(call if_changed,ld_ko_o)
+>  # Force dependency
+> diff --git a/arch/powerpc/kernel/vdso32/Makefile b/arch/powerpc/kernel/vdso32/Makefile
+> index 87ab1152d5ce..fd5072a4c73c 100644
+> --- a/arch/powerpc/kernel/vdso32/Makefile
+> +++ b/arch/powerpc/kernel/vdso32/Makefile
+> @@ -29,7 +29,7 @@ ccflags-y := -shared -fno-common -fno-builtin -nostdlib \
+>  asflags-y := -D__VDSO32__ -s
 >
->  targets += $(modules) $(modules:.ko=.mod.o)
-> diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-> index f54b6ac37ac2..a70f1f7da6aa 100644
-> --- a/scripts/Makefile.modpost
-> +++ b/scripts/Makefile.modpost
-> @@ -102,12 +102,32 @@ $(input-symdump):
->         @echo >&2 'WARNING: Symbol version dump "$@" is missing.'
->         @echo >&2 '         Modules may not have dependencies or modversions.'
+>  obj-y += vdso32_wrapper.o
+> -extra-y += vdso32.lds
+> +targets += vdso32.lds
+>  CPPFLAGS_vdso32.lds += -P -C -Upowerpc
 >
-> +ifdef CONFIG_LTO_CLANG
-> +# With CONFIG_LTO_CLANG, .o files might be LLVM bitcode,
+>  # Force dependency (incbin is bad)
+> diff --git a/arch/powerpc/kernel/vdso64/Makefile b/arch/powerpc/kernel/vdso64/Makefile
+> index 38c317f25141..c737b3ea3207 100644
+> --- a/arch/powerpc/kernel/vdso64/Makefile
+> +++ b/arch/powerpc/kernel/vdso64/Makefile
+> @@ -17,7 +17,7 @@ ccflags-y := -shared -fno-common -fno-builtin -nostdlib \
+>  asflags-y := -D__VDSO64__ -s
+>
+>  obj-y += vdso64_wrapper.o
+> -extra-y += vdso64.lds
+> +targets += vdso64.lds
+>  CPPFLAGS_vdso64.lds += -P -C -U$(ARCH)
+>
+>  # Force dependency (incbin is bad)
+> diff --git a/arch/s390/kernel/vdso64/Makefile b/arch/s390/kernel/vdso64/Makefile
+> index 4a66a1cb919b..d0d406cfffa9 100644
+> --- a/arch/s390/kernel/vdso64/Makefile
+> +++ b/arch/s390/kernel/vdso64/Makefile
+> @@ -25,7 +25,7 @@ $(targets:%=$(obj)/%.dbg): KBUILD_CFLAGS = $(KBUILD_CFLAGS_64)
+>  $(targets:%=$(obj)/%.dbg): KBUILD_AFLAGS = $(KBUILD_AFLAGS_64)
+>
+>  obj-y += vdso64_wrapper.o
+> -extra-y += vdso64.lds
+> +targets += vdso64.lds
+>  CPPFLAGS_vdso64.lds += -P -C -U$(ARCH)
+>
+>  # Disable gcov profiling, ubsan and kasan for VDSO code
+> --
+> 2.25.1
+>
 
-or, .o files might be even thin archives.
 
-For example,
-
-$ file net/ipv6/netfilter/nf_defrag_ipv6.o
-net/ipv6/netfilter/nf_defrag_ipv6.o: thin archive with 6 symbol entries
-
-
-Now we have 3 possibilities for .o files:
-
-  - ELF  (real .o)
-  - LLVM bitcode (.bc)
-  - Thin archive (.a)
-
-
-Let me discuss how to proceed with this...
-
-
-
-
-
---
+-- 
 Best Regards
 Masahiro Yamada
