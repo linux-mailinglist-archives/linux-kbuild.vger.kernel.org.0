@@ -2,74 +2,173 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03161262190
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Sep 2020 22:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E08D26218C
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Sep 2020 22:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729305AbgIHU4l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Sep 2020 16:56:41 -0400
-Received: from conuserg-07.nifty.com ([210.131.2.74]:32333 "EHLO
-        conuserg-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729941AbgIHU4i (ORCPT
+        id S1729614AbgIHU42 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Sep 2020 16:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726642AbgIHU4V (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Sep 2020 16:56:38 -0400
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 088Ku0N4015321;
-        Wed, 9 Sep 2020 05:56:00 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 088Ku0N4015321
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1599598561;
-        bh=LX+XJs0yGQNfGdRdOODWn2d8GyxE3kmbFFKuth+1obY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=c13f+fwghiGlkOh/iS+d87XXylCY1v40ms1Bi3rnW2Y42HlCZQbVDcZ2lYSmCS9/3
-         E9k8Jum3BUAqWqYh/EymQCGWPXbtobclHxwLqdGIDOJ/RM654+nmCEvinbKDtG+miv
-         LhGMzA39jvrOEj2ceix01rJB+djf9mNBa2ReO6UNjJJ/iE2bHybGgADZn2+zxbFEm7
-         2F/3mEQq7JxDvBO8RudfxYdFaIOYOsL4f0/j8C290DCjDX33Hwjk8A0fk09/Ynwhy9
-         OoatrKPPo7wZQ3WJH4oM3uTwwRoDVfwvSk6udWwlBVHQgiwdnq0ja3T7xFHvLxhaCy
-         HnZ1QKWhlZkRw==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
+        Tue, 8 Sep 2020 16:56:21 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9D2C061573
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Sep 2020 13:56:20 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id b17so220668pji.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Sep 2020 13:56:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+1kwkhnnjfbD1n3YicFbQyeenHuldLrryzBMnu30RTk=;
+        b=kqiVfXTqdvpE+D8HME82Bm/99OYWSZDGK7Oq76UCHFIRCcsokRD7oz4xAQHKlHR74v
+         8jFd7Rm7VgphQioMxWqT6sB7WDRfEhiq+5dlPJB+VwsYe0Gws+0LJm6D9zwG/r15KK4j
+         cuzPLvDpOo+kNSRVML9vt8TFZj2LIN0dx3+GMt+v/gfQiWWDTGc/5e1sfumXGI2CjeI6
+         Wy++ioGxrd4TyZOe6AhKrFK49Dd0klSTZ4EyeBc8yeTCbAl+4UnrnXBHPmJZk+pzkRBq
+         MO/Socm9d6L4MR4DbsbQU9qRVnfcNKA/i/3XI/d16ytiFjJKk9h0Y3hAMCxgdwcJ4siN
+         gBjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+1kwkhnnjfbD1n3YicFbQyeenHuldLrryzBMnu30RTk=;
+        b=nG75uA6u5mheEUorYxcd5s7lsYoIXdvKiKieVrlzTFf7resbWZQLiL9F77HsxQ636b
+         sWBkhknT06uCW3drL8eNEyGdDpLPQThRhIN8aSIKB/2YZFvdJBfWlyq3L11wRlld5Bs3
+         39mtQKt6qecgEOx/we0u7+G84NWvoveDbEQ+EVjHS23moi3rDqsIFpBwu/BJxUPVqy0a
+         M+zQDE6F5D2ZJVSV+7ZphB6xkvgL2ZPFHLKMUWFp7EOhhg7JD7/ayNZAqm7vmGg+/uh3
+         GfY7PpRxu5MMsZQWkQjPJCJbqspm43RN8HiJ0RXa8ZPE+J1XvAiMaHUViS3lUFxHrkd7
+         2Lyw==
+X-Gm-Message-State: AOAM530zhujxRdCxvOBCc5yU5ANFocCbrxzB5QY1kmHgmvEGAR0w9MTy
+        yNE/pFAqOmGqUAE3kj75HLPbsA==
+X-Google-Smtp-Source: ABdhPJwmdCJZLAUsrl/QW5wKuUZMBwlVdVl2VXP+Jk7zMzVi2ljr8t2PHAqCINz0HMBlae3lzorpYw==
+X-Received: by 2002:a17:90b:3444:: with SMTP id lj4mr574843pjb.78.1599598579801;
+        Tue, 08 Sep 2020 13:56:19 -0700 (PDT)
+Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+        by smtp.gmail.com with ESMTPSA id e14sm187682pgu.47.2020.09.08.13.56.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 13:56:19 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 13:56:12 -0700
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: do not create built-in objects for external module builds
-Date:   Wed,  9 Sep 2020 05:55:57 +0900
-Message-Id: <20200908205557.2746352-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 11/28] kbuild: lto: postpone objtool
+Message-ID: <20200908205612.GA1060586@google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200903203053.3411268-1-samitolvanen@google.com>
+ <20200903203053.3411268-12-samitolvanen@google.com>
+ <202009031513.B558594FB9@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202009031513.B558594FB9@keescook>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-'make M=/path/to/your/external/module' creates a pointless built-in.a
-in the top of the external module directory because KBUILD_BUILTIN is
-set to 1.
+On Thu, Sep 03, 2020 at 03:19:43PM -0700, Kees Cook wrote:
+> On Thu, Sep 03, 2020 at 01:30:36PM -0700, Sami Tolvanen wrote:
+> > With LTO, LLVM bitcode won't be compiled into native code until
+> > modpost_link, or modfinal for modules. This change postpones calls
+> > to objtool until after these steps.
+> > 
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> 
+> For a "fail fast" style of building, it makes sense to have objtool run
+> as early as possible, so it makes sense to keep the current behavior in
+> non-LTO mode. I do wonder, though, if there is a real benefit to having
+> "fail fast" case. I imagine a lot of automated builds are using
+> --keep-going with make, and actually waiting until the end to do the
+> validation means more code will get build-tested before objtool rejects
+> the results. *shrug*
+> 
+> > ---
+> >  arch/Kconfig              |  2 +-
+> >  scripts/Makefile.build    |  2 ++
+> >  scripts/Makefile.modfinal | 24 ++++++++++++++++++++++--
+> >  scripts/link-vmlinux.sh   | 23 ++++++++++++++++++++++-
+> >  4 files changed, 47 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/arch/Kconfig b/arch/Kconfig
+> > index 71392e4a8900..7a418907e686 100644
+> > --- a/arch/Kconfig
+> > +++ b/arch/Kconfig
+> > @@ -599,7 +599,7 @@ config LTO_CLANG
+> >  	depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
+> >  	depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
+> >  	depends on ARCH_SUPPORTS_LTO_CLANG
+> > -	depends on !FTRACE_MCOUNT_RECORD
+> > +	depends on HAVE_OBJTOOL_MCOUNT || !(X86_64 && DYNAMIC_FTRACE)
+> >  	depends on !KASAN
+> >  	depends on !GCOV_KERNEL
+> >  	select LTO
+> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > index c348e6d6b436..b8f1f0d65a73 100644
+> > --- a/scripts/Makefile.build
+> > +++ b/scripts/Makefile.build
+> > @@ -218,6 +218,7 @@ cmd_record_mcount = $(if $(findstring $(strip $(CC_FLAGS_FTRACE)),$(_c_flags)),
+> >  endif # USE_RECORDMCOUNT
+> >  
+> >  ifdef CONFIG_STACK_VALIDATION
+> > +ifndef CONFIG_LTO_CLANG
+> >  ifneq ($(SKIP_STACK_VALIDATION),1)
+> >  
+> >  __objtool_obj := $(objtree)/tools/objtool/objtool
+> > @@ -253,6 +254,7 @@ objtool_obj = $(if $(patsubst y%,, \
+> >  	$(__objtool_obj))
+> >  
+> >  endif # SKIP_STACK_VALIDATION
+> > +endif # CONFIG_LTO_CLANG
+> >  endif # CONFIG_STACK_VALIDATION
+> >  
+> >  # Rebuild all objects when objtool changes, or is enabled/disabled.
+> > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> > index 1005b147abd0..909bd509edb4 100644
+> > --- a/scripts/Makefile.modfinal
+> > +++ b/scripts/Makefile.modfinal
+> > @@ -34,10 +34,30 @@ ifdef CONFIG_LTO_CLANG
+> >  # With CONFIG_LTO_CLANG, reuse the object file we compiled for modpost to
+> >  # avoid a second slow LTO link
+> >  prelink-ext := .lto
+> > -endif
+> > +
+> > +# ELF processing was skipped earlier because we didn't have native code,
+> > +# so let's now process the prelinked binary before we link the module.
+> > +
+> > +ifdef CONFIG_STACK_VALIDATION
+> > +ifneq ($(SKIP_STACK_VALIDATION),1)
+> > +cmd_ld_ko_o +=								\
+> > +	$(objtree)/tools/objtool/objtool				\
+> > +		$(if $(CONFIG_UNWINDER_ORC),orc generate,check)		\
+> > +		--module						\
+> > +		$(if $(CONFIG_FRAME_POINTER),,--no-fp)			\
+> > +		$(if $(CONFIG_GCOV_KERNEL),--no-unreachable,)		\
+> > +		$(if $(CONFIG_RETPOLINE),--retpoline,)			\
+> > +		$(if $(CONFIG_X86_SMAP),--uaccess,)			\
+> > +		$(if $(USE_OBJTOOL_MCOUNT),--mcount,)			\
+> > +		$(@:.ko=$(prelink-ext).o);
+> > +
+> > +endif # SKIP_STACK_VALIDATION
+> > +endif # CONFIG_STACK_VALIDATION
+> 
+> I wonder if objtool_args could be reused here instead of having two
+> places to keep in sync? It looks like that might mean moving things
+> around a bit before this patch, since I can't quite see if
+> Makefile.build's variables are visible to Makefile.modfinal?
 
-Clear KBUILD_BUILTIN when we are building external modules so that
-'make M=...' and 'make M=... modules' work equivalently.
+It doesn't look like they are. I suppose we could move objtool_args to
+Makefile.lib. Masahiro, any thoughts?
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index ec2330ce0fc5..29878033f9d6 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1692,7 +1692,8 @@ else # KBUILD_EXTMOD
- #                      Install the modules built in the module directory
- #                      Assumes install directory is already created
- 
--# We are always building modules
-+# We are always building only modules.
-+KBUILD_BUILTIN :=
- KBUILD_MODULES := 1
- 
- build-dirs := $(KBUILD_EXTMOD)
--- 
-2.25.1
-
+Sami
