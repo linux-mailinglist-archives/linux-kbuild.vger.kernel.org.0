@@ -2,162 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14A2A2621B0
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Sep 2020 23:08:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 087C42621C8
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Sep 2020 23:17:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730176AbgIHVIC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Sep 2020 17:08:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
+        id S1730104AbgIHVQw (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Sep 2020 17:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728197AbgIHVH4 (ORCPT
+        with ESMTP id S1730023AbgIHVQs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Sep 2020 17:07:56 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41749C061573
-        for <linux-kbuild@vger.kernel.org>; Tue,  8 Sep 2020 14:07:56 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id d6so188766pfn.9
-        for <linux-kbuild@vger.kernel.org>; Tue, 08 Sep 2020 14:07:56 -0700 (PDT)
+        Tue, 8 Sep 2020 17:16:48 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFD53C061757
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Sep 2020 14:16:46 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id b17so244917pji.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Sep 2020 14:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Wm1YZJP5IHcZuymW2XEKoD0pUveQe7CoNm7r9bi/W1k=;
-        b=a7GjBHohAGSJ4PnMwooOuv5ACDnGE0C26cMuDHZo5+wvUiXv0xO8J2AUkV5JHb2FOP
-         ldjjgjbqwFWCWq9Zw5W0LDK9PPh+xyYdY8hA2Wm743DJYsOoYFFThh9hJZBSdXRUCfFd
-         cvOqVo7OMhMtAPX/2sp6Mz72uNjnDoYA9p//eZpjffoGYl/RG2xg8YzDi7C2OcRP5Eml
-         H1IcomixFJ6jH0HEQSWDpcx4jVmZUZKnlbr7q8YvW0FORqPMCHn3losN4VKggIRBYbX6
-         PtF8QxirnS7Espc0n9SSG2KH2rmz6/CIoNi2jCnfqCKNNgM5GJGJNXvMfd4DY5Oii+fR
-         uTRw==
+        bh=2efFs7I/aVceVr/UA1FiVN+0BylwZxjeaszZFFD+TI8=;
+        b=sITCjv2Gw9n5L/AbRCZ60B2tM96FOIAmZJP0xe2pWojsuA5XzhXqrZIsezZXCVNKFJ
+         oTkLfrCwO3b29MBCWYBtrLpvexnpWu8O5O9PQPbfZcg2StDIQ5hvVUVYZF2KMkZQM3jA
+         Y0n9t1cvTsIau5HLXC3w1BW386YBX5etGcBDupIed7NhVvmW3Sze/9BeRrY+3eebmC54
+         A3rg+0Q2or5ANiemPjDYOHk9RJ87YkzEsypOP9ODMDA2xV0LR5EzXHAisx/02MWDtifr
+         c59B02GuTqOPM7NTMhmOA+z/kS+V8qF7KI7GgYITYiOU1zTcJV35HGMVQ8GGwXhyPLWc
+         L4uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Wm1YZJP5IHcZuymW2XEKoD0pUveQe7CoNm7r9bi/W1k=;
-        b=b1fmIB0y7M/ImsYcvgwIUxDAbeHmidSEsFtD/hLdels17+m9McqIW6ADk7We2qigTl
-         LbQ4Yq7xXSP8tE0WWbMwE/bdjy0Y6Dji/VspB2TCZMfMXlBX/DS7agywhNKdrkvWcZLZ
-         UgBHQk9vtyEPrr0i6ZQcooUjwTbrfzCUImoTJEWeutUxOjor/0LEmapQKFSm71LNY5Cq
-         5x/fX1XdIfcmFAobWL+UZ9K+BuqCU1eUq9BR0L6Is4MB0MeX5WPlX7bUB055pS2T84YY
-         3do6dNnbjZFhlm/YTqhaP8RLL8s3miUaV0RB1/mJfsQ5cUxlK42KxHfj3HeB8ukYP6aM
-         0U3A==
-X-Gm-Message-State: AOAM5313mag3JhGTlwV+005rbdk2geiIpOLoXaYDk4Yx9uwDApQHAcSN
-        JWCikA3hcg127jto6b00iEIYAQ==
-X-Google-Smtp-Source: ABdhPJz6/bLvTnKJTjhD++qFUgr8FkqyQitq4tmijOh19Mp/UXDDqyF/xILPr1db4moWKg5d5d7hXA==
-X-Received: by 2002:a17:902:c38a:: with SMTP id g10mr511116plg.23.1599599275319;
-        Tue, 08 Sep 2020 14:07:55 -0700 (PDT)
+        bh=2efFs7I/aVceVr/UA1FiVN+0BylwZxjeaszZFFD+TI8=;
+        b=NOhXht7eFvRpB0JlEJIDLg406NcWXYhw4PzO/svq/JYkxLXgB2q0lL7lmatTMeOD4M
+         PFAFX9IbrZN8sJjIr7D/Dzyq26qQq2iAlpsI3kymuIFjUupltEG5ZkPLsV9QzF+lVlH+
+         /2A6y7S0/dJM2eJVtwey4VNnSFDcjjG/+IENk+vnWixZuvuzH4/E/N8v8FcvvvHW5/5K
+         GWlApxTGjvj6x3JmmFY5IVkCSuNFlaBnHu8NshxIPino+407kNz//6FYHDGAkokFKpaj
+         REiWeCwHNA8pS6l8CI0eDgxs7WVmKzxE7jUt6ZCuLLu26whaxqvxxDEtCFGTsC5l2zNS
+         Q9Ew==
+X-Gm-Message-State: AOAM532qVAJb52PNbWJO3PredmjszKzZCBHNHZPHkq99YBKd0r+lwPQ5
+        gdNdNFAv2fXFy07y3diRoa/cOw==
+X-Google-Smtp-Source: ABdhPJyWG8mI3H/BsY+oT/o/ksZJ0zCieLkhk5hIgmn2bkbuRWqCNofmO6IoZa9/Ax5C5W1FdW8cWQ==
+X-Received: by 2002:a17:90a:f486:: with SMTP id bx6mr641742pjb.130.1599599806032;
+        Tue, 08 Sep 2020 14:16:46 -0700 (PDT)
 Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
-        by smtp.gmail.com with ESMTPSA id m188sm323916pfd.56.2020.09.08.14.07.53
+        by smtp.gmail.com with ESMTPSA id 137sm315259pfu.149.2020.09.08.14.16.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2020 14:07:54 -0700 (PDT)
-Date:   Tue, 8 Sep 2020 14:07:48 -0700
+        Tue, 08 Sep 2020 14:16:45 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 14:16:38 -0700
 From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Will Deacon <will@kernel.org>,
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
-Subject: Re: [PATCH v2 13/28] kbuild: lto: merge module sections
-Message-ID: <20200908210748.GB1060586@google.com>
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 15/28] init: lto: ensure initcall ordering
+Message-ID: <20200908211638.GC1060586@google.com>
 References: <20200624203200.78870-1-samitolvanen@google.com>
  <20200903203053.3411268-1-samitolvanen@google.com>
- <20200903203053.3411268-14-samitolvanen@google.com>
- <CAK7LNARnh-7a8Lq-y2u72cnk2uxSuWxjaZ8Y-JHCYu5gwt7Ekg@mail.gmail.com>
+ <20200903203053.3411268-16-samitolvanen@google.com>
+ <202009031532.CD2A5F372D@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNARnh-7a8Lq-y2u72cnk2uxSuWxjaZ8Y-JHCYu5gwt7Ekg@mail.gmail.com>
+In-Reply-To: <202009031532.CD2A5F372D@keescook>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 08, 2020 at 12:25:54AM +0900, Masahiro Yamada wrote:
-> On Fri, Sep 4, 2020 at 5:31 AM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > LLD always splits sections with LTO, which increases module sizes. This
-> > change adds a linker script that merges the split sections in the final
-> > module.
-> >
-> > Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > ---
-> >  Makefile               |  2 ++
-> >  scripts/module-lto.lds | 26 ++++++++++++++++++++++++++
-> >  2 files changed, 28 insertions(+)
-> >  create mode 100644 scripts/module-lto.lds
-> >
-> > diff --git a/Makefile b/Makefile
-> > index c69e07bd506a..bb82a4323f1d 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -921,6 +921,8 @@ CC_FLAGS_LTO_CLANG += -fvisibility=default
-> >  # Limit inlining across translation units to reduce binary size
-> >  LD_FLAGS_LTO_CLANG := -mllvm -import-instr-limit=5
-> >  KBUILD_LDFLAGS += $(LD_FLAGS_LTO_CLANG)
-> > +
-> > +KBUILD_LDS_MODULE += $(srctree)/scripts/module-lto.lds
-> >  endif
-> >
-> >  ifdef CONFIG_LTO
-> > diff --git a/scripts/module-lto.lds b/scripts/module-lto.lds
-> > new file mode 100644
-> > index 000000000000..cbb11dc3639a
-> > --- /dev/null
-> > +++ b/scripts/module-lto.lds
-> > @@ -0,0 +1,26 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * With CONFIG_LTO_CLANG, LLD always enables -fdata-sections and
-> > + * -ffunction-sections, which increases the size of the final module.
-> > + * Merge the split sections in the final binary.
-> > + */
-> > +SECTIONS {
-> > +       __patchable_function_entries : { *(__patchable_function_entries) }
-> > +
-> > +       .bss : {
-> > +               *(.bss .bss.[0-9a-zA-Z_]*)
-> > +               *(.bss..L*)
-> > +       }
-> > +
-> > +       .data : {
-> > +               *(.data .data.[0-9a-zA-Z_]*)
-> > +               *(.data..L*)
-> > +       }
-> > +
-> > +       .rodata : {
-> > +               *(.rodata .rodata.[0-9a-zA-Z_]*)
-> > +               *(.rodata..L*)
-> > +       }
-> > +
-> > +       .text : { *(.text .text.[0-9a-zA-Z_]*) }
-> > +}
-> > --
-> > 2.28.0.402.g5ffc5be6b7-goog
-> >
+On Thu, Sep 03, 2020 at 03:40:31PM -0700, Kees Cook wrote:
+> On Thu, Sep 03, 2020 at 01:30:40PM -0700, Sami Tolvanen wrote:
+> > With LTO, the compiler doesn't necessarily obey the link order for
+> > initcalls, and initcall variables need globally unique names to avoid
+> > collisions at link time.
+> > 
+> > This change exports __KBUILD_MODNAME and adds the initcall_id() macro,
+> > which uses it together with __COUNTER__ and __LINE__ to help ensure
+> > these variables have unique names, and moves each variable to its own
+> > section when LTO is enabled, so the correct order can be specified using
+> > a linker script.
+> > 
+> > The generate_initcall_ordering.pl script uses nm to find initcalls from
+> > the object files passed to the linker, and generates a linker script
+> > that specifies the intended order. With LTO, the script is called in
+> > link-vmlinux.sh.
 > 
-> 
-> After I apply https://patchwork.kernel.org/patch/11757323/,
-> is it possible to do like this ?
-> 
-> 
-> #ifdef CONFIG_LTO
-> SECTIONS {
->      ...
-> };
-> #endif
-> 
-> in scripts/module.lds.S
+> I think I asked before about this being made unconditional, but the hit
+> on final link time was noticeable. Am I remembering that right? If so,
+> sure, let's keep it separate.
 
-Yes, that should work. I'll change this in v3 after your change is
-applied.
+Yes, it was noticeable when compiling on systems with fewer CPU cores,
+so I would prefer to keep it separate.
+
+> > +## forks a child to process each file passed in the command line and collects
+> > +## the results
+> > +sub process_files {
+> > +	my $index = 0;
+> > +	my $njobs = get_online_processors();
+> > +	my $select = IO::Select->new();
+> > +
+> > +	while (my $file = shift(@ARGV)) {
+> > +		# fork a child process and read it's stdout
+> > +		my $pid = open(my $fh, '-|');
+> 
+> /me makes noises about make -jN and the jobserver and not using all
+> processors on a machine if we were asked nicely not to.
+> 
+> I wrote a jobserver aware tool for the documentation builds, but it's in
+> python (scripts/jobserver-exec). Instead of reinventing that wheel (and
+> in Perl), we could:
+> 
+> 1) ignore this problem and assume anyone using LTO is fine with using all CPUs
+> 
+> 2) implement a jobserver-aware Perl script to do this
+> 
+> 3) make Python a build dependency of CONFIG_LTO and re-use scripts/jobserver-exec
+
+I'm fine with any of these options, although I'm not sure why anyone
+would want to compile an LTO kernel without using all the available
+cores... :)
+
+Using jobserver-exec seems like the easiest option if we want to limit
+the number of cores used here. Any preferences?
+
+> >  # If CONFIG_LTO_CLANG is selected, collect generated symbol versions into
+> >  # .tmp_symversions.lds
+> >  gen_symversions()
+> > @@ -74,6 +84,9 @@ modpost_link()
+> >  		--end-group"
+> >  
+> >  	if [ -n "${CONFIG_LTO_CLANG}" ]; then
+> > +		gen_initcalls
+> > +		lds="-T .tmp_initcalls.lds"
+> 
+> Oh, I think lds should be explicitly a "local" at the start of this
+> function, perhaps back in the symversions patch that touches this?
+
+It's already local, that part is just not visible in this patch.
 
 Sami
