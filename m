@@ -2,115 +2,94 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F12D92607C8
-	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Sep 2020 02:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A48126081F
+	for <lists+linux-kbuild@lfdr.de>; Tue,  8 Sep 2020 04:00:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbgIHArM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 7 Sep 2020 20:47:12 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:64981 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728085AbgIHArK (ORCPT
+        id S1728088AbgIHCAY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 7 Sep 2020 22:00:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38290 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728053AbgIHCAY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 7 Sep 2020 20:47:10 -0400
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 0880ksmM027875
-        for <linux-kbuild@vger.kernel.org>; Tue, 8 Sep 2020 09:46:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0880ksmM027875
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1599526015;
-        bh=KfqYFsb64ZBTORYbeaeCocdqzg5EgJuZJ7rI/5YLFKU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=AXchgfh1/VqHtbJQwBVBhmu92GtjaYXYSp+cklh+wwT4/sFlYIw0IR6M8D9EVEca3
-         oLGyKBALmiD9Dq9ZuWqdnNaWyYimMIK7s1/gnNGUK/H8M6AvaQvDk8hgF6hezgdzW3
-         ERTBWP+GckXMvjq6q3/USb2+iRehn8uKeySPvL1YS/54c3Qjop+l2K5gcZ9+NMjdBP
-         ZX3JirlTtYkEzjqxU28HIvHLi44tlALsvJVA4FtQXlsZuWBwhGJIMB0x3rIh8241uE
-         tdiqu+jwH+JBffVprntiPtFDFNitXDOs3BScH+KfW2xOPLroHPrNA+hvamfeP3sisj
-         YDrTNpVkV2xfg==
-X-Nifty-SrcIP: [209.85.210.181]
-Received: by mail-pf1-f181.google.com with SMTP id d9so3244521pfd.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 07 Sep 2020 17:46:55 -0700 (PDT)
-X-Gm-Message-State: AOAM532nboZjjvD+gG6bIwnUM7l/36vrST53gHBYqRF1RZ+VWUbrXNB3
-        cjyzLqDWXPR4Y+VH7f+ANUb5CCtwRZjPrX2evbc=
-X-Google-Smtp-Source: ABdhPJzkKWyZ58ECY/xU0nPWb+80kwnyPvY7dVZ3T6KRJKhabuWJNCIbGtefCTEu+Am+4vMlH/AEUPjQjU586Vz50OQ=
-X-Received: by 2002:a62:7a53:: with SMTP id v80mr8350398pfc.129.1599526014320;
- Mon, 07 Sep 2020 17:46:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <202009080532.aH8qq297%lkp@intel.com>
-In-Reply-To: <202009080532.aH8qq297%lkp@intel.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 8 Sep 2020 09:46:17 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARKSEv+G4yy2k2u33kgLb316GYObCe8zKwwWdOyW7FHpQ@mail.gmail.com>
-Message-ID: <CAK7LNARKSEv+G4yy2k2u33kgLb316GYObCe8zKwwWdOyW7FHpQ@mail.gmail.com>
-Subject: Re: [kbuild:kbuild 14/14] scripts/module.lds.S:29:10: fatal error:
- 'asm/module.lds.h' file not found
-To:     kernel test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Mon, 7 Sep 2020 22:00:24 -0400
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56A7BC061573;
+        Mon,  7 Sep 2020 19:00:22 -0700 (PDT)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.ozlabs.org (Postfix) with ESMTPSA id 4BlpJM6wcTz9sR4;
+        Tue,  8 Sep 2020 12:00:19 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=canb.auug.org.au;
+        s=201702; t=1599530420;
+        bh=9JFhYQPePdCxeoNOq8dWF3/mYkEAMyxOU5TeKiHaOoY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ETciMhqqiPSFjkZ9Lzp3azXbZwaJRBr7hmb+KLzFT7jxp9IsilnKKD/4zxs/7xlD4
+         fSN51to3XSEI7pzlFy9KI/pj8dgRcelWF4GNVDcORK75UAw73on4f+4tizFII2sgO0
+         y85FuwM3V9nev809WUSq6/qHiAjKOlUk9pJpuQAFlk7LCy4jZPazJJJ5UrpNiw83J2
+         O07wFxEjorNqVHJ2O81IK9ktuTtRH8l3/GRI0b/DrDPaO9/Vkbigqv0jOt2gtf/Vnq
+         oNtblehs3+aZ2KoRv8Paetc35O6z2RPma7Xp1zk4bfD/uaw1NzyWSlwgS6ZhFheRqi
+         bFADSfxTebCEQ==
+Date:   Tue, 8 Sep 2020 12:00:18 +1000
+From:   Stephen Rothwell <sfr@canb.auug.org.au>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: Please revert kbuild commit for today's linux-next
+Message-ID: <20200908120018.6b9fb552@canb.auug.org.au>
+In-Reply-To: <CAK7LNARR3Hh0EwrHKU+gqyO7UVGJVK81pXO1CTNEKe-mbWAgqA@mail.gmail.com>
+References: <CAK7LNARR3Hh0EwrHKU+gqyO7UVGJVK81pXO1CTNEKe-mbWAgqA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/CxUV.X3kbhCEdDzx07rKq51";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi, 0day bot.
+--Sig_/CxUV.X3kbhCEdDzx07rKq51
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Now I realized my commit is not working reliably
-for parallel builds.
+Hi Masahiro,
 
-I will consider what to do.
-
-Thanks for the report.
-
-
-On Tue, Sep 8, 2020 at 6:36 AM kernel test robot <lkp@intel.com> wrote:
+On Tue, 8 Sep 2020 09:44:39 +0900 Masahiro Yamada <masahiroy@kernel.org> wr=
+ote:
 >
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-> head:   8d77c9acc14a49e4175d7e0d3ce1e256cd31c5a5
-> commit: 8d77c9acc14a49e4175d7e0d3ce1e256cd31c5a5 [14/14] kbuild: preprocess module linker script
-> config: s390-randconfig-r015-20200907 (attached as .config)
-> compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project ab68517e6b7e51b84c4b0e813a30258ec1ce5da5)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install s390 cross compiling tool for clang build
->         # apt-get install binutils-s390x-linux-gnu
->         git checkout 8d77c9acc14a49e4175d7e0d3ce1e256cd31c5a5
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=s390
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> All errors (new ones prefixed by >>):
->
-> >> scripts/module.lds.S:29:10: fatal error: 'asm/module.lds.h' file not found
->    #include <asm/module.lds.h>
->             ^~~~~~~~~~~~~~~~~~
->    1 error generated.
->    make[2]: *** [scripts/Makefile.build:377: scripts/module.lds] Error 1
->    make[2]: Target '__build' not remade because of errors.
->    make[1]: *** [Makefile:1192: scripts] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:185: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
->
-> # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git/commit/?id=8d77c9acc14a49e4175d7e0d3ce1e256cd31c5a5
-> git remote add kbuild https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-> git fetch --no-tags kbuild kbuild
-> git checkout 8d77c9acc14a49e4175d7e0d3ce1e256cd31c5a5
-> vim +29 scripts/module.lds.S
->
->     27
->     28  /* bring in arch-specific sections */
->   > 29  #include <asm/module.lds.h>
->
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> As 0-day bot detected, the following commit
+> in my kbuild tree turned out to be problematic.
+>=20
+> commit 8d77c9acc14a49e4175d7e0d3ce1e256cd31c5a5 (origin/kbuild, kbuild)
+> Author: Masahiro Yamada <masahiroy@kernel.org>
+> Date:   Fri Sep 4 22:31:21 2020 +0900
+>=20
+>     kbuild: preprocess module linker script
+>=20
+>=20
+>=20
+> Could you revert it for now?
 
+Done.
 
+--=20
+Cheers,
+Stephen Rothwell
 
--- 
-Best Regards
-Masahiro Yamada
+--Sig_/CxUV.X3kbhCEdDzx07rKq51
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAl9W5bIACgkQAVBC80lX
+0GzBgwf/YXF+EXcPkG2sVqUkbGMiEgxQ9eJH08/YKCFr8oj/0Z9EDhnRs/YxWP1q
+7swt+PmxTjjW5nZqbzsx6LBxcAF2rUSupKUBdWlJbQp4jR8A9HeVreB7Zj5cDpZX
+PrjPB3prRRuuCMcDtvzXrELEdv9YscvzNdBiD1KNYL6dnTNJM1D4HGpIaffpZQ7C
+x/sfkkoyC354JSX0nvyJn2uoRi97lQCDVuKJvpuBEJaQGETeD89/BxwfG2LkGz5f
+jZIWLRstkW2oSsojNNddRMvmsqTa0VGtcvTG9Pf6KMvK5YukWKMi9y3FAzbo/eKR
+fjWAuFB1HeXa/ijioC+IrSeBqgfM3g==
+=0MOV
+-----END PGP SIGNATURE-----
+
+--Sig_/CxUV.X3kbhCEdDzx07rKq51--
