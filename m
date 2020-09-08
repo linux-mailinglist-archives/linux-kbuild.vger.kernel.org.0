@@ -2,164 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0F55262284
-	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Sep 2020 00:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 924A9262394
+	for <lists+linux-kbuild@lfdr.de>; Wed,  9 Sep 2020 01:28:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729048AbgIHWRy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 8 Sep 2020 18:17:54 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:47291 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726369AbgIHWRx (ORCPT
+        id S1729622AbgIHX2q (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 8 Sep 2020 19:28:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40430 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726591AbgIHX2o (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 8 Sep 2020 18:17:53 -0400
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 088MGrFk012572;
-        Wed, 9 Sep 2020 07:16:54 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 088MGrFk012572
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1599603415;
-        bh=ofEPr9hBQLToa0tnpSFXT71R901tENs3+t3picjYQYs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D7ghS5PkAIHPitB5/n6EHnmjhmm/oinxegLnKiiN3WO3AAJIwD//zOR60ZfxFlwO/
-         47sjqnxrpVsE/w22W0UKc1iszBi2vruwc3f/1t8CPauJ2v0QVOxOtKvOSWSXgDZwjY
-         /ukYHxwsAHb/LMTCiO7x7l73txMM7ArHaJhDXKJKM92Yisgqt6w2FvV9lLZEo6fSfa
-         hZmCtKuvmtpWF+nt71nKbBYMzra13oV84EPpV+UtzeEZzmo8dankKJiGFGWXHRmAvd
-         Us2jF5CHt9pouh6hRQbDEpQTAmJ8DmuFoYcbHxmpHC+mOUo5pqwHzJpFFjg5rR0oAI
-         TZkrEZoH3Jb0A==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
+        Tue, 8 Sep 2020 19:28:44 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC7EC061755
+        for <linux-kbuild@vger.kernel.org>; Tue,  8 Sep 2020 16:28:43 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id f18so463149pfa.10
+        for <linux-kbuild@vger.kernel.org>; Tue, 08 Sep 2020 16:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jUriBxBgOoiBsn5aO7jNWcqqf+vaiVxUYWRnLqNR1jM=;
+        b=E/YiH9PD3ihV0IVAR5rz+kH+b53wXLSIKmpoiOzCUGIjKpPkUvepTJzZ9+NUfPet6f
+         GjaxzmgrBjNjqjo0f2ixc8d1ESWRgiXmk3RC5UCTuoEZePHlVeleHkJJVCXbHB4Iy0lP
+         zLqt5AipHKpsckEr1GfvlWy6tszT/wsVnsbnykJcDboXcXvM/ADW0EnFJR3kQ6JqRDJF
+         dSHe06Qm/HcGK8ogoctsoW5WtSXiP+swQULLf66N1XBjDhEHsTBRP9zhxOTsHLpYe4Th
+         9lAz0y/0D5FyUST+gVXhf1nWDMBty0024ty3DlA3ziBDE0uWDvAZu1LLk2dJzbpawFdm
+         KS8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jUriBxBgOoiBsn5aO7jNWcqqf+vaiVxUYWRnLqNR1jM=;
+        b=p9WlmC/FyQ7yO6eftA0jJQK0/ypyDBs/V4Omgy7iEC35vkbXnDpTSSnC+SULqPfQWl
+         LHKIzy01DfZgXRQDHGbfc4dNrVqqInbpyddHgMnyw2ULUBWJBI/Tci9rsVzdUIDtQ+bC
+         6+9jPU6u/tOEgzIZn0uXKb9PzZ0vv2ImRa0/3z41Qi3HZOfkQoa8Ri3p0Xm1psekR0Ai
+         ziKB82UskKFWgQEfPktA/MH5yAkBxia7zhTZMSKbnaaS2krxilMcn+99SbKMN+CkpGSX
+         CjyaWrhhdWqOXIIwRRSLAWpFgdPIWKFUgPHH1S9Gqv9P/X3SPJ3hyqg0FJ1VudloLtP/
+         15PA==
+X-Gm-Message-State: AOAM531YVZcIha+FNQOFRcnDjh8N8wiUZLZglK+zNKChSU9JONhJ8nGM
+        jS2cIfw85LZN2QL3ftalyXSJHw==
+X-Google-Smtp-Source: ABdhPJxtrczatAsJe/2asERi0zZusFb9ssrn7lKjqOGwCxb8YO5oCcKiBSLXYms184w0IymH7gdSoA==
+X-Received: by 2002:a17:902:b108:b029:d0:cbe1:e770 with SMTP id q8-20020a170902b108b02900d0cbe1e770mr1342847plr.23.1599607722874;
+        Tue, 08 Sep 2020 16:28:42 -0700 (PDT)
+Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+        by smtp.gmail.com with ESMTPSA id w192sm465817pfd.156.2020.09.08.16.28.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2020 16:28:42 -0700 (PDT)
+Date:   Tue, 8 Sep 2020 16:28:35 -0700
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: fix incomplete type 'struct gstr' warning
-Date:   Wed,  9 Sep 2020 07:16:38 +0900
-Message-Id: <20200908221638.2782778-2-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200908221638.2782778-1-masahiroy@kernel.org>
-References: <20200908221638.2782778-1-masahiroy@kernel.org>
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 27/28] x86, relocs: Ignore L4_PAGE_OFFSET relocations
+Message-ID: <20200908232835.GE1060586@google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200903203053.3411268-1-samitolvanen@google.com>
+ <20200903203053.3411268-28-samitolvanen@google.com>
+ <202009031546.4854633F7@keescook>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202009031546.4854633F7@keescook>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-"make HOSTCXX=clang++ xconfig" reports the following:
+On Thu, Sep 03, 2020 at 03:47:32PM -0700, Kees Cook wrote:
+> On Thu, Sep 03, 2020 at 01:30:52PM -0700, Sami Tolvanen wrote:
+> > L4_PAGE_OFFSET is a constant value, so don't warn about absolute
+> > relocations.
+> > 
+> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+> 
+> Any other details on this? I assume this is an ld.lld-ism. Any idea why
+> this is only a problem under LTO? (Or is this an LLVM integrated
+> assembler-ism?) Regardless, yes, let's nail it down:
 
-  HOSTCXX scripts/kconfig/qconf.o
-In file included from scripts/kconfig/qconf.cc:23:
-In file included from scripts/kconfig/lkc.h:15:
-scripts/kconfig/lkc_proto.h:26:13: warning: 'get_relations_str' has C-linkage specified, but returns incomplete type 'struct gstr' which could be incompatible with C [-Wreturn-type-c-linkage]
-struct gstr get_relations_str(struct symbol **sym_arr, struct list_head *head);
-            ^
+With the LTO v1 series, LLD generated this relocation somewhere in the
+.init.data section, but only with LTO:
 
-Currently, get_relations_str() is declared before the struct gstr
-definition.
+  $ arch/x86/tools/relocs --abs-relocs vmlinux
+  WARNING: Absolute relocations present
+  Offset     Info     Type     Sym.Value Sym.Name
+  ffffffff828e7fe0 0000000100000001 R_X86_64_64 0000000000000111
+  L4_PAGE_OFFSET
 
-Move all declarations of menu.c functions below.
+It actually looks like this might not be a problem anymore with the
+current ToT kernel and the v2 series, but I'll do some more testing to
+confirm this and drop the patch from v3 if it's no longer needed.
 
-BTW, some are declared in lkc.h and some in lkc_proto.h, but the
-difference is unclear. I guess some refactoring is needed.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/kconfig/lkc.h       | 47 +++++++++++++++++++++++--------------
- scripts/kconfig/lkc_proto.h | 14 -----------
- 2 files changed, 30 insertions(+), 31 deletions(-)
-
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index d4ca8297364f..8454649b17bd 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -66,23 +66,6 @@ static inline void xfwrite(const void *str, size_t len, size_t count, FILE *out)
- 		fprintf(stderr, "Error in writing or end of file.\n");
- }
- 
--/* menu.c */
--void _menu_init(void);
--void menu_warn(struct menu *menu, const char *fmt, ...);
--struct menu *menu_add_menu(void);
--void menu_end_menu(void);
--void menu_add_entry(struct symbol *sym);
--void menu_add_dep(struct expr *dep);
--void menu_add_visibility(struct expr *dep);
--struct property *menu_add_prompt(enum prop_type type, char *prompt, struct expr *dep);
--void menu_add_expr(enum prop_type type, struct expr *expr, struct expr *dep);
--void menu_add_symbol(enum prop_type type, struct symbol *sym, struct expr *dep);
--void menu_add_option_modules(void);
--void menu_add_option_defconfig_list(void);
--void menu_add_option_allnoconfig_y(void);
--void menu_finalize(struct menu *parent);
--void menu_set_type(int type);
--
- /* util.c */
- struct file *file_lookup(const char *name);
- void *xmalloc(size_t size);
-@@ -109,6 +92,36 @@ void str_append(struct gstr *gs, const char *s);
- void str_printf(struct gstr *gs, const char *fmt, ...);
- const char *str_get(struct gstr *gs);
- 
-+/* menu.c */
-+void _menu_init(void);
-+void menu_warn(struct menu *menu, const char *fmt, ...);
-+struct menu *menu_add_menu(void);
-+void menu_end_menu(void);
-+void menu_add_entry(struct symbol *sym);
-+void menu_add_dep(struct expr *dep);
-+void menu_add_visibility(struct expr *dep);
-+struct property *menu_add_prompt(enum prop_type type, char *prompt, struct expr *dep);
-+void menu_add_expr(enum prop_type type, struct expr *expr, struct expr *dep);
-+void menu_add_symbol(enum prop_type type, struct symbol *sym, struct expr *dep);
-+void menu_add_option_modules(void);
-+void menu_add_option_defconfig_list(void);
-+void menu_add_option_allnoconfig_y(void);
-+void menu_finalize(struct menu *parent);
-+void menu_set_type(int type);
-+
-+extern struct menu rootmenu;
-+
-+bool menu_is_empty(struct menu *menu);
-+bool menu_is_visible(struct menu *menu);
-+bool menu_has_prompt(struct menu *menu);
-+const char *menu_get_prompt(struct menu *menu);
-+struct menu *menu_get_root_menu(struct menu *menu);
-+struct menu *menu_get_parent_menu(struct menu *menu);
-+bool menu_has_help(struct menu *menu);
-+const char *menu_get_help(struct menu *menu);
-+struct gstr get_relations_str(struct symbol **sym_arr, struct list_head *head);
-+void menu_get_ext_help(struct menu *menu, struct gstr *help);
-+
- /* symbol.c */
- void sym_clear_all_valid(void);
- struct symbol *sym_choice_default(struct symbol *sym);
-diff --git a/scripts/kconfig/lkc_proto.h b/scripts/kconfig/lkc_proto.h
-index f9ab98238aef..9e81be33c40f 100644
---- a/scripts/kconfig/lkc_proto.h
-+++ b/scripts/kconfig/lkc_proto.h
-@@ -12,20 +12,6 @@ bool conf_get_changed(void);
- void conf_set_changed_callback(void (*fn)(void));
- void conf_set_message_callback(void (*fn)(const char *s));
- 
--/* menu.c */
--extern struct menu rootmenu;
--
--bool menu_is_empty(struct menu *menu);
--bool menu_is_visible(struct menu *menu);
--bool menu_has_prompt(struct menu *menu);
--const char * menu_get_prompt(struct menu *menu);
--struct menu * menu_get_root_menu(struct menu *menu);
--struct menu * menu_get_parent_menu(struct menu *menu);
--bool menu_has_help(struct menu *menu);
--const char * menu_get_help(struct menu *menu);
--struct gstr get_relations_str(struct symbol **sym_arr, struct list_head *head);
--void menu_get_ext_help(struct menu *menu, struct gstr *help);
--
- /* symbol.c */
- extern struct symbol * symbol_hash[SYMBOL_HASHSIZE];
- 
--- 
-2.25.1
-
+Sami
