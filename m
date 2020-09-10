@@ -2,157 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B01DF26529C
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 23:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31375265498
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 23:58:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbgIJVVV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Sep 2020 17:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55082 "EHLO
+        id S1725830AbgIJV6s (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Sep 2020 17:58:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731123AbgIJOYc (ORCPT
+        with ESMTP id S1730275AbgIJLLC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Sep 2020 10:24:32 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53D33C0617A9
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 07:12:14 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id c10so5425962otm.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 07:12:14 -0700 (PDT)
+        Thu, 10 Sep 2020 07:11:02 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC7DC061796;
+        Thu, 10 Sep 2020 04:10:38 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id s2so2864074pjr.4;
+        Thu, 10 Sep 2020 04:10:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kcGVZn8a+TssCx5V7/oWyKJ/qM6HLG6mmAZ+V9sySx8=;
-        b=c/e5qR7LPEjderXek+U3xgTpgL77Qrfecxnb6dt5fDoSQpfDhVsU5hfdVc/DB8V8e5
-         rt4nLO3Hk3YaGq0en00R7yN6TLbP6H2kZO7HEXL9nS7++wkphfursXDVygtlT1GWEmot
-         gehKBV+biiux876gKHzHTwMIX+zkCmuMD7eH0RZigPBf+MqU+nFiCMBZSYGZmY+tVJlF
-         aqt9xW4BOX61FwxN0R4Abz0tI0uYLlnkoi88XvNZYWL30aI7hlWeoI0Tl7TZC1f2ffYb
-         8qtU+itM2eSEB4zMZqI0PBK+i5O6AK7DfNiUX5UoXj0lNiWI6RolOOFuyDzd6eHRvDQL
-         7Qww==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3W2bdb0e+vZv2IobEZCmlx8ZtuoHGcoFnWn0fOa3N+A=;
+        b=TQgH8jJdSxFAmeQUdRjdQpwl+B5PhE7SSixSjXaOAzUsFkz2sao2QfHw2UCjI7N9yc
+         +Q87nhy//GLTjfACfAjhpAG6EAy1G1a4dEqwvwkzYPxVhdj91+nkJQxJILXIGwtUFq8l
+         ECMjDGg/PyCFdohkMAZc5SFfNqYoj4PVf9W3usx/e4u+JMIiFU6xTg34oQqPRo2n2G7R
+         UCXCA/R+ef59WRWuOd135eTsah8IBmCfP0RIHRXCzpfx0xxjVppxtwrlUynMtD4nQItK
+         XTR0oR3LssV1OrEoCYTjLztaY+7BisFImoxkhkJdRY6DAv4CaSdOeIU5r+DXLdy/5c8I
+         8O3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kcGVZn8a+TssCx5V7/oWyKJ/qM6HLG6mmAZ+V9sySx8=;
-        b=piHPFhS91lfxwrlNDICXI3HBM5VQnpvgKm5axHRB3zIp5NZEswviP86CK8raNQh4tH
-         RVUEHZ1DuhVsW10yV0CBELaslrNW28S/SUZQWkTk+rdqb3xDjweSZogvYEKk764ZgOJe
-         rcaKFbW5RWZU9f3HdR5uNRnoqWFicQ2A8V/FwCa6GiWVabaRYZ44o1idflLgHALtA5xj
-         CZ9GlkIOXHDfhFpyj4HKW6n7R4wOjjSL6lm4lhyVRH9oXKItElqHPD20PO3ccX8i7B2i
-         0rFlYU4aHWFek1dThxgcvOD0C/mhNfO99Zr3MDHgouUMHA/ZHntVU6QsmeoCKUWmVxMv
-         Ho7w==
-X-Gm-Message-State: AOAM532FvAoBP+woBNOskeg0qnxXqBHPbdd+8IQT1K33g8HT0I6ljNut
-        bO7nbf36Cv/kQvzG8jQl5efWINGJ9y24m1n0rlIpww==
-X-Google-Smtp-Source: ABdhPJw7bnzACBKvQQq7Sx1WBZDpFErocDIwp99VDe4AkTzqzXQ/WOsYfl6eSj9iXfz0s4IZ91iUT0l3c91VSUowd1A=
-X-Received: by 2002:a9d:3da1:: with SMTP id l30mr4255115otc.233.1599747133357;
- Thu, 10 Sep 2020 07:12:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3W2bdb0e+vZv2IobEZCmlx8ZtuoHGcoFnWn0fOa3N+A=;
+        b=DgNTHlCZ26Q+kMYUUb3DuDslIfH6Z0ADpbR+MOJXqn/6NeBw+RsiVfVUO52fmVy9yn
+         39PR0yzJLvXXVac2g5F8r0GrdBT90WclYcIsXVWTFk+vCkDd9/8zqVHxavX4m2exTMhv
+         2jQW9ebu67wGqir8Tzz2ZXg1cLF74uoMCeY42R7Ax1KccedgF2wG5h3xRkrSsrPNN1g7
+         3B6kOI1colldx5fu4TdF7r6F4/5e/ZM4EXcxQhun7+msnoucU5Ftim2XVwc3hA5HnYkY
+         6SETn99nVa3ghMOsBPad3/ATicwqlEnXf/pHar0Lgpuc0i0JK+5fii3M69OhimJ2deFP
+         pdKA==
+X-Gm-Message-State: AOAM532her1SEA1WAGIqx+V1p/q3SZtbacC9zeQBMq/DRiHbzPCBxUu5
+        UUfiGwgQsw8RYQx0v5rLs4bZYi8GzUjzqA==
+X-Google-Smtp-Source: ABdhPJyWBx4LD38pEzKv/Oc+Tq/xIVJa0GV9yMyc+eCU1LsKMICuutILMwsg21qVoUvF6vY7X88Rtw==
+X-Received: by 2002:a17:90b:3c7:: with SMTP id go7mr4701868pjb.97.1599736237956;
+        Thu, 10 Sep 2020 04:10:37 -0700 (PDT)
+Received: from localhost.localdomain (sau-465d4-or.servercontrol.com.au. [43.250.207.1])
+        by smtp.gmail.com with ESMTPSA id 137sm5474699pfb.183.2020.09.10.04.10.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2020 04:10:36 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     masahiroy@kernel.org
+Cc:     jeremie.francois@gmail.com, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org,
+        Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] scripts : config : Added example use when run without argument,extend help
+Date:   Thu, 10 Sep 2020 16:37:13 +0530
+Message-Id: <20200910110713.12782-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200910134429.3525408-1-masahiroy@kernel.org> <20200910134429.3525408-2-masahiroy@kernel.org>
-In-Reply-To: <20200910134429.3525408-2-masahiroy@kernel.org>
-From:   Marco Elver <elver@google.com>
-Date:   Thu, 10 Sep 2020 16:12:01 +0200
-Message-ID: <CANpmjNOcpNLe3T-Qf1gVkqxpLCPQ+yjJZ0wM79jCUrmet_QH0Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kbuild: move CFLAGS_{KASAN,UBSAN,KCSAN} exports to
- relevant Makefiles
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, 10 Sep 2020 at 15:45, Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Move CFLAGS_KASAN*, CFLAGS_UBSAN, CFLAGS_KCSAN to Makefile.kasan,
-> Makefile.ubsan, Makefile.kcsan, respectively.
->
-> This commit also avoids the same -fsanitize=* flags being added to
-> CFLAGS_UBSAN multiple times.
->
-> Prior to this commit, the ubsan flags were appended by the '+='
-> operator, without any initialization. Some build targets such as
-> 'make bindeb-pkg' recurses to the top Makefile, and ended up with
-> adding the same flags to CFLAGS_UBSAN twice.
->
-> Clear CFLAGS_UBSAN with ':=' to make it a simply expanded variable.
-> This is better than a recursively expanded variable, which evaluates
-> $(call cc-option, ...) multiple times before Kbuild starts descending
-> to subdirectories.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  Makefile               | 1 -
->  scripts/Makefile.kasan | 2 ++
->  scripts/Makefile.kcsan | 2 +-
->  scripts/Makefile.ubsan | 3 +++
->  4 files changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index ec2330ce0fc5..4b5a305e30d2 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -517,7 +517,6 @@ export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
->
->  export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
->  export KBUILD_CFLAGS CFLAGS_KERNEL CFLAGS_MODULE
-> -export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE CFLAGS_UBSAN CFLAGS_KCSAN
->  export KBUILD_AFLAGS AFLAGS_KERNEL AFLAGS_MODULE
->  export KBUILD_AFLAGS_MODULE KBUILD_CFLAGS_MODULE KBUILD_LDFLAGS_MODULE
->  export KBUILD_AFLAGS_KERNEL KBUILD_CFLAGS_KERNEL
-> diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-> index 1532f1a41a8f..1e000cc2e7b4 100644
-> --- a/scripts/Makefile.kasan
-> +++ b/scripts/Makefile.kasan
-> @@ -47,3 +47,5 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
->                 $(instrumentation_flags)
->
->  endif # CONFIG_KASAN_SW_TAGS
-> +
-> +export CFLAGS_KASAN CFLAGS_KASAN_NOSANITIZE
-> diff --git a/scripts/Makefile.kcsan b/scripts/Makefile.kcsan
-> index c50f27b3ac56..cec50d74e0d0 100644
-> --- a/scripts/Makefile.kcsan
-> +++ b/scripts/Makefile.kcsan
-> @@ -9,7 +9,7 @@ endif
->
->  # Keep most options here optional, to allow enabling more compilers if absence
->  # of some options does not break KCSAN nor causes false positive reports.
-> -CFLAGS_KCSAN := -fsanitize=thread \
-> +export CFLAGS_KCSAN := -fsanitize=thread \
->         $(call cc-option,$(call cc-param,tsan-instrument-func-entry-exit=0) -fno-optimize-sibling-calls) \
->         $(call cc-option,$(call cc-param,tsan-instrument-read-before-write=1)) \
->         $(call cc-param,tsan-distinguish-volatile=1)
+This patch extends the help section by adding an explicit example of use.
 
-This doesn't apply to -next, which has some KCSAN changes for the next
-merge window. Although it seems git-merge figures out the resolution
-for the conflict automatically.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ scripts/config | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Other than that,
+diff --git a/scripts/config b/scripts/config
+index eee5b7f3a092..b75a5aab2453 100755
+--- a/scripts/config
++++ b/scripts/config
+@@ -45,6 +45,25 @@ make time.
+ By default, $myname will upper-case the given symbol. Use --keep-case to keep
+ the case of all following symbols unchanged.
+ 
++The concerete example, say, you want to change any particular config ,like
++GKOV for profiling , you can simply use this command
++
++To enable :
++
++#scripts/config --enable GKOV_KERNEL  && grep GKOV .config
++
++ and the output will be like this :
++
++  CONFIG_GKOV_KERNEL=y
++
++To disable :
++
++#scripts/config --disable GKOV_KERNEL  && grep GKOV .config
++
++  and the output will be like this :
++
++# CONFIG_GKOV_KERNEL is not set
++
+ $myname uses 'CONFIG_' as the default symbol prefix. Set the environment
+ variable CONFIG_ to the prefix to use. Eg.: CONFIG_="FOO_" $myname ...
+ EOL
+-- 
+2.26.2
 
-Acked-by: Marco Elver <elver@google.com>
-
-Thank you!
-
-> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-> index 27348029b2b8..c661484ee01f 100644
-> --- a/scripts/Makefile.ubsan
-> +++ b/scripts/Makefile.ubsan
-> @@ -1,4 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
-> +
-> +export CFLAGS_UBSAN :=
-> +
->  ifdef CONFIG_UBSAN_ALIGNMENT
->        CFLAGS_UBSAN += $(call cc-option, -fsanitize=alignment)
->  endif
-> --
-> 2.25.1
->
