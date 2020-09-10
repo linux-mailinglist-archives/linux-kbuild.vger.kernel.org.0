@@ -2,115 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A30E1264B3E
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 19:28:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78950264B74
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 19:39:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726961AbgIJR2a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Sep 2020 13:28:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
+        id S1727116AbgIJRjC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Sep 2020 13:39:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726769AbgIJRYp (ORCPT
+        with ESMTP id S1727852AbgIJRhg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Sep 2020 13:24:45 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A705CC061757
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 10:24:45 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id b124so4984558pfg.13
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 10:24:45 -0700 (PDT)
+        Thu, 10 Sep 2020 13:37:36 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 519FFC06138A
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 08:07:11 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id e4so1058164pln.10
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 08:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g/DxpxIJfXdy7C8opyI8o+XkWeSXniE6Oz2qu6dzaF4=;
-        b=qMZpuCyYWD6jZb+YzEyDAHOq9S96Dlc35zPEjydyxNKaUZLI+nsnTqKBltm7I7VQby
-         HADCCTM9PWgXBnh/yMcjkuvxmRlsT5UNJXub/kYzv20GW2EKNQChlxY6p1hDrhjikVEM
-         Y+KdEXPqXZ38Ol+OaDahwozrZuq1MEwyZ2pzintGUyw4fpxqp9GWD0eGlWbL4iCvW9Bj
-         ofC7YnNgP7EgwY2vyDqqmL5l163B1x17PQenBv/kPXwJ3NQU2iMK+zB/IWAXaj3bZoaW
-         oayGFBuGysrV56Qz+yWBWg7vkmwI0lExK3a6Cqh86+l2SoKA3YHsQx5QxJRwY1D4m3Gs
-         hNwQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CkdZTgPQtli4HqKjoybGJC69i/K2eo+/Y/ueOVTU/uQ=;
+        b=eS8OmoytThC7KUY/Rbjn9+OdhHCTAxZHZhtO9Ll397opaMxtZwThboa+C2O8ZFCyZO
+         3yO7BFlQAHn+yHQOjTkSFxrGQT55I8zRk+ACqC8mUlAGEgaJBYVxdtDOeJYvRXY7OjD1
+         qoTqm7lymwBPWk5HvlxgcsMnJSmrWwc/CDEf5vU234aNsYZC/feumKaSOaVQM1oeg2rp
+         5mn5icPj2L2oVd+okglM+aUogVgHmTvRe+DoweL0N0v4d2/lpxJ7oBj1ZuDkqyJtw+x2
+         MyX0f8gzheaFJLMAEkWsyGR+2G8QUbr85wv/70bydcasoZ+1oXcDIR0JEbGlmuon6m7C
+         zqwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g/DxpxIJfXdy7C8opyI8o+XkWeSXniE6Oz2qu6dzaF4=;
-        b=ci4bdOVrleLqLpsym3b+/DJaEnSP7ezfsFlV4bcrdun1e/pmrHJwzQAOHIIRctapp/
-         bPH/NtBkff8ICBeaqKC70ggnVG3xTpXLSCrSpYhjMlQZ3L4HRB05UnoK6vo4uBjS7cpj
-         5DScmd6DhCXwKa1gELqC1Il3idDX1K7TnqyAMf6/eaGfAVPgEIJD3wYCyG7Uc4Qt8Mit
-         Z78f7CmJVqoWghn0GBLEP2qmp4OPQcJHth+nmNI2jbbWZskMXPJAK8Qhn9/l8PUztFZn
-         QIy4wkYCWwmGVt642nVYQ+zHHgacblAM9tLzOrvU0aFHommo4UMOTZfLu9/0mJp9ZKh4
-         7ulQ==
-X-Gm-Message-State: AOAM531E2u4bDajOycQtjc9O/1oUKflqoXRt+slXxoVCc8SNCKGAuhVo
-        7Dlxwx+qji54M6PnBSL/uS9KHpOjYOuFfsWOr4/t6w==
-X-Google-Smtp-Source: ABdhPJy84r1DwOSmKuO14ubUxn/70iTZvTReoqQc3tEIf4yVSD6MRkGs/ON+GUp+U07oYBFP6qROw9QwQ7dzGR8qvH4=
-X-Received: by 2002:a62:8349:: with SMTP id h70mr6667701pfe.47.1599758684979;
- Thu, 10 Sep 2020 10:24:44 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CkdZTgPQtli4HqKjoybGJC69i/K2eo+/Y/ueOVTU/uQ=;
+        b=oTB99SNTu/sPj8hq/VCteF62VZcxS4e088mfc6FsUEfuYN9czEx0jjxvbR4I0UOcR9
+         ce0z4RKtBu9BlKnOpngSri8Amro+xLgCXnN7z/OwYUbScqFGSxfrPOTIuIFLjJgSwS5g
+         gdB7ngAU6mScpKIou0wUPtvAHkPtJlQWPtEXh42NgHQa/ZQdnr9JM4itMsk6vAiBdjof
+         BU0rm9UfL3tfm2qdfyfKcDhM9mHm5XX9IhsX7ROlJ9ts4qVMbVzdOgcNBwC5R1/acHLx
+         6tlG6m9F30C8ja7mkuYOMJPm6llfki34NWlmwhCx+RZo6X4+KkdJps8quxXkZF5uWZ/m
+         3DrQ==
+X-Gm-Message-State: AOAM532zDWQYM7BmfcCQxp9IChByoJpYNHDmw86KzXU934VODBAButPT
+        fx02K3p4cWMaMsJ86G6310xvmA==
+X-Google-Smtp-Source: ABdhPJzgkkNJGQRPeFg7lZtu3UZBjQBkf2nGy3Om/c9n+Dj7KFkAAjDpg1xpd04kYgbe9qjhwsW3RQ==
+X-Received: by 2002:a17:902:82c1:: with SMTP id u1mr6062512plz.38.1599750430560;
+        Thu, 10 Sep 2020 08:07:10 -0700 (PDT)
+Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+        by smtp.gmail.com with ESMTPSA id p5sm5097827pgm.66.2020.09.10.08.07.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2020 08:07:09 -0700 (PDT)
+Date:   Thu, 10 Sep 2020 08:07:04 -0700
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     David Woodhouse <dwmw2@infradead.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v2 15/28] init: lto: ensure initcall ordering
+Message-ID: <20200910150704.GA2041735@google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200903203053.3411268-1-samitolvanen@google.com>
+ <20200903203053.3411268-16-samitolvanen@google.com>
+ <5f45f55340cf54f5506a50adf61e49b27b904322.camel@infradead.org>
 MIME-Version: 1.0
-References: <20200908221638.2782778-1-masahiroy@kernel.org>
-In-Reply-To: <20200908221638.2782778-1-masahiroy@kernel.org>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 10 Sep 2020 10:24:33 -0700
-Message-ID: <CAKwvOdnP7UmpRPL8XjzoMPjgQb9Di8OXk9UEX8NWaa35A01Q3Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kconfig: qconf: use delete[] instead of delete to
- free array (again)
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5f45f55340cf54f5506a50adf61e49b27b904322.camel@infradead.org>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 8, 2020 at 3:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Commit c9b09a9249e6 ("kconfig: qconf: use delete[] instead of delete
-> to free array") fixed two lines, but there is one more.
-> (cppcheck does not report it for some reason...)
->
-> This was detected by Clang.
->
-> "make HOSTCXX=clang++ xconfig" reports the following:
->
-> scripts/kconfig/qconf.cc:1279:2: warning: 'delete' applied to a pointer that was allocated with 'new[]'; did you mean 'delete[]'? [-Wmismatched-new-delete]
->         delete data;
->         ^
->               []
-> scripts/kconfig/qconf.cc:1239:15: note: allocated with 'new[]' here
->         char *data = new char[count + 1];
->                      ^
->
-> Fixes: c4f7398bee9c ("kconfig: qconf: make debug links work again")
-> Fixes: c9b09a9249e6 ("kconfig: qconf: use delete[] instead of delete to free array")
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On Thu, Sep 10, 2020 at 10:25:40AM +0100, David Woodhouse wrote:
+> On Thu, 2020-09-03 at 13:30 -0700, Sami Tolvanen wrote:
+> > With LTO, the compiler doesn't necessarily obey the link order for
+> > initcalls, and initcall variables need globally unique names to avoid
+> > collisions at link time.
+> > 
+> > This change exports __KBUILD_MODNAME and adds the initcall_id() macro,
+> > which uses it together with __COUNTER__ and __LINE__ to help ensure
+> > these variables have unique names, and moves each variable to its own
+> > section when LTO is enabled, so the correct order can be specified using
+> > a linker script.
+> > 
+> > The generate_initcall_ordering.pl script uses nm to find initcalls from
+> > the object files passed to the linker, and generates a linker script
+> > that specifies the intended order. With LTO, the script is called in
+> > link-vmlinux.sh.
+> 
+> Is this guaranteed to give you the *same* initcall ordering with LTO as
+> without?
 
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Yes. It follows the link order, just like the linker without LTO, and
+also preserves the order within each file.
 
-> ---
->
->  scripts/kconfig/qconf.cc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-> index 8638785328a7..c7216b9110fc 100644
-> --- a/scripts/kconfig/qconf.cc
-> +++ b/scripts/kconfig/qconf.cc
-> @@ -1276,7 +1276,7 @@ void ConfigInfoView::clicked(const QUrl &url)
->         }
->
->         free(result);
-> -       delete data;
-> +       delete[] data;
->  }
->
->  void ConfigInfoView::contextMenuEvent(QContextMenuEvent *event)
-> --
-> 2.25.1
->
-
-
--- 
-Thanks,
-~Nick Desaulniers
+Sami
