@@ -2,122 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0328B264A16
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 18:44:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A30E1264B3E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 19:28:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgIJQoL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Sep 2020 12:44:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48788 "EHLO
+        id S1726961AbgIJR2a (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Sep 2020 13:28:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725803AbgIJQnu (ORCPT
+        with ESMTP id S1726769AbgIJRYp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Sep 2020 12:43:50 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89479C061757;
-        Thu, 10 Sep 2020 09:43:32 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id f142so6680724qke.13;
-        Thu, 10 Sep 2020 09:43:32 -0700 (PDT)
+        Thu, 10 Sep 2020 13:24:45 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A705CC061757
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 10:24:45 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id b124so4984558pfg.13
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 10:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=3BNUww9/1V/edxdYConYkSugtndkLik3doexYMvLDMU=;
-        b=K+Agj25OfS7jnopwKfDlTq510BD9rZmww7eKHfUIVJO9KMvg+LuWWBkViC/W6KaVZF
-         eMApdxaLbCGJJy56W3o2RbdU1dxDhrWb4tbajIGLRmhyuY00KrXkdAVlGCjB7pevULkD
-         UMPGdVcKh39bRqAYBxBjyT/or63Uel7WZtV20NTe7RPKYxGun/j5JOWE1W0uqX4SZpfn
-         pp1Bvf0lU/t0sP86BTcao8wLaOP9H1fXen/aRlI7sPZ2tTQS113fwle4j07o3P8OSmBv
-         S23DvHepf0rpS6rUmpUiYsJGPGqjoTQVOIw+NxXG/KFCabgR17CgBqELVPMs1QjxpL5C
-         Mdhg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=g/DxpxIJfXdy7C8opyI8o+XkWeSXniE6Oz2qu6dzaF4=;
+        b=qMZpuCyYWD6jZb+YzEyDAHOq9S96Dlc35zPEjydyxNKaUZLI+nsnTqKBltm7I7VQby
+         HADCCTM9PWgXBnh/yMcjkuvxmRlsT5UNJXub/kYzv20GW2EKNQChlxY6p1hDrhjikVEM
+         Y+KdEXPqXZ38Ol+OaDahwozrZuq1MEwyZ2pzintGUyw4fpxqp9GWD0eGlWbL4iCvW9Bj
+         ofC7YnNgP7EgwY2vyDqqmL5l163B1x17PQenBv/kPXwJ3NQU2iMK+zB/IWAXaj3bZoaW
+         oayGFBuGysrV56Qz+yWBWg7vkmwI0lExK3a6Cqh86+l2SoKA3YHsQx5QxJRwY1D4m3Gs
+         hNwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=3BNUww9/1V/edxdYConYkSugtndkLik3doexYMvLDMU=;
-        b=leQGU/aGR0PWhTliBVxDrfhdTMIZJ4QAtUg8kMKQI9ur2sd6rpVSMVIfXt63Bt47hq
-         SjM493ziHLEVWs3p3lP8SI9KozGQmFakR/CqDxVDP2fRei8ZxSagtO/k62usr3X26AHD
-         DsVXzW25JxKi4L6hh423rxqtGRMUe5zY9jaUkImGzN7kA05L0nJ4S/abs3P8R1bk4jaE
-         PDlNLUo3odjxGpEoJIMbqZuIneo+aFJ6X5zq50XXksDGxX9N7n39aP6xtikTtOXLEwdn
-         CZf4J5/zU10jNE2KixeDXg7WPo8VbzqV7wVEq71hat21OZhKUgjLd2gnnnoRxfmFCwfq
-         cHEQ==
-X-Gm-Message-State: AOAM531w4oMQgwxblfHg0D/OhJsOmjHPhGF2gi6snUj3mKtdxqymeEsE
-        yY/NhItNqnGX/T7B6zCUB5c=
-X-Google-Smtp-Source: ABdhPJxVbc8a6vlWQlbZ8mkuXKtPhwScCC4mrhFLmXahuFar/1Uo1ZEA9M+HwGhpdYF4VMn08ZvP4w==
-X-Received: by 2002:a05:620a:211c:: with SMTP id l28mr8443893qkl.395.1599756211766;
-        Thu, 10 Sep 2020 09:43:31 -0700 (PDT)
-Received: from ubuntu-n2-xlarge-x86 ([2604:1380:45d1:2600::1])
-        by smtp.gmail.com with ESMTPSA id o13sm6729211qkm.16.2020.09.10.09.43.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 09:43:30 -0700 (PDT)
-Date:   Thu, 10 Sep 2020 09:43:29 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Will Deacon <will@kernel.org>,
-        clang-built-linux@googlegroups.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] kbuild: remove cc-option test of -Werror=date-time
-Message-ID: <20200910164329.GD3119896@ubuntu-n2-xlarge-x86>
-References: <20200910135120.3527468-1-masahiroy@kernel.org>
- <20200910135120.3527468-4-masahiroy@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=g/DxpxIJfXdy7C8opyI8o+XkWeSXniE6Oz2qu6dzaF4=;
+        b=ci4bdOVrleLqLpsym3b+/DJaEnSP7ezfsFlV4bcrdun1e/pmrHJwzQAOHIIRctapp/
+         bPH/NtBkff8ICBeaqKC70ggnVG3xTpXLSCrSpYhjMlQZ3L4HRB05UnoK6vo4uBjS7cpj
+         5DScmd6DhCXwKa1gELqC1Il3idDX1K7TnqyAMf6/eaGfAVPgEIJD3wYCyG7Uc4Qt8Mit
+         Z78f7CmJVqoWghn0GBLEP2qmp4OPQcJHth+nmNI2jbbWZskMXPJAK8Qhn9/l8PUztFZn
+         QIy4wkYCWwmGVt642nVYQ+zHHgacblAM9tLzOrvU0aFHommo4UMOTZfLu9/0mJp9ZKh4
+         7ulQ==
+X-Gm-Message-State: AOAM531E2u4bDajOycQtjc9O/1oUKflqoXRt+slXxoVCc8SNCKGAuhVo
+        7Dlxwx+qji54M6PnBSL/uS9KHpOjYOuFfsWOr4/t6w==
+X-Google-Smtp-Source: ABdhPJy84r1DwOSmKuO14ubUxn/70iTZvTReoqQc3tEIf4yVSD6MRkGs/ON+GUp+U07oYBFP6qROw9QwQ7dzGR8qvH4=
+X-Received: by 2002:a62:8349:: with SMTP id h70mr6667701pfe.47.1599758684979;
+ Thu, 10 Sep 2020 10:24:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200910135120.3527468-4-masahiroy@kernel.org>
+References: <20200908221638.2782778-1-masahiroy@kernel.org>
+In-Reply-To: <20200908221638.2782778-1-masahiroy@kernel.org>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Thu, 10 Sep 2020 10:24:33 -0700
+Message-ID: <CAKwvOdnP7UmpRPL8XjzoMPjgQb9Di8OXk9UEX8NWaa35A01Q3Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: qconf: use delete[] instead of delete to
+ free array (again)
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 10:51:20PM +0900, Masahiro Yamada wrote:
-> The minimal compiler versions, GCC 4.9 and Clang 10 support this flag.
-> 
-> Here is the godbolt:
-> https://godbolt.org/z/xvjcMa
-> 
+On Tue, Sep 8, 2020 at 3:17 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Commit c9b09a9249e6 ("kconfig: qconf: use delete[] instead of delete
+> to free array") fixed two lines, but there is one more.
+> (cppcheck does not report it for some reason...)
+>
+> This was detected by Clang.
+>
+> "make HOSTCXX=clang++ xconfig" reports the following:
+>
+> scripts/kconfig/qconf.cc:1279:2: warning: 'delete' applied to a pointer that was allocated with 'new[]'; did you mean 'delete[]'? [-Wmismatched-new-delete]
+>         delete data;
+>         ^
+>               []
+> scripts/kconfig/qconf.cc:1239:15: note: allocated with 'new[]' here
+>         char *data = new char[count + 1];
+>                      ^
+>
+> Fixes: c4f7398bee9c ("kconfig: qconf: make debug links work again")
+> Fixes: c9b09a9249e6 ("kconfig: qconf: use delete[] instead of delete to free array")
 > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Introduced in clang 3.5.0, see commit
-4f43e554081ecac149fe360bee6eef2ed7dab8ea in LLVM.
-
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
 
 > ---
-> 
->  Makefile                          | 2 +-
->  arch/arm64/kernel/vdso32/Makefile | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index 5102c89d3167..1d7c58684fda 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -940,7 +940,7 @@ KBUILD_CFLAGS  += -fno-stack-check
->  KBUILD_CFLAGS   += $(call cc-option,-fconserve-stack)
->  
->  # Prohibit date/time macros, which would make the build non-deterministic
-> -KBUILD_CFLAGS   += $(call cc-option,-Werror=date-time)
-> +KBUILD_CFLAGS   += -Werror=date-time
->  
->  # enforce correct pointer usage
->  KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-> index dfffd55175a3..1feb4f8e556e 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -92,7 +92,7 @@ VDSO_CFLAGS += $(call cc32-option,-Wdeclaration-after-statement,)
->  VDSO_CFLAGS += $(call cc32-option,-Wno-pointer-sign)
->  VDSO_CFLAGS += -fno-strict-overflow
->  VDSO_CFLAGS += $(call cc32-option,-Werror=strict-prototypes)
-> -VDSO_CFLAGS += $(call cc32-option,-Werror=date-time)
-> +VDSO_CFLAGS += -Werror=date-time
->  VDSO_CFLAGS += $(call cc32-option,-Werror=incompatible-pointer-types)
->  
->  # The 32-bit compiler does not provide 128-bit integers, which are used in
-> -- 
+>
+>  scripts/kconfig/qconf.cc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
+> index 8638785328a7..c7216b9110fc 100644
+> --- a/scripts/kconfig/qconf.cc
+> +++ b/scripts/kconfig/qconf.cc
+> @@ -1276,7 +1276,7 @@ void ConfigInfoView::clicked(const QUrl &url)
+>         }
+>
+>         free(result);
+> -       delete data;
+> +       delete[] data;
+>  }
+>
+>  void ConfigInfoView::contextMenuEvent(QContextMenuEvent *event)
+> --
 > 2.25.1
-> 
+>
+
+
+-- 
+Thanks,
+~Nick Desaulniers
