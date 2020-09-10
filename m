@@ -2,72 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F62264C30
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 20:04:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51FAB264D5E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 20:41:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726746AbgIJSEg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Sep 2020 14:04:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33312 "EHLO
+        id S1727083AbgIJSk6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Sep 2020 14:40:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbgIJSEC (ORCPT
+        with ESMTP id S1726518AbgIJSSx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Sep 2020 14:04:02 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEB91C061573;
-        Thu, 10 Sep 2020 11:04:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=lkjSc0oNKJsgw7+XYMws5doAYQy29kpb0njFyLk4OHE=; b=JzOHMYvnbMG1Qm3sPuHXlGnTVC
-        LG6XRhMA+jft1D3Up4XI2InlqjC2sHe1isMB+WETewtc0urNhE69YuNJjJCMMVwMgUrok5M+d/JcD
-        BGuRCsbK6A8jYxhbM+unXqN3rZoO4gqJNW8U7kLmM+KmUHL2LMhYnnnGie+qCeMDCyKyBiWvlt7yg
-        kdxUgZsXGnWvkE5fCvRys7ZJtP1NLYeW2Qgd/YhPkz15f7vpNnl/qi3NG+x+vs4ob+OmAYgY+fwos
-        Dp0Em1ckq7Sk+Guwm4y+o0q1Ns+wWCkXhkr9LdT6TLTkC9gP8nMGQWhhWnUizQTUJkbVml/udjAdr
-        sUTw/Phg==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kGQvJ-0003JI-Pt; Thu, 10 Sep 2020 18:03:53 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] build: Fix documentation checking
-Date:   Thu, 10 Sep 2020 19:03:52 +0100
-Message-Id: <20200910180352.12632-1-willy@infradead.org>
-X-Mailer: git-send-email 2.21.3
+        Thu, 10 Sep 2020 14:18:53 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BABD6C061796
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 11:18:52 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id l126so5112423pfd.5
+        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 11:18:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NNmcHwO+Iwg+rMeH3STh9feD6/hRsrC6t3t7wQ2j07g=;
+        b=HLvuaRMWnIdqkY/j252Zk2tw3F2MY+FcibjdL/KozWLivJNfEdTrKZ7CqbgRS7PlOp
+         JYDi+SPDHVcl/yQBRgsBfinBkUhTC2Vg4LOpBjFc6XUoK73NwgnL9x33VlwMsXmy4U//
+         L1KOhxbAqZ23ZfVN8lGVbKftKzpOrRTb+F6EQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NNmcHwO+Iwg+rMeH3STh9feD6/hRsrC6t3t7wQ2j07g=;
+        b=fbfHc1XpOO7KF1b+szmcvNbm9edYiuwMj8cHzYQQkJ7FDt+iA3jAo9ytpz5VuB+ABf
+         jxozgsskXe92RvibAxA48XTLAlE1MbdkXNcg3OZjwCTkaplWkL9wsfZaWcXRt9zxTADP
+         QKdzaRPCYvgqvjSIhHf76VJpLwVpRmoyI2O96Jeak0Q+O6bPTjNxgTsQRjJ6USNrDsi2
+         nJ+w1481gMVnZ4F/DpWlAWHPruAbYPCbrU16gcwmCu/vXxgGuGwXjaEJC5XX+EpcOVzz
+         Cby1Z1x2sBg5AKbyAWZK09prZW5H25NaBscszpQHGlHy42AxguA2OxSSdFF76FfYoWM3
+         ha2w==
+X-Gm-Message-State: AOAM530mNNcMsZlCstiQEKyQl+CJs6qTR/QgNup4a2ibPcyTwxY0nS9t
+        Zlnkptu1BbFoA8eEFMlgAW+TXQ==
+X-Google-Smtp-Source: ABdhPJw/4pL1OYUwp6z4yw3Dzx5FlBwoM08u2lDH1WyZ3QTjZmpweja7YeY9sCB7pjDSgbG18rK2lA==
+X-Received: by 2002:a63:6cc4:: with SMTP id h187mr5452054pgc.129.1599761932269;
+        Thu, 10 Sep 2020 11:18:52 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id k3sm6784065pfp.41.2020.09.10.11.18.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2020 11:18:51 -0700 (PDT)
+Date:   Thu, 10 Sep 2020 11:18:50 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Sami Tolvanen <samitolvanen@google.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
+Subject: Re: [PATCH v2 00/28] Add support for Clang LTO
+Message-ID: <202009101057.1CCEB434@keescook>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+ <20200903203053.3411268-1-samitolvanen@google.com>
+ <CAK7LNASDUkyJMDD0a5K_HT=1q5NEc6dcN4=FUb330yK0BCKcTw@mail.gmail.com>
+ <20200908234643.GF1060586@google.com>
+ <CAK7LNAR9zzP0ZU3b__PZv8gRtKrwz6-8GE1zG5UyFx1wDpOBzQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK7LNAR9zzP0ZU3b__PZv8gRtKrwz6-8GE1zG5UyFx1wDpOBzQ@mail.gmail.com>
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Using $(call cmd,...) requires that there be a quiet_ version of the
-command, otherwise it's silently skipped.
+On Thu, Sep 10, 2020 at 10:18:05AM +0900, Masahiro Yamada wrote:
+> On Wed, Sep 9, 2020 at 8:46 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+> >
+> > On Sun, Sep 06, 2020 at 09:24:38AM +0900, Masahiro Yamada wrote:
+> > > On Fri, Sep 4, 2020 at 5:30 AM Sami Tolvanen <samitolvanen@google.com> wrote:
+> > > >
+> > > > This patch series adds support for building x86_64 and arm64 kernels
+> > > > with Clang's Link Time Optimization (LTO).
+> > > [...]
+> > > One more thing, could you teach me
+> > > how Clang LTO optimizes the code against
+> > > relocatable objects?
+> > >
+> > > When I learned Clang LTO first, I read this document:
+> > > https://llvm.org/docs/LinkTimeOptimization.html
+> > >
+> > > It is easy to confirm the final executable
+> > > does not contain foo2, foo3...
+> > >
+> > > In contrast to userspace programs,
+> > > kernel modules are basically relocatable objects.
+> > >
+> > > Does Clang drop unused symbols from relocatable objects?
+> > > If so, how?
+> >
+> > I don't think the compiler can legally drop global symbols from
+> > relocatable objects, but it can rename and possibly even drop static
+> > functions.
+> 
+> Compilers can drop static functions without LTO.
+> Rather, it is a compiler warning
+> (-Wunused-function), so the code should be cleaned up.
 
-Fixes: 3a2429e1faf4 ("kbuild: change if_changed_rule for multi-line recipe")
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- scripts/Makefile.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Right -- I think you're both saying the same thing. Unused static
+functions can be dropped (modulo a warning) in both regular and LTO
+builds.
 
-diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-index a467b9323442..571d75777b6f 100644
---- a/scripts/Makefile.build
-+++ b/scripts/Makefile.build
-@@ -104,7 +104,8 @@ else ifeq ($(KBUILD_CHECKSRC),2)
- endif
- 
- ifneq ($(KBUILD_EXTRA_WARN),)
--  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
-+  quiet_cmd_checkdoc = CHKDOC  $<
-+        cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
- endif
- 
- # Compile C sources (.c)
+> At first, I thought the motivation of LTO
+> was to remove unused global symbols, and
+> to perform further optimization.
+
+One of LTO's benefits is the performance optimizations, but that's not
+the driving motivation for it here. The performance optimizations are
+possible because LTO provides the compiler with a view of the entire
+built-in portion of the kernel (i.e. not shared objects). That "visible
+all at once" state is the central concern because CFI (Control Flow
+Integrity, the driving motivation for this series) needs it in the same
+way that the performance optimization passes need it.
+
+i.e. to gain CFI coverage, LTO is required. Since LTO is a distinct
+first step independent of CFI, it was split out to be upstreamed while
+fixes for CFI continued to land independently[1]. Once LTO is landed,
+CFI comes next.
+
+> In contrast, this patch set produces a bigger kernel
+> because LTO cannot remove any unused symbol.
+> 
+> So, I do not understand what the benefit is.
+> 
+> Is inlining beneficial?
+> I am not sure.
+
+This is just a side-effect of LTO. As Sami mentions, it's entirely
+tunable, and that tuning was chosen based on measurements made for the
+kernel being built with LTO[2].
+
+> As a whole, I still do not understand
+> the motivation of this patch set.
+
+It is a prerequisite for CFI, and CFI has been protecting *mumble*billion
+Android device kernels against code-reuse attacks for the last 2ish
+years[3]. I want this available for the entire Linux ecosystem, not just
+Android; it is a strong security flaw mitigation technique.
+
+I hope that helps explain it!
+
+-Kees
+
+
+[1] for example, these are some:
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=grep&q=Control+Flow+Integrity
+
+[2] https://lore.kernel.org/lkml/20200624203200.78870-1-samitolvanen@google.com/T/#m6b576c3af79bdacada10f21651a2b02d33a4e32e
+
+[3] https://android-developers.googleblog.com/2018/10/control-flow-integrity-in-android-kernel.html
+
 -- 
-2.28.0
-
+Kees Cook
