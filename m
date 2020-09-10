@@ -2,144 +2,187 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93006263D76
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 08:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662372641CE
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 11:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726433AbgIJGg2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Thu, 10 Sep 2020 02:36:28 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40695 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726228AbgIJGgY (ORCPT
+        id S1730466AbgIJJ2Z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Sep 2020 05:28:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36818 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730085AbgIJJ0N (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Sep 2020 02:36:24 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t76so4912105oif.7;
-        Wed, 09 Sep 2020 23:36:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hPGNyTwwUC632Hhbju4GIdkO+X61wOtKriG815nPY+Y=;
-        b=Qakn7Fc1Aqexy2mYE3MIbo1iqnZSTmVKIv6UcrLBlmVGPBpnrh/PftmC40vEmRg32a
-         yXLmVl3dQPafAgp0tl5cKiE5Ye21sAw4OcJ2daXMGAUnT5vqe83fx8yi+tSp2gWoTbek
-         1OgVm3rRnyNMLRSFR0DAwDKqJgKBVQsozaK81/bvyEFdGvEHpZ9FMIsMG7OJ2+TgmUQB
-         VO7pAK65smbdfbN52FrLISstJVs2Rq2lWUO1hEUrSnM95UShnqM8N42wmPFBgOVW23cB
-         a0mnc9xNezJqaKtOzB4hEO6Nb//14UOQdss9Kb2IGKX7etwq8BXPihvTsZsTaRgDp4Km
-         iy9A==
-X-Gm-Message-State: AOAM533s8X99R/2VNN8lDwy6JMuO9/8irtX13fFE4IKNexeWqwQ6CbtF
-        blwhLe3e+8MBwUXhtEdfI+mEiVMzVN7DaqJ9afI=
-X-Google-Smtp-Source: ABdhPJxo5O9LUp8vWoGEiw2+IA5tjdafqulzyCfzRdf5q3oI9K1w5d+wSdCEy2eloAqTo4fMm+nfH+NjAednwodtdrY=
-X-Received: by 2002:aca:4441:: with SMTP id r62mr2725769oia.153.1599719783692;
- Wed, 09 Sep 2020 23:36:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200908152241.646390211@linuxfoundation.org> <20200909164705.GE1479@roeck-us.net>
- <20200909180121.GD1003763@kroah.com> <5ea4e73b-778d-e742-7ba7-f1cbe0307a0f@roeck-us.net>
-In-Reply-To: <5ea4e73b-778d-e742-7ba7-f1cbe0307a0f@roeck-us.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 10 Sep 2020 08:36:12 +0200
-Message-ID: <CAMuHMdXwqC-B-CHQ0zzZ8YY+BDdq6ffqO6j85hsna-PUdwqz_g@mail.gmail.com>
-Subject: Re: [PATCH 5.8 000/186] 5.8.8-rc1 review
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, patches@kernelci.org,
-        Ben Hutchings <ben.hutchings@codethink.co.uk>,
-        lkft-triage@lists.linaro.org, stable <stable@vger.kernel.org>,
+        Thu, 10 Sep 2020 05:26:13 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F94C0613ED;
+        Thu, 10 Sep 2020 02:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Mime-Version:Content-Type:References:
+        In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=1UWplHliudSuzpWaJ6SfUM3aSnNqw1/MPGw6F2hIAXE=; b=zAC+uCzWP2Pe5kfydanVZm017X
+        WMOU48oLuzYv/lehDG8kKhKdeUbgcqSyl6uc3U2hQHcIM+wL8SdcWkomFctgq093XdEQ3itmWeaxe
+        33LRwhOWSXfMtp+ushzi7MxWJtuhPdy3aREQuejk1MlZFidIqIVo2Q1b7mBKaj3YdRyTU5MxufmxG
+        Le9PPd2kA6cs1YE1w3Ts7h4yy26CAOqajJ0ZRKF3DOOiou6O9SH6mUxkc+DKLqMM0rJ9cUDQgXs9q
+        eEY34XhJZHoxxCTmShF9X3Pq/I/YQ43TE8+qqeBfRQhJ15Wjr4zrxsMjy6eVatroj9dyr4ufhjru7
+        7FiYI4jA==;
+Received: from 54-240-197-231.amazon.com ([54.240.197.231] helo=freeip.amazon.com)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kGIps-00074k-9e; Thu, 10 Sep 2020 09:25:44 +0000
+Message-ID: <5f45f55340cf54f5506a50adf61e49b27b904322.camel@infradead.org>
+Subject: Re: [PATCH v2 15/28] init: lto: ensure initcall ordering
+From:   David Woodhouse <dwmw2@infradead.org>
+To:     Sami Tolvanen <samitolvanen@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Will Deacon <will@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Date:   Thu, 10 Sep 2020 10:25:40 +0100
+In-Reply-To: <20200903203053.3411268-16-samitolvanen@google.com>
+References: <20200624203200.78870-1-samitolvanen@google.com>
+         <20200903203053.3411268-1-samitolvanen@google.com>
+         <20200903203053.3411268-16-samitolvanen@google.com>
+Content-Type: multipart/signed; micalg="sha-256";
+        protocol="application/x-pkcs7-signature";
+        boundary="=-azSh1km8wLbP7TG6+Llw"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by merlin.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Günter,
 
-On Wed, Sep 9, 2020 at 8:24 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 9/9/20 11:01 AM, Greg Kroah-Hartman wrote:
-> > On Wed, Sep 09, 2020 at 09:47:05AM -0700, Guenter Roeck wrote:
-> >> On Tue, Sep 08, 2020 at 05:22:22PM +0200, Greg Kroah-Hartman wrote:
-> >>> This is the start of the stable review cycle for the 5.8.8 release.
-> >>> There are 186 patches in this series, all will be posted as a response
-> >>> to this one.  If anyone has any issues with these being applied, please
-> >>> let me know.
-> >>>
-> >>> Responses should be made by Thu, 10 Sep 2020 15:21:57 +0000.
-> >>> Anything received after that time might be too late.
-> >>>
-> >>
-> >> Build results:
-> >>      total: 154 pass: 153 fail: 1
-> >> Failed builds:
-> >>      powerpc:allmodconfig
-> >> Qemu test results:
-> >>      total: 430 pass: 430 fail: 0
-> >>
-> >> The powerpc problem is the same as before:
-> >>
-> >> Inconsistent kallsyms data
-> >> Try make KALLSYMS_EXTRA_PASS=1 as a workaround
-> >>
-> >> KALLSYMS_EXTRA_PASS=1 doesn't help. The problem is sporadic, elusive, and all
-> >> but impossible to bisect. The same build passes on another system, for example,
-> >> with a different load pattern. It may pass with -j30 and fail with -j40.
-> >> The problem started at some point after v5.8, and got worse over time; by now
-> >> it almost always happens. I'd be happy to debug if there is a means to do it,
-> >> but I don't have an idea where to even start. I'd disable KALLSYMS in my
-> >> test configurations, but the symbol is selected from various places and thus
-> >> difficult to disable. So unless I stop building ppc:allmodconfig entirely
-> >> we'll just have to live with the failure.
-> >
-> > Ah, I was worried when I saw your dashboard orange for this kernel.
-> >
-> > I guess the powerpc maintainers don't care?  Sad :(
-> >
->
-> Not sure if the powerpc architecture is to blame. Bisect attempts end up
-> all over the place, and don't typically include any powerpc changes.
-> I have no idea how kallsyms is created, but my suspicion is that it is
-> a generic problem and that powerpc just happens to hit it right now.
-> I have added KALLSYMS_EXTRA_PASS=1 to several architecture builds over
-> time, when they reported similar problems. Right now I set it for
-> alpha, arm, and m68k. powerpc just happens to be the first architecture
-> where it doesn't help.
+--=-azSh1km8wLbP7TG6+Llw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is a generic problem, cfr. scripts/link-vmlinux.sh:
+On Thu, 2020-09-03 at 13:30 -0700, Sami Tolvanen wrote:
+> With LTO, the compiler doesn't necessarily obey the link order for
+> initcalls, and initcall variables need globally unique names to avoid
+> collisions at link time.
+>=20
+> This change exports __KBUILD_MODNAME and adds the initcall_id() macro,
+> which uses it together with __COUNTER__ and __LINE__ to help ensure
+> these variables have unique names, and moves each variable to its own
+> section when LTO is enabled, so the correct order can be specified using
+> a linker script.
+>=20
+> The generate_initcall_ordering.pl script uses nm to find initcalls from
+> the object files passed to the linker, and generates a linker script
+> that specifies the intended order. With LTO, the script is called in
+> link-vmlinux.sh.
 
-        # kallsyms support
-        # Generate section listing all symbols and add it into vmlinux
-        # It's a three step process:
-        # 1)  Link .tmp_vmlinux1 so it has all symbols and sections,
-        #     but __kallsyms is empty.
-        #     Running kallsyms on that gives us .tmp_kallsyms1.o with
-        #     the right size
-        # 2)  Link .tmp_vmlinux2 so it now has a __kallsyms section of
-        #     the right size, but due to the added section, some
-        #     addresses have shifted.
-        #     From here, we generate a correct .tmp_kallsyms2.o
-        # 3)  That link may have expanded the kernel image enough that
-        #     more linker branch stubs / trampolines had to be added, which
-        #     introduces new names, which further expands kallsyms. Do another
-        #     pass if that is the case. In theory it's possible this results
-        #     in even more stubs, but unlikely.
-        #     KALLSYMS_EXTRA_PASS=1 may also used to debug or work around
-        #     other bugs.
+Is this guaranteed to give you the *same* initcall ordering with LTO as
+without?
 
-Adding even more kallsyms_steps may help (or not, if you're really
-unlucky).  Perhaps the number of passes should be handled automatically
-(i.e. run until it succeeds, with a sane (16?) upper limit to avoid
- endless builds, so it can still fail, in theory).
 
-Gr{oetje,eeting}s,
+--=-azSh1km8wLbP7TG6+Llw
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-                        Geert
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCECow
+ggUcMIIEBKADAgECAhEA4rtJSHkq7AnpxKUY8ZlYZjANBgkqhkiG9w0BAQsFADCBlzELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
+A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
+bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0EwHhcNMTkwMTAyMDAwMDAwWhcNMjIwMTAxMjM1
+OTU5WjAkMSIwIAYJKoZIhvcNAQkBFhNkd213MkBpbmZyYWRlYWQub3JnMIIBIjANBgkqhkiG9w0B
+AQEFAAOCAQ8AMIIBCgKCAQEAsv3wObLTCbUA7GJqKj9vHGf+Fa+tpkO+ZRVve9EpNsMsfXhvFpb8
+RgL8vD+L133wK6csYoDU7zKiAo92FMUWaY1Hy6HqvVr9oevfTV3xhB5rQO1RHJoAfkvhy+wpjo7Q
+cXuzkOpibq2YurVStHAiGqAOMGMXhcVGqPuGhcVcVzVUjsvEzAV9Po9K2rpZ52FE4rDkpDK1pBK+
+uOAyOkgIg/cD8Kugav5tyapydeWMZRJQH1vMQ6OVT24CyAn2yXm2NgTQMS1mpzStP2ioPtTnszIQ
+Ih7ASVzhV6csHb8Yrkx8mgllOyrt9Y2kWRRJFm/FPRNEurOeNV6lnYAXOymVJwIDAQABo4IB0zCC
+Ac8wHwYDVR0jBBgwFoAUgq9sjPjF/pZhfOgfPStxSF7Ei8AwHQYDVR0OBBYEFLfuNf820LvaT4AK
+xrGK3EKx1DE7MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMB0GA1UdJQQWMBQGCCsGAQUF
+BwMEBggrBgEFBQcDAjBGBgNVHSAEPzA9MDsGDCsGAQQBsjEBAgEDBTArMCkGCCsGAQUFBwIBFh1o
+dHRwczovL3NlY3VyZS5jb21vZG8ubmV0L0NQUzBaBgNVHR8EUzBRME+gTaBLhklodHRwOi8vY3Js
+LmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWls
+Q0EuY3JsMIGLBggrBgEFBQcBAQR/MH0wVQYIKwYBBQUHMAKGSWh0dHA6Ly9jcnQuY29tb2RvY2Eu
+Y29tL0NPTU9ET1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcnQwJAYI
+KwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAeBgNVHREEFzAVgRNkd213MkBpbmZy
+YWRlYWQub3JnMA0GCSqGSIb3DQEBCwUAA4IBAQALbSykFusvvVkSIWttcEeifOGGKs7Wx2f5f45b
+nv2ghcxK5URjUvCnJhg+soxOMoQLG6+nbhzzb2rLTdRVGbvjZH0fOOzq0LShq0EXsqnJbbuwJhK+
+PnBtqX5O23PMHutP1l88AtVN+Rb72oSvnD+dK6708JqqUx2MAFLMevrhJRXLjKb2Mm+/8XBpEw+B
+7DisN4TMlLB/d55WnT9UPNHmQ+3KFL7QrTO8hYExkU849g58Dn3Nw3oCbMUgny81ocrLlB2Z5fFG
+Qu1AdNiBA+kg/UxzyJZpFbKfCITd5yX49bOriL692aMVDyqUvh8fP+T99PqorH4cIJP6OxSTdxKM
+MIIFHDCCBASgAwIBAgIRAOK7SUh5KuwJ6cSlGPGZWGYwDQYJKoZIhvcNAQELBQAwgZcxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
+ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTE5MDEwMjAwMDAwMFoXDTIyMDEwMTIz
+NTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBALL98Dmy0wm1AOxiaio/bxxn/hWvraZDvmUVb3vRKTbDLH14bxaW
+/EYC/Lw/i9d98CunLGKA1O8yogKPdhTFFmmNR8uh6r1a/aHr301d8YQea0DtURyaAH5L4cvsKY6O
+0HF7s5DqYm6tmLq1UrRwIhqgDjBjF4XFRqj7hoXFXFc1VI7LxMwFfT6PStq6WedhROKw5KQytaQS
+vrjgMjpICIP3A/CroGr+bcmqcnXljGUSUB9bzEOjlU9uAsgJ9sl5tjYE0DEtZqc0rT9oqD7U57My
+ECIewElc4VenLB2/GK5MfJoJZTsq7fWNpFkUSRZvxT0TRLqznjVepZ2AFzsplScCAwEAAaOCAdMw
+ggHPMB8GA1UdIwQYMBaAFIKvbIz4xf6WYXzoHz0rcUhexIvAMB0GA1UdDgQWBBS37jX/NtC72k+A
+CsaxitxCsdQxOzAOBgNVHQ8BAf8EBAMCBaAwDAYDVR0TAQH/BAIwADAdBgNVHSUEFjAUBggrBgEF
+BQcDBAYIKwYBBQUHAwIwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwUwKzApBggrBgEFBQcCARYd
+aHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwWgYDVR0fBFMwUTBPoE2gS4ZJaHR0cDovL2Ny
+bC5jb21vZG9jYS5jb20vQ09NT0RPUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFp
+bENBLmNybDCBiwYIKwYBBQUHAQEEfzB9MFUGCCsGAQUFBzAChklodHRwOi8vY3J0LmNvbW9kb2Nh
+LmNvbS9DT01PRE9SU0FDbGllbnRBdXRoZW50aWNhdGlvbmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQG
+CCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9jYS5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAC20spBbrL71ZEiFrbXBHonzhhirO1sdn+X+O
+W579oIXMSuVEY1LwpyYYPrKMTjKECxuvp24c829qy03UVRm742R9Hzjs6tC0oatBF7KpyW27sCYS
+vj5wbal+TttzzB7rT9ZfPALVTfkW+9qEr5w/nSuu9PCaqlMdjABSzHr64SUVy4ym9jJvv/FwaRMP
+gew4rDeEzJSwf3eeVp0/VDzR5kPtyhS+0K0zvIWBMZFPOPYOfA59zcN6AmzFIJ8vNaHKy5QdmeXx
+RkLtQHTYgQPpIP1Mc8iWaRWynwiE3ecl+PWzq4i+vdmjFQ8qlL4fHz/k/fT6qKx+HCCT+jsUk3cS
+jDCCBeYwggPOoAMCAQICEGqb4Tg7/ytrnwHV2binUlYwDQYJKoZIhvcNAQEMBQAwgYUxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMSswKQYDVQQDEyJDT01PRE8gUlNBIENlcnRpZmljYXRp
+b24gQXV0aG9yaXR5MB4XDTEzMDExMDAwMDAwMFoXDTI4MDEwOTIzNTk1OVowgZcxCzAJBgNVBAYT
+AkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAYBgNV
+BAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAvrOeV6wodnVAFsc4A5jTxhh2IVDzJXkLTLWg0X06WD6cpzEup/Y0dtmEatrQPTRI5Or1u6zf
++bGBSyD9aH95dDSmeny1nxdlYCeXIoymMv6pQHJGNcIDpFDIMypVpVSRsivlJTRENf+RKwrB6vcf
+WlP8dSsE3Rfywq09N0ZfxcBa39V0wsGtkGWC+eQKiz4pBZYKjrc5NOpG9qrxpZxyb4o4yNNwTqza
+aPpGRqXB7IMjtf7tTmU2jqPMLxFNe1VXj9XB1rHvbRikw8lBoNoSWY66nJN/VCJv5ym6Q0mdCbDK
+CMPybTjoNCQuelc0IAaO4nLUXk0BOSxSxt8kCvsUtQIDAQABo4IBPDCCATgwHwYDVR0jBBgwFoAU
+u69+Aj36pvE8hI6t7jiY7NkyMtQwHQYDVR0OBBYEFIKvbIz4xf6WYXzoHz0rcUhexIvAMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMBEGA1UdIAQKMAgwBgYEVR0gADBMBgNVHR8E
+RTBDMEGgP6A9hjtodHRwOi8vY3JsLmNvbW9kb2NhLmNvbS9DT01PRE9SU0FDZXJ0aWZpY2F0aW9u
+QXV0aG9yaXR5LmNybDBxBggrBgEFBQcBAQRlMGMwOwYIKwYBBQUHMAKGL2h0dHA6Ly9jcnQuY29t
+b2RvY2EuY29tL0NPTU9ET1JTQUFkZFRydXN0Q0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2Nz
+cC5jb21vZG9jYS5jb20wDQYJKoZIhvcNAQEMBQADggIBAHhcsoEoNE887l9Wzp+XVuyPomsX9vP2
+SQgG1NgvNc3fQP7TcePo7EIMERoh42awGGsma65u/ITse2hKZHzT0CBxhuhb6txM1n/y78e/4ZOs
+0j8CGpfb+SJA3GaBQ+394k+z3ZByWPQedXLL1OdK8aRINTsjk/H5Ns77zwbjOKkDamxlpZ4TKSDM
+KVmU/PUWNMKSTvtlenlxBhh7ETrN543j/Q6qqgCWgWuMAXijnRglp9fyadqGOncjZjaaSOGTTFB+
+E2pvOUtY+hPebuPtTbq7vODqzCM6ryEhNhzf+enm0zlpXK7q332nXttNtjv7VFNYG+I31gnMrwfH
+M5tdhYF/8v5UY5g2xANPECTQdu9vWPoqNSGDt87b3gXb1AiGGaI06vzgkejL580ul+9hz9D0S0U4
+jkhJiA7EuTecP/CFtR72uYRBcunwwH3fciPjviDDAI9SnC/2aPY8ydehzuZutLbZdRJ5PDEJM/1t
+yZR2niOYihZ+FCbtf3D9mB12D4ln9icgc7CwaxpNSCPt8i/GqK2HsOgkL3VYnwtx7cJUmpvVdZ4o
+gnzgXtgtdk3ShrtOS1iAN2ZBXFiRmjVzmehoMof06r1xub+85hFQzVxZx5/bRaTKTlL8YXLI8nAb
+R9HWdFqzcOoB/hxfEyIQpx9/s81rgzdEZOofSlZHynoSMYIDyjCCA8YCAQEwga0wgZcxCzAJBgNV
+BAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcTB1NhbGZvcmQxGjAY
+BgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMT0wOwYDVQQDEzRDT01PRE8gUlNBIENsaWVudCBBdXRo
+ZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA4rtJSHkq7AnpxKUY8ZlYZjANBglghkgB
+ZQMEAgEFAKCCAe0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMjAw
+OTEwMDkyNTQwWjAvBgkqhkiG9w0BCQQxIgQgDTFMNXM5hFYXaTEGFh9AxcykJXHF/1VWGbnz5bRf
+rMIwgb4GCSsGAQQBgjcQBDGBsDCBrTCBlzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIg
+TWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQx
+PTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1h
+aWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMIHABgsqhkiG9w0BCRACCzGBsKCBrTCBlzELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgG
+A1UEChMRQ09NT0RPIENBIExpbWl0ZWQxPTA7BgNVBAMTNENPTU9ETyBSU0EgQ2xpZW50IEF1dGhl
+bnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEQDiu0lIeSrsCenEpRjxmVhmMA0GCSqGSIb3
+DQEBAQUABIIBADFz6Sn0gbbpWdrBXTK+v1i+lmpRCzIGu8yXgsr9IjIhEi/RD87BjhRYk9VBFZ/z
+aBQD2bnyUU+5r0SBziVY0cFYTtkaHJUFnb35e1zDeaRbIvAwbOHXJRENGd0VAxBq6XKFuATNZTz7
+Oa3+wvLZgIBhdrE64r39SCzgXxDK4412HcrO6rLAFKU7InFK430Q3d/anslHnNjiq0XwEqKiRDW0
+Fo3dJJHvXKY78fQ4tRvQtAJeDiv/R1BoHczxh0gcuFWbvkejcFKXHp+RMgApQPYaa8WNgVbdeAui
+bgCPrG14pWUqeuyK6vxEu/dPDkpxTkWy6bBGZKevhdpqY+xhen8AAAAAAAA=
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--=-azSh1km8wLbP7TG6+Llw--
+
