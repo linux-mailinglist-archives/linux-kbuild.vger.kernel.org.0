@@ -2,110 +2,211 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD1DD264F8D
-	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 21:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50163265052
+	for <lists+linux-kbuild@lfdr.de>; Thu, 10 Sep 2020 22:11:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726675AbgIJTqV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 10 Sep 2020 15:46:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49238 "EHLO
+        id S1729913AbgIJO7l (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 10 Sep 2020 10:59:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726969AbgIJTpr (ORCPT
+        with ESMTP id S1730896AbgIJOwg (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 10 Sep 2020 15:45:47 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53541C061795
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 12:45:47 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id f2so2815145pgd.3
-        for <linux-kbuild@vger.kernel.org>; Thu, 10 Sep 2020 12:45:47 -0700 (PDT)
+        Thu, 10 Sep 2020 10:52:36 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E21C061795;
+        Thu, 10 Sep 2020 06:47:35 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id d189so5915301oig.12;
+        Thu, 10 Sep 2020 06:47:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=kT3st5L2W/yGrskNA7hV4WTKcp+VzTZ5Pgaqe30vqT8=;
-        b=eC6xHFZebGzDOu2iJFlC4sYhGBsPBPtk9a7oklICzLNlEMzSAdGnasLCc1rhvVduzw
-         WWGkAB927UqclP1++HPY0zndFIqCAsSEoCB33GsJW1zgx9zdnqi9fNwkG+wGtFEr+T3z
-         bUYjH1Oc2jBMRnj0f0FQ3tH0tHQIOzzYF+914=
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=mfDlbY7gY4hRLiwC4XEB9WwxJ07KUMv374l5cGr0Et8=;
+        b=e+KAOP7dzfcJ2TWuzTweheFwhiAtewKaO/z6qX6xiy2qvPz2R33Aq8KMRlJjNhB6NA
+         t7/7/JNvSTNyEIkrXhMykuvx6pE3AVSA3UwoeT+fylozQmXxw3YCthVYmP6YS4PBwB8O
+         mT2Ia28yh/TFGSkbQExASZJ9YoGu4cgSGxOI7Jihfw7vO01g3sDWxL72/zGaI4SdylsC
+         bnp4NAUCXQsThn6pSeFOVsDb0ZW+yG4RtgsatNfYYri8FS1twbwHF40jYXHvy1wQtymM
+         pDwMrvo3gEkV0cDHnccNwvZ+xsIJjUCZVajw5M3JIE74PNoRTmZkeBv8030wwOna39+7
+         yO+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=kT3st5L2W/yGrskNA7hV4WTKcp+VzTZ5Pgaqe30vqT8=;
-        b=shni5A6GUL/U4yU8HxWXPM2xFOxpG32LRQHP6A5SJqsWbegW7zqMeqNew1bhItXsfn
-         6FX4dZc1g2Flr6fmH0j1AZM09t0blnNQPAtwrBRqZUov587eHjD+XkybBw4U6CVP30e+
-         kRWpSflQ0sC3PqWSUZBda2Z902K4WMYeIpzORsQGqtGMrtsRCmB9AdPnMpzOsuAZ070H
-         S77hFyJ+lreaowMnWNL2WZjzEvL8dANi67iAlj9Kqyc316GT6hwqIFfmeJVMZHPsJTzT
-         A0sqqH/x9AFxCSaj6CXKVYxZ5JH46yfoh25C9g4vizQg8brjuBM9bwQQrgUmtuseQ1Y1
-         Li6g==
-X-Gm-Message-State: AOAM531Vj45KQHAfGVpPyxCAHOW2gatvaLKboW4yRrB+Ym3yeuDLFq7C
-        6ZCML4HSKMyp8RDiwVm7+3o4sg==
-X-Google-Smtp-Source: ABdhPJwWpKs77i2Pw4YhFhAT5cZe6s0qx17kIVE+as0BWVJNc55TKLnEBagdP5cQWEjWPugWxrbACw==
-X-Received: by 2002:aa7:858e:: with SMTP id w14mr2753410pfn.95.1599767146631;
-        Thu, 10 Sep 2020 12:45:46 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l79sm2905776pfd.210.2020.09.10.12.45.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 12:45:45 -0700 (PDT)
-Date:   Thu, 10 Sep 2020 12:45:44 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org, linux-ia64@vger.kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Paul Mackerras <paulus@samba.org>,
-        linux-riscv@lists.infradead.org, Will Deacon <will@kernel.org>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        linux-arch@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        Russell King <linux@armlinux.org.uk>,
-        Ingo Molnar <mingo@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>, Jeff Dike <jdike@addtoit.com>,
-        Jessica Yu <jeyu@kernel.org>, linux-um@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, Tony Luck <tony.luck@intel.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        linux-arm-kernel@lists.infradead.org,
+        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=mfDlbY7gY4hRLiwC4XEB9WwxJ07KUMv374l5cGr0Et8=;
+        b=GofuXsypHn2UXtTU28U9kOBW36998d8ZQ86j68JwvEcdlTMFXjNZdU/F3hu88tRI1Y
+         IcZGVFrQ8CliI32J60AiqDx1Ek1sTbOIvaUcwLMD8/1H0XL5rpXIqOhUWzDTxSTreRpe
+         kLcpz2I/WQO4CkGVvXBaAXdJuDtmsq4fy9lWBuUAz5kAJEmF2DyKwvvZtGGgVhEXdwKL
+         YaOPIpnLMHiCTLcQ4XwpNIcfN9URS4kP36LM2Jlso5gghDOQTVf2TnIOKYDhmMxQkn61
+         tmG5cBA72v64fGbo0zV/v+uzYuRbpKiS5QUH9vEZsM6vDVRZzvaxX9fU1z8qK0GVLaqR
+         jmJQ==
+X-Gm-Message-State: AOAM532X8RsfdUtuO29pWcb8/Q2/NI/OK7uHrsfq428nl74gkH74YgyC
+        AM3tdV1HuMsaP7upHAm+NRsJrYHZ6LY=
+X-Google-Smtp-Source: ABdhPJwpYIxbrheyPMr2nyJrPxXFwQRL0L78nZK8USAXE10vjLCER6cC1UDbejJJCpkLfcnJoMjuMg==
+X-Received: by 2002:aca:d845:: with SMTP id p66mr30509oig.47.1599745654501;
+        Thu, 10 Sep 2020 06:47:34 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id n37sm824678ota.20.2020.09.10.06.47.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2020 06:47:34 -0700 (PDT)
+Subject: Re: [PATCH 5.8 000/186] 5.8.8-rc1 review
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "torvalds@linux-foundation.org" <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, patches@kernelci.org,
+        Ben Hutchings <ben.hutchings@codethink.co.uk>,
+        lkft-triage@lists.linaro.org, stable <stable@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] kbuild: preprocess module linker script
-Message-ID: <202009101245.493610D05@keescook>
-References: <20200904133122.133071-1-masahiroy@kernel.org>
+        linux-kbuild <linux-kbuild@vger.kernel.org>
+References: <20200908152241.646390211@linuxfoundation.org>
+ <20200909164705.GE1479@roeck-us.net> <20200909180121.GD1003763@kroah.com>
+ <5ea4e73b-778d-e742-7ba7-f1cbe0307a0f@roeck-us.net>
+ <CAMuHMdXwqC-B-CHQ0zzZ8YY+BDdq6ffqO6j85hsna-PUdwqz_g@mail.gmail.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Message-ID: <23b60a5d-1d21-7fd3-a125-29e564d5b753@roeck-us.net>
+Date:   Thu, 10 Sep 2020 06:47:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200904133122.133071-1-masahiroy@kernel.org>
+In-Reply-To: <CAMuHMdXwqC-B-CHQ0zzZ8YY+BDdq6ffqO6j85hsna-PUdwqz_g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 10:31:21PM +0900, Masahiro Yamada wrote:
-> There was a request to preprocess the module linker script like we do
-> for the vmlinux one (https://lkml.org/lkml/2020/8/21/512).
+On 9/9/20 11:36 PM, Geert Uytterhoeven wrote:
+> Hi Günter,
 > 
-> The difference between vmlinux.lds and module.lds is that the latter
-> is needed for external module builds, thus must be cleaned up by
-> 'make mrproper' instead of 'make clean' (also, it must be created by
-> 'make modules_prepare').
+> On Wed, Sep 9, 2020 at 8:24 PM Guenter Roeck <linux@roeck-us.net> wrote:
+>> On 9/9/20 11:01 AM, Greg Kroah-Hartman wrote:
+>>> On Wed, Sep 09, 2020 at 09:47:05AM -0700, Guenter Roeck wrote:
+>>>> On Tue, Sep 08, 2020 at 05:22:22PM +0200, Greg Kroah-Hartman wrote:
+>>>>> This is the start of the stable review cycle for the 5.8.8 release.
+>>>>> There are 186 patches in this series, all will be posted as a response
+>>>>> to this one.  If anyone has any issues with these being applied, please
+>>>>> let me know.
+>>>>>
+>>>>> Responses should be made by Thu, 10 Sep 2020 15:21:57 +0000.
+>>>>> Anything received after that time might be too late.
+>>>>>
+>>>>
+>>>> Build results:
+>>>>      total: 154 pass: 153 fail: 1
+>>>> Failed builds:
+>>>>      powerpc:allmodconfig
+>>>> Qemu test results:
+>>>>      total: 430 pass: 430 fail: 0
+>>>>
+>>>> The powerpc problem is the same as before:
+>>>>
+>>>> Inconsistent kallsyms data
+>>>> Try make KALLSYMS_EXTRA_PASS=1 as a workaround
+>>>>
+>>>> KALLSYMS_EXTRA_PASS=1 doesn't help. The problem is sporadic, elusive, and all
+>>>> but impossible to bisect. The same build passes on another system, for example,
+>>>> with a different load pattern. It may pass with -j30 and fail with -j40.
+>>>> The problem started at some point after v5.8, and got worse over time; by now
+>>>> it almost always happens. I'd be happy to debug if there is a means to do it,
+>>>> but I don't have an idea where to even start. I'd disable KALLSYMS in my
+>>>> test configurations, but the symbol is selected from various places and thus
+>>>> difficult to disable. So unless I stop building ppc:allmodconfig entirely
+>>>> we'll just have to live with the failure.
+>>>
+>>> Ah, I was worried when I saw your dashboard orange for this kernel.
+>>>
+>>> I guess the powerpc maintainers don't care?  Sad :(
+>>>
+>>
+>> Not sure if the powerpc architecture is to blame. Bisect attempts end up
+>> all over the place, and don't typically include any powerpc changes.
+>> I have no idea how kallsyms is created, but my suspicion is that it is
+>> a generic problem and that powerpc just happens to hit it right now.
+>> I have added KALLSYMS_EXTRA_PASS=1 to several architecture builds over
+>> time, when they reported similar problems. Right now I set it for
+>> alpha, arm, and m68k. powerpc just happens to be the first architecture
+>> where it doesn't help.
 > 
-> You cannot put it in arch/*/kernel/ because 'make clean' descends into
-> it. I moved arch/*/kernel/module.lds to arch/*/include/asm/module.lds.h,
-> which is included from scripts/module.lds.S.
+> This is a generic problem, cfr. scripts/link-vmlinux.sh:
 > 
-> scripts/module.lds is fine because 'make clean' keeps all the build
-> artifacts under scripts/.
+>         # kallsyms support
+>         # Generate section listing all symbols and add it into vmlinux
+>         # It's a three step process:
+>         # 1)  Link .tmp_vmlinux1 so it has all symbols and sections,
+>         #     but __kallsyms is empty.
+>         #     Running kallsyms on that gives us .tmp_kallsyms1.o with
+>         #     the right size
+>         # 2)  Link .tmp_vmlinux2 so it now has a __kallsyms section of
+>         #     the right size, but due to the added section, some
+>         #     addresses have shifted.
+>         #     From here, we generate a correct .tmp_kallsyms2.o
+>         # 3)  That link may have expanded the kernel image enough that
+>         #     more linker branch stubs / trampolines had to be added, which
+>         #     introduces new names, which further expands kallsyms. Do another
+>         #     pass if that is the case. In theory it's possible this results
+>         #     in even more stubs, but unlikely.
+>         #     KALLSYMS_EXTRA_PASS=1 may also used to debug or work around
+>         #     other bugs.
 > 
-> You can add arch-specific sections in <asm/module.lds.h>.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Ah, that explains a lot.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+> Adding even more kallsyms_steps may help (or not, if you're really
+> unlucky).  Perhaps the number of passes should be handled automatically
+> (i.e. run until it succeeds, with a sane (16?) upper limit to avoid
+>  endless builds, so it can still fail, in theory).
+> 
 
--- 
-Kees Cook
+Turns out it needs four steps. I prepared a patch to try up to 8 steps.
+We'll see if it gets accepted.
+
+Thanks,
+Guenter
