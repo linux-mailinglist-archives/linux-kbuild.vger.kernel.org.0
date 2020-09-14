@@ -2,80 +2,80 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14775268C1F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Sep 2020 15:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8260268C50
+	for <lists+linux-kbuild@lfdr.de>; Mon, 14 Sep 2020 15:37:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726577AbgINNWJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Sep 2020 09:22:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45094 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726764AbgINNUJ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Sep 2020 09:20:09 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0B3E2208E4;
-        Mon, 14 Sep 2020 13:20:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600089609;
-        bh=eDXyTgSyZLA07KG4y8gzUYxM2EcFms0du2447Fr3REE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0E0FBaqI2gVjLsCgTWWbEBhicvx/8W8sKEoRPU4RcXqIdRwDkJrB8XSxXcKvIaj/N
-         lpijuoNzUsujtevr9e30J2njr/A6unC5wIUNSXne1GPReBrcBPhMaeTJLy+5xGktxr
-         ikf6iqCBcXXe2b5t20bkCsnFRNPvQtxFtVYVLQB0=
-Date:   Mon, 14 Sep 2020 14:20:03 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/4] kbuild: remove cc-option test of -fno-strict-overflow
-Message-ID: <20200914132003.GE24441@willie-the-truck>
-References: <20200910135120.3527468-1-masahiroy@kernel.org>
- <20200911152225.GB20374@willie-the-truck>
- <CAK7LNASijUXVmZ+AfuGOnAFnbfUpr3S2ncSxABt4bGF+agxg+A@mail.gmail.com>
+        id S1726720AbgINNhh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 14 Sep 2020 09:37:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57800 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726749AbgINNgI (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 14 Sep 2020 09:36:08 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E426C06174A;
+        Mon, 14 Sep 2020 06:36:03 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id e17so71526wme.0;
+        Mon, 14 Sep 2020 06:36:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=gdhmugLqW7kZFrfvX3M00eU7dg8wTThNgVclxlTgViM=;
+        b=e7fyEFcEndcJpteBlRD60kFt98Z69+lfT6bkXtZoa9qDJV0+gtG/vOmS/JdZXXtZiM
+         F9dc885pna3iqyCzQqaMQ0H2voJeG90Oh3b+FjP9MNfPxmieGThCAB2Ztwt5kN5iF8U3
+         LNbvu0RVEffgIJuCTQ7eyH+xWLrTnHVkaGAU2ihK9aqi0fyfwlqKLUePA6L90ERXWbU7
+         9tXhjFJ1sqN2/+vsj+rSTkAvVM+gedJENBOloau/bjczRAz7ia158ClEjnkce+9K9Vp/
+         3Pc4qd702VNQL9kwQo+COLOy4AdxVgo00MTgX3N9GUshFA55ZGnln3A9DhNKLhuosNVj
+         p44g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=gdhmugLqW7kZFrfvX3M00eU7dg8wTThNgVclxlTgViM=;
+        b=ACGP96OCNvz3uQMWIvZa6sTBKwQ9TkSx5XtVLvODeLfeOQeyfWYZvCgpFlM2tDnie4
+         zR7OLHcDKICMUrOyo/9vmlRHtk1ZJRcN48tq42Gkcw+HdOQ2vRz7F1829d60GVdDumnT
+         Lg9SInZFw4GPTvYngtPiKFm/qhFk5J1HIlvfppwBGaXZPDVNcYep2n+5aWEdjW8iH7iv
+         LPIO+toEHTH4Gg13CMhRvF/oXuot1F1K88OjFUFFGDIspSvd8l6yGKZKnwYKfBR52sCJ
+         RNpb5lxOO4pDttFCnJC4lDr/uKqzaunkLQVLa3Kg8BVG0qmtDmtQHn1uytLz3r5doGCY
+         5MJw==
+X-Gm-Message-State: AOAM5300tB5bGtGJAbhDBIVuJAuo9+IZmnMX+sPimgDkHp1YSKSvp7MW
+        GyRg2LEHylBZM1SDv2yEbQ==
+X-Google-Smtp-Source: ABdhPJwKhNPs4paL/6g5fIc2dooU8YJ4hKIr6kqKv3iHeuW0Wc0X/Qgkl2E9ARAKZ5Xu5tIlNcpJDQ==
+X-Received: by 2002:a1c:4c0d:: with SMTP id z13mr14408941wmf.113.1600090562397;
+        Mon, 14 Sep 2020 06:36:02 -0700 (PDT)
+Received: from localhost.localdomain ([46.53.251.238])
+        by smtp.gmail.com with ESMTPSA id s67sm20034759wmf.38.2020.09.14.06.36.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 06:36:01 -0700 (PDT)
+Date:   Mon, 14 Sep 2020 16:35:59 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     mingo@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        masahiroy@kernel.org
+Subject: Re: [PATCH] kbuild: Run syncconfig with -s
+Message-ID: <20200914133559.GA126210@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAK7LNASijUXVmZ+AfuGOnAFnbfUpr3S2ncSxABt4bGF+agxg+A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 09:51:31PM +0900, Masahiro Yamada wrote:
-> On Sat, Sep 12, 2020 at 12:22 AM Will Deacon <will@kernel.org> wrote:
-> > On Thu, Sep 10, 2020 at 10:51:17PM +0900, Masahiro Yamada wrote:
-> > > The minimal compiler versions, GCC 4.9 and Clang 10 support this flag.
-> > >
-> > > Here is the godbolt:
-> > > https://godbolt.org/z/odq8h9
-> > >
-> > > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> > > ---
-> > >
-> > >  Makefile                          | 2 +-
-> > >  arch/arm64/kernel/vdso32/Makefile | 2 +-
-> > >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > This, and the other patch (4/4 -- I didn't see 2 or 3), look good to me.
-> > Are you taking them via the kbuild tree, or shall I queue them in the arm64
-> > tree? Please just let me know what you prefer.
+> BTW., there's another, rather spurious bug I recently triggered in kbuild.
 > 
-> I will apply all to the kbuild tree.
-> Your Ack is appreciated.
+> Occasionally when I Ctrl-C a kernel build on a system with a lot of CPUs, 
+> the .o.cmd file gets corrupted:
 
-For both:
+Those are temporary files, truncated at page boundary.
 
-Acked-by: Will Deacon <will@kernel.org>
+	$ stat -c %s XXX.pata_sil680.mod.o.cmd
+	12288
 
-Will
+I tried to fix this by inserting shell 'trap' directive but it failed
+somewhere else.
+
+	cmd_and_fixdep =                                                     \
+        $(cmd);                                                              \
+        scripts/basic/fixdep $(depfile) $@ '$(make-cmd)' > $(dot-target).cmd;\
+        rm -f $(depfile)
