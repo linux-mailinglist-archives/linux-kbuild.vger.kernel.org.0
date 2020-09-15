@@ -2,119 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CB6C2698AA
-	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Sep 2020 00:13:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B711269DF9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 15 Sep 2020 07:41:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726061AbgINWNT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 14 Sep 2020 18:13:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53432 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726024AbgINWNR (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 14 Sep 2020 18:13:17 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AD0BC061788
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Sep 2020 15:13:16 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id jw11so664401pjb.0
-        for <linux-kbuild@vger.kernel.org>; Mon, 14 Sep 2020 15:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XKHeWnZTmr+44PA1uk+tmIoZZMZNVyaEbUZsmkorfxM=;
-        b=FLfu5qkpDm7o5/xP0ilZmNxVe+jdmcJEkTL/4DGLQ5xUBs9smNtW0pRVX074Wodffb
-         QUGa2sH5fudwFrwS49G9uXA9hzulhM+YqeS3JvomF2XSTDvvz161Ko8MHkn/a5Vkn26o
-         2wUHbRjJ9JT+dslYXV4aBJuwNU5aQBs5Tz/Pg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XKHeWnZTmr+44PA1uk+tmIoZZMZNVyaEbUZsmkorfxM=;
-        b=U73ZSh2haNStIVDXMdqo6Rs5wvMvV/gOD5jCtgLEHv43BBXiAz9fro5QHJLTzmlg5J
-         z2TCu3OFH+On/pO+0GzZ4THG28fEA0Y8jkjp3ZYr25p4hhaSqs1ZtAQTgjgj09HpE9Li
-         N9w2o3jvlmdHL+A9VYFWaRwiEsm/L/CEblEJIoBlHROv5dNT+065Grup+LHB/xprNZ2o
-         bbTBUIkyaeB1BFnHJ08f3oeYywKsaYIeqZJJzA+qFr7S6E5pUnT0YaLOvAjBc+ouTUut
-         gbSUh78sT8L2RzAwex1cQ7cI57HvErC0ocq+GBAqZ4fyc+fbe48F2ViDJKdDbTu8Reys
-         xYzg==
-X-Gm-Message-State: AOAM5300xJGEq+x/aHZe3oZxK+PInsx/DeDoMBlCYwr0sS2cq260NnEM
-        aM/6wJFMUbJ3BFPVO0l/3IZCvQ==
-X-Google-Smtp-Source: ABdhPJyn8NpGqIRjrEpOsVjRNLYYQTqkknDqHNXZZiqb/DFr4jKhXnJkQxxoYZIMjCxQkiwbcgTD4Q==
-X-Received: by 2002:a17:90b:3505:: with SMTP id ls5mr1284670pjb.105.1600121596214;
-        Mon, 14 Sep 2020 15:13:16 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id i187sm9130990pgd.82.2020.09.14.15.13.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2020 15:13:15 -0700 (PDT)
-Date:   Mon, 14 Sep 2020 15:13:14 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     George-Aurelian Popescu <georgepope@google.com>
-Cc:     maz@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        masahiroy@kernel.org, michal.lkml@markovi.net,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        clang-built-linux@googlegroups.com, james.morse@arm.com,
-        julien.thierry.kdev@gmail.com, suzuki.poulose@arm.com,
-        natechancellor@gmail.com, ndesaulniers@google.com,
-        dbrazdil@google.com, broonie@kernel.org, maskray@google.com,
-        ascull@google.com, akpm@linux-foundation.org, dvyukov@google.com,
-        elver@google.com, tglx@linutronix.de, arnd@arndb.de
-Subject: Re: [PATCH 06/14] Fix CFLAGS for UBSAN_BOUNDS on Clang
-Message-ID: <202009141509.CDDC8C8@keescook>
-References: <20200914172750.852684-1-georgepope@google.com>
- <20200914172750.852684-7-georgepope@google.com>
+        id S1726046AbgIOFll (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 15 Sep 2020 01:41:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58340 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726153AbgIOFli (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 15 Sep 2020 01:41:38 -0400
+Received: from coco.lan (ip5f5ad5a5.dynamic.kabel-deutschland.de [95.90.213.165])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7378220897;
+        Tue, 15 Sep 2020 05:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600148497;
+        bh=py1Ic3FYAxgFRhk1XbUcw+ZT1cHuHmyt/viWV46qu0E=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ESYGSRzt+0NOzR1QGn6zBKUTfxx4NswZco32Tjhe2UAcSZdDi3y/rBDGUmTQDlcja
+         top9++iUrnbpKYGJ4Bos26CgiPvlixi65L3GNyklinByZl1Q0QrT4DbklbuiWeynkg
+         oYgnpjUL47suOYm0wsxe7me3y2VREXQpaYduVmX4=
+Date:   Tue, 15 Sep 2020 07:41:26 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Maxim Levitsky <mlevitsk@redhat.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: xconfig is broken again on Qt5
+Message-ID: <20200915074126.36a24f0e@coco.lan>
+In-Reply-To: <CAK7LNAQ6M+9CSwEOb687jGQbtOX6GjKhQ3m45U7XrPs4_CJU0Q@mail.gmail.com>
+References: <e04f1e9372f896d435d972cc6b70d1eb3b0c32a2.camel@redhat.com>
+        <CAK7LNAQ6M+9CSwEOb687jGQbtOX6GjKhQ3m45U7XrPs4_CJU0Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200914172750.852684-7-georgepope@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 05:27:42PM +0000, George-Aurelian Popescu wrote:
-> From: George Popescu <georgepope@google.com>
+Em Tue, 15 Sep 2020 00:25:07 +0900
+Masahiro Yamada <masahiroy@kernel.org> escreveu:
+
+> On Sun, Sep 13, 2020 at 10:21 PM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+> >
+> > I hate to say it, but xconfig got broken again.
+> >
+> > After commit 68fd110b3e7e2 ("kconfig: qconf: remove redundant help in the info view")
+> > help description disappered completely from xconfig (both normal and split mode)
+> >
+> > I reverted this and next commit to get this back.
+> >
+> > I have a feeling that there were several bugs introduced to xconfig recently
+> > due to attempt to support both Qt4 and Qt5. Maybe we should only support one version?  
 > 
-> When the kernel is compiled with Clang, UBSAN_BOUNDS inserts a brk after
-> the handler call, preventing it from printing any information processed
-> inside the buffer.
-> For Clang -fsanitize=bounds expands to -fsanitize=array-bounds and
-> -fsanitize=local-bounds, and the latter adds a brk after the handler
-> call
-
-That sounds like a compiler bug?
-
-> Signed-off-by: George Popescu <georgepope@google.com>
-> ---
->  scripts/Makefile.ubsan | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/scripts/Makefile.ubsan b/scripts/Makefile.ubsan
-> index 27348029b2b8..3d15ac346c97 100644
-> --- a/scripts/Makefile.ubsan
-> +++ b/scripts/Makefile.ubsan
-> @@ -4,7 +4,14 @@ ifdef CONFIG_UBSAN_ALIGNMENT
->  endif
->  
->  ifdef CONFIG_UBSAN_BOUNDS
-> -      CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
-> +      # For Clang -fsanitize=bounds translates to -fsanitize=array-bounds and
-> +      # -fsanitize=local-bounds; the latter adds a brk right after the
-> +      # handler is called.
-> +      ifdef CONFIG_CC_IS_CLANG
-> +            CFLAGS_UBSAN += $(call cc-option, -fsanitize=array-bounds)
-
-This would mean losing the local-bounds coverage? Isn't that for locally
-defined arrays on the stack?
-
-> +      else
-> +            CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
-> +      endif
->  endif
->  
->  ifdef CONFIG_UBSAN_MISC
-> -- 
-> 2.28.0.618.gf4bc123cb7-goog
+> xconfig was originally written for Qt3, and
+> got broken in many ways after being converted to Qt5.
+> (commit 8328447af88eaab1d thru b4ff1de3b8381a4)
 > 
+> That is my gut feeling.
+> 
+> So, xconfig carried broken code everywhere
+> for many years.
+> 
+> I think supporting both Qt4 and Qt5
+> is doable, but testing both versions is tedious.
+> I'd like to want to drop Qt4 support in the future but
+> not in this development cycle because there are still
+> some people using Qt4.
 
--- 
-Kees Cook
+My 2 cents here: I ported Kaffeine from Qt4 to Qt5. When I did that,
+I tried to make it compatible with both, but that was not easy. So,
+it now supports only Qt5. Ok, Kaffeine uses a lot of different APIs.
+
+It is probably doable to keep xconfig compatible with both Qt4 and
+Qt5, but not sure if it is worth the efforts, as Qt5 was released 
+at the end of 2012. So, I guess that all distros should have Qt5
+packages, even the LTS ones.
+
+> Recently I changed xconfig a lot because I noticed
+> various bugs, and also needed to simplify the code
+> for better maintainability.
+> 
+> 
+> Sorry for the pain, but we need to change the code
+> to make it stable and maintainable.
+> 
+> For the reported issue,
+> does this work for you?
+> https://patchwork.kernel.org/patch/11774055/
+> 
+> 
+> > I tried gconfig even thinking maybe nobody uses xconfig these days
+> > but gconfig seems to lack search function.  
+> 
+> gconfig is not well maintained either.
+> 
+> I think it should be converted from gtk+2 to gtk+3
+> and I know various bugs that need fixing
+> (but I have not been able to find time to work on it...)
+
+Such conversion can also be painful. I also did two such
+conversions for other media packages (Camorama and ZBar). Also,
+gtk4 is close to be released:
+
+	https://www.phoronix.com/scan.php?page=news_item&px=GTK-3.99.1-Released
+
+Porting from gtk+3 to gtk4 is also painful. I tried to prepare
+Camorama (which currently supports both gtk+2 and gtk+3) for gtk4, 
+but one of the fundamental features needed for it to work was dropped
+(a way to write video images inside a widget). Last time I checked,
+there were no obvious replacement for it (didn't check 3.99 yet).
+
+Maybe the main point here is if we should keep maintaining two
+GUI frontends.
+
+Thanks,
+Mauro
