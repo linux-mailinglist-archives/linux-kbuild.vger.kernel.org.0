@@ -2,55 +2,60 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB3426BE4F
-	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Sep 2020 09:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3FE26BF5C
+	for <lists+linux-kbuild@lfdr.de>; Wed, 16 Sep 2020 10:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726493AbgIPHkg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 16 Sep 2020 03:40:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53450 "EHLO
+        id S1726536AbgIPIc4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 16 Sep 2020 04:32:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726470AbgIPHkd (ORCPT
+        with ESMTP id S1726377AbgIPIcx (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 16 Sep 2020 03:40:33 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCF4FC061788
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Sep 2020 00:40:31 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id z9so1873179wmk.1
-        for <linux-kbuild@vger.kernel.org>; Wed, 16 Sep 2020 00:40:31 -0700 (PDT)
+        Wed, 16 Sep 2020 04:32:53 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF65C061788
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Sep 2020 01:32:53 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id 60so5950372otw.3
+        for <linux-kbuild@vger.kernel.org>; Wed, 16 Sep 2020 01:32:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=tqvp+bkIU1TWNlZpwcv+TKRU2X5GojmD5HYurFQV7BY=;
-        b=gjM7bxmS6+Hzs07rV/WLqiZ7oypbPZeeynUIbEGf+1I9i5xUZgFTr9pBvxoJKit3lh
-         /TC/qQi6Hp2TtnCO/NeCATHt2bkpPA/JZvcO9Wttw2I/Sc/8JV0ACXRCD1k8lq2qSH2u
-         xFt8e4VclXK6orUp/sR81UNyuRsBU9CKP69jotta8/o3ZN0y/ATIUSrKa0W8LIOgRy2n
-         DkB86wfYPzlKcUglMBue1jJjXIt1v3N2MKI2EvcrO/plB1MItPyrUhAx217Bc/mR4MCH
-         vj2Ii+bGg1WlPNB/9eezKaFrqWjQ4uNrrqwZjwW+1wrycv8XxA+imCdxpWXZ+TBspfEU
-         cO6A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gutnwyq/fY1R+B0kj3zMSfdQMIw4d9tjzY6YslUPxq0=;
+        b=PS2WB70x9ySf7kxgHgUr09U5FuNJgjvgaH7MMVEi0w25wj+geORkHkwqZc6VzcevOQ
+         hCiEAnLVhUXjSlfOS/9LyAWzsln3c5crRxRoQqAuBiTozsIvZrtIZiM8OPXSSAy9Vae7
+         OMDs11gtOlkCkG/6Uw/jn9znWaF+uoVU/C8MX31oKa9yxTGAe460K1qfCI8awGr7H8z3
+         6k+OgXFK6UAPvAOVBG0ab6JFxnyX6o+ajKqqqNU8mHtleCW4IaanfL2KUVXoPA9N90ZA
+         qgRYedd2f9Q0CTxAQi3665Ew2/NkBkKd0kVGjtH4Awdg11uBiQ484d2fJCsAhk4O2Zlx
+         Meug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=tqvp+bkIU1TWNlZpwcv+TKRU2X5GojmD5HYurFQV7BY=;
-        b=gkPPpf48uYJf7E6oTCTby5DXstFTfOs0W3Y1vfHZmw+SGR1CcZgbtBYNfGERnIMI1P
-         B/rvXEvjPgl1q/F0I5S9nPCRItztCB1SeMJqFNGv4wJ77TpnjfWKbcE+l5UzNm++L0D8
-         jSgyC9FoT3OPQQU1BCNsyNeKqnU18J0SCQ7GDUe2ghBdNTHrKWWxC593LD7qHxrXQDuj
-         viwxEjqriJj6aMKFfN5HhQ3vVc1T38Dyapwy1BdAtQKWE7yYZ3Kg1wFlMJ0580gMRz4c
-         /KMY+0YgarGOMDWtoyS9Rg0vvD4JyZssnAJh84pgOEG9O2tvEg5wRJwcJklBHuPXi6eZ
-         x1rA==
-X-Gm-Message-State: AOAM5324bS+hzrW8SBp/I1oR8WpTQJJ6brb0qvv9DAwOJDjIVboXN/3/
-        ImNi3TbtI23TMXOeXWkZIWFtlA==
-X-Google-Smtp-Source: ABdhPJx/FHKbG/LfARiaWGrhnM+fErvXhr1oAsC0Dy1+R1K4G2d1MrURncNcx4OJ1k5GECgPKBKUBg==
-X-Received: by 2002:a1c:9a57:: with SMTP id c84mr3177066wme.136.1600242029785;
-        Wed, 16 Sep 2020 00:40:29 -0700 (PDT)
-Received: from google.com (49.222.77.34.bc.googleusercontent.com. [34.77.222.49])
-        by smtp.gmail.com with ESMTPSA id u66sm3770553wme.12.2020.09.16.00.40.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 00:40:29 -0700 (PDT)
-Date:   Wed, 16 Sep 2020 07:40:27 +0000
-From:   George Popescu <georgepope@google.com>
-To:     Marco Elver <elver@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gutnwyq/fY1R+B0kj3zMSfdQMIw4d9tjzY6YslUPxq0=;
+        b=M/pm+1vNs/1Ssc0oLhSFRLa4Ua0LnTmTXfBs1XegciPEQuWrv/HbWzW1lVp5zgAfjN
+         F9HhK0plOm9u2lccjrU4eDG2+OK/2J6I+REaa1W+CkJJA1d0qsRzqFa809fi3+9R51lf
+         KBI/Ot4ZMU57O7XZZ4X1uii5YwjE7A0u5MgIW7vr+vu8LgSx3YvmI+Me+AT+HzY8XuOf
+         F6Gu2nZENUIVliuPCznPt9v+lgiPGgUvcibV8aauMwY0svnYs5rmEzdNDymi+V32dTZt
+         aXwVWOt4cfIYDNE1nWn6nQtooVq1Z9yaBTZAqIeO4jRivYmklfkBD7eGAjSnWUWZQqql
+         d7Xg==
+X-Gm-Message-State: AOAM5316QeQip15gDNi8V6aVqz9MJTWF30JIk7R9TVooegqyBsMoOtFh
+        4Tk/EZwjuDfttvpW0GKZO8Pbs9AydQnPjU1jYbBX2w==
+X-Google-Smtp-Source: ABdhPJwe6y4pKih3pRHaHK/yYYM4kOk8WdhzR+Jnvf9pdfuOu3tT6QfG19o4rzngArJRA/kONhSAKRQW+ccjYcRX+jI=
+X-Received: by 2002:a05:6830:1e8c:: with SMTP id n12mr16510993otr.17.1600245172173;
+ Wed, 16 Sep 2020 01:32:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200914172750.852684-1-georgepope@google.com>
+ <20200914172750.852684-7-georgepope@google.com> <202009141509.CDDC8C8@keescook>
+ <20200915102458.GA1650630@google.com> <CANpmjNOTcS_vvZ1swh1iHYaRbTvGKnPAe4Q2DpR1MGhk_oZDeA@mail.gmail.com>
+ <20200915120105.GA2294884@google.com> <CANpmjNPpq7LfTHYesz2wTVw6Pqv0FQ2gc-vmSB6Mdov+XWPZiw@mail.gmail.com>
+ <20200916074027.GA2946587@google.com>
+In-Reply-To: <20200916074027.GA2946587@google.com>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 16 Sep 2020 10:32:40 +0200
+Message-ID: <CANpmjNMT9-a8qKZSvGWBPAb9x9y1DkrZMSvHGq++_TcEv=7AuA@mail.gmail.com>
+Subject: Re: [PATCH 06/14] Fix CFLAGS for UBSAN_BOUNDS on Clang
+To:     George Popescu <georgepope@google.com>
 Cc:     Kees Cook <keescook@chromium.org>, maz@kernel.org,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
@@ -71,72 +76,61 @@ Cc:     Kees Cook <keescook@chromium.org>, maz@kernel.org,
         Dmitry Vyukov <dvyukov@google.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 06/14] Fix CFLAGS for UBSAN_BOUNDS on Clang
-Message-ID: <20200916074027.GA2946587@google.com>
-References: <20200914172750.852684-1-georgepope@google.com>
- <20200914172750.852684-7-georgepope@google.com>
- <202009141509.CDDC8C8@keescook>
- <20200915102458.GA1650630@google.com>
- <CANpmjNOTcS_vvZ1swh1iHYaRbTvGKnPAe4Q2DpR1MGhk_oZDeA@mail.gmail.com>
- <20200915120105.GA2294884@google.com>
- <CANpmjNPpq7LfTHYesz2wTVw6Pqv0FQ2gc-vmSB6Mdov+XWPZiw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPpq7LfTHYesz2wTVw6Pqv0FQ2gc-vmSB6Mdov+XWPZiw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-kbuild-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 07:32:28PM +0200, Marco Elver wrote:
-> On Tue, 15 Sep 2020 at 14:01, George Popescu <georgepope@google.com> wrote:
-> >
-> > On Tue, Sep 15, 2020 at 01:18:11PM +0200, Marco Elver wrote:
-> > > On Tue, 15 Sep 2020 at 12:25, George Popescu <georgepope@google.com> wrote:
-> > > > On Mon, Sep 14, 2020 at 03:13:14PM -0700, Kees Cook wrote:
-> > > > > On Mon, Sep 14, 2020 at 05:27:42PM +0000, George-Aurelian Popescu wrote:
-> > > > > > From: George Popescu <georgepope@google.com>
-> > > > > >
-> > > > > > When the kernel is compiled with Clang, UBSAN_BOUNDS inserts a brk after
-> > > > > > the handler call, preventing it from printing any information processed
-> > > > > > inside the buffer.
-> > > > > > For Clang -fsanitize=bounds expands to -fsanitize=array-bounds and
-> > > > > > -fsanitize=local-bounds, and the latter adds a brk after the handler
-> > > > > > call
-> > > > >
-> > > > This would mean losing the local-bounds coverage. I tried to  test it without
-> > > > local-bounds and with a locally defined array on the stack and it works fine
-> > > > (the handler is called and the error reported). For me it feels like
-> > > > --array-bounds and --local-bounds are triggered for the same type of
-> > > > undefined_behaviours but they are handling them different.
+On Wed, 16 Sep 2020 at 09:40, George Popescu <georgepope@google.com> wrote:
+>
+> On Tue, Sep 15, 2020 at 07:32:28PM +0200, Marco Elver wrote:
+> > On Tue, 15 Sep 2020 at 14:01, George Popescu <georgepope@google.com> wrote:
 > > >
-> > > Does -fno-sanitize-trap=bounds help?>
+> > > On Tue, Sep 15, 2020 at 01:18:11PM +0200, Marco Elver wrote:
+> > > > On Tue, 15 Sep 2020 at 12:25, George Popescu <georgepope@google.com> wrote:
+> > > > > On Mon, Sep 14, 2020 at 03:13:14PM -0700, Kees Cook wrote:
+> > > > > > On Mon, Sep 14, 2020 at 05:27:42PM +0000, George-Aurelian Popescu wrote:
+> > > > > > > From: George Popescu <georgepope@google.com>
+> > > > > > >
+> > > > > > > When the kernel is compiled with Clang, UBSAN_BOUNDS inserts a brk after
+> > > > > > > the handler call, preventing it from printing any information processed
+> > > > > > > inside the buffer.
+> > > > > > > For Clang -fsanitize=bounds expands to -fsanitize=array-bounds and
+> > > > > > > -fsanitize=local-bounds, and the latter adds a brk after the handler
+> > > > > > > call
+> > > > > >
+> > > > > This would mean losing the local-bounds coverage. I tried to  test it without
+> > > > > local-bounds and with a locally defined array on the stack and it works fine
+> > > > > (the handler is called and the error reported). For me it feels like
+> > > > > --array-bounds and --local-bounds are triggered for the same type of
+> > > > > undefined_behaviours but they are handling them different.
+> > > >
+> > > > Does -fno-sanitize-trap=bounds help?>
+> > >
+> > > I tried replacing it with:
+> > >       ifdef CONFIG_CC_IS_CLANG
+> > >             CFLAGS_UBSAN += $(call cc-option, -fno-sanitize-trap=bounds)
+> > >             CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
+> > >       else
+> > >             CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
+> > >       endif
+> > >
+> > > The code traps.
 > >
-> > I tried replacing it with:
-> >       ifdef CONFIG_CC_IS_CLANG
-> >             CFLAGS_UBSAN += $(call cc-option, -fno-sanitize-trap=bounds)
-> >             CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
-> >       else
-> >             CFLAGS_UBSAN += $(call cc-option, -fsanitize=bounds)
-> >       endif
-> >
-> > The code traps.
-> 
-> What's your config? Do you have CONFIG_UBSAN_TRAP=y? If so, you have 2
-> options: honor UBSAN_TRAP and crash the kernel, or have a
-> 'CFLAGS_REMOVE_... = -fsanitize-undefined-trap-on-error' for the files
-> where you can't deal with traps> 
+> > What's your config? Do you have CONFIG_UBSAN_TRAP=y? If so, you have 2
+> > options: honor UBSAN_TRAP and crash the kernel, or have a
+> > 'CFLAGS_REMOVE_... = -fsanitize-undefined-trap-on-error' for the files
+> > where you can't deal with traps>
+>
+> I don't have CONFIG_UBSAN_TRAP=y. My .config is:
+> CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
+> CONFIG_UBSAN=y
+> # CONFIG_UBSAN_TRAP is not set
+> CONFIG_UBSAN_KCOV_BROKEN=y
+> CONFIG_UBSAN_MISC=y
+> CONFIG_UBSAN_SANITIZE_ALL=y
+> # CONFIG_UBSAN_ALIGNMENT is not set
+> CONFIG_TEST_UBSAN=m
 
-I don't have CONFIG_UBSAN_TRAP=y. My .config is:
-CONFIG_ARCH_HAS_UBSAN_SANITIZE_ALL=y
-CONFIG_UBSAN=y
-# CONFIG_UBSAN_TRAP is not set
-CONFIG_UBSAN_KCOV_BROKEN=y
-CONFIG_UBSAN_MISC=y
-CONFIG_UBSAN_SANITIZE_ALL=y
-# CONFIG_UBSAN_ALIGNMENT is not set
-CONFIG_TEST_UBSAN=m
-
-Thanks,
-George
+Your full config would be good, because it includes compiler version etc.
