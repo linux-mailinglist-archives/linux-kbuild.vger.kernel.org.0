@@ -2,92 +2,267 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D11F726E855
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Sep 2020 00:26:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA51270617
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Sep 2020 22:14:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726022AbgIQW0k (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 17 Sep 2020 18:26:40 -0400
-Received: from sonic317-27.consmr.mail.bf2.yahoo.com ([74.6.129.82]:45223 "EHLO
-        sonic317-27.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725886AbgIQW0k (ORCPT
+        id S1726118AbgIRUOk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Sep 2020 16:14:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52688 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbgIRUOk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 17 Sep 2020 18:26:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1600381598; bh=Ruh8whhsLaTTwjIXmzA3PCfAl+J0v/p4XdxCHWadIAE=; h=Date:From:Reply-To:Subject:References:From:Subject; b=kuF0v6XJvsZ0aflQnztt4uWTYY528j9OOCvFNBjeTwBA9mji6gLa9E2v//RnKPsLKAWktzwsh/2gZvWHKaG1xWE6AkgxjRb/qTa2TsZc0NTN/iq91VCBkQlGds0jcA0VIN9E7xWeD+6U/mHRncIWdSYrZ4ToGso5+zUuotc1lS1fUyQkcJGV6YC8jJ2/4S42cKyE+ECLOnp1KUYm1QKxL4ETMyS+cdvWZHxo8txOrs+k46XQMcVktDPASnt1p1NI7kOIjLfW8NUgNh9RQBAh6wTaaB3ojftrLP2R8EIZlK8iu0V1KtIAuNBp7FYXB1CMlhSIWfNV/spYEDbg1WjM1A==
-X-YMail-OSG: 6aLDAv0VM1nD5LQqYbQMZDpHTLx.VOFZamSvRT2lpEDOzm64rJ8AVzlddLtuXJi
- iAw9D2ABk8MXPEGwHs8Q4QZfkVCV9kuyP_YcVUhrq3RPFF3gZ_gkV7VeZsjZOrmNzYvO9Okv9drU
- .dQxcBT3iKKwcOv.POH0XQ_kXsxbA9PzqPr7teMGZqdlefpzpFcDy6XAOwXLrjJFfEH6PZ7wrK7L
- yyxkYRZIuAZPxsEL2u1NiCLXQJxv.vIyl2yfpDiu6YBAFmBPXlqxBZdSW7kRH33_8lb6HMII2alC
- HEKPk.EC9sddHRo6rMcf8QIpIC41DEN6Ana0bkeZE3v67jvoQPOXuIAR7FfRmj3Au9nsJGAZTGtQ
- j3UYw6iDpdufNtLFrJEguoAV9yqiaHQXTmk617mlUoTk4PpbcUu1pCFuAp8AJcMzqiY9KIdKYKsT
- dzjQ_74B7qCaL.aDYH2C4lklEgHDI3yViQj3MAemLKac2a5ybChu_ROxvAxc6CJgagnATeU9r9zw
- mH1.uG0VrUE.ZZC1Nm_ZogdyM0H4bP4.aukHvqaNuKUG.w7dzbZDz17FSY_Vt8dTkF7tm9lB4ZCs
- uJxi1d7HJKsCo5BMEYdbgrlTYUnDz_2trHubm.TAX5zNvkGmaJ4FgH_mJwhvTSWJj896Q9tKBzvA
- 3wrSxoYHHT39s7dJF5PaVCd97yh8TxE7EVlfY0LA3RvbdWAGp7PY31NExXOpSHXcsvkiJ7mxTVrF
- kLJEIcGbwEw6Wd4NU9HeEqfOE831U9PuJ6y5qIZt1pw4vw0SPSBETg6TXBseW5GQI1MplHVCEj8p
- KhH38lx7YIKbqMhsjzePU.hGuTp1.hCiS8Unc_.kXS07RTQu8Xjd3FNQCUDFvxiv_lCenBJZmcw8
- u1yP1k4wd8G8tclXSnw6_l0twFtkdTqkG8xo8_3snjStRcd_E6Ti_Ff5dZ8JwmxqVKAAQMdPHPkA
- 0DV_8SczeK_wK0d35neBgstObVcM5ZknA3JJNKMhgkcMAOgjUfO1FKKKPKBskUKmF6Bw4RTQ9OwU
- VVSb4Ho6bYzN6ACVRoF.gRsPVTWCL0E_OnzlUSY4rUU5JTAQzllon0HPZWeUJloCLg.yJjnJkF4e
- mpPnlzXQ7mE3RyHJEljSgHnOPsg.6UwP__MDFM4nY2Spzu_YwtwuWJIWN2EiCIo_aLse8.iKBiY9
- xGcH56NgQ_4YGczZWwZaV_QCZm_ht6paAPCDhlfAzXzeQQtRPoGcfajpe81TO7J3hFCCdjn1G0lM
- kR_qKWXzF_itcrzPHh9F0yI8A3uSqMYMlF_wGzSbkpTnxP9wQIOA72koX.JWFIUBsiBhof3t.IgV
- 9tOwm4SsSpq5qTmlo.D40ujEKJ_TFNHNkguHDOxPHI5nJpyuRPrDMiy7casejgtKBe0RqlrQeUoo
- fvuwG6t.2Hug.dcPPeE5QKvstSQ5yLTs4ukfZMsC9YfpwEZCIZA--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Thu, 17 Sep 2020 22:26:38 +0000
-Date:   Thu, 17 Sep 2020 22:26:37 +0000 (UTC)
-From:   Ms Theresa Heidi <james29234@gmail.com>
-Reply-To: mstheresaaheidi@yahoo.com
-Message-ID: <2063055513.3395755.1600381597639@mail.yahoo.com>
-Subject: =?UTF-8?B?57eK5oCl44Gu5Yqp44GR44GM5b+F6KaB44Gn44GZ77yB?=
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <2063055513.3395755.1600381597639.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16583 YMailNodin Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+        Fri, 18 Sep 2020 16:14:40 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AFCC0613D0
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Sep 2020 13:14:39 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id b127so6624897ybh.21
+        for <linux-kbuild@vger.kernel.org>; Fri, 18 Sep 2020 13:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=m9GgocfY8+01Ep0T8Ve9tfyfiZGzmhYAiMkUJNd91bc=;
+        b=PXIGbZNrMi3O++j+2+mThPHZHdw4qWSb0EcHQqCin6s/3LvNDxQywk7QchWre77VGW
+         py8Oea7kZq0JTTq1g8GzG2PNdWRayPiz1bsuYEe5XcyX7INwDaUOR8ceuZEnBfQJIOAj
+         +YKdoezMGmg6neVUK6W+mt5gFKPC1gi9KCTD3dz/GtJE8k0azm1XJcCzbBJOsJeBOKgV
+         lCS0ZTpQ6+rsPRYGjqTbaAnABk+U+kR8ck8vElEPnDH26Ayf92ZlHEex10LGGT9h7rRa
+         ZUpvCNbsqvvqna3QgJr5cS7VCmbdVfrYe96DrzrmG0sE4foBdeJPazCyLBjAIHYVjnvi
+         PVnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=m9GgocfY8+01Ep0T8Ve9tfyfiZGzmhYAiMkUJNd91bc=;
+        b=SwYvSUTSFPqnTHoIzG6Zv7xjT3ZHZ5APgq1lkVjEo7LncsvAhIHrjQ8h2Y0A0pt4a2
+         xNO+NiqmiKHxgdZ5klP0q3v1R+onzNQspx2poLWOdc8y8+KFRMRCmxUbkjCeQSlO8DDk
+         BJunq1il7w4SJoclzlzBIKVm+jyEk+srRfQ+FcpPv8yFzlkG7s6UK5UE9cT374XnC+DS
+         cCBN0+XbyJD9MLCwzwVHzaSaNqPSdwnQOzFiIr2M8Rcc6TcpxslDzzerRILR46AM6Cxy
+         JPRMJqHKiViVXOwo4ZDRu7dqv+f8DVFDs7DAU2c/OcZywOZPD+ba6wJoGlq+dOzI/ncu
+         cjkA==
+X-Gm-Message-State: AOAM530dUjeW6Fmwqgii0frhe7FOTJoOS9jme3pNQ0vHRLHO5vW7uOjg
+        rRYYzELZHcn/9oBP7NlpmcHaDJUj9oDmrM9dCbQ=
+X-Google-Smtp-Source: ABdhPJyQqcI0bIyy5SutKhtAX50K/BXluMhOWTRFyo41B4zMWT3FgwUcl8/Yz6H5y9TMP2bFvT9SvE5mYq69VqEz2rs=
+Sender: "samitolvanen via sendgmr" 
+        <samitolvanen@samitolvanen1.mtv.corp.google.com>
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+ (user=samitolvanen job=sendgmr) by 2002:a5b:652:: with SMTP id
+ o18mr17602824ybq.121.1600460078808; Fri, 18 Sep 2020 13:14:38 -0700 (PDT)
+Date:   Fri, 18 Sep 2020 13:14:06 -0700
+Message-Id: <20200918201436.2932360-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.681.g6f77f65b4e-goog
+Subject: [PATCH v3 00/30] Add support for Clang LTO
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org, Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dear Beloved One,=20
+This patch series adds support for building x86_64 and arm64 kernels
+with Clang's Link Time Optimization (LTO).
 
- CHARITY DONATION Please read carefully, I know it is true that this letter=
- may come to you as a surprise. nevertheless,i humbly ask you to give me yo=
-ur attention and hear me, i am writing this mail to you with heavy sorrow i=
-n my heart,i have chose to reach you through Internet because it still rema=
-ins the fastest medium of communication after going through your profile.
+In addition to performance, the primary motivation for LTO is
+to allow Clang's Control-Flow Integrity (CFI) to be used in the
+kernel. Google has shipped millions of Pixel devices running three
+major kernel versions with LTO+CFI since 2018.
 
-My name is Mrs Theresa Heidi i am native France currently hospitalized in a=
- private hospital here in Israel as a result of lungs cancer I am 62 years =
-old and I was diagnosed of lungs cancer for about 4 years ago, immediately =
-after the death of my husband, who has left me everything he worked for. I'=
-m with my laptop in a hospital here in where I have been undergoing treatme=
-nt for cancer of the lungs
+Most of the patches are build system changes for handling LLVM
+bitcode, which Clang produces with LTO instead of ELF object files,
+postponing ELF processing until a later stage, and ensuring initcall
+ordering.
 
-Now that is clear that I=E2=80=99m approaching the last-days of my life and=
- i don't even need the money again for any thing and because my doctor told=
- me that i would not last for the period of one year due to Lungs cancer pr=
-oblem.I have some funds inherited from my late husband, the sum of $15 Mill=
-ion United State Dollars ( US$15,000,000,00 ),This money is still with the =
-foreign bank and the management just wrote me as the true owner to come for=
-ward to receive the money for keeping it so long or rather issue a letter o=
-f authorization to somebody to receive it on my behalf since I can't come o=
-ver because of my illness or they may get it confiscated.
+Note that patches 1-5 are not directly related to LTO, but are
+needed to compile LTO kernels with ToT Clang, so I'm including them
+in the series for your convenience:
 
-I need you to help me withdraw this money from the foreign bank then use th=
-e funds for Charity works/assistance to less privileged people in the socie=
-ty.It is my last wish to see that this money is invested to any organizatio=
-n of your choice.
+ - Patches 1-3 fix build issues with LLVM and they are already in
+   linux-next.
 
-I decided to contact you if you may be willing and interested to handle the=
-se trust funds in good faith before anything happens to me.This is not a st=
-olen money and there are no dangers involved, is 100% risk free with full l=
-egal proof.
+ - Patch 4 fixes x86 builds with LLVM IAS, but it hasn't yet been
+   picked up by maintainers.
 
-I want you to take 45 percent of the total money for your personal use whil=
-e 55% of the money will go to charity. I will appreciate your utmost confid=
-entiality and trust in this matter to accomplish my heart desire, as I don'=
-t want anything that will jeopardize my last wish.
-       =20
-Yours Beloved Sister.
-Mrs Theresa Heidi
+ - Patch 5 is from Masahiro's kbuild tree and makes the LTO linker
+   script changes much cleaner.
+
+---
+Changes in v3:
+
+  - Added a separate patch to remove the unused DISABLE_LTO treewide,
+    as filtering out CC_FLAGS_LTO instead is preferred.
+
+  - Updated the Kconfig help to explain why LTO is behind a choice
+    and disabled by default.
+
+  - Dropped CC_FLAGS_LTO_CLANG, compiler-specific LTO flags are now
+    appended directly to CC_FLAGS_LTO.
+
+  - Updated $(AR) flags as KBUILD_ARFLAGS was removed earlier.
+
+  - Fixed ThinLTO cache handling for external module builds.
+
+  - Rebased on top of Masahiro's patch for preprocessing modules.lds,
+    and moved the contents of module-lto.lds to modules.lds.S.
+
+  - Moved objtool_args to Makefile.lib to avoid duplication of the
+    command line parameters in Makefile.modfinal.
+
+  - Clarified in the commit message for the initcall ordering patch
+    that the initcall order remains the same as without LTO.
+
+  - Changed link-vmlinux.sh to use jobserver-exec to control the
+    number of jobs started by generate_initcall_ordering.pl.
+
+  - Dropped the x86/relocs patch to whitelist L4_PAGE_OFFSET as it's
+    no longer needed with ToT kernel.
+
+  - Disabled LTO for arch/x86/power/cpu.c to work around a Clang bug
+    with stack protector attributes.
+
+Changes in v2:
+
+  - Fixed -Wmissing-prototypes warnings with W=1.
+
+  - Dropped cc-option from -fsplit-lto-unit and added .thinlto-cache
+    scrubbing to make distclean.
+
+  - Added a comment about Clang >=11 being required.
+
+  - Added a patch to disable LTO for the arm64 KVM nVHE code.
+
+  - Disabled objtool's noinstr validation with LTO unless enabled.
+
+  - Included Peter's proposed objtool mcount patch in the series
+    and replaced recordmcount with the objtool pass to avoid
+    whitelisting relocations that are not calls.
+
+  - Updated several commit messages with better explanations.
+
+
+Arvind Sankar (2):
+  x86/boot/compressed: Disable relocation relaxation
+  x86/asm: Replace __force_order with memory clobber
+
+Luca Stefani (1):
+  RAS/CEC: Fix cec_init() prototype
+
+Masahiro Yamada (1):
+  kbuild: preprocess module linker script
+
+Nick Desaulniers (1):
+  lib/string.c: implement stpcpy
+
+Peter Zijlstra (1):
+  objtool: Add a pass for generating __mcount_loc
+
+Sami Tolvanen (24):
+  objtool: Don't autodetect vmlinux.o
+  kbuild: add support for objtool mcount
+  x86, build: use objtool mcount
+  treewide: remove DISABLE_LTO
+  kbuild: add support for Clang LTO
+  kbuild: lto: fix module versioning
+  kbuild: lto: postpone objtool
+  kbuild: lto: limit inlining
+  kbuild: lto: merge module sections
+  kbuild: lto: remove duplicate dependencies from .mod files
+  init: lto: ensure initcall ordering
+  init: lto: fix PREL32 relocations
+  PCI: Fix PREL32 relocations for LTO
+  modpost: lto: strip .lto from module names
+  scripts/mod: disable LTO for empty.c
+  efi/libstub: disable LTO
+  drivers/misc/lkdtm: disable LTO for rodata.o
+  arm64: export CC_USING_PATCHABLE_FUNCTION_ENTRY
+  arm64: vdso: disable LTO
+  KVM: arm64: disable LTO for the nVHE directory
+  arm64: allow LTO_CLANG and THINLTO to be selected
+  x86, vdso: disable LTO only for vDSO
+  x86, cpu: disable LTO for cpu.c
+  x86, build: allow LTO_CLANG and THINLTO to be selected
+
+ .gitignore                                    |   1 +
+ Makefile                                      |  74 ++++-
+ arch/Kconfig                                  |  68 +++++
+ arch/arm/Makefile                             |   4 -
+ .../module.lds => include/asm/module.lds.h}   |   2 +
+ arch/arm64/Kconfig                            |   2 +
+ arch/arm64/Makefile                           |   5 +-
+ .../module.lds => include/asm/module.lds.h}   |   2 +
+ arch/arm64/kernel/vdso/Makefile               |   4 +-
+ arch/arm64/kvm/hyp/nvhe/Makefile              |   4 +-
+ arch/ia64/Makefile                            |   1 -
+ .../{module.lds => include/asm/module.lds.h}  |   0
+ arch/m68k/Makefile                            |   1 -
+ .../module.lds => include/asm/module.lds.h}   |   0
+ arch/powerpc/Makefile                         |   1 -
+ .../module.lds => include/asm/module.lds.h}   |   0
+ arch/riscv/Makefile                           |   3 -
+ .../module.lds => include/asm/module.lds.h}   |   3 +-
+ arch/sparc/vdso/Makefile                      |   2 -
+ arch/um/include/asm/Kbuild                    |   1 +
+ arch/x86/Kconfig                              |   3 +
+ arch/x86/Makefile                             |   5 +
+ arch/x86/boot/compressed/Makefile             |   2 +
+ arch/x86/boot/compressed/pgtable_64.c         |   9 -
+ arch/x86/entry/vdso/Makefile                  |   5 +-
+ arch/x86/include/asm/special_insns.h          |  28 +-
+ arch/x86/kernel/cpu/common.c                  |   4 +-
+ arch/x86/power/Makefile                       |   4 +
+ drivers/firmware/efi/libstub/Makefile         |   2 +
+ drivers/misc/lkdtm/Makefile                   |   1 +
+ drivers/ras/cec.c                             |   9 +-
+ include/asm-generic/Kbuild                    |   1 +
+ include/asm-generic/module.lds.h              |  10 +
+ include/asm-generic/vmlinux.lds.h             |  11 +-
+ include/linux/init.h                          |  79 ++++-
+ include/linux/pci.h                           |  19 +-
+ kernel/Makefile                               |   3 -
+ kernel/trace/Kconfig                          |   5 +
+ lib/string.c                                  |  24 ++
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   3 +
+ scripts/Makefile.build                        |  69 +++--
+ scripts/Makefile.lib                          |  17 +-
+ scripts/Makefile.modfinal                     |  29 +-
+ scripts/Makefile.modpost                      |  22 +-
+ scripts/generate_initcall_order.pl            | 270 ++++++++++++++++++
+ scripts/link-vmlinux.sh                       |  95 +++++-
+ scripts/mod/Makefile                          |   1 +
+ scripts/mod/modpost.c                         |  16 +-
+ scripts/mod/modpost.h                         |   9 +
+ scripts/mod/sumversion.c                      |   6 +-
+ scripts/{module-common.lds => module.lds.S}   |  31 ++
+ scripts/package/builddeb                      |   2 +-
+ tools/objtool/builtin-check.c                 |  13 +-
+ tools/objtool/builtin.h                       |   2 +-
+ tools/objtool/check.c                         |  83 ++++++
+ tools/objtool/check.h                         |   1 +
+ tools/objtool/objtool.h                       |   1 +
+ 58 files changed, 919 insertions(+), 154 deletions(-)
+ rename arch/arm/{kernel/module.lds => include/asm/module.lds.h} (72%)
+ rename arch/arm64/{kernel/module.lds => include/asm/module.lds.h} (76%)
+ rename arch/ia64/{module.lds => include/asm/module.lds.h} (100%)
+ rename arch/m68k/{kernel/module.lds => include/asm/module.lds.h} (100%)
+ rename arch/powerpc/{kernel/module.lds => include/asm/module.lds.h} (100%)
+ rename arch/riscv/{kernel/module.lds => include/asm/module.lds.h} (84%)
+ create mode 100644 include/asm-generic/module.lds.h
+ create mode 100755 scripts/generate_initcall_order.pl
+ rename scripts/{module-common.lds => module.lds.S} (59%)
+
+
+base-commit: 92ab97adeefccf375de7ebaad9d5b75d4125fe8b
+-- 
+2.28.0.681.g6f77f65b4e-goog
+
