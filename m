@@ -2,99 +2,181 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E050A270842
-	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Sep 2020 23:29:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2845327088B
+	for <lists+linux-kbuild@lfdr.de>; Fri, 18 Sep 2020 23:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbgIRV3j (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 18 Sep 2020 17:29:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36316 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbgIRV3j (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 18 Sep 2020 17:29:39 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A915C0613CE
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Sep 2020 14:29:39 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id x18so3653312pll.6
-        for <linux-kbuild@vger.kernel.org>; Fri, 18 Sep 2020 14:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GaeOhHfh8L1DCmfaELuYzcrF6n6HIXLIYRNTzqsV79Y=;
-        b=W+/RKJ9pTVfHlLkwso1szh6HtM1ljwgfll2m1S7UpWBfhGNOhcAgS0vcics0UCB6P6
-         dN86cdQ1w9MJuw6LvS3fM80dVq9dvH5tMXxpAqqbGZHk658zN870WIKFcsCTayCfDtNQ
-         T7NafpHvlBEzNZ5MQFycOCV7aKSjbwjKdKCPc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GaeOhHfh8L1DCmfaELuYzcrF6n6HIXLIYRNTzqsV79Y=;
-        b=BRfdrp2drYkHVyp/W6C9tTELJ0FsHzHchdy8vuJFSL9VfFsPld77EtiJ3A1fJjRi63
-         ALz1rMJCrM8THaSs/42wvRiU5wKf7vt9Z62Se1Pd5qG69Zx548u5q+Ai2xQyB0laGYlH
-         R3dQQurnbEaXGchy2BlrJ8KmxHVOxWFfYP6rEZN12DWMve1rH/N75XXSPNmUZb3zI4+l
-         SJrETH8scpt4ay2bE5j3OTKrkZ2Ig/AB21k/VZF6GMzcPZBG3/eMOOaTMkotMlZiXMY1
-         aT5sFp2lVnkChB7ZNdKYD9VEnRHyY1jBJzpTjS/WJNQRPlchjmUMTSjitc6OtHn+zXwX
-         M6mg==
-X-Gm-Message-State: AOAM531KCDb52BEYeuIKRhKzj9GpxNyA2QjD9ek9s1SOfMHmHB619bty
-        6GV2htr/pm6lIq1+HMKjzfg8Gg==
-X-Google-Smtp-Source: ABdhPJyRQsmmFdjwcGkpqBzOOW1CFrolZnNpgZgaeJg1rXVSbKFTb9+lQpAZIZvZVlks1h2iMqNz4w==
-X-Received: by 2002:a17:90a:ad48:: with SMTP id w8mr14636473pjv.179.1600464578722;
-        Fri, 18 Sep 2020 14:29:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id l188sm4167409pfl.200.2020.09.18.14.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2020 14:29:37 -0700 (PDT)
-Date:   Fri, 18 Sep 2020 14:29:37 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v3 17/30] init: lto: ensure initcall ordering
-Message-ID: <202009181428.3C45B57DA@keescook>
-References: <20200918201436.2932360-1-samitolvanen@google.com>
- <20200918201436.2932360-18-samitolvanen@google.com>
+        id S1726154AbgIRVul (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 18 Sep 2020 17:50:41 -0400
+Received: from mga18.intel.com ([134.134.136.126]:52818 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726064AbgIRVul (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 18 Sep 2020 17:50:41 -0400
+IronPort-SDR: gxdJjfIq5FiVU2tR2anLVqhgbQNjbGignlwcBq3BkxHE5neOLVac0auMFEeZdqdDn/g+py5PQy
+ qwFqIdn6Dejg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9748"; a="147788364"
+X-IronPort-AV: E=Sophos;i="5.77,276,1596524400"; 
+   d="scan'208";a="147788364"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 14:50:32 -0700
+IronPort-SDR: XYVmYjmO90sXANEXvQ0f5aRsogpF6JfBZo/VkvAEq522JRidVcPSUabodTRiPmUTY8d/9CUyLg
+ 32NyyNqwjTOw==
+X-IronPort-AV: E=Sophos;i="5.77,276,1596524400"; 
+   d="scan'208";a="347180777"
+Received: from hseinige-mobl.amr.corp.intel.com (HELO pbossart-mobl3.intel.com) ([10.251.16.71])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2020 14:50:29 -0700
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-kbuild@vger.kernel.org,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Filipe Brandenburger <filbranden@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Michael Davidson <md@google.com>,
+        Eugene Surovegin <surovegin@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
+Subject: [PATCH] modpost: allow modpost to fail on warnings
+Date:   Fri, 18 Sep 2020 16:50:10 -0500
+Message-Id: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200918201436.2932360-18-samitolvanen@google.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Sep 18, 2020 at 01:14:23PM -0700, Sami Tolvanen wrote:
-> With LTO, the compiler doesn't necessarily obey the link order for
-> initcalls, and initcall variables need globally unique names to avoid
-> collisions at link time.
-> 
-> This change exports __KBUILD_MODNAME and adds the initcall_id() macro,
-> which uses it together with __COUNTER__ and __LINE__ to help ensure
-> these variables have unique names, and moves each variable to its own
-> section when LTO is enabled, so the correct order can be specified using
-> a linker script.
-> 
-> The generate_initcall_ordering.pl script uses nm to find initcalls from
-> the object files passed to the linker, and generates a linker script
-> that specifies the same order for initcalls that we would have without
-> LTO. With LTO enabled, the script is called in link-vmlinux.sh through
-> jobserver-exec to limit the number of jobs spawned.
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
+From: Filipe Brandenburger <filbranden@google.com>
 
-Thanks for the update; using jobserver-exec looks much better for
-controlling the build resources. :)
+Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
+kbuild fail when modpost generates any warnings. This will avoid
+misses such as [1] where the SOF CI did not catch a missing module
+license.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+This was initially contributed in 2016 [2], rebase/clean-ups and tests
+by Pierre Bossart.
 
+Test example:
+$ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
+  GEN     Makefile
+  DESCEND  objtool
+  CALL    sof-dev/scripts/atomic/check-atomics.sh
+  CALL    sof-dev/scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  MODPOST Module.symvers
+Kernel: arch/x86/boot/bzImage is ready  (#13)
+WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
+make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
+
+[1] https://lkml.org/lkml/2020/9/17/2343
+[2] https://patchwork.kernel.org/patch/8343431/
+
+Signed-off-by: Filipe Brandenburger <filbranden@google.com>
+Cc: Greg Thelen <gthelen@google.com>
+Cc: Michael Davidson <md@google.com>
+Cc: Eugene Surovegin <surovegin@google.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+Co-developed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+---
+ Documentation/kbuild/kbuild.rst |  5 +++++
+ scripts/Makefile.modpost        |  5 ++++-
+ scripts/mod/modpost.c           | 12 +++++++++++-
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 2d1fc03d346e..cc102aad8619 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -229,6 +229,11 @@ KBUILD_MODPOST_WARN can be set to avoid errors in case of undefined
+ symbols in the final module linking stage. It changes such errors
+ into warnings.
+ 
++KBUILD_MODPOST_FAIL_ON_WARNINGS
++-------------------------------
++KBUILD_MODPOST_FAIL_ON_WARNINGS can be set to turn all warnings into
++errors in the final module linking stage.
++
+ KBUILD_MODPOST_NOFINAL
+ ----------------------
+ KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index f54b6ac37ac2..69297cd6f8ce 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -34,6 +34,8 @@
+ 
+ # KBUILD_MODPOST_WARN can be set to avoid error out in case of undefined
+ # symbols in the final module linking stage
++# KBUILD_MODPOST_FAIL_ON_WARNINGS can be set to fail whenever modpost
++# generates warnings
+ # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
+ # This is solely useful to speed up test compiles
+ 
+@@ -47,7 +49,8 @@ MODPOST = scripts/mod/modpost								\
+ 	$(if $(CONFIG_MODVERSIONS),-m)							\
+ 	$(if $(CONFIG_MODULE_SRCVERSION_ALL),-a)					\
+ 	$(if $(CONFIG_SECTION_MISMATCH_WARN_ONLY),,-E)					\
+-	$(if $(KBUILD_MODPOST_WARN),-w) \
++	$(if $(KBUILD_MODPOST_WARN),-w)							\
++	$(if $(KBUILD_MODPOST_FAIL_ON_WARNINGS),-F)					\
+ 	-o $@
+ 
+ ifdef MODPOST_VMLINUX
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 69341b36f271..422f1cfca289 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -39,6 +39,9 @@ static int sec_mismatch_fatal = 0;
+ static int ignore_missing_files;
+ /* If set to 1, only warn (instead of error) about missing ns imports */
+ static int allow_missing_ns_imports;
++/* Turn warnings into errors */
++static int fail_on_warnings;
++static int warnings_count;
+ 
+ enum export {
+ 	export_plain,      export_unused,     export_gpl,
+@@ -59,6 +62,7 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...)
+ 	switch (loglevel) {
+ 	case LOG_WARN:
+ 		fprintf(stderr, "WARNING: ");
++		warnings_count++;
+ 		break;
+ 	case LOG_ERROR:
+ 		fprintf(stderr, "ERROR: ");
+@@ -2559,7 +2563,7 @@ int main(int argc, char **argv)
+ 	struct dump_list *dump_read_start = NULL;
+ 	struct dump_list **dump_read_iter = &dump_read_start;
+ 
+-	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
++	while ((opt = getopt(argc, argv, "ei:mnT:o:awEFNd:")) != -1) {
+ 		switch (opt) {
+ 		case 'e':
+ 			external_module = 1;
+@@ -2588,6 +2592,9 @@ int main(int argc, char **argv)
+ 		case 'w':
+ 			warn_unresolved = 1;
+ 			break;
++		case 'F':
++			fail_on_warnings = 1;
++			break;
+ 		case 'E':
+ 			sec_mismatch_fatal = 1;
+ 			break;
+@@ -2671,5 +2678,8 @@ int main(int argc, char **argv)
+ 
+ 	free(buf.p);
+ 
++	if (fail_on_warnings && warnings_count)
++		err |= 2;
++
+ 	return err;
+ }
 -- 
-Kees Cook
+2.25.1
+
