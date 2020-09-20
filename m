@@ -2,123 +2,52 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3758E271525
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Sep 2020 16:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C678E27167A
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Sep 2020 20:00:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726315AbgITOx6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Sep 2020 10:53:58 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:46032 "EHLO vps0.lunn.ch"
+        id S1726412AbgITSAZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 20 Sep 2020 14:00:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38564 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726267AbgITOx6 (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Sep 2020 10:53:58 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1kK0it-00FU26-QI; Sun, 20 Sep 2020 16:53:51 +0200
-Date:   Sun, 20 Sep 2020 16:53:51 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
+        id S1726043AbgITSAX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 20 Sep 2020 14:00:23 -0400
+Subject: Re: [GIT PULL] Kbuild fixes for v5.9-rc6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600624823;
+        bh=+TPj2ppJE2V72IHsE7yHamA3FIjyVcu0IB/2hTOMdsk=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=H1tPz6kZVJOihaHuuhFMvv52zqQQN9asUyF9h+cc/c2qUtmNDyXLRnHa+FxLksQw4
+         rn2YCI802AIF8uZ5+uwMyqesRSoiVxXWrLQx+HeQndnRO07WdUaJREf/Po0ztpMee1
+         0Dlp0Wl72TKZElXjVrRzk7Wr92K3I5vOxwFfO2K0=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <CAK7LNAQPTUCWVk=xDr9bv6X+TANOZHfr4YKenP64Mq+sgFTmDw@mail.gmail.com>
+References: <CAK7LNAQPTUCWVk=xDr9bv6X+TANOZHfr4YKenP64Mq+sgFTmDw@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAK7LNAQPTUCWVk=xDr9bv6X+TANOZHfr4YKenP64Mq+sgFTmDw@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9-3
+X-PR-Tracked-Commit-Id: a46afd11414758233f23798cc5be51e554d04efe
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c7948fe9bada1b335de1cbe8a1fd02e2ccecaa6b
+Message-Id: <160062482315.2021.4752322997186984202.pr-tracker-bot@kernel.org>
+Date:   Sun, 20 Sep 2020 18:00:23 +0000
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     netdev <netdev@vger.kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH RFC/RFT 0/2] W=1 by default for Ethernet PHY subsystem
-Message-ID: <20200920145351.GB3689762@lunn.ch>
-References: <20200919190258.3673246-1-andrew@lunn.ch>
- <CAK7LNASY6hTDo8cuH5H_ExciEybBPbAuB3OxsmHbUUgoES94EA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASY6hTDo8cuH5H_ExciEybBPbAuB3OxsmHbUUgoES94EA@mail.gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sun, Sep 20, 2020 at 12:42:51PM +0900, Masahiro Yamada wrote:
-> On Sun, Sep 20, 2020 at 4:03 AM Andrew Lunn <andrew@lunn.ch> wrote:
-> >
-> > There is a movement to make the code base compile clean with W=1. Some
-> > subsystems are already clean. In order to keep them clean, we need
-> > developers to build new code with W=1 by default in these subsystems.
-> >
-> > This patchset refactors the core Makefile warning code to allow the
-> > additional warnings W=1 adds available to any Makefile. The Ethernet
-> > PHY subsystem Makefiles then make use of this to make W=1 the default
-> > for this subsystem.
-> >
-> > RFT since i've only tested with x86 and arm with a modern gcc. Is the
-> > code really clean for older compilers? For clang?
-> 
-> 
-> I appreciate your efforts for keeping your subsystems
-> clean for W=1 builds, and I hope this work will be
-> extended towards upper directory level,
-> drivers/net/phy -> drivers/net -> drivers/.
- 
-It definitely is.
+The pull request you sent on Sun, 20 Sep 2020 13:01:27 +0900:
 
-drivers/net:
-https://www.spinics.net/lists/netdev/msg683687.html
+> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9-3
 
-drivers/spi
-https://www.spinics.net/lists/linux-spi/msg23280.html
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c7948fe9bada1b335de1cbe8a1fd02e2ccecaa6b
 
-drivers/mfd
-https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2211644.html
+Thank you!
 
-etc.
-
-> So, another idea might be hard-coding extra warnings
-> like drivers/gpu/drm/i915/Makefile.
-> 
-> For example, your subsystem already achieved
-> -Wmissing-declarations free.
-> 
-> You can add
-> 
->    subdir-ccflags-y += -Wmissing-declarations
-> 
-> to drivers/net/phy/Makefile.
-> 
-> Once you fix all net drivers, you can move it to
-> the parent, drivers/net/Makefile.
-> 
-> Then, drivers/Makefile next, and if it reaches
-> the top directory level, we can move it to W=0.
-
-Do you think this will scale?
-
-Lets just assume we do this at driver/ level. We have 141
-subdirectories in driver/ . So we will end up with 141
-
-subdir-ccflags-y += 
-
-lines which we need to maintain.
-
-Given the current cleanup effort, many are going to be identical to
-todays W=1.
-
-How do we maintain those 141 lines when it is time to add a new flag
-to W=1?
-
-How often are new W=1 flags added? My patch exported
-KBUILD_CFLAGS_WARN1. How about instead we export
-KBUILD_CFLAGS_WARN1_20200920. A subsystem can then sign up to being
-W=1 clean as for the 20200920 definition of W=1.
-
-If you want to add a new warning
-
-KBUILD_CFLAGS_WARN1_20201031 := KBUILD_CFLAGS_WARN1_20200920 + "-Wghosts"
-
-W=1 will always use the latest. You then build with W=1, maybe by
-throwing it at 0-day, find which subsystems are still clean, and
-update their subdir-ccflags-y += line with the new timestamp?
-
-This should help with scaling, in that a subsystem is not dealing with
-a list of warnings, just a symbol that represents the warnings from a
-particular date?
-
-Or maybe others have better ideas?
-
-   Andrew
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
