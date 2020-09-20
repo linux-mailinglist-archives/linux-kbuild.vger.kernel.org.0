@@ -2,89 +2,166 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88983271059
-	for <lists+linux-kbuild@lfdr.de>; Sat, 19 Sep 2020 21:43:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98F5B2711EE
+	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Sep 2020 05:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbgISTnU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 19 Sep 2020 15:43:20 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:45440 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726511AbgISTnU (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 19 Sep 2020 15:43:20 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1kJi8j-00FPak-Ny; Sat, 19 Sep 2020 21:03:17 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     netdev <netdev@vger.kernel.org>
-Cc:     David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Andrew Lunn <andrew@lunn.ch>
-Subject: [PATCH RFC/RFT 2/2] net: phylib: Enable W=1 by default
-Date:   Sat, 19 Sep 2020 21:02:58 +0200
-Message-Id: <20200919190258.3673246-3-andrew@lunn.ch>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200919190258.3673246-1-andrew@lunn.ch>
-References: <20200919190258.3673246-1-andrew@lunn.ch>
+        id S1726886AbgITDnn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 19 Sep 2020 23:43:43 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:28693 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726885AbgITDnn (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 19 Sep 2020 23:43:43 -0400
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 08K3hSUU026169;
+        Sun, 20 Sep 2020 12:43:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 08K3hSUU026169
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1600573409;
+        bh=NthGsbldEtAMwHyc0s+2D6ye20kfWkbW0LDJXWSvK+c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iKUZu9un/0Kk4YALw8V457qNCyJhrjVJTVguijeQJZU7nIN9F3owfVRCKzOuDezz+
+         1gwyzMQqQKGw+ExXVbJkpXhyB99VvN8ZmqHnCS+7I5tVIW+OjaytNK8aF4uXZ/vAIY
+         cD9yR2zgnGXOaBJSYK5Dsfanvqf4qxYfRACjVrgpyFBzRZEPmyy4OzjyzI/8LKP7/D
+         8g2XFjuBNTxaRyy0Qth7LvpDSKFzJSwBaRuFz0VWHdfu76SmMZ6VUu9Pg4AU7MiDFc
+         e7JMIQO16fNLcGi/FAczsQ4lBX5JjwF1I6uvyxr6u5Fxw09iK8Ef0jc2ShK5s+tKn9
+         /AWYpb6GW3gGw==
+X-Nifty-SrcIP: [209.85.214.181]
+Received: by mail-pl1-f181.google.com with SMTP id u9so5129889plk.4;
+        Sat, 19 Sep 2020 20:43:29 -0700 (PDT)
+X-Gm-Message-State: AOAM530LD9YqULfPqhO6CJIzaLoWFilkcK4iiGuz+1faNtg47I91agmb
+        JVXVNfGMlwd9PomT/ltql+7FMZyaduu0aTMXvOg=
+X-Google-Smtp-Source: ABdhPJxEs9qseXaQ5ss9N4Zd8S95pFiRiyrWbKdP5omaq7bI4sC0+VUxJfWoj5TDeTwO7LMTEhNUo/jB1Hup8rnYSuk=
+X-Received: by 2002:a17:90b:208:: with SMTP id fy8mr19938997pjb.153.1600573408216;
+ Sat, 19 Sep 2020 20:43:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200919190258.3673246-1-andrew@lunn.ch>
+In-Reply-To: <20200919190258.3673246-1-andrew@lunn.ch>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 20 Sep 2020 12:42:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASY6hTDo8cuH5H_ExciEybBPbAuB3OxsmHbUUgoES94EA@mail.gmail.com>
+Message-ID: <CAK7LNASY6hTDo8cuH5H_ExciEybBPbAuB3OxsmHbUUgoES94EA@mail.gmail.com>
+Subject: Re: [PATCH RFC/RFT 0/2] W=1 by default for Ethernet PHY subsystem
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     netdev <netdev@vger.kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add to the subdirectory ccflags variable the additional compiler
-warnings which W=1 adds at the top level when enabled.
+On Sun, Sep 20, 2020 at 4:03 AM Andrew Lunn <andrew@lunn.ch> wrote:
+>
+> There is a movement to make the code base compile clean with W=1. Some
+> subsystems are already clean. In order to keep them clean, we need
+> developers to build new code with W=1 by default in these subsystems.
+>
+> This patchset refactors the core Makefile warning code to allow the
+> additional warnings W=1 adds available to any Makefile. The Ethernet
+> PHY subsystem Makefiles then make use of this to make W=1 the default
+> for this subsystem.
+>
+> RFT since i've only tested with x86 and arm with a modern gcc. Is the
+> code really clean for older compilers? For clang?
 
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
----
- drivers/net/mdio/Makefile | 3 +++
- drivers/net/pcs/Makefile  | 3 +++
- drivers/net/phy/Makefile  | 3 +++
- 3 files changed, 9 insertions(+)
 
-diff --git a/drivers/net/mdio/Makefile b/drivers/net/mdio/Makefile
-index 14d1beb633c9..14600552eb8b 100644
---- a/drivers/net/mdio/Makefile
-+++ b/drivers/net/mdio/Makefile
-@@ -1,6 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for Linux MDIO bus drivers
- 
-+# Enable W=1 by default
-+subdir-ccflags-y := $(KBUILD_CFLAGS_WARN1)
-+
- obj-$(CONFIG_MDIO_ASPEED)		+= mdio-aspeed.o
- obj-$(CONFIG_MDIO_BCM_IPROC)		+= mdio-bcm-iproc.o
- obj-$(CONFIG_MDIO_BCM_UNIMAC)		+= mdio-bcm-unimac.o
-diff --git a/drivers/net/pcs/Makefile b/drivers/net/pcs/Makefile
-index c23146755972..385b5765e390 100644
---- a/drivers/net/pcs/Makefile
-+++ b/drivers/net/pcs/Makefile
-@@ -1,5 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for Linux PCS drivers
- 
-+# Enable W=1 by default
-+subdir-ccflags-y := $(KBUILD_CFLAGS_WARN1)
-+
- obj-$(CONFIG_PCS_XPCS)		+= pcs-xpcs.o
- obj-$(CONFIG_PCS_LYNX)		+= pcs-lynx.o
-diff --git a/drivers/net/phy/Makefile b/drivers/net/phy/Makefile
-index a13e402074cf..c49d40dfb6ec 100644
---- a/drivers/net/phy/Makefile
-+++ b/drivers/net/phy/Makefile
-@@ -1,6 +1,9 @@
- # SPDX-License-Identifier: GPL-2.0
- # Makefile for Linux PHY drivers
- 
-+# Enable W=1 by default
-+subdir-ccflags-y := $(KBUILD_CFLAGS_WARN1)
-+
- libphy-y			:= phy.o phy-c45.o phy-core.o phy_device.o \
- 				   linkmode.o
- mdio-bus-y			+= mdio_bus.o mdio_device.o
--- 
-2.28.0
+I appreciate your efforts for keeping your subsystems
+clean for W=1 builds, and I hope this work will be
+extended towards upper directory level,
+drivers/net/phy -> drivers/net -> drivers/.
 
+
+However, when we talk about W=1, we consider not only the current
+option set in W=1, but also options that might be added
+by future compilers because every GCC/Clang
+release adds new warning options.
+
+
+
+Let's say, the future release, GCC 14 would
+add a new option -Wfoo-bar, which is
+reasonable enough to be enabled by default,
+but doing so would emit a lot of warnings
+in the current kernel tree.
+
+We cannot add -Wfoo-bar to W=0 right away,
+because our general consensus is that
+the normal build should be warning-free.
+
+
+In the current routine, we add -Wfoo-bar to W=1
+with hope we can gradually fix the code and
+eventually migrate it to W=0.
+It is not always easy to move W=1 options to W=0
+when we have lots of code fixed.
+At least, 0-day bot iterates compile tests with W=1,
+so new code violating -Wfoo-bar would be blocked.
+
+
+With this patch series applied, where should we
+add -Wfoo-bar? Adding it to W=1 would emit warnings
+under drivers/net/ since W=1 is now the default
+for the net subsystem.
+
+Do we require to fix the code under driver/net/ first?
+Or, should we add it to W=2 temporarily, then move it to W=1
+once we fix drivers/net/?
+
+
+
+So, another idea might be hard-coding extra warnings
+like drivers/gpu/drm/i915/Makefile.
+
+For example, your subsystem already achieved
+-Wmissing-declarations free.
+
+You can add
+
+   subdir-ccflags-y += -Wmissing-declarations
+
+to drivers/net/phy/Makefile.
+
+Once you fix all net drivers, you can move it to
+the parent, drivers/net/Makefile.
+
+Then, drivers/Makefile next, and if it reaches
+the top directory level, we can move it to W=0.
+
+
+
+Some W=1 options stay there just because we cannot
+fix lots of code.
+So, our code should be improved with regard to W=1
+warnings, but we might need some clarification
+about how to do it gradually.
+
+Comments are appreciated.
+
+
+
+
+
+
+
+> Andrew Lunn (2):
+>   scripts: Makefile.extrawarn: Add W=1 warnings to a symbol
+>   net: phylib: Enable W=1 by default
+>
+>  drivers/net/mdio/Makefile  |  3 +++
+>  drivers/net/pcs/Makefile   |  3 +++
+>  drivers/net/phy/Makefile   |  3 +++
+>  scripts/Makefile.extrawarn | 33 ++++++++++++++++++---------------
+>  4 files changed, 27 insertions(+), 15 deletions(-)
+>
+> --
+> 2.28.0
+>
+
+
+--
+Best Regards
+Masahiro Yamada
