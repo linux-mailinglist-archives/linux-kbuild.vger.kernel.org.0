@@ -2,52 +2,65 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C678E27167A
-	for <lists+linux-kbuild@lfdr.de>; Sun, 20 Sep 2020 20:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5F0427187E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Sep 2020 00:48:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726412AbgITSAZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Sep 2020 14:00:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38564 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726043AbgITSAX (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Sep 2020 14:00:23 -0400
-Subject: Re: [GIT PULL] Kbuild fixes for v5.9-rc6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600624823;
-        bh=+TPj2ppJE2V72IHsE7yHamA3FIjyVcu0IB/2hTOMdsk=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=H1tPz6kZVJOihaHuuhFMvv52zqQQN9asUyF9h+cc/c2qUtmNDyXLRnHa+FxLksQw4
-         rn2YCI802AIF8uZ5+uwMyqesRSoiVxXWrLQx+HeQndnRO07WdUaJREf/Po0ztpMee1
-         0Dlp0Wl72TKZElXjVrRzk7Wr92K3I5vOxwFfO2K0=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <CAK7LNAQPTUCWVk=xDr9bv6X+TANOZHfr4YKenP64Mq+sgFTmDw@mail.gmail.com>
-References: <CAK7LNAQPTUCWVk=xDr9bv6X+TANOZHfr4YKenP64Mq+sgFTmDw@mail.gmail.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <CAK7LNAQPTUCWVk=xDr9bv6X+TANOZHfr4YKenP64Mq+sgFTmDw@mail.gmail.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9-3
-X-PR-Tracked-Commit-Id: a46afd11414758233f23798cc5be51e554d04efe
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: c7948fe9bada1b335de1cbe8a1fd02e2ccecaa6b
-Message-Id: <160062482315.2021.4752322997186984202.pr-tracker-bot@kernel.org>
-Date:   Sun, 20 Sep 2020 18:00:23 +0000
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+        id S1726477AbgITWs0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 20 Sep 2020 18:48:26 -0400
+Received: from 2.152.178.181.dyn.user.ono.com ([2.152.178.181]:36164 "EHLO
+        pulsar.hadrons.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726470AbgITWsZ (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Sun, 20 Sep 2020 18:48:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hadrons.org
+        ; s=201908; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:
+        Cc:To:From:From:Reply-To:Subject:Content-Type:Content-ID:Content-Description:
+        In-Reply-To:References:X-Debbugs-Cc;
+        bh=BEaf5N67gW/3JDSsMKeXlNJnbEC057EVIzScGuD+00g=; b=vystEKXyxgDyK9obe+gyKrVsEh
+        3/73jE9dMfR3PJRKFK82s7YaSfp5zunvX4dy8JEaMksgAv6Husg9wA82xFczjkW8SNfGIpiQ6L8Lo
+        IrZfFHk47NJAeUct6xJHpYTgljG87GKnZaBcFO50kJ75MaUgb8goCApEr+xC1gt7h2OsVxj4/sgrp
+        /NJ+iHMvl8mmJZnTuhtPUB2oqvE9NlS4YmnJ01zOyYzH7o6boB+PE/4SP8koF8DeXkLxeLZmXHOQz
+        kC/E9O0zaDe687tfGk162dFfoLD4iFttnc860XeLCpj/Yo4rbSdBWAahhzDvuZxVmoTPkXbOVGPnG
+        HKLm6P6A==;
+Received: from guillem by pulsar.hadrons.org with local (Exim 4.92)
+        (envelope-from <guillem@hadrons.org>)
+        id 1kK7my-0002c7-NK; Mon, 21 Sep 2020 00:26:32 +0200
+From:   Guillem Jover <guillem@hadrons.org>
+To:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] builddeb: Improve Debian packaging
+Date:   Mon, 21 Sep 2020 00:25:49 +0200
+Message-Id: <20200920222556.10002-1-guillem@hadrons.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The pull request you sent on Sun, 20 Sep 2020 13:01:27 +0900:
+Hi!
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git tags/kbuild-fixes-v5.9-3
+This series fixes some packaging issues and brings it closer to
+current standards.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/c7948fe9bada1b335de1cbe8a1fd02e2ccecaa6b
+Thanks,
+Guillem
 
-Thank you!
+Guillem Jover (7):
+  builddeb: Pass -n to gzip for reproducible packages
+  builddeb: Move upstream repository URL into the upstream metadata file
+  builddeb: Switch to a machine readable copyright file
+  builddeb: Add support for all required debian/rules targets
+  builddeb: Enable rootless builds
+  builddeb: Map rc versions to use an earlier than version scheme
+  builddeb: Try to get the user full name from the GECOS field
+
+ scripts/package/builddeb | 11 ++++++--
+ scripts/package/mkdebian | 59 +++++++++++++++++++++++++++-------------
+ 2 files changed, 48 insertions(+), 22 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.28.0.297.g1956fa8f8d
+
