@@ -2,68 +2,104 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0BD027187C
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Sep 2020 00:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F73427291A
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Sep 2020 16:51:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbgITWsW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 20 Sep 2020 18:48:22 -0400
-Received: from 2.152.178.181.dyn.user.ono.com ([2.152.178.181]:36158 "EHLO
-        pulsar.hadrons.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726448AbgITWsW (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 20 Sep 2020 18:48:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hadrons.org
-        ; s=201908; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:From:Reply-To:Subject:Content-Type:
-        Content-ID:Content-Description:X-Debbugs-Cc;
-        bh=nQ/+3EXMGCfv5w3c8BcAsHfQAJ33f3bo1YRa2gxUlcU=; b=UV7CLBqN85y5W79KMd4P8uOhht
-        Oqnmx6NHYevJIZcR6ywWgoFSbBD3dkbC7JQfnxsIVnXwGUGfWBzwfRhRCAAN27rqe+7ZxFc0WsmMK
-        hLH+p5jPHeDxff5BwsUJZ/K41iAdwaD/v7LfxKxX9Fwrle1zcBmfidzF7Wb1u0JBlE7vnJnyWWIuG
-        VB4ZTSQXNxdXWc+ERknc+lTAg6PgTnq+sLf5HCwLkVJeOREEfv0q63G8rvm6wQfZS4ftjhinU6cVe
-        3X6kLkv9tO5+zTldeE2PQL+jxdjIhoQNn7msoGYDbUrKcrtrcCOm1RNL0xV3628dScaGhQSEopEI5
-        43yMviwg==;
-Received: from guillem by pulsar.hadrons.org with local (Exim 4.92)
-        (envelope-from <guillem@hadrons.org>)
-        id 1kK7nG-0002cx-Al; Mon, 21 Sep 2020 00:26:50 +0200
-From:   Guillem Jover <guillem@hadrons.org>
-To:     linux-kbuild@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] builddeb: Try to get the user full name from the GECOS field
-Date:   Mon, 21 Sep 2020 00:25:56 +0200
-Message-Id: <20200920222556.10002-8-guillem@hadrons.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200920222556.10002-1-guillem@hadrons.org>
-References: <20200920222556.10002-1-guillem@hadrons.org>
+        id S1727028AbgIUOvD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Sep 2020 10:51:03 -0400
+Received: from mga03.intel.com ([134.134.136.65]:31824 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727265AbgIUOvD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 21 Sep 2020 10:51:03 -0400
+IronPort-SDR: Amya1mXeOo1TtW/QT3Z5iTDVPlBIeZNfyC0x8Esc+pZFV5BOEWg5P9eAG6+rNVBjU4/WR4WP8e
+ 44cP1ykpp/Bg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="160452967"
+X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
+   d="scan'208";a="160452967"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 07:50:59 -0700
+IronPort-SDR: xn/KgqioDKaaG3NN/05jK2y0x4yrX4ejHsSFo1cxy48yoJXrusOhFwTkZuN6UE+b9SatRW4n+0
+ vFFIoQbOkZxg==
+X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
+   d="scan'208";a="321796207"
+Received: from apatwary-mobl.amr.corp.intel.com (HELO [10.212.120.65]) ([10.212.120.65])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 07:50:57 -0700
+Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Filipe Brandenburger <filbranden@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Michael Davidson <md@google.com>,
+        Eugene Surovegin <surovegin@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
+ <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
+From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Message-ID: <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
+Date:   Mon, 21 Sep 2020 09:50:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The GECOS field might contain the full name for the username, try to
-use that and fallback to using the username if that is empty.
+Thanks for the review,
 
-Signed-off-by: Guillem Jover <guillem@hadrons.org>
----
- scripts/package/mkdebian | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+>> Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
+>> kbuild fail when modpost generates any warnings. This will avoid
+>> misses such as [1] where the SOF CI did not catch a missing module
+>> license.
+>>
+>> This was initially contributed in 2016 [2], rebase/clean-ups and tests
+>> by Pierre Bossart.
+>>
+>> Test example:
+>> $ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
+>>    GEN     Makefile
+>>    DESCEND  objtool
+>>    CALL    sof-dev/scripts/atomic/check-atomics.sh
+>>    CALL    sof-dev/scripts/checksyscalls.sh
+>>    CHK     include/generated/compile.h
+>>    MODPOST Module.symvers
+>> Kernel: arch/x86/boot/bzImage is ready  (#13)
+>> WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
+>> make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
+> 
+> 
+> I think [1] should be an error instead of a warning
+> by default.
 
-diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-index ed77d0948fa3..e3d0b7ac9057 100755
---- a/scripts/package/mkdebian
-+++ b/scripts/package/mkdebian
-@@ -113,7 +113,8 @@ if echo $email | grep -q '<.*>'; then
- else
- 	# or construct the maintainer string
- 	user=${KBUILD_BUILD_USER-$(id -nu)}
--	name=${DEBFULLNAME-$user}
-+	name=${DEBFULLNAME-$(getent passwd $user | cut -d: -f5 | cut -d, -f1)}
-+	: "${name:=$user}"
- 	if [ -z "$email" ]; then
- 		buildhost=${KBUILD_BUILD_HOST-$(hostname -f 2>/dev/null || hostname)}
- 		email="$user@$buildhost"
--- 
-2.28.0.297.g1956fa8f8d
+would the following patch be what you have in mind?
 
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 422f1cfca289..ae1eb67aa0f2 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2018,7 +2018,7 @@ static void read_symbols(const char *modname)
+         if (!mod->is_vmlinux) {
+                 license = get_modinfo(&info, "license");
+                 if (!license)
+-                       warn("missing MODULE_LICENSE() in %s\n", modname);
++                       error("missing MODULE_LICENSE() in %s\n", modname);
+                 while (license) {
+                         if (license_is_gpl_compatible(license))
+                                 mod->gpl_compatible = 1;
+
+
+If yes, also wondering if we can still add the option to treat warnings 
+as errors as an opt-in behavior?
+
+Thanks!
+-Pierre
