@@ -2,104 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F73427291A
-	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Sep 2020 16:51:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AE31272AC6
+	for <lists+linux-kbuild@lfdr.de>; Mon, 21 Sep 2020 17:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727028AbgIUOvD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 21 Sep 2020 10:51:03 -0400
-Received: from mga03.intel.com ([134.134.136.65]:31824 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727265AbgIUOvD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 21 Sep 2020 10:51:03 -0400
-IronPort-SDR: Amya1mXeOo1TtW/QT3Z5iTDVPlBIeZNfyC0x8Esc+pZFV5BOEWg5P9eAG6+rNVBjU4/WR4WP8e
- 44cP1ykpp/Bg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9751"; a="160452967"
-X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
-   d="scan'208";a="160452967"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 07:50:59 -0700
-IronPort-SDR: xn/KgqioDKaaG3NN/05jK2y0x4yrX4ejHsSFo1cxy48yoJXrusOhFwTkZuN6UE+b9SatRW4n+0
- vFFIoQbOkZxg==
-X-IronPort-AV: E=Sophos;i="5.77,286,1596524400"; 
-   d="scan'208";a="321796207"
-Received: from apatwary-mobl.amr.corp.intel.com (HELO [10.212.120.65]) ([10.212.120.65])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2020 07:50:57 -0700
-Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Filipe Brandenburger <filbranden@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Michael Davidson <md@google.com>,
-        Eugene Surovegin <surovegin@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
- <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Message-ID: <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
-Date:   Mon, 21 Sep 2020 09:50:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727030AbgIUPxy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 21 Sep 2020 11:53:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727702AbgIUPxw (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 21 Sep 2020 11:53:52 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25974C0613D3
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Sep 2020 08:53:51 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id bw23so13171pjb.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 21 Sep 2020 08:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Fn5z5p0KWkT8F7kdqXLtUSD00/eNhULjEnaQyt7HO3c=;
+        b=wS3DJbGh/toEWGHMWfIYAyfl62a2xPnkTm7cNhPym3mzQxK28qL+kZCrSZggBSROXa
+         NIIsRsLPprRNfrNxq/O7SgGIAQv+11RPoBUmYfVay0H+wQrvpSFqZGCCwczoE0PI3NwM
+         BajK6bGuvdWSOxCULPkkElyJinqDQbfrg3BX4qxe0nSoLtxoqCUZ4DYY8jlgM9XNnsxV
+         m952IZLwDFx/YDBae5MI6BosCFQlIVPnADU67SRlbPRPa3XZPP99q/tE/mqTrWmaFUGB
+         Cr7PUOGoUwpYEL9jPXyQWHhnShzEybRi2A7whxiV331Jx4G8BVdc/1kDmDMbH8AHeYn9
+         IaBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Fn5z5p0KWkT8F7kdqXLtUSD00/eNhULjEnaQyt7HO3c=;
+        b=IGPlxsMRGdGbg7RlmbqgIb6PUh5Maa7V9S5wwIzHlDcXiyDstUO4flPoO46uTfx1F2
+         Y47uMh8955X7azdvhzjovaqyxZmrrC1/mXzHxMZPiZzYiK/kAGHbx7vtBR6MhgQMuY6T
+         FnXqjGyeJS6ZJTg+z66UsAdtWbTW9fZNot+8zxG1DaBYlT/LtFTu5C04QC1cpMpLbQNY
+         H8Ad/sQmwv6WQ4zWv3J831MYeIr5DZE3s0//Ivy/AZOEONir4bL9VkZOTMhl6Bxps5mT
+         4EDGJl5zupDMqcjrlDsf/kypuNGymzraxYh4Yw6uIonCvUgtxuNWp4RUd5ORBnqnQRjN
+         geBg==
+X-Gm-Message-State: AOAM531cPZCX3pSeBpxpl8TaAhRqWGbJdqkzcGMdfLbyM2HoALMA+MIV
+        KyXtAxsv8DPQ7YclRpHlLtE3kmORN4I8B3Im6B8Rtw==
+X-Google-Smtp-Source: ABdhPJxEx7C1NCFiroHZ1htfv1qkh42nY8oGzcnOH06wOhFq2SsYUT8w4mdvW5J7C4BtXsEWH+72M+TnlFjXmM5sSRs=
+X-Received: by 2002:a17:90b:889:: with SMTP id bj9mr28426pjb.101.1600703630255;
+ Mon, 21 Sep 2020 08:53:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200918201436.2932360-1-samitolvanen@google.com> <20200918201436.2932360-4-samitolvanen@google.com>
+In-Reply-To: <20200918201436.2932360-4-samitolvanen@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 21 Sep 2020 08:53:39 -0700
+Message-ID: <CAKwvOdk7pR5dK0ynxPOWHVYVWLMF1CUn6c=_GvpF-80YHNhQEQ@mail.gmail.com>
+Subject: Re: [PATCH v3 03/30] x86/boot/compressed: Disable relocation relaxation
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Arvind Sankar <nivedita@alum.mit.edu>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Thanks for the review,
+It looks like this just hit mainline over the weekend. FWIW. EOM.
 
->> Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
->> kbuild fail when modpost generates any warnings. This will avoid
->> misses such as [1] where the SOF CI did not catch a missing module
->> license.
->>
->> This was initially contributed in 2016 [2], rebase/clean-ups and tests
->> by Pierre Bossart.
->>
->> Test example:
->> $ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
->>    GEN     Makefile
->>    DESCEND  objtool
->>    CALL    sof-dev/scripts/atomic/check-atomics.sh
->>    CALL    sof-dev/scripts/checksyscalls.sh
->>    CHK     include/generated/compile.h
->>    MODPOST Module.symvers
->> Kernel: arch/x86/boot/bzImage is ready  (#13)
->> WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
->> make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
-> 
-> 
-> I think [1] should be an error instead of a warning
-> by default.
+On Fri, Sep 18, 2020 at 1:14 PM Sami Tolvanen <samitolvanen@google.com> wrote:
+>
+> From: Arvind Sankar <nivedita@alum.mit.edu>
+>
+> The x86-64 psABI [0] specifies special relocation types
+> (R_X86_64_[REX_]GOTPCRELX) for indirection through the Global Offset
+> Table, semantically equivalent to R_X86_64_GOTPCREL, which the linker
+> can take advantage of for optimization (relaxation) at link time. This
+> is supported by LLD and binutils versions 2.26 onwards.
+>
+> The compressed kernel is position-independent code, however, when using
+> LLD or binutils versions before 2.27, it must be linked without the -pie
+> option. In this case, the linker may optimize certain instructions into
+> a non-position-independent form, by converting foo@GOTPCREL(%rip) to $foo.
+>
+> This potential issue has been present with LLD and binutils-2.26 for a
+> long time, but it has never manifested itself before now:
+> - LLD and binutils-2.26 only relax
+>         movq    foo@GOTPCREL(%rip), %reg
+>   to
+>         leaq    foo(%rip), %reg
+>   which is still position-independent, rather than
+>         mov     $foo, %reg
+>   which is permitted by the psABI when -pie is not enabled.
+> - gcc happens to only generate GOTPCREL relocations on mov instructions.
+> - clang does generate GOTPCREL relocations on non-mov instructions, but
+>   when building the compressed kernel, it uses its integrated assembler
+>   (due to the redefinition of KBUILD_CFLAGS dropping -no-integrated-as),
+>   which has so far defaulted to not generating the GOTPCRELX
+>   relocations.
+>
+> Nick Desaulniers reports [1,2]:
+>   A recent change [3] to a default value of configuration variable
+>   (ENABLE_X86_RELAX_RELOCATIONS OFF -> ON) in LLVM now causes Clang's
+>   integrated assembler to emit R_X86_64_GOTPCRELX/R_X86_64_REX_GOTPCRELX
+>   relocations. LLD will relax instructions with these relocations based
+>   on whether the image is being linked as position independent or not.
+>   When not, then LLD will relax these instructions to use absolute
+>   addressing mode (R_RELAX_GOT_PC_NOPIC). This causes kernels built with
+>   Clang and linked with LLD to fail to boot.
+>
+> Patch series [4] is a solution to allow the compressed kernel to be
+> linked with -pie unconditionally, but even if merged is unlikely to be
+> backported. As a simple solution that can be applied to stable as well,
+> prevent the assembler from generating the relaxed relocation types using
+> the -mrelax-relocations=no option. For ease of backporting, do this
+> unconditionally.
+>
+> [0] https://gitlab.com/x86-psABIs/x86-64-ABI/-/blob/master/x86-64-ABI/linker-optimization.tex#L65
+> [1] https://lore.kernel.org/lkml/20200807194100.3570838-1-ndesaulniers@google.com/
+> [2] https://github.com/ClangBuiltLinux/linux/issues/1121
+> [3] https://reviews.llvm.org/rGc41a18cf61790fc898dcda1055c3efbf442c14c0
+> [4] https://lore.kernel.org/lkml/20200731202738.2577854-1-nivedita@alum.mit.edu/
+>
+> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
+> Signed-off-by: Arvind Sankar <nivedita@alum.mit.edu>
+> Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+> Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+> Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  arch/x86/boot/compressed/Makefile | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
+> index 3962f592633d..ff7894f39e0e 100644
+> --- a/arch/x86/boot/compressed/Makefile
+> +++ b/arch/x86/boot/compressed/Makefile
+> @@ -43,6 +43,8 @@ KBUILD_CFLAGS += -Wno-pointer-sign
+>  KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+>  KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
+>  KBUILD_CFLAGS += -D__DISABLE_EXPORTS
+> +# Disable relocation relaxation in case the link is not PIE.
+> +KBUILD_CFLAGS += $(call as-option,-Wa$(comma)-mrelax-relocations=no)
+>
+>  KBUILD_AFLAGS  := $(KBUILD_CFLAGS) -D__ASSEMBLY__
+>  GCOV_PROFILE := n
+> --
+> 2.28.0.681.g6f77f65b4e-goog
+>
 
-would the following patch be what you have in mind?
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 422f1cfca289..ae1eb67aa0f2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2018,7 +2018,7 @@ static void read_symbols(const char *modname)
-         if (!mod->is_vmlinux) {
-                 license = get_modinfo(&info, "license");
-                 if (!license)
--                       warn("missing MODULE_LICENSE() in %s\n", modname);
-+                       error("missing MODULE_LICENSE() in %s\n", modname);
-                 while (license) {
-                         if (license_is_gpl_compatible(license))
-                                 mod->gpl_compatible = 1;
-
-
-If yes, also wondering if we can still add the option to treat warnings 
-as errors as an opt-in behavior?
-
-Thanks!
--Pierre
+-- 
+Thanks,
+~Nick Desaulniers
