@@ -2,137 +2,167 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1472A274980
-	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Sep 2020 21:52:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4492274A43
+	for <lists+linux-kbuild@lfdr.de>; Tue, 22 Sep 2020 22:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgIVTwS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 22 Sep 2020 15:52:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59168 "EHLO
+        id S1726614AbgIVUn0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 22 Sep 2020 16:43:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726448AbgIVTwS (ORCPT
+        with ESMTP id S1726550AbgIVUnZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 22 Sep 2020 15:52:18 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9045C061755;
-        Tue, 22 Sep 2020 12:52:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=j56FVuNXjzy/9sJhXmMO7Ke2n5f1vQAjUjGFHAMk4xI=; b=dzZsEC/7pRBqkLI+PuKRhZrwPr
-        lHt3XUm8WJyMFd0D4oVCjXujTYohCKx+6xFZH5KSAemU3BzJaUW2SUj/Z8JRANsL4VkU11ii42pUa
-        6d7+dghUmqfqMk9q09x3fQbs5S9uF7AVL9F7nZczS90yB0Hxk58p/1zvCIL4Ha1cuDlZJGDqHncpE
-        OcRL+hE0tv4wBnSwb6TWE1Y8RyzuLFxa/SmfewHueBDBTumC6SiSSYkeupkEBd46EcTXtXAmN2WKX
-        4LzSn3WIL8LLgMG6aumpRPKPiqtv/Y23CmDpEioSeHQqNaQM0bLGBTP0yUFBuB/89Tk4fcNuphaNz
-        XMU7S4Uw==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kKoKl-0007E7-BA; Tue, 22 Sep 2020 19:52:15 +0000
-Subject: Re: [PATCH 0/1] Add explicit error for missing CONFIG_ASN1
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>,
-        linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>
-References: <20200922155341.17906-1-James.Bottomley@HansenPartnership.com>
- <dfae4d4f-aa96-674d-93b1-d4c097e720e4@infradead.org>
- <260b4b85d714df822da259554ef8cc2873f3096f.camel@HansenPartnership.com>
- <36232f66-58b1-77a8-91a3-f9d3428fffb5@infradead.org>
- <15cc1edce12357799ae3caea3b89a3aad3a3bd07.camel@HansenPartnership.com>
- <8a346ff9-21a4-db8b-1636-b9b2472b5b87@infradead.org>
- <7704adabb275b652a998ab01c626bbbc99ec6afc.camel@HansenPartnership.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8dc900a4-018d-4be7-2644-81114146a0c9@infradead.org>
-Date:   Tue, 22 Sep 2020 12:52:11 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Tue, 22 Sep 2020 16:43:25 -0400
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB63C061755;
+        Tue, 22 Sep 2020 13:43:25 -0700 (PDT)
+Received: by mail-oi1-x243.google.com with SMTP id t76so22531629oif.7;
+        Tue, 22 Sep 2020 13:43:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=KdCQLUMa1BgVZhsRlZXkLIR/4+CcJfKxnEY9x+jQRmk=;
+        b=PkNwp1g+DfRahyIWhD63SmIwidf1fXHTQOV2anX2v0IQwE2fRl2qeMv6FbFsYiOUsA
+         UEGNVCLLdJz0HCUBHg2+DvmnPpzjhgMJWHaicL3jgAJ6nPhZ64POjJqslTWAyrq04bUW
+         mzLEMOHs0M7IgcQH6K3o3z/cOdh7HwkxMt3lk2ms92Ah07D4HbwsmYHKQvCxWsJToanr
+         q0fNau/QQK60GOxyLw63GCJ0gf9lVYiNxp46jzW5JH3ix3Vh61ed9RyXbdMLv8/KEffA
+         go69hlyyiFECutPE0NMojm61w5EGhxB6xap2iAkWlp8GviB64dJjFj4hbQ+h1Ri7U4dV
+         W/kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition:user-agent;
+        bh=KdCQLUMa1BgVZhsRlZXkLIR/4+CcJfKxnEY9x+jQRmk=;
+        b=l3YDk/zTWVJozD9bXJF6QXCdf62V6DWpLfPyHX9BG1rsPdmxxFRfgUphw8FL+m5/dm
+         63+Q1Ye3qbnDpkTtlqGwFIo2L5gTSa95e2UWHJz4ja3dIfzC/2MLgH1JJqHbArXD9e3l
+         tU9POXoKttK6vObo1qSPKm2V+amL1P1yfTi7ECcSt8GCIPiTxBmApR9ZAAqO1dBzk0cf
+         UASy1uCQgHVYlxpyZfjkYdhMh31TbvqllH4uLEHrOt9QtdBcpekBBjstwBeQX7jDCQvd
+         zAUe9i8Waur1ukQbijb7LGq8sTuld7hNUt3A8MvhVzQrLr9/MnYGSy000dO183loy68d
+         2o8Q==
+X-Gm-Message-State: AOAM530hiyHfp/AfKQXBdFVkCjP8ETxUyioDhq/JrHyzBQ6tK/2C0Dvx
+        FMKZOm2b3z8JhZyGQWK18ZzyG8GCtx8=
+X-Google-Smtp-Source: ABdhPJxbsAYPQ56Lk0sXT2lUFLdKqOY2rgEUGFWL+w7UhoO5s2LxpjBejbHbjFnRVl/bF48HiMcNWQ==
+X-Received: by 2002:a05:6808:3d0:: with SMTP id o16mr3740023oie.156.1600807405030;
+        Tue, 22 Sep 2020 13:43:25 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id x21sm7746352oie.49.2020.09.22.13.43.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 22 Sep 2020 13:43:24 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Tue, 22 Sep 2020 13:43:23 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts/kallsyms: skip ppc compiler stub *.long_branch.*
+ / *.plt_branch.*
+Message-ID: <20200922204323.GA244571@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <7704adabb275b652a998ab01c626bbbc99ec6afc.camel@HansenPartnership.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 9/22/20 12:48 PM, James Bottomley wrote:
-> On Tue, 2020-09-22 at 12:46 -0700, Randy Dunlap wrote:
->> On 9/22/20 12:44 PM, James Bottomley wrote:
->>> On Tue, 2020-09-22 at 12:38 -0700, Randy Dunlap wrote:
->>>> On 9/22/20 12:19 PM, James Bottomley wrote:
->>>>> On Tue, 2020-09-22 at 11:54 -0700, Randy Dunlap wrote:
->>>>>> On 9/22/20 8:53 AM, James Bottomley wrote:
->>>>>>> I recently ran into this as an error from 0day.  On x86
->>>>>>> it's
->>>>>>> pretty
->>>>>>> much impossible to build a configuration where CONFIG_ASN1
->>>>>>> isn't
->>>>>>> set, so you rarely notice a problem using the ASN.1
->>>>>>> compiler
->>>>>>> because something else has selected it.  However, this
->>>>>>> compiler
->>>>>>> is
->>>>>>> never built if CONFIG_ASN1 isn't set and the error you get
->>>>>>> from
->>>>>>> kbuild is particularly unhelpful:
->>>>>>>
->>>>>>>    make[4]: *** No rule to make target
->>>>>>> 'security/keys/trusted-
->>>>>>> keys/tpm2key.asn1.o', needed by 'security/keys/trusted-
->>>>>>> keys/built-
->>>>>>> in.a'.
->>>>>>>    make[4]: *** [scripts/Makefile.build:283:
->>>>>>> security/keys/trusted-
->>>>>>> keys/trusted_tpm2.o] Error 1
->>>>>>>    make[4]: Target '__build' not remade because of errors.
->>>>>>>
->>>>>>> This patch changes the above error to the much easier to
->>>>>>> diagnose:
->>>>>>>
->>>>>>>    scripts/Makefile.build:387: *** CONFIG_ASN1 must be
->>>>>>> defined
->>>>>>> for
->>>>>>> the asn1_compiler.  Stop.
->>>>>>>    make[3]: *** [scripts/Makefile.build:505:
->>>>>>> security/keys/trusted-
->>>>>>> keys] Error 2
->>>>>>>
->>>>>>> James
->>>>>>>
->>>>>>> ---
->>>>>>>
->>>>>>> James Bottomley (1):
->>>>>>>   Makefile.build: Add an explicit error for missing ASN.1
->>>>>>> compiler
->>>>>>>
->>>>>>>  scripts/Makefile.build | 5 +++++
->>>>>>>  1 file changed, 5 insertions(+)
->>>>>>
->>>>>> Is there a missing
->>>>>> 	select ASN1
->>>>>> somewhere?
->>>>>
->>>>> You mean in the build used to produce the errors above?  Yes,
->>>>> so the patch is to make the problem more explicit.
->>>>
->>>> I appreciate that the message can be improved, but it seems
->>>> possible that some Kconfig could also be improved.
->>>
->>> I don't really see how.  To find the problem you have to identify a
->>> conditional build in the Makefile that requires the asn1 compiler
->>> but for which the config option doesn't have a select ASN1.  We
->>> don't currently preserve the "what selected this symbol"
->>> information in kconfig, which is what we'd need.
->>
->> Well, if you have a failing .config file, I would be glad to take a
->> look at it...
+On Wed, Sep 23, 2020 at 02:48:56AM +0900, Masahiro Yamada wrote:
+> PowerPC allmodconfig often fails to build as follows:
 > 
-> The original problem is already fixed.  The point of this patch is to
-> make 0day explicitly identify it if it ever occurs again.
+>     LD      .tmp_vmlinux.kallsyms1
+>     KSYM    .tmp_vmlinux.kallsyms1.o
+>     LD      .tmp_vmlinux.kallsyms2
+>     KSYM    .tmp_vmlinux.kallsyms2.o
+>     LD      .tmp_vmlinux.kallsyms3
+>     KSYM    .tmp_vmlinux.kallsyms3.o
+>     LD      vmlinux
+>     SORTTAB vmlinux
+>     SYSMAP  System.map
+>   Inconsistent kallsyms data
+>   Try make KALLSYMS_EXTRA_PASS=1 as a workaround
+>   make[2]: *** [../Makefile:1162: vmlinux] Error 1
+> 
+> Setting KALLSYMS_EXTRA_PASS=1 does not help.
+> 
+> This is caused by the compiler inserting stubs such as *.long_branch.*
+> and *.plt_branch.*
+> 
+>   $ powerpc-linux-nm -n .tmp_vmlinux.kallsyms2
+>    [ snip ]
+>   c00000000210c000 T __init_begin
+>   c00000000210c000 T _sinittext
+>   c00000000210c010 t 00000075.plt_branch.da9:19
+>   c00000000210c020 t 00000075.plt_branch.1677:5
+>   c00000000210c030 t 00000075.long_branch.memmove
+>   c00000000210c034 t 00000075.plt_branch.9e0:5
+>   c00000000210c044 t 00000075.plt_branch.free_initrd_mem
+>     ...
+> 
+> Actually, the problem mentioned in scripts/link-vmlinux.sh comments;
+> "In theory it's possible this results in even more stubs, but unlikely"
+> is happening here, and ends up with another kallsyms step required.
+> 
+> scripts/kallsyms.c already ignores various compiler stubs. Let's do
+> similar to make kallsysms for PowerPC always succeed in 2 steps.
+> 
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-Got it. That's helpful info IMO.
+Tested-by: Guenter Roeck <linux@roeck-us.net>
 
-thanks.
+Thanks,
+Guenter
 
--- 
-~Randy
-
+> ---
+> 
+>  scripts/kallsyms.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/kallsyms.c b/scripts/kallsyms.c
+> index 0096cd965332..306b9b38150f 100644
+> --- a/scripts/kallsyms.c
+> +++ b/scripts/kallsyms.c
+> @@ -120,17 +120,25 @@ static bool is_ignored_symbol(const char *name, char type)
+>  		NULL
+>  	};
+>  
+> +	static const char * const ignored_matches[] = {
+> +		".long_branch.",	/* ppc stub */
+> +		".plt_branch.",		/* ppc stub */
+> +		NULL
+> +	};
+> +
+>  	const char * const *p;
+>  
+> -	/* Exclude symbols which vary between passes. */
+> +	/* ignore symbol names that exactly match to a particular string. */
+>  	for (p = ignored_symbols; *p; p++)
+>  		if (!strcmp(name, *p))
+>  			return true;
+>  
+> +	/* ignore symbol names that start with a particular string. */
+>  	for (p = ignored_prefixes; *p; p++)
+>  		if (!strncmp(name, *p, strlen(*p)))
+>  			return true;
+>  
+> +	/* ignore symbol names that end with a particular string. */
+>  	for (p = ignored_suffixes; *p; p++) {
+>  		int l = strlen(name) - strlen(*p);
+>  
+> @@ -138,6 +146,12 @@ static bool is_ignored_symbol(const char *name, char type)
+>  			return true;
+>  	}
+>  
+> +	/* ignore symbol names that contain a particular string. */
+> +	for (p = ignored_matches; *p; p++) {
+> +		if (strstr(name, *p))
+> +			return true;
+> +	}
+> +
+>  	if (type == 'U' || type == 'u')
+>  		return true;
+>  	/* exclude debugging symbols */
+> -- 
+> 2.25.1
+> 
