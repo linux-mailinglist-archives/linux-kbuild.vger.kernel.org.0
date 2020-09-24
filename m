@@ -2,110 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90DE3277850
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Sep 2020 20:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B883B277A62
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Sep 2020 22:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728577AbgIXSNj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Sep 2020 14:13:39 -0400
-Received: from mga12.intel.com ([192.55.52.136]:7229 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727753AbgIXSNi (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Sep 2020 14:13:38 -0400
-IronPort-SDR: a/djZr5ntzpdlnZaZ8kkF6kQAu6xfgk7P0F+ha+Kq/ZVkN1a4kGJ+z7fcVoKSN+pjnNWn4jSJS
- /tykWhHFu1Gw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9754"; a="140732721"
-X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; 
-   d="scan'208";a="140732721"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 11:13:38 -0700
-IronPort-SDR: fQ9Tzp6ZRlcYFB2KRWD+hrbPicg63xexfZDY9TywMs7EyZYknrFoEklc6Wf1tjfflX17drqm9E
- l1Kk1E9OFesg==
-X-IronPort-AV: E=Sophos;i="5.77,298,1596524400"; 
-   d="scan'208";a="291322958"
-Received: from vanidesa-mobl.amr.corp.intel.com (HELO [10.209.65.234]) ([10.209.65.234])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2020 11:13:36 -0700
-Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-        Filipe Brandenburger <filbranden@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Michael Davidson <md@google.com>,
-        Eugene Surovegin <surovegin@google.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
- <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com>
- <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
- <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
-From:   Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Message-ID: <c9d19777-9027-0bb6-8590-1bfeac14b33f@linux.intel.com>
-Date:   Thu, 24 Sep 2020 13:13:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726655AbgIXUaD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Sep 2020 16:30:03 -0400
+Received: from [125.140.134.231] ([125.140.134.231]:59260 "EHLO
+        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726606AbgIXUaA (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 24 Sep 2020 16:30:00 -0400
+Received: from User ([185.191.231.247]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
+         Fri, 25 Sep 2020 05:26:36 +0900
+Reply-To: <samthong5555@yahoo.com>
+From:   "SAM THONG" <samthong5555@gmail.com>
+Subject: Business Acquisition 1
+Date:   Thu, 24 Sep 2020 13:26:36 -0700
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <WIN-DAONO245HJFR4fa00e70a06@WIN-DAONO245HJF>
+X-OriginalArrivalTime: 24 Sep 2020 20:26:36.0694 (UTC) FILETIME=[005C8B60:01D692B1]
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
 
 
->>> I think [1] should be an error instead of a warning
->>> by default.
->>
->> would the following patch be what you have in mind?
-> 
-> 
-> No.
-> error() does not exist.
-> 
-> merror() exists, but the difference from warn()
-> is just a prefix.
-> 
-> If any error happens, modpost should return the error code.
+Dear sir
 
-Sorry, I am not able to understand your recommendation. Existing code 
-which calls merror() does not exit with an error code, e.g.
+Our underwriter company is seeking the attention of genuine and reliable persons, companies
 
-static void sym_update_namespace(const char *symname, const char *namespace)
-{
-	struct symbol *s = find_symbol(symname);
+who are indeed in need of funds as investment capital or business expansion in form of a
 
-	/*
-	 * That symbol should have been created earlier and thus this is
-	 * actually an assertion.
-	 */
-	if (!s) {
-		merror("Could not update namespace(%s) for symbol %s\n",
-		       namespace, symname);
-		return;
-	}
+direct loan to partner with us and benefit in our new Loan and Project funding programs.
 
-What would be suggestion be then in this case?
 
-change all functions to return -EINVAL after each use of merror() or 
-something?
 
-Or just add an exit(1) after all uses of merror()?
+We offer flexible loans and funding for various projects at very affordable low interest
 
->> If yes, also wondering if we can still add the option to treat warnings
->> as errors as an opt-in behavior?
-> 
-> 
-> I want to add a new option only when it is necessary to do so.
-> 
-> I am not sure which warnings are real warnings.
+rate of 3% annually for a period of 1-15 years on Non collateral loan/funding . We offer
 
-That was the point of the suggested option, treat all warnings as errors 
-and ignore the warning if it's no big deal. it's standard with gcc 
--Werror, it's be good to extend this to modpost - or what would be the 
-drawback of doing so?
+loan/funding from a minimum of Euro ? / USD$ 1 Million to Euro ? / USD$ 1 Billion. Max,
+
+depending on the nature of business/project.
+
+We are currently funding for:-
+
+
+
+* Starting up a Franchise
+
+* Business Acquisition
+
+* Business Expansion
+
+* Commercial Real Estate purchase
+
+* Consultancy and Contract Execution, Marine , ETC.
+
+
+
+Kindly get in touch for further details and procedure. samthong5555@yahoo.com 
+
+
+
+Respectfully,
+
+
+SAM THONG
+
+
+
+
+
+
+
+	
+
+
+
