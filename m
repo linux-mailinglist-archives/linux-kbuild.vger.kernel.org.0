@@ -2,92 +2,136 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12AA8277793
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Sep 2020 19:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E87BB2777AD
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Sep 2020 19:24:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbgIXRTR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Sep 2020 13:19:17 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:49960 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727216AbgIXRTR (ORCPT
+        id S1728645AbgIXRYA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Sep 2020 13:24:00 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:29226 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726477AbgIXRYA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Sep 2020 13:19:17 -0400
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 08OHIv4W025975;
-        Fri, 25 Sep 2020 02:18:58 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 08OHIv4W025975
+        Thu, 24 Sep 2020 13:24:00 -0400
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 08OHNMh3022365;
+        Fri, 25 Sep 2020 02:23:22 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 08OHNMh3022365
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1600967938;
-        bh=BfAZ+Kz7r7qkfo61OgHPAKHCGchfZtW7vHgqjvU1wtA=;
+        s=dec2015msa; t=1600968203;
+        bh=joTtiAZjMaYsT1Nb+EImochKGA88DFvnzBk5ymeSa6Q=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=gzUzODYzGZROgaPKme/ZxGF1T1p2u0+Gk0Icanw35xumvgnhXNEPvfTneb0XOTaKO
-         R1bxDdSTcjE4who+FJRA8ue3SKIfB8kFsfRWtRY87QNBsbjSq6zL4ZcD4wu65rZJ2M
-         D9VYNlJiDP1uOetE1wCmPD//IiwTTQKH1IQb6Mah5RuLd0YJsbt5fA1UPXrmzTFvP6
-         OTpXsPuV9FIEUk1knJ4K37DMqrSy2xuhxOzGEcQRetTWRsLmDQ2rKvk/PT9EjEJNI2
-         +jjAZBjkqAHiVKIaieOAxKSPqrPurdeQL2WUFIE2J8oVPfH7tVmFEZiDeVotu7elbo
-         /U7x4O2LKHWNA==
-X-Nifty-SrcIP: [209.85.216.54]
-Received: by mail-pj1-f54.google.com with SMTP id md22so73093pjb.0;
-        Thu, 24 Sep 2020 10:18:58 -0700 (PDT)
-X-Gm-Message-State: AOAM530rVAYnEPqRf/ygvdKIWiKOpuDZLfbmUDigtkHHi/LAeSnzRWHr
-        9zqXB46lXAzVISa8R0rBovf/D/vuPaGWUCm1I/8=
-X-Google-Smtp-Source: ABdhPJyppqf08NAt+YyrDOfGu2DQLKWibZWlzvtz71d9DDV+hjcfQ33wSQ3LVzss7uz/MdI4Ehb6/qbdxTyg9shqbC4=
-X-Received: by 2002:a17:90b:208:: with SMTP id fy8mr187544pjb.153.1600967937296;
- Thu, 24 Sep 2020 10:18:57 -0700 (PDT)
+        b=XnIZ+b0Kk9VpVcPQ5TbZfY+2ZDRhVm81Sug4iNmKuz4i8okUW9+jm/8lK01KDjznD
+         Jj+PS4O0DJByBjl0eEXDAZII8wDNQTXyCyneXQlFnMnXKOGTpkHKaIHimlN/kh4bVO
+         bhB0GJwadc5q4Ch/ff0cJ/FNTl4JQmi9RdyLrEiujIOjO4bHKFdpVFonWjJBj5mXW7
+         bNdHZNZNeya6VDRDQ4L9vtOWew9rl8+8z2w/+Jg9FY8tnslQIaJRvS1KiEGqDJQpeP
+         s0Tx+OYDM2serqEKofAZ5LzUAK4JUFesXR6q6++oMVgui8+atOPmDlgd98BqhpdW7/
+         u43DpOYIEfnkQ==
+X-Nifty-SrcIP: [209.85.214.173]
+Received: by mail-pl1-f173.google.com with SMTP id c3so87894plz.5;
+        Thu, 24 Sep 2020 10:23:22 -0700 (PDT)
+X-Gm-Message-State: AOAM5320bJwUsQ29LbeHQALreIhX+pq0zQVfiKryLa9J707yRhXMm+JE
+        zr9NHyHn79jxazqTDtQmlqv2X+WkDoCaR5ANc5U=
+X-Google-Smtp-Source: ABdhPJwxGkDvbczFQVCA0yU/ETKsepVugFYXutPJdGOG8Q0qMurDnQK9TbgMpfOLov3Gt4majojwcKVXc4Emk+auYWw=
+X-Received: by 2002:a17:902:7489:b029:d2:439c:4e0e with SMTP id
+ h9-20020a1709027489b02900d2439c4e0emr183827pll.71.1600968201985; Thu, 24 Sep
+ 2020 10:23:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200922155341.17906-1-James.Bottomley@HansenPartnership.com> <20200922155341.17906-2-James.Bottomley@HansenPartnership.com>
-In-Reply-To: <20200922155341.17906-2-James.Bottomley@HansenPartnership.com>
+References: <20200918215010.250580-1-pierre-louis.bossart@linux.intel.com>
+ <CAK7LNATUcRpCvu9iQd_s9i5+3kRA96O+DMd-QGbAu-swmVuauw@mail.gmail.com> <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
+In-Reply-To: <d14745a6-fbdc-ff84-5553-18af6d922989@linux.intel.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 25 Sep 2020 02:18:20 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATg2MG4xSoHiEa5CvB0x+LYS9ZOGKWz0ytBhBRcvCogoQ@mail.gmail.com>
-Message-ID: <CAK7LNATg2MG4xSoHiEa5CvB0x+LYS9ZOGKWz0ytBhBRcvCogoQ@mail.gmail.com>
-Subject: Re: [PATCH 1/1] Makefile.build: Add an explicit error for missing
- ASN.1 compiler
-To:     James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Fri, 25 Sep 2020 02:22:45 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
+Message-ID: <CAK7LNAQfm5GVH93zAJakB1JpyS1qf93qTUETofOstSJ9jcky3w@mail.gmail.com>
+Subject: Re: [PATCH] modpost: allow modpost to fail on warnings
+To:     Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+        Filipe Brandenburger <filbranden@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Michael Davidson <md@google.com>,
+        Eugene Surovegin <surovegin@google.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 23, 2020 at 12:55 AM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
+On Mon, Sep 21, 2020 at 11:51 PM Pierre-Louis Bossart
+<pierre-louis.bossart@linux.intel.com> wrote:
 >
-> The current dependency rules mean that the build breaks if the ASN.1
-> compiler is required but CONFIG_ASN1 isn't set.  However, it isn't
-> obvious from the error message about missing files what the actual
-> problem is, so make the build system give an explicit error.
+> Thanks for the review,
 >
-> Signed-off-by: James Bottomley <James.Bottomley@HansenPartnership.com>
-> ---
+> >> Set KBUILD_MODPOST_FAIL_ON_WARNINGS to a non-empty value to make the
+> >> kbuild fail when modpost generates any warnings. This will avoid
+> >> misses such as [1] where the SOF CI did not catch a missing module
+> >> license.
+> >>
+> >> This was initially contributed in 2016 [2], rebase/clean-ups and tests
+> >> by Pierre Bossart.
+> >>
+> >> Test example:
+> >> $ KBUILD_MODPOST_FAIL_ON_WARNINGS=1 make
+> >>    GEN     Makefile
+> >>    DESCEND  objtool
+> >>    CALL    sof-dev/scripts/atomic/check-atomics.sh
+> >>    CALL    sof-dev/scripts/checksyscalls.sh
+> >>    CHK     include/generated/compile.h
+> >>    MODPOST Module.symvers
+> >> Kernel: arch/x86/boot/bzImage is ready  (#13)
+> >> WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-sof-sdw.o
+> >> make[2]: *** [sof-dev/scripts/Makefile.modpost:114: Module.symvers] Error 2
+> >
+> >
+> > I think [1] should be an error instead of a warning
+> > by default.
+>
+> would the following patch be what you have in mind?
 
-Applied to linux-kbuild.
-Thanks.
+
+No.
+error() does not exist.
+
+merror() exists, but the difference from warn()
+is just a prefix.
+
+If any error happens, modpost should return the error code.
 
 
->  scripts/Makefile.build | 5 +++++
->  1 file changed, 5 insertions(+)
+
+
+
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index 422f1cfca289..ae1eb67aa0f2 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2018,7 +2018,7 @@ static void read_symbols(const char *modname)
+>          if (!mod->is_vmlinux) {
+>                  license = get_modinfo(&info, "license");
+>                  if (!license)
+> -                       warn("missing MODULE_LICENSE() in %s\n", modname);
+> +                       error("missing MODULE_LICENSE() in %s\n", modname);
+>                  while (license) {
+>                          if (license_is_gpl_compatible(license))
+>                                  mod->gpl_compatible = 1;
 >
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index a467b9323442..bca7003beac8 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -382,6 +382,11 @@ quiet_cmd_asn1_compiler = ASN.1   $(basename $@).[ch]
->        cmd_asn1_compiler = $(objtree)/scripts/asn1_compiler $< \
->                                 $(basename $@).c $(basename $@).h
 >
-> +ifndef CONFIG_ASN1
-> +$(objtree)/scripts/asn1_compiler:
-> +       $(error CONFIG_ASN1 must be defined for the asn1_compiler)
-> +endif
-> +
->  $(obj)/%.asn1.c $(obj)/%.asn1.h: $(src)/%.asn1 $(objtree)/scripts/asn1_compiler
->         $(call cmd,asn1_compiler)
->
-> --
-> 2.26.2
->
+> If yes, also wondering if we can still add the option to treat warnings
+> as errors as an opt-in behavior?
+
+
+I want to add a new option only when it is necessary to do so.
+
+I am not sure which warnings are real warnings.
+
+
+> Thanks!
+> -Pierre
+
 
 
 -- 
