@@ -2,126 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DC9E2775B7
-	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Sep 2020 17:46:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BF5327762A
+	for <lists+linux-kbuild@lfdr.de>; Thu, 24 Sep 2020 18:04:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728425AbgIXPqL (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 24 Sep 2020 11:46:11 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:42788 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728139AbgIXPqL (ORCPT
+        id S1728501AbgIXQEa (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 24 Sep 2020 12:04:30 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:22211 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728139AbgIXQE3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 24 Sep 2020 11:46:11 -0400
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 08OFjmFE031136;
-        Fri, 25 Sep 2020 00:45:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 08OFjmFE031136
+        Thu, 24 Sep 2020 12:04:29 -0400
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 08OG3ueY021485;
+        Fri, 25 Sep 2020 01:03:57 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 08OG3ueY021485
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1600962349;
-        bh=2/84ainX+exPuFKLItFERxz7wYFsqiAakLmaR16zSEE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=sUUURivfHeDm3Lj17zEQvc3dpnGqHwk8yYFOMfAnzwDIb4H1KuZevs0sn49a++o6x
-         fiPyiRgTgnKCZrzdxkxdx65Zab+uJzzC/Gw//PF7L1DtTSg4Jb60NUPvQt3UEzTyKB
-         uwzNOqmS837TGk1fJddSuNuB6YIrkndJe0Z813ch7suIULLfAUv3mYUhH91MaWMyXB
-         GXudWqvvOIlauZEZwgZxVqgxlqZj34slviv49d+6w7y/UcZ/TIEB5cRlRYXztuHeSi
-         fUBycW6U3WvArCaG+Gk+s1tA4ETsuGIMtoGNiK92cjiTckV46neHqiuOymzXixsBhQ
-         TWIFMD1Tb9azA==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: split the build log of kallsyms
-Date:   Fri, 25 Sep 2020 00:45:46 +0900
-Message-Id: <20200924154546.275123-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        s=dec2015msa; t=1600963437;
+        bh=9ee9VwwvdZUxUdcXkkdp1U0lx4DpuWOQMZvDwgytdP8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hzTI5ClFT4hOzIoN61jwlSFslzZdSjOWWXR+OdW95+DN+iQjYnA0h0WUtB5ir816s
+         +DZ87UAF+nIACgqkwIw4F9pB0RMs1ARNQnZ4wFcSQGRMvfJthFhuGd/ENCPHOENHuh
+         octp/bzp1hYU7SieXdp8Wf8kOOIRC3q0kMMR+lkPNoxHYcUfwQ7enFrI2lNYZ4K/LV
+         gY9Q0QWN0Mw/Cl3KeRn0ZGc48MJPMumbOKVzGFiExWK6dhJe1YOlO3W3WCSsJW8CB2
+         QDxuQfR6FNom+nQiZKHYiceUnq0wFU2t6828TZmfd13Es7qIWNtebAxMt9+XnooEz8
+         GPoSxtqBHqrCQ==
+X-Nifty-SrcIP: [209.85.216.45]
+Received: by mail-pj1-f45.google.com with SMTP id mn7so1832280pjb.5;
+        Thu, 24 Sep 2020 09:03:57 -0700 (PDT)
+X-Gm-Message-State: AOAM532E/6rxKQqZv80fgjVzSR4P5DMuOr0TA7oxzNF+nlRbOyFTFdyI
+        JCQ8C1v7IQXa1ZjQpVToN0UStQjxlhdRB/QDge4=
+X-Google-Smtp-Source: ABdhPJyETrEzNzrVd1OXy91uCC2rbMXAsfzVerHQYhaGFjYLlItBVGJOuJ4Yzsw08mGvCA0s2iw7gEeNxhCwz3+/C+c=
+X-Received: by 2002:a17:90b:208:: with SMTP id fy8mr27540pjb.153.1600963436461;
+ Thu, 24 Sep 2020 09:03:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200922232140.1994390-1-morbo@google.com>
+In-Reply-To: <20200922232140.1994390-1-morbo@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 25 Sep 2020 01:03:19 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATjf+bVqkkoZgwu9sr-A+VXxEnW_R8nEwmH=aDEU6NAQw@mail.gmail.com>
+Message-ID: <CAK7LNATjf+bVqkkoZgwu9sr-A+VXxEnW_R8nEwmH=aDEU6NAQw@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: explicitly specify the build id style
+To:     Bill Wendling <morbo@google.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Will Deacon <will@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-mips@vger.kernel.org,
+        "open list:SIFIVE DRIVERS" <linux-riscv@lists.infradead.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        sparclinux <sparclinux@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Nathan Chancellor <natechancellor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Currently, the build log shows KSYM + object name.
+On Wed, Sep 23, 2020 at 8:21 AM Bill Wendling <morbo@google.com> wrote:
+>
+> ld's --build-id defaults to "sha1" style, while lld defaults to "fast".
+> The build IDs are very different between the two, which may confuse
+> programs that reference them.
+>
+> Signed-off-by: Bill Wendling <morbo@google.com>
+> ---
+>  Makefile                             | 4 ++--
+>  arch/arm/vdso/Makefile               | 2 +-
+>  arch/arm64/kernel/vdso/Makefile      | 2 +-
+>  arch/arm64/kernel/vdso32/Makefile    | 2 +-
+>  arch/mips/vdso/Makefile              | 2 +-
+>  arch/riscv/kernel/vdso/Makefile      | 2 +-
+>  arch/s390/kernel/vdso64/Makefile     | 2 +-
+>  arch/sparc/vdso/Makefile             | 2 +-
+>  arch/x86/entry/vdso/Makefile         | 2 +-
+>  tools/testing/selftests/bpf/Makefile | 2 +-
+>  10 files changed, 11 insertions(+), 11 deletions(-)
 
-Precisely speaking, kallsyms generates a .S file and then the compiler
-compiles it into a .o file. Split the build log into two.
 
-[Before]
+Applied to linux-kbuild.
+Thanks.
 
-  GEN     modules.builtin
-  LD      .tmp_vmlinux.kallsyms1
-  KSYM    .tmp_vmlinux.kallsyms1.o
-  LD      .tmp_vmlinux.kallsyms2
-  KSYM    .tmp_vmlinux.kallsyms2.o
-  LD      vmlinux
-
-[After]
-
-  GEN     modules.builtin
-  LD      .tmp_vmlinux.kallsyms1
-  KSYMS   .tmp_vmlinux.kallsyms1.S
-  AS      .tmp_vmlinux.kallsyms1.o
-  LD      .tmp_vmlinux.kallsyms2
-  KSYMS   .tmp_vmlinux.kallsyms2.S
-  AS      .tmp_vmlinux.kallsyms2.o
-  LD      vmlinux
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- scripts/link-vmlinux.sh | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
-index e6e2d9e5ff48..d9bcf36a1583 100755
---- a/scripts/link-vmlinux.sh
-+++ b/scripts/link-vmlinux.sh
-@@ -169,10 +169,9 @@ gen_btf()
- 	printf '\1' | dd of=${2} conv=notrunc bs=1 seek=16 status=none
- }
- 
--# Create ${2} .o file with all symbols from the ${1} object file
-+# Create ${2} .S file with all symbols from the ${1} object file
- kallsyms()
- {
--	info KSYM ${2}
- 	local kallsymopt;
- 
- 	if [ -n "${CONFIG_KALLSYMS_ALL}" ]; then
-@@ -187,13 +186,8 @@ kallsyms()
- 		kallsymopt="${kallsymopt} --base-relative"
- 	fi
- 
--	local aflags="${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL}               \
--		      ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS}"
--
--	local afile="`basename ${2} .o`.S"
--
--	${NM} -n ${1} | scripts/kallsyms ${kallsymopt} > ${afile}
--	${CC} ${aflags} -c -o ${2} ${afile}
-+	info KSYMS ${2}
-+	${NM} -n ${1} | scripts/kallsyms ${kallsymopt} > ${2}
- }
- 
- # Perform one step in kallsyms generation, including temporary linking of
-@@ -203,9 +197,15 @@ kallsyms_step()
- 	kallsymso_prev=${kallsymso}
- 	kallsyms_vmlinux=.tmp_vmlinux.kallsyms${1}
- 	kallsymso=${kallsyms_vmlinux}.o
-+	kallsyms_S=${kallsyms_vmlinux}.S
- 
- 	vmlinux_link ${kallsyms_vmlinux} "${kallsymso_prev}" ${btf_vmlinux_bin_o}
--	kallsyms ${kallsyms_vmlinux} ${kallsymso}
-+	kallsyms ${kallsyms_vmlinux} ${kallsyms_S}
-+
-+	info AS ${kallsyms_S}
-+	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
-+	      ${KBUILD_AFLAGS} ${KBUILD_AFLAGS_KERNEL} \
-+	      -c -o ${kallsymso} ${kallsyms_S}
- }
- 
- # Create map file with all symbols from ${1}
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
