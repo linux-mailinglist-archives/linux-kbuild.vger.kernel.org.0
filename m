@@ -2,100 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D41B278C6A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Sep 2020 17:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ECAC279126
+	for <lists+linux-kbuild@lfdr.de>; Fri, 25 Sep 2020 20:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729003AbgIYPVb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 25 Sep 2020 11:21:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33634 "EHLO
+        id S1727751AbgIYSw4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 25 Sep 2020 14:52:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728750AbgIYPVa (ORCPT
+        with ESMTP id S1728069AbgIYSw4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:21:30 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E43CC0613CE;
-        Fri, 25 Sep 2020 08:21:30 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id 7so2841997pgm.11;
-        Fri, 25 Sep 2020 08:21:30 -0700 (PDT)
+        Fri, 25 Sep 2020 14:52:56 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79036C0613D4
+        for <linux-kbuild@vger.kernel.org>; Fri, 25 Sep 2020 11:52:56 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id y14so3328723pgf.12
+        for <linux-kbuild@vger.kernel.org>; Fri, 25 Sep 2020 11:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HfdKNxFN//fHQRteZ3ano4yEULisk9Ub6ql9G5B3xNA=;
-        b=oxe8hyB3SWoORMJx2Fg35b7spl30TjSgnbPZjGJVk6sS6rhFD96ISWOevGjmuBDi4N
-         DhzBdjFTeeK67b7waaPtxuVSbKdGK8HdpJOFCGyynvcNzRYBPNca4DN4/QsM7ooGZrcd
-         WsP/Ajt4zhN+5EwGmgbbP9cP5gG7CD7lmEy26yf4q6X7px4QGiODop3OJfN3oH3nMg0L
-         G/jwVvERTuCU8LKLqUatu0st4i/C6Vurd/9+ofCYqTd8TEs4wF0SE/YXQFYjrcdhPbmA
-         wWIhrFBSL2rrJeGLzJeZtp/DPD5aWDotB4wQEOlGucBFRp/ogUnRhAFcsBIfZW7BM7tH
-         DVaA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZgS7XDEsT9SMTtkEmVVEM4fmyQz20jTcKbyopJIbVnw=;
+        b=i45TaUrxjWnjsCtpXFgjDDNUxvfhpASIJqWcjzD+jnQ+4XKmPLT8dYlHXa0G1ua5T3
+         +bxWGE2GyWu6o5ZmPkCP3rn5jVAIdkjCaXm45P8lmPCQl1oUZeIkYNsGsIuIsvyI+GvM
+         HId4R+rb4bosAqQnZBEv1OZVlpQTmnnhOGdeL2LRcac1fg/0ZrZKiBHZMEwbJ/S8UvTX
+         SdwNNi9x+sm/yeJC7NuuPZHnSQHotIqPENQYFpKNirxSEcP8bWF0IzP82bAWnhpPW4WV
+         1ZkMd453i1dNh4WRKPjDcjwmauPQsOkCXbqgaLYhpWFPbWF0za6aHKcWSCX20fLpuBP4
+         HZ2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HfdKNxFN//fHQRteZ3ano4yEULisk9Ub6ql9G5B3xNA=;
-        b=IaatSI7Tr13aXBMMkox3D5r+C/U9tgt/vhJcH223OsoeUIZe4UIaGaRokTwtbc+ZEe
-         B2n1K5ngXfOrB/7WXqdGxDbmU8Pgw0qu/QsHGjnWcIrzKL9hq1PWsZDbMM/9fLbc773S
-         kZ7z3qHZprbccIp1MvbUGBAEOxdSUIZGm24lePNvfjR0JuMHUEykeF3V0rNyMaYQW+3E
-         L+zteHdufkjbEVeS5ZFRBQXILxZka+++7G5QelFQC3lW8WlWiocp1qXjA/hyopXVV3Da
-         0f1BdxF5yPF2COsdFT7NDUdlulbcfQgJAgplkhJV/dsMRzEGPTnyyUgDcsY+f+bsLpZI
-         JkWQ==
-X-Gm-Message-State: AOAM5313HbWbVE6X3LNXalQM0utqxf1/qshGOwK1kdg179j4dO0B7UXC
-        tVvXiq9G4qo86j44mTh2DD2PqXOO1JFi8g==
-X-Google-Smtp-Source: ABdhPJx3SX4VU6qPahtPnpvBQkwftTxqRgX/Y/NQGT9VlhrynmpafqUBKJ6pXMXIuzy3KtKBOY9G1Q==
-X-Received: by 2002:a17:902:9698:b029:d1:9492:745b with SMTP id n24-20020a1709029698b02900d19492745bmr5152587plp.26.1601047289728;
-        Fri, 25 Sep 2020 08:21:29 -0700 (PDT)
-Received: from localhost.localdomain (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
-        by smtp.gmail.com with ESMTPSA id gf12sm2323324pjb.16.2020.09.25.08.21.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2020 08:21:28 -0700 (PDT)
-From:   Florian Fainelli <f.fainelli@gmail.com>
-To:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZgS7XDEsT9SMTtkEmVVEM4fmyQz20jTcKbyopJIbVnw=;
+        b=UBsca/udqcWhAIFFpHRRjUjeYeRtaDpt0uL/i02A+Yz2N8hC5icmipbBMgHQeVNy5T
+         92seXTWM+R1HwmXR/dOEzLQo5RrcyTcybEc3Gv39N9k23B0wCcjYXIecJMijUqbh1GEo
+         RO15wHIQmAUMSo+GSMmmLal0shrhFaniQJiHEjs24mUT0OSXL0EK3HvAW2psC4JuxbTl
+         b1dC07H1lD6EDMPm9gASFbbmZbysrBMDvrBRhNnvQHtW7ItHIq56KprEv6YAE5BO2blG
+         xE58tHK8GTgxyHi/sfO8mdqe9FCbwWXmBZA6mwdAnuI7AVAPZN0Kgb0DHkBdRDOft6Qh
+         ugvg==
+X-Gm-Message-State: AOAM53349IrUp1cAkdwoeODgOEN7Qw21AOVBBt1Dj89+SEIaYZGzfvCa
+        J8wzgzcVLpXN5QMmn/cVm54AepGhe3HbqePtOZ5STQ==
+X-Google-Smtp-Source: ABdhPJy+MEhEaLmhJqtkWqku+8YPx5qhAdu39H1TNZDPwP4dsq+Y9vk7jXDi9d2KcOuNMczaA9kdzk4W0jK/+c1Xo0A=
+X-Received: by 2002:a17:902:ed11:b029:d1:f385:f4e7 with SMTP id
+ b17-20020a170902ed11b02900d1f385f4e7mr758865pld.56.1601059975629; Fri, 25 Sep
+ 2020 11:52:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200925152121.20527-1-f.fainelli@gmail.com>
+In-Reply-To: <20200925152121.20527-1-f.fainelli@gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 25 Sep 2020 11:52:44 -0700
+Message-ID: <CAKwvOdmxkwA7NPSj-bSarurjWc7Vs2vzuT3PnaCJhA00pRWyYA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation/llvm: Fix clang target examples
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
         Sedat Dilek <sedat.dilek@gmail.com>,
-        clang-built-linux@googlegroups.com (open list:CLANG/LLVM BUILD SUPPORT),
-        linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH] Documentation/llvm: Fix clang target examples
-Date:   Fri, 25 Sep 2020 08:21:14 -0700
-Message-Id: <20200925152121.20527-1-f.fainelli@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        "open list:CLANG/LLVM BUILD SUPPORT" 
+        <clang-built-linux@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-clang --target=<triple> is how we can specify a particular toolchain
-triple to be use, fix the two occurences in the documentation.
+On Fri, Sep 25, 2020 at 8:21 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+>
+> clang --target=<triple> is how we can specify a particular toolchain
+> triple to be use, fix the two occurences in the documentation.
 
-Fixes: fcf1b6a35c16 ("Documentation/llvm: add documentation on building w/ Clang/LLVM")
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
----
- Documentation/kbuild/llvm.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Ah right, my mistake.  It's either double dash+equals, or single
+dash+space.  Thanks for the patch.  Masahiro, would you mind picking
+this up?
 
-diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-index 334df758dce3..dae90c21aed3 100644
---- a/Documentation/kbuild/llvm.rst
-+++ b/Documentation/kbuild/llvm.rst
-@@ -39,10 +39,10 @@ which can help simplify cross compiling. ::
- 	ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
- 
- ``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
--``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
-+``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
- example: ::
- 
--	clang --target aarch64-linux-gnu foo.c
-+	clang --target=aarch64-linux-gnu foo.c
- 
- LLVM Utilities
- --------------
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+
+>
+> Fixes: fcf1b6a35c16 ("Documentation/llvm: add documentation on building w/ Clang/LLVM")
+> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> ---
+>  Documentation/kbuild/llvm.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
+> index 334df758dce3..dae90c21aed3 100644
+> --- a/Documentation/kbuild/llvm.rst
+> +++ b/Documentation/kbuild/llvm.rst
+> @@ -39,10 +39,10 @@ which can help simplify cross compiling. ::
+>         ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make CC=clang
+>
+>  ``CROSS_COMPILE`` is not used to prefix the Clang compiler binary, instead
+> -``CROSS_COMPILE`` is used to set a command line flag: ``--target <triple>``. For
+> +``CROSS_COMPILE`` is used to set a command line flag: ``--target=<triple>``. For
+>  example: ::
+>
+> -       clang --target aarch64-linux-gnu foo.c
+> +       clang --target=aarch64-linux-gnu foo.c
+>
+>  LLVM Utilities
+>  --------------
+> --
+> 2.25.1
+>
+
+
 -- 
-2.25.1
-
+Thanks,
+~Nick Desaulniers
