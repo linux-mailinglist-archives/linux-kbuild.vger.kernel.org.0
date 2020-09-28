@@ -2,156 +2,168 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0EA27AB3E
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Sep 2020 11:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2B9527ACB5
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Sep 2020 13:29:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbgI1JyH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Sep 2020 05:54:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726656AbgI1JyH (ORCPT
+        id S1726578AbgI1L3g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Sep 2020 07:29:36 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:26180 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726328AbgI1L3f (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Sep 2020 05:54:07 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 196F0C061755;
-        Mon, 28 Sep 2020 02:54:07 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id u25so313009otq.6;
-        Mon, 28 Sep 2020 02:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:reply-to:from:date:message-id
-         :subject:to:cc;
-        bh=XrekDJ8/Kn4liZXu7G8whetkgOzyeeLWcjBGPZVdnBc=;
-        b=PTIDYztEvAXGUq+l2r9F7MMpiFiawKjmDr3Nd5T/NqihOWWz33ZD49IPcTpPaOsn8n
-         B79Beh17TkYx8od2qPKWs9tr1spr1CgAySBG1TmgomzoAbQhU4FqM2C6qWPU6UDjoDZe
-         hbWccRKVm0ocHDuhnIFwK/M+rgHOS+IaUcsBWeEPOAXAaG8P4SdXNX1qNA+oq8Y30LwZ
-         qd3D03fu0o7Z1hqseSNkXUJV/BLvUWIS+YPayorYi4EItRZwX7Fjao4mw3PEU4UIGIvr
-         3jAaoeU5xgE8WK2kQe58D5UTnR0/0tRKksu0/HF1uLElDYABqeN5HkwT3MKsQuvRMs5O
-         kdfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=XrekDJ8/Kn4liZXu7G8whetkgOzyeeLWcjBGPZVdnBc=;
-        b=LlVrugIRPZyG5unbh/AJNRNWwA8lywYPgHCsYnL0SwN/zUSn8+mhA6xdvAy1CnXG2y
-         sLWvl+ePENQt0286XGApgq9IIivS3Ut+NDwn3hPo8zZCNcgtm6ttH2yeRrWs+TQtyeVi
-         28FMmk7Q+utLh95q+5Lm3iZ2rxJAmWwRPjpvfloNT0Ul5l+t+2/zrDT8wG499G16QkNw
-         I6diOOdmZYGZjdh1DsDCxgmYZ6GFPctCSyXL83U9YBSR42Qe9td1PuEzSHquAKQjV6qo
-         yCubv3PG51q9gJR4ohSJdqIbGIOCfoV5UJplTMzLzirHTGmMdLAikspu1Zg1hqDppefX
-         OncA==
-X-Gm-Message-State: AOAM5305t2Bq/FDVRSLattsidJsPjKIgStv8gmiWzONhh6rJVzjxoI9V
-        HmgYxzLzH4o9ZZG7P6Sqzvl1kaKrV8MTmHK0ZJY=
-X-Google-Smtp-Source: ABdhPJy2k1qsenOpWYSTD92r+jTDynh5HVDLWCCESCjkL0O44siJno5Cosq9Ii+SuYqrp2lVdLdrDkzAjQkXjqYMwAA=
-X-Received: by 2002:a05:6830:13da:: with SMTP id e26mr431811otq.28.1601286846444;
- Mon, 28 Sep 2020 02:54:06 -0700 (PDT)
+        Mon, 28 Sep 2020 07:29:35 -0400
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 08SBTIZo006002;
+        Mon, 28 Sep 2020 20:29:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 08SBTIZo006002
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1601292558;
+        bh=dAHDBKnRo5H4VGCubh2JayTblFUcU7x9zWqqFA0TefA=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=2EtzaCpQrm1yeFzUFwHnLucZZxcz645G+8YEnqQefxrjPkswsiBZwGiJdLjpC7DXW
+         BU/GlUyc0zpFaQRKXKXd4cVkGpChF36vvwjMlGB4pWYlinLacBwvhJce5RJNI5EqFq
+         SDKKr/A56jAz47X7YCBKp35hMJ4h3ivsLokkgDGE7lfy2IlhoZ8EYYB4NfwuMrYE7s
+         XdrT0DRG2C1VM+vglc+L4blA45K6iAXjJNRcmDkbw/aFfxnc3OQ5dNpIjRIqIPudtB
+         djv6wjf7F1nMEvwZU5hbSRRzALRp8dMSIiAEkuSvFVcVibjJbEx1hCBlLCrxTtdgx2
+         zExuVYr/sccHw==
+X-Nifty-SrcIP: [209.85.216.48]
+Received: by mail-pj1-f48.google.com with SMTP id s14so2097185pju.1;
+        Mon, 28 Sep 2020 04:29:18 -0700 (PDT)
+X-Gm-Message-State: AOAM531TCrhi5dP06evEdwueDpRQtb3V/pKszeIXTOpxSsaXrqZhh4GN
+        EFh4qwPAMie+otk4jjNXqN9M/6pKvlurTv9rfJk=
+X-Google-Smtp-Source: ABdhPJzWqDhdIsNJPkJ596mhZG9tc0uVp7T+xNkSujcLvuLMJSbxUCJxqXGZMVSxYGaXZ4YTc0g3cZsfccjUKkTS1b4=
+X-Received: by 2002:a17:90b:1211:: with SMTP id gl17mr947942pjb.87.1601292557471;
+ Mon, 28 Sep 2020 04:29:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200928085505.GA22244@shbuild999.sh.intel.com>
-In-Reply-To: <20200928085505.GA22244@shbuild999.sh.intel.com>
-Reply-To: sedat.dilek@gmail.com
-From:   Sedat Dilek <sedat.dilek@gmail.com>
-Date:   Mon, 28 Sep 2020 11:53:54 +0200
-Message-ID: <CA+icZUWvVB_D2USqUivohvywjtxe5jfW1phcA84Rfz9Cwy9jfQ@mail.gmail.com>
-Subject: Re: PROBLEM: zstd bzImage decompression fails for some x86_32 config
- on 5.9-rc1
-To:     Feng Tang <feng.tang@intel.com>
-Cc:     Nick Terrell <terrelln@fb.com>, linux-kernel@vger.kernel.org,
-        x86@kernel.org, Ingo Molnar <mingo@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kbuild@vger.kernel.org, rong.a.chen@intel.com,
-        philip.li@intel.com
+References: <20200928064244.29206-1-lukas.bulwahn@gmail.com>
+In-Reply-To: <20200928064244.29206-1-lukas.bulwahn@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 28 Sep 2020 20:28:40 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com>
+Message-ID: <CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com>
+Subject: Re: [PATCH RFC] kbuild: doc: describe proper script invocation
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
+        linux-kernel-mentees@lists.linuxfoundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 10:55 AM Feng Tang <feng.tang@intel.com> wrote:
+On Mon, Sep 28, 2020 at 3:42 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
 >
-> Hi Nick,
+> During an investigation to fix up the execute bits of scripts in the kernel
+> repository, Andrew Morton and Kees Cook pointed out that the execute bit
+> should not matter, and that build scripts cannot rely on that. Kees could
+> not point to any documentation, though.
 >
-> 0day has found some kernel decomprssion failure case since 5.9-rc1 (X86_32
-> build), and it could be related with ZSTD code, though initially we bisected
-> to some other commits.
+> Provide some basic documentation how the build shall invoke scripts, such
+> that the execute bits do not matter.
 >
-> The error messages are:
+> This serves as reference for further clean-up patches in the future.
+
+
+For scripts run by users directly, the executable bit
+should be set. (e.g. scripts/checkpatch.pl)
+
+
+For scripts invoked from the build system, the
+convention is to use interpreters such as
+$(CONFIG_SHELL), and we do not need to set
+the executable bit. But, we often set the executable bit
+for this case, too.
+
+
+This convention started from the following commit, which
+was made by the previous kbuild maintainer.
+
+
+
+commit 06ed5c2bfacaf67039e87a213fa5d1cdde34246a
+Author: Michal Marek <mmarek@suse.cz>
+Date:   Wed Aug 20 16:02:59 2014 +0200
+
+    kbuild: Make scripts executable
+
+    The Makefiles call the respective interpreter explicitly, but this makes
+    it easier to use the scripts manually.
+
+    Signed-off-by: Michal Marek <mmarek@suse.cz>
+
+
+
+
+
+
+
+
+> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
 >
->         early console in setup code
->         Wrong EFI loader signature.
->         early console in extract_kernel
->         input_data: 0x046f50b4
->         input_len: 0x01ebbeb6
->         output: 0x01000000
->         output_len: 0x04fc535c
->         kernel_total_size: 0x055f5000
->         needed_size: 0x055f5000
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+> applies cleanly on next-20200925 and v5.9-rc7
 >
->         Decompressing Linux...
+> Kees, Andrew, please ack.
 >
->         ZSTD-compressed data is corrupt
+> Masahiro-san, please pick this small documentation update into your kbuild tree.
 >
-> This could be reproduced by compiling the kernel with attached config,
-> and use QEMU to boot it.
+> Ujjwal Kumar, a potential future mentee, will follow up with further fixes to
+> the build scripts.
 >
-> We suspect it could be related with the kernel size, as we only see
-> it on big kernel, and some more info are:
+>  Documentation/kbuild/makefiles.rst | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 >
-> * If we remove a lot of kernel config to build a much smaller kernel,
->   it will boot fine
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 58d513a0fa95..9d0d198adb7e 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -21,6 +21,7 @@ This document describes the Linux kernel Makefiles.
+>            --- 3.10 Special Rules
+>            --- 3.11 $(CC) support functions
+>            --- 3.12 $(LD) support functions
+> +          --- 3.13 Script Invocation
 >
-> * If we change the zstd algorithm from zstd22 to zstd19, the kernel will
->   boot fine with below patch
+>         === 4 Host Program support
+>            --- 4.1 Simple Host Program
+> @@ -605,6 +606,23 @@ more details, with real examples.
+>                 #Makefile
+>                 LDFLAGS_vmlinux += $(call ld-option, -X)
+>
+> +3.13 Script invocation
+> +----------------------
+> +
+> +       Make rules may invoke scripts to build the kernel. The rules shall
+> +       always provide the appropriate interpreter to execute the script. They
+> +       shall not rely on the execute bits being set, and shall not invoke the
+> +       script directly.
+> +
+> +       Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
+> +       $(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
+> +       scripts.
+> +
+> +       Example::
+> +
+> +               #Makefile
+> +               cmd_depmod = $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DEPMOD) \
+> +                            $(KERNELRELEASE)
+>
+>  4 Host Program support
+>  ======================
+> --
+> 2.17.1
 >
 
-Hi,
 
-Recently, Debian has updated initramfs-tools/initramfs-tools-core packages
-with ZSTD support:
-
-[ /usr/sbin/mkinitramfs ]
-
-case "${compress}" in
-gzip)   # If we're doing a reproducible build, use gzip -n
-       if [ -n "${SOURCE_DATE_EPOCH}" ]; then
-               compress="gzip -n"
-       # Otherwise, substitute pigz if it's available
-       elif command -v pigz >/dev/null; then
-               compress=pigz
-       fi
-       ;;
-lz4)    compress="lz4 -9 -l" ;;
-zstd)   compress="zstd -q -19 -T0" ;;
-xz)     compress="xz --check=crc32"
-       # If we're not doing a reproducible build, enable multithreading
-       test -z "${SOURCE_DATE_EPOCH}" && compress="$compress --threads=0"
-       ;;
-bzip2|lzma|lzop)
-       # no parameters needed
-       ;;
-*)      echo "W: Unknown compression command ${compress}" >&2 ;;
-esac
-
-As you can see it uses compression-level 19 for ZSTD.
-Maybe it is good to change from 22 to 19 in the Linux-kernel sources?
-
-Thanks.
-
-Regards,
-- Sedat -
-
->         diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
->         index 3962f59..8fe71ba 100644
->         --- a/arch/x86/boot/compressed/Makefile
->         +++ b/arch/x86/boot/compressed/Makefile
->         @@ -147,7 +147,7 @@ $(obj)/vmlinux.bin.lzo: $(vmlinux.bin.all-y) FORCE
->          $(obj)/vmlinux.bin.zst: $(vmlinux.bin.all-y) FORCE
->         -       $(call if_changed,zstd22)
->         +       $(call if_changed,zstd)
->
->
-> Please let me know if you need more info, and sorry for the late report
-> as we just tracked down to this point.
->
-> Thanks,
-> Feng
->
->
->
+-- 
+Best Regards
+Masahiro Yamada
