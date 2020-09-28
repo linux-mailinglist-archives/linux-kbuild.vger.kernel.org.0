@@ -2,46 +2,46 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07D2927B090
-	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Sep 2020 17:12:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91AF927B0D3
+	for <lists+linux-kbuild@lfdr.de>; Mon, 28 Sep 2020 17:22:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgI1PMh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 28 Sep 2020 11:12:37 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:51373 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726567AbgI1PMh (ORCPT
+        id S1726597AbgI1PWh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 28 Sep 2020 11:22:37 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:30108 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726424AbgI1PWh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 28 Sep 2020 11:12:37 -0400
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 08SFCCel008406;
-        Tue, 29 Sep 2020 00:12:13 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 08SFCCel008406
+        Mon, 28 Sep 2020 11:22:37 -0400
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 08SFMKHH032036;
+        Tue, 29 Sep 2020 00:22:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 08SFMKHH032036
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1601305933;
-        bh=zxHJNkozk3fuYzsAQpLs+DasX+zD+m0TZGMot9gOZ8g=;
+        s=dec2015msa; t=1601306541;
+        bh=l2RYtNJEGv6odDQyTschY6TmnspnCJfqY49homszC6U=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QZRJzpGVk8TpYLdJ5TnywGum9e2totGLKKiOZROdNAIGL0ZtzA2QmItZAl+0+eujw
-         F2jsDBARR57xc7qXr1Kiv4dnYsLh1572tzVJ3DCa5XrXcirA+EaqahjsH+vn4jSm0B
-         tnQIgkux0DSKRuxbNVvRWTAc7YuevVC/ltmHpmTK3AJLuoxSyQ1wz078isizQWj//W
-         buf6NoY5PNcs5qqVRFH2q2HpES1HdhVp1CPJF1zQ7gxkbBcKnf/z6iX5fw+C0KGzV+
-         imCZdkDHni4X2YctF1eom7itqUQegy4W49fCo4WARtOz4CNfpBcTr2ha/80LcEtER7
-         ZVd8YtZj9J1Zg==
-X-Nifty-SrcIP: [209.85.216.53]
-Received: by mail-pj1-f53.google.com with SMTP id a9so859283pjg.1;
-        Mon, 28 Sep 2020 08:12:13 -0700 (PDT)
-X-Gm-Message-State: AOAM531kitkKOkH9oSIKFv9fwbUN63p9/NJXZj5PvOhQxJrd9MSfcGAe
-        CPvFe1Tzum8IGevqc8tl7HfRz/ceOZwvi8+GMTs=
-X-Google-Smtp-Source: ABdhPJx737VzF6/TWm26shaqcfzNGOENA4JzXvyADdXRU/peg+3bKDZO7DLY5wgdFEg0gmJ1JdRtT6Hy1an22QkDBYw=
-X-Received: by 2002:a17:90b:360a:: with SMTP id ml10mr1681057pjb.198.1601305932190;
- Mon, 28 Sep 2020 08:12:12 -0700 (PDT)
+        b=FE86Z3Q6tn4sNEGNYqULSJ656AWRuDtfECMj2QX8cqpbyxhwDD7HWHJhivtsPZlBb
+         FRZK7ZovlarS6K88e/VmxmXGSsHOzgS/teFL8Scwwm5sLBZUyEQ+gq2eX8HSE7p+qK
+         6P04yD/eUziW0HjAAQtbLuXfp5ytUN4iis8RObYk1ldSj0rjKF6J59oBgWC+XGkChQ
+         mn0bhLMtrF+oV+fdDfuf7nvxcQzsp5ILfBpEcCIZDhSfFU87suNU/LRKVrvQB15G+w
+         FzNKlPUM+E6TqbqIXPmjFGWQhc0T1FI9CY5uHkppcnFC0O6FSVJrx8qWMjgglFabAR
+         5yuh164HpuD0g==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id w7so1329593pfi.4;
+        Mon, 28 Sep 2020 08:22:20 -0700 (PDT)
+X-Gm-Message-State: AOAM530ZX9kYgjKwcwCTjNwI9N6Ho/aNUHgxRPtz9N78mAnDqFBHVELt
+        DoBvwZhUBouVm0skfxJ2c5pxnSk+VRi4Q0XiFXc=
+X-Google-Smtp-Source: ABdhPJytSLFKpQUh2H9nSbUjJcbjkKrXHlE6Muo8WuwZ+6anEXAl1LeE6iw+6SKQaqCsHHLxJhKKXkky/8yCQKCo/Kk=
+X-Received: by 2002:a63:d242:: with SMTP id t2mr1590083pgi.47.1601306539947;
+ Mon, 28 Sep 2020 08:22:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200920222556.10002-1-guillem@hadrons.org> <20200920222556.10002-4-guillem@hadrons.org>
-In-Reply-To: <20200920222556.10002-4-guillem@hadrons.org>
+References: <20200920222556.10002-1-guillem@hadrons.org>
+In-Reply-To: <20200920222556.10002-1-guillem@hadrons.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 29 Sep 2020 00:11:34 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQqHR5T0D+ThsDJ-QpBTzxt9PDWn1M8G8uurv5LC_SKSg@mail.gmail.com>
-Message-ID: <CAK7LNAQqHR5T0D+ThsDJ-QpBTzxt9PDWn1M8G8uurv5LC_SKSg@mail.gmail.com>
-Subject: Re: [PATCH 3/7] builddeb: Switch to a machine readable copyright file
+Date:   Tue, 29 Sep 2020 00:21:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT_itc2RWzr5b3sSnYmJ9BhcqGyVDYUcF=K9S8RyM=GMA@mail.gmail.com>
+Message-ID: <CAK7LNAT_itc2RWzr5b3sSnYmJ9BhcqGyVDYUcF=K9S8RyM=GMA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] builddeb: Improve Debian packaging
 To:     Guillem Jover <guillem@hadrons.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -52,116 +52,53 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-(+CC ben)
+(+CC Ben)
 
 On Mon, Sep 21, 2020 at 7:48 AM Guillem Jover <guillem@hadrons.org> wrote:
 >
-> This format makes it possible to automatically process the licenses
-> within a system for compatibility or compliance checks, for example.
-> Update the copyright years.
-
-
-Not all kernel developers are familiar with the
-background info.
-I think the commit description can describe a little more about
-the rationale.
-
-
-For example,
-
-This was accepted as DEP-5
-(https://dep-team.pages.debian.net/deps/dep5/)
-
-and the debian kernel package switched to
-the machine-readable debian/copyright by [1].
-
-[1]: https://salsa.debian.org/kernel-team/linux/-/commit/d4f730e3ba9c76aff4c522b1a87aeb617f2f655e
-
-
-
-
-
-
-
-> Signed-off-by: Guillem Jover <guillem@hadrons.org>
-> ---
->  scripts/package/mkdebian | 36 +++++++++++++++++++++++-------------
->  1 file changed, 23 insertions(+), 13 deletions(-)
+> Hi!
 >
-> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
-> index cd2c8c39aa54..69f2a6d7f009 100755
-> --- a/scripts/package/mkdebian
-> +++ b/scripts/package/mkdebian
-> @@ -157,19 +157,29 @@ EOF
+> This series fixes some packaging issues and brings it closer to
+> current standards.
+
+
+I am not tracking the latest development in the Debian project.
+
+Could you give me a little more context about
+what you call "current standards" ?
+
+(It is defined in Debian Policy, or accepted as DEP-*, etc.)
+
+For example, as for "3/7: machine-readable debian/copyright",
+it is DEP-5, and can be mentioned in the commit log
+for clarification.
+
+What is the rationale for "2/7: debian/upstream/metadata" ?
+
+
+Ben:
+If possible, could you take a look at this series?
+
+
+
+
+
+> Thanks,
+> Guillem
 >
->  # Generate copyright file
->  cat <<EOF > debian/copyright
-> -This is a packacked upstream version of the Linux kernel.
-> -
-> -The sources may be found at most Linux archive sites, including:
-> -https://www.kernel.org/pub/linux/kernel
-> -
-> -Copyright: 1991 - 2018 Linus Torvalds and others.
-> -
-> -    This program is free software; you can redistribute it and/or modify
-> -    it under the terms of the GNU General Public License as published by
-> -    the Free Software Foundation; version 2 dated June, 1991.
-> -
-> -On Debian GNU/Linux systems, the complete text of the GNU General Public
-> -License version 2 can be found in \`/usr/share/common-licenses/GPL-2'.
-> +Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-> +Source: https://www.kernel.org/pub/linux/kernel
-> +
-> +Files: *
-> +Copyright:
-> + 1991-2020 Linus Torvalds and others.
-> +License: GPL-2
-
-This specifies GPL-2 for 'Files: *'.
-
-This is wrong because not all files in the kernel are GPL-2.
-
-
-
-The debian-kernel maintains the large list of
-exceptional files:
-
-https://salsa.debian.org/kernel-team/linux/-/blob/debian/5.8.7-1/debian/copyright
-
-But, I doubt it is maintainable.
-
-
-I wonder if it is a good thing to convert it
-to machine-interpretable, but apparently wrong information.
-
-
-I am reluctant to maintain the huge debian/copyright...
-
-
-Ben,
-Do you have any idea how to handle this?
-
-
-
-
-> +License: GPL-2
-> + This program is free software; you can redistribute it and/or modify
-> + it under the terms of the GNU General Public License as published by
-> + the Free Software Foundation; version 2 dated June, 1991.
-> + .
-> + This program is distributed in the hope that it will be useful,
-> + but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + GNU General Public License for more details.
-> + .
-> + You should have received a copy of the GNU General Public License
-> + along with this program.  If not, see <https://www.gnu.org/licenses/>.
-> +Comment:
-> + On Debian systems, the complete text of the GNU General Public License
-> + version 2 can be found in '/usr/share/common-licenses/GPL-2'.
->  EOF
+> Guillem Jover (7):
+>   builddeb: Pass -n to gzip for reproducible packages
+>   builddeb: Move upstream repository URL into the upstream metadata file
+>   builddeb: Switch to a machine readable copyright file
+>   builddeb: Add support for all required debian/rules targets
+>   builddeb: Enable rootless builds
+>   builddeb: Map rc versions to use an earlier than version scheme
+>   builddeb: Try to get the user full name from the GECOS field
 >
->  # Generate a control file
+>  scripts/package/builddeb | 11 ++++++--
+>  scripts/package/mkdebian | 59 +++++++++++++++++++++++++++-------------
+>  2 files changed, 48 insertions(+), 22 deletions(-)
+>
 > --
 > 2.28.0.297.g1956fa8f8d
 >
@@ -169,4 +106,5 @@ Do you have any idea how to handle this?
 
 --
 Best Regards
+
 Masahiro Yamada
