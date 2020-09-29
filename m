@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D66A27DAA7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80B8F27DAD4
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729075AbgI2VrY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Sep 2020 17:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48412 "EHLO
+        id S1729322AbgI2Vrz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Sep 2020 17:47:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728988AbgI2VrV (ORCPT
+        with ESMTP id S1729051AbgI2VrW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Sep 2020 17:47:21 -0400
-Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23916C0613D9
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:17 -0700 (PDT)
-Received: by mail-pf1-x449.google.com with SMTP id s204so4838334pfs.18
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:17 -0700 (PDT)
+        Tue, 29 Sep 2020 17:47:22 -0400
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D40BAC0613DD
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:19 -0700 (PDT)
+Received: by mail-qk1-x74a.google.com with SMTP id w126so3692110qka.5
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=5ADrbIYYdkQ2THetWVdXFRMGM/F7dNAyZUNR6Ura+J8=;
-        b=MekhgGdQDfVYCDwXqPqLOmRuR7bDrOrx74bKs36BEL9DMLEqc3GHdIW78xNvVW+CXD
-         OBR1TA7PPlKp15z5Yvt6TGU00YrPE6jEVmJU2/BObk6f58edi9mDYneayNLG3BF+85eI
-         JjVCIO2RNOdO/LFMDVGntOPmSZ80VCfWnW6rDxt2eRzeZ6jXgiYTuMIacuHOI7Agk84Q
-         /EqGu8oBcu0EPNuoFAiQuSJKYV61YqkH23yEvB8gadt3EGDYNx7DqA1r7P5qUmqJEEld
-         mLCeOrbo1nSD3wVfre9ST4vF2Q7dHDbNvEpQKR0fdUlOz46fHVxsu7B8etms0FiNNoqi
-         jwIA==
+        bh=xzyA8l2K/c66vMnXDNauqm3QGp8JWTgD7BK0hUJgM/s=;
+        b=kV2nt2jNowOc+Ncq4P9QWaXm3ia/nj07aeJPueQSzED868lUhqtxFZ1hxqu55/8Wgf
+         apBdj7UdUn9KyeqQFt9SIgKMFl7RJ7ZNx0lpxffVGgoMd7KSs5/u97r9v3LLl7dXzTJj
+         qFNfhSOXW8+KTg/HkLteW68eROKzxZ2NbFFLg+uFERNihuE2IiypRn2TJoufi+atjwzh
+         DPCoIjZFtVOXQiqUTKol6emF8Gazy2GLiAQ1JZpbfGK4GjJmJOPeeUamEFuSC/cH7qLz
+         WzIJBTOKAqoHs+p3l6ZXSvilX+hfClmgUYx0yOT1y4n4DFtsWFxep9nI9QJN944QLvGG
+         JF2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=5ADrbIYYdkQ2THetWVdXFRMGM/F7dNAyZUNR6Ura+J8=;
-        b=uQrLeOJjl0Kpb/6K7MQez4t/eD04oV9INpnyqf6RTmb3ndam/HD5AIltILMsUvCM42
-         QERQHXrCz9r0SjZYK4ZCYgzaeEpOs0ZTeuEcc8RpS7jKdCB7PxlM+n/gPqslevvgOyy1
-         3KgCPdjyxdmiTNvl2FJ9rWsuwj91pCoU/ZFcpt6IXWG5DlaTb8oKJ5fxoDB5UDUa1HO/
-         reGZ4RMQxm0KlFblIuTFhPbhvRmhlcJqxc+v2ixw27+UpNCOK3sWbdteI6wpzF11cwQc
-         ddE6a88LKAW6Ay+g/Nx/inlELkhj+BG2K131IF4RQlj72tfHRU1jWn9IfQ+ppC/92xTQ
-         zUHQ==
-X-Gm-Message-State: AOAM531TJZGUiuyOCD4gMPYl4JwJPE6ObH+eKpUCfmbZb8kV2TyO62Af
-        nZgUaH/O3cJ2pfJP5ger2Uj9Mf4qmb4kbN65+fI=
-X-Google-Smtp-Source: ABdhPJyEka8NWg0904uGqV+IPTNA4hO1MufGCj8cRerlSixJNEwhSMmuf5P+grySLqv5SKpAniKp5seVaNsVmut9k5g=
+        bh=xzyA8l2K/c66vMnXDNauqm3QGp8JWTgD7BK0hUJgM/s=;
+        b=JH8vyOvfrCsXCdCXt5cnhzjFDi67KHKk3HJIY7484dtxHSxv3Vr3tY3T71pEEj0gIQ
+         WSvPvesE9Nm/ZdhpkcBxb+HEuDa1oDeLE/J71C35xLK+T9A1qclcZMu1zQ+SSIiq4Fnp
+         xCatZJJ4DF8dqZMIpYhHGAMoBM1J8Mwbddz5USWxfIGlZ/1Jme1BZ8br8Ft3fT0o6tVJ
+         1aCXdsZAyDlRyjB3zU0YJDWi0t1myxNOr4llfwMVW6cZUwvtXs4oQvExbtPVlu0Ex65p
+         M+3+b10AhkaFqKSKypCOYBIspydWGVWZ/hB3wzjMP3eKfmQ/QLiBqLwv1mtwvTsuPf3i
+         3vKQ==
+X-Gm-Message-State: AOAM530BF1axYchOyhuLZ/fMF7qkjroVY0lc9TySlZqnHx4yK1XuLOxZ
+        bEVrMzlO5CGKbWwPyFg9kx0JVHPw9ov0o41XfkQ=
+X-Google-Smtp-Source: ABdhPJyXK799x+Xn6A3s4NvLxQ/5Ilhmpb7xXOTaOyaTvFdr+FkIx1Uhaba+W/mHJADBixvVTgJ/wlqmfy41CNmwpIc=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a63:ff63:: with SMTP id
- s35mr4883241pgk.14.1601416036594; Tue, 29 Sep 2020 14:47:16 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 14:46:21 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a05:6214:1873:: with SMTP id
+ eh19mr6737362qvb.16.1601416038928; Tue, 29 Sep 2020 14:47:18 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 14:46:22 -0700
 In-Reply-To: <20200929214631.3516445-1-samitolvanen@google.com>
-Message-Id: <20200929214631.3516445-20-samitolvanen@google.com>
+Message-Id: <20200929214631.3516445-21-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200929214631.3516445-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 19/29] PCI: Fix PREL32 relocations for LTO
+Subject: [PATCH v4 20/29] modpost: lto: strip .lto from module names
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
@@ -73,58 +73,115 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-With Clang's Link Time Optimization (LTO), the compiler can rename
-static functions to avoid global naming collisions. As PCI fixup
-functions are typically static, renaming can break references
-to them in inline assembly. This change adds a global stub to
-DECLARE_PCI_FIXUP_SECTION to fix the issue when PREL32 relocations
-are used.
+With LTO, everything is compiled into LLVM bitcode, so we have to link
+each module into native code before modpost. Kbuild uses the .lto.o
+suffix for these files, which also ends up in module information. This
+change strips the unnecessary .lto suffix from the module name.
 
+Suggested-by: Bill Wendling <morbo@google.com>
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- include/linux/pci.h | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+ scripts/mod/modpost.c    | 16 +++++++---------
+ scripts/mod/modpost.h    |  9 +++++++++
+ scripts/mod/sumversion.c |  6 +++++-
+ 3 files changed, 21 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 835530605c0d..4e64421981c7 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1909,19 +1909,28 @@ enum pci_fixup_pass {
- };
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 69341b36f271..5a329df55cc3 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -17,7 +17,6 @@
+ #include <ctype.h>
+ #include <string.h>
+ #include <limits.h>
+-#include <stdbool.h>
+ #include <errno.h>
+ #include "modpost.h"
+ #include "../../include/linux/license.h"
+@@ -80,14 +79,6 @@ modpost_log(enum loglevel loglevel, const char *fmt, ...)
+ 		exit(1);
+ }
  
- #ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
--#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
--				    class_shift, hook)			\
--	__ADDRESSABLE(hook)						\
-+#define ___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-+				    class_shift, hook, stub)		\
-+	void stub(struct pci_dev *dev);					\
-+	void stub(struct pci_dev *dev)					\
-+	{ 								\
-+		hook(dev); 						\
-+	}								\
- 	asm(".section "	#sec ", \"a\"				\n"	\
- 	    ".balign	16					\n"	\
- 	    ".short "	#vendor ", " #device "			\n"	\
- 	    ".long "	#class ", " #class_shift "		\n"	\
--	    ".long "	#hook " - .				\n"	\
-+	    ".long "	#stub " - .				\n"	\
- 	    ".previous						\n");
+-static inline bool strends(const char *str, const char *postfix)
+-{
+-	if (strlen(str) < strlen(postfix))
+-		return false;
+-
+-	return strcmp(str + strlen(str) - strlen(postfix), postfix) == 0;
+-}
+-
+ void *do_nofail(void *ptr, const char *expr)
+ {
+ 	if (!ptr)
+@@ -1984,6 +1975,10 @@ static char *remove_dot(char *s)
+ 		size_t m = strspn(s + n + 1, "0123456789");
+ 		if (m && (s[n + m] == '.' || s[n + m] == 0))
+ 			s[n] = 0;
 +
-+#define __DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-+				  class_shift, hook, stub)		\
-+	___DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
-+				  class_shift, hook, stub)
- #define DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
- 				  class_shift, hook)			\
- 	__DECLARE_PCI_FIXUP_SECTION(sec, name, vendor, device, class,	\
--				  class_shift, hook)
-+				  class_shift, hook, __UNIQUE_ID(hook))
- #else
- /* Anonymous variables would be nice... */
- #define DECLARE_PCI_FIXUP_SECTION(section, name, vendor, device, class,	\
++		/* strip trailing .lto */
++		if (strends(s, ".lto"))
++			s[strlen(s) - 4] = '\0';
+ 	}
+ 	return s;
+ }
+@@ -2007,6 +2002,9 @@ static void read_symbols(const char *modname)
+ 		/* strip trailing .o */
+ 		tmp = NOFAIL(strdup(modname));
+ 		tmp[strlen(tmp) - 2] = '\0';
++		/* strip trailing .lto */
++		if (strends(tmp, ".lto"))
++			tmp[strlen(tmp) - 4] = '\0';
+ 		mod = new_module(tmp);
+ 		free(tmp);
+ 	}
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 3aa052722233..fab30d201f9e 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -2,6 +2,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stdarg.h>
++#include <stdbool.h>
+ #include <string.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+@@ -180,6 +181,14 @@ static inline unsigned int get_secindex(const struct elf_info *info,
+ 	return info->symtab_shndx_start[sym - info->symtab_start];
+ }
+ 
++static inline bool strends(const char *str, const char *postfix)
++{
++	if (strlen(str) < strlen(postfix))
++		return false;
++
++	return strcmp(str + strlen(str) - strlen(postfix), postfix) == 0;
++}
++
+ /* file2alias.c */
+ extern unsigned int cross_build;
+ void handle_moddevtable(struct module *mod, struct elf_info *info,
+diff --git a/scripts/mod/sumversion.c b/scripts/mod/sumversion.c
+index d587f40f1117..760e6baa7eda 100644
+--- a/scripts/mod/sumversion.c
++++ b/scripts/mod/sumversion.c
+@@ -391,10 +391,14 @@ void get_src_version(const char *modname, char sum[], unsigned sumlen)
+ 	struct md4_ctx md;
+ 	char *fname;
+ 	char filelist[PATH_MAX + 1];
++	int postfix_len = 1;
++
++	if (strends(modname, ".lto.o"))
++		postfix_len = 5;
+ 
+ 	/* objects for a module are listed in the first line of *.mod file. */
+ 	snprintf(filelist, sizeof(filelist), "%.*smod",
+-		 (int)strlen(modname) - 1, modname);
++		 (int)strlen(modname) - postfix_len, modname);
+ 
+ 	buf = read_text_file(filelist);
+ 
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
