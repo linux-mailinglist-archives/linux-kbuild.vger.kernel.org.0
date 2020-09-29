@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E77B27DAF7
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31F1C27DB09
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:49:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729225AbgI2Vsi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Sep 2020 17:48:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48410 "EHLO
+        id S1729214AbgI2VtE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Sep 2020 17:49:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729237AbgI2Vrq (ORCPT
+        with ESMTP id S1729209AbgI2Vrp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Sep 2020 17:47:46 -0400
+        Tue, 29 Sep 2020 17:47:45 -0400
 Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92902C0613E5
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:31 -0700 (PDT)
-Received: by mail-qt1-x84a.google.com with SMTP id f5so4064546qtk.11
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA701C061787
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:33 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id w92so4074550qte.19
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=bLX+1fjl9Bbya2A+atnzXnNoTgL1KkV514BpMbJv1Zc=;
-        b=dHnRNjTAqW8lTXo9nEiIoFV8O295lbJjdVXsY2+bhFdy7wpFakrnWQIyA2hWQKJ3M4
-         qosF/0hGR2ZjIUgh4/EdiLJbYrVxeS67XkRnjNPlnLbVTy+d8F6wxkmug8s6v+ICxYB0
-         8cZhAa2wGYywn4ncJiN1o05hfIQQIu29UE1DPhT3T+xB0nlx2bsXOREKfZjpz9tsStXA
-         TKUHPsS2S0/SL0tZVBJnBcm+28ZXPLK91wFqvg5Vq41bts7sxLDRqP6y8jHc7nr8ZF8Z
-         YHZxAEAYGJfpUEU+55I610Jp2K5acEaPPIByvwA2/pL5hkU4Zb9dg+0o8WGjFm54hqYH
-         HEGA==
+        bh=HR6xYTbNbcDM2Zx8OyOOjD6y5MQ06zsj0pUhq+j+6f0=;
+        b=mjtEviXmAKLxRM/LKJDKCHLIap39YYCJi8bXUSknQxexGmScOixPfgLk2saryOKVhr
+         MDXdwtc03Qsk8BhzaMB6wWLfJxFsJFr3vbeje5KUt1CCBDcvypxfH4Fd/DWdOskLuiWX
+         NuoS4Bfi9pPbelk7+Wps01W1gREOYAgy0hs0foMuoNPzPZHoq/3Nbj/lsE5jTNdKMozj
+         B1pDJbVp/H5WbOFBXWVr5QnvhRybtlvviWImhHwfWGzZfBrzqfvE+v/WN27Qnhw99flS
+         d+zHsrVrZeZ906dvjvCq1dGlmBlNMTipr0bhZn+88+kegFwV/4iyBn9hGct0i3bRdod1
+         YlfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=bLX+1fjl9Bbya2A+atnzXnNoTgL1KkV514BpMbJv1Zc=;
-        b=RL5a1YwTiaDQH1M1F3fgXeK5RFyvZfuCVcycexlND5aClcWgDgsoci3oKOPJOcR2BE
-         PwdWAD2UpjwWKmLbH2j71ViRTCgmk+PIE7WnNfBm5seqtyd/LTsK30VsT4s6yqEZ0M1a
-         aEssg52Mse1yjww2cbCFpalFPWD8HOytWIUUMle0NBfq5ppHGCLutRJDKB65S5ZaImVw
-         hcx7V8AKSdkh6Jv5LONHFWFnIVEUh0vYWg3DAJMApH1MfQa17GZHyzR60brG14giT+rc
-         v82SVSyKubYzOz7YHEa6OwZ0IE89qpSW//WKeFujCp5rLop4msgv01O5iPZKShXX6QFg
-         9WIw==
-X-Gm-Message-State: AOAM530w3jIqdR8hBf+se3JzdimbNJn8Wbtt4DJhi8gnawQCK4anA0LY
-        syzvx9XwAsOXtc5l8Y83pXOL06wN++qqcwdUWQ0=
-X-Google-Smtp-Source: ABdhPJzqDAQNJ4yOOPQKWE0kEqpwkERe1XdkG9z06KHZ8iQel5gcZqcSfblI2RjnM+ksRD+B562jIJhEv9qWCoeYvkk=
+        bh=HR6xYTbNbcDM2Zx8OyOOjD6y5MQ06zsj0pUhq+j+6f0=;
+        b=Pd5zCvzV90odI7lU5nucbVDcdkPflWXOqdD86HLnfJ9FOC10v8sZBn5p1V9ZlzfYnz
+         usWc/wyYYRFvp5GKqyfCbLyYTJEUJwCtg3Pce5JrWhUYsb0XTYZmBboJ6slwac+inC3K
+         2NrScMP9P4bjB59fSxpBfhM6aBAP8FC+R1nKC2k2P3KsYGa/g9MGNFriMGY2jMPXyd3P
+         rJn2K75Rdo05X41rt/IMDt827tRMPSf/inWqRfcjw+kk3818pQC5sPxQEJ8riEc6jdl/
+         9EDeI5ucg9kJnrt1mmyhuSgPNxRnoNPLEw8ZsjigJBATp98bt8dc63LLJCe0Q88C0GM1
+         XwxA==
+X-Gm-Message-State: AOAM531Sw7uz/aAASMS8xLm/reZtEia9NidB8J3rdKaUI9i0y7DZqo4w
+        qAyizBlpnDp7haZCUWiYYqOQisHjMyXoLY1t3Qc=
+X-Google-Smtp-Source: ABdhPJzU2WBEA+8eGCg04PobSkCT+PMZ1E++tYvTMvMYCJ02D4tu/Rlfu13A0+WZqSX+Koxe9SboRRHBjqEXIi3STU4=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a0c:e5cf:: with SMTP id
- u15mr6643416qvm.14.1601416050747; Tue, 29 Sep 2020 14:47:30 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 14:46:27 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a0c:d682:: with SMTP id
+ k2mr6249286qvi.27.1601416052963; Tue, 29 Sep 2020 14:47:32 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 14:46:28 -0700
 In-Reply-To: <20200929214631.3516445-1-samitolvanen@google.com>
-Message-Id: <20200929214631.3516445-26-samitolvanen@google.com>
+Message-Id: <20200929214631.3516445-27-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200929214631.3516445-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 25/29] KVM: arm64: disable LTO for the nVHE directory
+Subject: [PATCH v4 26/29] arm64: allow LTO_CLANG and THINLTO to be selected
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
@@ -73,32 +73,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-We use objcopy to manipulate ELF binaries for the nVHE code,
-which fails with LTO as the compiler produces LLVM bitcode
-instead. Disable LTO for this code to allow objcopy to be used.
+Allow CONFIG_LTO_CLANG and CONFIG_THINLTO to be enabled.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/arm64/kvm/hyp/nvhe/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
-index aef76487edc2..c903c8f31280 100644
---- a/arch/arm64/kvm/hyp/nvhe/Makefile
-+++ b/arch/arm64/kvm/hyp/nvhe/Makefile
-@@ -45,9 +45,9 @@ quiet_cmd_hypcopy = HYPCOPY $@
- 		   --rename-section=.text=.hyp.text			\
- 		   $< $@
- 
--# Remove ftrace and Shadow Call Stack CFLAGS.
-+# Remove ftrace, LTO, and Shadow Call Stack CFLAGS.
- # This is equivalent to the 'notrace' and '__noscs' annotations.
--KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
-+KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_LTO) $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
- 
- # KVM nVHE code is run at a different exception code with a different map, so
- # compiler instrumentation that inserts callbacks or checks into the code may
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index ad522b021f35..7016d193864f 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -72,6 +72,8 @@ config ARM64
+ 	select ARCH_USE_SYM_ANNOTATIONS
+ 	select ARCH_SUPPORTS_MEMORY_FAILURE
+ 	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
++	select ARCH_SUPPORTS_LTO_CLANG
++	select ARCH_SUPPORTS_THINLTO
+ 	select ARCH_SUPPORTS_ATOMIC_RMW
+ 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128 && (GCC_VERSION >= 50000 || CC_IS_CLANG)
+ 	select ARCH_SUPPORTS_NUMA_BALANCING
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
