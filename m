@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FA0627DADF
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 420EC27DADA
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:48:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729377AbgI2VsG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Sep 2020 17:48:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48196 "EHLO
+        id S1729042AbgI2VsA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Sep 2020 17:48:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728560AbgI2Vqu (ORCPT
+        with ESMTP id S1728649AbgI2Vqy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Sep 2020 17:46:50 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B07C061755
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:46:50 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id a2so3678405qkg.19
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:46:50 -0700 (PDT)
+        Tue, 29 Sep 2020 17:46:54 -0400
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCEC3C0613D4
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:46:52 -0700 (PDT)
+Received: by mail-qv1-xf49.google.com with SMTP id f4so3361820qvw.15
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=wzTjCzGg3xaEC7ll/kCd4uRGsOqMFFvk2QDCKEKZJPs=;
-        b=ZTQa+nx+ie2V6Hl+EgZ3b9a4nWf6aHDxI2ozXvg7twHaKP6+FN6wo15J3NYUHL6MZy
-         J4Dd+alK6yoV9vbFjsbkRKSroxIwAfTac5LcIIobI37oTx5CMMXDG5PaPNUMt11LwL8e
-         qaWpUR1BPcieUI39Ur38/bJEEGCMg2IEQV7e2ugbrGtg++DfsB4wweV1KXsP1t+8DXDm
-         JeGZ4Z7BrxXuG2djrCReKQukEvOz+cyKSm1LRUENFyizVwreuzCNtUFRYYSNx4ge/Lh7
-         V+phKEE5IsRMyJIFN5ljmvpZV5Qkvt76Ais9ZtPypytr0PvQL98a/0aQ5/yCoymbWkrC
-         MGDQ==
+        bh=Xjrukg6K3IydY/lqqi+bCZNdR5RjdEmABiI8yk+fZMI=;
+        b=HdK7XgY20csMFcb+NLyDCXa0Y0BGLZ848JpvtrKXuN4kP13qc7mB9gIo/tOvGsTK0n
+         Ji2dtRPOFfuxFcA+duNxDZiijoE33HNw7tWDF5E8m1wqENg9cj6ei3CjwJ0N3MORXBa0
+         OiIDsCN2lwWZN36P+HMA0/i6r+hGq8LSRXCmTEW0ezq9gHlvKKSRObpHJBOae/EdWdAU
+         32Gd6c/t2yV+iQQ9uWMBg3zEyEcOs6POlcO4VSL93GZziqn82PoJ2cs2fwnaH1D9AfNM
+         SAML6VP9UfLTVbfCFJsAI8Lgk3AeE4OjZhWgBqaEtQTo1lOZgisnM8dMNB6pz6Qg5Lay
+         cqDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=wzTjCzGg3xaEC7ll/kCd4uRGsOqMFFvk2QDCKEKZJPs=;
-        b=F9jQAqwTwNxESwKzXkG/fm9C263SOaZisqr/3p/Z9rmZ5hhivoyxF2D4kTbPvpl/wB
-         agsudjtqfRvI3gywiWXmSAs48pgQLAl+rWNFG6Bfvb48iHVK5yLOAuZ/FrPikUhEU5KV
-         lGmdYv8h68wvzmBhgDF6ER7a+8jlb4Qafpk1vup8t+95zQBJQcWAvyTqJ9ZiJwlEGbJz
-         D6ecwFCoItlRxh1kuYKg9wPAXGFiDIwNVl6BHOYhtP7g8gAVD1Y6Zj06ZHAGJQgQzKKK
-         stAmQO0QA/qKxegpqHYT4A4y4m92uJJxse2FgjKEqRGvafLFjKAiLM5WFyn5q27AF/Dg
-         6csA==
-X-Gm-Message-State: AOAM531i4ZX/RSsrGmLiHcbOK5xq51I3fmOGoc2Ir7Ot61+R97WPftQL
-        iYp2dd+UOjom8C0HH0bQzkoPOT/FM6ShkBJpZ7M=
-X-Google-Smtp-Source: ABdhPJz2ypRSC9mllfNnIhgyfpZXn6C3IOzuDT16CdCuKPyuF6U9OOcO8z3rZ0bOQ0QtPSPEFo5uPG0gQq+yj7Gtb6I=
+        bh=Xjrukg6K3IydY/lqqi+bCZNdR5RjdEmABiI8yk+fZMI=;
+        b=HCxtzaagzdjPUn8Ary7Ve6j6K+Gyj1UgiqUOcRzhiW3Uvz8O8yRh2nrp00uQsyFmXj
+         HHpQJWXSRjQhlH54lwVyia3OcBbgO8pHW2WkCJ8PaoVG+/RbSB74UmoUyn8RA7Wk1q2F
+         3PDx6oelUEcGq3A19Mi1HINCzt7qBtMr483GW4bgv+04Tf1TeYdPSS3HETLau5mtjtwl
+         iNzGQinaN8bYpKEE0WIK5HFlPzgl6juxF8/21DqSEqFa0aquMSpsBWYfd7mjvCAdvRJq
+         juHEH6YubiyUEjROq9HWCSYgpCvsL4z/DgTCdwRsjpZq963nzYrggk3gYtBvpkFYkH3U
+         npMw==
+X-Gm-Message-State: AOAM531zQGeurqtmnc136jzwkmzfDVhVExgyLeuKOGlzyCe0mu1MnNp7
+        IpYimq74Ne2lQ0DmeDLcH+J0N7Azaw4S6u8XeJU=
+X-Google-Smtp-Source: ABdhPJy7cJ63oyWVE3guhSQ8dpAugUL8BOvZOYiTdX/ZOOHGsEKlj0fM6UJAmLz8cRUfCBdDvDQP4efk1c6ZbLA+m7Q=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:ad4:58e3:: with SMTP id
- di3mr6759116qvb.54.1601416009709; Tue, 29 Sep 2020 14:46:49 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 14:46:10 -0700
+ (user=samitolvanen job=sendgmr) by 2002:ad4:42b3:: with SMTP id
+ e19mr6361028qvr.6.1601416011975; Tue, 29 Sep 2020 14:46:51 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 14:46:11 -0700
 In-Reply-To: <20200929214631.3516445-1-samitolvanen@google.com>
-Message-Id: <20200929214631.3516445-9-samitolvanen@google.com>
+Message-Id: <20200929214631.3516445-10-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200929214631.3516445-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 08/29] x86, build: use objtool mcount
+Subject: [PATCH v4 09/29] arm64: disable recordmcount with DYNAMIC_FTRACE_WITH_REGS
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
@@ -73,28 +73,27 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Select HAVE_OBJTOOL_MCOUNT if STACK_VALIDATION is selected to use
-objtool to generate __mcount_loc sections for dynamic ftrace with
-Clang and gcc <5 (later versions of gcc use -mrecord-mcount).
+Select FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY to disable
+recordmcount when DYNAMIC_FTRACE_WITH_REGS is selected.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/Kconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 7101ac64bb20..6de2e5c0bdba 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -163,6 +163,7 @@ config X86
- 	select HAVE_CMPXCHG_LOCAL
- 	select HAVE_CONTEXT_TRACKING		if X86_64
- 	select HAVE_C_RECORDMCOUNT
-+	select HAVE_OBJTOOL_MCOUNT		if STACK_VALIDATION
- 	select HAVE_DEBUG_KMEMLEAK
- 	select HAVE_DMA_CONTIGUOUS
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 6d232837cbee..ad522b021f35 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -155,6 +155,8 @@ config ARM64
  	select HAVE_DYNAMIC_FTRACE
+ 	select HAVE_DYNAMIC_FTRACE_WITH_REGS \
+ 		if $(cc-option,-fpatchable-function-entry=2)
++	select FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY \
++		if DYNAMIC_FTRACE_WITH_REGS
+ 	select HAVE_EFFICIENT_UNALIGNED_ACCESS
+ 	select HAVE_FAST_GUP
+ 	select HAVE_FTRACE_MCOUNT_RECORD
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
