@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31F1C27DB09
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B779027DAED
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729214AbgI2VtE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Sep 2020 17:49:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48420 "EHLO
+        id S1728943AbgI2Vsh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Sep 2020 17:48:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729209AbgI2Vrp (ORCPT
+        with ESMTP id S1729218AbgI2Vrp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Tue, 29 Sep 2020 17:47:45 -0400
-Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA701C061787
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:33 -0700 (PDT)
-Received: by mail-qt1-x84a.google.com with SMTP id w92so4074550qte.19
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:33 -0700 (PDT)
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B92BC0613A6
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:36 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id s9so108666qks.21
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=HR6xYTbNbcDM2Zx8OyOOjD6y5MQ06zsj0pUhq+j+6f0=;
-        b=mjtEviXmAKLxRM/LKJDKCHLIap39YYCJi8bXUSknQxexGmScOixPfgLk2saryOKVhr
-         MDXdwtc03Qsk8BhzaMB6wWLfJxFsJFr3vbeje5KUt1CCBDcvypxfH4Fd/DWdOskLuiWX
-         NuoS4Bfi9pPbelk7+Wps01W1gREOYAgy0hs0foMuoNPzPZHoq/3Nbj/lsE5jTNdKMozj
-         B1pDJbVp/H5WbOFBXWVr5QnvhRybtlvviWImhHwfWGzZfBrzqfvE+v/WN27Qnhw99flS
-         d+zHsrVrZeZ906dvjvCq1dGlmBlNMTipr0bhZn+88+kegFwV/4iyBn9hGct0i3bRdod1
-         YlfA==
+        bh=19TlqdLHcWDTmI9u6TYfXzttwjA+Dmg1Ug41aa4j6uk=;
+        b=Imh3zKnlf2nNedw1LEfjqkhMgHeK71AVCBTejoYYCUi6PprkQk88VjzniR9FHbE1XH
+         A/II2EqGYTLeEsZmDBTUvx/jf+f+d3tAzBZHwlmB+xrtw4+Z2cxN48VSSgTsz6Lj1ySD
+         au/YMsmvn17ksVH6myXy9K4BV+sk2zN+Jafs8YeXGbiW03h8j+LFgn5hDUVmYV3j8Dwy
+         l5E/DW5nnZBvg1KomyJxVSBEJYPTHNIcVL8vsj7kyNFLz2DfWMaRIUqUjSw2EGwIoKgP
+         4DyUsfcM0sMb+V2Mle0bHYnakGr+xwU5kaLeprG/fr2kotBwhV+W2FpWkSGvxSxGnZ4G
+         GCHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=HR6xYTbNbcDM2Zx8OyOOjD6y5MQ06zsj0pUhq+j+6f0=;
-        b=Pd5zCvzV90odI7lU5nucbVDcdkPflWXOqdD86HLnfJ9FOC10v8sZBn5p1V9ZlzfYnz
-         usWc/wyYYRFvp5GKqyfCbLyYTJEUJwCtg3Pce5JrWhUYsb0XTYZmBboJ6slwac+inC3K
-         2NrScMP9P4bjB59fSxpBfhM6aBAP8FC+R1nKC2k2P3KsYGa/g9MGNFriMGY2jMPXyd3P
-         rJn2K75Rdo05X41rt/IMDt827tRMPSf/inWqRfcjw+kk3818pQC5sPxQEJ8riEc6jdl/
-         9EDeI5ucg9kJnrt1mmyhuSgPNxRnoNPLEw8ZsjigJBATp98bt8dc63LLJCe0Q88C0GM1
-         XwxA==
-X-Gm-Message-State: AOAM531Sw7uz/aAASMS8xLm/reZtEia9NidB8J3rdKaUI9i0y7DZqo4w
-        qAyizBlpnDp7haZCUWiYYqOQisHjMyXoLY1t3Qc=
-X-Google-Smtp-Source: ABdhPJzU2WBEA+8eGCg04PobSkCT+PMZ1E++tYvTMvMYCJ02D4tu/Rlfu13A0+WZqSX+Koxe9SboRRHBjqEXIi3STU4=
+        bh=19TlqdLHcWDTmI9u6TYfXzttwjA+Dmg1Ug41aa4j6uk=;
+        b=Le4ZNcSJ+2GAa5DMvJBc67X518d1phH8fEPDb4gjaImBWvMwK45Ceo3mhAaNuQLCKA
+         NxO85f7qkIoxjQ6G3d3bdGbzC/rTRifNTBBbtkZlmvrlT46mufPBLF4nf/H883No7eLl
+         TpLhDotDtTcSspm12IuOgQNde3+GcghNFTgzViEnNM8xDZP7IfF0H9YDe+OnGkMlYNDq
+         g6+Cp1zIbynRlUAxK468Mg4zXJnvboZiJRazEvtxBltCrTkgli+s9+gSk9pHHayjFy53
+         dUCLxL8Mq71RwDqrBEXe7Gr6ipujITC+xk7v6gcipaIbU9znCFJ+zMG669aw94QVj78U
+         rzDg==
+X-Gm-Message-State: AOAM530saU888H87WdH+9k8JcYeSaAMOubJkV0FYeSl8tkH9aRnm3zdg
+        OWBJcg4NPgeekOgEN3JYtzRyBSjTzpFTYkdhbN4=
+X-Google-Smtp-Source: ABdhPJwlpWalcJXzE9B3fP2Zu3YiL4EE4FmSmcZUIR72EOxrhafPHlFtIMBSkfJpTgmFk8E2fcAes0b129xUXc5bjus=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a0c:d682:: with SMTP id
- k2mr6249286qvi.27.1601416052963; Tue, 29 Sep 2020 14:47:32 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 14:46:28 -0700
+ (user=samitolvanen job=sendgmr) by 2002:ad4:4594:: with SMTP id
+ x20mr6549973qvu.4.1601416055400; Tue, 29 Sep 2020 14:47:35 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 14:46:29 -0700
 In-Reply-To: <20200929214631.3516445-1-samitolvanen@google.com>
-Message-Id: <20200929214631.3516445-27-samitolvanen@google.com>
+Message-Id: <20200929214631.3516445-28-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200929214631.3516445-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 26/29] arm64: allow LTO_CLANG and THINLTO to be selected
+Subject: [PATCH v4 27/29] x86, vdso: disable LTO only for vDSO
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
@@ -73,27 +73,37 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Allow CONFIG_LTO_CLANG and CONFIG_THINLTO to be enabled.
+Disable LTO for the vDSO. Note that while we could use Clang's LTO
+for the 64-bit vDSO, it won't add noticeable benefit for the small
+amount of C code.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/arm64/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/x86/entry/vdso/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index ad522b021f35..7016d193864f 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -72,6 +72,8 @@ config ARM64
- 	select ARCH_USE_SYM_ANNOTATIONS
- 	select ARCH_SUPPORTS_MEMORY_FAILURE
- 	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
-+	select ARCH_SUPPORTS_LTO_CLANG
-+	select ARCH_SUPPORTS_THINLTO
- 	select ARCH_SUPPORTS_ATOMIC_RMW
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128 && (GCC_VERSION >= 50000 || CC_IS_CLANG)
- 	select ARCH_SUPPORTS_NUMA_BALANCING
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index ecc27018ae13..9b742f21d2db 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -90,7 +90,7 @@ ifneq ($(RETPOLINE_VDSO_CFLAGS),)
+ endif
+ endif
+ 
+-$(vobjs): KBUILD_CFLAGS := $(filter-out $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
++$(vobjs): KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_LTO) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
+ 
+ #
+ # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
+@@ -148,6 +148,7 @@ KBUILD_CFLAGS_32 := $(filter-out -fno-pic,$(KBUILD_CFLAGS_32))
+ KBUILD_CFLAGS_32 := $(filter-out -mfentry,$(KBUILD_CFLAGS_32))
+ KBUILD_CFLAGS_32 := $(filter-out $(GCC_PLUGINS_CFLAGS),$(KBUILD_CFLAGS_32))
+ KBUILD_CFLAGS_32 := $(filter-out $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS_32))
++KBUILD_CFLAGS_32 := $(filter-out $(CC_FLAGS_LTO),$(KBUILD_CFLAGS_32))
+ KBUILD_CFLAGS_32 += -m32 -msoft-float -mregparm=0 -fpic
+ KBUILD_CFLAGS_32 += -fno-stack-protector
+ KBUILD_CFLAGS_32 += $(call cc-option, -foptimize-sibling-calls)
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
