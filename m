@@ -2,58 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ABF227DB00
-	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E77B27DAF7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 29 Sep 2020 23:49:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729254AbgI2Vsu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 29 Sep 2020 17:48:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48418 "EHLO
+        id S1729225AbgI2Vsi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 29 Sep 2020 17:48:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729191AbgI2Vrp (ORCPT
+        with ESMTP id S1729237AbgI2Vrq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 29 Sep 2020 17:47:45 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 364B0C0613E3
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:29 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id m186so3668572qkf.12
-        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:29 -0700 (PDT)
+        Tue, 29 Sep 2020 17:47:46 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92902C0613E5
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:31 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id f5so4064546qtk.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 29 Sep 2020 14:47:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=DIPWfuOfjnS0FLqqhnzrIZ4jlncEeE+o+vZP3RuRCL0=;
-        b=jeIjKmg7IRS+l/ui8Q+LF8nOaIvlsjsr5dJcnvSqyimVjw+fgPn/vAjJUtO4XmZBa6
-         Xd0TPg2PXsxw8JWRlXMof9WtQxCvHX0ajUKKZHY+h9ZrQj/vHt4kd3uCJRU76eVTlT3l
-         qvq/mdBiAQCfz0NkdrERe4By8JjkFVxXJhBvXJYakKcsE9Q3uXpA4c2ihpOBil6Arsgm
-         /XRIkE6YivpM0yPirN/ctrfV5AzOopT2G8KpjaFwIzwdIty+tJ9NNd0YLGlPN6mpQHOt
-         PZmo5ltSZAvrWwfyVtCxNb3oLaXN5GzVBEfApucjE1oqsSv0iOxejixTaxe7xLdJuwWh
-         mCjw==
+        bh=bLX+1fjl9Bbya2A+atnzXnNoTgL1KkV514BpMbJv1Zc=;
+        b=dHnRNjTAqW8lTXo9nEiIoFV8O295lbJjdVXsY2+bhFdy7wpFakrnWQIyA2hWQKJ3M4
+         qosF/0hGR2ZjIUgh4/EdiLJbYrVxeS67XkRnjNPlnLbVTy+d8F6wxkmug8s6v+ICxYB0
+         8cZhAa2wGYywn4ncJiN1o05hfIQQIu29UE1DPhT3T+xB0nlx2bsXOREKfZjpz9tsStXA
+         TKUHPsS2S0/SL0tZVBJnBcm+28ZXPLK91wFqvg5Vq41bts7sxLDRqP6y8jHc7nr8ZF8Z
+         YHZxAEAYGJfpUEU+55I610Jp2K5acEaPPIByvwA2/pL5hkU4Zb9dg+0o8WGjFm54hqYH
+         HEGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=DIPWfuOfjnS0FLqqhnzrIZ4jlncEeE+o+vZP3RuRCL0=;
-        b=Ob5CIPK4pQQ0ws6koL6XDJc+o+RBuB2c2BAx109Kyr42LccNIgXXKXad9wSmvWbbTv
-         FYnqSfFnX8x4TuuvLqhzAapn2sDLl5eQ1p1MHz8+oetqFvykMoOwTIKerLokTIg+LYoK
-         UANzv2ypBxzJAuHkCTF3iRSrs0Es3a8Wo+EOepxLb3I4N1XfFd1Hnln1Z4VbbKre1TyH
-         m5wdcaNsntOb4ymIxVoNEr9eFojddXAlZO0yT70PDy4EjSXzts73R3R++GCukGbcJtfC
-         UBRNrMUyA4sgUaGJdp4Bo8o6qTLbhXuJvr/q+sUOu56t/Tf72lu0tqNvt2680PhPh2AR
-         aLVg==
-X-Gm-Message-State: AOAM532Y7mseK4JIsrUJJ1SmAFFj7FSwenKUGoDxNlz8cdCapj31ZS8W
-        Z2JaxGxkUjpTpNupd0MVYOlac8olaVFlb3dkC88=
-X-Google-Smtp-Source: ABdhPJxh9cX/NQWJyeaf5NLdRHxlNrjwWH6kgp9BcYdpdAAl3zdkTlK7VGeQKrVU7UdbXnmP9NjmecTJ1e08yzk/vjU=
+        bh=bLX+1fjl9Bbya2A+atnzXnNoTgL1KkV514BpMbJv1Zc=;
+        b=RL5a1YwTiaDQH1M1F3fgXeK5RFyvZfuCVcycexlND5aClcWgDgsoci3oKOPJOcR2BE
+         PwdWAD2UpjwWKmLbH2j71ViRTCgmk+PIE7WnNfBm5seqtyd/LTsK30VsT4s6yqEZ0M1a
+         aEssg52Mse1yjww2cbCFpalFPWD8HOytWIUUMle0NBfq5ppHGCLutRJDKB65S5ZaImVw
+         hcx7V8AKSdkh6Jv5LONHFWFnIVEUh0vYWg3DAJMApH1MfQa17GZHyzR60brG14giT+rc
+         v82SVSyKubYzOz7YHEa6OwZ0IE89qpSW//WKeFujCp5rLop4msgv01O5iPZKShXX6QFg
+         9WIw==
+X-Gm-Message-State: AOAM530w3jIqdR8hBf+se3JzdimbNJn8Wbtt4DJhi8gnawQCK4anA0LY
+        syzvx9XwAsOXtc5l8Y83pXOL06wN++qqcwdUWQ0=
+X-Google-Smtp-Source: ABdhPJzqDAQNJ4yOOPQKWE0kEqpwkERe1XdkG9z06KHZ8iQel5gcZqcSfblI2RjnM+ksRD+B562jIJhEv9qWCoeYvkk=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a0c:b308:: with SMTP id
- s8mr6728794qve.16.1601416048309; Tue, 29 Sep 2020 14:47:28 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 14:46:26 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a0c:e5cf:: with SMTP id
+ u15mr6643416qvm.14.1601416050747; Tue, 29 Sep 2020 14:47:30 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 14:46:27 -0700
 In-Reply-To: <20200929214631.3516445-1-samitolvanen@google.com>
-Message-Id: <20200929214631.3516445-25-samitolvanen@google.com>
+Message-Id: <20200929214631.3516445-26-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20200929214631.3516445-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.709.gb0816b6eb0-goog
-Subject: [PATCH v4 24/29] arm64: vdso: disable LTO
+Subject: [PATCH v4 25/29] KVM: arm64: disable LTO for the nVHE directory
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
@@ -73,29 +73,32 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Disable LTO for the vDSO by filtering out CC_FLAGS_LTO, as there's no
-point in using link-time optimization for the small about of C code.
+We use objcopy to manipulate ELF binaries for the nVHE code,
+which fails with LTO as the compiler produces LLVM bitcode
+instead. Disable LTO for this code to allow objcopy to be used.
 
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/arm64/kernel/vdso/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arch/arm64/kvm/hyp/nvhe/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
-index e836e300440f..aa47070a3ccf 100644
---- a/arch/arm64/kernel/vdso/Makefile
-+++ b/arch/arm64/kernel/vdso/Makefile
-@@ -30,7 +30,8 @@ ldflags-y := -shared -nostdlib -soname=linux-vdso.so.1 --hash-style=sysv	\
- ccflags-y := -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
- ccflags-y += -DDISABLE_BRANCH_PROFILING
+diff --git a/arch/arm64/kvm/hyp/nvhe/Makefile b/arch/arm64/kvm/hyp/nvhe/Makefile
+index aef76487edc2..c903c8f31280 100644
+--- a/arch/arm64/kvm/hyp/nvhe/Makefile
++++ b/arch/arm64/kvm/hyp/nvhe/Makefile
+@@ -45,9 +45,9 @@ quiet_cmd_hypcopy = HYPCOPY $@
+ 		   --rename-section=.text=.hyp.text			\
+ 		   $< $@
  
--CFLAGS_REMOVE_vgettimeofday.o = $(CC_FLAGS_FTRACE) -Os $(CC_FLAGS_SCS) $(GCC_PLUGINS_CFLAGS)
-+CFLAGS_REMOVE_vgettimeofday.o = $(CC_FLAGS_FTRACE) -Os $(CC_FLAGS_SCS) $(GCC_PLUGINS_CFLAGS) \
-+				$(CC_FLAGS_LTO)
- KASAN_SANITIZE			:= n
- UBSAN_SANITIZE			:= n
- OBJECT_FILES_NON_STANDARD	:= y
+-# Remove ftrace and Shadow Call Stack CFLAGS.
++# Remove ftrace, LTO, and Shadow Call Stack CFLAGS.
+ # This is equivalent to the 'notrace' and '__noscs' annotations.
+-KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
++KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_FTRACE) $(CC_FLAGS_LTO) $(CC_FLAGS_SCS), $(KBUILD_CFLAGS))
+ 
+ # KVM nVHE code is run at a different exception code with a different map, so
+ # compiler instrumentation that inserts callbacks or checks into the code may
 -- 
 2.28.0.709.gb0816b6eb0-goog
 
