@@ -2,72 +2,161 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C8F27F465
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 23:49:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 960B727F49A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 23:58:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730992AbgI3Vtz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Sep 2020 17:49:55 -0400
-Received: from mga02.intel.com ([134.134.136.20]:62005 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729912AbgI3Vtz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Sep 2020 17:49:55 -0400
-IronPort-SDR: n303Xxdnm4Vry6qFno62hJzzyuO/XNMwGBTKxnb/xXkk44pbNmmJJ2EdI4onZi+EPBPp8wYr46
- 2MiOC97q+gNA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9760"; a="150207784"
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; 
-   d="scan'208";a="150207784"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2020 14:49:50 -0700
-IronPort-SDR: cHbLJX7YNzrydKgEumUKRaDaCeTl3zHYQ/hKgkrwsVqNdfRUbKPDK/e17LRwfxPtWKmwWmq25p
- yBI/q2qig/4w==
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; 
-   d="scan'208";a="499650551"
-Received: from mmarder-mobl.ger.corp.intel.com (HELO localhost) ([10.252.50.231])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2020 14:49:47 -0700
-Date:   Thu, 1 Oct 2020 00:49:44 +0300
-From:   Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-To:     Eric Snowberg <eric.snowberg@oracle.com>
-Cc:     dhowells@redhat.com, dwmw2@infradead.org, masahiroy@kernel.org,
-        michal.lkml@markovi.net, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 1/2] certs: Move load_system_certificate_list to a common
- function
-Message-ID: <20200930214944.GA67803@linux.intel.com>
-References: <20200930201508.35113-1-eric.snowberg@oracle.com>
- <20200930201508.35113-2-eric.snowberg@oracle.com>
- <20200930210254.GB65339@linux.intel.com>
- <9E194595-5A19-42F8-9657-7FB36DE59F16@oracle.com>
+        id S1730873AbgI3V6N (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Sep 2020 17:58:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46072 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729996AbgI3V6M (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 30 Sep 2020 17:58:12 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD813C061755
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 14:58:12 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id 5so2071298pgf.5
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 14:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t4yHwQDoeC7Qpj3w+ohiUiQzIr7R18uaPZSHZDC/wBA=;
+        b=LHz9Zcam7CeKHZ2FruDPRDuY0e07YHSqVvGalfh32T3Fuffnt2bHgr5rwgpKJmywr5
+         vYYvj2pj3Prw08WL6qW4WlpRdEOLUCrT+9hncLjFVN1Ft8Md5FT+cXeVzwCbCclkl92o
+         hiVEXzmM9WAhHeXPsScWmhH08ZPlqMeItatEG49WX1OQPxwmMQyfc2iYMB/Z7txm5yp9
+         RRa0vfTlhSB0oEdLv191LDpEXlrqdDLR97VB59MmnkaiwZ4LOuqrpJLUtPF1GuZMwqmk
+         sGSI3yP3GaxL9/tqCvhaOlXgx1uB7P44MkrgKvdzV+0gcVnwItyMO1mDDu9EjVXS5h+m
+         ERsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t4yHwQDoeC7Qpj3w+ohiUiQzIr7R18uaPZSHZDC/wBA=;
+        b=q2uRepJhrUolFyQPaVxL66eqYUQtnXeJ4P6zvOXuhIWY7Hh9Sewr27da11Zl6SKbun
+         dwEQ3K7uwTlM8RQ0AYHDH6RPaipifpPQO3jbc9S9uk6lpdxRDHMx4uvyRT49yfpOc6dB
+         8oDeyIajVHmY6fhHO33f6eEp3LRqYUpQYQpAzc7YTxiy+yYVVHGTQbDPq8Y/29Yf5s0Z
+         cjFxeo6x3kqVabO2ZcagiLYUDNksoIuyQNohIVRlYlNuDlnwdKs26/IKv5O+kECeRH86
+         IaU0qG0xx76n3udgOQrZCc6vQmg7SWVjzYNG8fGJm1gWAknpexpb0WC9vyTiM7iDRwcF
+         oApw==
+X-Gm-Message-State: AOAM530o4njbpvf/KZcjF4LirVpo2oHXmlaZK2zl/Vsy5L5QMGBYvrys
+        QfnP0yKZYtssZMgKQN+i2/BCarUvGdySxmM/5eiHxA==
+X-Google-Smtp-Source: ABdhPJwzX9Viqx7zQJehaAJaWpHju7adBUzL4TnFBbDcXOlCvSY7YI0nAchHwIA2JZ5jrnbbiiAg20J+xNYGNfRzTkU=
+X-Received: by 2002:a17:902:c40d:b029:d2:93e8:1f4b with SMTP id
+ k13-20020a170902c40db02900d293e81f4bmr4327278plk.29.1601503091998; Wed, 30
+ Sep 2020 14:58:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9E194595-5A19-42F8-9657-7FB36DE59F16@oracle.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20200929214631.3516445-1-samitolvanen@google.com>
+In-Reply-To: <20200929214631.3516445-1-samitolvanen@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 30 Sep 2020 14:58:00 -0700
+Message-ID: <CAKwvOdnYBkUx9YpY9XLONbNYFD7JrOfGbRFQ8ZTf-sa2GTgQdQ@mail.gmail.com>
+Subject: Re: [PATCH v4 00/29] Add support for Clang LTO
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 03:15:10PM -0600, Eric Snowberg wrote:
-> 
-> > On Sep 30, 2020, at 3:02 PM, Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com> wrote:
-> > 
-> > On Wed, Sep 30, 2020 at 04:15:07PM -0400, Eric Snowberg wrote:
-> >> Move functionality within load_system_certificate_list to a common
-> >> function, so it can be reused in the future.
-> >> 
-> >> Signed-off-by: Eric Snowberg <eric.snowberg@oracle.com>
-> > 
-> > I rather think now rather than the future. I think this should be part
-> > of a patch set where the re-use actually happens.
-> 
-> load_certificate_list is being used in the second patch in the series [1].
-> It uses the now common code, to load the revocation certificates, just like
-> the system certificates are being loaded in this patch.
+On Tue, Sep 29, 2020 at 2:46 PM Sami Tolvanen <samitolvanen@google.com> wrote:
+>
+> This patch series adds support for building x86_64 and arm64 kernels
+> with Clang's Link Time Optimization (LTO).
+>
+> In addition to performance, the primary motivation for LTO is
+> to allow Clang's Control-Flow Integrity (CFI) to be used in the
+> kernel. Google has shipped millions of Pixel devices running three
+> major kernel versions with LTO+CFI since 2018.
+>
+> Most of the patches are build system changes for handling LLVM
+> bitcode, which Clang produces with LTO instead of ELF object files,
+> postponing ELF processing until a later stage, and ensuring initcall
+> ordering.
 
-Ugh, better to get some sleep. Double checked 2/2 and ack still holds.
-Sorry about this.
+Sami, thanks for continuing to drive the series. I encourage you to
+keep resending with fixes accumulated or dropped on a weekly cadence.
 
-Acked-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+The series worked well for me on arm64, but for x86_64 on mainline I
+saw a stream of new objtool warnings:
 
-/Jarkko
+testing your LTO series; x86_64 defconfig + CONFIG_THINLTO:
+``` LTO vmlinux.o OBJTOOL vmlinux.o vmlinux.o: warning: objtool:
+wakeup_long64()+0x61: indirect jump found in RETPOLINE build
+vmlinux.o: warning: objtool: .text+0x308a: indirect jump found in
+RETPOLINE build vmlinux.o: warning: objtool: .text+0x30c5: indirect
+jump found in RETPOLINE build vmlinux.o: warning: objtool:
+copy_user_enhanced_fast_string() falls through to next function
+copy_user_generic_unrolled() vmlinux.o: warning: objtool:
+__memcpy_mcsafe() falls through to next function mcsafe_handle_tail()
+vmlinux.o: warning: objtool: memset() falls through to next function
+memset_erms() vmlinux.o: warning: objtool: __memcpy() falls through to
+next function memcpy_erms() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rax() falls through to next function
+__x86_retpoline_rax() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rbx() falls through to next function
+__x86_retpoline_rbx() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rcx() falls through to next function
+__x86_retpoline_rcx() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rdx() falls through to next function
+__x86_retpoline_rdx() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rsi() falls through to next function
+__x86_retpoline_rsi() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rdi() falls through to next function
+__x86_retpoline_rdi() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_rbp() falls through to next function
+__x86_retpoline_rbp() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r8() falls through to next function
+__x86_retpoline_r8() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r9() falls through to next function
+__x86_retpoline_r9() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r10() falls through to next function
+__x86_retpoline_r10() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r11() falls through to next function
+__x86_retpoline_r11() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r12() falls through to next function
+__x86_retpoline_r12() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r13() falls through to next function
+__x86_retpoline_r13() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r14() falls through to next function
+__x86_retpoline_r14() vmlinux.o: warning: objtool:
+__x86_indirect_thunk_r15() falls through to next function
+__x86_retpoline_r15() ```
+
+I think those should be resolved before I provide any kind of tested
+by tag.  My other piece of feedback was that I like the default
+ThinLTO, but I think the help text in the Kconfig which is visible
+during menuconfig could be improved by informing the user the
+tradeoffs.  For example, if CONFIG_THINLTO is disabled, it should be
+noted that full LTO will be used instead.  Also, that full LTO may
+produce slightly better optimized binaries than ThinLTO, at the cost
+of not utilizing multiple cores when linking and thus significantly
+slower to link.
+
+Maybe explaining that setting it to "n" implies a full LTO build,
+which will be much slower to link but possibly slightly faster would
+be good?  It's not visible unless LTO_CLANG and ARCH_SUPPORTS_THINLTO
+is enabled, so I don't think you need to explain that THINLTO without
+those is *not* full LTO.  I'll leave the precise wording to you. WDYT?
+
+Also, when I look at your treewide DISABLE_LTO patch, I think "does
+that need to be a part of this series, or is it a cleanup that can
+stand on its own?"  I think it may be the latter?  Maybe it would help
+shed one more patch than to have to carry it to just send it?  Or did
+I miss something as to why it should remain a part of this series?
+-- 
+Thanks,
+~Nick Desaulniers
