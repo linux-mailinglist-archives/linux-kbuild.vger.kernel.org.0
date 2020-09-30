@@ -2,143 +2,102 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02D9127EFF7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 19:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 543AD27F30E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 22:15:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725355AbgI3RLB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Sep 2020 13:11:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58138 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725893AbgI3RLB (ORCPT
+        id S1729504AbgI3UPp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Sep 2020 16:15:45 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:39632 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgI3UPp (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Sep 2020 13:11:01 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEEDFC0613D2
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 10:11:00 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id q13so3909775ejo.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 10:11:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BqedzlGX8MsdvOmncyCbTeaSpoiIv6tQfCYOfAGCm1I=;
-        b=sE8WZ6lfb33YbXSwicY08Buxu2+BclRjKlsf3vmfKYC0cOkGjIdkfWlcD3vKlvxBtD
-         oJvOI0Me7W22ashUodxRg8si+zJpy2Cbj36q0/8yWyYhzL0LsEuNIm7mCi4bt0ydDxiP
-         q2wgS9BmhahiQ+5AI274iqgwQFVzecBus9MZf563ErBkJT7H8HSacjGdi407Qm2FFScB
-         UKBxyo4CmvhG4OhR92jBXUX4a8bOh0QyXvaZZAv6dW3JDWi42Xlo+4DGLRhZ05mHElhm
-         akH0k3vLqe2e1OlNqWiJM/8E0bIvbsaLFvn/nLJrGgZiuIkxYeAIludqN2wsfPhdmkyE
-         UahA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BqedzlGX8MsdvOmncyCbTeaSpoiIv6tQfCYOfAGCm1I=;
-        b=qBp7BrSCtzHvZVgf6PyiTmyutYhMwaoVH5Dxg3U5vwXQk/ESCsyjMfcfanH+YT1KeT
-         QfRpb2LOkLfzBtcfKZitBRGrqzdwo2FrC1vSNFL/3Eb3fuUW+MljX98gXqlic4PJBtR3
-         XyLccAjx7nQG5orNDbKZN9yibIBaGvBnrl0fJB2btN5uo66gTfd0YVhW0H8jwztZBP8V
-         TKvCtzqqWRgZGP/D4XuWfZu2RgRFh8hJSfuzOc4SaToQHGfEm0KEvudqRU86EjQ9nR3B
-         SQEhKRhMIGDDv/+BK+aeR1kXlJVAiB63vv/Nxwm1tkwwGvNFHDQuQQRf9gmwML6x+dCU
-         BUwQ==
-X-Gm-Message-State: AOAM533QyZRsziGzCi3Lc9GdOazWB3UGwRvMWDWL25oBoHt52GtB+VHy
-        0r0auK1E75V97D3h+3Xs8Y26A1+/xZ6Nlq/LeMWSiA==
-X-Google-Smtp-Source: ABdhPJxx5zeY+5dc3dMhmlhIH9uf8zM/HMP0iLgIAwPYaEmmMHjXLZ0lmUCgiQV067mtUVMz2xbTNNo7KUcZkaJ7L2A=
-X-Received: by 2002:a17:906:a256:: with SMTP id bi22mr3767975ejb.375.1601485859067;
- Wed, 30 Sep 2020 10:10:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200929214631.3516445-1-samitolvanen@google.com>
- <20200929214631.3516445-10-samitolvanen@google.com> <20200930095850.GA68612@C02TD0UTHF1T.local>
-In-Reply-To: <20200930095850.GA68612@C02TD0UTHF1T.local>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Wed, 30 Sep 2020 10:10:47 -0700
-Message-ID: <CABCJKuegb4MzniWOk2+R3FngZpdWuSEAZuj=arRm0mE6HQ9anw@mail.gmail.com>
-Subject: Re: [PATCH v4 09/29] arm64: disable recordmcount with DYNAMIC_FTRACE_WITH_REGS
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Will Deacon <will@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
-        X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 30 Sep 2020 16:15:45 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UKA0s8101746;
+        Wed, 30 Sep 2020 20:15:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=kA10ux8sEmUomQTdSpnRyEQE3PCf5YCGA8wUNrifkR0=;
+ b=KuKc2cZb0nn/uqJuwnq4zHgepqfRiZ9kMVajvjOvn9f6ds3IoFxRlk6dSMsb1Ly8mXX+
+ r4pmBpP/k4u8zO5NJdMkkiXp64w2SoUIHHtHb3WxymL52Ughy916pdUyQgoU63XXhY1f
+ Ie/fazs/axP5t0Whq0yNEvfXEU5Slms6zMU1w41PLCEIUauGIJz7tjWQpEhQsOYyAJT8
+ k7boaleo0aVq3/8/AIVRH3LZgyKOqmicYA9nalT8p2Bn6hbMPNdmr25Qj9aruSuopfSG
+ FfksyLqKSERE/guNcf87n5iytbPSZkxByxBmk2NErOGoaKo5z9LWzLVK9PGleazKZ00t KQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 33su5b2psh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 30 Sep 2020 20:15:31 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UKEW2x118016;
+        Wed, 30 Sep 2020 20:15:31 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 33tfj0pcgb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 30 Sep 2020 20:15:30 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08UKFOBJ028086;
+        Wed, 30 Sep 2020 20:15:24 GMT
+Received: from localhost.us.oracle.com (/10.147.27.2)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 30 Sep 2020 13:15:23 -0700
+From:   Eric Snowberg <eric.snowberg@oracle.com>
+To:     dhowells@redhat.com, dwmw2@infradead.org
+Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
+        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, jarkko.sakkinen@linux.intel.com,
+        eric.snowberg@oracle.com
+Subject: [PATCH 0/2] Preloaded revocation keys
+Date:   Wed, 30 Sep 2020 16:15:06 -0400
+Message-Id: <20200930201508.35113-1-eric.snowberg@oracle.com>
+X-Mailer: git-send-email 2.18.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9760 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 malwarescore=0 adultscore=0 suspectscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009300164
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9760 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ lowpriorityscore=0 spamscore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009300163
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Mark,
+The Secure Boot Forbidden Signature Database, dbx, contains a list of
+now revoked signatures and keys previously approved to boot with UEFI
+Secure Boot enabled.  Currently EFI_CERT_X509_SHA256_GUID and
+EFI_CERT_SHA256_GUID can be preloaded (at build time) into the system
+blacklist keyring.
 
-On Wed, Sep 30, 2020 at 2:59 AM Mark Rutland <mark.rutland@arm.com> wrote:
->
-> Hi Sami,
->
-> On Tue, Sep 29, 2020 at 02:46:11PM -0700, Sami Tolvanen wrote:
-> > Select FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY to disable
-> > recordmcount when DYNAMIC_FTRACE_WITH_REGS is selected.
->
-> Could you please add an explanation as to /why/ this is necessary in the
-> commit message? I couldn't figure this out form the commit message
-> alone, and reading the cover letter also didn't help.
+Add the ability to also preload EFI_CERT_X509_GUID dbx entries.
 
-Sorry about that, I'll add a better explanation in the next version.
+This series can be applied on its own; however to use preloaded
+revocation certificates, [1] should be applied first.
 
-Note that without LTO, this change is not strictly necessary as
-there's no harm in running recordmcount even if it's not needed. It
-might slow down the build slightly, but I suspect a few thousand
-invocations of the program won't take that long. However, with LTO we
-need to disable recordmcount because it doesn't understand LLVM
-bitcode.
+[1] https://www.spinics.net/lists/keyrings/msg08422.html
 
-> If the minimum required GCC version supports patchable-function-entry
-> I'd be happy to make that a requirement for dynamic ftrace on arm64, as
-> then we'd only need to support one mechanism, and can get rid of some
-> redundant code. We already default to it when present anyhow.
 
-That would be great, but Documentation/process/changes.rst suggests
-the minimum gcc version is 4.9, and according to Godbolt we would need
-gcc >= 8 for -fpatchable-function-entry:
+Eric Snowberg (2):
+  certs: Move load_system_certificate_list to a common function
+  certs: Add ability to preload revocation certs
 
-  https://godbolt.org/z/jdzcMW
+ certs/Kconfig                   |  8 +++++
+ certs/Makefile                  | 20 ++++++++++--
+ certs/blacklist.c               | 17 ++++++++++
+ certs/common.c                  | 56 +++++++++++++++++++++++++++++++++
+ certs/common.h                  |  9 ++++++
+ certs/revocation_certificates.S | 21 +++++++++++++
+ certs/system_keyring.c          | 49 ++---------------------------
+ scripts/Makefile                |  1 +
+ 8 files changed, 132 insertions(+), 49 deletions(-)
+ create mode 100644 certs/common.c
+ create mode 100644 certs/common.h
+ create mode 100644 certs/revocation_certificates.S
 
-> > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > index 6d232837cbee..ad522b021f35 100644
-> > --- a/arch/arm64/Kconfig
-> > +++ b/arch/arm64/Kconfig
-> > @@ -155,6 +155,8 @@ config ARM64
-> >       select HAVE_DYNAMIC_FTRACE
-> >       select HAVE_DYNAMIC_FTRACE_WITH_REGS \
-> >               if $(cc-option,-fpatchable-function-entry=2)
-> > +     select FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY \
-> > +             if DYNAMIC_FTRACE_WITH_REGS
->
-> This doesn't look quite right to me. Presumably we shouldn't allow
-> DYNAMIC_FTRACE_WITH_REGS to be selected if HAVE_DYNAMIC_FTRACE_WITH_REGS
-> isn't.
 
-This won't allow DYNAMIC_FTRACE_WITH_REGS to be selected without
-HAVE_DYNAMIC_FTRACE_WITH_REGS. Testing with a compiler that does
-support -fpatchable-function-entry, I get the following, as expected:
+base-commit: 02de58b24d2e1b2cf947d57205bd2221d897193c
+-- 
+2.18.1
 
-$ grep -E '(DYNAMIC_FTRACE|MCOUNT_USE)' .config
-CONFIG_HAVE_DYNAMIC_FTRACE=y
-CONFIG_HAVE_DYNAMIC_FTRACE_WITH_REGS=y
-CONFIG_DYNAMIC_FTRACE=y
-CONFIG_DYNAMIC_FTRACE_WITH_REGS=y
-CONFIG_FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY=y
-
-And if the compiler doesn't support -fpatchable-function-entry, we
-would end up with the following:
-
-$ grep -E '(DYNAMIC_FTRACE|MCOUNT_USE)' .config
-CONFIG_HAVE_DYNAMIC_FTRACE=y
-CONFIG_DYNAMIC_FTRACE=y
-CONFIG_FTRACE_MCOUNT_USE_RECORDMCOUNT=y
-
-Sami
