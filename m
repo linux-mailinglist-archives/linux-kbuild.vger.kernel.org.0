@@ -2,216 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB5B727F311
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 22:15:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7FC27F378
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 22:45:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729792AbgI3UPr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Sep 2020 16:15:47 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:33918 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728660AbgI3UPq (ORCPT
+        id S1730009AbgI3UpG (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Sep 2020 16:45:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgI3UpG (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Sep 2020 16:15:46 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UK968k027479;
-        Wed, 30 Sep 2020 20:15:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=IxEOgq4WlywNMdlTE5ZZC/146RxyMY0YB+K/R5GilZY=;
- b=DEW5hcn51YZTDbHL2iXs2DTfcVAi/0xW3kmLpi+zC4c44Xf7DRuCGvYDixEM2U59c1Q4
- Upy23LuANqA0jXd3jzG7b304EEk5gDbTxBpH/uEedHmW01/jkyxb/9pHiMqeuaY4M4vO
- ThZIZYvBFBkTIuHiDnruhYh+l69BZnhyhLVTpmwNqiGDAF6RwBdA7sfWKV8U/rO/QY5Y
- a+tZS6TMXuKPELVkwNdNg0Rm+rdGq1Wa66s9gc0vkfPhHXr9YqjyZk5AA8QaObjSL1MJ
- F2EF32LQ/vZ79vCU1ijP6AoC25JYLJtEblhfdJGkQGMt6+zY2sF/iPqImhiwwzf6JKiz 2Q== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 33sx9nahd4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 30 Sep 2020 20:15:29 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08UKEn9U196397;
-        Wed, 30 Sep 2020 20:15:29 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 33tfduhgyt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 30 Sep 2020 20:15:29 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08UKFPGp028144;
-        Wed, 30 Sep 2020 20:15:25 GMT
-Received: from localhost.us.oracle.com (/10.147.27.2)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 30 Sep 2020 13:15:25 -0700
-From:   Eric Snowberg <eric.snowberg@oracle.com>
-To:     dhowells@redhat.com, dwmw2@infradead.org
-Cc:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        keyrings@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, jarkko.sakkinen@linux.intel.com,
-        eric.snowberg@oracle.com
-Subject: [PATCH 2/2] certs: Add ability to preload revocation certs
-Date:   Wed, 30 Sep 2020 16:15:08 -0400
-Message-Id: <20200930201508.35113-3-eric.snowberg@oracle.com>
-X-Mailer: git-send-email 2.18.1
-In-Reply-To: <20200930201508.35113-1-eric.snowberg@oracle.com>
-References: <20200930201508.35113-1-eric.snowberg@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9760 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- adultscore=0 malwarescore=0 spamscore=0 mlxscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009300164
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9760 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
- definitions=main-2009300163
+        Wed, 30 Sep 2020 16:45:06 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937DCC061755
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 13:45:06 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id 34so1847388pgo.13
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 13:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JgQmmymEepmTyKfdtmZJjASTO5kyTURiWqToh5meDKE=;
+        b=N1JSnjgIbsN1xv7O/7f3T3QNscpYc+Oc8Onavg+xJhKmu87Vl5txC0mRnj581yP+T5
+         vji39GuQ54k3KnvTyItbHHJyjV7n/9yiIdpidKzXo0JDXhzi+h96aiFk9fi64j8d2bCt
+         gMDMVPAGpbUo9icFxVDwyRsfPfCjPc7VT3l7U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JgQmmymEepmTyKfdtmZJjASTO5kyTURiWqToh5meDKE=;
+        b=gNnJbKZrpU8hbylXC1GaIvymglJV3TFO9DUoTlj8gEgumxFC9fezAoqfPRGemM/Gh4
+         ZhaU+Mx5tTwjvc9R8FkDKylhhAiHF/tHSKRag3olqoZxUMc8m09ZeoBEyeo3P4OeQ7Ee
+         yXu4vAPYUM51nQ+LbSyu3PQK7LD1bqrgysDIusul2SWVgwsmUV4N4xUs8toDtFkuUWhN
+         pfkw6/f9d9EzMvxyB9c9eXw11CCH2EUSVqqp1kHRnCY/AEUtc1rlxNV9TqaC263C0QQX
+         pFWGUgqWX/1daKUCSdyewrnP1vbWvqRl/dsitgW4KOOe6eCbazW3BG6U0QGuGfi0heoI
+         QBAQ==
+X-Gm-Message-State: AOAM533Kb3ez5VlRxn4YEpTdWvRhejrGLSs7okpMkpCADX8K8UsfRbeZ
+        KeRGtn+GPlsD/aGRwB98pAPM+A==
+X-Google-Smtp-Source: ABdhPJwj25UpjOCh8s4y4qnI0EKHGhfilZz0SCC4DlHMi6btWQ6hwRXxTigXsih3jOgTEpH2lz1kwQ==
+X-Received: by 2002:a63:4d4a:: with SMTP id n10mr3430255pgl.96.1601498706030;
+        Wed, 30 Sep 2020 13:45:06 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id g24sm3730158pfk.65.2020.09.30.13.45.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2020 13:45:05 -0700 (PDT)
+Date:   Wed, 30 Sep 2020 13:45:04 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com,
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org
+Subject: Re: [PATCH v4 10/29] treewide: remove DISABLE_LTO
+Message-ID: <202009301344.3949D2FA8@keescook>
+References: <20200929214631.3516445-1-samitolvanen@google.com>
+ <20200929214631.3516445-11-samitolvanen@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200929214631.3516445-11-samitolvanen@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add a new Kconfig option called SYSTEM_REVOCATION_KEYS. If set,
-this option should be the filename of a PEM-formated file containing
-X.509 certificates to be included in the default blacklist keyring.
+On Tue, Sep 29, 2020 at 02:46:12PM -0700, Sami Tolvanen wrote:
+> This change removes all instances of DISABLE_LTO from
+> Makefiles, as they are currently unused, and the preferred
+> method of disabling LTO is to filter out the flags instead.
+> 
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 
-Signed-off-by: Eric Snowberg <eric.snowberg@oracle.com>
----
- certs/Kconfig                   |  8 ++++++++
- certs/Makefile                  | 18 ++++++++++++++++--
- certs/blacklist.c               | 17 +++++++++++++++++
- certs/revocation_certificates.S | 21 +++++++++++++++++++++
- scripts/Makefile                |  1 +
- 5 files changed, 63 insertions(+), 2 deletions(-)
- create mode 100644 certs/revocation_certificates.S
+Thanks! I think this makes things cleaner in the later patches. :)
 
-diff --git a/certs/Kconfig b/certs/Kconfig
-index c94e93d8bccf..379a6e198459 100644
---- a/certs/Kconfig
-+++ b/certs/Kconfig
-@@ -83,4 +83,12 @@ config SYSTEM_BLACKLIST_HASH_LIST
- 	  wrapper to incorporate the list into the kernel.  Each <hash> should
- 	  be a string of hex digits.
- 
-+config SYSTEM_REVOCATION_KEYS
-+	string "X.509 certificates to be preloaded into the system blacklist keyring"
-+	depends on SYSTEM_BLACKLIST_KEYRING
-+	help
-+	  If set, this option should be the filename of a PEM-formatted file
-+	  containing X.509 certificates to be included in the default blacklist
-+	  keyring.
-+
- endmenu
-diff --git a/certs/Makefile b/certs/Makefile
-index f4b90bad8690..e3f4926fd21e 100644
---- a/certs/Makefile
-+++ b/certs/Makefile
-@@ -4,7 +4,7 @@
- #
- 
- obj-$(CONFIG_SYSTEM_TRUSTED_KEYRING) += system_keyring.o system_certificates.o common.o
--obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) += blacklist.o
-+obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) += blacklist.o revocation_certificates.o common.o
- ifneq ($(CONFIG_SYSTEM_BLACKLIST_HASH_LIST),"")
- obj-$(CONFIG_SYSTEM_BLACKLIST_KEYRING) += blacklist_hashes.o
- else
-@@ -29,7 +29,7 @@ $(obj)/x509_certificate_list: scripts/extract-cert $(SYSTEM_TRUSTED_KEYS_SRCPREF
- 	$(call if_changed,extract_certs,$(SYSTEM_TRUSTED_KEYS_SRCPREFIX)$(CONFIG_SYSTEM_TRUSTED_KEYS))
- endif # CONFIG_SYSTEM_TRUSTED_KEYRING
- 
--clean-files := x509_certificate_list .x509.list
-+clean-files := x509_certificate_list .x509.list x509_revocation_list
- 
- ifeq ($(CONFIG_MODULE_SIG),y)
- ###############################################################################
-@@ -104,3 +104,17 @@ targets += signing_key.x509
- $(obj)/signing_key.x509: scripts/extract-cert $(X509_DEP) FORCE
- 	$(call if_changed,extract_certs,$(MODULE_SIG_KEY_SRCPREFIX)$(CONFIG_MODULE_SIG_KEY))
- endif # CONFIG_MODULE_SIG
-+
-+ifeq ($(CONFIG_SYSTEM_BLACKLIST_KEYRING),y)
-+
-+$(eval $(call config_filename,SYSTEM_REVOCATION_KEYS))
-+
-+$(obj)/revocation_certificates.o: $(obj)/x509_revocation_list
-+
-+quiet_cmd_extract_certs  = EXTRACT_CERTS   $(patsubst "%",%,$(2))
-+      cmd_extract_certs  = scripts/extract-cert $(2) $@
-+
-+targets += x509_revocation_list
-+$(obj)/x509_revocation_list: scripts/extract-cert $(SYSTEM_REVOCATION_KEYS_SRCPREFIX)$(SYSTEM_REVOCATION_KEYS_FILENAME) FORCE
-+	$(call if_changed,extract_certs,$(SYSTEM_REVOCATION_KEYS_SRCPREFIX)$(CONFIG_SYSTEM_REVOCATION_KEYS))
-+endif
-diff --git a/certs/blacklist.c b/certs/blacklist.c
-index 6514f9ebc943..a0e7770895ce 100644
---- a/certs/blacklist.c
-+++ b/certs/blacklist.c
-@@ -16,9 +16,13 @@
- #include <linux/seq_file.h>
- #include <keys/system_keyring.h>
- #include "blacklist.h"
-+#include "common.h"
- 
- static struct key *blacklist_keyring;
- 
-+extern __initconst const u8 revocation_certificate_list[];
-+extern __initconst const unsigned long revocation_certificate_list_size;
-+
- /*
-  * The description must be a type prefix, a colon and then an even number of
-  * hex digits.  The hash is kept in the description.
-@@ -177,3 +181,16 @@ static int __init blacklist_init(void)
-  * Must be initialised before we try and load the keys into the keyring.
-  */
- device_initcall(blacklist_init);
-+
-+/*
-+ * Load the compiled-in list of revocation X.509 certificates.
-+ */
-+static __init int load_revocation_certificate_list(void)
-+{
-+	if (revocation_certificate_list_size)
-+		pr_notice("Loading compiled-in revocation X.509 certificates\n");
-+
-+	return load_certificate_list(revocation_certificate_list, revocation_certificate_list_size,
-+				     blacklist_keyring);
-+}
-+late_initcall(load_revocation_certificate_list);
-diff --git a/certs/revocation_certificates.S b/certs/revocation_certificates.S
-new file mode 100644
-index 000000000000..f21aae8a8f0e
---- /dev/null
-+++ b/certs/revocation_certificates.S
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#include <linux/export.h>
-+#include <linux/init.h>
-+
-+	__INITRODATA
-+
-+	.align 8
-+	.globl revocation_certificate_list
-+revocation_certificate_list:
-+__revocation_list_start:
-+	.incbin "certs/x509_revocation_list"
-+__revocation_list_end:
-+
-+	.align 8
-+	.globl revocation_certificate_list_size
-+revocation_certificate_list_size:
-+#ifdef CONFIG_64BIT
-+	.quad __revocation_list_end - __revocation_list_start
-+#else
-+	.long __revocation_list_end - __revocation_list_start
-+#endif
-diff --git a/scripts/Makefile b/scripts/Makefile
-index bc018e4b733e..fb105b2bc006 100644
---- a/scripts/Makefile
-+++ b/scripts/Makefile
-@@ -11,6 +11,7 @@ hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
- hostprogs-always-$(CONFIG_MODULE_SIG_FORMAT)		+= sign-file
- hostprogs-always-$(CONFIG_SYSTEM_TRUSTED_KEYRING)	+= extract-cert
- hostprogs-always-$(CONFIG_SYSTEM_EXTRA_CERTIFICATE)	+= insert-sys-cert
-+ hostprogs-always-$(CONFIG_SYSTEM_BLACKLIST_KEYRING)	+= extract-cert
- 
- HOSTCFLAGS_sorttable.o = -I$(srctree)/tools/include
- HOSTCFLAGS_asn1_compiler.o = -I$(srctree)/include
+Reviewed-by: Kees Cook <keescook@chromium.org>
+
 -- 
-2.18.1
-
+Kees Cook
