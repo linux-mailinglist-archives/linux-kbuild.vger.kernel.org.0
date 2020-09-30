@@ -2,85 +2,115 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0977927E5D2
-	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 11:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B45427EE4B
+	for <lists+linux-kbuild@lfdr.de>; Wed, 30 Sep 2020 18:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729104AbgI3J7O (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 30 Sep 2020 05:59:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:33026 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728235AbgI3J7O (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 30 Sep 2020 05:59:14 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47BA9D6E;
-        Wed, 30 Sep 2020 02:59:13 -0700 (PDT)
-Received: from C02TD0UTHF1T.local (unknown [10.57.48.174])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3E9A3F70D;
-        Wed, 30 Sep 2020 02:59:09 -0700 (PDT)
-Date:   Wed, 30 Sep 2020 10:58:50 +0100
-From:   Mark Rutland <mark.rutland@arm.com>
-To:     Sami Tolvanen <samitolvanen@google.com>
+        id S1731121AbgI3QF6 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 30 Sep 2020 12:05:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47982 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731093AbgI3QFv (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 30 Sep 2020 12:05:51 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C98FC0613D1
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 09:05:51 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id lo4so3605992ejb.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 30 Sep 2020 09:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4nf8e6hIaPbRqntvQjCiPI17gKDQL3g6MdR3siKHn30=;
+        b=FdREMa9YQ4gNRdQHURf/x/R8SmYVJ5gIkH9KpmlqeEAlOLeXAhaYjSC7VB4Y8/uoLl
+         NpSU9flOBZMB2LnlrWowvIpCnct6WksL48hJ6hEvbeije9viNCjBJLNglsVPmK17McTE
+         bQR932o1ftCv5I/jccydLYq37ELOk8HLaS5waUMw2Sl4+mDrlXBlbynVNtazEd8rcTZn
+         oCfVkT2gQBFoWgRMv35xCS9XqXQ6DAZwYypy9P5mdyuszGukdvxnnn/AnzhUUV4OJTG3
+         jalYoYIzQjQOW6W2UeOKJ1wH4ANi3gdiXC8IiXeG+7KUsH9D9cVc5b9Ynx38GiIxo6v5
+         fQpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4nf8e6hIaPbRqntvQjCiPI17gKDQL3g6MdR3siKHn30=;
+        b=gvivPiVpjKCFKcHjsosm8WIvlsKoO1Cm/Qj6NAA1qdsxhBvbfsPiqgXRM5FKsLFvyH
+         NfyYuzEXi4nvR2BRbM2KM365M4g/OMGuS/BNqAFrw1cx/5Q0V3r5CUqQl0SAkG3nIlxv
+         2HZcCVGpcv76XXIC3+tECiF8IeMDGIQKh9X3btuHKsp1sw/3pOrEAeVsKdzM+KeAAG87
+         AcL+4C9rHD68+UgXSNsxbtm/4TXaYgzvUmvSnhya0xtoADx3xN0Bsq9KtPEmqz9lIM5M
+         ECJZcLexPPQ7OwZc05sj1zl6tuIf2T47pvTF7ZU83zYTz9P1QwZ2bg6VSPWWC2pFFosP
+         XF6w==
+X-Gm-Message-State: AOAM533KFfnsAP+QXAgBGpQDvBzmtmFL0/mkkcF0l0WDcqXGTCWlvVju
+        h2bADfUW0ZBunoH+ZYr7LQIamsJtPRvgRQ8xPmu29w==
+X-Google-Smtp-Source: ABdhPJzYVdbm3fjbvWcAsssxdkKlp1Qf8hBl3VmZLS0706h18aYEVSeaUqFy3XkT6TY1fv56XT82VdDVYI9SZJ5H+mA=
+X-Received: by 2002:a17:906:a256:: with SMTP id bi22mr3464394ejb.375.1601481949457;
+ Wed, 30 Sep 2020 09:05:49 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200929214631.3516445-1-samitolvanen@google.com>
+ <20200929214631.3516445-7-samitolvanen@google.com> <20200929201257.1570aadd@oasis.local.home>
+In-Reply-To: <20200929201257.1570aadd@oasis.local.home>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Wed, 30 Sep 2020 09:05:38 -0700
+Message-ID: <CABCJKud3S7pn8Ap3AkNRUUC4v8nMwOzM2_EwEB6+NFzDp5gppA@mail.gmail.com>
+Subject: Re: [PATCH v4 06/29] tracing: move function tracer options to Kconfig
+To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
         Peter Zijlstra <peterz@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org
-Subject: Re: [PATCH v4 09/29] arm64: disable recordmcount with
- DYNAMIC_FTRACE_WITH_REGS
-Message-ID: <20200930095850.GA68612@C02TD0UTHF1T.local>
-References: <20200929214631.3516445-1-samitolvanen@google.com>
- <20200929214631.3516445-10-samitolvanen@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200929214631.3516445-10-samitolvanen@google.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org,
+        X86 ML <x86@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Sami,
+On Tue, Sep 29, 2020 at 5:13 PM Steven Rostedt <rostedt@goodmis.org> wrote:
+>
+> On Tue, 29 Sep 2020 14:46:08 -0700
+> Sami Tolvanen <samitolvanen@google.com> wrote:
+>
+> > +++ b/kernel/trace/Kconfig
+> > @@ -595,6 +595,22 @@ config FTRACE_MCOUNT_RECORD
+> >       depends on DYNAMIC_FTRACE
+> >       depends on HAVE_FTRACE_MCOUNT_RECORD
+> >
+> > +config FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY
+> > +     bool
+> > +     depends on FTRACE_MCOUNT_RECORD
+> > +
+> > +config FTRACE_MCOUNT_USE_CC
+> > +     def_bool y
+> > +     depends on $(cc-option,-mrecord-mcount)
+>
+> Does the above get executed at every build? Or does a make *config need
+> to be done? If someone were to pass a .config to someone else that had
+> a compiler that didn't support this, would it be changed if the person
+> just did a make?
 
-On Tue, Sep 29, 2020 at 02:46:11PM -0700, Sami Tolvanen wrote:
-> Select FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY to disable
-> recordmcount when DYNAMIC_FTRACE_WITH_REGS is selected.
+Yes, it's updated if you copy a .config and just run make. For
+example, here's what happens when I create a config with gcc and then
+build it with Clang:
 
-Could you please add an explanation as to /why/ this is necessary in the
-commit message? I couldn't figure this out form the commit message
-alone, and reading the cover letter also didn't help.
+$ make defconfig
+...
+$ ./scripts/config -e FUNCTION_TRACER -e DYNAMIC_FTRACE
+$ make olddefconfig
+...
+$ grep MCOUNT_USE .config
+CONFIG_FTRACE_MCOUNT_USE_CC=y
+$ make CC=clang
+scripts/kconfig/conf  --syncconfig Kconfig
+...
+^C
+$ grep MCOUNT_USE .config
+CONFIG_FTRACE_MCOUNT_USE_OBJTOOL=y
 
-If the minimum required GCC version supports patchable-function-entry
-I'd be happy to make that a requirement for dynamic ftrace on arm64, as
-then we'd only need to support one mechanism, and can get rid of some
-redundant code. We already default to it when present anyhow.
-
-> 
-> Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> ---
->  arch/arm64/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 6d232837cbee..ad522b021f35 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -155,6 +155,8 @@ config ARM64
->  	select HAVE_DYNAMIC_FTRACE
->  	select HAVE_DYNAMIC_FTRACE_WITH_REGS \
->  		if $(cc-option,-fpatchable-function-entry=2)
-> +	select FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY \
-> +		if DYNAMIC_FTRACE_WITH_REGS
-
-This doesn't look quite right to me. Presumably we shouldn't allow
-DYNAMIC_FTRACE_WITH_REGS to be selected if HAVE_DYNAMIC_FTRACE_WITH_REGS
-isn't.
-
-Thanks,
-Mark.
+Sami
