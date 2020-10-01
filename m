@@ -2,143 +2,209 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3618727FAE2
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Oct 2020 09:57:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7042927FCD7
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Oct 2020 12:08:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730378AbgJAH5e (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Oct 2020 03:57:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53984 "EHLO
+        id S1725938AbgJAKH7 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Oct 2020 06:07:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725938AbgJAH5e (ORCPT
+        with ESMTP id S1730378AbgJAKH5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Oct 2020 03:57:34 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EB7C0613D0;
-        Thu,  1 Oct 2020 00:57:34 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id y15so1993389wmi.0;
-        Thu, 01 Oct 2020 00:57:34 -0700 (PDT)
+        Thu, 1 Oct 2020 06:07:57 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AA9EC0613E2
+        for <linux-kbuild@vger.kernel.org>; Thu,  1 Oct 2020 03:07:57 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id z1so4978799wrt.3
+        for <linux-kbuild@vger.kernel.org>; Thu, 01 Oct 2020 03:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=fO/xwDjrhenhlWFGk3DdZkVFlX+/hkokIVqB85yj9q8=;
-        b=Bwqx3uHyCyScf2SC7J0dP6b8TluUSYa3R57F+xWoWEDaEK+o7QRMP+bCtb+0kvaBD9
-         h+22TRDB+CqJMxYCVuW2YKGT90lchFukm71dkB8lFRdI6sJS5o9TOUmP3ttxhokvDe6O
-         8yOqJesCuSSmpxXc7pEcvlQyy0mLiWDb8S6r8DCQ3VcsjdaClp6f70GjcpPnKvCHZlbw
-         62VskwilqJr+7miBCi794mo/B/UKfzfI9CitGwoG+hV1xoD3IP1l+iYKkH44mEVIkZzq
-         OCO8TGmoef9l55dzoRUX/liwp2LoIk5QKo9rTIJPY/p/uR+MHRqZuNcQWmaHuwjJo1TM
-         vykQ==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NUXTaxsY7NaXachlgBjQGlyIz9BkJJJNfphdb55Lwns=;
+        b=hWAwHmbvpL/fUYlWSvL43XM6O7kxQXolhLytRW4KP0Z6zlw+30mFb+/NKei2wkyFjW
+         AFJtE+PMI/8r5JP1ykHUGVR4ysFO99EDr4a4/9WUldbEdf+iWIoIG2MyvVu/GGNvk/q9
+         CwVZ7wkgPJe+3LCECgMYFCtBvbG7Z3EYknif+gIIDLkj+/ir0S1ToxC9pmbjg1Bfgm14
+         i1ARfg5oRTR6difVdGKpxvzYyyEubV3G0o9JxizzDMIQuHMmG1K87BjB2Wtc9BlxKcIQ
+         wyzQjihFjT1hNaUUEMeAKf4Etzh4HG37dmxP+26a9fblWLk5m9/ErrxU1igmKfxxYVD8
+         KMtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=fO/xwDjrhenhlWFGk3DdZkVFlX+/hkokIVqB85yj9q8=;
-        b=FzVkv5LGEOYLg/j/LfX0unmSv+mUOVdp97tY2AZGXK4rbexZO8twm0VW2TfGnOCgDY
-         By9b7c/10gYRUMJeY1lvWCYGThlCTQXgpGbbyC5e5RFw746lqp5jDm0CDRk1t31V+ZOJ
-         DprQ/pIklYzCpN6Fv8pAeyFQsj80SjLJwNzIzrtZVtBoJMFGg9gwvXJV2B3XBD0WELDF
-         FwP9B8kHajqvsM7fahDmSnsRYQPXO1sdZNwElyp5mgK17Gr/nuYQfjVbTYpQ26gcS/kJ
-         PB5opwf0dVbfXmDt9/OzvwLQqOwLlQmGRpSbE9Ho1gScQP5QPKaJoFgy5J6OXQxj4rlk
-         MB9Q==
-X-Gm-Message-State: AOAM532KhO12coUSEhyW6n/u2ReIdqI6TeVDf1W5mjU0HDK4NeeRSTU0
-        txDQ3d5fuoh+MQCLD4nuZFk=
-X-Google-Smtp-Source: ABdhPJzqmTeSoVSj3eZWfMKoqv/hpLTEtUApfBAwXbTtQp2UVy5XutKX6uMVXd+nsjlytHcsbI/NNw==
-X-Received: by 2002:a1c:4054:: with SMTP id n81mr6819205wma.81.1601539053027;
-        Thu, 01 Oct 2020 00:57:33 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2d4d:ba00:2c39:a8cb:1b2a:4845])
-        by smtp.gmail.com with ESMTPSA id b64sm7500948wmh.13.2020.10.01.00.57.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NUXTaxsY7NaXachlgBjQGlyIz9BkJJJNfphdb55Lwns=;
+        b=WDwF8GIqBnkfsdWteszIjp7wJYd7FVeDrpTW3U1ax092hda0zKxSEAzCXSxafNj5kI
+         Oze14IDQPWwjgNmMV9c4nvzG996BMgnDDFZhTtx3c6oc1D6U9hEJ2z1y+lKfdAFqMibb
+         kvR7TcCHFjs7rLvl+sNZoDVSvhRRxDrATNFyRNUTOHRA9O0CjeClzyJdRzSBg+DvBRSg
+         SO2RzH+V3TRPjcQXjP9Qspc4BXVNDzcfnzE1cp3x7QlVo6w9dDg0IydEVMeBmMM2EdCe
+         IoVgxefIy8JWX+8gp8fHmPamLLvn7XvF4E4Xhu9vbmr9LIeOuI9Ciaawh3UCMzGTAV2f
+         80MQ==
+X-Gm-Message-State: AOAM532F3TTIxbxAzlH0BJmWUc1A5CDmwtuqNjLJTcamnvPqCs6y6hln
+        rXKYxqYo0BCroBOrBEBiPDJPcg==
+X-Google-Smtp-Source: ABdhPJw+OAQXeCZAgHYba/uf4iegthEQioEJaaLoGJ3ir7TtqURdZbSjpiI/+z+XYaADHTW1Un++OQ==
+X-Received: by 2002:adf:f750:: with SMTP id z16mr7697659wrp.377.1601546875447;
+        Thu, 01 Oct 2020 03:07:55 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:109:4a0f:cfff:fe4a:6363])
+        by smtp.gmail.com with ESMTPSA id p14sm8281917wmc.8.2020.10.01.03.07.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 00:57:32 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] kbuild: doc: describe proper script invocation
-Date:   Thu,  1 Oct 2020 09:57:23 +0200
-Message-Id: <20201001075723.24246-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 01 Oct 2020 03:07:54 -0700 (PDT)
+Date:   Thu, 1 Oct 2020 11:07:50 +0100
+From:   Andrew Scull <ascull@google.com>
+To:     George-Aurelian Popescu <georgepope@google.com>
+Cc:     maz@kernel.org, catalin.marinas@arm.com, will@kernel.org,
+        masahiroy@kernel.org, michal.lkml@markovi.net,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        clang-built-linux@googlegroups.com, james.morse@arm.com,
+        julien.thierry.kdev@gmail.com, suzuki.poulose@arm.com,
+        natechancellor@gmail.com, ndesaulniers@google.com,
+        dbrazdil@google.com, broonie@kernel.org, maskray@google.com,
+        keescook@chromium.org, akpm@linux-foundation.org,
+        dvyukov@google.com, elver@google.com, tglx@linutronix.de,
+        arnd@arndb.de
+Subject: Re: [PATCH 03/14] KVM: arm64: Add support for creating and checking
+ a logging buffer inside hyp/nVHE
+Message-ID: <20201001100750.GA541087@google.com>
+References: <20200914172750.852684-1-georgepope@google.com>
+ <20200914172750.852684-4-georgepope@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200914172750.852684-4-georgepope@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-During an investigation to fix up the execute bits of scripts in the kernel
-repository, Andrew Morton and Kees Cook pointed out that the execute bit
-should not matter, and that build scripts cannot rely on that. Kees could
-not point to any documentation, though.
+On Mon, Sep 14, 2020 at 05:27:39PM +0000, George-Aurelian Popescu wrote:
+> From: George Popescu <georgepope@google.com>
+> 
+> Share a buffer between the kernel and the hyp/nVHE code by using the
+> macros from kvm_debug_buffer.h.
+> 
+> The buffer is composed of a writing index and a statically allocated
+> array. The writing index counts how many elements have been written inside
+> the buffer and should be set to zero whenever the code goes back to
+> EL2 with the clear_kvm_debug_buffer macro.
+> 
+> To avoid consistency problems the buffer is defined per_cpu and is designed
+> to be read-only from the kernel perspective.
+> 
+> Check if there is any logging data from hyp/nVHE code.
+> 
+> Every time when the state returns back to the kernel after an hvc call,
+> the __kvm_arm_check_debug_buffer macro checks if there is any data inside
+> one of the predefined buffers.
+> 
+> Signed-off-by: George Popescu <georgepope@google.com>
+> ---
+>  arch/arm64/include/asm/kvm_debug_buffer.h | 34 +++++++++++++++++++++++
+>  arch/arm64/include/asm/kvm_host.h         |  6 ++++
+>  arch/arm64/kvm/hyp/hyp-entry.S            |  2 +-
+>  3 files changed, 41 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm64/include/asm/kvm_debug_buffer.h
+> 
+> diff --git a/arch/arm64/include/asm/kvm_debug_buffer.h b/arch/arm64/include/asm/kvm_debug_buffer.h
+> new file mode 100644
+> index 000000000000..30c9b0b1a7bf
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/kvm_debug_buffer.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright 2020 Google LLC
+> + * Author: George Popescu <georgepope@google.com>
+> + */
+> +#ifndef __ASSEMBLY__
+> +
+> +#include <linux/percpu-defs.h>
+> +#include <asm/kvm_asm.h>
+> +
+> +#ifdef __KVM_NVHE_HYPERVISOR__
+> +#define DEFINE_KVM_DEBUG_BUFFER(type_name, buff_name, size)             \
+> +	DEFINE_PER_CPU(type_name, buff_name)[(size)];	                \
+> +	DEFINE_PER_CPU(unsigned long, buff_name##_wr_ind) = 0
+> +
+> +#define DECLARE_KVM_DEBUG_BUFFER(type_name, buff_name, size)            \
+> +	DECLARE_PER_CPU(type_name, buff_name)[(size)];                  \
+> +	DECLARE_PER_CPU(unsigned long, buff_name##_wr_ind)
+> +
+> +#else
+> +
+> +#define DECLARE_KVM_DEBUG_BUFFER(type_name, buff_name, size)            \
+> +	DECLARE_PER_CPU(type_name, kvm_nvhe_sym(buff_name))[(size)];    \
+> +	DECLARE_PER_CPU(unsigned long, kvm_nvhe_sym(buff_name##_wr_ind))
+> +#endif //__KVM_NVHE_HYPERVISOR__
 
-Masahiro Yamada explained the convention of setting execute bits to make it
-easier for manual script invocation.
+nit: comment style, here and below
 
-Provide some basic documentation how the build shall invoke scripts, such
-that the execute bits do not matter, and acknowledge that execute bits
-are useful nonetheless.
+> +
+> +#else
+> +
+> +.macro clear_kvm_debug_buffer sym tmp1, tmp2, tmp3
+> +	mov \tmp1, 0
+> +	hyp_str_this_cpu \sym, \tmp1, \tmp2, \tmp3
+> +.endm
 
-This serves as reference for further clean-up patches in the future.
+Can you can use xzr (zero register) directly rather than moving the
+constant 0 into a temporary?
 
-Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
-Link: https://lore.kernel.org/linux-kbuild/CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com/
+	hyp_str_this_cpu \sym, xzr, \tmp1, \tmp2
 
-Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-Suggested-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
-RFC v1 -> RFC v2:
-explain why execute bits are still convenient.
+> +
+> +#endif // __ASSEMBLY__
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 905c2b87e05a..adc8957e9321 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -494,6 +494,10 @@ u64 __kvm_call_hyp(void *hypfn, ...);
+>  		__kvm_call_hyp(kvm_ksym_ref_nvhe(f), ##__VA_ARGS__);	\
+>  	})
+>  
+> +#define __kvm_arm_check_debug_buffer()					\
+> +{									\
+> +}
+> +
+>  /*
+>   * The couple of isb() below are there to guarantee the same behaviour
+>   * on VHE as on !VHE, where the eret to EL1 acts as a context
+> @@ -506,6 +510,7 @@ u64 __kvm_call_hyp(void *hypfn, ...);
+>  			isb();						\
+>  		} else {						\
+>  			kvm_call_hyp_nvhe(f, ##__VA_ARGS__);		\
+> +			__kvm_arm_check_debug_buffer();			\
+>  		}							\
+>  	} while(0)
+>  
+> @@ -518,6 +523,7 @@ u64 __kvm_call_hyp(void *hypfn, ...);
+>  			isb();						\
+>  		} else {						\
+>  			ret = kvm_call_hyp_nvhe_ret(f, ##__VA_ARGS__);	\
+> +			__kvm_arm_check_debug_buffer();			\
 
-Kees, Andrew, please ack.
+As Will was pointing out earlier, does the checking need to have
+preemption disabled in case there is another call into hyp that corrupts
+the buffer while it is being checked?
 
-Masahiro-san, I have taken your feedback into account. Please pick this small
-documentation update into your kbuild tree.
+>  		}							\
+>  									\
+>  		ret;							\
+> diff --git a/arch/arm64/kvm/hyp/hyp-entry.S b/arch/arm64/kvm/hyp/hyp-entry.S
+> index 46b4dab933d0..8df0082b9ccf 100644
+> --- a/arch/arm64/kvm/hyp/hyp-entry.S
+> +++ b/arch/arm64/kvm/hyp/hyp-entry.S
+> @@ -68,7 +68,7 @@ el1_sync:				// Guest trapped into EL2
+>  	cbnz	x1, el1_hvc_guest	// called HVC
+>  
+>  	/* Here, we're pretty sure the host called HVC. */
+> -	ldp	x0, x1, [sp], #16
+> +	ldp	x0, x1,	[sp], #16
 
-Ujjwal Kumar, a potential future mentee, will follow up with further fixes to
-the build scripts.
+Is this a whitespace change? Maybe drop from this patch if it isn't
+related.
 
- Documentation/kbuild/makefiles.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 58d513a0fa95..bd3e1baf58be 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -21,6 +21,7 @@ This document describes the Linux kernel Makefiles.
- 	   --- 3.10 Special Rules
- 	   --- 3.11 $(CC) support functions
- 	   --- 3.12 $(LD) support functions
-+	   --- 3.13 Script Invocation
- 
- 	=== 4 Host Program support
- 	   --- 4.1 Simple Host Program
-@@ -605,6 +606,25 @@ more details, with real examples.
- 		#Makefile
- 		LDFLAGS_vmlinux += $(call ld-option, -X)
- 
-+3.13 Script invocation
-+----------------------
-+
-+	Make rules may invoke scripts to build the kernel. The rules shall
-+	always provide the appropriate interpreter to execute the script. They
-+	shall not rely on the execute bits being set, and shall not invoke the
-+	script directly. For the convenience of manual script invocation, such
-+	as invoking ./scripts/checkpatch.pl, it is recommended to set execute
-+	bits on the scripts nonetheless.
-+
-+	Kbuild provides variables $(CONFIG_SHELL), $(AWK), $(PERL),
-+	$(PYTHON) and $(PYTHON3) to refer to interpreters for the respective
-+	scripts.
-+
-+	Example::
-+
-+		#Makefile
-+		cmd_depmod = $(CONFIG_SHELL) $(srctree)/scripts/depmod.sh $(DEPMOD) \
-+			     $(KERNELRELEASE)
- 
- 4 Host Program support
- ======================
--- 
-2.17.1
-
+>  
+>  	/* Check for a stub HVC call */
+>  	cmp	x0, #HVC_STUB_HCALL_NR
+> -- 
+> 2.28.0.618.gf4bc123cb7-goog
+> 
