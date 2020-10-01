@@ -2,53 +2,53 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E49127FDB9
-	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Oct 2020 12:52:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0712027FDE2
+	for <lists+linux-kbuild@lfdr.de>; Thu,  1 Oct 2020 12:57:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732060AbgJAKwH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 1 Oct 2020 06:52:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52716 "EHLO
+        id S1731931AbgJAK5g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 1 Oct 2020 06:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731977AbgJAKwH (ORCPT
+        with ESMTP id S1731888AbgJAK5g (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 1 Oct 2020 06:52:07 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADCF1C0613E2
-        for <linux-kbuild@vger.kernel.org>; Thu,  1 Oct 2020 03:52:06 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id s12so5119488wrw.11
-        for <linux-kbuild@vger.kernel.org>; Thu, 01 Oct 2020 03:52:06 -0700 (PDT)
+        Thu, 1 Oct 2020 06:57:36 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F848C0613D0
+        for <linux-kbuild@vger.kernel.org>; Thu,  1 Oct 2020 03:57:36 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id e2so2548897wme.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 01 Oct 2020 03:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=k2N0J/M9yplh3qBJTgm1trDqAWsQTbieqBVpcxzeRPI=;
-        b=peG/ZBsEykKqm9oTMBx4fR4/bBMNa2xWkWHFuhuoSp0nPd5MDVeQdCOKCO0kN9CmDD
-         zOEavwXdNYiPi/kCnqk+LFRkpLO0FY+b64//p4gpheRsRoOK6OJ0dhW5Mwu6xCQ/hON9
-         H8cV2/1Ra0LflfbdXgYJRQhgBrc4eMajxPOjteMUYyy38iowW7V2U8JOzeNt6mDY7ghf
-         0mSKl4BBUxSkzLB9wQ5dH0sQKkOpNPrWa5E3/fa7qMkauuksf1AnibTgAhVL0Xp9rcd6
-         60gOegQinQi70+Ie2OKoyJQnhll6RVXNxDB1cfegJ9LIFjUIt4qIyl5WhQbWjwVIPDLE
-         cAqQ==
+        bh=uIC7dj7oltWe68l04x0L6fWnaqmGQcvXiQBbnnS12XU=;
+        b=N8ey+YcuMPXshManX3zPwywfOqeeNx1A+UcGWlWQ42qMYLsZxU5gVninqb376OrTab
+         tNm3q9DB534M24+asCWHSsEssHzbplzSFsBkc/pCgsZEtnQ3elRGtE/Q5IObT50DijC3
+         UmLLTpgJ4lUr0H3OJqpDW9aKOBWB0RZ5DmvrxumWfUN1rm//1CbPYTGxeQc1Uw8Lz7VG
+         ZKeffsRrg8mjPPKf3ixhWmGOQCKOIMLPWb1x7KTnlxYxloWGwEZphXYNeZxt64BP0cn8
+         pj2+tCmKLs0ZV7qNvGV4xuQNOpINkqV75Nc+NtD3jroYMhe+0So6sTTrTI+FvV0K3nRF
+         FE0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=k2N0J/M9yplh3qBJTgm1trDqAWsQTbieqBVpcxzeRPI=;
-        b=PrKxHyXgbkeDHKrieaCS5okzQdrBYPVjXveKkDAwPXroc6Smmk82GtKOTEF9u2Pqcr
-         mu8W+tYLhOZ7mA9Hasb9EDi7sHP3mW3McNv+9KGSg17fOAxrdYjCZ1ZpRkPipCdB/wCF
-         3IhKek4dXjTm+MaON5jRujlxPCDbN+u7Xngf/z9HYoAnsQRuWqbqCHOoSxbXq4PsPAzs
-         /+vXdER5fUmdyY6QKcRjPia6IEDv6P3F4wJRaRpHq5d6e6Ms/ZLHy8Y5vJ8s5ZWZMy+O
-         CZ9H6mkjZMCGRaRmKRtd0kdRReOuD9oEEuBAqBl1aFdXoHvttiTMN2yybVJu7m8zZyWZ
-         2PjA==
-X-Gm-Message-State: AOAM533m3LxF22eczeHliZETBLEjaJt+e+OOqX91k80GYOw9vrZ/GV7z
-        Fr9ZZkeupz/CXwxyMXrDiASesA==
-X-Google-Smtp-Source: ABdhPJw4xVEknNO9ydWnolFnG34BKOtlr/IEZ4YTGX+i9Dn0gani5VcV6oYIUxM0kGF6DYGs385bBQ==
-X-Received: by 2002:adf:f2d0:: with SMTP id d16mr7896961wrp.332.1601549524567;
-        Thu, 01 Oct 2020 03:52:04 -0700 (PDT)
+        bh=uIC7dj7oltWe68l04x0L6fWnaqmGQcvXiQBbnnS12XU=;
+        b=A6ZxjMFDPew4mdumEyf0gg9sLmatLdCsKUvWjOcc4QOsoXDiwepczFdlYSGAtmF7eq
+         SPAEFicqERZ8DR8kOdrc/6RfbnD3Wn1TceypQ/pwXsx5xK9MBMGopBxA4Hz7i4ltdyXg
+         QHxfYlDg0NNkR8lCePumMi/sNqMhhGJGOvQfZsZOwpRKOw82BQCke1RocrGN2ICSw5qU
+         lCuAL74h4bKdmCSS4e81tA5a7XnRBnHQuVlm/D2pTRYmuiXAaIVrDCMO7lO4jmHMXLu0
+         6mWPnCOi5/84OiQZaCuEAma+Y2PjTVqNQ8eowsZ0TGQLpI4KOUfxm/L83yzCgz7NiZeg
+         b7AA==
+X-Gm-Message-State: AOAM532T2sOUCUuUDIQp13hiTyONZqzjyjoki24k0jMUxvia48W45xzb
+        RxclDUo+RkuFFJpIVzFEtkU0fg==
+X-Google-Smtp-Source: ABdhPJzH81yvoV14kh0UBrupVwtAp8vc2BgwRUJ/AgiG5QgwEW8w4M550SI7tTEK9mrDCKojnPs7wA==
+X-Received: by 2002:a1c:f612:: with SMTP id w18mr7636314wmc.47.1601549854655;
+        Thu, 01 Oct 2020 03:57:34 -0700 (PDT)
 Received: from google.com ([2a00:79e0:d:109:4a0f:cfff:fe4a:6363])
-        by smtp.gmail.com with ESMTPSA id i33sm9151325wri.79.2020.10.01.03.52.03
+        by smtp.gmail.com with ESMTPSA id z13sm8267476wro.97.2020.10.01.03.57.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 03:52:03 -0700 (PDT)
-Date:   Thu, 1 Oct 2020 11:51:59 +0100
+        Thu, 01 Oct 2020 03:57:33 -0700 (PDT)
+Date:   Thu, 1 Oct 2020 11:57:29 +0100
 From:   Andrew Scull <ascull@google.com>
 To:     George-Aurelian Popescu <georgepope@google.com>
 Cc:     maz@kernel.org, catalin.marinas@arm.com, will@kernel.org,
@@ -62,288 +62,134 @@ Cc:     maz@kernel.org, catalin.marinas@arm.com, will@kernel.org,
         keescook@chromium.org, akpm@linux-foundation.org,
         dvyukov@google.com, elver@google.com, tglx@linutronix.de,
         arnd@arndb.de
-Subject: Re: [PATCH 05/14] KVM: arm64: Define a buffer that can pass UBSan
- data from hyp/nVHE to kernel
-Message-ID: <20201001105159.GB541087@google.com>
+Subject: Re: [PATCH 07/14] KVM: arm64: Enable UBSAN_BOUNDS for the both the
+ kernel and hyp/nVHE
+Message-ID: <20201001105729.GA632887@google.com>
 References: <20200914172750.852684-1-georgepope@google.com>
- <20200914172750.852684-6-georgepope@google.com>
+ <20200914172750.852684-8-georgepope@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200914172750.852684-6-georgepope@google.com>
+In-Reply-To: <20200914172750.852684-8-georgepope@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 05:27:41PM +0000, George-Aurelian Popescu wrote:
+On Mon, Sep 14, 2020 at 05:27:43PM +0000, George-Aurelian Popescu wrote:
 > From: George Popescu <georgepope@google.com>
 > 
-> Store data, which is collected from UBSan handlers that lives inside hyp/nVHE,
-> into the kvm_ubsan_buffer.
-> This buffer is designed to store only UBSan data because it should not be
-> preoccupied by other mechanisms data structures and functionalities.
+> If an out of bounds happens inside the hyp/nVHE code, the
+> ubsan_out_of_bounds handler stores the logging data inside the
+> kvm_ubsan_buffer. The one responsible for printing is the kernel
+> ubsan_out_of_bounds handler. The process of decapsulating the data happens
+> in kvm_ubsan_buffer.c.
 > 
-> Map the buffer and the write iqndex before switching the control to
-> hyp/nVHE.
+> The struct kvm_ubsan_info contains three main components:
+> -enum type, which is used to identify which handler to call from the
+> kernel.
+> -struct ubsan_values, which stores the operands involved during the
+> undefined behaviours, which can be one, two or zero, depending on what
+> undefiend behaviour is reported. As an example for: out_of_bounds there
+> is only one operand (the index).
 > 
-> Map the kernel .data region to read the compile time generated UBSan struct's
-> data from hyp/nVHE.
+> Accessing a slot with no type should do nothing. Each slot is marked
+> with the UBSAN_NONE tag after it's first usage.
 > 
 > Signed-off-by: George Popescu <georgepope@google.com>
 > ---
->  arch/arm64/include/asm/kvm_asm.h   |  3 +++
->  arch/arm64/include/asm/kvm_host.h  |  6 +++++
->  arch/arm64/include/asm/kvm_ubsan.h | 17 +++++++++++++
->  arch/arm64/kvm/Makefile            |  4 ++++
->  arch/arm64/kvm/arm.c               | 38 +++++++++++++++++++++++++++++-
->  arch/arm64/kvm/hyp/hyp-entry.S     |  4 ++++
->  arch/arm64/kvm/hyp/nvhe/ubsan.c    | 24 ++++++++++++++++++-
->  arch/arm64/kvm/kvm_ubsan_buffer.c  | 32 +++++++++++++++++++++++++
->  8 files changed, 126 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm64/include/asm/kvm_ubsan.h
->  create mode 100644 arch/arm64/kvm/kvm_ubsan_buffer.c
+>  arch/arm64/include/asm/kvm_ubsan.h | 19 ++++++++++++++++++-
+>  arch/arm64/kvm/hyp/nvhe/ubsan.c    | 13 ++++++++++++-
+>  arch/arm64/kvm/kvm_ubsan_buffer.c  | 13 ++++++++++++-
+>  3 files changed, 42 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/arm64/include/asm/kvm_asm.h b/arch/arm64/include/asm/kvm_asm.h
-> index 200bb8d0a720..9d4a77f08ffd 100644
-> --- a/arch/arm64/include/asm/kvm_asm.h
-> +++ b/arch/arm64/include/asm/kvm_asm.h
-> @@ -63,6 +63,9 @@
->  #define CHOOSE_VHE_SYM(sym)	sym
->  #define CHOOSE_NVHE_SYM(sym)	kvm_nvhe_sym(sym)
->  
-> +#define this_cpu_ptr_nvhe(sym)		this_cpu_ptr(&kvm_nvhe_sym(sym))
-> +#define per_cpu_ptr_nvhe(sym, cpu)	per_cpu_ptr(&kvm_nvhe_sym(sym), cpu)
-> +
->  #ifndef __KVM_NVHE_HYPERVISOR__
->  /*
->   * BIG FAT WARNINGS:
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index adc8957e9321..337fd2d0f976 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -494,8 +494,14 @@ u64 __kvm_call_hyp(void *hypfn, ...);
->  		__kvm_call_hyp(kvm_ksym_ref_nvhe(f), ##__VA_ARGS__);	\
->  	})
->  
-> +#ifdef CONFIG_UBSAN
-> +extern void __kvm_check_ubsan_buffer(void);
-> +#endif
-> +
->  #define __kvm_arm_check_debug_buffer()					\
->  {									\
-> +	if (IS_ENABLED(CONFIG_UBSAN))					\
-> +		__kvm_check_ubsan_buffer();				\
->  }
->  
->  /*
 > diff --git a/arch/arm64/include/asm/kvm_ubsan.h b/arch/arm64/include/asm/kvm_ubsan.h
-> new file mode 100644
-> index 000000000000..af607a796376
-> --- /dev/null
+> index af607a796376..575881e0bd5f 100644
+> --- a/arch/arm64/include/asm/kvm_ubsan.h
 > +++ b/arch/arm64/include/asm/kvm_ubsan.h
-> @@ -0,0 +1,17 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright 2020 Google LLC
-> + * Author: George Popescu <georgepope@google.com>
-> + */
-> +
-> +#ifdef CONFIG_UBSAN
-
-The header should have an inclusion guard as well.
-
-> +#include <ubsan.h>
-
-Is it possible to only include this from within kvm_ubsan_buffer.c
-similar to how lib/ubsan.c keeps it self contained? Then export
-function for things like mapping it up to hyp?
-
-> +
-> +
-> +#define UBSAN_MAX_TYPE 6
-> +#define KVM_UBSAN_BUFFER_SIZE 1000
-> +
-> +struct kvm_ubsan_info {
-> +	int type;
+> @@ -11,7 +11,24 @@
+>  #define UBSAN_MAX_TYPE 6
+>  #define KVM_UBSAN_BUFFER_SIZE 1000
+>  
+> +struct ubsan_values {
+> +	void *lval;
+> +	void *rval;
+> +	char op;
 > +};
-> +#endif
-> diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
-> index 99977c1972cc..92f06cb5b3df 100644
-> --- a/arch/arm64/kvm/Makefile
-> +++ b/arch/arm64/kvm/Makefile
-> @@ -24,4 +24,8 @@ kvm-y := $(KVM)/kvm_main.o $(KVM)/coalesced_mmio.o $(KVM)/eventfd.o \
->  	 vgic/vgic-mmio-v3.o vgic/vgic-kvm-device.o \
->  	 vgic/vgic-its.o vgic/vgic-debug.o
->  
-> +CFLAGS_kvm_ubsan_buffer.o += -I $(srctree)/lib/
-> +CFLAGS_arm.o += -I $(srctree)/lib
 > +
-> +kvm-$(CONFIG_UBSAN) += kvm_ubsan_buffer.o
->  kvm-$(CONFIG_KVM_ARM_PMU)  += pmu-emul.o
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index b588c3b5c2f0..eff57069e103 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -42,10 +42,17 @@
->  #include <kvm/arm_pmu.h>
->  #include <kvm/arm_psci.h>
->  
-> +#include <asm/kvm_debug_buffer.h>
-> +#include <asm/kvm_ubsan.h>
-> +
->  #ifdef REQUIRES_VIRT
->  __asm__(".arch_extension	virt");
+>  struct kvm_ubsan_info {
+> -	int type;
+> +	enum {
+> +		UBSAN_NONE,
+> +		UBSAN_OUT_OF_BOUNDS
+> +	} type;
+> +	union {
+> +		struct out_of_bounds_data out_of_bounds_data;
+> +	};
+> +	union {
+> +		struct ubsan_values u_val;
+> +	};
+>  };
 >  #endif
->  
-> +#ifdef CONFIG_UBSAN
-> +DECLARE_KVM_DEBUG_BUFFER(struct kvm_ubsan_info, kvm_ubsan_buff, KVM_UBSAN_BUFFER_SIZE);
-> +#endif
 > +
->  DEFINE_PER_CPU(kvm_host_data_t, kvm_host_data);
->  static DEFINE_PER_CPU(unsigned long, kvm_arm_hyp_stack_page);
->  
-> @@ -1519,7 +1526,15 @@ static int init_hyp_mode(void)
->  		kvm_err("Cannot map bss section\n");
->  		goto out_err;
->  	}
-> -
-> +#ifdef CONFIG_UBSAN
-> +	/* required by ubsan to access the handlers structures fields */
-> +	err = create_hyp_mappings(kvm_ksym_ref(_data),
-> +				  kvm_ksym_ref(__end_once), PAGE_HYP_RO);
-> +	if (err) {
-> +		kvm_err("Cannot map data section\n");
-> +		goto out_err;
-> +	}
-> +#endif
->  	err = kvm_map_vectors();
->  	if (err) {
->  		kvm_err("Cannot map vectors\n");
-> @@ -1552,6 +1567,27 @@ static int init_hyp_mode(void)
->  		}
->  	}
->  
-> +#ifdef CONFIG_UBSAN
-> +	for_each_possible_cpu(cpu) {
-> +		/* map the write index */
-> +		struct kvm_ubsan_info *buff;
-> +		unsigned long *wr_ind;
-> +
-> +		wr_ind = per_cpu_ptr_nvhe(kvm_ubsan_buff_wr_ind, cpu);
-> +		err = create_hyp_mappings(wr_ind, wr_ind + 1, PAGE_HYP);
-> +		if (err) {
-> +			kvm_err("Cannot map the busan buffer write index: %d\n", err);
-> +			goto out_err;
-> +		}
-> +		buff = per_cpu_ptr(kvm_nvhe_sym(kvm_ubsan_buff), cpu);
-> +		err = create_hyp_mappings(buff, buff + KVM_UBSAN_BUFFER_SIZE, PAGE_HYP);
-> +		if (err) {
-> +			kvm_err("Cannot map the ubsan buffer: %d\n", err);
-> +			goto out_err;
-> +		}
-> +	}
-> +#endif
-> +
->  	err = hyp_map_aux_data();
->  	if (err)
->  		kvm_err("Cannot map host auxiliary data: %d\n", err);
-> diff --git a/arch/arm64/kvm/hyp/hyp-entry.S b/arch/arm64/kvm/hyp/hyp-entry.S
-> index 8df0082b9ccf..bcdbab4d2e43 100644
-> --- a/arch/arm64/kvm/hyp/hyp-entry.S
-> +++ b/arch/arm64/kvm/hyp/hyp-entry.S
-> @@ -14,6 +14,7 @@
->  #include <asm/kvm_asm.h>
->  #include <asm/kvm_mmu.h>
->  #include <asm/mmu.h>
-> +#include <asm/kvm_debug_buffer.h>
->  
->  .macro save_caller_saved_regs_vect
->  	/* x0 and x1 were saved in the vector entry */
-> @@ -74,6 +75,9 @@ el1_sync:				// Guest trapped into EL2
->  	cmp	x0, #HVC_STUB_HCALL_NR
->  	b.hs	1f
->  
-> +#ifdef CONFIG_UBSAN
-> +	clear_kvm_debug_buffer kvm_ubsan_buff_wr_ind, x4, x5, x6
-> +#endif
->  	/*
->  	 * Compute the idmap address of __kvm_handle_stub_hvc and
->  	 * jump there. Since we use kimage_voffset, do not use the
+> +void __ubsan_handle_out_of_bounds(void *_data, void *index);
 > diff --git a/arch/arm64/kvm/hyp/nvhe/ubsan.c b/arch/arm64/kvm/hyp/nvhe/ubsan.c
-> index a5db6b61ceb2..a43c9646e1e8 100644
+> index a43c9646e1e8..b2d3404f6215 100644
 > --- a/arch/arm64/kvm/hyp/nvhe/ubsan.c
 > +++ b/arch/arm64/kvm/hyp/nvhe/ubsan.c
-> @@ -3,9 +3,31 @@
->   * Copyright 2020 Google LLC
->   * Author: George Popescu <georgepope@google.com>
->   */
-> +#include <linux/bitops.h>
->  #include <linux/ctype.h>
->  #include <linux/types.h>
-> -#include <ubsan.h>
-> +#include <linux/percpu-defs.h>
-> +#include <linux/kvm_host.h>
-> +#include <asm/kvm_arm.h>
-> +#include <asm/kvm_asm.h>
-> +#include <asm/kvm_ubsan.h>
-> +#include <asm/kvm_debug_buffer.h>
-> +#include <kvm/arm_pmu.h>
-> +
-> +DEFINE_KVM_DEBUG_BUFFER(struct kvm_ubsan_info, kvm_ubsan_buff, KVM_UBSAN_BUFFER_SIZE);
-> +
-> +static inline struct kvm_ubsan_info *kvm_ubsan_buffer_next_slot(void)
-> +{
-> +	struct kvm_ubsan_info *res;
-> +	struct kvm_ubsan_info *buff;
-> +	unsigned long *buff_ind;
-> +	unsigned long buff_size = KVM_UBSAN_BUFFER_SIZE;
-> +	unsigned int struct_size = sizeof(struct kvm_ubsan_info);
-> +
-> +	init_kvm_debug_buffer(kvm_ubsan_buff, struct kvm_ubsan_info, buff, buff_ind);
-> +	res = kvm_debug_buffer_next_slot(buff, buff_ind, struct_size, buff_size);
-> +	return res;
-> +}
+> @@ -43,7 +43,18 @@ void __ubsan_handle_type_mismatch(struct type_mismatch_data *data, void *ptr) {}
 >  
->  void __ubsan_handle_add_overflow(void *_data, void *lhs, void *rhs) {}
+>  void __ubsan_handle_type_mismatch_v1(void *_data, void *ptr) {}
 >  
-> diff --git a/arch/arm64/kvm/kvm_ubsan_buffer.c b/arch/arm64/kvm/kvm_ubsan_buffer.c
-> new file mode 100644
-> index 000000000000..28dcf19b5706
-> --- /dev/null
-> +++ b/arch/arm64/kvm/kvm_ubsan_buffer.c
-> @@ -0,0 +1,32 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright 2020 Google LLC
-> + * Author: George Popescu <georgepope@google.com>
-> + */
-> +
-> +#include <linux/ctype.h>
-> +#include <linux/types.h>
-> +#include <asm/kvm_debug_buffer.h>
-> +#include <asm/kvm_arm.h>
-> +#include <asm/kvm_asm.h>
-> +#include <kvm/arm_pmu.h>
-> +
-> +#include <ubsan.h>
-> +#include <asm/kvm_ubsan.h>
-> +
-> +DECLARE_KVM_DEBUG_BUFFER(struct kvm_ubsan_info, kvm_ubsan_buff, KVM_UBSAN_BUFFER_SIZE);
-> +
-> +
-> +void __kvm_check_ubsan_buffer(void)
+> -void __ubsan_handle_out_of_bounds(void *_data, void *index) {}
+> +void __ubsan_handle_out_of_bounds(void *_data, void *index)
 > +{
-> +	unsigned long *write_ind;
-> +	unsigned long it;
-> +	struct kvm_ubsan_info *slot;
+> +	struct kvm_ubsan_info *slot = NULL;
+> +	struct out_of_bounds_data *data = _data;
 > +
-> +	init_kvm_debug_buffer(kvm_ubsan_buff, struct kvm_ubsan_info, slot, write_ind);
-> +	for_each_kvm_debug_buffer_slot(slot, write_ind, it) {
-> +		/* check ubsan data */
-> +		slot->type = 0;
+> +	slot = kvm_ubsan_buffer_next_slot();
+> +	if (slot) {
+> +		slot->type = UBSAN_OUT_OF_BOUNDS;
+> +		slot->out_of_bounds_data = *data;
+> +		slot->u_val.lval = index;
 > +	}
 > +}
-> +
+>  
+>  void __ubsan_handle_shift_out_of_bounds(void *_data, void *lhs, void *rhs) {}
+>  
+> diff --git a/arch/arm64/kvm/kvm_ubsan_buffer.c b/arch/arm64/kvm/kvm_ubsan_buffer.c
+> index 28dcf19b5706..ce796bdd027e 100644
+> --- a/arch/arm64/kvm/kvm_ubsan_buffer.c
+> +++ b/arch/arm64/kvm/kvm_ubsan_buffer.c
+> @@ -16,6 +16,17 @@
+>  
+>  DECLARE_KVM_DEBUG_BUFFER(struct kvm_ubsan_info, kvm_ubsan_buff, KVM_UBSAN_BUFFER_SIZE);
+>  
+> +void __kvm_check_ubsan_data(struct kvm_ubsan_info *slot)
+> +{
+> +	switch (slot->type) {
+> +	case UBSAN_NONE:
+> +		break;
+> +	case UBSAN_OUT_OF_BOUNDS:
+> +		__ubsan_handle_out_of_bounds(&slot->out_of_bounds_data,
+> +				slot->u_val.lval);
+> +		break;
+> +	}
+> +}
+>  
+>  void __kvm_check_ubsan_buffer(void)
+>  {
+> @@ -25,7 +36,7 @@ void __kvm_check_ubsan_buffer(void)
+>  
+>  	init_kvm_debug_buffer(kvm_ubsan_buff, struct kvm_ubsan_info, slot, write_ind);
+>  	for_each_kvm_debug_buffer_slot(slot, write_ind, it) {
+> -		/* check ubsan data */
+> +		__kvm_check_ubsan_data(slot);
+>  		slot->type = 0;
+
+0's called UBSAN_NONE now
+
+>  	}
+>  }
 > -- 
 > 2.28.0.618.gf4bc123cb7-goog
 > 
