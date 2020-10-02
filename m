@@ -2,64 +2,100 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFD8E281BA7
-	for <lists+linux-kbuild@lfdr.de>; Fri,  2 Oct 2020 21:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC68281E14
+	for <lists+linux-kbuild@lfdr.de>; Sat,  3 Oct 2020 00:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388513AbgJBTW2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-kbuild@lfdr.de>); Fri, 2 Oct 2020 15:22:28 -0400
-Received: from mx.metalurgs.lv ([81.198.125.103]:65054 "EHLO mx.metalurgs.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388508AbgJBTWY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 2 Oct 2020 15:22:24 -0400
-X-Greylist: delayed 365 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 15:22:23 EDT
-Received: from mx.metalurgs.lv (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id DEDCE61EF9
-        for <linux-kbuild@vger.kernel.org>; Fri,  2 Oct 2020 22:16:16 +0300 (EEST)
-Received: from kas30pipe.localhost (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id C2A2D62BEA
-        for <linux-kbuild@vger.kernel.org>; Fri,  2 Oct 2020 22:16:16 +0300 (EEST)
-Received: by mx.metalurgs.lv (Postfix, from userid 1005)
-        id C353662C54; Fri,  2 Oct 2020 22:16:15 +0300 (EEST)
-Received: from [100.64.1.74] (unknown [190.15.125.50])
-        (Authenticated sender: admin)
-        by mx.metalurgs.lv (Postfix) with ESMTPA id 3C08962AB7;
-        Fri,  2 Oct 2020 22:16:08 +0300 (EEST)
+        id S1725772AbgJBWPd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 2 Oct 2020 18:15:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42242 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgJBWPd (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 2 Oct 2020 18:15:33 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2090C0613E2
+        for <linux-kbuild@vger.kernel.org>; Fri,  2 Oct 2020 15:15:31 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id q18so1733415pgk.7
+        for <linux-kbuild@vger.kernel.org>; Fri, 02 Oct 2020 15:15:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W38dVAPuerCLRPng7jlZI5vlQvHBD4rfwSORzTtYXKQ=;
+        b=P86qJ26zBTlGzUNxp4OC0MsOBNi/tpsFSeK6wcegzOcCeUa3XqFl/Ab45EktTGWVmT
+         WDJU25a6cT72PvQXY3i14T9zxSdj3mDUKOZQXJVKxVLk8THyKRo9cDtmvJ0w60PzSF8D
+         qjFvoco0nsdU5F3wyT0KnCJwALvIBvnmJCpY0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W38dVAPuerCLRPng7jlZI5vlQvHBD4rfwSORzTtYXKQ=;
+        b=g+21bXVsRQEtAgZDRsyW6gvC6fGoGZkgx2B7KxTs5aYaKxY/FEc4C9QPjIiVTgcQa4
+         6PUBZ6UbUN1ajDMV2hSIKnRqfkJ2jbAUL8FFAKGr7S2iJjfnpFrCjoPWqTAT8Mye4jgX
+         uSMg8xviR+huabCzwEzXVJwheNUB6erUQd12DMfBoD/u++B8SAnTVmgZXpxY62pDAjjG
+         DY33u2kmb129ao7BfhPJmBPRqUoIvb4pfwEXQdmv3l6K+dT0AmFC2ttGU/QL5/AhfFtV
+         9VveFdHfphLj6L4D7Kld9lsZdGisjQh0B6kfbmvaosvF7MKPq2rUreWbuoj5mtTPMMA2
+         wmqA==
+X-Gm-Message-State: AOAM531hBQMenq1+XZljrvRDQygWVB5sEVKRmBOJGRgYOs+vvfqgjHm+
+        JG+b5D8ObG35QJdng/xfrNBt0Q==
+X-Google-Smtp-Source: ABdhPJwkAsUpzwleQKAEzT+p6nflOsz5Rf8YkJbRfNibKIrcjJp5Zw/DCWLxEksgkxLbLFyq+v6hqA==
+X-Received: by 2002:a63:511d:: with SMTP id f29mr4133234pgb.11.1601676930990;
+        Fri, 02 Oct 2020 15:15:30 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id q16sm3210133pfj.117.2020.10.02.15.15.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 15:15:29 -0700 (PDT)
+From:   Kees Cook <keescook@chromium.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Marco Elver <elver@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        George Popescu <georgepope@android.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        clang-built-linux@googlegroups.com, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] Clean up UBSAN Makefile
+Date:   Fri,  2 Oct 2020 15:15:23 -0700
+Message-Id: <20201002221527.177500-1-keescook@chromium.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Description: Mail message body
-To:     Recipients <financialcapability6@gmail.com>
-From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
-Date:   Fri, 02 Oct 2020 16:16:02 -0300
-Reply-To: binmurrah@gmail.com
-X-SpamTest-Envelope-From: financialcapability6@gmail.com
-X-SpamTest-Group-ID: 00000000
-X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
-X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
-X-SpamTest-Info: {DATE: unreal year}
-X-SpamTest-Method: none
-X-SpamTest-Rate: 55
-X-SpamTest-Status: Not detected
-X-SpamTest-Status-Extended: not_detected
-X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
-Message-ID: <20201002191615.C353662C54@mx.metalurgs.lv>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Subject: Low Rate Loan.
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20140401 #7726142, check: 20201002 notchecked
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello Dear,
+Hi,
 
-We are Investment Company offering Corporate and Personal
-Loan at 3% Interest Rate for a duration of 10Years.
+This series attempts to address the issues seen with UBSAN's object-size
+sanitizer causing problems under GCC. In the process, the Kconfig and
+Makefile are refactored to do all the cc-option calls in the Kconfig.
+Additionally start to detangle -Wno-maybe-uninitialized, and disable
+UBSAN_TRAP under COMPILE_TEST for wider build coverage.
 
-We also pay 1% commission to brokers, who introduce project
-owners for finance or other opportunities.
+Thanks!
 
-Please get back to me if you are interested for more
-details.
+-Kees
 
-Yours faithfully,
-Hashim Bin 
+Kees Cook (4):
+  ubsan: Move cc-option tests into Kconfig
+  ubsan: Disable object-size sanitizer under GCC
+  ubsan: Force -Wno-maybe-uninitialized only for GCC
+  ubsan: Disable UBSAN_TRAP for all*config
+
+ lib/Kconfig.ubsan      | 58 +++++++++++++++++++++++++++++++++++++++++-
+ scripts/Makefile.ubsan | 50 +++++++++++++-----------------------
+ 2 files changed, 74 insertions(+), 34 deletions(-)
+
+-- 
+2.25.1
+
