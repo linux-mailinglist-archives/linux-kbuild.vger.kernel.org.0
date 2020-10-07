@@ -2,56 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2473D285896
-	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Oct 2020 08:22:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31E65285D77
+	for <lists+linux-kbuild@lfdr.de>; Wed,  7 Oct 2020 12:52:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727107AbgJGGWM (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 7 Oct 2020 02:22:12 -0400
-Received: from bmailout3.hostsharing.net ([176.9.242.62]:43891 "EHLO
-        bmailout3.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726138AbgJGGWM (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 7 Oct 2020 02:22:12 -0400
-X-Greylist: delayed 484 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Oct 2020 02:22:11 EDT
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-        by bmailout3.hostsharing.net (Postfix) with ESMTPS id 226D910029E43;
-        Wed,  7 Oct 2020 08:14:05 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id C9C4378767; Wed,  7 Oct 2020 08:14:04 +0200 (CEST)
-Date:   Wed, 7 Oct 2020 08:14:04 +0200
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kbuild@vger.kernel.org, debian-kernel@lists.debian.org,
-        kernel-team@fedoraproject.org, kernel@gentoo.org,
-        opensuse-kernel@opensuse.org
-Subject: Re: [PATCH] kbuild: Cross-compile binaries to build modules on target
-Message-ID: <20201007061404.GA9356@wunner.de>
-References: <c744107b341e487cf37139597a7775f6f62e12e8.1596702608.git.lukas@wunner.de>
+        id S1727090AbgJGKwM convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 7 Oct 2020 06:52:12 -0400
+Received: from mx.metalurgs.lv ([81.198.125.103]:61402 "EHLO mx.metalurgs.lv"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728260AbgJGKwL (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 7 Oct 2020 06:52:11 -0400
+Received: from mx.metalurgs.lv (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 3B2BB62D2B
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Oct 2020 13:51:12 +0300 (EEST)
+Received: from kas30pipe.localhost (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 1E04C62C41
+        for <linux-kbuild@vger.kernel.org>; Wed,  7 Oct 2020 13:51:12 +0300 (EEST)
+Received: by mx.metalurgs.lv (Postfix, from userid 1005)
+        id C2B5561DBD; Wed,  7 Oct 2020 13:51:10 +0300 (EEST)
+Received: from [100.64.1.74] (unknown [190.15.125.55])
+        (Authenticated sender: admin)
+        by mx.metalurgs.lv (Postfix) with ESMTPA id 3816C5E76F;
+        Wed,  7 Oct 2020 13:51:02 +0300 (EEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c744107b341e487cf37139597a7775f6f62e12e8.1596702608.git.lukas@wunner.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Description: Mail message body
+To:     Recipients <financialcapability6@gmail.com>
+From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
+Date:   Wed, 07 Oct 2020 07:50:54 -0300
+Reply-To: hmurrah39@gmail.com
+X-SpamTest-Envelope-From: financialcapability6@gmail.com
+X-SpamTest-Group-ID: 00000000
+X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
+X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
+X-SpamTest-Info: {DATE: unreal year}
+X-SpamTest-Method: none
+X-SpamTest-Rate: 55
+X-SpamTest-Status: Not detected
+X-SpamTest-Status-Extended: not_detected
+X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
+Message-ID: <20201007105110.C2B5561DBD@mx.metalurgs.lv>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+Subject: Low Rate Loan./mmm,
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20140401 #7726142, check: 20201007 notchecked
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Aug 06, 2020 at 10:33:22AM +0200, Lukas Wunner wrote:
-> To build external modules, one needs executables such as fixdep and
-> modpost.  But when cross-compiling the kernel, those executables are
-> only generated for the host arch, not the target arch.
-[...]
-> Make distribution maintainers' lives easier by providing a new target
-> "make kbuild_install" which cross-compiles the required executables for
-> the target arch and installs them below $(INSTALL_KBUILD_PATH).
+Hello Dear,
 
-Two months have passed since I submitted this, alas without any
-comments.  Masahiro, Michal, what are your thoughts on this patch?
-Pretty please?
 
-Thank you,
+We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
 
-Lukas
+
+We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+
+
+Please get back to me if you are interested for more
+
+details.
+
+
+Yours faithfully,
+
+Hashim Murrah
