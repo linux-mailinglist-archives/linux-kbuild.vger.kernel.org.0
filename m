@@ -2,46 +2,47 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC9A288C00
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Oct 2020 17:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54A1D288D3B
+	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Oct 2020 17:47:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389054AbgJIPAA (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Oct 2020 11:00:00 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:48784 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388835AbgJIO77 (ORCPT
+        id S2389252AbgJIPrC (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Oct 2020 11:47:02 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:18570 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389144AbgJIPrC (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Oct 2020 10:59:59 -0400
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 099ExY3A029815;
-        Fri, 9 Oct 2020 23:59:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 099ExY3A029815
+        Fri, 9 Oct 2020 11:47:02 -0400
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 099Fkdow031281;
+        Sat, 10 Oct 2020 00:46:39 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 099Fkdow031281
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602255574;
-        bh=Fm531zIcbKwcXtpzpDAbPai1cXfOsq3Ga2UE5xKGxH8=;
+        s=dec2015msa; t=1602258400;
+        bh=uPHqCtH8kBQ7ooTjgeJwJmEs8QwVySn7ud+lvCOesSw=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ubEkmihxBq0YW+QKbvgWAL5adLP/k7amTpuF0HYgAD6Uge8YBLtFJmRiVUH/DALNc
-         E/WjK8+RzVwvUWK1UprNTuslaMXmMsjGsQze/xS4I/mf/r38OFHt8lmeL23rRdzV9Z
-         nQbELgYl0/P+nSnJ6KIbjqbbiqCpLPfVqXBnt2RYwq6ni+AxMB/UOAlSnKyamTWPuM
-         GFpUPRLuzHb5Hk+aiAPQ4WcGXGMFzFHeTB/8QO/dlYzFdTQ04Hj78PwJUG/p2Rhorb
-         Qow3rimgH/nM7UZEQS0vmVNBGqFRMKMF4sQ5lDQAASv3m8sSHh0su/+4S4KF7IqSR5
-         WgtxC0Q+wOPzQ==
-X-Nifty-SrcIP: [209.85.210.182]
-Received: by mail-pf1-f182.google.com with SMTP id k8so7101826pfk.2;
-        Fri, 09 Oct 2020 07:59:34 -0700 (PDT)
-X-Gm-Message-State: AOAM531GoKhaw1w+Uai6N+kkGgyOq6GagYV5rV6kfG7y8TTD5f+wUPdI
-        /PuNdZbRFHIMzjz1McYQl5n9qMKXtVHdUbR8z+o=
-X-Google-Smtp-Source: ABdhPJxA4RrFCPywXbRhiwzCWKX072cyaPepvpUxwdFs6DhVh1ER3FJL+YIyBSlaQ6bGE1YGWHq9e4YVQBvDeqkNwdM=
-X-Received: by 2002:a63:778f:: with SMTP id s137mr3611476pgc.7.1602255573681;
- Fri, 09 Oct 2020 07:59:33 -0700 (PDT)
+        b=nrjlfyFUFt3jPXO/bY1d3TpLjsyP24l4TetE1EaFUPVS06e/LCFER9MbUClHx88Vp
+         5l8W5hj6Pon+XwVWPsezWmHqLk7zbqISpwyoYJHdUKFqygwbIzgd37Wm3Xm9TGWc1s
+         KSZDwFyI9DjtX1hYD12snc/09SphcSm1kXlwiAizLMcXzXNxmr4OytkPW9B8pb6+XT
+         /U8BAjaJdLb7T26H7LbcMW2XU2AoRUUQLQeJL9bQUdHi3F1GT+ZyPpc7WOLgq+1Yoo
+         VLWAgtqH8/7cgRIStTryQEVMPKV1L6H7E10KZcuZXdLk3QSCoyrD0Az6GMDevhZXzr
+         sOzrvx/Itwavg==
+X-Nifty-SrcIP: [209.85.214.173]
+Received: by mail-pl1-f173.google.com with SMTP id h2so4627166pll.11;
+        Fri, 09 Oct 2020 08:46:39 -0700 (PDT)
+X-Gm-Message-State: AOAM532FQ26RVAGPTjbtQECQWQKPB2tB4vVexaMka3NEfxSDSSvJXXXz
+        0hogTneEQ1FgAK46fsRSPYItUVLsAgwesKdHRwQ=
+X-Google-Smtp-Source: ABdhPJzp5vEo3+xl6wEj6qPaVl4cErLF6gu0zKH8TjHr4KR1KbxQsEK0tRKbguCjgRqc6IOjP4MSAk+n7esBZWo2YHY=
+X-Received: by 2002:a17:902:c3d4:b029:d3:df24:1619 with SMTP id
+ j20-20020a170902c3d4b02900d3df241619mr12143028plj.1.1602258398929; Fri, 09
+ Oct 2020 08:46:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200920222556.10002-1-guillem@hadrons.org> <20200920222556.10002-2-guillem@hadrons.org>
-In-Reply-To: <20200920222556.10002-2-guillem@hadrons.org>
+References: <20200920222556.10002-1-guillem@hadrons.org> <20200920222556.10002-5-guillem@hadrons.org>
+In-Reply-To: <20200920222556.10002-5-guillem@hadrons.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 9 Oct 2020 23:58:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS_3EOYMcS-cMnEZVED_JUQa+rZottbqwD4fppC7ZXdmg@mail.gmail.com>
-Message-ID: <CAK7LNAS_3EOYMcS-cMnEZVED_JUQa+rZottbqwD4fppC7ZXdmg@mail.gmail.com>
-Subject: Re: [PATCH 1/7] builddeb: Pass -n to gzip for reproducible packages
+Date:   Sat, 10 Oct 2020 00:46:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARvmvBVa25=bgobTTnKr7VLOFPqEjtBMUiDRsPb97XMaw@mail.gmail.com>
+Message-ID: <CAK7LNARvmvBVa25=bgobTTnKr7VLOFPqEjtBMUiDRsPb97XMaw@mail.gmail.com>
+Subject: Re: [PATCH 4/7] builddeb: Add support for all required debian/rules targets
 To:     Guillem Jover <guillem@hadrons.org>
 Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -53,31 +54,55 @@ X-Mailing-List: linux-kbuild@vger.kernel.org
 
 On Mon, Sep 21, 2020 at 7:48 AM Guillem Jover <guillem@hadrons.org> wrote:
 >
-> We should not be encoding the timestamp, otherwise we end up generating
-> unreproducible files that cascade into unreproducible packages.
+> These have been required by the Debian policy for a while, even though
+> the tooling can detect and workaround their omission, but are a hard
+> requirement when using rootless builds.
 >
+
+
+Applied to linux-kbuild. Thanks.
+
+
+I added a little more explanation about why this patch is needed.
+
+[masahiro:
+The following Debian policy is particularly important for rootless builds:
+"Both binary-* targets should depend on the build target, or on the
+ appropriate build-arch or build-indep target, so that the package is
+ built if it has not been already."
+]
+
+
+
+
+
+
 > Signed-off-by: Guillem Jover <guillem@hadrons.org>
-
-
-Applied to linux-kbuild.
-Thanks.
-
 > ---
->  scripts/package/builddeb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/package/mkdebian | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> diff --git a/scripts/package/builddeb b/scripts/package/builddeb
-> index 6df3c9f8b2da..b14abbe5afbb 100755
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -31,7 +31,7 @@ create_package() {
->         mkdir -p "$pdir/usr/share/doc/$pname"
->         cp debian/copyright "$pdir/usr/share/doc/$pname/"
->         cp debian/changelog "$pdir/usr/share/doc/$pname/changelog.Debian"
-> -       gzip -9 "$pdir/usr/share/doc/$pname/changelog.Debian"
-> +       gzip -n -9 "$pdir/usr/share/doc/$pname/changelog.Debian"
->         sh -c "cd '$pdir'; find . -type f ! -path './DEBIAN/*' -printf '%P\0' \
->                 | xargs -r0 md5sum > DEBIAN/md5sums"
+> diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> index 69f2a6d7f009..dae6c0ec0bd6 100755
+> --- a/scripts/package/mkdebian
+> +++ b/scripts/package/mkdebian
+> @@ -231,11 +231,15 @@ cat <<EOF > debian/rules
+>
+>  srctree ?= .
+>
+> -build:
+> +build-indep:
+> +build-arch:
+>         \$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
+>         KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile
+>
+> -binary-arch:
+> +build: build-arch
+> +
+> +binary-indep:
+> +binary-arch: build-arch
+>         \$(MAKE) KERNELRELEASE=${version} ARCH=${ARCH} \
+>         KBUILD_BUILD_VERSION=${revision} -f \$(srctree)/Makefile intdeb-pkg
 >
 > --
 > 2.28.0.297.g1956fa8f8d
