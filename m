@@ -2,55 +2,23 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F31289A25
-	for <lists+linux-kbuild@lfdr.de>; Fri,  9 Oct 2020 23:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01017289C2F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 10 Oct 2020 01:43:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391059AbgJIVF4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 9 Oct 2020 17:05:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58760 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387598AbgJIVFz (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 9 Oct 2020 17:05:55 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C54C7C0613D2
-        for <linux-kbuild@vger.kernel.org>; Fri,  9 Oct 2020 14:05:55 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id y14so7859685pfp.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 09 Oct 2020 14:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QXQaBaNS7A6eVo/ydORo8r5bdU1C9Le836RTdHwCBbM=;
-        b=JoSdKxNwxsMfI2U0CjlTc5BwvhqCy714WkSi+WKKGJVkSxeS4A84NzKevK6CPn9KXt
-         luyi7jDs6nQbVyyVPeYM9mQUjAAefT+ScUKjFnKzQLP7hS1caTnxv6LwwjUOs1sG613o
-         Z1mfBp8CiisbR4rWjXF/lItpg0T+9m58kSN6ymcBrb9qx1Q5pE6/8rfEwDSOFoHPmLeK
-         ZOhU9su8JfRbkCsj5wTlpzUcuguhQKLNKVmqQEdIiT1RZKGFUwDcT20B3P+mB4B8pmtl
-         zOKoiM+eB3smbcYTz3v4uqlSVWDNijwAFgnLDRm8ha9grVnXIpZsyUDrdJ34aNugK5Zh
-         t79g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QXQaBaNS7A6eVo/ydORo8r5bdU1C9Le836RTdHwCBbM=;
-        b=WTriu2ztHwGevkjTjJ6JhT8hAQ7E4lcqsevGkYbT/MoIWP7pyX7hS7Gwjdpi2mVMcF
-         v/k1vd6NjbhMVmAk9SJJH+YH83+BtLD5sRvj32o1bYsddtzBhEqGrgJq5rqVdqUgperE
-         xMwjpgopVJ1WtihVdVTYl3VOQJMyIlan8qH06AdMg8cENY0jupJWYnvSr1QmpP9nP072
-         32wFTqJVe9ltACRBXI+XiN86xAxtpTnG+MaGiWeRKjrqn7V3oqgce/UcNW/SkG5qcAMP
-         GwIRrq4WIdid1nCXc4hBOXVyUBcKA5IPVCx7+ZZjgEUb2IU7V7ovPfbBN3vli7xMdgxl
-         7+iQ==
-X-Gm-Message-State: AOAM533TOKCeLW56g154W96+0VKXXFKRvRko5dxfB4Cfn8S7jV6Z4t4/
-        7sKRlVdiosVYF1UqAqWC2V/s4g==
-X-Google-Smtp-Source: ABdhPJxjzJ92vFbxcRcoQJ+j6aZ4ui51r5YFp2dBuqEKUdI8vRCJOM24sn81H3xCAiwt33ZPrcU5Mg==
-X-Received: by 2002:a65:64cc:: with SMTP id t12mr5047545pgv.106.1602277555126;
-        Fri, 09 Oct 2020 14:05:55 -0700 (PDT)
-Received: from google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
-        by smtp.gmail.com with ESMTPSA id t13sm12057753pfc.1.2020.10.09.14.05.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 14:05:54 -0700 (PDT)
-Date:   Fri, 9 Oct 2020 14:05:48 -0700
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
+        id S1727409AbgJIXmg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 9 Oct 2020 19:42:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34914 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727814AbgJIXka (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 9 Oct 2020 19:40:30 -0400
+Received: from oasis.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 51D7A2222E;
+        Fri,  9 Oct 2020 23:38:44 +0000 (UTC)
+Date:   Fri, 9 Oct 2020 19:38:38 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Will Deacon <will@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>,
@@ -64,54 +32,54 @@ Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
         x86@kernel.org
 Subject: Re: [PATCH v5 00/29] Add support for Clang LTO
-Message-ID: <20201009210548.GB1448445@google.com>
+Message-ID: <20201009193759.13043836@oasis.local.home>
+In-Reply-To: <20201009210548.GB1448445@google.com>
 References: <20201009161338.657380-1-samitolvanen@google.com>
- <20201009153512.1546446a@gandalf.local.home>
+        <20201009153512.1546446a@gandalf.local.home>
+        <20201009210548.GB1448445@google.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201009153512.1546446a@gandalf.local.home>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 03:35:12PM -0400, Steven Rostedt wrote:
-> On Fri,  9 Oct 2020 09:13:09 -0700
-> Sami Tolvanen <samitolvanen@google.com> wrote:
+On Fri, 9 Oct 2020 14:05:48 -0700
+Sami Tolvanen <samitolvanen@google.com> wrote:
+
+> Ah yes, X86_DECODER_SELFTEST seems to be broken in tip/master. If you
+> prefer, I have these patches on top of mainline here:
 > 
-> > This patch series adds support for building x86_64 and arm64 kernels
-> > with Clang's Link Time Optimization (LTO).
-> > 
-> > In addition to performance, the primary motivation for LTO is
-> > to allow Clang's Control-Flow Integrity (CFI) to be used in the
-> > kernel. Google has shipped millions of Pixel devices running three
-> > major kernel versions with LTO+CFI since 2018.
-> > 
-> > Most of the patches are build system changes for handling LLVM
-> > bitcode, which Clang produces with LTO instead of ELF object files,
-> > postponing ELF processing until a later stage, and ensuring initcall
-> > ordering.
-> > 
-> > Note that this version is based on tip/master to reduce the number
-> > of prerequisite patches, and to make it easier to manage changes to
-> > objtool. Patch 1 is from Masahiro's kbuild tree, and while it's not
-> > directly related to LTO, it makes the module linker script changes
-> > cleaner.
-> > 
+>   https://github.com/samitolvanen/linux/tree/clang-lto
 > 
-> I went to test this, but it appears that the latest tip/master fails to
-> build for me. This error is on tip/master, before I even applied a single
-> patch.
-> 
-> (config attached)
+> Testing your config with LTO on this tree, it does build and boot for
+> me, although I saw a couple of new objtool warnings, and with LLVM=1,
+> one warning from llvm-objdump.
 
-Ah yes, X86_DECODER_SELFTEST seems to be broken in tip/master. If you
-prefer, I have these patches on top of mainline here:
+Thanks, I disabled X86_DECODER_SELFTEST and it now builds.
 
-  https://github.com/samitolvanen/linux/tree/clang-lto
+I forced the objdump mcount logic with the below patch, which produces:
 
-Testing your config with LTO on this tree, it does build and boot for
-me, although I saw a couple of new objtool warnings, and with LLVM=1,
-one warning from llvm-objdump.
+CONFIG_FTRACE_MCOUNT_RECORD=y
+CONFIG_FTRACE_MCOUNT_USE_OBJTOOL=y
 
-Sami
+But I don't see the __mcount_loc sections being created.
+
+I applied patches 1 - 6.
+
+-- Steve
+
+diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+index 89263210ab26..3042619e21b7 100644
+--- a/kernel/trace/Kconfig
++++ b/kernel/trace/Kconfig
+@@ -606,7 +606,7 @@ config FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY
+ 
+ config FTRACE_MCOUNT_USE_CC
+ 	def_bool y
+-	depends on $(cc-option,-mrecord-mcount)
++	depends on $(cc-option,-mrecord-mcount1)
+ 	depends on !FTRACE_MCOUNT_USE_PATCHABLE_FUNCTION_ENTRY
+ 	depends on FTRACE_MCOUNT_RECORD
+ 
