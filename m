@@ -2,114 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91ECB28A773
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Oct 2020 15:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4278628A77A
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Oct 2020 15:28:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387848AbgJKNEs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Oct 2020 09:04:48 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:20578 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387846AbgJKNEr (ORCPT
+        id S2387878AbgJKN2t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Oct 2020 09:28:49 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:57424 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387876AbgJKN2s (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Oct 2020 09:04:47 -0400
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 09BD4Nqp002188;
-        Sun, 11 Oct 2020 22:04:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 09BD4Nqp002188
+        Sun, 11 Oct 2020 09:28:48 -0400
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 09BDSGXJ021721;
+        Sun, 11 Oct 2020 22:28:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 09BDSGXJ021721
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602421464;
-        bh=OMFBsDy/RPXiLiW/3MJoJPAqD+BEbAsFNNhKa91sz2Y=;
+        s=dec2015msa; t=1602422897;
+        bh=C8Evsvimi9w8m58rX03wEYXqN1jjHk8C45kkWA6uLIA=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t5dUOfQRE9r0F3fw54/CpLc+M39/VjjSxeiA3e/xf0QykiFVBwywTsJNNopN9gark
-         5I919YSPuMLccRPNclQRfwq99aC0j0wgP15b2UeULTdtdVZj1d0rn3YtvEZTcmrDCM
-         7mdODxmNeqA4QSLGO+inYBaxeXvmx68XmtTpSOPRh+tMdYjtue1AJEq+uaS0KXdyC3
-         2IzID1FPEaauL91ae+LZcDBVlW4Dp+mKxN4VtdZEq1f5Z+4qmsb0NPe4G61qE7KlFg
-         Wjlcgz3apRXDecrKEIk2MuN3SbtSXLMOZ19Ax7A670LplFd09ULhE2GeB2y3K7BlMx
-         juT/8FPhymsVA==
-X-Nifty-SrcIP: [209.85.215.169]
-Received: by mail-pg1-f169.google.com with SMTP id l18so2320977pgg.0;
-        Sun, 11 Oct 2020 06:04:23 -0700 (PDT)
-X-Gm-Message-State: AOAM5329+cC8c5W3nd9S6w5snzXfgfTqD/Tf5O+RM4jJDdNw0cV5Rv38
-        XQOPkpaRbbbOWPaMYd791qNhPiIfszV75U3owTo=
-X-Google-Smtp-Source: ABdhPJy384OdpW7pSrLgM3oeXXtJ/wn1xuM8xgyBEt9StGTLBEh74qkoVeh8iSFsvpYsT54V6B04DTc9DrVV+Phjbwo=
-X-Received: by 2002:a63:1b44:: with SMTP id b4mr9858962pgm.175.1602421463085;
- Sun, 11 Oct 2020 06:04:23 -0700 (PDT)
+        b=C8lw8hEVGz9yz7ySw+wxk7m73HIG23dsx0n1ch1Wo8CmfLeQZDh5KH7yPZfYzs79f
+         OwOSi9BwCDIK0Pe+g2/V6WByLUIhxl9SpXZsoLpVKdvonivZ2RfWEB9ISC5bE+Ne/D
+         NWgtJNa4Kv7sgA1Y0LHSBEdGmt6ErM3bemFZEjF2gxQETXYUu8I4hwrNYyj7yL1PS3
+         9PxBBo7YD4YxPeGU++f25cou6NH8huivkIkc8rTiqDNGoFx+TcHmyWyd9j61QR+PJW
+         HjoptKFaOVEnOB08l6OIs1sA8jT7dOn+f8X8CamAzUMnJEDTjRqC1YSiI7+XpVotx7
+         iBVIcYLwIMBxA==
+X-Nifty-SrcIP: [209.85.210.176]
+Received: by mail-pf1-f176.google.com with SMTP id e7so1962947pfn.12;
+        Sun, 11 Oct 2020 06:28:16 -0700 (PDT)
+X-Gm-Message-State: AOAM533vxIdT6/4iNNdu78W21u7w5mj6aFLh1hgiMVuSJ4HNC0ezJQMK
+        lb1UOK5fJz+onGrLaLmDZrIy1zoZooZdYWFWvBQ=
+X-Google-Smtp-Source: ABdhPJzXrZDvB8qN0Hx8fPk9y06ZZDQwlVxpsHCrfJSFMYsWWBuWtlW8dotXO8jB4Xx1j6U8Lscx8rKOs/2psCZSrjw=
+X-Received: by 2002:a63:d242:: with SMTP id t2mr10334807pgi.47.1602422896121;
+ Sun, 11 Oct 2020 06:28:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201001011232.4050282-1-andrew@lunn.ch> <20201001011232.4050282-2-andrew@lunn.ch>
- <CAKwvOdnVC8F1=QT03W5Zh9pJdTxxNfRcqXeob5_b4CXycvG1+g@mail.gmail.com>
- <20201002014411.GG4067422@lunn.ch> <CAKwvOdmdfwWsRtJHtJ16B0RMyoxUi1587OKnyunQd5gfwmnGsA@mail.gmail.com>
- <20201005194913.GC56634@lunn.ch> <CAK8P3a1qS8kaXNqAtqMKpWGx05DHVHMYwKBD_j-Zs+DHbL5CNw@mail.gmail.com>
- <20201005210808.GE56634@lunn.ch>
-In-Reply-To: <20201005210808.GE56634@lunn.ch>
+References: <20201005101026.21951-1-olaf@aepfle.de>
+In-Reply-To: <20201005101026.21951-1-olaf@aepfle.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 11 Oct 2020 22:03:45 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASB6ashOzmL5XntkPSq9a+8VoWCowP5CAt+oX0o=0y=dA@mail.gmail.com>
-Message-ID: <CAK7LNASB6ashOzmL5XntkPSq9a+8VoWCowP5CAt+oX0o=0y=dA@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 1/2] Makefile.extrawarn: Add symbol for W=1
- warnings for today
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev <netdev@vger.kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Rohit Maheshwari <rohitm@chelsio.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+Date:   Sun, 11 Oct 2020 22:27:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS7JB5ddbnTBv2ARmcSCCtkYFeYWKW_R+5zjCEdJ_P6Gg@mail.gmail.com>
+Message-ID: <CAK7LNAS7JB5ddbnTBv2ARmcSCCtkYFeYWKW_R+5zjCEdJ_P6Gg@mail.gmail.com>
+Subject: Re: [PATCH v1] kbuild: enforce -Werror=return-type
+To:     Olaf Hering <olaf@aepfle.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 6, 2020 at 6:08 AM Andrew Lunn <andrew@lunn.ch> wrote:
+On Mon, Oct 5, 2020 at 7:13 PM Olaf Hering <olaf@aepfle.de> wrote:
 >
-> > It depends a lot on what portion of the kernel gets enabled for W=1.
-> >
-> > As long as it's only drivers that are actively maintained, and they
-> > make up a fairly small portion of all code, it should not be a problem
-> > to find someone to fix useful warnings.
+> Catch errors which at least gcc tolerates by default:
+>  warning: 'return' with no value, in function returning non-void [-Wreturn-type]
 >
-> Well, drivers/net/ethernet is around 1.5M LOC. The tree as a whole is
-> just short of 23M LOC. So i guess that is a small portion of all the
-> code.
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
+> ---
+>  Makefile | 3 +++
+>  1 file changed, 3 insertions(+)
 >
->         Andrew
-
-
-I am not a big fan of KBUILD_CFLAGS_W1_<timestamp>
-since it is ugly.
-
-I'd like to start with adding individual flags
-like drivers/gpu/drm/i915/Makefile, and see
-how difficult it would be to maintain it.
-
-One drawback of your approach is that
-you cannot set KBUILD_CFLAGS_W1_20200930
-until you eliminate all the warnings in the
-sub-directory in interest.
-(i.e. all or nothing approach)
-
-At best, you can only work out from 'old -> new' order
-because KBUILD_CFLAGS_W1_20200326 is a suer-set of
-KBUILD_CFLAGS_W1_20190907, which is a suer-set of
-KBUILD_CFLAGS_W1_20190617 ...
+> diff --git a/Makefile b/Makefile
+> index f84d7e4ca0be..7b2e63e7be18 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -942,6 +942,9 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=date-time)
+>  # enforce correct pointer usage
+>  KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
+>
+> +# enforce correct return type
+> +KBUILD_CFLAGS   += $(call cc-option,-Werror=return-type)
+> +
 
 
 
-If you add flags individually, you can start with
-low-hanging fruits, or ones with higher priority
-as Arnd mentions about -Wmissing-{declaration,prototypes}.
+cc-option is unneeded because the minimal supported versions
+of GCC/Clang support -Werror=return-type.
 
-
-For example, you might be able to set
-'subdir-ccflags-y += -Wmissing-declarations'
-to drivers/net/Makefile, while
-'subdir-ccflags-y += -Wunused-but-set-variable'
-stays in drivers/net/ethernet/Makefile.
+You can hard-code and add it around line 500.
 
 
 
---
+>  # Require designated initializers for all marked structures
+>  KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
+>
+
+
+-- 
 Best Regards
 Masahiro Yamada
