@@ -2,91 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4278628A77A
-	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Oct 2020 15:28:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17A5B28A985
+	for <lists+linux-kbuild@lfdr.de>; Sun, 11 Oct 2020 21:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387878AbgJKN2t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Oct 2020 09:28:49 -0400
-Received: from conssluserg-04.nifty.com ([210.131.2.83]:57424 "EHLO
-        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387876AbgJKN2s (ORCPT
+        id S1726461AbgJKTAl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Oct 2020 15:00:41 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.20]:16882 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725855AbgJKTAl (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Oct 2020 09:28:48 -0400
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176]) (authenticated)
-        by conssluserg-04.nifty.com with ESMTP id 09BDSGXJ021721;
-        Sun, 11 Oct 2020 22:28:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 09BDSGXJ021721
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602422897;
-        bh=C8Evsvimi9w8m58rX03wEYXqN1jjHk8C45kkWA6uLIA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=C8lw8hEVGz9yz7ySw+wxk7m73HIG23dsx0n1ch1Wo8CmfLeQZDh5KH7yPZfYzs79f
-         OwOSi9BwCDIK0Pe+g2/V6WByLUIhxl9SpXZsoLpVKdvonivZ2RfWEB9ISC5bE+Ne/D
-         NWgtJNa4Kv7sgA1Y0LHSBEdGmt6ErM3bemFZEjF2gxQETXYUu8I4hwrNYyj7yL1PS3
-         9PxBBo7YD4YxPeGU++f25cou6NH8huivkIkc8rTiqDNGoFx+TcHmyWyd9j61QR+PJW
-         HjoptKFaOVEnOB08l6OIs1sA8jT7dOn+f8X8CamAzUMnJEDTjRqC1YSiI7+XpVotx7
-         iBVIcYLwIMBxA==
-X-Nifty-SrcIP: [209.85.210.176]
-Received: by mail-pf1-f176.google.com with SMTP id e7so1962947pfn.12;
-        Sun, 11 Oct 2020 06:28:16 -0700 (PDT)
-X-Gm-Message-State: AOAM533vxIdT6/4iNNdu78W21u7w5mj6aFLh1hgiMVuSJ4HNC0ezJQMK
-        lb1UOK5fJz+onGrLaLmDZrIy1zoZooZdYWFWvBQ=
-X-Google-Smtp-Source: ABdhPJzXrZDvB8qN0Hx8fPk9y06ZZDQwlVxpsHCrfJSFMYsWWBuWtlW8dotXO8jB4Xx1j6U8Lscx8rKOs/2psCZSrjw=
-X-Received: by 2002:a63:d242:: with SMTP id t2mr10334807pgi.47.1602422896121;
- Sun, 11 Oct 2020 06:28:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201005101026.21951-1-olaf@aepfle.de>
-In-Reply-To: <20201005101026.21951-1-olaf@aepfle.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 11 Oct 2020 22:27:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS7JB5ddbnTBv2ARmcSCCtkYFeYWKW_R+5zjCEdJ_P6Gg@mail.gmail.com>
-Message-ID: <CAK7LNAS7JB5ddbnTBv2ARmcSCCtkYFeYWKW_R+5zjCEdJ_P6Gg@mail.gmail.com>
-Subject: Re: [PATCH v1] kbuild: enforce -Werror=return-type
-To:     Olaf Hering <olaf@aepfle.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sun, 11 Oct 2020 15:00:41 -0400
+X-Greylist: delayed 354 seconds by postgrey-1.27 at vger.kernel.org; Sun, 11 Oct 2020 15:00:40 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1602442839;
+        s=strato-dkim-0002; d=aepfle.de;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=2M6UkCdPor/fY59jORI7T/+9FR6xj1OOYkDB+lMXU9c=;
+        b=V7CZ7NEaGzZ7Cd+vvrC9cig34/nhR9HfDoILOgbiEYm5mc4gVzwVXkyyD7pweI3qxI
+        QSbXtlRsasiGANUbKkxM9O3RMYm1PZgVCyqwCWrevQdGcgUmK1PuHr7Z5LjUAbbZzLVh
+        MKnix4QhcD31Iy+PfyiloI9zVm5K8iYBMTiLimkM36eN5Z3c88jD1o58CPU3ODkQuYa1
+        ycNkkQHZQP09lGsewekJ9skGonI1abLrCOVvEkrAkBjXcnzrlaq6uN6/ALzrijgNgxPw
+        0IT7Y/vrtM0D8vZQXtj3clfy3fAN5+iiv1d6V3T97zlUbWcR5DGWKcfBjkUmuLnlwJhs
+        H1SA==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS3G5Jjw=="
+X-RZG-CLASS-ID: mo00
+Received: from sender
+        by smtp.strato.de (RZmta 47.2.1 DYNA|AUTH)
+        with ESMTPSA id e003b5w9BIsbbf2
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+        (Client did not present a certificate);
+        Sun, 11 Oct 2020 20:54:37 +0200 (CEST)
+From:   Olaf Hering <olaf@aepfle.de>
+To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Olaf Hering <olaf@aepfle.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>
-Content-Type: text/plain; charset="UTF-8"
+Subject: [PATCH v2] kbuild: enforce -Werror=return-type
+Date:   Sun, 11 Oct 2020 20:54:31 +0200
+Message-Id: <20201011185431.24094-1-olaf@aepfle.de>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 5, 2020 at 7:13 PM Olaf Hering <olaf@aepfle.de> wrote:
->
-> Catch errors which at least gcc tolerates by default:
->  warning: 'return' with no value, in function returning non-void [-Wreturn-type]
->
-> Signed-off-by: Olaf Hering <olaf@aepfle.de>
-> ---
->  Makefile | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/Makefile b/Makefile
-> index f84d7e4ca0be..7b2e63e7be18 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -942,6 +942,9 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=date-time)
->  # enforce correct pointer usage
->  KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
->
-> +# enforce correct return type
-> +KBUILD_CFLAGS   += $(call cc-option,-Werror=return-type)
-> +
+Catch errors which at least gcc tolerates by default:
+ warning: 'return' with no value, in function returning non-void [-Wreturn-type]
 
+Signed-off-by: Olaf Hering <olaf@aepfle.de>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-cc-option is unneeded because the minimal supported versions
-of GCC/Clang support -Werror=return-type.
-
-You can hard-code and add it around line 500.
-
-
-
->  # Require designated initializers for all marked structures
->  KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+diff --git a/Makefile b/Makefile
+index f84d7e4ca0be..965e7259e6e8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -497,7 +497,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+ 		   -Werror=implicit-function-declaration -Werror=implicit-int \
+-		   -Wno-format-security \
++		   -Werror=return-type -Wno-format-security \
+ 		   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_AFLAGS_KERNEL :=
