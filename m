@@ -2,87 +2,84 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0821C28AC78
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 05:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BAEC28AF9C
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 10:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727209AbgJLD0t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Oct 2020 23:26:49 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:49850 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727207AbgJLD0t (ORCPT
+        id S1727909AbgJLIGD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Oct 2020 04:06:03 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:59127 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727722AbgJLIGA (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Oct 2020 23:26:49 -0400
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 09C3QWXj021418;
-        Mon, 12 Oct 2020 12:26:33 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 09C3QWXj021418
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602473193;
-        bh=9p4s4oJaH5mjIXyudNPeSbieITUIJ+uUmv4z644D440=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=c/ngzg79WIcJESayTf0W7AG1NfNPw20jFPJHpbhE0ThF3e3hK7KB1M62WKncf49c8
-         IBu6qJ92HyyHti6U4lDhOo6Rp22XS0VP7iNbAtVOAoEzMxPqWYgplip6bHmzlmW4CZ
-         UrmTTPpBx5v/nVVMwyonfPAKTBwIvSl2fBFhhPnMaK0HCDE+WU0IvH8/jixH9JhRow
-         rkwYnYj0m/pLz91n1XQD6BKN/sTPqBmZ61Sc7QYxf57oQ8jFq5TNwNQ5xreHQqTH1T
-         IX6gSE5D9vg7OdUatR4EDytXbrD8yqbvbdo34Ksn4uSPv2TNbn9nksxZraei2dudew
-         B3QL+ViMpQgkA==
-X-Nifty-SrcIP: [209.85.214.173]
-Received: by mail-pl1-f173.google.com with SMTP id w21so5086274plq.3;
-        Sun, 11 Oct 2020 20:26:32 -0700 (PDT)
-X-Gm-Message-State: AOAM53376pNzPYGU7BW1rip1LafnmexRJT8f8nM4iH15ipMwzVSx773N
-        BSKILpGa+S+vvZ6bYbU3PDbrpolWtAm3kSMKe9E=
-X-Google-Smtp-Source: ABdhPJwyemJlrf2EUY3xvE81WrCdUDyCQ0w0NmKsiVWHTi3IiBmu0Ulq0uq4dW39oba4bmFsIPK19ho+oQ5Eik+XyvA=
-X-Received: by 2002:a17:902:c3d4:b029:d3:df24:1619 with SMTP id
- j20-20020a170902c3d4b02900d3df241619mr20907169plj.1.1602473192007; Sun, 11
- Oct 2020 20:26:32 -0700 (PDT)
+        Mon, 12 Oct 2020 04:06:00 -0400
+Received: from mail-lj1-f174.google.com ([209.85.208.174]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MmyzH-1k1NRZ3Dpn-00kBsu; Mon, 12 Oct 2020 10:05:58 +0200
+Received: by mail-lj1-f174.google.com with SMTP id f21so16037114ljh.7;
+        Mon, 12 Oct 2020 01:05:58 -0700 (PDT)
+X-Gm-Message-State: AOAM532N25/2X22aC76qWHWmr34EXm6q5RFJq4tz+6wLlsX4PatSs8ZL
+        Gv0Yx0AHw7RFTyAGMMMmXoFKLoLbLv/CrwiaFlU=
+X-Google-Smtp-Source: ABdhPJxS6wV0vhDGnBBN3sI1mG+/HmqrAaufbkoo+5e/qZJqHDf/hgfM+I/EDrtpzKMmxRZAg/9HoOszLqENstcIhpY=
+X-Received: by 2002:a2e:83c9:: with SMTP id s9mr9723391ljh.168.1602489958217;
+ Mon, 12 Oct 2020 01:05:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201011185431.24094-1-olaf@aepfle.de>
-In-Reply-To: <20201011185431.24094-1-olaf@aepfle.de>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 12 Oct 2020 12:25:55 +0900
-X-Gmail-Original-Message-ID: <CAK7LNATnxOy+Wa66yTtj4EuSut=uv5pi5c=ToENv-6w4fYTn0g@mail.gmail.com>
-Message-ID: <CAK7LNATnxOy+Wa66yTtj4EuSut=uv5pi5c=ToENv-6w4fYTn0g@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: enforce -Werror=return-type
-To:     Olaf Hering <olaf@aepfle.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+References: <20201001011232.4050282-1-andrew@lunn.ch> <20201001011232.4050282-2-andrew@lunn.ch>
+ <CAKwvOdnVC8F1=QT03W5Zh9pJdTxxNfRcqXeob5_b4CXycvG1+g@mail.gmail.com>
+ <20201002014411.GG4067422@lunn.ch> <CAK8P3a0tA9VMMjgkFeCaM3dWLu8H0CFBTkE8zeUpwSR1o31z1w@mail.gmail.com>
+ <CAK7LNARRchbhDNUT3paTVpOJYKR-D_+HLzjG-wsOOM+LO5p3sA@mail.gmail.com>
+In-Reply-To: <CAK7LNARRchbhDNUT3paTVpOJYKR-D_+HLzjG-wsOOM+LO5p3sA@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Mon, 12 Oct 2020 10:05:41 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a3GP005UEwET=CUSw3aNdbCVoscCm2g0kpJYeKTv7NhjQ@mail.gmail.com>
+Message-ID: <CAK8P3a3GP005UEwET=CUSw3aNdbCVoscCm2g0kpJYeKTv7NhjQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 1/2] Makefile.extrawarn: Add symbol for W=1
+ warnings for today
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        netdev <netdev@vger.kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:MqWFNY9vicRCWHvVbRfdumHCAl7LVXS70IX7Wopf2kYB0syWARO
+ FmEqbVttPrpwa3pYXCJKI48p7d/DFvucTKfCWJ3/CX2CbufMp/qdjB+iIRw3Ll+h2WaDClI
+ Qi5E4rbbY9lwOBn3Ac5qpL99Ar8XA9xBEf7ZNpoLoAbzrSWir6/DhMtH3oUue0cWE0rbJmI
+ yDOMB1SgGKIIrLsaI97Rw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Bon+mx5Nnfk=:04oqhYp8CuF57BtJd0kA9H
+ SHoittodNQNmFDHFte01z0JjEX6lDpmzeyDptOFUGI4xB5bvR1NEzYTPw68vMJwpLLuYsEUHj
+ 7VMGevMyimusBM5G6qT7UwqKEN7UfNqcv2m5jpzmFwt9hjqfLZsg7KP4r/YxXIo+R/OxzS5D4
+ W7JK86XjyQx9nb0NH8gezz/jH/R2H7wVn8ynuB1SX6dzpUtLIz4Gx+Hb/U94W5vdizSuVy3iz
+ wqiJMLV7qZlHJcDcDvuu7LCqzRKRtayb/KAnhRwYTCQAhsWnm+DyG1cxfFZYg2EuuBnTGZ174
+ qd3d+YgZv3Qus6aRKPNw9rzFYXm17GGSW6dYC8IkuE3susbB5eBanoxxdYTnDuIHfbkbOMth5
+ TozyXaDNuJOUyCUEpNvedfWBNTNs0ql2skA4/vCwpDjNfqAMrWNLXmjEBaSajGPCLBr3AEM8w
+ xfELawuCr5VggLuBo9RxUYAIMimkiTPYyOxmRIFZeXd5sZhX6cRbA/EcGZyctO6+b8Oa/Nw9o
+ SYA5QPlBarzaK9vTpMsKzcnD1U3Syh/gSp3WRGILjpp78k10IaH0Xka8Czu4pPFZJxtk4BcIF
+ qD38PyIBhWgnYOifp0CgWLruLfET3g/EZhGuS0U8JASAOJqyC7Nl7qMbJp57vfOWkCJI92JwK
+ zvYAfP1PVOqcDQ5GoVF6QWdLvhKuWkXng7yxwtFZg45hbaEEcF3+36+jqWw/zryYycn1hfFVs
+ y+xtifVtrT11NWG61eIddjjVAwfzm+I1NNXkNCW/oM5XVYJBUJx2Eyo2wJkESMiBMkl8gkEcl
+ LSdPvi+iVYZkWcZNsae6drsgYVZe0L1VLOUsu7VpcgRqbsUdc4ffy+NHN2u56CcnaWCz5yVPX
+ b/vsRP44LyGWK+qYfJicf1cGXnfAdxFJaWiLa/tCCm3eG3LDxoqpCAtN0apAmyIY5dpZuooE3
+ mSOdllNwx5cL3LngwG73nZVYbDGBVD2ATnzIROnuHSvB96/V8jQSR
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 3:54 AM Olaf Hering <olaf@aepfle.de> wrote:
+On Mon, Oct 12, 2020 at 3:00 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
 >
-> Catch errors which at least gcc tolerates by default:
->  warning: 'return' with no value, in function returning non-void [-Wreturn-type]
-
-
-Applied to linux-kbuild. Thanks.
-
-
-
-> Signed-off-by: Olaf Hering <olaf@aepfle.de>
-> ---
->  Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> BTW, if possible, please educate me about the difference
+> between -Wmissing-declarations and -Wmissing-prototypes.
 >
-> diff --git a/Makefile b/Makefile
-> index f84d7e4ca0be..965e7259e6e8 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -497,7 +497,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
->  KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
->                    -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
->                    -Werror=implicit-function-declaration -Werror=implicit-int \
-> -                  -Wno-format-security \
-> +                  -Werror=return-type -Wno-format-security \
->                    -std=gnu89
->  KBUILD_CPPFLAGS := -D__KERNEL__
->  KBUILD_AFLAGS_KERNEL :=
+...
+> Do we need to specify both in W=1 ?
+> If yes, what is the difference between them?
 
+I think they do the same thing in the kernel, as we already set
+ '-Wstrict-prototypes', which requires that there are no declarations
+without having a prototype first. Adding either one should be sufficient.
 
-
--- 
-Best Regards
-Masahiro Yamada
+      Arnd
