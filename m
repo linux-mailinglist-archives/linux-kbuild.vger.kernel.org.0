@@ -2,136 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4F0828AB4F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 03:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0821C28AC78
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 05:26:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727245AbgJLBBE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 11 Oct 2020 21:01:04 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:34510 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727132AbgJLBBE (ORCPT
+        id S1727209AbgJLD0t (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 11 Oct 2020 23:26:49 -0400
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:49850 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727207AbgJLD0t (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 11 Oct 2020 21:01:04 -0400
-X-Greylist: delayed 42977 seconds by postgrey-1.27 at vger.kernel.org; Sun, 11 Oct 2020 21:01:03 EDT
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 09C10eZ7007021;
-        Mon, 12 Oct 2020 10:00:40 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 09C10eZ7007021
+        Sun, 11 Oct 2020 23:26:49 -0400
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 09C3QWXj021418;
+        Mon, 12 Oct 2020 12:26:33 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 09C3QWXj021418
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602464440;
-        bh=o9Qs2wdvNnlhb5S1PCEmTwni8pcS98p2JBGMsac1Ols=;
+        s=dec2015msa; t=1602473193;
+        bh=9p4s4oJaH5mjIXyudNPeSbieITUIJ+uUmv4z644D440=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=209KxBvOeyWGBAgIaf8EJSaA7Yc6qPdkUWqxBZfme+MoVIUE0vOKcNlyPgdX5DlIr
-         vbLFyCIz9n7AKNWcQ6RlA2ySvMN0NrRU9Ve+S2wESH+0UJ6YIOg3a5trDNx2vZ/1pI
-         z84ss89OHA8kHCXaZ9ISK+H6aSQgA/mv4fH6okq2lE3qcmwvlbwrDLcbraMHtegnIE
-         nED3WJT1jO+YHrQALMOTIJ5aRCUXTD6OErHtD/0x6Tcjhd98MZlJBJREBJlblPgU5g
-         3wyjrQVooB715wrwb6TFhZQL1qFRkhHZr0j6nRiVHK1Dy1bl09a1C49dCv4P/T7JyQ
-         uJ6B7PolLL0Eg==
-X-Nifty-SrcIP: [209.85.215.179]
-Received: by mail-pg1-f179.google.com with SMTP id n9so12672476pgf.9;
-        Sun, 11 Oct 2020 18:00:40 -0700 (PDT)
-X-Gm-Message-State: AOAM531lndw6tBZMW2yewP62hiyb0CQvT8uUqEucVLzoY4H5VGd6pdrt
-        +vgaj/0hLlL57esSXXNfuEMIQmGwCQrYoZiYmTM=
-X-Google-Smtp-Source: ABdhPJyZ58mFtSdXnHUPO1e6eNn6ErK26DE/1lnT5+qAHLnpRPX0RJdVCGR/jjW710NGg+xdjyvNDR4Vt/oO3MWwNTU=
-X-Received: by 2002:a63:d242:: with SMTP id t2mr11790829pgi.47.1602464439492;
- Sun, 11 Oct 2020 18:00:39 -0700 (PDT)
+        b=c/ngzg79WIcJESayTf0W7AG1NfNPw20jFPJHpbhE0ThF3e3hK7KB1M62WKncf49c8
+         IBu6qJ92HyyHti6U4lDhOo6Rp22XS0VP7iNbAtVOAoEzMxPqWYgplip6bHmzlmW4CZ
+         UrmTTPpBx5v/nVVMwyonfPAKTBwIvSl2fBFhhPnMaK0HCDE+WU0IvH8/jixH9JhRow
+         rkwYnYj0m/pLz91n1XQD6BKN/sTPqBmZ61Sc7QYxf57oQ8jFq5TNwNQ5xreHQqTH1T
+         IX6gSE5D9vg7OdUatR4EDytXbrD8yqbvbdo34Ksn4uSPv2TNbn9nksxZraei2dudew
+         B3QL+ViMpQgkA==
+X-Nifty-SrcIP: [209.85.214.173]
+Received: by mail-pl1-f173.google.com with SMTP id w21so5086274plq.3;
+        Sun, 11 Oct 2020 20:26:32 -0700 (PDT)
+X-Gm-Message-State: AOAM53376pNzPYGU7BW1rip1LafnmexRJT8f8nM4iH15ipMwzVSx773N
+        BSKILpGa+S+vvZ6bYbU3PDbrpolWtAm3kSMKe9E=
+X-Google-Smtp-Source: ABdhPJwyemJlrf2EUY3xvE81WrCdUDyCQ0w0NmKsiVWHTi3IiBmu0Ulq0uq4dW39oba4bmFsIPK19ho+oQ5Eik+XyvA=
+X-Received: by 2002:a17:902:c3d4:b029:d3:df24:1619 with SMTP id
+ j20-20020a170902c3d4b02900d3df241619mr20907169plj.1.1602473192007; Sun, 11
+ Oct 2020 20:26:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201001011232.4050282-1-andrew@lunn.ch> <20201001011232.4050282-2-andrew@lunn.ch>
- <CAKwvOdnVC8F1=QT03W5Zh9pJdTxxNfRcqXeob5_b4CXycvG1+g@mail.gmail.com>
- <20201002014411.GG4067422@lunn.ch> <CAK8P3a0tA9VMMjgkFeCaM3dWLu8H0CFBTkE8zeUpwSR1o31z1w@mail.gmail.com>
-In-Reply-To: <CAK8P3a0tA9VMMjgkFeCaM3dWLu8H0CFBTkE8zeUpwSR1o31z1w@mail.gmail.com>
+References: <20201011185431.24094-1-olaf@aepfle.de>
+In-Reply-To: <20201011185431.24094-1-olaf@aepfle.de>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 12 Oct 2020 10:00:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARRchbhDNUT3paTVpOJYKR-D_+HLzjG-wsOOM+LO5p3sA@mail.gmail.com>
-Message-ID: <CAK7LNARRchbhDNUT3paTVpOJYKR-D_+HLzjG-wsOOM+LO5p3sA@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 1/2] Makefile.extrawarn: Add symbol for W=1
- warnings for today
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        netdev <netdev@vger.kernel.org>,
-        David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Rohit Maheshwari <rohitm@chelsio.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+Date:   Mon, 12 Oct 2020 12:25:55 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATnxOy+Wa66yTtj4EuSut=uv5pi5c=ToENv-6w4fYTn0g@mail.gmail.com>
+Message-ID: <CAK7LNATnxOy+Wa66yTtj4EuSut=uv5pi5c=ToENv-6w4fYTn0g@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: enforce -Werror=return-type
+To:     Olaf Hering <olaf@aepfle.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Oct 2, 2020 at 9:21 PM Arnd Bergmann <arnd@arndb.de> wrote:
+On Mon, Oct 12, 2020 at 3:54 AM Olaf Hering <olaf@aepfle.de> wrote:
 >
-> I do care about the tree as a whole, and I'm particularly interested in
-> having -Wmissing-declarations/-Wmissing-prototypes enabled globally
-> at some point in the future.
+> Catch errors which at least gcc tolerates by default:
+>  warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+
+
+Applied to linux-kbuild. Thanks.
+
+
+
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->         Arnd
-
-
-BTW, if possible, please educate me about the difference
-between -Wmissing-declarations and -Wmissing-prototypes.
-
-
-The GCC manual says as follows:
-
-
--Wmissing-prototypes (C and Objective-C only)
-
-Warn if a global function is defined without a previous prototype
-declaration. This warning is issued even if the definition itself
-provides a prototype. Use this option to detect global functions that
-do not have a matching prototype declaration in a header file. This
-option is not valid for C++ because all function declarations provide
-prototypes and a non-matching declaration declares an overload rather
-than conflict with an earlier declaration. Use -Wmissing-declarations
-to detect missing declarations in C++.
-
--Wmissing-declarations
-
-Warn if a global function is defined without a previous declaration.
-Do so even if the definition itself provides a prototype. Use this
-option to detect global functions that are not declared in header
-files. In C, no warnings are issued for functions with previous
-non-prototype declarations; use -Wmissing-prototypes to detect missing
-prototypes. In C++, no warnings are issued for function templates, or
-for inline functions, or for functions in anonymous namespaces.
+> diff --git a/Makefile b/Makefile
+> index f84d7e4ca0be..965e7259e6e8 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -497,7 +497,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+>  KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+>                    -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+>                    -Werror=implicit-function-declaration -Werror=implicit-int \
+> -                  -Wno-format-security \
+> +                  -Werror=return-type -Wno-format-security \
+>                    -std=gnu89
+>  KBUILD_CPPFLAGS := -D__KERNEL__
+>  KBUILD_AFLAGS_KERNEL :=
 
 
 
-The difference is still unclear to me...
-
-
-
-For example, if I add -Wmissing-declarations, I get the following:
-
-
-kernel/sched/core.c:2380:6: warning: no previous declaration for
-=E2=80=98sched_set_stop_task=E2=80=99 [-Wmissing-declarations]
- 2380 | void sched_set_stop_task(int cpu, struct task_struct *stop)
-      |      ^~~~~~~~~~~~~~~~~~~
-
-
-
-But, if I add both -Wmissing-declarations and -Wmissing-prototypes,
--Wmissing-declarations is superseded by -Wmissing-prototypes.
-
-
-
-kernel/sched/core.c:2380:6: warning: no previous prototype for
-=E2=80=98sched_set_stop_task=E2=80=99 [-Wmissing-prototypes]
- 2380 | void sched_set_stop_task(int cpu, struct task_struct *stop)
-      |      ^~~~~~~~~~~~~~~~~~~
-
-
-
-
-Do we need to specify both in W=3D1 ?
-If yes, what is the difference between them?
-
-
---
+-- 
 Best Regards
 Masahiro Yamada
