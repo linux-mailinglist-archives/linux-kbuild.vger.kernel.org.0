@@ -2,162 +2,218 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 465C928B730
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 15:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF18228BBFA
+	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 17:33:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389049AbgJLNlV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Oct 2020 09:41:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389075AbgJLNlE (ORCPT
+        id S2389340AbgJLPdf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Oct 2020 11:33:35 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:36641 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389797AbgJLPde (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Oct 2020 09:41:04 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CA34C0613D0;
-        Mon, 12 Oct 2020 06:41:04 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id x7so10645163wrl.3;
-        Mon, 12 Oct 2020 06:41:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:in-reply-to:message-id:references
-         :user-agent:mime-version;
-        bh=IJUnRg3mPl7jkNIy9dsIVIo/IklmtiJHaWeguv2Wi6o=;
-        b=myis63Jh6YDVFMzfEygbdF9hf05zpKmITCIrOSFpVhbl8MbqTQUpPKNrthRN4bO5yl
-         wc79p3g9mtnnnjpkbqE9eiHSA37bYb5Kmu7yBK8xzdzMJOXHsoG7tGnSjVRrbpixUFJT
-         cCHC/QGUeGslVcgZ2c/UJtWpO7GPQRjz2YD534IFFUaJ6vOn7yjSSksjjaniWJz+FB6q
-         wNLNI25LsHqQwfxCir6BNSrnP+QPQ0QkBSL2sTZiQgUXIhHNyV1J4dAg1/EaMbkRsm+S
-         RPv/tqbypnh6u5mng3PsfzcItpfboZQVu9V+MrAJZ+K3r9O2qPe8sKWtTE67WrbcR4ws
-         jRIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
-         :references:user-agent:mime-version;
-        bh=IJUnRg3mPl7jkNIy9dsIVIo/IklmtiJHaWeguv2Wi6o=;
-        b=gcDD4uA+Pi5yCOl7vn6cg1fI2fpUeMLzsfrMtH5ep8pCWCOQfCBxUJpkmMQqbGGzlw
-         Pw3fuqMMPaxsKCFr9+0Pfv8ZVB/OfPOCToM1ONJ5rFPKk8SueYhYnTU6PWS6+WUNv27q
-         OLNJvOBfeCL6cyjdhkhU7arwsvVHImGqe9UZurthf76fANg4Y4DjU0Cl4WDf83TV3sp4
-         atlG7b2JORFpdim4U7GlMeZj55YlCVBDTgpdQzAYLCIUwlSOAlBv1gr5YXxrAY+6HHyt
-         oyvnspyLp54K6yBZUJhoJM4CnpR1byA9R7JSDcteGK7sa0qwtQ86QmrzUGbBPDsI+p9r
-         oZuw==
-X-Gm-Message-State: AOAM530DLatO5BWRXuHyMLFANrHLcok8vhxHirVUc5yNFS7/qzNd1MC2
-        vgX0GrSbetJQpCdvGRTcDG0=
-X-Google-Smtp-Source: ABdhPJxNacfJsPZ4yvtD3vkFSwscCrt+i4xkgGs8nl4/9iPQ2QPpRexcbXY0JT8irITMO0Ma8G6Vyg==
-X-Received: by 2002:adf:e80f:: with SMTP id o15mr28721128wrm.308.1602510062848;
-        Mon, 12 Oct 2020 06:41:02 -0700 (PDT)
-Received: from felia ([2001:16b8:2d57:fc00:8472:203c:3ecb:c442])
-        by smtp.gmail.com with ESMTPSA id t5sm24754891wrb.21.2020.10.12.06.41.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2020 06:41:02 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
-Date:   Mon, 12 Oct 2020 15:40:54 +0200 (CEST)
-X-X-Sender: lukas@felia
+        Mon, 12 Oct 2020 11:33:34 -0400
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 09CFXJSO020029;
+        Tue, 13 Oct 2020 00:33:19 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 09CFXJSO020029
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1602516799;
+        bh=4xfUkRM4tDIXFk/3vrkgZkiCeT2rEb0t423IsRd/G98=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=S4Z7K/Q4dgPotevhgimcaWst96OFcDNem9aT2gZGQEVZQSpbcec2wkRhGrkoR8FRF
+         AKgJxRu6983EDPetJ+7/ldK7/GQ6DHGagMcCSpoAnvP0mZScXkUy8GQ0uxogCcx7wo
+         J/1ArJR51t87dXtsHaB3AdBoLIWnnPLANOeu3Jd4U5YFTdGfrpGRK34mH69oJbOWUP
+         QdwwQfLta5BZuONKcZYFeNiKXhXtdCKK0NpJoYinAO4ijbMtRMgy0yxXO9JClwcW/Q
+         KbEcv24TxFdwp9KxczT23+k5GCB7H5SH5oaS586NRYertNgtLeJ1K1X9zdDZ/3wSMN
+         hdx7ij93ZDG1A==
+X-Nifty-SrcIP: [209.85.210.170]
+Received: by mail-pf1-f170.google.com with SMTP id a200so13796763pfa.10;
+        Mon, 12 Oct 2020 08:33:19 -0700 (PDT)
+X-Gm-Message-State: AOAM533QSGcJCcUv0/aO17dSXOlxL9zwQdyiS17MuMwlrWUenByp42YF
+        qCJvMiyUpZa/ngjUe2XRv9App2268mDc/3m2Xvk=
+X-Google-Smtp-Source: ABdhPJzY2prhw5FRGtjof81jBwHsEX04/rS7YVZYomzkxPVRVeT+isQ1/XL54G7/ldeuyrFICLsLjjjsTEcVQcpRjHk=
+X-Received: by 2002:a17:90a:c285:: with SMTP id f5mr21414855pjt.87.1602516798361;
+ Mon, 12 Oct 2020 08:33:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
+In-Reply-To: <979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1@gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 13 Oct 2020 00:32:41 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATQFgzsmUppA=4eF1VrO_Tg=zrM9NSvUxrOp=7qa2_GsQ@mail.gmail.com>
+Message-ID: <CAK7LNATQFgzsmUppA=4eF1VrO_Tg=zrM9NSvUxrOp=7qa2_GsQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/2] kbuild: use interpreters to invoke scripts
 To:     Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Andrew Morton <akpm@linux-foundation.org>,
         Kees Cook <keescook@chromium.org>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>,
         Nathan Chancellor <natechancellor@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-ia64@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
         linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH RFC 0/2] use interpreters to invoke scripts
-In-Reply-To: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
-Message-ID: <alpine.DEB.2.21.2010121537150.6487@felia>
-References: <2b00e566-112c-5657-c10f-7f210d3eae93@gmail.com>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-
-
-On Sat, 3 Oct 2020, Ujjwal Kumar wrote:
-
-> This patch series aims at removing the dependency on execute 
-> bit of the scripts in the kbuild system.
-> 
-> If not working with fresh clone of linux-next, clean the srctree:
-> make distclean
-> make tools/clean
-> 
-> To test the dependency on execute bits, I tried building the 
-> kernel after removing x-bits for all files in the repository.
-> Removing execute bits:
-> for i in $(find -executable -type f); do chmod -x $i; done
-> 
-> Any attempts to configure (or build) the kernel fail because of 
-> 'Permission denied' on scripts with the following error:
-> $ make allmodconfig
-> sh: ./scripts/gcc-version.sh: Permission denied
-> init/Kconfig:34: syntax error
-> init/Kconfig:33: invalid statement
-> init/Kconfig:34: invalid statement
-> sh: ./scripts/ld-version.sh: Permission denied
-> init/Kconfig:39: syntax error
-> init/Kconfig:38: invalid statement
-> sh: ./scripts/clang-version.sh: Permission denied
-> init/Kconfig:49: syntax error
-> init/Kconfig:48: invalid statement
-> make[1]: *** [scripts/kconfig/Makefile:71: allmodconfig] Error 1
-> make: *** [Makefile:606: allmodconfig] Error 2
-> 
-> Changes:
-> 1. Adds specific interpreters (in Kconfig) to invoke 
-> scripts.
-> 
-> After this patch I could successfully do a kernel build 
-> without any errors.
-> 
-> 2. Again, adds specific interpreters to other parts of 
-> kbuild system.
-> 
-> I could successfully perform the following make targets after 
-> applying the PATCH 2/2:
-> make headerdep
-> make kselftest-merge
-> make rpm-pkg
-> make perf-tar-src-pkg
-> make ARCH=ia64 defconfig
-> ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make prepare
-> 
-> Following changes in PATCH 2/2 are not yet tested:
-> arch/arm64/kernel/vdso32/Makefile
-> arch/nds32/kernel/vdso/Makefile
-> scripts/Makefile.build
-> 
-> Ujjwal Kumar (2):
->   kconfig: use interpreters to invoke scripts
->   kbuild: use interpreters to invoke scripts
+On Sun, Oct 4, 2020 at 12:21 AM Ujjwal Kumar <ujjwalkumar0501@gmail.com> wrote:
 >
+> We cannot rely on execute bits to be set on files in the repository.
+> The build script should use the explicit interpreter when invoking any
+> script from the repository.
+>
+> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+>
+> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> Suggested-by: Kees Cook <keescook@chromium.org>
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
+> ---
+>  Makefile                          | 4 ++--
+>  arch/arm64/kernel/vdso/Makefile   | 2 +-
+>  arch/arm64/kernel/vdso32/Makefile | 2 +-
+>  arch/ia64/Makefile                | 4 ++--
+>  arch/nds32/kernel/vdso/Makefile   | 2 +-
+>  scripts/Makefile.build            | 2 +-
+>  scripts/Makefile.package          | 4 ++--
+>  7 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index f93dbae71248..5f1399a576d4 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1258,7 +1258,7 @@ include/generated/utsrelease.h: include/config/kernel.release FORCE
+>  PHONY += headerdep
+>  headerdep:
+>         $(Q)find $(srctree)/include/ -name '*.h' | xargs --max-args 1 \
+> -       $(srctree)/scripts/headerdep.pl -I$(srctree)/include
+> +       $(PERL) $(srctree)/scripts/headerdep.pl -I$(srctree)/include
+>
+>  # ---------------------------------------------------------------------------
+>  # Kernel headers
+> @@ -1314,7 +1314,7 @@ PHONY += kselftest-merge
+>  kselftest-merge:
+>         $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
+>         $(Q)find $(srctree)/tools/testing/selftests -name config | \
+> -               xargs $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+> +               xargs $(CONFIG_SHELL) $(srctree)/scripts/kconfig/merge_config.sh -m $(objtree)/.config
+>         $(Q)$(MAKE) -f $(srctree)/Makefile olddefconfig
+>
+>  # ---------------------------------------------------------------------------
+> diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+> index de981f7b4546..30fe93bb5488 100644
+> --- a/arch/arm64/kernel/vdso/Makefile
+> +++ b/arch/arm64/kernel/vdso/Makefile
+> @@ -65,7 +65,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+>  # Generate VDSO offsets using helper script
+>  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+>  quiet_cmd_vdsosym = VDSOSYM $@
+> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
+> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+>
+>  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+>         $(call if_changed,vdsosym)
+> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+> index 572475b7b7ed..4f8fe34bc75a 100644
+> --- a/arch/arm64/kernel/vdso32/Makefile
+> +++ b/arch/arm64/kernel/vdso32/Makefile
+> @@ -205,7 +205,7 @@ quiet_cmd_vdsomunge = MUNGE   $@
+>  gen-vdsosym := $(srctree)/$(src)/../vdso/gen_vdso_offsets.sh
+>  quiet_cmd_vdsosym = VDSOSYM $@
+>  # The AArch64 nm should be able to read an AArch32 binary
+> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
+> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+>
+>  # Install commands for the unstripped file
+>  quiet_cmd_vdso_install = INSTALL32 $@
+> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
+> index 2876a7df1b0a..5f6cc3c3da50 100644
+> --- a/arch/ia64/Makefile
+> +++ b/arch/ia64/Makefile
+> @@ -28,8 +28,8 @@ cflags-y      := -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
+>                    -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
+>  KBUILD_CFLAGS_KERNEL := -mconstant-gp
+>
+> -GAS_STATUS     = $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
+> -KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
+> +GAS_STATUS     = $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
+> +KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
 
-Ujjwal, I suggest that you continue to wait if you get any feedback from 
-Masahiro-san within the next two weeks (although the merge window) and if
-not, try to rebase to the the next rc1 and resend this patchset with 
-Nathan's feedback tags added.
 
-The merge window is busy time for maintainers; in the meantime, you might
-look into if the build target 'make tools/clean' works on the current 
-release and if there are fixes getting merged that fix that.
 
-Lukas
+These changes look wrong to me.
 
->  Makefile                          |  4 ++--
->  arch/arm64/kernel/vdso/Makefile   |  2 +-
->  arch/arm64/kernel/vdso32/Makefile |  2 +-
->  arch/ia64/Makefile                |  4 ++--
->  arch/nds32/kernel/vdso/Makefile   |  2 +-
->  init/Kconfig                      | 16 ++++++++--------
->  scripts/Makefile.build            |  2 +-
->  scripts/Makefile.package          |  4 ++--
->  8 files changed, 18 insertions(+), 18 deletions(-)
-> 
-> -- 
+$($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
+
+
+
+
+
+>  ifeq ($(GAS_STATUS),buggy)
+>  $(error Sorry, you need a newer version of the assember, one that is built from        \
+> diff --git a/arch/nds32/kernel/vdso/Makefile b/arch/nds32/kernel/vdso/Makefile
+> index 55df25ef0057..e77d4bcfa7c1 100644
+> --- a/arch/nds32/kernel/vdso/Makefile
+> +++ b/arch/nds32/kernel/vdso/Makefile
+> @@ -39,7 +39,7 @@ $(obj)/%.so: $(obj)/%.so.dbg FORCE
+>  # Generate VDSO offsets using helper script
+>  gen-vdsosym := $(srctree)/$(src)/gen_vdso_offsets.sh
+>  quiet_cmd_vdsosym = VDSOSYM $@
+> -      cmd_vdsosym = $(NM) $< | $(gen-vdsosym) | LC_ALL=C sort > $@
+> +      cmd_vdsosym = $(NM) $< | $(CONFIG_SHELL) $(gen-vdsosym) | LC_ALL=C sort > $@
+>
+>  include/generated/vdso-offsets.h: $(obj)/vdso.so.dbg FORCE
+>         $(call if_changed,vdsosym)
+> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> index a467b9323442..893217ee4a17 100644
+> --- a/scripts/Makefile.build
+> +++ b/scripts/Makefile.build
+> @@ -104,7 +104,7 @@ else ifeq ($(KBUILD_CHECKSRC),2)
+>  endif
+>
+>  ifneq ($(KBUILD_EXTRA_WARN),)
+> -  cmd_checkdoc = $(srctree)/scripts/kernel-doc -none $<
+> +  cmd_checkdoc = $(PERL) $(srctree)/scripts/kernel-doc -none $<
+>  endif
+>
+>  # Compile C sources (.c)
+> diff --git a/scripts/Makefile.package b/scripts/Makefile.package
+> index f952fb64789d..4fc16c4776cc 100644
+> --- a/scripts/Makefile.package
+> +++ b/scripts/Makefile.package
+> @@ -44,7 +44,7 @@ if test "$(objtree)" != "$(srctree)"; then \
+>         echo >&2; \
+>         false; \
+>  fi ; \
+> -$(srctree)/scripts/setlocalversion --save-scmversion; \
+> +$(CONFIG_SHELL) $(srctree)/scripts/setlocalversion --save-scmversion; \
+>  tar -I $(KGZIP) -c $(RCS_TAR_IGNORE) -f $(2).tar.gz \
+>         --transform 's:^:$(2)/:S' $(TAR_CONTENT) $(3); \
+>  rm -f $(objtree)/.scmversion
+> @@ -123,7 +123,7 @@ git --git-dir=$(srctree)/.git archive --prefix=$(perf-tar)/         \
+>  mkdir -p $(perf-tar);                                               \
+>  git --git-dir=$(srctree)/.git rev-parse HEAD > $(perf-tar)/HEAD;    \
+>  (cd $(srctree)/tools/perf;                                          \
+> -util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+> +$(CONFIG_SHELL) util/PERF-VERSION-GEN $(CURDIR)/$(perf-tar)/);              \
+>  tar rf $(perf-tar).tar $(perf-tar)/HEAD $(perf-tar)/PERF-VERSION-FILE; \
+>  rm -r $(perf-tar);                                                  \
+>  $(if $(findstring tar-src,$@),,                                     \
+> --
 > 2.26.2
-> 
-> 
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/979bb7b0-2cae-3cd7-2fbd-7fcece9aafd1%40gmail.com.
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
