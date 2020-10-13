@@ -2,175 +2,177 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A651128D209
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 18:18:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79EB028D295
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 18:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389434AbgJMQSD (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 13 Oct 2020 12:18:03 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:21313 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389429AbgJMQSD (ORCPT
+        id S1728427AbgJMQt1 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 13 Oct 2020 12:49:27 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:63576 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727696AbgJMQt1 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 13 Oct 2020 12:18:03 -0400
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 09DGHa36006473;
-        Wed, 14 Oct 2020 01:17:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 09DGHa36006473
+        Tue, 13 Oct 2020 12:49:27 -0400
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 09DGn6DR032215
+        for <linux-kbuild@vger.kernel.org>; Wed, 14 Oct 2020 01:49:07 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 09DGn6DR032215
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602605857;
-        bh=PTNol6ZKZ6WikiQS1iwVWRfK1eVWXWR50IMrdlrgv8M=;
+        s=dec2015msa; t=1602607747;
+        bh=SYuGvLjIDjs1yH3+gzBSXD6gE7LGnUG8kLmUqJcgqSU=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=q7/RJVmC0Rm2kzu4LxJqza6MaZHKRJgBPSgg2aZOe+OkSkgURy9o9u2QyfUqYw85Z
-         lsEIBoK9SCxjmuz1dorQtiSLg6LRYBgf4TW0QkEi67tltKA31tBkkoo3xOWZcd3M5M
-         V+g8EYvhGkW++rbWQzPruAO5zLvCSUnSnzODvuboM885IU5F8khmy6b1dnrywrzGrd
-         7z2lU2frrVbEM1nW6eeszBtPmeD5l2XJ6+1kpqn8LOwZyfSnl2m1Smr43Yi1tbAIyn
-         J0btJWgtd3Sn1vLG0yoUtj+Wa22s9A5EnROF5GQi0QZyD1+VwiJV0yqL8d+94Cn30u
-         S2tqpE1EYlA2Q==
-X-Nifty-SrcIP: [209.85.215.178]
-Received: by mail-pg1-f178.google.com with SMTP id x16so17882456pgj.3;
-        Tue, 13 Oct 2020 09:17:36 -0700 (PDT)
-X-Gm-Message-State: AOAM532WH6opO6P4+foHCAe2UjSQRMA9vPHLQb3oQc+/JhbsND+Ot/MR
-        jMezjliZYjUmi3llOk5T7D8VDg1HukUyPN2Wr2Y=
-X-Google-Smtp-Source: ABdhPJzoZHD68/Bv80yh/fLdH9j83UlF0155g7tzFH3hJt8WHYLx/UCm8PIQzsWZMa1AG2H0V0LitxpCakYhO3exLY4=
-X-Received: by 2002:aa7:90cf:0:b029:156:2bff:5a87 with SMTP id
- k15-20020aa790cf0000b02901562bff5a87mr429693pfk.63.1602605855902; Tue, 13 Oct
- 2020 09:17:35 -0700 (PDT)
+        b=XRO6mX87X7KscGDuDzrisUm2zpTsv1dIR9XEW6gRWB79bj2pxBdQy4neI1riDVKX/
+         /5tkFryhFd2IsuF0fri9Uk8Nsy2I6nmFEUFzSVkmPwMAntfG1Zi06yfFu1/DKMYiRP
+         VYo+IEjdQosoQiw3Osi5BNKefmDjffcFFXmqTiq7YUf8gW0Pwzx7aqBjxj8CcCF4L4
+         ySlLMDA5yfUXcJj0vXhrE3lXM0eZiY3OjWomeFU2DsJ7HrhRQgBFUxoqq9BtxxU/RN
+         4Gy0PLozRV+hYSNx1rmEF0aqNG1NtRzqQDhuR3TIPFZbJ5Rm4Z+9Fo0Ra3/DsYkaj9
+         H47q2erYrA2jw==
+X-Nifty-SrcIP: [209.85.215.174]
+Received: by mail-pg1-f174.google.com with SMTP id x16so16790pgj.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 13 Oct 2020 09:49:07 -0700 (PDT)
+X-Gm-Message-State: AOAM530YIsn2qdr3gcIusfD/Ak1LmHjhy22TWaWerLt1k+6B6gf/xYji
+        BonCXercR3TXGKe3QPc19UE+HmfoeizwrQ6nr7Q=
+X-Google-Smtp-Source: ABdhPJyZ4kt4IpSsTPCdolWUII8z0UDQDPaXX3gIUU1j2Ejgb/zV902kcC54SNpNszR9Y2fnE+A1EUXbV9XbrcqAYXc=
+X-Received: by 2002:a63:d242:: with SMTP id t2mr356548pgi.47.1602607746227;
+ Tue, 13 Oct 2020 09:49:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201012170631.1241502-1-ujjwalkumar0501@gmail.com> <20201012170631.1241502-2-ujjwalkumar0501@gmail.com>
-In-Reply-To: <20201012170631.1241502-2-ujjwalkumar0501@gmail.com>
+References: <20200925222934.GA126388@localhost> <CAK7LNAR5ArP8RGHHOXAauTvXcQgvstP=Ydh8Nc+Kv-0NYhhP2g@mail.gmail.com>
+ <20200926084519.GA8344@localhost>
+In-Reply-To: <20200926084519.GA8344@localhost>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 14 Oct 2020 01:16:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQUXwH0KoNNQo9F1UCkkah2S1gJZKJFB1+91M3ZGSHQSQ@mail.gmail.com>
-Message-ID: <CAK7LNAQUXwH0KoNNQo9F1UCkkah2S1gJZKJFB1+91M3ZGSHQSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kconfig: use interpreters to invoke scripts
-To:     Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-ia64@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org
+Date:   Wed, 14 Oct 2020 01:48:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATJZJyMBLkXbCib1B0uZ2qgNyAVkCfA4x=oR8ww73F9jw@mail.gmail.com>
+Message-ID: <CAK7LNATJZJyMBLkXbCib1B0uZ2qgNyAVkCfA4x=oR8ww73F9jw@mail.gmail.com>
+Subject: Re: "make bindeb-pkg" fails with CONFIG_MODULES disabled
+To:     Josh Triplett <josh@joshtriplett.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 2:08 AM Ujjwal Kumar <ujjwalkumar0501@gmail.com> wrote:
+On Sat, Sep 26, 2020 at 5:45 PM Josh Triplett <josh@joshtriplett.org> wrote=
+:
 >
-> We cannot rely on execute bits to be set on files in the repository.
-> The build script should use the explicit interpreter when invoking any
-> script from the repository.
+> On Sat, Sep 26, 2020 at 02:45:38PM +0900, Masahiro Yamada wrote:
+> > On Sat, Sep 26, 2020 at 7:29 AM Josh Triplett <josh@joshtriplett.org> w=
+rote:
+> > >
+> > > With CONFIG_MODULES disabled, "make bindeb-pkg" fails in
+> > > scripts/package/builddeb with:
+> > >
+> > > find: =E2=80=98Module.symvers=E2=80=99: No such file or directory
+> > >
+> > > The deploy_kernel_headers function in scripts/package/builddeb calls:
+> > >
+> > > find arch/$SRCARCH/include Module.symvers include scripts -type f
+> > >
+> > > But find errors out if any of its command-line arguments doesn't exis=
+t.
+> > >
+> > > This could be fixed by checking whether that file exists first, but i=
+f
+> > > CONFIG_MODULES is disabled, it doesn't really make sense to build the
+> > > linux-headers package at all. Perhaps that whole package could be
+> > > disabled when modules are disabled?
+> >
+> > I agree.
+> >
+> >
+> > How about something like the following?
 >
-> Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
-> Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+> That looks good to me.
 >
-> Suggested-by: Andrew Morton <akpm@linux-foundation.org>
-> Suggested-by: Kees Cook <keescook@chromium.org>
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-> ---
+> (It would be nice, as well, to have some conditional wrapped around the
+> linux-libc-dev package. I had a patch for that a while ago at
+> https://lore.kernel.org/lkml/b45738b05bb396e175a36f67b02fa01de4c7472f.158=
+3912084.git.josh@joshtriplett.org/
+> , but that's probably not the ideal way to do it. I'd love to see a way
+> to disable that extra deb, though, as it adds time to the deb build
+> process for a package that most people looking to build a deb won't
+> need or install.)
+
+I am skeptical about this approach.
 
 
+I think the ideal way would be
+to support individual binary package build in dpkg-buildpackage.
 
-The patch prefix 'kconfig:' should be used for changes
-under scripts/kconfig/.
-
-
-I want to see both prefixed with "kbuild:".
-
-1/2:   kbuild: use interpreters in Kconfig files to invoke scripts
-2/2:   kbuild: use interpreters in Makefiles to invoke scripts
-
-
-More preferably, those two patches should be squashed into a
-single patch titled "kbuild: use interpreters to invoke scripts"
-
-
-
-BTW, I notice some code left unconverted.
-
-For example,
-https://github.com/torvalds/linux/blob/master/init/Kconfig#L68
-https://github.com/torvalds/linux/blob/v5.9/certs/Makefile#L25
-
-Maybe more...
-
-
-
-I know it is difficult to cover everything, but please
-re-check the remaining code.
+I do not know if it has been already achieved, or
+it is a planned feature.
 
 
 
 
 
+> > diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+> > index 6df3c9f8b2da..8277144298a0 100755
+> > --- a/scripts/package/builddeb
+> > +++ b/scripts/package/builddeb
+> > @@ -202,8 +202,10 @@ EOF
+> >  done
+> >
+> >  if [ "$ARCH" !=3D "um" ]; then
+> > -       deploy_kernel_headers debian/linux-headers
+> > -       create_package linux-headers-$version debian/linux-headers
+> > +       if is_enabled CONFIG_MODULES; then
+> > +               deploy_kernel_headers debian/linux-headers
+> > +               create_package linux-headers-$version debian/linux-head=
+ers
+> > +       fi
+> >
+> >         deploy_libc_headers debian/linux-libc-dev
+> >         create_package linux-libc-dev debian/linux-libc-dev
+> > diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+> > index 48fbd3d0284a..88c5e25662bd 100755
+> > --- a/scripts/package/mkdebian
+> > +++ b/scripts/package/mkdebian
+> > @@ -183,13 +183,6 @@ Description: Linux kernel, version $version
+> >   This package contains the Linux kernel, modules and corresponding oth=
+er
+> >   files, version: $version.
+> >
+> > -Package: $kernel_headers_packagename
+> > -Architecture: $debarch
+> > -Description: Linux kernel headers for $version on $debarch
+> > - This package provides kernel header files for $version on $debarch
+> > - .
+> > - This is useful for people who need to build external modules
+> > -
+> >  Package: linux-libc-dev
+> >  Section: devel
+> >  Provides: linux-kernel-headers
+> > @@ -200,6 +193,17 @@ Description: Linux support headers for userspace
+> > development
+> >  Multi-Arch: same
+> >  EOF
+> >
+> > +if is_enabled CONFIG_MODULES; then
+> > +cat <<EOF >> debian/control
+> > +Package: $kernel_headers_packagename
+> > +Architecture: $debarch
+> > +Description: Linux kernel headers for $version on $debarch
+> > + This package provides kernel header files for $version on $debarch
+> > + .
+> > + This is useful for people who need to build external modules
+> > +EOF
+> > +fi
+> > +
+> >  if is_enabled CONFIG_DEBUG_INFO; then
+> >  cat <<EOF >> debian/control
+> >
+> >
+> >
+> >
+> >
+> >
+> > --
+> > Best Regards
+> > Masahiro Yamada
 
 
->  init/Kconfig | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/init/Kconfig b/init/Kconfig
-> index c9446911cf41..8adf3194d26f 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -30,12 +30,12 @@ config CC_IS_GCC
->
->  config GCC_VERSION
->         int
-> -       default $(shell,$(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
-> +       default $(shell,$(CONFIG_SHELL) $(srctree)/scripts/gcc-version.sh $(CC)) if CC_IS_GCC
->         default 0
->
->  config LD_VERSION
->         int
-> -       default $(shell,$(LD) --version | $(srctree)/scripts/ld-version.sh)
-> +       default $(shell,$(LD) --version | $(AWK) -f $(srctree)/scripts/ld-version.sh)
->
->  config CC_IS_CLANG
->         def_bool $(success,echo "$(CC_VERSION_TEXT)" | grep -q clang)
-> @@ -45,20 +45,20 @@ config LD_IS_LLD
->
->  config CLANG_VERSION
->         int
-> -       default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
-> +       default $(shell,$(CONFIG_SHELL) $(srctree)/scripts/clang-version.sh $(CC))
->
->  config CC_CAN_LINK
->         bool
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
-> +       default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-> +       default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag))
->
->  config CC_CAN_LINK_STATIC
->         bool
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
-> -       default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
-> +       default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag) -static) if 64BIT
-> +       default $(success,$(CONFIG_SHELL) $(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m32-flag) -static)
->
->  config CC_HAS_ASM_GOTO
-> -       def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> +       def_bool $(success,$(CONFIG_SHELL) $(srctree)/scripts/gcc-goto.sh $(CC))
->
->  config CC_HAS_ASM_GOTO_OUTPUT
->         depends on CC_HAS_ASM_GOTO
-> --
-> 2.25.1
->
-> --
-> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20201012170631.1241502-2-ujjwalkumar0501%40gmail.com.
 
-
-
--- 
+--
 Best Regards
 Masahiro Yamada
