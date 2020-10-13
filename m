@@ -2,59 +2,58 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A873E28C5F6
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 02:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21ACF28C5F7
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 02:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbgJMAcX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Oct 2020 20:32:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47720 "EHLO
+        id S1727293AbgJMAcW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Oct 2020 20:32:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727256AbgJMAcT (ORCPT
+        with ESMTP id S1727265AbgJMAcU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Oct 2020 20:32:19 -0400
-Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6BE8C0613D1
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:17 -0700 (PDT)
-Received: by mail-pl1-x649.google.com with SMTP id v6so13036220plo.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:17 -0700 (PDT)
+        Mon, 12 Oct 2020 20:32:20 -0400
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04BBCC0613D1
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:20 -0700 (PDT)
+Received: by mail-qv1-xf4a.google.com with SMTP id w7so9285662qvf.19
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=xL7tn5bk8rd7QhzERnW5XDCxrWNQLuaGbP7lLdALs6Y=;
-        b=IdXB04m+VIhq9Ywfk+Q6SdQxAtxltKDIhWNIfo+jhdLwgrlbdcpJkCD1dg60k4KicG
-         1IgqLYFzJP4YEVrqWrx9pldSCsrIUIQZ+WBgBNy02BbQgKQE7dyYmjEiSSvKFbyI2xXj
-         TV/V2tWK25kaN3vgAN5S+M0sENDBoc3aH1FQDGeTof6qqw+rbjH3bLU8q4fusukkB6D6
-         mAux60p4YIG3jSjYIx2pWv96v7XCJ9hy4Ka8a16xDIx9CMpYSDwuHtmOn9Zpz0sBYoxo
-         n76+DpbDHdACleamKfcxERH+Pqgb3G4b5AAOxxW5ydqXddcuIHi5FDSPpeBjiqI6FIaq
-         F5XQ==
+        bh=DpKDWbKTWTks9tV0s5R4bAv6I99K4U3GWyHtOORPWq0=;
+        b=tToV5WHAo5KqbZWvmvK6V50kBP7lFH3FOB2CpC/8vUKu1aRiVvkQ0yMN0vQ89CF6e5
+         JRyw7EkAwMm6H7peFQHQIMNjEArgToT8cMngzUtewp6pjEsEnKihkjsnBtvO6oPWyoY5
+         0jEoVe5t1I0r/WTDYyCiLYBEDIC8osSOQ1G5cl4z6TNyAQclWkSSmuTXoRh0op1Xl5s4
+         0Q1DPTZbYn6GTjC25XWRmtS3tD3Yc9zFyn9Pd4h3pvxgPKUIZShi/wu0rDWou0nHcj7q
+         RIn/E/s2/75f3avHOb7sHbB3x3aWYsCQGwnME8C9IgglpttXQYXa7cI9BcTPqzUO1vEH
+         +83Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=xL7tn5bk8rd7QhzERnW5XDCxrWNQLuaGbP7lLdALs6Y=;
-        b=Pfu9YJjcfNxuZegczVGhN4DlcAeOvvfMEWUosSh0gH5s/xR2lNXMKq+3AEEaAg5H8s
-         YivVV8lb5+gG/NPfvI66Wq0BhYmD7u9zQXOis2ouCIxnFPV3CVvk1eo2W+ss8linLpJa
-         dwFTAWkEY9RktR5FZjqGokHgzPyUKUl2TPxy7WcH89SNTXJV7chbvgn3Q2tYXfSU4jQV
-         lIjzW7ufqxuPj7sjwt+/CbZqXzkLXfg0SUUXmLtWXBt8YcHDzMpe7HboID/OiUBPcPig
-         Bxmh72XBAN5vtzsfIhnfRI/N/PVRO2mUZROinDi7L/JclZ523FR+JQrZm1oZQonTjPxK
-         TVng==
-X-Gm-Message-State: AOAM532Rzu58rOs8ZxZIjd2xA7d/sIqCybFYRhNX/b/txn7NWVEopN09
-        2PTChICR+xiWZzYCfxkAdsSHE3jMFrYQ8QK7/oU=
-X-Google-Smtp-Source: ABdhPJzmHD4XCersd5eY8ZPVkbKw3ea3PfM0fSiP3AGN8FM08tkamilxzFI74ZhTfsYbcW37PW4YYLWgNBpJiUusVu4=
+        bh=DpKDWbKTWTks9tV0s5R4bAv6I99K4U3GWyHtOORPWq0=;
+        b=Caz817Af18OQUE+PDOEQtdXeSp/960Y6CH9XR928s42jW2qBvIAt8VDQlb0NGj0+F2
+         YntLOE5Cvb7rshvt9AZBMnBccPKkgJufBAkzP6XNyablfwKkbY1jRB0J+iuSo9D3pmkE
+         ISb4NW3ZWFFfu4FlpgCkiHGdbFc9VX1XDIGGYopJh6IDG3GbahWqvVD8BJHRJxXVUUav
+         lIwTVb9kJRJjBVKYrc5Uz9gjzcksSKgaD9r7vhqy0Hh9TED81QGACnZBE3PYcRjKR/4B
+         4D/DAaWrAKMLPX9KT3nrUKGRSv9MUW8BE5q0Tg9bWbzW2J3h2EZ/d4VBwcchnrxc+C62
+         VCQQ==
+X-Gm-Message-State: AOAM533SDOgzeZYeA952Wo29cS4JaeVvIlv3l5hmoOKrPPUVuBjQLBsG
+        WA2WCVLQitMISKhdbec0ibb6hNWvtdopnA16xyQ=
+X-Google-Smtp-Source: ABdhPJx3VxsNQ9tGu8xO95a1t6wVsoYxq4cLAxTVRK8Lq6kP9gEUNleSTLK5SuOy50JiEDn6GMUiyP2OF00DUvOhVxA=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:aa7:9a87:0:b029:156:5806:b478 with
- SMTP id w7-20020aa79a870000b02901565806b478mr3079925pfi.8.1602549137181; Mon,
- 12 Oct 2020 17:32:17 -0700 (PDT)
-Date:   Mon, 12 Oct 2020 17:31:44 -0700
+ (user=samitolvanen job=sendgmr) by 2002:a0c:e1d1:: with SMTP id
+ v17mr25826493qvl.15.1602549139059; Mon, 12 Oct 2020 17:32:19 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 17:31:45 -0700
 In-Reply-To: <20201013003203.4168817-1-samitolvanen@google.com>
-Message-Id: <20201013003203.4168817-7-samitolvanen@google.com>
+Message-Id: <20201013003203.4168817-8-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20201013003203.4168817-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
-Subject: [PATCH v6 06/25] x86, build: use objtool mcount
+Subject: [PATCH v6 07/25] treewide: remove DISABLE_LTO
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>
@@ -74,28 +73,86 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Select HAVE_OBJTOOL_MCOUNT if STACK_VALIDATION is selected to use
-objtool to generate __mcount_loc sections for dynamic ftrace with
-Clang and gcc <5 (later versions of gcc use -mrecord-mcount).
+This change removes all instances of DISABLE_LTO from
+Makefiles, as they are currently unused, and the preferred
+method of disabling LTO is to filter out the flags instead.
 
+Suggested-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/kernel/vdso/Makefile | 1 -
+ arch/sparc/vdso/Makefile        | 2 --
+ arch/x86/entry/vdso/Makefile    | 2 --
+ kernel/Makefile                 | 3 ---
+ scripts/Makefile.build          | 2 +-
+ 5 files changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 5e832fd520b5..6d67646153bc 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -163,6 +163,7 @@ config X86
- 	select HAVE_CMPXCHG_LOCAL
- 	select HAVE_CONTEXT_TRACKING		if X86_64
- 	select HAVE_C_RECORDMCOUNT
-+	select HAVE_OBJTOOL_MCOUNT		if STACK_VALIDATION
- 	select HAVE_DEBUG_KMEMLEAK
- 	select HAVE_DMA_CONTIGUOUS
- 	select HAVE_DYNAMIC_FTRACE
+diff --git a/arch/arm64/kernel/vdso/Makefile b/arch/arm64/kernel/vdso/Makefile
+index 45d5cfe46429..e836e300440f 100644
+--- a/arch/arm64/kernel/vdso/Makefile
++++ b/arch/arm64/kernel/vdso/Makefile
+@@ -31,7 +31,6 @@ ccflags-y := -fno-common -fno-builtin -fno-stack-protector -ffixed-x18
+ ccflags-y += -DDISABLE_BRANCH_PROFILING
+ 
+ CFLAGS_REMOVE_vgettimeofday.o = $(CC_FLAGS_FTRACE) -Os $(CC_FLAGS_SCS) $(GCC_PLUGINS_CFLAGS)
+-KBUILD_CFLAGS			+= $(DISABLE_LTO)
+ KASAN_SANITIZE			:= n
+ UBSAN_SANITIZE			:= n
+ OBJECT_FILES_NON_STANDARD	:= y
+diff --git a/arch/sparc/vdso/Makefile b/arch/sparc/vdso/Makefile
+index f44355e46f31..476c4b315505 100644
+--- a/arch/sparc/vdso/Makefile
++++ b/arch/sparc/vdso/Makefile
+@@ -3,8 +3,6 @@
+ # Building vDSO images for sparc.
+ #
+ 
+-KBUILD_CFLAGS += $(DISABLE_LTO)
+-
+ VDSO64-$(CONFIG_SPARC64)	:= y
+ VDSOCOMPAT-$(CONFIG_COMPAT)	:= y
+ 
+diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
+index 215376d975a2..ecc27018ae13 100644
+--- a/arch/x86/entry/vdso/Makefile
++++ b/arch/x86/entry/vdso/Makefile
+@@ -9,8 +9,6 @@ ARCH_REL_TYPE_ABS := R_X86_64_JUMP_SLOT|R_X86_64_GLOB_DAT|R_X86_64_RELATIVE|
+ ARCH_REL_TYPE_ABS += R_386_GLOB_DAT|R_386_JMP_SLOT|R_386_RELATIVE
+ include $(srctree)/lib/vdso/Makefile
+ 
+-KBUILD_CFLAGS += $(DISABLE_LTO)
+-
+ # Sanitizer runtimes are unavailable and cannot be linked here.
+ KASAN_SANITIZE			:= n
+ UBSAN_SANITIZE			:= n
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 16ec9262ce9d..2561abc91961 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -38,9 +38,6 @@ KASAN_SANITIZE_kcov.o := n
+ KCSAN_SANITIZE_kcov.o := n
+ CFLAGS_kcov.o := $(call cc-option, -fno-conserve-stack) -fno-stack-protector
+ 
+-# cond_syscall is currently not LTO compatible
+-CFLAGS_sys_ni.o = $(DISABLE_LTO)
+-
+ obj-y += sched/
+ obj-y += locking/
+ obj-y += power/
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index cd4294435fef..6db5b1f55b14 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -111,7 +111,7 @@ endif
+ # ---------------------------------------------------------------------------
+ 
+ quiet_cmd_cc_s_c = CC $(quiet_modtag)  $@
+-      cmd_cc_s_c = $(CC) $(filter-out $(DEBUG_CFLAGS), $(c_flags)) $(DISABLE_LTO) -fverbose-asm -S -o $@ $<
++      cmd_cc_s_c = $(CC) $(filter-out $(DEBUG_CFLAGS), $(c_flags)) -fverbose-asm -S -o $@ $<
+ 
+ $(obj)/%.s: $(src)/%.c FORCE
+ 	$(call if_changed_dep,cc_s_c)
 -- 
 2.28.0.1011.ga647a8990f-goog
 
