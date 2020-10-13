@@ -2,58 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B84628C615
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 02:33:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A081D28C612
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 02:33:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727215AbgJMAdX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S1727531AbgJMAdX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Mon, 12 Oct 2020 20:33:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47892 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727535AbgJMAdB (ORCPT
+        with ESMTP id S1727215AbgJMAdB (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
         Mon, 12 Oct 2020 20:33:01 -0400
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B8EC0613DD
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:33 -0700 (PDT)
-Received: by mail-yb1-xb4a.google.com with SMTP id k9so8529270ybf.18
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:33 -0700 (PDT)
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com [IPv6:2607:f8b0:4864:20::449])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B908C0613DF
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:36 -0700 (PDT)
+Received: by mail-pf1-x449.google.com with SMTP id z9so10745644pfk.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=i0HfMD/wRChzzw+H0j5SIQI+XYlsyfomuEvjB0A2b7U=;
-        b=RWGnAnvd5Lp76tMdFpNH1+zuCs711HvTmjeeqWExWdLO0b+IYvl8hseJy7bQVsA/yQ
-         WbWgdjz9odSgS33tA7SyJrG23HtPbcQQ2sqTeDLN0z+XNW/U1+B04f29pxuTIBAo0Bwr
-         1kuUI0qew0RRwWEdSqeHxrYPCuM0lKcyAQQHVJyqk0NDK5lndU4kJ0nEntK7Gw/b+6ds
-         NINAxQFY1xV9pWKvIAxegfc8BATcwAptMc23jyb2HlWegaJKMJtRw94gvpud1QRadkKB
-         gA/bzBYbBksOIuoqgqduz/XaFVcQDSEIQm1NvRkC4MArUYBfjsPwupbm8iuKYDaYWWMx
-         dfRw==
+        bh=s6lKkOY6jDvHdKU5rddxnOybuTgb4UG6S62YgATiqsw=;
+        b=CfMw3Lf2RqxuH1gK/LplrUVdrli+0+CHSSkm8IVXoxiERluD9UBxqoVgGLYbB0zcGH
+         fcd+f/qjElRp1j6Jdey9Bh7NDBDe4hB9i6yurpQFinDV80y/ezy2gjJtTugW6x9+TxXB
+         lOD7ufXL8OAxIH+6uzRqxS9SQox8gQ5U7CudTH1hC4sfe/ktNYfAhjsreZIIFTMjFG1C
+         RQt8+AhPqYKsAgf3F+x4HsSqm87l4hiDBx+TxXtL+Ap2+aCO42F+hEV40MZGJK2CkBo8
+         P4FhwGbSHoh+MmiJ53pkyum1T4qHIVaGpa4LSlzx+7mtM5okXCbjhUku3Y3pd0VFE6Pn
+         ksJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=i0HfMD/wRChzzw+H0j5SIQI+XYlsyfomuEvjB0A2b7U=;
-        b=eesqIejoamLCDqGu8hExJpsCGoA07sPRW+hR/Xoh+bFd3m3167CbMEnSlx+2MjKNSM
-         gJg7Zz4AWi9vhAQ2hS00hqGVenSBNvn1JEqJWxsJzPwXwJgW52M+abr/kYVLh5l+QUIE
-         Jm1I8RsPlr5PDHEXZJITjCJN7HqWNHlpgVwK//ciBpk8EyO2yoNQzOpRgGnBbEvstoaI
-         arMAyNuprtYHNerL8Xd2tuvOnLfKwTuyWrHfrSk5mnIHXzue4nVKbZBXQVR3EJqTnHOH
-         sSXWu3N9ODy8Fr39I5TIcH30HogEwl2vRGaVotYvpwv8kDNIUSulGstrMJDgAGbA+wKI
-         TX9Q==
-X-Gm-Message-State: AOAM533Ik+hn9RkNeQRkZaUYFnQ/x7YO/rvYIa/evFfTw3qPuxP/nc+J
-        8taXQMaVUGFrvosg1rZLmVlRy0mOWViYTps/ZQM=
-X-Google-Smtp-Source: ABdhPJyWpX0TYRebf3Rkf2Yh1c8ADAskEKEgvpC4cZTbopj2J6pmYFQCkigTg2srbz/p2P1Qt1W0jVbIt5KqdOEhaLA=
+        bh=s6lKkOY6jDvHdKU5rddxnOybuTgb4UG6S62YgATiqsw=;
+        b=DpuJXx1WliobL9HRAJvDB4EueX/nkwee4R6OYiJCbJpoLMKrhnia+8rQ7o7jzRPgKJ
+         I4/bfVL5k09DEVTGY8F9wOVEhJvTVXXfySydIykHI58HhulruyZ3nB9Lvm95byE+i/Ec
+         ycd226oY4oRFeDdkZiByxUKFKmX+sJs44wXAc5R15k/cshRK3SMshaYFpR05a//yptak
+         OfV8BXGbjTUwVVmELflmKFbOI5vLSMGuAMGnBUWTN3oG/yFxPJrUTWluL1wdk7BEUg6I
+         A//JZQRMRwC8LtsmZWtboo8XzxgSupvR61UvV0csHmX2zpbH3rRKYv6E8+apmMZBtHsi
+         kEoQ==
+X-Gm-Message-State: AOAM5327FVI5vowb1kEQ1M90Clnz4J3J57AuxKHyPBEWHm5huVYmhgiG
+        D0Sliqp6YpSRur5CG9ufYmEum3wi8JlLofipheU=
+X-Google-Smtp-Source: ABdhPJyFxyU35wX46NP9k8EgBAnMCUQ4LjUrf9Ha6HBecKs6BME4DjIGIM9k+HTmfXPW/UAyVK3X9uWCjK1Lv7DEg7U=
 Sender: "samitolvanen via sendgmr" 
         <samitolvanen@samitolvanen1.mtv.corp.google.com>
 X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a25:cc89:: with SMTP id
- l131mr12649555ybf.154.1602549152704; Mon, 12 Oct 2020 17:32:32 -0700 (PDT)
-Date:   Mon, 12 Oct 2020 17:31:51 -0700
+ (user=samitolvanen job=sendgmr) by 2002:aa7:8492:0:b029:155:79b1:437a with
+ SMTP id u18-20020aa784920000b029015579b1437amr18970192pfn.26.1602549155518;
+ Mon, 12 Oct 2020 17:32:35 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 17:31:52 -0700
 In-Reply-To: <20201013003203.4168817-1-samitolvanen@google.com>
-Message-Id: <20201013003203.4168817-14-samitolvanen@google.com>
+Message-Id: <20201013003203.4168817-15-samitolvanen@google.com>
 Mime-Version: 1.0
 References: <20201013003203.4168817-1-samitolvanen@google.com>
 X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
-Subject: [PATCH v6 13/25] kbuild: lto: merge module sections
+Subject: [PATCH v6 14/25] kbuild: lto: remove duplicate dependencies from .mod files
 From:   Sami Tolvanen <samitolvanen@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>
@@ -73,55 +74,36 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-LLD always splits sections with LTO, which increases module sizes. This
-change adds linker script rules to merge the split sections in the final
-module.
+With LTO, llvm-nm prints out symbols for each archive member
+separately, which results in a lot of duplicate dependencies in the
+.mod file when CONFIG_TRIM_UNUSED_SYMS is enabled. When a module
+consists of several compilation units, the output can exceed the
+default xargs command size limit and split the dependency list to
+multiple lines, which results in used symbols getting trimmed.
 
-Suggested-by: Nick Desaulniers <ndesaulniers@google.com>
+This change removes duplicate dependencies, which will reduce the
+probability of this happening and makes .mod files smaller and
+easier to read.
+
 Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
 Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- scripts/module.lds.S | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ scripts/Makefile.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/module.lds.S b/scripts/module.lds.S
-index 69b9b71a6a47..037120173a22 100644
---- a/scripts/module.lds.S
-+++ b/scripts/module.lds.S
-@@ -25,5 +25,33 @@ SECTIONS {
- 	__jump_table		0 : ALIGN(8) { KEEP(*(__jump_table)) }
- }
+diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+index ab0ddf4884fd..96d6c9e18901 100644
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
+@@ -266,7 +266,7 @@ endef
  
-+#ifdef CONFIG_LTO_CLANG
-+/*
-+ * With CONFIG_LTO_CLANG, LLD always enables -fdata-sections and
-+ * -ffunction-sections, which increases the size of the final module.
-+ * Merge the split sections in the final binary.
-+ */
-+SECTIONS {
-+	__patchable_function_entries : { *(__patchable_function_entries) }
-+
-+	.bss : {
-+		*(.bss .bss.[0-9a-zA-Z_]*)
-+		*(.bss..L*)
-+	}
-+
-+	.data : {
-+		*(.data .data.[0-9a-zA-Z_]*)
-+		*(.data..L*)
-+	}
-+
-+	.rodata : {
-+		*(.rodata .rodata.[0-9a-zA-Z_]*)
-+		*(.rodata..L*)
-+	}
-+
-+	.text : { *(.text .text.[0-9a-zA-Z_]*) }
-+}
-+#endif
-+
- /* bring in arch-specific sections */
- #include <asm/module.lds.h>
+ # List module undefined symbols (or empty line if not enabled)
+ ifdef CONFIG_TRIM_UNUSED_KSYMS
+-cmd_undef_syms = $(NM) $< | sed -n 's/^  *U //p' | xargs echo
++cmd_undef_syms = $(NM) $< | sed -n 's/^  *U //p' | sort -u | xargs echo
+ else
+ cmd_undef_syms = echo
+ endif
 -- 
 2.28.0.1011.ga647a8990f-goog
 
