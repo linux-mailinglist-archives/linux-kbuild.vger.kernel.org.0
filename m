@@ -2,189 +2,298 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0378828C44F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 12 Oct 2020 23:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CCAF928C63B
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 02:36:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730321AbgJLVst (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Oct 2020 17:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50698 "EHLO
+        id S1727148AbgJMAdc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Oct 2020 20:33:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729273AbgJLVst (ORCPT
+        with ESMTP id S1727146AbgJMAcH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Oct 2020 17:48:49 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C705C0613D0;
-        Mon, 12 Oct 2020 14:48:49 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id j7so4952122pgk.5;
-        Mon, 12 Oct 2020 14:48:49 -0700 (PDT)
+        Mon, 12 Oct 2020 20:32:07 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4500CC0613D5
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:06 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id n8so13738399qtf.10
+        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=5hpUBhYkynzWSO/MyOJOUvzRQxBbeKodFS5ENFGt1Cw=;
-        b=LTRLFCNLVioFU/DVKBPzF3b0xS54PVoSo7PO4zXv9Ign+qVU4TULsnKmBdI4qvOy/K
-         pwBGlElzg1R9+sWqnbQQXfVzpsrckEDujiqzp3mQtlJNPNMvZlN9zNpsLq3lxuKdfNa7
-         OARt4MdYOUqz02g0z/Esn5buWbAaAR/qSjB56C4pdvnmM29FFMFHiYPGDVD9hg8rGplG
-         YUJwD5EpvWwwHXwyvcTvLC8+n0zr8llmK02cgWznQ13JMUcw1SzhTnkjQxz1YaQklGHk
-         Nl95KEpncg+Ojoov5rNEx1o0L1HxPARbL9XvxVFhmLTI1ISROf0Fpys5Kua7ZrpF3ZRW
-         ax0A==
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=OJOo2mPtwLVt3Btef9tCd4OBHWCay8DKkoOT1RdZm54=;
+        b=UojFnS6wp9+JkvfRaZdkt/NHiq0Zo5bAk02S+Aq1YdUoQ5nxE3VNdJSkV/kMJ2nw2T
+         0v1jg0c9rc8Jll2FYmptKRB0cfatcnVKfJDbXsCbITB8hx8EKXIyP9f8QdZXHE80tYoI
+         DUx95eFr58Tlzz6u2QG7P1+GldeGJb5/GaqS8BysO3vyqzJeLHSqFBDPKYO1FIHhaHxb
+         JdxhrPGWineDlAATmjOIdda6W0jJClm7N/Cx516up2FK41rMqqZtXXSkkdoG74dB8ML7
+         LGMGbxkjwfNozzN1XOkol6/VYuOz3xQRX5iPmzS0Wy9b/Z5N/PVfpYpa1MLWhbgzu4gN
+         Yz1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5hpUBhYkynzWSO/MyOJOUvzRQxBbeKodFS5ENFGt1Cw=;
-        b=NZnfnhy1uuOnKIHixSG+R45bSPikgKujDrXVkRFSb05BNpgQJwGxnfbYVo4zQLBl6e
-         LHUpIJ1WY1YARdg2KqZjPqwpgQYgRRt07VYQ2nRqQWIAWLQWV5r9yg7OngJx67NzR95V
-         /O6ZmWkY6xLR3jBNNByjHGlF41vR5YAmm2DMpRQtY20jzUFEcDLzOtPWYHP/9Wb9VeGa
-         tWY9+bLKyoqOH0kAbxXVuP3jvfgqqdBrfGA7tFO4/5Okv5ndFej4LHC3l6ajklFQnW1I
-         y5jJeNE+ZTV26y+/kZhBKf7cUiGZvMEe0NMeX4nbOWSZNWPjyGEUovwWhxXGwdQhnv4p
-         hrUA==
-X-Gm-Message-State: AOAM5313kDRcIQvykHMgLrHngHrlZGJ9ifdALyn+JxFedY4QIpPxcqbm
-        XKPRMxx7j6wtIJyPoIphu/I=
-X-Google-Smtp-Source: ABdhPJz5Lp2adF9xI3yV5LRvSTjct73bdnYZ9/vx/AS1+EGaAwshFUhsI9eDn+I6rbF84Pp9iczIxw==
-X-Received: by 2002:a17:90a:ec13:: with SMTP id l19mr22866654pjy.51.1602539328974;
-        Mon, 12 Oct 2020 14:48:48 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:a404:280a:90bd:7a49:dcda:1fb1])
-        by smtp.gmail.com with ESMTPSA id y80sm16836402pfb.144.2020.10.12.14.48.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2020 14:48:48 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] kbuild: use interpreters to invoke scripts
-To:     Bernd Petrovitsch <bernd@petrovitsch.priv.at>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=OJOo2mPtwLVt3Btef9tCd4OBHWCay8DKkoOT1RdZm54=;
+        b=MmuXCCNF0NZ6oZeDDzGU1UTYwkal4DyJ273IlgthtNj7O+b7lyERfplDAXgqaG7Czo
+         0T2w/TkINecS8LvyT6oDX92oBBIa32Jhd2z6KKL4qK+nAsbODgzkhjruu9E8GOV/EuEe
+         iQGT7ZHVVM9rT+t8L4qLPBhpwg8URFnHLXNmyzR7XoxNqRnkES7WOdJos6OH+4pANjkx
+         tquzvYaQ8SElolZs/EYh/t2gFXkbKuVg5T24yWJrMUMNhBOElYmNNDSIjSrhVFXd048q
+         D3xkjeml0Vujpy7qk8K3nEzEjzTy0DgE0d1s8j1NgfiN8GL5JnHsFbpAX5FU85oNUDIY
+         d47w==
+X-Gm-Message-State: AOAM531eV881LMFDiIoBUEt6I/I+pRjk+T5zMcHf8jJTadyeQ9p1hp6h
+        nRuvvoeHMGcq+gDq0v5FGJpTE5xaZOrbcT/JOlI=
+X-Google-Smtp-Source: ABdhPJxH4NF2ufwWCu0rT4xNxHqUl6H1eRA5phXQVHXpMwo0zp1WH5b4jhlrx0nHNlt0XKW8iPthPAU05BvJlu74qas=
+Sender: "samitolvanen via sendgmr" 
+        <samitolvanen@samitolvanen1.mtv.corp.google.com>
+X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
+ (user=samitolvanen job=sendgmr) by 2002:a0c:d848:: with SMTP id
+ i8mr28244513qvj.31.1602549125192; Mon, 12 Oct 2020 17:32:05 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 17:31:38 -0700
+Message-Id: <20201013003203.4168817-1-samitolvanen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
+Subject: [PATCH v6 00/25] Add support for Clang LTO
+From:   Sami Tolvanen <samitolvanen@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
         clang-built-linux@googlegroups.com,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20201012170631.1241502-1-ujjwalkumar0501@gmail.com>
- <20201012170631.1241502-3-ujjwalkumar0501@gmail.com>
- <alpine.DEB.2.21.2010122019410.17866@felia>
- <b4fdc7c5-8edf-3895-69fc-1bcf9efb5d4a@gmail.com>
- <53b7257e-b192-07da-9dd3-06497ce826f0@petrovitsch.priv.at>
-From:   Ujjwal Kumar <ujjwalkumar0501@gmail.com>
-Message-ID: <4969477f-8833-9b5e-6756-0d72fe59ef4d@gmail.com>
-Date:   Tue, 13 Oct 2020 03:18:39 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <53b7257e-b192-07da-9dd3-06497ce826f0@petrovitsch.priv.at>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        x86@kernel.org, Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 13/10/20 12:24 am, Bernd Petrovitsch wrote:
-> Hi all!
-> 
->>>> diff --git a/arch/ia64/Makefile b/arch/ia64/Makefile
->>>> index 703b1c4f6d12..86d42a2d09cb 100644
->>>> --- a/arch/ia64/Makefile
->>>> +++ b/arch/ia64/Makefile
->>>> @@ -27,8 +27,8 @@ cflags-y	:= -pipe $(EXTRA) -ffixed-r13 -mfixed-range=f12-f15,f32-f127 \
->>>>  		   -falign-functions=32 -frename-registers -fno-optimize-sibling-calls
->>>>  KBUILD_CFLAGS_KERNEL := -mconstant-gp
->>>>
->>>> -GAS_STATUS	= $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
->>>> -KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>>> +GAS_STATUS	= $(shell $(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
->>>> +KBUILD_CPPFLAGS += $(shell $(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>>
->>> Here is an instance of what Masahiro-san pointed out being wrong.
->>>
->>> Ujjwal, will you send a v3?
->>
->> Following is the quoted text from the reply mail from Masahiro
->>
->>>> -GAS_STATUS     = $(shell $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
->>>> -KBUILD_CPPFLAGS += $(shell $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>>> +GAS_STATUS     = $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/check-gas "$(CC)" "$(OBJDUMP)")
->>>> +KBUILD_CPPFLAGS += $($(CONFIG_SHELL) $(srctree)/arch/ia64/scripts/toolchain-flags "$(CC)" "$(OBJDUMP)" "$(READELF)")
->>>
->>>
->>>
->>> These changes look wrong to me.
->>>
->>> $($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
->>>
->>
->> From the above text, I understand as follows:
-> 
-> Did you actually *test* that (expecially) these lines work
-> afterwards as good as before?
+This patch series adds support for building the x86_64 kernel with
+Clang's Link Time Optimization (LTO).
 
-Yes, I did check my changes. TBH, I spent a considerable
-amount of time in doing so (given that I'm new to the
-community). And I explicitly mentioned the ones I couldn't
-test in the cover letter.
+In addition to performance, the primary motivation for LTO is
+to allow Clang's Control-Flow Integrity (CFI) to be used in the
+kernel. Google has shipped millions of Pixel devices running three
+major kernel versions with LTO+CFI since 2018.
 
-But I'm afraid this particular change that Masahiro pointed
-must have been overlooked by me (and possibly by others
-involved in the process). Being the author of the patch I
-accept my mistake.
+Most of the patches are build system changes for handling LLVM
+bitcode, which Clang produces with LTO instead of ELF object files,
+postponing ELF processing until a later stage, and ensuring initcall
+ordering.
 
-Because this construct was new to me I read about it
-thoroughly in the docs.
-As soon as it was pointed out to me, I at once realised
-that the change proposed by me was wrong (i didn't
-have to look at the docs).
+Note that this version is based on tip/master to reduce the number
+of prerequisite patches, and to make it easier to manage changes to
+objtool. Patch 1 is from Masahiro's kbuild tree, and while it's not
+directly related to LTO, it makes the module linker script changes
+cleaner.
 
-> 
->> That my proposed change:
->> $(shell $(src...)    ->  $($(CONFIG_SHELL) $(src...)
->>
->> is WRONG
-> 
-> Yup, as it's in a Makefile and that's a Makefile construct> 
->> and in the next line he suggested the required correction.
->> That being:
->> $($(CONFIG_SHELL)    ->  $(shell $(CONFIG_SHELL)
-> 
-> Such stuff should generally not be needed as the to-be-used
-> shell can be set in Makefiles via a "SHELL = " assignment
+Furthermore, patches 2-6 include Peter's patch for generating
+__mcount_loc with objtool, and build system changes to enable it on
+x86. With these patches, we no longer need to annotate functions
+that have non-call references to __fentry__ with LTO, which greatly
+simplifies supporting dynamic ftrace.
 
-It's not about setting shell but rather using it at required
-place. The 'shell function' is meant to execute provided 
-commands in an environment outside of make; and executing
-commands in that environment is somewhat similar to running
-commands on a terminal.
-Invoking a script file without setting the x bits will give
-a permission denied error.
-Similar thing happens when 'shell function' tries to invoke
-the provided script. So the task was simply to prepend the
-$CONFIG_SHELL (or $SHELL whichever is configured; simple sh
-would also suffice) with the script file in 'shell function'.
+You can also pull this series from
 
-> (defaulting to /bin/sh - what else;-).
-> Flags for the shell can BTW set with ".SHELLFLAGS = ".
+  https://github.com/samitolvanen/linux.git lto-v6
 
-setting flags might not be the solution either.
+---
+Changes in v6:
 
-> 
-> So please
-> -) learn basic "Makefile" + "make" before brainlessly patching
->    a Makefile.
-> -) actually testy your changes to make sure the patch didn't
->    broke anything
-> -) and - last but not least - check if there isn't a shell
->    already set (and which).
+  - Added the missing --mcount flag to patch 5.
 
-btw, I do agree with your points.
+  - Dropped the arm64 patches from this series and will repost them
+    later.
 
-> 
-> MfG,
-> 	Bernd
-> 
+Changes in v5:
 
-If I said anything incorrect please correct me.
+  - Rebased on top of tip/master.
+
+  - Changed the command line for objtool to use --vmlinux --duplicate
+    to disable warnings about retpoline thunks and to fix .orc_unwind
+    generation for vmlinux.o.
+
+  - Added --noinstr flag to objtool, so we can use --vmlinux without
+    also enabling noinstr validation.
+
+  - Disabled objtool's unreachable instruction warnings with LTO to
+    disable false positives for the int3 padding in vmlinux.o.
+
+  - Added ANNOTATE_RETPOLINE_SAFE annotations to the indirect jumps
+    in x86 assembly code to fix objtool warnings with retpoline.
+
+  - Fixed modpost warnings about missing version information with
+    CONFIG_MODVERSIONS.
+
+  - Included Makefile.lib into Makefile.modpost for ld_flags. Thanks
+    to Sedat for pointing this out.
+
+  - Updated the help text for ThinLTO to better explain the trade-offs.
+
+  - Updated commit messages with better explanations.
+
+Changes in v4:
+
+  - Fixed a typo in Makefile.lib to correctly pass --no-fp to objtool.
+
+  - Moved ftrace configs related to generating __mcount_loc to Kconfig,
+    so they are available also in Makefile.modfinal.
+
+  - Dropped two prerequisite patches that were merged to Linus' tree.
+
+Changes in v3:
+
+  - Added a separate patch to remove the unused DISABLE_LTO treewide,
+    as filtering out CC_FLAGS_LTO instead is preferred.
+
+  - Updated the Kconfig help to explain why LTO is behind a choice
+    and disabled by default.
+
+  - Dropped CC_FLAGS_LTO_CLANG, compiler-specific LTO flags are now
+    appended directly to CC_FLAGS_LTO.
+
+  - Updated $(AR) flags as KBUILD_ARFLAGS was removed earlier.
+
+  - Fixed ThinLTO cache handling for external module builds.
+
+  - Rebased on top of Masahiro's patch for preprocessing modules.lds,
+    and moved the contents of module-lto.lds to modules.lds.S.
+
+  - Moved objtool_args to Makefile.lib to avoid duplication of the
+    command line parameters in Makefile.modfinal.
+
+  - Clarified in the commit message for the initcall ordering patch
+    that the initcall order remains the same as without LTO.
+
+  - Changed link-vmlinux.sh to use jobserver-exec to control the
+    number of jobs started by generate_initcall_ordering.pl.
+
+  - Dropped the x86/relocs patch to whitelist L4_PAGE_OFFSET as it's
+    no longer needed with ToT kernel.
+
+  - Disabled LTO for arch/x86/power/cpu.c to work around a Clang bug
+    with stack protector attributes.
+
+Changes in v2:
+
+  - Fixed -Wmissing-prototypes warnings with W=1.
+
+  - Dropped cc-option from -fsplit-lto-unit and added .thinlto-cache
+    scrubbing to make distclean.
+
+  - Added a comment about Clang >=11 being required.
+
+  - Added a patch to disable LTO for the arm64 KVM nVHE code.
+
+  - Disabled objtool's noinstr validation with LTO unless enabled.
+
+  - Included Peter's proposed objtool mcount patch in the series
+    and replaced recordmcount with the objtool pass to avoid
+    whitelisting relocations that are not calls.
+
+  - Updated several commit messages with better explanations.
 
 
-Thanks
-Ujjwal Kumar
+Masahiro Yamada (1):
+  kbuild: preprocess module linker script
+
+Peter Zijlstra (1):
+  objtool: Add a pass for generating __mcount_loc
+
+Sami Tolvanen (23):
+  objtool: Don't autodetect vmlinux.o
+  tracing: move function tracer options to Kconfig
+  tracing: add support for objtool mcount
+  x86, build: use objtool mcount
+  treewide: remove DISABLE_LTO
+  kbuild: add support for Clang LTO
+  kbuild: lto: fix module versioning
+  objtool: Split noinstr validation from --vmlinux
+  kbuild: lto: postpone objtool
+  kbuild: lto: limit inlining
+  kbuild: lto: merge module sections
+  kbuild: lto: remove duplicate dependencies from .mod files
+  init: lto: ensure initcall ordering
+  init: lto: fix PREL32 relocations
+  PCI: Fix PREL32 relocations for LTO
+  modpost: lto: strip .lto from module names
+  scripts/mod: disable LTO for empty.c
+  efi/libstub: disable LTO
+  drivers/misc/lkdtm: disable LTO for rodata.o
+  x86/asm: annotate indirect jumps
+  x86, vdso: disable LTO only for vDSO
+  x86, cpu: disable LTO for cpu.c
+  x86, build: allow LTO_CLANG and THINLTO to be selected
+
+ .gitignore                                    |   1 +
+ Makefile                                      |  68 +++--
+ arch/Kconfig                                  |  74 +++++
+ arch/arm/Makefile                             |   4 -
+ .../module.lds => include/asm/module.lds.h}   |   2 +
+ arch/arm64/Makefile                           |   4 -
+ .../module.lds => include/asm/module.lds.h}   |   2 +
+ arch/arm64/kernel/vdso/Makefile               |   1 -
+ arch/ia64/Makefile                            |   1 -
+ .../{module.lds => include/asm/module.lds.h}  |   0
+ arch/m68k/Makefile                            |   1 -
+ .../module.lds => include/asm/module.lds.h}   |   0
+ arch/powerpc/Makefile                         |   1 -
+ .../module.lds => include/asm/module.lds.h}   |   0
+ arch/riscv/Makefile                           |   3 -
+ .../module.lds => include/asm/module.lds.h}   |   3 +-
+ arch/sparc/vdso/Makefile                      |   2 -
+ arch/um/include/asm/Kbuild                    |   1 +
+ arch/x86/Kconfig                              |   3 +
+ arch/x86/Makefile                             |   5 +
+ arch/x86/entry/vdso/Makefile                  |   5 +-
+ arch/x86/kernel/acpi/wakeup_64.S              |   2 +
+ arch/x86/platform/pvh/head.S                  |   2 +
+ arch/x86/power/Makefile                       |   4 +
+ arch/x86/power/hibernate_asm_64.S             |   3 +
+ drivers/firmware/efi/libstub/Makefile         |   2 +
+ drivers/misc/lkdtm/Makefile                   |   1 +
+ include/asm-generic/Kbuild                    |   1 +
+ include/asm-generic/module.lds.h              |  10 +
+ include/asm-generic/vmlinux.lds.h             |  11 +-
+ include/linux/init.h                          |  79 ++++-
+ include/linux/pci.h                           |  19 +-
+ kernel/Makefile                               |   3 -
+ kernel/trace/Kconfig                          |  29 ++
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   3 +
+ scripts/Makefile.build                        |  69 +++--
+ scripts/Makefile.lib                          |  17 +-
+ scripts/Makefile.modfinal                     |  29 +-
+ scripts/Makefile.modpost                      |  25 +-
+ scripts/generate_initcall_order.pl            | 270 ++++++++++++++++++
+ scripts/link-vmlinux.sh                       |  98 ++++++-
+ scripts/mod/Makefile                          |   1 +
+ scripts/mod/modpost.c                         |  16 +-
+ scripts/mod/modpost.h                         |   9 +
+ scripts/mod/sumversion.c                      |   6 +-
+ scripts/{module-common.lds => module.lds.S}   |  31 ++
+ scripts/package/builddeb                      |   2 +-
+ tools/objtool/builtin-check.c                 |  10 +-
+ tools/objtool/builtin.h                       |   2 +-
+ tools/objtool/check.c                         |  84 +++++-
+ tools/objtool/check.h                         |   1 +
+ tools/objtool/objtool.c                       |   1 +
+ tools/objtool/objtool.h                       |   1 +
+ 54 files changed, 895 insertions(+), 128 deletions(-)
+ rename arch/arm/{kernel/module.lds => include/asm/module.lds.h} (72%)
+ rename arch/arm64/{kernel/module.lds => include/asm/module.lds.h} (76%)
+ rename arch/ia64/{module.lds => include/asm/module.lds.h} (100%)
+ rename arch/m68k/{kernel/module.lds => include/asm/module.lds.h} (100%)
+ rename arch/powerpc/{kernel/module.lds => include/asm/module.lds.h} (100%)
+ rename arch/riscv/{kernel/module.lds => include/asm/module.lds.h} (84%)
+ create mode 100644 include/asm-generic/module.lds.h
+ create mode 100755 scripts/generate_initcall_order.pl
+ rename scripts/{module-common.lds => module.lds.S} (59%)
+
+
+base-commit: a292570e9f694ed50d3e69afd6d54272fd40deca
+-- 
+2.28.0.1011.ga647a8990f-goog
+
