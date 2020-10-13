@@ -2,117 +2,172 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9731028C63F
-	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 02:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4CAB28C79F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 13 Oct 2020 05:41:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727365AbgJMAe0 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 12 Oct 2020 20:34:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47898 "EHLO
+        id S1730412AbgJMDlU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 12 Oct 2020 23:41:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727745AbgJMAdw (ORCPT
+        with ESMTP id S1727831AbgJMDlT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 12 Oct 2020 20:33:52 -0400
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50AF5C0613D8
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:33:02 -0700 (PDT)
-Received: by mail-qk1-x749.google.com with SMTP id v190so11407620qki.21
-        for <linux-kbuild@vger.kernel.org>; Mon, 12 Oct 2020 17:33:02 -0700 (PDT)
+        Mon, 12 Oct 2020 23:41:19 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBB81C0613D0;
+        Mon, 12 Oct 2020 20:41:19 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id g29so16588884pgl.2;
+        Mon, 12 Oct 2020 20:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=NB4DqWz6+fIfMXcokXEeMggmgfFph8OJ/Hk6TSxy9cU=;
-        b=H1F377i8eGQAU/5A0yi1yr0c33hGgdU8XEV9saDmRDeYR0tkVsNxEXUclpv1KfQaU0
-         /n56cozTapbGtfIzzZr2zkFu0QiAzdA/2U4pijKUqmCNtwJLZOHMOhyYpo/RVj3+a9up
-         uw03RRjDJUEA07AI3ycjej51uqULrxQxMDVvJUyMWGW9h09GHasuDmPYx3/m4etV9s4F
-         /8ifejQyz9wBUEc+H89uj/k7/XI3IN0cqCEm+8nY+wRoA6LNkaf8a9R7Z2OdYi/ddy5V
-         vh/iycwgiqqL8SNRUxcnX4VZEMdDFUCQ+T9Ak4gRDlRzIex36WiXpUQpVsXw+Sm3BVXa
-         op1w==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QnFBf559stGtGycK6x7rPCyISX6Wjd0zGUVwkdWXItY=;
+        b=Ic1DgpAtmYSK3H9X+FshZNBMed9A+u0Is3uJTYQoFwqpNo+dm0KU8kCJcTVb8aijJO
+         NK36xXlolH80VTP3ZdEXEWliYUj/9+t2Al50Q3uN68xRJyGb4Hnw71fxBsLcxJX5ACDc
+         +N0zKKQhQUq0Jri3ZDZC/DfQVsd7rFWFRxRjkXjtqqfEdZM+u5Y70pVzCHx/WRj/Fd1A
+         NHuc7y6eYwfORXPksrbbGewbaU6JWX0HDs3jcQC1l1Bdyrqjzdyy3DaEl3vfo1j7pqEt
+         ooz3ezPuNcvKFoxUGKoMKRGFTITVvudk3ZNtOf/O4Gpk1ymVmXzLMMu+IblYmQn4G4pp
+         7C1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=NB4DqWz6+fIfMXcokXEeMggmgfFph8OJ/Hk6TSxy9cU=;
-        b=AgHjR8TIxor9AySl25nMBRTmBI1G83afW4IdMPBn/4BujrLRp1k7ZDz5LVHLMgUnjs
-         DMKzW6kos8IexUq0uQxTgwGnXfE63ENB6ijDPF+n8y0YFwzRqkKJDijWmWy/o+ijpCxq
-         scMDT7c1xKimV2Hq8/cxYB5jc89si9lPe73RW+kHrIks1Qz2SRI8kDujsIFoKSBfh732
-         BwBdPQ0tZ2zHUg5/lSyPsO9lDsqekReiXKmrMhnJYZvLBOb60dglvQjm1crPfCXQfIMK
-         RerwYmG7r6nLUAuCy8rGIH47Z2Tact7FyvyretugMezuCFsVFdLUNrl+2zV11b20UY4c
-         AULQ==
-X-Gm-Message-State: AOAM530xqQu/i5OafsDPF5gzNXgkXuGcINXWXfKAmaL55OHIBJqfSoft
-        SObawRyD86ZBHIIfBpvEnYABKakMeXNFjxVFBN4=
-X-Google-Smtp-Source: ABdhPJwqkp+cAjUgpQ/a4zy6+yRRoWJAx7zl3+DhKe/ksIEW9MuPzDjzs69jj4tiiYYaOThbc4htLgXeM88lIlTIveg=
-Sender: "samitolvanen via sendgmr" 
-        <samitolvanen@samitolvanen1.mtv.corp.google.com>
-X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:ad4:59cf:: with SMTP id
- el15mr14045430qvb.17.1602549181397; Mon, 12 Oct 2020 17:33:01 -0700 (PDT)
-Date:   Mon, 12 Oct 2020 17:32:03 -0700
-In-Reply-To: <20201013003203.4168817-1-samitolvanen@google.com>
-Message-Id: <20201013003203.4168817-26-samitolvanen@google.com>
-Mime-Version: 1.0
-References: <20201013003203.4168817-1-samitolvanen@google.com>
-X-Mailer: git-send-email 2.28.0.1011.ga647a8990f-goog
-Subject: [PATCH v6 25/25] x86, build: allow LTO_CLANG and THINLTO to be selected
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QnFBf559stGtGycK6x7rPCyISX6Wjd0zGUVwkdWXItY=;
+        b=cWN7h3GdP3qEiT+8E7n5nUoC5r/YX89SJnGJ+SYzkMuBaPFhM0VUP543lguhLK7k+S
+         P8wvz8d3ODZ5/yDbMWB8EXYztGMp1nbAL80gI8r0Fv/AQwSxs4DAMHFoUZ1PlM2n3EgE
+         mEQIPYnTT875A2MM6br8sz0zee+KEYECkcKDN+8vnSi+Yx5exSvviR+H/3xNgWLlHAbS
+         S/uSKocYgpJf5gVU0cFSRMJvuD7lqut7kIG6PcqQrRyJDIknBtbm8LaUcE51pkLeubZL
+         bVRlUPt8bVFSgybHcXVdIhSN7vum2Ovyy8Bc8b6kp1PpkA9RGdXEsP5vsivIimpBZGDF
+         KolQ==
+X-Gm-Message-State: AOAM531mgzomrEibww19ZWgqier5D/D7JT7dz+8QNmsU/OvUwaIZ9jUx
+        dOQCZViQHqdZWkh3NbHzAOCJhNFR/4o=
+X-Google-Smtp-Source: ABdhPJyGwYce2sNmmbxXit4l2re9HBR70WjzKY24wEySbkGo9wMoKKJVaEd2pbN7PkAVsKz3HH/ksQ==
+X-Received: by 2002:a17:90a:62c5:: with SMTP id k5mr23551844pjs.100.1602560479246;
+        Mon, 12 Oct 2020 20:41:19 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:45e1:2200::1])
+        by smtp.gmail.com with ESMTPSA id b21sm13944484pfb.97.2020.10.12.20.41.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 20:41:18 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Vincenzo Frascino <vincenzo.frascino@arm.com>,
         linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        x86@kernel.org, Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH] arm64: vdso32: Allow ld.lld to properly link the VDSO
+Date:   Mon, 12 Oct 2020 20:39:48 -0700
+Message-Id: <20201013033947.2257501-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.29.0.rc0
+MIME-Version: 1.0
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Pass code model and stack alignment to the linker as these are
-not stored in LLVM bitcode, and allow both CONFIG_LTO_CLANG and
-CONFIG_THINLTO to be selected.
+As it stands now, the vdso32 Makefile hardcodes the linker to ld.bfd
+using -fuse-ld=bfd with $(CC). This was taken from the arm vDSO
+Makefile, as the comment notes, done in commit d2b30cd4b722 ("ARM:
+8384/1: VDSO: force use of BFD linker").
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Commit fe00e50b2db8 ("ARM: 8858/1: vdso: use $(LD) instead of $(CC) to
+link VDSO") changed that Makefile to use $(LD) directly instead of
+through $(CC), which matches how the rest of the kernel operates. Since
+then, LD=ld.lld means that the arm vDSO will be linked with ld.lld,
+which has shown no problems so far.
+
+Allow ld.lld to link this vDSO as we do the regular arm vDSO. To do
+this, we need to do a few things:
+
+* Add a LD_COMPAT variable, which defaults to $(CROSS_COMPILE_COMPAT)ld
+  with gcc and $(LD) if LLVM is 1, which will be ld.lld, or
+  $(CROSS_COMPILE_COMPAT)ld if not, which matches the logic of the main
+  Makefile. It is overrideable for further customization and avoiding
+  breakage.
+
+* Eliminate cc32-ldoption, which matches commit 055efab3120b ("kbuild:
+  drop support for cc-ldoption").
+
+With those, we can use $(LD_COMPAT) in cmd_ldvdso and change the flags
+from compiler linker flags to linker flags directly. We eliminate
+-mfloat-abi=soft because it is not handled by the linker.
+
+Link: https://github.com/ClangBuiltLinux/linux/issues/1033
+Reported-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
- arch/x86/Kconfig  | 2 ++
- arch/x86/Makefile | 5 +++++
- 2 files changed, 7 insertions(+)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 6d67646153bc..c579d7000b67 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -92,6 +92,8 @@ config X86
- 	select ARCH_SUPPORTS_ACPI
- 	select ARCH_SUPPORTS_ATOMIC_RMW
- 	select ARCH_SUPPORTS_NUMA_BALANCING	if X86_64
-+	select ARCH_SUPPORTS_LTO_CLANG		if X86_64
-+	select ARCH_SUPPORTS_THINLTO		if X86_64
- 	select ARCH_USE_BUILTIN_BSWAP
- 	select ARCH_USE_QUEUED_RWLOCKS
- 	select ARCH_USE_QUEUED_SPINLOCKS
-diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-index 154259f18b8b..774a7debb27c 100644
---- a/arch/x86/Makefile
-+++ b/arch/x86/Makefile
-@@ -173,6 +173,11 @@ ifeq ($(ACCUMULATE_OUTGOING_ARGS), 1)
- 	KBUILD_CFLAGS += $(call cc-option,-maccumulate-outgoing-args,)
+NOTE: This patch is currently based on the kbuild tree due to the
+--build-id -> --build-id=sha1 change that Bill did. If the arm64
+maintainers would prefer to take this patch, I can rebase it (althought
+presumably this won't hit mainline until at least 5.11 so it can
+probably just stay as is for now).
+
+ arch/arm64/kernel/vdso32/Makefile | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
+index 7f96a1a9f68c..1cf00c58805d 100644
+--- a/arch/arm64/kernel/vdso32/Makefile
++++ b/arch/arm64/kernel/vdso32/Makefile
+@@ -22,16 +22,21 @@ endif
+ 
+ CC_COMPAT ?= $(CC)
+ CC_COMPAT += $(CC_COMPAT_CLANG_FLAGS)
++
++ifeq ($(LLVM),1)
++LD_COMPAT ?= $(LD)
++else
++LD_COMPAT ?= $(CROSS_COMPILE_COMPAT)ld
++endif
+ else
+ CC_COMPAT ?= $(CROSS_COMPILE_COMPAT)gcc
++LD_COMPAT ?= $(CROSS_COMPILE_COMPAT)ld
  endif
  
-+ifdef CONFIG_LTO_CLANG
-+KBUILD_LDFLAGS	+= -plugin-opt=-code-model=kernel \
-+		   -plugin-opt=-stack-alignment=$(if $(CONFIG_X86_32),4,8)
-+endif
-+
- # Workaround for a gcc prelease that unfortunately was shipped in a suse release
- KBUILD_CFLAGS += -Wno-sign-compare
- #
+ cc32-option = $(call try-run,\
+         $(CC_COMPAT) $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
+ cc32-disable-warning = $(call try-run,\
+ 	$(CC_COMPAT) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
+-cc32-ldoption = $(call try-run,\
+-        $(CC_COMPAT) $(1) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
+ cc32-as-instr = $(call try-run,\
+ 	printf "%b\n" "$(1)" | $(CC_COMPAT) $(VDSO_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
+ 
+@@ -122,14 +127,10 @@ dmbinstr := $(call cc32-as-instr,dmb ishld,-DCONFIG_AS_DMB_ISHLD=1)
+ VDSO_CFLAGS += $(dmbinstr)
+ VDSO_AFLAGS += $(dmbinstr)
+ 
+-VDSO_LDFLAGS := $(VDSO_CPPFLAGS)
+ # From arm vDSO Makefile
+-VDSO_LDFLAGS += -Wl,-Bsymbolic -Wl,--no-undefined -Wl,-soname=linux-vdso.so.1
+-VDSO_LDFLAGS += -Wl,-z,max-page-size=4096 -Wl,-z,common-page-size=4096
+-VDSO_LDFLAGS += -nostdlib -shared -mfloat-abi=soft
+-VDSO_LDFLAGS += -Wl,--hash-style=sysv
+-VDSO_LDFLAGS += -Wl,--build-id=sha1
+-VDSO_LDFLAGS += $(call cc32-ldoption,-fuse-ld=bfd)
++VDSO_LDFLAGS += -Bsymbolic --no-undefined -soname=linux-vdso.so.1
++VDSO_LDFLAGS += -z max-page-size=4096 -z common-page-size=4096
++VDSO_LDFLAGS += -nostdlib -shared --hash-style=sysv --build-id=sha1
+ 
+ 
+ # Borrow vdsomunge.c from the arm vDSO
+@@ -189,8 +190,8 @@ quiet_cmd_vdsold_and_vdso_check = LD32    $@
+       cmd_vdsold_and_vdso_check = $(cmd_vdsold); $(cmd_vdso_check)
+ 
+ quiet_cmd_vdsold = LD32    $@
+-      cmd_vdsold = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_LDFLAGS) \
+-                   -Wl,-T $(filter %.lds,$^) $(filter %.o,$^) -o $@
++      cmd_vdsold = $(LD_COMPAT) $(VDSO_LDFLAGS) \
++                   -T $(filter %.lds,$^) $(filter %.o,$^) -o $@
+ quiet_cmd_vdsocc = CC32    $@
+       cmd_vdsocc = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_CFLAGS) -c -o $@ $<
+ quiet_cmd_vdsocc_gettimeofday = CC32    $@
+
+base-commit: 172aad81a882443eefe1bd860c4eddc81b14dd5b
 -- 
-2.28.0.1011.ga647a8990f-goog
+2.29.0.rc0
 
