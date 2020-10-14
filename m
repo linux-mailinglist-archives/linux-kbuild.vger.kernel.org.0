@@ -2,183 +2,131 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BF8828DD11
-	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Oct 2020 11:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 511AF28DB0E
+	for <lists+linux-kbuild@lfdr.de>; Wed, 14 Oct 2020 10:20:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728707AbgJNJWS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 14 Oct 2020 05:22:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39946 "EHLO
+        id S1729119AbgJNITl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 14 Oct 2020 04:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728697AbgJNJVy (ORCPT
+        with ESMTP id S1728922AbgJNITd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 14 Oct 2020 05:21:54 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 671B5C0610D0
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Oct 2020 15:37:33 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id n9so643940pgt.8
-        for <linux-kbuild@vger.kernel.org>; Tue, 13 Oct 2020 15:37:33 -0700 (PDT)
+        Wed, 14 Oct 2020 04:19:33 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85C90C041E73;
+        Tue, 13 Oct 2020 21:43:15 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id j136so1162742wmj.2;
+        Tue, 13 Oct 2020 21:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t+96sOhB1uhq2YjHHSuH7V+uCK/i5ddWXeBGT6qagJA=;
-        b=d6OEbf/+V3UpxQdj2KMVlgOQcefOZdwa3t2IYeg6hJ+lKu3UXruJnPByJcdjka4MBR
-         4SAdUkNgqPXDj4W0srOyR8s0lLtX9jrVvv0PCkGks13TUOW/kXDX1+1bZds9tEkeOmvM
-         2It/ZbepycqUMq/DB66R6g1+UPLJEEF4lV8N6vhEI7yQ/pCURkPMf676QOZ8OLCMGOX3
-         ZMFYznBYfJd8pEsQVQHk+Qm/3WXO+FNY0mxUsBY3+ZAo2CPE+iFBagq/vFVv3jAHyFAn
-         mouDl5Sa1TlXuHRXscWk1l0p38nOax3UPYKSdeQSsUJRmh4em6/PrjM1mx1+AuIsBZvb
-         SWlw==
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:in-reply-to:message-id:references
+         :user-agent:mime-version;
+        bh=yAoSXHRwpGz7nBgURGl4h1iZHKvaWjYO9+dk8dtTzEM=;
+        b=Y91XoDmgSV0T8y7s38jad1TN0OqdQ/W7/i8P2ncbuMKEZD2rOkSZiUQTJlsuYKHtPU
+         EAZV7qv1rUsvdBWUoA886/Y95M9vZa/oxqlJFhM8q/1rrvT6J84jeJlhZi8NQCojqDrj
+         Tes5NzvdJSB+DVYiNzB7Z+JvVuOHpaiNru8rAGagKUdC0j9MPOurw7mLoHNDCbFsPoZS
+         n583hEDRzu2p7Kqe01AlohE9ec6ZDpWlycrOa7cs+BNDFjntEoiVKIrhkwJA/95FI/mV
+         FSdQmGYWryAjzzPk7+g9a6lDfDynMecp9R4n0hxGRZiNmkM4V9grSiY5O0gZsORtJ/5Y
+         3abg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t+96sOhB1uhq2YjHHSuH7V+uCK/i5ddWXeBGT6qagJA=;
-        b=Ko0p+ofCoTG76Sz63x+SLAAjboLPVt/8hv4ojDE4XEarBf7OXi0icPINFx83m583N/
-         4B9SseWkmJtP9ClNgp7r2xXYeI1podt5rPt40yotvZ2SIh1iOLqP1vMJ5AnjONX4oCsa
-         qO64HN3XwGLPcDECbWUP3L6BGdU3REwule8bBLy0AAiszrM4i7QZoKP4DqH2X+qH1ple
-         YL3hibquwfqboMdSrwnFUihM+iZWLMqWX0CRqAtRPjFl1raIJtLb44XbbabVSPdO5A8J
-         C/9hYfk115cptWa8mQrNgcoDGeEOTdgHGA6epD3nswJ5JoQqYVkRyHNX89/hf5Yox7vl
-         OcaQ==
-X-Gm-Message-State: AOAM531QW5xfxYXp5z6PY3NpGXwvLdscxhbpTEXex9pEyI8bjI1xdr6n
-        7pC/4OSMkMNo5U5FpJCnBAtxD0qQYQxZjRmSMagAig==
-X-Google-Smtp-Source: ABdhPJyB0FBPN6kmOAg+J/VCEh6dU5+yk6DK5SN+eaoylYe+N7AYyL/Y2UtPVKzPBoIPLNRcoa/aaBtLeEfdN2T7dSQ=
-X-Received: by 2002:a63:1f03:: with SMTP id f3mr1305731pgf.381.1602628652646;
- Tue, 13 Oct 2020 15:37:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201013033947.2257501-1-natechancellor@gmail.com>
-In-Reply-To: <20201013033947.2257501-1-natechancellor@gmail.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 13 Oct 2020 15:37:21 -0700
-Message-ID: <CAKwvOdm72u3J-3stdxtQhq5LKy=2u9HjV=z0n55pi16nq6VX2w@mail.gmail.com>
-Subject: Re: [PATCH] arm64: vdso32: Allow ld.lld to properly link the VDSO
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+         :references:user-agent:mime-version;
+        bh=yAoSXHRwpGz7nBgURGl4h1iZHKvaWjYO9+dk8dtTzEM=;
+        b=JOHhwdfZKe4yD68bJyQjxY1BrYQE1wRftfXe8xqtgIenqTaOY8P4GQhtxNJ2213hOx
+         fD+oN3qVtAq71HlsTo/SSr3bVLtG6EKsROmhtrRgm10x9+rHzWBwCEtARl/T2SJKzjTb
+         TVDO6uIxoT9bHFvUOjeYa2623nfyFopsNSrlV4OFe2FTmlQnB1GpDzM8mcYZSEDMOFsG
+         FJMdqGXeClm45nrcn8OcDxzyEX37aohLgT35SsGCdXRpHcPbsm8Ht9sAYGWcIax2jW5v
+         P/NFtkz7TrMExm8Gq7gQMHL2t4CPkr2S/Agaku02sj/eBOxi15KmsGN/DhBtqSE74ZKZ
+         +EFw==
+X-Gm-Message-State: AOAM532UQZiR34uXFHvqv+IdJYqNTrWuPGrD9kwZqhm8vBZwb0i5xfaJ
+        UbiOnJKPRe5pVwy73pOOnz0=
+X-Google-Smtp-Source: ABdhPJxLj7cfYT+/1rNY1VWyuk/FeNLUT9YgTom+iIidb6iYPJvpU8+DuMBSQu3AZwhlP+GOUgdJYw==
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr1410127wmh.158.1602650594160;
+        Tue, 13 Oct 2020 21:43:14 -0700 (PDT)
+Received: from felia ([2001:16b8:2da8:8200:4c70:9c82:f3bf:bebb])
+        by smtp.gmail.com with ESMTPSA id h206sm1713989wmf.47.2020.10.13.21.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2020 21:43:13 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+X-Google-Original-From: Lukas Bulwahn <lukas@gmail.com>
+Date:   Wed, 14 Oct 2020 06:43:06 +0200 (CEST)
+X-X-Sender: lukas@felia
+To:     Masahiro Yamada <masahiroy@kernel.org>
+cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Ujjwal Kumar <ujjwalkumar0501@gmail.com>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] kbuild: doc: describe proper script invocation
+In-Reply-To: <CAK7LNAR+W9h95sUZFwRHiyiDbUxn9b7KN5P1zKOAdR2emxp7=g@mail.gmail.com>
+Message-ID: <alpine.DEB.2.21.2010140636020.6186@felia>
+References: <20201001075723.24246-1-lukas.bulwahn@gmail.com> <CAK7LNARXirw-DZg1-Dwq0NhWtqyS9PCpFhzjL7bfZjQt5-dL6A@mail.gmail.com> <CAK7LNAR+W9h95sUZFwRHiyiDbUxn9b7KN5P1zKOAdR2emxp7=g@mail.gmail.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 8:41 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> As it stands now, the vdso32 Makefile hardcodes the linker to ld.bfd
-> using -fuse-ld=bfd with $(CC). This was taken from the arm vDSO
-> Makefile, as the comment notes, done in commit d2b30cd4b722 ("ARM:
-> 8384/1: VDSO: force use of BFD linker").
->
-> Commit fe00e50b2db8 ("ARM: 8858/1: vdso: use $(LD) instead of $(CC) to
-> link VDSO") changed that Makefile to use $(LD) directly instead of
-> through $(CC), which matches how the rest of the kernel operates. Since
-> then, LD=ld.lld means that the arm vDSO will be linked with ld.lld,
-> which has shown no problems so far.
->
-> Allow ld.lld to link this vDSO as we do the regular arm vDSO. To do
-> this, we need to do a few things:
->
-> * Add a LD_COMPAT variable, which defaults to $(CROSS_COMPILE_COMPAT)ld
->   with gcc and $(LD) if LLVM is 1, which will be ld.lld, or
->   $(CROSS_COMPILE_COMPAT)ld if not, which matches the logic of the main
->   Makefile. It is overrideable for further customization and avoiding
->   breakage.
->
-> * Eliminate cc32-ldoption, which matches commit 055efab3120b ("kbuild:
->   drop support for cc-ldoption").
->
-> With those, we can use $(LD_COMPAT) in cmd_ldvdso and change the flags
-> from compiler linker flags to linker flags directly. We eliminate
-> -mfloat-abi=soft because it is not handled by the linker.
->
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1033
-> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
-> Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-
-Thanks for the patch and summary of related changes! This is
-immediately useful for Android.
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
-> ---
->
-> NOTE: This patch is currently based on the kbuild tree due to the
-> --build-id -> --build-id=sha1 change that Bill did. If the arm64
-> maintainers would prefer to take this patch, I can rebase it (althought
-> presumably this won't hit mainline until at least 5.11 so it can
-> probably just stay as is for now).
->
->  arch/arm64/kernel/vdso32/Makefile | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
->
-> diff --git a/arch/arm64/kernel/vdso32/Makefile b/arch/arm64/kernel/vdso32/Makefile
-> index 7f96a1a9f68c..1cf00c58805d 100644
-> --- a/arch/arm64/kernel/vdso32/Makefile
-> +++ b/arch/arm64/kernel/vdso32/Makefile
-> @@ -22,16 +22,21 @@ endif
->
->  CC_COMPAT ?= $(CC)
->  CC_COMPAT += $(CC_COMPAT_CLANG_FLAGS)
-> +
-> +ifeq ($(LLVM),1)
-> +LD_COMPAT ?= $(LD)
-> +else
-> +LD_COMPAT ?= $(CROSS_COMPILE_COMPAT)ld
-> +endif
->  else
->  CC_COMPAT ?= $(CROSS_COMPILE_COMPAT)gcc
-> +LD_COMPAT ?= $(CROSS_COMPILE_COMPAT)ld
->  endif
->
->  cc32-option = $(call try-run,\
->          $(CC_COMPAT) $(1) -c -x c /dev/null -o "$$TMP",$(1),$(2))
->  cc32-disable-warning = $(call try-run,\
->         $(CC_COMPAT) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
-> -cc32-ldoption = $(call try-run,\
-> -        $(CC_COMPAT) $(1) -nostdlib -x c /dev/null -o "$$TMP",$(1),$(2))
->  cc32-as-instr = $(call try-run,\
->         printf "%b\n" "$(1)" | $(CC_COMPAT) $(VDSO_AFLAGS) -c -x assembler -o "$$TMP" -,$(2),$(3))
->
-> @@ -122,14 +127,10 @@ dmbinstr := $(call cc32-as-instr,dmb ishld,-DCONFIG_AS_DMB_ISHLD=1)
->  VDSO_CFLAGS += $(dmbinstr)
->  VDSO_AFLAGS += $(dmbinstr)
->
-> -VDSO_LDFLAGS := $(VDSO_CPPFLAGS)
->  # From arm vDSO Makefile
-> -VDSO_LDFLAGS += -Wl,-Bsymbolic -Wl,--no-undefined -Wl,-soname=linux-vdso.so.1
-> -VDSO_LDFLAGS += -Wl,-z,max-page-size=4096 -Wl,-z,common-page-size=4096
-> -VDSO_LDFLAGS += -nostdlib -shared -mfloat-abi=soft
-> -VDSO_LDFLAGS += -Wl,--hash-style=sysv
-> -VDSO_LDFLAGS += -Wl,--build-id=sha1
-> -VDSO_LDFLAGS += $(call cc32-ldoption,-fuse-ld=bfd)
-> +VDSO_LDFLAGS += -Bsymbolic --no-undefined -soname=linux-vdso.so.1
-> +VDSO_LDFLAGS += -z max-page-size=4096 -z common-page-size=4096
-> +VDSO_LDFLAGS += -nostdlib -shared --hash-style=sysv --build-id=sha1
->
->
->  # Borrow vdsomunge.c from the arm vDSO
-> @@ -189,8 +190,8 @@ quiet_cmd_vdsold_and_vdso_check = LD32    $@
->        cmd_vdsold_and_vdso_check = $(cmd_vdsold); $(cmd_vdso_check)
->
->  quiet_cmd_vdsold = LD32    $@
-> -      cmd_vdsold = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_LDFLAGS) \
-> -                   -Wl,-T $(filter %.lds,$^) $(filter %.o,$^) -o $@
-> +      cmd_vdsold = $(LD_COMPAT) $(VDSO_LDFLAGS) \
-> +                   -T $(filter %.lds,$^) $(filter %.o,$^) -o $@
->  quiet_cmd_vdsocc = CC32    $@
->        cmd_vdsocc = $(CC_COMPAT) -Wp,-MD,$(depfile) $(VDSO_CFLAGS) -c -o $@ $<
->  quiet_cmd_vdsocc_gettimeofday = CC32    $@
->
-> base-commit: 172aad81a882443eefe1bd860c4eddc81b14dd5b
-> --
-> 2.29.0.rc0
->
 
 
--- 
+On Wed, 14 Oct 2020, Masahiro Yamada wrote:
+
+> On Tue, Oct 13, 2020 at 11:31 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Thu, Oct 1, 2020 at 4:57 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > >
+> > > During an investigation to fix up the execute bits of scripts in the kernel
+> > > repository, Andrew Morton and Kees Cook pointed out that the execute bit
+> > > should not matter, and that build scripts cannot rely on that. Kees could
+> > > not point to any documentation, though.
+> > >
+> > > Masahiro Yamada explained the convention of setting execute bits to make it
+> > > easier for manual script invocation.
+> > >
+> > > Provide some basic documentation how the build shall invoke scripts, such
+> > > that the execute bits do not matter, and acknowledge that execute bits
+> > > are useful nonetheless.
+> > >
+> > > This serves as reference for further clean-up patches in the future.
+> > >
+> > > Link: https://lore.kernel.org/lkml/20200830174409.c24c3f67addcce0cea9a9d4c@linux-foundation.org/
+> > > Link: https://lore.kernel.org/lkml/202008271102.FEB906C88@keescook/
+> > > Link: https://lore.kernel.org/linux-kbuild/CAK7LNAQdrvMkDA6ApDJCGr+5db8SiPo=G+p8EiOvnnGvEN80gA@mail.gmail.com/
+> > >
+> > > Suggested-by: Andrew Morton <akpm@linux-foundation.org>
+> > > Suggested-by: Kees Cook <keescook@chromium.org>
+> > > Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> >
+> >
+> > Applied to linux-kbuild.
+> > Thanks.
+> >
+> 
+> No, not really.
+> 
+> I will re-think if this is the right thing to do.
+> 
+>
+
+Masahiro-san, Andrew Morton has already picked this patch in his branch; 
+so, if we do not shout loudly, it will be merged. And we can follow up 
+with a solid improvement for rc2.
+
+I am happy to rework the documentation and help guide and review the 
+follow-up patches that have been sent by Ujjwal.
+
+Please provide some specific feedback what is wrong and why; I think the 
+basic request not to rely on the execute bit from Andrew and Kees is still 
+valid. Maybe we just need to be more specific on the rules to follow in 
+Makefiles and have multiple examples for the different cases to consider.
+
 Thanks,
-~Nick Desaulniers
+
+Lukas
