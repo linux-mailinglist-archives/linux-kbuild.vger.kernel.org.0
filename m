@@ -2,108 +2,91 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56DE2290F19
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Oct 2020 07:26:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A09122911BD
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Oct 2020 14:02:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411283AbgJQF04 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Oct 2020 01:26:56 -0400
-Received: from condef-07.nifty.com ([202.248.20.72]:24851 "EHLO
-        condef-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410571AbgJQF0z (ORCPT
+        id S2437800AbgJQMCK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Oct 2020 08:02:10 -0400
+Received: from wildebeest.demon.nl ([212.238.236.112]:35340 "EHLO
+        gnu.wildebeest.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388231AbgJQMCH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Oct 2020 01:26:55 -0400
-Received: from conssluserg-03.nifty.com ([10.126.8.82])by condef-07.nifty.com with ESMTP id 09H1l3wP011554;
-        Sat, 17 Oct 2020 10:47:03 +0900
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 09H1kmka028705;
-        Sat, 17 Oct 2020 10:46:48 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 09H1kmka028705
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1602899209;
-        bh=/0ovXshOhxLJmlzp2NpX2ArKIwhaV5c9daLvgg85jsg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=0stKPxzpCuJojIl84Bap+GcFlN95iCk5b1y2Ur4dn5CdBNku5y5qT9INLgCiIwZbR
-         u659+Dn0zDhJhfB00RQrtwl+GiV+V3Fc0z2w1nJQCnnCFIr3kdOXTCHnjUUdbmQWVX
-         MeVRXjDPKXXlLt5HQpZqGtPC4zi5Bc0I69hTqKExGEOKVHgflFjMSqgfS95N/yRwdw
-         3HSTGv73eD9p3poujLcVuwZTjCTUcUx/6XOHFj4eUTvk7kwCfYwPrPQ5RCZCsCKl8W
-         ShFHdzRceMHi71f7Ynv4a6eTuTsHkRS66eSRjfdBS8bt/oD9kKSwq4sdlQLYtaEhMS
-         sV4o2EHMMXyvQ==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id j8so2445957pjy.5;
-        Fri, 16 Oct 2020 18:46:48 -0700 (PDT)
-X-Gm-Message-State: AOAM53029u4e0L72SlQ7fFqcaf2+fYVaIh0XIsIEoWzXqjSYjbrKtj6v
-        5we8vt/HB83sSqh91N2BiOn+zn7EMNVU79MNwYc=
-X-Google-Smtp-Source: ABdhPJwnDvT6VOCCvby8Z+dRxKHlAcETSIANPUgxy4yeQxdCEUHUrDGlLwfVIqt5UgjHFKL6uGwJ8RIXqDyJ0U/afPU=
-X-Received: by 2002:a17:90a:aa91:: with SMTP id l17mr6700984pjq.198.1602899207791;
- Fri, 16 Oct 2020 18:46:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201013003203.4168817-1-samitolvanen@google.com>
- <20201013003203.4168817-8-samitolvanen@google.com> <202010141541.E689442E@keescook>
-In-Reply-To: <202010141541.E689442E@keescook>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sat, 17 Oct 2020 10:46:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASCaf2s94L1xYENYDYp07sTWxpnr4V_SKXfDFQKBB5drA@mail.gmail.com>
-Message-ID: <CAK7LNASCaf2s94L1xYENYDYp07sTWxpnr4V_SKXfDFQKBB5drA@mail.gmail.com>
-Subject: Re: [PATCH v6 07/25] treewide: remove DISABLE_LTO
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
+        Sat, 17 Oct 2020 08:02:07 -0400
+Received: from tarox.wildebeest.org (tarox.wildebeest.org [172.31.17.39])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by gnu.wildebeest.org (Postfix) with ESMTPSA id 873AA30291AC;
+        Sat, 17 Oct 2020 14:02:03 +0200 (CEST)
+Received: by tarox.wildebeest.org (Postfix, from userid 1000)
+        id E2344401658F; Sat, 17 Oct 2020 14:02:02 +0200 (CEST)
+From:   Mark Wielaard <mark@klomp.org>
+To:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Cc:     Ian Rogers <irogers@google.com>, Andi Kleen <andi@firstfloor.org>,
+        Mark Wielaard <mark@klomp.org>,
+        linux-toolchains@vger.kernel.org,
         Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org, X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Florian Weimer <fw@deneb.enyo.de>,
+        Sedat Dilek <sedat.dilek@gmail.com>
+Subject: [PATCH V2] Only add -fno-var-tracking-assignments workaround for old GCC versions.
+Date:   Sat, 17 Oct 2020 14:01:35 +0200
+Message-Id: <20201017120135.4004-1-mark@klomp.org>
+X-Mailer: git-send-email 2.18.4
+In-Reply-To: <20201014110132.2680-1-mark@klomp.org>
+References: <20201014110132.2680-1-mark@klomp.org>
+X-Spam-Flag: NO
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on gnu.wildebeest.org
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Oct 15, 2020 at 7:43 AM Kees Cook <keescook@chromium.org> wrote:
->
-> On Mon, Oct 12, 2020 at 05:31:45PM -0700, Sami Tolvanen wrote:
-> > This change removes all instances of DISABLE_LTO from
-> > Makefiles, as they are currently unused, and the preferred
-> > method of disabling LTO is to filter out the flags instead.
-> >
-> > Suggested-by: Kees Cook <keescook@chromium.org>
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
->
-> Hi Masahiro,
->
-> Since this is independent of anything else and could be seen as a
-> general cleanup, can this patch be taken into your tree, just to
-> separate it from the list of dependencies for this series?
->
-> -Kees
->
-> --
-> Kees Cook
+Some old GCC versions between 4.5.0 and 4.9.1 might miscompile code
+with -fvar-tracking-assingments (which is enabled by default with -g -O2).
+commit 2062afb4f added -fno-var-tracking-assignments unconditionally to
+work around this. But newer versions of GCC no longer have this bug, so
+only add it for versions of GCC before 5.0. This allows various tools
+such as a perf probe or gdb debuggers or systemtap to resolve variable
+locations using dwarf locations in more code.
 
+Changes in V2:
+- Update commit message explaining purpose.
+- Explicitly mention GCC version in comment.
+- Wrap workaround in ifdef CONFIG_CC_IS_GCC
 
+Signed-off-by: Mark Wielaard <mark@klomp.org>
+Acked-by: Ian Rogers <irogers@google.com>
+Reviewed-by: Andi Kleen <andi@firstfloor.org>
+Cc: linux-toolchains@vger.kernel.org
+Cc: Nick Desaulniers <ndesaulniers@google.com>
+Cc: Segher Boessenkool <segher@kernel.crashing.org>
+Cc: Florian Weimer <fw@deneb.enyo.de>
+Cc: Sedat Dilek <sedat.dilek@gmail.com>
+---
+ Makefile | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Yes, this is stale code because GCC LTO was not pulled.
-
-Applied to linux-kbuild.
-
-I added the following historical background.
-
-
-
-Note added by Masahiro Yamada:
-DISABLE_LTO was added as preparation for GCC LTO, but GCC LTO was
-not pulled into the mainline. (https://lkml.org/lkml/2014/4/8/272)
-
-
-
-
+diff --git a/Makefile b/Makefile
+index 51540b291738..964754b4cedf 100644
+--- a/Makefile
++++ b/Makefile
+@@ -813,7 +813,11 @@ KBUILD_CFLAGS	+= -ftrivial-auto-var-init=zero
+ KBUILD_CFLAGS	+= -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
+ endif
+ 
+-DEBUG_CFLAGS	:= $(call cc-option, -fno-var-tracking-assignments)
++# Workaround for GCC versions < 5.0
++# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61801
++ifdef CONFIG_CC_IS_GCC
++DEBUG_CFLAGS	:= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
++endif
+ 
+ ifdef CONFIG_DEBUG_INFO
+ ifdef CONFIG_DEBUG_INFO_SPLIT
 -- 
-Best Regards
-Masahiro Yamada
+2.18.4
+
