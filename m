@@ -2,91 +2,85 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A09122911BD
-	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Oct 2020 14:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55DA229128B
+	for <lists+linux-kbuild@lfdr.de>; Sat, 17 Oct 2020 16:57:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437800AbgJQMCK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 17 Oct 2020 08:02:10 -0400
-Received: from wildebeest.demon.nl ([212.238.236.112]:35340 "EHLO
-        gnu.wildebeest.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388231AbgJQMCH (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 17 Oct 2020 08:02:07 -0400
-Received: from tarox.wildebeest.org (tarox.wildebeest.org [172.31.17.39])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by gnu.wildebeest.org (Postfix) with ESMTPSA id 873AA30291AC;
-        Sat, 17 Oct 2020 14:02:03 +0200 (CEST)
-Received: by tarox.wildebeest.org (Postfix, from userid 1000)
-        id E2344401658F; Sat, 17 Oct 2020 14:02:02 +0200 (CEST)
-From:   Mark Wielaard <mark@klomp.org>
-To:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     Ian Rogers <irogers@google.com>, Andi Kleen <andi@firstfloor.org>,
-        Mark Wielaard <mark@klomp.org>,
-        linux-toolchains@vger.kernel.org,
+        id S2438432AbgJQO5i (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 17 Oct 2020 10:57:38 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:60824 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2438431AbgJQO5i (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Sat, 17 Oct 2020 10:57:38 -0400
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
+        (envelope-from <andrew@lunn.ch>)
+        id 1kTne6-0029vG-5U; Sat, 17 Oct 2020 16:57:22 +0200
+Date:   Sat, 17 Oct 2020 16:57:22 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        Florian Weimer <fw@deneb.enyo.de>,
-        Sedat Dilek <sedat.dilek@gmail.com>
-Subject: [PATCH V2] Only add -fno-var-tracking-assignments workaround for old GCC versions.
-Date:   Sat, 17 Oct 2020 14:01:35 +0200
-Message-Id: <20201017120135.4004-1-mark@klomp.org>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20201014110132.2680-1-mark@klomp.org>
-References: <20201014110132.2680-1-mark@klomp.org>
-X-Spam-Flag: NO
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=ham autolearn_force=no version=3.4.0
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on gnu.wildebeest.org
+        netdev <netdev@vger.kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Rohit Maheshwari <rohitm@chelsio.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Subject: Re: [PATCH net-next v2 1/2] Makefile.extrawarn: Add symbol for W=1
+ warnings for today
+Message-ID: <20201017145722.GJ456889@lunn.ch>
+References: <20201001011232.4050282-2-andrew@lunn.ch>
+ <CAKwvOdnVC8F1=QT03W5Zh9pJdTxxNfRcqXeob5_b4CXycvG1+g@mail.gmail.com>
+ <20201002014411.GG4067422@lunn.ch>
+ <CAKwvOdmdfwWsRtJHtJ16B0RMyoxUi1587OKnyunQd5gfwmnGsA@mail.gmail.com>
+ <20201005194913.GC56634@lunn.ch>
+ <CAK8P3a1qS8kaXNqAtqMKpWGx05DHVHMYwKBD_j-Zs+DHbL5CNw@mail.gmail.com>
+ <20201005210808.GE56634@lunn.ch>
+ <CAK7LNASB6ashOzmL5XntkPSq9a+8VoWCowP5CAt+oX0o=0y=dA@mail.gmail.com>
+ <20201016141237.GD456889@lunn.ch>
+ <CAK8P3a1nBhmf1PQwHHbEjiVgRTXi4UuJAbwuK92CKEbR=yKGWw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a1nBhmf1PQwHHbEjiVgRTXi4UuJAbwuK92CKEbR=yKGWw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Some old GCC versions between 4.5.0 and 4.9.1 might miscompile code
-with -fvar-tracking-assingments (which is enabled by default with -g -O2).
-commit 2062afb4f added -fno-var-tracking-assignments unconditionally to
-work around this. But newer versions of GCC no longer have this bug, so
-only add it for versions of GCC before 5.0. This allows various tools
-such as a perf probe or gdb debuggers or systemtap to resolve variable
-locations using dwarf locations in more code.
+On Sat, Oct 17, 2020 at 02:48:56PM +0200, Arnd Bergmann wrote:
+> On Fri, Oct 16, 2020 at 4:12 PM Andrew Lunn <andrew@lunn.ch> wrote:
+> >
+> > > One drawback of your approach is that
+> > > you cannot set KBUILD_CFLAGS_W1_20200930
+> > > until you eliminate all the warnings in the
+> > > sub-directory in interest.
+> > > (i.e. all or nothing approach)
+> >
+> > Hi Mashiro
+> >
+> > That actual works well for my use case. drivers/net/ethernet is W=1
+> > clean. So is drivers/net/phy, drivers/net/mdio. Developers generally
+> > clean up a subsystem by adding W=1 to the command line because that is
+> > the simple tool they have.
+> >
+> > And my aim here is to keep those subsystem W=1 clean. I don't care
+> > about individual warnings within W=1, because those subsystems are
+> > passed that stage already.
+> 
+> I tried to get a better grasp of what kind of warnings we are actually talking
+> about and looked at the x86 allmodconfig W=1 output on today's linux-next.
 
-Changes in V2:
-- Update commit message explaining purpose.
-- Explicitly mention GCC version in comment.
-- Wrap workaround in ifdef CONFIG_CC_IS_GCC
+Hi Arnd
 
-Signed-off-by: Mark Wielaard <mark@klomp.org>
-Acked-by: Ian Rogers <irogers@google.com>
-Reviewed-by: Andi Kleen <andi@firstfloor.org>
-Cc: linux-toolchains@vger.kernel.org
-Cc: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Segher Boessenkool <segher@kernel.crashing.org>
-Cc: Florian Weimer <fw@deneb.enyo.de>
-Cc: Sedat Dilek <sedat.dilek@gmail.com>
----
- Makefile | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+The work done to cleanup drivers/net/ethernet was mostly done by an
+Intel team. When built for ARM there are few warnings left, mostly due
+to missing COMPILE_TEST. I have fixes for that.
 
-diff --git a/Makefile b/Makefile
-index 51540b291738..964754b4cedf 100644
---- a/Makefile
-+++ b/Makefile
-@@ -813,7 +813,11 @@ KBUILD_CFLAGS	+= -ftrivial-auto-var-init=zero
- KBUILD_CFLAGS	+= -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
- endif
- 
--DEBUG_CFLAGS	:= $(call cc-option, -fno-var-tracking-assignments)
-+# Workaround for GCC versions < 5.0
-+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61801
-+ifdef CONFIG_CC_IS_GCC
-+DEBUG_CFLAGS	:= $(call cc-ifversion, -lt, 0500, $(call cc-option, -fno-var-tracking-assignments))
-+endif
- 
- ifdef CONFIG_DEBUG_INFO
- ifdef CONFIG_DEBUG_INFO_SPLIT
--- 
-2.18.4
+But this raises the question, can we be a bit more tolerant of
+warnings for not x86 to start with? 0-day should help us weed out the
+remaining warnings on other architectures.
 
+As for the plan, it looks O.K. to me. I can definitely help with
+driver/net and net.
+
+	   Andrew
