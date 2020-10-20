@@ -2,92 +2,155 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C6DD29414C
-	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Oct 2020 19:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED0D6294284
+	for <lists+linux-kbuild@lfdr.de>; Tue, 20 Oct 2020 20:52:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390715AbgJTRVX (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 20 Oct 2020 13:21:23 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:43467 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730683AbgJTRVW (ORCPT
+        id S2437770AbgJTSwh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 20 Oct 2020 14:52:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46371 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2437754AbgJTSwf (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 20 Oct 2020 13:21:22 -0400
-X-Originating-IP: 50.39.163.217
-Received: from localhost (50-39-163-217.bvtn.or.frontiernet.net [50.39.163.217])
-        (Authenticated sender: josh@joshtriplett.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id DC542C0006;
-        Tue, 20 Oct 2020 17:21:18 +0000 (UTC)
-Date:   Tue, 20 Oct 2020 10:21:15 -0700
-From:   Josh Triplett <josh@joshtriplett.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Subject: Re: "make bindeb-pkg" fails with CONFIG_MODULES disabled
-Message-ID: <20201020172115.GA135202@localhost>
-References: <20200925222934.GA126388@localhost>
- <CAK7LNAR5ArP8RGHHOXAauTvXcQgvstP=Ydh8Nc+Kv-0NYhhP2g@mail.gmail.com>
- <20200926084519.GA8344@localhost>
- <CAK7LNATJZJyMBLkXbCib1B0uZ2qgNyAVkCfA4x=oR8ww73F9jw@mail.gmail.com>
+        Tue, 20 Oct 2020 14:52:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603219953;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=oyUoHsRQhW9Pp4iIO9savPkdYtOE6vEjDDEEmlMww18=;
+        b=KRf3NvWHkK2GE7nXgomITyNOOrR7WuvachroMvY5YU5nP+WSwLX8FqQ46zzbOF1EH8RNct
+        fc/gMptPgis+R1LRcfOazl6ugjpbCXppnc+B5yHujXsvsbiQ3WvXs8QkljAyZg+le2eVBF
+        DVqksy0pPDl8OFLG7UUS/2znGUWj/Fc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-K36-fE2_MKaUTN0-WM3Zrg-1; Tue, 20 Oct 2020 14:52:29 -0400
+X-MC-Unique: K36-fE2_MKaUTN0-WM3Zrg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9055257050;
+        Tue, 20 Oct 2020 18:52:26 +0000 (UTC)
+Received: from treble (ovpn-120-130.rdu2.redhat.com [10.10.120.130])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C7FC65B4B3;
+        Tue, 20 Oct 2020 18:52:20 +0000 (UTC)
+Date:   Tue, 20 Oct 2020 13:52:17 -0500
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Jann Horn <jannh@google.com>,
+        the arch/x86 maintainers <x86@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
+Message-ID: <20201020185217.ilg6w5l7ujau2246@treble>
+References: <20201013003203.4168817-1-samitolvanen@google.com>
+ <20201013003203.4168817-23-samitolvanen@google.com>
+ <CAG48ez2baAvKDA0wfYLKy-KnM_1CdOwjU873VJGDM=CErjsv_A@mail.gmail.com>
+ <20201015102216.GB2611@hirez.programming.kicks-ass.net>
+ <20201015203942.f3kwcohcwwa6lagd@treble>
+ <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAK7LNATJZJyMBLkXbCib1B0uZ2qgNyAVkCfA4x=oR8ww73F9jw@mail.gmail.com>
+In-Reply-To: <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 14, 2020 at 01:48:28AM +0900, Masahiro Yamada wrote:
-> On Sat, Sep 26, 2020 at 5:45 PM Josh Triplett <josh@joshtriplett.org> wrote:
+On Tue, Oct 20, 2020 at 09:45:06AM -0700, Sami Tolvanen wrote:
+> On Thu, Oct 15, 2020 at 1:39 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
 > >
-> > On Sat, Sep 26, 2020 at 02:45:38PM +0900, Masahiro Yamada wrote:
-> > > On Sat, Sep 26, 2020 at 7:29 AM Josh Triplett <josh@joshtriplett.org> wrote:
-> > > >
-> > > > With CONFIG_MODULES disabled, "make bindeb-pkg" fails in
-> > > > scripts/package/builddeb with:
-> > > >
-> > > > find: ‘Module.symvers’: No such file or directory
-> > > >
-> > > > The deploy_kernel_headers function in scripts/package/builddeb calls:
-> > > >
-> > > > find arch/$SRCARCH/include Module.symvers include scripts -type f
-> > > >
-> > > > But find errors out if any of its command-line arguments doesn't exist.
-> > > >
-> > > > This could be fixed by checking whether that file exists first, but if
-> > > > CONFIG_MODULES is disabled, it doesn't really make sense to build the
-> > > > linux-headers package at all. Perhaps that whole package could be
-> > > > disabled when modules are disabled?
+> > On Thu, Oct 15, 2020 at 12:22:16PM +0200, Peter Zijlstra wrote:
+> > > On Thu, Oct 15, 2020 at 01:23:41AM +0200, Jann Horn wrote:
 > > >
-> > > I agree.
+> > > > It would probably be good to keep LTO and non-LTO builds in sync about
+> > > > which files are subjected to objtool checks. So either you should be
+> > > > removing the OBJECT_FILES_NON_STANDARD annotations for anything that
+> > > > is linked into the main kernel (which would be a nice cleanup, if that
+> > > > is possible),
 > > >
-> > >
-> > > How about something like the following?
+> > > This, I've had to do that for a number of files already for the limited
+> > > vmlinux.o passes we needed for noinstr validation.
 > >
-> > That looks good to me.
+> > Getting rid of OBJECT_FILES_NON_STANDARD is indeed the end goal, though
+> > I'm not sure how practical that will be for some of the weirder edge
+> > case.
 > >
-> > (It would be nice, as well, to have some conditional wrapped around the
-> > linux-libc-dev package. I had a patch for that a while ago at
-> > https://lore.kernel.org/lkml/b45738b05bb396e175a36f67b02fa01de4c7472f.1583912084.git.josh@joshtriplett.org/
-> > , but that's probably not the ideal way to do it. I'd love to see a way
-> > to disable that extra deb, though, as it adds time to the deb build
-> > process for a package that most people looking to build a deb won't
-> > need or install.)
+> > On a related note, I have some old crypto cleanups which need dusting
+> > off.
 > 
-> I am skeptical about this approach.
+> Building allyesconfig with this series and LTO enabled, I still see
+> the following objtool warnings for vmlinux.o, grouped by source file:
 > 
-> 
-> I think the ideal way would be
-> to support individual binary package build in dpkg-buildpackage.
-> 
-> I do not know if it has been already achieved, or
-> it is a planned feature.
+> arch/x86/entry/entry_64.S:
+> __switch_to_asm()+0x0: undefined stack state
+> .entry.text+0xffd: sibling call from callable instruction with
+> modified stack frame
+> .entry.text+0x48: stack state mismatch: cfa1=7-8 cfa2=-1+0
 
-Given the way Debian packages are built, that's not really an option.
-There are targets in debian/rules to build arch-specific and
-arch-independent packages, but not targets to build individual binary
-packages.
+Not sure what this one's about, there's no OBJECT_FILES_NON_STANDARD?
 
-Are you more concerned about avoiding the code conditionally generating
-the control file, or about avoiding the code that has to pass the
-controlling environment variable down through build steps?
+> arch/x86/entry/entry_64_compat.S:
+> .entry.text+0x1754: unsupported instruction in callable function
+> .entry.text+0x1634: redundant CLD
+> .entry.text+0x15fd: stack state mismatch: cfa1=7-8 cfa2=-1+0
+> .entry.text+0x168c: stack state mismatch: cfa1=7-8 cfa2=-1+0
+
+Ditto.
+
+> arch/x86/kernel/head_64.S:
+> .head.text+0xfb: unsupported instruction in callable function
+
+Ditto.
+
+> arch/x86/kernel/acpi/wakeup_64.S:
+> do_suspend_lowlevel()+0x116: sibling call from callable instruction
+> with modified stack frame
+
+We'll need to look at how to handle this one.
+
+> arch/x86/crypto/camellia-aesni-avx2-asm_64.S:
+> camellia_cbc_dec_32way()+0xb3: stack state mismatch: cfa1=7+520 cfa2=7+8
+> camellia_ctr_32way()+0x1a: stack state mismatch: cfa1=7+520 cfa2=7+8
+
+I can clean off my patches for all the crypto warnings.
+
+> arch/x86/lib/retpoline.S:
+> __x86_retpoline_rdi()+0x10: return with modified stack frame
+> __x86_retpoline_rdi()+0x0: stack state mismatch: cfa1=7+32 cfa2=7+8
+> __x86_retpoline_rdi()+0x0: stack state mismatch: cfa1=7+32 cfa2=-1+0
+
+Is this with upstream?  I thought we fixed that with
+UNWIND_HINT_RET_OFFSET.
+
+> Josh, Peter, any thoughts on what would be the preferred way to fix
+> these, or how to tell objtool to ignore this code?
+
+One way or another, the patches need to be free of warnings before
+getting merged.  I can help, though I'm traveling and only have limited
+bandwidth for at least the rest of the month.
+
+Ideally we'd want to have objtool understand everything, with no
+whitelisting, but some cases (e.g. suspend code) can be tricky.
+
+I wouldn't be opposed to embedding the whitelist in the binary, in a
+discardable section.  It should be relatively easy, but as I mentioned I
+may or may not have time to work on it for a bit.  I'm working half
+days, and now the ocean beckons from the window of my camper.
+
+-- 
+Josh
+
