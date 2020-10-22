@@ -2,210 +2,219 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 509DC295574
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Oct 2020 02:23:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21919295600
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Oct 2020 03:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2507444AbgJVAXN (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 21 Oct 2020 20:23:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43996 "EHLO
+        id S2894657AbgJVBVQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 21 Oct 2020 21:21:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52940 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbgJVAXM (ORCPT
+        with ESMTP id S2894655AbgJVBVQ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 21 Oct 2020 20:23:12 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395AEC0613CF
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Oct 2020 17:23:12 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id k3so146952ejj.10
-        for <linux-kbuild@vger.kernel.org>; Wed, 21 Oct 2020 17:23:12 -0700 (PDT)
+        Wed, 21 Oct 2020 21:21:16 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A251C0613CF
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Oct 2020 18:21:14 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id z22so65797qtn.15
+        for <linux-kbuild@vger.kernel.org>; Wed, 21 Oct 2020 18:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p8Hwn4AXDi9NRjlCE0oMq1jAIKpEQWx4gCW/kuHDlnE=;
-        b=CNB4qwF8XdN3RdM9KJnNC7kYAWqE3MUa239/vjNlnFSdgbAxXNDSsHdvaAwxfoPYCf
-         9I5uTsOXqOSvDFVdPGNB9kuPiLcCYP+jICpfkw/SnOdN0UwneoOuRjcJRVYvzghyOZgY
-         XvPIaPv94GmuiwvhuOy99hxIOxFWyWcpXlhs/vEB8KesGnOR/boJ2sI/4woeV6i/72q/
-         p2uHWfix+2KfdBMVPBrl7fsMQncBxq0mhjoTIYiPInfd1v8q11VRdJI0fils5s9SxrwC
-         md6xgXZxNLh51IWZJpdkb57XW+oG+EDxRaAKOL98VAQ3pysJjVwuexGYN8bLRDJoVH0/
-         WSmQ==
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=Js6xKSsQarFSzAqlLNbqSKDvsIAL2Ulu7vmD2P/qCQ0=;
+        b=G2Rk3NTNeizVUXrrKW3VThtrUg6KYQV+3OC3BDc+RG+hwSeMAw8v4iHA2xRdRG9n5I
+         MD65Qj5qKfMSrhANDPNJF3GBlcvoYBnrhpGQqNMm+n/F3/oERzkjI6iRTeWU+5OrRokI
+         UvzX33T3DP4Zitx8mfsPIsnmVidmUlKBXa1HPdwo9NSCFwJeUV8cdNintLOB44QUXA4G
+         26FUiN7HUU1+CVQxQ70Chvu9Kdv1qGw3+KNfjBGzQfoPeWKH+S/2OwFfW4D2+5u64FUk
+         WTLmfT58xbVKnedhfOCVmvItSXlFylKG+mPPD1nniNaEqU8jshaZECJJQ/QtY1h6+GnH
+         3C7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p8Hwn4AXDi9NRjlCE0oMq1jAIKpEQWx4gCW/kuHDlnE=;
-        b=UHgKSB2vzRRZAHU1l+ZOzgYrPrV5L2qPC31kQpw0a2YRsVSXQOKRkQp4bPcm/n0inh
-         nUXCXV42ldfNGup1WEbJy7pt2LdGbqpUin8XB2RrW+Ipz5QaKTWT7jqiIdPrkN/KukE2
-         l3IeuKbDc/2uKHNAGZ2c1kHv6AdYzAx+RVrSNcisAg9QX7d/gaPxb76nDCFN/4bSwR5p
-         aKBEIzDMvdhv7vDtpqKV0XZWtH3IAk3QO3sknmgzD1iveB/RX8iLkT+wOMTO10aWpX5+
-         H5RW/umkxMBnbrapJvfdqbysodTm78J2s+xwNtlPkfaOoQ8UuZ5ad/qRZqIEHYJEAVdt
-         Bk/w==
-X-Gm-Message-State: AOAM533SlCXQiVYe+gBv+n6nGS1IRBL8aoWxviuo6tpV1tMyk3SZCXh4
-        SC4LqtFu+yvjWDTg76jEaNsrsapqeGytxYsr47Huwg==
-X-Google-Smtp-Source: ABdhPJzLM1aM6spRLX8pXe/S9QIy6/o0GCiMeSkYufHnU7EzHfprw/1bO/qSLNeYe+3BVe+LcpDtiqX5V8eEHvsaeCo=
-X-Received: by 2002:a17:906:490d:: with SMTP id b13mr5925764ejq.122.1603326190426;
- Wed, 21 Oct 2020 17:23:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201013003203.4168817-1-samitolvanen@google.com>
- <20201013003203.4168817-23-samitolvanen@google.com> <CAG48ez2baAvKDA0wfYLKy-KnM_1CdOwjU873VJGDM=CErjsv_A@mail.gmail.com>
- <20201015102216.GB2611@hirez.programming.kicks-ass.net> <20201015203942.f3kwcohcwwa6lagd@treble>
- <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
- <20201020185217.ilg6w5l7ujau2246@treble> <CABCJKucVjFtrOsw58kn4OnW5kdkUh8G7Zs4s6QU9s6O7soRiAA@mail.gmail.com>
- <20201021085606.GZ2628@hirez.programming.kicks-ass.net>
-In-Reply-To: <20201021085606.GZ2628@hirez.programming.kicks-ass.net>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Wed, 21 Oct 2020 17:22:59 -0700
-Message-ID: <CABCJKufL6=FiaeD8T0P+mK4JeR9J80hhjvJ6Z9S-m9UnCESxVA@mail.gmail.com>
-Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, Jann Horn <jannh@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=Js6xKSsQarFSzAqlLNbqSKDvsIAL2Ulu7vmD2P/qCQ0=;
+        b=HVCETHUcARv2V0n0+m/sy4NaADS6ShucqniiZFY+f0esWU0HJ+Onr4yBwZTreuBWK7
+         tTyTINR0v7QVmek6/eUF55nPP8t8FuHOgN5jMQjgpOenufR+sh6ZY8XbjXfdu2g97lNv
+         v4zaC804OZY4v4GxFMI43pgoRGvFCXrERvzHJyHk8NZNn+dKGVCKaqsKBR/d0Kxpnp/w
+         xDrBHyxTFexJuqwCTiRVEUxM9PCz0qq1PqLZW2OXj8sEbksx3OlNBCVBGEW7E+xZt12q
+         VGaYHxo5tGTAI2apoS5eu/s2as3uJAm7JqgwnAtaQ2kNVitz7dFJJcn1zRCUgcdoS9r7
+         S26Q==
+X-Gm-Message-State: AOAM530tmSXKEhYumP+KmN6ftEtNm8Wi6bIDBQOI4mYe7WdKC544/4DQ
+        czC33zqqbUCmn604shHJ8nj/K2FEyTGFFGmNzrM=
+X-Google-Smtp-Source: ABdhPJz0SSMBINA49bRVpz0emfxWblgj2Vtj9m0koC11+YrVkgaDJTH+v+wseUqhJOu6t+1FbwDXI1SZZzHQ0rtA2h0=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:ad4:46a8:: with SMTP id
+ br8mr234132qvb.24.1603329673641; Wed, 21 Oct 2020 18:21:13 -0700 (PDT)
+Date:   Wed, 21 Oct 2020 18:21:06 -0700
+Message-Id: <20201022012106.1875129-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+Subject: [PATCH] Kbuild: implement support for DWARF5
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com,
+        linux-toolchains@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 1:56 AM Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Tue, Oct 20, 2020 at 12:24:37PM -0700, Sami Tolvanen wrote:
-> > > > Building allyesconfig with this series and LTO enabled, I still see
-> > > > the following objtool warnings for vmlinux.o, grouped by source file:
-> > > >
-> > > > arch/x86/entry/entry_64.S:
-> > > > __switch_to_asm()+0x0: undefined stack state
-> > > > .entry.text+0xffd: sibling call from callable instruction with
-> > > > modified stack frame
-> > > > .entry.text+0x48: stack state mismatch: cfa1=7-8 cfa2=-1+0
-> > >
-> > > Not sure what this one's about, there's no OBJECT_FILES_NON_STANDARD?
-> >
-> > Correct, because with LTO, we won't have an ELF binary to process
-> > until we compile everything into vmlinux.o, and at that point we can
-> > no longer skip individual object files.
->
-> I think what Josh was trying to say is; this file is subject to objtool
-> on a normal build and does not generate warnings. So why would it
-> generate warnings when subject to objtool as result of a vmlinux run
-> (due to LTO or otherwise).
->
-> In fact, when I build a x86_64-defconfig and then run:
->
->   $ objtool check -barf defconfig-build/vmlinux.o
+DWARF5 is the latest standard of the DWARF debug info format.
 
-Note that I'm passing also --vmlinux and --duplicate to objtool when
-processing vmlinux.o, and this series has a patch to split noinstr
-validation from --vmlinux, so that's skipped.
+Feature detection of DWARF5 is onerous, especially given that we've
+removed $(AS), so we must query $(CC) for DWARF5 assembler directive
+support. Further -gdwarf-X where X is an unsupported value doesn't
+produce an error in $(CC). GNU `as` only recently gained support for
+specifying -gdwarf-5.
 
-> I do not see these in particular, although I do see a lot of:
->
->   "sibling call from callable instruction with modified stack frame"
->   "falls through to next function"
->
-> that did not show up in the individual objtool runs during the build.
+The DWARF version of a binary can be validated with:
+$ llvm-dwarfdump vmlinux | head -n 5 | grep version
+or
+$ readelf --debug-dump=info vmlinux 2>/dev/null | grep Version
 
-I'm able to reproduce these warnings with gcc 9.3 + allyesconfig, with
-KASAN and GCOV_KERNEL disabled, as they are not enabled in LTO builds
-either. This is without the LTO series applied, so we also have the
-retpoline warnings:
+DWARF5 wins significantly in terms of size when mixed with compression
+(CONFIG_DEBUG_INFO_COMPRESSED).
 
-$ ./tools/objtool/objtool check -arfld vmlinux.o 2>&1 | grep -vE
-'(sibling|instr)'
-vmlinux.o: warning: objtool: wakeup_long64()+0x61: indirect jump found
-in RETPOLINE build
-vmlinux.o: warning: objtool: .text+0x826308a: indirect jump found in
-RETPOLINE build
-vmlinux.o: warning: objtool: .text+0x82630c5: indirect jump found in
-RETPOLINE build
-vmlinux.o: warning: objtool: .head.text+0x748: indirect jump found in
-RETPOLINE build
-vmlinux.o: warning: objtool:
-set_bringup_idt_handler.constprop.0()+0x0: undefined stack state
-vmlinux.o: warning: objtool: .entry.text+0x1634: redundant CLD
-vmlinux.o: warning: objtool: camellia_cbc_dec_32way()+0xb3: stack
-state mismatch: cfa1=7+520 cfa2=7+8
-vmlinux.o: warning: objtool: camellia_ctr_32way()+0x1a: stack state
-mismatch: cfa1=7+520 cfa2=7+8
-vmlinux.o: warning: objtool: aesni_gcm_init_avx_gen2()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_enc_update_avx_gen2()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_dec_update_avx_gen2()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_finalize_avx_gen2()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_init_avx_gen4()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_enc_update_avx_gen4()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_dec_update_avx_gen4()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: aesni_gcm_finalize_avx_gen4()+0x12:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: sha1_transform_avx2()+0xc: unsupported
-stack pointer realignment
-vmlinux.o: warning: objtool: sha1_ni_transform()+0x7: unsupported
-stack pointer realignment
-vmlinux.o: warning: objtool: sha256_transform_rorx()+0x13: unsupported
-stack pointer realignment
-vmlinux.o: warning: objtool: sha512_transform_ssse3()+0x14:
-unsupported stack pointer realignment
-vmlinux.o: warning: objtool: sha512_transform_avx()+0x14: unsupported
-stack pointer realignment
-vmlinux.o: warning: objtool: sha512_transform_rorx()+0x7: unsupported
-stack pointer realignment
-vmlinux.o: warning: objtool: __x86_retpoline_rdi()+0x10: return with
-modified stack frame
-vmlinux.o: warning: objtool: __x86_retpoline_rdi()+0x0: stack state
-mismatch: cfa1=7+32 cfa2=7+8
-vmlinux.o: warning: objtool: __x86_retpoline_rdi()+0x0: stack state
-mismatch: cfa1=7+32 cfa2=-1+0
-vmlinux.o: warning: objtool: reset_early_page_tables()+0x0: stack
-state mismatch: cfa1=7+8 cfa2=-1+0
-vmlinux.o: warning: objtool: .entry.text+0x48: stack state mismatch:
-cfa1=7-8 cfa2=-1+0
-vmlinux.o: warning: objtool: .entry.text+0x15fd: stack state mismatch:
-cfa1=7-8 cfa2=-1+0
-vmlinux.o: warning: objtool: .entry.text+0x168c: stack state mismatch:
-cfa1=7-8 cfa2=-1+0
+363M    vmlinux.clang12.dwarf5.compressed
+434M    vmlinux.clang12.dwarf4.compressed
+439M    vmlinux.clang12.dwarf2.compressed
+457M    vmlinux.clang12.dwarf5
+536M    vmlinux.clang12.dwarf4
+548M    vmlinux.clang12.dwarf2
 
-There are a couple of differences, like the first "undefined stack
-state" warning pointing to set_bringup_idt_handler.constprop.0()
-instead of __switch_to_asm(). I tried running this with --backtrace,
-but objtool segfaults at the first .entry.text warning:
+Make CONFIG_DEBUG_INFO_DWARF4 part of a Kconfig choice to preserve
+forward compatibility.
 
-$ ./tools/objtool/objtool check -barfld vmlinux.o
-...
-vmlinux.o: warning: objtool:
-set_bringup_idt_handler.constprop.0()+0x0: undefined stack state
-vmlinux.o: warning: objtool:   xen_hypercall_set_trap_table()+0x0: <=== (sym)
-...
-vmlinux.o: warning: objtool: .entry.text+0xffd: sibling call from
-callable instruction with modified stack frame
-vmlinux.o: warning: objtool:   .entry.text+0xfcb: (branch)
-Segmentation fault
+Link: http://www.dwarfstd.org/doc/DWARF5.pdf
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+---
+RFC because this patch is super half baked, but I'm looking for
+feedback.
 
-Going back to the allyesconfig+LTO vmlinux.o, the "undefined stack
-state" warning looks quite similar:
+I would logically split this into a series of patches;
+1. disable -Wa,gdwarf-2 for LLVM_IAS=1, see also
+  https://github.com/ClangBuiltLinux/linux/issues/716
+  https://github.com/ClangBuiltLinux/continuous-integration/blob/master/patches/llvm-all/linux-next/arm64/silence-dwarf2-warnings.patch
+  that way we can backport for improved LLVM_IAS support.
+2. move CONFIG_DEBUG_INFO_DWARF4 to choice.
+3. implement the rest on top.
 
-$ ./tools/objtool/objtool check -barlfd vmlinux.o
-vmlinux.o: warning: objtool: __switch_to_asm()+0x0: undefined stack state
-vmlinux.o: warning: objtool:   xen_hypercall_set_trap_table()+0x0: <=== (sym)
-vmlinux.o: warning: objtool: .entry.text+0xffd: sibling call from
-callable instruction with modified stack frame
-vmlinux.o: warning: objtool:   .entry.text+0xfcb: (branch)
-Segmentation fault
+I'm pretty sure GNU `as` only recently gained the ability to specify
+-gdwarf-4 without erroring in binutils 2.35, so that part likely needs
+to be fixed.
 
-Sami
+ Makefile                          | 19 ++++++++++++++++---
+ include/asm-generic/vmlinux.lds.h |  6 +++++-
+ lib/Kconfig.debug                 | 29 +++++++++++++++++++++++++----
+ scripts/test_dwarf5_support.sh    |  4 ++++
+ 4 files changed, 50 insertions(+), 8 deletions(-)
+ create mode 100755 scripts/test_dwarf5_support.sh
+
+diff --git a/Makefile b/Makefile
+index e71979882e4f..0862df5b1a24 100644
+--- a/Makefile
++++ b/Makefile
+@@ -828,10 +828,23 @@ else
+ DEBUG_CFLAGS	+= -g
+ endif
+ 
+-KBUILD_AFLAGS	+= -Wa,-gdwarf-2
+-
++DWARF_VERSION=2
+ ifdef CONFIG_DEBUG_INFO_DWARF4
+-DEBUG_CFLAGS	+= -gdwarf-4
++DWARF_VERSION=4
++endif
++ifdef CONFIG_DEBUG_INFO_DWARF5
++DWARF_VERSION=5
++endif
++DEBUG_CFLAGS	+= -gdwarf-$(DWARF_VERSION)
++
++ifneq ($(DWARF_VERSION)$(LLVM_IAS),21)
++KBUILD_AFLAGS	+= -Wa,-gdwarf-$(DWARF_VERSION)
++endif
++
++ifdef CONFIG_CC_IS_CLANG
++ifneq ($(LLVM_IAS),1)
++KBUILD_CFLAGS	+= -Wa,-gdwarf-$(DWARF_VERSION)
++endif
+ endif
+ 
+ ifdef CONFIG_DEBUG_INFO_REDUCED
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index cd14444bf600..0382808ef9fe 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -828,7 +828,11 @@
+ 		.debug_types	0 : { *(.debug_types) }			\
+ 		/* DWARF 5 */						\
+ 		.debug_macro	0 : { *(.debug_macro) }			\
+-		.debug_addr	0 : { *(.debug_addr) }
++		.debug_addr	0 : { *(.debug_addr) }			\
++		.debug_line_str	0 : { *(.debug_line_str) }		\
++		.debug_loclists	0 : { *(.debug_loclists) }		\
++		.debug_rnglists	0 : { *(.debug_rnglists) }		\
++		.debug_str_offsets 0 : { *(.debug_str_offsets) }
+ 
+ /* Stabs debugging sections. */
+ #define STABS_DEBUG							\
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 537cf3c2937d..6b01f0e2dad8 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -256,14 +256,35 @@ config DEBUG_INFO_SPLIT
+ 	  to know about the .dwo files and include them.
+ 	  Incompatible with older versions of ccache.
+ 
++choice
++prompt "DWARF version"
++	depends on DEBUG_INFO
++	default DEBUG_INFO_DWARF2
++	help
++	  Which version of DWARF debug info to emit.
++
++config DEBUG_INFO_DWARF2
++	bool "Generate dwarf2 debuginfo"
++	help
++	  Generate dwarf2 debug info.
++
+ config DEBUG_INFO_DWARF4
+ 	bool "Generate dwarf4 debuginfo"
+ 	depends on $(cc-option,-gdwarf-4)
+ 	help
+-	  Generate dwarf4 debug info. This requires recent versions
+-	  of gcc and gdb. It makes the debug information larger.
+-	  But it significantly improves the success of resolving
+-	  variables in gdb on optimized code.
++	  Generate dwarf4 debug info. This requires gcc 4.5+ and gdb 7.0+.
++	  It makes the debug information larger, but it significantly
++	  improves the success of resolving variables in gdb on optimized code.
++
++config DEBUG_INFO_DWARF5
++	bool "Generate dwarf5 debuginfo"
++	depends on DEBUG_INFO
++	depends on $(success,$(srctree)/scripts/test_dwarf5_support.sh $(CC) $(CLANG_FLAGS))
++	help
++	  Genereate dwarf5 debug info. Requires binutils 2.35+, gcc 5.1+, and
++	  gdb 8.0+.
++
++endchoice # "DWARF version"
+ 
+ config DEBUG_INFO_BTF
+ 	bool "Generate BTF typeinfo"
+diff --git a/scripts/test_dwarf5_support.sh b/scripts/test_dwarf5_support.sh
+new file mode 100755
+index 000000000000..82c0eea45845
+--- /dev/null
++++ b/scripts/test_dwarf5_support.sh
+@@ -0,0 +1,4 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++set -eu
++echo ".file 0 \"asdf\"" | $* -Wa,-gdwarf-5 -c -x assembler -o /dev/null -
+-- 
+2.29.0.rc1.297.gfa9743e501-goog
+
