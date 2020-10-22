@@ -2,109 +2,232 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D6D829590A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Oct 2020 09:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D1E4296045
+	for <lists+linux-kbuild@lfdr.de>; Thu, 22 Oct 2020 15:47:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2508496AbgJVH0W (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 22 Oct 2020 03:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2508492AbgJVH0W (ORCPT
+        id S2900430AbgJVNrr (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 22 Oct 2020 09:47:47 -0400
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:38339 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2900429AbgJVNrr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 22 Oct 2020 03:26:22 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 161C3C0613CE;
-        Thu, 22 Oct 2020 00:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=h+rKHFkcR5k6QSt8CeK8lSdFFr+MaETwBr6Mxg4PDmU=; b=aUN68SfzWTPeVbTNit8fy/ZXb0
-        rRAYaTV5InvSpscM+g5V5UNuxxMIOSNNjdTrr9zBJwTDnIr7HB4kAtF5eelSvpZSzfzi0XB65k49y
-        fMhVyhLkrBDvMABUemD6zpOEa+Q8IzTJx4IZksVwvVIaYHLDJx476sb1mRX2HLMmaKAybchSbXO5G
-        h2Y+yNlzpY2780AC98N7ePm2EJ79MCEo33CoAfryNdBPReXIr4iTyNLwA3Ag8rPF1QkdzEXKCnmAv
-        01B8rB6S0TBGhXUXekjoFY4MHksCyJY7O4ahmGFdB9hvjhmJ+hNdIUNrUYqknMjnfiTaSOjgjEbDG
-        qxHU9c4w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kVUyy-0002dT-Ax; Thu, 22 Oct 2020 07:25:56 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 8E3203010D2;
-        Thu, 22 Oct 2020 09:25:53 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 7DE3B21463180; Thu, 22 Oct 2020 09:25:53 +0200 (CEST)
-Date:   Thu, 22 Oct 2020 09:25:53 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Sami Tolvanen <samitolvanen@google.com>,
-        Jann Horn <jannh@google.com>,
-        the arch/x86 maintainers <x86@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org
-Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
-Message-ID: <20201022072553.GN2628@hirez.programming.kicks-ass.net>
-References: <20201013003203.4168817-23-samitolvanen@google.com>
- <CAG48ez2baAvKDA0wfYLKy-KnM_1CdOwjU873VJGDM=CErjsv_A@mail.gmail.com>
- <20201015102216.GB2611@hirez.programming.kicks-ass.net>
- <20201015203942.f3kwcohcwwa6lagd@treble>
- <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
- <20201020185217.ilg6w5l7ujau2246@treble>
- <CABCJKucVjFtrOsw58kn4OnW5kdkUh8G7Zs4s6QU9s6O7soRiAA@mail.gmail.com>
- <20201021085606.GZ2628@hirez.programming.kicks-ass.net>
- <20201021093213.GV2651@hirez.programming.kicks-ass.net>
- <20201021212747.ofk74lugt4hhjdzg@treble>
+        Thu, 22 Oct 2020 09:47:47 -0400
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 09MDlSdD028005;
+        Thu, 22 Oct 2020 22:47:28 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 09MDlSdD028005
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1603374448;
+        bh=X8WuaJKmZT0L77l4ewuKWgQIfvhlzBlVo7ZUARb1Eoo=;
+        h=From:Date:Subject:To:Cc:From;
+        b=ZzCIPcp5S+HuNmYH0hdI4cI693C8bUBIMuQbpS9fialpPZAh3Wjdxs0ztbPuZbvhW
+         Ku6U5s8DwzpOpNAFcHmvWEnH1fygKjzn+vR+A2I5onFkjbPYQRP9IMT1HVRJ2EpTID
+         lqoHwGS0d2iNIly1xNC7NofhrGw4nxvMu3O3bTrGR//e9L3KKGGSjKuPmyHikGvrE2
+         sR1TYDaqra46xri+pyTZ6kWkEZzl/hKiZiOaZhbGAyxuVGB+3gwVPttaPobA8bWvPk
+         CME4KdPwjzzCvypPeaaVDCpTdVTeEEU6AgwdOE+VgH8Y7kCDaJaBGWNqevaIUaqpu2
+         6BjC8SAPX92Ag==
+X-Nifty-SrcIP: [209.85.216.44]
+Received: by mail-pj1-f44.google.com with SMTP id p21so1065659pju.0;
+        Thu, 22 Oct 2020 06:47:28 -0700 (PDT)
+X-Gm-Message-State: AOAM530bENYsW1EpIoHfn5RRiionHynbBpVungYWE2EUotwm/YP+J0QO
+        5whW+2rkVE6B5TOSRmAt0gjGBAkNDNI/+1fEEdc=
+X-Google-Smtp-Source: ABdhPJzB+oE/pPl49qtu21+dq3CLro6htEv4l7AzKaDU7anDphKBTjP8r9cojNQWdvyP98udBy6luzUdGt/RBiUDfDo=
+X-Received: by 2002:a17:90a:7023:: with SMTP id f32mr2525806pjk.87.1603374447536;
+ Thu, 22 Oct 2020 06:47:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201021212747.ofk74lugt4hhjdzg@treble>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 22 Oct 2020 22:46:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATH0zXhw+2-XJ2DcUkmJaC6=gW-67zqAtx1dnXn+hDhEw@mail.gmail.com>
+Message-ID: <CAK7LNATH0zXhw+2-XJ2DcUkmJaC6=gW-67zqAtx1dnXn+hDhEw@mail.gmail.com>
+Subject: [GIT PULL 1/2] Kbuild updates for v5.10-rc1
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 04:27:47PM -0500, Josh Poimboeuf wrote:
-> On Wed, Oct 21, 2020 at 11:32:13AM +0200, Peter Zijlstra wrote:
-> > On Wed, Oct 21, 2020 at 10:56:06AM +0200, Peter Zijlstra wrote:
-> > 
-> > > I do not see these in particular, although I do see a lot of:
-> > > 
-> > >   "sibling call from callable instruction with modified stack frame"
-> > 
-> > defconfig-build/vmlinux.o: warning: objtool: msr_write()+0x10a: sibling call from callable instruction with modified stack frame
-> > defconfig-build/vmlinux.o: warning: objtool:   msr_write()+0x99: (branch)
-> > defconfig-build/vmlinux.o: warning: objtool:   msr_write()+0x3e: (branch)
-> > defconfig-build/vmlinux.o: warning: objtool:   msr_write()+0x0: <=== (sym)
-> > 
-> > $ nm defconfig-build/vmlinux.o | grep msr_write
-> > 0000000000043250 t msr_write
-> > 00000000004289c0 T msr_write
-> > 0000000000003056 t msr_write.cold
-> > 
-> > Below 'fixes' it. So this is also caused by duplicate symbols.
-> 
-> There's a new linker flag for renaming duplicates:
-> 
->   https://sourceware.org/bugzilla/show_bug.cgi?id=26391
-> 
-> But I guess that doesn't help us now.
+Hi Linus,
 
-Well, depends a bit if clang can do it; we only need this for LTO builds
-for now.
+Please pull Kbuild updates for v5.10
 
-> I don't have access to GCC 10 at the moment so I can't recreate it.
-> Does this fix it?
+You will see a merge conflict in arch/arm/Makefile.
+The fix-up is easy, and also available in linux-next.
 
-Doesn't seem to do the trick :/ I'll try and have a poke later.
+Thanks.
+
+
+The following changes since commit d012a7190fc1fd72ed48911e77ca97ba4521bccd:
+
+  Linux 5.9-rc2 (2020-08-23 14:08:43 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
+tags/kbuild-v5.10
+
+for you to fetch changes up to 1e66d50ad3a1dbf0169b14d502be59a4b1213149:
+
+  kbuild: Use uname for LINUX_COMPILE_HOST detection (2020-10-21 00:46:04 +0900)
+
+----------------------------------------------------------------
+Kbuild updates for v5.10
+
+ - Support 'make compile_commands.json' to generate the compilation
+   database more easily, avoiding stale entries
+
+ - Support 'make clang-analyzer' and 'make clang-tidy' for static checks
+   using clang-tidy
+
+ - Preprocess scripts/modules.lds.S to allow CONFIG options in the module
+   linker script
+
+ - Drop cc-option tests from compiler flags supported by our minimal
+   GCC/Clang versions
+
+ - Use always 12-digits commit hash for CONFIG_LOCALVERSION_AUTO=y
+
+ - Use sha1 build id for both BFD linker and LLD
+
+ - Improve deb-pkg for reproducible builds and rootless builds
+
+ - Remove stale, useless scripts/namespace.pl
+
+ - Turn -Wreturn-type warning into error
+
+ - Fix build error of deb-pkg when CONFIG_MODULES=n
+
+ - Replace 'hostname' command with more portable 'uname -n'
+
+ - Various Makefile cleanups
+
+----------------------------------------------------------------
+Bill Wendling (1):
+      kbuild: explicitly specify the build id style
+
+Chris Down (1):
+      kbuild: Use uname for LINUX_COMPILE_HOST detection
+
+Guillem Jover (3):
+      builddeb: Pass -n to gzip for reproducible packages
+      builddeb: Enable rootless builds
+      builddeb: Add support for all required debian/rules targets
+
+Jacob Keller (1):
+      scripts: remove namespace.pl
+
+Mark Wielaard (1):
+      kbuild: Only add -fno-var-tracking-assignments for old GCC versions
+
+Masahiro Yamada (21):
+      kbuild: hide commands to run Kconfig, and show short log for syncconfig
+      gen_compile_commands: parse only the first line of .*.cmd files
+      gen_compile_commands: use choices for --log_levels option
+      gen_compile_commands: do not support .cmd files under tools/ directory
+      gen_compile_commands: reword the help message of -d option
+      gen_compile_commands: make -o option independent of -d option
+      gen_compile_commands: move directory walk to a generator function
+      gen_compile_commands: support *.o, *.a, modules.order in
+positional argument
+      kbuild: wire up the build rule of compile_commands.json to Makefile
+      gen_compile_commands: remove the warning about too few .cmd files
+      arch: vdso: add vdso linker script to 'targets' instead of extra-y
+      kbuild: preprocess module linker script
+      kbuild: do not create built-in objects for external module builds
+      kbuild: remove redundant CONFIG_KASAN check from scripts/Makefile.kasan
+      kbuild: move CFLAGS_{KASAN,UBSAN,KCSAN} exports to relevant Makefiles
+      kbuild: remove cc-option test of -fno-strict-overflow
+      kbuild: remove cc-option test of -fno-stack-check
+      kbuild: remove cc-option test of -Werror=date-time
+      kbuild: split the build log of kallsyms
+      kbuild: deb-pkg: do not build linux-headers package if CONFIG_MODULES=n
+      kbuild: deb-pkg: clean up package name variables
+
+Nathan Huckleberry (1):
+      Makefile: Add clang-tidy and static analyzer support to makefile
+
+Olaf Hering (1):
+      kbuild: enforce -Werror=return-type
+
+Rasmus Villemoes (2):
+      scripts/setlocalversion: make git describe output more reliable
+      kbuild: remove leftover comment for filechk utility
+
+Sami Tolvanen (1):
+      treewide: remove DISABLE_LTO
+
+Sedat Dilek (1):
+      kbuild: Simplify DEBUG_INFO Kconfig handling
+
+ Documentation/process/submit-checklist.rst                   |   3 +-
+ MAINTAINERS                                                  |   1 +
+ Makefile                                                     |  94 ++++--
+ arch/arm/Makefile                                            |   4 -
+ arch/arm/{kernel/module.lds => include/asm/module.lds.h}     |   2 +
+ arch/arm/vdso/Makefile                                       |   2 +-
+ arch/arm64/Makefile                                          |   4 -
+ arch/arm64/{kernel/module.lds => include/asm/module.lds.h}   |   2 +
+ arch/arm64/kernel/vdso/Makefile                              |   5 +-
+ arch/arm64/kernel/vdso32/Makefile                            |   8 +-
+ arch/ia64/Makefile                                           |   1 -
+ arch/ia64/{module.lds => include/asm/module.lds.h}           |   0
+ arch/m68k/Makefile                                           |   1 -
+ arch/m68k/{kernel/module.lds => include/asm/module.lds.h}    |   0
+ arch/mips/vdso/Makefile                                      |   2 +-
+ arch/nds32/kernel/vdso/Makefile                              |   2 +-
+ arch/powerpc/Makefile                                        |   1 -
+ arch/powerpc/{kernel/module.lds => include/asm/module.lds.h} |   0
+ arch/powerpc/kernel/vdso32/Makefile                          |   2 +-
+ arch/powerpc/kernel/vdso64/Makefile                          |   2 +-
+ arch/riscv/Makefile                                          |   3 -
+ arch/riscv/{kernel/module.lds => include/asm/module.lds.h}   |   3 +-
+ arch/riscv/kernel/vdso/Makefile                              |   2 +-
+ arch/s390/kernel/vdso64/Makefile                             |   4 +-
+ arch/sparc/vdso/Makefile                                     |   4 +-
+ arch/um/include/asm/Kbuild                                   |   1 +
+ arch/x86/entry/vdso/Makefile                                 |   4 +-
+ include/asm-generic/Kbuild                                   |   1 +
+ include/asm-generic/module.lds.h                             |  10 +
+ kernel/Makefile                                              |   3 -
+ lib/Kconfig.debug                                            |  10 +-
+ scripts/.gitignore                                           |   1 +
+ scripts/Kbuild.include                                       |   2 -
+ scripts/Makefile                                             |   3 +
+ scripts/Makefile.build                                       |   2 +-
+ scripts/Makefile.kasan                                       |   4 +-
+ scripts/Makefile.kcsan                                       |   2 +-
+ scripts/Makefile.modfinal                                    |   5 +-
+ scripts/Makefile.ubsan                                       |   3 +
+ scripts/clang-tools/gen_compile_commands.py                  | 236
++++++++++++++
+ scripts/clang-tools/run-clang-tools.py                       |  74 +++++
+ scripts/gen_compile_commands.py                              | 151 ---------
+ scripts/kconfig/Makefile                                     |  16 +-
+ scripts/link-vmlinux.sh                                      |  20 +-
+ scripts/mkcompile_h                                          |   2 +-
+ scripts/{module-common.lds => module.lds.S}                  |   3 +
+ scripts/namespace.pl                                         | 473
+---------------------------
+ scripts/package/builddeb                                     |  19 +-
+ scripts/package/mkdebian                                     |  44 ++-
+ scripts/setlocalversion                                      |  21 +-
+ tools/testing/selftests/bpf/Makefile                         |   2 +-
+ 51 files changed, 512 insertions(+), 752 deletions(-)
+ rename arch/arm/{kernel/module.lds => include/asm/module.lds.h} (72%)
+ rename arch/arm64/{kernel/module.lds => include/asm/module.lds.h} (76%)
+ rename arch/ia64/{module.lds => include/asm/module.lds.h} (100%)
+ rename arch/m68k/{kernel/module.lds => include/asm/module.lds.h} (100%)
+ rename arch/powerpc/{kernel/module.lds => include/asm/module.lds.h} (100%)
+ rename arch/riscv/{kernel/module.lds => include/asm/module.lds.h} (84%)
+ create mode 100644 include/asm-generic/module.lds.h
+ create mode 100755 scripts/clang-tools/gen_compile_commands.py
+ create mode 100755 scripts/clang-tools/run-clang-tools.py
+ delete mode 100755 scripts/gen_compile_commands.py
+ rename scripts/{module-common.lds => module.lds.S} (93%)
+ delete mode 100755 scripts/namespace.pl
+
+
+-- 
+Best Regards
+Masahiro Yamada
