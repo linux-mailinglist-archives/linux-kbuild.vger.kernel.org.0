@@ -2,78 +2,90 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E42CF29EEBE
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Oct 2020 15:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F5329F03F
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Oct 2020 16:39:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727391AbgJ2OuV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Oct 2020 10:50:21 -0400
-Received: from codesynthesis.com ([142.44.161.217]:46462 "EHLO
-        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbgJ2OuV (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Oct 2020 10:50:21 -0400
-Received: from brak.codesynthesis.com (unknown [105.184.207.60])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by codesynthesis.com (Postfix) with ESMTPSA id 6B59B5F6C2;
-        Thu, 29 Oct 2020 14:50:19 +0000 (UTC)
-Received: by brak.codesynthesis.com (Postfix, from userid 1000)
-        id 16C721A800C4; Thu, 29 Oct 2020 16:50:14 +0200 (SAST)
-Date:   Thu, 29 Oct 2020 16:50:14 +0200
-From:   Boris Kolpackov <boris@codesynthesis.com>
-To:     linux-kbuild@vger.kernel.org
-Subject: kconfig: qconf: SIGSEGV when clicking outside edit area
-Message-ID: <boris.20201029163302@codesynthesis.com>
+        id S1728425AbgJ2PjZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Oct 2020 11:39:25 -0400
+Received: from mout.gmx.net ([212.227.17.20]:34851 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728406AbgJ2PjY (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 29 Oct 2020 11:39:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1603985958;
+        bh=IqRRbFAtuzx0pHC/Xb8X8hKIIllWrocj/1hYqFfiHyw=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=TJQ0F+QUiznsd4vYyBdt18HGLJ7+zCY9j4QxaxFNlGbXXaw/DXuPAntZ94PYlc6K3
+         dUfXl9bV9v6+ZF/F7Wcoo8bnwcOZ/XUVflRG3+gQKY22a+Nzrh0ZLzIcanEHwDTfL+
+         zdKP9TNJBIzRcFt94vh/UNZsZ7Gfa/faieMHGMOY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.223.32.86]) by mail.gmx.com
+ (mrgmx105 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1MHoRK-1kd5xj3lIs-00ErzB; Thu, 29 Oct 2020 16:39:17 +0100
+Received: by localhost.localdomain (Postfix, from userid 1000)
+        id DD9D0800D9; Thu, 29 Oct 2020 16:39:16 +0100 (CET)
+From:   Sven Joachim <svenjoac@gmx.de>
+To:     linux-kbuild@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     linux-kernel@vger.kernel.org, Sven Joachim <svenjoac@gmx.de>
+Subject: [PATCH] builddeb: Consolidate consecutive chmod calls into one
+Date:   Thu, 29 Oct 2020 16:39:10 +0100
+Message-Id: <20201029153910.7502-1-svenjoac@gmx.de>
+X-Mailer: git-send-email 2.29.1
+In-Reply-To: <CAK7LNARFVy_2y883jig2_QrwTyGe=Xmu91z8LWuZuCeruWXa6A@mail.gmail.com>
+References: <CAK7LNARFVy_2y883jig2_QrwTyGe=Xmu91z8LWuZuCeruWXa6A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Organization: Code Synthesis
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:UViFwwQbDt/WxE81UR0PAiGjGM6GCNiipg4SYKykS+mC7Fd94Fe
+ b1h3rdbwWEX/b3PmjdnutqhPEZv2oAsUMcdBVWeTrQXwWO0v4X/ZqF6s/B9u2BKcpMirDZu
+ 0XjV2bNI1vg4X+Foz82ycoSlXmcAg2oxKSvx6iRr4Mg6oYzXik35Lmvjj5FxMUcnCbMteGL
+ aCfVAfpYl4EoimiUJoE7A==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oEoDpcT7UPY=:fxzAbu2ZosdbA7e52qkQwX
+ QsDkacDmhfmlKraUSUrwU5wGfD4ErqFRhczVdmJME5YYLtPCAZe/Wo2JG98XbyHrddyitloZl
+ YlNJqu4qnkz3uZ/Jst3qUZ+igdQ/gxIvvTqzRTMqtOlXDVnTFwEk/jHx6XEpuxNZgFJgfe6Og
+ P6NbVTAhWU2mYgkS8hPlMpYpYX5US7AtqY5uPzfkdOswG/D03F0VRNzHwqHkZVRKIK3LPilY9
+ WYjkgF6ivX3I1XDAH424WckXW0fm3xrrgtW6ld7jOQpc2bOtw8JOYTafslKubukOfmC3/QNcp
+ +S+W6ZHL2cy5ElF8R4Pj4ZWnr1IWI5Kha7iM6gJTJ6PgJftmtE+dlTT0zGvu9ykHFIVA2q8kG
+ elzTScHP1NNS2Jzj3TMlImfn4bIz8Rj9QMOJV914EVSal2DEBWmB0Ck0iEMl414E9RaaOb5q6
+ sXJ2P7E05oAfRXRjUb58EZd9FIrBq3jfO2qEWWM9zw9V0Z9j363DzrhRw9K7oN5ZtY6bShky5
+ 1BnZpK/1LAAVLRjk0S3UjTJV/NxBoPoNtJg6JFzuRV/Ghsf27liCDXIn85eJd+jW0pjvYVv6C
+ dzdq/Uazu9sLJb5HXxmvTqCnxN37IH7kjT1RA88cvmcAsuS72r646nulj1S+JOledcQGbTZ/Z
+ pULWhiwpKA+Iy4T0HHcaZGnXrK29c7LV+Wo+Vglp7u46pbvgVurqNV0ZyxRWU3fF+K2RU6PA+
+ 916CxrSC0FIrJZiXFZ8D2kaJ0xPw/W8yjUtq//j5C+r5ZccmezMGxLOFM+JXWJ9GKO0Ge2V/h
+ gPxIClw/P5skaFIfPVn5lUT0q4QfiwX6Tn5rC4rgLDHqZ2MtxGr1gpyutB0AzTAsM2VdoPBoV
+ Cw6fMtu63lA/VH1pgwbw==
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-After the recent qconf interface changes I've stumbled on SIGSEGV
-when clicking anywhere outside an active edit area. To reproduce,
-try to create a new configuration and edit a non-boot/tristate
-option (int in my case) with a default value. Then, while having
-the edit box active, click anywhere outside it.
+No need to call chmod three times when it can do everything at once.
 
-The stack trace I get is as follows. This is with Qt 5.5.1. Let
-me know if you need any other information.
+Signed-off-by: Sven Joachim <svenjoac@gmx.de>
+=2D--
+ scripts/package/builddeb | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-#0  0x0000000000000018 in ?? ()
-#1  0x00007f93094cfb06 in ?? () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#2  0x00007f93094e97e4 in QStyledItemDelegate::setModelData(QWidget*, QAbstractItemModel*, QModelIndex const&) const () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#3  0x000000000040d343 in ConfigItemDelegate::setModelData (this=0xae42f0, editor=0xbf4140, model=0x8785f0, index=...) at /home/boris/work/build2/packaging/kconfig/kconfig/kconfig-qconf/qconf.cc:295
-#4  0x00007f93094613ca in QAbstractItemView::commitData(QWidget*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#5  0x00007f9309461bc0 in ?? () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#6  0x00007f9309f2fc0a in QMetaObject::activate(QObject*, int, int, void**) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#7  0x00007f93094aad7f in QAbstractItemDelegate::commitData(QWidget*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#8  0x00007f93094ab514 in ?? () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#9  0x00007f9309f01052 in QCoreApplicationPrivate::sendThroughObjectEventFilters(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#10 0x00007f930920103c in QApplicationPrivate::notify_helper(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#11 0x00007f9309206516 in QApplication::notify(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#12 0x00007f9309f0126b in QCoreApplication::notifyInternal(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#13 0x00007f9309204039 in QApplicationPrivate::setFocusWidget(QWidget*, Qt::FocusReason) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#14 0x00007f930923e72d in QWidget::setFocus(Qt::FocusReason) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#15 0x00007f93091fd9cc in QApplicationPrivate::giveFocusAccordingToFocusPolicy(QWidget*, QEvent*, QPoint) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#16 0x00007f9309208431 in QApplication::notify(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#17 0x00007f9309f0126b in QCoreApplication::notifyInternal(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#18 0x00007f9309205b32 in QApplicationPrivate::sendMouseEvent(QWidget*, QMouseEvent*, QWidget*, QWidget*, QWidget**, QPointer<QWidget>&, bool) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#19 0x00007f930925e5bb in ?? () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#20 0x00007f9309260b7b in ?? () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#21 0x00007f930920105c in QApplicationPrivate::notify_helper(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#22 0x00007f9309206516 in QApplication::notify(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5
-#23 0x00007f9309f0126b in QCoreApplication::notifyInternal(QObject*, QEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#24 0x00007f93098254e1 in QGuiApplicationPrivate::processMouseEvent(QWindowSystemInterfacePrivate::MouseEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5
-#25 0x00007f93098271a5 in QGuiApplicationPrivate::processWindowSystemEvent(QWindowSystemInterfacePrivate::WindowSystemEvent*) () from /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5
-#26 0x00007f930980af08 in QWindowSystemInterface::sendWindowSystemEvents(QFlags<QEventLoop::ProcessEventsFlag>) () from /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5
-#27 0x00007f930a290200 in ?? () from /usr/lib/x86_64-linux-gnu/libQt5XcbQpa.so.5
-#28 0x00007f93071a0197 in g_main_context_dispatch () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#29 0x00007f93071a03f0 in ?? () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#30 0x00007f93071a049c in g_main_context_iteration () from /lib/x86_64-linux-gnu/libglib-2.0.so.0
-#31 0x00007f9309f576af in QEventDispatcherGlib::processEvents(QFlags<QEventLoop::ProcessEventsFlag>) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#32 0x00007f9309efea2a in QEventLoop::exec(QFlags<QEventLoop::ProcessEventsFlag>) () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#33 0x00007f9309f06acc in QCoreApplication::exec() () from /usr/lib/x86_64-linux-gnu/libQt5Core.so.5
-#34 0x0000000000417102 in main (ac=3, av=0x7ffe4121eb08) at /home/boris/work/build2/packaging/kconfig/kconfig/kconfig-qconf/qconf.cc:1904
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 91a502bb97e8..6a100c449579 100755
+=2D-- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -42,11 +42,9 @@ create_package() {
+ 	else
+ 		chown -R root:root "$pdir"
+ 	fi
+-	chmod -R go-w "$pdir"
+-	# in case we are in a restrictive umask environment like 0077
+-	chmod -R a+rX "$pdir"
+-	# in case we build in a setuid/setgid directory
+-	chmod -R ug-s "$pdir"
++	# a+rX in case we are in a restrictive umask environment like 0077
++	# ug-s in case we build in a setuid/setgid directory
++	chmod -R go-w,a+rX,ug-s "$pdir"
+
+ 	# Create the package
+ 	dpkg-gencontrol -p$pname -P"$pdir"
+=2D-
+2.29.1
+
