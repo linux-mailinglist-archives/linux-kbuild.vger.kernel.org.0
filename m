@@ -2,74 +2,57 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1839C29EA7A
-	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Oct 2020 12:29:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9627C29EE8E
+	for <lists+linux-kbuild@lfdr.de>; Thu, 29 Oct 2020 15:42:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726458AbgJ2L3V (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Oct 2020 07:29:21 -0400
-Received: from alln-iport-1.cisco.com ([173.37.142.88]:45950 "EHLO
-        alln-iport-1.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgJ2L3V (ORCPT
+        id S1727841AbgJ2Omq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 29 Oct 2020 10:42:46 -0400
+Received: from codesynthesis.com ([142.44.161.217]:46424 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726633AbgJ2Omh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Oct 2020 07:29:21 -0400
-X-Greylist: delayed 366 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Oct 2020 07:29:21 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=842; q=dns/txt; s=iport;
-  t=1603970961; x=1605180561;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G5yO747s4jdu0R3kHbhed+Io6wTx5do6R24/UBQXme4=;
-  b=NtAWmLwwCeUaUxmpYZN5j6a5v0iZTPnqtgIcLuEYBi8NsT+kV/7BGl8w
-   3fqrjOkUozu13uVE/Rj49bZwDQ3vYxVxAj8Xon3cLt/aBZGbeYp9/q42N
-   MkeoUuF7V5oEkypUdXB/0E2adjDvnYfaX7Rr8LCRF1aCTpK9a1G/Q8o0O
-   g=;
-X-IronPort-AV: E=Sophos;i="5.77,429,1596499200"; 
-   d="scan'208";a="575259983"
-Received: from alln-core-4.cisco.com ([173.36.13.137])
-  by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 29 Oct 2020 11:21:13 +0000
-Received: from sjc-ads-9103.cisco.com (sjc-ads-9103.cisco.com [10.30.208.113])
-        by alln-core-4.cisco.com (8.15.2/8.15.2) with ESMTPS id 09TBLCS0020875
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 29 Oct 2020 11:21:13 GMT
-Received: by sjc-ads-9103.cisco.com (Postfix, from userid 487941)
-        id 8C738CC1251; Thu, 29 Oct 2020 04:21:12 -0700 (PDT)
-From:   Denys Zagorui <dzagorui@cisco.com>
-To:     masahiroy@kernel.org, michal.lkml@markovi.net,
-        linux-kbuild@vger.kernel.org
-Cc:     dzagorui@cisco.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] kbuild: use -fmacro-prefix-map for .S sources compilation
-Date:   Thu, 29 Oct 2020 04:21:12 -0700
-Message-Id: <20201029112112.21285-1-dzagorui@cisco.com>
-X-Mailer: git-send-email 2.19.0.dirty
+        Thu, 29 Oct 2020 10:42:37 -0400
+X-Greylist: delayed 621 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Oct 2020 10:42:36 EDT
+Received: from brak.codesynthesis.com (unknown [105.184.207.60])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by codesynthesis.com (Postfix) with ESMTPSA id A7B225F6C2;
+        Thu, 29 Oct 2020 14:32:14 +0000 (UTC)
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id 952C71A800C4; Thu, 29 Oct 2020 16:32:07 +0200 (SAST)
+Date:   Thu, 29 Oct 2020 16:32:07 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] kconfig: qconf: convert to Qt5 new signal/slot
+ connection syntax
+Message-ID: <boris.20201029163103@codesynthesis.com>
+References: <20201024123841.1201922-1-masahiroy@kernel.org>
+ <20201024123841.1201922-3-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.208.113, sjc-ads-9103.cisco.com
-X-Outbound-Node: alln-core-4.cisco.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201024123841.1201922-3-masahiroy@kernel.org>
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Follow-up to a73619a845d5 ("kbuild: use -fmacro-prefix-map to make
-__FILE__ a relative path") commit. Assembler sources also use __FILE__
-macro so this flag should be also apllied to that sources.
+Masahiro Yamada <masahiroy@kernel.org> writes:
 
-Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
----
- Makefile | 1 +
- 1 file changed, 1 insertion(+)
+> Now that the Qt4 support was dropped, we can use the new connection
+> syntax supported by Qt5. It provides compile-time checking of the
+> validity of the connection.
+> 
+> Previously, the connection between signals and slots were checked
+> only run-time.
+> 
+> Commit d85de3399f97 ("kconfig: qconf: fix signal connection to invalid
+> slots") fixed wrong slots.
+> 
+> This change makes it possible to catch such mistakes easily.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-diff --git a/Makefile b/Makefile
-index ee2284a5cad2..26c4294f6e25 100644
---- a/Makefile
-+++ b/Makefile
-@@ -947,6 +947,7 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
- 
- # change __FILE__ to the relative path from the srctree
- KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
-+KBUILD_AFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
- 
- # ensure -fcf-protection is disabled when using retpoline as it is
- # incompatible with -mindirect-branch=thunk-extern
--- 
-2.19.0.dirty
-
+Tested-by: Boris Kolpackov <boris@codesynthesis.com>
