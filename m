@@ -2,107 +2,125 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EDF12A0CEB
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 18:57:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C17912A0D5A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 19:28:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbgJ3R5r (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Oct 2020 13:57:47 -0400
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:45826 "EHLO
-        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725922AbgJ3R5r (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Oct 2020 13:57:47 -0400
-X-Greylist: delayed 2588 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 13:57:47 EDT
-Received: from [192.168.4.242] (helo=deadeye)
-        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1kYXz3-0005F1-TH; Fri, 30 Oct 2020 17:14:37 +0000
-Received: from ben by deadeye with local (Exim 4.94)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1kYXz3-000y9q-CV; Fri, 30 Oct 2020 17:14:37 +0000
-Message-ID: <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
-Subject: Re: [PATCH] builddeb: Fix build on non-Debian/Ubuntu distros
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Petr Vorel <petr.vorel@gmail.com>, linux-kbuild@vger.kernel.org
-Cc:     Guillem Jover <guillem@hadrons.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 30 Oct 2020 17:14:32 +0000
-In-Reply-To: <20201030165607.290612-1-petr.vorel@gmail.com>
-References: <20201030165607.290612-1-petr.vorel@gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-GjghaIPeX2ZZ3tcMSHlW"
-User-Agent: Evolution 3.36.4-2 
+        id S1727074AbgJ3S2v (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Oct 2020 14:28:51 -0400
+Received: from mga04.intel.com ([192.55.52.120]:60186 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726077AbgJ3S2v (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 30 Oct 2020 14:28:51 -0400
+IronPort-SDR: 3C5s4ucPbo9rYTQyapsV33TABdQ1TUEkSXgmJ4c+VE0iey1OrZJYWDFhe0332OTBCMvWZQMrvK
+ lEBBuZs3O/PA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9790"; a="166063596"
+X-IronPort-AV: E=Sophos;i="5.77,434,1596524400"; 
+   d="scan'208";a="166063596"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2020 11:28:51 -0700
+IronPort-SDR: 0k1LPe5KZs0yH1e/dXW1UfC6qY52RWLdNHrnk6rW3n4LNY36BznAZF0Ob2Z+Vzfl/hvwTggbNh
+ 0gzqk+0qzxbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,434,1596524400"; 
+   d="scan'208";a="324163323"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga006.jf.intel.com with ESMTP; 30 Oct 2020 11:28:49 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 4EC8F2A0; Fri, 30 Oct 2020 20:28:48 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/2] modpost: Mark uuid_le type only for MEI
+Date:   Fri, 30 Oct 2020 20:28:46 +0200
+Message-Id: <20201030182847.78753-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 192.168.4.242
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
+The uuid_le type is used only for MEI ABI, do not advertise it for others.
+Due to above, bury add_uuid() in its only user.
 
---=-GjghaIPeX2ZZ3tcMSHlW
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ scripts/mod/file2alias.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-On Fri, 2020-10-30 at 17:56 +0100, Petr Vorel wrote:
-> This fixes make bindeb-pkg for RPM based distros, which don't have
-> dpkg-dev (and thus not /usr/bin/dpkg-buildpackage), which sets
-> $DEB_RULES_REQUIRES_ROOT.
->=20
-> Fixes: 3e8541803624 ("builddeb: Enable rootless builds")
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index 8a438c94dcd9..fefff92b33ef 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -34,19 +34,22 @@ typedef Elf64_Addr	kernel_ulong_t;
+ typedef uint32_t	__u32;
+ typedef uint16_t	__u16;
+ typedef unsigned char	__u8;
++
+ typedef struct {
+ 	__u8 b[16];
+ } guid_t;
+ 
+-/* backwards compatibility, don't use in new code */
+-typedef struct {
+-	__u8 b[16];
+-} uuid_le;
+ typedef struct {
+ 	__u8 b[16];
+ } uuid_t;
++
+ #define	UUID_STRING_LEN		36
+ 
++/* MEI UUID type, don't use anywhere else */
++typedef struct {
++	__u8 b[16];
++} uuid_le;
++
+ /* Big exception to the "don't include kernel headers into userspace, which
+  * even potentially has different endianness and word sizes, since
+  * we handle those differences explicitly below */
+@@ -104,17 +107,6 @@ static inline void add_wildcard(char *str)
+ 		strcat(str + len, "*");
+ }
+ 
+-static inline void add_uuid(char *str, uuid_le uuid)
+-{
+-	int len = strlen(str);
+-
+-	sprintf(str + len, "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+-		uuid.b[3], uuid.b[2], uuid.b[1], uuid.b[0],
+-		uuid.b[5], uuid.b[4], uuid.b[7], uuid.b[6],
+-		uuid.b[8], uuid.b[9], uuid.b[10], uuid.b[11],
+-		uuid.b[12], uuid.b[13], uuid.b[14], uuid.b[15]);
+-}
+-
+ /**
+  * Check that sizeof(device_id type) are consistent with size of section
+  * in .o file. If in-consistent then userspace and kernel does not agree
+@@ -1198,12 +1190,16 @@ static int do_mei_entry(const char *filename, void *symval,
+ 			char *alias)
+ {
+ 	DEF_FIELD_ADDR(symval, mei_cl_device_id, name);
+-	DEF_FIELD_ADDR(symval, mei_cl_device_id, uuid);
++	DEF_FIELD(symval, mei_cl_device_id, uuid);
+ 	DEF_FIELD(symval, mei_cl_device_id, version);
+ 
+ 	sprintf(alias, MEI_CL_MODULE_PREFIX);
+ 	sprintf(alias + strlen(alias), "%s:",  (*name)[0]  ? *name : "*");
+-	add_uuid(alias, *uuid);
++	sprintf(alias + strlen(alias), "%02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
++		uuid.b[3], uuid.b[2], uuid.b[1], uuid.b[0],
++		uuid.b[5], uuid.b[4], uuid.b[7], uuid.b[6],
++		uuid.b[8], uuid.b[9], uuid.b[10], uuid.b[11],
++		uuid.b[12], uuid.b[13], uuid.b[14], uuid.b[15]);
+ 	ADD(alias, ":", version != MEI_CL_VERSION_ANY, version);
+ 
+ 	strcat(alias, ":*");
+-- 
+2.28.0
 
-This doesn't seem to fix a bug, and in fact it would introduce one.
-
-> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-[...]
-> --- a/scripts/package/builddeb
-> +++ b/scripts/package/builddeb
-> @@ -37,7 +37,7 @@ create_package() {
->                 | xargs -r0 md5sum > DEBIAN/md5sums"
-> =20
->         # Fix ownership and permissions
-> -       if [ "$DEB_RULES_REQUIRES_ROOT" =3D "no" ]; then
-> +       if [ -z "$DEB_RULES_REQUIRES_ROOT" -o "$DEB_RULES_REQUIRES_ROOT" =
-=3D "no" ]; then
->                 dpkg_deb_opts=3D"--root-owner-group"
->         else
->                 chown -R root:root "$pdir"
-
-This is the wrong default behaviour; it will cause a regression with
-older versions of dpkg that don't support this option.
-
-If you invoke this script directly and do not use dpkg-buildpackage
-(which I don't think is really supported anyway) then you must either
-do so as root or use fakeroot (as dpkg-buildpackage does by default).
-
-Ben.
-
---=20
-Ben Hutchings
-The first rule of tautology club is the first rule of tautology club.
-
-
---=-GjghaIPeX2ZZ3tcMSHlW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl+cSfkACgkQ57/I7JWG
-EQn1XhAAn0pBMvr3Tm5pd2fmYwwy9gwWQ2j+cWQYv5KJm+obKThy4+yFglKlRc50
-cOa+2GGdxA+In48SNBjRUsw7jYPFLUS+to6L0lnrWvi5nNNq/DOEoxTwh1u348YY
-KXviYb5DNXTNf1i378EzFcXMV/Vb93RuqqTrQV+Ha3U6HXMTPthTbdSwkdbaBl+9
-gFahbmSMDWBn+4qT/KRWpUEcilhRlv76iLeA7v0MvDydLTYzMdy0QLvdNe3u6Etb
-q/2olK+igEUweHShAqfCyRdou8Qdw51rZQwzPH7x4fDTUiVfs5hH2xNKAx/OSyAq
-OGhdPSn8ALJ7sHZpbJr8M467fTqlO5ddslRtTRiiWg55kCJFmV2eJRXh+eoV0V7x
-wpdEK52MVlqwcJeylt07uRe6tikPnUZvYaoZy3gj4dKhQVhQvJQoEsx+oogNSv8+
-VuYCdkqX5bwD+K0X9bRVK3nbi+BbBT30NVKLLztOo2ViHTktCf3sWCPaZ7ZdzX6z
-7ViVkQTWZNkXjElMpopHz1dQeKe9cacX/eIZG1620564Fdiev/VYkFnRyktAE0HB
-hJRMaKTvKVkeL8lNJZW5urn7oA53H2FpDR9sTLZOq2DAcuRjbvCqno20dSDp0/sw
-mpTMCaF2d0RuHS0ePXi4BqOaEKM88t82OkTRy0TqtnoKtWZyS3Q=
-=/V1E
------END PGP SIGNATURE-----
-
---=-GjghaIPeX2ZZ3tcMSHlW--
