@@ -2,83 +2,103 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DD892A08F9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 16:01:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17C7B2A0BEF
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 17:56:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgJ3PBR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Oct 2020 11:01:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
+        id S1727370AbgJ3Q4S (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Oct 2020 12:56:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726813AbgJ3PAa (ORCPT
+        with ESMTP id S1726384AbgJ3Q4R (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:00:30 -0400
+        Fri, 30 Oct 2020 12:56:17 -0400
 Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE79C0613E0
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 07:59:35 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id w1so5842955edv.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 07:59:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66BF9C0613CF
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 09:56:17 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id v4so7412274edi.0
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 09:56:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
-         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
-         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
-         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
-         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
-         Sb9g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bJmUqHliwDf+v+2v8jHmqj+HKvfb00c+QEwMxqXzHHk=;
+        b=jL9pPh3gCZ402gpfrWOS7KQMVSqLsQHX9fStIHbXf8OO1B3MtkJ46wAIiZxmTBwd1J
+         Dexa0ROJK5lnpOtDz0Ozh8RWPa3CCjeR0cQzwmTKrARoUNi2SUfwFWsGCNUwFYLkoM9e
+         RPiMgN6pudoZeGVwBj8ZrXeWkprYzjNCPIGWM9H4SBgzRv3VurywbKxj8eOBI7d8B5fd
+         a0j7TOmZqXWzq+JJ287Sn662ObBEXSXfJd4Jt4YqWospi9yePjIbP3RdGZUMsZJyK0Q+
+         EQUL8prXVxU6ZbT6zQ1pgsyHh4dSfA4Z3+SBKv1UhBC+rze6Lrq/mIwXkk2p4wTOi1/O
+         F1aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=VEgnGkMnKJjky0HH8Y7bx12XCU61E8JflywAGT8/oJlunpArbrSZasd5CZzvvkml80
-         x38PX+4J56qYGFu1X8M1a9FZA7TzDCoLIjPEAP4BQMeo2/l60i4muCCb/r5NxOxHob2N
-         7jJ9ZXo/7TJFTANwJMRqV70x8w6YruousIib45/ZMkDKJ/NgzgM+rqf0aK1QgNnHM3LZ
-         qEnGXpAfOl9iPkUrWckQ4uu4AkapqPfcAhcnSOkDDPS/rlrQhepug/HqVKGJ8IQMPzS5
-         iL3xAwQPRxB7m07kfeHtvVxKePYFCKHmQY+cw2PKNVKgJtchuXI/4ksdUoZ7fPwysKfq
-         +H7w==
-X-Gm-Message-State: AOAM530IBKs4AWJolWK1+ViU4JTll5+gJnOucIisFvB8QI0/JtE2TDZO
-        OEIk0j6BgusHLhA6V0IVaE3BdfygTAbQtnYFIg==
-X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
-X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
- Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bJmUqHliwDf+v+2v8jHmqj+HKvfb00c+QEwMxqXzHHk=;
+        b=S6WDkW67IRIG/FsdwLUOgHwh3Vzj+BuPYxKosRimuqV7OLTGoMwYpQTGKDPUE9yjM8
+         iUUE3Xh9TF+pwk/bgaxV88S1ED2dBLJ3B9rU+E0lAWAAMOC7Y0rCMMeMZXNJn4ns73vC
+         HTIIS/Lfu6m74qrPgQeNN2+iKZzQioH6fAROKnrKVI+/4vYB8m4K1TMRXxPox/xzfDV+
+         fD4RFjZcGvlUgu7rGmhobJnsezv9WbHVa4yk4ViLoY7X99iwn5ckjdlsMzG4UWL8dN2P
+         EjVH8UNAE3ITka0NUGAZFUoXCM66cREmlToSK5StutNQfBFEni/RVdMH1NSQBI0C9N9B
+         xlCg==
+X-Gm-Message-State: AOAM531GKHus6eTFLi6wbfDt01dMPrkH0kLEMqckYpJoKJCQmGGslunm
+        YrFoIjarHyF6/jHkX7efDdUcrJ2ep/7AAw==
+X-Google-Smtp-Source: ABdhPJx05bar/zfvFTvExZ8aMchUU3eCj1vNd075yuMbTaTkc0sVxaAwAHUysL+SFvH+LE17i9PxNQ==
+X-Received: by 2002:a50:f190:: with SMTP id x16mr3353583edl.292.1604076976019;
+        Fri, 30 Oct 2020 09:56:16 -0700 (PDT)
+Received: from localhost.localdomain ([62.201.25.198])
+        by smtp.gmail.com with ESMTPSA id c14sm3290323edy.13.2020.10.30.09.56.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 09:56:15 -0700 (PDT)
+From:   Petr Vorel <petr.vorel@gmail.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Petr Vorel <petr.vorel@gmail.com>,
+        Guillem Jover <guillem@hadrons.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Ben Hutchings <ben@decadent.org.uk>
+Subject: [PATCH] builddeb: Fix build on non-Debian/Ubuntu distros
+Date:   Fri, 30 Oct 2020 17:56:07 +0100
+Message-Id: <20201030165607.290612-1-petr.vorel@gmail.com>
+X-Mailer: git-send-email 2.27.0.rc0
 MIME-Version: 1.0
-Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
- -0700 (PDT)
-Reply-To: li.anable85@gmail.com
-From:   Liliane Abel <k.griest04@gmail.com>
-Date:   Fri, 30 Oct 2020 15:59:34 +0100
-Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Dearest
+This fixes make bindeb-pkg for RPM based distros, which don't have
+dpkg-dev (and thus not /usr/bin/dpkg-buildpackage), which sets
+$DEB_RULES_REQUIRES_ROOT.
 
-Greeting my dear, I am Liliane Abel by name, The only daughter of late
-Mr.Benson Abel. My father is one of the top Politician in our country
-and my mother is a farmers and cocoa merchant when they were both
-alive. After the death of my mother, long ago, my father was
-controlling their business until he was poisoned by his business
-associates which he suffered and died.
+Fixes: 3e8541803624 ("builddeb: Enable rootless builds")
 
-Before the death of my father, He told me about (two million five
-hundred thousand united states dollars) which he deposited in the bank
-in Lome-Togo, It was the money he intended to transfer overseas for
-investment before he was poisoned. He also instructed me that I should
-seek for foreign partners in any country of my choice who will assist
-me transfer this money in overseas account where the money will be
-wisely invested.
-I am seeking for your kind assistance in the following ways:  (1) to
-provide a safe bank account into where the money will be transferred
-for investment. (2) To serve as a guardian of this fund since I am a
-girl of 19 years old. (3) To make arrangement for me to come over to
-your country to further my education. This is my reason for writing to
-you. Please if you are willing to assist me I will offer you 25% of
-the total money. Reply if  you are interested
-Best regards.
-Liliane Abel.
+Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+---
+Hi,
+
+I admit not many people compile kernel with bindeb-pkg on  RPM based
+distro, but it'd be nice it were working.
+
+openSUSE has most of other required packages, although there are some
+missing dependencies, thus DPKG_FLAGS="-d" is needed.
+
+Kind regards,
+Petr
+
+ scripts/package/builddeb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/package/builddeb b/scripts/package/builddeb
+index 1b11f8993629..287e4bbd222c 100755
+--- a/scripts/package/builddeb
++++ b/scripts/package/builddeb
+@@ -37,7 +37,7 @@ create_package() {
+ 		| xargs -r0 md5sum > DEBIAN/md5sums"
+ 
+ 	# Fix ownership and permissions
+-	if [ "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
++	if [ -z "$DEB_RULES_REQUIRES_ROOT" -o "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
+ 		dpkg_deb_opts="--root-owner-group"
+ 	else
+ 		chown -R root:root "$pdir"
+-- 
+2.27.0.rc0
+
