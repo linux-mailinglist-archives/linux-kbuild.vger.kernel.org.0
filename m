@@ -2,118 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 811642A0E2A
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 19:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B17042A115F
+	for <lists+linux-kbuild@lfdr.de>; Sat, 31 Oct 2020 00:02:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726095AbgJ3S57 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Oct 2020 14:57:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48756 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726061AbgJ3S57 (ORCPT
+        id S1725923AbgJ3XCV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Oct 2020 19:02:21 -0400
+Received: from server.msgroupspa.com ([185.149.113.111]:55162 "EHLO
+        server.msgroupspa.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725780AbgJ3XCU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Oct 2020 14:57:59 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486C0C0613CF
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 11:57:59 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id t11so7655235edj.13
-        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 11:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wMvqkOCJvTY91wYiJ0Aaafr9exthCCEZgMNORSR618w=;
-        b=noaau75tl6VwwplwwOoqcfHdNMG7Qc7AmR2CR9zty3qUNh/1YE/qUAqyW/nMzWLK4K
-         mtTLnJROWdbx2t7LzUh0HIR1z2HF5ilfy7DQZ+k8qwvj6tZKlsD1CvBbBauBxVOHpcr4
-         oFl8sNaPkG4+l6T6zzl28cGbUJuFEkwolNYd1k8lwNJV8Tew9V2XvMQgxEF7i24VjiCf
-         T/FCDh8g85cwTGH5HfJ1RP1p2z2p4yRnWjAp1hzi3MMvbygBT+M8P6Ri3r6iAQqk+P5J
-         Rk7stnvdreOkVDzhDzkZ00x8yKaipnxqAeUIUWWV22MMTs3m4LLMFtvxzU5fQ8ZTyblH
-         IPAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=wMvqkOCJvTY91wYiJ0Aaafr9exthCCEZgMNORSR618w=;
-        b=sdXEysdqWZUsiM+OzBMrVfBv//DmQE1riGHe1UMfMvpRI1vIS42ykptgco7dV50jaN
-         HaPlBJMJejzIHaNlpV810CX1sWXkjz6GDiOYCgImlp3DXhmsfYWsvt2+Ji54qOP7sYtx
-         9wEyg3pls57XY/z7KlPBe2uHEbQFE5fNacxHin4eKpkmDHb9uIdn45Eml4nj6foT75lb
-         ZEMsuSoxDh7xx5HUADtkFvIRPC5UXEHQ3MJBH8G88lqbsJ05cUZZqal9ST0OmXvaAkXR
-         k0mSbvxelD53nxi+T7BKUberBcB/KHzWOJpQOdC5C3VmXkMsGA1At0OgXmeQNZ0Me+U/
-         1xeA==
-X-Gm-Message-State: AOAM533bTtapqosdxAmRhTpkd/14nRxFqFwelAzVn0txzMx2R3V24LA5
-        ztC/DdpWsdS1VzWpisPclVpQYGpHiJIsdw==
-X-Google-Smtp-Source: ABdhPJwozn9SIj2Ol+x8bfIm9oZcOYEZy/Hlu+GPjh4g+q+/n/JsILUt90g3sdX2Tk0hcto69tVjUA==
-X-Received: by 2002:a50:8d48:: with SMTP id t8mr4092916edt.228.1604084277921;
-        Fri, 30 Oct 2020 11:57:57 -0700 (PDT)
-Received: from pevik ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id 22sm3234886ejw.27.2020.10.30.11.57.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 11:57:57 -0700 (PDT)
-Date:   Fri, 30 Oct 2020 19:57:55 +0100
-From:   Petr Vorel <petr.vorel@gmail.com>
-To:     Ben Hutchings <ben@decadent.org.uk>
-Cc:     linux-kbuild@vger.kernel.org, Guillem Jover <guillem@hadrons.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH] builddeb: Fix build on non-Debian/Ubuntu distros
-Message-ID: <20201030185755.GA559821@pevik>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20201030165607.290612-1-petr.vorel@gmail.com>
- <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
+        Fri, 30 Oct 2020 19:02:20 -0400
+X-Greylist: delayed 53432 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 19:02:11 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=msgroupspa.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=gOeEglh1DIJatPKqyvOsPs4e0Zw8Lzg9wwjnNfQdiM8=; b=f0J1AWuajA3oZ1Dpfc1x8K8xEJ
+        AUip3Gv2UXILC1QLa9azjb3AcsLQqGjiyvcdNpmgT4E3ckADFb84tXlqXdyZsQiNBG2DujmkXqT6T
+        d2mjFNqNRzqSvTZ5qo3MQnCtCov24Wb4wcnpMjift4pdGB4JPDnKAHB+AICh1brF5U0xFQPetWE6H
+        BdPwBb7MNTVWN2mlAPb66Psghg7IoDbQVF1Tmf3H0jaTjlEaWeH4lQoLQpQIzRJYm5NbY0Di4+n63
+        5jJQ9+O4mZNL1aiyS8rwPAgEOxxbLBRAAH3FJTu26AO783jjZImRhbqNmO2ZZgHvlSfFh6vWgR2oo
+        WibXGz9w==;
+Received: from [::1] (port=55834 helo=server.msgroupspa.com)
+        by server.msgroupspa.com with esmtpa (Exim 4.93)
+        (envelope-from <no-reply@msgroupspa.com>)
+        id 1kYPS7-0006MI-86; Fri, 30 Oct 2020 16:08:03 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
+Date:   Fri, 30 Oct 2020 16:08:03 +0800
+From:   "Mr. John Galvan" <no-reply@msgroupspa.com>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Reply-To: galvan.johnny@outlook.com
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <0d2cf4301ff4649fbf993b8f3f7e83c8@msgroupspa.com>
+X-Sender: no-reply@msgroupspa.com
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.msgroupspa.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - msgroupspa.com
+X-Get-Message-Sender-Via: server.msgroupspa.com: authenticated_id: no-reply@msgroupspa.com
+X-Authenticated-Sender: server.msgroupspa.com: no-reply@msgroupspa.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Ben,
 
-first, thanks for your review.
 
-> On Fri, 2020-10-30 at 17:56 +0100, Petr Vorel wrote:
-> > This fixes make bindeb-pkg for RPM based distros, which don't have
-> > dpkg-dev (and thus not /usr/bin/dpkg-buildpackage), which sets
-> > $DEB_RULES_REQUIRES_ROOT.
+-- 
+Sir/Madam,
 
-> > Fixes: 3e8541803624 ("builddeb: Enable rootless builds")
+I have access to very vital information that can be used to move a huge 
+amount of money. I have done my homework very well and I have the 
+machineries in place to get it done since I am still in active service. 
+If it was possible for me to do it alone I would not have bothered 
+contacting you. Ultimately I need an honest foreigner to play an 
+important role in the completion of this business transaction. Send 
+responds to this email: galvan.johnny@outlook.com
 
-> This doesn't seem to fix a bug, and in fact it would introduce one.
+Regards,
+John Galvan
 
-> > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> [...]
-> > --- a/scripts/package/builddeb
-> > +++ b/scripts/package/builddeb
-> > @@ -37,7 +37,7 @@ create_package() {
-> >                 | xargs -r0 md5sum > DEBIAN/md5sums"
+---------------------------------------------------------------
 
-> >         # Fix ownership and permissions
-> > -       if [ "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
-> > +       if [ -z "$DEB_RULES_REQUIRES_ROOT" -o "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
-> >                 dpkg_deb_opts="--root-owner-group"
-> >         else
-> >                 chown -R root:root "$pdir"
+Sir / Madam,
 
-> This is the wrong default behaviour; it will cause a regression with
-> older versions of dpkg that don't support this option.
-Sorry for wrong report. I tested it on Debian, but only on unstable.
+Ich habe Zugang zu sehr wichtigen Informationen, mit denen ich eine 
+große Menge Geld bewegen kann. Ich habe meine Hausaufgaben sehr gut 
+gemacht und ich habe die Maschinen, um sie zu erledigen, da ich immer 
+noch im aktiven Dienst bin. Wenn es mir möglich gewesen wäre, es alleine 
+zu tun, hätte ich mich nicht darum gekümmert, Sie zu kontaktieren. 
+Letztendlich brauche ich einen ehrlichen Ausländer, der eine wichtige 
+Rolle beim Abschluss dieses Geschäftsvorgangs spielt. Senden Sie 
+Antworten auf diese E-Mail: galvan.johnny@outlook.com
 
-> If you invoke this script directly and do not use dpkg-buildpackage
-> (which I don't think is really supported anyway) then you must either
-> do so as root or use fakeroot (as dpkg-buildpackage does by default).
-Well, both bindeb-pkg and deb-pkg use dpkg-buildpackage.
-Thus fakeroot is used by default.
-
-/bin/sh -c dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -d -b -nc -uc
-
-The root cause is that while calling chown -R root:root "$pdir" is ok on Debian,
-it's refused for fakeroot in openSUSE. I can run it with
-DEB_RULES_REQUIRES_ROOT=no, that should fix that, but I'd prefer it were working
-by default (although I admit not many people need it).
-I reported it because the default setup worked before 3e8541803624.
-I'll have a look what configuration (permission) is missing on openSUSE to allow
-chown -R root:root for non-root user.
-
-> Ben.
-
-Kind regards,
-Petr
+Grüße,
+John Galvan
