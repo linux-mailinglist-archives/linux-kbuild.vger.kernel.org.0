@@ -2,128 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DA8F29FAA9
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 02:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DD892A08F9
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 16:01:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725771AbgJ3Bjz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 29 Oct 2020 21:39:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56590 "EHLO
+        id S1726820AbgJ3PBR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Oct 2020 11:01:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725372AbgJ3Bjz (ORCPT
+        with ESMTP id S1726813AbgJ3PAa (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 29 Oct 2020 21:39:55 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D922CC0613CF
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Oct 2020 18:39:54 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id g7so5117432ilr.12
-        for <linux-kbuild@vger.kernel.org>; Thu, 29 Oct 2020 18:39:54 -0700 (PDT)
+        Fri, 30 Oct 2020 11:00:30 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCE79C0613E0
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 07:59:35 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id w1so5842955edv.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 07:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=V958ZyTN1p6gJ00+JwBE3K6tYpjufiw0XznD9MNyE4A=;
-        b=j2mMXk5WSxrAZMv4q6/NGNqr4kSMId1iVd6ZAJk9iVhAnZaqiAZ9OD5QvIKlbdKESw
-         Hq38tpp3JkVEvOkwVZ5YYpe+1xrqNnHnPqPb1GkBcLO0kQm4N26ja9Tlihfh9QLxQ9iL
-         hJNEs2JZKnp4X5gTxaJqK3mvRTr0tTyTbK5Jm1VAGoauZ4YLB4kz10aP4aErDZOnz5g8
-         ZH1c51xpTnGtfMABbZQ2Mlk3QRhZXXKynwVWU4gPF/YvYLzRoqLMmgaZIrBXedgEPJJW
-         I7/aDM5T3Tn4qWNfWHsBkHXSjierfqTiwf1+UYwMwmqrWaZfRDgD4I6zZd0DFmn5nAZU
-         UA7g==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
+         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
+         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
+         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
+         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
+         Sb9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=V958ZyTN1p6gJ00+JwBE3K6tYpjufiw0XznD9MNyE4A=;
-        b=f0VzWurxCYno+6OSMtehkTdtr7V71cZPa9kVsYRxRtQyI+HeANGNVz7JZUZtszNVSg
-         1URq39wGP+xwItnfXKbTD8CHlQSE+7koyayC9KDayrQ9VxTIQQAPSWQCHjCGKvl3Mh4p
-         jDEBUwRgiCkvsCC3i8sSsJhmODxMQhuxyXO9my+eJzNbZ9xPeyaoGB0jfnvY5N2Y0Pzj
-         Z17y8JyJMkrK37cgaZ+fYrAjB+2tpONQs4ghdaDy/+TfwX7MVXO2AovcC7EMp5r6Lsca
-         +T9gj8i2nESV3y3TOor7AYEqmFbJwvh1WWp4A6DPTwwT62F/Wl5T/+ZWsrAugCRCqULO
-         u5pg==
-X-Gm-Message-State: AOAM533zQjCqv8eaaHLE5He+3YX6pxzb+MWqf65jyB1ZfcW4megHu5PJ
-        cx18s3lnJIwzaAR7oTNLpDtjMPOFS0tcwin3zCBgeoag3RU=
-X-Google-Smtp-Source: ABdhPJxqi17V4H/3gp3NQRAXHXczxl7SEZB9D3G4Av6jRfZBaXNOQmJKFVQ+hwx6zt1UAVIR2iENvmGI9x4MC4qJaEI=
-X-Received: by 2002:a92:c8c8:: with SMTP id c8mr202288ilq.21.1604021994023;
- Thu, 29 Oct 2020 18:39:54 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
+        b=VEgnGkMnKJjky0HH8Y7bx12XCU61E8JflywAGT8/oJlunpArbrSZasd5CZzvvkml80
+         x38PX+4J56qYGFu1X8M1a9FZA7TzDCoLIjPEAP4BQMeo2/l60i4muCCb/r5NxOxHob2N
+         7jJ9ZXo/7TJFTANwJMRqV70x8w6YruousIib45/ZMkDKJ/NgzgM+rqf0aK1QgNnHM3LZ
+         qEnGXpAfOl9iPkUrWckQ4uu4AkapqPfcAhcnSOkDDPS/rlrQhepug/HqVKGJ8IQMPzS5
+         iL3xAwQPRxB7m07kfeHtvVxKePYFCKHmQY+cw2PKNVKgJtchuXI/4ksdUoZ7fPwysKfq
+         +H7w==
+X-Gm-Message-State: AOAM530IBKs4AWJolWK1+ViU4JTll5+gJnOucIisFvB8QI0/JtE2TDZO
+        OEIk0j6BgusHLhA6V0IVaE3BdfygTAbQtnYFIg==
+X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
+X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
+ Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAOMFOmUUJ4C95J3psPBgfaFX=VCqAZEcRrf2Y0pzR+C=xxNMyg@mail.gmail.com>
- <CAK7LNARAPLxx5_NEgopyXOouQ0QWP0B3L6UsuuEL7FNNdrLa=g@mail.gmail.com>
-In-Reply-To: <CAK7LNARAPLxx5_NEgopyXOouQ0QWP0B3L6UsuuEL7FNNdrLa=g@mail.gmail.com>
-From:   Anatol Pomozov <anatol.pomozov@gmail.com>
-Date:   Thu, 29 Oct 2020 18:39:32 -0700
-Message-ID: <CAOMFOmUGNzNa9mAUeC7sLYEafeMTaECvE=GcjH1U=F5TMdusZw@mail.gmail.com>
-Subject: Re: "Permission denied" when using system-installed kernel headers
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
+Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
+ -0700 (PDT)
+Reply-To: li.anable85@gmail.com
+From:   Liliane Abel <k.griest04@gmail.com>
+Date:   Fri, 30 Oct 2020 15:59:34 +0100
+Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hello
+Dearest
 
-On Thu, Oct 29, 2020 at 6:21 PM Masahiro Yamada <masahiroy@kernel.org> wrot=
-e:
->
-> On Fri, Oct 30, 2020 at 2:35 AM Anatol Pomozov <anatol.pomozov@gmail.com>=
- wrote:
-> >
-> > Hi folks
-> >
-> > Here is a follow-up for this issue
-> > https://github.com/Open-CAS/open-cas-linux/issues/540
-> >
-> > opencas project builds an out-of-tree kernel module and uses
-> > system-level kernel header. In my case these headers are installed to
-> > /lib/modules/5.9.1-arch1-1/build
-> >
-> > So if I do
-> >
-> > $ cd /lib/modules/5.9.1-arch1-1/build
-> > $ make kernelversion
-> >
-> > I get following output:
-> >
-> > mkdir: cannot create directory =E2=80=98.tmp_86541=E2=80=99: Permission=
- denied
-> > mkdir: cannot create directory =E2=80=98.tmp_86543=E2=80=99: Permission=
- denied
-> > mkdir: cannot create directory =E2=80=98.tmp_86545=E2=80=99: Permission=
- denied
-> > mkdir: cannot create directory =E2=80=98.tmp_86547=E2=80=99: Permission=
- denied
-> > .......
-> > mkdir: cannot create directory =E2=80=98.tmp_86626=E2=80=99: Permission=
- denied
-> > mkdir: cannot create directory =E2=80=98.tmp_86628=E2=80=99: Permission=
- denied
-> > mkdir: cannot create directory =E2=80=98.tmp_86630=E2=80=99: Permission=
- denied
-> > 5.9.1-arch1
->
->
->
-> This is because you did not pass M=3D option.
->
->
->
-> /lib/modules/$(uname -r)/build
-> is used for building external modules.
->
-> You cannot work in that directory
-> since it is usually read-only.
->
->
-> You need to pass M=3D<path-to-your-module>
->
->
-> This may work for you.
->
->
->
-> $ cd  /lib/modules/$(uname -r)/build
-> $ mkdir $HOME/foo
-> $ make M=3D$HOME/foo  kernelversion
+Greeting my dear, I am Liliane Abel by name, The only daughter of late
+Mr.Benson Abel. My father is one of the top Politician in our country
+and my mother is a farmers and cocoa merchant when they were both
+alive. After the death of my mother, long ago, my father was
+controlling their business until he was poisoned by his business
+associates which he suffered and died.
 
-Thanks a lot, it works!
+Before the death of my father, He told me about (two million five
+hundred thousand united states dollars) which he deposited in the bank
+in Lome-Togo, It was the money he intended to transfer overseas for
+investment before he was poisoned. He also instructed me that I should
+seek for foreign partners in any country of my choice who will assist
+me transfer this money in overseas account where the money will be
+wisely invested.
+I am seeking for your kind assistance in the following ways:  (1) to
+provide a safe bank account into where the money will be transferred
+for investment. (2) To serve as a guardian of this fund since I am a
+girl of 19 years old. (3) To make arrangement for me to come over to
+your country to further my education. This is my reason for writing to
+you. Please if you are willing to assist me I will offer you 25% of
+the total money. Reply if  you are interested
+Best regards.
+Liliane Abel.
