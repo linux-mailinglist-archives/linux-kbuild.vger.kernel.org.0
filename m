@@ -2,147 +2,118 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 961C12A0DCA
-	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 19:50:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 811642A0E2A
+	for <lists+linux-kbuild@lfdr.de>; Fri, 30 Oct 2020 19:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727350AbgJ3St4 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 30 Oct 2020 14:49:56 -0400
-Received: from mga07.intel.com ([134.134.136.100]:22480 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726061AbgJ3Stz (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 30 Oct 2020 14:49:55 -0400
-IronPort-SDR: oiB9NLXKrkMKag4EnlRoWYWQ5HfeU/Ol6hP02Sy6zPs6rZjpmFU6aoyVB45QO3eQ20yXDwT4Jd
- F56ndaW5fP/Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9790"; a="232829746"
-X-IronPort-AV: E=Sophos;i="5.77,434,1596524400"; 
-   d="scan'208";a="232829746"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2020 11:49:54 -0700
-IronPort-SDR: oPWNfSJuaTXZIXbruLaECGIZkUJaN2Yv159RfJxmHyBn5Q8YHJZUfgJdREh8BkfuJYxukAxCwe
- 9BYmDf9aiGiA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,434,1596524400"; 
-   d="scan'208";a="304840748"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Oct 2020 11:49:52 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id CA6495B; Fri, 30 Oct 2020 20:49:51 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 2/2] uuid: Make guid_t completely internal type to the kernel
-Date:   Fri, 30 Oct 2020 20:49:50 +0200
-Message-Id: <20201030184950.26732-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201030184950.26732-1-andriy.shevchenko@linux.intel.com>
-References: <20201030184950.26732-1-andriy.shevchenko@linux.intel.com>
+        id S1726095AbgJ3S57 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 30 Oct 2020 14:57:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48756 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726061AbgJ3S57 (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 30 Oct 2020 14:57:59 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486C0C0613CF
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 11:57:59 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id t11so7655235edj.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 30 Oct 2020 11:57:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wMvqkOCJvTY91wYiJ0Aaafr9exthCCEZgMNORSR618w=;
+        b=noaau75tl6VwwplwwOoqcfHdNMG7Qc7AmR2CR9zty3qUNh/1YE/qUAqyW/nMzWLK4K
+         mtTLnJROWdbx2t7LzUh0HIR1z2HF5ilfy7DQZ+k8qwvj6tZKlsD1CvBbBauBxVOHpcr4
+         oFl8sNaPkG4+l6T6zzl28cGbUJuFEkwolNYd1k8lwNJV8Tew9V2XvMQgxEF7i24VjiCf
+         T/FCDh8g85cwTGH5HfJ1RP1p2z2p4yRnWjAp1hzi3MMvbygBT+M8P6Ri3r6iAQqk+P5J
+         Rk7stnvdreOkVDzhDzkZ00x8yKaipnxqAeUIUWWV22MMTs3m4LLMFtvxzU5fQ8ZTyblH
+         IPAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=wMvqkOCJvTY91wYiJ0Aaafr9exthCCEZgMNORSR618w=;
+        b=sdXEysdqWZUsiM+OzBMrVfBv//DmQE1riGHe1UMfMvpRI1vIS42ykptgco7dV50jaN
+         HaPlBJMJejzIHaNlpV810CX1sWXkjz6GDiOYCgImlp3DXhmsfYWsvt2+Ji54qOP7sYtx
+         9wEyg3pls57XY/z7KlPBe2uHEbQFE5fNacxHin4eKpkmDHb9uIdn45Eml4nj6foT75lb
+         ZEMsuSoxDh7xx5HUADtkFvIRPC5UXEHQ3MJBH8G88lqbsJ05cUZZqal9ST0OmXvaAkXR
+         k0mSbvxelD53nxi+T7BKUberBcB/KHzWOJpQOdC5C3VmXkMsGA1At0OgXmeQNZ0Me+U/
+         1xeA==
+X-Gm-Message-State: AOAM533bTtapqosdxAmRhTpkd/14nRxFqFwelAzVn0txzMx2R3V24LA5
+        ztC/DdpWsdS1VzWpisPclVpQYGpHiJIsdw==
+X-Google-Smtp-Source: ABdhPJwozn9SIj2Ol+x8bfIm9oZcOYEZy/Hlu+GPjh4g+q+/n/JsILUt90g3sdX2Tk0hcto69tVjUA==
+X-Received: by 2002:a50:8d48:: with SMTP id t8mr4092916edt.228.1604084277921;
+        Fri, 30 Oct 2020 11:57:57 -0700 (PDT)
+Received: from pevik ([62.201.25.198])
+        by smtp.gmail.com with ESMTPSA id 22sm3234886ejw.27.2020.10.30.11.57.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 11:57:57 -0700 (PDT)
+Date:   Fri, 30 Oct 2020 19:57:55 +0100
+From:   Petr Vorel <petr.vorel@gmail.com>
+To:     Ben Hutchings <ben@decadent.org.uk>
+Cc:     linux-kbuild@vger.kernel.org, Guillem Jover <guillem@hadrons.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH] builddeb: Fix build on non-Debian/Ubuntu distros
+Message-ID: <20201030185755.GA559821@pevik>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20201030165607.290612-1-petr.vorel@gmail.com>
+ <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The guid_t type was defined in UAPI by mistake.
-Keep it an internal type and leave uuid_le UAPI
-for it's only user, i.e. MEI.
+Hi Ben,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: converted uuid_le_cmp() to old type
- include/linux/uuid.h      | 20 ++++++++++++++++----
- include/uapi/linux/uuid.h | 14 +++++---------
- 2 files changed, 21 insertions(+), 13 deletions(-)
+first, thanks for your review.
 
-diff --git a/include/linux/uuid.h b/include/linux/uuid.h
-index 8cdc0d3567cd..5be158a49e11 100644
---- a/include/linux/uuid.h
-+++ b/include/linux/uuid.h
-@@ -8,15 +8,25 @@
- #ifndef _LINUX_UUID_H_
- #define _LINUX_UUID_H_
- 
--#include <uapi/linux/uuid.h>
- #include <linux/string.h>
- 
- #define UUID_SIZE 16
- 
-+typedef struct {
-+	__u8 b[UUID_SIZE];
-+} guid_t;
-+
- typedef struct {
- 	__u8 b[UUID_SIZE];
- } uuid_t;
- 
-+#define GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)			\
-+((guid_t)								\
-+{{ (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
-+   (b) & 0xff, ((b) >> 8) & 0xff,					\
-+   (c) & 0xff, ((c) >> 8) & 0xff,					\
-+   (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }})
-+
- #define UUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)			\
- ((uuid_t)								\
- {{ ((a) >> 24) & 0xff, ((a) >> 16) & 0xff, ((a) >> 8) & 0xff, (a) & 0xff, \
-@@ -97,10 +107,12 @@ extern const u8 uuid_index[16];
- int guid_parse(const char *uuid, guid_t *u);
- int uuid_parse(const char *uuid, uuid_t *u);
- 
--/* backwards compatibility, don't use in new code */
--static inline int uuid_le_cmp(const guid_t u1, const guid_t u2)
-+/* MEI UUID type, don't use anywhere else */
-+#include <uapi/linux/uuid.h>
-+
-+static inline int uuid_le_cmp(const uuid_le u1, const uuid_le u2)
- {
--	return memcmp(&u1, &u2, sizeof(guid_t));
-+	return memcmp(&u1, &u2, sizeof(uuid_le));
- }
- 
- #endif
-diff --git a/include/uapi/linux/uuid.h b/include/uapi/linux/uuid.h
-index e5a7eecef7c3..c3e175f686f4 100644
---- a/include/uapi/linux/uuid.h
-+++ b/include/uapi/linux/uuid.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
- /*
-- * UUID/GUID definition
-+ * MEI UUID definition
-  *
-  * Copyright (C) 2010, Intel Corp.
-  *	Huang Ying <ying.huang@intel.com>
-@@ -22,21 +22,17 @@
- 
- typedef struct {
- 	__u8 b[16];
--} guid_t;
-+} uuid_le;
- 
--#define GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)			\
--((guid_t)								\
-+#define UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)		\
-+((uuid_le)								\
- {{ (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
-    (b) & 0xff, ((b) >> 8) & 0xff,					\
-    (c) & 0xff, ((c) >> 8) & 0xff,					\
-    (d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }})
- 
--/* backwards compatibility, don't use in new code */
--typedef guid_t uuid_le;
--#define UUID_LE(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)		\
--	GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)
- #define NULL_UUID_LE							\
- 	UUID_LE(0x00000000, 0x0000, 0x0000, 0x00, 0x00, 0x00, 0x00,	\
--	     0x00, 0x00, 0x00, 0x00)
-+		0x00, 0x00, 0x00, 0x00)
- 
- #endif /* _UAPI_LINUX_UUID_H_ */
--- 
-2.28.0
+> On Fri, 2020-10-30 at 17:56 +0100, Petr Vorel wrote:
+> > This fixes make bindeb-pkg for RPM based distros, which don't have
+> > dpkg-dev (and thus not /usr/bin/dpkg-buildpackage), which sets
+> > $DEB_RULES_REQUIRES_ROOT.
 
+> > Fixes: 3e8541803624 ("builddeb: Enable rootless builds")
+
+> This doesn't seem to fix a bug, and in fact it would introduce one.
+
+> > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> [...]
+> > --- a/scripts/package/builddeb
+> > +++ b/scripts/package/builddeb
+> > @@ -37,7 +37,7 @@ create_package() {
+> >                 | xargs -r0 md5sum > DEBIAN/md5sums"
+
+> >         # Fix ownership and permissions
+> > -       if [ "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
+> > +       if [ -z "$DEB_RULES_REQUIRES_ROOT" -o "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
+> >                 dpkg_deb_opts="--root-owner-group"
+> >         else
+> >                 chown -R root:root "$pdir"
+
+> This is the wrong default behaviour; it will cause a regression with
+> older versions of dpkg that don't support this option.
+Sorry for wrong report. I tested it on Debian, but only on unstable.
+
+> If you invoke this script directly and do not use dpkg-buildpackage
+> (which I don't think is really supported anyway) then you must either
+> do so as root or use fakeroot (as dpkg-buildpackage does by default).
+Well, both bindeb-pkg and deb-pkg use dpkg-buildpackage.
+Thus fakeroot is used by default.
+
+/bin/sh -c dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -d -b -nc -uc
+
+The root cause is that while calling chown -R root:root "$pdir" is ok on Debian,
+it's refused for fakeroot in openSUSE. I can run it with
+DEB_RULES_REQUIRES_ROOT=no, that should fix that, but I'd prefer it were working
+by default (although I admit not many people need it).
+I reported it because the default setup worked before 3e8541803624.
+I'll have a look what configuration (permission) is missing on openSUSE to allow
+chown -R root:root for non-root user.
+
+> Ben.
+
+Kind regards,
+Petr
