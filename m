@@ -2,156 +2,371 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58FAC2A33A8
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 20:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8CD52A3562
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 21:51:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbgKBTFu (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Nov 2020 14:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35982 "EHLO
+        id S1726506AbgKBUvk (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Nov 2020 15:51:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgKBTFu (ORCPT
+        with ESMTP id S1725912AbgKBUvD (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Nov 2020 14:05:50 -0500
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2412DC0617A6
-        for <linux-kbuild@vger.kernel.org>; Mon,  2 Nov 2020 11:05:50 -0800 (PST)
-Received: by mail-ed1-x544.google.com with SMTP id l16so15471498eds.3
-        for <linux-kbuild@vger.kernel.org>; Mon, 02 Nov 2020 11:05:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=51QvJ2cz4Zjtw8OeQ5bUSC4AjF7HKeYeRL6c7egcABQ=;
-        b=S1vfMazZDDvwf8C7ZJHtQRVZWKQLQmFNjpBzjLISGflv3A0AiUPtPsri3JvbvN61PB
-         A0tA8yV8fx1yL6Tj3bpt84oHClDFGcR4CxUywhNUMWNXGItggK1lNQ5C4+QM8ic7cYdt
-         7L+tlqk5M02IcjUu9DMZnw7I3Ywh2Lth2MrreswkqvtzMHW6LbpQmFbZ8lsZ0lu1atPj
-         keuA7vlh5trsaYWCZCM9BtSOuCp+Q9fooUkjnpxAtoawxRfFC+DrrfVe0G65CrwIGJ/i
-         Y7n74V31sngK7hJhecVpT7IPCUwGKVwK8U2Z8rdQSxD67/O4I2AISiA0KQQVzFv8j5sV
-         tTEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=51QvJ2cz4Zjtw8OeQ5bUSC4AjF7HKeYeRL6c7egcABQ=;
-        b=JIDtYMLx7ILpNRbQIx4jy/Rtl2Ou6r3o41xzRayInBKcCsNUBQnjYgassF+U7bcL0t
-         pIuewZhpGFOZ+I9DeFOjZS3/aRdZHd9fs/YDn3wmly9aBOniuS18cmf5GpxLXkxmXJHV
-         ueA9b6JScnGzLWbUs33uTY+Aq7usYTHBdgqWSV+J9aLsQeaNnP3H+eY/KCGclaJz+zd+
-         yJcmTnXe3EdrLe4XmipGNJ4i70d20lRj/9J55d/WVZ5X2dbOWv3AXWR4GVMIEo6ADWX6
-         JJ7LPnwmDbT++XI0vwSxOrpiu9U4vT3MHM5lgZeQmDLep+ftLMBSSbAW4q2bx9RNvUFd
-         8Qfw==
-X-Gm-Message-State: AOAM530oNcFKSvRbkhL1fZrl5IVTH97lLMhbK5Y4NLkpjK4Uq4zE4rFp
-        xhb8gmRCJDQUewo6s21LBVyUoL9sKj/2Hg==
-X-Google-Smtp-Source: ABdhPJz/JtQXGQTP0wls3refQptKiPNlj/5GdSzKKhWJFvUBMI4PazUX2fDLS1pLQkEuOLfK1n+0Ig==
-X-Received: by 2002:aa7:c44d:: with SMTP id n13mr2079141edr.138.1604343948812;
-        Mon, 02 Nov 2020 11:05:48 -0800 (PST)
-Received: from pevik ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id dp1sm9964624ejc.74.2020.11.02.11.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 11:05:48 -0800 (PST)
-Date:   Mon, 2 Nov 2020 20:05:46 +0100
-From:   Petr Vorel <petr.vorel@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Ben Hutchings <ben@decadent.org.uk>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Guillem Jover <guillem@hadrons.org>
-Subject: Re: [PATCH] builddeb: Fix build on non-Debian/Ubuntu distros
-Message-ID: <20201102190546.GA1884@pevik>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20201030165607.290612-1-petr.vorel@gmail.com>
- <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
- <20201030185755.GA559821@pevik>
- <CAK7LNATETTMobRu26yoDhinv7mWOyg5JkzL5UGBtPS4KB37r6g@mail.gmail.com>
+        Mon, 2 Nov 2020 15:51:03 -0500
+X-Greylist: delayed 447 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 02 Nov 2020 12:51:02 PST
+Received: from mail.kloenk.de (mail.kloenk.de [IPv6:2a0f:4ac0::6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA07DC0617A6
+        for <linux-kbuild@vger.kernel.org>; Mon,  2 Nov 2020 12:51:02 -0800 (PST)
+From:   Finn Behrens <me@kloenk.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kloenk.de; s=mail;
+        t=1604349810; bh=smrUUEwdgX5GufKkwQLLKrC4cfkT1AA9ldq6/ChePWk=;
+        h=From:Subject:To:Cc:Date;
+        b=meRCpPb1VcpMsZVbDqKlJtqvreyPQvKoUehfmrG3hRjqAn8Xq7vjlsqN0FoRErrWo
+         /yKcuP1fwKqCfG+OtFmLpyAom2n/c2aqPesCWJ3pDAz3HmsnJ5JFaAXg+ieXXoP/GF
+         BcnuXDTu3HJZohm4vwZm6wYMUKqEAK1u2gG9N3oY=
+Subject: [PATCH] Fix most Shebang lines
+To:     linux-kbuild@vger.kernel.org
+Cc:     ujjwalkumar0501@gmail.com
+Message-ID: <9edba305-da9d-6107-5644-7de60a326af9@kloenk.de>
+Date:   Mon, 2 Nov 2020 21:43:29 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATETTMobRu26yoDhinv7mWOyg5JkzL5UGBtPS4KB37r6g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-> On Sat, Oct 31, 2020 at 3:58 AM Petr Vorel <petr.vorel@gmail.com> wrote:
+Change every shebang which does not need an argument to use /usr/bin/env.
+This is needed as not every distro has everything under /usr/bin,
+sometimes not even bash.
 
-> > Hi Ben,
-
-> > first, thanks for your review.
-
-> > > On Fri, 2020-10-30 at 17:56 +0100, Petr Vorel wrote:
-> > > > This fixes make bindeb-pkg for RPM based distros, which don't have
-> > > > dpkg-dev (and thus not /usr/bin/dpkg-buildpackage), which sets
-> > > > $DEB_RULES_REQUIRES_ROOT.
-
-> > > > Fixes: 3e8541803624 ("builddeb: Enable rootless builds")
-
-> > > This doesn't seem to fix a bug, and in fact it would introduce one.
-
-> > > > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> > > [...]
-> > > > --- a/scripts/package/builddeb
-> > > > +++ b/scripts/package/builddeb
-> > > > @@ -37,7 +37,7 @@ create_package() {
-> > > >                 | xargs -r0 md5sum > DEBIAN/md5sums"
-
-> > > >         # Fix ownership and permissions
-> > > > -       if [ "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
-> > > > +       if [ -z "$DEB_RULES_REQUIRES_ROOT" -o "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
-> > > >                 dpkg_deb_opts="--root-owner-group"
-> > > >         else
-> > > >                 chown -R root:root "$pdir"
-
-> > > This is the wrong default behaviour; it will cause a regression with
-> > > older versions of dpkg that don't support this option.
-> > Sorry for wrong report. I tested it on Debian, but only on unstable.
-
-> > > If you invoke this script directly and do not use dpkg-buildpackage
-> > > (which I don't think is really supported anyway) then you must either
-> > > do so as root or use fakeroot (as dpkg-buildpackage does by default).
-> > Well, both bindeb-pkg and deb-pkg use dpkg-buildpackage.
-> > Thus fakeroot is used by default.
-
-> > /bin/sh -c dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -d -b -nc -uc
-
-> > The root cause is that while calling chown -R root:root "$pdir" is ok on Debian,
-> > it's refused for fakeroot in openSUSE. I can run it with
-> > DEB_RULES_REQUIRES_ROOT=no, that should fix that, but I'd prefer it were working
-> > by default (although I admit not many people need it).
-> > I reported it because the default setup worked before 3e8541803624.
-> > I'll have a look what configuration (permission) is missing on openSUSE to allow
-> > chown -R root:root for non-root user.
-
-> > > Ben.
-
-> > Kind regards,
-> > Petr
-
-
-
-> I do not know what is different on openSUSE, but
-> my understanding is like follows:
-
-
-
-> For old dpkg tools (which does not know "Rules-Requires-Root: no"),
-> $DEB_RULES_REQUIRES_ROOT is empty.
-> -> We run chown -R root:root like before.
-
-
-> For new dpkg tools (which knows "Rules-Requires-Root: no"),
-> $DEB_RULES_REQUIRES_ROOT is "no".
-> -> We pass --root-owner-group to dpkg-deb.
-
-Yes. I'm using dpkg 1.19.0.4, which knows "Rules-Requires-Root: no", but does
-not know --rules-requires-root (added in 1.19.1). export
-DEB_RULES_REQUIRES_ROOT=no fixes the problem for my version (but that does not
-break the build). I just wanted to save time for the others, but 1) there are
-probably not many people using OBS to build Debian packages and 2) maybe it's
-just me who does not know it.
-
-It looks to me debhelper is not used for kernel Debian packaing, right?
-At least building works even I don't have it.
-
-As a result of this I'll also update openSUSE dpkg package to latest release.
-
-Thanks all for explanation.
+Signed-off-by: Finn Behrens <me@kloenk.de>
+---
+Hi,
+Distros like NixOS don't have  /usr/bin/bash but only /usr/bin/env.
+This patch only changes the interpreter patch if no arguments are
+needed, as env does not support those.
+NixOS users are hitting this problems when calling ./scripts/config.
 
 Kind regards,
-Petr
+Finn Behrens
+
+Documentation/sphinx/parse-headers.pl | 2 +-
+Documentation/target/tcm_mod_builder.py | 2 +-
+Documentation/trace/postprocess/decode_msr.py | 2 +-
+Documentation/trace/postprocess/trace-pagealloc-postprocess.pl | 2 +-
+Documentation/trace/postprocess/trace-vmscan-postprocess.pl | 2 +-
+arch/ia64/scripts/unwcheck.py | 2 +-
+scripts/bloat-o-meter | 2 +-
+scripts/config | 2 +-
+scripts/diffconfig | 2 +-
+scripts/get_abi.pl | 2 +-
+scripts/show_delta | 2 +-
+scripts/sphinx-pre-install | 2 +-
+scripts/split-man.pl | 2 +-
+scripts/tracing/draw_functrace.py | 2 +-
+tools/perf/python/tracepoint.py | 2 +-
+tools/perf/python/twatch.py | 2 +-
+tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py | 2 +-
+tools/testing/ktest/compare-ktest-sample.pl | 2 +-
+tools/testing/kunit/kunit.py | 2 +-
+tools/testing/kunit/kunit_tool_test.py | 2 +-
+tools/testing/selftests/bpf/test_offload.py | 2 +-
+.../selftests/drivers/net/mlxsw/sharedbuffer_configuration.py | 2 +-
+tools/testing/selftests/kselftest/prefix.pl | 2 +-
+tools/testing/selftests/net/devlink_port_split.py | 2 +-
+tools/testing/selftests/tc-testing/tdc_batch.py | 2 +-
+tools/testing/selftests/tc-testing/tdc_multibatch.py | 2 +-
+26 files changed, 26 insertions(+), 26 deletions(-)
+
+diff --git a/Documentation/sphinx/parse-headers.pl
+b/Documentation/sphinx/parse-headers.pl
+index 1910079f984f..b063f2f1cfb2 100755
+--- a/Documentation/sphinx/parse-headers.pl
++++ b/Documentation/sphinx/parse-headers.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+use strict;
+use Text::Tabs;
+use Getopt::Long;
+diff --git a/Documentation/target/tcm_mod_builder.py
+b/Documentation/target/tcm_mod_builder.py
+index 1548d8420499..54492aa813b9 100755
+--- a/Documentation/target/tcm_mod_builder.py
++++ b/Documentation/target/tcm_mod_builder.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# The TCM v4 multi-protocol fabric module generation script for
+drivers/target/$NEW_MOD
+#
+# Copyright (c) 2010 Rising Tide Systems
+diff --git a/Documentation/trace/postprocess/decode_msr.py
+b/Documentation/trace/postprocess/decode_msr.py
+index 0ab40e0db580..aa9cc7abd5c2 100644
+--- a/Documentation/trace/postprocess/decode_msr.py
++++ b/Documentation/trace/postprocess/decode_msr.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# add symbolic names to read_msr / write_msr in trace
+# decode_msr msr-index.h < trace
+import sys
+diff --git
+a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+index 0a120aae33ce..b9b7d80c2f9d 100644
+--- a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
++++ b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# This is a POC (proof of concept or piece of crap, take your pick) for
+reading the
+# text representation of trace output related to page allocation. It
+makes an attempt
+# to extract some high-level information on what is going on. The
+accuracy of the parser
+diff --git a/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
+b/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
+index 995da15b16ca..2f4e39875fb3 100644
+--- a/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
++++ b/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# This is a POC for reading the text representation of trace output
+related to
+# page reclaim. It makes an attempt to extract some high-level
+information on
+# what is going on. The accuracy of the parser may vary
+diff --git a/arch/ia64/scripts/unwcheck.py b/arch/ia64/scripts/unwcheck.py
+index c55276e31b6b..bfd1b671e35f 100644
+--- a/arch/ia64/scripts/unwcheck.py
++++ b/arch/ia64/scripts/unwcheck.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0
+#
+# Usage: unwcheck.py FILE
+diff --git a/scripts/bloat-o-meter b/scripts/bloat-o-meter
+index d7ca46c612b3..652e9542043f 100755
+--- a/scripts/bloat-o-meter
++++ b/scripts/bloat-o-meter
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+#
+# Copyright 2004 Matt Mackall <mpm@selenic.com>
+#
+diff --git a/scripts/config b/scripts/config
+index eee5b7f3a092..8c8d7c3d7acc 100755
+--- a/scripts/config
++++ b/scripts/config
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/usr/bin/env bash
+# SPDX-License-Identifier: GPL-2.0
+# Manipulate options in a .config file from the command line
+
+diff --git a/scripts/diffconfig b/scripts/diffconfig
+index 89abf777f197..627eba5849b5 100755
+--- a/scripts/diffconfig
++++ b/scripts/diffconfig
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0
+#
+# diffconfig - a tool to compare .config files.
+diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+index 2cb592f8eba4..f9c071bb283c 100755
+--- a/scripts/get_abi.pl
++++ b/scripts/get_abi.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# SPDX-License-Identifier: GPL-2.0
+
+use strict;
+diff --git a/scripts/show_delta b/scripts/show_delta
+index 264399307c4f..28e67e178194 100755
+--- a/scripts/show_delta
++++ b/scripts/show_delta
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# show_deltas: Read list of printk messages instrumented with
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 40fa6923e80a..828a8615a918 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# SPDX-License-Identifier: GPL-2.0-or-later
+use strict;
+
+diff --git a/scripts/split-man.pl b/scripts/split-man.pl
+index c3db607ee9ec..96bd99dc977a 100755
+--- a/scripts/split-man.pl
++++ b/scripts/split-man.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# SPDX-License-Identifier: GPL-2.0
+#
+# Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+diff --git a/scripts/tracing/draw_functrace.py
+b/scripts/tracing/draw_functrace.py
+index b65735758520..74f8aadfd4cb 100755
+--- a/scripts/tracing/draw_functrace.py
++++ b/scripts/tracing/draw_functrace.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0-only
+
+"""
+diff --git a/tools/perf/python/tracepoint.py
+b/tools/perf/python/tracepoint.py
+index eb76f6516247..461848c7f57d 100755
+--- a/tools/perf/python/tracepoint.py
++++ b/tools/perf/python/tracepoint.py
+@@ -1,4 +1,4 @@
+-#! /usr/bin/python
++#! /usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0
+# -*- python -*-
+# -*- coding: utf-8 -*-
+diff --git a/tools/perf/python/twatch.py b/tools/perf/python/twatch.py
+index ff87ccf5b708..04f3db29b9bc 100755
+--- a/tools/perf/python/twatch.py
++++ b/tools/perf/python/twatch.py
+@@ -1,4 +1,4 @@
+-#! /usr/bin/python
++#! /usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0-only
+# -*- python -*-
+# -*- coding: utf-8 -*-
+diff --git a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
+b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
+index 3c47865bb247..e15e20696d17 100755
+--- a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
++++ b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0-only
+# -*- coding: utf-8 -*-
+#
+diff --git a/tools/testing/ktest/compare-ktest-sample.pl
+b/tools/testing/ktest/compare-ktest-sample.pl
+index 4118eb4a842d..ebea21d0a1be 100755
+--- a/tools/testing/ktest/compare-ktest-sample.pl
++++ b/tools/testing/ktest/compare-ktest-sample.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# SPDX-License-Identifier: GPL-2.0
+
+open (IN,"ktest.pl");
+diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+index ebf5f5763dee..26df1de7c5a1 100755
+--- a/tools/testing/kunit/kunit.py
++++ b/tools/testing/kunit/kunit.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0
+#
+# A thin wrapper on top of the KUnit Kernel
+diff --git a/tools/testing/kunit/kunit_tool_test.py
+b/tools/testing/kunit/kunit_tool_test.py
+index 99c3c5671ea4..349125b8e93a 100755
+--- a/tools/testing/kunit/kunit_tool_test.py
++++ b/tools/testing/kunit/kunit_tool_test.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0
+#
+# A collection of tests for tools/testing/kunit/kunit.py
+diff --git a/tools/testing/selftests/bpf/test_offload.py
+b/tools/testing/selftests/bpf/test_offload.py
+index 43c9cda199b8..f736d34b89e1 100755
+--- a/tools/testing/selftests/bpf/test_offload.py
++++ b/tools/testing/selftests/bpf/test_offload.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+
+# Copyright (C) 2017 Netronome Systems, Inc.
+# Copyright (c) 2019 Mellanox Technologies. All rights reserved
+diff --git
+a/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
+b/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
+index 0d4b9327c9b3..2223337eed0c 100755
+---
+a/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
++++
+b/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python
++#!/usr/bin/env python
+# SPDX-License-Identifier: GPL-2.0
+
+import subprocess
+diff --git a/tools/testing/selftests/kselftest/prefix.pl
+b/tools/testing/selftests/kselftest/prefix.pl
+index 31f7c2a0a8bd..12a7f4ca2684 100755
+--- a/tools/testing/selftests/kselftest/prefix.pl
++++ b/tools/testing/selftests/kselftest/prefix.pl
+@@ -1,4 +1,4 @@
+-#!/usr/bin/perl
++#!/usr/bin/env perl
+# SPDX-License-Identifier: GPL-2.0
+# Prefix all lines with "# ", unbuffered. Command being piped in may need
+# to have unbuffering forced with "stdbuf -i0 -o0 -e0 $cmd".
+diff --git a/tools/testing/selftests/net/devlink_port_split.py
+b/tools/testing/selftests/net/devlink_port_split.py
+index 58bb7e9b88ce..834066d465fc 100755
+--- a/tools/testing/selftests/net/devlink_port_split.py
++++ b/tools/testing/selftests/net/devlink_port_split.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0
+
+from subprocess import PIPE, Popen
+diff --git a/tools/testing/selftests/tc-testing/tdc_batch.py
+b/tools/testing/selftests/tc-testing/tdc_batch.py
+index 995f66ce43eb..35d5d9493784 100755
+--- a/tools/testing/selftests/tc-testing/tdc_batch.py
++++ b/tools/testing/selftests/tc-testing/tdc_batch.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+
+"""
+tdc_batch.py - a script to generate TC batch file
+diff --git a/tools/testing/selftests/tc-testing/tdc_multibatch.py
+b/tools/testing/selftests/tc-testing/tdc_multibatch.py
+index 5e7237952e49..48e1f17ff2e8 100755
+--- a/tools/testing/selftests/tc-testing/tdc_multibatch.py
++++ b/tools/testing/selftests/tc-testing/tdc_multibatch.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/python3
++#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0
+"""
+tdc_multibatch.py - a thin wrapper over tdc_batch.py to generate
+multiple batch
+--
+2.28.0
+
+
