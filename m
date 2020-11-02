@@ -2,79 +2,83 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2ACA2A239A
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 04:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC3A2A239C
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 04:41:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbgKBDk5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 1 Nov 2020 22:40:57 -0500
-Received: from conuserg-08.nifty.com ([210.131.2.75]:56789 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727461AbgKBDk5 (ORCPT
+        id S1727498AbgKBDlz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 1 Nov 2020 22:41:55 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:39611 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727461AbgKBDly (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 1 Nov 2020 22:40:57 -0500
-Received: from grover.RMN.KIBA.LAB.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 0A23e2Gx007813;
-        Mon, 2 Nov 2020 12:40:08 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 0A23e2Gx007813
+        Sun, 1 Nov 2020 22:41:54 -0500
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 0A23fTqi011088
+        for <linux-kbuild@vger.kernel.org>; Mon, 2 Nov 2020 12:41:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0A23fTqi011088
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1604288408;
-        bh=gpml3RQZVXbbe4n9D9DZTs3pRYLXmv+1iU0BKpxfrxE=;
-        h=From:To:Cc:Subject:Date:From;
-        b=sgRY7l2ZT+Dy/mN7tUQTE57CAath2WYbskYyiUF9CTwvLp8/OzeEdHqcCqidAyVnO
-         T9RadavsgTx5ykiOfQF+PEpuu+YMQRhsA+d0Fjg0k2MCkkmHsbmsbKNWnayERant9m
-         0oM4GhUd9kSdRsd8HhOCHmRnEUhQBlVHxDVarJN3cpPR9hMD8WIe4jbN6DVORyC+1E
-         elCVt7A+4rHZe1lPInJy1JyHvxswqhJjEc3cRAE8ohH8QJuQn89t9JYgxpVBKXUSe7
-         sDWN1JrcKOzqvSxVSxM2DPYmZ/pGMmeXlhTEPUYImEX4pF37VnXLE1gvabwxWOuwXO
-         QdcpCxNlJ7eKw==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Boris Kolpackov <boris@codesynthesis.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] kconfig: qconf: show Qt version in the About dialog
-Date:   Mon,  2 Nov 2020 12:40:01 +0900
-Message-Id: <20201102034001.409945-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        s=dec2015msa; t=1604288490;
+        bh=yNJRBGTAq7Odtzod8U+nLm0OItNGRvmNlP2pO6gxjNY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=b15lUUepPjweMP0FmecBQlEHP4Pf/bLMrS/5WIkwoIj8kpZw6nDToq1+Ez2v/L2UE
+         dMZHM6j06yvS4FPcy+xUhz9PKbhybblGiG9FeSzc6X5d+dhkIdnsB7zwZwthcxYMm2
+         W0b7vCvw4c+PMEtYFSsRK7lH0RYZiAG3jCN0foJkOWgq6gITzd2COLoGUaik+yVFqW
+         QQmvd97QLAexcGtvF4K9dkXX9/+RtsUePgRUADuDmMlLVjQBQtRH2xsi9tRGlfUMMe
+         hrk+K1kwNtoSnSo2fzqJ5gwHFvSsxHuBpABnWZThYuIVDwa6og4IusUbesa58vcptm
+         aXoMOjgI3gyUg==
+X-Nifty-SrcIP: [209.85.210.173]
+Received: by mail-pf1-f173.google.com with SMTP id z3so3516147pfz.6
+        for <linux-kbuild@vger.kernel.org>; Sun, 01 Nov 2020 19:41:30 -0800 (PST)
+X-Gm-Message-State: AOAM532oMm8dZbk+ilzFfRzaI1H4wMCin3vj94Bq/or4dwXK+83sKBZp
+        g2GpUyvG+HIh2Qm1ZJMEjVO+8UiH717sXBJM9+0=
+X-Google-Smtp-Source: ABdhPJysbG0ChYkt+kzHskpni7SnIDVIjrFtN7xEfKe2ArKwcquc1h2fRC7gYOEIXRQPZV/jkOJVVWhSqClP0ZsP5sE=
+X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr4358839pjt.87.1604288489546;
+ Sun, 01 Nov 2020 19:41:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201029155152.2467-1-boris@codesynthesis.com> <20201029155152.2467-2-boris@codesynthesis.com>
+In-Reply-To: <20201029155152.2467-2-boris@codesynthesis.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 2 Nov 2020 12:40:52 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAShmEWzL8fen4A-rRfeRYpe_tOTr66rtsLnbRnXGg2wag@mail.gmail.com>
+Message-ID: <CAK7LNAShmEWzL8fen4A-rRfeRYpe_tOTr66rtsLnbRnXGg2wag@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kconfig: make lkc.h self-sufficient #include-wise
+To:     Boris Kolpackov <boris@codesynthesis.com>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-You can get the Qt version by running "pkg-config --modversion Qt5Core"
-or something, but this might be useful to get the runtime Qt version
-more easily. Go to the menu "Help" -> "About", then you can see it.
+On Fri, Oct 30, 2020 at 12:52 AM Boris Kolpackov
+<boris@codesynthesis.com> wrote:
+>
+> Signed-off-by: Boris Kolpackov <boris@codesynthesis.com>
+> ---
+>  scripts/kconfig/lkc.h | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+> index 8454649..3e2c70e 100644
+> --- a/scripts/kconfig/lkc.h
+> +++ b/scripts/kconfig/lkc.h
+> @@ -6,6 +6,10 @@
+>  #ifndef LKC_H
+>  #define LKC_H
+>
+> +#include <stdio.h>
+> +#include <assert.h>
+> +#include <stdlib.h>
+> +
+>  #include "expr.h"
+>
+>  #ifdef __cplusplus
+> --
+> 2.29.0
+>
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Applied to linux-kbuild.
 
- scripts/kconfig/qconf.cc | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/kconfig/qconf.cc b/scripts/kconfig/qconf.cc
-index cbe749b44b1a..d000869b787c 100644
---- a/scripts/kconfig/qconf.cc
-+++ b/scripts/kconfig/qconf.cc
-@@ -1799,10 +1799,13 @@ void ConfigMainWindow::showIntro(void)
- void ConfigMainWindow::showAbout(void)
- {
- 	static const QString str = "qconf is Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>.\n"
--		"Copyright (C) 2015 Boris Barbulovski <bbarbulovski@gmail.com>.\n\n"
--		"Bug reports and feature request can also be entered at http://bugzilla.kernel.org/\n";
-+		"Copyright (C) 2015 Boris Barbulovski <bbarbulovski@gmail.com>.\n"
-+		"\n"
-+		"Bug reports and feature request can also be entered at http://bugzilla.kernel.org/\n"
-+		"\n"
-+		"Qt Version: ";
- 
--	QMessageBox::information(this, "qconf", str);
-+	QMessageBox::information(this, "qconf", str + qVersion());
- }
- 
- void ConfigMainWindow::saveSettings(void)
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
