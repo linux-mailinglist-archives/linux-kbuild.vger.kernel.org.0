@@ -2,102 +2,132 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0692A25F2
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 09:18:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C47D62A2630
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 09:36:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728147AbgKBISW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Nov 2020 03:18:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29408 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727802AbgKBISW (ORCPT
+        id S1728046AbgKBIgq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Nov 2020 03:36:46 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:41667 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727972AbgKBIgq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Nov 2020 03:18:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604305100;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:in-reply-to:in-reply-to:  references:references;
-        bh=p2/Gm5Zzs68XWZ1TIg04nCFfNOqnMxjP5SvlL/3RU60=;
-        b=OK1ZF3ds9m/zPPDtfYsnIGG0sV1Tcpx0kuiguoelJL3P42Gv8aoAX9fw5ytvBGiYv/uGaF
-        EMpzDIdmuv1tzAaRiQOBsqS8dP4+2Tn5V2IuTpH+aFiQVvdmJbxV1dNDXU5sKaPNXR68oq
-        5UD68L5df+IseCrTGRdahwze9Hab+PM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-l823rQMPM8OOJ7PVoyo1Jw-1; Mon, 02 Nov 2020 03:18:16 -0500
-X-MC-Unique: l823rQMPM8OOJ7PVoyo1Jw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A2AD6D581;
-        Mon,  2 Nov 2020 08:18:15 +0000 (UTC)
-Received: from tucnak.zalov.cz (ovpn-113-127.ams2.redhat.com [10.36.113.127])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id BE8C619C78;
-        Mon,  2 Nov 2020 08:18:14 +0000 (UTC)
-Received: from tucnak.zalov.cz (localhost [127.0.0.1])
-        by tucnak.zalov.cz (8.16.1/8.16.1) with ESMTPS id 0A28IBmo2320689
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Mon, 2 Nov 2020 09:18:11 +0100
-Received: (from jakub@localhost)
-        by tucnak.zalov.cz (8.16.1/8.16.1/Submit) id 0A28IAlA2320688;
-        Mon, 2 Nov 2020 09:18:10 +0100
-Date:   Mon, 2 Nov 2020 09:18:10 +0100
-From:   Jakub Jelinek <jakub@redhat.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-toolchains@vger.kernel.org
-Subject: Re: [PATCH] Kbuild: implement support for DWARF5
-Message-ID: <20201102081810.GB3788@tucnak>
-Reply-To: Jakub Jelinek <jakub@redhat.com>
-References: <20201022012106.1875129-1-ndesaulniers@google.com>
- <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+        Mon, 2 Nov 2020 03:36:46 -0500
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 0A28aQHs002364
+        for <linux-kbuild@vger.kernel.org>; Mon, 2 Nov 2020 17:36:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0A28aQHs002364
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1604306187;
+        bh=grSolXCy+/no3D3+gQ4l6LieN/TOYk2f98SssaRVw5o=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=OXBFmN92gNVLj+az8RbdvBvGP1OVrZSH9UfezKZL/adV+hcVJPebT8QCF+XweeK8T
+         PMb0S5NFMg+OUy3Q4XA3yFj1h/kMc5Ps0yp7NCK4nxByIOma2eKcbYh5u8xmMsa9PN
+         u7l8gcepSy5hYaFJlN3Jry6FsEuPmbwund0IByWPKjloDdwOVE4iW5o+SZhELAzCzf
+         faHKx3bXfXDWYMjFKlT939hdiU3b/JZUra2eAmHbwSmkl8wBcmtf8JG9hgxQTFwvRU
+         17UV4zGVkcOhsQu+IftjGtlbCO/US4nwtcGbJOrZh+AjHlObUOqLXvqN19IVzRAhQY
+         XA9S+/4lJ6nuA==
+X-Nifty-SrcIP: [209.85.210.170]
+Received: by mail-pf1-f170.google.com with SMTP id x13so10458554pfa.9
+        for <linux-kbuild@vger.kernel.org>; Mon, 02 Nov 2020 00:36:27 -0800 (PST)
+X-Gm-Message-State: AOAM5339ZKSsk3aS1kWaG6V0PuKLKp9ZiDniIoKiEYVfmRqDfcRvdNRt
+        Vp04h2/ukXRousrJcOjSHduF3CpMYNbGdJSgIFQ=
+X-Google-Smtp-Source: ABdhPJy+iO4dRPqPD2izQokmUE923i0ognUO6wplpBAjbWyvfWGKYMh5fznP+Hsvql9e1/CbCGSfyUIu/yhOY6rsTws=
+X-Received: by 2002:a17:90b:4b84:: with SMTP id lr4mr16854662pjb.153.1604306186332;
+ Mon, 02 Nov 2020 00:36:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20201030165607.290612-1-petr.vorel@gmail.com> <12abc099c30681e88107bb468ba1795f197f02f8.camel@decadent.org.uk>
+ <20201030185755.GA559821@pevik>
+In-Reply-To: <20201030185755.GA559821@pevik>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Mon, 2 Nov 2020 17:35:49 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATETTMobRu26yoDhinv7mWOyg5JkzL5UGBtPS4KB37r6g@mail.gmail.com>
+Message-ID: <CAK7LNATETTMobRu26yoDhinv7mWOyg5JkzL5UGBtPS4KB37r6g@mail.gmail.com>
+Subject: Re: [PATCH] builddeb: Fix build on non-Debian/Ubuntu distros
+To:     Petr Vorel <petr.vorel@gmail.com>
+Cc:     Ben Hutchings <ben@decadent.org.uk>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Guillem Jover <guillem@hadrons.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 11:20:41AM +0900, Masahiro Yamada wrote:
-> > --- /dev/null
-> > +++ b/scripts/test_dwarf5_support.sh
-> > @@ -0,0 +1,4 @@
-> > +#!/bin/sh
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +set -eu
-> > +echo ".file 0 \"asdf\"" | $* -Wa,-gdwarf-5 -c -x assembler -o /dev/null -
-> 
-> 
-> 
-> Please tell me how this script detects the dwarf-5 capability.
-> 
-> 
-> This script fails for GCC 10.
+On Sat, Oct 31, 2020 at 3:58 AM Petr Vorel <petr.vorel@gmail.com> wrote:
+>
+> Hi Ben,
+>
+> first, thanks for your review.
+>
+> > On Fri, 2020-10-30 at 17:56 +0100, Petr Vorel wrote:
+> > > This fixes make bindeb-pkg for RPM based distros, which don't have
+> > > dpkg-dev (and thus not /usr/bin/dpkg-buildpackage), which sets
+> > > $DEB_RULES_REQUIRES_ROOT.
+>
+> > > Fixes: 3e8541803624 ("builddeb: Enable rootless builds")
+>
+> > This doesn't seem to fix a bug, and in fact it would introduce one.
+>
+> > > Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> > [...]
+> > > --- a/scripts/package/builddeb
+> > > +++ b/scripts/package/builddeb
+> > > @@ -37,7 +37,7 @@ create_package() {
+> > >                 | xargs -r0 md5sum > DEBIAN/md5sums"
+>
+> > >         # Fix ownership and permissions
+> > > -       if [ "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
+> > > +       if [ -z "$DEB_RULES_REQUIRES_ROOT" -o "$DEB_RULES_REQUIRES_ROOT" = "no" ]; then
+> > >                 dpkg_deb_opts="--root-owner-group"
+> > >         else
+> > >                 chown -R root:root "$pdir"
+>
+> > This is the wrong default behaviour; it will cause a regression with
+> > older versions of dpkg that don't support this option.
+> Sorry for wrong report. I tested it on Debian, but only on unstable.
+>
+> > If you invoke this script directly and do not use dpkg-buildpackage
+> > (which I don't think is really supported anyway) then you must either
+> > do so as root or use fakeroot (as dpkg-buildpackage does by default).
+> Well, both bindeb-pkg and deb-pkg use dpkg-buildpackage.
+> Thus fakeroot is used by default.
+>
+> /bin/sh -c dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -d -b -nc -uc
+>
+> The root cause is that while calling chown -R root:root "$pdir" is ok on Debian,
+> it's refused for fakeroot in openSUSE. I can run it with
+> DEB_RULES_REQUIRES_ROOT=no, that should fix that, but I'd prefer it were working
+> by default (although I admit not many people need it).
+> I reported it because the default setup worked before 3e8541803624.
+> I'll have a look what configuration (permission) is missing on openSUSE to allow
+> chown -R root:root for non-root user.
+>
+> > Ben.
+>
+> Kind regards,
+> Petr
 
-One thing is GCC DWARF-5 support, that is whether the compiler
-will support -gdwarf-5 flag, and that support should be there from
-GCC 7 onwards.
 
-Another separate thing is whether the assembler does support
-the -gdwarf-5 option (i.e. if you can compile assembler files
-with -Wa,-gdwarf-5) for GNU as I think that is binutils 35.1,
-i.e. very new); but only if you want to pass the -Wa,-gdwarf-5
-only when compiling *.s and *.S files.  That option is about whether
-the assembler will emit DWARF5 or DWARF2 .debug_line.
-It is fine to compile C sources with -gdwarf-5 and use DWARF2
-.debug_line for assembler files if as doesn't support it.
 
-Yet another thing is if you can pass -Wa,-gdwarf-5 even when
-compiling C files.  There are several bugs in that category that have been
-fixed only in the last few days on binutils trunk, I'd suggest
-just not to bother, GCC 11 will have proper test for fixed assembler
-and will pass -gdwarf-5 to as when compiling even C sources with -gdwarf-5.
-The reason is to get DWARF5 .debug_line (.debug_line is usually produced
-by the assembler, not compiler, from .file/.loc directives).
+I do not know what is different on openSUSE, but
+my understanding is like follows:
 
-	Jakub
 
+
+For old dpkg tools (which does not know "Rules-Requires-Root: no"),
+$DEB_RULES_REQUIRES_ROOT is empty.
+-> We run chown -R root:root like before.
+
+
+For new dpkg tools (which knows "Rules-Requires-Root: no"),
+$DEB_RULES_REQUIRES_ROOT is "no".
+-> We pass --root-owner-group to dpkg-deb.
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
