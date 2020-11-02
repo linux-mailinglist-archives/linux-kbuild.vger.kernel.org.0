@@ -2,74 +2,70 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F14532A2A91
-	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 13:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F41332A2ABA
+	for <lists+linux-kbuild@lfdr.de>; Mon,  2 Nov 2020 13:32:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728464AbgKBMSp (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 2 Nov 2020 07:18:45 -0500
-Received: from rcdn-iport-5.cisco.com ([173.37.86.76]:38576 "EHLO
-        rcdn-iport-5.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbgKBMSp (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 2 Nov 2020 07:18:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=934; q=dns/txt; s=iport;
-  t=1604319524; x=1605529124;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OyOQHTIUgHMUuC830JRkqMxl1dIU1flTQWpGztg7O5I=;
-  b=ELkeWk8OQYJSihkeNgKuj4irY6Hc79sERnEMB0qP+Qt6lLEYLDNy5BDd
-   flwCY9eLSGt3j9d64wTiOIcrdakXbYFy1dMQvGB9YQ6gbmaljhHtNe1KI
-   WBWcaFzs+I3nIlr+3WoYygY4MMdP64HJTmzHdHSimGuX/8yinGdYZX1jV
-   Q=;
-X-IronPort-AV: E=Sophos;i="5.77,444,1596499200"; 
-   d="scan'208";a="566891500"
-Received: from rcdn-core-12.cisco.com ([173.37.93.148])
-  by rcdn-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 02 Nov 2020 12:18:43 +0000
-Received: from sjc-ads-9103.cisco.com (sjc-ads-9103.cisco.com [10.30.208.113])
-        by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTPS id 0A2CIf1c005826
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 2 Nov 2020 12:18:43 GMT
-Received: by sjc-ads-9103.cisco.com (Postfix, from userid 487941)
-        id 9B757CBEF7B; Mon,  2 Nov 2020 04:08:53 -0800 (PST)
-From:   Denys Zagorui <dzagorui@cisco.com>
-To:     masahiroy@kernel.org
-Cc:     michal.lkml@markovi.net, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dzagorui@cisco.com
-Subject: [PATCH v3] kbuild: use -fmacro-prefix-map for .S sources
-Date:   Mon,  2 Nov 2020 04:08:53 -0800
-Message-Id: <20201102120853.96855-1-dzagorui@cisco.com>
-X-Mailer: git-send-email 2.19.0.dirty
+        id S1728740AbgKBMcR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 2 Nov 2020 07:32:17 -0500
+Received: from mga03.intel.com ([134.134.136.65]:29804 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728359AbgKBMcQ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 2 Nov 2020 07:32:16 -0500
+IronPort-SDR: a0KXmzvgt21QRUlac0t+WtIjVtiFJ92oh4KZnazrbK1EeWsDkwhNOttZ478iNSzqTv4DgJZN2S
+ Pk2Xz91vO2sg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9792"; a="168974038"
+X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; 
+   d="scan'208";a="168974038"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 04:32:13 -0800
+IronPort-SDR: Ym7Q+yuVHv/sCNLDgYSWuRSoHj7/RWy1GcrzQx0GSSDJRFG8SpQEIWtDB9jQP0B6zITdJHVX5d
+ ZCRpGTGsuTsw==
+X-IronPort-AV: E=Sophos;i="5.77,444,1596524400"; 
+   d="scan'208";a="320048475"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 04:32:11 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kZZ1N-003C94-DS; Mon, 02 Nov 2020 14:33:13 +0200
+Date:   Mon, 2 Nov 2020 14:33:13 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Christoph Hellwig <hch@lst.de>, linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, kbuild-all@lists.01.org
+Subject: Re: [PATCH v1 2/2] uuid: Make guid_t completely internal type to the
+ kernel
+Message-ID: <20201102123313.GH4077@smile.fi.intel.com>
+References: <20201030182847.78753-2-andriy.shevchenko@linux.intel.com>
+ <202011020307.J2wRQToF-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.30.208.113, sjc-ads-9103.cisco.com
-X-Outbound-Node: rcdn-core-12.cisco.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202011020307.J2wRQToF-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Follow-up to a73619a845d5 ("kbuild: use -fmacro-prefix-map to make
-__FILE__ a relative path") commit. Assembler sources also use __FILE__
-macro so this flag should be also apllied to that sources.
+On Mon, Nov 02, 2020 at 03:20:29AM +0800, kernel test robot wrote:
+> Hi Andy,
+> 
+> I love your patch! Yet something to improve:
+> 
+> [auto build test ERROR on hch-configfs/for-next]
+> [also build test ERROR on linus/master v5.10-rc1 next-20201030]
+> [cannot apply to linux/master]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch]
 
-Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, there is v2 which should have no such issue.
 
-diff --git a/Makefile b/Makefile
-index ee2284a5cad2..81e480fc6805 100644
---- a/Makefile
-+++ b/Makefile
-@@ -946,7 +946,7 @@ KBUILD_CFLAGS   += $(call cc-option,-Werror=incompatible-pointer-types)
- KBUILD_CFLAGS   += $(call cc-option,-Werror=designated-init)
- 
- # change __FILE__ to the relative path from the srctree
--KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
-+KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
- 
- # ensure -fcf-protection is disabled when using retpoline as it is
- # incompatible with -mindirect-branch=thunk-extern
 -- 
-2.19.0.dirty
+With Best Regards,
+Andy Shevchenko
+
 
