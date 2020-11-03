@@ -2,118 +2,116 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC432A5A04
-	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Nov 2020 23:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4ACF2A5A12
+	for <lists+linux-kbuild@lfdr.de>; Tue,  3 Nov 2020 23:27:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730219AbgKCWVe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Nov 2020 17:21:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36600 "EHLO
+        id S1729904AbgKCW1R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Nov 2020 17:27:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730270AbgKCWVe (ORCPT
+        with ESMTP id S1729782AbgKCW1R (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Nov 2020 17:21:34 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 777B1C061A47
-        for <linux-kbuild@vger.kernel.org>; Tue,  3 Nov 2020 14:21:34 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id 72so8861460pfv.7
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 Nov 2020 14:21:34 -0800 (PST)
+        Tue, 3 Nov 2020 17:27:17 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55149C061A04
+        for <linux-kbuild@vger.kernel.org>; Tue,  3 Nov 2020 14:27:17 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id 1so9285673ple.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Nov 2020 14:27:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=t/8gNKrqVbgeWIKJqFS6oCAzempsVueUa9v+XEgt+p4=;
-        b=csXlt7v0/moo9v9ILRwAZYxMof8y+D7baLlBSkK8Jlm/0wJFuTqmB+9NxNWDoE6sJ2
-         yjtUqFnz1TmMTPiOg9/+a9VOS3+9XslH30wI2lAgW8gzYPZdZr7cFFaMaXudtzRiHcnQ
-         dFMQywooaQM8HFoZ5S3igHBkVvbAnQrH3GeS66/OwLyHMXfNsDeCLD1hrhFdm1+UD/w/
-         LlIsLuf/9iMgGqpLiZd3mDGwJ3l93NYpBLm4GLAiG8anGeoh6o2+9nEpxeBl4qfsD/qL
-         8u7cxodm26r3wp/jBnzR5rgm9l6+mUU20Vy2JIZs83UfAc/DxXj3QnXNCbQ9JZGafuff
-         m5KQ==
+        bh=3g/UXdTcvEaVpEpHCFk6DWCyxnMD9jfZ4IYbgmoi5Do=;
+        b=uq428C0MISj1+Yl3N5njjURIa/fb2YaK/JiA0AEh+acv8LHAXJ7l0yTVpCqIB6Qr3o
+         QRceQ69dCamC4YCnafirBV/b52//G3ZG/U3YJIABb7lP7NPRk4BPkds/NfGKod7xn/AU
+         pVbJDMR8Y/vSDADnZbMUgZFib80urJO1Sb+GncvjQKy9wsVQ3/SBq0jKbcDZ0EVCqCoV
+         QP53Q4L17XlBU1RROAaBjEw/LUqKoF5rQBM+ClVV6UlEChNhO+guriWVeNo7MkjxxVx9
+         xGA01uekR50k6+ccmbEr+cf/7zkpKcVdUrwRJhEF44xWzdGv3A4UN5QoKt1E2+IKv6J6
+         kjlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=t/8gNKrqVbgeWIKJqFS6oCAzempsVueUa9v+XEgt+p4=;
-        b=PZqxzpfRGBw0qVzdVGa+8/pYugizEMeA1qReCystTxlPyzNjjgBEUG5lcJbNGlTlTv
-         NLHY2p3C9UJhYe2HIpA6gbVPZOhz9POXtrFIgDYm/pnXadAv9Br+7N0Vcgc4lfzQfI3H
-         Eqm+biLifl2Ch9fBrBBJjCfMg6W5+HU4Rcb1qGHXYbByZq2KLmXmknU86tROQCF6waPj
-         byzYcy0wi0lO5ekX2Z7tvJBNPfGJlR2pEXFdcbYgb37b7L80FGrnIyH0WpwZzp27uEcG
-         8eOZd/g/9tYB13Wce75gheZac7tQIatmhNukHjYE1ZkSMSm8mYSj0bNe66CWC6uG90Zy
-         LzyA==
-X-Gm-Message-State: AOAM5301l4+nDBwNQ7kYgDI2DLDgRQCtT8/UXBinODmdVcTgRulOreS6
-        kWLyWQyMCsR8zu79Qmt2epGuOD4i6MyoXDDtSj6FVnxnTa0=
-X-Google-Smtp-Source: ABdhPJzLhpQ56mQUjlg+DLC4s5L3h3/ev//e6DmikL2Vi/E+7ZV+hr0SGrtPFodUMt/haOC+BYhJbRFxcdR3kEPHCag=
-X-Received: by 2002:a17:90b:110b:: with SMTP id gi11mr1311215pjb.25.1604442093720;
- Tue, 03 Nov 2020 14:21:33 -0800 (PST)
+        bh=3g/UXdTcvEaVpEpHCFk6DWCyxnMD9jfZ4IYbgmoi5Do=;
+        b=I+J6KAukK7aeqfojARUIaTYt0bakXIL0YD4Cy4srsKDE3HtHna8KNQNjyfTuxcyxhW
+         s/t2B5/CGOTkGD4mP1ZjuacQ3gDgstMOX158d2c1gscfLKcI/HjRtwPN4ceK7H1FAb64
+         mUhfj+dxyMntl6T8jQH3T8FGsVaYl7eBfBcdwIRifQM7hvxVw/fI/HRm/XyqUn5iJhT3
+         EWw/XIrCsJXYFTsxmXEugXCe4blNP81PWFdo2YBjKUh6YPiRnemYTAy4OkkXO5zDbmtK
+         /64YMcebP8Q+rH6UaFr/bMyoB3oRWKR3zIaOgBkMLJyaN6MRD6/nQImpWpmGjMglMBeY
+         8wPQ==
+X-Gm-Message-State: AOAM531+l+GrWvKv0P6ixT2TGaW6pnoGELqX2j+2rF7OV6u5LUgEhwa+
+        lXlrBh7L8Imt1rJLS+wEes95SPNf6OaKqpXk2hmslsB4mhU=
+X-Google-Smtp-Source: ABdhPJyzqR5QvlI4cfiyph6xzOX86tQ5A8IroUFqjIYkfjsSV1kYveibhPKE50Q3QeizC8CNh1NZNbCh9lgi7xuOhV0=
+X-Received: by 2002:a17:902:ee85:b029:d6:c43e:2321 with SMTP id
+ a5-20020a170902ee85b02900d6c43e2321mr12767000pld.29.1604442436696; Tue, 03
+ Nov 2020 14:27:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20201022012106.1875129-1-ndesaulniers@google.com>
- <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com> <20201102081810.GB3788@tucnak>
-In-Reply-To: <20201102081810.GB3788@tucnak>
+References: <20201022012106.1875129-1-ndesaulniers@google.com> <20201022014448.mcx5n7unf7kkka3o@google.com>
+In-Reply-To: <20201022014448.mcx5n7unf7kkka3o@google.com>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 3 Nov 2020 14:21:22 -0800
-Message-ID: <CAKwvOd=ez9nXCdQu6QRbNk5tfUAsSj9RLhopZtNE4RhDupg7+w@mail.gmail.com>
+Date:   Tue, 3 Nov 2020 14:27:05 -0800
+Message-ID: <CAKwvOdmLN5BWAh35z2LyHvQ_P4pgyCaFohOphpgXUmMAehnV_g@mail.gmail.com>
 Subject: Re: [PATCH] Kbuild: implement support for DWARF5
-To:     Jakub Jelinek <jakub@redhat.com>
+To:     Fangrui Song <maskray@google.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-toolchains@vger.kernel.org,
-        Alistair Delva <adelva@google.com>,
-        Nick Clifton <nickc@redhat.com>
+        linux-toolchains@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 2, 2020 at 12:18 AM Jakub Jelinek <jakub@redhat.com> wrote:
+On Wed, Oct 21, 2020 at 6:44 PM Fangrui Song <maskray@google.com> wrote:
 >
-> On Mon, Nov 02, 2020 at 11:20:41AM +0900, Masahiro Yamada wrote:
-> > > --- /dev/null
-> > > +++ b/scripts/test_dwarf5_support.sh
-> > > @@ -0,0 +1,4 @@
-> > > +#!/bin/sh
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > > +set -eu
-> > > +echo ".file 0 \"asdf\"" | $* -Wa,-gdwarf-5 -c -x assembler -o /dev/null -
+> On 2020-10-21, 'Nick Desaulniers' via Clang Built Linux wrote:
+> >DWARF5 is the latest standard of the DWARF debug info format.
 > >
+> >Feature detection of DWARF5 is onerous, especially given that we've
+> >removed $(AS), so we must query $(CC) for DWARF5 assembler directive
+> >support. Further -gdwarf-X where X is an unsupported value doesn't
+> >produce an error in $(CC). GNU `as` only recently gained support for
+> >specifying -gdwarf-5.
 > >
-> >
-> > Please tell me how this script detects the dwarf-5 capability.
-> >
-> >
-> > This script fails for GCC 10.
+> >The DWARF version of a binary can be validated with:
 >
-> One thing is GCC DWARF-5 support, that is whether the compiler
-> will support -gdwarf-5 flag, and that support should be there from
-> GCC 7 onwards.
+> To be more correct: this is just the version number of the .debug_info section.
+> Other sections can use different version numbers.
+> (For example, GNU as still does not support version 5 .debug_line)
 
-I should improve my Kconfig check; I don't actually have a test for
--gdwarf-5 for the compiler.  In godbolt, it looks like -gdwarf-5
-produces an error from GCC up until GCC 5.1.  Does (5.1 < GCC < 7) not
-produce DWARF5?  Maybe there's a more specific test you had in mind?
+How do you recommend we validate that then?
 
 >
-> Another separate thing is whether the assembler does support
-> the -gdwarf-5 option (i.e. if you can compile assembler files
-> with -Wa,-gdwarf-5) for GNU as I think that is binutils 35.1,
-> i.e. very new); but only if you want to pass the -Wa,-gdwarf-5
-> only when compiling *.s and *.S files.  That option is about whether
-> the assembler will emit DWARF5 or DWARF2 .debug_line.
-> It is fine to compile C sources with -gdwarf-5 and use DWARF2
-> .debug_line for assembler files if as doesn't support it.
+> >$ llvm-dwarfdump vmlinux | head -n 5 | grep version
+> >or
+> >$ readelf --debug-dump=info vmlinux 2>/dev/null | grep Version
+> >diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> >index cd14444bf600..0382808ef9fe 100644
+> >--- a/include/asm-generic/vmlinux.lds.h
+> >+++ b/include/asm-generic/vmlinux.lds.h
+> >@@ -828,7 +828,11 @@
+> >               .debug_types    0 : { *(.debug_types) }                 \
+> >               /* DWARF 5 */                                           \
+> >               .debug_macro    0 : { *(.debug_macro) }                 \
+> >-              .debug_addr     0 : { *(.debug_addr) }
+> >+              .debug_addr     0 : { *(.debug_addr) }                  \
+> >+              .debug_line_str 0 : { *(.debug_line_str) }              \
+> >+              .debug_loclists 0 : { *(.debug_loclists) }              \
+> >+              .debug_rnglists 0 : { *(.debug_rnglists) }              \
+> >+              .debug_str_offsets 0 : { *(.debug_str_offsets) }
 >
-> Yet another thing is if you can pass -Wa,-gdwarf-5 even when
-> compiling C files.  There are several bugs in that category that have been
-> fixed only in the last few days on binutils trunk, I'd suggest
-> just not to bother, GCC 11 will have proper test for fixed assembler
-> and will pass -gdwarf-5 to as when compiling even C sources with -gdwarf-5.
+> Consider adding .debug_names for the accelerator table.
+> It is the DWARF v5 version of .debug_pub{names,types} (which are mentioned
+> a few lines above).
 
-Do you have links?  I would prefer to do feature detection rather than
-version detection when possible.  If the bug is so severe that we
-think we should scuttle support for old versions, I'm ok with that,
-but I want to be able to link to hard proof in a commit message so
-that in 6 months when I forget why we made a certain decision, we have
-historical record in the commit message/git blame.
+I hadn't seen that section produced in my limited testing.  Being a
+fan of TDD, I kind of would like to see the linker warn on orphan
+section placement, then add it to the list, as I did with the above.
+Do you have more info on when or how .debug_pub* can be produced?
+
+Thanks for the rest of the feedback, I'll incorporate it into v2.
+
 -- 
 Thanks,
 ~Nick Desaulniers
