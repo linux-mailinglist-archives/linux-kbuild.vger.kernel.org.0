@@ -2,109 +2,123 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38DB12A5AF3
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Nov 2020 01:18:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0F72A5B3E
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Nov 2020 01:53:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729924AbgKDASb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Nov 2020 19:18:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54446 "EHLO
+        id S1728857AbgKDAxt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Nov 2020 19:53:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729189AbgKDARG (ORCPT
+        with ESMTP id S1727754AbgKDAxt (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Nov 2020 19:17:06 -0500
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8063AC0613D1;
-        Tue,  3 Nov 2020 16:17:06 -0800 (PST)
-Received: by mail-qk1-x742.google.com with SMTP id a65so15005702qkg.13;
-        Tue, 03 Nov 2020 16:17:06 -0800 (PST)
+        Tue, 3 Nov 2020 19:53:49 -0500
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944EEC0401C1
+        for <linux-kbuild@vger.kernel.org>; Tue,  3 Nov 2020 16:53:47 -0800 (PST)
+Received: by mail-qv1-xf49.google.com with SMTP id a1so11596678qvj.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Nov 2020 16:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=o7VW5Grk+dEY5JWkUUhDhbgHVtmwCHyugEP4jZ8aPsI=;
-        b=LmBQY7CZqa1Au8AieLs3s89z+TAZTWFu47IyTFakjM14mtGBE0bIvq09IxUR/j+lGt
-         jO2oFrnBfi6hhUoVlAdRtHXd+feaAlnZQr+9acvskwJFyP9euRoCyubnsP4LUYVTPpjW
-         xD0WBBdEYKtHlh3zK9FCyH++TA8G+OswbpSEKDY/jVrRunpJ3A/4QOBbm+MhwnsO5TdV
-         yqwwzbScJDd43N/mRTutzDVsjMQJPyWDc/EF++mSvkFmBuchKgHPYawKPBWHsTnoNCvx
-         ly80xsFLIWLwxfJ3OXFIhDDhUB7tnL1rCq1ouhjTkQz1f8mqr3yewDFm0xEymE5CD4Ji
-         l7sQ==
+        d=google.com; s=20161025;
+        h=sender:date:in-reply-to:message-id:mime-version:references:subject
+         :from:to:cc;
+        bh=ozY6qdV80EEdEz3LDLEtJ+2VRilA83Eh+aRjlDLkLJ8=;
+        b=bxOTw/FSCq2/D3ukSPSlo5pkso1+jVH15V1mEAsq4uXXJswR6edUcaUcRdCg93HJk7
+         7R/I+QkbxRQDRS3SEx+zrKjEBTPZoTze9TQOsp7mnt3DSV4M6MHJ3NwG4E1Wazg6snMy
+         KbO5ENidAogXlfQtZyZlCYSVO7VEn3HvX+avxPTOrkzJOtV/WNs3Z9KS1+lHde9zC1/6
+         xmQ3sjbGOWToTSx9jl3qRz+y56192GC6d5AU+k4SpWyIy4pCNO6ya5HwjjyqdXg4/eeJ
+         ZZBYCNv9eoOLwrE1IW18kZQmiSpI/0c2FRB/xIWTBy4krv+DPOayj9HJKvesj6xwmJIe
+         QQYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:date:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=o7VW5Grk+dEY5JWkUUhDhbgHVtmwCHyugEP4jZ8aPsI=;
-        b=ZH8YcFK5T+S6O+gx2iaZqc+1sTEUQYoZbFSxLASNAowxIZW9jl7CEWRKXMWsjssA6t
-         37u2PwcOSkoeRHBXA72muYTaykAEErLPpdSsaFDubbuz1/6RwjDHId2oAPi1R66FaYNB
-         jIessFa1WlzHFTx4Os+Tq1WnmTaMtO1AlH4ksWmtNXt/EOFd9L5o8175SiGX5bogYdrm
-         Ha1ui0xs6kOfR14nQmGxXa9d/7Z/X1D5Ku0yBtk0M54SKZJnUDOKhMrmbaJDNWElI2O1
-         vEAVFykRL7kTuFZXOAVhS9JHn4O+HNQYRt2hdG3CSireWmcJK5bMGH7mKV/01eRpYLx3
-         ksGw==
-X-Gm-Message-State: AOAM530jIYMi4rEpAPu013o8d95R01xdlBDY5DZQ7dPqNtxkExvJvMIq
-        vfmTd/X3yestdJeD1QZP8Sk=
-X-Google-Smtp-Source: ABdhPJxDxDTkiIxlaL7Qz6PndmDqbwNkUczXPhVDYLRk2J3zyu+p4VzbqK8EJ4e/Ty4zD1S2IOxfeA==
-X-Received: by 2002:ae9:e210:: with SMTP id c16mr21871175qkc.314.1604449025589;
-        Tue, 03 Nov 2020 16:17:05 -0800 (PST)
-Received: from rani.riverdale.lan ([2001:470:1f07:5f3::b55f])
-        by smtp.gmail.com with ESMTPSA id y68sm655321qkb.38.2020.11.03.16.17.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2020 16:17:05 -0800 (PST)
-Sender: Arvind Sankar <niveditas98@gmail.com>
-From:   Arvind Sankar <nivedita@alum.mit.edu>
-X-Google-Original-From: Arvind Sankar <arvind@rani.riverdale.lan>
-Date:   Tue, 3 Nov 2020 19:17:03 -0500
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Arvind Sankar <nivedita@alum.mit.edu>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=ozY6qdV80EEdEz3LDLEtJ+2VRilA83Eh+aRjlDLkLJ8=;
+        b=anGeQl2ha72BfoVY5yPOZ6zBsENTmAFSoOwmgsCXc2wdnuUbE6fDQj7rfIaghujoKl
+         Un8vDgSAzPgwhQOX05MMO/8HRKHu4NGK0rzK7d6sItQYh/iQRTOuWAt91sa62ELmloNa
+         RQfbUqaowad13cacLnZm+HEKZg9Go20ldOo0r1YtV2qKA+HRmhPK+HVSiXMx7yRjj1uf
+         ZbAuEs6V68Vp21psk0FHVhF75Ptr4KGbMkRPJii4zWQtgoe/5zI5IIINIrH6WBmITBKW
+         ExtbvtMnKwjOyNdp494KTvqIWkPY56wTt0GsjEwHy52wcwFCV7/McqbFOXH2WZ7wkLzy
+         BzXw==
+X-Gm-Message-State: AOAM531ok1e7uASqQu9F/rwxBl1h4QgX+2pmUE0QxhErN+KbiwY7PAvS
+        QeLPBq2Rx9Fr4KCfzggVBp0fWMedZDERKvYRkwE=
+X-Google-Smtp-Source: ABdhPJzFeJPtArXndiS7fYN24JqXcFlvglHjq/P0AetsiQAVxPd1F4kWgNqWsByTQs0Jf2p1lt35T7HKyHCxHvm7lU0=
+Sender: "ndesaulniers via sendgmr" 
+        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
+X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
+ (user=ndesaulniers job=sendgmr) by 2002:a05:6214:192d:: with SMTP id
+ es13mr28271108qvb.27.1604451226656; Tue, 03 Nov 2020 16:53:46 -0800 (PST)
+Date:   Tue,  3 Nov 2020 16:53:39 -0800
+In-Reply-To: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+Message-Id: <20201104005343.4192504-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
+Subject: [PATCH v2 0/4] Kbuild: DWARF v5 support
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Jakub Jelinek <jakub@redhat.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-toolchains@vger.kernel.org,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        linux-toolchains@vger.kernel.org
-Subject: Re: [PATCH] Kbuild: implement support for DWARF5
-Message-ID: <20201104001703.GA2407187@rani.riverdale.lan>
-References: <20201022012106.1875129-1-ndesaulniers@google.com>
- <20201104000016.GA2399651@rani.riverdale.lan>
- <CAKwvOdnFstgMa3c+=Vo=QtFYsABDekVeddcPmP=8Pn2bqWfxpg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdnFstgMa3c+=Vo=QtFYsABDekVeddcPmP=8Pn2bqWfxpg@mail.gmail.com>
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Alistair Delva <adelva@google.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 03, 2020 at 04:05:36PM -0800, Nick Desaulniers wrote:
-> On Tue, Nov 3, 2020 at 4:00 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
-> >
-> > On Wed, Oct 21, 2020 at 06:21:06PM -0700, Nick Desaulniers wrote:
-> > > Further -gdwarf-X where X is an unsupported value doesn't
-> > > produce an error in $(CC).
-> >
-> > Do you have more details here? On godbolt.org, gcc does report an error
-> > for unsupported dwarf versions.
-> >
-> > https://godbolt.org/z/G35798
-> >
-> > gcc does not seem to pass the -gdwarf-* options to the assembler when
-> > compiling C source. For assembler, gcc will pass an appropriate option
-> > depending on the version of binutils it was configured with: if the
-> > assembler doesn't support dwarf-5 it can call it with --gdwarf2 for eg.
-> >
-> > If the user is using a properly configured toolchain it doesn't look
-> > like it should be an issue to just use cc-option?
-> 
-> I wrote the base patch back in May, and didn't revisit until recently.
-> I could have sworn the cc-option silently failed for the check
-> cc-option does, which is /dev/null input.  I need to recheck that, but
-> it doesn't hurt to simply include it for now, which I've done in a v2
-> I'm about to send.
-> -- 
-> Thanks,
-> ~Nick Desaulniers
+DWARF v5 is the latest standard of the DWARF debug info format.
 
-This is giving me deja vu about the -gz=zlib option.
+DWARF5 wins significantly in terms of size when mixed with compression
+(CONFIG_DEBUG_INFO_COMPRESSED).
 
-Didn't Masahiro fix the cc-option issue with
-  4d0831e8a029 ("kconfig: unify cc-option and as-option")
+Link: http://www.dwarfstd.org/doc/DWARF5.pdf
 
-The existing -Wa,-gdwarf-2 in the Makefile seems bogus, btw. GCC 4.9.0
-at least appears to pass on --gdwarf2 automatically.
+Patch 1 is a fixup already sent, but necessary for trying to use
+LLVM_IAS=1 with ToT LLVM.
+https://lore.kernel.org/stable/20201103012358.168682-1-maskray@google.com/
+
+Patches 2 and 3 are cleanups that lay the ground work and aren't DWARF
+v5 specific. In particular, I would like to see Patch 2 sent to stable
+so that Android and CrOS can move to LLVM_IAS=1 ASAP.
+
+Patch 4 implements Kconfig and Kbuild support for DWARFv5.
+
+Changes from the RFC:
+* split patch in 3 patch series, include Fangrui's patch, too.
+* prefer `DWARF vX` format, as per Fangrui.
+* use spaces between assignment in Makefile as per Masahiro.
+* simplify setting dwarf-version-y as per Masahiro.
+* indent `prompt` in Kconfig change as per Masahiro.
+* remove explicit default in Kconfig as per Masahiro.
+* add comments to test_dwarf5_support.sh.
+* change echo in test_dwarf5_support.sh as per Masahiro.
+* remove -u from test_dwarf5_support.sh as per Masahiro.
+* add a -gdwarf-5 cc-option check to Kconfig as per Jakub.
+
+Fangrui Song (1):
+  x86_64: Change .weak to SYM_FUNC_START_WEAK for arch/x86/lib/mem*_64.S
+
+Nick Desaulniers (3):
+  Kbuild: do not emit debug info for assembly with LLVM_IAS=1
+  Kbuild: make DWARF version a choice
+  Kbuild: implement support for DWARF v5
+
+ Makefile                          | 13 +++++++++----
+ arch/x86/lib/memcpy_64.S          |  4 +---
+ arch/x86/lib/memmove_64.S         |  4 +---
+ arch/x86/lib/memset_64.S          |  4 +---
+ include/asm-generic/vmlinux.lds.h |  6 +++++-
+ lib/Kconfig.debug                 | 27 +++++++++++++++++++++++----
+ scripts/test_dwarf5_support.sh    |  9 +++++++++
+ 7 files changed, 49 insertions(+), 18 deletions(-)
+ create mode 100755 scripts/test_dwarf5_support.sh
+
+-- 
+2.29.1.341.ge80a0c044ae-goog
+
