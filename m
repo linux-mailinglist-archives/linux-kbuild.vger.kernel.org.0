@@ -2,59 +2,59 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5DF22A5B48
-	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Nov 2020 01:55:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCBE22A5B4F
+	for <lists+linux-kbuild@lfdr.de>; Wed,  4 Nov 2020 01:55:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729668AbgKDAxv (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 3 Nov 2020 19:53:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60198 "EHLO
+        id S1730071AbgKDAyB (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 3 Nov 2020 19:54:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729144AbgKDAxt (ORCPT
+        with ESMTP id S1729711AbgKDAxv (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 3 Nov 2020 19:53:49 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6241FC0401C1
-        for <linux-kbuild@vger.kernel.org>; Tue,  3 Nov 2020 16:53:49 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id k7so19715768ybm.13
-        for <linux-kbuild@vger.kernel.org>; Tue, 03 Nov 2020 16:53:49 -0800 (PST)
+        Tue, 3 Nov 2020 19:53:51 -0500
+Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 392DEC0401C1
+        for <linux-kbuild@vger.kernel.org>; Tue,  3 Nov 2020 16:53:51 -0800 (PST)
+Received: by mail-qv1-xf4a.google.com with SMTP id b10so8643190qvl.8
+        for <linux-kbuild@vger.kernel.org>; Tue, 03 Nov 2020 16:53:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=sender:date:in-reply-to:message-id:mime-version:references:subject
          :from:to:cc;
-        bh=6nth1Ay7JTmqSTdpD6CAIOaNAdyMhdLz3pdbFkquv2w=;
-        b=qCw8+F/+nLz5LxsUHleH+9cNH3m8jIH+wWmS6NvhkoTCDOMXb3tPmg8l3btrBOReNq
-         Y3ULifDeAVzxVrvFjzWIP1iObBG+hhd9ukxP6x3WCo3dzJDy0kHhduok9ejP4WQQCnWh
-         H++8qGkqToOvbQNp8Ja7apwvBL8Rcz4eq/A796u+jVOzUj8+5MXstB9lsmhVGkRLC7ZX
-         tCuL/kx4KAa4n72lYDbz4OxAYWGyq+6j5y32iRTp90UQJFZZHX//2R00WF9QHVUvR6Uj
-         YtzglSsEY6CUtUJ4ibwKiIJPwoyEryxCrqXFvsBu5z0g3ZXDq1VpbNx8dK5KvKco/zyo
-         WyKQ==
+        bh=ER2UhxLP/araVfLtlLjju4GHW3AHwOn+yA1clWZujmw=;
+        b=lwlMImIcTQAVaDbbenxl4PNIkFP0dw+hbwp6OPrJqtdRsKWXuTgdl+u+4dhuUI9M+w
+         x+3kd70TRUibgU+0GOHIFaKZr00XWg+cGBVEpYq/B8lnowm6gyWkbN0a1cLg91eXwAVT
+         ztcClXf8oIXQbBLrv/K7KMCU77lKmpzhn3Se1tRSOZJIV+g5dqpMqe2utqEE8VwYApuu
+         sKPk7wzbiAa3PPrObYdO6e8w984ykDAbIm0b4O3um+YcDP/H0VDN1KesSSD7lLKI5u+X
+         pYiPLSJqQCY0vM7iCiR9ZoPYAp9JlLSkINKgtzlOuH+JixRCUkCIT90FMGjY5RmZiocQ
+         3o+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=6nth1Ay7JTmqSTdpD6CAIOaNAdyMhdLz3pdbFkquv2w=;
-        b=mquCnmxuy3rclGYVnB7pJjnP+aVoPxJ6a0eXPtvs8ijt325fwXVoEUun0hNSgQaGhT
-         UTFa6lU2uB9KfQ2I9IrRYAY+KAm9B4FNjzxwT+f3TQOx8JnhI5gvwza7LZGn1RLfSB8P
-         StxaGRUa3p26Bf/snIa6sd+kjhEiOv/9l6j2dAlgpHMTIStHJ0iZfZKdcARloHDBDTZP
-         TM9uWtHWOqNiYsv3HO8Rr5UjVX1RqzQYc14gNhpdNGcp+1P/lwivOAVRWDlvWw1a13BF
-         sdSnv69fH9VszjrPQw9qgM3pp4VD2NDKULdsP5K0aTKnivWtiECV/aNQtso8nmthyWCt
-         dwSg==
-X-Gm-Message-State: AOAM532j52eJUgJE98orlnGwofYNFYozn9Yw8cdvGhFY2WhT2QcK2hgB
-        FY37MvmQDagrWJhdsTnz0cLUjildyJ1UXaZ2sdU=
-X-Google-Smtp-Source: ABdhPJx/YEnHn2ke8YQZ6NNMbl/+wfh/QJAeszOxk2mXyJULZvY9SeogSn5s2PHinLgK78CnPoKZgYLDaG7YOiu0+l8=
+        bh=ER2UhxLP/araVfLtlLjju4GHW3AHwOn+yA1clWZujmw=;
+        b=FvrkpusTLWiB6aQnJhkHi4rRrKISckVdZdURCdKc3adrqkojQ0YgjpQ6l5y5Cj3mat
+         NbjGpKUzRhNUntfK82DajCtgt9ojBvR7rk5ZR7CEyDbyTVtAvtruqkyQDSxK9TUA4fFf
+         5KsqKwqMBOnpo6ZjYrbiv3xfPhsKPZ0QYjCb0Z4HK24UdGWsPrYeqLApXPH8TS14Rv2L
+         3M8f9UDARNt8eR1W6mJLCq70Tn+25TfXoYebk8PoE/pXQno+Z7s4wwgErqbV1tn6NqaK
+         Ez2Rf8PryRBTeqMwfErbCEzFtFq2lL6BU8j1uYgyw3RbnCxhOsop7+OwP7dn2dcOFasS
+         a2iA==
+X-Gm-Message-State: AOAM531SCDKfmRAtBFEqURwvUy7YLjI0LB9W2Sd3T04ohO2zwZTj1qcR
+        qYTMgqX02bOuME+Ws3/w0iOyFLlCrnjfpo9vEmc=
+X-Google-Smtp-Source: ABdhPJzQ73ZhQDdFkPA1QFS9pu0DXoPIbMx7Ycdh0bPQcut/yMWJCZak+bSzxq0mZVYWrwL972FN4TJ990rU3I+E18w=
 Sender: "ndesaulniers via sendgmr" 
         <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
 X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
- (user=ndesaulniers job=sendgmr) by 2002:a25:3188:: with SMTP id
- x130mr31763518ybx.64.1604451228585; Tue, 03 Nov 2020 16:53:48 -0800 (PST)
-Date:   Tue,  3 Nov 2020 16:53:40 -0800
+ (user=ndesaulniers job=sendgmr) by 2002:a0c:fac6:: with SMTP id
+ p6mr30296428qvo.5.1604451230411; Tue, 03 Nov 2020 16:53:50 -0800 (PST)
+Date:   Tue,  3 Nov 2020 16:53:41 -0800
 In-Reply-To: <20201104005343.4192504-1-ndesaulniers@google.com>
-Message-Id: <20201104005343.4192504-2-ndesaulniers@google.com>
+Message-Id: <20201104005343.4192504-3-ndesaulniers@google.com>
 Mime-Version: 1.0
 References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
  <20201104005343.4192504-1-ndesaulniers@google.com>
 X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
-Subject: [PATCH v2 1/4] x86_64: Change .weak to SYM_FUNC_START_WEAK for arch/x86/lib/mem*_64.S
+Subject: [PATCH v2 2/4] Kbuild: do not emit debug info for assembly with LLVM_IAS=1
 From:   Nick Desaulniers <ndesaulniers@google.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
 Cc:     Jakub Jelinek <jakub@redhat.com>,
@@ -67,100 +67,47 @@ Cc:     Jakub Jelinek <jakub@redhat.com>,
         Sedat Dilek <sedat.dilek@gmail.com>,
         Dmitry Golovin <dima@golovin.in>,
         Alistair Delva <adelva@google.com>,
-        Sami Tolvanen <samitolvanen@google.com>, stable@vger.kernel.org
+        Nick Desaulniers <ndesaulniers@google.com>,
+        stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Fangrui Song <maskray@google.com>
+Clang's integrated assembler produces the warning for assembly files:
 
-Commit 393f203f5fd5 ("x86_64: kasan: add interceptors for
-memset/memmove/memcpy functions") added .weak directives to
-arch/x86/lib/mem*_64.S instead of changing the existing ENTRY macros to
-WEAK. This can lead to the assembly snippet `.weak memcpy ... .globl
-memcpy` which will produce a STB_WEAK memcpy with GNU as but STB_GLOBAL
-memcpy with LLVM's integrated assembler before LLVM 12. LLVM 12 (since
-https://reviews.llvm.org/D90108) will error on such an overridden symbol
-binding.
+warning: DWARF2 only supports one section per compilation unit
 
-Commit ef1e03152cb0 ("x86/asm: Make some functions local") changed ENTRY in
-arch/x86/lib/memcpy_64.S to SYM_FUNC_START_LOCAL, which was ineffective due to
-the preceding .weak directive.
+If -Wa,-gdwarf-* is unspecified, then debug info is not emitted.  This
+will be re-enabled for new DWARF versions in a follow up patch.
 
-Use the appropriate SYM_FUNC_START_WEAK instead.
+Enables defconfig+CONFIG_DEBUG_INFO to build cleanly with
+LLVM=1 LLVM_IAS=1 for x86_64 and arm64.
 
-Fixes: 393f203f5fd5 ("x86_64: kasan: add interceptors for memset/memmove/memcpy functions")
-Fixes: ef1e03152cb0 ("x86/asm: Make some functions local")
-Reported-by: Sami Tolvanen <samitolvanen@google.com>
-Signed-off-by: Fangrui Song <maskray@google.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
 Cc: <stable@vger.kernel.org>
+Link: https://github.com/ClangBuiltLinux/linux/issues/716
+Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+Suggested-by: Dmitry Golovin <dima@golovin.in>
+Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
+Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 ---
- arch/x86/lib/memcpy_64.S  | 4 +---
- arch/x86/lib/memmove_64.S | 4 +---
- arch/x86/lib/memset_64.S  | 4 +---
- 3 files changed, 3 insertions(+), 9 deletions(-)
+ Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/x86/lib/memcpy_64.S b/arch/x86/lib/memcpy_64.S
-index 037faac46b0c..1e299ac73c86 100644
---- a/arch/x86/lib/memcpy_64.S
-+++ b/arch/x86/lib/memcpy_64.S
-@@ -16,8 +16,6 @@
-  * to a jmp to memcpy_erms which does the REP; MOVSB mem copy.
-  */
+diff --git a/Makefile b/Makefile
+index f353886dbf44..75b1a3dcbf30 100644
+--- a/Makefile
++++ b/Makefile
+@@ -826,7 +826,9 @@ else
+ DEBUG_CFLAGS	+= -g
+ endif
  
--.weak memcpy
--
- /*
-  * memcpy - Copy a memory block.
-  *
-@@ -30,7 +28,7 @@
-  * rax original destination
-  */
- SYM_FUNC_START_ALIAS(__memcpy)
--SYM_FUNC_START_LOCAL(memcpy)
-+SYM_FUNC_START_WEAK(memcpy)
- 	ALTERNATIVE_2 "jmp memcpy_orig", "", X86_FEATURE_REP_GOOD, \
- 		      "jmp memcpy_erms", X86_FEATURE_ERMS
++ifndef LLVM_IAS
+ KBUILD_AFLAGS	+= -Wa,-gdwarf-2
++endif
  
-diff --git a/arch/x86/lib/memmove_64.S b/arch/x86/lib/memmove_64.S
-index 7ff00ea64e4f..41902fe8b859 100644
---- a/arch/x86/lib/memmove_64.S
-+++ b/arch/x86/lib/memmove_64.S
-@@ -24,9 +24,7 @@
-  * Output:
-  * rax: dest
-  */
--.weak memmove
--
--SYM_FUNC_START_ALIAS(memmove)
-+SYM_FUNC_START_WEAK(memmove)
- SYM_FUNC_START(__memmove)
- 
- 	mov %rdi, %rax
-diff --git a/arch/x86/lib/memset_64.S b/arch/x86/lib/memset_64.S
-index 9ff15ee404a4..0bfd26e4ca9e 100644
---- a/arch/x86/lib/memset_64.S
-+++ b/arch/x86/lib/memset_64.S
-@@ -6,8 +6,6 @@
- #include <asm/alternative-asm.h>
- #include <asm/export.h>
- 
--.weak memset
--
- /*
-  * ISO C memset - set a memory block to a byte value. This function uses fast
-  * string to get better performance than the original function. The code is
-@@ -19,7 +17,7 @@
-  *
-  * rax   original destination
-  */
--SYM_FUNC_START_ALIAS(memset)
-+SYM_FUNC_START_WEAK(memset)
- SYM_FUNC_START(__memset)
- 	/*
- 	 * Some CPUs support enhanced REP MOVSB/STOSB feature. It is recommended
+ ifdef CONFIG_DEBUG_INFO_DWARF4
+ DEBUG_CFLAGS	+= -gdwarf-4
 -- 
 2.29.1.341.ge80a0c044ae-goog
 
