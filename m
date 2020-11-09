@@ -2,115 +2,235 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CE202AC3E3
-	for <lists+linux-kbuild@lfdr.de>; Mon,  9 Nov 2020 19:35:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E63212AC916
+	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Nov 2020 00:11:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729454AbgKISfg (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 9 Nov 2020 13:35:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45044 "EHLO
+        id S1730554AbgKIXLz (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 9 Nov 2020 18:11:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbgKISff (ORCPT
+        with ESMTP id S1730433AbgKIXLy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 9 Nov 2020 13:35:35 -0500
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20A20C0613CF
-        for <linux-kbuild@vger.kernel.org>; Mon,  9 Nov 2020 10:35:35 -0800 (PST)
-Received: by mail-qk1-x749.google.com with SMTP id x85so6634550qka.14
-        for <linux-kbuild@vger.kernel.org>; Mon, 09 Nov 2020 10:35:35 -0800 (PST)
+        Mon, 9 Nov 2020 18:11:54 -0500
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C562C0613D3
+        for <linux-kbuild@vger.kernel.org>; Mon,  9 Nov 2020 15:11:54 -0800 (PST)
+Received: by mail-ua1-x943.google.com with SMTP id w3so3356611uau.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 09 Nov 2020 15:11:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=UPtFfO/KAGWjAZ8J0b/rcbbvthH9v1BWCmAggArm5i8=;
-        b=vKs5LajVBuLwgcTXsa04azyliKJQi5uGBHpoBZQTKHdiPBPI8ds9ivlapOW8u5uGCT
-         Y+le2kl8KzoOf5zjXrcY/r12LsBEZuMYGzMzUyvBWX5zTR8q1h8C1BRdkkS2h7faC3gd
-         dWcwQniJuCPtPlYBrHtcUSe3o+fqWUUioN7sgNpk04r9BseaXw//Kr2z2g/uqNRCuGyH
-         IcruuoMx9dT/Sl65YKMJanasPemkm1w//WpuFOiOHGZDBt/jI/Znff/6OsNiEOqKlhYr
-         zuyrjsFW5Psr/ecmVk8p5sRfgeDAjyCWiJ1Z3tDoNHlUTG0n1vPonPh6ZqWIm6Da2lxv
-         sRNQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=JZQgZVi3YCvHDQb4j6S1eW+CN0G55HltfL6yQaxCZtw=;
+        b=t1l2R3SnFFVdfdQvYDlijrD+UPXk5ZGukiIRHbJTgQvkl7MTRTVczlXt06QVcmacOU
+         Vq3BUJUgAZO6+588P8OO1JRTe7UiwB49K2bkoIQ6w9PNfnSXY776+H/z2QNOD9pBtnZr
+         i05N8trMnBkez5wbwi+w6kBRSBw8LXuAVWvbCdU88nCrBKLfdQmj3N16FJBIDo9iCBjp
+         yFXmba2Ft4il4SYs0wKwBCCmZDmGe7YDt5JC6ZYcyK8Qw6xos9xkUlZyf3ZuAhZkYY+N
+         cX7DJc+SmToTO8Tnv/dbcYY1E0OJEJbMR39R6oZeEenW8DovERzm0Y6tVyJoIffqRt1v
+         xZzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=UPtFfO/KAGWjAZ8J0b/rcbbvthH9v1BWCmAggArm5i8=;
-        b=qxXOSNMRZZthKApXqQ2/TilxOEsxJeg5pa7/LBWlEMX/blpfH8P/qafvbdvsUT1jKy
-         Xg60Gx3ETd2MXPXlZTOfuSaZ1kN9sAPQW8ztASOTFONRKv256BNoZ7+n+PzRimwZq2zJ
-         p3Tgk/HcPvWxQ7xhrE3gYR7JUK5G4X+AnGxOqvAZH5Iz26E/0UGX3Rcn4fhdgJJAZ/MP
-         MQDgXL6Eo5S7Vbl4Lvt/w3O0SqXi+o2TQpHdDzFHpkgxF/HwIr25ngXQD2MDpaSrkX1z
-         AfJy9gZow9yCv/eO7rq2CuxbXXVLRXIfnunBxp9C4JPSk7yB2gAOMv03A39+UoTvm85J
-         PiVQ==
-X-Gm-Message-State: AOAM532TKYJCtdp4SZhg/ZmQea+1JsHUDyvrEZH9BcNpX9kSH5eQ8feV
-        PV9+lcaEVZtBmV3UIPdLz/e+M9UvOGj3HSVbGhw=
-X-Google-Smtp-Source: ABdhPJwgPIHlj9NT7rS2i7sB9ZpOasgaq9iZtu2LQMEd+sLO0IZwnKE+DnnlR5Y1adiIDuPR7yiHasMmtC6f9JFfLw4=
-Sender: "ndesaulniers via sendgmr" 
-        <ndesaulniers@ndesaulniers1.mtv.corp.google.com>
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:15c:211:202:f693:9fff:fef4:4d25])
- (user=ndesaulniers job=sendgmr) by 2002:a05:6214:174f:: with SMTP id
- dc15mr15123606qvb.26.1604946934162; Mon, 09 Nov 2020 10:35:34 -0800 (PST)
-Date:   Mon,  9 Nov 2020 10:35:28 -0800
-In-Reply-To: <CAKwvOd=9iqLgdtAWe2h-9n=KUWm_rjCCJJYeop8PS6F+AA0VtA@mail.gmail.com>
-Message-Id: <20201109183528.1391885-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <CAKwvOd=9iqLgdtAWe2h-9n=KUWm_rjCCJJYeop8PS6F+AA0VtA@mail.gmail.com>
-X-Mailer: git-send-email 2.29.2.222.g5d2a92d10f8-goog
-Subject: [PATCH v3] Kbuild: do not emit debug info for assembly with LLVM_IAS=1
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-toolchains@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Fangrui Song <maskray@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Dmitry Golovin <dima@golovin.in>,
-        Alistair Delva <adelva@google.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=JZQgZVi3YCvHDQb4j6S1eW+CN0G55HltfL6yQaxCZtw=;
+        b=sEkxX63HuIkZLBmsSgAt9IHg0uyRINHh8+FtshyVcCPWQYf9N73eKnmU5iDuZA2Era
+         DyzvaCBHEr2iMuZzL/78azB3fLCQ1ShIUuwvlm8PngMSQw46ZurHLxbDqEBUm1GFtsLv
+         QxX9n6rFGJ/QFE8JY08j49JLOV6KgD31nhf6QzzMmMdb6D5UAl26YfF5jviUGBuwHTwd
+         oWj/Q3WW8QXFOyeGSIGGiZ1HNnmcrp//TpnhOEGbwe67H9bmSSPCda/zJ6In1DAWVf2c
+         9lXW8g6RIHsqa1HuMeo7RD1+T0fb7ZfG1tDB/C9FiVyi/U4XbvTx1XZghzHzogsad4GX
+         XbJQ==
+X-Gm-Message-State: AOAM531HtAILPSIw2ZXd+hz6OzAK8p5HJkTBTg4HK3ibTQF10Uho8EB6
+        hJBL0tMDI78ppZRSqj7KbPRr3wYTHKBdM7alRrapVA==
+X-Google-Smtp-Source: ABdhPJzSnCy7R7CRJtXrWRQ8NOKgeJ6TkQkftDL443Gd1HeH/sey0RLyxXEmQPm/+B7rr2/os6cjJRBBWXYe+xD8OYU=
+X-Received: by 2002:ab0:186a:: with SMTP id j42mr8260179uag.52.1604963513337;
+ Mon, 09 Nov 2020 15:11:53 -0800 (PST)
+MIME-Version: 1.0
+References: <20201013003203.4168817-1-samitolvanen@google.com>
+ <20201013003203.4168817-23-samitolvanen@google.com> <CAG48ez2baAvKDA0wfYLKy-KnM_1CdOwjU873VJGDM=CErjsv_A@mail.gmail.com>
+ <20201015102216.GB2611@hirez.programming.kicks-ass.net> <20201015203942.f3kwcohcwwa6lagd@treble>
+ <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
+ <20201020185217.ilg6w5l7ujau2246@treble> <CABCJKucVjFtrOsw58kn4OnW5kdkUh8G7Zs4s6QU9s6O7soRiAA@mail.gmail.com>
+ <20201021085606.GZ2628@hirez.programming.kicks-ass.net> <CABCJKufL6=FiaeD8T0P+mK4JeR9J80hhjvJ6Z9S-m9UnCESxVA@mail.gmail.com>
+ <20201023173617.GA3021099@google.com>
+In-Reply-To: <20201023173617.GA3021099@google.com>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Mon, 9 Nov 2020 15:11:41 -0800
+Message-ID: <CABCJKuee7hUQSiksdRMYNNx05bW7pWaDm4fQ__znGQ99z9-dEw@mail.gmail.com>
+Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Josh Poimboeuf <jpoimboe@redhat.com>, Jann Horn <jannh@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
         Nick Desaulniers <ndesaulniers@google.com>,
-        stable@vger.kernel.org
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Clang's integrated assembler produces the warning for assembly files:
+On Fri, Oct 23, 2020 at 10:36 AM Sami Tolvanen <samitolvanen@google.com> wr=
+ote:
+>
+> On Wed, Oct 21, 2020 at 05:22:59PM -0700, Sami Tolvanen wrote:
+> > There are a couple of differences, like the first "undefined stack
+> > state" warning pointing to set_bringup_idt_handler.constprop.0()
+> > instead of __switch_to_asm(). I tried running this with --backtrace,
+> > but objtool segfaults at the first .entry.text warning:
+>
+> Looks like it segfaults when calling BT_FUNC() for an instruction that
+> doesn't have a section (?). Applying this patch allows objtool to finish
+> with --backtrace:
+>
+> diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+> index c216dd4d662c..618b0c4f2890 100644
+> --- a/tools/objtool/check.c
+> +++ b/tools/objtool/check.c
+> @@ -2604,7 +2604,7 @@ static int validate_branch(struct objtool_file *fil=
+e, struct symbol *func,
+>                                 ret =3D validate_branch(file, func,
+>                                                       insn->jump_dest, st=
+ate);
+>                                 if (ret) {
+> -                                       if (backtrace)
+> +                                       if (backtrace && insn->sec)
+>                                                 BT_FUNC("(branch)", insn)=
+;
+>                                         return ret;
+>                                 }
+>
+>
+> Running objtool -barfld on an allyesconfig+LTO vmlinux.o prints out the
+> following, ignoring the crypto warnings for now:
 
-warning: DWARF2 only supports one section per compilation unit
+OK, I spent some time looking at these warnings and the configs needed
+to reproduce them without building allyesconfig:
 
-If -Wa,-gdwarf-* is unspecified, then debug info is not emitted for
-assembly sources (it is still emitted for C sources).  This will be
-re-enabled for newer DWARF versions in a follow up patch.
+CONFIG_XEN
 
-Enables defconfig+CONFIG_DEBUG_INFO to build cleanly with
-LLVM=1 LLVM_IAS=1 for x86_64 and arm64.
+__switch_to_asm()+0x0: undefined stack state
+  xen_hypercall_set_trap_table()+0x0: <=3D=3D=3D (sym)
 
-Cc: <stable@vger.kernel.org>
-Link: https://github.com/ClangBuiltLinux/linux/issues/716
-Reported-by: Dmitry Golovin <dima@golovin.in>
-Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-Suggested-by: Dmitry Golovin <dima@golovin.in>
-Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
-Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
-Reviewed-by: Fangrui Song <maskray@google.com>
-Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
- Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+CONFIG_XEN_PV
 
-diff --git a/Makefile b/Makefile
-index f353886dbf44..7e899d356902 100644
---- a/Makefile
-+++ b/Makefile
-@@ -826,7 +826,9 @@ else
- DEBUG_CFLAGS	+= -g
- endif
- 
-+ifneq ($(LLVM_IAS),1)
- KBUILD_AFLAGS	+= -Wa,-gdwarf-2
-+endif
- 
- ifdef CONFIG_DEBUG_INFO_DWARF4
- DEBUG_CFLAGS	+= -gdwarf-4
--- 
-2.29.2.222.g5d2a92d10f8-goog
+.entry.text+0xffd: sibling call from callable instruction with
+modified stack frame
+  .entry.text+0xfcb: (branch)
+  .entry.text+0xfb5: (alt)
+  .entry.text+0xfb0: (alt)
+  .entry.text+0xf78: (branch)
+  .entry.text+0x9c: (branch)
+  xen_syscall_target()+0x15: (branch)
+  xen_syscall_target()+0x0: <=3D=3D=3D (sym)
+.entry.text+0x1754: unsupported instruction in callable function
+  .entry.text+0x171d: (branch)
+  .entry.text+0x1707: (alt)
+  .entry.text+0x1701: (alt)
+  xen_syscall32_target()+0x15: (branch)
+  xen_syscall32_target()+0x0: <=3D=3D=3D (sym)
+.entry.text+0x1634: redundant CLD
 
+Backtrace doesn=E2=80=99t print out anything useful for the =E2=80=9Credund=
+ant CLD=E2=80=9D
+error, but it occurs when validate_branch is looking at
+xen_sysenter_target.
+
+do_suspend_lowlevel()+0x116: sibling call from callable instruction
+with modified stack frame
+  do_suspend_lowlevel()+0x9a: (branch)
+  do_suspend_lowlevel()+0x0: <=3D=3D=3D (sym)
+
+.entry.text+0x48: stack state mismatch: cfa1=3D7-8 cfa2=3D-1+0
+  .altinstr_replacement+0xffffffffffffffff: (branch)
+  .entry.text+0x21: (alt)
+  .entry.text+0x1c: (alt)
+  .entry.text+0x10: <=3D=3D=3D (hint)
+.entry.text+0x15fd: stack state mismatch: cfa1=3D7-8 cfa2=3D-1+0
+  .altinstr_replacement+0xffffffffffffffff: (branch)
+  .entry.text+0x15dc: (alt)
+  .entry.text+0x15d7: (alt)
+  .entry.text+0x15d0: <=3D=3D=3D (hint)
+.entry.text+0x168c: stack state mismatch: cfa1=3D7-8 cfa2=3D-1+0
+  .altinstr_replacement+0xffffffffffffffff: (branch)
+  .entry.text+0x166b: (alt)
+  .entry.text+0x1666: (alt)
+  .entry.text+0x1660: <=3D=3D=3D (hint)
+
+It looks like the stack state mismatch warnings can be fixed by adding
+unwind hints also to entry_SYSCALL_64_after_hwframe,
+entry_SYSENTER_compat_after_hwframe, and
+entry_SYSCALL_compat_after_hwframe. Does that sound correct?
+
+CONFIG_AMD_MEM_ENCRYPT
+
+.head.text+0xfb: unsupported instruction in callable function
+  .head.text+0x207: (branch)
+  sev_es_play_dead()+0xff: (branch)
+  sev_es_play_dead()+0xd2: (branch)
+  sev_es_play_dead()+0xa8: (alt)
+  sev_es_play_dead()+0x144: (branch)
+  sev_es_play_dead()+0x10b: (branch)
+  sev_es_play_dead()+0x1f: (branch)
+  sev_es_play_dead()+0x0: <=3D=3D=3D (sym)
+
+This happens because sev_es_play_dead calls start_cpu0. It always has,
+but objtool hasn=E2=80=99t been able to follow the call when processing onl=
+y
+sev-es.o. Any thoughts on the preferred way to fix this one?
+
+CONFIG_CRYPTO_CRC32C_INTEL
+
+__x86_retpoline_rdi()+0x10: return with modified stack frame
+  __x86_retpoline_rdi()+0x0: (branch)
+  .altinstr_replacement+0x147: (branch)
+  .text+0xaf4c7: (alt)
+  .text+0xb03b0: (branch)
+  .text+0xaf482: (branch)
+  crc_pcl()+0x10: (branch)
+  crc_pcl()+0x0: <=3D=3D=3D (sym)
+
+__x86_retpoline_rdi()+0x0: stack state mismatch: cfa1=3D7+32 cfa2=3D7+8
+  .altinstr_replacement+0x265: (branch)
+  __x86_indirect_thunk_rdi()+0x0: (alt)
+  __x86_indirect_thunk_rdi()+0x0: <=3D=3D=3D (sym)
+
+This is different from the warnings in the rest of the arch/x86/crypto
+code. Do we need some kind of a hint before the JMP_NOSPEC in crc_pcl?
+
+CONFIG_FUNCTION_TRACER
+
+__x86_retpoline_rdi()+0x0: stack state mismatch: cfa1=3D7+32 cfa2=3D-1+0
+  .altinstr_replacement+0x111: (branch)
+  .text+0x28a5: (alt)
+  .text+0x2880: <=3D=3D=3D (hint)
+
+This unwind hint is in return_to_handler. Removing it obviously stops
+the warning and doesn=E2=80=99t seem to result in any other complaints from
+objtool. Is this hint correct?
+
+The remaining warnings are all =E2=80=9Cunsupported stack pointer realignme=
+nt=E2=80=9D
+issues in the crypto code and can be reproduced with the following
+configs:
+
+CONFIG_CRYPTO_AES_NI_INTEL
+CONFIG_CRYPTO_CAMELLIA_AESNI_AVX2_X86_64
+CONFIG_CRYPTO_SHA1_SSSE3
+CONFIG_CRYPTO_SHA256_SSSE3
+CONFIG_CRYPTO_SHA512_SSSE3
+
+Josh, have you had a chance to look at the crypto patches you mentioned ear=
+lier?
+
+Sami
