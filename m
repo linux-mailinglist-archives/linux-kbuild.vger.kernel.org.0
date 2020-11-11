@@ -2,87 +2,129 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4A452AF68E
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Nov 2020 17:31:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EED872AF7BE
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Nov 2020 19:09:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726208AbgKKQbn (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Nov 2020 11:31:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53526 "EHLO
+        id S1726205AbgKKSJ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Nov 2020 13:09:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727543AbgKKQbi (ORCPT
+        with ESMTP id S1726920AbgKKSJZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Nov 2020 11:31:38 -0500
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD5BC0613D1
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 08:31:38 -0800 (PST)
-Received: by mail-qk1-x736.google.com with SMTP id 199so2193999qkg.9
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 08:31:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=yV3zhMsaAUeFu6z49iuIfq0V/xXURbZ7s20z6PPsuuw=;
-        b=tyQm2CLLTFdFGFQBJ6j+2CDWUcJDS5OAcAXSIZxcmkI3D7qSA8ejeHT/Hzchi4srTT
-         FANmc3/0/99eg4WTVS387WmDZcdUYVvo/1824BYAV+q9a1XskDWlw0527AAb0xOYTloV
-         vLM0uz2m+BHYNLBLT286vhz26CWa2dF7W00fR51XqzqzHl3KtUm/id0dtO/1VW3KXzQ6
-         QQZwGQu71GQ7YkMlpKaqxmtZTASQWWYfJMsgc7adr0zJFF+bsTBaFsPBmJWElYHiLxAZ
-         h6BAvQ0NHr2y9ZBpuSKKitnAFXoyCRvmCyH7EvUGeD1UKRo5Dq3jHLPnF8i9zbodFk4B
-         MDYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=yV3zhMsaAUeFu6z49iuIfq0V/xXURbZ7s20z6PPsuuw=;
-        b=jqNOouYNizGUbpf2ZoUTVsr9z1BQpcQ7uhqIuG7I6B7mnHsHVen9GwQP7Zf49BI9nM
-         aGolisOG7DmlZlHEhmEgQyNxcomjsuvwsf0POIqqDwhTOzL7SyqPJFFdCw6Le+gG4hpS
-         /cq3giiVW8EyBOklCDS7O75uMuTI7I9wRHFn1FhJekm5F+cquoKLGpKfHT4QThZaxllT
-         /jL4seRU5LL3Qfg2ooUbJDbSaAQ2ye12ZEkjHYNhWDCcace2b6Bnu68ENwVWTp/aKLbY
-         Lzk5cbTAGUgZeAxqnODWh3d1WPaAjXpWTDD7D+1e2fYFnK7/GeLmAMv8khRlgfQHBTlh
-         4Ksg==
-X-Gm-Message-State: AOAM5302brl0c9mynfgrFQ84hX2UIKX5goy3JOP+oQ8vbUlM3uyxOXRg
-        sQFwtjjF7ZgolCVpfB45+6CobnolEW0=
-X-Google-Smtp-Source: ABdhPJzuFi0ipMmcOoN/PgzUzUtWW7oNMGglRbec+1QcamW0fkMuwRvwPk5IX/f6HbYKaijICyqLrg==
-X-Received: by 2002:a37:bf02:: with SMTP id p2mr5233402qkf.399.1605112297086;
-        Wed, 11 Nov 2020 08:31:37 -0800 (PST)
-Received: from p51.localdomain (bras-base-mtrlpq4706w-grc-05-174-93-161-125.dsl.bell.ca. [174.93.161.125])
-        by smtp.gmail.com with ESMTPSA id l46sm2778729qta.44.2020.11.11.08.31.36
-        for <linux-kbuild@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 08:31:36 -0800 (PST)
-Received: by p51.localdomain (Postfix, from userid 1000)
-        id A68AE1D171F2; Wed, 11 Nov 2020 11:31:35 -0500 (EST)
-Date:   Wed, 11 Nov 2020 11:31:35 -0500
-From:   jrun <darwinskernel@gmail.com>
-To:     linux-kbuild@vger.kernel.org
-Subject: unwanted built-ins
-Message-ID: <20201111163135.f6rjjgldlouspfat@savoirfairelinux.com>
+        Wed, 11 Nov 2020 13:09:25 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BFC6C0613D1
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 10:09:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=slxpBcDq8BGM77UIViJBN0ppo0C8K6AVmS1tsRdTK2A=; b=PBu6E5fdMgCtIE+g8CzC0fOqJq
+        toKMW6QBtTWakOiqYcCa8sVMBJAlbdORv1YNWpVPrxKeuohTJ2cyzVhqEK07yezYuOzNB1HWXYrKY
+        vMdoVuYotDXWEOXZYepDaxzBU7COmGU9xQH9+ZQfSHz1uu7Ro3kQJClGu9XSTcrXOtJyD4eWuq1tF
+        gkXuhExFTfIyeBpoMVktkf8MYWEwxMduhEVw7zO4oX31R9g8AxKvTfncrBWm2tVIAyZV3KPz1H4sQ
+        3f6UaVfOPj7F1M2nwnvfoeACTcm1SDUxx/j7yY8y6eKbU4VJcCxbDzwLcfj7fZRn480G9/i8pbtAi
+        jc7iUgVA==;
+Received: from [2601:1c0:6280:3f0::662d]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kcuYb-0007WS-UE; Wed, 11 Nov 2020 18:09:22 +0000
+Subject: Re: unwanted built-ins
+To:     jrun <darwinskernel@gmail.com>, linux-kbuild@vger.kernel.org
+References: <20201111163135.f6rjjgldlouspfat@savoirfairelinux.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <b852dcf4-c8d6-c7b3-3833-5c6083883b9e@infradead.org>
+Date:   Wed, 11 Nov 2020 10:09:18 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201111163135.f6rjjgldlouspfat@savoirfairelinux.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-hello,
+On 11/11/20 8:31 AM, jrun wrote:
+> hello,
+> 
+> why things under drivers/gpu/drm get built despite CONFIG_DRM not being set?
+> 
+> i'm cross compiling for armv7a and pass this as KCONFIG_ALLCONFIG to
+> allnoconfig:
+> https://gist.github.com/257/d69a5e95bd42cd7db5f1012703113fd1
+> 
+> if i take drm-y as an example; it seems to me that drm-y should only be built if
+> CONFIG_DRM=y|m according to this line in drivers/gpu/drm/Makefile:
+> 
+> obj-$(CONFIG_DRM)+= drm.o
+> 
+> final .config has this:
+> 
+> #
+> # Graphics support
+> #
+> # CONFIG_IMX_IPUV3_CORE is not set
+> # CONFIG_DRM is not set
+> 
+> 
+> thanks in advance for help
+> -- jrun
+> 
 
-why things under drivers/gpu/drm get built despite CONFIG_DRM not being set?
+Hi,
 
-i'm cross compiling for armv7a and pass this as KCONFIG_ALLCONFIG to
-allnoconfig:
-https://gist.github.com/257/d69a5e95bd42cd7db5f1012703113fd1
+Is this a speed of build issue?
+Yes, make is descending into multiple directories that are not
+strictly needed in this kernel config:
 
-if i take drm-y as an example; it seems to me that drm-y should only be built if
-CONFIG_DRM=y|m according to this line in drivers/gpu/drm/Makefile:
+  AR      drivers/gpu/drm/arm/built-in.a
+  AR      drivers/gpu/drm/rcar-du/built-in.a
+  AR      drivers/gpu/drm/omapdrm/dss/built-in.a
+  AR      drivers/gpu/drm/omapdrm/displays/built-in.a
+  AR      drivers/gpu/drm/omapdrm/built-in.a
+  AR      drivers/gpu/drm/tilcdc/built-in.a
+  AR      drivers/gpu/drm/imx/built-in.a
+  AR      drivers/gpu/drm/i2c/built-in.a
+  AR      drivers/gpu/drm/panel/built-in.a
+  AR      drivers/gpu/drm/bridge/analogix/built-in.a
+  AR      drivers/gpu/drm/bridge/cadence/built-in.a
+  AR      drivers/gpu/drm/bridge/synopsys/built-in.a
+  AR      drivers/gpu/drm/bridge/built-in.a
+  AR      drivers/gpu/drm/hisilicon/built-in.a
+  AR      drivers/gpu/drm/tiny/built-in.a
+  AR      drivers/gpu/drm/xlnx/built-in.a
+  AR      drivers/gpu/drm/built-in.a
 
-obj-$(CONFIG_DRM)+= drm.o
+The built-in.a files that I see being built are all of size 8 bytes.
 
-final .config has this:
-
-#
-# Graphics support
-#
-# CONFIG_IMX_IPUV3_CORE is not set
-# CONFIG_DRM is not set
+Also, since kconfig still applies normal dependency checks to whatever
+is in the KCONFIG_ALLCONFIG file [1], I had to modify that file like this:
+(note that BCM_63XX was misspelled)
 
 
-thanks in advance for help
--- jrun
+ # CONFIG_VM_EVENT_COUNTERS is not set
+ # CONFIG_COMPAT_BRK is not set
+ # CONFIG_SLAB_MERGE_DEFAULT is not set
++CONFIG_MMU=y
++CONFIG_ARCH_MULTIPLATFORM=y
++# CONFIG_ARCH_MULTI_V5 is not set
++# CONFIG_ARCH_MULTI_V4_V5 is not set
++CONFIG_ARCH_MULTI_V7=y
++CONFIG_ARCH_MULTI_V6_V7=y
+ CONFIG_ARCH_BCM=y
+-CONFIG_ARCH_BCM63XX=y
++CONFIG_ARCH_BCM_63XX=y
+ # CONFIG_ATAGS is not set
+ # CONFIG_SUSPEND is not set
+ # CONFIG_STACKPROTECTOR is not set
+
+[1] from Documentation/kbuild/kconfig.rst:
+This 'KCONFIG_ALLCONFIG' file is a config file which contains
+(usually a subset of all) preset config symbols.  These variable
+settings are still subject to normal dependency checks.
+
+
+-- 
+~Randy
+
