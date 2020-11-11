@@ -2,119 +2,49 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 713E02ADEF1
-	for <lists+linux-kbuild@lfdr.de>; Tue, 10 Nov 2020 20:00:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E6AB2AE9F7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Nov 2020 08:24:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731133AbgKJTAJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 10 Nov 2020 14:00:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46538 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730382AbgKJTAI (ORCPT
+        id S1726667AbgKKHYN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-kbuild@lfdr.de>); Wed, 11 Nov 2020 02:24:13 -0500
+Received: from sw73-70-41.adsl.seed.net.tw ([203.73.70.41]:44161 "EHLO
+        oa.trendtek.com.tw" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1726096AbgKKHYM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 10 Nov 2020 14:00:08 -0500
-Received: from mail-vs1-xe42.google.com (mail-vs1-xe42.google.com [IPv6:2607:f8b0:4864:20::e42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C537C0613D4
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Nov 2020 11:00:08 -0800 (PST)
-Received: by mail-vs1-xe42.google.com with SMTP id f7so7689976vsh.10
-        for <linux-kbuild@vger.kernel.org>; Tue, 10 Nov 2020 11:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HQMWJ4qrTrrDaVP4fR8AYbnLL+HhbqUgRWbw+YSQ1PU=;
-        b=UAf9RqBB0qr82AsqOtHV2sesZ3cFzDvVPrFOFo9wUuuHJXryVnBngDsIrGvKaE6X19
-         0SqjoI+qK8F47wcovy/kBeCPJ4lIKLolgnCYTTAinI6LM/5ys2dh6HlhdigZSrVkC/rn
-         ShAlUOfI+vdr9rptwftYPxBYiTijHNtuYVGc3mYzd/3mrO/nNNPGBPmWtes0yy3EJX3R
-         sHQB4adTCc34sogEGEr66NVJxa45ZnJ2DpryOQ0DhgNiqen71LLeDBvfUdLT3d4QP0EK
-         CCvE4ObR4otzBFPgR6yeCqhZTLFHqyDs2Tr4Y5R18i3xk72lbdkEjxSGufRjUQd0yCL8
-         Ojbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HQMWJ4qrTrrDaVP4fR8AYbnLL+HhbqUgRWbw+YSQ1PU=;
-        b=F0lo5j21UWupSRc/KugAKs9QXokzP/FMYzBqUso9IFGWAFtxfpP9hJ9TDeTclpELmk
-         6HK1tw945TB3BWPbUtaIOUdG1cVdbjohdS/Qf9m3G2sOxXKz6DMujHc2RwCzh4uPN/pj
-         rKyQKHj7tlOKutAhXmG+OMxucbqGGUqIpzC8LQZWEEU/SkJIURSlzj9fSuoxWP3dE+NM
-         fihTFNHYlw/MQGbJvmuaaCEA68ckpPI+JrPEzqrcO0/nxh0wOcNGc9fV55IB0p9GzGUP
-         6cRRqg2AqzfxPG3i/JQPMRCQzcsv0WFuV4me8HdlBpxHo6CzPkPfXeoroE5uVJXuvzK+
-         Liag==
-X-Gm-Message-State: AOAM532mj4SLOO2pKZWrbOAOogoU1kkusyPi4A8ac5efQx0G+I9wvGQc
-        Km9nKMC2pwe5ZBo9Bo4yFGiubIgtfucbMTpQQakf3w==
-X-Google-Smtp-Source: ABdhPJw/xQbpb4nm+Nf8IkeXZp9mvPOXpptK1b90vfr96ZwBHQ1ynLFLCpnmKb8sXq4PoJSCYGgPJD2CoGITJLPmHok=
-X-Received: by 2002:a67:ee93:: with SMTP id n19mr12787183vsp.36.1605034807022;
- Tue, 10 Nov 2020 11:00:07 -0800 (PST)
+        Wed, 11 Nov 2020 02:24:12 -0500
+X-Greylist: delayed 68744 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Nov 2020 02:24:12 EST
+Received: from [156.96.44.214] ([156.96.44.214])
+        (authenticated bits=0)
+        by oa.trendtek.com.tw (8.13.8/8.13.1) with ESMTP id 0AB7O7dV025020
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 15:24:11 +0800
+Message-Id: <202011110724.0AB7O7dV025020@oa.trendtek.com.tw>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-References: <20201015102216.GB2611@hirez.programming.kicks-ass.net>
- <20201015203942.f3kwcohcwwa6lagd@treble> <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
- <20201020185217.ilg6w5l7ujau2246@treble> <CABCJKucVjFtrOsw58kn4OnW5kdkUh8G7Zs4s6QU9s6O7soRiAA@mail.gmail.com>
- <20201021085606.GZ2628@hirez.programming.kicks-ass.net> <CABCJKufL6=FiaeD8T0P+mK4JeR9J80hhjvJ6Z9S-m9UnCESxVA@mail.gmail.com>
- <20201023173617.GA3021099@google.com> <CABCJKuee7hUQSiksdRMYNNx05bW7pWaDm4fQ__znGQ99z9-dEw@mail.gmail.com>
- <20201110022924.tekltjo25wtrao7z@treble> <20201110174606.mp5m33lgqksks4mt@treble>
-In-Reply-To: <20201110174606.mp5m33lgqksks4mt@treble>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Tue, 10 Nov 2020 10:59:55 -0800
-Message-ID: <CABCJKuf+Ev=hpCUfDpCFR_wBACr-539opJsSFrDcpDA9Ctp7rg@mail.gmail.com>
-Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Jann Horn <jannh@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Corporate and Personal Loan *
+To:     linux-kbuild@vger.kernel.org
+From:   "Investment  Corporate" <financialcapability6@gmail.com>
+Date:   Wed, 11 Nov 2020 00:31:22 -0800
+Reply-To: hmurrah39@gmail.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 9:46 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Mon, Nov 09, 2020 at 08:29:24PM -0600, Josh Poimboeuf wrote:
-> > On Mon, Nov 09, 2020 at 03:11:41PM -0800, Sami Tolvanen wrote:
-> > > CONFIG_XEN
-> > >
-> > > __switch_to_asm()+0x0: undefined stack state
-> > >   xen_hypercall_set_trap_table()+0x0: <=== (sym)
->
-> With your branch + GCC 9 I can recreate all the warnings except this
-> one.
+Hello linux-kbuild@vger.kernel.org
 
-In a gcc build this warning is replaced with a different one:
 
-vmlinux.o: warning: objtool: __startup_secondary_64()+0x7: return with
-modified stack frame
+We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
 
-This just seems to depend on which function is placed right after the
-code in xen-head.S. With gcc, the disassembly looks like this:
 
-0000000000000000 <asm_cpu_bringup_and_idle>:
-       0:       e8 00 00 00 00          callq  5 <asm_cpu_bringup_and_idle+0x5>
-                        1: R_X86_64_PLT32       cpu_bringup_and_idle-0x4
-       5:       e9 f6 0f 00 00          jmpq   1000
-<xen_hypercall_set_trap_table>
-...
-0000000000001000 <xen_hypercall_set_trap_table>:
-        ...
-...
-0000000000002000 <__startup_secondary_64>:
+We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
 
-With Clang+LTO, we end up with __switch_to_asm here instead of
-__startup_secondary_64.
 
-> Will do some digging on the others...
+Please get back to me if you are interested for more
 
-Thanks!
+details.
 
-Sami
+
+Yours faithfully,
+
+Hashim Murrah
