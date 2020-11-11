@@ -2,129 +2,135 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EED872AF7BE
-	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Nov 2020 19:09:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5E332AF8A2
+	for <lists+linux-kbuild@lfdr.de>; Wed, 11 Nov 2020 20:00:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726205AbgKKSJ2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 11 Nov 2020 13:09:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40416 "EHLO
+        id S1725949AbgKKTAt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 11 Nov 2020 14:00:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726920AbgKKSJZ (ORCPT
+        with ESMTP id S1725916AbgKKTAs (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 11 Nov 2020 13:09:25 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BFC6C0613D1
-        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 10:09:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=slxpBcDq8BGM77UIViJBN0ppo0C8K6AVmS1tsRdTK2A=; b=PBu6E5fdMgCtIE+g8CzC0fOqJq
-        toKMW6QBtTWakOiqYcCa8sVMBJAlbdORv1YNWpVPrxKeuohTJ2cyzVhqEK07yezYuOzNB1HWXYrKY
-        vMdoVuYotDXWEOXZYepDaxzBU7COmGU9xQH9+ZQfSHz1uu7Ro3kQJClGu9XSTcrXOtJyD4eWuq1tF
-        gkXuhExFTfIyeBpoMVktkf8MYWEwxMduhEVw7zO4oX31R9g8AxKvTfncrBWm2tVIAyZV3KPz1H4sQ
-        3f6UaVfOPj7F1M2nwnvfoeACTcm1SDUxx/j7yY8y6eKbU4VJcCxbDzwLcfj7fZRn480G9/i8pbtAi
-        jc7iUgVA==;
-Received: from [2601:1c0:6280:3f0::662d]
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kcuYb-0007WS-UE; Wed, 11 Nov 2020 18:09:22 +0000
+        Wed, 11 Nov 2020 14:00:48 -0500
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86CE2C0613D1
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 11:00:48 -0800 (PST)
+Received: by mail-qt1-x82d.google.com with SMTP id f93so2054005qtb.10
+        for <linux-kbuild@vger.kernel.org>; Wed, 11 Nov 2020 11:00:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jyT78UXpcNHaKY4Y10GknFYiBfBLk3+5JG963pdEOMM=;
+        b=WU1E6AhwbYVGKm2Hm5MnZWoi6h+9KQViYYwp5EUgmIq5U4lhuumfC3ak7G8+ePZoNk
+         mOShf/WsAcx3sVLSM7QX+XxUteQCatOXnfu3BB7jenS29ruvzj4xObkSUhuvXDSKZHoE
+         ExntQ13XomiA5uaIOXQYWkZlDFsmS/HX7nfJ8BVIlHduZ1FMXeXRwAoJqBIxFXaBIexG
+         b6Wt9GBg8r5Xwqr6zItLloXA0aDvQomSyQ5EdQFxttkgifBYOo1xFglqWCbXH4zUq+9n
+         46Hc1SySMFGj7vgJ/o9QE3Kn8abGCMY5LfX3i5J1Z5YivgS42uTWskPDDKrNzPpsb+7l
+         n+hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jyT78UXpcNHaKY4Y10GknFYiBfBLk3+5JG963pdEOMM=;
+        b=b/eSI89Jwrb7G5KZFzkyJLJiJU2zwsTCzcHxGtapHAOUnIiE2j49DU8T2aVpLK+2/I
+         9dYGh137xuNWwrLuvYE2fW/aoefmVTbhXNbxRjiLT4LYzj+y+iwEwgT4pvdroSvxmkiH
+         iqXAtFjF5oAtYEqR9p08kF00NFeGhQTud/LK9w69TSOrJ/VPK/WIYkhxJif4f7sNouwk
+         BhxXa2SElbEaty5OoiExRPkdGaWgGMaRgGJwBbR5EWN0hfgN5/vueeXnI/A4YfdCJ3an
+         AGaxpdPrusMSEpXZg/41k5lud6zcNlsbk4yom0ve8YlAS2g+xWRtnCsvxHLsI7BvXCPR
+         nJlg==
+X-Gm-Message-State: AOAM533j+WCT74Jj4CjuQltjWK+kKjW4dmfhxcjKf+QxWaL7EZhYWE0E
+        5Pxp6Xqu3L2sRz4/WL1d01CtKmJRLVU=
+X-Google-Smtp-Source: ABdhPJynOlRqHP5VnmOtLwyDKbjKBTB+is5uNwaP1Zwh+aJzUHxiH9uUDF/lToKMtnZWcZMdrMO2IA==
+X-Received: by 2002:ac8:4a07:: with SMTP id x7mr16903913qtq.273.1605121247184;
+        Wed, 11 Nov 2020 11:00:47 -0800 (PST)
+Received: from p51.localdomain (bras-base-mtrlpq4706w-grc-05-174-93-161-125.dsl.bell.ca. [174.93.161.125])
+        by smtp.gmail.com with ESMTPSA id n201sm2978938qka.32.2020.11.11.11.00.46
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2020 11:00:46 -0800 (PST)
+Received: by p51.localdomain (Postfix, from userid 1000)
+        id C6A261D1723E; Wed, 11 Nov 2020 14:00:45 -0500 (EST)
+Date:   Wed, 11 Nov 2020 14:00:45 -0500
+From:   jrun <darwinskernel@gmail.com>
+To:     linux-kbuild@vger.kernel.org
 Subject: Re: unwanted built-ins
-To:     jrun <darwinskernel@gmail.com>, linux-kbuild@vger.kernel.org
+Message-ID: <20201111190045.j37ixzeosd7qxzkm@savoirfairelinux.com>
 References: <20201111163135.f6rjjgldlouspfat@savoirfairelinux.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b852dcf4-c8d6-c7b3-3833-5c6083883b9e@infradead.org>
-Date:   Wed, 11 Nov 2020 10:09:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ <b852dcf4-c8d6-c7b3-3833-5c6083883b9e@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20201111163135.f6rjjgldlouspfat@savoirfairelinux.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <b852dcf4-c8d6-c7b3-3833-5c6083883b9e@infradead.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/11/20 8:31 AM, jrun wrote:
-> hello,
+On Wed, Nov 11, 2020 at 10:09:18AM -0800, Randy Dunlap wrote:
+> Hi,
 > 
-> why things under drivers/gpu/drm get built despite CONFIG_DRM not being set?
+> Is this a speed of build issue?
+
+i wasn't thinking about that but sure it does have that effect too.
+
+> Yes, make is descending into multiple directories that are not
+> strictly needed in this kernel config:
 > 
-> i'm cross compiling for armv7a and pass this as KCONFIG_ALLCONFIG to
-> allnoconfig:
-> https://gist.github.com/257/d69a5e95bd42cd7db5f1012703113fd1
+>   AR      drivers/gpu/drm/arm/built-in.a
+>   AR      drivers/gpu/drm/rcar-du/built-in.a
+>   AR      drivers/gpu/drm/omapdrm/dss/built-in.a
+>   AR      drivers/gpu/drm/omapdrm/displays/built-in.a
+>   AR      drivers/gpu/drm/omapdrm/built-in.a
+>   AR      drivers/gpu/drm/tilcdc/built-in.a
+>   AR      drivers/gpu/drm/imx/built-in.a
+>   AR      drivers/gpu/drm/i2c/built-in.a
+>   AR      drivers/gpu/drm/panel/built-in.a
+>   AR      drivers/gpu/drm/bridge/analogix/built-in.a
+>   AR      drivers/gpu/drm/bridge/cadence/built-in.a
+>   AR      drivers/gpu/drm/bridge/synopsys/built-in.a
+>   AR      drivers/gpu/drm/bridge/built-in.a
+>   AR      drivers/gpu/drm/hisilicon/built-in.a
+>   AR      drivers/gpu/drm/tiny/built-in.a
+>   AR      drivers/gpu/drm/xlnx/built-in.a
+>   AR      drivers/gpu/drm/built-in.a
 > 
-> if i take drm-y as an example; it seems to me that drm-y should only be built if
-> CONFIG_DRM=y|m according to this line in drivers/gpu/drm/Makefile:
-> 
-> obj-$(CONFIG_DRM)+= drm.o
-> 
-> final .config has this:
-> 
-> #
-> # Graphics support
-> #
-> # CONFIG_IMX_IPUV3_CORE is not set
-> # CONFIG_DRM is not set
-> 
-> 
-> thanks in advance for help
-> -- jrun
-> 
+> The built-in.a files that I see being built are all of size 8 bytes.
 
-Hi,
+and they don't make it into the final image which is what i wanted. thanks.
 
-Is this a speed of build issue?
-Yes, make is descending into multiple directories that are not
-strictly needed in this kernel config:
+now i would interested to know why some subsystems have those obj-y's
+unconditionally asserted?
+for instance, would something like this make sense?
 
-  AR      drivers/gpu/drm/arm/built-in.a
-  AR      drivers/gpu/drm/rcar-du/built-in.a
-  AR      drivers/gpu/drm/omapdrm/dss/built-in.a
-  AR      drivers/gpu/drm/omapdrm/displays/built-in.a
-  AR      drivers/gpu/drm/omapdrm/built-in.a
-  AR      drivers/gpu/drm/tilcdc/built-in.a
-  AR      drivers/gpu/drm/imx/built-in.a
-  AR      drivers/gpu/drm/i2c/built-in.a
-  AR      drivers/gpu/drm/panel/built-in.a
-  AR      drivers/gpu/drm/bridge/analogix/built-in.a
-  AR      drivers/gpu/drm/bridge/cadence/built-in.a
-  AR      drivers/gpu/drm/bridge/synopsys/built-in.a
-  AR      drivers/gpu/drm/bridge/built-in.a
-  AR      drivers/gpu/drm/hisilicon/built-in.a
-  AR      drivers/gpu/drm/tiny/built-in.a
-  AR      drivers/gpu/drm/xlnx/built-in.a
-  AR      drivers/gpu/drm/built-in.a
+diff --git a/drivers/video/Makefile b/drivers/video/Makefile
+index df7650adede9..47508d8049d9 100644
+--- a/drivers/video/Makefile
++++ b/drivers/video/Makefile
+@@ -7,7 +7,7 @@ obj-$(CONFIG_FB_STI)		  += console/
+ obj-$(CONFIG_LOGO)		  += logo/
+ obj-y				  += backlight/
 
-The built-in.a files that I see being built are all of size 8 bytes.
+-obj-y				  += fbdev/
++obj-$(CONFIG_FB)		  += fbdev/
 
-Also, since kconfig still applies normal dependency checks to whatever
-is in the KCONFIG_ALLCONFIG file [1], I had to modify that file like this:
-(note that BCM_63XX was misspelled)
+ obj-$(CONFIG_VIDEOMODE_HELPERS) += display_timing.o videomode.o
+ ifeq ($(CONFIG_OF),y)
+
+or this:
+
+diff --git a/drivers/gpu/Makefile b/drivers/gpu/Makefile
+index 835c88318cec..c1a71f4938bb 100644
+--- a/drivers/gpu/Makefile
++++ b/drivers/gpu/Makefile
+@@ -3,6 +3,7 @@
+ # taken to initialize them in the correct order. Link order is the only way
+ # to ensure this currently.
+ obj-$(CONFIG_TEGRA_HOST1X)	+= host1x/
+-obj-y			+= drm/ vga/
++obj-y				+= vga/
++obj-$(CONFIG_DRM)		+= drm/
+ obj-$(CONFIG_IMX_IPUV3_CORE)	+= ipu-v3/
+ obj-$(CONFIG_TRACE_GPU_MEM)		+= trace/
 
 
- # CONFIG_VM_EVENT_COUNTERS is not set
- # CONFIG_COMPAT_BRK is not set
- # CONFIG_SLAB_MERGE_DEFAULT is not set
-+CONFIG_MMU=y
-+CONFIG_ARCH_MULTIPLATFORM=y
-+# CONFIG_ARCH_MULTI_V5 is not set
-+# CONFIG_ARCH_MULTI_V4_V5 is not set
-+CONFIG_ARCH_MULTI_V7=y
-+CONFIG_ARCH_MULTI_V6_V7=y
- CONFIG_ARCH_BCM=y
--CONFIG_ARCH_BCM63XX=y
-+CONFIG_ARCH_BCM_63XX=y
- # CONFIG_ATAGS is not set
- # CONFIG_SUSPEND is not set
- # CONFIG_STACKPROTECTOR is not set
-
-[1] from Documentation/kbuild/kconfig.rst:
-This 'KCONFIG_ALLCONFIG' file is a config file which contains
-(usually a subset of all) preset config symbols.  These variable
-settings are still subject to normal dependency checks.
-
-
--- 
-~Randy
-
+- jrun
