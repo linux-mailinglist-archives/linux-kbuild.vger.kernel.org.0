@@ -2,163 +2,152 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D39162B24FE
-	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Nov 2020 20:56:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBE002B2552
+	for <lists+linux-kbuild@lfdr.de>; Fri, 13 Nov 2020 21:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbgKMT4M (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Nov 2020 14:56:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54284 "EHLO
+        id S1726094AbgKMUYq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Nov 2020 15:24:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726277AbgKMT4K (ORCPT
+        with ESMTP id S1726064AbgKMUYq (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Nov 2020 14:56:10 -0500
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07B3AC0613D1;
-        Fri, 13 Nov 2020 11:56:10 -0800 (PST)
-Received: by mail-qk1-x742.google.com with SMTP id k4so18207qko.13;
-        Fri, 13 Nov 2020 11:56:09 -0800 (PST)
+        Fri, 13 Nov 2020 15:24:46 -0500
+Received: from mail-ua1-x943.google.com (mail-ua1-x943.google.com [IPv6:2607:f8b0:4864:20::943])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0DDDC0617A7
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Nov 2020 12:24:45 -0800 (PST)
+Received: by mail-ua1-x943.google.com with SMTP id k12so3391560uae.13
+        for <linux-kbuild@vger.kernel.org>; Fri, 13 Nov 2020 12:24:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BuSBR3W0Up+xs4RMbJtfRRlgixduLeoiJlhk7xnEIR0=;
-        b=Rz7bo5155yveyQ9ZrU3UXRmgFVAlpmKkI/wTgDabwLcf/AW274xZWtGwKaoFUHCuWV
-         AlUe5BkWT/spMfkjOhGCLbH/P6zUhfVdE0Ya0L1jSSCP5uofyayDsp4lUMXVQtrOM4iq
-         ymSNPlt7IqY/MlDkIJMQo1VjmPcK94pRwWf4QkNu+vVjHunZEg9cnxjY4plQCq/MKl+H
-         cCHXsuMrxAVYpHLpMIehHAJKLLkv6OrYRA/SZyIZR3JxxDw5jpL2lTKg1vC3GAVhk/rE
-         /vPKiSV5CAXK/3t0WeX1/3ZNsY/Ul5dLS8lV0uol/Cj+UtRt/Zk4sIh6yididMuf64Ba
-         GLBg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mU6UeGOfRQMRJwnHmGX5EKrd3fAZtibGBHai3RFBnJQ=;
+        b=SBgav/T3VzzEtf+XcGk0y2urSrYRSMZdZ/BSprOQYF07imi1ADQ6+bP8NVgkFIS13j
+         c29etEZPIosU9Ccq+aDvjNmW4gtV+RXjaLR5/iYKTteik7fkjmDnPZ3rLCzlNv2EYSEP
+         /f9Rq5iUQR0o7S1G9L2SZCAv7mAGSkXEUI5hN3rLrtsdHgPlxnpAG0v3MFSAKPbkQrae
+         WLoVYBLPEP79v4Y7OA8gXbcs08GtIihODPoDAmO+6mtoQqiccreuY2GcpYzaDeYkNLlF
+         n1WMuVFyGng50eB9Mmqa/6aQz5eygw2tOZp8M/jD01KJFVb5k1ymIpwXFEcj8xVZxzyy
+         nZxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BuSBR3W0Up+xs4RMbJtfRRlgixduLeoiJlhk7xnEIR0=;
-        b=BLzRq/P/QWekU+gDPg7eza519SYU+aSLpb/osMB1xMepK0o3AYRfwyDDv8ekGtRjMG
-         bB7FD790pTZOH+E6WVcEAgVU4VHWozdreoJpkcrX6DGQlZy5OuiV4YqnXr7LIGNUVuFN
-         0WG6tQY4qHH7NFxCDNWnJ9FTJnxSp5zPEai3bk3flezcv3tcS1AN67NU0/i3DwJ6yLgW
-         SoPshUedqnymvoWbiY3XE94bv1FsFTCBBl9xFxkPyTAg91tzsCqM/TFg8iKADcCZkWBz
-         gd6XE4e7dMU52zK8gFUjcZRqCaJVAwspJDcEZkqL52y475wEEMDgq4IcX+YO/dUDeLy9
-         ih2w==
-X-Gm-Message-State: AOAM530j8ncCxRGYXJeuYa6mX/a+KxFwQiF1vcKYt6Mhv/MYLlx0d5m1
-        GpeePJwcMdKEfWIUZJUYAfs=
-X-Google-Smtp-Source: ABdhPJzdFZIQVJ1DipALLbMQzdXhQ7LqTzyxp6paaFlRduPmNj6wrsGfChmfjhdHmK67f9IFeZWQKQ==
-X-Received: by 2002:ae9:dec5:: with SMTP id s188mr3767153qkf.250.1605297369148;
-        Fri, 13 Nov 2020 11:56:09 -0800 (PST)
-Received: from localhost.localdomain ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id z26sm6977757qki.40.2020.11.13.11.56.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 11:56:08 -0800 (PST)
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Kees Cook <keescook@chromium.org>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, clang-built-linux@googlegroups.com,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        "kernelci . org bot" <bot@kernelci.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: [PATCH 2/2] kbuild: Disable CONFIG_LD_ORPHAN_WARN for ld.lld 10.0.1
-Date:   Fri, 13 Nov 2020 12:55:53 -0700
-Message-Id: <20201113195553.1487659-2-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201113195553.1487659-1-natechancellor@gmail.com>
-References: <20201113195553.1487659-1-natechancellor@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mU6UeGOfRQMRJwnHmGX5EKrd3fAZtibGBHai3RFBnJQ=;
+        b=bcrlQ2OMg1qZ8TRcZ/rsf6TfidQMDjKRTajZIBJaQkxIusWWAM05TIFC+FoQezN0Vl
+         vaSDOfe93cL+nTR3PqLAgM/TiLp7kQtlLBKmBoroDkCInFJoYialo4PTyhnKRDo3VwH3
+         MeLhsEngqnbUKThyilrNVd9mnL3d7mdAwefX/Nnf+ESYbMARtmZKYyn1P3c46nwgM27y
+         DcAX8/oYkK6dCXNMbRqkffwhm5yidEziWySUDkgsjGOVNMH6+tBhY7lbaquizl2/BkcQ
+         85rTsnu+XxR6aTaDd/rvzTPPxK0PUJtu4RYZot4B/+yR9X+RYThhB1olO4MwPguswXWD
+         M9LA==
+X-Gm-Message-State: AOAM5332R2ofM6EXBDLmMZjQeP3oLW80Kft1mCeaDO3sR1FBY8DmS3o0
+        QrAUwb9MzlR4LGVCQKKdJlTSLqWb/AQ2t/yMqwUzig==
+X-Google-Smtp-Source: ABdhPJxQo6DF9jUnA2YJFoBq8ll7fJYetoimM/TRDoFpxZhBeNyAnbeYafJONZ4hmtReCz/v9xa11p0ayWmu2zwdpXo=
+X-Received: by 2002:ab0:6156:: with SMTP id w22mr2653091uan.122.1605299084290;
+ Fri, 13 Nov 2020 12:24:44 -0800 (PST)
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+References: <CABCJKufDLmBCwmgGnfLcBw_B_4U8VY-R-dSNNp86TFfuMobPMw@mail.gmail.com>
+ <20201020185217.ilg6w5l7ujau2246@treble> <CABCJKucVjFtrOsw58kn4OnW5kdkUh8G7Zs4s6QU9s6O7soRiAA@mail.gmail.com>
+ <20201021085606.GZ2628@hirez.programming.kicks-ass.net> <CABCJKufL6=FiaeD8T0P+mK4JeR9J80hhjvJ6Z9S-m9UnCESxVA@mail.gmail.com>
+ <20201023173617.GA3021099@google.com> <CABCJKuee7hUQSiksdRMYNNx05bW7pWaDm4fQ__znGQ99z9-dEw@mail.gmail.com>
+ <20201110022924.tekltjo25wtrao7z@treble> <20201110174606.mp5m33lgqksks4mt@treble>
+ <CABCJKuf+Ev=hpCUfDpCFR_wBACr-539opJsSFrDcpDA9Ctp7rg@mail.gmail.com> <20201113195408.atbpjizijnhuinzy@treble>
+In-Reply-To: <20201113195408.atbpjizijnhuinzy@treble>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Fri, 13 Nov 2020 12:24:32 -0800
+Message-ID: <CABCJKufA-aOcsOqb1NiMQeBGm9Q-JxjoPjsuNpHh0kL4LzfO0w@mail.gmail.com>
+Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
+To:     Josh Poimboeuf <jpoimboe@redhat.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Jann Horn <jannh@google.com>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-ld.lld 10.0.1 spews a bunch of various warnings about .rela sections,
-along with a few others. Newer versions of ld.lld do not have these
-warnings. As a result, do not add '--orphan-handling=warn' to
-LDFLAGS_vmlinux if ld.lld's version is not new enough.
+On Fri, Nov 13, 2020 at 11:54 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+>
+> On Tue, Nov 10, 2020 at 10:59:55AM -0800, Sami Tolvanen wrote:
+> > On Tue, Nov 10, 2020 at 9:46 AM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
+> > >
+> > > On Mon, Nov 09, 2020 at 08:29:24PM -0600, Josh Poimboeuf wrote:
+> > > > On Mon, Nov 09, 2020 at 03:11:41PM -0800, Sami Tolvanen wrote:
+> > > > > CONFIG_XEN
+> > > > >
+> > > > > __switch_to_asm()+0x0: undefined stack state
+> > > > >   xen_hypercall_set_trap_table()+0x0: <=== (sym)
+> > >
+> > > With your branch + GCC 9 I can recreate all the warnings except this
+> > > one.
+> >
+> > In a gcc build this warning is replaced with a different one:
+> >
+> > vmlinux.o: warning: objtool: __startup_secondary_64()+0x7: return with
+> > modified stack frame
+> >
+> > This just seems to depend on which function is placed right after the
+> > code in xen-head.S. With gcc, the disassembly looks like this:
+> >
+> > 0000000000000000 <asm_cpu_bringup_and_idle>:
+> >        0:       e8 00 00 00 00          callq  5 <asm_cpu_bringup_and_idle+0x5>
+> >                         1: R_X86_64_PLT32       cpu_bringup_and_idle-0x4
+> >        5:       e9 f6 0f 00 00          jmpq   1000
+> > <xen_hypercall_set_trap_table>
+> > ...
+> > 0000000000001000 <xen_hypercall_set_trap_table>:
+> >         ...
+> > ...
+> > 0000000000002000 <__startup_secondary_64>:
+> >
+> > With Clang+LTO, we end up with __switch_to_asm here instead of
+> > __startup_secondary_64.
+>
+> I still don't see this warning for some reason.
 
-Reported-by: Arvind Sankar <nivedita@alum.mit.edu>
-Reported-by: kernelci.org bot <bot@kernelci.org>
-Reported-by: Mark Brown <broonie@kernel.org>
-Link: https://github.com/ClangBuiltLinux/linux/issues/1187
-Link: https://github.com/ClangBuiltLinux/linux/issues/1193
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
- MAINTAINERS            |  1 +
- init/Kconfig           |  6 +++++-
- scripts/lld-version.sh | 20 ++++++++++++++++++++
- 3 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100755 scripts/lld-version.sh
+Do you have CONFIG_XEN enabled? I can reproduce this on ToT master as follows:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3da6d8c154e4..4b83d3591ec7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4284,6 +4284,7 @@ B:	https://github.com/ClangBuiltLinux/linux/issues
- C:	irc://chat.freenode.net/clangbuiltlinux
- F:	Documentation/kbuild/llvm.rst
- F:	scripts/clang-tools/
-+F:	scripts/lld-version.sh
- K:	\b(?i:clang|llvm)\b
- 
- CLEANCACHE API
-diff --git a/init/Kconfig b/init/Kconfig
-index a270716562de..40c9ca60ac1d 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -47,6 +47,10 @@ config CLANG_VERSION
- 	int
- 	default $(shell,$(srctree)/scripts/clang-version.sh $(CC))
- 
-+config LLD_VERSION
-+	int
-+	default $(shell,$(srctree)/scripts/lld-version.sh $(LD))
-+
- config CC_CAN_LINK
- 	bool
- 	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(m64-flag)) if 64BIT
-@@ -1349,7 +1353,7 @@ config LD_DEAD_CODE_DATA_ELIMINATION
- 	  own risk.
- 
- config LD_ORPHAN_WARN
--	def_bool ARCH_WANT_LD_ORPHAN_WARN && $(ld-option,--orphan-handling=warn)
-+	def_bool ARCH_WANT_LD_ORPHAN_WARN && $(ld-option,--orphan-handling=warn) && (!LD_IS_LLD || LLD_VERSION >= 110000)
- 
- config SYSCTL
- 	bool
-diff --git a/scripts/lld-version.sh b/scripts/lld-version.sh
-new file mode 100755
-index 000000000000..cc779f412e39
---- /dev/null
-+++ b/scripts/lld-version.sh
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# ld.lld-version ld.lld-command
-+#
-+# Print the linker version of `ld.lld-command' in a 5 or 6-digit form
-+# such as `100001' for ld.lld 10.0.1 etc.
-+
-+linker="$*"
-+
-+if ! ( $linker --version | grep -q LLD ); then
-+	echo 0
-+	exit 1
-+fi
-+
-+VERSION=$($linker --version | cut -d ' ' -f 2)
-+MAJOR=$(echo $VERSION | cut -d . -f 1)
-+MINOR=$(echo $VERSION | cut -d . -f 2)
-+PATCHLEVEL=$(echo $VERSION | cut -d . -f 3)
-+printf "%d%02d%02d\\n" $MAJOR $MINOR $PATCHLEVEL
--- 
-2.29.2
+$ git rev-parse HEAD
+585e5b17b92dead8a3aca4e3c9876fbca5f7e0ba
+$ make defconfig && \
+./scripts/config -e HYPERVISOR_GUEST -e PARAVIRT -e XEN && \
+make olddefconfig && \
+make -j110
+...
+$ ./tools/objtool/objtool check -arfld vmlinux.o 2>&1 | grep secondary
+vmlinux.o: warning: objtool: __startup_secondary_64()+0x2: return with
+modified stack frame
 
+> Is it fixed by adding cpu_bringup_and_idle() to global_noreturns[] in
+> tools/objtool/check.c?
+
+No, that didn't fix the warning. Here's what I tested:
+
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index c6ab44543c92..f1f65f5688cf 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -156,6 +156,7 @@ static bool __dead_end_function(struct
+objtool_file *file, struct symbol *func,
+                "machine_real_restart",
+                "rewind_stack_do_exit",
+                "kunit_try_catch_throw",
++               "cpu_bringup_and_idle",
+        };
+
+        if (!func)
+
+Sami
