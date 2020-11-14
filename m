@@ -2,65 +2,43 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F002B2930
-	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Nov 2020 00:31:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32EB42B2A21
+	for <lists+linux-kbuild@lfdr.de>; Sat, 14 Nov 2020 01:50:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbgKMXbt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 13 Nov 2020 18:31:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60016 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbgKMXbt (ORCPT
+        id S1726140AbgKNAt2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 13 Nov 2020 19:49:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25890 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725866AbgKNAtZ (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 13 Nov 2020 18:31:49 -0500
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62151C061A04
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Nov 2020 15:31:47 -0800 (PST)
-Received: by mail-vs1-xe43.google.com with SMTP id u7so6076871vsq.11
-        for <linux-kbuild@vger.kernel.org>; Fri, 13 Nov 2020 15:31:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AJStHOY5Qh2DGFTroegyQhWYQ1MmCmTEUHWIJvas+7M=;
-        b=jSNVZO0K7wzWNgivPRsTS23unTlL5xu3JAtfH6tP3wTtqKXHTFxKLDpXglVNKVogCS
-         6GN3EBqfM/ZUBQPh9/KXRac8yN3VH0HlBG3quWK6QtaxtiL1rK8O5VK7VVHqo6J7Rt/X
-         pLPxkZTYuxt9e7KMQUlSjLI7JuuwGE0+gzwfrHa+KQQiFj8lluSMbarMau3hHsSH1/Ly
-         I1ayeKXU+HZyBmmdWsN2DNObwSk0A53WftOV1KjCprrJHCY1GRvxqs5hu+HPHBc4Mr91
-         nRjSltnInqcTuCWkLRcwZA5Rf8Mmi9P0lK2FChkaNPICHq6O3gumsgzJMmBvO66F5HQu
-         PNWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AJStHOY5Qh2DGFTroegyQhWYQ1MmCmTEUHWIJvas+7M=;
-        b=V7vqeWruQdNJUpXsIYJ8IVdlVsGq+CKjmTWOKb5Kj54rP5xmRXfcGxbXkzjNmhwau6
-         sQ4eSQKBQ2IIZwTfD3CP1J2tS0bI92gnaJ7RrW+2NyNYgZHPxqLXbQBIJcVKNM7jnv1H
-         Oliky5zh2x1hsaoS7Ac6B0IszsOvnR/HMqdrsjzNtQkpbB3FdhrKBhL2Ags9T+6J/shv
-         YIEVFl9kh9mCiRgx11LNRAzG3YdW3I9WJZu5oMAfhNkxknbNo1cgw8MhdnpjwpBLK4CS
-         WEnvYf/lF6vzx2F1W+/Y/UuM+1c2HnNqODLVPGRYNGa8fGe1wMGTlzodyjekccC/1p+m
-         3UWQ==
-X-Gm-Message-State: AOAM5316lRUAY4bkJxA9K9y4BIrFc6gptXrdUoxev1x7JFmkL/k04f+W
-        VlJecdnUhK2QvQITxgcjkxqcNwUPAdRz1U7P+MDZig==
-X-Google-Smtp-Source: ABdhPJxSW9RODWqSRFIxVh02sljFGIxaFmVwff0K0MDsmxDUSocAvDQCNoKIe2vb8EcMsPSHfR3I4Mur2BV/pt3dnso=
-X-Received: by 2002:a67:ee93:: with SMTP id n19mr3267175vsp.36.1605310306224;
- Fri, 13 Nov 2020 15:31:46 -0800 (PST)
-MIME-Version: 1.0
-References: <CABCJKucVjFtrOsw58kn4OnW5kdkUh8G7Zs4s6QU9s6O7soRiAA@mail.gmail.com>
- <20201021085606.GZ2628@hirez.programming.kicks-ass.net> <CABCJKufL6=FiaeD8T0P+mK4JeR9J80hhjvJ6Z9S-m9UnCESxVA@mail.gmail.com>
- <20201023173617.GA3021099@google.com> <CABCJKuee7hUQSiksdRMYNNx05bW7pWaDm4fQ__znGQ99z9-dEw@mail.gmail.com>
- <20201110022924.tekltjo25wtrao7z@treble> <20201110174606.mp5m33lgqksks4mt@treble>
- <CABCJKuf+Ev=hpCUfDpCFR_wBACr-539opJsSFrDcpDA9Ctp7rg@mail.gmail.com>
- <20201113195408.atbpjizijnhuinzy@treble> <CABCJKufA-aOcsOqb1NiMQeBGm9Q-JxjoPjsuNpHh0kL4LzfO0w@mail.gmail.com>
- <20201113223412.inono2ekrs7ky7rm@treble>
-In-Reply-To: <20201113223412.inono2ekrs7ky7rm@treble>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Fri, 13 Nov 2020 15:31:34 -0800
-Message-ID: <CABCJKueeL+1ydcZsm2BS4qrX4Wxy7zY7FUQdoN_WLuUxFfqcmQ@mail.gmail.com>
-Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
-To:     Josh Poimboeuf <jpoimboe@redhat.com>
+        Fri, 13 Nov 2020 19:49:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605314964;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8Pgbto6s6aJWzu/I6GVSYjwAc7k98Nrj4vzE4Tm0+xE=;
+        b=MqdPjOPOU08qh/5AeNZZD80BhRJhRRMv1j1N1TRgv+zccd2RWQg15A4kfTtoAXuG16pWoC
+        GS4ZQRssuCpoIjI5VfC0xOSCpO4hSz7vobIeUInt1WZHY5cuzTjxombhZ5Nv+MZm8iFRZO
+        aEk3kRBwGsaRSmoC7P+6zjlShb3U+QE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-591-cJKt-FEhN_unyUcxBk_KIQ-1; Fri, 13 Nov 2020 19:49:20 -0500
+X-MC-Unique: cJKt-FEhN_unyUcxBk_KIQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6AEE5F9D1;
+        Sat, 14 Nov 2020 00:49:17 +0000 (UTC)
+Received: from treble (ovpn-117-69.rdu2.redhat.com [10.10.117.69])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0594A60C15;
+        Sat, 14 Nov 2020 00:49:13 +0000 (UTC)
+Date:   Fri, 13 Nov 2020 18:49:11 -0600
+From:   Josh Poimboeuf <jpoimboe@redhat.com>
+To:     Sami Tolvanen <samitolvanen@google.com>
 Cc:     Peter Zijlstra <peterz@infradead.org>,
         Jann Horn <jannh@google.com>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
+        the arch/x86 maintainers <x86@kernel.org>,
         Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Will Deacon <will@kernel.org>,
@@ -75,113 +53,46 @@ Cc:     Peter Zijlstra <peterz@infradead.org>,
         linux-kbuild <linux-kbuild@vger.kernel.org>,
         kernel list <linux-kernel@vger.kernel.org>,
         linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v6 22/25] x86/asm: annotate indirect jumps
+Message-ID: <20201114004911.aip52eimk6c2uxd4@treble>
+References: <CABCJKufL6=FiaeD8T0P+mK4JeR9J80hhjvJ6Z9S-m9UnCESxVA@mail.gmail.com>
+ <20201023173617.GA3021099@google.com>
+ <CABCJKuee7hUQSiksdRMYNNx05bW7pWaDm4fQ__znGQ99z9-dEw@mail.gmail.com>
+ <20201110022924.tekltjo25wtrao7z@treble>
+ <20201110174606.mp5m33lgqksks4mt@treble>
+ <CABCJKuf+Ev=hpCUfDpCFR_wBACr-539opJsSFrDcpDA9Ctp7rg@mail.gmail.com>
+ <20201113195408.atbpjizijnhuinzy@treble>
+ <CABCJKufA-aOcsOqb1NiMQeBGm9Q-JxjoPjsuNpHh0kL4LzfO0w@mail.gmail.com>
+ <20201113223412.inono2ekrs7ky7rm@treble>
+ <CABCJKueeL+1ydcZsm2BS4qrX4Wxy7zY7FUQdoN_WLuUxFfqcmQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CABCJKueeL+1ydcZsm2BS4qrX4Wxy7zY7FUQdoN_WLuUxFfqcmQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 13, 2020 at 2:34 PM Josh Poimboeuf <jpoimboe@redhat.com> wrote:
->
-> On Fri, Nov 13, 2020 at 12:24:32PM -0800, Sami Tolvanen wrote:
-> > > I still don't see this warning for some reason.
-> >
-> > Do you have CONFIG_XEN enabled? I can reproduce this on ToT master as follows:
-> >
-> > $ git rev-parse HEAD
-> > 585e5b17b92dead8a3aca4e3c9876fbca5f7e0ba
-> > $ make defconfig && \
-> > ./scripts/config -e HYPERVISOR_GUEST -e PARAVIRT -e XEN && \
-> > make olddefconfig && \
-> > make -j110
-> > ...
-> > $ ./tools/objtool/objtool check -arfld vmlinux.o 2>&1 | grep secondary
-> > vmlinux.o: warning: objtool: __startup_secondary_64()+0x2: return with
-> > modified stack frame
-> >
-> > > Is it fixed by adding cpu_bringup_and_idle() to global_noreturns[] in
-> > > tools/objtool/check.c?
-> >
-> > No, that didn't fix the warning. Here's what I tested:
->
-> I think this fixes it:
->
-> From: Josh Poimboeuf <jpoimboe@redhat.com>
-> Subject: [PATCH] x86/xen: Fix objtool vmlinux.o validation of xen hypercalls
->
-> Objtool vmlinux.o validation is showing warnings like the following:
->
->   # tools/objtool/objtool check -barfld vmlinux.o
->   vmlinux.o: warning: objtool: __startup_secondary_64()+0x2: return with modified stack frame
->   vmlinux.o: warning: objtool:   xen_hypercall_set_trap_table()+0x0: <=== (sym)
->
-> Objtool falls through all the empty hypercall text and gets confused
-> when it encounters the first real function afterwards.  The empty unwind
-> hints in the hypercalls aren't working for some reason.  Replace them
-> with a more straightforward use of STACK_FRAME_NON_STANDARD.
->
-> Reported-by: Sami Tolvanen <samitolvanen@google.com>
-> Signed-off-by: Josh Poimboeuf <jpoimboe@redhat.com>
-> ---
->  arch/x86/xen/xen-head.S | 9 ++++-----
->  include/linux/objtool.h | 8 ++++++++
->  2 files changed, 12 insertions(+), 5 deletions(-)
->
-> diff --git a/arch/x86/xen/xen-head.S b/arch/x86/xen/xen-head.S
-> index 2d7c8f34f56c..3c538b1ff4a6 100644
-> --- a/arch/x86/xen/xen-head.S
-> +++ b/arch/x86/xen/xen-head.S
-> @@ -6,6 +6,7 @@
->
->  #include <linux/elfnote.h>
->  #include <linux/init.h>
-> +#include <linux/objtool.h>
->
->  #include <asm/boot.h>
->  #include <asm/asm.h>
-> @@ -67,14 +68,12 @@ SYM_CODE_END(asm_cpu_bringup_and_idle)
->  .pushsection .text
->         .balign PAGE_SIZE
->  SYM_CODE_START(hypercall_page)
-> -       .rept (PAGE_SIZE / 32)
-> -               UNWIND_HINT_EMPTY
-> -               .skip 32
-> -       .endr
-> +       .skip PAGE_SIZE
->
->  #define HYPERCALL(n) \
->         .equ xen_hypercall_##n, hypercall_page + __HYPERVISOR_##n * 32; \
-> -       .type xen_hypercall_##n, @function; .size xen_hypercall_##n, 32
-> +       .type xen_hypercall_##n, @function; .size xen_hypercall_##n, 32; \
-> +       STACK_FRAME_NON_STANDARD xen_hypercall_##n
->  #include <asm/xen-hypercalls.h>
->  #undef HYPERCALL
->  SYM_CODE_END(hypercall_page)
-> diff --git a/include/linux/objtool.h b/include/linux/objtool.h
-> index 577f51436cf9..746617265236 100644
-> --- a/include/linux/objtool.h
-> +++ b/include/linux/objtool.h
-> @@ -109,6 +109,12 @@ struct unwind_hint {
->         .popsection
->  .endm
->
-> +.macro STACK_FRAME_NON_STANDARD func:req
-> +       .pushsection .discard.func_stack_frame_non_standard
-> +               .long \func - .
-> +       .popsection
-> +.endm
-> +
->  #endif /* __ASSEMBLY__ */
->
->  #else /* !CONFIG_STACK_VALIDATION */
-> @@ -123,6 +129,8 @@ struct unwind_hint {
->  .macro UNWIND_HINT sp_reg:req sp_offset=0 type:req end=0
->  .endm
->  #endif
-> +.macro STACK_FRAME_NON_STANDARD func:req
-> +.endm
+On Fri, Nov 13, 2020 at 03:31:34PM -0800, Sami Tolvanen wrote:
+> >  #else /* !CONFIG_STACK_VALIDATION */
+> > @@ -123,6 +129,8 @@ struct unwind_hint {
+> >  .macro UNWIND_HINT sp_reg:req sp_offset=0 type:req end=0
+> >  .endm
+> >  #endif
+> > +.macro STACK_FRAME_NON_STANDARD func:req
+> > +.endm
+> 
+> This macro needs to be before the #endif, so it's defined only for
+> assembly code. This breaks my arm64 builds even though x86 curiously
+> worked just fine.
 
-This macro needs to be before the #endif, so it's defined only for
-assembly code. This breaks my arm64 builds even though x86 curiously
-worked just fine.
+Yeah, I noticed that after syncing objtool.h with the tools copy.  Fixed
+now.
 
-Sami
+I've got fixes for some of the other warnings, but I'll queue them up
+and post when they're all ready.
+
+-- 
+Josh
+
