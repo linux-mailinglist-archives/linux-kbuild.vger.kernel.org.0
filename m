@@ -2,147 +2,117 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0C192B69F5
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Nov 2020 17:22:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B1B102B6E97
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Nov 2020 20:26:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727265AbgKQQW2 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 17 Nov 2020 11:22:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59262 "EHLO
+        id S1727346AbgKQT0R (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Nov 2020 14:26:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727235AbgKQQW1 (ORCPT
+        with ESMTP id S1726035AbgKQT0R (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 17 Nov 2020 11:22:27 -0500
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC5BC0613CF;
-        Tue, 17 Nov 2020 08:22:27 -0800 (PST)
-Received: by mail-qk1-x743.google.com with SMTP id v143so20944512qkb.2;
-        Tue, 17 Nov 2020 08:22:27 -0800 (PST)
+        Tue, 17 Nov 2020 14:26:17 -0500
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66D2C0617A6
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Nov 2020 11:26:16 -0800 (PST)
+Received: by mail-pj1-x1041.google.com with SMTP id gv24so1009437pjb.3
+        for <linux-kbuild@vger.kernel.org>; Tue, 17 Nov 2020 11:26:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9JS/uYKk8GrJCTbc2FAe05O+XJ9e/pB4+Xwp7tXwPZ0=;
-        b=aJlDOBsATEWSe1rlycoHMeV4ei94yuVwrrm65Xysp4oVHYz7irZb27aTwZ7IgeMrMO
-         rwVNaVpE25sjKuSTnOO7NmkzBWOBSTx4fb3R/DCWK4SogrXa2AC7enZkjLsyuNjXxuvM
-         NTnekDgslWYIalrCbTxJ86SdaNtQP3cHwjrypdeVUFonoFUCuScqV6kG/ZkGwOFtl6yH
-         GGnqDGXXV/Rp0vgelpRy+c9ngWmBiSSV1q/ABKAKx6pMiIrVNRaIq9LBAGHm9r1XHYPX
-         JJd8Mz5c3TX5hRrGoRqUPlThTtb3gM5hidlGyqicc9LqyBTLzcNk5GjMNiGQAYvcDs09
-         OmmA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QKqRulGkV2LShhH9uPn88VjpNW5CZTHrE9JvGus3Oq4=;
+        b=rc7d6RpVSCFKI0Sw1a4e96tqeXAAx3vGFZlWfh7LaDZz9RDWtKddRpHbPhv1joM4Y+
+         t7pJjDUE0QhMKmq3jkCns/Rs9IwuVlU83i1zJcRBfFMhEXWqAh9l7JmFmF6Jf2kbY9kf
+         w9mHbaHaccZUY2g2OEHwM/bHf6kcnqnd8QjLEgtebYolgrVfOpbo5I/7OzBsFV50ot/f
+         xiU4LIEg5oN3tHO+0kX9dQSg3okg9baFJjgsqoaOKnIDH2Fj+I9H7eBFdptO7Qt79jqa
+         eEbI+u0+d4sY5nLNci8l5tEVRwB9KfeHIgKE+2R05EUjiEYls+lPVgyW5KRstQhnOsrI
+         xXiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9JS/uYKk8GrJCTbc2FAe05O+XJ9e/pB4+Xwp7tXwPZ0=;
-        b=jIWr4prY5Tkb16Q2zqWthSJ1cFELIbXYuBlUBYbfALNAxmVEvM7X04EGUW1ltfLR71
-         NV6SzL+TFLhBAvy/OTs9fA19gkrM5d7bvf/VdMnj7i9dilIHscOoGhI1Z1MeAOGFjGQ3
-         Og54KMZFxkGriMBdgcdk4R3B+ZhjDApgqvrG9PVnkXglMDInXH2IbThSGT+1NCDn4Y7l
-         BopOjqFZ+hvyaaGSCL4gNDX33wPa8TvJxTK7WLHCDnGYW7ICdxiEIydbxk8USia3hkIk
-         5RT1D2r1jQ9kKTEIpnJEYdY97stxMuew5Au6k5/9qcyCyZcLZH5s0t3CaFtJYtwebaiD
-         W0iQ==
-X-Gm-Message-State: AOAM533eyOx2KFvZTNATDVjb4ryKQ6CHz3p058VmFiUk3ZPZHFbP/dH/
-        ztksbbhm86edvlPvKV14DzOkKfC8ZMdCyQ==
-X-Google-Smtp-Source: ABdhPJxFV05KKJ6XDlOOAOJnsbl9Wf8WKTjRzQrKCSJ0EvUBlKv7/HeKNXgdCIuMoNy2WooiBd+UYw==
-X-Received: by 2002:a37:8542:: with SMTP id h63mr366329qkd.102.1605630146479;
-        Tue, 17 Nov 2020 08:22:26 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id v16sm15074576qka.72.2020.11.17.08.22.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 08:22:25 -0800 (PST)
-Date:   Tue, 17 Nov 2020 09:22:23 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Michael Ellerman <mpe@ellerman.id.au>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QKqRulGkV2LShhH9uPn88VjpNW5CZTHrE9JvGus3Oq4=;
+        b=eT9GlHvhYQ9+uwym+rd8NfgrGBjtldCdbUFdd8RDz0PDQi8ziKJAn6w2Y95VYJewAC
+         9qNV2gBJ0LnbU6s/blmO8UnLcsLBcCR6op5ZNiaSn+TMkN7KFaYpRhC/JrP2K3lLlOMO
+         JA2OM8p31uMzN5dphwkWBgyp5KXckRvD/DPL7Bj+CCXg0XSQJUXY+zKbf0BDaYXLJo6c
+         eWRrHQ9z7Qksj6i/qEnINBOyoN7cvZThpikstUKetPaW/g+9ABOc6w4CBpcuhxwkIvPn
+         e9fdcOmPfHKwvwo8QmHwTkxu0Cdb9QmdNNN5oV5+ubk3fv9ASbLeRS7h21PanpXcTlLC
+         B5FQ==
+X-Gm-Message-State: AOAM533+tYaa8fmvXKojIbLTS0few7W9S6Wjv5nk/FFMi0xXPNIfQ33p
+        TiR2qvfHqI+54CBKiUPqAEErYgpfz9A2sfzjEfBbtw==
+X-Google-Smtp-Source: ABdhPJzP+4QKYAkg72V6rtkdqvhBULrrFPf48iQQXuByQ+8n8CY8f02CDItGHV1Pop+VXIorLkJaUVOuAP+DkTwZCiw=
+X-Received: by 2002:a17:90a:4881:: with SMTP id b1mr595006pjh.32.1605641176219;
+ Tue, 17 Nov 2020 11:26:16 -0800 (PST)
+MIME-Version: 1.0
+References: <20201113195553.1487659-1-natechancellor@gmail.com>
+ <CAKwvOdnf5WKJrLnwM9dDDniP0eG5gnFSMB0rapqWLUAZbVJZvQ@mail.gmail.com> <20201117015438.GA299247@ubuntu-m3-large-x86>
+In-Reply-To: <20201117015438.GA299247@ubuntu-m3-large-x86>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Tue, 17 Nov 2020 11:26:05 -0800
+Message-ID: <CAKwvOdmDY=rZDuyjAdXQ9ukms_356mw0wovpxVUJ9Jvz9hEG_Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kbuild: Hoist '--orphan-handling' into Kconfig
+To:     Nathan Chancellor <natechancellor@gmail.com>
 Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
         Kees Cook <keescook@chromium.org>,
         Russell King <linux@armlinux.org.uk>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, Nick Desaulniers <ndesaulniers@google.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Arvind Sankar <nivedita@alum.mit.edu>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, clang-built-linux@googlegroups.com
-Subject: Re: [PATCH 1/2] kbuild: Hoist '--orphan-handling' into Kconfig
-Message-ID: <20201117162223.GA1428250@ubuntu-m3-large-x86>
-References: <20201113195553.1487659-1-natechancellor@gmail.com>
- <87tuto2qke.fsf@mpe.ellerman.id.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tuto2qke.fsf@mpe.ellerman.id.au>
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 10:03:29PM +1100, Michael Ellerman wrote:
-> Nathan Chancellor <natechancellor@gmail.com> writes:
-> > Currently, '--orphan-handling=warn' is spread out across four different
-> > architectures in their respective Makefiles, which makes it a little
-> > unruly to deal with in case it needs to be disabled for a specific
-> > linker version (in this case, ld.lld 10.0.1).
+On Mon, Nov 16, 2020 at 5:54 PM Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> On Mon, Nov 16, 2020 at 05:41:58PM -0800, Nick Desaulniers wrote:
+> > On Fri, Nov 13, 2020 at 11:56 AM Nathan Chancellor
+> > <natechancellor@gmail.com> wrote:
+> > >
+> > > Currently, '--orphan-handling=warn' is spread out across four different
+> > > architectures in their respective Makefiles, which makes it a little
+> > > unruly to deal with in case it needs to be disabled for a specific
+> > > linker version (in this case, ld.lld 10.0.1).
 > >
-> > To make it easier to control this, hoist this warning into Kconfig and
-> > the main Makefile so that disabling it is simpler, as the warning will
-> > only be enabled in a couple places (main Makefile and a couple of
-> > compressed boot folders that blow away LDFLAGS_vmlinx) and making it
-> > conditional is easier due to Kconfig syntax. One small additional
-> > benefit of this is saving a call to ld-option on incremental builds
-> > because we will have already evaluated it for CONFIG_LD_ORPHAN_WARN.
-> >
-> > To keep the list of supported architectures the same, introduce
-> > CONFIG_ARCH_WANT_LD_ORPHAN_WARN, which an architecture can select to
-> > gain this automatically after all of the sections are specified and size
-> > asserted. A special thanks to Kees Cook for the help text on this
-> > config.
-> >
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1187
-> > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > ---
-> >  Makefile                          | 6 ++++++
-> >  arch/Kconfig                      | 9 +++++++++
-> >  arch/arm/Kconfig                  | 1 +
-> >  arch/arm/Makefile                 | 4 ----
-> >  arch/arm/boot/compressed/Makefile | 4 +++-
-> >  arch/arm64/Kconfig                | 1 +
-> >  arch/arm64/Makefile               | 4 ----
-> >  arch/powerpc/Kconfig              | 1 +
-> >  arch/powerpc/Makefile             | 1 -
-> 
-> Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
-> 
-> 
-> >  arch/x86/Kconfig                  | 1 +
-> >  arch/x86/Makefile                 | 3 ---
-> >  arch/x86/boot/compressed/Makefile | 4 +++-
-> >  init/Kconfig                      | 3 +++
-> >  13 files changed, 28 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 008aba5f1a20..c443afd61886 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -984,6 +984,12 @@ ifeq ($(CONFIG_RELR),y)
-> >  LDFLAGS_vmlinux	+= --pack-dyn-relocs=relr
-> >  endif
-> >  
-> > +# We never want expected sections to be placed heuristically by the
-> > +# linker. All sections should be explicitly named in the linker script.
-> > +ifeq ($(CONFIG_LD_ORPHAN_WARN),y)
-> > +LDFLAGS_vmlinux += --orphan-handling=warn
-> > +endif
-> 
-> This is a nit, but you can use ifdef with bool CONFIG symbols in
-> Makefiles, which reads a bit nicer, eg:
-> 
-> ifdef CONFIG_LD_ORPHAN_WARN
-> LDFLAGS_vmlinux += --orphan-handling=warn
-> endif
+> > Hi Nathan,
+> > This patch fails to apply for me via b4 on next-20201116 due to a
+> > conflict in arch/Kconfig:1028. Would you mind sending a rebased V2?
+>
+> Hi Nick,
+>
+> This series is intended to go into v5.10 so rebasing it against -next
+> defeats that; please test it against v5.10-rc4, where it still applies
+> cleanly. The conflicts will be handled by other entities (Stephen Rothwell
+> and Linus).
 
-That is indeed cleaner, I did not realize I could do that as long as the
-config was a boolean. I will use that in v2, which I will send along
-within the next few days to give Masahiro some time to comment.
+Got it.  Yeah, applies fine to v5.10-rc4.
 
-Cheers,
-Nathan
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Tested-by: Nick Desaulniers <ndesaulniers@google.com>
+
+Feel free to carry those with MPE's suggested change added.
+
+>
+> If you want to test it against -next, 'git am -3' will allow you to
+> easily handle the conflict.
+>
+> Cheers,
+> Nathan
+
+
+
+-- 
+Thanks,
+~Nick Desaulniers
