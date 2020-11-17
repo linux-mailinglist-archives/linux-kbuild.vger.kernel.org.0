@@ -2,105 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3F452B5672
-	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Nov 2020 02:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C6F92B5D4F
+	for <lists+linux-kbuild@lfdr.de>; Tue, 17 Nov 2020 11:55:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726864AbgKQBym (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 16 Nov 2020 20:54:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgKQBym (ORCPT
+        id S1726136AbgKQKxy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 17 Nov 2020 05:53:54 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.217]:26613 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgKQKxy (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 16 Nov 2020 20:54:42 -0500
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70E9C0613CF;
-        Mon, 16 Nov 2020 17:54:41 -0800 (PST)
-Received: by mail-qt1-x841.google.com with SMTP id m65so14588852qte.11;
-        Mon, 16 Nov 2020 17:54:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NTtCzB5VIaFDrBNNNZ7NaHNKVBpJ8Hadb4R3oCLX97k=;
-        b=rtx/RU+s+8cPVIrxRCrElV7tpyND3P0XAg2TofP4rT0WDB7pYRXWgCN0tPwwytBqzm
-         dQiiSC8vlen4ulMHSLlnPMzExAzkL6dtKyTO1aF34lWSB54q67cx5AsGAA6vVYx4xTG3
-         o1CCon4XTtNcfJkxdg4qxQeqx6YXpLey84hDTajAudYBngKt9IxD3lqQz7yaOv2iNRfE
-         pF4ZQyQP+C+x7DWc/knwsv6HNK36wcCcVwLEs04rQ/30YGHjF1IPZ0zmchERdoem/XKA
-         qqI8xfpGXe6HuxEj+ltWDXovggWLBZaST43NW4VJugRHzyUBOyYqGKSh2hKRmtr14HHt
-         vGTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NTtCzB5VIaFDrBNNNZ7NaHNKVBpJ8Hadb4R3oCLX97k=;
-        b=S1j3J/UcTwd5FrCbQ9PB67qxIDaFnApJKqXf9V62PEf3VjghZUC4FBTNXif0uNFhDx
-         OVYUQSTVpZbA0ipUTo+kxHtl8nwEdX+2z+XEl/IhxzO43i3lDDZesLUFyvQIktSUnb0K
-         czzDVFh+0uCy5qf4WP7H0z0XJ4I+mEbxS4YOOChfJQzYhePSK2zIUi80bL7bh4sUMI68
-         whlL6dM8omh/MzYWpxExSSQX2axbZjA/3HaIWhMcjUwzZaW5Nj3G/Lzj7Tv6oteLfzI2
-         DfPva/bR1VZUHRGf5B+n4RQqxOuDv47L7FtBVNMTTQaWVUm5Hesj/7lQmzqNJuhemxca
-         dXzQ==
-X-Gm-Message-State: AOAM530yjASSnFzxJ5IDY4crLibgvtiTbb0NubNLdBr0kAFjANgDO7Vk
-        QfNVt077AUt1c/Oz+PsFays=
-X-Google-Smtp-Source: ABdhPJyuFuM/Nr8VHJEMu8p4WFcxiSTMgMKAz+9tvCAPF267qYflO/YfHmr2Gr/AgEALLCEUyJl0CA==
-X-Received: by 2002:ac8:6b06:: with SMTP id w6mr17145176qts.6.1605578081016;
-        Mon, 16 Nov 2020 17:54:41 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
-        by smtp.gmail.com with ESMTPSA id f27sm3258802qtv.95.2020.11.16.17.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2020 17:54:39 -0800 (PST)
-Date:   Mon, 16 Nov 2020 18:54:38 -0700
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Kees Cook <keescook@chromium.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [PATCH 1/2] kbuild: Hoist '--orphan-handling' into Kconfig
-Message-ID: <20201117015438.GA299247@ubuntu-m3-large-x86>
-References: <20201113195553.1487659-1-natechancellor@gmail.com>
- <CAKwvOdnf5WKJrLnwM9dDDniP0eG5gnFSMB0rapqWLUAZbVJZvQ@mail.gmail.com>
+        Tue, 17 Nov 2020 05:53:54 -0500
+X-Greylist: delayed 361 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Nov 2020 05:53:54 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605610433;
+        s=strato-dkim-0002; d=aepfle.de;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=Hy8/WHGPlWpK/qYWNrXSgIdTBb+Qpp2vuw7CzzqM770=;
+        b=spRnsivtKDPzElKhfxI1YAh211VwE555oj1HeVf5u+ujq5TiywzEHnR2drUo0FjsQn
+        W90r8WAThVA+ut7F1oMC3RgctMeIDPk5bC/Z8dXiuEQY8ihpbi1vlkGzsxHtoI3jxN0P
+        ZKa1DgjmvvU4rtCoc1hOPY0XoVUHfXeUUdsflUaVjH8GlTzB0QPfhnTFdf+eqCnS6lBp
+        5b9RDNcb6ACy90oZ8jQk4D+t2WbfGASsg7eUqqSySNlYgjpDVlWHfUVLAVNt4PNQL05H
+        9gAo6ExdKgHfE71oSMziCJDKPJVifwk8MXckdDW63aby+W6RN9LMe5uhbijfz//QaXf1
+        Nt1w==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QXkBR9MXjAuzBW/OdlBZQ4AHSS32xIjw=="
+X-RZG-CLASS-ID: mo00
+Received: from sender
+        by smtp.strato.de (RZmta 47.3.4 DYNA|AUTH)
+        with ESMTPSA id V0b6ccwAHAlfTEF
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+        (Client did not present a certificate);
+        Tue, 17 Nov 2020 11:47:41 +0100 (CET)
+From:   Olaf Hering <olaf@aepfle.de>
+To:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Olaf Hering <olaf@aepfle.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Subject: [PATCH v1] kbuild: enforce -Werror=unused-result
+Date:   Tue, 17 Nov 2020 11:47:35 +0100
+Message-Id: <20201117104736.24997-1-olaf@aepfle.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKwvOdnf5WKJrLnwM9dDDniP0eG5gnFSMB0rapqWLUAZbVJZvQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 05:41:58PM -0800, Nick Desaulniers wrote:
-> On Fri, Nov 13, 2020 at 11:56 AM Nathan Chancellor
-> <natechancellor@gmail.com> wrote:
-> >
-> > Currently, '--orphan-handling=warn' is spread out across four different
-> > architectures in their respective Makefiles, which makes it a little
-> > unruly to deal with in case it needs to be disabled for a specific
-> > linker version (in this case, ld.lld 10.0.1).
-> 
-> Hi Nathan,
-> This patch fails to apply for me via b4 on next-20201116 due to a
-> conflict in arch/Kconfig:1028. Would you mind sending a rebased V2?
+It is a hard error if a return value is ignored.
+In case the return value has no meaning, remove the attribute.
 
-Hi Nick,
+Signed-off-by: Olaf Hering <olaf@aepfle.de>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This series is intended to go into v5.10 so rebasing it against -next
-defeats that; please test it against v5.10-rc4, where it still applies
-cleanly. The conflicts will be handled by other entities (Stephen Rothwell
-and Linus).
-
-If you want to test it against -next, 'git am -3' will allow you to
-easily handle the conflict.
-
-Cheers,
-Nathan
+diff --git a/Makefile b/Makefile
+index e2c3f65c4721..c7f9acffad42 100644
+--- a/Makefile
++++ b/Makefile
+@@ -497,7 +497,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+ KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+ 		   -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+ 		   -Werror=implicit-function-declaration -Werror=implicit-int \
+-		   -Werror=return-type -Wno-format-security \
++		   -Werror=return-type -Werror=unused-result -Wno-format-security \
+ 		   -std=gnu89
+ KBUILD_CPPFLAGS := -D__KERNEL__
+ KBUILD_AFLAGS_KERNEL :=
