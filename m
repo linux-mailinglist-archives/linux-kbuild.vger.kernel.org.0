@@ -2,99 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ECD02B8765
-	for <lists+linux-kbuild@lfdr.de>; Wed, 18 Nov 2020 23:08:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24F352B8810
+	for <lists+linux-kbuild@lfdr.de>; Thu, 19 Nov 2020 00:06:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727558AbgKRWIP (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 18 Nov 2020 17:08:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53962 "EHLO
+        id S1726375AbgKRXFl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 18 Nov 2020 18:05:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727561AbgKRWIO (ORCPT
+        with ESMTP id S1726098AbgKRXFk (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 18 Nov 2020 17:08:14 -0500
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E132BC061A4D
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Nov 2020 14:08:13 -0800 (PST)
-Received: by mail-yb1-xb49.google.com with SMTP id w8so4621308ybq.4
-        for <linux-kbuild@vger.kernel.org>; Wed, 18 Nov 2020 14:08:13 -0800 (PST)
+        Wed, 18 Nov 2020 18:05:40 -0500
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E355BC0613D4
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Nov 2020 15:05:57 -0800 (PST)
+Received: by mail-pl1-x641.google.com with SMTP id b3so1847622pls.11
+        for <linux-kbuild@vger.kernel.org>; Wed, 18 Nov 2020 15:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=zNEbBbUjVUwNrqsw9c+UpkNEFF7VA0EYfHLp5cIzntw=;
-        b=n0bp9cJvxDsjt7xTCOt5iMFW1d/2tTomLx5U5GAiKgRUC31U0PGdIlVksp+a0VVrdY
-         g5/MehVGAk5dAFkfZ/0D3/kc0qKP/5ghMg0SX2rzCLQrn7ZzkYIMJRTQA4tAkeENX90q
-         zMfWfxpHMr797C3+ufNsF8n5E2EarI0M+SxfmyYFrfheXFRY/USHp0McDL2ojl4Lgr9c
-         ZSVHHwyxFBuJf6EQIB49Tm2/Idyx3u+mRdPPOBh4ppAaY5/pZ300gTIMAOc0hbNqctmz
-         NshfWwPYJRHHUsUv7bRZJJIdOYMWpv3CBbpJoRLYa/A5uDpHU91hRb4ca8tn+CBC/z2v
-         7wmg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pK9Er3U8wzUpc5Ph5vwpd9eRfxvPgKOSxbNh1R/cIyQ=;
+        b=qBtqEPVu57Elst2R12JNUW2yDdqme72UJq+j8B0KRMqaTWXE4Jb1RBA0uBEPC+4gUC
+         cwNzl/PBwFYa9lfSCljv6SI+9YLvJMAcAKQcf6332IEIGFx1bEyB4t843r3loVTouYCp
+         EBHO4763PSurh/yifzv5CkiyWsX0GIot99a3ebjYWhIaP+pJf9JTpCnZzl8MYI9WDwFG
+         OMufIi9lNxEy0cLWZxlOh/WB5GlWXES1d7XwB75xaVa+bsosmHlEG6ddnN4dnjZLgt82
+         e1LLxc1B9mN0WtxIB00A8ae/+yjvn6BeKYjEAtIMCqcJ3G9dlk89fKRWfIG8JcYCVn8u
+         3k0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=zNEbBbUjVUwNrqsw9c+UpkNEFF7VA0EYfHLp5cIzntw=;
-        b=VBHrwEudJlNMYMubpkIBYCPgonHGDhZ039SjrOkR0lg1XA0K2wI2yZ8kPEy67v94AQ
-         BQPgy3l9s4z+ks7VT283eDFeAa5mWWamdsSF0QWK1kMlnpteG88xQU3eOGfeAdLHRMpq
-         o3tbPHshE9i/PHTScreKCtO2MHwU2Kv50huSyezhGXrFFK8XqXNeEVoJIgmvv9muPifF
-         f1Gh4HMQ/6wQWiwyHyRMwpuJVyZOrQc+DAYrcbyQ27p1cSEH6KNHatdM1N9uAqTg7L0/
-         4ET06i3ytFuyG7BE4bbXARvSdgy0eW2qCjONgrLFe14Q/qf1rUdn2q12Iq1E1xmSWfBI
-         JpGQ==
-X-Gm-Message-State: AOAM530b1V1dqu9/tkchC4EvMC4j5lEwIqH2+HAdPQOemeXfStxuhaq3
-        fBC9mn0vmHZO4sggmwvOkfArvumC9++BfePfobk=
-X-Google-Smtp-Source: ABdhPJwWbtiTp58G6aNpNqEPufDWDe2zDs+IKNE1XLpICWlrRQN8YWmIrp5YpIBo0gnH6aOzErytNSLLgd+pskDj6ew=
-Sender: "samitolvanen via sendgmr" 
-        <samitolvanen@samitolvanen1.mtv.corp.google.com>
-X-Received: from samitolvanen1.mtv.corp.google.com ([2620:15c:201:2:f693:9fff:fef4:1b6d])
- (user=samitolvanen job=sendgmr) by 2002:a25:aa04:: with SMTP id
- s4mr8172287ybi.285.1605737293084; Wed, 18 Nov 2020 14:08:13 -0800 (PST)
-Date:   Wed, 18 Nov 2020 14:07:31 -0800
-In-Reply-To: <20201118220731.925424-1-samitolvanen@google.com>
-Message-Id: <20201118220731.925424-18-samitolvanen@google.com>
-Mime-Version: 1.0
-References: <20201118220731.925424-1-samitolvanen@google.com>
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: [PATCH v7 17/17] arm64: allow LTO_CLANG and THINLTO to be selected
-From:   Sami Tolvanen <samitolvanen@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>
-Cc:     Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Sami Tolvanen <samitolvanen@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pK9Er3U8wzUpc5Ph5vwpd9eRfxvPgKOSxbNh1R/cIyQ=;
+        b=X84hjeh/H3nbhaduh/WHI/souoRqRvEFlPy64pTy9Lod/xUUReSan1Cy4Pge4e0GDA
+         j8MsNSxQNzx1J4SJBs+x6BejnocREWFwjI7uhORTYJ/GnREpcGcuh54Vw6mwvZTBjL2t
+         c72h7o+/ciAhLoX//WgwoKU3+NPs3FGHFlu0J91G2pUAVC77e4NaI56w+n33xtItj75n
+         +99J7tQuDuycozJ14ZaEFJ/HtO5BHcYcTiOjCNfB5QUd42Rl3fOTCHiO0OgNi3rXk+V+
+         5jIixMekxPUfrYngJPN/91eQ3iFA/Oy+KdZF+K24FIIFpTmRCbqJcd8ZwLi0xZRcrPBo
+         cnFw==
+X-Gm-Message-State: AOAM5306Z3GkGlgTAxze1NWD2IW5IxU7tPGPEkeimcc4SUX4RGv725h+
+        +jkaUxTy4XNpCUoJnWuZK1ZGLeE0tY+2tRl67xZZ1g==
+X-Google-Smtp-Source: ABdhPJx1KDsDxRgKYnaY8s7A1LaCEAgZ3k75SP2XAXWwuKK+TgoYSXGDwJEdbrp/TZpc04v4UBtcYvQauYdJ5LEX4To=
+X-Received: by 2002:a17:902:221:b029:d8:f938:b112 with SMTP id
+ 30-20020a1709020221b02900d8f938b112mr6374426plc.10.1605740757172; Wed, 18 Nov
+ 2020 15:05:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20201112183839.1009297-1-natechancellor@gmail.com>
+ <CAKwvOdkShrqgNDWO0bsPcPZLx-+u79mfmPrGy7CnSKZVdcYzSA@mail.gmail.com>
+ <20201113005347.GA3625030@ubuntu-m3-large-x86> <CAMj1kXHYG7d-BDtbZ-4+wGdHb0rxXiMLuSvSMW_JFHgp3G6kTg@mail.gmail.com>
+ <CAKwvOdk1ir=D---9xVAxcErJWSGVxK1Mv6AC=TK3RVwNdcvFjw@mail.gmail.com>
+In-Reply-To: <CAKwvOdk1ir=D---9xVAxcErJWSGVxK1Mv6AC=TK3RVwNdcvFjw@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Wed, 18 Nov 2020 15:05:45 -0800
+Message-ID: <CAKwvOdnauFdUgS0Ww=O-PHrXWhXQEEYd806NUcy8_7MOG0Uo2g@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: Always link with '-z norelro'
+To:     Nathan Chancellor <natechancellor@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Abbott Liu <liuwenliang@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jian Cai <jiancai@google.com>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Fangrui Song <maskray@google.com>,
+        Dan Rue <dan.rue@linaro.org>, Mark Brown <broonie@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Allow CONFIG_LTO_CLANG and CONFIG_THINLTO to be enabled.
+On Fri, Nov 13, 2020 at 11:34 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> On Thu, Nov 12, 2020 at 10:06 PM Ard Biesheuvel <ardb@kernel.org> wrote:
+> >
+> > On Fri, 13 Nov 2020 at 01:53, Nathan Chancellor
+> > <natechancellor@gmail.com> wrote:
+> > >
+> > > On Thu, Nov 12, 2020 at 04:44:46PM -0800, Nick Desaulniers wrote:
+> > > > On Thu, Nov 12, 2020 at 10:41 AM Nathan Chancellor
+> > > > <natechancellor@gmail.com> wrote:
+> > > > >
+> > > > > Commit 3bbd3db86470 ("arm64: relocatable: fix inconsistencies in linker
+> > > > > script and options") added '-z norelro' to the arm64 Makefile when
+> > > > > CONFIG_RELOCATABLE was set to help support ld.lld because ld.lld
+> > > > > defaults to '-z relro' but the kernel does not use program headers or
+> > > > > adhere to the section layout that is required for RELRO to work.
+> > > > >
+> > > > > Commit 3b92fa7485eb ("arm64: link with -z norelro regardless of
+> > > > > CONFIG_RELOCATABLE") unconditionally added it to LDFLAGS_vmlinux because
+> > > > > an error occurs with CONFIG_KASAN set even when CONFIG_RELOCATABLE is
+> > > > > unset.
+> > > > >
+> > > > > As it turns out, ARM experiences the same error after CONFIG_KASAN was
+> > > > > implemented, meaning that '-z norelro' needs to be added to that
+> > > > > Makefile as well (multi_v7_defconfig + CONFIG_KASAN=y + LD=ld.lld):
+> > > > >
+> > > > > $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- LLVM=1 zImage
+> > > > > ld.lld: error: section: .exit.data is not contiguous with other relro sections
+> > > > >
+> > > > > To avoid playing whack-a-mole with different architectures over time,
+> > > > > hoist '-z norelro' into the main Makefile. This does not affect ld.bfd
+> > > > > because '-z norelro' is the default for it.
 
-Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
----
- arch/arm64/Kconfig | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index c7f07978f5b6..56bd83a764f4 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -73,6 +73,8 @@ config ARM64
- 	select ARCH_USE_SYM_ANNOTATIONS
- 	select ARCH_SUPPORTS_MEMORY_FAILURE
- 	select ARCH_SUPPORTS_SHADOW_CALL_STACK if CC_HAVE_SHADOW_CALL_STACK
-+	select ARCH_SUPPORTS_LTO_CLANG
-+	select ARCH_SUPPORTS_THINLTO
- 	select ARCH_SUPPORTS_ATOMIC_RMW
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128 && (GCC_VERSION >= 50000 || CC_IS_CLANG)
- 	select ARCH_SUPPORTS_NUMA_BALANCING
+Fangrui pointed out off list that this might need an ld-option wrapper
+for older versions of GNU binutils.  Dan was showing me some build
+logs today, and I thought I spotted such warnings about `-z norelro
+will be ignored`.
 -- 
-2.29.2.299.gdc1121823c-goog
-
+Thanks,
+~Nick Desaulniers
