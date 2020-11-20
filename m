@@ -2,235 +2,89 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45DDB2BB071
-	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Nov 2020 17:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7D52BB5D3
+	for <lists+linux-kbuild@lfdr.de>; Fri, 20 Nov 2020 20:50:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730035AbgKTQXb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Nov 2020 11:23:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
+        id S1729614AbgKTTrY (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Nov 2020 14:47:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729482AbgKTQXY (ORCPT
+        with ESMTP id S1729114AbgKTTrY (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Nov 2020 11:23:24 -0500
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22CA9C0613CF
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 08:23:24 -0800 (PST)
-Received: by mail-ua1-x942.google.com with SMTP id h26so3278207uan.10
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 08:23:24 -0800 (PST)
+        Fri, 20 Nov 2020 14:47:24 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07D5AC061A47
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 11:47:24 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id w6so8892683pfu.1
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 11:47:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vOo6J2qOaNEsmcSt6ibqCSmyULbkJ5ut9vT5313WIA4=;
-        b=BnDD+UEZp9fE0ahf/zN/kLbG7kjRVUr1faC9KKf98v7DPL1XE0vyh9dxjpCHrS3lNW
-         kKvDMNikzoKSTXwSpuCq2nMSCpe/evgWjYPck5JKJ8+CthvbR0ZNc9v0IupNF+zBlKnE
-         uWG4Vnm7aF8vloRUfGNs1t64C7wzHzCYxkl+1FW8NQnQrHmCwCwd5XrUMJbaJCsjLXkf
-         PDvNljmVdmQyxI1ZTz4Ld366+uXkkI5lh48Nb6TVvQ1syIEF+qmtpYm348qLXzUWJTvt
-         eZGAJVW1RbhW1zWWoyWjl4wJmt5Yp9gZSkDByUKeL3sJfgBeoD9b6u8myXwoWwoCSaXl
-         zRGA==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=elr/neHdSPND1QBbHYVTIKRGGtBg1vE7OdThIsRU5pI=;
+        b=XzoPI1crChRR6wLQGUnQdTruNmuVNj0hkcwU6yjn8xXrOzmnTuw8bZwNjYOSUMiNjn
+         EBV38WHid50TNovyKvDuuqOK6ny2jvmInIM/dgDYVmxiGIxn7be54rsKduzrLe/jMV3q
+         ANWN/74SZ1EEZvtawKD5ujXQl6B2YxxD3r8JI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vOo6J2qOaNEsmcSt6ibqCSmyULbkJ5ut9vT5313WIA4=;
-        b=m5XUl6Ci4/JmYbXbCTQQNyOmdhrGI7v0C78LWACXAg2gYkF2aQCg2nWxibsLg5O9tM
-         uhrJFpDqt1brd7JOLwgAYtuF9q8jDHh4sZt7ETWQ5UmKKaxdAPzG0CMlcRnrAxHrNnKA
-         rXTKAcWgPqh8FmTptpgoXTJE6pVxH1XArh0lVYlZigqwLOwc3HbkqWT5aF5g5prozlFD
-         SDzYplp0XwL+efF5U7E+wVeopDk5+RrmAlVFYvSH0WcknFklZazCVQ+aw0eYoHk3S+xg
-         KOeNiGWc8bFHMfuM3YfRTkBK6h0qcOdeo29GRmdw5qPvBkvU/ILGCwnwy3f/48eZA+n9
-         5ONA==
-X-Gm-Message-State: AOAM5310W8grzRZzOupKGUfh/mrb7weEmTiLG3Pz1u1UmqfQIeQPbgkF
-        UVMXnPKaQ/7OpBhHmjHk0/faxZelxH4XGGKuKZ7EBQ==
-X-Google-Smtp-Source: ABdhPJzJbx0o+d/bY6jtwZK7GW+lglt9oYk7o/Vt+a1dboyBqZ3CDfKGfXuk6ql3DjjDQQyhV682LGMMj50jprmokXk=
-X-Received: by 2002:ab0:36db:: with SMTP id v27mr12115443uau.66.1605889402882;
- Fri, 20 Nov 2020 08:23:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20201118220731.925424-1-samitolvanen@google.com>
- <20201118220731.925424-3-samitolvanen@google.com> <CAKwvOdnYTMzaahnBqdNYPz3KMdnkp=jZ4hxiqkTYzM5+BBdezA@mail.gmail.com>
-In-Reply-To: <CAKwvOdnYTMzaahnBqdNYPz3KMdnkp=jZ4hxiqkTYzM5+BBdezA@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Fri, 20 Nov 2020 08:23:11 -0800
-Message-ID: <CABCJKucj_jUwoiLc35R7qFe+cNKTWgT+gsCa5pPiY66+1--3Lg@mail.gmail.com>
-Subject: Re: [PATCH v7 02/17] kbuild: add support for Clang LTO
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=elr/neHdSPND1QBbHYVTIKRGGtBg1vE7OdThIsRU5pI=;
+        b=bjxH8NALaP96IkKQRnjLfGGFRg+PmfyMIQgzUMJvODKFaeB/H/R7wBjggcqUZ++J6J
+         t6Dugfe00o3o6QIQOilsJ8ldkwycxarPJSsNEZKw4RQdBR4AqiMzvywshiQV7sW1h0vX
+         5puvZk7k685zIpW2YqnoeVv82pcHhvQC2dJjZCZ7/+E1cAany7uVbk2yG79wh8wuHsIj
+         qnY7q5TyGL6eukOHHaGCozzRbcOhFrQzGyuHMhaCTDWd87QoCur34ZFLRRkQlCkkdZ4f
+         Fan+EKmxC2osqMoQ/18B3eArF267SXa6D+OH4/BrLhW+t5AuVvpio56GAcMrzsfFhiXp
+         gFAg==
+X-Gm-Message-State: AOAM531GwWVPTJS3yTJFdQ/12ZQudtzdub08GQoq9zk6KuEr0yjbj2VR
+        nn2Zb3k2gphHp+27zk4wlvfqhA==
+X-Google-Smtp-Source: ABdhPJwnsGzh6rI5stQsBcWRn8N0h8Ns8b+OJp9DPF9o8s3fODKrXmSZ/a2sub1vz+HM8LuYBAXNBw==
+X-Received: by 2002:a62:ea09:0:b029:197:bad4:1e78 with SMTP id t9-20020a62ea090000b0290197bad41e78mr8311744pfh.22.1605901643516;
+        Fri, 20 Nov 2020 11:47:23 -0800 (PST)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id h16sm4507596pfo.185.2020.11.20.11.47.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2020 11:47:22 -0800 (PST)
+Date:   Fri, 20 Nov 2020 11:47:21 -0800
+From:   Kees Cook <keescook@chromium.org>
+To:     Sami Tolvanen <samitolvanen@google.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Will Deacon <will@kernel.org>,
         Josh Poimboeuf <jpoimboe@redhat.com>,
         Peter Zijlstra <peterz@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
         Kernel Hardening <kernel-hardening@lists.openwall.com>,
         linux-arch <linux-arch@vger.kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v7 02/17] kbuild: add support for Clang LTO
+Message-ID: <202011201144.3F2BB70C@keescook>
+References: <20201118220731.925424-1-samitolvanen@google.com>
+ <20201118220731.925424-3-samitolvanen@google.com>
+ <CAKwvOdnYTMzaahnBqdNYPz3KMdnkp=jZ4hxiqkTYzM5+BBdezA@mail.gmail.com>
+ <CABCJKucj_jUwoiLc35R7qFe+cNKTWgT+gsCa5pPiY66+1--3Lg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CABCJKucj_jUwoiLc35R7qFe+cNKTWgT+gsCa5pPiY66+1--3Lg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 3:49 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Wed, Nov 18, 2020 at 2:07 PM Sami Tolvanen <samitolvanen@google.com> wrote:
-> >
-> > This change adds build system support for Clang's Link Time
-> > Optimization (LTO). With -flto, instead of ELF object files, Clang
-> > produces LLVM bitcode, which is compiled into native code at link
-> > time, allowing the final binary to be optimized globally. For more
-> > details, see:
-> >
-> >   https://llvm.org/docs/LinkTimeOptimization.html
-> >
-> > The Kconfig option CONFIG_LTO_CLANG is implemented as a choice,
-> > which defaults to LTO being disabled. To use LTO, the architecture
-> > must select ARCH_SUPPORTS_LTO_CLANG and support:
-> >
-> >   - compiling with Clang,
-> >   - compiling inline assembly with Clang's integrated assembler,
-> >   - and linking with LLD.
-> >
-> > While using full LTO results in the best runtime performance, the
-> > compilation is not scalable in time or memory. CONFIG_THINLTO
-> > enables ThinLTO, which allows parallel optimization and faster
-> > incremental builds. ThinLTO is used by default if the architecture
-> > also selects ARCH_SUPPORTS_THINLTO:
-> >
-> >   https://clang.llvm.org/docs/ThinLTO.html
-> >
-> > To enable LTO, LLVM tools must be used to handle bitcode files. The
-> > easiest way is to pass the LLVM=1 option to make:
-> >
-> >   $ make LLVM=1 defconfig
-> >   $ scripts/config -e LTO_CLANG
-> >   $ make LLVM=1
-> >
-> > Alternatively, at least the following LLVM tools must be used:
-> >
-> >   CC=clang LD=ld.lld AR=llvm-ar NM=llvm-nm
-> >
-> > To prepare for LTO support with other compilers, common parts are
-> > gated behind the CONFIG_LTO option, and LTO can be disabled for
-> > specific files by filtering out CC_FLAGS_LTO.
-> >
-> > Signed-off-by: Sami Tolvanen <samitolvanen@google.com>
-> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > ---
-> >  Makefile                          | 19 +++++++-
-> >  arch/Kconfig                      | 75 +++++++++++++++++++++++++++++++
-> >  include/asm-generic/vmlinux.lds.h | 11 +++--
-> >  scripts/Makefile.build            |  9 +++-
-> >  scripts/Makefile.modfinal         |  9 +++-
-> >  scripts/Makefile.modpost          | 21 ++++++++-
-> >  scripts/link-vmlinux.sh           | 32 +++++++++----
-> >  7 files changed, 158 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/Makefile b/Makefile
-> > index 8c8feb4245a6..240560e88d69 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -893,6 +893,21 @@ KBUILD_CFLAGS      += $(CC_FLAGS_SCS)
-> >  export CC_FLAGS_SCS
-> >  endif
-> >
-> > +ifdef CONFIG_LTO_CLANG
-> > +ifdef CONFIG_THINLTO
-> > +CC_FLAGS_LTO   += -flto=thin -fsplit-lto-unit
-> > +KBUILD_LDFLAGS += --thinlto-cache-dir=$(extmod-prefix).thinlto-cache
-> > +else
-> > +CC_FLAGS_LTO   += -flto
-> > +endif
-> > +CC_FLAGS_LTO   += -fvisibility=default
-> > +endif
-> > +
-> > +ifdef CONFIG_LTO
-> > +KBUILD_CFLAGS  += $(CC_FLAGS_LTO)
-> > +export CC_FLAGS_LTO
-> > +endif
-> > +
-> >  ifdef CONFIG_DEBUG_FORCE_FUNCTION_ALIGN_32B
-> >  KBUILD_CFLAGS += -falign-functions=32
-> >  endif
-> > @@ -1473,7 +1488,7 @@ MRPROPER_FILES += include/config include/generated          \
-> >                   *.spec
-> >
-> >  # Directories & files removed with 'make distclean'
-> > -DISTCLEAN_FILES += tags TAGS cscope* GPATH GTAGS GRTAGS GSYMS
-> > +DISTCLEAN_FILES += tags TAGS cscope* GPATH GTAGS GRTAGS GSYMS .thinlto-cache
-> >
-> >  # clean - Delete most, but leave enough to build external modules
-> >  #
-> > @@ -1719,7 +1734,7 @@ PHONY += compile_commands.json
-> >
-> >  clean-dirs := $(KBUILD_EXTMOD)
-> >  clean: rm-files := $(KBUILD_EXTMOD)/Module.symvers $(KBUILD_EXTMOD)/modules.nsdeps \
-> > -       $(KBUILD_EXTMOD)/compile_commands.json
-> > +       $(KBUILD_EXTMOD)/compile_commands.json $(KBUILD_EXTMOD)/.thinlto-cache
-> >
-> >  PHONY += help
-> >  help:
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index 56b6ccc0e32d..a41fcb3ca7c6 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -598,6 +598,81 @@ config SHADOW_CALL_STACK
-> >           reading and writing arbitrary memory may be able to locate them
-> >           and hijack control flow by modifying the stacks.
-> >
-> > +config LTO
-> > +       bool
-> > +
-> > +config ARCH_SUPPORTS_LTO_CLANG
-> > +       bool
-> > +       help
-> > +         An architecture should select this option if it supports:
-> > +         - compiling with Clang,
-> > +         - compiling inline assembly with Clang's integrated assembler,
-> > +         - and linking with LLD.
-> > +
-> > +config ARCH_SUPPORTS_THINLTO
-> > +       bool
-> > +       help
-> > +         An architecture should select this option if it supports Clang's
-> > +         ThinLTO.
-> > +
-> > +config THINLTO
-> > +       bool "Clang ThinLTO"
-> > +       depends on LTO_CLANG && ARCH_SUPPORTS_THINLTO
-> > +       default y
-> > +       help
-> > +         This option enables Clang's ThinLTO, which allows for parallel
-> > +         optimization and faster incremental compiles. More information
-> > +         can be found from Clang's documentation:
-> > +
-> > +           https://clang.llvm.org/docs/ThinLTO.html
-> > +
-> > +         If you say N here, the compiler will use full LTO, which may
-> > +         produce faster code, but building the kernel will be significantly
-> > +         slower as the linker won't efficiently utilize multiple threads.
-> > +
-> > +         If unsure, say Y.
->
-> I think the order of these new configs makes it so that ThinLTO
-> appears above LTO in menuconfig; I don't like that, and wish it came
-> immediately after.  Does `THINLTO` have to be defined _after_ the
-> choice for LTO_NONE/LTO_CLANG, perhaps?
->
-> Secondly, I don't like how ThinLTO is a config and not a choice.  If I
-> don't set ThinLTO, what am I getting?  That's a rhetorical question; I
-> know its full LTO, and I guess the help text does talk about the
-> tradeoffs and what you would get.  I guess what's curious to me is
-> "why does it display ThinLTO? Why not FullLTO?"  I can't help but
-> wonder if a kconfig `choice` rather than a `config` would be better
-> here, that way it's more obvious the user is making a choice between
-> ThinLTO vs Full LTO, rather than the current patches which look like
-> "ThinkLTO on/off."
+On Fri, Nov 20, 2020 at 08:23:11AM -0800, Sami Tolvanen wrote:
+> Changing the ThinLTO config to a choice and moving it after the main
+> LTO config sounds like a good idea to me. I'll see if I can change
+> this in v8. Thanks!
 
-Changing the ThinLTO config to a choice and moving it after the main
-LTO config sounds like a good idea to me. I'll see if I can change
-this in v8. Thanks!
+Originally, I thought this might be a bit ugly once GCC LTO is added,
+but this could be just a choice like we're done for the stack
+initialization. Something like an "LTO" choice of NONE, CLANG_FULL,
+CLANG_THIN, and in the future GCC, etc.
 
-Sami
+-- 
+Kees Cook
