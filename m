@@ -2,234 +2,252 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E22B52BBB76
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Nov 2020 02:18:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B0C92BBBA8
+	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Nov 2020 02:47:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728890AbgKUBRJ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 20 Nov 2020 20:17:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48094 "EHLO
+        id S1725974AbgKUBq5 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 20 Nov 2020 20:46:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727149AbgKUBRI (ORCPT
+        with ESMTP id S1725785AbgKUBq5 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 20 Nov 2020 20:17:08 -0500
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com [IPv6:2607:f8b0:4864:20::b4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B9BC061A04
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 17:17:06 -0800 (PST)
-Received: by mail-yb1-xb4a.google.com with SMTP id v188so13878827ybc.19
-        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 17:17:06 -0800 (PST)
+        Fri, 20 Nov 2020 20:46:57 -0500
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C97C0613CF
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 17:46:57 -0800 (PST)
+Received: by mail-vs1-xe44.google.com with SMTP id y73so6056093vsc.5
+        for <linux-kbuild@vger.kernel.org>; Fri, 20 Nov 2020 17:46:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=iQ4OrlgV37km/esdj9c16jR7zuMFgvA4/19ePO+04nk=;
-        b=SiFdqc2tdvdZfG5LPcF9rZtMTetWJJa75zaMNVRpf+7ypgLW8W59rZNIJ09X/HR02N
-         cUL55MCreIUkgc0wfevnIeMgjTWWLfjZN5EK7pdpzUyLdkufhNt9mR9v8NQT/bUCtkye
-         l5/3w2ruaua8HcTHg2idVAgHozfxop2F1KSZFoxxntzypbG6j9DPNGGwXWgY63/rLJVG
-         N7TdmCUgliRjAvDbYcwPzrBENBBB2ORYkrsVqQUKFUNmd4ulUPWJyWpYf5u84ATRtMhA
-         2uAxuetzdNvG4nfVabv7W1M/m2Add9TJ5QzAkreQjdDVCyAVjqVFzLaIzEklYsdS/V/g
-         PbOA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=v8J7ye6KqEOqzvSxgHSVDOvhErTqxQnjIzQcu9TjNgY=;
+        b=gxEj26AyhbRPRwqI4nRtVKE+oYSAVh0zKiN7CirbrkbRNHePoBQ5EYK/6EpmHgONJ6
+         rDzEI9xmd2qIIpAUwbpr8Q0yverWthQEp5Gqcylo5sKUIhwtfUGoz4tRuCQbcZaqkKAW
+         oOidkmqwHF6T/d09/hXg1sRnsEGdmWMfeAH42QOzSzvfH/8ZXoiPcEUHHvnMMpdidxdk
+         SBLmbP4NBAr0IyhZ6Aqnke827HaJix7UCMkkb3BI4YYVtQZ/NJlRBUzgqsBFXQMQhe2Z
+         Gl9SL1sbqejJ1I1r/vXI0aht45bXxB+2OmXIeoLxJEhKfDetrsMJexh+NAMprZAZTUbp
+         CUEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=iQ4OrlgV37km/esdj9c16jR7zuMFgvA4/19ePO+04nk=;
-        b=fmKQO84V2UhQu7OuLp9CIqlTODJTnPJIG7800dnf64ML5O+W47NHpZ1hupT77XHGX5
-         7p9lzvuDaEOKRozzszYJLe+jPAsLHwgZXTZswpHRvKm/wL4QlLh0yoZG8cG11J/0Kgwi
-         6cGc0fuO3/IO24HQBoAUtbrMlQtE22FdevI90vRkQU2mKGnDuhIM3aOyc0gkTANeagBE
-         IcJJPna1Z67HFW0JIjMLqNKuvXMpqVsbvYjb5Q8JL+KxnVyVktNCv8vUPmC7U/Iaxh2M
-         bR2yi8gpHSgkCrLeomvg0lhgH8oz3ZdjqOWFggz1WU9EwJU8/SWfxdb/PMBD+B0VwfLj
-         dFVA==
-X-Gm-Message-State: AOAM533IuMOXLGpKdQNWfIqEAGE8JCrCMZcJTq/dzzZiVI5XeWqYR5FS
-        +lLuYZ9DGNLpzN4MOmtBhh7u38fwgrvCk2+wnfc=
-X-Google-Smtp-Source: ABdhPJyc/MKHdu8cACn/yJ2Gr4rfpnNrUDF6yh12J/zfYZzsJRL+Tjk+j+gsVyGhAkEnJv1R26t54SyxuQXZDWyucl4=
-Sender: "willmcvicker via sendgmr" <willmcvicker@willmcvicker.c.googlers.com>
-X-Received: from willmcvicker.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:2dd0])
- (user=willmcvicker job=sendgmr) by 2002:a25:7542:: with SMTP id
- q63mr31125405ybc.176.1605921426183; Fri, 20 Nov 2020 17:17:06 -0800 (PST)
-Date:   Sat, 21 Nov 2020 01:16:51 +0000
-In-Reply-To: <20201121011652.2006613-1-willmcvicker@google.com>
-Message-Id: <20201121011652.2006613-3-willmcvicker@google.com>
-Mime-Version: 1.0
-References: <20201121011652.2006613-1-willmcvicker@google.com>
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: [PATCH v1 2/2] modules: add scmversion field
-From:   Will McVicker <willmcvicker@google.com>
-To:     Jessica Yu <jeyu@kernel.org>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v8J7ye6KqEOqzvSxgHSVDOvhErTqxQnjIzQcu9TjNgY=;
+        b=uVPrgUjXHBSM4P6vNYYOl2sdY8NAYuq707D2bwUCbbfEah0bOT3pnX8aNRQwToUrFf
+         Me3QpWhk/8frk8qgpG68hNvUbo/UlNJ2knQqDaGFz5xSHbVRu7dsi6+KnWEPRQr2IHTd
+         jmjDv0Jfc099YqWisQpi8JAbmDHLVtx4H2X61+KyIyDLfDK7bOLEcIyh+aFsVi2g9C0f
+         jjugTb3cyjgljO9T48HclPxcvy1TkEI9lfvcOuGXi0V1EX4DtCVwi3r2E2XmUJ/Kbt94
+         048wQeEzbQVO3bstrGMTTYWoDGJ3Gxk+/pCVM8HyxB3fETMQcszeI9yrkc1GcvXPKlCl
+         59hA==
+X-Gm-Message-State: AOAM532nclqdlfPKFEo0UVIwWH4d51Ebho8kUVqUUanSPm77hGT6Dva2
+        1AVM5whYmLMVAgrUF6H7ahe9EksQkdB269sivi+2SQ==
+X-Google-Smtp-Source: ABdhPJyTZdzEFSb+AU0Lwcx6MYiAxc0oJWnFWkG3BjzA7DDhZM3ZvjUPYcoVlJfRzxNMLq+BKHVW1Pwga5taQXZN+BE=
+X-Received: by 2002:a05:6102:22da:: with SMTP id a26mr15670580vsh.13.1605923216073;
+ Fri, 20 Nov 2020 17:46:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20201118220731.925424-1-samitolvanen@google.com>
+ <20201118220731.925424-3-samitolvanen@google.com> <CAKwvOdnYTMzaahnBqdNYPz3KMdnkp=jZ4hxiqkTYzM5+BBdezA@mail.gmail.com>
+ <CABCJKucj_jUwoiLc35R7qFe+cNKTWgT+gsCa5pPiY66+1--3Lg@mail.gmail.com>
+ <202011201144.3F2BB70C@keescook> <20201120202935.GA1220359@ubuntu-m3-large-x86>
+ <202011201241.B159562D7@keescook> <CABCJKucJ87wa73YJkN_dYUyE7foQT+12gdWJZw1PgZ_decFr4w@mail.gmail.com>
+ <202011201556.3B910EF@keescook>
+In-Reply-To: <202011201556.3B910EF@keescook>
+From:   Sami Tolvanen <samitolvanen@google.com>
+Date:   Fri, 20 Nov 2020 17:46:44 -0800
+Message-ID: <CABCJKudy5xFfjBFpFPR255-NAb1yOSuVqsL4fFUwJGGWKDnmQQ@mail.gmail.com>
+Subject: Re: [PATCH v7 02/17] kbuild: add support for Clang LTO
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Nathan Chancellor <natechancellor@gmail.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@google.com, Will McVicker <willmcvicker@google.com>
+        Steven Rostedt <rostedt@goodmis.org>,
+        Will Deacon <will@kernel.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add the modinfo field `scmversion` to include the SCM version of kernel
-modules, e.g. git sha1. This allows one to identify the exact source
-code version of a given kernel module.
+On Fri, Nov 20, 2020 at 3:59 PM Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Nov 20, 2020 at 12:58:41PM -0800, Sami Tolvanen wrote:
+> > On Fri, Nov 20, 2020 at 12:43 PM Kees Cook <keescook@chromium.org> wrote:
+> > >
+> > > On Fri, Nov 20, 2020 at 01:29:35PM -0700, Nathan Chancellor wrote:
+> > > > On Fri, Nov 20, 2020 at 11:47:21AM -0800, Kees Cook wrote:
+> > > > > On Fri, Nov 20, 2020 at 08:23:11AM -0800, Sami Tolvanen wrote:
+> > > > > > Changing the ThinLTO config to a choice and moving it after the main
+> > > > > > LTO config sounds like a good idea to me. I'll see if I can change
+> > > > > > this in v8. Thanks!
+> > > > >
+> > > > > Originally, I thought this might be a bit ugly once GCC LTO is added,
+> > > > > but this could be just a choice like we're done for the stack
+> > > > > initialization. Something like an "LTO" choice of NONE, CLANG_FULL,
+> > > > > CLANG_THIN, and in the future GCC, etc.
+> > > >
+> > > > Having two separate choices might be a little bit cleaner though? One
+> > > > for the compiler (LTO_CLANG versus LTO_GCC) and one for the type
+> > > > (THINLTO versus FULLLTO). The type one could just have a "depends on
+> > > > CC_IS_CLANG" to ensure it only showed up when needed.
+> > >
+> > > Right, that's how the stack init choice works. Kconfigs that aren't
+> > > supported by the compiler won't be shown. I.e. after Sami's future
+> > > patch, the only choice for GCC will be CONFIG_LTO_NONE. But building
+> > > under Clang, it would offer CONFIG_LTO_NONE, CONFIG_LTO_CLANG_FULL,
+> > > CONFIG_LTO_CLANG_THIN, or something.
+> > >
+> > > (and I assume  CONFIG_LTO would be def_bool y, depends on !LTO_NONE)
+> >
+> > I'm fine with adding ThinLTO as another option to the LTO choice, but
+> > it would duplicate the dependencies and a lot of the help text. I
+> > suppose we could add another config for the dependencies and have both
+> > LTO options depend on that instead.
+>
+> How about something like this? This separates the arch support, compiler
+> support, and user choice into three separate Kconfig areas, which I
+> think should work.
 
-You can retrieve it in two ways,
+Sure, this looks good to me, I'll use this in v8. The only minor
+concern I have is that ThinLTO cannot be set as the default LTO mode,
+but I assume anyone who selects LTO is also capable of deciding which
+mode is better for them.
 
-1) By using modinfo
-    > modinfo -F scmversion <module_name>
-2) By module sysfs node
-    > cat /sys/module/<module_name>/scmversion
+> diff --git a/Makefile b/Makefile
+> index e397c4caec1b..af902718e882 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -897,7 +897,7 @@ export CC_FLAGS_SCS
+>  endif
+>
+>  ifdef CONFIG_LTO_CLANG
+> -ifdef CONFIG_THINLTO
+> +ifdef CONFIG_LTO_CLANG_THIN
+>  CC_FLAGS_LTO   += -flto=thin -fsplit-lto-unit
+>  KBUILD_LDFLAGS += --thinlto-cache-dir=$(extmod-prefix).thinlto-cache
+>  else
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index cdd29b5fdb56..5c22e10e4c12 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -600,6 +600,14 @@ config SHADOW_CALL_STACK
+>
+>  config LTO
+>         bool
+> +       help
+> +         Selected if the kernel will be built using the compiler's LTO feature.
+> +
+> +config LTO_CLANG
+> +       bool
+> +       select LTO
+> +       help
+> +         Selected if the kernel will be built using Clang's LTO feature.
+>
+>  config ARCH_SUPPORTS_LTO_CLANG
+>         bool
+> @@ -609,28 +617,25 @@ config ARCH_SUPPORTS_LTO_CLANG
+>           - compiling inline assembly with Clang's integrated assembler,
+>           - and linking with LLD.
+>
+> -config ARCH_SUPPORTS_THINLTO
+> +config ARCH_SUPPORTS_LTO_CLANG_THIN
+>         bool
+>         help
+> -         An architecture should select this option if it supports Clang's
+> -         ThinLTO.
+> +         An architecture should select this option if it can supports Clang's
+> +         ThinLTO mode.
+>
+> -config THINLTO
+> -       bool "Clang ThinLTO"
+> -       depends on LTO_CLANG && ARCH_SUPPORTS_THINLTO
+> -       default y
+> +config HAS_LTO_CLANG
+> +       def_bool y
+> +       # Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
+> +       depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
+> +       depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
+> +       depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
+> +       depends on ARCH_SUPPORTS_LTO_CLANG
+> +       depends on !FTRACE_MCOUNT_USE_RECORDMCOUNT
+> +       depends on !KASAN
+> +       depends on !GCOV_KERNEL
+>         help
+> -         This option enables Clang's ThinLTO, which allows for parallel
+> -         optimization and faster incremental compiles. More information
+> -         can be found from Clang's documentation:
+> -
+> -           https://clang.llvm.org/docs/ThinLTO.html
+> -
+> -         If you say N here, the compiler will use full LTO, which may
+> -         produce faster code, but building the kernel will be significantly
+> -         slower as the linker won't efficiently utilize multiple threads.
+> -
+> -         If unsure, say Y.
+> +         The compiler and Kconfig options support building with Clang's
+> +         LTO.
+>
+>  choice
+>         prompt "Link Time Optimization (LTO)"
+> @@ -644,20 +649,14 @@ choice
+>
+>  config LTO_NONE
+>         bool "None"
+> +       help
+> +         Build the kernel normally, without Link Time Optimization (LTO).
+>
+> -config LTO_CLANG
+> -       bool "Clang's Link Time Optimization (EXPERIMENTAL)"
+> -       # Clang >= 11: https://github.com/ClangBuiltLinux/linux/issues/510
+> -       depends on CC_IS_CLANG && CLANG_VERSION >= 110000 && LD_IS_LLD
+> -       depends on $(success,$(NM) --help | head -n 1 | grep -qi llvm)
+> -       depends on $(success,$(AR) --help | head -n 1 | grep -qi llvm)
+> -       depends on ARCH_SUPPORTS_LTO_CLANG
+> -       depends on !FTRACE_MCOUNT_USE_RECORDMCOUNT
+> -       depends on !KASAN
+> -       depends on !GCOV_KERNEL
+> -       select LTO
+> +config LTO_CLANG_FULL
+> +       bool "Clang Full LTO (EXPERIMENTAL)"
+> +       select LTO_CLANG
+>         help
+> -          This option enables Clang's Link Time Optimization (LTO), which
+> +          This option enables Clang's full Link Time Optimization (LTO), which
+>            allows the compiler to optimize the kernel globally. If you enable
+>            this option, the compiler generates LLVM bitcode instead of ELF
+>            object files, and the actual compilation from bitcode happens at
+> @@ -667,9 +666,22 @@ config LTO_CLANG
+>
+>             https://llvm.org/docs/LinkTimeOptimization.html
+>
+> -         To select this option, you also need to use LLVM tools to handle
+> -         the bitcode by passing LLVM=1 to make.
+> +         During link time, this option can use a large amount of RAM, and
+> +         may take much longer than the ThinLTO option.
+>
+> +config LTO_CLANG_THIN
+> +       bool "Clang ThinLTO (EXPERIMENTAL)"
+> +       depends on ARCH_SUPPORTS_LTO_CLANG_THIN
+> +       select LTO_CLANG
+> +       help
+> +         This option enables Clang's ThinLTO, which allows for parallel
+> +         optimization and faster incremental compiles compared to the
+> +         CONFIG_LTO_CLANG_FULL option. More information can be found
+> +         from Clang's documentation:
+> +
+> +           https://clang.llvm.org/docs/ThinLTO.html
+> +
+> +         If unsure, say Y.
+>  endchoice
 
-Signed-off-by: Will McVicker <willmcvicker@google.com>
----
- include/linux/module.h   |  1 +
- kernel/module.c          | 20 ++++++++++++++++++++
- scripts/Makefile.modpost | 19 +++++++++++++++++--
- scripts/mod/modpost.c    | 28 +++++++++++++++++++++++++++-
- 4 files changed, 65 insertions(+), 3 deletions(-)
+The two LTO_CLANG_* options need to depend on HAS_LTO_CLANG, of course.
 
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 6264617bab4d..63137ca5147b 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -372,6 +372,7 @@ struct module {
- 	struct module_attribute *modinfo_attrs;
- 	const char *version;
- 	const char *srcversion;
-+	const char *scmversion;
- 	struct kobject *holders_dir;
- 
- 	/* Exported symbols */
-diff --git a/kernel/module.c b/kernel/module.c
-index a4fa44a652a7..be155ec80083 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -807,6 +807,7 @@ static struct module_attribute modinfo_##field = {                    \
- 
- MODINFO_ATTR(version);
- MODINFO_ATTR(srcversion);
-+MODINFO_ATTR(scmversion);
- 
- static char last_unloaded_module[MODULE_NAME_LEN+1];
- 
-@@ -1265,10 +1266,29 @@ static ssize_t show_taint(struct module_attribute *mattr,
- static struct module_attribute modinfo_taint =
- 	__ATTR(taint, 0444, show_taint, NULL);
- 
-+/**
-+ * struct modinfo_attrs - Module attributes.
-+ * @module_uevent: Used to notify udev of events.
-+ * @modinfo_version: Module version.
-+ * @modinfo_srcversion: Checksum of module source.
-+ * @modinfo_scmversion: SCM version of module source.
-+ * @modinfo_initstate: Module init state.
-+ * @modinfo_coresize: Module core layout size.
-+ * @modinfo_initsize: Module init layout size.
-+ * @modinfo_taint: Indicates if the module is tainted.
-+ * @modinfo_refcnt: Number of references in the kernel to the module.
-+ *
-+ * These are the module attributes accessible via the sysfs files
-+ * /sys/module/<module_name>/<attribute>.
-+ *
-+ * The following subset of attributes can also be accessed via the modinfo tool
-+ * as well: version, srcversion, and scmversion.
-+ */
- static struct module_attribute *modinfo_attrs[] = {
- 	&module_uevent,
- 	&modinfo_version,
- 	&modinfo_srcversion,
-+	&modinfo_scmversion,
- 	&modinfo_initstate,
- 	&modinfo_coresize,
- 	&modinfo_initsize,
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index f54b6ac37ac2..4486eb72240e 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -77,8 +77,23 @@ src := $(obj)
- include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
-              $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
- 
--# modpost option for external modules
--MODPOST += -e
-+# Get the external module's source path. KBUILD_EXTMOD could either be an
-+# absolute path or relative path from $(srctree). This makes sure that we
-+# aren't using a relative path from a separate working directory (O= or
-+# KBUILD_OUTPUT) since that may not be the actual module's SCM project path. So
-+# check the path relative to $(srctree) first.
-+ifneq ($(realpath $(srctree)/$(KBUILD_EXTMOD) 2>/dev/null),)
-+	module_srcpath := $(srctree)/$(KBUILD_EXTMOD)
-+else
-+	module_srcpath := $(KBUILD_EXTMOD)
-+endif
-+
-+# Get the SCM version of the external module. Sed verifies setlocalversion
-+# returns a proper revision based on the SCM type, e.g. git, mercurial, or svn.
-+module_scmversion := $(shell $(srctree)/scripts/setlocalversion $(module_srcpath) | \
-+	sed -n 's/.*-\(\(\(g\|hg\)[a-fA-F0-9]\+\|svn[0-9]\+\)\(-dirty\)\?\).*\?/\1/p')
-+# modpost option for external modules.
-+MODPOST += -e$(module_scmversion)
- 
- input-symdump := Module.symvers $(KBUILD_EXTRA_SYMBOLS)
- output-symdump := $(KBUILD_EXTMOD)/Module.symvers
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index f882ce0d9327..db59eb2a880d 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -30,6 +30,8 @@ static int have_vmlinux = 0;
- static int all_versions = 0;
- /* If we are modposting external module set to 1 */
- static int external_module = 0;
-+#define MODULE_SCMVERSION_SIZE 64
-+static char module_scmversion[MODULE_SCMVERSION_SIZE];
- /* Only warn about unresolved symbols */
- static int warn_unresolved = 0;
- /* How a symbol is exported */
-@@ -2272,6 +2274,27 @@ static void add_intree_flag(struct buffer *b, int is_intree)
- 		buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
- }
- 
-+/**
-+ * add_scmversion() - Adds the MODULE_INFO macro for the scmversion.
-+ * @b: Buffer to append to.
-+ * @is_intree: Indicates if the module is in-tree or is an external module.
-+ *
-+ * This function fills in the module attribute `scmversion` for the kernel
-+ * module. This is useful for determining a given module's SCM version on
-+ * device via /sys/modules/<module>/scmversion and/or using the modinfo tool.
-+ *
-+ * If it's an in-tree module, then the UTS_RELEASE version is used. Otherwise,
-+ * the provided SCM version is used. If there was no SCM version provided to
-+ * the script for an external module, then `scmversion` is omitted.
-+ */
-+static void add_scmversion(struct buffer *b, int is_intree)
-+{
-+	if (is_intree)
-+		buf_printf(b, "\nMODULE_INFO(scmversion, UTS_RELEASE);\n");
-+	else if (module_scmversion[0] != '\0')
-+		buf_printf(b, "\nMODULE_INFO(scmversion, \"%s\");\n", module_scmversion);
-+}
-+
- /* Cannot check for assembler */
- static void add_retpoline(struct buffer *b)
- {
-@@ -2559,10 +2582,12 @@ int main(int argc, char **argv)
- 	struct dump_list *dump_read_start = NULL;
- 	struct dump_list **dump_read_iter = &dump_read_start;
- 
--	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
-+	while ((opt = getopt(argc, argv, "e::i:mnT:o:awENd:")) != -1) {
- 		switch (opt) {
- 		case 'e':
- 			external_module = 1;
-+			if (optarg)
-+				strncpy(module_scmversion, optarg, sizeof(module_scmversion) - 1);
- 			break;
- 		case 'i':
- 			*dump_read_iter =
-@@ -2645,6 +2670,7 @@ int main(int argc, char **argv)
- 		add_depends(&buf, mod);
- 		add_moddevtable(&buf, mod);
- 		add_srcversion(&buf, mod);
-+		add_scmversion(&buf, !external_module);
- 
- 		sprintf(fname, "%s.mod.c", mod->name);
- 		write_if_changed(&buf, fname);
--- 
-2.29.2.454.gaff20da3a2-goog
-
+Sami
