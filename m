@@ -2,138 +2,69 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B0B82BC200
-	for <lists+linux-kbuild@lfdr.de>; Sat, 21 Nov 2020 21:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 481402BC9BD
+	for <lists+linux-kbuild@lfdr.de>; Sun, 22 Nov 2020 22:50:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728481AbgKUULb (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 21 Nov 2020 15:11:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52294 "EHLO
+        id S1726579AbgKVVtc (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Nov 2020 16:49:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728441AbgKUUL3 (ORCPT
+        with ESMTP id S1726339AbgKVVtb (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 21 Nov 2020 15:11:29 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2285BC0613D1
-        for <linux-kbuild@vger.kernel.org>; Sat, 21 Nov 2020 12:11:28 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id 131so11162501pfb.9
-        for <linux-kbuild@vger.kernel.org>; Sat, 21 Nov 2020 12:11:28 -0800 (PST)
+        Sun, 22 Nov 2020 16:49:31 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755E4C0613CF;
+        Sun, 22 Nov 2020 13:49:31 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id bo9so14841476ejb.13;
+        Sun, 22 Nov 2020 13:49:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2E/G1+BC++eqc5/VVuVWg3zAaLSLEIJOC7i/xjg7VSs=;
-        b=d6GrwcPvUVOPqv9gOqNrM/bSP2HBSSL4qRmWjJIA4m3hlxWzzEj5T+lfuVhxoorPwR
-         NB2BxSopAcepiomrLE56aIQhqr6iGtiFG6DXeV6iIvBvUM0uetc94YKKaGPVURg9KuKK
-         wPaVmZ+dITTlnTfMDAnpXhgP+pbbnBqLxnBaU=
+        d=gmail.com; s=20161025;
+        h=message-id:sender:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
+        b=R+9VbmLaoqiA1G9rI1KaYOdCxQLH8rUkLjeCm9JG6KVnmOUbJ7b1RNsQ1f2Sjh9OoL
+         Y12Om4u44P61YTtboU/XDrj4w7O22SAPTTFpJPmTj01cbiSa2dy0WzqjsYt0X3xSPiND
+         W/RMQh9jHs+/n8ZbxpL2fNpwJXXLR6RT5KmxOiAOKdohnlBB198mjPEziSf/W/DnwKKF
+         2c9vVSUFZ8vlMMjjmN7jm8nmlx1luyVBOvkISqgsDJ1q5SrBKtYwDRP51jHYWB88CZes
+         KMWKDG0jTPHoxy2L7YDSUYR60b0/BQ59wtVq2VgUkN2x3M1f6KeP0xi0ovTTZRXdqLpG
+         pgtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2E/G1+BC++eqc5/VVuVWg3zAaLSLEIJOC7i/xjg7VSs=;
-        b=OnwNPi91xcwUrterwc+KM1OZ6UOKE9v8BThIA0R6L62XlAJSzYkRL7R3HDvRLNFTGI
-         DTfgcolkdYCKOx9zRpEf6iSslOWru74JGCAdWvla6GoIalz+KthBg4b9Ls8OURf1v0Tl
-         oUtWnW+6Rip06QRaMnZSmhcrbi+Z9xv/R73QIkiO5t+06etUgPNgO3M55+ZJoZ1uq15v
-         fE45Pt0OpVZXSi4KKB2pPmWP0p5Midpavm4Vqi+u2o+WSppIDTkbDv7huKnnTvEcHc23
-         4HpK2QKmYMWlSU9hjNDOnkvWkbIQYmct2CBFE+cxmLAz65k6VpHy3NaHvmRjkUZirqgf
-         tdEg==
-X-Gm-Message-State: AOAM532IM0abvmf/jU4O7IRTXuPhjyy0rYj2Qd9du/V9WWdwbWtXVgrD
-        ZV1WXeYD5VOoGJ+cbOH4WoxinQ==
-X-Google-Smtp-Source: ABdhPJxD+jcfx423cWLQ4O6Da2CSyrYt2pnWQlkBVEKwXqI/6a+7t8fMpRLZBlqwuFIT6m30Fbuv4Q==
-X-Received: by 2002:a17:90a:f406:: with SMTP id ch6mr15105294pjb.134.1605989487549;
-        Sat, 21 Nov 2020 12:11:27 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id y10sm8724624pjm.34.2020.11.21.12.11.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2020 12:11:26 -0800 (PST)
-Date:   Sat, 21 Nov 2020 12:11:25 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v7 02/17] kbuild: add support for Clang LTO
-Message-ID: <202011211204.211E2B12@keescook>
-References: <20201118220731.925424-1-samitolvanen@google.com>
- <20201118220731.925424-3-samitolvanen@google.com>
- <CAKwvOdnYTMzaahnBqdNYPz3KMdnkp=jZ4hxiqkTYzM5+BBdezA@mail.gmail.com>
- <CABCJKucj_jUwoiLc35R7qFe+cNKTWgT+gsCa5pPiY66+1--3Lg@mail.gmail.com>
- <202011201144.3F2BB70C@keescook>
- <20201120202935.GA1220359@ubuntu-m3-large-x86>
- <202011201241.B159562D7@keescook>
- <CABCJKucJ87wa73YJkN_dYUyE7foQT+12gdWJZw1PgZ_decFr4w@mail.gmail.com>
- <202011201556.3B910EF@keescook>
- <CABCJKudy5xFfjBFpFPR255-NAb1yOSuVqsL4fFUwJGGWKDnmQQ@mail.gmail.com>
+        h=x-gm-message-state:message-id:sender:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
+        b=Z2KSf7TYed6lFSXqo7txy3H57Gu+AbPKqpD4ntnREZMFd0DJsoFxyEobruH8paTTHE
+         0yrIBSM5Oz+iz3xCJy3BoYvxpGBCnNj+sSyqOEK25wctKl+noXiXXTu/fK23YCayPyLX
+         b+8iPDX9yLepqKj0IqVn1cz3eAPVSbziKt5ZR49FRkkhEy9xQZ9nUGjcGwtHK/2Sixbg
+         3BtdML1HQE+EV/UGt9c+XrirY+E0W6UYjA+PBd/qZVugTi1dvFdeKHvNv5yed0uT/W2x
+         AJiyuopfI8PaGQ4Y9dwhS92cTsYEhuFfkaz1FZFipWWgu1mFJ5rnFgLzhSJEaV4bNHm5
+         3bIQ==
+X-Gm-Message-State: AOAM533+vpApcfn3bYNUGokXmOgEPxRS2L0whdAgGUEZFXGG6W8k8Aqf
+        rOrOBL9sdx9E8YpblZbiKy0=
+X-Google-Smtp-Source: ABdhPJzr0I5FdnJKO7TmNp3j4HwUBLVbvlrvvUkE9isr9Bg/wOS+pngOAnYu+EOyZZfZpha52zV6SQ==
+X-Received: by 2002:a17:906:17d1:: with SMTP id u17mr40221456eje.229.1606081770259;
+        Sun, 22 Nov 2020 13:49:30 -0800 (PST)
+Received: from [192.168.43.48] ([197.210.35.67])
+        by smtp.gmail.com with ESMTPSA id e17sm4016232edc.45.2020.11.22.13.49.25
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Sun, 22 Nov 2020 13:49:29 -0800 (PST)
+Message-ID: <5fbadce9.1c69fb81.8dfc7.11be@mx.google.com>
+Sender: Baniko Diallo <banidiallo23@gmail.com>
+From:   Adelina Zeuki <adelinazeuki@gmail.com>
+X-Google-Original-From: "Adelina Zeuki" <  adelinazeuki@gmail.comm >
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABCJKudy5xFfjBFpFPR255-NAb1yOSuVqsL4fFUwJGGWKDnmQQ@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Hello !!
+To:     Recipients <adelinazeuki@gmail.comm>
+Date:   Sun, 22 Nov 2020 21:49:19 +0000
+Reply-To: adelinazeuki@gmail.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 05:46:44PM -0800, Sami Tolvanen wrote:
-> Sure, this looks good to me, I'll use this in v8. The only minor
-> concern I have is that ThinLTO cannot be set as the default LTO mode,
-> but I assume anyone who selects LTO is also capable of deciding which
-> mode is better for them.
+Hi dear,
 
-It could be re-arranged similar to what you had before, but like:
-
-config LTO
-	bool "..."
-	depends on HAS_LTO
-	help
-	  ...
-
-choice
-	prompt "LTO mode" if LTO
-	default LTO_GCC if HAS_LTO_GCC
-	default LTO_CLANG_THIN if HAS_LTO_CLANG
-	default LTO_CLANG_FULL
-	help
-	  ...
-
-	config LTO_CLANG_THIN
-	...
-
-	config LTO_CLANG_FULL
-endchoice
-
-Then the LTO is top-level yes/no, but depends on detected capabilities,
-and the mode is visible if LTO is chosen, etc.
-
-I'm not really sure which is better...
-
-> > +config LTO_CLANG_THIN
-> > +       bool "Clang ThinLTO (EXPERIMENTAL)"
-> > +       depends on ARCH_SUPPORTS_LTO_CLANG_THIN
-> > +       select LTO_CLANG
-> > +       help
-> > +         This option enables Clang's ThinLTO, which allows for parallel
-> > +         optimization and faster incremental compiles compared to the
-> > +         CONFIG_LTO_CLANG_FULL option. More information can be found
-> > +         from Clang's documentation:
-> > +
-> > +           https://clang.llvm.org/docs/ThinLTO.html
-> > +
-> > +         If unsure, say Y.
-> >  endchoice
-> 
-> The two LTO_CLANG_* options need to depend on HAS_LTO_CLANG, of course.
-
-Whoops, yes. Thanks for catching that. :)
-
--- 
-Kees Cook
+Can i talk with you ?
