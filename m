@@ -2,79 +2,96 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0AD82BFF49
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 05:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 120652BFF5E
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 06:22:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727621AbgKWE7F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Nov 2020 23:59:05 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:40075 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727459AbgKWE7F (ORCPT
+        id S1726620AbgKWFUK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Nov 2020 00:20:10 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:26341 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725275AbgKWFUK (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Nov 2020 23:59:05 -0500
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0AN4wZji006726;
-        Mon, 23 Nov 2020 13:58:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0AN4wZji006726
+        Mon, 23 Nov 2020 00:20:10 -0500
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 0AN5JqHx032226
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 14:19:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0AN5JqHx032226
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606107515;
-        bh=+LEwj9RIP6B0v+fIagUSiNb+k53AZBbMfGdY35alS/0=;
+        s=dec2015msa; t=1606108793;
+        bh=Y7eS3LrjJHCmAosRJeow41kNwu+r2gw0PUm4JOuP3hg=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iGPwGA/4IAEd9JkZHJZIgkAY2k6Y9HTXqoPP22+LeMQEYSGLFwQemh8NZGwxCg3ah
-         qxeITYoWU6eQBr0gDR7Cl5AGbAJY134t2a45EbOa+G/nC7mv4SIu96zVHtNfuSuIMm
-         ULQdEUR/eS/NINLlWf27l0JMsWIA7CxcDmnp0mn/HFBLv/yi2qwTVklaj1y3N90To7
-         6eUzdXvwATH+3/v6T8/XMYf3oAAVXaUEqEtcw+JCAtXvShQeN9kiJYL5aVWxeABJIg
-         fKF5ynoxUNwI/jNt7iJcVA8ABHIF9xbuSOH8O6Yo+3Cu9Ehcv8ZhFlzqr0hGcdlTNY
-         UBggMXQGr3BmQ==
-X-Nifty-SrcIP: [209.85.214.172]
-Received: by mail-pl1-f172.google.com with SMTP id t18so8272929plo.0;
-        Sun, 22 Nov 2020 20:58:35 -0800 (PST)
-X-Gm-Message-State: AOAM533erxTx0d1b8vYVbOjsW41TRJArp4fuEplxgUB9FD2uHKShqzEk
-        xVTaPpjeNY6MrUallkDULEDiVU2jSEvBDPbBusU=
-X-Google-Smtp-Source: ABdhPJzCVFp0M56iuKPlCB10k/Z+nsmP4Q0CTPSwcKkybeuvqPFO5caR2C45S+axiewACNiCPqNHmrsPeS9qaX+Q+JQ=
-X-Received: by 2002:a17:902:d346:b029:d9:d097:ed15 with SMTP id
- l6-20020a170902d346b02900d9d097ed15mr18191255plk.1.1606107514572; Sun, 22 Nov
- 2020 20:58:34 -0800 (PST)
+        b=OEBEdpZlnBbQMYp7YyrhH4+vRXjw3sVUjOxL5lx/wK0GF2dkbEWQY7T5bO/Gx31Xu
+         Sg0fBzroENTJIWRJTxRjJR/lXLcUVNIgqdrMVXMY+rWYYhSg+ir3ttan5+DfyCXZXl
+         Hk4cXzkA5jhu6sQmFWHLTVmA7XGagvvsRQSgzz/yDQnVEqr8F9AMeHiun8xY0EsYRR
+         UtZ1SL17+WpsCQXinG6pfftyuc8xaDShYU3ivgpNcJozDk3Gw2kneUhx6Re+4ZjIUu
+         g4rtEJHrLBoSR2GcVHyk5ch7yNDzzNWjcmqgH1nulrI0viP+/9JexfF+tJ5crIARcz
+         XtoOc+Q+/9hhw==
+X-Nifty-SrcIP: [209.85.215.178]
+Received: by mail-pg1-f178.google.com with SMTP id f17so4629661pge.6
+        for <linux-kbuild@vger.kernel.org>; Sun, 22 Nov 2020 21:19:53 -0800 (PST)
+X-Gm-Message-State: AOAM531JqF0MBHMblAYEi2WS+HPv6JZJ5K9dhFET8gUMzK2hUE66l6Af
+        HKV8q1g9H3tykPfjONYtxiBfpeo4JkKtbAkSR8A=
+X-Google-Smtp-Source: ABdhPJwS5rNztXrqsYOnH7Z4PEpvfv609d20Hu8Jbaiv50SwKoqb3PCfVEjI+XYZfWdYHgmD6jv3xGqjIzSKvkY8rkg=
+X-Received: by 2002:a17:90a:5304:: with SMTP id x4mr23068823pjh.153.1606108792267;
+ Sun, 22 Nov 2020 21:19:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20201123045403.63402-1-masahiroy@kernel.org> <20201123045403.63402-3-masahiroy@kernel.org>
-In-Reply-To: <20201123045403.63402-3-masahiroy@kernel.org>
+References: <20201029155152.2467-1-boris@codesynthesis.com>
+ <20201029155152.2467-3-boris@codesynthesis.com> <CAK7LNARRfK7LFrmJdMj4n77rb6pBYY=gXNLkfoSjk=pBJkg79w@mail.gmail.com>
+ <boris.20201102162336@codesynthesis.com>
+In-Reply-To: <boris.20201102162336@codesynthesis.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 23 Nov 2020 13:57:57 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARXem8v+gW-dT2g6_3_4EvZ6=P0t0M9wfLfv7axRUCctQ@mail.gmail.com>
-Message-ID: <CAK7LNARXem8v+gW-dT2g6_3_4EvZ6=P0t0M9wfLfv7axRUCctQ@mail.gmail.com>
-Subject: Re: [PATCH 3/7] kbuild: doc: fix 'List directories to visit when
- descending' section
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Mon, 23 Nov 2020 14:19:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR4jxyOpGYspNUK==-pcdpMLkwv7_ejOO500RwfqAqL=w@mail.gmail.com>
+Message-ID: <CAK7LNAR4jxyOpGYspNUK==-pcdpMLkwv7_ejOO500RwfqAqL=w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kconfig: clean up header inclusion
+To:     Boris Kolpackov <boris@codesynthesis.com>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 1:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Mon, Nov 2, 2020 at 11:32 PM Boris Kolpackov <boris@codesynthesis.com> wrote:
 >
-> Fix state information:
+> Masahiro Yamada <masahiroy@kernel.org> writes:
+>
+> > On Fri, Oct 30, 2020 at 12:52 AM Boris Kolpackov
+> > <boris@codesynthesis.com> wrote:
+> > >
+> > > - Add missing includes.
+> > > - Remove no longer necessary includes.
+> > > - Separate non-portable header includes for easier porting.
+> >
+> > I think the definition of "non-portable"
+> > depends on how far we expand the supported system.
+> >
+> > I guess you want to segregate <unistd.h> and <sys/mmap.h>
+> > because you do not have them on Windows, correct?
+>
+> Correct. I have a set of patches that make kconfig portable to
+> Windows. I assume there is no interest in these patches here so
+> I will be maintaining them out of tree (but let me know if my
+> assumption is wrong and I will happily submit them). Splitting
+> the header inclusions into two blocks make these patches a bit
+> cleaner and more resilient to changes.
+>
+> Let me know if you would like me to change the patch to (1)
+> clarify the non-portable part or (2) get rid of the split.
 
 
-I mean "Fix stale information"
+
+If you send v2 with the first two items:
+
+- Add missing includes.
+- Remove no longer necessary includes.
+
+I will accept it.
 
 
-
->
->  - Fix the section number in the reference from 6.4 to 7.4.
->
->  - Remove init-y and net-y. They were removed by commit 23febe375d94
->    ("kbuild: merge init-y into core-y") and commit 95fb6317b3ab
->    ("kbuild: merge net-y and virt-y into drivers-y"), respectively.
->
->  - Update the example because arch/sparc64/Makefile does not exit.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
+I am not interested in the last one because
+running kconfig on Windows
+is not officially supported.
 
 
 -- 
