@@ -2,101 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1642C0527
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 13:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 329F12C0565
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 13:21:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729064AbgKWMBU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Nov 2020 07:01:20 -0500
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:36735 "EHLO
+        id S1729408AbgKWMUT (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Nov 2020 07:20:19 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:19109 "EHLO
         conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728882AbgKWMBT (ORCPT
+        with ESMTP id S1729409AbgKWMUT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Nov 2020 07:01:19 -0500
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0ANC0j36003445;
-        Mon, 23 Nov 2020 21:00:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0ANC0j36003445
+        Mon, 23 Nov 2020 07:20:19 -0500
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 0ANCJs2O014207
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 21:19:54 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0ANCJs2O014207
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606132845;
-        bh=gXJU1j0tk/l4SrquKaTpMFBdizTn1Q3SlxK72caN7Qk=;
+        s=dec2015msa; t=1606133995;
+        bh=NSg+dbbYBqbuF1D+K/qLFM3M+KqmOmkY9pziyLttJjE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=zG4VWBmwcHwR2PaRJ7JPKXwdEyVE8ywCmFxx7QHm36lZiz9jGcM+zrokCEwqm+ex1
-         NAtveUgNlg91ZoRJZ4RyDLKOupFcxHmwZdKmfdplcJQhF70tkr7zR50RZkwPVYIh7m
-         eOEPc+TwXIYBJ7/6Hiarx06TWFsGW9WSd1FOXQiENnxRtGQ1IO4grhHsVDq1OoeDH/
-         SOwcQcYyU64fekfkzbugJ3fXEbz6f2rD2rtz4+qr3AQD2nbSmiY/OrMyuGJl2HW2EH
-         A0XqRALWry+ucKuKcL6NvJi0l1X25/rsA7brSIOodWSL+II1EcahieaVsRkd0RIsaT
-         76xm4I89yssaQ==
-X-Nifty-SrcIP: [209.85.214.175]
-Received: by mail-pl1-f175.google.com with SMTP id k5so2292806plt.6;
-        Mon, 23 Nov 2020 04:00:45 -0800 (PST)
-X-Gm-Message-State: AOAM533jVab/VURYb1yjkbMQpEPl9RSC5+fxfLJzX3qPT4Odwy5t/mNF
-        GMEFoRQUHZMBEa3juI8Ifp2PWZgLJ5X9ruZY08w=
-X-Google-Smtp-Source: ABdhPJxtv7Cpkn97NRZPS4BXFkTGKAFmmn5n0xEeBIwBSXRbuJGzgtRAwg7HTPds4RAAIwIEJBuCrnk7p4Sj8haSlz0=
-X-Received: by 2002:a17:902:aa94:b029:d8:5c6f:df56 with SMTP id
- d20-20020a170902aa94b02900d85c6fdf56mr23150032plr.71.1606132843231; Mon, 23
- Nov 2020 04:00:43 -0800 (PST)
+        b=WogWeBiEjLMEv+OSVbRBZ7CIng5mmfb3Lf9aOtz0orbEge6T0ckf2cq10k6eu1YCw
+         lI0PxPXZziBF6qdx1sl5s6X6ovNHovYpXEBhIo8TT8vL2IuDTKC601GEqfLSVWJWRg
+         +YRxZMDbOSLZfVA/nCmUu1zfT7GDLjBEcTddPdmMpXCKxsjXxXei/kXqZN2bpe2D30
+         R09GAHoQN53eSVBnS8yFT+zdtUn5C1vxhwHWx4xIjG1pChHajzycBTe4gVscBVhJUf
+         J2ilOVLDlNw7dmXKUH1LzFEhFKY0O6rDEF/MQvZO4Qc3jp1Ub2ZsVlazCqCuuzShqL
+         UlGeYCO6zvxFg==
+X-Nifty-SrcIP: [209.85.210.178]
+Received: by mail-pf1-f178.google.com with SMTP id n137so4704831pfd.3
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 04:19:54 -0800 (PST)
+X-Gm-Message-State: AOAM5316YiYlK9HVOxS1BIjATsd6FnuSdRnNyO4Nhosdk0X4/G6gfKfF
+        Yf4FGgQg4aEtINvas5btRe7k4HLIwqwMLJWHrf8=
+X-Google-Smtp-Source: ABdhPJzhOqUDrRXbCTy8s1ObvC+OFVcucynD5KxbS2jZpRTgCls0KcnLDZcNrlMaW7BFk/mNtNTRbaSSmnKd4obBgPQ=
+X-Received: by 2002:a17:90a:5404:: with SMTP id z4mr10471601pjh.198.1606133993995;
+ Mon, 23 Nov 2020 04:19:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20201026220331.3896226-1-arnd@kernel.org> <20201026220331.3896226-2-arnd@kernel.org>
- <20201027014846.GA368335@ubuntu-m3-large-x86> <20201027043213.GA2342477@ubuntu-m3-large-x86>
-In-Reply-To: <20201027043213.GA2342477@ubuntu-m3-large-x86>
+References: <20201029155152.2467-1-boris@codesynthesis.com>
+ <20201029155152.2467-3-boris@codesynthesis.com> <CAK7LNARRfK7LFrmJdMj4n77rb6pBYY=gXNLkfoSjk=pBJkg79w@mail.gmail.com>
+ <boris.20201102162336@codesynthesis.com> <CAK7LNAR4jxyOpGYspNUK==-pcdpMLkwv7_ejOO500RwfqAqL=w@mail.gmail.com>
+ <boris.20201123113332@codesynthesis.com>
+In-Reply-To: <boris.20201123113332@codesynthesis.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 23 Nov 2020 21:00:06 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASFzy9dVk6_VB3Zu0Zqfsi8B50Dw7QQB1PwC-29RrMRgQ@mail.gmail.com>
-Message-ID: <CAK7LNASFzy9dVk6_VB3Zu0Zqfsi8B50Dw7QQB1PwC-29RrMRgQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Makefile.extrawarn: limit -Wnested-externs to clang
-To:     Nathan Chancellor <natechancellor@gmail.com>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
+Date:   Mon, 23 Nov 2020 21:19:16 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARrK4mKj5ouu0AYNWZT1Fi6v31jUNfs3CZU0GUCU5OT0A@mail.gmail.com>
+Message-ID: <CAK7LNARrK4mKj5ouu0AYNWZT1Fi6v31jUNfs3CZU0GUCU5OT0A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] kconfig: clean up header inclusion
+To:     Boris Kolpackov <boris@codesynthesis.com>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 1:32 PM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+On Mon, Nov 23, 2020 at 6:45 PM Boris Kolpackov <boris@codesynthesis.com> wrote:
 >
-> On Mon, Oct 26, 2020 at 06:48:46PM -0700, Nathan Chancellor wrote:
-> > On Mon, Oct 26, 2020 at 11:03:14PM +0100, Arnd Bergmann wrote:
-> > > From: Arnd Bergmann <arnd@arndb.de>
-> > >
-> > > The -Wnested-externs warning has become useless with gcc, since
-> > > this warns every time that BUILD_BUG_ON() or similar macros
-> > > are used.
-> > >
-> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Also see:
-> >
-> > 2486baae2cf6 ("objtool: Allow nested externs to enable BUILD_BUG()")
-> > 6cf4ecf5c51d ("perf build: Allow nested externs to enable BUILD_BUG() usage")
-> >
-> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> - Add missing includes.
+> - Remove no longer necessary includes.
+> ---
+
+
+Applied to linux-kbuild. Thanks.
+
+
+
+> v2: Don't re-arrange includes.
 >
-> Actually, just delete this line altogether. -Wnested-externs is a GCC
-> only warning, the flag is only present in clang for compatibility with
-> GCC:
+>  scripts/kconfig/conf.c     | 1 -
+>  scripts/kconfig/confdata.c | 1 +
+>  scripts/kconfig/lexer.l    | 1 -
+>  scripts/kconfig/symbol.c   | 2 +-
+>  4 files changed, 2 insertions(+), 3 deletions(-)
 >
-> https://clang.llvm.org/docs/DiagnosticsReference.html#wnested-externs
+> diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+> index f6e548b..db03e2f 100644
+> --- a/scripts/kconfig/conf.c
+> +++ b/scripts/kconfig/conf.c
+> @@ -11,7 +11,6 @@
+>  #include <time.h>
+>  #include <unistd.h>
+>  #include <getopt.h>
+> -#include <sys/stat.h>
+>  #include <sys/time.h>
+>  #include <errno.h>
 >
-> With that, my reviewed by still stands.
+> diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+> index a39d93e..2568dbe 100644
+> --- a/scripts/kconfig/confdata.c
+> +++ b/scripts/kconfig/confdata.c
+> @@ -5,6 +5,7 @@
+>
+>  #include <sys/mman.h>
+>  #include <sys/stat.h>
+> +#include <sys/types.h>
+>  #include <ctype.h>
+>  #include <errno.h>
+>  #include <fcntl.h>
+> diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+> index 240109f..9c22cb5 100644
+> --- a/scripts/kconfig/lexer.l
+> +++ b/scripts/kconfig/lexer.l
+> @@ -12,7 +12,6 @@
+>  #include <stdio.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+> -#include <unistd.h>
+>
+>  #include "lkc.h"
+>  #include "parser.tab.h"
+> diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+> index ffa3ec6..fe38e6f 100644
+> --- a/scripts/kconfig/symbol.c
+> +++ b/scripts/kconfig/symbol.c
+> @@ -3,11 +3,11 @@
+>   * Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>
+>   */
+>
+> +#include <sys/types.h>
+>  #include <ctype.h>
+>  #include <stdlib.h>
+>  #include <string.h>
+>  #include <regex.h>
+> -#include <sys/utsname.h>
+>
+>  #include "lkc.h"
+>
+> --
+> 2.29.0
 >
 
-I agree.
-
-
-
-Arnd, will you send v2?
-
-Please include
-https://clang.llvm.org/docs/DiagnosticsReference.html#wnested-externs
-as a reference.
-
-Thanks.
 
 -- 
 Best Regards
