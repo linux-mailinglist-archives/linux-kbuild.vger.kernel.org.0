@@ -2,80 +2,111 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C69C2C024F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 10:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD7D52C0276
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 10:46:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727711AbgKWJbK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Nov 2020 04:31:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49222 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726799AbgKWJbJ (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Nov 2020 04:31:09 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        id S1726357AbgKWJpi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Nov 2020 04:45:38 -0500
+Received: from codesynthesis.com ([188.40.148.39]:49824 "EHLO
+        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbgKWJpi (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 23 Nov 2020 04:45:38 -0500
+X-Greylist: delayed 434 seconds by postgrey-1.27 at vger.kernel.org; Mon, 23 Nov 2020 04:45:37 EST
+Received: from brak.codesynthesis.com (unknown [105.226.15.202])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3973206D5;
-        Mon, 23 Nov 2020 09:31:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1606123869;
-        bh=q/FGH8VFHpZMxdMzpaO/GqkbfF33SkyeuDgsxQTpAQ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c+xXr9zF2+bCngWMABbLRZHwoFSBdO0nzDgbdvs57kHGkBw55SGrIrYtS0eZbqxUb
-         PeI8m+j9kGGI4qoUrDTsZCliTUz57os/CKKv7JQ64rKwNI/kSrc4vh4CklSDW9I/PL
-         QcS0R/xQtsaXRbNjHZr3YRm6aNtHrCA/QBHQWUz8=
-Date:   Mon, 23 Nov 2020 10:32:19 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Will McVicker <willmcvicker@google.com>
-Cc:     Jessica Yu <jeyu@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@google.com
-Subject: Re: [PATCH v1 2/2] modules: add scmversion field
-Message-ID: <X7uBo6TolwKOrGSZ@kroah.com>
-References: <20201121011652.2006613-1-willmcvicker@google.com>
- <20201121011652.2006613-3-willmcvicker@google.com>
+        by codesynthesis.com (Postfix) with ESMTPSA id A01595F6E0;
+        Mon, 23 Nov 2020 09:38:22 +0000 (UTC)
+Received: by brak.codesynthesis.com (Postfix, from userid 1000)
+        id E42DF1A800C5; Mon, 23 Nov 2020 11:38:18 +0200 (SAST)
+Date:   Mon, 23 Nov 2020 11:38:18 +0200
+From:   Boris Kolpackov <boris@codesynthesis.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Luis Chamberlain <mcgrof@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Subject: [PATCH v2 2/2] kconfig: clean up header inclusion
+Message-ID: <boris.20201123113332@codesynthesis.com>
+References: <20201029155152.2467-1-boris@codesynthesis.com>
+ <20201029155152.2467-3-boris@codesynthesis.com>
+ <CAK7LNARRfK7LFrmJdMj4n77rb6pBYY=gXNLkfoSjk=pBJkg79w@mail.gmail.com>
+ <boris.20201102162336@codesynthesis.com>
+ <CAK7LNAR4jxyOpGYspNUK==-pcdpMLkwv7_ejOO500RwfqAqL=w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201121011652.2006613-3-willmcvicker@google.com>
+In-Reply-To: <CAK7LNAR4jxyOpGYspNUK==-pcdpMLkwv7_ejOO500RwfqAqL=w@mail.gmail.com>
+Organization: Code Synthesis
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Sat, Nov 21, 2020 at 01:16:51AM +0000, Will McVicker wrote:
-> +/**
-> + * struct modinfo_attrs - Module attributes.
-> + * @module_uevent: Used to notify udev of events.
-> + * @modinfo_version: Module version.
-> + * @modinfo_srcversion: Checksum of module source.
-> + * @modinfo_scmversion: SCM version of module source.
-> + * @modinfo_initstate: Module init state.
-> + * @modinfo_coresize: Module core layout size.
-> + * @modinfo_initsize: Module init layout size.
-> + * @modinfo_taint: Indicates if the module is tainted.
-> + * @modinfo_refcnt: Number of references in the kernel to the module.
-> + *
-> + * These are the module attributes accessible via the sysfs files
-> + * /sys/module/<module_name>/<attribute>.
-> + *
-> + * The following subset of attributes can also be accessed via the modinfo tool
-> + * as well: version, srcversion, and scmversion.
-> + */
->  static struct module_attribute *modinfo_attrs[] = {
->  	&module_uevent,
->  	&modinfo_version,
->  	&modinfo_srcversion,
-> +	&modinfo_scmversion,
->  	&modinfo_initstate,
->  	&modinfo_coresize,
->  	&modinfo_initsize,
+- Add missing includes.
+- Remove no longer necessary includes.
+---
 
-This isn't the normal way to document an array, with kerneldoc, I don't
-think I've seen that anywhere else in the kernel, have you?
+v2: Don't re-arrange includes.
 
-Anyway, again, Documentation/ABI/ is the correct place for this.
+ scripts/kconfig/conf.c     | 1 -
+ scripts/kconfig/confdata.c | 1 +
+ scripts/kconfig/lexer.l    | 1 -
+ scripts/kconfig/symbol.c   | 2 +-
+ 4 files changed, 2 insertions(+), 3 deletions(-)
 
-thanks,
+diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+index f6e548b..db03e2f 100644
+--- a/scripts/kconfig/conf.c
++++ b/scripts/kconfig/conf.c
+@@ -11,7 +11,6 @@
+ #include <time.h>
+ #include <unistd.h>
+ #include <getopt.h>
+-#include <sys/stat.h>
+ #include <sys/time.h>
+ #include <errno.h>
+ 
+diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
+index a39d93e..2568dbe 100644
+--- a/scripts/kconfig/confdata.c
++++ b/scripts/kconfig/confdata.c
+@@ -5,6 +5,7 @@
+ 
+ #include <sys/mman.h>
+ #include <sys/stat.h>
++#include <sys/types.h>
+ #include <ctype.h>
+ #include <errno.h>
+ #include <fcntl.h>
+diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+index 240109f..9c22cb5 100644
+--- a/scripts/kconfig/lexer.l
++++ b/scripts/kconfig/lexer.l
+@@ -12,7 +12,6 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <unistd.h>
+ 
+ #include "lkc.h"
+ #include "parser.tab.h"
+diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
+index ffa3ec6..fe38e6f 100644
+--- a/scripts/kconfig/symbol.c
++++ b/scripts/kconfig/symbol.c
+@@ -3,11 +3,11 @@
+  * Copyright (C) 2002 Roman Zippel <zippel@linux-m68k.org>
+  */
+ 
++#include <sys/types.h>
+ #include <ctype.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <regex.h>
+-#include <sys/utsname.h>
+ 
+ #include "lkc.h"
+ 
+-- 
+2.29.0
 
-greg k-h
