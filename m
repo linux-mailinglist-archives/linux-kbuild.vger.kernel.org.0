@@ -2,118 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 430BA2C0E69
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 16:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AE122C10BE
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 17:39:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729045AbgKWPFE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Nov 2020 10:05:04 -0500
-Received: from m9785.mail.qiye.163.com ([220.181.97.85]:54133 "EHLO
-        m9785.mail.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729602AbgKWPFE (ORCPT
+        id S1730953AbgKWQes (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Nov 2020 11:34:48 -0500
+Received: from alln-iport-5.cisco.com ([173.37.142.92]:46556 "EHLO
+        alln-iport-5.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729972AbgKWQd4 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Nov 2020 10:05:04 -0500
-Received: from localhost (unknown [1.203.100.158])
-        by m9785.mail.qiye.163.com (Hmail) with ESMTPA id 23F5D5C16B8;
-        Mon, 23 Nov 2020 23:04:53 +0800 (CST)
-Date:   Mon, 23 Nov 2020 23:04:52 +0800
-From:   WANG Chao <chao.wang@ucloud.cn>
+        Mon, 23 Nov 2020 11:33:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=633; q=dns/txt; s=iport;
+  t=1606149235; x=1607358835;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=87sHuO10/Ispffs/a7o66pVO01VXPbZdOIeCRlAKvW0=;
+  b=DWhgRFwsuzqtjgTOgGBCEOXzLcsXeQA/jPNCCa5gtgLqHevivCD9O4MQ
+   bAl8KL1kLGcOqSoQ+RS3eT9NO2mJtXms/nHIBqe4dxHr+dM68cQ2psFl7
+   7u1Yzp2jx4X8mDhFQkNJCx5bhWUXRgEiczc/QgzGkxrATYtf8L44gyqCr
+   w=;
+X-IPAS-Result: =?us-ascii?q?A0C+AQBz47tffYMNJK1iHQEBAQEJARIBBQUBQIE+BQELA?=
+ =?us-ascii?q?YN2LziVWJwuCwEBAQ0BAS0CBAEBhEoCgisCJTcGDgIDAQEBAwIDAQEBAQUBA?=
+ =?us-ascii?q?QECAQYEFAEBhkiFcwECAgF5BQsCAQghJQ8jJQIEDoYSIK8adIE0imKBOAGNP?=
+ =?us-ascii?q?xuBQT+EIz6EPoV2BJxOm3gKIIJOmx4igwiefbQ8AhEVgTM3IoFZcBWDJU8XA?=
+ =?us-ascii?q?g2caIErAgYKAQEDCXyMOwGBEAEB?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.78,363,1599523200"; 
+   d="scan'208";a="613307398"
+Received: from alln-core-1.cisco.com ([173.36.13.131])
+  by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 23 Nov 2020 16:33:54 +0000
+Received: from XCH-ALN-005.cisco.com (xch-aln-005.cisco.com [173.36.7.15])
+        by alln-core-1.cisco.com (8.15.2/8.15.2) with ESMTPS id 0ANGXsuY012714
+        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+        Mon, 23 Nov 2020 16:33:54 GMT
+Received: from xch-aln-004.cisco.com (173.36.7.14) by XCH-ALN-005.cisco.com
+ (173.36.7.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 23 Nov
+ 2020 10:33:53 -0600
+Received: from xch-aln-004.cisco.com ([173.36.7.14]) by XCH-ALN-004.cisco.com
+ ([173.36.7.14]) with mapi id 15.00.1497.000; Mon, 23 Nov 2020 10:33:54 -0600
+From:   "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC at Cisco)" 
+        <dzagorui@cisco.com>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Subject: Re: [PATCH] kbuild: add extra-y to targets-for-modules
-Message-ID: <20201123150452.GA68187@MacBook-Pro-2>
-References: <20201103054425.59251-1-chao.wang@ucloud.cn>
- <CAK7LNARnmJRy1NPBDkgNsoe_TqpD=HJhmri4YHjXjscGZ-neWw@mail.gmail.com>
+CC:     "michal.lkml@markovi.net" <michal.lkml@markovi.net>,
+        "linux-kbuild@vger.kernel.org" <linux-kbuild@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] kbuild: use -fmacro-prefix-map for .S sources
+Thread-Topic: [PATCH v3] kbuild: use -fmacro-prefix-map for .S sources
+Thread-Index: AQHWsRJPpKcKNHVlGkuCBAHPiPYhnqm/255bgA4Yo8aAA74XgIAEVg3x
+Date:   Mon, 23 Nov 2020 16:33:54 +0000
+Message-ID: <1606149233925.5885@cisco.com>
+References: <20201102120853.96855-1-dzagorui@cisco.com>
+ <1604929732138.17256@cisco.com>
+ <1605704642269.72893@cisco.com>,<CAK7LNAQuoNeMTMqCssT8iHQJOfqwt7NTLHow_4ebrxCZoi_KCg@mail.gmail.com>
+In-Reply-To: <CAK7LNAQuoNeMTMqCssT8iHQJOfqwt7NTLHow_4ebrxCZoi_KCg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [173.38.209.6]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARnmJRy1NPBDkgNsoe_TqpD=HJhmri4YHjXjscGZ-neWw@mail.gmail.com>
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSUI3V1ktWUFJV1kPCR
-        oVCBIfWUFZSEtJQ0tKQ0oeS0JIVkpNS01KT0hDQkhJS0xVGRETFhoSFyQUDg9ZV1kWGg8SFR0UWU
-        FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mj46FTo4Nz0xLjJRHjM8NzoT
-        TThPCzJVSlVKTUtNSk9IQ0JISE1DVTMWGhIXVRgTGhRVDBoVHDsOGBcUDh9VGBVFWVdZEgtZQVlK
-        VUlLSFVKS0tVSk5DWVdZCAFZQUhPQ0o3Bg++
-X-HM-Tid: 0a75f5a2de9f2087kuqy23f5d5c16b8
+X-Outbound-SMTP-Client: 173.36.7.15, xch-aln-005.cisco.com
+X-Outbound-Node: alln-core-1.cisco.com
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/23/20 at 02:23P, Masahiro Yamada wrote:
-> On Tue, Nov 3, 2020 at 3:23 PM WANG Chao <chao.wang@ucloud.cn> wrote:
-> >
-> > extra-y target doesn't build for 'make M=...' since commit 6212804f2d78
-> > ("kbuild: do not create built-in objects for external module builds").
-> >
-> > This especially breaks kpatch, which is using 'extra-y := kpatch.lds'
-> > and 'make M=...' to build livepatch patch module.
-> >
-> > Add extra-y to targets-for-modules so that such kind of build works
-> > properly.
-> >
-> > Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
-> > ---
-> >  scripts/Makefile.build | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> > index ae647379b579..0113a042d643 100644
-> > --- a/scripts/Makefile.build
-> > +++ b/scripts/Makefile.build
-> > @@ -86,7 +86,7 @@ ifdef need-builtin
-> >  targets-for-builtin += $(obj)/built-in.a
-> >  endif
-> >
-> > -targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> > +targets-for-modules := $(extra-y) $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
-> >
-> >  ifdef need-modorder
-> >  targets-for-modules += $(obj)/modules.order
-> > --
-> > 2.29.1
-> >
-> 
-> NACK.
-> 
-> Please fix your Makefile.
-> 
-> Hint:
-> https://patchwork.kernel.org/project/linux-kbuild/patch/20201123045403.63402-6-masahiroy@kernel.org/
-> 
-> 
-> Probably what you should use is 'targets'.
-
-I tried with 'targets' and 'always-y'. Both doesn't work for me.
-
-I narraw it down to the following example:
-
-cat > Makefile << _EOF_
-obj-m += foo.o
-
-ldflags-y += -T $(src)/kpatch.lds
-always-y += kpatch.lds
-
-foo-objs += bar.o
-
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD)
-clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-_EOF_
-
-Take a look into scripts/Makefile.build:488:
-
-__build: $(if $(KBUILD_BUILTIN), $(targets-for-builtin)) \
-	 $(if $(KBUILD_MODULES), $(targets-for-modules)) \
-	 $(subdir-ym) $(always-y)
-	@:
-
-'always-y' is built after 'targets-for-modules'. This makes
-'targets-for-modules' fails because kpatch.lds isn't there.
-
-For 'targets', in case of OOT, does not seem to be useful.
-
-What change do you suggest to make to fix this kind of Makefile?
-
-Thanks,
-WANG Chao
+> I fixed the first sentence:=0A=
+>=0A=
+> Follow-up to a73619a845d5 ("kbuild: use -fmacro-prefix-map to make=0A=
+> __FILE__ a relative path") commit.=0A=
+>=0A=
+> to=0A=
+>=0A=
+> Follow-up to commit a73619a845d5 ("kbuild: use -fmacro-prefix-map to=0A=
+> make __FILE__ a relative path").=0A=
+ok, i see=0A=
+=0A=
+=0A=
+> > Assembler sources also use __FILE__=0A=
+> > macro so this flag should be also apllied to that sources.=0A=
+>=0A=
+> I fixed "apllied" to "applied".=0A=
+thanks, sorry for this typo=0A=
+=0A=
+=0A=
+=0A=
+> Maybe, "that sources" should be "those sources".=0A=
+yes=0A=
+=0A=
+=0A=
+Thanks,=0A=
+Denys=
