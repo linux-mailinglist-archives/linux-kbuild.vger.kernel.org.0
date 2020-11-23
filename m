@@ -2,46 +2,48 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D2EC2C03FC
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 12:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E1642C0527
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 13:03:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728431AbgKWLSt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Nov 2020 06:18:49 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:58006 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726780AbgKWLSt (ORCPT
+        id S1729064AbgKWMBU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Nov 2020 07:01:20 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:36735 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728882AbgKWMBT (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Nov 2020 06:18:49 -0500
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 0ANBINr2002771;
-        Mon, 23 Nov 2020 20:18:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0ANBINr2002771
+        Mon, 23 Nov 2020 07:01:19 -0500
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 0ANC0j36003445;
+        Mon, 23 Nov 2020 21:00:45 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0ANC0j36003445
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606130304;
-        bh=v3Ya0vKYFsorXl+gwNrxF+if1F/H9gfmTii8TZdd3G8=;
+        s=dec2015msa; t=1606132845;
+        bh=gXJU1j0tk/l4SrquKaTpMFBdizTn1Q3SlxK72caN7Qk=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=MqmHAABn9LUjTh3vmFyCZcKjJDxA0IfRH8O3KtLla/Xq3dFKC4VXu8Rd0ucEY0A7f
-         jb9f9G8WjqFHhr7QG5eSz61X7pVo0PCYBLSTHLrG6r3HUnhpWqBgy3/6E9sL5zzpJe
-         oVVd3p0uq0Zrj/JGm9eHjjVYXQkS+ChlJKq0mIrBkt5dg1PyR1Vz6WsQHxFnQ4lJBB
-         9jsjhVvRj9kAyjc3oDcnsrm1GEUYgWW6SBtOD0/LYJ5QJuNvmYf2aZqZvEMpUOUlAU
-         IzmXhh5ZsvfX3ynZhp0UYhZADKl+ZFxC8jjXveTj2DpQ8Sxwz+o5MQK4KtJudmICCk
-         iHqSsJnKhfk6A==
-X-Nifty-SrcIP: [209.85.210.174]
-Received: by mail-pf1-f174.google.com with SMTP id v5so10565375pff.10;
-        Mon, 23 Nov 2020 03:18:24 -0800 (PST)
-X-Gm-Message-State: AOAM533is5YYVmJYclVyNlC5ew984+8C2KHlXHBwhWcLHrsX/sREPixK
-        hzTAjZBElfaJP3efJEDhxKPGGEZctcJG0miGQ/w=
-X-Google-Smtp-Source: ABdhPJzyLgVesz87TOyHoXJkTkOGyjWiQNh9wJXgUOO9mizaW9CpIxHxSW6DmwuIBmCdxdg1L1eOsYqEjj5hTadzWkk=
-X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr25229153pjt.87.1606130303346;
- Mon, 23 Nov 2020 03:18:23 -0800 (PST)
+        b=zG4VWBmwcHwR2PaRJ7JPKXwdEyVE8ywCmFxx7QHm36lZiz9jGcM+zrokCEwqm+ex1
+         NAtveUgNlg91ZoRJZ4RyDLKOupFcxHmwZdKmfdplcJQhF70tkr7zR50RZkwPVYIh7m
+         eOEPc+TwXIYBJ7/6Hiarx06TWFsGW9WSd1FOXQiENnxRtGQ1IO4grhHsVDq1OoeDH/
+         SOwcQcYyU64fekfkzbugJ3fXEbz6f2rD2rtz4+qr3AQD2nbSmiY/OrMyuGJl2HW2EH
+         A0XqRALWry+ucKuKcL6NvJi0l1X25/rsA7brSIOodWSL+II1EcahieaVsRkd0RIsaT
+         76xm4I89yssaQ==
+X-Nifty-SrcIP: [209.85.214.175]
+Received: by mail-pl1-f175.google.com with SMTP id k5so2292806plt.6;
+        Mon, 23 Nov 2020 04:00:45 -0800 (PST)
+X-Gm-Message-State: AOAM533jVab/VURYb1yjkbMQpEPl9RSC5+fxfLJzX3qPT4Odwy5t/mNF
+        GMEFoRQUHZMBEa3juI8Ifp2PWZgLJ5X9ruZY08w=
+X-Google-Smtp-Source: ABdhPJxtv7Cpkn97NRZPS4BXFkTGKAFmmn5n0xEeBIwBSXRbuJGzgtRAwg7HTPds4RAAIwIEJBuCrnk7p4Sj8haSlz0=
+X-Received: by 2002:a17:902:aa94:b029:d8:5c6f:df56 with SMTP id
+ d20-20020a170902aa94b02900d85c6fdf56mr23150032plr.71.1606132843231; Mon, 23
+ Nov 2020 04:00:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20201026220331.3896226-1-arnd@kernel.org> <20201027014219.GA4058050@ubuntu-m3-large-x86>
-In-Reply-To: <20201027014219.GA4058050@ubuntu-m3-large-x86>
+References: <20201026220331.3896226-1-arnd@kernel.org> <20201026220331.3896226-2-arnd@kernel.org>
+ <20201027014846.GA368335@ubuntu-m3-large-x86> <20201027043213.GA2342477@ubuntu-m3-large-x86>
+In-Reply-To: <20201027043213.GA2342477@ubuntu-m3-large-x86>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 23 Nov 2020 20:17:46 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARSn8D_0Gq3072SrD5ijzaqjLGxN=ttLZp5ay-G+adFUQ@mail.gmail.com>
-Message-ID: <CAK7LNARSn8D_0Gq3072SrD5ijzaqjLGxN=ttLZp5ay-G+adFUQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Makefile.extrawarn: move -Wcast-align to W=3
+Date:   Mon, 23 Nov 2020 21:00:06 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASFzy9dVk6_VB3Zu0Zqfsi8B50Dw7QQB1PwC-29RrMRgQ@mail.gmail.com>
+Message-ID: <CAK7LNASFzy9dVk6_VB3Zu0Zqfsi8B50Dw7QQB1PwC-29RrMRgQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Makefile.extrawarn: limit -Wnested-externs to clang
 To:     Nathan Chancellor <natechancellor@gmail.com>
 Cc:     Arnd Bergmann <arnd@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
@@ -55,68 +57,46 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 10:42 AM Nathan Chancellor
+On Tue, Oct 27, 2020 at 1:32 PM Nathan Chancellor
 <natechancellor@gmail.com> wrote:
 >
-> On Mon, Oct 26, 2020 at 11:03:13PM +0100, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
+> On Mon, Oct 26, 2020 at 06:48:46PM -0700, Nathan Chancellor wrote:
+> > On Mon, Oct 26, 2020 at 11:03:14PM +0100, Arnd Bergmann wrote:
+> > > From: Arnd Bergmann <arnd@arndb.de>
+> > >
+> > > The -Wnested-externs warning has become useless with gcc, since
+> > > this warns every time that BUILD_BUG_ON() or similar macros
+> > > are used.
+> > >
+> > > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > >
-> > This warning behaves differently depending on the architecture
-> > and compiler. Using x86 gcc, we get no output at all because
-> > gcc knows the architecture can handle unaligned accesses.
+> > Also see:
 > >
-> > Using x86 clang, or gcc on an architecture that needs to
-> > manually deal with unaligned accesses, the build log is
-> > completely flooded with these warnings, as they are commonly
-> > invoked by inline functions of networking headers, e.g.
+> > 2486baae2cf6 ("objtool: Allow nested externs to enable BUILD_BUG()")
+> > 6cf4ecf5c51d ("perf build: Allow nested externs to enable BUILD_BUG() usage")
 > >
-> > include/linux/skbuff.h:1426:26: warning: cast increases required alignment of target type [-Wcast-align]
-> >
-> > The compiler is correct to point this out, as we are dealing
-> > with undefined behavior that does cause problems in practice,
-> > but there is also no good way to rewrite the code in commonly
-> > included headers to a safer method.
-> >
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
 >
-> Always sad to see a warning move further down the list but noisy headers
-> are rough to deal with. This seems okay.
+> Actually, just delete this line altogether. -Wnested-externs is a GCC
+> only warning, the flag is only present in clang for compatibility with
+> GCC:
 >
-> Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+> https://clang.llvm.org/docs/DiagnosticsReference.html#wnested-externs
 >
-> > ---
-> >  scripts/Makefile.extrawarn | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> > index 95e4cdb94fe9..6baee1200615 100644
-> > --- a/scripts/Makefile.extrawarn
-> > +++ b/scripts/Makefile.extrawarn
-> > @@ -60,7 +60,6 @@ endif
-> >  #
-> >  ifneq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
-> >
-> > -KBUILD_CFLAGS += -Wcast-align
-> >  KBUILD_CFLAGS += -Wdisabled-optimization
-> >  KBUILD_CFLAGS += -Wnested-externs
-> >  KBUILD_CFLAGS += -Wshadow
-> > @@ -80,6 +79,7 @@ endif
-> >  ifneq ($(findstring 3, $(KBUILD_EXTRA_WARN)),)
-> >
-> >  KBUILD_CFLAGS += -Wbad-function-cast
-> > +KBUILD_CFLAGS += -Wcast-align
-> >  KBUILD_CFLAGS += -Wcast-qual
-> >  KBUILD_CFLAGS += -Wconversion
-> >  KBUILD_CFLAGS += -Wpacked
-> > --
-> > 2.27.0
-> >
+> With that, my reviewed by still stands.
+>
+
+I agree.
 
 
-Applied to linux-kbuild. Thanks.
 
-But, I think people already tend to ignore W=2 warnings.
+Arnd, will you send v2?
 
+Please include
+https://clang.llvm.org/docs/DiagnosticsReference.html#wnested-externs
+as a reference.
+
+Thanks.
 
 -- 
 Best Regards
