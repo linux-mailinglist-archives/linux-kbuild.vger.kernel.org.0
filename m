@@ -2,85 +2,81 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 487EE2BFF37
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 05:55:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0AD82BFF49
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 05:59:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727530AbgKWEzV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sun, 22 Nov 2020 23:55:21 -0500
-Received: from conuserg-08.nifty.com ([210.131.2.75]:27311 "EHLO
-        conuserg-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726861AbgKWEzT (ORCPT
+        id S1727621AbgKWE7F (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sun, 22 Nov 2020 23:59:05 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:40075 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727459AbgKWE7F (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sun, 22 Nov 2020 23:55:19 -0500
-Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 0AN4sGHj016676;
-        Mon, 23 Nov 2020 13:54:21 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 0AN4sGHj016676
+        Sun, 22 Nov 2020 23:59:05 -0500
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 0AN4wZji006726;
+        Mon, 23 Nov 2020 13:58:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0AN4wZji006726
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606107261;
-        bh=OiWvzr+PPEES1+WiZtvnEdTynTSS1JuRWBS71ZMozL0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PV2/7AQ0QWcMI4GeBHWkFmhLprNvWXA7F0X+mazSUI/NL/HRSztRTK8hY5wV6Evmh
-         9fuAhyVgxyoJ2NaqYA8BEziqNaWwwVaoKRpsMnSTjw82RFu4QAyAT0ZxwVKWvVCXmE
-         yoWM+Z6tQ2DIb0j/JGHKjAX0KTgRDdARgMI0wJ0gis8GmplVHksz2DwHqaMepKA5Me
-         IM5CC+R5trZADC2JQgjAXfZ2wNqvfWRYPYOfVl52aGQzttp+fLd/4WBGjjDw4QfyHR
-         CnLuj8UbJxUTYY46Pjn/cmWY1jO4B7rY7wvMcSTPRjI8kl/chQIqZ8HZ+aywhrL+sK
-         lSoJvGzSOUocA==
-X-Nifty-SrcIP: [126.90.211.135]
+        s=dec2015msa; t=1606107515;
+        bh=+LEwj9RIP6B0v+fIagUSiNb+k53AZBbMfGdY35alS/0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iGPwGA/4IAEd9JkZHJZIgkAY2k6Y9HTXqoPP22+LeMQEYSGLFwQemh8NZGwxCg3ah
+         qxeITYoWU6eQBr0gDR7Cl5AGbAJY134t2a45EbOa+G/nC7mv4SIu96zVHtNfuSuIMm
+         ULQdEUR/eS/NINLlWf27l0JMsWIA7CxcDmnp0mn/HFBLv/yi2qwTVklaj1y3N90To7
+         6eUzdXvwATH+3/v6T8/XMYf3oAAVXaUEqEtcw+JCAtXvShQeN9kiJYL5aVWxeABJIg
+         fKF5ynoxUNwI/jNt7iJcVA8ABHIF9xbuSOH8O6Yo+3Cu9Ehcv8ZhFlzqr0hGcdlTNY
+         UBggMXQGr3BmQ==
+X-Nifty-SrcIP: [209.85.214.172]
+Received: by mail-pl1-f172.google.com with SMTP id t18so8272929plo.0;
+        Sun, 22 Nov 2020 20:58:35 -0800 (PST)
+X-Gm-Message-State: AOAM533erxTx0d1b8vYVbOjsW41TRJArp4fuEplxgUB9FD2uHKShqzEk
+        xVTaPpjeNY6MrUallkDULEDiVU2jSEvBDPbBusU=
+X-Google-Smtp-Source: ABdhPJzCVFp0M56iuKPlCB10k/Z+nsmP4Q0CTPSwcKkybeuvqPFO5caR2C45S+axiewACNiCPqNHmrsPeS9qaX+Q+JQ=
+X-Received: by 2002:a17:902:d346:b029:d9:d097:ed15 with SMTP id
+ l6-20020a170902d346b02900d9d097ed15mr18191255plk.1.1606107514572; Sun, 22 Nov
+ 2020 20:58:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20201123045403.63402-1-masahiroy@kernel.org> <20201123045403.63402-3-masahiroy@kernel.org>
+In-Reply-To: <20201123045403.63402-3-masahiroy@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
+Date:   Mon, 23 Nov 2020 13:57:57 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARXem8v+gW-dT2g6_3_4EvZ6=P0t0M9wfLfv7axRUCctQ@mail.gmail.com>
+Message-ID: <CAK7LNARXem8v+gW-dT2g6_3_4EvZ6=P0t0M9wfLfv7axRUCctQ@mail.gmail.com>
+Subject: Re: [PATCH 3/7] kbuild: doc: fix 'List directories to visit when
+ descending' section
+To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] kbuild: doc: document subdir-y syntax
-Date:   Mon, 23 Nov 2020 13:54:03 +0900
-Message-Id: <20201123045403.63402-7-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201123045403.63402-1-masahiroy@kernel.org>
-References: <20201123045403.63402-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is no explanation about subdir-y.
+On Mon, Nov 23, 2020 at 1:54 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Fix state information:
 
-Let's document it.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+I mean "Fix stale information"
 
- Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 159e470f2616..6332b9ca7942 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -319,6 +319,20 @@ more details, with real examples.
- 	that directory specifies obj-y, those objects will be left orphan.
- 	It is very likely a bug of the Makefile or of dependencies in Kconfig.
- 
-+	Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
-+	descending into subdirectories. It is a good fit when you know they
-+	do not contain kernel-space objects at all. A typical usage is to let
-+	Kbuild descend into subdirectories to build tools.
-+
-+	Examples::
-+
-+		subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
-+		subdir-$(CONFIG_MODVERSIONS) += genksyms
-+		subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-+
-+	Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
-+	syntax is always used for directories.
-+
- 	It is good practice to use a `CONFIG_` variable when assigning directory
- 	names. This allows kbuild to totally skip the directory if the
- 	corresponding `CONFIG_` option is neither 'y' nor 'm'.
+
+>
+>  - Fix the section number in the reference from 6.4 to 7.4.
+>
+>  - Remove init-y and net-y. They were removed by commit 23febe375d94
+>    ("kbuild: merge init-y into core-y") and commit 95fb6317b3ab
+>    ("kbuild: merge net-y and virt-y into drivers-y"), respectively.
+>
+>  - Update the example because arch/sparc64/Makefile does not exit.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+
+
 -- 
-2.25.1
-
+Best Regards
+Masahiro Yamada
