@@ -2,90 +2,157 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D11052C136F
-	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 20:08:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B614E2C13C8
+	for <lists+linux-kbuild@lfdr.de>; Mon, 23 Nov 2020 20:09:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730260AbgKWSea (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 23 Nov 2020 13:34:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55776 "EHLO
+        id S2388852AbgKWSmW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 23 Nov 2020 13:42:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729778AbgKWSe3 (ORCPT
+        with ESMTP id S2387970AbgKWSmW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 23 Nov 2020 13:34:29 -0500
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3BCC061A4D
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 10:34:28 -0800 (PST)
-Received: by mail-vk1-xa41.google.com with SMTP id s135so4176197vkh.6
-        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 10:34:28 -0800 (PST)
+        Mon, 23 Nov 2020 13:42:22 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30BB8C0613CF
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 10:42:22 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id x15so9293644pll.2
+        for <linux-kbuild@vger.kernel.org>; Mon, 23 Nov 2020 10:42:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ducm/uE+sMkPK2UOgkqYMUQ4ilvqi+LJ419ruam/qFs=;
-        b=a28npanXu2b+2Zm6spF8Xxq67i0FF1mofgAXLZrp9sWLlq5VqELCHg7nNtL/fggxfy
-         4CvQOkS95wisZC5OOhHXgHc7fhFAJxswBiURdiMJ9pvomlaHamPT+ykt9lAJiikZ+dLt
-         osQObvLhHeCEfH726pPrnktuPN+mM05X3eQTo9OM7P951PbVbYXAJtMdKWsW3ZpOJycz
-         Fo60Q7UeI0dsFGaQdho0oc4TBDEtFVDe4gG5sgoLUuJHQYabpl1Mv31/0zpxLkiYJIlP
-         yNiDIkVOpAML5h30am2pinK5OAxNIvR/ui0KubaSslDdw6PBBAOOjQrByts6Koo1ViWx
-         IqJQ==
+         :cc:content-transfer-encoding;
+        bh=nJpF2gat8sIt3hy0qTCyIbzDeQ9i0fB1Rc02MDjSdMo=;
+        b=Xo+IICOVGLt3K5DTzifwsDmhU2bw3XpbSOth7zBf0YtrMOcywoA7vKYHOTrNbQ/cy5
+         Wu2u0j0BYYEhqP97oK87DYkrPmp5aE5r28Gx/xZi9dbyrYZ4A7lXa35F/XQuM6S75qrz
+         2zy9YncnWdm4MApfAv8i8XhkJDGkKcBUePtwI6OJQI7qszQyxWBO7M23sWV0L3fVSBIy
+         Bf67URSBbdR868+F9oAGnCu/Dx6cL9eAp3FujPNNtjh0HWBAmF54SqBgAlBcs3RupQYa
+         gHkPM7G4I7OLSg1ZIPudEOhX2dUut7Y78zvnlN/GNG9t1y9AYCKPPkV0k7SzmejGqjoZ
+         NCpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ducm/uE+sMkPK2UOgkqYMUQ4ilvqi+LJ419ruam/qFs=;
-        b=OQJKIAeq389fguN/4jSNQfROcv57F00tugm3rqnBfcHkS3/KGwsF++b34lVQaDKp2l
-         iNGmFXmlhNoU3xfQbaJspkWMd/Bn+OGxiKIwlbeUfHDOoCWJ0aIfyj9+oU1Cfmb+c70r
-         EeZVTHPnaVcC9BLF8AHT9baRYakTQzgtvLuVhgtc97MZltgs3vWgJPiGlNS7s5lTeOjm
-         vBC0tljydFvwBInxOYDnR10JgvufvojnAQhIbYJmcuXzzswwC+M2klODGBceNmxVv+gm
-         uhECRGydzjIS3DKPiOq1HG1fEYt8bhAJZKHUZqTKt1zx+JuXGNhnlioWYGyVe8Dpqvcj
-         iyeg==
-X-Gm-Message-State: AOAM530xoR0Jz8GbyAh03nr7N02Y47I7CwEvzyRZ4cyJrUWTApYvhzEL
-        cFpJA6uU/tVpvvonq1iWBVAHUWuTiptA3Ya//e7J2Q==
-X-Google-Smtp-Source: ABdhPJzC0vN0JaDRTG9c5TGsH9fkbupHyjbfe084sm69JglMhlEIa99nGJXCtSMl92Ch4dEphBLEyKdnjfaSUw9p8Ug=
-X-Received: by 2002:a1f:b245:: with SMTP id b66mr1161485vkf.3.1606156467081;
- Mon, 23 Nov 2020 10:34:27 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=nJpF2gat8sIt3hy0qTCyIbzDeQ9i0fB1Rc02MDjSdMo=;
+        b=aXBnLWaPscbyhq8DhATg6m3WGgZnSmgP//4ccvHmS704B/oVrsLz6eDeMeKw+Pqh2V
+         iwIId9hraS98dS/aHGn7JZjaiHTakuYKgjOl5Zxbp8tnNCEYrNVY/TP5+1eWJkL1V2T4
+         VMx1bBzKmg0FxmI7hEBEW51cfwCW8bqjSbf7Go6I6qr+iftd4c6f4EBQIdpmd9JqronG
+         /95XNIcKzN4L36h33mSlvAoysk3MxuKdAgE+E9V9sypn1cABNFOyrwZrkDLrIZqnMeM5
+         2nQ3ZPsxzVASR3HZsWO1HYe0bhENcFKHbMvEKa/0I5L4fvojFWUvw6kPTfva34B3tfqe
+         /VrA==
+X-Gm-Message-State: AOAM531xasVxRCNAlQ1UHAXAtjzXqAhw++wi9SgRFsGGaiYaYVjNyng2
+        Z7bfo8Iz4TXhZp7NnTLSZvi8UUTHu0J67F+oc5NBxN9JqX8=
+X-Google-Smtp-Source: ABdhPJz2y23kaDogZeYSzaZ8TlHAb3VOf4t6+w3ZMmbCWzUdvceIsMpH2hbtRYSvATaO/ZuHzxMtKk9B9Ty8c17OTJE=
+X-Received: by 2002:a17:902:221:b029:d8:f938:b112 with SMTP id
+ 30-20020a1709020221b02900d8f938b112mr702048plc.10.1606156941355; Mon, 23 Nov
+ 2020 10:42:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20201118220731.925424-1-samitolvanen@google.com>
- <20201118220731.925424-16-samitolvanen@google.com> <20201123102149.ogl642tw234qod62@google.com>
-In-Reply-To: <20201123102149.ogl642tw234qod62@google.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Mon, 23 Nov 2020 10:34:16 -0800
-Message-ID: <CABCJKudwt6xDUMADRjXU04bxZFFWOFOs_26TJGHV_vnP8Qs5Jw@mail.gmail.com>
-Subject: Re: [PATCH v7 15/17] KVM: arm64: disable LTO for the nVHE directory
-To:     David Brazdil <dbrazdil@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Will Deacon <will@kernel.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+References: <CAKwvOd=9iqLgdtAWe2h-9n=KUWm_rjCCJJYeop8PS6F+AA0VtA@mail.gmail.com>
+ <20201109183528.1391885-1-ndesaulniers@google.com> <CAKwvOdnxAr7UdjUiuttj=bz1_voK1qUvpOvSY35qOZ60+E8LBA@mail.gmail.com>
+ <CA+SOCLJTg6U+Ddop_5O-baVR42va3vGAvMQ62o9H6rd+10aKrw@mail.gmail.com>
+In-Reply-To: <CA+SOCLJTg6U+Ddop_5O-baVR42va3vGAvMQ62o9H6rd+10aKrw@mail.gmail.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Mon, 23 Nov 2020 10:42:10 -0800
+Message-ID: <CAKwvOdn0qoa_F-qX10Hu7Cr8eeCjcK23i10zw4fty32u1aBPSw@mail.gmail.com>
+Subject: Re: [PATCH v3] Kbuild: do not emit debug info for assembly with LLVM_IAS=1
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-toolchains@vger.kernel.org,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Alistair Delva <adelva@google.com>,
+        "# 3.4.x" <stable@vger.kernel.org>, Jian Cai <jiancai@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 2:21 AM David Brazdil <dbrazdil@google.com> wrote:
->
-> Hey Sami,
->
-> On Wed, Nov 18, 2020 at 02:07:29PM -0800, Sami Tolvanen wrote:
-> > We use objcopy to manipulate ELF binaries for the nVHE code,
-> > which fails with LTO as the compiler produces LLVM bitcode
-> > instead. Disable LTO for this code to allow objcopy to be used.
->
-> We now partially link the nVHE code (generating machine code) before objcopy,
-> so I think you should be able to drop this patch now. Tried building your
-> branch without it, ran a couple of unit tests and all seems fine.
+Hi Masahiro,
+I would appreciate any feedback you have on this patch.
 
-Great, thanks for testing this, David! I'll drop this patch from v8.
+On Fri, Nov 20, 2020 at 3:58 PM Jian Cai <jiancai@google.com> wrote:
+>
+> I also verified that with this patch Chrome OS devices booted with either=
+ GNU assembler or LLVM's integrated assembler. With this patch, IAS no long=
+er produces extra warnings compared to GNU as on Chrome OS and would remove=
+ the last blocker of enabling IAS on it.
+>
+> Tested-by: Jian Cai <jiancai@google.com> # Compile-tested on mainline (wi=
+th defconfig) and boot-tested on ChromeOS (with olddefconfig).
+>
+>
+> On Mon, Nov 16, 2020 at 3:41 PM 'Nick Desaulniers' via Clang Built Linux =
+<clang-built-linux@googlegroups.com> wrote:
+>>
+>> Hi Masahiro, have you had time to review v3 of this patch?
+>>
+>> On Mon, Nov 9, 2020 at 10:35 AM Nick Desaulniers
+>> <ndesaulniers@google.com> wrote:
+>> >
+>> > Clang's integrated assembler produces the warning for assembly files:
+>> >
+>> > warning: DWARF2 only supports one section per compilation unit
+>> >
+>> > If -Wa,-gdwarf-* is unspecified, then debug info is not emitted for
+>> > assembly sources (it is still emitted for C sources).  This will be
+>> > re-enabled for newer DWARF versions in a follow up patch.
+>> >
+>> > Enables defconfig+CONFIG_DEBUG_INFO to build cleanly with
+>> > LLVM=3D1 LLVM_IAS=3D1 for x86_64 and arm64.
+>> >
+>> > Cc: <stable@vger.kernel.org>
+>> > Link: https://github.com/ClangBuiltLinux/linux/issues/716
+>> > Reported-by: Dmitry Golovin <dima@golovin.in>
+>> > Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+>> > Suggested-by: Dmitry Golovin <dima@golovin.in>
+>> > Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
+>> > Suggested-by: Sedat Dilek <sedat.dilek@gmail.com>
+>> > Reviewed-by: Fangrui Song <maskray@google.com>
+>> > Reviewed-by: Nathan Chancellor <natechancellor@gmail.com>
+>> > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+>> > ---
+>> >  Makefile | 2 ++
+>> >  1 file changed, 2 insertions(+)
+>> >
+>> > diff --git a/Makefile b/Makefile
+>> > index f353886dbf44..7e899d356902 100644
+>> > --- a/Makefile
+>> > +++ b/Makefile
+>> > @@ -826,7 +826,9 @@ else
+>> >  DEBUG_CFLAGS   +=3D -g
+>> >  endif
+>> >
+>> > +ifneq ($(LLVM_IAS),1)
+>> >  KBUILD_AFLAGS  +=3D -Wa,-gdwarf-2
+>> > +endif
+>> >
+>> >  ifdef CONFIG_DEBUG_INFO_DWARF4
+>> >  DEBUG_CFLAGS   +=3D -gdwarf-4
+>> > --
+>> > 2.29.2.222.g5d2a92d10f8-goog
+>> >
+>>
+>>
+>> --
+>> Thanks,
+>> ~Nick Desaulniers
+>>
+>> --
+>> You received this message because you are subscribed to the Google Group=
+s "Clang Built Linux" group.
+>> To unsubscribe from this group and stop receiving emails from it, send a=
+n email to clang-built-linux+unsubscribe@googlegroups.com.
+>> To view this discussion on the web visit https://groups.google.com/d/msg=
+id/clang-built-linux/CAKwvOdnxAr7UdjUiuttj%3Dbz1_voK1qUvpOvSY35qOZ60%2BE8LB=
+A%40mail.gmail.com.
 
-Sami
+
+
+--=20
+Thanks,
+~Nick Desaulniers
