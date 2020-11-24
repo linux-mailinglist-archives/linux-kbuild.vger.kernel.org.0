@@ -2,121 +2,93 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 949F92C2FCD
-	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Nov 2020 19:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F03DA2C2FE9
+	for <lists+linux-kbuild@lfdr.de>; Tue, 24 Nov 2020 19:26:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404137AbgKXSMo (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Nov 2020 13:12:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35184 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729291AbgKXSMo (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Nov 2020 13:12:44 -0500
-Received: from localhost (82-217-20-185.cable.dynamic.v4.ziggo.nl [82.217.20.185])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D86A420684;
-        Tue, 24 Nov 2020 18:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1606241563;
-        bh=6ueb6PQc/kg1g7WGD1geVPCHnT05IVlvxmtC1abRplI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tLy8IsjZVJ9Ah+G1T/xIxZLVB3SeDio4nhXvlWYyPAQy4GxEFFe2qb8tYSOnmmjpi
-         S2N84jZexq5SWpWWrBw916LNvMRMYlvNwRlODPhydxa9d/NJdCiV7bY4Uwhjajc56g
-         Nd3hY8hwZXFHuukoPhrTjf1sGuZMPLhKTihwFY+k=
-Date:   Tue, 24 Nov 2020 19:12:40 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     William Mcvicker <willmcvicker@google.com>
-Cc:     Jessica Yu <jeyu@kernel.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        id S2390777AbgKXSYf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Nov 2020 13:24:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51564 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390718AbgKXSYe (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 24 Nov 2020 13:24:34 -0500
+Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52404C0617A6
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Nov 2020 10:24:34 -0800 (PST)
+Received: by mail-qk1-x74a.google.com with SMTP id s9so17998877qks.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Nov 2020 10:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=bd5sh7vQZeJyURROHVUKNFVm+4CMC4yXrKfm9zRiuIw=;
+        b=jtRiTvw4fvJnd8DziMdUXlCVFNCxntTtTEvtSJrNcKeRrhRHR3K7WGYLLYdsza+f4N
+         N/uGa/v/4xLQsMFh7RsLQiVtuG/ZXSiTDwH6O+ALWJbcqXrWWWwQ7Gc3tJtunK/zjxFr
+         kjgSye0YAVBFhS8TrvTa2ZNIRGGM9akI1KCkUnPoOJRydoP2jYuYYYxq98bhA6Y81soc
+         ttScEDR4AP3UcSRGoypJccYQb0thq5eHpjV/mV59aLdmw6NAp3epLeksBsojGYyXxRF7
+         eMEdElBWlvfB35RzG0ijynD/W1zGbtLcLoSzLCZ6wQSivuIrsUmA438/yMznm0Us/uQn
+         X32w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=bd5sh7vQZeJyURROHVUKNFVm+4CMC4yXrKfm9zRiuIw=;
+        b=V/PXf5ukXV42BA58kUTuQ9faLRc/bX3Ge7yuoidWd8TY5weZtk2+6evW6XRknxq6Ak
+         zvjbsk8BuwFilOgM7wfHjxENgzDfhKFzD9/Ax48LWONuu2gA0l3/6SwCbajI9fDT7Jts
+         INMSjB1zpaJYajQXCrgWgzwhVLLLi7cHR5TNAUlX1MSPpoP4q//NfzzimACvi0P/otTN
+         JTXPuDPlaX/leHljPlJSZ2VfCBJdi9k6MeGhT97qX1hGz3m15OYj+K+kWxNfqyfR0hMO
+         jP40huvk6svg1LG3eHzYhvtE2E/YMV1xiboQ0Pkz/xTVDQDL+KdoHypnV5dNHDMQduD8
+         npgg==
+X-Gm-Message-State: AOAM530+grwvACcMH+16bEx55VJzNIYjPUSwaMS25TVF1T1j20XXg7hl
+        lBaqRk6izWIh07fHH7/NIPqAACiXncgT
+X-Google-Smtp-Source: ABdhPJyWTjMfWiYOVU+tE9pGSMeFoQRdhPtgSC6RhFbVbNV7o45purcv6ubLeMy+ZrK1ckQQwFWmaw6YrQZY
+Sender: "qperret via sendgmr" <qperret@luke.lon.corp.google.com>
+X-Received: from luke.lon.corp.google.com ([2a00:79e0:d:210:f693:9fff:fef4:a7ef])
+ (user=qperret job=sendgmr) by 2002:a0c:eac4:: with SMTP id
+ y4mr6136966qvp.19.1606242273407; Tue, 24 Nov 2020 10:24:33 -0800 (PST)
+Date:   Tue, 24 Nov 2020 18:24:09 +0000
+Message-Id: <20201124182420.2202514-1-qperret@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH] modpost: Make static exports fatal
+From:   Quentin Perret <qperret@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com, Saravana Kannan <saravanak@google.com>
-Subject: Re: [PATCH v1 0/2] Add support to capture external module's SCM
- version
-Message-ID: <X71NGClOP5Lqg6M5@kroah.com>
-References: <20201121011652.2006613-1-willmcvicker@google.com>
- <20201123090257.GB6334@infradead.org>
- <20201123221338.GA2726675@google.com>
- <20201124093117.GA21089@linux-8ccs>
- <20201124180516.GA737971@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201124180516.GA737971@google.com>
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, kernel-team@android.com,
+        Quentin Perret <qperret@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 10:05:16AM -0800, William Mcvicker wrote:
-> On Tue, Nov 24, 2020 at 10:31:18AM +0100, Jessica Yu wrote:
-> > +++ William Mcvicker [23/11/20 14:13 -0800]:
-> > > On Mon, Nov 23, 2020 at 09:02:57AM +0000, Christoph Hellwig wrote:
-> > > > On Sat, Nov 21, 2020 at 01:16:49AM +0000, Will McVicker wrote:
-> > > > > These two patches add module support to capture an external module's SCM
-> > > > > version as a MODULE_INFO() attribute. This allows users to identity the SCM
-> > > > > version of a given kernel module by using the modinfo tool or on the device
-> > > > > via sysfs:
-> > > > 
-> > > > As this obviously is of no use for in-tree modules it falls under the we
-> > > > don't add code to support things that are not in tree rule and has no
-> > > > business in the kernel.
-> > > 
-> > > Hi Christoph,
-> > > 
-> > > Ah sorry, I didn't intend this to come across as only for external modules.
-> > > That just seemed like the easiest way to explain how the scmversion attribute
-> > > can be different from the vermagic. We mainly need this for in-tree kernel
-> > > modules since that's where most our drivers are. Let me re-phrase this with
-> > > that in mind. Basically, I like to look at this as an improved version of the
-> > > existing srcversion module attribute since it allows you to easily identify the
-> > > module version with a quick SCM version string check instead of doing a full
-> > > checksum on the module source.
-> > > 
-> > > For example, we have a setup to test kernel changes on the hikey and db845c
-> > > devices without updating the kernel modules. Without this scmversion module
-> > > attribute, you can't identify the original module version using `uname
-> > > -r`. And for kernel modules in the initramfs, you can't even use modinfo to get
-> > > the module vermagic.  With this patch, you are able to get the SCM version for
-> > > *all* kernel modules (on disk and in the initramfs) via the sysfs node:
-> > > /sys/module/<mod>/scmversion. This also works the other way around when
-> > > developers update their kernel modules to fix some bug (like a security
-> > > vulnerability) but don't need to update the full kernel.
-> > 
-> > Hi Will,
-> > 
-> > If this were also intended for in-tree kernel modules, then why do
-> > intree modules only get the UTS_RELEASE string in their scmversion
-> > field, which basically already exists in the vermagic? Or do you plan
-> > to change that?
-> > 
-> > Jessica
-> 
-> Hi Jessica,
-> 
-> Thanks for asking! The reason in-tree kernel modules get the UTS_RELEASE string
-> is for a few reasons:
-> 
-> (1) It contains the SCM version (since UTS_RELEASE has that).
-> (2) It allows you to get the SCM version via the sysfs node (useful for modules
-> in the initramfs).
-> (3) It helps identify that that particular kernel module was in-tree when
-> originally compiled.
-> (4) Using UTS_RELEASE also allows us to respect the privacy of kernels with
-> "# CONFIG_LOCALVERSION_AUTO is not set" by not including the SCM version in the
-> module scmversion attribute.
-> 
-> Now, if we don't care about knowing if a module was in-tree or not (since
-> we only care about in-tree modules here anyway), I can update the patch to have
-> a consistent format regardless of in-tree or external. Personally, I like the
-> UTS_RELEASE version better because it gives me more information from the sysfs
-> node which is useful when debugging issues related to modules loaded in
-> initramfs.
+Using EXPORT_SYMBOL*() on static functions is fundamentally wrong.
+Modpost currently reports that as a warning, but clearly this is not a
+pattern we should allow, and all in-tree occurences should have been
+fixed by now. So, promote the warn() message to fatal() to make sure
+this never happens again.
 
-We already know if a module was built in-or-out of tree, the "O" taint
-flag is set, so that information is already in the module today, right?
-Can't that be used somehow here?
+Signed-off-by: Quentin Perret <qperret@google.com>
+---
+ scripts/mod/modpost.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-thanks,
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index f882ce0d9327..70b0e825a139 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2663,9 +2663,9 @@ int main(int argc, char **argv)
+ 
+ 		for (s = symbolhash[n]; s; s = s->next) {
+ 			if (s->is_static)
+-				warn("\"%s\" [%s] is a static %s\n",
+-				     s->name, s->module->name,
+-				     export_str(s->export));
++				fatal("\"%s\" [%s] is a static %s\n",
++				      s->name, s->module->name,
++				      export_str(s->export));
+ 		}
+ 	}
+ 
+-- 
+2.29.2.454.gaff20da3a2-goog
 
-greg k-h
