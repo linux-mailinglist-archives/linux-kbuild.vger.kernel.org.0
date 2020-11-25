@@ -2,257 +2,363 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B3422C3611
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 02:08:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 710CA2C37F7
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 05:19:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728170AbgKYBGh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Nov 2020 20:06:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728124AbgKYBGg (ORCPT
+        id S1726416AbgKYESH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Nov 2020 23:18:07 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:36002 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726595AbgKYESH (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Nov 2020 20:06:36 -0500
-Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95992C0613D4
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Nov 2020 17:06:36 -0800 (PST)
-Received: by mail-qk1-x749.google.com with SMTP id 202so552895qkl.9
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Nov 2020 17:06:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:in-reply-to:message-id:mime-version:references:subject
-         :from:to:cc;
-        bh=YbWKCne8oiSwCs+LETaaQuxj6nssPvd/ENx+h/xhUkQ=;
-        b=VD95qJ50YfNhlAIzTqXB7bWZqflUREpGXlZ1v14Zqf7QbyEW+1fSYZQFDYq0wZCUPq
-         rAGEUyIpaWJhNW7WYPua7SowPdY10PFtu23ICx45YcPyZN6CAChZIygSwekQjZc9hITx
-         b921pHjRJc0DQeFHlQ7DmdXXkNGcQurJJ1u5b48tAydxKYJlniAmQMO26PzygE5BjMCS
-         pbWDBeq5hPvR+M2TxrOohzEd4nAego3Zzt5WFie+KkF5uMivByps5K8U+lSh7SWLLLQm
-         UYjfotcdqleoiDUby/Ebbetey+OkDgt8YEosMsDr6GZ2juZ0yX2jfKNEvX2tI7j5pVNB
-         bu2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=YbWKCne8oiSwCs+LETaaQuxj6nssPvd/ENx+h/xhUkQ=;
-        b=XYZImKBoUPxynh/+wbtwNer+eSVFfCl39Y9xyFMj/vYQQcrBFYcrKp2BA/nu1rDKZ0
-         p4EmqXmIe8jkl7FwuHAkdpQry5rN35csYLdpXyvT7bVAFgTmxnfHOpyW7EUj3XAO8eo3
-         kvR5vVmiwXGf5IJECyiYcKjsPuxOy+6Xiu8dkbLuOgAWhUnDsGeJQ6K+jpNKBfT7THrK
-         MIROzgtYfkqYpRBoELeNI3RzsJo5iEpmPaf8XafuDJwjYaVWUlB2u0iJJETPX/lJQhR4
-         ovuwHLsi7FgAeR6KADpH6IxihaJrFkcdqc9CMvjyotaa7E/r5pf7PSuz721BZJUJTLCg
-         AzAw==
-X-Gm-Message-State: AOAM532l2GLK0wLH9txAVCUkbGyxB6P05s44lprtmsnqQ7g0Dcaa5X8l
-        CFFuH0HG0yYFWeExIxDuzARWxdYItgRDmjbzZ10=
-X-Google-Smtp-Source: ABdhPJyiDeumgvZEcdU+MPnyD9qSO5ehrwZUtIoneyR5tx090S7hUOPBhUznUsNQpdC8NZ5a0FyxFRnByzqgPiusOKE=
-Sender: "willmcvicker via sendgmr" <willmcvicker@willmcvicker.c.googlers.com>
-X-Received: from willmcvicker.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:2dd0])
- (user=willmcvicker job=sendgmr) by 2002:a0c:9e20:: with SMTP id
- p32mr1307270qve.44.1606266395772; Tue, 24 Nov 2020 17:06:35 -0800 (PST)
-Date:   Wed, 25 Nov 2020 01:05:41 +0000
-In-Reply-To: <20201125010541.309848-1-willmcvicker@google.com>
-Message-Id: <20201125010541.309848-3-willmcvicker@google.com>
-Mime-Version: 1.0
-References: <CAGETcx8unBFUHxM67VdOoaWRENGXYoc4qWq2Oir=2rUyJ7F5nA@mail.gmail.com>
- <20201125010541.309848-1-willmcvicker@google.com>
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
-Subject: [PATCH v2 2/2] modules: add scmversion field
-From:   Will McVicker <willmcvicker@google.com>
-To:     Jessica Yu <jeyu@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Saravana Kannan <saravanak@google.com>,
-        linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        kernel-team@android.com, Will McVicker <willmcvicker@google.com>
+        Tue, 24 Nov 2020 23:18:07 -0500
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 0AP4HTHl021662
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 13:17:29 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0AP4HTHl021662
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606277849;
+        bh=hvaSc1Ukrg9mEsfQYFFGXsKt47xPn0mW7KLFELB8o6s=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=YjCT6BUpeLVxcJZawICx7oFso8Q8ZmHRDJjl8XtDjE19MK7QM6fa1RG2/aFOU0eQl
+         eMBPezbW+27m1XTzFeV3tARpcNUkaxwSUtLV80v0aOfzAFMjH5xgRIwD5IFcUZD0Ur
+         VjzrrzDnUv9QvBfJBlJ7o4Hbe5xlfWHt2AoaCnNsnWr7P16f5h7Lp7vRKymkFtdQ+e
+         8v8Kwl58h9gROOF7EYn9xJWcFTDH8MmpiyJt+pa2i4n4mIXrAYj6AWoSBfKXkiQc8e
+         Knx6Dw4ShBQtK2YdR8oVG9ZcbtEwkEH0587brMSNYsyvVG1ZzzH8Rz4LN+VA2T5GR8
+         sxASxuSO739Cg==
+X-Nifty-SrcIP: [209.85.210.175]
+Received: by mail-pf1-f175.google.com with SMTP id w6so1134941pfu.1
+        for <linux-kbuild@vger.kernel.org>; Tue, 24 Nov 2020 20:17:29 -0800 (PST)
+X-Gm-Message-State: AOAM532EVAEwYDtviq10o9/rvyjmi62yWZsyc6qc+vbus8brVVSIh0ed
+        Gf8Tm0oirlJxAszk+mbf4ezYY6AZuSdl0L1Gjrs=
+X-Google-Smtp-Source: ABdhPJyhhYh3KPV6nEK4GOc81WBTCm7GKsEai90rAfpJOio132UzyAJB6y0NNGkNxaGSHimL4IRJta2gD0Z2Ofokvz8=
+X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr1883679pjt.87.1606277848534;
+ Tue, 24 Nov 2020 20:17:28 -0800 (PST)
+MIME-Version: 1.0
+References: <X7vEBdcc06VJZEJO@bombur.kloenk.de>
+In-Reply-To: <X7vEBdcc06VJZEJO@bombur.kloenk.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 25 Nov 2020 13:16:51 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQf-29-PbuascHHX+SVA4SesHfzsaVc0JAtg-s+XazUZQ@mail.gmail.com>
+Message-ID: <CAK7LNAQf-29-PbuascHHX+SVA4SesHfzsaVc0JAtg-s+XazUZQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Fix most Shebang lines
+To:     Finn Behrens <me@kloenk.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Ujjwal Kumar <ujjwalkumar0501@gmail.com>, enbyamy@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Add the modinfo field `scmversion` to include the SCM version of kernel
-modules, e.g. git sha1. This allows one to identify the exact source
-code version of a given kernel module.
+On Mon, Nov 23, 2020 at 11:16 PM Finn Behrens <me@kloenk.de> wrote:
+>
+> Change every shebang which does not need an argument to use /usr/bin/env.
+> This is needed as not every distro has everything under /usr/bin,
+> sometimes not even bash.
+>
+> Signed-off-by: Finn Behrens <me@kloenk.de>
+> ---
 
-You can retrieve it in two ways,
+Applied to linux-kbuild. Thanks.
 
-1) By using modinfo
-    > modinfo -F scmversion <module_name>
-2) By module sysfs node
-    > cat /sys/module/<module_name>/scmversion
 
-Signed-off-by: Will McVicker <willmcvicker@google.com>
----
- Documentation/ABI/stable/sysfs-module | 17 +++++++++++++++++
- include/linux/module.h                |  1 +
- kernel/module.c                       |  2 ++
- scripts/Makefile.modpost              | 20 ++++++++++++++++++++
- scripts/mod/modpost.c                 | 24 +++++++++++++++++++++++-
- 5 files changed, 63 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
-index 6272ae5fb366..46c99ec927ab 100644
---- a/Documentation/ABI/stable/sysfs-module
-+++ b/Documentation/ABI/stable/sysfs-module
-@@ -32,3 +32,20 @@ Description:
- 		Note: If the module is built into the kernel, or if the
- 		CONFIG_MODULE_UNLOAD kernel configuration value is not enabled,
- 		this file will not be present.
-+
-+What:		/sys/module/MODULENAME/scmversion
-+Date:		November 2020
-+KernelVersion:	5.10
-+Contact:	Will McVicker <willmcvicker@google.com>
-+Description:	This read-only file will appear if modpost was supplied with an
-+		SCM version for the module. The SCM version is retrieved by
-+		scripts/setlocalversion, which means that the presence of this
-+		file depends on CONFIG_LOCALVERSION_AUTO=y or LOCALVERSION=.
-+		When read, the SCM version that the module was compiled with is
-+		returned. The SCM version is returned in the following format::
-+
-+		===
-+		Git:		g[a-f0-9]\+(-dirty)\?
-+		Mercurial:	hg[a-f0-9]\+(-dirty)\?
-+		Subversion:	svn[0-9]\+
-+		===
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 6264617bab4d..63137ca5147b 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -372,6 +372,7 @@ struct module {
- 	struct module_attribute *modinfo_attrs;
- 	const char *version;
- 	const char *srcversion;
-+	const char *scmversion;
- 	struct kobject *holders_dir;
- 
- 	/* Exported symbols */
-diff --git a/kernel/module.c b/kernel/module.c
-index a4fa44a652a7..a203dab4a03b 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -807,6 +807,7 @@ static struct module_attribute modinfo_##field = {                    \
- 
- MODINFO_ATTR(version);
- MODINFO_ATTR(srcversion);
-+MODINFO_ATTR(scmversion);
- 
- static char last_unloaded_module[MODULE_NAME_LEN+1];
- 
-@@ -1269,6 +1270,7 @@ static struct module_attribute *modinfo_attrs[] = {
- 	&module_uevent,
- 	&modinfo_version,
- 	&modinfo_srcversion,
-+	&modinfo_scmversion,
- 	&modinfo_initstate,
- 	&modinfo_coresize,
- 	&modinfo_initsize,
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index f54b6ac37ac2..fb4ddf2bf794 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -66,6 +66,7 @@ ifeq ($(KBUILD_EXTMOD),)
- 
- input-symdump := vmlinux.symvers
- output-symdump := Module.symvers
-+module_srcpath := $(srctree)
- 
- else
- 
-@@ -77,6 +78,17 @@ src := $(obj)
- include $(if $(wildcard $(KBUILD_EXTMOD)/Kbuild), \
-              $(KBUILD_EXTMOD)/Kbuild, $(KBUILD_EXTMOD)/Makefile)
- 
-+# Get the external module's source path. KBUILD_EXTMOD could either be an
-+# absolute path or relative path from $(srctree). This makes sure that we
-+# aren't using a relative path from a separate working directory (O= or
-+# KBUILD_OUTPUT) since that may not be the actual module's SCM project path. So
-+# check the path relative to $(srctree) first.
-+ifneq ($(realpath $(srctree)/$(KBUILD_EXTMOD) 2>/dev/null),)
-+	module_srcpath := $(srctree)/$(KBUILD_EXTMOD)
-+else
-+	module_srcpath := $(KBUILD_EXTMOD)
-+endif
-+
- # modpost option for external modules
- MODPOST += -e
- 
-@@ -85,6 +97,14 @@ output-symdump := $(KBUILD_EXTMOD)/Module.symvers
- 
- endif
- 
-+# Get the SCM version of the module. Sed verifies setlocalversion returns
-+# a proper revision based on the SCM type, e.g. git, mercurial, or svn.
-+module_scmversion := $(shell $(srctree)/scripts/setlocalversion $(module_srcpath) | \
-+	sed -n 's/.*-\(\(g\|hg\)[a-fA-F0-9]\+\(-dirty\)\?\|svn[0-9]\+\).*/\1/p')
-+ifneq ($(module_scmversion),)
-+MODPOST += -v$(module_scmversion)
-+endif
-+
- # modpost options for modules (both in-kernel and external)
- MODPOST += \
- 	$(addprefix -i ,$(wildcard $(input-symdump))) \
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index f882ce0d9327..db71e0c9ab20 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -30,6 +30,8 @@ static int have_vmlinux = 0;
- static int all_versions = 0;
- /* If we are modposting external module set to 1 */
- static int external_module = 0;
-+#define MODULE_SCMVERSION_SIZE 64
-+static char module_scmversion[MODULE_SCMVERSION_SIZE];
- /* Only warn about unresolved symbols */
- static int warn_unresolved = 0;
- /* How a symbol is exported */
-@@ -2272,6 +2274,20 @@ static void add_intree_flag(struct buffer *b, int is_intree)
- 		buf_printf(b, "\nMODULE_INFO(intree, \"Y\");\n");
- }
- 
-+/**
-+ * add_scmversion() - Adds the MODULE_INFO macro for the scmversion.
-+ * @b: Buffer to append to.
-+ *
-+ * This function fills in the module attribute `scmversion` for the kernel
-+ * module. This is useful for determining a given module's SCM version on
-+ * device via /sys/modules/<module>/scmversion and/or using the modinfo tool.
-+ */
-+static void add_scmversion(struct buffer *b)
-+{
-+	if (module_scmversion[0] != '\0')
-+		buf_printf(b, "\nMODULE_INFO(scmversion, \"%s\");\n", module_scmversion);
-+}
-+
- /* Cannot check for assembler */
- static void add_retpoline(struct buffer *b)
- {
-@@ -2559,7 +2575,7 @@ int main(int argc, char **argv)
- 	struct dump_list *dump_read_start = NULL;
- 	struct dump_list **dump_read_iter = &dump_read_start;
- 
--	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:")) != -1) {
-+	while ((opt = getopt(argc, argv, "ei:mnT:o:awENd:v:")) != -1) {
- 		switch (opt) {
- 		case 'e':
- 			external_module = 1;
-@@ -2597,6 +2613,11 @@ int main(int argc, char **argv)
- 		case 'd':
- 			missing_namespace_deps = optarg;
- 			break;
-+		case 'v':
-+			if (!optarg)
-+				fatal("'-v' requires an argument defining the SCM version.");
-+			strncpy(module_scmversion, optarg, sizeof(module_scmversion) - 1);
-+			break;
- 		default:
- 			exit(1);
- 		}
-@@ -2645,6 +2666,7 @@ int main(int argc, char **argv)
- 		add_depends(&buf, mod);
- 		add_moddevtable(&buf, mod);
- 		add_srcversion(&buf, mod);
-+		add_scmversion(&buf);
- 
- 		sprintf(fname, "%s.mod.c", mod->name);
- 		write_if_changed(&buf, fname);
+
+> Should apply now, sorry for that.
+>
+>  Documentation/sphinx/parse-headers.pl                           | 2 +-
+>  Documentation/target/tcm_mod_builder.py                         | 2 +-
+>  Documentation/trace/postprocess/decode_msr.py                   | 2 +-
+>  Documentation/trace/postprocess/trace-pagealloc-postprocess.pl  | 2 +-
+>  Documentation/trace/postprocess/trace-vmscan-postprocess.pl     | 2 +-
+>  arch/ia64/scripts/unwcheck.py                                   | 2 +-
+>  scripts/bloat-o-meter                                           | 2 +-
+>  scripts/config                                                  | 2 +-
+>  scripts/diffconfig                                              | 2 +-
+>  scripts/get_abi.pl                                              | 2 +-
+>  scripts/show_delta                                              | 2 +-
+>  scripts/sphinx-pre-install                                      | 2 +-
+>  scripts/split-man.pl                                            | 2 +-
+>  scripts/tracing/draw_functrace.py                               | 2 +-
+>  tools/perf/python/tracepoint.py                                 | 2 +-
+>  tools/perf/python/twatch.py                                     | 2 +-
+>  tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py      | 2 +-
+>  tools/testing/ktest/compare-ktest-sample.pl                     | 2 +-
+>  tools/testing/kunit/kunit.py                                    | 2 +-
+>  tools/testing/kunit/kunit_tool_test.py                          | 2 +-
+>  tools/testing/selftests/bpf/test_offload.py                     | 2 +-
+>  .../selftests/drivers/net/mlxsw/sharedbuffer_configuration.py   | 2 +-
+>  tools/testing/selftests/kselftest/prefix.pl                     | 2 +-
+>  tools/testing/selftests/net/devlink_port_split.py               | 2 +-
+>  tools/testing/selftests/tc-testing/tdc_batch.py                 | 2 +-
+>  tools/testing/selftests/tc-testing/tdc_multibatch.py            | 2 +-
+>  26 files changed, 26 insertions(+), 26 deletions(-)
+>
+> diff --git a/Documentation/sphinx/parse-headers.pl b/Documentation/sphinx/parse-headers.pl
+> index 1910079f984f..b063f2f1cfb2 100755
+> --- a/Documentation/sphinx/parse-headers.pl
+> +++ b/Documentation/sphinx/parse-headers.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  use strict;
+>  use Text::Tabs;
+>  use Getopt::Long;
+> diff --git a/Documentation/target/tcm_mod_builder.py b/Documentation/target/tcm_mod_builder.py
+> index 1548d8420499..54492aa813b9 100755
+> --- a/Documentation/target/tcm_mod_builder.py
+> +++ b/Documentation/target/tcm_mod_builder.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # The TCM v4 multi-protocol fabric module generation script for drivers/target/$NEW_MOD
+>  #
+>  # Copyright (c) 2010 Rising Tide Systems
+> diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentation/trace/postprocess/decode_msr.py
+> index 0ab40e0db580..aa9cc7abd5c2 100644
+> --- a/Documentation/trace/postprocess/decode_msr.py
+> +++ b/Documentation/trace/postprocess/decode_msr.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # add symbolic names to read_msr / write_msr in trace
+>  # decode_msr msr-index.h < trace
+>  import sys
+> diff --git a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+> index 0a120aae33ce..b9b7d80c2f9d 100644
+> --- a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+> +++ b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # This is a POC (proof of concept or piece of crap, take your pick) for reading the
+>  # text representation of trace output related to page allocation. It makes an attempt
+>  # to extract some high-level information on what is going on. The accuracy of the parser
+> diff --git a/Documentation/trace/postprocess/trace-vmscan-postprocess.pl b/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
+> index 995da15b16ca..2f4e39875fb3 100644
+> --- a/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
+> +++ b/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # This is a POC for reading the text representation of trace output related to
+>  # page reclaim. It makes an attempt to extract some high-level information on
+>  # what is going on. The accuracy of the parser may vary
+> diff --git a/arch/ia64/scripts/unwcheck.py b/arch/ia64/scripts/unwcheck.py
+> index c55276e31b6b..bfd1b671e35f 100644
+> --- a/arch/ia64/scripts/unwcheck.py
+> +++ b/arch/ia64/scripts/unwcheck.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Usage: unwcheck.py FILE
+> diff --git a/scripts/bloat-o-meter b/scripts/bloat-o-meter
+> index d7ca46c612b3..652e9542043f 100755
+> --- a/scripts/bloat-o-meter
+> +++ b/scripts/bloat-o-meter
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  #
+>  # Copyright 2004 Matt Mackall <mpm@selenic.com>
+>  #
+> diff --git a/scripts/config b/scripts/config
+> index eee5b7f3a092..8c8d7c3d7acc 100755
+> --- a/scripts/config
+> +++ b/scripts/config
+> @@ -1,4 +1,4 @@
+> -#!/bin/bash
+> +#!/usr/bin/env bash
+>  # SPDX-License-Identifier: GPL-2.0
+>  # Manipulate options in a .config file from the command line
+>
+> diff --git a/scripts/diffconfig b/scripts/diffconfig
+> index 89abf777f197..627eba5849b5 100755
+> --- a/scripts/diffconfig
+> +++ b/scripts/diffconfig
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # diffconfig - a tool to compare .config files.
+> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
+> index 68dab828a722..92d9aa6cc4f5 100755
+> --- a/scripts/get_abi.pl
+> +++ b/scripts/get_abi.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # SPDX-License-Identifier: GPL-2.0
+>
+>  use strict;
+> diff --git a/scripts/show_delta b/scripts/show_delta
+> index 264399307c4f..28e67e178194 100755
+> --- a/scripts/show_delta
+> +++ b/scripts/show_delta
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  #
+>  # show_deltas: Read list of printk messages instrumented with
+> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+> index 40fa6923e80a..828a8615a918 100755
+> --- a/scripts/sphinx-pre-install
+> +++ b/scripts/sphinx-pre-install
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # SPDX-License-Identifier: GPL-2.0-or-later
+>  use strict;
+>
+> diff --git a/scripts/split-man.pl b/scripts/split-man.pl
+> index c3db607ee9ec..96bd99dc977a 100755
+> --- a/scripts/split-man.pl
+> +++ b/scripts/split-man.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> diff --git a/scripts/tracing/draw_functrace.py b/scripts/tracing/draw_functrace.py
+> index b65735758520..74f8aadfd4cb 100755
+> --- a/scripts/tracing/draw_functrace.py
+> +++ b/scripts/tracing/draw_functrace.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0-only
+>
+>  """
+> diff --git a/tools/perf/python/tracepoint.py b/tools/perf/python/tracepoint.py
+> index eb76f6516247..461848c7f57d 100755
+> --- a/tools/perf/python/tracepoint.py
+> +++ b/tools/perf/python/tracepoint.py
+> @@ -1,4 +1,4 @@
+> -#! /usr/bin/python
+> +#! /usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0
+>  # -*- python -*-
+>  # -*- coding: utf-8 -*-
+> diff --git a/tools/perf/python/twatch.py b/tools/perf/python/twatch.py
+> index ff87ccf5b708..04f3db29b9bc 100755
+> --- a/tools/perf/python/twatch.py
+> +++ b/tools/perf/python/twatch.py
+> @@ -1,4 +1,4 @@
+> -#! /usr/bin/python
+> +#! /usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  # -*- python -*-
+>  # -*- coding: utf-8 -*-
+> diff --git a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
+> index 3c47865bb247..e15e20696d17 100755
+> --- a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
+> +++ b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  # -*- coding: utf-8 -*-
+>  #
+> diff --git a/tools/testing/ktest/compare-ktest-sample.pl b/tools/testing/ktest/compare-ktest-sample.pl
+> index 4118eb4a842d..ebea21d0a1be 100755
+> --- a/tools/testing/ktest/compare-ktest-sample.pl
+> +++ b/tools/testing/ktest/compare-ktest-sample.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # SPDX-License-Identifier: GPL-2.0
+>
+>  open (IN,"ktest.pl");
+> diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
+> index d4f7846d0745..21516e293d17 100755
+> --- a/tools/testing/kunit/kunit.py
+> +++ b/tools/testing/kunit/kunit.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python3
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # A thin wrapper on top of the KUnit Kernel
+> diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
+> index 497ab51bc170..b593f4448e83 100755
+> --- a/tools/testing/kunit/kunit_tool_test.py
+> +++ b/tools/testing/kunit/kunit_tool_test.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python3
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  #
+>  # A collection of tests for tools/testing/kunit/kunit.py
+> diff --git a/tools/testing/selftests/bpf/test_offload.py b/tools/testing/selftests/bpf/test_offload.py
+> index 43c9cda199b8..f736d34b89e1 100755
+> --- a/tools/testing/selftests/bpf/test_offload.py
+> +++ b/tools/testing/selftests/bpf/test_offload.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python3
+> +#!/usr/bin/env python3
+>
+>  # Copyright (C) 2017 Netronome Systems, Inc.
+>  # Copyright (c) 2019 Mellanox Technologies. All rights reserved
+> diff --git a/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py b/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
+> index 0d4b9327c9b3..2223337eed0c 100755
+> --- a/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
+> +++ b/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python
+> +#!/usr/bin/env python
+>  # SPDX-License-Identifier: GPL-2.0
+>
+>  import subprocess
+> diff --git a/tools/testing/selftests/kselftest/prefix.pl b/tools/testing/selftests/kselftest/prefix.pl
+> index 31f7c2a0a8bd..12a7f4ca2684 100755
+> --- a/tools/testing/selftests/kselftest/prefix.pl
+> +++ b/tools/testing/selftests/kselftest/prefix.pl
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/perl
+> +#!/usr/bin/env perl
+>  # SPDX-License-Identifier: GPL-2.0
+>  # Prefix all lines with "# ", unbuffered. Command being piped in may need
+>  # to have unbuffering forced with "stdbuf -i0 -o0 -e0 $cmd".
+> diff --git a/tools/testing/selftests/net/devlink_port_split.py b/tools/testing/selftests/net/devlink_port_split.py
+> index 58bb7e9b88ce..834066d465fc 100755
+> --- a/tools/testing/selftests/net/devlink_port_split.py
+> +++ b/tools/testing/selftests/net/devlink_port_split.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python3
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>
+>  from subprocess import PIPE, Popen
+> diff --git a/tools/testing/selftests/tc-testing/tdc_batch.py b/tools/testing/selftests/tc-testing/tdc_batch.py
+> index 995f66ce43eb..35d5d9493784 100755
+> --- a/tools/testing/selftests/tc-testing/tdc_batch.py
+> +++ b/tools/testing/selftests/tc-testing/tdc_batch.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python3
+> +#!/usr/bin/env python3
+>
+>  """
+>  tdc_batch.py - a script to generate TC batch file
+> diff --git a/tools/testing/selftests/tc-testing/tdc_multibatch.py b/tools/testing/selftests/tc-testing/tdc_multibatch.py
+> index 5e7237952e49..48e1f17ff2e8 100755
+> --- a/tools/testing/selftests/tc-testing/tdc_multibatch.py
+> +++ b/tools/testing/selftests/tc-testing/tdc_multibatch.py
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/python3
+> +#!/usr/bin/env python3
+>  # SPDX-License-Identifier: GPL-2.0
+>  """
+>  tdc_multibatch.py - a thin wrapper over tdc_batch.py to generate multiple batch
+> --
+> 2.29.2
+>
+
+
 -- 
-2.29.2.454.gaff20da3a2-goog
-
+Best Regards
+Masahiro Yamada
