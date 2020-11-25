@@ -2,98 +2,105 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46A482C380A
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 05:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D70F2C3DBF
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 11:36:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbgKYEVi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Nov 2020 23:21:38 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:49281 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbgKYEVh (ORCPT
+        id S1727838AbgKYKfh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Nov 2020 05:35:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726287AbgKYKfh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Nov 2020 23:21:37 -0500
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 0AP4LGLe023838;
-        Wed, 25 Nov 2020 13:21:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0AP4LGLe023838
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606278077;
-        bh=ooRzKz+xea3vITaQ6iu7qbgvOHqjZFJJkld/4o49MH4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=HiiUZCzMQznWUyqeypBgzCNTUOQtn5kRBrDQR4ZREFrlK2e+wtOmdPOFosym7+w8/
-         mSLF7GoiwwfQNatfCOZJ5CNwG5HRLikhvJ2KB3rZZvFa6aRisSLr3zFsKcShVFAn3+
-         PDqRg1CgT09F8ZGAbjp2LK5Jq+dDYnD7Oy5HJsFxykPDe1aUuBQ5QThZd9y5N+I9o3
-         DyZ4brprbkZra3EeNZLJ4EnVWTeBQPYmLoFWX45x3shrGYxXDdNFeToSAWp0RHqIwr
-         lFfq2wBUAVyTCkYS3205VqlfAR2sk0cuNHz2W16bFvWPN5hjCmXG3IXlcJwYQ6Nsw9
-         jM2KYUmmaXmnw==
-X-Nifty-SrcIP: [209.85.215.169]
-Received: by mail-pg1-f169.google.com with SMTP id f17so1217562pge.6;
-        Tue, 24 Nov 2020 20:21:16 -0800 (PST)
-X-Gm-Message-State: AOAM531SONrYFmErmaV4PLf6Z43XcjyRigePRJJKEGQnMWXgpBFYCmxS
-        yu9fE89koIj2fJkMh4niY/wInvSKSAVezMyxD5Y=
-X-Google-Smtp-Source: ABdhPJyq8N9UqhJ4ipccgxI03Bq0Yt5jiNDdSTa642fCRyckZtA/iY1YmWWkbRb8ZbXqPD94QZTkf/XJh0UnazY1L7g=
-X-Received: by 2002:a63:3205:: with SMTP id y5mr1533249pgy.47.1606278076158;
- Tue, 24 Nov 2020 20:21:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20201124154339.173752-1-arnd@kernel.org>
-In-Reply-To: <20201124154339.173752-1-arnd@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 25 Nov 2020 13:20:39 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASsVeKzRp2cevv8RvPWvH_X9_FW4kp4C76BynTLSHJuRA@mail.gmail.com>
-Message-ID: <CAK7LNASsVeKzRp2cevv8RvPWvH_X9_FW4kp4C76BynTLSHJuRA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile.extrawarn: remove -Wnested-externs warning
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Nathan Chancellor <natechancellor@gmail.com>,
+        Wed, 25 Nov 2020 05:35:37 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFCBC0613D4
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 02:35:36 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id h21so1666519wmb.2
+        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 02:35:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5AdhqJPNqJ4ajsPBDb7aBTdCZqenqeNmdluQ3fHyVw8=;
+        b=B7+XMHnKQxb4VWWBAPKFNlaE35cZxK4xHOpGVCq6sHJocVauhvpSfEqDixJGQ4hvZ/
+         863iw/Vpe4F2YgyRe8Lt+7qMPMu/PFQE+oW2jzIR+xVvLqIIf/Kg7WIH7Ro4DacYL3jX
+         K4SHXxSmpBNfCt++ykfeZcfs0KXslMkq0ePWc8DMjah/BGgL5U/23cH5FQ+W9QZ7ABX8
+         tglf1tO3dm2zoZU7UvGSxwhmD5lyxISAZWRf1AeVVSJQbs0SDaKGjRXcZ9epRNvdyiVr
+         gSSxL0Q/ZiJJ1dF9FBdIG26+12TMLfyDd9IOzokNNRSaYuRjW0LnaKh+0tbZatYaulMx
+         B7hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5AdhqJPNqJ4ajsPBDb7aBTdCZqenqeNmdluQ3fHyVw8=;
+        b=WinbOEpbx46GfNvx94ADTlj+xthd4lGPO2fCXaUAk5yt6ZPB9iny1C70YdJ6nXXpnt
+         HhdxnjbwUO9jKWA2hhjbB+LfG6VUJrWG+uI3MLanTpESw2kdnaxgL6kzJ4z9CP58wsgY
+         RG4m99L+BnTl9odGHjbb4+27GzMCgu7XS/br/tksa+Gw/zg1bGUr84jcu2orpZ11iGYk
+         rhkn8dsQA8OXWdXnAhBaNfETMnVlPqNihVpxgy+kWL9/2J12sFFsw8hnEgosqYN812gY
+         0/E7ZDcAIBlknA7eli40k8faKwgspUZTnW3dRm1eewkP6aJ9T0bt1C45GVg+mVzanjT4
+         p4aw==
+X-Gm-Message-State: AOAM533Tx1O5XpFH2FHY4FeS37sF+zO38UnYgSu8Gr1m30Lykqd/Xgag
+        03r/m1xNSMVV1ti8x6kncANXhQ==
+X-Google-Smtp-Source: ABdhPJwsRjx6KKEXcNdzIPS4xp2DBxwoiR2l9nmoiZkQY7Lwp1FKiVXAb5vbXTQVMkhCl2vy7hW+xA==
+X-Received: by 2002:a1c:4b10:: with SMTP id y16mr3232942wma.10.1606300535324;
+        Wed, 25 Nov 2020 02:35:35 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:210:7220:84ff:fe09:a3aa])
+        by smtp.gmail.com with ESMTPSA id j8sm4031336wrx.11.2020.11.25.02.35.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 02:35:34 -0800 (PST)
+Date:   Wed, 25 Nov 2020 10:35:34 +0000
+From:   Matthias Maennich <maennich@google.com>
+To:     Quentin Perret <qperret@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org, kernel-team@android.com
+Subject: Re: [PATCH] modpost: Make static exports fatal
+Message-ID: <20201125103534.GA2112262@google.com>
+References: <20201124182420.2202514-1-qperret@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20201124182420.2202514-1-qperret@google.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 12:43 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Tue, Nov 24, 2020 at 06:24:09PM +0000, Quentin Perret wrote:
+>Using EXPORT_SYMBOL*() on static functions is fundamentally wrong.
+>Modpost currently reports that as a warning, but clearly this is not a
+>pattern we should allow, and all in-tree occurences should have been
+>fixed by now. So, promote the warn() message to fatal() to make sure
+>this never happens again.
 >
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> The -Wnested-externs warning has become useless with gcc, since
-> this warns every time that BUILD_BUG_ON() or similar macros
-> are used.
->
-> With clang, the warning option does nothing to start with, so
-> just remove it entirely.
->
-> Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
+>Signed-off-by: Quentin Perret <qperret@google.com>
 
-Applied to linux-kbuild.
-Thanks.
+Reviewed-by: Matthias Maennich <maennich@google.com>
 
+Cheers,
+Matthias
 
->  scripts/Makefile.extrawarn | 1 -
->  1 file changed, 1 deletion(-)
+>---
+> scripts/mod/modpost.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-> index 6baee1200615..d53825503874 100644
-> --- a/scripts/Makefile.extrawarn
-> +++ b/scripts/Makefile.extrawarn
-> @@ -61,7 +61,6 @@ endif
->  ifneq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
+>diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+>index f882ce0d9327..70b0e825a139 100644
+>--- a/scripts/mod/modpost.c
+>+++ b/scripts/mod/modpost.c
+>@@ -2663,9 +2663,9 @@ int main(int argc, char **argv)
 >
->  KBUILD_CFLAGS += -Wdisabled-optimization
-> -KBUILD_CFLAGS += -Wnested-externs
->  KBUILD_CFLAGS += -Wshadow
->  KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
->  KBUILD_CFLAGS += -Wmissing-field-initializers
-> --
-> 2.27.0
+> 		for (s = symbolhash[n]; s; s = s->next) {
+> 			if (s->is_static)
+>-				warn("\"%s\" [%s] is a static %s\n",
+>-				     s->name, s->module->name,
+>-				     export_str(s->export));
+>+				fatal("\"%s\" [%s] is a static %s\n",
+>+				      s->name, s->module->name,
+>+				      export_str(s->export));
+> 		}
+> 	}
 >
-
-
--- 
-Best Regards
-Masahiro Yamada
+>-- 
+>2.29.2.454.gaff20da3a2-goog
+>
