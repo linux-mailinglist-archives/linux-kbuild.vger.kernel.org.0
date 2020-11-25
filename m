@@ -2,360 +2,95 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 710CA2C37F7
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 05:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46A482C380A
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 05:21:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbgKYESH (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 24 Nov 2020 23:18:07 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:36002 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbgKYESH (ORCPT
+        id S1727064AbgKYEVi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 24 Nov 2020 23:21:38 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:49281 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbgKYEVh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 24 Nov 2020 23:18:07 -0500
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 0AP4HTHl021662
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 13:17:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0AP4HTHl021662
+        Tue, 24 Nov 2020 23:21:37 -0500
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 0AP4LGLe023838;
+        Wed, 25 Nov 2020 13:21:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0AP4LGLe023838
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606277849;
-        bh=hvaSc1Ukrg9mEsfQYFFGXsKt47xPn0mW7KLFELB8o6s=;
+        s=dec2015msa; t=1606278077;
+        bh=ooRzKz+xea3vITaQ6iu7qbgvOHqjZFJJkld/4o49MH4=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=YjCT6BUpeLVxcJZawICx7oFso8Q8ZmHRDJjl8XtDjE19MK7QM6fa1RG2/aFOU0eQl
-         eMBPezbW+27m1XTzFeV3tARpcNUkaxwSUtLV80v0aOfzAFMjH5xgRIwD5IFcUZD0Ur
-         VjzrrzDnUv9QvBfJBlJ7o4Hbe5xlfWHt2AoaCnNsnWr7P16f5h7Lp7vRKymkFtdQ+e
-         8v8Kwl58h9gROOF7EYn9xJWcFTDH8MmpiyJt+pa2i4n4mIXrAYj6AWoSBfKXkiQc8e
-         Knx6Dw4ShBQtK2YdR8oVG9ZcbtEwkEH0587brMSNYsyvVG1ZzzH8Rz4LN+VA2T5GR8
-         sxASxuSO739Cg==
-X-Nifty-SrcIP: [209.85.210.175]
-Received: by mail-pf1-f175.google.com with SMTP id w6so1134941pfu.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 24 Nov 2020 20:17:29 -0800 (PST)
-X-Gm-Message-State: AOAM532EVAEwYDtviq10o9/rvyjmi62yWZsyc6qc+vbus8brVVSIh0ed
-        Gf8Tm0oirlJxAszk+mbf4ezYY6AZuSdl0L1Gjrs=
-X-Google-Smtp-Source: ABdhPJyhhYh3KPV6nEK4GOc81WBTCm7GKsEai90rAfpJOio132UzyAJB6y0NNGkNxaGSHimL4IRJta2gD0Z2Ofokvz8=
-X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr1883679pjt.87.1606277848534;
- Tue, 24 Nov 2020 20:17:28 -0800 (PST)
+        b=HiiUZCzMQznWUyqeypBgzCNTUOQtn5kRBrDQR4ZREFrlK2e+wtOmdPOFosym7+w8/
+         mSLF7GoiwwfQNatfCOZJ5CNwG5HRLikhvJ2KB3rZZvFa6aRisSLr3zFsKcShVFAn3+
+         PDqRg1CgT09F8ZGAbjp2LK5Jq+dDYnD7Oy5HJsFxykPDe1aUuBQ5QThZd9y5N+I9o3
+         DyZ4brprbkZra3EeNZLJ4EnVWTeBQPYmLoFWX45x3shrGYxXDdNFeToSAWp0RHqIwr
+         lFfq2wBUAVyTCkYS3205VqlfAR2sk0cuNHz2W16bFvWPN5hjCmXG3IXlcJwYQ6Nsw9
+         jM2KYUmmaXmnw==
+X-Nifty-SrcIP: [209.85.215.169]
+Received: by mail-pg1-f169.google.com with SMTP id f17so1217562pge.6;
+        Tue, 24 Nov 2020 20:21:16 -0800 (PST)
+X-Gm-Message-State: AOAM531SONrYFmErmaV4PLf6Z43XcjyRigePRJJKEGQnMWXgpBFYCmxS
+        yu9fE89koIj2fJkMh4niY/wInvSKSAVezMyxD5Y=
+X-Google-Smtp-Source: ABdhPJyq8N9UqhJ4ipccgxI03Bq0Yt5jiNDdSTa642fCRyckZtA/iY1YmWWkbRb8ZbXqPD94QZTkf/XJh0UnazY1L7g=
+X-Received: by 2002:a63:3205:: with SMTP id y5mr1533249pgy.47.1606278076158;
+ Tue, 24 Nov 2020 20:21:16 -0800 (PST)
 MIME-Version: 1.0
-References: <X7vEBdcc06VJZEJO@bombur.kloenk.de>
-In-Reply-To: <X7vEBdcc06VJZEJO@bombur.kloenk.de>
+References: <20201124154339.173752-1-arnd@kernel.org>
+In-Reply-To: <20201124154339.173752-1-arnd@kernel.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 25 Nov 2020 13:16:51 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQf-29-PbuascHHX+SVA4SesHfzsaVc0JAtg-s+XazUZQ@mail.gmail.com>
-Message-ID: <CAK7LNAQf-29-PbuascHHX+SVA4SesHfzsaVc0JAtg-s+XazUZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Fix most Shebang lines
-To:     Finn Behrens <me@kloenk.de>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Ujjwal Kumar <ujjwalkumar0501@gmail.com>, enbyamy@gmail.com
+Date:   Wed, 25 Nov 2020 13:20:39 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASsVeKzRp2cevv8RvPWvH_X9_FW4kp4C76BynTLSHJuRA@mail.gmail.com>
+Message-ID: <CAK7LNASsVeKzRp2cevv8RvPWvH_X9_FW4kp4C76BynTLSHJuRA@mail.gmail.com>
+Subject: Re: [PATCH] Makefile.extrawarn: remove -Wnested-externs warning
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 11:16 PM Finn Behrens <me@kloenk.de> wrote:
+On Wed, Nov 25, 2020 at 12:43 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> Change every shebang which does not need an argument to use /usr/bin/env.
-> This is needed as not every distro has everything under /usr/bin,
-> sometimes not even bash.
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Signed-off-by: Finn Behrens <me@kloenk.de>
+> The -Wnested-externs warning has become useless with gcc, since
+> this warns every time that BUILD_BUG_ON() or similar macros
+> are used.
+>
+> With clang, the warning option does nothing to start with, so
+> just remove it entirely.
+>
+> Suggested-by: Nathan Chancellor <natechancellor@gmail.com>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
 
-Applied to linux-kbuild. Thanks.
+Applied to linux-kbuild.
+Thanks.
 
 
-
-
-> Should apply now, sorry for that.
+>  scripts/Makefile.extrawarn | 1 -
+>  1 file changed, 1 deletion(-)
 >
->  Documentation/sphinx/parse-headers.pl                           | 2 +-
->  Documentation/target/tcm_mod_builder.py                         | 2 +-
->  Documentation/trace/postprocess/decode_msr.py                   | 2 +-
->  Documentation/trace/postprocess/trace-pagealloc-postprocess.pl  | 2 +-
->  Documentation/trace/postprocess/trace-vmscan-postprocess.pl     | 2 +-
->  arch/ia64/scripts/unwcheck.py                                   | 2 +-
->  scripts/bloat-o-meter                                           | 2 +-
->  scripts/config                                                  | 2 +-
->  scripts/diffconfig                                              | 2 +-
->  scripts/get_abi.pl                                              | 2 +-
->  scripts/show_delta                                              | 2 +-
->  scripts/sphinx-pre-install                                      | 2 +-
->  scripts/split-man.pl                                            | 2 +-
->  scripts/tracing/draw_functrace.py                               | 2 +-
->  tools/perf/python/tracepoint.py                                 | 2 +-
->  tools/perf/python/twatch.py                                     | 2 +-
->  tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py      | 2 +-
->  tools/testing/ktest/compare-ktest-sample.pl                     | 2 +-
->  tools/testing/kunit/kunit.py                                    | 2 +-
->  tools/testing/kunit/kunit_tool_test.py                          | 2 +-
->  tools/testing/selftests/bpf/test_offload.py                     | 2 +-
->  .../selftests/drivers/net/mlxsw/sharedbuffer_configuration.py   | 2 +-
->  tools/testing/selftests/kselftest/prefix.pl                     | 2 +-
->  tools/testing/selftests/net/devlink_port_split.py               | 2 +-
->  tools/testing/selftests/tc-testing/tdc_batch.py                 | 2 +-
->  tools/testing/selftests/tc-testing/tdc_multibatch.py            | 2 +-
->  26 files changed, 26 insertions(+), 26 deletions(-)
+> diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
+> index 6baee1200615..d53825503874 100644
+> --- a/scripts/Makefile.extrawarn
+> +++ b/scripts/Makefile.extrawarn
+> @@ -61,7 +61,6 @@ endif
+>  ifneq ($(findstring 2, $(KBUILD_EXTRA_WARN)),)
 >
-> diff --git a/Documentation/sphinx/parse-headers.pl b/Documentation/sphinx/parse-headers.pl
-> index 1910079f984f..b063f2f1cfb2 100755
-> --- a/Documentation/sphinx/parse-headers.pl
-> +++ b/Documentation/sphinx/parse-headers.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  use strict;
->  use Text::Tabs;
->  use Getopt::Long;
-> diff --git a/Documentation/target/tcm_mod_builder.py b/Documentation/target/tcm_mod_builder.py
-> index 1548d8420499..54492aa813b9 100755
-> --- a/Documentation/target/tcm_mod_builder.py
-> +++ b/Documentation/target/tcm_mod_builder.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # The TCM v4 multi-protocol fabric module generation script for drivers/target/$NEW_MOD
->  #
->  # Copyright (c) 2010 Rising Tide Systems
-> diff --git a/Documentation/trace/postprocess/decode_msr.py b/Documentation/trace/postprocess/decode_msr.py
-> index 0ab40e0db580..aa9cc7abd5c2 100644
-> --- a/Documentation/trace/postprocess/decode_msr.py
-> +++ b/Documentation/trace/postprocess/decode_msr.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # add symbolic names to read_msr / write_msr in trace
->  # decode_msr msr-index.h < trace
->  import sys
-> diff --git a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
-> index 0a120aae33ce..b9b7d80c2f9d 100644
-> --- a/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
-> +++ b/Documentation/trace/postprocess/trace-pagealloc-postprocess.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # This is a POC (proof of concept or piece of crap, take your pick) for reading the
->  # text representation of trace output related to page allocation. It makes an attempt
->  # to extract some high-level information on what is going on. The accuracy of the parser
-> diff --git a/Documentation/trace/postprocess/trace-vmscan-postprocess.pl b/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
-> index 995da15b16ca..2f4e39875fb3 100644
-> --- a/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
-> +++ b/Documentation/trace/postprocess/trace-vmscan-postprocess.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # This is a POC for reading the text representation of trace output related to
->  # page reclaim. It makes an attempt to extract some high-level information on
->  # what is going on. The accuracy of the parser may vary
-> diff --git a/arch/ia64/scripts/unwcheck.py b/arch/ia64/scripts/unwcheck.py
-> index c55276e31b6b..bfd1b671e35f 100644
-> --- a/arch/ia64/scripts/unwcheck.py
-> +++ b/arch/ia64/scripts/unwcheck.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # Usage: unwcheck.py FILE
-> diff --git a/scripts/bloat-o-meter b/scripts/bloat-o-meter
-> index d7ca46c612b3..652e9542043f 100755
-> --- a/scripts/bloat-o-meter
-> +++ b/scripts/bloat-o-meter
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  #
->  # Copyright 2004 Matt Mackall <mpm@selenic.com>
->  #
-> diff --git a/scripts/config b/scripts/config
-> index eee5b7f3a092..8c8d7c3d7acc 100755
-> --- a/scripts/config
-> +++ b/scripts/config
-> @@ -1,4 +1,4 @@
-> -#!/bin/bash
-> +#!/usr/bin/env bash
->  # SPDX-License-Identifier: GPL-2.0
->  # Manipulate options in a .config file from the command line
->
-> diff --git a/scripts/diffconfig b/scripts/diffconfig
-> index 89abf777f197..627eba5849b5 100755
-> --- a/scripts/diffconfig
-> +++ b/scripts/diffconfig
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # diffconfig - a tool to compare .config files.
-> diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-> index 68dab828a722..92d9aa6cc4f5 100755
-> --- a/scripts/get_abi.pl
-> +++ b/scripts/get_abi.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # SPDX-License-Identifier: GPL-2.0
->
->  use strict;
-> diff --git a/scripts/show_delta b/scripts/show_delta
-> index 264399307c4f..28e67e178194 100755
-> --- a/scripts/show_delta
-> +++ b/scripts/show_delta
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0-only
->  #
->  # show_deltas: Read list of printk messages instrumented with
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index 40fa6923e80a..828a8615a918 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # SPDX-License-Identifier: GPL-2.0-or-later
->  use strict;
->
-> diff --git a/scripts/split-man.pl b/scripts/split-man.pl
-> index c3db607ee9ec..96bd99dc977a 100755
-> --- a/scripts/split-man.pl
-> +++ b/scripts/split-man.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # Author: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> diff --git a/scripts/tracing/draw_functrace.py b/scripts/tracing/draw_functrace.py
-> index b65735758520..74f8aadfd4cb 100755
-> --- a/scripts/tracing/draw_functrace.py
-> +++ b/scripts/tracing/draw_functrace.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0-only
->
->  """
-> diff --git a/tools/perf/python/tracepoint.py b/tools/perf/python/tracepoint.py
-> index eb76f6516247..461848c7f57d 100755
-> --- a/tools/perf/python/tracepoint.py
-> +++ b/tools/perf/python/tracepoint.py
-> @@ -1,4 +1,4 @@
-> -#! /usr/bin/python
-> +#! /usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0
->  # -*- python -*-
->  # -*- coding: utf-8 -*-
-> diff --git a/tools/perf/python/twatch.py b/tools/perf/python/twatch.py
-> index ff87ccf5b708..04f3db29b9bc 100755
-> --- a/tools/perf/python/twatch.py
-> +++ b/tools/perf/python/twatch.py
-> @@ -1,4 +1,4 @@
-> -#! /usr/bin/python
-> +#! /usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0-only
->  # -*- python -*-
->  # -*- coding: utf-8 -*-
-> diff --git a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
-> index 3c47865bb247..e15e20696d17 100755
-> --- a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
-> +++ b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0-only
->  # -*- coding: utf-8 -*-
->  #
-> diff --git a/tools/testing/ktest/compare-ktest-sample.pl b/tools/testing/ktest/compare-ktest-sample.pl
-> index 4118eb4a842d..ebea21d0a1be 100755
-> --- a/tools/testing/ktest/compare-ktest-sample.pl
-> +++ b/tools/testing/ktest/compare-ktest-sample.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # SPDX-License-Identifier: GPL-2.0
->
->  open (IN,"ktest.pl");
-> diff --git a/tools/testing/kunit/kunit.py b/tools/testing/kunit/kunit.py
-> index d4f7846d0745..21516e293d17 100755
-> --- a/tools/testing/kunit/kunit.py
-> +++ b/tools/testing/kunit/kunit.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # A thin wrapper on top of the KUnit Kernel
-> diff --git a/tools/testing/kunit/kunit_tool_test.py b/tools/testing/kunit/kunit_tool_test.py
-> index 497ab51bc170..b593f4448e83 100755
-> --- a/tools/testing/kunit/kunit_tool_test.py
-> +++ b/tools/testing/kunit/kunit_tool_test.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  #
->  # A collection of tests for tools/testing/kunit/kunit.py
-> diff --git a/tools/testing/selftests/bpf/test_offload.py b/tools/testing/selftests/bpf/test_offload.py
-> index 43c9cda199b8..f736d34b89e1 100755
-> --- a/tools/testing/selftests/bpf/test_offload.py
-> +++ b/tools/testing/selftests/bpf/test_offload.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->
->  # Copyright (C) 2017 Netronome Systems, Inc.
->  # Copyright (c) 2019 Mellanox Technologies. All rights reserved
-> diff --git a/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py b/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
-> index 0d4b9327c9b3..2223337eed0c 100755
-> --- a/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
-> +++ b/tools/testing/selftests/drivers/net/mlxsw/sharedbuffer_configuration.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python
-> +#!/usr/bin/env python
->  # SPDX-License-Identifier: GPL-2.0
->
->  import subprocess
-> diff --git a/tools/testing/selftests/kselftest/prefix.pl b/tools/testing/selftests/kselftest/prefix.pl
-> index 31f7c2a0a8bd..12a7f4ca2684 100755
-> --- a/tools/testing/selftests/kselftest/prefix.pl
-> +++ b/tools/testing/selftests/kselftest/prefix.pl
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/perl
-> +#!/usr/bin/env perl
->  # SPDX-License-Identifier: GPL-2.0
->  # Prefix all lines with "# ", unbuffered. Command being piped in may need
->  # to have unbuffering forced with "stdbuf -i0 -o0 -e0 $cmd".
-> diff --git a/tools/testing/selftests/net/devlink_port_split.py b/tools/testing/selftests/net/devlink_port_split.py
-> index 58bb7e9b88ce..834066d465fc 100755
-> --- a/tools/testing/selftests/net/devlink_port_split.py
-> +++ b/tools/testing/selftests/net/devlink_port_split.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->
->  from subprocess import PIPE, Popen
-> diff --git a/tools/testing/selftests/tc-testing/tdc_batch.py b/tools/testing/selftests/tc-testing/tdc_batch.py
-> index 995f66ce43eb..35d5d9493784 100755
-> --- a/tools/testing/selftests/tc-testing/tdc_batch.py
-> +++ b/tools/testing/selftests/tc-testing/tdc_batch.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->
->  """
->  tdc_batch.py - a script to generate TC batch file
-> diff --git a/tools/testing/selftests/tc-testing/tdc_multibatch.py b/tools/testing/selftests/tc-testing/tdc_multibatch.py
-> index 5e7237952e49..48e1f17ff2e8 100755
-> --- a/tools/testing/selftests/tc-testing/tdc_multibatch.py
-> +++ b/tools/testing/selftests/tc-testing/tdc_multibatch.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/python3
-> +#!/usr/bin/env python3
->  # SPDX-License-Identifier: GPL-2.0
->  """
->  tdc_multibatch.py - a thin wrapper over tdc_batch.py to generate multiple batch
+>  KBUILD_CFLAGS += -Wdisabled-optimization
+> -KBUILD_CFLAGS += -Wnested-externs
+>  KBUILD_CFLAGS += -Wshadow
+>  KBUILD_CFLAGS += $(call cc-option, -Wlogical-op)
+>  KBUILD_CFLAGS += -Wmissing-field-initializers
 > --
-> 2.29.2
+> 2.27.0
 >
 
 
