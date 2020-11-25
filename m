@@ -2,105 +2,154 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D70F2C3DBF
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 11:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C9122C4152
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 14:43:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbgKYKfh (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Nov 2020 05:35:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgKYKfh (ORCPT
+        id S1729534AbgKYNnU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Nov 2020 08:43:20 -0500
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:47041 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729526AbgKYNnU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Nov 2020 05:35:37 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFFCBC0613D4
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 02:35:36 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id h21so1666519wmb.2
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 02:35:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5AdhqJPNqJ4ajsPBDb7aBTdCZqenqeNmdluQ3fHyVw8=;
-        b=B7+XMHnKQxb4VWWBAPKFNlaE35cZxK4xHOpGVCq6sHJocVauhvpSfEqDixJGQ4hvZ/
-         863iw/Vpe4F2YgyRe8Lt+7qMPMu/PFQE+oW2jzIR+xVvLqIIf/Kg7WIH7Ro4DacYL3jX
-         K4SHXxSmpBNfCt++ykfeZcfs0KXslMkq0ePWc8DMjah/BGgL5U/23cH5FQ+W9QZ7ABX8
-         tglf1tO3dm2zoZU7UvGSxwhmD5lyxISAZWRf1AeVVSJQbs0SDaKGjRXcZ9epRNvdyiVr
-         gSSxL0Q/ZiJJ1dF9FBdIG26+12TMLfyDd9IOzokNNRSaYuRjW0LnaKh+0tbZatYaulMx
-         B7hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5AdhqJPNqJ4ajsPBDb7aBTdCZqenqeNmdluQ3fHyVw8=;
-        b=WinbOEpbx46GfNvx94ADTlj+xthd4lGPO2fCXaUAk5yt6ZPB9iny1C70YdJ6nXXpnt
-         HhdxnjbwUO9jKWA2hhjbB+LfG6VUJrWG+uI3MLanTpESw2kdnaxgL6kzJ4z9CP58wsgY
-         RG4m99L+BnTl9odGHjbb4+27GzMCgu7XS/br/tksa+Gw/zg1bGUr84jcu2orpZ11iGYk
-         rhkn8dsQA8OXWdXnAhBaNfETMnVlPqNihVpxgy+kWL9/2J12sFFsw8hnEgosqYN812gY
-         0/E7ZDcAIBlknA7eli40k8faKwgspUZTnW3dRm1eewkP6aJ9T0bt1C45GVg+mVzanjT4
-         p4aw==
-X-Gm-Message-State: AOAM533Tx1O5XpFH2FHY4FeS37sF+zO38UnYgSu8Gr1m30Lykqd/Xgag
-        03r/m1xNSMVV1ti8x6kncANXhQ==
-X-Google-Smtp-Source: ABdhPJwsRjx6KKEXcNdzIPS4xp2DBxwoiR2l9nmoiZkQY7Lwp1FKiVXAb5vbXTQVMkhCl2vy7hW+xA==
-X-Received: by 2002:a1c:4b10:: with SMTP id y16mr3232942wma.10.1606300535324;
-        Wed, 25 Nov 2020 02:35:35 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:7220:84ff:fe09:a3aa])
-        by smtp.gmail.com with ESMTPSA id j8sm4031336wrx.11.2020.11.25.02.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 02:35:34 -0800 (PST)
-Date:   Wed, 25 Nov 2020 10:35:34 +0000
-From:   Matthias Maennich <maennich@google.com>
-To:     Quentin Perret <qperret@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org, kernel-team@android.com
-Subject: Re: [PATCH] modpost: Make static exports fatal
-Message-ID: <20201125103534.GA2112262@google.com>
-References: <20201124182420.2202514-1-qperret@google.com>
+        Wed, 25 Nov 2020 08:43:20 -0500
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 0APDh6pQ004097;
+        Wed, 25 Nov 2020 22:43:06 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0APDh6pQ004097
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606311786;
+        bh=Xr9kKa1yy2aEd8Z8mSK6Pod0JXKPYiwqr/gCQAQT6Lk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HcmLiYlqEqyEO+xcSDxfv2S2tGX4N3ptJppIcINadM4hs6TWzL+2nFiXeCPCK0wXt
+         E2WL0ffgr0n+uUypn1M3CWCHCMISFl1Q5PPxg0MjUlG3CuhjoncZA+xgeODYVg/5Wp
+         c///hqN9AmHr5SvZbq4DT3HIWI2vSi1Jtle7zz+pUfl5kQVszJOSxsGlOThBg/48M5
+         1GoJgHcZT8aCJezsLe1JunAhZ5BUR2/2oWzIelNcnTQSnUmvIINEBpYNyly/TaTBZC
+         qO8Ue6V70SkNOID/Nx3OrCdKaXE7km8AHVBADIZuQmMEgmbjZNJsjitT55JfOUNNPp
+         uNJLd/QINT7TA==
+X-Nifty-SrcIP: [209.85.210.181]
+Received: by mail-pf1-f181.google.com with SMTP id w187so2366902pfd.5;
+        Wed, 25 Nov 2020 05:43:06 -0800 (PST)
+X-Gm-Message-State: AOAM532pU9v07HAGvN9+/870L8gnZPfqXLLejGZsjedYsv4jLTZ+VWc4
+        QH7xDnS16NRuZa5UNdx2QYQKuwfITXKw5K8XldA=
+X-Google-Smtp-Source: ABdhPJwU0PSewhXq0VykOVGsOJ7FU08lEC/5fD477srKgaQTsRsFk7QzUdiWYG8B+QmRUCoNJUDWTiodYEMQG5TblpM=
+X-Received: by 2002:a62:e519:0:b029:197:bcec:7c0c with SMTP id
+ n25-20020a62e5190000b0290197bcec7c0cmr3229396pff.63.1606311785520; Wed, 25
+ Nov 2020 05:43:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20201124182420.2202514-1-qperret@google.com>
+References: <20201103054425.59251-1-chao.wang@ucloud.cn> <CAK7LNARnmJRy1NPBDkgNsoe_TqpD=HJhmri4YHjXjscGZ-neWw@mail.gmail.com>
+ <20201123150452.GA68187@MacBook-Pro-2>
+In-Reply-To: <20201123150452.GA68187@MacBook-Pro-2>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Wed, 25 Nov 2020 22:42:28 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASH7Pj9eUdxF-sp1_Ap+uA9jEtsXa--pUDDw_pNVLtviA@mail.gmail.com>
+Message-ID: <CAK7LNASH7Pj9eUdxF-sp1_Ap+uA9jEtsXa--pUDDw_pNVLtviA@mail.gmail.com>
+Subject: Re: [PATCH] kbuild: add extra-y to targets-for-modules
+To:     WANG Chao <chao.wang@ucloud.cn>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 06:24:09PM +0000, Quentin Perret wrote:
->Using EXPORT_SYMBOL*() on static functions is fundamentally wrong.
->Modpost currently reports that as a warning, but clearly this is not a
->pattern we should allow, and all in-tree occurences should have been
->fixed by now. So, promote the warn() message to fatal() to make sure
->this never happens again.
+On Tue, Nov 24, 2020 at 12:05 AM WANG Chao <chao.wang@ucloud.cn> wrote:
 >
->Signed-off-by: Quentin Perret <qperret@google.com>
+> On 11/23/20 at 02:23P, Masahiro Yamada wrote:
+> > On Tue, Nov 3, 2020 at 3:23 PM WANG Chao <chao.wang@ucloud.cn> wrote:
+> > >
+> > > extra-y target doesn't build for 'make M=...' since commit 6212804f2d78
+> > > ("kbuild: do not create built-in objects for external module builds").
+> > >
+> > > This especially breaks kpatch, which is using 'extra-y := kpatch.lds'
+> > > and 'make M=...' to build livepatch patch module.
+> > >
+> > > Add extra-y to targets-for-modules so that such kind of build works
+> > > properly.
+> > >
+> > > Signed-off-by: WANG Chao <chao.wang@ucloud.cn>
+> > > ---
+> > >  scripts/Makefile.build | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/scripts/Makefile.build b/scripts/Makefile.build
+> > > index ae647379b579..0113a042d643 100644
+> > > --- a/scripts/Makefile.build
+> > > +++ b/scripts/Makefile.build
+> > > @@ -86,7 +86,7 @@ ifdef need-builtin
+> > >  targets-for-builtin += $(obj)/built-in.a
+> > >  endif
+> > >
+> > > -targets-for-modules := $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
+> > > +targets-for-modules := $(extra-y) $(patsubst %.o, %.mod, $(filter %.o, $(obj-m)))
+> > >
+> > >  ifdef need-modorder
+> > >  targets-for-modules += $(obj)/modules.order
+> > > --
+> > > 2.29.1
+> > >
+> >
+> > NACK.
+> >
+> > Please fix your Makefile.
+> >
+> > Hint:
+> > https://patchwork.kernel.org/project/linux-kbuild/patch/20201123045403.63402-6-masahiroy@kernel.org/
+> >
+> >
+> > Probably what you should use is 'targets'.
+>
+> I tried with 'targets' and 'always-y'. Both doesn't work for me.
+>
+> I narraw it down to the following example:
+>
+> cat > Makefile << _EOF_
+> obj-m += foo.o
+>
+> ldflags-y += -T $(src)/kpatch.lds
+> always-y += kpatch.lds
+>
+> foo-objs += bar.o
+>
+> all:
+>         make -C /lib/modules/$(shell uname -r)/build M=$(PWD)
+> clean:
+>         make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+> _EOF_
+>
+> Take a look into scripts/Makefile.build:488:
+>
+> __build: $(if $(KBUILD_BUILTIN), $(targets-for-builtin)) \
+>          $(if $(KBUILD_MODULES), $(targets-for-modules)) \
+>          $(subdir-ym) $(always-y)
+>         @:
+>
+> 'always-y' is built after 'targets-for-modules'. This makes
+> 'targets-for-modules' fails because kpatch.lds isn't there.
 
-Reviewed-by: Matthias Maennich <maennich@google.com>
 
-Cheers,
-Matthias
+Heh, you rely on the targets built from left to right,
+and you have never thought Make supports the parallel option -j.
 
->---
-> scripts/mod/modpost.c | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
+
+You need to specify the dependency if you expect objects
+are built in the particular order.
+
+However, in this case, using ldflags-y looks wrong
+in the first place.
+
+The linker script is used when combining the object
+as well as the final link of *.ko
+
+
+> For 'targets', in case of OOT, does not seem to be useful.
 >
->diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
->index f882ce0d9327..70b0e825a139 100644
->--- a/scripts/mod/modpost.c
->+++ b/scripts/mod/modpost.c
->@@ -2663,9 +2663,9 @@ int main(int argc, char **argv)
+> What change do you suggest to make to fix this kind of Makefile?
 >
-> 		for (s = symbolhash[n]; s; s = s->next) {
-> 			if (s->is_static)
->-				warn("\"%s\" [%s] is a static %s\n",
->-				     s->name, s->module->name,
->-				     export_str(s->export));
->+				fatal("\"%s\" [%s] is a static %s\n",
->+				      s->name, s->module->name,
->+				      export_str(s->export));
-> 		}
-> 	}
->
->-- 
->2.29.2.454.gaff20da3a2-goog
->
+> Thanks,
+> WANG Chao
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
