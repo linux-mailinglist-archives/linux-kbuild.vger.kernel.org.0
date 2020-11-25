@@ -2,72 +2,119 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5352C4242
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 15:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 418C42C46AA
+	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 18:26:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729901AbgKYOiU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Nov 2020 09:38:20 -0500
-Received: from codesynthesis.com ([188.40.148.39]:49814 "EHLO
-        codesynthesis.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727611AbgKYOiU (ORCPT
+        id S1731052AbgKYRZs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 25 Nov 2020 12:25:48 -0500
+Received: from mail-pf1-f173.google.com ([209.85.210.173]:42089 "EHLO
+        mail-pf1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730868AbgKYRZr (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Nov 2020 09:38:20 -0500
-Received: from brak.codesynthesis.com (unknown [105.226.15.202])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by codesynthesis.com (Postfix) with ESMTPSA id 6F6FE5F1EC;
-        Wed, 25 Nov 2020 14:38:18 +0000 (UTC)
-Received: by brak.codesynthesis.com (Postfix, from userid 1000)
-        id B71A01A800C5; Wed, 25 Nov 2020 16:38:14 +0200 (SAST)
-Date:   Wed, 25 Nov 2020 16:38:14 +0200
-From:   Boris Kolpackov <boris@codesynthesis.com>
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Subject: kconfig: diagnostics cleanups
-Message-ID: <boris.20201125161355@codesynthesis.com>
+        Wed, 25 Nov 2020 12:25:47 -0500
+Received: by mail-pf1-f173.google.com with SMTP id 131so2956500pfb.9;
+        Wed, 25 Nov 2020 09:25:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=ZtEYBsO/jWtvOI2uD72pD23zazAk+CjJf4X/hzlzzfY=;
+        b=ZhDyHc3urPNbhVrmyKYskkb5An/aOvsJs03ma5Se6LNKg0c80fyCKHhFzcghomgn37
+         gVagD87bhMbFN7p+mdnWeE+WWqPmzWsLuanzFDg0mw4x4uAt2Df5T4xb6lDw5sEgQH5F
+         F8ta/Mq6SzPGJpcdjVNzmbYUKDm+N+1O5mc5aSbBjwquYQYa8YDjQ3pxjZdiezGFl5Ca
+         CSKOOoOSeWrKiphh+XmqqaOKQhiRaM33bz1N81O7/gLNGIZoJcleAPj0S0xUBjyNq5ef
+         ZGigeNbviXteF+iAdEbmET6QLnpkweNUog2iCv8A7iyWgdMdUjokGSLpIXCaL4oju7lf
+         i59Q==
+X-Gm-Message-State: AOAM5316RdNupWjRSPBj2xNg7hSbw+QdFt5xWziipwm8hVwQ4JGVIEVq
+        dbQSR8BAkmstJhU0VA0HLrA=
+X-Google-Smtp-Source: ABdhPJymBrhRlw6b7Aqg8g6wlitHRcfDjy90sqIw03eMp6C6hX2QOe7EDOeR21mf/8UF5vHGwICB0g==
+X-Received: by 2002:a17:90a:6393:: with SMTP id f19mr4430415pjj.227.1606325146836;
+        Wed, 25 Nov 2020 09:25:46 -0800 (PST)
+Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
+        by smtp.gmail.com with ESMTPSA id u3sm2523618pfu.47.2020.11.25.09.25.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 09:25:45 -0800 (PST)
+Received: by 42.do-not-panic.com (Postfix, from userid 1000)
+        id 7065D40317; Wed, 25 Nov 2020 17:25:44 +0000 (UTC)
+Date:   Wed, 25 Nov 2020 17:25:44 +0000
+From:   Luis Chamberlain <mcgrof@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Boris Kolpackov <boris@codesynthesis.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Felix Fietkau <nbd@openwrt.org>,
+        Patrick Franz <patfra71@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Junio C Hamano <gitster@pobox.com>,
+        linux-kernel@vger.kernel.org, mcgrof@kernel.org
+Subject: kconfig as a git subtree on Linux
+Message-ID: <20201125172544.GJ4332@42.do-not-panic.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Organization: Code Synthesis
-User-Agent: Mutt/1.5.24 (2015-08-30)
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I am preparing a set of patches that clean up kconfig diagnostics and
-make it more consistent both internally and with respect to other
-tools (like compilers). However, a couple of changes that I would like
-to make could be controversial so I want to discuss them before wasting
-everyone's time with patches:
+I'd like to propose we discuss the possibility of taking kconfig and
+making it a git subtree under the Linux kernel. This would allow
+other projects outside of the Linux kernel to be able to update their
+own copy / fork of kconfig in a jiffie *very* easily.
 
-1. Add 'warning' word to $(warning-if) output:
+Why? kconfig has far outlived its own purpose as a modeling variablity
+language hack on the Linux kernel, and *is* forked and *used* by *many*
+projects, to the point I think ignoring its use outside of the Linux
+kernel is doing a disservice to its own growth. Counting just personal
+projects I have 3 projects which use kconfig alone. Last time I counted
+about 30 or so external projects. I'm confident this is a shy number
+of today's reality.
 
--  fprintf(stderr, "%s:%d: %s\n", ...);
-+  fprintf(stderr, "%s:%d: warning: %s\n", ...);
+Yes this does beg the question, that if this is done, can / should
+this be considered elsewhere. And yes, I'd like to hear the rants
+about why this would be a completely unacceptable practice *at all*.
 
-   This makes it consistent with the rest of the warnings printed by
-   kconfig.
+I've been using git subtrees now for another project and I'm *very*
+happy with it so far. It lets me keep a project with some code on
+its own git tree, and then multiple third party trees can embrace
+it, and decide to update later whenever they want. An example is the
+update_ssh_config [0] python script which I use on kdevops [1] for
+vagrant, but since it is also used for terraform and terraform uses
+modules I ended up sharing the code for terraform for its own
+terrarorm module [2] [3]. I do most development and unit testing
+on the main update_ssh_config git tree, and when I want to integrate
+its changes into kdevops I just run:
 
-2. Print $(info) output to stderr instead of stdout.
+make refresh
 
-I realize the current behavior is consistent with GNU make (on which
-it is based) but at the same time it's inconsistent with the rest of
-kconfig (#1) or does not seem to make much sense (#2), at least to
-me.
+This is because on kdevops I have:
 
-To elaborate on #2, $(info) is still diagnostics, just a different
-level compared to $(warning-if) and $(error-if). It's not clear to
-me why it should go to stdout.
+$ cat Makefile.subtrees
+# If you need to use a git subtree, please add it here.
+add-remotes:
+	git remote add update_ssh_config https://github.com/mcgrof/update_ssh_config.git
 
-If we needed the ability to print something to stdout, we could add
-another function, such as $(print). However, I can't think of a good
-reason why we would need to; this, for example, has the potential to
-mess up with the terminal-based UI (which is written to stdout).
+add-commits:
+	git subtree add --prefix=playbooks/roles/update_ssh_config_vagrant/update_ssh_config update_ssh_config master
 
-I've done a search and as far as I can see, neither $(warning) nor
-$(info) is currently used anywhere in the kernel outside the kconfig
-testsuite. So these changes shouldn't have any backwards-compatibility
-issues.
+refresh:
+	git fetch update_ssh_config git subtree pull --prefix=playbooks/roles/update_ssh_config_vagrant/update_ssh_config update_ssh_config master
 
-Thoughts?
+Likewise for my terraform module, however there I just have these
+targets on my make Makefile. A person who first git cloned either the
+kdevops tree of the terraform module tree would first have to run the
+targets:
+
+   * make add-remotes
+   * make add-commits
+
+Today's process for updating kconfig on external projects requires
+substrantial manual oversight.
+
+[0] https://github.com/mcgrof/update_ssh_config
+[1] https://github.com/mcgrof/kdevops/
+[2] https://github.com/mcgrof/terraform-kdevops-add-host-ssh-config
+[3] https://registry.terraform.io/modules/mcgrof/add-host-ssh-config/kdevops/latest
+
+  Luis
