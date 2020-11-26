@@ -2,69 +2,62 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 165D12C47E0
-	for <lists+linux-kbuild@lfdr.de>; Wed, 25 Nov 2020 19:48:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4045E2C50EF
+	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Nov 2020 10:15:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732156AbgKYSru (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 25 Nov 2020 13:47:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
+        id S2389160AbgKZJNe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Nov 2020 04:13:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730520AbgKYSrt (ORCPT
+        with ESMTP id S1732910AbgKZJNd (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 25 Nov 2020 13:47:49 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582A9C0613D4
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 10:47:49 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id m6so2916733wrg.7
-        for <linux-kbuild@vger.kernel.org>; Wed, 25 Nov 2020 10:47:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=MT4M9SX2NqdNuOObXhIV8Gtkw+yoDX+gRyJnh+feBwM=;
-        b=NpRBHB8MNsqeS3qPFWqHcBMYQPHVl2TtIO13o9xtWg8velQuhegUjNA1qfJ3Ei32x0
-         x5ZaySY5IuJRZXpfWFjFhiHH7rXH6bAK+SRYD77NdwA/M3j2xOtqF6YM/JYRZ/Hkkby4
-         KFSWoUcbOfDbx1GYhgC7Ln8SN26R0uzlPxMgtMP5g/OjUwfJDPsELz4b9l8huKbqYHGi
-         AEGbP6BNh/R9RXKQ2boKGdfoFyb6nkAGcx37weqb5w2r9zIdzZic8OedVlaoo6U23/o3
-         B2CGV6GfWHl6UXtiJzGzSW/aPPVYJIV9Ied3f+U8gYw+0DFEkSJicg2ACPOo8wWOlhuE
-         eluA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=MT4M9SX2NqdNuOObXhIV8Gtkw+yoDX+gRyJnh+feBwM=;
-        b=Ezt5am0DEDG1uvNDoyCLreCio5L/yPUYQ28apg7rKPdmy/OJUeZHneZaeYIPTVoMfX
-         bNA/fpX8Q+S4BQW/NhblboBHjPjQSkOuEkn8CVdlA4nDJQN5cRXrz/zCsMfhYlUoCdxm
-         TzyXqWjW3U3VhIa9CicPiPrN49cM5iTHidV5kLJVrNYhG41B2xuAbj1xD+xPngwT5SSk
-         U+6yoijdcAmGRL7Ye7OFEBLG2tZZcEf2FjpLJLWEbucqm0uF6G4bKY1zsJ6XAUBR1RQC
-         zAHtYDc1H8yNnEkyg0pFbcqIAT4QRJau1biU+U6hu/PDMN+Dmr41N347ICVu42WPeqKJ
-         8c3A==
-X-Gm-Message-State: AOAM533qM/HNwRzYXhSuDPR260QflTRQKqYBkpYaFiw2jmxu/6e2U/ZP
-        /6/ul1RDA58RSZwnOF+bbJWUnMVtoCA=
-X-Google-Smtp-Source: ABdhPJzDsIn+tWtWvy8XrYnQ5cmBxX24DW4B5q38g8jhG2SK1qZ+6bGYaujlROmIWYIIWEYiJymmkQ==
-X-Received: by 2002:adf:e9cb:: with SMTP id l11mr1129743wrn.320.1606330068098;
-        Wed, 25 Nov 2020 10:47:48 -0800 (PST)
-Received: from [192.168.1.152] ([102.64.149.89])
-        by smtp.gmail.com with ESMTPSA id d13sm6746260wrb.39.2020.11.25.10.47.44
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Wed, 25 Nov 2020 10:47:47 -0800 (PST)
-Message-ID: <5fbea6d3.1c69fb81.c9e91.eb81@mx.google.com>
-From:   "Dailborh R." <risonnah.002@gmail.com>
-X-Google-Original-From: Dailborh R.
-Content-Type: text/plain; charset="iso-8859-1"
+        Thu, 26 Nov 2020 04:13:33 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3C66C0613D4;
+        Thu, 26 Nov 2020 01:13:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=fpxCoZp/fVTV3nfcRbvgEMI7fyDG0Ed4Z5/IweW+i6g=; b=FOEY4NHSWhz0XHQIP0SREqQUwK
+        EtFUsIyu8Jf4LIA01cb+GKH9A/FbYZGsXim9dhnEgGyZhtujwywzhLLSaUH50se6z83kzhqtcyUjC
+        LZdQUFk2B8Z0YEC3JJaYkOqkA4J1lhztKK6JF0+lJ2Lf6ZmLmP7q/Xk4sidsWZVXDyBvkKX/sNi7c
+        T71bA7+jTd73kCEXlgklua/GM1cIMH1BPo+l7uB2cbsfxAJYdo11/k4UGavBp4uo/Oovxtusf/HVk
+        OFqcEp44IY8rCrQHUdLXpZvpZaqIlzlfBeoXYZxLYUOQLpyKHkq94fAr4aSJ2XqZLrvSRZr7cSITM
+        51Q0ynxQ==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kiDLF-0006Fz-3B; Thu, 26 Nov 2020 09:13:29 +0000
+Date:   Thu, 26 Nov 2020 09:13:29 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Boris Kolpackov <boris@codesynthesis.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Felix Fietkau <nbd@openwrt.org>,
+        Patrick Franz <patfra71@gmail.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Arnaldo Carvalho de Melo <acme@redhat.com>,
+        Junio C Hamano <gitster@pobox.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: kconfig as a git subtree on Linux
+Message-ID: <20201126091329.GA21541@infradead.org>
+References: <20201125172544.GJ4332@42.do-not-panic.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Please reply to me
-To:     Recipients <Dailborh@vger.kernel.org>
-Date:   Wed, 25 Nov 2020 18:47:35 +0000
-Reply-To: dailrrob.83@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201125172544.GJ4332@42.do-not-panic.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-I'm Dailborh R. from US. I picked interest in you and I would like to know
-more about you and establish relationship with you. i will wait for
-your response. thank you.
+On Wed, Nov 25, 2020 at 05:25:44PM +0000, Luis Chamberlain wrote:
+> I'd like to propose we discuss the possibility of taking kconfig and
+> making it a git subtree under the Linux kernel. This would allow
+> other projects outside of the Linux kernel to be able to update their
+> own copy / fork of kconfig in a jiffie *very* easily.
 
+Hell no.  Not because I'm against sharing, but because git submodules
+are a complete fucking pain to deal with.  Adding submodules just fucks
+up being able to easily use a repository.  
