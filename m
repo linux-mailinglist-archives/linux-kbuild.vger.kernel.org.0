@@ -2,66 +2,98 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EFCD2C606C
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Nov 2020 08:21:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA3772C6CD2
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Nov 2020 22:10:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389671AbgK0HUq (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Fri, 27 Nov 2020 02:20:46 -0500
-Received: from kivit.com.ua ([68.183.7.199]:43350 "EHLO kivit.com.ua"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389420AbgK0HUq (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Fri, 27 Nov 2020 02:20:46 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kivit.com.ua (Postfix) with ESMTP id E9499F08312;
-        Fri, 27 Nov 2020 01:21:14 +0200 (EET)
-Received: from kivit.com.ua ([127.0.0.1])
-        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id L3NniKOB1_6w; Fri, 27 Nov 2020 01:21:14 +0200 (EET)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kivit.com.ua (Postfix) with ESMTP id 99F05FC942F;
-        Fri, 27 Nov 2020 00:04:53 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 kivit.com.ua 99F05FC942F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivit.com.ua;
-        s=F63F4CB0-F591-11E9-BB9E-CB59FF2C00BF; t=1606428293;
-        bh=3nrn+IPJ6KsXqLvfEW7959xOeqRxjw7dnMTRz7zfiEA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=Cjh5O1xcVz2obgWl7Yk1S5WuaK1sA1egUknvpvHUXQA1/wi5JbXqE/oaLmsX6QDIS
-         c6Yfrq/WoU1DL75mANmrufVtRJNJ1aBokIvpXMt/yclDZobOw+t8blkZs9pXjNt0IC
-         3JDq60J1WYioKNdZP/+zX9uDHjwlMdQfBT3FxFiGkNS40gHpJdMr5XuRWlLQ2bOVbw
-         u/x8YhSEOiBBpGTmcYXovSiM4k8OV+Z5pS//F9Uk8YUH/VGH0sR+YotTW6ASynRDuz
-         WZff8Ay3IY+WR4PQ1jxoUTK2ppd2tVCAAd4YkLPqnruBJ6VR4WeFwiem0FbQ5r9siG
-         oJCVZvE42y07A==
-X-Virus-Scanned: amavisd-new at kivit.com.ua
-Received: from kivit.com.ua ([127.0.0.1])
-        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id O2Z3UyOxMAD7; Fri, 27 Nov 2020 00:04:53 +0200 (EET)
-Received: from [197.174.0.22] (unknown [197.174.0.22])
-        by kivit.com.ua (Postfix) with ESMTPSA id 87E05F83ECE;
-        Thu, 26 Nov 2020 22:52:23 +0200 (EET)
-Content-Type: text/plain; charset="utf-8"
+        id S1727281AbgK0VJt (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Nov 2020 16:09:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731224AbgK0VIk (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 27 Nov 2020 16:08:40 -0500
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA35C0613D4
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 Nov 2020 13:08:39 -0800 (PST)
+Received: by mail-lf1-x141.google.com with SMTP id q13so8083533lfr.10
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 Nov 2020 13:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7vfZVmZni5y5pUNP8sVY5cN8ztemvM29CZjahGiwHqQ=;
+        b=WqK8NyLZKb1SW4dOsSVDrG/QHynP06jRwhGvHeAfNjwz73taRzqZPpeDqq/jDuoTKm
+         F4y+dEvEBYFKx9MkS1RO4Z+4qvMLnrri8AscPY9xgoFFJd4GcQlhoEug+Lpv/t+Ev2pk
+         J8LjsgbV/e9n4r6R0HHBFBNZ+Kz9IrgiPyyqk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7vfZVmZni5y5pUNP8sVY5cN8ztemvM29CZjahGiwHqQ=;
+        b=hilAHp9SO3s5gR85fztgPfxZVJyxv5Cxi2gcwQVVQA4Gu15PTedx2rOoBAO9+ebEbu
+         lkIbb+9yEChw74Tv78Nahz/D/HEm3mtYbcs0RxNd7BGIY5rn0ftCAeRApIfKKGcCfkBz
+         WgRFiCC4IWcqlamp4ErAVd0VQ4fUr0RpMbEbiQ6/Uu1vTmoBuHYVaawE6W/dvRLRNzku
+         YR1NeOwHA8e0UUBzTDhM5+zvV9Nek65VWKjZk9dUqxvvG/VnxXNwNv/8AmydqP3/eI8l
+         4ZvKggR2fQy9eF1zWN2HtNdTW0CiUq+paJJB6Zqvl6PyuATx2QJ7cv8LQCljez9l1buG
+         hzvA==
+X-Gm-Message-State: AOAM531i5uidNKx0iaQqMV/Xsh94EbFS8VBhcs+vNEHBR6RmgcT5WylT
+        LuZ6149kVCXsGkW/w9CX8t+hcDBRiFuj2w==
+X-Google-Smtp-Source: ABdhPJxeCYHBmVanlBfxrYwXe0L5kMP34/psZSPTivE0sRNPjeeN+G/KnOeiEvfg/0QoOja6efJTLQ==
+X-Received: by 2002:ac2:563a:: with SMTP id b26mr4350592lff.596.1606511317596;
+        Fri, 27 Nov 2020 13:08:37 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 136sm452442lfn.193.2020.11.27.13.08.36
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Nov 2020 13:08:36 -0800 (PST)
+Received: by mail-lj1-f170.google.com with SMTP id s9so7260648ljo.11
+        for <linux-kbuild@vger.kernel.org>; Fri, 27 Nov 2020 13:08:36 -0800 (PST)
+X-Received: by 2002:a05:651c:339:: with SMTP id b25mr4749311ljp.285.1606511315967;
+ Fri, 27 Nov 2020 13:08:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Ihre_Spende=3A_=E2=82=AC_2=2C000=2C000=2E00_Euro?=
-To:     Recipients <konstantinov@kivit.com.ua>
-From:   "Jeff Lindsay" <konstantinov@kivit.com.ua>
-Date:   Thu, 26 Nov 2020 12:52:15 -0800
-Reply-To: povertysolutionsorg@gmail.com
-Message-Id: <20201126205224.87E05F83ECE@kivit.com.ua>
+References: <CAK7LNASn4Si3=YhAPtc06wEqajpU0uBh46-4T10f=cHy=LY2iA@mail.gmail.com>
+In-Reply-To: <CAK7LNASn4Si3=YhAPtc06wEqajpU0uBh46-4T10f=cHy=LY2iA@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Fri, 27 Nov 2020 13:08:19 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wihYvkKOcXWPjY7wN13DXbh3k2YX_6JxK_1cQ=krbi9kg@mail.gmail.com>
+Message-ID: <CAHk-=wihYvkKOcXWPjY7wN13DXbh3k2YX_6JxK_1cQ=krbi9kg@mail.gmail.com>
+Subject: Re: [GIT PULL 2/2] Kconfig updates for v5.10-rc1
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Ich bin Jeff Lindsay, ein =C3=A4lterer B=C3=BCrger aus Kalifornien, USA. Ic=
-h habe einen Jackpot von 447,8 Millionen Dollar gewonnen, der gr=C3=B6=C3=
-=9Fte Lotterie-Jackpot. Im Namen meiner Familie und aus gutem Willen spende=
-n wir Ihnen und Ihrer Familie einen Betrag von (=E2=82=AC 2.000.000,00 EUR)=
-. Ich versuche, die =C3=B6ffentlichen Waisenh=C3=A4user zu erreichen. Trage=
-n Sie zur Armutsbek=C3=A4mpfung bei und sorgen Sie f=C3=BCr eine angemessen=
-e Gesundheitsversorgung f=C3=BCr Einzelpersonen, insbesondere w=C3=A4hrend =
-dieser Welt. Pandemic Covid 19. Ich m=C3=B6chte auch, dass Sie einen Teil d=
-ieser Spende in die =C3=B6ffentliche Infrastruktur investieren, um Arbeitsl=
-osen in Ihrem Land Arbeitspl=C3=A4tze zu bieten. Ich habe dich gew=C3=A4hlt=
-, weil ich an dich glaube. Ich brauche Ihre uneingeschr=C3=A4nkte Mitarbeit=
- in Bezug auf diese Spende. Bitte kontaktieren Sie mich hier zur=C3=BCck un=
-ter meiner privaten E-Mail: jeffpovertyhome@gmail.com
+Just a quick note, because it's been a small annoyance for a while (I
+don't think it has anything to do with the 5.10 pull, I'm just
+responding to your latest pull request)..
+
+I have "make allmodconfig" taking unnecessarily long, and I finally
+started asking myself "what's so expensive here". I'd expect it to be
+basically instantaneous on my machine, and it isn't.
+
+And when I looked at it, I noticed that it re-compiled
+scripts/kconfig/conf every single time.
+
+For no obvious reason I can see.
+
+Doing a
+
+       make --trace allmodconfig
+
+shows a series of
+
+    scripts/Makefile.host:112: target 'scripts/kconfig/....o' does not exist
+
+lines, which is silly and wrong (they definitely exist), and I suspect
+it's due to some confusion about the build directory or similar.
+
+It's probably obvious to you once you start looking at it.
+
+And yeah, I realize I'm being silly. Doing a "time make allmodconfig"
+shows that it takes 1.5s to do. Should I care? No. But I feel that's
+an eternity for something that I think should just be instantaneous.
+
+                Linus
