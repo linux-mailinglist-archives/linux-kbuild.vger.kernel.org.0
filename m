@@ -2,43 +2,42 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD3332C5F33
-	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Nov 2020 05:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B55E2C6036
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Nov 2020 07:49:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729580AbgK0EUE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Nov 2020 23:20:04 -0500
-Received: from kivit.com.ua ([68.183.7.199]:37256 "EHLO kivit.com.ua"
+        id S1727802AbgK0Grl (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Fri, 27 Nov 2020 01:47:41 -0500
+Received: from kivit.com.ua ([68.183.7.199]:56600 "EHLO kivit.com.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727983AbgK0EUE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Nov 2020 23:20:04 -0500
-X-Greylist: delayed 14228 seconds by postgrey-1.27 at vger.kernel.org; Thu, 26 Nov 2020 23:20:03 EST
+        id S1726408AbgK0Grl (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Fri, 27 Nov 2020 01:47:41 -0500
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kivit.com.ua (Postfix) with ESMTP id 08430F13782;
-        Fri, 27 Nov 2020 04:30:40 +0200 (EET)
+        by kivit.com.ua (Postfix) with ESMTP id 2478CF2315D;
+        Fri, 27 Nov 2020 07:24:41 +0200 (EET)
 Received: from kivit.com.ua ([127.0.0.1])
         by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id cK6c43RUPvqf; Fri, 27 Nov 2020 04:30:39 +0200 (EET)
+        with ESMTP id EliyzQhdMPha; Fri, 27 Nov 2020 07:24:41 +0200 (EET)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kivit.com.ua (Postfix) with ESMTP id 09BACF453C0;
-        Fri, 27 Nov 2020 03:39:53 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 kivit.com.ua 09BACF453C0
+        by kivit.com.ua (Postfix) with ESMTP id 03EBAF14BB3;
+        Fri, 27 Nov 2020 05:21:17 +0200 (EET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 kivit.com.ua 03EBAF14BB3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivit.com.ua;
-        s=F63F4CB0-F591-11E9-BB9E-CB59FF2C00BF; t=1606441193;
+        s=F63F4CB0-F591-11E9-BB9E-CB59FF2C00BF; t=1606447277;
         bh=3nrn+IPJ6KsXqLvfEW7959xOeqRxjw7dnMTRz7zfiEA=;
         h=MIME-Version:To:From:Date:Message-Id;
-        b=JaNwCZOQNY7LBTGnNQuIGij89XeYnicOmJHd7FSqfZFwtchooqfheB+truTAYMpIT
-         9nQQi4VLbsew3aQEviBgjEkSy9Xp2Z//6ek2GDwnyoA7H3O+bIFWC5L8viG5aL90uE
-         E/ATFO5FsCX2hzK9hx1upMJmvZKvz8N3pFH+0axN6UW6UC/yK2DxfDXoBDX8EXeIw7
-         eQASlN8oJ36EZfqAePL8PTZUXBJR4mOZ9ILxi3N5kmWT8RG+KbicPWPE3FVXnK9Z7z
-         R+SPlytfOu/bcbatlF/71wt7rNkKBYFx1dwTMR5Kl7+303gd9Fj/TVZQhx4t5d8J9I
-         46/fn7GsAZ5Qw==
+        b=NbssZ8w7qcuPcYKOTccCn81O+syzGgLKmVkkRMmI2IBV/gvEBya26E/+nO4bbR4Jc
+         E7Zpf/xZYyObmFguJF05rbmx9Uw1FWP7cp8yP8ObSjl97mkiC2a0mwk0kC3zPW6alA
+         8X28z6eSQ/NYLUvQXirx7BLGwR9byJFy/fh7MT+TR8yMiWAwtFS2Sn/+Zm6Dj/5x2o
+         cYsO8v1Nlc5m4755gkJGWShFv9HjB0iW3OEvKX5+xqhrg2gJZnMhXsKWApp1zANZnL
+         iGJQhYQyDx/b4IOzxE0y7Y2FyBcqTfqwPeNk91HFd4fhR9xZj+wVmcVpuQN0HjZoQc
+         nL6j6S46x3iQA==
 X-Virus-Scanned: amavisd-new at kivit.com.ua
 Received: from kivit.com.ua ([127.0.0.1])
         by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id UPjDcL8EUMXW; Fri, 27 Nov 2020 03:39:52 +0200 (EET)
+        with ESMTP id 17gT1jTySKEL; Fri, 27 Nov 2020 05:21:16 +0200 (EET)
 Received: from [197.174.0.22] (unknown [197.174.0.22])
-        by kivit.com.ua (Postfix) with ESMTPSA id 1FEB1F1923E;
-        Fri, 27 Nov 2020 02:39:22 +0200 (EET)
+        by kivit.com.ua (Postfix) with ESMTPSA id AF913F16C1B;
+        Fri, 27 Nov 2020 04:23:05 +0200 (EET)
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -46,9 +45,9 @@ Content-Description: Mail message body
 Subject: =?utf-8?q?Ihre_Spende=3A_=E2=82=AC_2=2C000=2C000=2E00_Euro?=
 To:     Recipients <konstantinov@kivit.com.ua>
 From:   "Jeff Lindsay" <konstantinov@kivit.com.ua>
-Date:   Thu, 26 Nov 2020 16:39:15 -0800
+Date:   Thu, 26 Nov 2020 18:22:58 -0800
 Reply-To: povertysolutionsorg@gmail.com
-Message-Id: <20201127003924.1FEB1F1923E@kivit.com.ua>
+Message-Id: <20201127022305.AF913F16C1B@kivit.com.ua>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
