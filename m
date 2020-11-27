@@ -2,92 +2,67 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B14952C5862
-	for <lists+linux-kbuild@lfdr.de>; Thu, 26 Nov 2020 16:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD3332C5F33
+	for <lists+linux-kbuild@lfdr.de>; Fri, 27 Nov 2020 05:20:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391228AbgKZPim (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 26 Nov 2020 10:38:42 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:42938 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733044AbgKZPim (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 26 Nov 2020 10:38:42 -0500
-Received: by mail-pl1-f194.google.com with SMTP id s2so1296792plr.9;
-        Thu, 26 Nov 2020 07:38:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rzGZIAEm926uhIyxuRw0b4qhN9U79TKpOJgS1rllun8=;
-        b=U5Sxvj9+gTeGrPKJnIUQV5FNO8Pc0nMZo62ZIau60f9ibAh0gfkY7yN6VN8l94HwRr
-         +pRoM6VlEBc92HNSQT0Tt0IULYGaiVwf45zZHdwm2WqKxXFrVwY3lgVh5xQIeGWJ0uvF
-         piYqrtVe/rrMNDQsdWQYIYD+hCYehN3NuNFWw+MpDJDFaRMderRI58i7+6/K4LQY7bHr
-         7fziZkeVLGmxp4pfISlRMxi6ybC/LzWfQZfj07+YpkwePUATN6TnJFow9psC1fvTBtle
-         8T0XrdgWDVaeS+nuye0oo9ddAuMabUo6Bq52pGcuAqoiGFrwjCkXcAe6xDhDjPDbtxU1
-         YUEg==
-X-Gm-Message-State: AOAM533Quwmc69VzdAmvt0hHYdiRDZZy2yreP7QTttCH47tT7pDJx/hb
-        0zaS4TTtPIZkcKuTz2/8+JA=
-X-Google-Smtp-Source: ABdhPJyq6tAlIeIXdtjepXInKufD9Wb3jpaAZXuUc1WqO59gK4pvUzWFf6UUaCo42m9yldLHqPg0CA==
-X-Received: by 2002:a17:902:bd84:b029:da:17d0:e754 with SMTP id q4-20020a170902bd84b02900da17d0e754mr3201046pls.68.1606405121352;
-        Thu, 26 Nov 2020 07:38:41 -0800 (PST)
-Received: from 42.do-not-panic.com (42.do-not-panic.com. [157.230.128.187])
-        by smtp.gmail.com with ESMTPSA id 22sm7575053pjb.40.2020.11.26.07.38.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2020 07:38:39 -0800 (PST)
-Received: by 42.do-not-panic.com (Postfix, from userid 1000)
-        id EC16140317; Thu, 26 Nov 2020 15:38:38 +0000 (UTC)
-Date:   Thu, 26 Nov 2020 15:38:38 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     Boris Kolpackov <boris@codesynthesis.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Felix Fietkau <nbd@openwrt.org>,
-        Patrick Franz <patfra71@gmail.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Arnaldo Carvalho de Melo <acme@redhat.com>,
-        Junio C Hamano <gitster@pobox.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: kconfig as a git subtree on Linux
-Message-ID: <20201126153838.GL4332@42.do-not-panic.com>
-References: <20201125172544.GJ4332@42.do-not-panic.com>
- <boris.20201126122203@codesynthesis.com>
+        id S1729580AbgK0EUE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 26 Nov 2020 23:20:04 -0500
+Received: from kivit.com.ua ([68.183.7.199]:37256 "EHLO kivit.com.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727983AbgK0EUE (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Thu, 26 Nov 2020 23:20:04 -0500
+X-Greylist: delayed 14228 seconds by postgrey-1.27 at vger.kernel.org; Thu, 26 Nov 2020 23:20:03 EST
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kivit.com.ua (Postfix) with ESMTP id 08430F13782;
+        Fri, 27 Nov 2020 04:30:40 +0200 (EET)
+Received: from kivit.com.ua ([127.0.0.1])
+        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id cK6c43RUPvqf; Fri, 27 Nov 2020 04:30:39 +0200 (EET)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kivit.com.ua (Postfix) with ESMTP id 09BACF453C0;
+        Fri, 27 Nov 2020 03:39:53 +0200 (EET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 kivit.com.ua 09BACF453C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivit.com.ua;
+        s=F63F4CB0-F591-11E9-BB9E-CB59FF2C00BF; t=1606441193;
+        bh=3nrn+IPJ6KsXqLvfEW7959xOeqRxjw7dnMTRz7zfiEA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=JaNwCZOQNY7LBTGnNQuIGij89XeYnicOmJHd7FSqfZFwtchooqfheB+truTAYMpIT
+         9nQQi4VLbsew3aQEviBgjEkSy9Xp2Z//6ek2GDwnyoA7H3O+bIFWC5L8viG5aL90uE
+         E/ATFO5FsCX2hzK9hx1upMJmvZKvz8N3pFH+0axN6UW6UC/yK2DxfDXoBDX8EXeIw7
+         eQASlN8oJ36EZfqAePL8PTZUXBJR4mOZ9ILxi3N5kmWT8RG+KbicPWPE3FVXnK9Z7z
+         R+SPlytfOu/bcbatlF/71wt7rNkKBYFx1dwTMR5Kl7+303gd9Fj/TVZQhx4t5d8J9I
+         46/fn7GsAZ5Qw==
+X-Virus-Scanned: amavisd-new at kivit.com.ua
+Received: from kivit.com.ua ([127.0.0.1])
+        by localhost (kivit.com.ua [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id UPjDcL8EUMXW; Fri, 27 Nov 2020 03:39:52 +0200 (EET)
+Received: from [197.174.0.22] (unknown [197.174.0.22])
+        by kivit.com.ua (Postfix) with ESMTPSA id 1FEB1F1923E;
+        Fri, 27 Nov 2020 02:39:22 +0200 (EET)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <boris.20201126122203@codesynthesis.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Ihre_Spende=3A_=E2=82=AC_2=2C000=2C000=2E00_Euro?=
+To:     Recipients <konstantinov@kivit.com.ua>
+From:   "Jeff Lindsay" <konstantinov@kivit.com.ua>
+Date:   Thu, 26 Nov 2020 16:39:15 -0800
+Reply-To: povertysolutionsorg@gmail.com
+Message-Id: <20201127003924.1FEB1F1923E@kivit.com.ua>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 12:38:41PM +0200, Boris Kolpackov wrote:
-> Luis Chamberlain <mcgrof@kernel.org> writes:
-> 
-> > I'd like to propose we discuss the possibility of taking kconfig and
-> > making it a git subtree under the Linux kernel. This would allow
-> > other projects outside of the Linux kernel to be able to update their
-> > own copy / fork of kconfig in a jiffie *very* easily.
-> 
-> I am maintaining one such copy/fork[1] and for me the effort to pull
-> in the new version of upstream (which I currently do by just copying
-> scripts/kconfig/*) is nothing compared to the effort of maintaining
-> a set of patches[2] on top of that which are necessary to make kconfig
-> buildable on other platforms and usable with other build systems.
-> 
-> So unless there is also an agreement that such portability patches
-> are now welcome, this is not going to be a major improvement for me.
-
-Unless you have tried git subtrees, I doubt you really mean this. How
-is a 'make refresh' command as comparable as manually pulling in
-changes from a project to your project?
-
-> And right now such patches are clearly not welcome[3] (but no hard
-> feelings; I wouldn't touch Windows with a ten-foot pole if I could
-> help it).
-
-Portability of kconfig to other platorm is a topic of its own. If that
-sort of conversation can exist, I think it would have to be *secondary*
-to deciding whether or not kconfig lives on its own to allow other
-Linux projects to benefit from it.
-
-  Luis
+Ich bin Jeff Lindsay, ein =C3=A4lterer B=C3=BCrger aus Kalifornien, USA. Ic=
+h habe einen Jackpot von 447,8 Millionen Dollar gewonnen, der gr=C3=B6=C3=
+=9Fte Lotterie-Jackpot. Im Namen meiner Familie und aus gutem Willen spende=
+n wir Ihnen und Ihrer Familie einen Betrag von (=E2=82=AC 2.000.000,00 EUR)=
+. Ich versuche, die =C3=B6ffentlichen Waisenh=C3=A4user zu erreichen. Trage=
+n Sie zur Armutsbek=C3=A4mpfung bei und sorgen Sie f=C3=BCr eine angemessen=
+e Gesundheitsversorgung f=C3=BCr Einzelpersonen, insbesondere w=C3=A4hrend =
+dieser Welt. Pandemic Covid 19. Ich m=C3=B6chte auch, dass Sie einen Teil d=
+ieser Spende in die =C3=B6ffentliche Infrastruktur investieren, um Arbeitsl=
+osen in Ihrem Land Arbeitspl=C3=A4tze zu bieten. Ich habe dich gew=C3=A4hlt=
+, weil ich an dich glaube. Ich brauche Ihre uneingeschr=C3=A4nkte Mitarbeit=
+ in Bezug auf diese Spende. Bitte kontaktieren Sie mich hier zur=C3=BCck un=
+ter meiner privaten E-Mail: jeffpovertyhome@gmail.com
