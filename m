@@ -2,32 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B430E2C759B
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 223A42C758C
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730659AbgK1VtQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Nov 2020 16:49:16 -0500
-Received: from condef-08.nifty.com ([202.248.20.73]:24420 "EHLO
-        condef-08.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732603AbgK1RyS (ORCPT
+        id S2387997AbgK1VtR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Nov 2020 16:49:17 -0500
+Received: from condef-09.nifty.com ([202.248.20.74]:22459 "EHLO
+        condef-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728023AbgK1SC3 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Nov 2020 12:54:18 -0500
-Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-08.nifty.com with ESMTP id 0ASBqZ1a006246;
-        Sat, 28 Nov 2020 20:52:35 +0900
+        Sat, 28 Nov 2020 13:02:29 -0500
+Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-09.nifty.com with ESMTP id 0ASBqO5w006693;
+        Sat, 28 Nov 2020 20:52:24 +0900
 Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0ASBpD6C027804;
-        Sat, 28 Nov 2020 20:51:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6C027804
+        by conuserg-07.nifty.com with ESMTP id 0ASBpD6D027804;
+        Sat, 28 Nov 2020 20:51:16 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6D027804
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606564276;
-        bh=rX5Xp2DQ7Fb1cQZ9EkV0O0kQNgRf2+LwScKyCXET4yg=;
+        s=dec2015msa; t=1606564277;
+        bh=pFvI3gIoKDNuTRdVFYs3jfJJ5S/cVkbhBeHlsv1eO8U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=nWR2a++IXEGtghjl9z0jqeZ7+BR6ExiUmTDFhWNvckXgvnD4xiZM0KCHJtGJmY70l
-         BK99VIcJMVGgI95LumCd4Vis5hmm3ntDOuHlAq9lgPbj3ofXTJ6KfCXAFWecQyStJ4
-         Ge6EMu9V63gbYdf6TzXq7B4zvutNDOoKU0pemzt+dV8a3sFKQBy0r71a5lVwIcGpKY
-         E7u6uKFIE4+ytW0tPEpTUbIGO2CUMdNxiicjqJhxg/eyBRHfZ7mWBf+M+bePrZDPAH
-         U987raOwJ0+ETcOrjmu9CkbcKaPMbwm4MV6fDUcGsIvUk+fzvmlFx5moA7L0wSEX9v
-         7OVE8uI+DEt5A==
+        b=J/zXYwCBr2HPMND2NCh79Yk+ZVY/fZiPYW+CITg3h5IRz69vHkeSCgO82CwitiMmn
+         UY1/D+VJc6II+GfaKbI2dWffl2KUxUx3WOdknMWYCnRJztv8MsGgGmTSeBI0NX1Iy9
+         O8TKLtLTxnTR6FWMLWDG2dI2e8RaG/9vx9+bXjMiAOtpp3nzA0wkF3uI+sS1d6fQOQ
+         TtFlbRpBG4q1lInZRiTLUlWRFgkBJ8vQXebtssG1+z6YnpoV8Tzcwx+C9myHN16qSc
+         N3ZVXKEv/jrTzdZi04BY42jgdtAXnxBuARAbYU3zlucGK35BAlXD3gFTyYVzq7ubMV
+         ej0lFWcLPnR+g==
 X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/7] kbuild: doc: fix 'List directories to visit when descending' section
-Date:   Sat, 28 Nov 2020 20:51:04 +0900
-Message-Id: <20201128115108.179256-3-masahiroy@kernel.org>
+Subject: [PATCH v2 4/7] kbuild: doc: merge 'Special Rules' and 'Custom kbuild commands' sections
+Date:   Sat, 28 Nov 2020 20:51:05 +0900
+Message-Id: <20201128115108.179256-4-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128115108.179256-1-masahiroy@kernel.org>
 References: <20201128115108.179256-1-masahiroy@kernel.org>
@@ -48,78 +48,200 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Fix stale information:
+The two sections "3.10 Special Rules" and "7.8 Custom kbuild commands"
+are related because you must understand both of them when you write
+custom rules.
 
- - Fix the section number in the reference from 6.4 to 7.4.
+Actually I do not understand the policy about what to go into
+"3 The kbuild files" and what into "7 Architecture Makefile".
 
- - Remove init-y and net-y. They were removed by commit 23febe375d94
-   ("kbuild: merge init-y into core-y") and commit 95fb6317b3ab
-   ("kbuild: merge net-y and virt-y into drivers-y"), respectively.
+This commit reworks the custom rule explanation as follows:
 
- - Update the example because arch/sparc64/Makefile does not exit.
+ - Merged "7.8 Custom kbuild commands" into "3.10 Special Rules".
+
+ - Reword "Special Rules" to "Custom Rules" for consistency.
+
+ - Update the example for kecho because the blackfin Makefile
+   does not exist any more.
+
+ - Replace the example for cmd_<command> with a simpler one.
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 ---
 
 (no changes since v1)
 
- Documentation/kbuild/makefiles.rst | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ Documentation/kbuild/makefiles.rst | 88 ++++++++++++++----------------
+ 1 file changed, 40 insertions(+), 48 deletions(-)
 
 diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 1d4335c7f496..283ccfec7613 100644
+index 283ccfec7613..29101d2a0072 100644
 --- a/Documentation/kbuild/makefiles.rst
 +++ b/Documentation/kbuild/makefiles.rst
-@@ -278,7 +278,7 @@ more details, with real examples.
- 	actually recognize that there is a lib.a being built, the directory
- 	shall be listed in libs-y.
+@@ -18,7 +18,7 @@ This document describes the Linux kernel Makefiles.
+ 	   --- 3.7 Compilation flags
+ 	   --- 3.8 <deleted>
+ 	   --- 3.9 Dependency tracking
+-	   --- 3.10 Special Rules
++	   --- 3.10 Custom Rules
+ 	   --- 3.11 $(CC) support functions
+ 	   --- 3.12 $(LD) support functions
+ 	   --- 3.13 Script Invocation
+@@ -46,7 +46,7 @@ This document describes the Linux kernel Makefiles.
+ 	   --- 7.5 Architecture-specific boot images
+ 	   --- 7.6 Building non-kbuild targets
+ 	   --- 7.7 Commands useful for building a boot image
+-	   --- 7.8 Custom kbuild commands
++	   --- 7.8 <deleted>
+ 	   --- 7.9 Preprocessing linker scripts
+ 	   --- 7.10 Generic header files
+ 	   --- 7.11 Post-link pass
+@@ -422,21 +422,21 @@ more details, with real examples.
+ 	Thus, if you change an option to $(CC) all affected files will
+ 	be re-compiled.
  
--	See also "6.4 List directories to visit when descending".
-+	See also "7.4 List directories to visit when descending".
+-3.10 Special Rules
++3.10 Custom Rules
+ ------------------
  
- 	Use of lib-y is normally restricted to `lib/` and `arch/*/lib`.
+-	Special rules are used when the kbuild infrastructure does
++	Custom rules are used when the kbuild infrastructure does
+ 	not provide the required support. A typical example is
+ 	header files generated during the build process.
+ 	Another example are the architecture-specific Makefiles which
+-	need special rules to prepare boot images etc.
++	need custom rules to prepare boot images etc.
  
-@@ -1154,7 +1154,7 @@ When kbuild executes, the following steps are followed (roughly):
- 	machinery is all architecture-independent.
+-	Special rules are written as normal Make rules.
++	Custom rules are written as normal Make rules.
+ 	Kbuild is not executing in the directory where the Makefile is
+-	located, so all special rules shall provide a relative
++	located, so all custom rules shall use a relative
+ 	path to prerequisite files and target files.
  
+-	Two variables are used when defining special rules:
++	Two variables are used when defining custom rules:
  
--	head-y, init-y, core-y, libs-y, drivers-y, net-y
-+	head-y, core-y, libs-y, drivers-y
- 	    $(head-y) lists objects to be linked first in vmlinux.
+ 	$(src)
+ 	    $(src) is a relative path which points to the directory
+@@ -454,7 +454,7 @@ more details, with real examples.
+ 		$(obj)/53c8xx_d.h: $(src)/53c7,8xx.scr $(src)/script_asm.pl
+ 			$(CPP) -DCHIP=810 - < $< | ... $(src)/script_asm.pl
  
- 	    $(libs-y) lists directories where a lib.a archive can be located.
-@@ -1162,11 +1162,9 @@ When kbuild executes, the following steps are followed (roughly):
- 	    The rest list directories where a built-in.a object file can be
- 	    located.
+-	    This is a special rule, following the normal syntax
++	    This is a custom rule, following the normal syntax
+ 	    required by make.
  
--	    $(init-y) objects will be located after $(head-y).
--
- 	    Then the rest follows in this order:
+ 	    The target file depends on two prerequisite files. References
+@@ -471,11 +471,33 @@ more details, with real examples.
  
--		$(core-y), $(libs-y), $(drivers-y) and $(net-y).
-+		$(core-y), $(libs-y), $(drivers-y)
+ 	Example::
  
- 	    The top level Makefile defines values for all generic directories,
- 	    and arch/$(SRCARCH)/Makefile only adds architecture-specific
-@@ -1174,11 +1172,14 @@ When kbuild executes, the following steps are followed (roughly):
+-		#arch/blackfin/boot/Makefile
+-		$(obj)/vmImage: $(obj)/vmlinux.gz
+-			$(call if_changed,uimage)
+-			@$(kecho) 'Kernel: $@ is ready'
++		# arch/arm/Makefile
++		$(BOOT_TARGETS): vmlinux
++			$(Q)$(MAKE) $(build)=$(boot) MACHINE=$(MACHINE) $(boot)/$@
++			@$(kecho) '  Kernel: $(boot)/$@ is ready'
  
- 	    Example::
- 
--		#arch/sparc64/Makefile
--		core-y += arch/sparc64/kernel/
--		libs-y += arch/sparc64/prom/ arch/sparc64/lib/
--		drivers-$(CONFIG_OPROFILE)  += arch/sparc64/oprofile/
-+		# arch/sparc/Makefile
-+		core-y                 += arch/sparc/
++	When kbuild is executing with KBUILD_VERBOSE=0, then only a shorthand
++	of a command is normally displayed.
++	To enable this behaviour for custom commands kbuild requires
++	two variables to be set::
 +
-+		libs-y                 += arch/sparc/prom/
-+		libs-y                 += arch/sparc/lib/
++		quiet_cmd_<command>	- what shall be echoed
++		      cmd_<command>	- the command to execute
++
++	Example::
++
++		# lib/Makefile
++		quiet_cmd_crc32 = GEN     $@
++		      cmd_crc32 = $< > $@
++
++		$(obj)/crc32table.h: $(obj)/gen_crc32table
++			$(call cmd,crc32)
++
++	When updating the $(obj)/crc32table.h target, the line:
++
++		  GEN     lib/crc32table.h
++
++	will be displayed with "make KBUILD_VERBOSE=0".
  
-+		drivers-$(CONFIG_PM) += arch/sparc/power/
-+		drivers-$(CONFIG_OPROFILE)	+= arch/sparc/oprofile/
+ 3.11 $(CC) support functions
+ ----------------------------
+@@ -744,7 +766,7 @@ Both possibilities are described in the following.
+ 	as a prerequisite.
+ 	This is possible in two ways:
  
- 7.5 Architecture-specific boot images
- -------------------------------------
+-	(1) List the prerequisite explicitly in a special rule.
++	(1) List the prerequisite explicitly in a custom rule.
+ 
+ 	Example::
+ 
+@@ -755,11 +777,11 @@ Both possibilities are described in the following.
+ 
+ 	The target $(obj)/devlist.h will not be built before
+ 	$(obj)/gen-devlist is updated. Note that references to
+-	the host programs in special rules must be prefixed with $(obj).
++	the host programs in custom rules must be prefixed with $(obj).
+ 
+ 	(2) Use always-y
+ 
+-	When there is no suitable special rule, and the host program
++	When there is no suitable custom rule, and the host program
+ 	shall be built when a makefile is entered, the always-y
+ 	variable shall be used.
+ 
+@@ -1281,8 +1303,8 @@ When kbuild executes, the following steps are followed (roughly):
+ 	otherwise the command line check will fail, and the target will
+ 	always be built.
+ 	Assignments to $(targets) are without $(obj)/ prefix.
+-	if_changed may be used in conjunction with custom commands as
+-	defined in 7.8 "Custom kbuild commands".
++	if_changed may be used in conjunction with custom rules as
++	defined in "3.10 Custom Rules".
+ 
+ 	Note: It is a typical mistake to forget the FORCE prerequisite.
+ 	Another common pitfall is that whitespace is sometimes
+@@ -1362,36 +1384,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 		targets += $(dtb-y)
+ 		DTC_FLAGS ?= -p 1024
+ 
+-7.8 Custom kbuild commands
+---------------------------
+-
+-	When kbuild is executing with KBUILD_VERBOSE=0, then only a shorthand
+-	of a command is normally displayed.
+-	To enable this behaviour for custom commands kbuild requires
+-	two variables to be set::
+-
+-		quiet_cmd_<command>	- what shall be echoed
+-		      cmd_<command>	- the command to execute
+-
+-	Example::
+-
+-		#
+-		quiet_cmd_image = BUILD   $@
+-		      cmd_image = $(obj)/tools/build $(BUILDFLAGS) \
+-		                                     $(obj)/vmlinux.bin > $@
+-
+-		targets += bzImage
+-		$(obj)/bzImage: $(obj)/vmlinux.bin $(obj)/tools/build FORCE
+-			$(call if_changed,image)
+-			@echo 'Kernel: $@ is ready'
+-
+-	When updating the $(obj)/bzImage target, the line:
+-
+-		BUILD    arch/x86/boot/bzImage
+-
+-	will be displayed with "make KBUILD_VERBOSE=0".
+-
+-
+ 7.9 Preprocessing linker scripts
+ --------------------------------
+ 
 -- 
 2.27.0
 
