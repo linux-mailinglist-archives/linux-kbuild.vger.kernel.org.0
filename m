@@ -2,92 +2,151 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18DBD2C7082
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 19:18:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD5562C7597
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729397AbgK1SAK (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Nov 2020 13:00:10 -0500
-Received: from condef-02.nifty.com ([202.248.20.67]:53986 "EHLO
-        condef-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728883AbgK1R6K (ORCPT
+        id S1729979AbgK1VtQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Nov 2020 16:49:16 -0500
+Received: from condef-03.nifty.com ([202.248.20.68]:61803 "EHLO
+        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732673AbgK1RzM (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Nov 2020 12:58:10 -0500
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-02.nifty.com with ESMTP id 0ASHOM2h010544;
-        Sun, 29 Nov 2020 02:24:22 +0900
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id 0ASHO95r006960;
-        Sun, 29 Nov 2020 02:24:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0ASHO95r006960
+        Sat, 28 Nov 2020 12:55:12 -0500
+Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-03.nifty.com with ESMTP id 0AS7598n011099;
+        Sat, 28 Nov 2020 16:05:09 +0900
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 0AS74obX013284;
+        Sat, 28 Nov 2020 16:04:51 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0AS74obX013284
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606584250;
-        bh=et9lDT3Zpqsx6VK/dEHvLLo0NKfFOQL29WE+Sz7lk58=;
-        h=From:Date:Subject:To:Cc:From;
-        b=GwjqHarwhXQTBgBPTvxqaDZcU+1KyQgomjmdO90oheTSfyVB1m34A6hWPImIqz7de
-         DquFGpgfiZvQvBi+VZYtQM3Iy6E9hovq8Lv6JK70XUG+EoV8P6L0rucD8sb9hUqlUA
-         f3BygZ/egCeNJzXx+rHxjpdR/DVK2X55VhGiPdjEfAGm5cawWTMumdYNFdtUi/8zaT
-         frUeNA6K5JlCmT9xtFeb5VnwXRSJozsH7vNk7gY/UlFJEDQ+ED1xExzBrpFUn6KIa5
-         FKzUpsUM4qVOO6vgF1gesb/4a8k02vTMTnm8vc+F9w1d91Lv8TyOepy/At5f+/GuFA
-         0G4kLAjfuE16Q==
-X-Nifty-SrcIP: [209.85.210.178]
-Received: by mail-pf1-f178.google.com with SMTP id w6so7225178pfu.1;
-        Sat, 28 Nov 2020 09:24:10 -0800 (PST)
-X-Gm-Message-State: AOAM530Lk2M/cOxsOgGiMOgg5rtiTnnGVR32qO5d1JvtO2fA5oio1nRu
-        r+9aYsPuwIm+cxdxPazJJ3Y/ZIUWZLU3xqb8TTo=
-X-Google-Smtp-Source: ABdhPJxLHATCxDFthaPmyQHJk9ERgGmh0Nur7u/gWRJ8TdGHA0l5vscTGNmxHlIReTc2aAxvgWrQckwaoWTH7/QKUms=
-X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr17248934pjt.87.1606584249298;
- Sat, 28 Nov 2020 09:24:09 -0800 (PST)
+        s=dec2015msa; t=1606547091;
+        bh=PE39hdI/e7+EZBc7ywdHmRsFj/6iCzNiPht7cSP0zfw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oisVV3r5ysBMBGWOwAVbjJbHfbOgIv3VbZT4LEWZZQMqNI8e5bEz1MoRINUbV5F6E
+         j+v3cDS11iW4CfXpK9+8yFJViMXmLRQ++rHmFdqt31q7I8WEMxKZM6w9NTkbxEYTSO
+         mhxUthLTsPkzmEZSonXL7s/mew+HSo2iWVQn7ooqkTZ+Cp639rP/7+oGsqRoXS7fS+
+         96ZTqOni4JfYr8J9dWcM6ekydFEsBFaeMZQATYXjexfKrHZ2XSR5VP08sOxwwEOrh+
+         /TFu3eQ8AkSGqgn1oi1M9qKq61A5Ov42wsDW2TUanC0f2e7jaBJ5crNeUt0m3n2U4I
+         UULs77IScPSUg==
+X-Nifty-SrcIP: [209.85.210.173]
+Received: by mail-pf1-f173.google.com with SMTP id x24so6364889pfn.6;
+        Fri, 27 Nov 2020 23:04:51 -0800 (PST)
+X-Gm-Message-State: AOAM533jnjWbMXAaieLrFMyZPHFbj5ouFMszpEmlBptOWyJ7MjVNLO1Q
+        NBINUKNMDiVFhWDAmYp6pM2xISHYaLDuAd83iPI=
+X-Google-Smtp-Source: ABdhPJyEbE7fUISaIUmbRWAYArE+Qu8uv+lh7GUBnbnVkWeGUL6BRii61yVbTAjL74jQpHB7kYEDj3RRjnhV03dHmiQ=
+X-Received: by 2002:a63:3205:: with SMTP id y5mr9717508pgy.47.1606547090308;
+ Fri, 27 Nov 2020 23:04:50 -0800 (PST)
 MIME-Version: 1.0
+References: <CAK7LNASn4Si3=YhAPtc06wEqajpU0uBh46-4T10f=cHy=LY2iA@mail.gmail.com>
+ <CAHk-=wihYvkKOcXWPjY7wN13DXbh3k2YX_6JxK_1cQ=krbi9kg@mail.gmail.com>
+ <CAHk-=wi86Eu8Whu66CVu+GVTxbuJG+QNvDuk-hXnWu+5q90Zeg@mail.gmail.com>
+ <CAHk-=winw=9xh6SmFJPZgi8ngVR-ECTA-kDAAU3DEPLMoUrzVA@mail.gmail.com> <CAHk-=wjU4DCuwQ4pXshRbwDCUQB31ScaeuDo1tjoZ0_PjhLHzQ@mail.gmail.com>
+In-Reply-To: <CAHk-=wjU4DCuwQ4pXshRbwDCUQB31ScaeuDo1tjoZ0_PjhLHzQ@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Sun, 29 Nov 2020 02:23:31 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS-j7MqrpKnM_GQS9KfL_8Dw9NJrpaghRO9D637cqrnaA@mail.gmail.com>
-Message-ID: <CAK7LNAS-j7MqrpKnM_GQS9KfL_8Dw9NJrpaghRO9D637cqrnaA@mail.gmail.com>
-Subject: [GIT PULL] Kbuild fixes for v5.10-rc6
+Date:   Sat, 28 Nov 2020 16:04:13 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQtABssBH2LGThgv-F3_aSrz9Hd-ra9Yyu4-FFzY1nsUw@mail.gmail.com>
+Message-ID: <CAK7LNAQtABssBH2LGThgv-F3_aSrz9Hd-ra9Yyu4-FFzY1nsUw@mail.gmail.com>
+Subject: Re: [GIT PULL 2/2] Kconfig updates for v5.10-rc1
 To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc:     Emese Revfy <re.emese@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Linus,
+On Sat, Nov 28, 2020 at 7:05 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> On Fri, Nov 27, 2020 at 1:53 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> >     33.68%  cc1plus
+>
+> So a third of the time is the _single_ invocation of cc1plus, which
+> happens from scrips/gcc-plugin.sh doing that
+>
+>      $HOSTCC -c -x c++ -std=gnu++98 - -fsyntax-only
+>
+> thing. Which is purely to verify that plugins work.
+>
+> Ugh.
+>
+> Emese - I'm talking to myself while I'm looking at why "make
+> allmodconfig" is so unbearably slow. This is part of it.
+>
+>               Linus
 
-Please pull Kbuild fixes for v5.10
-Thanks.
+
+If you do 'make allmodconfig' from the clean source tree,
+some logs are displayed.
+
+If you do that once again, no logs,
+which means no recompilation of the 'conf' binary.
+
+Of course, GNU Make evaluates some recipes due to the FORCE,
+but the costs are quite small.
 
 
-The following changes since commit 3cea11cd5e3b00d91caf0b4730194039b45c5891:
 
-  Linux 5.10-rc2 (2020-11-01 14:43:51 -0800)
+As for the cc1plus cost, I got a similar result.
 
-are available in the Git repository at:
+Running scripts/gcc-plugin.sh directly
+took me 0.5 sec, which is a fourth
+of the allmodconfig run-time.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-tags/kbuild-fixes-v5.10
+Actually, I did not know this shell script
+was so expensive to run...
 
-for you to fetch changes up to d1889589a4f54b2d1d7075d608b596d6fcfd3d96:
+I also added Kees to CC.
 
-  builddeb: Fix rootless build in setuid/setgid directory (2020-11-02
-11:31:00 +0900)
 
-----------------------------------------------------------------
-Kbuild fixes for v5.10
+Even if we are able to manage this script somehow,
+Kconfig invocation still takes more than 1 sec
+due to the current design.
 
- - Remove unused OBJSIZE variable.
 
- - Fix rootless deb-pkg build in a setgid directory.
 
-----------------------------------------------------------------
-Sven Joachim (1):
-      builddeb: Fix rootless build in setuid/setgid directory
+masahiro@grover:~/workspace/linux$ make mrproper
+masahiro@grover:~/workspace/linux$ time make allmodconfig
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/kconfig/conf.o
+  HOSTCC  scripts/kconfig/confdata.o
+  HOSTCC  scripts/kconfig/expr.o
+  LEX     scripts/kconfig/lexer.lex.c
+  YACC    scripts/kconfig/parser.tab.[ch]
+  HOSTCC  scripts/kconfig/lexer.lex.o
+  HOSTCC  scripts/kconfig/parser.tab.o
+  HOSTCC  scripts/kconfig/preprocess.o
+  HOSTCC  scripts/kconfig/symbol.o
+  HOSTCC  scripts/kconfig/util.o
+  HOSTLD  scripts/kconfig/conf
+#
+# configuration written to .config
+#
 
-Vasily Gorbik (1):
-      kbuild: remove unused OBJSIZE
+real 0m4.415s
+user 0m3.686s
+sys 0m0.763s
+masahiro@grover:~/workspace/linux$ time make allmodconfig
+#
+# No change to .config
+#
 
- Documentation/kbuild/llvm.rst | 5 ++---
- Makefile                      | 4 +---
- scripts/package/builddeb      | 2 ++
- 3 files changed, 5 insertions(+), 6 deletions(-)
+real 0m2.041s
+user 0m1.564s
+sys 0m0.519s
+
+masahiro@grover:~/workspace/linux$ export HOSTCC=gcc
+masahiro@grover:~/workspace/linux$ time  scripts/gcc-plugin.sh gcc
+
+real 0m0.560s
+user 0m0.512s
+sys 0m0.048s
+
+
 
 
 
