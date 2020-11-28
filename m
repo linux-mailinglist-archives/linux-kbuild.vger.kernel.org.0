@@ -2,92 +2,145 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C84912C758F
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C25012C7589
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387758AbgK1VtR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Nov 2020 16:49:17 -0500
-Received: from condef-07.nifty.com ([202.248.20.72]:28339 "EHLO
-        condef-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731689AbgK1R7u (ORCPT
+        id S2388005AbgK1VtS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Nov 2020 16:49:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732358AbgK1SPi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Nov 2020 12:59:50 -0500
-X-Greylist: delayed 332 seconds by postgrey-1.27 at vger.kernel.org; Sat, 28 Nov 2020 12:59:49 EST
-Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-07.nifty.com with ESMTP id 0ASBqODC004562;
-        Sat, 28 Nov 2020 20:52:24 +0900
-Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0ASBpD6G027804;
-        Sat, 28 Nov 2020 20:51:19 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6G027804
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606564280;
-        bh=+Q9Bo6bhmRT3Oowam9MhLdZfQ4zpQ4qSQzfxJXEgOWc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0jcB4czYOgWJLr3rR6z21bKcQhXGtFQdrSGQ6S1g3aQbbQ6gDYCJg+ZksDhOP3VxG
-         CegtSWpWJzm+StBhptN6yL6HMFNnlLozKv85ktx+Ks2fwgbHI8gn3mFhswGzHaDVOQ
-         ehp9kb2+cdfSPzqDd+LfIUgbuw4J6RQdBcEEIhkXpr0TNcPCDqlb74XecTHzvebJLP
-         d1gAX0aPitxLi1Hpy7qPDIJ0wqxPz4bvpgWrvib06sM+rl0QsMSI2Uu4xcOrIubwoR
-         Jq446aY4JfrZeZKA81NxizPN2kTuLzkhnlpgHZUuigfZ0ccjSkl8vAUsaUyIfmiLsG
-         /XqnS8osD/kAQ==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
+        Sat, 28 Nov 2020 13:15:38 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E07C0254A6;
+        Sat, 28 Nov 2020 08:57:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=ubev1giHn2jmSzhtp/f94pjbxFaoCeWhmi4D5S6DRMQ=; b=kCmw1AxLSz9zAUV1hx0lxMwV1K
+        iHNuj/MU6Bqv/Rdf7HMk9MrKt3TjRtiRFu4DLkMgrYriTq0mvSfQBCT0dHzN3bple/c8tlOdVLjHc
+        UsVmctYTXxoPhP2N4b2ENuThOCVoN6iA0n4PJvijUiSwN98mADc/8pHk9g795HJTfE+XiXzEzWCyU
+        GELAuFvNBcyDSnCPsrzAVXb5iZeDMbTeyee5P2DD1312mI/qq0cZNXTXgBUZBaW8xf+yeAMYSY+w3
+        hcRx08LtEqG1kTGw9DIt+yDDfeDiY/plD9d6BlIrkTucYEnLAfGepv2jbVpLiRfTKE2mUzS0tj2qT
+        Y0QUyrag==;
+Received: from [2601:1c0:6280:3f0::cc1f]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kj3Wq-0005cP-OY; Sat, 28 Nov 2020 16:56:57 +0000
+Subject: Re: [PATCH 7/7] kbuild: doc: document subdir-y syntax
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/7] kbuild: doc: document subdir-y syntax
-Date:   Sat, 28 Nov 2020 20:51:08 +0900
-Message-Id: <20201128115108.179256-7-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201128115108.179256-1-masahiroy@kernel.org>
-References: <20201128115108.179256-1-masahiroy@kernel.org>
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20201123045403.63402-1-masahiroy@kernel.org>
+ <20201123045403.63402-7-masahiroy@kernel.org>
+ <5c40293a-a24a-2c85-e7ef-a08a8c732d19@infradead.org>
+ <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f69d022b-a3a6-03e6-5ece-d5e6bd6d7035@infradead.org>
+Date:   Sat, 28 Nov 2020 08:56:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is no explanation about subdir-y.
+On 11/28/20 12:58 AM, Masahiro Yamada wrote:
+> On Tue, Nov 24, 2020 at 3:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>> On 11/22/20 8:54 PM, Masahiro Yamada wrote:
+>>> There is no explanation about subdir-y.
+>>>
+>>> Let's document it.
+>>>
+>>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>>> ---
+>>>
+>>>  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
+>>>  1 file changed, 14 insertions(+)
+>>>
+>>> +
+>>> +     Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
+>>> +     syntax is always used for directories.
+>>> +
+>>
+>> Just curious:  Is a trailing slash allowed here?  say for consistency?
+> 
+> 
+> If you use a trailing slash for the subdir-y syntax,
+> it will still work.
+> 
+> 
+> Only the problem I see is that the build log will look clumsy
+> due to the double slashes "//".
+> 
 
-Let's document it.
+Yes, that does look odd.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
----
+> For example, if you change scripts/Makefile as follows:
+> 
 
-(no changes since v1)
+...
 
- Documentation/kbuild/makefiles.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+> The build log will look like follows:
+> 
+> 
+> masahiro@grover:~/workspace/linux$ make allmodconfig; make scripts
+> #
+> # configuration written to .config
+> #
+>   SYNC    include/config/auto.conf
+>   HOSTCC  scripts/dtc/dtc.o
+>   HOSTCC  scripts/dtc/flattree.o
+>   HOSTCC  scripts/dtc/fstree.o
+>   HOSTCC  scripts/dtc/data.o
+>   HOSTCC  scripts/dtc/livetree.o
+>   HOSTCC  scripts/dtc/treesource.o
+>   HOSTCC  scripts/dtc/srcpos.o
+>   HOSTCC  scripts/dtc/checks.o
+>   HOSTCC  scripts/dtc/util.o
+>   LEX     scripts/dtc/dtc-lexer.lex.c
+>   YACC    scripts/dtc/dtc-parser.tab.[ch]
+>   HOSTCC  scripts/dtc/dtc-lexer.lex.o
+>   HOSTCC  scripts/dtc/dtc-parser.tab.o
+>   HOSTLD  scripts/dtc/dtc
+>   HOSTCXX scripts/gcc-plugins//latent_entropy_plugin.so
+>   GENSEED scripts/gcc-plugins//randomize_layout_seed.h
+>   HOSTCXX scripts/gcc-plugins//randomize_layout_plugin.so
+>   HOSTCXX scripts/gcc-plugins//stackleak_plugin.so
+>   HOSTCC  scripts/genksyms//genksyms.o
+>   YACC    scripts/genksyms//parse.tab.[ch]
+>   HOSTCC  scripts/genksyms//parse.tab.o
+>   LEX     scripts/genksyms//lex.lex.c
+>   HOSTCC  scripts/genksyms//lex.lex.o
+>   HOSTLD  scripts/genksyms//genksyms
+>   HOSTCC  scripts/selinux//genheaders/genheaders
+>   HOSTCC  scripts/selinux//mdp/mdp
+>   HOSTCC  scripts/kallsyms
+>   HOSTCC  scripts/sorttable
+>   HOSTCC  scripts/asn1_compiler
+>   HOSTCC  scripts/extract-cert
+>   HOSTCC  scripts/bin2c
+>   HOSTCC  scripts/recordmcount
+>   HOSTCC  scripts/sign-file
+>   HOSTCC  scripts/insert-sys-cert
+> 
+> 
+> 
+> 
+> I can fix Kbuild to avoid "//", but I do not want to support two ways.
+> 
+> So, I'd recommend not to add the trailing slash to subdir-y.
+OK, I agree. Thanks.
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 4fd6b327a19f..a276bfa93675 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -319,6 +319,21 @@ more details, with real examples.
- 	that directory specifies obj-y, those objects will be left orphan.
- 	It is very likely a bug of the Makefile or of dependencies in Kconfig.
- 
-+	Kbuild also supports dedicated syntax, subdir-y and subdir-m, for
-+	descending into subdirectories. It is a good fit when you know they
-+	do not contain kernel-space objects at all. A typical usage is to let
-+	Kbuild descend into subdirectories to build tools.
-+
-+	Examples::
-+
-+		# scripts/Makefile
-+		subdir-$(CONFIG_GCC_PLUGINS) += gcc-plugins
-+		subdir-$(CONFIG_MODVERSIONS) += genksyms
-+		subdir-$(CONFIG_SECURITY_SELINUX) += selinux
-+
-+	Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
-+	syntax is always used for directories.
-+
- 	It is good practice to use a `CONFIG_` variable when assigning directory
- 	names. This allows kbuild to totally skip the directory if the
- 	corresponding `CONFIG_` option is neither 'y' nor 'm'.
 -- 
-2.27.0
+~Randy
 
