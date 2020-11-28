@@ -2,145 +2,121 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C25012C7589
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C1762C7584
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388005AbgK1VtS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        id S2388022AbgK1VtS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
         Sat, 28 Nov 2020 16:49:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732358AbgK1SPi (ORCPT
+        with ESMTP id S1729823AbgK1Sap (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Nov 2020 13:15:38 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16E07C0254A6;
-        Sat, 28 Nov 2020 08:57:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=ubev1giHn2jmSzhtp/f94pjbxFaoCeWhmi4D5S6DRMQ=; b=kCmw1AxLSz9zAUV1hx0lxMwV1K
-        iHNuj/MU6Bqv/Rdf7HMk9MrKt3TjRtiRFu4DLkMgrYriTq0mvSfQBCT0dHzN3bple/c8tlOdVLjHc
-        UsVmctYTXxoPhP2N4b2ENuThOCVoN6iA0n4PJvijUiSwN98mADc/8pHk9g795HJTfE+XiXzEzWCyU
-        GELAuFvNBcyDSnCPsrzAVXb5iZeDMbTeyee5P2DD1312mI/qq0cZNXTXgBUZBaW8xf+yeAMYSY+w3
-        hcRx08LtEqG1kTGw9DIt+yDDfeDiY/plD9d6BlIrkTucYEnLAfGepv2jbVpLiRfTKE2mUzS0tj2qT
-        Y0QUyrag==;
-Received: from [2601:1c0:6280:3f0::cc1f]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kj3Wq-0005cP-OY; Sat, 28 Nov 2020 16:56:57 +0000
-Subject: Re: [PATCH 7/7] kbuild: doc: document subdir-y syntax
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20201123045403.63402-1-masahiroy@kernel.org>
- <20201123045403.63402-7-masahiroy@kernel.org>
- <5c40293a-a24a-2c85-e7ef-a08a8c732d19@infradead.org>
- <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f69d022b-a3a6-03e6-5ece-d5e6bd6d7035@infradead.org>
-Date:   Sat, 28 Nov 2020 08:56:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Sat, 28 Nov 2020 13:30:45 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F41C02B8FC
+        for <linux-kbuild@vger.kernel.org>; Sat, 28 Nov 2020 10:28:52 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id r24so11967436lfm.8
+        for <linux-kbuild@vger.kernel.org>; Sat, 28 Nov 2020 10:28:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eGDndFrV+B41FUm0rBqaTWW6GcKei+83JgpSLF04Y7w=;
+        b=bUXH/5+0xZCjoD49lFhvhBHOl2Oik0drcHRCVi0eywu8IrMLqHBAH+EL/nF40LJ+SS
+         sLw++ze+tS2I8qxrFeyJ8ElqKutyBiSRKI2gu2HfwvI4jtY/s2OOFdZpiXszYg5vWlPK
+         PXhA+vcYp0dxmUbrLzCRSF9vPKSzPuCMvp1Qo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eGDndFrV+B41FUm0rBqaTWW6GcKei+83JgpSLF04Y7w=;
+        b=YkN8C2PC+O694G2+w+IVTsVjpZs2NS8qkfkZJ1TekfRSlyA4DE3crVhgfqgWl5Nkaj
+         lCx4IN/abkNz02tGkX/c2+/KRCK7r+5VnAlDr3AsYEa16PFw9fZoG+iHURALng1LLx2c
+         jkeIj5XqBugwf/vJR7i+1HJH+dDntihzheFIzizlPJYES1Wy6vs/nuCpmfcDbDA4ntMz
+         5RZfb/LqJOlItbDqXh5ARqg3RLXW1pumwUm4Hr3+jANVZ5mQzaHhx5UN/FiRA/VtCibd
+         vu0WiWkEh3EvdmApjKfEbAl3qFZPow40hZByTK1Zdr5zjUhSL7nqzHFzxu0foHbZiqwA
+         x8Qw==
+X-Gm-Message-State: AOAM531+fSFcBQAqg+5wkgdDDYC2HOnCtfrjzgJEubAFoQ6aUCI/1z8F
+        p7F7Qseqh8gEKpiaOapl4nBBoOcsjW+kxQ==
+X-Google-Smtp-Source: ABdhPJy/MBT9+I/8IEqXJ0d0ZvzxihWpKRdtUtvRqfIa01EhNm5FCAYGR7OiZCLE9vZjJmOtCwf6PA==
+X-Received: by 2002:a19:f504:: with SMTP id j4mr6094681lfb.163.1606588130205;
+        Sat, 28 Nov 2020 10:28:50 -0800 (PST)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id q191sm1409237ljb.139.2020.11.28.10.28.48
+        for <linux-kbuild@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 28 Nov 2020 10:28:48 -0800 (PST)
+Received: by mail-lf1-f49.google.com with SMTP id d20so11931875lfe.11
+        for <linux-kbuild@vger.kernel.org>; Sat, 28 Nov 2020 10:28:48 -0800 (PST)
+X-Received: by 2002:ac2:4199:: with SMTP id z25mr5936619lfh.148.1606588128248;
+ Sat, 28 Nov 2020 10:28:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNASZKsfyj9K_QxLoHZkSpfHvUHwgm5pwq=DJUnMCdczjPw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAK7LNASn4Si3=YhAPtc06wEqajpU0uBh46-4T10f=cHy=LY2iA@mail.gmail.com>
+ <CAHk-=wihYvkKOcXWPjY7wN13DXbh3k2YX_6JxK_1cQ=krbi9kg@mail.gmail.com>
+ <CAHk-=wi86Eu8Whu66CVu+GVTxbuJG+QNvDuk-hXnWu+5q90Zeg@mail.gmail.com>
+ <CAHk-=winw=9xh6SmFJPZgi8ngVR-ECTA-kDAAU3DEPLMoUrzVA@mail.gmail.com>
+ <CAHk-=wjU4DCuwQ4pXshRbwDCUQB31ScaeuDo1tjoZ0_PjhLHzQ@mail.gmail.com> <CAK7LNAQtABssBH2LGThgv-F3_aSrz9Hd-ra9Yyu4-FFzY1nsUw@mail.gmail.com>
+In-Reply-To: <CAK7LNAQtABssBH2LGThgv-F3_aSrz9Hd-ra9Yyu4-FFzY1nsUw@mail.gmail.com>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sat, 28 Nov 2020 10:28:31 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whK0aQxs6Q5ijJmYF1n2ch8cVFSUzU5yUM_HOjig=+vnw@mail.gmail.com>
+Message-ID: <CAHk-=whK0aQxs6Q5ijJmYF1n2ch8cVFSUzU5yUM_HOjig=+vnw@mail.gmail.com>
+Subject: Re: [GIT PULL 2/2] Kconfig updates for v5.10-rc1
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Emese Revfy <re.emese@gmail.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Content-Type: multipart/mixed; boundary="000000000000af75be05b52ef291"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On 11/28/20 12:58 AM, Masahiro Yamada wrote:
-> On Tue, Nov 24, 2020 at 3:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> On 11/22/20 8:54 PM, Masahiro Yamada wrote:
->>> There is no explanation about subdir-y.
->>>
->>> Let's document it.
->>>
->>> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
->>> ---
->>>
->>>  Documentation/kbuild/makefiles.rst | 14 ++++++++++++++
->>>  1 file changed, 14 insertions(+)
->>>
->>> +
->>> +     Unlike obj-y/m, subdir-y/m does not need the trailing slash since this
->>> +     syntax is always used for directories.
->>> +
->>
->> Just curious:  Is a trailing slash allowed here?  say for consistency?
-> 
-> 
-> If you use a trailing slash for the subdir-y syntax,
-> it will still work.
-> 
-> 
-> Only the problem I see is that the build log will look clumsy
-> due to the double slashes "//".
-> 
+--000000000000af75be05b52ef291
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, that does look odd.
+On Fri, Nov 27, 2020 at 11:05 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> As for the cc1plus cost, I got a similar result.
+>
+> Running scripts/gcc-plugin.sh directly
+> took me 0.5 sec, which is a fourth
+> of the allmodconfig run-time.
+>
+> Actually, I did not know this shell script
+> was so expensive to run...
 
-> For example, if you change scripts/Makefile as follows:
-> 
+So it turns out that one reason it's so expensive to run is that it
+does a *lot* more than it claims to do.
 
-...
+It says "we need a c++ compiler that supports the designated
+initializer GNU extension", but then it actually includes a header
+file from hell, rather than just test designated initializers.
 
-> The build log will look like follows:
-> 
-> 
-> masahiro@grover:~/workspace/linux$ make allmodconfig; make scripts
-> #
-> # configuration written to .config
-> #
->   SYNC    include/config/auto.conf
->   HOSTCC  scripts/dtc/dtc.o
->   HOSTCC  scripts/dtc/flattree.o
->   HOSTCC  scripts/dtc/fstree.o
->   HOSTCC  scripts/dtc/data.o
->   HOSTCC  scripts/dtc/livetree.o
->   HOSTCC  scripts/dtc/treesource.o
->   HOSTCC  scripts/dtc/srcpos.o
->   HOSTCC  scripts/dtc/checks.o
->   HOSTCC  scripts/dtc/util.o
->   LEX     scripts/dtc/dtc-lexer.lex.c
->   YACC    scripts/dtc/dtc-parser.tab.[ch]
->   HOSTCC  scripts/dtc/dtc-lexer.lex.o
->   HOSTCC  scripts/dtc/dtc-parser.tab.o
->   HOSTLD  scripts/dtc/dtc
->   HOSTCXX scripts/gcc-plugins//latent_entropy_plugin.so
->   GENSEED scripts/gcc-plugins//randomize_layout_seed.h
->   HOSTCXX scripts/gcc-plugins//randomize_layout_plugin.so
->   HOSTCXX scripts/gcc-plugins//stackleak_plugin.so
->   HOSTCC  scripts/genksyms//genksyms.o
->   YACC    scripts/genksyms//parse.tab.[ch]
->   HOSTCC  scripts/genksyms//parse.tab.o
->   LEX     scripts/genksyms//lex.lex.c
->   HOSTCC  scripts/genksyms//lex.lex.o
->   HOSTLD  scripts/genksyms//genksyms
->   HOSTCC  scripts/selinux//genheaders/genheaders
->   HOSTCC  scripts/selinux//mdp/mdp
->   HOSTCC  scripts/kallsyms
->   HOSTCC  scripts/sorttable
->   HOSTCC  scripts/asn1_compiler
->   HOSTCC  scripts/extract-cert
->   HOSTCC  scripts/bin2c
->   HOSTCC  scripts/recordmcount
->   HOSTCC  scripts/sign-file
->   HOSTCC  scripts/insert-sys-cert
-> 
-> 
-> 
-> 
-> I can fix Kbuild to avoid "//", but I do not want to support two ways.
-> 
-> So, I'd recommend not to add the trailing slash to subdir-y.
-OK, I agree. Thanks.
+This patch makes the cc1plus overhead go down a lot. That said, I'm
+doubtful we really want gcc plugins at all, considering that the only
+real users have all apparently migrated to clang builtin functionality
+instead.
 
--- 
-~Randy
+        Linus
 
+--000000000000af75be05b52ef291
+Content-Type: text/x-patch; charset="US-ASCII"; name="patch.diff"
+Content-Disposition: attachment; filename="patch.diff"
+Content-Transfer-Encoding: base64
+Content-ID: <f_ki212utg0>
+X-Attachment-Id: f_ki212utg0
+
+IHNjcmlwdHMvZ2NjLXBsdWdpbi5zaCB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL3NjcmlwdHMvZ2NjLXBsdWdpbi5zaCBi
+L3NjcmlwdHMvZ2NjLXBsdWdpbi5zaAppbmRleCBiNzlmZDBiZWE4MzguLjU5ZGI4N2JmZjQ1NiAx
+MDA3NTUKLS0tIGEvc2NyaXB0cy9nY2MtcGx1Z2luLnNoCisrKyBiL3NjcmlwdHMvZ2NjLXBsdWdp
+bi5zaApAQCAtOCw4ICs4LDggQEAgc3JjdHJlZT0kKGRpcm5hbWUgIiQwIikKIGdjY3BsdWdpbnNf
+ZGlyPSQoJCogLXByaW50LWZpbGUtbmFtZT1wbHVnaW4pCiAKICMgd2UgbmVlZCBhIGMrKyBjb21w
+aWxlciB0aGF0IHN1cHBvcnRzIHRoZSBkZXNpZ25hdGVkIGluaXRpYWxpemVyIEdOVSBleHRlbnNp
+b24KK3Rlc3QgLWUgIiRnY2NwbHVnaW5zX2Rpci9pbmNsdWRlL3BsdWdpbi12ZXJzaW9uLmgiICYm
+CiAkSE9TVENDIC1jIC14IGMrKyAtc3RkPWdudSsrOTggLSAtZnN5bnRheC1vbmx5IC1JICRzcmN0
+cmVlL2djYy1wbHVnaW5zIC1JICRnY2NwbHVnaW5zX2Rpci9pbmNsdWRlIDI+L2Rldi9udWxsIDw8
+RU9GCi0jaW5jbHVkZSAiZ2NjLWNvbW1vbi5oIgogY2xhc3MgdGVzdCB7CiBwdWJsaWM6CiAJaW50
+IHRlc3Q7Cg==
+--000000000000af75be05b52ef291--
