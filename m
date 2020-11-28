@@ -2,32 +2,32 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 800672C75E1
-	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:25:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C34162C7593
+	for <lists+linux-kbuild@lfdr.de>; Sat, 28 Nov 2020 23:24:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387992AbgK1VtR (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Sat, 28 Nov 2020 16:49:17 -0500
-Received: from condef-01.nifty.com ([202.248.20.66]:31357 "EHLO
-        condef-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727355AbgK1SCE (ORCPT
+        id S2387972AbgK1VtQ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Sat, 28 Nov 2020 16:49:16 -0500
+Received: from condef-05.nifty.com ([202.248.20.70]:54918 "EHLO
+        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732680AbgK1RzN (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Sat, 28 Nov 2020 13:02:04 -0500
-Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-01.nifty.com with ESMTP id 0ASBqZtX012099;
+        Sat, 28 Nov 2020 12:55:13 -0500
+Received: from conuserg-07.nifty.com ([10.126.8.70])by condef-05.nifty.com with ESMTP id 0ASBqZ45018999;
         Sat, 28 Nov 2020 20:52:35 +0900
 Received: from grover.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-07.nifty.com with ESMTP id 0ASBpD6E027804;
-        Sat, 28 Nov 2020 20:51:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6E027804
+        by conuserg-07.nifty.com with ESMTP id 0ASBpD6F027804;
+        Sat, 28 Nov 2020 20:51:18 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-07.nifty.com 0ASBpD6F027804
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
         s=dec2015msa; t=1606564278;
-        bh=TODuxMl8gWL+vxXaObR8ZNOwfF1y+B82Besh1F6wfpQ=;
+        bh=XyszwlfQ3hvNfVNGL6RnB28DMsdpvA6WSiiDWams/Co=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W+Jc+ZCDMPWdX1l67/4zrQT2ep2rn3LFUjolf7sJAU7DCIhWFFISBtJcQTm+XQAGB
-         ZtLyDnWBrFbN0K6wLancl6womFfRueMZW8+39xX9g4CJ5VxhUJC/nqsojSUws4wjFs
-         rXdM3khAS0bw8d897l7XK3+WToVnQ5Ue0dGzffamORXBlJFsP0hxuMY6rJRz8itO0e
-         J61gyn0mrR7ZTQyfjOYvVe4lIk6EEPxYMFUhR+9a1YdQgpgpBL5WkxnCz46bsXGcQ1
-         HNPZjknhkisX1Q9qiQcPTQnizJxEvrgxR9mXrqiTf920Ik7e5Phb9nkL6enFXWKDcz
-         ud8Cm8ygwhf9g==
+        b=bBlIUNiIm7lTudPcHNSRotKD8Aj8uAV7rzjaW8mbgWPuGWiFyTn58IbdE5yCIROcd
+         Gqvvo7gpdv4GQJKzWTWLzSK/unYxCtBc+eZ05OM4fTBudZ9FiEW0BszvgD6Sj+2XiI
+         T1euA+eFXHQOdOvdoovw41f3SY1qs2pgW5Fq8HU75M6+WFmEymB3E8I2moDCE0ggey
+         KquEwpTdu3zqDL2ApRCaS8HTEwrhBCeWVMsXXwywJRFBJdgRD8wju6jRqKgNUhy4ab
+         AuEYAN0aib8fZgnDP9GVMalL9Zo0mCkgRGruveNkGn3Lf6aMhCVlIb+7Vuy5tbxFfP
+         2afeKU0+KrZNA==
 X-Nifty-SrcIP: [126.90.211.135]
 From:   Masahiro Yamada <masahiroy@kernel.org>
 To:     linux-kbuild@vger.kernel.org
@@ -36,9 +36,9 @@ Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Michal Marek <michal.lkml@markovi.net>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/7] kbuild: doc: split if_changed explanation to a separate section
-Date:   Sat, 28 Nov 2020 20:51:06 +0900
-Message-Id: <20201128115108.179256-5-masahiroy@kernel.org>
+Subject: [PATCH v2 6/7] kbuild: doc: clarify the difference between extra-y and always-y
+Date:   Sat, 28 Nov 2020 20:51:07 +0900
+Message-Id: <20201128115108.179256-6-masahiroy@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201128115108.179256-1-masahiroy@kernel.org>
 References: <20201128115108.179256-1-masahiroy@kernel.org>
@@ -48,157 +48,229 @@ Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-The if_changed macro is currently explained in the section
-"Commands useful for building a boot image", but the use of
-if_changed is not limited to the boot image.
+The difference between extra-y and always-y is obscure.
 
-It is often used together with custom rules. Let's split it as a
-separate section, and insert it after the "Custom Rules" section.
+Basically, Kbuild builds targets listed in extra-y and always-y in
+visited Makefiles without relying on any dependency.
 
-I slightly reworded the explanation, re-numbered to fill the <deleted>
-section, and also fixed the broken indentation of the Note: part.
+The difference is that extra-y is used to list the targets needed for
+vmlinux whereas always-y is used to list the targets that must be always
+built irrespective of final targets.
+
+Kbuild skips extra-y when it is building only modules (i.e.
+'make modules'). This is the long-standing behavior since extra-y was
+introduced in 2003, and it is explained in that commit log [1].
+
+For clarification, this is the extra-y vs always-y table:
+
+                  extra-y    always-y
+  'make'             y          y
+  'make vmlinux'     y          y
+  'make modules'     n          y
+
+Kbuild skips extra-y also when building external modules since obviously
+it never builds vmlinux.
+
+Unfortunately, extra-y is wrongly used in many places of upstream code,
+and even in external modules.
+
+Using extra-y in external module Makefiles is wrong. What you should
+use is probably always-y or 'targets'.
+
+The current documentation for extra-y is misleading. I rewrote it, and
+moved it to the section 3.7.
+
+always-y is not documented anywhere. I added.
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=f94e5fd7e5d09a56a60670a9bb211a791654bba8
 
 Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 ---
 
 Changes in v2:
-  - fix typos
+  - Use y/n instead of o/x
+  - Fix a typo
 
- Documentation/kbuild/makefiles.rst | 94 +++++++++++++++++-------------
- 1 file changed, 52 insertions(+), 42 deletions(-)
+ Documentation/kbuild/makefiles.rst | 110 +++++++++++++++++++----------
+ 1 file changed, 71 insertions(+), 39 deletions(-)
 
 diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 29101d2a0072..1dde4a096226 100644
+index 1dde4a096226..4fd6b327a19f 100644
 --- a/Documentation/kbuild/makefiles.rst
 +++ b/Documentation/kbuild/makefiles.rst
-@@ -16,9 +16,9 @@ This document describes the Linux kernel Makefiles.
+@@ -15,13 +15,15 @@ This document describes the Linux kernel Makefiles.
+ 	   --- 3.4 Objects which export symbols
  	   --- 3.5 Library file goals - lib-y
  	   --- 3.6 Descending down in directories
- 	   --- 3.7 Compilation flags
--	   --- 3.8 <deleted>
--	   --- 3.9 Dependency tracking
--	   --- 3.10 Custom Rules
-+	   --- 3.8 Dependency tracking
-+	   --- 3.9 Custom Rules
-+	   --- 3.10 Command change detection
- 	   --- 3.11 $(CC) support functions
- 	   --- 3.12 $(LD) support functions
- 	   --- 3.13 Script Invocation
-@@ -410,7 +410,7 @@ more details, with real examples.
+-	   --- 3.7 Compilation flags
+-	   --- 3.8 Dependency tracking
+-	   --- 3.9 Custom Rules
+-	   --- 3.10 Command change detection
+-	   --- 3.11 $(CC) support functions
+-	   --- 3.12 $(LD) support functions
+-	   --- 3.13 Script Invocation
++	   --- 3.7 Non-builtin vmlinux targets - extra-y
++	   --- 3.8 Always built goals - always-y
++	   --- 3.9 Compilation flags
++	   --- 3.10 Dependency tracking
++	   --- 3.11 Custom Rules
++	   --- 3.12 Command change detection
++	   --- 3.13 $(CC) support functions
++	   --- 3.14 $(LD) support functions
++	   --- 3.15 Script Invocation
+ 
+ 	=== 4 Host Program support
+ 	   --- 4.1 Simple Host Program
+@@ -321,7 +323,60 @@ more details, with real examples.
+ 	names. This allows kbuild to totally skip the directory if the
+ 	corresponding `CONFIG_` option is neither 'y' nor 'm'.
+ 
+-3.7 Compilation flags
++3.7 Non-builtin vmlinux targets - extra-y
++-----------------------------------------
++
++	extra-y specifies targets which are needed for building vmlinux,
++	but not combined into built-in.a.
++
++	Examples are:
++
++	1) head objects
++
++	    Some objects must be placed at the head of vmlinux. They are
++	    directly linked to vmlinux without going through built-in.a
++	    A typical use-case is an object that contains the entry point.
++
++	    arch/$(SRCARCH)/Makefile should specify such objects as head-y.
++
++	    Discussion:
++	      Given that we can control the section order in the linker script,
++	      why do we need head-y?
++
++	2) vmlinux linker script
++
++	    The linker script for vmlinux is located at
++	    arch/$(SRCARCH)/kernel/vmlinux.lds
++
++	Example::
++
++		# arch/x86/kernel/Makefile
++		extra-y	:= head_$(BITS).o
++		extra-y	+= head$(BITS).o
++		extra-y	+= ebda.o
++		extra-y	+= platform-quirks.o
++		extra-y	+= vmlinux.lds
++
++	$(extra-y) should only contain targets needed for vmlinux.
++
++	Kbuild skips extra-y when vmlinux is apparently not a final goal.
++	(e.g. 'make modules', or building external modules)
++
++	If you intend to build targets unconditionally, always-y (explained
++	in the next section) is the correct syntax to use.
++
++3.8 Always built goals - always-y
++---------------------------------
++
++	always-y specifies targets which are literally always built when
++	Kbuild visits the Makefile.
++
++	Example::
++	  # ./Kbuild
++	  offsets-file := include/generated/asm-offsets.h
++	  always-y += $(offsets-file)
++
++3.9 Compilation flags
+ ---------------------
+ 
+     ccflags-y, asflags-y and ldflags-y
+@@ -410,8 +465,8 @@ more details, with real examples.
  		AFLAGS_iwmmxt.o      := -Wa,-mcpu=iwmmxt
  
  
--3.9 Dependency tracking
-+3.8 Dependency tracking
- -----------------------
+-3.8 Dependency tracking
+------------------------
++3.10 Dependency tracking
++------------------------
  
  	Kbuild tracks dependencies on the following:
-@@ -422,8 +422,8 @@ more details, with real examples.
+ 
+@@ -422,8 +477,8 @@ more details, with real examples.
  	Thus, if you change an option to $(CC) all affected files will
  	be re-compiled.
  
--3.10 Custom Rules
--------------------
-+3.9 Custom Rules
-+----------------
+-3.9 Custom Rules
+-----------------
++3.11 Custom Rules
++-----------------
  
  	Custom rules are used when the kbuild infrastructure does
  	not provide the required support. A typical example is
-@@ -499,6 +499,52 @@ more details, with real examples.
+@@ -499,7 +554,7 @@ more details, with real examples.
  
  	will be displayed with "make KBUILD_VERBOSE=0".
  
-+3.10 Command change detection
-+-----------------------------
-+
-+	When the rule is evaluated, timestamps are compared between the target
-+	and its prerequisite files. GNU Make updates the target when any of the
-+	prerequisites is newer than that.
-+
-+	The target should be rebuilt also when the command line has changed
-+	since the last invocation. This is not supported by Make itself, so
-+	Kbuild achieves this by a kind of meta-programming.
-+
-+	if_changed is the macro used for this purpose, in the following form::
-+
-+		quiet_cmd_<command> = ...
-+		      cmd_<command> = ...
-+
-+		<target>: <source(s)> FORCE
-+			$(call if_changed,<command>)
-+
-+	Any target that utilizes if_changed must be listed in $(targets),
-+	otherwise the command line check will fail, and the target will
-+	always be built.
-+
-+	If the target is already listed in the recognized syntax such as
-+	obj-y/m, lib-y/m, extra-y/m, always-y, hostprogs, userprogs, Kbuild
-+	automatically adds it to $(targets). Otherwise, the target must be
-+	explicitly added to $(targets).
-+
-+	Assignments to $(targets) are without $(obj)/ prefix. if_changed may be
-+	used in conjunction with custom rules as defined in "3.9 Custom Rules".
-+
-+	Note: It is a typical mistake to forget the FORCE prerequisite.
-+	Another common pitfall is that whitespace is sometimes significant; for
-+	instance, the below will fail (note the extra space after the comma)::
-+
-+		target: source(s) FORCE
-+
-+	**WRONG!**	$(call if_changed, objcopy)
-+
-+	Note:
-+		if_changed should not be used more than once per target.
-+		It stores the executed command in a corresponding .cmd
-+		file and multiple calls would result in overwrites and
-+		unwanted results when the target is up to date and only the
-+		tests on changed commands trigger execution of commands.
-+
- 3.11 $(CC) support functions
+-3.10 Command change detection
++3.12 Command change detection
+ -----------------------------
+ 
+ 	When the rule is evaluated, timestamps are compared between the target
+@@ -545,7 +600,7 @@ more details, with real examples.
+ 		unwanted results when the target is up to date and only the
+ 		tests on changed commands trigger execution of commands.
+ 
+-3.11 $(CC) support functions
++3.13 $(CC) support functions
  ----------------------------
  
-@@ -1287,42 +1333,6 @@ When kbuild executes, the following steps are followed (roughly):
-     Kbuild provides a few macros that are useful when building a
-     boot image.
+ 	The kernel may be built with several different versions of
+@@ -660,7 +715,7 @@ more details, with real examples.
+ 			endif
+ 		endif
  
--    if_changed
--	if_changed is the infrastructure used for the following commands.
+-3.12 $(LD) support functions
++3.14 $(LD) support functions
+ ----------------------------
+ 
+     ld-option
+@@ -674,7 +729,7 @@ more details, with real examples.
+ 		#Makefile
+ 		LDFLAGS_vmlinux += $(call ld-option, -X)
+ 
+-3.13 Script invocation
++3.15 Script invocation
+ ----------------------
+ 
+ 	Make rules may invoke scripts to build the kernel. The rules shall
+@@ -1304,29 +1359,6 @@ When kbuild executes, the following steps are followed (roughly):
+ 
+ 	When "make" is executed without arguments, bzImage will be built.
+ 
+-7.6 Building non-kbuild targets
+--------------------------------
 -
--	Usage::
+-    extra-y
+-	extra-y specifies additional targets created in the current
+-	directory, in addition to any targets specified by `obj-*`.
 -
--		target: source(s) FORCE
--			$(call if_changed,ld/objcopy/gzip/...)
+-	Listing all targets in extra-y is required for two purposes:
 -
--	When the rule is evaluated, it is checked to see if any files
--	need an update, or the command line has changed since the last
--	invocation. The latter will force a rebuild if any options
--	to the executable have changed.
--	Any target that utilises if_changed must be listed in $(targets),
--	otherwise the command line check will fail, and the target will
--	always be built.
--	Assignments to $(targets) are without $(obj)/ prefix.
--	if_changed may be used in conjunction with custom rules as
--	defined in "3.10 Custom Rules".
+-	1) Enable kbuild to check changes in command lines
 -
--	Note: It is a typical mistake to forget the FORCE prerequisite.
--	Another common pitfall is that whitespace is sometimes
--	significant; for instance, the below will fail (note the extra space
--	after the comma)::
+-	   - When $(call if_changed,xxx) is used
 -
--		target: source(s) FORCE
+-	2) kbuild knows what files to delete during "make clean"
 -
--	**WRONG!**	$(call if_changed, ld/objcopy/gzip/...)
+-	Example::
 -
--        Note:
--	      if_changed should not be used more than once per target.
--              It stores the executed command in a corresponding .cmd
+-		#arch/x86/kernel/Makefile
+-		extra-y := head.o init_task.o
 -
--        file and multiple calls would result in overwrites and
--        unwanted results when the target is up to date and only the
--        tests on changed commands trigger execution of commands.
+-	In this example, extra-y is used to list object files that
+-	shall be built, but shall not be linked as part of built-in.a.
 -
-     ld
- 	Link target. Often, LDFLAGS_$@ is used to set specific options to ld.
+ 7.7 Commands useful for building a boot image
+ ---------------------------------------------
  
 -- 
 2.27.0
