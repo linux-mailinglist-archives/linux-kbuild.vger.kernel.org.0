@@ -2,72 +2,169 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 983CF2C8418
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Nov 2020 13:28:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAE5B2C8C25
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Nov 2020 19:07:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725870AbgK3M2K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Nov 2020 07:28:10 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:40355 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725298AbgK3M2K (ORCPT
+        id S1729515AbgK3SGf (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Nov 2020 13:06:35 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:28492 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728359AbgK3SGe (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Nov 2020 07:28:10 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1kjiH9-001Zqo-Hz; Mon, 30 Nov 2020 13:27:27 +0100
-Received: from p57bd9091.dip0.t-ipconnect.de ([87.189.144.145] helo=[192.168.178.139])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1kjiH9-001cul-0G; Mon, 30 Nov 2020 13:27:27 +0100
-Subject: Re: vmlinux link failure on ia64 with zstd
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Nick Terrell <terrelln@fb.com>
-Cc:     Ben Hutchings <ben@decadent.org.uk>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Tony Luck <tony.luck@intel.com>
-References: <f0a93b2d435252b3878ce821142677754f5e434c.camel@decadent.org.uk>
- <6A76267A-6B60-4428-94DF-E05706EB85FB@fb.com>
- <CAK7LNAToB3n9Y9OPXR55VKbDAkYgm1kUDO8gUu0Ak_+=6AhzCw@mail.gmail.com>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <067e9ef5-7555-6f8d-f744-e6400184d6ef@physik.fu-berlin.de>
-Date:   Mon, 30 Nov 2020 13:27:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        Mon, 30 Nov 2020 13:06:34 -0500
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 0AUI5Udq000564;
+        Tue, 1 Dec 2020 03:05:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0AUI5Udq000564
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606759531;
+        bh=Uh4bIgW4sNgrSBi12OkKecL/ZclO6A0g1hh7lFN2Jko=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=M/a6eVu8pHfFZeJlahUIEmCpqOBR2YwmkiKpa56CXrbjGlXbIVh/q/cGzHEl3y3JZ
+         b95udOb7WzeBSgoG8f7b76dQbQl4Lm0zZYH5+ogoUgxgQ3LOjeZumQakqWqE6m+e0E
+         mkItlKcl60ANX+oZNbtbOlsFQ4rACo78+89E6QoJ21IgsYIwkVucRJPA8yYHX6D73j
+         jTwa4KrSiojCFHzW/teMheezkj3C9Ffy75427zvfI15YkhCbfF58tLJJ8tyGigjsgF
+         /9obuBZrJZBa4GldoK8tlPDhg597z8MJ5HmRCSF9btfUkULRqVo7W6Ru8OapEbj6NI
+         BB8D1wBQY03DQ==
+X-Nifty-SrcIP: [209.85.216.44]
+Received: by mail-pj1-f44.google.com with SMTP id r9so48722pjl.5;
+        Mon, 30 Nov 2020 10:05:30 -0800 (PST)
+X-Gm-Message-State: AOAM531cD/b1W4+wxeZofTX0pUDqlrNead1peZYYsWUyhW15xz4mP7A5
+        t79Fsl4/uSHaSAxyl9lizWhtd89fCD2SbejoZk0=
+X-Google-Smtp-Source: ABdhPJw1yBQ+OjoG4aqEDV/okFiCVTmc526vsm2/CdKpMW7Nxrp9CZ6Z2BiW9LeBm1Bo+suMp+4xSEhr/ZXxP5MUjHg=
+X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr27829261pjt.87.1606759529929;
+ Mon, 30 Nov 2020 10:05:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAK7LNAToB3n9Y9OPXR55VKbDAkYgm1kUDO8gUu0Ak_+=6AhzCw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.144.145
+References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+ <20201104005343.4192504-1-ndesaulniers@google.com> <20201104005343.4192504-4-ndesaulniers@google.com>
+In-Reply-To: <20201104005343.4192504-4-ndesaulniers@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 1 Dec 2020 03:04:50 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAT5MQqUddv+QbFu5ToLBK3eUPArHSBR=5AOS3ONtMqKaw@mail.gmail.com>
+Message-ID: <CAK7LNAT5MQqUddv+QbFu5ToLBK3eUPArHSBR=5AOS3ONtMqKaw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] Kbuild: make DWARF version a choice
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jakub Jelinek <jakub@redhat.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-toolchains@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Alistair Delva <adelva@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Masahiro!
+On Wed, Nov 4, 2020 at 9:53 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
+>
+> Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice. Adds an
+> explicit CONFIG_DEBUG_INFO_DWARF2, which is the default. Does so in a
+> way that's forward compatible with existing configs, and makes adding
+> future versions more straightforward.
+>
+> Suggested-by: Fangrui Song <maskray@google.com>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  Makefile          | 14 ++++++++------
+>  lib/Kconfig.debug | 19 +++++++++++++++----
+>  2 files changed, 23 insertions(+), 10 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 75b1a3dcbf30..e23786a4c1c7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -826,12 +826,14 @@ else
+>  DEBUG_CFLAGS   += -g
+>  endif
+>
+> -ifndef LLVM_IAS
+> -KBUILD_AFLAGS  += -Wa,-gdwarf-2
+> -endif
+> -
+> -ifdef CONFIG_DEBUG_INFO_DWARF4
+> -DEBUG_CFLAGS   += -gdwarf-4
+> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
+> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+> +ifneq ($(dwarf-version-y)$(LLVM_IAS),21)
+> +# Binutils 2.35+ required for -gdwarf-4+ support.
+> +dwarf-aflag    := $(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y))
+> +DEBUG_CFLAGS   += $(dwarf-aflag)
 
-On 9/15/20 8:48 AM, Masahiro Yamada wrote:
-> dc35da16a2e2 is more than two years old (i.e. v4.17)
-> 
-> Are we discussing a long-standing issue
-> or something that arose recently?
+This changes the behavior.
 
-Kernels up to 5.7.0 built fine on ia64 in Debian [1], but I assume that zstd was
-only recently enabled in Debian's standard kernel.
+For the Dwarf-2 case,
 
-Adrian
+Previously, -gdwarf-2 was passed to $(CC),
+so the debug info was generated by gcc.
 
-> [1] https://buildd.debian.org/status/logs.php?pkg=linux&arch=ia64
+Now, -Wa,-gdwarf-2 is passed to $(CC).
+-gdwarf-2 is handled by GNU as.
+So, the source info points to /tmp/<hash>.s
+instead of the original .c file.
+
+
+
+Handling the Dwarf capability is very complicated.
+
+Are you still working for v3?
+
+
+
+> +KBUILD_AFLAGS  += $(dwarf-aflag)
+>  endif
+>
+>  ifdef CONFIG_DEBUG_INFO_REDUCED
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 83a860126897..03c494eefabd 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -256,14 +256,25 @@ config DEBUG_INFO_SPLIT
+>           to know about the .dwo files and include them.
+>           Incompatible with older versions of ccache.
+>
+> +choice
+> +       prompt "DWARF version"
+> +       help
+> +         Which version of DWARF debug info to emit.
+> +
+> +config DEBUG_INFO_DWARF2
+> +       bool "Generate DWARF v2 debuginfo"
+> +       help
+> +         Generate DWARF v2 debug info.
+> +
+>  config DEBUG_INFO_DWARF4
+>         bool "Generate dwarf4 debuginfo"
+>         depends on $(cc-option,-gdwarf-4)
+>         help
+> -         Generate dwarf4 debug info. This requires recent versions
+> -         of gcc and gdb. It makes the debug information larger.
+> -         But it significantly improves the success of resolving
+> -         variables in gdb on optimized code.
+> +         Generate DWARF v4 debug info. This requires gcc 4.5+ and gdb 7.0+.
+> +         It makes the debug information larger, but it significantly
+> +         improves the success of resolving variables in gdb on optimized code.
+> +
+> +endchoice # "DWARF version"
+>
+>  config DEBUG_INFO_BTF
+>         bool "Generate BTF typeinfo"
+> --
+> 2.29.1.341.ge80a0c044ae-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/20201104005343.4192504-4-ndesaulniers%40google.com.
+
+
 
 -- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
-
+Best Regards
+Masahiro Yamada
