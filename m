@@ -2,72 +2,72 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C04982C83B3
-	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Nov 2020 13:03:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 983CF2C8418
+	for <lists+linux-kbuild@lfdr.de>; Mon, 30 Nov 2020 13:28:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729181AbgK3MCS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Nov 2020 07:02:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35772 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727656AbgK3MCS (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Nov 2020 07:02:18 -0500
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 89B91206CB;
-        Mon, 30 Nov 2020 12:01:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606737697;
-        bh=A/tQpaRCdVBxIrK5CVrihAXJGL1D0YMcA4iympcoTzk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EwVQLNwsXH/bdnWP/eU1At5WBpjCSdAR6JTRNITU+0kyAYmyC7vfvCGB5aglCFG6x
-         MgF+azWjp5V9E9RCzfCIxmq6AyuSMIhVSOBmKKJ8jGetiIbmZ9+phj0IYAntF8L2n+
-         Jz+cOfBAzUsJpOu6/EZ4Jj48GG8LJpvvDpy7mI9s=
-Date:   Mon, 30 Nov 2020 12:01:31 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Sami Tolvanen <samitolvanen@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux@googlegroups.com,
-        kernel-hardening@lists.openwall.com, linux-arch@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v7 00/17] Add support for Clang LTO
-Message-ID: <20201130120130.GF24563@willie-the-truck>
-References: <20201118220731.925424-1-samitolvanen@google.com>
+        id S1725870AbgK3M2K (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Nov 2020 07:28:10 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:40355 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725298AbgK3M2K (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Mon, 30 Nov 2020 07:28:10 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1kjiH9-001Zqo-Hz; Mon, 30 Nov 2020 13:27:27 +0100
+Received: from p57bd9091.dip0.t-ipconnect.de ([87.189.144.145] helo=[192.168.178.139])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1kjiH9-001cul-0G; Mon, 30 Nov 2020 13:27:27 +0100
+Subject: Re: vmlinux link failure on ia64 with zstd
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Terrell <terrelln@fb.com>
+Cc:     Ben Hutchings <ben@decadent.org.uk>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Tony Luck <tony.luck@intel.com>
+References: <f0a93b2d435252b3878ce821142677754f5e434c.camel@decadent.org.uk>
+ <6A76267A-6B60-4428-94DF-E05706EB85FB@fb.com>
+ <CAK7LNAToB3n9Y9OPXR55VKbDAkYgm1kUDO8gUu0Ak_+=6AhzCw@mail.gmail.com>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <067e9ef5-7555-6f8d-f744-e6400184d6ef@physik.fu-berlin.de>
+Date:   Mon, 30 Nov 2020 13:27:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201118220731.925424-1-samitolvanen@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <CAK7LNAToB3n9Y9OPXR55VKbDAkYgm1kUDO8gUu0Ak_+=6AhzCw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.144.145
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-Hi Sami,
+Hi Masahiro!
 
-On Wed, Nov 18, 2020 at 02:07:14PM -0800, Sami Tolvanen wrote:
-> This patch series adds support for building the kernel with Clang's
-> Link Time Optimization (LTO). In addition to performance, the primary
-> motivation for LTO is to allow Clang's Control-Flow Integrity (CFI) to
-> be used in the kernel. Google has shipped millions of Pixel devices
-> running three major kernel versions with LTO+CFI since 2018.
+On 9/15/20 8:48 AM, Masahiro Yamada wrote:
+> dc35da16a2e2 is more than two years old (i.e. v4.17)
 > 
-> Most of the patches are build system changes for handling LLVM bitcode,
-> which Clang produces with LTO instead of ELF object files, postponing
-> ELF processing until a later stage, and ensuring initcall ordering.
-> 
-> Note that v7 brings back arm64 support as Will has now staged the
-> prerequisite memory ordering patches [1], and drops x86_64 while we work
-> on fixing the remaining objtool warnings [2].
+> Are we discussing a long-standing issue
+> or something that arose recently?
 
-Sounds like you're going to post a v8, but that's the plan for merging
-that? The arm64 parts look pretty good to me now.
+Kernels up to 5.7.0 built fine on ia64 in Debian [1], but I assume that zstd was
+only recently enabled in Debian's standard kernel.
 
-Will
+Adrian
+
+> [1] https://buildd.debian.org/status/logs.php?pkg=linux&arch=ia64
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
