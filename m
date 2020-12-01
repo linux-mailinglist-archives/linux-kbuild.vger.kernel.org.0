@@ -2,114 +2,97 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72CE2CA8AB
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 17:49:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B23DF2CA8CC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 17:53:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388811AbgLAQsi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 11:48:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39648 "EHLO
+        id S2388924AbgLAQxW (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 11:53:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388082AbgLAQsh (ORCPT
+        with ESMTP id S2387795AbgLAQxW (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 11:48:37 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B402C061A04
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Dec 2020 08:47:17 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id r3so3678168wrt.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 08:47:17 -0800 (PST)
+        Tue, 1 Dec 2020 11:53:22 -0500
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com [IPv6:2a00:1450:4864:20::54a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98FDC0613CF
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Dec 2020 08:52:35 -0800 (PST)
+Received: by mail-ed1-x54a.google.com with SMTP id w24so1649778edt.11
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 08:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=b3U69nUvkDMdtMVIGjWBzkR9SwVXqGD3Tu55Q8FU570=;
-        b=ES2LsJeN4b0KdLMrJORmEDNP6wnEDr7va1Jxsg16QsZi8lUxZR/BNcayu3OVMi7wab
-         Tg26PrvyAfYvjlYRJg9Wn++WQzxb4aKzS5dvdw+zrJuIvQQROqq1393zVNBQKvq3Dqfj
-         5iqpYWgvresWpw0g+qEYfDKAiuc9BleffYPanKqAyJbJoj583Z4jLQnbI8OluyrEmRWD
-         HOk04zKgVoY6B/zai+Ck6liEfJeZH+oKYJOS3Be6qnwIEuFVwbQBncDnC+4fsiD45KJ1
-         tLeirtFfL7HJ7s+hRuQ3np9ZH4i99WgfFK7tKd/ErtgQ2SsP/ExQOhKqUfemiVAYGAo4
-         SWWA==
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=7J2rIU7NG1spfWolovEBqiTIkQod3FyymVw5u4J4xKA=;
+        b=HMRWOVPawresJEri9vwe5OAQkAqTCsl6dlMR+u1UNoDoHH6RbQaUwdgAJ1SQv8Q5bU
+         CqlJP8IK0+UOwr32kekS3X6pe1aKHWUwpycegjqqxbyWASoTk93WCwhUYmRAfGzBMYvf
+         o5dc4oOfy7mUHyhaifj0uAXbH3wH9CSPcUWApGOgzaSE7PUejyhPwvMGLwY0T2DrTrm9
+         o3UzWmtcFm7U+dXq1pK3QSkrrw8bbiR3resQdt9ATutmPjP5rhXFf2wrkdJCaaKHwL5J
+         P9MlHaihMNzGKvVg3Tl8gYn+6ztJ65RBxTeQrBezks98OgZaJaArdZlQQz0LCrqta5WL
+         Lohw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=b3U69nUvkDMdtMVIGjWBzkR9SwVXqGD3Tu55Q8FU570=;
-        b=s94idm1WcCb3PEspFVKQksPJzZjgOhKR9RbirW02zSaCoQae3gfH6zR/p+9VCPVpLM
-         T6fatCqcT67UM9vcLIfJiJ6esqNTRVH3Wq7yv6P7iRZMtS7drdwkkynRc7gVLEC+Imrm
-         GV/2K8PSLoTjOA2Gz7pwyXeLBZccxJ1EcPvB5wvAz8IMFX0imsiG5LegKrPNygZ5Bqnz
-         PQuFViXeW4XWbUuU/AVwWFHJaTCS8I5m7qHYP1Y9x0l2U5YGKQxpulsRcQ8l2ZIB68YK
-         +Nov9mFGh4Pdt4zwXvimvtgFpMPlezj9UfIUYMnbmxiJlZA1TMpZyqRd0mJg8IDpFmp/
-         tdRQ==
-X-Gm-Message-State: AOAM530UcvM1VNg5ub4oNV8OLwtX7tczkBrf/IlTYxAYE5uOVkagueEU
-        r4QV1zUKNRC9I0j2IVZd0rH3d/d21HOADA==
-X-Google-Smtp-Source: ABdhPJxcGjMMi+603REgpYabEtKbjHcizw6XeTvxEK1iGsCiJh/2CtHdhzKfbszIdqHbC7uNowZB2w==
-X-Received: by 2002:a5d:6852:: with SMTP id o18mr5005694wrw.336.1606841235753;
-        Tue, 01 Dec 2020 08:47:15 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:f693:9fff:fef4:a7ef])
-        by smtp.gmail.com with ESMTPSA id a144sm652871wmd.47.2020.12.01.08.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 08:47:15 -0800 (PST)
-Date:   Tue, 1 Dec 2020 16:47:12 +0000
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=7J2rIU7NG1spfWolovEBqiTIkQod3FyymVw5u4J4xKA=;
+        b=mvw0nxLWuVF6P09YRQtmKb0XAXXIZkIHhS1NJzRioeh16lkjfYnI0ewYNUGTIwMzKn
+         t3rfHAZ9QYJTXpB2BOG53xhhwRM8f0Suf+N7kdhW1gWUC7lIljN9XXJAacLOnyXav8Yg
+         np4qFWNJUCFI0Q3CElMnySZFhTWJ2OUSZjx1NJvQB2g520TAq5VOvq0ArWnfKP0Yji/k
+         CTQl0bhUGH3q2DCOUuyOsX7D7Hjtlh86KUmHLF3l5yIrZCBUEP6z6g5x/13a8QO8Vxc7
+         eLROC33SMzF5iRe83fhNeRS8KEOmKnE60xfCWA7PWH337gEeC+RT/RDny0QdfdI/xlLJ
+         WCkg==
+X-Gm-Message-State: AOAM533RipQBMZMurUUTNrV6YJwVJ+RNDKugiBdOofQNmYTApQu/IqLx
+        /kqWxwTYweM/kyfb425gGH8jlnX58gDJ
+X-Google-Smtp-Source: ABdhPJxcFEFb3HZPmb7f2rVe8+bDLBadD+Ea3YClzGi0bJXXWHPjBMwHyKyRbk6uMfZoP/zYg/0vOrHFEenm
+Sender: "qperret via sendgmr" <qperret@luke.lon.corp.google.com>
+X-Received: from luke.lon.corp.google.com ([2a00:79e0:d:210:f693:9fff:fef4:a7ef])
+ (user=qperret job=sendgmr) by 2002:a05:6402:143a:: with SMTP id
+ c26mr3846526edx.131.1606841554118; Tue, 01 Dec 2020 08:52:34 -0800 (PST)
+Date:   Tue,  1 Dec 2020 16:52:22 +0000
+Message-Id: <20201201165222.2001985-1-qperret@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+Subject: [PATCH v2] modpost: turn static exports into error
 From:   Quentin Perret <qperret@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     linux-kbuild@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/5] modpost: refactor error handling and clarify
- error/fatal difference
-Message-ID: <20201201164712.GA1949321@google.com>
-References: <20201201103418.675850-1-masahiroy@kernel.org>
- <20201201103418.675850-2-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201201103418.675850-2-masahiroy@kernel.org>
+To:     masahiroy@kernel.org, michal.lkml@markovi.net
+Cc:     linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org, kernel-team@android.com,
+        maennich@google.com, Quentin Perret <qperret@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tuesday 01 Dec 2020 at 19:34:15 (+0900), Masahiro Yamada wrote:
-> We have 3 log functions. fatal() is special because it lets modpost bail
-> out immediately. The difference between warn() and error() is the only
-> prefix parts ("WARNING:" vs "ERROR:").
-> 
-> The intended usage of error() is probably to propagate the return code
-> from the function to the exit code of modpost, as check_exports() etc.
-> already does. This is a good manner because we should display as many
-> issues as possible in a single run of modpost.
-> 
-> What is annoying about fatal() is that it kills modpost at the first
-> error. People would need to run Kbuild again and again until they fix
-> all errors.
-> 
-> But, unfortunately, people tend to do:
-> "This case should not be allowed. Let's replace warn() with fatal()."
+Using EXPORT_SYMBOL*() on static functions is fundamentally wrong.
+Modpost currently reports that as a warning, but clearly this is not a
+pattern we should allow, and all in-tree occurences should have been
+fixed by now. So, promote the warn() message to error() to make sure
+this never happens again.
 
-Indeed :-)
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Matthias Maennich <maennich@google.com>
+Signed-off-by: Quentin Perret <qperret@google.com>
 
-> One of the reasons is probably it is tedious to manually carry the error
-> code back to the main() function.
+---
+v2: now depends on 20201201103418.675850-2-masahiroy@kernel.org
+---
+ scripts/mod/modpost.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-And yes, that was the reason.
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index 43e00867623a..5562526c8c32 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -2648,9 +2648,9 @@ int main(int argc, char **argv)
+ 
+ 		for (s = symbolhash[n]; s; s = s->next) {
+ 			if (s->is_static)
+-				warn("\"%s\" [%s] is a static %s\n",
+-				     s->name, s->module->name,
+-				     export_str(s->export));
++				error("\"%s\" [%s] is a static %s\n",
++				      s->name, s->module->name,
++				      export_str(s->export));
+ 		}
+ 	}
+ 
+-- 
+2.29.2.454.gaff20da3a2-goog
 
-> This commit refactors error() so any single call for it automatically
-> makes modpost return the error code.
-> 
-> I also added comments in modpost.h for warn(), error(), and fatal().
-> 
-> Again, please use fatal() only when you have a strong reason to do so.
-> For example:
-> 
->   - Memory shortage (i.e. malloc() etc. has failed)
->   - The ELF file is broken, and there is no point to continue parsing
->   - Something really odd has happened
-> 
-> For general coding errors, please use error().
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-I gave it a go and the error is propagated correctly, so FWIW:
-
-Tested-by: Quentin Perret <qperret@google.com>
-
-Thanks,
-Quentin
