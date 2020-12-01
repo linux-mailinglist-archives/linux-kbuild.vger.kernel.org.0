@@ -2,87 +2,101 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0276D2CA482
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 14:54:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D9202CA4DC
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 15:05:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389943AbgLANyi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 08:54:38 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:37562 "EHLO
+        id S2391401AbgLAOCS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 09:02:18 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:49911 "EHLO
         conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390730AbgLANyh (ORCPT
+        with ESMTP id S2391102AbgLAOCS (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 08:54:37 -0500
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0B1DrQTV021869;
-        Tue, 1 Dec 2020 22:53:27 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0B1DrQTV021869
+        Tue, 1 Dec 2020 09:02:18 -0500
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 0B1E1Hc2025598;
+        Tue, 1 Dec 2020 23:01:17 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0B1E1Hc2025598
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606830807;
-        bh=Ok1QqgsbTvLJR9T2w9uzm16olUMbK7QKnvuiz2CLeqM=;
+        s=dec2015msa; t=1606831277;
+        bh=42+OWCIwxDyM+q69U8eB2vW06YbrOCdwfCtvzHCs448=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qN/IjIZBhMZoBtAgolas/uVF3Rp/Hk0w0pMlmeOop7VUsl/YaBH2movBpJWDegVJA
-         vnxeRoD6m2RKQZCbqbCKvRi38r+rGpKkt/67VyTCB0b1uhKJC4Q3zf05t0W9Wf+9gi
-         zS2wc/t3UJnZQz5jD9p+lnnGB5g0gGxnL+Pk2clHnx+lEPcV6tT/qblqHk6BugwW0j
-         wEoPSj9tVpVUlYOjGCnzilyrjyZUnHN+lX/5F1AvnO1l1PweA91a8/l7n64FAGEviY
-         3smNN36Wf4UfKU9sAdj7a4BEbKLtTU5MhX6UYu9WWFzIHQWIWZATgOza97Tb93vGyO
-         m+29oJTO4+/bw==
-X-Nifty-SrcIP: [209.85.214.176]
-Received: by mail-pl1-f176.google.com with SMTP id bj5so1184179plb.4;
-        Tue, 01 Dec 2020 05:53:27 -0800 (PST)
-X-Gm-Message-State: AOAM532H5py1JWCD8BMFJkeYbqoyMvvBzYj4o/FNnpa3guZzbA4gx5Sx
-        gGcQ421QlcO6KJihLxKdotXHIII3PDr4XH9Qt18=
-X-Google-Smtp-Source: ABdhPJytF7/TSiOE8RQwh1z0tE6AjvW8ZFpYvV7UD1hS+NhCt//ZFmmGhZxWq0ziQeW4eXdFQh/WV0dS2BmI+kOqu8Y=
-X-Received: by 2002:a17:90a:5905:: with SMTP id k5mr2779502pji.198.1606830806327;
- Tue, 01 Dec 2020 05:53:26 -0800 (PST)
+        b=Gmt7lYV+rHQK/L9WfkAgGjfHGlE0EOxtX3IzUo3Aj0BVMwhX29VhVL+Qv+4F40fx6
+         5yyKKFqzmCWuGRbtoksP4YzlM4g2PQavtBIDvA/i4NaxW6uCW8mKsrvRzRlnHGUhx3
+         peTk8hfgp53rSmmJHZPUVo+8sPV6+dTCyotCyFYqFeLsgDvjHRip7Lgghcoe5HhXxD
+         cj1S7D21kV9p3gHhn2DGokXHDFKRVBSoOK8JHwxBc9TCeOAzrVIJg04Mddb7ljR+gk
+         z9AtADv/WMVlzKQpNcVTMnLjh+aAgHBx6J0AiIMYL6bZfOLI6GuBA8SxzfkPIi9aC+
+         QFTmDH15qjxYA==
+X-Nifty-SrcIP: [209.85.216.54]
+Received: by mail-pj1-f54.google.com with SMTP id r20so1277207pjp.1;
+        Tue, 01 Dec 2020 06:01:17 -0800 (PST)
+X-Gm-Message-State: AOAM531KRRPWESX4MEIa/bprvUN1A7JkBUDV+apQFB2F4b7EBQ6qTTdX
+        aRwfF1RCdUdM9YeQVgUn09TCHU2sWgfhDnoisRk=
+X-Google-Smtp-Source: ABdhPJwlJoYz4cF+HFjxUOTDEdCCTRMJH7oj2/FdPZtkRmI5/Y+CaI9P3b0DOFIbnJQilpCruAR0EO9rMgUqKfs9Lq8=
+X-Received: by 2002:a17:902:402:b029:da:2cb9:56e8 with SMTP id
+ 2-20020a1709020402b02900da2cb956e8mr2802759ple.1.1606831276621; Tue, 01 Dec
+ 2020 06:01:16 -0800 (PST)
 MIME-Version: 1.0
-References: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
-In-Reply-To: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
+References: <20201124182420.2202514-1-qperret@google.com>
+In-Reply-To: <20201124182420.2202514-1-qperret@google.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 1 Dec 2020 22:52:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQP+e18qAVEUJvmkwpCwTtS4Auqth7u+xPW6pBbE_+z0A@mail.gmail.com>
-Message-ID: <CAK7LNAQP+e18qAVEUJvmkwpCwTtS4Auqth7u+xPW6pBbE_+z0A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ld-version: use /usr/bin/env awk for shebank
-To:     Dominique Martinet <asmadeus@codewreck.org>
+Date:   Tue, 1 Dec 2020 23:00:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATj8C7C=dYcDD4M5Q-Zc_kUhY2+i6epH=LbiOAUaDZqiw@mail.gmail.com>
+Message-ID: <CAK7LNATj8C7C=dYcDD4M5Q-Zc_kUhY2+i6epH=LbiOAUaDZqiw@mail.gmail.com>
+Subject: Re: [PATCH] modpost: Make static exports fatal
+To:     Quentin Perret <qperret@google.com>
 Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 1, 2020 at 10:18 PM Dominique Martinet
-<asmadeus@codewreck.org> wrote:
+On Wed, Nov 25, 2020 at 3:24 AM Quentin Perret <qperret@google.com> wrote:
 >
-> /usr/bin/awk is not garanteed to exist (and doesn't on e.g. nixos),
-> using /usr/bin/env to have it look in PATH is more robust
+> Using EXPORT_SYMBOL*() on static functions is fundamentally wrong.
+> Modpost currently reports that as a warning, but clearly this is not a
+> pattern we should allow, and all in-tree occurences should have been
+> fixed by now. So, promote the warn() message to fatal() to make sure
+> this never happens again.
 >
-> Signed-off-by: Dominique Martinet <asmadeus@codewreck.org>
+> Signed-off-by: Quentin Perret <qperret@google.com>
 > ---
-
-Both applied to linux-kbuild. Thanks.
-
-
-> I've been carrying these two patchs for local kernel development on
-> nixos for a while, I don't think it'd break anything for anyone so
-> might as well submit these -- please consider it :)
+>  scripts/mod/modpost.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
->  scripts/ld-version.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+> index f882ce0d9327..70b0e825a139 100644
+> --- a/scripts/mod/modpost.c
+> +++ b/scripts/mod/modpost.c
+> @@ -2663,9 +2663,9 @@ int main(int argc, char **argv)
 >
-> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
-> index f2be0ff9a738..05476b8f8925 100755
-> --- a/scripts/ld-version.sh
-> +++ b/scripts/ld-version.sh
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/awk -f
-> +#!/usr/bin/env -S awk -f
->  # SPDX-License-Identifier: GPL-2.0
->  # extract linker version number from stdin and turn into single number
->         {
+>                 for (s = symbolhash[n]; s; s = s->next) {
+>                         if (s->is_static)
+> -                               warn("\"%s\" [%s] is a static %s\n",
+> -                                    s->name, s->module->name,
+> -                                    export_str(s->export));
+> +                               fatal("\"%s\" [%s] is a static %s\n",
+> +                                     s->name, s->module->name,
+> +                                     export_str(s->export));
+>                 }
+>         }
+>
 > --
-> 2.28.0
+> 2.29.2.454.gaff20da3a2-goog
 >
+
+
+I am not a big fan of (ab)using fatal() for this case.
+
+Please consider using error() once
+the following is queued up.
+
+https://patchwork.kernel.org/project/linux-kbuild/patch/20201201103418.675850-2-masahiroy@kernel.org/
+
+
 
 
 -- 
