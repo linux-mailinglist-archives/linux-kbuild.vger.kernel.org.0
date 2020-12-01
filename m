@@ -2,127 +2,216 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8DDE2C95F4
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 04:43:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 606732C9668
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 05:20:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbgLADni (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Nov 2020 22:43:38 -0500
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:27722 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727351AbgLADni (ORCPT
+        id S1728266AbgLAETV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Nov 2020 23:19:21 -0500
+Received: from conssluserg-01.nifty.com ([210.131.2.80]:35489 "EHLO
+        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728211AbgLAETU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Nov 2020 22:43:38 -0500
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 0B13gSOW012615;
-        Tue, 1 Dec 2020 12:42:29 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0B13gSOW012615
+        Mon, 30 Nov 2020 23:19:20 -0500
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id 0B14IKKj021660;
+        Tue, 1 Dec 2020 13:18:20 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com 0B14IKKj021660
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606794149;
-        bh=BWVC7RRUjccNiBhgYJa1yg1OZmjJwaBDhMFEUkAYcN4=;
+        s=dec2015msa; t=1606796300;
+        bh=GMCnYM+voihvO7OPv2mqIVM7rj+QDDQzTVQXG07MvGI=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=JEK9kZtFFmaSXOAhh+Z65KvyTutJYBHPKO6AW23p1sFWtiT+usxWWP//lcjnmlGss
-         JgwkMoAiauLqiuVfo98fq+OAUsLmJV++U4/peWfcHOC9HX1Qgp0W2pc8k6ebQCpIzl
-         yPweBO0wYilGJlvuwXoMv5Bjc/fs83ufoDjLSNKk0bAuRolpQVYwgWw5VsS82mS90I
-         lu4hpW+lDmw94FmbvOo1pU6+UR966WnmDtWqsetUVjltDcfCMyGrIRF4iZPkOFI6F5
-         AUYcWRlWEgC3k0x76WlvSe2XZ3RSoDQq/FUvKSrDfJ9lwt3eGgiZJmNs0K6rdc7V1/
-         55bF8QukxE25A==
-X-Nifty-SrcIP: [209.85.215.176]
-Received: by mail-pg1-f176.google.com with SMTP id l4so394456pgu.5;
-        Mon, 30 Nov 2020 19:42:28 -0800 (PST)
-X-Gm-Message-State: AOAM532eTAMAl28DcSvLG9M/WLDnBivn0griXAhmJdg+dcwj1a77+/h3
-        NoyAAE/RFah/FJ1DNqEegQVbIVOAy5hoaM/y4hA=
-X-Google-Smtp-Source: ABdhPJw8A81Y8/Np9Cv+CBx/1Qpock66ZEd/FSphSJcX/t31cIp72/nzgCgbffh2CUigq3Km1etdD76ChTglzTmazGE=
-X-Received: by 2002:a63:4821:: with SMTP id v33mr557464pga.7.1606794148022;
- Mon, 30 Nov 2020 19:42:28 -0800 (PST)
+        b=TG81yAjY1idEUthd84zQkpIZ3TMytSylasR1ZjbVj2sGLPJizj9QFfC0lncrt1wb2
+         nyg9FFzi+e7uczvGqm7v2QyC0xbjsdMS/U5/1Q8XwP9a4X8eQi7JjGsqzCFo0whp58
+         AVz4FtYoFrN6yRT1zgefB9POp6ZHRrRxfGEkhFkl4HMpk7nUGy41PbiEEgQx0L3dt+
+         nLGBFH5KL2CJePXg2p47vtHqkJISEp9ErmJSUxddSMlPZC7ZPeqscNz1IsgVzL1zhx
+         OAJdU/rFvcb6mWOBmFfoI5b+RwXhC1NKZPCFFUk9RXHwpJ46yoXBEiaIvlrvEU9VIB
+         CUNVpm7gc/+lg==
+X-Nifty-SrcIP: [209.85.216.52]
+Received: by mail-pj1-f52.google.com with SMTP id j13so434939pjz.3;
+        Mon, 30 Nov 2020 20:18:20 -0800 (PST)
+X-Gm-Message-State: AOAM530EcbnmI+ypUVn5nk5fdBFXOrBmlnerc/8D92LDnmSu6Zsn4+XG
+        0yZrpk4d0YDbnuEZBwVfZ4E8imFF0mksPb6DUNQ=
+X-Google-Smtp-Source: ABdhPJzJYk+YCcfYVbfJ2uBjcUqgstH4E28KmqXmlb16hsg5sT1z+ueAiUcjeCgR3pq73cDye9tk1+GC0wtFJxzBHdg=
+X-Received: by 2002:a17:90a:5905:: with SMTP id k5mr792484pji.198.1606796299598;
+ Mon, 30 Nov 2020 20:18:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201032748.486928-1-masahiroy@kernel.org>
-In-Reply-To: <20201201032748.486928-1-masahiroy@kernel.org>
+References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+ <20201104005343.4192504-1-ndesaulniers@google.com> <20201104005343.4192504-4-ndesaulniers@google.com>
+ <CAK7LNAT5MQqUddv+QbFu5ToLBK3eUPArHSBR=5AOS3ONtMqKaw@mail.gmail.com> <CAKwvOdmPeOEA4dfODCKLE4A_M-SF5RBVFEf-NuiTkUTXAbh-5w@mail.gmail.com>
+In-Reply-To: <CAKwvOdmPeOEA4dfODCKLE4A_M-SF5RBVFEf-NuiTkUTXAbh-5w@mail.gmail.com>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 1 Dec 2020 12:41:50 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR+rWTku5Lz+by3vEzsWNsdOpO30phkdwCvzJf28aXiUw@mail.gmail.com>
-Message-ID: <CAK7LNAR+rWTku5Lz+by3vEzsWNsdOpO30phkdwCvzJf28aXiUw@mail.gmail.com>
-Subject: Re: [PATCH] Remove $(cc-option,-gdwarf-4) dependency from CONFIG_DEBUG_INFO_DWARF4
-To:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Cc:     Fangrui Song <maskray@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Changbin Du <changbin.du@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Peter Enderborg <peter.enderborg@sony.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
+Date:   Tue, 1 Dec 2020 13:17:42 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATMjv84JCNX7ZDNkhA13he8SZYHES1i5k5EZzbD1iKqfA@mail.gmail.com>
+Message-ID: <CAK7LNATMjv84JCNX7ZDNkhA13he8SZYHES1i5k5EZzbD1iKqfA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] Kbuild: make DWARF version a choice
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jakub Jelinek <jakub@redhat.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "peterz@infradead.org" <peterz@infradead.org>
+        linux-toolchains@vger.kernel.org,
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Alistair Delva <adelva@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 1, 2020 at 12:29 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+On Tue, Dec 1, 2020 at 5:45 AM 'Nick Desaulniers' via Clang Built
+Linux <clang-built-linux@googlegroups.com> wrote:
 >
-> The -gdwarf-4 flag is supported by GCC 4.5+, and also by Clang.
+> On Mon, Nov 30, 2020 at 10:05 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> >
+> > On Wed, Nov 4, 2020 at 9:53 AM 'Nick Desaulniers' via Clang Built
+> > Linux <clang-built-linux@googlegroups.com> wrote:
+> > >
+> > > Modifies CONFIG_DEBUG_INFO_DWARF4 to be a member of a choice. Adds an
+> > > explicit CONFIG_DEBUG_INFO_DWARF2, which is the default. Does so in a
+> > > way that's forward compatible with existing configs, and makes adding
+> > > future versions more straightforward.
+> > >
+> > > Suggested-by: Fangrui Song <maskray@google.com>
+> > > Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> > > Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> > > ---
+> > >  Makefile          | 14 ++++++++------
+> > >  lib/Kconfig.debug | 19 +++++++++++++++----
+> > >  2 files changed, 23 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index 75b1a3dcbf30..e23786a4c1c7 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -826,12 +826,14 @@ else
+> > >  DEBUG_CFLAGS   += -g
+> > >  endif
+> > >
+> > > -ifndef LLVM_IAS
+> > > -KBUILD_AFLAGS  += -Wa,-gdwarf-2
+> > > -endif
+> > > -
+> > > -ifdef CONFIG_DEBUG_INFO_DWARF4
+> > > -DEBUG_CFLAGS   += -gdwarf-4
+> > > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
+> > > +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> > > +DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+> > > +ifneq ($(dwarf-version-y)$(LLVM_IAS),21)
+> > > +# Binutils 2.35+ required for -gdwarf-4+ support.
+> > > +dwarf-aflag    := $(call as-option,-Wa$(comma)-gdwarf-$(dwarf-version-y))
+> > > +DEBUG_CFLAGS   += $(dwarf-aflag)
+> >
+> > This changes the behavior.
+> >
+> > For the Dwarf-2 case,
+> >
+> > Previously, -gdwarf-2 was passed to $(CC),
+> > so the debug info was generated by gcc.
+> >
+> > Now, -Wa,-gdwarf-2 is passed to $(CC).
+> > -gdwarf-2 is handled by GNU as.
+> > So, the source info points to /tmp/<hash>.s
+> > instead of the original .c file.
+> >
+> >
+> >
+> > Handling the Dwarf capability is very complicated.
+> >
+> > Are you still working for v3?
 >
-> You can see it at https://godbolt.org/z/6ed1oW
->
->   For gcc 4.5.3 pane,    line 37:    .value 0x4
->   For clang 10.0.1 pane, line 117:   .short 4
->
-> Given Documentation/process/changes.rst stating GCC 4.9 is the minimal
-> version, this cc-option is unneeded.
->
-> Note
-> ----
->
-> CONFIG_DEBUG_INFO_DWARF4 controls the DWARF version only for C files.
->
-> As you can see in the top Makefile, -gdwarf-4 is only passed to CFLAGS.
->
->   ifdef CONFIG_DEBUG_INFO_DWARF4
->   DEBUG_CFLAGS    += -gdwarf-4
->   endif
->
-> This flag is used when compiling *.c files.
->
-> On the other hand, the assembler is always given -gdwarf-2.
->
->   KBUILD_AFLAGS   += -Wa,-gdwarf-2
->
-> Hence, the debug info that comes from *.S files is always DWARF v2.
-> This is simply because GAS supported only -gdwarf-2 for a long time.
->
-> Recently, GAS gained the support for --dwarf-[3|4|5] options. [1]
-> And, also we have Clang integrated assembler. So, the debug info
-> for *.S files might be improved if we want.
->
-> In my understanding, the current code is intentional, not a bug.
->
-> [1] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=31bf18645d98b4d3d7357353be840e320649a67d
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  lib/Kconfig.debug | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index cb8ef4fd0d02..7f80c25497a1 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -258,7 +258,6 @@ config DEBUG_INFO_SPLIT
->
->  config DEBUG_INFO_DWARF4
->         bool "Generate dwarf4 debuginfo"
-> -       depends on $(cc-option,-gdwarf-4)
->         help
->           Generate dwarf4 debug info. This requires recent versions
->           of gcc and gdb. It makes the debug information larger.
+> Yes, I plan to revisit the series based on all of the feedback thus
+> far.  Lately I'm focused on enabling LLVM_IAS=1 for Android; but I
+> would like to see this land so that the Linux kernel may provide
+> coverage and feedback to the toolchain developers for DWARF v5 (as
+> well as reduced binary image sizes).  Maybe later this week I'll have
+> time to revisit.
 > --
-> 2.27.
+> Thanks,
+> ~Nick Desaulniers
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/CAKwvOdmPeOEA4dfODCKLE4A_M-SF5RBVFEf-NuiTkUTXAbh-5w%40mail.gmail.com.
 
 
-Maybe, this can be squashed into Nick's patch.
+In my understanding, the complexity comes from the fact
+we are mixing up the $(CC) capability and $(AS) capability.
+
+They are orthogonal if I understand correctly.
+
+
+When building *.c files, the .debug* sections are generated by
+gcc (or clang), and embedded into the intermediate *.s files.
+The assembler (GAS or clang's IAS) simply transforms it
+into byte stream in *.o. So we do not care about the assembler capability.
+
+
+When building *.S files, the .debug* sections are generated by
+the assembler. Here, the assembler capability is important.
+Unless we use binutils 2.35+ or clang IAS,
+DWARF v2 is the only possible choice.
+
+
+
+So, we need two separate choices to handle this properly, I think.
+
+The following is the rough sketch.
+
+
+
+
+
+# The value is 2, 3, 4, or 5 depending on the assembler in use.
+# Unfortunately, we cannot check this by $(cc-option, -Wa,-gdwarf-4)
+# because GAS <= 2.34 accepts any -gdwarf-<N>.
+# readelf --debug-dump=info and grep or something?
+config AS_SUPPORTS_DWARF_VERSION
+        int $(shell scripts/as_dwarf_support.sh)
+
+
+
+choice
+            "DWARF version for C code debugging"
+
+config CC_DEBUG_INFO_DWARF2
+            bool "..."
+
+config CC_DEBUG_INFO_DWARF4
+            bool "..."
+
+config CC_DEBUG_INFO_DWARF5
+            bool "..."
+            depends on GCC_VERSION >= 700000 || CC_IS_CLANG
+            depends on AS_SUPPORTS_DWARF_VERSION >= 5
+            help
+              gcc7+ or clang supports this.
+              Unfortunately, we also need to check assembler capability
+              because GAS <= 2.34 do not understand ".file 0"
+
+endchoice
+
+
+
+choice
+            "DWARF version for assembly code debugging"
+
+config AS_DEBUG_INFO_DWARF2
+            bool "..."
+
+config AS_DEBUG_INFO_DWARF4
+            bool "..."
+            depends on AS_SUPPORTS_DWARF_VERSION >= 4
+
+config AS_DEBUG_INFO_DWARF5
+            bool "..."
+            depends on AS_SUPPORTS_DWARF_VERSION >= 5
+
+endchoice
+
+
 
 
 
