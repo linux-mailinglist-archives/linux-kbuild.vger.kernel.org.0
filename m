@@ -2,94 +2,86 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBB022C9FE6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 11:37:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4649A2CA031
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 11:47:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730017AbgLAKfe (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 05:35:34 -0500
-Received: from conuserg-09.nifty.com ([210.131.2.76]:24192 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729852AbgLAKfd (ORCPT
+        id S1729538AbgLAKoU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 05:44:20 -0500
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:58145 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729324AbgLAKoU (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 05:35:33 -0500
-Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 0B1AYKHh001992;
-        Tue, 1 Dec 2020 19:34:23 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 0B1AYKHh001992
+        Tue, 1 Dec 2020 05:44:20 -0500
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 0B1AhFxh002630;
+        Tue, 1 Dec 2020 19:43:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0B1AhFxh002630
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606818864;
-        bh=9lHhJTFveSp+yoYJ6W1i7rFRQaHiXXJ0F0/7229gRK8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LLq8XDC3Uz7FuzXc/kH9FX34yp63IIIOdsJs57kMzT2B6Qao/3BI6WkX9gvaOIATv
-         BonIfSGXxHTYmFf2+by9JIFqKjnuGFHqTb5fG1nx6TVylzTHpB2zat0CG6eIbNTdg7
-         JQI20BuIzoBZ54jPeOZPa5mCEugAa/LrqMRBbQGyNLyvknW7l7IiV5Rx2RPZg4nT0s
-         j1UjdMCcrrLhVe1zMj8+Kl+j6gaifO+LmDmu8i70UkRSVKJX69Bc3wuUTIe8dfrEPJ
-         +0yTSV9XNs3ujzyIrN+HY3nENnaYa7k8SFo3BYp1fvu8VzlQM+9IavRH2yP6rbVJat
-         eKN8KH+18gdGQ==
-X-Nifty-SrcIP: [126.90.211.135]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Quentin Perret <qperret@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] modpost: turn section mismatches to error from fatal()
-Date:   Tue,  1 Dec 2020 19:34:18 +0900
-Message-Id: <20201201103418.675850-5-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201201103418.675850-1-masahiroy@kernel.org>
-References: <20201201103418.675850-1-masahiroy@kernel.org>
+        s=dec2015msa; t=1606819395;
+        bh=pMIMQvJ5hrz3FqswIIZKhGNQpY6MFXLxRQkeQgLnDqM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=sh82VYY8qV3Oq9A/eOqKCgG43FzFvvLteHZj++uNT+v7RlJSHMr/UNkFu9fL1udVp
+         DTTMjQWokwZWEmQ/Fn4mEMcZN7itGNa6bmkjbow8XJMZ6JswNadXPducC5M3SfnS6+
+         sc/knl0Hq0E/BNOhoEoLPDMjFeSw+hEaKhUu0mD/Q7WPZPm45YNmOeVIOhGqZNwN3j
+         0BeGHCGX0e4dKym4mGUqvjbHbYQw/usKptdBAyHcFLJ7nEqqMtEvmoE+wPMq4sYsn1
+         LxdYUbqr/3xhtOg76JNG3Jqew/HgP4F+fBpmWApq2P7mJ9WElYN0V7gqxRTIdaYpaQ
+         HZbhDPCfbS2SA==
+X-Nifty-SrcIP: [209.85.214.182]
+Received: by mail-pl1-f182.google.com with SMTP id bj5so929983plb.4;
+        Tue, 01 Dec 2020 02:43:15 -0800 (PST)
+X-Gm-Message-State: AOAM533X64oSETEM5iw5zxNpnqNlUdEQ9yfuC0YUTRoHbiZZjRKjFkEB
+        jT0cTqcJqQ1h1dnqUibMZrYVd/9Oy01KwPW3Rnw=
+X-Google-Smtp-Source: ABdhPJzU9mhbmZrWnB67E+X7PCt4UV40yWzMeu2zDhscE9PrkWjTvxP7Whk3SFEd5nK4FCl10HJnDlSbWJS6MRvA3Uw=
+X-Received: by 2002:a17:90a:5304:: with SMTP id x4mr2048220pjh.153.1606819394577;
+ Tue, 01 Dec 2020 02:43:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201117104736.24997-1-olaf@aepfle.de>
+In-Reply-To: <20201117104736.24997-1-olaf@aepfle.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 1 Dec 2020 19:42:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNATq68FyLEuck34uD6zTOfsOu2UP=yS=TX4Bvq+OR-zoNA@mail.gmail.com>
+Message-ID: <CAK7LNATq68FyLEuck34uD6zTOfsOu2UP=yS=TX4Bvq+OR-zoNA@mail.gmail.com>
+Subject: Re: [PATCH v1] kbuild: enforce -Werror=unused-result
+To:     Olaf Hering <olaf@aepfle.de>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-There is code that reports static EXPORT_SYMBOL a few lines below.
-It is not a good idea to bail out here.
+On Tue, Nov 17, 2020 at 7:47 PM Olaf Hering <olaf@aepfle.de> wrote:
+>
+> It is a hard error if a return value is ignored.
+> In case the return value has no meaning, remove the attribute.
+>
+> Signed-off-by: Olaf Hering <olaf@aepfle.de>
 
-I renamed sec_mismatch_fatal to sec_mismatch_warn_only (with logical
-inversion) to match to CONFIG_SECTION_MISMATCH_WARN_ONLY.
+Applied to linux-kbuild.
+Thanks.
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
 
- scripts/mod/modpost.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> ---
+>  Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Makefile b/Makefile
+> index e2c3f65c4721..c7f9acffad42 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -497,7 +497,7 @@ KBUILD_AFLAGS   := -D__ASSEMBLY__ -fno-PIE
+>  KBUILD_CFLAGS   := -Wall -Wundef -Werror=strict-prototypes -Wno-trigraphs \
+>                    -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE \
+>                    -Werror=implicit-function-declaration -Werror=implicit-int \
+> -                  -Werror=return-type -Wno-format-security \
+> +                  -Werror=return-type -Werror=unused-result -Wno-format-security \
+>                    -std=gnu89
+>  KBUILD_CPPFLAGS := -D__KERNEL__
+>  KBUILD_AFLAGS_KERNEL :=
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index d907c63b948f..a750596d5cc2 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -34,7 +34,7 @@ static int external_module = 0;
- static int warn_unresolved = 0;
- /* How a symbol is exported */
- static int sec_mismatch_count = 0;
--static int sec_mismatch_fatal = 0;
-+static int sec_mismatch_warn_only = true;
- /* ignore missing files */
- static int ignore_missing_files;
- /* If set to 1, only warn (instead of error) about missing ns imports */
-@@ -2576,7 +2576,7 @@ int main(int argc, char **argv)
- 			warn_unresolved = 1;
- 			break;
- 		case 'E':
--			sec_mismatch_fatal = 1;
-+			sec_mismatch_warn_only = false;
- 			break;
- 		case 'N':
- 			allow_missing_ns_imports = 1;
-@@ -2640,8 +2640,8 @@ int main(int argc, char **argv)
- 
- 	if (dump_write)
- 		write_dump(dump_write);
--	if (sec_mismatch_count && sec_mismatch_fatal)
--		fatal("Section mismatches detected.\n"
-+	if (sec_mismatch_count && !sec_mismatch_warn_only)
-+		error("Section mismatches detected.\n"
- 		      "Set CONFIG_SECTION_MISMATCH_WARN_ONLY=y to allow them.\n");
- 	for (n = 0; n < SYMBOL_HASH_SIZE; n++) {
- 		struct symbol *s;
+
+
 -- 
-2.27.0
-
+Best Regards
+Masahiro Yamada
