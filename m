@@ -2,84 +2,160 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36A212C92F4
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 00:45:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F4092C94E9
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 02:58:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388087AbgK3XpZ (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Mon, 30 Nov 2020 18:45:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388074AbgK3XpZ (ORCPT
+        id S1725945AbgLAB55 (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Mon, 30 Nov 2020 20:57:57 -0500
+Received: from conssluserg-04.nifty.com ([210.131.2.83]:46739 "EHLO
+        conssluserg-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725916AbgLAB55 (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Mon, 30 Nov 2020 18:45:25 -0500
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078ABC0613D6
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Nov 2020 15:44:44 -0800 (PST)
-Received: by mail-ua1-x942.google.com with SMTP id g23so2125uan.2
-        for <linux-kbuild@vger.kernel.org>; Mon, 30 Nov 2020 15:44:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ja5iGBqziMZwVeGBVGC3tNT2ITsfFSrpoAOQrYPIRMQ=;
-        b=eIXhFNYrQLrGwHzLPxYGVzWJa/DjXZ3+RK17U4inbSIH8/cLDO1KD8N72OM/zUzB53
-         8yZIeDx97sYjz1uuAvgXJWY765o7D+jPAp3RstXWhEiYWpp6ZfWnqW3rRJRO93eLdG7N
-         2D9TsLZvw7lNns1x8kWHXquH6wydBNpMO2aUV+NR7F+6FAuRbZwFPyrw1V0DxEKSqnp1
-         vdA7qZ099dTy0qixQPzpa9880t8pAmy3P49uy+98kt3oenJTnRXEAx2MWqQdTsTmzPcS
-         FKM8rzdiYWV3COU/X3eovPeyZKHokoQStzQObR4NRJfYg5/2ZfrRz9fPrSbgCSdilzFy
-         91tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ja5iGBqziMZwVeGBVGC3tNT2ITsfFSrpoAOQrYPIRMQ=;
-        b=D5pDgFCdBEIlYGDMWfmcelcOB6x4V0ojmcUvRd7ztuif+sjDgnFk6bzmfapTcz1tut
-         9/HQQ/fArV6uj9dE+X+5a+cV6fAzMciP5ioVDpaSDfjf/eBzQJnm2p7sLHz9dswEtmb2
-         Gx6UV6u59+w2pZox9s7GVutE3lHiHNOMTK1WzpBcfOXu+xgs/1lPSoP2aIH0aURz5VWB
-         GVnk2p9u1K8oHqHAS4aRTmavGszNnBPogOrIBRv9Ac5IY1fVhvT2DW0e9NjJa0nuBALG
-         nAn/ayhXT5eNelQBa6YG0ZmAahI/ku+efBdZNGlQK1l+E6m/L9EplaGnWPqsREQK4498
-         wK6A==
-X-Gm-Message-State: AOAM532+t34Ymn/QZtx7Y/XZLN1DmG/3ns1dZLV9ec7tiqbwMxGKTO5Y
-        qOk814xpeJsWT54EhP6Gva9wpaYdWmcKVuoyNxRddg==
-X-Google-Smtp-Source: ABdhPJwCzKcJqz39IP46Bo7yz6o/13jgHbjOX0vtta6vuRLC/rbSBznCfSrqxtOCA/emfEwjuB/DVNaoOwhY3XJ9gtU=
-X-Received: by 2002:a9f:2595:: with SMTP id 21mr286471uaf.33.1606779883895;
- Mon, 30 Nov 2020 15:44:43 -0800 (PST)
+        Mon, 30 Nov 2020 20:57:57 -0500
+X-Greylist: delayed 28283 seconds by postgrey-1.27 at vger.kernel.org; Mon, 30 Nov 2020 20:57:56 EST
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
+        by conssluserg-04.nifty.com with ESMTP id 0B11uswA001093;
+        Tue, 1 Dec 2020 10:56:54 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 0B11uswA001093
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606787815;
+        bh=eBmxAR7K2Jbfp4KHt3489WMG4z7PgIgZCJ+eBjBop4A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=o59lXxne9HU0MBSkhL5X+CMfz5WG7gA9UqFXr7ANoeiOVmPi5KZ35D63E1umWv9Ly
+         qCesk5Q1y3sXj7Oh7r1bqdWUtYBfPBYJW82rox1KK/C3PrZjYnILAQcF9v1TaD61wz
+         k521PnjOiwkfALoHzZ3iHH3j8OSexqol8njVs7cp1WNNh//Ml8DvS4dn0dlSoGLExL
+         EMpuJqmrOjOMU0uvQ+7YiMUzwBt21YItjSysCYhydyWNLdj/XM+MSQhg/l6HWyAT67
+         rszy903/Ha6qEb93gfwFg8N3THmAH41tzSBuvq0cTmKkyMg/Oh95xDZWJCLZ7l5jMv
+         o1iIHTqkqIoRQ==
+X-Nifty-SrcIP: [209.85.216.43]
+Received: by mail-pj1-f43.google.com with SMTP id b12so256337pjl.0;
+        Mon, 30 Nov 2020 17:56:54 -0800 (PST)
+X-Gm-Message-State: AOAM530qg2t2s0pwXy7pq3ms7C3fXOX8ig3Puer990lm/zH5Ld1oen99
+        Dc31YMC4GIBeK3UtGOTGL6h3fZU8pFf8z+PDFzE=
+X-Google-Smtp-Source: ABdhPJzs/K4WAhOqjcW7rbHxPYRw4w+y9p3XcLwZSV8nNzLXgahqO+YMinhSGhaNSXVZI/MmcPmuqzg16tINVy6/GjQ=
+X-Received: by 2002:a17:902:6949:b029:da:17d0:d10f with SMTP id
+ k9-20020a1709026949b02900da17d0d10fmr453041plt.71.1606787813943; Mon, 30 Nov
+ 2020 17:56:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20201118220731.925424-1-samitolvanen@google.com>
- <20201118220731.925424-15-samitolvanen@google.com> <20201130115222.GC24563@willie-the-truck>
-In-Reply-To: <20201130115222.GC24563@willie-the-truck>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Mon, 30 Nov 2020 15:44:32 -0800
-Message-ID: <CABCJKueSjSdpztOsDExCaLyQ+Pip+r6bY=Y1hR=VTOODmoSZMQ@mail.gmail.com>
-Subject: Re: [PATCH v7 14/17] arm64: vdso: disable LTO
-To:     Will Deacon <will@kernel.org>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com>
+ <20201104005343.4192504-1-ndesaulniers@google.com> <20201104005343.4192504-5-ndesaulniers@google.com>
+In-Reply-To: <20201104005343.4192504-5-ndesaulniers@google.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 1 Dec 2020 10:56:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARx36Go6pKsxh__e72RS-U4T0UJiVLXKW-gUfBHRzDzJA@mail.gmail.com>
+Message-ID: <CAK7LNARx36Go6pKsxh__e72RS-U4T0UJiVLXKW-gUfBHRzDzJA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] Kbuild: implement support for DWARF v5
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Jakub Jelinek <jakub@redhat.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-toolchains@vger.kernel.org,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org
+        Fangrui Song <maskray@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Sedat Dilek <sedat.dilek@gmail.com>,
+        Dmitry Golovin <dima@golovin.in>,
+        Alistair Delva <adelva@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Mon, Nov 30, 2020 at 3:52 AM Will Deacon <will@kernel.org> wrote:
+On Wed, Nov 4, 2020 at 9:54 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
 >
-> On Wed, Nov 18, 2020 at 02:07:28PM -0800, Sami Tolvanen wrote:
-> > Disable LTO for the vDSO by filtering out CC_FLAGS_LTO, as there's no
-> > point in using link-time optimization for the small about of C code.
+> DWARF v5 is the latest standard of the DWARF debug info format.
 >
-> "about" => "amount" ?
+> Feature detection of DWARF5 is onerous, especially given that we've
+> removed $(AS), so we must query $(CC) for DWARF5 assembler directive
+> support.  GNU `as` only recently gained support for specifying
+> -gdwarf-5.
+>
+> The DWARF version of a binary can be validated with:
+> $ llvm-dwarfdump vmlinux | head -n 5 | grep version
+> or
+> $ readelf --debug-dump=info vmlinux 2>/dev/null | grep Version
+>
+> DWARF5 wins significantly in terms of size when mixed with compression
+> (CONFIG_DEBUG_INFO_COMPRESSED).
+>
+> 363M    vmlinux.clang12.dwarf5.compressed
+> 434M    vmlinux.clang12.dwarf4.compressed
+> 439M    vmlinux.clang12.dwarf2.compressed
+> 457M    vmlinux.clang12.dwarf5
+> 536M    vmlinux.clang12.dwarf4
+> 548M    vmlinux.clang12.dwarf2
+>
+> Link: http://www.dwarfstd.org/doc/DWARF5.pdf
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Jakub Jelinek <jakub@redhat.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+> ---
+>  Makefile                          | 1 +
+>  include/asm-generic/vmlinux.lds.h | 6 +++++-
+>  lib/Kconfig.debug                 | 8 ++++++++
+>  scripts/test_dwarf5_support.sh    | 9 +++++++++
+>  4 files changed, 23 insertions(+), 1 deletion(-)
+>  create mode 100755 scripts/test_dwarf5_support.sh
+>
+> diff --git a/Makefile b/Makefile
+> index e23786a4c1c7..9056bac0ff85 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -828,6 +828,7 @@ endif
+>
+>  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF2) := 2
+>  dwarf-version-$(CONFIG_DEBUG_INFO_DWARF4) := 4
+> +dwarf-version-$(CONFIG_DEBUG_INFO_DWARF5) := 5
+>  DEBUG_CFLAGS   += -gdwarf-$(dwarf-version-y)
+>  ifneq ($(dwarf-version-y)$(LLVM_IAS),21)
+>  # Binutils 2.35+ required for -gdwarf-4+ support.
+> diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+> index b2b3d81b1535..76ce62c77029 100644
+> --- a/include/asm-generic/vmlinux.lds.h
+> +++ b/include/asm-generic/vmlinux.lds.h
+> @@ -829,7 +829,11 @@
+>                 .debug_types    0 : { *(.debug_types) }                 \
+>                 /* DWARF 5 */                                           \
+>                 .debug_macro    0 : { *(.debug_macro) }                 \
+> -               .debug_addr     0 : { *(.debug_addr) }
+> +               .debug_addr     0 : { *(.debug_addr) }                  \
+> +               .debug_line_str 0 : { *(.debug_line_str) }              \
+> +               .debug_loclists 0 : { *(.debug_loclists) }              \
+> +               .debug_rnglists 0 : { *(.debug_rnglists) }              \
+> +               .debug_str_offsets      0 : { *(.debug_str_offsets) }
+>
+>  /* Stabs debugging sections. */
+>  #define STABS_DEBUG                                                    \
+> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+> index 03c494eefabd..c5b54ba51060 100644
+> --- a/lib/Kconfig.debug
+> +++ b/lib/Kconfig.debug
+> @@ -274,6 +274,14 @@ config DEBUG_INFO_DWARF4
+>           It makes the debug information larger, but it significantly
+>           improves the success of resolving variables in gdb on optimized code.
+>
+> +config DEBUG_INFO_DWARF5
+> +       bool "Generate DWARF5 debuginfo"
 
-Oops, I'll fix that in v8. Thanks!
 
-Sami
+The choice menu looks like follows:
+
+(X) Generate DWARF v2 debuginfo
+( ) Generate dwarf4 debuginfo
+( ) Generate DWARF5 debuginfo
+
+
+Upper / Lower case inconsistency.
+
+
+
+
+
+
+
+
+
+
+--
+Best Regards
+Masahiro Yamada
