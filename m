@@ -2,82 +2,109 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26ACA2CA55F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 15:18:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 435AF2CA578
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 15:24:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729349AbgLAOON (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 09:14:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729159AbgLAOOM (ORCPT
+        id S1730547AbgLAOVj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 09:21:39 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:36413 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729411AbgLAOVi (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 09:14:12 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BA4EC0613CF
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Dec 2020 06:13:32 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id p8so2848186wrx.5
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 06:13:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4ehqe7Y++cS0wt3gaymi/r3HazRaNqrXWmoutWXgkJI=;
-        b=lZtqI0O05N1Z6dBLwLIaL34QXzkEGIU49CpWF5bKywPYvc+NsWlLRJB0jBInC90Mt3
-         89664T8lO6L0YFi13mP2WcsaAhioSBSD4FWBbi6qqWT3STAgmu93CNaVR6LGQ3FqmcPI
-         YLyBVZrr7mD1csA7NvKqYE2HQKEMxKuA8xu5QlXB/KwMoLnF+t8zYN+h4dpgHCqap7QC
-         1EzNcO0dt3YFIHsnoNQBnnnjulsdkJlLYlTi0LR3pTX8ULCGm90EWmy1PEzaMwdvt9Pu
-         2+ZN8BuknXL4/cDhHQ4TJaXyyKwF6IzTh0BdqogMaaBuEIYhwCzlpyXK+4Ma4CeDjgWI
-         OwIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4ehqe7Y++cS0wt3gaymi/r3HazRaNqrXWmoutWXgkJI=;
-        b=t20FJnX1bVQ+u+FSwHbnQKMDIR1Y0agQXVaFU6D3mpzo/1lLdIXsb+a01irBwTEHqy
-         3Za4g8BE7V1Qlm/MmH8SjzSyUJD78gj6J+to2j+ZS/EdQXQH39pxumGznHUYtvmmWt1Q
-         7FHfzyHn+OYPz1eVAwfPiP0eGRDLIol+kTfJi/D3vucF9dDhf+bnppggLmFldbck4onT
-         9cDuUtvr+wO5Jcwdzn3oDm+eKuE9UoLtV0U7Xreiefb/KNKAcRVapg9XoNKskvtrFUEl
-         harcH1EAG93C9p/lmQuEPChVJ9ovI+Wc/7VnDg5pcA9ISaAMcNg0cB/L2ABRqUxfvhQU
-         /9Rg==
-X-Gm-Message-State: AOAM530dHueYoluhbDlc6gb/DRx+cG4zqb0ZoXEGJlk1PUEPcR+Mrvbj
-        I/USTYaEsjIASJCcD4nGwEUEo+Ylwx2ISg==
-X-Google-Smtp-Source: ABdhPJwilnfXoPtU9DBAwnwLx6lDBU4zU3VtOOSKMiSYHW5am3EAODESWMH7shcHRj6lfYnWD3lu6g==
-X-Received: by 2002:a05:6000:347:: with SMTP id e7mr4104757wre.35.1606832011144;
-        Tue, 01 Dec 2020 06:13:31 -0800 (PST)
-Received: from google.com ([2a00:79e0:d:210:f693:9fff:fef4:a7ef])
-        by smtp.gmail.com with ESMTPSA id k16sm3390851wrl.65.2020.12.01.06.13.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 06:13:30 -0800 (PST)
-Date:   Tue, 1 Dec 2020 14:13:27 +0000
-From:   Quentin Perret <qperret@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>
-Subject: Re: [PATCH] modpost: Make static exports fatal
-Message-ID: <20201201141327.GA1914005@google.com>
-References: <20201124182420.2202514-1-qperret@google.com>
- <CAK7LNATj8C7C=dYcDD4M5Q-Zc_kUhY2+i6epH=LbiOAUaDZqiw@mail.gmail.com>
+        Tue, 1 Dec 2020 09:21:38 -0500
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 0B1EKYI1003371
+        for <linux-kbuild@vger.kernel.org>; Tue, 1 Dec 2020 23:20:34 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0B1EKYI1003371
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606832434;
+        bh=2ppzpEexn36KCtFQ3tIfMLzoLL13C4A8eh09nX8Pgl0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=2RfCewjI7xPiiolHBrgQsVThkaYhySrG7UfNyH58Sg/ZO5Icaici5tAU2hhqcUY3C
+         7sqew61c1slf2zUCYeWNHQGD7MiWUvWsJxHfsWZjJTD17iMJjDhKhPKjWtPMDveiV/
+         q6Zqdj6KCQqzFatMOu3HOSSwGKpeJUq/RvwpYoSULD9Eb3o1vfjbgjwdL9i7J/2KoA
+         k4BorY+4PqL8gwwTXCljYDlcGNLAtDIB909fAKPAyaxSGlxImmq4tE7WkJfDhckYQD
+         rDuhP48eb9SyTMy1vC0D1YvKFiW8/7bvdI8VyQZmjT5gO58tnXA3OeAeEq2hUJcP9m
+         yXmwXsNYMcHhA==
+X-Nifty-SrcIP: [209.85.216.50]
+Received: by mail-pj1-f50.google.com with SMTP id v1so1311380pjr.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 06:20:34 -0800 (PST)
+X-Gm-Message-State: AOAM531bP/9TibLJXKyCxOd5VNfJiw6wHGIq/YH7J8CF8hjfZSXNf4Ge
+        NSxM0ozU1iEEafdj41v3RRuUyflqQ/HscVbgNdc=
+X-Google-Smtp-Source: ABdhPJxrfq7p7X3oh2q1F0WlXdeZV5J9pRol0jcaxqq4GRF/PrL3ZtCEgdrmBi52F5Nescr1qkbr+T5u4zcPzAL2oGc=
+X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr2975577pjt.87.1606832433912;
+ Tue, 01 Dec 2020 06:20:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNATj8C7C=dYcDD4M5Q-Zc_kUhY2+i6epH=LbiOAUaDZqiw@mail.gmail.com>
+References: <boris.20201125161355@codesynthesis.com>
+In-Reply-To: <boris.20201125161355@codesynthesis.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Tue, 1 Dec 2020 23:19:56 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR+OkuHyELBYvcFZpO1b-bKe5rmodtGSuzxPhZsGwTSQA@mail.gmail.com>
+Message-ID: <CAK7LNAR+OkuHyELBYvcFZpO1b-bKe5rmodtGSuzxPhZsGwTSQA@mail.gmail.com>
+Subject: Re: kconfig: diagnostics cleanups
+To:     Boris Kolpackov <boris@codesynthesis.com>
+Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tuesday 01 Dec 2020 at 23:00:37 (+0900), Masahiro Yamada wrote:
-> I am not a big fan of (ab)using fatal() for this case.
-> 
-> Please consider using error() once
-> the following is queued up.
-> 
-> https://patchwork.kernel.org/project/linux-kbuild/patch/20201201103418.675850-2-masahiroy@kernel.org/
+On Wed, Nov 25, 2020 at 11:38 PM Boris Kolpackov
+<boris@codesynthesis.com> wrote:
+>
+> I am preparing a set of patches that clean up kconfig diagnostics and
+> make it more consistent both internally and with respect to other
+> tools (like compilers). However, a couple of changes that I would like
+> to make could be controversial so I want to discuss them before wasting
+> everyone's time with patches:
+>
+> 1. Add 'warning' word to $(warning-if) output:
+>
+> -  fprintf(stderr, "%s:%d: %s\n", ...);
+> +  fprintf(stderr, "%s:%d: warning: %s\n", ...);
+>
+>    This makes it consistent with the rest of the warnings printed by
+>    kconfig.
+>
+> 2. Print $(info) output to stderr instead of stdout.
+>
+> I realize the current behavior is consistent with GNU make (on which
+> it is based) but at the same time it's inconsistent with the rest of
+> kconfig (#1) or does not seem to make much sense (#2), at least to
+> me.
+>
+> To elaborate on #2, $(info) is still diagnostics, just a different
+> level compared to $(warning-if) and $(error-if). It's not clear to
+> me why it should go to stdout.
+>
+> If we needed the ability to print something to stdout, we could add
+> another function, such as $(print). However, I can't think of a good
+> reason why we would need to; this, for example, has the potential to
+> mess up with the terminal-based UI (which is written to stdout).
+>
+> I've done a search and as far as I can see, neither $(warning) nor
+> $(info) is currently used anywhere in the kernel outside the kconfig
+> testsuite. So these changes shouldn't have any backwards-compatibility
+> issues.
+>
+> Thoughts?
 
-Yes, much nicer, thanks for that series.
-I'll post a v2 shortly.
 
-Thanks,
-Quentin
+$(warning-if ...) and $(info ...) mimic
+$(warning ...) and $(info ...) because
+the design of kconfig macros was inspired by GNU Make.
+
+So, I implemented them in the same way as GNU Make did
+unless I had a good reason to do otherwise.
+
+I expected they would be useful for debugging for something,
+but there is no actual user.
+
+We can change them if there is a reason,
+but I cannot see it in your description.
+
+
+-- 
+Best Regards
+Masahiro Yamada
