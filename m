@@ -2,109 +2,110 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 435AF2CA578
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 15:24:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B456E2CA5D6
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 15:39:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730547AbgLAOVj (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 09:21:39 -0500
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:36413 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729411AbgLAOVi (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 09:21:38 -0500
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 0B1EKYI1003371
-        for <linux-kbuild@vger.kernel.org>; Tue, 1 Dec 2020 23:20:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0B1EKYI1003371
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606832434;
-        bh=2ppzpEexn36KCtFQ3tIfMLzoLL13C4A8eh09nX8Pgl0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=2RfCewjI7xPiiolHBrgQsVThkaYhySrG7UfNyH58Sg/ZO5Icaici5tAU2hhqcUY3C
-         7sqew61c1slf2zUCYeWNHQGD7MiWUvWsJxHfsWZjJTD17iMJjDhKhPKjWtPMDveiV/
-         q6Zqdj6KCQqzFatMOu3HOSSwGKpeJUq/RvwpYoSULD9Eb3o1vfjbgjwdL9i7J/2KoA
-         k4BorY+4PqL8gwwTXCljYDlcGNLAtDIB909fAKPAyaxSGlxImmq4tE7WkJfDhckYQD
-         rDuhP48eb9SyTMy1vC0D1YvKFiW8/7bvdI8VyQZmjT5gO58tnXA3OeAeEq2hUJcP9m
-         yXmwXsNYMcHhA==
-X-Nifty-SrcIP: [209.85.216.50]
-Received: by mail-pj1-f50.google.com with SMTP id v1so1311380pjr.2
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 06:20:34 -0800 (PST)
-X-Gm-Message-State: AOAM531bP/9TibLJXKyCxOd5VNfJiw6wHGIq/YH7J8CF8hjfZSXNf4Ge
-        NSxM0ozU1iEEafdj41v3RRuUyflqQ/HscVbgNdc=
-X-Google-Smtp-Source: ABdhPJxrfq7p7X3oh2q1F0WlXdeZV5J9pRol0jcaxqq4GRF/PrL3ZtCEgdrmBi52F5Nescr1qkbr+T5u4zcPzAL2oGc=
-X-Received: by 2002:a17:90a:c209:: with SMTP id e9mr2975577pjt.87.1606832433912;
- Tue, 01 Dec 2020 06:20:33 -0800 (PST)
+        id S2389244AbgLAOiE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 09:38:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55796 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388116AbgLAOiD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 1 Dec 2020 09:38:03 -0500
+Received: from localhost (searspoint.nvidia.com [216.228.112.21])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 115B920757;
+        Tue,  1 Dec 2020 14:37:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606833442;
+        bh=wZROcP5CZTMECo5kQllBGtqQbcBo45uTKS8WHm8zLhs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ddf6bVZ2M0dNM1TuN3TRYlCdVBWt/Tc0MZMlZOyYvHzYiTUSUWnff82UoBikvuR9S
+         ePAZE17dddi/GOBrCAtRBr/FxnKksZhBpZVsYCror0JBsuvUUU1WjHVtZpaRG8Idhi
+         roXPI87pVn0xiyHMy8FliP8MO70XUeyJH6y7yVZk=
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>
+Cc:     Leon Romanovsky <leonro@nvidia.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Edward Srouji <edwards@nvidia.com>,
+        Saeed Mahameed <saeedm@nvidia.com>, bpf@vger.kernel.org,
+        kernel-team@fb.com, netdev@vger.kernel.org
+Subject: [PATCH bpf-next] kbuild: Restore ability to build out-of-tree modules
+Date:   Tue,  1 Dec 2020 16:37:00 +0200
+Message-Id: <20201201143700.719828-1-leon@kernel.org>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <boris.20201125161355@codesynthesis.com>
-In-Reply-To: <boris.20201125161355@codesynthesis.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 1 Dec 2020 23:19:56 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR+OkuHyELBYvcFZpO1b-bKe5rmodtGSuzxPhZsGwTSQA@mail.gmail.com>
-Message-ID: <CAK7LNAR+OkuHyELBYvcFZpO1b-bKe5rmodtGSuzxPhZsGwTSQA@mail.gmail.com>
-Subject: Re: kconfig: diagnostics cleanups
-To:     Boris Kolpackov <boris@codesynthesis.com>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Luis Chamberlain <mcgrof@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 11:38 PM Boris Kolpackov
-<boris@codesynthesis.com> wrote:
->
-> I am preparing a set of patches that clean up kconfig diagnostics and
-> make it more consistent both internally and with respect to other
-> tools (like compilers). However, a couple of changes that I would like
-> to make could be controversial so I want to discuss them before wasting
-> everyone's time with patches:
->
-> 1. Add 'warning' word to $(warning-if) output:
->
-> -  fprintf(stderr, "%s:%d: %s\n", ...);
-> +  fprintf(stderr, "%s:%d: warning: %s\n", ...);
->
->    This makes it consistent with the rest of the warnings printed by
->    kconfig.
->
-> 2. Print $(info) output to stderr instead of stdout.
->
-> I realize the current behavior is consistent with GNU make (on which
-> it is based) but at the same time it's inconsistent with the rest of
-> kconfig (#1) or does not seem to make much sense (#2), at least to
-> me.
->
-> To elaborate on #2, $(info) is still diagnostics, just a different
-> level compared to $(warning-if) and $(error-if). It's not clear to
-> me why it should go to stdout.
->
-> If we needed the ability to print something to stdout, we could add
-> another function, such as $(print). However, I can't think of a good
-> reason why we would need to; this, for example, has the potential to
-> mess up with the terminal-based UI (which is written to stdout).
->
-> I've done a search and as far as I can see, neither $(warning) nor
-> $(info) is currently used anywhere in the kernel outside the kconfig
-> testsuite. So these changes shouldn't have any backwards-compatibility
-> issues.
->
-> Thoughts?
+From: Leon Romanovsky <leonro@nvidia.com>
 
+The out-of-tree modules are built without vmlinux target and request
+to recompile that target unconditionally causes to the following
+compilation error.
 
-$(warning-if ...) and $(info ...) mimic
-$(warning ...) and $(info ...) because
-the design of kconfig macros was inspired by GNU Make.
+[root@server kernel]# make
+<..>
+make -f ./scripts/Makefile.modpost
+make -f ./scripts/Makefile.modfinal
+make[3]: *** No rule to make target 'vmlinux', needed by '/my_temp/out-of-tree-module/kernel/test.ko'.  Stop.
+make[2]: *** [scripts/Makefile.modpost:117: __modpost] Error 2
+make[1]: *** [Makefile:1703: modules] Error 2
+make[1]: Leaving directory '/usr/src/kernels/5.10.0-rc5_for_upstream_base_2020_11_29_11_34'
+make: *** [Makefile:80: modules] Error 2
 
-So, I implemented them in the same way as GNU Make did
-unless I had a good reason to do otherwise.
+As a solution separate between build paths that has vmlinux target and paths without.
 
-I expected they would be useful for debugging for something,
-but there is no actual user.
+Fixes: 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
+Reported-by: Edward Srouji <edwards@nvidia.com>
+Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+---
+Not proficient enough in Makefile, but it fixes the issue.
+---
+ scripts/Makefile.modfinal | 5 +++++
+ scripts/Makefile.modpost  | 4 ++++
+ 2 files changed, 9 insertions(+)
 
-We can change them if there is a reason,
-but I cannot see it in your description.
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 02b892421f7a..8a7d0604e7d0 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -48,9 +48,14 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+ 	$(cmd);                                                              \
+ 	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
 
++ifdef MODPOST_VMLINUX
+ # Re-generate module BTFs if either module's .ko or vmlinux changed
+ $(modules): %.ko: %.o %.mod.o scripts/module.lds vmlinux FORCE
+ 	+$(call if_changed_except,ld_ko_o,vmlinux)
++else
++$(modules): %.ko: %.o %.mod.o scripts/module.lds FORCE
++	+$(call if_changed_except,ld_ko_o)
++endif
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+ endif
+diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+index f54b6ac37ac2..f5aa5b422ad7 100644
+--- a/scripts/Makefile.modpost
++++ b/scripts/Makefile.modpost
+@@ -114,8 +114,12 @@ targets += $(output-symdump)
 
--- 
-Best Regards
-Masahiro Yamada
+ __modpost: $(output-symdump)
+ ifneq ($(KBUILD_MODPOST_NOFINAL),1)
++ifdef MODPOST_VMLINUX
++	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal MODPOST_VMLINUX=1
++else
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
+ endif
++endif
+
+ PHONY += FORCE
+ FORCE:
+--
+2.28.0
+
