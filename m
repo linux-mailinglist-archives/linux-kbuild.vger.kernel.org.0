@@ -2,110 +2,87 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4195A2CA3EA
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 14:34:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0276D2CA482
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 14:54:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387677AbgLANdU (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 08:33:20 -0500
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:49427 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387578AbgLANdU (ORCPT
+        id S2389943AbgLANyi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 08:54:38 -0500
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:37562 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390730AbgLANyh (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 08:33:20 -0500
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 0B1DWG8g009356;
-        Tue, 1 Dec 2020 22:32:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 0B1DWG8g009356
+        Tue, 1 Dec 2020 08:54:37 -0500
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 0B1DrQTV021869;
+        Tue, 1 Dec 2020 22:53:27 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0B1DrQTV021869
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606829537;
-        bh=BCmIt+mXGDdopPkiBBw+3x1M8rDQB/5oH9HpU4uQ5qA=;
+        s=dec2015msa; t=1606830807;
+        bh=Ok1QqgsbTvLJR9T2w9uzm16olUMbK7QKnvuiz2CLeqM=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=THr+eUx4SWCPegG1uRLmRHq1mlzwZIBJZfMOhYfUi9PvS1ZmkPpZzJJvSBKEXI9sU
-         hGC9IjavC/i0M1vYGEAMjvM98V1iWPC3aWRaEJSIOHHtzxpNfyiU+Xwd2P6gXrIQPS
-         SBI2ODfn0nhkwR8fjb1OQE+Yjh/NV9bSiWHzDE2LI9RpqgZs+QdPfBpe51hHlxXvAJ
-         RCvvpEU+nYui6Z2WZAO+0K3fgTe6V0Jz2Wi18KbjOr7S2LM8NCEoX5aV0ocxOflfoN
-         1puiE9MAIrJw5ZvQfSeKd0GYgw0KCnvdZxS7Qn+x0fA5AwGdHaaXZErK79XdW2aK8u
-         bNGE8JRlo2tXA==
-X-Nifty-SrcIP: [209.85.214.180]
-Received: by mail-pl1-f180.google.com with SMTP id 4so1140537plk.5;
-        Tue, 01 Dec 2020 05:32:16 -0800 (PST)
-X-Gm-Message-State: AOAM530Gi31sgn5oXBL3YkiyqrPbHWceFo05ZdWsqGVM8Bl8yf7VxBn2
-        WqmLJOj65504lMCLIX93Weui6VkEdW638itm2aE=
-X-Google-Smtp-Source: ABdhPJxkfQ9oggzotEcl6XRa/pHYRdnHTVyaDTtBNoctn5AxYzZdCy2G1D8jd7raU+usum4j5kNizUmaOheYMGClFnM=
-X-Received: by 2002:a17:902:402:b029:da:2cb9:56e8 with SMTP id
- 2-20020a1709020402b02900da2cb956e8mr2703980ple.1.1606829536018; Tue, 01 Dec
- 2020 05:32:16 -0800 (PST)
+        b=qN/IjIZBhMZoBtAgolas/uVF3Rp/Hk0w0pMlmeOop7VUsl/YaBH2movBpJWDegVJA
+         vnxeRoD6m2RKQZCbqbCKvRi38r+rGpKkt/67VyTCB0b1uhKJC4Q3zf05t0W9Wf+9gi
+         zS2wc/t3UJnZQz5jD9p+lnnGB5g0gGxnL+Pk2clHnx+lEPcV6tT/qblqHk6BugwW0j
+         wEoPSj9tVpVUlYOjGCnzilyrjyZUnHN+lX/5F1AvnO1l1PweA91a8/l7n64FAGEviY
+         3smNN36Wf4UfKU9sAdj7a4BEbKLtTU5MhX6UYu9WWFzIHQWIWZATgOza97Tb93vGyO
+         m+29oJTO4+/bw==
+X-Nifty-SrcIP: [209.85.214.176]
+Received: by mail-pl1-f176.google.com with SMTP id bj5so1184179plb.4;
+        Tue, 01 Dec 2020 05:53:27 -0800 (PST)
+X-Gm-Message-State: AOAM532H5py1JWCD8BMFJkeYbqoyMvvBzYj4o/FNnpa3guZzbA4gx5Sx
+        gGcQ421QlcO6KJihLxKdotXHIII3PDr4XH9Qt18=
+X-Google-Smtp-Source: ABdhPJytF7/TSiOE8RQwh1z0tE6AjvW8ZFpYvV7UD1hS+NhCt//ZFmmGhZxWq0ziQeW4eXdFQh/WV0dS2BmI+kOqu8Y=
+X-Received: by 2002:a17:90a:5905:: with SMTP id k5mr2779502pji.198.1606830806327;
+ Tue, 01 Dec 2020 05:53:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113195553.1487659-1-natechancellor@gmail.com>
- <20201119204656.3261686-2-natechancellor@gmail.com> <CAKwvOdkPgwL8H4EGF6=-VuxTdmxA8JHhGbLHVYcLJj9MmAvW=g@mail.gmail.com>
- <202011241421.A2F3062A70@keescook>
-In-Reply-To: <202011241421.A2F3062A70@keescook>
+References: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
+In-Reply-To: <1606828650-29841-1-git-send-email-asmadeus@codewreck.org>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 1 Dec 2020 22:31:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAR=_+1K7EtpvGzgyM+ans-iNOT0PBXdLRApnsyAzakQ3w@mail.gmail.com>
-Message-ID: <CAK7LNAR=_+1K7EtpvGzgyM+ans-iNOT0PBXdLRApnsyAzakQ3w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kbuild: Disable CONFIG_LD_ORPHAN_WARN for ld.lld 10.0.1
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        LKML <linux-kernel@vger.kernel.org>,
+Date:   Tue, 1 Dec 2020 22:52:48 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQP+e18qAVEUJvmkwpCwTtS4Auqth7u+xPW6pBbE_+z0A@mail.gmail.com>
+Message-ID: <CAK7LNAQP+e18qAVEUJvmkwpCwTtS4Auqth7u+xPW6pBbE_+z0A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ld-version: use /usr/bin/env awk for shebank
+To:     Dominique Martinet <asmadeus@codewreck.org>
+Cc:     Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "kernelci . org bot" <bot@kernelci.org>,
-        Mark Brown <broonie@kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 7:22 AM Kees Cook <keescook@chromium.org> wrote:
+On Tue, Dec 1, 2020 at 10:18 PM Dominique Martinet
+<asmadeus@codewreck.org> wrote:
 >
-> On Thu, Nov 19, 2020 at 01:13:27PM -0800, Nick Desaulniers wrote:
-> > On Thu, Nov 19, 2020 at 12:57 PM Nathan Chancellor
-> > <natechancellor@gmail.com> wrote:
-> > >
-> > > ld.lld 10.0.1 spews a bunch of various warnings about .rela sections,
-> > > along with a few others. Newer versions of ld.lld do not have these
-> > > warnings. As a result, do not add '--orphan-handling=warn' to
-> > > LDFLAGS_vmlinux if ld.lld's version is not new enough.
-> > >
-> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1187
-> > > Link: https://github.com/ClangBuiltLinux/linux/issues/1193
-> > > Reported-by: Arvind Sankar <nivedita@alum.mit.edu>
-> > > Reported-by: kernelci.org bot <bot@kernelci.org>
-> > > Reported-by: Mark Brown <broonie@kernel.org>
-> > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> >
-> > Thanks for the additions in v2.
-> > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+> /usr/bin/awk is not garanteed to exist (and doesn't on e.g. nixos),
+> using /usr/bin/env to have it look in PATH is more robust
 >
-> I'm going to carry this for a few days in -next, and if no one screams,
-> ask Linus to pull it for v5.10-rc6.
+> Signed-off-by: Dominique Martinet <asmadeus@codewreck.org>
+> ---
+
+Both applied to linux-kbuild. Thanks.
+
+
+> I've been carrying these two patchs for local kernel development on
+> nixos for a while, I don't think it'd break anything for anyone so
+> might as well submit these -- please consider it :)
 >
-> Thanks!
+>  scripts/ld-version.sh | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
+> diff --git a/scripts/ld-version.sh b/scripts/ld-version.sh
+> index f2be0ff9a738..05476b8f8925 100755
+> --- a/scripts/ld-version.sh
+> +++ b/scripts/ld-version.sh
+> @@ -1,4 +1,4 @@
+> -#!/usr/bin/awk -f
+> +#!/usr/bin/env -S awk -f
+>  # SPDX-License-Identifier: GPL-2.0
+>  # extract linker version number from stdin and turn into single number
+>         {
 > --
-> Kees Cook
-
-
-Sorry for the delay.
-Applied to linux-kbuild.
-
-But, I already see this in linux-next.
-
-Please let me know if I should drop it from my tree.
+> 2.28.0
+>
 
 
 -- 
