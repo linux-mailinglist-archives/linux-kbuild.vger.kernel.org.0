@@ -2,110 +2,114 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B456E2CA5D6
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 15:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D72CE2CA8AB
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 17:49:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389244AbgLAOiE (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 09:38:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55796 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388116AbgLAOiD (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 09:38:03 -0500
-Received: from localhost (searspoint.nvidia.com [216.228.112.21])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 115B920757;
-        Tue,  1 Dec 2020 14:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606833442;
-        bh=wZROcP5CZTMECo5kQllBGtqQbcBo45uTKS8WHm8zLhs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Ddf6bVZ2M0dNM1TuN3TRYlCdVBWt/Tc0MZMlZOyYvHzYiTUSUWnff82UoBikvuR9S
-         ePAZE17dddi/GOBrCAtRBr/FxnKksZhBpZVsYCror0JBsuvUUU1WjHVtZpaRG8Idhi
-         roXPI87pVn0xiyHMy8FliP8MO70XUeyJH6y7yVZk=
-From:   Leon Romanovsky <leon@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>
-Cc:     Leon Romanovsky <leonro@nvidia.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Edward Srouji <edwards@nvidia.com>,
-        Saeed Mahameed <saeedm@nvidia.com>, bpf@vger.kernel.org,
-        kernel-team@fb.com, netdev@vger.kernel.org
-Subject: [PATCH bpf-next] kbuild: Restore ability to build out-of-tree modules
-Date:   Tue,  1 Dec 2020 16:37:00 +0200
-Message-Id: <20201201143700.719828-1-leon@kernel.org>
-X-Mailer: git-send-email 2.28.0
+        id S2388811AbgLAQsi (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 11:48:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388082AbgLAQsh (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 1 Dec 2020 11:48:37 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B402C061A04
+        for <linux-kbuild@vger.kernel.org>; Tue,  1 Dec 2020 08:47:17 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id r3so3678168wrt.2
+        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 08:47:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=b3U69nUvkDMdtMVIGjWBzkR9SwVXqGD3Tu55Q8FU570=;
+        b=ES2LsJeN4b0KdLMrJORmEDNP6wnEDr7va1Jxsg16QsZi8lUxZR/BNcayu3OVMi7wab
+         Tg26PrvyAfYvjlYRJg9Wn++WQzxb4aKzS5dvdw+zrJuIvQQROqq1393zVNBQKvq3Dqfj
+         5iqpYWgvresWpw0g+qEYfDKAiuc9BleffYPanKqAyJbJoj583Z4jLQnbI8OluyrEmRWD
+         HOk04zKgVoY6B/zai+Ck6liEfJeZH+oKYJOS3Be6qnwIEuFVwbQBncDnC+4fsiD45KJ1
+         tLeirtFfL7HJ7s+hRuQ3np9ZH4i99WgfFK7tKd/ErtgQ2SsP/ExQOhKqUfemiVAYGAo4
+         SWWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=b3U69nUvkDMdtMVIGjWBzkR9SwVXqGD3Tu55Q8FU570=;
+        b=s94idm1WcCb3PEspFVKQksPJzZjgOhKR9RbirW02zSaCoQae3gfH6zR/p+9VCPVpLM
+         T6fatCqcT67UM9vcLIfJiJ6esqNTRVH3Wq7yv6P7iRZMtS7drdwkkynRc7gVLEC+Imrm
+         GV/2K8PSLoTjOA2Gz7pwyXeLBZccxJ1EcPvB5wvAz8IMFX0imsiG5LegKrPNygZ5Bqnz
+         PQuFViXeW4XWbUuU/AVwWFHJaTCS8I5m7qHYP1Y9x0l2U5YGKQxpulsRcQ8l2ZIB68YK
+         +Nov9mFGh4Pdt4zwXvimvtgFpMPlezj9UfIUYMnbmxiJlZA1TMpZyqRd0mJg8IDpFmp/
+         tdRQ==
+X-Gm-Message-State: AOAM530UcvM1VNg5ub4oNV8OLwtX7tczkBrf/IlTYxAYE5uOVkagueEU
+        r4QV1zUKNRC9I0j2IVZd0rH3d/d21HOADA==
+X-Google-Smtp-Source: ABdhPJxcGjMMi+603REgpYabEtKbjHcizw6XeTvxEK1iGsCiJh/2CtHdhzKfbszIdqHbC7uNowZB2w==
+X-Received: by 2002:a5d:6852:: with SMTP id o18mr5005694wrw.336.1606841235753;
+        Tue, 01 Dec 2020 08:47:15 -0800 (PST)
+Received: from google.com ([2a00:79e0:d:210:f693:9fff:fef4:a7ef])
+        by smtp.gmail.com with ESMTPSA id a144sm652871wmd.47.2020.12.01.08.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Dec 2020 08:47:15 -0800 (PST)
+Date:   Tue, 1 Dec 2020 16:47:12 +0000
+From:   Quentin Perret <qperret@google.com>
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     linux-kbuild@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] modpost: refactor error handling and clarify
+ error/fatal difference
+Message-ID: <20201201164712.GA1949321@google.com>
+References: <20201201103418.675850-1-masahiroy@kernel.org>
+ <20201201103418.675850-2-masahiroy@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201201103418.675850-2-masahiroy@kernel.org>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-From: Leon Romanovsky <leonro@nvidia.com>
+On Tuesday 01 Dec 2020 at 19:34:15 (+0900), Masahiro Yamada wrote:
+> We have 3 log functions. fatal() is special because it lets modpost bail
+> out immediately. The difference between warn() and error() is the only
+> prefix parts ("WARNING:" vs "ERROR:").
+> 
+> The intended usage of error() is probably to propagate the return code
+> from the function to the exit code of modpost, as check_exports() etc.
+> already does. This is a good manner because we should display as many
+> issues as possible in a single run of modpost.
+> 
+> What is annoying about fatal() is that it kills modpost at the first
+> error. People would need to run Kbuild again and again until they fix
+> all errors.
+> 
+> But, unfortunately, people tend to do:
+> "This case should not be allowed. Let's replace warn() with fatal()."
 
-The out-of-tree modules are built without vmlinux target and request
-to recompile that target unconditionally causes to the following
-compilation error.
+Indeed :-)
 
-[root@server kernel]# make
-<..>
-make -f ./scripts/Makefile.modpost
-make -f ./scripts/Makefile.modfinal
-make[3]: *** No rule to make target 'vmlinux', needed by '/my_temp/out-of-tree-module/kernel/test.ko'.  Stop.
-make[2]: *** [scripts/Makefile.modpost:117: __modpost] Error 2
-make[1]: *** [Makefile:1703: modules] Error 2
-make[1]: Leaving directory '/usr/src/kernels/5.10.0-rc5_for_upstream_base_2020_11_29_11_34'
-make: *** [Makefile:80: modules] Error 2
+> One of the reasons is probably it is tedious to manually carry the error
+> code back to the main() function.
 
-As a solution separate between build paths that has vmlinux target and paths without.
+And yes, that was the reason.
 
-Fixes: 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
-Reported-by: Edward Srouji <edwards@nvidia.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
-Not proficient enough in Makefile, but it fixes the issue.
----
- scripts/Makefile.modfinal | 5 +++++
- scripts/Makefile.modpost  | 4 ++++
- 2 files changed, 9 insertions(+)
+> This commit refactors error() so any single call for it automatically
+> makes modpost return the error code.
+> 
+> I also added comments in modpost.h for warn(), error(), and fatal().
+> 
+> Again, please use fatal() only when you have a strong reason to do so.
+> For example:
+> 
+>   - Memory shortage (i.e. malloc() etc. has failed)
+>   - The ELF file is broken, and there is no point to continue parsing
+>   - Something really odd has happened
+> 
+> For general coding errors, please use error().
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-index 02b892421f7a..8a7d0604e7d0 100644
---- a/scripts/Makefile.modfinal
-+++ b/scripts/Makefile.modfinal
-@@ -48,9 +48,14 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
- 	$(cmd);                                                              \
- 	printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+I gave it a go and the error is propagated correctly, so FWIW:
 
-+ifdef MODPOST_VMLINUX
- # Re-generate module BTFs if either module's .ko or vmlinux changed
- $(modules): %.ko: %.o %.mod.o scripts/module.lds vmlinux FORCE
- 	+$(call if_changed_except,ld_ko_o,vmlinux)
-+else
-+$(modules): %.ko: %.o %.mod.o scripts/module.lds FORCE
-+	+$(call if_changed_except,ld_ko_o)
-+endif
- ifdef CONFIG_DEBUG_INFO_BTF_MODULES
- 	+$(if $(newer-prereqs),$(call cmd,btf_ko))
- endif
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index f54b6ac37ac2..f5aa5b422ad7 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -114,8 +114,12 @@ targets += $(output-symdump)
+Tested-by: Quentin Perret <qperret@google.com>
 
- __modpost: $(output-symdump)
- ifneq ($(KBUILD_MODPOST_NOFINAL),1)
-+ifdef MODPOST_VMLINUX
-+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal MODPOST_VMLINUX=1
-+else
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
- endif
-+endif
-
- PHONY += FORCE
- FORCE:
---
-2.28.0
-
+Thanks,
+Quentin
