@@ -2,77 +2,133 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F1092C9E1F
-	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 10:41:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CE9B2C9FE1
+	for <lists+linux-kbuild@lfdr.de>; Tue,  1 Dec 2020 11:37:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727041AbgLAJiy (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 04:38:54 -0500
-Received: from gate.crashing.org ([63.228.1.57]:50576 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727035AbgLAJix (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 04:38:53 -0500
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 0B19WsYY019369;
-        Tue, 1 Dec 2020 03:32:54 -0600
-Received: (from segher@localhost)
-        by gate.crashing.org (8.14.1/8.14.1/Submit) id 0B19Wrls019366;
-        Tue, 1 Dec 2020 03:32:53 -0600
-X-Authentication-Warning: gate.crashing.org: segher set sender to segher@kernel.crashing.org using -f
-Date:   Tue, 1 Dec 2020 03:32:53 -0600
-From:   Segher Boessenkool <segher@kernel.crashing.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     =?utf-8?B?RsSBbmctcnXDrCBTw7JuZw==?= <maskray@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jakub Jelinek <jakub@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-toolchains@vger.kernel.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Sedat Dilek <sedat.dilek@gmail.com>,
-        Dmitry Golovin <dima@golovin.in>,
-        Alistair Delva <adelva@google.com>
-Subject: Re: [PATCH v2 3/4] Kbuild: make DWARF version a choice
-Message-ID: <20201201093253.GJ2672@gate.crashing.org>
-References: <CAK7LNAST0Ma4bGGOA_HATzYAmRhZG=x_X=8p_9dKGX7bYc2FMA@mail.gmail.com> <20201104005343.4192504-1-ndesaulniers@google.com> <20201104005343.4192504-4-ndesaulniers@google.com> <CAK7LNAT5MQqUddv+QbFu5ToLBK3eUPArHSBR=5AOS3ONtMqKaw@mail.gmail.com> <CAFP8O3Ki9HoqcV450fn29fBOWAbmuGAdB6USLz8pGsW4Vzf7sg@mail.gmail.com> <CAK7LNAS_hxevOS7hKxepyCBVU-4j87Yf5Y8DB6mFq+4xuaz3AA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAK7LNAS_hxevOS7hKxepyCBVU-4j87Yf5Y8DB6mFq+4xuaz3AA@mail.gmail.com>
-User-Agent: Mutt/1.4.2.3i
+        id S1730013AbgLAKfd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 05:35:33 -0500
+Received: from conuserg-09.nifty.com ([210.131.2.76]:24201 "EHLO
+        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729846AbgLAKfd (ORCPT
+        <rfc822;linux-kbuild@vger.kernel.org>);
+        Tue, 1 Dec 2020 05:35:33 -0500
+Received: from oscar.flets-west.jp (softbank126090211135.bbtec.net [126.90.211.135]) (authenticated)
+        by conuserg-09.nifty.com with ESMTP id 0B1AYKHd001992;
+        Tue, 1 Dec 2020 19:34:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 0B1AYKHd001992
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1606818861;
+        bh=14hHLn0gihVMVkJ3AN6v+GnGdZ/fCtITftkO1TeIJdg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=M6dBUTseHBP7mIf9+V1nFNrqBboYHueA9dqU0euQem7YGn0OvQ3LRE9E0bDyIpqjB
+         hbXHQ3eGQQGYr+7W371cawDc+PY2F1hHo8VTkM5OzuCz+Lepcou12rageiKuj2X1hE
+         dZxpJE8QkqZ2hozVs79AVTNxoB4ttvRTvRh7vqVpRFOYe+C3EJ0s+GK0vYAgYqfksb
+         17zbMuf8/ALa5qdb85EAopJyBCOyrzLSZNyrROQGJfuOWS+Pjc0oWRpfnqzpJMII33
+         B6igfK3JnNhFvwNy3VcHWTC78zFQ+bUNxB131qv7dN2zHwGfmXEe3EpNp1SogWPDO0
+         Rkjwtr4NdK/xg==
+X-Nifty-SrcIP: [126.90.211.135]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Quentin Perret <qperret@google.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] modpost: rename merror() to error()
+Date:   Tue,  1 Dec 2020 19:34:14 +0900
+Message-Id: <20201201103418.675850-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 12:38:16PM +0900, Masahiro Yamada wrote:
-> > We can bump -Wa,-gdwarf-2 to -Wa,-gdwarf-3 since GNU actually emits
-> > DWARF v3 DW_AT_ranges (see
-> > https://sourceware.org/bugzilla/show_bug.cgi?id=26850 )
-> > This can avoid the `warning: DWARF2 only supports one section per
-> > compilation unit` warning for Clang.
+The log function names, warn(), merror(), fatal() are inconsistent.
 
-That warning should be "there can be only one section with executable
-code per translation unit", or similar.
+Commit 2a11665945d5 ("kbuild: distinguish between errors and warnings
+in modpost") intentionally chose merror() to avoid the conflict with
+the library function error(). See man page of error(3).
 
-> I am not a DWARF spec expert.
+But, we are already causing the conflict with warn() because it is also
+a library function. See man page of warn(3). err() would be a problem
+for the same reason.
 
-Neither am I.
+The common technique to work around name conflicts is to use macros.
 
-> Please teach me.
-> 
-> In my understanding, "DWARF2 only supports one section ..."
-> is warned only when building .S files with LLVM_IAS=1
+    #define error __error
+    void __error(const char *fmt, ...)
+    {
+            <our own implementation>
+    }
 
-.S files are simply run through the C preprocessor first, and then given
-to the assembler.  The only difference there should be wrt debug info is
-you could have some macros that expand to assembler debug statements.
+    #define warn __warn
+    void __warn(const char *fmt, ...)
+    {
+            <our own implementation>
+    }
 
-> If this is due to the limitation of DWARF v2, why is it OK to
-> build .c files with LLVM_IAS?
+In this way, we can implement our own warn() and error(), still we can
+include <error.h> and <err.h> with no problem.
 
-The compiler can of course make sure not to use certain constructs in
-its generated assembler code, while the assembler will have to swallow
-whatever the user wrote.
+And, commit 93c95e526a4e ("modpost: rework and consolidate logging
+interface") already did that.
 
+Since the log functions are all macros, we can use error() without
+causing "conflicting types" errors.
 
-Segher
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ scripts/mod/modpost.c | 10 +++++-----
+ scripts/mod/modpost.h |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
+index f882ce0d9327..337f6ca4bda3 100644
+--- a/scripts/mod/modpost.c
++++ b/scripts/mod/modpost.c
+@@ -403,8 +403,8 @@ static void sym_update_namespace(const char *symname, const char *namespace)
+ 	 * actually an assertion.
+ 	 */
+ 	if (!s) {
+-		merror("Could not update namespace(%s) for symbol %s\n",
+-		       namespace, symname);
++		error("Could not update namespace(%s) for symbol %s\n",
++		      namespace, symname);
+ 		return;
+ 	}
+ 
+@@ -2226,7 +2226,7 @@ static int check_modname_len(struct module *mod)
+ 	else
+ 		mod_name++;
+ 	if (strlen(mod_name) >= MODULE_NAME_LEN) {
+-		merror("module name is too long [%s.ko]\n", mod->name);
++		error("module name is too long [%s.ko]\n", mod->name);
+ 		return 1;
+ 	}
+ 
+@@ -2319,8 +2319,8 @@ static int add_versions(struct buffer *b, struct module *mod)
+ 			continue;
+ 		}
+ 		if (strlen(s->name) >= MODULE_NAME_LEN) {
+-			merror("too long symbol \"%s\" [%s.ko]\n",
+-			       s->name, mod->name);
++			error("too long symbol \"%s\" [%s.ko]\n",
++			      s->name, mod->name);
+ 			err = 1;
+ 			break;
+ 		}
+diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
+index 3aa052722233..f453504ad4df 100644
+--- a/scripts/mod/modpost.h
++++ b/scripts/mod/modpost.h
+@@ -202,5 +202,5 @@ enum loglevel {
+ void modpost_log(enum loglevel loglevel, const char *fmt, ...);
+ 
+ #define warn(fmt, args...)	modpost_log(LOG_WARN, fmt, ##args)
+-#define merror(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
++#define error(fmt, args...)	modpost_log(LOG_ERROR, fmt, ##args)
+ #define fatal(fmt, args...)	modpost_log(LOG_FATAL, fmt, ##args)
+-- 
+2.27.0
+
