@@ -2,137 +2,150 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8649C2CC607
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Dec 2020 19:58:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B2422CC611
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Dec 2020 20:00:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389691AbgLBS5g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Dec 2020 13:57:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56290 "EHLO
+        id S1729123AbgLBS6z (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Dec 2020 13:58:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387784AbgLBS5d (ORCPT
+        with ESMTP id S1729101AbgLBS6y (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Dec 2020 13:57:33 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67EC4C0613CF
-        for <linux-kbuild@vger.kernel.org>; Wed,  2 Dec 2020 10:56:47 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id n10so1486540pgv.8
-        for <linux-kbuild@vger.kernel.org>; Wed, 02 Dec 2020 10:56:47 -0800 (PST)
+        Wed, 2 Dec 2020 13:58:54 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A632C0613D4
+        for <linux-kbuild@vger.kernel.org>; Wed,  2 Dec 2020 10:58:14 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id n10so1489021pgv.8
+        for <linux-kbuild@vger.kernel.org>; Wed, 02 Dec 2020 10:58:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=2df0cgPfG2SAK1g7NT0O8N+0jOgAdMPH5rFcEcsmtzM=;
-        b=Cu7Xt7Qn/3aPgdAkS2syTqxV41qdValgrBZYQqryrysoVtGdgBLW1Umm+ymeWh5B7+
-         kZqrtKf1iwCkHCjz0PqySSBrzAlqEGJUcEnELClsLXBywkDw+tIHAGkRJUpSf4r5si2X
-         U71QWOp65achEjowERhc1Pgww2DGhtmolmAck=
+        bh=kE16meeOG0npqUhLGgArmVgFAjXfqtmka154+p0CSe0=;
+        b=SFHVoEZ1ou8dIcNfmXHkNSFRA2TGorf8peBWqq8IAOJBgq3pTYasdxZOojyBm6sM2P
+         3585eWlWosp063Mtd8q5R5Mnuvq4k95+wkeFPZ7dyilCFgQRqQyqtcENrRCVOdKGAkPL
+         mNfTpZX3Ph1bk3b1xxFE/uFyeDdgrUEpFqr+E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=2df0cgPfG2SAK1g7NT0O8N+0jOgAdMPH5rFcEcsmtzM=;
-        b=tOJKEFpcsgy8BB2AiIpwVVFuMqkkkAat80nykBTZ5/zpLLEuTCgjQIWKuDOK+7Xz2/
-         gs9lD7wF83AH+gjHq8GYmP61soHCYd3pPZHzk2vnWNc0d1xFs9cEDQkdrqI4puNjli0k
-         smMJCGKhsJ3LnrnoLyN4rtWzFp55Fge4uKYPil9DmNe5HHMgnoFuvxL2CqUyU6HtwUJx
-         KXKk3f+JTFM95wQVCp+q/KQYYrBVojdr56qi/O4/F8q6ExDMKBes3rDRU+97Tguh+Q9C
-         AizSqwk/2jQRfz57kxOFYAHWY5Wv8b0djLco3JHZ1MVQ3Z8RoufImD//xN9oAlAdk7Hw
-         NH2Q==
-X-Gm-Message-State: AOAM533T499FXWHXGaUgbSvrUTqwBrlUgNzrSmFIQQojAFYYGBx6yi6Z
-        LkEpw8aPPN83qR9DrNSv6DWocA==
-X-Google-Smtp-Source: ABdhPJwDihIdf9Kj1zww9pUzlRPKReVIPkPu886DIRfJAubQGRXMJaWo5MU1jtqDrgcMhi9+DatHIQ==
-X-Received: by 2002:a63:f308:: with SMTP id l8mr1179038pgh.68.1606935406993;
-        Wed, 02 Dec 2020 10:56:46 -0800 (PST)
+        bh=kE16meeOG0npqUhLGgArmVgFAjXfqtmka154+p0CSe0=;
+        b=V4UOrN7l/vck2diJsDpwHYDIyQ7jacdPG42CJp6298QUtD9rDtjrIFKCPRErIOCyow
+         tJKvCnQcLfybIUCS7JKd7rxV0FWNFNPtRxL43N1xVRgdkD4c7nWCLJkBkfLgTF9oOAH9
+         PlZLk0F9tMMkv9KHjnosLgRq0iXxwY0pKAzDn+6WzOBvJQ64S8tWO+TuJpo4RG9ErqaA
+         kdRRkzmL6mnE/fZyp7C1vqVrgROREdUhsfOhs9sI/I94BWKguLzjITa4YoEVqb3dxu+3
+         NUsGepEN031CxLzdKqbadAvgCGX/sSHLjFKsknCR/al7q3qkCjRPd2TvF5k/N97/ETEK
+         j8RQ==
+X-Gm-Message-State: AOAM532qLn+x+l8yqYExkS0NtPdAXpceezDJBDgYAj7l1CsKWVrrXl/C
+        leCaDt6+bCGQwqQWpmGlaWx41Q==
+X-Google-Smtp-Source: ABdhPJxtOYeNphgt1oKFMrz0wHeC9Pq/UKO8pRwQniQrcwwzBL0kF4npgqkN5PB6fGtvpn8sBwQTFg==
+X-Received: by 2002:a65:64c9:: with SMTP id t9mr1154966pgv.418.1606935494113;
+        Wed, 02 Dec 2020 10:58:14 -0800 (PST)
 Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id u3sm512394pfu.47.2020.12.02.10.56.45
+        by smtp.gmail.com with ESMTPSA id x7sm498010pfn.85.2020.12.02.10.58.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 10:56:45 -0800 (PST)
-Date:   Wed, 2 Dec 2020 10:56:44 -0800
+        Wed, 02 Dec 2020 10:58:13 -0800 (PST)
+Date:   Wed, 2 Dec 2020 10:58:12 -0800
 From:   Kees Cook <keescook@chromium.org>
 To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        LKML <linux-kernel@vger.kernel.org>,
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Emese Revfy <re.emese@gmail.com>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        "kernelci . org bot" <bot@kernelci.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v2 2/2] kbuild: Disable CONFIG_LD_ORPHAN_WARN for ld.lld
- 10.0.1
-Message-ID: <202012021056.3EA0BBFDD@keescook>
-References: <20201113195553.1487659-1-natechancellor@gmail.com>
- <20201119204656.3261686-2-natechancellor@gmail.com>
- <CAKwvOdkPgwL8H4EGF6=-VuxTdmxA8JHhGbLHVYcLJj9MmAvW=g@mail.gmail.com>
- <202011241421.A2F3062A70@keescook>
- <CAK7LNAR=_+1K7EtpvGzgyM+ans-iNOT0PBXdLRApnsyAzakQ3w@mail.gmail.com>
- <202012011255.9D677ED3@keescook>
- <CAK7LNAQGqcCBBFbKwe_eTuBqtNwDn_q8c0nPBJVsEoHP6F+aKA@mail.gmail.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [GIT PULL 2/2] Kconfig updates for v5.10-rc1
+Message-ID: <202012021057.68B54233E@keescook>
+References: <CAK7LNASn4Si3=YhAPtc06wEqajpU0uBh46-4T10f=cHy=LY2iA@mail.gmail.com>
+ <CAHk-=wihYvkKOcXWPjY7wN13DXbh3k2YX_6JxK_1cQ=krbi9kg@mail.gmail.com>
+ <CAHk-=wi86Eu8Whu66CVu+GVTxbuJG+QNvDuk-hXnWu+5q90Zeg@mail.gmail.com>
+ <CAHk-=winw=9xh6SmFJPZgi8ngVR-ECTA-kDAAU3DEPLMoUrzVA@mail.gmail.com>
+ <CAHk-=wjU4DCuwQ4pXshRbwDCUQB31ScaeuDo1tjoZ0_PjhLHzQ@mail.gmail.com>
+ <CAK7LNAQtABssBH2LGThgv-F3_aSrz9Hd-ra9Yyu4-FFzY1nsUw@mail.gmail.com>
+ <CAHk-=whK0aQxs6Q5ijJmYF1n2ch8cVFSUzU5yUM_HOjig=+vnw@mail.gmail.com>
+ <CAK7LNAQGHjLYteCt+8BXSY-5CB0gaO1JtHY-SpPFrfdchoHKrQ@mail.gmail.com>
+ <CAK7LNAS_18S9_OasKOaoEW6os3=bYf4wi7fPewfdHyCS2mLsyA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK7LNAQGqcCBBFbKwe_eTuBqtNwDn_q8c0nPBJVsEoHP6F+aKA@mail.gmail.com>
+In-Reply-To: <CAK7LNAS_18S9_OasKOaoEW6os3=bYf4wi7fPewfdHyCS2mLsyA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 11:37:38AM +0900, Masahiro Yamada wrote:
-> On Wed, Dec 2, 2020 at 5:56 AM Kees Cook <keescook@chromium.org> wrote:
+On Wed, Dec 02, 2020 at 10:03:47PM +0900, Masahiro Yamada wrote:
+> On Wed, Dec 2, 2020 at 9:53 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
 > >
-> > On Tue, Dec 01, 2020 at 10:31:37PM +0900, Masahiro Yamada wrote:
-> > > On Wed, Nov 25, 2020 at 7:22 AM Kees Cook <keescook@chromium.org> wrote:
-> > > >
-> > > > On Thu, Nov 19, 2020 at 01:13:27PM -0800, Nick Desaulniers wrote:
-> > > > > On Thu, Nov 19, 2020 at 12:57 PM Nathan Chancellor
-> > > > > <natechancellor@gmail.com> wrote:
-> > > > > >
-> > > > > > ld.lld 10.0.1 spews a bunch of various warnings about .rela sections,
-> > > > > > along with a few others. Newer versions of ld.lld do not have these
-> > > > > > warnings. As a result, do not add '--orphan-handling=warn' to
-> > > > > > LDFLAGS_vmlinux if ld.lld's version is not new enough.
-> > > > > >
-> > > > > > Link: https://github.com/ClangBuiltLinux/linux/issues/1187
-> > > > > > Link: https://github.com/ClangBuiltLinux/linux/issues/1193
-> > > > > > Reported-by: Arvind Sankar <nivedita@alum.mit.edu>
-> > > > > > Reported-by: kernelci.org bot <bot@kernelci.org>
-> > > > > > Reported-by: Mark Brown <broonie@kernel.org>
-> > > > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > > > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > > >
-> > > > > Thanks for the additions in v2.
-> > > > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > > >
-> > > > I'm going to carry this for a few days in -next, and if no one screams,
-> > > > ask Linus to pull it for v5.10-rc6.
-> > > >
-> > > > Thanks!
-> > > >
-> > > > --
-> > > > Kees Cook
+> > Hi Linus,
+> >
+> > On Sun, Nov 29, 2020 at 3:28 AM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
 > > >
+> > > On Fri, Nov 27, 2020 at 11:05 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > >
+> > > > As for the cc1plus cost, I got a similar result.
+> > > >
+> > > > Running scripts/gcc-plugin.sh directly
+> > > > took me 0.5 sec, which is a fourth
+> > > > of the allmodconfig run-time.
+> > > >
+> > > > Actually, I did not know this shell script
+> > > > was so expensive to run...
 > > >
-> > > Sorry for the delay.
-> > > Applied to linux-kbuild.
+> > > So it turns out that one reason it's so expensive to run is that it
+> > > does a *lot* more than it claims to do.
+> > >
+> > > It says "we need a c++ compiler that supports the designated
+> > > initializer GNU extension", but then it actually includes a header
+> > > file from hell, rather than just test designated initializers.
+> > >
+> > > This patch makes the cc1plus overhead go down a lot. That said, I'm
+> > > doubtful we really want gcc plugins at all, considering that the only
+> > > real users have all apparently migrated to clang builtin functionality
+> > > instead.
+> > >
+> > >         Linus
 > >
-> > Great, thanks!
 > >
-> > > But, I already see this in linux-next.
-> > > Please let me know if I should drop it from my tree.
+> > The attached patch looks OK to me.
 > >
-> > My intention was to get this to Linus this week. Do you want to do that
-> > yourself, or Ack the patches in my tree and I'll send it?
+> > Just a nit:
+> > Now that the test code does not include any header,
+> > you can also delete
+> > "-I $srctree/gcc-plugins -I $gccplugins_dir/include"
+> >
+> >
+> > If you apply it directly, please feel free to add
+> >
+> > Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 > 
-> I will send a kbuild pull request myself this week.
+> 
+> BTW, gcc plugins are always compiled with g++.
+> 
+> Why do we need to compile the following in the first place?
+> 
+> class test {
+> public:
+>         int test;
+> } test = {
+>         .test = 1
+> };
+> 
+> 
+> I think any C++ compiler will succeed
+> in compiling such simple code.
+> 
+> 
+> 
+> So,
+> 
+> test -e "$gccplugins_dir/include/plugin-version.h"
+> 
+> looks enough to me.
+> 
+> 
+> 
+> What is the intention of this compile test?
 
-Okay, thanks! I've removed it from my -next tree now.
+Yeah, I'd agree: we're just looking for a g++ and plugin-version.h.
 
 -- 
 Kees Cook
