@@ -2,126 +2,170 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6B2E2CB4AF
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Dec 2020 06:48:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AC1A2CB4D9
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Dec 2020 07:07:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728496AbgLBFrd (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Wed, 2 Dec 2020 00:47:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726125AbgLBFrd (ORCPT
-        <rfc822;linux-kbuild@vger.kernel.org>);
-        Wed, 2 Dec 2020 00:47:33 -0500
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADB4C0613CF
-        for <linux-kbuild@vger.kernel.org>; Tue,  1 Dec 2020 21:46:47 -0800 (PST)
-Received: by mail-vk1-xa42.google.com with SMTP id u16so148704vkb.1
-        for <linux-kbuild@vger.kernel.org>; Tue, 01 Dec 2020 21:46:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zIYg3wn3IiOAwIUjN3HHnL/xxZ7BzmV6ArGGQCieAHY=;
-        b=bON2yGnfCiyS2deASK7lq7vUUxyZx+TcNqxyx0Y2lzXGXaJk2/GGL6wVTlpf746M17
-         ewSfrj7S9dsZKHz9EXsFml/ZRzW3ibKt2hylTzUrhiQailV3BSYLijuRVIlNThE7Ss7H
-         KnWN0tGzIrPrfvFAOAvf+8FI8ABAECA3BAv1o2Nf8hdcpJnE2U+4ENVHLDfsMJ2syTzS
-         iaGmOfE/X9XwWP/ylcYRN5sQKiXL7/ZHlVEs4e0tCksSkzjQe+RVz9j9FQbs4OUZPc8T
-         CR1MgHpyNAn/FzhGrLr7gcE7qYAYqX3l4Q2HISPXD2rjqVZX7wjj378ggI/rHdDvjDb8
-         F84w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zIYg3wn3IiOAwIUjN3HHnL/xxZ7BzmV6ArGGQCieAHY=;
-        b=phHhxt/6WQokfYza45w9Qyd3l/seuN/gjw2lqS1t6DTuTIlPIFNAzaHBSiU6caZR1v
-         v5ZrEurDftTE9eqScXnWE08AZtkhY643Aw5/aikbSkeWv6RuZGjdOWohQVoyTxMoDPyf
-         RPQ7HRFukFO+iaQqcyTABfPF4Tz8uUJMFJlgf6cpQOeyaEYk9yMoCTbeyitsZpgIjcth
-         2SWzk+Iu+7MtY2BP68TMV02asAq5q3r6GqAmD3A5HVblOTLWQrgUlZLy/xcXPviX+kEy
-         Q+Yq3tgi1G2ioVOOKjtb5UXV3tfvAWiUQNCmbxpYkDBR11eK7ON4aBC1zTXSyjkfEVdA
-         NDKQ==
-X-Gm-Message-State: AOAM5326IypaRd8rB46g9dzDD9iIBUWHsbvMSSNSQvXO3rKqsEQZ8wCe
-        EOLwqREf43axrNLn9Mth+vFsN1y7meQCNvGatlBOsA==
-X-Google-Smtp-Source: ABdhPJyfTarblbQWXQ2D0gqGJIM068ljJFblRKN2s+iu0HTYtaH2RdablEmO5KmOvdnbvJUKStvPOuGuLcyF9JZVZE8=
-X-Received: by 2002:a1f:36d4:: with SMTP id d203mr580407vka.22.1606888005927;
- Tue, 01 Dec 2020 21:46:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20201118220731.925424-1-samitolvanen@google.com>
- <20201130120130.GF24563@willie-the-truck> <202012010929.3788AF5@keescook> <CAK7LNASQPOGohtUyzBM6n54pzpLN35kDXC7VbvWzX8QWUmqq9g@mail.gmail.com>
-In-Reply-To: <CAK7LNASQPOGohtUyzBM6n54pzpLN35kDXC7VbvWzX8QWUmqq9g@mail.gmail.com>
-From:   Sami Tolvanen <samitolvanen@google.com>
-Date:   Tue, 1 Dec 2020 21:46:33 -0800
-Message-ID: <CABCJKuf6=nqsUFYc5m91x_H44ojBjoE+BqZr81D8T6xRhWTiEg@mail.gmail.com>
-Subject: Re: [PATCH v7 00/17] Add support for Clang LTO
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Kees Cook <keescook@chromium.org>, Will Deacon <will@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        id S1728345AbgLBGHs (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Wed, 2 Dec 2020 01:07:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58352 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726240AbgLBGHr (ORCPT <rfc822;linux-kbuild@vger.kernel.org>);
+        Wed, 2 Dec 2020 01:07:47 -0500
+Date:   Wed, 2 Dec 2020 08:07:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606889226;
+        bh=+8TzgH58LfyYdSosYkMwlKRMiOQeWj2YZR9k++/wQl8=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=02xweDzBADJIQ6pRPCXYfzzq1f+sXiyyLw8ivD0bC+LzK/QWiv1dFq6B4P2wGfNxJ
+         T0b9O5fdMdIrQZ1Aepg93VL4ShNnym9hx+U5QdoB/hh2VUO4S6imFlDzcA/ykqwf9P
+         pZ3tvJtvSotD1tplsDE/KIWD4FMFuHvmIeOqEDIo=
+From:   Leon Romanovsky <leon@kernel.org>
+To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
         Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        open list <linux-kernel@vger.kernel.org>,
+        Edward Srouji <edwards@nvidia.com>,
+        Saeed Mahameed <saeedm@nvidia.com>, bpf <bpf@vger.kernel.org>,
+        Kernel Team <kernel-team@fb.com>,
+        Networking <netdev@vger.kernel.org>
+Subject: Re: [PATCH bpf-next] kbuild: Restore ability to build out-of-tree
+ modules
+Message-ID: <20201202060701.GH3286@unreal>
+References: <20201201143700.719828-1-leon@kernel.org>
+ <CAEf4BzaSL+rmVYNipsfczsF2v684KOhZgFPtUG9opvk7d6zruA@mail.gmail.com>
+ <20201201193243.GG3286@unreal>
+ <CAEf4Bzb-bepWW56jAAhnCh8yUHrzn-CEKTcbf1zLhAvtZktTqg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEf4Bzb-bepWW56jAAhnCh8yUHrzn-CEKTcbf1zLhAvtZktTqg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Tue, Dec 1, 2020 at 6:43 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> On Wed, Dec 2, 2020 at 2:31 AM Kees Cook <keescook@chromium.org> wrote:
+On Tue, Dec 01, 2020 at 01:44:46PM -0800, Andrii Nakryiko wrote:
+> On Tue, Dec 1, 2020 at 11:32 AM Leon Romanovsky <leon@kernel.org> wrote:
 > >
-> > On Mon, Nov 30, 2020 at 12:01:31PM +0000, Will Deacon wrote:
-> > > Hi Sami,
-> > >
-> > > On Wed, Nov 18, 2020 at 02:07:14PM -0800, Sami Tolvanen wrote:
-> > > > This patch series adds support for building the kernel with Clang's
-> > > > Link Time Optimization (LTO). In addition to performance, the primary
-> > > > motivation for LTO is to allow Clang's Control-Flow Integrity (CFI) to
-> > > > be used in the kernel. Google has shipped millions of Pixel devices
-> > > > running three major kernel versions with LTO+CFI since 2018.
+> > On Tue, Dec 01, 2020 at 10:01:23AM -0800, Andrii Nakryiko wrote:
+> > > On Tue, Dec 1, 2020 at 6:37 AM Leon Romanovsky <leon@kernel.org> wrote:
 > > > >
-> > > > Most of the patches are build system changes for handling LLVM bitcode,
-> > > > which Clang produces with LTO instead of ELF object files, postponing
-> > > > ELF processing until a later stage, and ensuring initcall ordering.
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
 > > > >
-> > > > Note that v7 brings back arm64 support as Will has now staged the
-> > > > prerequisite memory ordering patches [1], and drops x86_64 while we work
-> > > > on fixing the remaining objtool warnings [2].
+> > > > The out-of-tree modules are built without vmlinux target and request
+> > > > to recompile that target unconditionally causes to the following
+> > > > compilation error.
+> > > >
+> > > > [root@server kernel]# make
+> > > > <..>
+> > > > make -f ./scripts/Makefile.modpost
+> > > > make -f ./scripts/Makefile.modfinal
+> > > > make[3]: *** No rule to make target 'vmlinux', needed by '/my_temp/out-of-tree-module/kernel/test.ko'.  Stop.
+> > > > make[2]: *** [scripts/Makefile.modpost:117: __modpost] Error 2
+> > > > make[1]: *** [Makefile:1703: modules] Error 2
+> > > > make[1]: Leaving directory '/usr/src/kernels/5.10.0-rc5_for_upstream_base_2020_11_29_11_34'
+> > > > make: *** [Makefile:80: modules] Error 2
+> > > >
+> > > > As a solution separate between build paths that has vmlinux target and paths without.
+> > > >
+> > > > Fixes: 5f9ae91f7c0d ("kbuild: Build kernel module BTFs if BTF is enabled and pahole supports it")
+> > > > Reported-by: Edward Srouji <edwards@nvidia.com>
+> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > > ---
 > > >
-> > > Sounds like you're going to post a v8, but that's the plan for merging
-> > > that? The arm64 parts look pretty good to me now.
+> > > e732b538f455 ("kbuild: Skip module BTF generation for out-of-tree
+> > > external modules") ([0]) was supposed to take care of this. Did you
+> > > try it?
 > >
-> > I haven't seen Masahiro comment on this in a while, so given the review
-> > history and its use (for years now) in Android, I will carry v8 (assuming
-> > all is fine with it) it in -next unless there are objections.
+> > My tree doesn't have this patch yet, so my questions can be stupid:
+> > 1. Will it print "Skipping BTF generation for ... due to unavailability
+> > of vmlinux" line if my .config doesn't have "CONFIG_DEBUG_INFO_BTF_MODULES"?
+> > I hope it is not.
+>
+> No, it shouldn't. cmd_btf_ko is only executed if
+> CONFIG_DEBUG_INFO_BTF_MODULES is set.
+>
+> > 2. Reliance on existence of vmlinux can be problematic, no one promises
+> > us that "make clean" is called before and there are no other leftovers
+> > from previous builds.
+>
+> In such a case, the worst thing that can happen would be that the
+> kernel module will get BTF that doesn't match actual vmlinux BTF, and
+> when attempted to load into the kernel BTF will be ignored (with a
+> warning). It's not ideal, but I don't know how else we can handle this
+> short of just not supporting BTF for out-of-tree modules, which a
+> bunch of folks would be disappointed about, I think. I'm open to
+> suggestions on how to do it better, though.
+
+You can rely on MODPOST_VMLINUX variable to differentiate between builds
+of modules vs. vmlinux. Proper message during kernel boot that vmlinux
+BTF doesn't match module can be enough, because in real world you won't
+load that recompiled vmlinux without "make install" first.
+
+So right now, from out-of-tree modules perspective, you are testing against
+some pseudo-random file.
+
+BTW, I tried your patch with and without vmlinux, it worked, so we are
+talking about better-to-fix and not must-to-fix thing.
+
+Thanks
+
 >
 >
-> What I dislike about this implementation is
-> it cannot drop any unreachable function/data.
-> (and it is completely different from GCC LTO)
->
-> This is not real LTO.
-
-I'm not sure I understand your concern. LTO cannot drop functions or
-data from vmlinux.o that may be referenced externally. However, with
-CONFIG_LD_DEAD_CODE_DATA_ELIMINATION, the linker certainly can drop
-unused functions and data when linking vmlinux, and there's no reason
-this option can't be used together with LTO. In fact, Pixel 3 does
-enable this option, but in our experience, there isn't much unused
-code or data to remove, so later devices no longer use it.
-
-There's technically no reason why we couldn't postpone LTO until we
-link vmlinux instead, and thus allow the linker to possibly remove
-more unused code without the help of --gc-sections, but at least with
-the current build process, that would involve performing the slow LTO
-link step multiple times, which isn't worth it when we can get the
-performance benefits (and CFI) already when linking vmlinux.o with
-LTO.
-
-Sami
+> >
+> > And in general, the idea that such invasive change in build infrastructure
+> > came without any Ack from relevant maintainers doesn't look right to me.
+> >
+> > Thanks
+> >
+> > >
+> > >   [0] https://patchwork.kernel.org/project/netdevbpf/patch/20201121070829.2612884-1-andrii@kernel.org/
+> > >
+> > >
+> > > > Not proficient enough in Makefile, but it fixes the issue.
+> > > > ---
+> > > >  scripts/Makefile.modfinal | 5 +++++
+> > > >  scripts/Makefile.modpost  | 4 ++++
+> > > >  2 files changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> > > > index 02b892421f7a..8a7d0604e7d0 100644
+> > > > --- a/scripts/Makefile.modfinal
+> > > > +++ b/scripts/Makefile.modfinal
+> > > > @@ -48,9 +48,14 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+> > > >         $(cmd);                                                              \
+> > > >         printf '%s\n' 'cmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+> > > >
+> > > > +ifdef MODPOST_VMLINUX
+> > > >  # Re-generate module BTFs if either module's .ko or vmlinux changed
+> > > >  $(modules): %.ko: %.o %.mod.o scripts/module.lds vmlinux FORCE
+> > > >         +$(call if_changed_except,ld_ko_o,vmlinux)
+> > > > +else
+> > > > +$(modules): %.ko: %.o %.mod.o scripts/module.lds FORCE
+> > > > +       +$(call if_changed_except,ld_ko_o)
+> > > > +endif
+> > > >  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+> > > >         +$(if $(newer-prereqs),$(call cmd,btf_ko))
+> > > >  endif
+> > > > diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
+> > > > index f54b6ac37ac2..f5aa5b422ad7 100644
+> > > > --- a/scripts/Makefile.modpost
+> > > > +++ b/scripts/Makefile.modpost
+> > > > @@ -114,8 +114,12 @@ targets += $(output-symdump)
+> > > >
+> > > >  __modpost: $(output-symdump)
+> > > >  ifneq ($(KBUILD_MODPOST_NOFINAL),1)
+> > > > +ifdef MODPOST_VMLINUX
+> > > > +       $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal MODPOST_VMLINUX=1
+> > > > +else
+> > > >         $(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
+> > > >  endif
+> > > > +endif
+> > > >
+> > > >  PHONY += FORCE
+> > > >  FORCE:
+> > > > --
+> > > > 2.28.0
+> > > >
