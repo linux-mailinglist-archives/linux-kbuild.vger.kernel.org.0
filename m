@@ -2,126 +2,113 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D57772CB2DB
-	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Dec 2020 03:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 450802CB2E6
+	for <lists+linux-kbuild@lfdr.de>; Wed,  2 Dec 2020 03:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbgLBCjV (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Tue, 1 Dec 2020 21:39:21 -0500
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:64787 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727845AbgLBCjU (ORCPT
+        id S1727818AbgLBCoS (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Tue, 1 Dec 2020 21:44:18 -0500
+Received: from conssluserg-03.nifty.com ([210.131.2.82]:27246 "EHLO
+        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727807AbgLBCoR (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Tue, 1 Dec 2020 21:39:20 -0500
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 0B22cGcR001905;
-        Wed, 2 Dec 2020 11:38:17 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 0B22cGcR001905
+        Tue, 1 Dec 2020 21:44:17 -0500
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182]) (authenticated)
+        by conssluserg-03.nifty.com with ESMTP id 0B22gx4q032295;
+        Wed, 2 Dec 2020 11:42:59 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 0B22gx4q032295
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1606876697;
-        bh=vuUMWsxXWrQ01Gfrdczxg27I9JGZI9RgaFpbn6oV8oY=;
+        s=dec2015msa; t=1606876979;
+        bh=//nWGYyIDtis41/3ZWUbaJfDU17XquHuh1VxESk+fpY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=tOIszf40xXMr7wl2vaTq0SdMqyYgNDISAPEKaMCWtPJc7Hp7VSpE9XQqWeo0wI8wa
-         QJT9cmpmkD84Ula01K1MNeGpetZlJFnpGMbltg1LZRNMpk7tp87r4N6kGvOK73v+gA
-         XZRLlx1I79vh+HoJvYM2zatzyPRtfXT6GA7Jr7gUbG8Ebdmh872/qj1hsRKNCkhZkR
-         UzYmg9qt4B3+FXpvgo8oIQabd4iow6OW2vwHCf4IVCrJwGSqtiPxq0pwPp9aqoPKJ0
-         FAGb/tPgifi/N/wKnqaYzE/FgNAfujPHc3ACXjfGSMFLaqZYu1BZbyWDZkypSc+7Yi
-         BhBCJf137b8QA==
-X-Nifty-SrcIP: [209.85.216.47]
-Received: by mail-pj1-f47.google.com with SMTP id ms7so130905pjb.4;
-        Tue, 01 Dec 2020 18:38:16 -0800 (PST)
-X-Gm-Message-State: AOAM532Zc/dw1FvkmpB6bQXGamHu98xRYZjlV/5KHjPprzOvlFIzdttP
-        NI1hXP8TXNGK8o2NqXqttSqZzu0ElL65Sy6TaYc=
-X-Google-Smtp-Source: ABdhPJwDC7vrgmZd87TnYojT5DQVV1p4zLlwe3QC9WsNK/LcmfS4g+CuJs+s5piItla/TVt9fXBTfy6W+2sB4RqB+n8=
-X-Received: by 2002:a17:90a:fa0c:: with SMTP id cm12mr195096pjb.87.1606876696170;
- Tue, 01 Dec 2020 18:38:16 -0800 (PST)
+        b=YhmiZCSWdh+h7s2WRTav0INDhIR0rcnW35LlnpIfVUtKyPSMmn+U17B/PK2aeTfa0
+         fTnIGUz3KTJn2M/uiSK20i3edyMDKfviF8pdQau6NsNFuR5b+RtdIG7+HHZ9VW1XBz
+         0GSmvELzZl434j3vtGAy0eAhTaGhMeqCKOAa5PHzgTqSpTWn8ylQtVj1qzI0S88FpS
+         5Qmc1v9gpgH4CSlyu1l3vJez8xoPDRUopIN9fnCrE1/m/NaN6WWHtUaRXetDnkb7Qh
+         ClAnpe17jQ5AWERHhKiobDQLrM8nw0OP1rORNoH9up9fs2A9pm23zlyZViLl2L/fJF
+         iti0WfF94tSpA==
+X-Nifty-SrcIP: [209.85.210.182]
+Received: by mail-pf1-f182.google.com with SMTP id y7so260820pfq.11;
+        Tue, 01 Dec 2020 18:42:59 -0800 (PST)
+X-Gm-Message-State: AOAM532sqHjnu2Q91CS7sGZ32cLRiVh074gCuaIH6ycxqvFH0zD3eZl0
+        lYqG4GbJRq0Bp/Odz0lqqnAuigEzabKBg/2cZxw=
+X-Google-Smtp-Source: ABdhPJzi9iDwIta7ZmCbotxfEvvd7Hv2CLzIMvLHO3nRGZI4HCgMqMJzj1Z+ul8DEREU6Yg0tTulHGqnbS5vWd1Hxg8=
+X-Received: by 2002:aa7:9606:0:b029:198:14c4:4f44 with SMTP id
+ q6-20020aa796060000b029019814c44f44mr748749pfg.80.1606876978646; Tue, 01 Dec
+ 2020 18:42:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113195553.1487659-1-natechancellor@gmail.com>
- <20201119204656.3261686-2-natechancellor@gmail.com> <CAKwvOdkPgwL8H4EGF6=-VuxTdmxA8JHhGbLHVYcLJj9MmAvW=g@mail.gmail.com>
- <202011241421.A2F3062A70@keescook> <CAK7LNAR=_+1K7EtpvGzgyM+ans-iNOT0PBXdLRApnsyAzakQ3w@mail.gmail.com>
- <202012011255.9D677ED3@keescook>
-In-Reply-To: <202012011255.9D677ED3@keescook>
+References: <20201118220731.925424-1-samitolvanen@google.com>
+ <20201130120130.GF24563@willie-the-truck> <202012010929.3788AF5@keescook>
+In-Reply-To: <202012010929.3788AF5@keescook>
 From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 2 Dec 2020 11:37:38 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQGqcCBBFbKwe_eTuBqtNwDn_q8c0nPBJVsEoHP6F+aKA@mail.gmail.com>
-Message-ID: <CAK7LNAQGqcCBBFbKwe_eTuBqtNwDn_q8c0nPBJVsEoHP6F+aKA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] kbuild: Disable CONFIG_LD_ORPHAN_WARN for ld.lld 10.0.1
+Date:   Wed, 2 Dec 2020 11:42:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASQPOGohtUyzBM6n54pzpLN35kDXC7VbvWzX8QWUmqq9g@mail.gmail.com>
+Message-ID: <CAK7LNASQPOGohtUyzBM6n54pzpLN35kDXC7VbvWzX8QWUmqq9g@mail.gmail.com>
+Subject: Re: [PATCH v7 00/17] Add support for Clang LTO
 To:     Kees Cook <keescook@chromium.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Arvind Sankar <nivedita@alum.mit.edu>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+Cc:     Will Deacon <will@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         clang-built-linux <clang-built-linux@googlegroups.com>,
-        "kernelci . org bot" <bot@kernelci.org>,
-        Mark Brown <broonie@kernel.org>
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Wed, Dec 2, 2020 at 5:56 AM Kees Cook <keescook@chromium.org> wrote:
+On Wed, Dec 2, 2020 at 2:31 AM Kees Cook <keescook@chromium.org> wrote:
 >
-> On Tue, Dec 01, 2020 at 10:31:37PM +0900, Masahiro Yamada wrote:
-> > On Wed, Nov 25, 2020 at 7:22 AM Kees Cook <keescook@chromium.org> wrote:
-> > >
-> > > On Thu, Nov 19, 2020 at 01:13:27PM -0800, Nick Desaulniers wrote:
-> > > > On Thu, Nov 19, 2020 at 12:57 PM Nathan Chancellor
-> > > > <natechancellor@gmail.com> wrote:
-> > > > >
-> > > > > ld.lld 10.0.1 spews a bunch of various warnings about .rela sections,
-> > > > > along with a few others. Newer versions of ld.lld do not have these
-> > > > > warnings. As a result, do not add '--orphan-handling=warn' to
-> > > > > LDFLAGS_vmlinux if ld.lld's version is not new enough.
-> > > > >
-> > > > > Link: https://github.com/ClangBuiltLinux/linux/issues/1187
-> > > > > Link: https://github.com/ClangBuiltLinux/linux/issues/1193
-> > > > > Reported-by: Arvind Sankar <nivedita@alum.mit.edu>
-> > > > > Reported-by: kernelci.org bot <bot@kernelci.org>
-> > > > > Reported-by: Mark Brown <broonie@kernel.org>
-> > > > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > > > Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > >
-> > > > Thanks for the additions in v2.
-> > > > Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-> > >
-> > > I'm going to carry this for a few days in -next, and if no one screams,
-> > > ask Linus to pull it for v5.10-rc6.
-> > >
-> > > Thanks!
-> > >
-> > > --
-> > > Kees Cook
+> On Mon, Nov 30, 2020 at 12:01:31PM +0000, Will Deacon wrote:
+> > Hi Sami,
 > >
+> > On Wed, Nov 18, 2020 at 02:07:14PM -0800, Sami Tolvanen wrote:
+> > > This patch series adds support for building the kernel with Clang's
+> > > Link Time Optimization (LTO). In addition to performance, the primary
+> > > motivation for LTO is to allow Clang's Control-Flow Integrity (CFI) to
+> > > be used in the kernel. Google has shipped millions of Pixel devices
+> > > running three major kernel versions with LTO+CFI since 2018.
+> > >
+> > > Most of the patches are build system changes for handling LLVM bitcode,
+> > > which Clang produces with LTO instead of ELF object files, postponing
+> > > ELF processing until a later stage, and ensuring initcall ordering.
+> > >
+> > > Note that v7 brings back arm64 support as Will has now staged the
+> > > prerequisite memory ordering patches [1], and drops x86_64 while we work
+> > > on fixing the remaining objtool warnings [2].
 > >
-> > Sorry for the delay.
-> > Applied to linux-kbuild.
+> > Sounds like you're going to post a v8, but that's the plan for merging
+> > that? The arm64 parts look pretty good to me now.
 >
-> Great, thanks!
->
-> > But, I already see this in linux-next.
-> > Please let me know if I should drop it from my tree.
->
-> My intention was to get this to Linus this week. Do you want to do that
-> yourself, or Ack the patches in my tree and I'll send it?
->
-> -Kees
->
+> I haven't seen Masahiro comment on this in a while, so given the review
+> history and its use (for years now) in Android, I will carry v8 (assuming
+> all is fine with it) it in -next unless there are objections.
+
+
+What I dislike about this implementation is
+it cannot drop any unreachable function/data.
+(and it is completely different from GCC LTO)
+
+This is not real LTO.
+
+
+
+
 > --
 > Kees Cook
-
-
-I will send a kbuild pull request myself this week.
-
+>
+> --
+> You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/202012010929.3788AF5%40keescook.
 
 
 
