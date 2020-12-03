@@ -2,246 +2,112 @@ Return-Path: <linux-kbuild-owner@vger.kernel.org>
 X-Original-To: lists+linux-kbuild@lfdr.de
 Delivered-To: lists+linux-kbuild@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B252CE1B7
-	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 23:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F27E2CE241
+	for <lists+linux-kbuild@lfdr.de>; Thu,  3 Dec 2020 23:58:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731832AbgLCWdI (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
-        Thu, 3 Dec 2020 17:33:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
+        id S1729657AbgLCW5g (ORCPT <rfc822;lists+linux-kbuild@lfdr.de>);
+        Thu, 3 Dec 2020 17:57:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731827AbgLCWdG (ORCPT
+        with ESMTP id S1727533AbgLCW5g (ORCPT
         <rfc822;linux-kbuild@vger.kernel.org>);
-        Thu, 3 Dec 2020 17:33:06 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED94EC061A52
-        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 14:32:25 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id m5so1983830pjv.5
-        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 14:32:25 -0800 (PST)
+        Thu, 3 Dec 2020 17:57:36 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 238EBC061A4F
+        for <linux-kbuild@vger.kernel.org>; Thu,  3 Dec 2020 14:56:56 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id l11so2026134plt.1
+        for <linux-kbuild@vger.kernel.org>; Thu, 03 Dec 2020 14:56:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TmvlHcKNE+BZSUGjT3sP+ZmkJmCYLaFZSs3K50hnDTw=;
-        b=gelHd6qaInh1+0Ext8zSHtUHA0CRpyIahoLn7HMwpL88FRPuaOJbHgbvpU/mPnv6rc
-         JDmq1lWcfLdHTHiW00ab84WZNWfxmRBQdMiRfwSCmhqVYfVK5BYC+jzJU7rzJIs63vlg
-         4t4kXgHOxFDqDGk0AKqezaMriyoNAl4vb9FOekxl0nHGJadf9FLoo96xUurzNHwNm/he
-         0anFKH0KDDy3IngDl5k0x78t3yl2R9D30RaM3UIfOXIHCdHKhpBCv6hJccxGRlABn5lT
-         y8E0+YuzIYohvblOUc1A6w+Ys1iicN7jTt9oKLgAVuIQuL86jUXOf77ZRXjMlrjWTfsp
-         eM7A==
+        bh=EHAYrKbj/zPl1+pVBO2mTUTD59eSt3ugUwhIW8vCe/M=;
+        b=ovTruuoqCEsd5W5/yRX9B6q1dnWkeOHgHxocdVVbWfkA3R605oK/EWYMKEVL8CI5EO
+         HUYQcNF0XWX4gYmPHzITxzP6Ow3StkrjkbcWocMtTHrdnGKfCziCOhHCoI2xzgubaOA6
+         OQiN99aPdqBWZkfavhfdXtcqrJokKEJ+UxvjvI5EMgfMxZvHW2wkJUl8+cFvoX84Bijc
+         HqEAJsDWhSF4RFtMUkHO+Zlo9Bm0PzHfwUHj0oPE1yE7VMTzQ1RuFgpwMUfBbL5J+n2w
+         xWUTKTDJgAzxwXdvRSgZOhZ+9zIaPiWDSQPgo++wRTMmbZKzYhw8Wx8ktgyoONFgFdW5
+         +Ocg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TmvlHcKNE+BZSUGjT3sP+ZmkJmCYLaFZSs3K50hnDTw=;
-        b=mCDWfXXxZUrgLolQpfR+5pFIz6bIVkLPN2Aa58C7unVl2VALPCi3YhQ1wfv4VhHzzX
-         dhGOJblrA82QApwYfl4LLTXSovmQQcPl6WKmS3+/uYdY99a8lEoz6QqfDpQNcdikM8Uu
-         N07g5SI7ZbY47QWPzFhTdyog8j/z0t/+XKcq7K6iQR65cYgcj17K/NF09eBxGtZy8169
-         rtlyEgbmE77yV40vBU8CfMVAuGTzZieNgQ/+9ujeSyFosJrOi9pZuIvAjNlOW8+q2Yx4
-         0r0cQz5KKqNcGh+/jtkl6nef47tkwY/5RJ0uDIH/JnAtOfP+PVX3vSxDRxtvxzUmXrrJ
-         rbEA==
-X-Gm-Message-State: AOAM5301QOuLGwrm7o9hgRJZbQ4ZI8fVrRSkhW5W4kclbqG84WK9mx6v
-        kQqEwT+NEJwBMsjQ+Nfiz5yQ5W64RtwHcnFY9iiodg==
-X-Google-Smtp-Source: ABdhPJzyYa88Ck16OMfiImWjHg1saqlns5SObijasI5cunzYv9BUS/0tCPp8OwEvAmWGMt4Qlfzg3sgkI3wzEjOJNX0=
-X-Received: by 2002:a17:90a:6fa1:: with SMTP id e30mr1244326pjk.32.1607034745179;
- Thu, 03 Dec 2020 14:32:25 -0800 (PST)
+        bh=EHAYrKbj/zPl1+pVBO2mTUTD59eSt3ugUwhIW8vCe/M=;
+        b=oCL9PjIN7hh/TJsPV8+eBwRsfJQ9rE3A0aetHdyitEfhhfMpeBkXcDvgVJkj7G6ILr
+         rlxygd7oMeltijhBDE5vr1O8gT0ythl33qPqJpD/lrmZ0SEZPr39GZmlAfryDUABvLwo
+         264zdWeZ7bMGmpdq+NEdKc/tHx5laBzsWcdas1UuQu6fEmulYC5J47U9WKPPbyoiAgKV
+         SDKVbTHfePGVdJqkPthSnNnD1jRRp5s1b8uhvgQq5mvf375PHOzPPSggqZv5zXRS74qv
+         uoQX55LT0GVfQOqsGjVKbXOwmepUGm2hE1iWxO7KMTIRGstv7f37iFZkD1gJScZHxRdj
+         ybJA==
+X-Gm-Message-State: AOAM530NS11F0qwASUCLVF3oMmCijDhbnMjLmh+Vsw8HS96DVZb6BOR4
+        c36hOefpit/kz3lSsgBM4sz3CIIgOsc38K7gH1XGOctDgmYTig==
+X-Google-Smtp-Source: ABdhPJzbOJ8AkzQrZ1pmet6hcC3Amko/IKkWSx77hmaWe06U2WVabo59psGy4ODZ38M2QGHs888LYCI4one4nnVU36Y=
+X-Received: by 2002:a17:902:e901:b029:d8:e727:2595 with SMTP id
+ k1-20020a170902e901b02900d8e7272595mr1164945pld.56.1607036215507; Thu, 03 Dec
+ 2020 14:56:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20201201213707.541432-1-samitolvanen@google.com>
- <20201203112622.GA31188@willie-the-truck> <CABCJKueby8pUoN7f5=6RoyLSt4PgWNx8idUej0sNwAi0F3Xqzw@mail.gmail.com>
- <20201203182252.GA32011@willie-the-truck>
-In-Reply-To: <20201203182252.GA32011@willie-the-truck>
+References: <20201022012106.1875129-1-ndesaulniers@google.com>
+ <20201104000016.GA2399651@rani.riverdale.lan> <CAKwvOdnFstgMa3c+=Vo=QtFYsABDekVeddcPmP=8Pn2bqWfxpg@mail.gmail.com>
+ <20201104001703.GA2407187@rani.riverdale.lan>
+In-Reply-To: <20201104001703.GA2407187@rani.riverdale.lan>
 From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Thu, 3 Dec 2020 14:32:13 -0800
-Message-ID: <CAKwvOdnvq=L=gQMv9MHaStmKMOuD5jvffzMedhp3gytYB6R7TQ@mail.gmail.com>
-Subject: Re: [PATCH v8 00/16] Add support for Clang LTO
-To:     Will Deacon <will@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kbuild <linux-kbuild@vger.kernel.org>,
+Date:   Thu, 3 Dec 2020 14:56:43 -0800
+Message-ID: <CAKwvOd=U1mxfgep3KyoAJ3WBcsywdx9_wfVgLcgAhd-+kFfZhA@mail.gmail.com>
+Subject: Re: [PATCH] Kbuild: implement support for DWARF5
+To:     Arvind Sankar <nivedita@alum.mit.edu>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>, Jian Cai <jiancai@google.com>,
-        Kristof Beyls <Kristof.Beyls@arm.com>
+        clang-built-linux <clang-built-linux@googlegroups.com>,
+        linux-toolchains@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-kbuild.vger.kernel.org>
 X-Mailing-List: linux-kbuild@vger.kernel.org
 
-On Thu, Dec 3, 2020 at 10:23 AM Will Deacon <will@kernel.org> wrote:
+On Tue, Nov 3, 2020 at 4:17 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
 >
-> On Thu, Dec 03, 2020 at 09:07:30AM -0800, Sami Tolvanen wrote:
-> > On Thu, Dec 3, 2020 at 3:26 AM Will Deacon <will@kernel.org> wrote:
-> > > I took this series for a spin, with my for-next/lto branch merged in but
-> > > I see a failure during the LTO stage with clang 11.0.5 because it doesn't
-> > > understand the '.arch_extension rcpc' directive we throw out in READ_ONCE().
-> >
-> > I just tested this with Clang 11.0.0, which I believe is the latest
-> > 11.x version, and the current Clang 12 development branch, and both
-> > work for me. Godbolt confirms that '.arch_extension rcpc' is supported
-> > by the integrated assembler starting with Clang 11 (the example fails
-> > with 10.0.1):
-> >
-> > https://godbolt.org/z/1csGcT
-> >
-> > What does running clang --version and ld.lld --version tell you?
->
-> I'm using some Android prebuilts I had kicking around:
->
-> Android (6875598, based on r399163b) clang version 11.0.5 (https://android.googlesource.com/toolchain/llvm-project 87f1315dfbea7c137aa2e6d362dbb457e388158d)
-> Target: x86_64-unknown-linux-gnu
-> Thread model: posix
-> InstalledDir: /usr/local/google/home/willdeacon/work/android/repo/android-kernel/prebuilts-master/clang/host/linux-x86/clang-r399163b/bin
->
-> and:
->
-> LLD 11.0.5 (/buildbot/tmp/tmpx1DlI_ 87f1315dfbea7c137aa2e6d362dbb457e388158d) (compatible with GNU linkers)
-
-On Thu, Dec 3, 2020 at 10:22 AM Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> 11.0.5 is AOSP's clang, which is behind the upstream 11.0.0 release so
-> it is most likely the case that it is missing the patch that added rcpc.
-> I think that a version based on the development branch (12.0.0) is in
-> the works but I am not sure.
-
-Yep, I have a lot of thoughts on the AOSP LLVM versioning scheme, but
-they're not for LKML.  That's yet another reason to prefer feature
-detection as opposed to brittle version checks.  Of course, as Will
-points out, if your feature detection is broken, that helps no
-one...more thoughts below.
-
-> > > We actually check that this extension is available before using it in
-> > > the arm64 Kconfig:
+> On Tue, Nov 03, 2020 at 04:05:36PM -0800, Nick Desaulniers wrote:
+> > On Tue, Nov 3, 2020 at 4:00 PM Arvind Sankar <nivedita@alum.mit.edu> wrote:
 > > >
-> > >         config AS_HAS_LDAPR
-> > >                 def_bool $(as-instr,.arch_extension rcpc)
+> > > On Wed, Oct 21, 2020 at 06:21:06PM -0700, Nick Desaulniers wrote:
+> > > > Further -gdwarf-X where X is an unsupported value doesn't
+> > > > produce an error in $(CC).
 > > >
-> > > so this shouldn't happen. I then realised, I wasn't passing LLVM_IAS=1
-> > > on my Make command line; with that, then the detection works correctly
-> > > and the LTO step succeeds.
+> > > Do you have more details here? On godbolt.org, gcc does report an error
+> > > for unsupported dwarf versions.
 > > >
-> > > Why is it necessary to pass LLVM_IAS=1 if LTO is enabled? I think it
-> > > would be _much_ better if this was implicit (or if LTO depended on it).
+> > > https://godbolt.org/z/G35798
+> > >
+> > > gcc does not seem to pass the -gdwarf-* options to the assembler when
+> > > compiling C source. For assembler, gcc will pass an appropriate option
+> > > depending on the version of binutils it was configured with: if the
+> > > assembler doesn't support dwarf-5 it can call it with --gdwarf2 for eg.
+> > >
+> > > If the user is using a properly configured toolchain it doesn't look
+> > > like it should be an issue to just use cc-option?
 > >
-> > Without LLVM_IAS=1, Clang uses two different assemblers when LTO is
-> > enabled: the external GNU assembler for stand-alone assembly, and
-> > LLVM's integrated assembler for inline assembly. as-instr tests the
-> > external assembler and makes an admittedly reasonable assumption that
-> > the test is also valid for inline assembly.
-> >
-> > I agree that it would reduce confusion in future if we just always
-> > enabled IAS with LTO. Nick, Nathan, any thoughts about this?
+> > I wrote the base patch back in May, and didn't revisit until recently.
+> > I could have sworn the cc-option silently failed for the check
+> > cc-option does, which is /dev/null input.  I need to recheck that, but
+> > it doesn't hurt to simply include it for now, which I've done in a v2
+> > I'm about to send.
+> > --
+> > Thanks,
+> > ~Nick Desaulniers
 >
-> That works for me, although I'm happy with anything which means that the
-> assembler checks via as-instr apply to the assembler which will ultimately
-> be used.
+> This is giving me deja vu about the -gz=zlib option.
+>
+> Didn't Masahiro fix the cc-option issue with
+>   4d0831e8a029 ("kconfig: unify cc-option and as-option")
+>
+> The existing -Wa,-gdwarf-2 in the Makefile seems bogus, btw. GCC 4.9.0
+> at least appears to pass on --gdwarf2 automatically.
 
-I agree with Will.
-
-I think interoperability of tools is important.  We should be able to
-mix tools from GNU and LLVM and produce working images. Specifically,
-combinations like gcc+llvm-nm+as+llvm-objcopy, or clang+nm+as+objcopy
-as two examples.  There's a combinatorial explosion of combinations to
-test/validate, which we're not doing today, but if for some reason
-someone wants to use some varied combination and it doesn't work, it's
-worthwhile to understand the differences and issues and try to fix
-them.  That is a win for optionality and loose coupling.
-
-That's not what's going on here though.
-
-While I think it's ok to select a compiler and assembler and linker
-etc from ecosystem or another, I think trying to support a build that
-mixes or uses different assemblers (or linkers, compilers, etc) from
-both for the same build is something we should draw a line in the sand
-and explicitly not support (except for the compat vdso's*...).  ie. if
-I say `make LD=ld.bfd` and ld.lld gets invoked somehow (or vice
-versa); I consider that a bug in KBUILD.
-
-That is what's happening here, it's why as-instr feature detection is
-broken; because two different assemblers were used in the same build.
-One for inline asm, a different one for out of line asm.  At the very
-least, it violates the Principle of Least Surprise (or is it the Law
-of Equivalent Exchange, I forget).
-
-In fact, lots of the work we've been doing to enable LLVM tools to
-build the kernel have been identifying places throughout KBUILD where
-tools were hardcoded rather than using what make was told to use, and
-we've been making progress fixing those.  The ultimate test of Linux
-kernel build hermiticity IMO is that I should be able to build a
-kernel in an environment that only has one version of either
-GCC/binutils or LLVM, and the kernel should build without failure.
-That's not the case today for all arch's; cross compiling compat vdsos
-again are a major pain point*, but we're making progress.  In that
-sense, the mixing of an individual GNU and LLVM utility is what I
-would consider a bug in KBUILD.  I want to emphasize that's distinct
-from mixing and matching tools when invoking make, which I consider
-OK, if under-tested.
-
-Ok (mixes GNU and LLVM tools; gcc is the only compiler invoked, ld.lld
-is the only linker invoked):
-$ make CC=gcc LD=ld.lld
-
-Not ok (if ld.bfd or both are invoked)
-$ make LD=ld.lld
-
-Not ok (if ld.lld or both are invoked)
-$ make LD=ld.bfd
-
-Not ok (if clang's integrated assembler and GAS are invoked)
-$ ./scripts/config -e LTO_CLANG
-$ make LLVM=1 LLVM_IAS=1
-
-The mixing of GAS and clang's integrated assembler for kernel LTO
-builds is a relic of a time when this series was first written when
-Clang's integrated assembler was in no form ready to assemble the
-entire Linux kernel, but could handle the inline asm for aarch64.
-Fortunately, ARM's LLVM team has done great work to ensure the latest
-extensions like RCpc are supported and compatible, and Jian has done
-the hard work ironing out the last mile issues in clang's assembler to
-get the ball in the end zone.  Removing mixing GAS and clang's IA here
-ups the ante and removes a fallback/pressure relief valve, but I'm
-fine with that.  Requiring clang's integrated assembler here aligns
-incentives to keep this working and to continue investing here.
-
-Just because it's possible to mix the use of clang's integrated
-assembler with GNU assembler for LTO (for some combination of versions
-of these tools) doesn't mean we should support it, or encourage it,
-for all of the reasons above.  We should make this config depend on
-clang's integrated assembler, and not support the mixing of assemblers
-in one build.
-
-Thou shalt not support invoking of different tools than what's
-specified*.  Do not pass go, do not collect $200. Full stop.
-
-* The compat vdso's are again a special case; when cross compiling
-using GNU tools, a separate binary with a different target triple
-prefix will typically get invoked than what's used to build the rest
-of the kernel image.  This still doesn't cross the GNU/LLVM boundary
-though, and most importantly doesn't involve linking together object
-files that were built with distinct assemblers (for example).
-
-So I'd recommend to Sami to simply make the Kconfig also depend on
-clang's integrated assembler (not just llvm-nm and llvm-ar).  If
-someone cares about LTO with Clang as the compiler but GAS as the
-assembler, then we can revisit supporting that combination (and the
-changes to KCONFIG), but it shouldn't be something we consider Tier 1
-supported or a combination that need be supported in a minimum viable
-product. And at that point we should make it avoid clang's integrated
-assembler entirely (I suspect LTO won't work at all in that case, so
-maybe even considering it is a waste of time).
-
-One question I have to Will; if for aarch64 LTO will depend on RCpc,
-but RCpc is an ARMv8.3 extension, what are the implications for LTO on
-pre-ARMv8.3 aarch64 processors?
+It looks like we don't need -Wa,-gdwarf-2 when -gdwarf-2 is set. So I
+can probably drop
++DEBUG_CFLAGS   += $(dwarf-aflag)
+from v2.  Will retest though.
 -- 
 Thanks,
 ~Nick Desaulniers
